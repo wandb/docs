@@ -4,21 +4,17 @@ displayed_sidebar: default
 title: Export data from Dedicated Cloud
 ---
 
-If you would like to export all the data managed in your Dedicated Cloud instance, you may use the W&B SDK API to extract the runs, metrics, artifacts etc. and log those to another cloud or on-premises storage using API relevant to that storage. 
-
-Refer to data export use cases at [Import and Export Data](../track/public-api-guide#export-data). Another use case would be if you are planning to end your agreement to use Dedicated Cloud, you may want to export the pertinent data before W&B terminates the instance.
-
-Refer to the table below for data export API and pointers to relevant documentation:
+If you would like to export all the data managed in your Dedicated Cloud instance, you can use the W&B SDK API to extract the runs, metrics, artifacts, and more with the [Import and Export API](/ref/python/public-api/). The following table has covers some of the key exporting use cases.
 
 | Purpose | Documentation |
 |---------|---------------|
-| Export project metadata | [Projects API](../../ref/python/public-api/api#projects) |
-| Export runs in a project | [Runs API](../../ref/python/public-api/api#runs), [Export run data](../track/public-api-guide#export-run-data), [Querying multiple runs](../track/public-api-guide#querying-multiple-runs) |
-| Export reports | [Reports API](../../ref/python/public-api/api#reports) |
-| Export artifacts | [Artifact API](../../ref/python/public-api/api#artifact), [Explore and traverse an artifact graph](../artifacts/explore-and-traverse-an-artifact-graph/#use-the-api-to-track-lineage), [Download and use an artifact](../artifacts/download-and-use-an-artifact#download-and-use-an-artifact-stored-on-wb) |
+| Export project metadata | [Projects API](/ref/python/public-api/projects/) |
+| Export runs in a project | [Runs API](/ref/python/public-api/runs/) |
+| Export reports | [Reports API](/guides/reports/clone-and-export-reports/) |
+| Export artifacts | [Explore artifact graphs](/guides/artifacts/explore-and-traverse-an-artifact-graph), [Download and use artifacts](/guides/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
 :::info
-You manage artifacts stored in the Dedicated Cloud with [Secure Storage Connector](./data-security/secure-storage-connector). In that case, you may not need to export the artifacts using the W&B SDK API.
+You manage artifacts stored in the Dedicated Cloud with [Secure Storage Connector](/guides/app/features/teams/#secure-storage-connector). In that case, you may not need to export the artifacts using the W&B SDK API.
 :::
 
 :::note

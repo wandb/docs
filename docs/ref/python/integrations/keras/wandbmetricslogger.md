@@ -1,6 +1,6 @@
 # WandbMetricsLogger
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/integration/keras/callbacks/metrics_logger.py#L23-L136' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.6/wandb/integration/keras/callbacks/metrics_logger.py#L23-L136' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Logger that sends system metrics to W&B.
@@ -31,7 +31,7 @@ learning rate scheduler, make sure to pass `initial_global_step` to
 `step_size` is number of training steps per epoch. `step_size` can be calculated as
 the product of the cardinality of the training dataset and the batch size.
 
-| Arguments |  |
+| Args |  |
 | :--- | :--- |
 |  `log_freq` |  ("epoch", "batch", or int) if "epoch", logs metrics at the end of each epoch. If "batch", logs metrics at the end of each batch. If an integer, logs metrics at the end of that many batches. Defaults to "epoch". |
 |  `initial_global_step` |  (int) Use this argument to correctly log the learning rate when you resume training from some `initial_epoch`, and a learning rate scheduler is used. This can be computed as `step_size * initial_step`. Defaults to 0. |

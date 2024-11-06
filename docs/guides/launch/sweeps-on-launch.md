@@ -1,6 +1,6 @@
 ---
 description: Discover how to automate hyperparamter sweeps on launch.
-displayed_sidebar: default
+displayed_sidebar: launch
 title: Create sweeps with W&B Launch
 ---
 import Tabs from '@theme/Tabs';
@@ -216,7 +216,7 @@ Create a launch sweep using Optuna's scheduling logic with a job.
         type: PercentilePruner
         args:
           percentile: 25.0  # kill 75% of runs
-          n_warmup_steps: 10  # pruning disabled for first x steps
+          n_warmup_steps: 10  # pruning turned off for first x steps
 
   parameters:
     learning_rate:

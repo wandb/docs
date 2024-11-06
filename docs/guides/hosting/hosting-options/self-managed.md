@@ -1,5 +1,5 @@
 ---
-title: Use self-managed infrastructure
+title: Use self-managed cloud or on-prem infrastructure
 description: Deploying W&B in production
 displayed_sidebar: default
 ---

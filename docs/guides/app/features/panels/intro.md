@@ -3,6 +3,9 @@ slug: /guides/app/features/panels
 displayed_sidebar: default
 title: Panels
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 
 Use panel visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and more. 
 
@@ -14,6 +17,29 @@ Use panel visualizations to explore your logged data, the relationships between 
 ![](/images/app_ui/add_single_panel.gif) 
 4. (Optional) If prompted, define parameters for the plot. 
 
+<Tabs
+  defaultValue="quick"
+  values={[
+    {label: 'Add a plot from a logged value', value: 'quick'},
+    {label: 'Add a custom plot', value: 'single'},
+  ]}>
+  <TabItem value="quick">
+
+1. Within your project workspace, choose the **Add panels** button
+2. Select **Quick add**
+2. Provide a regular expression within the search field or select a key from the **KEYS** dropdown.
+
+  </TabItem>
+  <TabItem value="single">
+
+1. Within your project workspace, choose the **Add panels** button
+2. Select the type of chart you want to add from the **CHARTS** dropdown
+3. Based on the chart type, provide the necessary parameters
+3. Select **Apply**
+
+  </TabItem> 
+</Tabs>
+
 
 :::tip Undo changes to your workspace
 Select the undo button (arrow that points left) to undo any unwanted changes.
@@ -23,6 +49,7 @@ Select the undo button (arrow that points left) to undo any unwanted changes.
 Add multiple panels to your workspace at the same time. You can add up to 500 panels at a time.
 
 1. Within your project workspace, choose the **Add panels** button
+2. Choose **Quick add**
 2. Provide a regular expression within the search field
 3. Select the **Add all** button
 ![](/images/app_ui/bulk_panels.gif)
@@ -78,20 +105,3 @@ Clearing panels in your workspace deactivates automatic panel generation.
 
 <!-- Delete a section -->
 
-## Organize workspace sections
-
-Group panels within sections in your organize to help organize your panels. Within a workspace section you can sort panels, rearrange panels, and rename the section name.
-
-### Rename a section
-1. Select the three horizontal dots (**...**) in the upper right corner of a section
-2. From the dropdown, select **Rename section**
-
-### Sort panels
-1. Select the three horizontal dots (**...**) in the upper right corner of a section
-2. From the dropdown, select **Sort panels A-Z** 
-
-### Rearrange panels
-
-Click and drag a panel within a section to manually order your panels:
-
-![](/images/app_ui/rearrange_panels.gif)

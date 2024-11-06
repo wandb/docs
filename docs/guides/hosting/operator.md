@@ -1,5 +1,5 @@
 ---
-description: Hosting W&B Server with Kubernetes Operator
+description: Deploy W&B Platform with Kubernetes Operator
 displayed_sidebar: default
 title: Run W&B Server on Kubernetes
 ---
@@ -8,7 +8,7 @@ title: Run W&B Server on Kubernetes
 
 Use the W&B Kubernetes Operator to simplify deploying, administering, troubleshooting, and scaling your W&B Server deployments on Kubernetes. You can think of the operator as a smart assistant for your W&B instance.
 
-The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuos updates and improvements across deployment types, W&B users a Kubernetes operator.
+The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuous updates and improvements across deployment types, W&B users a Kubernetes operator.
 
 :::info
 W&B uses the operator to deploy and manage Dedicated Cloud instances on AWS, GCP and Azure public clouds.
@@ -41,9 +41,9 @@ metadata:
 
 The `controller-manager` installs [charts/operator-wandb](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb) based on the spec of the custom resource, release channel, and a user defined config. The configuration specification hierarchy enables maximum configuration flexibility at the user end and enables W&B to release new images, configurations, features, and Helm updates automatically.
 
-For a detailed description of the specification hierarchy, see [Configuration Specification Hierarchy](#configuration-specification-hierarchy) and for configuration options, see [Configuration Reference](#configuration-reference-for-wb-operator).
+Refer to the [configuration specification hierarchy](#configuration-specification-hierarchy) and [configuration reference](#configuration-reference-for-wb-operator) for configuration options.
 
-## Configuration Specification Hierarchy
+## Configuration specification hierarchy
 Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here’s how it works:
 
 - **Release Channel Values**: This base level configuration sets default values and configurations based on the release channel set by W&B for the deployment.
@@ -57,6 +57,7 @@ Satisfy the following requirements to deploy W&B with the W&B Kubernetes operato
 
 * Egress to the following endpoints during installation and during runtime:
     * deploy.wandb.ai
+    * charts.wandb.ai
     * docker.io
     * quay.io
     * gcr.io
@@ -72,11 +73,7 @@ Depending on the installation method, you might need to meet the following requi
 * Helm is installed.
 
 # Air-gapped installations
-Note that air-gapped installations are currently not supported by the W&B Kubernetes operator. 
-
-:::info
-W&B is actively working on adding airgapped installation support. For status updates, reach out to [Customer Support](mailto:support@wandb.com) or your W&B team.
-:::
+See the [Deploy W&B in airgapped environment with Kubernetes](./operator-airgapped) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
 
 # Deploy W&B Server application
 This section describes different ways to deploy the W&B Kubernetes operator. 
@@ -147,9 +144,6 @@ module "wandb" {
           "x" = "y"
         }
       }
-
-      # important, DO NOT REMOVE
-      mysql = { install = false }
     }
   }
 }
@@ -222,7 +216,7 @@ Checking artifact save and download workflows...........................✅
 ``` 
 
 ## Access the W&B Management Console
-The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example https://wandb.company-name.com/console.
+The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example `https://wandb.company-name.com/` console.
 
 There are two ways to log in to the management console:
 
@@ -237,7 +231,7 @@ import TabItem from '@theme/TabItem';
   ]}>
   <TabItem value="option1">
 
-1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example https://wandb.company-name.com/
+1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
 2. Access the console. Click on the icon in the top right corner and then click on **System console**. Note that only users with admin privileges will see the **System console** entry.
 
 ![](/images/hosting/access_system_console_via_main_app.png)
@@ -396,14 +390,9 @@ spec:
         <details depend on the provider>
       mysql:
         <redacted>
-      extraEnv:
-        AWS_REGION: "var-must-be-set-despite-not-needed"
     ingress:
       annotations:
         <redacted>
-    mysql:
-      # important, DO NOT REMOVE
-      install: false
 ```
 
 This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other
@@ -444,8 +433,6 @@ spec:
         ingress.gcp.kubernetes.io/pre-shared-cert: abc-wandb-cert-creative-puma
         kubernetes.io/ingress.class: gce
         kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
-    mysql:
-      install: false
 ```
 
 
@@ -574,6 +561,79 @@ In case of Nginx you might have to add the following annotation:
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 64m
+```
+
+### Custom Kubernetes ServiceAccounts
+
+Specify custom Kubernetes service accounts to run the W&B pods. 
+
+The following snippet creates a service account as part of the deployment with the specified name:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+The subsystems "app" and "parquet" run under the specified service account. The other subsystems run under the default service account.
+
+If the service account already exists on the cluster, set `create: false`:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+    
+global:
+  ...
+```
+
+You can specify service accounts on different subsystems such as app, parquet, console, and others:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+console:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+
+The service accounts can be different between the subsystems:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+console:
+  serviceAccount:
+    name: another-custom-service-account
+    create: true
+
+global:
+  ...
 ```
 
 ### External Redis
@@ -719,7 +779,7 @@ global:
     -----END CERTIFICATE-----
   - |
     -----BEGIN CERTIFICATE-----
-    MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+    MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
     MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
     MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
     SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
@@ -750,7 +810,7 @@ customCACerts:
   -----END CERTIFICATE-----
 - |
   -----BEGIN CERTIFICATE-----
-  MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+  MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
   MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
   MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
   SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
@@ -772,7 +832,7 @@ Execute the following command on a host that can reach the Kubernetes cluster:
 kubectl port-forward svc/wandb-console 8082
 ```
 
-Access the console in the browser with https://localhost:8082/console.
+Access the console in the browser with `https://localhost:8082/` console.
 
 See [Accessing the W&B Kubernetes Operator Management Console](#access-the-wb-management-console) on how to get the password (Option 2).
 

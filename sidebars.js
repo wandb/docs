@@ -1,4 +1,82 @@
 export default {
+  launch: [
+    {
+      type: 'category',
+      label: 'Launch',
+      link: {
+        type: 'doc',
+        id: 'guides/launch/intro',
+      },
+      items: [
+        'guides/launch/walkthrough',
+        'guides/launch/launch-terminology',
+        {
+          type: 'category',
+          label: 'Set up Launch',
+          link: {
+            type: 'doc',
+            id: 'guides/launch/setup-launch',
+          },
+          items: [
+            'guides/launch/setup-launch-docker',
+            'guides/launch/setup-launch-sagemaker',
+            'guides/launch/setup-launch-kubernetes',
+            'guides/launch/setup-vertex',
+            'guides/launch/setup-agent-advanced',
+            'guides/launch/setup-queue-advanced',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Create and deploy jobs',
+          items: [
+            'guides/launch/create-launch-job',
+            'guides/launch/add-job-to-queue',
+            'guides/launch/job-inputs',
+            'guides/launch/launch-view-jobs',
+            'guides/launch/launch-queue-observability',
+          ],
+        },
+        'guides/launch/sweeps-on-launch',
+        {
+          type: 'category',
+          label: 'Launch Integration Guides',
+          items: [
+            'guides/integrations/dagster',
+            'guides/integrations/nim',
+            'tutorials/minikube_gpu',
+            'tutorials/volcano',
+
+          ]
+        },
+        {
+          type: 'category',
+          label: 'Launch FAQ',
+          items: [
+            'support/launch_d_wandb_job_create_image_uploading_whole_docker',
+            'support/launch_support_parallelization_limit_resources_consumed_job',
+            'support/restrict_access_modify_example',
+            'support/best_practices_launch_effectively',
+            'support/dockerfile_let_wb_build_docker_image_me',
+            'support/launch_automatically_provision_spin_compute_resources_target_environment',
+            'support/secrets_jobsautomations_instance_api_key_wish_directly_visible',
+            'support/launch_support_parallelization_limit_resources_consumed_job',
+            'support/restrict_access_modify_example',
+            'support/control_push_queue',
+            'support/launcherror_permission_denied',
+            'support/launch_tensorflow_gpu',
+            'support/launch_build_images',
+            'support/clicking_launch_without_going_ui',
+            'support/build_container_launch',
+            'support/launch_d_wandb_job_create_image_uploading_whole_docker',
+            'support/permissions_agent_require_kubernetes',
+            'support/requirements_accelerator_base_image',
+            'support/docker_queues_run_multiple_jobs_download_same_artifact_useartifact',
+          ]
+        }
+      ],
+    },
+  ],
   default: [
     'guides/intro',
     'quickstart',
@@ -16,21 +94,21 @@ export default {
             // 'guides/track/intro',
             'guides/track/launch',
             'guides/track/config',
-            'guides/app/pages/project-page',
-            'guides/app/pages/workspaces',
+            'guides/track/project-page',
+            'guides/track/workspaces',
             {
               type: 'category',
               label: 'What are runs?',
               link: {type: 'doc', id: 'guides/runs/intro'},
               items: [
-                // 'guides/runs/create-run',
-                'guides/app/pages/run-page',
-                'guides/runs/grouping',
+                'guides/runs/tags',
                 'guides/runs/resuming',
                 'guides/runs/rewind',
                 'guides/runs/forking',
                 'guides/runs/alert',
                 'guides/runs/manage-runs',
+                'guides/runs/filter-runs',
+                'guides/runs/grouping',
               ],
             },
             {
@@ -46,15 +124,11 @@ export default {
                 'guides/track/log/working-with-csv',
                 'guides/track/log/distributed-training',
                 'guides/track/log/customize-logging-axes',
-                'guides/track/log/logging-faqs',
               ],
             },
-            'guides/track/app',
-            // 'guides/track/reproduce-experiments',
             'guides/track/jupyter',
             'guides/track/limits',
             'guides/track/public-api-guide',
-            'guides/track/tracking-faq',
             'guides/track/environment-variables',
           ],
         },
@@ -81,7 +155,6 @@ export default {
             'guides/sweeps/sweeps-ui',
             'guides/sweeps/local-controller',
             'guides/sweeps/troubleshoot-sweeps',
-            'guides/sweeps/faq',
             'guides/sweeps/useful-resources',
             'guides/sweeps/existing-project',
           ],
@@ -130,49 +203,7 @@ export default {
         },
         {
           type: 'category',
-          label: 'Launch',
-          link: {
-            type: 'doc',
-            id: 'guides/launch/intro',
-          },
-          items: [
-            'guides/launch/walkthrough',
-            'guides/launch/launch-terminology',
-            {
-              type: 'category',
-              label: 'Set up Launch',
-              link: {
-                type: 'doc',
-                id: 'guides/launch/setup-launch',
-              },
-              items: [
-                'guides/launch/setup-launch-docker',
-                'guides/launch/setup-launch-sagemaker',
-                'guides/launch/setup-launch-kubernetes',
-                'guides/launch/setup-vertex',
-                'guides/launch/setup-agent-advanced',
-                'guides/launch/setup-queue-advanced',
-              ],
-            },
-            {
-              type: 'category',
-              label: 'Create and deploy jobs',
-              items: [
-                'guides/launch/create-launch-job',
-                'guides/launch/add-job-to-queue',
-                'guides/launch/job-inputs',
-                'guides/launch/launch-view-jobs',
-                'guides/launch/launch-queue-observability',
-              ],
-            },
-            'guides/launch/sweeps-on-launch',
-            'guides/launch/launch-faqs',
-          ],
-        },
-        {
-          type: 'category',
           label: 'W&B App UI Reference',
-          link: {type: 'doc', id: 'guides/app/intro'},
           items: [
             {
               type: 'category',
@@ -193,7 +224,6 @@ export default {
                   ],
                 },
                 'guides/app/features/panels/bar-plot',
-                'guides/app/features/panels/run-colors',
                 'guides/app/features/panels/parallel-coordinates',
                 'guides/app/features/panels/scatter-plot',
                 'guides/app/features/panels/code',
@@ -224,9 +254,7 @@ export default {
                 'guides/app/features/custom-charts/walkthrough',
               ],
             },
-            'guides/app/features/runs-table',
-            'guides/app/features/tags',
-            'guides/app/features/notes',
+            'guides/app/features/cascade-settings',
             {
               type: 'category',
               label: 'Settings',
@@ -236,7 +264,6 @@ export default {
                 'guides/app/settings-page/team-settings',
                 'guides/app/settings-page/emails',
                 'guides/app/features/teams',
-                'guides/app/features/organizations',
                 'guides/app/features/storage',
                 'guides/app/features/system-metrics',
                 'guides/app/features/anon',
@@ -281,7 +308,6 @@ export default {
             },
             'guides/artifacts/explore-and-traverse-an-artifact-graph',
             'guides/artifacts/data-privacy-and-compliance',
-            'guides/artifacts/artifacts-faqs',
             // 'guides/artifacts/examples',
           ],
         },
@@ -311,7 +337,6 @@ export default {
             'guides/reports/embed-reports',
             'guides/reports/cross-project-reports',
             'guides/reports/reports-gallery',
-            'guides/reports/reports-faq',
           ],
         },
       ],
@@ -349,7 +374,7 @@ export default {
                 'guides/hosting/self-managed/basic-setup',
                 {
                   type: 'category',
-                  label: 'W&B Operator',
+                  label: 'Kubernetes Operator',
                   items: [
                     'guides/hosting/operator',
                     'guides/hosting/operator-airgapped',
@@ -387,8 +412,9 @@ export default {
             {
               type: 'category',
               label: 'Access management',
+              link: {type: 'doc', id: 'guides/hosting/iam/access-management-intro'},
               items: [
-                'guides/hosting/iam/manage-users',
+                'guides/hosting/iam/manage-organization',
                 'guides/hosting/iam/restricted-projects',
               ],
             },
@@ -434,7 +460,6 @@ export default {
         'guides/integrations/other/azure-openai-fine-tuning',
         'guides/integrations/other/catalyst',
         'guides/integrations/other/cohere-fine-tuning',
-        'guides/integrations/dagster',
         'guides/integrations/other/databricks',
         'guides/integrations/other/deepchecks',
         'guides/integrations/other/deepchem',
@@ -459,7 +484,6 @@ export default {
         'guides/integrations/mmengine',
         'guides/integrations/other/mmf',
         'guides/integrations/other/composer',
-        'guides/integrations/nim',
         'guides/integrations/other/openai-api',
         'guides/integrations/other/openai-fine-tuning',
         'guides/integrations/other/openai-gym',
@@ -497,19 +521,6 @@ export default {
         'guides/integrations/yolov5',
         'guides/integrations/ultralytics',
         'guides/integrations/other/yolox',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Technical FAQ',
-      link: {type: 'doc', id: 'guides/technical-faq/intro'},
-      items: [
-        // 'guides/hosting/technical-faq/intro',
-        'guides/technical-faq/general',
-        'guides/technical-faq/admin',
-        'guides/technical-faq/metrics-and-performance',
-        'guides/technical-faq/setup',
-        'guides/technical-faq/troubleshooting',
       ],
     },
   ],
@@ -550,8 +561,9 @@ export default {
     },
     {
       type: 'category',
-      label: 'Launch Tutorials',
-      items: ['tutorials/volcano', 'tutorials/minikube_gpu'],
+      label: 'Weave and Models Tutorials',
+      items: ['tutorials/weave_models_registry'],
     },
   ],
+  support: [{type: 'doc',id: 'support/index',label: 'W&B Support Center',},'support/index_academic','support/index_administrator','support/index_alerts','support/index_anonymous','support/index_artifacts','support/index_aws','support/index_billing','support/index_charts','support/index_connectivity','support/index_crashing and hanging runs','support/index_environment variables','support/index_experiments','support/index_hyperparameter','support/index_logs','support/index_metrics','support/index_notebooks','support/index_outage','support/index_privacy','support/index_projects','support/index_python','support/index_reports','support/index_resuming','support/index_runs','support/index_security','support/index_storage','support/index_sweeps','support/index_tables','support/index_team management','support/index_tensorboard','support/index_user management','support/index_workspaces','support/index_wysiwyg',]
 };

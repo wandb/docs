@@ -1,5 +1,5 @@
 ---
-title: Host a W&B Server on-premises
+title: Deploy W&B Platform On-premises
 description: Hosting W&B Server on on-premises infrastructure
 displayed_sidebar: default
 ---
@@ -15,7 +15,7 @@ You can run W&B Server on your on-premises infrastructure if Multi-tenant Cloud 
 
 Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto:contact@wandb.com).
 
-## Infrastructure Guidelines
+## Infrastructure guidelines
 
 The following infrastructure guidelines section outline W&B recommendations to take into consideration when you set up your application server, database server, and object storage.
 
@@ -27,9 +27,9 @@ W&B strongly recommends to deploy W&B Server into a Kubernetes cluster using the
 W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 8 database cluster and an AWS S3 compatible object store for the application to scale properly.
 :::
 
-### Application Server
+### Application server
 
-We recommend deploying W&B Server into its own namespace and a two availability zone node group with the following specifications to provide the best performance, reliability, and availability:
+W&B recommends deploying W&B Server into its own namespace and a two availability zone node group with the following specifications to provide the best performance, reliability, and availability:
 
 | Specification              | Value                             |
 |----------------------------|-----------------------------------|
@@ -39,15 +39,19 @@ We recommend deploying W&B Server into its own namespace and a two availability 
 | Core Count                 | 4                                 |
 | Memory (GiB)               | 8                                 |
 
-This ensures that W&B Server has sufficient disk space to process the application data and store temporary logs before they are externalized. It also ensures fast and reliable data transfer, the necessary processing power and memory for smooth operation, and that W&B will not be affected by any noisy neighbors. 
+This ensures that W&B Server has sufficient disk space to process the application data and store temporary logs before they are externalized. 
+
+
+
+It also ensures fast and reliable data transfer, the necessary processing power and memory for smooth operation, and that W&B will not be affected by any noisy neighbors. 
 
 It is important to keep in mind that these specifications are minimum requirements, and actual resource needs may vary depending on the specific usage and workload of the W&B application. Monitoring the resource usage and performance of the application is critical to ensure that it operates optimally and to make adjustments as necessary.
 
-### Database Server
+### Database server
 
-W&B recommends a [MySQL 8](#mysql-database) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
+W&B recommends a [MySQL 8](#mysql-database) database as a metadata store. The shape of the model parameters and related metadata impact the performance of the database. The database size grows as the ML practitioners track more training runs, and incurs read heavy load when queries are executed in run tables, users workspaces, and reports.
 
-To ensure optimal performance we recommend deploying the W&B database on to a server with the following starting specs:
+To ensure optimal performance W&B recommends deploying the W&B database on to a server with the following starting specs:
 
 | Specification              | Value                             |
 |--------------------------- |-----------------------------------|
@@ -57,13 +61,13 @@ To ensure optimal performance we recommend deploying the W&B database on to a se
 | Core Count                 | 4                                 |
 | Memory (GiB)               | 32                                |
 
-Again, we recommend monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
+Again, W&B recommends monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
 
-Additionally, we recommend the following [parameter overrides](#mysql-database) to tune the DB for MySQL 8.
+Additionally, W&B recommends the following [parameter overrides](#mysql-database) to tune the DB for MySQL 8.
 
-### Object Storage
+### Object storage
 
-W&B is compatible with an object storage that supports S3 API interface, Signed URLs and CORS. We recommend specing the storage array to the current needs of your practitioners and to capacity plan on a regular cadence.
+W&B is compatible with an object storage that supports S3 API interface, Signed URLs and CORS. W&B recommends specifying the storage array to the current needs of your practitioners and to capacity plan on a regular cadence.
 
 More details on object store configuration can be found in the [how-to section](../self-managed/bare-metal.md#object-store).
 
@@ -77,13 +81,13 @@ Some tested and working providers:
 
 The [Secure Storage Connector](../data-security/secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
 
-## MySQL Database
+## MySQL database
 
 :::caution
 W&B does not recommend using MySQL 5.7. If you are using MySQL 5.7, migrate to MySQL 8 for best compatibility with latest versions of W&B Server. The W&B Server currently only supports `MySQL 8` versions `8.0.28` and above.
 :::
 
-There are a number of enterprise services that make operating a scalable MySQL database simpler. We suggest looking into one of the following solutions:
+There are a number of enterprise services that make operating a scalable MySQL database simpler. W&B recommends looking into one of the following solutions:
 
 [https://www.percona.com/software/mysql-database/percona-server](https://www.percona.com/software/mysql-database/percona-server)
 
@@ -105,10 +109,10 @@ Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you mi
 
 Consider the following when you run your own MySQL database:
 
-1. **Backups**. You should  periodically back up the database to a separate facility. We suggest daily backups with at least 1 week of retention.
-2. **Performance.** The disk the server is running on should be fast. We suggest running the database on an SSD or accelerated NAS.
+1. **Backups**. You should  periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
+2. **Performance.** The disk the server is running on should be fast. W&B recommends running the database on an SSD or accelerated NAS.
 3. **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
-4. **Availability.** Depending on your availability and durability requirements you may want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to incase the primary server crashes or become corrupted.
+4. **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
 
 Create a database and a user with the following SQL query. Replace `SOME_PASSWORD` with password of your choice:
 
@@ -118,7 +122,7 @@ CREATE DATABASE wandb_local CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 ```
 
-#### Parameter Group Configuration
+#### Parameter group configuration
 
 Ensure that the following parameter groups are set to tune the database performance:
 
@@ -131,8 +135,8 @@ binlog_row_image = 'MINIMAL'
 sort_buffer_size = 67108864
 ```
 
-## Object Store
-The object store can be externally hosted on a [Minio cluster](https://docs.min.io/minio/k8s/), or any Amazon S3 compatible object store that has support for signed urls. Run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) to check if your object store supports signed urls.
+## Object store
+The object store can be externally hosted on a [Minio cluster](https://docs.min.io/minio/k8s/), or any Amazon S3 compatible object store that has support for signed URLs. Run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) to check if your object store supports signed URLs.
 
 Additionally, the following CORS policy needs to be applied to the object store.
 
@@ -155,7 +159,7 @@ You can specify your credentials in a connection string when you connect to an A
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
 ```
 
-You can optionally tell W&B to only connect over TLS if you configure a trusted SSL certificate for your object store. To do so, add the `tls` query parameter to the url. For example, the following URL example demonstrates how to add the TLS query parameter to an Amazon S3 URI:
+You can optionally tell W&B to only connect over TLS if you configure a trusted SSL certificate for your object store. To do so, add the `tls` query parameter to the URL. For example, the following URL example demonstrates how to add the TLS query parameter to an Amazon S3 URI:
 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
@@ -165,7 +169,7 @@ s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 This will only work if the SSL certificate is trusted. W&B does not support self-signed certificates.
 :::
 
-Set `BUCKET_QUEUE` to `internal://` if you use third-party object stores.  This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
+Set `BUCKET_QUEUE` to `internal://` if you use third-party object stores. This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
 
 The most important things to consider when running your own object store are:
 
@@ -178,7 +182,7 @@ There are many enterprise alternatives to running your own object storage servic
 1. [https://aws.amazon.com/s3/outposts/](https://aws.amazon.com/s3/outposts/)
 2. [https://www.netapp.com/data-storage/storagegrid/](https://www.netapp.com/data-storage/storagegrid/)
 
-### MinIO setup
+### MinIO set up
 
 If you use minio, you can run the following commands to create a bucket.
 
@@ -218,9 +222,9 @@ spec:
 
 ## Networking
 
-### Load Balancer
+### Load balancer
 
-Run a load balancer that terminates network requests at the appropriate network boundary. 
+Run a load balancer that stop network requests at the appropriate network boundary. 
 
 Common load balancers include:
 1. [Nginx Ingress](https://kubernetes.github.io/ingress-nginx/)
@@ -235,9 +239,9 @@ Ensure that all machines used to execute machine learning payloads, and the devi
 
 ### SSL / TLS
 
-W&B Server does not terminate SSL. If your security policies require SSL communication within your trusted networks consider using a tool like Istio and [side car containers](https://istio.io/latest/docs/reference/config/networking/sidecar/). The load balancer itself should terminate SSL with a valid certificate. Using self-signed certificates is not supported and will cause a number of challenges for users. If possible using a service like [Let's Encrypt](https://letsencrypt.org) is a great way to provided trusted certificates to your load balancer. Services like Caddy and Cloudflare manage SSL for you.
+W&B Server does not stop SSL. If your security policies require SSL communication within your trusted networks consider using a tool like Istio and [side car containers](https://istio.io/latest/docs/reference/config/networking/sidecar/). The load balancer itself should terminate SSL with a valid certificate. Using self-signed certificates is not supported and will cause a number of challenges for users. If possible using a service like [Let's Encrypt](https://letsencrypt.org) is a great way to provided trusted certificates to your load balancer. Services like Caddy and Cloudflare manage SSL for you.
 
-### Example Nginx Configuration
+### Example nginx configuration
 
 The following is an example configuration using nginx as a reverse proxy.
 

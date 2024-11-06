@@ -18,7 +18,7 @@ wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
 
 If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.log` in your code `wandb.log({"custom": 0.8}) `
 
-Setting the step argument in `wandb.log` is disabled when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
+Setting the step argument in `wandb.log` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
 
 `wandb.log({"custom": 0.8, "global_step":global_step}, step=global_step)`
 

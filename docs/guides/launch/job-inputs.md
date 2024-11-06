@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: default
+displayed_sidebar: launch
 title: Manage job inputs
 ---
 import Tabs from '@theme/Tabs';

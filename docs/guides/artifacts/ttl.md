@@ -167,7 +167,7 @@ Set a default TTL policy for your team. Default TTL policies apply to all existi
 Use the W&B Python SDK or W&B App UI to deactivate a TTL policy for a specific artifact version.
 <!-- 
 :::note
-Artifacts with a disabled TTL will not inherit an artifact collection's TTL. Refer to (## Inherit TTL Policy) on how to delete artifact TTL and inherit from the collection level TTL.
+Artifacts with TTL turned off will not inherit an artifact collection's TTL. Refer to (## Inherit TTL Policy) on how to delete artifact TTL and inherit from the collection level TTL.
 ::: -->
 
 <Tabs

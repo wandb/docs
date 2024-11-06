@@ -25,6 +25,7 @@ The following table lists [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/la
 |Europe (London)|eu-west-2|
 |Europe (Milan)|eu-south-1|
 |Europe (Stockholm)|eu-north-1|
+|Asia Pacific (Mumbai)|ap-south-1|
 |Asia Pacific (Singapore)| ap-southeast-1|
 |Asia Pacific (Sydney)|ap-southeast-2|
 |Asia Pacific (Tokyo)|ap-northeast-1|
@@ -64,6 +65,7 @@ The following table lists [Azure regions](https://azure.microsoft.com/en-us/expl
 |Virginia|eastus|
 |Iowa|centralus|
 |California|westus|
+|Canada Central|canadacentral|
 |Netherlands|westeurope|
 |Tokyo, Saitama|japaneast|
 |Seoul|koreacentral|

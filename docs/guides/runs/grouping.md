@@ -56,9 +56,3 @@ Click the grouping button and clear group fields at any time, which returns the 
 Click the edit button in the upper right corner of a graph and select the **Advanced** tab to change the line and shading. You can select the mean, minimum, or maximum value for the line in each group. For the shading, you can turn off shading, and show the min and max, the standard deviation, and the standard error.
 
 ![](/images/track/demo_grouping_options_for_line_plots.gif)
-
-## Common question
-
-### Can we group runs by tags?
-
-Because a run can have multiple tags we don't support grouping by this field. Our recommendation would be to add a value to the [`config`](../track/config.md) object of these runs and then group by this config value. You can do this with [our API](../track/config#set-the-configuration-after-your-run-has-finished).

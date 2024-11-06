@@ -4,7 +4,7 @@ displayed_sidebar: default
 title: Smooth line plots
 ---
 
-In W&B line plots, we support three types of smoothing:
+W&B supports three types of smoothing:
 
 - [exponential moving average](smoothing.md#exponential-moving-average-default) (default)
 - [gaussian smoothing](smoothing.md#gaussian-smoothing)

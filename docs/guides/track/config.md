@@ -8,7 +8,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb"></CTAButtons>
 
 Use the `wandb.config` object to save your training configuration such as: 
-- hyperparameters
+- hyperparameter
 - input settings such as the dataset name or model type
 - any other independent variables for your experiments. 
 
@@ -179,7 +179,7 @@ wandb.config.update({"lr": 0.1, "channels": 16})
 ### Set the configuration after your Run has finished
 Use the [W&B Public API](../../ref/python/public-api/README.md) to update your config (or anything else about from a complete Run) after your Run. This is particularly useful if you forgot to log a value during a Run. 
 
-Provide your `entity`, `project name`, and the `Run ID` to update your configuration after a Run has finished. Find these values directly from the Run object itself `wandb.run` or from the [W&B App UI](../app/intro.md):
+Provide your `entity`, `project name`, and the `Run ID` to update your configuration after a Run has finished. Find these values directly from the Run object itself `wandb.run` or from the [W&B App UI](../track/workspaces.md):
 
 ```python
 api = wandb.Api()
