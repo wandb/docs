@@ -245,12 +245,40 @@ The versions tab shows all versions of the artifact as well as columns for each 
 
 
 
-## Favorite a project
-Keep track of your most important projects by marking them as favorites.
+## Star a project
 
-Mark a project as a favorite by clicking the star icon in the top right corner of the project page. 
+Mark projects that you and your organization care the most about. Projects that you add a star to appear on the landing page of your organization.
+
+There are two ways to star a project: within a project's overview tab or within your team's project landing page.
 
 
+<Tabs
+  defaultValue="project_overview"
+  values={[
+    {label: 'Apple', value: 'project_overview'},
+    {label: 'Orange', value: 'project_landing_page'},
+  ]}>
+  <TabItem value="project_overview">
+
+1. Navigate to your W&B project on the W&B App.
+2. Select the **Overview** tab from the project sidebar.
+3. Choose the star icon in the upper right corner next to the **Edit** button.
+
+
+  </TabItem>
+  <TabItem value="project_landing_page">
+
+1. Navigate to your team's project landing page on the W&B App at `https://wandb.ai/<team>/projects`.
+2. Select the **Projects** tab.
+3. Hover your mouse next to the project you want to star. Click on star icon that appears.
+
+
+  </TabItem>
+</Tabs>
+
+
+
+Confirm that your project appears on the landing page of your organization by clicking on the organization name in the top left corner of the app.
 
 
 ## Delete a project
