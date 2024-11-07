@@ -13,8 +13,8 @@ import TabItem from '@theme/TabItem';
 
 This integration lets users apply decorators to Metaflow [steps and flows](https://docs.metaflow.org/metaflow/basics) to automatically log parameters and artifacts to W&B.
 
-* Decorating a step will enable or disable logging for certain types within that step.
-* Decorating the flow will enable or disable logging for every step in the flow.
+* Decorating a step will turn logging off or on for certain types within that step.
+* Decorating the flow will turn logging off or on for every step in the flow.
 
 ## Quickstart
 
@@ -55,7 +55,7 @@ wandb login
   ]}>
   <TabItem value="step">
 
-Decorating a step will enable or disable logging for certain types within that Step.
+Decorating a step will turn logging off or on for certain types within that Step.
 
 In this example, all datasets and models in `start` will be logged
 
@@ -129,7 +129,7 @@ class WandbExampleFlow(FlowSpec):
 
 ## Where is my data? Can I access it programmatically?
 
-You can access the information we've captured in three ways: inside the original Python process being logged using the [`wandb` client library](../../../ref/python/README.md), via the [web app UI](../../app/intro.md), or programmatically using [our Public API](../../../ref/python/public-api/README.md). `Parameter`s are saved to W&B's [`config`](../../track/config.md) and can be found in the [Overview tab](../../app/pages/run-page.md#overview-tab). `datasets`, `models`, and `others` are saved to [W&B Artifacts](../../artifacts/intro.md) and can be found in the [Artifacts tab](../../app/pages/run-page.md#artifacts-tab). Base python types are saved to W&B's [`summary`](../../track/log/intro.md) dict and can be found in the Overview tab. See our [guide to the Public API](../../track/public-api-guide.md) for details on using the API to get this information programmatically from outside .
+You can access the information we've captured in three ways: inside the original Python process being logged using the [`wandb` client library](../../../ref/python/README.md), with the [web app UI](../../track/workspaces.md), or programmatically using [our Public API](../../../ref/python/public-api/README.md). `Parameter`s are saved to W&B's [`config`](../../track/config.md) and can be found in the [Overview tab](../../runs/intro.md#overview-tab). `datasets`, `models`, and `others` are saved to [W&B Artifacts](../../artifacts/intro.md) and can be found in the [Artifacts tab](../../runs/intro.md#artifacts-tab). Base python types are saved to W&B's [`summary`](../../track/log/intro.md) dict and can be found in the Overview tab. See our [guide to the Public API](../../track/public-api-guide.md) for details on using the API to get this information programmatically from outside .
 
 Here's a cheatsheet:
 

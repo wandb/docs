@@ -57,6 +57,7 @@ Satisfy the following requirements to deploy W&B with the W&B Kubernetes operato
 
 * Egress to the following endpoints during installation and during runtime:
     * deploy.wandb.ai
+    * charts.wandb.ai
     * docker.io
     * quay.io
     * gcr.io
@@ -582,7 +583,7 @@ parquet:
 global:
   ...
 ```
-The subsystems "app" and "parquet" runs under the specified service account. The other subsystem runs under the default service account.
+The subsystems "app" and "parquet" run under the specified service account. The other subsystems run under the default service account.
 
 If the service account already exists on the cluster, set `create: false`:
 
@@ -601,9 +602,7 @@ global:
   ...
 ```
 
-
-
-You can specify service accounts on different subsystems such as app, parquet, console, and more:
+You can specify service accounts on different subsystems such as app, parquet, console, and others:
 
 ```yaml
 app:
@@ -780,7 +779,7 @@ global:
     -----END CERTIFICATE-----
   - |
     -----BEGIN CERTIFICATE-----
-    MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+    MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
     MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
     MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
     SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
@@ -811,7 +810,7 @@ customCACerts:
   -----END CERTIFICATE-----
 - |
   -----BEGIN CERTIFICATE-----
-  MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+  MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
   MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
   MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
   SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU

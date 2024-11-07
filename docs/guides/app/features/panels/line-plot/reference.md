@@ -7,17 +7,17 @@ title: Line plot reference
 
 ![Selecting X-Axis](/images/app_ui/reference_x_axis.png)
 
-You can set the X-Axis of a line plot to any value that you have logged with wandb.log as long as it's always logged as a number.
+You can set the x-axis of a line plot to any value that you have logged with W&B.log as long as it's always logged as a number.
 
-## Y-Axis Variables
+## Y-Axis variables
 
-You can set the y-axis variables to any value you have logged with wandb.log as long as you were logging numbers, arrays of numbers or a histogram of numbers. If you logged more than 1500 points for a variable, wandb samples down to 1500 points.
+You can set the y-axis variables to any value you have logged with wandb.log as long as you were logging numbers, arrays of numbers or a histogram of numbers. If you logged more than 1500 points for a variable, W&B samples down to 1500 points.
 
 :::info
 You can change the color of your y axis lines by changing the color of the run in the runs table.
 :::
 
-## X Range and Y Range
+## X range and Y range
 
 You can change the maximum and minimum values of X and Y for the plot.
 
@@ -25,7 +25,7 @@ X range default is from the smallest value of your x-axis to the largest.
 
 Y range default is from the smallest value of your metrics and zero to the largest value of your metrics.
 
-## Max Runs/Groups
+## Max runs/groups
 
 By default you will only plot 10 runs or groups of runs. The runs will be taken from the top of your runs table or run set, so if you sort your runs table or run set you can change the runs that are shown.
 
@@ -58,9 +58,10 @@ You can aggregate all of the runs by turning on grouping, or group over an indiv
 
 ## Smoothing
 
-You can set the [smoothing coefficient](../../../../technical-faq/general.md#what-formula-do-you-use-for-your-smoothing-algorithm) to be between 0 and 1 where 0 is no smoothing and 1 is maximum smoothing.
+You can set the [smoothing coefficient](../../../../../support/formula_smoothing_algorithm.md) to be between 0 and 1 where 0 is no smoothing and 1 is maximum smoothing.
 
-## Ignore Outliers
+
+## Ignore outliers
 
 Ignore outliers makes the graph set the yaxis min and max to the 5th and 95th percentile of the data instead of setting it to make all data visible.
 

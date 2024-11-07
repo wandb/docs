@@ -4,15 +4,25 @@ title: TensorBoard
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-## Hosted TensorBoard with 1 Line of Code
-
-With Weight & Biases you can easily upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
 <CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb"></CTAButtons>
 
+
+
+
+:::info
+W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
+:::
+
+Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
+
+
+
 ![](/images/integrations/tensorboard_oneline_code.webp)
 
-### Just add 1 Line of Code
+### Add one line of code to your training script
+
+
 
 ```python
 import wandb
@@ -27,12 +37,12 @@ wandb.init(project="my-project", sync_tensorboard=True)
 wandb.finish()
 ```
 
-[**See here for an example of Tensorboard hosted in Weights & Biases**](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard)
+[**See here for an example**](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard)
 
-Once your wandb run finishes, your TensorBoard event files will then be uploaded to Weights & Biases. These metrics will **also be logged** in native Weights & Biases charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
+Once your wandb run finishes, your TensorBoard event files will then be uploaded to W&B. These metrics will **also be logged** in native W&B charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
 
 :::info
-Weights & Biases support TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
+W&B supports TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
 :::
 
 ## Common questions
@@ -41,7 +51,7 @@ Weights & Biases support TensorBoard with all versions of TensorFlow. W&B also s
 
 If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.log` in your code `wandb.log({"custom": 0.8})`
 
-Setting the step argument in `wandb.log` is disabled when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
+Setting the step argument in `wandb.log` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
 
 `wandb.log({"custom": 0.8, "global_step": global_step})`
 
@@ -61,7 +71,7 @@ wandb.finish()
 
 You can pass `tensorboard_x=False` to this method to ensure vanilla TensorBoard is patched, if you're using TensorBoard > 1.14 with PyTorch you can pass `pytorch=True` to ensure it's patched. Both of these options have smart defaults depending on what versions of these libraries have been imported.
 
-By default, we also sync the `tfevents` files and any `.pbtxt` files. This enables us to launch a TensorBoard instance on your behalf. You will see a [TensorBoard tab](https://www.wandb.com/articles/hosted-tensorboard) on the run page. This behavior can be disabled by passing `save=False` to `wandb.tensorboard.patch`
+By default, we also sync the `tfevents` files and any `.pbtxt` files. This enables us to launch a TensorBoard instance on your behalf. You will see a [TensorBoard tab](https://www.wandb.com/articles/hosted-tensorboard) on the run page. This behavior can be turned off by passing `save=False` to `wandb.tensorboard.patch`
 
 ```python
 import wandb

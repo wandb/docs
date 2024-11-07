@@ -168,7 +168,7 @@ redirects:
   artifacts/artifact-creation-modes: ./guides/artifacts/create-a-new-artifact-version.md
   artifacts/references: ./guides/artifacts/track-external-files.md
   artifacts/examples: ./guides/artifacts/examples.md
-  artifacts/artifacts-faqs: ./guides/artifacts/artifacts-faqs.md
+  artifacts/artifacts-faqs: ./guides/artifacts/intro.md
   reports: ./guides/reports.md
   app: ./guides/track/app.md
   datasets-and-predictions: ./guides/datasets-and-predictions.md

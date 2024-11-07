@@ -1,7 +1,7 @@
 ---
 slug: /guides/launch
 description: Easily scale and manage ML jobs using W&B Launch.
-displayed_sidebar: default
+displayed_sidebar: launch
 title: Launch
 ---
 import Translate, {translate} from '@docusaurus/Translate';

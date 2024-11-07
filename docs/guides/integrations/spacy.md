@@ -57,7 +57,7 @@ model_log_interval = 1000
 
 | Name                   | Description                                                                                                                                                                                                                                                   |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `project_name`         | `str`. The name of the Weights & Biases [project](../app/pages/project-page.md). The project will be created automatically if it doesn’t exist yet.                                                                                                    |
+| `project_name`         | `str`. The name of the W&B Project. The project will be created automatically if it doesn’t exist yet.                                                                                                    |
 | `remove_config_values` | `List[str]` . A list of values to exclude from the config before it is uploaded to W&B. `[]` by default.                                                                                                                                                     |
 | `model_log_interval`   | `Optional int`. `None` by default. If set, [model versioning](../model_registry/intro.md) with [Artifacts](../artifacts/intro.md)will be enabled. Pass in the number of steps to wait between logging model checkpoints. `None` by default. |
 | `log_dataset_dir`      | `Optional str`. If passed a path, the dataset will be uploaded as an Artifact at the beginning of training. `None` by default.                                                                                                            |
@@ -99,4 +99,4 @@ python -m spacy train \
   </TabItem>
 </Tabs>
 
-When training begins, a link to your training run's [W&B page](../app/pages/run-page.md) will be output which will take you to this run's experiment tracking [dashboard](../track/app.md) in the Weights & Biases web UI.
+When training begins, a link to your training run's [W&B page](../runs/intro.md) will be output which will take you to this run's experiment tracking [dashboard](../track/workspaces.md) in the Weights & Biases web UI.

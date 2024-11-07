@@ -284,20 +284,7 @@ Apply any changes to a specific visualization panel with the button at the botto
 
 * Not seeing the data you're expecting in the query as you're editing your chart? It might be because the column you're looking for is not logged in the runs you have selected. Save your chart and go back out to the runs table, and select the runs you'd like to visualize with the **eye** icon.
 
-### How to show a "step slider" in a custom chart?
-
-This can be enabled on the “Other settings” page of the custom chart editor. If you change your query to use a `historyTable` instead of the `summaryTable`, you'll get an option to “Show step selector” in the custom chart editor. This gives you a slider that lets you select the step.
-
-<!-- ![Show step slider in a custom chart](/images/app_ui/step_sllider_custon_charts.mov>) -->
-
-### How to delete a custom chart preset?
-
-You can do this by going into the custom chart editor. Then click on the currently selected chart type, this will open up a menu with all your presets. Hover the mouse on a preset you want to delete and then click on the Trash icon.
-
-![](/images/app_ui/delete_custome_chart_preset.gif)
-
-
-### Common use cases
+## Common use cases
 
 * Customize bar plots with error bars
 * Show model validation metrics which require custom x-y coordinates (like precision-recall curves)

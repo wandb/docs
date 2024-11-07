@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: default
-title: Use point aggregation
+title: Point aggregation
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

@@ -13,7 +13,7 @@ Before you get started, make sure you create an account and install W&B:
 
 1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then log in to your wandb account.  
 2. Install the wandb library on your machine in a Python 3 environment using [`pip`](https://pypi.org/project/wandb/).  
-
+3. Navigate to [the **Authorize** page](https://wandb.ai/authorize) to create an API key, and save it for later use.
 
 The following code snippets demonstrate how to install and log into W&B using the W&B CLI and Python Library:
 
@@ -86,7 +86,7 @@ Provide [your API key](https://wandb.ai/authorize) when prompted.
 </Tabs>
 
 
-## 3. Start a  run and track hyperparameters
+## 3. Start a run and track hyperparameters
 
 Initialize a W&B Run object in your Python script or notebook with [`wandb.init()`](./ref/python/run.md) and pass a dictionary to the `config` parameter with key-value pairs of hyperparameter names and values:
 
@@ -103,7 +103,7 @@ run = wandb.init(
 ```
 
 
-A [run](./guides/runs) is the basic building block of W&B. You will use them often to [track metrics](./guides/track), [create logs](./guides/artifacts), [create jobs](./guides/launch), and more.
+A [run](./guides/runs) is the basic building block of W&B. You will use them often to [track metrics](./guides/track), [create logs](./guides/artifacts), and more.
 
 
 
@@ -169,22 +169,4 @@ Explore the rest of the W&B ecosystem.
 4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/tables).
 5. Navigate to W&B AI Academy and learn about LLMs, MLOps and W&B Models from hands-on [courses](https://wandb.me/courses).
 
-
 ![](/images/quickstart/wandb_demo_experiments.gif) 
-
-
-
-## Common Questions
-
-**Where do I find my API key?**
-Once you've signed in to www.wandb.ai, the API key will be on the [Authorize page](https://wandb.ai/authorize).
-
-**How do I use W&B in an automated environment?**
-If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at our guide to configuration with [Environment Variables](guides/track/environment-variables).
-
-**Do you offer local, on-prem installs?**
-Yes, you can [privately host W&B](guides/hosting/) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how.
-
-
-**How do I turn off wandb logging temporarily?**
-If are testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](./guides/track/environment-variables).
