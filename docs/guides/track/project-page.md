@@ -40,7 +40,7 @@ Each project contains the proceeding which you can access from the sidebar:
 
 [View a live example](https://app.wandb.ai/example-team/sweep-demo/overview)
 
-![](/images/runs/overview_tab_image.png)
+![](/images/track/overview_tab_image.png)
 
 
 ## Workspace tab
@@ -242,6 +242,13 @@ The action history audit tab shows all of the alias actions and membership chang
 ![](/images/app_ui/versions_tab.png)
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
+
+
+
+## Favorite a project
+Keep track of your most important projects by marking them as favorites.
+
+Mark a project as a favorite by clicking the star icon in the top right corner of the project page. 
 
 
 
