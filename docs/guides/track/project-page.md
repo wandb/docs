@@ -40,7 +40,7 @@ Each project contains the proceeding which you can access from the sidebar:
 
 [View a live example](https://app.wandb.ai/example-team/sweep-demo/overview)
 
-![](/images/runs/overview_tab_image.png)
+![](/images/track/overview_tab_image.png)
 
 
 ## Workspace tab
@@ -245,6 +245,49 @@ The versions tab shows all versions of the artifact as well as columns for each 
 
 
 
+## Star a project
+
+Add a star to a project to mark that project as important. Projects that you and your team mark as important with stars appear at the top of your organization's home page.
+
+
+For example, the proceeding image shows two projects that are marked as important, the "zoo_experiment" and "registry_demo". Both projects appear within the top of the organization's home page within the **Starred projects** section.
+![](/images/track/star-projects.png)
+
+
+There are two ways to mark a project as important: within a project's overview tab or within your team's profile page.
+
+
+<Tabs
+  defaultValue="project_overview"
+  values={[
+    {label: 'Project overview', value: 'project_overview'},
+    {label: 'Team profile', value: 'project_landing_page'},
+  ]}>
+  <TabItem value="project_overview">
+
+1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
+2. Select the **Overview** tab from the project sidebar.
+3. Choose the star icon in the upper right corner next to the **Edit** button.
+
+![](/images/track/star-project-overview-tab.png)
+
+  </TabItem>
+  <TabItem value="project_landing_page">
+
+1. Navigate to your team's profile page at `https://wandb.ai/<team>/projects`.
+2. Select the **Projects** tab.
+3. Hover your mouse next to the project you want to star. Click on star icon that appears.
+
+For example, the proceeding image shows the star icon next to the "Compare_Zoo_Models" project.
+![](/images/track/star-project-team-profile-page.png)
+
+  </TabItem>
+</Tabs>
+
+
+
+Confirm that your project appears on the landing page of your organization by clicking on the organization name in the top left corner of the app.
+
 
 ## Delete a project
 
@@ -252,7 +295,7 @@ You can delete your project by clicking the three dots on the right of the overv
 
 ![](/images/app_ui/howto_delete_project.gif)
 
-If the project is empty (i.e. it has no runs), you can delete it by clicking the dropdown menu in the top-right and selecting "Delete project".
+If the project is empty, you can delete it by clicking the dropdown menu in the top-right and selecting "Delete project".
 
 ![](/images/app_ui/howto_delete_project_2.png)
 
