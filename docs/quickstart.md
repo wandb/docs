@@ -1,7 +1,7 @@
 ---
 description: W&B Quickstart
 displayed_sidebar: default
-title: W&B Quickstart
+title: Models Quickstart
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

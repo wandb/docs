@@ -79,13 +79,13 @@ export default {
   ],
   default: [
     'guides/intro',
-    'quickstart',
     {
       type: 'category',
       label: 'W&B Models',
       link: {type: 'doc', id: 'guides/models'},
       collapsed: false,
       items: [
+        'quickstart',
         {
           type: 'category',
           label: 'Experiments',
@@ -203,6 +203,25 @@ export default {
         },
         {
           type: 'category',
+          label: 'Evaluations',
+          items: [
+            'guides/evaluations/evaluate-models-weave',
+            'guides/evaluations/evaluate-models-tables',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Tables',
+          link: {type: 'doc', id: 'guides/tables/intro'},
+          items: [
+            'guides/tables/tables-walkthrough',
+            'guides/tables/visualize-tables',
+            'guides/tables/tables-gallery',
+            'guides/tables/tables-download',
+          ],
+        },
+        {
+          type: 'category',
           label: 'W&B App UI Reference',
           items: [
             {
@@ -309,17 +328,6 @@ export default {
             'guides/artifacts/explore-and-traverse-an-artifact-graph',
             'guides/artifacts/data-privacy-and-compliance',
             // 'guides/artifacts/examples',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Tables',
-          link: {type: 'doc', id: 'guides/tables/intro'},
-          items: [
-            'guides/tables/tables-walkthrough',
-            'guides/tables/visualize-tables',
-            'guides/tables/tables-gallery',
-            'guides/tables/tables-download',
           ],
         },
         {
