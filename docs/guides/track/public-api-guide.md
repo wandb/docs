@@ -7,7 +7,7 @@ title: Import and export data
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Export data or import data from MLFlow or between W&B instances with W&B Public APIs.
+Export data or import data  with W&B Public APIs.
 
 :::info
 This feature requires python>=3.8
