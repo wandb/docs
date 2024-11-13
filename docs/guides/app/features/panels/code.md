@@ -7,13 +7,11 @@ By default, W&B only saves the latest git commit hash. You can turn on more code
 
 Starting with `wandb` version 0.8.28, W&B can save the code from your main training file where you call `wandb.init()`. 
 
-
-
 ## Save library code
 
-When code saving is enabled, W&B will save the code from the file that called `wandb.init()`. To save additional library code, you have two options:
+When code saving is enabled, W&B will save the code from the file that called `wandb.init()`. To save additional library code, you have three options:
 
-* Call `wandb.run.log_code(".")` after calling `wandb.init()`
+### Call `wandb.run.log_code(".")` after calling `wandb.init()`
 ```python
 import wandb
 
@@ -21,13 +19,24 @@ wandb.init()
 wandb.run.log_code(".")
 ```
 
-* Pass a settings object to `wandb.init` with `code_dir` set:
+### Pass a settings object to `wandb.init` with `code_dir` set
 ```python
 import wandb
+
 wandb.init(settings=wandb.Settings(code_dir="."))
 ```
 
 This will capture all python source code files in the current directory and all subdirectories as an [artifact](../../../../ref/python/artifact.md). For more control over the types and locations of source code files that are saved, see the [reference docs](../../../../ref/python/run.md#log_code).
+
+### Set code saving in the UI
+
+In addition to setting code saving programmatically, you can also toggle this feature in your W&B account Settings. Note that this will enable code saving for all teams associated with your account.
+
+> By default, code saving for all teams is turned off.
+
+1. Log in to your W&B account.
+2. Go to **Settings** > **Privacy**.
+3. Under **Project and content security**, toggle **Disable default code saving** on. 
 
 ## Code comparer
 Compare code used in different W&B runs:
