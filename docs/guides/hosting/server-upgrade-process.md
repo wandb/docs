@@ -11,7 +11,6 @@ Update your W&B Server Version and License with the same method you installed W&
 | ---------------- | ------------------ |
 | [Terraform](#update-with-terraform) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
 | [Helm](#update-with-helm)              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.  |
-| [Docker](#update-with-docker-container)     | Docker latest docker image can found in the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).  |
 
 ## Update with Terraform
 
@@ -89,17 +88,6 @@ Update your license and version with Terraform. The proceeding table lists W&B m
    ```
 
 For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/blob/main/UPGRADE.md) in the public repository.
-
-## Update with Docker container
-
-1. Choose a new version from the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).
-2. Pull the new Docker image version with:
-
-   ```bash
-   docker pull wandb/local:<new_version>
-   ```
-
-3. Update your Docker container to run the new image version, ensuring you follow best practices for container deployment and management.
 
 ## Update with admin UI
 
