@@ -20,6 +20,8 @@ It is essential to have a strong understanding of running and maintaining produc
 
 ## Infrastructure diagram
 
+![](/images/hosting/reference_architecture.png)
+
 ### Application layer
 
 The application layer consists of a Kubernetes cluster, which should include multiple nodes to ensure resilience against node failures.
@@ -67,6 +69,9 @@ The fully qualified domain name of W&B should resolve to the IP address of the i
 
 ### SSL/TLS
 A valid, signed SSL/TLS certificate is required for secure communication between clients and W&B. Requesting a certificate is outside the scope of this guide. SSL/TLS termination musst be done on the ingress/load balancer.
+
+## Infrastructure provisioning
+The recommended way to deploy W&B for production is through use of a Terraform configuration that defines the required resources, their references to other resources and dependencies. We provide Terraform modules for the major clouds. Please refer to [Deploy W&B Server within self managed cloud accounts](../hosting-options/self-managed#deploy-wb-server-within-self-managed-cloud-accounts).
 
 ## Versions
 
@@ -125,8 +130,18 @@ Recommendations are per MySQL node.
 
 ### Services
 
+| Cloud       | Kubernetes	 | MySQL	                | Object Storage             |   
+| ----------- | ------------ | ------------------------ | -------------------------- | 
+| AWS         | EKS          | RDS Aurora               | S3                         |
+| GCP         | GKE          | Google Cloud SQL - Mysql | Google Cloud Storage (GCS) |
+| Azure       | AKS          | Azure Database for Mysql | Azure Blob Storage         |
+
 
 ### Flavors
 
-
+| Cloud  | K8s worker nodes	  | MySQL	            |  
+| ------ | ------------------ | ------------------- | 
+| AWS    | m5.xlarge          | db.r5.large         | 
+| GCP    | n1-standard-4      | db-n1-standard-2    | 
+| Azure  | Standard_D4s_v3    | GP_Standard_D4ds_v4 | 
 

@@ -15,9 +15,7 @@ Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto
 
 ## Infrastructure guidelines
 
-Please read through our [reference architecture](./ref-arch.md) before you start deploying W&B.
-
-
+Please read through our [reference architecture](./ref-arch.md) before you start deploying W&B - especially the infrastructure requirements.
 
 
 ## MySQL database
