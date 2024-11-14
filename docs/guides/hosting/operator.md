@@ -53,18 +53,8 @@ Configuration specifications follow a hierarchical model where higher-level spec
 This hierarchical model ensures that configurations are flexible and customizable to meet varying needs while maintaining a manageable and systematic approach to upgrades and changes.
 
 ## Requirements to use the W&B Kubernetes Operator
-Satisfy the following requirements to deploy W&B with the W&B Kubernetes operator:
 
-* Egress to the following endpoints during installation and during runtime:
-    * deploy.wandb.ai
-    * charts.wandb.ai
-    * docker.io
-    * quay.io
-    * gcr.io
-* A Kubernetes cluster at least version 1.28 with a deployed, configured and fully functioning Ingress controller (for example Contour, Nginx).
-* Externally host and run MySQL 8.0 database.
-* Object Storage (Amazon S3, Azure Cloud Storage, Google Cloud Storage, or any S3-compatible storage service) with CORS support.
-* A valid W&B Server license.
+Please refer to the reference architecture for the [infrastructure requirements](./self-managed/ref-arch#infrastructure-requirements). In addition to them, you will need a valid W&B Server license.
 
 See [this](./self-managed/bare-metal) guide for a detailed explanation on how to set up and configure a self-managed installation.
 
