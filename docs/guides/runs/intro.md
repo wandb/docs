@@ -329,9 +329,9 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **Name**: The name of the run.
 * **OS**: Operating system that initializes the run.
 * **Python executable**: The command that starts the run.
-* **Python version**: The Python version used to create the run.
-* **Run path**: The unique run identifier. It has the form of `entity/project/run-ID`.
-* **Runtime**: The total time from the start to the end of the run. It’s the wall-clock time for the run. Runtime includes any time where the run is paused or waiting for resources, while duration does not.
+* **Python version**: Specifies the Python version that creates the run.
+* **Run path**: Identifies the unique run identifier in the form `entity/project/run-ID`.
+* **Runtime**: Measures the total time from the start to the end of the run. It’s the wall-clock time for the run. Runtime includes any time where the run is paused or waiting for resources, while duration does not.
 * **Start time**: The timestamp when you initialize the run.
 * **State**: The [state of the run](#run-states).
 * **System hardware**: The hardware W&B uses to compute the run.
