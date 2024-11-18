@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 ## Overview
 
-[Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/introduction/)is a platform for building and deploying portable, scalable machine learning (ML) workflows based on Docker containers.
+[Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/overview/)is a platform for building and deploying portable, scalable machine learning (ML) workflows based on Docker containers.
 
 This integration lets users apply decorators to kfp python functional components to automatically log parameters and artifacts to W&B.
 
@@ -27,7 +27,7 @@ This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`
   ]}>
   <TabItem value="notebook">
 
-```python
+```bash
 !pip install kfp wandb
 
 import wandb
@@ -53,20 +53,23 @@ Add the `@wandb_log` decorator and create your components as usual. This will au
 from kfp import components
 from wandb.integration.kfp import wandb_log
 
+
 @wandb_log
 def add(a: float, b: float) -> float:
     return a + b
+
 
 add = components.create_component_from_func(add)
 ```
 
 ### Passing env vars to containers
 
-You may need to explicitly pass[WANDB env vars](../../track/environment-variables.md)to your containers. For two-way linking, you should also set the env var `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance (e.g. https://kubeflow.mysite.com)
+You may need to explicitly pass[WANDB env vars](../../track/environment-variables.md)to your containers. For two-way linking, you should also set the env var `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance (e.g. `https://kubeflow.mysite.com`)
 
 ```python
 import os
 from kubernetes.client.models import V1EnvVar
+
 
 def add_wandb_env_variables(op):
     env = {
@@ -77,12 +80,12 @@ def add_wandb_env_variables(op):
     for name, value in env.items():
         op = op.add_env_variable(V1EnvVar(name, value))
     return op
-    
+
+
 @dsl.pipeline(name="example-pipeline")
-def example_pipeline(...):
+def example_pipeline(param1: str, param2: int):
     conf = dsl.get_pipeline_conf()
     conf.add_op_transformer(add_wandb_env_variables)
-    ...
 ```
 
 ## Where is my data? Can I access it programmatically?
@@ -132,18 +135,16 @@ In this example below, we are training a model. The `@wandb_log` decorator will 
 def train_model(
     train_dataloader_path: components.InputPath("dataloader"),
     test_dataloader_path: components.InputPath("dataloader"),
-    model_path: components.OutputPath("pytorch_model")
+    model_path: components.OutputPath("pytorch_model"),
 ):
     ...
     for epoch in epochs:
         for batch_idx, (data, target) in enumerate(train_dataloader):
             ...
             if batch_idx % log_interval == 0:
-                wandb.log({
-                    "epoch": epoch,
-                    "step": batch_idx * len(data),
-                    "loss": loss.item()
-                })
+                wandb.log(
+                    {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
+                )
         ...
         wandb.log_artifact(model_artifact)
 ```
@@ -157,11 +158,11 @@ If you're using a [framework integration we support](/guides/integrations), you 
 def train_model(
     train_dataloader_path: components.InputPath("dataloader"),
     test_dataloader_path: components.InputPath("dataloader"),
-    model_path: components.OutputPath("pytorch_model")
+    model_path: components.OutputPath("pytorch_model"),
 ):
     from pytorch_lightning.loggers import WandbLogger
     from pytorch_lightning import Trainer
-    
+
     trainer = Trainer(logger=WandbLogger())
     ...  # do training
 ```

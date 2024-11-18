@@ -70,7 +70,7 @@ math_agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRI
 
 
 ### 4. Run the Agent and start Weights & Biases logging
-Use LangChain as normal by calling your Agent. You will see a Weights & Biases run start and be asked for your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**. Once your enter your API key, the inputs and outputs of your Agent calls will start to be streamed to the Weights & Biases App.
+Use LangChain as normal by calling your Agent. You will see a Weights & Biases run start and be asked for your Weights & Biases [API key](https:www.wandb.ai/authorize). Once your enter your API key, the inputs and outputs of your Agent calls will start to be streamed to the Weights & Biases App.
 
 ```python
 # some sample maths questions
@@ -435,7 +435,7 @@ storage_context = wandb_callback.load_storage_context(
 index = load_index_from_storage(storage_context, service_context=service_context)
 ```
 
-**Note:** For a [`ComposableGraph`](https://gpt-index.readthedocs.io/en/latest/reference/query/query_engines/graph_query_engine.html) the root id for the index can be found in the artifact's metadata tab in the W&B App.
+**Note:** For a [`ComposableGraph`](https://docs.llamaindex.ai/en/v0.9.48/examples/composable_indices/ComposableIndices-Prior.html) the root id for the index can be found in the artifact's metadata tab in the W&B App.
 
 ## Next Steps
 

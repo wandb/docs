@@ -32,14 +32,14 @@ pip install --upgrade ultralytics==8.0.238 wandb
   </TabItem>
   <TabItem value="notebook">
 
-```python
+```bash
 !pip install --upgrade ultralytics==8.0.238 wandb
 ```
 
   </TabItem>
 </Tabs>
 
-**Note:** The integration currently has been tested with `ultralyticsv8.0.238` and below. Please report any issues to https://github.com/wandb/wandb/issues with the tag `yolov8`.
+**Note:** The integration currently has been tested with `ultralyticsv8.0.238` and below. To report any issues with the intergation, create a [GitHub issue](https://github.com/wandb/wandb/issues/new?template=sdk-bug.yml) with the tag `yolov8`.
 
 ## Experiment Tracking and Visualizing Validation Results
 
@@ -108,7 +108,7 @@ from ultralytics.engine.model import YOLO
 
 Now, let us download a few images to test the integration on. You can use your own images, videos or camera sources. For more information on inference sources, you can check out the [official docs](https://docs.ultralytics.com/modes/predict/).
 
-```python
+```bash
 !wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img1.png
 !wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img2.png
 !wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img4.png
@@ -133,7 +133,14 @@ add_wandb_callback(model, enable_model_checkpointing=True)
 
 # Perform prediction which automatically logs to a W&B Table
 # with interactive overlays for bounding boxes, segmentation masks
-model(["./assets/img1.jpeg", "./assets/img3.png", "./assets/img4.jpeg", "./assets/img5.jpeg"])
+model(
+    [
+        "./assets/img1.jpeg",
+        "./assets/img3.png",
+        "./assets/img4.jpeg",
+        "./assets/img5.jpeg",
+    ]
+)
 
 # Finish the W&B run
 wandb.finish()
