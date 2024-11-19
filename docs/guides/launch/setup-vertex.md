@@ -31,7 +31,7 @@ If you want your Vertex AI workloads to assume the identity of a non-standard se
 
 The queue configuration for Vertex AI resources specify inputs to the `CustomJob` constructor in the Vertex AI Python SDK, and the `run` method of the `CustomJob`. Resource configurations are stored under the `spec` and `run` keys:
 
-- The `spec` key contains values for the named arguments of the [`CustomJob` constructor](https://cloud.google.com/ai-platform/training/docs/reference/rest/v1beta1/projects.locations.customJobs#CustomJob.FIELDS.spec) in the Vertex AI Python SDK.
+- The `spec` key contains values for the named arguments of the [`CustomJob` constructor](https://cloud.google.com/vertex-ai/docs/pipelines/customjob-component) in the Vertex AI Python SDK.
 - The `run` key contains values for the named arguments of the `run` method of the `CustomJob` class in the Vertex AI Python SDK.
 
 Customizations of the execution environment happens primarily in the `spec.worker_pool_specs` list. A worker pool spec defines a group of workers that will run your job. The worker spec in the default config asks for a single `n1-standard-4` machine with no accelerators. You can change the machine type, accelerator type and count to suit your needs.
