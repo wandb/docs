@@ -64,7 +64,7 @@ add = components.create_component_from_func(add)
 
 ### Passing env vars to containers
 
-You may need to explicitly pass[WANDB env vars](../../track/environment-variables.md)to your containers. For two-way linking, you should also set the env var `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance (e.g. `https://kubeflow.mysite.com`)
+You may need to explicitly pass [environment variables](../../track/environment-variables.md) to your containers. For two-way linking, you should also set the env var `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance (for example `https://kubeflow.mysite.com`)
 
 ```python
 import os

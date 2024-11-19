@@ -16,19 +16,17 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 
 ## 🤔 Why Should I Use Sweeps?
 
-* **Quick setup**: With just a few lines of code you can run W&B sweeps.
-* **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
-* **Powerful**: Our sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
+* **Quick setup**: With just a few lines of code, you can run W&B sweeps.
+* **Transparent**: All the algorithms used are cited, and the [code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
+* **Powerful**: Sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 
 **[Check out the official documentation](/guides/sweeps)**
 
 
 ## What this notebook covers
 
-
-
 * Simple steps to get started with W&B Sweep with custom training loop in TensorFlow.
-* We will find best hyperparameters for our image classification task.
+* Finding the best hyperparameters for an image classification task.
 
 **Note**: Sections starting with _Step_ are all you need to perform hyperparameter sweep in existing code.
 The rest of the code is there to set up a simple example.
@@ -294,7 +292,7 @@ Click on the **Sweep URL** link above to see your live results.
 
 ## 🎨 Example Gallery
 
-See examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery)
+See examples of projects tracked and visualized with W&B in the [Gallery →](https://app.wandb.ai/gallery)
 
 ## 📏 Best Practices
 1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`
@@ -306,4 +304,4 @@ See examples of projects tracked and visualized with W&B in our [Gallery →](ht
 ## 🤓 Advanced Setup
 1. [Environment variables](/guides/hosting/env-vars): Set API keys in environment variables so you can run training on a managed cluster.
 2. [Offline mode](../support/run_wandb_offline.md)
-3. [On-prem](/guides/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
+3. [On-prem](/guides/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. Everyone from academics to enterprise teams use local installations.

@@ -16,8 +16,8 @@ In addition to configuring instance level settings via the System Settings admin
 | BUCKET_QUEUE                     | The SQS / Google PubSub queue for object creation events                                                                                                                                 |
 | NOTIFICATIONS_QUEUE              | The SQS queue on which to publish run events                                                                                                                                             |
 | AWS_REGION                       | The AWS Region where your bucket lives                                                                                                                                                   |
-| HOST                             | The FQD of your instance, i.e. `https://my.domain.net`                                                                                                       |
-| OIDC_ISSUER                      | A url to your Open ID Connect identity provider, i.e. `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd` |
+| HOST                             | The FQD of your instance, that is `https://my.domain.net`                                                                                                       |
+| OIDC_ISSUER                      | A URL to your Open ID Connect identity provider, that is `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd` |
 | OIDC_CLIENT_ID                   | The Client ID of application in your identity provider                                                                                                                                   |
 | OIDC_AUTH_METHOD                 | Implicit (default) or pkce, see below for more context                                                                                                                                   |
 | SLACK_CLIENT_ID                  | The client ID of the Slack application you want to use for alerts                                                                                                                        |

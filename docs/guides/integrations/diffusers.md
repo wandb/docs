@@ -54,7 +54,7 @@ pip install --upgrade diffusers transformers accelerate wandb
 
 ### How the `autolog` works?
 
-The `autolog()` function can be called with the `init` parameter which accepts a dictionary of the parameters required by [`wandb.init()`](/ref/python/init).
+The `autolog()` function is called with the `init` parameter which accepts a dictionary of the parameters required by [`wandb.init()`](/ref/python/init).
 
 When `autolog()` is called, it initializes a Weights & Biases run, which automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
