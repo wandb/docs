@@ -45,7 +45,7 @@ pip install --upgrade diffusers transformers accelerate wandb
   </TabItem>
   <TabItem value="notebook">
 
-```python
+```bash
 !pip install --upgrade diffusers transformers accelerate wandb
 ```
 
@@ -56,7 +56,7 @@ pip install --upgrade diffusers transformers accelerate wandb
 
 The `autolog()` function can be called with the `init` parameter which accepts a dictionary of the parameters required by [`wandb.init()`](/ref/python/init).
 
-When `autolog()` is called, it initializes a Weights & Biases run, which automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autolog.py#L12-L72).
+When `autolog()` is called, it initializes a Weights & Biases run, which automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
 - Each pipeline call is tracked into its own [table](/guides/tables) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
 - The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`](/guides/tables).
@@ -64,7 +64,7 @@ When `autolog()` is called, it initializes a Weights & Biases run, which automat
 - The generated media for each pipeline call are also logged in [media panels](/guides/track/log/media) in the run.
 
 :::info
-You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autolog.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
+You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
 :::
 
 Here is a brief end-to-end example of the autolog in action:
@@ -93,10 +93,7 @@ pipeline = DiffusionPipeline.from_pretrained(
 ).to("cuda")
 
 # Define the prompts, negative prompts, and seed.
-prompt = [
-    "a photograph of an astronaut riding a horse",
-    "a photograph of a dragon"
-]
+prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
 negative_prompt = ["ugly, deformed", "ugly, deformed"]
 generator = torch.Generator(device="cpu").manual_seed(10)
 
@@ -117,6 +114,7 @@ import torch
 from diffusers import DiffusionPipeline
 
 import wandb
+
 # import the autolog function
 from wandb.integration.diffusers import autolog
 
@@ -129,10 +127,7 @@ pipeline = DiffusionPipeline.from_pretrained(
 ).to("cuda")
 
 # Define the prompts, negative prompts, and seed.
-prompt = [
-    "a photograph of an astronaut riding a horse",
-    "a photograph of a dragon"
-]
+prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
 negative_prompt = ["ugly, deformed", "ugly, deformed"]
 generator = torch.Generator(device="cpu").manual_seed(10)
 
@@ -234,7 +229,7 @@ image = refiner_pipeline(
     prompt=prompt,
     negative_prompt=negative_prompt,
     image=image[None, :],
-    generator=generator_refiner
+    generator=generator_refiner,
 ).images[0]
 ```
 
@@ -296,7 +291,7 @@ image = refiner_pipeline(
     prompt=prompt,
     negative_prompt=negative_prompt,
     image=image[None, :],
-    generator=generator_refiner
+    generator=generator_refiner,
 ).images[0]
 
 # Finish the experiment

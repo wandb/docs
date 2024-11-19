@@ -17,7 +17,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 ## 🤔 Why Should I Use Sweeps?
 
 * **Quick setup**: With just a few lines of code you can run W&B sweeps.
-* **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/client/tree/master/wandb/sweeps).
+* **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
 * **Powerful**: Our sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 
 **[Check out the official documentation](/guides/sweeps)**
@@ -42,7 +42,7 @@ The rest of the code is there to set up a simple example.
 ### Step 0️⃣: Install W&B
 
 
-```python
+```bash
 %%capture
 !pip install wandb
 ```
@@ -79,8 +79,8 @@ wandb.login()
 # Prepare the training dataset
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 
-x_train = x_train/255.
-x_test = x_test/255.
+x_train = x_train / 255.0
+x_test = x_test / 255.0
 x_train = np.reshape(x_train, (-1, 784))
 x_test = np.reshape(x_test, (-1, 784))
 ```
@@ -99,7 +99,7 @@ def Model():
 
     return keras.Model(inputs=inputs, outputs=outputs)
 
-    
+
 def train_step(x, y, model, optimizer, loss_fn, train_acc_metric):
     with tf.GradientTape() as tape:
         logits = model(x, training=True)
@@ -112,7 +112,7 @@ def train_step(x, y, model, optimizer, loss_fn, train_acc_metric):
 
     return loss_value
 
-    
+
 def test_step(x, y, model, loss_fn, val_acc_metric):
     val_logits = model(x, training=False)
     loss_value = loss_fn(y, val_logits)
@@ -127,37 +127,46 @@ def test_step(x, y, model, loss_fn, val_acc_metric):
 
 
 ```python
-def train(train_dataset,
-          val_dataset, 
-          model,
-          optimizer,
-          loss_fn,
-          train_acc_metric,
-          val_acc_metric,
-          epochs=10, 
-          log_step=200, 
-          val_log_step=50):
-  
+def train(
+    train_dataset,
+    val_dataset,
+    model,
+    optimizer,
+    loss_fn,
+    train_acc_metric,
+    val_acc_metric,
+    epochs=10,
+    log_step=200,
+    val_log_step=50,
+):
+
     for epoch in range(epochs):
         print("\nStart of epoch %d" % (epoch,))
 
-        train_loss = []   
+        train_loss = []
         val_loss = []
 
         # Iterate over the batches of the dataset
-        for step, (x_batch_train, y_batch_train) in tqdm.tqdm(enumerate(train_dataset), total=len(train_dataset)):
-            loss_value = train_step(x_batch_train, y_batch_train, 
-                                    model, optimizer, 
-                                    loss_fn, train_acc_metric)
+        for step, (x_batch_train, y_batch_train) in tqdm.tqdm(
+            enumerate(train_dataset), total=len(train_dataset)
+        ):
+            loss_value = train_step(
+                x_batch_train,
+                y_batch_train,
+                model,
+                optimizer,
+                loss_fn,
+                train_acc_metric,
+            )
             train_loss.append(float(loss_value))
 
         # Run a validation loop at the end of each epoch
         for step, (x_batch_val, y_batch_val) in enumerate(val_dataset):
-            val_loss_value = test_step(x_batch_val, y_batch_val, 
-                                       model, loss_fn, 
-                                       val_acc_metric)
+            val_loss_value = test_step(
+                x_batch_val, y_batch_val, model, loss_fn, val_acc_metric
+            )
             val_loss.append(float(val_loss_value))
-            
+
         # Display metrics at the end of each epoch
         train_acc = train_acc_metric.result()
         print("Training acc over epoch: %.4f" % (float(train_acc),))
@@ -170,11 +179,15 @@ def train(train_dataset,
         val_acc_metric.reset_states()
 
         # 3️⃣ log metrics using wandb.log
-        wandb.log({'epochs': epoch,
-                   'loss': np.mean(train_loss),
-                   'acc': float(train_acc), 
-                   'val_loss': np.mean(val_loss),
-                   'val_acc':float(val_acc)})
+        wandb.log(
+            {
+                "epochs": epoch,
+                "loss": np.mean(train_loss),
+                "acc": float(train_acc),
+                "val_loss": np.mean(val_loss),
+                "val_acc": float(val_acc),
+            }
+        )
 ```
 
 ### Step 4️⃣: Configure the Sweep
@@ -190,23 +203,13 @@ This is where you will:
 
 ```python
 sweep_config = {
-  'method': 'random', 
-  'metric': {
-      'name': 'val_loss',
-      'goal': 'minimize'
-  },
-  'early_terminate':{
-      'type': 'hyperband',
-      'min_iter': 5
-  },
-  'parameters': {
-      'batch_size': {
-          'values': [32, 64, 128, 256]
-      },
-      'learning_rate':{
-          'values': [0.01, 0.005, 0.001, 0.0005, 0.0001]
-      }
-  }
+    "method": "random",
+    "metric": {"name": "val_loss", "goal": "minimize"},
+    "early_terminate": {"type": "hyperband", "min_iter": 5},
+    "parameters": {
+        "batch_size": {"values": [32, 64, 128, 256]},
+        "learning_rate": {"values": [0.01, 0.005, 0.001, 0.0005, 0.0001]},
+    },
 }
 ```
 
@@ -220,10 +223,7 @@ before `train` gets called.
 ```python
 def sweep_train(config_defaults=None):
     # Set default values
-    config_defaults = {
-        "batch_size": 64,
-        "learning_rate": 0.01
-    }
+    config_defaults = {"batch_size": 64, "learning_rate": 0.01}
     # Initialize wandb with a sample project name
     wandb.init(config=config_defaults)  # this gets over-written in the Sweep
 
@@ -236,13 +236,16 @@ def sweep_train(config_defaults=None):
 
     # build input pipeline using tf.data
     train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
-    train_dataset = (train_dataset.shuffle(buffer_size=1024)
-                                  .batch(wandb.config.batch_size)
-                                  .prefetch(buffer_size=tf.data.AUTOTUNE))
+    train_dataset = (
+        train_dataset.shuffle(buffer_size=1024)
+        .batch(wandb.config.batch_size)
+        .prefetch(buffer_size=tf.data.AUTOTUNE)
+    )
 
     val_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
-    val_dataset = (val_dataset.batch(wandb.config.batch_size)
-                              .prefetch(buffer_size=tf.data.AUTOTUNE))
+    val_dataset = val_dataset.batch(wandb.config.batch_size).prefetch(
+        buffer_size=tf.data.AUTOTUNE
+    )
 
     # initialize model
     model = Model()
@@ -256,16 +259,18 @@ def sweep_train(config_defaults=None):
     train_acc_metric = keras.metrics.SparseCategoricalAccuracy()
     val_acc_metric = keras.metrics.SparseCategoricalAccuracy()
 
-    train(train_dataset,
-          val_dataset, 
-          model,
-          optimizer,
-          loss_fn,
-          train_acc_metric,
-          val_acc_metric,
-          epochs=wandb.config.epochs, 
-          log_step=wandb.config.log_step, 
-          val_log_step=wandb.config.val_log_step)
+    train(
+        train_dataset,
+        val_dataset,
+        model,
+        optimizer,
+        loss_fn,
+        train_acc_metric,
+        val_acc_metric,
+        epochs=wandb.config.epochs,
+        log_step=wandb.config.log_step,
+        val_log_step=wandb.config.val_log_step,
+    )
 ```
 
 ### Step 6️⃣: Initialize Sweep and Run Agent 

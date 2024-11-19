@@ -2,3 +2,10 @@ https://deploy.wandb.ai/deploy
 https://kubeflow.mysite.com
 https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd
 https://my.domain.net
+https://docs.wandb.ai/ref/weave/artifact
+https://docs.wandb.ai/ref/weave/artifact-type
+https://docs.wandb.ai/ref/weave/artifact-version
+https://docs.wandb.ai/ref/weave/user
+https://docs.wandb.ai/ref/weave/run
+https://docs.wandb.ai/ref/weave/number
+https://docs.wandb.ai/ref/weave/entity
