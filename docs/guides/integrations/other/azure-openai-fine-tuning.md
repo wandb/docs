@@ -21,7 +21,7 @@ Fine-tuning GPT-3.5 or GPT-4 models on Microsoft Azure using W&B allows you to t
 - Configure your fine-tuning job in Azure OpenAI
 - W&B automatically tracks the fine-tuning process, logging metrics and hyperparameters
 
-### 2. Experiment Tracking
+### 2. Experiment tracking
 During fine-tuning, W&B captures:
 - Training and validation metrics
 - Model hyperparameters
