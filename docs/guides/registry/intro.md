@@ -83,8 +83,12 @@ run.link_artifact(
 ```
 
 
-Once you have an artifact version in the registry, you can use the Registry App to view, download, and manage the artifact version, create downstream automations such as model CI/CD workflows, and more.
+Once you have an artifact version in the registry, you can use the Registry App at https://wandb.ai/home to view, download, and manage your artifact versions, create downstream automations, and more. 
 
+
+:::info Registry URL for Dedicated Cloud and Self-Managed instances
+INSERT
+:::
 
 ## Enable W&B Registry
 
