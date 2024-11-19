@@ -44,6 +44,6 @@ Check out our [medical note generation demo](https://wandb.me/aoai-ft-colab) to 
 ### Interactive demo
 * [Fine-tuning Notebook](https://wandb.me/aoai-med-ft)
 
-## Additional Resources
+## Additional resources
 - [Azure OpenAI W&B Integration Guide](https://wandb.me/aoai-wb-int)
 - [Azure OpenAI Fine-tuning Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
