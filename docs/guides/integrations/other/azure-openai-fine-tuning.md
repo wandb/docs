@@ -36,7 +36,7 @@ After fine-tuning, use [W&B Weave](weave-docs.wandb.ai) to:
 - Make data-driven decisions for model selection
 
 ## Real-World example
-Check out our [medical note generation demo](https://wandb.me/aoai-ft-colab) to see how this integration enables:
+Check out the [medical note generation demo](https://wandb.me/aoai-ft-colab) to see how this integration enables:
 - Systematic tracking of fine-tuning experiments
 - Model evaluation using domain-specific metrics
 - Version comparison for selecting the best model
