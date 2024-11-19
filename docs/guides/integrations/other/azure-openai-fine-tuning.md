@@ -42,7 +42,7 @@ Check out the [medical note generation demo](https://wandb.me/aoai-ft-colab) to 
 - Version comparison for selecting the best model
 
 ### Interactive demo
-* [Fine-tuning Notebook](https://wandb.me/aoai-med-ft)
+* [Fine-tuning Notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/azure/azure_gpt_medical_notes.ipynb)
 
 ## Additional resources
 - [Azure OpenAI W&B Integration Guide](https://wandb.me/aoai-wb-int)
