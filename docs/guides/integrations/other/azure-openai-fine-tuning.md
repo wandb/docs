@@ -29,7 +29,7 @@ During fine-tuning, W&B captures:
 - Training artifacts
 
 ### 3. Model evaluation
-After fine-tuning, use [W&B Weave](weave-docs.wandb.ai) to:
+After fine-tuning, use [W&B Weave](https://weave-docs.wandb.ai) to:
 - Evaluate model outputs against reference datasets
 - Compare performance across different fine-tuning runs
 - Analyze model behavior on specific test cases
