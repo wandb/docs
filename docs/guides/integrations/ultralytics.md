@@ -39,7 +39,7 @@ pip install --upgrade ultralytics==8.0.238 wandb
   </TabItem>
 </Tabs>
 
-**Note:** the integration is tested `ultralyticsv8.0.238` and below. To report any issues with the integration, create a [GitHub issue](https://github.com/wandb/wandb/issues/new?template=sdk-bug.yml) with the tag `yolov8`.
+**Note:** the development team has tested the intergation with `ultralyticsv8.0.238` and below. To report any issues with the integration, create a [GitHub issue](https://github.com/wandb/wandb/issues/new?template=sdk-bug.yml) with the tag `yolov8`.
 
 ## Experiment Tracking and Visualizing Validation Results
 

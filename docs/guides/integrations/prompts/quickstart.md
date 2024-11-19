@@ -32,7 +32,7 @@ With a 1-line environment variable from LangChain, W&B Trace continuously logs c
 
 Note that you can also see the documentation for W&B Trace in the [LangChain documentation](https://python.langchain.com/docs/integrations/providers/wandb_tracing).
 
-For this quickstart, a LangChain Math Agent is used:
+This quickstart uses a LangChain Math Agent:
 
 ### 1. Set the LANGCHAIN_WANDB_TRACING environment variable
 
@@ -45,7 +45,7 @@ import os
 os.environ["LANGCHAIN_WANDB_TRACING"] = "true"
 ```
 
-Thats it! Now any call to a LangChain LLM, Chain, Tool or Agent is logged to Weights & Biases.
+Now, W&B logs any call to a LangChain LLM, Chain, Tool, or Agent.
 
 ### 2. Configure your Weights & Biases settings
 You can optionally set additional Weights & Biases [Environment Variables](/guides/track/environment-variables) to set parameters that are typically passed to `wandb.init()`. Parameters often used include `WANDB_PROJECT` or `WANDB_ENTITY` for more control over where your logs are sent in W&B. For more information about [`wandb.init`](../../../ref/python/init.md), see the API Reference Guide.
@@ -70,7 +70,7 @@ math_agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRI
 
 
 ### 4. Run the Agent and start Weights & Biases logging
-Use LangChain as normal by calling your Agent. A Weights & Biases run starts and the system prompts you for your Weights & Biases [API key](https:www.wandb.ai/authorize). Once your enter your API key, the inputs and outputs of your Agent calls are streamed to the Weights & Biases App.
+Use LangChain as normal by calling your Agent. A Weights & Biases run starts and the system prompts you for your Weights & Biases [API key](https:www.wandb.ai/authorize). Once your enter your API key, the Agent streams call inputs and outputs to the Weights & Biases App.
 
 ```python
 # some sample maths questions
@@ -91,7 +91,7 @@ for question in questions:
         pass
 ```
 
-Once each Agent execution completes, all calls in your LangChain object are logged to Weights & Biases
+Once each Agent execution completes, Weights & Biases logs all calls in your LangChain object.
 
 
 ### 5. View the trace in Weights & Biases
@@ -131,7 +131,7 @@ Please report any issues with this LangChain integration to the [wandb repo](htt
 
 A W&B Trace is created by logging 1 or more "spans". A root span is expected, which can accept nested child spans, which can in turn accept their own child spans. Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`.
 
-When logging with Trace, a single W&B run can have multiple calls to a LLM, Tool, Chain or Agent logged to it, there is no need to start a new W&B run after each generation from your model or pipeline, instead each call is appended to the Trace Table.
+When you log with Trace, a single W&B run can include multiple calls to an LLM, Tool, Chain, or Agent. You don't need to start a new W&B run after each generation from your model or pipeline. Instead, the system appends each call to the Trace table.
 
 In this quickstart, you'll learn how to log a single call to an OpenAI model to W&B Trace as a single span. You'll also learn how to log a more complex series of nested spans.
 
@@ -139,7 +139,7 @@ In this quickstart, you'll learn how to log a single call to an OpenAI model to 
 
 Call `wandb.init` to start a W&B run. Here you can pass a W&B project name as well as an entity name (if logging to a W&B Team), as well as a config and more. See [`wandb.init`](../../../ref/python/init.md) for the full list of arguments.
 
-When you start a W&B run, you'll be prompted to log in with your Weights & Biases API key. You can find your API key on the **[Authorize page](https:wwww.wandb.ai/authorize)**.
+When you start a run, W&B prompts you to log in with your API key. You can find your API key on the **[Authorize page](https:wwww.wandb.ai/authorize)**.
 
 
 ```python
@@ -152,7 +152,7 @@ wandb.init(project="trace-example")
 You can also set the `entity` argument in `wandb.init` if logging to a W&B Team.
 
 ### 2. Log to a Trace
-Next, you'll query OpenAI and log the results to a W&B Trace. You'll log the inputs and outputs, start and end times, whether the OpenAI call was successful, token usage, and additional metadata.
+Next, you'll query OpenAI and log the results to a W&B Trace. You'll log the inputs and outputs, start, and end times, whether the OpenAI call was successful, token usage, and additional metadata.
 
 You can see the full description of the arguments to the Trace class [here](https://github.com/wandb/wandb/blob/653015a014281f45770aaf43627f64d9c4f04a32/wandb/sdk/data_types/trace_tree.py#L166).
 
@@ -232,7 +232,7 @@ Click on the W&B [run](../../runs/intro.md) link generated in step 2. Here you s
 ### 4. Logging a LLM pipeline using nested spans
 In this example, you'll simulate an agent making a series of calls: first to an LLM chain, then to an OpenAI LLM, and finally to a calculator tool.
 
-The inputs, outputs, and metadata for each step in the execution of the "agent" are logged in their own span. Spans can also have child spans.
+The system logs the inputs, outputs, and metadata for each step in the agents execution in its own span. Spans can also have child spans.
 
 ```python
 import time
@@ -350,7 +350,7 @@ Moreover, this callback can also be used to upload and download indices to/from 
 
 First, import the `WandbCallbackHandler` and set it up. You can also pass additional parameters [`wandb.init`](../../../ref/python/init.md) parameters such as your W&B Project or Entity.
 
-You'll see a W&B run start and be asked for your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**. Use the generated W&B run link to view your logged LlamaIndex queries and data after you start logging.
+You'll see a W&B run start and a prompt for your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**. Use the generated W&B run link to view your logged LlamaIndex queries and data after you start logging.
 
 ```python
 from llama_index import ServiceContext
@@ -434,7 +434,7 @@ storage_context = wandb_callback.load_storage_context(
 index = load_index_from_storagex(storage_context, service_context=service_context)
 ```
 
-**Note:** for a [`ComposableGraph`](https://docs.llamaindex.ai/en/v0.9.48/examples/composable_indices/ComposableIndices-Prior.html) the root id for the index is located in the artifact's metadata tab in the W&B App.
+**Note:** for a [`ComposableGraph`](https://docs.llamaindex.ai/en/v0.9.48/examples/composable_indices/ComposableIndices-Prior.html), you can find the root ID for the index in the artifact's metadata tab in the W&B App.
 
 ## Next Steps
 

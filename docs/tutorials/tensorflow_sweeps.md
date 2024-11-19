@@ -17,7 +17,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 ## 🤔 Why Should I Use Sweeps?
 
 * **Quick setup**: With just a few lines of code, you can run W&B sweeps.
-* **Transparent**: All the algorithms used are cited, and the [code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
+* **Transparent**: The project cites all algorithms used, and the [code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
 * **Powerful**: Sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 
 **[Check out the official documentation](/guides/sweeps)**
