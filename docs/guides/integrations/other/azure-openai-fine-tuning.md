@@ -41,7 +41,7 @@ Check out our [medical note generation demo](https://wandb.me/aoai-ft-colab) to 
 - Model evaluation using domain-specific metrics
 - Version comparison for selecting the best model
 
-### Interactive Demo
+### Interactive demo
 * [Fine-tuning Notebook](https://wandb.me/aoai-med-ft)
 
 ## Additional Resources
