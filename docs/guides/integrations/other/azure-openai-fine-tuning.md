@@ -16,7 +16,7 @@ Fine-tuning GPT-3.5 or GPT-4 models on Microsoft Azure using W&B allows you to t
 
 ## Workflow overview
 
-### 1. Fine-tuning Setup
+### 1. Fine-tuning setup
 - Prepare your training data according to Azure OpenAI requirements
 - Configure your fine-tuning job in Azure OpenAI
 - W&B automatically tracks the fine-tuning process, logging metrics and hyperparameters
