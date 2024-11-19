@@ -14,7 +14,7 @@ Fine-tuning GPT-3.5 or GPT-4 models on Microsoft Azure using W&B allows you to t
 - Azure OpenAI service set up as per [official Azure documentation](https://wandb.me/aoai-wb-int)
 - W&B account with API key configured
 
-## Workflow Overview
+## Workflow overview
 
 ### 1. Fine-tuning Setup
 - Prepare your training data according to Azure OpenAI requirements
