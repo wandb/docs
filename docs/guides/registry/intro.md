@@ -5,10 +5,11 @@ title: Registry
 ---
 
 :::info
-W&B Registry is now in public preview. Visit [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
+W&B Registry is in public preview. Visit [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
 :::
 
-W&B Registry is a curated central repository that stores and provides versioning, aliases, lineage tracking, and governance of models and datasets. Registry allows individuals and teams across the entire organization to share and collaboratively manage the lifecycle of all models, datasets and other artifacts. As the single source of truth for which models are in production, Registry provides the foundation for an effective CI/CD pipeline by identifying the right models to reproduce, retrain, evaluate, and deploy.
+W&B Registry is a curated central repository of artifact versions within your organization. Teams across your organization can share and collaboratively manage the lifecycle of all artifacts such as models and datasets.
+
 
 ![](/images/registry/registry_landing_page.png)
 
@@ -22,13 +23,19 @@ Use W&B Registry to:
 - Use [tags](./organize-with-tags.md) to label, group, and discover assets in your Registry. 
 
 ## How it works
+Each organization initially contains two registries that you can use to organize your model artifacts and dataset artifacts called "Models" and "Datasets", respectively. You can create [additional registries to organize artifacts based on your organization's needs](./registry_types.md). 
 
-Track and publish your staged artifacts to W&B Registry in a few steps:
 
-1. Log an artifact version: In your training or experiment script, add a few lines of code to save the artifact to a W&B run.
-2. Link to registry: Bookmark the most relevant and valuable artifact version by linking it to a registry.
+Each [registry](./configure_registry.md) consists of one or more [collections](./create_collection.md). Each collection represents a distinct tasks or use cases.
 
-The following code snippet demonstrates how to log and link a model to the model registry inside W&B Registry:
+
+As an example, the proceeding code snippet demonstrates how to log and link a fake artifact model called "my_model.txt" to a collection named "new-collection" in the [default (or core) "Models" registry](./registry_types.md). To do this, you need to:
+
+1. Log an artifact version to W&B with `wandb.run.init()`.
+2. Specify the name of the collection you want to link your artifact version to.
+2. Link the artifact version to the registry.
+
+Copy and paste the proceeding code snippet into a Python script and run it to log and link an artifact version to the **Models** registry:
 
 ```python
 import wandb
@@ -37,20 +44,31 @@ import random
 # Start a new W&B run to track your experiment
 run = wandb.init(project="registry_quickstart") 
 
-# Simulate logging model metrics
-run.log({"acc": random.random()})
-
 # Create a simulated model file
 with open("my_model.txt", "w") as f:
    f.write("Model: " + str(random.random()))
 
-# log and link the model to the model registry inside W&B Registry
-logged_artifact = run.log_artifact(artifact_or_path="./my_model.txt", name="gemma-finetuned-3twsov9e", type="model")
-run.link_artifact(artifact=logged_artifact, target_path=f"<INSERT-ORG-NAME>/wandb-registry-model/registry-quickstart-collection"),
+# Log the model to W&B
+logged_artifact = run.log_artifact(
+    artifact_or_path="./my_model.txt", 
+    name="gemma-finetuned", 
+    type="model" # Specifies artifact type
+    )
+
+# Specify the name of the collection and registry
+# you want to publish the artifact to
+COLLECTION_NAME = "new-collection"
+REGISTRY_NAME = "model"
+
+# Link the artifact to the registry
+run.link_artifact(
+    artifact=logged_artifact, 
+    target_path=f"{REGISTRY_NAME}/{COLLECTION_NAME}"
+    )
 
 run.finish()
 ```
-See learn more about linking to a registry, visit [this](/guides/registry/link_version) guide. 
+
 
 ## Enable W&B Registry
 
