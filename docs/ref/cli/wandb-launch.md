@@ -6,7 +6,7 @@
 
 **Summary**
 
-Launch or queue a W&B Job. See https://wandb.me/launch
+Launch or queue a W&B Job. For more information, visit [https://wandb.me/launch](https://wandb.me/launch).
 
 **Options**
 

@@ -82,29 +82,6 @@ For example, with AWS Cognito, you can generate your issuer URL by appending you
 Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
 :::
 
-
-<!-- 7. Lastly, provide the OIDC Issuer, Client ID, and Auth method to _wandb/local_ on `https://deploy.wandb.ai/system-admin` or set them as environment variables.
-
-The following image demonstrates how to: enable SSO, provide the OIDC Issuer, Client ID, and the authentication method in the W&B App UI (`https://deploy.wandb.ai/system-admin`): -->
-
-<!-- Once you have everything configured you can provide the Issuer, Client ID, and Auth method to `wandb/local` via `/system-admin` or the environment variables and SSO will be configured.
-
-1. Sign in to your Weights and Biases server 
-2. Navigate to the W&B App. 
-
-![](/images/hosting/system_settings.png)
-
-3. From the dropdown, select **System Settings**:
-
-![](/images/hosting/system_settings_select_settings.png)
-
-4. Enter your Issuer, Client ID, and Authentication Method. 
-5. Select **Update settings**.
-
-![](/images/hosting/system_settings_select_update.png)
-
-![](/images/hosting/enable_sso.png) -->
-
   </TabItem>
   <TabItem value="okta">
 
