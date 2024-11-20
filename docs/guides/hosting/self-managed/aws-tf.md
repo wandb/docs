@@ -85,7 +85,7 @@ The steps on this topic are common for any deployment option covered by this doc
 
    Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
 
-   Optionally, but highly recommended, add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
+   Optionally, but highly recommended, add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/backend) mentioned at the beginning of this documentation.
 
 4. Create the file `variables.tf`
 
