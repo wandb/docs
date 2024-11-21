@@ -3,100 +3,108 @@ displayed_sidebar: default
 title: Download and use an artifact from a registry
 ---
 
-Use the W&B Python SDK to use and download an artifact that you linked to the W&B Registry. 
+Use the W&B Python SDK to download an artifact linked to a registry. In order to download and use an artifact, you need to know the registry name, collection name, and the alias or index of the artifact version you want to access.
 
-:::note
-To find the usage code snippets for a specific artifact pre-populated with the path information, please refer to the section [Copy and paste the usage path from the Registry UI](#copy-and-paste-the-usage-path-from-the-registry-ui).
-:::
 
-Replace values within `<>` with your own:
+
+
+<!-- Find the path of the artifact prgrammatically or with the SDK -->
+<!-- smle-registries-bug-bash/wandb-registry-model/Zoo_Classifier_Models:v4 -->
+
+
+## Download an artifact linked to the W&B Registry programmatically
+
+To download an artifact linked to a registry, you must know the registry name, collection name, and the alias or index of the artifact version you want to access. 
+
+You use these properties to construct the path to the linked artifact:
+
+```python
+# Artifact name with version index specified
+f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INDEX}"
+
+# Artifact name with alias specified
+f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
+```
+
+You can find the full path of the artifact version in the W&B App UI:
+
+1. Navigate to the Registry App.
+2. Select the name of the registry that contains your artifact.
+3. Select the name of the collection.
+4. From the list of artifact versions, select the version you want to access.
+5. Select the **Version** tab.
+6. Copy and paste the name of the artifact shown in the **Full Name** field.
+
+<!-- smle-registries-bug-bash/wandb-registry-model/Zoo_Classifier_Models:v4 -->
+
+
+The proceeding code snippet shows how to use and download an artifact linked to the W&B Registry. Ensure to replace values within `<>` with your own:
 
 ```python
 import wandb
 
-ORG_ENTITY_NAME = '<org-entity-name>'
 REGISTRY_NAME = '<registry-name>'
 COLLECTION_NAME = '<collection-name>'
 ALIAS = '<artifact-alias>'
-INDEX = '<artifact-index>'
 
-run = wandb.init()  # Optionally use the entity, project arguments to specify where the run should be created
+run = wandb.init(
+   entity = '<team-name>',
+   project = '<project-name>'
+   )  
 
-registered_artifact_name = f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
-registered_artifact = run.use_artifact(artifact_or_name=name)  # marks this artifact as an input to your run
-artifact_dir = registered_artifact.download()  
+artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
+# artifact_name = '<artifact_name>' # Copy and paste from the W&B App UI
+registered_artifact = run.use_artifact(artifact_or_name = name)  
+download_path = registered_artifact.download()  
 ```
 
-Reference an artifact version with one of following formats listed:
+:::tip
+Use the `latest` alias to specify the version that is most recently linked.
+:::
 
-```python
-# Artifact name with version index specified
-f"{ORG_ENTITY}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INDEX}"
-
-# Artifact name with alias specified
-f"{ORG_ENTITY}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
-```
-Where:
-* `latest` - Use `latest` alias to specify the version that is most recently linked.
-* `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the collection.
-* `alias` - Specify the custom alias attached to the artifact version
-
-See [`use_artifact`](../../ref/python/run.md#use_artifact) and [`download`](/ref/python/artifact#download) in the API Reference guide for more information on possible parameters and return type.
 
 <details>
 <summary>Example: Use and download an artifact linked to the W&B Registry</summary>
 
-For example, in the proceeding code snippet a user called the `use_artifact` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that returned from the API to the `downloaded_path` variable.
+The proceeding code example shows a user downloading an artifact linked to a collection called "phi3-finetuned" in the "Fine-tuned Models" registry. The alias of the artifact version is set to "production".
 
 ```python
 import wandb
-TEAM_NAME = "product-team-applications"
+
+TEAM_ENTITY = "product-team-applications"
 PROJECT_NAME = "user-stories"
 
-ORG_ENTITY_NAME = "wandb"
 REGISTRY_NAME = "Fine-tuned Models"
 COLLECTION_NAME = "phi3-finetuned"
 ALIAS = 'production'
 
 # Initialize a run inside the specified team and project
-run = wandb.init(entity=TEAM_NAME, propject=PROJECT_NAME)
+run = wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME)
 
-registered_artifact_name = f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
+artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
 
 # Access an artifact and mark it as input to your run for lineage tracking
-registered_artifact = run.use_artifact(artifact_or_name=name)  # 
+registered_artifact = run.use_artifact(artifact_or_name = name)  
+
 # Download artifact. Returns path to downloaded contents
 downloaded_path = registered_artifact.download()  
 ```
 </details>
 
-## Copy and paste the usage path from the Registry UI
+See [`use_artifact`](../../ref/python/run.md#use_artifact) and [`Artifact.download()`](/ref/python/artifact#download) in the API Reference guide for more information on possible parameters and return type.
 
-You can also find the exact code snippet to use and download a specific artifact version inside the Usage tab in the Registry UI to avoid constructing the path yourself. The required fields will be populated based on the which artifact version's details you are viewing:
+## Download an artifact linked to the W&B Registry interactively
 
-1. **Navigate to the W&B Registry:**
-   - Go to the "Registry" tab in the sidebar to access the list of registries.
+Copy and paste the usage path from the Registry UI
 
-2. **Select the Desired Registry:**
-   - From the list of registries, click on the registry that contains the artifact you want to use. 
+You can also find the exact code snippet to use and download a specific artifact version inside the **Usage** tab in the Registry UI to avoid constructing the path yourself. The required fields are populated based on the artifact version.
 
-3. **Find the Artifact Collection:**
-   - In the registry details page, locate the collection that includes your desired artifact. Click on the collection name to view its versions.
+1. Navigate to the Registry App.
+2. Select the name of the registry that contains your artifact.
+3. Select the name of the collection.
+4. From the list of artifact versions, select the version you want to access.
+5. Select the **Usage** tab.
+6. Copy the code snippet shown in the **Usage API** section.
+7. Paste the code snippet into your Python script, notebook, or terminal.
 
-4. **Access the Usage Tab:**
-   - Click on the version of the artifact you need. This will open the artifact version details page.
-   - On the artifact version details page, switch to the "Usage" tab.
-
-5. **Copy the Code Snippet:**
-   - In the "Usage" tab, you will see code snippets for using and downloading the artifact. These snippets are pre-filled with the correct path to the artifact.
-   - Copy the relevant code snippet for your use case. The code snippet will look something like this:
-
-   ```python
-   import wandb
-
-   run = wandb.init()
-
-   artifact = run.use_artifact('registries-bug-bash/wandb-registry-model/registry-quickstart-collection:v3', type='model')
-   artifact_dir = artifact.download()
-   ```
-   ![](/images/registry/find_usage_in_registry_ui.gif)
+![](/images/registry/find_usage_in_registry_ui.gif)
