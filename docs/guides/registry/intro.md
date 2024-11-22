@@ -33,24 +33,31 @@ Each organization initially contains two registries that you can use to organize
 
 Each [registry](./configure_registry.md) consists of one or more [collections](./create_collection.md). Each collection represents a distinct task or use case.
 
-To add an artifact to a registry, you first log a specific artifact version to W&B. Once you log the artifact version, you can link that artifact version to a collection in the registry.
+To add an artifact to a registry, you first log a [specific artifact version to W&B](../artifacts/create-a-new-artifact-version.md). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
 
-As an example, the proceeding code snippet demonstrates how to log and link a fake model artifact called "my_model.txt" to a collection named "first-collection" in the [default Model registry](./registry_types.md). To do this, you need to:
+Once you log an artifact to W&B, you can then link that specific artifact version to a collection in the registry. 
 
-1. Log an artifact version to W&B with [`wandb.Run.init()`](../../ref/python/run.md).
-2. Specify the name of the collection and registry you want to link your artifact version to.
-2. Link the artifact version to the collection.
+:::info
+The term "link" refers to pointers that connect where W&B stores the artifact and where the artifact is accessible in the registry. W&B does not duplicate artifacts when you link an artifact to a collection.
+:::
 
-Copy and paste the proceeding code snippet into a Python script and run it to log and link an artifact version to the "Model" registry:
+As an example, the proceeding code example shows how to log and link a fake model artifact called "my_model.txt" to a collection named "first-collection" in the [core Model registry](./registry_types.md). More specifically, the code accomplishes the following:
+
+1. Initialize a W&B run.
+2. Log the artifact to W&B.
+3. Specify the name of the collection and registry you want to link your artifact version to.
+4. Link the artifact to the collection.
+
+Copy and paste the proceeding code snippet into a Python script and run it. Ensure that you have W&B Python SDK version 0.18.6 or greater.
 
 ```python title="hello_collection.py"
 import wandb
 import random
 
-# Start a W&B run to track your experiment
+# Initialize a W&B run to track the artifact
 run = wandb.init(project="registry_quickstart") 
 
-# Create a simulated model file
+# Create a simulated model file so that you can log it
 with open("my_model.txt", "w") as f:
    f.write("Model: " + str(random.random()))
 
@@ -69,14 +76,14 @@ REGISTRY_NAME = "model"
 # Link the artifact to the registry
 run.link_artifact(
     artifact=logged_artifact, 
-    target_path=f"{REGISTRY_NAME}/{COLLECTION_NAME}"
+    target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
     )
 ```
 
-W&B creates a collection for you if the collection you specify for `target_path` in `wandb.Run.link_artifact()` does not exist within the registry you specify.
+W&B automatically creates a collection for you if the collection you specify in the returned run object's `link_artifact(target_path = "")` method does not exist within the registry you specify.
 
 :::info
-The URL that your terminal prints directs you to the project where your artifact exists. 
+The URL that your terminal prints directs you to the project where W&B stores your artifact. 
 :::
 
 Navigate to the Registry App to view artifact versions that you and other members of your organization publish. To do so, first navigate to W&B. Select **Registry** in the left sidebar below **Applications**. Select the "Model" registry. Within the registry, you should see the "first-collection" collection with your linked artifact version.
