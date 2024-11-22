@@ -77,8 +77,8 @@ offset = random.random() / 5
 
 # simulating a training run
 for epoch in range(epochs):
-    acc = 1 - 2**-epoch - random.random() / (epoch+1) - offset
-    loss = 2**-epoch + random.random() /  (epoch+1) + offset
+    acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
+    loss = 2**-epoch + random.random() / (epoch + 1) + offset
     print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
     run.log({"accuracy": acc, "loss": loss})
 ```
@@ -157,8 +157,9 @@ Specify `run.finish()` at the end of your run to mark the run finished. This hel
 
 ```python title="notebook.ipynb"
 import wandb
+
 run = wandb.init(entity="<entity>", project="<project>")
-# Training code, logging, and so forth  
+# Training code, logging, and so forth
 run.finish()
 ```
 :::
@@ -202,11 +203,7 @@ You can specify your own run ID by passing the `id` parameter to the [`wandb.ini
 ```python 
 import wandb
 
-run = wandb.init(
-    entity="<project>", 
-    project="<project>",
-    id="<run-id>"
-)
+run = wandb.init(entity="<project>", project="<project>", id="<run-id>")
 ```
 
 You can use a run's unique ID to directly navigate to the run's overview page in the W&B App UI. The proceeding cell shows the URL path for a specific run:
@@ -232,11 +229,7 @@ You can specify a name for your run by passing the `name` parameter to the [`wan
 ```python 
 import wandb
 
-run = wandb.init(
-    entity="<project>", 
-    project="<project>", 
-    name="<run-name>"
-)
+run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
 ```
 
 ## Add a note to a run
@@ -325,23 +318,24 @@ https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
 
 ### Overview tab
-Use the **Overview** tab learn about a specific run in a project, such as:
+Use the **Overview** tab to learn about specific run information in a project, such as:
 
-* **Name**: The name of the run.
-* **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App UI or programmatically with the Python SDK.
-* **Tags**: A list of strings. Tags are useful for organizing runs together, or applying temporary labels such as "baseline" or "production".
 * **Author**: The W&B entity that creates the run.
-* **State**: The [state of the run](#run-states).
-* **Start time**: The timestamp when you initialize the run.
-* **Duration**: The amount of time the run is actively computing or logging data. Excludes any pauses or time waiting.
-* **Run path**:  The unique run identifier. It has the form of `entity/project/run-ID`.
-* **Host name**: Where W&B computes the run. W&B displayed the name of your machine if you initialize the run locally on your machine. 
-* **OS**: Operating system that initializes the run.
-* **Python version**: The Python version used to create the run.
-* **Python executable**: The command that starts the run.
-* **Git repository**: The git repository associated with the run. You must [enable git](../app/settings-page/user-settings.md#personal-github-integration) to view this field.
 * **Command**: The command that initializes the run.
+* **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App UI or programmatically with the Python SDK.
+* **Duration**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting.
+* **Git repository**: The git repository associated with the run. You must [enable git](../app/settings-page/user-settings.md#personal-github-integration) to view this field.
+* **Host name**: Where W&B computes the run. W&B displays the name of your machine if you initialize the run locally on your machine.
+* **Name**: The name of the run.
+* **OS**: Operating system that initializes the run.
+* **Python executable**: The command that starts the run.
+* **Python version**: Specifies the Python version that creates the run.
+* **Run path**: Identifies the unique run identifier in the form `entity/project/run-ID`.
+* **Runtime**: Measures the total time from the start to the end of the run. It’s the wall-clock time for the run. Runtime includes any time where the run is paused or waiting for resources, while duration does not.
+* **Start time**: The timestamp when you initialize the run.
+* **State**: The [state of the run](#run-states).
 * **System hardware**: The hardware W&B uses to compute the run.
+* **Tags**: A list of strings. Tags are useful for organizing related runs together or applying temporary labels like "baseline" or "production".
 * **W&B CLI version**: The W&B CLI version installed on the machine that hosted the run command.
 <!-- * **Git state**: -->
 
