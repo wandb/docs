@@ -18,8 +18,6 @@ How you organize a registry and their collections is up to you.
 
 :::note
 If you are familiar with W&B Model Registry, you might aware of "registered models". Registered models in the Model Registry are now referred to as "collections" in the W&B Registry.
-
-The way you [create a registered model in the Model Registry](../model_registry/create-registered-model.md) is nearly the same for creating a collection in the W&B Registry. The main difference being that a collection does not belong to an entity like registered models.
 :::
 
 ## Collection types
@@ -39,7 +37,10 @@ You specify an artifact's type when you create that artifact object. Note the `t
 import wandb
 
 # Initialize a run
-run = wandb.init(project="<project>")
+run = wandb.init(
+  entity = "<team_entity>",
+  project = "<project>"
+  )
 
 # Create an artifact object
 artifact = wandb.Artifact(
@@ -59,7 +60,7 @@ Before you link an artifact to a collection or create a new collection, [investi
 Before you link to a collection, inspect the artifact type that the collection accepts. You can inspect the artifact types that collection accepts programmatically with the W&B Python SDK or interactively with the W&B App
 
 :::info
-You will receive an error message if you try to create link an artifact to a collection that does not accept that artifact type.
+An error message appears if you try to create link an artifact to a collection that does not accept that artifact type.
 :::
 
 <Tabs
@@ -126,7 +127,7 @@ f"wandb-registry-{registry_name}/{collection_name}"
 Where `registry_name` is the name of the registry and `collection_name` is the name of the collection. Ensure to append the prefix `wandb-registry-` to the registry name.
 
 :::info
-W&B automatically creates a collection for you if you try to link an artifact to a collection that does not exist.
+W&B automatically creates a collection for you if you try to link an artifact to a collection that does not exist. If you specify a collection that does exists, W&B links the artifact to the existing collection.
 :::
 
 The proceeding code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
