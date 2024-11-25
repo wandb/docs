@@ -10,7 +10,7 @@ Use the W&B Python SDK to download an artifact linked to a registry. In order to
 
 To download an artifact linked to a registry, you must know the registry name, collection name, and the alias or index of the artifact version you want to access. 
 
-You use these properties to construct the path to the linked artifact:
+Use the properties that describe your artifact  to construct the path to the linked artifact:
 
 ```python
 # Artifact name with version index specified
@@ -19,6 +19,9 @@ f"wandb-registry-{REGISTRY}/{COLLECTION}:v{INDEX}"
 # Artifact name with alias specified
 f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 ```
+
+For core registries such as the Model and Dataset registry, specify the registry name in the path as "model" or "dataset" respectively.
+
 
 If you are not sure about the registry name, collection name, or alias of the artifact version you want to access, you can find this information in the W&B App UI.
 
@@ -47,8 +50,8 @@ run = wandb.init(
 
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 # artifact_name = '<artifact_name>' # Copy and paste Full name specified on the Registry App
-registered_artifact = run.use_artifact(artifact_or_name = artifact_name)  
-download_path = registered_artifact.download()  
+fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
+download_path = fetched_artifact.download()  
 ```
 
 Note that by using the `use_artifact` method, you are marking the artifact as an input to your run for lineage tracking. This allows you to track the lineage of the artifact in the W&B App UI. You can also download an artifact without creating a run by using the `wandb.Api()` object:
@@ -87,10 +90,10 @@ run = wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME)
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
 # Access an artifact and mark it as input to your run for lineage tracking
-registered_artifact = run.use_artifact(artifact_or_name = name)  
+fetched_artifact = run.use_artifact(artifact_or_name = name)  
 
 # Download artifact. Returns path to downloaded contents
-downloaded_path = registered_artifact.download()  
+downloaded_path = fetched_artifact.download()  
 ```
 </details>
 
@@ -108,7 +111,7 @@ REGISTRY = "<registry_name>"
 COLLECTION = "<collection_name>"
 VERSION = "<version>"
 
-# Override personal entity with a team entity
+# Ensure you are using your team entity to instantiate the API
 api = wandb.Api(overrides={"entity": "<team-entity>"})
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
 artifact = api.artifact(name = artifact_name)
