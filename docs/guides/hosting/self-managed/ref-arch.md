@@ -84,46 +84,23 @@ The recommended way to deploy W&B for production is through the use of Terraform
 
 The tables below offer general guidelines to use as a starting point. We recommend monitoring all components closely and adjusting the sizing based on actual usage patterns.
 
-### W&B platform
-
-#### Kubernetes worker nodes
+### Kubernetes
 
 | Environment      | CPU	            | Memory	         | Disk               | 
 | ---------------- | ------------------ | ------------------ | ------------------ | 
 | Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
-| Production       | 4 cores            | 32 GB              | 100 GB             |
-
-Recommendations are per Kubernetes worker node.
-
-#### MySQL
-
-| Environment      | CPU	            | Memory	         | Disk               | 
-| ---------------- | ------------------ | ------------------ | ------------------ | 
-| Test/Dev         | 4 cores            | 16 GB              | 100 GB             |
-| Production       | 8 cores            | 32 GB              | 500 GB             |
-
-Recommendations are per MySQL node.
-
-### W&B platform with Weave
-
-#### Kubernetes worker nodes
-
-| Environment      | CPU	            | Memory	         | Disk               | 
-| ---------------- | ------------------ | ------------------ | ------------------ | 
-| Test/Dev         | 4 cores            | 32 GB              | 100 GB             |
 | Production       | 8 cores            | 64 GB              | 100 GB             |
 
-Recommendations are per Kubernetes worker node.
+Numbers are per Kubernetes worker node.
 
-#### MySQL
+### MySQL
 
 | Environment      | CPU	            | Memory	         | Disk               | 
 | ---------------- | ------------------ | ------------------ | ------------------ | 
-| Test/Dev         | 4 cores            | 16 GB              | 100 GB             |
-| Production       | 8 cores            | 32 GB              | 500 GB             |
+| Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
+| Production       | 8 cores            | 64 GB              | 500 GB             |
 
-Recommendations are per MySQL node.
-
+Numbers are per MySQL node.
 
 ## Recommended Cloud Provider Services and Sizes
 
@@ -136,11 +113,27 @@ Recommendations are per MySQL node.
 | Azure       | AKS          | Azure Database for Mysql | Azure Blob Storage         |
 
 
-### Flavors
+### VM Flavors
 
-| Cloud  | K8s worker nodes	  | MySQL	            |  
-| ------ | ------------------ | ------------------- | 
-| AWS    | m5.xlarge          | db.r5.large         | 
-| GCP    | n1-standard-4      | db-n1-standard-2    | 
-| Azure  | Standard_D4s_v3    | GP_Standard_D4ds_v4 | 
+#### AWS
 
+| Environment | K8s worker node    | MySQL	            |  
+| ----------- | ------------------ | ------------------ | 
+| Test/Dev    | r6i.xlarg          | db.r6g.large       | 
+| Production  | r6i.2xlarge        | db.r6g.2xlarge     | 
+
+
+#### GCP
+
+| Environment | K8s worker node    | MySQL              |  
+| ----------- | ------------------ | ------------------ | 
+| Test/Dev    | n2-highmem-4       | db-n1-highmem-2    | 
+| Production  | n2-highmem-8       | db-n1-highmem-8    | 
+
+
+#### Azure
+
+| Environment | K8s worker node    | MySQL               |  
+| ----------- | ------------------ | ------------------- | 
+| Test/Dev    | Standard_E4s_v5    | MO_Standard_E2ds_v4 | 
+| Production  | Standard_E8s_v5    | MO_Standard_E8ds_v4 | 
