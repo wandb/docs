@@ -14,9 +14,9 @@ Depending on where you choose to deploy Weights & Biases (W&B), there are differ
 
 Consider carefully whether a self-managed approach with W&B is suitable for your team and specific requirements.
 
-Running any application in production presents inherent challenges, and W&B is no exception. We strive to simplify the process; however, complexities will arise due to your specific architecture and design choices. Typically, you will need to manage various aspects, such as hardware, operating systems, networking, storage, security, the W&B platform, and other dependencies. This includes both the initial environment setup and the ongoing maintenance and upgrades.
+Running any application in production presents inherent challenges, and W&B is no exception. We strive to simplify the process; however, complexities will arise due to your specific architecture and design choices. Typically, you will need to manage various aspects, such as hardware, operating systems, networking, storage, security, the W&B platform, and other dependencies. This includes both the initial environment setup and the ongoing maintenance.
 
-It is essential to have a strong understanding of running and maintaining production-grade applications if you choose to self-manage W&B. If your team needs assistance, our Professional Services team offers support for implementation and optimization. For those who prefer a more managed and worry-free solution, we offer alternatives such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) and or [W&B Dedicated Cloud](../hosting-options/dedicated_cloud.md) deployment types.
+It is essential to have a strong understanding of running and maintaining production-grade applications if you choose to self-manage W&B. If your team needs assistance, our Professional Services team and partners offer support for implementation and optimization. For those who prefer a more managed and worry-free solution, we offer alternatives such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) and [W&B Dedicated Cloud](../hosting-options/dedicated_cloud.md) deployment types.
 
 ## Infrastructure diagram
 
@@ -24,21 +24,18 @@ It is essential to have a strong understanding of running and maintaining produc
 
 ### Application layer
 
-The application layer consists of a Kubernetes cluster, which should include multiple nodes to ensure resilience against node failures.
+The application layer consists of a Kubernetes cluster, which should include multiple nodes to ensure resilience against node failures. W&B runs as pods on the Kubernetes cluster.
 
 ### Storage layer
 
-The storage layer consists of a MySQL database and object storage. The MySQL database stores metadata and the object storage storage artifacts (models, datasets, and so on).
-
+The storage layer consists of a MySQL database and object storage. The MySQL database stores metadata and the object storage stores artifacts (models, datasets, and so on).
 
 ## Infrastructure Requirements
 
 ### Kubernetes
-
-W&B requires a Kubernetes cluster with a deployed, configured and fully functioning Ingress controller (for example Contour, Nginx) as W&B comes in the form of a Kubernetes Operator. More details can be found here: [W&B Kubernetes Operator](../operator.md). 
+W&B requires a Kubernetes cluster with a deployed, configured and fully functioning Ingress controller (for example Contour, Nginx) as the W&B server application comes in the form of a [Kubernetes Operator](../operator.md). 
 
 ### MySQL
-
 W&B requires a MySQL database as a metadata store. The shape of the model parameters and related metadata impact the performance of the database. The database size grows as the ML practitioners track more training runs, and incurs read heavy load when queries are executed in run tables, users workspaces, and reports.
 
 Consider the following when you run your own MySQL database:
@@ -50,8 +47,11 @@ Consider the following when you run your own MySQL database:
 
 
 ### Object storage
+W&B requires object storage (Amazon S3, Azure Cloud Storage, Google Cloud Storage, or any S3-compatible storage service) with Pre-signed URL and CORS support.
 
-W&B requires an object storage (Amazon S3, Azure Cloud Storage, Google Cloud Storage, or any S3-compatible storage service) with Pre-signed URL and CORS support.
+### Versions
+* Kubernetes: at least version 1.29.
+* MySQL: at least 8.0.
 
 ## Other considerations
 
@@ -64,28 +64,27 @@ In non-airgapped deployments, egress to the following endpoints during installat
     * quay.io
     * gcr.io
 
+The training infrastracture as well as each desktop that tracks experiments needs access to W&B and to the object storage.
+
 ### DNS
-The fully qualified domain name of W&B should resolve to the IP address of the ingress/load balancer using an A record. Creating the required DNS entry is outside the scope of this guide.
+The fully qualified domain name of W&B should resolve to the IP address of the ingress/load balancer using an A record.
 
 ### SSL/TLS
-A valid, signed SSL/TLS certificate is required for secure communication between clients and W&B. Requesting a certificate is outside the scope of this guide. SSL/TLS termination musst be done on the ingress/load balancer.
+A valid, signed SSL/TLS certificate is required for secure communication between clients and W&B. SSL/TLS termination must be done on the ingress/load balancer. W&B server application does not terminate SSL/TLS.
+
+Please note: We do not recommend the use self-signed certificates and custom CAs.
+
+### Supported CPU architectures
+Only x86 architecture is supported.
 
 ## Infrastructure provisioning
-The recommended way to deploy W&B for production is through use of a Terraform configuration that defines the required resources, their references to other resources and dependencies. We provide Terraform modules for the major clouds. Please refer to [Deploy W&B Server within self managed cloud accounts](../hosting-options/self-managed#deploy-wb-server-within-self-managed-cloud-accounts).
-
-## Versions
-
-* Kubernetes: at least version 1.29.
-* MySQL: at least 8.0.
-
+The recommended way to deploy W&B for production is through the use of Terraform configuration that defines the required resources, their references to other resources and dependencies. We provide Terraform modules for the major clouds. Please refer to [Deploy W&B Server within self managed cloud accounts](../hosting-options/self-managed#deploy-wb-server-within-self-managed-cloud-accounts).
 
 ## Sizing
 
-The table below offers general guidelines to use as a starting point. We recommend monitoring all components closely and adjusting the sizing based on actual usage patterns.
+The tables below offer general guidelines to use as a starting point. We recommend monitoring all components closely and adjusting the sizing based on actual usage patterns.
 
-Please note that we only support x86 architecture.
-
-### Models only
+### W&B platform
 
 #### Kubernetes worker nodes
 
@@ -105,7 +104,7 @@ Recommendations are per Kubernetes worker node.
 
 Recommendations are per MySQL node.
 
-### Models and Weave
+### W&B platform with Weave
 
 #### Kubernetes worker nodes
 
