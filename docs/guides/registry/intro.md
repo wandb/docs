@@ -3,6 +3,10 @@ slug: /guides/registry
 displayed_sidebar: default
 title: Registry
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
+
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb"/>
+
 
 :::info
 W&B Registry is in public preview. See [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
