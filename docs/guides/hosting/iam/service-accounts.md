@@ -22,7 +22,6 @@ To create a new org scoped service account for your organization:
 
 * Press the **+ New service account** button in the **Service Accounts** tab of your organization dashboard
 * Provide a name in the **Name** field
-* Select **Generate API key (Built-in)** as the authentication method
 * Select a default team from the available teams
 * Press the **Create** button
 * Click the **Copy API key** button for the newly created service account and store it in a secret manager or another safe but accessible location
