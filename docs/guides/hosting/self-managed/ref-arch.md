@@ -10,7 +10,7 @@ Weights & Biases provides a reference architecture outlining the recommended inf
 
 Depending on your chosen deployment environment for Weights & Biases (W&B), various services are available to enhance the resiliency of your setup. For instance, major cloud providers offer robust managed database services, removing the complexity of configuring and maintaining database clustering and failover mechanisms. With these capabilities in mind, we’ve developed a reference architecture tailored to the most common deployment scenarios, ensuring seamless integration with cloud vendor services for optimal performance and reliability.
 
-## Before You Start
+## Before you start
 
 Consider carefully whether a self-managed approach with W&B is suitable for your team and specific requirements.
 
@@ -30,7 +30,7 @@ The application layer consists of a Kubernetes cluster, which should include mul
 
 The storage layer consists of a MySQL database and object storage. The MySQL database stores metadata and the object storage stores artifacts (models, datasets, and so on).
 
-## Infrastructure Requirements
+## Infrastructure requirements
 
 ### Kubernetes
 W&B requires a Kubernetes cluster with a deployed, configured and fully functioning Ingress controller (for example Contour, Nginx) as the W&B server application comes in the form of a [Kubernetes Operator](../operator.md). 
@@ -40,7 +40,7 @@ W&B requires a MySQL database as a metadata store. The shape of the model parame
 
 Consider the following when you run your own MySQL database:
 
-1. **Backups**. You should  periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
+1. **Backups**. You should periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
 2. **Performance.** The disk the server is running on should be fast. W&B recommends running the database on an SSD or accelerated NAS.
 3. **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
 4. **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
@@ -64,7 +64,7 @@ In non-airgapped deployments, egress to the following endpoints during installat
     * quay.io
     * gcr.io
 
-The training infrastracture as well as each desktop that tracks experiments needs access to W&B and to the object storage.
+The training infrastructure as well as each desktop that tracks experiments needs access to W&B and to the object storage.
 
 ### DNS
 The fully qualified domain name of W&B should resolve to the IP address of the ingress/load balancer using an A record.
@@ -72,7 +72,7 @@ The fully qualified domain name of W&B should resolve to the IP address of the i
 ### SSL/TLS
 A valid, signed SSL/TLS certificate is required for secure communication between clients and W&B. SSL/TLS termination must be done on the ingress/load balancer. W&B server application does not terminate SSL/TLS.
 
-Please note: We do not recommend the use self-signed certificates and custom CAs.
+Please note: W&B does not recommend the use self-signed certificates and custom CAs.
 
 ### Supported CPU architectures
 Only x86 architecture is supported.
