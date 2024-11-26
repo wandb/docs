@@ -102,7 +102,7 @@ Numbers are per Kubernetes worker node.
 
 Numbers are per MySQL node.
 
-## Recommended Cloud Provider Services and Sizes
+## Recommended Cloud Provider Services and Flavors
 
 ### Services
 
@@ -113,13 +113,13 @@ Numbers are per MySQL node.
 | Azure       | AKS          | Azure Database for Mysql | Azure Blob Storage         |
 
 
-### VM Flavors
+### Flavors
 
 #### AWS
 
 | Environment | K8s worker node    | MySQL	            |  
 | ----------- | ------------------ | ------------------ | 
-| Test/Dev    | r6i.xlarg          | db.r6g.large       | 
+| Test/Dev    | r6i.xlarge         | db.r6g.large       | 
 | Production  | r6i.2xlarge        | db.r6g.2xlarge     | 
 
 
