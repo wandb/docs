@@ -20,7 +20,7 @@ The Members section shows a list of all pending invitations and the members th
 
 See [Add and Manage teams](../../hosting/iam/manage-organization.md#add-and-manage-teams) for information on how to create a tea, invite users to a team, remove users from a team, and change a user's role.
 
-## Service Accounts
+## Service accounts
 
 Refer to [Use service accounts to automate workflows](../../hosting/iam/service-accounts.md).
 
