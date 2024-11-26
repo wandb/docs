@@ -26,7 +26,7 @@ This object works just like numpy's histogram function https://docs.scipy.org/do
 
 
 
-**Arguments:**
+**Args:**
  
  - `sequence`:  (array_like) input data for histogram 
  - `np_histogram`:  (numpy histogram) alternative input of a precomputed histogram 

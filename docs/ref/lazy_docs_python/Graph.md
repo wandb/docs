@@ -2,7 +2,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
 # Graph
 
-<CTAButtons githubLink='https://github.com/wandb/wandb/blob/main/wandb/data_types.py'/>
+<CTAButtons githubLink='https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/graph.py'/>
 
 
 

@@ -12,7 +12,7 @@ Wandb class for 3D Molecular data.
 
 
 
-**Arguments:**
+**Args:**
  
  - `data_or_path`:  (string, io)  Molecule can be initialized from a file name or an io object. 
  - `caption`:  (string)  Caption associated with the molecule for display. 
@@ -51,7 +51,7 @@ Convert RDKit-supported file/object types to wandb.Molecule.
 
 
 
-**Arguments:**
+**Args:**
  
  - `data_or_path`:  (string, rdkit.Chem.rdchem.Mol)  Molecule can be initialized from a file name or an rdkit.Chem.rdchem.Mol object. 
  - `caption`:  (string)  Caption associated with the molecule for display. 
@@ -76,7 +76,7 @@ Convert SMILES string to wandb.Molecule.
 
 
 
-**Arguments:**
+**Args:**
  
  - `data`:  (string)  SMILES string. 
  - `caption`:  (string)  Caption associated with the molecule for display 

@@ -12,7 +12,7 @@ Format images for logging to W&B.
 
 
 
-**Arguments:**
+**Args:**
  
  - `data_or_path`:  (numpy array, string, io) Accepts numpy array of  image data, or a PIL image. The class attempts to infer  the data format and converts it. 
  - `mode`:  (string) The PIL mode for an image. Most common are "L", "RGB", 
@@ -23,51 +23,7 @@ Note : When logging a `torch.Tensor` as a `wandb.Image`, images are normalized. 
 
 
 
-**Examples:**
 
-### Create a wandb.Image from a numpy array 
-```python
-import numpy as np
-import wandb
-
-with wandb.init() as run:
-        examples = []
-        for i in range(3):
-            pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-            image = wandb.Image(pixels, caption=f"random field {i}")
-            examples.append(image)
-        run.log({"examples": examples})
-``` 
-
-### Create a wandb.Image from a PILImage
-```python
-import numpy as np
-from PIL import Image as PILImage
-import wandb
-
-with wandb.init() as run:
-        examples = []
-        for i in range(3):
-            pixels = np.random.randint(low=0, high=256, size=(100, 100, 3), dtype=np.uint8)
-            pil_image = PILImage.fromarray(pixels, mode="RGB")
-            image = wandb.Image(pil_image, caption=f"random field {i}")
-            examples.append(image)
-        run.log({"examples": examples})
-``` 
-
-### log .jpg rather than .png (default) 
-```python
-import numpy as np
-import wandb
-
-with wandb.init() as run:
-        examples = []
-        for i in range(3):
-            pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-            image = wandb.Image(pixels, caption=f"random field {i}", file_type="jpg")
-            examples.append(image)
-        run.log({"examples": examples})
-``` 
 
 ### <kbd>method</kbd> `Image.__init__`
 

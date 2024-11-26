@@ -2,7 +2,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
 # Audio
 
-<CTAButtons githubLink='https://github.com/wandb/wandb/blob/main/wandb/data_types.py'/>
+<CTAButtons githubLink='https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py'/>
 
 
 
@@ -12,7 +12,7 @@ Wandb class for audio clips.
 
 
 
-**Arguments:**
+**Args:**
  
  - `data_or_path`:  (string or numpy array) A path to an audio file  or a numpy array of audio data. 
  - `sample_rate`:  (int) Sample rate, required when passing in raw  numpy array of audio data. 

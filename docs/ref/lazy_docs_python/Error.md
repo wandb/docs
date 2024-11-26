@@ -2,7 +2,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
 # Error
 
-<CTAButtons githubLink='https://github.com/wandb/wandb/blob/main/wandb/errors/__init__.py'/>
+<CTAButtons githubLink='https://github.com/wandb/wandb/blob/main/wandb/errors/errors.py'/>
 
 
 

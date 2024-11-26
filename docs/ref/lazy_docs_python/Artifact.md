@@ -14,7 +14,7 @@ Construct an empty W&B Artifact. Populate an artifacts contents with methods tha
 
 
 
-**Arguments:**
+**Args:**
  
  - `name`:  A human-readable name for the artifact. Use the name to identify  a specific artifact in the W&B App UI or programmatically. You can  interactively reference an artifact with the `use_artifact` Public API.  A name can contain letters, numbers, underscores, hyphens, and dots.  The name must be unique across a project. 
  - `type`:  The artifact's type. Use the type of an artifact to both organize  and differentiate artifacts. You can use any string that contains letters,  numbers, underscores, hyphens, and dots. Common types include `dataset` or `model`.  Include `model` within your type string if you want to link the artifact  to the W&B Model Registry. 
@@ -30,12 +30,12 @@ Construct an empty W&B Artifact. Populate an artifacts contents with methods tha
 
 ```python
 __init__(
-    name: str,
-    type: str,
-    description: Optional[str] = None,
-    metadata: Optional[Dict[str, Any]] = None,
-    incremental: bool = False,
-    use_as: Optional[str] = None
+    name: 'str',
+    type: 'str',
+    description: 'str | None' = None,
+    metadata: 'dict[str, Any] | None' = None,
+    incremental: 'bool' = False,
+    use_as: 'str | None' = None
 ) → None
 ```
 
@@ -58,7 +58,7 @@ Aliases are mutable references that you can programmatically reference. Change a
 
 The collection this artifact was retrieved from. 
 
-A collection is an ordered group of artifact versions. If this artifact was retrieved from a portfolio / linked collection, that collection will be returned rather than the the collection that an artifact version originated from. The collection that an artifact originates from is known as the source sequence. 
+A collection is an ordered group of artifact versions. If this artifact was retrieved from a portfolio / linked collection, that collection will be returned rather than the collection that an artifact version originated from. The collection that an artifact originates from is known as the source sequence. 
 
 ---
 
@@ -212,6 +212,12 @@ The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED".
 
 ---
 
+#### <kbd>property</kbd> Artifact.tags
+
+List of one or more tags assigned to this artifact version. 
+
+---
+
 #### <kbd>property</kbd> Artifact.ttl
 
 The time-to-live (TTL) policy of an artifact. 
@@ -258,8 +264,9 @@ The artifact's version in its secondary (portfolio) collection.
 
 ```python
 add(
-    obj: wandb.sdk.data_types.base_types.wb_value.WBValue,
-    name: Union[str, ForwardRef('os.PathLike[str]')]
+    obj: 'WBValue',
+    name: 'StrPath',
+    overwrite: 'bool' = False
 ) → ArtifactManifestEntry
 ```
 
@@ -267,10 +274,11 @@ Add wandb.WBValue `obj` to the artifact.
 
 
 
-**Arguments:**
+**Args:**
  
  - `obj`:  The object to add. Currently support one of Bokeh, JoinedTable,  PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio,  Image, Video, Html, Object3D 
  - `name`:  The path within the artifact to add the object. 
+ - `overwrite`:  If True, overwrite existing objects with the same file path (if applicable). 
 
 
 
@@ -288,23 +296,33 @@ Add wandb.WBValue `obj` to the artifact.
 ### <kbd>method</kbd> `Artifact.add_dir`
 
 ```python
-add_dir(local_path: str, name: Optional[str] = None) → None
+add_dir(
+    local_path: 'str',
+    name: 'str | None' = None,
+    skip_cache: 'bool | None' = False,
+    policy: "Literal['mutable', 'immutable'] | None" = 'mutable'
+) → None
 ```
 
 Add a local directory to the artifact. 
 
 
 
-**Arguments:**
+**Args:**
  
  - `local_path`:  The path of the local directory. 
  - `name`:  The subdirectory name within an artifact. The name you specify appears  in the W&B App UI nested by artifact's `type`.  Defaults to the root of the artifact. 
+ - `skip_cache`:  If set to `True`, W&B will not copy/move files to the cache while uploading 
+ - `policy`:  "mutable" | "immutable". By default, "mutable" 
+ - `"mutable"`:  Create a temporary copy of the file to prevent corruption during upload. 
+ - `"immutable"`:  Disable protection, rely on the user not to delete or change the file. 
 
 
 
 **Raises:**
  
  - `ArtifactFinalizedError`:  You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. 
+ - `ValueError`:  Policy must be "mutable" or "immutable" 
 
 ---
 
@@ -312,9 +330,12 @@ Add a local directory to the artifact.
 
 ```python
 add_file(
-    local_path: str,
-    name: Optional[str] = None,
-    is_tmp: Optional[bool] = False
+    local_path: 'str',
+    name: 'str | None' = None,
+    is_tmp: 'bool | None' = False,
+    skip_cache: 'bool | None' = False,
+    policy: "Literal['mutable', 'immutable'] | None" = 'mutable',
+    overwrite: 'bool' = False
 ) → ArtifactManifestEntry
 ```
 
@@ -322,22 +343,26 @@ Add a local file to the artifact.
 
 
 
-**Arguments:**
+**Args:**
  
  - `local_path`:  The path to the file being added. 
  - `name`:  The path within the artifact to use for the file being added. Defaults  to the basename of the file. 
  - `is_tmp`:  If true, then the file is renamed deterministically to avoid  collisions. 
+ - `skip_cache`:  If `True`, W&B will not copy files to the cache after uploading. 
+ - `policy`:  By default, set to "mutable". If set to "mutable", create a temporary copy of the  file to prevent corruption during upload. If set to "immutable", disable  protection and rely on the user not to delete or change the file. 
+ - `overwrite`:  If `True`, overwrite the file if it already exists. 
 
 
 
 **Returns:**
- The added manifest entry 
+ The added manifest entry. 
 
 
 
 **Raises:**
  
  - `ArtifactFinalizedError`:  You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. 
+ - `ValueError`:  Policy must be "mutable" or "immutable" 
 
 ---
 
@@ -345,11 +370,11 @@ Add a local file to the artifact.
 
 ```python
 add_reference(
-    uri: Union[wandb.sdk.artifacts.artifact_manifest_entry.ArtifactManifestEntry, str],
-    name: Optional[str, ForwardRef('os.PathLike[str]')] = None,
-    checksum: bool = True,
-    max_objects: Optional[int] = None
-) → Sequence[wandb.sdk.artifacts.artifact_manifest_entry.ArtifactManifestEntry]
+    uri: 'ArtifactManifestEntry | str',
+    name: 'StrPath | None' = None,
+    checksum: 'bool' = True,
+    max_objects: 'int | None' = None
+) → Sequence[ArtifactManifestEntry]
 ```
 
 Add a reference denoted by a URI to the artifact. 
@@ -369,12 +394,12 @@ For any other scheme, the digest is just a hash of the URI and the size is left 
 
 
 
-**Arguments:**
+**Args:**
  
  - `uri`:  The URI path of the reference to add. The URI path can be an object  returned from `Artifact.get_entry` to store a reference to another  artifact's entry. 
  - `name`:  The path within the artifact to place the contents of this reference. 
- - `checksum`:  Whether or not to checksum the resource(s) located at the  reference URI. Checksumming is strongly recommended as it enables  automatic integrity validation, however it can be disabled to speed up  artifact creation. 
- - `max_objects`:  The maximum number of objects to consider when adding a  reference that points to directory or bucket store prefix. By default,  the maximum number of objects allowed for Amazon S3 and  GCS is 10,000. Other URI schemas do not have a maximum. 
+ - `checksum`:  Whether or not to checksum the resource(s) located at the  reference URI. Checksumming is strongly recommended as it enables  automatic integrity validation. Disabling checksumming will speed up  artifact creation but reference directories will not iterated through so the  objects in the directory will not be saved to the artifact. We recommend  setting `checksum=False` when adding reference objects, in which case  a new version will only be created if the reference URI changes. 
+ - `max_objects`:  The maximum number of objects to consider when adding a  reference that points to directory or bucket store prefix. By default,  the maximum number of objects allowed for Amazon S3,  GCS, Azure, and local files is 10,000,000. Other URI schemas do not have a maximum. 
 
 
 
@@ -392,7 +417,7 @@ For any other scheme, the digest is just a hash of the URI and the size is left 
 ### <kbd>method</kbd> `Artifact.checkout`
 
 ```python
-checkout(root: Optional[str] = None) → str
+checkout(root: 'str | None' = None) → str
 ```
 
 Replace the specified root directory with the contents of the artifact. 
@@ -401,7 +426,7 @@ WARNING: This will delete all files in `root` that are not included in the artif
 
 
 
-**Arguments:**
+**Args:**
  
  - `root`:  The directory to replace with this artifact's files. 
 
@@ -421,16 +446,18 @@ WARNING: This will delete all files in `root` that are not included in the artif
 ### <kbd>method</kbd> `Artifact.delete`
 
 ```python
-delete(delete_aliases: bool = False) → None
+delete(delete_aliases: 'bool' = False) → None
 ```
 
 Delete an artifact and its files. 
 
+If called on a linked artifact (i.e. a member of a portfolio collection): only the link is deleted, and the source artifact is unaffected. 
 
 
-**Arguments:**
+
+**Args:**
  
- - `delete_aliases`:  If set to `True`, deletes all aliases associated with the artifact.  Otherwise, this raises an exception if the artifact has existing  aliases. 
+ - `delete_aliases`:  If set to `True`, deletes all aliases associated with the artifact.  Otherwise, this raises an exception if the artifact has existing  aliases.  This parameter is ignored if the artifact is linked (i.e. a member of a portfolio collection). 
 
 
 
@@ -444,11 +471,11 @@ Delete an artifact and its files.
 
 ```python
 download(
-    root: Optional[str] = None,
-    allow_missing_references: bool = False,
-    skip_cache: Optional[bool] = None,
-    path_prefix: Optional[str, ForwardRef('os.PathLike[str]')] = None
-) → wandb.sdk.lib.paths.FilePathStr
+    root: 'StrPath | None' = None,
+    allow_missing_references: 'bool' = False,
+    skip_cache: 'bool | None' = None,
+    path_prefix: 'StrPath | None' = None
+) → FilePathStr
 ```
 
 Download the contents of the artifact to the specified root directory. 
@@ -457,11 +484,12 @@ Existing files located within `root` are not modified. Explicitly delete `root` 
 
 
 
-**Arguments:**
+**Args:**
  
  - `root`:  The directory W&B stores the artifact's files. 
  - `allow_missing_references`:  If set to `True`, any invalid reference paths  will be ignored while downloading referenced files. 
- - `skip_cache`:  If set to `True`, the artifact cache will be skipped when downloading  and W&B will download each file into the default root or specified download directory. 
+ - `skip_cache`:  If set to `True`, the artifact cache will be skipped when  downloading and W&B will download each file into the default root or  specified download directory. 
+ - `path_prefix`:  If specified, only files with a path that starts with the given  prefix will be downloaded. Uses unix format (forward slashes). 
 
 
 
@@ -473,20 +501,21 @@ Existing files located within `root` are not modified. Explicitly delete `root` 
 **Raises:**
  
  - `ArtifactNotLoggedError`:  If the artifact is not logged. 
+ - `RuntimeError`:  If the artifact is attempted to be downloaded in offline mode. 
 
 ---
 
 ### <kbd>method</kbd> `Artifact.file`
 
 ```python
-file(root: Optional[str] = None) → Union[str, ForwardRef('os.PathLike[str]')]
+file(root: 'str | None' = None) → StrPath
 ```
 
 Download a single file artifact to the directory you specify with `root`. 
 
 
 
-**Arguments:**
+**Args:**
  
  - `root`:  The root directory to store the file. Defaults to  './artifacts/self.name/'. 
 
@@ -507,14 +536,14 @@ Download a single file artifact to the directory you specify with `root`.
 ### <kbd>method</kbd> `Artifact.files`
 
 ```python
-files(names: Optional[List[str]] = None, per_page: int = 50) → ArtifactFiles
+files(names: 'list[str] | None' = None, per_page: 'int' = 50) → ArtifactFiles
 ```
 
 Iterate over all files stored in this artifact. 
 
 
 
-**Arguments:**
+**Args:**
  
  - `names`:  The filename paths relative to the root of the artifact you wish to  list. 
  - `per_page`:  The number of files to return per request. 
@@ -547,14 +576,14 @@ You cannot modify an artifact version once it is finalized because the artifact 
 ### <kbd>method</kbd> `Artifact.get`
 
 ```python
-get(name: str) → Optional[wandb.sdk.data_types.base_types.wb_value.WBValue]
+get(name: 'str') → WBValue | None
 ```
 
 Get the WBValue object located at the artifact relative `name`. 
 
 
 
-**Arguments:**
+**Args:**
  
  - `name`:  The artifact relative name to retrieve. 
 
@@ -574,14 +603,14 @@ Get the WBValue object located at the artifact relative `name`.
 ### <kbd>method</kbd> `Artifact.get_added_local_path_name`
 
 ```python
-get_added_local_path_name(local_path: str) → Optional[str]
+get_added_local_path_name(local_path: 'str') → str | None
 ```
 
 Get the artifact relative name of a file added by a local filesystem path. 
 
 
 
-**Arguments:**
+**Args:**
  
  - `local_path`:  The local path to resolve into an artifact relative name. 
 
@@ -595,16 +624,14 @@ Get the artifact relative name of a file added by a local filesystem path.
 ### <kbd>method</kbd> `Artifact.get_entry`
 
 ```python
-get_entry(
-    name: Union[str, ForwardRef('os.PathLike[str]')]
-) → ArtifactManifestEntry
+get_entry(name: 'StrPath') → ArtifactManifestEntry
 ```
 
 Get the entry with the given name. 
 
 
 
-**Arguments:**
+**Args:**
  
  - `name`:  The artifact relative name to get 
 
@@ -625,9 +652,7 @@ Get the entry with the given name.
 ### <kbd>method</kbd> `Artifact.get_path`
 
 ```python
-get_path(
-    name: Union[str, ForwardRef('os.PathLike[str]')]
-) → ArtifactManifestEntry
+get_path(name: 'StrPath') → ArtifactManifestEntry
 ```
 
 Deprecated. Use `get_entry(name)`. 
@@ -649,7 +674,7 @@ Returns: Boolean. `False` if artifact is saved. `True` if artifact is not saved.
 ### <kbd>method</kbd> `Artifact.json_encode`
 
 ```python
-json_encode() → Dict[str, Any]
+json_encode() → dict[str, Any]
 ```
 
 Returns the artifact encoded to the JSON format. 
@@ -664,16 +689,16 @@ Returns the artifact encoded to the JSON format.
 ### <kbd>method</kbd> `Artifact.link`
 
 ```python
-link(target_path: str, aliases: Optional[List[str]] = None) → None
+link(target_path: 'str', aliases: 'list[str] | None' = None) → None
 ```
 
 Link this artifact to a portfolio (a promoted collection of artifacts). 
 
 
 
-**Arguments:**
+**Args:**
  
- - `target_path`:  The path to the portfolio inside a project. The target path must adhere to one of the following schemas `{portfolio}`, `{project}/{portfolio}` or `{entity}/{project}/{portfolio}`. To link the artifact to the Model Registry, rather than to a generic portfolio inside a project, set `target_path` to the following schema `{"model-registry"}/{Registered Model Name}` or `{entity}/{"model-registry"}/{Registered Model Name}`. 
+ - `target_path`:  The path to the portfolio inside a project.  The target path must adhere to one of the following  schemas `{portfolio}`, `{project}/{portfolio}` or  `{entity}/{project}/{portfolio}`.  To link the artifact to the Model Registry, rather than to a generic  portfolio inside a project, set `target_path` to the following  schema `{"model-registry"}/{Registered Model Name}` or  `{entity}/{"model-registry"}/{Registered Model Name}`. 
  - `aliases`:  A list of strings that uniquely identifies the artifact inside the  specified portfolio. 
 
 
@@ -687,7 +712,7 @@ Link this artifact to a portfolio (a promoted collection of artifacts).
 ### <kbd>method</kbd> `Artifact.logged_by`
 
 ```python
-logged_by() → Optional[wandb.apis.public.runs.Run]
+logged_by() → Run | None
 ```
 
 Get the W&B run that originally logged the artifact. 
@@ -732,17 +757,17 @@ The artifact returned can be extended or modified and logged as a new version.
 
 ```python
 new_file(
-    name: str,
-    mode: str = 'w',
-    encoding: Optional[str] = None
-) → Generator[IO, NoneType, NoneType]
+    name: 'str',
+    mode: 'str' = 'x',
+    encoding: 'str | None' = None
+) → Iterator[IO]
 ```
 
 Open a new temporary file and add it to the artifact. 
 
 
 
-**Arguments:**
+**Args:**
  
  - `name`:  The name of the new file to add to the artifact. 
  - `mode`:  The file access mode to use to open the new file. 
@@ -761,32 +786,17 @@ Open a new temporary file and add it to the artifact.
 
 ---
 
-### <kbd>classmethod</kbd> `Artifact.path_contains_dir_prefix`
-
-```python
-path_contains_dir_prefix(
-    path: Union[str, ForwardRef('os.PathLike[str]')],
-    dir_path: Union[str, ForwardRef('os.PathLike[str]')]
-) → bool
-```
-
-Returns true if `path` contains `dir_path` as a prefix. 
-
----
-
 ### <kbd>method</kbd> `Artifact.remove`
 
 ```python
-remove(
-    item: Union[str, ForwardRef('os.PathLike[str]'), ForwardRef('ArtifactManifestEntry')]
-) → None
+remove(item: 'StrPath | ArtifactManifestEntry') → None
 ```
 
 Remove an item from the artifact. 
 
 
 
-**Arguments:**
+**Args:**
  
  - `item`:  The item to remove. Can be a specific manifest entry or the name of an  artifact-relative path. If the item matches a directory all items in  that directory will be removed. 
 
@@ -803,8 +813,8 @@ Remove an item from the artifact.
 
 ```python
 save(
-    project: Optional[str] = None,
-    settings: Optional[ForwardRef('wandb.wandb_sdk.wandb_settings.Settings')] = None
+    project: 'str | None' = None,
+    settings: 'wandb.Settings | None' = None
 ) → None
 ```
 
@@ -814,32 +824,34 @@ If currently in a run, that run will log this artifact. If not currently in a ru
 
 
 
-**Arguments:**
+**Args:**
  
  - `project`:  A project to use for the artifact in the case that a run is not  already in context. 
  - `settings`:  A settings object to use when initializing an automatic run. Most  commonly used in testing harness. 
 
 ---
 
-### <kbd>classmethod</kbd> `Artifact.should_download_entry`
+### <kbd>method</kbd> `Artifact.unlink`
 
 ```python
-should_download_entry(
-    entry: wandb.sdk.artifacts.artifact_manifest_entry.ArtifactManifestEntry,
-    prefix: Optional[str, ForwardRef('os.PathLike[str]')]
-) → bool
+unlink() → None
 ```
 
+Unlink this artifact if it is currently a member of a portfolio (a promoted collection of artifacts). 
 
 
 
+**Raises:**
+ 
+ - `ArtifactNotLoggedError`:  If the artifact is not logged. 
+ - `ValueError`:  If the artifact is not linked, i.e. it is not a member of a portfolio collection. 
 
 ---
 
 ### <kbd>method</kbd> `Artifact.used_by`
 
 ```python
-used_by() → List[wandb.apis.public.runs.Run]
+used_by() → list[Run]
 ```
 
 Get a list of the runs that have used this artifact. 
@@ -860,7 +872,7 @@ Get a list of the runs that have used this artifact.
 ### <kbd>method</kbd> `Artifact.verify`
 
 ```python
-verify(root: Optional[str] = None) → None
+verify(root: 'str | None' = None) → None
 ```
 
 Verify that the contents of an artifact match the manifest. 
@@ -869,7 +881,7 @@ All files in the directory are checksummed and the checksums are then cross-refe
 
 
 
-**Arguments:**
+**Args:**
  
  - `root`:  The directory to verify. If None artifact will be downloaded to  './artifacts/self.name/' 
 
@@ -885,14 +897,14 @@ All files in the directory are checksummed and the checksums are then cross-refe
 ### <kbd>method</kbd> `Artifact.wait`
 
 ```python
-wait(timeout: Optional[int] = None) → Artifact
+wait(timeout: 'int | None' = None) → Artifact
 ```
 
 If needed, wait for this artifact to finish logging. 
 
 
 
-**Arguments:**
+**Args:**
  
  - `timeout`:  The time, in seconds, to wait. 
 
