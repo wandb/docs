@@ -12,18 +12,17 @@ You can use a combination of a couple of controls to configure the access level 
 :::info
 The owner of a project, a team admin, or an organization admin can set or edit a project's visibility.
 :::
+
 ## Visibility scopes
 
-There are four project visibility scopes you can choose from. In order of most public to most private, they are: 
-
+There are four project visibility scopes you can choose from. In order of most public to most private, they are:
 
 | Scope | Description | 
 | ----- | ----- |
-| Open |Anyone who knows about the project can view it and submit runs or reports.|
-| Public |Anyone who knows about the project can view it. Only your team can submit runs or reports.|
+| Open | Anyone who knows about the project can view it and submit runs or reports.|
+| Public | Anyone who knows about the project can view it. Only your team can submit runs or reports.|
 | Team | Only members of the parent team can view the project and submit runs or reports. Anyone outside the team can not access the project. |
 | Restricted| Only invited members from the parent team can view the project and submit runs or reports.|
-
 
 :::tip
 Set a project's scope to **Restricted** if you would like to collaborate on workflows related to sensitive or confidential data. When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports, and so forth. 

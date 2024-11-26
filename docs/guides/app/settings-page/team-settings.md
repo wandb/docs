@@ -8,17 +8,21 @@ title: Manage team settings
 
 # Team settings
 
-Change your team's settings, including members, avatar, alerts, privacy, and usage. Only team administrators can view and edit a team's settings.
+Change your team's settings, including members, service accounts, avatar, alerts, privacy, and usage. Only team administrators can view and edit a team's settings.
 
 :::info
 Only Administration account types can change team settings or remove a member from a team.
 :::
 
-
 ## Members
+
 The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, email, team role, as well as their access privileges to Models and Weave, which is inherited by from the Organization. There are three standard team roles: Administrator (Admin), Member, and View-only.
 
 See [Add and Manage teams](../../hosting/iam/manage-organization.md#add-and-manage-teams) for information on how to create a tea, invite users to a team, remove users from a team, and change a user's role.
+
+## Service Accounts
+
+Refer to [Use service accounts to automate workflows](../../hosting/iam/service-accounts.md).
 
 ## Avatar
 
@@ -40,10 +44,7 @@ For more information about how to set up and manage alerts, see [Send alerts wit
 
 ## Privacy
 
-Navigate to the **Privacy** section to change privacy settings. Only members with Administrative roles can modify privacy settings. Administrator roles can:
-
-* Force projects in the team to be private.
-* Enable code saving by default.
+Navigate to the **Privacy** section to change privacy settings. Refer to [configure privacy settings](../../hosting/privacy-settings.md).
 
 ## Usage
 

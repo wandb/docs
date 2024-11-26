@@ -404,6 +404,7 @@ export default {
                 'guides/hosting/iam/sso',
                 'guides/hosting/iam/ldap',
                 'guides/hosting/iam/identity_federation',
+                'guides/hosting/iam/service-accounts',
               ],
             },
             {
