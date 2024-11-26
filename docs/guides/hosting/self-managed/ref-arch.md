@@ -78,11 +78,11 @@ Please note: W&B does not recommend the use self-signed certificates and custom 
 Only x86 architecture is supported.
 
 ## Infrastructure provisioning
-The recommended way to deploy W&B for production is through the use of Terraform configuration that defines the required resources, their references to other resources and dependencies. We provide Terraform modules for the major clouds. Please refer to [Deploy W&B Server within self managed cloud accounts](../hosting-options/self-managed#deploy-wb-server-within-self-managed-cloud-accounts).
+The recommended way to deploy W&B for production is through the use of Terraform configuration that defines the required resources, their references to other resources and dependencies. W&B provides Terraform modules for the major clouds. Please refer to [Deploy W&B Server within self managed cloud accounts](../hosting-options/self-managed#deploy-wb-server-within-self-managed-cloud-accounts).
 
 ## Sizing
 
-The tables below offer general guidelines to use as a starting point. We recommend monitoring all components closely and adjusting the sizing based on actual usage patterns.
+The tables below offer general guidelines to use as a starting point. W&B recommends monitoring all components closely and adjusting the sizing based on actual usage patterns.
 
 ### Kubernetes
 
@@ -102,7 +102,7 @@ Numbers are per Kubernetes worker node.
 
 Numbers are per MySQL node.
 
-## Recommended Cloud Provider Services and Flavors
+## Recommended cloud provider services and flavors
 
 ### Services
 
