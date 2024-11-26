@@ -8,13 +8,13 @@ displayed_sidebar: default
 
 Weights & Biases provides a reference architecture outlining the recommended infrastructure and resources needed to support a deployment of the platform.
 
-Depending on where you choose to deploy Weights & Biases (W&B), there are different services available to enhance the resiliency of your setup. For example, most major cloud providers offer resilient managed database services, eliminating the need for users to manage complex database clustering and failover configurations. We’ve taken this into account and designed a reference architecture for the most common deployment scenarios, leveraging cloud vendor services effectively for optimal performance and reliability.
+Depending on your chosen deployment environment for Weights & Biases (W&B), various services are available to enhance the resiliency of your setup. For instance, major cloud providers offer robust managed database services, removing the complexity of configuring and maintaining database clustering and failover mechanisms. With these capabilities in mind, we’ve developed a reference architecture tailored to the most common deployment scenarios, ensuring seamless integration with cloud vendor services for optimal performance and reliability.
 
 ## Before You Start
 
 Consider carefully whether a self-managed approach with W&B is suitable for your team and specific requirements.
 
-Running any application in production presents inherent challenges, and W&B is no exception. We strive to simplify the process; however, complexities will arise due to your specific architecture and design choices. Typically, you will need to manage various aspects, such as hardware, operating systems, networking, storage, security, the W&B platform, and other dependencies. This includes both the initial environment setup and the ongoing maintenance.
+Running any application in production comes with its own set of challenges, and W&B is no exception. While we aim to streamline the process, certain complexities may arise depending on your unique architecture and design decisions. Typically, managing a production deployment involves overseeing various components, including hardware, operating systems, networking, storage, security, the W&B platform itself, and other dependencies. This responsibility extends to both the initial setup of the environment and its ongoing maintenance.
 
 It is essential to have a strong understanding of running and maintaining production-grade applications if you choose to self-manage W&B. If your team needs assistance, our Professional Services team and partners offer support for implementation and optimization. For those who prefer a more managed and worry-free solution, we offer alternatives such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) and [W&B Dedicated Cloud](../hosting-options/dedicated_cloud.md) deployment types.
 
