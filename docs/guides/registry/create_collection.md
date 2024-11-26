@@ -5,33 +5,42 @@ title: Create a collection
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Create a collection within a registry to organize your artifacts. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task. 
+A *collection* is a set of linked artifact versions within a registry. Each collection represents a distinct task or use case. 
 
-<!-- Removing this since it's on the landing page + we'll eventually have a terms and concepts page -->
-<!-- The proceeding diagram shows the hierarchical relationship between a registry, collections, and versions.
+For example, within the core Dataset registry you might have multiple collections. Each collection contains a different dataset such as MNIST, CIFAR-10, or ImageNet.
 
+As another example, you might have a registry called "chatbot" that contains a collection for model artifacts, another collection for dataset artifacts, and another collection for fine-tuned model artifacts.
+
+How you organize a registry and their collections is up to you.
+
+<!-- Removing this since it's on the landing page + we'll eventually have a terms and concepts page
 ![](/images/registry/Registry_Hierarchy_Diagram.png) -->
 
-
-
-:::tip
-If you are familiar with W&B Model Registry, you might aware of "registered models". In W&B Registry, registered models are renamed to "collections". The way you [create a registered model in the Model Registry](../model_registry/create-registered-model.md) is nearly the same for creating a collection in the W&B Registry. The main difference being that a collection does not belong to an entity like registered models.
+:::note
+If you are familiar with W&B Model Registry, you might aware of "registered models". Registered models in the Model Registry are now referred to as "collections" in the W&B Registry.
 :::
 
 ## Collection types
 
-When you create a collection, you must select the type of artifacts that you can link to that collection. Each collection accepts one, and only one, type of artifact. The type of artifact that a collection can have is determined by the accepted types defined for that registry. You can configure the accepted types a registry allows in the registry settings. 
+Each collection accepts one, and only one, *type* of artifact. The type you specify restricts what sort of artifacts you, and other members of your organization, can link to that collection.
 
-Limiting the types of artifacts that can be linked to a collection is to help ensure that artifacts types are not mixed. For example,  that model artifacts are not linked to the dataset registry.
+:::note
+You can think of artifact types similar to data types in programming languages such as Python. In this analogy, a collection can store strings, integers, or floats but not a mix of these data types.
+:::
 
-:::tip
-You specify the type of an artifact when you create that artifact. Note the `type` field in `wandb.Artifact()`:
+For example, suppose you create a collection that accepts "dataset" artifact types. This means that you can only link future artifact versions that have the type "dataset" to this collection. Similarly, you can only link artifacts of type "model" to a collection that accepts only model artifact types.
+
+:::info
+You specify an artifact's type when you create that artifact object. Note the `type` field in `wandb.Artifact()`:
 
 ```python
 import wandb
 
 # Initialize a run
-run = wandb.init(entity="<team_entity>", project="<project>")
+run = wandb.init(
+  entity = "<team_entity>",
+  project = "<project>"
+  )
 
 # Create an artifact object
 artifact = wandb.Artifact(
@@ -40,15 +49,19 @@ artifact = wandb.Artifact(
     )
 ```
 :::
+ 
 
-For example, suppose you create a collection that accepts "dataset" artifacts types. This means that only of artifacts of type "dataset" can be linked to this collection.
+When you create a collection, you can select from a list of predefined artifact types. The artifact types available to you depend on the registry that the collection belongs to. .
 
-
-
+Before you link an artifact to a collection or create a new collection, [investigate the types of artifacts that collection accepts](#check-the-types-of-artifact-that-a-collection-accepts).
 
 ### Check the types of artifact that a collection accepts
 
-Before you link to a collection, check the artifact type that the collection accepts:
+Before you link to a collection, inspect the artifact type that the collection accepts. You can inspect the artifact types that collection accepts programmatically with the W&B Python SDK or interactively with the W&B App
+
+:::info
+An error message appears if you try to create link an artifact to a collection that does not accept that artifact type.
+:::
 
 <Tabs
   defaultValue="ui"
@@ -58,14 +71,15 @@ Before you link to a collection, check the artifact type that the collection acc
   ]}>
   <TabItem value="ui">
 
-Check the artifact types that a collection accepts on the registry cards on the homepage or within a registry's settings page. For both methods, you must first navigate to your W&B Registry App at https://wandb.ai/registry/.
+You can find the accepted artifact types on the registry card on the homepage or within a registry's settings page.
 
+For both methods, first navigate to your W&B Registry App.
 
-Within the homepage of the Registry App, you can view the accepted artifact types by scrolling to the registry card you are interested in. The gray horizontal ovals within the registry card lists the artifact types that that registry accepts.
-
-For example, the proceeding image shows multiple registry cards on the Registry App homepage. Within the **Model** registry card, you can see two artifact types: **model** and **model-new**. 
+Within the homepage of the Registry App, you can view the accepted artifact types by scrolling to the registry card of that registry. The gray horizontal ovals within the registry card lists the artifact types that registry accepts.
 
 ![](/images/registry/artifact_types_model_card.png)
+
+For example, the preceding image shows multiple registry cards on the Registry App homepage. Within the **Model** registry card, you can see two artifact types: **model** and **model-new**. 
 
 
 To view accepted artifact types within a registry's settings page:
@@ -83,25 +97,38 @@ Programmatically view the artifact types that a registry accepts with the W&B Py
 ```python
 import wandb
 
-registry_name = "<registryName>"
-org_entity = "<org_entity>"
-artifact_types = wandb.Api().project(name=f"wandb-registry-{registry_name}", entity=org_entity).artifact_types()
+registry_name = "<registry_name>"
+artifact_types = wandb.Api().project(name=f"wandb-registry-{registry_name}").artifact_types()
 print(artifact_type.name for artifact_type in artifact_types)
 ```
 
+:::note
+Note that you do not initialize a run with the proceeding code snippet. This is because it is unnecessary to create a run if you are only querying the W&B API and not tracking an experiment, artifact and so on.
+:::
 
   </TabItem>
 </Tabs>
 
+Once you know what type of artifact a collection accepts, you can [create a collection](#create-a-collection).
 
 
+## Create a collection
 
-## Programmatically create a collection
-Programmatically create a collection with the W&B Python SDK. W&B automatically creates a collection with the name you specify in the target path if you try to link an artifact to a collection that does not exist. The target path consists of the entity of the organization, the prefix "wandb-registry-", the name of the registry, and the name of the collection:
+Interactively or programmatically create a collection within a registry. You can not change the type of artifact that a collection accepts after you create it.
+
+### Programmatically create a collection
+
+Use the `wandb.Run.link_artifact()` method to link an artifact to a collection. Specify both the collection and the registry to the `target_path` field as a path that takes the form of:
 
 ```python
-f"{org_entity}/wandb-registry-{registry_name}/{collection_name}"
+f"wandb-registry-{registry_name}/{collection_name}"
 ```
+
+Where `registry_name` is the name of the registry and `collection_name` is the name of the collection. Ensure to append the prefix `wandb-registry-` to the registry name.
+
+:::info
+W&B automatically creates a collection for you if you try to link an artifact to a collection that does not exist. If you specify a collection that does exists, W&B links the artifact to the existing collection.
+:::
 
 The proceeding code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
 
@@ -109,15 +136,17 @@ The proceeding code snippet shows how to programmatically create a collection. E
 import wandb
 
 # Initialize a run
-run = wandb.init(entity="<team_entity>", project="<project>")
+run = wandb.init(entity = "<team_entity>", project = "<project>")
 
 # Create an artifact object
-artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+artifact = wandb.Artifact(
+  name = "<artifact_name>",
+  type = "<artifact_type>"
+  )
 
-org_entity = "<organization_entity>"
 registry_name = "<registry_name>"
 collection_name = "<collection_name>"
-target_path = f"{org_entity}/wandb-registry-{registry_name}/{collection_name}"
+target_path = f"wandb-registry-{registry_name}/{collection_name}"
 
 # Link the artifact to a collection
 run.link_artifact(artifact = artifact, target_path = target_path)
@@ -125,8 +154,7 @@ run.link_artifact(artifact = artifact, target_path = target_path)
 run.finish()
 ```
 
-
-## Interactively create a collection
+### Interactively create a collection
 
 The following steps describe how to create a collection within a registry using the W&B Registry App UI:
 
@@ -135,15 +163,12 @@ The following steps describe how to create a collection within a registry using 
 3. Click on the **Create collection** button in the upper right hand corner.
 4. Provide a name for your collection in the **Name** field. 
 5. Select a type from the **Type** dropdown. Or, if the registry enables custom artifact types, provide one or more artifact types that this collection accepts.
-:::info
-An artifact type can not be removed from a registry once it is added and saved in the registry's settings.
-:::
-5. Optionally provide a description of your collection in the **Description** field.
-6. Optionally add one or more tags in the **Tags** field. 
-7. Click **Link version**.
-8. From the **Project** dropdown, select the project where your artifact is stored.
-9. From the **Artifact** collection dropdown, select your artifact.
-10. From the **Version** dropdown, select the artifact version you want to link to your collection.
-11. Click on the **Create collection** button.
+6. Optionally provide a description of your collection in the **Description** field.
+7. Optionally add one or more tags in the **Tags** field. 
+8. Click **Link version**.
+9. From the **Project** dropdown, select the project where your artifact is stored.
+10. From the **Artifact** collection dropdown, select your artifact.
+11. From the **Version** dropdown, select the artifact version you want to link to your collection.
+12. Click on the **Create collection** button.
 
 ![](/images/registry/create_collection.gif)
