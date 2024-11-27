@@ -104,7 +104,8 @@ Numbers are per Kubernetes worker node.
 
 Numbers are per MySQL node.
 
-### Models and Weave
+
+### Weave only
 
 #### Kubernetes
 
@@ -112,6 +113,26 @@ Numbers are per MySQL node.
 | ---------------- | ------------------ | ------------------ | ------------------ | 
 | Test/Dev         | 4 cores            | 32 GB              | 100 GB             |
 | Production       | 12 cores           | 96 GB              | 100 GB             |
+
+Numbers are per Kubernetes worker node.
+
+#### MySQL
+
+| Environment      | CPU                | Memory             | Disk               | 
+| ---------------- | ------------------ | ------------------ | ------------------ | 
+| Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
+| Production       | 8 cores            | 64 GB              | 500 GB             |
+
+Numbers are per MySQL node.
+
+### Models and Weave
+
+#### Kubernetes
+
+| Environment      | CPU                | Memory             | Disk               | 
+| ---------------- | ------------------ | ------------------ | ------------------ | 
+| Test/Dev         | 4 cores            | 32 GB              | 100 GB             |
+| Production       | 16 cores           | 128 GB             | 100 GB             |
 
 Numbers are per Kubernetes worker node.
 
@@ -139,23 +160,29 @@ Numbers are per MySQL node.
 
 #### AWS
 
-| Environment | K8s worker node    | MySQL	            |  
-| ----------- | ------------------ | ------------------ | 
-| Test/Dev    | r6i.xlarge         | db.r6g.large       | 
-| Production  | r6i.2xlarge        | db.r6g.2xlarge     | 
+| Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&Weave)  | MySQL	           |  
+| ----------- | ------------------ | ------------------ | ------------------- | ------------------ |  
+| Test/Dev    | r6i.large          | r6i.xlarge         | r6i.xlarge          | db.r6g.large       | 
+| Production  | r6i.2xlarge        | r6i.4xlarge        | r6i.4xlarge         | db.r6g.2xlarge     | 
+
+Flavor is per node.
 
 
 #### GCP
 
-| Environment | K8s worker node    | MySQL              |  
-| ----------- | ------------------ | ------------------ | 
-| Test/Dev    | n2-highmem-4       | db-n1-highmem-2    | 
-| Production  | n2-highmem-8       | db-n1-highmem-8    | 
+| Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&Weave)  | MySQL              |  
+| ----------- | ------------------ | ------------------ | ------------------- | ------------------ |  
+| Test/Dev    | n2-highmem-2       | n2-highmem-4       | n2-highmem-4        | db-n1-highmem-2    | 
+| Production  | n2-highmem-8       | n2-highmem-16      | n2-highmem-16       | db-n1-highmem-8    | 
+
+Flavor is per node.
 
 
 #### Azure
 
-| Environment | K8s worker node    | MySQL               |  
-| ----------- | ------------------ | ------------------- | 
-| Test/Dev    | Standard_E4s_v5    | MO_Standard_E2ds_v4 | 
-| Production  | Standard_E8s_v5    | MO_Standard_E8ds_v4 | 
+| Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&Weave)  | MySQL               |  
+| ----------- | ------------------ | ------------------ | ------------------- | ------------------- |  
+| Test/Dev    | Standard_E2_v5     | Standard_E4_v5     | Standard_E4_v5      | MO_Standard_E2ds_v4 | 
+| Production  | Standard_E8_v5     | Standard_E16_v5    | Standard_E16_v5     | MO_Standard_E8ds_v4 | 
+
+Flavor is per node.
