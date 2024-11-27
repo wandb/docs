@@ -33,7 +33,7 @@ The storage layer consists of a MySQL database and object storage. The MySQL dat
 ## Infrastructure requirements
 
 ### Kubernetes
-W&B requires a Kubernetes cluster with a deployed, configured and fully functioning Ingress controller, along with the capability to provision Persistent Volumes. This is essential as the W&B server application is delivered as a [Kubernetes Operator](../operator.md) that deploys multiple Pods.
+W&B requires a Kubernetes cluster with a deployed, configured and fully functioning Ingress controller, along with the capability to provision Persistent Volumes. This is essential as the W&B server application comes as a [Kubernetes Operator](../operator.md) that deploys multiple Pods.
 
 ### MySQL
 W&B requires a MySQL database as a metadata store. The shape of the model parameters and related metadata impact the performance of the database. The database size grows as the ML practitioners track more training runs, and incurs read heavy load when queries are executed in run tables, users workspaces, and reports.
