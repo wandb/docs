@@ -33,7 +33,7 @@ The storage layer consists of a MySQL database and object storage. The MySQL dat
 ## Infrastructure requirements
 
 ### Kubernetes
-W&B requires a Kubernetes cluster with a deployed, configured and fully functioning Ingress controller (for example Contour, Nginx) as the W&B server application comes in the form of a [Kubernetes Operator](../operator.md). 
+W&B requires a Kubernetes cluster with a deployed, configured and fully functioning Ingress controller, along with the capability to provision Persistent Volumes. This is essential as the W&B server application is delivered as a [Kubernetes Operator](../operator.md) that deploys multiple Pods.
 
 ### MySQL
 W&B requires a MySQL database as a metadata store. The shape of the model parameters and related metadata impact the performance of the database. The database size grows as the ML practitioners track more training runs, and incurs read heavy load when queries are executed in run tables, users workspaces, and reports.
@@ -84,7 +84,9 @@ The recommended way to deploy W&B for production is through the use of Terraform
 
 The tables below offer general guidelines to use as a starting point. W&B recommends monitoring all components closely and adjusting the sizing based on actual usage patterns.
 
-### Kubernetes
+### Models only
+
+#### Kubernetes
 
 | Environment      | CPU	            | Memory	         | Disk               | 
 | ---------------- | ------------------ | ------------------ | ------------------ | 
@@ -93,9 +95,29 @@ The tables below offer general guidelines to use as a starting point. W&B recomm
 
 Numbers are per Kubernetes worker node.
 
-### MySQL
+#### MySQL
 
 | Environment      | CPU	            | Memory	         | Disk               | 
+| ---------------- | ------------------ | ------------------ | ------------------ | 
+| Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
+| Production       | 8 cores            | 64 GB              | 500 GB             |
+
+Numbers are per MySQL node.
+
+### Models and Weave
+
+#### Kubernetes
+
+| Environment      | CPU                | Memory             | Disk               | 
+| ---------------- | ------------------ | ------------------ | ------------------ | 
+| Test/Dev         | 4 cores            | 32 GB              | 100 GB             |
+| Production       | 12 cores           | 96 GB              | 100 GB             |
+
+Numbers are per Kubernetes worker node.
+
+#### MySQL
+
+| Environment      | CPU                | Memory             | Disk               | 
 | ---------------- | ------------------ | ------------------ | ------------------ | 
 | Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
 | Production       | 8 cores            | 64 GB              | 500 GB             |
