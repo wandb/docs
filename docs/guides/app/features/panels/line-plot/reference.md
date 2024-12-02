@@ -3,7 +3,7 @@ displayed_sidebar: default
 title: Line plot reference
 ---
 
-## X-Axis
+## X-axis
 
 ![Selecting X-Axis](/images/app_ui/reference_x_axis.png)
 
