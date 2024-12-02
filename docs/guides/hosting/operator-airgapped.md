@@ -50,6 +50,8 @@ sudo mv wsm /usr/local/bin
 ```
 Alternatively, download it from [here](https://github.com/wandb/wsm/releases).
 
+Please note that this tool requires a functioning Docker installation.
+
 #### List images and their versions
 
 To get an up to date list of image versions, execute:
@@ -75,7 +77,7 @@ W&B Images:
 Here are the images required to deploy W&B. Please ensure these images are available in your internal container registry and update the values.yaml accordingly.
 ```
 
-#### Download images and their versions
+#### Download images
 
 To download all images in the latest versions, execute:
 
@@ -150,7 +152,7 @@ Replace the tag with the version that is available in your internal registry.
 Execute the following to install the operator:
 
 ```bash
-helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace -f values.yaml
+helm upgrade --install operator wandb/operator -n wandb --create-namespace -f values.yaml
 ```
 
 You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
