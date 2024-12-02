@@ -1,0 +1,250 @@
+/*
+
+Add styles or override variables from the theme here.
+
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+
+// Color variables based on color.styles.tokens.json
+
+// Moon (Grayscale)
+// White: Page background (type 1), Primary button text
+$moon-white: #ffffff;
+
+// Light mode: Page background type 2, Disabled button background color
+// Dark mode: Tooltip background color, Toast background color
+$moon-50: #fafafa;
+
+// Light mode: Background color of table row with column headers, Table row or menu item hover highlight
+$moon-100: #f5f6f7;
+
+// Light mode: Scroll bar hover, Chart secondary lines
+// Dark mode: Body text, Decorative icons, Secondary button text (rest)
+$moon-200: #e4e6eb;
+
+// Light mode: Tag background color (48% rest, 64% hover), Info banner background color (48% opacity)
+$moon-300: #d3d7de;
+
+// Light mode: Run color 15
+// Dark mode: Tag text color, Info banner text color, Run color 15
+$moon-400: #aeb3bd;
+
+// Light/Dark mode: Secondary text, Placeholder text, Table column header text, Non-selected tabs text
+$moon-500: #79808a;
+
+// Light mode: Tag text color, Info banner text color
+$moon-600: #565c66;
+
+// Dark mode: Tag background color (48% rest, 64% hover), Info banner background color (48% opacity)
+$moon-700: #3f464f;
+
+// Light mode: Body text, Decorative icons, Secondary button text (rest)
+// Dark mode: Chart secondary lines, Scroll bar rest
+$moon-800: #2b3038;
+
+// Light mode: Tooltip background color, Toast background color, Top bar background color
+// Dark mode: Containers, fields and modals background color, Top bar background color
+$moon-900: #1a1d24;
+
+// Dark mode: Page background type 1 and 2
+$moon-950: #171a1f;
+
+// Light/Dark mode: Dropshadows (opacity varies), Background dimming behind modals
+$oblivion: #15151f;
+
+// Teal
+// Light mode: Tag background color (48% rest, 64% hover), Selected global nav item highlight (32%)
+$teal-300: #a9edf2;
+
+// Light mode: Field 2px stroke color (focus)
+// Dark mode: Link (Hover), Tag text color, Selected global nav item text, Secondary button text (hover)
+$teal-400: #58d3db;
+
+// Light/Dark mode: Primary button color (Hover), Run color 01
+$teal-450: #10bfcc;
+
+// Light/Dark mode: Primary button color (Rest), Selected tab underline
+$teal-500: #13a9ba;
+
+// Light mode: Link (rest), Tag text color, Selected global nav item text, Secondary button text (hover)
+// Dark mode: Field 2px stroke color (focus)
+$teal-600: #038194;
+
+// Green
+// Light mode: Tag background color (48% opacity at rest, 64% on hover), Green banner background color (48% opacity)
+$green-300: #a1f0cb;
+
+// Dark mode: Tag text color, Green banner text color
+$green-400: #5ed6a4;
+
+// Light/Dark mode: Green button background color (hover)
+$green-450: #28c787;
+
+// Light/Dark mode: Green button background color (rest), Run color 04
+$green-500: #00b26e;
+
+// Light mode: Tag text color, Green banner text color
+$green-600: #00875a;
+
+// Gold
+// Light mode: Tag background color (48% opacity at rest, 64% on hover), Announcement banner background color (48% opacity)
+$gold-300: #ffe49e;
+
+// Light mode: Run color 06
+// Dark mode: Tag text color, Announcement banner text color, Run color 06
+$gold-400: #ffcf4d;
+
+// Light/Dark mode: Weights & Biases logo color
+$gold-450: #fac13c;
+
+// Light/Dark mode: Top bar background color in Admin mode
+$gold-550: #d4870d;
+
+// Light mode: Tag text color, Announcement banner text color
+$gold-600: #b8740f;
+
+// Red
+// Light mode: Tag background color (48% opacity at rest, 64% on hover), Error banner background color (48% opacity)
+$red-300: #ffc7ca;
+
+// Dark mode: Tag text color, Error banner text color
+$red-400: #ff7a88;
+
+// Light mode: Destructive button background color (hover), Error field 2px stroke color
+// Dark mode: Destructive button background color (hover), Field error message
+$red-450: #ff596d;
+
+// Light/Dark mode: Destructive color background color (rest), Run color 09
+$red-500: #ff3d5a;
+
+// Light mode: Tag text color, Error banner text color
+$red-600: #cc2944;
+
+// Blue
+// Light mode: Tag background color (48% opacity at rest, 64% on hover)
+$blue-300: #bdd9ff;
+
+// Light/Dark mode: Run color 13
+// Dark mode: Tag text color
+$blue-400: #7db1fa;
+
+// Unused in provided descriptions
+$blue-500: #397eed;
+
+// Light mode: Tag text color
+$blue-600: #1f59c4;
+
+// wandb.com nav bg
+$nav-bg: rgb(26, 28, 31);
+$wandb-gold: #FFCC33;
+$wandb-link-blue: rgb(7, 177, 196);
+
+// Gradients
+$sunset-gradient: linear-gradient(98deg, #e180ff 0%, #ffcf4d 100%);
+$wandb-gradient: linear-gradient(180deg, #ffcc33 39%, #ffad33 72%);
+
+// hide "create child" and "create project issue" links
+.td-page-meta__child, .td-page-meta__project-issue { display: none !important; }
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif, "system-ui", "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+    color: $moon-800;
+    background-color: $moon-white;
+}
+// shrink the right nav a bit
+.td-page-meta
+{
+    font-size: 12px !important;
+}
+// hide the doc site name from the top-left
+.td-navbar .navbar-brand__name { display: none; }
+
+// hide taxonomy cloud on right and top
+.taxonomy-terms-cloud, .taxonomy-terms-article { display: none; }
+
+// hide left nav label 
+.tree-root { display: none !important;}
+
+// Add blue color for links and remove underline
+a {
+    color: $teal-600 !important;
+    text-decoration: none !important;
+    &:hover {
+        color: $teal-500 !important;
+    }
+}
+[data-bs-theme=dark] a {
+    color: $wandb-link-blue !important;
+    text-decoration: none !important;
+    &:hover {
+        color: $wandb-gold !important;
+    }
+}
+// Style for link hover state
+a:hover {
+    text-decoration: underline !important;
+}
+
+// Target links in the navigation and make them white
+.td-navbar .nav-link {
+    color: $moon-white !important;
+}
+
+// Ensure hover state for nav links doesn't change color
+.td-navbar {
+    color: $moon-white;
+}
+a.nav-link:hover {
+    color: $wandb-gold !important;
+}
+.nav-link.active 
+{
+    border-bottom: 2px solid $wandb-gold !important;
+}
+
+// headings use WandB serif font
+h1, h2, .nav-link, .td-sidebar-link {
+    font-weight: 400 !important;
+}
+.td-sidebar-nav-active-item {
+    text-decoration: underline;
+}
+
+.td-sidebar-nav, h1, .td-navbar .nav-link  {
+    font-family: "Source Serif 4", sans-serif;
+}
+
+.td-navbar, .js-navbar-scroll {
+    background-color: $nav-bg !important;
+}
+
+ol.breadcrumb:before {
+    content: "🏠︎" !important;
+    color: grey; filter: grayscale(100%);
+    margin-right: 10px;
+}
+
+.td-sidebar-nav__section-title {
+    line-height: 19px;
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+}
+
+.lead { font-size: 1.1rem !important;}
+
+#TableOfContents:before { 
+    content: "On this page"; 
+    font-weight: bold; 
+}
+#TableOfContents { 
+    margin-top: 15px;
+    font-size: 12px !important;
+    padding-left: 10px !important;
+}
+#TableOfContents ul { 
+    padding-top: 5px !important;
+}
+
+// algolia
+.DocSearch-Footer { display: none !important; }
