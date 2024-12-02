@@ -155,7 +155,7 @@ helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace -f
 
 You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
-## Step 6: Configure CustomResourceDefinitions 
+## Step 6: Configure W&B Custom Resource Definition 
 
 After installing the W&B Kubernetes operator, you must configure the Custom Resource Definition (CRD) to point to your internal Helm repository and container registry. 
 
@@ -223,7 +223,7 @@ To deploy the W&B platform, the Kubernetes Operator uses the `operator-wandb` ch
 
 Replace all tags/versions with the versions that are available in your internal registry.
 
-More information on creating the above configuration file can be found [here](https://docs.wandb.ai/guides/hosting/operator#configuration-reference-for-wb-server). 
+More information on creating the preceding configuration file can be found [here](https://docs.wandb.ai/guides/hosting/operator#configuration-reference-for-wb-server). 
 
 ## Step 7: Deploy the W&B platform
 
