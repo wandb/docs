@@ -5,8 +5,15 @@ menu:
   default:
     identifier: intro
     parent: null
-title: What is W&B?
+  main:
+    weight: 1
+type: docs
+cascade:
+  type: docs
+title: Developer Guides
 ---
+
+# What is W&B?
 
 Weights & Biases (W&B) is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models. 
 

@@ -1,5 +1,6 @@
-# Command Line Interface
-
+---
+title: Command Line Interface
+---
 **Usage**
 
 `wandb [OPTIONS] COMMAND [ARGS]...`

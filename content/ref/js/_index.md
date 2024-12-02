@@ -1,8 +1,7 @@
 ---
+title: JavaScript Library
 description: The W&B SDK for TypeScript, Node, and modern Web Browsers
 ---
-
-# JavaScript Library
 
 Similar to our Python library, we offer a client to track experiments in JavaScript/TypeScript.
 

@@ -1,5 +1,14 @@
-# Query Expression Language
-
+---
+title: Query Expression Language
+menu:
+    reference:
+        identifier: qel
+        parent: reference
+cascade:
+    menu:
+        reference:
+            parent: qel
+---
 Use the query expressions to select and aggregate data across runs and projects. 
 Learn more about Query Panels here: https://docs.wandb.ai/guides/app/features/panels/query-panel
 

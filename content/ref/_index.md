@@ -1,8 +1,17 @@
 ---
+title: Reference
 description: Generated documentation for Weights & Biases APIs
+menu: 
+  reference:
+    identifier: reference
+menu:
+  main:
+    weight: 2
+type: docs
+cascade:
+  type: docs
 ---
 
-# Reference
 
 These docs are automatically generated from the [`wandb` library](https://github.com/wandb/wandb).
 

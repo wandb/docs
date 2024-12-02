@@ -1,6 +1,14 @@
 ---
-title: Weights & Biases Support Center
-hide_table_of_contents: true
+title: Support
+menu:
+  support:
+    identifier: support
+  main:
+    weight: 4
+type: docs
+cascade:
+  type: docs
+
 ---
 import Card from '@site/src/components/Card';
 import TopicCard from '@site/src/components/TopicCard';
