@@ -60,7 +60,7 @@ The **Add all** button appears only if a regular expression match occurs.
 
 
 
-## Activate or deactivate auto generated panels
+## Activate or deactivate auto-generated panels
 
 By default, W&B generates a panel for each unique metric you [`log`](../../../../ref/python/log.md) with the Python SDK. 
 
@@ -76,7 +76,7 @@ To activate or deactivate auto generated panels:
 4. Toggle the **Panel generation** option to desired state
 ![](/images/app_ui/panel_generation.png)
 
-### Check auto generated panel settings
+### Check auto-generated panel settings
 Each workspace indicates whether or not the workspace automatically generates panels. Next to the name of your workspace is a clipboard icon. If the icon is red, panels are not automatically generated. If the panel is green, panels are automatically created each time you log a unique metric.
 
 Example of workspace with panel auto generation off:
