@@ -812,12 +812,12 @@ container:
 ```
 **Important:** `runAsGroup:` must be equals `0`. This cannot be another value.
 
-**Example:** To configure the application pod, you have to add a section `app` to your configuration YAML:
+**Example:** to configure the application pod, you have to add a section `app` to your configuration YAML:
 
 ```yaml
 global:
   ...
-  
+
 app:
   pod:
     securityContext:
