@@ -48,9 +48,11 @@ The script downloads the binary to the folder in which you executed the script. 
 ```bash
 sudo mv wsm /usr/local/bin
 ```
-Alternatively, download it from [here](https://github.com/wandb/wsm/releases).
+Alternatively, download WSM from the W&B managed `wandb/wsm` GitHub repository at `https://github.com/wandb/wsm`. See the `wandb/wsm` [release notes](https://github.com/wandb/wsm/releases) for the latest release.
 
-Please note that this tool requires a functioning Docker installation.
+:::note
+WSM requires a functioning Docker installation.
+:::
 
 #### List images and their versions
 
@@ -74,7 +76,7 @@ W&B Images:
   quay.io/prometheus/prometheus:v2.47.0
   otel/opentelemetry-collector-contrib:0.97.0
   wandb/console:2.13.1
-Here are the images required to deploy W&B. Please ensure these images are available in your internal container registry and update the values.yaml accordingly.
+Here are the images required to deploy W&B. Ensure these images are available in your internal container registry and update the values.yaml accordingly.
 ```
 
 #### Download images
