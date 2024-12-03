@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 Link artifact versions to a collection to make them available to other members in your organization. 
 
-When you link an artifact to a registry, this "publishes" that artifact to that registry. Any user that has access to that registry can access linked artifact versions when you link an artifact to a collection.
+When you link an artifact to a registry, this "publishes" that artifact to that registry. Any user that has access to that registry can access the linked artifact versions in the collection.
 
 In other words, linking an artifact to a registry collection brings that artifact version from a private, project-level scope, to a shared organization level scope.
 
@@ -18,17 +18,12 @@ The term "type" refers to the artifact object's type. When you create an artifac
 :::
 
 
-
-
-
-
-
 ## Link an artifact to collection
 
 Link an artifact version to a collection interactively or programmatically. 
 
 :::tip
-Before you link an artifact to a registry, check that the types of artifacts that collection permits. For more information about collection types, see "Collection types" within [Create a collection](./create_collection.md).
+Before you link an artifact to a registry, check the types of artifacts that collection permits. For more information about collection types, see "Collection types" within [Create a collection](./create_collection.md).
 :::
 
 Based on your use case, follow the instructions described in the tabs below to link an artifact version.
@@ -65,7 +60,7 @@ import wandb
 run = wandb.init(
   entity = "<team_entity>",
   project = "<project_name>"
-  )
+)
 
 # Create an artifact object
 # The type parameter specifies both the type of the 
@@ -86,7 +81,7 @@ run.link_artifact(artifact = artifact, target_path = target_path)
 ```
 
 :::info
-If you want to link an artifact version to the Model registry or the Dateset registry, set the artifact type to `"model"` or `"dataset"`, respectively.
+If you want to link an artifact version to the Model registry or the Dataset registry, set the artifact type to `"model"` or `"dataset"`, respectively.
 :::
 
 
@@ -123,12 +118,45 @@ If you want to link an artifact version to the Model registry or the Dateset reg
   </TabItem>
 </Tabs>
 
-
-
 <!-- :::tip Linked vs source artifact versions
 * Source version: the artifact version inside a team's project that is logged to a [run](../runs/intro.md).
 * Linked version: the artifact version that is published to the registry. This is a pointer to the source artifact, and is the exact same artifact version, just made available in the scope of the registry.
 ::: -->
+
+View a linked artifact's metadata, version data, usage, lineage information and more in the Registry App.
+
+## View linked artifacts in a registry
+
+View information about linked artifacts such as metadata, lineage, and usage information in the Registry App.
+
+1. Navigate to the Registry App.
+2. Select the name of the registry that you linked the artifact to.
+3. Select the name of the collection.
+4. From the list of artifact versions, select the version you want to access. Version numbers are incrementally assigned to each artifact version that is linked to the collection. 
+
+Once you select an artifact version, you can view that version's metadata, lineage, and usage information.
+
+Make note of the **Full Name** field within the **Version** tab. The full name of a linked artifact consists of the registry, collection name, and the alias or index of the artifact version.
+
+```text title="Full name of a linked artifact"
+wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
+```
+
+You will need the full name of a linked artifact to access the artifact version programmatically.
+
+
+<!-- The full name of a linked artifact consists of the registry name, collection name, and the alias or index of the artifact version you want to access. 
+
+
+You can find the full name of a linked artifact in the Registry App.
+
+1. Navigate to the Registry App.
+2. Select the name of the registry that you linked the artifact to.
+3. Select the name of the collection.
+4. From the list of artifact versions, select the version you want to access.
+5. Select the **Version** tab.
+6. Copy and paste the name of the artifact shown in the **Full Name** field. -->
+
 
 ## Troubleshooting 
 
