@@ -787,6 +787,59 @@ global:
     -----END CERTIFICATE-----
 ```
 
+### Custom security context
+
+Each W&B component supports custom security context configurations of the following form:
+
+```yaml
+pod:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 0
+    fsGroup: 1001
+    fsGroupChangePolicy: Always
+    seccompProfile:
+      type: RuntimeDefault
+
+container:
+  securityContext:
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false 
+```
+**Important:** `runAsGroup:` must be equals `0`. This cannot be another value.
+
+**Example:** To configure the application pod, you have to add a section `app` to your configuration YAML:
+
+```yaml
+global:
+  ...
+  
+app:
+  pod:
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 0
+      fsGroup: 1001
+      fsGroupChangePolicy: Always
+      seccompProfile:
+        type: RuntimeDefault
+
+  container:
+    securityContext:
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: false 
+```
+The same concept applies to `console`, `weave`, `otel`, `weave-trace`, `flat-run-fields-updater` and `parquet`.
+
+
 ## Configuration Reference for W&B Operator
 
 This section describes configuration options for W&B Kubernetes operator (`wandb-controller-manager`). The operator receives its configuration in the form of a YAML file. 
