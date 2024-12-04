@@ -132,7 +132,7 @@ View information about linked artifacts such as metadata, lineage, and usage inf
 1. Navigate to the Registry App.
 2. Select the name of the registry that you linked the artifact to.
 3. Select the name of the collection.
-4. From the list of artifact versions, select the version you want to access. Version numbers are incrementally assigned to each artifact version that is linked to the collection. 
+4. From the list of artifact versions, select the version you want to access. Version numbers are incrementally assigned to each linked artifact version starting with `v0`.
 
 Once you select an artifact version, you can view that version's metadata, lineage, and usage information.
 
@@ -142,20 +142,8 @@ Make note of the **Full Name** field within the **Version** tab. The full name o
 wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
 ```
 
-You will need the full name of a linked artifact to access the artifact version programmatically.
+You need the full name of a linked artifact to access the artifact version programmatically.
 
-
-<!-- The full name of a linked artifact consists of the registry name, collection name, and the alias or index of the artifact version you want to access. 
-
-
-You can find the full name of a linked artifact in the Registry App.
-
-1. Navigate to the Registry App.
-2. Select the name of the registry that you linked the artifact to.
-3. Select the name of the collection.
-4. From the list of artifact versions, select the version you want to access.
-5. Select the **Version** tab.
-6. Copy and paste the name of the artifact shown in the **Full Name** field. -->
 
 
 ## Troubleshooting 
