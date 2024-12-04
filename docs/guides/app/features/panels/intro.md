@@ -29,7 +29,7 @@ When a workspace has automatic panel generation enabled, W&B uses the key value 
 
 If desired, you can configure the workspace to display only those panels you add manually. Resetting a workspace removes all custom panels.
 
-To change a workspace's type:
+To change the type for a workspace:
 
 1. At the top of the workspace, click the `...` menu, then click **Reset workspace**.
 2. To generate panels automatically, select **Automatic**, then click **Generate automated workspace**.
