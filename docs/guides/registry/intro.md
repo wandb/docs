@@ -72,7 +72,7 @@ logged_artifact = run.log_artifact(
     artifact_or_path="./my_model.txt", 
     name="gemma-finetuned", 
     type="model" # Specifies artifact type
-    )
+)
 
 # Specify the name of the collection and registry
 # you want to publish the artifact to
@@ -83,7 +83,7 @@ REGISTRY_NAME = "model"
 run.link_artifact(
     artifact=logged_artifact, 
     target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
-    )
+)
 ```
 
 W&B automatically creates a collection for you if the collection you specify in the returned run object's `link_artifact(target_path = "")` method does not exist within the registry you specify.
