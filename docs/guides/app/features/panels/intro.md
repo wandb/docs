@@ -11,14 +11,19 @@ Use panel visualizations to explore your logged data, the relationships between 
 
 ## Check workspace settings
 
-A workspace's type indicates indicates whether the workspace generates panels automatically. Next to the name of your workspace is a clipboard icon. If the icon is a green diamond, panels are generated automatically. If the icon is a purple safety pin and ruler, panels are generated manually. To configure panel generation, [reset the workspace](#reset-a-workspace).
+A workspace's type indicates whether the workspace generates panels automatically. Next to the name of your workspace is a clipboard icon.
+
+- If the icon is a green diamond, automatic panel generation is enabled.
+- If the icon is a purple safety pin and ruler, automatic panel generation is disabled.
+
+To configure panel generation, [reset the workspace](#reset-a-workspace).
 
 ## Reset a workspace
 
-By default, a worksplace displays panels automatically for all keys [`log`](../../../../ref/python/log.md) in the project. This can help you get started quickly by visualizing all available data for the project.
+By default, a worksplace automatically generates panels for all keys [`log`](../../../../ref/python/log.md) in the project. This can help you get started quickly by visualizing all available data for the project.
 
 :::info
-When automatic panel generation is configured for a workspace, W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
+When a workspace has automatic panel generation enabled, W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
 :::
 
 
