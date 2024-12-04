@@ -13,7 +13,7 @@ When you link an artifact to a registry, this "publishes" that artifact to that 
 In other words, linking an artifact to a registry collection brings that artifact version from a private, project-level scope, to a shared organization level scope.
 
 :::info
-The term "type" refers to the artifact object's type. When you create an artifact object ([`wandb.Artifact`](../../ref/python/artifact.md)), or log an artifact ([`wandb.Run.log_artifact`](../../ref/python/run.md#log_artifact)), you specify a type for the `type` parameter. 
+The term "type" refers to the artifact object's type. When you create an artifact object ([`wandb.Artifact`](../../ref/python/artifact.md)), or log an artifact ([`wandb.init.log_artifact`](../../ref/python/run.md#log_artifact)), you specify a type for the `type` parameter. 
 <!-- If you are familiar with Python, you can think of artifact types in W&B as having similar functions as Python data types.  -->
 :::
 
@@ -219,7 +219,7 @@ There are two ways to confirm the path of a registry with the UI: create an empt
 1. Navigate to the Registry app at https://wandb.ai/registry/.
 2. Click the registry you want to link an artifact to.
 4. Click on the empty collection. If an empty collection does not exist, create a new collection.
-5. Within the code snippet that appears, identify the `target_path` field within `run.link_artifact()`.
+5. Within the code snippet that appears, identify the `target_path` field within `.link_artifact()`.
 6. (Optional) Delete the collection.
 
 ![](/images/registry/check_empty_collection.gif)

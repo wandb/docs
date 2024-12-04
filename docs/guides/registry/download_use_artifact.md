@@ -5,7 +5,7 @@ title: Download an artifact from a registry
 
 Use the W&B Python SDK to download an artifact linked to a registry. To download and use an artifact, you need to know the name of the registry, the name of the collection, and the alias or index of the artifact version you want to download. 
 
-Once you know the properties of the artifact, you can [construct the path to the linked artifact](#construct-path-to-linked-artifact) and download the artifact. Alternatively, you can [copy and paste a pre generated code snippet](#copy-and-paste-pre-generated-code-snippet) from the W&B App UI to download an artifact linked to a registry. 
+Once you know the properties of the artifact, you can [construct the path to the linked artifact](#construct-path-to-linked-artifact) and download the artifact. Alternatively, you can [copy and paste a pre-generated code snippet](#copy-and-paste-pre-generated-code-snippet) from the W&B App UI to download an artifact linked to a registry. 
 
 
 ## Construct path to linked artifact
@@ -48,10 +48,8 @@ fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)
 download_path = fetched_artifact.download()  
 ```
 
-The `use_artifact` method both creates a [run](../runs/intro.md) and marks the artifact you download as the input to a run. 
-Marking an artifact as the input to a run enables W&B to track the lineage of that artifact. In other words, you can see how that artifact is used in different runs and how it is transformed over time.
-
-<!-- Note that by using the `use_artifact` method, you are marking the artifact as an input to your run for lineage tracking. This enables you to track the lineage of the artifact in the W&B App UI. Using the `use_artifact` method also creates a run. -->
+The `.use_artifact()` method both creates a [run](../runs/intro.md) and marks the artifact you download as the input to that run. 
+Marking an artifact as the input to a run enables W&B to track the lineage of that artifact. 
 
 If you do not want to create a run, you can use the `wandb.Api()` object to access the artifact:
 
@@ -116,11 +114,11 @@ artifact = api.artifact(name = artifact_name)
 
 # Use org display name or org entity in the path
 api = wandb.Api()
-artifact_name = f"{ORG_ENTITY}/wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
 artifact = api.artifact(name = artifact_name)
 ```
 
-Where the `ORG_ENTITY` is the entity the organization you belong to. 
+Where the `ORG_NAME` is the display name of your organization. Multi-tenant SaaS users can find the name of their organization in the organization's settings page at `https://wandb.ai/account-settings/`. Dedicated Cloud and Self-Managed users, contact your account administrator for the name of your organization.
 :::
 
 ## Copy and paste pre-generated code snippet
