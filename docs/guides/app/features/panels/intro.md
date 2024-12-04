@@ -9,6 +9,28 @@ import TabItem from '@theme/TabItem';
 
 Use panel visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and more. 
 
+## Check workspace settings
+
+A workspace's type indicates indicates whether the workspace generates panels automatically. Next to the name of your workspace is a clipboard icon. If the icon is a green diamond, panels are generated automatically. If the icon is a purple safety pin and ruler, panels are generated manually. To configure panel generation, [reset the workspace](#reset-a-workspace).
+
+## Reset a workspace
+
+By default, a worksplace displays panels automatically for all keys [`log`](../../../../ref/python/log.md) in the project. This can help you get started quickly by visualizing all available data for the project.
+
+:::info
+When automatic panel generation is configured for a workspace, W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
+:::
+
+
+If desired, you can configure the workspace to display only those panels you add manually. Resetting a workspace removes all custom panels.
+
+To change a workspace's type:
+
+1. At the top of the workspace, click the `...` menu, then click **Reset workspace**.
+2. To generate panels automatically, select **Automatic**, then click **Generate automated workspace**.
+3. To generate panels manually instead, select **Manual**, then click **Get started**.
+
+
 ## Add a single panel
 
 1. Within your workspace, navigate to the section you want to add a panel to
@@ -45,8 +67,16 @@ Use panel visualizations to explore your logged data, the relationships between 
 Select the undo button (arrow that points left) to undo any unwanted changes.
 :::
 
+## Duplicate a panel
+
+To duplicate a panel:
+
+1. At the top of the panel, click the `...` menu.
+2. Click **Duplicate**.
+3. If desired, customize the duplicate panel.
+
 ## Add multiple panels
-Add multiple panels to your workspace at the same time. You can add up to 500 panels at a time.
+You can add up to 500 panels at a time. To add multiple panels:
 
 1. Within your project workspace, choose the **Add panels** button
 2. Choose **Quick add**
@@ -58,34 +88,6 @@ Add multiple panels to your workspace at the same time. You can add up to 500 pa
 The **Add all** button appears only if a regular expression match occurs.
 :::
 
-
-
-## Activate or deactivate auto-generated panels
-
-By default, W&B generates a panel for each unique metric you [`log`](../../../../ref/python/log.md) with the Python SDK. 
-
-:::info
-W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
-:::
-
-To activate or deactivate auto generated panels:
-
-1. Navigate to your project's workspace
-2. Select on the gear icon in the upper right hand corner
-3. A modal appears, choose **Sections**
-4. Toggle the **Panel generation** option to desired state
-![](/images/app_ui/panel_generation.png)
-
-### Check auto-generated panel settings
-Each workspace indicates whether or not the workspace automatically generates panels. Next to the name of your workspace is a clipboard icon. If the icon is red, panels are not automatically generated. If the panel is green, panels are automatically created each time you log a unique metric.
-
-Example of workspace with panel auto generation off:
-![](/images/app_ui/auto_panel_off.png)
-
-Example of workspace with panel auto generation on:
-![](/images/app_ui/auto_panel_on.png)
-
-
 ## Remove a panel
 
 1. Hover your mouse in the upper corner of the panel you want to remove
@@ -94,12 +96,12 @@ Example of workspace with panel auto generation on:
 
 ## Remove all panels
 
+To remove all customization from an automatic workspace, [reset the workspace](#reset-a-workspace).
+
+To remove all panels from a manual workspace and leave it empty:
+
 1. Within your project workspace, select the three horizontal dots (**...**) next to the panel search bar
 2. Select **Clear all panels**
-
-:::note
-Clearing panels in your workspace deactivates automatic panel generation.
-:::
 
 <!-- ## Add a section -->
 
