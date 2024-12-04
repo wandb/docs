@@ -20,7 +20,7 @@ To configure panel generation, [reset the workspace](#reset-a-workspace).
 
 ## Reset a workspace
 
-By default, a worksplace automatically generates panels for all keys [`log`](../../../../ref/python/log.md) in the project. This can help you get started quickly by visualizing all available data for the project.
+By default, a workspace automatically generates panels for all keys [`log`](../../../../ref/python/log.md) in the project. This can help you get started quickly by visualizing all available data for the project.
 
 :::info
 When a workspace has automatic panel generation enabled, W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
