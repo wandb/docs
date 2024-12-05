@@ -14,7 +14,7 @@ Use panel visualizations to explore your logged data, the relationships between 
 The icon next to the name of your workspace indicates how it generates panels:
 
 - A green diamond indicates that the workspace generates panels automatically.
-- A purple safety pin and ruler indicaters that the workspace generates panels manually.
+- A purple safety pin and ruler indicates that the workspace generates panels manually.
 
 To configure panel generation, [reset the workspace](#reset-a-workspace).
 
