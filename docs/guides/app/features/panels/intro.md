@@ -13,8 +13,8 @@ Use panel visualizations to explore your logged data, the relationships between 
 
 A workspace's type indicates whether the workspace generates panels automatically. Next to the name of your workspace is a clipboard icon.
 
-- If the icon is a green diamond, automatic panel generation is enabled.
-- If the icon is a purple safety pin and ruler, automatic panel generation is disabled.
+- A green diamond indicates that the workspace is configured for automatic panel generation is enabled.
+- A purple safety pin and ruler indicaters that the workspace is configured for manual panel generation.
 
 To configure panel generation, [reset the workspace](#reset-a-workspace).
 
