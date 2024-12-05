@@ -20,8 +20,6 @@ CTAButtons
 [Dd]equeue
 [Dd]equeues
 [Dd]eserialize
-[Dd]isable
-[Dd]isabled
 Docker
 Dockerfile
 [Dd]ownsampling
