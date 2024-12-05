@@ -1,6 +1,6 @@
 # init
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/wandb_init.py#L1001-L1271' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/sdk/wandb_init.py#L1013-L1320' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Start a new run to track and log to W&B.
@@ -13,11 +13,10 @@ init(
     project: (str | None) = None,
     entity: (str | None) = None,
     reinit: (bool | None) = None,
-    tags: (Sequence | None) = None,
+    tags: (Sequence[str] | None) = None,
     group: (str | None) = None,
     name: (str | None) = None,
     notes: (str | None) = None,
-    magic: (dict | str | bool | None) = None,
     config_exclude_keys: (list[str] | None) = None,
     config_include_keys: (list[str] | None) = None,
     anonymous: (str | None) = None,
@@ -92,7 +91,6 @@ For more on using `wandb.init()`, including detailed examples, check out our
 |  `dir` |  (str or pathlib.Path, optional) An absolute path to a directory where metadata will be stored. When you call `download()` on an artifact, this is the directory where downloaded files will be saved. By default, this is the `./wandb` directory. |
 |  `resume` |  (bool, str, optional) Sets the resuming behavior. Options: `"allow"`, `"must"`, `"never"`, `"auto"` or `None`. Defaults to `None`. Cases: - `None` (default): If the new run has the same ID as a previous run, this run overwrites that data. - `"auto"` (or `True`): if the previous run on this machine crashed, automatically resume it. Otherwise, start a new run. - `"allow"`: if id is set with `init(id="UNIQUE_ID")` or `WANDB_RUN_ID="UNIQUE_ID"` and it is identical to a previous run, wandb will automatically resume the run with that id. Otherwise, wandb will start a new run. - `"never"`: if id is set with `init(id="UNIQUE_ID")` or `WANDB_RUN_ID="UNIQUE_ID"` and it is identical to a previous run, wandb will crash. - `"must"`: if id is set with `init(id="UNIQUE_ID")` or `WANDB_RUN_ID="UNIQUE_ID"` and it is identical to a previous run, wandb will automatically resume the run with the id. Otherwise, wandb will crash. See [our guide to resuming runs](https://docs.wandb.com/guides/runs/resuming) for more. |
 |  `reinit` |  (bool, optional) Allow multiple `wandb.init()` calls in the same process. (default: `False`) |
-|  `magic` |  (bool, dict, or str, optional) The bool controls whether we try to auto-instrument your script, capturing basic details of your run without you having to add more wandb code. (default: `False`) You can also pass a dict, json string, or yaml filename. |
 |  `config_exclude_keys` |  (list, optional) string keys to exclude from `wandb.config`. |
 |  `config_include_keys` |  (list, optional) string keys to include in `wandb.config`. |
 |  `anonymous` |  (str, optional) Controls anonymous data logging. Options: - `"never"` (default): requires you to link your W&B account before tracking the run, so you don't accidentally create an anonymous run. - `"allow"`: lets a logged-in user track runs with their account, but lets someone who is running the script without a W&B account see the charts in the UI. - `"must"`: sends the run to an anonymous account instead of to a signed-up user account. |
