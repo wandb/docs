@@ -37,13 +37,14 @@ To change the type for a workspace:
 
 ## Add panels
 
+You can add a panel in multiple ways:
 To add a panel:
 
-1. Within your workspace, navigate to the section you want to add a panel to
-2. Choose the Add panel button
+1. To add a panel directly to a section, click the section's `...` menu , then click **+ Add panels**.
+2. To add a panel to the top level (for manual workspaces only) or to an arbitrary section, click **+ Add panels** at the top of the workspace.
 3. From the dropdown, select a type of panel to add
 ![](/images/app_ui/add_single_panel.gif) 
-4. (Optional) If prompted, define parameters for the plot. 
+4. (Optional) If prompted, define parameters for the panel. 
 
 <Tabs
   defaultValue="quick"
@@ -75,10 +76,9 @@ Select the undo button (arrow that points left) to undo any unwanted changes.
 
 You can add up to 500 panels at a time. To add multiple panels:
 
-1. Within your project workspace, choose the **Add panels** button
-2. Choose **Quick add**
-2. Provide a regular expression within the search field
-3. Select the **Add all** button
+1. Follow the steps to [add a panel](#add-panels) to a section or the top level of the workspace, but choose **Quick add**.
+2. Provide a regular expression within the search field.
+3. Click **Add all**.
 ![](/images/app_ui/bulk_panels.gif)
 
 :::note
@@ -92,6 +92,7 @@ To duplicate a panel:
 1. At the top of the panel, click the `...` menu.
 2. Click **Duplicate**.
 3. If desired, customize the duplicate panel.
+4. After the panel is created, you can [move it](#move-a-panel).
 
 ## Manage panels
 
@@ -109,7 +110,8 @@ To edit a panel:
 
 1. Click its pencil icon.
 2. Modify the panel's settings.
-3. Click **Apply**.
+3. To change the panel to a different type, select the type and then configure the settings.
+4. Click **Apply**.
 
 ### Remove panels
 
@@ -119,10 +121,9 @@ To remove a panel:
 2. Select the three horizontal dots (**...**) that appear
 3. From the dropdown, select **Delete**
 
-To remove all panels from a workspace:
+To remove all panels from a manual workspace, click its `...` menu, then click **Clear all panels**.
 
-1. [Reset the workspace](#reset-a-workspace).
-2. Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
+To remove all panels from an automatic or manual workspace, you can [reset the workspace](#reset-a-workspace). Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
 
 ## Manage sections
 
