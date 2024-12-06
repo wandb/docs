@@ -9,14 +9,12 @@ import TabItem from '@theme/TabItem';
 
 Use panel visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and more. 
 
-## Check workspace settings
-
 The icon next to the name of your workspace indicates how it generates panels:
 
 - A green diamond indicates that the workspace generates panels automatically.
 - A purple safety pin and ruler indicates that the workspace generates panels manually.
 
-To configure panel generation, [reset the workspace](#reset-a-workspace).
+To configure a workspace's panel generation mode, [reset the workspace](#reset-a-workspace).
 
 ## Reset a workspace
 
@@ -29,7 +27,7 @@ When a workspace has automatic panel generation enabled, W&B uses the key value 
 
 If desired, you can configure the workspace to display only those panels you add manually. Resetting a workspace removes all custom sections and panels. Resetting an automatic workspace adds back panels that were previously removed.
 
-To change the type for a workspace:
+To change a workspace's mode:
 
 1. At the top of the workspace, click the `...` menu, then click **Reset workspace**.
 2. To generate panels automatically, select **Automatic**, then click **Generate automated workspace**.
