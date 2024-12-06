@@ -9,6 +9,8 @@ import TabItem from '@theme/TabItem';
 
 Use workspace panel visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and more. 
 
+## Workspace modes
+
 Weights and Biases projects support two different workspace modes: 
 
 - **Automated workspaces** (default) automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project.
@@ -16,60 +18,55 @@ Weights and Biases projects support two different workspace modes:
 
 The icon next to the name of your workspace indicates how it generates panels:
 
-- A green diamond indicates that the workspace generates panels automatically.
-- A purple safety pin and ruler indicates that the workspace generates panels manually.
+| Icon | workspace mode |
+| ----- | ----- |
+| TBD | Automated |
+| TBD | Manual |
 
 To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
 
 ## Reset a workspace
 
-By default, a workspace automatically generates panels for all keys [`log`](../../../../ref/python/log.md) in the project. This can help you get started quickly by visualizing all available data for the project.
-
-:::info
-When a workspace has automatic panel generation enabled, W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
-:::
-
-
-If desired, you can configure the workspace to display only those panels you add manually. Resetting a workspace removes all custom sections and panels. Resetting an automatic workspace adds back panels that were previously removed.
-
 To change a workspace's mode:
 
 1. At the top of the workspace, click the `...` menu, then click **Reset workspace**.
-2. To generate panels automatically, select **Automatic**, then click **Generate automated workspace**.
-3. To generate panels manually instead, select **Manual**, then click **Get started**.
+2. Specify the [workspace mode](#workspace-modes), either **Automated** or **Manual**.
+3. To save your changes, click either **Generate automated workspace** or **Get started**.
 
 ## Add panels
+
+You can add panels to your workspace, either globally or at the section level.
 
 To add a panel:
 
 1. To add a panel directly to a section, click the section's `...` menu, then click **+ Add panels**.
-2. To add a panel to the top level (for manual workspaces only) or to an arbitrary section, click **+ Add panels** at the top of the workspace.
-3. From the dropdown, select the type of panel to add.
+2. To add a panel to the top level (for manual workspaces only), click **+ Add panels** at the top of the workspace.
+3. Select the type of panel to add.
 ![](/images/app_ui/add_single_panel.gif)
-4. (Optional) If prompted, define parameters for the panel. 
 
-<Tabs
-  defaultValue="quick"
-  values={[
-    {label: 'Add a plot from a logged value', value: 'quick'},
-    {label: 'Add a custom plot', value: 'single'},
-  ]}>
-  <TabItem value="quick">
+### Quick add
 
-1. Click **Add panels**.
-2. Click **Quick add**.
-2. Provide a regular expression within the search field or select a key from the **KEYS** dropdown.
+The **Quick Add** feature allows you to generate a standard panel for any key logged in the project by selecting the key from the list using the search field to find a specific key or path.
 
-  </TabItem>
-  <TabItem value="single">
+In an [automated workspace](#workspace-modes), **Quick Add** is available only if you previously deleted panels.
 
-1. Click **Add panels**.
-2. From the dropdown, select the type of panel to add.
-3. (Optional) If prompted, define parameters for the panel. 
-3. Select **Apply**.
+### Custom add
 
-  </TabItem> 
-</Tabs>
+To add a custom panel to your workspace:
+
+1. Select the type of panel you’d like to create.
+2. Follow the prompts to configure the panel.
+
+To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots](line-plot/intro.md) or [Bar plots](bar-plot.md).
+
+Learn more about the types of panels you can create:
+
+- Line plots
+- Bar plots
+- Parallel coordinates
+- Scatter plots
+- Save and diff code
+- Parameter importance
 
 
 :::tip Undo changes to your workspace
@@ -87,24 +84,7 @@ You can add up to 500 panels at a time. To add multiple panels:
 The **Add all** button appears only if a regular expression match occurs.
 :::
 
-## Duplicate a panel
-
-To duplicate a panel:
-
-1. At the top of the panel, click the `...` menu.
-2. Click **Duplicate**.
-3. If desired, customize the duplicate panel.
-4. If necessary, you can [move the duplicate panel](#move-a-panel).
-
 ## Manage panels
-
-### Move a panel
-
-To move a panel:
-
-1. Click the `...` menu for the panel.
-2. Click **Move**.
-3. If the workspace generates panels automatically, you must select a new section for the panel. If the workspace generates panels manually, you can select a new section or move the panel to the top level of the workspace.
 
 ### Edit a panel
 
@@ -114,6 +94,23 @@ To edit a panel:
 2. Modify the panel's settings.
 3. To change the panel to a different type, select the type and then configure the settings.
 4. Click **Apply**.
+
+### Move a panel
+
+To move a panel:
+
+1. Click the `...` menu for the panel.
+2. Click **Move**.
+3. If the workspace generates panels automatically, you must select a new section for the panel. If the workspace generates panels manually, you can select a new section or move the panel to the top level of the workspace.
+
+## Duplicate a panel
+
+To duplicate a panel:
+
+1. At the top of the panel, click the `...` menu.
+2. Click **Duplicate**.
+
+If desired, you can customize or [move](#move-a-panel) the duplicated panel.
 
 ### Remove panels
 
@@ -138,7 +135,7 @@ In an automatic workspace, you must choose a section when adding a new panel. Yo
 By default, a manual workspace has no sections. You can optionally create panels in sections or at the top level of the workspace.
 
 1. To expand or collapse all sections, click the `...` menu next to the panel search field, then select **Expand all sections** or **Collapse all sections**.
-1. To add a section, click **Add section**. The new section has a default name, such as **Panel Section 0**. To rename a section, click its  `...` menu.
+1. To add a section, click **Add section**. To add a new section above or below an existing section, you can instead click the section's `...` menu, then click **New section below** or **New section above**.
 1. To delete a section, click its `...` menu, then click **Delete section**. This removes the section and its panels.
 
 
