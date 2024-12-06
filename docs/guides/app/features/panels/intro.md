@@ -37,13 +37,12 @@ To change the type for a workspace:
 
 ## Add panels
 
-You can add a panel in multiple ways:
 To add a panel:
 
-1. To add a panel directly to a section, click the section's `...` menu , then click **+ Add panels**.
+1. To add a panel directly to a section, click the section's `...` menu, then click **+ Add panels**.
 2. To add a panel to the top level (for manual workspaces only) or to an arbitrary section, click **+ Add panels** at the top of the workspace.
-3. From the dropdown, select a type of panel to add
-![](/images/app_ui/add_single_panel.gif) 
+3. From the dropdown, select the type of panel to add.
+![](/images/app_ui/add_single_panel.gif)
 4. (Optional) If prompted, define parameters for the panel. 
 
 <Tabs
@@ -54,17 +53,17 @@ To add a panel:
   ]}>
   <TabItem value="quick">
 
-1. Within your project workspace, choose the **Add panels** button
-2. Select **Quick add**
+1. Click **Add panels**.
+2. Click **Quick add**.
 2. Provide a regular expression within the search field or select a key from the **KEYS** dropdown.
 
   </TabItem>
   <TabItem value="single">
 
-1. Within your project workspace, choose the **Add panels** button
-2. Select the type of chart you want to add from the **CHARTS** dropdown
-3. Based on the chart type, provide the necessary parameters
-3. Select **Apply**
+1. Click **Add panels**.
+2. From the dropdown, select the type of panel to add.
+3. (Optional) If prompted, define parameters for the panel. 
+3. Select **Apply**.
 
   </TabItem> 
 </Tabs>
@@ -92,7 +91,7 @@ To duplicate a panel:
 1. At the top of the panel, click the `...` menu.
 2. Click **Duplicate**.
 3. If desired, customize the duplicate panel.
-4. After the panel is created, you can [move it](#move-a-panel).
+4. If necessary, you can [move the duplicate panel](#move-a-panel).
 
 ## Manage panels
 
@@ -102,7 +101,7 @@ To move a panel:
 
 1. Click the `...` menu for the panel.
 2. Click **Move**.
-3. If the workspace generates panels automatically, you must select a new section for the panel. If trhe workspace generates panels manually, you can select a new section or move the panel to the top level of the workspace.
+3. If the workspace generates panels automatically, you must select a new section for the panel. If the workspace generates panels manually, you can select a new section or move the panel to the top level of the workspace.
 
 ### Edit a panel
 
@@ -129,9 +128,9 @@ To remove all panels from an automatic or manual workspace, you can [reset the w
 
 Sections help you keep your workspace organized so you can focus on your most important data, experiments, and visualizations. You can create new sections, and you can [move a panel](#move-a-panel) from one section to another.
 
-By default, an automated workspace adds panels to sections according to their type, and shows panels in **Chart** and **System** sections by default.  When you add a panel to an automated workspace, you must choose its section.
+By default, an automated workspace adds panels to sections according to their type, and shows panels in **Chart** and **System** sections by default. When you add a panel to an automated workspace, you must choose its section.
 
-In an automatic workspace, you must choose a section when adding a new panel. After a panel is created, you can [move it](#move-a-panel) to a different section, but not to the top level of the workspace.
+In an automatic workspace, you must choose a section when adding a new panel. You can [move a panel](#move-a-panel) to a different section, but not to the top level of the workspace.
 
 By default, a manual workspace has no sections. You can optionally create panels in sections or at the top level of the workspace.
 
