@@ -27,7 +27,7 @@ When a workspace has automatic panel generation enabled, W&B uses the key value 
 :::
 
 
-If desired, you can configure the workspace to display only those panels you add manually. Resetting a workspace removes all custom panels.
+If desired, you can configure the workspace to display only those panels you add manually. Resetting a workspace removes all custom sections and panels. Resetting an automatic workspace adds back panels that were previously removed.
 
 To change the type for a workspace:
 
@@ -35,8 +35,9 @@ To change the type for a workspace:
 2. To generate panels automatically, select **Automatic**, then click **Generate automated workspace**.
 3. To generate panels manually instead, select **Manual**, then click **Get started**.
 
+## Add panels
 
-## Add a single panel
+To add a panel:
 
 1. Within your workspace, navigate to the section you want to add a panel to
 2. Choose the Add panel button
@@ -72,15 +73,6 @@ To change the type for a workspace:
 Select the undo button (arrow that points left) to undo any unwanted changes.
 :::
 
-## Duplicate a panel
-
-To duplicate a panel:
-
-1. At the top of the panel, click the `...` menu.
-2. Click **Duplicate**.
-3. If desired, customize the duplicate panel.
-
-## Add multiple panels
 You can add up to 500 panels at a time. To add multiple panels:
 
 1. Within your project workspace, choose the **Add panels** button
@@ -93,22 +85,57 @@ You can add up to 500 panels at a time. To add multiple panels:
 The **Add all** button appears only if a regular expression match occurs.
 :::
 
-## Remove a panel
+## Duplicate a panel
+
+To duplicate a panel:
+
+1. At the top of the panel, click the `...` menu.
+2. Click **Duplicate**.
+3. If desired, customize the duplicate panel.
+
+## Manage panels
+
+### Move a panel
+
+To move a panel:
+
+1. Click the `...` menu for the panel.
+2. Click **Move**.
+3. If the workspace generates panels automatically, you must select a new section for the panel. If trhe workspace generates panels manually, you can select a new section or move the panel to the top level of the workspace.
+
+### Edit a panel
+
+To edit a panel:
+
+1. Click its pencil icon.
+2. Modify the panel's settings.
+3. Click **Apply**.
+
+### Remove panels
+
+To remove a panel:
 
 1. Hover your mouse in the upper corner of the panel you want to remove
 2. Select the three horizontal dots (**...**) that appear
 3. From the dropdown, select **Delete**
 
-## Remove all panels
+To remove all panels from a workspace:
 
-To remove all customization from an automatic workspace, [reset the workspace](#reset-a-workspace).
+1. [Reset the workspace](#reset-a-workspace).
+2. Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
 
-To remove all panels from a manual workspace and leave it empty:
+## Manage sections
 
-1. Within your project workspace, select the three horizontal dots (**...**) next to the panel search bar
-2. Select **Clear all panels**
+Sections help you keep your workspace organized so you can focus on your most important data, experiments, and visualizations. You can create new sections, and you can [move a panel](#move-a-panel) from one section to another.
 
-<!-- ## Add a section -->
+By default, an automated workspace adds panels to sections according to their type, and shows panels in **Chart** and **System** sections by default.  When you add a panel to an automated workspace, you must choose its section.
 
-<!-- Delete a section -->
+In an automatic workspace, you must choose a section when adding a new panel. After a panel is created, you can [move it](#move-a-panel) to a different section, but not to the top level of the workspace.
+
+By default, a manual workspace has no sections. You can optionally create panels in sections or at the top level of the workspace.
+
+1. To expand or collapse all sections, click the `...` menu next to the panel search field, then select **Expand all sections** or **Collapse all sections**.
+1. To add a section, click **Add section**. The new section has a default name, such as **Panel Section 0**. To rename a section, click its  `...` menu.
+1. To delete a section, click its `...` menu, then click **Delete section**. This removes the section and its panels.
+
 
