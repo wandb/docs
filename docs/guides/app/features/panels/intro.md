@@ -7,14 +7,19 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
-Use panel visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and more. 
+Use workspace panel visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and more. 
+
+Weights and Biases projects support two different workspace modes: 
+
+- **Automated workspaces** (default) automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project.
+- **Manual workspaces** start as a blank slate and display only those panels intentionally added by users. Choose a manual workspace when you  care mainly about a fraction of the keys logged in the project, or for a more focused analysis.
 
 The icon next to the name of your workspace indicates how it generates panels:
 
 - A green diamond indicates that the workspace generates panels automatically.
 - A purple safety pin and ruler indicates that the workspace generates panels manually.
 
-To configure a workspace's panel generation mode, [reset the workspace](#reset-a-workspace).
+To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
 
 ## Reset a workspace
 
