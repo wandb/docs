@@ -13,9 +13,10 @@ Use workspace panel visualizations to explore your logged data, the relationship
 
 Weights and Biases projects support two different workspace modes. The icon next to the workspace name shows its mode. 
 
-- <img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="22px" valign="text-bottom" /> **Automated workspaces** (default) automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project.
-
-- <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="22px" valign="text-bottom" /> **Manual workspaces** start as a blank slate and display only those panels intentionally added by users. Choose a manual workspace when you  care mainly about a fraction of the keys logged in the project, or for a more focused analysis.
+| Icon | Workspace mode |
+| --- | --- |
+| <img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" /> | **Automated workspaces** automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project. |
+| <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" /> | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you  care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
 
 To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
 
