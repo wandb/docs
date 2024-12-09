@@ -45,7 +45,7 @@ To add a panel:
 
 **Quick Add** allows you to select a key in the project from a list to generate a standard panel for it.
 
-For an automated workspace with no deleted panels, **Quick add** is not available. You can use **Quick add** to re-add a previously-deleted panel.
+For an automated workspace with no deleted panels, **Quick add** is not available. You can use **Quick add** to re-add a panel that you deleted.
 
 ### Custom panel add
 
@@ -91,7 +91,7 @@ If desired, you can [customize](#edit-a-panel) or [move](#move-a-panel) the dupl
 To remove a panel:
 
 1. Hover your mouse over the panel.
-2. Select the action `...` memnu.
+2. Select the action `...` menu.
 3. Click **Delete**
 
 To remove all panels from a manual workspace, click its action `...` menu, then click **Clear all panels**.
@@ -100,7 +100,7 @@ To remove all panels from an automatic or manual workspace, you can [reset the w
 
 ## Manage sections
 
-By default, sections in a workspace reflect the logging hierarchy of your keys. However, in a manual workspace, sections will appear only after you start adding panels.
+By default, sections in a workspace reflect the logging hierarchy of your keys. However, in a manual workspace, sections appear only after you start adding panels.
 
 ### Add a section
 
