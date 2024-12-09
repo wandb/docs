@@ -106,7 +106,7 @@ By default, sections in a workspace reflect the logging hierarchy of your keys. 
 
 To add a section, click **Add section** after the last section.
 
-To add a new section above or below an existing section, you can instead click the section's action `...` menu, then click **New section below** or **New section above**.
+To add a new section before or after an existing section, you can instead click the section's action `...` menu, then click **New section below** or **New section above**.
 
 ### Rename a section
 
