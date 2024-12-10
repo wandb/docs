@@ -11,12 +11,12 @@ Use workspace panel visualizations to explore your logged data, the relationship
 
 ## Workspace modes
 
-Weights and Biases projects support two different workspace modes. The icon next to the workspace name shows its mode. 
+W&B projects support two different workspace modes. The icon next to the workspace name shows its mode. 
 
 | Icon | Workspace mode |
 | --- | --- |
 | <img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" /> | **Automated workspaces** automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project. |
-| <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" /> | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you  care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
+| <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" /> | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
 
 To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
 
@@ -64,9 +64,9 @@ To learn more about the options for each type of panel, refer to the relevant se
 To edit a panel:
 
 1. Click its pencil icon.
-2. Modify the panel's settings.
-3. To change the panel to a different type, select the type and then configure the settings.
-4. Click **Apply**.
+1. Modify the panel's settings.
+1. To change the panel to a different type, select the type and then configure the settings.
+1. Click **Apply**.
 
 ### Move a panel
 
@@ -74,7 +74,7 @@ To move a panel to a different section, you can use the drag handle on the panel
 
 1. If necessary, create a new section by clicking **Add section** after the last section.
 1. Click the  action `...` menu for the panel.
-2. Click **Move**, then select a new section.
+1. Click **Move**, then select a new section.
 
 You can also use the drag handle to rearrange panels within a section.
 
@@ -83,7 +83,7 @@ You can also use the drag handle to rearrange panels within a section.
 To duplicate a panel:
 
 1. At the top of the panel, click the action `...` menu.
-2. Click **Duplicate**.
+1. Click **Duplicate**.
 
 If desired, you can [customize](#edit-a-panel) or [move](#move-a-panel) the duplicated panel.
 
@@ -92,8 +92,8 @@ If desired, you can [customize](#edit-a-panel) or [move](#move-a-panel) the dupl
 To remove a panel:
 
 1. Hover your mouse over the panel.
-2. Select the action `...` menu.
-3. Click **Delete**
+1. Select the action `...` menu.
+1. Click **Delete**.
 
 To remove all panels from a manual workspace, click its action `...` menu, then click **Clear all panels**.
 
