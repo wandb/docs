@@ -1,8 +1,6 @@
 # Dependencies
 /node_modules
 /_vendor
-go.mod
-go.sum
 
 # Production
 /build
