@@ -1,5 +1,6 @@
-# wandb init
-
+---
+title: wandb init
+---
 **Usage**
 
 `wandb init [OPTIONS]`

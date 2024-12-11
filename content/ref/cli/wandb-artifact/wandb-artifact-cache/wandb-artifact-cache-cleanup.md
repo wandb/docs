@@ -1,5 +1,6 @@
-# wandb artifact cache cleanup
-
+---
+title: wandb artifact cache cleanup
+---
 **Usage**
 
 `wandb artifact cache cleanup [OPTIONS] TARGET_SIZE`

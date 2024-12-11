@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/ray-tune
 description: How to integrate W&B with Ray Tune.
-displayed_sidebar: default
 title: Ray Tune
 ---
 

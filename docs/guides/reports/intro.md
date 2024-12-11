@@ -1,7 +1,5 @@
 ---
-slug: /guides/reports
 description: Project management and collaboration tools for machine learning projects
-displayed_sidebar: default
 title: Reports
 ---
 import Translate, {translate} from '@docusaurus/Translate';

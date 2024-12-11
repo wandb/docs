@@ -1,5 +1,6 @@
-# wandb artifact get
-
+---
+title: wandb artifact get
+---
 **Usage**
 
 `wandb artifact get [OPTIONS] PATH`

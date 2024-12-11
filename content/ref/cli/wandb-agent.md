@@ -1,5 +1,6 @@
-# wandb agent
-
+---
+title: wandb agent
+---
 **Usage**
 
 `wandb agent [OPTIONS] SWEEP_ID`

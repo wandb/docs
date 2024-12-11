@@ -3,14 +3,14 @@ description: An overview of what is W&B along with links on how to get started i
   you are a first time user.
 menu:
   default:
-    identifier: intro
-    parent: null
+    identifier: guides
+    weight: 1
   main:
     weight: 1
 type: docs
 cascade:
   type: docs
-title: Developer Guides
+title: Guides
 ---
 
 # What is W&B?

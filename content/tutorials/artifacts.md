@@ -2,8 +2,8 @@
 menu:
   tutorials:
     identifier: artifacts
-    parent: null
 title: Track models and datasets
+weight: 4
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

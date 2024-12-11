@@ -1,5 +1,5 @@
 ---
-slug: /guides/app/features/panels
+url: /guides/app/features/panels
 displayed_sidebar: default
 title: Panels
 ---

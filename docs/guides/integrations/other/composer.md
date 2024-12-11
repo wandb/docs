@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/composer
 description: State of the art algorithms to train your neural networks
-displayed_sidebar: default
 title: MosaicML Composer
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';

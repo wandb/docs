@@ -1,5 +1,6 @@
-# joined-table
-
+---
+title: joined-table
+---
 ## Chainable Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 

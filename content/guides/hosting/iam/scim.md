@@ -4,6 +4,7 @@ menu:
     identifier: scim
     parent: identity-and-access-management-iam
 title: Manage users, groups, and roles with SCIM
+weight: 4
 ---
 
 The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 

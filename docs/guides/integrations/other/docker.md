@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/docker
 description: How to integrate W&B with Docker.
-displayed_sidebar: default
 title: Docker
 ---
 

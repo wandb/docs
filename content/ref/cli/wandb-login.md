@@ -1,5 +1,6 @@
-# wandb login
-
+---
+title: wandb login
+---
 **Usage**
 
 `wandb login [OPTIONS] [KEY]...`

@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/ignite
 description: How to integrate W&B with PyTorch Ignite.
-displayed_sidebar: default
 title: PyTorch Ignite
 ---
 

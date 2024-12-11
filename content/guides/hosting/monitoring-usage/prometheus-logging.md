@@ -4,6 +4,7 @@ menu:
     identifier: prometheus-logging
     parent: monitoring-and-usage
 title: Use Prometheus monitoring
+weight: 2
 ---
 
 Use [Prometheus](https://prometheus.io/docs/introduction/overview/) with W&B Server. Prometheus installs are exposed as a [kubernetes ClusterIP service](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225).

@@ -1,5 +1,6 @@
-# artifactVersion
-
+---
+title: artifactVersion
+---
 ## Chainable Ops
 <h3 id="artifactVersion-aliases"><code>artifactVersion-aliases</code></h3>
 

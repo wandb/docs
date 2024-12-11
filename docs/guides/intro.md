@@ -2,7 +2,7 @@
 description: >-
   An overview of what is W&B along with links on how to get started
   if you are a first time user.
-slug: /guides
+url: /guides
 displayed_sidebar: default
 title: What is W&B?
 ---

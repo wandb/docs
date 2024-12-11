@@ -5,6 +5,7 @@ menu:
     identifier: env-vars
     parent: w-b-platform
 title: Configure environment variables
+weight: 7
 ---
 
 In addition to configuring instance level settings via the System Settings admin UI, W&B also provides a way to configure these values via code using Environment Variables. Also, refer to [advanced configuration for IAM](./iam/advanced_env_vars.md).

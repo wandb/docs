@@ -1,6 +1,4 @@
 ---
-slug: /guides/registry
-displayed_sidebar: default
 title: Registry
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';

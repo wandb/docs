@@ -1,5 +1,6 @@
-# user
-
+---
+title: user
+---
 ## Chainable Ops
 <h3 id="user-username"><code>user-username</code></h3>
 

@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/hydra
 description: How to integrate W&B with Hydra.
-displayed_sidebar: default
 title: Hydra
 ---
 

@@ -1,5 +1,6 @@
-# project
-
+---
+title: project
+---
 ## Chainable Ops
 <h3 id="project-artifact"><code>project-artifact</code></h3>
 

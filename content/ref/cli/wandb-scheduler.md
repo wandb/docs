@@ -1,5 +1,6 @@
-# wandb scheduler
-
+---
+title: wandb scheduler
+---
 **Usage**
 
 `wandb scheduler [OPTIONS] SWEEP_ID`

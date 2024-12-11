@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/deepchecks
 description: How to integrate W&B with DeepChecks.
-displayed_sidebar: default
 title: DeepChecks
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';

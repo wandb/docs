@@ -1,6 +1,4 @@
 ---
-slug: /guides/hosting
-displayed_sidebar: default
 title: W&B Platform
 ---
 import Tabs from '@theme/Tabs';

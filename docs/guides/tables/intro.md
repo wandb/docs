@@ -1,5 +1,4 @@
 ---
-slug: /guides/tables
 description: Iterate on datasets and understand model predictions
 displayed_sidebar: default
 title: Visualize your data with tables

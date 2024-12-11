@@ -1,6 +1,7 @@
+---
+title: Reports
+---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-# Reports
 
 <CTAButtons githubLink='https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py'/>
 

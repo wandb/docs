@@ -1,5 +1,6 @@
-# artifact
-
+---
+title: artifact
+---
 ## Chainable Ops
 <h3 id="artifact-link"><code>artifact-link</code></h3>
 

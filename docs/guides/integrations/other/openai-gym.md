@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/openai-gym
 description: How to integrate W&B with OpenAI Gym.
-displayed_sidebar: default
 title: OpenAI Gym
 ---
 

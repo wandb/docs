@@ -1,5 +1,6 @@
-# artifactType
-
+---
+title: artifactType
+---
 ## Chainable Ops
 <h3 id="artifactType-artifactVersions"><code>artifactType-artifactVersions</code></h3>
 

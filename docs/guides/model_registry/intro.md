@@ -1,7 +1,5 @@
 ---
-slug: /guides/model_registry
 description: Model registry to manage the model lifecycle from training to production
-displayed_sidebar: default
 title: Model registry
 ---
 

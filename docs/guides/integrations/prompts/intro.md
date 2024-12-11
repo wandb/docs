@@ -1,8 +1,6 @@
 ---
-slug: /guides/integrations/prompts
 title: Prompts for LLMs
 description: Tools for the development of LLM-powered applications
-displayed_sidebar: default
 ---
 import { WEAVE_DOCS_URL } from '@site/src/util/links';
 

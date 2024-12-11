@@ -4,6 +4,7 @@ menu:
     identifier: sweeps
     parent: null
 title: Tune hyperparameters with sweeps
+weight: 3
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

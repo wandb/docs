@@ -1,5 +1,6 @@
-# wandb artifact put
-
+---
+title: wandb artifact put
+---
 **Usage**
 
 `wandb artifact put [OPTIONS] PATH`

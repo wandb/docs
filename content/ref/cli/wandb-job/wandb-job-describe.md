@@ -1,5 +1,6 @@
-# wandb job describe
-
+---
+title: wandb job describe
+---
 **Usage**
 
 `wandb job describe [OPTIONS] JOB`

@@ -1,5 +1,6 @@
-# wandb status
-
+---
+title: wandb status
+---
 **Usage**
 
 `wandb status [OPTIONS]`

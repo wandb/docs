@@ -1,5 +1,6 @@
-# entity
-
+---
+title: entity
+---
 ## Chainable Ops
 <h3 id="entity-link"><code>entity-link</code></h3>
 

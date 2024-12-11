@@ -1,5 +1,6 @@
-# boolean
-
+---
+title: boolean
+---
 ## Chainable Ops
 <h3 id="and"><code>and</code></h3>
 

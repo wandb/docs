@@ -1,5 +1,6 @@
-# wandb disabled
-
+---
+title: wandb disabled
+---
 **Usage**
 
 `wandb disabled [OPTIONS]`

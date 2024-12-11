@@ -1,5 +1,6 @@
-# string
-
+---
+title: string
+---
 ## Chainable Ops
 <h3 id="string-notEqual"><code>string-notEqual</code></h3>
 

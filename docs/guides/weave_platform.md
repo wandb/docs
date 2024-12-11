@@ -1,5 +1,5 @@
 ---
-slug: /guides/weave
+url: /guides/weave
 displayed_sidebar: default
 title: W&B Weave
 ---

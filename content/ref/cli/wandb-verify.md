@@ -1,5 +1,6 @@
-# wandb verify
-
+---
+title: wandb verify
+---
 **Usage**
 
 `wandb verify [OPTIONS]`

@@ -1,9 +1,7 @@
 ---
-slug: /guides/artifacts
 description: >-
   Overview of what W&B Artifacts are, how they work, and how to get started
   using W&B Artifacts.
-displayed_sidebar: default
 title: Artifacts
 ---
 import Translate, {translate} from '@docusaurus/Translate';

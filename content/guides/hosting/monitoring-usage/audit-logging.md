@@ -4,6 +4,7 @@ menu:
     identifier: audit-logging
     parent: monitoring-and-usage
 title: Track user activity with audit logs
+weight: 1
 ---
 
 Use W&B Server audit logs to track user activity within your teams, and to conform to your enterprise governance requirements. The audit logs are JSON-formatted, and their access mechanism(s) depend on your W&B Server deployment type:
