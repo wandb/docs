@@ -4,6 +4,7 @@ menu:
     identifier: launch-queue-observability
     parent: create-and-deploy-jobs
 title: Monitor launch queue
+url: guides/launch/launch-queue-observability
 ---
 
 Use the interactive **Queue monitoring dashboard** to view when a launch queue is in heavy use or idle, visualize workloads that are running, and spot inefficient jobs. The launch queue dashboard is especially useful for deciding whether or not you are effectively using your compute hardware or cloud resources.

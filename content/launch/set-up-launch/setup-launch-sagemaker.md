@@ -4,6 +4,7 @@ menu:
     identifier: setup-launch-sagemaker
     parent: set-up-launch
 title: 'Tutorial: Set up W&B Launch on SageMaker'
+url: guides/launch/setup-launch-sagemaker
 ---
 
 import Tabs from '@theme/Tabs';

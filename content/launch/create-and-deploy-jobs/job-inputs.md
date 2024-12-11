@@ -4,6 +4,7 @@ menu:
     identifier: job-inputs
     parent: create-and-deploy-jobs
 title: Manage job inputs
+url: guides/launch/job-inputs
 ---
 
 import Tabs from '@theme/Tabs';

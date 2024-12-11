@@ -4,6 +4,7 @@ menu:
     identifier: setup-agent-advanced
     parent: set-up-launch
 title: Set up launch agent
+url: guides/launch/setup-agent-advanced
 ---
 
 import Tabs from '@theme/Tabs';

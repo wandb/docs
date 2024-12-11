@@ -4,6 +4,7 @@ menu:
     identifier: setup-vertex
     parent: set-up-launch
 title: 'Tutorial: Set up W&B Launch on Vertex AI'
+url: guides/launch/setup-vertex
 ---
 
 You can use W&B Launch to submit jobs for execution as Vertex AI training jobs. With Vertex AI training jobs, you can train machine learning models using either provided, or custom algorithms on the Vertex AI platform. Once a launch job is initiated, Vertex AI manages the underlying infrastructure, scaling, and orchestration.

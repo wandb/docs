@@ -5,6 +5,7 @@ menu:
     identifier: dagster
     parent: launch-integration-guides
 title: Dagster
+url: guides/integrations/dagster
 ---
 
 import Tabs from '@theme/Tabs';

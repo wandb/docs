@@ -5,6 +5,7 @@ menu:
     identifier: sweeps-on-launch
     parent: launch
 title: Create sweeps with W&B Launch
+url: guides/launch/sweeps-on-launch
 ---
 
 import Tabs from '@theme/Tabs';

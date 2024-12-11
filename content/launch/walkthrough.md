@@ -5,6 +5,8 @@ menu:
     identifier: walkthrough
     parent: launch
 title: 'Tutorial: W&B Launch basics'
+url: guides/launch/walkthrough
+weight: 1
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';

@@ -4,6 +4,7 @@ menu:
     identifier: launch-view-jobs
     parent: create-and-deploy-jobs
 title: View launch jobs
+url: guides/launch/launch-view-jobs
 ---
 
 The following page describes how to view information about launch jobs added to queues.

@@ -4,6 +4,7 @@ menu:
     identifier: nim
     parent: launch-integration-guides
 title: NVIDIA NeMo Inference Microservice Deploy Job
+url: guides/integrations/nim
 ---
 
 import Tabs from '@theme/Tabs';

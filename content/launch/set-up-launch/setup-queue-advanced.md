@@ -4,6 +4,7 @@ menu:
     identifier: setup-queue-advanced
     parent: set-up-launch
 title: Configure launch queue
+url: guides/launch/setup-queue-advanced
 ---
 
 The following page describes how to configure launch queue options.

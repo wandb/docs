@@ -4,6 +4,7 @@ menu:
     identifier: setup-launch-docker
     parent: set-up-launch
 title: 'Tutorial: Set up W&B Launch with Docker'
+url: guides/launch/setup-launch-docker
 ---
 
 import Tabs from '@theme/Tabs';

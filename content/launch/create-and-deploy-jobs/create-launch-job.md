@@ -4,6 +4,7 @@ menu:
     identifier: create-launch-job
     parent: create-and-deploy-jobs
 title: Create a launch job
+url: guides/launch/create-launch-job
 ---
 
 import Tabs from '@theme/Tabs';

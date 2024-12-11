@@ -3,7 +3,8 @@ menu:
   launch:
     identifier: setup-launch
     parent: launch
-title: Launch quickstart
+title: Set up Launch
+weight: 3
 ---
 
 import Tabs from '@theme/Tabs';

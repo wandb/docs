@@ -4,6 +4,8 @@ menu:
     identifier: launch-terminology
     parent: launch
 title: Launch terms and concepts
+url: guides/launch/launch-terminology
+weight: 2
 ---
 
 With W&B Launch, you enqueue [jobs](#launch-job) onto [queues](#launch-queue) to create runs. Jobs are python scripts instrumented with W&B. Queues hold a list of jobs to execute on a [target resource](#target-resources). [Agents](#launch-agent) pull jobs from queues and execute the jobs on target resources. W&B tracks launch jobs similarly to how W&B tracks [runs](../runs/intro.md).

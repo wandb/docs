@@ -4,6 +4,7 @@ menu:
     identifier: setup-launch-kubernetes
     parent: set-up-launch
 title: 'Tutorial: Set up W&B Launch on Kubernetes'
+url: guides/launch/setup-launch-kubernetes
 ---
 
 import Tabs from '@theme/Tabs';

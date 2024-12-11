@@ -4,6 +4,7 @@ menu:
     identifier: add-job-to-queue
     parent: create-and-deploy-jobs
 title: Add job to queue
+url: guides/launch/add-job-to-queue
 ---
 
 import Tabs from '@theme/Tabs';
