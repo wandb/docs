@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_outage
-    parent: null
+    parent: support
 title: Outage
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,5 +14,6 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [How can I resolve the Filestream rate limit exceeded error?](filestream_rate_limit_exceeded_error.md)
 - [Is there a W&B outage?](wandb_status.md)

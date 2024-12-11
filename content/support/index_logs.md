@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_logs
-    parent: null
+    parent: support
 title: Logs
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [How do I log runs launched by continuous integration or internal tools?](log_automated_runs_service_account.md)
 - [How do I log to the right wandb user on a shared machine?](log_shared_machine.md)
 - [How do I turn off logging?](logging_turn_off.md)

@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_experiments
-    parent: null
+    parent: support
 title: Experiments
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [Can I just set the run name to the run ID?](just_set_run_name_run_id.md)
 - [Can I log metrics on two different time scales?](log_metrics_two_different_time_scales_example_log_training.md)
 - [Can I run wandb offline?](run_wandb_offline.md)

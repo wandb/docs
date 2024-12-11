@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_reports
-    parent: null
+    parent: support
 title: Reports
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [Adding multiple authors to a report](adding_multiple_authors_report.md)
 - [Can I use Markdown in my reports?](reports_markdown.md)
 - [Embedding Reports](embedding_reports.md)

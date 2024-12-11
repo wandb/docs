@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_environment variables
-    parent: null
+    parent: support
 title: Environment Variables
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [Do environment variables overwrite the parameters passed to wandb.init()?](environment_variables_overwrite_parameters.md)
 - [How do I handle the 'Failed to query for notebook' error?](query_notebook_failed.md)
 - [How do I silence W&B info messages?](silence_info_messages.md)

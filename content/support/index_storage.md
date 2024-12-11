@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_storage
-    parent: null
+    parent: support
 title: Storage
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,5 +14,6 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [How much storage does each artifact version use?](artifact_storage_version.md)
 - [Why does the storage meter not update after deleting runs?](storage_meter_update_after_deleting_runs.md)

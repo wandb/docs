@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_team management
-    parent: null
+    parent: support
 title: Team Management
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [Can I just log metrics, no code or dataset examples?](just_log_metrics_no_code_dataset_examples.md)
 - [How do I delete a team from my account?](delete_team_from_account.md)
 - [How do I get added to a team on W&B?](join_team.md)
