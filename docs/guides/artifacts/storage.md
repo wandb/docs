@@ -1,6 +1,5 @@
 ---
 description: Manage storage, memory allocation of W&B Artifacts.
-displayed_sidebar: default
 title: Manage artifact storage and memory allocation
 ---
 

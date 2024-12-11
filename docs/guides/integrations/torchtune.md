@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Pytorch torchtune
 ---
 import Tabs from '@theme/Tabs';

@@ -1,6 +1,5 @@
 ---
 description: Release process for W&B Server
-displayed_sidebar: default
 title: Release process for W&B Server
 ---
 

@@ -1,6 +1,5 @@
 ---
 description: 'How to download a model with W&B Python SDK'
-displayed_sidebar: default
 title: Download a model version
 ---
 import Tabs from '@theme/Tabs';

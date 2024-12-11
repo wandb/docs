@@ -4,7 +4,6 @@ menu:
     identifier: huggingface
     parent: integration-tutorials
 title: Hugging Face
-url: tutorials/huggingface
 weight: 3
 ---
 

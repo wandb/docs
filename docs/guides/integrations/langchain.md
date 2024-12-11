@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: LangChain
 ---
 import Tabs from '@theme/Tabs';

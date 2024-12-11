@@ -1,6 +1,5 @@
 ---
 description: Examples of W&B Tables
-displayed_sidebar: default
 title: Example tables
 ---
 

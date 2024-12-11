@@ -1,6 +1,5 @@
 ---
 description: Tutorial of using the custom charts feature in the W&B UI
-displayed_sidebar: default
 title: "Tutorial: Use custom charts"
 ---
 

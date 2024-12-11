@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Add labels to runs with tags
 ---
 import Tabs from '@theme/Tabs';

@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Create a custom registry
 ---
 

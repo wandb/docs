@@ -1,6 +1,5 @@
 ---
 description: Visualize and analyze W&B Tables.
-displayed_sidebar: default
 title: Visualize and analyze tables
 ---
 import Tabs from '@theme/Tabs';

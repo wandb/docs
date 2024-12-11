@@ -2,7 +2,6 @@
 description: >-
   Tutorial on how to create sweep jobs from a pre-existing W&B
   project.
-displayed_sidebar: default
 title: "Tutorial: Create sweep job from project"
 ---
 

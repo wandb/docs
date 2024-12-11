@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Hugging Face AutoTrain
 ---
 import Tabs from '@theme/Tabs';

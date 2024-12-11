@@ -1,7 +1,6 @@
 ---
 title: Deploy W&B Platform on GCP
 description: Hosting W&B Server on GCP.
-displayed_sidebar: default
 ---
 
 :::info

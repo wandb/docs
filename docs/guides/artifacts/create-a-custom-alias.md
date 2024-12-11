@@ -1,6 +1,5 @@
 ---
 description: Create custom aliases for W&B Artifacts.
-displayed_sidebar: default
 title: Create an artifact alias
 ---
 Use aliases as pointers to specific versions. By default, `Run.log_artifact` adds the `latest` alias to the logged version.

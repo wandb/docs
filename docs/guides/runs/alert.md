@@ -1,6 +1,5 @@
 ---
 description: Send alerts, triggered from your Python code, to your Slack or email
-displayed_sidebar: default
 title: Send an alert
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';

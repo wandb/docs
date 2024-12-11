@@ -4,7 +4,6 @@ menu:
     identifier: tensorflow
     parent: integration-tutorials
 title: TensorFlow
-url: tutorials/tensorflow
 weight: 4
 ---
 

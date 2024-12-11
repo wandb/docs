@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Configure privacy settings
 ---
 

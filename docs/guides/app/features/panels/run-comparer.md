@@ -1,6 +1,5 @@
 ---
 description: Compare metrics across multiple runs
-displayed_sidebar: default
 title: Compare run metrics
 ---
 

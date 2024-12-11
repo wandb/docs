@@ -2,7 +2,6 @@
 description: >-
   Edit a report interactively with the App UI or programmatically with the
   W&B SDK.
-displayed_sidebar: default
 title: Edit a report
 ---
 import Tabs from '@theme/Tabs';

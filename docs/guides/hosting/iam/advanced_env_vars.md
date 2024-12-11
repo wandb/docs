@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Advanced IAM configuration
 ---
 

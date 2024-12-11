@@ -2,7 +2,6 @@
 description: >-
   Create, construct a W&B Artifact. Learn how to add one or more files or a URI
   reference to an Artifact.
-displayed_sidebar: default
 title: Create an artifact
 ---
 

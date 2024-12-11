@@ -1,7 +1,6 @@
 ---
 title: Deploy W&B Platform on Azure
 description: Hosting W&B Server on Azure.
-displayed_sidebar: default
 ---
 
 :::info

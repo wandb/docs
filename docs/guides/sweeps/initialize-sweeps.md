@@ -1,6 +1,5 @@
 ---
 description: Initialize a W&B Sweep
-displayed_sidebar: default
 title: Initialize a sweep
 ---
 import Tabs from '@theme/Tabs';

@@ -1,6 +1,5 @@
 ---
 description: Guide for updating W&B (Weights & Biases) version and license across different installation methods.
-displayed_sidebar: default
 title: Update W&B license and version
 ---
 

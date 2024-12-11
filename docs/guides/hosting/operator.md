@@ -1,6 +1,5 @@
 ---
 description: Deploy W&B Platform with Kubernetes Operator
-displayed_sidebar: default
 title: Run W&B Server on Kubernetes
 ---
 

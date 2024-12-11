@@ -1,6 +1,5 @@
 ---
 description: Resume a paused or exited W&B Run
-displayed_sidebar: default
 title: Resume a run
 ---
 import Tabs from '@theme/Tabs';

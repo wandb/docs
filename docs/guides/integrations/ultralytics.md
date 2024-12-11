@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Ultralytics
 ---
 import Tabs from '@theme/Tabs';

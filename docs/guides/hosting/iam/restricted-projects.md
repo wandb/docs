@@ -1,6 +1,5 @@
 ---
 description: Manage project access using visibility scopes and project-level roles
-displayed_sidebar: default
 title: Manage access control for projects
 ---
 

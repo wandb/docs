@@ -1,6 +1,5 @@
 ---
 description: Export data from Dedicated Cloud
-displayed_sidebar: default
 title: Export data from Dedicated Cloud
 ---
 

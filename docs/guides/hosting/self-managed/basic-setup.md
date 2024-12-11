@@ -1,6 +1,5 @@
 ---
 description: Run Weights and Biases on your own machines using Docker
-displayed_sidebar: default
 title: "Tutorial: Run a W&B Server using Docker"
 ---
 

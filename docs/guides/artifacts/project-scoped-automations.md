@@ -1,6 +1,5 @@
 ---
 description: Use an project scoped artifact automation in your project to trigger actions when aliases or versions in an artifact collection are created or changed. 
-displayed_sidebar: default
 title: Trigger CI/CD events when artifact changes
 ---
 import Tabs from '@theme/Tabs';

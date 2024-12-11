@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Hugging Face Transformers
 ---
 import Tabs from '@theme/Tabs';

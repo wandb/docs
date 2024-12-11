@@ -1,6 +1,5 @@
 ---
 description: Explore how to use W&B Tables with this 5 minute Quickstart.
-displayed_sidebar: default
 title: "Tutorial: Log tables, visualize and query data"
 ---
 import Tabs from '@theme/Tabs';

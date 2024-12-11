@@ -2,7 +2,6 @@
 description: >-
   Visualize the relationships between your model's hyperparameters and output
   metrics
-displayed_sidebar: default
 title: Parameter importance
 ---
 

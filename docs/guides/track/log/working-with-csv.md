@@ -1,6 +1,5 @@
 ---
 description: Importing and logging data into W&B
-displayed_sidebar: default
 title: Track CSV files with experiments
 ---
 

@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: YOLOv5
 ---
 import Tabs from '@theme/Tabs';

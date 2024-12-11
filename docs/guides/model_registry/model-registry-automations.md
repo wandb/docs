@@ -1,7 +1,6 @@
 ---
 description: Use an Automation for model CI (automated model evaluation pipelines) and model deployment.
 title:  Model registry automations 
-displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

@@ -2,7 +2,6 @@
 description: >-
   Search and stop algorithms locally instead of using the W&B
   cloud-hosted service.
-displayed_sidebar: default
 title: Manage algorithms locally
 ---
 

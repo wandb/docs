@@ -2,7 +2,6 @@
 description: >-
   se W&B with Jupyter to get interactive visualizations without
   leaving your notebook.
-displayed_sidebar: default
 title: Track Jupyter notebooks
 ---
 import Tabs from '@theme/Tabs';

@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 description: Use tags to organize collections or artifact versions within collections. You can add, remove, edit tags with the Python SDK or W&B App UI.
 title: Organize versions with tags
 ---

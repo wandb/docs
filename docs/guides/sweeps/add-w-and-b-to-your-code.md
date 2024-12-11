@@ -1,6 +1,5 @@
 ---
 description: Add W&B to your Python code script or Jupyter Notebook.
-displayed_sidebar: default
 title: Add W&B (wandb) to your code
 ---
 import Tabs from '@theme/Tabs';

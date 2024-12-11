@@ -1,6 +1,5 @@
 ---
 description: OpenAI integrations for Weights & Biases
-displayed_sidebar: default
 title: OpenAI and Weights & Biases
 ---
 

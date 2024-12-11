@@ -1,6 +1,5 @@
 ---
 description: Use model registry role based access controls (RBAC) to control who can update protected aliases.
-displayed_sidebar: default
 title: Manage data governance and access control
 ---
 

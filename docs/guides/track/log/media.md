@@ -1,6 +1,5 @@
 ---
 description: Log rich media, from 3D point clouds and molecules to HTML and histograms
-displayed_sidebar: default
 title: Log media and objects
 ---
 import Tabs from '@theme/Tabs';

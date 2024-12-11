@@ -1,6 +1,5 @@
 ---
 description: Create a new artifact version from a single run or from a distributed process.
-displayed_sidebar: default
 title: Create an artifact version
 ---
 import Tabs from '@theme/Tabs';

@@ -1,6 +1,5 @@
 ---
 description: Rewind
-displayed_sidebar: default
 title: Rewind a run
 ---
 

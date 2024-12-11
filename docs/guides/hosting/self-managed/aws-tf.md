@@ -1,7 +1,6 @@
 ---
 title: Deploy W&B Platform on AWS
 description: Hosting W&B Server on AWS.
-displayed_sidebar: default
 ---
 
 :::info

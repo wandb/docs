@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Add wandb to any library
 ---
 import Tabs from '@theme/Tabs';

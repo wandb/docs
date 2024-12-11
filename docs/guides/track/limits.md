@@ -2,7 +2,6 @@
 description: >-
   Keep your pages in W&B faster and more responsive by logging within these
   suggested bounds.
-displayed_sidebar: default
 title: Experiments limits and performance
 ---
 

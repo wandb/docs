@@ -1,6 +1,5 @@
 ---
 description: 'Add descriptions to model card to document your model'
-displayed_sidebar: default
 title: Document machine learning model
 ---
 

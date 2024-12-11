@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Migrate from legacy Model Registry
 ---
 

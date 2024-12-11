@@ -1,6 +1,5 @@
 ---
 description: Group training and evaluation runs into larger experiments
-displayed_sidebar: default
 title: Group runs into experiments
 ---
 

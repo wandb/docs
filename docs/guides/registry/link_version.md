@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Link an artifact version to a registry
 ---
 import Tabs from '@theme/Tabs';

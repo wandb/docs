@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Download and use an artifact from a registry
 ---
 

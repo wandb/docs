@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Bring your own bucket (BYOB)
 ---
 import Tabs from '@theme/Tabs';
