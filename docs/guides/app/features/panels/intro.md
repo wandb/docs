@@ -7,101 +7,114 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
-Use panel visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and more. 
+Use workspace panel visualizations to explore your [logged data](/ref/python/log.md) by key, visualize the relationships between hyperparameters and output metrics, and more. 
 
-## Add a single panel
+## Workspace modes
 
-1. Within your workspace, navigate to the section you want to add a panel to
-2. Choose the Add panel button
-3. From the dropdown, select a type of panel to add
-![](/images/app_ui/add_single_panel.gif) 
-4. (Optional) If prompted, define parameters for the plot. 
+W&B projects support two different workspace modes. The icon next to the workspace name shows its mode. 
 
-<Tabs
-  defaultValue="quick"
-  values={[
-    {label: 'Add a plot from a logged value', value: 'quick'},
-    {label: 'Add a custom plot', value: 'single'},
-  ]}>
-  <TabItem value="quick">
+| Icon | Workspace mode |
+| --- | --- |
+| <img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" /> | **Automated workspaces** automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project. |
+| <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" /> | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
 
-1. Within your project workspace, choose the **Add panels** button
-2. Select **Quick add**
-2. Provide a regular expression within the search field or select a key from the **KEYS** dropdown.
-
-  </TabItem>
-  <TabItem value="single">
-
-1. Within your project workspace, choose the **Add panels** button
-2. Select the type of chart you want to add from the **CHARTS** dropdown
-3. Based on the chart type, provide the necessary parameters
-3. Select **Apply**
-
-  </TabItem> 
-</Tabs>
-
+To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
 
 :::tip Undo changes to your workspace
-Select the undo button (arrow that points left) to undo any unwanted changes.
+To undo changes to your workspace, click the Undo button (arrow that points left) or type **CMD + Z** (macOS) or **CTRL + Z** (Windows / Linux).
 :::
 
-## Add multiple panels
-Add multiple panels to your workspace at the same time. You can add up to 500 panels at a time.
+## Reset a workspace
 
-1. Within your project workspace, choose the **Add panels** button
-2. Choose **Quick add**
-2. Provide a regular expression within the search field
-3. Select the **Add all** button
-![](/images/app_ui/bulk_panels.gif)
+To reset a workspace:
 
-:::note
-The **Add all** button appears only if a regular expression match occurs.
-:::
+1. At the top of the workspace, click the action menu `...`.
+1. Click **Reset workspace**.
 
+## Add panels
 
+You can add panels to your workspace, either globally or at the section level.
 
-## Activate or deactivate auto generated panels
+To add a panel:
 
-By default, W&B generates a panel for each unique metric you [`log`](../../../../ref/python/log.md) with the Python SDK. 
+1. To add a panel globally, click **Add panels** in the control bar near the panel search field.
+1. To add a panel directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
+1. Select the type of panel to add.
+![](/images/app_ui/add_single_panel.gif)
 
-:::info
-W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
-:::
+### Quick add
 
-To activate or deactivate auto generated panels:
+**Quick Add** allows you to select a key in the project from a list to generate a standard panel for it.
 
-1. Navigate to your project's workspace
-2. Select on the gear icon in the upper right hand corner
-3. A modal appears, choose **Sections**
-4. Toggle the **Panel generation** option to desired state
-![](/images/app_ui/panel_generation.png)
+For an automated workspace with no deleted panels, **Quick add** is not available. You can use **Quick add** to re-add a panel that you deleted.
 
-### Check auto generated panel settings
-Each workspace indicates whether or not the workspace automatically generates panels. Next to the name of your workspace is a clipboard icon. If the icon is red, panels are not automatically generated. If the panel is green, panels are automatically created each time you log a unique metric.
+### Custom panel add
 
-Example of workspace with panel auto generation off:
-![](/images/app_ui/auto_panel_off.png)
+To add a custom panel to your workspace:
 
-Example of workspace with panel auto generation on:
-![](/images/app_ui/auto_panel_on.png)
+1. Select the type of panel you’d like to create.
+1. Follow the prompts to configure the panel.
 
+To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots](line-plot/intro.md) or [Bar plots](bar-plot.md).
 
-## Remove a panel
+## Manage panels
 
-1. Hover your mouse in the upper corner of the panel you want to remove
-2. Select the three horizontal dots (**...**) that appear
-3. From the dropdown, select **Delete**
+### Edit a panel
 
-## Remove all panels
+To edit a panel:
 
-1. Within your project workspace, select the three horizontal dots (**...**) next to the panel search bar
-2. Select **Clear all panels**
+1. Click its pencil icon.
+1. Modify the panel's settings.
+1. To change the panel to a different type, select the type and then configure the settings.
+1. Click **Apply**.
 
-:::note
-Clearing panels in your workspace deactivates automatic panel generation.
-:::
+### Move a panel
 
-<!-- ## Add a section -->
+To move a panel to a different section, you can use the drag handle on the panel. To select the new section from a list instead:
 
-<!-- Delete a section -->
+1. If necessary, create a new section by clicking **Add section** after the last section.
+1. Click the  action `...` menu for the panel.
+1. Click **Move**, then select a new section.
+
+You can also use the drag handle to rearrange panels within a section.
+
+## Duplicate a panel
+
+To duplicate a panel:
+
+1. At the top of the panel, click the action `...` menu.
+1. Click **Duplicate**.
+
+If desired, you can [customize](#edit-a-panel) or [move](#move-a-panel) the duplicated panel.
+
+### Remove panels
+
+To remove a panel:
+
+1. Hover your mouse over the panel.
+1. Select the action `...` menu.
+1. Click **Delete**.
+
+To remove all panels from a manual workspace, click its action `...` menu, then click **Clear all panels**.
+
+To remove all panels from an automatic or manual workspace, you can [reset the workspace](#reset-a-workspace). Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
+
+## Manage sections
+
+By default, sections in a workspace reflect the logging hierarchy of your keys. However, in a manual workspace, sections appear only after you start adding panels.
+
+### Add a section
+
+To add a section, click **Add section** after the last section.
+
+To add a new section before or after an existing section, you can instead click the section's action `...` menu, then click **New section below** or **New section above**.
+
+### Rename a section
+
+To rename a section, click its action `...` menu, then click **Rename section**.
+
+### Delete a section
+
+To delete a section, click its `...` menu, then click **Delete section**. This removes the section and its panels.
+
 
