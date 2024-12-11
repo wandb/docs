@@ -1,6 +1,5 @@
 ---
 description: Compare results across machine learning experiments
-displayed_sidebar: default
 title: Parallel coordinates
 ---
 

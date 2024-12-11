@@ -1,6 +1,5 @@
 ---
 description: Start or stop a W&B Sweep Agent on one or more machines.
-displayed_sidebar: default
 title: Start or stop a sweep agent
 ---
 import Tabs from '@theme/Tabs';

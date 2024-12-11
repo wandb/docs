@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Supported Dedicated Cloud regions
 ---
 

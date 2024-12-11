@@ -1,6 +1,5 @@
 ---
 description: Create a W&B Experiment.
-displayed_sidebar: default
 title: Create an experiment
 ---
 import Tabs from '@theme/Tabs';

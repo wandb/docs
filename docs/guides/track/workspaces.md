@@ -1,6 +1,5 @@
 ---
 description: A playground for exploring run data with interactive visualizations
-displayed_sidebar: default
 title: View experiments results
 ---
 import Tabs from '@theme/Tabs';

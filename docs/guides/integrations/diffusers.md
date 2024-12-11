@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Hugging Face Diffusers
 ---
 import Tabs from '@theme/Tabs';

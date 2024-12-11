@@ -1,6 +1,5 @@
 ---
 description: Learn how to use W&B for Model Management
-displayed_sidebar: default
 title: "Tutorial: Use W&B for model management"
 ---
 import Tabs from '@theme/Tabs';

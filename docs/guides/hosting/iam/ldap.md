@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Configure SSO with LDAP
 ---
 import Tabs from '@theme/Tabs';

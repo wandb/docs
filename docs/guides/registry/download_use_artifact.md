@@ -1,6 +1,5 @@
 ---
-displayed_sidebar: default
-title: Download an artifact from a registry
+title: Download and use an artifact from a registry
 ---
 
 Use the W&B Python SDK to download an artifact linked to a registry. To download and use an artifact, you need to know the name of the registry, the name of the collection, and the alias or index of the artifact version you want to download. 

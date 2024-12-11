@@ -1,6 +1,5 @@
 ---
 description: Manage emails from the Settings page.
-displayed_sidebar: default
 title: Manage email settings
 ---
 

@@ -2,7 +2,6 @@
 description: >-
   Artifacts quickstart shows how to create, track, and use a dataset artifact
   with W&B.
-displayed_sidebar: default
 title: "Tutorial: Create, track, and use a dataset artifact"
 ---
 This walkthrough demonstrates how to create, track, and use a dataset artifact from [W&B Runs](../runs/intro.md).

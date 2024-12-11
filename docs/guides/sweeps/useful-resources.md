@@ -1,6 +1,5 @@
 ---
 description: Collection of useful sources for Sweeps.
-displayed_sidebar: default
 title: Learn more about sweeps
 ---
 

@@ -1,6 +1,5 @@
 ---
 description: Compare runs from two different projects with cross-project reports.
-displayed_sidebar: default
 title: Compare runs across projects
 ---
 

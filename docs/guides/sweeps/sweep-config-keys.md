@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Sweep configuration options
 ---
 import Tabs from '@theme/Tabs';

@@ -1,6 +1,5 @@
 ---
 description: Forking a W&B run
-displayed_sidebar: default
 title: Fork a run
 ---
 

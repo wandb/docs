@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Access BYOB using pre-signed URLs
 ---
 

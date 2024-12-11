@@ -2,7 +2,6 @@
 description: >-
   Track files saved outside the W&B such as in an Amazon S3 bucket,
   GCS bucket, HTTP file server, or even an NFS share.
-displayed_sidebar: default
 title: Track external files
 ---
 

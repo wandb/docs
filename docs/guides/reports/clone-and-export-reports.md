@@ -1,6 +1,5 @@
 ---
 description: Export a W&B Report as a PDF or LaTeX.
-displayed_sidebar: default
 title: Clone and export reports
 ---
 import Tabs from '@theme/Tabs';

@@ -4,7 +4,6 @@ menu:
     identifier: monai_3d_segmentation
     parent: integration-tutorials
 title: 3D brain tumor segmentation with MONAI
-url: tutorials/monai_3d_segmentation
 weight: 10
 ---
 

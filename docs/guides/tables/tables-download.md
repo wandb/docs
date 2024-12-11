@@ -1,6 +1,5 @@
 ---
 description: How to export data from tables.
-displayed_sidebar: default
 title: Export table data
 ---
 

@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Point aggregation
 ---
 import Tabs from '@theme/Tabs';

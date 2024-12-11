@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Manage users, groups, and roles with SCIM 
 ---
 

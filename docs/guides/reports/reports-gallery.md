@@ -1,6 +1,5 @@
 ---
 description: Reports gallery
-displayed_sidebar: default
 title: Example reports
 ---
 

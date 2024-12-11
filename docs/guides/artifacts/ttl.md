@@ -1,6 +1,5 @@
 ---
 description: Time to live policies (TTL)
-displayed_sidebar: default
 title: Manage artifact data retention
 ---
 import Tabs from '@theme/Tabs';

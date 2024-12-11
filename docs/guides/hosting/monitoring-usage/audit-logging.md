@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Track user activity with audit logs
 ---
 

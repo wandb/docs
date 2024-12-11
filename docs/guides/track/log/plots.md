@@ -1,6 +1,5 @@
 ---
 description: Create and track plots from machine learning experiments.
-displayed_sidebar: default
 title: Create and track plots from experiments
 ---
 import Tabs from '@theme/Tabs';

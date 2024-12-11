@@ -1,6 +1,5 @@
 ---
 description: Troubleshoot common W&B Sweep issues.
-displayed_sidebar: default
 title: Sweeps troubleshooting
 ---
 

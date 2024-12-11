@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Create a collection
 ---
 import Tabs from '@theme/Tabs';

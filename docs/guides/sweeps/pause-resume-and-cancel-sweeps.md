@@ -1,6 +1,5 @@
 ---
 description: Pause, resume, and cancel a W&B Sweep with the CLI.
-displayed_sidebar: default
 title: Manage sweeps with the CLI
 ---
 

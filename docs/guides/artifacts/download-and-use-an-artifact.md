@@ -1,6 +1,5 @@
 ---
 description: Download and use Artifacts from multiple projects.
-displayed_sidebar: default
 title: Download and use artifacts
 ---
 

@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: PyTorch Geometric
 ---
 import Tabs from '@theme/Tabs';

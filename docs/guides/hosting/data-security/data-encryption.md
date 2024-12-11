@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Data encryption in Dedicated Cloud
 ---
 

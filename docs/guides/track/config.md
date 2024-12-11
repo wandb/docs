@@ -1,6 +1,5 @@
 ---
 description: Use a dictionary-like object to save your experiment configuration
-displayed_sidebar: default
 title: Configure experiments
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';

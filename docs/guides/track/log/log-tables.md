@@ -1,6 +1,5 @@
 ---
 description: Log tables with W&B.
-displayed_sidebar: default
 title: Log tables
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

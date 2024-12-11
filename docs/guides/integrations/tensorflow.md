@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: TensorFlow
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

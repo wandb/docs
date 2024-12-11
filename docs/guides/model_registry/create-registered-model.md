@@ -1,6 +1,5 @@
 ---
 description: Create a registered model to hold all the candidate models for your modeling tasks.
-displayed_sidebar: default
 title: Create a registered model
 ---
 import Tabs from '@theme/Tabs';

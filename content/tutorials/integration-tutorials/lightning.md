@@ -4,7 +4,6 @@ menu:
     identifier: lightning
     parent: integration-tutorials
 title: PyTorch Lightning
-url: tutorials/lightning
 weight: 2
 ---
 

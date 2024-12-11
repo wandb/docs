@@ -2,7 +2,6 @@
 description: >-
   Delete artifacts interactively with the App UI or programmatically with the
   W&B SDK/
-displayed_sidebar: default
 title: Delete an artifact
 ---
 

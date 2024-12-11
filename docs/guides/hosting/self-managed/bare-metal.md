@@ -1,7 +1,6 @@
 ---
 title: Deploy W&B Platform On-premises
 description: Hosting W&B Server on on-premises infrastructure
-displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

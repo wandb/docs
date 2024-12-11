@@ -1,6 +1,5 @@
 ---
 description: Ways to manage W&B data storage. 
-displayed_sidebar: default
 title: Manage storage
 ---
 

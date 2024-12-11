@@ -1,6 +1,5 @@
 ---
 description: Metrics automatically logged by wandb
-displayed_sidebar: default
 title: System metrics
 ---
 

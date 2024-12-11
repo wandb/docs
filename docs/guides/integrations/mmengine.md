@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: MMEngine
 ---
 import Tabs from '@theme/Tabs';

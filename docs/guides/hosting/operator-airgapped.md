@@ -1,6 +1,5 @@
 ---
 description: Deploy W&B Platform with Kubernetes Operator (Airgapped)
-displayed_sidebar: default
 ---
 
 # Kubernetes operator for air-gapped instances

@@ -1,6 +1,5 @@
 ---
 description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
-displayed_sidebar: default
 title: "Tutorial: Visualize and debug LLMs with Prompts"
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';

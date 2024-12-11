@@ -1,6 +1,5 @@
 ---
 description: Track your trees with W&B.
-displayed_sidebar: default
 title: LightGBM
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Use W&B Multi-tenant SaaS
 ---
 

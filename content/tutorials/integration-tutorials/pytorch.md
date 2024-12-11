@@ -4,7 +4,6 @@ menu:
     identifier: pytorch
     parent: integration-tutorials
 title: PyTorch
-url: tutorials/pytorch
 weight: 1
 ---
 

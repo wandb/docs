@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Configure registry access
 ---
 <!-- A registry, and the linked artifacts inside a registry, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, if that team has correct access control. -->

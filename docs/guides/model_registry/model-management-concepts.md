@@ -1,6 +1,5 @@
 ---
 description: 'Model Registry terms and concepts'
-displayed_sidebar: default
 title: Model Registry Terms and Concepts
 ---
 

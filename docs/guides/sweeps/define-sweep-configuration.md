@@ -1,6 +1,5 @@
 ---
 description: Learn how to create configuration files for sweeps.
-displayed_sidebar: default
 title: Configure sweeps
 ---
 import Tabs from '@theme/Tabs';

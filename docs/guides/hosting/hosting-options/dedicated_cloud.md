@@ -1,5 +1,4 @@
 ---
-displayed_sidebar: default
 title: Use W&B Dedicated Cloud, the Single-Tenant SaaS
 ---
 

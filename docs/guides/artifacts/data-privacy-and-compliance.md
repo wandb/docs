@@ -2,7 +2,6 @@
 description: >-
   Learn where W&B files are stored by default. Explore how to save, store
   sensitive information.
-displayed_sidebar: default
 title: Artifact data privacy and compliance
 ---
 

@@ -1,6 +1,5 @@
 ---
 description: Visualize the results of your W&B Sweeps with the W&B App UI.
-displayed_sidebar: default
 title: Visualize sweep results
 ---
 

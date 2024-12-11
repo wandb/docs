@@ -2,7 +2,6 @@
 description: >-
   Sweeps quickstart shows how to define, initialize, and run a sweep. There are
   four main steps
-displayed_sidebar: default
 title: "Tutorial: Define, initialize, and run a sweep"
 ---
 

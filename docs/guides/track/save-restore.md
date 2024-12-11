@@ -1,6 +1,5 @@
 ---
 description: Save files to the cloud and restore them locally later
-displayed_sidebar: default
 title: Save & restore files to the cloud
 ---
 
