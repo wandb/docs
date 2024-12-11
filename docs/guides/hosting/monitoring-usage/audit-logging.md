@@ -11,14 +11,16 @@ Use W&B audit logs to track user activity within your organization, and to confo
 | Dedicated Cloud with [secure storage connector (BYOB)](../data-security/secure-storage-connector.md) | Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
 | Dedicated Cloud with W&B managed storage (without BYOB) | Only available using [the API](#fetch-audit-logs-using-api). |
 
-**Audit logs are not available for [SaaS Cloud](../hosting-options/saas_cloud.md) yet.**
+:::info
+Audit logs are not available for [SaaS Cloud](../hosting-options/saas_cloud.md).
+:::
 
 Once you've access to your audit logs, analyze those using your preferred tools, such as [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), and more. You may need to transform the JSON-formatted audit logs into a format relevant to the tool before analysis. Information on how to transform your audit logs for specific tools is outside the scope of W&B documentation.
 
 :::tip
 **Audit Log Retention:** If a compliance, security or risk team in your organization requires audit logs to be retained for a specific period of time, W&B recommends to periodically transfer the logs from your instance-level bucket to a long-term retention storage. If you're instead using the API to access the audit logs, you can implement a simple script that runs periodically (like daily or every few days) to fetch any logs that may have been generated since the time of the last script run, and store those in a short-term storage for analysis or directly transfer to a long-term retention storage.
 
-If you are using a HIPAA-compliant [Dedicated Cloud](../hosting-options/dedicated_cloud.md) instance for W&B Models or Weave, you must retain the audit logs for at least 6 years. It is a regulatory requirement. You must configure guardrails for your managed storage such that an internal or external user is not able to delete the audit logs before the end of the mandatory retention period.
+HIPAA compliance requires that you retain audit logs for a minimum of 6 years. For HIPAA-compliant [Dedicated Cloud](../hosting-options/dedicated_cloud.md) instances for W&B Models or Weave, you must configure guardrails for your managed storage including any long-term retention storage to ensure that no internal or external user can delete audit logs before the end of the mandatory retention period.
 :::
 
 ## Audit log schema
