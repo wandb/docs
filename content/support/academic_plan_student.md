@@ -1,6 +1,7 @@
 ---
 title: Can I get an academic plan as a student?
 toc_hide: true
+type: docs
 tags:
 - administrator
 - academic
