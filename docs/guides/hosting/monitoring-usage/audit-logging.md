@@ -3,9 +3,9 @@ displayed_sidebar: default
 title: Track user activity with audit logs
 ---
 
-Use W&B audit logs to track user activity within your organization, and to conform to your enterprise governance requirements. Audit logs are formatted using JSON. How to access audit logs depends on your W&B platform deployment type:
+Use W&B audit logs to track user activity within your organization, and to conform to your enterprise governance requirements. Audit logs are available in JSON format. How to access audit logs depends on your W&B platform deployment type:
 
-| W&B Platform Deployment type | Audit logs access mechanism(s) |
+| W&B Platform Deployment type | Audit logs access mechanism |
 |----------------------------|--------------------------------|
 | [Self-managed](../hosting-options/self-managed.md) | Synced to instance-level bucket every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
 | [Dedicated Cloud](../hosting-options/dedicated_cloud.md) with [secure storage connector (BYOB)](../data-security/secure-storage-connector.md) | Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
@@ -57,10 +57,10 @@ An instance admin can fetch the audit logs for your W&B instance using the follo
     - `anonymize` : if set to `true`, remove any PII; defaults to `false`
 2. Execute HTTP GET request on the constructed full API endpoint, either by directly running it within a modern browser, or by using a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), cURL command or more.
 
-If your W&B instance URL is `https://mycompany.wandb.io` and you would like to get audit logs without PII for user activity within the last week, your API endpoint will be `https://mycompany.wandb.io?numDays=7&anonymize=true`.
+If your W&B instance URL is `https://mycompany.wandb.io` and you would like to get audit logs without PII for user activity within the last week, you must use the API endpoint `https://mycompany.wandb.io?numDays=7&anonymize=true`.
 
 :::note
-Only W&B [instance admins](../iam/access-management-intro) can fetch audit logs using the API. If you are not an instance admin or not logged into your organization, you will get the `HTTP 403 Forbidden` error.
+Only W&B [instance admins](../iam/access-management-intro) can fetch audit logs using the API. If you are not an instance admin or not logged into your organization, a `HTTP 403 Forbidden` error is returned to you.
 :::
 
 The API response contains new-line separated JSON objects. Objects will include the fields described in the schema. It's the same format which is used when syncing audit log files to an instance-level bucket (wherever applicable as mentioned earlier). In those cases, the audit logs are located at the `/wandb-audit-logs` directory in your bucket.
