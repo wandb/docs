@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_resuming
-    parent: null
+    parent: support
 title: Resuming
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,4 +14,5 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [How do I use the resume parameter when resuming a run in W&B?](resume_parameter.md)

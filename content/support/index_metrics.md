@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_metrics
-    parent: null
+    parent: support
 title: Metrics
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [Can I just log metrics, no code or dataset examples?](just_log_metrics_no_code_dataset_examples.md)
 - [Can I log metrics on two different time scales?](log_metrics_two_different_time_scales_example_log_training.md)
 - [How can I log additional metrics after a run completes?](log_additional_metrics_run_completes.md)

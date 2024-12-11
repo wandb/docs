@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_hyperparameter
-    parent: null
+    parent: support
 title: Hyperparameter
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [Best practices to organize hyperparameter searches](best_practices_organize_hyperparameter_searches.md)
 - [Can I rerun a grid search?](rerun_grid_search.md)
 - [What is the `Est. Runs` column?](est_runs_column.md)

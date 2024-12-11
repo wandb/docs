@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_tensorboard
-    parent: null
+    parent: support
 title: Tensorboard
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,5 +14,6 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [How is W&B different from TensorBoard?](different_tensorboard.md)
 - [What formula do you use for your smoothing algorithm?](formula_smoothing_algorithm.md)

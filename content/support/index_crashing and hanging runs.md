@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_crashing and hanging runs
-    parent: null
+    parent: support
 title: Crashing And Hanging Runs
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [How do I kill a job with wandb?](kill_job_wandb.md)
 - [How do I resolve a run initialization timeout error in wandb?](initialization_timeout_error.md)
 - [If wandb crashes, will it possibly crash my training run?](crashes_crash_training_run.md)

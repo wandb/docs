@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_administrator
-    parent: null
+    parent: support
 title: Administrator
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [Can I get an academic plan as a student?](academic_plan_student.md)
 - [Can I just log metrics, no code or dataset examples?](just_log_metrics_no_code_dataset_examples.md)
 - [How can I change my account from corporate to academic?](change_account_from_corporate_academic.md)

@@ -2,8 +2,9 @@
 menu:
   support:
     identifier: index_security
-    parent: null
+    parent: support
 title: Security
+type: docs
 ---
 
 import Card from '@site/src/components/Card';
@@ -13,6 +14,7 @@ import Card from '@site/src/components/Card';
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).</p>
 </Card>
+
 - [Can W&B team members see my data?](wandb_see_data.md)
 - [Do you have a bug bounty program?](bounty_program.md)
 - [Does W&B support SSO for Multi-tenant?](sso_multitenant.md)
