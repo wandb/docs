@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/openai-api
 description: How to use W&B with the OpenAI API.
-displayed_sidebar: default
 title: OpenAI API
 ---
 import Tabs from '@theme/Tabs';

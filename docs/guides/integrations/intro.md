@@ -1,6 +1,4 @@
 ---
-slug: /guides/integrations
-displayed_sidebar: default
 title: Integrations
 ---
 

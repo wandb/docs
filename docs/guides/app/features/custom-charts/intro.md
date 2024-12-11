@@ -1,5 +1,5 @@
 ---
-slug: /guides/app/features/custom-charts
+url: /guides/app/features/custom-charts
 displayed_sidebar: default
 title: Custom charts
 ---

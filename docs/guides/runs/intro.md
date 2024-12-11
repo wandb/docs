@@ -1,7 +1,5 @@
 ---
-slug: /guides/runs
 description: Learn about the basic building block of W&B, Runs.
-displayed_sidebar: default
 title: Runs
 ---
 import Tabs from '@theme/Tabs';

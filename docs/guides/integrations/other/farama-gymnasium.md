@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/farama-gymnasium
 description: How to integrate W&B with Farama Gymnasium.
-displayed_sidebar: default
 title: Farama Gymnasium
 ---
 

@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/stable-baselines-3
 description: How to integrate W&B with Stable Baseline 3.
-displayed_sidebar: default
 title: Stable Baselines 3
 ---
 

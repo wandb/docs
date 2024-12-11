@@ -4,6 +4,7 @@ menu:
     identifier: automate_iam
     parent: identity-and-access-management-iam
 title: Automate user and team management
+weight: 3
 ---
 
 ## SCIM API

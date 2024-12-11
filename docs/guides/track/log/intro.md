@@ -1,5 +1,4 @@
 ---
-slug: /guides/track/log
 description: Keep track of metrics, videos, custom plots, and more
 displayed_sidebar: default
 title: Log media and objects in experiments

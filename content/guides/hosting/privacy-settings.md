@@ -4,6 +4,7 @@ menu:
     identifier: privacy-settings
     parent: w-b-platform
 title: Configure privacy settings
+weight: 4
 ---
 
 Organization and Team admins can configure a set of privacy settings at the organization and team scopes respectively. When configured at the organization scope, organization admins enforce those settings for all teams in that organization.

@@ -1,7 +1,5 @@
 ---
 description: Track machine learning experiments with W&B.
-slug: /guides/track
-displayed_sidebar: default
 title: Track experiments
 ---
 import Translate, {translate} from '@docusaurus/Translate';

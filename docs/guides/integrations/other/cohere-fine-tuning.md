@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/cohere-fine-tunining
 description: How to Fine-Tune Cohere models using W&B.
-displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';

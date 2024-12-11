@@ -4,6 +4,7 @@ menu:
     identifier: secure-storage-connector
     parent: data-security
 title: Bring your own bucket (BYOB)
+weight: 1
 ---
 
 import Tabs from '@theme/Tabs';

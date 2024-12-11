@@ -1,7 +1,5 @@
 ---
-slug: /guides/integrations/azure-openai-fine-tuning
 description: How to Fine-Tune Azure OpenAI models using W&B.
-displayed_sidebar: default
 title: Azure OpenAI Fine-Tuning
 ---
 ## Introduction

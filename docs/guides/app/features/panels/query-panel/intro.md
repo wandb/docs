@@ -1,10 +1,8 @@
 ---
-slug: /guides/app/features/panels/query-panel
 title: Query panels
 description: >-
   Some features on this page are in beta, hidden behind a feature flag. Add
   `weave-plot` to your bio on your profile page to unlock all related features.
-displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
