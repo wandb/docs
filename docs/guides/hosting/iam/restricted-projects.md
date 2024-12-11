@@ -12,18 +12,17 @@ You can use a combination of a couple of controls to configure the access level 
 :::info
 The owner of a project, a team admin, or an organization admin can set or edit a project's visibility.
 :::
+
 ## Visibility scopes
 
-There are four project visibility scopes you can choose from. In order of most public to most private, they are: 
-
+You can choose from the following project visibility scopes, ordered from most public to most private:
 
 | Scope | Description | 
 | ----- | ----- |
-| Open |Anyone who knows about the project can view it and submit runs or reports.|
-| Public |Anyone who knows about the project can view it. Only your team can submit runs or reports.|
-| Team | Only members of the parent team can view the project and submit runs or reports. Anyone outside the team can not access the project. |
-| Restricted| Only invited members from the parent team can view the project and submit runs or reports.|
-
+| Open | Anyone who knows about the project can view it and submit runs or reports.|
+| Public | Anyone who knows about the project can view it. Only your team can submit runs or reports.|
+| Team | Only members of the parent team can view the project and submit runs or reports. Anyone outside the team can not access the project.|
+| Restricted | Only invited members from the parent team can view the project and submit runs or reports.|
 
 :::tip
 Set a project's scope to **Restricted** if you would like to collaborate on workflows related to sensitive or confidential data. When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports, and so forth. 
@@ -107,4 +106,4 @@ When you change the project level role for a user to be different from their tea
 * You **can not** change the project level role of a user who has _View-only_ role at the team level.
 * If the project level role for a user within a particular project **is same as** the team level role, and at some point if a team admin changes the team level role, the relevant project role is automatically changed to track the team level role.
 * If you change the project level role for a user within a particular project such that **it is different from** the team level role, and at some point if a team admin changes the team level role, the relevant project level role remains as is.
-* If you remove a user from a _restricted_ project when their project level role was different from the team level role, and if you then add the user back to the project after some time, they would inherit the team level role due to the default behavior. If needed, you would need to change the project level role again to be different from the team level role.
+* If you re-add a user to a _restricted_ project some time after their removal, and if their project-level role was different from their team-level role before removal, they inherit the team-level role after the re-addition, due to the default role inheritance behavior. If necessary, you must reassign the project-level role to reinstate the behavior from before the user removal.
