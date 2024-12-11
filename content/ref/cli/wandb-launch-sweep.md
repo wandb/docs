@@ -1,5 +1,6 @@
-# wandb launch-sweep
-
+---
+title: wandb launch-sweep
+---
 **Usage**
 
 `wandb launch-sweep [OPTIONS] [CONFIG]`

@@ -1,5 +1,6 @@
-# wandb online
-
+---
+title: wandb online
+---
 **Usage**
 
 `wandb online [OPTIONS]`

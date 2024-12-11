@@ -1,5 +1,6 @@
-# wandb server start
-
+---
+title: wandb server start
+---
 **Usage**
 
 `wandb server start [OPTIONS]`

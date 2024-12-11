@@ -1,5 +1,6 @@
-# wandb offline
-
+---
+title: wandb offline
+---
 **Usage**
 
 `wandb offline [OPTIONS]`

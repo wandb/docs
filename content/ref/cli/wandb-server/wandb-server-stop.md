@@ -1,5 +1,6 @@
-# wandb server stop
-
+---
+title: wandb server stop
+---
 **Usage**
 
 `wandb server stop [OPTIONS]`

@@ -1,7 +1,7 @@
+---
+title: Workspaces
+---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-# Workspaces
-
 <CTAButtons githubLink='https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py'/>
 
 <!-- markdownlint-turnedoff -->

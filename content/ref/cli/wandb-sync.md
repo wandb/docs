@@ -1,5 +1,6 @@
-# wandb sync
-
+---
+title: wandb sync
+---
 **Usage**
 
 `wandb sync [OPTIONS] [PATH]...`

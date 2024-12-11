@@ -1,5 +1,6 @@
-# wandb pull
-
+---
+title: wandb pull
+---
 **Usage**
 
 `wandb pull [OPTIONS] RUN`

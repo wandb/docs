@@ -1,5 +1,6 @@
-# wandb controller
-
+---
+title: wandb controller
+---
 **Usage**
 
 `wandb controller [OPTIONS] SWEEP_ID`

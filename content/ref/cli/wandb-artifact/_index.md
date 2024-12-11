@@ -1,5 +1,6 @@
-# wandb artifact
-
+---
+title: wandb artifact
+---
 **Usage**
 
 `wandb artifact [OPTIONS] COMMAND [ARGS]...`

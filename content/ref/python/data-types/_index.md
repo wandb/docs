@@ -1,5 +1,6 @@
-# Data Types
-
+---
+title: Data Types
+---
 <!-- Insert buttons and diff -->
 
 

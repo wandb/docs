@@ -1,5 +1,6 @@
-# file
-
+---
+title: file
+---
 ## Chainable Ops
 <h3 id="file-contents"><code>file-contents</code></h3>
 

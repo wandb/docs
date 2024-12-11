@@ -1,5 +1,6 @@
-# wandb restore
-
+---
+title: wandb restore
+---
 **Usage**
 
 `wandb restore [OPTIONS] RUN`

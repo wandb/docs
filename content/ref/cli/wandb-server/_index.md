@@ -1,5 +1,6 @@
-# wandb server
-
+---
+title: wandb server
+---
 **Usage**
 
 `wandb server [OPTIONS] COMMAND [ARGS]...`

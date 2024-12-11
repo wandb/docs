@@ -1,5 +1,6 @@
-# wandb artifact ls
-
+---
+title: wandb artifact ls
+---
 **Usage**
 
 `wandb artifact ls [OPTIONS] PATH`

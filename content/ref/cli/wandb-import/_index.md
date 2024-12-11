@@ -1,5 +1,6 @@
-# wandb import
-
+---
+title: wandb import
+---
 **Usage**
 
 `wandb import [OPTIONS] COMMAND [ARGS]...`

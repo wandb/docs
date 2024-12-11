@@ -1,5 +1,6 @@
-# partitioned-table
-
+---
+title: partitioned-table
+---
 ## Chainable Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 

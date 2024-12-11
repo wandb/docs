@@ -1,5 +1,6 @@
-# wandb artifact cache
-
+---
+title: wandb artifact cache
+---
 **Usage**
 
 `wandb artifact cache [OPTIONS] COMMAND [ARGS]...`

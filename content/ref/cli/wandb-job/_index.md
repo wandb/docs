@@ -1,5 +1,6 @@
-# wandb job
-
+---
+title: wandb job
+---
 **Usage**
 
 `wandb job [OPTIONS] COMMAND [ARGS]...`

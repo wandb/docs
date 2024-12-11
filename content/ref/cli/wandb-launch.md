@@ -1,5 +1,6 @@
-# wandb launch
-
+---
+title: wandb launch
+---
 **Usage**
 
 `wandb launch [OPTIONS]`

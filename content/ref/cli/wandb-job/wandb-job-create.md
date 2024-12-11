@@ -1,5 +1,6 @@
-# wandb job create
-
+---
+title: wandb job create
+---
 **Usage**
 
 `wandb job create [OPTIONS] {git|code|image} PATH`

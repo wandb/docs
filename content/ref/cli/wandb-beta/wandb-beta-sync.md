@@ -1,5 +1,6 @@
-# wandb beta sync
-
+---
+title: wandb beta sync
+---
 **Usage**
 
 `wandb beta sync [OPTIONS] WANDB_DIR`

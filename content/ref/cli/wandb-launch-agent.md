@@ -1,5 +1,6 @@
-# wandb launch-agent
-
+---
+title: wandb launch-agent
+---
 **Usage**
 
 `wandb launch-agent [OPTIONS]`

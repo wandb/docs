@@ -1,5 +1,6 @@
-# wandb job list
-
+---
+title: wandb job list
+---
 **Usage**
 
 `wandb job list [OPTIONS]`

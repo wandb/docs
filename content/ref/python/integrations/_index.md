@@ -1,5 +1,6 @@
-# Integrations
-
+---
+title: Integrations
+---
 <!-- Insert buttons and diff -->
 
 

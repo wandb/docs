@@ -1,5 +1,6 @@
-# wandb beta
-
+---
+title: wandb beta
+---
 **Usage**
 
 `wandb beta [OPTIONS] COMMAND [ARGS]...`

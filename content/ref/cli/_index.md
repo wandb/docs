@@ -1,5 +1,13 @@
 ---
 title: Command Line Interface
+menu:
+    reference:
+        identifier: cli
+        parent: reference
+cascade:
+    menu:
+        reference:
+            parent: cli
 ---
 **Usage**
 

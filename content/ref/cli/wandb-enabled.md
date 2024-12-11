@@ -1,5 +1,6 @@
-# wandb enabled
-
+---
+title: wandb enabled
+---
 **Usage**
 
 `wandb enabled [OPTIONS]`

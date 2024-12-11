@@ -1,5 +1,6 @@
-# wandb sweep
-
+---
+title: wandb sweep
+---
 **Usage**
 
 `wandb sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID`
