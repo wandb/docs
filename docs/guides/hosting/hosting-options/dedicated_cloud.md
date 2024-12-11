@@ -28,7 +28,7 @@ Use the identity and access management capabilities for secure authentication an
 * Authenticate with [SSO using OpenID Connect (OIDC)](../iam/sso.md) or with [LDAP](../iam/ldap.md).
 * [Configure appropriate user roles](../iam/manage-organization.md#assign-or-update-a-users-role) at the scope of the organization and within a team.
 * Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects](../iam/restricted-projects.md).
-* Manage automated or non-interactive workflows using [org and team scoped service accounts](../iam/service-accounts.md).
+* Manage automated or non-interactive workflows using [service accounts scoped to the org or a team](../iam/service-accounts.md).
 * Leverage JSON Web Tokens with [identity federation](../iam/identity_federation.md) to access W&B APIs.
 
 ## Monitor

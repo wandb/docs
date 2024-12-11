@@ -29,11 +29,11 @@ To create a new organization-scoped service account:
 * Enter a **Name**.
 * Select a default team for the service account.
 * Click **Create**.
-* Next to the newly-created service account, click **Copy API key**.
+* Next to the newly created service account, click **Copy API key**.
 * Store the copied API key in a secret manager or another secure but accessible location.
 
 :::info
-A default team is required for a organization-scoped service account, even though it will have access to non-restricted projects owned by all teams within the organization. This helps to prevent a workload from failing if the `WANDB_ENTITY` variable is not set in the environment for your model training or generative AI app. To use an organization-scoped service account for a project in a different team, ensure that the `WANDB_ENTITY` environment variable is set to that team.
+An organization-scoped service account requires a default team, even though it has access to non-restricted projects owned by all teams within the organization. This helps to prevent a workload from failing if the `WANDB_ENTITY` variable is not set in the environment for your model training or generative AI app. To use an organization-scoped service account for a project in a different team, ensure that you configure the `WANDB_ENTITY` environment variable to that team.
 :::
 
 ## Team-scoped service accounts
@@ -48,7 +48,7 @@ To create a new team scoped service account for your team:
 * Enter a **Name**.
 * Select **Generate API key (Built-in)** as the authentication method.
 * Click **Create**.
-* Next to the newly-created service account, click **Copy API key**.
+* Next to the newly created service account, click **Copy API key**.
 * Store the copied API key in a secret manager or another secure but accessible location.
 
 If you do not configure a team in your model training or generative AI app environment that uses a team-scoped service account, the model runs or weave traces log to the named project within the service account's parent team. In such a scenario, user attribution using the `WANDB_USERNAME` or `WANDB_USER_EMAIL` variables _do not work_ unless the referenced user is part of the service account's parent team.
