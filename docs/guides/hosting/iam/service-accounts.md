@@ -4,54 +4,59 @@ displayed_sidebar: default
 title: Use service accounts to automate workflows
 ---
 
-A service account represents a non-human or machine user that can automate common tasks across projects within a team or across teams. As an org admin, you can create a service account at the scope of your overall organization such that you could use it across all teams. Or as a team admin, you could create a service account within the scope of your specific team. You can then use the service account's API key to read from or write to projects within the teams.
+A service account represents a non-human or machine user that can automate common tasks across projects within a team or across teams. 
 
-Service accounts are an alternative to using user-specific API keys to automate experiment tracking for W&B Models or to log traces for W&B Weave. They are more useful when you're looking to centralize your workflows across multiple users or teams. You have the option to associate the username for a human user with a service account managed workflow by using either of the [environment variables](../../track/environment-variables.md) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
+- An org admin can create a service account at the scope of the organization.
+- A team admin can create a service account at the scope of that team.
+	
+A service account's API key allows the caller to read from or write to projects within the service account's scope.
 
-:::info
-Service accounts are available on [Dedicated Cloud](../hosting-options/dedicated_cloud.md), [Self-managed instances](../hosting-options/self-managed.md) with enterprise license, and enterprise accounts in [SaaS Cloud](../hosting-options/saas_cloud.md).
-:::
-
-## Organization scoped service accounts
-
-Organization scoped service accounts have read and write permissions in all projects within all teams in that organization, except to [restricted projects](./restricted-projects.md#visibility-scopes) in any team. The admin of a restricted project must specifically add a org-scoped service account to the project to use it.
-
-As a org admin, you can get the API key for a org scoped service account in the **Service Accounts** tab of your organization or account dashboard.
-
-To create a new org scoped service account for your organization:
-
-* Press the **+ New service account** button in the **Service Accounts** tab of your organization dashboard
-* Provide a name in the **Name** field
-* Select a default team from the available teams
-* Press the **Create** button
-* Click the **Copy API key** button for the newly created service account and store it in a secret manager or another safe but accessible location
+Service accounts allow for centralized management of workflows by multiple users or teams, to automate experiment tracking for W&B Models or to log traces for W&B Weave. You have the option to associate a human user's identity with a workflow managed by a service account, by using the [environment variables](../../track/environment-variables.md) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
 
 :::info
-Organization scoped service accounts require a default team even though they have access to all teams within the organization. This is to ensure that W&B Models or Weave workflows do not fail if the `WANDB_ENTITY` variable is not available in your model training or generative AI app environment. To use a org scoped service account for a project in a team that's different from the service account's default team, ensure that you configure the relevant team using the `WANDB_ENTITY` variable in your environment.
+Service accounts are available on [Dedicated Cloud](../hosting-options/dedicated_cloud.md), [Self-managed instances](../hosting-options/self-managed.md) with an enterprise license, and enterprise accounts in [SaaS Cloud](../hosting-options/saas_cloud.md).
 :::
 
-## Team scoped service accounts
+## Organization-scoped service accounts
 
-Team scoped service accounts have read and write permissions in all projects within their parent team, except to [restricted projects](./restricted-projects.md#visibility-scopes) in that team. The admin of a restricted project must specifically add a team-scoped service account to the project to use it.
+Service accounts scoped to an organization have permissions to read and write in all projects in the organization, regardless of the team, with the exception of [restricted projects](./restricted-projects.md#visibility-scopes). Before an organization-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
 
-As a team admin, you can get the API key for a team scoped service account in your team at `<WANDB_HOST_URL>/<your-team-name>/service-accounts`. Alternatively you can go to the **Team settings** for your team and then refer to the **Service Accounts** tab.
+An organization admin can obtain the API key for an organization-scoped service account from the **Service Accounts** tab of the organization or account dashboard.
+
+To create a new organization-scoped service account:
+
+* Press the **+ New service account** button in the **Service Accounts** tab of your organization dashboard.
+* Enter a **Name**.
+* Select a default team for the service account.
+* Click **Create**.
+* Next to the newly-created service account, click **Copy API key**.
+* Store the copied API key in a secret manager or another secure but accessible location.
+
+:::info
+A default team is required for a organization-scoped service account, even though it will have access to non-restricted projects owned by all teams within the organization. This helps to prevent a workload from failing if the `WANDB_ENTITY` variable is not set in the environment for your model training or generative AI app. To use an organization-scoped service account for a project in a different team, ensure that the `WANDB_ENTITY` environment variable is set to that team.
+:::
+
+## Team-scoped service accounts
+
+A team-scoped service account can read and write in all projects within its team, except to [restricted projects](./restricted-projects.md#visibility-scopes) in that team. Before a team-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
+
+As a team admin, you can get the API key for a team-scoped service account in your team at `<WANDB_HOST_URL>/<your-team-name>/service-accounts`. Alternatively you can go to the **Team settings** for your team and then refer to the **Service Accounts** tab.
 
 To create a new team scoped service account for your team:
 
-* Press the **+ New service account** button in the **Service Accounts** tab of your team
-* Provide a name in the **Name** field
-* Select **Generate API key (Built-in)** as the authentication method
-* Press the **Create** button
-* Click the **Copy API key** button for the newly created service account and store it in a secret manager or another safe but accessible location
+* Press the **+ New service account** button in the **Service Accounts** tab of your team.
+* Enter a **Name**.
+* Select **Generate API key (Built-in)** as the authentication method.
+* Click **Create**.
+* Next to the newly-created service account, click **Copy API key**.
+* Store the copied API key in a secret manager or another secure but accessible location.
 
-:::info
-When you do not configure a team in your model training or generative AI app environment and use a team scoped service account, the model runs or weave traces log to the named project within the service account's parent team. In such a scenario, user attribution using the `WANDB_USERNAME` or `WANDB_USER_EMAIL` variables work only if the referenced user is part of the service account's parent team.
-:::
+If you do not configure a team in your model training or generative AI app environment that uses a team-scoped service account, the model runs or weave traces log to the named project within the service account's parent team. In such a scenario, user attribution using the `WANDB_USERNAME` or `WANDB_USER_EMAIL` variables _do not work_ unless the referenced user is part of the service account's parent team.
 
 :::warning
-A team scoped service account can not log runs to a private project in a team different from its parent team, but it can log runs to [open visibility](./restricted-projects.md#visibility-scopes) projects within other teams.
+A team-scoped service account cannot log runs to a [team or restricted-scoped project](./restricted-projects.md#visibility-scopes) in a team different from its parent team, but it can log runs to an open visibility project within another team.
 :::
 
 ### External service accounts
 
-Apart from the **Built-in** service accounts, W&B also supports team scoped **External service accounts** using [identity federation for SDK and CLI](./identity_federation.md#external-service-accounts). Use external service accounts if you are looking to automate W&B workflows using service identities managed in your identity provider that can issue JSON Web Tokens (JWT).
+In addition to **Built-in** service accounts, W&B also supports team-scoped **External service accounts** with the W&B SDK and CLI using [Identity federation](./identity_federation.md#external-service-accounts) with identity providers (IdPs) that can issue JSON Web Tokens (JWTs).

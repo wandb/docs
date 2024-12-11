@@ -44,7 +44,7 @@ For more information about how to set up and manage alerts, see [Send alerts wit
 
 ## Privacy
 
-Navigate to the **Privacy** section to change privacy settings. Refer to [configure privacy settings](../../hosting/privacy-settings.md).
+Navigate to the **Privacy** section to change privacy settings. Refer to [Configure privacy settings](../../hosting/privacy-settings.md).
 
 ## Usage
 
