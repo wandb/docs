@@ -4,6 +4,7 @@ menu:
     identifier: xgboost_sweeps
     parent: integration-tutorials
 title: XGBoost Sweeps
+url: tutorials/xgboost_sweeps
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

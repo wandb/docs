@@ -4,6 +4,8 @@ menu:
     identifier: pytorch
     parent: integration-tutorials
 title: PyTorch
+url: tutorials/pytorch
+weight: 1
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';

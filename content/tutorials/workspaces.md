@@ -4,6 +4,7 @@ menu:
     identifier: workspaces
     parent: null
 title: Programmatic Workspaces
+weight: 5
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

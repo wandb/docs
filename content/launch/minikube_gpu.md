@@ -4,6 +4,7 @@ menu:
     identifier: minikube_gpu
     parent: launch-integration-guides
 title: Spin up a single node GPU cluster with Minikube
+url: tutorials/minikube_gpu
 ---
 
 import Tabs from '@theme/Tabs';

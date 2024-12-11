@@ -8,6 +8,9 @@ menu:
 type: docs
 cascade:
     type: docs
+    menu:
+        tutorials:
+            parent: tutorials
 title: Tutorials
 ---
 

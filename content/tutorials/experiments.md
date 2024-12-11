@@ -2,8 +2,8 @@
 menu:
   tutorials:
     identifier: experiments
-    parent: null
 title: Track experiments
+weight: 1
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

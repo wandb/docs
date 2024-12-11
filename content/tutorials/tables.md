@@ -4,6 +4,7 @@ menu:
     identifier: tables
     parent: null
 title: Visualize predictions with tables
+weight: 2
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

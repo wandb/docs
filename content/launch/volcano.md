@@ -4,6 +4,7 @@ menu:
     identifier: volcano
     parent: launch-integration-guides
 title: Launch multinode jobs with Volcano
+url: tutorials/volcano
 ---
 
 import Tabs from '@theme/Tabs';

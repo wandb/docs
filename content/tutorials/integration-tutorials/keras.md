@@ -4,6 +4,7 @@ menu:
     identifier: keras
     parent: integration-tutorials
 title: Keras
+url: tutorials/keras
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

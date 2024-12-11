@@ -4,6 +4,8 @@ menu:
     identifier: tensorflow
     parent: integration-tutorials
 title: TensorFlow
+url: tutorials/tensorflow
+weight: 4
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'

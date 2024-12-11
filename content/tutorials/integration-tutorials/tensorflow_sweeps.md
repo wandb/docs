@@ -4,6 +4,8 @@ menu:
     identifier: tensorflow_sweeps
     parent: integration-tutorials
 title: TensorFlow Sweeps
+url: tutorials/tensorflow_sweeps
+weight: 5
 ---
 
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
