@@ -1,7 +1,9 @@
 # Run this from root by calling sh ./scripts/production.sh
 
 # Build the English docs from this branch
-yarn build:prod
+go mod init docsy
+hugo mod get -u
+hugo
 
 # Use a secondary git clone to build JA and KO 
 rm -rf scripts/docodile
@@ -15,13 +17,13 @@ git fetch -v --depth=1
 git checkout japanese_docs
 yarn install
 sh scripts/build-prod-docs.sh
-mv build/ja ../../build
+mv build/ja ../../public
 git stash
 # KO
 git checkout korean_docs
 yarn install
 sh scripts/build-prod-docs.sh
-mv build/ko ../../build
+mv build/ko ../../public
 git stash
 # Cleanup
 cd ../..
