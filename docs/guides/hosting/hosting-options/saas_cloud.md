@@ -19,7 +19,7 @@ If you are on enterprise plan, you can use the identity and access managements c
 * SSO authentication with OIDC or SAML. Reach out to your W&B team or support if you would like to configure SSO for your organization.
 * [Configure appropriate user roles](../iam/manage-organization.md#assign-or-update-a-users-role) at the scope of the organization and within a team.
 * Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects](../iam/restricted-projects.md).
-* Manage automated or non-interactive workflows using [service accounts scoped to the org or a team](../iam/service-accounts.md). Service accounts are available in Enterprise plan only.
+* Manage automated or non-interactive workflows using [service accounts scoped to the organization or a team](../iam/service-accounts.md). Service accounts are available in Enterprise plan only.
 
 ## Monitor
 Organization admins can manage usage and billing for their account from the `Billing` tab in their account view. If using the shared cloud storage on Multi-tenant Cloud, an admin can optimize storage usage across different teams in their organization.
