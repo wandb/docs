@@ -327,9 +327,9 @@ Follow the steps outlined here to update W&B:
       wandb_version = "0.58.1"
   ```
 
-  :::info
+  {{% alert %}}
   Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
-  :::
+  {{% /alert %}}
 
 2. After you update your configuration, complete the steps described in the [Deployment option section](#deployment---recommended-20-mins).
 
