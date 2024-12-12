@@ -97,8 +97,7 @@ downloaded_path = fetched_artifact.download()
 
 See [`use_artifact`](../../ref/python/run.md#use_artifact) and [`Artifact.download()`](/ref/python/artifact#download) in the API Reference guide for more information on possible parameters and return type.
 
-{{% alert %}}
-Users with a personal entity that belong to multiple organizations
+{{% alert title="Users with a personal entity that belong to multiple organizations" %}}
 Users with a personal entity that belong to multiple organizations must also specify either the name of their organization or use a team entity when accessing artifacts linked to a registry.
 
 ```python

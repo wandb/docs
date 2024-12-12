@@ -9,9 +9,6 @@ title: Model registry automations
 url: guides/model_registry/model-registry-automations
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the action you want to occur based on an [event type](#event-types).
 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
@@ -24,21 +21,19 @@ Looking for companion tutorials for automations?
 {{% /alert %}}
 
 ## Event types
-An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types: **Linking a new artifact to a registered model** and **Adding a new alias to a version of the registered model**.
+An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types:
 
-See [Link a model version](./link-model-version.md) for information on how to link model versions and [Create a custom alias](../artifacts/create-a-custom-alias.md) for information an artifact aliases.
+- Use **Linking a new artifact to a registered model** to test new model candidates.
+- Use **Adding a new alias to a version of the registered model** to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
 
+See [Link a model version](./link-model-version.md) and [Create a custom alias](../artifacts/create-a-custom-alias.md).
 
-
-{{% alert %}}
-Use the **Linking a new artifact to a registered model** event type to test new model candidates. Use the **Adding a new alias to a version of the registered model** event type to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
-{{% /alert %}}
 
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, first establish a webhook, then configure the webhook automation. 
 
 {{% alert %}}
-Specify an endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
+Your webhook's endpoint must have a fully-qualified domain name. W&B does not support connecting to an endpoint by IP address or by a hostname such as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
 {{% /alert %}}
 
 ### Add a secret for authentication or authorization
@@ -74,11 +69,9 @@ Once you create a secret, you can access that secret in your W&B workflows with 
 {{% /alert %}}
 
 {{% alert color="secondary" %}}
-Considerations if you use secrets in W&B Server:
+If you use secrets in W&B Server, you are responsible for configuring security measures that satisfy your security needs. 
 
-You are responsible for configuring security measures that satisfy your security needs. 
-
-W&B strongly recommends that you store secrets in a W&B instance of a cloud secrets manager provided by AWS, GCP, or Azure. Secret managers provided by AWS, GCP, and Azure are configured with advanced security capabilities.  
+W&B strongly recommends that you store secrets in a W&B instance of a cloud secrets manager provided by AWS, GCP, or Azure. Secret managers provided by AWS, GCP, and Azure are configured with advanced security capabilities.
 
 W&B does not recommend that you use a Kubernetes cluster as the backend of your secrets store. Consider a Kubernetes cluster only if you are not able to use a W&B instance of a cloud secrets manager (AWS, GCP, or Azure), and you understand how to prevent security vulnerabilities that can occur if you use a cluster.
 {{% /alert %}}
@@ -138,15 +131,8 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 * `${project_name}` Refers to the name of the project owning the mutation that triggered the action.
 * `${entity_name}` Refers to the name of the entity owning the mutation that triggered the action.
 
-
-<Tabs
-  defaultValue="github"
-  values={[
-    {label: 'GitHub repository dispatch', value: 'github'},
-    {label: 'Microsoft Teams notification', value: 'microsoft'},
-    {label: 'Slack notifications', value: 'slack'},
-  ]}>
-  <TabItem value="github">
+{{< tabpane text=true >}}
+{{% tab header="GitHub repository dispatch" value="github" %}}
 
 {{% alert %}}
 Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
@@ -156,8 +142,8 @@ Verify that your access tokens have required set of permissions to trigger your 
 
   ```yaml
   on:
-    repository_dispatch:
-      types: BUILD_AND_DEPLOY
+  repository_dispatch:
+    types: BUILD_AND_DEPLOY
   ```
 
   The payload for the repository might look something like:
@@ -175,11 +161,11 @@ Verify that your access tokens have required set of permissions to trigger your 
       "entity_name": "${entity_name}"
       }
   }
-
   ```
-{{% alert %}}
-The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
-{{% /alert %}}
+
+  {{% alert %}}
+  The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
+  {{% /alert %}}
 
   The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
 
@@ -201,9 +187,9 @@ The `event_type` key in the webhook payload must match the `types` field in the 
 
   See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) to learn how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
 
+{{% /tab %}}
 
-  </TabItem>
-  <TabItem value="microsoft">
+{{% tab header="Microsoft Teams notification" value="microsoft"%}}
 
   Configure an ‘Incoming Webhook' to get the webhook URL for your Teams Channel by configuring. The following is an example payload:
   
@@ -231,11 +217,12 @@ The `event_type` key in the webhook payload must match the `types` field in the 
   ]
   }
   ```
+
   You can use template strings to inject W&B data into your payload at the time of execution (as shown in the Teams example above).
 
+{{% /tab %}}
 
-  </TabItem>
-  <TabItem value="slack">
+{{% tab header="Slack notifications" value="slack"%}}
 
   Setup your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Toke`n as your W&B webhook’s access token. 
   
@@ -273,76 +260,72 @@ The `event_type` key in the webhook payload must match the `types` field in the 
     }
   ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
+
 
 ### Troubleshoot your webhook
 
 Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'W&B App UI', value: 'app'},
-    {label: 'Bash script', value: 'bash'},
-  ]}>
-  <TabItem value="app">
+{{< tabpane text=true >}}
+{{% tab header="W&B App UI" value="app" %}}
 
-Interactively test a webhook with the W&B App UI. 
+  Interactively test a webhook with the W&B App UI. 
 
-1. Navigate to your W&B Team Settings page.
-2. Scroll to the **Webhooks** section.
-3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
-4. Select **Test**.
-5. From the UI panel that appears, paste your POST request to the field that appears. 
-{{< img src="/images/models/webhook_ui.png" alt="" >}}
-6. Click on **Test webhook**.
+  1. Navigate to your W&B Team Settings page.
+  2. Scroll to the **Webhooks** section.
+  3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
+  4. Select **Test**.
+  5. From the UI panel that appears, paste your POST request to the field that appears. 
+  ![](/images/models/webhook_ui.png)
+  6. Click on **Test webhook**.
 
-Within the W&B App UI, W&B posts the response made by your endpoint.
+  Within the W&B App UI, W&B posts the response made by your endpoint.
 
-{{< img src="/images/models/webhook_ui_testing.gif" alt="" >}}
+  {{< img src="/images/models/webhook_ui_testing.gif" alt="" >}}
 
-See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
+  See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
 
-  </TabItem>
-  <TabItem value="bash">
+{{% /tab %}}
 
-The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
+{{% tab header="Bash script" value="bash" %}}
 
-Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
+  The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
 
-* `ACCESS_TOKEN`
-* `SECRET`
-* `PAYLOAD`
-* `API_ENDPOINT`
+  Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
 
+  * `ACCESS_TOKEN`
+  * `SECRET`
+  * `PAYLOAD`
+  * `API_ENDPOINT`
 
-```sh title="webhook_test.sh"
-#!/bin/bash
+  ```sh { title = "webhook_test.sh" }
+  #!/bin/bash
 
-# Your access token and secret
-ACCESS_TOKEN="your_api_key" 
-SECRET="your_api_secret"
+  # Your access token and secret
+  ACCESS_TOKEN="your_api_key" 
+  SECRET="your_api_secret"
 
-# The data you want to send (for example, in JSON format)
-PAYLOAD='{"key1": "value1", "key2": "value2"}'
+  # The data you want to send (for example, in JSON format)
+  PAYLOAD='{"key1": "value1", "key2": "value2"}'
 
-# Generate the HMAC signature
-# For security, Wandb includes the X-Wandb-Signature in the header computed 
-# from the payload and the shared secret key associated with the webhook 
-# using the HMAC with SHA-256 algorithm.
-SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" -binary | base64)
+  # Generate the HMAC signature
+  # For security, Wandb includes the X-Wandb-Signature in the header computed 
+  # from the payload and the shared secret key associated with the webhook 
+  # using the HMAC with SHA-256 algorithm.
+  SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" -binary | base64)
 
-# Make the cURL request
-curl -X POST \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "X-Wandb-Signature: $SIGNATURE" \
-  -d "$PAYLOAD" API_ENDPOINT
-```
+  # Make the cURL request
+  curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $ACCESS_TOKEN" \
+    -H "X-Wandb-Signature: $SIGNATURE" \
+    -d "$PAYLOAD" API_ENDPOINT
+  ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ## View automation
