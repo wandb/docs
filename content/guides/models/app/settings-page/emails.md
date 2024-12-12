@@ -5,6 +5,7 @@ menu:
     identifier: emails
     parent: settings
 title: Manage email settings
+weight: 30
 ---
 
 Add, delete, manage email types and primary email addresses in your W&B Profile Settings page.

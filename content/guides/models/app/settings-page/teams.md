@@ -6,6 +6,7 @@ menu:
     identifier: teams
     parent: settings
 title: Manage teams
+weight: 40
 ---
 
 Use W&B Teams as a central workspace for your ML team to build better models faster.

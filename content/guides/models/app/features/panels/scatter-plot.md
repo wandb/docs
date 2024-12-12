@@ -4,6 +4,7 @@ menu:
     identifier: scatter-plot
     parent: panels
 title: Scatter plots
+weight: 40
 ---
 
 Use the scatter plot to compare multiple runs and visualize how your experiments are performing. We've added some customizable features:

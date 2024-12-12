@@ -5,6 +5,7 @@ menu:
     identifier: parallel-coordinates
     parent: panels
 title: Parallel coordinates
+weight: 30
 ---
 
 Parallel coordinates charts summarize the relationship between large numbers of hyperparameters and model metrics at a glance.

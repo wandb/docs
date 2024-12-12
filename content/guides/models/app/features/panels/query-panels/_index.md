@@ -1,15 +1,15 @@
 ---
 description: Some features on this page are in beta, hidden behind a feature flag.
   Add `weave-plot` to your bio on your profile page to unlock all related features.
+url: guides/app/features/panels/query-panels
 menu:
   default:
     identifier: intro_query_panel
     parent: panels
+cascade:
+- url: guides/app/features/panels/query-panels/:filename
 title: Query panels
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 {{% alert %}}
 Looking for W&B Weave? W&B's suite of tools for Generative AI application building? Find the docs for weave here: [wandb.me/weave](https://wandb.github.io/weave/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge).
@@ -27,35 +27,29 @@ See [this report](http://wandb.me/keras-xla-benchmark) to see how this team used
 
 Add a query to your workspace or within a report.
 
-<Tabs
-  defaultValue="workspace"
-  values={[
-    {label: 'Project workspace', value: 'workspace'},
-    {label: 'W&B Report', value: 'report'},
-  ]}>
-  <TabItem value="workspace">
+{{< tabpane text=true >}}
+{{% tab header="Project workspace" value="workspace" %}}
 
-1. Navigate to your project's workspace. 
-2. In the upper right hand corner, click `Add panel`.
-3. From the dropdown, select `Query panel`.
-{{< img src="/images/weave/add_weave_panel_workspace.png" alt="" >}}
+  1. Navigate to your project's workspace. 
+  2. In the upper right hand corner, click `Add panel`.
+  3. From the dropdown, select `Query panel`.
+  {{< img src="/images/weave/add_weave_panel_workspace.png" alt="" >}}
 
+{{% /tab %}}
 
-  </TabItem>
-  <TabItem value="report">
+{{% tab header="W&B Report" value="report" %}}
 
+Within your report, type and select `/Query panel`
 
-1. Within your report, type and select `/Query panel`
 {{< img src="/images/weave/add_weave_panel_report_1.png" alt="" >}}
 
-Alternatively, you can associated a query with a set of runs with:
+Alternatively, you can associate a query with a set of runs:
 1. Within your report, type and select `/Panel grid`.
 2. Click the `Add panel` button.
 3. From the dropdown, select `Query panel`.
 
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
   
 
 ## Query components

@@ -5,6 +5,7 @@ menu:
     identifier: smoothing
     parent: line-plot
 title: Smooth line plots
+weight: 30
 ---
 
 W&B supports three types of smoothing:

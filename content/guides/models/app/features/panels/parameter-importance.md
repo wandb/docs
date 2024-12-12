@@ -6,6 +6,7 @@ menu:
     identifier: parameter-importance
     parent: panels
 title: Parameter importance
+weight: 60
 ---
 
 Discover which of your hyperparameters were the best predictors of, and highly correlated to desirable values of your metrics.

@@ -5,6 +5,7 @@ menu:
     identifier: app_storage
     parent: settings
 title: Manage storage
+weight: 50
 ---
 
 If you are approaching or exceeding your storage limit, there are multiple paths forward to manage your data. The path that's best for you will depend on your account type and your current project setup.

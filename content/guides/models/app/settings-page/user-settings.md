@@ -7,6 +7,7 @@ menu:
     identifier: user-settings
     parent: settings
 title: Manage user settings
+weight: 10
 ---
 
 Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.

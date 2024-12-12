@@ -4,10 +4,9 @@ menu:
     identifier: sampling
     parent: line-plot
 title: Point aggregation
+weight: 20
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 Use point aggregation methods within your line plots for improved data visualization accuracy and performance. There are two types of point aggregation modes: [full fidelity](#full-fidelity) and [random sampling](#random-sampling). W&B uses full fidelity mode by default.
 
@@ -20,8 +19,6 @@ There are three main advantages to using full fidelity mode for point aggregatio
 * Preserve extreme values and spikes: retain extreme values and spikes in your data 
 * Configure how minimum and maximum points render: use the W&B App to interactively decide whether you want to show extreme (min/max) values as a shaded area.
 * Explore your data without losing data fidelity: W&B recalculate x-axis bucket sizes when you zoom into specific data points. This helps ensure that you can explore your data without losing accuracy. Caching is used to store previously computed aggregations to help reduce loading times which is particularly useful if you are navigating through large datasets.
-
-
 
 ### Configure how minimum and maximum points render
 
@@ -39,33 +36,22 @@ There are three ways to render minimum and maximum values in your line plots:
 
 By default, the minimum and maximum values are not displayed as shaded areas. To view one of the shaded area options, follow these steps:
 
-
-<Tabs
-  defaultValue="all_charts"
-  values={[
-    {label: 'All charts in  a workspace', value: 'all_charts'},
-    {label: 'Individual chart in a workspace', value: 'single_chart'},
-  ]}>
-  <TabItem value="all_charts">
-
+{{< tabpane text=true >}}
+{{% tab header="All charts in a workspace" value="all_charts" %}}
 1. Navigate to your W&B project
 2. Select on the **Workspace** icon on the left tab
 3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
 4. From the UI slider that appears, select **Line plots**
 5. Within the **Point aggregation** section, choose **On over** or **Always** from the **Show min/max values as a shaded area** dropdown menu.
+{{% /tab %}}
 
-
-  </TabItem>
-  <TabItem value="single_chart">
-
+{{% tab header="Individual chart in a workspace" value="single_chart"%}}
 1. Navigate to your W&B project
 2. Select on the **Workspace** icon on the left tab
 3. Select the line plot panel you want to enable full fidelity mode for
 4. Within the modal that appears, select **On hover** or **Always** from the **Show min/max values as a shaded area** dropdown menu.
-
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ### Explore your data without losing data fidelity
@@ -113,33 +99,22 @@ Random sampling samples non-deterministically. This means that random sampling s
 ### Enable random sampling
 By default, W&B uses full fidelity mode. To enable random sampling, follow these steps:
 
-
-<Tabs
-  defaultValue="all_charts"
-  values={[
-    {label: 'All charts in a workspace', value: 'all_charts'},
-    {label: 'Individual chart in a workspace', value: 'single_chart'},
-  ]}>
-  <TabItem value="all_charts">
-
+{{< tabpane text=true >}}
+{{% tab header="All charts in a workspace" value="all_charts" %}}
 1. Navigate to your W&B project
 2. Select on the **Workspace** icon on the left tab
 3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
 4. From the UI slider that appears, select **Line plots**
 5. Choose **Random sampling** from the **Point aggregation** section
+{{% /tab %}}
 
-
-  </TabItem>
-  <TabItem value="single_chart">
-
+{{% tab header="Individual chart in a workspace" value="single_chart"%}}
 1. Navigate to your W&B project
 2. Select on the **Workspace** icon on the left tab
 3. Select the line plot panel you want to enable random sampling for
 4. Within the modal that appears, select **Random sampling** from the **Point aggregation method** section
-
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 

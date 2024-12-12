@@ -5,6 +5,7 @@ menu:
     identifier: run-comparer
     parent: panels
 title: Compare run metrics
+weight: 70
 ---
 
 Use the Run Comparer to see what metrics are different across your runs.

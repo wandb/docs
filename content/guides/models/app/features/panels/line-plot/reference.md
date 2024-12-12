@@ -4,6 +4,7 @@ menu:
     identifier: reference
     parent: line-plot
 title: Line plot reference
+weight: 10
 ---
 
 ## X-Axis

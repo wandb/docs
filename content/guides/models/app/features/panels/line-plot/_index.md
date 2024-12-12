@@ -1,15 +1,15 @@
 ---
-description: Visualize metrics, customize axes, and compare multiple lines on the
-  same plot
+description: Visualize metrics, customize axes, and compare multiple lines on a plot
+url: guides/app/features/panels/line-plot
 menu:
   default:
     identifier: intro_line_plot
     parent: panels
+cascade:
+- url: guides/app/features/panels/line-plot/:filename
 title: Line plots
+weight: 10
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 Line plots show up by default when you plot metrics over time with **wandb.log()**. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
 
@@ -97,7 +97,6 @@ wandb.log({"test": [..., float("nan"), ...]})
 
 ## Compare two metrics on one chart
 
-
 {{< img src="/images/app_ui/visualization_add.gif" alt="" >}}
 
 1. Select the **Add panels** button in the top right corner of the page.
@@ -105,29 +104,24 @@ wandb.log({"test": [..., float("nan"), ...]})
 3. Select **Run comparer**
 
 
-
-## Changing the color of the line plots
+## Change the color of the line plots
 
 Sometimes the default color of runs is not helpful for comparison. To help overcome this, wandb provides two instances with which one can manually change the colors.
 
-<Tabs
-  defaultValue="run_table"
-  values={[
-    {label: 'From the run table', value: 'run_table'},
-    {label: 'From the chart legend settings', value: 'legend_settings'},
-  ]}>
-  <TabItem value="run_table">
+{{< tabpane text=true >}}
+{{% tab header="From the run table" value="run_table" %}}
 
-Each run is given a random color by default upon initialization.
+  Each run is given a random color by default upon initialization.
 
-{{< img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Random colors given to runs" >}}
+  {{< img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Random colors given to runs" >}}
 
-Upon clicking any of the colors, a color palette appears from which we can manually choose the color we want.
+  Upon clicking any of the colors, a color palette appears from which we can manually choose the color we want.
 
-{{< img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="The color palette" >}}
+  {{< img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="The color palette" >}}
 
-  </TabItem>
-  <TabItem value="legend_settings">
+{{% /tab %}}
+
+{{% tab header="From the chart legend settings" value="legend_settings" %}}
 
 1. Hover your mouse over the panel you want to edit its settings for.
 2. Select the pencil icon that appears.
@@ -135,9 +129,8 @@ Upon clicking any of the colors, a color palette appears from which we can manua
 
 {{< img src="/images/app_ui/plot_style_line_plot_legend.png" alt="" >}}
 
-  </TabItem>
-</Tabs>
-
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Visualize on different x axes
 
