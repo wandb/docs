@@ -15,9 +15,9 @@ W&B Launch currently accepts the following compatible model types:
 3. NV-GPT (coming soon)
 
 
-:::info
+{{% alert %}}
 Deployment time varies by model and machine type. The base Llama2-7b config takes about 1 minute on GCP's `a2-ultragpu-1g`.
-:::
+{{% /alert %}}
 
 
 ## Quickstart

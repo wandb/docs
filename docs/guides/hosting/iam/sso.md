@@ -67,9 +67,9 @@ For example, your AWS Cognito App UI should look similar to the following image:
 
 Select the **Auth Method** in the settings page or set the OIDC_AUTH_METHOD environment variable to tell _wandb/local_ which grant to.
 
-:::info
+{{% alert %}}
 For AWS Cognito providers you must set the Auth Method to "pkce"
-:::
+{{% /alert %}}
 
 6. You need a Client ID and the URL of your OIDC issuer. The OpenID discovery document must be available at `$OIDC_ISSUER/.well-known/openid-configuration` 
 
@@ -77,9 +77,9 @@ For example, with AWS Cognito, you can generate your issuer URL by appending you
 
 ![Screenshot of issuer URL in AWS Cognito](/images/hosting/setup_aws_cognito_issuer_url.png)
 
-:::info
+{{% alert %}}
 Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
-:::
+{{% /alert %}}
 
   </TabItem>
   <TabItem value="okta">
@@ -185,15 +185,15 @@ To set up SSO, you need administrator privileges and the following information:
 - OIDC Issuer URL
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
-:::info
+{{% alert %}}
 Should your IdP require a OIDC Client Secret, specify it with the environment variable OIDC_SECRET.
-:::
+{{% /alert %}}
 
 You can configure SSO using either the W&B Server UI or by passing [environment variables](../env-vars.md) to the `wandb/local` pod. The environment variables take precedence over UI.
 
-:::info
+{{% alert %}}
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and disables SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
-:::
+{{% /alert %}}
 
 <Tabs
   defaultValue="console"
@@ -237,9 +237,9 @@ The System Console is the successor to the System Settings page. It is available
 </TabItem>
 </Tabs>
 
-:::info
+{{% alert %}}
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This will output a temporary password to the containers logs and turn off SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
-:::
+{{% /alert %}}
 
 ## Security Assertion Markup Language (SAML)
 W&B Server does not support SAML.

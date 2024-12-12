@@ -9,7 +9,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
 The following guide describes how to log models to a W&B run and interact with them. 
 
-:::tip
+{{% alert %}}
 The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to quickly log models to a run, in addition to metrics, tables, media and other objects.
 
 W&B suggests that you use [W&B Artifacts](../../artifacts/intro.md) if you want to:
@@ -18,7 +18,7 @@ W&B suggests that you use [W&B Artifacts](../../artifacts/intro.md) if you want 
 - Interact with the model artifacts these methods created, such as [updating properties](../../artifacts/update-an-artifact.md) (metadata, aliases, and descriptions) 
 
 For more information on W&B Artifacts and advanced versioning use cases, see the [Artifacts](../../artifacts/intro.md) documentation.
-:::
+{{% /alert %}}
 
 ## Log a model to a run
 Use the [`log_model`](../../../ref/python/run.md#log_model) to log a model artifact that contains content within a directory you specify. The [`log_model`](../../../ref/python/run.md#log_model) method also marks the resulting model artifact as an output of the W&B run. 
@@ -41,9 +41,9 @@ run.log_model(path="<path-to-model>", name="<name>")
 
 Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B will use the basename of the input path prepended with the run ID as the name. 
 
-:::tip
+{{% alert %}}
 Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`use_model`](/ref/python/run#use_model) method. 
-:::
+{{% /alert %}}
 
 See [`log_model`](../../../ref/python/run.md#log_model) in the API Reference guide for more information on possible parameters.
 
@@ -154,19 +154,19 @@ See [`use_model`](../../../ref/python/run.md#use_model) in the API Reference gui
 
 ## Log and link a model to the W&B Model Registry
 
-:::info
+{{% alert %}}
 The [`link_model`](../../../ref/python/run.md#link_model) method is currently only compatible with the legacy W&B Model Registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the Registry [docs](../../registry/link_version.md). 
-:::
+{{% /alert %}}
 
 Use the [`link_model`](../../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
 
-:::tip
+{{% alert %}}
 You can think of linking a model similar to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
 
 Note that when you link a model, that model is not duplicated in the [Model Registry](../../model_registry/intro.md). That model is also not moved out of the project and intro the registry. A linked model is a pointer to the original model in your project.
 
 Use the [Model Registry](../../model_registry/intro.md) to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](../../model_registry/model-registry-automations.md) downstream actions with webhooks or jobs.
-:::
+{{% /alert %}}
 
 A *Registered Model* is a collection or folder of linked model versions in the [Model Registry](../../model_registry/intro.md). Registered models typically represent candidate models for a single modeling use case or task. 
 
@@ -206,8 +206,8 @@ run.link_model(path=path, registered_model_name=registered_model_name)
 run.finish()
 ```
 
-:::info
+{{% alert %}}
 Reminder: A registered model houses a collection of bookmarked model versions. 
-:::
+{{% /alert %}}
 
 </details>

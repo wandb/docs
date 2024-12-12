@@ -11,9 +11,9 @@ Use the interactive **Queue monitoring dashboard** to view when a launch queue i
 
 For deeper analysis, the page links to the W&B experiment tracking workspace and to external infrastructure monitoring providers like Datadog, NVIDIA Base Command, or cloud consoles.
 
-:::info
+{{% alert %}}
 Queue monitoring dashboards are currently available only in the W&B Multi-tenant Cloud deployment option.
-:::
+{{% /alert %}}
 
 ## Dashboard and plots
 Use the **Monitor** tab to view the activity of a queue that occurred during the last seven days. Use the left panel to control time ranges, grouping and filters.
@@ -31,9 +31,9 @@ On the other hand, suppose you use a cloud resource and you see periodic bursts 
 
 To the right of the plot is a key that shows which colors represent the [status of a launch job](./launch-view-jobs.md#check-the-status-of-a-job).
 
-:::tip
+{{% alert %}}
 `Queued` items might indicate opportunities to shift workloads to other queues. A spike in failures can identify users who might need help with their launch job setup.
-:::
+{{% /alert %}}
 
 <!-- Select a range to show more details in the plot below, or Zoom to filter the entire page. -->
 
@@ -45,9 +45,9 @@ The **Queued time** plots shows the amount of time (in seconds) that a launch jo
 
 The x-axis shows a time frame that you specify and the y-axis shows the time (in seconds) a launch job was on a launch queue. For example, suppose on a given day there are 10 launch jobs queued. The **Queue time** plot shows 600 seconds if those 10 launch jobs wait an average of 60 seconds each.
 
-:::tip
+{{% alert %}}
 Use the **Queued time** plot to identify users affected by long queue times. 
-:::
+{{% /alert %}}
 
 Customize the color of each job with the `Grouping` control in the left bar.
 

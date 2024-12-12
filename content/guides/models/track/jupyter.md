@@ -82,9 +82,9 @@ wandb.init()
 wandb.run
 ```
 
-:::info
+{{% alert %}}
 Want to know more about what you can do with W&B? Check out our [guide to logging data and media](log/intro.md), learn [how to integrate us with your favorite ML toolkits](../integrations/intro.md), or just dive straight into the [reference docs](../../ref/python/README.md) or our [repo of examples](https://github.com/wandb/examples).
-:::
+{{% /alert %}}
 
 ## Additional Jupyter features in W&B
 

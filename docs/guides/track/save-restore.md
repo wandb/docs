@@ -14,9 +14,9 @@ There are two ways to associate a file with a run and upload it to W&B.
 1. Use `wandb.save(filename)`.
 2. Put a file in the wandb run directory, and it will get uploaded at the end of the run.
 
-:::info
+{{% alert %}}
 If you're [resuming](../runs/resuming.md) a run, you can recover a file by calling`wandb.restore(filename)`
-:::
+{{% /alert %}}
 
 If you want to sync files as they're being written, you can specify a filename or glob in `wandb.save`.
 
@@ -35,9 +35,9 @@ wandb.save("../logs/*ckpt*")
 wandb.save(os.path.join(wandb.run.dir, "checkpoint*"))
 ```
 
-:::info
+{{% alert %}}
 W&B's local run directories are by default inside the `./wandb` directory relative to your script, and the path looks like `run-20171023_105053-3o4933r0` where `20171023_105053` is the timestamp and `3o4933r0` is the ID of the run. You can set the `WANDB_DIR` [environment variable](environment-variables.md), or the `dir` argument of [`wandb.init`](/ref/python/init), to an absolute path and files will be written within that directory instead.
-:::
+{{% /alert %}}
 
 ### Save Policies and relative paths
 
@@ -55,9 +55,9 @@ wandb.save(path="./results/eval/*", base_path="./results", policy="now")
 
 Would result in all files matching the pattern being saved in an `eval` folder instead of at the root.
 
-:::info
+{{% alert %}}
 When `wandb.save` is called it will list all files that exist at the provided path and create symlinks for them into the run directory (`wandb.run.dir`). If you create new files in the same path after calling `wandb.save` we will not sync them. You should either write files directly to `wandb.run.dir` or be sure to call `wandb.save` anytime new files are created.
-:::
+{{% /alert %}}
 
 ### Example of saving a file to the wandb run directory
 

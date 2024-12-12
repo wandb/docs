@@ -12,9 +12,9 @@ Launch jobs are blueprints for reproducing W&B runs. Jobs are W&B Artifacts that
 
 Create and run jobs with the `wandb launch` command.
 
-:::info
+{{% alert %}}
 To create a job without submitting it for execution, use the `wandb job create` command. See the [command reference docs](../../ref/cli/wandb-job/wandb-job-create.md) for more information.
-:::
+{{% /alert %}}
 
 
 ## Git jobs
@@ -140,9 +140,9 @@ wandb.init(settings=settings)
   </TabItem>
 </Tabs>
 
-:::note
+{{% alert %}}
 For docker image jobs, the version alias is automatically added as an alias to the job.
-:::
+{{% /alert %}}
 
 ## Containerization
 
@@ -154,11 +154,11 @@ Job containerization can be customized with arguments to `wandb launch` and file
 
 The term build context refers to the tree of files and directories that are sent to the Docker daemon to build a container image. By default, Launch uses the root of the job source code as the build context. To specify a subdirectory as the build context, use the `--build-context` argument of `wandb launch` when creating and launching a job.
 
-:::tip
+{{% alert %}}
 The `--build-context` argument is particularly useful for working with Git jobs that refer to a monorepo with multiple projects. By specifying a subdirectory as the build context, you can build a container image for a specific project within the monorepo.
 
 See the [example above](#git-jobs) for a demonstration of how to use the `--build-context` argument with the official W&B Launch jobs repository.
-:::
+{{% /alert %}}
 
 ### Dockerfile
 

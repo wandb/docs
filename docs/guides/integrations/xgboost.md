@@ -56,20 +56,20 @@ Passing `WandbCallback` to a XGBoost model will:
 
 You can find the source code for WandbCallback [here](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)
 
-:::info
+{{% alert %}}
 Looking for more working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
-:::
+{{% /alert %}}
 
 ## Tuning your hyperparameters with Sweeps
 
 Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
 
-:::info
+{{% alert %}}
 See the following Colab notebook to learn more about these tools and see an example of how to use Sweeps with XGBoost.
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb"></CTAButtons>
 
 You can also try this [XGBoost & Sweeps Python script](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)
-:::
+{{% /alert %}}
 
 ![tl;dr: trees outperform linear learners on this classification dataset.](/images/integrations/xgboost_sweeps_example.png)

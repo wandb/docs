@@ -45,7 +45,7 @@ parser = argparse.ArgumentParser()
 args, unknown = parser.parse_known_args()
 ```
 
-:::info
+{{% alert %}}
 Depending on the environment, `python` might refer to Python 2. To ensure invocation of Python 3, use `python3` in the command configuration:
 
 ```yaml
@@ -57,4 +57,4 @@ command:
   - ${program}
   - ${args}
 ```
-:::
+{{% /alert %}}

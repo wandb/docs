@@ -17,9 +17,9 @@ Use the W&B OpenAI API integration to log requests, responses, token counts and 
 
 
 
-:::info
+{{% alert %}}
 See the [OpenAI fine-tuning integration](./openai-fine-tuning.md) to learn how to use W&B to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
-:::
+{{% /alert %}}
 
 Log your API inputs and outputs you can quickly evaluate the performance of difference prompts, compare different model settings (such as temperature), and track other usage metrics such as token usage.
 

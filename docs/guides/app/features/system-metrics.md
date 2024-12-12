@@ -5,9 +5,9 @@ title: System metrics
 
 This page provides detailed information about the system metrics that are tracked by the W&B SDK.
 
-:::info
+{{% alert %}}
 `wandb` automatically logs system metrics every 10 seconds.
-:::
+{{% /alert %}}
 
 ## CPU
 

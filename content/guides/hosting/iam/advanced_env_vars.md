@@ -21,6 +21,6 @@ Choose any of the following environment variables for your instance depending on
 | GORILLA_DISABLE_PERSONAL_ENTITY | Set this to `true` to turn off personal user projects in your W&B instance. If set, users can not create new personal projects in their personal entities, plus writes to existing personal projects are turned off. |
 | GORILLA_DISABLE_ADMIN_TEAM_ACCESS | Set this to `true` to restrict Organization or Instance Admins from self-joining or adding themselves to a W&B team, thus ensuring that only Data & AI personas have access to the projects within the teams. |
 
-:::caution
+{{% alert color="secondary" %}}
 W&B advises to exercise caution and understand all implications before enabling some of these settings, like `GORILLA_DISABLE_ADMIN_TEAM_ACCESS`. Reach out to your W&B team for any questions.
-:::
+{{% /alert %}}

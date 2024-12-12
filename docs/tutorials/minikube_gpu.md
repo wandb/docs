@@ -7,13 +7,13 @@ import TabItem from '@theme/TabItem';
 
 Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads. 
 
-:::info
+{{% alert %}}
 This tutorial is intended to guide users with direct access to a machine that has multiple GPUs. This tutorial is not intended for users who rent a cloud machine.
 
 W&B recommends you create a Kubernetes cluster with GPU support that uses your cloud provider, if you want to set up a minikube cluster on a cloud machine. For example, AWS, GCP, Azure, Coreweave, and other cloud providers have tools to create Kubernetes clusters with GPU support.
 
 W&B recommends you use a [Launch Docker queue](/guides/launch/setup-launch-docker) if you want to set up a minikube cluster for scheduling GPUs on a machine that has a single GPU. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
-:::
+{{% /alert %}}
 
 ## Background
 
@@ -31,9 +31,9 @@ Before getting started, you will need:
    2. Drivers for any GPU you want to use
    3. Nvidia container toolkit
 
-:::note
+{{% alert %}}
 For testing and creating this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 NVIDIA Tesla T4 GPU connected.
-:::
+{{% /alert %}}
 
 ## Create a queue for launch jobs
 
@@ -198,9 +198,9 @@ The launch agent for your new cluster can either be started by invoking `wandb l
 
 In this tutorial we will run the agent directly on our host machine. 
 
-:::tip
+{{% alert %}}
 Running the agent outside of a container also means we can use the local Docker host to build images for our cluster to run.
-:::
+{{% /alert %}}
 
 To run the agent locally, make sure your default Kubernetes API context refers to the Minikube cluster. Then, execute the following:
 

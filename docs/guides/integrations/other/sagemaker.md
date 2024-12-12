@@ -26,15 +26,15 @@ https://wheels.galaxyproject.org/packages/psutil-5.4.8-cp27-cp27mu-manylinux1_x8
 wandb
 ```
 
-:::info
+{{% alert %}}
 A complete example is available on [GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker) and you can read more on our [blog](https://wandb.ai/site/articles/running-sweeps-with-sagemaker).\
 You can also read the [tutorial](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE) on deploying a sentiment analyzer using SageMaker and W&B.
-:::
+{{% /alert %}}
 
-:::caution
+{{% alert color="secondary" %}}
 The W&B sweep agent will not behave as expected in a SageMaker job unless our SageMaker integration is turned off. You can turn off the SageMaker integration in your runs by modifying your invocation of `wandb.init` as follows:
 
 ```
 wandb.init(..., settings=wandb.Settings(sagemaker_disable=True))
 ```
-:::
+{{% /alert %}}

@@ -19,18 +19,18 @@ gbm = lgb.train(..., callbacks=[wandb_callback()])
 log_summary(gbm, save_model_checkpoint=True)
 ```
 
-:::info
+{{% alert %}}
 Looking for working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
-:::
+{{% /alert %}}
 
 ## Tuning your hyperparameters with Sweeps
 
 Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
 
-:::info
+{{% alert %}}
 To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out this interactive Colab notebook.
 
 <CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb'/>
-:::
+{{% /alert %}}
 
 ![tl;dr: trees outperform linear learners on this classification dataset.](/images/integrations/lightgbm_sweeps.png)

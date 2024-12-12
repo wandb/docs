@@ -23,9 +23,9 @@ Hover your mouse over the panel you want to edit its settings for. Select the pe
 
 Select the **Data** tab to edit the x-axis, y-axis, smoothing filter, point aggregation and more. The proceeding describes some of the options you can edit:
 
-:::tip
+{{% alert %}}
 If you'd like to use a custom x-axis, make sure it's logged in the same call to `wandb.log()` that you use to log the y-axis.
-::: 
+{{% /alert %}} 
 
 * **X axis**: By default the x-axis is set to **Step**. You can change the x-axis to **Relative Time**, or select a custom axis based on values you log with W&B.
   * **Relative Time (Wall)** is clock time since the process started, so if you started a run and resumed it a day later and logged something that would be plotted a 24hrs.
@@ -39,9 +39,9 @@ If you'd like to use a custom x-axis, make sure it's logged in the same call to 
 * **Max runs to show**: Show more lines on the line plot at once by increasing this number, which defaults to 10 runs. You'll see the message "Showing first 10 runs" on the top of the chart if there are more than 10 runs available but the chart is constraining the number visible.
 * **Chart type**: Change between a line plot, an area plot, and a percentage area plot
 
-:::tip
+{{% alert %}}
 Pick **multiple y-axes** in the line plot settings to compare different metrics on the same chart, like accuracy and validation accuracy for example.
-:::
+{{% /alert %}}
 
 ### Grouping
 

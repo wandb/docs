@@ -114,9 +114,9 @@ Each recipe has their own training loop, so check each individual recipe to see 
 | `grad_norm` | The gradient norm of the model |
 | `global_step` | Corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken, the model is updated, the gradients are accumulated and the model is updated once every `gradient_accumulation_steps` |
 
-:::info
+{{% alert %}}
 `global_step` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `global_step` is incremented by 1. For example, if the dataloader has 10 batches, gradient accumulation steps is 2 and run for 3 epochs, the optimizer will step 15 times, in this case `global_step` will range from 1 to 15.
-:::
+{{% /alert %}}
 
 The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding [recipe file](https://github.com/pytorch/torchtune/tree/main/recipes), for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
 
@@ -128,9 +128,9 @@ self._metric_logger.log_dict(
 )
 ```
 
-:::info
+{{% alert %}}
 This is a fast evolving library, the current metrics are subject to change. If you want to add a custom metric, you should modify the recipe and call the corresponding `self._metric_logger.*` function.
-:::
+{{% /alert %}}
 
 ## Saving and loading checkpoints
 

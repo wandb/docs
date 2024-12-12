@@ -7,17 +7,17 @@ description: >-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-:::info
+{{% alert %}}
 Looking for W&B Weave? W&B's suite of tools for Generative AI application building? Find the docs for weave here: [wandb.me/weave](https://wandb.github.io/weave/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge).
-:::
+{{% /alert %}}
 
 Use query panels to query and interactively visualize your data.
 
 ![](/images/weave/pretty_panel.png)
 
-<!-- :::tip
+<!-- {{% alert %}}
 See [this report](http://wandb.me/keras-xla-benchmark) to see how this team used Weave Panels to visualize their benchmarks.
-::: -->
+{{% /alert %}} -->
 
 ## Create a query panel
 

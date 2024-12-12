@@ -23,9 +23,9 @@ In this tutorial you will see how to use `wandb-workspaces` to create and custom
 * Copy and paste the URL that is printed after you run a cell to view the changes made to the workspace.
 
 
-:::info
+{{% alert %}}
 Programmatic interaction with workspaces is currently supported for [**Saved workspaces views**](/guides/track/workspaces#saved-workspace-views). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
-:::
+{{% /alert %}}
 
 ## 1. Install and import dependencies
 

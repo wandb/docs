@@ -33,13 +33,13 @@ wandb_logger = WandbLogger(log_model="all")
 trainer = Trainer(logger=wandb_logger)
 ```
 
-:::info
+{{% alert %}}
 **Using wandb.log():** Please note that the `WandbLogger` logs to W&B using the Trainer's `global_step`. If you are making additional calls to `wandb.log` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
 
 Instead, log the Trainer's `global_step` like your other metrics, like so:
 
 `wandb.log({"accuracy":0.99, "trainer/global_step": step})`
-:::
+{{% /alert %}}
 
 </TabItem>
 

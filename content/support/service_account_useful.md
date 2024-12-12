@@ -24,6 +24,6 @@ To create a new service account for your team:
 * Press the **Create** button
 * Click the **Copy API key** button for the newly created service account and store it in a secret manager or another safe but accessible location
 
-:::info
+{{% alert %}}
 Apart from the **Built-in** service accounts, W&B also supports **External service accounts** using [identity federation for SDK and CLI](../guides/hosting/iam/identity_federation.md#external-service-accounts). Use external service accounts if you are looking to automate W&B tasks using service identities managed in your identity provider that can issue JSON Web Tokens (JWT).
-:::
+{{% /alert %}}

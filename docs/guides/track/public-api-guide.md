@@ -8,9 +8,9 @@ import TabItem from '@theme/TabItem';
 
 Export data or import data  with W&B Public APIs.
 
-:::info
+{{% alert %}}
 This feature requires python>=3.8
-:::
+{{% /alert %}}
 
 ## Import data from MLFlow
 
@@ -55,11 +55,11 @@ for run in mlflow_client.search_runs(...):
 importer.import_runs(runs)
 ```
 
-:::tip
+{{% alert %}}
 You might need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html) if you import from Databricks MLFlow.
 
 Set `mlflow-tracking-uri="databricks"` in the previous step.
-:::
+{{% /alert %}}
 
 To skip importing artifacts, you can pass `artifacts=False`:
 
@@ -79,9 +79,9 @@ importer.import_runs(runs, namespace=Namespace(entity, project))
 
 ## Import data from another W&B instance
 
-:::info
+{{% alert %}}
 This feature is in beta, and only supports importing from the W&B public cloud.
-:::
+{{% /alert %}}
 
 Install dependencies:
 
@@ -436,9 +436,9 @@ del run.summary["old_name"]
 run.summary.update()
 ```
 
-:::caution
+{{% alert color="secondary" %}}
 Renaming a column only applies to tables. Charts will still refer to metrics by their original names.
-:::
+{{% /alert %}}
 
 ### Update config for an existing run
 

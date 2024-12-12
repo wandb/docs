@@ -61,7 +61,7 @@ From there you can interact with wandb’s run object like normal:
 wandb_tracker.log_artifact(some_artifact_to_log)
 ```
 
-:::caution
+{{% alert color="secondary" %}}
 Trackers built in Accelerate will automatically execute on the correct process, so if a tracker is only meant to be ran on the main process it will do so automatically.
 
 If you want to truly remove Accelerate’s wrapping entirely, you can achieve the same outcome with:
@@ -71,7 +71,7 @@ wandb_tracker = accelerator.get_tracker("wandb", unwrap=True)
 with accelerator.on_main_process:
     wandb_tracker.log_artifact(some_artifact_to_log)
 ```
-:::
+{{% /alert %}}
 
 ## Accelerate Articles
 Below is an Accelerate article you may enjoy

@@ -55,6 +55,6 @@ Your sweep will now be set up on our server. All you need to do is launch one or
 
 ![](/images/sweeps/tutorial_sweep_runs.png)
 
-:::info
+{{% alert %}}
 If you kick off the new sweep as a bayesian sweep, the selected runs will also seed the Gaussian Process.
-:::
+{{% /alert %}}

@@ -12,13 +12,13 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 PyTorch is one of the most popular frameworks for deep learning in Python, especially among researchers. W&B provides first class support for PyTorch, from logging gradients to profiling your code on the CPU and GPU.
 
-:::info
+{{% alert %}}
 Try our integration out in a Colab notebook.
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb"></CTAButtons>
 
 You can also see our [example repo](https://github.com/wandb/examples) for scripts, including one on hyperparameter optimization using [Hyperband](https://arxiv.org/abs/1603.06560) on [Fashion MNIST](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion), plus the [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) it generates.
-:::
+{{% /alert %}}
 
 <!-- {% embed url="https://www.youtube.com/watch?v=G7GH0SeNBMA" %}
 Follow along with a video tutorial!
@@ -50,9 +50,9 @@ for batch_idx, (data, target) in enumerate(train_loader):
 
 If you need to track multiple models in the same script, you can call `wandb.watch` on each model separately. Reference documentation for this function is [here](../../ref/python/watch.md).
 
-:::caution
+{{% alert color="secondary" %}}
 Gradients, metrics and the graph won't be logged until `wandb.log` is called after a forward _and_ backward pass.
-:::
+{{% /alert %}}
 
 ## Logging images and media
 
@@ -110,6 +110,6 @@ profile_art.save()
 
 See and run working example code in [this Colab](http://wandb.me/trace-colab).
 
-:::caution
+{{% alert color="secondary" %}}
 The interactive trace viewing tool is based on the Chrome Trace Viewer, which works best with the Chrome browser.
-:::
+{{% /alert %}}

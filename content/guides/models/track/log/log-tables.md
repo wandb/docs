@@ -102,13 +102,13 @@ run.log({"table_key": my_table})
 
 Each time a table is logged to the same key, a new version of the table is created and stored in the backend. This means you can log the same table across multiple training steps to see how model predictions improve over time, or compare tables across different runs, as long as they're logged to the same key. You can log up to 200,000 rows.
 
-:::info
+{{% alert %}}
 To log more than 200,000 rows, you can override the limit with:
 
 `wandb.Table.MAX_ARTIFACT_ROWS = X`
 
 However, this would likely cause performance issues, such as slower queries, in the UI.
-:::
+{{% /alert %}}
 
 ### Access tables programmatically
 

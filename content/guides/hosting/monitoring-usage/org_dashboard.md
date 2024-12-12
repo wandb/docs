@@ -6,9 +6,10 @@ menu:
 title: View organization dashboard
 ---
 
-:::important
+{{% alert color="secondary" %}}
 Organization dashboard is only available with [Dedicated Cloud](../hosting-options/dedicated_cloud.md) and [Self-managed instances](../hosting-options/self-managed.md).
-:::
+{{% /alert %}}
+
 
 ## View organization usage of W&B
 Use the organization dashboard to get a holistic view of users that belong to your organization, how users of your organization use W&B, along with properties such as:
@@ -47,9 +48,9 @@ Use the **Last Active** column to get an **Activity summary** of an individual u
 
 ![](/images/hosting/activity_tooltip.png)
 
-:::info
+{{% alert %}}
 A user is active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the W&B server in any way.
-:::
+{{% /alert %}}
 
 ### View active users over time
 Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time (right most plot in image below). 

@@ -14,11 +14,12 @@ import TabItem from '@theme/TabItem';
 
 Create and add tags to organize your collections or artifact versions within your registry. Add, modify, view, or remove tags to a collection  or artifact version with the W&B App UI or the W&B Python SDK.
 
-:::tip When to use a tag versus using an alias
+{{% alert title="When to use a tag versus using an alias" %}}
 Use aliases when you need to reference a specific artifact version uniquely. For example, use an alias such as 'production' or 'latest' to ensure that `artifact_name:alias` always points to a single, specific version.
 
 Use tags when you want more flexibility for grouping or searching. Tags are ideal when multiple versions or collections can share the same label, and you don’t need the guarantee that only one version is associated with a specific identifier.
-:::
+{{% /alert %}}
+
 
 ## Add a tag to a collection
 

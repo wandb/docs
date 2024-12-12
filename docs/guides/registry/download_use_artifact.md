@@ -4,9 +4,9 @@ title: Download and use an artifact from a registry
 
 Use the W&B Python SDK to use and download an artifact that you linked to the W&B Registry. 
 
-:::note
+{{% alert %}}
 To find the usage code snippets for a specific artifact pre-populated with the path information, please refer to the section [Copy and paste the usage path from the Registry UI](#copy-and-paste-the-usage-path-from-the-registry-ui).
-:::
+{{% /alert %}}
 
 Replace values within `<>` with your own:
 

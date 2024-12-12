@@ -9,9 +9,9 @@ Use the W&B Kubernetes Operator to simplify deploying, administering, troublesho
 
 The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuous updates and improvements across deployment types, W&B users a Kubernetes operator.
 
-:::info
+{{% alert %}}
 W&B uses the operator to deploy and manage Dedicated Cloud instances on AWS, GCP and Azure public clouds.
-:::
+{{% /alert %}}
 
 For more information about Kubernetes operators, see [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) in the Kubernetes documentation.
 
@@ -76,9 +76,9 @@ See the [Deploy W&B in airgapped environment with Kubernetes](./operator-airgapp
 
 # Deploy W&B Server application
 This section describes different ways to deploy the W&B Kubernetes operator. 
-:::note
+{{% alert %}}
 The W&B Operator will become the default installation method for W&B Server. Other methods will be deprecated in the future.
-:::
+{{% /alert %}}
 
 **Choose one of the following:**
 - If you have provisioned all required external services and want to deploy W&B onto Kubernetes with Helm CLI, continue [here](#deploy-wb-with-helm-cli).
@@ -173,9 +173,9 @@ For a detailed description on how to use these modules, refer to this [section](
 
 To verify the installation, W&B recommends using the [W&B CLI](../../ref/cli/README.md). The verify command executes several tests that verify all components and configurations. 
 
-:::note
+{{% alert %}}
 This step assumes that the first admin user account is created with the browser.
-:::
+{{% /alert %}}
 
 Follow these steps to verify the installation:
 
@@ -238,9 +238,9 @@ import TabItem from '@theme/TabItem';
   </TabItem>
   <TabItem value="option2">
 
-:::note
+{{% alert %}}
 W&B recommends you access the console using the following steps only if Option 1 does not work.
-:::
+{{% /alert %}}
 
 1. Open console application in browser. Open the above described URL in the browser and you will be presented with this login screen:
 ![](/images/hosting/access_system_console_directly.png)
@@ -260,10 +260,10 @@ Copy the password to the clipboard.
 ## Update the W&B Kubernetes operator
 This section describes how to update the W&B Kubernetes operator. 
 
-:::note
+{{% alert %}}
 * Updating the W&B Kubernetes operator does not update the W&B server application.
 * See the instructions [here](#migrate-self-managed-instances-to-wb-operator) if you use a Helm chart that does not user the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
-:::
+{{% /alert %}}
 
 Copy and paste the code snippets below into your terminal. 
 
@@ -287,9 +287,9 @@ The operator automatically updates your W&B Server application when a new versio
 ## Migrate self-managed instances to W&B Operator
 The proceeding section describe how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
 
-:::note
+{{% alert %}}
 The W&B Operator will become the default installation method for W&B Server. In the future, W&B will deprecate deployment mechanisms that do not use the operator. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
-:::
+{{% /alert %}}
 
 - If you used the official W&B Cloud Terraform Modules, navigate to the appropriate documentation and follow the steps there:
   - [AWS](#migrate-to-operator-based-aws-terraform-modules)
@@ -491,9 +491,9 @@ You can optionally tell W&B to only connect over TLS if you configure a trusted 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
-:::caution
+{{% alert color="secondary" %}}
 This will only work if the SSL certificate is trusted. W&B does not support self-signed certificates.
-:::
+{{% /alert %}}
 
 ### MySQL
 

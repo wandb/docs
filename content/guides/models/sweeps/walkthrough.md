@@ -59,9 +59,9 @@ Define a training function that takes in hyperparameter values from `wandb.confi
 
 Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`](../../ref/python/init.md)). If the project is not specified, the run is put in an "Uncategorized" project.
 
-:::tip
+{{% alert %}}
 Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
-:::
+{{% /alert %}}
 
 ```python
 # 1: Define objective/training function

@@ -41,9 +41,9 @@ wandb.login()
 
 spaCy config files are used to specify all aspects of training, not just logging -- GPU allocation, optimizer choice, dataset paths, and more. Minimally, under `[training.logger]` you need to provide the key `@loggers` with the value `"spacy.WandbLogger.v3"`, plus a `project_name`. 
 
-:::info
+{{% alert %}}
 For more on how spaCy training config files work and on other options you can pass in to customize training, check out [spaCy's documentation](https://spacy.io/usage/training).
-:::
+{{% /alert %}}
 
 ```python
 [training.logger]

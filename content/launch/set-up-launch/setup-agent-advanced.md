@@ -14,11 +14,11 @@ import TabItem from '@theme/TabItem';
 
 This guide provides information on how to set up the W&B Launch agent to build container images in different environments.
 
-:::info
+{{% alert %}}
 Build is only required for git and code artifact jobs. Image jobs do not require build.
 
 See [Create a launch job](./create-launch-job.md) for more information on job types.
-:::
+{{% /alert %}}
 
 ## Builders
 
@@ -31,9 +31,9 @@ The builder type can be controlled by the `builder.type` key in the launch agent
 
 If no builder is specified in the agent config and a working `docker` CLI is found, the agent will default to using Docker. If Docker is not available the agent will default to `noop`.
 
-:::tip
+{{% alert %}}
 Use Kaniko for building images in a Kubernetes cluster. Use Docker for all other cases.
-:::
+{{% /alert %}}
 
 
 ## Pushing to a container registry
@@ -273,6 +273,6 @@ Optionally deploy the W&B Launch agent to CoreWeave Cloud infrastructure. CoreWe
 
 For information on how to deploy the Launch agent to CoreWeave, see the [CoreWeave documentation](https://docs.coreweave.com/partners/weights-and-biases#integration). 
 
-:::note
+{{% alert %}}
 You will need to create a [CoreWeave account](https://cloud.coreweave.com/login) in order to deploy the Launch agent into a CoreWeave infrastructure. 
-:::
+{{% /alert %}}

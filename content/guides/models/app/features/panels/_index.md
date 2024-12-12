@@ -48,9 +48,10 @@ Use panel visualizations to explore your logged data, the relationships between 
 </Tabs>
 
 
-:::tip Undo changes to your workspace
+{{% alert title="Undo changes to your workspace" %}}
 Select the undo button (arrow that points left) to undo any unwanted changes.
-:::
+{{% /alert %}}
+
 
 ## Add multiple panels
 Add multiple panels to your workspace at the same time. You can add up to 500 panels at a time.
@@ -61,9 +62,9 @@ Add multiple panels to your workspace at the same time. You can add up to 500 pa
 3. Select the **Add all** button
 ![](/images/app_ui/bulk_panels.gif)
 
-:::note
+{{% alert %}}
 The **Add all** button appears only if a regular expression match occurs.
-:::
+{{% /alert %}}
 
 
 
@@ -71,9 +72,9 @@ The **Add all** button appears only if a regular expression match occurs.
 
 By default, W&B generates a panel for each unique metric you [`log`](../../../../ref/python/log.md) with the Python SDK. 
 
-:::info
+{{% alert %}}
 W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
-:::
+{{% /alert %}}
 
 To activate or deactivate auto generated panels:
 
@@ -104,9 +105,9 @@ Example of workspace with panel auto generation on:
 1. Within your project workspace, select the three horizontal dots (**...**) next to the panel search bar
 2. Select **Clear all panels**
 
-:::note
+{{% alert %}}
 Clearing panels in your workspace deactivates automatic panel generation.
-:::
+{{% /alert %}}
 
 <!-- ## Add a section -->
 

@@ -10,9 +10,9 @@ weight: 3
 
 Download and use an artifact that is already stored on the W&B server or construct an artifact object and pass it in to for de-duplication as necessary.
 
-:::note
+{{% alert %}}
 Team members with view-only seats cannot download artifacts.
-:::
+{{% /alert %}}
 
 
 ### Download and use an artifact stored on W&B

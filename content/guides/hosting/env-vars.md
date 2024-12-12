@@ -33,11 +33,11 @@ In addition to configuring instance level settings via the System Settings admin
 | GORILLA_DATA_RETENTION_PERIOD | How long to retain deleted data from runs in hours. Deleted run data is unrecoverable. Append an `h` to the input value. For example, `"24h"`. |
 | ENABLE_REGISTRY_UI               |  When set to true, enables the new W&B Registry UI.            |
 
-:::info
+{{% alert %}}
 
 Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously. Data is removed immediately once the environment variable is set. We also recommend that you backup both the database and the storage bucket before you enable this flag.
 
-:::
+{{% /alert %}}
 
 ## Advanced Reliability Settings
 

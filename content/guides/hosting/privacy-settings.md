@@ -9,9 +9,9 @@ weight: 4
 
 Organization and Team admins can configure a set of privacy settings at the organization and team scopes respectively. When configured at the organization scope, organization admins enforce those settings for all teams in that organization.
 
-:::info
+{{% alert %}}
 W&B recommends organization admins to enforce a privacy setting only after communicating that in advance to all team admins and users in their organization. This is to avoid unexpected changes in their workflows.
-:::
+{{% /alert %}}
 
 ## Configure privacy settings for a team
 

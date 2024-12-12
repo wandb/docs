@@ -4,7 +4,7 @@ displayed_sidebar: launch
 ---
 The steps for building an image depend on the job source and the specified accelerator base image in the resource configuration.
 
-:::note
+{{% alert %}}
 When configuring a queue or submitting a job, include a base accelerator image in the queue or job resource configuration:
 ```json
 {
@@ -15,7 +15,7 @@ When configuring a queue or submitting a job, include a base accelerator image i
     }
 }
 ```
-:::
+{{% /alert %}}
 
 The build process includes the following actions based on the job type and provided accelerator base image:
 

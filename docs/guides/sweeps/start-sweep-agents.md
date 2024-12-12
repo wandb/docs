@@ -50,9 +50,9 @@ wandb.agent(sweep_id=sweep_id, function=function_name)
 
 ### Stop W&B agent
 
-:::caution
+{{% alert color="secondary" %}}
 Random and Bayesian searches will run forever. You must stop the process from the command line, within your python script, or the [Sweeps UI](./visualize-sweep-results.md).
-:::
+{{% /alert %}}
 
 Optionally specify the number of W&B Runs a Sweep agent should try. The following code snippets demonstrate how to set a maximum number of [W&B Runs](../../ref/python/run.md) with the CLI and within a Jupyter Notebook, Python script.
 
@@ -77,9 +77,9 @@ sweep_id, count = "dtzl1o7u", 10
 wandb.agent(sweep_id, count=count)
 ```
 
-:::caution
+{{% alert color="secondary" %}}
 If you start a new run after the sweep agent has finished, within the same script or notebook, then you should call `wandb.teardown()` before starting the new run.
-:::
+{{% /alert %}}
 
 
   </TabItem>

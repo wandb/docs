@@ -20,9 +20,9 @@ During training, W&B locally saves logs, artifacts, and configuration files in t
 | configs   | `~/.config/wandb` | the `WANDB_CONFIG_DIR` environment variable                       |
 
 
-:::caution
+{{% alert color="secondary" %}}
 Depending on the machine on `wandb` is initialized on, these default folders may not be located in a writeable part of the file system. This might trigger an error.
-:::
+{{% /alert %}}
 
 ### Clean up local artifact cache
 

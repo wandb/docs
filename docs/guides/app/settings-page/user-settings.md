@@ -20,9 +20,9 @@ Create a new team in the **Team** section. To create a new team, select the **Ne
 * **Team type** - Select either the **Work** or **Academic** button.
 * **Company/Organization** - Provide the name of the team’s company or organization. Choose the dropdown menu to select a company or organization. You can optionally provide a new organization.
 
-:::info
+{{% alert %}}
 Only administrative accounts can create a team.
-:::
+{{% /alert %}}
 
 ### Beta features
 
@@ -49,9 +49,9 @@ Connect a personal Github account. To connect a Github account:
 
 Select the **Delete Account** button to delete your account.
 
-:::caution
+{{% alert color="secondary" %}}
 Account deletion can not be reversed.
-:::
+{{% /alert %}}
 
 ### Storage
 

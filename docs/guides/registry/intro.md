@@ -2,9 +2,9 @@
 title: Registry
 ---
 
-:::info
+{{% alert %}}
 W&B Registry is now in public preview. Visit [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
-:::
+{{% /alert %}}
 
 W&B Registry is a curated central repository that stores and provides versioning, aliases, lineage tracking, and governance of models and datasets. Registry allows individuals and teams across the entire organization to share and collaboratively manage the lifecycle of all models, datasets and other artifacts. As the single source of truth for which models are in production, Registry provides the foundation for an effective CI/CD pipeline by identifying the right models to reproduce, retrain, evaluate, and deploy.
 
@@ -81,11 +81,11 @@ See [Migrating from legacy Model Registry](./model_registry_eol.md) for more inf
 
 Until the migration occurs, W&B supports both the legacy Model Registry and the new Registry. 
 
-:::info
+{{% alert %}}
 To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
 
 ![](/images/registry/nav_to_old_model_reg.gif)
-:::
+{{% /alert %}}
 
 
 Reach out to support@wandb.com with any questions or to speak to the W&B Product Team about any concerns about the migration.

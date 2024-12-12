@@ -15,11 +15,11 @@ And then see W&B Alerts messages in Slack (or your email):
 
 ## How to create an alert
 
-:::info
+{{% alert %}}
 The following guide only applies to alerts in multi-tenant cloud.
 
 If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](../hosting/monitoring-usage/slack-alerts.md) to setup Slack alerts.
-:::
+{{% /alert %}}
 
 
 There are two main steps to set up an alert:

@@ -11,9 +11,9 @@ import TabItem from '@theme/TabItem';
 
 This guide provides best practices on how to integrate W&B into your Python library to get powerful Experiment Tracking, GPU and System Monitoring, Model Checkpointing and more for you own library.
 
-:::note
+{{% alert %}}
 If you are still learning how to use W&B, we recommend exploring the other W&B Guides in these docs, such as [Experiment Tracking](/guides/track), before reading further.
-:::
+{{% /alert %}}
 
 Below we cover best tips and best practices when the codebase you are working on is more complicated than a single Python training script or Jupyter notebook. The topics covered are:
 

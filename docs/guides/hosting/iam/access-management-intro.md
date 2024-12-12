@@ -7,9 +7,9 @@
 ## Manage users and teams within an organization
 The first user to sign up to W&B with a unique organization domain is assigned as that organization's *instance administrator role*. The organization administrator assigns specific users team administrator roles.
 
-:::note
+{{% alert %}}
 W&B recommends to have more than one instance admin in an organization. It is a best practice to ensure that admin operations can continue when the primary admin is not available. 
-:::
+{{% /alert %}}
 
 A *team administrator* is a user in organization that has administrative permissions within a team. 
 

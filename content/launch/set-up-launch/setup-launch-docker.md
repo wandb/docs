@@ -16,9 +16,9 @@ Using Docker to execute jobs and as the launch agent's environment on the same l
 
 You can also use Docker queues to run workloads on powerful workstations.
 
-:::tip
+{{% alert %}}
 This set up is common for users who perform experiments on their local machine, or that have a remote machine that they SSH in to, to submit launch jobs.
-:::
+{{% /alert %}}
 
 When you use Docker with W&B Launch, W&B will first build an image, and then build and run a container from that image. The image is built with the Docker `docker run <image-uri>` command. The queue configuration is interpreted as additional arguments that are passed to the `docker run` command.
 
@@ -66,7 +66,7 @@ Docker automatically passes environment variables, that are not assigned a value
 The `--gpus` flag of the `docker run` command allows you to specify GPUs that are available to a Docker container. For more information on how to use the `gpus` flag, see the [Docker documentation](https://docs.docker.com/config/containers/resource_constraints/#gpu).
 
 
-:::tip
+{{% alert %}}
 * Install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) to use GPUs within a Docker container.
 * If you build images from a code or artifact-sourced job, you can override the base image used by the [agent](#configure-a-launch-agent-on-a-local-machine) to include the NVIDIA Container Toolkit.
   For example, within your launch queue, you can override the base image to `tensorflow/tensorflow:latest-gpu`:
@@ -80,7 +80,7 @@ The `--gpus` flag of the `docker run` command allows you to specify GPUs that ar
     }
   }
   ```
-:::
+{{% /alert %}}
 
 
 
@@ -101,9 +101,9 @@ Create a queue that uses Docker as compute resource with the W&B CLI:
 
 Configure the launch agent with a YAML config file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
 
-:::tip
+{{% alert %}}
 You can use the W&B CLI to specify core configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) command for more information.
-:::
+{{% /alert %}}
 
 
 ## Core agent config options

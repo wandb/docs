@@ -213,9 +213,9 @@ model.fit(
 )
 ```
 
-:::info
+{{% alert %}}
 💡 The Tables are logged to the W&B [Artifact page](/guides/artifacts/explore-and-traverse-an-artifact-graph) by default and not the Workspace page.
-:::
+{{% /alert %}}
 
 **`WandbEvalCallback` Reference**
 
@@ -232,9 +232,9 @@ We log the `data_table` to W&B when the `on_train_begin` method is invoked. Once
 
 You can override the `on_train_begin` or `on_epoch_end` methods to have more fine-grained control. If you want to log the samples after `N` batches, you can implement `on_train_batch_end` method.
 
-:::info
+{{% alert %}}
 💡 If you are implementing a callback for model prediction visualization by inheriting `WandbEvalCallback` and something needs to be clarified or fixed, please let us know by opening an [issue](https://github.com/wandb/wandb/issues).
-:::
+{{% /alert %}}
 
 ## WandbCallback [Legacy]
 
@@ -260,9 +260,9 @@ See this one minute, step-by-step video if this is your first time integrating W
 
 For a more detailed video, see [Integrate Weights & Biases with Keras](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab_channel=Weights%26Biases). The notebook example used can be found here: [Colab Jupyter Notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras_pipeline_with_Weights_and_Biases.ipynb).
 
-:::info
+{{% alert %}}
 See our [example repo](https://github.com/wandb/examples) for scripts, including a [Fashion MNIST example](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) and the [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) it generates.
-:::
+{{% /alert %}}
 
 The `WandbCallback` class supports a wide variety of logging configuration options: specifying a metric to monitor, tracking of weights and gradients, logging of predictions on training_data and validation_data, and more.
 

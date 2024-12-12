@@ -224,9 +224,9 @@ val_dataset = DecathlonDataset(
 )
 ```
 
-:::info
+{{% alert %}}
 **Note:** Instead of applying the `train_transform` to the `train_dataset`, apply `val_transform` to both the training and validation datasets. This is because, before training, you would be visualizing samples from both the splits of the dataset.
-:::
+{{% /alert %}}
 
 ### 📸 Visualizing the Dataset
 
@@ -370,9 +370,9 @@ Open an image and see how you can interact with each of the segmentation masks u
 |:--:| 
 | **An example of visualized segmentation maps.* |
 
-:::info
+{{% alert %}}
 **Note:** The labels in the dataset consist of non-overlapping masks across classes. The overlay logs the labels as separate masks in the overlay.
-:::
+{{% /alert %}}
 
 ### 🛫 Loading the Data
 

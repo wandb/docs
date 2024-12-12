@@ -14,9 +14,9 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 
 
-:::info
+{{% alert %}}
 W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
-:::
+{{% /alert %}}
 
 Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
@@ -45,9 +45,9 @@ wandb.finish()
 
 Once your wandb run finishes, your TensorBoard event files will then be uploaded to W&B. These metrics will **also be logged** in native W&B charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
 
-:::info
+{{% alert %}}
 W&B supports TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
-:::
+{{% /alert %}}
 
 ## Common questions
 
@@ -87,9 +87,9 @@ wandb.tensorboard.patch(save=False, tensorboard_x=True)
 wandb.finish()
 ```
 
-:::caution
+{{% alert color="secondary" %}}
 You must call either `wandb.init` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
-:::
+{{% /alert %}}
 
 ### Syncing Previous TensorBoard Runs
 

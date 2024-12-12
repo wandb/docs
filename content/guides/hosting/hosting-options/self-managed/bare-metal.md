@@ -10,9 +10,9 @@ title: Deploy W&B Platform On-premises
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-:::info
+{{% alert %}}
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
-:::
+{{% /alert %}}
 
 
 You can run W&B Server on your on-premises infrastructure if Multi-tenant Cloud or Dedicated Cloud are not a good fit for your organization.
@@ -23,13 +23,13 @@ Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto
 
 The following infrastructure guidelines section outline W&B recommendations to take into consideration when you set up your application server, database server, and object storage.
 
-:::tip
+{{% alert %}}
 W&B strongly recommends to deploy W&B Server into a Kubernetes cluster using the W&B Kubernetes Operator. Deploying to a Kubernetes cluster with the operator ensures that you can use all the existing and latest W&B features.
-:::
+{{% /alert %}}
 
-:::caution
+{{% alert color="secondary" %}}
 W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 8 database cluster and an AWS S3 compatible object store for the application to scale properly.
-:::
+{{% /alert %}}
 
 ### Application server
 
@@ -87,9 +87,9 @@ The [Secure Storage Connector](../data-security/secure-storage-connector.md) is 
 
 ## MySQL database
 
-:::caution
+{{% alert color="secondary" %}}
 W&B does not recommend using MySQL 5.7. If you are using MySQL 5.7, migrate to MySQL 8 for best compatibility with latest versions of W&B Server. The W&B Server currently only supports `MySQL 8` versions `8.0.28` and above.
-:::
+{{% /alert %}}
 
 There are a number of enterprise services that make operating a scalable MySQL database simpler. W&B recommends looking into one of the following solutions:
 
@@ -169,9 +169,9 @@ You can optionally tell W&B to only connect over TLS if you configure a trusted 
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
 
-:::caution
+{{% alert color="secondary" %}}
 This will only work if the SSL certificate is trusted. W&B does not support self-signed certificates.
-:::
+{{% /alert %}}
 
 Set `BUCKET_QUEUE` to `internal://` if you use third-party object stores. This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
 
@@ -204,16 +204,16 @@ The recommended installation method is with the official W&B Helm chart. Follow 
 
 W&B supports operating from within an [OpenShift Kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). 
 
-:::info
+{{% alert %}}
 W&B recommends you install with the official W&B Helm chart. 
-:::
+{{% /alert %}}
 #### Run the container as an un-privileged user
 
 By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
 
-:::note
+{{% alert %}}
 W&B  must start as the root group (`$GID=0`) for file system permissions to function properly.
-:::
+{{% /alert %}}
 
 An example security context for Kubernetes looks similar to the following:
 

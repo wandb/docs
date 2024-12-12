@@ -7,18 +7,18 @@ menu:
 title: Fork a run
 ---
 
-:::caution
+{{% alert color="secondary" %}}
 The ability to fork a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
-:::
+{{% /alert %}}
 
 Use `fork_from` when you initialize a run with [`wandb.init()`](../../ref/python/init.md) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
 
 Forking a run enables you to explore different parameters or models from a specific point in an experiment without impacting the original run.
 
-:::info
+{{% alert %}}
 * Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
 * Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](/ref/python/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
-:::
+{{% /alert %}}
 
 
 ## Start a forked run
@@ -86,10 +86,10 @@ for i in range(200, 300):
 run2.finish()
 ```
 
-:::tip Rewind and forking compatibility
+{{% alert title="Rewind and forking compatibility" %}}
 Forking compliments a [`rewind`](/guides/runs/rewind) by providing more flexibility in managing and experimenting with your runs. 
 
 When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
 
 When you  rewind a run, W&B let's you correct or modify the run history itself.
-:::
+{{% /alert %}}

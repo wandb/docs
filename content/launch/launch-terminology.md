@@ -25,9 +25,9 @@ There are three main kinds of job definitions:
 |Git-based jobs|  Code and other assets are cloned from a certain commit, branch, or tag in a git repository. | To run git-based jobs, Launch agent must be configured with a builder and git repository credentials. |
 |Image-based jobs|Code and other assets are baked into a Docker image. | To run image-based jobs, Launch agent might need to be configured with image repository credentials. | 
 
-:::tip
+{{% alert %}}
 While Launch jobs can perform activities not related to model training--for example, deploy a model to a Triton inference server--all jobs must call `wandb.init` to complete successfully. This creates a run for tracking purposes in a W&B workspace.
-:::
+{{% /alert %}}
 
 Find jobs you created in the W&B App under the `Jobs` tab of your project workspace. From there, jobs can be configured and sent to a [launch queue](#launch-queue) to be executed on a variety of [target resources](#target-resources).
 
@@ -54,6 +54,6 @@ One agent may poll multiple queues, however the agent must be configured properl
 ### Launch agent environment
 The agent environment is the environment where a launch agent is running, polling for jobs.
 
-:::info
+{{% alert %}}
 The agent's runtime environment is independent of a queue's target resource. In other words, agents can be deployed anywhere as long as they are configured sufficiently to access the required target resources.
-:::
+{{% /alert %}}

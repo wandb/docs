@@ -12,9 +12,9 @@ run = wandb.init(entity="<entity>", \
         project="<project>", id="<run ID>", resume="<resume>")
 ```
 
-:::tip
+{{% alert %}}
 W&B encourages you to provide the name of the W&B Project where you want to store the run.
-:::
+{{% /alert %}}
 
 Pass one of the following arguments to the `resume` parameter to determine how W&B should respond. In each case, W&B first checks if the run ID already exists. 
 
@@ -47,12 +47,12 @@ run = wandb.init(entity="<entity>", \
         project="<project>", id="<run ID>", resume="must")
 ```
 
-:::caution
+{{% alert color="secondary" %}}
 Unexpected results will occur if multiple processes use the same `id` concurrently. 
 
 
 For more information on  how to manage multiple processes, see the [Log distributed training experiments](../track/log/distributed-training.md) 
-:::
+{{% /alert %}}
 
 ## Resume a run without overriding the existing run
 Resume a run that stopped or crashed without overriding the existing run. This is especially helpful if your process doesn't exit successfully. The next time you start W&B, W&B will start logging from the last step.
@@ -106,16 +106,17 @@ sh run_experiment.sh akj172
   </TabItem>
 </Tabs>
 
-:::important
+{{% alert color="secondary" %}}
 Automatic resuming only works if the process is restarted on top of the same filesystem as the failed process. 
-:::
+{{% /alert %}}
+
 
 For example, suppose you execute a python script called `train.py` in a directory called called `Users/AwesomeEmployee/Desktop/ImageClassify/training/`. Within `train.py`, the script creates a run that enables automatic resuming. Suppose next that the training script is stopped.  To resume this run, you would need to restart your `train.py` script within `Users/AwesomeEmployee/Desktop/ImageClassify/training/` .
 
 
-:::tip
+{{% alert %}}
 If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Custom run IDs](./intro.md#custom-run-ids) section in the "What are runs?" page for more information on run IDs.
-:::
+{{% /alert %}}
 
 
 

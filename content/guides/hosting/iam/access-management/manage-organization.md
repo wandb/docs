@@ -14,18 +14,18 @@ As an administrator of an organization you can [manage individual users](#add-an
 
 As a team administrator you can [manage teams](#add-and-manage-teams).
 
-:::info
+{{% alert %}}
 The following workflow applies to users with instance administrator roles. Reach out to an administrator in your organization if you believe you should have instance administrator permissions. 
-:::
+{{% /alert %}}
 
 If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
 
 <!-- W&B assigns an Admin role to new users within an organization by default.  -->
 
 ## Change the name of your organization
-:::info
+{{% alert %}}
 The following workflow only applies to W&B Multi-tenant SaaS Cloud.
-:::
+{{% /alert %}}
 
 1. Navigate to https://wandb.ai/home.
 2. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
@@ -92,11 +92,11 @@ W&B sends an invite link using a third-party email server to the user's email af
 
 A W&B user with matching email domain can sign in to your W&B Organization with Single Sign-On (SSO) if you configure SSO and your SSO provider permits it. SSO is available for all Enterprise licenses.
 
-:::tip enable SSO for authentication
+{{% alert title="Enable SSO for authentication" %}}
 W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). Reach out to your W&B team to enable SSO for your organization. 
 
-To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).
-:::
+To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).{{% /alert %}}
+
 
 W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
 
@@ -131,17 +131,18 @@ Use the W&B Console to turn off auto provisioning with SSO:
 
 
 
-:::tip 
+{{% alert title="" %}}
 Auto provisioning with SSO is useful for adding users to an organization at scale because organization administrators do not need to generate individual user invitations.
-:::
+{{% /alert %}}
+
 
 
 ### Domain capture
 Domain capture helps your employees join the your companies organization to ensure new users do not create assets outside of your company jurisdiction. 
 
-:::note Domains must be unique
+{{% alert title="Domains must be unique" %}}
 Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
-:::
+{{% /alert %}}
 
 <Tabs
   defaultValue="saas"
@@ -231,9 +232,9 @@ Model seat type and weave access type are defined at the organization level, and
 2. Select the **Users** tab.
 3. From the **Role** dropdown, select the seat type you want to assign to the user.
 
-:::note
+{{% alert %}}
 The organization role and subscription type determines which seat types are available within your organization.
-:::
+{{% /alert %}}
 
 ### Remove a user
 
@@ -309,16 +310,16 @@ The proceeding table lists the roles you can assign to a member of a team:
 | Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
 | Custom Roles (Enterprise-only feature)   | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
 
-<!-- :::note
+<!-- {{% alert %}}
 W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
 
 Refer to [Team Service Account Behavior](../../app/features/teams.md#team-service-account-behavior) for more information.
-::: -->
+{{% /alert %}} -->
 
 
-:::note
+{{% alert %}}
 Only enterprise licenses on Dedicated Cloud or Self-managed deployment can assign custom roles to members in a team.
-:::
+{{% /alert %}}
 
 ### Remove users from a team
 Remove a user from a team using the team's dashboard. W&B preserves runs created in a team even if the member who created the runs is no longer on that team.

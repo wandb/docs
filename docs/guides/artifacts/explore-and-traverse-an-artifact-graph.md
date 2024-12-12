@@ -33,9 +33,9 @@ The artifact or job type you provide appears in front of its name, with artifact
 
 ![Run and artifact nodes](../../../static/images/artifacts/lineage2.png)
 
-:::info
+{{% alert %}}
 You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab. 
-:::
+{{% /alert %}}
 
 ![Inputs and outputs](../../../static/images/artifacts/lineage2a.gif)
 

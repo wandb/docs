@@ -67,9 +67,9 @@ When you call `autolog()`, it initializes a Weights & Biases run and automatical
 - All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
 - The generated media for each pipeline call are also logged in [media panels](/guides/track/log/media) in the run.
 
-:::info
+{{% alert %}}
 You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
-:::
+{{% /alert %}}
 
 Here is a brief end-to-end example of the autolog in action:
 
@@ -162,9 +162,9 @@ wandb.finish()
 |:--:| 
 | **An example of how the autolog logs the configs of your experiment.** |
 
-:::info
+{{% alert %}}
 You need to explicitly call [`wandb.finish()`](/ref/python/finish) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
-:::
+{{% /alert %}}
 
 ## Tracking multi-pipeline workflows
 

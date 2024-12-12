@@ -16,9 +16,9 @@ With W&B Weave, you can:
 * Build rigorous, apples-to-apples evaluations for language model use cases
 * Organize all the information generated across the LLM workflow, from experimentation to evaluations to production
 
-:::info
+{{% alert %}}
 Looking for Weave docs? See https://wandb.github.io/weave/.
-:::
+{{% /alert %}}
 
 ## How to get started 
 Depending on your use case, explore the following resources to get started with W&B Weave:

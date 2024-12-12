@@ -3,12 +3,12 @@ description: Model registry to manage the model lifecycle from training to produ
 title: Model registry
 ---
 
-:::info
+{{% alert %}}
 W&B will no longer support W&B Model Registry after 2024. Users are encouraged to instead use [W&B Registry](../registry/intro.md) for linking and sharing their model artifacts versions. W&B Registry broadens the capabilities of the legacy W&B Model Registry. For more information about W&B Registry, see the [Registry docs](../registry/intro.md).
 
 
 W&B will migrate existing model artifacts linked to the legacy Model Registry to the new W&B Registry in the Fall or early Winter of 2024. See [Migrating from legacy Model Registry](../registry/model_registry_eol.md) for information about the migration process.
-:::
+{{% /alert %}}
 
 The W&B Model Registry houses a team's trained models where ML Practitioners can publish candidates for production to be consumed by downstream teams and stakeholders. It is used to house staged/candidate models and manage workflows associated with staging.
 

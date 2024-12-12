@@ -12,9 +12,9 @@ import TabItem from '@theme/TabItem';
 
 The following page describes how to add launch jobs to a launch queue.
 
-:::info
+{{% alert %}}
 Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Set up Launch](./setup-launch.md) page.
-:::
+{{% /alert %}}
 
 ## Add jobs to your queue
 
@@ -67,9 +67,9 @@ Use the `wandb launch` command to add jobs to a queue. Create a JSON configurati
 }
 ```
 
-:::note
+{{% alert %}}
 W&B Launch will use the default parameters if you do not provide a JSON configuration file.
-:::
+{{% /alert %}}
 
 If you want to override the queue configuration, or if your launch queue does not have a configuration resource defined, you can specify the `resource_args` key in your config.json file. For example, following continuing the example above, your config.json file might look similar to the following:
 

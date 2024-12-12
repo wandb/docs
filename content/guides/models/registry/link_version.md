@@ -14,18 +14,18 @@ Programmatically or interactively link artifact versions to a registry.
 
 W&B recommends that you check the artifact types that the registry permits. Each registry controls the types of artifacts that can be linked to that registry.
 
-:::info
+{{% alert %}}
 The term "type" refers to the artifact object type. When you create an artifact object ([`wandb.Artifact`](../../ref/python/artifact.md)), or log an artifact ([`wandb.run.log_artifact`](../../ref/python/run.md#log_artifact)), you specify a type for the `type` parameter. 
 <!-- If you are familiar with Python, you can think of artifact types in W&B as having similar functions as Python data types.  -->
-:::
+{{% /alert %}}
 
 As an example, by default, the Model registry only permits artifacts objects that have a "model" type. W&B will not permit you to link a dataset artifact type object if you try to link it to the Model registry.
 
-:::info
+{{% alert %}}
 When you link an artifact to a registry, this "publishes" that artifact to that registry. Any user that has access to that registry can access linked artifact versions when you link an artifact to a collection.
 
 In other words, linking an artifact to a registry collection brings that artifact version from a private, project-level scope, to the shared organization level scope.
-:::
+{{% /alert %}}
 
 ## How to link an artifact version 
 
@@ -135,10 +135,11 @@ with wandb.init(entity=TEAM_ENTITY_NAME, project="link_quickstart") as run:
 
 
 
-<!-- :::tip Linked vs source artifact versions
+<!-- {{% alert title="Linked vs source artifact versions" %}}
 * Source version: the artifact version inside a team's project that is logged to a [run](../runs/intro.md).
 * Linked version: the artifact version that is published to the registry. This is a pointer to the source artifact, and is the exact same artifact version, just made available in the scope of the registry.
-::: -->
+{{% /alert %}}
+ -->
 
 ## Troubleshooting 
 
@@ -149,9 +150,10 @@ Below are some common things to double check if you are not able to link an arti
 Artifacts logged to W&B with a personal entity can not be linked to the registry. Make sure that you log artifacts using a team entity within your organization. Only artifacts logged within an organization's team can be linked to the organization's registry. 
 
 
-:::tip 
+{{% alert title="" %}}
 Ensure that you you log an artifact with a team entity if you want to link that artifact to a registry.
-:::
+{{% /alert %}}
+
 
 #### Find your team entity
 
@@ -188,9 +190,10 @@ W&B appends a unique hash to the organization name to avoid naming collisions wi
 
 For example, if your organization name is "reviewco" and you also have a team named "reviewco", W&B appends a hash to the organization name that results in an `ORG_ENTITY_NAME` named `reviewco_XYZ123456`. 
 
-:::tip 
+{{% alert title="" %}}
 When linking to a registry with the Python SDK, always use the `ORG_ENTITY_NAME` format in the `target_path`.
-:::
+{{% /alert %}}
+
 
 For example, the target path might look like `reviewco_XYZ123456/wandb-registry-model/my-collection`.
 
@@ -234,6 +237,6 @@ REGISTRY_NAME = "Golden Datasets"
 COLLECTION_NAME = "raw_images"
 ```
 
-:::note
+{{% alert %}}
 Ensure that you replace the name of the collection from the temporary collection with the name of the collection that you want to link your artifact to.
-:::
+{{% /alert %}}

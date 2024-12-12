@@ -3,9 +3,9 @@ title: Use self-managed cloud or on-prem infrastructure
 description: Deploying W&B in production
 ---
 
-:::info
+{{% alert %}}
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](./saas_cloud.md) or [W&B Dedicated Cloud](./dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
-:::
+{{% /alert %}}
 
 Deploy W&B Server on your [AWS, GCP, or Azure cloud account](#deploy-wb-server-within-self-managed-cloud-accounts) or within your [on-premises infrastructure](#deploy-wb-server-in-on-prem-infrastructure). 
 
@@ -38,9 +38,9 @@ You can deploy W&B Server to a cloud platform that is not AWS, GCP, or Azure. Re
 
 You need a W&B trial license to complete your configuration of the W&B server. Open the [Deploy Manager](https://deploy.wandb.ai/deploy) to generate a free trial license. 
 
-:::note
+{{% alert %}}
 If you do not already have a W&B account then you will need to create one to generate your free license.
-:::
+{{% /alert %}}
 
 The URL will redirect you to a **Get a License for W&B Local** form. Provide the following information:
 
@@ -51,6 +51,6 @@ The URL will redirect you to a **Get a License for W&B Local** form. Provide the
 
 A page with an overview of your deployment along with the license associated to the instance will be displayed.
 
-:::info
+{{% alert %}}
 If you need an enterprise license for W&B Server which includes support for important security & other enterprise-friendly capabilities, [submit this form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or reach out to your W&B team.
-:::
+{{% /alert %}}

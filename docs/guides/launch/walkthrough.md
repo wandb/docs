@@ -9,9 +9,9 @@ import TabItem from '@theme/TabItem';
 
 This page walks through the basics of the W&B Launch workflow.
 
-:::tip
+{{% alert %}}
 W&B Launch runs machine learning workloads in containers. Familiarity with containers is not required but may be helpful for this walkthrough. See the [Docker documentation](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) for a primer on containers.
-:::
+{{% /alert %}}
 
 ## Prerequisites
 

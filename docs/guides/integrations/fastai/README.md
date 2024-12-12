@@ -57,9 +57,9 @@ learn.fit(..., cbs=WandbCallback())
 learn = learner(..., cbs=WandbCallback())
 ```
 
-:::info
+{{% alert %}}
 If you use version 1 of Fastai, refer to the [Fastai v1 docs](v1.md).
-:::
+{{% /alert %}}
 
 ## WandbCallback Arguments
 

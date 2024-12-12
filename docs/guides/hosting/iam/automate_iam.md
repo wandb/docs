@@ -17,35 +17,35 @@ There are broadly three categories of SCIM API - **User**, **Group**, and **Role
 
 [User SCIM API](./scim.md#user-resource) allows for creating, deactivating, getting the details of a user, or listing all users in a W&B organization. This API also supports assigning predefined or custom roles to users in an organization.
 
-:::info
+{{% alert %}}
 Deactivate a user within a W&B organization with the `DELETE User` endpoint. Deactivated users can no longer sign in. However, deactivated users still appears in the organization's user list.
 
 To fully remove a deactivated user from the user list, you must [remove the user from the organization](./manage-organization.md#remove-a-user).
 
 It is possible to re-enable a deactivated user, if needed.
-:::
+{{% /alert %}}
 
 ### Group SCIM API
 
 [Group SCIM API](./scim.md#group-resource) allows for managing W&B teams, including creating or removing teams in an organization. Use the `PATCH Group` to add or remove users in an existing team.
 
-:::info
+{{% alert %}}
 There is no notion of a `group of users having the same role` within W&B. A W&B team closely resembles a group, and allows diverse personas with different roles to work collaboratively on a set of related projects. Teams can consist of different groups of users. Assign each user in a team a role: team admin, member, viewer, or a custom role.
 
 W&B maps Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
-:::
+{{% /alert %}}
 
 ### Custom role API
 
 [Custom role SCIM API](./scim.md#role-resource) allows for managing custom roles, including creating, listing, or updating custom roles in an organization.
 
-:::caution
+{{% alert color="secondary" %}}
 Delete a custom role with caution.
 
 Delete a custom role within a W&B organization with the `DELETE Role` endpoint. The predefined role that the custom role inherits is assigned to all users that are assigned the custom role before the operation.
 
 Update the inherited role for a custom role with the `PUT Role` endpoint. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
-:::
+{{% /alert %}}
 
 ## W&B Python SDK API
 

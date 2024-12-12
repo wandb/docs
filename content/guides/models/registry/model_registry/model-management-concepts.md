@@ -41,9 +41,9 @@ Model tags are keywords or labels that belong to one or more registered models.
 
 Use model tags to organize registered models into categories and to search over those categories in the Model Registry's search bar. Model tags appear at the top of the Registered Model Card. You might choose to use them to group your registered models by ML task, owning team, or priority. The same model tag can be added to multiple registered models to allow for grouping. 
 
-:::info
+{{% alert %}}
 Model tags, which are labels applied to registered models for grouping and discoverability, are different from [model aliases](#model-alias). Model aliases are unique identifiers or nicknames that you use to fetch a model version programatically. To learn more about using tags to organize the tasks in your Model Registry, see [Organize models](./organize-models.md).
-:::
+{{% /alert %}}
 
 
 ## Model artifact

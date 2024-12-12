@@ -72,13 +72,13 @@ The proceeding table shows supported hyperparameter search constraints. Based on
 | `parameters`    | Nest other parameters inside a root level parameter.    |
 
 
-:::info
+{{% alert %}}
 W&B sets the following distributions based on the following conditions if a [distribution](#distribution-options-for-random-and-bayesian-search) is not specified:
 * `categorical` if you specify `values`
 * `int_uniform` if you specify `max` and `min` as integers
 * `uniform` if you specify `max` and `min` as floats
 * `constant` if you provide a set to `value`
-:::
+{{% /alert %}}
 
 ## `method`
 Specify the hyperparameter search strategy with the `method` key. There are three hyperparameter search strategies to choose from: grid, random, and Bayesian search. 
@@ -128,16 +128,16 @@ The proceeding tables lists distributions W&B supports.
 
 Use early termination (`early_terminate`) to stop poorly performing runs. If early termination occurs, W&B stops the current run before it creates a new run with a new set of hyperparameter values.
 
-:::note
+{{% alert %}}
 You must specify a stopping algorithm if you use `early_terminate`. Nest the `type` key within `early_terminate` within your sweep configuration.
-:::
+{{% /alert %}}
 
 
 ### Stopping algorithm
 
-:::info
+{{% alert %}}
 W&B currently supports [Hyperband](https://arxiv.org/abs/1603.06560) stopping algorithm. 
-:::
+{{% /alert %}}
 
 [Hyperband](https://arxiv.org/abs/1603.06560) hyperparameter optimization evaluates if a program should stop or if it should to continue at one or more pre-set iteration counts, called *brackets*.
 
@@ -145,9 +145,9 @@ When a W&B run reaches a bracket, the sweep compares that run's metric to all pr
 
 Brackets are based on the number of logged iterations. The number of brackets corresponds to the number of times you log the metric you are optimizing. The iterations can correspond to steps, epochs, or something in between. The numerical value of the step counter is not used in bracket calculations.
 
-:::info
+{{% alert %}}
 Specify either `min_iter` or `max_iter` to create a bracket schedule.
-:::
+{{% /alert %}}
 
 
 | Key        | Description                                                    |
@@ -160,9 +160,9 @@ Specify either `min_iter` or `max_iter` to create a bracket schedule.
 
 
 
-:::info
+{{% alert %}}
 Hyperband checks which [W&B runs](../../ref/python/run.md) to end once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
-:::
+{{% /alert %}}
 
 ## `command` 
 
@@ -170,9 +170,9 @@ Hyperband checks which [W&B runs](../../ref/python/run.md) to end once every few
 
 Modify the format and contents with nested values within the `command` key. You can directly include fixed components such as filenames.
 
-:::info
+{{% alert %}}
 On Unix systems, `/usr/bin/env` ensures that the OS chooses the correct Python interpreter based on the environment.
-:::
+{{% /alert %}}
 
 W&B supports the following macros for variable components of the command:
 

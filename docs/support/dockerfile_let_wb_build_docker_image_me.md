@@ -7,9 +7,10 @@ import TabItem from '@theme/TabItem';
 
 This feature suits projects with stable requirements but frequently changing codebases.
 
-:::important
+{{% alert color="secondary" %}}
 Format your Dockerfile to use mounts. For further details, visit the [Mounts documentation on the Docker Docs website](https://docs.docker.com/build/guide/mounts/).
-:::
+{{% /alert %}}
+
 
 After configuring the Dockerfile, specify it in one of three ways to W&B:
 

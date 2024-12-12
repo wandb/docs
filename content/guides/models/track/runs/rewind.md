@@ -8,19 +8,19 @@ title: Rewind a run
 ---
 
 # Rewind a run
-:::caution
+{{% alert color="secondary" %}}
 The option to rewind a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 
 W&B currently does not support:
 * **Log rewind**: Logs are reset in the new run segment.
 * **System metrics rewind**: W&B logs only new system metrics after the rewind point.
 * **Artifact association**: W&B associates artifacts with the source run that produces them.
-:::
+{{% /alert %}}
 
-:::info
+{{% alert %}}
 * To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
 * You must use monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](/ref/python/run#define_metric) because it disrupts the required chronological order of run history and system metrics.
-:::
+{{% /alert %}}
 
 Rewind a run to correct or modify the history of a run without losing the original data. In addition, when you 
 rewind a run, you can log new data from that point in time. W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:
@@ -36,13 +36,14 @@ When you rewind a run, W&B resets the state of the run to the specified step, pr
 - **Immutable run IDs**: Introduced for consistent forking from a precise state.
 - **Copy immutable run ID**: A button to copy the immutable run ID for improved run management.
 
-:::tip Rewind and forking compatibility
+{{% alert title="Rewind and forking compatibility" %}}
 Forking compliments a rewind.
 
 When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
 
 When you  rewind a run, W&B lets you correct or modify the run history itself.
-:::
+{{% /alert %}}
+
 
 
 ## Rewind a run

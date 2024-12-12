@@ -20,10 +20,10 @@ The following walkthrough shows you how to log a model to W&B. By the end of the
 * Evaluate the performance of the model you link to the registry
 * Mark a model version ready for production.
 
-:::note
+{{% alert %}}
 * Copy the code snippets in the order presented in this guide.
 * Code not unique to the Model Registry are hidden in collapsible cells.
-:::
+{{% /alert %}}
 
 ## Setting up
 
@@ -108,9 +108,9 @@ artifact.save()
 run.finish()
 ```
 
-:::tip
+{{% alert %}}
 Storing files (such as datasets) to an artifact is useful in the context of logging models because you lets you track a model's dependencies.
-:::
+{{% /alert %}}
 
 
 ## Train a model
@@ -283,9 +283,9 @@ Mark a model version ready for the next stage of your machine learning workflow 
 
 For example, suppose that after evaluating a model's performance, you are confident that the model is ready for production. To promote that model version, add the `production` alias to that specific model version. 
 
-:::tip
+{{% alert %}}
 The `production` alias is one of the most common aliases used to mark a model as production-ready.
-:::
+{{% /alert %}}
 
 You can add an alias to a model version interactively with the W&B App UI or programmatically with the Python SDK. The following steps show how to add an alias with the W&B Model Registry App:
 

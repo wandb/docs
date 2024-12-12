@@ -22,9 +22,9 @@ trainer = Trainer(..., args=args)
 ```
 ![Explore your experiment results in the W&B interactive dashboard](/images/integrations/huggingface_gif.gif)
 
-:::info
+{{% alert %}}
 If you'd rather dive straight into working code, check out this [Google Colab](https://wandb.me/hf).
-:::
+{{% /alert %}}
 
 ## Getting started: track experiments
 
@@ -103,9 +103,9 @@ os.environ["WANDB_PROJECT"]="amazon_sentiment_analysis"
 </Tabs>
 
 
-:::info
+{{% alert %}}
 Make sure you set the project name _before_ you initialize the `Trainer`.
-:::
+{{% /alert %}}
 
 If a project name is not specified the project name defaults to "huggingface".
 
@@ -157,9 +157,9 @@ trainer.train()  # start training and logging to W&B
 </Tabs>
 
 
-:::info
+{{% alert %}}
 Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`.
-:::
+{{% /alert %}}
 
 ### 4) Turn on model checkpointing 
 
@@ -211,10 +211,10 @@ WANDB_LOG_MODEL="checkpoint"
 Any Transformers `Trainer` you initialize from now on will upload models to your W&B project. The model checkpoints you log will be viewable through the [Artifacts](../artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..). 
 
 
-:::info
+{{% alert %}}
 By default, your model will be saved to W&B Artifacts as `model-{run_id}` when `WANDB_LOG_MODEL` is set to `end` or `checkpoint-{run_id}` when `WANDB_LOG_MODEL` is set to `checkpoint`.
 However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.run_name) in your `TrainingArguments`, the model will be saved as `model-{run_name}` or `checkpoint-{run_name}`.
-:::
+{{% /alert %}}
 
 #### W&B Model Registry
 Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Model Registry](../model_registry)**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](/guides/artifacts/project-scoped-automations/#create-a-webhook-automation) downstream actions with webhooks or jobs. 

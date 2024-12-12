@@ -36,15 +36,15 @@ Launch agents are long running processes that poll one or more launch queues for
 
 <!-- Future: Insert image -->
 
-:::info
+{{% alert %}}
 Agents are highly flexible and can be configured to support a wide variety of use cases. The required configuration for your agent will depend on your specific use case. See the dedicated page for [Docker](./setup-launch-docker.md), [Amazon SageMaker](./setup-launch-sagemaker.md), [Kubernetes](./setup-launch-kubernetes.md), or [Vertex AI](./setup-vertex.md).
-:::
+{{% /alert %}}
 
-:::tip
+{{% alert %}}
 W&B recommends you start agents with a service account's API key, rather than a specific user's API key. There are two benefits to using a service account's API key:
 1. The agent isn't dependent on an individual user.
 2. The author associated with a run created through Launch is viewed by Launch as the user who submitted the launch job, rather than the user associated with the agent.
-:::
+{{% /alert %}}
 
 ### Agent configuration
 Configure the launch agent with a YAML file named `launch-config.yaml`. By default, W&B checks for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
@@ -56,9 +56,9 @@ Independent of your use case, there are core configurable options for the launch
 * `entity`: the entity that the queue belongs to
 * `queues`: the name of one or more queues for the agent to watch
 
-:::tip
+{{% alert %}}
 You can use the W&B CLI to specify universal configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) command for more information.
-:::
+{{% /alert %}}
 
 
 The following YAML snippet shows how to specify core launch agent config keys:
@@ -84,11 +84,11 @@ W&B Launch supports three builder options:
 * [Kaniko](https://github.com/GoogleContainerTools/kaniko):  Kaniko is a Google project that enables image building in environments where a Docker daemon is unavailable. 
 * Noop: The agent will not try to build jobs, and instead only pull pre-built images.
 
-:::tip
+{{% alert %}}
 Use the Kaniko builder if your agent is polling in an environment where a Docker daemon is unavailable (for example, a Kubernetes cluster).
 
 See the [Set up Kubernetes](./setup-launch-kubernetes.md) for details about the Kaniko builder.
-:::
+{{% /alert %}}
 
 To specify an image builder, include the builder key in your agent configuration. For example, the following code snippet shows a portion of the launch config (`launch-config.yaml`) that specifies to use Docker or Kaniko:
 

@@ -32,9 +32,9 @@ Use W&B Artifacts for dataset and model versioning to track references in cloud 
 
 Artifacts abstract away the underlying cloud storage vendor (such AWS, GCP or Azure). Information described in the proceeding section apply uniformly to Amazon S3, Google Cloud Storage and Azure Blob Storage.
 
-:::info
+{{% alert %}}
 W&B Artifacts support any Amazon S3 compatible interface — including MinIO! The scripts below work, as is, when you set the AWS_S3_ENDPOINT_URL environment variable to point at your MinIO server.
-:::
+{{% /alert %}}
 
 Assume we have a bucket with the following structure:
 
@@ -56,9 +56,9 @@ artifact = wandb.Artifact("mnist", type="dataset")
 artifact.add_reference("s3://my-bucket/datasets/mnist")
 run.log_artifact(artifact)
 ```
-:::caution
+{{% alert color="secondary" %}}
 By default, W&B imposes a 10,000 object limit when adding an object prefix. You can adjust this limit by specifying `max_objects=` in calls to `add_reference`.
-:::
+{{% /alert %}}
 
 Our new reference artifact `mnist:latest` looks and behaves similarly to a regular artifact. The only difference is that the artifact only consists of metadata about the S3/GCS/Azure object such as its ETag, size, and version ID (if object versioning is enabled on the bucket).
 
@@ -74,11 +74,11 @@ For AWS, if the bucket is not located in the configured user's default region, y
 
 Interact with this artifact similarly to a normal artifact. In the App UI, you can look through the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact.
 
-:::caution
+{{% alert color="secondary" %}}
 Rich media such as images, audio, video, and point clouds may fail to render in the App UI depending on the CORS configuration of your bucket. Allow listing **app.wandb.ai** in your bucket's CORS settings will allow the App UI to properly render such rich media.
 
 Panels might fail to render in the App UI for private buckets. If your company has a VPN, you could update your bucket's access policy to whitelist IPs within your VPN.
-:::
+{{% /alert %}}
 
 ### Download a reference artifact
 
@@ -92,11 +92,11 @@ artifact_dir = artifact.download()
 
 W&B will use the metadata recorded when the artifact was logged to retrieve the files from the underlying bucket when it downloads a reference artifact. If your bucket has object versioning enabled, W&B will retrieve the object version corresponding to the state of the file at the time an artifact was logged. This means that as you evolve the contents of your bucket, you can still point to the exact iteration of your data a given model was trained on since the artifact serves as a snapshot of your bucket at the time of training.
 
-:::info
+{{% alert %}}
 W&B recommends that you enable 'Object Versioning' on your storage buckets if you overwrite files as part of your workflow. With versioning enabled on your buckets, artifacts with references to files that have been overwritten will still be intact because the older object versions are retained. 
 
 Based on your use case, read the instructions to enable object versioning: [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-enable).
-:::
+{{% /alert %}}
 
 ### Tying it together
 
@@ -138,12 +138,12 @@ model_artifact.add_reference("s3://my-bucket/models/cnn/")
 run.log_artifact(model_artifact)
 ```
 
-:::info
+{{% alert %}}
 Read through the following reports for an end-to-end walkthrough of how to track artifacts by reference for GCP or Azure:
 
 * [Guide to Tracking Artifacts by Reference](https://wandb.ai/stacey/artifacts/reports/Tracking-Artifacts-by-Reference--Vmlldzo1NDMwOTE)
 * [Working with Reference Artifacts in Microsoft Azure](https://wandb.ai/andrea0/azure-2023/reports/Efficiently-Harnessing-Microsoft-Azure-Blob-Storage-with-Weights-Biases--Vmlldzo0NDA2NDgw)
-:::
+{{% /alert %}}
 
 ### Filesystem References
 

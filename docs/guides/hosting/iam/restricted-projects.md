@@ -8,9 +8,9 @@ title: Manage access control for projects
 Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. 
 You can use a combination of a couple of controls to configure the access level for any project within a W&B team. **Visibility scope** is the higher-level mechanism. Use that to control which groups of users can view or submit runs in a project. For a project with _Team_ or _Restricted_ visibility scope, you can then use **Project level roles** to control the level of access that each user has within the project.
 
-:::info
+{{% alert %}}
 The owner of a project, a team admin, or an organization admin can set or edit a project's visibility.
-:::
+{{% /alert %}}
 ## Visibility scopes
 
 There are four project visibility scopes you can choose from. In order of most public to most private, they are: 
@@ -24,20 +24,20 @@ There are four project visibility scopes you can choose from. In order of most p
 | Restricted| Only invited members from the parent team can view the project and submit runs or reports.|
 
 
-:::tip
+{{% alert %}}
 Set a project's scope to **Restricted** if you would like to collaborate on workflows related to sensitive or confidential data. When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports, and so forth. 
 
 Unlike other project scopes, all members of a team do not get implicit access to a restricted project. At the same time, team admins can join restricted projects if needed.
-:::
+{{% /alert %}}
 
 ### Set visibility scope on a new or existing project
 
 Set a project's visibility scope when you create a project or when editing it later.
 
-:::info
+{{% alert %}}
 * Only the owner of the project or a team admin can set or edit its visibility scope.
 * When a team admin enables **Make all future team projects private (public sharing not allowed)** within a team's privacy setting, that turns off **Open** and **Public** project visibility scopes for that team. In this case, your team can only use **Team** and **Restricted** scopes.
-:::
+{{% /alert %}}
 
 #### Set visibility scope when you create a new project
 
@@ -51,9 +51,9 @@ Complete the following step if you select **Restricted** visibility.
 4. Provide names of one or more W&B team members in the **Invite team members** field. Add only those members who are essential to collaborate on the project.
 ![](/images/hosting/restricted_project_2.png)
 
-:::info
+{{% alert %}}
 You can add or remove members in a restricted project later, from its **Users** tab.
-:::
+{{% /alert %}}
 
 #### Edit visibility scope of an existing project
 
@@ -67,11 +67,11 @@ Complete the following step if you select **Restricted** visibility.
 
 5. Go to the **Users** tab in the project, and click **Add user** button to invite specific users to the restricted project.
 
-:::caution
+{{% alert color="secondary" %}}
 * All members of a team lose access to a project if you change its visibility scope from **Team** to **Restricted**, unless you invite the required team members to the project.
 * All members of a team get access to a project if you change its visibility scope from **Restricted** to **Team**.
 * If you remove a team member from the user list for a restricted project, they lose access to that project.
-:::
+{{% /alert %}}
 
 ### Other key things to note for restricted scope
 
@@ -84,9 +84,9 @@ Complete the following step if you select **Restricted** visibility.
 
 For the _Team_ or _Restricted_ scoped projects in your team, you can assign a specific role to a user, which could be different from that user's team level role. For example, if a user has _Member_ role at the team level, you can assign the _View-Only_, or _Admin_, or any available custom role to that user within a _Team_ or _Restricted_ scope project in that team.
 
-:::info
+{{% alert %}}
 Project level roles are in preview on SaaS Cloud, Dedicated Cloud, and Self-managed instances.
-:::
+{{% /alert %}}
 
 ### Assign project level role to a user
 
@@ -96,9 +96,9 @@ Project level roles are in preview on SaaS Cloud, Dedicated Cloud, and Self-mana
 4. Click the currently assigned role for the pertinent user in the **Project Role** field, which should open up a dropdown listing the other available roles.
 5. Select another role from the dropdown. It should save instantly.
 
-:::info
+{{% alert %}}
 When you change the project level role for a user to be different from their team level role, the project level role includes a **\*** to indicate the difference.
-:::
+{{% /alert %}}
 
 ### Other key things to note for project level roles
 

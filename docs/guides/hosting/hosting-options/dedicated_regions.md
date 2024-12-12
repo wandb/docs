@@ -4,9 +4,9 @@ title: Supported Dedicated Cloud regions
 
 AWS, GCP, and Azure support cloud computing services in multiple locations worldwide. Global regions help ensure that you satisfy requirements related to data residency & compliance, latency, cost efficiency and more. W&B supports many of the available global regions for Dedicated Cloud.
 
-:::info
+{{% alert %}}
 Reach out to W&B Support if your preferred AWS, GCP, or Azure Region is not listed. W&B can validate if the relevant region has all the services that Dedicated Cloud needs and prioritize support depending on the outcome of the evaluation.
-:::
+{{% /alert %}}
 
 ## Supported AWS Regions
 

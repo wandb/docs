@@ -12,9 +12,9 @@ title: Manage team settings
 
 Change your team's settings, including members, avatar, alerts, privacy, and usage. Only team administrators can view and edit a team's settings.
 
-:::info
+{{% alert %}}
 Only Administration account types can change team settings or remove a member from a team.
-:::
+{{% /alert %}}
 
 
 ## Members
