@@ -422,13 +422,13 @@ The following image demonstrates how  the provided configuration was enriched wi
 ![](/images/integrations/dagster_inte_3.png)
 
 
-:::info
+{{% alert %}}
 If you use a static type checker like mypy, import the configuration type definition object using: 
 
 ```python
 from dagster_wandb import WandbArtifactConfiguration
 ```
-:::
+{{% /alert %}}
 
 ### Using partitions
 
@@ -453,11 +453,11 @@ def create_my_daily_partitioned_asset(context):
 ```
 This code will produce one W&B Artifact for each partition. They can be found in the Artifact panel (UI) under the asset name, which will be appended with the partition key, for example `my_daily_partitioned_asset.2023-01-01`, `my_daily_partitioned_asset.2023-01-02`, `my_daily_partitioned_asset.2023-01-03` and so on. Assets that are partitioned across multiple dimensions will have each dimension divided by a dot e.g. `my_asset.car.blue`.
 
-:::caution
+{{% alert color="secondary" %}}
 The integration does not allow for the materialization of multiple partitions within one run. You will need to carry out multiple runs to materialize your assets. This can be executed in Dagit when you're materializing your assets.
 
 ![](/images/integrations/dagster_multiple_runs.png)
-:::
+{{% /alert %}}
 
 #### Advanced usage
 - [Partitioned job](https://github.com/dagster-io/dagster/blob/master/examples/with_wandb/with_wandb/ops/partitioned_job.py)
@@ -616,9 +616,9 @@ We support more Pickle-based serialization modules ([dill](https://github.com/uq
 
 ### Pickle-based serialization modules
 
-:::caution
+{{% alert color="secondary" %}}
 Pickling is known to be insecure. If security is a concern please only use W&B objects. We recommend signing your data and storing the hash keys in your own systems. For more complex use cases don’t hesitate to contact us, we will be happy to help.
-:::
+{{% /alert %}}
 
 You can configure the serialization used through the `serialization_module` dictionary in the `wandb_artifact_configuration`. Please make sure the module is available on the machine running Dagster.
 
@@ -900,11 +900,11 @@ To view advanced usage of the integration please refer to the following full cod
 
 ## Using W&B Launch
 
-:::caution
+{{% alert color="secondary" %}}
 Beta product in active development
 Interested in Launch? Reach out to your account team to talk about joining the customer pilot program for W&B Launch.
 Pilot customers need to use AWS EKS or SageMaker to qualify for the beta program. We ultimately plan to support additional platforms.
-:::
+{{% /alert %}}
 
 Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider, reading the Guide on Launch: /guides/launch.
 

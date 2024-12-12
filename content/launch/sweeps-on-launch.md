@@ -10,9 +10,7 @@ url: guides/launch/sweeps-on-launch
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7"/>
+{{< cta-button colabLink="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7" >}}
 
 Create a hyperparameter tuning job ([sweeps](../sweeps/intro.md)) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep scheduler starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
 
@@ -21,20 +19,20 @@ You can use the default W&B Sweep scheduling engine or implement your own custom
 1. Standard sweep scheduler: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.
 2. Custom sweep scheduler: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found in the section below.
  
-:::note
+{{% alert %}}
 This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, see the [how to get started](./intro.md#how-to-get-started) section of the launch documentation. 
-:::
+{{% /alert %}}
 
-:::tip
+{{% alert %}}
 We recommend you create a sweep on launch using the 'basic' method if you are a first time users of sweeps on launch. Use a custom sweeps on launch scheduler when the standard W&B scheduling engine does not meet your needs.
-:::
+{{% /alert %}}
 
 ## Create a sweep with a W&B standard scheduler
 Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI. 
 
-:::info
+{{% alert %}}
 Before you create a sweep with W&B Launch, ensure that you first create a job to sweep over. See the [Create a Job](./create-launch-job.md) page for more information. 
-:::
+{{% /alert %}}
 
 
 <Tabs
@@ -69,9 +67,9 @@ Programmatically create a W&B Sweep with Launch with the W&B CLI.
 2. Specify the full job name within your sweep configuration
 3. Initialize a sweep agent.
 
-:::info
+{{% alert %}}
 Steps 1 and 3 are the same steps you normally take when you create a W&B Sweep.
-:::
+{{% /alert %}}
 
 For example, in the following code snippet, we specify `'wandb/jobs/Hello World 2:latest'` for the job value:
 
@@ -129,9 +127,9 @@ For more information on W&B Sweeps, see the [Tune Hyperparameters](../sweeps/int
 ## Create a custom sweep scheduler
 Create a custom sweep scheduler either with the W&B scheduler or a custom scheduler.
 
-:::info
+{{% alert %}}
 Using scheduler jobs requires wandb cli version >= `0.15.4`
-:::
+{{% /alert %}}
 
 <Tabs
   defaultValue="wandb-scheduler"
@@ -249,9 +247,9 @@ Create a launch sweep using Optuna's scheduling logic with a job.
  ## How to resume sweeps on launch
   It is also possible to resume a launch-sweep from a previously launched sweep. Although hyperparameters and the training job cannot be changed, scheduler-specific parameters can be, as well as the queue it is pushed to.
 
-:::info
+{{% alert %}}
 If the initial sweep used a training job with an alias like 'latest', resuming can lead to different results if the latest job version has been changed since the last run.
-:::
+{{% /alert %}}
 
   1. Identify the sweep name/ID for a previously run launch sweep. The sweep ID is an eight character string (for example, `hhd16935`) that you can find in your project on the W&B App.
   2. If you change the scheduler parameters, construct an updated config file.

@@ -6,10 +6,7 @@ menu:
 title: Keras tables
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb' >}}
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
 ![](/images/tutorials/huggingface-why.png)

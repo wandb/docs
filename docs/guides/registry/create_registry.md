@@ -14,9 +14,9 @@ The following procedure describes how to interactively create a registry:
 5. Select who can view the registry from the **Registry visibility** dropdown. See [Registry visibility types](./configure_registry.md#registry-visibility-types) for more information on registry visibility options.
 6. Select either **All types** or **Specify types** from the **Accepted artifacts type** dropdown.
 7. (If you select **Specify types**) Add one or more artifact types that your registry accepts.
-:::info
+{{% alert %}}
 An artifact type can not be removed from a registry once it is added and saved in the registry's settings.
-:::
+{{% /alert %}}
 8. Click on the **Create registry** button. 
 
 <!-- ![](/images/registry/create_custom_registry.png) -->

@@ -18,9 +18,9 @@ View jobs added to a queue with the W&B App.
 3. Select the **All entities** dropdown and select the entity the launch job belongs to.
 4. Expand the collapsible UI from the Launch Application page to view a list of jobs added to that specific queue.
 
-:::info
+{{% alert %}}
 A run is created when the launch agent executes a launch job. In other words, each run listed corresponds to a specific job that was added to that queue.
-:::
+{{% /alert %}}
 
 For example, the following image shows two runs that were created from a job called `job-source-launch_demo-canonical`. The job was added to a queue called `Start queue`. The first run listed in the queue called `resilient-snowball` and the second run listed is called `earthy-energy-165`.
 

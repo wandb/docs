@@ -15,13 +15,13 @@ Interactively explore your data to:
 
 
 
-:::info
+{{% alert %}}
 W&B Tables posses the following behaviors:
 1. **Stateless in an artifact context**: any table logged alongside an artifact version will reset to its default state after you close the browser window
 2. **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report will persist.
 
 For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
-:::
+{{% /alert %}}
 
 ## How to view two tables
 Compare two tables with a [merged view](#merged-view) or a [side-by-side view](#side-by-side-view). For example, the image below demonstrates a table comparison of MNIST data.
@@ -106,9 +106,9 @@ For example, compare predictions between a `baseline` and a new model variant, `
 
 Tables you interact with in the run workspace, project workspace, or a report will automatically save their view state. If you apply any table operations then close your browser, the table will retain the last viewed configuration when you next navigate to the table. 
 
-:::tip
+{{% alert %}}
 Tables you interact with in the artifact context will remain stateless.
-:::
+{{% /alert %}}
 
 To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to report:
 1. Select the kebob icon (three vertical dots) in the top right corner of your workspace visualization panel.

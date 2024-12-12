@@ -17,9 +17,9 @@ The primary email is marked with a 😎 emoji. The primary email is automaticall
 
 Select the kebab dropdown to change the primary email associated with your Weights And Biases account:
 
-:::info
+{{% alert %}}
 Only verified emails can be set as primary
-:::
+{{% /alert %}}
 
 ![](/images/app_ui/primary_email.png)
 
@@ -31,9 +31,9 @@ Select **+ Add Email** to add an email. This will take you to an Auth0 page. You
 
 Select the kebab dropdown and choose **Delete Emails** to delete an email that is registered to your W&B account
 
-:::info
+{{% alert %}}
 Primary emails cannot be deleted; you need to set a different email as a primary email before deleting
-:::
+{{% /alert %}}
 
 ### Log in methods
 

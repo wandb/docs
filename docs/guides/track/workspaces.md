@@ -43,9 +43,9 @@ Saved changes overwrite the previous state of the saved view. Unsaved changes ar
 2. Make the desired changes to your charts and data within the workspace.
 3. Click the **Save** button to confirm your changes. 
 
-:::info
+{{% alert %}}
 A confirmation dialog appears when you save your updates to a workspace view. If you prefer not to see this prompt in the future, select the option **Do not show this modal next time** before confirming your save.
-:::
+{{% /alert %}}
 
 ### Delete a saved workspace view
 Remove saved views that are no longer needed.

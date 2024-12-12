@@ -7,9 +7,7 @@ menu:
 title: Send an alert
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="http://wandb.me/alerts-colab"/>
+{{< cta-button colabLink="http://wandb.me/alerts-colab" >}}
 
 Create alerts with Slack or email if your run crashes or with a custom trigger. For example, you can create an alert if the gradient of your training loop starts to blow up (reports NaN) or a step in your ML pipeline completes. Alerts apply to all projects where you initialize runs, including both personal and team projects.
 
@@ -20,11 +18,11 @@ And then see W&B Alerts messages in Slack (or your email):
 
 ## How to create an alert
 
-:::info
+{{% alert %}}
 The following guide only applies to alerts in multi-tenant cloud.
 
 If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](../hosting/monitoring-usage/slack-alerts.md) to setup Slack alerts.
-:::
+{{% /alert %}}
 
 
 There are two main steps to set up an alert:

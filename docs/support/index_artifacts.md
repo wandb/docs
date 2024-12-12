@@ -1,13 +1,11 @@
 ---
 title: Artifacts 
 ---
-import Card from '@site/src/components/Card';
-
-<Card className="card-support-index">
-  <p>The following support questions are tagged with <b>Artifacts</b>. If you don't see 
+{{% card %}}
+The following support questions are tagged with <b>Artifacts</b>. If you don't see 
 your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).</p>
-</Card>
+or email [support@wandb.com](mailto:support@wandb.com).
+{{% /card %}}
 - [Can I turn off wandb when testing my code?](testing_code_turn_off.md)
 - [How can I fetch these Version IDs and ETags in W&B?](fetch_version_ids_etags_wb.md)
 - [How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?](find_artifacts_logged_consumed_run_find.md)

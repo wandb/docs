@@ -1,13 +1,11 @@
 ---
 title: Wysiwyg 
 ---
-import Card from '@site/src/components/Card';
-
-<Card className="card-support-index">
-  <p>The following support questions are tagged with <b>Wysiwyg</b>. If you don't see 
+{{% card %}}
+The following support questions are tagged with <b>Wysiwyg</b>. If you don't see 
 your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).</p>
-</Card>
+or email [support@wandb.com](mailto:support@wandb.com).
+{{% /card %}}
 - [How do I delete a panel grid?](delete_panel_grid.md)
 - [How do I insert a table?](insert_table.md)
 - [I converted my report to WYSIWYG but want to revert back to Markdown](convert_from_wysiwyg_markdown.md)

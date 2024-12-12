@@ -6,9 +6,9 @@ The System for Cross-domain Identity Management (SCIM) API allows instance or or
 
 The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema. W&B adds the `/Roles` endpoints to support automated management of custom roles in W&B organizations.
 
-:::info
+{{% alert %}}
 SCIM API applies to all hosting options including [Dedicated Cloud](../hosting-options/dedicated_cloud.md), [Self-managed instances](../hosting-options/self-managed.md), and [SaaS Cloud](../hosting-options/saas_cloud.md). In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization` within user settings.
-:::
+{{% /alert %}}
 
 ## Authentication
 
@@ -178,9 +178,9 @@ POST /scim/Users
 - **Description**: Fully delete a user from your [SaaS Cloud](../hosting-options/saas_cloud.md) organization or your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance by providing the user's unique ID. Use the [Create user](#create-user) API to add the user again to the organization or instance if needed.
 - **Request Example**:
 
-:::note
+{{% alert %}}
 To temporarily deactivate the user, refer to [Deactivate user](#deactivate-user) API which uses the `PATCH` endpoint.
-:::
+{{% /alert %}}
 
 ```bash
 DELETE /scim/Users/abc
@@ -204,9 +204,9 @@ DELETE /scim/Users/abc
 | op | String | Type of operation. The only allowed value is `replace`. |
 | value | Object | Object `{"active": false}` indicating that the user should be deactivated. |
 
-:::note
+{{% alert %}}
 User deactivation and reactivation operations are not supported in [SaaS Cloud](../hosting-options/saas_cloud.md).
-:::
+{{% /alert %}}
 
 - **Request Example**:
 
@@ -269,9 +269,9 @@ This returns the User object.
 | op | String | Type of operation. The only allowed value is `replace`. |
 | value | Object | Object `{"active": true}` indicating that the user should be reactivated. |
 
-:::note
+{{% alert %}}
 User deactivation and reactivation operations are not supported in [SaaS Cloud](../hosting-options/saas_cloud.md).
-:::
+{{% /alert %}}
 
 - **Request Example**:
 

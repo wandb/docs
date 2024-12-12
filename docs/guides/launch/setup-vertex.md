@@ -23,9 +23,9 @@ W&B Launch works with Vertex AI through the `CustomJob` class in the `google-clo
 | `aiplatform.customJobs.list`   | Specified GCP Project | Allows listing of machine learning jobs within the project.                              |
 | `aiplatform.customJobs.get`    | Specified GCP Project | Allows retrieval of information about specific machine learning jobs within the project. |
 
-:::info
+{{% alert %}}
 If you want your Vertex AI workloads to assume the identity of a non-standard service account, refer to the Vertex AI documentation for instructions on service account creation and necessary permissions. The `spec.service_account` field of the launch queue configuration can be used to select a custom service account for your W&B runs.
-:::
+{{% /alert %}}
 
 ## Configure a queue for Vertex AI
 
@@ -71,11 +71,11 @@ You must at minimum specify:
 - `spec.worker_pool_specs` : non-empty list of worker pool specifications.
 - `spec.staging_bucket` : GCS bucket to be used for staging Vertex AI assets and metadata.
 
-:::caution
+{{% alert color="secondary" %}}
 Some of the Vertex AI docs show worker pool specifications with all keys in camel case,for example, ` workerPoolSpecs`. The Vertex AI Python SDK uses snake case for these keys, for example `worker_pool_specs`.
 
 Every key in the launch queue configuration should use snake case.
-:::
+{{% /alert %}}
 
 ## Configure a launch agent
 

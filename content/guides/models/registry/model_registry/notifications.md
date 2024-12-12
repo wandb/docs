@@ -22,9 +22,9 @@ Receive Slack notifications when a new model version is linked to the model regi
 
 Once you have configured Slack notifications for your team, you can pick and choose registered models to get notifications from. 
 
-:::info
+{{% alert %}}
 A toggle that reads **New model version linked to...** appears instead of a **Connect Slack** button if you have Slack notifications configured for your team.
-:::
+{{% /alert %}}
 
 The screenshot below shows a FMNIST classifier registered model that has Slack notifications. 
 

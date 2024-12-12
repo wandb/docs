@@ -14,7 +14,6 @@ Run these commands from the root of your local repo clone:
 brew install go
 brew install hugo
 brew install npm
-brew install nvm
 nvm install 20
 nvm use 20
 npm install

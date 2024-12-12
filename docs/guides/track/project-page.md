@@ -10,9 +10,9 @@ import TabItem from '@theme/TabItem';
 
 A *project* is a central location where you visualize results, compare experiments, view and download artifacts, create an automation, and more. 
 
-:::info
+{{% alert %}}
 Each project has a visibility setting that determines who can access it. For more information about who can access a project, see [Project visibility](../hosting/iam/restricted-projects.md).
-:::
+{{% /alert %}}
 
 Each project contains the proceeding which you can access from the sidebar:
 
@@ -314,9 +314,10 @@ Descriptions you add to your page appear in the **Overview** tab of your profile
 4. Add your notes in the **Description** field
 5. Select the **Save** button
 
-:::tip Create reports to create descriptive notes comparing runs
+{{% alert title="Create reports to create descriptive notes comparing runs" %}}
 You can also create a W&B Report to add plots and markdown side by side. Use different sections to show different runs, and tell a story about what you worked on.
-:::
+{{% /alert %}}
+
 
 ### Add notes to run workspace
 

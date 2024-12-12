@@ -13,9 +13,9 @@ Launch jobs sent to a W&B Launch queue connected to Amazon SageMaker are execute
 
 Amazon SageMaker [uses Docker images to execute training jobs](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-training-algo-dockerfile.html). Images pulled by SageMaker must be stored in the Amazon Elastic Container Registry (ECR). This means that the image you use for training must be stored on ECR. 
 
-:::note
+{{% alert %}}
 This guide shows how to execute SageMaker Training Jobs. For information on how to deploy to models for inference on Amazon SageMaker, see [this example Launch job](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_sagemaker_endpoints).
-:::
+{{% /alert %}}
 
 
 ## Prerequisites
@@ -169,10 +169,10 @@ The Launch agent needs permission to create Amazon SageMaker training jobs. Foll
 
 For more information on how to create IAM role, see the [AWS Identity and Access Management Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html).
 
-:::info
+{{% alert %}}
 * If you want the launch agent to build images, see the [Advanced agent set up](./setup-agent-advanced.md) for additional permissions required.
 * The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.
-:::
+{{% /alert %}}
 
 
 
@@ -319,9 +319,9 @@ Now start the agent with `wandb launch-agent`
 
  ## (Optional) Push your launch job Docker image to Amazon ECR
 
-:::info
+{{% alert %}}
 This section applies only if your launch agent uses existing Docker images that contain your training or inference logic. [There are two options on how your launch agent behaves.](#decide-if-you-want-the-launch-agent-to-build-a-docker-images)  
-:::
+{{% /alert %}}
 
 Upload your Docker image that contains your launch job to your Amazon ECR repo. Your Docker image needs to be in your ECR registry before you submit new launch jobs if you are using image-based jobs.
 

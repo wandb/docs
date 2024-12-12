@@ -2,9 +2,7 @@
 description: Use a dictionary-like object to save your experiment configuration
 title: Configure experiments
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb" >}}
 
 Use the `wandb.config` object to save your training configuration such as: 
 - hyperparameter
@@ -13,18 +11,18 @@ Use the `wandb.config` object to save your training configuration such as:
 
 The `wandb.config` attribute makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the settings of different W&B Runs and view how different training configurations affect the output. A Run's `config` attribute is a dictionary-like object, and it can be built from lots of dictionary-like objects.
 
-:::info
+{{% alert %}}
 Dependent variables (like loss and accuracy) or output metrics should be saved with `wandb.log`instead.
-:::
+{{% /alert %}}
 
 
 
 ## Set up an experiment configuration
 Configurations are typically defined in the beginning of a training script. Machine learning workflows may vary, however, so you are not required to define a configuration at the beginning of your training script.
 
-:::caution
+{{% alert color="secondary" %}}
 We recommend that you avoid using dots in your config variable names. Instead, use a dash or underscore instead. Use the dictionary access syntax `["key"]["foo"]` instead of the attribute access syntax `config.key.foo` if your script accesses `wandb.config` keys below the root.
-:::
+{{% /alert %}}
 
 
 The following sections outline different common scenarios of how to define your experiments configuration.
@@ -51,9 +49,9 @@ config = {
 run = wandb.init(project="config_example", config=config)
 ```
 
-:::info
+{{% alert %}}
 You can pass a nested dictionary to `wandb.config()`. W&B will flatten the names using dots in the W&B backend.
-:::
+{{% /alert %}}
 
 Access the values from the dictionary similarly to how you access other dictionaries in Python:
 
@@ -69,9 +67,9 @@ kernel_sizes = wandb.config.get("kernel_sizes")
 activation = wandb.config.get("activation")
 ```
 
-:::note
+{{% alert %}}
 Throughout the Developer Guide and examples we copy the configuration values into separate variables. This step is optional. It is done for readability.
-:::
+{{% /alert %}}
 
 ### Set the configuration with argparse
 You can set your configuration with an argparse object. [argparse](https://docs.python.org/3/library/argparse.html), short for argument parser, is a standard library module in Python 3.2 and above that makes it easy to write scripts that take advantage of all the flexibility and power of command line arguments.

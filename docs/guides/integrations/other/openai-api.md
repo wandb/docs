@@ -4,17 +4,16 @@ title: OpenAI API
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-<CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb" >}}
 
 Use the W&B OpenAI API integration to log requests, responses, token counts and model metadata for all OpenAI models, including fine-tuned models. 
 
 
 
-:::info
+{{% alert %}}
 See the [OpenAI fine-tuning integration](./openai-fine-tuning.md) to learn how to use W&B to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
-:::
+{{% /alert %}}
 
 Log your API inputs and outputs you can quickly evaluate the performance of difference prompts, compare different model settings (such as temperature), and track other usage metrics such as token usage.
 

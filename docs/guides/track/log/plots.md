@@ -263,9 +263,9 @@ wandb.log({"chart": plt})
 
 Just pass a `matplotlib` plot or figure object to `wandb.log()`. By default we'll convert the plot into a [Plotly](https://plot.ly/) plot. If you'd rather log the plot as an image, you can pass the plot into `wandb.Image`. We also accept Plotly charts directly.
 
-:::info
+{{% alert %}}
 If you’re getting an error “You attempted to log an empty plot” then you can store the figure separately from the plot with `fig = plt.figure()` and then log `fig` in your call to `wandb.log`.
-:::
+{{% /alert %}}
 
 ### Log custom HTML to W&B Tables
 

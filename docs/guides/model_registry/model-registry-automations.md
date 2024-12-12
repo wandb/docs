@@ -9,12 +9,12 @@ Create an automation to trigger workflow steps, such as automated model testing 
 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
 
-:::info
+{{% alert %}}
 Looking for companion tutorials for automations? 
 1. [This](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) tutorial shows you how to set up an automation that triggers a Github Action for model evaluation and deployment
 2. [This](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared) video series shows webhook basics and how to set them up in W&B.
 3. [This](https://www.youtube.com/watch?v=s5CMj_w3DaQ) demo details how to setup an automation to deploy a model to a Sagemaker Endpoint
-:::
+{{% /alert %}}
 
 ## Event types
 An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types: **Linking a new artifact to a registered model** and **Adding a new alias to a version of the registered model**.
@@ -23,27 +23,27 @@ See [Link a model version](./link-model-version.md) for information on how to li
 
 
 
-:::tip
+{{% alert %}}
 Use the **Linking a new artifact to a registered model** event type to test new model candidates. Use the **Adding a new alias to a version of the registered model** event type to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
-:::
+{{% /alert %}}
 
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, first establish a webhook, then configure the webhook automation. 
 
-:::info
+{{% alert %}}
 Specify an endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
-:::
+{{% /alert %}}
 
 ### Add a secret for authentication or authorization
 Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
 
 To use a secret in your webhook, you must first add that secret to your team's secret manager.
 
-:::info
+{{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
 * Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
-:::
+{{% /alert %}}
 
 There are two types of secrets W&B suggests that you create when you use a webhook automation:
 
@@ -62,11 +62,11 @@ Follow the instructions below to create a webhook:
 
 Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
 
-:::tip
+{{% alert %}}
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
-:::
+{{% /alert %}}
 
-:::caution
+{{% alert color="secondary" %}}
 Considerations if you use secrets in W&B Server:
 
 You are responsible for configuring security measures that satisfy your security needs. 
@@ -74,15 +74,15 @@ You are responsible for configuring security measures that satisfy your security
 W&B strongly recommends that you store secrets in a W&B instance of a cloud secrets manager provided by AWS, GCP, or Azure. Secret managers provided by AWS, GCP, and Azure are configured with advanced security capabilities.  
 
 W&B does not recommend that you use a Kubernetes cluster as the backend of your secrets store. Consider a Kubernetes cluster only if you are not able to use a W&B instance of a cloud secrets manager (AWS, GCP, or Azure), and you understand how to prevent security vulnerabilities that can occur if you use a cluster.
-:::
+{{% /alert %}}
 
 ### Configure a webhook
 Before you can use a webhook, first configure that webhook in the W&B App UI. 
 
-:::info
+{{% alert %}}
 * Only W&B Admins can configure a webhook for a W&B Team.
 * Ensure you already [created one or more secrets](#add-a-secret-for-authentication-or-authorization) if your webhook requires additional secret keys or tokens to authenticate your webhook.
-:::
+{{% /alert %}}
 
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
@@ -94,10 +94,10 @@ Before you can use a webhook, first configure that webhook in the W&B App UI.
 9. (Optional) From the **Access token** dropdown menu, select the access token you want to use to authorize the sender.
 9. (Optional) From the **Access token** dropdown menu select additional secret keys or tokens required to authenticate a webhook  (such as an access token).
 
-:::note
+{{% alert %}}
 See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
 the POST request.
-:::
+{{% /alert %}}
 
 
 ### Add a webhook 
@@ -141,9 +141,9 @@ The following tabs demonstrate example payloads based on common use cases. Withi
   ]}>
   <TabItem value="github">
 
-:::info
+{{% alert %}}
 Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
-:::
+{{% /alert %}}
   
   Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
 
@@ -170,9 +170,9 @@ Verify that your access tokens have required set of permissions to trigger your 
   }
 
   ```
-:::note
+{{% alert %}}
 The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
-:::
+{{% /alert %}}
 
   The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
 

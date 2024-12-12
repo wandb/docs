@@ -6,9 +6,7 @@ menu:
 title: TensorFlow
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink="https://colab.research.google.com/drive/1JCpAbjkCFhYMT7LCQ399y35TS3jlMpvM"></CTAButtons>
+{{< cta-button colabLink="https://colab.research.google.com/drive/1JCpAbjkCFhYMT7LCQ399y35TS3jlMpvM" >}}
 
 If you're already using TensorBoard, it's easy to integrate with wandb.
 

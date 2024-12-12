@@ -13,15 +13,15 @@ import TabItem from '@theme/TabItem';
 
 [Weights & Biases](http://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **It's as easy as running a single `pip install` before you run your YOLO experiments!**
 
-:::info
+{{% alert %}}
 For a quick overview of the model and data-logging features of our YOLOv5 integration, check out [this Colab](https://wandb.me/yolo-colab) and accompanying video tutorial, linked below.
-:::
+{{% /alert %}}
 
 <!-- {% embed url="https://www.youtube.com/watch?v=yyecuhBmLxE" %} -->
 
-:::info
+{{% alert %}}
 All W&B logging features are compatible with data-parallel multi-GPU training, e.g. with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
-:::
+{{% /alert %}}
 
 ## Core Experiment Tracking
 
@@ -68,9 +68,9 @@ python yolov5/train.py --epochs 20 --save_period 1 \
   </TabItem>
 </Tabs>
 
-:::info
+{{% alert %}}
 Every W&B account comes with 100 GB of free storage for datasets and models.
-:::
+{{% /alert %}}
 
 Here's what that looks like.
 
@@ -78,6 +78,6 @@ Here's what that looks like.
 
 ![Data Visualization: compare the input image to the model's outputs and example-wise metrics.](/images/integrations/yolov5_data_visualization.png)
 
-:::info
+{{% alert %}}
 With data and model versioning, you can resume paused or crashed experiments from any device, no setup necessary! Check out [the Colab ](https://wandb.me/yolo-colab)for details.
-:::
+{{% /alert %}}

@@ -16,9 +16,9 @@ You can set the x-axis of a line plot to any value that you have logged with W&B
 
 You can set the y-axis variables to any value you have logged with wandb.log as long as you were logging numbers, arrays of numbers or a histogram of numbers. If you logged more than 1500 points for a variable, W&B samples down to 1500 points.
 
-:::info
+{{% alert %}}
 You can change the color of your y axis lines by changing the color of the run in the runs table.
-:::
+{{% /alert %}}
 
 ## X range and Y range
 

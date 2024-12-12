@@ -9,9 +9,9 @@ A W&B Sweep combines a strategy for exploring hyperparameter values with the cod
 
 Define a sweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
 
-:::info
+{{% alert %}}
 Define your sweep configuration in a YAML file if you want to initialize a sweep and start a sweep agent from the command line. Define your sweep in a Python dictionary if you initialize a sweep and start a sweep entirely within a Python script or Jupyter notebook.
-:::
+{{% /alert %}}
 
 The following guide describes how to format your sweep configuration. See [Sweep configuration options](./sweep-config-keys.md) for a comprehensive list of top-level sweep configuration keys.
 
@@ -99,7 +99,7 @@ Specify a probability distribution for your random variables if you use a Bayesi
 
 
 
-:::caution
+{{% alert color="secondary" %}}
 Nested parameters defined in sweep configuration overwrite keys specified in a W&B run configuration.
 
 For example, suppose you initialize a W&B run with the following configuration in a `train.py` Python script (see Lines 1-2). Next, you define a sweep configuration in a dictionary called `sweep_configuration` (see Lines 4-13). You then pass the sweep config dictionary to `wandb.sweep` to initialize a sweep config (see Line 16).
@@ -125,7 +125,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 wandb.agent(sweep_id, function=main, count=4)
 ```
 The `nested_param.manual_key` that is passed when the W&B run is initialized (line 2) is not accessible. The `run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary (lines 4-13).
-:::
+{{% /alert %}}
 
 
 ## Sweep configuration template

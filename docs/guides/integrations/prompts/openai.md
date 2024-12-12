@@ -3,11 +3,11 @@ description: OpenAI integrations for Weights & Biases
 title: OpenAI and Weights & Biases
 ---
 
-:::info
+{{% alert %}}
 Support for W&B Prompts will end in 2024. W&B recommends that current Prompt users transition to [Weave](https://weave-docs.wandb.ai/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge), a tool specifically designed for tracking and evaluating LLM applications. Weave offers a faster, more intuitive experience tailored for teams building with Generative AI.
 
 For assistance, contact support@wandb.com. 
-:::
+{{% /alert %}}
 
 W&B has 2 OpenAI integrations to help you train better models faster and keep track of your prompts and generations:
 

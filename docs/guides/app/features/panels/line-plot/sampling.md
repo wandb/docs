@@ -87,22 +87,22 @@ To zoom in on a line plot, follow these steps:
 3. Optionally add a line plot panel to your workspace or navigate to an existing line plot panel.
 4. Click and drag to select a specific region to zoom in on.
 
-:::info Line plot grouping and expressions
+{{% alert title="Line plot grouping and expressions" %}}
 When you use Line Plot Grouping, W&B applies the following based on the mode selected:
 
 - **Non-windowed sampling (grouping)**: Aligns points across runs on the x-axis. The average is taken if multiple points share the same x-value; otherwise, they appear as discrete points.
 - **Windowed sampling (grouping and expressions)**: Divides the x-axis either into 250 buckets or the number of points in the longest line (whichever is smaller). W&B takes an average of points within each bucket.
 - **Full fidelity (grouping and expressions)**: Similar to non-windowed sampling, but fetches up to 500 points per run to balance performance and detail.
-:::
+{{% /alert %}}
 
  
 ## Random sampling
 
 Random sampling uses 1500 randomly sampled points to render line plots. Random sampling is useful for performance reasons when you have a large number of data points. 
 
-:::warning
+{{% alert color="warning" %}}
 Random sampling samples non-deterministically. This means that random sampling sometimes excludes important outliers or spikes in the data and therefore reduces data accuracy.
-:::
+{{% /alert %}}
 
 
 ### Enable random sampling

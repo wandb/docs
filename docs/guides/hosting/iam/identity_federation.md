@@ -6,13 +6,13 @@ Use identity federation to sign in using your organizational credentials through
 
 [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523) forms the underlying basis for identity federation with SDK.
 
-:::info
+{{% alert %}}
 Identity federation is available in `Preview` for `Enterprise` plans on all platform types - SaaS Cloud, Dedicated Cloud, and Self-managed instances. Reach out to your W&B team for any questions.
-:::
+{{% /alert %}}
 
-:::note
+{{% alert %}}
 For the purpose of this document, the terms `identity provider` and `JWT issuer` are used interchangeably. Both refer to one and the same thing in the context of this capability.
-:::
+{{% /alert %}}
 
 ## JWT issuer setup
 
@@ -32,11 +32,11 @@ Once a JWT issuer has been setup for your W&B organization, users can start acce
 * Once you've retrieved the JWT after signing in to your identity provider, store it in a file at a secure location and configure the absolute file path in an environment variable `WANDB_IDENTITY_TOKEN_FILE`.
 * Access your W&B project using the W&B SDK or CLI. The SDK or CLI should automatically detect the JWT and exchange it for a W&B access token after the JWT has been successfully validated. The W&B access token is used to access the relevant APIs for enabling your AI workflows, that is, to log runs, metrics, artifacts and so forth. The access token is by default stored at the path `~/.config/wandb/credentials.json`. You can change that path by specifying the environment variable `WANDB_CREDENTIALS_FILE`.
 
-:::info
+{{% alert %}}
 JWTs are meant to be short-lived credentials to address the shortcomings of long-lived credentials like API keys, passwords and so forth. Depending on the JWT expiry time configured in your identity provider, you must continuously refresh the JWT and ensure that it's stored in the file referenced by the environment variable `WANDB_IDENTITY_TOKEN_FILE`.
 
 W&B access token also has a default expiry duration, after which the SDK or the CLI automatically try to refresh that using your JWT. If the user JWT has also expired by that time and is not refreshed, that could result in an authentication failure. If possible, the JWT retrieval and post-expiry refresh mechanism should be implemented as part of the AI workload that uses the W&B SDK or CLI.
-:::
+{{% /alert %}}
 
 ### JWT validation
 
@@ -62,8 +62,8 @@ The `sub` claim in the external service account's JWT should be same as what the
 
 When [using an external service account's JWT to access W&B](#using-the-jwt-to-access-wb), it's typically easier to automate the workflow to generate the initial JWT and continuously refresh it. If you would like to attribute the runs logged using an external service account to a human user, you can configure the environment variables `WANDB_USERNAME` or `WANDB_USER_EMAIL` for your AI workflow, similar to how it's done for the built-in service accounts.
 
-:::note
+{{% alert %}}
 W&B recommends to use a mix of built-in and external service accounts across your AI workloads with different levels of data sensitivity, in order to strike a balance between flexibility and simplicity.
-:::
+{{% /alert %}}
 
 

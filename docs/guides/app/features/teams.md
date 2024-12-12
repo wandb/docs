@@ -21,9 +21,9 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 2. Click **Invite Team** in the navigation bar.
 3. Create your team and invite collaborators.
 
-:::info
+{{% alert %}}
 **Note**: Only the admin of an organization can create a new team.
-:::
+{{% /alert %}}
 
 ## Create a team profile
 
@@ -51,13 +51,13 @@ Select a team role when you invite colleagues to join a team. There are followin
 - **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles based on either of the **View-Only** or **Member** roles, together with additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [Introducing Custom Roles for W&B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details.
 - **Service accounts (Enterprise-only feature)**: Refer to [Use service accounts to automate workflows](../../hosting/iam/service-accounts.md).
 
-:::note
+{{% alert %}}
 W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
-:::
+{{% /alert %}}
 
-:::note
+{{% alert %}}
 If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will need a updated enterprise license to use the **Custom Roles** feature.
-:::
+{{% /alert %}}
 
 ### Team settings
 Team settings allow you to manage the settings for your team and its members. With these privileges, you can effectively oversee and organize your team within W&B.

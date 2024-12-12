@@ -11,9 +11,9 @@ The contents of the artifact remain as a soft-delete, or pending deletion state,
 
 The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
 
-:::note
+{{% alert %}}
 Artifacts that are scheduled for deletion with a TTL policy, deleted with the W&B SDK, or deleted with the W&B App UI are first soft-deleted. Artifacts that are soft deleted undergo garbage collection before they are hard-deleted.
-:::
+{{% /alert %}}
 
 ### Delete an artifact version
 
@@ -115,9 +115,9 @@ Garbage collection is enabled by default if you use W&B's shared cloud. Based on
 
 * Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
 * Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/object-versioning) or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
-  :::note
+  {{% alert %}}
   Soft deletion in Azure is equivalent to bucket versioning in other storage providers.
-  :::
+  {{% /alert %}}
 
 The following table describes how to satisfy requirements to enable garbage collection based on your deployment type. 
 
@@ -134,8 +134,8 @@ The `X` indicates you must satisfy the requirement:
  
 
 
-:::note
+{{% alert %}}
 Secure storage connector is currently only available for Google Cloud Platform and Amazon Web Services.
-:::
+{{% /alert %}}
 
 

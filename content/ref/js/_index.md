@@ -13,9 +13,9 @@ This library is compatible with Node and modern JS run times.
 
 You can find the source code for the JavaScript client in the [Github repository](https://github.com/wandb/wandb-js).
 
-:::info
+{{% alert %}}
 Our JavaScript integration is still in Beta, if you run into issues please let us know!
-:::
+{{% /alert %}}
 
 ### Installation
 
@@ -42,9 +42,9 @@ async function track() {
 await track()
 ```
 
-:::caution
+{{% alert color="secondary" %}}
 We spawn a separate MessageChannel to process all api calls async.  This will cause your script to hang if you don't call `await wandb.finish()`.
-:::
+{{% /alert %}}
 
 Node/CommonJS:
 
@@ -79,8 +79,8 @@ chain.call({input: "My prompt"}, wbTracer)
 await WandbTracer.finish();
 ```
 
-:::caution
+{{% alert color="secondary" %}}
 We spawn a seperate MessageChannel to process all api calls async.  This will cause your script to hang if you don't call `await WandbTracer.finish()`.
-:::
+{{% /alert %}}
 
 See [this test](https://github.com/wandb/wandb-js/blob/main/src/sdk/integrations/langchain/langchain.test.ts) for a more detailed example. 

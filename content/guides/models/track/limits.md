@@ -35,9 +35,9 @@ wandb.log(
 )
 ```
 
-:::info
+{{% alert %}}
 W&B automatically flattens nested values. This means that if you pass a dictionary, W&B turns it into a dot-separated name. For config values, W&B supports 3 dots in the name. For summary values, W&B supports 4 dots.
-:::
+{{% /alert %}}
 
 <!-- ### Log media with same metric name
 Log related media to the same metric name:
@@ -69,9 +69,9 @@ with f as open("large_file.json", "r"):
 
 Wide values can affect the plot load times for all metrics in the run, not just the metric with the wide values.
 
-:::info
+{{% alert %}}
 Data is saved and tracked even if you log values wider than the recommended amount. However, your plots may load more slowly.
-:::
+{{% /alert %}}
 
 ### Metric frequency
 
@@ -119,9 +119,9 @@ for step in range(1000000):
 
 <!-- Enable batching in calls to `wandb.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](../../ref/python/log.md) for `wandb.log` for more details. -->
 
-:::info
+{{% alert %}}
 W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines.
-:::
+{{% /alert %}}
 
 ### Config size
 
@@ -176,9 +176,9 @@ There are a few ways that the performance of your python script is reduced:
 2. The speed of your network and how the W&B backend is configured
 3. Calling `wandb.log` more than a few times per second. This is due to a small latency added to the training loop every time `wandb.log` is called.
 
-:::info
+{{% alert %}}
 Is frequent logging slowing your training runs down? Check out [this Colab](http://wandb.me/log-hf-colab) for methods to get better performance by changing your logging strategy.
-:::
+{{% /alert %}}
 
 W&B does not assert any limits beyond rate limiting. The W&B Python SDK automatically completes an exponential "backoff" and "retry" requests that exceed limits. W&B Python SDK responds with a “Network failure” on the command line. For unpaid accounts, W&B may reach out in extreme cases where usage exceeds reasonable thresholds.
 
@@ -186,9 +186,9 @@ W&B does not assert any limits beyond rate limiting. The W&B Python SDK automati
 
 W&B SaaS Cloud API implements a rate limit to maintain system integrity and ensure availability. This measure prevents any single user from monopolizing available resources in the shared infrastructure, ensuring that the service remains accessible to all users. You may encounter a lower rate limit for a variety of reasons.
 
-:::note
+{{% alert %}}
 Rate limits are subject to change.
-:::
+{{% /alert %}}
 
 ### Rate limit HTTP headers
 

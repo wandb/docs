@@ -10,7 +10,6 @@ weight: 2
 cascade:
 - url: guides/sweeps/:filename
 ---
-
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb"/>
@@ -36,9 +35,9 @@ wandb sweep --project <propject-name> <path-to-config file>
 wandb agent <sweep-ID>
 ```
 
-:::tip
+{{% alert %}}
 The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the Sweeps [Walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
-:::
+{{% /alert %}}
 
 
 

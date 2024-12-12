@@ -10,7 +10,6 @@ weight: 1
 cascade:
 - url: guides/track/:filename
 ---
-
 import Translate, {translate} from '@docusaurus/Translate';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 

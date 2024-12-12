@@ -32,9 +32,9 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 | Model Optimization     | Model                       | Optimized Model              |
 
 
-:::note
+{{% alert %}}
 The proceeding code snippets are meant to be run in order.
-:::
+{{% /alert %}}
 
 ## Create an artifact
 
@@ -57,9 +57,9 @@ artifact.save()
 # Logs the artifact version "my_data" as a dataset with data from dataset.h5
 ```
 
-:::tip
+{{% alert %}}
 See the [track external files](./track-external-files.md) page for information on how to add references to files or directories stored in external object storage, like an Amazon S3 bucket. 
-:::
+{{% /alert %}}
 
 ## Download an artifact
 Indicate the artifact you want to mark as input to your run with the [`use_artifact`](../../ref/python/run.md#use_artifact) method.
@@ -77,9 +77,9 @@ Next, use the returned object to download all contents of the artifact:
 datadir = artifact.download() #downloads the full "my_data" artifact to the default directory.
 ```
 
-:::tip
+{{% alert %}}
 You can pass a custom path into the `root` [parameter](../../ref/python/artifact.md) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md)
-:::
+{{% /alert %}}
 
 ## Next steps
 * Learn how to [version](./create-a-new-artifact-version.md), [update](./update-an-artifact.md), or [delete](./delete-artifacts.md) artifacts.

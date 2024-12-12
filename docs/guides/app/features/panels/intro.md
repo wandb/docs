@@ -20,9 +20,10 @@ W&B projects support two different workspace modes. The icon next to the workspa
 
 To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
 
-:::tip Undo changes to your workspace
-To undo changes to your workspace, click the Undo button (arrow that points left) or type **CMD + Z** (macOS) or **CTRL + Z** (Windows / Linux).
-:::
+{{% alert title="Undo changes to your workspace" %}}
+Select the undo button (arrow that points left) to undo any unwanted changes.
+{{% /alert %}}
+
 
 ## Reset a workspace
 

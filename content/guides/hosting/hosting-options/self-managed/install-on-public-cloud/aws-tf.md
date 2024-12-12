@@ -7,9 +7,9 @@ menu:
 title: Deploy W&B Platform on AWS
 ---
 
-:::info
+{{% alert %}}
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
-:::
+{{% /alert %}}
 
 W&B recommends using the [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) to deploy the platform on AWS. 
 
@@ -377,9 +377,9 @@ Follow the steps outlined here to update W&B:
       wandb_version = "0.48.1"
   ```
 
-  :::info
+  {{% alert %}}
   Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
-  :::
+  {{% /alert %}}
 
 2. After you update your configuration, complete the steps described in the [Recommended deployment section](#recommended-deployment-option).
 
@@ -387,9 +387,9 @@ Follow the steps outlined here to update W&B:
 
 This section details the steps required to upgrade from _pre-operator_ to  _post-operator_ environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
 
-:::info
+{{% alert %}}
 The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See [this section](../operator.md#reasons-for-the-architecture-shift) for a detailed explanation for the architecture shift.
-:::
+{{% /alert %}}
 
 
 ### Before and after architecture

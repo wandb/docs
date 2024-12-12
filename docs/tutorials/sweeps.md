@@ -1,10 +1,7 @@
 ---
 title: Tune hyperparameters with sweeps
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb' >}}
 Finding a machine learning model that meets your desired metric (such as model accuracy) is normally a redundant task that can take multiple iterations. To make matters worse, it might be unclear which hyperparameter combinations to use for a given training run. 
 
 Use W&B Sweeps to create an organized and efficient way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, optimizer type and more to find values that optimize your model based on your desired metric.
@@ -57,11 +54,11 @@ A W&B Sweep combines a strategy for trying numerous hyperparameter values with t
 Before you start a sweep, you must define your sweep strategy with a _sweep configuration_.
 
 
-:::info
+{{% alert %}}
 The sweep configuration you create for a sweep must be in a nested dictionary if you start a sweep in a Jupyter Notebook.
 
 If you run a sweep within the command line, you must specify your sweep config with a [YAML file](/guides/sweeps/define-sweep-configuration).
-:::
+{{% /alert %}}
 
 ### Pick a search method
 
@@ -167,11 +164,11 @@ pprint.pprint(sweep_config)
 
 For a full list of configuration options, see [Sweep configuration options](/guides/sweeps/sweep-config-keys). 
 
-:::tip
+{{% alert %}}
 For hyperparameters that have potentially infinite options,
 it usually makes sense to try out
 a few select `values`. For example, the preceding sweep configuration has a list of finite values specified for the `layer_size` and `dropout` parameter keys.
-:::
+{{% /alert %}}
 
 ## Step 2️: Initialize the Sweep
 
@@ -182,9 +179,9 @@ W&B uses a Sweep Controller to manage sweeps on the cloud or locally across one 
 While sweep controllers manage sweeps, the component that actually executes a sweep is known as a _sweep agent_.
 
 
-:::info
+{{% alert %}}
 By default, sweep controllers components are initiated on W&B's servers and sweep agents, the component that creates sweeps, are activated on your local machine.
-:::
+{{% /alert %}}
 
 
 Within your notebook, you can activate a sweep controller with the `wandb.sweep` method. Pass your sweep configuration dictionary you defined earlier to the `sweep_config` field:
@@ -196,12 +193,12 @@ sweep_id = wandb.sweep(sweep_config, project="pytorch-sweeps-demo")
 
 The `wandb.sweep` function returns a `sweep_id` that you will use at a later step to activate your sweep.
 
-:::info
+{{% alert %}}
 On the command line, this function is replaced with
 ```python
 wandb sweep config.yaml
 ```
-:::
+{{% /alert %}}
 
 For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/guides/sweeps/walkthrough).
 
@@ -319,11 +316,11 @@ Create sweep agents with the `wandb.agent` method. Provide the following:
 2. The function the sweep is supposed to run. In this example, the sweep will use the `train` function.
 3. (optionally) How many configs to ask the sweep controller for (`count`)
 
-:::tip
+{{% alert %}}
 You can start multiple sweep agents with the same `sweep_id`
 on different compute resources. The sweep controller ensures that they work together
 according to the sweep configuration you defined.
-:::
+{{% /alert %}}
 
 The proceeding cell activates a sweep agent that runs the training function (`train`) 5 times:
 
@@ -332,9 +329,9 @@ The proceeding cell activates a sweep agent that runs the training function (`tr
 wandb.agent(sweep_id, train, count=5)
 ```
 
-:::info
+{{% alert %}}
 Since the `random` search method was specified in the sweep configuration, the sweep controller provides randomly-generated hyperparameter values.
-:::
+{{% /alert %}}
 
 For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/guides/sweeps/walkthrough).
 

@@ -69,9 +69,9 @@ visualization_cfg = dict(
 visualizer = Visualizer.get_instance(**visualization_cfg)
 ```
 
-:::info
+{{% alert %}}
 You pass a dictionary of arguments for [W&B run initialization](/ref/python/init) input parameters to `init_kwargs`.
-:::
+{{% /alert %}}
 
 Next, you simply initialize a `runner` with the `visualizer`, and call `runner.train()`.
 

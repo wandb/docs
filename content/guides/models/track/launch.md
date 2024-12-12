@@ -42,9 +42,9 @@ run = wandb.init(
 ```
 A [Run](../../ref/python/run.md) object is returned when you initialize W&B with `wandb.init()`. Additionally, W&B creates a local directory where all logs and files are saved and streamed asynchronously to a W&B server.
 
-:::info
+{{% alert %}}
 Note: Runs are added to pre-existing projects if that project already exists when you call wandb.init().  For example, if you already have a project called `“cat-classification”`, that project will continue to exist and not be deleted. Instead, a new run is added to that project.
-:::
+{{% /alert %}}
 
 ### Capture a dictionary of hyperparameters
 Save a dictionary of hyperparameters such as learning rate or model type. The model settings you capture in config are useful later to organize and query your results.
@@ -60,9 +60,9 @@ Log metrics during each `for` loop (epoch), the accuracy and loss values are com
 
 The following code example shows how to log metrics with `wandb.log`.
 
-:::note
+{{% alert %}}
 Details of how to set up your mode and retrieve data are omitted. 
-:::
+{{% /alert %}}
 
 ```python
 # Set up model and data

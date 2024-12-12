@@ -16,9 +16,9 @@ W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/la
 
 W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the Launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the Launch agent, or how to turn off job building and only use prebuilt Docker images, see [Advanced agent set up](./setup-agent-advanced.md).
 
-:::note
+{{% alert %}}
 To install Helm and apply or upgrade W&B's Launch agent Helm chart, you need `kubectl` access to the cluster with sufficient permissions to create, update, and delete Kubernetes resources. Typically, a user with cluster-admin or a custom role with equivalent permissions is required.
-:::
+{{% /alert %}}
 
 <!-- Future: insert diagram here -->
 

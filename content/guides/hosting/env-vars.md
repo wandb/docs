@@ -33,29 +33,6 @@ In addition to configuring instance level settings via the System Settings admin
 | GORILLA_DATA_RETENTION_PERIOD | How long to retain deleted data from runs in hours. Deleted run data is unrecoverable. Append an `h` to the input value. For example, `"24h"`. |
 | ENABLE_REGISTRY_UI               |  When set to true, enables the new W&B Registry UI.            |
 
-:::info
-
+{{% alert %}}
 Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously. Data is removed immediately once the environment variable is set. We also recommend that you backup both the database and the storage bucket before you enable this flag.
-
-:::
-
-## Advanced Reliability Settings
-
-#### Redis
-
-While configuring an external redis server is optional, it's highly recommended for production systems. Redis will improve the reliability of the service and enable caching which will decrease load times, especially in large projects. We recommend using a managed redis service (ex: ElastiCache) with high availability(HA) and the following specs:
-
-- Minimum 4GB of memory, suggested 8GB
-- Redis version 6.x
-- In transit encryption
-- Authentication enabled
-
-#### Configuring REDIS in the W&B server
-
-To configure the redis instance with W&B, you can navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the `redis` connection string in the following format:
-
-![Configuring REDIS in W&B](/images/hosting/configure_redis.png)
-
-You can also configure `redis` using the environment variable `REDIS` on the container or in your Kubernetes deployment. Alternatively, you could also setup `REDIS` as a Kubernetes secret.
-
-The above assumes the `redis` instance is running at the default port of `6379`. If you configure a different port, setup authentication and also want to have TLS enabled on the `redis` instance the connection string format would look something like: `redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`
+{{% /alert %}}

@@ -11,19 +11,19 @@ weight: 3
 
 Registry admins can limit who can access a registry by navigating to a registry's settings and assigning a user's role to [Admin, Member, or Viewer](#registry-roles-permissions). Users can have different roles in different registries. For example, a user can have a view role in "Registry A" and a member role in the "Registry B". 
 
-:::note
+{{% alert %}}
 Only registry admins can [restrict visibility](#restrict-visibility-to-a-registry), [configure user roles](#configure-user-roles-in-a-registry), or [remove users](#remove-a-user-from-a-registry) from registries in an organization.
-:::
+{{% /alert %}}
 
 ## Registry roles permissions
 
 A user within an organization can have different roles, and therefore permissions, for each registry in their organization.
 
-:::info W&B role types
+{{% alert title="W&B role types" %}}
 W&B has three different types of roles: Organization roles, [team roles](../app/features/teams.md#team-roles-and-permissions), and [registry roles](#registry-roles-permissions).
 
 Your role in a team has no impact or relationship on your role in any registry.
-:::
+{{% /alert %}}
 
 The proceeding table lists the different roles a user can have and their permissions:
 

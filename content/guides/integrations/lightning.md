@@ -5,12 +5,9 @@ menu:
     parent: integrations
 title: PyTorch Lightning
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_Pytorch_Lightning_models_with_Weights_%26_Biases.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_Pytorch_Lightning_models_with_Weights_%26_Biases.ipynb" >}}
 
 PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: Weights & Biases is incorporated directly into the PyTorch Lightning library via the [**`WandbLogger`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
 
@@ -33,13 +30,13 @@ wandb_logger = WandbLogger(log_model="all")
 trainer = Trainer(logger=wandb_logger)
 ```
 
-:::info
+{{% alert %}}
 **Using wandb.log():** Please note that the `WandbLogger` logs to W&B using the Trainer's `global_step`. If you are making additional calls to `wandb.log` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
 
 Instead, log the Trainer's `global_step` like your other metrics, like so:
 
 `wandb.log({"accuracy":0.99, "trainer/global_step": step})`
-:::
+{{% /alert %}}
 
 </TabItem>
 

@@ -4,19 +4,16 @@ title: Log media and objects
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb' >}}
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
-:::info
+{{% alert %}}
 Looking for reference docs for our media types? You want [this page](../../../ref/python/data-types/README.md).
-:::
+{{% /alert %}}
 
-:::info
+{{% alert %}}
 You can [see what the results look like on wandb.ai](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA), and [follow along with a video tutorial](https://www.youtube.com/watch?v=96MxRvx15Ts).
-:::
+{{% /alert %}}
 
 ## Pre-requisites
 In order to log media objects with the W&B SDK, you may need to install additional dependencies.
@@ -36,9 +33,9 @@ Images can be logged directly from NumPy arrays, as PIL images, or from the file
 
 Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
 
-:::info
+{{% alert %}}
 It's recommended to log fewer than 50 images per step to prevent logging from becoming a bottleneck during training and image loading from becoming a bottleneck when viewing results.
-:::
+{{% /alert %}}
 
 <Tabs
   defaultValue="arrays"

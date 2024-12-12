@@ -13,9 +13,9 @@ import TabItem from '@theme/TabItem';
 
 Create a report interactively with the W&B App UI or programmatically with the W&B Python SDK.
 
-:::info
+{{% alert %}}
 See this [Google Colab for an example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
-:::
+{{% /alert %}}
 
 <Tabs
   defaultValue="app"

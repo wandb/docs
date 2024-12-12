@@ -28,9 +28,9 @@ Hyperparameter importance panel untangles the complicated interactions between h
 3. Expand the **CHARTS** dropdown, choose **Parallel coordinates** from the dropdown.
 
 
-:::info
+{{% alert %}}
 If an empty panel appears, make sure that your runs are ungrouped
-:::
+{{% /alert %}}
 
 
 ![Using automatic parameter visualization](/images/app_ui/hyperparameter_importance_panel.gif)
@@ -49,9 +49,9 @@ This panel shows you all the parameters passed to the [wandb.config](/guides/tra
 
 The importance column shows you the degree to which each hyperparameter was useful in predicting the chosen metric. Imagine a scenario were you start tuning a plethora of hyperparameters and using this plot to hone in on which ones merit further exploration. The subsequent sweeps can then be limited to the most important hyperparameters, thereby finding a better model faster and cheaper.
 
-:::info
+{{% alert %}}
 W&B calculate importances using a tree based model rather than a linear model as the former are more tolerant of both categorical data and data that’s not normalized.
-:::
+{{% /alert %}}
 
 In the preceding image, you can see that `epochs, learning_rate, batch_size` and `weight_decay` were fairly important.
 
@@ -62,11 +62,11 @@ Correlations capture linear relationships between individual hyperparameters and
 You might use this graph to further explore the values that are have a higher correlation to our metric (in this case you might pick stochastic gradient descent or adam over rmsprop or nadam) or train for more epochs.
 
 
-:::note
+{{% alert %}}
 * correlations show evidence of association, not necessarily causation.
 * correlations are sensitive to outliers, which might turn a strong relationship to a moderate one, specially if the sample size of hyperparameters tried is small.
 * and finally, correlations only capture linear relationships between hyperparameters and metrics. If there is a strong polynomial relationship, it won’t be captured by correlations.
-:::
+{{% /alert %}}
 
 The disparities between importance and correlations result from the fact that importance accounts for interactions between hyperparameters, whereas correlation only measures the affects of individual hyperparameters on metric values. Secondly, correlations capture only the linear relationships, whereas importances can capture more complex ones.
 

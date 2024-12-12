@@ -7,8 +7,6 @@ title: Manage workspace, section, and panel settings
 url: guides/app/features/cascade-settings
 ---
 
-<!-- Control settings for your panels, sections, and workspaces with granular control or cascading defaults. -->
-
 Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [Workspace settings](#workspace-settings) apply to the entire workspace. [Section settings](#section-settings) apply to all panels within a section. [Panel settings](#panel-settings) apply to individual panels. 
 
 
@@ -20,9 +18,9 @@ Workspace settings apply to all sections and all panels within those sections. Y
 
 To edit settings that apply to the overall structure of this workspace:
 
-1. Navigate to your project workspace
-2. Select the gear icon next to the **New report** button
-3. Choose **Workspace layout** or **Line plots** within the slider that appears. 
+1. Navigate to your project workspace.
+2. Click the gear icon next to the **New report** button to view the workspace settings.
+3. Choose **Workspace layout** to change the workspace's layout, or choose **Line plots** to configure default settings for line plots in the workspace.
 ![](/images/app_ui/workspace_settings.png)
 
 ### Workspace layout options
@@ -31,18 +29,20 @@ Configure a workspaces layout to define the overall structure of the workspace. 
 
 ![](/images/app_ui/workspace_layout_settings.png)
 
-The proceeding table lists the settings you can apply to an entire workspace:
+The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels](panels/intro.md).
+
+This table describes each workspace layout option.
 
 | Workspace setting | Description |
 | ----- | ----- |
-|  **Panel generation** | Enable W&B to generate a panel for each unique metric you log with the Python SDK. For more information, see [Activate or deactivate panel generation](./panels/intro.md#activate-or-deactivate-auto-generated-panels). |
 | **Hide empty sections during search** |  Hide sections that do not contain any panels when searching for a panel.|
 | **Sort panels alphabetically** | Sort panels in your workspaces alphabetically. |
 | **Section organization** | Remove all existing sections and panels and repopulate them with new section names. Groups the newly populated sections either by first or last prefix. |
 
-:::tip
+{{% alert %}}
 W&B suggests that you organize sections by grouping the first prefix rather than grouping by the last prefix. Grouping by the first prefix can result in fewer sections and better performance.
-:::
+{{% /alert %}}
+
 ### Line plots options
 Set global defaults and custom rules for line plots in a workspace by modifying the **Line plots** workspace settings.
 
@@ -71,9 +71,9 @@ In addition to **Step**, there are other options for the x-axis:
 
 
 
-:::info
+{{% alert %}}
 For information on how to edit an individual line plot, see [Edit line panel settings](./panels/line-plot/intro.md#edit-line-panel-settings) in Line plots. 
-:::
+{{% /alert %}}
 
 
 Within the **Display preferences** tab, you can toggle the proceeding settings:
@@ -109,9 +109,9 @@ The proceeding animation demonstrates how to rearrange panels within a section:
 
 ![](/images/app_ui/rearrange_panels.gif)
 
-:::info
+{{% alert %}}
 In addition to the settings described in the preceding table, you can also edit how sections appear in your workspaces such as **Add section below**, **Add section above**, **Delete section**, and **Add section to report**. 
-:::
+{{% /alert %}}
 
 ## Panel settings
 

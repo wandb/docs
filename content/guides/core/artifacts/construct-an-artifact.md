@@ -25,16 +25,16 @@ Initialize the [`wandb.Artifact()`](../../ref/python/artifact.md) class to creat
 * **Type**: Provide a type. The type should be simple, descriptive and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
 
 
-:::tip
+{{% alert %}}
 The "name" and "type" you provide is used to create a directed acyclic graph. This means you can view the lineage of an artifact on the W&B App. 
 
 See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph.md) for more information.
-:::
+{{% /alert %}}
 
 
-:::caution
+{{% alert color="secondary" %}}
 Artifacts can not have the same name, even if you specify a different type for the types parameter. In other words, you can not create an artifact named ‘cats’ of type ‘dataset’ and another artifact with the same name of type ‘model’.
-:::
+{{% /alert %}}
 
 You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see [wandb.Artifact](../../ref/python/artifact.md) Class definition in the Python SDK Reference Guide.
 
@@ -71,7 +71,7 @@ run.log_artifact(artifact)
 
 You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files](./track-external-files).
 
-:::caution
+{{% alert color="secondary" %}}
 Calls to `log_artifact` are performed asynchronously for performant uploads. This can cause surprising behavior when logging artifacts in a loop. For example:
 
 ```python
@@ -88,7 +88,7 @@ for i in range(10):
 ```
 
 The artifact version **v0** is NOT guaranteed to have an index of 0 in its metadata, as the artifacts may be logged in an arbitrary order.
-:::
+{{% /alert %}}
 
 ## Add files to an artifact
 

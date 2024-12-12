@@ -12,10 +12,10 @@ If you would like to export all the data managed in your Dedicated Cloud instanc
 | Export reports | [Reports API](/guides/reports/clone-and-export-reports/) |
 | Export artifacts | [Explore artifact graphs](/guides/artifacts/explore-and-traverse-an-artifact-graph), [Download and use artifacts](/guides/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
-:::info
+{{% alert %}}
 You manage artifacts stored in the Dedicated Cloud with [Secure Storage Connector](/guides/app/features/teams/#secure-storage-connector). In that case, you may not need to export the artifacts using the W&B SDK API.
-:::
+{{% /alert %}}
 
-:::note
+{{% alert %}}
 Using W&B SDK API to export all of your data can be slow if you have a large number of runs, artifacts etc. W&B recommends running the export process in appropriately sized batches so as not to overwhelm your Dedicated Cloud instance.
-:::
+{{% /alert %}}

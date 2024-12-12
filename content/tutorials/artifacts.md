@@ -6,10 +6,7 @@ title: Track models and datasets
 weight: 4
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb' >}}
 In this notebook, we'll show you how to track your ML experiment pipelines using W&B Artifacts.
 
 ### Follow along with a [video tutorial](http://tiny.cc/wb-artifacts-video)!

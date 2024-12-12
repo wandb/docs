@@ -73,9 +73,9 @@ Queue configs can be dynamically configured using macros that are evaluated when
 | `${run_name}`     | The name of the run that is launching.                |
 | `${image_uri}`    | The URI of the container image for this run.          |
 
-:::info
+{{% alert %}}
 Any custom macro not listed in the preceding table (for example `${MY_ENV_VAR}`), is substituted with an environment variable from the agent's environment.
-:::
+{{% /alert %}}
 
 ## Use the launch agent to build images that execute on accelerators (GPUs)
 You might need to specify an accelerator base image if you use launch to build images that are executed in an accelerator environment.

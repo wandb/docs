@@ -19,17 +19,17 @@ Reports consist of _blocks_. Blocks make up the body of a report. Within these b
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
 
-:::tip
+{{% alert %}}
 Check out the [Programmatic workspaces tutorial](../../tutorials/workspaces.md) for a step by step example on how create and customize a saved workspace view.
-:::
+{{% /alert %}}
 
-:::info
+{{% alert %}}
 Ensure that you have `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
 
 ```pip
 pip install wandb wandb-workspaces
 ```
-:::
+{{% /alert %}}
 
 ### Add plots
 

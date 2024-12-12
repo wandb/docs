@@ -23,9 +23,9 @@ f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
 Replace the values within the curly braces `{}` with the name of the registry, collection, and the alias or index of the artifact version you want to access.
 
-:::info
+{{% alert %}}
 Specify "model" or "dataset" if you want to link an artifact version to the core Model registry or the core Dataset registry, respectively.
-:::
+{{% /alert %}}
 
 Use the `wandb.init.use_artifact` method to access the artifact and download its contents once you have the path of the linked artifact. The proceeding code snippet shows how to use and download an artifact linked to the W&B Registry. Ensure to replace values within `<>` with your own:
 

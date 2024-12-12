@@ -6,9 +6,9 @@ title: Log media and objects in experiments
 
 Log a dictionary of metrics, media, or custom objects to a step with the W&B Python SDK. W&B collects the key-value pairs during each step and stores them in one unified dictionary each time you log data with `wandb.log()`. Data logged from your script is saved locally to your machine in a directory called `wandb`, then synced to the W&B cloud or your [private server](../../hosting/intro.md). 
 
-:::info
+{{% alert %}}
 Key-value pairs are stored in one unified dictionary only if you pass the same value for each step. W&B writes all of the collected keys and values to memory if you log a different value for `step`.
-:::
+{{% /alert %}}
 
 Each call to `wandb.log` is a new `step` by default. W&B uses steps as the default x-axis when it creates charts and panels. You can optionally create and use a custom x-axis or capture a custom summary metric. For more information, see [Customize log axes](./customize-logging-axes.md).
 
@@ -21,9 +21,9 @@ wandb.log({'loss': 0.2}, step=step)
 
 <!-- [INSERT EXAMPLE] -->
 
-:::caution
+{{% alert color="secondary" %}}
 Use `wandb.log()` to log consecutive values for each `step`: 0, 1, 2, and so on. It is not possible to write to a specific history step. W&B only writes to the "current" and "next" step.
-:::
+{{% /alert %}}
 
 <!-- You can set `commit=False` in `wandb.log` to accumulate metrics, just be sure to eventually call `wandb.log` with `commit=True` (the default) to persist the metrics.
 

@@ -14,9 +14,9 @@ import TabItem from '@theme/TabItem';
 
 Create a new artifact version with a single [run](../runs/intro.md) or collaboratively with distributed runs. You can optionally create a new artifact version from a previous version known as an [incremental artifact](#create-a-new-artifact-version-from-an-existing-version).
 
-:::tip
+{{% alert %}}
 We recommend that you create an incremental artifact when you need to apply changes to a subset of files in an artifact, where the size of the original artifact is significantly larger.
-:::
+{{% /alert %}}
 
 
 <!-- ![Artifact overview diagram](/images/artifacts/incremental_artifacts_Diagram.png) -->
@@ -89,11 +89,11 @@ artifact.save()
 Allow a collection of runs to collaborate on a version before committing it. This is in contrast to single run mode described above where one run provides all the data for a new version.
 
 
-:::info
+{{% alert %}}
 1. Each run in the collection needs to be aware of the same unique ID (called `distributed_id`) in order to collaborate on the same version. By default, if present, W&B uses the run's `group` as set by `wandb.init(group=GROUP)` as the `distributed_id`.
 2. There must be a final run that "commits" the version, permanently locking its state.
 3. Use `upsert_artifact` to add to the collaborative artifact and `finish_artifact` to finalize the commit.
-:::
+{{% /alert %}}
 
 Consider the following example. Different runs (labelled below as **Run 1**, **Run 2**, and **Run 3**) add a different image file to the same artifact with `upsert_artifact`.
 
@@ -151,9 +151,9 @@ Here are some scenarios for each type of incremental change you might encounter:
 You could create an artifact from scratch to perform the same function as an incremental artifact. However, when you create an artifact from scratch, you will need to have all the contents of your artifact on your local disk. When making an incremental change, you can add, remove, or modify a single file without changing the files from a previous artifact version.
 
 
-:::info
+{{% alert %}}
 You can create an incremental artifact within a single run or with a set of runs (distributed mode).
-:::
+{{% /alert %}}
 
 
 Follow the procedure below to incrementally change an artifact:
@@ -214,9 +214,9 @@ Add a file to an existing artifact version with the `add_file` method:
 draft_artifact.add_file("file_to_add.txt")
 ```
 
-:::note
+{{% alert %}}
 You can also add multiple files by adding a directory with the `add_dir` method.
-:::
+{{% /alert %}}
 
   </TabItem>
   <TabItem value="remove">
@@ -227,9 +227,9 @@ Remove a file from an existing artifact version with the `remove` method:
 draft_artifact.remove("file_to_remove.txt")
 ```
 
-:::note
+{{% alert %}}
 You can also remove multiple files with the `remove` method by passing in a directory path.
-:::
+{{% /alert %}}
 
   </TabItem>
   <TabItem value="modify">
@@ -244,9 +244,9 @@ draft_artifact.add_file("modified_file.txt")
   </TabItem>
 </Tabs>
 
-<!-- :::tip
+<!-- {{% alert %}}
 The method to add or modify an artifact are the same. Entries are replaced (as opposed to duplicated), when you pass a filename for an entry that already exists.
-::: -->
+{{% /alert %}} -->
 
 4. Lastly, log or save your changes. The following tabs show you how to save your changes inside and outside of a W&B run. Select the tab that is appropriate for your use case:
 

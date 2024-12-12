@@ -6,9 +6,9 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb"/>
 
 
-:::info
-W&B Registry is in public preview. See [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
-:::
+{{% alert %}}
+W&B Registry is now in public preview. Visit [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
+{{% /alert %}}
 
 
 W&B Registry is a curated central repository of [artifact](../artifacts/intro.md) versions within your organization. Users who [have permission](./configure_registry.md) within your organization can [download](./download_use_artifact.md), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
@@ -127,11 +127,11 @@ See [Migrating from legacy Model Registry](./model_registry_eol.md) for more inf
 
 Until the migration occurs, W&B supports both the legacy Model Registry and the new Registry. 
 
-:::info
+{{% alert %}}
 To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
 
 ![](/images/registry/nav_to_old_model_reg.gif)
-:::
+{{% /alert %}}
 
 
 Reach out to support@wandb.com with any questions or to speak to the W&B Product Team about any concerns about the migration.

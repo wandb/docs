@@ -12,9 +12,9 @@ The hyper-parameter controller is hosted by Weights & Biased as a cloud service 
 
 The local controller feature allows the user to commence search and stop algorithms locally. The local controller gives the user the ability to inspect and instrument the code in order to debug issues as well as develop new features which can be incorporated into the cloud service.
 
-:::caution
+{{% alert color="secondary" %}}
 This feature is offered to support faster development and debugging of new algorithms for the Sweeps tool. It is not intended for actual hyperparameter optimization workloads.
-:::
+{{% /alert %}}
 
 Before you get start, you must install the W&B SDK(`wandb`). Type the following code snippet into your command line:
 

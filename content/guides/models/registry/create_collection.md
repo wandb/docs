@@ -21,21 +21,21 @@ How you organize a registry and their collections is up to you.
 <!-- Removing this since it's on the landing page + we'll eventually have a terms and concepts page
 ![](/images/registry/Registry_Hierarchy_Diagram.png) -->
 
-:::note
+{{% alert %}}
 If you are familiar with W&B Model Registry, you might aware of "registered models". Registered models in the Model Registry are now referred to as "collections" in the W&B Registry.
-:::
+{{% /alert %}}
 
 ## Collection types
 
 Each collection accepts one, and only one, *type* of artifact. The type you specify restricts what sort of artifacts you, and other members of your organization, can link to that collection.
 
-:::note
+{{% alert %}}
 You can think of artifact types similar to data types in programming languages such as Python. In this analogy, a collection can store strings, integers, or floats but not a mix of these data types.
-:::
+{{% /alert %}}
 
 For example, suppose you create a collection that accepts "dataset" artifact types. This means that you can only link future artifact versions that have the type "dataset" to this collection. Similarly, you can only link artifacts of type "model" to a collection that accepts only model artifact types.
 
-:::info
+{{% alert %}}
 You specify an artifact's type when you create that artifact object. Note the `type` field in `wandb.Artifact()`:
 
 ```python
@@ -53,7 +53,7 @@ artifact = wandb.Artifact(
     type="<artifact_type>"
     )
 ```
-:::
+{{% /alert %}}
  
 
 When you create a collection, you can select from a list of predefined artifact types. The artifact types available to you depend on the registry that the collection belongs to. .
@@ -64,9 +64,9 @@ Before you link an artifact to a collection or create a new collection, [investi
 
 Before you link to a collection, inspect the artifact type that the collection accepts. You can inspect the artifact types that collection accepts programmatically with the W&B Python SDK or interactively with the W&B App
 
-:::info
+{{% alert %}}
 An error message appears if you try to create link an artifact to a collection that does not accept that artifact type.
-:::
+{{% /alert %}}
 
 <Tabs
   defaultValue="ui"
@@ -107,9 +107,9 @@ artifact_types = wandb.Api().project(name=f"wandb-registry-{registry_name}").art
 print(artifact_type.name for artifact_type in artifact_types)
 ```
 
-:::note
+{{% alert %}}
 Note that you do not initialize a run with the proceeding code snippet. This is because it is unnecessary to create a run if you are only querying the W&B API and not tracking an experiment, artifact and so on.
-:::
+{{% /alert %}}
 
   </TabItem>
 </Tabs>
@@ -131,9 +131,9 @@ f"wandb-registry-{registry_name}/{collection_name}"
 
 Where `registry_name` is the name of the registry and `collection_name` is the name of the collection. Ensure to append the prefix `wandb-registry-` to the registry name.
 
-:::info
+{{% alert %}}
 W&B automatically creates a collection for you if you try to link an artifact to a collection that does not exist. If you specify a collection that does exists, W&B links the artifact to the existing collection.
-:::
+{{% /alert %}}
 
 The proceeding code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
 

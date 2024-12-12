@@ -7,10 +7,7 @@ menu:
 title: LightGBM
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb' >}}
 The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of Weights & Biases to track large experiments, like hyperparameter sweeps.
 
 ```python
@@ -24,18 +21,18 @@ gbm = lgb.train(..., callbacks=[wandb_callback()])
 log_summary(gbm, save_model_checkpoint=True)
 ```
 
-:::info
+{{% alert %}}
 Looking for working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
-:::
+{{% /alert %}}
 
 ## Tuning your hyperparameters with Sweeps
 
 Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
 
-:::info
+{{% alert %}}
 To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out this interactive Colab notebook.
 
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb'/>
-:::
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb' >}}
+{{% /alert %}}
 
 ![tl;dr: trees outperform linear learners on this classification dataset.](/images/integrations/lightgbm_sweeps.png)

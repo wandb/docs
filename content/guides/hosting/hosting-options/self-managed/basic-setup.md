@@ -12,7 +12,7 @@ Follow this "Hello, world!" example to learn the general workflow to install W&B
 
 For demonstration purposes, this demo uses a local development server on port `8080` (`localhost:8080`).
 
-:::tip
+{{% alert %}}
 **Trial Mode vs. Production Setup**
 
 In Trial Mode, you run the Docker container on a single machine. This setup is ideal for testing the product, but it is not scalable.
@@ -21,7 +21,7 @@ For production work, set up a scalable file system to avoid data loss. W&B stron
 * Allocate extra space in advance, 
 * Resize the file system proactively as you log more data
 * Configure external metadata and object stores for backup.
-:::
+{{% /alert %}}
 
 ## Prerequisites
 Before you get started, ensure your local machine satisfies the following requirements: 
@@ -50,9 +50,9 @@ Navigate to `http://localhost:8080/signup` and create an initial user account. P
 
 Click the **Sign Up** button to create a W&B account. 
 
-:::note
+{{% alert %}}
 For this demo, create a new W&B account even if you already have a W&B account. 
-:::
+{{% /alert %}}
 
 
 ### Copy your API key
@@ -78,11 +78,11 @@ Navigate to the W&B Deploy Manager at [https://deploy.wandb.ai/deploy](https://d
 
 After you click **Generate License Key**, W&B redirects you to a Deployment License page. Within the Deployment License page you can view information about your license instance such as the Deployment ID, the organization the license belongs to, and more.
 
-:::tip
+{{% alert %}}
 View a specific license instance in one of two ways:
 1. Navigate to the Deploy Manager UI and then click the name of the license instance.
 2. Directly navigate to a specific license instance at `https://deploy.wandb.ai/DeploymentID` where `DeploymentID` is the unique ID assigned to your license instance.
-:::
+{{% /alert %}}
 
 ## 4. Add trial license to your local host
 1. Within the Deployment License page of your license instance, click the **Copy License** button.
@@ -118,9 +118,9 @@ All metadata and files you log to W&B are temporarily stored in the `https://dep
 
 Mount a volume, or external storage, to your Docker container to retain files and metadata you store in your local W&B instance. W&B recommends that you store metadata in an external MySQL database and files in an external storage bucket such as Amazon S3.
 
-:::info
+{{% alert %}}
 Recall that your local W&B instance (created using a Trial W&B License), uses Docker to run W&B in your local browser. By default, data is not retained if a Docker container no longer exists. Data is lost when a Docker process dies if you do not mount a volume at `https://deploy.wandb.ai/vol`.
-:::
+{{% /alert %}}
 
 For more information on how to mount a volume and for information on how Docker manages data, see [Manage data in Docker](https://docs.docker.com/storage/) page in the Docker documentation.
 
@@ -129,8 +129,8 @@ The underlying file store should be resizable.
 W&B recommends that you set up alerts to inform you when you are close to reaching minimum storage thresholds so you can resize the underlying file system. 
 
 
-:::info
+{{% alert %}}
 For enterprise trials, W&B recommends at least 100 GB free space in the volume for non-image/video/audio heavy workloads.
-:::
+{{% /alert %}}
 
 <!-- ## Next steps -->

@@ -98,6 +98,6 @@ After selecting `2D Projection`, you can click the gear icon to edit the renderi
 ![](/images/weave/plotting_options_left.png) 
 ![](/images/weave/plotting_options_right.png)
 
-:::info
+{{% alert %}}
 Note: we currently downsample to a random subset of 1000 rows and 50 dimensions for all three algorithms.
-:::
+{{% /alert %}}

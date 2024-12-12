@@ -3,9 +3,9 @@ title: Deploy W&B Platform on GCP
 description: Hosting W&B Server on GCP.
 ---
 
-:::info
+{{% alert %}}
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
-:::
+{{% /alert %}}
 
 
 If you've determined to self-managed W&B Server, W&B recommends using the [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on GCP.
@@ -255,9 +255,9 @@ Ensure that the service account or account that your instance is running has bot
 * access to the bucket you created in the previous step
 * `storage.objectAdmin` role on this bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add
 
-:::info
+{{% alert %}}
 Your instance also needs the `iam.serviceAccounts.signBlob` permission in GCP to create signed file URLs. Add `Service Account Token Creator` role to the service account or IAM member that your instance is running as to enable permission.
-:::
+{{% /alert %}}
 
 3. Enable CORS access. This can only be done using the command line. First, create a JSON file with the following CORS configuration.
 
@@ -285,9 +285,9 @@ gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
 ### Create PubSub Notification
 Follow the procedure below in your command line to create a notification stream from the Storage Bucket to the Pub/Sub topic. 
 
-:::info
+{{% alert %}}
 You must use the CLI to create a notification stream. Ensure you have `gcloud` installed.
-:::
+{{% /alert %}}
 
 1. Log into your GCP Project.
 2. Run the following in your terminal:
@@ -327,9 +327,9 @@ Follow the steps outlined here to update W&B:
       wandb_version = "0.58.1"
   ```
 
-  :::info
+  {{% alert %}}
   Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
-  :::
+  {{% /alert %}}
 
 2. After you update your configuration, complete the steps described in the [Deployment option section](#deployment---recommended-20-mins).
 

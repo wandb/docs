@@ -6,9 +6,7 @@ title: W&B Weave
 weight: 4
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="http://wandb.me/weave_colab"/>
+{{< cta-button colabLink="http://wandb.me/weave_colab" >}}
 
 Weave is a lightweight toolkit for tracking and evaluating LLM applications. Use W&B Weave to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
 
@@ -19,9 +17,9 @@ With W&B Weave, you can:
 * Build rigorous, apples-to-apples evaluations for language model use cases
 * Organize all the information generated across the LLM workflow, from experimentation to evaluations to production
 
-:::info
+{{% alert %}}
 Looking for Weave docs? See https://wandb.github.io/weave/.
-:::
+{{% /alert %}}
 
 ## How to get started 
 Depending on your use case, explore the following resources to get started with W&B Weave:

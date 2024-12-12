@@ -2,10 +2,7 @@
 description: Log tables with W&B.
 title: Log tables
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb' >}}
 Use `wandb.Table` to log data to visualize and query with W&B. In this guide, learn how to:
 
 1. [Create Tables](./log-tables.md#create-tables)
@@ -127,13 +124,13 @@ run.log({"table_key": my_table})
 
 Each time a table is logged to the same key, a new version of the table is created and stored in the backend. This means you can log the same table across multiple training steps to see how model predictions improve over time, or compare tables across different runs, as long as they're logged to the same key. You can log up to 200,000 rows.
 
-:::info
+{{% alert %}}
 To log more than 200,000 rows, you can override the limit with:
 
 `wandb.Table.MAX_ARTIFACT_ROWS = X`
 
 However, this would likely cause performance issues, such as slower queries, in the UI.
-:::
+{{% /alert %}}
 
 ### Access tables programmatically
 

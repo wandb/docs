@@ -5,9 +5,9 @@ title: Manage data governance and access control
 
 Use *protected aliases* to represent key stages of your model development pipeline. Only *Model Registry Administrators* can add, modify, or remove protected aliases. Model registry admins can define and use protected aliases. W&B blocks non admin users from adding or removing protected aliases from model versions.
 
-:::info
+{{% alert %}}
 Only Team admins or current registry admins can manage the list of registry admins.
-:::
+{{% /alert %}}
 
 For example, suppose you set `staging` and `production` as protected aliases. Any member of your team can add new model versions. However, only admins can add a `staging` or `production` alias.
 
