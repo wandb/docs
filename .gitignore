@@ -5,6 +5,7 @@
 # Production
 /build
 /public
+/resources
 
 # Generated files
 .docusaurus
