@@ -1,5 +1,5 @@
 module docsy
 
-go 1.23.2
+go 1.23.4
 
 require github.com/google/docsy v0.11.0 // indirect

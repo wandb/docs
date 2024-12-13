@@ -10,19 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 22.9.0
-
-    - name: Install yarn
-      run: npm install --global yarn
-  
-    - name: Install dependencies 
-      run: yarn install
-
-    - name: Build the docs
-      run: yarn build:prod
+      - uses: actions/checkout@v4
+      - name: Setup environment
+        run: |
+          wget "https://github.com/gohugoio/hugo/releases/download/v$(cat .hugo-version)/hugo_extended_$(cat .hugo-version)_linux-amd64.deb" -O hugo.deb
+          sudo apt install ./hugo.deb
+          npm install
+          go mod download
+          hugo mod get -u
+      - name: Run Hugo build
+        run: hugo

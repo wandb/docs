@@ -1,8 +1,8 @@
 # Run this from root by calling sh ./scripts/production.sh
 
 # Build the English docs from this branch
-go mod init docsy
 hugo mod get -u
+rm -rf public
 hugo
 
 # Use a secondary git clone to build JA and KO 
