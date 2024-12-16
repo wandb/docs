@@ -6,7 +6,7 @@ Walk through an example of Artifacts in a live notebook.
 
 [**Try the notebook →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W%26B_Artifacts.ipynb)
 
-![](/images/artifacts/artifacts_colab_notebook.png)
+{{< img src="/images/artifacts/artifacts_colab_notebook.png" alt="" >}}
 
 To see how you can use Artifacts to version control tabular data, check out [this report](http://wandb.me/TBV-Dedup).
 

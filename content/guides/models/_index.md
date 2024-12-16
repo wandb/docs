@@ -8,7 +8,7 @@ weight: 3
 
 W&B Models is the system of record for ML Practitioners who want to organize their models, boost productivity and collaboration, and deliver production ML at scale. 
 
-![](/images/general/models.png)
+{{< img src="/images/general/models.png" alt="" >}}
 
 With W&B Models, you can: 
 

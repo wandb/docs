@@ -53,7 +53,7 @@ For example, suppose you create a model artifact. During model training, you per
 
 The proceeding image shows a model artifact that contains three model versions: v0, v1, and v2.
 
-![](/images/models/mr1c.png)
+{{< img src="/images/models/mr1c.png" alt="" >}}
 
 View an [example model artifact here](https://wandb.ai/timssweeney/model_management_docs_official_v0/artifacts/model/mnist-zws7gt0n).
 

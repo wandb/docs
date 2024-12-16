@@ -35,7 +35,7 @@ Compare code used in different W&B runs:
 2. Expand **TEXT AND CODE** dropdown and select **Code**.
 
 
-![](/images/app_ui/code_comparer.png)
+{{< img src="/images/app_ui/code_comparer.png" alt="" >}}
 
 ## Jupyter session history
 
@@ -47,9 +47,9 @@ W&B saves the history of code executed in your Jupyter notebook session. When yo
 3. Expand the **code** artifact.
 4. Select the **Files** tab.
 
-![](/images/app_ui/jupyter_session_history.gif)
+{{< img src="/images/app_ui/jupyter_session_history.gif" alt="" >}}
 
 This displays the cells that were run in your session along with any outputs created by calling iPython’s display method. This enables you to see exactly what code was run within Jupyter in a given run. When possible W&B also saves the most recent version of the notebook which you would find in the code directory as well.
 
-![](/images/app_ui/jupyter_session_history_display.png)
+{{< img src="/images/app_ui/jupyter_session_history_display.png" alt="" >}}
 

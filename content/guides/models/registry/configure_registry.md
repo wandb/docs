@@ -67,7 +67,7 @@ The proceeding table lists the different roles a user can have and their permiss
 6. Click on the user's role within the **Registry role** column. 
 7. From the dropdown, select the role you want to assign to the user.
 
-![](/images/registry/configure_role_registry.gif)
+{{< img src="/images/registry/configure_role_registry.gif" alt="" >}}
 
 ## Remove a user from a registry
 1. Navigate to the **Registry** App in the W&B App UI.
@@ -110,4 +110,4 @@ Continue if you select **Restricted visibility**:
 6. Within the **Member** field, add the email or username of the member you want to add.
 7. Click **Add new member**.
 
-![](/images/registry/change_registry_visibility.gif)
+{{< img src="/images/registry/change_registry_visibility.gif" alt="" >}}

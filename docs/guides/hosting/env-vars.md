@@ -5,6 +5,9 @@ title: Configure environment variables
 
 In addition to configuring instance level settings via the System Settings admin UI, W&B also provides a way to configure these values via code using Environment Variables. Also, refer to [advanced configuration for IAM](./iam/advanced_env_vars.md).
 
+Choose any of the following environment variables for your instance depending on your IAM needs.
+
+
 | Environment Variable             | Description                                                                                                                                                                              |
 |----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | LICENSE                          | Your wandb/local license                                                                                                                                                                 |

@@ -4,7 +4,7 @@ title: Keras
 {{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb' >}}
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-![](/images/tutorials/huggingface-why.png)
+{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
 This Colab notebook introduces the `WandbMetricsLogger` callback. Use this callback for [Experiment Tracking](/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
 

@@ -10,7 +10,7 @@ weight: 1
 
 Use [Weights & Biases](https://wandb.com) for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-![](/images/tutorials/huggingface-why.png)
+{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
 ## What this notebook covers:
 
@@ -18,7 +18,7 @@ We show you how to integrate Weights & Biases with your PyTorch code to add expe
 
 ## The resulting interactive W&B dashboard will look like:
 
-![](/images/tutorials/pytorch.png)
+{{< img src="/images/tutorials/pytorch.png" alt="" >}}
 
 ## In pseudocode, what we'll do is:
 
@@ -450,7 +450,7 @@ Running a hyperparameter sweep with Weights & Biases is very easy. There are jus
 
 And voila! That's all there is to running a hyperparameter sweep!
 
-![](/images/tutorials/pytorch-2.png)
+{{< img src="/images/tutorials/pytorch-2.png" alt="" >}}
 
 
 # 🖼️ Example Gallery

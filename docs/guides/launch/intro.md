@@ -15,7 +15,7 @@ A [*launch job*](./launch-terminology.md#launch-job) is a blueprint for configur
 
 As jobs are added to the queue, one or more [*launch agents*](./launch-terminology.md#launch-agent) will poll that queue and execute the job on the system targeted by the queue.
 
-![](/images/launch/launch_overview.png)
+{{< img src="/images/launch/launch_overview.png" alt="" >}}
 
 Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target](./launch-terminology.md#target-resources) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
 

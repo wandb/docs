@@ -14,7 +14,7 @@ Use W&B Artifacts to track and version data as the inputs and outputs of your [W
 ## Use cases
 You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs](../runs/intro.md). You can use datasets, models, or even other artifacts as inputs for processing.
 
-![](/images/artifacts/artifacts_landing_page2.png)
+{{< img src="/images/artifacts/artifacts_landing_page2.png" alt="" >}}
 
 | Use Case               | Input                       | Output                       |
 |------------------------|-----------------------------|------------------------------|

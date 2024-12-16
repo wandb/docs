@@ -48,7 +48,7 @@ After running `wandb.init()` , start a new cell with `%%wandb` to see live graph
 
 Try it for yourself in this [quick example notebook →](http://wandb.me/jupyter-interact-colab)
 
-![](/images/track/jupyter_widget.png)
+{{< img src="/images/track/jupyter_widget.png" alt="" >}}
 
 ### Rendering live W&B interfaces directly in your notebooks
 

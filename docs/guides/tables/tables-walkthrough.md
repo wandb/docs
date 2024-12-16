@@ -65,7 +65,7 @@ View the resulting table in your workspace.
 1. Navigate to your project in the W&B App.
 2. Select the name of your run in your project workspace. A new panel is added for each unique table key. 
 
-![](/images/data_vis/wandb_demo_logged_sample_table.png)
+{{< img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="" >}}
 
 In this example, `my_table`, is logged under the key `"Table Name"`.
 
@@ -73,8 +73,8 @@ In this example, `my_table`, is logged under the key `"Table Name"`.
 
 Log sample tables from multiple W&B Runs and compare results in the project workspace. In this [example workspace](https://wandb.ai/carey/table-test?workspace=user-carey), we show how to combine rows from multiple different versions in the same table.
 
-![](/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif)
+{{< img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="" >}}
 
 Use the table filter, sort, and grouping features to explore and evaluate model results.
 
-![](/images/data_vis/wandb_demo_filter_on_a_table.png)
+{{< img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="" >}}

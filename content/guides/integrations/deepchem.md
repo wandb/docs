@@ -20,7 +20,7 @@ model = TorchModel(…, wandb_logger=logger)
 model.fit(…)
 ```
 
-![](/images/integrations/cd.png)
+{{< img src="/images/integrations/cd.png" alt="" >}}
 
 ## Report & Google Colab
 

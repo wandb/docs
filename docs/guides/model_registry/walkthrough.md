@@ -292,5 +292,5 @@ You can add an alias to a model version interactively with the W&B App UI or pro
 6. Press Enter on your keyboard.
 
 
-![](/images/models/promote_model_production.gif)
+{{< img src="/images/models/promote_model_production.gif" alt="" >}}
 

@@ -23,7 +23,7 @@ The **Last Active** column shows if a user is pending an invitation or an active
 * Active: User has accepted the invite and created an account.
 * Deactivated: Admin has revoked access of the user.
 
-![](/images/hosting/view_status_of_user.png)
+{{< img src="/images/hosting/view_status_of_user.png" alt="" >}}
 
 ### View and share how your organization uses W&B
 View how your organization uses W&B in CSV format.
@@ -31,7 +31,7 @@ View how your organization uses W&B in CSV format.
 1. Select the three dots next to the **Add user** button.
 2. From the dropdown, select **Export as CSV**.
 
-![](/images/hosting/export_org_usage.png)
+{{< img src="/images/hosting/export_org_usage.png" alt="" >}}
 
 This will export a CSV file that lists all users of an organization along with their: user name, time stamp of when they were last active, role, email, teams they belong to, and their status (active, pending, or deactivated). 
 
@@ -42,7 +42,7 @@ Use the **Last Active** column to get an **Activity summary** of an individual u
 2. A tooltip appears and provides a summary of information about the user's activity.
 
 
-![](/images/hosting/activity_tooltip.png)
+{{< img src="/images/hosting/activity_tooltip.png" alt="" >}}
 
 {{% alert %}}
 A user is active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the W&B server in any way.
@@ -51,6 +51,6 @@ A user is active if they: log in to W&B, view any page in the W&B App, log runs,
 ### View active users over time
 Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time (right most plot in image below). 
 
-![](/images/hosting/dashboard_summary.png)
+{{< img src="/images/hosting/dashboard_summary.png" alt="" >}}
 
 You can use the dropdown menu to filter results based on days, months, or all time.

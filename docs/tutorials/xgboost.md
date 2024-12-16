@@ -21,13 +21,13 @@ In this colab we'll cover how Weights and Biases enables regulated entities to
 
 We will track all of the training hyperparameters and output metrics in order to generate an Experiments Dashboard:
 
-![credit_scorecard](/images/tutorials/credit_scorecard/credit_scorecard.png)
+{{< img src="/images/tutorials/credit_scorecard/credit_scorecard.png" alt="credit_scorecard" >}}
 
 **Run a Hyperparameter Sweep to Find the Best HyperParameters**
 
 Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](/guides/sweeps) or with our [Ray Tune integration](/guides/integrations/ray-tune). See our docs for a full guide of how to use more advanced hyperparameter sweeps options.
 
-![credit_scorecard_2](/images/tutorials/credit_scorecard/credit_scorecard_2.png)
+{{< img src="/images/tutorials/credit_scorecard/credit_scorecard_2.png" alt="credit_scorecard_2" >}}
 
 # Setup
 
@@ -63,7 +63,7 @@ pd.set_option("display.max_columns", None)
 
 ## AWS S3, Google Cloud Storage and W&B Artifacts
 
-![credit_scorecard_3](/images/tutorials/credit_scorecard/credit_scorecard_3.png)
+{{< img src="/images/tutorials/credit_scorecard/credit_scorecard_3.png" alt="credit_scorecard_3" >}}
 
 Weights and Biases **Artifacts** enable you to log end-to-end training pipelines to ensure your experiments are always reproducible.
 

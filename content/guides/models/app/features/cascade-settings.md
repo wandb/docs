@@ -18,16 +18,16 @@ Workspace settings apply to all sections and all panels within those sections. Y
 
 To edit settings that apply to the overall structure of this workspace:
 
-1. Navigate to your project workspace.
-2. Click the gear icon next to the **New report** button to view the workspace settings.
-3. Choose **Workspace layout** to change the workspace's layout, or choose **Line plots** to configure default settings for line plots in the workspace.
-![](/images/app_ui/workspace_settings.png)
+1. Navigate to your project workspace
+2. Select the gear icon next to the **New report** button
+3. Choose **Workspace layout** or **Line plots** within the slider that appears. 
+{{< img src="/images/app_ui/workspace_settings.png" alt="" >}}
 
 ### Workspace layout options
 
 Configure a workspaces layout to define the overall structure of the workspace. This includes sectioning logic and panel organization. 
 
-![](/images/app_ui/workspace_layout_settings.png)
+{{< img src="/images/app_ui/workspace_layout_settings.png" alt="" >}}
 
 The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels](panels/intro.md).
 
@@ -46,7 +46,7 @@ W&B suggests that you organize sections by grouping the first prefix rather than
 ### Line plots options
 Set global defaults and custom rules for line plots in a workspace by modifying the **Line plots** workspace settings.
 
-![](/images/app_ui/workspace_settings_line_plots.png)
+{{< img src="/images/app_ui/workspace_settings_line_plots.png" alt="" >}}
 
 You can edit two main settings within **Line plots** settings: **Data** and **Display preferences**. The **Data** tab contains the following settings:
 
@@ -95,7 +95,7 @@ Section settings apply to all panels within that section. Within a workspace sec
 
 Modify section settings by selecting the three horizontal dots (**...**) in the upper right corner of a section.
 
-![](/images/app_ui/section_settings.png)
+{{< img src="/images/app_ui/section_settings.png" alt="" >}}
 
 From the dropdown, you can edit the following settings that apply to the entire section:
 
@@ -107,7 +107,7 @@ From the dropdown, you can edit the following settings that apply to the entire 
 
 The proceeding animation demonstrates how to rearrange panels within a section:
 
-![](/images/app_ui/rearrange_panels.gif)
+{{< img src="/images/app_ui/rearrange_panels.gif" alt="" >}}
 
 {{% alert %}}
 In addition to the settings described in the preceding table, you can also edit how sections appear in your workspaces such as **Add section below**, **Add section above**, **Delete section**, and **Add section to report**. 
@@ -119,8 +119,8 @@ Customize an individual panel's settings to compare multiple lines on the same p
 
 1. Hover your mouse over the panel you want to edit. 
 2. Select the pencil icon that appears.
-![](/images/app_ui/panel_settings.png)
+{{< img src="/images/app_ui/panel_settings.png" alt="" >}}
 3. Within the modal that appears, you can edit settings related to the panel's data, display preferences, and more.
-![](/images/app_ui/panel_settings_modal.png)
+{{< img src="/images/app_ui/panel_settings_modal.png" alt="" >}}
 
 For a complete list of settings you can apply to a panel, see [Edit line panel settings](./panels/line-plot/intro.md#edit-line-panel-settings).

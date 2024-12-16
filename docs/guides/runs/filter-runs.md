@@ -14,14 +14,14 @@ Filter runs based on their status, tags, or other properties with the filter but
 
 Filter runs based on their tags with the filter button.
 
-![](/images/app_ui/filter_runs.gif)
+{{< img src="/images/app_ui/filter_runs.gif" alt="" >}}
 
 
 ### Filter runs with regex
 
 If regex doesn't provide you the desired results, you can make use of [tags](tags.md) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
 
-![If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table](/images/app_ui/tags.gif)
+{{< img src="/images/app_ui/tags.gif" alt="If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table" >}}
 
 
 
@@ -42,13 +42,13 @@ The following steps describe how to sort the run table by a specific metric base
 3. From the dropdown, select either **Show min** or **Show max**.
 4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
 
-![](/images/app_ui/runs_min_max.gif)
+{{< img src="/images/app_ui/runs_min_max.gif" alt="" >}}
 
 ## Search End Time for runs
 
 We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
 
-![](/images/app_ui/search_run_endtime.png)
+{{< img src="/images/app_ui/search_run_endtime.png" alt="" >}}
 
 
 
@@ -58,7 +58,7 @@ We provide a column named `End Time` that logs that last heartbeat from the clie
 
 Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
 
-![](/images/app_ui/export_to_csv.gif)
+{{< img src="/images/app_ui/export_to_csv.gif" alt="" >}}
 
 
 <!-- ## Edit run colors
@@ -78,17 +78,17 @@ Look for a green dot next to the name of runs— this indicates they're active i
 
 Delete multiple runs at once, or tag a group of runs— bulk selection makes it easier to keep the runs table organized.
 
-![](/images/app_ui/howto_bulk_select.gif) -->
+{{< img src="/images/app_ui/howto_bulk_select.gif" alt="" >}} -->
 
 <!-- ## Select all runs in table
 
 Click the checkbox in the upper left corner of the table, and click "Select all runs" to select every run that matches the current set of filters.
 
-![](/images/app_ui/all_runs_select.gif) -->
+{{< img src="/images/app_ui/all_runs_select.gif" alt="" >}} -->
 
 <!-- 
 ## Search columns in the table
 
 Search for the columns in the table UI guide with the **Columns** button.
 
-![](/images/app_ui/search_columns.gif) -->
+{{< img src="/images/app_ui/search_columns.gif" alt="" >}} -->

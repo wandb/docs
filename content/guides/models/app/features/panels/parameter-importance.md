@@ -11,7 +11,7 @@ title: Parameter importance
 Discover which of your hyperparameters were the best predictors of, and highly correlated to desirable values of your metrics.
 
 
-![](/images/general/parameter-importance-1.png)
+{{< img src="/images/general/parameter-importance-1.png" alt="" >}}
 
 **Correlation** is the linear correlation between the hyperparameter and the chosen metric (in this case val_loss). So a high correlation means that when the hyperparameter has a higher value, the metric also has higher values and vice versa. Correlation is a great metric to look at but it can’t capture second order interactions between inputs and it can get messy to compare inputs with wildly different ranges.
 
@@ -33,15 +33,15 @@ If an empty panel appears, make sure that your runs are ungrouped
 {{% /alert %}}
 
 
-![Using automatic parameter visualization](/images/app_ui/hyperparameter_importance_panel.gif)
+{{< img src="/images/app_ui/hyperparameter_importance_panel.gif" alt="Using automatic parameter visualization" >}}
 
 With the parameter manager, we can manually set the visible and hidden parameters.
 
-![Manually setting the visible and hidden fields](/images/app_ui/hyperparameter_importance_panel_manual.gif)
+{{< img src="/images/app_ui/hyperparameter_importance_panel_manual.gif" alt="Manually setting the visible and hidden fields" >}}
 
 ## Interpreting a hyperparameter importance panel
 
-![](/images/general/parameter-importance-4.png)
+{{< img src="/images/general/parameter-importance-4.png" alt="" >}}
 
 This panel shows you all the parameters passed to the [wandb.config](/guides/track/config/) object in your training script. Next, it shows the feature importances and correlations of these config parameters with respect to the model metric you select (`val_loss` in this case).
 

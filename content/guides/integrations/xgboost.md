@@ -10,7 +10,7 @@ title: XGBoost
 
 The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a **[live Weights & Biases dashboard](https://wandb.ai/morg/credit_scorecard)** with outputs from the XGBoost `WandbCallback`.
 
-![Weights & Biases dashboard using XGBoost](/images/integrations/xgb_dashboard.png)
+{{< img src="/images/integrations/xgb_dashboard.png" alt="Weights & Biases dashboard using XGBoost" >}}
 
 ## Get Started
 
@@ -74,4 +74,4 @@ See the following Colab notebook to learn more about these tools and see an exam
 You can also try this [XGBoost & Sweeps Python script](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)
 {{% /alert %}}
 
-![tl;dr: trees outperform linear learners on this classification dataset.](/images/integrations/xgboost_sweeps_example.png)
+{{< img src="/images/integrations/xgboost_sweeps_example.png" alt="tl;dr: trees outperform linear learners on this classification dataset." >}}

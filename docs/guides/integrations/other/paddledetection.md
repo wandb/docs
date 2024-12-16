@@ -80,7 +80,7 @@ wandb:
 
 Once you run your `train.py` file with Weights & Biases turned on, a link will be generated to bring you to your W&B dashboard:
 
-![A Weights & Biases Dashboard](/images/integrations/paddledetection_wb_dashboard.png)
+{{< img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A Weights & Biases Dashboard" >}}
 
 ## Feedback or Issues
 

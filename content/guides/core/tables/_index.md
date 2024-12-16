@@ -22,7 +22,7 @@ Use W&B Tables to visualize and query tabular data. For example:
 * Query to find commonly misclassified examples
 
 
-![](/images/data_vis/tables_sample_predictions.png)
+{{< img src="/images/data_vis/tables_sample_predictions.png" alt="" >}}
 The above image shows a table with semantic segmentation and custom metrics. View this table here in this [sample project from the W&B ML Course](https://wandb.ai/av-team/mlops-course-001).
 
 ## How it works

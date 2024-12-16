@@ -46,7 +46,7 @@ Interactively link a model with the Model Registry or with the Artifact browser.
 6. From the **Model Artifact** dropdown, select the name of the model artifact. 
 7. From the **Version** dropdown, select the model version you want to link to the registered model.
 
-![](/images/models/link_model_wmodel_reg.gif)
+{{< img src="/images/models/link_model_wmodel_reg.gif" alt="" >}}
 
   </TabItem>
   <TabItem value="artifacts_ui">
@@ -60,7 +60,7 @@ Interactively link a model with the Model Registry or with the Artifact browser.
 7. (Optional) Select an alias from the **Aliases** dropdown. 
 8. Click **Link to registry**. 
 
-![](/images/models/manual_linking.gif)
+{{< img src="/images/models/manual_linking.gif" alt="" >}}
 
   </TabItem>
 </Tabs>
@@ -84,7 +84,7 @@ A pointer connects a specific model version in the model registry to the source 
   <TabItem value="registry">
 
 1. Navigate to your model registry at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-![](/images/models/create_registered_model_1.png)
+{{< img src="/images/models/create_registered_model_1.png" alt="" >}}
 2. Select **View details** next the name of your registered model.
 3. Within the **Versions** section, select **View** next to the model version you want to investigate.
 4. Click on the **Version** tab within the right panel.
@@ -92,7 +92,7 @@ A pointer connects a specific model version in the model registry to the source 
 
 For example, the following image shows a `v0` model version called `mnist_model` (see **Source version** field `mnist_model:v0`), linked to a registered model called `MNIST-dev`.
 
-![](/images/models/view_linked_model_registry.png)
+{{< img src="/images/models/view_linked_model_registry.png" alt="" >}}
 
   </TabItem>
   <TabItem value="browser">
@@ -107,7 +107,7 @@ For example, the following image shows a `v0` model version called `mnist_model`
 For example, in the following image, there is a registered model called `MNIST-dev` (see the **Linked To** field). A model version called `mnist_model` with a version `v0`(`mnist_model:v0`) points to the `MNIST-dev` registered model.
 
 
-![](/images/models/view_linked_model_artifacts_browser.png)
+{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="" >}}
 
 
   </TabItem>

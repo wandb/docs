@@ -10,7 +10,7 @@ title: Azure OpenAI Fine-Tuning
 ## Introduction
 Fine-tuning GPT-3.5 or GPT-4 models on Microsoft Azure using W&B tracks, analyzes, and improves model performance by automatically capturing metrics and facilitating systematic evaluation through W&B's experiment tracking and evaluation tools.
 
-![](/images/integrations/aoai_ft_plot.png)
+{{< img src="/images/integrations/aoai_ft_plot.png" alt="" >}}
 
 ## Prerequisites
 - Set up Azure OpenAI service according to [official Azure documentation](https://wandb.me/aoai-wb-int).

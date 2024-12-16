@@ -264,7 +264,7 @@ Use your organization's dashboard to create a team:
 
 1. Navigate to https://wandb.ai/home.
 2. Select **Create a team to collaborate** on the left navigation panel underneath **Teams**.
-![](/images/hosting/create_new_team.png)
+{{< img src="/images/hosting/create_new_team.png" alt="" >}}
 3. Provide a name for your team in the **Team name** field in the modal that appears. 
 4. Choose a storage type. 
 5. Select the **Create team** button.
@@ -279,7 +279,7 @@ Invite users to a team in your organization. Use the team's dashboard to invite 
 
 1. Navigate to `https://wandb.ai/<team-name>`.
 2. Select **Team settings** in the global navigation on the left side of the dashboard.
-![](/images/hosting/team_settings.png)
+{{< img src="/images/hosting/team_settings.png" alt="" >}}
 3. Select the **Users** tab.
 4. Choose on **Invite a new user**.
 5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles](#assign-or-update-a-team-members-role).

@@ -47,11 +47,11 @@ if __name__ == "__main__":
 
 Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system) of metrics tracked from a single process. The dashboard displays system metrics such as temperature and utilization, that were tracked for both GPUs.
 
-![](/images/track/distributed_training_method1.png)
+{{< img src="/images/track/distributed_training_method1.png" alt="" >}}
 
 However, the loss values as a function epoch and batch size were only logged from a single GPU.
 
-![](/images/experiments/loss_function_single_gpu.png)
+{{< img src="/images/experiments/loss_function_single_gpu.png" alt="" >}}
 
 ### Method 2: Many processes
 
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
 Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna) of metrics tracked from multiple processes. Note that there are two W&B Runs grouped together in the left sidebar. Click on a group to view the dedicated group page for the experiment. The dedicated group page displays metrics from each process separately.
 
-![](/images/experiments/dashboard_grouped_runs.png)
+{{< img src="/images/experiments/dashboard_grouped_runs.png" alt="" >}}
 
 The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
 

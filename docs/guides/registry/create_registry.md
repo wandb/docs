@@ -19,8 +19,6 @@ An artifact type can not be removed from a registry once it is added and saved i
 {{% /alert %}}
 8. Click on the **Create registry** button. 
 
-<!-- ![](/images/registry/create_custom_registry.png) -->
-
-![](/images/registry/create_registry.gif)
+{{< img src="/images/registry/create_registry.gif" alt="" >}}
 
 For example, the preceding image shows a custom registry called "Fine_Tuned_Models" that a user is about to create. The registry is set to **Restricted** which means that only members that are manually added to the "Fine_Tuned_Models" registry will have access to this registry.

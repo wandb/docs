@@ -13,4 +13,4 @@ Our gymnasium integration is very light. We simply [look at the name of the vide
 
 Check out this [report](https://wandb.ai/raph-test/cleanrltest/reports/Mario-Bros-but-with-AI-Gymnasium-and-CleanRL---Vmlldzo0NTcxNTcw) to learn more on how to use Gymnasium with the CleanRL library. 
 
-![](/images/integrations/gymnasium.png)
+{{< img src="/images/integrations/gymnasium.png" alt="" >}}

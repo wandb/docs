@@ -56,7 +56,7 @@ run.log_artifact(iris_table_artifact)
 
 The `wandb.init()` API spawns a new background process to log data to a Run, and it synchronizes data to wandb.ai (by default). View live visualizations on your W&B Workspace Dashboard. The following image demonstrates the output of the code snippet demonstration.
 
-![CSV file imported into W&B Dashboard](/images/track/import_csv_tutorial.png)
+{{< img src="/images/track/import_csv_tutorial.png" alt="CSV file imported into W&B Dashboard" >}}
 
 
 The full script with the preceding code snippets is found below:

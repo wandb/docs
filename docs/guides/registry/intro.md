@@ -25,7 +25,7 @@ In summary, use W&B Registry to:
 
 <!-- - Quickly find or reference important artifacts with a unique identifier known as aliases.-->
 
-![](/images/registry/registry_landing_page.png)
+{{< img src="/images/registry/registry_landing_page.png" alt="" >}}
 
 The preceding image shows the Registry App with "Model" and "Dataset" core registries along with custom registries.
 
@@ -130,7 +130,7 @@ Until the migration occurs, W&B supports both the legacy Model Registry and the 
 {{% alert %}}
 To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
 
-![](/images/registry/nav_to_old_model_reg.gif)
+{{< img src="/images/registry/nav_to_old_model_reg.gif" alt="" >}}
 {{% /alert %}}
 
 

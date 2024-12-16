@@ -10,7 +10,7 @@ weight: 4
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-![](/images/tutorials/huggingface-why.png)
+{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
 ## What this notebook covers
 
@@ -20,7 +20,7 @@ Use Weights & Biases for machine learning experiment tracking, dataset versionin
  
 ## The interactive W&B dashboard will look like this:
 
-![dashboard](/images/tutorials/tensorflow/dashboard.png)
+{{< img src="/images/tutorials/tensorflow/dashboard.png" alt="dashboard" >}}
 
 **Note**: Sections starting with _Step_ are all you need to integrate W&B into existing code. The rest is just a standard MNIST example.
 
@@ -226,7 +226,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 * **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/client/tree/master/wandb/sweeps).
 * **Powerful**: Our sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 
-![Sweep result](/images/tutorials/tensorflow/sweeps.png)
+{{< img src="/images/tutorials/tensorflow/sweeps.png" alt="Sweep result" >}}
 
 # 🎨 Example Gallery
 

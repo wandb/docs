@@ -185,7 +185,7 @@ Now that our queue and cluster are set up, it's time to launch some distributed 
 
 To launch this job, head to the [job's page](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) and click the **Launch** button in the top right corner of the screen. You will be prompted to select a queue to launch the job from.
 
-![](/images/launch/launching_multinode_job.png)
+{{< img src="/images/launch/launching_multinode_job.png" alt="" >}}
 
 1. Set the jobs parameters however you like,
 2. Select the queue you created earlier.

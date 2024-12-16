@@ -25,7 +25,7 @@ A run is created when the launch agent executes a launch job. In other words, ea
 For example, the following image shows two runs that were created from a job called `job-source-launch_demo-canonical`. The job was added to a queue called `Start queue`. The first run listed in the queue called `resilient-snowball` and the second run listed is called `earthy-energy-165`.
 
 
-![](/images/launch/launch_jobs_status.png)
+{{< img src="/images/launch/launch_jobs_status.png" alt="" >}}
 
 Within the W&B App UI you can find additional information about runs created from launch jobs such as the:
    - **Run**: The name of the W&B run assigned to that job.

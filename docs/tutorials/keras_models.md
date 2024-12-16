@@ -4,7 +4,7 @@ title: Keras models
 {{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb' >}}
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-![](/images/tutorials/huggingface-why.png)
+{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
 This Colab notebook introduces the `WandbModelCheckpoint` callback. Use this callback to log your model checkpoints to Weight and Biases [Artifacts](/guides/artifacts).
 

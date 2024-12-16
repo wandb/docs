@@ -12,9 +12,7 @@ W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
 
 Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
-
-
-![](/images/integrations/tensorboard_oneline_code.webp)
+{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="" >}}
 
 ### Add one line of code to your training script
 
@@ -97,6 +95,6 @@ To run shell commands in a notebook environment, you must prepend a `!`, as in `
 
 If you use PyTorch's TensorBoard integration, you may need to manually upload the PyTorch Profiler JSON file**:**
 
-```
+```python
 wandb.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
 ```

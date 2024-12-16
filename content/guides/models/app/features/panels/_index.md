@@ -18,7 +18,11 @@ Use workspace panel visualizations to explore your [logged data](/ref/python/log
 
 ## Workspace modes
 
-W&B projects support two different workspace modes. The icon next to the workspace name shows its mode. 
+1. Within your workspace, navigate to the section you want to add a panel to
+2. Choose the Add panel button
+3. From the dropdown, select a type of panel to add
+{{< img src="/images/app_ui/add_single_panel.gif" alt="" >}} 
+4. (Optional) If prompted, define parameters for the plot. 
 
 | Icon | Workspace mode |
 | --- | --- |

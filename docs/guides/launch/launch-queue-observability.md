@@ -19,7 +19,7 @@ The dashboard contains a number of plots answering common questions about perfor
 ### Job status
 The **Job status** plot shows how many jobs are running, pending, queued, or completed in each time interval. Use the **Job status** plot for identifying periods of idleness in the queue. 
 
-![](/images/launch/launch_obs_jobstatus.png)
+{{< img src="/images/launch/launch_obs_jobstatus.png" alt="" >}}
 
 For example, suppose you have a fixed resource (such as DGX BasePod). If you observe an idle queue with the fixed resource, this might suggest an opportunity to run lower-priority pre-emptible launch jobs such as sweeps.
 
@@ -37,7 +37,7 @@ To the right of the plot is a key that shows which colors represent the [status 
 
 The **Queued time** plots shows the amount of time (in seconds) that a launch job was on a queue for a given date or time range. 
 
-![](/images/launch/launch_obs_queuedtime.png)
+{{< img src="/images/launch/launch_obs_queuedtime.png" alt="" >}}
 
 The x-axis shows a time frame that you specify and the y-axis shows the time (in seconds) a launch job was on a launch queue. For example, suppose on a given day there are 10 launch jobs queued. The **Queue time** plot shows 600 seconds if those 10 launch jobs wait an average of 60 seconds each.
 
@@ -51,7 +51,7 @@ which can be particularly helpful for identifying which users and jobs are feeli
 
 ### Job runs
 
-![](/images/launch/launch_obs_jobruns2.png)
+{{< img src="/images/launch/launch_obs_jobruns2.png" alt="" >}}
 
 
 This plot shows the start and end of every job executed in a time period, with distinct colors for each run. This makes it easy to see at a glance what workloads the queue was processing at a given time.  
@@ -63,7 +63,7 @@ Use the Select tool in the bottom right of the panel to brush over jobs to popul
 ### CPU and GPU usage
 Use the **GPU use by a job**, **CPU use by a job**, **GPU memory by job**, and **System memory by job** to view the efficiency of your launch jobs. 
 
-![](/images/launch/launch_obs_gpu.png)
+{{< img src="/images/launch/launch_obs_gpu.png" alt="" >}}
 
 
 For example, you can use the **GPU memory by job** to view if a W&B run took a long time to complete and whether or not it used a low percentage of its CPU cores.
@@ -74,7 +74,7 @@ The x-axis of each plot shows the duration of a W&B run (created by a launch job
 
 The **Errors** panel shows errors that occurred on a given launch queue. More specifically, the Errors panel shows a timestamp of when the error occurred, the name of the launch job where the error comes from, and the error message that was created. By default, errors are ordered from latest to oldest. 
 
-![](/images/launch/launch_obs_errors.png)
+{{< img src="/images/launch/launch_obs_errors.png" alt="" >}}
 
 Use the **Errors** panel to identify and unblock users. 
 

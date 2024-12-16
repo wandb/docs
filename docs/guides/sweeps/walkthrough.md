@@ -116,7 +116,7 @@ wandb.agent(sweep_id, function=main, count=10)
 
 Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyzes](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
 
-![Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
+{{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard example" >}}
 
 For more information about how to visualize results, see [Visualize sweep results](./visualize-sweep-results.md). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
 

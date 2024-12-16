@@ -15,19 +15,19 @@ _Note: Only **public** reports are viewable when embedded currently._
 
 __
 
-![](/images/reports/get_embed_url.gif)
+{{< img src="/images/reports/get_embed_url.gif" alt="" >}}
 
 ### Confluence
 
 The proceeding animation demonstrates how to insert the direct link to the report within an IFrame cell in Confluence.
 
-![](//images/reports/embed_iframe_confluence.gif)
+{{< img src="//images/reports/embed_iframe_confluence.gif" alt="" >}}
 
 ### Notion
 
 The proceeding animation demonstrates how to insert a report into a Notion document using an Embed block in Notion and the report's embedded code.
 
-![](//images/reports/embed_iframe_notion.gif)
+{{< img src="//images/reports/embed_iframe_notion.gif" alt="" >}}
 
 ### Gradio
 

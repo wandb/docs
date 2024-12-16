@@ -270,7 +270,7 @@ Follow the procedure bellow to create an Amazon S3 bucket and enable bucket noti
 3. Within the **Advanced settings**, select **Add notification** within the **Events** section.
 4. Configure all object creation events to be sent to the SQS Queue you configured earlier.
 
-![Enterprise file storage settings](/images/hosting/s3-notification.png)
+{{< img src="/images/hosting/s3-notification.png" alt="Enterprise file storage settings" >}}
 
 Enable CORS access. Your CORS configuration should look like the following:
 
@@ -354,7 +354,7 @@ Finally, configure your W&B Server.
 * **File Storage Region (AWS only)**: `<region>`
 * **Notification Subscription**: `sqs://<queue-name>`
 
-![](/images/hosting/configure_file_store.png)
+{{< img src="/images/hosting/configure_file_store.png" alt="" >}}
 
 4. Select **Update settings** to apply the new settings.
 
@@ -402,7 +402,7 @@ module "wandb_infra" {
 
 to control the infrastructure:
 
-![pre-operator-infra](/images/hosting/pre-operator-infra.svg)
+{{< img src="/images/hosting/pre-operator-infra.svg" alt="pre-operator-infra" >}}
 
 and this module to deploy the W&B Server:
 
@@ -413,7 +413,7 @@ module "wandb_app" {
 }
 ```
 
-![pre-operator-k8s](/images/hosting/pre-operator-k8s.svg)
+{{< img src="/images/hosting/pre-operator-k8s.svg" alt="pre-operator-k8s" >}}
 
 Post-transition, the architecture uses:
 
@@ -427,7 +427,7 @@ module "wandb_infra" {
 
 to manage both the installation of infrastructure and the W&B Server to the Kubernetes cluster, thus eliminating the need for the `module "wandb_app"` in `post-operator.tf`.
 
-![post-operator-k8s](/images/hosting/post-operator-k8s.svg)
+{{< img src="/images/hosting/post-operator-k8s.svg" alt="post-operator-k8s" >}}
 
 This architectural shift enables additional features (like OpenTelemetry, Prometheus, HPAs, Kafka, and image updates) without requiring manual Terraform operations by SRE/Infrastructure teams.
 
@@ -578,7 +578,7 @@ actions:
 
 You should see something like this:
 
-![post-operator-apply](/images/hosting/post-operator-apply.png)
+{{< img src="/images/hosting/post-operator-apply.png" alt="post-operator-apply" >}}
 
 Note that in `post-operator.tf`, there is a single:
 

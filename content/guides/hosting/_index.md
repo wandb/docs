@@ -19,7 +19,7 @@ W&B Platform is available in three different deployment options:
 
 
 The following responsibility matrix outlines some of the key differences between the different options:
-![](/images/hosting/shared_responsibility_matrix.png)
+{{< img src="/images/hosting/shared_responsibility_matrix.png" alt="" >}}
 
 ## Deployment options
 The following sections provide an overview of each deployment type. 

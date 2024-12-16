@@ -17,7 +17,7 @@ Looking for W&B Weave? W&B's suite of tools for Generative AI application buildi
 
 Use query panels to query and interactively visualize your data.
 
-![](/images/weave/pretty_panel.png)
+{{< img src="/images/weave/pretty_panel.png" alt="" >}}
 
 <!-- {{% alert %}}
 See [this report](http://wandb.me/keras-xla-benchmark) to see how this team used Weave Panels to visualize their benchmarks.
@@ -38,7 +38,7 @@ Add a query to your workspace or within a report.
 1. Navigate to your project's workspace. 
 2. In the upper right hand corner, click `Add panel`.
 3. From the dropdown, select `Query panel`.
-![](/images/weave/add_weave_panel_workspace.png)
+{{< img src="/images/weave/add_weave_panel_workspace.png" alt="" >}}
 
 
   </TabItem>
@@ -46,13 +46,12 @@ Add a query to your workspace or within a report.
 
 
 1. Within your report, type and select `/Query panel`
-![](/images/weave/add_weave_panel_report_1.png)
+{{< img src="/images/weave/add_weave_panel_report_1.png" alt="" >}}
 
 Alternatively, you can associated a query with a set of runs with:
 1. Within your report, type and select `/Panel grid`.
 2. Click the `Add panel` button.
 3. From the dropdown, select `Query panel`.
-<!-- ![](/images/weave/add_weave_panel_report_2.png) -->
 
 
   </TabItem>
@@ -77,7 +76,7 @@ Within the query panel you can query your table with:
 ```python
 runs.summary["cifar10_sample_table"]
 ```
-![](/images/weave/basic_weave_expression.png)
+{{< img src="/images/weave/basic_weave_expression.png" alt="" >}}
 
 Breaking this down:
 
@@ -91,40 +90,40 @@ To learn how to write your own queries interactively, see [this report](https://
 
 Select the gear icon on the upper left corner of the panel to expand the query configuration. This allows the user to configure the type of panel and the parameters for the result panel.
 
-![](/images/weave/weave_panel_config.png)
+{{< img src="/images/weave/weave_panel_config.png" alt="" >}}
 
 ### Result panels
 
 Finally, the query result panel renders the result of the query expression, using the selected query panel, configured by the configuration to display the data in an interactive form. The following images shows a Table and a Plot of the same data.
 
-![](/images/weave/result_panel_table.png)
+{{< img src="/images/weave/result_panel_table.png" alt="" >}}
 
-![](/images/weave/result_panel_plot.png)
+{{< img src="/images/weave/result_panel_plot.png" alt="" >}}
 
 ## Basic operations
 The following common operations you can make within your query panels.
 ### Sort
 Sort from the column options:
-![](/images/weave/weave_sort.png)
+{{< img src="/images/weave/weave_sort.png" alt="" >}}
 
 ### Filter
 You can either filter directly in the query or using the filter button in the top left corner (second image)
-![](/images/weave/weave_filter_1.png)
-![](/images/weave/weave_filter_2.png)
+{{< img src="/images/weave/weave_filter_1.png" alt="" >}}
+{{< img src="/images/weave/weave_filter_2.png" alt="" >}}
 
 ### Map
 Map operations iterate over lists and apply a function to each element in the data. You can do this directly with a panel query  or by inserting a new column from the column options.
-![](/images/weave/weave_map.png)
-![](/images/weave/weave_map.gif)
+{{< img src="/images/weave/weave_map.png" alt="" >}}
+{{< img src="/images/weave/weave_map.gif" alt="" >}}
 
 ### Groupby
 You can groupby using a query or from the column options.
-![](/images/weave/weave_groupby.png)
-![](/images/weave/weave_groupby.gif)
+{{< img src="/images/weave/weave_groupby.png" alt="" >}}
+{{< img src="/images/weave/weave_groupby.gif" alt="" >}}
 
 ### Concat
 The concat operation allows you to concatenate 2 tables and concatenate or join from the panel settings
-![](/images/weave/weave_concat.gif)
+{{< img src="/images/weave/weave_concat.gif" alt="" >}}
 
 ### Join
 It is also possible to join tables directly in the query. Consider the following query expression:
@@ -134,7 +133,7 @@ project("luis_team_test", "weave_example_queries").runs.summary["short_table_1"]
 (row) => row["Label"],(row) => row["Label"], "Table1", "Table2",\
 "false", "false")
 ```
-![](/images/weave/weave_join.png)
+{{< img src="/images/weave/weave_join.png" alt="" >}}
 
 The table on the left is generated from:
 ```python
@@ -157,7 +156,7 @@ Use query panels to access the `runs` object. Run objects store records of your 
 * `summary`: A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. You can set the contents of the summary directly. Think of the summary as the run's outputs.
 * `history`: A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.
 * `config`: A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs"
-![](/images/weave/weave_runs_object.png)
+{{< img src="/images/weave/weave_runs_object.png" alt="" >}}
 
 ## Access Artifacts
 
@@ -166,4 +165,4 @@ Artifacts are a core concept in W&B. They are a versioned, named collection of f
 * `project.artifact("")`: returns the artifact for a given name within a project. You can then use `.versions` to get a list of all versions of this artifact
 * `project.artifactType()`: returns the `artifactType` for a given name within a project. You can then use `.artifacts` to get a list of all artifacts with this type
 * `project.artifactTypes`: returns a list of all artifact types under the project
-![](/images/weave/weave_artifacts.png)
+{{< img src="/images/weave/weave_artifacts.png" alt="" >}}

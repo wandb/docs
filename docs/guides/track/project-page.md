@@ -39,7 +39,7 @@ Each project contains the proceeding which you can access from the sidebar:
 
 [View a live example](https://app.wandb.ai/example-team/sweep-demo/overview)
 
-![](/images/track/overview_tab_image.png)
+{{< img src="/images/track/overview_tab_image.png" alt="" >}}
 
 
 ## Workspace tab
@@ -63,7 +63,7 @@ A project's *workspace* gives you a personal sandbox to compare experiments. Use
 
 [View a live example](https://app.wandb.ai/example-team/sweep-demo)
 
-![](/images/app_ui/workspace_tab_example.png)
+{{< img src="/images/app_ui/workspace_tab_example.png" alt="" >}}
 
 
 ### Add a section of panels
@@ -80,26 +80,26 @@ Each section has options in the upper right corner:
 * **Delete section**: Remove the whole section and all the charts. This can be undone with the undo button at the bottom of the page in the workspace bar.
 * **Add panel**: Click the plus button to add a panel to the section.
 
-![](/images/app_ui/add-section.gif)
+{{< img src="/images/app_ui/add-section.gif" alt="" >}}
 
 ### Move panels between sections
 
 Drag and drop panels to reorder and organize into sections. You can also click the "Move" button in the upper right corner of a panel to select a section to move the panel to.
 
-![](/images/app_ui/move-panel.gif)
+{{< img src="/images/app_ui/move-panel.gif" alt="" >}}
 
 ### Resize panels
 
 * **Standard layout**: All panels maintain the same size, and there are pages of panels. You can resize the panels by clicking and dragging the lower right corner. Resize the section by clicking and dragging the lower right corner of the section.
 * **Custom layout**: All panels are sized individually, and there are no pages.
 
-![](/images/app_ui/resize-panel.gif)
+{{< img src="/images/app_ui/resize-panel.gif" alt="" >}}
 
 ### Search for metrics
 
 Use the search box in the workspace to filter down the panels. This search matches the panel titles, which are by default the name of the metrics visualized.
 
-![](/images/app_ui/search_in_the_workspace.png)
+{{< img src="/images/app_ui/search_in_the_workspace.png" alt="" >}}
 
 <!-- ## Table Tab
 
@@ -116,7 +116,7 @@ Use the table to filter, group, and sort your results.
 ## Runs tab
 Use the runs tab to filter, group, and sort your results.
 
-![](/images/runs/run-table-example.png)
+{{< img src="/images/runs/run-table-example.png" alt="" >}}
 
 <!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
 
@@ -137,7 +137,7 @@ Sort all rows in a Table by the value in a given column.
 2. Select on the kebob menu (three vertical dots).
 3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
 
-![See the digits for which the model most confidently guessed "0".](/images/data_vis/data_vis_sort_kebob.png)
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed "0"." >}}
 
 The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.
 
@@ -146,7 +146,7 @@ The preceding image demonstrates how to view sorting options for a Table column 
   
 Filter all rows by an expression with the **Filter** button on the top left of the dashboard. 
 
-![See only examples which the model gets wrong.](/images/data_vis/filter.png)
+{{< img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong." >}}
 
 Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
 
@@ -157,7 +157,7 @@ Select **Add filter** to add one or more filters to your rows. Three dropdown me
 
 The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
 
-![](/images/data_vis/filter_example.png)
+{{< img src="/images/data_vis/filter_example.png" alt="" >}}
 The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.
 
 </TabItem>
@@ -165,7 +165,7 @@ The preceding image shows a filter that is based on the `val_loss` column. The f
 
 Group all rows by the value in a particular column with the **Group by** button in a column header. 
 
-![The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s.](/images/data_vis/group.png)
+{{< img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s." >}}
 
 By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.
 
@@ -180,13 +180,13 @@ By default, this turns other numeric columns into histograms showing the distrib
 
 See all the snapshots of results in one place, and share findings with your team.
 
-![](/images/app_ui/reports-tab.png)
+{{< img src="/images/app_ui/reports-tab.png" alt="" >}}
 
 ## Sweeps tab
 
 Start a new [sweep](../sweeps/intro.md) from your project.
 
-![](/images/app_ui/sweeps-tab.png)
+{{< img src="/images/app_ui/sweeps-tab.png" alt="" >}}
 
 ## Artifacts tab
 
@@ -194,35 +194,35 @@ View all the [artifacts](../artifacts/intro.md) associated with a project, from 
 
 ### Overview panel
 
-![](/images/app_ui/overview_panel.png)
+{{< img src="/images/app_ui/overview_panel.png" alt="" >}}
 
 On the overview panel, you'll find a variety of high-level information about the artifact, including its name and version, the hash digest used to detect changes and prevent duplication, the creation date, and any aliases. You can add or remove aliases here, take notes on both the version as well as the artifact as a whole.
 
 ### Metadata panel
 
-![](/images/app_ui/metadata_panel.png)
+{{< img src="/images/app_ui/metadata_panel.png" alt="" >}}
 
 The metadata panel provides access to the artifact's metadata, which is provided when the artifact is constructed. This metadata might include configuration arguments required to reconstruct the artifact, URLs where more information can be found, or metrics produced during the run which logged the artifact. Additionally, you can see the configuration for the run which produced the artifact as well as the history metrics at the time of logging the artifact.
 
 ### Usage panel
 
-![](/images/app_ui/usage_panel.png)
+{{< img src="/images/app_ui/usage_panel.png" alt="" >}}
 
 The Usage panel provides a code snippet for downloading the artifact for use outside of the web app, for example on a local machine. This section also indicates and links to the run which output the artifact and any runs which use the artifact as an input.
 
 ### Files panel
 
-![](/images/app_ui/files_panel.png)
+{{< img src="/images/app_ui/files_panel.png" alt="" >}}
 
 The files panel lists the files and folders associated with the artifact. W&B uploads certain files for a run automatically. For example, `requirements.txt` shows the versions of each library the run used, and `wandb-metadata.json`, and `wandb-summary.json` include information about the run. Other files may be uploaded, such as artifacts or media, depending on the run's configuration. You can navigate through this file tree and view the contents directly in the W&B web app.
 
 [Tables](../tables/tables-walkthrough.md) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](../tables/visualize-tables.md).
 
-![](/images/app_ui/files_panel_table.png)
+{{< img src="/images/app_ui/files_panel_table.png" alt="" >}}
 
 ### Lineage panel
 
-![](/images/app_ui/lineage_panel.png)
+{{< img src="/images/app_ui/lineage_panel.png" alt="" >}}
 
 The lineage panel provides a view of all of the artifacts associated with a project and the runs that connect them to each other. It shows run types as blocks and artifacts as circles, with arrows to indicate when a run of a given type consumes or produces an artifact of a given type. The type of the particular artifact selected in the left-hand column is highlighted.
 
@@ -230,15 +230,15 @@ Click the Explode toggle to view all of the individual artifact versions and the
 
 ### Action History Audit tab
 
-![](/images/app_ui/action_history_audit_tab_1.png)
+{{< img src="/images/app_ui/action_history_audit_tab_1.png" alt="" >}}
 
-![](/images/app_ui/action_history_audit_tab_2.png)
+{{< img src="/images/app_ui/action_history_audit_tab_2.png" alt="" >}}
 
 The action history audit tab shows all of the alias actions and membership changes for a Collection so you can audit the entire evolution of the resource.
 
 ### Versions tab
 
-![](/images/app_ui/versions_tab.png)
+{{< img src="/images/app_ui/versions_tab.png" alt="" >}}
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
 
@@ -250,7 +250,7 @@ Add a star to a project to mark that project as important. Projects that you and
 
 
 For example, the proceeding image shows two projects that are marked as important, the "zoo_experiment" and "registry_demo". Both projects appear within the top of the organization's home page within the **Starred projects** section.
-![](/images/track/star-projects.png)
+{{< img src="/images/track/star-projects.png" alt="" >}}
 
 
 There are two ways to mark a project as important: within a project's overview tab or within your team's profile page.
@@ -268,7 +268,7 @@ There are two ways to mark a project as important: within a project's overview t
 2. Select the **Overview** tab from the project sidebar.
 3. Choose the star icon in the upper right corner next to the **Edit** button.
 
-![](/images/track/star-project-overview-tab.png)
+{{< img src="/images/track/star-project-overview-tab.png" alt="" >}}
 
   </TabItem>
   <TabItem value="project_landing_page">
@@ -278,7 +278,7 @@ There are two ways to mark a project as important: within a project's overview t
 3. Hover your mouse next to the project you want to star. Click on star icon that appears.
 
 For example, the proceeding image shows the star icon next to the "Compare_Zoo_Models" project.
-![](/images/track/star-project-team-profile-page.png)
+{{< img src="/images/track/star-project-team-profile-page.png" alt="" >}}
 
   </TabItem>
 </Tabs>
@@ -292,11 +292,11 @@ Confirm that your project appears on the landing page of your organization by cl
 
 You can delete your project by clicking the three dots on the right of the overview tab.
 
-![](/images/app_ui/howto_delete_project.gif)
+{{< img src="/images/app_ui/howto_delete_project.gif" alt="" >}}
 
 If the project is empty, you can delete it by clicking the dropdown menu in the top-right and selecting "Delete project".
 
-![](/images/app_ui/howto_delete_project_2.png)
+{{< img src="/images/app_ui/howto_delete_project_2.png" alt="" >}}
 
 
 

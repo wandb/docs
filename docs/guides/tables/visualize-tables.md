@@ -26,7 +26,7 @@ For information on how to save your current W&B Table view, see [Save your view]
 ## How to view two tables
 Compare two tables with a [merged view](#merged-view) or a [side-by-side view](#side-by-side-view). For example, the image below demonstrates a table comparison of MNIST data.
 
-![Left: mistakes after 1 training epochs, Right: mistakes after 5 epochs](/images/data_vis/table_comparison.png)
+{{< img src="/images/data_vis/table_comparison.png" alt="Left: mistakes after 1 training epochs, Right: mistakes after 5 epochs" >}}
 
 Follow these steps to compare two tables:
 
@@ -36,18 +36,18 @@ Follow these steps to compare two tables:
 
 In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
 
-![Click on "predictions" to view the Table](/images/data_vis/preds_mnist.png)
+{{< img src="/images/data_vis/preds_mnist.png" alt="Click on "predictions" to view the Table" >}}
 
 
 3. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
 
-![Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)](/images/data_vis/preds_2.png)
+{{< img src="/images/data_vis/preds_2.png" alt="Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)" >}}
 
 ### Merged view
 <!-- To do, add steps -->
 Initially you will see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
-![In the merged view, numerical columns will appear as histograms by default](/images/data_vis/merged_view.png)
+{{< img src="/images/data_vis/merged_view.png" alt="In the merged view, numerical columns will appear as histograms by default" >}}
 
 From the merged view, you can
 
@@ -62,7 +62,7 @@ From the merged view, you can
 
 To view the two tables side-by-side, change the first dropdown from "Merge Tables: Table" to "List of: Table" and then update the "Page size" respectively. Here the first Table selected is on the left and the second one is on the right. Also, you can compare these tables vertically as well by clicking on the "Vertical" checkbox.
 
-![In the side-by-side view, Table rows are independent of each other.](/images/data_vis/side_by_side.png)
+{{< img src="/images/data_vis/side_by_side.png" alt="In the side-by-side view, Table rows are independent of each other." >}}
 
 * **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
 * **explore two tables independently**: scroll through and focus on the side/rows of interest
@@ -75,7 +75,7 @@ You can also [compare tables across time](#compare-tables-across-time) or [model
 ### Compare tables across time
 Log a table in an artifact for each meaningful step of training to analyze model performance over training time. For example, you could log a table at the end of every validation step, after every 50 epochs of training, or any frequency that makes sense for your pipeline. Use the side-by-side view to visualize changes in model predictions.
 
-![For each label, the model makes fewer mistakes after 5 training epochs (R) than after 1 (L)](/images/data_vis/compare_across_time.png)
+{{< img src="/images/data_vis/compare_across_time.png" alt="For each label, the model makes fewer mistakes after 5 training epochs (R) than after 1 (L)" >}}
 
 For a more detailed walkthrough of visualizing predictions across training time, [see this report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..).
 
@@ -93,11 +93,11 @@ For example, compare predictions between a `baseline` and a new model variant, `
   ]}>
   <TabItem value="one_epoch">
 
-![After 1 epoch, performance is mixed: precision improves for some classes and worsens for others.](/images/data_vis/compare_across_variants.png)
+{{< img src="/images/data_vis/compare_across_variants.png" alt="After 1 epoch, performance is mixed: precision improves for some classes and worsens for others." >}}
   </TabItem>
   <TabItem value="five_epochs">
 
-![After 5 epochs, the "double" variant is catching up to the baseline.](/images/data_vis/compare_across_variants_after_5_epochs.png)
+{{< img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="After 5 epochs, the "double" variant is catching up to the baseline." >}}
   </TabItem>
 </Tabs>
 
@@ -114,7 +114,7 @@ To save a table from a workspace in a particular state, export it to a W&B Repor
 1. Select the kebob icon (three vertical dots) in the top right corner of your workspace visualization panel.
 2. Select either **Share panel** or **Add to report**.
 
-![Share panel creates a new report, Add to report lets you append to an existing report.](/images/data_vis/share_your_view.png)
+{{< img src="/images/data_vis/share_your_view.png" alt="Share panel creates a new report, Add to report lets you append to an existing report." >}}
 
 
 ## Examples

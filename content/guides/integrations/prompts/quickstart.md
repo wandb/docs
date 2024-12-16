@@ -102,7 +102,7 @@ Click on the W&B [run](../../runs/intro.md) link generated in the previous step.
 
 Select a run you created to view the trace table, trace timeline and the model architecture of your LLM. 
 
-![](/images/prompts/trace_timeline_detailed.png)
+{{< img src="/images/prompts/trace_timeline_detailed.png" alt="" >}}
 
 
 ### 6. LangChain Context Manager
@@ -397,7 +397,7 @@ for q in questions:
 
 Click on the Weights and Biases run link generated while initializing the `WandbCallbackHandler` in step 1. This takes you to your project workspace in the W&B App where you can view a trace table and  timeline.
 
-![](/images/prompts/llama_index_trace.png)
+{{< img src="/images/prompts/llama_index_trace.png" alt="" >}}
 
 ### 5. Finish tracking
 

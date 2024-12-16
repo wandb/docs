@@ -10,11 +10,11 @@ weight: 5
 {{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb' >}}
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-![](/images/tutorials/huggingface-why.png)
+{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
 Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models, complete with interactive dashboards like this:
 
-![](/images/tutorials/tensorflow/sweeps.png)
+{{< img src="/images/tutorials/tensorflow/sweeps.png" alt="" >}}
 
 
 ## 🤔 Why Should I Use Sweeps?

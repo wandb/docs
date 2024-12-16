@@ -32,7 +32,7 @@ Deployment time varies by model and machine type. The base Llama2-7b config take
      - model-store:/model-store/
    ```
 
-   ![image](/images/integrations/nim1.png)
+   {{< img src="/images/integrations/nim1.png" alt="image" >}}
 
 2. Create this job in your project:
 
@@ -58,9 +58,9 @@ Deployment time varies by model and machine type. The base Llama2-7b config take
         -q $QUEUE \
         -c $CONFIG_JSON_FNAME
       ```
-      ![image](/images/integrations/nim2.png)
+      {{< img src="/images/integrations/nim2.png" alt="image" >}}
 5. You can track the deployment process in the Launch UI.
-   ![image](/images/integrations/nim3.png)
+   {{< img src="/images/integrations/nim3.png" alt="image" >}}
 6. Once complete, you can immediately curl the endpoint to test the model. The model name is always `ensemble`.
    ```bash
     #!/bin/bash

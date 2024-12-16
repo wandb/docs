@@ -8,7 +8,7 @@ This means that, when you log a model artifact, you at a minimum have access to 
 
 For example, the proceeding image shows artifacts created and used throughout an ML experiment:
 
-![](/images/models/model_lineage_example.png)
+{{< img src="/images/models/model_lineage_example.png" alt="" >}}
 
 From left to right, the image shows:
 1. The `jumping-monkey-1` W&B run created the `mnist_dataset:v0` dataset artifact.

@@ -19,7 +19,7 @@ Track machine learning experiments with a few lines of code. You can then review
 
 Utilize W&B Integrations if you use use popular frameworks such as [PyTorch](../integrations/pytorch.md), [Keras](../integrations/keras.md), or [Scikit](../integrations/scikit.md). See our [Integration guides](../integrations/intro.md) for a for a full list of integrations and information on how to add W&B to your code.
 
-![](/images/experiments/experiments_landing_page.png)
+{{< img src="/images/experiments/experiments_landing_page.png" alt="" >}}
 
 The image above shows an example dashboard where you can view and compare metrics across multiple [runs](../runs/intro.md).
 

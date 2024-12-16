@@ -19,7 +19,7 @@ from wandb.integration.diffusers import autolog
 autolog(init=dict(project="diffusers_logging"))
 ```
 
-| ![An example of how the results of your experiment are logged](/images/integrations/diffusers-autolog-4.gif) | 
+| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="An example of how the results of your experiment are logged" >}} | 
 |:--:| 
 | **An example of how the results of your experiment are logged.** |
 
@@ -143,15 +143,15 @@ wandb.finish()
   </TabItem>
 </Tabs>
 
-| ![An example of how the results of your experiment are logged](/images/integrations/diffusers-autolog-2.gif) | 
+| {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}} | 
 |:--:| 
 | **An example of how the results of your experiment are logged.** |
 
-| ![An example of how the results of your experiment are logged](/images/integrations/diffusers-autolog-1.gif) | 
+| {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged" >}} | 
 |:--:| 
 | **An example of how the results of multiple experiments are logged in your workspace.** |
 
-| ![An example of how the autolog logs the configs of your experiment](/images/integrations/diffusers-autolog-3.gif) | 
+| {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}} | 
 |:--:| 
 | **An example of how the autolog logs the configs of your experiment.** |
 
@@ -298,7 +298,7 @@ wandb.finish()
   </TabItem>
 </Tabs>
 
-| ![An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment](/images/integrations/diffusers-autolog-6.gif) | 
+| {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}} | 
 |:--:| 
 | **An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment.** |
 

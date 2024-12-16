@@ -57,7 +57,7 @@ Only team admins can define who can set or edit a TTL policy.
 5. Click on **Review and save settings**. 
 6. Confirm the changes and select **Save settings**. 
 
-![](/images/artifacts/define_who_sets_ttl.gif)
+{{< img src="/images/artifacts/define_who_sets_ttl.gif" alt="" >}}
 
 ## Create a TTL policy
 Set a TTL policy for an artifact either when you create the artifact or retroactively after the artifact is created.
@@ -139,7 +139,7 @@ The preceding code example sets the TTL policy to two years.
 8. Within the **TTL duration** field, set the TTL policy in units of days.
 9. Select the **Update TTL** button to save your changes.
 
-![](/images/artifacts/edit_ttl_ui.gif)
+{{< img src="/images/artifacts/edit_ttl_ui.gif" alt="" >}}
 
   </TabItem>
 </Tabs>
@@ -161,7 +161,7 @@ Set a default TTL policy for your team. Default TTL policies apply to all existi
 6. Click on **Review and save settings**.
 7/ Confirm the changes and then select **Save settings**. 
 
-![](/images/artifacts/set_default_ttl.gif)
+{{< img src="/images/artifacts/set_default_ttl.gif" alt="" >}}
 
 
 
@@ -206,7 +206,7 @@ artifact.save()
 8. Within the modal that appears, select **Deactivate** from the TTL policy dropdown.
 9. Select the **Update TTL** button to save your changes.
 
-![](/images/artifacts/remove_ttl_polilcy.gif)
+{{< img src="/images/artifacts/remove_ttl_polilcy.gif" alt="" >}}
 
   </TabItem>
 </Tabs>
@@ -244,7 +244,7 @@ View a TTL policy for an artifact with the W&B App UI.
 
 Within the collection view you can see all of the artifacts in the selected collection. Within the `Time to Live` column you will see the TTL policy assigned to that artifact. 
 
-![](/images/artifacts/ttl_collection_panel_ui.png)
+{{< img src="/images/artifacts/ttl_collection_panel_ui.png" alt="" >}}
 
   </TabItem>
 </Tabs>
