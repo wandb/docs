@@ -12,11 +12,11 @@ weight: 10
 
 Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
 
-### Profile
+## Profile
 
 Within the **Profile** section you can manage and modify your account name and institution. You can optionally add a biography, location, link to a personal or your institution’s website, and upload a profile image.
 
-### Teams
+## Teams
 
 Create a new team in the **Team** section. To create a new team, select the **New team** button and provide the following:
 
@@ -28,11 +28,11 @@ Create a new team in the **Team** section. To create a new team, select the **Ne
 Only administrative accounts can create a team.
 {{% /alert %}}
 
-### Beta features
+## Beta features
 
 Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable.
 
-### Alerts
+## Alerts
 
 Get notified when your runs crash, finish, or set custom alerts with [wandb.alert()](../../runs/alert.md). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
 
@@ -41,7 +41,7 @@ Get notified when your runs crash, finish, or set custom alerts with [wandb.aler
 
 For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](../../runs/alert.md).
 
-### Personal GitHub integration
+## Personal GitHub integration
 
 Connect a personal Github account. To connect a Github account:
 
@@ -49,7 +49,7 @@ Connect a personal Github account. To connect a Github account:
 2. Select the organization to grant access in the **Organization access** section.
 3. Select **Authorize** **wandb**.
 
-### Delete your account
+## Delete your account
 
 Select the **Delete Account** button to delete your account.
 
@@ -57,6 +57,6 @@ Select the **Delete Account** button to delete your account.
 Account deletion can not be reversed.
 {{% /alert %}}
 
-### Storage
+## Storage
 
 The **Storage** section describes the total memory usage the your account has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
