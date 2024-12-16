@@ -13,7 +13,6 @@ CLI
 Cognito
 Colab
 [Cc]onfig
-CTAButtons
 [Dd]ataframe
 [Dd]atastore
 [Dd]edicated cloud
