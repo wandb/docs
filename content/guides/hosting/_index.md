@@ -4,6 +4,7 @@ menu:
     identifier: w-b-platform
 title: W&B Platform
 weight: 6
+no_list: true
 ---
 
 import Tabs from '@theme/Tabs';

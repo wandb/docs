@@ -8,21 +8,16 @@ menu:
     weight: 4
     parent: null
 url: support
+no_list: true
 type: docs
 cascade:
 - url: support/:filename
 ---
-import Card from '@site/src/components/Card';
-import TopicCard from '@site/src/components/TopicCard';
-import TopicGrid from '@site/src/components/TopicGrid';
 
-
-Search for help from support articles, product documentation, and the W&B community. 
-
-<Card className="help-banner">
-  <h2>How can we help?</h2>
-  <p>Browse support articles or contact us directly.</p>
-</Card>
+{{< banner title="How can we help?" background="/images/support/support_banner.png" >}}
+Search for help from support articles, product documentation,<br>
+and the W&B community. 
+{{< /banner >}}
 
 ## Featured articles
 
@@ -42,39 +37,45 @@ If you can't find what you are looking for, browse through the [popular categori
 
 Browse articles by category.
 
-<div className="card-container">
-  <Card href="index_experiments" className="card card-yellow">
-    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-running-repeat.svg')"}} />
-    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.svg')"}} />
-    <h2 className="card-title">Experiments</h2>
-    <p className="card-content">Track, visualize, and compare machine learning experiments</p>
-  </Card>
+{{< cardpane >}}
+  {{< card >}}
+    <a href="index_experiments">
+      <div className="card-icon-left" style="backgroundImage: url('/images/support/icon-running-repeat.svg')"></div>
+      <div className="card-icon-right" style="backgroundImage: url('/images/support/icon-forward-next.svg')"></div>
+      <h2 className="card-title">Experiments</h2>
+      <p className="card-content">Track, visualize, and compare machine learning experiments</p>
+    </a>
+  {{< /card >}}
+  {{< card >}}
+    <a href="index_artifacts">
+      <div className="card-icon-left" style="backgroundImage: url('/images/support/icon-versions-layers.svg')"></div>
+      <div className="card-icon-right" style="backgroundImage: url('/images/support/icon-forward-next.svg')"></div>
+      <h2 className="card-title">Artifacts</h2>
+      <p className="card-content">Version and track datasets, models, and other machine learning artifacts</p>
+    </a>
+  {{< /card >}}
+{{< /cardpane >}}
+{{< cardpane >}}
+  {{< card >}}
+    <a href="index_reports">
+      <div className="card-icon-left" style="backgroundImage: url('/images/support/icon-category-multimodal.svg')"></div>
+      <div className="card-icon-right" style="backgroundImage: url('/images/support/icon-forward-next.svg')"></div>
+      <h2 className="card-title">Reports</h2>
+      <p className="card-content">Create interactive, collaborative reports to share your work</p>
+    </a>
+  {{< /card >}}
+  {{< card >}}
+    <a href="/launch/launch-faq/">
+      <div className="card-icon-left" style="backgroundImage: url('/images/support/white-icon-category-multimodal.svg')"></div>
+      <div className="card-icon-right" style="backgroundImage: url('/images/support/white-icon-forward-next.svg')"></div>
+      <h2 className="card-title">Launch</h2>
+      <p className="card-content">Manage compute resources and run machine learning jobs at scale</p>
+    </a>
+  {{< /card >}}
+{{< /cardpane >}}
 
-  <Card href="index_artifacts" className="card card-pink">
-    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-versions-layers.svg')"}} />
-    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.svg')"}} />
-    <h2 className="card-title">Artifacts</h2>
-    <p className="card-content">Version and track datasets, models, and other machine learning artifacts</p>
-  </Card>
-</div>
 
-<div className="card-container">
-
-  <Card href="index_reports" className="card card-gray">
-    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.svg')"}} />
-    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.svg')"}} />
-    <h2 className="card-title">Reports</h2>
-    <p className="card-content">Create interactive, collaborative reports to share your work</p>
-  </Card>
-  <Card href="index_launch" className="card card-blue">
-    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/white-icon-category-multimodal.svg')"}} />
-    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/white-icon-forward-next.svg')"}} />
-    <h2 className="card-title">Launch</h2>
-    <p className="card-content">Manage compute resources and run machine learning jobs at scale</p>
-  </Card>  
-</div>
-
-<Card className="card-banner card-banner-gray">
+{{< card >}}
   <div className="card-banner-icon">
     <img src="/images/support/callout-icon.svg" alt="Callout Icon" width="32" height="32" />
   </div>
@@ -82,4 +83,4 @@ Browse articles by category.
   <a href="mailto:support@wandb.com" className="contact-us-button">
     Contact support
   </a>
-</Card>
+ {{< /card >}}

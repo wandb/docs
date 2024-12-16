@@ -4,6 +4,7 @@ menu:
     identifier: core
 title: W&B Core
 weight: 5
+no_list: true
 ---
 
 W&B Core is the foundational framework supporting [W&B Models](./models.md) and [W&B Weave](./weave_platform.md), and is itself supported by the [W&B Platform](./hosting/intro.md). 

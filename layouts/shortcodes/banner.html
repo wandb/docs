@@ -1,0 +1,9 @@
+{{- $title := .Get "title" -}}
+{{- $imagePath := .Get (cond .IsNamedParams "background" 1) -}}
+{{- $img := resources.Get (printf "%s%s" "" $imagePath) -}}
+<div class="banner" style="background-image: url('{{ ($img | fingerprint).Permalink }}')">
+    <h2>{{ $title }}</h2>
+    <div>
+        {{- .Inner | markdownify -}}
+    </div>
+</div>
