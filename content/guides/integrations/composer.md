@@ -6,10 +6,7 @@ menu:
     parent: integrations
 title: MosaicML Composer
 ---
-
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb" >}}
 
 [Composer](https://github.com/mosaicml/composer) is a library for training neural networks better, faster, and cheaper. It contains many state-of-the-art methods for accelerating neural network training and improving generalization, along with an optional [Trainer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/using_the_trainer.html) API that makes _composing_ many different enhancements easy.
 

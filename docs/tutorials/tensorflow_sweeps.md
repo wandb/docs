@@ -1,10 +1,7 @@
 ---
 title: TensorFlow Sweeps
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb' >}}
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}

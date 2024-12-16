@@ -7,9 +7,7 @@ menu:
 title: Send an alert
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="http://wandb.me/alerts-colab"/>
+{{< cta-button colabLink="http://wandb.me/alerts-colab" >}}
 
 Create alerts with Slack or email if your run crashes or with a custom trigger. For example, you can create an alert if the gradient of your training loop starts to blow up (reports NaN) or a step in your ML pipeline completes. Alerts apply to all projects where you initialize runs, including both personal and team projects.
 

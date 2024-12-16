@@ -7,10 +7,7 @@ title: Programmatic Workspaces
 weight: 5
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb' >}}
 Organize and visualize your machine learning experiments more effectively by programmatically create, manage, and customize workspaces by defining configurations, setting panel layouts, and organizing sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. Load and modify workspaces with URLs, filter and group runs using expressions, and customize run appearances.
 
 `wandb-workspaces` is a Python library for programmatically creating and customizing W&B [Workspaces](/guides/track/workspaces) and [Reports](/guides/reports).

@@ -3,9 +3,7 @@ title: Ultralytics
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" >}}
 
 [Ultralytics](https://github.com/ultralytics/ultralytics) is the home for cutting-edge, state-of-the-art computer vision models for tasks like image classification, object detection, image segmentation, and pose estimation. Not only it hosts [YOLOv8](https://docs.ultralytics.com/models/yolov8/), the latest iteration in the YOLO series of real-time object detection models, but other powerful computer vision models such as [SAM (Segment Anything Model)](https://docs.ultralytics.com/models/sam/#introduction-to-sam-the-segment-anything-model), [RT-DETR](https://docs.ultralytics.com/models/rtdetr/), [YOLO-NAS](https://docs.ultralytics.com/models/yolo-nas/), etc. Besides providing implementations of these models, Ultralytics also provides us with out-of-the-box workflows for training, fine-tuning, and applying these models using an easy-to-use API.
 
@@ -42,7 +40,7 @@ pip install --upgrade ultralytics==8.0.238 wandb
 
 ## Experiment Tracking and Visualizing Validation Results
 
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" >}}
 
 This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for training, fine-tuning, and validation and performing experiment tracking, model-checkpointing, and visualization of the model's performance using [W&B](https://wandb.ai/site).
 
@@ -88,7 +86,7 @@ Here's how epoch-wise validation results are visualized using a [W&B Table](../t
 
 ## Visualizing Prediction Results
 
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/00_inference.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/00_inference.ipynb" >}}
 
 This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for inference and visualizing the results using [W&B](https://wandb.ai/site).
 

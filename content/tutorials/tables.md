@@ -7,9 +7,7 @@ title: Visualize predictions with tables
 weight: 2
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W&B_Tables_Quickstart.ipynb'/>
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W&B_Tables_Quickstart.ipynb' >}}
 
 This covers how to track, visualize, and compare model predictions over the course of training, using PyTorch on MNIST data. 
 

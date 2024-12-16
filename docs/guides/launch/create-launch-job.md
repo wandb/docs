@@ -4,9 +4,7 @@ title: Create a launch job
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
+{{< cta-button colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" >}}
 
 Launch jobs are blueprints for reproducing W&B runs. Jobs are W&B Artifacts that capture the source code, dependencies, and inputs required to execute a workload. 
 

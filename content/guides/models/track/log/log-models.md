@@ -6,10 +6,7 @@ menu:
 title: Log models
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb' >}}
 # Log models
 
 The following guide describes how to log models to a W&B run and interact with them. 

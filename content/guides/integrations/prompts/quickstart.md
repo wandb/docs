@@ -7,10 +7,7 @@ menu:
     parent: prompts
 title: 'Tutorial: Visualize and debug LLMs with Prompts'
 ---
-
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb" >}}
 
 {{% alert %}}
 Support for W&B Prompts ends in 2024. W&B recommends that current Prompt users transition to [Weave](https://weave-docs.wandb.ai/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge), a tool specifically designed for tracking and evaluating LLM applications. Weave offers a faster, more intuitive experience tailored for teams building with Generative AI.

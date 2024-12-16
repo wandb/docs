@@ -1,10 +1,7 @@
 ---
 title: PyTorch Lightning
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Image_Classification_using_PyTorch_Lightning.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Image_Classification_using_PyTorch_Lightning.ipynb' >}}
 We will build an image classification pipeline using PyTorch Lightning. We will follow this [style guide](https://lightning.ai/docs/pytorch/stable/starter/style_guide.html) to increase the readability and reproducibility of our code. A cool explanation of this available [here](https://wandb.ai/wandb/wandb-lightning/reports/Image-Classification-using-PyTorch-Lightning--VmlldzoyODk1NzY).
 
 ## Setting up PyTorch Lightning and W&B 

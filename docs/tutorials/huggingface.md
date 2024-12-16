@@ -1,12 +1,9 @@
 ---
 title: Hugging Face
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
 {{< img src="/images/tutorials/huggingface.png" alt="" >}}
 
-<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb'/>
-
+{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb' >}}
 Visualize your [Hugging Face](https://github.com/huggingface/transformers) model's performance quickly with a seamless [W&B](https://wandb.ai/site) integration.
 
 Compare hyperparameters, output metrics, and system stats like GPU utilization across your models. 

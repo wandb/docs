@@ -7,11 +7,8 @@ weight: 1
 ---
 
 {{< cta-button 
-    colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_&_Biases.ipynb'" 
+    colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_&_Biases.ipynb" 
 >}}
-
-</br>
-
 
 Use [W&B](https://wandb.ai/site) for machine learning experiment tracking, model checkpointing, collaboration with your team and more. See the full W&B Documentation [here](/).
 

@@ -3,9 +3,7 @@ url: /guides/weave
 displayed_sidebar: default
 title: W&B Weave
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="http://wandb.me/weave_colab"/>
+{{< cta-button colabLink="http://wandb.me/weave_colab" >}}
 
 Weave is a lightweight toolkit for tracking and evaluating LLM applications. Use W&B Weave to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
 

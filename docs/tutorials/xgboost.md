@@ -1,9 +1,7 @@
 ---
 title: XGBoost
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W&B.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W&B.ipynb" >}}
 
 In this notebook we'll train a XGBoost model to classify whether submitted loan applications will default or not. Using boosting algorithms such as XGBoost increases the performance of a loan assesment, whilst retaining interpretability for internal Risk Management functions as well as external regulators.
 

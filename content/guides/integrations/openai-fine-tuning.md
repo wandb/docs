@@ -9,9 +9,7 @@ title: OpenAI Fine-Tuning
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="http://wandb.me/openai-colab"></CTAButtons>
+{{< cta-button colabLink="http://wandb.me/openai-colab" >}}
 
 Log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to W&B. Utilize the W&B ecosystem to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
 
@@ -52,8 +50,6 @@ WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 ```
 
 {{< img src="/images/integrations/open_ai_auto_scan.png" alt="" >}}
-
-
 
 ### Sync your fine-tunes
 

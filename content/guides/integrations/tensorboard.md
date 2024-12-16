@@ -5,14 +5,7 @@ menu:
     parent: integrations
 title: TensorBoard
 ---
-
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-
-<CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb"></CTAButtons>
-
-
-
+{{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb" >}}
 
 {{% alert %}}
 W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
@@ -20,13 +13,9 @@ W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
 
 Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
-
-
 {{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="" >}}
 
 ### Add one line of code to your training script
-
-
 
 ```python
 import wandb

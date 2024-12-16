@@ -6,9 +6,7 @@ menu:
 title: Weave and Models
 ---
 
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons colabLink='https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing'/>
+{{< cta-button colabLink='https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing' >}}
 
 # Models and Weave integration demo
 

@@ -10,7 +10,6 @@ weight: 2
 cascade:
 - url: guides/sweeps/:filename
 ---
-
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb"/>

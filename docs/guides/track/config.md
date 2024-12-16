@@ -2,9 +2,7 @@
 description: Use a dictionary-like object to save your experiment configuration
 title: Configure experiments
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb" >}}
 
 Use the `wandb.config` object to save your training configuration such as: 
 - hyperparameter

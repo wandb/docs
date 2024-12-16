@@ -1,13 +1,11 @@
 ---
 title: Reports 
 ---
-import Card from '@site/src/components/Card';
-
-<Card className="card-support-index">
-  <p>The following support questions are tagged with <b>Reports</b>. If you don't see 
+{{% card %}}
+The following support questions are tagged with <b>Reports</b>. If you don't see 
 your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).</p>
-</Card>
+or email [support@wandb.com](mailto:support@wandb.com).
+{{% /card %}}
 - [Adding multiple authors to a report](adding_multiple_authors_report.md)
 - [Can I use Markdown in my reports?](reports_markdown.md)
 - [Embedding Reports](embedding_reports.md)

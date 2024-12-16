@@ -1,10 +1,7 @@
 ---
 title: TensorBoard
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-
-<CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb"></CTAButtons>
+{{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb" >}}
 
 
 
