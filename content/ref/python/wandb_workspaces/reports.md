@@ -1,9 +1,7 @@
 ---
 title: Reports
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-<CTAButtons githubLink='https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py'/>
+{{< cta-button githubLink="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py" >}}
 
 <!-- markdownlint-turnedoff -->
 
