@@ -7,26 +7,14 @@ menu:
 title: Create and track plots from experiments
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Using the methods in `wandb.plot`, you can track charts with `wandb.log`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide](../../app/features/custom-charts/walkthrough.md).
 
 ### Basic charts
 
 These simple charts make it easy to construct basic visualizations of metrics and results.
 
-<Tabs
-  defaultValue="line"
-  values={[
-    {label: 'Line', value: 'line'},
-    {label: 'Scatter', value: 'scatter'},
-    {label: 'Bar', value: 'bar'},
-    {label: 'Histogram', value: 'histogram'},
-    {label: 'Multi-line', value: 'multiline'},
-  ]}>
-  <TabItem value="line">
-
+{{< tabpane text=true >}}
+    {{% tab header="Line" %}}
 `wandb.plot.line()`
 
 Log a custom line plot—a list of connected and ordered points on arbitrary axes.
@@ -49,10 +37,9 @@ You can use this to log curves on any two dimensions. Note that if you're plotti
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
-[Run the code](https://tiny.cc/custom-charts)
-  </TabItem>
-  <TabItem value="scatter">
-
+[Run the code](https://tiny.cc/custom-charts)   
+    {{% /tab %}}
+    {{% tab header="Scatter" %}}
 `wandb.plot.scatter()`
 
 Log a custom scatter plot—a list of points (x, y) on a pair of arbitrary axes x and y.
@@ -69,10 +56,9 @@ You can use this to log scatter points on any two dimensions. Note that if you'r
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
-[Run the code](https://tiny.cc/custom-charts)
-  </TabItem>
-  <TabItem value="bar">
-
+[Run the code](https://tiny.cc/custom-charts)    
+    {{% /tab %}}
+    {{% tab header="Bar" %}}
 `wandb.plot.bar()`
 
 Log a custom bar chart—a list of labeled values as bars—natively in a few lines:
@@ -95,10 +81,9 @@ You can use this to log arbitrary bar charts. Note that the number of labels and
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
-[Run the code](https://tiny.cc/custom-charts)
-  </TabItem>
-  <TabItem value="histogram">
-
+[Run the code](https://tiny.cc/custom-charts)    
+    {{% /tab %}}
+    {{% tab header="Histogram" %}}
 `wandb.plot.histogram()`
 
 Log a custom histogram—sort a list of values into bins by count/frequency of occurrence—natively in a few lines. Let's say I have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
@@ -115,10 +100,9 @@ You can use this to log arbitrary histograms. Note that `data` is a list of list
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
-[Run the code](https://tiny.cc/custom-charts)
-  </TabItem>
-  <TabItem value="multiline">
-
+[Run the code](https://tiny.cc/custom-charts)    
+    {{% /tab %}}
+    {{% tab header="Multi-line" %}}
 `wandb.plot.line_series()`
 
 Plot multiple lines, or multiple different lists of x-y coordinate pairs, on one shared set of x-y axes:
@@ -141,23 +125,18 @@ Note that the number of x and y points must match exactly. You can supply one li
 
 {{< img src="/images/track/basic_charts_histogram.png" alt="" >}}
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)
-  </TabItem>
-</Tabs>
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)    
+    {{% /tab %}}
+{{< /tabpane >}}
+
+
 
 ### Model evaluation charts
 
 These preset charts have built-in `wandb.plot` methods that make it quick and easy to log charts directly from your script and see the exact information you're looking for in the UI.
 
-<Tabs
-  defaultValue="precision_recall"
-  values={[
-    {label: 'Precision-Recall Curves', value: 'precision_recall'},
-    {label: 'ROC Curves', value: 'roc'},
-    {label: 'Confusion Matrix', value: 'confusion_matrix'},
-  ]}>
-  <TabItem value="precision_recall">
-
+{{< tabpane text=true >}}
+    {{% tab header="Precision-recall curves" %}}
 `wandb.plot.pr_curve()`
 
 Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) in one line:
@@ -177,9 +156,9 @@ You can log this whenever your code has access to:
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
-[Run the code](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
-  </TabItem>
-  <TabItem value="roc">
+[Run the code](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)    
+    {{% /tab %}}
+    {{% tab header="ROC curves" %}}
 
 `wandb.plot.roc_curve()`
 
@@ -200,10 +179,9 @@ You can log this whenever your code has access to:
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
-[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot_ROC_Curves_with_W%26B.ipynb)
-  </TabItem>
-  <TabItem value="confusion_matrix">
-
+[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot_ROC_Curves_with_W%26B.ipynb)    
+    {{% /tab %}}
+    {{% tab header="Confusion matrix" %}}
 `wandb.plot.confusion_matrix()`
 
 Create a multi-class [confusion matrix](https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html) in one line:
@@ -226,9 +204,10 @@ You can log this wherever your code has access to:
 
 ​[See in the app](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
 
-​[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_a_Confusion_Matrix_with_W%26B.ipynb)
-  </TabItem>
-</Tabs>
+​[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_a_Confusion_Matrix_with_W%26B.ipynb)    
+    {{% /tab %}}
+{{< /tabpane >}}
+
 
 ### Interactive custom charts
 

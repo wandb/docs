@@ -10,8 +10,8 @@ weight: 1
 cascade:
 - url: guides/track/:filename
 ---
-import Translate, {translate} from '@docusaurus/Translate';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
+
+<!-- import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'; -->
 
 <CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb"/>
 

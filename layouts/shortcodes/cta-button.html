@@ -1,7 +1,7 @@
 <div class="cta-container">
     {{ if .Get "colabLink" }}
     <a class="cta-button" href="{{ .Get "colabLink" }}" target="_blank" rel="noreferrer" onclick="trackClick('Docs button clicked', 'Try in Colab')">
-        Run as a notebook
+        Try in a Colab
     </a>
     {{ end }}
     {{ if .Get "githubLink" }}

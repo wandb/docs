@@ -9,10 +9,6 @@ title: Projects
 weight: 3
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-
 A *project* is a central location where you visualize results, compare experiments, view and download artifacts, create an automation, and more. 
 
 {{% alert %}}
@@ -127,15 +123,8 @@ Use the runs tab to filter, group, and sort your results.
 
 The proceeding tabs demonstrate some common actions you can take in the runs tab.
 
-<Tabs
-  defaultValue="sort"
-  values={[
-    {label: 'Sort', value: 'sort'},
-    {label: 'Filter', value: 'filter'},
-    {label: 'Group', value: 'group'},
-  ]}>
-  <TabItem value="sort">
-
+{{< tabpane text=true >}}
+   {{% tab header="Sort" %}}
 Sort all rows in a Table by the value in a given column. 
 
 1. Hover your mouse over the column title. A kebob menu will appear (three vertical docs).
@@ -144,11 +133,9 @@ Sort all rows in a Table by the value in a given column.
 
 {{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
 
-The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.
-
-</TabItem>
-  <TabItem value="filter">
-  
+The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
+   {{% /tab %}}
+   {{% tab header="Filter" %}}
 Filter all rows by an expression with the **Filter** button on the top left of the dashboard. 
 
 {{< img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong." >}}
@@ -163,19 +150,16 @@ Select **Add filter** to add one or more filters to your rows. Three dropdown me
 The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
 
 {{< img src="/images/data_vis/filter_example.png" alt="" >}}
-The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.
-
-</TabItem>
-  <TabItem value="group">
-
+The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.   
+   {{% /tab %}}
+   {{% tab header="Group" %}}
 Group all rows by the value in a particular column with the **Group by** button in a column header. 
 
 {{< img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s." >}}
 
-By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.
-
-  </TabItem>
-</Tabs>
+By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.   
+   {{% /tab %}}
+{{< /tabpane >}}
 
 
 <!-- ## Automations tab -->
@@ -260,33 +244,25 @@ For example, the proceeding image shows two projects that are marked as importan
 
 There are two ways to mark a project as important: within a project's overview tab or within your team's profile page.
 
-
-<Tabs
-  defaultValue="project_overview"
-  values={[
-    {label: 'Project overview', value: 'project_overview'},
-    {label: 'Team profile', value: 'project_landing_page'},
-  ]}>
-  <TabItem value="project_overview">
-
+{{< tabpane text=true >}}
+    {{% tab header="Project overview" %}}
 1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
 2. Select the **Overview** tab from the project sidebar.
 3. Choose the star icon in the upper right corner next to the **Edit** button.
 
-{{< img src="/images/track/star-project-overview-tab.png" alt="" >}}
-
-  </TabItem>
-  <TabItem value="project_landing_page">
-
+{{< img src="/images/track/star-project-overview-tab.png" alt="" >}}    
+    {{% /tab %}}
+    {{% tab header="Team profile" %}}
 1. Navigate to your team's profile page at `https://wandb.ai/<team>/projects`.
 2. Select the **Projects** tab.
 3. Hover your mouse next to the project you want to star. Click on star icon that appears.
 
 For example, the proceeding image shows the star icon next to the "Compare_Zoo_Models" project.
-{{< img src="/images/track/star-project-team-profile-page.png" alt="" >}}
+{{< img src="/images/track/star-project-team-profile-page.png" alt="" >}}    
+    {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
+
 
 
 
