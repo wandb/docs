@@ -2,7 +2,7 @@
 description: W&B Quickstart
 menu:
   default:
-    identifier: quickstart
+    identifier: quickstart_models
     parent: guides
 title: W&B Quickstart
 url: quickstart

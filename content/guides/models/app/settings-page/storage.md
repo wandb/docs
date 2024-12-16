@@ -2,7 +2,7 @@
 description: Ways to manage W&B data storage.
 menu:
   default:
-    identifier: storage
+    identifier: app_storage
     parent: settings
 title: Manage storage
 ---
