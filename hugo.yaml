@@ -59,9 +59,9 @@ markup:
         block: true
     renderer:
       unsafe: true
-  highlight:
+  #highlight:
     # See a complete list of available styles at https://xyproto.github.io/splash/docs/all.html
-    style: tango
+    # style: tango
     # Uncomment if you want your chosen highlight style used for code blocks without a specified language
     # guessSyntax: true
 
