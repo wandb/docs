@@ -10,9 +10,6 @@ weight: 3
 ---
 
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
 Define a sweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
@@ -33,15 +30,8 @@ Use top-level keys within your sweep configuration to define qualities of your s
 For example, the proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 
 
 
-
-<Tabs
-  defaultValue="cli"
-  values={[    
-    {label: 'CLI', value: 'cli'},
-    {label: 'Python script or Jupyter notebook', value: 'script'},
-  ]}>
-  <TabItem value="script">
-
+{{< tabpane  text=true >}}
+  {{% tab header="CLI" %}}
 Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or Jupyter notebook. 
 
 The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
@@ -58,9 +48,9 @@ sweep_configuration = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```
-  </TabItem>
-  <TabItem value="cli">
+```  
+  {{% /tab %}}
+  {{% tab header="Python script or Jupyter notebook" %}}
 Define a sweep configuration in a YAML file if you want to manage sweeps interactively from the command line (CLI)
 
 ```yaml title="config.yaml"
@@ -80,9 +70,10 @@ parameters:
     values: [5, 10, 15]
   optimizer:
     values: ["adam", "sgd"]
-```
-  </TabItem>
-</Tabs>
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
+
 
 Within the top level `parameters` key, the following keys are nested: `learning_rate`, `batch_size`, `epoch`, and `optimizer`. For each of the nested keys you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters](./sweep-config-keys.md#parameters) section in [Sweep configuration options](./sweep-config-keys.md). 
 
@@ -177,15 +168,8 @@ command:
 
 ## Sweep configuration examples
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'CLI', value: 'cli'},
-    {label: 'Python script or Jupyter notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
-
-
+{{< tabpane text=true >}}
+  {{% tab header="CLI" %}}
 ```yaml title="config.yaml" 
 program: train.py
 method: random
@@ -210,11 +194,9 @@ parameters:
     min: 0
   optimizer:
     values: ["adam", "sgd"]
-```
-
-  </TabItem>
-  <TabItem value="notebook">
-
+```  
+  {{% /tab %}}
+  {{% tab header="Python script or Jupyter notebook" %}}
 ```python title="train.py" 
 sweep_config = {
     "method": "random",
@@ -233,10 +215,10 @@ sweep_config = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
 
 
 ### Bayes hyperband example
@@ -272,24 +254,17 @@ early_terminate:
 
 The proceeding tabs show how to specify either a minimum or maximum number of iterations for `early_terminate`:
 
-<Tabs
-  defaultValue="min_iter"
-  values={[
-    {label: 'Minimum number of iterations specified', value: 'min_iter'},
-    {label: 'Maximum number of iterations specified', value: 'max_iter'},
-  ]}>
-  <TabItem value="min_iter">
-
+{{% tabpane text=true %}}
+  {{% tab header="Maximum number of iterations specified" %}}
 ```yaml
 early_terminate:
   type: hyperband
   min_iter: 3
 ```
 
-The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.
-  </TabItem>
-  <TabItem value="max_iter">
-
+The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.  
+  {{% /tab %}}
+  {{% tab header="Minimum number of iterations specified" %}}
 ```yaml
 early_terminate:
   type: hyperband
@@ -297,9 +272,11 @@ early_terminate:
   s: 2
 ```
 
-The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
-  </TabItem>
-</Tabs>
+The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.  
+  {{% /tab %}}
+{{% /tabpane %}}
+
+
 
 ### Command example
 ```yaml
@@ -325,38 +302,25 @@ command:
 - ${args_no_hyphens}
 ```
 
-<Tabs
-  defaultValue="unix"
-  values={[
-    {label: 'Unix', value: 'unix'},
-    {label: 'Windows', value: 'windows'},
-  ]}>
-  <TabItem value="unix">
 
+{{< tabpane text=true >}}
+  {{% tab header="Unix" %}}
 ```bash
 /usr/bin/env python train.py --param1=value1 --param2=value2
-```
-  </TabItem>
-  <TabItem value="windows">
-
+```  
+  {{% /tab %}}
+  {{% tab header="Windows" %}}
 ```bash
 python train.py --param1=value1 --param2=value2
-```
-  </TabItem>
-</Tabs>
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
+
 
 The proceeding tabs show how to specify common command macros:
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Set python interpreter', value: 'python'},
-    {label: 'Add extra parameters', value: 'parameters'},
-    {label: 'Omit arguments', value: 'omit'},
-    {label: 'Hydra', value: 'hydra'}
-  ]}>
-  <TabItem value="python">
-
+{{< tabpane text=true >}}
+  {{% tab header="Set Python interpreter" %}}
 Remove the `{$interpreter}` macro and provide a value explicitly to hardcode the python interpreter. For example, the following code snippet demonstrates how to do this:
 
 ```yaml
@@ -366,12 +330,12 @@ command:
   - ${program}
   - ${args}
 ```
-  </TabItem>
-  <TabItem value="parameters">
 
+  {{% /tab %}}
+  {{% tab header="Add extra parameters" %}}
 The following shows how to add extra command line arguments not specified by sweep configuration parameters:
 
-```
+```yaml
 command:
   - ${env}
   - ${interpreter}
@@ -381,28 +345,27 @@ command:
   - ${args}
 ```
 
-  </TabItem>
-  <TabItem value="omit">
-
+  {{% /tab %}}
+  {{% tab header="Omit arguments" %}}
 If your program does not use argument parsing you can avoid passing arguments all together and take advantage of `wandb.init` picking up sweep parameters into `wandb.config` automatically:
 
-```
+```yaml
 command:
   - ${env}
   - ${interpreter}
   - ${program}
-```
-  </TabItem>
-  <TabItem value="hydra">
-
+```  
+  {{% /tab %}}
+  {{% tab header="Hydra" %}}
 You can change the command to pass arguments the way tools like [Hydra](https://hydra.cc) expect. See [Hydra with W&B](../integrations/other/hydra.md) for more information.
 
-```
+```yaml
 command:
   - ${env}
   - ${interpreter}
   - ${program}
   - ${args_no_hyphens}
-```
-  </TabItem>
-</Tabs>
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
+
