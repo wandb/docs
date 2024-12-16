@@ -12,8 +12,8 @@ cascade:
 weight: 1
 ---
 
-import Translate, {translate} from '@docusaurus/Translate';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
+
+<!-- import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'; -->
 
 <CTAButtons productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifact_fundamentals.ipynb"/>
 
@@ -22,7 +22,7 @@ Use W&B Artifacts to track and version data as the inputs and outputs of your [W
 ## Use cases
 You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs](../runs/intro.md). You can use datasets, models, or even other artifacts as inputs for processing.
 
-{{< img src="/images/artifacts/artifacts_landing_page2.png" alt="" >}}
+![](/images/artifacts/artifacts_landing_page2.png)
 
 | Use Case               | Input                       | Output                       |
 |------------------------|-----------------------------|------------------------------|
@@ -32,9 +32,9 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 | Model Optimization     | Model                       | Optimized Model              |
 
 
-{{% alert %}}
+:::note
 The proceeding code snippets are meant to be run in order.
-{{% /alert %}}
+:::
 
 ## Create an artifact
 
@@ -57,9 +57,9 @@ artifact.save()
 # Logs the artifact version "my_data" as a dataset with data from dataset.h5
 ```
 
-{{% alert %}}
+:::tip
 See the [track external files](./track-external-files.md) page for information on how to add references to files or directories stored in external object storage, like an Amazon S3 bucket. 
-{{% /alert %}}
+:::
 
 ## Download an artifact
 Indicate the artifact you want to mark as input to your run with the [`use_artifact`](../../ref/python/run.md#use_artifact) method.
@@ -77,9 +77,9 @@ Next, use the returned object to download all contents of the artifact:
 datadir = artifact.download() #downloads the full "my_data" artifact to the default directory.
 ```
 
-{{% alert %}}
+:::tip
 You can pass a custom path into the `root` [parameter](../../ref/python/artifact.md) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md)
-{{% /alert %}}
+:::
 
 ## Next steps
 * Learn how to [version](./create-a-new-artifact-version.md), [update](./update-an-artifact.md), or [delete](./delete-artifacts.md) artifacts.

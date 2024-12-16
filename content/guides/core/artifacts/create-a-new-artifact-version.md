@@ -9,9 +9,6 @@ title: Create an artifact version
 weight: 6
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Create a new artifact version with a single [run](../runs/intro.md) or collaboratively with distributed runs. You can optionally create a new artifact version from a previous version known as an [incremental artifact](#create-a-new-artifact-version-from-an-existing-version).
 
 {{% alert %}}
@@ -37,14 +34,8 @@ Log a new version of an Artifact with a single run that produces all the files i
 
 Based on your use case, select one of the tabs below to create a new artifact version inside or outside of a run:
 
-<Tabs
-  defaultValue="inside"
-  values={[
-    {label: 'Inside a run', value: 'inside'},
-    {label: 'Outside a run', value: 'outside'},
-  ]}>
-  <TabItem value="inside">
-
+{{< tabpane text=true >}}
+  {{% tab header="Inside a run" %}}
 Create an artifact version within a W&B run:
 
 1. Create a run with `wandb.init`. (Line 1)
@@ -60,11 +51,9 @@ with wandb.init() as run:
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image1.png")
     run.log_artifact(artifact)
-```
-
-  </TabItem>
-  <TabItem value="outside">
-
+```  
+  {{% /tab %}}
+  {{% tab header="Outside of a run" %}}
 Create an artifact version outside of a W&B run:
 
 1. Create a new artifact or retrieve an existing one with `wanb.Artifact`. (Line 1)
@@ -77,9 +66,11 @@ artifact = wandb.Artifact("artifact_name", "artifact_type")
 # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
 artifact.add_file("image1.png")
 artifact.save()
-```  
-  </TabItem>
-</Tabs>
+```    
+  {{% /tab %}}
+{{< /tabpane  >}}
+
+
 
 
 ### Distributed runs
@@ -158,31 +149,21 @@ Follow the procedure below to incrementally change an artifact:
 
 1. Obtain the artifact version you want to perform an incremental change on:
 
-<Tabs
-  defaultValue="inside"
-  values={[
-    {label: 'Inside a run', value: 'inside'},
-    {label: 'Outside of a run', value: 'outside'},
-  ]}>
-  <TabItem value="inside">
+
+{{< tabpane text=true >}}
+  {{% tab header="Inside a run" %}}
 
 ```python
 saved_artifact = run.use_artifact("my_artifact:latest")
-```
-
-  </TabItem>
-  <TabItem value="outside">
-
-
+```  
+  {{% /tab %}}
+  {{% tab header="Outside of a run" %}}
 ```python
 client = wandb.Api()
 saved_artifact = client.artifact("my_artifact:latest")
-```
-
-  </TabItem>
-</Tabs>
-
-
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
 
 
 
@@ -197,15 +178,8 @@ draft_artifact = saved_artifact.new_draft()
 Select one of the tabs for an example on how to perform each of these changes:
 
 
-<Tabs
-  defaultValue="add"
-  values={[
-    {label: 'Add', value: 'add'},
-    {label: 'Remove', value: 'remove'},
-    {label: 'Modify', value: 'modify'},
-  ]}>
-  <TabItem value="add">
-
+{{< tabpane text=true >}}
+  {{% tab header="Add" %}}
 Add a file to an existing artifact version with the `add_file` method:
 
 ```python
@@ -214,11 +188,9 @@ draft_artifact.add_file("file_to_add.txt")
 
 {{% alert %}}
 You can also add multiple files by adding a directory with the `add_dir` method.
-{{% /alert %}}
-
-  </TabItem>
-  <TabItem value="remove">
-
+{{% /alert %}}  
+  {{% /tab %}}
+  {{% tab header="Remove" %}}
 Remove a file from an existing artifact version with the `remove` method:
 
 ```python
@@ -227,20 +199,18 @@ draft_artifact.remove("file_to_remove.txt")
 
 {{% alert %}}
 You can also remove multiple files with the `remove` method by passing in a directory path.
-{{% /alert %}}
-
-  </TabItem>
-  <TabItem value="modify">
-
+{{% /alert %}}  
+  {{% /tab %}}
+  {{% tab header="Modify" %}}
 Modify or replace contents by removing the old contents from the draft and adding the new contents back in:
 
 ```python
 draft_artifact.remove("modified_file.txt")
 draft_artifact.add_file("modified_file.txt")
-```
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
 
 <!-- {{% alert %}}
 The method to add or modify an artifact are the same. Entries are replaced (as opposed to duplicated), when you pass a filename for an entry that already exists.
@@ -248,41 +218,25 @@ The method to add or modify an artifact are the same. Entries are replaced (as o
 
 4. Lastly, log or save your changes. The following tabs show you how to save your changes inside and outside of a W&B run. Select the tab that is appropriate for your use case:
 
-
-<Tabs
-  defaultValue="inside"
-  values={[
-    {label: 'Inside a run', value: 'inside'},
-    {label: 'Outside of a run', value: 'outside'},
-  ]}>
-  <TabItem value="inside">
-
+{{< tabpane text=true >}}
+  {{% tab header="Inside a run" %}}
 ```python
 run.log_artifact(draft_artifact)
 ```
 
-  </TabItem>
-  <TabItem value="outside">
-
-
+  {{% /tab %}}
+  {{% tab header="Outside of a run" %}}
 ```python
 draft_artifact.save()
-```
-
-  </TabItem>
-</Tabs>
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
 
 
 Putting it all together, the code examples above look like: 
 
-<Tabs
-  defaultValue="inside"
-  values={[
-    {label: 'Inside a run', value: 'inside'},
-    {label: 'Outside of a run', value: 'outside'},
-  ]}>
-  <TabItem value="inside">
-
+{{< tabpane text=true >}}
+  {{% tab header="Inside a run" %}}
 ```python
 with wandb.init(job_type="modify dataset") as run:
     saved_artifact = run.use_artifact(
@@ -296,12 +250,9 @@ with wandb.init(job_type="modify dataset") as run:
     run.log_artifact(
         artifact
     )  # log your changes to create a new version and mark it as output to your run
-```
-
-  </TabItem>
-  <TabItem value="outside">
-
-
+```  
+  {{% /tab %}}
+  {{% tab header="Outside of a run" %}}
 ```python
 client = wandb.Api()
 saved_artifact = client.artifact("my_artifact:latest")  # load your artifact
@@ -311,7 +262,6 @@ draft_artifact = saved_artifact.new_draft()  # create a draft version
 draft_artifact.remove("deleted_file.txt")
 draft_artifact.add_file("modified_file.txt")
 draft_artifact.save()  # commit changes to the draft
-```
-
-  </TabItem>
-</Tabs>
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
