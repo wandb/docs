@@ -2,7 +2,7 @@
 description: Track machine learning experiments with W&B.
 menu:
   default:
-    identifier: intro
+    identifier: experiments
     parent: w-b-models
 title: Experiments
 url: guides/track

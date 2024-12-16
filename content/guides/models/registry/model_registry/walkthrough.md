@@ -2,7 +2,7 @@
 description: Learn how to use W&B for Model Management
 menu:
   default:
-    identifier: walkthrough
+    identifier: walkthrough_model_registry
     parent: model-registry
 title: 'Tutorial: Use W&B for model management'
 weight: 1

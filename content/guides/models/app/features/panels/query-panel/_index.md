@@ -3,7 +3,7 @@ description: Some features on this page are in beta, hidden behind a feature fla
   Add `weave-plot` to your bio on your profile page to unlock all related features.
 menu:
   default:
-    identifier: intro
+    identifier: intro_query_panel
     parent: panels
 title: Query panels
 ---
