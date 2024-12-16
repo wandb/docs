@@ -9,9 +9,6 @@ title: Organize versions with tags
 weight: 7
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Create and add tags to organize your collections or artifact versions within your registry. Add, modify, view, or remove tags to a collection  or artifact version with the W&B App UI or the W&B Python SDK.
 
 {{% alert title="When to use a tag versus using an alias" %}}
@@ -25,14 +22,8 @@ Use tags when you want more flexibility for grouping or searching. Tags are idea
 
 Use the W&B App UI or Python SDK to add a tag to a collection:
 
-<Tabs
-  defaultValue="app_ui"
-  values={[
-    {label: 'W&B App UI', value: 'app_ui'},
-    {label: 'Python SDK', value: 'python'},
-  ]}>
-  <TabItem value="app_ui">
-
+{{< tabpane text=true >}}
+  {{% tab header="W&B App" %}}
 Use the W&B App UI to add a tag to a collection:
 
 1. Navigate to the W&B Registry at https://wandb.ai/registry
@@ -41,11 +32,9 @@ Use the W&B App UI to add a tag to a collection:
 4. Within the collection card, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
 5. Press **Enter** on your keyboard
 
-{{< img src="/images/registry/add_tag_collection.gif" alt="" >}}
-
-  </TabItem>
-  <TabItem value="python">
-
+{{< img src="/images/registry/add_tag_collection.gif" alt="" >}}  
+  {{% /tab %}}
+  {{% tab header="Python SDK" %}}
 ```python
 import wandb
 
@@ -63,10 +52,10 @@ collection = wandb.Api().artifact_collection(
 
 collection.tags = ["your-tag"]
 collection.save()
-```
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
 
 
 ## Update tags that belong to a collection 
@@ -129,14 +118,8 @@ Use the W&B App UI to remove a tag from a collection:
 
 Add a tag to an artifact version linked to a collection with the W&B App UI or with the Python SDK.
 
-<Tabs
-  defaultValue="app_ui"
-  values={[
-    {label: 'W&B App UI', value: 'app_ui'},
-    {label: 'Python SDK', value: 'python'},
-  ]}>
-  <TabItem value="app_ui">
-
+{{< tabpane text=true >}}
+  {{% tab header="W&B App" %}}
 1. Navigate to the W&B Registry at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of the collection you want to add a tag to
@@ -145,12 +128,9 @@ Add a tag to an artifact version linked to a collection with the W&B App UI or w
 6. Within the **Version** tab, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
 7. Press **Enter** on your keyboard
 
-{{< img src="/images/registry/add_tag_linked_artifact_version.gif" alt="" >}}
-
-
-  </TabItem>  
-  <TabItem value="python">
-
+{{< img src="/images/registry/add_tag_linked_artifact_version.gif" alt="" >}}  
+  {{% /tab %}}
+  {{% tab header="Python SDK" %}}
 Fetch the artifact version you want to add or update a tag to. Once you have the artifact version, you can access the artifact object's `tag` attribute to add or modify tags to that artifact. Pass in one or more tags as list to the artifacts `tag` attribute. 
 
 Like other artifacts, you can fetch an artifact from W&B without creating a run or you can create a run and fetch the artifact within that run. In either case, ensure to call the artifact object's `save` method to update the artifact on the W&B servers.
@@ -192,11 +172,11 @@ artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{
 artifact = run.use_artifact(artifact_or_name = artifact_name)
 artifact.tags = ["tag2"] # Provide one or more tags in a list
 artifact.save()
-```
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
 
 
-  </TabItem>
-</Tabs>
 
 ## Update tags that belong to an artifact version
 
@@ -231,14 +211,8 @@ artifact.tags.clear()
 
 View tags that belong to an artifact version that is linked to a registry with the W&B App UI or with the Python SDK. 
 
-<Tabs
-  defaultValue="app_ui"
-  values={[
-    {label: 'W&B App UI', value: 'app_ui'},
-    {label: 'Python SDK', value: 'python'},
-  ]}>
-  <TabItem value="app_ui">
-
+{{< tabpane text=true >}}
+  {{% tab header="W&B App" %}}
 1. Navigate to the W&B Registry at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of the collection you want to add a tag to
@@ -246,12 +220,9 @@ View tags that belong to an artifact version that is linked to a registry with t
 
 If an artifact version has one or more tags, you can view those tags within the **Tags** column.
 
-{{< img src="/images/registry/tag_artifact_version.png" alt="" >}}
-
-
-  </TabItem>
-  <TabItem value="python">
-
+{{< img src="/images/registry/tag_artifact_version.png" alt="" >}}  
+  {{% /tab %}}
+  {{% tab header="Python SDK" %}}
 Fetch the artifact version to view its tags. Once you have the artifact version, you can view tags that belong to that artifact by viewing the artifact object's `tag` attribute.
 
 Like other artifacts, you can fetch an artifact from W&B without creating a run or you can create a run and fetch the artifact within that run.
@@ -290,12 +261,10 @@ artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{
 
 artifact = run.use_artifact(artifact_or_name = artifact_name)
 print(artifact.tags)
-```
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
 
-
-
-  </TabItem>
-</Tabs>
 
 
 ## Remove a tag from an artifact version

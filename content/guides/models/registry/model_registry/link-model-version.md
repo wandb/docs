@@ -9,8 +9,6 @@ title: Link a model version
 weight: 5
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 Link a model version to a registered model with the W&B App or programmatically with the Python SDK.
 
@@ -37,14 +35,8 @@ See an example ["Fine-Tuned-Review-Autocompletion" registered model here](https:
 ## Interactively link a model
 Interactively link a model with the Model Registry or with the Artifact browser.
 
-<Tabs
-  defaultValue="model_ui"
-  values={[
-    {label: 'Model Registry', value: 'model_ui'},
-    {label: 'Artifact browser', value: 'artifacts_ui'},
-  ]}>
-  <TabItem value="model_ui">
-
+{{< tabpane text=true >}}
+  {{% tab header="Model Registry" %}}
 1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 2. Hover your mouse next to the name of the registered model you want to link a new model to. 
 3. Select the meatball menu icon (three horizontal dots) next to  **View details**.
@@ -54,10 +46,8 @@ Interactively link a model with the Model Registry or with the Artifact browser.
 7. From the **Version** dropdown, select the model version you want to link to the registered model.
 
 {{< img src="/images/models/link_model_wmodel_reg.gif" alt="" >}}
-
-  </TabItem>
-  <TabItem value="artifacts_ui">
-
+  {{% /tab %}}
+  {{% tab header="Artifact browser" %}}
 1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
 2. Select the Artifacts icon on the left sidebar.
 3. Click on the model version you want to link to your registry.
@@ -67,12 +57,9 @@ Interactively link a model with the Model Registry or with the Artifact browser.
 7. (Optional) Select an alias from the **Aliases** dropdown. 
 8. Click **Link to registry**. 
 
-{{< img src="/images/models/manual_linking.gif" alt="" >}}
-
-  </TabItem>
-</Tabs>
-
-
+{{< img src="/images/models/manual_linking.gif" alt="" >}}  
+  {{% /tab %}}
+{{< /tabpane >}}
 
 
 
@@ -82,14 +69,8 @@ There are two ways to view the source of linked models: The artifact browser wit
 
 A pointer connects a specific model version in the model registry to the source model artifact (located within the project the model is logged to). The source model artifact also has a pointer to the model registry.
 
-<Tabs
-  defaultValue="registry"
-  values={[
-    {label: 'Model Registry', value: 'registry'},
-    {label: 'Artifact browser', value: 'browser'},
-  ]}>
-  <TabItem value="registry">
-
+{{< tabpane text=true >}}
+  {{% tab header="Model Registry" %}}
 1. Navigate to your model registry at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 {{< img src="/images/models/create_registered_model_1.png" alt="" >}}
 2. Select **View details** next the name of your registered model.
@@ -99,11 +80,9 @@ A pointer connects a specific model version in the model registry to the source 
 
 For example, the following image shows a `v0` model version called `mnist_model` (see **Source version** field `mnist_model:v0`), linked to a registered model called `MNIST-dev`.
 
-{{< img src="/images/models/view_linked_model_registry.png" alt="" >}}
-
-  </TabItem>
-  <TabItem value="browser">
-
+{{< img src="/images/models/view_linked_model_registry.png" alt="" >}}  
+  {{% /tab %}}
+  {{% tab header="Artifact browser" %}}
 1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
 2. Select the Artifacts icon on the left sidebar.
 3. Expand the **model** dropdown menu from the Artifacts panel.
@@ -114,8 +93,6 @@ For example, the following image shows a `v0` model version called `mnist_model`
 For example, in the following image, there is a registered model called `MNIST-dev` (see the **Linked To** field). A model version called `mnist_model` with a version `v0`(`mnist_model:v0`) points to the `MNIST-dev` registered model.
 
 
-{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="" >}}
-
-
-  </TabItem>
-</Tabs>
+{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="" >}}  
+  {{% /tab %}}
+{{< /tabpane >}}

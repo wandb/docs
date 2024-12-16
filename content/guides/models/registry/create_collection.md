@@ -7,8 +7,6 @@ title: Create a collection
 weight: 4
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 A *collection* is a set of linked artifact versions within a registry. Each collection represents a distinct task or use case. 
 
@@ -65,14 +63,8 @@ Before you link to a collection, inspect the artifact type that the collection a
 An error message appears if you try to create link an artifact to a collection that does not accept that artifact type.
 {{% /alert %}}
 
-<Tabs
-  defaultValue="ui"
-  values={[
-    {label: 'W&B App', value: 'ui'},
-    {label: 'Python SDK (Beta)', value: 'programmatically'},
-  ]}>
-  <TabItem value="ui">
-
+{{< tabpane text=true >}}
+  {{% tab header="W&B App" %}}
 You can find the accepted artifact types on the registry card on the homepage or within a registry's settings page.
 
 For both methods, first navigate to your W&B Registry App.
@@ -88,12 +80,9 @@ To view accepted artifact types within a registry's settings page:
 
 1. Click on the registry card you want to view the settings for.
 2. Click on the gear icon in the upper right corner.
-3. Scroll to the **Accepted artifact types** field. 
-
-
-  </TabItem>
-  <TabItem value="programmatically">
-
+3. Scroll to the **Accepted artifact types** field.   
+  {{% /tab %}}
+  {{% tab header="Python SDK (Beta)" %}}
 Programmatically view the artifact types that a registry accepts with the W&B Python SDK:
 
 ```python
@@ -106,10 +95,11 @@ print(artifact_type.name for artifact_type in artifact_types)
 
 {{% alert %}}
 Note that you do not initialize a run with the proceeding code snippet. This is because it is unnecessary to create a run if you are only querying the W&B API and not tracking an experiment, artifact and so on.
-{{% /alert %}}
+{{% /alert %}}  
+  {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
+
 
 Once you know what type of artifact a collection accepts, you can [create a collection](#create-a-collection).
 
