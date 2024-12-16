@@ -32,7 +32,7 @@ A [*launch job*](./launch-terminology.md#launch-job) is a blueprint for configur
 
 As jobs are added to the queue, one or more [*launch agents*](./launch-terminology.md#launch-agent) will poll that queue and execute the job on the system targeted by the queue.
 
-![](/images/launch/launch_overview.png)
+{{< img src="/images/launch/launch_overview.png" alt="" >}}
 
 Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target](./launch-terminology.md#target-resources) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
 
@@ -185,7 +185,7 @@ Launch is designed to help teams build workflows around shared compute. In the e
 
 After clicking the button, the browser will redirect to the **Agents** tab of the queue view. The queue remains in the **Not active** state until an agent starts polling.
 
-![](/images/launch/create_docker_queue.gif)
+{{< img src="/images/launch/create_docker_queue.gif" alt="" >}}
 
 For advanced queue configuration options, see the [advanced queue setup page](./setup-queue-advanced.md).
 

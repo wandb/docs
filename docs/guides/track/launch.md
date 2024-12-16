@@ -112,7 +112,7 @@ wandb.save("model.onnx")
 ## Next steps: Visualize your experiment 
 Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyzes](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
 
-![Quickstart Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
+{{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example" >}}
 
 For more information on how to view experiments and specific runs, see [Visualize results from experiments](../track/workspaces.md).
 

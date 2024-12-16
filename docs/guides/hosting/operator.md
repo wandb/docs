@@ -233,7 +233,7 @@ import TabItem from '@theme/TabItem';
 1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
 2. Access the console. Click on the icon in the top right corner and then click on **System console**. Note that only users with admin privileges will see the **System console** entry.
 
-![](/images/hosting/access_system_console_via_main_app.png)
+{{< img src="/images/hosting/access_system_console_via_main_app.png" alt="" >}}
 
   </TabItem>
   <TabItem value="option2">
@@ -243,7 +243,7 @@ W&B recommends you access the console using the following steps only if Option 1
 {{% /alert %}}
 
 1. Open console application in browser. Open the above described URL in the browser and you will be presented with this login screen:
-![](/images/hosting/access_system_console_directly.png)
+{{< img src="/images/hosting/access_system_console_directly.png" alt="" >}}
 2. Retrieve password. The password is stored as a Kubernetes secret and is generated as part of the installation. To retrieve it, execute the following command:
 ```shell
 kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d

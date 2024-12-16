@@ -9,11 +9,11 @@ title: Bar plots
 
 A bar plot presents categorical data with rectangular bars which can be plotted vertically or horizontally. Bar plots show up by default with **wandb.log()** when all logged values are of length one.
 
-![Plotting Box and horizontal Bar plots in W&B](/images/app_ui/bar_plot.png)
+{{< img src="/images/app_ui/bar_plot.png" alt="Plotting Box and horizontal Bar plots in W&B" >}}
 
 Customize with chart settings to limit max runs to show, group runs by any config and rename labels.
 
-![](/images/app_ui/bar_plot_custom.png)
+{{< img src="/images/app_ui/bar_plot_custom.png" alt="" >}}
 
 ### Customize Bar Plots
 
@@ -24,4 +24,4 @@ You can also create **Box** or **Violin** Plots to combine many summary statisti
 3. Add a standard 'Bar Chart' and select the metric to plot.
 4. Under the 'Grouping' tab, pick 'box plot' or 'Violin', etc. to plot either of these styles.
 
-![Customize Bar Plots](/images/app_ui/bar_plots.gif)
+{{< img src="/images/app_ui/bar_plots.gif" alt="Customize Bar Plots" >}}

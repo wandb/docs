@@ -14,7 +14,7 @@ Use panel visualizations to explore your logged data, the relationships between 
 1. Within your workspace, navigate to the section you want to add a panel to
 2. Choose the Add panel button
 3. From the dropdown, select a type of panel to add
-![](/images/app_ui/add_single_panel.gif) 
+{{< img src="/images/app_ui/add_single_panel.gif" alt="" >}} 
 4. (Optional) If prompted, define parameters for the plot. 
 
 <Tabs
@@ -53,7 +53,7 @@ Add multiple panels to your workspace at the same time. You can add up to 500 pa
 2. Choose **Quick add**
 2. Provide a regular expression within the search field
 3. Select the **Add all** button
-![](/images/app_ui/bulk_panels.gif)
+{{< img src="/images/app_ui/bulk_panels.gif" alt="" >}}
 
 {{% alert %}}
 The **Add all** button appears only if a regular expression match occurs.
@@ -75,16 +75,16 @@ To activate or deactivate auto generated panels:
 2. Select on the gear icon in the upper right hand corner
 3. A modal appears, choose **Sections**
 4. Toggle the **Panel generation** option to desired state
-![](/images/app_ui/panel_generation.png)
+{{< img src="/images/app_ui/panel_generation.png" alt="" >}}
 
 ### Check auto generated panel settings
 Each workspace indicates whether or not the workspace automatically generates panels. Next to the name of your workspace is a clipboard icon. If the icon is red, panels are not automatically generated. If the panel is green, panels are automatically created each time you log a unique metric.
 
 Example of workspace with panel auto generation off:
-![](/images/app_ui/auto_panel_off.png)
+{{< img src="/images/app_ui/auto_panel_off.png" alt="" >}}
 
 Example of workspace with panel auto generation on:
-![](/images/app_ui/auto_panel_on.png)
+{{< img src="/images/app_ui/auto_panel_on.png" alt="" >}}
 
 
 ## Remove a panel

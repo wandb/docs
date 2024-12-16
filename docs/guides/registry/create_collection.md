@@ -12,9 +12,6 @@ As another example, you might have a registry called "chatbot" that contains a c
 
 How you organize a registry and their collections is up to you.
 
-<!-- Removing this since it's on the landing page + we'll eventually have a terms and concepts page
-![](/images/registry/Registry_Hierarchy_Diagram.png) -->
-
 {{% alert %}}
 If you are familiar with W&B Model Registry, you might aware of "registered models". Registered models in the Model Registry are now referred to as "collections" in the W&B Registry.
 {{% /alert %}}
@@ -76,7 +73,7 @@ For both methods, first navigate to your W&B Registry App.
 
 Within the homepage of the Registry App, you can view the accepted artifact types by scrolling to the registry card of that registry. The gray horizontal ovals within the registry card lists the artifact types that registry accepts.
 
-![](/images/registry/artifact_types_model_card.png)
+{{< img src="/images/registry/artifact_types_model_card.png" alt="" >}}
 
 For example, the preceding image shows multiple registry cards on the Registry App homepage. Within the **Model** registry card, you can see two artifact types: **model** and **model-new**. 
 
@@ -170,4 +167,4 @@ The following steps describe how to create a collection within a registry using 
 11. From the **Version** dropdown, select the artifact version you want to link to your collection.
 12. Click on the **Create collection** button.
 
-![](/images/registry/create_collection.gif)
+{{< img src="/images/registry/create_collection.gif" alt="" >}}

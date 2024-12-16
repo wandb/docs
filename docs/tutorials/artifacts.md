@@ -23,7 +23,7 @@ After all, those who don't track training are doomed to repeat it.
 Using our Artifacts API, you can log `Artifact`s as outputs of W&B `Run`s or use `Artifact`s as input to `Run`s, as in this diagram,
 where a training run takes in a dataset and produces a model.
  
- ![](/images/tutorials/artifacts-diagram.png)
+ {{< img src="/images/tutorials/artifacts-diagram.png" alt="" >}}
 
 Since one run can use another's output as an input, Artifacts and Runs together form a directed graph -- actually, a bipartite [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph)! -- with nodes for `Artifact`s and `Run`s
 and arrows connecting `Run`s to the `Artifact`s they consume or produce.

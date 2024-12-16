@@ -94,7 +94,7 @@ See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide 
 3. Within the Versions section, select the View button next to the model version you want to download.
 4. Select the **Files** tab. 
 5. Click on the download button next to the model file you want to download. 
-![](/images/models/download_model_ui.gif)
+{{< img src="/images/models/download_model_ui.gif" alt="" >}}
 
   </TabItem>
 </Tabs>

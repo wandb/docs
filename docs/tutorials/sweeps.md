@@ -11,7 +11,7 @@ Use W&B Sweeps to create an organized and efficient way to automatically search 
 
 In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](http://wandb.me/sweeps-video)!
 
-![](/images/tutorials/sweeps-1.png)
+{{< img src="/images/tutorials/sweeps-1.png" alt="" >}}
 
 ## Sweeps: An Overview
 
@@ -345,14 +345,14 @@ For more information on how to create W&B Sweeps in a terminal, see the [W&B Swe
 ### Parallel Coordinates Plot
 This plot maps hyperparameter values to model metrics. It’s useful for honing in on combinations of hyperparameters that led to the best model performance.
 
-![](/images/tutorials/sweeps-2.png)
+{{< img src="/images/tutorials/sweeps-2.png" alt="" >}}
 
 
 ### Hyperparameter Importance Plot
 The hyperparameter importance plot surfaces which hyperparameters were the best predictors of your metrics.
 We report feature importance (from a random forest model) and correlation (implicitly a linear model).
 
-![](/images/tutorials/sweeps-3.png)
+{{< img src="/images/tutorials/sweeps-3.png" alt="" >}}
 
 These visualizations can help you save both time and resources running expensive hyperparameter optimizations by honing in on the parameters (and value ranges) that are the most important, and thereby worthy of further exploration.
 

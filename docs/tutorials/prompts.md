@@ -29,15 +29,15 @@ W&B currently supports a tool called __Trace__. Trace consists of three main com
 In the proceeding image you see a new panel automatically created in your workspace, showing each execution, the trace, and the model architecture
 
 
-![prompts_1](/images/tutorials/prompts_quickstart/prompts.png)
+{{< img src="/images/tutorials/prompts_quickstart/prompts.png" alt="prompts_1" >}}
 
-![prompts_2](/images/tutorials/prompts_quickstart/prompts2.png)
+{{< img src="/images/tutorials/prompts_quickstart/prompts2.png" alt="prompts_2" >}}
 
 # Writing your own integration
 
 What if you want to write an integration or instrument your code? This is where utilities like `TraceTree` and `Span` comes in handy.
 
-![prompts_3](/images/tutorials/prompts_quickstart/prompts3.png)
+{{< img src="/images/tutorials/prompts_quickstart/prompts3.png" alt="prompts_3" >}}
 
 **Note:** W&B Runs support logging as many traces you needed to a single run, i.e. you can make multiple calls of `run.log` without the need to create a new run each time
 

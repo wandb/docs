@@ -117,7 +117,7 @@ variable.
 Attempts to submit a run to this queue which violate the constraints of the template variable will
 be rejected.
 
-![Image of queue creation drawer with gpus template variable](/images/tutorials/minikube_gpu/create_queue.png)
+{{< img src="/images/tutorials/minikube_gpu/create_queue.png" alt="Image of queue creation drawer with gpus template variable" >}}
 
 7. Click **Create queue** to create your queue. You will be redirected to the queue page for your new queue.
 
@@ -394,4 +394,4 @@ page will be pre-populated with the parameters from the original run, but you ca
 change them to whatever you like by modifying their values in the **Overrides** section
 of the launch drawer.
 
-![Image of launch UI for stable diffusion inference job](/images/tutorials/minikube_gpu/sd_launch_drawer.png)
+{{< img src="/images/tutorials/minikube_gpu/sd_launch_drawer.png" alt="Image of launch UI for stable diffusion inference job" >}}

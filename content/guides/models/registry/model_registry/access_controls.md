@@ -23,16 +23,16 @@ The following steps describe how to set up access controls for your team’s mod
 
 1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 2. Select the gear button on the top right of the page.
-![](/images/models/rbac_gear_button.png)
+{{< img src="/images/models/rbac_gear_button.png" alt="" >}}
 3. Select the **Manage registry admins** button. 
 4. Within the **Members** tab, select the users you want to grant access to add and remove protected aliases from model versions.
-![](/images/models/access_controls_admins.gif)
+{{< img src="/images/models/access_controls_admins.gif" alt="" >}}
 
 
 ## Add protected aliases
 1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 2. Select the gear button on the top right of the page.
-![](/images/models/rbac_gear_button.png)
+{{< img src="/images/models/rbac_gear_button.png" alt="" >}}
 3. Scroll down to the **Protected Aliases** section.
 4. Click on the plus icon (**+**) icon to add new a new alias.
-![](/images/models/access_controls_add_protected_aliases.gif)
+{{< img src="/images/models/access_controls_add_protected_aliases.gif" alt="" >}}

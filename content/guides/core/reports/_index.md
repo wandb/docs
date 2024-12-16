@@ -22,7 +22,7 @@ Use W&B Reports to organize Runs, embed and automate visualizations, describe yo
 
 The following image shows a section of a report created from metrics that were logged to W&B over the course of training. 
 
-![](/images/reports/safe-lite-benchmark-with-comments.png)
+{{< img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="" >}}
 
 View the report where the above image was taken from [here](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM).
 
@@ -32,7 +32,7 @@ Create a collaborative report with a few clicks.
 1. Navigate to your W&B project workspace in the W&B App.
 2. Click the **Create report** button in the upper right corner of your workspace.
 
-![](/images/reports/create_a_report_button.png)
+{{< img src="/images/reports/create_a_report_button.png" alt="" >}}
 
 3. A modal titled **Create Report** will appear. Select the charts and panels you want to add to your report. (You can add or remove charts and panels later).
 4. Click **Create report**. 

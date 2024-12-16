@@ -12,7 +12,7 @@ We recommend that you create an incremental artifact when you need to apply chan
 {{% /alert %}}
 
 
-<!-- ![Artifact overview diagram](/images/artifacts/incremental_artifacts_Diagram.png) -->
+<!-- {{< img src="/images/artifacts/incremental_artifacts_Diagram.png" alt="Artifact overview diagram" >}} -->
 ## Create new artifact versions from scratch
 There are two ways to create a new artifact version: from a single run and from distributed runs. They are defined as follows:
 
@@ -25,7 +25,7 @@ W&B will create a new artifact and assign it a `v0` alias if you pass a name to 
 
 W&B will retrieve an existing artifact if you pass a name and artifact type to the `wandb.Artifact` API that matches an existing artifact in your project. The retrieved artifact will have a version greater than 1. 
 
-![](/images/artifacts/single_distributed_artifacts.png)
+{{< img src="/images/artifacts/single_distributed_artifacts.png" alt="" >}}
 
 ### Single run
 Log a new version of an Artifact with a single run that produces all the files in the artifact. This case occurs when a single run produces all the files in the artifact. 
@@ -133,7 +133,7 @@ with wandb.init() as run:
 
 Add, modify, or remove a subset of files from a previous artifact version without the need to re-index the files that didn't change. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
 
-![](/images/artifacts/incremental_artifacts.png)
+{{< img src="/images/artifacts/incremental_artifacts.png" alt="" >}}
 
 Here are some scenarios for each type of incremental change you might encounter:
 

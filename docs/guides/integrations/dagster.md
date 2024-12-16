@@ -408,13 +408,13 @@ The asset is materialized with useful metadata on both sides of the integration:
 
 The proceeding image demonstrates the metadata from W&B that was added to the Dagster asset. This information would not be available without the integration.
 
-![](/images/integrations/dagster_wb_metadata.png)
+{{< img src="/images/integrations/dagster_wb_metadata.png" alt="" >}}
 
 The following image demonstrates how  the provided configuration was enriched with useful metadata on the W&B Artifact. This information should help for reproducibility and maintenance. It would not be available without the integration.
 
-![](/images/integrations/dagster_inte_1.png)
-![](/images/integrations/dagster_inte_2.png)
-![](/images/integrations/dagster_inte_3.png)
+{{< img src="/images/integrations/dagster_inte_1.png" alt="" >}}
+{{< img src="/images/integrations/dagster_inte_2.png" alt="" >}}
+{{< img src="/images/integrations/dagster_inte_3.png" alt="" >}}
 
 
 {{% alert %}}
@@ -451,7 +451,7 @@ This code will produce one W&B Artifact for each partition. They can be found in
 {{% alert color="secondary" %}}
 The integration does not allow for the materialization of multiple partitions within one run. You will need to carry out multiple runs to materialize your assets. This can be executed in Dagit when you're materializing your assets.
 
-![](/images/integrations/dagster_multiple_runs.png)
+{{< img src="/images/integrations/dagster_multiple_runs.png" alt="" >}}
 {{% /alert %}}
 
 #### Advanced usage
@@ -917,7 +917,7 @@ Refer to the [reference documentation](../launch/intro.md) for configuration
 
 You can also view useful descriptions for all properties in Launchpad.
 
-![](/images/integrations/dagster_launch_agents.png)
+{{< img src="/images/integrations/dagster_launch_agents.png" alt="" >}}
 
 Simple example
 ```python
@@ -965,7 +965,7 @@ Refer to the [reference documentation](../launch/intro.md) for configuration.
 
 You can also view useful descriptions for all properties in Launchpad.
 
-![](/images/integrations/dagster_launch_jobs.png)
+{{< img src="/images/integrations/dagster_launch_jobs.png" alt="" >}}
 
 
 Simple example

@@ -9,4 +9,4 @@ Share logs and other details with the support team to debug any issues in your W
 3. Click the W&B logo in top right corner.
 4. Click "Debug Bundle". This will download a zipped file to your computer.
 
-![](/images/hosting/debug_bundle.gif)
+{{< img src="/images/hosting/debug_bundle.gif" alt="" >}}

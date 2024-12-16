@@ -10,7 +10,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 [torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). Additionally, torchtune has built-in support for [logging with W&B](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes.
 
-![](/images/integrations/torchtune_dashboard.png)
+{{< img src="/images/integrations/torchtune_dashboard.png" alt="" >}}
 
 Check the W&B blog post on [Fine-tuning Mistral 7B using torchtune](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0).
 
@@ -95,7 +95,7 @@ After running the above command, you can explore the W&B dashboard to see the lo
 
 W&B captures the resolved config for you on the **Overview** tab. W&B also stores the config as a YAML on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
 
-![](/images/integrations/torchtune_config.png)
+{{< img src="/images/integrations/torchtune_config.png" alt="" >}}
 
 ### Logged Metrics
 

@@ -25,7 +25,7 @@ from wandb.integration.sb3 import WandbCallback
 model.learn(..., callback=WandbCallback())
 ```
 
-![](/images/integrations/stable_baselines_demo.gif)
+{{< img src="/images/integrations/stable_baselines_demo.gif" alt="" >}}
 
 ## WandbCallback Arguments
 

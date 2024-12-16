@@ -9,7 +9,7 @@ title: Compare runs across projects
 
 Compare runs from two different projects with cross-project reports. Use the project selector in the run set table to pick a project.
 
-![Compare runs across different projects](/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif)
+{{< img src="/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif" alt="Compare runs across different projects" >}}
 
 The visualizations in the section pull columns from the first active runset. Make sure that the first run set checked in the section has that column available if you do not see the metric you are looking for in the line plot.
 
@@ -21,7 +21,7 @@ If you need to compare runs from two projects and the columns are not working, a
 
 Share a view-only link to a report that is in a private project or team project.
 
-![](/images/reports/magic-links.gif)
+{{< img src="/images/reports/magic-links.gif" alt="" >}}
 
 View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. The magic link can also be used to let anyone view the report without logging in first. For customers on [W&B Local](../hosting/intro.md) private cloud installations, these links will still be behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link will be able to view the report.
 

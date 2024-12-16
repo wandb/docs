@@ -3,7 +3,7 @@ title: Hugging Face
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-![](/images/tutorials/huggingface.png)
+{{< img src="/images/tutorials/huggingface.png" alt="" >}}
 
 <CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb'/>
 
@@ -13,7 +13,7 @@ Compare hyperparameters, output metrics, and system stats like GPU utilization a
 
 ## Why should I use W&B?
 
-![](/images/tutorials/huggingface-why.png)
+{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
 - **Unified dashboard**: Central repository for all your model metrics and predictions
 - **Lightweight**: No code changes required to integrate with Hugging Face
@@ -98,12 +98,12 @@ Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to s
 **Visualize Model Performance**
 It's easy to look across dozens of experiments, zoom in on interesting findings, and visualize highly dimensional data.
 
-![](/images/tutorials/huggingface-visualize.gif)
+{{< img src="/images/tutorials/huggingface-visualize.gif" alt="" >}}
 
 **Compare Architectures**
 Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU) — it's easy to see how different architectures effect the evaluation accuracy throughout training with automatic line plot visualizations.
 
-![](/images/tutorials/huggingface-comparearchitectures.gif)
+{{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="" >}}
 
 ### 📈 Track key information effortlessly by default
 Weights & Biases saves a new run for each experiment. Here's the information that gets saved by default:

@@ -3,7 +3,7 @@ description: Visualize the gradients of your parameters
 title: Gradient panel
 ---
 
-![Logged gradients get rendered as histograms](/images/app_ui/gradient_panels.png)
+{{< img src="/images/app_ui/gradient_panels.png" alt="Logged gradients get rendered as histograms" >}}
 
 The gradient panel shows the histograms of the gradients, per time step.
 

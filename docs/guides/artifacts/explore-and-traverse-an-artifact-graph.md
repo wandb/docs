@@ -25,23 +25,23 @@ To view an artifact graph:
 2. Choose the artifact icon on the left panel.
 3. Select **Lineage**.
 
-![Getting to the Lineage tab](../../../static/images/artifacts/lineage1.gif)
+{{< img src="/images/artifacts/lineage1.gif" alt="Getting to the Lineage tab" >}}
 
 ### Navigating the lineage graph
 
 The artifact or job type you provide appears in front of its name, with artifacts represented by blue icons and runs represented by green icons. Arrows detail the input and output of a run or artifact on the graph. 
 
-![Run and artifact nodes](../../../static/images/artifacts/lineage2.png)
+{{< img src="/images/artifacts/lineage2.png" alt="Run and artifact nodes" >}}
 
 {{% alert %}}
 You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab. 
 {{% /alert %}}
 
-![Inputs and outputs](../../../static/images/artifacts/lineage2a.gif)
+{{< img src="/images/artifacts/lineage2a.gif" alt="Inputs and outputs" >}}
 
 For a more detailed view, click any individual artifact or run to get more information on a particular object.
 
-![Previewing a run](../../../static/images/artifacts/lineage3a.gif)
+{{< img src="/images/artifacts/lineage3a.gif" alt="Previewing a run" >}}
 
 ### Artifact clusters
 
@@ -49,7 +49,7 @@ When a level of the graph has five or more runs or artifacts, it creates a clust
 
 Clicking on a node opens a preview with an overview of the node. Clicking on the arrow extracts the individual run or artifact so you can examine the lineage of the extracted node.
 
-![Searching a run cluster](../../../static/images/artifacts/lineage3b.gif)
+{{< img src="/images/artifacts/lineage3b.gif" alt="Searching a run cluster" >}}
 
 ## Use the API to track lineage
 You can also navigate a graph using the [W&B API](../../ref/python/public-api/api.md). 

@@ -41,7 +41,7 @@ This command pulls the latest W&B Docker image [`wandb/local`](https://hub.docke
 ## 2. Create a W&B account
 Navigate to `http://localhost:8080/signup` and create an initial user account. Provide a name, email address, a username, and a password: 
 
-![](/images/hosting/signup_localhost.png)
+{{< img src="/images/hosting/signup_localhost.png" alt="" >}}
 
 Click the **Sign Up** button to create a W&B account. 
 
@@ -55,21 +55,21 @@ After you create an account, navigate to `http://localhost:8080/authorize`.
 
 Copy the W&B API key that appears on the screen. At a later step, you will need this key at a later step to verify your login credentials.
 
-![](/images/hosting/copy_api_key.png)
+{{< img src="/images/hosting/copy_api_key.png" alt="" >}}
 
 ## 3. Generate a license
 Navigate to the W&B Deploy Manager at [https://deploy.wandb.ai/deploy](https://deploy.wandb.ai/deploy) to generate a Trial Mode W&B license.
 
 1. Select Docker as your provider
-![](/images/hosting/deploy_manager_platform.png)
+{{< img src="/images/hosting/deploy_manager_platform.png" alt="" >}}
 2. Click **Next**.
 3. Select a license owner from the **Owner of license** dropdown.
-![](/images/hosting/deploy_manager_info.png)
+{{< img src="/images/hosting/deploy_manager_info.png" alt="" >}}
 4. Click **Next**.
 5. Provide a name for your license in the **Name of Instance** field.
 6. (Optional) Provide a description about your license in the **Description** field. 
 7. Click the **Generate License Key** button.
-![](/images/hosting/deploy_manager_generate.png)
+{{< img src="/images/hosting/deploy_manager_generate.png" alt="" >}}
 
 After you click **Generate License Key**, W&B redirects you to a Deployment License page. Within the Deployment License page you can view information about your license instance such as the Deployment ID, the organization the license belongs to, and more.
 
@@ -81,16 +81,16 @@ View a specific license instance in one of two ways:
 
 ## 4. Add trial license to your local host
 1. Within the Deployment License page of your license instance, click the **Copy License** button.
-![](/images/hosting/deploy_manager_get_license.png)
+{{< img src="/images/hosting/deploy_manager_get_license.png" alt="" >}}
 2. Navigate to `http://localhost:8080/system-admin/`
 3. Paste your license into to **License field**.
-![](/images/hosting/License.gif)
+{{< img src="/images/hosting/License.gif" alt="" >}}
 4. Click the **Update settings** button.
 
 ## 5. Check your browser is running the W&B App UI
 Check that W&B is running on your local machine. Navigate to `http://localhost:8080/home`. You should see the W&B App UI in your browser.
 
-![](/images/hosting/check_local_host.png)
+{{< img src="/images/hosting/check_local_host.png" alt="" >}}
 
 ## 6. Add programmatic access to your local W&B instance
 

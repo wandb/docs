@@ -16,7 +16,7 @@ W&B workspace is your personal sandbox to customize charts and explore model res
 * **Tables**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
 * **Panel sections**: A section that contains one or more [panels](../app/features/panels/intro.md). Create new panels, organize them, and export to reports to save snapshots of your workspace.
 
-![](/images/app_ui/workspace_table_and_panels.png)
+{{< img src="/images/app_ui/workspace_table_and_panels.png" alt="" >}}
 
 ## Workspace types
 There are two main workspace categories: **Personal workspaces** and **Saved views**. 
@@ -25,7 +25,7 @@ There are two main workspace categories: **Personal workspaces** and **Saved vie
 * **Saved views:** Saved views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. Use saved workspace views for reviewing and discussing experiments, runs, and more.
 
 The proceeding image shows multiple personal workspaces created by Cécile-parker's teammates. In this project, there are no saved views:
-![](/images/app_ui/Menu_No_views.jpg)
+{{< img src="/images/app_ui/Menu_No_views.jpg" alt="" >}}
 
 ## Saved workspace views
 Improve team collaboration with tailored workspace views. Create Saved Views to organize your preferred setup of charts and data. 
@@ -38,7 +38,7 @@ Improve team collaboration with tailored workspace views. Create Saved Views to 
 
 New saved views appear in the workspace navigation menu.
 
-![](/images/app_ui/Menu_Views.jpg)
+{{< img src="/images/app_ui/Menu_Views.jpg" alt="" >}}
 
 
 

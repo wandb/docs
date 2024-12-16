@@ -17,7 +17,7 @@ You will learn how to:
 
 [Live example: compare predictions after 1 vs 5 epochs of training →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#compare-predictions-after-1-vs-5-epochs)
 
-![1 epoch vs 5 epochs of training](/images/tutorials/tables-1.png)
+{{< img src="/images/tutorials/tables-1.png" alt="1 epoch vs 5 epochs of training" >}}
 
 The histograms compare per-class scores between the two models. The top green bar in each histogram represents model "CNN-2, 1 epoch" (id 0), which only trained for 1 epoch. The bottom purple bar represents model "CNN-2, 5 epochs" (id 1), which trained for 5 epochs. The images are filtered to cases where the models disagree. For example, in the first row, the "4" gets high scores across all the possible digits after 1 epoch, but after 5 epochs it scores highest on the correct label and very low on the rest.
 
@@ -26,7 +26,7 @@ The histograms compare per-class scores between the two models. The top green ba
 
 See incorrect predictions (filter to rows where "guess" != "truth") on the full test data. Note that there are 229 wrong guesses after 1 training epoch, but only 98 after 5 epochs.
 
-![side by side, 1 vs 5 epochs of training](/images/tutorials/tables-2.png)
+{{< img src="/images/tutorials/tables-2.png" alt="side by side, 1 vs 5 epochs of training" >}}
 
 ### Compare model performance and find patterns
 
@@ -34,7 +34,7 @@ See incorrect predictions (filter to rows where "guess" != "truth") on the full 
 
 Filter out correct answers, then group by the guess to see examples of misclassified images and the underlying distribution of true labels—for two models side-by-side. A model variant with 2X the layer sizes and learning rate is on the left, and the baseline is on the right. Note that the baseline makes slightly more mistakes for each guessed class.
 
-![grouped errors for baseline vs double variant](/images/tutorials/tables-3.png)
+{{< img src="/images/tutorials/tables-3.png" alt="grouped errors for baseline vs double variant" >}}
 
 ## Sign up or login
 

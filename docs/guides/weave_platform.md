@@ -9,7 +9,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 Weave is a lightweight toolkit for tracking and evaluating LLM applications. Use W&B Weave to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
 
-![](/images/weave/weave-hero.png)
+{{< img src="/images/weave/weave-hero.png" alt="" >}}
 
 With W&B Weave, you can:
 * Log and debug language model inputs, outputs, and traces

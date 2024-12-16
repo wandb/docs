@@ -10,7 +10,7 @@ title: Compare run metrics
 Use the Run Comparer to see what metrics are different across your runs.
 
 
-![](/images/app_ui/visualization_add.gif)
+{{< img src="/images/app_ui/visualization_add.gif" alt="" >}}
 
 1. Select the **Add panels** button in the top right corner of the page.
 2. From the left panel that appears, expand the Evaluation dropdown.
@@ -20,4 +20,4 @@ Use the Run Comparer to see what metrics are different across your runs.
 
 Toggle the **diff only** option to hide rows where the values are the same across runs.​​
 
-![](/images/general/run-comparer-2.gif)
+{{< img src="/images/general/run-comparer-2.gif" alt="" >}}

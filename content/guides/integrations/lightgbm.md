@@ -38,4 +38,4 @@ To learn more about these tools and see an example of how to use Sweeps with XGB
 <CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb'/>
 {{% /alert %}}
 
-![tl;dr: trees outperform linear learners on this classification dataset.](/images/integrations/lightgbm_sweeps.png)
+{{< img src="/images/integrations/lightgbm_sweeps.png" alt="tl;dr: trees outperform linear learners on this classification dataset." >}}

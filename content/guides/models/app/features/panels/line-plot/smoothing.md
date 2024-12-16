@@ -16,7 +16,7 @@ W&B supports three types of smoothing:
 
 See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc).
 
-![](/images/app_ui/beamer_smoothing.gif)
+{{< img src="/images/app_ui/beamer_smoothing.gif" alt="" >}}
 
 ## Exponential Moving Average (Default)
 
@@ -46,7 +46,7 @@ return yValues.map((yPoint, index) => {
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
-![](/images/app_ui/weighted_exponential_moving_average.png)
+{{< img src="/images/app_ui/weighted_exponential_moving_average.png" alt="" >}}
 
 ## Gaussian Smoothing
 
@@ -56,7 +56,7 @@ Gaussian smoothing is a good standard choice for smoothing if you are not concer
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing):
 
-![](/images/app_ui/gaussian_smoothing.png)
+{{< img src="/images/app_ui/gaussian_smoothing.png" alt="" >}}
 
 ## Running Average
 
@@ -66,7 +66,7 @@ Consider using Gaussian Smoothing if your points are spaced unevenly on the x-ax
 
 The following image demonstrates how a running app looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
 
-![](/images/app_ui/running_average.png)
+{{< img src="/images/app_ui/running_average.png" alt="" >}}
 
 ## Exponential Moving Average (Deprecated)
 
@@ -87,7 +87,7 @@ Here is sample code for how this works under the hood:
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
-![](/images/app_ui/exponential_moving_average.png)
+{{< img src="/images/app_ui/exponential_moving_average.png" alt="" >}}
 
 ## Implementation Details
 
@@ -97,4 +97,4 @@ All of the smoothing algorithms run on the sampled data, meaning that if you log
 
 By default we show the original, unsmoothed data as a faint line in the background. Click the **Show Original** toggle to turn this off.
 
-![](/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif)
+{{< img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif" alt="" >}}

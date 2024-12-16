@@ -16,7 +16,7 @@ To move runs from one project to another:
 
 
 
-![](/images/app_ui/howto_move_runs.gif)
+{{< img src="/images/app_ui/howto_move_runs.gif" alt="" >}}
 
 
 
@@ -30,5 +30,5 @@ Move runs to a team you are a member of:
 4. Choose the **Move** button above the table.
 5. Select the destination team and project from the dropdown.
 
-![](/images/app_ui/demo_move_runs.gif)
+{{< img src="/images/app_ui/demo_move_runs.gif" alt="" >}}
 

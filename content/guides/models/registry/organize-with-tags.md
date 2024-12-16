@@ -41,7 +41,7 @@ Use the W&B App UI to add a tag to a collection:
 4. Within the collection card, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
 5. Press **Enter** on your keyboard
 
-![](/images/registry/add_tag_collection.gif)
+{{< img src="/images/registry/add_tag_collection.gif" alt="" >}}
 
   </TabItem>
   <TabItem value="python">
@@ -106,13 +106,13 @@ Use the W&B App UI to view tags added to a collection:
 
 If a collection has one or more tags, you can view those tags within the collection card next to the **Tags** field.
 
-![](/images/registry/tag_collection_selected.png)
+{{< img src="/images/registry/tag_collection_selected.png" alt="" >}}
 
 Tags added to a collection also appear next to the name of that collection.
 
 For example, in the proceeding image, a tag called "tag1" was added to the "zoo-dataset-tensors" collection.
 
-![](/images/registry/tag_collection.png)
+{{< img src="/images/registry/tag_collection.png" alt="" >}}
 
 
 ## Remove a tag from a collection
@@ -145,7 +145,7 @@ Add a tag to an artifact version linked to a collection with the W&B App UI or w
 6. Within the **Version** tab, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
 7. Press **Enter** on your keyboard
 
-![](/images/registry/add_tag_linked_artifact_version.gif)
+{{< img src="/images/registry/add_tag_linked_artifact_version.gif" alt="" >}}
 
 
   </TabItem>  
@@ -246,7 +246,7 @@ View tags that belong to an artifact version that is linked to a registry with t
 
 If an artifact version has one or more tags, you can view those tags within the **Tags** column.
 
-![](/images/registry/tag_artifact_version.png)
+{{< img src="/images/registry/tag_artifact_version.png" alt="" >}}
 
 
   </TabItem>
@@ -316,7 +316,7 @@ Use the W&B App UI to search existing tags in collections and artifact versions:
 2. Click on a registry card
 3. Within the search bar, type in the name of a tag
 
-![](/images/registry/search_tags.gif)
+{{< img src="/images/registry/search_tags.gif" alt="" >}}
 
 
 ## Find artifact versions with a specific tag

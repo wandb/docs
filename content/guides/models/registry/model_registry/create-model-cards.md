@@ -24,8 +24,8 @@ Add a description to the model card of your registered model to document aspects
 1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 2. Select **View details** next to the name of the registered model you want to create a model card for.
 2. Go to the **Model card** section.
-![](/images/models/model_card_example.png)
+{{< img src="/images/models/model_card_example.png" alt="" >}}
 3. Within the **Description** field, provide information about your machine learning model. Format text within a model card with [Markdown markup language](https://www.markdownguide.org/).
 
 For example, the following images shows the model card of a **Credit-card Default Prediction** registered model.
-![](/images/models/model_card_credit_example.png)
+{{< img src="/images/models/model_card_credit_example.png" alt="" >}}

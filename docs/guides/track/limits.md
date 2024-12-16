@@ -158,7 +158,7 @@ Having hundreds of sections in a workspace can hurt performance. Consider creati
 
 If you find you have too many sections and performance is slow, consider the workspace setting to create sections by prefix rather than suffix, which can result in fewer sections and better performance.
 
-![Toggling section creation](/images/track/section_prefix_toggle.gif)
+{{< img src="/images/track/section_prefix_toggle.gif" alt="Toggling section creation" >}}
 
 ### File count
 
@@ -238,4 +238,4 @@ The W&B app can be memory-intensive and performs best in Chrome. Depending on yo
 
 W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking W&B's built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console.
 
-![Adding PERF_LOGGING](/images/track/adding_perf_logging.gif)
+{{< img src="/images/track/adding_perf_logging.gif" alt="Adding PERF_LOGGING" >}}

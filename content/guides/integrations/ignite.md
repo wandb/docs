@@ -180,12 +180,12 @@ if __name__ == "__main__":
 
 We get these visualizations on running the above code:
 
-![](/images/integrations/pytorch-ignite-1.png)
+{{< img src="/images/integrations/pytorch-ignite-1.png" alt="" >}}
 
-![](/images/integrations/pytorch-ignite-2.png)
+{{< img src="/images/integrations/pytorch-ignite-2.png" alt="" >}}
 
-![](/images/integrations/pytorch-ignite-3.png)
+{{< img src="/images/integrations/pytorch-ignite-3.png" alt="" >}}
 
-![](/images/integrations/pytorch-ignite-4.png)
+{{< img src="/images/integrations/pytorch-ignite-4.png" alt="" >}}
 
 Refer [Ignite Docs](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) for more detailed documentation

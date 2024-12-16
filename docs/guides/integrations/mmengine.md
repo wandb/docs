@@ -87,7 +87,7 @@ runner = Runner(
 runner.train()
 ```
 
-| ![An example of your experiment tracked using the `WandbVisBackend`](/images/integrations/mmengine.png) | 
+| {{< img src="/images/integrations/mmengine.png" alt="An example of your experiment tracked using the `WandbVisBackend`" >}} | 
 |:--:| 
 | **An example of your experiment tracked using the `WandbVisBackend`.** |
 

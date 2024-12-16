@@ -273,4 +273,4 @@ launch.manage_wandb_config(
 
 Adding a job input schema will create a structured form in the launch drawer, making it easier to launch the job.
 
-![](/images/launch/schema_overrides.png)
+{{< img src="/images/launch/schema_overrides.png" alt="" >}}

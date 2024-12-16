@@ -20,7 +20,7 @@ Use **Custom Charts** to create charts that aren't possible right now in the def
 * **Video**: Watch a quick [walkthrough video](https://www.youtube.com/watch?v=3-N9OV6bkSM)
 * **Example**: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
 
-![Supported charts from vega.github.io/vega](/images/app_ui/supported_charts.png)
+{{< img src="/images/app_ui/supported_charts.png" alt="Supported charts from vega.github.io/vega" >}}
 
 ### How it works
 
@@ -28,7 +28,7 @@ Use **Custom Charts** to create charts that aren't possible right now in the def
 2. **Customize the chart**: Pull in any of this logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a powerful visualization grammar.
 3. **Log the chart**: Call your own preset from your script with `wandb.plot_table()`.
 
-![](/images/app_ui/pr_roc.png)
+{{< img src="/images/app_ui/pr_roc.png" alt="" >}}
 
 ## Log charts from a script
 
@@ -66,7 +66,7 @@ wandb.log(
 
 You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
 
-![](/images/app_ui/line_plot.png)
+{{< img src="/images/app_ui/line_plot.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
@@ -87,7 +87,7 @@ wandb.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
 
 You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
 
-![](/images/app_ui/demo_scatter_plot.png)
+{{< img src="/images/app_ui/demo_scatter_plot.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
@@ -114,7 +114,7 @@ wandb.log(
 
 You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
 
-![](/images/app_ui/line_plot_bar_chart.png)
+{{< img src="/images/app_ui/line_plot_bar_chart.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
@@ -135,7 +135,7 @@ wandb.log({"my_histogram": wandb.plot.histogram(table, "scores", title=None)})
 
 You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
 
-![](/images/app_ui/demo_custom_chart_histogram.png)
+{{< img src="/images/app_ui/demo_custom_chart_histogram.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
@@ -161,7 +161,7 @@ You can log this whenever your code has access to:
 * (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
 * (optionally) a subset (still in list format) of the labels to visualize in the plot
 
-![](/images/app_ui/demo_average_precision_lines.png)
+{{< img src="/images/app_ui/demo_average_precision_lines.png" alt="" >}}
 
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
@@ -190,7 +190,7 @@ You can log this whenever your code has access to:
 * (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
 * (optionally) a subset (still in list format) of these labels to visualize on the plot
 
-![](/images/app_ui/demo_custom_chart_roc_curve.png)
+{{< img src="/images/app_ui/demo_custom_chart_roc_curve.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
@@ -221,7 +221,7 @@ my_custom_chart = wandb.plot_table(
 
 [Run the code](https://tiny.cc/custom-charts)
 
-![](/images/app_ui/custom_presets.png)
+{{< img src="/images/app_ui/custom_presets.png" alt="" >}}
 
 ## Log data
 
@@ -251,13 +251,13 @@ wandb.log(
 
 Add a new custom chart to get started, then edit the query to select data from your visible runs. The query uses [GraphQL](https://graphql.org) to fetch data from the config, summary, and history fields in your runs.
 
-![Add a new custom chart, then edit the query](/images/app_ui/customize_chart.gif)
+{{< img src="/images/app_ui/customize_chart.gif" alt="Add a new custom chart, then edit the query" >}}
 
 ### Custom visualizations
 
 Select a **Chart** in the upper right corner to start with a default preset. Next, pick **Chart fields** to map the data you're pulling in from the query to the corresponding fields in your chart. Here's an example of selecting a metric to get from the query, then mapping that into the bar chart fields below.
 
-![Creating a custom bar chart showing accuracy across runs in a project](/images/app_ui/demo_make_a_custom_chart_bar_chart.gif)
+{{< img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Creating a custom bar chart showing accuracy across runs in a project" >}}
 
 ### How to edit Vega
 

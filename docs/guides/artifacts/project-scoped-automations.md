@@ -90,17 +90,17 @@ the POST request.
 Once you have a webhook configured and (optionally) a secret, navigate to your project workspace. Click on the **Automations** tab on the left sidebar.
 
 1. From the **Event type** dropdown, select an [event type](#event-types).
-![](/images/artifacts/artifact_webhook_select_event.png)
+{{< img src="/images/artifacts/artifact_webhook_select_event.png" alt="" >}}
 2. If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection that the automation should respond to from the **Artifact collection** dropdown. 
-![](/images/artifacts/webhook_new_version_artifact.png)
+{{< img src="/images/artifacts/webhook_new_version_artifact.png" alt="" >}}
 3. Select **Webhooks** from the **Action type** dropdown. 
 4. Click on the **Next step** button.
 5. Select a webhook from the **Webhook** dropdown.
-![](/images/artifacts/artifacts_webhooks_select_from_dropdown.png)
+{{< img src="/images/artifacts/artifacts_webhooks_select_from_dropdown.png" alt="" >}}
 6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for common use case examples.
 7. Click on **Next step**.
 8. Provide a name for your webhook automation in the **Automation name** field. 
-![](/images/artifacts/artifacts_webhook_name_automation.png)
+{{< img src="/images/artifacts/artifacts_webhook_name_automation.png" alt="" >}}
 9. (Optional) Provide a description for your webhook. 
 10. Click on the **Create automation** button.
 
@@ -268,12 +268,12 @@ Interactively test a webhook with the W&B App UI.
 3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
 4. Select **Test**.
 5. From the UI panel that appears, paste your POST request to the field that appears. 
-![](/images/models/webhook_ui.png)
+{{< img src="/images/models/webhook_ui.png" alt="" >}}
 6. Click on **Test webhook**.
 
 Within the W&B App UI, W&B posts the response made by your endpoint.
 
-![](/images/models/webhook_ui_testing.gif)
+{{< img src="/images/models/webhook_ui_testing.gif" alt="" >}}
 
 See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
 
@@ -324,7 +324,7 @@ View automations associated to an artifact from the W&B App UI.
 1. Navigate to your project workspace on the W&B App. 
 2. Click on the **Automations** tab on the left sidebar.
 
-![](/images/artifacts/automations_sidebar.gif)
+{{< img src="/images/artifacts/automations_sidebar.gif" alt="" >}}
 
 Within the Automations section you can find the following properties for each automations that was created in your project"
 

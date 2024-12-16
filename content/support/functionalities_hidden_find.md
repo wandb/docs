@@ -7,4 +7,4 @@ tags:
 ---
 Some functionalities are hidden under a feature flag in the **Beta Features** section of a team's settings.
 
-![Available beta features hidden under a feature flag](/images/technical_faq/beta_features.png)
+{{< img src="/images/technical_faq/beta_features.png" alt="Available beta features hidden under a feature flag" >}}

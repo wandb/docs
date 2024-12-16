@@ -24,7 +24,7 @@ Show or hide minimum and maximum values with shaded areas around your line plots
 
 The proceeding image shows a blue line plot. The light blue shaded area represents the minimum and maximum values for each bucket.
 
-![](/images/app_ui/shaded-areas.png)
+{{< img src="/images/app_ui/shaded-areas.png" alt="" >}}
 
 There are three ways to render minimum and maximum values in your line plots:
 
@@ -68,7 +68,7 @@ By default, the minimum and maximum values are not displayed as shaded areas. To
 Analyze specific regions of the dataset without missing critical points like extreme values or spikes. When you zoom in on a line plot, W&B adjusts the buckets sizes used to calculate the minimum, maximum, and average values within each bucket. 
 
 
-![](/images/app_ui/zoom_in.gif)
+{{< img src="/images/app_ui/zoom_in.gif" alt="" >}}
 
 
 W&B divides the x-axis is dynamically into 1000 buckets by default. For each bucket, W&B calculates the following values:

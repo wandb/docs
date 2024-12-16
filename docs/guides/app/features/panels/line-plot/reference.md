@@ -4,7 +4,7 @@ title: Line plot reference
 
 ## X-Axis
 
-![Selecting X-Axis](/images/app_ui/reference_x_axis.png)
+{{< img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis" >}}
 
 You can set the x-axis of a line plot to any value that you have logged with W&B.log as long as it's always logged as a number.
 
@@ -74,12 +74,12 @@ Select a style for your line plot.
 
 **Line plot:**
 
-![](/images/app_ui/plot_style_line_plot.png)
+{{< img src="/images/app_ui/plot_style_line_plot.png" alt="" >}}
 
 **Area plot:**
 
-![](/images/app_ui/plot_style_area_plot.png)
+{{< img src="/images/app_ui/plot_style_area_plot.png" alt="" >}}
 
 **Percentage area plot:**
 
-![](/images/app_ui/plot_style_percentage_plot.png)
+{{< img src="/images/app_ui/plot_style_percentage_plot.png" alt="" >}}

@@ -12,7 +12,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-![](/images/tutorials/huggingface-why.png)
+{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
 Squeezing the best performance out of tree-based models requires
 [selecting the right hyperparameters](https://blog.cambridgespark.com/hyperparameter-tuning-in-xgboost-4ff9100a3b2f).
@@ -26,7 +26,7 @@ In this tutorial we'll see how you can run sophisticated hyperparameter sweeps o
 
 For a teaser, check out the plots below:
 
-![sweeps_xgboost](/images/tutorials/xgboost_sweeps/sweeps_xgboost.png)
+{{< img src="/images/tutorials/xgboost_sweeps/sweeps_xgboost.png" alt="sweeps_xgboost" >}}
 
 ## Sweeps: An Overview
 
@@ -213,7 +213,7 @@ This plot seems to indicate that using a tree as our learner slightly,
 but not mind-blowingly,
 outperforms using a simple linear model as our learner.
 
-![sweeps_xgboost](/images/tutorials/xgboost_sweeps/sweeps_xgboost2.png)
+{{< img src="/images/tutorials/xgboost_sweeps/sweeps_xgboost2.png" alt="sweeps_xgboost" >}}
 
 ### Hyperparameter importance plot
 
@@ -230,6 +230,6 @@ of the trend we noticed in the parallel coordinates chart above:
 the largest impact on validation accuracy came from the choice of
 learner, and the `gblinear` learners were generally worse than `gbtree` learners.
 
-![sweeps_xgboost](/images/tutorials/xgboost_sweeps/sweeps_xgboost3.png)
+{{< img src="/images/tutorials/xgboost_sweeps/sweeps_xgboost3.png" alt="sweeps_xgboost" >}}
 
 These visualizations can help you save both time and resources running expensive hyperparameter optimizations by honing in on the parameters (and value ranges) that are the most important, and thereby worthy of further exploration.

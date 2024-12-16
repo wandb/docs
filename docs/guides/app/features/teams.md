@@ -13,7 +13,7 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 * **Catch regressions** and immediately get alerted when performance drops.
 * **Benchmark model performance** and compare model versions.
 
-![](/images/app_ui/teams_overview.webp)
+{{< img src="/images/app_ui/teams_overview.webp" alt="" >}}
 
 ## Create a collaborative team
 
@@ -134,9 +134,9 @@ System permissions allow you to manage members, create and modify teams, and adj
 
 In your Intro, type `/` and choose Markdown and paste the markdown snippet that renders your badge. Once you convert it to WYSIWYG, you can resize it.
 
-For example, to add a Twitter follow badge, add `[![Twitter: @weights_biase](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://twitter.com/intent/follow?screen_name=weights_biases` replacing `weights_biases` with your Twitter username.
+For example, to add a Twitter follow badge, add `[{{< img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="Twitter: @weights_biase" >}}](https://twitter.com/intent/follow?screen_name=weights_biases` replacing `weights_biases` with your Twitter username.
 
-[![Twitter: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://twitter.com/intent/follow?screen_name=weights_biases)
+[{{< img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="Twitter: @weights_biases" >}}](https://twitter.com/intent/follow?screen_name=weights_biases)
 
 ## Team trials
 

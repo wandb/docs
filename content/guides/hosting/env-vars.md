@@ -54,7 +54,7 @@ While configuring an external redis server is optional, it's highly recommended 
 
 To configure the redis instance with W&B, you can navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the `redis` connection string in the following format:
 
-![Configuring REDIS in W&B](/images/hosting/configure_redis.png)
+{{< img src="/images/hosting/configure_redis.png" alt="Configuring REDIS in W&B" >}}
 
 You can also configure `redis` using the environment variable `REDIS` on the container or in your Kubernetes deployment. Alternatively, you could also setup `REDIS` as a Kubernetes secret.
 

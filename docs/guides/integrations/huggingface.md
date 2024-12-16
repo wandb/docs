@@ -20,7 +20,7 @@ from transformers import TrainingArguments, Trainer
 args = TrainingArguments(..., report_to="wandb")  # turn on W&B logging
 trainer = Trainer(..., args=args)
 ```
-![Explore your experiment results in the W&B interactive dashboard](/images/integrations/huggingface_gif.gif)
+{{< img src="/images/integrations/huggingface_gif.gif" alt="Explore your experiment results in the W&B interactive dashboard" >}}
 
 {{% alert %}}
 If you'd rather dive straight into working code, check out this [Google Colab](https://wandb.me/hf).
@@ -230,7 +230,7 @@ By using the callbacks system in the Transformers Trainer, you can log additiona
 See the **[Custom logging section](#custom-logging-log-and-view-evaluation-samples-during-training)** below for a full guide on how to log evaluation outupts while training to log to a W&B Table like this:
 
 
-![Shows a W&B Table with evaluation outputs](/images/integrations/huggingface_eval_tables.png)
+{{< img src="/images/integrations/huggingface_eval_tables.png" alt="Shows a W&B Table with evaluation outputs" >}}
 
 ### 6) Finish your W&B Run (Notebook only) 
 

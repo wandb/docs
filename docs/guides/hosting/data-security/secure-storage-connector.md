@@ -324,7 +324,7 @@ Multiple W&B Teams can use the same cloud storage bucket. To enable this, select
 9. (Optional on [SaaS Cloud](../hosting-options/saas_cloud.md)) Optionally invite team members when creating the team.
 10. Press the **Create Team** button.
 
-![](/images/hosting/prod_setup_secure_storage.png)
+{{< img src="/images/hosting/prod_setup_secure_storage.png" alt="" >}}
 
 An error or warning appears at the bottom of the page if there are issues accessing the bucket or the bucket has invalid settings.
 

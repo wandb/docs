@@ -26,11 +26,11 @@ The name you provide for `registered_model_name` is the name that appears in the
 Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model).
 
 1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-![](/images/models/create_registered_model_1.png)
+{{< img src="/images/models/create_registered_model_1.png" alt="" >}}
 2. Click the **New registered model** button located in the top right of the Model Registry page.
-![](/images/models/create_registered_model_model_reg_app.png)
+{{< img src="/images/models/create_registered_model_model_reg_app.png" alt="" >}}
 3. From the panel that appears, select the entity you want the registered model to belong to from the **Owning Entity** dropdown.
-![](/images/models/create_registered_model_3.png)
+{{< img src="/images/models/create_registered_model_3.png" alt="" >}}
 4. Provide a name for your model in the **Name** field. 
 5. From the **Type** dropdown, select the type of artifacts to link to the registered model.
 6. (Optional) Add a description about your model in the **Description** field. 

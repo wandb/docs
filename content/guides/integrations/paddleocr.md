@@ -76,9 +76,11 @@ python tools/train.py -c config.yml
 
 Once you run your `train.py` file with Weights & Biases turned on, a link will be generated to bring you to your W&B dashboard:
 
-![](/images/integrations/paddleocr_wb_dashboard1.png) ![](/images/integrations/paddleocr_wb_dashboard2.png)
+{{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="" >}}
 
-![W&B Dashboard for the Text Detection Model](/images/integrations/paddleocr_wb_dashboard3.png)
+{{< img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="" >}}
+
+{{< img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="W&B Dashboard for the Text Detection Model" >}}
 
 ## Feedback or Issues?
 

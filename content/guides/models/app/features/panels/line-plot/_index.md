@@ -13,7 +13,7 @@ import TabItem from '@theme/TabItem';
 
 Line plots show up by default when you plot metrics over time with **wandb.log()**. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
 
-![](/images/app_ui/line_plot_example.png)
+{{< img src="/images/app_ui/line_plot_example.png" alt="" >}}
 
 ## Edit line panel settings
  
@@ -79,11 +79,11 @@ If you have several different experiments and you'd like to see the average of t
 
 Here is what the graph looks like before averaging:
 
-![](/images/app_ui/demo_precision_lines.png)
+{{< img src="/images/app_ui/demo_precision_lines.png" alt="" >}}
 
 The proceeding image shows a graph that represents average values across runs using grouped lines.
 
-![](/images/app_ui/demo_average_precision_lines.png)
+{{< img src="/images/app_ui/demo_average_precision_lines.png" alt="" >}}
 
 ## Visualize NaN value on a plot
 
@@ -93,12 +93,12 @@ You can also plot `NaN` values including PyTorch tensors on a line plot with `wa
 wandb.log({"test": [..., float("nan"), ...]})
 ```
 
-![](/images/app_ui/visualize_nan.png)
+{{< img src="/images/app_ui/visualize_nan.png" alt="" >}}
 
 ## Compare two metrics on one chart
 
 
-![](/images/app_ui/visualization_add.gif)
+{{< img src="/images/app_ui/visualization_add.gif" alt="" >}}
 
 1. Select the **Add panels** button in the top right corner of the page.
 2. From the left panel that appears, expand the Evaluation dropdown.
@@ -120,11 +120,11 @@ Sometimes the default color of runs is not helpful for comparison. To help overc
 
 Each run is given a random color by default upon initialization.
 
-![Random colors given to runs](/images/app_ui/line_plots_run_table_random_colors.png)
+{{< img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Random colors given to runs" >}}
 
 Upon clicking any of the colors, a color palette appears from which we can manually choose the color we want.
 
-![The color palette](/images/app_ui/line_plots_run_table_color_palette.png)
+{{< img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="The color palette" >}}
 
   </TabItem>
   <TabItem value="legend_settings">
@@ -133,7 +133,7 @@ Upon clicking any of the colors, a color palette appears from which we can manua
 2. Select the pencil icon that appears.
 3. Choose the **Legend** tab.
 
-![](/images/app_ui/plot_style_line_plot_legend.png)
+{{< img src="/images/app_ui/plot_style_line_plot_legend.png" alt="" >}}
 
   </TabItem>
 </Tabs>
@@ -143,22 +143,22 @@ Upon clicking any of the colors, a color palette appears from which we can manua
 
 If you'd like to see the absolute time that an experiment has taken, or see what day an experiment ran, you can switch the x axis. Here's an example of switching from steps to relative time and then to wall time.
 
-![](/images/app_ui/howto_use_relative_time_or_wall_time.gif)
+{{< img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="" >}}
 
 ## Area plots
 
 In the line plot settings, in the advanced tab, click on different plot styles to get an area plot or a percentage area plot.
 
-![](/images/app_ui/line_plots_area_plots.gif)
+{{< img src="/images/app_ui/line_plots_area_plots.gif" alt="" >}}
 
 ## Zoom
 
 Click and drag a rectangle to zoom vertically and horizontally at the same time. This changes the x-axis and y-axis zoom.
 
-![](/images/app_ui/line_plots_zoom.gif)
+{{< img src="/images/app_ui/line_plots_zoom.gif" alt="" >}}
 
 ## Hide chart legend
 
 Turn off the legend in the line plot with this simple toggle:
 
-![](/images/app_ui/demo_hide_legend.gif)
+{{< img src="/images/app_ui/demo_hide_legend.gif" alt="" >}}

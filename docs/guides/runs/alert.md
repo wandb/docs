@@ -11,7 +11,7 @@ Create alerts with Slack or email if your run crashes or with a custom trigger. 
 
 And then see W&B Alerts messages in Slack (or your email):
 
-![](/images/track/send_alerts_slack.png)
+{{< img src="/images/track/send_alerts_slack.png" alt="" >}}
 
 ## How to create an alert
 
@@ -38,7 +38,7 @@ In your [User Settings](https://wandb.ai/settings):
 
 You will only have to do this the first time you set up W&B Alerts, or when you'd like to modify how you receive alerts.
 
-![Alerts settings in W&B User Settings](/images/track/demo_connect_slack.png)
+{{< img src="/images/track/demo_connect_slack.png" alt="Alerts settings in W&B User Settings" >}}
 
 ### 2. Add `run.alert()` to your code
 

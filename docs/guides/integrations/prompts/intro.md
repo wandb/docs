@@ -46,7 +46,7 @@ Traces consists of three main components:
 
 The Trace Table provides an overview of the inputs and outputs of a chain. The trace table also provides information about the composition of a trace event in the chain, whether or not the chain ran successfully, and any error messages returned when running the chain.
 
-![Screenshot of a trace table.](/images/prompts/trace_table.png)
+{{< img src="/images/prompts/trace_table.png" alt="Screenshot of a trace table." >}}
 
 Click on a row number on the left hand side of the Table to view the Trace Timeline for that instance of the chain.
 
@@ -54,11 +54,11 @@ Click on a row number on the left hand side of the Table to view the Trace Time
 
 The Trace Timeline view displays the execution flow of the chain and is color-coded according to component types. Select a trace event to display the inputs, outputs, and metadata of that trace.
 
-![Screenshot of a Trace Timeline.](/images/prompts/trace_timeline.png)
+{{< img src="/images/prompts/trace_timeline.png" alt="Screenshot of a Trace Timeline." >}}
 
 Trace events that raise an error are outlined in red. Click on a trace event colored in red to view the returned error message.
 
-![Screenshot of a Trace Timeline error.](/images/prompts/trace_timeline_error.png)
+{{< img src="/images/prompts/trace_timeline_error.png" alt="Screenshot of a Trace Timeline error." >}}
 
 #### Model Architecture
 

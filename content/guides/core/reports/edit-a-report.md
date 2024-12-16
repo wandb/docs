@@ -47,7 +47,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
 
 
 
-![Add charts to a report](/images/reports/demo_report_add_panel_grid.gif)
+{{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
   
   </TabItem>
   <TabItem value="sdk">
@@ -288,7 +288,7 @@ report.blocks = [
 
 This will render a markdown block similar to:
 
-![](/images/reports/markdown.png)
+{{< img src="/images/reports/markdown.png" alt="" >}}
   </TabItem>
 </Tabs>
 
@@ -328,7 +328,7 @@ report.save()
 This will render a HTML elements  to the following:
 
 
-![](/images/reports/render_html.png)
+{{< img src="/images/reports/render_html.png" alt="" >}}
 
   </TabItem>
 </Tabs>
@@ -351,7 +351,7 @@ Copy and past URLs into reports to embed rich media within the report. The follo
 
 Copy and paste a Tweet link URL into a report to view the Tweet within the report.
 
-![](/images/reports/twitter.gif)
+{{< img src="/images/reports/twitter.gif" alt="" >}}
 
 ####
 
@@ -359,13 +359,13 @@ Copy and paste a Tweet link URL into a report to view the Tweet within the repor
 
 Copy and paste a YouTube video URL link to embed a video in the report.
 
-![](/images/reports/youtube.gif)
+{{< img src="/images/reports/youtube.gif" alt="" >}}
 
 #### SoundCloud
 
 Copy and paste a SoundCloud link to embed an audio file into a report.
 
-![](/images/reports/soundcloud.gif)
+{{< img src="/images/reports/soundcloud.gif" alt="" >}}
   </TabItem>
   <TabItem value="sdk">
 
@@ -394,14 +394,14 @@ If you have a layout that you would like to reuse, you can select a panel grid a
 
 Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
 
-![](/images/reports/demo_copy_and_paste_a_panel_grid_section.gif)
+{{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="" >}}
 
 Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
-![](/images/reports/delete_panel_grid.gif)
+{{< img src="/images/reports/delete_panel_grid.gif" alt="" >}}
 
 ### Collapse headers to organize Reports
 
 Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
 
-![](/images/reports/collapse_headers.gif)
+{{< img src="/images/reports/collapse_headers.gif" alt="" >}}

@@ -17,7 +17,7 @@ Upload your TensorBoard logs to the cloud, quickly share your results among coll
 
 
 
-![](/images/integrations/tensorboard_oneline_code.webp)
+{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="" >}}
 
 ### Add one line of code to your training script
 

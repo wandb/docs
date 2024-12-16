@@ -29,7 +29,7 @@ wandb.log(
 
 Once you've logged data to visualize, go to your project page and click the **`+`** button to add a new panel, then select **Custom Chart**. You can follow along in [this workspace](https://app.wandb.ai/demo-team/custom-charts).
 
-![A new, blank custom chart ready to be configured](/images/app_ui/create_a_query.png)
+{{< img src="/images/app_ui/create_a_query.png" alt="A new, blank custom chart ready to be configured" >}}
 
 ### Add a query
 
@@ -40,7 +40,7 @@ Once you've logged data to visualize, go to your project page and click the **`+
 
 Now that the query is loading in these columns, they're available as options to select in the Vega fields dropdown menus:
 
-![Pulling in columns from the query results to set Vega fields](/images/app_ui/set_vega_fields.png)
+{{< img src="/images/app_ui/set_vega_fields.png" alt="Pulling in columns from the query results to set Vega fields" >}}
 
 * **x-axis:** runSets_historyTable_r (recall)
 * **y-axis:** runSets_historyTable_p (precision)
@@ -50,7 +50,7 @@ Now that the query is loading in these columns, they're available as options to 
 
 Now that looks pretty good, but I'd like to switch from a scatter plot to a line plot. Click **Edit** to change the Vega spec for this built in chart. Follow along in [this workspace](https://app.wandb.ai/demo-team/custom-charts).
 
-![](/images/general/custom-charts-1.png)
+{{< img src="/images/general/custom-charts-1.png" alt="" >}}
 
 I updated the Vega spec to customize the visualization:
 
@@ -58,17 +58,17 @@ I updated the Vega spec to customize the visualization:
 * change the value of “mark” from “point” to “line”
 * remove the unused “size” field
 
-![](/images/app_ui/customize_vega_spec_for_pr_curve.png)
+{{< img src="/images/app_ui/customize_vega_spec_for_pr_curve.png" alt="" >}}
 
 To save this as a preset that you can use elsewhere in this project, click **Save as** at the top of the page. Here's what the result looks like, along with an ROC curve:
 
-![](/images/general/custom-charts-2.png)
+{{< img src="/images/general/custom-charts-2.png" alt="" >}}
 
 ## Bonus: Composite Histograms
 
 Histograms can visualize numerical distributions to help us understand larger datasets. Composite histograms show multiple distributions across the same bins, letting us compare two or more metrics across different models or across different classes within our model. For a semantic segmentation model detecting objects in driving scenes, we might compare the effectiveness of optimizing for accuracy versus intersection over union (IOU), or we might want to know how well different models detect cars (large, common regions in the data) versus traffic signs (much smaller, less common regions). In the[ demo Colab](https://bit.ly/custom-charts-colab), you can compare the confidence scores for two of the ten classes of living things.
 
-![](/images/app_ui/composite_histograms.png)
+{{< img src="/images/app_ui/composite_histograms.png" alt="" >}}
 
 To create your own version of the custom composite histogram panel:
 
@@ -79,6 +79,6 @@ To create your own version of the custom composite histogram panel:
 
 Here’s what my results look like from a very brief experiment: training on only 1000 examples for one epoch yields a model that’s very confident that most images are not plants and very uncertain about which images might be animals.
 
-![](/images/general/custom-charts-3.png)
+{{< img src="/images/general/custom-charts-3.png" alt="" >}}
 
-![](/images/general/custom-charts-4.png)
+{{< img src="/images/general/custom-charts-4.png" alt="" >}}

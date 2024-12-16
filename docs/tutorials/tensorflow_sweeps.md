@@ -7,11 +7,11 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-![](/images/tutorials/huggingface-why.png)
+{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
 Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models, complete with interactive dashboards like this:
 
-![](/images/tutorials/tensorflow/sweeps.png)
+{{< img src="/images/tutorials/tensorflow/sweeps.png" alt="" >}}
 
 
 ## 🤔 Why Should I Use Sweeps?

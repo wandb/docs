@@ -226,7 +226,7 @@ wandb offline
 
 With a `wandb` run config you can provide metadata about your model, dataset, and so on when you create a W&B Run. You can use this information to compare different experiments and quickly understand what are the main differences.
 
-![W&B Runs table](/images/integrations/integrations_add_any_lib_runs_page.png)
+{{< img src="/images/integrations/integrations_add_any_lib_runs_page.png" alt="W&B Runs table" >}}
 
 Typical config parameters you can log include:
 
@@ -278,7 +278,7 @@ metrics = {
 wandb.log(metrics)
 ```
 
-![A W&B Workspace with 2 separate sections](/images/integrations/integrations_add_any_lib_log.png)
+{{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="A W&B Workspace with 2 separate sections" >}}
 
 For more on `wandb.log`, see [Log Data with wandb.log](/guides/track/log)
 
@@ -345,7 +345,7 @@ See [Log Distributed Training Experiments](../track/log/distributed-training.md)
 
 If your framework uses or produces models or datasets, you can log them for full traceability and have wandb automatically monitor your entire pipeline through W&B Artifacts.
 
-![Stored Datasets and Model Checkpoints in W&B](/images/integrations/integrations_add_any_lib_dag.png)
+{{< img src="/images/integrations/integrations_add_any_lib_dag.png" alt="Stored Datasets and Model Checkpoints in W&B" >}}
 
 When using Artifacts, it might be useful but not necessary to let your users define:
 

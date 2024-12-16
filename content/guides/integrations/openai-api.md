@@ -26,7 +26,7 @@ Log your API inputs and outputs you can quickly evaluate the performance of diff
 
 
 
-![](/images/integrations/open_ai_autolog.png)
+{{< img src="/images/integrations/open_ai_autolog.png" alt="" >}}
 
 
 ## Install OpenAI Python API library
