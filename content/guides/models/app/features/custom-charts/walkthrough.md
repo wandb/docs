@@ -9,11 +9,6 @@ title: 'Tutorial: Use custom charts'
 
 Use custom charts to control the data you're loading in to a panel and its visualization.
 
-**Overview**
-
-1. Log data to W&B
-2. Create a query
-3. Customize the chart
 
 ## 1. Log data to W&B
 

@@ -9,6 +9,7 @@ url: guides/app/features/custom-charts
 cascade:
 - url: guides/app/features/custom-charts/:filename
 ---
+
 Use **Custom Charts** to create charts that aren't possible right now in the default UI. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
 
 * **What's possible**: Read the[ launch announcement](https://wandb.ai/wandb/posts/reports/Announcing-the-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
@@ -16,7 +17,7 @@ Use **Custom Charts** to create charts that aren't possible right now in the def
 * **Video**: Watch a quick [walkthrough video](https://www.youtube.com/watch?v=3-N9OV6bkSM)
 * **Example**: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
 
-{{< img src="/images/app_ui/supported_charts.png" alt="Supported charts from vega.github.io/vega" >}}
+{{< img src="/images/app_ui/supported_charts.png" alt="Supported charts from vega.github.io/vega" max-width="90%" >}}
 
 ### How it works
 
@@ -32,168 +33,163 @@ Use **Custom Charts** to create charts that aren't possible right now in the def
 
 These presets have builtin `wandb.plot` methods that make it fast to log charts directly from your script and see the exact visualizations you're looking for in the UI.
 
-<Tabs
-  defaultValue="line-plot"
-  values={[
-    {label: 'Line plot', value: 'line-plot'},
-    {label: 'Scatter plot', value: 'scatter-plot'},
-    {label: 'Bar chart', value: 'bar-chart'},
-    {label: 'Histogram', value: 'histogram'},
-    {label: 'PR curve', value: 'pr-curve'},
-    {label: 'ROC curve', value: 'roc-curve'},
-  ]}>
-  <TabItem value="line-plot">
+{{< tabpane text=true >}}
+{{% tab header="Line plot" value="line-plot" %}}
 
-`wandb.plot.line()`
+  `wandb.plot.line()`
 
-Log a custom line plot—a list of connected and ordered points (x,y) on arbitrary axes x and y.
+  Log a custom line plot—a list of connected and ordered points (x,y) on arbitrary axes x and y.
 
-```python
-data = [[x, y] for (x, y) in zip(x_values, y_values)]
-table = wandb.Table(data=data, columns=["x", "y"])
-wandb.log(
-    {
-        "my_custom_plot_id": wandb.plot.line(
-            table, "x", "y", title="Custom Y vs X Line Plot"
-        )
-    }
-)
-```
+  ```python
+  data = [[x, y] for (x, y) in zip(x_values, y_values)]
+  table = wandb.Table(data=data, columns=["x", "y"])
+  wandb.log(
+      {
+          "my_custom_plot_id": wandb.plot.line(
+              table, "x", "y", title="Custom Y vs X Line Plot"
+          )
+      }
+  )
+  ```
 
-You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+  You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
 
-{{< img src="/images/app_ui/line_plot.png" alt="" >}}
+  {{< img src="/images/app_ui/line_plot.png" alt="" >}}
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
+  [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
-[Run the code](https://tiny.cc/custom-charts)
+  [Run the code](https://tiny.cc/custom-charts)
 
-  </TabItem>
-  <TabItem value="scatter-plot">
+{{% /tab %}}
 
-`wandb.plot.scatter()`
+{{% tab header="Scatter plot" value="scatter-plot" %}}
 
-Log a custom scatter plot—a list of points (x, y) on a pair of arbitrary axes x and y.
+  `wandb.plot.scatter()`
 
-```python
-data = [[x, y] for (x, y) in zip(class_x_prediction_scores, class_y_prediction_scores)]
-table = wandb.Table(data=data, columns=["class_x", "class_y"])
-wandb.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
-```
+  Log a custom scatter plot—a list of points (x, y) on a pair of arbitrary axes x and y.
 
-You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+  ```python
+  data = [[x, y] for (x, y) in zip(class_x_prediction_scores, class_y_prediction_scores)]
+  table = wandb.Table(data=data, columns=["class_x", "class_y"])
+  wandb.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
+  ```
 
-{{< img src="/images/app_ui/demo_scatter_plot.png" alt="" >}}
+  You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
+  {{< img src="/images/app_ui/demo_scatter_plot.png" alt="" >}}
 
-[Run the code](https://tiny.cc/custom-charts)
+  [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
-  </TabItem>
-  <TabItem value="bar-chart">
+  [Run the code](https://tiny.cc/custom-charts)
 
-`wandb.plot.bar()`
+{{% /tab %}}
 
-Log a custom bar chart—a list of labeled values as bars—natively in a few lines:
+{{% tab header="Bar chart" value="bar-chart" %}}
 
-```python
-data = [[label, val] for (label, val) in zip(labels, values)]
-table = wandb.Table(data=data, columns=["label", "value"])
-wandb.log(
-    {
-        "my_bar_chart_id": wandb.plot.bar(
-            table, "label", "value", title="Custom Bar Chart"
-        )
-    }
-)
-```
+  `wandb.plot.bar()`
 
-You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
+  Log a custom bar chart—a list of labeled values as bars—natively in a few lines:
 
-{{< img src="/images/app_ui/line_plot_bar_chart.png" alt="" >}}
+  ```python
+  data = [[label, val] for (label, val) in zip(labels, values)]
+  table = wandb.Table(data=data, columns=["label", "value"])
+  wandb.log(
+      {
+          "my_bar_chart_id": wandb.plot.bar(
+              table, "label", "value", title="Custom Bar Chart"
+          )
+      }
+  )
+  ```
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
+  You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
 
-[Run the code](https://tiny.cc/custom-charts)
+  {{< img src="/images/app_ui/line_plot_bar_chart.png" alt="" >}}
 
-  </TabItem>
-  <TabItem value="histogram">
+  [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
-`wandb.plot.histogram()`
+  [Run the code](https://tiny.cc/custom-charts)
+{{% /tab %}}
 
-Log a custom histogram—sort list of values into bins by count/frequency of occurrence—natively in a few lines. Let's say I have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
+{{% tab header="Histogram" value="histogram" %}}
 
-```python
-data = [[s] for s in scores]
-table = wandb.Table(data=data, columns=["scores"])
-wandb.log({"my_histogram": wandb.plot.histogram(table, "scores", title=None)})
-```
+  `wandb.plot.histogram()`
 
-You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
+  Log a custom histogram—sort list of values into bins by count/frequency of occurrence—natively in a few lines. Let's say I have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
 
-{{< img src="/images/app_ui/demo_custom_chart_histogram.png" alt="" >}}
+  ```python
+  data = [[s] for s in scores]
+  table = wandb.Table(data=data, columns=["scores"])
+  wandb.log({"my_histogram": wandb.plot.histogram(table, "scores", title=None)})
+  ```
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
+  You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
 
-[Run the code](https://tiny.cc/custom-charts)
+  {{< img src="/images/app_ui/demo_custom_chart_histogram.png" alt="" >}}
 
-  </TabItem>
-    <TabItem value="pr-curve">
+  [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
-`wandb.plot.pr_curve()`
+  [Run the code](https://tiny.cc/custom-charts)
 
-Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) in one line:
+{{% /tab %}}
 
-```python
-plot = wandb.plot.pr_curve(ground_truth, predictions, labels=None, classes_to_plot=None)
+{{% tab header="PR curve" value="pr-curve" %}}
 
-wandb.log({"pr": plot})
-```
+  `wandb.plot.pr_curve()`
 
-You can log this whenever your code has access to:
+  Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) in one line:
 
-* a model's predicted scores (`predictions`) on a set of examples
-* the corresponding ground truth labels (`ground_truth`) for those examples
-* (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-* (optionally) a subset (still in list format) of the labels to visualize in the plot
+  ```python
+  plot = wandb.plot.pr_curve(ground_truth, predictions, labels=None, classes_to_plot=None)
 
-{{< img src="/images/app_ui/demo_average_precision_lines.png" alt="" >}}
+  wandb.log({"pr": plot})
+  ```
+
+  You can log this whenever your code has access to:
+
+  * a model's predicted scores (`predictions`) on a set of examples
+  * the corresponding ground truth labels (`ground_truth`) for those examples
+  * (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
+  * (optionally) a subset (still in list format) of the labels to visualize in the plot
+
+  {{< img src="/images/app_ui/demo_average_precision_lines.png" alt="" >}}
 
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
+  [See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
-[Run the code](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
+  [Run the code](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
 
-  </TabItem>
-  <TabItem value="roc-curve">
+{{% /tab %}}
 
-`wandb.plot.roc_curve()`
+{{% tab header="ROC curve" value="roc-curve" %}}
 
-Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) in one line:
+  `wandb.plot.roc_curve()`
 
-```python
-plot = wandb.plot.roc_curve(
-    ground_truth, predictions, labels=None, classes_to_plot=None
-)
+  Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) in one line:
 
-wandb.log({"roc": plot})
-```
+  ```python
+  plot = wandb.plot.roc_curve(
+      ground_truth, predictions, labels=None, classes_to_plot=None
+  )
 
-You can log this whenever your code has access to:
+  wandb.log({"roc": plot})
+  ```
 
-* a model's predicted scores (`predictions`) on a set of examples
-* the corresponding ground truth labels (`ground_truth`) for those examples
-* (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-* (optionally) a subset (still in list format) of these labels to visualize on the plot
+  You can log this whenever your code has access to:
 
-{{< img src="/images/app_ui/demo_custom_chart_roc_curve.png" alt="" >}}
+  * a model's predicted scores (`predictions`) on a set of examples
+  * the corresponding ground truth labels (`ground_truth`) for those examples
+  * (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
+  * (optionally) a subset (still in list format) of these labels to visualize on the plot
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
+  {{< img src="/images/app_ui/demo_custom_chart_roc_curve.png" alt="" >}}
 
-[Run the code](https://colab.research.google.com/drive/1_RMppCqsA8XInV_jhJz32NCZG6Z5t1RO?usp=sharing)
+  [See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
-  </TabItem>
-</Tabs>
+  [Run the code](https://colab.research.google.com/drive/1_RMppCqsA8XInV_jhJz32NCZG6Z5t1RO?usp=sharing)
+
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### Custom presets
 
@@ -217,7 +213,7 @@ my_custom_chart = wandb.plot_table(
 
 [Run the code](https://tiny.cc/custom-charts)
 
-{{< img src="/images/app_ui/custom_presets.png" alt="" >}}
+{{< img src="/images/app_ui/custom_presets.png" alt="" max-width="90%" >}}
 
 ## Log data
 
@@ -247,13 +243,13 @@ wandb.log(
 
 Add a new custom chart to get started, then edit the query to select data from your visible runs. The query uses [GraphQL](https://graphql.org) to fetch data from the config, summary, and history fields in your runs.
 
-{{< img src="/images/app_ui/customize_chart.gif" alt="Add a new custom chart, then edit the query" >}}
+{{< img src="/images/app_ui/customize_chart.gif" alt="Add a new custom chart, then edit the query" max=width="90%" >}}
 
 ### Custom visualizations
 
 Select a **Chart** in the upper right corner to start with a default preset. Next, pick **Chart fields** to map the data you're pulling in from the query to the corresponding fields in your chart. Here's an example of selecting a metric to get from the query, then mapping that into the bar chart fields below.
 
-{{< img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Creating a custom bar chart showing accuracy across runs in a project" >}}
+{{< img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Creating a custom bar chart showing accuracy across runs in a project" max-width="90%" >}}
 
 ### How to edit Vega
 
