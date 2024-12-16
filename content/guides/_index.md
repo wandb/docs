@@ -11,6 +11,7 @@ type: docs
 cascade:
   type: docs
 title: Guides
+no_list: true
 ---
 
 # What is W&B?

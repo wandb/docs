@@ -4,6 +4,7 @@ menu:
     identifier: models
 title: W&B Models
 weight: 3
+no_list: true
 ---
 
 W&B Models is the system of record for ML Practitioners who want to organize their models, boost productivity and collaboration, and deliver production ML at scale. 
