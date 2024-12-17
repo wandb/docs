@@ -3,7 +3,7 @@ description: Visualize metrics, customize axes, and compare multiple lines on th
   same plot
 menu:
   default:
-    identifier: intro
+    identifier: intro_line_plot
     parent: panels
 title: Line plots
 ---

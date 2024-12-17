@@ -2,10 +2,7 @@
 description: Track machine learning experiments with W&B.
 title: Track experiments
 ---
-import Translate, {translate} from '@docusaurus/Translate';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-<CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb"/>
+{{< cta-button productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" >}}
 
 Track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard](../track/workspaces.md) or export your data to Python for programmatic access using our [Public API](../../ref/python/public-api/README.md). 
 

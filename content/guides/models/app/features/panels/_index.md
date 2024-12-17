@@ -1,7 +1,7 @@
 ---
 menu:
   default:
-    identifier: intro
+    identifier: intro_panels
     parent: w-b-app-ui-reference
 title: Panels
 weight: 1

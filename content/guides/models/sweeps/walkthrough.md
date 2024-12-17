@@ -3,7 +3,7 @@ description: Sweeps quickstart shows how to define, initialize, and run a sweep.
   are four main steps
 menu:
   default:
-    identifier: walkthrough
+    identifier: walkthrough_sweeps
     parent: sweeps
 title: 'Tutorial: Define, initialize, and run a sweep'
 weight: 1
