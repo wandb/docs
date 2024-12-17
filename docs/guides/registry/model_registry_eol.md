@@ -7,11 +7,19 @@ W&B will transition assets from the legacy [W&B Model Registry](../model_registr
 
 The transition will take place once the new W&B Registry includes all the functionalities currently available in the Model Registry. W&B will attempt to preserve current workflows, codebases, and references.
 
+Until the migration occurs, W&B supports both the legacy Model Registry and the new Registry. 
+
 This guide is a living document and will be updated regularly as more information becomes available. For any questions or support, contact support@wandb.com.
 
 ## How W&B Registry differs from the legacy Model Registry
 
 W&B Registry introduces a range of new features and enhancements designed to provide a more robust and flexible environment for managing models, datasets, and other artifacts.
+
+:::info
+To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
+
+![](/images/registry/nav_to_old_model_reg.gif)
+:::
 
 ### Organizational visibility
 Artifacts linked to the legacy Model Registry have team level visibility. This means that only members of your team can view your artifacts in the legacy W&B Model Registry. W&B Registry has organization level visibility. This means that members across an organization, with correct permissions, can view artifacts linked to a registry.

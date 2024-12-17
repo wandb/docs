@@ -1,6 +1,6 @@
 # ImageMask
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/helper_types/image_mask.py#L18-L235' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/helper_types/image_mask.py#L18-L241' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Format image masks or overlays for logging to W&B.
@@ -49,7 +49,10 @@ masked_image = wandb.Image(
     image,
     masks={
         "predictions": {"mask_data": predicted_mask, "class_labels": class_labels},
-        "ground_truth": {"mask_data": ground_truth_mask, "class_labels": class_labels},
+        "ground_truth": {
+            "mask_data": ground_truth_mask,
+            "class_labels": class_labels,
+        },
     },
 )
 wandb.log({"img_with_masks": masked_image})
@@ -94,7 +97,10 @@ masked_image = wandb.Image(
     image,
     masks={
         "predictions": {"mask_data": predicted_mask, "class_labels": class_labels},
-        "ground_truth": {"mask_data": ground_truth_mask, "class_labels": class_labels},
+        "ground_truth": {
+            "mask_data": ground_truth_mask,
+            "class_labels": class_labels,
+        },
     },
     classes=class_set,
 )
@@ -108,7 +114,7 @@ wandb.log({"random_field": table})
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/helper_types/image_mask.py#L207-L209)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/helper_types/image_mask.py#L213-L215)
 
 ```python
 @classmethod
@@ -117,7 +123,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/helper_types/image_mask.py#L211-L235)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/helper_types/image_mask.py#L217-L241)
 
 ```python
 validate(
