@@ -6,11 +6,8 @@ menu:
     identifier: edit-a-report
     parent: reports
 title: Edit a report
-weight: 2
+weight: 20
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 Edit a report interactively with the App UI or programmatically with the W&B SDK.
 
@@ -31,27 +28,18 @@ pip install wandb wandb-workspaces
 ```
 {{% /alert %}}
 
-### Add plots
+## Add plots
 
 Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data shows up on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Workspaces API', value: 'sdk'},
-  ]}>
-  <TabItem value="app">
-
+{{< tabpane text=true >}}
+{{% tab header="App UI" value="app" %}}
 Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B; including a line plot, scatter plot or parallel coordinates chart.
 
-
-
 {{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
-  
-  </TabItem>
-  <TabItem value="sdk">
+{{% /tab %}}
 
+{{% tab header="Workspaces API" value="sdk"%}}
 Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
 
 
@@ -81,26 +69,20 @@ report.save()
 ```
 
 For more information about available plots and charts you can add to a report programmatically, see `wr.panels`.
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
-### Add run sets
+## Add run sets
 
 Add run sets from projects interactively with the App UI or the W&B SDK.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Workspaces API', value: 'sdk'},
-  ]}>
-  <TabItem value="app">
-
+{{< tabpane text=true >}}
+{{% tab header="App UI" value="app" %}}
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose Panel Grid. This will automatically import the run set from the project the report was created from.
-  </TabItem>
-  <TabItem value="sdk">
+{{% /tab %}}
 
+{{% tab header="Workspaces API" value="sdk"%}}
 Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
 
 1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the runsets for the project parameter and the entity that owns the project for the entity parameter.
@@ -186,11 +168,10 @@ panel_grids = wr.PanelGrid(
 report.blocks = [panel_grids]
 report.save()
 ``` 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
-
-### Add code blocks
+## Add code blocks
 
 Add code blocks to your report interactively with the App UI or with the W&B SDK.
 
@@ -257,7 +238,7 @@ Hello, World!
   </TabItem>
 </Tabs>
 
-### Markdown
+## Add markdown
 
 Add markdown to your report interactively with the App UI or with the W&B SDK.
 
@@ -292,7 +273,7 @@ This will render a markdown block similar to:
   </TabItem>
 </Tabs>
 
-### HTML elements
+## Add HTML elements
 
 Add HTML elements to your report interactively with the App UI or with the W&B SDK.
 
@@ -333,7 +314,7 @@ This will render a HTML elements  to the following:
   </TabItem>
 </Tabs>
 
-### Embed rich media links
+## Embed rich media links
 
 Embed rich media within the report with the App UI or with the W&B SDK.
 
@@ -347,21 +328,19 @@ Embed rich media within the report with the App UI or with the W&B SDK.
 
 Copy and past URLs into reports to embed rich media within the report. The following animations demonstrate how to copy and paste URLs from Twitter, YouTube and SoundCloud
 
-#### Twitter
+### Twitter
 
 Copy and paste a Tweet link URL into a report to view the Tweet within the report.
 
 {{< img src="/images/reports/twitter.gif" alt="" >}}
 
-####
-
-#### Youtube
+### Youtube
 
 Copy and paste a YouTube video URL link to embed a video in the report.
 
 {{< img src="/images/reports/youtube.gif" alt="" >}}
 
-#### SoundCloud
+### SoundCloud
 
 Copy and paste a SoundCloud link to embed an audio file into a report.
 
@@ -388,7 +367,7 @@ report.save()
   </TabItem>
 </Tabs>
 
-### Duplicate and delete panel grids
+## Duplicate and delete panel grids
 
 If you have a layout that you would like to reuse, you can select a panel grid and copy-paste it to duplicate it in the same report or even paste it into a different report.
 
@@ -400,7 +379,7 @@ Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
 {{< img src="/images/reports/delete_panel_grid.gif" alt="" >}}
 
-### Collapse headers to organize Reports
+## Collapse headers to organize Reports
 
 Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
 

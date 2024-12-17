@@ -5,9 +5,10 @@ menu:
     identifier: reports-gallery
     parent: reports
 title: Example reports
+weight: 70
 ---
 
-### Notes: Add a visualization with a quick summary
+## Notes: Add a visualization with a quick summary
 
 Capture an important observation, an idea for future work, or a milestone reached in the development of a project. All experiment runs in your report will link to their parameters, metrics, logs, and code, so you can save the full context of your work.
 
@@ -15,13 +16,13 @@ Jot down some text and pull in relevant charts to illustrate your insight.
 
 See the [What To Do When Inception-ResNet-V2 Is Too Slow](https://wandb.ai/stacey/estuary/reports/When-Inception-ResNet-V2-is-too-slow--Vmlldzo3MDcxMA) W&B Report for an example of how you can share comparisons of training time.
 
-{{< img src="/images/reports/notes_add_quick_summary.png" alt="" >}}
+{{< img src="/images/reports/notes_add_quick_summary.png" alt="" max-width="90%">}}
 
 Save the best examples from a complex code base for easy reference and future interaction. See the [LIDAR point clouds](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg) W&B Report for an example of how to visualize LIDAR point clouds from the Lyft dataset and annotate with 3D bounding boxes.
 
-{{< img src="/images/reports/notes_add_quick_summary_save_best_examples.png" alt="" >}}
+{{< img src="/images/reports/notes_add_quick_summary_save_best_examples.png" alt="" max-width="90%" >}}
 
-### Collaboration: Share findings with your colleagues
+## Collaboration: Share findings with your colleagues
 
 Explain how to get started with a project, share what you've observed so far, and synthesize the latest findings. Your colleagues can make suggestions or discuss details using comments on any panel or at the end of the report.
 
@@ -39,7 +40,7 @@ Use sliders and configurable media panels to showcase a model's results or train
 
 {{< img src="/images/reports/intro_collaborate4.png" alt="" >}}
 
-### Work log: Track what you've tried and plan next steps
+## Work log: Track what you've tried and plan next steps
 
 Write down your thoughts on experiments, your findings, and any gotchas and next steps as you work through a project, keeping everything organized in one place. This lets you "document" all the important pieces beyond your scripts. See the [Who Is Them? Text Disambiguation With Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc) W&B Report for an example of how you can report your findings.
 
