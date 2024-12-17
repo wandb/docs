@@ -9,9 +9,6 @@ url: quickstart
 weight: 2
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Install W&B and start tracking your machine learning experiments in minutes.
 
 ## 1. Create an account and install W&B
@@ -23,45 +20,44 @@ Before you get started, make sure you create an account and install W&B:
 
 The following code snippets demonstrate how to install and log into W&B using the W&B CLI and Python Library:
 
-<Tabs
-  defaultValue="notebook"
-  values={[
-    {label: 'Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+{{% tab header="GitHub repository dispatch" value="github" %}}
+... Markdown contents ...
+{{% /tab %}}
 
+{{% tab header="Microsoft Teams notification" value="microsoft"%}}
+... Markdown contents ...
+{{% /tab %}}
+{{< /tabpane >}}
+
+## 1. Install W&B CLI and Library
+
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="cli" %}}
 Install the CLI and Python library for interacting with the Weights and Biases API:
 
 ```bash
 pip install wandb
 ```
+{{% /tab %}}
 
-  </TabItem>
-  <TabItem value="notebook">
-
+{{% tab header="Notebook" value="notebook" %}}
 Install the CLI and Python library for interacting with the Weights and Biases API:
-
 
 ```notebook
 !pip install wandb
 ```
+{{% /tab %}}
 
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
 
 ## 2. Log in to W&B
 
+{{< tabpane text=true >}}
 
-<Tabs
-  defaultValue="notebook"
-  values={[
-    {label: 'Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="cli">
-
+{{% tab header="Command Line" value="cli" %}}
 Next, log in to W&B:
 
 ```bash
@@ -77,10 +73,9 @@ wandb login --relogin --host=http://your-shared-local-host.com
 If needed, ask your deployment admin for the hostname.
 
 Provide [your API key](https://wandb.ai/authorize) when prompted.
+{{% /tab %}}
 
-  </TabItem>
-  <TabItem value="notebook">
-
+{{% tab header="Notebook" value="notebook" %}}
 Next, import the W&B Python SDK and log in:
 
 ```python
@@ -88,8 +83,10 @@ wandb.login()
 ```
 
 Provide [your API key](https://wandb.ai/authorize) when prompted.
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
+
 
 
 ## 3. Start a run and track hyperparameters

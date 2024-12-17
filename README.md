@@ -18,12 +18,12 @@ nvm install 20
 nvm use 20
 npm install
 go mod init docsy
-hugo mod get -u
 ```
 
 ## Running the website locally
 
 ```bash
+hugo mod get -u
 hugo server
 ```
 

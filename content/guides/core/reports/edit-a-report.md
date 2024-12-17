@@ -9,24 +9,20 @@ title: Edit a report
 weight: 2
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Edit a report interactively with the App UI or programmatically with the W&B SDK.
 
-Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
+Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and runs, and panel grids.
 
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
-
 {{% alert %}}
-Check out the [Programmatic workspaces tutorial](../../tutorials/workspaces.md) for a step by step example on how create and customize a saved workspace view.
+Check out the [Programmatic workspaces tutorial](../../tutorials/workspaces.md) for a step-by-step example on how to create and customize a saved workspace view.
 {{% /alert %}}
 
 {{% alert %}}
 Ensure that you have `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
 
-```pip
+```bash
 pip install wandb wandb-workspaces
 ```
 {{% /alert %}}
@@ -35,27 +31,20 @@ pip install wandb wandb-workspaces
 
 Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data shows up on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Workspaces API', value: 'sdk'},
-  ]}>
-  <TabItem value="app">
+{{< tabpane text=true >}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B; including a line plot, scatter plot or parallel coordinates chart.
+{{% tab header="App UI" value="app" %}}
 
-
+Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B, including a line plot, scatter plot, or parallel coordinates chart.
 
 {{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
-  
-  </TabItem>
-  <TabItem value="sdk">
+{{% /tab %}}
+
+{{% tab header="Workspaces API" value="sdk" %}}
 
 Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
 
-
-The proceeding examples demonstrates how to create a line plot and scatter plot.
+The following examples demonstrate how to create a line plot and scatter plot:
 
 ```python
 import wandb
@@ -81,32 +70,29 @@ report.save()
 ```
 
 For more information about available plots and charts you can add to a report programmatically, see `wr.panels`.
-  </TabItem>
-</Tabs>
+{{% /tab %}}
 
+{{< /tabpane >}}
 
 ### Add run sets
 
 Add run sets from projects interactively with the App UI or the W&B SDK.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Workspaces API', value: 'sdk'},
-  ]}>
-  <TabItem value="app">
+{{< tabpane text=true >}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose Panel Grid. This will automatically import the run set from the project the report was created from.
-  </TabItem>
-  <TabItem value="sdk">
+{{% tab header="App UI" value="app" %}}
 
-Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
+Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Panel Grid**. This will automatically import the run set from the project the report was created from.
+{{% /tab %}}
+
+{{% tab header="Workspaces API" value="sdk" %}}
+
+Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The following procedure describes how to add a runset:
 
 1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the runsets for the project parameter and the entity that owns the project for the entity parameter.
 2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `runsets` parameter.
 3. Store one or more `wr.PanelGrid()` object instances in a list.
-4. Update the report instance blocks attribute with the list of panel grid instances.
+4. Update the report instance's `blocks` attribute with the list of panel grid instances.
 
 ```python
 import wandb
@@ -130,6 +116,7 @@ You can optionally add runsets and panels with one call to the SDK:
 
 ```python
 import wandb
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(
     project="report-editing",
@@ -139,78 +126,36 @@ report = wr.Report(
 
 panel_grids = wr.PanelGrid(
     panels=[
-        wr.LinePlot(
-            title="line title",
-            x="x",
-            y=["y"],
-            range_x=[0, 100],
-            range_y=[0, 100],
-            log_x=True,
-            log_y=True,
-            title_x="x axis title",
-            title_y="y axis title",
-            ignore_outliers=True,
-            groupby="hyperparam1",
-            groupby_aggfunc="mean",
-            groupby_rangefunc="minmax",
-            smoothing_factor=0.5,
-            smoothing_type="gaussian",
-            smoothing_show_original=True,
-            max_runs_to_show=10,
-            plot_type="stacked-area",
-            font_size="large",
-            legend_position="west",
-        ),
-        wr.ScatterPlot(
-            title="scatter title",
-            x="y",
-            y="y",
-            # z='x',
-            range_x=[0, 0.0005],
-            range_y=[0, 0.0005],
-            # range_z=[0,1],
-            log_x=False,
-            log_y=False,
-            # log_z=True,
-            running_ymin=True,
-            running_ymean=True,
-            running_ymax=True,
-            font_size="small",
-            regression=True,
-        ),
+        wr.LinePlot(x="x", y=["y"]),
+        wr.ScatterPlot(x="y", y="y"),
     ],
     runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")],
 )
 
-
 report.blocks = [panel_grids]
 report.save()
-``` 
-  </TabItem>
-</Tabs>
+```
+{{% /tab %}}
 
+{{< /tabpane >}}
 
 ### Add code blocks
 
 Add code blocks to your report interactively with the App UI or with the W&B SDK.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Workspaces API', value: 'sdk'},
-  ]}>
-  <TabItem value="app">
+{{< tabpane text=true >}}
 
+{{% tab header="App UI" value="app" %}}
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Code**.
 
-Select the name of the programming language on the right hand of the code block. This will expand a dropdown. From the dropdown, select your programming language syntax. You can choose from Javascript, Python, CSS, JSON, HTML, Markdown, and YAML.
-  </TabItem>
-  <TabItem value="sdk">
+Select the name of the programming language on the right-hand side of the code block. This will expand a dropdown. From the dropdown, select your programming language syntax. You can choose from JavaScript, Python, CSS, JSON, HTML, Markdown, and YAML.
+{{% /tab %}}
 
-Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
+{{% tab header="Workspaces API" value="sdk" %}}
 
-For example the proceeding example demonstrates a list in YAML file:
+Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the `language` and `code` parameters, respectively.
+
+The following example demonstrates a list in YAML format:
 
 ```python
 import wandb
@@ -227,51 +172,27 @@ report.blocks = [
 report.save()
 ```
 
-This will render a code block similar to:
-
-```yaml
-this:
-- is
-- a
-cool:
-- yaml
-- file
-```
-
-The proceeding example demonstrates a Python code block:
+The following example demonstrates a Python code block:
 
 ```python
-report = wr.Report(project="report-editing")
-
-
-report.blocks = [wr.CodeBlock(code=["Hello, World!"], language="python")]
-
+report.blocks = [wr.CodeBlock(code=["print('Hello, World!')"], language="python")]
 report.save()
 ```
+{{% /tab %}}
 
-This will render a code block similar to:
+{{< /tabpane >}}
 
-```md
-Hello, World!
-```
-  </TabItem>
-</Tabs>
-
-### Markdown
+### Add markdown
 
 Add markdown to your report interactively with the App UI or with the W&B SDK.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Workspaces API', value: 'sdk'},
-  ]}>
-  <TabItem value="app">
+{{< tabpane text=true >}}
 
+{{% tab header="App UI" value="app" %}}
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Markdown**.
-  </TabItem>
-  <TabItem value="sdk">
+{{% /tab %}}
+
+{{% tab header="Workspaces API" value="sdk" %}}
 
 Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block programmatically. Pass a string to the `text` parameter:
 
@@ -284,31 +205,25 @@ report = wr.Report(project="report-editing")
 report.blocks = [
     wr.MarkdownBlock(text="Markdown cell with *italics* and **bold** and $e=mc^2$")
 ]
+report.save()
 ```
+{{% /tab %}}
 
-This will render a markdown block similar to:
+{{< /tabpane >}}
 
-{{< img src="/images/reports/markdown.png" alt="" >}}
-  </TabItem>
-</Tabs>
-
-### HTML elements
+### Add HTML elements
 
 Add HTML elements to your report interactively with the App UI or with the W&B SDK.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Workspaces API', value: 'sdk'},
-  ]}>
-  <TabItem value="app">
+{{< tabpane text=true >}}
 
+{{% tab header="App UI" value="app" %}}
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
-  </TabItem>
-  <TabItem value="sdk">
+{{% /tab %}}
 
-Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to create an H1, H2, and an unordered list:
+{{% tab header="Workspaces API" value="sdk" %}}
+
+Pass a list of one or more HTML elements to the `wandb.apis.reports.blocks` attribute. The following example demonstrates how to create an H1, H2, and an unordered list:
 
 ```python
 import wandb
@@ -324,52 +239,39 @@ report.blocks = [
 
 report.save()
 ```
+{{% /tab %}}
 
-This will render a HTML elements  to the following:
-
-
-{{< img src="/images/reports/render_html.png" alt="" >}}
-
-  </TabItem>
-</Tabs>
+{{< /tabpane >}}
 
 ### Embed rich media links
 
 Embed rich media within the report with the App UI or with the W&B SDK.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Workspaces API', value: 'sdk'},
-  ]}>
-  <TabItem value="app">
+{{< tabpane text=true >}}
 
-Copy and past URLs into reports to embed rich media within the report. The following animations demonstrate how to copy and paste URLs from Twitter, YouTube and SoundCloud
+{{% tab header="App UI" value="app" %}}
+
+Copy and paste URLs into reports to embed rich media within the report. The following animations demonstrate how to copy and paste URLs from Twitter, YouTube, and SoundCloud.
 
 #### Twitter
-
 Copy and paste a Tweet link URL into a report to view the Tweet within the report.
 
 {{< img src="/images/reports/twitter.gif" alt="" >}}
 
-####
-
-#### Youtube
-
+#### YouTube
 Copy and paste a YouTube video URL link to embed a video in the report.
 
 {{< img src="/images/reports/youtube.gif" alt="" >}}
 
 #### SoundCloud
-
 Copy and paste a SoundCloud link to embed an audio file into a report.
 
 {{< img src="/images/reports/soundcloud.gif" alt="" >}}
-  </TabItem>
-  <TabItem value="sdk">
+{{% /tab %}}
 
-Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to embed video and Twitter media into a report:
+{{% tab header="Workspaces API" value="sdk" %}}
+
+Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The following example demonstrates how to embed video and Twitter media into a report:
 
 ```python
 import wandb
@@ -380,13 +282,14 @@ report = wr.Report(project="report-editing")
 report.blocks = [
     wr.Video(url="https://www.youtube.com/embed/6riDJMI-Y8U"),
     wr.Twitter(
-        embed_html='<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The voice of an angel, truly. <a href="https://twitter.com/hashtag/MassEffect?src=hash&amp;ref_src=twsrc%5Etfw">#MassEffect</a> <a href="https://t.co/nMev97Uw7F">pic.twitter.com/nMev97Uw7F</a></p>&mdash; Mass Effect (@masseffect) <a href="https://twitter.com/masseffect/status/1428748886655569924?ref_src=twsrc%5Etfw">August 20, 2021</a></blockquote>\n'
+        embed_html='<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The voice of an angel, truly. <a href="https://twitter.com/hashtag/MassEffect?src=hash&amp;ref_src=twsrc%5Etfw">#MassEffect</a> <a href="https://t.co/nMev97Uw7F">pic.twitter.com/nMev97Uw7F</a></p>&mdash; Mass Effect (@masseffect) <a href="https://twitter.com/masseffect/status/1428748886655569924?ref_src=twsrc%5Etfw">August 20, 2021</a></blockquote>'
     ),
 ]
 report.save()
 ```
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 ### Duplicate and delete panel grids
 
@@ -402,6 +305,6 @@ Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
 ### Collapse headers to organize Reports
 
-Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
+Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The following gif demonstrates the process:
 
 {{< img src="/images/reports/collapse_headers.gif" alt="" >}}
