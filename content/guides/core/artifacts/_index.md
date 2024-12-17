@@ -30,9 +30,9 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 | Model Optimization     | Model                       | Optimized Model              |
 
 
-:::note
+{{% alert %}}
 The proceeding code snippets are meant to be run in order.
-:::
+{{% /alert %}}
 
 ## Create an artifact
 
@@ -55,9 +55,9 @@ artifact.save()
 # Logs the artifact version "my_data" as a dataset with data from dataset.h5
 ```
 
-:::tip
+{{% alert %}}
 See the [track external files](./track-external-files.md) page for information on how to add references to files or directories stored in external object storage, like an Amazon S3 bucket. 
-:::
+{{% /alert %}}
 
 ## Download an artifact
 Indicate the artifact you want to mark as input to your run with the [`use_artifact`](../../ref/python/run.md#use_artifact) method.
