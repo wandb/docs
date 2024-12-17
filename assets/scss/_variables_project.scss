@@ -158,7 +158,8 @@ body {
 // shrink the right nav a bit
 .td-page-meta
 {
-    font-size: 12px !important;
+    font-size: 16px !important;
+    line-height: 1.75rem !important;
 }
 // hide the doc site name from the top-left
 .td-navbar .navbar-brand__name { display: none; }
@@ -284,7 +285,8 @@ ol.breadcrumb:before {
 }
 #TableOfContents { 
     margin-top: 15px;
-    font-size: 12px !important;
+    font-size: 16px !important;
+    line-height: 1.5rem !important;
     padding-left: 10px !important;
 }
 #TableOfContents ul { 
