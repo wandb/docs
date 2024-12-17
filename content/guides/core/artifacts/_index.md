@@ -75,9 +75,10 @@ Next, use the returned object to download all contents of the artifact:
 datadir = artifact.download() #downloads the full "my_data" artifact to the default directory.
 ```
 
-:::tip
-You can pass a custom path into the `root` [parameter](../../ref/python/artifact.md) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md)
-:::
+{{% alert %}}
+You can pass a custom path into the `root` [parameter](../../ref/python/artifact.md) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md).
+{{% /alert %}}
+
 
 ## Next steps
 * Learn how to [version](./create-a-new-artifact-version.md), [update](./update-an-artifact.md), or [delete](./delete-artifacts.md) artifacts.
