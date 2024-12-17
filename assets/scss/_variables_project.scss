@@ -158,7 +158,8 @@ body {
 // shrink the right nav a bit
 .td-page-meta
 {
-    font-size: 12px !important;
+    font-size: 16px !important;
+    line-height: 1.75rem !important;
 }
 // hide the doc site name from the top-left
 .td-navbar .navbar-brand__name { display: none; }
@@ -284,7 +285,8 @@ ol.breadcrumb:before {
 }
 #TableOfContents { 
     margin-top: 15px;
-    font-size: 12px !important;
+    font-size: 16px !important;
+    line-height: 1.5rem !important;
     padding-left: 10px !important;
 }
 #TableOfContents ul { 
@@ -618,4 +620,40 @@ img, pre, .highlight, .code-toolbar {
 .section-index h5 a, .section-index .h5 a {
   font-size: 20px !important;
   font-weight: 400 !important;
+}
+
+// Add dark mode styles using data-bs-theme attribute
+[data-bs-theme=dark] {
+    body {
+        color: $moon-200;
+        background-color: $moon-950;
+    }
+
+    // Update sidebar nav colors for dark mode
+    .td-sidebar-nav {
+        a {
+            color: $moon-200 !important;
+            &:hover {
+                color: $teal-400 !important;
+            }
+            .td-sidebar-nav-active-item {
+                color: $teal-400 !important;
+            }
+        }
+    }
+
+    // Update headings color for dark mode
+    h1, h2, h3, h4, h5, h6 {
+        color: $moon-50;
+    }
+
+    // Update reading time color for dark mode
+    .reading-time {
+        color: $moon-300;
+    }
+
+    // Update table of contents color
+    #TableOfContents {
+        color: $moon-200;
+    }
 }
