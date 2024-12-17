@@ -5,6 +5,7 @@ menu:
     identifier: gcp-tf
     parent: install-on-public-cloud
 title: Deploy W&B Platform on GCP
+weight: 20
 ---
 
 {{% alert %}}

@@ -5,6 +5,7 @@ menu:
     identifier: azure-tf
     parent: install-on-public-cloud
 title: Deploy W&B Platform on Azure
+weight: 30
 ---
 
 {{% alert %}}

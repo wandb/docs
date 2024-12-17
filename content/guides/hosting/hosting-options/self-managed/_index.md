@@ -49,6 +49,8 @@ You need a W&B trial license to complete your configuration of the W&B server. O
 
 {{% alert %}}
 If you do not already have a W&B account then you will need to create one to generate your free license.
+
+If you need an enterprise license for W&B Server which includes support for important security & other enterprise-friendly capabilities, [submit this form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or reach out to your W&B team.
 {{% /alert %}}
 
 The URL will redirect you to a **Get a License for W&B Local** form. Provide the following information:
@@ -60,6 +62,3 @@ The URL will redirect you to a **Get a License for W&B Local** form. Provide the
 
 A page with an overview of your deployment along with the license associated to the instance will be displayed.
 
-{{% alert %}}
-If you need an enterprise license for W&B Server which includes support for important security & other enterprise-friendly capabilities, [submit this form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or reach out to your W&B team.
-{{% /alert %}}

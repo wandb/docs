@@ -5,6 +5,7 @@ menu:
     identifier: aws-tf
     parent: install-on-public-cloud
 title: Deploy W&B Platform on AWS
+weight: 10
 ---
 
 {{% alert %}}
