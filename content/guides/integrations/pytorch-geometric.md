@@ -8,7 +8,7 @@ weight: 310
 ---
 [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) or PyG is one of the most popular libraries for geometric deep learning and W&B works extremely well with it for visualizing graphs and tracking experiments.
 
-## Get Started
+## Get started
 
 After you have installed pytorch geometric, install the wandb library and login
 
@@ -36,7 +36,7 @@ wandb.login()
 
 {{< /tabpane >}}
 
-## Visualize the Graphs
+## Visualize the graphs
 
 You can save details about the input graphs including number of edges, number of nodes and more. W&B supports logging plotly charts and HTML panels so any visualizations you create for your graph can then also be logged to W&B.
 
@@ -121,9 +121,9 @@ wandb.log({‘graph’: wandb.Plotly(create_vis(graph))})
 wandb.finish()
 ```
 
-{{< img src="/images/integrations/pyg_graph_plotly.png" alt="This visualization was created using the function shown in the snippet above and longed inside a W&B Table." >}}
+{{< img src="/images/integrations/pyg_graph_plotly.png" alt="A visualization created using the example function and logged inside a W&B Table." >}}
 
-## Log Metrics
+## Log metrics
 
 You can use W&B to track all your experiments along with metrics like loss functions, accuracy and more. Just add the following line to your training loop and you are good to go!
 
@@ -138,7 +138,7 @@ wandb.log({
 
 {{< img src="/images/integrations/pyg_metrics.png" alt="Plots from W&B showing how the hits@K metric changes over epochs for different values of K." >}}
 
-## More Resources
+## More resources
 
 - [Recommending Amazon Products using Graph Neural Networks in PyTorch Geometric](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
 - [Point Cloud Classification using PyTorch Geometric](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)

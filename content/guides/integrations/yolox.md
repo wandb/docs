@@ -10,7 +10,7 @@ weight: 490
 
 [YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. YOLOX contains a Weights & Biases integration that enables you to turn on logging of training, validation and system metrics, as well as interactive validation predictions with just 1 command line argument.
 
-## Get Started
+## Get started
 
 To use YOLOX with Weights & Biases you will first need to sign up for a Weights & Biases account [here](https://wandb.ai/site).
 
@@ -39,4 +39,4 @@ python tools/train.py .... --logger wandb \
 
 {{< img src="/images/integrations/yolox_example_dashboard.png" alt="" >}}
 
-Any questions or issues about this Weights & Biases integration? Open an issue in the [YOLOX github repository](https://github.com/Megvii-BaseDetection/YOLOX).
+Any questions or issues about this Weights & Biases integration? Open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).

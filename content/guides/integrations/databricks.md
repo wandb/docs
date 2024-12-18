@@ -14,11 +14,11 @@ W&B integrates with [Databricks](https://www.databricks.com/) by customizing the
 
 1. Install wandb in the cluster
 
-    Navigate to your cluster configuration, choose your cluster, click on Libraries, then on Install New, Choose PyPI and add the package `wandb`.
+    Navigate to your cluster configuration, choose your cluster, click **Libraries**. Click **Install New**, choose **PyPI**, and add the package `wandb`.
 
 2. Set up authentication
 
-    To authenticate your W&B account you can add a databricks secret which your notebooks can query.
+    To authenticate your W&B account you can add a Databricks secret which your notebooks can query.
 
     ```bash
     # install databricks cli

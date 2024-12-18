@@ -23,7 +23,7 @@ If you're using one of SageMakers preconfigured estimators you need to add a `re
 wandb
 ```
 
-If you're using an estimator that's running Python 2, you'll need to install psutil directly from this [wheel](https://pythonwheels.com) before installing wandb:
+If you're using an estimator that's running Python 2, you'll need to install `psutil` directly from this [wheel](https://pythonwheels.com) before installing wandb:
 
 ```text
 https://wheels.galaxyproject.org/packages/psutil-5.4.8-cp27-cp27mu-manylinux1_x86_64.whl

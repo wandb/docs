@@ -41,7 +41,7 @@ Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously. Data is r
 
 ### Redis
 
-While configuring an external Redis server is optional, it's highly recommended for production systems. Redis will improve the reliability of the service and enable caching which will decrease load times, especially in large projects. We recommend using a managed Redis service (ex: ElastiCache) with high availability(HA) and the following specs:
+Configuring an external Redis server is optional but recommended for production systems. Redis helps improve the reliability of the service and enable caching to decrease load times, especially in large projects. Use a managed Redis service such ElastiCache with high availability (HA) and the following specifications:
 
 - Minimum 4GB of memory, suggested 8GB
 - Redis version 6.x
@@ -54,4 +54,4 @@ To configure the Redis instance with W&B, you can navigate to the W&B settings p
 
 You can also configure Redis using the environment variable `REDIS` on the container or in your Kubernetes deployment. Alternatively, you could also setup `REDIS` as a Kubernetes secret.
 
-The above assumes the Redis instance is running at the default port of `6379`. If you configure a different port, setup authentication and also want to have TLS enabled on the `redis` instance the connection string format would look something like: `redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`
+This page assumes the Redis instance is running at the default port of `6379`. If you configure a different port, setup authentication and also want to have TLS enabled on the `redis` instance the connection string format would look something like: `redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`

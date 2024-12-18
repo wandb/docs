@@ -9,7 +9,7 @@ weight: 30
 ---
 
 
-Add, delete, manage email types and primary email addresses in your W&B Profile Settings page. Select your profile icon in the upper right corner of the W&B dashboard. From the dropdown, select **Settings**. Within the Settings page, scroll down to to the Emails dashboard:
+Add, delete, manage email types and primary email addresses in your W&B Profile Settings page. Select your profile icon in the upper right corner of the W&B dashboard. From the dropdown, select **Settings**. Within the Settings page, scroll down to the Emails dashboard:
 
 {{< img src="/images/app_ui/manage_emails.png" alt="" >}}
 
@@ -25,11 +25,11 @@ Only verified emails can be set as primary
 
 {{< img src="/images/app_ui/primary_email.png" alt="" >}}
 
-## Add Emails
+## Add emails
 
 Select **+ Add Email** to add an email. This will take you to an Auth0 page. You can enter in the credentials for the new email or connect using single sign-on (SSO).
 
-## Delete Emails
+## Delete emails
 
 Select the kebab dropdown and choose **Delete Emails** to delete an email that is registered to your W&B account
 

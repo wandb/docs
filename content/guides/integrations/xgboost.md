@@ -43,7 +43,7 @@ Passing `WandbCallback` to a XGBoost model will:
 - log evaluation metrics collected by XGBoost, such as rmse, accuracy etc to Weights & Biases
 - log training metrics collected by XGBoost (if you provide data to eval_set)
 - log the best score and the best iteration
-- save and upload your trained model to to Weights & Biases Artifacts (when `log_model = True`)
+- save and upload your trained model to Weights & Biases Artifacts (when `log_model = True`)
 - log feature importance plot when `log_feature_importance=True` (default).
 - Capture the best eval metric in `wandb.summary` when `define_metric=True` (default).
 
@@ -59,7 +59,7 @@ Passing `WandbCallback` to a XGBoost model will:
 
 You can review the [source code for WandbCallback](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py).
 
-For additional examples, check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
+For additional examples, check out the [repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
 
 ## Tune your hyperparameters with Sweeps
 
@@ -69,4 +69,4 @@ Attaining the maximum performance out of models requires tuning hyperparameters,
 
 You can also try this [XGBoost & Sweeps Python script](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py).
 
-{{< img src="/images/integrations/xgboost_sweeps_example.png" alt="tl;dr: trees outperform linear learners on this classification dataset." >}}
+{{< img src="/images/integrations/xgboost_sweeps_example.png" alt="Summary: trees outperform linear learners on this classification dataset." >}}

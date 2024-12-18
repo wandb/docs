@@ -16,7 +16,7 @@ Customize with chart settings to limit max runs to show, group runs by any confi
 
 {{< img src="/images/app_ui/bar_plot_custom.png" alt="" >}}
 
-## Customize Bar Plots
+## Customize bar plots
 
 You can also create **Box** or **Violin** Plots to combine many summary statistics into one chart type**.**
 

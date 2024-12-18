@@ -29,7 +29,7 @@ Follow the procedure below to create a Slack application.
 
 2. Within the Scopes section, provide the bot with the **incoming_webhook** scope. Scopes give your app permission to perform actions in your development workspace.
 
-    For more information about OAuth scopes for Bots, see the Understanding OAuth scopes for Bots tutorial in the Slack api documentation.
+    For more information about OAuth scopes for Bots, see the Understanding OAuth scopes for Bots tutorial in the Slack API documentation.
 
     {{< img src="/images/hosting/save_urls.png" alt="" >}}
 

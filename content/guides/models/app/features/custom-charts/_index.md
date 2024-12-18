@@ -52,7 +52,7 @@ These presets have builtin `wandb.plot` methods that make it fast to log charts 
   )
   ```
 
-  You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+  You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
 
   {{< img src="/images/app_ui/line_plot.png" alt="" >}}
 
@@ -74,7 +74,7 @@ These presets have builtin `wandb.plot` methods that make it fast to log charts 
   wandb.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
   ```
 
-  You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+  You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
 
   {{< img src="/images/app_ui/demo_scatter_plot.png" alt="" >}}
 
@@ -102,7 +102,7 @@ These presets have builtin `wandb.plot` methods that make it fast to log charts 
   )
   ```
 
-  You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
+  You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (for example, each data point must have both).
 
   {{< img src="/images/app_ui/line_plot_bar_chart.png" alt="" >}}
 

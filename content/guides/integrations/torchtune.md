@@ -91,7 +91,7 @@ W&B captures the resolved config on the **Overview** tab. W&B also stores the co
 
 ### Logged Metrics
 
-Each recipe has its own training loop, so check each individual recipe to see what metrics are logged. The default metrics logged are:
+Each recipe has its own training loop. Check each individual recipe to see its logged metrics, which include these by default:
 
 | Metric | Description |
 | --- | --- |

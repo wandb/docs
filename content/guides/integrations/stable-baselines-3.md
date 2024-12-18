@@ -18,7 +18,7 @@ weight: 420
 
 Review an [example](https://wandb.ai/wandb/sb3/runs/1jyr6z10) of a SB3 training run with W&B.
 
-## Log your SB3 Experiments
+## Log your SB3 experiments
 
 ```python
 from wandb.integration.sb3 import WandbCallback

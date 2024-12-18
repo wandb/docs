@@ -16,7 +16,7 @@ The visualizations in the section pull columns from the first active runset. Mak
 
 This feature supports history data on time series lines, but we don't support pulling different summary metrics from different projects. In other words, you can not create a scatter plot from columns that are only logged in another project.
 
-If you need to compare runs from two projects and the columns are not working, add a tag to the runs in one project and then move those runs to the other project. You will still be able to filter only the runs from each project, but you will have all the columns for both sets of runs available in the report.
+If you need to compare runs from two projects and the columns are not working, add a tag to the runs in one project and then move those runs to the other project. You can still filter only the runs from each project, but the report includes all the columns for both sets of runs.
 
 ## View-only report links
 
@@ -24,9 +24,9 @@ Share a view-only link to a report that is in a private project or team project.
 
 {{< img src="/images/reports/magic-links.gif" alt="" >}}
 
-View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. The magic link can also be used to let anyone view the report without logging in first. For customers on [W&B Local](../hosting/intro.md) private cloud installations, these links will still be behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link will be able to view the report.
+View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. Anyone can use the magic link to view the report without logging in first. For customers on [W&B Local](../hosting/intro.md) private cloud installations, these links remain behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link can view the report.
 
-In **view-only mode**, someone who is not logged in can see the charts and mouse over to see tooltips of values, zoom in and out on charts, and scroll through columns in the table. When in view mode, they cannot create new charts or new table queries to explore the data. View-only visitors to the report link won't be able to click on a run to get to the run page. Also, the view-only visitors would not be able to see the share modal but instead would see a tooltip on hover which says: `Sharing not available for view only access`.
+In **view-only mode**, someone who is not logged in can see the charts and mouse over to see tooltips of values, zoom in and out on charts, and scroll through columns in the table. When in view mode, they cannot create new charts or new table queries to explore the data. View-only visitors to the report link won't be able to click a run to get to the run page. Also, the view-only visitors would not be able to see the share modal but instead would see a tooltip on hover which says: `Sharing not available for view only access`.
 
 {{% alert color="info" %}}
 The magic links are only available for “Private” and “Team” projects. For “Public” (anyone can view) or “Open” (anyone can view and contribute runs) projects, the links can't turn on/off because this project is public implying that it is already available to anyone with the link.

@@ -193,7 +193,7 @@ For example, suppose you have an existing registered model named "Fine-Tuned-Rev
 
 <summary>Example: Log and link a model to the W&B Model Registry</summary>
 
-For example, the proceeding code snippet logs model files and links the model model to a registered model name `"Fine-Tuned-Review-Autocompletion"`. 
+For example, the proceeding code snippet logs model files and links the model to a registered model name `"Fine-Tuned-Review-Autocompletion"`. 
 
 To do this, a user calls the `link_model` API. When they call the API, they provide a local filepath that points the content of the model (`path`) and they provide a name for the registered model to link it to (`registered_model_name`). 
 

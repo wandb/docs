@@ -18,18 +18,18 @@ For assistance, contact support@wandb.com.
 
 This Quickstart guide describes how to use [Trace](./intro.md) to visualize and debug calls to:
 
-- **[Langchain:](#use-wb-trace-with-langchain)** Use the 1-line LangChain environment variable or context manager integration for automated logging.
+- [LangChain](#use-wb-trace-with-langchain): Use the `LangChain` environment variable or context manager integration for automated logging.
 
-- **[LlamaIndex:](#use-wb-trace-with-llamaindex)** Use the W&B callback from LlamaIndex for automated logging.
+- [LlamaIndex](#use-wb-trace-with-llamaindex): Use the W&B callback from LlamaIndex for automated logging.
 
-- **[Custom usage](#use-wb-trace-with-any-llm-pipeline-or-plug-in)**: Use Trace with your own custom chains and LLM pipeline code.
+- [Custom usage](#use-wb-trace-with-any-llm-pipeline-or-plug-in): Use Trace with your own custom chains and LLM pipeline code.
 
 
 ## Use W&B Trace with LangChain
 
 {{% alert %}}
-- `wandb` version `0.15.4` or above is required.
-- `landchain` version `0.0.218` or above is required.
+- `wandb` version `0.15.4` or higher is required.
+- `landchain` version `0.0.218` or higher is required.
 {{% /alert %}}
 
 Using an environment variable from LangChain, W&B Trace continuously logs calls to a LangChain Model, Chain, or Agent. 

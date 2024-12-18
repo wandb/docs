@@ -16,7 +16,7 @@ Use the W&B Kubernetes Operator to simplify deploying, administering, troublesho
 The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuous updates and improvements across deployment types, W&B users a Kubernetes operator.
 
 {{% alert %}}
-W&B uses the operator to deploy and manage Dedicated Cloud instances on AWS, GCP and Azure public clouds.
+W&B uses the operator to deploy and manage Dedicated cloud instances on AWS, GCP and Azure public clouds.
 {{% /alert %}}
 
 For more information about Kubernetes operators, see [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) in the Kubernetes documentation.
@@ -74,7 +74,7 @@ See the [Deploy W&B in airgapped environment with Kubernetes](./operator-airgapp
 ## Deploy W&B Server application
 This section describes different ways to deploy the W&B Kubernetes operator. 
 {{% alert %}}
-The W&B Operator will become the default installation method for W&B Server. Other methods will be deprecated in the future.
+The W&B Operator is the default and recommended installation method for W&B Server
 {{% /alert %}}
 
 **Choose one of the following:**
@@ -98,15 +98,15 @@ helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 ```
 3. Configure the W&B operator custom resource to trigger the W&B Server installation. Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference](#configuration-reference-for-wb-operator) for details.
 
-Once you have the specification YAML created and filled with your values, run the following and the operator will apply the configuration and install the W&B Server application based on your configuration.
+    Once you have the specification YAML created and filled with your values, run the following and the operator applies the configuration and install the W&B Server application based on your configuration.
 
-```shell
-kubectl apply -f operator.yaml
-```
+    ```shell
+    kubectl apply -f operator.yaml
+    ```
 
-Wait until the deployment is completed and verify the installation. This will take a few minutes.
+    Wait until the deployment completes. This takes a few minutes.
 
-4. Verify the installation. Access the new installation with the browser and create the first admin user account. When this is done, follow the verification steps as outlined [here](#verify-the-installation)
+4. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation](#verify-the-installation).
 
 
 ### Deploy W&B with Helm Terraform Module
@@ -145,9 +145,9 @@ module "wandb" {
 }
 ```
 
-Note that the configuration options are the same as described in [Configuration Reference](#configuration-reference-for-wb-operator), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The W&B custom resource definition will be created by the Terraform module.
+Note that the configuration options are the same as described in [Configuration Reference](#configuration-reference-for-wb-operator), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
 
-To see how Weights&Biases themselves use the Helm Terraform module to deploy “Dedicated Cloud” installations for customers,  follow those links:
+To see how W&B&Biases themselves use the Helm Terraform module to deploy “Dedicated cloud” installations for customers,  follow those links:
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
 - [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
 - [GCP](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
@@ -219,7 +219,7 @@ There are two ways to log in to the management console:
 {{< tabpane text=true >}}
 {{% tab header="Option 1 (Recommended)" value="option1" %}}
 1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
-2. Access the console. Click on the icon in the top right corner and then click on **System console**. Note that only users with admin privileges will see the **System console** entry.
+2. Access the console. Click on the icon in the top right corner and then click **System console**. Only users with admin privileges can see the **System console** entry.
 
     {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="" >}}
 {{% /tab %}}
@@ -229,14 +229,14 @@ There are two ways to log in to the management console:
 W&B recommends you access the console using the following steps only if Option 1 does not work.
 {{% /alert %}}
 
-1. Open console application in browser. Open the above described URL in the browser and you will be presented with this login screen:
-{{< img src="/images/hosting/access_system_console_directly.png" alt="" >}}
-2. Retrieve password. The password is stored as a Kubernetes secret and is generated as part of the installation. To retrieve it, execute the following command:
+1. Open console application in browser. Open the above described URL, which redirects you to the login screen:
+    {{< img src="/images/hosting/access_system_console_directly.png" alt="" >}}
+2. Retrieve the password from the Kubernetes secret that the installation generates:
     ```shell
     kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d
     ```
-    Copy the password to the clipboard.
-3. Login to the console. Paste the copied password to the textfield “Enter password” and click login.
+    Copy the password.
+3. Login to the console. Paste the copied password, then click **Login**.
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -270,7 +270,7 @@ The operator automatically updates your W&B Server application when a new versio
 The proceeding section describe how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
 
 {{% alert %}}
-The W&B Operator will become the default installation method for W&B Server. In the future, W&B will deprecate deployment mechanisms that do not use the operator. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
+The W&B Operator is the default and recommended installation method for W&B Server. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
 {{% /alert %}}
 
 - If you used the official W&B Cloud Terraform Modules, navigate to the appropriate documentation and follow the steps there:
@@ -307,9 +307,9 @@ Follow these steps to migrate to the Operator-based Helm chart:
     ```shell
     kubectl get deployment wandb -o yaml
     ```
-    In both ways you should now have all the configuration values which are needed for the next step. 
+    You now have all the configuration values you need for the next step. 
 
-2. Create a file called operator.yaml. Follow the format described in the [Configuration Reference](#configuration-reference-for-wb-operator). Use the values from step 1.
+2. Create a file called `operator.yaml`. Follow the format described in the [Configuration Reference](#configuration-reference-for-wb-operator). Use the values from step 1.
 
 3. Scale the current deployment to 0 pods. This step is stops the current deployment.
     ```shell
@@ -327,7 +327,7 @@ Follow these steps to migrate to the Operator-based Helm chart:
     ```shell
     kubectl apply -f operator.yaml
     ```
-    The deployment will take a few minutes to complete.
+    The deployment takes a few minutes to complete.
 
 7. Verify the installation. Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
 
@@ -351,7 +351,7 @@ This section describes the configuration options for W&B Server application. The
 
 The documentation has two lists of environment variables: [basic](./env-vars.md) and [advanced](./iam/advanced_env_vars.md). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
 
-The W&B Server application configuration file for a production deployment requires the following contents:
+The W&B Server application configuration file for a production deployment requires the following contents. This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -376,11 +376,7 @@ spec:
         <redacted>
 ```
 
-This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other
-necessary settings. Use the above YAML as a starting point and add the missing information.
-
-The full list of spec customization can be found [here](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) in the Helm repository. The recommended approach is to only change what is necessary and otherwise use the default values.
-
+Find the full set of values in the [W&B Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml), and change only those values you need to override.
 
 ### Complete example 
 This is an example configuration that uses GCP Kubernetes with GCP Ingress and GCS (GCP Object storage):
@@ -474,7 +470,7 @@ You can optionally tell W&B to only connect over TLS if you configure a trusted 
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
 {{% alert color="secondary" %}}
-This will only work if the SSL certificate is trusted. W&B does not support self-signed certificates.
+This works only for a trusted SSL certificate. W&B does not support self-signed certificates.
 {{% /alert %}}
 
 ### MySQL

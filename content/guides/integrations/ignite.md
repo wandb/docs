@@ -62,7 +62,7 @@ def get_data_loaders(train_batch_size, val_batch_size):
     return train_loader, val_loader
 ```
 
-Using WandBLogger in ignite is a modular process: First, you create a WandBLogger object. Next, you attach it to a trainer or evaluator to automatically log the metrics. This example:
+Using `WandBLogger` in ignite is a modular process. First, you create a WandBLogger object. Next, you attach it to a trainer or evaluator to automatically log the metrics. This example:
 
 * Logs training loss, attached to the trainer object.
 * Logs validation loss, attached to the evaluator.

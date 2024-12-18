@@ -18,11 +18,11 @@ These flows authenticate users and provide W&B Server with the necessary identit
 
 The ID token is a JWT that contains the user's identity information, such as their name, username, email, and group memberships. W&B Server uses this token to authenticate the user and map them to appropriate roles or groups in the system.
 
-In the context of W&B Server, the access token is not required. Access tokens are typically used to authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
+In the context of W&B Server, access tokens authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
 
-You can use environment variables to [configure IAM options](advanced_env_vars.md) for your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
+You can use environment variables to [configure IAM options](advanced_env_vars.md) for your [Dedicated cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
 
-To assist with configuring Identity Providers for [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) W&B Server installations, here are some key guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
+To assist with configuring Identity Providers for [Dedicated cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) W&B Server installations, follow these guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
 
 {{< tabpane text=true >}}
 {{% tab header="Cognito" value="cognito" %}}
@@ -30,7 +30,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
 1. First, sign in to your AWS account and navigate to the [AWS Cognito](https://aws.amazon.com/cognito/) App.
 
-    {{< img src="/images/hosting/setup_aws_cognito.png" alt="Because we're only using OIDC for authentication and not authorization, public clients simplify setup" >}}
+    {{< img src="/images/hosting/setup_aws_cognito.png" alt="When you use OIDC for authentication and not authorization, public clients simplify setup" >}}
 
 2. Provide an allowed callback URL to configure the application in your IdP:
      * Add `http(s)://YOUR-W&B-HOST/oidc/callback` as the callback URL. Replace `YOUR-W&B-HOST` with your W&B host path.
@@ -44,11 +44,11 @@ Follow the procedure below to set up AWS Cognito for authorization:
     {{< img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="If your instance is accessible from multiple hosts, be sure to include all of them here." >}}
 
 
-    _wandb/local_ uses the ["implicit" grant with the "form_post" response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. 
+    _wandb/local_ uses the [`implicit` grant with the `form_post` response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. 
 
-    You can also configure _wandb/local_ to perform an "authorization_code" grant that uses the [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) flow. 
+    You can also configure _wandb/local_ to perform an `authorization_code` grant that uses the [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) flow. 
 
-4. Select one or more OAuth grant types to configure how AWS Cognito will deliver tokens to your app.
+4. Select one or more OAuth grant types to configure how AWS Cognito delivers tokens to your app.
 5. W&B requires specific OpenID Connect (OIDC) scopes. Select the following from AWS Cognito App:
     * "openid" 
     * "profile"
@@ -56,11 +56,11 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
     For example, your AWS Cognito App UI should look similar to the following image:
 
-    {{< img src="/images/hosting/setup_aws_required_fields.png" alt="openid, profile, and email are required" >}}
+    {{< img src="/images/hosting/setup_aws_required_fields.png" alt="Required fields" >}}
 
     Select the **Auth Method** in the settings page or set the OIDC_AUTH_METHOD environment variable to tell _wandb/local_ which grant to.
 
-    You must set the Auth Method to "pkce".
+    You must set the Auth Method to `pkce`.
 
 6. You need a Client ID and the URL of your OIDC issuer. The OpenID discovery document must be available at `$OIDC_ISSUER/.well-known/openid-configuration` 
 
@@ -68,7 +68,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
     {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="Screenshot of issuer URL in AWS Cognito" >}}
 
-    Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
+    Do not use the "Cognito domain" for the IDP URL. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
 
 {{% /tab %}}
 
@@ -88,7 +88,7 @@ Follow the procedure below to set up Okta for authorization:
 
 5. On the screen named "New Single-Page App Integration," fill out the values as follows and click **Save**:
     - App integration name, for example "Weights & Biases"
-    - Grant type: Check both "Authorization Code" and "Implicit (hybrid)"
+    - Grant type: Select both **Authorization Code** and **Implicit (hybrid)**
     - Sign-in redirect URIs: https://YOUR_W_AND_B_URL/oidc/callback
     - Sign-out redirect URIs: https://YOUR_W_AND_B_URL/logout
     - Assignments: Select **Skip group assignment for now**
@@ -168,7 +168,7 @@ The OIDC issuer URL has the following format: `https://login.microsoftonline.com
 
 To set up SSO, you need administrator privileges and the following information:
 - OIDC Client ID
-- OIDC Auth method (implicit` or `pkce`)
+- OIDC Auth method (`implicit` or `pkce`)
 - OIDC Issuer URL
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
@@ -215,7 +215,7 @@ The System Console is the successor to the System Settings page. It is available
 {{< /tabpane >}}
 
 {{% alert %}}
-If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This will output a temporary password to the containers logs and turn off SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
+If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and turn off SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
 {{% /alert %}}
 
 ## Security Assertion Markup Language (SAML)

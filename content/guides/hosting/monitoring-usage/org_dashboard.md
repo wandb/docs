@@ -53,7 +53,7 @@ A user is _active_ if they:
 - view any page in the W&B App.
 - log runs.
 - use the SDK to track an experiment.
-- interact with the W&B server in any way.
+- interact with the W&B Server in any way.
 
 ### View active users over time
 Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time (right most plot in image below). 

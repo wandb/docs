@@ -8,7 +8,7 @@ title: Hugging Face Accelerate
 weight: 140
 ---
 
-Hugging Face Accelerate is a library that enables the same PyTorch code to be run across any distributed configuration by adding just four lines of code, making training and inference at scale made simple, efficient and adaptable.
+Hugging Face Accelerate is a library that enables the same PyTorch code to run across any distributed configuration, to simplify model training and inference at scale.
 
 Accelerate includes a Weights & Biases Tracker which we show how to use below. You can also read more about Accelerate Trackers in **[their docs here](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking)**
 
@@ -48,9 +48,9 @@ Explaining more, you need to:
 3. Use the `.log` method to log to Weigths & Biases; the `step` argument is optional
 4. Call `.end_training` when finished training
 
-## Access Accelerate's internal W&B tracker
+## Access the W&B tracker
 
-You can quickly access the W&B tracker using the `Accelerator.get_tracker()` method. Pass in the string corresponding to a tracker’s `.name` attribute, which returns the tracker on the `main` process.
+To access the W&B tracker, use the `Accelerator.get_tracker()` method. Pass in the string corresponding to a tracker’s `.name` attribute, which returns the tracker on the `main` process.
 
 ```python
 wandb_tracker = accelerator.get_tracker("wandb")

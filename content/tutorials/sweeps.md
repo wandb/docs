@@ -97,7 +97,7 @@ Now that you have a search method specified in your sweep configuration, specify
 
 To do this, specify one or more hyperparameter names to the `parameter` key and specify one or more hyperparameter values for the `value` key.
 
-The values you search through for a given hyperparamter depend on the the type of hyperparameter you are investigating.  
+The values you search through for a given hyperparamter depend on the type of hyperparameter you are investigating.  
 
 For example, if you choose a machine learning optimizer, you must specify one or more finite optimizer names such as the Adam optimizer and stochastic gradient dissent.
 

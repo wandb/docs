@@ -20,8 +20,8 @@ Interactively explore your data to:
 
 {{% alert %}}
 W&B Tables posses the following behaviors:
-1. **Stateless in an artifact context**: any table logged alongside an artifact version will reset to its default state after you close the browser window
-2. **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report will persist.
+1. **Stateless in an artifact context**: any table logged alongside an artifact version resets to its default state after you close the browser window
+2. **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report persists.
 
 For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
 {{% /alert %}}
@@ -48,13 +48,13 @@ In the following image we demonstrate a model's predictions on MNIST validation 
 
 ### Merged view
 <!-- To do, add steps -->
-Initially you will see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
+Initially you see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
-{{< img src="/images/data_vis/merged_view.png" alt="In the merged view, numerical columns will appear as histograms by default" max-width="90%">}}
+{{< img src="/images/data_vis/merged_view.png" alt="In the merged view, numerical columns appears as histograms by default" max-width="90%">}}
 
 From the merged view, you can
 
-* **choose the join key**: use the dropdown at the top left to set the column to use as the join key for the two tables. Typically this will be the unique identifier of each row, such as the file name of a specific example in your dataset or an incrementing index on your generated samples. Note that it's currently possible to select _any_ column, which may yield illegible tables and slow queries.
+* **choose the join key**: use the dropdown at the top left to set the column to use as the join key for the two tables. Typically this is the unique identifier of each row, such as the filename of a specific example in your dataset or an incrementing index on your generated samples. Note that it's currently possible to select _any_ column, which may yield illegible tables and slow queries.
 * **concatenate instead of join**: select "concatenating all tables" in this dropdown to _union all the rows_ from both tables into one larger Table instead of joining across their columns
 * **reference each Table explicitly**: use 0, 1, and \* in the filter expression to explicitly specify a column in one or both table instances
 * **visualize detailed numerical differences as histograms**: compare the values in any cell at a glance
@@ -99,10 +99,10 @@ For example, compare predictions between a `baseline` and a new model variant, `
 
 ## Save your view
 
-Tables you interact with in the run workspace, project workspace, or a report will automatically save their view state. If you apply any table operations then close your browser, the table will retain the last viewed configuration when you next navigate to the table. 
+Tables you interact with in the run workspace, project workspace, or a report automatically saves their view state. If you apply any table operations then close your browser, the table retains the last viewed configuration when you next navigate to the table. 
 
 {{% alert %}}
-Tables you interact with in the artifact context will remain stateless.
+Tables you interact with in the artifact context remains stateless.
 {{% /alert %}}
 
 To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to report:

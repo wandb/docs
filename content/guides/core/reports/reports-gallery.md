@@ -46,7 +46,7 @@ Write down your thoughts on experiments, your findings, and any gotchas and next
 
 {{< img src="/images/reports/intro_work_log_1.png" alt="" >}}
 
-Tell the story of a project, which you and others can reference later to understand how and why a model was developed. See the [The View from the Driver's Seat](https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ) W&B Report for how you can report your findings.
+Tell the story of a project, which you and others can reference later to understand how and why a model was developed. See [The View from the Driver's Seat](https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ) W&B Report for how you can report your findings.
 
 {{< img src="/images/reports/intro_work_log_2.png" alt="" >}}
 

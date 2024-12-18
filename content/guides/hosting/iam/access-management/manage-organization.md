@@ -65,7 +65,7 @@ Administrators can invite users to their organization, as well as specific teams
 W&B sends an invite link using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
 {{% /tab %}}
 
-{{% tab header="Dedicated or Self-Managed" value="dedicated"%}}
+{{% tab header="Dedicated or Self-managed" value="dedicated"%}}
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Select the **Add user** button
 3. Within the modal that appears, provide the email of the new user in the **Email** field.
@@ -87,23 +87,23 @@ To learn more about how to setup SSO with Dedicated cloud or Self-managed instan
 
 W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
 
-Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-Managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
+Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
 
 The proceeding tabs describe how to turn off SSO based on deployment type:
 
 {{< tabpane text=true >}}
-{{% tab header="Dedicated Cloud" value="dedicated" %}}
-Reach out to your W&B team if you are on Dedicated Cloud instance and you want to turn off auto provisioning with SSO.
+{{% tab header="Dedicated cloud" value="dedicated" %}}
+Reach out to your W&B team if you are on Dedicated cloud instance and you want to turn off auto provisioning with SSO.
 {{% /tab %}}
 
-{{% tab header="Self-Managed" value="self_managed" %}}
+{{% tab header="Self-managed" value="self_managed" %}}
 Use the W&B Console to turn off auto provisioning with SSO:
 
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Choose **Security** 
 3. Select the **Disable SSO Provisioning** to turn off auto provisioning with SSO.
 
-<!-- For Self-Managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.  -->
+<!-- For Self-managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.  -->
 
 {{% /tab %}}
 {{< /tabpane >}}
@@ -147,8 +147,8 @@ You must enable domain matching within a team's settings before you can automati
 3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
 
 {{% /tab %}}
-{{% tab header="Dedicated or Self-Managed" value="dedicated" %}}
-Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your administrator to request access to your Dedicated or Self-Managed instance.
+{{% tab header="Dedicated or Self-managed" value="dedicated" %}}
+Reach out to your W&B Account Team if you use Dedicated or Self-managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your administrator to request access to your Dedicated or Self-managed instance.
 
 | | With domain capture | Without domain capture |
 | ----- | ----- | -----|
@@ -282,7 +282,7 @@ Refer to [Team Service Account Behavior](../../app/features/teams.md#team-servic
 
 
 {{% alert %}}
-Only enterprise licenses on Dedicated Cloud or Self-managed deployment can assign custom roles to members in a team.
+Only enterprise licenses on Dedicated cloud or Self-managed deployment can assign custom roles to members in a team.
 {{% /alert %}}
 
 ### Remove users from a team

@@ -7,19 +7,18 @@ menu:
 title: PaddleDetection
 weight: 270
 ---
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) is an end-to-end object-detection development kit based on [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). It implements varied mainstream object detection, instance segmentation, tracking and keypoint detection algorithms in modular design with configurable modules such as network components, data augmentations and losses.
 
-PaddleDetection now comes with a built in W&B integration which logs all your training and validation metrics, as well as your model checkpoints and their corresponding metadata.
+{{< cta-button colabLink="https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing" >}}
 
-## Example Blog and Colab
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) is an end-to-end object-detection development kit based on [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). It detects various mainstream objects, segments instances, and tracks and detects keypoints using configurable modules such as network components, data augmentations, and losses.
 
-[**Read our blog here**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) to see how to train a YOLOX model with PaddleDetection on a subset of the COCO2017 dataset. This also comes with a [**Google Colab**](https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing) and the corresponding live W&B dashboard is available [**here**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/runs/2ry6i2x9?workspace=)
+PaddleDetection now includes a built-in W&B integration which logs all your training and validation metrics, as well as your model checkpoints and their corresponding metadata.
 
-## The PaddleDetection WandbLogger
+The PaddleDetection `WandbLogger` logs your training and evaluation metrics to Weights & Biases as well as your model checkpoints while training.
 
-The PaddleDetection WandbLogger will log your training and evaluation metrics to Weights & Biases as well as your model checkpoints while training.
+[**Read a W&B blog post**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) which illustrates how to integrate a YOLOX model with PaddleDetection on a subset of the `COCO2017` dataset.
 
-## Use PaddleDetection with Weights & Biases
+## Use PaddleDetection with W&B
 
 ### Sign up and log in to W&B
 
@@ -49,7 +48,7 @@ wandb.login()
 
 {{< /tabpane >}}
 
-### Activate the WandbLogger in your Training Script
+### Activate the `WandbLogger` in your training script
 
 #### Use the CLI
 
@@ -69,7 +68,7 @@ python tools/train.py
     wandb-save_dir=./logs
 ```
 
-#### Use a config.yml file
+#### Use a `config.yml` file
 
 You can also activate wandb via the config file. Add the wandb arguments to the config.yml file under the wandb header like so:
 
@@ -84,6 +83,6 @@ Once you run your `train.py` file with Weights & Biases turned on, a link will b
 
 {{< img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A Weights & Biases Dashboard" >}}
 
-## Feedback or Issues
+## Feedback or issues
 
 If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

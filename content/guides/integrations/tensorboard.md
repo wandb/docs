@@ -33,13 +33,13 @@ wandb.finish()
 
 Review an [example](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
 
-Once your wandb run finishes, your TensorBoard event files will then be uploaded to W&B. These metrics will also be logged in native W&B charts along with a host of useful information such as your machines CPU or GPU utilization, the `git` state, the terminal command used, and more.
+Once your run finishes, you can access your TensorBoard event files in W&B and you can visualize your metrics in native W&B charts, together with additional useful information like the system's CPU or GPU utilization, the `git` state, the terminal command the run used, and more.
 
 {{% alert %}}
-W&B supports TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
+W&B supports TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard 1.14 and higher with PyTorch as well as TensorBoardX.
 {{% /alert %}}
 
-## Frequently Asked Questions
+## Frequently asked questions
 
 ### How can I log metrics to W&B that aren't logged to TensorBoard?
 
@@ -81,7 +81,7 @@ wandb.finish()
 You must call either `wandb.init` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
 {{% /alert %}}
 
-### How do I sync revious TensorBoard runs?
+### How do I sync historical TensorBoard runs?
 
 If you have existing `tfevents` files stored locally and you would like to import them into W&B, you can run `wandb sync log_dir`, where `log_dir` is a local directory containing the `tfevents` files.
 

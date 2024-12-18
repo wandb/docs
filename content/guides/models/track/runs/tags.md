@@ -8,7 +8,7 @@ title: Add labels to runs with tags
 
 Add tags to label runs with particular features that might not be obvious from the logged metrics or artifact data. 
 
-For example, you can add a tag to a run to indicated that that run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`, and so forth.
+For example, you can add a tag to a run to indicated that run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`, and so forth.
 
 ## Add tags to one or more runs
 

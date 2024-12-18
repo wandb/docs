@@ -35,7 +35,7 @@ If you'd rather dive straight into working code, check out this [Google Colab](h
 
 2. Pip install the `wandb` library
 
-3. To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+3. To log in with your training script, you'll need to sign in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
 If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
 

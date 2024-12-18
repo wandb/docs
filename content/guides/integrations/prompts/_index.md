@@ -79,7 +79,7 @@ Weights and Biases also has lightweight [integrations](/guides/integrations/) wi
 - [OpenAI GPT-3.5 Fine-Tuning](/guides/integrations/openai)
 - [Hugging Face Transformers](/guides/integrations/huggingface)
 
-## Get Started
+## Get started
 
 We recommend you go through the Prompts [Quickstart](./quickstart.md) guide, which will walk you through logging a custom LLM pipeline with Trace. A [colab](http://wandb.me/prompts-quickstart) version of the guide is also available. 
 

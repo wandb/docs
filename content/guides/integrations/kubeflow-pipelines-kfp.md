@@ -100,7 +100,7 @@ Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 
 ### Via the web app UI
 
-The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](/guides/app).
+The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space. Learn [more about the web app UI here](/guides/app).
 
 {{< img src="/images/integrations/kubeflow_pipelines.png" alt="View details about a particular run (and link back to the Kubeflow UI)" >}}
 

@@ -550,7 +550,7 @@ run.upload_file("file_name.extension")
 
 ### Download a file from a run
 
-This finds the file "model-best.h5" associated with with run ID uxte44z7 in the cifar project and saves it locally.
+This finds the file "model-best.h5" associated with run ID uxte44z7 in the cifar project and saves it locally.
 
 ```python
 import wandb

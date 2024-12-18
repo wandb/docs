@@ -33,7 +33,7 @@ See [Link a model version](./link-model-version.md) and [Create a custom alias](
 Automate a webhook based on an action with the W&B App UI. To do this, first establish a webhook, then configure the webhook automation. 
 
 {{% alert %}}
-Your webhook's endpoint must have a fully-qualified domain name. W&B does not support connecting to an endpoint by IP address or by a hostname such as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
+Your webhook's endpoint must have a fully qualified domain name. W&B does not support connecting to an endpoint by IP address or by a hostname such as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
 {{% /alert %}}
 
 ### Add a secret for authentication or authorization
@@ -183,9 +183,9 @@ Verify that your access tokens have required set of permissions to trigger your 
 
   For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 
-  See [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) and [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases) for step by step YouTube videos on how to create automations for model evaluation and deployment, respectively. 
+  Watch the videos [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) and [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases), which guide you to create automations for model evaluation and deployment. 
 
-  See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) to learn how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
+ Review a W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw), which illustrates how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
 
 {{% /tab %}}
 
@@ -285,7 +285,7 @@ Interactively troubleshoot your webhook with the W&B App UI or programmatically 
 
   {{< img src="/images/models/webhook_ui_testing.gif" alt="" >}}
 
-  See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
+  Watch the video [Testing webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a real-world example.
 
 {{% /tab %}}
 

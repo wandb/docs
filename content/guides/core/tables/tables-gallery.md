@@ -69,9 +69,9 @@ Browse and aggregate over videos logged during training to understand your model
 
 ### Tabular data
 
-View a report on how to [split and preprocess tabular data](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1) with version control and deduplication.
+View a report on how to [split and pre-process tabular data](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1) with version control and de-duplication.
 
-{{< img src="/images/data_vis/tabs.png" alt="Tables and Artifacts work together to version control, label, and deduplicate your dataset iterations" max-width="90%">}}
+{{< img src="/images/data_vis/tabs.png" alt="Tables and Artifacts work together to version control, label, and de-duplicate your dataset iterations" max-width="90%">}}
 
 ### Comparing model variants (semantic segmentation)
 

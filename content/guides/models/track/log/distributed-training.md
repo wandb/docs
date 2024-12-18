@@ -85,7 +85,7 @@ Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-tha
 
 The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
 
-### Use W&B Service to avoid common distributed training issues.
+### Use W&B Service to avoid common distributed training issues
 
 There are two common issues you might encounter when using W&B and distributed training:
 

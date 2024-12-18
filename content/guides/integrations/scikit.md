@@ -8,7 +8,7 @@ weight: 380
 ---
 You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [**Try an example →**](http://wandb.me/scikit-colab)
 
-## Get Started
+## Get started
 
 ### Sign up and Log in to wandb
 
@@ -16,11 +16,11 @@ To get started:
 
 1. [**Sign up**](https://wandb.ai/site) for a free account.
 
-2. Use this code to install install the `wandb` library and sign in to your WandB account.
+2. Use this code to install the `wandb` library and sign in to your wandb account.
 
 3. Find your API key on the [Authorize page](https://wandb.ai/authorize).
 
-4. If you are using Weights and Biases for the first time you might want to check out our [quickstart](../../quickstart.md)
+4. If you are using Weights and Biases for the first time,check out a [quickstart](../../quickstart.md)
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
@@ -61,9 +61,9 @@ wandb.log({"accuracy": accuracy})
 wandb.summary["accuracy"] = accuracy
 ```
 
-### Make Plots
+### Make plots
 
-#### Step 1: Import wandb and initialize a new run.
+#### Step 1: Import wandb and initialize a new run
 
 ```python
 import wandb
@@ -110,7 +110,7 @@ wandb.sklearn.plot_clusterer(
 )
 ```
 
-#### Eexisting matplotlib plots
+#### Existing Matplotlib plots
 
 Plots created on Matplotlib can also be logged on W&B dashboard. To do that, it is first required to install `plotly`.
 
@@ -133,9 +133,9 @@ wandb.init(project="visualize-sklearn")
 wandb.log({"plot": plt})
 ```
 
-## Supported Plots
+## Supported plots
 
-### Learning Curve
+### Learning curve
 
 {{< img src="/images/integrations/scikit_learning_curve.png" alt="" >}}
 
@@ -159,7 +159,7 @@ ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The
 * y_probas (arr): Test set predicted probabilities.
 * labels (list): Named labels for target variable (y).
 
-### Class Proportions
+### Class proportions
 
 {{< img src="/images/integrations/scikic_class_props.png" alt="" >}}
 
@@ -171,7 +171,7 @@ Plots the distribution of target classes in training and test sets. Useful for d
 * y_test (arr): Test set labels.
 * labels (list): Named labels for target variable (y).
 
-### Precision Recall Curve
+### Precision recall curve
 
 {{< img src="/images/integrations/scikit_precision_recall.png" alt="" >}}
 
@@ -185,7 +185,7 @@ High scores for both show that the classifier is returning accurate results (hig
 * y_probas (arr): Test set predicted probabilities.
 * labels (list): Named labels for target variable (y).
 
-### Feature Importances
+### Feature importances
 
 {{< img src="/images/integrations/scikit_feature_importances.png" alt="" >}}
 
@@ -196,7 +196,7 @@ Evaluates and plots the importance of each feature for the classification task. 
 * model (clf): Takes in a fitted classifier.
 * feature_names (list): Names for features. Makes plots easier to read by replacing feature indexes with corresponding names.
 
-### Calibration Curve
+### Calibration curve
 
 {{< img src="/images/integrations/scikit_calibration_curve.png" alt="" >}}
 
@@ -213,7 +213,7 @@ For more details, check out [sklearn's docs](https://scikit-learn.org/stable/aut
 * y (arr): Training set labels.
 * model_name (str): Model name. Defaults to 'Classifier'
 
-### Confusion Matrix
+### Confusion matrix
 
 {{< img src="/images/integrations/scikit_confusion_matrix.png" alt="" >}}
 
@@ -225,7 +225,7 @@ Computes the confusion matrix to evaluate the accuracy of a classification. It's
 * y_pred (arr): Test set predicted labels.
 * labels (list): Named labels for target variable (y).
 
-### Summary Metrics
+### Summary metrics
 
 {{< img src="/images/integrations/scikit_summary_metrics.png" alt="" >}}
 
@@ -239,7 +239,7 @@ Calculates summary metrics (like f1, accuracy, precision and recall for classifi
   * X_test (arr): Test set features.
 * y_test (arr): Test set labels.
 
-### Elbow Plot
+### Elbow plot
 
 {{< img src="/images/integrations/scikit_elbow_plot.png" alt="" >}}
 
@@ -250,7 +250,7 @@ Measures and plots the percentage of variance explained as a function of the num
 * model (clusterer): Takes in a fitted clusterer.
 * X (arr): Training set features.
 
-### Silhouette Plot
+### Silhouette plot
 
 {{< img src="/images/integrations/scikit_silhouette_plot.png" alt="" >}}
 
@@ -266,7 +266,7 @@ In general we want all silhouette cluster scores to be above average (past the r
 * X (arr): Training set features.
   * cluster_labels (list): Names for cluster labels. Makes plots easier to read by replacing cluster indexes with corresponding names.
 
-### Outlier Candidates Plot
+### Outlier candidates plot
 
 {{< img src="/images/integrations/scikit_outlier_plot.png" alt="" >}}
 
@@ -278,7 +278,7 @@ Measures a datapoint's influence on regression model via cook's distance. Instan
 * X (arr): Training set features.
 * y (arr): Training set labels.
 
-### Residuals Plot
+### Residuals plot
 
 {{< img src="/images/integrations/scikit_residuals_plot.png" alt="" >}}
 

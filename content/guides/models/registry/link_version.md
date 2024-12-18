@@ -134,7 +134,7 @@ Artifacts logged to W&B with a personal entity can not be linked to the registry
 
 
 {{% alert title="" %}}
-Ensure that you you log an artifact with a team entity if you want to link that artifact to a registry.
+Ensure that you log an artifact with a team entity if you want to link that artifact to a registry.
 {{% /alert %}}
 
 

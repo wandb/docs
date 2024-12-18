@@ -41,7 +41,7 @@ def run_experiment(cfg):
     model = Model(**wandb.config.model.configs)
 ```
 
-## Troubleshoot Multiprocessing
+## Troubleshoot multiprocessing
 
 If your process hangs when started, this may be caused by [this known issue](../../track/log/distributed-training.md). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
 
