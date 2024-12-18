@@ -7,7 +7,7 @@ title: Import and export data
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Export data or import data from MLFlow or between W&B instances with W&B Public APIs.
+Export data or import data  with W&B Public APIs.
 
 :::info
 This feature requires python>=3.8
@@ -75,6 +75,8 @@ from wandb.apis.importers import Namespace
 
 importer.import_runs(runs, namespace=Namespace(entity, project))
 ```
+
+<!-- Per DOCS-1043, hiding this information until it gets fixed 
 
 ## Import data from another W&B instance
 
@@ -145,6 +147,8 @@ importer.import_all(
 1. Sometimes when bulk importing (especially large artifacts), you can run into S3 rate limits. If you see `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, you can try spacing out imports by moving just a few namespaces at a time.
 2. Imported run tables appear to be blank in the workspace, but if you nav to the Artifacts tab and click the equivalent run table artifact you should see the table as expected.
 3. System metrics and custom charts (not explicitly logged with `wandb.log`) are not imported
+
+-->
 
 ## Export Data
 

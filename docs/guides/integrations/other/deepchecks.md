@@ -10,7 +10,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 DeepChecks helps you validate your machine learning models and data, such as verifying your data’s integrity, inspecting its distributions, validating data splits, evaluating your model and comparing between different models, all with with minimal effort.
 
-[Read more about DeepChecks and the wandb integration ->](https://docs.deepchecks.com/en/stable/examples/guides/export_outputs_to_wandb.html)
+[Read more about DeepChecks and the wandb integration ->](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
 
 ## Getting Started
 
@@ -18,13 +18,14 @@ To use DeepChecks with Weights & Biases you will first need to sign up for a Wei
 
 ```python
 import wandb
+
 wandb.login()
 
 # import your check from deepchecks
 from deepchecks.checks import ModelErrorAnalysis
 
 # run your check
-result = ModelErrorAnalysis()...
+result = ModelErrorAnalysis()
 
 # push that result to wandb
 result.to_wandb()
@@ -34,6 +35,7 @@ You can also log an entire DeepChecks test suite to Weights & Biases
 
 ```python
 import wandb
+
 wandb.login()
 
 # import your full_suite tests from deepchecks
@@ -44,10 +46,7 @@ suite_result = full_suite().run(...)
 
 # push thes results to wandb
 # here you can pass any wandb.init configs and arguments you need
-suite_result.to_wandb(
-    project='my-suite-project', 
-    config={'suite-name': 'full-suite'}
-)
+suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-suite"})
 ```
 
 ## Example
