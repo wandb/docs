@@ -32,6 +32,8 @@ Helm
 Hyperband
 [Hh]yperparameters
 [Hh]yperparameter
+JWT
+JWTs
 Kaniko
 Keras
 Keycloak
