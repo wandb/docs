@@ -34,21 +34,18 @@ Setup Weights & Biases for DeepChem models of type [KerasModel](https://deepchem
 
 ### 1) Install the `wandb` library and log in
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="cli" %}}
 
 ```
 pip install wandb
 wandb login
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 !pip install wandb
@@ -57,8 +54,9 @@ import wandb
 wandb.login()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 ### 2) Initialize and configure WandbLogger
 
@@ -72,13 +70,9 @@ logger = WandbLogger(entity="my_entity", project="my_project")
 
 Training loss and evaluation metrics can be automatically logged to Weights & Biases. Optional evaluation can be enabled using the DeepChem [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py), the `WandbLogger` will detect ValidationCallback callback and log the metrics generated.
 
-<Tabs
-  defaultValue="torch"
-  values={[
-    {label: 'TorchModel', value: 'torch'},
-    {label: 'KerasModel', value: 'keras'},
-  ]}>
-  <TabItem value="torch">
+{{< tabpane text=true >}}
+
+{{% tab header="TorchModel" value="torch" %}}
 
 ```python
 from deepchem.models import TorchModel, ValidationCallback
@@ -88,8 +82,10 @@ model = TorchModel(…, wandb_logger=logger)
 model.fit(…, callbacks=[vc])
 logger.finish()
 ```
-  </TabItem>
-  <TabItem value="keras">
+
+{{% /tab %}}
+
+{{% tab header="KerasModel" value="keras" %}}
 
 ```python
 from deepchem.models import KerasModel, ValidationCallback
@@ -100,5 +96,6 @@ model.fit(…, callbacks=[vc])
 logger.finish()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
