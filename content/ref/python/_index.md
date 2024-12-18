@@ -28,7 +28,7 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 [`controller(...)`](./controller.md): Public sweep controller constructor.
 
-[`finish(...)`](./finish.md): Mark a run as finished, and finish uploading all data.
+[`finish(...)`](./finish.md): Finish a run and upload any remaining data.
 
 [`init(...)`](./init.md): Start a new run to track and log to W&B.
 
@@ -44,6 +44,6 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 | Other Members |  |
 | :--- | :--- |
-|  `__version__`<a id="__version__"></a> |  `'0.18.7'` |
+|  `__version__`<a id="__version__"></a> |  `'0.19.1'` |
 |  `config`<a id="config"></a> |   |
 |  `summary`<a id="summary"></a> |   |

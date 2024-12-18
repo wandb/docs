@@ -67,3 +67,4 @@ use_artifact
 wandb
 wandb.com
 W&B Server
+[Ww]orkspace's

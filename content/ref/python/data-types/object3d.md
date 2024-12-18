@@ -29,7 +29,7 @@ The shape of the numpy array must be one of either:
 
 ### `from_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/object_3d.py#L336-L353)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/object_3d.py#L332-L349)
 
 ```python
 @classmethod
@@ -47,7 +47,7 @@ Initializes Object3D from a file or stream.
 
 ### `from_numpy`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/object_3d.py#L355-L384)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/object_3d.py#L351-L380)
 
 ```python
 @classmethod
@@ -72,7 +72,7 @@ The shape of the numpy array must be one of either:
 
 ### `from_point_cloud`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/object_3d.py#L386-L420)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/object_3d.py#L382-L416)
 
 ```python
 @classmethod

@@ -10,6 +10,7 @@
 # Generated files
 .docusaurus
 .cache-loader
+.hugo_build.lock
 
 # Misc
 .DS_Store

@@ -75,7 +75,7 @@ associated with the best `epoch`.
 
 ### `get_flops`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/integration/keras/keras.py#L1045-L1091)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/integration/keras/keras.py#L1043-L1089)
 
 ```python
 get_flops() -> float
@@ -87,7 +87,7 @@ It uses tf.compat.v1.profiler under the hood.
 
 ### `set_model`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/integration/keras/keras.py#L565-L574)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/integration/keras/keras.py#L565-L574)
 
 ```python
 set_model(
@@ -97,7 +97,7 @@ set_model(
 
 ### `set_params`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/integration/keras/keras.py#L562-L563)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/integration/keras/keras.py#L562-L563)
 
 ```python
 set_params(

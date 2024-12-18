@@ -27,7 +27,7 @@ This is generally used indirectly via the `Api`.runs method.
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/runs.py#L136-L168)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L141-L173)
 
 ```python
 convert_objects()
@@ -35,7 +35,7 @@ convert_objects()
 
 ### `histories`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/runs.py#L170-L266)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L175-L270)
 
 ```python
 histories(
@@ -64,7 +64,7 @@ Return sampled history metrics for all runs that fit the filters conditions.
 
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/paginator.py#L72-L79)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/paginator.py#L72-L79)
 
 ```python
 next()
@@ -72,7 +72,7 @@ next()
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/paginator.py#L52-L53)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/paginator.py#L52-L53)
 
 ```python
 update_variables()
@@ -80,7 +80,7 @@ update_variables()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/paginator.py#L65-L70)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/paginator.py#L65-L70)
 
 ```python
 __getitem__(
@@ -90,7 +90,7 @@ __getitem__(
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/paginator.py#L26-L28)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/paginator.py#L26-L28)
 
 ```python
 __iter__()
@@ -98,7 +98,7 @@ __iter__()
 
 ### `__len__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/paginator.py#L30-L35)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/paginator.py#L30-L35)
 
 ```python
 __len__()

@@ -6,7 +6,7 @@ menu:
 title: Line plot reference
 ---
 
-## X-Axis
+## X-axis
 
 {{< img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis" >}}
 

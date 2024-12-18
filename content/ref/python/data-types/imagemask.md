@@ -50,7 +50,10 @@ masked_image = wandb.Image(
     image,
     masks={
         "predictions": {"mask_data": predicted_mask, "class_labels": class_labels},
-        "ground_truth": {"mask_data": ground_truth_mask, "class_labels": class_labels},
+        "ground_truth": {
+            "mask_data": ground_truth_mask,
+            "class_labels": class_labels,
+        },
     },
 )
 wandb.log({"img_with_masks": masked_image})
@@ -95,7 +98,10 @@ masked_image = wandb.Image(
     image,
     masks={
         "predictions": {"mask_data": predicted_mask, "class_labels": class_labels},
-        "ground_truth": {"mask_data": ground_truth_mask, "class_labels": class_labels},
+        "ground_truth": {
+            "mask_data": ground_truth_mask,
+            "class_labels": class_labels,
+        },
     },
     classes=class_set,
 )
@@ -109,7 +115,7 @@ wandb.log({"random_field": table})
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/helper_types/image_mask.py#L207-L209)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/helper_types/image_mask.py#L213-L215)
 
 ```python
 @classmethod
@@ -118,7 +124,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/helper_types/image_mask.py#L211-L235)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/helper_types/image_mask.py#L217-L241)
 
 ```python
 validate(

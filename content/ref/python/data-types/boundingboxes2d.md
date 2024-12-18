@@ -41,7 +41,12 @@ img = wandb.Image(
             "box_data": [
                 {
                     # one box expressed in the default relative/fractional domain
-                    "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
+                    "position": {
+                        "minX": 0.1,
+                        "maxX": 0.2,
+                        "minY": 0.3,
+                        "maxY": 0.4,
+                    },
                     "class_id": 1,
                     "box_caption": class_labels[1],
                     "scores": {"acc": 0.2, "loss": 1.2},
@@ -94,7 +99,12 @@ img = wandb.Image(
             "box_data": [
                 {
                     # one box expressed in the default relative/fractional domain
-                    "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
+                    "position": {
+                        "minX": 0.1,
+                        "maxX": 0.2,
+                        "minY": 0.3,
+                        "maxY": 0.4,
+                    },
                     "class_id": 1,
                     "box_caption": class_labels[1],
                     "scores": {"acc": 0.2, "loss": 1.2},
@@ -124,7 +134,7 @@ wandb.log({"driving_scene": table})
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L215-L217)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L225-L227)
 
 ```python
 @classmethod
@@ -133,7 +143,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L219-L276)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L229-L286)
 
 ```python
 validate(
