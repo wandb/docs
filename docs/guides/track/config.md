@@ -210,9 +210,10 @@ wandb.config.update(flags.FLAGS)  # adds absl flags to config
 ```
 
 ## File-Based Configs
-Key-value pairs are automatically passed to `wandb.config` if you create a file called `config-defaults.yaml`.
 
-The proceeding code snippet demonstrates a sample `config-defaults.yaml` YAML file:
+If you place a file named `config-defaults.yaml` in the same directory as your run script, the run automatically picks up the key-value pairs defined in the file and passes them to `wandb.config`. 
+
+The following code snippet shows a sample `config-defaults.yaml` YAML file:
 
 ```yaml
 # config-defaults.yaml
@@ -224,9 +225,21 @@ batch_size:
   desc: Size of each mini-batch
   value: 32
 ```
-You can overwrite automatically passed by a `config-defaults.yaml`. To do so , pass values to the `config` argument of `wandb.init`.
 
-You can also load different config files with the command line argument `--configs`.
+You can override the default values automatically loaded from `config-defaults.yaml` by setting updated values in the `config` argument of `wandb.init`. For example:
+
+```python
+import wandb
+
+# Override config-defaults.yaml by passing custom values
+wandb.init(config={"epochs": 200, "batch_size": 64})
+```
+
+To load a configuration file other than `config-defaults.yaml`, use the `--configs command-line` argument and specify the path to the file:
+
+```bash
+python train.py --configs other-config.yaml
+```
 
 ### Example use case for file-based configs
 Suppose you have a YAML file with some metadata for the run, and then a dictionary of hyperparameters in your Python script. You can save both in the nested `config` object:
