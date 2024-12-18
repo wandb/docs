@@ -7,9 +7,9 @@ menu:
 title: Log media and objects
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 {{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb' >}}
+
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
 {{% alert %}}
@@ -42,15 +42,8 @@ Each time you log images from a step, we save them to show in the UI. Expand the
 It's recommended to log fewer than 50 images per step to prevent logging from becoming a bottleneck during training and image loading from becoming a bottleneck when viewing results.
 {{% /alert %}}
 
-<Tabs
-  defaultValue="arrays"
-  values={[
-    {label: 'Logging Arrays as Images', value: 'arrays'},
-    {label: 'Logging PIL Images', value: 'pil_images'},
-    {label: 'Logging Images from Files', value: 'images_files'},
-  ]}>
-  <TabItem value="arrays">
-
+{{< tabpane text=true >}}
+   {{% tab header="Logging arrays as Images" %}}
 Provide arrays directly when constructing images manually, e.g. using [`make_grid` from `torchvision`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make_grid).
 
 Arrays are converted to png using [Pillow](https://pillow.readthedocs.io/en/stable/index.html).
@@ -61,19 +54,18 @@ images = wandb.Image(image_array, caption="Top: Output, Bottom: Input")
 wandb.log({"examples": images})
 ```
 
-We assume the image is gray scale if the last dimension is 1, RGB if it's 3, and RGBA if it's 4. If the array contains floats, we convert them to integers between `0` and `255`. If you want to normalize your images differently, you can specify the [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) manually or just supply a [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html), as described in the "Logging PIL Images" tab of this panel.
-  </TabItem>
-  <TabItem value="pil_images">
-
+We assume the image is gray scale if the last dimension is 1, RGB if it's 3, and RGBA if it's 4. If the array contains floats, we convert them to integers between `0` and `255`. If you want to normalize your images differently, you can specify the [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) manually or just supply a [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html), as described in the "Logging PIL Images" tab of this panel.   
+   {{% /tab %}}
+   {{% tab header="Logging PIL Images" %}}
 For full control over the conversion of arrays to images, construct the [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html) yourself and provide it directly.
 
 ```python
 images = [PIL.Image.fromarray(image) for image in image_array]
 
 wandb.log({"examples": [wandb.Image(image) for image in images]})
-```
-  </TabItem>
-  <TabItem value="images_files">
+```   
+   {{% /tab %}}
+   {{% tab header="Logging Images from Files" %}}
 For even more control, create images however you like, save them to disk, and provide a filepath.
 
 ```python
@@ -82,20 +74,16 @@ rgb_im = im.convert("RGB")
 rgb_im.save("myimage.jpg")
 
 wandb.log({"example": wandb.Image("myimage.jpg")})
-```
-  </TabItem>
-</Tabs>
+```   
+   {{% /tab %}}
+{{< /tabpane >}}
+
 
 ## Image overlays
 
-<Tabs
-  defaultValue="segmentation_masks"
-  values={[
-    {label: 'Segmentation Masks', value: 'segmentation_masks'},
-    {label: 'Bounding Boxes', value: 'bounding_boxes'},
-  ]}>
-  <TabItem value="segmentation_masks">
 
+{{< tabpane text=true >}}
+   {{% tab header="Segmentation Masks" %}}
 Log semantic segmentation masks and interact with them (altering opacity, viewing changes over time, and more) via the W&B UI.
 
 {{< img src="/images/track/semantic_segmentation.gif" alt="Interactive mask viewing in the W&B UI." >}}
@@ -128,9 +116,9 @@ mask_img = wandb.Image(
         # ...
     },
 )
-```
-  </TabItem>
-  <TabItem value="bounding_boxes">
+```   
+   {{% /tab %}}
+    {{% tab header="Bounding Boxes" %}}
 Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
 
 {{< img src="/images/track/bb-docs.jpeg" alt="" >}}
@@ -192,20 +180,16 @@ img = wandb.Image(
 )
 
 wandb.log({"driving_scene": img})
-```
-  </TabItem>
-</Tabs>
+```    
+    {{% /tab %}}
+{{< /tabpane >}}
+
+
 
 ## Image overlays in Tables
 
-<Tabs
-  defaultValue="segmentation_masks"
-  values={[
-    {label: 'Segmentation Masks', value: 'segmentation_masks'},
-    {label: 'Bounding Boxes', value: 'bounding_boxes'},
-  ]}>
-  <TabItem value="segmentation_masks">
-
+{{< tabpane text=true >}}
+   {{% tab header="Segmentation Masks" %}}
 {{< img src="/images/track/Segmentation_Masks.gif" alt="Interactive Segmentation Masks in Tables" >}}
 
 To log Segmentation Masks in tables, you will need to provide a `wandb.Image` object for each row in the table.
@@ -227,11 +211,9 @@ for id, img, label in zip(ids, images, labels):
     table.add_data(id, img)
 
 wandb.log({"Table": table})
-```
-  </TabItem>
-  <TabItem value="bounding_boxes">
-
-
+```   
+   {{% /tab %}}
+   {{% tab header="Bounding Boxes" %}}
 {{< img src="/images/track/Bounding_Boxes.gif" alt="Interactive Bounding Boxes in Tables" >}}
 
 To log Images with Bounding Boxes in tables, you will need to provide a `wandb.Image` object for each row in the table.
@@ -264,21 +246,16 @@ for id, img, boxes in zip(ids, images, boxes_set):
             }
         },
     )
-```
-  </TabItem>
-</Tabs>
+```   
+   {{% /tab %}}
+{{< /tabpane >}}
+
+
 
 ## Histograms
 
-<Tabs
-  defaultValue="histogram_logging"
-  values={[
-    {label: 'Basic Histogram Logging', value: 'histogram_logging'},
-    {label: 'Flexible Histogram Logging', value: 'flexible_histogram'},
-    {label: 'Histograms in Summary', value: 'histogram_summary'},
-  ]}>
-  <TabItem value="histogram_logging">
-  
+{{< tabpane text=true >}}
+   {{% tab header="Basic Histogram Logging" %}}
 If a sequence of numbers (e.g. list, array, tensor) is provided as the first argument, we will construct the histogram automatically by calling `np.histogram`. Note that all arrays/tensors are flattened. You can use the optional `num_bins` keyword argument to override the default of `64` bins. The maximum number of bins supported is `512`.
 
 In the UI, histograms are plotted with the training step on the x-axis, the metric value on the y-axis, and the count represented by color, to ease comparison of histograms logged throughout training. See the "Histograms in Summary" tab of this panel for details on logging one-off histograms.
@@ -287,10 +264,9 @@ In the UI, histograms are plotted with the training step on the x-axis, the metr
 wandb.log({"gradients": wandb.Histogram(grads)})
 ```
 
-{{< img src="/images/track/histograms.png" alt="Gradients for the discriminator in a GAN." >}}
-  </TabItem>
-  <TabItem value="flexible_histogram">
-
+{{< img src="/images/track/histograms.png" alt="Gradients for the discriminator in a GAN." >}}   
+   {{% /tab %}}
+   {{% tab header="Flexible Histogram Logging" %}}
 If you want more control, call `np.histogram` and pass the returned tuple to the `np_histogram` keyword argument.
 
 ```python
@@ -304,22 +280,9 @@ wandb.log({"gradients": wandb.Histogram(np_hist_grads)})
 wandb.run.summary.update(  # if only in summary, only visible on overview tab
     {"final_logits": wandb.Histogram(logits)}
 )
-```
-  </TabItem>
-</Tabs>
-
-If histograms are in your summary they will appear on the Overview tab of the [Run Page](../../runs/intro.md). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
-
-## 3D visualizations
-
-<Tabs
-  defaultValue="3d_object"
-  values={[
-    {label: '3D Object', value: '3d_object'},
-    {label: 'Point Clouds', value: 'point_clouds'},
-    {label: 'Molecules', value: 'molecules'},
-  ]}>
-  <TabItem value="3d_object">
+```   
+   {{% /tab %}}
+   {{% tab header="Histograms in Summary" %}}
 
 Log files in the formats `'obj', 'gltf', 'glb', 'babylon', 'stl', 'pts.json'`, and we will render them in the UI when your run finishes.
 
@@ -337,7 +300,17 @@ wandb.log(
 
 {{< img src="/images/track/ground_truth_prediction_of_3d_point_clouds.png" alt="Ground truth and prediction of a headphones point cloud" >}}
 
-[See a live example](https://app.wandb.ai/nbaryd/SparseConvNet-examples_3d_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)
+[See a live example](https://app.wandb.ai/nbaryd/SparseConvNet-examples_3d_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)   
+   {{% /tab %}}
+{{< /tabpane >}}
+
+
+
+If histograms are in your summary they will appear on the Overview tab of the [Run Page](../../runs/intro.md). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
+
+## 3D visualizations
+
+
   </TabItem>
   <TabItem value="point_clouds">
 
@@ -483,36 +456,24 @@ wandb.log({"acetic_acid": wandb.Image(pil_image)})
 
 W&B also supports logging of a variety of other media types.
 
-<Tabs
-  defaultValue="audio"
-  values={[
-    {label: 'Audio', value: 'audio'},
-    {label: 'Video', value: 'video'},
-    {label: 'Text', value: 'text'},
-    {label: 'HTML', value: 'html'},
-  ]}>
-  <TabItem value="audio">
-
+{{< tabpane text=true >}}
+   {{% tab header="Audio" %}}
 ```python
 wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-The maximum number of audio clips that can be logged per step is 100.
-
-  </TabItem>
-  <TabItem value="video">
-
+The maximum number of audio clips that can be logged per step is 100.   
+   {{% /tab %}}
+    {{% tab header="Video" %}}
 ```python
 wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
 ```
 
 If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
 
-On the W&B [Run](../../runs/intro.md) and [Project](../../track/project-page.md) Pages, you will see your videos in the Media section.
-
-  </TabItem>
-  <TabItem value="text">
-
+On the W&B [Run](../../runs/intro.md) and [Project](../../track/project-page.md) Pages, you will see your videos in the Media section.    
+    {{% /tab %}}
+    {{% tab header="Text" %}}
 Use `wandb.Table` to log text in tables to show up in the UI. By default, the column headers are `["Input", "Output", "Expected"]`. To ensure optimal UI performance, the default maximum number of rows is set to 10,000. However, users can explicitly override the maximum with `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
 
 ```python
@@ -533,11 +494,9 @@ You can also pass a pandas `DataFrame` object.
 
 ```python
 table = wandb.Table(dataframe=my_dataframe)
-```
-  </TabItem>
-  <TabItem value="html">
-
-```python
+```    
+    {{% /tab %}}
+    {{% tab header="HTML" %}}```python
 wandb.log({"custom_file": wandb.Html(open("some.html"))})
 wandb.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 ```
@@ -547,6 +506,6 @@ Custom html can be logged at any key, and this exposes an HTML panel on the run 
 ```python
 wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
+    {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>

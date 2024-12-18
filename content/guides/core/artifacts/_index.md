@@ -20,7 +20,7 @@ Use W&B Artifacts to track and version data as the inputs and outputs of your [W
 ## Use cases
 You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs](../runs/intro.md). You can use datasets, models, or even other artifacts as inputs for processing.
 
-{{< img src="/images/artifacts/artifacts_landing_page2.png" alt="" >}}
+![](/images/artifacts/artifacts_landing_page2.png)
 
 | Use Case               | Input                       | Output                       |
 |------------------------|-----------------------------|------------------------------|
@@ -76,8 +76,9 @@ datadir = artifact.download() #downloads the full "my_data" artifact to the defa
 ```
 
 {{% alert %}}
-You can pass a custom path into the `root` [parameter](../../ref/python/artifact.md) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md)
+You can pass a custom path into the `root` [parameter](../../ref/python/artifact.md) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md).
 {{% /alert %}}
+
 
 ## Next steps
 * Learn how to [version](./create-a-new-artifact-version.md), [update](./update-an-artifact.md), or [delete](./delete-artifacts.md) artifacts.

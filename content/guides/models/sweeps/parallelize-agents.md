@@ -8,8 +8,6 @@ title: Parallelize agents
 weight: 6
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 Parallelize your W&B Sweep agents on a multi-core or multi-GPU machine. Before you get started, ensure you have initialized your W&B Sweep. For more information on how to initialize a W&B Sweep, see [Initialize sweeps](./initialize-sweeps.md).
 
@@ -18,40 +16,30 @@ Parallelize your W&B Sweep agents on a multi-core or multi-GPU machine. Before y
 Depending on your use case, explore the proceeding tabs to learn how to parallelize W&B Sweep agents using the CLI or within a Jupyter Notebook.
 
 
-<Tabs
-  defaultValue="cli_text"
-  values={[
-    {label: 'CLI', value: 'cli_text'},
-    {label: 'Jupyter Notebook', value: 'jupyter'},
-  ]}>
-  <TabItem value="cli_text">
-
+{{< tabpane text=true >}}
+  {{% tab header="CLI" %}}
 Use the [`wandb agent`](../../ref/cli/wandb-agent.md) command to parallelize your W&B Sweep agent across multiple CPUs with the terminal. Provide the sweep ID that was returned when you [initialized the sweep](./initialize-sweeps.md). 
 
 1. Open more than one terminal window on your local machine.
 2. Copy and paste the code snippet below and replace `sweep_id` with your sweep ID:
 
-
 ```bash
 wandb agent sweep_id
-```
-
-
-  </TabItem>
-  <TabItem value="jupyter">
-
+```  
+  {{% /tab %}}
+  {{% tab header="Jupyter Notebook" %}}
 Use the W&B Python SDK library to parallelize your W&B Sweep agent across multiple CPUs within Jupyter Notebooks. Ensure you have the sweep ID that was returned when you [initialized the sweep](./initialize-sweeps.md).  In addition, provide the name of the function the sweep will execute for the `function` parameter:
 
 1. Open more than one Jupyter Notebook.
 2. Copy and past the W&B Sweep ID on multiple Jupyter Notebooks to parallelize a W&B Sweep. For example, you can paste the following code snippet on multiple jupyter notebooks to paralleliz your sweep if you have the sweep ID stored in a variable called `sweep_id` and the name of the function is `function_name`: 
 
-
 ```python
 wandb.agent(sweep_id=sweep_id, function=function_name)
-```
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
+
 
 ### Parallelize on a multi-GPU machine
 

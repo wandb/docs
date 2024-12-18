@@ -19,18 +19,8 @@ Team members with view-only seats cannot download artifacts.
 
 Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](../../ref/python/public-api/api.md)) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide](../../ref/python/public-api/README.md).
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-<Tabs
-  defaultValue="insiderun"
-  values={[
-    {label: 'During a run', value: 'insiderun'},
-    {label: 'Outside of a run', value: 'outsiderun'},
-    {label: 'W&B CLI', value: 'CLI'},
-  ]}>
-  <TabItem value="insiderun">
-
+{{< tabpane text=true >}}
+  {{% tab header="During a run" %}}
 First, import the W&B Python SDK. Next, create a W&B [Run](../../ref/python/run.md):
 
 ```python
@@ -64,11 +54,9 @@ This fetches only the file at the path `name`. It returns an `Entry` object with
 * `Entry.download`: Downloads file from the artifact at path `name`
 * `Entry.ref`: If `add_reference` stored the entry as a reference, returns the URI
 
-References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files](../../guides/artifacts/track-external-files.md).
-  
-  </TabItem>
-  <TabItem value="outsiderun">
-  
+References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files](../../guides/artifacts/track-external-files.md).  
+  {{% /tab %}}
+  {{% tab header="Outside of a run" %}}
 First, import the W&B SDK. Next, create an artifact from the Public API Class. Provide the entity, project, artifact, and alias associated with that artifact:
 
 ```python
@@ -84,18 +72,17 @@ Use the object returned to download the contents of the artifact:
 artifact.download()
 ```
 
-You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide](../../ref/python/artifact.md#download).
-  
-  </TabItem>
-  <TabItem value="CLI">
-
+You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide](../../ref/python/artifact.md#download).  
+  {{% /tab %}}
+  {{% tab header="W&B CLI" %}}
 Use the `wandb artifact get` command to download an artifact from the W&B server.
 
 ```
 $ wandb artifact get project/artifact:alias --root mnist/
-```
-  </TabItem>
-</Tabs>
+```  
+  {{% /tab %}}
+{{< /tabpane >}}
+
 
 ### Partially download an artifact
 

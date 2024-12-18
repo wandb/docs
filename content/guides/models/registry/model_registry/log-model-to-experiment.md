@@ -9,8 +9,6 @@ title: Track a model
 weight: 3
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 Track a model, the model's dependencies, and other information relevant to that model with the W&B Python SDK. 
 

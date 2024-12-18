@@ -8,9 +8,6 @@ weight: 1
 title: Create an experiment
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API](../../ref/python/public-api/README.md).
 
 This guide describes how to use W&B building blocks to create a W&B Experiment. 

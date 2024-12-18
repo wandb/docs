@@ -9,9 +9,6 @@ title: Import and export data
 weight: 8
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Export data or import data  with W&B Public APIs.
 
 {{% alert %}}
@@ -252,14 +249,8 @@ The default history method samples the metrics to a fixed number of samples (the
 
 ### Querying Multiple Runs
 
-<Tabs
-defaultValue="dataframes_csvs"
-values={[
-{label: 'Dataframes and CSVs', value: 'dataframes_csvs'},
-{label: 'MongoDB Style', value: 'mongoDB'},
-]}>
-<TabItem value="dataframes_csvs">
-
+{{< tabpane text=true >}}
+    {{% tab header="DataFrame and CSVs" %}}
 This example script finds a project and outputs a CSV of runs with name, configs and summary stats. Replace `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
 
 ```python
@@ -290,10 +281,8 @@ runs_df = pd.DataFrame(
 
 runs_df.to_csv("project.csv")
 ```
-
-  </TabItem>
-  <TabItem value="mongoDB">
-
+    {{% /tab %}}
+    {{% tab header="MongoDB Style" %}}
 The W&B API also provides a way for you to query across runs in a project with api.runs(). The most common use case is exporting runs data for custom analysis. The query interface is the same as the one [MongoDB uses](https://docs.mongodb.com/manual/reference/operator/query).
 
 ```python
@@ -302,10 +291,10 @@ runs = api.runs(
     {"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]},
 )
 print(f"Found {len(runs)} runs")
-```
+```    
+    {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
 
 Calling `api.runs` returns a `Runs` object that is iterable and acts like a list. By default the object loads 50 runs at a time in sequence as required, but you can change the number loaded per page with the `per_page` keyword argument.
 

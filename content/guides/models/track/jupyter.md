@@ -9,9 +9,6 @@ title: Track Jupyter notebooks
 weight: 6
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
 
 ## Use cases for W&B with Jupyter notebooks
@@ -51,7 +48,7 @@ After running `wandb.init()` , start a new cell with `%%wandb` to see live graph
 # Your training loop here
 ```
 
-Try it for yourself in this [quick example notebook →](http://wandb.me/jupyter-interact-colab)
+Try it for yourself in this [example notebook](http://wandb.me/jupyter-interact-colab).
 
 {{< img src="/images/track/jupyter_widget.png" alt="" >}}
 

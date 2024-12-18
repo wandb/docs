@@ -8,9 +8,6 @@ title: Add W&B (wandb) to your code
 weight: 2
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 There are numerous ways to add the W&B Python SDK to your script or Jupyter Notebook. Outlined below is a "best practice" example of how to integrate the W&B Python SDK into your own code.
 
 ### Original training script
@@ -65,14 +62,8 @@ main()
 The following code examples demonstrate how to add the W&B Python SDK into your code. If you start W&B Sweep jobs in the CLI, you will want to explore the CLI tab. If you start W&B Sweep jobs within a Jupyter notebook or Python script, explore the Python SDK tab.
 
 
-
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Python script or Jupyter Notebook', value: 'script'},
-    {label: 'CLI', value: 'cli'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+    {{% tab header="Python script or notebook" %}}
   To create a W&B Sweep, we added the following to the code example:
 
 1. Line 1: Import the Weights & Biases Python SDK.
@@ -147,10 +138,9 @@ def main():
 
 # Start sweep job.
 wandb.agent(sweep_id, function=main, count=4)
-```
-  </TabItem>
-  <TabItem value="cli">
-
+```    
+    {{% /tab %}}
+    {{% tab header="CLI" %}}
   To create a W&B Sweep, we first create a YAML configuration file. The configuration file contains he hyperparameters we want the sweep to explore.  In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep.
   
 ```yaml
@@ -235,7 +225,6 @@ def main():
 main()
 ```
 
-
 Navigate to your CLI. Within your CLI, set a maximum number of runs the sweep agent should try. This is step optional. In the following example we set the maximum number to five.
 
 ```bash
@@ -256,14 +245,13 @@ Copy the sweep ID and replace `sweepID` in the proceeding code snippet to start 
 wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
-For more information on how to start sweep jobs, see [Start sweep jobs](./start-sweep-agents.md).
-  </TabItem>
-</Tabs>
+For more information on how to start sweep jobs, see [Start sweep jobs](./start-sweep-agents.md).    
+    {{% /tab %}}
+{{< /tabpane >}}
+
 
 
 ## Consideration when logging metrics 
-
-
 
 Ensure to log the metric you specify in your sweep configuration explicitly to W&B. Do not log metrics for your sweep inside of a sub-directory. 
 

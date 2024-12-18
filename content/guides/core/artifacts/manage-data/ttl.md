@@ -7,8 +7,7 @@ menu:
 title: Manage artifact data retention
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" >}}
 
 Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts](./delete-artifacts.md) page.
@@ -101,14 +100,8 @@ Use the W&B App UI or the W&B Python SDK to define a TTL policy for an artifact 
 When you modify an artifact's TTL, the time the artifact takes to expire is still calculated using the artifact's `createdAt` timestamp.
 {{% /alert %}}
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python SDK', value: 'python'},
-    {label: 'W&B App', value: 'app'},
-  ]}>
-  <TabItem value="python">
-
+{{< tabpane text=true >}}
+  {{% tab header="Python SDK" %}}
 1. [Fetch your artifact](./download-and-use-an-artifact.md).
 2. Pass in a time delta to the artifact's `ttl` attribute. 
 3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
@@ -125,10 +118,8 @@ artifact.save()
 ```
 
 The preceding code example sets the TTL policy to two years.
-
-  </TabItem>
-  <TabItem value="app">
-
+  {{% /tab %}}
+  {{% tab header="W&B App" %}}
 1. Navigate to your W&B project in the W&B App UI.
 2. Select the artifact icon on the left panel.
 3. From the list of artifacts, expand the artifact type you 
@@ -139,10 +130,10 @@ The preceding code example sets the TTL policy to two years.
 8. Within the **TTL duration** field, set the TTL policy in units of days.
 9. Select the **Update TTL** button to save your changes.
 
-{{< img src="/images/artifacts/edit_ttl_ui.gif" alt="" >}}
+{{< img src="/images/artifacts/edit_ttl_ui.gif" alt="" >}}  
+  {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
 
 
 ### Set default TTL policies for a team
@@ -172,14 +163,8 @@ Use the W&B Python SDK or W&B App UI to deactivate a TTL policy for a specific a
 Artifacts with TTL turned off will not inherit an artifact collection's TTL. Refer to (## Inherit TTL Policy) on how to delete artifact TTL and inherit from the collection level TTL.
 {{% /alert %}} -->
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python SDK', value: 'python'},
-    {label: 'W&B App', value: 'app'},
-  ]}>
-  <TabItem value="python">
-
+{{< tabpane text=true >}}
+  {{% tab header="Python SDK" %}}
 1. [Fetch your artifact](./download-and-use-an-artifact.md).
 2. Set the artifact's `ttl` attribute to `None`.
 3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
@@ -190,12 +175,9 @@ The following code snippet shows how to turn off a TTL policy for an artifact:
 artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
 artifact.ttl = None
 artifact.save()
-```
-
-
-  </TabItem>
-  <TabItem value="app">
-
+```  
+  {{% /tab %}}
+  {{% tab header="W&B App" %}}
 1. Navigate to your W&B project in the W&B App UI.
 2. Select the artifact icon on the left panel.
 3. From the list of artifacts, expand the artifact type you 
@@ -206,35 +188,26 @@ artifact.save()
 8. Within the modal that appears, select **Deactivate** from the TTL policy dropdown.
 9. Select the **Update TTL** button to save your changes.
 
-{{< img src="/images/artifacts/remove_ttl_polilcy.gif" alt="" >}}
+{{< img src="/images/artifacts/remove_ttl_polilcy.gif" alt="" >}}  
+  {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
 
 
 
 ## View TTL policies
 View TTL policies for artifacts with the Python SDK or with the W&B App UI.
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python SDK', value: 'python'},
-    {label: 'W&B App', value: 'app'},
-  ]}>
-  <TabItem value="python">
-
+{{< tabpane text=true >}}
+  {{% tab  header="Python SDK" %}}
 Use a print statement to view an artifact's TTL policy. The following example shows how to retrieve an artifact and view its TTL policy:
 
 ```python
 artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
 print(artifact.ttl)
-```
-
-  </TabItem>
-  <TabItem value="app">
-
-
+```  
+  {{% /tab %}}
+  {{% tab  header="W&B App" %}}
 View a TTL policy for an artifact with the W&B App UI.
 
 1. Navigate to the W&B App at [https://wandb.ai](https://wandb.ai).
@@ -244,7 +217,7 @@ View a TTL policy for an artifact with the W&B App UI.
 
 Within the collection view you can see all of the artifacts in the selected collection. Within the `Time to Live` column you will see the TTL policy assigned to that artifact. 
 
-{{< img src="/images/artifacts/ttl_collection_panel_ui.png" alt="" >}}
+{{< img src="/images/artifacts/ttl_collection_panel_ui.png" alt="" >}}  
+  {{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>

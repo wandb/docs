@@ -8,9 +8,6 @@ title: Start or stop a sweep agent
 weight: 5
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 
 Start a W&B Sweep on one or more agents on one or more machines. W&B Sweep agents query the W&B server you launched when you initialized a W&B Sweep (`wandb sweep)` for hyperparameters and use them to run model training.
 
@@ -30,29 +27,24 @@ Provide the name of the function the W&B Sweep will execute if you start a W&B S
 
 The proceeding code snippets demonstrate how to start an agent with W&B. We assume you already have a configuration file and you have already initialized a W&B Sweep. For more information about how to define a configuration file, see [Define sweep configuration](./define-sweep-configuration.md).
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'CLI', value: 'cli'},
-    {label: 'Python script or Jupyter Notebook', value: 'python'},
-  ]}>
-  <TabItem value="cli">
-
+{{< tabpane text=true >}}
+{{% tab header="CLI" %}}
 Use the `wandb agent` command to start a sweep. Provide the sweep ID that was returned when you initialized the sweep. Copy and paste the code snippet below and replace `sweep_id` with your sweep ID:
 
 ```bash
 wandb agent sweep_id
 ```
-  </TabItem>
-  <TabItem value="python">
-
+{{% /tab %}}
+{{% tab header="Python script or notebook" %}}
 Use the W&B Python SDK library to start a sweep. Provide the sweep ID that was returned when you initialized the sweep. In addition, provide the name of the function  the sweep will execute.
 
 ```python
 wandb.agent(sweep_id=sweep_id, function=function_name)
 ```
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
+
+
 
 ### Stop W&B agent
 
@@ -62,14 +54,8 @@ Random and Bayesian searches will run forever. You must stop the process from th
 
 Optionally specify the number of W&B Runs a Sweep agent should try. The following code snippets demonstrate how to set a maximum number of [W&B Runs](../../ref/python/run.md) with the CLI and within a Jupyter Notebook, Python script.
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python script or Jupyter Notebook', value: 'python'},
-    {label: 'CLI', value: 'cli'},
-  ]}>
-  <TabItem value="python">
-
+{{< tabpane text=true >}}
+  {{% tab header="Python script or notebook" %}}
 First, initialize your sweep. For more information, see [Initialize sweeps](./initialize-sweeps.md).
 
 ```
@@ -85,13 +71,9 @@ wandb.agent(sweep_id, count=count)
 
 {{% alert color="secondary" %}}
 If you start a new run after the sweep agent has finished, within the same script or notebook, then you should call `wandb.teardown()` before starting the new run.
-{{% /alert %}}
-
-
-  </TabItem>
-
-  <TabItem value="cli">
-
+{{% /alert %}}  
+  {{% /tab %}}
+  {{% tab header="CLI" %}}
 First, initialize your sweep with the [`wandb sweep`](../../ref/cli/wandb-sweep.md) command. For more information, see [Initialize sweeps](./initialize-sweeps.md).
 
 ```
@@ -100,10 +82,10 @@ wandb sweep config.yaml
 
 Pass an integer value to the count flag to set the maximum number of runs to try.
 
-```
+```python
 NUM=10
 SWEEPID="dtzl1o7u"
 wandb agent --count $NUM $SWEEPID
-```
-  </TabItem>
-</Tabs>
+```  
+  {{% /tab %}}
+{{< /tabpane >}}

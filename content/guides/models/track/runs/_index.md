@@ -11,9 +11,6 @@ cascade:
 - url: guides/runs/:filename
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 
 A *run* is a single unit of computation logged by W&B. You can think of a W&B run as an atomic element of your whole project. In other words, each run is a record of a specific computation, such as training a model and logging the results, hyperparameter sweeps, and so forth.
 
@@ -252,14 +249,8 @@ Notes that you add to a specific run appear on the run page in the **Overview** 
 ## Stop a run
 Stop a run from the W&B App or programmatically.
 
-<Tabs
-  defaultValue="programmatically"
-  values={[
-    {label: 'Programmatically', value: 'programmatically'},
-    {label: 'W&B App', value: 'app_ui'},
-  ]}>
-  <TabItem value="programmatically">
-
+{{< tabpane text=true >}}
+  {{% tab header="Programmatically" %}}
 1. Navigate to the terminal or code editor where you initialized the run.
 2. Press `Ctrl+D` to stop the run.
 
@@ -283,10 +274,9 @@ Navigate to the W&B App UI to confirm the run is no longer active:
 
 Next to the **State** field, the run's state changes from `running` to `Killed`.
 
-{{< img src="/images/runs/stop-run-terminal.png" alt="" >}}
-
-  </TabItem>
-  <TabItem value="app_ui">
+{{< img src="/images/runs/stop-run-terminal.png" alt="" >}}  
+  {{% /tab %}}
+  {{% tab header="W&B App" %}}
 
 1. Navigate to the project that your run is logging to.
 2. Select the run you want to stop within the run selector.
@@ -296,10 +286,9 @@ Next to the **State** field, the run's state changes from `running` to `Killed`.
 
 Next to the **State** field, the run's state changes from `running` to `Killed`.
 
-{{< img src="/images/runs/stop-run-manual-status.png" alt="" >}}
-
-  </TabItem>
-</Tabs>
+{{< img src="/images/runs/stop-run-manual-status.png" alt="" >}}  
+  {{% /tab %}}
+{{< /tabpane >}}
 
 See [State fields](#run-states) for a full list of possible run states.
 

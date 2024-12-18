@@ -7,9 +7,6 @@ menu:
 title: Resume a run
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Specify how a run should behave in the event that that run stops or crashes. To resume or enable a run to automatically resume, you will need to specify the unique run ID associated with that run for the `id` parameter:
 
 ```python
@@ -75,14 +72,8 @@ run = wandb.init(entity="<entity>", \
 ## Enable runs to automatically resume 
 The following code snippet shows how to enable runs to automatically resume with the Python SDK or with environment variables. 
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'W&B Python SDK', value: 'python'},
-    {label: 'Shell script', value: 'bash'},
-  ]}>
-  <TabItem value="python">
-
+{{< tabpane text=true >}}
+  {{% tab header="W&B Python SDK" %}}
 The following code snippet shows how to specify a W&B run ID with the Python SDK. 
 
 Replace values enclosed within `<>` with your own:
@@ -90,10 +81,9 @@ Replace values enclosed within `<>` with your own:
 ```python
 run = wandb.init(entity="<entity>", \ 
         project="<project>", id="<run ID>", resume="<resume>")
-```
-
-  </TabItem>
-  <TabItem value="bash">
+```  
+  {{% /tab %}}
+  {{% tab header="Shell script" %}}
 
 The following example shows how to specify the W&B `WANDB_RUN_ID` variable in a bash script: 
 
@@ -108,8 +98,9 @@ Within your terminal, you could run the shell script along with the W&B run ID. 
 sh run_experiment.sh akj172 
 ```
 
-  </TabItem>
-</Tabs>
+  {{% /tab %}}
+{{< /tabpane >}}
+
 
 {{% alert color="secondary" %}}
 Automatic resuming only works if the process is restarted on top of the same filesystem as the failed process. 
