@@ -225,6 +225,7 @@ batch_size:
   desc: Size of each mini-batch
   value: 32
 ```
+
 You can override the default values automatically loaded from `config-defaults.yaml` by setting updated values in the `config` argument of `wandb.init`. For example:
 
 ```python
@@ -234,7 +235,11 @@ import wandb
 wandb.init(config={"epochs": 200, "batch_size": 64})
 ```
 
-You can also load different config files with the command line argument `--configs`.
+To load a configuration file other than `config-defaults.yaml`, use the `--configs command-line` argument and specify the path to the file:
+
+```bash
+python train.py --configs other-config.yaml
+```
 
 ### Example use case for file-based configs
 Suppose you have a YAML file with some metadata for the run, and then a dictionary of hyperparameters in your Python script. You can save both in the nested `config` object:
