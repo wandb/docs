@@ -59,7 +59,7 @@ Tables are mutable. As your script executes you can add more data to your table,
 
 ### Adding data incrementally
 
-The following code sample shows how to create and populate a W&B table incrementally. The table is initialized with predefined columns, including confidence scores for all possible labels. Data is then added row by row during inference. You can also [add data to resumed runs](#adding-data-to-resumed-runs).
+This code sample shows how to create and populate a W&B table incrementally. You define the table with predefined columns, including confidence scores for all possible labels, and add data row by row during inference. You can also [add data to tables incrementally when resuming runs](#adding-data-to-resumed-runs).
 
 ```python
 # Define the columns for the table, including confidence scores for each label
@@ -82,7 +82,7 @@ for img_id, img in enumerate(mnist_test_data):
 
 #### Adding data to resumed runs
 
-You can also add data incrementally to resumed runs. The following code snippet updates a W&B table by loading an existing table from an artifact, retrieving the last row of data for resuming, and adding updated metrics. The table is then reinitialized for compatibility, and the updated version is logged back to W&B.
+You can incrementally update a W&B table in resumed runs by loading an existing table from an artifact, retrieving the last row of data, and adding the updated metrics. After reinitializing the table for compatibility, log the updated version back to W&B.
 
 ```python
 # Load the existing table from the artifact
