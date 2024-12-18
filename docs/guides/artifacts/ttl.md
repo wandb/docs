@@ -34,6 +34,7 @@ You can check an Artifact's type on the [W&B platform](../artifacts/explore-and-
 
 ```python
 import wandb
+
 run = wandb.init(project="<my-project-name>")
 artifact = run.use_artifact(artifact_or_name="<my-artifact-name>")
 print(artifact.type)
@@ -161,7 +162,21 @@ Set a default TTL policy for your team. Default TTL policies apply to all existi
 
 ![](/images/artifacts/set_default_ttl.gif)
 
+### Set a TTL policy outside of a run
 
+Use the public API to retrieve an artifact without fetching a run, and set the TTL policy. TTL policies are typically defined in days. 
+
+The following code sample shows how to fetch an artifact using the public API and set the TTL policy.
+
+```python 
+api = wandb.Api()
+
+artifact = api.artifact("entity/project/artifact:alias")
+
+artifact.ttl = timedelta(days=365)  # Delete in one year
+
+artifact.save()
+```
 
 ## Deactivate a TTL policy
 Use the W&B Python SDK or W&B App UI to deactivate a TTL policy for a specific artifact version.

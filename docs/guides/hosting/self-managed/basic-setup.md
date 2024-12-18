@@ -59,7 +59,7 @@ Copy the W&B API key that appears on the screen. At a later step, you will need 
 ![](/images/hosting/copy_api_key.png)
 
 ## 3. Generate a license
-Navigate to the W&B Deploy Manager at https://deploy.wandb.ai/deploy to generate a Trial Mode W&B license.
+Navigate to the W&B Deploy Manager at [https://deploy.wandb.ai/deploy](https://deploy.wandb.ai/deploy) to generate a Trial Mode W&B license.
 
 1. Select Docker as your provider
 ![](/images/hosting/deploy_manager_platform.png)

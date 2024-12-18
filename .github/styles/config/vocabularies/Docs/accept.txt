@@ -38,6 +38,7 @@ Keras
 Keycloak
 Kubeflow
 Kubernetes
+kfp
 [Ll]atents
 LLMOps
 MMEngine
@@ -67,3 +68,4 @@ use_artifact
 wandb
 wandb.com
 W&B Server
+[Ww]orkspace's
