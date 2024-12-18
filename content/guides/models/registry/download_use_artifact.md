@@ -37,19 +37,16 @@ Use the `wandb.init.use_artifact` method to access the artifact and download its
 ```python
 import wandb
 
-REGISTRY = '<registry_name>'
-COLLECTION = '<collection_name>'
-ALIAS = '<artifact_alias>'
+REGISTRY = "<registry_name>"
+COLLECTION = "<collection_name>"
+ALIAS = "<artifact_alias>"
 
-run = wandb.init(
-   entity = '<team_name>',
-   project = '<project_name>'
-   )  
+run = wandb.init(entity="<team_name>", project="<project_name>")
 
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 # artifact_name = '<artifact_name>' # Copy and paste Full name specified on the Registry App
-fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
-download_path = fetched_artifact.download()  
+fetched_artifact = run.use_artifact(artifact_or_name=artifact_name)
+download_path = fetched_artifact.download()
 ```
 
 The `.use_artifact()` method both creates a [run](../runs/intro.md) and marks the artifact you download as the input to that run. 
@@ -66,7 +63,7 @@ VERSION = "<version>"
 
 api = wandb.Api()
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-artifact = api.artifact(name = artifact_name)
+artifact = api.artifact(name=artifact_name)
 ```
 
 <details>
@@ -82,18 +79,18 @@ PROJECT_NAME = "user-stories"
 
 REGISTRY = "Fine-tuned Models"
 COLLECTION = "phi3-finetuned"
-ALIAS = 'production'
+ALIAS = "production"
 
 # Initialize a run inside the specified team and project
-run = wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME)
+run = wandb.init(entity=TEAM_ENTITY, project=PROJECT_NAME)
 
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
 # Access an artifact and mark it as input to your run for lineage tracking
-fetched_artifact = run.use_artifact(artifact_or_name = name)  
+fetched_artifact = run.use_artifact(artifact_or_name=name)
 
 # Download artifact. Returns path to downloaded contents
-downloaded_path = fetched_artifact.download()  
+downloaded_path = fetched_artifact.download()
 ```
 </details>
 
@@ -115,16 +112,16 @@ VERSION = "<version>"
 # Ensure you are using your team entity to instantiate the API
 api = wandb.Api(overrides={"entity": "<team-entity>"})
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-artifact = api.artifact(name = artifact_name)
+artifact = api.artifact(name=artifact_name)
 
 # Use org display name or org entity in the path
 api = wandb.Api()
 artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-artifact = api.artifact(name = artifact_name)
+artifact = api.artifact(name=artifact_name)
 ```
 
 Where the `ORG_NAME` is the display name of your organization. Multi-tenant SaaS users can find the name of their organization in the organization's settings page at `https://wandb.ai/account-settings/`. Dedicated Cloud and Self-Managed users, contact your account administrator to confirm your organization's display name.
-{{% alert %}}
+{{% /alert %}}
 
 ## Copy and paste pre-generated code snippet
 
