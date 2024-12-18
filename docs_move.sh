@@ -11,19 +11,19 @@ fi
 content_file="$1"    # Path to the file in the content directory (canonical location)
 docs_file="$2"       # Path to the corresponding file in the docs directory
 
-# Ensure both files exist
-if [[ ! -f "$content_file" ]]; then
-    echo "Error: Content file '$content_file' does not exist."
-    exit 1
-fi
-
+# Check if the source file exists
 if [[ ! -f "$docs_file" ]]; then
     echo "Error: Docs file '$docs_file' does not exist."
     exit 1
 fi
 
-echo "Copying contents into '$docs_file' and deleting '$content_file'"
-cat "$content_file" > "$docs_file"
-rm "$content_file"
-git add .
-git commit -m "Copying contents into '$docs_file' and deleting '$content_file'"
+# Ensure the destination directory exists
+content_dir=$(dirname "$content_file")
+if [[ ! -d "$content_dir" ]]; then
+    echo "Creating destination directory: $content_dir"
+    mkdir -p "$content_dir"
+fi
+
+# Move the file with git mv
+echo "Moving $docs_file to $content_file"
+git mv "$docs_file" "$content_file"
