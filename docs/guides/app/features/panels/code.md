@@ -9,7 +9,7 @@ Starting with `wandb` version 0.8.28, W&B can save the code from your main train
 
 ## Save library code
 
-When code saving is enabled, W&B will save the code from the file that called `wandb.init()`. To save additional library code, you have three options:
+When you enable code saving, W&B saves the code from the file that called `wandb.init()`. To save additional library code, you have three options:
 
 ### Call `wandb.run.log_code(".")` after calling `wandb.init()`
 ```python
@@ -26,13 +26,13 @@ import wandb
 wandb.init(settings=wandb.Settings(code_dir="."))
 ```
 
-This will capture all python source code files in the current directory and all subdirectories as an [artifact](../../../../ref/python/artifact.md). For more control over the types and locations of source code files that are saved, see the [reference docs](../../../../ref/python/run.md#log_code).
+This captures all python source code files in the current directory and all subdirectories as an [artifact](../../../../ref/python/artifact.md). For more control over the types and locations of source code files that are saved, see the [reference docs](../../../../ref/python/run.md#log_code).
 
 ### Set code saving in the UI
 
 In addition to setting code saving programmatically, you can also toggle this feature in your W&B account Settings. Note that this will enable code saving for all teams associated with your account.
 
-> By default, code saving for all teams is turned off.
+> By default, W&B disables code saving for all teams.
 
 1. Log in to your W&B account.
 2. Go to **Settings** > **Privacy**.
