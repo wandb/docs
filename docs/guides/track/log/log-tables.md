@@ -57,22 +57,52 @@ Tables are mutable. As your script executes you can add more data to your table,
 1. **Add a Row**: `table.add_data("3a", "3b", "3c")`. Note that the new row is not represented as a list. If your row is in list format, use the star notation, `*` ,to expand the list to positional arguments: `table.add_data(*my_row_list)`. The row must contain the same number of entries as there are columns in the table.
 2. **Add a Column**: `table.add_column(name="col_name", data=col_data)`. Note that the length of `col_data` must be equal to the table's current number of rows. Here, `col_data` can be a list data, or a NumPy NDArray.
 
-#### Adding data incrementally
+### Adding data incrementally
+
+The following code sample shows how to create and populate a W&B table incrementally. The table is initialized with predefined columns, including confidence scores for all possible labels. Data is then added row by row during inference. You can also [add data to resumed runs](#adding-data-to-resumed-runs).
 
 ```python
-# create a Table with the same columns as above,
-# plus confidence scores for all labels
+# Define the columns for the table, including confidence scores for each label
 columns = ["id", "image", "guess", "truth"]
-for digit in range(10):
-    columns.append("score_" + str(digit))
+for digit in range(10):  # Add confidence score columns for each digit (0-9)
+    columns.append(f"score_{digit}")
+
+# Initialize the table with the defined columns
 test_table = wandb.Table(columns=columns)
 
-# run inference on every image, assuming my_model returns the
-# predicted label, and the ground truth labels are available
+# Iterate through the test dataset and add data to the table row by row
+# Each row includes the image ID, image, predicted label, true label, and confidence scores
 for img_id, img in enumerate(mnist_test_data):
-    true_label = mnist_test_data_labels[img_id]
-    guess_label = my_model.predict(img)
-    test_table.add_data(img_id, wandb.Image(img), guess_label, true_label)
+    true_label = mnist_test_data_labels[img_id]  # Ground truth label
+    guess_label = my_model.predict(img)  # Predicted label
+    test_table.add_data(
+        img_id, wandb.Image(img), guess_label, true_label
+    )  # Add row data to the table
+```
+
+#### Adding data to resumed runs
+
+You can also add data incrementally to resumed runs. The following code snippet updates a W&B table by loading an existing table from an artifact, retrieving the last row of data for resuming, and adding updated metrics. The table is then reinitialized for compatibility, and the updated version is logged back to W&B.
+
+```python
+# Load the existing table from the artifact
+best_checkpt_table = wandb.use_artifact(table_tag).get(table_name)
+
+# Get the last row of data from the table for resuming
+best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
+
+# Update the best metrics as needed
+
+# Add the updated data to the table
+best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
+
+# Reinitialize the table with its updated data to ensure compatibility
+best_checkpt_table = wandb.Table(
+    columns=["col1", "col2", "col3"], data=best_checkpt_table.data
+)
+
+# Log the updated table to Weights & Biases
+wandb.log({table_name: best_checkpt_table})
 ```
 
 ## Retrieve data
