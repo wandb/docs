@@ -123,7 +123,7 @@ The following are some suggested guidelines to consider when you create experime
 
 1. **Config**: Track hyperparameters, architecture, dataset, and anything else you'd like to use to reproduce your model. These will show up in columns— use config columns to group, sort, and filter runs dynamically in the app.
 2. **Project**: A project is a set of experiments you can compare together. Each project gets a dedicated dashboard page, and you can easily turn on and off different groups of runs to compare different model versions.
-3. **Notes**: A quick commit message to yourself. The note can be set from your script. You can edit notes at a later time on the Overview section of your project's dashboard on the W&B App.
+3. **Notes**: A quick commit message to yourself. The note can be set from your script. You can access and edit notes in the Overview section of a run in the W&B App.
 4. **Tags**: Identify baseline runs and favorite runs. You can filter runs using tags. You can edit tags at a later time on the Overview section of your project's dashboard on the W&B App.
 
 The following code snippet demonstrates how to define a W&B Experiment using the best practices listed above:
