@@ -24,7 +24,7 @@ RunQueue(
 
 ### `create`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/jobs.py#L646-L659)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/jobs.py#L640-L653)
 
 ```python
 @classmethod
@@ -40,7 +40,7 @@ create(
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/jobs.py#L520-L542)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/jobs.py#L514-L536)
 
 ```python
 delete()

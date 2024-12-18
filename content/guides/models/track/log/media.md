@@ -314,7 +314,7 @@ If histograms are in your summary they will appear on the Overview tab of the [R
   </TabItem>
   <TabItem value="point_clouds">
 
-Log 3D point clouds and Lidar scenes with bounding boxes. Pass in a NumPy array containing coordinates and colors for the points to render. In the UI, we truncate to 300,000 points.
+Log 3D point clouds and Lidar scenes with bounding boxes. Pass in a NumPy array containing coordinates and colors for the points to render. 
 
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR]])
@@ -322,70 +322,218 @@ point_cloud = np.array([[0, 0, 0, COLOR]])
 wandb.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
-Three different shapes of NumPy arrays are supported for flexible color schemes.
+:::info
+The W&B UI truncates the data at 300,000 points.
+:::
+
+#### NumPy array formats
+
+Three different formats of NumPy arrays are supported for flexible color schemes.
 
 * `[[x, y, z], ...]` `nx3`
 * `[[x, y, z, c], ...]` `nx4` `| c is a category` in the range `[1, 14]` (Useful for segmentation)
 * `[[x, y, z, r, g, b], ...]` `nx6 | r,g,b` are values in the range `[0,255]`for red, green, and blue color channels.
 
-Here's an example of logging code below:
+#### Python object
 
-* `points`is a NumPy array with the same format as the simple point cloud renderer shown above.
+Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method](/ref/python/data-types/object3d/#from_point_cloud) as shown below.
+
+* `points`is a NumPy array containing coordinates and colors for the points to render using [the same formats as the simple point cloud renderer shown above](#python-object).
 * `boxes` is a NumPy array of python dictionaries with three attributes:
   * `corners`- a list of eight corners
   * `label`- a string representing the label to be rendered on the box (Optional)
   * `color`- rgb values representing the color of the box
+  * `score` - a numeric value that will be displayed on the bounding box that can be used to filter the bounding boxes shown (e.g., to only show bounding boxes where `score` > `0.75`). (Optional)
 * `type` is a string representing the scene type to render. Currently the only supported value is `lidar/beta`
 
+
 ```python
-# Log points and boxes in W&B
-point_scene = wandb.Object3D(
-    {
-        "type": "lidar/beta",
-        "points": np.array(  # add points, as in a point cloud
-            [[0.4, 1, 1.3], [1, 1, 1], [1.2, 1, 1.2]]
-        ),
-        "boxes": np.array(  # draw 3d boxes
-            [
-                {
-                    "corners": [
-                        [0, 0, 0],
-                        [0, 1, 0],
-                        [0, 0, 1],
-                        [1, 0, 0],
-                        [1, 1, 0],
-                        [0, 1, 1],
-                        [1, 0, 1],
-                        [1, 1, 1],
-                    ],
-                    "label": "Box",
-                    "color": [123, 321, 111],
-                },
-                {
-                    "corners": [
-                        [0, 0, 0],
-                        [0, 2, 0],
-                        [0, 0, 2],
-                        [2, 0, 0],
-                        [2, 2, 0],
-                        [0, 2, 2],
-                        [2, 0, 2],
-                        [2, 2, 2],
-                    ],
-                    "label": "Box-2",
-                    "color": [111, 321, 0],
-                },
-            ]
-        ),
-        "vectors": np.array(  # add 3d vectors
-            [{"start": [0, 0, 0], "end": [0.1, 0.2, 0.5]}]
-        ),
-    }
-)
-wandb.log({"point_scene": point_scene})
+point_list = [
+    [
+        2566.571924017235, # x
+        746.7817289698219, # y
+        -15.269245470863748,# z
+        76.5, # red
+        127.5, # green
+        89.46617199365393 # blue
+    ],
+    [ 2566.592983606823, 746.6791987335685, -15.275803826279521, 76.5, 127.5, 89.45471117247024 ],
+    [ 2566.616361739416, 746.4903185513501, -15.28628929674075, 76.5, 127.5, 89.41336375503832 ],
+    [ 2561.706014951675, 744.5349468458361, -14.877496818222781, 76.5, 127.5, 82.21868245418283 ],
+    [ 2561.5281847916694, 744.2546118233013, -14.867862032341005, 76.5, 127.5, 81.87824684536432 ],
+    [ 2561.3693562897465, 744.1804761656741, -14.854129178142523, 76.5, 127.5, 81.64137897587152 ],
+    [ 2561.6093071504515, 744.0287526628543, -14.882135189841177, 76.5, 127.5, 81.89871499537098 ],
+    # ... and so on
+]
+
+run.log({"my_first_point_cloud": wandb.Object3D.from_point_cloud(
+     points = point_list,
+     boxes = [{
+         "corners": [
+                [ 2601.2765123137915, 767.5669506323393, -17.816764802288663 ],
+                [ 2599.7259021588347, 769.0082337923552, -17.816764802288663 ],
+                [ 2599.7259021588347, 769.0082337923552, -19.66876480228866 ],
+                [ 2601.2765123137915, 767.5669506323393, -19.66876480228866 ],
+                [ 2604.8684867834395, 771.4313904894723, -17.816764802288663 ],
+                [ 2603.3178766284827, 772.8726736494882, -17.816764802288663 ],
+                [ 2603.3178766284827, 772.8726736494882, -19.66876480228866 ],
+                [ 2604.8684867834395, 771.4313904894723, -19.66876480228866 ]
+        ],
+         "color": [0, 0, 255], # color in RGB of the bounding box
+         "label": "car", # string displayed on the bounding box
+         "score": 0.6 # numeric displayed on the bounding box
+     }],
+     vectors = [
+        {"start": [0, 0, 0], "end": [0.1, 0.2, 0.5], "color": [255, 0, 0]}, # color is optional
+     ],
+     point_cloud_type = "lidar/beta",
+)})
 ```
 
 When viewing a point cloud, you can hold control and use the mouse to move around inside the space.
+
+#### Point cloud files
+
+You can use [the `from_file` method](/ref/python/data-types/object3d/#from_file) to load in a JSON file full of point cloud data.
+
+```python
+run.log({"my_cloud_from_file": wandb.Object3D.from_file(
+     "./my_point_cloud.pts.json"
+)})
+```
+
+An example of how to format the point cloud data is shown below. 
+
+```json
+{
+    "boxes": [
+        {
+            "color": [
+                0,
+                255,
+                0
+            ],
+            "score": 0.35,
+            "label": "My label",
+            "corners": [
+                [
+                    2589.695869075582,
+                    760.7400443552185,
+                    -18.044831294622487
+                ],
+                [
+                    2590.719039645323,
+                    762.3871153874499,
+                    -18.044831294622487
+                ],
+                [
+                    2590.719039645323,
+                    762.3871153874499,
+                    -19.54083129462249
+                ],
+                [
+                    2589.695869075582,
+                    760.7400443552185,
+                    -19.54083129462249
+                ],
+                [
+                    2594.9666662674313,
+                    757.4657929961453,
+                    -18.044831294622487
+                ],
+                [
+                    2595.9898368371723,
+                    759.1128640283766,
+                    -18.044831294622487
+                ],
+                [
+                    2595.9898368371723,
+                    759.1128640283766,
+                    -19.54083129462249
+                ],
+                [
+                    2594.9666662674313,
+                    757.4657929961453,
+                    -19.54083129462249
+                ]
+            ]
+        }
+    ],
+    "points": [
+        [
+            2566.571924017235,
+            746.7817289698219,
+            -15.269245470863748,
+            76.5,
+            127.5,
+            89.46617199365393
+        ],
+        [
+            2566.592983606823,
+            746.6791987335685,
+            -15.275803826279521,
+            76.5,
+            127.5,
+            89.45471117247024
+        ],
+        [
+            2566.616361739416,
+            746.4903185513501,
+            -15.28628929674075,
+            76.5,
+            127.5,
+            89.41336375503832
+        ]
+    ],
+    "type": "lidar/beta"
+}
+```
+#### NumPy arrays
+
+Using [the same array formats defined above](#numpy-array-formats), you can use `numpy` arrays directly with [the `from_numpy` method](/ref/python/data-types/object3d/#from_numpy) to define a point cloud.
+
+```python
+run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
+     np.array(  
+        [
+            [0.4, 1, 1.3], # x, y, z
+            [1, 1, 1], 
+            [1.2, 1, 1.2]
+        ]
+    )
+)})
+```
+```python
+run.log({"my_cloud_from_numpy_cat": wandb.Object3D.from_numpy(
+     np.array(  
+        [
+            [0.4, 1, 1.3, 1], # x, y, z, category 
+            [1, 1, 1, 1], 
+            [1.2, 1, 1.2, 12], 
+            [1.2, 1, 1.3, 12], 
+            [1.2, 1, 1.4, 12], 
+            [1.2, 1, 1.5, 12], 
+            [1.2, 1, 1.6, 11], 
+            [1.2, 1, 1.7, 11], 
+        ]
+    )
+)})
+```
+```python
+run.log({"my_cloud_from_numpy_rgb": wandb.Object3D.from_numpy(
+     np.array(  
+        [
+            [0.4, 1, 1.3, 255, 0, 0], # x, y, z, r, g, b 
+            [1, 1, 1, 0, 255, 0], 
+            [1.2, 1, 1.3, 0, 255, 255],
+            [1.2, 1, 1.4, 0, 255, 255],
+            [1.2, 1, 1.5, 0, 0, 255],
+            [1.2, 1, 1.1, 0, 0, 255],
+            [1.2, 1, 0.9, 0, 0, 255],
+        ]
+    )
+)})
+```
 
   </TabItem>
   <TabItem value="molecules">

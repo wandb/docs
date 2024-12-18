@@ -8,7 +8,7 @@ File is a class associated with a file saved by wandb.
 
 ```python
 File(
-    client, attrs
+    client, attrs, run=None
 )
 ```
 
@@ -20,7 +20,7 @@ File(
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/files.py#L190-L203)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/files.py#L193-L223)
 
 ```python
 delete()
@@ -28,7 +28,7 @@ delete()
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/attrs.py#L15-L26)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/attrs.py#L16-L37)
 
 ```python
 display(
@@ -40,7 +40,7 @@ Display this object in jupyter.
 
 ### `download`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/files.py#L149-L188)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/files.py#L152-L191)
 
 ```python
 download(
@@ -63,7 +63,7 @@ Downloads a file previously saved by a run from the wandb server.
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/attrs.py#L11-L13)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -73,7 +73,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/attrs.py#L28-L29)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/attrs.py#L39-L40)
 
 ```python
 to_html(

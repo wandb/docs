@@ -20,7 +20,7 @@ QueuedRun(
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/jobs.py#L344-L393)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/jobs.py#L338-L387)
 
 ```python
 delete(
@@ -32,7 +32,7 @@ Delete the given queued run from the wandb backend.
 
 ### `wait_until_finished`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/jobs.py#L334-L342)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/jobs.py#L328-L336)
 
 ```python
 wait_until_finished()
@@ -40,7 +40,7 @@ wait_until_finished()
 
 ### `wait_until_running`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/jobs.py#L395-L420)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/jobs.py#L389-L414)
 
 ```python
 wait_until_running()

@@ -19,7 +19,7 @@ Files(
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/files.py#L99-L103)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/files.py#L100-L104)
 
 ```python
 convert_objects()
@@ -27,7 +27,7 @@ convert_objects()
 
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/paginator.py#L72-L79)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/paginator.py#L72-L79)
 
 ```python
 next()
@@ -35,7 +35,7 @@ next()
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/files.py#L96-L97)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/files.py#L97-L98)
 
 ```python
 update_variables()
@@ -43,7 +43,7 @@ update_variables()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/paginator.py#L65-L70)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/paginator.py#L65-L70)
 
 ```python
 __getitem__(
@@ -53,7 +53,7 @@ __getitem__(
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/paginator.py#L26-L28)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/paginator.py#L26-L28)
 
 ```python
 __iter__()
@@ -61,7 +61,7 @@ __iter__()
 
 ### `__len__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/paginator.py#L30-L35)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/paginator.py#L30-L35)
 
 ```python
 __len__()
