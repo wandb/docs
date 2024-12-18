@@ -6,33 +6,39 @@
 Start a new run to track and log to W&B.
 
 ```python
-init(
-    entity: (str | None) = None,
-    project: (str | None) = None,
-    dir: (StrPath | None) = None,
-    id: (str | None) = None,
-    name: (str | None) = None,
-    notes: (str | None) = None,
-    tags: (Sequence[str] | None) = None,
-    config: (dict[str, Any] | str | None) = None,
-    config_exclude_keys: (list[str] | None) = None,
-    config_include_keys: (list[str] | None) = None,
-    allow_val_change: (bool | None) = None,
-    group: (str | None) = None,
-    job_type: (str | None) = None,
-    mode: (Literal['online', 'offline', 'disabled'] | None) = None,
-    force: (bool | None) = None,
-    anonymous: (Literal['never', 'allow', 'must'] | None) = None,
-    reinit: (bool | None) = None,
-    resume: (bool | Literal['allow', 'never', 'must', 'auto'] | None) = None,
-    resume_from: (str | None) = None,
-    fork_from: (str | None) = None,
-    save_code: (bool | None) = None,
-    tensorboard: (bool | None) = None,
-    sync_tensorboard: (bool | None) = None,
-    monitor_gym: (bool | None) = None,
-    settings: (Settings | dict[str, Any] | None) = None
-) -> Run
+from typing import Sequence, Literal, Any
+
+
+def init(
+    entity: str | None = None,
+    project: str | None = None,
+    dir: "StrPath" | None = None,  # Assuming StrPath is defined elsewhere
+    id: str | None = None,
+    name: str | None = None,
+    notes: str | None = None,
+    tags: Sequence[str] | None = None,
+    config: dict[str, Any] | str | None = None,
+    config_exclude_keys: list[str] | None = None,
+    config_include_keys: list[str] | None = None,
+    allow_val_change: bool | None = None,
+    group: str | None = None,
+    job_type: str | None = None,
+    mode: Literal["online", "offline", "disabled"] | None = None,
+    force: bool | None = None,
+    anonymous: Literal["never", "allow", "must"] | None = None,
+    reinit: bool | None = None,
+    resume: bool | Literal["allow", "never", "must", "auto"] | None = None,
+    resume_from: str | None = None,
+    fork_from: str | None = None,
+    save_code: bool | None = None,
+    tensorboard: bool | None = None,
+    sync_tensorboard: bool | None = None,
+    monitor_gym: bool | None = None,
+    settings: (
+        "Settings" | dict[str, Any] | None
+    ) = None,  # Assuming Settings is defined elsewhere
+) -> "Run":  # Assuming Run is defined elsewhere
+    pass
 ```
 
 In an ML training pipeline, you could add `wandb.init()` to the beginning of
@@ -85,7 +91,7 @@ call `wandb.finish()` at the end of the block.
 
 | Args |  |
 | :--- | :--- |
-|  `entity` |  The username or team name under which the runs will be logged. The entity must already exist, so ensure you’ve created your account or team in the UI before starting to log runs. If not specified, the run will default your defualt entity. To change the default entity, go to [your settings](https://wandb.ai/settings) and update the "Default location to create new projects" under "Default team". |
+|  `entity` |  The team name under which the runs will be logged. Personal accounts are no longer supported as entities for logging runs. The entity must already exist, so ensure you’ve created your account or team in the UI before starting to log runs. If not specified, the run will default your defualt entity. To change the default entity, go to [your settings](https://wandb.ai/settings) and update the "Default location to create new projects" under "Default team". |
 |  `project` |  The name of the project under which this run will be logged. If not specified, we use a heuristic to infer the project name based on the system, such as checking the git root or the current program file. If we can't infer the project name, the project will default to `"uncategorized"`. |
 |  `dir` |  An absolute path to the directory where metadata and downloaded files will be stored. When calling `download()` on an artifact, files will be saved to this directory. If not specified, this defaults to the `./wandb` directory. |
 |  `id` |  A unique identifier for this run, used for resuming. It must be unique within the project and cannot be reused once a run is deleted. The identifier must not contain any of the following special characters: `/ \ # ? % :`. For a short descriptive name, use the `name` field, or for saving hyperparameters to compare across runs, use `config`. |
