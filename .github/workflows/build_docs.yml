@@ -2,6 +2,12 @@ name: Hugo build test
 
 on:
   pull_request:
+  merge_group:
+  workflow_call:
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   build:
