@@ -1,4 +1,0 @@
----
-title: Automations
----
-<!-- TODO -->
