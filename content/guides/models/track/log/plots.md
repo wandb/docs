@@ -1,8 +1,12 @@
 ---
 description: Create and track plots from machine learning experiments.
-displayed_sidebar: default
+menu:
+  default:
+    identifier: plots
+    parent: log-objects-and-media
 title: Create and track plots from experiments
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -41,7 +45,7 @@ wandb.log(
 
 You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
 
-![](/images/track/line_plot.png)
+{{< img src="/images/track/line_plot.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
@@ -61,7 +65,7 @@ wandb.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
 
 You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
 
-![](/images/track/demo_scatter_plot.png)
+{{< img src="/images/track/demo_scatter_plot.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
@@ -87,7 +91,7 @@ wandb.log(
 
 You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
 
-![](/images/track/basic_charts_bar.png)
+{{< img src="/images/track/basic_charts_bar.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
@@ -107,7 +111,7 @@ wandb.log({"my_histogram": wandb.plot.histogram(table, "scores", title="Histogra
 
 You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
 
-![](/images/track/demo_custom_chart_histogram.png)
+{{< img src="/images/track/demo_custom_chart_histogram.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
@@ -135,7 +139,7 @@ wandb.log(
 
 Note that the number of x and y points must match exactly. You can supply one list of x values to match multiple lists of y values, or a separate list of x values for each list of y values.
 
-![](/images/track/basic_charts_histogram.png)
+{{< img src="/images/track/basic_charts_histogram.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)
   </TabItem>
@@ -169,7 +173,7 @@ You can log this whenever your code has access to:
 * (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
 * (optionally) a subset (still in list format) of the labels to visualize in the plot
 
-![](/images/track/model_eval_charts_precision_recall.png)
+{{< img src="/images/track/model_eval_charts_precision_recall.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
@@ -192,7 +196,7 @@ You can log this whenever your code has access to:
 * (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
 * (optionally) a subset (still in list format) of these labels to visualize on the plot
 
-![](/images/track/demo_custom_chart_roc_curve.png)
+{{< img src="/images/track/demo_custom_chart_roc_curve.png" alt="" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
@@ -218,7 +222,7 @@ You can log this wherever your code has access to:
 * the corresponding ground truth labels for those examples (`y_true`)
 * a full list of the labels/class names as strings (`class_names`, e.g. `class_names=["cat", "dog", "bird"]` if index 0 is cat, 1=dog, 2=bird, etc)
 
-![](/images/experiments/confusion_matrix.png)
+{{< img src="/images/experiments/confusion_matrix.png" alt="" >}}
 
 ​[See in the app](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
 
@@ -264,9 +268,9 @@ wandb.log({"chart": plt})
 
 Just pass a `matplotlib` plot or figure object to `wandb.log()`. By default we'll convert the plot into a [Plotly](https://plot.ly/) plot. If you'd rather log the plot as an image, you can pass the plot into `wandb.Image`. We also accept Plotly charts directly.
 
-:::info
+{{% alert %}}
 If you’re getting an error “You attempted to log an empty plot” then you can store the figure separately from the plot with `fig = plt.figure()` and then log `fig` in your call to `wandb.log`.
-:::
+{{% /alert %}}
 
 ### Log custom HTML to W&B Tables
 
