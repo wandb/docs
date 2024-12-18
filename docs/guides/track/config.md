@@ -211,7 +211,7 @@ wandb.config.update(flags.FLAGS)  # adds absl flags to config
 
 ## File-Based Configs
 
-If you place a file named `config-defaults.yaml` in the same directory as your run script, the run will automatically pick up the key-value pairs defined in the file and pass them to `wandb.config`. 
+If you place a file named `config-defaults.yaml` in the same directory as your run script, the run automatically picks up the key-value pairs defined in the file and passes them to `wandb.config`. 
 
 The following code snippet shows a sample `config-defaults.yaml` YAML file:
 
