@@ -215,7 +215,7 @@ The Usage panel provides a code snippet for downloading the artifact for use out
 
 ![](/images/app_ui/files_panel.png)
 
-The files panel lists the files and folders associated with the artifact. You can navigate through this file tree and view the contents directly in the W&B web app.
+The files panel lists the files and folders associated with the artifact. Certain files are uploaded automatically, such as `requirements.txt` which shows the versions of each library used by the run, `wandb-metadata.json`, and `wandb-summary.json`, which include information about the run. Other files may be uploaded, such as artifacts or media, depending on the run's configuration.  You can navigate through this file tree and view the contents directly in the W&B web app.
 
 [Tables](../tables/tables-walkthrough.md) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](../tables/visualize-tables.md).
 
