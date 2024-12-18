@@ -22,13 +22,9 @@ This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`
 
 ### Install W&B and login
 
-<Tabs
-  defaultValue="notebook"
-  values={[
-    {label: 'Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="notebook">
+{{< tabpane text=true >}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```bash
 !pip install kfp wandb
@@ -37,16 +33,19 @@ import wandb
 wandb.login()
 ```
 
-  </TabItem>
-  <TabItem value="cli">
+{{% /tab %}}
+
+{{% tab header="Command Line" value="cli" %}}
 
 ```
 pip install kfp wandb
 wandb login
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
+
 
 ### Decorate your components
 

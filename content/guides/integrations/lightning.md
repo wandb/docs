@@ -11,16 +11,11 @@ import TabItem from '@theme/TabItem';
 
 PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: Weights & Biases is incorporated directly into the PyTorch Lightning library via the [**`WandbLogger`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
 
-## ⚡ Get going lightning-fast with just a few lines.
+## Get going lightning-fast with just a few lines.
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
+{{< tabpane text=true >}}
 
-<TabItem value="pytorch">
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 ```python
 from lightning.pytorch.loggers import WandbLogger
@@ -38,9 +33,9 @@ Instead, log the Trainer's `global_step` like your other metrics, like so:
 `wandb.log({"accuracy":0.99, "trainer/global_step": step})`
 {{% /alert %}}
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
 import lightning as L
@@ -52,9 +47,10 @@ fabric.launch()
 fabric.log_dict({"important_metric": important_metric})
 ```
 
-</TabItem>
+{{% /tab %}}
 
-</Tabs>
+{{< /tabpane >}}
+
 
 
 {{< img src="/images/integrations/n6P7K4M.gif" alt="Interactive dashboards accessible anywhere, and more!" >}}
@@ -69,13 +65,8 @@ c) To log in in your training script, you'll need to be signed in to you account
 
 If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 
 ```bash
 pip install wandb
@@ -83,8 +74,8 @@ pip install wandb
 wandb login
 ```
 
-</TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 !pip install wandb
@@ -93,8 +84,9 @@ import wandb
 wandb.login()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
+
 
 ## Using PyTorch Lightning's `WandbLogger`
 
@@ -104,22 +96,17 @@ PyTorch Lightning has multiple `WandbLogger` ([**`Pytorch`**](https://lightning.
 wandb_logger = WandbLogger()
 ```
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
+{{< tabpane text=true >}}
 
-<TabItem value="pytorch">
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 ```
 trainer = Trainer(logger=wandb_logger)
 ```
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```
 fabric = L.Fabric(loggers=[wandb_logger])
@@ -129,9 +116,10 @@ fabric.log_dict({
 })
 ```
 
-</TabItem>
+{{% /tab %}}
 
-</Tabs>
+{{< /tabpane >}}
+
 
 ### Logger arguments
 
@@ -149,14 +137,9 @@ Below are some of the most used parameters in WandbLogger, see the PyTorch Light
 
 ### Log your hyperparameters
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
+{{< tabpane text=true >}}
 
-<TabItem value="pytorch">
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 ```python
 class LitModule(LightningModule):
@@ -164,9 +147,9 @@ class LitModule(LightningModule):
         self.save_hyperparameters()
 ```
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
 wandb_logger.log_hyperparams(
@@ -177,13 +160,9 @@ wandb_logger.log_hyperparams(
 )
 ```
 
-</TabItem>
+{{% /tab %}}
 
-</Tabs>
-
-
-
-
+{{< /tabpane >}}
 
 ### Log additional config parameters
 
@@ -205,14 +184,9 @@ You can pass your model object to `wandblogger.watch()` to monitor your models's
 
 ### Log metrics
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
+{{< tabpane text=true >}}
 
-<TabItem value="pytorch">
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 You can log your metrics to W&B when using the `WandbLogger` by calling `self.log('my_metric_name', metric_vale)` within your `LightningModule`, such as in your `training_step` or `validation_step methods.`
 
@@ -287,9 +261,9 @@ class My_LitModule(LightningModule):
         return preds, loss, acc
 ```
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
 import lightning as L
@@ -319,9 +293,10 @@ for epoch in range(num_epochs):
         fabric.log_dict({"loss": loss})
 ```
 
-</TabItem>
+{{% /tab %}}
 
-</Tabs>
+{{< /tabpane >}}
+
 
 ### Log the min/max of your metric
 
