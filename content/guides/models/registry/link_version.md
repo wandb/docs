@@ -7,10 +7,7 @@ title: Link an artifact version to a registry
 weight: 5
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-Link artifact versions to a collection to make them available to other members in your organization. 
+Programmatically or interactively link artifact versions to a registry. 
 
 When you link an artifact to a registry, this "publishes" that artifact to that registry. Any user that has access to that registry can access the linked artifact versions in the collection.
 
@@ -31,16 +28,8 @@ Before you link an artifact to a registry, check the types of artifacts that col
 
 Based on your use case, follow the instructions described in the tabs below to link an artifact version.
 
-<Tabs
-  defaultValue="python_sdk"
-  values={[
-    {label: 'Python SDK', value: 'python_sdk'},
-    {label: 'Registry App', value: 'registry_ui'},
-    {label: 'Artifact browser', value: 'artifacts_ui'},
-  ]}>
-  <TabItem value="python_sdk">
-
-
+{{< tabpane text=true >}}
+  {{% tab header="Python SDK" %}}
 Programmatically link an artifact version to a collection with [`link_artifact`](../../ref/python/run.md#link_artifact). Before you link an artifact to a collection, ensure that the registry that the collection belongs to already exists.
 
 
@@ -97,12 +86,9 @@ with wandb.init(entity=TEAM_ENTITY_NAME, project="link_quickstart") as run:
     artifact=logged_artifact,
     target_path=f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
   )
-```
-
-
-  </TabItem>
-  <TabItem value="registry_ui">
-
+```  
+  {{% /tab %}}
+  {{% tab header="Registry App" %}}
 1. Navigate to the Registry App.
 {{< img src="/images/registry/navigate_to_registry_app.png" alt="" >}}
 2. Hover your mouse next to the name of the collection you want to link an artifact version to.
@@ -113,11 +99,9 @@ with wandb.init(entity=TEAM_ENTITY_NAME, project="link_quickstart") as run:
 6. From the **Artifact** dropdown, select the name of the artifact. 
 7. From the **Version** dropdown, select the artifact version you want to link to the collection.
 
-<!-- TO DO insert gif -->
-
-  </TabItem>
-  <TabItem value="artifacts_ui">
-
+<!-- TO DO insert gif -->  
+  {{% /tab %}}
+  {{% tab header="Artifact browser" %}}
 1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
 2. Select the Artifacts icon on the left sidebar.
 3. Click on the artifact version you want to link to your registry.
@@ -128,10 +112,9 @@ with wandb.init(entity=TEAM_ENTITY_NAME, project="link_quickstart") as run:
 8. Click **Link to registry**. 
 
 <!-- Update this gif -->
-<!-- {{< img src="/images/models/manual_linking.gif" alt="" >}} -->
-
-  </TabItem>
-</Tabs>
+<!-- {{< img src="/images/models/manual_linking.gif" alt="" >}} -->  
+  {{% /tab %}}
+{{< /tabpane >}}
 
 
 

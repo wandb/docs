@@ -8,8 +8,6 @@ title: 'Tutorial: Use W&B for model management'
 weight: 1
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 The following walkthrough shows you how to log a model to W&B. By the end of the walkthrough you will:
 
