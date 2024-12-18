@@ -82,7 +82,7 @@ for img_id, img in enumerate(mnist_test_data):
 
 #### Adding data to resumed runs
 
-You can incrementally update a W&B table in resumed runs by loading an existing table from an artifact, retrieving the last row of data, and adding the updated metrics. After reinitializing the table for compatibility, log the updated version back to W&B.
+You can incrementally update a W&B table in resumed runs by loading an existing table from an artifact, retrieving the last row of data, and adding the updated metrics. Then, reinitialize the table for compatibility and log the updated version back to W&B.
 
 ```python
 # Load the existing table from the artifact
