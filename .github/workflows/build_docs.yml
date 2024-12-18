@@ -1,14 +1,17 @@
-name: Build the docs
+name: Hugo build test
 
 on:
   pull_request:
-  push:
-    branches: [main]
+  merge_group:
+  workflow_call:
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Setup environment
