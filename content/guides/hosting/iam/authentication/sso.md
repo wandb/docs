@@ -60,22 +60,21 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
     Select the **Auth Method** in the settings page or set the OIDC_AUTH_METHOD environment variable to tell _wandb/local_ which grant to.
 
-    {{% alert %}}
-    For AWS Cognito providers you must set the Auth Method to "pkce"
-    {{% /alert %}}
+    You must set the Auth Method to "pkce".
 
 6. You need a Client ID and the URL of your OIDC issuer. The OpenID discovery document must be available at `$OIDC_ISSUER/.well-known/openid-configuration` 
 
-    For example, with AWS Cognito, you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
+    For example, , you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
 
     {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="Screenshot of issuer URL in AWS Cognito" >}}
 
-    {{% alert %}}
     Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
-    {{% /alert %}}
+
 {{% /tab %}}
 
 {{% tab header="Okta" value="okta"%}}
+Follow the procedure below to set up Okta for authorization: 
+
 1. Login to the Okta Portal at https://login.okta.com/. 
 
 2. On the left side, select **Applications** and then **Applications** again.
@@ -102,7 +101,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
     The Okta UI shows the company name under **Organization Contact**.
     {{< img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="" >}}
 
-    The OIDC issuer URL has the following format: https://COMPANY.okta.com. Replace COMPANY with the corresponding value. Make note of it.
+The OIDC issuer URL has the following format: https://COMPANY.okta.com. Replace COMPANY with the corresponding value. Make note of it.
 {{% /tab %}}
 
 {{% tab header="Entra" value="entra"%}}

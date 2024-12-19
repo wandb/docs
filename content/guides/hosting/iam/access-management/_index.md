@@ -5,7 +5,7 @@ menu:
     parent: identity-and-access-management-iam
 url: guides/hosting/iam/access-management-intro
 cascade:
-- url: guides/hosting/iam/:filename
+- url: guides/hosting/iam/access-management/:filename
 title: Access management
 weight: 2
 ---
