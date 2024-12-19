@@ -19,21 +19,18 @@ If you're using **fastai** to train your models, W&B has an easy integration usi
 
 **c)** log in to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Command Line', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="script" %}}
 
 ```shell
 pip install wandb
 wandb login
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 !pip install wandb
@@ -42,8 +39,9 @@ import wandb
 wandb.login()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 Then add the `WandbCallback` to the `learner` or `fit` method:
 
@@ -95,15 +93,9 @@ _Note: any subfolder "models" will be ignored._
 
 A minimal example is shown below:
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Script', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+{{% tab header="Script" value="script" %}}
 
-<!-- {% code title="train.py" %} -->
 ```python
 import wandb
 from fastai.vision.all import *
@@ -141,8 +133,8 @@ $ torchrun --nproc_per_node 2 train.py
 
 in this case, the machine has 2 GPUs.
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 You can now run distributed training directly inside a notebook!
 
@@ -176,20 +168,16 @@ def train():
 notebook_launcher(train, num_processes=2)
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### Logging only on the main process
 
 In the examples above, `wandb` launches one run per process. At the end of the training, you will end up with two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you will have to detect in which process you are manually and avoid creating runs (calling `wandb.init` in all other processes)
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Script', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+
+{{% tab header="Script" value="script" %}}
 
 ```python
 import wandb
@@ -227,8 +215,9 @@ in your terminal call:
 $ torchrun --nproc_per_node 2 train.py
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 import wandb
@@ -262,8 +251,9 @@ def train():
 notebook_launcher(train, num_processes=2)
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 ## Examples
 

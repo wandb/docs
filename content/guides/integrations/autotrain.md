@@ -21,27 +21,25 @@ import TabItem from '@theme/TabItem';
 
 First, we need to install `autotrain-advanced` and `wandb`.
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Command Line', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="script" %}}
 
 ```shell
 pip install --upgrade autotrain-advanced wandb
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 !pip install --upgrade autotrain-advanced wandb
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 ## Getting Started: Fine-tuning an LLM
 
@@ -55,13 +53,9 @@ To demonstrate these changes we will fine-tune an LLM on a math dataset and try 
 
 We can start training using the Autotrain Advanced CLI. To leverage the logging functionality, we simply use the `--log` argument. Specifying `--log wandb` will seamlessly log your results to a [W&B run](/guides/runs). 
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Command Line', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="script" %}}
 
 ```shell
 autotrain llm \
@@ -91,8 +85,9 @@ autotrain llm \
     --repo-id <huggingface-repository-address>
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 # Set hyperparameters
@@ -137,8 +132,10 @@ logging_steps = 10
     --repo-id "rishiraj/zephyr-math"
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
+
 
 | {{< img src="/images/integrations/hf-autotrain-2.gif" alt="An example of how all the configs of your experiment are saved." >}} | 
 |:--:| 

@@ -41,13 +41,9 @@ c) To log in in your training script, you'll need to be signed in to you account
 
 If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Python', value: 'python'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="cli" %}}
 
 ```shell
 pip install wandb
@@ -55,8 +51,9 @@ pip install wandb
 wandb login
 ```
 
-  </TabItem>
-  <TabItem value="python">
+{{% /tab %}}
+
+{{% tab header="Python" value="python" %}}
 
 ```notebook
 !pip install wandb
@@ -65,8 +62,9 @@ import wandb
 wandb.login()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 ### 2) Name the project
 
@@ -74,37 +72,30 @@ A W&B Project is where all of the charts, data, and models logged from related r
 
 To add a run to a project simply set the `WANDB_PROJECT` environment variable to the name of your project. The `WandbCallback` will pick up this project name environment variable and use it when setting up your run.
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python', value: 'python'},
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'}
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 
 ```bash
 WANDB_PROJECT=amazon_sentiment_analysis
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 %env WANDB_PROJECT=amazon_sentiment_analysis
 ```
 
-  </TabItem>
-  <TabItem value="python">
+{{% /tab %}}
+{{% tab header="Python" value="python" %}}
 
 ```notebook
 import os
 os.environ["WANDB_PROJECT"]="amazon_sentiment_analysis"
 ```
 
-  </TabItem>
-</Tabs>
-
+{{% /tab %}}
+{{< /tabpane >}}
 
 {{% alert %}}
 Make sure you set the project name _before_ you initialize the `Trainer`.
@@ -120,13 +111,8 @@ The `logging_steps` argument in `TrainingArguments` will control how often train
 
 That's it! Now your models will log losses, evaluation metrics, model topology, and gradients to Weights & Biases while they train.
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python', value: 'python'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 
 ```bash
 python run_glue.py \     # run your Python script
@@ -135,8 +121,9 @@ python run_glue.py \     # run your Python script
   # other command line arguments here
 ```
 
-  </TabItem>
-  <TabItem value="python">
+{{% /tab %}}
+
+{{% tab header="Python" value="python" %}}
 
 ```python
 from transformers import TrainingArguments, Trainer
@@ -156,9 +143,8 @@ trainer = Trainer(
 trainer.train()  # start training and logging to W&B
 ```
 
-  </TabItem>
-</Tabs>
-
+{{% /tab %}}
+{{< /tabpane >}}
 
 {{% alert %}}
 Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`.
@@ -177,15 +163,9 @@ Using Weights & Biases' [Artifacts](../artifacts), you can store up to 100GB of 
 Use `WANDB_LOG_MODEL` along with `load_best_model_at_end` to upload the best model at the end of training.
 
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python', value: 'python'},
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
+{{< tabpane text=true >}}
 
-  <TabItem value="python">
+{{% tab header="Python" value="python" %}}
 
 ```python
 import os
@@ -193,22 +173,26 @@ import os
 os.environ["WANDB_LOG_MODEL"] = "checkpoint"
 ```
 
-  </TabItem>
-  <TabItem value="cli">
+{{% /tab %}}
+
+{{% tab header="Command Line" value="cli" %}}
 
 ```bash
 WANDB_LOG_MODEL="checkpoint"
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 %env WANDB_LOG_MODEL="checkpoint"
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
+
 
 
 Any Transformers `Trainer` you initialize from now on will upload models to your W&B project. The model checkpoints you log will be viewable through the [Artifacts](../artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..). 
@@ -367,30 +351,29 @@ def decode_predictions(tokenizer, predictions):
 class WandbPredictionProgressCallback(WandbCallback):
     """Custom WandbCallback to log model predictions during training.
 
-    This callback logs model predictions and labels to a wandb.Table at each 
-    logging step during training. It allows to visualize the 
+    This callback logs model predictions and labels to a wandb.Table at each
+    logging step during training. It allows to visualize the
     model predictions as the training progresses.
 
     Attributes:
         trainer (Trainer): The Hugging Face Trainer instance.
         tokenizer (AutoTokenizer): The tokenizer associated with the model.
-        sample_dataset (Dataset): A subset of the validation dataset 
+        sample_dataset (Dataset): A subset of the validation dataset
           for generating predictions.
-        num_samples (int, optional): Number of samples to select from 
+        num_samples (int, optional): Number of samples to select from
           the validation dataset for generating predictions. Defaults to 100.
         freq (int, optional): Frequency of logging. Defaults to 2.
     """
 
-    def __init__(self, trainer, tokenizer, val_dataset,
-                 num_samples=100, freq=2):
+    def __init__(self, trainer, tokenizer, val_dataset, num_samples=100, freq=2):
         """Initializes the WandbPredictionProgressCallback instance.
 
         Args:
             trainer (Trainer): The Hugging Face Trainer instance.
-            tokenizer (AutoTokenizer): The tokenizer associated 
+            tokenizer (AutoTokenizer): The tokenizer associated
               with the model.
             val_dataset (Dataset): The validation dataset.
-            num_samples (int, optional): Number of samples to select from 
+            num_samples (int, optional): Number of samples to select from
               the validation dataset for generating predictions.
               Defaults to 100.
             freq (int, optional): Frequency of logging. Defaults to 2.
@@ -454,29 +437,28 @@ Further configuration of what is logged with `Trainer` is possible by setting en
 | `WANDB_DISABLED`     | Set to `true` to turn off logging entirely (`false` by default)                                                                                                                                                                                                                                           |
 | `WANDB_SILENT`       | Set to `true` to silence the output printed by wandb (`false` by default)                                                                                                                                                                                                                                |
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="cli" %}}
 
 ```bash
 WANDB_WATCH=all
 WANDB_SILENT=true
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 %env WANDB_WATCH=all
 %env WANDB_SILENT=true
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
+
 
 ### Customize `wandb.init`
 

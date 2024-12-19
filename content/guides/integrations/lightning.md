@@ -11,16 +11,11 @@ import TabItem from '@theme/TabItem';
 
 PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: Weights & Biases is incorporated directly into the PyTorch Lightning library via the [**`WandbLogger`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
 
-## ⚡ Get going lightning-fast with just a few lines.
+## Get going lightning-fast with just a few lines.
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
+{{< tabpane text=true >}}
 
-<TabItem value="pytorch">
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 ```python
 from lightning.pytorch.loggers import WandbLogger
@@ -38,9 +33,9 @@ Instead, log the Trainer's `global_step` like your other metrics, like so:
 `wandb.log({"accuracy":0.99, "trainer/global_step": step})`
 {{% /alert %}}
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
 import lightning as L
@@ -52,9 +47,10 @@ fabric.launch()
 fabric.log_dict({"important_metric": important_metric})
 ```
 
-</TabItem>
+{{% /tab %}}
 
-</Tabs>
+{{< /tabpane >}}
+
 
 
 {{< img src="/images/integrations/n6P7K4M.gif" alt="Interactive dashboards accessible anywhere, and more!" >}}
@@ -69,13 +65,8 @@ c) To log in in your training script, you'll need to be signed in to you account
 
 If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 
 ```bash
 pip install wandb
@@ -83,8 +74,8 @@ pip install wandb
 wandb login
 ```
 
-</TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 !pip install wandb
@@ -93,8 +84,9 @@ import wandb
 wandb.login()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
+
 
 ## Using PyTorch Lightning's `WandbLogger`
 
@@ -104,22 +96,17 @@ PyTorch Lightning has multiple `WandbLogger` ([**`Pytorch`**](https://lightning.
 wandb_logger = WandbLogger()
 ```
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
+{{< tabpane text=true >}}
 
-<TabItem value="pytorch">
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 ```
 trainer = Trainer(logger=wandb_logger)
 ```
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```
 fabric = L.Fabric(loggers=[wandb_logger])
@@ -129,9 +116,10 @@ fabric.log_dict({
 })
 ```
 
-</TabItem>
+{{% /tab %}}
 
-</Tabs>
+{{< /tabpane >}}
+
 
 ### Logger arguments
 
@@ -149,14 +137,9 @@ Below are some of the most used parameters in WandbLogger, see the PyTorch Light
 
 ### Log your hyperparameters
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
+{{< tabpane text=true >}}
 
-<TabItem value="pytorch">
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 ```python
 class LitModule(LightningModule):
@@ -164,9 +147,9 @@ class LitModule(LightningModule):
         self.save_hyperparameters()
 ```
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
 wandb_logger.log_hyperparams(
@@ -177,13 +160,9 @@ wandb_logger.log_hyperparams(
 )
 ```
 
-</TabItem>
+{{% /tab %}}
 
-</Tabs>
-
-
-
-
+{{< /tabpane >}}
 
 ### Log additional config parameters
 
@@ -205,14 +184,9 @@ You can pass your model object to `wandblogger.watch()` to monitor your models's
 
 ### Log metrics
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
+{{< tabpane text=true >}}
 
-<TabItem value="pytorch">
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 You can log your metrics to W&B when using the `WandbLogger` by calling `self.log('my_metric_name', metric_vale)` within your `LightningModule`, such as in your `training_step` or `validation_step methods.`
 
@@ -287,9 +261,9 @@ class My_LitModule(LightningModule):
         return preds, loss, acc
 ```
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
 import lightning as L
@@ -319,9 +293,10 @@ for epoch in range(num_epochs):
         fabric.log_dict({"loss": loss})
 ```
 
-</TabItem>
+{{% /tab %}}
 
-</Tabs>
+{{< /tabpane >}}
+
 
 ### Log the min/max of your metric
 
@@ -329,14 +304,8 @@ Using wandb's [`define_metric`](/ref/python/run#define_metric) function you can 
 
 To tell W&B to keep track of the max validation accuracy in the W&B summary metric, you just need to call `wandb.define_metric` once, e.g. you can call it at the beginning of training like so:
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
-
-<TabItem value="pytorch">
+{{< tabpane text=true >}}
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 ```python
 class My_LitModule(LightningModule):
@@ -354,9 +323,8 @@ class My_LitModule(LightningModule):
         return preds
 ```
 
-</TabItem>
-
-<TabItem value="fabric">
+{{% /tab %}}
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
 wandb.define_metric("val_accuracy", summary="max")
@@ -365,9 +333,8 @@ fabric.launch()
 fabric.log_dict({"val_accuracy": val_accuracy})
 ```
 
-</TabItem>
-
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### Model Checkpointing
 
@@ -380,31 +347,25 @@ wandb_logger = WandbLogger(log_model="all")
 checkpoint_callback = ModelCheckpoint(monitor="val_accuracy", mode="max")
 ```
 
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
+{{< tabpane text=true >}}
 
-<TabItem value="pytorch">
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 ```python
 trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback])
 ```
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
 fabric = L.Fabric(loggers=[wandb_logger], callbacks=[checkpoint_callback])
 ```
 
-</TabItem>
+{{% /tab %}}
 
-</Tabs>
-
+{{< /tabpane >}}
 
 The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifact](/guides/artifacts/):
 
@@ -414,23 +375,17 @@ The _latest_ and _best_ aliases are automatically set to easily retrieve a model
 checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 ```
 
-<Tabs
-  defaultValue="logger"
-  values={[
-    {label: "Via Logger", value: "logger"},
-    {label: "Via wandb", value: "wandb"},
-]}>
-
-<TabItem value="logger">
+{{< tabpane text=true >}}
+{{% tab header="Via Logger" value="logger" %}}
 
 ```python
 # download checkpoint locally (if not already cached)
 wandb_logger.download_artifact(checkpoint_reference, artifact_type="model")
 ```
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="wandb">
+{{% tab header="Via wandb" value="wandb" %}}
 
 ```python
 # download checkpoint locally (if not already cached)
@@ -439,28 +394,20 @@ artifact = run.use_artifact(checkpoint_reference, type="model")
 artifact_dir = artifact.download()
 ```
 
-</TabItem>
+{{% /tab %}}
+{{< /tabpane >}}
 
-</Tabs>
-
-
-<Tabs
-  defaultValue="pytorch"
-  values={[
-    {label: "Pytorch Logger", value: "pytorch"},
-    {label: "Fabric Logger", value: "fabric"},
-]}>
-
-<TabItem value="pytorch">
+{{< tabpane text=true >}}
+{{% tab header="Pytorch Logger" value="pytorch" %}}
 
 ```python
 # load checkpoint
 model = LitModule.load_from_checkpoint(Path(artifact_dir) / "model.ckpt")
 ```
 
-</TabItem>
+{{% /tab %}}
 
-<TabItem value="fabric">
+{{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
 # Request the raw checkpoint
@@ -470,9 +417,8 @@ model.load_state_dict(full_checkpoint["model"])
 optimizer.load_state_dict(full_checkpoint["optimizer"])
 ```
 
-</TabItem>
-
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 The model checkpoints you log will be viewable through the [W&B Artifacts](/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
 
@@ -486,16 +432,9 @@ The `WandbLogger` has `log_image`, `log_text` and `log_table` methods for loggin
 
 You can also directly call `wandb.log` or `trainer.logger.experiment.log` to log other media types such as Audio, Molecules, Point Clouds, 3D Objects and more.
 
+{{< tabpane text=true >}}
 
-
-<Tabs
-  defaultValue="images"
-  values={[
-    {label: 'Log Images', value: 'images'},
-    {label: 'Log Text', value: 'text'},
-    {label: 'Log Tables', value: 'tables'},
-  ]}>
-  <TabItem value="images">
+{{% tab header="Log Images" value="images" %}}
 
 ```python
 # using tensors, numpy arrays or PIL images
@@ -513,8 +452,10 @@ trainer.logger.experiment.log(
     step=current_trainer_global_step,
 )
 ```
-  </TabItem>
-  <TabItem value="text">
+
+{{% /tab %}}
+
+{{% tab header="Log Text" value="text" %}}
 
 ```python
 # data should be a list of lists
@@ -528,8 +469,9 @@ wandb_logger.log_text(key="my_samples", columns=columns, data=my_data)
 wandb_logger.log_text(key="my_samples", dataframe=my_dataframe)
 ```
 
-  </TabItem>
-  <TabItem value="tables">
+{{% /tab %}}
+
+{{% tab header="Log Tables" value="tables" %}}
 
 ```python
 # log a W&B Table that has a text caption, an image and audio
@@ -545,9 +487,9 @@ my_data = [
 wandb_logger.log_table(key="my_samples", columns=columns, data=data)
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
 
+{{< /tabpane >}}
 
 You can use Lightning's Callbacks system to control when you log to Weights & Biases via the WandbLogger, in this example we log a sample of our validation images and predictions:
 

@@ -22,31 +22,23 @@ import TabItem from '@theme/TabItem';
 
 [**Sign up**](https://wandb.ai/site) for a free account, then from the command line install the wandb library in a Python 3 environment. To login, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize).
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
-
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 ```
 pip install wandb
 
 wandb login
 ```
+{{% /tab %}}
 
-  </TabItem>
-  <TabItem value="notebook">
-
+{{% tab header="Notebook" value="notebook" %}}
 ```python
 !pip install wandb
 
 wandb.login()
 ```
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### 2. Add wandb to your `config.yml` file
 

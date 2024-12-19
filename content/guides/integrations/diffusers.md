@@ -32,27 +32,26 @@ autolog(init=dict(project="diffusers_logging"))
 
 First, you need to install `diffusers`, `transformers`, `accelerate`, and `wandb`.
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Command Line', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="script" %}}
 
 ```shell
 pip install --upgrade diffusers transformers accelerate wandb
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```bash
 !pip install --upgrade diffusers transformers accelerate wandb
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
+
 
 ### How does `autolog` work?
 
@@ -71,13 +70,9 @@ You can find a list of supported pipeline calls [here](https://github.com/wandb/
 
 Here is a brief end-to-end example of the autolog in action:
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Python Script', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+
+{{% tab header="Python Script" value="script" %}}
 
 ```python
 import torch
@@ -108,8 +103,9 @@ images = pipeline(
 )
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 import torch
@@ -145,8 +141,9 @@ images = pipeline(
 wandb.finish()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 | {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}} | 
 |:--:| 
@@ -170,13 +167,9 @@ This section demonstrates the autolog with a typical [Stable Diffusion XL + Refi
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/sdxl-diffusers.ipynb" >}}
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Python Script', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+
+{{% tab header="Python Script" value="script" %}}
 
 ```python
 import torch
@@ -235,8 +228,9 @@ image = refiner_pipeline(
 ).images[0]
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 import torch
@@ -300,8 +294,9 @@ image = refiner_pipeline(
 wandb.finish()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 | {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}} | 
 |:--:| 
