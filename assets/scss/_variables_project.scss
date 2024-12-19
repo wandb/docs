@@ -190,15 +190,44 @@ a:hover {
     text-decoration: underline !important;
 }
 
-// Target links in the navigation and make them white
+// Target links in the navigation and make them white with consistent font-weight
 .td-navbar .nav-link {
     color: $moon-white !important;
-    font-weight: 400 !important;
+    font-weight: 400 !important;  // Ensure consistent font-weight in main nav
 
     &:hover {
         color: $wandb-gold !important;
         text-decoration: none !important;
     }
+}
+
+// Ensure active nav link maintains same weight
+.nav-link.active {
+    border-bottom: 2px solid $wandb-gold !important;
+    font-weight: 400 !important;  // Keep consistent with other nav links
+}
+
+// Override existing chevron with Font Awesome
+nav.foldable-nav .ul-1 .with-child > label:before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f054" !important; // fa-chevron-right
+  font-weight: 900;
+  color: $moon-500; // Set default color to match nav text
+  transition: color 0.3s; // Add transition for smooth color change
+}
+
+nav.foldable-nav .ul-1 .with-child > input:checked + label:before {
+  content: "\f078" !important; // fa-chevron-down
+  transform: rotate(0deg) !important;
+}
+
+// Add hover state for chevron to match link color
+nav.foldable-nav .ul-1 .with-child > label:hover:before {
+  color: $teal-600 !important; // Match link hover color
+}
+
+[data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:before {
+  color: $wandb-gold !important; // Match dark mode link hover color
 }
 
 // Ensure hover state for nav links doesn't change color
@@ -243,7 +272,7 @@ h6, .td-content h6 {
 .td-sidebar-nav, .td-navbar .nav-link  {
   font-family: "Source Sans Pro", sans-serif;
   a {
-    color: $moon-600 !important;
+    color: $moon-500 !important;
     font-weight: 400;
     &:hover {
       color: $teal-600 !important;
@@ -269,9 +298,20 @@ ol.breadcrumb:before {
 }
 
 .td-sidebar-nav__section-title {
+    display: block;
+    font-weight: 400 !important;
     line-height: 19px;
     margin-bottom: 5px !important;
     margin-top: 5px !important;
+
+    .active {
+        font-weight: 400 !important;
+    }
+    
+    a {
+        color: var(--bs-secondary-color);
+        font-weight: 400 !important;
+    }
 }
 
 .td-content .lead {
