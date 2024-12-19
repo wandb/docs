@@ -54,7 +54,7 @@ This hierarchical model ensures that configurations are flexible and customizabl
 
 ## Requirements to use the W&B Kubernetes Operator
 
-Please refer to the reference architecture for the [infrastructure requirements](./self-managed/ref-arch#infrastructure-requirements). In addition to them, you need a valid W&B Server license.
+Refer to the [reference architecture](./self-managed/ref-arch#infrastructure-requirements). In addition, [obtain a valid W&B Server license](./hosting-options/self-managed/_index.md#obtain-your-wb-server-license).
 
 See [this](./self-managed/bare-metal) guide for a detailed explanation on how to set up and configure a self-managed installation.
 

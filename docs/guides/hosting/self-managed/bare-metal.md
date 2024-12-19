@@ -15,7 +15,7 @@ Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto
 
 ## Infrastructure guidelines
 
-Please read through the [reference architecture](./ref-arch.md) before you start deploying W&B - especially the infrastructure requirements.
+Before you start deploying W&B, refer to the [reference architecture](./ref-arch.md#infrastructure-requirements), especially the infrastructure requirements.
 
 
 ## MySQL database
@@ -36,7 +36,7 @@ innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
 ```
 
-Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. The recommendation is to set the value to `67108864(64MiB)` in order for the database to efficiently work with the W&B application. Note that, this only works with MySQL versions 8.0.28 and above.
+Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. The recommendation is to set the value to `67108864` (64MiB) to ensure that MySQL works efficiently with W&B. This configuration is supported in MySQL 8.0.28 and above.
 
 ### Database considerations
 
@@ -93,7 +93,7 @@ s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
 
 :::caution
-This only works if the SSL certificate is trusted. W&B does not support self-signed certificates.
+This works only if the SSL certificate is trusted. W&B does not support self-signed certificates.
 :::
 
 Set `BUCKET_QUEUE` to `internal://` if you use third-party object stores. This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
