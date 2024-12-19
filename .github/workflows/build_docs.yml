@@ -20,7 +20,7 @@ jobs:
           sudo apt install ./hugo.deb
 
       - name: Install PostCSS and Plugins
-        run: npm install -g postcss-cli autoprefixer
+        run: npm install -g postcss-cli 
 
       - name: Run Hugo build
         run: hugo
