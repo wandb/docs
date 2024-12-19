@@ -23,13 +23,8 @@ c) To log in in your training script, you'll need to be signed in to you account
 
 If you are using Weights and Biases for the first time you might want to check out our [quickstart](../../quickstart.md)
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 
 ```
 pip install wandb
@@ -37,8 +32,9 @@ pip install wandb
 wandb login
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 !pip install wandb
@@ -46,10 +42,8 @@ wandb login
 wandb.login()
 ```
 
-  </TabItem>
-</Tabs>
-
-
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### Logging Metrics
 

@@ -23,13 +23,9 @@ This integration lets users apply decorators to Metaflow [steps and flows](https
 
 ### Install W&B and login
 
-<Tabs
-  defaultValue="notebook"
-  values={[
-    {label: 'Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="notebook">
+{{< tabpane text=true >}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 !pip install -Uqqq metaflow fastcore wandb
@@ -37,26 +33,24 @@ This integration lets users apply decorators to Metaflow [steps and flows](https
 import wandb
 wandb.login()
 ```
-  </TabItem>
-  <TabItem value="cli">
+
+{{% /tab %}}
+
+{{% tab header="Command Line" value="cli" %}}
 
 ```
 pip install -Uqqq metaflow fastcore wandb
 wandb login
 ```
-  </TabItem>
-</Tabs>
+
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 ### Decorate your flows and steps
 
-<Tabs
-  defaultValue="step"
-  values={[
-    {label: 'Step', value: 'step'},
-    {label: 'Flow', value: 'flow'},
-    {label: 'Flow and Steps', value: 'flow_and_steps'},
-  ]}>
-  <TabItem value="step">
+{{< tabpane text=true >}}
+{{% tab header="Step" value="step" %}}
 
 Decorating a step will turn logging off or on for certain types within that Step.
 
@@ -73,8 +67,9 @@ class WandbExampleFlow(FlowSpec):
         self.model_file = torch.load(...)  # nn.Module    -> upload as model
         self.next(self.transform)
 ```
-  </TabItem>
-  <TabItem value="flow">
+{{% /tab %}}
+
+{{% tab header="Flow" value="flow" %}}
 
 Decorating a flow is equivalent to decorating all the constituent steps with a default.
 
@@ -91,8 +86,9 @@ class WandbExampleFlow(FlowSpec):
         self.model_file = torch.load(...)  # nn.Module    -> upload as model
         self.next(self.transform)
 ```
-  </TabItem>
-  <TabItem value="flow_and_steps">
+{{% /tab %}}
+
+{{% tab header="Flow and Steps" value="flow_and_steps" %}}
 
 Decorating the flow is equivalent to decorating all steps with a default. That means if you later decorate a Step with another `@wandb_log`, you will override the flow-level decoration.
 
@@ -127,8 +123,8 @@ class WandbExampleFlow(FlowSpec):
     self.raw_df = pd.read_csv(...).    
     self.model_file = torch.load(...)
 ```
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Where is my data? Can I access it programmatically?
 

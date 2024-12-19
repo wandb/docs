@@ -15,21 +15,18 @@ import TabItem from '@theme/TabItem';
 
 After you have installed pytorch geometric, install the wandb library and login
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Command Line', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="script" %}}
 
 ```python
 pip install wandb
 wandb login
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 !pip install wandb
@@ -38,8 +35,9 @@ import wandb
 wandb.login()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 ## Visualizing the Graphs
 

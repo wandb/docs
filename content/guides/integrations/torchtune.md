@@ -20,13 +20,8 @@ Check the W&B blog post on [Fine-tuning Mistral 7B using torchtune](https://wand
 
 ## W&B logging at your fingertips
 
-<Tabs
-  defaultValue="config"
-  values={[
-    {label: 'Recipe\'s config', value: 'config'},
-    {label: 'Command line', value: 'cli'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+{{% tab header="Command line" value="cli" %}}
 
 Overriding command line arguments at launch:
 
@@ -37,8 +32,8 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
   log_every_n_steps=5
 ```
 
-  </TabItem>
-  <TabItem value="config">
+{{% /tab %}}
+{{% tab header="Recipe's config" value="config" %}}
 
 Enable W&B logging on the recipe's config
 ```yaml
@@ -49,8 +44,8 @@ metric_logger:
 log_every_n_steps: 5
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Using the W&B metric logger
 
@@ -58,26 +53,8 @@ Enable W&B logging on the recipe's config file by modifying the `metric_logger` 
 
 You can also pass any other `kwargs` as you would to the [wandb.init](../../ref/python/init.md) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
 
-<Tabs
-  defaultValue="config"
-  values={[
-    {label: 'Recipe\'s Config', value: 'config'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="cli">
-
-```shell
-tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
-  metric_logger._component_=torchtune.utils.metric_logging.WandBLogger \
-  metric_logger.project="llama3_lora" \
-  metric_logger.entity="my_project" \
-  metric_logger.job_type="lora_finetune_single_device" \
-  metric_logger.group="my_awesome_experiments" \
-  log_every_n_steps=5
-```
-  
-  </TabItem>
-  <TabItem value="config">
+{{< tabpane text=true >}}
+{{% tab header="Recipe's Config" value="config" %}}
 
 ```yaml
 # inside llama3/8B_lora_single_device.yaml
@@ -90,8 +67,22 @@ metric_logger:
 log_every_n_steps: 5
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{% tab header="Command Line" value="cli" %}}
+
+```shell
+tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
+  metric_logger._component_=torchtune.utils.metric_logging.WandBLogger \
+  metric_logger.project="llama3_lora" \
+  metric_logger.entity="my_project" \
+  metric_logger.job_type="lora_finetune_single_device" \
+  metric_logger.group="my_awesome_experiments" \
+  log_every_n_steps=5
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## What is logged?
 
@@ -159,7 +150,7 @@ def save_checkpoint(self, epoch: int) -> None:
             utils.EPOCHS_KEY: self.epochs_run,
             utils.TOTAL_EPOCHS_KEY: self.total_epochs,
             utils.MAX_STEPS_KEY: self.max_steps_per_epoch,
-        }
+        },
     )
     wandb_artifact.add_file(checkpoint_file)
     wandb.log_artifact(wandb_artifact)

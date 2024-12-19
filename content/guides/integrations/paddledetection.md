@@ -28,29 +28,29 @@ The PaddleDetection WandbLogger will log your training and evaluation metrics to
 
 [**Sign up**](https://wandb.ai/site) for a free Weights & Biases account, then pip install the wandb library. To login, you'll need to be signed in to you account at www.wandb.ai. Once signed in **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+
+{{% tab header="Command Line" value="cli" %}}
 
 ```shell
 pip install wandb
 
 wandb login
 ```
-  </TabItem>
-  <TabItem value="notebook">
+
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 !pip install wandb
 
 wandb.login()
 ```
-  </TabItem>
-</Tabs>
+
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 ### Activating the WandbLogger in your Training Script
 

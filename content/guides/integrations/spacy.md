@@ -15,21 +15,16 @@ import TabItem from '@theme/TabItem';
 
 ### 1. Install the `wandb` library and log in
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 
 ```python
 pip install wandb
 wandb login
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 !pip install wandb
@@ -38,9 +33,8 @@ import wandb
 wandb.login()
 ```
 
-  </TabItem>
-</Tabs>
-
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### 2) Add the `WandbLogger` to your spaCy config file
 
@@ -72,14 +66,9 @@ model_log_interval = 1000
 
 Once you have added the `WandbLogger` to your spaCy training config you can run `spacy train` as usual.
 
+{{< tabpane text=true >}}
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="cli">
+{{% tab header="Command Line" value="cli" %}}
 
 ```python
 python -m spacy train \
@@ -89,8 +78,9 @@ python -m spacy train \
     --paths.dev ./dev
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 !python -m spacy train \
@@ -100,7 +90,8 @@ python -m spacy train \
     --paths.dev ./dev
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 When training begins, a link to your training run's [W&B page](../runs/intro.md) will be output which will take you to this run's experiment tracking [dashboard](../track/workspaces.md) in the Weights & Biases web UI.

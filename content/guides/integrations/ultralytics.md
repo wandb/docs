@@ -16,13 +16,8 @@ import TabItem from '@theme/TabItem';
 
 First, we need to install `ultralytics` and `wandb`.
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Command Line', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="script" %}}
 
 ```shell
 pip install --upgrade ultralytics==8.0.238 wandb
@@ -31,15 +26,16 @@ pip install --upgrade ultralytics==8.0.238 wandb
 # conda install ultralytics
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```bash
 !pip install --upgrade ultralytics==8.0.238 wandb
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 **Note:** the development team has tested the integration with `ultralyticsv8.0.238` and below. To report any issues with the integration, create a [GitHub issue](https://github.com/wandb/wandb/issues/new?template=sdk-bug.yml) with the tag `yolov8`.
 

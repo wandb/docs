@@ -20,29 +20,26 @@ MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library
 
 First, you need to install `openmim` and `wandb`. You can then proceed to install `mmengine` and `mmcv` using `openmim`.
 
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Command Line', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-  <TabItem value="script">
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="script" %}}
 
 ```shell
 pip install -q -U openmim wandb
 mim install -q mmengine mmcv
 ```
 
-  </TabItem>
-  <TabItem value="notebook">
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 !pip install -q -U openmim wandb
 !mim install -q mmengine mmcv
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
+
 
 ## Using the `WandbVisBackend` with MMEngine Runner
 

@@ -45,28 +45,23 @@ But that's not all! By passing a few simple command line arguments to YOLO, you 
 * Turning on the `--upload_dataset` flag will also upload the dataset for data versioning.
 * Passing a number to `--bbox_interval` will turn on [data visualization](../intro.md). At the end of every `bbox_interval` epochs, the outputs of the model on the validation set will be uploaded to W&B.
 
-<Tabs
-  defaultValue="modelversioning"
-  values={[
-    {label: 'Model Versioning Only', value: 'modelversioning'},
-    {label: 'Model Versioning and Data Visualization', value: 'bothversioning'},
-  ]}>
-  <TabItem value="modelversioning">
+{{< tabpane text=true >}}
+{{% tab header="Model Versioning Only" value="modelversioning" %}}
 
 ```python
 python yolov5/train.py --epochs 20 --save_period 1
 ```
 
-  </TabItem>
-  <TabItem value="bothversioning">
+{{% /tab %}}
+{{% tab header="Model Versioning and Data Visualization" value="bothversioning" %}}
 
 ```python
 python yolov5/train.py --epochs 20 --save_period 1 \
   --upload_dataset --bbox_interval 1
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 {{% alert %}}
 Every W&B account comes with 100 GB of free storage for datasets and models.
