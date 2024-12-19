@@ -6,9 +6,6 @@ menu:
 title: Configure SSO with LDAP
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Authenticate your credentials with the W&B Server LDAP server. The following guide explains how to configure the settings for W&B Server. It covers mandatory and optional configurations, as well as instructions for configuring the LDAP connection from systems settings UI. it also provides information on the different inputs of the LDAP configuration, such as the address, base distinguished name, and attributes. You can specify these attributes from the W&B App UI or using environment variables. You can setup either an anonymous bind, or bind with an administrator DN and Password.
 
 <!-- {{% alert %}}
@@ -21,27 +18,17 @@ Only W&B Admin roles can enable and configure LDAP authentication.
 
 ## Configure LDAP connection
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'W&B App', value: 'app'},
-    {label: 'Environment variables', value: 'env'},
-    
-  ]}>
-  <TabItem value="app">
-
+{{< tabpane text=true >}}
+{{% tab header="W&B App" value="app" %}}
 1. Navigate to the W&B App. 
 2. Select your profile icon from the upper right. From the dropdown, select **System Settings**. 
 3. Toggle **Configure LDAP Client**.
 4. Add the details in the form. Refer to **Configuring Parameters** section for details on each input.
 5. Click on **Update Settings** to test your settings. This will establish a test client/connection with the W&B server.
 6. If your connection is verified, toggle the **Enable LDAP Authentication** and select the **Update Settings** button.
+{{% /tab %}}
 
-<!-- Why is step # 6 necessary? -->
-
-  </TabItem>
-  <TabItem value="env">
-
+{{% tab header="Environment variable" value="env"%}}
 Set LDAP an connection with the following environment variables:
 
 | Environment variable          | Required | Example                         |
@@ -56,9 +43,9 @@ Set LDAP an connection with the following environment variables:
 | `LOCAL_LDAP_LOGIN`            | No       |                                 |
 
 See the [Configuration parameters](#configuration-parameters) section for definitions of each environment variable. Note that the environment variable prefix `LOCAL_LDAP` was omitted from the definition names for clarity.
+{{% /tab %}}
+{{< /tabpane >}}
 
-  </TabItem>
-</Tabs>
 
 ## Configuration parameters
 
