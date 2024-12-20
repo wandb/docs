@@ -11,6 +11,8 @@
 .docusaurus
 .cache-loader
 .hugo_build.lock
+go.mod
+go.sum
 
 # Misc
 .DS_Store
