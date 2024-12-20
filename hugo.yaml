@@ -48,6 +48,10 @@ languages:
     title: Weights & Biases Documentation
     params:
       description: Weights & Biases Documentation Site
+  ja:
+    languageName: Japanese
+  ko:
+    languageName: Korean
 
 markup:
   tableOfContents:
@@ -73,6 +77,7 @@ outputs:
     - HTML
     - RSS
     - print
+
 
 params:
   search:
