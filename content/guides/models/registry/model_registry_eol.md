@@ -17,6 +17,12 @@ This guide is a living document and will be updated regularly as more informatio
 
 W&B Registry introduces a range of new features and enhancements designed to provide a more robust and flexible environment for managing models, datasets, and other artifacts.
 
+{{% alert %}}
+To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
+
+{{< img src="/images/registry/nav_to_old_model_reg.gif" >}}
+{{% /alert %}}
+
 ### Organizational visibility
 Artifacts linked to the legacy Model Registry have team level visibility. This means that only members of your team can view your artifacts in the legacy W&B Model Registry. W&B Registry has organization level visibility. This means that members across an organization, with correct permissions, can view artifacts linked to a registry.
 

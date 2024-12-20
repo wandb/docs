@@ -5,7 +5,7 @@ hugo mod get -u
 rm -rf public
 hugo
 rm public/sitemap.xml
-mv public/en/sitemap.xml sitemap.xml
+mv public/en/sitemap.xml public/sitemap.xml
 rm -rf public/ja
 rm -rf public/ko
 
@@ -22,14 +22,14 @@ git checkout japanese_docs
 npm -g install yarn
 yarn install
 sh scripts/build-prod-docs.sh
-mv build/ja ../../../../public
+mv build/ja ../../public
 git stash
 # KO
 git checkout korean_docs
 npm -g install yarn
 yarn install
 sh scripts/build-prod-docs.sh
-mv build/ko ../../../../public
+mv build/ko ../../public
 git stash
 # Cleanup
 cd ../..

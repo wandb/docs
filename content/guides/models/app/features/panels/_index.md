@@ -52,7 +52,7 @@ To add a panel:
 1. To add a panel globally, click **Add panels** in the control bar near the panel search field.
 1. To add a panel directly to a section instead, click the section's action `...` menu, then click **Add panels**.
 1. Select the type of panel to add.
-![](/images/app_ui/add_single_panel.gif)
+{{< img src="/images/app_ui/add_single_panel.gif" >}}
 
 ### Quick add
 

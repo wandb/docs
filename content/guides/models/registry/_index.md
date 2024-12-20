@@ -9,54 +9,96 @@ url: guides/registry
 cascade:
 - url: guides/registry/:filename
 ---
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
+
 
 {{% alert %}}
 W&B Registry is now in public preview. Visit [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
 {{% /alert %}}
 
-W&B Registry is a curated central repository that stores and provides versioning, aliases, lineage tracking, and governance of models and datasets. Registry allows individuals and teams across the entire organization to share and collaboratively manage the lifecycle of all models, datasets and other artifacts. As the single source of truth for which models are in production, Registry provides the foundation for an effective CI/CD pipeline by identifying the right models to reproduce, retrain, evaluate, and deploy.
+
+W&B Registry is a curated central repository of [artifact](../artifacts/intro.md) versions within your organization. Users who [have permission](./configure_registry.md) within your organization can [download](./download_use_artifact.md), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
+
+You can use the Registry to [track artifact versions](./link_version.md), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD](../automations/intro.md).
+
+In summary, use W&B Registry to:
+
+- [Promote](./link_version.md) artifact versions that satisfy a machine learning task to other users in your organization.
+- Organize [artifacts with tags](./organize-with-tags.md) so that you can find or reference specific artifacts.
+- Track an [artifact’s lineage](../model_registry/model-lineage.md) and audit the history of changes.
+- [Automate](../model_registry/model-registry-automations.md) downstream processes such as model CI/CD.
+- [Limit who in your organization](./configure_registry.md) can access artifacts in each registry.
+
+<!-- - Quickly find or reference important artifacts with a unique identifier known as aliases.-->
 
 {{< img src="/images/registry/registry_landing_page.png" alt="" >}}
 
-Use W&B Registry to:
+The preceding image shows the Registry App with "Model" and "Dataset" core registries along with custom registries.
 
-- [Bookmark](./link_version.md) your best artifacts for each machine learning task.
-- [Automate](../model_registry/model-registry-automations.md) downstream processes and model CI/CD.
-- Track an [artifact’s lineage](../model_registry/model-lineage.md) and audit the history of changes to production artifacts.
-- [Configure](./configure_registry.md) viewer, member, or administrator access to a registry for all organization users.
-- Quickly find or reference important artifacts with a unique identifier known as aliases.
-- Use [tags](./organize-with-tags.md) to label, group, and discover assets in your Registry. 
 
-## How it works
+## Learn the basics
+Each organization initially contains two registries that you can use to organize your model and dataset artifacts called "Models" and "Datasets", respectively. You can create [additional registries to organize other artifact types based on your organization's needs](./registry_types.md). 
 
-Track and publish your staged artifacts to W&B Registry in a few steps:
+Each [registry](./configure_registry.md) consists of one or more [collections](./create_collection.md). Each collection represents a distinct task or use case.
 
-1. Log an artifact version: In your training or experiment script, add a few lines of code to save the artifact to a W&B run.
-2. Link to registry: Bookmark the most relevant and valuable artifact version by linking it to a registry.
+{{< img src="/images/registry/homepage_registry.png" >}}
 
-The following code snippet demonstrates how to log and link a model to the model registry inside W&B Registry:
+To add an artifact to a registry, you first log a [specific artifact version to W&B](../artifacts/create-a-new-artifact-version.md). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
 
-```python
+Once you log an artifact to W&B, you can then link that specific artifact version to a collection in the registry. 
+
+{{% alert %}}
+The term "link" refers to pointers that connect where W&B stores the artifact and where the artifact is accessible in the registry. W&B does not duplicate artifacts when you link an artifact to a collection.
+{{% /alert %}}
+
+As an example, the proceeding code example shows how to log and link a fake model artifact called "my_model.txt" to a collection named "first-collection" in the [core Model registry](./registry_types.md). More specifically, the code accomplishes the following:
+
+1. Initialize a W&B run.
+2. Log the artifact to W&B.
+3. Specify the name of the collection and registry you want to link your artifact version to.
+4. Link the artifact to the collection.
+
+Copy and paste the proceeding code snippet into a Python script and run it. Ensure that you have W&B Python SDK version 0.18.6 or greater.
+
+```python title="hello_collection.py"
 import wandb
 import random
 
-# Start a new W&B run to track your experiment
+# Initialize a W&B run to track the artifact
 run = wandb.init(project="registry_quickstart") 
 
-# Simulate logging model metrics
-run.log({"acc": random.random()})
-
-# Create a simulated model file
+# Create a simulated model file so that you can log it
 with open("my_model.txt", "w") as f:
    f.write("Model: " + str(random.random()))
 
-# log and link the model to the model registry inside W&B Registry
-logged_artifact = run.log_artifact(artifact_or_path="./my_model.txt", name="gemma-finetuned-3twsov9e", type="model")
-run.link_artifact(artifact=logged_artifact, target_path=f"<INSERT-ORG-NAME>/wandb-registry-model/registry-quickstart-collection"),
+# Log the artifact to W&B
+logged_artifact = run.log_artifact(
+    artifact_or_path="./my_model.txt", 
+    name="gemma-finetuned", 
+    type="model" # Specifies artifact type
+)
 
-run.finish()
+# Specify the name of the collection and registry
+# you want to publish the artifact to
+COLLECTION_NAME = "first-collection"
+REGISTRY_NAME = "model"
+
+# Link the artifact to the registry
+run.link_artifact(
+    artifact=logged_artifact, 
+    target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+)
 ```
-See learn more about linking to a registry, visit [this](/guides/registry/link_version) guide. 
+
+W&B automatically creates a collection for you if the collection you specify in the returned run object's `link_artifact(target_path = "")` method does not exist within the registry you specify.
+
+{{% alert %}}
+The URL that your terminal prints directs you to the project where W&B stores your artifact. 
+{{% /alert %}}
+
+Navigate to the Registry App to view artifact versions that you and other members of your organization publish. To do so, first navigate to W&B. Select **Registry** in the left sidebar below **Applications**. Select the "Model" registry. Within the registry, you should see the "first-collection" collection with your linked artifact version.
+
+Once you link an artifact version to a collection within a registry, members of your organization can view, download, and manage your artifact versions, create downstream automations, and more if they have the proper permissions. 
 
 ## Enable W&B Registry
 
@@ -78,9 +120,11 @@ Depending on your use case, explore the following resources to get started with
 * Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
     * Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages.
     * Automate your model management workflows using webhooks.
-    * See how Registry integrates with external ML systems and tools in your model development lifecycle for model evaluation, monitoring, and deployment.
+    * Integrate the registry with external ML systems and tools for model evaluation, monitoring, and deployment.
 
-## Migrating from the legacy Model Registry to W&B Registry
+
+
+## Migrate from the legacy Model Registry to W&B Registry
 
 The legacy Model Registry is scheduled for deprecation with the exact date not yet decided. Before deprecating the legacy Model Registry, W&B will migrate the contents of the legacy Model Registry to the W&B Registry. 
 
