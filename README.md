@@ -6,20 +6,29 @@ The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is 
 
 From there, someone from the Docs Team will review the PR and merge it. 
 
-## Get set up
+## Prerequisites
 
-Run these commands from the root of your local repo clone:
+A current version of NodeJS is required; ideally, something newer than version 20. If you still need to use an old version of node for other projects, we suggest using `nvm` and setting up version 20 using that, which you can swap into with the `use` command:
+
+```
+nvm install 20
+nvm use 20
+```
+
+### macOS
+
+After cloning this repo, `cd` into your local clone directory and these commands:
 
 ```
 brew install go
 brew install hugo
 brew install npm
-nvm install 20
-nvm use 20
 npm install
 go mod init docsy
 hugo mod get -u
 ```
+
+The last three lines are critical, as they install our dependencies and download the [Docsy](https://docsy.dev) module for Hugo.
 
 ## Running the website locally
 
@@ -89,10 +98,9 @@ See this [section](https://www.docsy.dev/docs/get-started/docsy-as-module/instal
 
 ## How to edit the docs locally
 
-1. Navigate to your local GitHub repo of `docodile` and pull the latest changes from main:
+1. Navigate to your local clone this repo and pull the latest changes from main:
 
 ```bash
-cd docodile
 git pull origin main
 ```
 
@@ -102,25 +110,20 @@ git pull origin main
 git checkout -b <your-feature-branch>
 ```
 
-3. In a new terminal, start a local preview of the docs with `yarn start`.
+3. After installing the prerequsites documented above, start a local preview of the docs.
 
 ```bash
-yarn start
+hugo server
 ```
 
-This will return the port number where you can preview your changes to the docs.
+This will return the localhost URL and port number where you can preview your changes to the docs as you make them (e.g. `https://localhost:1313`).
 
 4. Make your changes on the new branch.
-5. Check your changes are rendered correctly.
-6. Build the static files of your website:
-
-```bash
-yarn docusaurus build
-```
-
+5. Check your changes are rendered correctly. Any time you save a file, the preview should automatically update.
 7. Commit the changes to the branch.
 
 ```bash
+git add .
 git commit -m 'Useful commit message.'
 ```
 
@@ -142,14 +145,7 @@ There are two types of docs in our Docs site: Developer Guide and the API Refere
 All markdown files for the [W&B Developer Guide](https://docs.wandb.ai/) are stored in:
 
 ```bash
-docodile/docs/guides/
-```
-
-Each Chapter in the Developer Guide has its own folder in `docodile/docs/guides` . For example, the Artifacts Chapter ([https://docs.wandb.ai/guides/artifacts](https://docs.wandb.ai/guides/artifacts)) has a chapter called “artifacts”:
-
-```bash
-# Directory with Artifacts markdown content
-docodile/docs/guides/artifacts
+content/guides/
 ```
 
 The PR you create will get reviewed and (if approved) merged by the Docs Team.
@@ -159,9 +155,9 @@ The PR you create will get reviewed and (if approved) merged by the Docs Team.
 All markdown files for the [W&B API Reference Guide](https://docs.wandb.ai/ref) are stored in:
 
 ```bash
-docodile/docs/ref
+content/ref
 ```
 
-The markdown files are generated from docstrings in wandb/wandb. Modify the docstring from the appropriate Python Class, function, or CLI definition to to update the public-facing documentation API.
+The markdown files are generated from docstrings in https://github.com/wandb/wandb. Modify the docstring from the appropriate Python Class, function, or CLI definition to to update the public-facing documentation API.
 
-Once you are done, create a pull request from wandb/wandb. The PR you create will get reviewed and (if approved) merged by the SDK Team. The Docs are updated when the W&B SDK Team makes an W&BSDK Release. SDK Releases occur about every 2-4 weeks.
+Once you are done, create a pull request from https://github.com/wandb/wandb. The PR you create will get reviewed and (if approved) merged by the SDK Team. The Docs are updated when the W&B SDK Team makes an W&BSDK Release. SDK Releases occur about every 2-4 weeks.
