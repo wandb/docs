@@ -4,6 +4,10 @@
 hugo mod get -u
 rm -rf public
 hugo
+rm public/sitemap.xml
+mv public/en/sitemap.xml sitemap.xml
+rm -rf public/ja
+rm -rf public/ko
 
 # Use a secondary git clone to build JA and KO 
 rm -rf scripts/docs
@@ -15,14 +19,16 @@ git fetch -v --depth=1
 # The JA and KO builds use special scripts for the baseURL mod
 # JA (requires node 18.0.0)
 git checkout japanese_docs
-asdf install nodejs 18.0.0
+nvm use 18
+npm -g install yarn
 yarn install
 sh scripts/build-prod-docs.sh
 mv build/ja ../../public
 git stash
 # KO
 git checkout korean_docs
-asdf install nodejs 18.0.0
+nvm use 18
+npm -g install yarn
 yarn install
 sh scripts/build-prod-docs.sh
 mv build/ko ../../public
