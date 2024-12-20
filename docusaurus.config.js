@@ -11,6 +11,7 @@ const config = {
   tagline: 'The developer-first MLOps platform',
   url: 'https://docs.wandb.ai',
   baseUrl: '/',
+  trailingSlash: true,
   onBrokenLinks: 'throw',
   // onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
@@ -44,9 +45,6 @@ const config = {
         blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
-        },
-        sitemap: {
-          trailingSlash: true,
         },
       },
     ],
