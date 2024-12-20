@@ -19,20 +19,18 @@ git fetch -v --depth=1
 # The JA and KO builds use special scripts for the baseURL mod
 # JA (requires node 18.0.0)
 git checkout japanese_docs
-nvm use 18
 npm -g install yarn
 yarn install
 sh scripts/build-prod-docs.sh
-mv build/ja ../../public
+mv build/ja ../../../../public
 git stash
 # KO
 git checkout korean_docs
-nvm use 18
 npm -g install yarn
 yarn install
 sh scripts/build-prod-docs.sh
-mv build/ko ../../public
+mv build/ko ../../../../public
 git stash
 # Cleanup
 cd ../..
-rm -rf scripts/docodile
+rm -rf scripts/docs

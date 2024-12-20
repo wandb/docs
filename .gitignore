@@ -29,6 +29,7 @@ yarn-error.log*
 .idea
 
 # Yarn stuff
+yarn.lock
 .yarnrc.yml
 .yarn/
 
