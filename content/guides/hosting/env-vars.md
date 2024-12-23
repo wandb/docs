@@ -10,7 +10,7 @@ weight: 7
 
 In addition to configuring instance level settings via the System Settings admin UI, W&B also provides a way to configure these values via code using Environment Variables. Also, refer to [advanced configuration for IAM](./iam/advanced_env_vars.md).
 
-## Configuration as code
+## Environment variable reference
 
 | Environment Variable             | Description                                                                                                                                                                              |
 |----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -36,3 +36,22 @@ In addition to configuring instance level settings via the System Settings admin
 {{% alert %}}
 Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously. Data is removed immediately once the environment variable is set. We also recommend that you backup both the database and the storage bucket before you enable this flag.
 {{% /alert %}}
+
+## Advanced Reliability Settings
+
+### Redis
+
+While configuring an external Redis server is optional, it's highly recommended for production systems. Redis will improve the reliability of the service and enable caching which will decrease load times, especially in large projects. We recommend using a managed Redis service (ex: ElastiCache) with high availability(HA) and the following specs:
+
+- Minimum 4GB of memory, suggested 8GB
+- Redis version 6.x
+- In transit encryption
+- Authentication enabled
+
+To configure the Redis instance with W&B, you can navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the Redis connection string in the following format:
+
+{{< img src="/images/hosting/configure_redis.png" alt="Configuring REDIS in W&B" >}}
+
+You can also configure Redis using the environment variable `REDIS` on the container or in your Kubernetes deployment. Alternatively, you could also setup `REDIS` as a Kubernetes secret.
+
+The above assumes the Redis instance is running at the default port of `6379`. If you configure a different port, setup authentication and also want to have TLS enabled on the `redis` instance the connection string format would look something like: `redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`
