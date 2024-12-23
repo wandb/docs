@@ -5,6 +5,7 @@ menu:
     identifier: stable-baselines-3
     parent: integrations
 title: Stable Baselines 3
+weight: 420
 ---
 
 [Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) is a set of reliable implementations of reinforcement learning algorithms in PyTorch. W&B's SB3 integration will: 

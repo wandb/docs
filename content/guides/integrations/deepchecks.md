@@ -5,6 +5,7 @@ menu:
     identifier: deepchecks
     parent: integrations
 title: DeepChecks
+weight: 60
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb" >}}
 

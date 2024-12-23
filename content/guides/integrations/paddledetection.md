@@ -5,6 +5,7 @@ menu:
     identifier: paddledetection
     parent: integrations
 title: PaddleDetection
+weight: 270
 ---
 [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) is an end-to-end object-detection development kit based on [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). It implements varied mainstream object detection, instance segmentation, tracking and keypoint detection algorithms in modular design with configurable modules such as network components, data augmentations and losses.
 

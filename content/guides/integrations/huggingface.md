@@ -4,6 +4,7 @@ menu:
     identifier: huggingface
     parent: integrations
 title: Hugging Face Transformers
+weight: 110
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Optimize_Hugging_Face_models_with_Weights_&_Biases.ipynb" >}}
 

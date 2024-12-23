@@ -4,6 +4,7 @@ menu:
     identifier: langchain
     parent: integrations
 title: LangChain
+weight: 180
 ---
 [LangChain](https://python.langchain.com/) is a framework for developing applications powered by language models.
 

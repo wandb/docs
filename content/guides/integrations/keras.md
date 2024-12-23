@@ -4,6 +4,7 @@ menu:
     identifier: keras
     parent: integrations
 title: Keras
+weight: 160
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" >}}
 

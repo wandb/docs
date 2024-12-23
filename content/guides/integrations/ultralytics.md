@@ -4,6 +4,7 @@ menu:
     identifier: ultralytics
     parent: integrations
 title: Ultralytics
+weight: 480
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" >}}
 

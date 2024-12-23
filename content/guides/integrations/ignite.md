@@ -5,6 +5,7 @@ menu:
     identifier: ignite
     parent: integrations
 title: PyTorch Ignite
+weight: 330
 ---
 
 * See the resulting visualizations in this [example W&B report →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg)

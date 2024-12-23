@@ -5,6 +5,7 @@ menu:
     identifier: metaflow
     parent: integrations
 title: Metaflow
+weight: 200
 ---
 ## Overview
 

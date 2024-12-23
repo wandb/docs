@@ -5,6 +5,7 @@ menu:
     identifier: kubeflow-pipelines-kfp
     parent: integrations
 title: Kubeflow Pipelines (kfp)
+weight: 170
 ---
 ## Overview
 

@@ -5,6 +5,7 @@ menu:
     identifier: prodigy
     parent: integrations
 title: Prodigy
+weight: 290
 ---
 
 [Prodigy](https://prodi.gy/) is an annotation tool for creating training and evaluation data for machine learning models, error analysis, data inspection & cleaning. [W&B Tables](../../tables/tables-walkthrough.md) allow you to log, visualize, analyze, and share datasets (and more!) inside W&B.

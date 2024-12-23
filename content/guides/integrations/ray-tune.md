@@ -5,6 +5,7 @@ menu:
     identifier: ray-tune
     parent: integrations
 title: Ray Tune
+weight: 360
 ---
 
 W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.

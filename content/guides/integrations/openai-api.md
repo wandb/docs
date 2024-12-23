@@ -5,6 +5,7 @@ menu:
     identifier: openai-api
     parent: integrations
 title: OpenAI API
+weight: 240
 ---
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb" >}}
 

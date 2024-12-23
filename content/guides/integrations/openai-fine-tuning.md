@@ -5,6 +5,7 @@ menu:
     identifier: openai-fine-tuning
     parent: integrations
 title: OpenAI Fine-Tuning
+weight: 250
 ---
 {{< cta-button colabLink="http://wandb.me/openai-colab" >}}
 

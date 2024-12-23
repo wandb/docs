@@ -4,6 +4,7 @@ menu:
     identifier: torchtune
     parent: integrations
 title: Pytorch torchtune
+weight: 320
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/torchtune/torchtune_and_wandb.ipynb" >}}
 

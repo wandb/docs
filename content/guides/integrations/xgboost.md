@@ -5,6 +5,7 @@ menu:
     identifier: xgboost
     parent: integrations
 title: XGBoost
+weight: 460
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" >}}
 

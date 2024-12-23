@@ -5,6 +5,7 @@ menu:
     identifier: lightgbm
     parent: integrations
 title: LightGBM
+weight: 190
 ---
 
 {{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb' >}}

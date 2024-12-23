@@ -4,6 +4,7 @@ menu:
     identifier: diffusers
     parent: integrations
 title: Hugging Face Diffusers
+weight: 120
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" >}}
 

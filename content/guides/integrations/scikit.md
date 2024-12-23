@@ -4,6 +4,7 @@ menu:
     identifier: scikit
     parent: integrations
 title: Scikit-Learn
+weight: 380
 ---
 You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [**Try an example →**](http://wandb.me/scikit-colab)
 

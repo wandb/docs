@@ -6,6 +6,7 @@ menu:
     identifier: quickstart
     parent: prompts
 title: 'Tutorial: Visualize and debug LLMs with Prompts'
+weight: 10
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb" >}}
 

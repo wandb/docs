@@ -5,6 +5,7 @@ menu:
     identifier: cohere-fine-tuning
     parent: integrations
 title: Cohere fine-tuning
+weight: 40
 ---
 With Weights & Biases you can log your Cohere model's fine-tuning metrics and configuration to analyze and understand the performance of your models and share the results with your colleagues. 
 

@@ -5,6 +5,7 @@ menu:
     identifier: accelerate
     parent: integrations
 title: Hugging Face Accelerate
+weight: 140
 ---
 
 Accelerate is a library that enables the same PyTorch code to be run across any distributed configuration by adding just four lines of code, making training and inference at scale made simple, efficient and adaptable.

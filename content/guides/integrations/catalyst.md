@@ -5,6 +5,7 @@ menu:
     identifier: catalyst
     parent: integrations
 title: Catalyst
+weight: 30
 ---
 
 > [Catalyst](https://github.com/catalyst-team/catalyst) is a PyTorch framework for deep learning R&D that focuses on reproducibility, rapid experimentation, and codebase reuse so you can create something new.

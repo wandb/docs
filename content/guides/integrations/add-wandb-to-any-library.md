@@ -4,6 +4,7 @@ menu:
     identifier: add-wandb-to-any-library
     parent: integrations
 title: Add wandb to any library
+weight: 10
 ---
 
 ## Add wandb to any library

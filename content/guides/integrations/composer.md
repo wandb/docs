@@ -5,6 +5,7 @@ menu:
     identifier: composer
     parent: integrations
 title: MosaicML Composer
+weight: 230
 ---
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb" >}}
 

@@ -6,6 +6,9 @@ menu:
     parent: integrations
 title: Prompts for LLMs
 url: guides/integrations/prompts
+cascade:
+- url: guides/integrations/prompts/:filename
+weight: 350
 ---
 
 import { WEAVE_DOCS_URL } from '@site/src/util/links';

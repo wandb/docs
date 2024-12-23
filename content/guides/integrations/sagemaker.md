@@ -5,6 +5,7 @@ menu:
     identifier: sagemaker
     parent: integrations
 title: SageMaker
+weight: 370
 ---
 
 ## SageMaker Integration

@@ -4,6 +4,7 @@ menu:
     identifier: pytorch-geometric
     parent: integrations
 title: PyTorch Geometric
+weight: 310
 ---
 [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) or PyG is one of the most popular libraries for geometric deep learning and W&B works extremely well with it for visualizing graphs and tracking experiments.
 

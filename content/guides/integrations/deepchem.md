@@ -5,6 +5,7 @@ menu:
     identifier: deepchem
     parent: integrations
 title: DeepChem
+weight: 70
 ---
 The [DeepChem library](https://github.com/deepchem/deepchem) provides open source tools that democratize the use of deep-learning in drug discovery, materials science, chemistry, and biology. This W&B integration adds simple and easy-to-use experiment tracking and model checkpointing while training models using DeepChem.
 

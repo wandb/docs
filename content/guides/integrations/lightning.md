@@ -4,6 +4,7 @@ menu:
     identifier: lightning
     parent: integrations
 title: PyTorch Lightning
+weight: 340
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_Pytorch_Lightning_models_with_Weights_%26_Biases.ipynb" >}}
 

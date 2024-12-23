@@ -5,6 +5,7 @@ menu:
     identifier: databricks
     parent: integrations
 title: Databricks
+weight: 50
 ---
 
 W&B integrates with [Databricks](https://www.databricks.com/) by customizing the W&B Jupyter notebook experience in the Databricks environment.

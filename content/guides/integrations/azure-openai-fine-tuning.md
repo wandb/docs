@@ -5,6 +5,7 @@ menu:
     identifier: azure-openai-fine-tuning
     parent: integrations
 title: Azure OpenAI Fine-Tuning
+weight: 20
 ---
 
 ## Introduction

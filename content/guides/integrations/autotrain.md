@@ -4,6 +4,7 @@ menu:
     identifier: autotrain
     parent: integrations
 title: Hugging Face AutoTrain
+weight: 130
 ---
 [🤗 AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
 

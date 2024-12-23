@@ -4,6 +4,7 @@ menu:
     identifier: tensorflow
     parent: integrations
 title: TensorFlow
+weight: 440
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1JCpAbjkCFhYMT7LCQ399y35TS3jlMpvM" >}}

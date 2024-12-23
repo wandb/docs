@@ -4,6 +4,7 @@ menu:
     identifier: tensorboard
     parent: integrations
 title: TensorBoard
+weight: 430
 ---
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb" >}}
 

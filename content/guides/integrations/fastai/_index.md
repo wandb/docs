@@ -4,6 +4,9 @@ menu:
     identifier: README
     parent: integrations
 title: fastai
+cascade:
+- url: guides/integrations/fastai/:filename
+weight: 100
 ---
 If you're using **fastai** to train your models, W&B has an easy integration using the `WandbCallback`. Explore the details in[ interactive docs with examples →](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
 
