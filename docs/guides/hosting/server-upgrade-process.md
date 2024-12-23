@@ -88,7 +88,7 @@ Update your license and version with Terraform. The proceeding table lists W&B m
      --reuse-values --set license=$LICENSE --set image.tag=$TAG
    ```
 
-For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/blob/main/UPGRADE.md) in the public repository.
+For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/blob/main/upgrade.md) in the public repository.
 
 ## Update with Docker container
 

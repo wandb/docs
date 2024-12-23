@@ -231,7 +231,7 @@ export default {
               items: [
                 {
                   type: 'category',
-                  label: 'Line Plot',
+                  label: 'Line plot',
                   link: {
                     type: 'doc',
                     id: 'guides/app/features/panels/line-plot/intro',
@@ -263,7 +263,7 @@ export default {
             },
             {
               type: 'category',
-              label: 'Custom Charts',
+              label: 'Custom charts',
               link: {
                 type: 'doc',
                 id: 'guides/app/features/custom-charts/intro',
@@ -412,6 +412,7 @@ export default {
                 'guides/hosting/iam/sso',
                 'guides/hosting/iam/ldap',
                 'guides/hosting/iam/identity_federation',
+                'guides/hosting/iam/service-accounts',
               ],
             },
             {

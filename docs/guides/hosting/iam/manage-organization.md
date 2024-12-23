@@ -189,7 +189,6 @@ Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployme
 </TabItem>
 </Tabs>
 
-
 ### Assign or update a user's role
 
 Every member in an Organization has an organization role and seat for both W&B Models and Weave. The type of seat they have determines both their billing status and the actions they can take in each product line.
@@ -203,7 +202,7 @@ A user within an organization can have one of the proceeding roles:
 | Administrator| A instance administrator who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one administrator in the event that your administrator is unavailable. |
 | Member | A regular user of the organization, invited by an instance administrator. A organization member cannot invite other users or manage existing users in the organization. |
 | Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an instance administrator. A viewer only has read access to the organization and the underlying teams that they are a member of. |
-|Custom Roles (Enterprise-only feature) | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams.|
+|Custom Roles (Enterprise-only feature) | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams. |
 
 To change a user's role:
 
@@ -240,6 +239,10 @@ The organization role and subscription type determines which seat types are avai
 5. Select the ellipses or three dots icon (**...**) when it appears.
 6. From the dropdown, choose **Remove member**.
 
+### Manage service accounts
+
+Refer to [Use service accounts to automate workflows](./service-accounts.md).
+
 ### Assign the billing administrator
 1. Navigate to https://wandb.ai/home.
 2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
@@ -250,9 +253,7 @@ The organization role and subscription type determines which seat types are avai
 ## Add and manage teams
 Use your organization's dashboard to create teams within your organization. Once an organization administrator creates a team, either the org administrator or team administrator can invite users to that team, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
-
 <!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->
-
 
 ### Create a team
 
@@ -303,15 +304,11 @@ The proceeding table lists the roles you can assign to a member of a team:
 | Administrator    | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
 | Member    | A regular user of a team, invited by email or their organization-level username by the team administrator. A member user cannot invite other users to the team.  |
 | View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team administrator. A view-only user only has read access to the team and its contents.  |
-| Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
 | Custom Roles (Enterprise-only feature)   | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
 
 <!-- :::note
 W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
-
-Refer to [Team Service Account Behavior](../../app/features/teams.md#team-service-account-behavior) for more information.
 ::: -->
-
 
 :::note
 Only enterprise licenses on Dedicated Cloud or Self-managed deployment can assign custom roles to members in a team.
@@ -324,8 +321,11 @@ Remove a user from a team using the team's dashboard. W&B preserves runs created
 2. Select **Team settings** in the left navigation bar.
 3. Select the **Users** tab.
 4. Hover your mouse next to the name of the user you want to delete. Select the ellipses or three dots icon (**...**) when it appears. 
-5. From the dropdown, select **Remove user**. 
+5. From the dropdown, select **Remove user**.
 
+### Manage service accounts
+
+Refer to [Use service accounts to automate workflows](./service-accounts.md).
 
 <!-- To do as a follow up -->
 <!-- ### Manage team storage

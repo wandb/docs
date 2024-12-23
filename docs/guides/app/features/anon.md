@@ -19,8 +19,6 @@ For example, the proceeding code snippet shows how to create and log an artifact
 ```python
 import wandb
 
-wandb.require("core")
-
 run = wandb.init(anonymous="allow")
 
 artifact = wandb.Artifact(name="art1", type="foo")
