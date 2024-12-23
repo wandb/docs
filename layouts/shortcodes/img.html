@@ -40,7 +40,7 @@
     {{- end -}}
 
     {{- if $img -}}
-        <img src="{{ ($img | fingerprint).Permalink }}" alt="{{ $alt }}" />
+        <img src="{{ $img.Permalink }}" alt="{{ $alt }}" />
     {{- else -}}
         {{- errorf "Image not found: %s" $imagePath .Position -}}
     {{- end -}}
