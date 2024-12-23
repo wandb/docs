@@ -8,34 +8,34 @@ weight: 160
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" >}}
 
-## The Weights & Biases Keras Callbacks
+## Keras Callbacks
 
-We have added three new callbacks for Keras and TensorFlow users, available from `wandb` v0.13.4. For the legacy `WandbCallback` scroll down.
+W&B has three callbacks for Keras, available from `wandb` v0.13.4. For the legacy `WandbCallback` scroll down.
 
 
-**`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
+- **`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
 
-**`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts](/guides/artifacts).
+- **`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts](/guides/artifacts).
 
-**`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](/guides/tables) for interactive visualization.
+- **`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](/guides/tables) for interactive visualization.
 
-These new callbacks,
+These new callbacks:
 
-* Adhere to Keras design philosophy
-* Reduce the cognitive load of using a single callback (`WandbCallback`) for everything,
+* Adhere to Keras design philosophy.
+* Reduce the cognitive load of using a single callback (`WandbCallback`) for everything.
 * Make it easy for Keras users to modify the callback by subclassing it to support their niche use case.
 
-## Experiment Tracking with `WandbMetricsLogger`
+## Track experiments with `WandbMetricsLogger`
 
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" >}}
 
 `WandbMetricsLogger` automatically logs Keras' `logs` dictionary that callback methods such as `on_epoch_end`, `on_batch_end` etc, take as an argument.
 
-Using this provides:
+This tracks:
 
-* train and validation metrics defined in `model.compile`
-* system (CPU/GPU/TPU) metrics
-* learning rate (both for a fixed value or a learning rate scheduler)
+* Training and validation metrics defined in `model.compile`.
+* System (CPU/GPU/TPU) metrics.
+* Learning rate (both for a fixed value or a learning rate scheduler.
 
 ```python
 import wandb
@@ -50,7 +50,7 @@ model.fit(
 )
 ```
 
-**`WandbMetricsLogger` Reference**
+### `WandbMetricsLogger` Reference
 
 
 | Parameter | Description | 
@@ -58,7 +58,7 @@ model.fit(
 | `log_freq`            | ("epoch", "batch", or int): if "epoch", logs metrics at the end of each epoch. If "batch", logs metrics at the end of each batch. If an int, logs metrics at the end of that many batches. Defaults to "epoch".                                 |
 | `initial_global_step` | (int): Use this argument to correctly log the learning rate when you resume training from some initial_epoch, and a learning rate scheduler is used. This can be computed as step_size * initial_step. Defaults to 0. |
 
-## Model Checkpointing using `WandbModelCheckpoint`
+## Checkpoint a model using `WandbModelCheckpoint`
 
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
 
@@ -66,15 +66,15 @@ Use `WandbModelCheckpoint` callback to save the Keras model (`SavedModel` format
 
 This callback is subclassed from [`tf.keras.callbacks.ModelCheckpoint`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint) ,thus the checkpointing logic is taken care of by the parent callback.
 
-This callback provides the following features:
+This callback saves:
 
-* Save the model that has achieved "best performance" based on the "monitor".
-* Save the model at the end of every epoch regardless of the performance.
-* Save the model at the end of the epoch or after a fixed number of training batches.
-* Save only model weights, or save the whole model.
-* Save the model either in SavedModel format or in `.h5` format.
+* The model that has achieved "best performance" based on the "monitor".
+* The model at the end of every epoch regardless of the performance.
+* The model at the end of the epoch or after a fixed number of training batches.
+* Only model weights or the whole model.
+* The model either in `SavedModel` format or in `.h5` format.
 
-This callback should be used in conjunction with `WandbMetricsLogger`.
+Use this callback in conjunction with `WandbMetricsLogger`.
 
 ```python
 import wandb
@@ -95,7 +95,7 @@ model.fit(
 )
 ```
 
-**`WandbModelCheckpoint` Reference**
+### `WandbModelCheckpoint` Reference
 
 | Parameter | Description | 
 | ------------------------- |  ---- | 
@@ -110,7 +110,7 @@ model.fit(
 | `options`                 | (str): Optional `tf.train.CheckpointOptions` object if `save_weights_only` is true or optional `tf.saved_model.SaveOptions` object if `save_weights_only` is false.    |
 | `initial_value_threshold` | (float): Floating point initial "best" value of the metric to be monitored.       |
 
-### How to log checkpoints after N epochs?
+### Log checkpoints after N epochs
 
 By default (`save_freq="epoch"`) the callback creates a checkpoint and uploads it as an artifact after each epoch. If we pass an integer to `save_freq` the checkpoint will be created after that many batches. To checkpoint after `N` epochs, compute the cardinality of the train dataloader and pass it to `save_freq`:
 
@@ -121,7 +121,7 @@ WandbModelCheckpoint(
 )
 ```
 
-### How to log checkpoints on a TPU Node architecture efficiently?
+### Efficiently log checkpoints on a TPU Node architecture
 
 While checkpointing on TPUs you might encounter `UnimplementedError: File system scheme '[local]' not implemented` error message. This happens because the model directory (`filepath`) must use a cloud storage bucket path (`gs://bucket-name/...`), and this bucket must be accessible from the TPU server. We can however, use the local path for checkpointing which in turn is uploaded as an Artifacts.
 
@@ -134,7 +134,7 @@ WandbModelCheckpoint(
 )
 ```
 
-## Model Prediction Visualization using `WandbEvalCallback`
+## Visualize model predictions using `WandbEvalCallback`
 
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/e66f16fbe7ae7a2e636d59350a50059d3f7e5494/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" >}}
 
@@ -142,17 +142,14 @@ The `WandbEvalCallback` is an abstract base class to build Keras callbacks prima
 
 This abstract callback is agnostic with respect to the dataset and the task. To use this, inherit from this base `WandbEvalCallback` callback class and implement the `add_ground_truth` and `add_model_prediction` methods.
 
-The `WandbEvalCallback` is a utility class that provides helpful methods to:
+The `WandbEvalCallback` is a utility class that provides methods to:
 
-* create data and prediction `wandb.Table` instances,
-* log data and prediction Tables as `wandb.Artifact`
-* logs the data table `on_train_begin`
-* logs the prediction table `on_epoch_end`
+* Create data and prediction `wandb.Table` instances.
+* Log data and prediction Tables as `wandb.Artifact`.
+* Log the data table `on_train_begin`.
+* log the prediction table `on_epoch_end`.
 
-For example, we have implemented `WandbClfEvalCallback` below for an image classification task. This example callback:
-
-* logs the validation data (`data_table`) to W&B,
-* performs inference and logs the prediction (`pred_table`) to W&B at the end of every epoch.
+The following example uses `WandbClfEvalCallback` for an image classification task. This example callback ogs the validation data (`data_table`) to W&B, performs inference, and logs the prediction (`pred_table`) to W&B at the end of every epoch.
 
 ```python
 import wandb
@@ -212,21 +209,21 @@ model.fit(
 ```
 
 {{% alert %}}
-💡 The Tables are logged to the W&B [Artifact page](/guides/artifacts/explore-and-traverse-an-artifact-graph) by default and not the Workspace page.
+The Tables are logged to the W&B [Artifact page](/guides/artifacts/explore-and-traverse-an-artifact-graph) by default and not the Workspace page.
 {{% /alert %}}
 
-**`WandbEvalCallback` Reference**
+### `WandbEvalCallback` Reference
 
 | Parameter            | Description                                      |
 | -------------------- | ------------------------------------------------ |
 | `data_table_columns` | (list) List of column names for the `data_table` |
 | `pred_table_columns` | (list) List of column names for the `pred_table` |
 
-### How the memory footprint is reduced?
+### Memory footprint details
 
 We log the `data_table` to W&B when the `on_train_begin` method is invoked. Once it's uploaded as a W&B Artifact, we get a reference to this table which can be accessed using `data_table_ref` class variable. The `data_table_ref` is a 2D list that can be indexed like `self.data_table_ref[idx][n]`, where `idx` is the row number while `n` is the column number. Let's see the usage in the example below.
 
-### Customize the callback further
+### Customize the callback
 
 You can override the `on_train_begin` or `on_epoch_end` methods to have more fine-grained control. If you want to log the samples after `N` batches, you can implement `on_train_batch_end` method.
 
@@ -268,12 +265,12 @@ Check out [the reference documentation for the `keras.WandbCallback`](../../ref/
 
 The `WandbCallback` 
 
-* will automatically log history data from any metrics collected by keras: loss and anything passed into `keras_model.compile()`
-* will set summary metrics for the run associated with the "best" training step, where "best" is defined by the `monitor` and `mode` attributes. This defaults to the epoch with the minimum `val_loss`. `WandbCallback` will by default save the model associated with the best `epoch`
-* can optionally log gradient and parameter histogram
-* can optionally save training and validation data for wandb to visualize.
+* Automatically logs history data from any metrics collected by keras: loss and anything passed into `keras_model.compile()`.
+* Sets summary metrics for the run associated with the "best" training step, where "best" is defined by the `monitor` and `mode` attributes. This defaults to the epoch with the minimum `val_loss`. `WandbCallback` will by default save the model associated with the best `epoch`.
+* Optionally logs gradient and parameter histogram.
+* Optionally saves training and validation data for wandb to visualize.
 
-**`WandbCallback` Reference**
+### `WandbCallback` Reference
 
 | Arguments                  |                                    |
 | -------------------------- | ------------------------------------------- |
@@ -306,13 +303,13 @@ The `WandbCallback`
 
 ### How do I use `Keras` multiprocessing with `wandb`?
 
-If you're setting `use_multiprocessing=True` and seeing an error like:
+When setting `use_multiprocessing=True`, this error may occur:
 
 ```python
 Error("You must call wandb.init() before wandb.config.batch_size")
 ```
 
-then try this:
+To work around it:
 
-1. In the `Sequence` class construction, add: `wandb.init(group='...')`
-2. In your main program, make sure you're using `if __name__ == "__main__":` and then put the rest of your script logic inside that.
+1. In the `Sequence` class construction, add: `wandb.init(group='...')`.
+2. In `main`, make sure you're using `if __name__ == "__main__":` and put the rest of your script logic inside it.

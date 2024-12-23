@@ -6,17 +6,15 @@ menu:
 title: Hugging Face AutoTrain
 weight: 130
 ---
-[🤗 AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
+[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
 
-[Weights & Biases](http://wandb.com/) is directly integrated into 🤗 AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments!
+[Weights & Biases](http://wandb.com/) is directly integrated into Hugging Face AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments!
 
-| {{< img src="/images/integrations/hf-autotrain-1.png" alt="An example of how the metrics of your experiment are logged" >}} | 
-|:--:| 
-| **An example of how the metrics of your experiment are logged.** |
+{{< img src="/images/integrations/hf-autotrain-1.png" alt="An example of how the metrics of your experiment are logged" >}}
 
-## Getting Started
+## Install prerequisites
 
-First, we need to install `autotrain-advanced` and `wandb`.
+Install `autotrain-advanced` and `wandb`.
 
 {{< tabpane text=true >}}
 
@@ -38,15 +36,17 @@ pip install --upgrade autotrain-advanced wandb
 
 {{< /tabpane >}}
 
-## Getting Started: Fine-tuning an LLM
-
 To demonstrate these changes we will fine-tune an LLM on a math dataset and try achieving SoTA result in `pass@1` on the [GSM8k Benchmarks](https://github.com/openai/grade-school-math).
 
-### Preparing the Dataset
+## Prepare the Dataset
 
-🤗 AutoTrain expects your CSV custom dataset in a certain format to work properly. Your training file must contain a "text" column on which the training will be done. For best results, the "text" column should have data in the `### Human: Question?### Assistant: Answer.` format. A great example for the kind of dataset AutoTrain Advanced expects would be [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco). However, if you observe the [MetaMathQA dataset](https://huggingface.co/datasets/meta-math/MetaMathQA), there are 3 columns - "query", "response" and "type". We will preprocess this dataset by removing the "type" column and combining the content of the "query" and "response" columns under one "text" column with the `### Human: Query?### Assistant: Response.` format. The resulting dataset is [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath) and it will be used for training.
+Hugging Face AutoTrain expects your CSV custom dataset to have a specific format to work properly.
 
-### Training using Autotrain Advanced
+- Your training file must contain a "text" column on which the training will be done. For best results, the "text" column should have data in the `### Human: Question?### Assistant: Answer.` format. Review a great example in [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco).
+
+    However, if you observe the [MetaMathQA dataset](https://huggingface.co/datasets/meta-math/MetaMathQA), there are 3 columns - "query", "response" and "type". We will preprocess this dataset by removing the "type" column and combining the content of the "query" and "response" columns under one "text" column with the `### Human: Query?### Assistant: Response.` format. The resulting dataset is [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath) and it will be used for training.
+
+## Train using Autotrain Advanced
 
 We can start training using the Autotrain Advanced CLI. To leverage the logging functionality, we simply use the `--log` argument. Specifying `--log wandb` will seamlessly log your results to a [W&B run](/guides/runs). 
 
@@ -134,11 +134,9 @@ logging_steps = 10
 {{< /tabpane >}}
 
 
-| {{< img src="/images/integrations/hf-autotrain-2.gif" alt="An example of how all the configs of your experiment are saved." >}} | 
-|:--:| 
-| **An example of how all the configs of your experiment are saved.** |
+{{< img src="/images/integrations/hf-autotrain-2.gif" alt="An example of how all the configs of your experiment are saved." >}}
 
 ## More Resources
 
 * [AutoTrain Advanced now supports Experiment Tracking](https://huggingface.co/blog/rishiraj/log-autotrain) by [Rishiraj Acharya](https://huggingface.co/rishiraj).
-* [🤗 Autotrain Docs](https://huggingface.co/docs/autotrain/index)
+* [Hugging Face Autotrain Docs](https://huggingface.co/docs/autotrain/index)

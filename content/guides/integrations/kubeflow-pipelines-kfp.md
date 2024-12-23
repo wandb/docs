@@ -34,7 +34,7 @@ wandb.login()
 
 {{% tab header="Command Line" value="cli" %}}
 
-```
+```python
 pip install kfp wandb
 wandb login
 ```
@@ -61,7 +61,7 @@ def add(a: float, b: float) -> float:
 add = components.create_component_from_func(add)
 ```
 
-### Passing environment variables to containers
+### Pass environment variables to containers
 
 You may need to explicitly pass [environment variables](../../track/environment-variables.md) to your containers. For two-way linking, you should also set the environment variables `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance. For example, `https://kubeflow.mysite.com`.
 
@@ -87,20 +87,20 @@ def example_pipeline(param1: str, param2: int):
     conf.add_op_transformer(add_wandb_env_variables)
 ```
 
-## Where is my data? Can I access it programmatically?
+## Access your data programmatically
 
 ### Via the Kubeflow Pipelines UI
 
 Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 
-* Inputs and outputs will be tracked in the `Input/Output` and `ML Metadata` tabs
-* You can also view the W&B web app from the `Visualizations` tab.
+* Find details about inputs and outputs in the `Input/Output` and `ML Metadata` tabs.
+* View the W&B web app from the `Visualizations` tab.
 
 {{< img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="Get a view of W&B in the Kubeflow UI" >}}
 
 ### Via the web app UI
 
-The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](/guides/app.
+The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](/guides/app).
 
 {{< img src="/images/integrations/kubeflow_pipelines.png" alt="View details about a particular run (and link back to the Kubeflow UI)" >}}
 
@@ -125,7 +125,7 @@ Here's a mapping of Kubeflow Pipelines concepts to W&B
 
 If you want finer control of logging, you can sprinkle in `wandb.log` and `wandb.log_artifact` calls in the component.
 
-### With explicit wandb logging calls
+### With explicit `wandb.log_artifacts` calls
 
 In this example below, we are training a model. The `@wandb_log` decorator will automatically track the relevant inputs and outputs. If you want to log the training process, you can explicitly add that logging like so:
 

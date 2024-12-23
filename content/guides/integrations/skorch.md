@@ -46,7 +46,7 @@ net = NeuralNet(..., callbacks=[WandbLogger(wandb_run)])
 net.fit(X, y)
 ```
 
-## Methods
+## Method reference
 
 | Method | Description |
 | :--- | :--- |

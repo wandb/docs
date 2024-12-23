@@ -13,7 +13,7 @@ weight: 330
 
 Ignite supports Weights & Biases handler to log metrics, model/optimizer parameters, gradients during training and validation. It can also be used to log model checkpoints to the Weights & Biases cloud. This class is also a wrapper for the wandb module. This means that you can call any wandb function using this wrapper. See examples on how to save model parameters and gradients.
 
-## The basic PyTorch setup
+## Basic setup
 
 ```python
 from argparse import ArgumentParser
@@ -62,12 +62,12 @@ def get_data_loaders(train_batch_size, val_batch_size):
     return train_loader, val_loader
 ```
 
-Using WandBLogger in ignite is a 2-step modular process: First, you need to create a WandBLogger object. Then it can be attached to any trainer or evaluator to automatically log the metrics. We'll do the following tasks sequentially: 1) Create a WandBLogger object 2) Attach the Object to the output handlers to:
+Using WandBLogger in ignite is a modular process: First, you create a WandBLogger object. Next, you attach it to a trainer or evaluator to automatically log the metrics. This example:
 
-* Log training loss - attach to trainer object
-* Log validation loss - attach to evaluator
-* Log optional Parameters - Say, learning rate
-* Watch the model
+* Logs training loss, attached to the trainer object.
+* Logs validation loss, attached to the evaluator.
+* Logs optional Parameters, such as learning rate.
+* Watches the model.
 
 ```python
 from ignite.contrib.handlers.wandb_logger import *
@@ -124,7 +124,7 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
     wandb_logger.watch(model)
 ```
 
-Optionally, we can also utilize ignite `EVENTS` to log the metrics directly to the terminal
+You can optionally utilize ignite `EVENTS` to log the metrics directly to the terminal
 
 ```python
     @trainer.on(Events.ITERATION_COMPLETED(every=log_interval))
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     run(args.batch_size, args.val_batch_size, args.epochs, args.lr, args.momentum, args.log_interval)
 ```
 
-We get these visualizations on running the above code:
+This code generates these visualizations::
 
 {{< img src="/images/integrations/pytorch-ignite-1.png" alt="" >}}
 
@@ -189,4 +189,4 @@ We get these visualizations on running the above code:
 
 {{< img src="/images/integrations/pytorch-ignite-4.png" alt="" >}}
 
-Refer [Ignite Docs](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) for more detailed documentation
+Refer  to the [Ignite Docs](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) for more details.

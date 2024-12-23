@@ -19,7 +19,7 @@ PaddleDetection now comes with a built in W&B integration which logs all your tr
 
 The PaddleDetection WandbLogger will log your training and evaluation metrics to Weights & Biases as well as your model checkpoints while training.
 
-## Using PaddleDetection with Weights & Biases
+## Use PaddleDetection with Weights & Biases
 
 ### Sign up and log in to W&B
 
@@ -49,9 +49,9 @@ wandb.login()
 
 {{< /tabpane >}}
 
-### Activating the WandbLogger in your Training Script
+### Activate the WandbLogger in your Training Script
 
-#### Using the CLI
+#### Use the CLI
 
 To use wandb via arguments to `train.py` in [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/):
 
@@ -69,7 +69,7 @@ python tools/train.py
     wandb-save_dir=./logs
 ```
 
-#### Using a config.yml file
+#### Use a config.yml file
 
 You can also activate wandb via the config file. Add the wandb arguments to the config.yml file under the wandb header like so:
 
@@ -86,4 +86,4 @@ Once you run your `train.py` file with Weights & Biases turned on, a link will b
 
 ## Feedback or Issues
 
-If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email support@wandb.com
+If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

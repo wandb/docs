@@ -13,7 +13,7 @@ weight: 280
 
 [**Read here**](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw) to see how to train a model with PaddleOCR on the ICDAR2015 dataset. This also comes with a [**Google Colab**](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing) and the corresponding live W&B dashboard is available [**here**](https://wandb.ai/manan-goel/text_detection). There is also a Chinese version of this blog here: [**W&B对您的OCR模型进行训练和调试**](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)
 
-## Using PaddleOCR with Weights & Biases
+## Use PaddleOCR with Weights & Biases
 
 ### 1. Sign up and Log in to wandb
 
@@ -21,7 +21,7 @@ weight: 280
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
-```
+```bash
 pip install wandb
 
 wandb login
@@ -59,7 +59,7 @@ wandb:
 
 The yaml file is then provided as an argument to the [training script](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/tools/train.py) available in the PaddleOCR repository.
 
-```
+```bash
 python tools/train.py -c config.yml
 ```
 
@@ -73,4 +73,4 @@ Once you run your `train.py` file with Weights & Biases turned on, a link will b
 
 ## Feedback or Issues?
 
-If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email support@wandb.com
+If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

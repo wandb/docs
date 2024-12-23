@@ -13,7 +13,7 @@ weight: 230
 
 W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: W&B is incorporated directly into the Composer library via the [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts).
 
-## Start logging to W&B with 1 line of code
+## Start logging to W&B
 
 ```python
 from composer import Trainer
@@ -24,16 +24,16 @@ trainer = Trainer(..., logger=WandBLogger())
 
 {{< img src="/images/integrations/n6P7K4M.gif" alt="Interactive dashboards accessible anywhere, and more!" >}}
 
-## Using Composer's `WandBLogger`
+## Use Composer's `WandBLogger`
 
 The Composer library uses [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) class in the `Trainer` to log metrics to Weights and Biases. It is a simple as instantiating the logger and passing it to the `Trainer`
 
-```
+```python
 wandb_logger = WandBLogger(project="gpt-5", log_artifacts=True)
 trainer = Trainer(logger=wandb_logger)
 ```
 
-### Logger arguments
+## Logger arguments
 
 Below the parameters for WandbLogger, see the [Composer documentation](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html) for a full list and description
 
@@ -61,7 +61,7 @@ init_kwargs = {"notes":"Testing higher learning rate in this experiment",
 wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
 ```
 
-### Log prediction samples
+## Log prediction samples
 
 You can use [Composer's Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) system to control when you log to Weights & Biases via the WandBLogger, in this example a sample of the validation images and predictions is logged:
 

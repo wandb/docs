@@ -12,7 +12,7 @@ W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two li
 
 One is the `WandbLoggerCallback`, which automatically logs metrics reported to Tune to the Wandb API. The other one is the `@wandb_mixin` decorator, which can be used with the function API. It automatically initializes the Wandb API with Tune’s training information. You can just use the Wandb API like you would normally do, e.g. using `wandb.log()` to log your training process.
 
-## WandbLoggerCallback
+## Configure the integration
 
 ```python
 from ray.air.integrations.wandb import WandbLoggerCallback
@@ -94,7 +94,7 @@ Wandb’s `group`, `run_id` and `run_name` are automatically selected by Tune, b
 
 Please see the [`init()` reference](/ref/python/init/) for all other valid configuration settings.
 
-### Example:
+### Example
 
 ```python
 from ray import tune

@@ -12,48 +12,43 @@ If you're using **fastai** to train your models, W&B has an easy integration usi
 
 ## Log with W&B
 
-**a)** [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then log in to your wandb account.
+1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then log in to your wandb account.
 
-**b)** Install the wandb library on your machine in a Python 3 environment using `pip`
+2. Install the wandb library on your machine in a Python 3 environment using `pip`
 
-**c)** log in to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).
+3. log in to the wandb library on your machine.
 
-{{< tabpane text=true >}}
-{{% tab header="Command Line" value="script" %}}
+    1. Find your API key [https://wandb.ai/authorize](https://wandb.ai/authorize).
 
-```shell
-pip install wandb
-wandb login
-```
+        - Command line:
+            ```shell
+            pip install wandb
+            wandb login
+            ```
+        - Notebook:
+            ```notebook
+            !pip install wandb
 
-{{% /tab %}}
-{{% tab header="Notebook" value="notebook" %}}
+            import wandb
+            wandb.login()
+            ```
 
-```notebook
-!pip install wandb
 
-import wandb
-wandb.login()
-```
+    2. Add the `WandbCallback` to the `learner` or `fit` method:
 
-{{% /tab %}}
-{{< /tabpane >}}
+        ```python
+        import wandb
+        from fastai.callback.wandb import *
 
-Then add the `WandbCallback` to the `learner` or `fit` method:
+        # start logging a wandb run
+        wandb.init(project="my_project")
 
-```python
-import wandb
-from fastai.callback.wandb import *
+        # To log only during one training phase
+        learn.fit(..., cbs=WandbCallback())
 
-# start logging a wandb run
-wandb.init(project="my_project")
-
-# To log only during one training phase
-learn.fit(..., cbs=WandbCallback())
-
-# To log continuously for all training phases
-learn = learner(..., cbs=WandbCallback())
-```
+        # To log continuously for all training phases
+        learn = learner(..., cbs=WandbCallback())
+        ```
 
 {{% alert %}}
 If you use version 1 of Fastai, refer to the [Fastai v1 docs](v1.md).
@@ -87,7 +82,7 @@ _Note: any subfolder "models" will be ignored._
 
 `fastai` supports distributed training by using the context manager `distrib_ctx`. W&B supports this automatically and enables you to track your Multi-GPU experiments out of the box.
 
-A minimal example is shown below:
+Review this minimal example:
 
 {{< tabpane text=true >}}
 {{% tab header="Script" value="script" %}}
@@ -163,7 +158,7 @@ notebook_launcher(train, num_processes=2)
 {{% /tab %}}
 {{< /tabpane >}}
 
-### Logging only on the main process
+### Log only on the main process
 
 In the examples above, `wandb` launches one run per process. At the end of the training, you will end up with two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you will have to detect in which process you are manually and avoid creating runs (calling `wandb.init` in all other processes)
 

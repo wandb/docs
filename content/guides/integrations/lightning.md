@@ -10,7 +10,7 @@ weight: 340
 
 PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: Weights & Biases is incorporated directly into the PyTorch Lightning library via the [**`WandbLogger`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
 
-## Get going lightning-fast with just a few lines.
+## Integrate with Lightning
 
 {{< tabpane text=true >}}
 {{% tab header="Pytorch Logger" value="pytorch" %}}
@@ -24,11 +24,13 @@ trainer = Trainer(logger=wandb_logger)
 ```
 
 {{% alert %}}
-**Using wandb.log():** Please note that the `WandbLogger` logs to W&B using the Trainer's `global_step`. If you are making additional calls to `wandb.log` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
+**Using wandb.log():** The `WandbLogger` logs to W&B using the Trainer's `global_step`. If you make additional calls to `wandb.log` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
 
-Instead, log the Trainer's `global_step` like your other metrics, like so:
+Instead, log the Trainer's `global_step` like your other metrics:
 
-`wandb.log({"accuracy":0.99, "trainer/global_step": step})`
+```python
+wandb.log({"accuracy":0.99, "trainer/global_step": step})
+```
 {{% /alert %}}
 
 {{% /tab %}}
@@ -49,19 +51,19 @@ fabric.log_dict({"important_metric": important_metric})
 
 {{< /tabpane >}}
 
-
-
 {{< img src="/images/integrations/n6P7K4M.gif" alt="Interactive dashboards accessible anywhere, and more!" >}}
 
 ## Sign up and Log in to wandb
 
-a) [**Sign up**](https://wandb.ai/site) for a free account
+1. [**Sign up**](https://wandb.ai/site) for a free account.
 
-b) Pip install the `wandb` library
+2.  Run example commands to:
+    1. Use `pip` to install the `wandb` library.
+    2. Signs in to you account at www.wandb.ai in your browser.
 
-c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+3. In your browser, find your API key on the [Authorize page](https://wandb.ai/authorize).
 
-If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
+4. If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
@@ -86,19 +88,20 @@ wandb.login()
 {{< /tabpane >}}
 
 
-## Using PyTorch Lightning's `WandbLogger`
+## Use PyTorch Lightning's `WandbLogger`
 
-PyTorch Lightning has multiple `WandbLogger` ([**`Pytorch`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)) ([**`Fabric`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)) classes that can be used to seamlessly log metrics, model weights, media and more. Just instantiate the WandbLogger and pass it to Lightning's `Trainer` or `Fabric`.
+PyTorch Lightning has multiple `WandbLogger` classes to log metrics and model weights, media, and more.
 
-```
-wandb_logger = WandbLogger()
-```
+- [**`Pytorch`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
+- [**`Fabric`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
+
+To integrate with Lightning, instantiate the WandbLogger and pass it to Lightning's `Trainer` or `Fabric`.
 
 {{< tabpane text=true >}}
 
 {{% tab header="Pytorch Logger" value="pytorch" %}}
 
-```
+```python
 trainer = Trainer(logger=wandb_logger)
 ```
 
@@ -106,7 +109,7 @@ trainer = Trainer(logger=wandb_logger)
 
 {{% tab header="Fabric Logger" value="fabric" %}}
 
-```
+```python
 fabric = L.Fabric(loggers=[wandb_logger])
 fabric.launch()
 fabric.log_dict({
@@ -119,12 +122,12 @@ fabric.log_dict({
 {{< /tabpane >}}
 
 
-### Logger arguments
+### Common logger arguments
 
-Below are some of the most used parameters in WandbLogger, see the PyTorch Lightning for a full list and description
+Below are some of the most used parameters in WandbLogger. Review the Pytorch Lightning documentation for details about all logger arguments.
 
-- ([**`Pytorch`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb))
-- ([**`Fabric`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb))
+- [`Pytorch`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
+- [`Fabric`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 
 | Parameter   | Description                                                                   |
 | ----------- | ----------------------------------------------------------------------------- |
@@ -133,7 +136,7 @@ Below are some of the most used parameters in WandbLogger, see the PyTorch Light
 | `log_model` | Log all models if `log_model="all"` or at end of training if `log_model=True` |
 | `save_dir`  | Path where data is saved                                                      |
 
-### Log your hyperparameters
+## Log your hyperparameters
 
 {{< tabpane text=true >}}
 
@@ -162,7 +165,7 @@ wandb_logger.log_hyperparams(
 
 {{< /tabpane >}}
 
-### Log additional config parameters
+## Log additional config parameters
 
 ```python
 # add one parameter
@@ -176,11 +179,11 @@ wandb.config["key"] = value
 wandb.config.update()
 ```
 
-### Log gradients, parameter histogram and model topology
+## Log gradients, parameter histogram and model topology
 
 You can pass your model object to `wandblogger.watch()` to monitor your models's gradients and parameters as you train. See the PyTorch Lightning `WandbLogger` documentation
 
-### Log metrics
+## Log metrics
 
 {{< tabpane text=true >}}
 
@@ -295,8 +298,7 @@ for epoch in range(num_epochs):
 
 {{< /tabpane >}}
 
-
-### Log the min/max of your metric
+## Log the min/max of a metric
 
 Using wandb's [`define_metric`](/ref/python/run#define_metric) function you can define whether you'd like your W&B summary metric to display the min, max, mean or best value for that metric. If `define`_`metric` _ isn't used, then the last value logged with appear in your summary metrics. See the `define_metric` [reference docs here](/ref/python/run#define_metric) and the [guide here](/guides/track/log/customize-logging-axes) for more.
 
@@ -334,16 +336,10 @@ fabric.log_dict({"val_accuracy": val_accuracy})
 {{% /tab %}}
 {{< /tabpane >}}
 
-### Model Checkpointing
+## Checkpoint a model
 
 To save model checkpoints as W&B [Artifacts](/guides/artifacts/),
-use the Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) callback and set the `log_model` argument in the `WandbLogger`:
-
-```python
-# log model only if `val_accuracy` increases
-wandb_logger = WandbLogger(log_model="all")
-checkpoint_callback = ModelCheckpoint(monitor="val_accuracy", mode="max")
-```
+use the Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) callback and set the `log_model` argument in the `WandbLogger`.
 
 {{< tabpane text=true >}}
 
@@ -418,13 +414,13 @@ optimizer.load_state_dict(full_checkpoint["optimizer"])
 {{% /tab %}}
 {{< /tabpane >}}
 
-The model checkpoints you log will be viewable through the [W&B Artifacts](/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
+The model checkpoints you log are viewable through the [W&B Artifacts](/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
 
 To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry](/guides/models).
 
 Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](/guides/artifacts/project-scoped-automations/#create-a-webhook-automation) downstream actions with webhooks or jobs. 
 
-### Log images, text and more
+## Log images, text, and more
 
 The `WandbLogger` has `log_image`, `log_text` and `log_table` methods for logging media.
 
@@ -537,7 +533,7 @@ class LogPredictionSamplesCallback(Callback):
 trainer = pl.Trainer(callbacks=[LogPredictionSamplesCallback()])
 ```
 
-### How to use multiple GPUs with Lightning and W&B?
+## Use multiple GPUs with Lightning and W&B?
 
 PyTorch Lightning has Multi-GPU support through their DDP Interface. However, PyTorch Lightning's design requires us to be careful about how we instantiate our GPUs.
 
@@ -609,11 +605,9 @@ def main():
 
 
 
-## Check out interactive examples!
+## Examples
 
-You can follow along in our video tutorial with our tutorial colab [here](https://wandb.me/lit-colab)
-
-<!-- {% embed url="https://www.youtube.com/watch?v=hUXQm46TAKc" %} -->
+You can follow along in our video tutorial with our tutorial colab [here](https://wandb.me/lit-colab).
 
 ## Frequently Asked Questions
 
@@ -625,13 +619,13 @@ The core integration is based on the [Lightning `loggers` API](https://pytorch-l
 
 We'll save your model checkpoints to W&B, where you can view them or download them for use in future runs. We'll also capture [system metrics](../app/features/system-metrics.md), like GPU usage and network I/O, environment information, like hardware and OS information, [code state](../app/features/panels/code.md) (including git commit and diff patch, notebook contents and session history), and anything printed to the standard out.
 
-### What if I really need to use `wandb.run` in my training setup?
+### What if I need to use `wandb.run` in my training setup?
 
-You will have to essentially expand the scope of the variable you need to access yourself. In other words, making sure that the initial conditions are the same on all processes.
+You need to expand expand the scope of the variable you need to access yourself. In other words, make sure that the initial conditions are the same on all processes.
 
 ```python
 if os.environ.get("LOCAL_RANK", None) is None:
     os.environ["WANDB_DIR"] = wandb.run.dir
 ```
 
-Then, you can use `os.environ["WANDB_DIR"]` to set up the model checkpoints directory. This way, `wandb.run.dir` can be used by any non-zero rank processes as well.
+If they are, you can use `os.environ["WANDB_DIR"]` to set up the model checkpoints directory. This way, `wandb.run.dir` can be used by any non-zero rank processes as well.

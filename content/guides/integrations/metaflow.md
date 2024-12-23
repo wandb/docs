@@ -35,7 +35,7 @@ wandb.login()
 
 {{% tab header="Command Line" value="cli" %}}
 
-```
+```bash
 pip install -Uqqq metaflow fastcore wandb
 wandb login
 ```
@@ -49,7 +49,7 @@ wandb login
 {{< tabpane text=true >}}
 {{% tab header="Step" value="step" %}}
 
-Decorating a step will turn logging off or on for certain types within that Step.
+Decorating a step turns logging off or on for certain types within that step.
 
 In this example, all datasets and models in `start` will be logged
 
@@ -70,7 +70,7 @@ class WandbExampleFlow(FlowSpec):
 
 Decorating a flow is equivalent to decorating all the constituent steps with a default.
 
-In this case, all steps in `WandbExampleFlow` will log datasets and models by default -- the same as decorating each step with `@wandb_log(datasets=True, models=True)`
+In this case, all steps in `WandbExampleFlow` default to logging datasets and models by default, just like decorating each step with `@wandb_log(datasets=True, models=True)`
 
 ```python
 from wandb.integration.metaflow import wandb_log
@@ -87,12 +87,12 @@ class WandbExampleFlow(FlowSpec):
 
 {{% tab header="Flow and Steps" value="flow_and_steps" %}}
 
-Decorating the flow is equivalent to decorating all steps with a default. That means if you later decorate a Step with another `@wandb_log`, you will override the flow-level decoration.
+Decorating the flow is equivalent to decorating all steps with a default. That means if you later decorate a Step with another `@wandb_log`, it overrides the flow-level decoration.
 
-In the example below:
+In this example:
 
-* `start` and `mid` will log datasets and models, but
-* `end` will not log datasets or models.
+* `start` and `mid` log both datasets and models.
+* `end` logs neither datasets nor models.
 
 ```python
 from wandb.integration.metaflow import wandb_log
@@ -123,11 +123,11 @@ class WandbExampleFlow(FlowSpec):
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Where is my data? Can I access it programmatically?
+## Access your data programmatically
 
 You can access the information we've captured in three ways: inside the original Python process being logged using the [`wandb` client library](../../../ref/python/README.md), with the [web app UI](../../track/workspaces.md), or programmatically using [our Public API](../../../ref/python/public-api/README.md). `Parameter`s are saved to W&B's [`config`](../../track/config.md) and can be found in the [Overview tab](../../runs/intro.md#overview-tab). `datasets`, `models`, and `others` are saved to [W&B Artifacts](../../artifacts/intro.md) and can be found in the [Artifacts tab](../../runs/intro.md#artifacts-tab). Base python types are saved to W&B's [`summary`](../../track/log/intro.md) dict and can be found in the Overview tab. See our [guide to the Public API](../../track/public-api-guide.md) for details on using the API to get this information programmatically from outside .
 
-Here's a cheatsheet:
+### Cheat sheet
 
 | Data                                            | Client library                            | UI                    |
 | ----------------------------------------------- | ----------------------------------------- | --------------------- |
@@ -161,7 +161,7 @@ We currently support these types:
 | `models`            | <ul><li><code>nn.Module</code></li><li><code>sklearn.base.BaseEstimator</code></li></ul>                                    |
 | `others`            | <ul><li>Anything that is <a href="https://wiki.python.org/moin/UsingPickle">pickle-able</a> and JSON serializable</li></ul> |
 
-### Examples of logging behavior
+### How can I configure logging behavior?
 
 | Kind of Variable | behavior                      | Example         | Data Type      |
 | ---------------- | ------------------------------ | --------------- | -------------- |
@@ -171,7 +171,7 @@ We currently support these types:
 | Local            | Never logged                   | `accuracy`      | `float`        |
 | Local            | Never logged                   | `df`            | `pd.DataFrame` |
 
-### Does this track artifact lineage?
+### Is artifact lineage tracked?
 
 Yes! If you have an artifact that is an output of step A and an input to step B, we automatically construct the lineage DAG for you.
 

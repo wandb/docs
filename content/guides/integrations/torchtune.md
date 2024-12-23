@@ -19,7 +19,7 @@ Check the W&B blog post on [Fine-tuning Mistral 7B using torchtune](https://wand
 {{< tabpane text=true >}}
 {{% tab header="Command line" value="cli" %}}
 
-Overriding command line arguments at launch:
+Override command line arguments at launch:
 
 ```bash
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -31,7 +31,8 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
 {{% /tab %}}
 {{% tab header="Recipe's config" value="config" %}}
 
-Enable W&B logging on the recipe's config
+Enable W&B logging on the recipe's config:
+
 ```yaml
 # inside llama3/8B_lora_single_device.yaml
 metric_logger:
@@ -43,7 +44,7 @@ log_every_n_steps: 5
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Using the W&B metric logger
+## Use the W&B metric logger
 
 Enable W&B logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
 
@@ -82,15 +83,15 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
 
 ## What is logged?
 
-After running the above command, you can explore the W&B dashboard to see the logged metrics. By default W&B grabs all of the hyperparameters from the config file and the launch override ones.
+You can explore the W&B dashboard to see the logged metrics. By default W&B logs all of the hyperparameters from the config file and the launch overrides.
 
-W&B captures the resolved config for you on the **Overview** tab. W&B also stores the config as a YAML on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
+W&B captures the resolved config on the **Overview** tab. W&B also stores the config in YAML format on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
 
 {{< img src="/images/integrations/torchtune_config.png" alt="" >}}
 
 ### Logged Metrics
 
-Each recipe has their own training loop, so check each individual recipe to see what metrics are logged. The default metrics logged are:
+Each recipe has its own training loop, so check each individual recipe to see what metrics are logged. The default metrics logged are:
 
 | Metric | Description |
 | --- | --- |
@@ -118,7 +119,7 @@ self._metric_logger.log_dict(
 This is a fast evolving library, the current metrics are subject to change. If you want to add a custom metric, you should modify the recipe and call the corresponding `self._metric_logger.*` function.
 {{% /alert %}}
 
-## Saving and loading checkpoints
+## Save and load checkpoints
 
 The torchtune library supports various [checkpoint formats](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Depending on the origin of the model you are using, you should switch to the appropriate [checkpointer class](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html).
 

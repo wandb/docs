@@ -8,9 +8,7 @@ weight: 410
 ---
 [spaCy](https://spacy.io) is a popular "industrial-strength" NLP library: fast, accurate models with a minimum of fuss. As of spaCy v3, Weights and Biases can now be used with [`spacy train`](https://spacy.io/api/cli#train) to track your spaCy model's training metrics as well as to save and version your models and datasets. And all it takes is a few added lines in your configuration!
 
-## Getting Started: Track and Save your Models
-
-### 1. Install the `wandb` library and log in
+## 1. Install the `wandb` library and log in
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
@@ -33,7 +31,7 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-### 2) Add the `WandbLogger` to your spaCy config file
+## 2. Add the `WandbLogger` to your spaCy config file
 
 spaCy config files are used to specify all aspects of training, not just logging -- GPU allocation, optimizer choice, dataset paths, and more. Minimally, under `[training.logger]` you need to provide the key `@loggers` with the value `"spacy.WandbLogger.v3"`, plus a `project_name`. 
 
@@ -59,7 +57,7 @@ model_log_interval = 1000
 | `entity`               | `Optional str` . If passed, the run will be created in the specified entity                                                                                                                                                                                   |
 | `run_name`             | `Optional str` . If specified, the run will be created with the specified name.                                                                                                                                                                               |
 
-### 3) Start training
+## 3. Start training
 
 Once you have added the `WandbLogger` to your spaCy training config you can run `spacy train` as usual.
 

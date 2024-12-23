@@ -10,36 +10,36 @@ weight: 50
 
 W&B integrates with [Databricks](https://www.databricks.com/) by customizing the W&B Jupyter notebook experience in the Databricks environment.
 
-## Databricks Configuration
+## Configure Databricks
 
-### Install wandb in the cluster
+1. Install wandb in the cluster
 
-Navigate to your cluster configuration, choose your cluster, click on Libraries, then on Install New, Choose PyPI and add the package `wandb`.
+    Navigate to your cluster configuration, choose your cluster, click on Libraries, then on Install New, Choose PyPI and add the package `wandb`.
 
-### Authentication
+2. Set up authentication
 
-In order to authenticate your W&B account you can add a databricks secret which your notebooks can query.
+    To authenticate your W&B account you can add a databricks secret which your notebooks can query.
 
-```bash
-# install databricks cli
-pip install databricks-cli
+    ```bash
+    # install databricks cli
+    pip install databricks-cli
 
-# Generate a token from databricks UI
-databricks configure --token
+    # Generate a token from databricks UI
+    databricks configure --token
 
-# Create a scope with one of the two commands (depending if you have security features enabled on databricks):
-# with security add-on
-databricks secrets create-scope --scope wandb
-# without security add-on
-databricks secrets create-scope --scope wandb --initial-manage-principal users
+    # Create a scope with one of the two commands (depending if you have security features enabled on databricks):
+    # with security add-on
+    databricks secrets create-scope --scope wandb
+    # without security add-on
+    databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-# Add your api_key from: https://app.wandb.ai/authorize
-databricks secrets put --scope wandb --key api_key
-```
+    # Add your api_key from: https://app.wandb.ai/authorize
+    databricks secrets put --scope wandb --key api_key
+    ```
 
 ## Examples
 
-### Simple
+### Simple example
 
 ```python
 import os

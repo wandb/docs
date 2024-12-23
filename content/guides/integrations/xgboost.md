@@ -13,7 +13,7 @@ The `wandb` library has a `WandbCallback` callback for logging metrics, configs 
 
 {{< img src="/images/integrations/xgb_dashboard.png" alt="Weights & Biases dashboard using XGBoost" >}}
 
-## Get Started
+## Get started
 
 Logging XGBoost metrics, configs and booster models to Weights & Biases is as easy as passing the `WandbCallback` to XGBoost:
 
@@ -35,7 +35,7 @@ run.finish()
 
 You can open **[this notebook](https://wandb.me/xgboost)** for a comprehensive look at logging with XGBoost and Weights & Biases
 
-## WandbCallback
+## `WandbCallback` reference
 
 ### Functionality
 Passing `WandbCallback` to a XGBoost model will:
@@ -48,31 +48,25 @@ Passing `WandbCallback` to a XGBoost model will:
 - Capture the best eval metric in `wandb.summary` when `define_metric=True` (default).
 
 ### Arguments
-`log_model`: (boolean) if True save and upload the model to Weights & Biases Artifacts
+- `log_model`: (boolean) if True save and upload the model to Weights & Biases Artifacts
 
-`log_feature_importance`: (boolean) if True log a feature importance bar plot
+- `log_feature_importance`: (boolean) if True log a feature importance bar plot
 
-`importance_type`: (str) one of `{weight, gain, cover, total_gain, total_cover}` for tree model. weight for linear model.
+- `importance_type`: (str) one of `{weight, gain, cover, total_gain, total_cover}` for tree model. weight for linear model.
 
-`define_metric`: (boolean) if True (default) capture model performance at the best step, instead of the last step, of training in your `wandb.summary`.
+- `define_metric`: (boolean) if True (default) capture model performance at the best step, instead of the last step, of training in your `wandb.summary`.
 
 
-You can find the source code for WandbCallback [here](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)
+You can review the [source code for WandbCallback](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py).
 
-{{% alert %}}
-Looking for more working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
-{{% /alert %}}
+For additional examples, check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
 
-## Tuning your hyperparameters with Sweeps
+## Tune your hyperparameters with Sweeps
 
 Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/intro.md), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
 
-{{% alert %}}
-See the following Colab notebook to learn more about these tools and see an example of how to use Sweeps with XGBoost.
-
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" >}}
 
-You can also try this [XGBoost & Sweeps Python script](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)
-{{% /alert %}}
+You can also try this [XGBoost & Sweeps Python script](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py).
 
 {{< img src="/images/integrations/xgboost_sweeps_example.png" alt="tl;dr: trees outperform linear learners on this classification dataset." >}}

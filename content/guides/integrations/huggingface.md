@@ -10,7 +10,7 @@ weight: 110
 
 The [Hugging Face Transformers](https://huggingface.co/transformers/) library makes state-of-the-art NLP models like BERT and training techniques like mixed precision and gradient checkpointing easy to use. The [W&B integration](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback) adds rich, flexible experiment tracking and model versioning to interactive centralized dashboards without compromising that ease of use.
 
-## 🤗 Next-level logging in few lines
+## Next-level logging in few lines
 
 ```python
 os.environ["WANDB_PROJECT"] = "<my-amazing-project>"  # name your W&B project
@@ -27,15 +27,15 @@ trainer = Trainer(..., args=args)
 If you'd rather dive straight into working code, check out this [Google Colab](https://wandb.me/hf).
 {{% /alert %}}
 
-## Getting started: track experiments
+## Get started: track experiments
 
-### 1) Sign Up, install the `wandb` library and log in
+### 1. Sign Up, install the `wandb` library and log in
 
-a) [**Sign up**](https://wandb.ai/site) for a free account
+1. [**Sign up**](https://wandb.ai/site) for a free account
 
-b) Pip install the `wandb` library
+2. Pip install the `wandb` library
 
-c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+3. To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
 If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
 
@@ -64,7 +64,7 @@ wandb.login()
 
 {{< /tabpane >}}
 
-### 2) Name the project
+### 2. Name the project
 
 A W&B Project is where all of the charts, data, and models logged from related runs are stored. Naming your project helps you organize your work and keep all the information about a single project in one place.
 
@@ -101,7 +101,7 @@ Make sure you set the project name _before_ you initialize the `Trainer`.
 
 If a project name is not specified the project name defaults to "huggingface".
 
-### 3) Log your training runs to W&B
+### 3. Log your training runs to W&B
 
 This is **the most important step:** when defining your `Trainer` training arguments, either inside your code or from the command line, is to set `report_to` to `"wandb"` in order enable logging with Weights & Biases.
 
@@ -148,7 +148,7 @@ trainer.train()  # start training and logging to W&B
 Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`.
 {{% /alert %}}
 
-### 4) Turn on model checkpointing 
+### 4. Turn on model checkpointing 
 
 
 Using Weights & Biases' [Artifacts](../artifacts/intro.md), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Model Registry](../model_registry/intro.md) to register models to prepare them for staging or deployment in your production environment.
@@ -191,9 +191,7 @@ WANDB_LOG_MODEL="checkpoint"
 
 {{< /tabpane >}}
 
-
-
-Any Transformers `Trainer` you initialize from now on will upload models to your W&B project. The model checkpoints you log will be viewable through the [Artifacts](../artifacts/intro.md) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..). 
+Any Transformers `Trainer` you initialize from now on will upload models to your W&B project. The model checkpoints you log will be viewable through the [Artifacts](../artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)). 
 
 
 {{% alert %}}
@@ -206,7 +204,7 @@ Once you have logged your checkpoints to Artifacts, you can then register your b
 
 See the [Model Registry](../model_registry/intro.md) documentation for how to link a model Artifact to the Model Registry.
  
-### 5) Visualise evaluation outputs during training
+### 5. Visualise evaluation outputs during training
 
 Visualing your model outputs during training or evaluation is often essential to really understand how your model is training.
 
@@ -217,7 +215,7 @@ See the **[Custom logging section](#custom-logging-log-and-view-evaluation-sampl
 
 {{< img src="/images/integrations/huggingface_eval_tables.png" alt="Shows a W&B Table with evaluation outputs" >}}
 
-### 6) Finish your W&B Run (Notebook only) 
+### 6. Finish your W&B Run (Notebook only) 
 
 If your training is encapsulated in a Python script, the W&B run will end when your script finishes.
 
@@ -231,11 +229,9 @@ trainer.train()  # start training and logging to W&B
 wandb.finish()
 ```
 
-### 7) Visualize your results
+### 7. Visualize your results
 
 Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard](../track/workspaces.md). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
-
-
 
 ## Advanced features and FAQs
 
@@ -244,7 +240,7 @@ If `load_best_model_at_end=True` is set in the `TrainingArguments` that are pass
 
 If you'd like to centralize all your best model versions across your team to organize them by ML task, stage them for production, bookmark them for further evaluation, or kick off downstream Model CI/CD processes then ensure you're saving your model checkpoints to Artifacts. Once logged to Artifacts, these checkpoints can then be promoted to the [Model Registry](../model_registry/intro.md).
 
-### Loading a saved model
+### How do I load a saved model?
 
 If you saved your model to W&B Artifacts with `WANDB_LOG_MODEL`, you can download your model weights for additional training or to run inference. You just load them back into the same Hugging Face architecture that you used before.
 
@@ -267,7 +263,7 @@ with wandb.init(project="amazon_sentiment_analysis") as run:
     # Do additional training, or run inference
 ```
 
-### Resume training from a checkpoint 
+### How do I resume training from a checkpoint?
 If you had set `WANDB_LOG_MODEL='checkpoint'` you can also resume training by you can using the `model_dir` as the `model_name_or_path` argument in your `TrainingArguments` and pass `resume_from_checkpoint=True` to `Trainer`.
 
 ```python
@@ -299,7 +295,7 @@ with wandb.init(
     trainer.train(resume_from_checkpoint=checkpoint_dir)
 ```
 
-### Custom logging: log and view evaluation samples during training
+### How do I log and view evaluation samples during training
 
 Logging to Weights & Biases via the Transformers `Trainer` is taken care of by the [`WandbCallback`](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback by subclassing `WandbCallback` and adding additional functionality that leverages additional methods from the Trainer class. 
 
@@ -423,7 +419,7 @@ trainer.add_callback(progress_callback)
 For a more detailed example please refer to this [colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Custom_Progress_Callback.ipynb)
 
 
-### Additional W&B settings
+### What additional W&B settings are available?
 
 Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here](/guides/hosting/env-vars/).
 
@@ -458,7 +454,7 @@ WANDB_SILENT=true
 {{< /tabpane >}}
 
 
-### Customize `wandb.init`
+### How do I customize `wandb.init`?
 
 The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
 
@@ -474,7 +470,7 @@ wandb.init(
 ```
 
 
-## Highlighted Articles
+## Additional resources
 
 Below are 6 Transformers and W&B related articles you might enjoy
 
@@ -540,6 +536,6 @@ We fine tune a DistilBERT transformer for sentiment analysis (binary classificat
 Read the full report [here](https://wandb.ai/ayush-thakur/huggingface/reports/How-to-Fine-Tune-HuggingFace-Transformers-on-a-Custom-Dataset--Vmlldzo0MzQ2MDc).
 </details>
 
-## Issues, questions, feature requests
+## Get help or request features
 
 For any issues, questions, or feature requests for the Hugging Face W&B integration, feel free to post in [this thread on the Hugging Face forums](https://discuss.huggingface.co/t/logging-experiment-tracking-with-w-b/498) or open an issue on the Hugging Face [Transformers GitHub repo](https://github.com/huggingface/transformers).

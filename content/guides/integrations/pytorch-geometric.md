@@ -8,7 +8,7 @@ weight: 310
 ---
 [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) or PyG is one of the most popular libraries for geometric deep learning and W&B works extremely well with it for visualizing graphs and tracking experiments.
 
-## Getting Started
+## Get Started
 
 After you have installed pytorch geometric, install the wandb library and login
 
@@ -16,7 +16,7 @@ After you have installed pytorch geometric, install the wandb library and login
 
 {{% tab header="Command Line" value="script" %}}
 
-```python
+```bash
 pip install wandb
 wandb login
 ```
@@ -36,11 +36,11 @@ wandb.login()
 
 {{< /tabpane >}}
 
-## Visualizing the Graphs
+## Visualize the Graphs
 
 You can save details about the input graphs including number of edges, number of nodes and more. W&B supports logging plotly charts and HTML panels so any visualizations you create for your graph can then also be logged to W&B.
 
-### Using PyVis
+### Use PyVis
 
 The following snippet shows how you could do that with PyVis and HTML.
 
@@ -67,11 +67,9 @@ wandb.log({"eda/graph": wandb.Html("graph.html")})
 wandb.finish()
 ```
 
-| {{< img src="/images/integrations/pyg_graph_wandb.png" alt="This image shows the input graph as an interactive HTML visualization." >}} | 
-|:--:| 
-| **This image shows the input graph as an interactive HTML visualization.** |
+{{< img src="/images/integrations/pyg_graph_wandb.png" alt="This image shows the input graph as an interactive HTML visualization." >}}
 
-### Using Plotly
+### Use Plotly
 
 To use plotly to create a graph visualization, first you need to convert the PyG graph to a networkx object. Following this you will need to create Plotly scatter plots for both nodes and edges. The snippet below can be used for this task.
 
@@ -123,11 +121,9 @@ wandb.log({‘graph’: wandb.Plotly(create_vis(graph))})
 wandb.finish()
 ```
 
-| {{< img src="/images/integrations/pyg_graph_plotly.png" alt="This visualization was created using the function shown in the snippet above and longed inside a W&B Table." >}} | 
-|:--:| 
-| **This visualization was created using the function shown in the snippet above and longed inside a W&B Table.** |
+{{< img src="/images/integrations/pyg_graph_plotly.png" alt="This visualization was created using the function shown in the snippet above and longed inside a W&B Table." >}}
 
-## Logging Metrics
+## Log Metrics
 
 You can use W&B to track all your experiments along with metrics like loss functions, accuracy and more. Just add the following line to your training loop and you are good to go!
 
@@ -140,9 +136,7 @@ wandb.log({
 })
 ```
 
-| {{< img src="/images/integrations/pyg_metrics.png" alt="Plots from W&B showing how the hits@K metric changes over epochs for different values of K." >}} | 
-|:--:| 
-| **Plots from W&B showing how the hits@K metric changes over epochs for different values of K.** |
+{{< img src="/images/integrations/pyg_metrics.png" alt="Plots from W&B showing how the hits@K metric changes over epochs for different values of K." >}}
 
 ## More Resources
 
