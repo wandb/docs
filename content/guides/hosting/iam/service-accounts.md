@@ -13,9 +13,9 @@ A service account's API key allows the caller to read from or write to projects 
 
 Service accounts allow for centralized management of workflows by multiple users or teams, to automate experiment tracking for W&B Models or to log traces for W&B Weave. You have the option to associate a human user's identity with a workflow managed by a service account, by using either of the [environment variables](../../track/environment-variables.md) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
 
-:::info
+{{% alert %}}
 Service accounts are available on [Dedicated Cloud](../hosting-options/dedicated_cloud.md), [Self-managed instances](../hosting-options/self-managed.md) with an enterprise license, and enterprise accounts in [SaaS Cloud](../hosting-options/saas_cloud.md).
-:::
+{{% /alert %}}
 
 ## Organization-scoped service accounts
 
@@ -32,9 +32,9 @@ To create a new organization-scoped service account:
 * Next to the newly created service account, click **Copy API key**.
 * Store the copied API key in a secret manager or another secure but accessible location.
 
-:::info
+{{% alert %}}
 An organization-scoped service account requires a default team, even though it has access to non-restricted projects owned by all teams within the organization. This helps to prevent a workload from failing if the `WANDB_ENTITY` variable is not set in the environment for your model training or generative AI app. To use an organization-scoped service account for a project in a different team, you must set the `WANDB_ENTITY` environment variable to that team.
-:::
+{{% /alert %}}
 
 ## Team-scoped service accounts
 
@@ -53,9 +53,9 @@ To create a new team scoped service account for your team:
 
 If you do not configure a team in your model training or generative AI app environment that uses a team-scoped service account, the model runs or weave traces log to the named project within the service account's parent team. In such a scenario, user attribution using the `WANDB_USERNAME` or `WANDB_USER_EMAIL` variables _do not work_ unless the referenced user is part of the service account's parent team.
 
-:::warning
+{{% alert color="warning" %}}
 A team-scoped service account cannot log runs to a [team or restricted-scoped project](./restricted-projects.md#visibility-scopes) in a team different from its parent team, but it can log runs to an open visibility project within another team.
-:::
+{{% /alert %}}
 
 ### External service accounts
 

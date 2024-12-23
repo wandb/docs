@@ -6,10 +6,6 @@ menu:
 title: Set up launch agent
 url: guides/launch/setup-agent-advanced
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Advanced agent setup
 
 This guide provides information on how to set up the W&B Launch agent to build container images in different environments.
@@ -52,15 +48,8 @@ Within your launch agent config (`launch-config.yaml`), provide the name of the 
 
 The following tabs demonstrates how to configure the launch agent based on your environment and registry.
 
-<Tabs
-defaultValue="aws"
-values={[
-{label: 'Amazon Web Services', value: 'aws'},
-{label: 'Google Cloud', value: 'gcp'},
-{label: 'Azure', value: 'azure'},
-]}>
-<TabItem value="aws">
-
+{{< tabpane text=true >}}
+{{% tab "AWS" %}}
 The AWS environment configuration requires the region key. The region should be the AWS region that the agent runs in. 
 
 ```yaml title="launch-config.yaml"
@@ -79,10 +68,8 @@ builder:
 ```
 
 The agent uses boto3 to load the default AWS credentials. See the [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) for more information on how to configure default AWS credentials.
-
-  </TabItem>
-  <TabItem value="gcp">
-
+{{% /tab %}}
+{{% tab "GCP" %}}
 The Google Cloud environment requires region and project keys. Set `region` to the region that the agent runs in. Set `project` to the Google Cloud project that the agent runs in. The agent uses `google.auth.default()` in Python to load the default credentials.
 
 ```yaml title="launch-config.yaml"
@@ -103,8 +90,8 @@ builder:
 
 See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) for more information on how to configure default GCP credentials so they are available to the agent.
 
-  </TabItem>
-  <TabItem value="azure">
+{{% /tab %}}
+{{% tab "Azure" %}}
 
 The Azure environment does not require any additional keys. When the agent starts, it use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials.
 
@@ -121,9 +108,8 @@ builder:
 ```
 
 See the [`azure-identity` documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Agent permissions
 
@@ -133,15 +119,8 @@ The agent permissions required vary by use case.
 
 Below are the permissions that are generally required by launch agents to interact with cloud registries.
 
-<Tabs
-defaultValue="aws"
-values={[
-{label: 'Amazon Web Services', value: 'aws'},
-{label: 'Google Cloud', value: 'gcp'},
-{label: 'Azure', value: 'azure'},
-]}>
-<TabItem value="aws">
-
+{{< tabpane text=true >}}
+{{% tab "AWS" %}}
 ```yaml
 {
   'Version': '2012-10-17',
@@ -171,10 +150,8 @@ values={[
     ],
 }
 ```
-
-  </TabItem>
-  <TabItem value="gcp">
-
+{{% /tab %}}
+{{% tab "GCP" %}}
 ```js
 artifactregistry.dockerimages.list;
 artifactregistry.repositories.downloadArtifacts;
@@ -182,27 +159,19 @@ artifactregistry.repositories.list;
 artifactregistry.repositories.uploadArtifacts;
 ```
 
-  </TabItem>
-  <TabItem value="azure">
+{{% /tab %}}
+{{% tab "Azure" %}}
 
 Add the [`AcrPush` role](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush) if you use the Kaniko builder.
-
-</TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### Storage permissions for Kaniko
 
 The launch agent requires permission to push to cloud storage if the agent uses the Kaniko builder. Kaniko uses a context store outside of the pod running the build job.
 
-<Tabs
-defaultValue="aws"
-values={[
-{label: 'Amazon Web Services', value: 'aws'},
-{label: 'Google Cloud', value: 'gcp'},
-{label: 'Azure', value: 'azure'},
-]}>
-<TabItem value="aws">
-
+{{< tabpane text=true >}}
+{{% tab "AWS" %}}
 The recommended context store for the Kaniko builder on AWS is Amazon S3. The following policy can be used to give the agent access to an S3 bucket:
 
 ```json
@@ -224,10 +193,8 @@ The recommended context store for the Kaniko builder on AWS is Amazon S3. The fo
   ]
 }
 ```
-
-  </TabItem>
-  <TabItem value="gcp">
-
+{{% /tab %}}
+{{% tab "GCP" %}}
 On GCP, the following IAM permissions are required for the agent to upload build contexts to GCS:
 
 ```js
@@ -237,13 +204,12 @@ storage.objects.delete;
 storage.objects.get;
 ```
 
-  </TabItem>
-  <TabItem value="azure">
+{{% /tab %}}
+{{% tab "Azure" %}}
 
 The [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) role is required in order for the agent to upload build contexts to Azure Blob Storage.
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ## Customizing the Kaniko build

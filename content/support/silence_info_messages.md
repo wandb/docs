@@ -6,34 +6,13 @@ tags:
 - notebooks
 - environment variables
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+To suppress log messages in your notebook such as this:
 
-To turn off standard Weights & Biases logging and information messages, such as project info at the start of a run, set the `WANDB_SILENT` environment variable. This must occur in a notebook cell before running `wandb.login`:
-
-<Tabs
-  defaultValue="jupyter"
-  values={[
-    {label: 'Jupyter Magic', value: 'jupyter'},
-    {label: 'Python', value: 'python'},
-  ]}>
-  <TabItem value="jupyter">
-
-```notebook
-%env WANDB_SILENT=True
 ```
-  </TabItem>
-  <TabItem value="python">
+INFO SenderThread:11484 [sender.py:finish():979]
+``` 
 
-```python
-import os
-
-os.environ["WANDB_SILENT"] = "True"
-```
-  </TabItem>
-</Tabs>
-
-To suppress log messages such as `INFO SenderThread:11484 [sender.py:finish():979]` in your notebook, utilize the following code:
+Set the log level to `logging.ERROR` to only show errors, suppressing output of info-level log output.
 
 ```python
 import logging
@@ -41,3 +20,20 @@ import logging
 logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
+
+To turn off log output completely, set the `WANDB_SILENT` environment variable. This must occur in a notebook cell before running `wandb.login`:
+
+{{< tabpane text=true langEqualsHeader=true >}}
+{{% tab "Notebook" %}}
+```python
+%env WANDB_SILENT=True
+```
+{{% /tab %}}
+{{% tab "Python" %}}
+```python
+import os
+
+os.environ["WANDB_SILENT"] = "True"
+```
+{{% /tab %}}
+{{< /tabpane >}}

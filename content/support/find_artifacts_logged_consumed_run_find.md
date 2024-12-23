@@ -5,20 +5,12 @@ type: docs
 tags:
    - artifacts
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 W&B tracks artifacts logged by each run and those used by each run to construct an artifact graph. This graph is a bipartite, directed, acyclic graph with nodes representing runs and artifacts. An example can be viewed [here](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (click "Explode" to expand the graph).
 
 Use the Public API to navigate the graph programmatically, starting from either an artifact or a run.
 
-<Tabs
-  defaultValue="from_artifact"
-  values={[
-    {label: 'From an Artifact', value: 'from_artifact'},
-    {label: 'From a Run', value: 'from_run'},
-  ]}>
-  <TabItem value="from_artifact">
+{{< tabpane text=true >}}
+{{% tab "From an Artifact" %}}
 
 ```python
 api = wandb.Api()
@@ -36,8 +28,8 @@ next_artifacts = consumer_runs[0].logged_artifacts()
 previous_artifacts = producer_run.used_artifacts()
 ```
 
-  </TabItem>
-  <TabItem value="from_run">
+{{% /tab %}}
+{{% tab "From a Run" %}}
 
 ```python
 api = wandb.Api()
@@ -55,5 +47,5 @@ earlier_run = consumed_artifacts[0].logged_by()
 consumer_runs = produced_artifacts[0].used_by()
 ```
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{% /tabpane %}}

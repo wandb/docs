@@ -5,9 +5,6 @@ menu:
     parent: integrations
 title: Hugging Face Diffusers
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" >}}
 
 [🤗 Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pre-trained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization, pipeline architecture, and configuration management to interactive centralized dashboards without compromising that ease of use.

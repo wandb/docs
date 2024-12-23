@@ -6,10 +6,6 @@ menu:
 title: 'Tutorial: Set up W&B Launch on Kubernetes'
 url: guides/launch/setup-launch-kubernetes
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 You can use W&B Launch to push ML workloads to a Kubernetes cluster, giving ML engineers a simple interface right in W&B to use the resources you already manage with Kubernetes. 
 
 W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that W&B maintains. 
@@ -28,15 +24,8 @@ The Launch queue configuration for a Kubernetes target resource will resemble ei
 
 You can control any aspect of the Kubernetes workload resource spec when you create a Launch queue.
 
-<Tabs
-defaultValue="job"
-values={[
-{label: 'Kubernetes Job Spec', value: 'job'},
-{label: 'Custom Resource Spec', value: 'custom'},
-]}>
-
-<TabItem value="job">
-
+{{< tabpane text=true >}}
+{{% tab "Kubernetes job spec" %}}
 ```yaml
 spec:
   template:
@@ -54,10 +43,8 @@ metadata:
     queue: k8s-test
 namespace: wandb
 ```
-
-</TabItem>
-<TabItem value="custom">
-
+{{% /tab %}}
+{{% tab "Custom resource spec" %}}
 In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multi-node jobs using Volcano for an example application. Another use case might be that you want to use W&B Launch with Kubeflow.
 
 The following YAML snippet shows a sample Launch queue config that uses Kubeflow:
@@ -90,9 +77,8 @@ kubernetes:
     name: '${run_id}-pytorch-job'
   apiVersion: kubeflow.org/v1
 ```
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 For security reasons, W&B will inject the following resources into your Launch queue if they are not specified:
 

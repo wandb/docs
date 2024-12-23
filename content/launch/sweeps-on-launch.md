@@ -7,9 +7,6 @@ menu:
 title: Create sweeps with W&B Launch
 url: guides/launch/sweeps-on-launch
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 {{< cta-button colabLink="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7" >}}
 
 Create a hyperparameter tuning job ([sweeps](../sweeps/intro.md)) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep scheduler starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
@@ -34,14 +31,9 @@ Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B
 Before you create a sweep with W&B Launch, ensure that you first create a job to sweep over. See the [Create a Job](./create-launch-job.md) page for more information. 
 {{% /alert %}}
 
+{{< tabpane text=true >}}
+{{% tab "W&B app" %}}
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'W&B App', value: 'app'},
-    {label: 'CLI', value: 'cli'},
-  ]}>
-  <TabItem value="app">
 Create a sweep interactively with the W&B App.
 
 1. Navigate to your W&B project on the W&B App.  
@@ -58,8 +50,8 @@ Create a sweep interactively with the W&B App.
 
 {{< img src="/images/launch/create_sweep_with_launch.png" alt="" >}}
 
-  </TabItem>
-  <TabItem value="cli">
+{{% /tab %}}
+{{% tab "CLI" %}}
 
 Programmatically create a W&B Sweep with Launch with the W&B CLI.
 
@@ -118,10 +110,8 @@ wandb launch-sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entit
 
 For more information on W&B Sweeps, see the [Tune Hyperparameters](../sweeps/intro.md) chapter.
 
-
-</TabItem>
-
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ## Create a custom sweep scheduler
@@ -131,15 +121,8 @@ Create a custom sweep scheduler either with the W&B scheduler or a custom schedu
 Using scheduler jobs requires wandb cli version >= `0.15.4`
 {{% /alert %}}
 
-<Tabs
-  defaultValue="wandb-scheduler"
-  values={[
-    {label: 'Wandb scheduler', value: 'wandb-scheduler'},
-    {label: 'Optuna scheduler', value: 'optuna-scheduler'},
-    {label: 'Custom scheduler', value: 'custom-scheduler'},
-  ]}>
-    <TabItem value="wandb-scheduler">
-
+{{< tabpane text=true >}}
+{{% tab "W&B scheduler" %}}
   Create a launch sweep using the W&B sweep scheduling logic as a job.
   
   1. Identify the Wandb scheduler job in the public wandb/sweep-jobs project, or use the job name:
@@ -164,10 +147,8 @@ parameters:
     min: 0.0001
     max: 0.1
 ```
-
-  </TabItem>
-  <TabItem value="custom-scheduler">
-
+{{% /tab %}}
+{{% tab "Custom scheduler" %}}
   Custom schedulers can be created by creating a scheduler-job. For the purposes of this guide we will be modifying the `WandbScheduler` to provide more logging. 
 
   1. Clone the `wandb/launch-jobs` repo (specifically: `wandb/launch-jobs/jobs/sweep_schedulers`)
@@ -183,8 +164,8 @@ scheduler:
 ...
 ```
 
-  </TabItem>
-  <TabItem value="optuna-scheduler">
+{{% /tab %}}
+{{% tab "Optuna scheduler" %}}
 
   Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to W&B). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
 
@@ -236,10 +217,8 @@ Create a launch sweep using Optuna's scheduling logic with a job.
 
 
   For the exact implementation of the Optuna sweep scheduler job, see [wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py). For more examples of what is possible with the Optuna scheduler, check out [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
-
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
  Examples of what is possible with custom sweep scheduler jobs are available in the [wandb/launch-jobs](https://github.com/wandb/launch-jobs) repo under `jobs/sweep_schedulers`. This guide shows how to use the publicly available **Wandb Scheduler Job**, as well demonstrates a process for creating custom sweep scheduler jobs. 
 

@@ -5,10 +5,6 @@ menu:
     parent: integrations
 title: Hugging Face AutoTrain
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 [🤗 AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
 
 [Weights & Biases](http://wandb.com/) is directly integrated into 🤗 AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments!

@@ -6,10 +6,6 @@ menu:
 title: 'Tutorial: Set up W&B Launch with Docker'
 url: guides/launch/setup-launch-docker
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 The following guide describes how to configure W&B Launch to use Docker on a local machine for both the launch agent environment and for the queue's target resource.
 
 Using Docker to execute jobs and as the launch agent's environment on the same local machine is particularly useful if your compute is installed on a machine that does not have a cluster management system (such as Kubernetes).
@@ -26,7 +22,6 @@ When you use Docker with W&B Launch, W&B will first build an image, and then bui
 
 ## Configure a Docker queue
 
-<!-- The launch queue configuration for a Docker target compute resource accepts the same options defined for the [docker run command](https://www.notion.so/Set-up-for-Docker-e784819393af47e3bba43c648abc67cb?pvs=21). W&B Launch will take the launch queue's configuration you define and reformat it execute the `docker run` command. There are two transformations that take place: -->
 
 The launch queue configuration (for a Docker target resource) accepts the same options defined in the [`docker run`](../../ref/cli/wandb-docker-run.md) CLI command.
 
@@ -110,29 +105,20 @@ You can use the W&B CLI to specify core configurable options for the launch agen
 
 The following tabs demonstrate how to specify the core config agent options with the W&B CLI and with a YAML config file:
 
-<Tabs
-defaultValue="CLI"
-values={[
-{label: 'W&B CLI', value: 'CLI'},
-{label: 'Config file', value: 'config'},
-]}>
-<TabItem value="CLI">
-
+{{< tabpane text=true >}}
+{{% tab "W&B CLI" %}}
 ```bash
 wandb launch-agent -q <queue-name> --max-jobs <n>
 ```
-
-  </TabItem>
-  <TabItem value="config">
-
+{{% /tab %}}
+{{% tab "Config file" %}}
 ```yaml title="launch-config.yaml"
 max_jobs: <n concurrent jobs>
 queues:
 	- <queue-name>
 ```
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Docker image builders
 

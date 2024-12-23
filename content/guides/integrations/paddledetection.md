@@ -6,10 +6,6 @@ menu:
     parent: integrations
 title: PaddleDetection
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) is an end-to-end object-detection development kit based on [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). It implements varied mainstream object detection, instance segmentation, tracking and keypoint detection algorithms in modular design with configurable modules such as network components, data augmentations and losses.
 
 PaddleDetection now comes with a built in W&B integration which logs all your training and validation metrics, as well as your model checkpoints and their corresponding metadata.

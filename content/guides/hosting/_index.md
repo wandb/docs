@@ -6,10 +6,6 @@ title: W&B Platform
 weight: 6
 no_list: true
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core](../core.md), [Models](../models.md) and [Weave](../weave_platform.md). 
 
 W&B Platform is available in three different deployment options:

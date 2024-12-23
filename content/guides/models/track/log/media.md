@@ -322,7 +322,13 @@ point_cloud = np.array([[0, 0, 0, COLOR]])
 wandb.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
-Three different shapes of NumPy arrays are supported for flexible color schemes.
+{{% alert %}}
+The W&B UI truncates the data at 300,000 points.
+{{% /alert %}}
+
+#### NumPy array formats
+
+Three different formats of NumPy arrays are supported for flexible color schemes.
 
 * `[[x, y, z], ...]` `nx3`
 * `[[x, y, z, c], ...]` `nx4` `| c is a category` in the range `[1, 14]` (Useful for segmentation)

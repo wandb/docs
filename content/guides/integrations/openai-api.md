@@ -6,8 +6,6 @@ menu:
     parent: integrations
 title: OpenAI API
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb" >}}
 
 Use the W&B OpenAI API integration to log requests, responses, token counts and model metadata for all OpenAI models, including fine-tuned models. 

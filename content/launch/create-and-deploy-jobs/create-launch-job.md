@@ -6,9 +6,6 @@ menu:
 title: Create a launch job
 url: guides/launch/create-launch-job
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 {{< cta-button colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" >}}
 
 Launch jobs are blueprints for reproducing W&B runs. Jobs are W&B Artifacts that capture the source code, dependencies, and inputs required to execute a workload. 
@@ -116,32 +113,23 @@ The following table describes the job naming convention used by default based on
 
 Name your job with a W&B environment variable or with the W&B Python SDK
 
-<Tabs
-defaultValue="env_var"
-values={[
-{label: 'Environment variable', value: 'env_var'},
-{label: 'W&B Python SDK', value: 'python_sdk'},
-]}>
-<TabItem value="env_var">
-
+{{< tabpane text=true >}}
+{{% tab "Environment variable" %}}
 Set the `WANDB_JOB_NAME` environment variable to your preferred job name. For example:
 
 ```bash
 WANDB_JOB_NAME=awesome-job-name
 ```
-
-  </TabItem>
-  <TabItem value="python_sdk">
-
+{{% /tab %}}
+{{% tab "W&B Python SDK" %}}
 Define the name of your job with `wandb.Settings`. Then pass this object when you initialize W&B with `wandb.init`. For example:
 
 ```python
 settings = wandb.Settings(job_name="my-job-name")
 wandb.init(settings=settings)
 ```
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 {{% alert %}}
 For docker image jobs, the version alias is automatically added as an alias to the job.

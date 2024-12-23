@@ -6,10 +6,6 @@ menu:
     parent: integrations
 title: DeepChem
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 The [DeepChem library](https://github.com/deepchem/deepchem) provides open source tools that democratize the use of deep-learning in drug discovery, materials science, chemistry, and biology. This W&B integration adds simple and easy-to-use experiment tracking and model checkpointing while training models using DeepChem.
 
 ## 🧪 DeepChem logging in 3 lines of code

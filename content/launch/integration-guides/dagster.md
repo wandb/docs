@@ -7,10 +7,6 @@ menu:
 title: Dagster
 url: guides/integrations/dagster
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
 * Use and create [W&B Artifacts](../artifacts/intro.md).
@@ -42,14 +38,8 @@ Find your W&B entity by checking the profile page for that user or team in the W
 The proceeding examples demonstrate where to specify your API key in your Dagster code. Make sure to specify your entity and project name within the `wandb_config` nested dictionary. You can pass different `wandb_config` values to different ops/assets if you want to use a different W&B Project. For more information about possible keys you can pass, see the Configuration section below.
 
 
-<Tabs
-  defaultValue="job"
-  values={[
-    {label: 'configuration for @job', value: 'job'},
-    {label: 'configuration for @repository using assets', value: 'repository'},
-  ]}>
-  <TabItem value="job">
-
+{{< tabpane text=true >}}
+{{% tab "Config for @job" %}}
 Example: configuration for `@job`
 ```python
 # add this to your config.yaml
@@ -77,10 +67,8 @@ resources:
 def simple_job_example():
    my_op()
 ```
-
-  </TabItem>
-  <TabItem value="repository">
-
+{{% /tab %}}
+{{% tab "Config for @repository using assets" %}}
 
 Example: configuration for `@repository` using assets
 
@@ -124,9 +112,8 @@ def my_repository():
    ]
 ```
 Note that we are configuring the IO Manager cache duration in this example contrary to the example for `@job`.
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ### Configuration
@@ -177,15 +164,8 @@ Return an object from a Python function to write a W&B Artifact. The following o
 The proceeding examples demonstrate how to write W&B Artifacts with Dagster assets (`@asset`):
 
 
-<Tabs
-  defaultValue="python_objects"
-  values={[
-    {label: 'Python objects', value: 'python_objects'},
-    {label: 'W&B object', value: 'wb_object'},
-    {label: 'W&B Artifacts', value: 'wb_artifact'},
-  ]}>
-  <TabItem value="python_objects">
-
+{{< tabpane text=true >}}
+{{% tab "Python objects" %}}
 Anything that can be serialized with the [pickle](https://docs.python.org/3/library/pickle.html) module is pickled and added to an Artifact created by the integration. The content is unpickled when you read that Artifact inside Dagster (see [Read artifacts](#read-wb-artifacts) for more details). 
 
 ```python
@@ -204,11 +184,9 @@ def create_dataset():
 
 
 W&B supports multiple Pickle-based serialization modules ([pickle](https://docs.python.org/3/library/pickle.html), [dill](https://github.com/uqfoundation/dill), [cloudpickle](https://github.com/cloudpipe/cloudpickle), [joblib](https://github.com/joblib/joblib)). You can also use more advanced serialization like [ONNX](https://onnx.ai/) or [PMML](https://en.wikipedia.org/wiki/Predictive_Model_Markup_Language). Please refer to the [Serialization](#serialization-configuration) section for more information.
-
-  </TabItem>
-  <TabItem value="wb_object">
-
-any native W&B object (e.g [Table](../../ref/python/data-types/table.md), [Image](../../ref/python/data-types/image.md), [Graph](../../ref/python/data-types/graph.md)) is added to an Artifact created by the integration. Here’s an example using a Table.
+{{% /tab %}}
+{{% tab "W&B Object" %}}
+Any native W&B object (e.g [Table](../../ref/python/data-types/table.md), [Image](../../ref/python/data-types/image.md), or [Graph](../../ref/python/data-types/graph.md)) is added to an Artifact created by the integration. Here’s an example using a Table.
 
 ```python
 import wandb
@@ -226,8 +204,8 @@ def create_dataset_in_table():
     return wandb.Table(columns=["a", "b", "c"], data=[[1, 2, 3]])
 ```
 
-  </TabItem>
-  <TabItem value="wb_artifact">
+{{% /tab %}}
+{{% tab "W&B Artifact" %}}
 
 For complex use cases, it might be necessary to build your own Artifact object. The integration still provides useful additional features like augmenting the metadata on both sides of the integration.
 
@@ -246,9 +224,8 @@ def create_artifact():
    artifact.add(table, "my_table")
    return artifact
 ```
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ### Configuration
@@ -260,15 +237,8 @@ For `@multi_asset`, it’s located in each output metadata through the [AssetOut
 
 The proceeding code examples demonstrate how to configure a dictionary on an `@op`, `@asset` and `@multi_asset` computations:
 
-<Tabs
-  defaultValue="op"
-  values={[
-    {label: 'Example for @op', value: 'op'},
-    {label: 'Example for @asset', value: 'asset'},
-    {label: 'Example for @multi_asset', value: 'multi_asset'},
-  ]}>
-  <TabItem value="op">
-
+{{< tabpane text=true >}}
+{{% tab "Example for @op" %}}
 Example for `@op`:
 ```python 
 @op(
@@ -284,10 +254,8 @@ Example for `@op`:
 def create_dataset():
    return [1, 2, 3]
 ```
-
-  </TabItem>
-  <TabItem value="asset">
-
+{{% /tab %}}
+{{% tab "Example for @asset" %}}
 Example for `@asset`:
 ```python
 @asset(
@@ -305,8 +273,8 @@ def create_dataset():
 
 You do not need to pass a name through the configuration because the @asset already has a name. The integration sets the Artifact name as the asset name.
 
-  </TabItem>
-  <TabItem value="multi_asset">
+{{% /tab %}}
+{{% tab "Example for @multi_asset" %}}
 
 Example for `@multi_asset`:
 
@@ -339,9 +307,8 @@ def create_datasets():
 
    return first_table, second_table
 ```
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 
@@ -478,15 +445,8 @@ If you want to have a dependency on an Artifact created outside the integration 
 
 The following examples demonstrate how to read an Artifact from various ops.
 
-<Tabs
-  defaultValue="op"
-  values={[
-    {label: 'From an @op', value: 'op'},
-    {label: 'Created by another @asset', value: 'asset'},
-    {label: 'Artifact created outside Dagster', value: 'outside_dagster'},
-  ]}>
-  <TabItem value="op">
-
+{{< tabpane text=true >}}
+{{% tab "From an @op" %}}
 Reading an artifact from an `@op`
 ```python
 @op(
@@ -504,10 +464,8 @@ Reading an artifact from an `@op`
 def read_artifact(context, artifact):
    context.log.info(artifact)
 ```
-
-  </TabItem>
-  <TabItem value="asset">
-
+{{% /tab %}}
+{{% tab "Created by another @asset" %}}
 Reading an artifact created by another `@asset`
 ```python
 @asset(
@@ -524,8 +482,8 @@ def read_artifact(context, artifact):
    context.log.info(artifact)
 ```
 
-  </TabItem>
-  <TabItem value="outside_dagster">
+{{% /tab %}}
+{{% tab "Artifact created outside Dagster" %}}
 
 Reading an Artifact created outside Dagster:
 
@@ -541,9 +499,8 @@ my_artifact = SourceAsset(
 def read_artifact(context, my_artifact):
    context.log.info(my_artifact)
 ```
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ### Configuration
@@ -763,35 +720,9 @@ You can selectively read one, multiple or all partitions of an asset.
 
 All partitions are provided in a dictionary, with the key and value representing the partition key and the Artifact content, respectively.
 
-<!-- 
-<Tabs
-  defaultValue="op"
-  values={[
-    {label: 'From an @op', value: 'all'},
-  ]}>
-  <TabItem value="all">
-  Read all partitions
-```python
-@asset(
-    compute_kind="wandb",
-    ins={"my_daily_partitioned_asset": AssetIn()},
-    output_required=False,
-)
-def read_all_partitions(context, my_daily_partitioned_asset):
-    for partition, content in my_daily_partitioned_asset.items():
-        context.log.info(f"partition={partition}, content={content}")
-```
-  </TabItem>
-</Tabs> -->
 
-<Tabs
-  defaultValue="all"
-  values={[
-    {label: 'Read all partitions', value: 'all'},
-    {label: 'Read specific partitions', value: 'specific'},
-  ]}>
-  <TabItem value="all">
-
+{{< tabpane text=true >}}
+{{% tab "Read all partitions" %}}
 It reads all partitions of the upstream `@asset`, which are given as a dictionary. In this dictionary, the key and value correlate to the partition key and the Artifact content, respectively.
 ```python
 @asset(
@@ -803,9 +734,8 @@ def read_all_partitions(context, my_daily_partitioned_asset):
     for partition, content in my_daily_partitioned_asset.items():
         context.log.info(f"partition={partition}, content={content}")
 ```
-  </TabItem>
-  <TabItem value="specific">
-
+{{% /tab %}}
+{{% tab "Read specific partitions" %}}
 The `AssetIn`'s `partition_mapping` configuration allows you to choose specific partitions. In this case, we are employing the `TimeWindowPartitionMapping`.
 ```python
 @asset(
@@ -822,8 +752,8 @@ def read_specific_partitions(context, my_daily_partitioned_asset):
     for partition, content in my_daily_partitioned_asset.items():
         context.log.info(f"partition={partition}, content={content}")
 ```
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 The configuration object, `metadata`, is used to configure how Weights & Biases (wandb) interacts with different artifact partitions in your project.
 

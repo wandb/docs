@@ -5,10 +5,6 @@ menu:
     parent: integrations
 title: fastai
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 If you're using **fastai** to train your models, W&B has an easy integration using the `WandbCallback`. Explore the details in[ interactive docs with examples →](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
 
 ## Log with W&B
@@ -20,7 +16,6 @@ If you're using **fastai** to train your models, W&B has an easy integration usi
 **c)** log in to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).
 
 {{< tabpane text=true >}}
-
 {{% tab header="Command Line" value="script" %}}
 
 ```shell
@@ -29,7 +24,6 @@ wandb login
 ```
 
 {{% /tab %}}
-
 {{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
@@ -40,7 +34,6 @@ wandb.login()
 ```
 
 {{% /tab %}}
-
 {{< /tabpane >}}
 
 Then add the `WandbCallback` to the `learner` or `fit` method:
@@ -105,7 +98,6 @@ from fastai.callback.wandb import WandbCallback
 wandb.require(experiment="service")
 path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
 
-
 def train():
     dls = ImageDataLoaders.from_name_func(
         path,
@@ -120,14 +112,13 @@ def train():
     with learn.distrib_ctx(sync_bn=False):
         learn.fit(1)
 
-
 if __name__ == "__main__":
     train()
 ```
 
 Then, in your terminal you will execute:
 
-```
+```shell
 $ torchrun --nproc_per_node 2 train.py
 ```
 
@@ -149,7 +140,6 @@ from fastai.callback.wandb import WandbCallback
 wandb.require(experiment="service")
 path = untar_data(URLs.PETS) / "images"
 
-
 def train():
     dls = ImageDataLoaders.from_name_func(
         path,
@@ -164,7 +154,6 @@ def train():
     with learn.distrib_ctx(in_notebook=True, sync_bn=False):
         learn.fit(1)
 
-
 notebook_launcher(train, num_processes=2)
 ```
 
@@ -176,7 +165,6 @@ notebook_launcher(train, num_processes=2)
 In the examples above, `wandb` launches one run per process. At the end of the training, you will end up with two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you will have to detect in which process you are manually and avoid creating runs (calling `wandb.init` in all other processes)
 
 {{< tabpane text=true >}}
-
 {{% tab header="Script" value="script" %}}
 
 ```python
@@ -187,7 +175,6 @@ from fastai.callback.wandb import WandbCallback
 
 wandb.require(experiment="service")
 path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
-
 
 def train():
     cb = []
@@ -205,7 +192,6 @@ def train():
     with learn.distrib_ctx(sync_bn=False):
         learn.fit(1)
 
-
 if __name__ == "__main__":
     train()
 ```
@@ -216,7 +202,6 @@ $ torchrun --nproc_per_node 2 train.py
 ```
 
 {{% /tab %}}
-
 {{% tab header="Notebook" value="notebook" %}}
 
 ```python
@@ -229,7 +214,6 @@ from fastai.callback.wandb import WandbCallback
 
 wandb.require(experiment="service")
 path = untar_data(URLs.PETS) / "images"
-
 
 def train():
     cb = []
@@ -247,12 +231,10 @@ def train():
     with learn.distrib_ctx(in_notebook=True, sync_bn=False):
         learn.fit(1)
 
-
 notebook_launcher(train, num_processes=2)
 ```
 
 {{% /tab %}}
-
 {{< /tabpane >}}
 
 ## Examples

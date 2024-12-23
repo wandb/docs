@@ -5,10 +5,6 @@ menu:
     parent: integrations
 title: PyTorch Geometric
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) or PyG is one of the most popular libraries for geometric deep learning and W&B works extremely well with it for visualizing graphs and tracking experiments.
 
 ## Getting Started

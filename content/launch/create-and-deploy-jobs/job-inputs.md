@@ -6,10 +6,6 @@ menu:
 title: Manage job inputs
 url: guides/launch/job-inputs
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 The core experience of Launch is easily experimenting with different job inputs like hyperparameters and datasets, and routing these jobs to appropriate hardware. Once a job is created, users beyond the original author can adjust these inputs via the W&B GUI or CLI. For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs](./add-job-to-queue.md) guide.
 
 This section describes how to programmatically control the inputs that can be tweaked for a job.
@@ -158,14 +154,8 @@ Job input schemas are not used to validate inputs. They are only used to define 
 {{% /alert %}}
 
 
-<Tabs
-  defaultValue="jsonschema"
-  values={[
-    {label: 'JSON Schema', value: 'jsonschema'},
-    {label: 'Pydantic Model', value: 'pydantic'},
-  ]}>
-  <TabItem value="jsonschema">
-
+{{< tabpane text=true >}}
+{{% tab "JSON schema" %}}
 The following example shows a schema with these properties:
 
 - `seed`, an integer
@@ -224,10 +214,8 @@ In general, the following JSON Schema attributes are supported:
 | `exclusiveMinimum` | No | Allowed only if `type` is "number" or "integer" |
 | `exclusiveMaximum` | No | Allowed only if `type` is "number" or "integer" |
 | `properties` | No | If `type` is "object", used to define nested configurations |
-
-  </TabItem>
-  <TabItem value="pydantic">
-
+{{% /tab %}}
+{{% tab "Pydantic model" %}}
 The following example shows a schema with these properties:
 
 - `seed`, an integer
@@ -268,8 +256,8 @@ launch.manage_wandb_config(
     input_schema=s,
 )
 ```
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 Adding a job input schema will create a structured form in the launch drawer, making it easier to launch the job.
 

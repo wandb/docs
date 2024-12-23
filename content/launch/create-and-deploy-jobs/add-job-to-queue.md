@@ -6,10 +6,6 @@ menu:
 title: Add job to queue
 url: guides/launch/add-job-to-queue
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 The following page describes how to add launch jobs to a launch queue.
 
 {{% alert %}}
@@ -20,13 +16,8 @@ Ensure that you, or someone on your team, has already configured a launch queue.
 
 Add jobs to your queue interactively with the W&B App or programmatically with the W&B CLI.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'W&B App', value: 'app'},
-    {label: 'W&B CLI', value: 'cli'},
-  ]}>
-  <TabItem value="app">
+{{< tabpane text=true >}}
+{{% tab "W&B app" %}}
 Add a job to your queue programmatically with the W&B App.
 
 1. Navigate to your W&B Project Page.
@@ -48,9 +39,8 @@ For example, in the following example, the team admin configured AWS instance ty
 10. Select the **Destination project**, where the resulting run will appear.  This project needs to belong to the same entity as the queue.
 11. Select the **Launch now** button. 
 
-
-  </TabItem>
-    <TabItem value="cli">
+{{% /tab %}}
+{{% tab "W&B CLI" %}}
 
 Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart](./walkthrough.md) guide, we create a JSON file with the following overrides:
 
@@ -93,8 +83,6 @@ If you want to override the queue configuration, or if your launch queue does no
 
 Replace values within the `<>` with your own values.
 
-
-
 Provide the name of the queue for the `queue`(`-q`) flag, the name of the job for the `job`(`-j`) flag, and the path to the configuration file for the `config`(`-c`) flag.
 
 ```bash
@@ -103,5 +91,5 @@ wandb launch -j <job> -q <queue-name> \
 ```
 If you work within a W&B Team, we suggest you specify the `entity` flag (`-e`) to indicate which entity the queue will use.
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{% /tabpane %}}

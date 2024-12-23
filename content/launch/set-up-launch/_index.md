@@ -6,10 +6,6 @@ menu:
 title: Set up Launch
 weight: 3
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 This page describes the high-level steps required to set up W&B Launch:
 
 1. **Set up a queue**: Queues are FIFO and possess a queue configuration. A queue's configuration controls where and how jobs are executed on a target resource.
@@ -33,13 +29,8 @@ When an agent receives a job from a queue, it also receives the queue configurat
 6. Choose whether to allow **Prioritization** for this queue.  If prioritization is enabled, a user on your team can define a priority for their launch job when they enqueue them.  Higher priority jobs are executed before lower priority jobs.
 7. Provide a resource configuration in either JSON or YAML format in the **Configuration** field. The structure and semantics of your configuration document will depend on the resource type that the queue is pointing to. For more details, see the dedicated set up page for your target resource.
 
-
-
-
 ## Set up a launch agent
 Launch agents are long running processes that poll one or more launch queues for jobs. Launch agents dequeue jobs in first in, first out (FIFO) order or in priority order depending on the queues they pull from.  When an agent dequeues a job from a queue, it optionally builds an image for that job. The agent then submits the job to the target resource along with configuration options specified in the queue configuration.
-
-<!-- Future: Insert image -->
 
 {{% alert %}}
 Agents are highly flexible and can be configured to support a wide variety of use cases. The required configuration for your agent will depend on your specific use case. See the dedicated page for [Docker](./setup-launch-docker.md), [Amazon SageMaker](./setup-launch-sagemaker.md), [Kubernetes](./setup-launch-kubernetes.md), or [Vertex AI](./setup-vertex.md).
@@ -78,7 +69,6 @@ entity: <entity-name>
 queues:
   - <queue-name>
 ```
-
 
 ### Configure a container builder
 The launch agent can be configured to build images. You must configure the agent to use a container builder if you intend to use launch jobs created from git repositories or code artifacts. See the [Create a launch job](./create-launch-job.md) for more information on how to create a launch job. 

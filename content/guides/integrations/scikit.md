@@ -5,10 +5,6 @@ menu:
     parent: integrations
 title: Scikit-Learn
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [**Try an example →**](http://wandb.me/scikit-colab)
 
 ## :fire: Getting Started

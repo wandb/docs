@@ -1,41 +1,26 @@
 ---
-title: "How do I stop wandb from writing to my terminal or my jupyter notebook output?"
+title: "How do I stop wandb from writing to my terminal or my Jupyter notebook output?"
 toc_hide: true
 type: docs
 tags:
    - environment variables
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Set the environment variable [`WANDB_SILENT`](../guides/track/environment-variables.md) to `true`.
 
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python', value: 'python'},
-    {label: 'Jupyter Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'command-line'},
-  ]}>
-  <TabItem value="python">
-
+{{< tabpane text=true langEqualsHeader=true >}}
+  {{% tab header="Python" %}}
 ```python
 os.environ["WANDB_SILENT"] = "true"
 ```
-
-  </TabItem>
-  <TabItem value="notebook">
-
+  {{% /tab %}}
+  {{% tab "Notebook" %}}
 ```python
 %env WANDB_SILENT=true
 ```
-
-  </TabItem>
-  <TabItem value="command-line">
-
+  {{% /tab %}}
+  {{% tab "Command-Line" %}}
 ```shell
 WANDB_SILENT=true
 ```
-
-  </TabItem>
-</Tabs>
+  {{% /tab %}}
+{{< /tabpane >}}

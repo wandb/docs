@@ -6,10 +6,6 @@ menu:
     parent: integrations
 title: Metaflow
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 ## Overview
 
 [Metaflow](https://docs.metaflow.org) is a framework created by [Netflix](https://netflixtechblog.com) for creating and running ML workflows.

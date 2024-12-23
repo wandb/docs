@@ -5,9 +5,6 @@ menu:
     parent: integrations
 title: Ultralytics
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" >}}
 
 [Ultralytics](https://github.com/ultralytics/ultralytics) is the home for cutting-edge, state-of-the-art computer vision models for tasks like image classification, object detection, image segmentation, and pose estimation. Not only it hosts [YOLOv8](https://docs.ultralytics.com/models/yolov8/), the latest iteration in the YOLO series of real-time object detection models, but other powerful computer vision models such as [SAM (Segment Anything Model)](https://docs.ultralytics.com/models/sam/#introduction-to-sam-the-segment-anything-model), [RT-DETR](https://docs.ultralytics.com/models/rtdetr/), [YOLO-NAS](https://docs.ultralytics.com/models/yolo-nas/), etc. Besides providing implementations of these models, Ultralytics also provides us with out-of-the-box workflows for training, fine-tuning, and applying these models using an easy-to-use API.
@@ -27,7 +24,6 @@ pip install --upgrade ultralytics==8.0.238 wandb
 ```
 
 {{% /tab %}}
-
 {{% tab header="Notebook" value="notebook" %}}
 
 ```bash

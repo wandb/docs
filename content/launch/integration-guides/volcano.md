@@ -6,10 +6,6 @@ menu:
 title: Launch multinode jobs with Volcano
 url: tutorials/volcano
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 This tutorial will guide you through the process of launching multinode training jobs with W&B and Volcano on Kubernetes.
 
 ## Overview
@@ -40,15 +36,8 @@ This configuration block can accept a Kubernetes job specification, volcano job 
 
 In this tutorial, we will use a configuration for multinode pytorch training that makes use of [volcano's pytorch plugin](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md). You can copy and paste the following config as YAML or JSON:
 
-<Tabs
-defaultValue="yaml"
-values={[
-{ label: "YAML", value: "yaml", },
-{ label: "JSON", value: "json", },
-]}>
-
-<TabItem value="yaml">
-
+{{< tabpane text=true >}}
+{{% tab "YAML" %}}
 ```yaml
 kind: Job
 spec:
@@ -90,11 +79,8 @@ metadata:
   namespace: wandb
 apiVersion: batch.volcano.sh/v1alpha1
 ```
-
-</TabItem>
-
-<TabItem value="json">
-
+{{% /tab %}}
+{{% tab "JSON" %}}
 ```json
 {
   "kind": "Job",
@@ -161,10 +147,8 @@ apiVersion: batch.volcano.sh/v1alpha1
   "apiVersion": "batch.volcano.sh/v1alpha1"
 }
 ```
-
-</TabItem>
-
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 Click the **Create queue** button at the bottom of the drawer to finish creating your queue.
 

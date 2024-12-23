@@ -6,12 +6,6 @@ menu:
 title: 'Tutorial: Set up W&B Launch on SageMaker'
 url: guides/launch/setup-launch-sagemaker
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-<!-- You can use W&B Launch to submit jobs to run as SageMaker training jobs. Amazon SageMaker training jobs allow users to train machine learning models using provided or custom algorithms on the SageMaker platform. Once initiated, SageMaker handles the underlying infrastructure, scaling, and orchestration. -->
-
 You can use W&B Launch to submit launch jobs to Amazon SageMaker to train machine learning models using provided or custom algorithms on the SageMaker platform. SageMaker takes care of spinning up and releasing compute resources, so it can be a good choice for teams without an EKS cluster.
 
 Launch jobs sent to a W&B Launch queue connected to Amazon SageMaker are executed as SageMaker Training Jobs with the [CreateTrainingJob API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). Use the launch queue configuration to control arguments sent to the `CreateTrainingJob` API.
@@ -56,14 +50,8 @@ Make a note of the ARNs for these resources. You will need the ARNs when you def
 1. From the IAM screen in AWS, create a new policy.
 2. Toggle to the JSON policy editor, then paste the following policy based on your use case. Substitute values enclosed with `<>` with your own values:
 
-<Tabs
-  defaultValue="build"
-  values={[
-    {label: 'Agent builds and submits Docker image', value: 'build' },
-    {label: 'Agent submits pre-built Docker image', value: 'no-build' },
-  ]}>
-  <TabItem value="no-build">
-
+{{< tabpane text=true >}}
+{{% tab "Agent submits pre-built Docker image" %}}
   ```json
   {
     "Version": "2012-10-17",
@@ -97,9 +85,8 @@ Make a note of the ARNs for these resources. You will need the ARNs when you def
     ]
   }
   ```
-  </TabItem>
-  <TabItem value="build">
-
+{{% /tab %}}
+{{% tab "Agent builds and submits Docker image" %}}
   ```json
   {
     "Version": "2012-10-17",
@@ -153,8 +140,8 @@ Make a note of the ARNs for these resources. You will need the ARNs when you def
     ]
   }
   ```
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 3. Click **Next**.
 4. Give the policy a name and description.
@@ -232,20 +219,11 @@ For production workloads without an current EKS cluster, an EC2 instance is a go
 For experimental or solo use cases, running the Launch agent on your local machine can be a fast way to get started.
 
 Based on your use case, follow the instructions provided in the following tabs to properly configure up your launch agent: 
-<Tabs
-  defaultValue="eks"
-  values={[
-    {label: 'EKS', value: 'eks'},
-    {label: 'EC2', value: 'ec2'},
-    {label: 'Local machine', value: 'local'},
-  ]}>
-  <TabItem value="eks">
-
+{{< tabpane text=true >}}
+{{% tab "EKS" %}}
 W&B strongly encourages that you use the[ W&B managed helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) to install the agent in an EKS cluster.
-
-</TabItem>
-  <TabItem value="ec2">
-
+{{% /tab %}}
+{{% tab "EC2" %}}
 Navigate to the Amazon EC2 Dashboard and complete the following steps:
 
 1. Click **Launch instance**.
@@ -273,8 +251,8 @@ newgrp docker
 
 Now you can proceed to setting up the Launch agent config.
 
-  </TabItem>
-  <TabItem value="local">
+{{% /tab %}}
+{{% tab "Local machine" %}}
 
 Use the AWS config files located at `~/.aws/config`  and `~/.aws/credentials` to associate a role with an agent that is polling on a local machine. Provide the IAM role ARN that you created for the launch agent in the previous step.
  
@@ -292,9 +270,8 @@ aws_session_token=<session-token>
 ```
 
 Note that session tokens have a [max length](https://docs.aws.amazon.com/cli/latest/reference/sts/get-session-token.html#description) of 1 hour or 3 days depending on the principal they are associated with.
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ### Configure a launch agent

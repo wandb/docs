@@ -5,10 +5,6 @@ menu:
     parent: integrations
 title: YOLOv5
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 [Ultralytics' YOLOv5](https://ultralytics.com/yolov5) ("You Only Look Once") model family enables real-time object detection with convolutional neural networks without all the agonizing pain.
 
 [Weights & Biases](http://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **It's as easy as running a single `pip install` before you run your YOLO experiments!**
@@ -16,8 +12,6 @@ import TabItem from '@theme/TabItem';
 {{% alert %}}
 For a quick overview of the model and data-logging features of our YOLOv5 integration, check out [this Colab](https://wandb.me/yolo-colab) and accompanying video tutorial, linked below.
 {{% /alert %}}
-
-<!-- {% embed url="https://www.youtube.com/watch?v=yyecuhBmLxE" %} -->
 
 {{% alert %}}
 All W&B logging features are compatible with data-parallel multi-GPU training, e.g. with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).

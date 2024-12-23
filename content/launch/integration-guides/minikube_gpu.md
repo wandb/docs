@@ -6,10 +6,6 @@ menu:
 title: Spin up a single node GPU cluster with Minikube
 url: tutorials/minikube_gpu
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads. 
 
 {{% alert %}}
@@ -49,15 +45,8 @@ First, create a launch queue for our launch jobs.
 3. Select an entity, enter a name, and select **Kubernetes** as the type for your queue.
 4. The **Config** section of the drawer is where you will enter a [Kubernetes job specification](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for the launch queue. Any runs launched from this queue will be created using this job specification, so you can modify this configuration as needed to customize your jobs. For this tutorial, you can copy and paste the sample config below in your queue config as YAML or JSON:
 
-<Tabs
-defaultValue="yaml"
-values={[
-{ label: "YAML", value: "yaml", },
-{ label: "JSON", value: "json", },
-]}>
-
-<TabItem value="yaml">
-
+{{< tabpane text=true >}}
+{{% tab "YAML" %}}
 ```yaml
 spec:
   template:
@@ -72,11 +61,8 @@ spec:
       restartPolicy: Never
   backoffLimit: 0
 ```
-
-</TabItem>
-
-<TabItem value="json">
-
+{{% /tab %}}
+{{% tab "JSON" %}}
 ```json
 {
   "spec": {
@@ -101,9 +87,8 @@ spec:
   }
 }
 ```
-
-</TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 For more information about queue configurations, see the [Set up Launch on Kubernetes](/guides/launch/setup-launch-kubernetes.md) and the [Advanced queue setup guide](/guides/launch/setup-queue-advanced.md).   
 
@@ -292,15 +277,8 @@ kubectl apply -f nfs-persistent-volume.yaml
 
 In order for our runs to make use of this cache, we will need to add `volumes` and `volumeMounts` to our launch queue config. To edit the launch config, head back to [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server), find your queue, click to the queue page, and then click the **Edit config** tab. The original config can be modified to:
 
-<Tabs
-defaultValue="yaml"
-values={[
-{ label: "YAML", value: "yaml", },
-{ label: "JSON", value: "json", },
-]}>
-
-<TabItem value="yaml">
-
+{{< tabpane text=true >}}
+{{% tab "YAML" %}}
 ```yaml
 spec:
   template:
@@ -322,11 +300,8 @@ spec:
             claimName: nfs-pvc
   backoffLimit: 0
 ```
-
-</TabItem>
-
-<TabItem value="json">
-
+{{% /tab %}}
+{{% tab "JSON" %}}
 ```json
 {
   "spec": {
@@ -365,10 +340,8 @@ spec:
   }
 }
 ```
-
-</TabItem>
-
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 Now, our NFS will be mounted at `/root/.cache` in the containers running our jobs. The mount path will require adjustment if your container runs as a user other than `root`. Huggingface’s libraries and W&B Artifacts both make use of `$HOME/.cache/` by default, so downloads should only happen once.
 

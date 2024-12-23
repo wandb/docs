@@ -8,10 +8,6 @@ title: W&B Quickstart
 url: quickstart
 weight: 2
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Install W&B and start tracking your machine learning experiments in minutes.
 
 ## 1. Create an account and install W&B
@@ -23,45 +19,29 @@ Before you get started, make sure you create an account and install W&B:
 
 The following code snippets demonstrate how to install and log into W&B using the W&B CLI and Python Library:
 
-<Tabs
-  defaultValue="notebook"
-  values={[
-    {label: 'Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="cli">
-
+{{< tabpane text=true >}}
+{{% tab "Command-Line" %}}
 Install the CLI and Python library for interacting with the Weights and Biases API:
 
 ```bash
 pip install wandb
 ```
-
-  </TabItem>
-  <TabItem value="notebook">
-
+{{% /tab %}}
+{{% tab "Notebook" %}}
 Install the CLI and Python library for interacting with the Weights and Biases API:
 
 
 ```notebook
 !pip install wandb
 ```
-
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## 2. Log in to W&B
 
 
-<Tabs
-  defaultValue="notebook"
-  values={[
-    {label: 'Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="cli">
-
+{{< tabpane text=true >}}
+{{% tab "Command-Line" %}}
 Next, log in to W&B:
 
 ```bash
@@ -77,10 +57,8 @@ wandb login --relogin --host=http://your-shared-local-host.com
 If needed, ask your deployment admin for the hostname.
 
 Provide [your API key](https://wandb.ai/authorize) when prompted.
-
-  </TabItem>
-  <TabItem value="notebook">
-
+{{% /tab %}}
+{{% tab "Notebook" %}}
 Next, import the W&B Python SDK and log in:
 
 ```python
@@ -88,8 +66,8 @@ wandb.login()
 ```
 
 Provide [your API key](https://wandb.ai/authorize) when prompted.
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ## 3. Start a run and track hyperparameters

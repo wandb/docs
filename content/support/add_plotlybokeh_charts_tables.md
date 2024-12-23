@@ -7,19 +7,10 @@ tags:
    - tables
    - charts
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Direct integration of Plotly or Bokeh figures into tables is not supported. Instead, export the figures to HTML and include the HTML in the table. Below are examples demonstrating this with interactive Plotly and Bokeh charts.
 
-<Tabs
-  defaultValue="plotly"
-  values={[
-    {label: 'Using Plotly', value: 'plotly'},
-    {label: 'Using Bokeh', value: 'bokeh'},
-  ]}>
-  <TabItem value="plotly">
-
+{{< tabpane text=true >}}
+{{% tab "Using Plotly" %}}
 ```python
 import wandb
 import plotly.express as px
@@ -47,10 +38,8 @@ table.add_data(wandb.Html(path_to_plotly_html))
 run.log({"test_table": table})
 wandb.finish()
 ```
-
-  </TabItem>
-  <TabItem value="bokeh">
-
+{{% /tab %}}
+{{% tab "Using Bokeh" %}}
 ```python
 from scipy.signal import spectrogram
 import holoviews as hv
@@ -86,5 +75,5 @@ my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_h
 run.log({"audio_table": my_table})
 run.finish()
 ```
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{% /tabpane %}}

@@ -29,7 +29,7 @@ Before starting, make sure your environment meets the following requirements:
 Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry. 
 These images are critical for the successful deployment of W&B components.
 
-```bash
+```text
 wandb/local                                             0.59.2
 wandb/console                                           2.12.2
 wandb/controller                                        1.13.0

@@ -6,14 +6,9 @@ menu:
     parent: launch
 title: 'Tutorial: W&B Launch basics'
 url: guides/launch/walkthrough
-
 weight: 1
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 ## What is Launch? 
-
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" >}}
 
@@ -30,7 +25,6 @@ As jobs are added to the queue, one or more [*launch agents*](./launch-terminolo
 {{< img src="/images/launch/launch_overview.png" alt="" >}}
 
 Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target](./launch-terminology.md#target-resources) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
-
 
 See the [Terms and concepts](./launch-terminology.md) page for more information on launch jobs, how queues work, launch agents, and additional information on how W&B Launch works.
 
@@ -56,7 +50,6 @@ W&B Launch runs machine learning workloads in containers. Familiarity with conta
 
 Before you get started, ensure you have satisfied the following prerequisites:
 
-
 1. Sign up for an account at https://wandb.ai/site and then log in to your W&B account. 
 2. This walkthrough requires terminal access to a machine with a working Docker CLI and engine. See the [Docker installation guide](https://docs.docker.com/engine/install/) for more information. 
 3. Install W&B Python SDK version `0.17.1` or higher:
@@ -64,44 +57,30 @@ Before you get started, ensure you have satisfied the following prerequisites:
 pip install wandb>=0.17.1
 ```
 4. Within your terminal, execute `wandb login` or set the `WANDB_API_KEY` environment variable to authenticate with W&B.
-    <Tabs
-    defaultValue="login"
-    values={[
-        {label: 'Log in to W&B', value: 'login'},
-        {label: 'Environment key', value: 'apikey'},
-    ]}>
-    <TabItem value="login">
+
+{{< tabpane text=true >}}
+{{% tab "Log in to W&B" %}}
     Within your terminal execute:
     
     ```bash
     wandb login
     ```
-
-    </TabItem>
-    <TabItem value="apikey">
+{{% /tab %}}
+{{% tab "Environment variable" %}}
 
     ```bash
     WANDB_API_KEY=<your-api-key>
     ```
 
     Replace `<your-api-key>` with your W&B API key.
-
-    </TabItem>
-    </Tabs>
-
+{{% /tab %}}
+{{% /tabpane %}}
 
 ## Create a launch job
 Create a [launch job](./launch-terminology.md#launch-job) in one of three ways: with a Docker image, from a git repository or from local source code:
 
-<Tabs
-  defaultValue="image"
-  values={[
-    {label: 'Image-based job', value: 'image'},
-    {label: 'Git-based job', value: 'git'},
-    {label: 'Code-based job', value: 'local'},
-  ]}>
-  <TabItem value="image">
-
+{{< tabpane text=true >}}
+{{% tab "With a Docker image" %}}
 To run a pre-made container that logs a message to W&B, open a terminal and run the following command:
 
 ```bash
@@ -111,10 +90,8 @@ wandb launch --docker-image wandb/job_hello_world:main --project launch-quicksta
 The preceding command downloads and runs the container image `wandb/job_hello_world:main`. 
 
 Launch configures the container to report everything logged with `wandb` to the `launch-quickstart` project. The container logs a message to W&B and displays a link to the newly created run in W&B. Click the link to view the run in the W&B UI.
-
-  </TabItem>
-  <TabItem value="git">
-
+{{% /tab %}}
+{{% tab "From a git repository" %}}
 To launch the same hello-world job from its [source code in the W&B Launch jobs repository](https://github.com/wandb/launch-jobs), run the following command:
 
 ```bash
@@ -131,8 +108,8 @@ The command does the following:
 
 The console output shows the image build and execution. The output of the container should be nearly identical to the previous example.
 
-  </TabItem>
-  <TabItem value="local">
+{{% /tab %}}
+{{% tab "From local source code" %}}
 
 Code not versioned in a git repository can be launched by specifying a local directory path to the `--uri` argument. 
 
@@ -162,10 +139,8 @@ The command does the following:
 2. Create a job named **hello-world-code** in the **launch-quickstart** project.
 3. Build a container image by copying `train.py` and `requirements.txt` into a base image and `pip install` the requirements.
 4. Start the container and run `python train.py`.
-
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Create a queue
 
