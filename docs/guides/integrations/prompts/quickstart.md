@@ -8,7 +8,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb"></CTAButtons>
 
 :::info
-Support for W&B Prompts ends in 2024. W&B recommends that current Prompt users transition to [Weave](https://weave-docs.wandb.ai/guides/core-types/prompts), a tool specifically designed for tracking and evaluating LLM applications. Weave offers a faster, more intuitive experience tailored for teams building with Generative AI.
+Support for W&B Prompts ended in 2024. W&B recommends that current Prompt users transition to [Weave](https://weave-docs.wandb.ai/guides/core-types/prompts), a tool specifically designed for tracking and evaluating LLM applications. Weave offers a faster, more intuitive experience tailored for teams building with Generative AI.
 
 For assistance, contact support@wandb.com. 
 :::
