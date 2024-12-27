@@ -24,11 +24,10 @@ brew install go
 brew install hugo
 brew install npm
 npm install
-go mod init docsy
 hugo mod get -u
 ```
 
-The last three lines are critical, as they install our dependencies and download the [Docsy](https://docsy.dev) module for Hugo.
+The last lines critical, as it downloads Hugo, the [Docsy](https://docsy.dev) module for Hugo, and the dependencies of each.
 
 ## Running the website locally
 
