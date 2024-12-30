@@ -135,7 +135,7 @@ Fetch the artifact version you want to add or update a tag to. Once you have the
 
 Like other artifacts, you can fetch an artifact from W&B without creating a run or you can create a run and fetch the artifact within that run. In either case, ensure to call the artifact object's `save` method to update the artifact on the W&B servers.
 
-Based on your use case, copy and paste one of the code cells below to add or modify an artifact version's tag. Ensure to replace the values in `<>` with your own.
+Copy and paste an appropriate code cells below to add or modify an artifact version's tag. Replace the values in `<>` with your own.
 
 
 The proceeding code snippet shows how to fetch an artifact and add a tag without creating a new run:
@@ -227,7 +227,7 @@ Fetch the artifact version to view its tags. Once you have the artifact version,
 
 Like other artifacts, you can fetch an artifact from W&B without creating a run or you can create a run and fetch the artifact within that run.
 
-Based on your use case, copy and paste one of the code cells below to view an artifact version's tags. Ensure to replace the values in `<>` with your own.
+Copy and paste an appropriate code cells below to add or modify an artifact version's tag. Replace the values in `<>` with your own.
 
 The proceeding code snippet shows how to fetch and view an artifact version's tags without creating a new run:
 ```python title="Add a tag to an artifact version without creating a new run"

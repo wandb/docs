@@ -98,7 +98,7 @@ The training and validation data that you upload to OpenAI for fine-tuning are a
 
 ### Visualization
 
-The datasets are also visualized as W&B Tables which allows you to explore, search and interact with the dataset. Check out the training samples visualized using W&B Tables below.
+The datasets are visualized as W&B Tables, which allows you to explore, search, and interact with the dataset. Check out the training samples visualized using W&B Tables below.
 
 {{< img src="/images/integrations/openai_data_visualization.png" alt="" >}}
 

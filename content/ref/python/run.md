@@ -907,7 +907,7 @@ unwatch(
 ) -> None
 ```
 
-Remove pytorch model topology, gradient and parameter hooks.
+Remove pytorch model topology, gradient hooks, and parameter hooks.
 
 | Args |  |
 | :--- | :--- |

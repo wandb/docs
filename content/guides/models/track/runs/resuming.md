@@ -35,7 +35,7 @@ You can also specify `resume="auto"` to let W&B to automatically try to restart 
 For all the examples below, replace values enclosed within `<>` with your own.
 
 ## Resume a run that must use the same run ID
-Resume a run that uses the same run ID if it is stopped, crashes or fails. To do so, initialize a run and specify the following:
+If a run is stopped, crashes, or fails, you can resume it using the same run ID. To do so, initialize a run and specify the following:
 
 * Set the `resume` parameter to `"must"` (`resume="must"`) 
 * Provide the run ID of the run that stopped or crashed

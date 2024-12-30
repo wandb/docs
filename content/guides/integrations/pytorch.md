@@ -43,7 +43,7 @@ for batch_idx, (data, target) in enumerate(train_loader):
 If you need to track multiple models in the same script, you can call `wandb.watch` on each model separately. Reference documentation for this function is [here](../../ref/python/watch.md).
 
 {{% alert color="secondary" %}}
-Gradients, metrics and the graph won't be logged until `wandb.log` is called after a forward _and_ backward pass.
+Gradients, metrics, and the graph won't be logged until `wandb.log` is called after a forward _and_ backward pass.
 {{% /alert %}}
 
 ## Log images and media

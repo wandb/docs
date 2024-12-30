@@ -117,7 +117,7 @@ The proceeding table lists permissions that apply to all artifacts across a give
 | Download artifact|           | X           | X          |
 
 ### System settings (W&B Server only)
-System permissions allow you to manage members, create and modify teams, and adjust system settings. These privileges enable you to effectively administer and maintain the W&B instance.
+Use system permissions to create and manage teams and their members and to adjust system settings. These privileges enable you to effectively administer and maintain the W&B instance.
 
 | Permissions              | View-Only | Team Member | Team Admin | System Admin | 
 | ------------------------ | --------- | ----------- | ---------- | ------------ |

@@ -581,7 +581,7 @@ You can configure the serialization used through the `serialization_module` dict
 
 The integration will automatically know which serialization module to use when you read that Artifact.
 
-The currently supported modules are pickle, dill, cloudpickle and joblib.
+The currently supported modules are `pickle`, `dill`, `cloudpickle`, and `joblib`.
 
 Here’s a simplified example where we create a “model” serialized with joblib and then use it for inference.
 
@@ -716,7 +716,7 @@ def use_onnx_model(context, my_onnx_model, my_test_set):
 
 The integration natively supports [Dagster partitions](https://docs.dagster.io/concepts/partitions-schedules-sensors/partitions).
 
-You can selectively read one, multiple or all partitions of an asset.
+You can selectively read one, multiple, or all partitions of an asset.
 
 All partitions are provided in a dictionary, with the key and value representing the partition key and the Artifact content, respectively.
 

@@ -125,7 +125,7 @@ wandb.finish()
 
 ## Log metrics
 
-You can use W&B to track all your experiments along with metrics like loss functions, accuracy and more. Just add the following line to your training loop and you are good to go!
+You can use W&B to track your experiments and related metrics, such as loss functions, accuracy, and more. Add the following line to your training loop:
 
 ```python
 wandb.log({

@@ -16,7 +16,7 @@ Queue monitoring dashboards are currently available only in the W&B Multi-tenant
 {{% /alert %}}
 
 ## Dashboard and plots
-Use the **Monitor** tab to view the activity of a queue that occurred during the last seven days. Use the left panel to control time ranges, grouping and filters.
+Use the **Monitor** tab to view the activity of a queue that occurred during the last seven days. Use the left panel to control time ranges, grouping, and filters.
 
 The dashboard contains a number of plots answering common questions about performance and efficiency. The proceeding sections describe UI elements of queue dashboards.
 

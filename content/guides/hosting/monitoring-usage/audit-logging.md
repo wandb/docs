@@ -50,7 +50,7 @@ The following table lists all the different keys that might be present in your a
 |report_name             | if present, action was taken on this report name.
 |user_email              | if present, action was taken on this user email.
 
-Personally identifiable information (PII) like email ids, project, team and report names are available only using the API endpoint option, and can be turned off as [described below](#fetch-audit-logs-using-api).
+Personally identifiable information (PII), such as email ids and the names of projects, teams, and reports, is available only using the API endpoint option, and can be turned off as [described below](#fetch-audit-logs-using-api).
 
 ## Fetch audit logs using API
 An instance admin can fetch the audit logs for your W&B server instance using the following API:

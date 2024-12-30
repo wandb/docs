@@ -8,7 +8,7 @@ title: YOLOX
 weight: 490
 ---
 
-[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. YOLOX contains a Weights & Biases integration that enables you to turn on logging of training, validation and system metrics, as well as interactive validation predictions with just 1 command line argument.
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. You can use the YOLOX Weights & Biases integration to turn on logging of metrics related to training, validation, and the system, and you can interactively validate predictions with a single command-line argument.
 
 ## Get started
 

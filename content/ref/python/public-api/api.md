@@ -375,7 +375,7 @@ from_path(
 )
 ```
 
-Return a run, sweep, project or report from a path.
+Return a run, sweep, project, or report from a path.
 
 #### Examples:
 

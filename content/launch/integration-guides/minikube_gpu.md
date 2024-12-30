@@ -200,7 +200,7 @@ pip install "wandb[launch]"
 
 to install the agent’s dependencies. To setup authentication for the agent, run `wandb login` or set the `WANDB_API_KEY` environment variable.
 
-To start the agent, type and execute the following:
+To start the agent, execute this command:
 
 ```bash
 wandb launch-agent -j <max-number-concurrent-jobs> -q <queue-name> -e <queue-entity>

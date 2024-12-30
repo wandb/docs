@@ -31,7 +31,10 @@ The following workflow only applies to W&B Multi-tenant SaaS Cloud.
 
 ## Add and manage users
 
-As an administrator, use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more.
+As an administrator, use your organization's dashboard to:
+- Invite or remove users.
+- Assign or update a user's role.
+- Assign the billing administrator.
 
 There are several ways an organization administrator can add users to an organization:
 
@@ -216,7 +219,11 @@ The organization role and subscription type determines which seat types are avai
 
 
 ## Add and manage teams
-Use your organization's dashboard to create teams within your organization. Once an organization administrator creates a team, either the org administrator or team administrator can invite users to that team, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
+Use your organization's dashboard to create  and manage teams within your organization. The org administrator or a team administrator can:
+- Invite users to a team or remove users from a team.
+- Manage a team member's roles.
+- Automate the addition of users to a team when they join your organization.
+- Manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
 
 <!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->

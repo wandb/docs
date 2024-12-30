@@ -8,7 +8,7 @@ weight: 5
 ---
 
 {{< cta-button colabLink='https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb' >}}
-Organize and visualize your machine learning experiments more effectively by programmatically create, manage, and customize workspaces by defining configurations, setting panel layouts, and organizing sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. Load and modify workspaces with URLs, filter and group runs using expressions, and customize run appearances.
+Organize and visualize your machine learning experiments more effectively by programmatically creating, managing, and customizing workspaces. You can define configurations, set panel layouts, and organize sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. You can load and modify workspaces by URL, use expressions to filter and group runs, and customize the appearances of runs.
 
 `wandb-workspaces` is a Python library for programmatically creating and customizing W&B [Workspaces](/guides/track/workspaces) and [Reports](/guides/reports).
 

@@ -12,7 +12,7 @@ title: Log models
 The following guide describes how to log models to a W&B run and interact with them. 
 
 {{% alert %}}
-The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to quickly log models to a run, in addition to metrics, tables, media and other objects.
+The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to log models to a run, and to access metrics, tables, media, and other objects.
 
 W&B suggests that you use [W&B Artifacts](../../artifacts/intro.md) if you want to:
 - Create and keep track of different versions of serialized data besides models, such as datasets, prompts, and more.

@@ -47,11 +47,11 @@ Update your license and version with Terraform. The proceeding table lists W&B m
 
 4. (Optional) If you use a `terraform.tfvars` or other `.tfvars` file.
 
-   First, update or create a `terraform.tfvars` file with the new W&B version and license key.
+   Update or create a `terraform.tfvars` file with the new W&B version and license key.
    ```bash
    terraform plan -var-file="terraform.tfvars"
    ```
-   Next, apply the configuration. In your Terraform workspace directory execute:  
+   Apply the configuration. In your Terraform workspace directory execute:  
    ```bash
    terraform apply -var-file="terraform.tfvars"
    ```

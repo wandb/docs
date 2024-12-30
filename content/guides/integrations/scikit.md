@@ -229,7 +229,8 @@ Computes the confusion matrix to evaluate the accuracy of a classification. It's
 
 {{< img src="/images/integrations/scikit_summary_metrics.png" alt="" >}}
 
-Calculates summary metrics (like f1, accuracy, precision and recall for classification and mse, mae, r2 score for regression) for both regression and classification algorithms.
+- Calculates summary metrics for classification, such as `mse`, `mae`, and `r2` score.
+- Calculates summary metrics for regression, such as `f1`, accuracy, precision, and recall.
 
 `wandb.sklearn.plot_summary_metrics(model, X_train, y_train, X_test, y_test)`
 

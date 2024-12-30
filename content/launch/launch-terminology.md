@@ -32,7 +32,7 @@ While Launch jobs can perform activities not related to model training--for exam
 Find jobs you created in the W&B App under the `Jobs` tab of your project workspace. From there, jobs can be configured and sent to a [launch queue](#launch-queue) to be executed on a variety of [target resources](#target-resources).
 
 ### Launch queue
-Launch *queues* are ordered lists of jobs to execute on a specific target resource. Launch queues are first-in, first-out. (FIFO). There is no practical limit to the number of queues you can have, but a good guideline is one queue per target resource. Jobs can be enqueued with the W&B App UI, W&B CLI or Python SDK. Then, one or more Launch agents can be configured to pull items from the queue and execute them on the queue's target resource.
+Launch *queues* are ordered lists of jobs to execute on a specific target resource. Launch queues are first-in, first-out. (FIFO). There is no practical limit to the number of queues you can have, but a good guideline is one queue per target resource. Jobs can be enqueued with the W&B App UI, W&B CLI or Python SDK. You can then configure one or more Launch agents to pull items from the queue and execute them on the queue's target resource.
 
 ### Target resources
 The compute environment that a Launch queue is configured to execute jobs on is called the *target resource*.

@@ -54,7 +54,7 @@ Try it for yourself in this [example notebook](http://wandb.me/jupyter-interact-
 
 ### Rendering live W&B interfaces directly in your notebooks
 
-You can also display any existing dashboards, sweeps or reports directly in your notebook using the `%wandb` magic:
+You can also display any existing dashboards, sweeps, or reports directly in your notebook using the `%wandb` magic:
 
 ```notebook
 # Display a project workspace

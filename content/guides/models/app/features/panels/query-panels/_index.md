@@ -39,7 +39,7 @@ Add a query to your workspace or within a report.
 
 {{% tab header="W&B Report" value="report" %}}
 
-Within your report, type and select `/Query panel`
+Type and select `/Query panel`.
 
 {{< img src="/images/weave/add_weave_panel_report_1.png" alt="" >}}
 

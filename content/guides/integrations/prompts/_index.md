@@ -45,7 +45,7 @@ Traces consists of three main components:
 
 #### Trace Table
 
-The Trace Table provides an overview of the inputs and outputs of a chain. The trace table also provides information about the composition of a trace event in the chain, whether or not the chain ran successfully, and any error messages returned when running the chain.
+The Trace Table provides an overview of the inputs and outputs of a chain. The trace table also provides information about the composition of a trace event in the chain, indicates whether or not the chain ran successfully, and displays error messages returned when running the chain.
 
 {{< img src="/images/prompts/trace_table.png" alt="Screenshot of a trace table." >}}
 
