@@ -197,7 +197,7 @@ This is where you will:
 * Define the hyperparameters you're sweeping over
 * Provide your hyperparameter optimization method. We have `random`, `grid` and `bayes` methods.
 * Provide an objective and a `metric` if using `bayes`, for example to `minimize` the `val_loss`.
-* Use `hyperband` for early termination of poorly-performing runs
+* Use `hyperband` for early termination of poorly performing runs.
 
 #### [Check out more on Sweep Configs](/guides/sweeps/define-sweep-configuration)
 

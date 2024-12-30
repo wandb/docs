@@ -124,7 +124,7 @@ But any part of your model can be part of the `config`!
 
 We also include some metadata: we're using the MNIST dataset and a convolutional
 architecture. If we later work with, say,
-fully-connected architectures on CIFAR in the same project,
+fully connected architectures on CIFAR in the same project,
 this will help us separate our runs.
 
 
@@ -404,7 +404,7 @@ def test(model, test_loader):
 
 Now that we've defined the whole pipeline and slipped in
 those few lines of W&B code,
-we're ready to run our fully-tracked experiment.
+we're ready to run our fully tracked experiment.
 
 We'll report a few links to you:
 our documentation,

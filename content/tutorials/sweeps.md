@@ -216,7 +216,7 @@ define the training procedure that uses the hyperparameter values you want to tr
 
 In the proceeding code example, the helper functions `build_dataset`, `build_network`, `build_optimizer`, and `train_epoch` access the sweep hyperparameter configuration dictionary. 
 
-Run the proceeding machine learning training code in your notebook. The functions define a basic fully-connected neural network in PyTorch.
+Run the proceeding machine learning training code in your notebook. The functions define a basic fully connected neural network in PyTorch.
 
 
 ```python
@@ -273,7 +273,7 @@ def build_dataset(batch_size):
 
 
 def build_network(fc_layer_size, dropout):
-    network = nn.Sequential(  # fully-connected, single hidden layer
+    network = nn.Sequential(  # fully connected, single hidden layer
         nn.Flatten(),
         nn.Linear(784, fc_layer_size), nn.ReLU(),
         nn.Dropout(dropout),
@@ -336,7 +336,7 @@ wandb.agent(sweep_id, train, count=5)
 ```
 
 {{% alert %}}
-Since the `random` search method was specified in the sweep configuration, the sweep controller provides randomly-generated hyperparameter values.
+Since the `random` search method was specified in the sweep configuration, the sweep controller provides randomly generated hyperparameter values.
 {{% /alert %}}
 
 For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/guides/sweeps/walkthrough).

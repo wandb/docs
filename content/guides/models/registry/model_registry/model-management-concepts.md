@@ -23,7 +23,7 @@ Store files within model versions that are produced from the serialization proce
 
 ## Model alias
 
-Model aliases are mutable strings that allow you to uniquely identify or reference a model version in your registered model with a semantically-related identifier. You can only assign an alias to one version of a registered model. This is because an alias should refer to a unique version when used programmatically. It also allows aliases to be used to capture a model's state (champion, candidate, production).
+Model aliases are mutable strings that allow you to uniquely identify or reference a model version in your registered model with a semantically related identifier. You can only assign an alias to one version of a registered model. This is because an alias should refer to a unique version when used programmatically. It also allows aliases to be used to capture a model's state (champion, candidate, production).
 
 It is common practice to use aliases such as  "best", "latest", "production", or "staging" to mark model versions with special purposes.
 
