@@ -38,7 +38,7 @@ Follow the procedure below to create a Slack application.
     {{< img src="/images/hosting/redirect_urls.png" alt="" >}}
 
 4. Select **Save URLs**.
-5. You can optionally specify an IP range under **Restrict API Token Usage**, allow-list the IP or IP range of your W&B instance(s). Limiting the allowed IP address helps further secure your Slack application.
+5. You can optionally specify an IP range under **Restrict API Token Usage**, allow-list the IP or IP range of your W&B instances. Limiting the allowed IP address helps further secure your Slack application.
 
 ## Register your Slack application with W&B
 

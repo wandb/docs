@@ -40,7 +40,7 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 [`sweep(...)`](./sweep.md): Initialize a hyperparameter sweep.
 
-[`watch(...)`](./watch.md): Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.
+[`watch(...)`](./watch.md): Hooks into the given PyTorch models to monitor gradients and the model's computational graph.
 
 | Other Members |  |
 | :--- | :--- |

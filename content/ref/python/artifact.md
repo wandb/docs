@@ -176,16 +176,16 @@ see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external
 
 By default, the following schemes are supported:
 
-- http(s): The size and digest of the file will be inferred by the
+- `http` or `https`: The size and digest of the file will be inferred by the
   `Content-Length` and the `ETag` response headers returned by the server.
-- s3: The checksum and size are pulled from the object metadata. If bucket
+- `s3`: The checksum and size are pulled from the object metadata. If bucket
   versioning is enabled, then the version ID is also tracked.
-- gs: The checksum and size are pulled from the object metadata. If bucket
+- `gs`: The checksum and size are pulled from the object metadata. If bucket
   versioning is enabled, then the version ID is also tracked.
-- https, domain matching `*.blob.core.windows.net` (Azure): The checksum and size
+- `https`, domain matching `*.blob.core.windows.net` (Azure): The checksum and size
   are be pulled from the blob metadata. If storage account versioning is
   enabled, then the version ID is also tracked.
-- file: The checksum and size are pulled from the file system. This scheme
+- `file`: The checksum and size are pulled from the file system. This scheme
   is useful if you have an NFS share or other externally mounted volume
   containing files you wish to track but not necessarily upload.
 
@@ -196,7 +196,7 @@ blank.
 | :--- | :--- |
 |  `uri` |  The URI path of the reference to add. The URI path can be an object returned from `Artifact.get_entry` to store a reference to another artifact's entry. |
 |  `name` |  The path within the artifact to place the contents of this reference. |
-|  `checksum` |  Whether or not to checksum the resource(s) located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation. Disabling checksumming will speed up artifact creation but reference directories will not iterated through so the objects in the directory will not be saved to the artifact. We recommend setting `checksum=False` when adding reference objects, in which case a new version will only be created if the reference URI changes. |
+|  `checksum` |  Whether or not to checksum the resources located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation. Disabling checksumming will speed up artifact creation but reference directories will not iterated through so the objects in the directory will not be saved to the artifact. We recommend setting `checksum=False` when adding reference objects, in which case a new version will only be created if the reference URI changes. |
 |  `max_objects` |  The maximum number of objects to consider when adding a reference that points to directory or bucket store prefix. By default, the maximum number of objects allowed for Amazon S3, GCS, Azure, and local files is 10,000,000. Other URI schemas do not have a maximum. |
 
 | Returns |  |

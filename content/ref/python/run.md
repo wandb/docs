@@ -1018,7 +1018,7 @@ run.use_model(
 
 | Returns |  |
 | :--- | :--- |
-|  `path` |  (str) path to downloaded model artifact file(s). |
+|  `path` |  (str) path to downloaded model artifact files. |
 
 ### `watch`
 
@@ -1035,7 +1035,7 @@ watch(
 ) -> None
 ```
 
-Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.
+Hooks into the given PyTorch models to monitor gradients and the model's computational graph.
 
 This function can track parameters, gradients, or both during training. It should be
 extended to support arbitrary machine learning models in the future.

@@ -279,7 +279,7 @@ The W&B Operator is the default and recommended installation method for W&B Serv
   - [Azure](#migrate-to-operator-based-azure-terraform-modules)
 - If you used the [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb),  continue [here](#migrate-to-operator-based-helm-chart).
 - If you used the [W&B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest),  continue [here](#migrate-to-operator-based-terraform-helm-chart).
-- If you created the Kubernetes resources with manifest(s),  continue [here](#migrate-to-operator-based-helm-chart).
+- If you created the Kubernetes resources with manifests,  continue [here](#migrate-to-operator-based-helm-chart).
 
 
 ### Migrate to Operator-based AWS Terraform Modules

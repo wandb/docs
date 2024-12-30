@@ -436,8 +436,8 @@ Return a list of jobs, if any, for the given entity and project.
 
 | Args |  |
 | :--- | :--- |
-|  `entity` |  (str) The entity for the listed job(s). |
-|  `project` |  (str) The project for the listed job(s). |
+|  `entity` |  (str) The entity for the listed jobs. |
+|  `project` |  (str) The project for the listed jobs. |
 
 | Returns |  |
 | :--- | :--- |
