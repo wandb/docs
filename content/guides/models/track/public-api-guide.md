@@ -154,7 +154,7 @@ importer.import_all(
 
 ## Export Data
 
-Use the Public API to export or update data that you have saved to W&B. Before using this API, you'll want to log data from your script — check the [Quickstart](../../quickstart.md) for more details.
+Use the Public API to export or update data that you have saved to W&B. Before using this API, log data from your script. Check the [Quickstart](../../quickstart.md) for more details.
 
 **Use Cases for the Public API**
 

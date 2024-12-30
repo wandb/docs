@@ -99,11 +99,11 @@ os.environ["WANDB_PROJECT"]="amazon_sentiment_analysis"
 Make sure you set the project name _before_ you initialize the `Trainer`.
 {{% /alert %}}
 
-If a project name is not specified the project name defaults to "huggingface".
+If a project name is not specified the project name defaults to `huggingface`.
 
 ### 3. Log your training runs to W&B
 
-This is **the most important step:** when defining your `Trainer` training arguments, either inside your code or from the command line, is to set `report_to` to `"wandb"` in order enable logging with Weights & Biases.
+This is **the most important step** when defining your `Trainer` training arguments, either inside your code or from the command line, is to set `report_to` to `"wandb"` in order enable logging with Weights & Biases.
 
 The `logging_steps` argument in `TrainingArguments` will control how often training metrics are pushed to W&B during training. You can also give a name to the training run in W&B using the `run_name` argument. 
 
@@ -155,7 +155,7 @@ Using Weights & Biases' [Artifacts](../artifacts/intro.md), you can store up to 
 
  Logging your Hugging Face model checkpoints to Artifacts can be done by setting the `WANDB_LOG_MODEL` environment variable to one of `end` or `checkpoint` or `false`: 
 
--  **`checkpoint`**: a checkpoint will be uploaded every `args.save_steps` from the [`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments). 
+- **`checkpoint`**: a checkpoint will be uploaded every `args.save_steps` from the [`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments). 
 - **`end`**:  the model will be uploaded at the end of training. 
 
 Use `WANDB_LOG_MODEL` along with `load_best_model_at_end` to upload the best model at the end of training.
@@ -478,7 +478,7 @@ Below are 6 Transformers and W&B related articles you might enjoy
 
 <summary>Hyperparameter Optimization for Hugging Face Transformers</summary>
 
-* Three strategies for hyperparameter optimization for Hugging Face Transformers are compared - Grid Search, Bayesian Optimization, and Population Based Training.
+* Three strategies for hyperparameter optimization for Hugging Face Transformers are compared: Grid Search, Bayesian Optimization, and Population Based Training.
 * We use a standard uncased BERT model from Hugging Face transformers, and we want to fine-tune on the RTE dataset from the SuperGLUE benchmark
 * Results show that Population Based Training is the most effective approach to hyperparameter optimization of our Hugging Face transformer model.
 
@@ -518,7 +518,7 @@ Read the full report [here](https://wandb.ai/jxmorris12/huggingface-demo/reports
 
 <details>
 
-<summary>Early Stopping in HuggingFace - Examples</summary>
+<summary>Examples of Early Stopping in HuggingFace</summary>
 
 * Fine-tuning a Hugging Face Transformer using Early Stopping regularization can be done natively in PyTorch or TensorFlow.
 * Using the EarlyStopping callback in TensorFlow is straightforward with the `tf.keras.callbacks.EarlyStopping`callback.

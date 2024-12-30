@@ -8,7 +8,7 @@ title: Skorch
 weight: 400
 ---
 
-You can use Weights & Biases with Skorch to automatically log the model with the best performance – along with all model performance metrics, the model topology and compute resources after each epoch. Every file saved in wandb_run.dir is automatically logged to W&B servers.
+You can use Weights & Biases with Skorch to automatically log the model with the best performance, along with all model performance metrics, the model topology and compute resources after each epoch. Every file saved in `wandb_run.dir` is automatically logged to W&B servers.
 
 See [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13).
 

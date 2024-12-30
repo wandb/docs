@@ -95,7 +95,7 @@ Next, call the downloaded training script [run_glue.py](https://huggingface.co/t
 ```
 
 # 👀 Visualize results in dashboard
-Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to see your results stream in live. The link to see your run in the browser will appear after all the dependencies are loaded — look for the following output: "**wandb**: 🚀 View run at [URL to your unique run]"
+Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to see your results stream in live. The link to see your run in the browser will appear after all the dependencies are loaded. Look for the following output: "**wandb**: 🚀 View run at [URL to your unique run]"
 
 **Visualize Model Performance**
 It's easy to look across dozens of experiments, zoom in on interesting findings, and visualize highly dimensional data.
@@ -103,7 +103,7 @@ It's easy to look across dozens of experiments, zoom in on interesting findings,
 {{< img src="/images/tutorials/huggingface-visualize.gif" alt="" >}}
 
 **Compare Architectures**
-Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU) — it's easy to see how different architectures effect the evaluation accuracy throughout training with automatic line plot visualizations.
+Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU). It's easy to see how different architectures effect the evaluation accuracy throughout training with automatic line plot visualizations.
 
 {{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="" >}}
 

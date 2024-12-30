@@ -37,7 +37,7 @@ Use W&B Artifacts for dataset and model versioning to track references in cloud 
 Artifacts abstract away the underlying cloud storage vendor (such AWS, GCP or Azure). Information described in the proceeding section apply uniformly to Amazon S3, Google Cloud Storage and Azure Blob Storage.
 
 {{% alert %}}
-W&B Artifacts support any Amazon S3 compatible interface — including MinIO! The scripts below work, as is, when you set the AWS_S3_ENDPOINT_URL environment variable to point at your MinIO server.
+W&B Artifacts support any Amazon S3 compatible interface, including MinIO. The scripts below work as-is, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your MinIO server.
 {{% /alert %}}
 
 Assume we have a bucket with the following structure:
@@ -151,7 +151,7 @@ Read through the following reports for an end-to-end walkthrough of how to track
 
 ### Filesystem References
 
-Another common pattern for fast access to datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an even simpler solution than a cloud storage bucket because from the perspective of the training script, the files look just like they are sitting on your local filesystem. Luckily, that ease of use extends into using Artifacts to track references to file systems — mounted or otherwise.
+Another common pattern for fast access to datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an even simpler solution than a cloud storage bucket because from the perspective of the training script, the files look just like they are sitting on your local filesystem. Luckily, that ease of use extends into using Artifacts to track references to file systems, whether they are mounted or not.
 
 Assume we have a filesystem mounted at `/mount` with the following structure:
 

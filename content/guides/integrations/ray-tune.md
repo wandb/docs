@@ -24,13 +24,13 @@ The content of the wandb config entry is passed to `wandb.init()` as keyword arg
 
 ### Parameters
 
-`api_key_file (str)` – Path to file containing the `Wandb API KEY`.
+`api_key_file (str)`: Path to file containing the `Wandb API KEY`.
 
-`api_key (str)` – Wandb API Key. Alternative to setting `api_key_file`.
+`api_key (str)`: Wandb API Key. Alternative to setting `api_key_file`.
 
-`excludes (list)` – List of metrics that should be excluded from the `log`.
+`excludes (list)`: List of metrics that should be excluded from the `log`.
 
-`log_config (bool)` – Boolean indicating if the config parameter of the results dict should be logged. This makes sense if parameters will change during training, e.g. with `PopulationBasedTraining`. Defaults to False.
+`log_config (bool)`: Whether to log thee config parameter of the results dictionary. This makes sense if parameters will change during training, such as when using `PopulationBasedTraining`. Defaults to False.
 
 ### Example
 
@@ -86,9 +86,9 @@ The content of the wandb config entry is passed to `wandb.init()` as keyword arg
 
 ### Parameters
 
-`api_key_file (str)` – Path to file containing the Wandb `API KEY`.
+`api_key_file (str)`: Path to file containing the Wandb `API KEY`.
 
-`api_key (str)` – Wandb API Key. Alternative to setting `api_key_file`.
+`api_key (str)`: Wandb API Key. Alternative to setting `api_key_file`.
 
 Wandb’s `group`, `run_id` and `run_name` are automatically selected by Tune, but can be overwritten by filling out the respective configuration values.
 
