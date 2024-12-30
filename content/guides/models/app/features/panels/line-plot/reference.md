@@ -67,7 +67,7 @@ You can set the [smoothing coefficient](../../../../../support/formula_smoothing
 
 ## Ignore outliers
 
-Ignore outliers makes the graph set the yaxis min and max to the 5th and 95th percentile of the data instead of setting it to make all data visible.
+Ignore outliers sets the graph's Y-axis range from 5% to 95%, rather than from 0% to 100% to make all data visible.
 
 ## Expression
 
