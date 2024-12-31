@@ -55,7 +55,7 @@ model.fit(
 
 | Parameter | Description | 
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `log_freq`            | ("epoch", "batch", or int): if "epoch", logs metrics at the end of each epoch. If "batch", logs metrics at the end of each batch. If an int, logs metrics at the end of that many batches. Defaults to "epoch".                                 |
+| `log_freq`            | (`epoch`, `batch`, or an `int`): if `epoch`, logs metrics at the end of each epoch. If `batch`, logs metrics at the end of each batch. If an `int`, logs metrics at the end of that many batches. Defaults to `epoch`.                                 |
 | `initial_global_step` | (int): Use this argument to correctly log the learning rate when you resume training from some initial_epoch, and a learning rate scheduler is used. This can be computed as step_size * initial_step. Defaults to 0. |
 
 ## Checkpoint a model using `WandbModelCheckpoint`

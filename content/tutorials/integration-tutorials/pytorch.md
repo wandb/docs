@@ -357,7 +357,7 @@ def train_log(loss, example_ct, epoch):
 
 Once the model is done training, we want to test it:
 run it against some fresh data from production, perhaps,
-or apply it to some hand-curated "hard examples".
+or apply it to some hand-curated examples.
 
 
 

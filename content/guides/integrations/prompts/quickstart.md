@@ -133,7 +133,7 @@ Please report any issues with this LangChain integration to the [wandb repo](htt
 **Versions** Please use `wandb >= 0.15.4`
 {{% /alert %}}
 
-A W&B Trace is created by logging 1 or more "spans". A root span is expected, which can accept nested child spans, which can in turn accept their own child spans. Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`.
+A W&B Trace is created by logging 1 or more _spans_. A root span is expected, which can accept nested child spans, which can in turn accept their own child spans. Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`.
 
 When you log with Trace, a single W&B run can include multiple calls to an LLM, Tool, Chain, or Agent. You don't need to start a new W&B run after each generation from your model or pipeline. Instead, the system appends each call to the Trace table.
 

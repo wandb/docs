@@ -56,7 +56,7 @@ begin with `add`. Once the artifact has all the desired files, you can call
 |  `source_project` |  The name of the project of the primary (sequence) artifact collection. |
 |  `source_qualified_name` |  The entity/project/name of the primary (sequence) collection. |
 |  `source_version` |  The artifact's version in its primary (sequence) collection. A string with the format `v{number}`. |
-|  `state` |  The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED". |
+|  `state` |  The status of the artifact. One of: `PENDING`, `COMMITTED`, or `DELETED`. |
 |  `tags` |  List of one or more tags assigned to this artifact version. |
 |  `ttl` |  The time-to-live (TTL) policy of an artifact. Artifacts are deleted shortly after a TTL policy's duration passes. If set to `None`, the artifact deactivates TTL policies and will be not scheduled for deletion, even if there is a team default TTL. An artifact inherits a TTL policy from the team default if the team administrator defines a default TTL and there is no custom policy set on an artifact. |
 |  `type` |  The artifact's type. Common types include `dataset` or `model`. |
@@ -143,7 +143,7 @@ Add a local file to the artifact.
 |  `name` |  The path within the artifact to use for the file being added. Defaults to the basename of the file. |
 |  `is_tmp` |  If true, then the file is renamed deterministically to avoid collisions. |
 |  `skip_cache` |  If `True`, W&B will not copy files to the cache after uploading. |
-|  `policy` |  By default, set to "mutable". If set to "mutable", create a temporary copy of the file to prevent corruption during upload. If set to "immutable", disable protection and rely on the user not to delete or change the file. |
+|  `policy` |  By default, set to `mutable`. If set to `mutable`, create a temporary copy of the file to prevent corruption during upload. If set to `immutable`, disable protection and rely on the user not to delete or change the file. |
 |  `overwrite` |  If `True`, overwrite the file if it already exists. |
 
 | Returns |  |

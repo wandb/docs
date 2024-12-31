@@ -25,7 +25,7 @@ Store files within model versions that are produced from the serialization proce
 
 Model aliases are mutable strings that allow you to uniquely identify or reference a model version in your registered model with a semantically related identifier. You can only assign an alias to one version of a registered model. This is because an alias should refer to a unique version when used programmatically. It also allows aliases to be used to capture a model's state (champion, candidate, production).
 
-It is common practice to use aliases such as  "best", "latest", "production", or "staging" to mark model versions with special purposes.
+It is common practice to use aliases such as  `"best"`, `"latest"`, `"production"`, or `"staging"` to mark model versions with special purposes.
 
 For example, suppose you create a model and assign it a `"best"` alias. You can refer to that specific model with `run.use_model` 
 
@@ -65,7 +65,7 @@ View an [example model artifact here](https://wandb.ai/timssweeney/model_managem
 ## Registered model
 A registered model is a collection of pointers (links) to model versions. You can think of a registered model as a folder of "bookmarks" of candidate models for the same ML task. Each "bookmark" of a registered model is a pointer to a [model version](#model-version) that belongs to a [model artifact](#model-artifact). You can use [model tags](#model-tags) to group your registered models. 
 
-Registered models often represent candidate models for a single modeling use case or task. For example, you might create registered model for different image classification task based on the model you use: "ImageClassifier-ResNet50", "ImageClassifier-VGG16", "DogBreedClassifier-MobileNetV2" and so on. Model versions are assigned version numbers in the order in which they were linked to the registered model.
+Registered models often represent candidate models for a single modeling use case or task. For example, you might create registered model for different image classification task based on the model you use: `ImageClassifier-ResNet50`, `ImageClassifier-VGG16`, `DogBreedClassifier-MobileNetV2` and so on. Model versions are assigned version numbers in the order in which they were linked to the registered model.
 
 
 View an [example Registered Model here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=versions).

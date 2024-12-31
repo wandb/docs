@@ -170,6 +170,7 @@ command:
 
 {{< tabpane text=true >}}
   {{% tab header="CLI" %}}
+
 ```yaml title="config.yaml" 
 program: train.py
 method: random
@@ -194,9 +195,11 @@ parameters:
     min: 0
   optimizer:
     values: ["adam", "sgd"]
-```  
+```
+
   {{% /tab %}}
   {{% tab header="Python script or Jupyter notebook" %}}
+
 ```python title="train.py" 
 sweep_config = {
     "method": "random",
@@ -216,12 +219,14 @@ sweep_config = {
     },
 }
 ```  
+
   {{% /tab %}}
 {{< /tabpane >}}
 
 
 
 ### Bayes hyperband example
+
 ```yaml
 program: train.py
 method: bayes
@@ -256,6 +261,7 @@ The proceeding tabs show how to specify either a minimum or maximum number of it
 
 {{% tabpane text=true %}}
   {{% tab header="Maximum number of iterations specified" %}}
+
 ```yaml
 early_terminate:
   type: hyperband
@@ -265,6 +271,7 @@ early_terminate:
 The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.  
   {{% /tab %}}
   {{% tab header="Minimum number of iterations specified" %}}
+
 ```yaml
 early_terminate:
   type: hyperband
@@ -272,13 +279,15 @@ early_terminate:
   s: 2
 ```
 
-The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.  
+The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`. 
+
   {{% /tab %}}
 {{% /tabpane %}}
 
 
 
 ### Command example
+
 ```yaml
 program: main.py
 metric:
@@ -305,13 +314,17 @@ command:
 
 {{< tabpane text=true >}}
   {{% tab header="Unix" %}}
+
 ```bash
 /usr/bin/env python train.py --param1=value1 --param2=value2
 ```  
+
   {{% /tab %}}
   {{% tab header="Windows" %}}
+
 ```bash
 python train.py --param1=value1 --param2=value2
+
 ```  
   {{% /tab %}}
 {{< /tabpane >}}
@@ -321,6 +334,7 @@ The proceeding tabs show how to specify common command macros:
 
 {{< tabpane text=true >}}
   {{% tab header="Set Python interpreter" %}}
+
 Remove the `{$interpreter}` macro and provide a value explicitly to hardcode the python interpreter. For example, the following code snippet demonstrates how to do this:
 
 ```yaml
@@ -333,6 +347,7 @@ command:
 
   {{% /tab %}}
   {{% tab header="Add extra parameters" %}}
+
 The following shows how to add extra command line arguments not specified by sweep configuration parameters:
 
 ```yaml
@@ -347,6 +362,7 @@ command:
 
   {{% /tab %}}
   {{% tab header="Omit arguments" %}}
+
 If your program does not use argument parsing you can avoid passing arguments all together and take advantage of `wandb.init` picking up sweep parameters into `wandb.config` automatically:
 
 ```yaml
@@ -355,8 +371,10 @@ command:
   - ${interpreter}
   - ${program}
 ```  
+
   {{% /tab %}}
   {{% tab header="Hydra" %}}
+
 You can change the command to pass arguments the way tools like [Hydra](https://hydra.cc) expect. See [Hydra with W&B](../integrations/other/hydra.md) for more information.
 
 ```yaml
@@ -365,7 +383,8 @@ command:
   - ${interpreter}
   - ${program}
   - ${args_no_hyphens}
-```  
+```
+
   {{% /tab %}}
 {{< /tabpane >}}
 

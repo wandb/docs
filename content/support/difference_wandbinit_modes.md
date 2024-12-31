@@ -5,7 +5,7 @@ type: docs
 tags:
    - experiments
 ---
-Modes can be "online", "offline", or "disabled", with the default set to online.
+These modes are available:
 
 * `online` (default): The client sends data to the wandb server.
 * `offline`: The client stores data locally on the machine instead of sending it to the wandb server. Use the [`wandb sync`](../ref/cli/wandb-sync.md) command to synchronize the data later.

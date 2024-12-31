@@ -23,7 +23,7 @@ in the UI: https://docs.wandb.ai/guides/data-vis/tables.
 
 | Args |  |
 | :--- | :--- |
-|  `columns` |  (List[str]) Names of the columns in the table. Defaults to ["Input", "Output", "Expected"]. |
+|  `columns` |  (List[str]) Names of the columns in the table. Defaults to `["Input", "Output", "Expected"]`. |
 |  `data` |  (List[List[any]]) 2D row-oriented array of values. |
 |  `dataframe` |  (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
 |  `optional` |  (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |

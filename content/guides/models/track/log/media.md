@@ -464,6 +464,7 @@ W&B also supports logging of a variety of other media types.
 
 {{< tabpane text=true >}}
    {{% tab header="Audio" %}}
+
 ```python
 wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
@@ -471,6 +472,7 @@ wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32
 The maximum number of audio clips that can be logged per step is 100.   
    {{% /tab %}}
     {{% tab header="Video" %}}
+
 ```python
 wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
 ```
@@ -502,7 +504,9 @@ You can also pass a pandas `DataFrame` object.
 table = wandb.Table(dataframe=my_dataframe)
 ```    
     {{% /tab %}}
-    {{% tab header="HTML" %}}```python
+    {{% tab header="HTML" %}}
+
+```python
 wandb.log({"custom_file": wandb.Html(open("some.html"))})
 wandb.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 ```
@@ -512,6 +516,7 @@ Custom html can be logged at any key, and this exposes an HTML panel on the run 
 ```python
 wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
+
     {{% /tab %}}
 {{< /tabpane >}}
 

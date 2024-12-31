@@ -99,7 +99,7 @@ Return whether an artifact collection exists within a specified project and enti
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to "uncategorized". |
+|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to `uncategorized`. |
 |  `type` |  (str) The type of artifact collection |
 
 | Returns |  |
@@ -145,8 +145,8 @@ Return whether an artifact version exists within a specified project and entity.
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to "uncategorized". Valid names can be in the following forms: name:version name:alias |
-|  `type` |  (str, optional) The type of artifact |
+|  `name` |  (str) An artifact name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to `uncategorized`. Valid names can be in the following forms: `name:version name:alias`. |
+|  `type` |  (str, optional) The type of artifact. |
 
 | Returns |  |
 | :--- | :--- |
@@ -294,12 +294,12 @@ Create a new run queue (launch).
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create |
-|  `type` |  (str) Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex". |
+|  `name` |  (str) Name of the queue to create. |
+|  `type` |  (str) Type of resource to be used for the queue. One of `local-container`, `local-process`, `kubernetes`, `sagemaker`, or `gcp-vertex`. |
 |  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either "V0" or None |
+|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either `V0` or `None`. |
 |  `config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
-|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
+|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }`. |
 
 | Returns |  |
 | :--- | :--- |
@@ -709,13 +709,13 @@ Upsert a run queue (launch).
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create |
+|  `name` |  (str) Name of the queue to create. |
 |  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
 |  `resource_config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
-|  `resource_type` |  (str) Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex". |
-|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
-|  `external_links` |  (dict) Optional dictionary of external links to be used with the queue. Expected format of: `{ "name": "url" }` |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either "V0" or None |
+|  `resource_type` |  (str) Type of resource to be used for the queue. One of `local-container`, `local-process`, `kubernetes`, `sagemaker`, or `gcp-vertex`. |
+|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }`. |
+|  `external_links` |  (dict) Optional dictionary of external links to be used with the queue. Expected format of: `{ "name": "url" }`. |
+|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either `V0` or `None`. |
 
 | Returns |  |
 | :--- | :--- |

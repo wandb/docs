@@ -50,13 +50,13 @@ A panel object that shows a 2D bar plot.
  - `title_x` (Optional[str]):  The label of the x-axis. 
  - `title_y` (Optional[str]):  The label of the y-axis. 
  - `groupby` (Optional[str]):  Group runs based on a metric logged to your W&B project that the  report pulls information from. 
- - `groupby_aggfunc` (Optional[GroupAgg]):  Aggregate runs with specified  function. Options include "mean", "min", "max", "median", "sum", "samples", or `None`. 
- - `groupby_rangefunc` (Optional[GroupArea]):   Group runs based on a range. Options  include "minmax", "stddev", "stderr", "none", "samples", or `None`. 
+ - `groupby_aggfunc` (Optional[GroupAgg]):  Aggregate runs with specified  function. Options include `mean`, `min`, `max`, `median`, `sum`, `samples`, or `None`. 
+ - `groupby_rangefunc` (Optional[GroupArea]):   Group runs based on a range. Options  include `minmax`, `stddev`, `stderr`, `none`, =`samples`, or `None`. 
  - `max_runs_to_show` (Optional[int]):  The maximum number of runs to show on the plot. 
  - `max_bars_to_show` (Optional[int]):  The maximum number of bars to show on the bar plot. 
  - `custom_expressions` (Optional[LList[str]]):  A list of custom expressions to be used in the bar plot. 
  - `legend_template` (Optional[str]):  The template for the legend. 
- - `font_size` ( Optional[FontSize]):  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
+ - `font_size` ( Optional[FontSize]):  The size of the line plot's font.  Options include `small`, `medium`, `large`, `auto`, or `None`. 
  - `line_titles` (Optional[dict]):  The titles of the lines. The keys are the line names and the values are the titles. 
  - `line_colors` (Optional[dict]):  The colors of the lines. The keys are the line names and the values are the colors. 
 
@@ -155,7 +155,7 @@ A block of code.
 **Attributes:**
  
  - `code` (str):  The code in the block. 
- - `language` (Optional[Language]):  The language of the code. Language specified  is used for syntax highlighting. By default, set to "python". Options include  'javascript', 'python', 'css', 'json', 'html', 'markdown', 'yaml'. 
+ - `language` (Optional[Language]):  The language of the code. Language specified  is used for syntax highlighting. By default, set to `python`. Options include  `javascript`, `python`, `css`, `json`, `html`, `markdown`, `yaml`. 
 
 
 
@@ -174,7 +174,7 @@ A panel object that compares the code between two different runs.
 
 **Attributes:**
  
- - `diff` (Literal['split', 'unified']):  How to display code differences.  Options include "split" and "unified". 
+ - `diff` `(Literal['split', 'unified'])`:  How to display code differences.  Options include `split` and `unified`. 
 
 
 
@@ -536,16 +536,16 @@ A panel object with 2D line plots.
  - `title_y` (Optional[str]):  The label of the y-axis. 
  - `ignore_outliers` (Optional[bool]):  If set to `True`, do not plot outliers. 
  - `groupby` (Optional[str]):  Group runs based on a metric logged to your W&B project that the  report pulls information from. 
- - `groupby_aggfunc` (Optional[GroupAgg]):  Aggregate runs with specified  function. Options include "mean", "min", "max", "median", "sum", "samples", or `None`. 
- - `groupby_rangefunc` (Optional[GroupArea]):   Group runs based on a range. Options  include "minmax", "stddev", "stderr", "none", "samples", or `None`. 
+ - `groupby_aggfunc` (Optional[GroupAgg]):  Aggregate runs with specified  function. Options include `mean`, `min`, `max`, `median`, `sum`, `samples`, or `None`. 
+ - `groupby_rangefunc` (Optional[GroupArea]):   Group runs based on a range. Options  include `minmax`, `stddev`, `stderr`, `none`, `samples`, or `None`. 
  - `smoothing_factor` (Optional[float]):  The smoothing factor to apply to the  smoothing type. Accepted values range between 0 and 1. 
- - `smoothing_type Optional[SmoothingType]`:  Apply a filter based on the specified  distribution. Options include "exponentialTimeWeighted", "exponential",  "gaussian", "average", or "none". 
+ - `smoothing_type Optional[SmoothingType]`:  Apply a filter based on the specified  distribution. Options include `exponentialTimeWeighted`, `exponential`, `gaussian`, `average`, or `none`. 
  - `smoothing_show_original` (Optional[bool]):    If set to `True`, show the original data. 
  - `max_runs_to_show` (Optional[int]):  The maximum number of runs to show on the line plot. 
  - `custom_expressions` (Optional[LList[str]]):  Custom expressions to apply to the data. 
- - `plot_type Optional[LinePlotStyle]`:  The type of line plot to generate.  Options include "line", "stacked-area", or "pct-area". 
- - `font_size Optional[FontSize]`:  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
- - `legend_position Optional[LegendPosition]`:  Where to place the legend.  Options include "north", "south", "east", "west", or `None`. 
+ - `plot_type Optional[LinePlotStyle]`:  The type of line plot to generate.  Options include `line`, `stacked-area`, or `pct-area`. 
+ - `font_size Optional[FontSize]`:  The size of the line plot's font.  Options include `small`, `medium`, `large`, `auto`, or `None`. 
+ - `legend_position Optional[LegendPosition]`:  Where to place the legend.  Options include `north`, `south`, `east`, `west`, or `None`. 
  - `legend_template` (Optional[str]):  The template for the legend. 
  - `aggregate` (Optional[bool]):  If set to `True`, aggregate the data. 
  - `xaxis_expression` (Optional[str]):  The expression for the x-axis. 
@@ -790,7 +790,7 @@ A panel object that shows a parallel coordinates plot.
  - `columns` (LList[ParallelCoordinatesPlotColumn]):  A list of one  or more `ParallelCoordinatesPlotColumn` objects. 
  - `title` (Optional[str]):  The text that appears at the top of the plot. 
  - `gradient` (Optional[LList[GradientPoint]]):  A list of gradient points. 
- - `font_size` (Optional[FontSize]):  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
+ - `font_size` (Optional[FontSize]):  The size of the line plot's font.  Options include `small`, `medium`, `large`, `auto`, or `None`. 
 
 
 
@@ -927,7 +927,7 @@ A panel that compares metrics across different runs from the project the report 
 
 **Attributes:**
  
- - `diff_only` (Optional[Literal["split", `True`]]):  Display only the  difference across runs in a project. You can toggle this feature on and off in the W&B Report UI. 
+ - `diff_only` `(Optional[Literal["split", True]])`:  Display only the  difference across runs in a project. You can toggle this feature on and off in the W&B Report UI. 
 
 
 
@@ -1014,11 +1014,11 @@ A panel object that shows a scalar chart.
  
  - `title` (Optional[str]):  The text that appears at the top of the plot. 
  - `metric` (MetricType):  The name of a metric logged to your W&B project that the  report pulls information from. 
- - `groupby_aggfunc` (Optional[GroupAgg]):  Aggregate runs with specified  function. Options include "mean", "min", "max", "median", "sum", "samples", or `None`. 
- - `groupby_rangefunc` (Optional[GroupArea]):   Group runs based on a range. Options  include "minmax", "stddev", "stderr", "none", "samples", or `None`. 
+ - `groupby_aggfunc` (Optional[GroupAgg]):  Aggregate runs with specified  function. Options include `mean`, `min`, `max`, `median`, `sum`, `samples`, or `None`. 
+ - `groupby_rangefunc` (Optional[GroupArea]):   Group runs based on a range. Options  include `minmax`, `stddev`, `stderr`, `none`, `samples`, or `None`. 
  - `custom_expressions` (Optional[LList[str]]):  A list of custom expressions to be used in the scalar chart. 
  - `legend_template` (Optional[str]):  The template for the legend. 
- - `font_size Optional[FontSize]`:  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
+ - `font_size Optional[FontSize]`:  The size of the line plot's font.  Options include `small`, `medium`, `large`, `auto`, or `None`. 
 
 
 
@@ -1051,7 +1051,7 @@ A panel object that shows a 2D or 3D scatter plot.
  - `running_ymean` (Optional[bool]):  Apply a moving average or rolling mean. 
  - `legend_template` (Optional[str]):   A string that specifies the format of the legend. 
  - `gradient` (Optional[LList[GradientPoint]]):   A list of gradient points that specify the color gradient of the plot. 
- - `font_size` (Optional[FontSize]):  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
+ - `font_size` (Optional[FontSize]):  The size of the line plot's font.  Options include `small`, `medium`, `large`, `auto`, or `None`. 
  - `regression` (Optional[bool]):  If `True`, a regression line is plotted on the scatter plot. 
 
 

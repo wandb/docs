@@ -147,8 +147,8 @@ Customize metrics logged with `wandb.log()`.
 |  `step_metric` |  The name of another metric to serve as the X-axis for this metric in automatically generated charts. |
 |  `step_sync` |  Automatically insert the last value of step_metric into `run.log()` if it is not provided explicitly. Defaults to True if step_metric is specified. |
 |  `hidden` |  Hide this metric from automatic plots. |
-|  `summary` |  Specify aggregate metrics added to summary. Supported aggregations include "min", "max", "mean", "last", "best", "copy" and "none". "best" is used together with the goal parameter. "none" prevents a summary from being generated. "copy" is deprecated and should not be used. |
-|  `goal` |  Specify how to interpret the "best" summary type. Supported options are "minimize" and "maximize". |
+|  `summary` |  Specify aggregate metrics added to summary. Supported aggregations include `min`, `max`, `mean`, `last`, `best`, `copy` and `none`. `best` is used together with the goal parameter. `none` prevents a summary from being generated. `copy` is deprecated. |
+|  `goal` |  Specify how to interpret the `best` summary type. Supported options are `minimize` and `maximize`. |
 |  `overwrite` |  If false, then this call is merged with previous `define_metric` calls for the same metric by using their values for any unspecified parameters. If true, then unspecified parameters overwrite values specified by previous calls. |
 
 | Returns |  |
@@ -435,7 +435,7 @@ run.log(
 ```
 
 Only one level of nesting is supported; `run.log({"a/b/c": 1})`
-produces a section named "a/b".
+produces a section named `"a/b"`.
 
 `run.log` is not intended to be called more than a few times per second.
 For optimal performance, limit your logging to once every N iterations,
@@ -443,15 +443,15 @@ or collect data over multiple iterations and log it in a single step.
 
 ### The W&B step
 
-With basic usage, each call to `log` creates a new "step".
+With basic usage, each call to `log` creates a new `step`.
 The step must always increase, and it is not possible to log
 to a previous step.
 
-Note that you can use any metric as the X axis in charts.
+You can use any metric as the X axis in charts.
 In many cases, it is better to treat the W&B step like
 you'd treat a timestamp rather than a training step.
 
-```
+```python
 # Example: log an "epoch" metric for use as an X axis.
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
@@ -834,7 +834,7 @@ Sync one or more files to W&B.
 
 Relative paths are relative to the current working directory.
 
-A Unix glob, such as "myfiles/*", is expanded at the time `save` is
+A Unix glob, such as`"myfiles/*`, is expanded at the time `save` is
 called regardless of the `policy`. In particular, new files are not
 picked up automatically.
 
@@ -1042,7 +1042,7 @@ extended to support arbitrary machine learning models in the future.
 
 | Args |  |
 | :--- | :--- |
-|  models (Union[torch.nn.Module, Sequence[torch.nn.Module]]): A single model or a sequence of models to be monitored. criterion (Optional[torch.F]): The loss function being optimized (optional). log (Optional[Literal["gradients", "parameters", "all"]]): Specifies whether to log "gradients", "parameters", or "all". Set to None to disable logging. (default="gradients") log_freq (int): Frequency (in batches) to log gradients and parameters. (default=1000) idx (Optional[int]): Index used when tracking multiple models with `wandb.watch`. (default=None) log_graph (bool): Whether to log the model's computational graph. (default=False) |
+|  models (Union[torch.nn.Module, Sequence[torch.nn.Module]]): A single model or a sequence of models to be monitored. criterion (Optional[torch.F]): The loss function being optimized (optional). `log (Optional[Literal["gradients", "parameters", "all"]])`: Specifies whether to log gradients, parameters, or all. Set to `None` to disable logging. (default=`"gradients"`) `log_freq (int)`: Frequency (in batches) to log gradients and parameters. (default=`1000`) `idx (Optional[int])`: Index used when tracking multiple models with `wandb.watch`. (default=`None`) `log_graph (bool)`: Whether to log the model's computational graph. (default=`False`) |
 
 | Raises |  |
 | :--- | :--- |

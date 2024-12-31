@@ -227,7 +227,7 @@ Here are the data types you can log from your script and use in a custom chart:
 
 ### How to log a custom table
 
-Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`("custom_data_table" below), and the individual fields will be accessible via the column names ("x", "y", and "z"). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows.
+Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`(`custom_data_table` below), and the individual fields will be accessible via the column names (`x`, `y`, and `z`). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows.
 
 [Try it in a Google Colab](https://tiny.cc/custom-charts)
 

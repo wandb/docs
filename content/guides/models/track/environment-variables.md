@@ -35,7 +35,7 @@ Use these optional environment variables to do things like set up authentication
 
 | Variable name               | Usage                                  |
 | --------------------------- | ---------- |
-| **WANDB_ANONYMOUS**        | Set this to "allow", "never", or "must" to let users create anonymous runs with secret urls.                                                    |
+| **WANDB_ANONYMOUS**        | Set this to `allow`, `never`, or `must` to let users create anonymous runs with secret urls.                                                    |
 | **WANDB_API_KEY**         | Sets the authentication key associated with your account. You can find your key on [your settings page](https://app.wandb.ai/settings). This must be set if `wandb login` hasn't been run on the remote machine.               |
 | **WANDB_BASE_URL**        | If you're using [wandb/local](../hosting/intro.md) you should set this environment variable to `http://YOUR_IP:YOUR_PORT`        |
 | **WANDB_CACHE_DIR**       | This defaults to \~/.cache/wandb, you can override this location with this environment variable                    |

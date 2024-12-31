@@ -140,7 +140,7 @@ Ensure that you log an artifact with a team entity if you want to link that arti
 
 #### Find your team entity
 
-W&B uses the name of your team as the team's entity. For example, if your team is called "team-awesome", your team entity is `team-awesome`.
+W&B uses the name of your team as the team's entity. For example, if your team is called **team-awesome**, your team entity is `team-awesome`.
 
 You can confirm the name of your team by:
 

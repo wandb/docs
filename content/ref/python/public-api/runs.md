@@ -54,13 +54,13 @@ Return sampled history metrics for all runs that fit the filters conditions.
 |  `samples` |  (int, optional) The number of samples to return per run |
 |  `keys` |  (list[str], optional) Only return metrics for specific keys |
 |  `x_axis` |  (str, optional) Use this metric as the xAxis defaults to _step |
-|  `format` |  (Literal, optional) Format to return data in, options are "default", "pandas", "polars" |
-|  `stream` |  (Literal, optional) "default" for metrics, "system" for machine metrics |
+|  `format` |  (Literal, optional) Format to return data in, options are `default`, `pandas`, `polars` |
+|  `stream` |  (Literal, optional) `default` for metrics, `system` for machine metrics |
 
 | Returns |  |
 | :--- | :--- |
-|  `pandas.DataFrame` |  If format="pandas", returns a `pandas.DataFrame` of history metrics. |
-|  `polars.DataFrame` |  If format="polars", returns a `polars.DataFrame` of history metrics. list of dicts: If format="default", returns a list of dicts containing history metrics with a run_id key. |
+|  `pandas.DataFrame` |  If format=`"pandas"`, returns a `pandas.DataFrame` of history metrics. |
+|  `polars.DataFrame` |  If format=`"polars"` returns a `polars.DataFrame` of history metrics. list of dicts: If format=`"default"`, returns a list of dicts containing history metrics with a `run_id` key. |
 
 ### `next`
 

@@ -205,15 +205,15 @@ In general, the following JSON Schema attributes are supported:
 
 | Attribute | Required |  Notes |
 | --- | --- | --- |
-| `type` | Yes | Must be one of "number", "integer", "string", or "object" |
+| `type` | Yes | Must be one of `number`, `integer`, `string`, or `object` |
 | `title` | No | Overrides the property's display name |
 | `description` | No | Gives the property helper text |
 | `enum` | No | Creates a dropdown select instead of a freeform text entry |
-| `minimum` | No | Allowed only if `type` is "number" or "integer" |
-| `maximum` | No | Allowed only if `type` is "number" or "integer" |
-| `exclusiveMinimum` | No | Allowed only if `type` is "number" or "integer" |
-| `exclusiveMaximum` | No | Allowed only if `type` is "number" or "integer" |
-| `properties` | No | If `type` is "object", used to define nested configurations |
+| `minimum` | No | Allowed only if `type` is `number` or `integer` |
+| `maximum` | No | Allowed only if `type` is `number` or `integer` |
+| `exclusiveMinimum` | No | Allowed only if `type` is `number` or `integer` |
+| `exclusiveMaximum` | No | Allowed only if `type` is `number` or `integer` |
+| `properties` | No | If `type` is `object`, used to define nested configurations |
 {{% /tab %}}
 {{% tab "Pydantic model" %}}
 The following example shows a schema with these properties:

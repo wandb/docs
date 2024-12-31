@@ -17,7 +17,7 @@ As another example, you might have a registry called "chatbot" that contains a c
 How you organize a registry and their collections is up to you.
 
 {{% alert %}}
-If you are familiar with W&B Model Registry, you might aware of "registered models". Registered models in the Model Registry are now referred to as "collections" in the W&B Registry.
+If you are familiar with W&B Model Registry, you might aware of registered models. Registered models in the Model Registry are now referred to as collections in the W&B Registry.
 {{% /alert %}}
 
 ## Collection types

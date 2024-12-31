@@ -13,7 +13,7 @@ In this notebook, we'll show you how to track your ML experiment pipelines using
 
 ### 🤔 What are Artifacts and Why Should I Care?
 
-An "artifact", like a Greek [amphora 🏺](https://en.wikipedia.org/wiki/Amphora),
+An artifact, like a Greek [amphora 🏺](https://en.wikipedia.org/wiki/Amphora),
 is a produced object -- the output of a process.
 In ML, the most important artifacts are _datasets_ and _models_.
 
@@ -373,12 +373,12 @@ and select the "Artifacts" tab from the left sidebar
 (it's the one with the database icon,
 which looks like three hockey pucks stacked on top of one another).
 
-Click a row in either the "Input Artifacts" table
-or in the "Output Artifacts" table,
-then check out the tabs ("Overview", "Metadata")
+Click a row in either the **Input Artifacts** table
+or in the **Output Artifacts** table,
+then check out the tabs (**Overview**, **Metadata**)
 to see everything logged about the `Artifact`.
 
-We particularly like the "Graph View".
+We particularly like the **Graph View**.
 By default, it shows a graph
 with the `type`s of `Artifact`s
 and the `job_type`s of `Run` as the two types of nodes,

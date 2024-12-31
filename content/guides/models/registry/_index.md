@@ -37,7 +37,7 @@ The preceding image shows the Registry App with "Model" and "Dataset" core regis
 
 
 ## Learn the basics
-Each organization initially contains two registries that you can use to organize your model and dataset artifacts called "Models" and "Datasets", respectively. You can create [additional registries to organize other artifact types based on your organization's needs](./registry_types.md). 
+Each organization initially contains two registries that you can use to organize your model and dataset artifacts called **Models** and **Datasets**, respectively. You can create [additional registries to organize other artifact types based on your organization's needs](./registry_types.md). 
 
 Each [registry](./configure_registry.md) consists of one or more [collections](./create_collection.md). Each collection represents a distinct task or use case.
 
