@@ -305,8 +305,9 @@
 /ref/java /ref 301
 /ref/java/wandbrun-builder /ref 301
 /ref/java/wandbrun /ref 301
-/jp / 301
-/ko / 301
+/ja /ja/guides 301
+/jp /ja/guides 301
+/ko /ko/guides 301
 /library /ref/python 301
 /library/advanced/environment-variables /guides/track/environment-variables 301
 /library/advanced/grouping /guides/runs/grouping 301
@@ -369,8 +370,8 @@
 /library/wandb.save /ref/python 301
 /python /ref/python 301
 /quickstar /quickstart 301
-/quickstart/korea /quickstart 301
-/quickstart/korean /quickstart 301
+/quickstart/korea /ko/quickstart 301
+/quickstart/korean /ko/quickstart 301
 /ref/README /ref 301
 /ref/api/public-methods /ref/python/public-api 301
 /ref/app /guides/app 301
