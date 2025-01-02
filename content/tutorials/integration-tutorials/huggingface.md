@@ -14,6 +14,7 @@ Visualize your [Hugging Face](https://github.com/huggingface/transformers) model
 Compare hyperparameters, output metrics, and system stats like GPU utilization across your models. 
 
 ## Why should I use W&B?
+{.skipvale}
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
@@ -31,7 +32,7 @@ In the Hugging Face Transformers repo, we've instrumented the Trainer to automat
 
 Here's an in depth look at how the integration works: [Hugging Face + W&B Report](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/Train-a-model-with-Hugging-Face-and-Weights-%26-Biases--VmlldzoxMDE2MTU).
 
-# 🚀 Install, Import, and Log in
+## Install, import, and log in
 
 
 
@@ -53,9 +54,10 @@ Install the Hugging Face and Weights & Biases libraries, and the GLUE dataset an
 !pip install -q git+https://github.com/huggingface/transformers
 ```
 
-## 🖊️ [Sign up for a free account →](https://app.wandb.ai/login?signup=true)
+Before continuing, [sign up for a free account](https://app.wandb.ai/login?signup=true).
 
-## 🔑 Put in your API key
+## Put in your API key
+
 Once you've signed up, run the next cell and click on the link to get your API key and authenticate this notebook.
 
 
@@ -94,7 +96,7 @@ Next, call the downloaded training script [run_glue.py](https://huggingface.co/t
   --logging_steps 50
 ```
 
-# 👀 Visualize results in dashboard
+##  Visualize results in dashboard
 Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to see your results stream in live. The link to see your run in the browser will appear after all the dependencies are loaded. Look for the following output: "**wandb**: 🚀 View run at [URL to your unique run]"
 
 **Visualize Model Performance**
@@ -107,14 +109,14 @@ Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morri
 
 {{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="" >}}
 
-### 📈 Track key information effortlessly by default
+### Track key information effortlessly by default
 Weights & Biases saves a new run for each experiment. Here's the information that gets saved by default:
 - **Hyperparameters**: Settings for your model are saved in Config
 - **Model Metrics**: Time series data of metrics streaming in are saved in Log
 - **Terminal Logs**: Command line outputs are saved and available in a tab
 - **System Metrics**: GPU and CPU utilization, memory, temperature etc.
 
-## 🤓 Learn more.
+## Learn more
 - [Documentation](/guides/integrations/huggingface): docs on the Weights & Biases and Hugging Face integration
 - [Videos](http://wandb.me/youtube): tutorials, interviews with practitioners, and more on our YouTube channel
 - Contact: Message us at contact@wandb.com with questions
