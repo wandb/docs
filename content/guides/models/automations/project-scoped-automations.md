@@ -9,9 +9,6 @@ title: Trigger CI/CD events when artifact changes
 url: guides/artifacts/project-scoped-automations
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the action you want to occur based on an [event type](#event-types).  
 
 {{% alert %}}
@@ -93,6 +90,7 @@ Before you can use a webhook, you will first need to configure that webhook in t
 See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
 the POST request.
 {{% /alert %}}
+
 ### Add a webhook 
 Once you have a webhook configured and (optionally) a secret, navigate to your project workspace. Click on the **Automations** tab on the left sidebar.
 
@@ -123,150 +121,142 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 * `${entity_name}` Refers to the name of the entity owning the mutation that triggered the action.
 
 
-<Tabs
-  defaultValue="github"
-  values={[
-    {label: 'GitHub repository dispatch', value: 'github'},
-    {label: 'Microsoft Teams notification', value: 'microsoft'},
-    {label: 'Slack notifications', value: 'slack'},
-  ]}>
-  <TabItem value="github">
+{{< tabpane text=true >}}
 
+{{% tab header="GitHub repository dispatch" value="github" %}}
 {{% alert %}}
 Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
 {{% /alert %}}
 
-  Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
+Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
 
-  ```yaml
-  on:
-    repository_dispatch:
-      types: BUILD_AND_DEPLOY
-  ```
+```yaml
+on:
+  repository_dispatch:
+    types: BUILD_AND_DEPLOY
+```
 
-  The payload for the repository might look something like:
+The payload for the repository might look something like:
 
-  ```json
+```json
+{
+  "event_type": "BUILD_AND_DEPLOY",
+  "client_payload": 
   {
-    "event_type": "BUILD_AND_DEPLOY",
-    "client_payload": 
-    {
-      "event_author": "${event_author}",
-      "artifact_version": "${artifact_version}",
-      "artifact_version_string": "${artifact_version_string}",
-      "artifact_collection_name": "${artifact_collection_name}",
-      "project_name": "${project_name}",
-      "entity_name": "${entity_name}"
-      }
-  }
+    "event_author": "${event_author}",
+    "artifact_version": "${artifact_version}",
+    "artifact_version_string": "${artifact_version_string}",
+    "artifact_collection_name": "${artifact_collection_name}",
+    "project_name": "${project_name}",
+    "entity_name": "${entity_name}"
+    }
+}
 
-  ```
+```
 
 {{% alert %}}
 The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
 {{% /alert %}}
 
-  The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either `LINK_ARTIFACT` or `ADD_ARTIFACT_ALIAS`. See below for an example mapping:
+The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either `LINK_ARTIFACT` or `ADD_ARTIFACT_ALIAS`. See below for an example mapping:
 
-  ```json
-  ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
-  ${event_author} --> "<wandb-user>"
-  ${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
-  ${artifact_version_string} --> "<entity>/<project_name>/<artifact_name>:<alias>"
-  ${artifact_collection_name} --> "<artifact_collection_name>"
-  ${project_name} --> "<project_name>"
-  ${entity_name} --> "<entity>"
-  ```
+```json
+${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
+${event_author} --> "<wandb-user>"
+${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
+${artifact_version_string} --> "<entity>/<project_name>/<artifact_name>:<alias>"
+${artifact_collection_name} --> "<artifact_collection_name>"
+${project_name} --> "<project_name>"
+${entity_name} --> "<entity>"
+```
 
-  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
+Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
 
-  For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
+For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
+{{% /tab %}}
 
-  </TabItem>
-  <TabItem value="microsoft">
+{{% tab header="Microsoft Teams notification" value="microsoft"%}}
 
-  Configure an ‘Incoming Webhook' to get the webhook URL for your Teams Channel by configuring. The following is an example payload:
+Configure an ‘Incoming Webhook' to get the webhook URL for your Teams Channel by configuring. The following is an example payload:
   
-  ```json 
+```json 
+{
+"@type": "MessageCard",
+"@context": "http://schema.org/extensions",
+"summary": "New Notification",
+"sections": [
   {
-  "@type": "MessageCard",
-  "@context": "http://schema.org/extensions",
-  "summary": "New Notification",
-  "sections": [
-    {
-      "activityTitle": "Notification from WANDB",
-      "text": "This is an example message sent via Teams webhook.",
-      "facts": [
-        {
-          "name": "Author",
-          "value": "${event_author}"
-        },
-        {
-          "name": "Event Type",
-          "value": "${event_type}"
-        }
-      ],
-      "markdown": true
-    }
-  ]
+    "activityTitle": "Notification from WANDB",
+    "text": "This is an example message sent via Teams webhook.",
+    "facts": [
+      {
+        "name": "Author",
+        "value": "${event_author}"
+      },
+      {
+        "name": "Event Type",
+        "value": "${event_type}"
+      }
+    ],
+    "markdown": true
   }
-  ```
-  You can use template strings to inject W&B data into your payload at the time of execution (as shown in the Teams example above).
+]
+}
+```
 
+You can use template strings to inject W&B data into your payload at the time of execution (as shown in the Teams example above).
 
-  </TabItem>
-  <TabItem value="slack">
+{{% /tab %}}
 
-  Setup your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Toke`n as your W&B webhook’s access token. 
+{{% tab header="Slack notifications" value="slack"%}}
+
+Setup your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Toke`n as your W&B webhook’s access token. 
   
-  The following is an example payload:
+The following is an example payload:
 
-  ```json
-    {
-        "text": "New alert from WANDB!",
-    "blocks": [
-        {
-                "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "Artifact event: ${event_type}"
-            }
-        },
-            {
-                "type":"section",
-                "text": {
-                "type": "mrkdwn",
-                "text": "New version: ${artifact_version_string}"
-            }
-            },
-            {
-            "type": "divider"
-        },
-            {
-                "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "Author: ${event_author}"
-            }
-            }
-        ]
-    }
-  ```
+```json
+  {
+      "text": "New alert from WANDB!",
+  "blocks": [
+      {
+              "type": "section",
+          "text": {
+              "type": "mrkdwn",
+              "text": "Artifact event: ${event_type}"
+          }
+      },
+          {
+              "type":"section",
+              "text": {
+              "type": "mrkdwn",
+              "text": "New version: ${artifact_version_string}"
+          }
+          },
+          {
+          "type": "divider"
+      },
+          {
+              "type": "section",
+          "text": {
+              "type": "mrkdwn",
+              "text": "Author: ${event_author}"
+          }
+          }
+      ]
+  }
+```
+{{% /tab %}}
 
-  </TabItem>
-</Tabs>
+{{< /tabpane >}}
+
 
 ### Troubleshoot your webhook
 
 Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'W&B App UI', value: 'app'},
-    {label: 'Bash script', value: 'bash'},
-  ]}>
-  <TabItem value="app">
+
+{{< tabpane text=true >}}
+{{% tab header="W&B App UI" value="app" %}}
 
 Interactively test a webhook with the W&B App UI. 
 
@@ -283,9 +273,9 @@ Within the W&B App UI, W&B posts the response made by your endpoint.
 {{< img src="/images/models/webhook_ui_testing.gif" alt="" >}}
 
 See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
+{{% /tab %}}
 
-  </TabItem>
-  <TabItem value="bash">
+{{% tab header="Bash script" value="bash"%}}
 
 The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
 
@@ -298,8 +288,8 @@ Copy and paste the code below into a shell script to troubleshoot your webhook. 
 
 {{< prism file="/webhook_test.sh" title="webhook_test.sh">}}{{< /prism >}}
 
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## View an automation
 
