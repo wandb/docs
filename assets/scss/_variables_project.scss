@@ -207,27 +207,50 @@ a:hover {
     font-weight: 400 !important;  // Keep consistent with other nav links
 }
 
-// Override existing chevron with Font Awesome
-nav.foldable-nav .ul-1 .with-child > label:before {
-  font-family: "Font Awesome 5 Free";
-  content: "\f054" !important; // fa-chevron-right
-  font-weight: 900;
-  color: $moon-500; // Set default color to match nav text
-  transition: color 0.3s; // Add transition for smooth color change
+// Update existing chevron styles
+nav.foldable-nav .ul-1 .with-child {
+    & > label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        position: relative;
+        padding-right: 20px; // Space for chevron
+        
+        // Remove default chevrons
+        &:before {
+            display: none !important;
+        }
+    }
 }
 
-nav.foldable-nav .ul-1 .with-child > input:checked + label:before {
-  content: "\f078" !important; // fa-chevron-down
-  transform: rotate(0deg) !important;
+// Add chevrons to all expandable items
+nav.foldable-nav .ul-1 .with-child > label:after {
+    content: "\f105" !important; // fa-angle-right (thinner chevron)
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+    font-weight: 900;
+    color: $moon-500;
+    transition: color 0.3s;
+    font-size: 14px;
+    position: absolute;
+    right: 0px;
+    top: 35%;
+    transform: translateY(-50%);
 }
 
-// Add hover state for chevron to match link color
-nav.foldable-nav .ul-1 .with-child > label:hover:before {
-  color: $teal-600 !important; // Match link hover color
+// Change chevron for expanded items
+nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
+    content: "\f107" !important; // fa-angle-down (thinner chevron)
 }
 
-[data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:before {
-  color: $wandb-gold !important; // Match dark mode link hover color
+// Hover states
+nav.foldable-nav .ul-1 .with-child > label:hover:after {
+    color: $teal-600 !important;
+}
+
+// Dark mode hover state
+[data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
+    color: $wandb-gold !important;
 }
 
 // Ensure hover state for nav links doesn't change color
@@ -666,13 +689,13 @@ img, pre, .highlight, .code-toolbar {
 [data-bs-theme=dark] {
     body {
         color: $moon-200;
-        background-color: $moon-950;
+        background-color: $moon-900;
     }
 
     // Update sidebar nav colors for dark mode
     .td-sidebar-nav {
         a {
-            color: $moon-200 !important;
+            color: $moon-300 !important;
             &:hover {
                 color: $teal-400 !important;
             }
