@@ -37,11 +37,11 @@ Running a hyperparameter sweep with Weights & Biases is very easy. There are jus
 3. **Run the sweep agent:** also accomplished with one line of code, we call w`andb.agent()` and pass the `sweep_id` along with a function that defines your model architecture and trains it:
 `wandb.agent(sweep_id, function=train)`
 
-And voila! That's all there is to running a hyperparameter sweep!
+That's all there is to running a hyperparameter sweep.
 
 In the notebook below, we'll walk through these 3 steps in more detail.
 
-We highly encourage you to fork this notebook, tweak the parameters, or try the model with your own dataset!
+We highly encourage you to fork this notebook, tweak the parameters, or try the model with your own dataset.
 
 ### Resources
 - [Sweeps docs →](/guides/sweeps)
@@ -183,7 +183,7 @@ You can call `wandb.agent` on any machine where you're logged into W&B that has
 - the `sweep_id`,
 - the dataset and `train` function
 
-and that machine will join the sweep!
+and that machine will join the sweep.
 
 > _Note_: a `random` sweep will by defauly run forever,
 trying new parameter combinations until the cows come home --

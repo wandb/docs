@@ -9,15 +9,15 @@ weight: 4
 {{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb' >}}
 In this notebook, we'll show you how to track your ML experiment pipelines using W&B Artifacts.
 
-### Follow along with a [video tutorial](http://tiny.cc/wb-artifacts-video)!
+Follow along with a [video tutorial](http://tiny.cc/wb-artifacts-video).
 
-### 🤔 What are Artifacts and Why Should I Care?
+## About artifacts
 
 An artifact, like a Greek [amphora 🏺](https://en.wikipedia.org/wiki/Amphora),
 is a produced object -- the output of a process.
 In ML, the most important artifacts are _datasets_ and _models_.
 
-And, like the [Cross of Coronado](https://indianajones.fandom.com/wiki/Cross_of_Coronado), these important artifacts belong in a museum!
+And, like the [Cross of Coronado](https://indianajones.fandom.com/wiki/Cross_of_Coronado), these important artifacts belong in a museum.
 That is, they should be cataloged and organized
 so that you, your team, and the ML community at large can learn from them.
 After all, those who don't track training are doomed to repeat it.
@@ -120,7 +120,7 @@ producing that data.
 In this case, the code for `load`ing the data is
 separated out from the code for `load_and_log`ging the data.
 
-This is good practice!
+This is good practice.
 
 In order to log these datasets as Artifacts,
 we just need to
@@ -172,7 +172,7 @@ or as small as `iterative-architecture-experiment-117`.
 
 > **Rule of 👍**: if you can, keep all of the `Run`s that share `Artifact`s
 inside a single project. This keeps things simple,
-but don't worry -- `Artifact`s are portable across projects!
+but don't worry -- `Artifact`s are portable across projects.
 
 To help keep track of all the different kinds of jobs you might run,
 it's useful to provide a `job_type` when making `Runs`.
@@ -211,7 +211,7 @@ You read that right: _files_ with an _s_.
 with files and sub-directories.
 
 > **Rule of 👍**: whenever it makes sense to do so, split the contents
-of an `Artifact` up into multiple files. This will help if it comes time to scale!
+of an `Artifact` up into multiple files. This will help if it comes time to scale.
 
 We use the `new_file` method
 to simultaneously write the file and attach it to the `Artifact`.
@@ -266,7 +266,7 @@ Note that the example below both `use`s an `Artifact`,
 which is new,
 and `log`s it,
 which is the same as the last step.
-`Artifact`s are both the inputs and the outputs of `Run`s!
+`Artifact`s are both the inputs and the outputs of `Run`s.
 
 We use a new `job_type`, `preprocess-data`,
 to make it clear that this is a different kind of job from the previous one.
@@ -310,7 +310,7 @@ One thing to notice here is that the `steps` of the preprocessing
 are saved with the `preprocessed_data` as `metadata`.
 
 If you're trying to make your experiments reproducible,
-capturing lots of metadata is a good idea!
+capturing lots of metadata is a good idea.
 
 Also, even though our dataset is a "`large artifact`",
 the `download` step is done in much less than a second.
@@ -445,7 +445,7 @@ Here, we're using W&B to track the run,
 and so using the [`wandb.config`](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-config/Configs_in_W%26B.ipynb)
 object to store all of the hyperparameters.
 
-The `dict`ionary version of that `config` object is a really useful piece of `metadata`, so make sure to include it!
+The `dict`ionary version of that `config` object is a really useful piece of `metadata`, so make sure to include it.
 
 
 ```python
@@ -576,7 +576,7 @@ by `evaluate`ing its performance on the `test_dataset`.
 Also, we'll pull out the 32 examples on which the network gets the most confused --
 on which the `categorical_crossentropy` is highest.
 
-This is a good way to diagnose issues with your dataset and your model!
+This is a good way to diagnose issues with your dataset and your model.
 
 
 ```python

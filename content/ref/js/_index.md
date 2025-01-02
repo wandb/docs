@@ -14,7 +14,7 @@ This library is compatible with Node and modern JS run times.
 You can find the source code for the JavaScript client in the [Github repository](https://github.com/wandb/wandb-js).
 
 {{% alert %}}
-Our JavaScript integration is still in Beta, if you run into issues please let us know!
+Our JavaScript integration is still in Beta, if you run into issues please let us know.
 {{% /alert %}}
 
 ### Installation

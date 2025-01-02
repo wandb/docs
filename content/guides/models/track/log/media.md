@@ -30,7 +30,7 @@ pip install wandb[media]
 
 ## Images
 
-Log images to track inputs, outputs, filter weights, activations, and more!
+Log images to track inputs, outputs, filter weights, activations, and more.
 
 {{< img src="/images/track/log_images.png" alt="Inputs and outputs of an autoencoder network performing in-painting." >}}
 

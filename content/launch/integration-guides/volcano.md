@@ -170,7 +170,7 @@ Volcano's pytorch plugin is also compatible with [multinode training via the PyT
 
 ## Launch 🚀
 
-Now that our queue and cluster are set up, it's time to launch some distributed training! To start off with we will use [a job](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) trains a simple multi-layer perceptron on random data using volcano's pytorch plugin. You can find the source code for the job [here](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test).
+Now that our queue and cluster are set up, it's time to launch some distributed training. To start off with we will use [a job](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) trains a simple multi-layer perceptron on random data using volcano's pytorch plugin. You can find the source code for the job [here](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test).
 
 To launch this job, head to the [job's page](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) and click the **Launch** button in the top right corner of the screen. You will be prompted to select a queue to launch the job from.
 

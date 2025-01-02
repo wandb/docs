@@ -4,7 +4,7 @@ title: Weights & Biases Documentation
 <div style="padding-top:50px">&nbsp;</div>
 
 {{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
-Welcome! Choose the product for which you need documentation.
+Choose the product for which you need documentation.
 {{< /banner >}}
 
 {{< cardpane >}}

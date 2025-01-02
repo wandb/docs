@@ -18,7 +18,7 @@ RunQueue(
 
 | Attributes |  |
 | :--- | :--- |
-|  `items` |  Up to the first 100 queued runs. Modifying this list will not modify the queue or any enqueued items! |
+|  `items` |  Up to the first 100 queued runs. Modifying this list will not modify the queue or any enqueued items. |
 
 ## Methods
 

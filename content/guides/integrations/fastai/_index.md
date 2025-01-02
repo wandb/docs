@@ -125,7 +125,7 @@ in this case, the machine has 2 GPUs.
 {{% /tab %}}
 {{% tab header="Notebook" value="notebook" %}}
 
-You can now run distributed training directly inside a notebook!
+You can now run distributed training directly inside a notebook.
 
 ```python
 import wandb

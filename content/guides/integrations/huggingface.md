@@ -107,7 +107,7 @@ This is **the most important step** when defining your `Trainer` training argume
 
 The `logging_steps` argument in `TrainingArguments` will control how often training metrics are pushed to W&B during training. You can also give a name to the training run in W&B using the `run_name` argument. 
 
-That's it! Now your models will log losses, evaluation metrics, model topology, and gradients to Weights & Biases while they train.
+That's it. Now your models will log losses, evaluation metrics, model topology, and gradients to Weights & Biases while they train.
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}

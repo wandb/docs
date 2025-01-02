@@ -135,7 +135,7 @@ for epoch in range(2, epochs):
 # run.log_code()
 ```
 
-That's it! Navigate to the W&B App at [https://wandb.ai/home](https://wandb.ai/home) to view how the metrics we logged with W&B (accuracy and loss) improved during each training step.
+That's it. Navigate to the W&B App at [https://wandb.ai/home](https://wandb.ai/home) to view how the metrics we logged with W&B (accuracy and loss) improved during each training step.
 
 {{< img src="/images/quickstart/quickstart_image.png" alt="Shows the loss and accuracy that was tracked from each time we ran the script above. " >}}
 

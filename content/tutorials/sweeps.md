@@ -12,7 +12,7 @@ Finding a machine learning model that meets your desired metric (such as model a
 
 Use W&B Sweeps to create an organized and efficient way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, optimizer type and more to find values that optimize your model based on your desired metric.
 
-In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](http://wandb.me/sweeps-video)!
+In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](http://wandb.me/sweeps-video).
 
 {{< img src="/images/tutorials/sweeps-1.png" alt="" >}}
 

@@ -114,7 +114,7 @@ Weights & Biases saves a new run for each experiment. Here's the information tha
 - **Terminal Logs**: Command line outputs are saved and available in a tab
 - **System Metrics**: GPU and CPU utilization, memory, temperature etc.
 
-## 🤓 Learn more!
+## 🤓 Learn more.
 - [Documentation](/guides/integrations/huggingface): docs on the Weights & Biases and Hugging Face integration
 - [Videos](http://wandb.me/youtube): tutorials, interviews with practitioners, and more on our YouTube channel
 - Contact: Message us at contact@wandb.com with questions

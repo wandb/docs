@@ -208,7 +208,7 @@ wandb launch-agent -j <max-number-concurrent-jobs> -q <queue-name> -e <queue-ent
 
 Within your terminal you should see the launch agent start to print polling message. 
 
-Congratulations, you have a launch agent polling your launch queue! When a job is added to your queue, your agent will pick it up and schedule it to run on your Minikube cluster.
+Congratulations, you have a launch agent polling your launch queue. When a job is added to your queue, your agent will pick it up and schedule it to run on your Minikube cluster.
 
 ## Launch a job
 
@@ -365,7 +365,7 @@ You can check your project's job page (`<project-url>/jobs`) to find the job art
 be `job-wandb_job_stable_diffusion_inference` but you can change that to whatever you like on the job's page
 by clicking the pencil icon next to the job name.
 
-You can now use this job to run more stable diffusion inference on your cluster!
+You can now use this job to run more stable diffusion inference on your cluster.
 From the job page, we can click the **Launch** button in the top right hand corner
 to configure a new inference job and submit it to our queue. The job configuration
 page will be pre-populated with the parameters from the original run, but you can

@@ -9,7 +9,7 @@ title: Track Jupyter notebooks
 weight: 6
 ---
 
-Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
+Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged.
 
 ## Use cases for W&B with Jupyter notebooks
 

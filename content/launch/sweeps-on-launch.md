@@ -155,7 +155,7 @@ parameters:
   2. Now, we can modify the `wandb_scheduler.py` to achieve our desired increased logging. Example: Add logging to the function `_poll`. This is called once every polling cycle (configurable timing), before we launch new sweep runs. 
   3. Run the modified file to create a job, with: `python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
   4. Identify the name of the job created, either in the UI or in the output of the previous call, which will be a code-artifact job (unless otherwise specified).
-  5. Now create a sweep configuration where the scheduler points to your new job!
+  5. Now create a sweep configuration where the scheduler points to your new job.
 
 ```yaml
 ...
