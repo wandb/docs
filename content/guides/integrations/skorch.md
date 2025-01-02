@@ -16,7 +16,7 @@ See [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=u
 
 | Parameter | Type | Description |
 | :--- | :--- | :--- |
-| `wandb_run` |  wandb.wandb_run.Run | wandb run used to log data. |
+| `wandb_run` | `wandb.wandb_run`. Run | wandb run used to log data. |
 |`save_model` | bool (default=True)| Whether to save a checkpoint of the best model and upload it to your Run on W&B servers.|
 |`keys_ignored`| str or list of str (default=None) | Key or list of keys that should not be logged to tensorboard. Note that in addition to the keys provided by the user, keys such as those starting with `event_` or ending on `_best` are ignored by default.|
 

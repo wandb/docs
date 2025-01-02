@@ -12,8 +12,8 @@ Graph(
 )
 ```
 
-This class is typically used for saving and displaying neural net models.  It
-represents the graph as an array of nodes and edges.  The nodes can have
+This class is typically used for saving and displaying neural net models. It
+represents the graph as an array of nodes and edges. The nodes can have
 labels that can be visualized by wandb.
 
 #### Examples:

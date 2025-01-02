@@ -21,15 +21,15 @@ Image(
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) Accepts numpy array of image data, or a PIL image. The class attempts to infer the data format and converts it. |
-|  `mode` |  (string) The PIL mode for an image. Most common are `L`, `RGB`, `RGBA`. Full explanation at https://pillow.readthedocs.io/en/stable/handbook/concepts.`html#modes |
-|  `caption` |  (string) Label for display of image. |
+| `data_or_path` | (numpy array, string, io) Accepts numpy array of image data, or a PIL image. The class attempts to infer the data format and converts it. |
+| `mode` | (string) The PIL mode for an image. Most common are `L`, `RGB`, `RGBA`. Full explanation at https://pillow.readthedocs.io/en/stable/handbook/concepts.`html#modes |
+| `caption` | (string) Label for display of image. |
 
 Note : When logging a `torch.Tensor` as a `wandb.Image`, images are normalized. If you do not want to normalize your images, please convert your tensors to a PIL Image.
 
 #### Examples:
 
-### Create a wandb.Image from a numpy array
+### Create a `wandb.Image` from a numpy array
 
 <!--yeadoc-test:log-image-numpy-->
 
@@ -47,7 +47,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### Create a wandb.Image from a PILImage
+### Create a `wandb.Image` from a `PILImage`
 
 <!--yeadoc-test:log-image-pillow-->
 
@@ -69,7 +69,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### log .jpg rather than .png (default)
+### log `.jpg` rather than `.png` (default)
 
 <!--yeadoc-test:log-image-format-->
 
@@ -161,5 +161,5 @@ Convert floating point image on the range [0,1] and integer images on the range
 
 | Class Variables |  |
 | :--- | :--- |
-|  `MAX_DIMENSION`<a id="MAX_DIMENSION"></a> |  `65500` |
-|  `MAX_ITEMS`<a id="MAX_ITEMS"></a> |  `108` |
+| `MAX_DIMENSION`<a id="MAX_DIMENSION"></a> | `65500` |
+| `MAX_ITEMS`<a id="MAX_ITEMS"></a> | `108` |

@@ -21,7 +21,7 @@ Use the organization dashboard to get a holistic view of users that belong to yo
 * **Team**: The names of teams the user belongs to.
 
 ### View the status of a user
-The **Last Active** column shows if a user is pending an invitation or an active user.  A user is one of three states:
+The **Last Active** column shows if a user is pending an invitation or an active user. A user is one of three states:
 
 * **Invite pending**: Admin has sent invite but user has not accepted invitation. 
 * **Active**: User has accepted the invite and created an account.

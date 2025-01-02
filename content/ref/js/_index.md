@@ -43,7 +43,7 @@ await track()
 ```
 
 {{% alert color="secondary" %}}
-We spawn a separate MessageChannel to process all api calls async.  This will cause your script to hang if you don't call `await wandb.finish()`.
+We spawn a separate MessageChannel to process all api calls async. This will cause your script to hang if you don't call `await wandb.finish()`.
 {{% /alert %}}
 
 Node/CommonJS:
@@ -56,7 +56,7 @@ We're currently missing a lot of the functionality found in our Python SDK, but 
 
 ### Authentication and Settings
 
-In node environments we look for `process.env.WANDB_API_KEY` and prompt for it's input if we have a TTY.  In non-node environments we look for `sessionStorage.getItem("WANDB_API_KEY")`.  Additional settings can be [found here](https://github.com/wandb/wandb-js/blob/main/src/sdk/lib/config.ts).
+In node environments we look for `process.env.WANDB_API_KEY` and prompt for it's input if we have a TTY. In non-node environments we look for `sessionStorage.getItem("WANDB_API_KEY")`. Additional settings can be [found here](https://github.com/wandb/wandb-js/blob/main/src/sdk/lib/config.ts).
 
 # Integrations
 
@@ -80,7 +80,7 @@ await WandbTracer.finish();
 ```
 
 {{% alert color="secondary" %}}
-We spawn a seperate MessageChannel to process all api calls async.  This will cause your script to hang if you don't call `await WandbTracer.finish()`.
+We spawn a seperate MessageChannel to process all api calls async. This will cause your script to hang if you don't call `await WandbTracer.finish()`.
 {{% /alert %}}
 
 See [this test](https://github.com/wandb/wandb-js/blob/main/src/sdk/integrations/langchain/langchain.test.ts) for a more detailed example. 

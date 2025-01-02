@@ -83,20 +83,23 @@ This method is best suited to applying a tag or tags to a single run manually.
 Tags can also be removed from runs with the W&B App UI.
 
 {{< tabpane text=true >}}
-  {{% tab header="Project page"%}}
+{{% tab header="Project page"%}}
 This method is best suited to removing tags from a large numbers of runs.
 
-1. In the Run sidebar of the project, select the table icon in the upper-right.  This will expand the sidebar into the full runs table.
+1. In the Run sidebar of the project, select the table icon in the upper-right. This will expand the sidebar into the full runs table.
 2. Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox to select all runs.
 3. Select the checkbox to enable bulk actions. 
 4. Select the runs you want to remove tags.
 5. Select the **Tag** button above the rows of runs.
-6. Select the checkbox next to a tag to remove it from the run.  
-  {{% /tab %}}
-  {{% tab header="Run page"%}}
+6. Select the checkbox next to a tag to remove it from the run.
+
+{{% /tab %}}
+{{% tab header="Run page"%}}
+
 1. In the left sidebar of the Run page, select the top **Overview** tab. The tags on the run are visible here.
-2. Hover over a tag and select the "x" to remove it from the run.  
-  {{% /tab %}}
+2. Hover over a tag and select the "x" to remove it from the run.
+
+{{% /tab %}}
 {{< /tabpane >}}
 
 

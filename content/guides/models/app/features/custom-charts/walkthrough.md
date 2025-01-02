@@ -12,13 +12,13 @@ Use custom charts to control the data you're loading in to a panel and its visua
 
 ## 1. Log data to W&B
 
-First, log data in your script. Use [wandb.config](../../../../guides/track/config.md) for single points set at the beginning of training, like hyperparameters. Use [wandb.log()](../../../../guides/track/log/intro.md) for multiple points over time, and log custom 2D arrays with wandb.Table(). We recommend logging up to 10,000 data points per logged key.
+First, log data in your script. Use [wandb.config](../../../../guides/track/config.md) for single points set at the beginning of training, like hyperparameters. Use [wandb.log()](../../../../guides/track/log/intro.md) for multiple points over time, and log custom 2D arrays with `wandb.Table()`. We recommend logging up to 10,000 data points per logged key.
 
 ```python
 # Logging a custom table of data
 my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
 wandb.log(
-    {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
+  {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
 )
 ```
 
@@ -33,7 +33,7 @@ Once you've logged data to visualize, go to your project page and click the **`+
 ### Add a query
 
 1. Click `summary` and select `historyTable` to set up a new query pulling data from the run history.
-2. Type in the key where you logged the **wandb.Table()**. In the code snippet above, it was `my_custom_table` . In the [example notebook](https://bit.ly/custom-charts-colab), the keys are `pr_curve` and `roc_curve`.
+2. Type in the key where you logged the `wandb.Table()`. In the code snippet above, it was `my_custom_table` . In the [example notebook](https://bit.ly/custom-charts-colab), the keys are `pr_curve` and `roc_curve`.
 
 ### Set Vega fields
 
@@ -73,8 +73,8 @@ To create your own version of the custom composite histogram panel:
 
 1. Create a new Custom Chart panel in your Workspace or Report (by adding a “Custom Chart” visualization). Hit the “Edit” button in the top right to modify the Vega spec starting from any built-in panel type.
 2. Replace that built-in Vega spec with my [MVP code for a composite histogram in Vega](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21). You can modify the main title, axis titles, input domain, and any other details directly in this Vega spec [using Vega syntax](https://vega.github.io/) (you could change the colors or even add a third histogram :)
-3. Modify the query in the right hand side to load the correct data from your wandb logs. Add the field “summaryTable” and set the corresponding “tableKey” to “class_scores” to fetch the wandb.Table logged by your run. This will let you populate the two histogram bin sets (“red_bins” and “blue_bins”) via the dropdown menus with the columns of the wandb.Table logged as “class_scores”. For my example, I chose the “animal” class prediction scores for the red bins and “plant” for the blue bins.
-4. You can keep making changes to the Vega spec and query until you’re happy with the plot you see in the preview rendering. Once you’re done, click “Save as” in the top and give your custom plot a name so you can reuse it. Then click “Apply from panel library” to finish your plot.
+3. Modify the query in the right hand side to load the correct data from your wandb logs. Add the field `summaryTable` and set the corresponding `tableKey` to `class_scores` to fetch the `wandb.Table` logged by your run. This will let you populate the two histogram bin sets (`red_bins` and `blue_bins`) via the dropdown menus with the columns of the `wandb.Table` logged as `class_scores`. For my example, I chose the `animal` class prediction scores for the red bins and `plant` for the blue bins.
+4. You can keep making changes to the Vega spec and query until you’re happy with the plot you see in the preview rendering. Once you’re done, click **Save as** in the top and give your custom plot a name so you can reuse it. Then click **Apply from panel library** to finish your plot.
 
 Here’s what my results look like from a very brief experiment: training on only 1000 examples for one epoch yields a model that’s very confident that most images are not plants and very uncertain about which images might be animals.
 

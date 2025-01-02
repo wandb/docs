@@ -98,7 +98,7 @@ Within your terminal, you could run the shell script along with the W&B run ID. 
 sh run_experiment.sh akj172 
 ```
 
-  {{% /tab %}}
+{{% /tab %}}
 {{< /tabpane >}}
 
 
@@ -107,7 +107,7 @@ Automatic resuming only works if the process is restarted on top of the same fil
 {{% /alert %}}
 
 
-For example, suppose you execute a python script called `train.py` in a directory called `Users/AwesomeEmployee/Desktop/ImageClassify/training/`. Within `train.py`, the script creates a run that enables automatic resuming. Suppose next that the training script is stopped.  To resume this run, you would need to restart your `train.py` script within `Users/AwesomeEmployee/Desktop/ImageClassify/training/` .
+For example, suppose you execute a python script called `train.py` in a directory called `Users/AwesomeEmployee/Desktop/ImageClassify/training/`. Within `train.py`, the script creates a run that enables automatic resuming. Suppose next that the training script is stopped. To resume this run, you would need to restart your `train.py` script within `Users/AwesomeEmployee/Desktop/ImageClassify/training/` .
 
 
 {{% alert %}}

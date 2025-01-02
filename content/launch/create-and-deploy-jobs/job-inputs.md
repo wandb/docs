@@ -51,7 +51,7 @@ with wandb.init(config=config):
     # Etc.
 ```
 
-The function `launch.manage_wandb_config` configures the job to accept input values for the `Run.config` object.  The optional `include` and `exclude` options take path prefixes within the nested config object.  This can be useful if, for example, a job uses a library whose options you don't want to expose to end users.  
+The function `launch.manage_wandb_config` configures the job to accept input values for the `Run.config` object. The optional `include` and `exclude` options take path prefixes within the nested config object. This can be useful if, for example, a job uses a library whose options you don't want to expose to end users. 
 
 If `include` prefixes are provided, only paths within the config that match an `include` prefix will accept input values. If `exclude` prefixes are provided, no paths that match the `exclude` list will be filtered out of the input values. If a path matches both an `include` and an `exclude` prefix, the `exclude` prefix will take precedence.
 

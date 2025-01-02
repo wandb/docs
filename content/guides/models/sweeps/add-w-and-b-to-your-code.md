@@ -138,11 +138,13 @@ def main():
 
 # Start sweep job.
 wandb.agent(sweep_id, function=main, count=4)
-```    
-    {{% /tab %}}
-    {{% tab header="CLI" %}}
-  To create a W&B Sweep, we first create a YAML configuration file. The configuration file contains he hyperparameters we want the sweep to explore.  In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep.
-  
+```
+
+{{% /tab %}}
+{{% tab header="CLI" %}}
+
+To create a W&B Sweep, we first create a YAML configuration file. The configuration file contains he hyperparameters we want the sweep to explore. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep.
+
 ```yaml
 # config.yaml
 program: train.py
@@ -245,8 +247,9 @@ Copy the sweep ID and replace `sweepID` in the proceeding code snippet to start 
 wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
-For more information on how to start sweep jobs, see [Start sweep jobs](./start-sweep-agents.md).    
-    {{% /tab %}}
+For more information on how to start sweep jobs, see [Start sweep jobs](./start-sweep-agents.md).
+
+{{% /tab %}}
 {{< /tabpane >}}
 
 

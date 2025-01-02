@@ -63,7 +63,7 @@ W&B will migrate registered models (now called collections) and associated artif
 
 After the migration, your model registry will have organization level visibility. You can restrict who has access to a registry by [assigning roles](./configure_registry.md). This helps ensure that only specific members have access to specific registries.
 
-The migration will preserve existing permission boundaries of your current team-level registered models (soon to be called collections) in the legacy W&B Model Registry. Permissions currently defined in the legacy Model Registry will be preserved in the new Registry.  This means that collections currently restricted to specific team members will remain protected during and after the migration. 
+The migration will preserve existing permission boundaries of your current team-level registered models (soon to be called collections) in the legacy W&B Model Registry. Permissions currently defined in the legacy Model Registry will be preserved in the new Registry. This means that collections currently restricted to specific team members will remain protected during and after the migration. 
 
 ### Artifact path continuity
 
@@ -105,4 +105,4 @@ Yes, important metadata related to artifact creation, lineage, and other attribu
 
 #### Who do I contact if I need help?
 
-Support is available for any questions or concerns.  Reach out to support@wandb.com for assistance.
+Support is available for any questions or concerns. Reach out to support@wandb.com for assistance.

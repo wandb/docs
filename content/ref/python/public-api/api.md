@@ -24,7 +24,7 @@ Most common way to initialize
 
 | Args |  |
 | :--- | :--- |
-|  `overrides` |  (dict) You can set `base_url` if you are using a wandb server other than https://api.wandb.ai. You can also set defaults for `entity`, `project`, and `run`. |
+| `overrides` | (dict) You can set `base_url` if you are using a wandb server other than https://api.wandb.ai. You can also set defaults for `entity`, `project`, and `run`. |
 
 | Attributes |  |
 | :--- | :--- |
@@ -46,7 +46,7 @@ Return a single artifact by parsing path in the form `project/name` or `entity/p
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact name. May be prefixed with project/ or entity/project/. If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms: name:version name:alias |
+| `name` |  (str) An artifact name. May be prefixed with project/ or entity/project/. If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms: name:version name:alias |
 |  `type` |  (str, optional) The type of artifact to fetch. |
 
 | Returns |  |
@@ -294,20 +294,20 @@ Create a new run queue (launch).
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create. |
-|  `type` |  (str) Type of resource to be used for the queue. One of `local-container`, `local-process`, `kubernetes`, `sagemaker`, or `gcp-vertex`. |
-|  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either `V0` or `None`. |
-|  `config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
-|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }`. |
+| `name` | (str) Name of the queue to create. |
+| `type` | (str) Type of resource to be used for the queue. One of `local-container`, `local-process`, `kubernetes`, `sagemaker`, or `gcp-vertex`. |
+| `entity` | (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
+| `prioritization_mode` | (str) Optional version of prioritization to use. Either `V0` or `None`. |
+| `config` | (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
+| `template_variables` | (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }`. |
 
 | Returns |  |
 | :--- | :--- |
-|  The newly created `RunQueue` |
+| The newly created `RunQueue` |
 
 | Raises |  |
 | :--- | :--- |
-|  ValueError if any of the parameters are invalid wandb.Error on wandb API errors |
+| `ValueError` if any of the parameters are invalid `wandb.Error` on wandb API errors |
 
 ### `create_team`
 
@@ -323,12 +323,12 @@ Create a new team.
 
 | Args |  |
 | :--- | :--- |
-|  `team` |  (str) The name of the team |
-|  `admin_username` |  (str) optional username of the admin user of the team, defaults to the current user. |
+| `team` | (str) The name of the team |
+| `admin_username` | (str) optional username of the admin user of the team, defaults to the current user. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Team` object |
+| A `Team` object |
 
 ### `create_user`
 
@@ -344,12 +344,12 @@ Create a new user.
 
 | Args |  |
 | :--- | :--- |
-|  `email` |  (str) The email address of the user |
-|  `admin` |  (bool) Whether this user should be a global instance admin |
+| `email` | (str) The email address of the user |
+| `admin` | (bool) Whether this user should be a global instance admin |
 
 | Returns |  |
 | :--- | :--- |
-|  A `User` object |
+| A `User` object |
 
 ### `flush`
 
@@ -389,15 +389,15 @@ report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) The path to the project, run, sweep or report |
+| `path` | (str) The path to the project, run, sweep or report |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Project`, `Run`, `Sweep`, or `BetaReport` instance. |
+| A `Project`, `Run`, `Sweep`, or `BetaReport` instance. |
 
 | Raises |  |
 | :--- | :--- |
-|  wandb.Error if path is invalid or the object doesn't exist |
+| `wandb.Error` if path is invalid or the object doesn't exist |
 
 ### `job`
 
@@ -414,12 +414,12 @@ Return a `Job` from the given parameters.
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) The job name. |
-|  `path` |  (str, optional) If given, the root path in which to download the job artifact. |
+| `name` | (str) The job name. |
+| `path` | (str, optional) If given, the root path in which to download the job artifact. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Job` object. |
+| A `Job` object. |
 
 ### `list_jobs`
 
@@ -436,12 +436,12 @@ Return a list of jobs, if any, for the given entity and project.
 
 | Args |  |
 | :--- | :--- |
-|  `entity` |  (str) The entity for the listed jobs. |
-|  `project` |  (str) The project for the listed jobs. |
+| `entity` | (str) The entity for the listed jobs. |
+| `project` | (str) The project for the listed jobs. |
 
 | Returns |  |
 | :--- | :--- |
-|  A list of matching jobs. |
+| A list of matching jobs. |
 
 ### `project`
 
@@ -458,12 +458,12 @@ Return the `Project` with the given name (and entity, if given).
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) The project name. |
-|  `entity` |  (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
+| `name` | (str) The project name. |
+| `entity` | (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Project` object. |
+| A `Project` object. |
 
 ### `projects`
 
@@ -480,12 +480,12 @@ Get projects for a given entity.
 
 | Args |  |
 | :--- | :--- |
-|  `entity` |  (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+| `entity` | (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
+| `per_page` | (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Projects` object which is an iterable collection of `Project` objects. |
+| A `Projects` object which is an iterable collection of `Project` objects. |
 
 ### `queued_run`
 
@@ -520,13 +520,13 @@ WARNING: This api is in beta and will likely change in a future release
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) path to project the report resides in, should be in the form: "entity/project" |
-|  `name` |  (str, optional) optional name of the report requested. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+| `path` | (str) path to project the report resides in, should be in the form: "entity/project" |
+| `name` | (str, optional) optional name of the report requested. |
+| `per_page` | (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Reports` object which is an iterable collection of `BetaReport` objects. |
+| A `Reports` object which is an iterable collection of `BetaReport` objects. |
 
 ### `run`
 
@@ -542,11 +542,11 @@ Return a single run by parsing path in the form entity/project/run_id.
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id. |
+| `path` | (str) path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Run` object. |
+| A `Run` object. |
 
 ### `run_queue`
 
@@ -627,15 +627,15 @@ api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) path to project, should be in the form: "entity/project" |
-|  `filters` |  (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: `{"config.experiment_name": "foo"}` would find runs with a config entry of experiment name set to "foo" You can compose operations to make more complicated queries, see Reference for the language is at https://docs.mongodb.com/manual/reference/operator/query |
-|  `order` |  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from oldest to newest. |
-|  `per_page` |  (int) Sets the page size for query pagination. |
-|  `include_sweeps` |  (bool) Whether to include the sweep runs in the results. |
+| `path` | (str) path to project, should be in the form: "entity/project" |
+| `filters` | (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: `{"config.experiment_name": "foo"}` would find runs with a config entry of experiment name set to "foo" You can compose operations to make more complicated queries, see Reference for the language is at https://docs.mongodb.com/manual/reference/operator/query |
+| `order` | (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from oldest to newest. |
+| `per_page` | (int) Sets the page size for query pagination. |
+| `include_sweeps` | (bool) Whether to include the sweep runs in the results. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Runs` object, which is an iterable collection of `Run` objects. |
+| A `Runs` object, which is an iterable collection of `Run` objects. |
 
 ### `sweep`
 
@@ -651,11 +651,11 @@ Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str, optional) path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id. |
+| `path` | (str, optional) path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Sweep` object. |
+| A `Sweep` object. |
 
 ### `sync_tensorboard`
 
@@ -683,11 +683,11 @@ Return the matching `Team` with the given name.
 
 | Args |  |
 | :--- | :--- |
-|  `team` |  (str) The name of the team. |
+| `team` | (str) The name of the team. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Team` object. |
+| A `Team` object. |
 
 ### `upsert_run_queue`
 
@@ -709,21 +709,21 @@ Upsert a run queue (launch).
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create. |
-|  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
-|  `resource_config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
-|  `resource_type` |  (str) Type of resource to be used for the queue. One of `local-container`, `local-process`, `kubernetes`, `sagemaker`, or `gcp-vertex`. |
-|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }`. |
-|  `external_links` |  (dict) Optional dictionary of external links to be used with the queue. Expected format of: `{ "name": "url" }`. |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either `V0` or `None`. |
+| `name` | (str) Name of the queue to create. |
+| `entity` | (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
+| `resource_config` | (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
+| `resource_type` | (str) Type of resource to be used for the queue. One of `local-container`, `local-process`, `kubernetes`, `sagemaker`, or `gcp-vertex`. |
+| `template_variables` | (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }`. |
+| `external_links` | (dict) Optional dictionary of external links to be used with the queue. Expected format of: `{ "name": "url" }`. |
+| `prioritization_mode` | (str) Optional version of prioritization to use. Either `V0` or `None`. |
 
 | Returns |  |
 | :--- | :--- |
-|  The upserted `RunQueue`. |
+| The upserted `RunQueue`. |
 
 | Raises |  |
 | :--- | :--- |
-|  ValueError if any of the parameters are invalid wandb.Error on wandb API errors |
+| `ValueError` if any of the parameters are invalid `wandb.Error` on wandb API errors |
 
 ### `user`
 
@@ -741,11 +741,11 @@ Note: This function only works for Local Admins, if you are trying to get your o
 
 | Args |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) The username or email address of the user |
+| `username_or_email` | (str) The username or email address of the user |
 
 | Returns |  |
 | :--- | :--- |
-|  A `User` object or None if a user couldn't be found |
+| A `User` object or None if a user couldn't be found |
 
 ### `users`
 
@@ -763,15 +763,15 @@ Note: This function only works for Local Admins, if you are trying to get your o
 
 | Args |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) The prefix or suffix of the user you want to find |
+| `username_or_email` | (str) The prefix or suffix of the user you want to find |
 
 | Returns |  |
 | :--- | :--- |
-|  An array of `User` objects |
+| An array of `User` objects |
 
 | Class Variables |  |
 | :--- | :--- |
-|  `CREATE_PROJECT`<a id="CREATE_PROJECT"></a> |   |
-|  `DEFAULT_ENTITY_QUERY`<a id="DEFAULT_ENTITY_QUERY"></a> |   |
-|  `USERS_QUERY`<a id="USERS_QUERY"></a> |   |
-|  `VIEWER_QUERY`<a id="VIEWER_QUERY"></a> |   |
+| `CREATE_PROJECT`<a id="CREATE_PROJECT"></a> | |
+| `DEFAULT_ENTITY_QUERY`<a id="DEFAULT_ENTITY_QUERY"></a> | |
+| `USERS_QUERY`<a id="USERS_QUERY"></a> | |
+| `VIEWER_QUERY`<a id="VIEWER_QUERY"></a> | |

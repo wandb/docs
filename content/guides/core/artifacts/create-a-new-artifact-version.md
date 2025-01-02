@@ -151,18 +151,21 @@ Follow the procedure below to incrementally change an artifact:
 
 
 {{< tabpane text=true >}}
-  {{% tab header="Inside a run" %}}
+{{% tab header="Inside a run" %}}
 
 ```python
 saved_artifact = run.use_artifact("my_artifact:latest")
-```  
-  {{% /tab %}}
-  {{% tab header="Outside of a run" %}}
+```
+
+{{% /tab %}}
+{{% tab header="Outside of a run" %}}
+
 ```python
 client = wandb.Api()
 saved_artifact = client.artifact("my_artifact:latest")
-```  
-  {{% /tab %}}
+```
+
+{{% /tab %}}
 {{< /tabpane >}}
 
 

@@ -8,8 +8,8 @@ The Table class used to display and analyze tabular data.
 
 ```python
 Table(
-    columns=None, data=None, rows=None, dataframe=None, dtype=None, optional=(True),
-    allow_mixed_types=(False)
+  columns=None, data=None, rows=None, dataframe=None, dtype=None, optional=(True),
+  allow_mixed_types=(False)
 )
 ```
 
@@ -21,13 +21,13 @@ directly in Tables, alongside other traditional scalar values.
 This class is the primary class used to generate the Table Visualizer
 in the UI: https://docs.wandb.ai/guides/data-vis/tables.
 
-| Args |  |
+| Args | |
 | :--- | :--- |
-|  `columns` |  (List[str]) Names of the columns in the table. Defaults to `["Input", "Output", "Expected"]`. |
-|  `data` |  (List[List[any]]) 2D row-oriented array of values. |
-|  `dataframe` |  (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
-|  `optional` |  (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |
-|  `allow_mixed_types` |  (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False |
+| `columns` | (List[str]) Names of the columns in the table. Defaults to `["Input", "Output", "Expected"]`. |
+| `data` | (List[List[any]]) 2D row-oriented array of values. |
+| `dataframe` | `(pandas.DataFrame)` DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
+| `optional` | (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |
+| `allow_mixed_types` | (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False |
 
 ## Methods
 
@@ -37,17 +37,17 @@ in the UI: https://docs.wandb.ai/guides/data-vis/tables.
 
 ```python
 add_column(
-    name, data, optional=(False)
+  name, data, optional=(False)
 )
 ```
 
 Adds a column of data to the table.
 
-| Args |  |
+| Args | |
 | :--- | :--- |
-|  `name` |  (str) - the unique name of the column |
-|  `data` |  (list | np.array) - a column of homogeneous data |
-|  `optional` |  (bool) - if null-like values are permitted |
+| `name` | (str) - the unique name of the column |
+| `data` | (list | np.array) - a column of homogeneous data |
+| `optional` | (bool) - if null-like values are permitted |
 
 ### `add_computed_columns`
 
@@ -55,15 +55,15 @@ Adds a column of data to the table.
 
 ```python
 add_computed_columns(
-    fn
+  fn
 )
 ```
 
 Adds one or more computed columns based on existing data.
 
-| Args |  |
+| Args | |
 | :--- | :--- |
-|  `fn` |  A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. `row` is a dictionary keyed by existing columns |
+| `fn` | A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. `row` is a dictionary keyed by existing columns |
 
 ### `add_data`
 
@@ -71,7 +71,7 @@ Adds one or more computed columns based on existing data.
 
 ```python
 add_data(
-    *data
+  *data
 )
 ```
 
@@ -85,7 +85,7 @@ The length of the data should match the length of the table column.
 
 ```python
 add_row(
-    *row
+  *row
 )
 ```
 
@@ -97,20 +97,20 @@ Deprecated. Use `add_data` instead.
 
 ```python
 cast(
-    col_name, dtype, optional=(False)
+  col_name, dtype, optional=(False)
 )
 ```
 
 Casts a column to a specific data type.
 
 This can be one of the normal python classes, an internal W&B type, or an
-example object, like an instance of wandb.Image or wandb.Classes.
+example object, like an instance of `wandb.Imag`e or `wandb.Classes`.
 
-| Args |  |
+| Args | |
 | :--- | :--- |
-|  `col_name` |  (str) - The name of the column to cast. |
-|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - The target dtype. |
-|  `optional` |  (bool) - If the column should allow Nones. |
+| `col_name` | (str) - The name of the column to cast. |
+| `dtype` | `(class, wandb.wandb_sdk.interface._dtypes.Type, any)` - The target dtype. |
+| `optional` | (bool) - If the column should allow Nones. |
 
 ### `get_column`
 
@@ -118,16 +118,16 @@ example object, like an instance of wandb.Image or wandb.Classes.
 
 ```python
 get_column(
-    name, convert_to=None
+  name, convert_to=None
 )
 ```
 
 Retrieves a column from the table and optionally converts it to a NumPy object.
 
-| Args |  |
+| Args | |
 | :--- | :--- |
-|  `name` |  (str) - the name of the column |
-|  `convert_to` |  (str, optional) - "numpy": will convert the underlying data to numpy object |
+| `name` | (str) - the name of the column |
+| `convert_to` | (str, optional) - "numpy": will convert the underlying data to numpy object |
 
 ### `get_dataframe`
 
@@ -155,7 +155,7 @@ Returns an array of row indexes for use in other tables to create links.
 
 ```python
 index_ref(
-    index
+  index
 )
 ```
 
@@ -171,7 +171,7 @@ iterrows()
 
 Returns the table data by row, showing the index of the row and the relevant data.
 
-| Yields |  |
+| Yields | |
 | :--- | :--- |
 
 ***
@@ -188,7 +188,7 @@ The data of the row.
 
 ```python
 set_fk(
-    col_name, table, table_col
+  col_name, table, table_col
 )
 ```
 
@@ -198,11 +198,11 @@ set_fk(
 
 ```python
 set_pk(
-    col_name
+  col_name
 )
 ```
 
-| Class Variables |  |
+| Class Variables | |
 | :--- | :--- |
-|  `MAX_ARTIFACT_ROWS`<a id="MAX_ARTIFACT_ROWS"></a> |  `200000` |
-|  `MAX_ROWS`<a id="MAX_ROWS"></a> |  `10000` |
+| `MAX_ARTIFACT_ROWS`<a id="MAX_ARTIFACT_ROWS"></a> | `200000` |
+| `MAX_ROWS`<a id="MAX_ROWS"></a> | `10000` |
