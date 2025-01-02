@@ -34,7 +34,8 @@ Each panel grid has a set of run sets and a set of panels. The run sets at the b
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
-Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B; including a line plot, scatter plot or parallel coordinates chart.
+
+Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B, including a line plot, scatter plot or parallel coordinates chart.
 
 {{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
 {{% /tab %}}

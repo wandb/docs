@@ -434,7 +434,7 @@ run.log(
 )
 ```
 
-Only one level of nesting is supported; `run.log({"a/b/c": 1})`
+Only one level of nesting is supported. `run.log({"a/b/c": 1})`
 produces a section named `"a/b"`.
 
 `run.log` is not intended to be called more than a few times per second.

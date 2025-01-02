@@ -34,7 +34,7 @@ Select **+ Add Email** to add an email. This will take you to an Auth0 page. You
 Select the kebab dropdown and choose **Delete Emails** to delete an email that is registered to your W&B account
 
 {{% alert %}}
-Primary emails cannot be deleted; you need to set a different email as a primary email before deleting
+Primary emails cannot be deleted. You need to set a different email as a primary email before deleting.
 {{% /alert %}}
 
 ## Log in methods

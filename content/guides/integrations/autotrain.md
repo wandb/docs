@@ -44,7 +44,7 @@ Hugging Face AutoTrain expects your CSV custom dataset to have a specific format
 
 - Your training file must contain a `text` column, which the training uses. For best results, the `text` column's data must conform to the `### Human: Question?### Assistant: Answer.` format. Review a great example in [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco).
 
-    However, the [MetaMathQA dataset](https://huggingface.co/datasets/meta-math/MetaMathQA) includes the columns `query`, `response`, and `type`. First, pre-process this dataset; remove  the `type` column and combine the content of the `query` and `response` columns into a new `text` column in the `### Human: Query?### Assistant: Response.` format. Training uses the resulting dataset, [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath).
+    However, the [MetaMathQA dataset](https://huggingface.co/datasets/meta-math/MetaMathQA) includes the columns `query`, `response`, and `type`. First, pre-process this dataset. Remove  the `type` column and combine the content of the `query` and `response` columns into a new `text` column in the `### Human: Query?### Assistant: Response.` format. Training uses the resulting dataset, [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath).
 
 ## Train using `autotrain`
 

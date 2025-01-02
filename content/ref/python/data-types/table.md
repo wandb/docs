@@ -89,7 +89,7 @@ add_row(
 )
 ```
 
-Deprecated; use add_data instead.
+Deprecated. Use `add_data` instead.
 
 ### `cast`
 

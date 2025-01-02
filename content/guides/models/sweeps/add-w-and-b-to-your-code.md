@@ -12,7 +12,7 @@ There are numerous ways to add the W&B Python SDK to your script or Jupyter Note
 
 ### Original training script
 
-Suppose you have the following code in a Jupyter Notebook cell or Python script. We define a function called `main` that mimics a typical training loop; for each epoch, the accuracy and loss is computed on the training and validation data sets. The values are randomly generated for the purpose of this example.
+Suppose you have the following code in a Jupyter Notebook cell or Python script. We define a function called `main` that mimics a typical training loop. For each epoch, the accuracy and loss is computed on the training and validation data sets. The values are randomly generated for the purpose of this example.
 
 We defined a dictionary called `config` where we store hyperparameters values (line 15). At the end of the cell, we call the `main` function to execute the mock training code.
 

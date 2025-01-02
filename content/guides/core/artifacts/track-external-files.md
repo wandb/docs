@@ -13,7 +13,7 @@ Use **reference artifacts** to track files saved outside the W&B system, for exa
 
 ### Log artifacts outside of runs
 
-W&B creates a run when you log an artifact outside of a run. Each artifact belongs to a run, which in turn belongs to a project; an artifact (version) also belongs to a collection, and has a type.
+W&B creates a run when you log an artifact outside of a run. Each artifact belongs to a run, which in turn belongs to a project. An artifact (version) also belongs to a collection, and has a type.
 
 Use the [`wandb artifact put`](/ref/cli/wandb-artifact/wandb-artifact-put) command to upload an artifact to the W&B server outside of a W&B run. Provide the name of the project you want the artifact to belong to along with the name of the artifact (`project/artifact_name`).Optionally provide the type (`TYPE`). Replace `PATH` in the code snippet below with the file path of the artifact you want to upload.
 
