@@ -38,7 +38,7 @@ The storage layer consists of a MySQL database and object storage. The MySQL dat
 ## Infrastructure requirements
 
 ### Kubernetes
-The W&B server application is deployed as a [Kubernetes Operator](../operator.md) that deploys multiple Pods. For this reason, W&B requires a Kubernetes cluster with:
+The W&B Server application is deployed as a [Kubernetes Operator](../operator.md) that deploys multiple Pods. For this reason, W&B requires a Kubernetes cluster with:
 - A fully configured and functioning Ingress controller
 - The capability to provision Persistent Volumes.
 
@@ -76,7 +76,7 @@ Access to W&B and to the object storage is required for the training infrastruct
 The fully qualified domain name (FQDN) of the W&B deployment must resolve to the IP address of the ingress/load balancer using an A record.
 
 ### SSL/TLS
-W&B requires a valid signed SSL/TLS certificate for secure communication between clients and the server. SSL/TLS termination must occur on the ingress/load balancer. The W&B server application does not terminate SSL or TLS connections.
+W&B requires a valid signed SSL/TLS certificate for secure communication between clients and the server. SSL/TLS termination must occur on the ingress/load balancer. The W&B Server application does not terminate SSL or TLS connections.
 
 Please note: W&B does not recommend the use self-signed certificates and custom CAs.
 
