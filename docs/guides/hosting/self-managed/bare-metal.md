@@ -36,7 +36,7 @@ innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
 ```
 
-Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. The recommendation is to set the value to `67108864` (64MiB) to ensure that MySQL works efficiently with W&B. This configuration is supported in MySQL 8.0.28 and above.
+Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. The recommendation is to set the value to `67108864` (64MiB) to ensure that MySQL works efficiently with W&B. MySQL supports this configuration since version 8.0.28.
 
 ### Database considerations
 
@@ -243,7 +243,7 @@ wandb login --host=https://YOUR_DNS_DOMAIN
 wandb verify
 ```
 
-Check log files to view any errors the W&B Server hits at startup. Run the following commands based on whether if you use Docker or Kubernetes: 
+Check log files to view any errors the W&B Server hits at startup. Run the following commands: 
 
 
 ```bash

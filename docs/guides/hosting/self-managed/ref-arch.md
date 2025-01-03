@@ -73,7 +73,7 @@ In a deployment connected a public or private network, egress to the following e
 Access to W&B and to the object storage is required for the training infrastructure and for each system that tracks the needs of experiments.
 
 ### DNS
-The fully-qualified domain name (FQDN) of the W&B deployment must resolve to the IP address of the ingress/load balancer using an A record.
+The fully qualified domain name (FQDN) of the W&B deployment must resolve to the IP address of the ingress/load balancer using an A record.
 
 ### SSL/TLS
 W&B requires a valid signed SSL/TLS certificate for secure communication between clients and the server. SSL/TLS termination must occur on the ingress/load balancer. The W&B server application does not terminate SSL or TLS connections.
@@ -151,7 +151,7 @@ Numbers are per Kubernetes worker node.
 
 Numbers are per MySQL node.
 
-## Recommended cloud provider services and flavors
+## Recommended cloud provider services and machine types
 
 ### Services
 
@@ -162,7 +162,7 @@ Numbers are per MySQL node.
 | Azure       | AKS          | Azure Database for Mysql | Azure Blob Storage         |
 
 
-### Flavors
+### Machine types
 
 #### AWS
 
@@ -171,7 +171,7 @@ Numbers are per MySQL node.
 | Test/Dev    | r6i.large          | r6i.xlarge         | r6i.xlarge          | db.r6g.large       | 
 | Production  | r6i.2xlarge        | r6i.4xlarge        | r6i.4xlarge         | db.r6g.2xlarge     | 
 
-Flavor is per node.
+Machine type is per node.
 
 
 #### GCP
@@ -181,7 +181,7 @@ Flavor is per node.
 | Test/Dev    | n2-highmem-2       | n2-highmem-4       | n2-highmem-4        | db-n1-highmem-2    | 
 | Production  | n2-highmem-8       | n2-highmem-16      | n2-highmem-16       | db-n1-highmem-8    | 
 
-Flavor is per node.
+Machine type is per node.
 
 
 #### Azure
@@ -191,4 +191,4 @@ Flavor is per node.
 | Test/Dev    | Standard_E2_v5     | Standard_E4_v5     | Standard_E4_v5      | MO_Standard_E2ds_v4 | 
 | Production  | Standard_E8_v5     | Standard_E16_v5    | Standard_E16_v5     | MO_Standard_E8ds_v4 | 
 
-Flavor is per node.
+Machine type is per node.
