@@ -24,9 +24,9 @@ Launch or queue a W&B Job. See https://wandb.me/launch
 | -d, --docker-image | Specific docker image you'd like to use. In the form name:tag. If passed in, will override the docker image value passed in using a config file. |
 | --base-image | Docker image to run job code in. Incompatible with --docker-image. |
 | -c, --config | Path to JSON file (must end in '.json') or JSON string which will be passed as a launch config. Dictation how the launched run will be configured. |
-| -v, --set-var | Set template variable values for queues with allow listing enabled, as key-value pairs e.g. `--set-var key1=value1 --set-var key2=value2` |
-| -q, --queue | Name of run queue to push to. If none, launches single run directly. If supplied without an argument (`--queue`), defaults to queue 'default'. Else, if name supplied, specified run queue must exist under the  project and entity supplied. |
-| --async | Flag to run the job asynchronously. Defaults  to false, i.e. unless --async is set, wandb launch will wait for the job to finish. This  option is incompatible with --queue; asynchronous options when running with an  agent should be set on wandb launch-agent. |
+| -v, --set-var | Set template variable values for queues with allow listing enabled, as key-value pairs. Examples: `--set-var key1=value1 --set-var key2=value2` |
+| -q, --queue | Name of run queue to push to. If none, launches single run directly. If supplied without an argument (`--queue`), defaults to queue `default`. Otherwise, if you supply a queue by name, the queue must exist under the project and entity supplied. |
+| --async | Flag to run the job asynchronously. Defaults  to false. Unless `--async` is set, wandb launch waits for the job to finish. This option is incompatible with `--queue`. Set asynchronous options on `wandb launch-agent` when running with an agent. |
 | --resource-args | Path to JSON file (must end in '.json') or  JSON string which will be passed as resource args to the compute resource. The exact  content which should be provided is different for each execution backend. See  documentation for layout of this file. |
 | --dockerfile | Path to the Dockerfile used to build the   job, relative to the job's root |
 | --priority [critical|high|medium|low] | When --queue is passed, set the priority of the job. Launch jobs with higher priority   are served first.  The order, from highest to lowest priority, is: critical, high,   medium, low |

@@ -53,10 +53,10 @@ The following table lists all the different keys that might be present in your a
 Personally identifiable information (PII), such as email ids and the names of projects, teams, and reports, is available only using the API endpoint option, and can be turned off as [described below](#fetch-audit-logs-using-api).
 
 ## Fetch audit logs using API
-An instance admin can fetch the audit logs for your W&B server instance using the following API:
-1. Construct the full API endpoint using a combination of the base endpoint `<wandb-server-url>/admin/audit_logs` and the following URL parameters:
-    - `numDays` : logs will be fetched starting from `today - numdays` to most recent; defaults to `0` i.e. logs will be returned only for `today`
-    - `anonymize` : if set to `true`, remove any PII; defaults to `false`
+An instance admin can fetch the audit logs for your W&B instance using the following API:
+1. Construct the full API endpoint using a combination of the base endpoint `<wandb-platform-url>/admin/audit_logs` and the following URL parameters:
+    - `numDays`: logs will be fetched starting from `today - numdays` to most recent; defaults to `0`, which returns logs only for `today`.
+    - `anonymize`: if set to `true`, remove any PII; defaults to `false`
 2. Execute HTTP GET request on the constructed full API endpoint, either by directly running it within a modern browser, or by using a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), cURL command or more.
 
 If your W&B Server instance URL is `https://mycompany.wandb.io` and you would like to get audit logs without PII for user activity within the last week, your API endpoint will be `https://mycompany.wandb.io?numDays=7&anonymize=true`.

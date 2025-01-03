@@ -246,12 +246,11 @@ delete(
 
 Delete an artifact and its files.
 
-If called on a linked artifact (i.e. a member of a portfolio collection): only the link is deleted, and the
-source artifact is unaffected.
+If called on a linked artifact, such asa member of a portfolio collection, deletes only the link, not the source artifact.
 
 | Args |  |
 | :--- | :--- |
-| `delete_aliases` | If set to `True`, deletes all aliases associated with the artifact. Otherwise, this raises an exception if the artifact has existing aliases. This parameter is ignored if the artifact is linked (i.e. a member of a portfolio collection). |
+| `delete_aliases` | If set to `True`, deletes all aliases associated with the artifact. Otherwise, raises an exception if the artifact has existing aliases. Ignored if the artifact is linked, such as if it is a member of a portfolio collection. |
 
 | Raises |  |
 | :--- | :--- |
@@ -609,7 +608,7 @@ Unlink this artifact if it is currently a member of a portfolio (a promoted coll
 | Raises |  |
 | :--- | :--- |
 | `ArtifactNotLoggedError` | If the artifact is not logged. |
-| `ValueError` | If the artifact is not linked, i.e. it is not a member of a portfolio collection. |
+| `ValueError` | If the artifact is not linked, such as if it is _not_ a member of a portfolio collection. |
 
 ### `used_by`
 

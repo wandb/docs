@@ -187,9 +187,9 @@ Check the definition of `make` below to see some examples.
 
 > *Side Note*: We take care to run our code in separate processes,
 so that any issues on our end
-(e.g. a giant sea monster attacks our data centers)
+(such as if a giant sea monster attacks our data centers)
 don't crash your code.
-Once the issue is resolved (e.g. the Kraken returns to the deep)
+Once the issue is resolved, such as when the Kraken returns to the deep,
 you can log the data with `wandb sync`.
 
 
@@ -419,12 +419,11 @@ Navigate to the Run page and check out these tabs:
 3. **Logs**, which has a copy of anything pushed to standard out during training
 4. **Files**, where, once training is complete, you can click on the `model.onnx` to view our network with the [Netron model viewer](https://github.com/lutzroeder/netron).
 
-Once the run in finished
-(i.e. the `with wandb.init` block is exited),
+Once the run in finished, when the `with wandb.init` block exits,
 we'll also print a summary of the results in the cell output.
 
 
-```
+```python
 # Build, train and analyze the model with the pipeline
 model = model_pipeline(config)
 ```

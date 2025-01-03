@@ -27,8 +27,7 @@ the summary values for these metrics.
 
 Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
 or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, e.g. in
-Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
 
 Logged values don't have to be scalars. Logging any wandb object is supported.
 For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an

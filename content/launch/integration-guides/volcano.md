@@ -162,7 +162,7 @@ Now that you have created a queue, you will need to deploy a launch agent to pul
 
 ## Create a training job
 
-Volcano's pytorch plugin will automatically configure the necessary environment variables for pytorch ddp to work, e.g. `MASTER_ADDR`, `RANK`, `WORLD_SIZE`, etc. As long as your write your pytorch code uses DDP correctly, everything else should **just work**. Refer to [pytorch's documentation](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) for more details on how to use DDP in your custom python code.
+Volcano's pytorch plugin automatically configures the necessary environment variables for pytorch DPP to work, such as `MASTER_ADDR`, `RANK`, and `WORLD_SIZE`, as long as your pytorch code uses DDP correctly. Refer to [pytorch's documentation](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) for more details on how to use DDP in your custom python code.
 
 {{% alert %}}
 Volcano's pytorch plugin is also compatible with [multinode training via the PyTorch Lightning `Trainer`](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes).

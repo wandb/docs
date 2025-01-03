@@ -56,7 +56,7 @@ launch(api, job, parameters=params)
 
 | Returns |  |
 | :--- | :--- |
-| an instance of`wandb.launch.SubmittedRun` exposing information (e.g. run ID) about the launched run. |
+| an instance of`wandb.launch.SubmittedRun` exposing information about the launched run, wuch as the run ID. |
 
 | Raises |  |
 | :--- | :--- |

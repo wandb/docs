@@ -126,7 +126,7 @@ The proceeding configuration options are used as settings on the W&B-specific Da
     * `base_dir`: (int, optional) Base directory used for local storage and caching. W&B Artifacts and W&B Run logs will be written and read from that directory. By default, it’s using the `DAGSTER_HOME` directory.
     * `cache_duration_in_minutes`: (int, optional) to define the amount of time W&B Artifacts and W&B Run logs should be kept in the local storage. Only files and directories that were not opened for that amount of time are removed from the cache. Cache purging happens at the end of an IO Manager execution. You can set it to 0, if you want to turn off caching completely. Caching improves speed when an Artifact is reused between jobs running on the same machine. It defaults to 30 days.
     * `run_id`: (str, optional): A unique ID for this run, used for resuming. It must be unique in the project, and if you delete a run you can't reuse the ID. Use the name field for a short descriptive name, or config for saving hyperparameters to compare across runs. The ID cannot contain the following special characters: `/\#?%:..` You need to set the Run ID when you are doing experiment tracking inside Dagster to allow the IO Manager to resume the run. By default it’s set to the Dagster Run ID e.g `7e4df022-1bf2-44b5-a383-bb852df4077e`.
-    * `run_name`: (str, optional) A short display name for this run, which is how you'll identify this run in the UI. By default, it’s set to a string with the following format dagster-run-[8 first characters of the Dagster Run ID] e.g. `dagster-run-7e4df022`.
+    * `run_name`: (str, optional) A short display name for this run to help you identify this run in the UI. By default, it is a string with the following format: `dagster-run-[8 first characters of the Dagster Run ID]`. For example, `dagster-run-7e4df022`.
     * `run_tags`: (list[str], optional): A list of strings, which will populate the list of tags on this run in the UI. Tags are useful for organizing runs together, or applying temporary labels like `baseline` or `production`. It's easy to add and remove tags in the UI, or filter down to just runs with a specific tag. Any W&B Run used by the integration will have the `dagster_wandb` tag.
 
 ## Use W&B Artifacts
@@ -322,9 +322,10 @@ Supported properties:
 * [`add_references`](../../ref/python/artifact.md#add_reference): (list[dict[str, Any]]): An array containing configuration for each external reference to include in the Artifact. It supports the same arguments as the homonymous method in the SDK.
 * `serialization_module`: (dict) Configuration of the serialization module to be used. Refer to the Serialization section for more information.
     * `name`: (str) Name of the serialization module. Accepted values: `pickle`, `dill`, `cloudpickle`, `joblib`. The module needs to be available locally.
-    * `parameters`: (dict[str, Any]) Optional arguments passed to the serialization function. It accepts the same parameters as the dump method for that module e.g. `{"compress": 3, "protocol": 4}`.
+    * `parameters`: (dict[str, Any]) Optional arguments passed to the serialization function. It accepts the same parameters as the dump method for that module. For example, `{"compress": 3, "protocol": 4}`.
 
 Advanced example:
+
 ```python
 @asset(
    name="my_advanced_artifact",
@@ -418,7 +419,7 @@ def create_my_daily_partitioned_asset(context):
     context.log.info(f"Creating partitioned asset for {partition_key}")
     return random.randint(0, 100)
 ```
-This code will produce one W&B Artifact for each partition. They can be found in the Artifact panel (UI) under the asset name, which will be appended with the partition key, for example `my_daily_partitioned_asset.2023-01-01`, `my_daily_partitioned_asset.2023-01-02`, `my_daily_partitioned_asset.2023-01-03` and so on. Assets that are partitioned across multiple dimensions will have each dimension divided by a dot e.g. `my_asset.car.blue`.
+This code will produce one W&B Artifact for each partition. View artifacts in the Artifact panel (UI) under the asset name, which has the partition key appended. For example, `my_daily_partitioned_asset.2023-01-01`, `my_daily_partitioned_asset.2023-01-02`, or`my_daily_partitioned_asset.2023-01-03`. Assets that are partitioned across multiple dimensions shows each dimension in dot-delimited format. For example, `my_asset.car.blue`.
 
 {{% alert color="secondary" %}}
 The integration does not allow for the materialization of multiple partitions within one run. You will need to carry out multiple runs to materialize your assets. This can be executed in Dagit when you're materializing your assets.

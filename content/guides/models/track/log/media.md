@@ -44,7 +44,7 @@ It's recommended to log fewer than 50 images per step to prevent logging from be
 
 {{< tabpane text=true >}}
    {{% tab header="Logging arrays as Images" %}}
-Provide arrays directly when constructing images manually, e.g. using [`make_grid` from `torchvision`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make_grid).
+Provide arrays directly when constructing images manually, such as by using [`make_grid` from `torchvision`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make_grid).
 
 Arrays are converted to png using [Pillow](https://pillow.readthedocs.io/en/stable/index.html).
 
@@ -133,7 +133,7 @@ To log a bounding box, you'll need to provide a dictionary with the following ke
     * _Option 2:_ `{"middle", "width", "height"}`. Provide a set of coordinates specifying the `middle` coordinates as `[x,y]`, and `width` and `height` as scalars.
   * `class_id`: an integer representing the class identity of the box. See `class_labels` key below.
   * `scores`: a dictionary of string labels and numeric values for scores. Can be used for filtering boxes in the UI.
-  * `domain`: specify the units/format of the box coordinates. **Set this to "pixel"** if the box coordinates are expressed in pixel space (i.e. as integers within the bounds of the image dimensions). By default, the domain is assumed to be a fraction/percentage of the image (a floating point number between 0 and 1).
+  * `domain`: specify the units/format of the box coordinates. **Set this to "pixel"** if the box coordinates are expressed in pixel space, such as integers within the bounds of the image dimensions. By default, the domain is assumed to be a fraction/percentage of the image, expressed as a floating point number between 0 and 1.
   * `box_caption`: (optional) a string to be displayed as the label text on this box
 * `class_labels`: (optional) A dictionary mapping `class_id`s to strings. By default we will generate class labels `class_0`, `class_1`, etc.
 
@@ -256,7 +256,7 @@ for id, img, boxes in zip(ids, images, boxes_set):
 
 {{< tabpane text=true >}}
    {{% tab header="Basic Histogram Logging" %}}
-If a sequence of numbers (e.g. list, array, tensor) is provided as the first argument, we will construct the histogram automatically by calling `np.histogram`. Note that all arrays/tensors are flattened. You can use the optional `num_bins` keyword argument to override the default of `64` bins. The maximum number of bins supported is `512`.
+If a sequence of numbers, such as a list, array, or tensor, is provided as the first argument, we will construct the histogram automatically by calling `np.histogram`. All arrays/tensors are flattened. You can use the optional `num_bins` keyword argument to override the default of `64` bins. The maximum number of bins supported is `512`.
 
 In the UI, histograms are plotted with the training step on the x-axis, the metric value on the y-axis, and the count represented by color, to ease comparison of histograms logged throughout training. See the "Histograms in Summary" tab of this panel for details on logging one-off histograms.
 
@@ -341,6 +341,7 @@ Here's an example of logging code below:
   * `corners`- a list of eight corners
   * `label`- a string representing the label to be rendered on the box (Optional)
   * `color`- rgb values representing the color of the box
+  * `score` - a numeric value that will be displayed on the bounding box that can be used to filter the bounding boxes shown, such as to only show bounding boxes where `score` > `0.75`. (Optional)
 * `type` is a string representing the scene type to render. Currently the only supported value is `lidar/beta`
 
 ```python

@@ -217,7 +217,7 @@ For more details, check out [sklearn's docs](https://scikit-learn.org/stable/aut
 
 {{< img src="/images/integrations/scikit_confusion_matrix.png" alt="" >}}
 
-Computes the confusion matrix to evaluate the accuracy of a classification. It's useful for assessing the quality of model predictions and finding patterns in the predictions the model gets wrong. The diagonal represents the predictions the model got right, i.e. where the actual label is equal to the predicted label.
+Computes the confusion matrix to evaluate the accuracy of a classification. It's useful for assessing the quality of model predictions and finding patterns in the predictions the model gets wrong. The diagonal represents the predictions the model got right, such as where the actual label is equal to the predicted label.
 
 `wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)`
 

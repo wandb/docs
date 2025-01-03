@@ -403,10 +403,9 @@ The most basic usage is `run.log({"train-loss": 0.5, "accuracy": 0.9})`.
 This will save the loss and accuracy to the run's history and update
 the summary values for these metrics.
 
-Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
+Visualize logged data in the workspace at [wandb.ai](https://wandb.ai)
 or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, e.g. in
-Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+of the W&B app. Use our [API](https://docs.wandb.ai/guides/track/public-api-guide) to export data to visualize and explore locally
 
 Logged values don't have to be scalars. Logging any wandb object is supported.
 For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an
@@ -805,7 +804,7 @@ By default, will only download the file if it doesn't already exist.
 | Args |  |
 | :--- | :--- |
 | `name` | the name of the file |
-| `run_path` | optional path to a run to pull files from, i.e. `username/project_name/run_id` if wandb.init has not been called, this is required. |
+| `run_path` | optional path to a run to pull files from, such as `username/project_name/run_id`. If `wandb.init` has not been called, `run_path` is required. |
 | `replace` | whether to download the file even if it already exists locally |
 | `root` | the directory to download the file to. Defaults to the current directory or the run directory if wandb.init was called. |
 

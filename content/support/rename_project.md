@@ -12,4 +12,4 @@ To rename a project:
 
 Note:
 
-- If the project name is protected (e.g., 'model-registry'), it cannot be renamed. Contact support for assistance with protected names.    
+- If the project name is protected, such as `model-registry`, it cannot be renamed. Contact support for assistance with protected names.    
