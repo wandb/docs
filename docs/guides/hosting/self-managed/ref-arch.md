@@ -164,6 +164,8 @@ Numbers are per MySQL node.
 
 ### Machine types
 
+These recommendations apply to each node of a self-managed deployment of W&B in cloud infrastructure.
+
 #### AWS
 
 | Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&Weave)  | MySQL	           |  
