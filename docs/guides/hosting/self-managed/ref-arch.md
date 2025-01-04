@@ -9,7 +9,7 @@ This page describes a reference architecture for a Weights & Biases deployment a
 
 Depending on your chosen deployment environment for Weights & Biases (W&B), various services can help to enhance the resiliency of your deployment.
 
-For instance, major cloud providers offer robust managed database services, which remove the complexity of configuring and maintaining database clustering and failover mechanisms.
+For instance, major cloud providers offer robust managed database services which help to reduce the complexity of database configuration, maintenance, high availability, and resilience.
 
 This reference architecture addresses some common deployment scenarios, ensuring seamless integration with cloud vendor services for optimal performance and reliability.
 
