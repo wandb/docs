@@ -151,7 +151,7 @@ Numbers are per Kubernetes worker node.
 
 Numbers are per MySQL node.
 
-## Recommended cloud provider services and machine types
+## Cloud provider instance recommendations
 
 ### Services
 
