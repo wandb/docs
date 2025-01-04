@@ -36,7 +36,7 @@ innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
 ```
 
-Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. The recommendation is to set the value to `67108864` (64MiB) to ensure that MySQL works efficiently with W&B. MySQL supports this configuration since version 8.0.28.
+Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. The recommendation is to set the value to `67108864` (64MiB) to ensure that MySQL works efficiently with W&B. MySQL supports this configuration starting with v8.0.28.
 
 ### Database considerations
 
