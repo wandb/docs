@@ -173,9 +173,6 @@ These recommendations apply to each node of a self-managed deployment of W&B in 
 | Test/Dev    | r6i.large          | r6i.xlarge         | r6i.xlarge          | db.r6g.large       | 
 | Production  | r6i.2xlarge        | r6i.4xlarge        | r6i.4xlarge         | db.r6g.2xlarge     | 
 
-Machine type is per node.
-
-
 #### GCP
 
 | Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&Weave)  | MySQL              |  
@@ -183,14 +180,9 @@ Machine type is per node.
 | Test/Dev    | n2-highmem-2       | n2-highmem-4       | n2-highmem-4        | db-n1-highmem-2    | 
 | Production  | n2-highmem-8       | n2-highmem-16      | n2-highmem-16       | db-n1-highmem-8    | 
 
-Machine type is per node.
-
-
 #### Azure
 
 | Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&Weave)  | MySQL               |  
 | ----------- | ------------------ | ------------------ | ------------------- | ------------------- |  
 | Test/Dev    | Standard_E2_v5     | Standard_E4_v5     | Standard_E4_v5      | MO_Standard_E2ds_v4 | 
 | Production  | Standard_E8_v5     | Standard_E16_v5    | Standard_E16_v5     | MO_Standard_E8ds_v4 | 
-
-Machine type is per node.
