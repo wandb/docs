@@ -88,7 +88,7 @@ Terraform is the recommended way to deploy W&B for production. Using Terraform, 
 
 ## Sizing
 
-Use the following general guidelines as a starting point when planning a deployment. W&B recommends that you monitor all components of a new deployment closely and that you make adjustments based on observed usage patterns.
+Use the following general guidelines as a starting point when planning a deployment. W&B recommends that you monitor all components of a new deployment closely and that you make adjustments based on observed usage patterns. Continue to monitor production deployments over time and make adjustments as needed to maintain optimal performance.
 
 ### Models only
 
