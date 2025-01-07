@@ -63,7 +63,7 @@ Looking for more working code examples? Check out [our repository of examples on
 
 ## Tuning your hyperparameters with Sweeps
 
-Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
+Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/intro.md), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
 
 :::info
 See the following Colab notebook to learn more about these tools and see an example of how to use Sweeps with XGBoost.

@@ -84,7 +84,7 @@ Please note: W&B does not recommend the use self-signed certificates and custom 
 W&B runs on the Intel (x86) CPU architecture. ARM is not supported.
 
 ## Infrastructure provisioning
-Terraform is the recommended way to deploy W&B for production. Using Terraform, you define the required resources, their references to other resources, and their dependencies. W&B provides Terraform modules for the major cloud providers. For details, refer to [Deploy W&B Server within self managed cloud accounts](../hosting-options/self-managed#deploy-wb-server-within-self-managed-cloud-accounts).
+Terraform is the recommended way to deploy W&B for production. Using Terraform, you define the required resources, their references to other resources, and their dependencies. W&B provides Terraform modules for the major cloud providers. For details, refer to [Deploy W&B Server within self managed cloud accounts](../hosting-options/self-managed.md#deploy-wb-server-within-self-managed-cloud-accounts).
 
 ## Sizing
 

@@ -40,7 +40,7 @@ Interactively create a registered model within the [Model Registry App](https://
 
 
 :::tip
-Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry](link-model-version#programmatically-link-a-model).
+Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry](link-model-version.md#programmatically-link-a-model).
 
 For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluates the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
 :::
