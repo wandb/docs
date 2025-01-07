@@ -43,7 +43,7 @@ The W&B Server application is deployed as a [Kubernetes Operator](../operator.md
 - The capability to provision Persistent Volumes.
 
 ### MySQL
-W&B stores metadata in a MySQL database. The database's performance and storage requirements depend on the shapes of the model parameters and related metadata. For example, the database grows in size as you track more training runs, and load on the database increases based on queries in run tables, users workspaces, and reports.
+W&B stores metadata in a MySQL database. The database's performance and storage requirements depend on the shapes of the model parameters and related metadata. For example, the database grows in size as you track more training runs, and load on the database increases based on queries in run tables, user workspaces, and reports.
 
 Consider the following when you deploy a self-managed MySQL database:
 
