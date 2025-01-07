@@ -76,7 +76,5 @@ artifact.name = "<new-collection-name>"
 artifact.description = "<This is where you'd describe the purpose of your collection.>"
 artifact.save()
 ```
-For more information, see the [Artifacts Collection](../../ref/python/public-api/api) reference.  
-  {{% /tab %}}
-{{< /tabpane >}}
+For more information, see the [Artifacts Collection](../../ref/python/public-api/api.md) reference.
 

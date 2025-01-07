@@ -250,4 +250,4 @@ wandb.finish()
 
 ## What's next?
 The next tutorial, you will learn how to optimize hyperparameters using W&B Sweeps:
-## 👉 [Optimize Hyperparameters](sweeps)
+## 👉 [Optimize Hyperparameters](sweeps.md)

@@ -60,7 +60,7 @@ You can also add multiple files with the [`add_dir`](../../ref/python/artifact.m
 
 ### 3. Save your artifact to the W&B server
 
-Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](../../ref/python/run#log_artifact) method to save the artifact.
+Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](../../ref/python/run.md#log_artifact) method to save the artifact.
 
 ```python
 # Create a W&B Run. Replace 'job-type'.
@@ -69,7 +69,7 @@ run = wandb.init(project="artifacts-example", job_type="job-type")
 run.log_artifact(artifact)
 ```
 
-You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files](./track-external-files).
+You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files](./track-external-files.md).
 
 {{% alert color="secondary" %}}
 Calls to `log_artifact` are performed asynchronously for performant uploads. This can cause surprising behavior when logging artifacts in a loop. For example:
@@ -166,7 +166,7 @@ The proceeding API calls produce the proceeding artifact content:
 
 Artifacts track checksums and other information for reproducibility if the URI has a scheme that W&B library knows how to handle.
 
-Add an external URI reference to an artifact with the [`add_reference`](../../ref/python/artifact#add_reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
+Add an external URI reference to an artifact with the [`add_reference`](../../ref/python/artifact.md#add_reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
 
 ```python
 # Add a URI reference

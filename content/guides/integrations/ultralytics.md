@@ -54,7 +54,7 @@ from wandb.integration.ultralytics import add_wandb_callback
 from ultralytics import YOLO
 ```
 
-Next, we initialize the `YOLO` model of our choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This would ensure that when we perform training, fine-tuning, validation, or inference, it would automatically log the experiment logs and the images over laid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks](../track/log/media#image-overlays-in-tables) on W&B along with additional insights in a [`wandb.Table`](../tables/intro.md).
+Next, we initialize the `YOLO` model of our choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This would ensure that when we perform training, fine-tuning, validation, or inference, it would automatically log the experiment logs and the images over laid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks](../track/log/media.md#image-overlays-in-tables) on W&B along with additional insights in a [`wandb.Table`](../tables/intro.md).
 
 ```python
 # Initialize YOLO Model
@@ -116,7 +116,7 @@ Next, we initialize a W&B [run](../runs/intro.md) using `wandb.init`.
 wandb.init(project="ultralytics", job_type="inference")
 ```
 
-Next, we initialize the `YOLO` model of our choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This would ensure that when we perform inference, it would automatically log the images overlaid with our [interactive overlays for computer vision tasks](../track/log/media#image-overlays-in-tables) along with additional insights in a [`wandb.Table`](../tables/intro.md).
+Next, we initialize the `YOLO` model of our choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This would ensure that when we perform inference, it would automatically log the images overlaid with our [interactive overlays for computer vision tasks](../track/log/media.md#image-overlays-in-tables) along with additional insights in a [`wandb.Table`](../tables/intro.md).
 
 ```python
 # Initialize YOLO Model

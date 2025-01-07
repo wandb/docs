@@ -150,7 +150,7 @@ Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`
 ### 4) Turn on model checkpointing 
 
 
-Using Weights & Biases' [Artifacts](../artifacts), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Model Registry](../model_registry) to register models to prepare them for staging or deployment in your production environment.
+Using Weights & Biases' [Artifacts](../artifacts/intro.md), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Model Registry](../model_registry/intro.md) to register models to prepare them for staging or deployment in your production environment.
 
  Logging your Hugging Face model checkpoints to Artifacts can be done by setting the `WANDB_LOG_MODEL` environment variable to one of `end` or `checkpoint` or `false`: 
 
@@ -192,7 +192,7 @@ WANDB_LOG_MODEL="checkpoint"
 
 
 
-Any Transformers `Trainer` you initialize from now on will upload models to your W&B project. The model checkpoints you log will be viewable through the [Artifacts](../artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..). 
+Any Transformers `Trainer` you initialize from now on will upload models to your W&B project. The model checkpoints you log will be viewable through the [Artifacts](../artifacts/intro.md) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..). 
 
 
 {{% alert %}}
@@ -201,9 +201,9 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 {{% /alert %}}
 
 #### W&B Model Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Model Registry](../model_registry)**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](/guides/artifacts/project-scoped-automations/#create-a-webhook-automation) downstream actions with webhooks or jobs. 
+Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Model Registry](../model_registry/intro.md)**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](/guides/artifacts/project-scoped-automations/#create-a-webhook-automation) downstream actions with webhooks or jobs. 
 
-See the [Model Registry](../model_registry) documentation for how to link a model Artifact to the Model Registry.
+See the [Model Registry](../model_registry/intro.md) documentation for how to link a model Artifact to the Model Registry.
  
 ### 5) Visualise evaluation outputs during training
 

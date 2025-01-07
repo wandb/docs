@@ -15,13 +15,11 @@ W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]
 {{% /alert %}}
 
 
-You can run W&B Server on your on-premises infrastructure if Multi-tenant Cloud or Dedicated Cloud are not a good fit for your organization.
-
 Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto:contact@wandb.com).
 
 ## Infrastructure guidelines
 
-The following infrastructure guidelines section outline W&B recommendations to take into consideration when you set up your application server, database server, and object storage.
+Before you start deploying W&B, refer to the [reference architecture](./ref-arch.md#infrastructure-requirements), especially the infrastructure requirements.
 
 {{% alert %}}
 W&B strongly recommends to deploy W&B Server into a Kubernetes cluster using the W&B Kubernetes Operator. Deploying to a Kubernetes cluster with the operator ensures that you can use all the existing and latest W&B features.
@@ -107,16 +105,10 @@ innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
 ```
 
-Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. Our recommendation is to set the value to `67108864(64MiB)` in order for the database to efficiently work with the W&B application. Note that, this only works with MySQL versions 8.0.28 and above.
+Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. The recommendation is to set the value to `67108864` (64MiB) to ensure that MySQL works efficiently with W&B. MySQL supports this configuration starting with v8.0.28.
 
 ### Database considerations
 
-Consider the following when you run your own MySQL database:
-
-1. **Backups**. You should  periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
-2. **Performance.** The disk the server is running on should be fast. W&B recommends running the database on an SSD or accelerated NAS.
-3. **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
-4. **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
 
 Create a database and a user with the following SQL query. Replace `SOME_PASSWORD` with password of your choice:
 
@@ -197,7 +189,7 @@ mc mb --region=us-east1 local/local-files
 
 ## Deploy W&B Server application to Kubernetes
 
-The recommended installation method is with the official W&B Helm chart. Follow [this section](../operator#deploy-wb-with-helm-cli) to deploy the W&B Server application.
+The recommended installation method is with the official W&B Helm chart. Follow [this section](../operator.md#deploy-wb-with-helm-cli) to deploy the W&B Server application.
 
 
 ### OpenShift
@@ -320,30 +312,12 @@ wandb login --host=https://YOUR_DNS_DOMAIN
 wandb verify
 ```
 
-Check log files to view any errors the W&B Server hits at startup. Run the following commands based on whether if you use Docker or Kubernetes: 
+Check log files to view any errors the W&B Server hits at startup. Run the following commands: 
 
-<Tabs
-  defaultValue="docker"
-  values={[
-    {label: 'Docker', value: 'docker'},
-    {label: 'Kubernetes', value: 'kubernetes'},
-  ]}>
-  <TabItem value="docker">
-
-```bash
-docker logs wandb-local
-```
-
-  </TabItem>
-  <TabItem value="kubernetes">
 
 ```bash
 kubectl get pods
 kubectl logs wandb-XXXXX-XXXXX
 ```
 
-  </TabItem>
-</Tabs>
-
-
-Contact W&B Support if you encounter errors.
+Contact W&B Support if you encounter errors. 
