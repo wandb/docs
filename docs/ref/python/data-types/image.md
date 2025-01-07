@@ -1,6 +1,6 @@
 # Image
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/image.py#L65-L692' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L65-L692' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Format images for logging to W&B.
@@ -93,7 +93,7 @@ with wandb.init() as run:
 
 ### `all_boxes`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/image.py#L613-L634)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L613-L634)
 
 ```python
 @classmethod
@@ -107,7 +107,7 @@ all_boxes(
 
 ### `all_captions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/image.py#L636-L640)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L636-L640)
 
 ```python
 @classmethod
@@ -118,7 +118,7 @@ all_captions(
 
 ### `all_masks`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/image.py#L590-L611)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L590-L611)
 
 ```python
 @classmethod
@@ -132,7 +132,7 @@ all_masks(
 
 ### `guess_mode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/image.py#L477-L489)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L477-L489)
 
 ```python
 guess_mode(
@@ -144,7 +144,7 @@ Guess what type of image the np.array is representing.
 
 ### `to_uint8`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/image.py#L491-L514)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L491-L514)
 
 ```python
 @classmethod
