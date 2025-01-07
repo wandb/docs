@@ -77,4 +77,6 @@ artifact.description = "<This is where you'd describe the purpose of your collec
 artifact.save()
 ```
 For more information, see the [Artifacts Collection](../../ref/python/public-api/api.md) reference.
+  {{% /tab %}}
+{{% /tabpane %}}
 
