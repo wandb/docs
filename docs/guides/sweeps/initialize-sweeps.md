@@ -43,13 +43,13 @@ sweep_configuration = {
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
 ```
 
-The [`wandb.sweep`](../../ref/python/sweep) function returns the sweep ID. The sweep ID includes the entity name and the project name. Make a note of the sweep ID.
+The [`wandb.sweep`](../../ref/python/sweep.md) function returns the sweep ID. The sweep ID includes the entity name and the project name. Make a note of the sweep ID.
   </TabItem>
   <TabItem value="cli">
 
 Use the W&B CLI to initialize a sweep. Provide the name of your configuration file. Optionally provide the name of the project for the `project` flag.  If the project is not specified, the W&B Run is put in an "Uncategorized" project.
 
-Use the [`wandb sweep`](../../ref/cli/wandb-sweep) command to initialize a sweep. The proceeding code example initializes a sweep for a `sweeps_demo` project and uses a `config.yaml` file for the configuration.
+Use the [`wandb sweep`](../../ref/cli/wandb-sweep.md) command to initialize a sweep. The proceeding code example initializes a sweep for a `sweeps_demo` project and uses a `config.yaml` file for the configuration.
 
 ```bash
 wandb sweep --project sweeps_demo config.yaml

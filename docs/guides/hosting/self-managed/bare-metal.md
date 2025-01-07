@@ -11,81 +11,14 @@ W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]
 :::
 
 
-You can run W&B Server on your on-premises infrastructure if Multi-tenant Cloud or Dedicated Cloud are not a good fit for your organization.
-
 Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto:contact@wandb.com).
 
 ## Infrastructure guidelines
 
-The following infrastructure guidelines section outline W&B recommendations to take into consideration when you set up your application server, database server, and object storage.
+Before you start deploying W&B, refer to the [reference architecture](./ref-arch.md#infrastructure-requirements), especially the infrastructure requirements.
 
-:::tip
-W&B strongly recommends to deploy W&B Server into a Kubernetes cluster using the W&B Kubernetes Operator. Deploying to a Kubernetes cluster with the operator ensures that you can use all the existing and latest W&B features.
-:::
-
-:::caution
-W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 8 database cluster and an AWS S3 compatible object store for the application to scale properly.
-:::
-
-### Application server
-
-W&B recommends deploying W&B Server into its own namespace and a two availability zone node group with the following specifications to provide the best performance, reliability, and availability:
-
-| Specification              | Value                             |
-|----------------------------|-----------------------------------|
-| Bandwidth                  | Dual 10 Gigabit+ Ethernet Network |
-| Root Disk Bandwidth (Mbps) | 4,750+                            |
-| Root Disk Provision (GB)   | 100+                              |
-| Core Count                 | 4                                 |
-| Memory (GiB)               | 8                                 |
-
-This ensures that W&B Server has sufficient disk space to process the application data and store temporary logs before they are externalized. 
-
-
-
-It also ensures fast and reliable data transfer, the necessary processing power and memory for smooth operation, and that W&B will not be affected by any noisy neighbors. 
-
-It is important to keep in mind that these specifications are minimum requirements, and actual resource needs may vary depending on the specific usage and workload of the W&B application. Monitoring the resource usage and performance of the application is critical to ensure that it operates optimally and to make adjustments as necessary.
-
-### Database server
-
-W&B recommends a [MySQL 8](#mysql-database) database as a metadata store. The shape of the model parameters and related metadata impact the performance of the database. The database size grows as the ML practitioners track more training runs, and incurs read heavy load when queries are executed in run tables, users workspaces, and reports.
-
-To ensure optimal performance W&B recommends deploying the W&B database on to a server with the following starting specs:
-
-| Specification              | Value                             |
-|--------------------------- |-----------------------------------|
-| Bandwidth                  | Dual 10 Gigabit+ Ethernet Network |
-| Root Disk Bandwidth (Mbps) | 4,750+                            |
-| Root Disk Provision (GB)   | 1000+                              |
-| Core Count                 | 4                                 |
-| Memory (GiB)               | 32                                |
-
-Again, W&B recommends monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
-
-Additionally, W&B recommends the following [parameter overrides](#mysql-database) to tune the DB for MySQL 8.
-
-### Object storage
-
-W&B is compatible with an object storage that supports S3 API interface, Signed URLs and CORS. W&B recommends specifying the storage array to the current needs of your practitioners and to capacity plan on a regular cadence.
-
-More details on object store configuration can be found in the [how-to section](../self-managed/bare-metal.md#object-store).
-
-Some tested and working providers:
-- [MinIO](https://min.io/)
-- [Ceph](https://ceph.io/)
-- [NetApp](https://www.netapp.com/)
-- [Pure Storage](https://www.purestorage.com/)
-
-##### Secure Storage Connector
-
-The [Secure Storage Connector](../data-security/secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
 
 ## MySQL database
-
-:::caution
-W&B does not recommend using MySQL 5.7. If you are using MySQL 5.7, migrate to MySQL 8 for best compatibility with latest versions of W&B Server. The W&B Server currently only supports `MySQL 8` versions `8.0.28` and above.
-:::
 
 There are a number of enterprise services that make operating a scalable MySQL database simpler. W&B recommends looking into one of the following solutions:
 
@@ -103,16 +36,10 @@ innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
 ```
 
-Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. Our recommendation is to set the value to `67108864(64MiB)` in order for the database to efficiently work with the W&B application. Note that, this only works with MySQL versions 8.0.28 and above.
+Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. The recommendation is to set the value to `67108864` (64MiB) to ensure that MySQL works efficiently with W&B. MySQL supports this configuration starting with v8.0.28.
 
 ### Database considerations
 
-Consider the following when you run your own MySQL database:
-
-1. **Backups**. You should  periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
-2. **Performance.** The disk the server is running on should be fast. W&B recommends running the database on an SSD or accelerated NAS.
-3. **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
-4. **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
 
 Create a database and a user with the following SQL query. Replace `SOME_PASSWORD` with password of your choice:
 
@@ -166,7 +93,7 @@ s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
 
 :::caution
-This will only work if the SSL certificate is trusted. W&B does not support self-signed certificates.
+This works only if the SSL certificate is trusted. W&B does not support self-signed certificates.
 :::
 
 Set `BUCKET_QUEUE` to `internal://` if you use third-party object stores. This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
@@ -193,7 +120,7 @@ mc mb --region=us-east1 local/local-files
 
 ## Deploy W&B Server application to Kubernetes
 
-The recommended installation method is with the official W&B Helm chart. Follow [this section](../operator#deploy-wb-with-helm-cli) to deploy the W&B Server application.
+The recommended installation method is with the official W&B Helm chart. Follow [this section](../operator.md#deploy-wb-with-helm-cli) to deploy the W&B Server application.
 
 
 ### OpenShift
@@ -316,30 +243,12 @@ wandb login --host=https://YOUR_DNS_DOMAIN
 wandb verify
 ```
 
-Check log files to view any errors the W&B Server hits at startup. Run the following commands based on whether if you use Docker or Kubernetes: 
+Check log files to view any errors the W&B Server hits at startup. Run the following commands: 
 
-<Tabs
-  defaultValue="docker"
-  values={[
-    {label: 'Docker', value: 'docker'},
-    {label: 'Kubernetes', value: 'kubernetes'},
-  ]}>
-  <TabItem value="docker">
-
-```bash
-docker logs wandb-local
-```
-
-  </TabItem>
-  <TabItem value="kubernetes">
 
 ```bash
 kubectl get pods
 kubectl logs wandb-XXXXX-XXXXX
 ```
-
-  </TabItem>
-</Tabs>
-
 
 Contact W&B Support if you encounter errors. 

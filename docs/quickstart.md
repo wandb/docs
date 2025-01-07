@@ -62,7 +62,7 @@ Next, log in to W&B:
 wandb login
 ```
 
-Or if you are using [W&B Server](./guides/hosting) (including **Dedicated Cloud** or **Self-managed**):
+Or if you are using [W&B Server](./guides/hosting/intro.md) (including **Dedicated Cloud** or **Self-managed**):
 
 ```bash
 wandb login --relogin --host=http://your-shared-local-host.com
@@ -103,7 +103,7 @@ run = wandb.init(
 ```
 
 
-A [run](./guides/runs) is the basic building block of W&B. You will use them often to [track metrics](./guides/track), [create logs](./guides/artifacts), and more.
+A [run](./guides/runs/intro.md) is the basic building block of W&B. You will use them often to [track metrics](./guides/track/intro.md), [create logs](./guides/artifacts/intro.md), and more.
 
 
 
@@ -162,11 +162,11 @@ The image above (click to expand) shows the loss and accuracy that was tracked f
 
 Explore the rest of the W&B ecosystem.
 
-1. Check out [W&B Integrations](guides/integrations) to learn how to integrate W&B with your ML framework such as PyTorch, ML library such as Hugging Face, or ML service such as SageMaker. 
-2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports](./guides/reports).
-2. Create [W&B Artifacts](./guides/artifacts) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
-3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps).
-4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/tables).
+1. Check out [W&B Integrations](guides/integrations/intro.md) to learn how to integrate W&B with your ML framework such as PyTorch, ML library such as Hugging Face, or ML service such as SageMaker. 
+2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports](./guides/reports/intro.md).
+2. Create [W&B Artifacts](./guides/artifacts/intro.md) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
+3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps/intro.md).
+4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/tables/intro.md).
 5. Navigate to W&B AI Academy and learn about LLMs, MLOps and W&B Models from hands-on [courses](https://wandb.me/courses).
 
 ![](/images/quickstart/wandb_demo_experiments.gif) 

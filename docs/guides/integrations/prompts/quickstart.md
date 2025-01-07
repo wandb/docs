@@ -408,7 +408,7 @@ wandb_callback.finish()
 Thats it! Now you can log your queries to your index using Weights & Biases. If you come across any issues, please file an issue on the [wandb repo](https://github.com/wandb/wandb/issues) with the tag `llamaindex`
 
 ### 6. [Optional] Save your Index data in Weights & Biaes Artifacts
-Weights & Biases [Artifacts](../../artifacts/) is a versioned data and model storage product. 
+Weights & Biases [Artifacts](../../artifacts/intro.md) is a versioned data and model storage product. 
 
 By logging your index to Artifacts and then using it when needed, you can assosciate a particular version of your index with the logged Trace outputs, ensuring full visibility into what data was in your index for a particular call to your index.
 

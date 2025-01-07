@@ -6,7 +6,7 @@ Launch supports scaling jobs across multiple GPUs and nodes. Refer to [this guid
 
 Each launch agent is configured with a `max_jobs` parameter, which determines the maximum number of simultaneous jobs it can run. Multiple agents can point to a single queue as long as they connect to an appropriate launching infrastructure.
 
-You can set limits on CPU, GPU, memory, and other resources at the queue or job run level in the resource configuration. For information on setting up queues with resource limits on Kubernetes, refer to [this guide](../guides/launch/setup-launch-kubernetes).
+You can set limits on CPU, GPU, memory, and other resources at the queue or job run level in the resource configuration. For information on setting up queues with resource limits on Kubernetes, refer to [this guide](../guides/launch/setup-launch-kubernetes.md).
 
 For sweeps, include the following block in the queue configuration to limit the number of concurrent runs:
 
