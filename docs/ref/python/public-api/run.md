@@ -1,6 +1,6 @@
 # Run
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L276-L1012' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L276-L1007' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 A single run associated with an entity and project.
@@ -23,7 +23,7 @@ Run(
 
 ### `create`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L377-L417)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L377-L417)
 
 ```python
 @classmethod
@@ -36,7 +36,7 @@ Create a run for the given project.
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L540-L568)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L540-L568)
 
 ```python
 delete(
@@ -48,7 +48,7 @@ Delete the given run from the wandb backend.
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/attrs.py#L16-L37)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/attrs.py#L16-L37)
 
 ```python
 display(
@@ -60,7 +60,7 @@ Display this object in jupyter.
 
 ### `file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L632-L642)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L632-L642)
 
 ```python
 file(
@@ -80,7 +80,7 @@ Return the path of a file with a given name in the artifact.
 
 ### `files`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L619-L630)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L619-L630)
 
 ```python
 files(
@@ -100,7 +100,7 @@ Return a file path for each file named.
 
 ### `history`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L668-L708)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L668-L708)
 
 ```python
 history(
@@ -126,7 +126,7 @@ This is simpler and faster if you are ok with the history records being sampled.
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L419-L488)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L419-L488)
 
 ```python
 load(
@@ -136,7 +136,7 @@ load(
 
 ### `log_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L860-L905)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L860-L905)
 
 ```python
 log_artifact(
@@ -159,7 +159,7 @@ Declare an artifact as output of a run.
 
 ### `logged_artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L766-L798)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L766-L798)
 
 ```python
 logged_artifacts(
@@ -204,7 +204,7 @@ test_artifact
 
 ### `save`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L570-L571)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L570-L571)
 
 ```python
 save()
@@ -212,7 +212,7 @@ save()
 
 ### `scan_history`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L710-L764)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L710-L764)
 
 ```python
 scan_history(
@@ -242,7 +242,7 @@ losses = [row["Loss"] for row in history]
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/attrs.py#L12-L14)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -252,7 +252,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L998-L1006)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L993-L1001)
 
 ```python
 to_html(
@@ -264,7 +264,7 @@ Generate HTML containing an iframe displaying this run.
 
 ### `update`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L512-L538)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L512-L538)
 
 ```python
 update()
@@ -274,7 +274,7 @@ Persist changes to the run object to the wandb backend.
 
 ### `upload_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L644-L666)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L644-L666)
 
 ```python
 upload_file(
@@ -294,7 +294,7 @@ Upload a file.
 
 ### `use_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L827-L858)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L827-L858)
 
 ```python
 use_artifact(
@@ -314,7 +314,7 @@ Declare an artifact as an input to a run.
 
 ### `used_artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L800-L825)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L800-L825)
 
 ```python
 used_artifacts(
@@ -352,7 +352,7 @@ test_artifact
 
 ### `wait_until_finished`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/runs.py#L490-L510)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L490-L510)
 
 ```python
 wait_until_finished()

@@ -1,6 +1,6 @@
 # init
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/wandb_init.py#L1004-L1313' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/wandb_init.py#L995-L1304' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Start a new run to track and log to W&B.
@@ -85,7 +85,7 @@ call `wandb.finish()` at the end of the block.
 
 | Args |  |
 | :--- | :--- |
-|  `entity` |  The username or team name under which the runs will be logged. The entity must already exist, so ensure you’ve created your account or team in the UI before starting to log runs. If not specified, the run will default your defualt entity. To change the default entity, go to [your settings](https://wandb.ai/settings) and update the "Default location to create new projects" under "Default team". |
+|  `entity` |  The username or team name under which the runs will be logged. The entity must already exist, so ensure you’ve created your account or team in the UI before starting to log runs. If not specified, the run will default your default entity. To change the default entity, go to [your settings](https://wandb.ai/settings) and update the "Default location to create new projects" under "Default team". |
 |  `project` |  The name of the project under which this run will be logged. If not specified, we use a heuristic to infer the project name based on the system, such as checking the git root or the current program file. If we can't infer the project name, the project will default to `"uncategorized"`. |
 |  `dir` |  An absolute path to the directory where metadata and downloaded files will be stored. When calling `download()` on an artifact, files will be saved to this directory. If not specified, this defaults to the `./wandb` directory. |
 |  `id` |  A unique identifier for this run, used for resuming. It must be unique within the project and cannot be reused once a run is deleted. The identifier must not contain any of the following special characters: `/ \ # ? % :`. For a short descriptive name, use the `name` field, or for saving hyperparameters to compare across runs, use `config`. |
