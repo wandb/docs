@@ -6,10 +6,6 @@ menu:
 title: Manage your organization
 weight: 1
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 As an administrator of an organization you can [manage individual users](#add-and-manage-users) within your organization and [manage teams](#add-and-manage-teams). 
 
 As a team administrator you can [manage teams](#add-and-manage-teams).
@@ -35,7 +31,10 @@ The following workflow only applies to W&B Multi-tenant SaaS Cloud.
 
 ## Add and manage users
 
-As an administrator, use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more.
+As an administrator, use your organization's dashboard to:
+- Invite or remove users.
+- Assign or update a user's role.
+- Assign the billing administrator.
 
 There are several ways an organization administrator can add users to an organization:
 
@@ -56,14 +55,8 @@ The proceeding table summarizes how seats work for Models and Weave:
 
 Administrators can invite users to their organization, as well as specific teams within the organization.
 
-<Tabs
-  defaultValue="saas"
-  values={[
-    {label: 'Multi-tenant SaaS Cloud', value: 'saas'},
-    {label: 'Dedicated or Self Managed', value: 'dedicated'},
-  ]}>
-  <TabItem value="saas">
-
+{{< tabpane text=true >}}
+{{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
 1. Navigate to https://wandb.ai/home.
 1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Users**.
 3. Select **Invite new user**.
@@ -73,20 +66,17 @@ Administrators can invite users to their organization, as well as specific teams
 7. Choose the **Send invite** button.
 
 W&B sends an invite link using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
+{{% /tab %}}
 
-  </TabItem>
-  <TabItem value="dedicated">
-
+{{% tab header="Dedicated or Self-managed" value="dedicated"%}}
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Select the **Add user** button
 3. Within the modal that appears, provide the email of the new user in the **Email** field.
 4. Select a role to assign to the user from the **Role** dropdown. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-or-update-a-team-members-role) for more information about possible roles.
 5. Check the **Send invite email to user** box if you want W&B to send an invite link using a third-party email server to the user's email.
 6. Select the **Add new user** button.
-
-  </TabItem>
-</Tabs>
-
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### Auto provision users
 
@@ -100,42 +90,30 @@ To learn more about how to setup SSO with Dedicated cloud or Self-managed instan
 
 W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
 
-Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-Managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
+Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
 
 The proceeding tabs describe how to turn off SSO based on deployment type:
 
-<Tabs
-  defaultValue="dedicated"
-  values={[
-    {label: 'Dedicated Cloud', value: 'dedicated'},
-    {label: 'Self Manged', value: 'self_managed'},
-  ]}>
-  <TabItem value="dedicated">
+{{< tabpane text=true >}}
+{{% tab header="Dedicated cloud" value="dedicated" %}}
+Reach out to your W&B team if you are on Dedicated cloud instance and you want to turn off auto provisioning with SSO.
+{{% /tab %}}
 
-Reach out to your W&B team if you are on Dedicated Cloud instance and you want to turn off auto provisioning with SSO.
-
-  </TabItem>
-  <TabItem value="self_managed">
-
+{{% tab header="Self-managed" value="self_managed" %}}
 Use the W&B Console to turn off auto provisioning with SSO:
 
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Choose **Security** 
 3. Select the **Disable SSO Provisioning** to turn off auto provisioning with SSO.
 
-<!-- For Self-Managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.  -->
+<!-- For Self-managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.  -->
 
-
-  </TabItem>
-</Tabs>
-
-
+{{% /tab %}}
+{{< /tabpane >}}
 
 {{% alert title="" %}}
 Auto provisioning with SSO is useful for adding users to an organization at scale because organization administrators do not need to generate individual user invitations.
 {{% /alert %}}
-
-
 
 ### Domain capture
 Domain capture helps your employees join the your companies organization to ensure new users do not create assets outside of your company jurisdiction. 
@@ -144,18 +122,11 @@ Domain capture helps your employees join the your companies organization to ensu
 Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
 {{% /alert %}}
 
-<Tabs
-  defaultValue="saas"
-  values={[
-    {label: 'Multi-tenant SaaS Cloud', value: 'saas'},
-    {label: 'Dedicated or Self Managed', value: 'dedicated'},
-  ]}>
-  <TabItem value="saas">
-
+{{< tabpane text=true >}}
+{{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
 Domain capture lets you automatically add people with a company email address, such as  `@example.com`, to your W&B SaaS cloud organization. This helps all your employees join the right organization and ensures that new users do not create assets outside of your company jurisdiction. 
 
-
-The proceeding table summarizes the behavior of new and existing users with and without domain capture enabled:
+This table summarizes the behavior of new and existing users with and without domain capture enabled:
 
 | | With domain capture | Without domain capture |
 | ----- | ----- | ----- |
@@ -178,20 +149,16 @@ You must enable domain matching within a team's settings before you can automati
 2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
 3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
 
-
- </TabItem>
- 
-<TabItem value="dedicated">
-
-Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your administrator to request access to your Dedicated or Self-Managed instance.
+{{% /tab %}}
+{{% tab header="Dedicated or Self-managed" value="dedicated" %}}
+Reach out to your W&B Account Team if you use Dedicated or Self-managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your administrator to request access to your Dedicated or Self-managed instance.
 
 | | With domain capture | Without domain capture |
 | ----- | ----- | -----|
 | New users | Users who sign up for W&B on SaaS cloud from verified domains are automatically prompted to contact an administrator with an email address you customize. They can still create an organizations on SaaS cloud to trial the product. | Users can create W&B SaaS cloud accounts without learning their company has a centralized dedicated instance. | 
 | Existing users | Existing W&B users may be spread across multiple organizations and teams.| Existing W&B users may be spread across multiple organizations and teams.|
-
-</TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ### Assign or update a user's role
@@ -252,7 +219,11 @@ The organization role and subscription type determines which seat types are avai
 
 
 ## Add and manage teams
-Use your organization's dashboard to create teams within your organization. Once an organization administrator creates a team, either the org administrator or team administrator can invite users to that team, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
+Use your organization's dashboard to create  and manage teams within your organization. The org administrator or a team administrator can:
+- Invite users to a team or remove users from a team.
+- Manage a team member's roles.
+- Automate the addition of users to a team when they join your organization.
+- Manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
 
 <!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->
@@ -300,7 +271,7 @@ An organization administrator must enable domain claiming. To enable domain capt
 1. Select the account type icon next to the name of the team member. 
 2. From the drop-down, choose the account type you want that team member to posses.
 
-The proceeding table lists the roles you can assign to a member of a team:
+This table lists the roles you can assign to a member of a team:
 
 | Role   |   Definition   |
 |-----------|---------------------------|
@@ -318,7 +289,7 @@ Refer to [Team Service Account Behavior](../../app/features/teams.md#team-servic
 
 
 {{% alert %}}
-Only enterprise licenses on Dedicated Cloud or Self-managed deployment can assign custom roles to members in a team.
+Only enterprise licenses on Dedicated cloud or Self-managed deployment can assign custom roles to members in a team.
 {{% /alert %}}
 
 ### Remove users from a team

@@ -5,6 +5,7 @@ menu:
     identifier: anon
     parent: settings
 title: Anonymous mode
+weight: 70
 ---
 
 Are you publishing code that you want anyone to be able to run easily? Use anonymous mode to let someone run your code, see a W&B dashboard, and visualize results without needing to create a W&B account first.

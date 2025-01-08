@@ -5,6 +5,7 @@ menu:
     identifier: hydra
     parent: integrations
 title: Hydra
+weight: 150
 ---
 
 > [Hydra](https://hydra.cc) is an open-source Python framework that simplifies the development of research and other complex applications. The key feature is the ability to dynamically create a hierarchical configuration by composition and override it through config files and the command line.
@@ -40,17 +41,17 @@ def run_experiment(cfg):
     model = Model(**wandb.config.model.configs)
 ```
 
-### Troubleshooting Multiprocessing
+## Troubleshoot multiprocessing
 
 If your process hangs when started, this may be caused by [this known issue](../../track/log/distributed-training.md). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
 
-```
+```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
 
 or by setting a global environment variable from your shell:
 
-```
+```bash
 $ export WANDB_START_METHOD=thread
 ```
 
@@ -77,17 +78,21 @@ command:
   - ${args_no_hyphens}
 ```
 
-Invoke the sweep with:
+Invoke the sweep:
 
-`wandb sweep sweep.yaml`\
-``\
-``Once you call this, W&B automatically creates a sweep inside your project and returns a `wandb agent` command for you to run on each machine you want to run your sweep.
+``` bash
+wandb sweep sweep.yaml` \
+```
 
-#### Passing parameters not present in Hydra defaults <a href="#pitfall-3-sweep-passing-parameters-not-present-in-defaults" id="pitfall-3-sweep-passing-parameters-not-present-in-defaults"></a>
+W&B automatically creates a sweep inside your project and returns a `wandb agent` command for you to run on each machine you want to run your sweep.
+
+### Pass parameters not present in Hydra defaults
+
+<a id="pitfall-3-sweep-passing-parameters-not-present-in-defaults"></a>
 
 Hydra supports passing extra parameters through the command line which aren't present in the default configuration file, by using a `+` before command. For example, you can pass an extra parameter with some value by simply calling:
 
-```
+```bash
 $ python program.py +experiment=some_experiment
 ```
 

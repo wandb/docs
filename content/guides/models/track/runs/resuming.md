@@ -7,7 +7,7 @@ menu:
 title: Resume a run
 ---
 
-Specify how a run should behave in the event that that run stops or crashes. To resume or enable a run to automatically resume, you will need to specify the unique run ID associated with that run for the `id` parameter:
+Specify how a run should behave in the event that run stops or crashes. To resume or enable a run to automatically resume, you will need to specify the unique run ID associated with that run for the `id` parameter:
 
 ```python
 run = wandb.init(entity="<entity>", \ 
@@ -35,7 +35,7 @@ You can also specify `resume="auto"` to let W&B to automatically try to restart 
 For all the examples below, replace values enclosed within `<>` with your own.
 
 ## Resume a run that must use the same run ID
-Resume a run that uses the same run ID if it is stopped, crashes or fails. To do so, initialize a run and specify the following:
+If a run is stopped, crashes, or fails, you can resume it using the same run ID. To do so, initialize a run and specify the following:
 
 * Set the `resume` parameter to `"must"` (`resume="must"`) 
 * Provide the run ID of the run that stopped or crashed
@@ -98,7 +98,7 @@ Within your terminal, you could run the shell script along with the W&B run ID. 
 sh run_experiment.sh akj172 
 ```
 
-  {{% /tab %}}
+{{% /tab %}}
 {{< /tabpane >}}
 
 
@@ -107,7 +107,7 @@ Automatic resuming only works if the process is restarted on top of the same fil
 {{% /alert %}}
 
 
-For example, suppose you execute a python script called `train.py` in a directory called called `Users/AwesomeEmployee/Desktop/ImageClassify/training/`. Within `train.py`, the script creates a run that enables automatic resuming. Suppose next that the training script is stopped.  To resume this run, you would need to restart your `train.py` script within `Users/AwesomeEmployee/Desktop/ImageClassify/training/` .
+For example, suppose you execute a python script called `train.py` in a directory called `Users/AwesomeEmployee/Desktop/ImageClassify/training/`. Within `train.py`, the script creates a run that enables automatic resuming. Suppose next that the training script is stopped. To resume this run, you would need to restart your `train.py` script within `Users/AwesomeEmployee/Desktop/ImageClassify/training/` .
 
 
 {{% alert %}}

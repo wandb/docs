@@ -21,11 +21,11 @@ Use the organization dashboard to get a holistic view of users that belong to yo
 * **Team**: The names of teams the user belongs to.
 
 ### View the status of a user
-The **Last Active** column shows if a user is pending an invitation or an active user.  A user is one of three states:
+The **Last Active** column shows if a user is pending an invitation or an active user. A user is one of three states:
 
-* Pending invitation: Admin has sent invite but user has not accepted invitation. 
-* Active: User has accepted the invite and created an account.
-* Deactivated: Admin has revoked access of the user.
+* **Invite pending**: Admin has sent invite but user has not accepted invitation. 
+* **Active**: User has accepted the invite and created an account.
+* **Deactivated**: Admin has revoked access of the user.
 
 {{< img src="/images/hosting/view_status_of_user.png" alt="" >}}
 
@@ -35,9 +35,9 @@ View how your organization uses W&B in CSV format.
 1. Select the three dots next to the **Add user** button.
 2. From the dropdown, select **Export as CSV**.
 
-{{< img src="/images/hosting/export_org_usage.png" alt="" >}}
+    {{< img src="/images/hosting/export_org_usage.png" alt="" >}}
 
-This will export a CSV file that lists all users of an organization along with their: user name, time stamp of when they were last active, role, email, teams they belong to, and their status (active, pending, or deactivated). 
+This exports a CSV file that lists all users of an organization along with details about the user, such as their user name, time stamp of when they were last active, roles, email, and more.
 
 ### View user activity
 Use the **Last Active** column to get an **Activity summary** of an individual user. 
@@ -48,9 +48,12 @@ Use the **Last Active** column to get an **Activity summary** of an individual u
 
 {{< img src="/images/hosting/activity_tooltip.png" alt="" >}}
 
-{{% alert %}}
-A user is active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the W&B server in any way.
-{{% /alert %}}
+A user is _active_ if they:
+- log in to W&B.
+- view any page in the W&B App.
+- log runs.
+- use the SDK to track an experiment.
+- interact with the W&B Server in any way.
 
 ### View active users over time
 Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time (right most plot in image below). 

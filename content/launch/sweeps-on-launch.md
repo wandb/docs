@@ -42,7 +42,7 @@ Create a sweep interactively with the W&B App.
 4. Click the **Configure Launch 🚀** button.
 5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from.
 6. Select a queue to run the sweep on using the **Queue** dropdown menu.
-8. Use the **Job Priority** dropdown to specify the priority of your launch job.  A launch job's priority is set to "Medium" if the launch queue does not support prioritization.
+8. Use the **Job Priority** dropdown to specify the priority of your launch job. A launch job's priority is set to "Medium" if the launch queue does not support prioritization.
 8. (Optional) Configure override args for the run or sweep scheduler. For example, using the scheduler overrides, configure the number of concurrent runs the scheduler manages using `num_workers`.
 9. (Optional) Select a project to save the sweep to using the **Destination Project** dropdown menu.
 10. Click **Save**
@@ -155,7 +155,7 @@ parameters:
   2. Now, we can modify the `wandb_scheduler.py` to achieve our desired increased logging. Example: Add logging to the function `_poll`. This is called once every polling cycle (configurable timing), before we launch new sweep runs. 
   3. Run the modified file to create a job, with: `python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
   4. Identify the name of the job created, either in the UI or in the output of the previous call, which will be a code-artifact job (unless otherwise specified).
-  5. Now create a sweep configuration where the scheduler points to your new job!
+  5. Now create a sweep configuration where the scheduler points to your new job.
 
 ```yaml
 ...

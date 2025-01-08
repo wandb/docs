@@ -236,7 +236,7 @@ If you are fetching a large volume of data using the W&B Models SDK's [public AP
 
 ## Browser considerations
 
-The W&B app can be memory-intensive and performs best in Chrome. Depending on your computer's memory, having W&B active in 3+ tabs at once can cause performance to degrade; if you encounter unexpectedly slow performance, consider closing other tabs or applications.
+The W&B app can be memory-intensive and performs best in Chrome. Depending on your computer's memory, having W&B active in 3+ tabs at once can cause performance to degrade. If you encounter unexpectedly slow performance, consider closing other tabs or applications.
 
 ## Reporting performance issues to W&B
 

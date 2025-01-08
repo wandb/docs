@@ -27,8 +27,7 @@ the summary values for these metrics.
 
 Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
 or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, e.g. in
-Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
 
 Logged values don't have to be scalars. Logging any wandb object is supported.
 For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an
@@ -56,8 +55,8 @@ run.log(
 )
 ```
 
-Only one level of nesting is supported; `run.log({"a/b/c": 1})`
-produces a section named "a/b".
+Only one level of nesting is supported. `run.log({"a/b/c": 1})`
+produces a section named `"a/b"`.
 
 `run.log` is not intended to be called more than a few times per second.
 For optimal performance, limit your logging to once every N iterations,
@@ -65,7 +64,7 @@ or collect data over multiple iterations and log it in a single step.
 
 ### The W&B step
 
-With basic usage, each call to `log` creates a new "step".
+With basic usage, each call to `log` creates a new `step`.
 The step must always increase, and it is not possible to log
 to a previous step.
 
@@ -73,7 +72,7 @@ Note that you can use any metric as the X axis in charts.
 In many cases, it is better to treat the W&B step like
 you'd treat a timestamp rather than a training step.
 
-```
+```python
 # Example: log an "epoch" metric for use as an X axis.
 run.log({"epoch": 40, "train-loss": 0.5})
 ```

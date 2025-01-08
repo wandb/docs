@@ -12,7 +12,7 @@ Finding a machine learning model that meets your desired metric (such as model a
 
 Use W&B Sweeps to create an organized and efficient way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, optimizer type and more to find values that optimize your model based on your desired metric.
 
-In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](http://wandb.me/sweeps-video)!
+In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](http://wandb.me/sweeps-video).
 
 {{< img src="/images/tutorials/sweeps-1.png" alt="" >}}
 
@@ -97,7 +97,7 @@ Now that you have a search method specified in your sweep configuration, specify
 
 To do this, specify one or more hyperparameter names to the `parameter` key and specify one or more hyperparameter values for the `value` key.
 
-The values you search through for a given hyperparamter depend on the the type of hyperparameter you are investigating.  
+The values you search through for a given hyperparamter depend on the type of hyperparameter you are investigating.  
 
 For example, if you choose a machine learning optimizer, you must specify one or more finite optimizer names such as the Adam optimizer and stochastic gradient dissent.
 
@@ -216,7 +216,7 @@ define the training procedure that uses the hyperparameter values you want to tr
 
 In the proceeding code example, the helper functions `build_dataset`, `build_network`, `build_optimizer`, and `train_epoch` access the sweep hyperparameter configuration dictionary. 
 
-Run the proceeding machine learning training code in your notebook. The functions define a basic fully-connected neural network in PyTorch.
+Run the proceeding machine learning training code in your notebook. The functions define a basic fully connected neural network in PyTorch.
 
 
 ```python
@@ -245,9 +245,9 @@ def train(config=None):
 ```
 
 Within the `train` function, you will notice the following W&B Python SDK methods:
-* [`wandb.init()`](/ref/python/init) – Initialize a new W&B run. Each run is a single execution of the training function.
-* [`wandb.config`](/guides/track/config) – Pass sweep configuration with the hyperparameters you want to experiment with.
-* [`wandb.log()`](/ref/python/log) – Log the training loss for each epoch.
+* [`wandb.init()`](/ref/python/init): Initialize a new W&B run. Each run is a single execution of the training function.
+* [`wandb.config`](/guides/track/config): Pass sweep configuration with the hyperparameters you want to experiment with.
+* [`wandb.log()`](/ref/python/log): Log the training loss for each epoch.
 
 
 The proceeding cell defines four functions:
@@ -273,7 +273,7 @@ def build_dataset(batch_size):
 
 
 def build_network(fc_layer_size, dropout):
-    network = nn.Sequential(  # fully-connected, single hidden layer
+    network = nn.Sequential(  # fully connected, single hidden layer
         nn.Flatten(),
         nn.Linear(784, fc_layer_size), nn.ReLU(),
         nn.Dropout(dropout),
@@ -336,7 +336,7 @@ wandb.agent(sweep_id, train, count=5)
 ```
 
 {{% alert %}}
-Since the `random` search method was specified in the sweep configuration, the sweep controller provides randomly-generated hyperparameter values.
+Since the `random` search method was specified in the sweep configuration, the sweep controller provides randomly generated hyperparameter values.
 {{% /alert %}}
 
 For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/guides/sweeps/walkthrough).

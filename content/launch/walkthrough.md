@@ -20,7 +20,7 @@ Launch is composed of three fundamental components: **launch jobs**, **queues**,
 
 A [*launch job*](./launch-terminology.md#launch-job) is a blueprint for configuring and running tasks in your ML workflow. Once you have a launch job, you can add it to a [*launch queue*](./launch-terminology.md#launch-queue). A launch queue is a first-in, first-out (FIFO) queue where you can configure and submit your jobs to a particular compute target resource, such as Amazon SageMaker or a Kubernetes cluster. 
 
-As jobs are added to the queue, one or more [*launch agents*](./launch-terminology.md#launch-agent) will poll that queue and execute the job on the system targeted by the queue.
+As jobs are added to the queue, [*launch agents*](./launch-terminology.md#launch-agent) poll that queue and execute the job on the system targeted by the queue.
 
 {{< img src="/images/launch/launch_overview.png" alt="" >}}
 

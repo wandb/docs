@@ -5,17 +5,18 @@ menu:
     identifier: yolox
     parent: integrations
 title: YOLOX
+weight: 490
 ---
 
-[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. YOLOX contains a Weights & Biases integration that enables you to turn on logging of training, validation and system metrics, as well as interactive validation predictions with just 1 command line argument.
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. You can use the YOLOX Weights & Biases integration to turn on logging of metrics related to training, validation, and the system, and you can interactively validate predictions with a single command-line argument.
 
-## Getting Started
+## Get started
 
 To use YOLOX with Weights & Biases you will first need to sign up for a Weights & Biases account [here](https://wandb.ai/site).
 
 Then just use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [wandb.init](/ref/python/init) would expect, just prepend `wandb-` to the start of each argument
 
-**Note:** `num_eval_imges` controls the number of validation set images and predictions that will be logged to Weights & Biases Tables for model evaluation.
+`num_eval_imges` controls the number of validation set images and predictions that are  logged to Weights & Biases tables for model evaluation.
 
 ```shell
 # login to wandb
@@ -38,4 +39,4 @@ python tools/train.py .... --logger wandb \
 
 {{< img src="/images/integrations/yolox_example_dashboard.png" alt="" >}}
 
-Any questions or issues about this Weights & Biases integration? Open an issue in the [YOLOX github repository](https://github.com/Megvii-BaseDetection/YOLOX) and we'll catch it and get you an answer :)
+Any questions or issues about this Weights & Biases integration? Open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).

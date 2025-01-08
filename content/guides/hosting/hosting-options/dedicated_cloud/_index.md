@@ -9,7 +9,7 @@ url: guides/hosting/hosting-options/dedicated_cloud
 
 ## Use dedicated cloud (Single-tenant SaaS)
 
-W&B Dedicated Cloud is a single-tenant, fully-managed platform deployed in W&B's AWS, GCP or Azure cloud accounts. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances. Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. 
+W&B Dedicated Cloud is a single-tenant, fully managed platform deployed in W&B's AWS, GCP or Azure cloud accounts. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances. Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. 
 
 W&B Dedicated Cloud is available in [multiple global regions for each cloud provider](./dedicated_regions.md)
 

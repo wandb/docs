@@ -306,8 +306,8 @@ I come from the TensorFlow/Keras ecosystem and find PyTorch a bit overwhelming e
 - Now: The DataModule organizes the data pipeline into one shareable and reusable class. It's simply a collection of a `train_dataloader`, `val_dataloader`(s), `test_dataloader`(s) along with the matching transforms and data processing/downloads steps required.
 - Then: With Keras, one can call `model.fit` to train the model and `model.predict` to run inference on. `model.evaluate` offered a good old simple evaluation on the test data. This is not the case with PyTorch. One will usually find separate `train.py` and `test.py` files. 
 - Now: With the `LightningModule` in place, the `Trainer` automates everything. One needs to just call `trainer.fit` and `trainer.test` to train and evaluate the model.
-- Then: TensorFlow loves TPU, PyTorch...well! 
-- Now: With PyTorch Lightning, it's so easy to train the same model with multiple GPUs and even on TPU. Wow!
+- Then: TensorFlow loves TPU, PyTorch...
+- Now: With PyTorch Lightning, it's so easy to train the same model with multiple GPUs and even on TPU.
 - Then: I am a big fan of Callbacks and prefer writing custom callbacks. Something as trivial as Early Stopping used to be a point of discussion with conventional PyTorch. 
 - Now: With PyTorch Lightning using Early Stopping and Model Checkpointing is a piece of cake. I can even write custom callbacks. 
 

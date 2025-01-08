@@ -35,7 +35,7 @@ Use these optional environment variables to do things like set up authentication
 
 | Variable name               | Usage                                  |
 | --------------------------- | ---------- |
-| **WANDB_ANONYMOUS**        | Set this to "allow", "never", or "must" to let users create anonymous runs with secret urls.                                                    |
+| **WANDB_ANONYMOUS**        | Set this to `allow`, `never`, or `must` to let users create anonymous runs with secret urls.                                                    |
 | **WANDB_API_KEY**         | Sets the authentication key associated with your account. You can find your key on [your settings page](https://app.wandb.ai/settings). This must be set if `wandb login` hasn't been run on the remote machine.               |
 | **WANDB_BASE_URL**        | If you're using [wandb/local](../hosting/intro.md) you should set this environment variable to `http://YOUR_IP:YOUR_PORT`        |
 | **WANDB_CACHE_DIR**       | This defaults to \~/.cache/wandb, you can override this location with this environment variable                    |
@@ -44,8 +44,8 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB_CONSOLE**          | Set this to "off" to disable stdout / stderr logging. This defaults to "on" in environments that support it.                                          |
 | **WANDB_DIR**              | Set this to an absolute path to store all generated files here instead of the _wandb_ directory relative to your training script. _be sure this directory exists and the user your process runs as can write to it_                  |
 | **WANDB_DISABLE_GIT**     | Prevent wandb from probing for a git repository and capturing the latest commit / diff.      |
-| **WANDB_DISABLE_CODE**    | Set this to true to prevent wandb from saving notebooks or git diffs.  We'll still save the current commit if we're in a git repo.                   |
-| **WANDB_DOCKER**           | Set this to a docker image digest to enable restoring of runs. This is set automatically with the wandb docker command. You can obtain an image digest by running `wandb docker my/image/name:tag --digest`    |
+| **WANDB_DISABLE_CODE**    | Set this to true to prevent wandb from saving notebooks or git diffs. We'll still save the current commit if we're in a git repo.                   |
+| **WANDB_DOCKER**           | Set this to a docker image digest to enable restoring of runs. This is set automatically with the wandb docker command. You can obtain an image digest by running `wandb docker my/image/name:tag --digest` |
 | **WANDB_ENTITY**           | The entity associated with your run. If you have run `wandb init` in the directory of your training script, it will create a directory named _wandb_ and will save a default entity which can be checked into source control. If you don't want to create that file or want to override the file you can use the environmental variable. |
 | **WANDB_ERROR_REPORTING** | Set this to false to prevent wandb from logging fatal errors to its error tracking system.                             |
 | **WANDB_HOST**             | Set this to the hostname you want to see in the wandb interface if you don't want to use the system provided hostname                                |

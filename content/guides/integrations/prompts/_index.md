@@ -6,11 +6,10 @@ menu:
     parent: integrations
 title: Prompts for LLMs
 url: guides/integrations/prompts
+cascade:
+- url: guides/integrations/prompts/:filename
+weight: 350
 ---
-
-import { WEAVE_DOCS_URL } from '@site/src/util/links';
-
-
 
 {{% alert %}}
 Support for W&B Prompts will end in 2024. W&B recommends that current Prompt users transition to [Weave](https://weave-docs.wandb.ai/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge), a tool specifically designed for tracking and evaluating LLM applications. Weave offers a faster, more intuitive experience tailored for teams building with Generative AI.
@@ -18,13 +17,9 @@ Support for W&B Prompts will end in 2024. W&B recommends that current Prompt use
 For assistance, contact support@wandb.com. 
 {{% /alert %}}
 
-
-
 W&B Prompts is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
 
-<a href={WEAVE_DOCS_URL} target="_blank">
-    <img className="no-zoom" src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" style={{display: "block", marginBottom: "15px"}} />
-</a>
+<a href="https://weave-docs.wandb.ai/" target="_blank">{{< img src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" margin-bottom="15px" >}}</a>
 
 ## Use Cases
 
@@ -50,7 +45,7 @@ Traces consists of three main components:
 
 #### Trace Table
 
-The Trace Table provides an overview of the inputs and outputs of a chain. The trace table also provides information about the composition of a trace event in the chain, whether or not the chain ran successfully, and any error messages returned when running the chain.
+The Trace Table provides an overview of the inputs and outputs of a chain. The trace table also provides information about the composition of a trace event in the chain, indicates whether or not the chain ran successfully, and displays error messages returned when running the chain.
 
 {{< img src="/images/prompts/trace_table.png" alt="Screenshot of a trace table." >}}
 
@@ -77,18 +72,18 @@ To iterate on an application, we need a way to evaluate if it's improving. To do
 
 ## Integrations
 
-Weights and Biases also has lightweight integrations for:
+Weights and Biases also has lightweight [integrations](/guides/integrations/) with many services, such as:
 
 - [LangChain](/guides/integrations/langchain)
 - [OpenAI API](/guides/integrations/openai-api)
 - [OpenAI GPT-3.5 Fine-Tuning](/guides/integrations/openai)
 - [Hugging Face Transformers](/guides/integrations/huggingface)
 
-## Getting Started
+## Get started
 
 We recommend you go through the Prompts [Quickstart](./quickstart.md) guide, which will walk you through logging a custom LLM pipeline with Trace. A [colab](http://wandb.me/prompts-quickstart) version of the guide is also available. 
 
-## Next Steps
+## Next steps
 
 - Check out more detailed documentation on [Trace](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb), or our [OpenAI](/guides/integrations/prompts/openai/) Integration.
 - Try one of our [demo colabs](https://github.com/wandb/examples/tree/master/colabs/prompts), which offer more detailed explanations of how to use Prompts for LLMOps.

@@ -5,6 +5,7 @@ menu:
     identifier: smoothing
     parent: line-plot
 title: Smooth line plots
+weight: 30
 ---
 
 W&B supports three types of smoothing:
@@ -22,7 +23,7 @@ See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-e
 
 Exponential smoothing is a technique for smoothing time series data by exponentially decaying the weight of previous points. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a de-bias term added so that early values in the time series are not biased towards zero.
 
-The EMA algorithm takes the density of points on the line (i.e. the number of `y` values per unit of range on x-axis) into account. This allows consistent smoothing when displaying multiple lines with different characteristics simultaneously.
+The EMA algorithm takes the density of points on the line (the number of `y` values per unit of range on x-axis) into account. This allows consistent smoothing when displaying multiple lines with different characteristics simultaneously.
 
 Here is sample code for how this works under the hood:
 

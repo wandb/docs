@@ -194,4 +194,4 @@ serviceAccount:
 azureStorageAccessKey: ''
 ```
 
-For more information on registries, environments and required agent permissions see [Advanced agent set up](./setup-agent-advanced.md).
+For more information on registries, environments, and required agent permissions see [Advanced agent set up](./setup-agent-advanced.md).

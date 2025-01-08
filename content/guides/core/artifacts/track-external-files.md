@@ -13,7 +13,7 @@ Use **reference artifacts** to track files saved outside the W&B system, for exa
 
 ### Log artifacts outside of runs
 
-W&B creates a run when you log an artifact outside of a run. Each artifact belongs to a run, which in turn belongs to a project; an artifact (version) also belongs to a collection, and has a type.
+W&B creates a run when you log an artifact outside of a run. Each artifact belongs to a run, which in turn belongs to a project. An artifact (version) also belongs to a collection, and has a type.
 
 Use the [`wandb artifact put`](/ref/cli/wandb-artifact/wandb-artifact-put) command to upload an artifact to the W&B server outside of a W&B run. Provide the name of the project you want the artifact to belong to along with the name of the artifact (`project/artifact_name`).Optionally provide the type (`TYPE`). Replace `PATH` in the code snippet below with the file path of the artifact you want to upload.
 
@@ -25,7 +25,7 @@ W&B will create a new project if a the project you specify does not exist. For i
 
 ## Track artifacts outside of W&B
 
-Use W&B Artifacts for dataset versioning and model lineage, and use **reference artifacts** to track files saved outside the W&B server. In this mode an artifact only stores metadata about the files, such as URLs, size, and checksums. The underlying data never leaves your system.  See the [Quick start](/guides/artifacts/artifacts-walkthrough) for information on how to save files and directories to W&B servers instead.
+Use W&B Artifacts for dataset versioning and model lineage, and use **reference artifacts** to track files saved outside the W&B server. In this mode an artifact only stores metadata about the files, such as URLs, size, and checksums. The underlying data never leaves your system. See the [Quick start](/guides/artifacts/artifacts-walkthrough) for information on how to save files and directories to W&B servers instead.
 
 The following describes how to construct reference artifacts and how to best incorporate them into your workflows.
 
@@ -37,7 +37,7 @@ Use W&B Artifacts for dataset and model versioning to track references in cloud 
 Artifacts abstract away the underlying cloud storage vendor (such AWS, GCP or Azure). Information described in the proceeding section apply uniformly to Amazon S3, Google Cloud Storage and Azure Blob Storage.
 
 {{% alert %}}
-W&B Artifacts support any Amazon S3 compatible interface — including MinIO! The scripts below work, as is, when you set the AWS_S3_ENDPOINT_URL environment variable to point at your MinIO server.
+W&B Artifacts support any Amazon S3 compatible interface, including MinIO. The scripts below work as-is, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your MinIO server.
 {{% /alert %}}
 
 Assume we have a bucket with the following structure:
@@ -151,7 +151,7 @@ Read through the following reports for an end-to-end walkthrough of how to track
 
 ### Filesystem References
 
-Another common pattern for fast access to datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an even simpler solution than a cloud storage bucket because from the perspective of the training script, the files look just like they are sitting on your local filesystem. Luckily, that ease of use extends into using Artifacts to track references to file systems — mounted or otherwise.
+Another common pattern for fast access to datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an even simpler solution than a cloud storage bucket because from the perspective of the training script, the files look just like they are sitting on your local filesystem. Luckily, that ease of use extends into using Artifacts to track references to file systems, whether they are mounted or not.
 
 Assume we have a filesystem mounted at `/mount` with the following structure:
 

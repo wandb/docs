@@ -2,14 +2,12 @@
 description: Manage project access using visibility scopes and project-level roles
 menu:
   default:
-    identifier: restricted-projects
     parent: access-management
 title: Manage access control for projects
 ---
 
-# Project visibility
-
 Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. 
+
 You can use a combination of a couple of controls to configure the access level for any project within a W&B team. **Visibility scope** is the higher-level mechanism. Use that to control which groups of users can view or submit runs in a project. For a project with _Team_ or _Restricted_ visibility scope, you can then use **Project level roles** to control the level of access that each user has within the project.
 
 {{% alert %}}

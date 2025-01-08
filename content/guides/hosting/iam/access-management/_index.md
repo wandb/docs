@@ -5,7 +5,7 @@ menu:
     parent: identity-and-access-management-iam
 url: guides/hosting/iam/access-management-intro
 cascade:
-- url: guides/hosting/iam/:filename
+- url: guides/hosting/iam/access-management/:filename
 title: Access management
 weight: 2
 ---
@@ -22,7 +22,13 @@ A *team administrator* is a user in organization that has administrative permiss
 
 The organization administrator can access and use an organization's account settings at `https://wandb.ai/account-settings/` to invite users, assign or update a user's role, create teams, remove users from your organization, assign the billing administrator, and more. See [Add and manage users](./manage-organization.md#add-and-manage-users) for more information. 
 
-Once an organization administrator creates a team, either the instance administrator or team administrator can invite users to that team, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and more. Both the organization administrator and the team administrator use team dashboards at `https://wandb.ai/<your-team-name>` to manage teams. For more information on what organization administrators and team administrators can do, see [Add and manage teams](./manage-organization.md#add-and-manage-teams).
+Once an organization administrator creates a team, the instance administrator or ateam administrator can:
+
+- Invite users to that team or remove users from the team.
+- Assign or update a team member's role.
+- Automatically add new users to a team when they join your organization.
+
+Both the organization administrator and the team administrator use team dashboards at `https://wandb.ai/<your-team-name>` to manage teams. For more information on what organization administrators and team administrators can do, see [Add and manage teams](./manage-organization.md#add-and-manage-teams).
 
 
 ## Limit visibility to specific projects

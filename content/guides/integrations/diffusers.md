@@ -4,10 +4,11 @@ menu:
     identifier: diffusers
     parent: integrations
 title: Hugging Face Diffusers
+weight: 120
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" >}}
 
-[🤗 Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pre-trained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization, pipeline architecture, and configuration management to interactive centralized dashboards without compromising that ease of use.
+[Hugging Face Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pre-trained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization, pipeline architecture, and configuration management to interactive centralized dashboards without compromising that ease of use.
 
 ## Next-level logging in just two lines
 
@@ -25,52 +26,46 @@ autolog(init=dict(project="diffusers_logging"))
 |:--:| 
 | **An example of how the results of your experiment are logged.** |
 
-## Getting started
+## Get started
 
-First, you need to install `diffusers`, `transformers`, `accelerate`, and `wandb`.
+1. Install `diffusers`, `transformers`, `accelerate`, and `wandb`.
 
-{{< tabpane text=true >}}
+    - Command line:
 
-{{% tab header="Command Line" value="script" %}}
+        ```shell
+        pip install --upgrade diffusers transformers accelerate wandb
+        ```
 
-```shell
-pip install --upgrade diffusers transformers accelerate wandb
-```
+    - Notebook:
 
-{{% /tab %}}
-
-{{% tab header="Notebook" value="notebook" %}}
-
-```bash
-!pip install --upgrade diffusers transformers accelerate wandb
-```
-
-{{% /tab %}}
-
-{{< /tabpane >}}
+        ```bash
+        !pip install --upgrade diffusers transformers accelerate wandb
+        ```
 
 
-### How does `autolog` work?
+2. Use `autolog` to initialize a Weights & Biases run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`](/ref/python/init).
+    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`](/ref/python/init).
 
-When you call `autolog()`, it initializes a Weights & Biases run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
+    When you call `autolog()`, it initializes a Weights & Biases run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-- Each pipeline call is tracked into its own [table](/guides/tables) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
-- The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`](/guides/tables).
-- All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
-- The generated media for each pipeline call are also logged in [media panels](/guides/track/log/media) in the run.
+    - Each pipeline call is tracked into its own [table](/guides/tables) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
+    - The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`](/guides/tables).
+    - All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
+    - The generated media for each pipeline call are also logged in [media panels](/guides/track/log/media) in the run.
 
-{{% alert %}}
-You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
-{{% /alert %}}
+    {{% alert %}}
+    You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
+    {{% /alert %}}
+
+## Examples
+
+### Autologging
 
 Here is a brief end-to-end example of the autolog in action:
 
 {{< tabpane text=true >}}
-
-{{% tab header="Python Script" value="script" %}}
-
+{{% tab header="Script" value="script" %}}
 ```python
 import torch
 from diffusers import DiffusionPipeline
@@ -99,11 +94,9 @@ images = pipeline(
     generator=generator,
 )
 ```
-
 {{% /tab %}}
 
-{{% tab header="Notebook" value="notebook" %}}
-
+{{% tab header="Notebook" value="notebook"%}}
 ```python
 import torch
 from diffusers import DiffusionPipeline
@@ -137,28 +130,27 @@ images = pipeline(
 # Finish the experiment
 wandb.finish()
 ```
-
 {{% /tab %}}
-
 {{< /tabpane >}}
 
-| {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}} | 
-|:--:| 
-| **An example of how the results of your experiment are logged.** |
 
-| {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged" >}} | 
-|:--:| 
-| **An example of how the results of multiple experiments are logged in your workspace.** |
+- The results of a single experiment:
 
-| {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}} | 
-|:--:| 
-| **An example of how the autolog logs the configs of your experiment.** |
+    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}}
+
+- The results of multiple experiments:
+
+    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged" >}}
+
+- The config of an experiment:
+
+    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
 
 {{% alert %}}
 You need to explicitly call [`wandb.finish()`](/ref/python/finish) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 {{% /alert %}}
 
-## Tracking multi-pipeline workflows
+### Tracking multi-pipeline workflows
 
 This section demonstrates the autolog with a typical [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) workflow, in which the latents generated by the [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) is refined by the corresponding refiner.
 
@@ -295,9 +287,8 @@ wandb.finish()
 
 {{< /tabpane >}}
 
-| {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}} | 
-|:--:| 
-| **An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment.** |
+- Example of a Stable Diffisuion XL + Refiner experiment:
+    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}}
 
 ## More resources
 

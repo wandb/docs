@@ -5,19 +5,20 @@ menu:
     identifier: stable-baselines-3
     parent: integrations
 title: Stable Baselines 3
+weight: 420
 ---
 
-[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) is a set of reliable implementations of reinforcement learning algorithms in PyTorch. W&B's SB3 integration will: 
+[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) is a set of reliable implementations of reinforcement learning algorithms in PyTorch. W&B's SB3 integration: 
 
-* Record metrics such as losses and episodic returns
-* Upload videos of agents playing the games
-* Save the trained model
-* Log model's hyperparameters
-* Log model gradient histograms
+* Records metrics such as losses and episodic returns.
+* Uploads videos of agents playing the games.
+* Saves the trained model.
+* Logs the model's hyperparameters.
+* Logs the model gradient histograms.
 
-[Here is an example](https://wandb.ai/wandb/sb3/runs/1jyr6z10) of a  SB3 training run with W&B
+Review an [example](https://wandb.ai/wandb/sb3/runs/1jyr6z10) of a SB3 training run with W&B.
 
-## Log your SB3 Experiments in 2 lines of code
+## Log your SB3 experiments
 
 ```python
 from wandb.integration.sb3 import WandbCallback

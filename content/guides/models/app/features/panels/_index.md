@@ -10,10 +10,6 @@ cascade:
 - url: guides/app/features/panels/:filename
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-
 Use workspace panel visualizations to explore your [logged data](/ref/python/log.md) by key, visualize the relationships between hyperparameters and output metrics, and more. 
 
 ## Workspace modes
@@ -26,8 +22,8 @@ Use workspace panel visualizations to explore your [logged data](/ref/python/log
 
 | Icon | Workspace mode |
 | --- | --- |
-| <img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" /> | **Automated workspaces** automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project. |
-| <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" /> | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
+| {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}} | **Automated workspaces** automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project. |
+| {{< img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
 
 To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
 
@@ -52,7 +48,7 @@ To add a panel:
 1. To add a panel globally, click **Add panels** in the control bar near the panel search field.
 1. To add a panel directly to a section instead, click the section's action `...` menu, then click **Add panels**.
 1. Select the type of panel to add.
-{{< img src="/images/app_ui/add_single_panel.gif" >}}
+    {{< img src="/images/app_ui/add_single_panel.gif" >}}
 
 ### Quick add
 
@@ -90,7 +86,7 @@ To move a panel to a different section, you can use the drag handle on the panel
 
 You can also use the drag handle to rearrange panels within a section.
 
-## Duplicate a panel
+### Duplicate a panel
 
 To duplicate a panel:
 

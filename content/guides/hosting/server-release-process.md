@@ -19,11 +19,9 @@ W&B Server releases apply to the **Dedicated Cloud** and **Self-managed** deploy
 All releases are immediately deployed to all **Dedicated Cloud** instances once the acceptance testing phase is complete. It keeps those managed instances fully updated, making the latest features and fixes available to relevant customers. Customers with **Self-managed** instances are responsible for the [update process](./server-upgrade-process.md) on their own schedule, where they can use [the latest Docker image](https://hub.docker.com/r/wandb/local). Refer to [release support and end of life](#release-support-and-end-of-life-policy).
 
 {{% alert %}}
-Some advanced features are available only with the enterprise license. So even if you get the latest docker image but don't have an enterprise license, you would not be able to take advantage of the relevant advanced capabilities.
-{{% /alert %}}
+- Some advanced features are available only with the enterprise license. So even if you get the latest Docker image but don't have an enterprise license, you would not be able to take advantage of the relevant advanced capabilities.
 
-{{% alert %}}
-Some new features start in private preview, which means they are only available to design partners or early adopters. You may not have such a feature until the W&B team enables it for your instance.
+- Some new features start in private preview, which means they are only available to design partners or early adopters. The W&B team must enable a private preview feature before you can use it in your instance.
 {{% /alert %}}
 
 ## Release notes

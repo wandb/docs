@@ -153,7 +153,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 ## 2. Run training and log test predictions
 
-For every epoch, run a training step and a test step. For each test step, create a wandb.Table() in which to store test predictions. These can be visualized, dynamically queried, and compared side by side in your browser.
+For every epoch, run a training step and a test step. For each test step, create a `wandb.Table()` in which to store test predictions. These can be visualized, dynamically queried, and compared side by side in your browser.
 
 
 ```python

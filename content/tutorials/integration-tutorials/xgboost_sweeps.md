@@ -37,11 +37,11 @@ Running a hyperparameter sweep with Weights & Biases is very easy. There are jus
 3. **Run the sweep agent:** also accomplished with one line of code, we call w`andb.agent()` and pass the `sweep_id` along with a function that defines your model architecture and trains it:
 `wandb.agent(sweep_id, function=train)`
 
-And voila! That's all there is to running a hyperparameter sweep!
+That's all there is to running a hyperparameter sweep.
 
 In the notebook below, we'll walk through these 3 steps in more detail.
 
-We highly encourage you to fork this notebook, tweak the parameters, or try the model with your own dataset!
+We highly encourage you to fork this notebook, tweak the parameters, or try the model with your own dataset.
 
 ### Resources
 - [Sweeps docs →](/guides/sweeps)
@@ -66,12 +66,12 @@ Weights & Biases sweeps give you powerful levers to configure your sweeps exactl
 [a dictionary or a YAML file](/guides/sweeps/define-sweep-configuration).
 
 Let's walk through some of them together:
-*   **Metric** – This is the metric the sweeps are attempting to optimize. Metrics can take a `name` (this metric should be logged by your training script) and a `goal` (`maximize` or `minimize`). 
-*   **Search Strategy** – Specified using the `"method"` key. We support several different search strategies with sweeps. 
-  *   **Grid Search** – Iterates over every combination of hyperparameter values.
-  *   **Random Search** – Iterates over randomly chosen combinations of hyperparameter values.
-  *   **Bayesian Search** – Creates a probabilistic model that maps hyperparameters to probability of a metric score, and chooses parameters with high probability of improving the metric. The objective of Bayesian optimization is to spend more time in picking the hyperparameter values, but in doing so trying out fewer hyperparameter values.
-*   **Parameters** – A dictionary containing the hyperparameter names, and discrete values, a range, or distributions from which to pull their values on each iteration.
+*   **Metric**: This is the metric the sweeps are attempting to optimize. Metrics can take a `name` (this metric should be logged by your training script) and a `goal` (`maximize` or `minimize`). 
+*   **Search Strategy**: Specified using the `"method"` key. We support several different search strategies with sweeps. 
+  *   **Grid Search**: Iterates over every combination of hyperparameter values.
+  *   **Random Search**: Iterates over randomly chosen combinations of hyperparameter values.
+  *   **Bayesian Search**: Creates a probabilistic model that maps hyperparameters to probability of a metric score, and chooses parameters with high probability of improving the metric. The objective of Bayesian optimization is to spend more time in picking the hyperparameter values, but in doing so trying out fewer hyperparameter values.
+*   **Parameters**: A dictionary containing the hyperparameter names, and discrete values, a range, or distributions from which to pull their values on each iteration.
 
 For details, see the [list of all sweep configuration options](/guides/sweeps/define-sweep-configuration).
 
@@ -118,9 +118,9 @@ the function that takes in hyperparameter values and spits out metrics.
 
 We'll also need `wandb` to be integrated into our script.
 There's three main components:
-*   `wandb.init()` – Initialize a new W&B run. Each run is single execution of the training script.
-*   `wandb.config` – Save all your hyperparameters in a config object. This lets you use [our app](https://wandb.ai) to sort and compare your runs by hyperparameter values.
-*   `wandb.log()` – Logs metrics and custom objects – these can be images, videos, audio files, HTML, plots, point clouds etc.
+*   `wandb.init()`: Initialize a new W&B run. Each run is single execution of the training script.
+*   `wandb.config`: Save all your hyperparameters in a config object. This lets you use [our app](https://wandb.ai) to sort and compare your runs by hyperparameter values.
+*   `wandb.log()`: Logs metrics and custom objects, such as images, videos, audio files, HTML, plots, or point clouds.
 
 We also need to download the data:
 
@@ -183,7 +183,7 @@ You can call `wandb.agent` on any machine where you're logged into W&B that has
 - the `sweep_id`,
 - the dataset and `train` function
 
-and that machine will join the sweep!
+and that machine will join the sweep.
 
 > _Note_: a `random` sweep will by defauly run forever,
 trying new parameter combinations until the cows come home --

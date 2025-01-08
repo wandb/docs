@@ -5,6 +5,7 @@ menu:
     identifier: openai-gym
     parent: integrations
 title: OpenAI Gym
+weight: 260
 ---
 
 {{% alert %}}

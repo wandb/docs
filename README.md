@@ -24,11 +24,10 @@ brew install go
 brew install hugo
 brew install npm
 npm install
-go mod init docsy
 hugo mod get -u
 ```
 
-The last three lines are critical, as they install our dependencies and download the [Docsy](https://docsy.dev) module for Hugo.
+The last lines critical, as it downloads Hugo, the [Docsy](https://docsy.dev) module for Hugo, and the dependencies of each.
 
 ## Running the website locally
 
@@ -158,6 +157,6 @@ All markdown files for the [W&B API Reference Guide](https://docs.wandb.ai/ref) 
 content/ref
 ```
 
-The markdown files are generated from docstrings in https://github.com/wandb/wandb. Modify the docstring from the appropriate Python Class, function, or CLI definition to to update the public-facing documentation API.
+The markdown files are generated from docstrings in https://github.com/wandb/wandb. Modify the docstring from the appropriate Python Class, function, or CLI definition to update the public-facing documentation API.
 
 Once you are done, create a pull request from https://github.com/wandb/wandb. The PR you create will get reviewed and (if approved) merged by the SDK Team. The Docs are updated when the W&B SDK Team makes an W&BSDK Release. SDK Releases occur about every 2-4 weeks.

@@ -5,9 +5,10 @@ menu:
     identifier: skorch
     parent: integrations
 title: Skorch
+weight: 400
 ---
 
-You can use Weights & Biases with Skorch to automatically log the model with the best performance – along with all model performance metrics, the model topology and compute resources after each epoch. Every file saved in wandb_run.dir is automatically logged to W&B servers.
+You can use Weights & Biases with Skorch to automatically log the model with the best performance, along with all model performance metrics, the model topology and compute resources after each epoch. Every file saved in `wandb_run.dir` is automatically logged to W&B servers.
 
 See [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13).
 
@@ -15,7 +16,7 @@ See [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=u
 
 | Parameter | Type | Description |
 | :--- | :--- | :--- |
-| `wandb_run` |  wandb.wandb_run.Run | wandb run used to log data. |
+| `wandb_run` | `wandb.wandb_run`. Run | wandb run used to log data. |
 |`save_model` | bool (default=True)| Whether to save a checkpoint of the best model and upload it to your Run on W&B servers.|
 |`keys_ignored`| str or list of str (default=None) | Key or list of keys that should not be logged to tensorboard. Note that in addition to the keys provided by the user, keys such as those starting with `event_` or ending on `_best` are ignored by default.|
 
@@ -45,7 +46,7 @@ net = NeuralNet(..., callbacks=[WandbLogger(wandb_run)])
 net.fit(X, y)
 ```
 
-## Methods
+## Method reference
 
 | Method | Description |
 | :--- | :--- |

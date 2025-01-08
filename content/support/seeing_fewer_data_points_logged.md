@@ -32,4 +32,4 @@ wandb.log({"Precision": precision}, step=step)
 wandb.log({"Recall": recall}, step=step)
 ```
 
-Ensure the `step` value remains the same in both `log()` calls for the metrics to log under the same step and sample together. The `step` value must increase monotonically in each call; otherwise, the `step` value is ignored.
+Ensure the `step` value remains the same in both `log()` calls for the metrics to log under the same step and sample together. The `step` value must increase monotonically in each call. Otherwise, the `step` value is ignored.

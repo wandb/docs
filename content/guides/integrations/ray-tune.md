@@ -5,13 +5,14 @@ menu:
     identifier: ray-tune
     parent: integrations
 title: Ray Tune
+weight: 360
 ---
 
 W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.
 
-One is the `WandbLoggerCallback`, which automatically logs metrics reported to Tune to the Wandb API. The other one is the `@wandb_mixin` decorator, which can be used with the function API. It automatically initializes the Wandb API with Tune’s training information. You can just use the Wandb API like you would normally do, e.g. using `wandb.log()` to log your training process.
+One is the `WandbLoggerCallback`, which automatically logs metrics reported to Tune to the Wandb API. The other one is the `@wandb_mixin` decorator, which can be used with the function API. It automatically initializes the Wandb API with Tune’s training information. You can just use the Wandb API like you would normally do, such as by using `wandb.log()` to log your training process.
 
-## WandbLoggerCallback
+## Configure the integration
 
 ```python
 from ray.air.integrations.wandb import WandbLoggerCallback
@@ -23,13 +24,13 @@ The content of the wandb config entry is passed to `wandb.init()` as keyword arg
 
 ### Parameters
 
-`api_key_file (str)` – Path to file containing the `Wandb API KEY`.
+`api_key_file (str)`: Path to file containing the `Wandb API KEY`.
 
-`api_key (str)` – Wandb API Key. Alternative to setting `api_key_file`.
+`api_key (str)`: Wandb API Key. Alternative to setting `api_key_file`.
 
-`excludes (list)` – List of metrics that should be excluded from the `log`.
+`excludes (list)`: List of metrics that should be excluded from the `log`.
 
-`log_config (bool)` – Boolean indicating if the config parameter of the results dict should be logged. This makes sense if parameters will change during training, e.g. with `PopulationBasedTraining`. Defaults to False.
+`log_config (bool)`: Whether to log thee config parameter of the results dictionary. This makes sense if parameters will change during training, such as when using `PopulationBasedTraining`. Defaults to False.
 
 ### Example
 
@@ -85,15 +86,15 @@ The content of the wandb config entry is passed to `wandb.init()` as keyword arg
 
 ### Parameters
 
-`api_key_file (str)` – Path to file containing the Wandb `API KEY`.
+`api_key_file (str)`: Path to file containing the Wandb `API KEY`.
 
-`api_key (str)` – Wandb API Key. Alternative to setting `api_key_file`.
+`api_key (str)`: Wandb API Key. Alternative to setting `api_key_file`.
 
 Wandb’s `group`, `run_id` and `run_name` are automatically selected by Tune, but can be overwritten by filling out the respective configuration values.
 
 Please see the [`init()` reference](/ref/python/init/) for all other valid configuration settings.
 
-### Example:
+### Example
 
 ```python
 from ray import tune

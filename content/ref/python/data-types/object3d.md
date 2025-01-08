@@ -43,7 +43,7 @@ Initializes Object3D from a file or stream.
 
 | Args |  |
 | :--- | :--- |
-|  data_or_path (Union["TextIO", str]): A path to a file or a `TextIO` stream. file_type (str): Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension. |
+|  `data_or_path (Union["TextIO", str])`: A path to a file or a `TextIO` stream. `file_type (str)`: Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension. |
 
 ### `from_numpy`
 
@@ -88,7 +88,7 @@ Initializes Object3D from a python object.
 
 | Args |  |
 | :--- | :--- |
-|  points (Sequence["Point"]): The points in the point cloud. boxes (Sequence["Box3D"]): 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations. vectors (Optional[Sequence["Vector3D"]]): Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None. point_cloud_type ("lidar/beta"): At this time, only the "lidar/beta" type is supported. Defaults to "lidar/beta". |
+|  `points (Sequence["Point"])`: The points in the point cloud. `boxes (Sequence["Box3D"])`: 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations. `vectors (Optional[Sequence["Vector3D"]])`: Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to `None`. `point_cloud_type ("lidar/beta")`: At this time, only the `"lidar/beta"` type is supported. Defaults to `"lidar/beta"`. |
 
 | Class Variables |  |
 | :--- | :--- |

@@ -162,7 +162,7 @@ Now that you have created a queue, you will need to deploy a launch agent to pul
 
 ## Create a training job
 
-Volcano's pytorch plugin will automatically configure the necessary environment variables for pytorch ddp to work, e.g. `MASTER_ADDR`, `RANK`, `WORLD_SIZE`, etc. As long as your write your pytorch code uses DDP correctly, everything else should **just work**. Refer to [pytorch's documentation](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) for more details on how to use DDP in your custom python code.
+Volcano's pytorch plugin automatically configures the necessary environment variables for pytorch DPP to work, such as `MASTER_ADDR`, `RANK`, and `WORLD_SIZE`, as long as your pytorch code uses DDP correctly. Refer to [pytorch's documentation](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) for more details on how to use DDP in your custom python code.
 
 {{% alert %}}
 Volcano's pytorch plugin is also compatible with [multinode training via the PyTorch Lightning `Trainer`](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes).
@@ -170,7 +170,7 @@ Volcano's pytorch plugin is also compatible with [multinode training via the PyT
 
 ## Launch 🚀
 
-Now that our queue and cluster are set up, it's time to launch some distributed training! To start off with we will use [a job](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) trains a simple multi-layer perceptron on random data using volcano's pytorch plugin. You can find the source code for the job [here](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test).
+Now that our queue and cluster are set up, it's time to launch some distributed training. To start off with we will use [a job](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) trains a simple multi-layer perceptron on random data using volcano's pytorch plugin. You can find the source code for the job [here](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test).
 
 To launch this job, head to the [job's page](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) and click the **Launch** button in the top right corner of the screen. You will be prompted to select a queue to launch the job from.
 

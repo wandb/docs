@@ -31,7 +31,7 @@ wandb.log(
 )
 ```
 
-You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+You can use this to log curves on any two dimensions. If you're plotting two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
 
 {{< img src="/images/track/line_plot.png" alt="" >}}
 
@@ -50,7 +50,7 @@ table = wandb.Table(data=data, columns=["class_x", "class_y"])
 wandb.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
 ```
 
-You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+You can use this to log scatter points on any two dimensions. If you're plotting two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
 
 {{< img src="/images/track/demo_scatter_plot.png" alt="" >}}
 
@@ -75,7 +75,7 @@ wandb.log(
 )
 ```
 
-You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
+You can use this to log arbitrary bar charts. The number of labels and values in the lists must match exactly. Each data point must have both.
 
 {{< img src="/images/track/basic_charts_bar.png" alt="" >}}
 
@@ -198,7 +198,7 @@ You can log this wherever your code has access to:
 
 * a model's predicted labels on a set of examples (`preds`) or the normalized probability scores (`probs`). The probabilities must have the shape (number of examples, number of classes). You can supply either probabilities or predictions but not both.
 * the corresponding ground truth labels for those examples (`y_true`)
-* a full list of the labels/class names as strings (`class_names`, e.g. `class_names=["cat", "dog", "bird"]` if index 0 is cat, 1=dog, 2=bird, etc)
+* a full list of the labels/class names as strings of `class_names`. Examples: `class_names=["cat", "dog", "bird"]` if index 0 is `cat`, 1 is `dog`, 2 is `bird`.
 
 {{< img src="/images/experiments/confusion_matrix.png" alt="" >}}
 

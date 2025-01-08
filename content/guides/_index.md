@@ -14,7 +14,7 @@ title: Guides
 no_list: true
 ---
 
-# What is W&B?
+## What is W&B?
 
 Weights & Biases (W&B) is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models. 
 
@@ -34,7 +34,6 @@ W&B consists of three major components: [Models](/guides/models.md), [Weave](htt
 - [Tables](/guides/tables/intro.md): Visualize and query tabular data
 - [Reports](/guides/reports/intro.md): Document and collaborate on your discoveries
 <!-- - [Weave](/guides/app/features/panels/weave) Query and create visualizations of your data -->
-
 
 ## How does W&B work?
 Read the following sections in this order if you are a first-time user of W&B and you are interested in training, tracking, and visualizing machine learning models and experiments:

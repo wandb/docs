@@ -7,9 +7,6 @@ menu:
 title: Deploy W&B Platform On-premises
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 {{% alert %}}
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
@@ -79,7 +76,7 @@ Some tested and working providers:
 - [NetApp](https://www.netapp.com/)
 - [Pure Storage](https://www.purestorage.com/)
 
-##### Secure Storage Connector
+#### Secure Storage Connector
 
 The [Secure Storage Connector](../data-security/secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
 
@@ -118,7 +115,7 @@ CREATE DATABASE wandb_local CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 ```
 
-#### Parameter group configuration
+### Parameter group configuration
 
 Ensure that the following parameter groups are set to tune the database performance:
 
@@ -131,7 +128,7 @@ binlog_row_image = 'MINIMAL'
 sort_buffer_size = 67108864
 ```
 
-## Object store
+## Object storage
 The object store can be externally hosted on a [Minio cluster](https://docs.min.io/minio/k8s/), or any Amazon S3 compatible object store that has support for signed URLs. Run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) to check if your object store supports signed URLs.
 
 Additionally, the following CORS policy needs to be applied to the object store.
@@ -199,6 +196,7 @@ W&B supports operating from within an [OpenShift Kubernetes cluster](https://www
 {{% alert %}}
 W&B recommends you install with the official W&B Helm chart. 
 {{% /alert %}}
+
 #### Run the container as an un-privileged user
 
 By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
@@ -314,10 +312,20 @@ wandb verify
 
 Check log files to view any errors the W&B Server hits at startup. Run the following commands: 
 
+{{< tabpane text=true >}}
+{{% tab header="Docker" value="docker" %}}
+```bash
+docker logs wandb-local
+```
+{{% /tab %}}
 
+{{% tab header="Kubernetes" value="kubernetes"%}}
 ```bash
 kubectl get pods
 kubectl logs wandb-XXXXX-XXXXX
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
-Contact W&B Support if you encounter errors. 
+
+Contact W&B Support if you encounter errors.

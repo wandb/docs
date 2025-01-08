@@ -5,6 +5,7 @@ menu:
     identifier: system-metrics
     parent: settings
 title: System metrics
+weight: 60
 ---
 
 This page provides detailed information about the system metrics that are tracked by the W&B SDK.

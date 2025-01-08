@@ -4,6 +4,7 @@ menu:
     identifier: tensorboard
     parent: integrations
 title: TensorBoard
+weight: 430
 ---
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb" >}}
 
@@ -15,7 +16,7 @@ Upload your TensorBoard logs to the cloud, quickly share your results among coll
 
 {{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="" >}}
 
-### Add one line of code to your training script
+## Get started
 
 ```python
 import wandb
@@ -30,15 +31,15 @@ wandb.init(project="my-project", sync_tensorboard=True)
 wandb.finish()
 ```
 
-[**See here for an example**](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard)
+Review an [example](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
 
-Once your wandb run finishes, your TensorBoard event files will then be uploaded to W&B. These metrics will **also be logged** in native W&B charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
+Once your run finishes, you can access your TensorBoard event files in W&B and you can visualize your metrics in native W&B charts, together with additional useful information like the system's CPU or GPU utilization, the `git` state, the terminal command the run used, and more.
 
 {{% alert %}}
-W&B supports TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
+W&B supports TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard 1.14 and higher with PyTorch as well as TensorBoardX.
 {{% /alert %}}
 
-## Common questions
+## Frequently asked questions
 
 ### How can I log metrics to W&B that aren't logged to TensorBoard?
 
@@ -80,19 +81,19 @@ wandb.finish()
 You must call either `wandb.init` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
 {{% /alert %}}
 
-### Syncing Previous TensorBoard Runs
+### How do I sync historical TensorBoard runs?
 
 If you have existing `tfevents` files stored locally and you would like to import them into W&B, you can run `wandb sync log_dir`, where `log_dir` is a local directory containing the `tfevents` files.
 
-### Google Colab, Jupyter and TensorBoard
+### How do I use Google Colab or Jupyter with TensorBoard?
 
 If running your code in a Jupyter or Colab notebook, make sure to call `wandb.finish()` and the end of your training. This will finish the wandb run and upload the tensorboard logs to W&B so they can be visualized. This is not necessary when running a `.py` script as wandb finishes automatically when a script finishes.
 
 To run shell commands in a notebook environment, you must prepend a `!`, as in `!wandb sync directoryname`.
 
-### PyTorch and TensorBoard
+### How do I use PyTorch with TensorBoard?
 
-If you use PyTorch's TensorBoard integration, you may need to manually upload the PyTorch Profiler JSON file**:**
+If you use PyTorch's TensorBoard integration, you may need to manually upload the PyTorch Profiler JSON file.
 
 ```python
 wandb.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")

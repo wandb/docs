@@ -4,6 +4,7 @@ menu:
     identifier: code
     parent: panels
 title: Save and diff code
+weight: 50
 ---
 
 By default, W&B only saves the latest git commit hash. You can turn on more code features to compare the code between your experiments dynamically in the UI.

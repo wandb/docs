@@ -5,9 +5,10 @@ menu:
     identifier: accelerate
     parent: integrations
 title: Hugging Face Accelerate
+weight: 140
 ---
 
-Accelerate is a library that enables the same PyTorch code to be run across any distributed configuration by adding just four lines of code, making training and inference at scale made simple, efficient and adaptable.
+Hugging Face Accelerate is a library that enables the same PyTorch code to run across any distributed configuration, to simplify model training and inference at scale.
 
 Accelerate includes a Weights & Biases Tracker which we show how to use below. You can also read more about Accelerate Trackers in **[their docs here](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking)**
 
@@ -47,9 +48,9 @@ Explaining more, you need to:
 3. Use the `.log` method to log to Weigths & Biases; the `step` argument is optional
 4. Call `.end_training` when finished training
 
-## Accessing Accelerates' Internal W&B Tracker
+## Access the W&B tracker
 
-You can quickly access the wandb tracker using the Accelerator.get_tracker() method. Just pass in the string corresponding to a tracker’s .name attribute and it will return that tracker on the main process.
+To access the W&B tracker, use the `Accelerator.get_tracker()` method. Pass in the string corresponding to a tracker’s `.name` attribute, which returns the tracker on the `main` process.
 
 ```python
 wandb_tracker = accelerator.get_tracker("wandb")
@@ -66,7 +67,7 @@ Trackers built in Accelerate will automatically execute on the correct process, 
 
 If you want to truly remove Accelerate’s wrapping entirely, you can achieve the same outcome with:
 
-```
+```python
 wandb_tracker = accelerator.get_tracker("wandb", unwrap=True)
 with accelerator.on_main_process:
     wandb_tracker.log_artifact(some_artifact_to_log)
@@ -84,3 +85,4 @@ Below is an Accelerate article you may enjoy
 
 Read the full report [here](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs&utm_medium=docs&utm_campaign=accelerate-docs).
 </details>
+<br /><br />

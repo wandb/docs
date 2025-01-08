@@ -11,7 +11,7 @@ cascade:
 - url: guides/tables/:filename
 ---
 
-
+{{< cta-button productLink="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" >}}
 
 Use W&B Tables to visualize and query tabular data. For example:
 

@@ -24,7 +24,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [How can I configure the name of the run in my training code?](configure_name_run_training_code.md)
 - [How can I organize my logged charts and media in the W&B UI?](organize_logged_charts_media_wb_ui.md)
 - [How can I save the git commit associated with my run?](save_git_commit_associated_run.md)
-- [How can I use wandb with multiprocessing, e.g. distributed training?](multiprocessing_eg_distributed_training.md)
+- [How can I use wandb with multiprocessing, such as in distributed training?](multiprocessing_eg_distributed_training.md)
 - [How do I add Plotly or Bokeh Charts into Tables?](add_plotlybokeh_charts_tables.md)
 - [How do I get the random run name in my script?](random_run_name_script.md)
 - [How do I launch multiple runs from one script?](launch_multiple_runs_one_script.md)

@@ -8,24 +8,15 @@ title: 'Tutorial: Log tables, visualize and query data'
 weight: 1
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 The following Quickstart demonstrates how to log data tables, visualize data, and query data.
 
 Select the button below to try a PyTorch Quickstart example project on MNIST data. 
 
 ## 1. Log a table
-Log a table with W&B. You can either construct a new table or pass a Pandas DataFrame.
+Log a table with W&B. You can either construct a new table or pass a Pandas Dataframe.
 
-<Tabs
-  defaultValue="construct"
-  values={[
-    {label: 'Construct a table', value: 'construct'},
-    {label: 'Pandas DataFrame', value: 'pandas'},
-  ]}>
-  <TabItem value="construct">
-
+{{< tabpane text=true >}}
+{{% tab header="Construct a table" value="construct" %}}
 To construct and log a new Table, you will use:
 - [`wandb.init()`](../../ref/python/init.md): Create a [run](../runs/intro.md) to track results.
 - [`wandb.Table()`](../../ref/python/data-types/table.md): Create a new table object.
@@ -42,10 +33,10 @@ run = wandb.init(project="table-test")
 my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
 run.log({"Table Name": my_table})
 ```
-  </TabItem>
-  <TabItem value="pandas">
+{{% /tab %}}
 
-Pass a Pandas DataFrame to `wandb.Table()` to create a new table.
+{{% tab header="Pandas Dataframe" value="pandas"%}}
+Pass a Pandas Dataframe to `wandb.Table()` to create a new table.
 
 ```python
 import wandb
@@ -59,9 +50,8 @@ wandb.log({"Table Name": my_table})
 ```
 
 For more information on supported data types, see the [`wandb.Table`](../../ref/python/data-types/table.md) in the W&B API Reference Guide.
-
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 ## 2. Visualize tables in your project workspace

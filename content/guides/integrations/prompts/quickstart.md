@@ -6,6 +6,7 @@ menu:
     identifier: quickstart
     parent: prompts
 title: 'Tutorial: Visualize and debug LLMs with Prompts'
+weight: 10
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb" >}}
 
@@ -15,30 +16,31 @@ Support for W&B Prompts ends in 2024. W&B recommends that current Prompt users t
 For assistance, contact support@wandb.com. 
 {{% /alert %}}
 
-This Quickstart guide describes how to use [Trace](./intro.md) to visualize and debug calls to LangChain, LlamaIndex or your own LLM Chain or Pipeline:
+This Quickstart guide describes how to use [Trace](./intro.md) to visualize and debug calls to:
 
-1. **[Langchain:](#use-wb-trace-with-langchain)** Use the 1-line LangChain environment variable or context manager integration for automated logging.
+- [LangChain](#use-wb-trace-with-langchain): Use the `LangChain` environment variable or context manager integration for automated logging.
 
-2. **[LlamaIndex:](#use-wb-trace-with-llamaindex)** Use the W&B callback from LlamaIndex for automated logging.
+- [LlamaIndex](#use-wb-trace-with-llamaindex): Use the W&B callback from LlamaIndex for automated logging.
 
-3. **[Custom usage](#use-wb-trace-with-any-llm-pipeline-or-plug-in)**: Use Trace with your own custom chains and LLM pipeline code.
+- [Custom usage](#use-wb-trace-with-any-llm-pipeline-or-plug-in): Use Trace with your own custom chains and LLM pipeline code.
 
 
 ## Use W&B Trace with LangChain
 
 {{% alert %}}
-**Versions** Please use `wandb >= 0.15.4` and `langchain >= 0.0.218`
+- `wandb` version `0.15.4` or higher is required.
+- `landchain` version `0.0.218` or higher is required.
 {{% /alert %}}
 
-With a 1-line environment variable from LangChain, W&B Trace continuously logs calls to a LangChain Model, Chain, or Agent. 
+Using an environment variable from LangChain, W&B Trace continuously logs calls to a LangChain Model, Chain, or Agent. 
 
-Note that you can also see the documentation for W&B Trace in the [LangChain documentation](https://python.langchain.com/docs/integrations/providers/wandb_tracing).
+For more details, refer to the documentation for W&B Trace in the [LangChain documentation](https://python.langchain.com/docs/integrations/providers/wandb_tracing).
 
-This quickstart uses a LangChain Math Agent:
+This quickstart uses a LangChain Math Agent.
 
 ### 1. Set the LANGCHAIN_WANDB_TRACING environment variable
 
-First, set the LANGCHAIN_WANDB_TRACING environment variable to true. This turns on automated Weights & Biases logging with LangChain:
+Set the `LANGCHAIN_WANDB_TRACING` environment variable to `true`. This turns on automated Weights & Biases logging with LangChain:
 
 ```python
 import os
@@ -105,7 +107,7 @@ Select a run you created to view the trace table, trace timeline and the model a
 {{< img src="/images/prompts/trace_timeline_detailed.png" alt="" >}}
 
 
-### 6. LangChain Context Manager
+### 6. Use a LangChain Context Manager
 Depending on your use case, you might instead prefer to use a context manager to manage your logging to W&B:
 
 ```python
@@ -125,13 +127,13 @@ math_agent.run("What is 2 raised to .123243 power?")  # this should not be trace
 Please report any issues with this LangChain integration to the [wandb repo](https://github.com/wandb/wandb/issues) with the tag `langchain`
 
 
-## Use W&B Trace with Any LLM Pipeline or Plug-In
+## Use W&B Trace with any LLM Pipeline or Plug-In
 
 {{% alert %}}
 **Versions** Please use `wandb >= 0.15.4`
 {{% /alert %}}
 
-A W&B Trace is created by logging 1 or more "spans". A root span is expected, which can accept nested child spans, which can in turn accept their own child spans. Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`.
+A W&B Trace is created by logging 1 or more _spans_. A root span is expected, which can accept nested child spans, which can in turn accept their own child spans. Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`.
 
 When you log with Trace, a single W&B run can include multiple calls to an LLM, Tool, Chain, or Agent. You don't need to start a new W&B run after each generation from your model or pipeline. Instead, the system appends each call to the Trace table.
 
@@ -231,7 +233,7 @@ for query in queries_ls:
 Click on the W&B [run](../../runs/intro.md) link generated in step 2. Here you should be able to view the trace table and trace timeline of your LLM. 
 
 
-### 4. Logging a LLM pipeline using nested spans
+### 4. Log a LLM pipeline using nested spans
 In this example, you'll simulate an agent making a series of calls: first to an LLM chain, then to an OpenAI LLM, and finally to a calculator tool.
 
 The system logs the inputs, outputs, and metadata for each step in the agents execution in its own span. Spans can also have child spans.
@@ -407,7 +409,7 @@ When you are done tracking your LLM queries, it is good practice to close the wa
 wandb_callback.finish()
 ```
 
-Thats it! Now you can log your queries to your index using Weights & Biases. If you come across any issues, please file an issue on the [wandb repo](https://github.com/wandb/wandb/issues) with the tag `llamaindex`
+Thats it. Now you can log your queries to your index using Weights & Biases. If you come across any issues, please file an issue on the [wandb repo](https://github.com/wandb/wandb/issues) with the tag `llamaindex`
 
 ### 6. [Optional] Save your Index data in Weights & Biaes Artifacts
 Weights & Biases [Artifacts](../../artifacts/intro.md) is a versioned data and model storage product. 
@@ -436,7 +438,9 @@ storage_context = wandb_callback.load_storage_context(
 index = load_index_from_storagex(storage_context, service_context=service_context)
 ```
 
-**Note:** for a [`ComposableGraph`](https://docs.llamaindex.ai/en/v0.9.48/examples/composable_indices/ComposableIndices-Prior.html), you can find the root ID for the index in the artifact's metadata tab in the W&B App.
+{{% alert %}}
+for a [`ComposableGraph`](https://docs.llamaindex.ai/en/v0.9.48/examples/composable_indices/ComposableIndices-Prior.html), you can find the root ID for the index in the artifact's metadata tab in the W&B App.
+{{% /alert %}}
 
 ## Next Steps
 

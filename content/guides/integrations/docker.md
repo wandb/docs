@@ -5,6 +5,7 @@ menu:
     identifier: docker
     parent: integrations
 title: Docker
+weight: 80
 ---
 
 ## Docker Integration

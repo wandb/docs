@@ -5,6 +5,7 @@ menu:
     identifier: lightgbm
     parent: integrations
 title: LightGBM
+weight: 190
 ---
 
 {{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb' >}}
@@ -29,10 +30,8 @@ Looking for working code examples? Check out [our repository of examples on GitH
 
 Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/intro.md), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
 
-{{% alert %}}
 To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out this interactive Colab notebook.
 
 {{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb' >}}
-{{% /alert %}}
 
-{{< img src="/images/integrations/lightgbm_sweeps.png" alt="tl;dr: trees outperform linear learners on this classification dataset." >}}
+{{< img src="/images/integrations/lightgbm_sweeps.png" alt="Summary: trees outperform linear learners on this classification dataset." >}}

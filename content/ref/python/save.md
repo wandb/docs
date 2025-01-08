@@ -16,7 +16,7 @@ save(
 
 Relative paths are relative to the current working directory.
 
-A Unix glob, such as "myfiles/*", is expanded at the time `save` is
+A Unix glob, such as `"myfiles/*"`, is expanded at the time `save` is
 called regardless of the `policy`. In particular, new files are not
 picked up automatically.
 
@@ -25,7 +25,7 @@ uploaded files. It should be a prefix of `glob_str`, and the directory
 structure beneath it is preserved. It's best understood through
 examples:
 
-```
+```python
 wandb.save("these/are/myfiles/*")
 # => Saves files in a "these/are/myfiles/" folder in the run.
 

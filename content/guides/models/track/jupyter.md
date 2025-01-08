@@ -9,7 +9,7 @@ title: Track Jupyter notebooks
 weight: 6
 ---
 
-Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
+Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged.
 
 ## Use cases for W&B with Jupyter notebooks
 
@@ -54,7 +54,7 @@ Try it for yourself in this [example notebook](http://wandb.me/jupyter-interact-
 
 ### Rendering live W&B interfaces directly in your notebooks
 
-You can also display any existing dashboards, sweeps or reports directly in your notebook using the `%wandb` magic:
+You can also display any existing dashboards, sweeps, or reports directly in your notebook using the `%wandb` magic:
 
 ```notebook
 # Display a project workspace
@@ -88,7 +88,7 @@ Want to know more about what you can do with W&B? Check out our [guide to loggin
 1. **Easy authentication in Colab**: When you call `wandb.init` for the first time in a Colab, we automatically authenticate your runtime if you're currently logged in to W&B in your browser. On the overview tab of your run page, you'll see a link to the Colab.
 2. **Jupyter Magic:** Display dashboards, sweeps and reports directly in your notebooks. The `%wandb` magic accepts a path to your project, sweeps or reports and will render the W&B interface directly in the notebook.
 3. **Launch dockerized Jupyter**: Call `wandb docker --jupyter` to launch a docker container, mount your code in it, ensure Jupyter is installed, and launch on port 8888.
-4. **Run cells in arbitrary order without fear**: By default, we wait until the next time `wandb.init` is called to mark a run as "finished". That allows you to run multiple cells (say, one to set up data, one to train, one to test) in whatever order you like and have them all log to the same run. If you turn on code saving in [settings](https://app.wandb.ai/settings), you'll also log the cells that were executed, in order and in the state in which they were run, enabling you to reproduce even the most non-linear of pipelines. To mark a run as complete manually in a Jupyter notebook, call `run.finish`.
+4. **Run cells in arbitrary order without fear**: By default, we wait until the next time `wandb.init` is called to mark a run as `finished`. That allows you to run multiple cells (say, one to set up data, one to train, one to test) in whatever order you like and have them all log to the same run. If you turn on code saving in [settings](https://app.wandb.ai/settings), you'll also log the cells that were executed, in order and in the state in which they were run, enabling you to reproduce even the most non-linear of pipelines. To mark a run as complete manually in a Jupyter notebook, call `run.finish`.
 
 ```python
 import wandb

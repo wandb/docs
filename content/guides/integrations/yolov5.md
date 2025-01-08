@@ -4,21 +4,20 @@ menu:
     identifier: yolov5
     parent: integrations
 title: YOLOv5
+weight: 470
 ---
+
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/yolo/Train_and_Debug_YOLOv5_Models_with_Weights_%26_Biases_.ipynb" >}}
+
 [Ultralytics' YOLOv5](https://ultralytics.com/yolov5) ("You Only Look Once") model family enables real-time object detection with convolutional neural networks without all the agonizing pain.
 
-[Weights & Biases](http://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **It's as easy as running a single `pip install` before you run your YOLO experiments!**
+[Weights & Biases](http://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **It's as easy as running a single `pip install` before you run your YOLO experiments.**
 
 {{% alert %}}
-For a quick overview of the model and data-logging features of our YOLOv5 integration, check out [this Colab](https://wandb.me/yolo-colab) and accompanying video tutorial, linked below.
+All W&B logging features are compatible with data-parallel multi-GPU training, such as with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
 {{% /alert %}}
 
-{{% alert %}}
-All W&B logging features are compatible with data-parallel multi-GPU training, e.g. with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
-{{% /alert %}}
-
-## Core Experiment Tracking
-
+## Track core experiments
 Simply by installing `wandb`, you'll activate the built-in W&B [logging features](../track/log/intro.md): system metrics, model metrics, and media logged to interactive [Dashboards](../track/workspaces.md).
 
 ```python
@@ -29,11 +28,11 @@ python yolov5/train.py  # train a small network on a small dataset
 
 Just follow the links printed to the standard out by wandb.
 
-{{< img src="/images/integrations/yolov5_experiment_tracking.png" alt="All these charts and more!" >}}
+{{< img src="/images/integrations/yolov5_experiment_tracking.png" alt="All these charts and more." >}}
 
-## Model Versioning and Data Visualization
+## Customize the integration
 
-But that's not all! By passing a few simple command line arguments to YOLO, you can take advantage of even more W&B features.
+By passing a few simple command line arguments to YOLO, you can take advantage of even more W&B features.
 
 * Passing a number to `--save_period` will turn on [model versioning](../model_registry/intro.md). At the end of every `save_period` epochs, the model weights will be saved to W&B. The best-performing model on the validation set will be tagged automatically.
 * Turning on the `--upload_dataset` flag will also upload the dataset for data versioning.
@@ -68,5 +67,5 @@ Here's what that looks like.
 {{< img src="/images/integrations/yolov5_data_visualization.png" alt="Data Visualization: compare the input image to the model's outputs and example-wise metrics." >}}
 
 {{% alert %}}
-With data and model versioning, you can resume paused or crashed experiments from any device, no setup necessary! Check out [the Colab ](https://wandb.me/yolo-colab)for details.
+With data and model versioning, you can resume paused or crashed experiments from any device, no setup necessary. Check out [the Colab ](https://wandb.me/yolo-colab) for details.
 {{% /alert %}}

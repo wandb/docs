@@ -5,10 +5,8 @@ menu:
     identifier: clone-and-export-reports
     parent: reports
 title: Clone and export reports
+weight: 40
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 ## Export reports
 
@@ -16,23 +14,20 @@ Export a report as a PDF or LaTeX. Within your report, select the kebab icon to 
 
 ## Cloning reports
 
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'python'}
-  ]}>
-  <TabItem value="app">
-
+{{< tabpane text=true >}}
+{{% tab header="App UI" value="app" %}}
 Within your report, select the kebab icon to expand the dropdown menu. Choose the **Clone this report** button. Pick a destination for your cloned report in the modal. Choose **Clone report**.
 
 {{< img src="/images/reports/clone_reports.gif" alt="" >}}
 
 Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
-  </TabItem>
-  <TabItem value="python">
+{{% /tab %}}
 
+{{% tab header="Python SDK" value="python"%}}
+
+<!--
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" >}}
+-->
 
 Load a Report from a URL to use it as a template.
 
@@ -64,5 +59,5 @@ new_report.blocks = (
 )
 new_report.save()
 ```
-  </TabItem>
-</Tabs>
+{{% /tab %}}
+{{< /tabpane >}}

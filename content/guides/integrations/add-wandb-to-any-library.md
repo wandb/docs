@@ -4,6 +4,7 @@ menu:
     identifier: add-wandb-to-any-library
     parent: integrations
 title: Add wandb to any library
+weight: 10
 ---
 
 ## Add wandb to any library
@@ -281,13 +282,13 @@ wandb.init(...)
 wandb.define_metric("*", step_metric="global_step")
 ```
 
-The glob pattern, "*", means that every metric will use "global_step" as the x-axis in your charts. If you only want certain metrics to be logged against "global_step", you can specify them instead:
+The glob pattern, `*`, means that every metric will use `global_step` as the x-axis in your charts. If you only want certain metrics to be logged against `global_step`, you can specify them instead:
 
 ```python
 wandb.define_metric("train/loss", step_metric="global_step")
 ```
 
-Now that you've called `wandb.define_metric`, you just need to log your metrics as well as your `step_metric`, "global_step", every time you call `wandb.log`:
+Now that you've called `wandb.define_metric`, you just need to log your metrics as well as your `step_metric`, `global_step`, every time you call `wandb.log`:
 
 ```python
 for step, (input, ground_truth) in enumerate(data):
@@ -329,7 +330,7 @@ If your framework uses or produces models or datasets, you can log them for full
 When using Artifacts, it might be useful but not necessary to let your users define:
 
 * The ability to log model checkpoints or datasets (in case you want to make it optional).
-* The path/reference of the artifact being used as input, if any. For example, "user/project/artifact".
+* The path/reference of the artifact being used as input, if any. For example, `user/project/artifact`.
 * The frequency for logging Artifacts.
 
 #### Log Model Checkpoints
@@ -373,7 +374,7 @@ artifact = wandb.run.use_artifact("user/project/artifact:latest")
 local_path = artifact.download("./tmp")
 ```
 
-Artifacts can be found in the Artifacts section of W&B and can be referenced with aliases generated automatically ("latest", "v2", "v3") or manually when logging ("best_accuracy", etc.).
+Artifacts can be found in the Artifacts section of W&B and can be referenced with aliases generated automatically (`latest`, `v2`, `v3`) or manually when logging (`best_accuracy`, etc.).
 
 To download an Artifact without creating a `wandb` run (through `wandb.init`), for example in distributed environments or for simple inference, you can instead reference the artifact with the [wandb API](/ref/python/public-api):
 

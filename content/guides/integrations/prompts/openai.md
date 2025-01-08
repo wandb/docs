@@ -5,6 +5,7 @@ menu:
     identifier: openai
     parent: prompts
 title: OpenAI and Weights & Biases
+weight: 20
 ---
 
 {{% alert %}}

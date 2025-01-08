@@ -39,7 +39,7 @@ quay.io/prometheus/prometheus                           v2.47.0
 quay.io/prometheus-operator/prometheus-config-reloader  v0.67.0
 ```
 
-## Step 2: Prepare internal Helm chart repository
+## Step 3: Prepare internal Helm chart repository
 
 Along with the container images, you also must ensure that the following Helm charts are available in your internal Helm Chart repository. 
 
@@ -50,7 +50,7 @@ Along with the container images, you also must ensure that the following Helm ch
 
 The `operator` chart is used to deploy the W&B Operator, or the Controller Manager. While the `platform` chart is used to deploy the W&B Platform using the values configured in the custom resource definition (CRD).
 
-## Step 3: Set up Helm repository
+## Step 4: Set up Helm repository
 
 Now, configure the Helm repository to pull the W&B Helm charts from your internal repository. Run the following commands to add and update the Helm repository:
 
@@ -59,7 +59,7 @@ helm repo add local-repo https://charts.yourdomain.com
 helm repo update
 ```
 
-## Step 4: Install the Kubernetes operator
+## Step 5: Install the Kubernetes operator
 
 The W&B Kubernetes operator, also known as the controller manager, is responsible for managing the W&B platform components. To install it in an air-gapped environment, 
 you must configure it to use your internal container registry.
@@ -75,7 +75,7 @@ airgapped: true
 
 You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
-## Step 5: Configure CustomResourceDefinitions 
+## Step 6: Configure CustomResourceDefinitions 
 
 After installing the W&B Kubernetes operator, you must configure the Custom Resource Definitions (CRDs) to point to your internal Helm repository and container registry. 
 
@@ -143,7 +143,7 @@ To deploy the W&B platform, the Kubernetes Operator uses the `operator-wandb` ch
 
 You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
-## Step 6: Deploy the W&B platform
+## Step 7: Deploy the W&B platform
 
 Finally, after setting up the Kubernetes operator and the CRD, deploy the W&B platform using the following command:
 
@@ -151,18 +151,18 @@ Finally, after setting up the Kubernetes operator and the CRD, deploy the W&B pl
 kubectl apply -f wandb.yaml
 ```
 
-## Troubleshooting and FAQ
+## FAQ
 
 Refer to the below frequently asked questions (FAQs) and troubleshooting tips during the deployment process:
 
-**There is another ingress class. Can that class be used?**  
+### There is another ingress class. Can that class be used?
 Yes, you can configure your ingress class by modifying the ingress settings in `values.yaml`.
 
-**The certificate bundle has more than one certificate. Would that work?**  
+### The certificate bundle has more than one certificate. Would that work?
 You must split the certificates into multiple entries in the `customCACerts` section of `values.yaml`.
 
-**How do you prevent the Kubernetes operator from applying unattended updates. Is that possible?**  
+### How do you prevent the Kubernetes operator from applying unattended updates. Is that possible?
 You can turn off auto-updates from the W&B console. Reach out to your W&B team for any questions on the supported versions. Also, note that W&B supports platform versions released in last 6 months. W&B recommends performing periodic upgrades. 
 
-**Does the deployment work if the environment has no connection to public repositories?**  
+### Does the deployment work if the environment has no connection to public repositories?
 As long as you have enabled the `airgapped: true` configuration, the Kubernetes operator does not attempt to reach public repositories. The Kubernetes operator attempts to use your internal resources.

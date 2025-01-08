@@ -5,6 +5,8 @@ menu:
     parent: w-b-platform
 title: Identity and access management (IAM)
 url: guides/hosting/iam/org_team_struct
+cascade:
+- url: guides/hosting/iam/:filename
 weight: 2
 ---
 

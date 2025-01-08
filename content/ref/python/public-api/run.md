@@ -287,7 +287,7 @@ Upload a file.
 
 | Args |  |
 | :--- | :--- |
-|  path (str): name of file to upload. root (str): the root path to save the file relative to. i.e. If you want to have the file saved in the run as "my_dir/file.txt" and you're currently in "my_dir" you would set root to "../". |
+|  path (str): name of file to upload. root (str): the root path to save the file relative to. For example, from within `my_dir`, to save the run to `my_dir/file.txt`, set root to `../`. |
 
 | Returns |  |
 | :--- | :--- |

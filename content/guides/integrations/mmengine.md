@@ -4,6 +4,7 @@ menu:
     identifier: mmengine
     parent: integrations
 title: MMEngine
+weight: 210
 ---
 MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library for training deep learning models based on PyTorch. MMEngine implements a next-generation training architecture for the OpenMMLab algorithm library, providing a unified execution foundation for over 30 algorithm libraries within OpenMMLab. Its core components include the training engine, evaluation engine, and module management.
 
@@ -12,15 +13,34 @@ MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library
 - log and manage experiment configs.
 - log additional records such as graph, images, scalars, etc.
 
-## Getting started
+## Get started
 
-First, you need to install `openmim` and `wandb`. You can then proceed to install `mmengine` and `mmcv` using `openmim`.
+Install `openmim` and `wandb`.
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="script" %}}
 
-```shell
+``` bash
 pip install -q -U openmim wandb
+```
+
+{{% /tab %}}
+
+{{% tab header="Notebook" value="notebook" %}}
+
+``` bash
+!pip install -q -U openmim wandb
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+Next, install `mmengine` and `mmcv` using `mim`.
+
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="script" %}}
+
+``` bash
 mim install -q mmengine mmcv
 ```
 
@@ -28,68 +48,62 @@ mim install -q mmengine mmcv
 
 {{% tab header="Notebook" value="notebook" %}}
 
-```python
-!pip install -q -U openmim wandb
+``` bash
 !mim install -q mmengine mmcv
 ```
 
 {{% /tab %}}
 {{< /tabpane >}}
 
-
-## Using the `WandbVisBackend` with MMEngine Runner
+## Use the `WandbVisBackend` with MMEngine Runner
 
 This section demonstrates a typical workflow using `WandbVisBackend` using [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner).
 
-First, you need to define a `visualizer` from a visualization config.
+1. Define a `visualizer` from a visualization config.
 
-```python
-from mmengine.visualization import Visualizer
+    ```python
+    from mmengine.visualization import Visualizer
 
-# define the visualization configs
-visualization_cfg = dict(
-    name="wandb_visualizer",
-    vis_backends=[
-        dict(
-            type='WandbVisBackend',
-            init_kwargs=dict(project="mmengine"),
-        )
-    ],
-    save_dir="runs/wandb"
-)
+    # define the visualization configs
+    visualization_cfg = dict(
+        name="wandb_visualizer",
+        vis_backends=[
+            dict(
+                type='WandbVisBackend',
+                init_kwargs=dict(project="mmengine"),
+            )
+        ],
+        save_dir="runs/wandb"
+    )
 
-# get the visualizer from the visualization configs
-visualizer = Visualizer.get_instance(**visualization_cfg)
-```
+    # get the visualizer from the visualization configs
+    visualizer = Visualizer.get_instance(**visualization_cfg)
+    ```
 
-{{% alert %}}
-You pass a dictionary of arguments for [W&B run initialization](/ref/python/init) input parameters to `init_kwargs`.
-{{% /alert %}}
+    {{% alert %}}
+    You pass a dictionary of arguments for [W&B run initialization](/ref/python/init) input parameters to `init_kwargs`.
+    {{% /alert %}}
 
-Next, you simply initialize a `runner` with the `visualizer`, and call `runner.train()`.
+2. Initialize a `runner` with the `visualizer`, and call `runner.train()`.
 
-```python
-from mmengine.runner import Runner
+    ```python
+    from mmengine.runner import Runner
 
-# build the mmengine Runner which is a training helper for PyTorch
-runner = Runner(
-    model,
-    work_dir='runs/gan/',
-    train_dataloader=train_dataloader,
-    train_cfg=train_cfg,
-    optim_wrapper=opt_wrapper_dict,
-    visualizer=visualizer, # pass the visualizer
-)
+    # build the mmengine Runner which is a training helper for PyTorch
+    runner = Runner(
+        model,
+        work_dir='runs/gan/',
+        train_dataloader=train_dataloader,
+        train_cfg=train_cfg,
+        optim_wrapper=opt_wrapper_dict,
+        visualizer=visualizer, # pass the visualizer
+    )
 
-# start training
-runner.train()
-```
+    # start training
+    runner.train()
+    ```
 
-| {{< img src="/images/integrations/mmengine.png" alt="An example of your experiment tracked using the `WandbVisBackend`" >}} | 
-|:--:| 
-| **An example of your experiment tracked using the `WandbVisBackend`.** |
-
-## Using the `WandbVisBackend` with OpenMMLab computer vision libraries
+## Use the `WandbVisBackend` with OpenMMLab computer vision libraries
 
 The `WandbVisBackend` can also be used easily to track experiments with OpenMMLab computer vision libraries such as [MMDetection](https://mmdetection.readthedocs.io/).
 

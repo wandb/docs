@@ -50,10 +50,11 @@ wandb.save("model.onnx")
 
 
 
-## Follow along with a [video tutorial](http://wandb.me/pytorch-video)!
+Follow along with a [video tutorial](http://wandb.me/pytorch-video).
+
 **Note**: Sections starting with _Step_ are all you need to integrate W&B in an existing pipeline. The rest just loads data and defines a model.
 
-# 🚀 Install, Import, and Log In
+## Install, import, and log in
 
 
 ```python
@@ -120,11 +121,11 @@ and then access it as needed.
 
 For this example, we're only letting a few hyperparameters vary
 and hand-coding the rest.
-But any part of your model can be part of the `config`!
+But any part of your model can be part of the `config`.
 
 We also include some metadata: we're using the MNIST dataset and a convolutional
 architecture. If we later work with, say,
-fully-connected architectures on CIFAR in the same project,
+fully connected architectures on CIFAR in the same project,
 this will help us separate our runs.
 
 
@@ -154,7 +155,7 @@ def model_pipeline(hyperparameters):
 
     # tell wandb to get started
     with wandb.init(project="pytorch-demo", config=hyperparameters):
-      # access all HPs through wandb.config, so logging matches execution!
+      # access all HPs through wandb.config, so logging matches execution.
       config = wandb.config
 
       # make the model, data, and optimization problem
@@ -186,9 +187,9 @@ Check the definition of `make` below to see some examples.
 
 > *Side Note*: We take care to run our code in separate processes,
 so that any issues on our end
-(e.g. a giant sea monster attacks our data centers)
+(such as if a giant sea monster attacks our data centers)
 don't crash your code.
-Once the issue is resolved (e.g. the Kraken returns to the deep)
+Once the issue is resolved, such as when the Kraken returns to the deep,
 you can log the data with `wandb sync`.
 
 
@@ -240,13 +241,13 @@ def make_loader(dataset, batch_size):
     return loader
 ```
 
-Defining the model is normally the fun part!
+Defining the model is normally the fun part.
 
 But nothing changes with `wandb`,
 so we're gonna stick with a standard ConvNet architecture.
 
 Don't be afraid to mess around with this and try some experiments --
-all your results will be logged on [wandb.ai](https://wandb.ai)!
+all your results will be logged on [wandb.ai](https://wandb.ai).
 
 
 
@@ -297,7 +298,7 @@ and applying our `optimizer`.
 
 ```python
 def train(model, loader, criterion, optimizer, config):
-    # Tell wandb to watch what the model gets up to: gradients, weights, and more!
+    # Tell wandb to watch what the model gets up to: gradients, weights, and more.
     wandb.watch(model, criterion, log="all", log_freq=10)
 
     # Run training and track with wandb
@@ -357,7 +358,7 @@ def train_log(loss, example_ct, epoch):
 
 Once the model is done training, we want to test it:
 run it against some fresh data from production, perhaps,
-or apply it to some hand-curated "hard examples".
+or apply it to some hand-curated examples.
 
 
 
@@ -370,7 +371,7 @@ For maximum compatibility, we'll `export` our model in the
 
 Passing that filename to `wandb.save` ensures that the model parameters
 are saved to W&B's servers: no more losing track of which `.h5` or `.pb`
-corresponds to which training runs!
+corresponds to which training runs.
 
 For more advanced `wandb` features for storing, versioning, and distributing
 models, check out our [Artifacts tools](https://www.wandb.com/artifacts).
@@ -400,11 +401,11 @@ def test(model, test_loader):
     wandb.save("model.onnx")
 ```
 
-# 🏃‍♀️ Run training and watch your metrics live on wandb.ai!
+# 🏃‍♀️ Run training and watch your metrics live on wandb.ai
 
 Now that we've defined the whole pipeline and slipped in
 those few lines of W&B code,
-we're ready to run our fully-tracked experiment.
+we're ready to run our fully tracked experiment.
 
 We'll report a few links to you:
 our documentation,
@@ -418,12 +419,11 @@ Navigate to the Run page and check out these tabs:
 3. **Logs**, which has a copy of anything pushed to standard out during training
 4. **Files**, where, once training is complete, you can click on the `model.onnx` to view our network with the [Netron model viewer](https://github.com/lutzroeder/netron).
 
-Once the run in finished
-(i.e. the `with wandb.init` block is exited),
+Once the run in finished, when the `with wandb.init` block exits,
 we'll also print a summary of the results in the cell output.
 
 
-```
+```python
 # Build, train and analyze the model with the pipeline
 model = model_pipeline(config)
 ```
@@ -448,7 +448,7 @@ Running a hyperparameter sweep with Weights & Biases is very easy. There are jus
 3. **Run the sweep agent:** 
 `wandb.agent(sweep_id, function=train)`
 
-And voila! That's all there is to running a hyperparameter sweep!
+That's all there is to running a hyperparameter sweep.
 
 {{< img src="/images/tutorials/pytorch-2.png" alt="" >}}
 

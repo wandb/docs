@@ -147,8 +147,8 @@ Customize metrics logged with `wandb.log()`.
 |  `step_metric` |  The name of another metric to serve as the X-axis for this metric in automatically generated charts. |
 |  `step_sync` |  Automatically insert the last value of step_metric into `run.log()` if it is not provided explicitly. Defaults to True if step_metric is specified. |
 |  `hidden` |  Hide this metric from automatic plots. |
-|  `summary` |  Specify aggregate metrics added to summary. Supported aggregations include "min", "max", "mean", "last", "best", "copy" and "none". "best" is used together with the goal parameter. "none" prevents a summary from being generated. "copy" is deprecated and should not be used. |
-|  `goal` |  Specify how to interpret the "best" summary type. Supported options are "minimize" and "maximize". |
+|  `summary` |  Specify aggregate metrics added to summary. Supported aggregations include `min`, `max`, `mean`, `last`, `best`, `copy` and `none`. `best` is used together with the goal parameter. `none` prevents a summary from being generated. `copy` is deprecated. |
+|  `goal` |  Specify how to interpret the `best` summary type. Supported options are `minimize` and `maximize`. |
 |  `overwrite` |  If false, then this call is merged with previous `define_metric` calls for the same metric by using their values for any unspecified parameters. If true, then unspecified parameters overwrite values specified by previous calls. |
 
 | Returns |  |
@@ -403,10 +403,9 @@ The most basic usage is `run.log({"train-loss": 0.5, "accuracy": 0.9})`.
 This will save the loss and accuracy to the run's history and update
 the summary values for these metrics.
 
-Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
+Visualize logged data in the workspace at [wandb.ai](https://wandb.ai)
 or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, e.g. in
-Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+of the W&B app. Use our [API](https://docs.wandb.ai/guides/track/public-api-guide) to export data to visualize and explore locally
 
 Logged values don't have to be scalars. Logging any wandb object is supported.
 For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an
@@ -434,8 +433,8 @@ run.log(
 )
 ```
 
-Only one level of nesting is supported; `run.log({"a/b/c": 1})`
-produces a section named "a/b".
+Only one level of nesting is supported. `run.log({"a/b/c": 1})`
+produces a section named `"a/b"`.
 
 `run.log` is not intended to be called more than a few times per second.
 For optimal performance, limit your logging to once every N iterations,
@@ -443,15 +442,15 @@ or collect data over multiple iterations and log it in a single step.
 
 ### The W&B step
 
-With basic usage, each call to `log` creates a new "step".
+With basic usage, each call to `log` creates a new `step`.
 The step must always increase, and it is not possible to log
 to a previous step.
 
-Note that you can use any metric as the X axis in charts.
+You can use any metric as the X axis in charts.
 In many cases, it is better to treat the W&B step like
 you'd treat a timestamp rather than a training step.
 
-```
+```python
 # Example: log an "epoch" metric for use as an X axis.
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
@@ -483,10 +482,10 @@ run.log({"accuracy": 0.9}, step=current_step)
 
 | Args |  |
 | :--- | :--- |
-|  `data` |  A `dict` with `str` keys and values that are serializable Python objects including: `int`, `float` and `string`; any of the `wandb.data_types`; lists, tuples and NumPy arrays of serializable Python objects; other `dict`s of this structure. |
-|  `step` |  The step number to log. If `None`, then an implicit auto-incrementing step is used. See the notes in the description. |
-|  `commit` |  If true, finalize and upload the step. If false, then accumulate data for the step. See the notes in the description. If `step` is `None`, then the default is `commit=True`; otherwise, the default is `commit=False`. |
-|  `sync` |  This argument is deprecated and does nothing. |
+| `data` | A `dict` with `str` keys and values that are serializable Python objects including: `int`, `float` and `string`; any of the `wandb.data_types`; lists, tuples and NumPy arrays of serializable Python objects; other `dict`s of this structure. |
+| `step` | The step number to log. If `None`, then an implicit auto-incrementing step is used. See the notes in the description. |
+| `commit` | If true, finalize and upload the step. If false, then accumulate data for the step. See the notes in the description. If `step` is `None`, then the default is `commit=True`; otherwise, the default is `commit=False`. |
+| `sync` | This argument is deprecated and does nothing. |
 
 #### Examples:
 
@@ -637,8 +636,8 @@ run.log(
 
 | Raises |  |
 | :--- | :--- |
-|  `wandb.Error` |  if called before `wandb.init` |
-|  `ValueError` |  if invalid data is passed |
+| `wandb.Error` | if called before `wandb.init` |
+| `ValueError` | if invalid data is passed |
 
 ### `log_artifact`
 
@@ -658,15 +657,15 @@ Declare an artifact as an output of a run.
 
 | Args |  |
 | :--- | :--- |
-|  `artifact_or_path` |  (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-|  `name` |  (str, optional) An artifact name. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-|  `type` |  (str) The type of artifact to log, examples include `dataset`, `model` |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
-|  `tags` |  (list, optional) Tags to apply to this artifact, if any. |
+| `artifact_or_path` | (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
+| `name` | (str, optional) An artifact name. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
+| `type` | (str) The type of artifact to log, examples include `dataset`, `model` |
+| `aliases` | (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
+| `tags` | (list, optional) Tags to apply to this artifact, if any. |
 
 | Returns |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+| An `Artifact` object. |
 
 ### `log_code`
 
@@ -687,10 +686,10 @@ By default, it walks the current directory and logs all files that end with `.py
 
 | Args |  |
 | :--- | :--- |
-|  `root` |  The relative (to `os.getcwd()`) or absolute path to recursively find code from. |
-|  `name` |  (str, optional) The name of our code artifact. By default, we'll name the artifact `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. There may be scenarios where you want many runs to share the same artifact. Specifying name allows you to achieve that. |
-|  `include_fn` |  A callable that accepts a file path and (optionally) root path and returns True when it should be included and False otherwise. This defaults to: `lambda path, root: path.endswith(".py")` |
-|  `exclude_fn` |  A callable that accepts a file path and (optionally) root path and returns `True` when it should be excluded and `False` otherwise. This defaults to a function that excludes all files within `&lt;root&gt;/.wandb/` and `&lt;root&gt;/wandb/` directories. |
+| `root` | The relative (to `os.getcwd()`) or absolute path to recursively find code from. |
+| `name` | (str, optional) The name of our code artifact. By default, we'll name the artifact `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. There may be scenarios where you want many runs to share the same artifact. Specifying name allows you to achieve that. |
+| `include_fn` | A callable that accepts a file path and (optionally) root path and returns True when it should be included and False otherwise. This defaults to: `lambda path, root: path.endswith(".py")` |
+| `exclude_fn` | A callable that accepts a file path and (optionally) root path and returns `True` when it should be excluded and `False` otherwise. This defaults to a function that excludes all files within `&lt;root&gt;/.wandb/` and `&lt;root&gt;/wandb/` directories. |
 
 #### Examples:
 
@@ -714,7 +713,7 @@ run.log_code(
 
 | Returns |  |
 | :--- | :--- |
-|  An `Artifact` object if code was logged |
+| An `Artifact` object if code was logged |
 
 ### `log_model`
 
@@ -732,9 +731,9 @@ Logs a model artifact containing the contents inside the 'path' to a run and mar
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) A path to the contents of this model, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
-|  `name` |  (str, optional) A name to assign to the model artifact that the file contents will be added to. The string must contain only the following alphanumeric characters: dashes, underscores, and dots. This will default to the basename of the path prepended with the current run id if not specified. |
-|  `aliases` |  (list, optional) Aliases to apply to the created model artifact, defaults to `["latest"]` |
+| `path` | (str) A path to the contents of this model, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
+| `name` | (str, optional) A name to assign to the model artifact that the file contents will be added to. The string must contain only the following alphanumeric characters: dashes, underscores, and dots. This will default to the basename of the path prepended with the current run id if not specified. |
+| `aliases` | (list, optional) Aliases to apply to the created model artifact, defaults to `["latest"]` |
 
 #### Examples:
 
@@ -758,11 +757,11 @@ run.log_model(
 
 | Raises |  |
 | :--- | :--- |
-|  `ValueError` |  if name has invalid special characters |
+| `ValueError` | if name has invalid special characters |
 
 | Returns |  |
 | :--- | :--- |
-|  None |
+| None |
 
 ### `mark_preempting`
 
@@ -804,19 +803,19 @@ By default, will only download the file if it doesn't already exist.
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  the name of the file |
-|  `run_path` |  optional path to a run to pull files from, i.e. `username/project_name/run_id` if wandb.init has not been called, this is required. |
-|  `replace` |  whether to download the file even if it already exists locally |
-|  `root` |  the directory to download the file to. Defaults to the current directory or the run directory if wandb.init was called. |
+| `name` | the name of the file |
+| `run_path` | optional path to a run to pull files from, such as `username/project_name/run_id`. If `wandb.init` has not been called, `run_path` is required. |
+| `replace` | whether to download the file even if it already exists locally |
+| `root` | the directory to download the file to. Defaults to the current directory or the run directory if wandb.init was called. |
 
 | Returns |  |
 | :--- | :--- |
-|  None if it can't find the file, otherwise a file object open for reading |
+| None if it can't find the file, otherwise a file object open for reading |
 
 | Raises |  |
 | :--- | :--- |
-|  `wandb.CommError` |  if we can't connect to the wandb backend |
-|  `ValueError` |  if the file is not found or can't find run_path |
+| `wandb.CommError` | if we can't connect to the wandb backend |
+| `ValueError` | if the file is not found or can't find run_path |
 
 ### `save`
 
@@ -834,7 +833,7 @@ Sync one or more files to W&B.
 
 Relative paths are relative to the current working directory.
 
-A Unix glob, such as "myfiles/*", is expanded at the time `save` is
+A Unix glob, such as`"myfiles/*`, is expanded at the time `save` is
 called regardless of the `policy`. In particular, new files are not
 picked up automatically.
 
@@ -866,13 +865,13 @@ directory level is preserved as in the example above.
 
 | Args |  |
 | :--- | :--- |
-|  `glob_str` |  A relative or absolute path or Unix glob. |
-|  `base_path` |  A path to use to infer a directory structure; see examples. |
-|  `policy` |  One of `live`, `now`, or `end`. * live: upload the file as it changes, overwriting the previous version * now: upload the file once now * end: upload file when the run ends |
+| `glob_str` | A relative or absolute path or Unix glob. |
+| `base_path` | A path to use to infer a directory structure; see examples. |
+| `policy` | One of `live`, `now`, or `end`. * live: upload the file as it changes, overwriting the previous version * now: upload the file once now * end: upload file when the run ends |
 
 | Returns |  |
 | :--- | :--- |
-|  Paths to the symlinks created for the matched files. For historical reasons, this may return a boolean in legacy code. |
+| Paths to the symlinks created for the matched files. For historical reasons, this may return a boolean in legacy code. |
 
 ### `status`
 
@@ -907,11 +906,11 @@ unwatch(
 ) -> None
 ```
 
-Remove pytorch model topology, gradient and parameter hooks.
+Remove pytorch model topology, gradient hooks, and parameter hooks.
 
 | Args |  |
 | :--- | :--- |
-|  models (torch.nn.Module | Sequence[torch.nn.Module]): Optional list of pytorch models that have had watch called on them |
+| models `(torch.nn.Module` | `Sequence[torch.nn.Module])`: Optional list of pytorch models that have had watch called on them |
 
 ### `upsert_artifact`
 
@@ -934,15 +933,15 @@ This is useful when distributed jobs need to all contribute to the same artifact
 
 | Args |  |
 | :--- | :--- |
-|  `artifact_or_path` |  (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-|  `name` |  (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-|  `type` |  (str) The type of artifact to log, examples include `dataset`, `model` |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
-|  `distributed_id` |  (string, optional) Unique string that all distributed jobs share. If None, defaults to the run's group name. |
+| `artifact_or_path` | (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
+| `name` | (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
+| `type` | (str) The type of artifact to log, examples include `dataset`, `model` |
+| `aliases` | (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
+| `distributed_id` | (string, optional) Unique string that all distributed jobs share. If None, defaults to the run's group name. |
 
 | Returns |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+| An `Artifact` object. |
 
 ### `use_artifact`
 
@@ -963,14 +962,14 @@ Call `download` or `file` on the returned object to get the contents locally.
 
 | Args |  |
 | :--- | :--- |
-|  `artifact_or_name` |  (str or Artifact) An artifact name. May be prefixed with project/ or entity/project/. If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms: - name:version - name:alias You can also pass an Artifact object created by calling `wandb.Artifact` |
-|  `type` |  (str, optional) The type of artifact to use. |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact |
-|  `use_as` |  (string, optional) Optional string indicating what purpose the artifact was used with. Will be shown in UI. |
+| `artifact_or_name` | (str or Artifact) An artifact name. May be prefixed with project/ or entity/project/. If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms: - name:version - name:alias You can also pass an Artifact object created by calling `wandb.Artifact` |
+| `type` | (str, optional) The type of artifact to use. |
+| `aliases` | (list, optional) Aliases to apply to this artifact |
+| `use_as` | (string, optional) Optional string indicating what purpose the artifact was used with. Will be shown in UI. |
 
 | Returns |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+| An `Artifact` object. |
 
 ### `use_model`
 
@@ -986,7 +985,7 @@ Download the files logged in a model artifact 'name'.
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) A model artifact name. 'name' must match the name of an existing logged model artifact. May be prefixed with entity/project/. Valid names can be in the following forms: - model_artifact_name:version - model_artifact_name:alias |
+| `name` | (str) A model artifact name. 'name' must match the name of an existing logged model artifact. May be prefixed with entity/project/. Valid names can be in the following forms: - model_artifact_name:version - model_artifact_name:alias |
 
 #### Examples:
 
@@ -1014,11 +1013,11 @@ run.use_model(
 
 | Raises |  |
 | :--- | :--- |
-|  `AssertionError` |  if model artifact 'name' is of a type that does not contain the substring 'model'. |
+| `AssertionError` | if model artifact 'name' is of a type that does not contain the substring 'model'. |
 
 | Returns |  |
 | :--- | :--- |
-|  `path` |  (str) path to downloaded model artifact file(s). |
+| `path` | (str) path to downloaded model artifact files. |
 
 ### `watch`
 
@@ -1035,18 +1034,18 @@ watch(
 ) -> None
 ```
 
-Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.
+Hooks into the given PyTorch models to monitor gradients and the model's computational graph.
 
 This function can track parameters, gradients, or both during training. It should be
 extended to support arbitrary machine learning models in the future.
 
 | Args |  |
 | :--- | :--- |
-|  models (Union[torch.nn.Module, Sequence[torch.nn.Module]]): A single model or a sequence of models to be monitored. criterion (Optional[torch.F]): The loss function being optimized (optional). log (Optional[Literal["gradients", "parameters", "all"]]): Specifies whether to log "gradients", "parameters", or "all". Set to None to disable logging. (default="gradients") log_freq (int): Frequency (in batches) to log gradients and parameters. (default=1000) idx (Optional[int]): Index used when tracking multiple models with `wandb.watch`. (default=None) log_graph (bool): Whether to log the model's computational graph. (default=False) |
+| models `(Union[torch.nn.Module, Sequence[torch.nn.Module]])`: A single model or a sequence of models to be monitored. `criterion (Optional[torch.F])`: The loss function being optimized (optional). `log (Optional[Literal["gradients", "parameters", "all"]])`: Specifies whether to log gradients, parameters, or all. Set to `None` to disable logging. (default=`"gradients"`) `log_freq (int)`: Frequency (in batches) to log gradients and parameters. (default=`1000`) `idx (Optional[int])`: Index used when tracking multiple models with `wandb.watch`. (default=`None`) `log_graph (bool)`: Whether to log the model's computational graph. (default=`False`) |
 
 | Raises |  |
 | :--- | :--- |
-|  `ValueError` |  If `wandb.init` has not been called or if any of the models are not instances of `torch.nn.Module`. |
+| `ValueError` | If `wandb.init` has not been called or if any of the models are not instances of `torch.nn.Module`. |
 
 ### `__enter__`
 

@@ -12,7 +12,7 @@ title: Log models
 The following guide describes how to log models to a W&B run and interact with them. 
 
 {{% alert %}}
-The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to quickly log models to a run, in addition to metrics, tables, media and other objects.
+The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to log models to a run, and to access metrics, tables, media, and other objects.
 
 W&B suggests that you use [W&B Artifacts](../../artifacts/intro.md) if you want to:
 - Create and keep track of different versions of serialized data besides models, such as datasets, prompts, and more.
@@ -27,7 +27,7 @@ Use the [`log_model`](../../../ref/python/run.md#log_model) to log a model artif
 
 You can track a model's dependencies and the model's associations if you mark the model as the input or output of a W&B run. View the lineage of the model within the W&B App UI. See the [Explore and traverse artifact graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) page within the [Artifacts](../../artifacts/intro.md) chapter for more information.
 
-Provide the path where your model file(s) are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](../../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
+Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](../../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
 
 Ensure to replace values enclosed in `<>` with your own.
 
@@ -113,9 +113,9 @@ Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
 ## Download and use a logged model
 Use the [`use_model`](../../../ref/python/run.md#use_model) function to access and download models files previously logged to a W&B run. 
 
-Provide the name of the model artifact where the model file(s) you are want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
+Provide the name of the model artifact where the model files you are want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
 
-If you did not define `name` when originally logged the file(s) with `log_model`, the default name assigned is the basename of the input path, prepended with the run ID.
+If you did not define `name` when originally logged the files with `log_model`, the default name assigned is the basename of the input path, prepended with the run ID.
 
 Ensure to replace other the values enclosed in `<>` with your own:
  
@@ -129,7 +129,7 @@ run = wandb.init(project="<your-project>", entity="<your-entity>")
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-The [use_model](../../../ref/python/run.md#use_model) function returns the path of downloaded model file(s). Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
+The [use_model](../../../ref/python/run.md#use_model) function returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
 
 <details>
 
@@ -160,7 +160,7 @@ See [`use_model`](../../../ref/python/run.md#use_model) in the API Reference gui
 The [`link_model`](../../../ref/python/run.md#link_model) method is currently only compatible with the legacy W&B Model Registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the Registry [docs](../../registry/link_version.md). 
 {{% /alert %}}
 
-Use the [`link_model`](../../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
+Use the [`link_model`](../../../ref/python/run.md#link_model) method to log model files to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
 
 {{% alert %}}
 You can think of linking a model similar to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
@@ -193,7 +193,7 @@ For example, suppose you have an existing registered model named "Fine-Tuned-Rev
 
 <summary>Example: Log and link a model to the W&B Model Registry</summary>
 
-For example, the proceeding code snippet logs model files and links the model model to a registered model name `"Fine-Tuned-Review-Autocompletion"`. 
+For example, the proceeding code snippet logs model files and links the model to a registered model name `"Fine-Tuned-Review-Autocompletion"`. 
 
 To do this, a user calls the `link_model` API. When they call the API, they provide a local filepath that points the content of the model (`path`) and they provide a name for the registered model to link it to (`registered_model_name`). 
 

@@ -4,24 +4,19 @@ menu:
     identifier: pytorch
     parent: integrations
 title: PyTorch
+weight: 300
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" >}}
 
 PyTorch is one of the most popular frameworks for deep learning in Python, especially among researchers. W&B provides first class support for PyTorch, from logging gradients to profiling your code on the CPU and GPU.
 
-{{% alert %}}
 Try our integration out in a Colab notebook.
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" >}}
 
 You can also see our [example repo](https://github.com/wandb/examples) for scripts, including one on hyperparameter optimization using [Hyperband](https://arxiv.org/abs/1603.06560) on [Fashion MNIST](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion), plus the [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) it generates.
-{{% /alert %}}
 
-<!-- {% embed url="https://www.youtube.com/watch?v=G7GH0SeNBMA" %}
-Follow along with a video tutorial!
-{% endembed %} -->
-
-## Logging gradients with `wandb.watch`
+## Log gradients with `wandb.watch`
 
 To automatically log gradients, you can call [`wandb.watch`](../../ref/python/watch.md) and pass in your PyTorch model.
 
@@ -48,10 +43,10 @@ for batch_idx, (data, target) in enumerate(train_loader):
 If you need to track multiple models in the same script, you can call `wandb.watch` on each model separately. Reference documentation for this function is [here](../../ref/python/watch.md).
 
 {{% alert color="secondary" %}}
-Gradients, metrics and the graph won't be logged until `wandb.log` is called after a forward _and_ backward pass.
+Gradients, metrics, and the graph won't be logged until `wandb.log` is called after a forward _and_ backward pass.
 {{% /alert %}}
 
-## Logging images and media
+## Log images and media
 
 You can pass PyTorch `Tensors` with image data into [`wandb.Image`](../../ref/python/data-types/image.md) and utilities from [`torchvision`](https://pytorch.org/vision/stable/index.html) will be used to convert them to images automatically:
 
@@ -79,7 +74,7 @@ wandb.log({"mnist_predictions": my_table})
 
 For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../tables/intro.md).
 
-## Profiling PyTorch code
+## Profile PyTorch code
 
 {{< img src="/images/integrations/pytorch_example_dashboard.png" alt="View detailed traces of PyTorch code execution inside W&B dashboards." >}}
 

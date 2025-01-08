@@ -200,7 +200,7 @@ pip install "wandb[launch]"
 
 to install the agent’s dependencies. To setup authentication for the agent, run `wandb login` or set the `WANDB_API_KEY` environment variable.
 
-To start the agent, type and execute the following:
+To start the agent, execute this command:
 
 ```bash
 wandb launch-agent -j <max-number-concurrent-jobs> -q <queue-name> -e <queue-entity>
@@ -208,7 +208,7 @@ wandb launch-agent -j <max-number-concurrent-jobs> -q <queue-name> -e <queue-ent
 
 Within your terminal you should see the launch agent start to print polling message. 
 
-Congratulations, you have a launch agent polling your launch queue! When a job is added to your queue, your agent will pick it up and schedule it to run on your Minikube cluster.
+Congratulations, you have a launch agent polling your launch queue. When a job is added to your queue, your agent will pick it up and schedule it to run on your Minikube cluster.
 
 ## Launch a job
 
@@ -218,7 +218,7 @@ Let's send a job to our agent. You can launch a simple "hello world" from a term
 wandb launch -d wandb/job_hello_world:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
 ```
 
-You can test with any job or image you like, but make sure your cluster can pull your image.  See [Minikube’s documentation](https://minikube.sigs.k8s.io/docs/handbook/registry/) for additional guidance. You can also [test using one of our public jobs](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman).
+You can test with any job or image you like, but make sure your cluster can pull your image. See [Minikube’s documentation](https://minikube.sigs.k8s.io/docs/handbook/registry/) for additional guidance. You can also [test using one of our public jobs](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman).
 
 ## (Optional) Model and data caching with NFS
 
@@ -235,7 +235,7 @@ sudo exportfs -ra
 sudo systemctl restart nfs-kernel-server
 ```
 
-Keep note of the export location of the server in your host filesystem, as well as the local IP address of your NFS server, i.e. your host machine. We will need this pieces of information in the next step.
+Keep note of the export location of the server in your host filesystem, as well as the local IP address of your NFS server. You need this information in the next step.
 
 Next, you will need to create a persistent volume and persistent volume claim for this NFS. Persistent volumes are highly customizable, but we will use straightforward configuration here for the sake of simplicity.
 
@@ -365,7 +365,7 @@ You can check your project's job page (`<project-url>/jobs`) to find the job art
 be `job-wandb_job_stable_diffusion_inference` but you can change that to whatever you like on the job's page
 by clicking the pencil icon next to the job name.
 
-You can now use this job to run more stable diffusion inference on your cluster!
+You can now use this job to run more stable diffusion inference on your cluster.
 From the job page, we can click the **Launch** button in the top right hand corner
 to configure a new inference job and submit it to our queue. The job configuration
 page will be pre-populated with the parameters from the original run, but you can

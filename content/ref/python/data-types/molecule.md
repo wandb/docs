@@ -16,8 +16,8 @@ Molecule(
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path` |  (string, io) Molecule can be initialized from a file name or an io object. |
-|  `caption` |  (string) Caption associated with the molecule for display. |
+| `data_or_path` | (string, io) Molecule can be initialized from a file name or an io object. |
+| `caption` | (string) Caption associated with the molecule for display. |
 
 ## Methods
 
@@ -35,14 +35,14 @@ from_rdkit(
 ) -> "Molecule"
 ```
 
-Convert RDKit-supported file/object types to wandb.Molecule.
+Convert RDKit-supported file/object types to `wandb.Molecule`.
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path` |  (string, rdkit.Chem.rdchem.Mol) Molecule can be initialized from a file name or an rdkit.Chem.rdchem.Mol object. |
-|  `caption` |  (string) Caption associated with the molecule for display. |
-|  `convert_to_3d_and_optimize` |  (bool) Convert to rdkit.Chem.rdchem.Mol with 3D coordinates. This is an expensive operation that may take a long time for complicated molecules. |
-|  `mmff_optimize_molecule_max_iterations` |  (int) Number of iterations to use in rdkit.Chem.AllChem.MMFFOptimizeMolecule |
+| `data_or_path` | `(string, rdkit.Chem.rdchem.Mol)` Molecule can be initialized from a file name or an `rdkit.Chem.rdchem.Mol` object. |
+| `caption` | (string) Caption associated with the molecule for display. |
+| `convert_to_3d_and_optimize` | (bool) Convert to `rdkit.Chem.rdchem.Mol` with 3D coordinates. This is an expensive operation that may take a long time for complicated molecules. |
+| `mmff_optimize_molecule_max_iterations` | (int) Number of iterations to use in `rdkit.Chem.AllChem.MMFFOptimizeMolecule` |
 
 ### `from_smiles`
 
@@ -59,17 +59,17 @@ from_smiles(
 ) -> "Molecule"
 ```
 
-Convert SMILES string to wandb.Molecule.
+Convert SMILES string to `wandb.Molecule`.
 
 | Args |  |
 | :--- | :--- |
-|  `data` |  (string) SMILES string. |
-|  `caption` |  (string) Caption associated with the molecule for display |
-|  `sanitize` |  (bool) Check if the molecule is chemically reasonable by the RDKit's definition. |
-|  `convert_to_3d_and_optimize` |  (bool) Convert to rdkit.Chem.rdchem.Mol with 3D coordinates. This is an expensive operation that may take a long time for complicated molecules. |
-|  `mmff_optimize_molecule_max_iterations` |  (int) Number of iterations to use in rdkit.Chem.AllChem.MMFFOptimizeMolecule |
+| `data` | (string) SMILES string. |
+| `caption` | (string) Caption associated with the molecule for display |
+| `sanitize` | (bool) Check if the molecule is chemically reasonable by the RDKit's definition. |
+| `convert_to_3d_and_optimize` | (bool) Convert to `rdkit.Chem.rdchem.Mol` with 3D coordinates. This is an expensive operation that may take a long time for complicated molecules. |
+| `mmff_optimize_molecule_max_iterations` | (int) Number of iterations to use in `rdkit.Chem.AllChem.MMFFOptimizeMolecule` |
 
 | Class Variables |  |
 | :--- | :--- |
-|  `SUPPORTED_RDKIT_TYPES`<a id="SUPPORTED_RDKIT_TYPES"></a> |   |
-|  `SUPPORTED_TYPES`<a id="SUPPORTED_TYPES"></a> |   |
+| `SUPPORTED_RDKIT_TYPES`<a id="SUPPORTED_RDKIT_TYPES"></a> |  |
+| `SUPPORTED_TYPES`<a id="SUPPORTED_TYPES"></a> |  |

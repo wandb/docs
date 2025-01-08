@@ -145,4 +145,4 @@ wandb.init(
 )
 ```
 
-For more more information about available parameters when defining a W&B Experiment, see the [`wandb.init`](../../ref/python/init.md) API docs in the [API Reference Guide](../../ref/python/README.md).
+For more information about available parameters when defining a W&B Experiment, see the [`wandb.init`](../../ref/python/init.md) API docs in the [API Reference Guide](../../ref/python/README.md).
