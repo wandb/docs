@@ -777,3 +777,30 @@ img {
         }
     }
 }
+
+.d-print-none {
+    margin-top: 4rem;
+
+    .feedback--title {
+        display: none; // Hide the feedback title
+    }
+
+    .feedback--question {
+        display: inline-block; // Make question inline
+        margin-right: 1rem; // Add spacing between question and buttons
+        margin-bottom: 0; // Remove bottom margin to align with buttons
+    }
+
+    .feedback--answer {
+        display: inline-block !important; // Force inline display
+        margin-bottom: 0 !important; // Remove bottom margin
+    }
+
+    .feedback--response {
+        margin-top: 1rem; // Add some space above responses
+    }
+}
+
+.td-page-meta__lastmod {
+    margin-top: 0 !important;
+}
