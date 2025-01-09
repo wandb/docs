@@ -35,7 +35,7 @@ begin with `add`. Once the artifact has all the desired files, you can call
 
 | Attributes |  |
 | :--- | :--- |
-| `aliases` |  List of one or more semantically-friendly references or identifying "nicknames" assigned to an artifact version. Aliases are mutable references that you can programmatically reference. Change an artifact's alias with the W&B App UI or programmatically. See [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) for more information. |
+| `aliases` |  List of one or more semantically friendly references or identifying "nicknames" assigned to an artifact version. Aliases are mutable references that you can programmatically reference. Change an artifact's alias with the W&B App UI or programmatically. See [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) for more information. |
 | `collection` |  The collection this artifact was retrieved from. A collection is an ordered group of artifact versions. If this artifact was retrieved from a portfolio / linked collection, that collection will be returned rather than the collection that an artifact version originated from. The collection that an artifact originates from is known as the source sequence. |
 | `commit_hash` |  The hash returned when this artifact was committed. |
 | `created_at` |  Timestamp when the artifact was created. |
@@ -56,7 +56,7 @@ begin with `add`. Once the artifact has all the desired files, you can call
 | `source_project` |  The name of the project of the primary (sequence) artifact collection. |
 | `source_qualified_name` |  The entity/project/name of the primary (sequence) collection. |
 | `source_version` |  The artifact's version in its primary (sequence) collection. A string with the format `v{number}`. |
-| `state` |  The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED". |
+| `state` |  The status of the artifact. One of: `PENDING`, `COMMITTED`, or `DELETED`. |
 | `tags` |  List of one or more tags assigned to this artifact version. |
 | `ttl` |  The time-to-live (TTL) policy of an artifact. Artifacts are deleted shortly after a TTL policy's duration passes. If set to `None`, the artifact deactivates TTL policies and will be not scheduled for deletion, even if there is a team default TTL. An artifact inherits a TTL policy from the team default if the team administrator defines a default TTL and there is no custom policy set on an artifact. |
 | `type` |  The artifact's type. Common types include `dataset` or `model`. |
@@ -189,7 +189,7 @@ blank.
 | :--- | :--- |
 | `uri` |  The URI path of the reference to add. The URI path can be an object returned from `Artifact.get_entry` to store a reference to another artifact's entry. |
 | `name` |  The path within the artifact to place the contents of this reference. |
-| `checksum` |  Whether or not to checksum the resource(s) located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation. Disabling checksumming will speed up artifact creation but reference directories will not iterated through so the objects in the directory will not be saved to the artifact. We recommend setting `checksum=False` when adding reference objects, in which case a new version will only be created if the reference URI changes. |
+| `checksum` |  Whether or not to checksum the resources located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation. Disabling checksumming will speed up artifact creation but reference directories will not iterated through so the objects in the directory will not be saved to the artifact. We recommend setting `checksum=False` when adding reference objects, in which case a new version will only be created if the reference URI changes. |
 | `max_objects` |  The maximum number of objects to consider when adding a reference that points to directory or bucket store prefix. By default, the maximum number of objects allowed for Amazon S3, GCS, Azure, and local files is 10,000,000. Other URI schemas do not have a maximum. |
 
 | Returns |  |
@@ -603,7 +603,7 @@ Unlink this artifact if it is currently a member of a portfolio (a promoted coll
 | Raises |  |
 | :--- | :--- |
 | `ArtifactNotLoggedError` | If the artifact is not logged. |
-| `ValueError` | If the artifact is not linked, i.e. it is not a member of a portfolio collection. |
+| `ValueError` | If the artifact is not linked, such as if it is not a member of a portfolio collection. |
 
 ### `used_by`
 

@@ -40,13 +40,10 @@ Convert RDKit-supported file/object types to `wandb.Molecule`.
 
 | Args |  |
 | :--- | :--- |
-| `data_or_path` | `(string, rdkit.Chem.rdchem.Mol)` Molecule can be initialized from a file name or an `rdkit.Chem.rdc
-hem.Mol` object. |
+| `data_or_path` | `(string, rdkit.Chem.rdchem.Mol)` Molecule can be initialized from a file name or an `rdkit.Chem.rdchem.Mol` object. |
 | `caption` | (string) Caption associated with the molecule for display. |
-| `convert_to_3d_and_optimize` | (bool) Convert to `rdkit.Chem.rdchem.Mol` with 3D coordinates. This is an expensive op
-eration that may take a long time for complicated molecules. |
-| `mmff_optimize_molecule_max_iterations` | (int) Number of iterations to use in `rdkit.Chem.AllChem.MMFFOptimizeMolecu
-le` |
+| `convert_to_3d_and_optimize` | (bool) Convert to `rdkit.Chem.rdchem.Mol` with 3D coordinates. This is an expensive operation that may take a long time for complicated molecules. |
+| `mmff_optimize_molecule_max_iterations` | (int) Number of iterations to use in `rdkit.Chem.AllChem.MMFFOptimizeMolecule` |
 
 ### `from_smiles`
 

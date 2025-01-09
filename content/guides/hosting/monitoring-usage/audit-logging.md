@@ -7,9 +7,9 @@ title: Track user activity with audit logs
 weight: 1
 ---
 
-Use W&B Server audit logs to track user activity within your teams, and to conform to your enterprise governance requirements. The audit logs are JSON-formatted, and their access mechanism(s) depend on your W&B Server deployment type:
+Use W&B Server audit logs to track user activity within your teams, and to conform to your enterprise governance requirements. The audit logs are JSON-formatted, and their access mechanisms depend on your W&B Server deployment type:
 
-| W&B Server Deployment type | Audit logs access mechanism(s) |
+| W&B Server Deployment type | Audit logs access mechanism |
 |----------------------------|--------------------------------|
 | Self-managed | Synced to instance-level bucket every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
 | Dedicated Cloud with [secure storage connector (BYOB)](../data-security/secure-storage-connector.md) | Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
