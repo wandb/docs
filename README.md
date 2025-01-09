@@ -2,9 +2,12 @@
 
 The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using Docsy, a technical documentation theme for Hugo, a static website generator. The high level overview of the doc writing process is:
 
-<div align='center'>Edit markdown → confirm changes don’t break the docs → create a pull request for review.</div>
+1. Edit the desired files
+2. Create a pull request proposing your changes
+3. Confirm changes don’t break the docs, which will be tested by CI
+4. Respond to feedback from the W&B docs team and CI checks
 
-From there, someone from the Docs Team will review the PR and merge it. 
+After this, someone from the docs team will merge the PR and it will go live in a matter of minutes!
 
 ## Prerequisites
 
@@ -160,3 +163,22 @@ content/ref
 The markdown files are generated from docstrings in https://github.com/wandb/wandb. Modify the docstring from the appropriate Python Class, function, or CLI definition to update the public-facing documentation API.
 
 Once you are done, create a pull request from https://github.com/wandb/wandb. The PR you create will get reviewed and (if approved) merged by the SDK Team. The Docs are updated when the W&B SDK Team makes an W&BSDK Release. SDK Releases occur about every 2-4 weeks.
+
+## License
+
+The source for this documentation is offered under the Apache 2.0 license. 
+
+## Notices
+
+- [LICENSE](LICENSE)
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [SECURITY.md](SECURITY.md)
+- [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt)
+
+## Attributions
+
+- This project uses Docsy, a Hugo theme by Google. [License](https://github.com/google/docsy/blob/main/LICENSE)
+- A dependency of Docsy is the `caniuse-lite` package, offered under CC-BY-4.0. [License](https://github.com/browserslist/caniuse-lite/blob/main/LICENSE)
+- Another dependency of Docsy is Font Awesome Free, offered under the CC-BY-4.0, SIL OFL 1.1, and MIT licenses. [License notice](https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
+- This site is built using Hugo, a static site generator. [License](https://github.com/gohugoio/hugo/blob/master/LICENSE)
