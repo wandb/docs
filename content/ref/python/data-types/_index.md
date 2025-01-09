@@ -3,7 +3,7 @@ title: Data Types
 ---
 
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/__init__.py" >}}
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/__init__.py" >}}
 
 This module defines data types for logging rich, interactive visualizations to W&B.
 

@@ -2,7 +2,7 @@
 title: Job
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/apis/public/jobs.py#L36-L217" >}}
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/jobs.py#L36-L217" >}}
 
 ```python
 Job(
@@ -19,7 +19,7 @@ Job(
 
 ### `call`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/jobs.py#L167-L211)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/jobs.py#L167-L211)
 
 ```python
 call(
@@ -30,7 +30,7 @@ call(
 
 ### `set_entrypoint`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/apis/public/jobs.py#L164-L165)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/jobs.py#L164-L165)
 
 ```python
 set_entrypoint(

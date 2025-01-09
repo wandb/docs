@@ -2,7 +2,8 @@
 title: launch
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/launch/_launch.py#L249-L331" >}}
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/launch/_launch.py#L249-L331" >}}
+
 
 Launch a W&B launch experiment.
 
@@ -56,8 +57,8 @@ launch(api, job, parameters=params)
 
 | Returns |  |
 | :--- | :--- |
-| an instance of`wandb.launch.SubmittedRun` exposing information about the launched run, wuch as the run ID. |
+|  an instance of`wandb.launch.SubmittedRun` exposing information about the launched run, wuch as the run ID. |
 
 | Raises |  |
 | :--- | :--- |
-| `wandb.exceptions.ExecutionError` If a run launched in blocking mode is unsuccessful. |
+|  `wandb.exceptions.ExecutionError` If a run launched in blocking mode is unsuccessful. |

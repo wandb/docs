@@ -2,7 +2,7 @@
 title: WandbMetricsLogger
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/integration/keras/callbacks/metrics_logger.py#L23-L136" >}}
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/metrics_logger.py#L23-L136" >}}
 
 Logger that sends system metrics to W&B.
 

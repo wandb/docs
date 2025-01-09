@@ -2,7 +2,7 @@
 title: save
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/wandb_run.py#L1924-L2028" >}}
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/wandb_run.py#L1924-L2028" >}}
 
 Sync one or more files to W&B.
 

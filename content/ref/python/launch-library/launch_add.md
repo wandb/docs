@@ -1,10 +1,11 @@
----
+----
 title: launch_add
----
+----
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/launch/_launch_add.py#L34-L131" >}}
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/launch/_launch.py#L249-L331" >}}
 
-Enqueue a W&B launch experiment by `uri`, `job`, or `docker_image`.
+
+Enqueue a W&B launch experiment with a source `uri`, `job` or `docker_image`.
 
 ```python
 launch_add(
@@ -46,9 +47,9 @@ launch_add(
 | `name` | Name run under which to launch the run. |
 | `version` | For Git-based projects, either a commit hash or a branch name. |
 | `docker_image` | The name of the docker image to use for the run. |
-| `resource_args` | Resource related arguments for launching runs onto a remote backend. Will be stored on the constructed launch config under `resource_args`. |
+| `resource_args` | Resource related arguments for launching runs onto a remote backend. Will be stored on the construc ted launch config under `resource_args`. |
 | `run_id` | optional string indicating the id of the launched run |
-| `build` | optional flag defaulting to false, requires queue to be set if build, an image is created, creates a job artifact, pushes a reference to that job artifact to queue |
+| `build` | optional flag defaulting to false, requires queue to be set if build, an image is created, creates a job ar tifact, pushes a reference to that job artifact to queue |
 | `repository` | optional string to control the name of the remote repository, used when pushing images to a registry |
 | `project_queue` | optional string to control the name of the project for the queue. Primarily used for back compatibility with project scoped queues |
 
@@ -67,8 +68,8 @@ launch_add(uri=project_uri, parameters=params)
 
 | Returns |  |
 | :--- | :--- |
-| an instance of`wandb.api.public.QueuedRun` which gives information about the queued run, or if `wait_until_started` or `wait_until_finished` are called, gives access to the underlying Run information. |
+| an instance of `wandb.api.public.QueuedRun` which gives information about the queued run, or if `wait_until_started` or `wait_until_finished` are called, gives access to the underlying Run information. |
 
 | Raises |  |
 | :--- | :--- |
-| `wandb.exceptions.LaunchError` if unsuccessful |
+|  `wandb.exceptions.LaunchError` if unsuccessful |

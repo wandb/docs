@@ -2,8 +2,7 @@
 title: watch
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/wandb_run.py#L2874-L2909" >}}
-
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/wandb_run.py#L2838-L2873" >}}
 
 Hooks into the given PyTorch models to monitor gradients and the model's computational graph.
 
@@ -32,4 +31,4 @@ extended to support arbitrary machine learning models in the future.
 
 | Raises |  |
 | :--- | :--- |
-| `ValueError` | If `wandb.init` has not been called or if any of the models are not instances of `torch.nn.Module`. |
+| `ValueError` |  If `wandb.init` has not been called or if any of the models are not instances of `torch.nn.Module`. |

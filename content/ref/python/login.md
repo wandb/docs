@@ -2,7 +2,7 @@
 title: login
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/wandb_login.py#L46-L104">}}
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/wandb_login.py#L46-L104">}}
 
 Set up W&B login credentials.
 

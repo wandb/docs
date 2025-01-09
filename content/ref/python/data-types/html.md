@@ -1,8 +1,9 @@
----
+----
 title: Html
----
+----
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/sdk/data_types/html.py#L18-L107" >}}
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/html.py#L18-L107" >}}
+
 
 Wandb class for arbitrary html.
 
@@ -22,7 +23,7 @@ Html(
 
 ### `inject_head`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.1/wandb/sdk/data_types/html.py#L59-L74)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/html.py#L59-L74)
 
 ```python
 inject_head() -> None

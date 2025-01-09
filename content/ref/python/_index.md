@@ -4,7 +4,7 @@ title: Python Library
 <!-- Insert buttons and diff -->
 
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.18.7/wandb/__init__.py" >}}
+{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/__init__.py" >}}
 
 Use wandb to track machine learning work.
 
@@ -44,6 +44,6 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 | Other Members |  |
 | :--- | :--- |
-|  `__version__`<a id="__version__"></a> |  `'0.19.1'` |
+|  `__version__`<a id="__version__"></a> |  `'0.19.2'` |
 |  `config`<a id="config"></a> |   |
 |  `summary`<a id="summary"></a> |   |
