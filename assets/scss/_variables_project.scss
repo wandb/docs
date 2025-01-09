@@ -804,3 +804,49 @@ img {
 .td-page-meta__lastmod {
     margin-top: 0 !important;
 }
+
+// Update footer styles to match page background and text color
+.td-footer {
+    background-color: $moon-white !important;
+    color: $moon-800 !important;
+    border-top: 1px solid $moon-200 !important;
+    padding: 1.5rem 0 !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    
+    [data-bs-theme=dark] & {
+        background-color: $moon-900 !important;
+        color: $moon-200 !important;
+        border-top: 1px solid $moon-700 !important;
+    }
+
+    // Ensure links and icons inherit the text color
+    a, i {
+        color: inherit !important;
+        transition: color 0.3s !important;
+
+        &:hover {
+            color: $teal-500 !important;
+        }
+    }
+
+    [data-bs-theme=dark] a:hover,
+    [data-bs-theme=dark] i:hover {
+        color: $wandb-gold !important;
+    }
+
+    // Remove default container padding
+    .container-fluid {
+        padding: 0 2rem !important;
+    }
+
+    // Center align all content vertically in the footer
+    .row {
+        align-items: center !important;
+    }
+
+    // Remove bottom margin from footer links
+    .td-footer__links-item {
+        margin-bottom: 0 !important;
+    }
+}
