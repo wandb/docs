@@ -1,6 +1,6 @@
-----
--title: controller
-----
+---
+title: controller
+---
 
 {{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/wandb_sweep.py#L95-L119">}}
 

@@ -1,6 +1,6 @@
-----
+---
 title: WandbCallback
-----
+---
 
 {{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/keras.py#L291-L1091" >}}
 

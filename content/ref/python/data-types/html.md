@@ -1,6 +1,6 @@
-----
+---
 title: Html
-----
+---
 
 {{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/html.py#L18-L107" >}}
 

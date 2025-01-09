@@ -1,6 +1,6 @@
-----
+---
 title: WandbModelCheckpoint
-----
+---
 
 {{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L195" >}}
 
