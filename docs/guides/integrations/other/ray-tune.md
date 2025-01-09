@@ -7,7 +7,8 @@ title: Ray Tune
 
 W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.
 
-One is the `WandbLoggerCallback`, which automatically logs metrics reported to Tune to the Wandb API. The other one is the `setup_wandb()` function, which can be used with the function API. It automatically initializes the Wandb API with Tune's training information. You can just use the Wandb API like you would normally do, e.g. using `wandb.log()` to log your training process.
+- The`WandbLoggerCallback` function automatically logs metrics reported to Tune to the Wandb API.
+- The `setup_wandb()` function, which can be used with the function API,  automatically initializes the Wandb API with Tune's training information. You can use the Wandb API as usual. such as by using `wandb.log()` to log your training process.
 
 ## WandbLoggerCallback
 
@@ -21,17 +22,17 @@ The content of the wandb config entry is passed to `wandb.init()` as keyword arg
 
 ### Parameters
 
-`project (str)` - Name of the Wandb project. Mandatory.
+`project (str)`: Name of the Wandb project. Mandatory.
 
-`api_key_file (str)` – Path to file containing the Wandb API KEY.
+`api_key_file (str)`: Path to file containing the Wandb API KEY.
 
-`api_key (str)` – Wandb API Key. Alternative to setting `api_key_file`.
+`api_key (str)`: Wandb API Key. Alternative to setting `api_key_file`.
 
-`excludes (list)` – List of metrics that should be excluded from the log.
+`excludes (list)`: List of metrics to exclude from the log.
 
-`log_config (bool)` – Boolean indicating if the config parameter of the results dict should be logged. Defaults to False.
+`log_config (bool)`: Whether to log the config parameter of the results dictionary. Defaults to False.
 
-`upload_checkpoints (bool)` - If True, model checkpoints will be uploaded to Wandb as artifacts. Defaults to False.
+`upload_checkpoints (bool)`:  If True, model checkpoints are uploaded as artifacts. Defaults to False.
 
 ### Example
 
@@ -69,7 +70,7 @@ results = tuner.fit()
 from ray.air.integrations.wandb import setup_wandb
 ```
 
-This utility function helps initialize Wandb for use with Ray Tune. For basic usage, just call `setup_wandb()` in your training function:
+This utility function helps initialize Wandb for use with Ray Tune. For basic usage, call `setup_wandb()` in your training function:
 
 ```python
 from ray.air.integrations.wandb import setup_wandb
