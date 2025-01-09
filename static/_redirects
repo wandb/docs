@@ -227,9 +227,13 @@
 /guides/manage-runs /guides/runs/manage-runs 301
 /guides/projects/campaigns / 301
 /guides/prompts_platform /guides/weave 301
-/guides/prompts/intro /guides/integrations/prompts/intro 301
-/guides/prompts/quickstart /guides/integrations/prompts/quickstart 301
-/guides/prompts/openai /guides/integrations/prompts/openai 301
+/guides/prompts/intro /guides 301
+/guides/prompts/quickstart /guides 301
+/guides/prompts/openai /guides 301
+/tutorials/prompts /tutorials 301
+/guides/integrations/prompts/intro /guides 301
+/guides/integrations/prompts/quickstart /guides 301
+/guides/integrations/prompts/openai /guides 301
 /guides/projects/sharing-and-visibility / 301
 /guides/reference/data_types /ref/python/data-types 301
 /guides/reports/reports-walkthrough /guides/reports 301
