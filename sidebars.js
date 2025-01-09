@@ -493,18 +493,6 @@ export default {
         'guides/integrations/torchtune',
         'guides/integrations/other/ignite',
         'guides/integrations/lightning',
-        {
-          type: 'category',
-          label: 'Prompts',
-          link: {
-            type: 'doc',
-            id: 'guides/integrations/prompts/intro',
-          },
-          items: [
-            'guides/integrations/prompts/quickstart',
-            'guides/integrations/prompts/openai',
-          ],
-        },
         'guides/integrations/other/ray-tune',
         'guides/integrations/other/sagemaker',
         'guides/integrations/scikit',
