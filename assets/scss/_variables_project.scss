@@ -159,7 +159,7 @@ body {
 .td-page-meta
 {
     font-size: 16px !important;
-    line-height: 1.75rem !important;
+    line-height: 2.5rem !important;
 }
 // hide the doc site name from the top-left
 .td-navbar .navbar-brand__name { display: none; }
@@ -297,6 +297,7 @@ h6, .td-content h6 {
   a {
     color: $moon-500 !important;
     font-weight: 400;
+    line-height: 2rem;
     &:hover {
       color: $teal-600 !important;
       text-decoration: none !important;
@@ -674,9 +675,14 @@ pre {
     color: $moon-600;
 }
 
-// Add border radius to all images and code blocks
-img, pre, .highlight, .code-toolbar {
+// Add border radius to all images, code blocks and alerts
+img, pre, .highlight, .code-toolbar, .alert {
   border-radius: 8px;
+}
+
+img {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 // Override section index heading font weight
@@ -718,5 +724,56 @@ img, pre, .highlight, .code-toolbar {
     // Update table of contents color
     #TableOfContents {
         color: $moon-200;
+    }
+}
+
+// Add styles for feedback buttons
+.feedback--answer {
+    display: inline-flex !important; 
+    align-items: center !important; 
+    justify-content: center !important;
+    color: $moon-800 !important;
+    gap: 8px !important; 
+    padding: 0 12px !important; 
+    font-size: 16px !important;
+    line-height: 20px !important;
+    font-weight: 600 !important;
+    font-display: none !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+    background-color: $moon-100 !important;
+    background-image: none !important;
+    transition: background-color 0.3s, color 0.3s !important;
+    text-align: center !important; 
+    min-height: 40px !important;
+    border: none !important;
+    margin-right: 8px !important;
+    box-shadow: none !important;
+
+    &:hover {
+        background-color: $hover-bg !important;
+        text-decoration: none !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+
+// Remove the mb-4 class from the buttons in the HTML or override it here
+.feedback--answer.mb-4 {
+    margin-bottom: 0 !important;
+}
+
+// Dark mode support
+[data-bs-theme=dark] {
+    .feedback--answer {
+        color: $moon-200 !important;
+        background-color: $moon-800 !important;
+        background-image: none !important;
+        
+        &:hover {
+            background-color: $moon-700 !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
     }
 }
