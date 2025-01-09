@@ -1,6 +1,6 @@
 # WandbEvalCallback
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/integration/keras/callbacks/tables_builder.py#L10-L226' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/tables_builder.py#L10-L228' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Abstract base class to build Keras callbacks for model prediction visualization.
@@ -87,7 +87,7 @@ can implement `on_train_batch_end` method.
 
 ### `add_ground_truth`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/integration/keras/callbacks/tables_builder.py#L117-L131)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/tables_builder.py#L117-L131)
 
 ```python
 @abc.abstractmethod
@@ -112,7 +112,7 @@ This method is called once `on_train_begin` or equivalent hook.
 
 ### `add_model_predictions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/integration/keras/callbacks/tables_builder.py#L133-L153)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/tables_builder.py#L133-L155)
 
 ```python
 @abc.abstractmethod
@@ -134,7 +134,9 @@ training data to `pred_table` initialized using `init_pred_table` method.
 for idx, data in enumerate(dataloader):
     preds = model.predict(data)
     self.pred_table.add_data(
-        self.data_table_ref.data[idx][0], self.data_table_ref.data[idx][1], preds
+        self.data_table_ref.data[idx][0],
+        self.data_table_ref.data[idx][1],
+        preds,
     )
 ```
 
@@ -142,7 +144,7 @@ This method is called `on_epoch_end` or equivalent hook.
 
 ### `init_data_table`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/integration/keras/callbacks/tables_builder.py#L155-L164)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/tables_builder.py#L157-L166)
 
 ```python
 init_data_table(
@@ -161,7 +163,7 @@ data to the table row or column wise.
 
 ### `init_pred_table`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/integration/keras/callbacks/tables_builder.py#L166-L175)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/tables_builder.py#L168-L177)
 
 ```python
 init_pred_table(
@@ -180,7 +182,7 @@ data to the table row or column wise.
 
 ### `log_data_table`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/integration/keras/callbacks/tables_builder.py#L177-L203)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/tables_builder.py#L179-L205)
 
 ```python
 log_data_table(
@@ -203,7 +205,7 @@ This lets the evaluation table use the reference of already uploaded data
 
 ### `log_pred_table`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/integration/keras/callbacks/tables_builder.py#L205-L226)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/tables_builder.py#L207-L228)
 
 ```python
 log_pred_table(

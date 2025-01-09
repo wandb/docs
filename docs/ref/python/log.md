@@ -1,6 +1,6 @@
 # log
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/sdk/wandb_run.py#L1675-L1930' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/wandb_run.py#L1640-L1901' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Upload run data.
@@ -45,12 +45,14 @@ into sections named using the text before the final slash. For example,
 the following results in two sections named "train" and "validate":
 
 ```
-run.log({
-    "train/accuracy": 0.9,
-    "train/loss": 30,
-    "validate/accuracy": 0.8,
-    "validate/loss": 20,
-})
+run.log(
+    {
+        "train/accuracy": 0.9,
+        "train/loss": 30,
+        "validate/accuracy": 0.8,
+        "validate/loss": 20,
+    }
+)
 ```
 
 Only one level of nesting is supported; `run.log({"a/b/c": 1})`
@@ -184,7 +186,9 @@ import wandb
 run = wandb.init()
 examples = []
 for i in range(3):
-    pixels = np.random.randint(low=0, high=256, size=(100, 100, 3), dtype=np.uint8)
+    pixels = np.random.randint(
+        low=0, high=256, size=(100, 100, 3), dtype=np.uint8
+    )
     pil_image = PILImage.fromarray(pixels, mode="RGB")
     image = wandb.Image(pil_image, caption=f"random field {i}")
     examples.append(image)
@@ -202,7 +206,9 @@ import wandb
 
 run = wandb.init()
 # axes are (time, channel, height, width)
-frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
+frames = np.random.randint(
+    low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
+)
 run.log({"video": wandb.Video(frames, fps=4)})
 ```
 

@@ -368,7 +368,7 @@ export default {
                 id: 'guides/hosting/hosting-options/self-managed',
               },
               items: [
-                'guides/hosting/self-managed/basic-setup',
+                'guides/hosting/self-managed/ref-arch',
                 {
                   type: 'category',
                   label: 'Kubernetes Operator',
@@ -404,6 +404,7 @@ export default {
                 'guides/hosting/iam/sso',
                 'guides/hosting/iam/ldap',
                 'guides/hosting/iam/identity_federation',
+                'guides/hosting/iam/service-accounts',
               ],
             },
             {

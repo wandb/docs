@@ -1,6 +1,6 @@
 # BoundingBoxes2D
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L16-L295' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L16-L305' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Format images with 2D bounding box overlays for logging to W&B.
@@ -40,7 +40,12 @@ img = wandb.Image(
             "box_data": [
                 {
                     # one box expressed in the default relative/fractional domain
-                    "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
+                    "position": {
+                        "minX": 0.1,
+                        "maxX": 0.2,
+                        "minY": 0.3,
+                        "maxY": 0.4,
+                    },
                     "class_id": 1,
                     "box_caption": class_labels[1],
                     "scores": {"acc": 0.2, "loss": 1.2},
@@ -93,7 +98,12 @@ img = wandb.Image(
             "box_data": [
                 {
                     # one box expressed in the default relative/fractional domain
-                    "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
+                    "position": {
+                        "minX": 0.1,
+                        "maxX": 0.2,
+                        "minY": 0.3,
+                        "maxY": 0.4,
+                    },
                     "class_id": 1,
                     "box_caption": class_labels[1],
                     "scores": {"acc": 0.2, "loss": 1.2},
@@ -123,7 +133,7 @@ wandb.log({"driving_scene": table})
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L215-L217)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L225-L227)
 
 ```python
 @classmethod
@@ -132,7 +142,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.0/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L219-L276)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L229-L286)
 
 ```python
 validate(
