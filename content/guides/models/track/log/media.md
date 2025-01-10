@@ -343,7 +343,7 @@ Using this schema, you can define a Python object and pass it in to [the `from_p
   * `corners`- a list of eight corners
   * `label`- a string representing the label to be rendered on the box (Optional)
   * `color`- rgb values representing the color of the box
-  * `score` - a numeric value that will be displayed on the bounding box that can be used to filter the bounding boxes shown (e.g., to only show bounding boxes where `score` > `0.75`). (Optional)
+  * `score` - a numeric value that will be displayed on the bounding box that can be used to filter the bounding boxes shown (for example, to only show bounding boxes where `score` > `0.75`). (Optional)
 * `type` is a string representing the scene type to render. Currently the only supported value is `lidar/beta`
 
 ```python
