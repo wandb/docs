@@ -692,7 +692,8 @@ img, pre, .highlight, .code-toolbar, .alert {
   border-radius: 8px !important;
 }
 
-img {
+// Style images and iframes consistently
+img, iframe {
   margin-top: 1rem;
   margin-bottom: 2rem;
   max-width: 80% !important;
