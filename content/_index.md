@@ -37,3 +37,6 @@ Use [W&B Models](/guides) to manage all aspects of building your own AI models, 
 
 </div>{{% /card %}}
 {{< /cardpane >}}
+
+<!-- HTML override just for landing page -->
+<style>.td-card-group { margin: 0 auto }</style>
