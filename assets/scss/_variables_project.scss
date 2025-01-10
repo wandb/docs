@@ -681,7 +681,7 @@ pre {
 
 // Add border radius to all images, code blocks and alerts
 img, pre, .highlight, .code-toolbar, .alert {
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 img {
