@@ -24,7 +24,6 @@ and the W&B community.
 Here are the most commonly asked questions across all categories.
 
 * [What does `wandb.init` do to my training process?](./wandbinit_training_process.md)
-* [Does Launch support parallelization? How can I limit the resources consumed by a job?](./launch_support_parallelization_limit_resources_consumed_job.md)
 * [How do I use custom CLI commands with sweeps?](./custom_cli_commands_sweeps.md)
 * [Is it possible to save metrics offline and sync them to W&B later?](./same_metric_appearing_more.md)
 * [How can I configure the name of the run in my training code?](./configure_name_run_training_code.md)
