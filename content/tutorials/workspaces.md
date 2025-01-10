@@ -14,8 +14,7 @@ Organize and visualize your machine learning experiments more effectively by pro
 
 In this tutorial you will see how to use `wandb-workspaces` to create and customize workspaces by defining configurations, set panel layouts, and organize sections.
 
-
-### How to use this notebook
+## How to use this notebook
 * Run each cell one at a time. 
 * Copy and paste the URL that is printed after you run a cell to view the changes made to the workspace.
 

@@ -17,8 +17,7 @@ Use Weights & Biases for machine learning experiment tracking, dataset versionin
 * Easy integration of Weights and Biases with your TensorFlow pipeline for experiment tracking.
 * Computing metrics with `keras.metrics`
 * Using `wandb.log` to log those metrics in your custom training loop.
- 
-## The interactive W&B dashboard will look like this:
+
 
 {{< img src="/images/tutorials/tensorflow/dashboard.png" alt="dashboard" >}}
 
@@ -35,9 +34,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 ```
 
-# 🚀 Install, Import, Login
+## Install, Import, Login
 
-## Step 0️⃣: Install W&B
+### Install W&B
 
 
 ```python
@@ -45,7 +44,7 @@ import matplotlib.pyplot as plt
 !pip install wandb
 ```
 
-## Step 1️⃣: Import W&B and login
+### Import W&B and login
 
 
 ```python
@@ -57,7 +56,7 @@ wandb.login()
 
 > Side note: If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up is as easy as one click.
 
-# 👩‍🍳 Prepare Dataset
+### Prepare Dataset
 
 
 ```python
@@ -75,7 +74,7 @@ val_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
 val_dataset = val_dataset.batch(BATCH_SIZE)
 ```
 
-# 🧠 Define the Model and the Training Loop
+## Define the Model and the Training Loop
 
 
 ```python
@@ -113,7 +112,7 @@ def test_step(x, y, model, loss_fn, val_acc_metric):
     return loss_value
 ```
 
-## Step 2️⃣: Add `wandb.log` to your training loop
+## Add `wandb.log` to your training loop
 
 
 ```python
@@ -160,9 +159,9 @@ def train(train_dataset, val_dataset,  model, optimizer,
                    'val_acc':float(val_acc)})
 ```
 
-# 👟 Run Training
+## Run Training
 
-## Step 3️⃣: Call `wandb.init` to start a run
+### Call `wandb.init` to start a run
 
 This lets us know you're launching an experiment,
 so we can give it a unique ID and a dashboard.
@@ -210,11 +209,11 @@ train(train_dataset,
 run.finish()  # In Jupyter/Colab, let us know you're finished!
 ```
 
-# 👀 Visualize Results
+### Visualize Results
 
 Click on the [**run page**](/guides/runs/intro.md#view-logged-runs) link above to see your live results.
 
-# 🧹 Sweep 101
+## Sweep 101
 
 Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models.
 
@@ -228,7 +227,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 
 {{< img src="/images/tutorials/tensorflow/sweeps.png" alt="Sweep result" >}}
 
-# 🎨 Example Gallery
+## Example Gallery
 
 See examples of projects tracked and visualized with W&B in our gallery of examples, [Fully Connected →](https://wandb.me/fc)
 
@@ -239,7 +238,7 @@ See examples of projects tracked and visualized with W&B in our gallery of examp
 4. **Notes**: Type notes in the table to track the changes between runs.
 5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
 
-## 🤓 Advanced Setup
+## Advanced Setup
 1. [Environment variables](/guides/hosting/env-vars): Set API keys in environment variables so you can run training on a managed cluster.
 2. [Offline mode](../support/run_wandb_offline.md)
 3. [On-prem](/guides/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.

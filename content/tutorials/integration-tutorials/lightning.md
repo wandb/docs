@@ -21,6 +21,7 @@ pip install wandb -qU
 
 ```python
 import lightning.pytorch as pl
+
 # your favorite machine learning tracking tool
 from lightning.pytorch.loggers import WandbLogger
 
@@ -43,7 +44,7 @@ Now you'll need to log in to your wandb account.
 wandb.login()
 ```
 
-## 🔧 DataModule - The Data Pipeline we Deserve
+## DataModule - The Data Pipeline we Deserve
 
 DataModules are a way of decoupling data-related hooks from the LightningModule so you can develop dataset agnostic models.
 
@@ -95,7 +96,7 @@ class CIFAR10DataModule(pl.LightningDataModule):
         return DataLoader(self.cifar_test, batch_size=self.batch_size)
 ```
 
-## 📱 Callbacks
+## Callbacks
 
 A callback is a self-contained program that can be reused across projects. PyTorch Lightning comes with few [built-in callbacks](https://lightning.ai/docs/pytorch/latest/extensions/callbacks.html#built-in-callbacks) which are regularly used. 
 Learn more about callbacks in PyTorch Lightning [here](https://lightning.ai/docs/pytorch/latest/extensions/callbacks.html).
@@ -135,7 +136,7 @@ class ImagePredictionLogger(pl.callbacks.Callback):
         
 ```
 
-## 🎺 LightningModule - Define the System
+## LightningModule - Define the System
 
 The LightningModule defines a system and not a model. Here a system groups all the research code into a single class to make it self-contained. `LightningModule` organizes your PyTorch code into 5 sections:
 - Computations (`__init__`).
@@ -242,7 +243,7 @@ class LitModel(pl.LightningModule):
 
 ```
 
-## 🚋 Train and Evaluate
+## Train and Evaluate
 
 Now that we have organized our data pipeline using `DataModule` and model architecture+training loop using `LightningModule`, the PyTorch Lightning `Trainer` automates everything else for us. 
 
@@ -288,7 +289,7 @@ trainer = pl.Trainer(max_epochs=2,
                                 checkpoint_callback],
                      )
 
-# Train the model ⚡🚅⚡
+# Train the model 
 trainer.fit(model, dm)
 
 # Evaluate the model on the held-out test set ⚡⚡

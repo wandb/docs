@@ -26,7 +26,7 @@ This tutorial demonstrates how to construct a training workflow of multi-labels 
     4. Log and version model checkpoints as model artifacts on Weights & Biases.
 5. Visualize and compare the predictions on the validation dataset using `wandb.Table` and interactive segmentation overlay on Weights & Biases.
 
-## 🌴 Setup and Installation
+## Setup and Installation
 
 First, install the latest version of both MONAI and Weights and Biases.
 
@@ -75,7 +75,7 @@ Then, authenticate the Colab instance to use W&B.
 wandb.login()
 ```
 
-## 🌳 Initialize a W&B Run
+## Initialize a W&B Run
 
 Start a new W&B run to start tracking the experiment.
 
@@ -118,7 +118,7 @@ os.makedirs(config.dataset_dir, exist_ok=True)
 os.makedirs(config.checkpoint_dir, exist_ok=True)
 ```
 
-## 💿 Data Loading and Transformation
+## Data Loading and Transformation
 
 Here, use the `monai.transforms` API to create a custom transform that converts the multi-classes labels into multi-labels segmentation task in one-hot format.
 
@@ -198,7 +198,7 @@ val_transform = Compose(
 )
 ```
 
-### 🍁 The Dataset
+### The Dataset
 
 The dataset used for this experiment comes from http://medicaldecathlon.com/. It uses multi-modal multi-site MRI data (FLAIR, T1w, T1gd, T2w) to segment Gliomas, necrotic/active tumour, and oedema. The dataset consists of 750 4D volumes (484 Training + 266 Testing).
 
@@ -229,7 +229,7 @@ val_dataset = DecathlonDataset(
 **Note:** Instead of applying the `train_transform` to the `train_dataset`, apply `val_transform` to both the training and validation datasets. This is because, before training, you would be visualizing samples from both the splits of the dataset.
 {{% /alert %}}
 
-### 📸 Visualizing the Dataset
+### Visualizing the Dataset
 
 Weights & Biases supports images, video, audio, and more. You can log rich media to explore your results and visually compare our runs, models, and datasets. Use the [segmentation mask overlay system](/guides/track/log/media#image-overlays-in-tables) to visualize our data volumes. To log segmentation masks in [tables](/guides/tables), you must provide a `wandb.Image` object for each row in the table.
 
@@ -375,7 +375,7 @@ Open an image and see how you can interact with each of the segmentation masks u
 **Note:** The labels in the dataset consist of non-overlapping masks across classes. The overlay logs the labels as separate masks in the overlay.
 {{% /alert %}}
 
-### 🛫 Loading the Data
+### Loading the Data
 
 Create the PyTorch DataLoaders for loading the data from the datasets. Before creating the DataLoaders, set the `transform` for `train_dataset` to `train_transform` to pre-process and transform the data for training.
 
@@ -400,7 +400,7 @@ val_loader = DataLoader(
 )
 ```
 
-## 🤖 Creating the Model, Loss, and Optimizer
+## Creating the Model, Loss, and Optimizer
 
 This tutorial crates a `SegResNet` model based on the paper [3D MRI brain tumor segmentation using auto-encoder regularization](https://arxiv.org/pdf/1810.11654.pdf). The `SegResNet` model that comes implemented as a PyTorch Module as part of the `monai.networks` API as well as an optimizer and learning rate scheduler.
 
@@ -467,7 +467,7 @@ def inference(model, input):
         return _compute(input)
 ```
 
-## 🚝 Training and Validation
+## Training and Validation
 
 Before training, define the metric properties which will later be logged with `wandb.log()` for tracking the training and validation experiments.
 
@@ -487,7 +487,7 @@ metric_values_whole_tumor = []
 metric_values_enhanced_tumor = []
 ```
 
-### 🍭 Execute Standard PyTorch Training Loop
+### Execute Standard PyTorch Training Loop
 
 ```python
 # Define a W&B Artifact object
@@ -593,7 +593,7 @@ Navigate to the artifacts tab in the W&B run dashboard to access the different v
 |:--:| 
 | **An example of model checkpoints logging and versioning on W&B.** |
 
-## 🔱 Inference
+## Inference
 
 Using the artifacts interface, you can select which version of the artifact is the best model checkpoint, in this case, the mean epoch-wise training loss. You can also explore the entire lineage of the artifact and use the version that you need.
 
@@ -613,7 +613,7 @@ model.load_state_dict(torch.load(os.path.join(model_artifact_dir, "model.pth")))
 model.eval()
 ```
 
-### 📸 Visualizing Predictions and Comparing with the Ground Truth Labels
+### Visualizing Predictions and Comparing with the Ground Truth Labels
 
 Create another utility function to visualize the predictions of the pre-trained model and compare them with the corresponding ground-truth segmentation mask using the interactive segmentation mask overlay,.
 

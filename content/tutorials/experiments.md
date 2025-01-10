@@ -90,7 +90,7 @@ The following image shows what a dashboard can look like:
 
 Now that we know how to integrate W&B into a psuedo machine learning training loop, let's track a machine learning experiment using a basic PyTorch neural network. The following code will also upload model checkpoints to W&B that you can then share with other teams in your organization.
 
-##  Track a machine learning experiment using Pytorch
+## Track a machine learning experiment using Pytorch
 
 The following code cell defines and trains a simple MNIST classifier. During training, you will see W&B prints out URLs. Click on the project page link to see your results stream in live to a W&B project.
 
