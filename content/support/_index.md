@@ -65,11 +65,11 @@ Browse articles by category.
     </a>
   {{< /card >}}
   {{< card >}}
-    <a href="/launch/launch-faq/">
+    <a href="index_sweeps">
       <div className="card-icon-left" style="backgroundImage: url('/images/support/white-icon-category-multimodal.svg')"></div>
       <div className="card-icon-right" style="backgroundImage: url('/images/support/white-icon-forward-next.svg')"></div>
-      <h2 className="card-title">Launch</h2>
-      <p className="card-content">Manage compute resources and run machine learning jobs at scale</p>
+      <h2 className="card-title">Sweeps</h2>
+      <p className="card-content">Automate hyperparameter search</p>
     </a>
   {{< /card >}}
 {{< /cardpane >}}
