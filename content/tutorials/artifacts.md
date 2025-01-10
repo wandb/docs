@@ -708,21 +708,3 @@ train_config = {"batch_size": 128,
 model = train_and_log(train_config)
 evaluate_and_log()
 ```
-
-### 🔁 The Graph View
-
-Notice that we changed the `type` of the `Artifact`:
-these `Run`s used a `model`, rather than `dataset`.
-`Run`s that produce `model`s will be separated
-from those that produce `dataset`s in the graph view on the Artifacts page.
-
-Go check it out. As before, you'll want to head to the Run page,
-select the "Artifacts" tab from the left sidebar,
-pick an `Artifact`,
-and then click the "Graph View" tab.
-
-
-### Exploded Graphs
-If you click the **Explode** button,  it separates `Artifact`s and `Run`s at the level of a single instance, rather than a `type`. The nodes are not `dataset` and `load-data`, but `dataset:mnist-raw:v1` and `load-data:sunny-smoke-1`, and so on.
-
-This provides total insight into your pipeline, with logged metrics, metadata, and more all at your fingertips, limited only by what you choose to log with us.
