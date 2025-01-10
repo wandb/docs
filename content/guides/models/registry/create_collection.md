@@ -110,7 +110,7 @@ Interactively or programmatically create a collection within a registry. You can
 
 ### Programmatically create a collection
 
-Use the `wandb.Run.link_artifact()` method to link an artifact to a collection. Specify both the collection and the registry to the `target_path` field as a path that takes the form of:
+Use the `wandb.init.link_artifact()` method to link an artifact to a collection. Specify both the collection and the registry to the `target_path` field as a path that takes the form of:
 
 ```python
 f"wandb-registry-{registry_name}/{collection_name}"

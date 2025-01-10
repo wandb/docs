@@ -3,7 +3,7 @@ menu:
   default:
     identifier: download_use_artifact
     parent: registry
-title: Download and use an artifact from a registry
+title: Download an artifact from a registry
 weight: 6
 ---
 
@@ -29,7 +29,7 @@ f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 Replace the values within the curly braces `{}` with the name of the registry, collection, and the alias or index of the artifact version you want to access.
 
 {{% alert %}}
-Specify "model" or "dataset" if you want to link an artifact version to the core Model registry or the core Dataset registry, respectively.
+Specify `model` or `dataset` to link an artifact version to the core Model registry or the core Dataset registry, respectively.
 {{% /alert %}}
 
 Use the `wandb.init.use_artifact` method to access the artifact and download its contents once you have the path of the linked artifact. The proceeding code snippet shows how to use and download an artifact linked to the W&B Registry. Ensure to replace values within `<>` with your own:
@@ -37,16 +37,19 @@ Use the `wandb.init.use_artifact` method to access the artifact and download its
 ```python
 import wandb
 
-REGISTRY = "<registry_name>"
-COLLECTION = "<collection_name>"
-ALIAS = "<artifact_alias>"
+REGISTRY = '<registry_name>'
+COLLECTION = '<collection_name>'
+ALIAS = '<artifact_alias>'
 
-run = wandb.init(entity="<team_name>", project="<project_name>")
+run = wandb.init(
+   entity = '<team_name>',
+   project = '<project_name>'
+   )  
 
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 # artifact_name = '<artifact_name>' # Copy and paste Full name specified on the Registry App
-fetched_artifact = run.use_artifact(artifact_or_name=artifact_name)
-download_path = fetched_artifact.download()
+fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
+download_path = fetched_artifact.download()  
 ```
 
 The `.use_artifact()` method both creates a [run](../runs/intro.md) and marks the artifact you download as the input to that run. 
@@ -63,33 +66,34 @@ VERSION = "<version>"
 
 api = wandb.Api()
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-artifact = api.artifact(name=artifact_name)
+artifact = api.artifact(name = artifact_name)
 ```
 
 <details>
 <summary>Example: Use and download an artifact linked to the W&B Registry</summary>
 
-The proceeding code example shows how a user can download an artifact linked to a collection called `phi3-finetuned` in the `Fine-tuned Models` registry. The alias of the artifact version is set to `production`.
+The proceeding code example shows how a user can download an artifact linked to a collection called "phi3-finetuned" in the "Fine-tuned Models" registry. The alias of the artifact version is set to "production".
 
 ```python
 import wandb
-TEAM_NAME = "product-team-applications"
+
+TEAM_ENTITY = "product-team-applications"
 PROJECT_NAME = "user-stories"
 
 REGISTRY = "Fine-tuned Models"
 COLLECTION = "phi3-finetuned"
-ALIAS = "production"
+ALIAS = 'production'
 
 # Initialize a run inside the specified team and project
-run = wandb.init(entity=TEAM_ENTITY, project=PROJECT_NAME)
+run = wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME)
 
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
 # Access an artifact and mark it as input to your run for lineage tracking
-fetched_artifact = run.use_artifact(artifact_or_name=name)
+fetched_artifact = run.use_artifact(artifact_or_name = name)  
 
 # Download artifact. Returns path to downloaded contents
-downloaded_path = fetched_artifact.download()
+downloaded_path = fetched_artifact.download()  
 ```
 </details>
 
@@ -97,7 +101,7 @@ downloaded_path = fetched_artifact.download()
 
 See [`use_artifact`](../../ref/python/run.md#use_artifact) and [`Artifact.download()`](/ref/python/artifact#download) in the API Reference guide for more information on possible parameters and return type.
 
-{{% alert title="Users with a personal entity that belong to multiple organizations" %}}
+{{% alert title="Users with a personal entity that belong to multiple organizations" %}} 
 Users with a personal entity that belong to multiple organizations must also specify either the name of their organization or use a team entity when accessing artifacts linked to a registry.
 
 ```python
@@ -110,12 +114,12 @@ VERSION = "<version>"
 # Ensure you are using your team entity to instantiate the API
 api = wandb.Api(overrides={"entity": "<team-entity>"})
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-artifact = api.artifact(name=artifact_name)
+artifact = api.artifact(name = artifact_name)
 
 # Use org display name or org entity in the path
 api = wandb.Api()
 artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-artifact = api.artifact(name=artifact_name)
+artifact = api.artifact(name = artifact_name)
 ```
 
 Where the `ORG_NAME` is the display name of your organization. Multi-tenant SaaS users can find the name of their organization in the organization's settings page at `https://wandb.ai/account-settings/`. Dedicated Cloud and Self-Managed users, contact your account administrator to confirm your organization's display name.
