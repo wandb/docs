@@ -18,9 +18,9 @@ Workspace settings apply to all sections and all panels within those sections. Y
 
 To edit settings that apply to the overall structure of this workspace:
 
-1. Navigate to your project workspace
-2. Select the gear icon next to the **New report** button
-3. Choose **Workspace layout** or **Line plots** within the slider that appears. 
+1. Navigate to your project workspace.
+2. Click the gear icon next to the **New report** button to view the workspace settings.
+3. Choose **Workspace layout** to change the workspace's layout, or choose **Line plots** to configure default settings for line plots in the workspace.
 {{< img src="/images/app_ui/workspace_settings.png" alt="" >}}
 
 ### Workspace layout options

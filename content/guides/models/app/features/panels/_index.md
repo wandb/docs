@@ -14,23 +14,18 @@ Use workspace panel visualizations to explore your [logged data](/ref/python/log
 
 ## Workspace modes
 
-1. Within your workspace, navigate to the section you want to add a panel to
-2. Choose the Add panel button
-3. From the dropdown, select a type of panel to add
-{{< img src="/images/app_ui/add_single_panel.gif" alt="" >}} 
-4. (Optional) If prompted, define parameters for the plot. 
+W&B projects support two different workspace modes. The icon next to the workspace name shows its mode. 
 
 | Icon | Workspace mode |
 | --- | --- |
 | {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}} | **Automated workspaces** automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project. |
-| {{< img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
+| {{<img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
 
 To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
 
-{{% alert title="Undo changes to your workspace" %}}
-Select the undo button (arrow that points left) to undo any unwanted changes.
+{{% alert title="Undo changes to your workspace" %}} 
+To undo changes to your workspace, click the Undo button (arrow that points left) or type **CMD + Z** (macOS) or **CTRL + Z** (Windows / Linux).
 {{% /alert %}}
-
 
 ## Reset a workspace
 
@@ -46,9 +41,9 @@ You can add panels to your workspace, either globally or at the section level.
 To add a panel:
 
 1. To add a panel globally, click **Add panels** in the control bar near the panel search field.
-1. To add a panel directly to a section instead, click the section's action `...` menu, then click **Add panels**.
+1. To add a panel directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
 1. Select the type of panel to add.
-    {{< img src="/images/app_ui/add_single_panel.gif" >}}
+![](/images/app_ui/add_single_panel.gif)
 
 ### Quick add
 
@@ -86,7 +81,7 @@ To move a panel to a different section, you can use the drag handle on the panel
 
 You can also use the drag handle to rearrange panels within a section.
 
-### Duplicate a panel
+## Duplicate a panel
 
 To duplicate a panel:
 
