@@ -6,7 +6,7 @@ menu:
 title: Weave and Models
 ---
 
-{{< cta-button colabLink='https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing' >}}
+{{< cta-button colabLink="https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing" >}}
 
 # Models and Weave integration demo
 
