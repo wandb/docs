@@ -41,10 +41,14 @@ $moon-700: #3f464f;
 
 // Light mode: Body text, Decorative icons, Secondary button text (rest)
 // Dark mode: Chart secondary lines, Scroll bar rest
-$moon-800: #2b3038;
+$moon-750: #363c44;
 
 // Light mode: Tooltip background color, Toast background color, Top bar background color
 // Dark mode: Containers, fields and modals background color, Top bar background color
+$moon-800: #2b3038;
+
+// Light mode: Body text, Decorative icons, Secondary button text (rest)
+// Dark mode: Chart secondary lines, Scroll bar rest
 $moon-900: #1a1d24;
 
 // Dark mode: Page background type 1 and 2
@@ -725,6 +729,12 @@ img {
     #TableOfContents {
         color: $moon-200;
     }
+
+    .td-footer {
+        background-color: transparent !important;
+        color: $moon-200 !important;
+        border-top: 1px solid $moon-750 !important;
+    }
 }
 
 // Add styles for feedback buttons
@@ -802,12 +812,12 @@ img {
 }
 
 .td-page-meta__lastmod {
-    margin-top: 0 !important;
+    margin-top: 1rem !important;
 }
 
 // Update footer styles to match page background and text color
 .td-footer {
-    background-color: $moon-white !important;
+    background-color: transparent !important;
     color: $moon-800 !important;
     border-top: 1px solid $moon-200 !important;
     padding: 1.5rem 0 !important;
@@ -815,7 +825,7 @@ img {
     margin: 0 !important;
     
     [data-bs-theme=dark] & {
-        background-color: $moon-900 !important;
+        background-color: transparent !important;
         color: $moon-200 !important;
         border-top: 1px solid $moon-700 !important;
     }
@@ -849,4 +859,45 @@ img {
     .td-footer__links-item {
         margin-bottom: 0 !important;
     }
+}
+
+// Add padding to main content area
+main[role="main"] {
+    padding-bottom: 1rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+}
+
+// Add border radius to tab content and panes
+.tab-content {
+  .tab-pane {
+    border: 1px solid $moon-200;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    overflow: hidden;
+    
+    pre, .highlight, .code-toolbar {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Dark mode support for tab panes
+[data-bs-theme=dark] .tab-content .tab-pane {
+  border-color: $moon-700;
+}
+
+// Add border radius to standalone elements
+img, pre, .highlight, .code-toolbar:not(.tab-body *), .alert {
+  border-radius: 8px;
+}
+
+// Style tabs
+.nav-tabs {
+  border: none !important;
+  
+  .nav-item {
+    margin-bottom: 0 !important;
+  }
 }
