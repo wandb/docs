@@ -7,7 +7,7 @@ menu:
 title: Log tables
 ---
 
-{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb' >}}
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
 Use `wandb.Table` to log data to visualize and query with W&B. In this guide, learn how to:
 
 1. [Create Tables](./log-tables.md#create-tables)

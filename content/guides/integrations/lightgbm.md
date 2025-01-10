@@ -8,7 +8,8 @@ title: LightGBM
 weight: 190
 ---
 
-{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb' >}}
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" >}}
+
 The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of Weights & Biases to track large experiments, like hyperparameter sweeps.
 
 ```python
@@ -32,6 +33,6 @@ Attaining the maximum performance out of models requires tuning hyperparameters,
 
 To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out this interactive Colab notebook.
 
-{{< cta-button colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb' >}}
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" >}}
 
 {{< img src="/images/integrations/lightgbm_sweeps.png" alt="Summary: trees outperform linear learners on this classification dataset." >}}
