@@ -354,11 +354,19 @@ ol.breadcrumb:before {
 #TableOfContents { 
     margin-top: 15px;
     font-size: 16px !important;
-    line-height: 1.5rem !important;
+    line-height: 2.5rem !important;
     padding-left: 10px !important;
-}
-#TableOfContents ul { 
-    padding-top: 5px !important;
+
+    // Update list styles
+    ul { 
+        padding-top: 5px !important;
+    }
+
+    // Style links consistently with page meta
+    a {
+        line-height: 2.5rem !important;
+        display: block;
+    }
 }
 
 // algolia
@@ -687,6 +695,8 @@ img, pre, .highlight, .code-toolbar, .alert {
 img {
   margin-top: 1rem;
   margin-bottom: 2rem;
+  max-width: 80% !important;
+  display: block;
 }
 
 // Override section index heading font weight
