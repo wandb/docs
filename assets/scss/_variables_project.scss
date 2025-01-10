@@ -41,10 +41,14 @@ $moon-700: #3f464f;
 
 // Light mode: Body text, Decorative icons, Secondary button text (rest)
 // Dark mode: Chart secondary lines, Scroll bar rest
-$moon-800: #2b3038;
+$moon-750: #363c44;
 
 // Light mode: Tooltip background color, Toast background color, Top bar background color
 // Dark mode: Containers, fields and modals background color, Top bar background color
+$moon-800: #2b3038;
+
+// Light mode: Body text, Decorative icons, Secondary button text (rest)
+// Dark mode: Chart secondary lines, Scroll bar rest
 $moon-900: #1a1d24;
 
 // Dark mode: Page background type 1 and 2
@@ -159,7 +163,7 @@ body {
 .td-page-meta
 {
     font-size: 16px !important;
-    line-height: 1.75rem !important;
+    line-height: 2.5rem !important;
 }
 // hide the doc site name from the top-left
 .td-navbar .navbar-brand__name { display: none; }
@@ -297,6 +301,7 @@ h6, .td-content h6 {
   a {
     color: $moon-500 !important;
     font-weight: 400;
+    line-height: 2rem;
     &:hover {
       color: $teal-600 !important;
       text-decoration: none !important;
@@ -349,11 +354,19 @@ ol.breadcrumb:before {
 #TableOfContents { 
     margin-top: 15px;
     font-size: 16px !important;
-    line-height: 1.5rem !important;
+    line-height: 2.5rem !important;
     padding-left: 10px !important;
-}
-#TableOfContents ul { 
-    padding-top: 5px !important;
+
+    // Update list styles
+    ul { 
+        padding-top: 5px !important;
+    }
+
+    // Style links consistently with page meta
+    a {
+        line-height: 2.5rem !important;
+        display: block;
+    }
 }
 
 // algolia
@@ -674,9 +687,17 @@ pre {
     color: $moon-600;
 }
 
-// Add border radius to all images and code blocks
-img, pre, .highlight, .code-toolbar {
-  border-radius: 8px;
+// Add border radius to all images, code blocks and alerts
+img, pre, .highlight, .code-toolbar, .alert {
+  border-radius: 8px !important;
+}
+
+// Style images and iframes consistently
+img, iframe {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  max-width: 80% !important;
+  display: block;
 }
 
 // Override section index heading font weight
@@ -719,4 +740,175 @@ img, pre, .highlight, .code-toolbar {
     #TableOfContents {
         color: $moon-200;
     }
+
+    .td-footer {
+        background-color: transparent !important;
+        color: $moon-200 !important;
+        border-top: 1px solid $moon-750 !important;
+    }
+}
+
+// Add styles for feedback buttons
+.feedback--answer {
+    display: inline-flex !important; 
+    align-items: center !important; 
+    justify-content: center !important;
+    color: $moon-800 !important;
+    gap: 8px !important; 
+    padding: 0 12px !important; 
+    font-size: 16px !important;
+    line-height: 20px !important;
+    font-weight: 600 !important;
+    font-display: none !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+    background-color: $moon-100 !important;
+    background-image: none !important;
+    transition: background-color 0.3s, color 0.3s !important;
+    text-align: center !important; 
+    min-height: 40px !important;
+    border: none !important;
+    margin-right: 8px !important;
+    box-shadow: none !important;
+
+    &:hover {
+        background-color: $hover-bg !important;
+        text-decoration: none !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+
+// Remove the mb-4 class from the buttons in the HTML or override it here
+.feedback--answer.mb-4 {
+    margin-bottom: 0 !important;
+}
+
+// Dark mode support
+[data-bs-theme=dark] {
+    .feedback--answer {
+        color: $moon-200 !important;
+        background-color: $moon-800 !important;
+        background-image: none !important;
+        
+        &:hover {
+            background-color: $moon-700 !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+    }
+}
+
+.d-print-none {
+    margin-top: 4rem;
+
+    .feedback--title {
+        display: none; // Hide the feedback title
+    }
+
+    .feedback--question {
+        display: inline-block; // Make question inline
+        margin-right: 1rem; // Add spacing between question and buttons
+        margin-bottom: 0; // Remove bottom margin to align with buttons
+    }
+
+    .feedback--answer {
+        display: inline-block !important; // Force inline display
+        margin-bottom: 0 !important; // Remove bottom margin
+    }
+
+    .feedback--response {
+        margin-top: 1rem; // Add some space above responses
+    }
+}
+
+.td-page-meta__lastmod {
+    margin-top: 1rem !important;
+}
+
+// Update footer styles to match page background and text color
+.td-footer {
+    background-color: transparent !important;
+    color: $moon-800 !important;
+    border-top: 1px solid $moon-200 !important;
+    padding: 1.5rem 0 !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    
+    [data-bs-theme=dark] & {
+        background-color: transparent !important;
+        color: $moon-200 !important;
+        border-top: 1px solid $moon-700 !important;
+    }
+
+    // Ensure links and icons inherit the text color
+    a, i {
+        color: inherit !important;
+        transition: color 0.3s !important;
+
+        &:hover {
+            color: $teal-500 !important;
+        }
+    }
+
+    [data-bs-theme=dark] a:hover,
+    [data-bs-theme=dark] i:hover {
+        color: $wandb-gold !important;
+    }
+
+    // Remove default container padding
+    .container-fluid {
+        padding: 0 2rem !important;
+    }
+
+    // Center align all content vertically in the footer
+    .row {
+        align-items: center !important;
+    }
+
+    // Remove bottom margin from footer links
+    .td-footer__links-item {
+        margin-bottom: 0 !important;
+    }
+}
+
+// Add padding to main content area
+main[role="main"] {
+    padding-bottom: 1rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+}
+
+// Add border radius to tab content and panes
+.tab-content {
+  .tab-pane {
+    border: 1px solid $moon-200;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    overflow: hidden;
+    
+    pre, .highlight, .code-toolbar {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Dark mode support for tab panes
+[data-bs-theme=dark] .tab-content .tab-pane {
+  border-color: $moon-700;
+}
+
+// Add border radius to standalone elements
+img, pre, .highlight, .code-toolbar:not(.tab-body *), .alert {
+  border-radius: 8px;
+}
+
+// Style tabs
+.nav-tabs {
+  border: none !important;
+  
+  .nav-item {
+    margin-bottom: 0 !important;
+  }
 }
