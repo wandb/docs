@@ -74,7 +74,7 @@ Optionally, we can set environment variables to customize W&B logging. See [docu
 %env WANDB_WATCH=all
 ```
 
-# 👟 Train the model
+## Train the model
 Next, call the downloaded training script [run_glue.py](https://huggingface.co/transformers/examples.html#glue) and see training automatically get tracked to the Weights & Biases dashboard. This script fine-tunes BERT on the Microsoft Research Paraphrase Corpus— pairs of sentences with human annotations indicating whether they are semantically equivalent.
 
 
@@ -109,7 +109,7 @@ Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morri
 
 {{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="" >}}
 
-### Track key information effortlessly by default
+## Track key information effortlessly by default
 Weights & Biases saves a new run for each experiment. Here's the information that gets saved by default:
 - **Hyperparameters**: Settings for your model are saved in Config
 - **Model Metrics**: Time series data of metrics streaming in are saved in Log

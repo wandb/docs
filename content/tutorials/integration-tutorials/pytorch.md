@@ -12,15 +12,11 @@ Use [Weights & Biases](https://wandb.com) for machine learning experiment tracki
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
-## What this notebook covers:
+## What this notebook covers
 
 We show you how to integrate Weights & Biases with your PyTorch code to add experiment tracking to your pipeline.
 
-## The resulting interactive W&B dashboard will look like:
-
 {{< img src="/images/tutorials/pytorch.png" alt="" >}}
-
-## In pseudocode, what we'll do is:
 
 ```python
 # import the library
@@ -47,8 +43,6 @@ for batch in dataloader:
 model.to_onnx()
 wandb.save("model.onnx")
 ```
-
-
 
 Follow along with a [video tutorial](http://wandb.me/pytorch-video).
 
@@ -108,9 +102,9 @@ import wandb
 wandb.login()
 ```
 
-# 👩‍🔬 Define the Experiment and Pipeline
+## Define the Experiment and Pipeline
 
-## 2️⃣ Step 2: Track metadata and hyperparameters with `wandb.init`
+### Track metadata and hyperparameters with `wandb.init`
 
 Programmatically, the first thing we do is define our experiment:
 what are the hyperparameters? what metadata is associated with this run?
@@ -211,7 +205,7 @@ def make(config):
     return model, train_loader, test_loader, criterion, optimizer
 ```
 
-# 📡 Define the Data Loading and Model
+### Define the Data Loading and Model
 
 Now, we need to specify how the data is loaded and what the model looks like.
 
@@ -277,13 +271,13 @@ class ConvNet(nn.Module):
         return out
 ```
 
-# 👟 Define Training Logic
+### Define Training Logic
 
 Moving on in our `model_pipeline`, it's time to specify how we `train`.
 
 Two `wandb` functions come into play here: `watch` and `log`.
 
-### 3️⃣ Step 3. Track gradients with `wandb.watch` and everything else with `wandb.log`
+## Track gradients with `wandb.watch` and everything else with `wandb.log`
 
 `wandb.watch` will log the gradients and the parameters of your model,
 every `log_freq` steps of training.
@@ -354,7 +348,7 @@ def train_log(loss, example_ct, epoch):
     print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
 
-# 🧪 Define Testing Logic
+### Define Testing Logic
 
 Once the model is done training, we want to test it:
 run it against some fresh data from production, perhaps,
@@ -362,7 +356,7 @@ or apply it to some hand-curated examples.
 
 
 
-#### 4️⃣ Optional Step 4: Call `wandb.save`
+## (Optional) Call `wandb.save`
 
 This is also a great time to save the model's architecture
 and final parameters to disk.
@@ -401,7 +395,7 @@ def test(model, test_loader):
     wandb.save("model.onnx")
 ```
 
-# 🏃‍♀️ Run training and watch your metrics live on wandb.ai
+### Run training and watch your metrics live on wandb.ai
 
 Now that we've defined the whole pipeline and slipped in
 those few lines of W&B code,
@@ -428,7 +422,7 @@ we'll also print a summary of the results in the cell output.
 model = model_pipeline(config)
 ```
 
-# 🧹 Test Hyperparameters with Sweeps
+### Test Hyperparameters with Sweeps
 
 We only looked at a single set of hyperparameters in this example.
 But an important part of most ML workflows is iterating over
@@ -453,11 +447,11 @@ That's all there is to running a hyperparameter sweep.
 {{< img src="/images/tutorials/pytorch-2.png" alt="" >}}
 
 
-# 🖼️ Example Gallery
+## Example Gallery
 
 See examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery)
 
-# 🤓 Advanced Setup
+## Advanced Setup
 1. [Environment variables](/guides/hosting/env-vars): Set API keys in environment variables so you can run training on a managed cluster.
 2. [Offline mode](../support/run_wandb_offline.md): Use `dryrun` mode to train offline and sync results later.
 3. [On-prem](/guides/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.

@@ -3,12 +3,10 @@ menu:
   tutorials:
     identifier: weave_models_registry
     parent: weave-and-models-tutorials
-title: Weave and Models
+title: Weave and Models integration demo
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing" >}}
-
-# Models and Weave integration demo
 
 This notebook shows how to use W&B Weave together with W&B Models. Specifically, this example considers two different teams.
 
@@ -31,7 +29,7 @@ The workflow covers the following steps:
 
 The `RagModel` referenced below is top-level `weave.Model` that you can consider a complete RAG app. It contains a `ChatModel`, Vector database, and a Prompt. The `ChatModel` is also another `weave.Model` which contains the code to download an artifact from the W&B Registry and it can change to support any other chat model as part of the `RagModel`. For more details see [the complete model on Weave](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26). 
 
-# 1. Setup
+## 1. Setup
 First, install `weave` and `wandb`, then log in with an API key. You can create and view your API keys at https://wandb.ai/settings. 
 
 ```bash
@@ -50,7 +48,7 @@ wandb.login()
 weave.init(ENTITY + "/" + PROJECT)
 ```
 
-# 2. Make `ChatModel` based on Artifact
+## 2. Make `ChatModel` based on Artifact
 
 Retrieve the fine-tuned chat model from the Registry and create a `weave.Model` from it to directly plug into the [`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) in the next step. It takes in the same parameters as the existing [ChatModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) just the `init` and `predict` change.
 
@@ -154,7 +152,7 @@ new_chat_model = UnslothLoRAChatModel(
  )
  ```
 
- # 3. Integrate new `ChatModel` version into `RagModel`
+## 3. Integrate new `ChatModel` version into `RagModel`
 Building a RAG app from a fine-tuned chat model can provide several advantages, particularly in enhancing the performance and versatility of conversational AI systems.
 
 Now retrieve the [`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) (you can fetch the weave ref for the current `RagModel` from the use tab as shown in the image below) from the existing Weave project and exchange the `ChatModel` to the new one. There is no need to change or re-create any of the other components (VDB, prompts, etc.)!
@@ -176,7 +174,7 @@ PUB_REFERENCE = weave.publish(RagModel, "RagModel")
 await RagModel.predict("When was the first conference on climate change?")
 ```
 
-# 4. Run new `weave.Evaluation` connecting to the existing models run
+## 4. Run new `weave.Evaluation` connecting to the existing models run
 Finally, evaluate the new `RagModel` on the existing `weave.Evaluation`. To make the integration as easy as possible, include the following changes. 
 
 From a Models perspective:
@@ -194,10 +192,10 @@ climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 
 with weave.attributes({"wandb-run-id": wandb.run.id}):
     # use .call attribute to retrieve both the result and the call in order to save eval trace to Models
-    summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, `RagModel`)
+    summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, ` RagModel `)
 ```
 
-# 5. Save the new RAG model on the Registry
+## 5. Save the new RAG model on the Registry
 In order to effectively share the new RAG Model, push it to the Registry as a reference artifact adding in the weave version as an alias.
 
 ```python

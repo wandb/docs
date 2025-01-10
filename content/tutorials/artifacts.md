@@ -13,7 +13,7 @@ Follow along with a [video tutorial](http://tiny.cc/wb-artifacts-video).
 
 ## About artifacts
 
-An artifact, like a Greek [amphora 🏺](https://en.wikipedia.org/wiki/Amphora),
+An artifact, like a Greek [amphora](https://en.wikipedia.org/wiki/Amphora),
 is a produced object -- the output of a process.
 In ML, the most important artifacts are _datasets_ and _models_.
 
@@ -30,7 +30,7 @@ where a training run takes in a dataset and produces a model.
 Since one run can use another run's output as an input, `Artifact`s and `Run`s together form a directed graph (a bipartite [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph), with nodes for `Artifact`s and `Run`s
 and arrows that connect a `Run` to the `Artifact`s it consumes or produces.
 
-# 0️⃣ Install and Import
+### Install and Import
 
 Artifacts are part of our Python library, starting with version `0.9.2`.
 
@@ -49,7 +49,7 @@ import os
 import wandb
 ```
 
-# 1️⃣ Log a Dataset
+### Log a Dataset
 
 First, let's define some Artifacts.
 
@@ -160,7 +160,7 @@ def load_and_log():
 load_and_log()
 ```
 
-### 🚀 `wandb.init`
+#### `wandb.init`
 
 
 When we make the `Run` that's going to produce the `Artifact`s,
@@ -180,7 +180,7 @@ This keeps the graph of your Artifacts nice and tidy.
 
 > **Rule of 👍**: the `job_type` should be descriptive and correspond to a single step of your pipeline. Here, we separate out `load`ing data from `preprocess`ing data.
 
-### 🏺 `wandb.Artifact`
+#### `wandb.Artifact`
 
 
 To log something as an `Artifact`, we have to first make an `Artifact` object.
@@ -202,7 +202,7 @@ The `metadata` just needs to be serializable to JSON.
 
 > **Rule of 👍**: the `metadata` should be as descriptive as possible.
 
-### 🐣 `artifact.new_file` and ✍️ `run.log_artifact`
+#### `artifact.new_file` and `run.log_artifact`
 
 Once we've made an `Artifact` object, we need to add files to it.
 
@@ -227,7 +227,7 @@ including any `Artifact`s that got logged.
 
 We'll see some examples that make better use of the other components of the Run page below.
 
-# 2️⃣ Use a Logged Dataset Artifact
+### Use a Logged Dataset Artifact
 
 `Artifact`s in W&B, unlike artifacts in museums,
 are designed to be _used_, not just stored.
@@ -325,7 +325,7 @@ steps = {"normalize": True,
 preprocess_and_log(steps)
 ```
 
-### ✔️ `run.use_artifact`
+#### `run.use_artifact`
 
 These steps are simpler. The consumer just needs to know the `name` of the `Artifact`, plus a bit more.
 
@@ -342,8 +342,7 @@ so the `Artifact` we want is `mnist-raw:latest`.
 Use custom `alias`es like `latest` or `best` when you want an `Artifact`
 that satisifies some property
 
-### 📥 `artifact.download`
-
+#### `artifact.download`
 
 Now, you may be worrying about the `download` call.
 If we download another copy, won't that double the burden on memory?
@@ -363,10 +362,10 @@ Check out its contents with `!tree artifacts`:
 !tree artifacts
 ```
 
-### 🌐 The Artifacts page on [wandb.ai](https://wandb.ai)
+#### The Artifacts page 
 
 Now that we've logged and used an `Artifact`,
-let's check out the Artifacts tab on the Run page.
+let's check out the Artifacts tab on the Run page. 
 
 Navigate to the Run page URL from the `wandb` output
 and select the "Artifacts" tab from the left sidebar
@@ -384,7 +383,7 @@ with the `type`s of `Artifact`s
 and the `job_type`s of `Run` as the two types of nodes,
 with arrows to represent consumption and production.
 
-# 3️⃣ Log a Model
+### Log a Model
 
 That's enough to see how the API for `Artifact`s works,
 but let's follow this example through to the end of the pipeline
@@ -478,7 +477,7 @@ model_config = {"hidden_layer_sizes": [32, 64],
 build_model_and_log(model_config)
 ```
 
-### ➕ `artifact.add_file`
+#### `artifact.add_file`
 
 
 Instead of simultaneously writing a `new_file` and adding it to the `Artifact`,
@@ -489,7 +488,7 @@ and then `add` them to the `Artifact` in another.
 
 > **Rule of 👍**: use `new_file` when you can, to prevent duplication.
 
-# 4️⃣ Use a Logged Model Artifact
+#### Use a Logged Model Artifact
 
 Just like we could call `use_artifact` on a `dataset`,
 we can call it on our `initialized_model`

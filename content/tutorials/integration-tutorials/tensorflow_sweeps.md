@@ -17,7 +17,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 {{< img src="/images/tutorials/tensorflow/sweeps.png" alt="" >}}
 
 
-## 🤔 Why Should I Use Sweeps?
+## Why Should I Use Sweeps?
 
 * **Quick setup**: With just a few lines of code, you can run W&B sweeps.
 * **Transparent**: The project cites all algorithms used, and the [code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
@@ -34,13 +34,9 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 **Note**: Sections starting with _Step_ are all you need to perform hyperparameter sweep in existing code.
 The rest of the code is there to set up a simple example.
 
+## Install, Import, and Log in
 
-
-
-
-## 🚀 Install, Import, and Log in
-
-### Step 0️⃣: Install W&B
+### Install W&B
 
 
 ```bash
@@ -48,7 +44,7 @@ The rest of the code is there to set up a simple example.
 !pip install wandb
 ```
 
-### Step 1️⃣: Import W&B and Login
+### Import W&B and Login
 
 
 ```python
@@ -73,7 +69,7 @@ wandb.login()
 
 > Side note: If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up is as easy as a few clicks.
 
-## 👩‍🍳 Prepare Dataset
+## Prepare Dataset
 
 
 ```python
@@ -86,9 +82,7 @@ x_train = np.reshape(x_train, (-1, 784))
 x_test = np.reshape(x_test, (-1, 784))
 ```
 
-## 🧠 Define the Model and Training Loop
-
-## 🏗️ Build a Simple Classifier MLP
+## Build a Simple Classifier MLP
 
 
 ```python
@@ -122,10 +116,7 @@ def test_step(x, y, model, loss_fn, val_acc_metric):
     return loss_value
 ```
 
-## 🔁 Write a Training Loop
-
-### Step 3️⃣: Log metrics with `wandb.log`
-
+## Write a Training Loop
 
 ```python
 def train(
@@ -191,7 +182,7 @@ def train(
         )
 ```
 
-### Step 4️⃣: Configure the Sweep
+## Configure the Sweep
 
 This is where you will:
 * Define the hyperparameters you're sweeping over
@@ -214,7 +205,7 @@ sweep_config = {
 }
 ```
 
-### Step 5️⃣: Wrap the Training Loop
+## Wrap the Training Loop
 
 You'll need a function, like `sweep_train` below,
 that uses `wandb.config` to set the hyperparameters
@@ -274,7 +265,7 @@ def sweep_train(config_defaults=None):
     )
 ```
 
-### Step 6️⃣: Initialize Sweep and Run Agent 
+## Initialize Sweep and Run Agent 
 
 
 ```python
@@ -288,23 +279,23 @@ You can limit the number of total runs with the `count` parameter, we will limit
 wandb.agent(sweep_id, function=sweep_train, count=10)
 ```
 
-## 👀 Visualize Results
+## Visualize Results
 
 Click on the **Sweep URL** link above to see your live results.
 
 
-## 🎨 Example Gallery
+## Example Gallery
 
 See examples of projects tracked and visualized with W&B in the [Gallery →](https://app.wandb.ai/gallery)
 
-## 📏 Best Practices
+## Best Practices
 1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`
 2. **Groups**: For multiple processes or cross validation folds, log each process as a runs and group them together. `wandb.init(group='experiment-1')`
 3. **Tags**: Add tags to track your current baseline or production model.
 4. **Notes**: Type notes in the table to track the changes between runs.
 5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
 
-## 🤓 Advanced Setup
+## Advanced Setup
 1. [Environment variables](/guides/hosting/env-vars): Set API keys in environment variables so you can run training on a managed cluster.
 2. [Offline mode](../support/run_wandb_offline.md)
 3. [On-prem](/guides/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. Everyone from academics to enterprise teams use local installations.

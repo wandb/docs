@@ -29,7 +29,7 @@ See the following tutorials for step by step information on how to use popular M
 
 - [PyTorch](/tutorials/pytorch)
 - [PyTorch Lightning](/tutorials/lightning)
-- [HuggingFace 🤗 Transformers](/tutorials/huggingface)
+- [HuggingFace Transformers](/tutorials/huggingface)
 - Tensorflow
     - [Track experiments](/tutorials/tensorflow)
     - [Tune hyperparameters](/tutorials/tensorflow_sweeps)
