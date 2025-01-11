@@ -196,9 +196,14 @@ export default {
         {
           type: 'category',
           label: 'Automations',
+          link: {type: 'doc', id: 'guides/automations/intro'},
           items: [
+            'guides/automations/webhooks',
+            'guides/automations/webhooks-payload',
+            'guides/automations/webhooks-troubleshoot',
             'guides/model_registry/model-registry-automations',
             'guides/artifacts/project-scoped-automations',
+            'guides/automations/manage-automations',
           ],
         },
         {
