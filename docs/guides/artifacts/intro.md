@@ -51,6 +51,12 @@ artifact.save()
 # Logs the artifact version "my_data" as a dataset with data from dataset.h5
 ```
 
+The `type` of the artifact affects how it appears in the W&B platform. Leaving this parameter blank results in an artifact being`unspecified`.
+
+[](../../../static/images/artifacts/artifacts_dropdown.png)
+
+Each label of the dropdown represents a different `type` parameter value. In the preceding code snippet, the artifact's `type` is `dataset`.
+
 :::tip
 See the [track external files](./track-external-files.md) page for information on how to add references to files or directories stored in external object storage, like an Amazon S3 bucket. 
 :::
