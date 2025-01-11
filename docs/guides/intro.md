@@ -11,14 +11,14 @@ Weights & Biases (W&B) is the AI developer platform, with tools for training mod
 
 ![](/images/general/architecture.png)
 
-W&B consists of three major components: [Models](/guides/models.md), [Weave](https://wandb.github.io/weave/), and [Core](/guides/core.md):
+W&B consists of three major components: [Weave](https://wandb.github.io/weave/), [Models](/guides/models.md), and [Core](/guides/core.md):
+
+**[W&B Weave](https://weave-docs.wandb.ai/)** is a lightweight toolkit for tracking and evaluating LLM applications.
 
 **[W&B Models](/guides/models.md)** is a set of lightweight, interoperable tools for machine learning practitioners training and fine-tuning models.
 - [Experiments](/guides/track/intro.md): Machine learning experiment tracking
 - [Sweeps](/guides/sweeps/intro.md): Hyperparameter tuning and model optimization
 - [Registry](/guides/registry/intro.md): Publish and share your ML models and datasets
-
-**[W&B Weave](https://wandb.github.io/weave/)** is a lightweight toolkit for tracking and evaluating LLM applications.
 
 **[W&B Core](/guides/core.md)** is set of powerful building blocks for tracking and visualizing data and models, and communicating results.
 - [Artifacts](/guides/artifacts/intro.md): Version assets and track lineage
