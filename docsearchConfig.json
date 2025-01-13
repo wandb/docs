@@ -6,7 +6,7 @@
   "sitemap_alternate_links": false,
   "selectors": {
     "lvl0": {
-      "selector": "(//ul[contains(@class,'menu__list')]//a[contains(@class, 'menu__link menu__link--sublist menu__link--active')]/text() | //nav[contains(@class, 'navbar')]//a[contains(@class, 'navbar__link--active')]/text())[last()]",
+      "selector": "(//ul[contains(@class,'navbar_nav')]//a[contains(@class, 'nav_link active')]/text() | //ul[contains(@class,'ul_0')]//a[contains(@class, 'td-sidebar-link active')]/text())",
       "type": "xpath",
       "global": true,
       "default_value": "Documentation"
