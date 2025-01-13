@@ -18,7 +18,7 @@ With W&B Weave, you can:
 * Organize all the information generated across the LLM workflow, from experimentation to evaluations to production
 
 {{% alert %}}
-Looking for Weave docs? See the [weave-docs](https://weave-docs.wandb.ai/).
+Looking for Weave docs? See the [W&B Weave Docs](https://weave-docs.wandb.ai/).
 {{% /alert %}}
 
 ## How to get started 
