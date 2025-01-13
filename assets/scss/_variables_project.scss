@@ -1,0 +1,931 @@
+/*
+
+Add styles or override variables from the theme here.
+
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+
+// Color variables based on color.styles.tokens.json
+
+// Moon (Grayscale)
+// White: Page background (type 1), Primary button text
+$moon-white: #ffffff;
+
+// Light mode: Page background type 2, Disabled button background color
+// Dark mode: Tooltip background color, Toast background color
+$moon-50: #fafafa;
+
+// Light mode: Background color of table row with column headers, Table row or menu item hover highlight
+$moon-100: #f5f6f7;
+
+// Light mode: Scroll bar hover, Chart secondary lines
+// Dark mode: Body text, Decorative icons, Secondary button text (rest)
+$moon-200: #e4e6eb;
+
+// Light mode: Tag background color (48% rest, 64% hover), Info banner background color (48% opacity)
+$moon-300: #d3d7de;
+
+// Light mode: Run color 15
+// Dark mode: Tag text color, Info banner text color, Run color 15
+$moon-400: #aeb3bd;
+
+// Light/Dark mode: Secondary text, Placeholder text, Table column header text, Non-selected tabs text
+$moon-500: #79808a;
+
+// Light mode: Tag text color, Info banner text color
+$moon-600: #565c66;
+
+// Dark mode: Tag background color (48% rest, 64% hover), Info banner background color (48% opacity)
+$moon-700: #3f464f;
+
+// Light mode: Body text, Decorative icons, Secondary button text (rest)
+// Dark mode: Chart secondary lines, Scroll bar rest
+$moon-750: #363c44;
+
+// Light mode: Tooltip background color, Toast background color, Top bar background color
+// Dark mode: Containers, fields and modals background color, Top bar background color
+$moon-800: #2b3038;
+
+// Light mode: Body text, Decorative icons, Secondary button text (rest)
+// Dark mode: Chart secondary lines, Scroll bar rest
+$moon-900: #1a1d24;
+
+// Dark mode: Page background type 1 and 2
+$moon-950: #171a1f;
+
+// Light/Dark mode: Dropshadows (opacity varies), Background dimming behind modals
+$oblivion: #15151f;
+
+// Teal
+// Light mode: Tag background color (48% rest, 64% hover), Selected global nav item highlight (32%)
+$teal-300: #a9edf2;
+
+// Light mode: Field 2px stroke color (focus)
+// Dark mode: Link (Hover), Tag text color, Selected global nav item text, Secondary button text (hover)
+$teal-400: #58d3db;
+
+// Light/Dark mode: Primary button color (Hover), Run color 01
+$teal-450: #10bfcc;
+
+// Light/Dark mode: Primary button color (Rest), Selected tab underline
+$teal-500: #13a9ba;
+
+// Light mode: Link (rest), Tag text color, Selected global nav item text, Secondary button text (hover)
+// Dark mode: Field 2px stroke color (focus)
+$teal-600: #038194;
+
+// Green
+// Light mode: Tag background color (48% opacity at rest, 64% on hover), Green banner background color (48% opacity)
+$green-300: #a1f0cb;
+
+// Dark mode: Tag text color, Green banner text color
+$green-400: #5ed6a4;
+
+// Light/Dark mode: Green button background color (hover)
+$green-450: #28c787;
+
+// Light/Dark mode: Green button background color (rest), Run color 04
+$green-500: #00b26e;
+
+// Light mode: Tag text color, Green banner text color
+$green-600: #00875a;
+
+// Gold
+// Light mode: Tag background color (48% opacity at rest, 64% on hover), Announcement banner background color (48% opacity)
+$gold-300: #ffe49e;
+
+// Light mode: Run color 06
+// Dark mode: Tag text color, Announcement banner text color, Run color 06
+$gold-400: #ffcf4d;
+
+// Light/Dark mode: Weights & Biases logo color
+$gold-450: #fac13c;
+
+// Light/Dark mode: Top bar background color in Admin mode
+$gold-550: #d4870d;
+
+// Light mode: Tag text color, Announcement banner text color
+$gold-600: #b8740f;
+
+// Red
+// Light mode: Tag background color (48% opacity at rest, 64% on hover), Error banner background color (48% opacity)
+$red-300: #ffc7ca;
+
+// Dark mode: Tag text color, Error banner text color
+$red-400: #ff7a88;
+
+// Light mode: Destructive button background color (hover), Error field 2px stroke color
+// Dark mode: Destructive button background color (hover), Field error message
+$red-450: #ff596d;
+
+// Light/Dark mode: Destructive color background color (rest), Run color 09
+$red-500: #ff3d5a;
+
+// Light mode: Tag text color, Error banner text color
+$red-600: #cc2944;
+
+// Blue
+// Light mode: Tag background color (48% opacity at rest, 64% on hover)
+$blue-300: #bdd9ff;
+
+// Light/Dark mode: Run color 13
+// Dark mode: Tag text color
+$blue-400: #7db1fa;
+
+// Unused in provided descriptions
+$blue-500: #397eed;
+
+// Light mode: Tag text color
+$blue-600: #1f59c4;
+
+// wandb.com nav bg
+$nav-bg: rgb(26, 28, 31);
+$wandb-gold: #FFCC33;
+$wandb-link-blue: rgb(7, 177, 196);
+
+$hover-bg: #A9EDF248;
+
+// Gradients
+$sunset-gradient: linear-gradient(98deg, #e180ff 0%, #ffcf4d 100%);
+$wandb-gradient: linear-gradient(180deg, #ffcc33 39%, #ffad33 72%);
+
+// hide "create child" and "create project issue" links
+.td-page-meta__child, .td-page-meta__project-issue { display: none !important; }
+
+body {
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 16px;
+    color: $moon-800;
+    background-color: $moon-white;
+}
+.fa-solid .fa-print fa-fw {
+
+}
+// shrink the right nav a bit
+.td-page-meta
+{
+    font-size: 16px !important;
+    a {
+      padding-bottom: 15px;
+      line-height: 22px;
+    }
+}
+// hide the doc site name from the top-left
+.td-navbar .navbar-brand__name { display: none; }
+
+// hide taxonomy cloud on right and top
+.taxonomy-terms-cloud, .taxonomy-terms-article { display: none; }
+
+// hide left nav label 
+.tree-root { display: none !important;}
+
+// Add blue color for links and remove underline
+a {
+    color: $teal-600 !important;
+    text-decoration: none !important;
+    &:hover {
+        color: $teal-500 !important;
+    }
+}
+[data-bs-theme=dark] a {
+    color: $wandb-link-blue !important;
+    text-decoration: none !important;
+    &:hover {
+        color: $wandb-gold !important;
+    }
+}
+// Style for link hover state
+a:hover {
+    text-decoration: underline !important;
+}
+
+// Target links in the navigation and make them white with consistent font-weight
+.td-navbar .nav-link {
+    color: $moon-white !important;
+    font-weight: 400 !important;  // Ensure consistent font-weight in main nav
+
+    &:hover {
+        color: $wandb-gold !important;
+        text-decoration: none !important;
+    }
+}
+
+// Align left-nav with logo
+.td-sidebar-nav {
+  padding-left: 15px !important;
+}
+// Ensure active nav link maintains same weight
+.nav-link.active {
+    border-bottom: 2px solid $wandb-gold !important;
+    font-weight: 400 !important;  // Keep consistent with other nav links
+}
+
+nav.foldable-nav .with-child, nav.foldable-nav .without-child {
+  padding-left: 10px !important;
+}
+// Update existing chevron styles
+nav.foldable-nav .ul-1 .with-child {
+    & > label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        position: relative;
+        padding-right: 20px; // Space for chevron
+        
+        // Remove default chevrons
+        &:before {
+            display: none !important;
+        }
+    }
+}
+
+// Add chevrons to all expandable items
+nav.foldable-nav .ul-1 .with-child > label:after {
+    content: "\f105" !important; // fa-angle-right (thinner chevron)
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+    font-weight: 900;
+    color: $moon-500;
+    transition: color 0.3s;
+    font-size: 14px;
+    position: absolute;
+    right: 0px;
+    top: 35%;
+    transform: translateY(-50%);
+}
+
+// Change chevron for expanded items
+nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
+    content: "\f107" !important; // fa-angle-down (thinner chevron)
+}
+
+// Hover states
+nav.foldable-nav .ul-1 .with-child > label:hover:after {
+    color: $teal-600 !important;
+}
+
+// Dark mode hover state
+[data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
+    color: $wandb-gold !important;
+}
+
+// Ensure hover state for nav links doesn't change color
+.td-navbar {
+    color: $moon-white;
+}
+a.nav-link:hover {
+    color: $wandb-gold !important;
+}
+.nav-link.active 
+{
+    border-bottom: 2px solid $wandb-gold !important;
+}
+
+// headings use WandB serif font
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400 !important;
+    font-family: "Source Serif 4", sans-serif;
+}
+h1, .td-content h1 {
+    font-size: 32px !important;
+}
+h2, .td-content h2 {
+    font-size: 24px !important;
+}
+h3, .td-content h3 {
+    font-size: 20px !important;
+}
+h4, .td-content h4 {
+    font-size: 16px !important;
+}
+h5, .td-content h5 {
+    font-size: 14px !important;
+}
+h6, .td-content h6 {
+    font-size: 12px !important;
+}
+.td-sidebar-nav-active-item {
+    text-decoration: underline;
+}
+
+#m-guideshostingiamorg_team_struct-li
+
+.td-sidebar-nav, .td-navbar .nav-link  {
+  font-family: "Source Sans Pro", sans-serif;
+  a {
+    color: $moon-500 !important;
+    font-weight: 400;
+    &:hover {
+      color: $teal-600 !important;
+      text-decoration: none !important;
+    }
+
+    .td-sidebar-nav-active-item {
+      color: $teal-600 !important;
+      text-decoration: none !important;
+      font-weight: 500 !important;
+    }
+  }
+}
+
+.td-navbar, .js-navbar-scroll {
+    background-color: $nav-bg !important;
+}
+
+ol.breadcrumb:before {
+    content: "🏠︎" !important;
+    color: grey; filter: grayscale(100%);
+    margin-right: 10px;
+}
+
+.td-sidebar-nav__section-title, .td-sidebar-nav__section {
+  margin-bottom: 10px !important;
+  margin-top: 5px !important;
+}
+
+.td-sidebar-nav__section-title {
+    display: block;
+    font-weight: 400 !important;
+    line-height: 19px;
+    .active {
+        font-weight: 400 !important;
+    }
+    
+    a {
+        color: var(--bs-secondary-color);
+        font-weight: 400 !important;
+    }
+}
+
+.td-content .lead {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+}
+
+#TableOfContents:before { 
+    content: "On this page"; 
+    font-weight: bold; 
+}
+#TableOfContents { 
+    margin-top: 15px;
+    font-size: 16px !important;
+    padding-left: 10px !important;
+
+    // Update list styles
+    ul { 
+        padding-top: 10px !important;
+        li {
+          padding-bottom: 10px;
+          line-height: 22px;
+        }
+    }
+
+    // Style links consistently with page meta
+    a {
+        display: block;
+    }
+}
+
+// algolia
+.DocSearch-Footer { display: none !important; }
+
+.cta-container {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.cta-button {
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    color: $moon-800 !important;
+    gap: 8px; 
+    padding: 0 12px; 
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+    font-display: none;
+    text-decoration: none;
+    border-radius: 4px;
+    background-color: $moon-100;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center; 
+    min-height: 40px;
+
+}
+
+.cta-button:hover {
+    background-color: $hover-bg;
+    text-decoration: none !important;
+}
+
+.cta-button-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.wb-icon {
+    background-image: url('/path-to-icons/wb-logo.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 35px; 
+}
+
+pre {
+    font-size: 14px !important;
+}
+
+.filename-preview {
+    text-align: right !important;
+    padding-right: 3px !important;
+}
+
+.banner {
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    padding: 45px !important;
+    position: relative;
+    width: 100%;
+    background-size: cover;
+    min-height: 200px;
+    margin-bottom: 30px;
+    border-radius: 7px;
+    color: white;
+    h1,h2,p, div {
+        filter: drop-shadow(5px 5px 5px #000000);
+    }
+    
+}
+
+.help-banner {
+    display: flex;
+    padding: 56px 40px 72px 40px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: var(--Moon-Moon-900, #1A1D24);
+    background-image: url('/images/support/support_banner.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: none;  
+  }
+  
+  .help-banner h2,
+  .help-banner p {
+    font-family: "Source Sans Pro";
+    font-style: normal;
+    line-height: 140%;
+  }
+  
+  .help-banner h2 {
+    color: var(--Moon-Moon-50, #FAFAFA);
+    font-size: 40px;
+    font-weight: 600;
+  }
+  
+  .help-banner p {
+    color: var(--Moon-Moon-250, #DADEE3); 
+    font-size: 20px;
+    font-weight: 400;
+  }
+  
+  .help-banner.card:hover {
+    box-shadow: none;
+    transform: none;
+  }
+  
+  
+  /* Container for the card rows */
+  .card-container {
+    display: flex;
+    justify-content: space-between; /* Add space between cards */
+    gap: 8px; /* Add some space between the cards */
+    margin-bottom: 16px; /* Space between rows */
+  }
+  
+  
+  .card {
+    box-shadow: none; /* Adjust as needed */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.2);
+    transform: translateY(-5px);
+  }
+  
+  .card-icon-left,
+  .card-icon-right {
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  .card-icon-left {
+    /* This icon will be part of the normal flow, above the header */
+    margin-bottom: 8px; /* Increased space between icon and header */  
+  }
+  
+  .card-icon-right {
+    position: absolute;
+    top: 40px; /* Aligns with the top padding of the card */
+    right: 40px; /* Aligns with the right padding of the card */
+  }
+  
+  .card-title {
+    color: var(--Grayscale-gray-900, #181B1F);
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 133.333% */
+    margin: 0;
+  }
+  
+  .card-content {
+    color: var(--Moon-Moon-800, #2B3038);
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    margin: 0;
+  }
+  
+  
+  .card-pink,
+  .card-yellow,
+  .card-gray,
+  .card-blue {
+    border-radius: 6px;
+  }
+  
+  .card-pink {
+    background: var(--color-sienna-300, #FFCFB2);
+    background-repeat: no-repeat;
+  }
+  
+  .card-yellow {
+    background: var(--Gold-gold-light2, #FFD95C);
+  }
+  
+  
+  .card-gray {
+    background: var(--Moon-Moon-150, #EDEFF2);
+  }
+  
+  .card-blue { 
+    background: var(--color-teal-550, #0097AB);
+    color: var(--color-moon-white, #FFF);
+  }
+  
+  .card-blue h2, 
+  .card-blue p {
+    color: var(--color-moon-white, #FFF);
+  }
+  
+  .card-support-index {
+    background-color: rgb(235, 237, 240);
+    padding: 16px 16px 0px 16px;
+    margin-bottom: 16px;
+    min-height: 0px;
+    color: #000
+  }
+  
+  .card-support-index:hover {
+    color: #000
+  }
+  
+  .card-banner {
+    display: flex;
+    padding: 32px 40px;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: var(--Moon-Moon-50, #FAFAFA);
+    color: var(--Moon-Moon-800, #2B3038);  
+  }
+  
+  .card-banner h2,
+  .card-banner p {
+    font-family: "Source Sans Pro";
+    font-style: normal;
+    line-height: 140%;
+    margin: 0px;
+  }
+  
+  .card-banner h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #181B1F;
+  }
+  
+  .card-banner p {
+    color: var(--Moon-Moon-800, #2B3038);
+    font-size: 16px;
+    font-weight: 400;
+  }
+  
+  .card-banner-gray {
+    border-radius: 12px;
+    background: var(--Moon-Moon-50, #FAFAFA);
+  }
+  
+  .card-banner.card-banner-gray:hover {
+    box-shadow: none;
+    transform: none;
+    color: var(--Moon-Moon-800, #181B1F);  
+  }
+  
+  .card-banner-icon {
+    display: flex;
+    width: 64px;
+    height: 64px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    background: var(--Backgrounds-Teal-tag-background, rgba(169, 237, 242, 0.48));
+  }
+  
+  .card-banner-icon img {
+    width: 32px; /* Make the SVG smaller than the container */
+    height: 32px;
+  }
+  
+  
+  .contact-us-button {
+    display: flex;
+    padding: var(--Spacing-spacing-sm, 8px) var(--Spacing-spacing-sm-md, 12px);
+    justify-content: center;
+    align-items: center;
+    gap: var(--Spacing-spacing-sm, 8px);
+    border-radius: var(--Radius-radius-sm, 4px);
+    background: var(--buttons-primary-button-rest, #13A9BA); /* Teal background */
+    color: white;
+    font-family: "Source Sans Pro";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+  }
+  
+  .contact-us-button:hover {
+    background: var(--color-teal-450, #00B8D4); /* Lighter teal on hover */
+  }
+  
+  .contact-us-button img {
+    width: 112px;
+    height: 24px;
+  }
+  
+  .contact-us-button p {
+    margin: 0;
+    color: white;
+  }
+  
+  .faq-container {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+.reading-time {
+    font-size: 14px;
+    color: $moon-600;
+}
+
+// Add border radius to all images, code blocks and alerts
+img, pre, .highlight, .code-toolbar, .alert {
+  border-radius: 8px !important;
+}
+
+// Style images and iframes consistently
+img, iframe {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  max-width: 80% !important;
+  display: block;
+}
+
+// Override section index heading font weight
+.section-index h5 a, .section-index .h5 a {
+  font-size: 20px !important;
+  font-weight: 400 !important;
+}
+
+// Add dark mode styles using data-bs-theme attribute
+[data-bs-theme=dark] {
+    body {
+        color: $moon-200;
+        background-color: $moon-900;
+    }
+
+    // Update sidebar nav colors for dark mode
+    .td-sidebar-nav {
+        a {
+            color: $moon-300 !important;
+            &:hover {
+                color: $teal-400 !important;
+            }
+            .td-sidebar-nav-active-item {
+                color: $teal-400 !important;
+            }
+        }
+    }
+
+    // Update headings color for dark mode
+    h1, h2, h3, h4, h5, h6 {
+        color: $moon-50;
+    }
+
+    // Update reading time color for dark mode
+    .reading-time {
+        color: $moon-300;
+    }
+
+    // Update table of contents color
+    #TableOfContents {
+        color: $moon-200;
+    }
+
+    .td-footer {
+        background-color: transparent !important;
+        color: $moon-200 !important;
+        border-top: 1px solid $moon-750 !important;
+    }
+}
+
+// Add styles for feedback buttons
+.feedback--answer {
+    display: inline-flex !important; 
+    align-items: center !important; 
+    justify-content: center !important;
+    color: $moon-800 !important;
+    gap: 8px !important; 
+    padding: 0 12px !important; 
+    font-size: 16px !important;
+    line-height: 20px !important;
+    font-weight: 600 !important;
+    font-display: none !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+    background-color: $moon-100 !important;
+    background-image: none !important;
+    transition: background-color 0.3s, color 0.3s !important;
+    text-align: center !important; 
+    min-height: 40px !important;
+    border: none !important;
+    margin-right: 8px !important;
+    box-shadow: none !important;
+
+    &:hover {
+        background-color: $hover-bg !important;
+        text-decoration: none !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+
+// Remove the mb-4 class from the buttons in the HTML or override it here
+.feedback--answer.mb-4 {
+    margin-bottom: 0 !important;
+}
+
+// Dark mode support
+[data-bs-theme=dark] {
+    .feedback--answer {
+        color: $moon-200 !important;
+        background-color: $moon-800 !important;
+        background-image: none !important;
+        
+        &:hover {
+            background-color: $moon-700 !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+    }
+}
+
+.d-print-none {
+    margin-top: 4rem;
+
+    .feedback--title {
+        display: none; // Hide the feedback title
+    }
+
+    .feedback--question {
+        display: inline-block; // Make question inline
+        margin-right: 1rem; // Add spacing between question and buttons
+        margin-bottom: 0; // Remove bottom margin to align with buttons
+    }
+
+    .feedback--answer {
+        display: inline-block !important; // Force inline display
+        margin-bottom: 0 !important; // Remove bottom margin
+    }
+
+    .feedback--response {
+        margin-top: 1rem; // Add some space above responses
+    }
+}
+
+.td-page-meta__lastmod {
+    margin-top: 1rem !important;
+}
+
+// Update footer styles to match page background and text color
+.td-footer {
+    background-color: transparent !important;
+    color: $moon-800 !important;
+    border-top: 1px solid $moon-200 !important;
+    padding: 1.5rem 0 !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    
+    [data-bs-theme=dark] & {
+        background-color: transparent !important;
+        color: $moon-200 !important;
+        border-top: 1px solid $moon-700 !important;
+    }
+
+    // Ensure links and icons inherit the text color
+    a, i {
+        color: inherit !important;
+        transition: color 0.3s !important;
+
+        &:hover {
+            color: $teal-500 !important;
+        }
+    }
+
+    [data-bs-theme=dark] a:hover,
+    [data-bs-theme=dark] i:hover {
+        color: $wandb-gold !important;
+    }
+
+    // Remove default container padding
+    .container-fluid {
+        padding: 0 2rem !important;
+    }
+
+    // Center align all content vertically in the footer
+    .row {
+        align-items: center !important;
+    }
+
+    // Remove bottom margin from footer links
+    .td-footer__links-item {
+        margin-bottom: 0 !important;
+    }
+}
+
+// Add padding to main content area
+main[role="main"] {
+    padding-bottom: 1rem !important;
+    padding-left: 3rem !important;
+}
+
+// Add border radius to tab content and panes
+.tab-content {
+  .tab-pane {
+    border: 1px solid $moon-200;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    overflow: hidden;
+    
+    pre, .highlight, .code-toolbar {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Dark mode support for tab panes
+[data-bs-theme=dark] .tab-content .tab-pane {
+  border-color: $moon-700;
+}
+
+// Add border radius to standalone elements
+img, pre, .highlight, .code-toolbar:not(.tab-body *), .alert {
+  border-radius: 8px;
+}
+
+// Style tabs
+.nav-tabs {
+  border: none !important;
+  
+  .nav-item {
+    margin-bottom: 0 !important;
+  }
+}

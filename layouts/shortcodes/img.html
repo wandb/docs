@@ -1,0 +1,49 @@
+{{- $imagePath := .Get (cond .IsNamedParams "src" 0) -}}
+{{- $alt := .Get (cond .IsNamedParams "alt" 1) -}}
+{{- $resize := .Get (cond .IsNamedParams "resize" 2) -}}
+{{- $fit := .Get (cond .IsNamedParams "fit" 3) -}}
+{{- $fill := .Get (cond .IsNamedParams "fill" 4) -}}
+{{- $crop := .Get (cond .IsNamedParams "crop" 5) -}}
+{{- $convert := .Get (cond .IsNamedParams "convert" 6) -}}
+{{- $isRemote := (or (strings.HasPrefix $imagePath "http://") (strings.HasPrefix $imagePath "https://")) -}}
+
+{{- if $isRemote -}}
+    {{/* remote file */}}
+    {{- $remoteResource := resources.GetRemote $imagePath -}}
+    {{- if $remoteResource -}}
+        <img src="{{ $remoteResource.Permalink }}" alt="{{ $alt }}">
+    {{- else -}}
+        {{- errorf "Error: Unable to fetch remote image at: %s" $imagePath .Position -}}
+  {{ end }}
+{{- else -}}
+    {{/* local file */}}
+    {{- $img := resources.Get (printf "%s%s" "" $imagePath) -}}
+
+    {{- if $resize -}}
+        {{- $img = $img.Resize $resize -}}
+    {{- end -}}
+
+    {{- if $fit -}}
+        {{- $img = $img.Fit $fit -}}
+    {{- end -}}
+
+    {{- if $fill -}}
+        {{- $img = $img.Fill $fill -}}
+    {{- end -}}
+
+    {{- if $crop -}}
+        {{- $img = $img.Crop $crop -}}
+    {{- end -}}
+
+    {{- if $convert -}}
+        {{- $img = $img.Process $convert -}}
+    {{- end -}}
+
+    {{- if $img -}}
+        <img src="{{ $img.Permalink }}" alt="{{ $alt }}" />
+    {{- else -}}
+        {{- errorf "Image not found: %s" $imagePath .Position -}}
+    {{- end -}}
+
+{{/* End check for remote */}}
+{{- end -}}

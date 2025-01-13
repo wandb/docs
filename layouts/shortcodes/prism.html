@@ -1,0 +1,23 @@
+{{- $title := .Get "title" -}}
+{{- $file := .Get "file" -}}
+{{- $remote := .Get "remote" -}}
+{{- $highlightLines := .Get "highlightLines" -}}
+{{- $language := .Get "lang" -}}
+<figure class="highlight-figure"><figcaption class="filename-preview"><code>{{ $title }}</code></figcaption>
+<pre class="{{- if $highlightLines -}} line-numbers {{ end -}}
+    {{- if $highlightLines -}}  {{ end -}}
+    {{- if $title -}} code-block-title code-block-title-align-center {{ end -}}
+    drop-tokens"
+    {{- if $highlightLines -}} data-line="{{- $highlightLines -}}" {{ end -}}
+    {{- if $title -}} data-title="{{- $title -}}" {{- end -}}
+    {{- if $file -}} data-src="{{- $file -}}" data-download-link {{ end }}
+    data-break-lines="50"
+>
+<code class="drop-tokens language-{{- .Get "language" | default "shell" -}}"
+        {{- with .Get "prefix" }} data-prefix="{{- . -}}" {{- end -}}
+        {{- with .Get "copy" }} data-copy="{{- . -}}" {{- end -}}
+    >
+    {{- .Inner -}}
+    </code>
+</pre>
+</figure>

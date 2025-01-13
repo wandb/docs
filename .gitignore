@@ -1,5 +1,6 @@
 # Dependencies
 /node_modules
+/_vendor
 
 # Production
 /build
@@ -10,6 +11,8 @@
 .docusaurus
 .cache-loader
 .hugo_build.lock
+go.mod
+go.sum
 
 # Misc
 .DS_Store
@@ -26,6 +29,7 @@ yarn-error.log*
 .idea
 
 # Yarn stuff
+yarn.lock
 .yarnrc.yml
 .yarn/
 
