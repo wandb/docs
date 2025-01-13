@@ -31,7 +31,9 @@
       "hierarchy",
       "content",
       "anchor",
-      "url"
+      "url",
+      "url_without_anchor",
+      "type"
     ]
   }
 }
