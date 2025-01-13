@@ -19,8 +19,13 @@ enableGitInfo: true
 # disableKinds: [taxonomy, taxonomyTerm]
 
 # You can add your own taxonomies
-taxonomies:
-  tag: tags
+#taxonomies:
+#  tag: tags
+
+# [ml] Disable taxonomies for now
+disableKinds:
+- taxonomy
+- term
 
 # Highlighting config
 pygmentsCodeFences: true
@@ -93,7 +98,7 @@ params:
     taxonomyCloudTitle: []
 
     # set taxonomyPageHeader = [] to hide taxonomies on the page headers
-    taxonomyPageHeader: [tags, categories]
+    taxonomyPageHeader: []
 
   privacy_policy: https://wandb.ai/site/privacy/
 
