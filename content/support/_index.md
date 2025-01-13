@@ -75,8 +75,8 @@ Browse articles by category.
 
 
 {{< card >}}
-  <div className="card-banner-icon">
-    <img src="/images/support/callout-icon.svg" alt="Callout Icon" width="32" height="32" />
+  <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
+    {{< img src="/images/support/callout-icon.svg" alt="Callout Icon" width="32" height="32" >}}
   </div>
   <h2>Still can't find what you are looking for?</h2>
   <a href="mailto:support@wandb.com" className="contact-us-button">
