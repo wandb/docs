@@ -1,8 +1,8 @@
 ---
 title: Weights & Biases Documentation
 ---
-<div style="padding-top:50px">&nbsp;</div>
-
+<div style="padding-top:50px;">&nbsp;</div>
+<div style="max-width:1200px; margin: 0 auto">
 {{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
 Choose the product for which you need documentation.
 {{< /banner >}}
@@ -38,5 +38,7 @@ Use [W&B Models](/guides) to manage all aspects of building your own AI models, 
 </div>{{% /card %}}
 {{< /cardpane >}}
 
+<!-- End max-width constraing -->
+</div>
 <!-- HTML override just for landing page -->
 <style>.td-card-group { margin: 0 auto }</style>
