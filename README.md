@@ -42,6 +42,58 @@ hugo server
 
 Hit `CTRL+C` in the terminal that is showing `hugo` activity to interrupt the server and exit to the terminal prompt.
 
+## Hugo and Docsy shortcodes
+
+- We use Docsy's `alert` shortcode for admonitions. The alert `color` determines the admonition type. Refer to [alerts](https://www.docsy.dev/docs/adding-content/shortcodes/#alert) for details. Examples:
+    ```markdown
+    {{% alert %}}
+    Only **public** reports are viewable when embedded.
+    {{% /alert %}}
+    ```
+    ```markdown
+    {{% alert title="Undo changes to your workspace" %}}
+    Select the undo button (arrow that points left) to undo any unwanted changes.
+    {{% /alert %}}
+    ```
+    ```markdown
+    {{% alert title="Warning" color="warning" %}}
+    This is a warning.
+    {{% /alert %}}
+    ```
+- We use Docsy's `tabpane` and `tab` shortcodes for tabbed content. Refer to [tabpane](https://www.docsy.dev/docs/adding-content/shortcodes/#tabpane) for details. Example:
+    ```markdown
+    {{< tabpane text=true >}}
+      {{% tab header="GitHub repository dispatch" value="github" %}}
+        ... Markdown contents ...
+      {{% /tab %}}
+
+      {{% tab header="Microsoft Teams notification" value="microsoft"%}}
+        ... Markdown contents ...
+      {{% /tab %}}
+    {{< /tabpane >}}
+    ```
+- We use a custom `img` shortcode for images. It is implemented in `layouts/shortcodes/img.html`.  Examples:
+    ```markdown
+    {{< img src="/images/app_ui/automated_workspace.svg" >}}
+    ```
+    ```markdown
+    {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" >}}
+    ```
+    ```markdown
+    {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}}
+    ```
+    ```markdown
+    {{< img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Creating a custom bar chart showing accuracy across runs in a project" max-width="90%" >}}
+    ```
+- We use a custom `ctabutton` shortcode to link to Colab notebooks. It is implemented in `layouts/shortcodes/cta-button.html`. Examples:
+    ```markdown
+    {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb" >}}
+    ```
+- We use a custom `prism` shortcode to load titled code examples from `static/` within the docs repo. Example for a file stored in `static/webhook_test.sh`:
+    ```markdown
+    {{< prism file="/webhook_test.sh" title="webhook_test.sh">}}{{< /prism >}}
+    ```
+
 ## Editing style
 
 Style overrides are in `/assets/scss/_variables_project.scss`. Here we can override all the styles that ship with the Docsy theme. O
