@@ -2,7 +2,11 @@
   "index_name": "docodile",
   "sitemaps": ["https://docs.wandb.ai/sitemap.xml"],
   "start_urls": ["https://docs.wandb.ai"],
-  "stop_urls": ["https://docs.wandb.ai/ja", "https://docs.wandb.ai/ko"],
+  "stop_urls": [
+    "https://docs.wandb.ai/ja",
+    "https://docs.wandb.ai/ko",
+    ".*_print.*"
+  ],
   "sitemap_alternate_links": false,
   "selectors": {
     "lvl0": {
@@ -27,9 +31,7 @@
       "hierarchy",
       "content",
       "anchor",
-      "url",
-      "url_without_anchor",
-      "type"
+      "url"
     ]
   }
 }
