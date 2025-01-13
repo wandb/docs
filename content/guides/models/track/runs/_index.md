@@ -303,7 +303,9 @@ To view a specific run:
 1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within the project sidebar, select the **Workspace** tab.
-4. Within the run selector, select the run you want to view.
+4. Within the run selector, click the run you want to view, or enter a partial run name to filter for matching runs.
+
+    By default, long run names are truncated in the middle for readability. To truncate run names at the beginning or end instead, click the action `...` menu at the top of the list of runs, then set **Run name cropping** to crop the end, middle, or beginning. 
 
 Note that the URL path of a specific run has the proceeding format:
 
