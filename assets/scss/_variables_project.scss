@@ -6,171 +6,96 @@ Add styles or override variables from the theme here.
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
 
-// Color variables based on color.styles.tokens.json
-
+// First define the base color tokens
 // Moon (Grayscale)
-// White: Page background (type 1), Primary button text
 $moon-white: #ffffff;
-
-// Light mode: Page background type 2, Disabled button background color
-// Dark mode: Tooltip background color, Toast background color
 $moon-50: #fafafa;
-
-// Light mode: Background color of table row with column headers, Table row or menu item hover highlight
 $moon-100: #f5f6f7;
-
-// Light mode: Scroll bar hover, Chart secondary lines
-// Dark mode: Body text, Decorative icons, Secondary button text (rest)
 $moon-200: #e4e6eb;
-
-// Light mode: Tag background color (48% rest, 64% hover), Info banner background color (48% opacity)
 $moon-300: #d3d7de;
-
-// Light mode: Run color 15
-// Dark mode: Tag text color, Info banner text color, Run color 15
+$moon-350: #c1c6cf;
 $moon-400: #aeb3bd;
-
-// Light/Dark mode: Secondary text, Placeholder text, Table column header text, Non-selected tabs text
 $moon-500: #79808a;
-
-// Light mode: Tag text color, Info banner text color
 $moon-600: #565c66;
-
-// Dark mode: Tag background color (48% rest, 64% hover), Info banner background color (48% opacity)
+$moon-650: #4a4f58;
 $moon-700: #3f464f;
-
-// Light mode: Body text, Decorative icons, Secondary button text (rest)
-// Dark mode: Chart secondary lines, Scroll bar rest
 $moon-750: #363c44;
-
-// Light mode: Tooltip background color, Toast background color, Top bar background color
-// Dark mode: Containers, fields and modals background color, Top bar background color
 $moon-800: #2b3038;
-
-// Light mode: Body text, Decorative icons, Secondary button text (rest)
-// Dark mode: Chart secondary lines, Scroll bar rest
 $moon-900: #1a1d24;
-
-// Dark mode: Page background type 1 and 2
 $moon-950: #171a1f;
 
-// Light/Dark mode: Dropshadows (opacity varies), Background dimming behind modals
-$oblivion: #15151f;
-
-// Teal
-// Light mode: Tag background color (48% rest, 64% hover), Selected global nav item highlight (32%)
+// Teal colors
 $teal-300: #a9edf2;
-
-// Light mode: Field 2px stroke color (focus)
-// Dark mode: Link (Hover), Tag text color, Selected global nav item text, Secondary button text (hover)
 $teal-400: #58d3db;
-
-// Light/Dark mode: Primary button color (Hover), Run color 01
 $teal-450: #10bfcc;
-
-// Light/Dark mode: Primary button color (Rest), Selected tab underline
 $teal-500: #13a9ba;
-
-// Light mode: Link (rest), Tag text color, Selected global nav item text, Secondary button text (hover)
-// Dark mode: Field 2px stroke color (focus)
+$teal-550: #0e97a7;
 $teal-600: #038194;
 
-// Green
-// Light mode: Tag background color (48% opacity at rest, 64% on hover), Green banner background color (48% opacity)
-$green-300: #a1f0cb;
+// Then define the semantic color tokens
+// Text colors
+$text-primary: $moon-800;    // color/moon/800
+$text-secondary: $moon-600;  // color/moon/600
+$text-tertiary: $moon-500;   // color/moon/500
+$text-disabled: $moon-350;   // color/moon/350
 
-// Dark mode: Tag text color, Green banner text color
-$green-400: #5ed6a4;
+// Link colors  
+$link-primary: $teal-600;    // color/teal/600
+$link-hover: $teal-550;      // color/teal/550
+$link-secondary: $moon-600;  // color/moon/600
+$link-secondary-hover: $moon-500; // color/moon/500
 
-// Light/Dark mode: Green button background color (hover)
-$green-450: #28c787;
+// Background colors
+$bg-primary: $moon-white;    // White background
+$bg-secondary: $moon-50;     // color/moon/50 
+$bg-tertiary: $moon-100;     // color/moon/100
+$bg-disabled: $moon-350;     // color/moon/350
 
-// Light/Dark mode: Green button background color (rest), Run color 04
-$green-500: #00b26e;
+// Dark mode colors
+$dark-text-primary: $moon-200;    // color/moon/200
+$dark-text-secondary: $moon-400;  // color/moon/400  
+$dark-text-tertiary: $moon-500;   // color/moon/500
+$dark-text-disabled: $moon-650;   // color/moon/650
 
-// Light mode: Tag text color, Green banner text color
-$green-600: #00875a;
+$dark-link-primary: $teal-500;    // color/teal/500
+$dark-link-hover: $teal-450;      // color/teal/450
+$dark-link-secondary: $moon-600;  // color/moon/600
+$dark-link-secondary-hover: $moon-500; // color/moon/500
 
-// Gold
-// Light mode: Tag background color (48% opacity at rest, 64% on hover), Announcement banner background color (48% opacity)
-$gold-300: #ffe49e;
+$dark-bg-primary: $moon-900;      // color/moon/900
+$dark-bg-secondary: $moon-800;    // color/moon/800
+$dark-bg-tertiary: $moon-700;     // color/moon/700
+$dark-bg-disabled: $moon-650;     // color/moon/650
 
-// Light mode: Run color 06
-// Dark mode: Tag text color, Announcement banner text color, Run color 06
-$gold-400: #ffcf4d;
-
-// Light/Dark mode: Weights & Biases logo color
-$gold-450: #fac13c;
-
-// Light/Dark mode: Top bar background color in Admin mode
-$gold-550: #d4870d;
-
-// Light mode: Tag text color, Announcement banner text color
-$gold-600: #b8740f;
-
-// Red
-// Light mode: Tag background color (48% opacity at rest, 64% on hover), Error banner background color (48% opacity)
-$red-300: #ffc7ca;
-
-// Dark mode: Tag text color, Error banner text color
-$red-400: #ff7a88;
-
-// Light mode: Destructive button background color (hover), Error field 2px stroke color
-// Dark mode: Destructive button background color (hover), Field error message
-$red-450: #ff596d;
-
-// Light/Dark mode: Destructive color background color (rest), Run color 09
-$red-500: #ff3d5a;
-
-// Light mode: Tag text color, Error banner text color
-$red-600: #cc2944;
-
-// Blue
-// Light mode: Tag background color (48% opacity at rest, 64% on hover)
-$blue-300: #bdd9ff;
-
-// Light/Dark mode: Run color 13
-// Dark mode: Tag text color
-$blue-400: #7db1fa;
-
-// Unused in provided descriptions
-$blue-500: #397eed;
-
-// Light mode: Tag text color
-$blue-600: #1f59c4;
-
-// wandb.com nav bg
+// Other brand colors
 $nav-bg: rgb(26, 28, 31);
 $wandb-gold: #FFCC33;
 $wandb-link-blue: rgb(7, 177, 196);
-
 $hover-bg: #A9EDF248;
 
 // Gradients
 $sunset-gradient: linear-gradient(98deg, #e180ff 0%, #ffcf4d 100%);
 $wandb-gradient: linear-gradient(180deg, #ffcc33 39%, #ffad33 72%);
 
-// hide "create child" and "create project issue" links
-.td-page-meta__child, .td-page-meta__project-issue { display: none !important; }
-
 body {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
-    color: $moon-800;
-    background-color: $moon-white;
+    color: $text-primary;
+    background-color: $bg-primary;
 }
-.fa-solid .fa-print fa-fw {
 
-}
+// hide "create child" and "create project issue" links
+.td-page-meta__child, .td-page-meta__project-issue { display: none !important; }
+
 // shrink the right nav a bit
-.td-page-meta
-{
+.td-page-meta {
     font-size: 16px !important;
     a {
-      padding-bottom: 15px;
-      line-height: 22px;
+        padding-bottom: 15px;
+        line-height: 22px;
     }
 }
+
 // hide the doc site name from the top-left
 .td-navbar .navbar-brand__name { display: none; }
 
@@ -182,17 +107,17 @@ body {
 
 // Add blue color for links and remove underline
 a {
-    color: $teal-600 !important;
+    color: $link-primary !important;
     text-decoration: none !important;
     &:hover {
-        color: $teal-500 !important;
+        color: $link-hover !important;
     }
 }
 [data-bs-theme=dark] a {
-    color: $wandb-link-blue !important;
+    color: $dark-link-primary !important;
     text-decoration: none !important;
     &:hover {
-        color: $wandb-gold !important;
+        color: $dark-link-hover !important;
     }
 }
 // Style for link hover state
@@ -286,6 +211,7 @@ a.nav-link:hover {
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400 !important;
     font-family: "Source Serif 4", sans-serif;
+    color: $text-primary;
 }
 h1, .td-content h1 {
     font-size: 32px !important;
@@ -314,15 +240,15 @@ h6, .td-content h6 {
 .td-sidebar-nav, .td-navbar .nav-link  {
   font-family: "Source Sans Pro", sans-serif;
   a {
-    color: $moon-500 !important;
+    color: $text-secondary !important;
     font-weight: 400;
     &:hover {
-      color: $teal-600 !important;
+      color: $link-primary !important;
       text-decoration: none !important;
     }
 
     .td-sidebar-nav-active-item {
-      color: $teal-600 !important;
+      color: $link-primary !important;
       text-decoration: none !important;
       font-weight: 500 !important;
     }
@@ -702,7 +628,7 @@ pre {
 
 .reading-time {
     font-size: 14px;
-    color: $moon-600;
+    color: $text-secondary;
 }
 
 // Add border radius to all images, code blocks and alerts
@@ -727,41 +653,41 @@ img, iframe {
 // Add dark mode styles using data-bs-theme attribute
 [data-bs-theme=dark] {
     body {
-        color: $moon-200;
-        background-color: $moon-900;
+        color: $dark-text-primary;
+        background-color: $dark-bg-primary;
     }
 
     // Update sidebar nav colors for dark mode
     .td-sidebar-nav {
         a {
-            color: $moon-300 !important;
+            color: $dark-text-secondary !important;
             &:hover {
-                color: $teal-400 !important;
+                color: $dark-link-primary !important;
             }
             .td-sidebar-nav-active-item {
-                color: $teal-400 !important;
+                color: $dark-link-primary !important;
             }
         }
     }
 
     // Update headings color for dark mode
     h1, h2, h3, h4, h5, h6 {
-        color: $moon-50;
+        color: $dark-text-primary;
     }
 
     // Update reading time color for dark mode
     .reading-time {
-        color: $moon-300;
+        color: $dark-text-secondary;
     }
 
     // Update table of contents color
     #TableOfContents {
-        color: $moon-200;
+        color: $dark-text-primary;
     }
 
     .td-footer {
         background-color: transparent !important;
-        color: $moon-200 !important;
+        color: $dark-text-primary !important;
         border-top: 1px solid $moon-750 !important;
     }
 }
@@ -805,12 +731,12 @@ img, iframe {
 // Dark mode support
 [data-bs-theme=dark] {
     .feedback--answer {
-        color: $moon-200 !important;
-        background-color: $moon-800 !important;
+        color: $dark-text-primary !important;
+        background-color: $dark-bg-primary !important;
         background-image: none !important;
         
         &:hover {
-            background-color: $moon-700 !important;
+            background-color: $dark-bg-secondary !important;
             border: none !important;
             box-shadow: none !important;
         }
@@ -847,7 +773,7 @@ img, iframe {
 // Update footer styles to match page background and text color
 .td-footer {
     background-color: transparent !important;
-    color: $moon-800 !important;
+    color: $text-primary !important;
     border-top: 1px solid $moon-200 !important;
     padding: 1.5rem 0 !important;
     min-height: auto !important;
@@ -855,8 +781,8 @@ img, iframe {
     
     [data-bs-theme=dark] & {
         background-color: transparent !important;
-        color: $moon-200 !important;
-        border-top: 1px solid $moon-700 !important;
+        color: $dark-text-primary !important;
+        border-top: 1px solid $moon-750 !important;
     }
 
     // Ensure links and icons inherit the text color
@@ -865,7 +791,7 @@ img, iframe {
         transition: color 0.3s !important;
 
         &:hover {
-            color: $teal-500 !important;
+            color: $link-hover !important;
         }
     }
 
