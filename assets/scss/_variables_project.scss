@@ -444,20 +444,32 @@ ol.breadcrumb:before {
     }
 }
 
+// CTA Container styles
+.cta-container {
+    display: flex;
+    align-items: center; // Vertically center the buttons
+    gap: 16px; // Consistent spacing between buttons
+    margin: 24px 0;
+    flex-wrap: wrap; // Allow wrapping on smaller screens
+}
+
 // CTA Button
 .cta-button {
     @extend .button-base;
     color: $moon-800 !important;
     background-color: $moon-100;
-    gap: 8px;
+    height: 40px; // Fixed height for consistency
+    padding: 0 16px;
+    display: inline-flex;
+    align-items: center; // Center button contents vertically
+    white-space: nowrap; // Prevent text wrapping inside button
 
     &:hover {
         background-color: $hover-bg;
     }
 
     // Icon styles
-    &-icon {
-        display: inline-block;
+    svg, img {
         width: 24px;
         height: 24px;
         margin-right: 8px;
@@ -754,8 +766,12 @@ img, iframe {
 }
 
 // Feedback Component
-.d-print-none {
+.td-content > .d-print-none {  // Target only the feedback section at bottom of content
     margin-top: 4rem;
+    display: flex;
+    align-items: center; // Vertically align all items
+    flex-wrap: wrap; // Allow wrapping on smaller screens
+    gap: 8px; // Consistent spacing between elements
 
     // Hide feedback title
     .feedback--title {
@@ -764,13 +780,21 @@ img, iframe {
 
     // Question styling
     .feedback--question {
-        display: inline-block;
-        margin-right: 1rem;
-        margin-bottom: 0;
+        margin: 0; // Remove default margins
+        padding-right: 16px; // Add some space between question and buttons
+    }
+
+    .btn {
+        min-width: 50px;
+
+        &.feedback--answer-no {
+            margin: 0 !important;
+        }
     }
 
     // Response styling
     .feedback--response {
+        width: 100%; // Full width for responses
         margin-top: 1rem;
     }
 }
@@ -785,6 +809,7 @@ img, iframe {
     box-shadow: none !important;
     display: inline-block !important;
     margin-bottom: 0 !important;
+    border: none !important;
 
     &:hover {
         background-color: $hover-bg !important;
@@ -802,6 +827,7 @@ img, iframe {
     [data-bs-theme=dark] & {
         color: $dark-text-primary !important;
         background-color: $dark-bg-primary !important;
+        border: none !important;
         
         &:hover {
             background-color: $dark-bg-secondary !important;
@@ -812,8 +838,8 @@ img, iframe {
 }
 
 // Last modified date
-.td-page-meta__lastmod {
-    margin-top: 1rem !important;
+.td-content > .td-page-meta__lastmod {
+    margin-top: 0 !important;
 }
 
 // Update the sidebar navigation styles
