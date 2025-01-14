@@ -10,22 +10,22 @@ weight: 1
 cascade:
 - url: guides/track/:filename
 ---
-{{< cta-button productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" >}}
+{{< cta-button productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/Intro_to_Weights_%26_Biases.ipynb" >}}
 
 Track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard](../track/workspaces/) or export your data to Python for programmatic access using our [Public API](../../ref/python/public-api/README/). 
 
-Utilize W&B Integrations if you use popular frameworks such as [PyTorch](../integrations/pytorch/), [Keras](../integrations/keras/), or [Scikit](../integrations/scikit/). See our [Integration guides](../integrations/intro/) for a for a full list of integrations and information on how to add W&B to your code.
+Utilize W&B Integrations if you use popular frameworks such as [PyTorch](../integrations/pytorch/), [Keras](../integrations/keras/), or [Scikit](../integrations/scikit/). See our [Integration guides](../integrations/) for a for a full list of integrations and information on how to add W&B to your code.
 
 {{< img src="/images/experiments/experiments_landing_page.png" alt="" >}}
 
-The image above shows an example dashboard where you can view and compare metrics across multiple [runs](../runs/intro/).
+The image above shows an example dashboard where you can view and compare metrics across multiple [runs](../runs/).
 
 ## How it works
 
 Track a machine learning experiment with a few lines of code:
-1. Create a [W&B run](../runs/intro/).
+1. Create a [W&B run](../runs/).
 2. Store a dictionary of hyperparameters, such as learning rate or model type, into your configuration ([`wandb.config`](./config/)).
-3. Log metrics ([`wandb.log()`](./log/intro/)) over time in a training loop, such as accuracy and loss.
+3. Log metrics ([`wandb.log()`](./log/)) over time in a training loop, such as accuracy and loss.
 4. Save outputs of a run, like the model weights or a table of predictions.
 
 The proceeding pseudocode demonstrates a common W&B Experiment tracking workflow:

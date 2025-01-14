@@ -7,7 +7,7 @@ title: Migrate from legacy Model Registry
 weight: 8
 ---
 
-W&B will transition assets from the legacy [W&B Model Registry](../model_registry/intro/) to the new [W&B Registry](./intro/). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
+W&B will transition assets from the legacy [W&B Model Registry](../model_registry/) to the new [W&B Registry](./). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
 
 The transition will take place once the new W&B Registry includes all the functionalities currently available in the Model Registry. W&B will attempt to preserve current workflows, codebases, and references.
 
@@ -83,7 +83,7 @@ Users are encouraged to explore the new features and capabilities available in t
 
 Support is available if you are interested in trying the W&B Registry early, or for new users that prefer to start with Registry and not the legacy W&B Model Registry. Contact support@wandb.com or your Sales MLE to enable this functionality. Note that any early migration will be into a BETA version. The BETA version of W&B Registry might not have all the functionality or features of the legacy Model Registry.
 
-For more details and to learn about the full range of features in the W&B Registry, visit the [W&B Registry Guide](./intro/).
+For more details and to learn about the full range of features in the W&B Registry, visit the [W&B Registry Guide](./).
 
 ## FAQs
 

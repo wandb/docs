@@ -15,10 +15,10 @@ weight: 1
 
 {{< cta-button productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifact_fundamentals.ipynb" >}}
 
-Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs](../runs/intro/). For example, a model training run might take in a dataset as input and produce a trained model as output. You can log hyperparameters, metadatra, and metrics to a run, and you can use an artifact to log, track, and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as output.
+Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs](../runs/). For example, a model training run might take in a dataset as input and produce a trained model as output. You can log hyperparameters, metadatra, and metrics to a run, and you can use an artifact to log, track, and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as output.
 
 ## Use cases
-You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs](../runs/intro/). You can use datasets, models, or even other artifacts as inputs for processing.
+You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs](../runs/). You can use datasets, models, or even other artifacts as inputs for processing.
 
 {{< img src="/images/artifacts/artifacts_landing_page2.png" >}}
 
@@ -26,7 +26,7 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 |------------------------|-----------------------------|------------------------------|
 | Model Training         | Dataset (training and validation data)     | Trained Model                |
 | Dataset Pre-Processing | Dataset (raw data)          | Dataset (pre-processed data) |
-| Model Evaluation       | Model + Dataset (test data) | [W&B Table](../tables/intro/)                        |
+| Model Evaluation       | Model + Dataset (test data) | [W&B Table](../tables/)                        |
 | Model Optimization     | Model                       | Optimized Model              |
 
 
@@ -37,7 +37,7 @@ The proceeding code snippets are meant to be run in order.
 ## Create an artifact
 
 Create an artifact with four lines of code:
-1. Create a [W&B run](../runs/intro/).
+1. Create a [W&B run](../runs/).
 2. Create an artifact object with the [`wandb.Artifact`](../../ref/python/artifact/) API.
 3. Add one or more files, such as a model file or dataset, to your artifact object.
 4. Log your artifact to W&B.
@@ -83,5 +83,5 @@ You can pass a custom path into the `root` [parameter](../../ref/python/artifact
 ## Next steps
 * Learn how to [version](./create-a-new-artifact-version/), [update](./update-an-artifact/), or [delete](./delete-artifacts/) artifacts.
 * Learn how to trigger downstream workflows in response to changes to your artifacts with [artifact automation](./project-scoped-automations/).
-* Learn about the [model registry](../model_registry/intro/), a space that houses trained models.
+* Learn about the [model registry](../model_registry/), a space that houses trained models.
 * Explore the [Python SDK](../../ref/python/artifact/) and [CLI](../../ref/cli/wandb-artifact/README/) reference guides.

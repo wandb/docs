@@ -9,7 +9,7 @@ title: Manage artifact storage and memory allocation
 
 W&B stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
 
-For sensitive files, we recommend you set up [Private Hosting](../hosting/intro/) or use [reference artifacts](./track-external-files/).
+For sensitive files, we recommend you set up [Private Hosting](../hosting/) or use [reference artifacts](./track-external-files/).
 
 During training, W&B locally saves logs, artifacts, and configuration files in the following local directories:
 

@@ -72,14 +72,14 @@ for epoch in range(wandb.config.epochs):
         # model performance
         wandb.log({"accuracy": accuracy, "loss": loss})
 ```
-For more information on different data types you can log with W&B, see [Log Data During Experiments](./log/intro/).
+For more information on different data types you can log with W&B, see [Log Data During Experiments](./log/).
 
 ### Log an artifact to W&B 
 Optionally log a W&B Artifact. Artifacts make it easy to version datasets and models. 
 ```python
 wandb.log_artifact(model)
 ```
-For more information about Artifacts, see the [Artifacts Chapter](../artifacts/intro/). For more information about versioning models, see [Model Management](../model_registry/intro/).
+For more information about Artifacts, see the [Artifacts Chapter](../artifacts/). For more information about versioning models, see [Model Management](../model_registry/).
 
 
 ### Putting it all together
@@ -113,7 +113,7 @@ wandb.save("model.onnx")
 ```
 
 ## Next steps: Visualize your experiment 
-Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates/),[ parameter importance analyzes](../app/features/panels/parameter-importance/), and [more](../app/features/panels/intro/).
+Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates/),[ parameter importance analyzes](../app/features/panels/parameter-importance/), and [more](../app/features/panels/).
 
 {{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example" >}}
 

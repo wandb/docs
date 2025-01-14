@@ -58,7 +58,7 @@ To add a custom panel to your workspace:
 1. Select the type of panel you’d like to create.
 1. Follow the prompts to configure the panel.
 
-To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots](line-plot/intro/) or [Bar plots](bar-plot/).
+To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots](line-plot/) or [Bar plots](bar-plot/).
 
 ## Manage panels
 

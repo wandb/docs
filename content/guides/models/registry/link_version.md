@@ -106,7 +106,7 @@ If you want to link an artifact version to the Model registry or the Dataset reg
 
 
 <!-- {{% alert title="Linked vs source artifact versions" %}}
-* Source version: the artifact version inside a team's project that is logged to a [run](../runs/intro/).
+* Source version: the artifact version inside a team's project that is logged to a [run](../runs/).
 * Linked version: the artifact version that is published to the registry. This is a pointer to the source artifact, and is the exact same artifact version, just made available in the scope of the registry.
 {{% /alert %}}
  -->

@@ -26,7 +26,7 @@ Clone a report to reuse a project's template and format. Cloned projects are vis
 {{% tab header="Python SDK" value="python"%}}
 
 <!--
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" >}}
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/Report_API_Quickstart.ipynb" >}}
 -->
 
 Load a Report from a URL to use it as a template.

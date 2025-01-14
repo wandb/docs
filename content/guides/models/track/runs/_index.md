@@ -19,7 +19,7 @@ Common patterns for initiating a run include, but are not limited to:
 * Training a model
 * Changing a hyperparameter and conducting a new experiment
 * Conducting a new machine learning experiment with a different model
-* Logging data or a model as a [W&B Artifact](../artifacts/intro/)
+* Logging data or a model as a [W&B Artifact](../artifacts/)
 * [Downloading a W&B Artifact](../artifacts/download-and-use-an-artifact/)
 
 
@@ -114,7 +114,7 @@ Note that W&B captures the simulated training loop within a single run called `j
 
 {{< img src="/images/runs/run_log_example_2.png" alt="" >}}
 
-As another example, during a [sweep](../sweeps/intro/), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
+As another example, during a [sweep](../sweeps/), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
 
 
 ## Initialize a run
@@ -341,7 +341,7 @@ W&B stores the proceeding information below the overview section:
 
 * **Artifact Outputs**: Artifact outputs produced by the run.
 * **Config**: List of config parameters saved with [`wandb.config`](../../guides/track/config/).
-* **Summary**: List of summary parameters saved with [`wandb.log()`](../../guides/track/log/intro/). By default, W&B sets this value to the last value logged. 
+* **Summary**: List of summary parameters saved with [`wandb.log()`](../../guides/track/log/). By default, W&B sets this value to the last value logged. 
 
 {{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab" >}}
 
@@ -381,7 +381,7 @@ Use the **Files tab** to view files associated with a specific run such as model
 View an example files tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images).
 
 ### Artifacts tab
-The **Artifacts** tab lists the input and output [artifacts](../artifacts/intro/) for the specified run.
+The **Artifacts** tab lists the input and output [artifacts](../artifacts/) for the specified run.
 
 {{< img src="/images/app_ui/artifacts_tab.png" alt="" >}}
 

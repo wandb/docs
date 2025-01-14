@@ -6,7 +6,7 @@ menu:
 title: PyTorch
 weight: 300
 ---
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" >}}
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/Intro_to_Weights_%26_Biases.ipynb" >}}
 
 PyTorch is one of the most popular frameworks for deep learning in Python, especially among researchers. W&B provides first class support for PyTorch, from logging gradients to profiling your code on the CPU and GPU.
 
@@ -72,7 +72,7 @@ wandb.log({"mnist_predictions": my_table})
 
 {{< img src="/images/integrations/pytorch_example_table.png" alt="The code above generates a table like this one. This model's looking good!" >}}
 
-For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../tables/intro/).
+For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../tables/).
 
 ## Profile PyTorch code
 

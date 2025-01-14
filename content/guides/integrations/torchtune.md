@@ -123,7 +123,7 @@ This is a fast evolving library, the current metrics are subject to change. If y
 
 The torchtune library supports various [checkpoint formats](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Depending on the origin of the model you are using, you should switch to the appropriate [checkpointer class](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html).
 
-If you want to save the model checkpoints to [W&B Artifacts](../artifacts/intro/), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
+If you want to save the model checkpoints to [W&B Artifacts](../artifacts/), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
 
 Here is an example of how you can override the `save_checkpoint` function to save the model checkpoints to W&B Artifacts.
 

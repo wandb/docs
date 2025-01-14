@@ -9,9 +9,9 @@ url: guides/integrations/dagster
 ---
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
-* Use and create [W&B Artifacts](../artifacts/intro/).
-* Use and create Registered Models in [W&B Model Registry](../model_registry/intro/).
-* Run training jobs on dedicated compute using [W&B Launch](../launch/intro/).
+* Use and create [W&B Artifacts](../artifacts/).
+* Use and create Registered Models in [W&B Model Registry](../model_registry/).
+* Run training jobs on dedicated compute using [W&B Launch](../launch/).
 * Use the [wandb](../../ref/python/README/) client in ops and assets.
 
 The W&B Dagster integration provides a W&B-specific Dagster resource and IO Manager:
@@ -25,7 +25,7 @@ The following guide demonstrates how to satisfy prerequisites to use W&B in Dags
 You will need the following resources to use Dagster within Weights and Biases:
 1. **W&B API Key**.
 2. **W&B entity (user or team)**: An entity is a username or team name where you send W&B Runs and Artifacts. Make sure to create your account or team entity in the W&B App UI before you log runs. If you do not specify ain entity, the run will be sent to your default entity, which is usually your username. Change your default entity in your settings under **Project Defaults**.
-3. **W&B project**: The name of the project where [W&B Runs](../runs/intro/) are stored.
+3. **W&B project**: The name of the project where [W&B Runs](../runs/) are stored.
 
 Find your W&B entity by checking the profile page for that user or team in the W&B App. You can use a pre-existing W&B project or create a new one. New projects can be created on the W&B App homepage or on user/team profile page. If a project does not exist it will be automatically created when you first use it. The proceeding instructions demonstrate how to get an API key: 
 
@@ -154,7 +154,7 @@ def create_dataset():
 You can annotate your `@op`, `@asset` and `@multi_asset` with a metadata configuration in order to write Artifacts. Similarly you can also consume W&B Artifacts even if they were created outside Dagster. 
 
 ## Write W&B Artifacts
-Before continuing, we recommend you to have a good understanding of how to use W&B Artifacts. Consider reading the [Guide on Artifacts](../artifacts/intro/).
+Before continuing, we recommend you to have a good understanding of how to use W&B Artifacts. Consider reading the [Guide on Artifacts](../artifacts/).
 
 Return an object from a Python function to write a W&B Artifact. The following objects are supported by W&B:
 * Python objects (int, dict, list…)
@@ -849,7 +849,7 @@ The integration provides an importable `@op` called `run_launch_agent`. It start
 
 Agents are processes that poll launch queues and execute the jobs (or dispatch them to external services to be executed) in order.
 
-Refer to the [reference documentation](../launch/intro/) for configuration
+Refer to the [reference documentation](../launch/) for configuration
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -897,7 +897,7 @@ The integration provides an importable `@op` called `run_launch_job`. It execute
 
 A Launch job is assigned to a queue in order to be executed. You can create a queue or use the default one. Make sure you have an active agent listening to that queue. You can run an agent inside your Dagster instance but can also consider using a deployable agent in Kubernetes.
 
-Refer to the [reference documentation](../launch/intro/) for configuration.
+Refer to the [reference documentation](../launch/) for configuration.
 
 You can also view useful descriptions for all properties in Launchpad.
 

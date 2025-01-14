@@ -12,7 +12,7 @@ Parallel coordinates charts summarize the relationship between large numbers of 
 
 {{< img src="/images/app_ui/parallel_coordinates.gif" alt="" >}}
 
-* **Axes**: Different hyperparameters from [`wandb.config`](../../../../guides/track/config/) and metrics from [`wandb.log`](../../../../guides/track/log/intro/).
+* **Axes**: Different hyperparameters from [`wandb.config`](../../../../guides/track/config/) and metrics from [`wandb.log`](../../../../guides/track/log/).
 * **Lines**: Each line represents a single run. Mouse over a line to see a tooltip with details about the run. All lines that match the current filters will be shown, but if you turn off the eye, lines will be grayed out.
 
 ## Panel Settings

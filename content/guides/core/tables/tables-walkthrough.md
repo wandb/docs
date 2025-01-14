@@ -18,7 +18,7 @@ Log a table with W&B. You can either construct a new table or pass a Pandas Data
 {{< tabpane text=true >}}
 {{% tab header="Construct a table" value="construct" %}}
 To construct and log a new Table, you will use:
-- [`wandb.init()`](../../ref/python/init/): Create a [run](../runs/intro/) to track results.
+- [`wandb.init()`](../../ref/python/init/): Create a [run](../runs/) to track results.
 - [`wandb.Table()`](../../ref/python/data-types/table/): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of each row.

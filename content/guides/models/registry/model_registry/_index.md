@@ -12,7 +12,7 @@ cascade:
 ---
 
 {{% alert %}}
-W&B will no longer support W&B Model Registry after 2024. Users are encouraged to instead use [W&B Registry](../registry/intro/) for linking and sharing their model artifacts versions. W&B Registry broadens the capabilities of the legacy W&B Model Registry. For more information about W&B Registry, see the [Registry docs](../registry/intro/).
+W&B will no longer support W&B Model Registry after 2024. Users are encouraged to instead use [W&B Registry](../registry/) for linking and sharing their model artifacts versions. W&B Registry broadens the capabilities of the legacy W&B Model Registry. For more information about W&B Registry, see the [Registry docs](../registry/).
 
 
 W&B will migrate existing model artifacts linked to the legacy Model Registry to the new W&B Registry in the Fall or early Winter of 2024. See [Migrating from legacy Model Registry](../registry/model_registry_eol/) for information about the migration process.

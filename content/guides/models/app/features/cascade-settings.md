@@ -29,7 +29,7 @@ Configure a workspaces layout to define the overall structure of the workspace. 
 
 {{< img src="/images/app_ui/workspace_layout_settings.png" alt="" >}}
 
-The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels](panels/intro/).
+The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels](panels/).
 
 This table describes each workspace layout option.
 

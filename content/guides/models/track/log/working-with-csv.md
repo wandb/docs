@@ -43,7 +43,7 @@ iris_table_artifact.add(iris_table, "iris_table")
 # Log the raw csv file within an artifact to preserve our data
 iris_table_artifact.add_file("iris.csv")
 ```
-For more information about W&B Artifacts, see the [Artifacts chapter](../../artifacts/intro/).  
+For more information about W&B Artifacts, see the [Artifacts chapter](../../artifacts/).  
 
 4. Lastly, start a new W&B Run to track and log to W&B with `wandb.init`:
 
@@ -107,7 +107,7 @@ In some cases, you might have your experiment details in a CSV file. Common deta
 * A name for the experiment run
 * Initial [notes](../../runs/intro.md#add-a-note-to-a-run)
 * [Tags](../../runs/tags/) to differentiate the experiments
-* Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](../../sweeps/intro/)).
+* Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](../../sweeps/)).
 
 | Experiment   | Model Name       | Notes                                            | Tags          | Num Layers | Final Train Acc | Final Val Acc | Training Losses                       |
 | ------------ | ---------------- | ------------------------------------------------ | ------------- | ---------- | --------------- | ------------- | ------------------------------------- |

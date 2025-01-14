@@ -11,7 +11,7 @@ weight: 4
 W&B workspace is your personal sandbox to customize charts and explore model results. A W&B workspace consists of *Tables* and *Panel sections*: 
 
 * **Tables**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
-* **Panel sections**: A section that contains one or more [panels](../app/features/panels/intro/). Create new panels, organize them, and export to reports to save snapshots of your workspace.
+* **Panel sections**: A section that contains one or more [panels](../app/features/panels/). Create new panels, organize them, and export to reports to save snapshots of your workspace.
 
 {{< img src="/images/app_ui/workspace_table_and_panels.png" alt="" >}}
 

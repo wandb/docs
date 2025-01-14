@@ -19,7 +19,7 @@ The following W&B Reports demonstrate examples of projects that explore hyperpar
   * Description: Developing the baseline and exploring submissions to the Drought Watch benchmark.
 * [Tuning Safety Penalties in Reinforcement Learning](https://wandb.ai/safelife/benchmark-sweeps/reports/Tuning-Safety-Penalties-in-Reinforcement-Learning---VmlldzoyNjQyODM)
   * Description: We examine agents trained with different side effect penalties on three different tasks: pattern creation, pattern removal, and navigation.
-* [Meaning and Noise in Hyperparameter Search with W&B](https://wandb.ai/stacey/pytorch_intro/reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
+* [Meaning and Noise in Hyperparameter Search with W&B](https://wandb.ai/stacey/pytorch_reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
   * Description: How do we distinguish signal from pareidolia (imaginary patterns)? This article is showcases what is possible with W&B and aims to inspire further exploration.
 * [Who is Them? Text Disambiguation with Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc)
   * Description: Using Hugging Face to explore models for natural language understanding
