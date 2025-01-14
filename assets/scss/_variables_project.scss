@@ -168,9 +168,6 @@ a {
     }
 }
 
-// hide the doc site name from the top-left
-.td-navbar .navbar-brand__name { display: none; }
-
 // hide taxonomy cloud on right and top
 .taxonomy-terms-cloud, .taxonomy-terms-article { display: none; }
 
@@ -299,17 +296,9 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
     }
 }
 
-// Ensure navbar stays consistent when scrolling
+// Apply same background color to navbar when scrolling
 .js-navbar-scroll {
     background-color: $nav-bg !important;
-}
-
-a.nav-link:hover {
-    color: $wandb-gold !important;
-}
-.nav-link.active 
-{
-    border-bottom: 2px solid $wandb-gold !important;
 }
 
 // headings use WandB serif font
