@@ -7,39 +7,35 @@ title: init
 
 Start a new run to track and log to W&B.
 
-```python
-from typing import Sequence, Literal, Any
 
-def init(
-    entity: str | None = None,
-    project: str | None = None,
-    dir: "StrPath" | None = None,  # Assuming StrPath is defined elsewhere
-    id: str | None = None,
-    name: str | None = None,
-    notes: str | None = None,
-    tags: Sequence[str] | None = None,
-    config: dict[str, Any] | str | None = None,
-    config_exclude_keys: list[str] | None = None,
-    config_include_keys: list[str] | None = None,
-    allow_val_change: bool | None = None,
-    group: str | None = None,
-    job_type: str | None = None,
-    mode: Literal["online", "offline", "disabled"] | None = None,
-    force: bool | None = None,
-    anonymous: Literal["never", "allow", "must"] | None = None,
-    reinit: bool | None = None,
-    resume: bool | Literal["allow", "never", "must", "auto"] | None = None,
-    resume_from: str | None = None,
-    fork_from: str | None = None,
-    save_code: bool | None = None,
-    tensorboard: bool | None = None,
-    sync_tensorboard: bool | None = None,
-    monitor_gym: bool | None = None,
-    settings: (
-        "Settings" | dict[str, Any] | None
-    ) = None,  # Assuming Settings is defined elsewhere
-) -> "Run":  # Assuming Run is defined elsewhere
-pass
+```python
+init(
+    entity: (str | None) = None,
+    project: (str | None) = None,
+    dir: (StrPath | None) = None,
+    id: (str | None) = None,
+    name: (str | None) = None,
+    notes: (str | None) = None,
+    tags: (Sequence[str] | None) = None,
+    config: (dict[str, Any] | str | None) = None,
+    config_exclude_keys: (list[str] | None) = None,
+    config_include_keys: (list[str] | None) = None,
+    allow_val_change: (bool | None) = None,
+    group: (str | None) = None,
+    job_type: (str | None) = None,
+    mode: (Literal['online', 'offline', 'disabled'] | None) = None,
+    force: (bool | None) = None,
+    anonymous: (Literal['never', 'allow', 'must'] | None) = None,
+    reinit: (bool | None) = None,
+    resume: (bool | Literal['allow', 'never', 'must', 'auto'] | None) = None,
+    resume_from: (str | None) = None,
+    fork_from: (str | None) = None,
+    save_code: (bool | None) = None,
+    tensorboard: (bool | None) = None,
+    sync_tensorboard: (bool | None) = None,
+    monitor_gym: (bool | None) = None,
+    settings: (Settings | dict[str, Any] | None) = None
+) -> Run
 ```
 
 In an ML training pipeline, you could add `wandb.init()` to the beginning of
