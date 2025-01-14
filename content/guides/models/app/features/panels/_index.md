@@ -103,7 +103,7 @@ To remove all panels from a manual workspace, click its action `...` menu, then 
 
 To remove all panels from an automatic or manual workspace, you can [reset the workspace](#reset-a-workspace). Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
 
-### Show specific panels to members of your organization
+### Share panels
 Direct colleagues to a specific panel in your project. The link redirects users to a full screen view of that panel when they click that link. To create a link to a panel:
 
 1. Hover your mouse over the panel.
