@@ -20,7 +20,7 @@ W&B recommends to have more than one instance admin in an organization. It is a 
 A *team administrator* is a user in organization that has administrative permissions within a team. 
 
 
-The organization administrator can access and use an organization's account settings at `https://wandb.ai/account-settings/` to invite users, assign or update a user's role, create teams, remove users from your organization, assign the billing administrator, and more. See [Add and manage users](./manage-organization.md#add-and-manage-users) for more information. 
+The organization administrator can access and use an organization's account settings at `https://wandb.ai/account-settings/` to invite users, assign or update a user's role, create teams, remove users from your organization, assign the billing administrator, and more. See [Add and manage users]({{< relref "./manage-organization.md#add-and-manage-users" >}}) for more information. 
 
 Once an organization administrator creates a team, the instance administrator or ateam administrator can:
 
@@ -28,7 +28,7 @@ Once an organization administrator creates a team, the instance administrator or
 - Assign or update a team member's role.
 - Automatically add new users to a team when they join your organization.
 
-Both the organization administrator and the team administrator use team dashboards at `https://wandb.ai/<your-team-name>` to manage teams. For more information on what organization administrators and team administrators can do, see [Add and manage teams](./manage-organization.md#add-and-manage-teams).
+Both the organization administrator and the team administrator use team dashboards at `https://wandb.ai/<your-team-name>` to manage teams. For more information on what organization administrators and team administrators can do, see [Add and manage teams]({{< relref "./manage-organization.md#add-and-manage-teams" >}}).
 
 
 ## Limit visibility to specific projects
@@ -37,4 +37,4 @@ Define the scope of a W&B project to limit who can view, edit, and submit W&B ru
 
 An organization admin, team admin, or the owner of a project can both set and edit a project's visibility. 
 
-For more information, see [Project visibility](./restricted-projects.md).
+For more information, see [Project visibility]({{< relref "./restricted-projects.md" >}}).

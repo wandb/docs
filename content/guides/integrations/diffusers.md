@@ -45,14 +45,14 @@ autolog(init=dict(project="diffusers_logging"))
 
 2. Use `autolog` to initialize a Weights & Biases run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`](/ref/python/init).
+    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`]({{< relref "/ref/python/init" >}}).
 
     When you call `autolog()`, it initializes a Weights & Biases run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-    - Each pipeline call is tracked into its own [table](/guides/tables) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
-    - The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`](/guides/tables).
+    - Each pipeline call is tracked into its own [table]({{< relref "/guides/tables" >}}) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
+    - The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`]({{< relref "/guides/tables" >}}).
     - All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
-    - The generated media for each pipeline call are also logged in [media panels](/guides/track/log/media) in the run.
+    - The generated media for each pipeline call are also logged in [media panels]({{< relref "/guides/track/log/media" >}}) in the run.
 
     {{% alert %}}
     You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
@@ -147,7 +147,7 @@ wandb.finish()
     {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
 
 {{% alert %}}
-You need to explicitly call [`wandb.finish()`](/ref/python/finish) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
+You need to explicitly call [`wandb.finish()`]({{< relref "/ref/python/finish" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 {{% /alert %}}
 
 ### Tracking multi-pipeline workflows

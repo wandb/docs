@@ -22,7 +22,7 @@ Team admins can configure privacy settings for their respective teams from withi
 * Allow any team member to invite other members (not just admins)
 * Turn off public sharing to outside of team for reports in private projects. This turns off existing magic links.
 * Allow users with matching organization email domain to join this team.
-    * This setting is applicable only to [SaaS Cloud](./hosting-options/saas_cloud.md). It's not available in [Dedicated Cloud](./hosting-options/dedicated_cloud.md) or [Self-managed](./hosting-options/self-managed.md) instances.
+    * This setting is applicable only to [SaaS Cloud]({{< relref "./hosting-options/saas_cloud.md" >}}). It's not available in [Dedicated Cloud]({{< relref "./hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "./hosting-options/self-managed.md" >}}) instances.
 * Enable code saving by default.
 
 ## Enforce privacy settings for all teams
@@ -32,13 +32,13 @@ Organization admins can enforce privacy settings for all teams in their organiza
 * Enforce team visibility restrictions
     * Enable this option to hide all teams from non-members
 * Enforce privacy for future projects
-    * Enable this option to enforce all future projects in all teams to be private or [restricted](./iam/restricted-projects.md)
+    * Enable this option to enforce all future projects in all teams to be private or [restricted]({{< relref "./iam/restricted-projects.md" >}})
 * Enforce invitation control
     * Enable this option to prevent non-admins from inviting members to any team
 * Enforce report sharing control
     * Enable this option to turn off public sharing of reports in private projects and deactivate existing magic links
 * Enforce team self joining restrictions
     * Enable this option to restrict users with matching organization email domain from self-joining any team
-    * This setting is applicable only to [SaaS Cloud](./hosting-options/saas_cloud.md). It's not available in [Dedicated Cloud](./hosting-options/dedicated_cloud.md) or [Self-managed](./hosting-options/self-managed.md) instances.
+    * This setting is applicable only to [SaaS Cloud]({{< relref "./hosting-options/saas_cloud.md" >}}). It's not available in [Dedicated Cloud]({{< relref "./hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "./hosting-options/self-managed.md" >}}) instances.
 * Enforce default code saving restrictions
     * Enable this option to turn off code saving by default for all teams

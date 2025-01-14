@@ -20,7 +20,7 @@ To get started:
 
 3. Find your API key on the [Authorize page](https://wandb.ai/authorize).
 
-4. If you are using Weights and Biases for the first time,check out a [quickstart](../../quickstart.md)
+4. If you are using Weights and Biases for the first time,check out a [quickstart]({{< relref "../../quickstart.md" >}})
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}

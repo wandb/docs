@@ -11,15 +11,15 @@ A service account represents a non-human or machine user that can automatically 
 	
 A service account's API key allows the caller to read from or write to projects within the service account's scope.
 
-Service accounts allow for centralized management of workflows by multiple users or teams, to automate experiment tracking for W&B Models or to log traces for W&B Weave. You have the option to associate a human user's identity with a workflow managed by a service account, by using either of the [environment variables](../../track/environment-variables.md) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
+Service accounts allow for centralized management of workflows by multiple users or teams, to automate experiment tracking for W&B Models or to log traces for W&B Weave. You have the option to associate a human user's identity with a workflow managed by a service account, by using either of the [environment variables]({{< relref "../../track/environment-variables.md" >}}) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
 
 {{% alert %}}
-Service accounts are available on [Dedicated Cloud](../hosting-options/dedicated_cloud.md), [Self-managed instances](../hosting-options/self-managed.md) with an enterprise license, and enterprise accounts in [SaaS Cloud](../hosting-options/saas_cloud.md).
+Service accounts are available on [Dedicated Cloud]({{< relref "../hosting-options/dedicated_cloud.md" >}}), [Self-managed instances]({{< relref "../hosting-options/self-managed.md" >}}) with an enterprise license, and enterprise accounts in [SaaS Cloud]({{< relref "../hosting-options/saas_cloud.md" >}}).
 {{% /alert %}}
 
 ## Organization-scoped service accounts
 
-Service accounts scoped to an organization have permissions to read and write in all projects in the organization, regardless of the team, with the exception of [restricted projects](./restricted-projects.md#visibility-scopes). Before an organization-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
+Service accounts scoped to an organization have permissions to read and write in all projects in the organization, regardless of the team, with the exception of [restricted projects]({{< relref "./restricted-projects.md#visibility-scopes" >}}). Before an organization-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
 
 An organization admin can obtain the API key for an organization-scoped service account from the **Service Accounts** tab of the organization or account dashboard.
 
@@ -38,7 +38,7 @@ An organization-scoped service account requires a default team, even though it h
 
 ## Team-scoped service accounts
 
-A team-scoped service account can read and write in all projects within its team, except to [restricted projects](./restricted-projects.md#visibility-scopes) in that team. Before a team-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
+A team-scoped service account can read and write in all projects within its team, except to [restricted projects]({{< relref "./restricted-projects.md#visibility-scopes" >}}) in that team. Before a team-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
 
 As a team admin, you can get the API key for a team-scoped service account in your team at `<WANDB_HOST_URL>/<your-team-name>/service-accounts`. Alternatively you can go to the **Team settings** for your team and then refer to the **Service Accounts** tab.
 
@@ -54,9 +54,9 @@ To create a new team scoped service account for your team:
 If you do not configure a team in your model training or generative AI app environment that uses a team-scoped service account, the model runs or weave traces log to the named project within the service account's parent team. In such a scenario, user attribution using the `WANDB_USERNAME` or `WANDB_USER_EMAIL` variables _do not work_ unless the referenced user is part of the service account's parent team.
 
 {{% alert color="warning" %}}
-A team-scoped service account cannot log runs to a [team or restricted-scoped project](./restricted-projects.md#visibility-scopes) in a team different from its parent team, but it can log runs to an open visibility project within another team.
+A team-scoped service account cannot log runs to a [team or restricted-scoped project]({{< relref "./restricted-projects.md#visibility-scopes" >}}) in a team different from its parent team, but it can log runs to an open visibility project within another team.
 {{% /alert %}}
 
 ### External service accounts
 
-In addition to **Built-in** service accounts, W&B also supports team-scoped **External service accounts** with the W&B SDK and CLI using [Identity federation](./identity_federation.md#external-service-accounts) with identity providers (IdPs) that can issue JSON Web Tokens (JWTs).
+In addition to **Built-in** service accounts, W&B also supports team-scoped **External service accounts** with the W&B SDK and CLI using [Identity federation]({{< relref "./identity_federation.md#external-service-accounts" >}}) with identity providers (IdPs) that can issue JSON Web Tokens (JWTs).

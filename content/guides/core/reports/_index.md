@@ -42,12 +42,12 @@ Create a collaborative report with a few clicks.
 6. Click **Publish to project**.
 7. Click the **Share** button to share your report with collaborators. 
 
-See the [Create a report](./create-a-report.md) page for more information on how to create reports interactively an programmatically with the W&B Python SDK.
+See the [Create a report]({{< relref "./create-a-report.md" >}}) page for more information on how to create reports interactively an programmatically with the W&B Python SDK.
 
 ## How to get started
 Depending on your use case, explore the following resources to get started with W&B Reports:
 
 * Check out our [video demonstration](https://www.youtube.com/watch?v=2xeJIv_K_eI) to get an overview of W&B Reports.
-* Explore the [Reports gallery](./reports-gallery.md) for examples of live reports.
-* Try the [Programmatic Workspaces](../../tutorials/workspaces.md) tutorial to learn how to create and customize your workspace.
+* Explore the [Reports gallery]({{< relref "./reports-gallery.md" >}}) for examples of live reports.
+* Try the [Programmatic Workspaces]({{< relref "../../tutorials/workspaces.md" >}}) tutorial to learn how to create and customize your workspace.
 * Read curated Reports in [W&B Fully Connected](http://wandb.me/fc).

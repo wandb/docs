@@ -9,7 +9,7 @@ title: Manage artifact storage and memory allocation
 
 W&B stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
 
-For sensitive files, we recommend you set up [Private Hosting](../hosting/intro.md) or use [reference artifacts](./track-external-files.md).
+For sensitive files, we recommend you set up [Private Hosting]({{< relref "../hosting/intro.md" >}}) or use [reference artifacts]({{< relref "./track-external-files.md" >}}).
 
 During training, W&B locally saves logs, artifacts, and configuration files in the following local directories:
 
@@ -26,7 +26,7 @@ Depending on the machine on `wandb` is initialized on, these default folders may
 
 ### Clean up local artifact cache
 
-W&B caches artifact files to speed up downloads across versions that share files in common. Over time this cache directory can become large. Run the [`wandb artifact cache cleanup`](../../ref/cli/wandb-artifact/wandb-artifact-cache/README.md) command to prune the cache and to remove any files that have not been used recently.
+W&B caches artifact files to speed up downloads across versions that share files in common. Over time this cache directory can become large. Run the [`wandb artifact cache cleanup`]({{< relref "../../ref/cli/wandb-artifact/wandb-artifact-cache/README.md" >}}) command to prune the cache and to remove any files that have not been used recently.
 
 The proceeding code snippet demonstrates how to limit the size of the cache to 1GB. Copy and paste the code snippet into your terminal:
 

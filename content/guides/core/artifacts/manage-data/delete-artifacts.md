@@ -12,7 +12,7 @@ Delete artifacts interactively with the App UI or programmatically with the W&B 
 
 The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
 
-The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
+The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy]({{< relref "./ttl.md" >}}).
 
 {{% alert %}}
 Artifacts that are scheduled for deletion with a TTL policy, deleted with the W&B SDK, or deleted with the W&B App UI are first soft-deleted. Artifacts that are soft deleted undergo garbage collection before they are hard-deleted.
@@ -27,7 +27,7 @@ To delete an artifact version:
 3. On the right hand side of the workspace, select the kebab dropdown.
 4. Choose Delete.
 
-An artifact version can also be deleted programatically via the [delete()](/ref/python/artifact#delete) method. See the examples below. 
+An artifact version can also be deleted programatically via the [delete()]({{< relref "/ref/python/artifact#delete" >}}) method. See the examples below. 
 
 ### Delete multiple artifact versions with aliases
 
@@ -98,7 +98,7 @@ To delete an artifact collection:
 3. Select the kebab dropdown next to the artifact collection name.
 4. Choose Delete.
 
-You can also delete artifact collection programmatically with the [delete()](../../ref/python/artifact.md#delete) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
+You can also delete artifact collection programmatically with the [delete()]({{< relref "../../ref/python/artifact.md#delete" >}}) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
 
 ```python
 import wandb
@@ -129,9 +129,9 @@ The `X` indicates you must satisfy the requirement:
 |                                                | Environment variable    | Enable versioning | 
 | -----------------------------------------------| ------------------------| ----------------- | 
 | Shared cloud                                   |                         |                   | 
-| Shared cloud with [secure storage connector](../hosting/data-security/secure-storage-connector.md)|                         | X                 | 
+| Shared cloud with [secure storage connector]({{< relref "../hosting/data-security/secure-storage-connector.md" >}})|                         | X                 | 
 | Dedicated cloud                                |                         |                   | 
-| Dedicated cloud with [secure storage connector](../hosting/data-security/secure-storage-connector.md)|                         | X                 | 
+| Dedicated cloud with [secure storage connector]({{< relref "../hosting/data-security/secure-storage-connector.md" >}})|                         | X                 | 
 | Customer-managed cloud                         | X                       | X                 | 
 | Customer managed on-prem                       | X                       | X                 |
  

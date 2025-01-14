@@ -7,14 +7,14 @@ title: Manage workspace, section, and panel settings
 url: guides/app/features/cascade-settings
 ---
 
-Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [Workspace settings](#workspace-settings) apply to the entire workspace. [Section settings](#section-settings) apply to all panels within a section. [Panel settings](#panel-settings) apply to individual panels. 
+Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [Workspace settings]({{< relref "#workspace-settings" >}}) apply to the entire workspace. [Section settings]({{< relref "#section-settings" >}}) apply to all panels within a section. [Panel settings]({{< relref "#panel-settings" >}}) apply to individual panels. 
 
 
 
 
 ## Workspace settings
 
-Workspace settings apply to all sections and all panels within those sections. You can edit two types of workspace settings: [**Workspace layout**](#workspace-layout-options) and [**Line plots**](#line-plots-options). **Workspace layouts** determine the structure of the workspace, while **Line plots** settings control the default settings for line plots in the workspace.
+Workspace settings apply to all sections and all panels within those sections. You can edit two types of workspace settings: [**Workspace layout**]({{< relref "#workspace-layout-options" >}}) and [**Line plots**]({{< relref "#line-plots-options" >}}). **Workspace layouts** determine the structure of the workspace, while **Line plots** settings control the default settings for line plots in the workspace.
 
 To edit settings that apply to the overall structure of this workspace:
 
@@ -29,7 +29,7 @@ Configure a workspaces layout to define the overall structure of the workspace. 
 
 {{< img src="/images/app_ui/workspace_layout_settings.png" alt="" >}}
 
-The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels](panels/intro.md).
+The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels]({{< relref "panels/intro.md" >}}).
 
 This table describes each workspace layout option.
 
@@ -55,9 +55,9 @@ You can edit two main settings within **Line plots** settings: **Data** and **Di
 | ----- | ----- |
 | **X axis** |  The scale of the x-axis in line plots. The x-axis is set to **Step** by default. See the proceeding table for the list of x-axis options. |
 | **Range** |  Minimum and maximum settings to display for x axis. |
-| **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots](./panels/line-plot/smoothing.md). |
+| **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots]({{< relref "./panels/line-plot/smoothing.md" >}}). |
 | **Outliers** | Rescale to exclude outliers from the default plot min and max scale. |
-| **Point aggregation method** | Improve data visualization accuracy and performance. See [Point aggregation](./panels/line-plot/sampling.md) for more information. |
+| **Point aggregation method** | Improve data visualization accuracy and performance. See [Point aggregation]({{< relref "./panels/line-plot/sampling.md" >}}) for more information. |
 | **Max number of runs or groups** | Limit the number of runs or groups displayed on the line plot. |
 
 In addition to **Step**, there are other options for the x-axis:
@@ -72,7 +72,7 @@ In addition to **Step**, there are other options for the x-axis:
 
 
 {{% alert %}}
-For information on how to edit an individual line plot, see [Edit line panel settings](./panels/line-plot/intro.md#edit-line-panel-settings) in Line plots. 
+For information on how to edit an individual line plot, see [Edit line panel settings]({{< relref "./panels/line-plot/intro.md#edit-line-panel-settings" >}}) in Line plots. 
 {{% /alert %}}
 
 
@@ -123,4 +123,4 @@ Customize an individual panel's settings to compare multiple lines on the same p
 3. Within the modal that appears, you can edit settings related to the panel's data, display preferences, and more.
 {{< img src="/images/app_ui/panel_settings_modal.png" alt="" >}}
 
-For a complete list of settings you can apply to a panel, see [Edit line panel settings](./panels/line-plot/intro.md#edit-line-panel-settings).
+For a complete list of settings you can apply to a panel, see [Edit line panel settings]({{< relref "./panels/line-plot/intro.md#edit-line-panel-settings" >}}).

@@ -9,7 +9,7 @@ weight: 10
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "../hosting-options/saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "../hosting-options//dedicated_cloud.md" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 W&B recommends using the [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) to deploy the platform on AWS. 
@@ -213,7 +213,7 @@ This is the most straightforward deployment option configuration that creates al
 
 Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
 
-You need to add the option `create_elasticache_subnet = true` to the same `main.tf` file described in the [Recommended deployment](#recommended-deployment-option) section to enable the cache.
+You need to add the option `create_elasticache_subnet = true` to the same `main.tf` file described in the [Recommended deployment]({{< relref "#recommended-deployment-option" >}}) section to enable the cache.
 
 ```
 module "wandb_infra" {
@@ -233,7 +233,7 @@ module "wandb_infra" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The AWS resource that provides the message broker is the `SQS`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` described in the [Recommended deployment](#recommended-deployment-option) section.
+The AWS resource that provides the message broker is the `SQS`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` described in the [Recommended deployment]({{< relref "#recommended-deployment-option" >}}) section.
 
 ```
 module "wandb_infra" {
@@ -259,9 +259,9 @@ The [Terraform Module](https://github.com/wandb/terraform-aws-wandb) provides se
 
 To use an Amazon S3 bucket as a file storage backend for W&B, you will need to:
 
-* [Create an Amazon S3 Bucket and Bucket Notifications](#create-an-s3-bucket-and-bucket-notifications)
-* [Create SQS Queue](#create-an-sqs-queue)
-* [Grant Permissions to Node Running W&B](#grant-permissions-to-node-that-runs-wb)
+* [Create an Amazon S3 Bucket and Bucket Notifications]({{< relref "#create-an-s3-bucket-and-bucket-notifications" >}})
+* [Create SQS Queue]({{< relref "#create-an-sqs-queue" >}})
+* [Grant Permissions to Node Running W&B]({{< relref "#grant-permissions-to-node-that-runs-wb" >}})
 
 
  you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
@@ -382,14 +382,14 @@ Follow the steps outlined here to update W&B:
   Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
   {{% /alert %}}
 
-2. After you update your configuration, complete the steps described in the [Recommended deployment section](#recommended-deployment-option).
+2. After you update your configuration, complete the steps described in the [Recommended deployment section]({{< relref "#recommended-deployment-option" >}}).
 
 ## Migrate to operator-based AWS Terraform modules
 
 This section details the steps required to upgrade from _pre-operator_ to  _post-operator_ environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
 
 {{% alert %}}
-The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See [this section](../operator.md#reasons-for-the-architecture-shift) for a detailed explanation for the architecture shift.
+The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See [this section]({{< relref "../operator.md#reasons-for-the-architecture-shift" >}}) for a detailed explanation for the architecture shift.
 {{% /alert %}}
 
 

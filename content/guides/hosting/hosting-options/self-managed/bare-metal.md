@@ -8,7 +8,7 @@ title: Deploy W&B Platform On-premises
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "../hosting-options/saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "../hosting-options//dedicated_cloud.md" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 
@@ -16,7 +16,7 @@ Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto
 
 ## Infrastructure guidelines
 
-Before you start deploying W&B, refer to the [reference architecture](./ref-arch.md#infrastructure-requirements), especially the infrastructure requirements.
+Before you start deploying W&B, refer to the [reference architecture]({{< relref "./ref-arch.md#infrastructure-requirements" >}}), especially the infrastructure requirements.
 
 {{% alert %}}
 W&B strongly recommends to deploy W&B Server into a Kubernetes cluster using the W&B Kubernetes Operator. Deploying to a Kubernetes cluster with the operator ensures that you can use all the existing and latest W&B features.
@@ -48,7 +48,7 @@ It is important to keep in mind that these specifications are minimum requiremen
 
 ### Database server
 
-W&B recommends a [MySQL 8](#mysql-database) database as a metadata store. The shape of the model parameters and related metadata impact the performance of the database. The database size grows as the ML practitioners track more training runs, and incurs read heavy load when queries are executed in run tables, users workspaces, and reports.
+W&B recommends a [MySQL 8]({{< relref "#mysql-database" >}}) database as a metadata store. The shape of the model parameters and related metadata impact the performance of the database. The database size grows as the ML practitioners track more training runs, and incurs read heavy load when queries are executed in run tables, users workspaces, and reports.
 
 To ensure optimal performance W&B recommends deploying the W&B database on to a server with the following starting specs:
 
@@ -62,13 +62,13 @@ To ensure optimal performance W&B recommends deploying the W&B database on to a 
 
 Again, W&B recommends monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
 
-Additionally, W&B recommends the following [parameter overrides](#mysql-database) to tune the DB for MySQL 8.
+Additionally, W&B recommends the following [parameter overrides]({{< relref "#mysql-database" >}}) to tune the DB for MySQL 8.
 
 ### Object storage
 
 W&B is compatible with an object storage that supports S3 API interface, Signed URLs and CORS. W&B recommends specifying the storage array to the current needs of your practitioners and to capacity plan on a regular cadence.
 
-More details on object store configuration can be found in the [how-to section](../self-managed/bare-metal.md#object-store).
+More details on object store configuration can be found in the [how-to section]({{< relref "../self-managed/bare-metal.md#object-store" >}}).
 
 Some tested and working providers:
 - [MinIO](https://min.io/)
@@ -78,7 +78,7 @@ Some tested and working providers:
 
 #### Secure Storage Connector
 
-The [Secure Storage Connector](../data-security/secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
+The [Secure Storage Connector]({{< relref "../data-security/secure-storage-connector.md" >}}) is not available for teams at this time for bare metal deployments.
 
 ## MySQL database
 
@@ -186,7 +186,7 @@ mc mb --region=us-east1 local/local-files
 
 ## Deploy W&B Server application to Kubernetes
 
-The recommended installation method is with the official W&B Helm chart. Follow [this section](../operator.md#deploy-wb-with-helm-cli) to deploy the W&B Server application.
+The recommended installation method is with the official W&B Helm chart. Follow [this section]({{< relref "../operator.md#deploy-wb-with-helm-cli" >}}) to deploy the W&B Server application.
 
 
 ### OpenShift

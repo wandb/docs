@@ -6,15 +6,15 @@ menu:
 title: Manage your organization
 weight: 1
 ---
-As an administrator of an organization you can [manage individual users](#add-and-manage-users) within your organization and [manage teams](#add-and-manage-teams). 
+As an administrator of an organization you can [manage individual users]({{< relref "#add-and-manage-users" >}}) within your organization and [manage teams]({{< relref "#add-and-manage-teams" >}}). 
 
-As a team administrator you can [manage teams](#add-and-manage-teams).
+As a team administrator you can [manage teams]({{< relref "#add-and-manage-teams" >}}).
 
 {{% alert %}}
 The following workflow applies to users with instance administrator roles. Reach out to an administrator in your organization if you believe you should have instance administrator permissions. 
 {{% /alert %}}
 
-If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
+If you are looking to simplify user management in your organization, refer to [Automate user and team management]({{< relref "./automate_iam.md" >}}).
 
 <!-- W&B assigns an Admin role to new users within an organization by default.  -->
 
@@ -62,7 +62,7 @@ Administrators can invite users to their organization, as well as specific teams
 3. Select **Invite new user**.
 4. In the modal that appears, provide the email or username of the user in the **Email or username** field.
 5. (Recommended) Add the user to a team from the **Choose teams** dropdown menu.
-6. From the **Select role** dropdown, select the role to assign to the user. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-or-update-a-team-members-role) for more information about possible roles.
+6. From the **Select role** dropdown, select the role to assign to the user. You can change the user's role at a later time. See the table listed in [Assign a role]({{< relref "#assign-or-update-a-team-members-role" >}}) for more information about possible roles.
 7. Choose the **Send invite** button.
 
 W&B sends an invite link using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
@@ -72,7 +72,7 @@ W&B sends an invite link using a third-party email server to the user's email af
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Select the **Add user** button
 3. Within the modal that appears, provide the email of the new user in the **Email** field.
-4. Select a role to assign to the user from the **Role** dropdown. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-or-update-a-team-members-role) for more information about possible roles.
+4. Select a role to assign to the user from the **Role** dropdown. You can change the user's role at a later time. See the table listed in [Assign a role]({{< relref "#assign-or-update-a-team-members-role" >}}) for more information about possible roles.
 5. Check the **Send invite email to user** box if you want W&B to send an invite link using a third-party email server to the user's email.
 6. Select the **Add new user** button.
 {{% /tab %}}
@@ -85,7 +85,7 @@ A W&B user with matching email domain can sign in to your W&B Organization with 
 {{% alert title="Enable SSO for authentication" %}}
 W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). Reach out to your W&B team to enable SSO for your organization. 
 
-To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).{{% /alert %}}
+To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC]({{< relref "./sso.md" >}}) or [SSO with LDAP]({{< relref "./ldap.md" >}}).{{% /alert %}}
 
 
 W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
@@ -140,7 +140,7 @@ To automatically assign non-invited new users to a default team when they join y
 2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Settings**.
 3. Within the **Settings** tab, select **General**.
 4. Choose the **Claim domain** button within **Domain capture**.
-5. Select the team that you want new users to automatically join from the **Default team** dropdown. If no teams are available, you'll need to update team settings. See the instructions in [Add and manage teams](#add-and-manage-teams).
+5. Select the team that you want new users to automatically join from the **Default team** dropdown. If no teams are available, you'll need to update team settings. See the instructions in [Add and manage teams]({{< relref "#add-and-manage-teams" >}}).
 6. Click the **Claim email domain** button.
 
 You must enable domain matching within a team's settings before you can automatically assign non-invited new users to that team.
@@ -226,7 +226,7 @@ Use your organization's dashboard to create  and manage teams within your organi
 - Manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
 
-<!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->
+<!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management]({{< relref "./automate_iam.md" >}}). -->
 
 
 ### Create a team
@@ -253,16 +253,16 @@ Invite users to a team in your organization. Use the team's dashboard to invite 
 {{< img src="/images/hosting/team_settings.png" alt="" >}}
 3. Select the **Users** tab.
 4. Choose on **Invite a new user**.
-5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles](#assign-or-update-a-team-members-role).
+5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles]({{< relref "#assign-or-update-a-team-members-role" >}}).
 6. Choose on the **Send invite** button.
 
-In addition to inviting users manually with email invites, you can automatically add new users to a team if the new user's [email matches the domain of your organization](#domain-capture).
+In addition to inviting users manually with email invites, you can automatically add new users to a team if the new user's [email matches the domain of your organization]({{< relref "#domain-capture" >}}).
 
 ### Match members to a team organization during sign up
 
 Allow new users within your organization discover Teams within your organization when they sign-up. New users must have a verified email domain that matches your organization's verified email domain. Verified new users can view a list of verified teams that belong to an organization when they sign up for a W&B account.
 
-An organization administrator must enable domain claiming. To enable domain capture, see the steps described in [Domain capture](#domain-capture).
+An organization administrator must enable domain claiming. To enable domain capture, see the steps described in [Domain capture]({{< relref "#domain-capture" >}}).
 
 
 ### Assign or update a team member's role
@@ -284,7 +284,7 @@ This table lists the roles you can assign to a member of a team:
 <!-- {{% alert %}}
 W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
 
-Refer to [Team Service Account Behavior](../../app/features/teams.md#team-service-account-behavior) for more information.
+Refer to [Team Service Account Behavior]({{< relref "../../app/features/teams.md#team-service-account-behavior" >}}) for more information.
 {{% /alert %}} -->
 
 

@@ -46,30 +46,30 @@ metadata:
 
 The `controller-manager` installs [charts/operator-wandb](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb) based on the spec of the custom resource, release channel, and a user defined config. The configuration specification hierarchy enables maximum configuration flexibility at the user end and enables W&B to release new images, configurations, features, and Helm updates automatically.
 
-Refer to the [configuration specification hierarchy](#configuration-specification-hierarchy) and [configuration reference](#configuration-reference-for-wb-operator) for configuration options.
+Refer to the [configuration specification hierarchy]({{< relref "#configuration-specification-hierarchy" >}}) and [configuration reference]({{< relref "#configuration-reference-for-wb-operator" >}}) for configuration options.
 
 ### Configuration specification hierarchy
 Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here’s how it works:
 
 - **Release Channel Values**: This base level configuration sets default values and configurations based on the release channel set by W&B for the deployment.
 - **User Input Values**: Users can override the default settings provided by the Release Channel Spec through the System Console.
-- **Custom Resource Values**: The highest level of specification, which comes from the user. Any values specified here override both the User Input and Release Channel specifications. For a detailed description of the configuration options, see [Configuration Reference](#configuration-reference-for-wb-operator).
+- **Custom Resource Values**: The highest level of specification, which comes from the user. Any values specified here override both the User Input and Release Channel specifications. For a detailed description of the configuration options, see [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}).
 
 This hierarchical model ensures that configurations are flexible and customizable to meet varying needs while maintaining a manageable and systematic approach to upgrades and changes.
 
 ### Requirements to use the W&B Kubernetes Operator
 Satisfy the following requirements to deploy W&B with the W&B Kubernetes operator:
 
-Refer to the [reference architecture](./self-managed/ref-arch.md#infrastructure-requirements). In addition, [obtain a valid W&B Server license](./hosting-options/self-managed.md#obtain-your-wb-server-license).
+Refer to the [reference architecture]({{< relref "./self-managed/ref-arch.md#infrastructure-requirements" >}}). In addition, [obtain a valid W&B Server license]({{< relref "./hosting-options/self-managed.md#obtain-your-wb-server-license" >}}).
 
-See [this](./self-managed/bare-metal.md) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See [this]({{< relref "./self-managed/bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
 
 Depending on the installation method, you might need to meet the following requirements:
 * Kubectl installed and configured with the correct Kubernetes cluster context.
 * Helm is installed.
 
 ### Air-gapped installations
-See the [Deploy W&B in airgapped environment with Kubernetes](./operator-airgapped) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
+See the [Deploy W&B in airgapped environment with Kubernetes]({{< relref "./operator-airgapped" >}}) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
 
 ## Deploy W&B Server application
 This section describes different ways to deploy the W&B Kubernetes operator. 
@@ -78,9 +78,9 @@ The W&B Operator is the default and recommended installation method for W&B Serv
 {{% /alert %}}
 
 **Choose one of the following:**
-- If you have provisioned all required external services and want to deploy W&B onto Kubernetes with Helm CLI, continue [here](#deploy-wb-with-helm-cli).
-- If you prefer managing infrastructure and the W&B Server with Terraform, continue [here](#deploy-wb-with-helm-terraform-module).
-- If you want to utilize the W&B Cloud Terraform Modules, continue [here](#deploy-wb-with-wb-cloud-terraform-modules).
+- If you have provisioned all required external services and want to deploy W&B onto Kubernetes with Helm CLI, continue [here]({{< relref "#deploy-wb-with-helm-cli" >}}).
+- If you prefer managing infrastructure and the W&B Server with Terraform, continue [here]({{< relref "#deploy-wb-with-helm-terraform-module" >}}).
+- If you want to utilize the W&B Cloud Terraform Modules, continue [here]({{< relref "#deploy-wb-with-wb-cloud-terraform-modules" >}}).
 
 ### Deploy W&B with Helm CLI
 W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
@@ -96,7 +96,7 @@ helm repo update
 ```shell
 helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 ```
-3. Configure the W&B operator custom resource to trigger the W&B Server installation. Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference](#configuration-reference-for-wb-operator) for details.
+3. Configure the W&B operator custom resource to trigger the W&B Server installation. Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}) for details.
 
     Once you have the specification YAML created and filled with your values, run the following and the operator applies the configuration and install the W&B Server application based on your configuration.
 
@@ -106,7 +106,7 @@ helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 
     Wait until the deployment completes. This takes a few minutes.
 
-4. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation](#verify-the-installation).
+4. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
 
 
 ### Deploy W&B with Helm Terraform Module
@@ -145,7 +145,7 @@ module "wandb" {
 }
 ```
 
-Note that the configuration options are the same as described in [Configuration Reference](#configuration-reference-for-wb-operator), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
+Note that the configuration options are the same as described in [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
 
 To see how W&B&Biases themselves use the Helm Terraform module to deploy “Dedicated cloud” installations for customers,  follow those links:
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
@@ -164,11 +164,11 @@ W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules de
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 
-For a detailed description on how to use these modules, refer to this [section](./hosting-options/self-managed.md#deploy-wb-server-within-self-managed-cloud-accounts) to self-managed installations section in the docs.
+For a detailed description on how to use these modules, refer to this [section]({{< relref "./hosting-options/self-managed.md#deploy-wb-server-within-self-managed-cloud-accounts" >}}) to self-managed installations section in the docs.
 
 ### Verify the installation
 
-To verify the installation, W&B recommends using the [W&B CLI](../../ref/cli/README.md). The verify command executes several tests that verify all components and configurations. 
+To verify the installation, W&B recommends using the [W&B CLI]({{< relref "../../ref/cli/README.md" >}}). The verify command executes several tests that verify all components and configurations. 
 
 {{% alert %}}
 This step assumes that the first admin user account is created with the browser.
@@ -245,7 +245,7 @@ This section describes how to update the W&B Kubernetes operator.
 
 {{% alert %}}
 * Updating the W&B Kubernetes operator does not update the W&B server application.
-* See the instructions [here](#migrate-self-managed-instances-to-wb-operator) if you use a Helm chart that does not user the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
+* See the instructions [here]({{< relref "#migrate-self-managed-instances-to-wb-operator" >}}) if you use a Helm chart that does not user the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
 {{% /alert %}}
 
 Copy and paste the code snippets below into your terminal. 
@@ -274,17 +274,17 @@ The W&B Operator is the default and recommended installation method for W&B Serv
 {{% /alert %}}
 
 - If you used the official W&B Cloud Terraform Modules, navigate to the appropriate documentation and follow the steps there:
-  - [AWS](#migrate-to-operator-based-aws-terraform-modules)
-  - [GCP](#migrate-to-operator-based-gcp-terraform-modules)
-  - [Azure](#migrate-to-operator-based-azure-terraform-modules)
-- If you used the [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb),  continue [here](#migrate-to-operator-based-helm-chart).
-- If you used the [W&B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest),  continue [here](#migrate-to-operator-based-terraform-helm-chart).
-- If you created the Kubernetes resources with manifests,  continue [here](#migrate-to-operator-based-helm-chart).
+  - [AWS]({{< relref "#migrate-to-operator-based-aws-terraform-modules" >}})
+  - [GCP]({{< relref "#migrate-to-operator-based-gcp-terraform-modules" >}})
+  - [Azure]({{< relref "#migrate-to-operator-based-azure-terraform-modules" >}})
+- If you used the [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb),  continue [here]({{< relref "#migrate-to-operator-based-helm-chart" >}}).
+- If you used the [W&B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest),  continue [here]({{< relref "#migrate-to-operator-based-terraform-helm-chart" >}}).
+- If you created the Kubernetes resources with manifests,  continue [here]({{< relref "#migrate-to-operator-based-helm-chart" >}}).
 
 
 ### Migrate to Operator-based AWS Terraform Modules
 
-For a detailed description of the migration process,  continue [here](self-managed/aws-tf.md#migrate-to-operator-based-aws-terraform-modules).
+For a detailed description of the migration process,  continue [here]({{< relref "self-managed/aws-tf.md#migrate-to-operator-based-aws-terraform-modules" >}}).
 
 ### Migrate to Operator-based GCP Terraform Modules
 
@@ -309,7 +309,7 @@ Follow these steps to migrate to the Operator-based Helm chart:
     ```
     You now have all the configuration values you need for the next step. 
 
-2. Create a file called `operator.yaml`. Follow the format described in the [Configuration Reference](#configuration-reference-for-wb-operator). Use the values from step 1.
+2. Create a file called `operator.yaml`. Follow the format described in the [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}). Use the values from step 1.
 
 3. Scale the current deployment to 0 pods. This step is stops the current deployment.
     ```shell
@@ -329,7 +329,7 @@ Follow these steps to migrate to the Operator-based Helm chart:
     ```
     The deployment takes a few minutes to complete.
 
-7. Verify the installation. Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
+7. Verify the installation. Make sure that everything works by following the steps in [Verify the installation]({{< relref "#verify-the-installation" >}}).
 
 8. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
 
@@ -338,18 +338,18 @@ Follow these steps to migrate to the Operator-based Helm chart:
 Follow these steps to migrate to the Operator-based Helm chart:
 
 
-1. Prepare Terraform config. Replace the Terraform code from the old deployment in your Terraform config with the one that is described [here](#deploy-wb-with-helm-terraform-module). Set the same variables as before. Do not change .tfvars file if you have one.
+1. Prepare Terraform config. Replace the Terraform code from the old deployment in your Terraform config with the one that is described [here]({{< relref "#deploy-wb-with-helm-terraform-module" >}}). Set the same variables as before. Do not change .tfvars file if you have one.
 2. Execute Terraform run. Execute terraform init, plan and apply
-3. Verify the installation. Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
+3. Verify the installation. Make sure that everything works by following the steps in [Verify the installation]({{< relref "#verify-the-installation" >}}).
 4. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
 
 
 
 ## Configuration Reference for W&B Server
 
-This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Some configuration options are exposed with the below configuration, some need to be set as environment variables.
+This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases]({{< relref "#how-it-works" >}}). Some configuration options are exposed with the below configuration, some need to be set as environment variables.
 
-The documentation has two lists of environment variables: [basic](./env-vars.md) and [advanced](./iam/advanced_env_vars.md). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
+The documentation has two lists of environment variables: [basic]({{< relref "./env-vars.md" >}}) and [advanced]({{< relref "./iam/advanced_env_vars.md" >}}). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
 
 The W&B Server application configuration file for a production deployment requires the following contents. This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
 
@@ -497,7 +497,7 @@ global:
 
 ### Ingress
 
-To identify the ingress class,  see this FAQ [entry](#how-to-identify-the-kubernetes-ingress-class).
+To identify the ingress class,  see this FAQ [entry]({{< relref "#how-to-identify-the-kubernetes-ingress-class" >}}).
 
 **Without TLS**
 
@@ -798,7 +798,7 @@ customCACerts:
 ## FAQ
 
 ### How to get the  W&B Operator Console password
-See [Accessing the W&B Kubernetes Operator Management Console](#access-the-wb-management-console).
+See [Accessing the W&B Kubernetes Operator Management Console]({{< relref "#access-the-wb-management-console" >}}).
 
 
 ### How to access the W&B Operator Console if Ingress doesn’t work
@@ -811,7 +811,7 @@ kubectl port-forward svc/wandb-console 8082
 
 Access the console in the browser with `https://localhost:8082/` console.
 
-See [Accessing the W&B Kubernetes Operator Management Console](#access-the-wb-management-console) on how to get the password (Option 2).
+See [Accessing the W&B Kubernetes Operator Management Console]({{< relref "#access-the-wb-management-console" >}}) on how to get the password (Option 2).
 
 ### How to view W&B Server logs
 

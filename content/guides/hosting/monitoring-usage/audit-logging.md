@@ -11,12 +11,12 @@ Use W&B audit logs to track user activity within your organization and to confor
 
 | W&B Platform Deployment type | Audit logs access mechanism |
 |----------------------------|--------------------------------|
-| [Self-managed](../hosting-options/self-managed.md) | Synced to instance-level bucket every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
-| [Dedicated Cloud](../hosting-options/dedicated_cloud.md) with [secure storage connector (BYOB)](../data-security/secure-storage-connector.md) | Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
-| [Dedicated Cloud](../hosting-options/dedicated_cloud.md) with W&B managed storage (without BYOB) | Only available using [the API](#fetch-audit-logs-using-api). |
+| [Self-managed]({{< relref "../hosting-options/self-managed.md" >}}) | Synced to instance-level bucket every 10 minutes. Also available using [the API]({{< relref "#fetch-audit-logs-using-api" >}}). |
+| [Dedicated Cloud]({{< relref "../hosting-options/dedicated_cloud.md" >}}) with [secure storage connector (BYOB)]({{< relref "../data-security/secure-storage-connector.md" >}}) | Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API]({{< relref "#fetch-audit-logs-using-api" >}}). |
+| [Dedicated Cloud]({{< relref "../hosting-options/dedicated_cloud.md" >}}) with W&B managed storage (without BYOB) | Only available using [the API]({{< relref "#fetch-audit-logs-using-api" >}}). |
 
 {{% alert %}}
-Audit logs are not available for [SaaS Cloud](../hosting-options/saas_cloud.md).
+Audit logs are not available for [SaaS Cloud]({{< relref "../hosting-options/saas_cloud.md" >}}).
 {{% /alert %}}
 
 Once you've access to your audit logs, analyze those using your preferred tools, such as [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), and more. You may need to transform the JSON-formatted audit logs into a format relevant to the tool before analysis. Information on how to transform your audit logs for specific tools is outside the scope of W&B documentation.
@@ -25,7 +25,7 @@ Once you've access to your audit logs, analyze those using your preferred tools,
 **Audit Log Retention:** If a compliance, security or risk team in your organization requires audit logs to be retained for a specific period of time, W&B recommends to periodically transfer the logs from your instance-level bucket to a long-term retention storage. If you're instead using the API to access the audit logs, you can implement a simple script that runs periodically (like daily or every few days) to fetch any logs that may have been generated since the time of the last script run, and store those in a short-term storage for analysis or directly transfer to a long-term retention storage.
 {{% /alert %}}
 
-HIPAA compliance requires that you retain audit logs for a minimum of 6 years. For HIPAA-compliant [Dedicated Cloud](../hosting-options/dedicated_cloud.md) instances with [BYOB](../data-security/secure-storage-connector.md), you must configure guardrails for your managed storage including any long-term retention storage, to ensure that no internal or external user can delete audit logs before the end of the mandatory retention period.
+HIPAA compliance requires that you retain audit logs for a minimum of 6 years. For HIPAA-compliant [Dedicated Cloud]({{< relref "../hosting-options/dedicated_cloud.md" >}}) instances with [BYOB]({{< relref "../data-security/secure-storage-connector.md" >}}), you must configure guardrails for your managed storage including any long-term retention storage, to ensure that no internal or external user can delete audit logs before the end of the mandatory retention period.
 
 ## Audit log schema
 The following table lists all the different keys that might be present in your audit logs. Each log contains only the assets relevant to the corresponding action, and others are omitted from the log.
@@ -33,7 +33,7 @@ The following table lists all the different keys that might be present in your a
 | Key | Definition |
 |---------| -------|
 |timestamp               | Time stamp in [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339). For example: `2023-01-23T12:34:56Z`, represents `12:34:56 UTC` time on Jan 23, 2023.
-|action                  | What [action](#actions) did the user take.
+|action                  | What [action]({{< relref "#actions" >}}) did the user take.
 |actor_user_id           | If present, ID of the logged-in user who performed the action.
 |response_code           | Http response code for the action.
 |artifact_asset          | If present, action was taken on this artifact id
@@ -52,7 +52,7 @@ The following table lists all the different keys that might be present in your a
 |report_name             | if present, action was taken on this report name.
 |user_email              | if present, action was taken on this user email.
 
-Personally identifiable information (PII), such as email ids and the names of projects, teams, and reports, is available only using the API endpoint option, and can be turned off as [described below](#fetch-audit-logs-using-api).
+Personally identifiable information (PII), such as email ids and the names of projects, teams, and reports, is available only using the API endpoint option, and can be turned off as [described below]({{< relref "#fetch-audit-logs-using-api" >}}).
 
 ## Fetch audit logs using API
 An instance admin can fetch the audit logs for your W&B instance using the following API:
@@ -64,7 +64,7 @@ An instance admin can fetch the audit logs for your W&B instance using the follo
 If your W&B instance URL is `https://mycompany.wandb.io` and you would like to get audit logs without PII for user activity within the last week, you must use the API endpoint `https://mycompany.wandb.io?numDays=7&anonymize=true`.
 
 {{% alert %}}
-Only W&B [instance admins](../iam/access-management-intro) can fetch audit logs using the API. If you are not an instance admin or not logged into your organization, you get a `HTTP 403 Forbidden` error.
+Only W&B [instance admins]({{< relref "../iam/access-management-intro" >}}) can fetch audit logs using the API. If you are not an instance admin or not logged into your organization, you get a `HTTP 403 Forbidden` error.
 {{% /alert %}}
 
 The API response contains new-line separated JSON objects. Objects will include the fields described in the schema. It's the same format which is used when syncing audit log files to an instance-level bucket (wherever applicable as mentioned earlier). In those cases, the audit logs are located at the `/wandb-audit-logs` directory in your bucket.

@@ -9,7 +9,7 @@ cascade:
 - url: guides/integrations/:filename
 ---
 
-W&B integrations make it fast and easy to set up experiment tracking and data versioning inside existing projects. Check out integrations for ML frameworks such as [PyTorch](pytorch.md), ML libraries such as [Hugging Face](huggingface.md), or cloud services such as [Amazon SageMaker](other/sagemaker.md).
+W&B integrations make it fast and easy to set up experiment tracking and data versioning inside existing projects. Check out integrations for ML frameworks such as [PyTorch]({{< relref "pytorch.md" >}}), ML libraries such as [Hugging Face]({{< relref "huggingface.md" >}}), or cloud services such as [Amazon SageMaker]({{< relref "other/sagemaker.md" >}}).
 
 
 <iframe width="668" height="376" src="https://www.youtube.com/embed/hmewPDNUNJs?list=PLD80i8An1OEGajeVo15ohAQYF1Ttle0lk" title="Log Your First Run With W&amp;B" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>

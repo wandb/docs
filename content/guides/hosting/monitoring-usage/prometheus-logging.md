@@ -10,7 +10,7 @@ weight: 2
 Use [Prometheus](https://prometheus.io/docs/introduction/overview/) with W&B Server. Prometheus installs are exposed as a [kubernetes ClusterIP service](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225).
 
 {{% alert color="secondary" %}}
-Prometheus monitoring is only available with [Self-managed instances](../hosting-options/self-managed.md).
+Prometheus monitoring is only available with [Self-managed instances]({{< relref "../hosting-options/self-managed.md" >}}).
 {{% /alert %}}
 
 

@@ -49,7 +49,7 @@ As part of the workflow to exchange the JWT for a W&B access token and then acce
 * The JWT signature is verified using the JWKS at the W&B organization level. This is the first line of defense, and if this fails, that means there's a problem with your JWKS or how your JWT is signed.
 * The `iss` claim in the JWT should be equal to the issuer URL configured at the organization level.
 * The `sub` claim in the JWT should be equal to the user's email address as configured in the W&B organization.
-* The `aud` claim in the JWT should be equal to the name of the W&B organization which houses the project that you are accessing as part of your AI workflow. In case of [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instances, you could configure an instance-level environment variable `SKIP_AUDIENCE_VALIDATION` to `true` to skip validation of the audience claim, or use `wandb` as the audience.
+* The `aud` claim in the JWT should be equal to the name of the W&B organization which houses the project that you are accessing as part of your AI workflow. In case of [Dedicated Cloud]({{< relref "../hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "../hosting-options/self-managed.md" >}}) instances, you could configure an instance-level environment variable `SKIP_AUDIENCE_VALIDATION` to `true` to skip validation of the audience claim, or use `wandb` as the audience.
 * The `exp` claim in the JWT is checked to see if the token is valid or has expired and needs to be refreshed.
 
 ## External service accounts
@@ -62,9 +62,9 @@ To configure an external service account:
 * Press `New service account`
 * Provide a name for the service account, select `Federated Identity` as the `Authentication Method`, provide a `Subject`, and press `Create`
 
-The `sub` claim in the external service account's JWT should be same as what the team admin configures as its subject in the team-level **Service Accounts** tab. That claim is verified as part of [JWT validation](#jwt-validation). The `aud` claim requirement is similar to that for human user JWTs.
+The `sub` claim in the external service account's JWT should be same as what the team admin configures as its subject in the team-level **Service Accounts** tab. That claim is verified as part of [JWT validation]({{< relref "#jwt-validation" >}}). The `aud` claim requirement is similar to that for human user JWTs.
 
-When [using an external service account's JWT to access W&B](#using-the-jwt-to-access-wb), it's typically easier to automate the workflow to generate the initial JWT and continuously refresh it. If you would like to attribute the runs logged using an external service account to a human user, you can configure the environment variables `WANDB_USERNAME` or `WANDB_USER_EMAIL` for your AI workflow, similar to how it's done for the built-in service accounts.
+When [using an external service account's JWT to access W&B]({{< relref "#using-the-jwt-to-access-wb" >}}), it's typically easier to automate the workflow to generate the initial JWT and continuously refresh it. If you would like to attribute the runs logged using an external service account to a human user, you can configure the environment variables `WANDB_USERNAME` or `WANDB_USER_EMAIL` for your AI workflow, similar to how it's done for the built-in service accounts.
 
 {{% alert %}}
 W&B recommends to use a mix of built-in and external service accounts across your AI workloads with different levels of data sensitivity, in order to strike a balance between flexibility and simplicity.

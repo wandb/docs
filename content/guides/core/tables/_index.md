@@ -32,11 +32,11 @@ A Table is a two-dimensional grid of data where each column has a single type of
 
 Log a table with a few lines of code:
 
-- [`wandb.init()`](../../ref/python/init.md): Create a [run](../runs/intro.md) to track results.
-- [`wandb.Table()`](../../ref/python/data-types/table.md): Create a new table object.
+- [`wandb.init()`]({{< relref "../../ref/python/init.md" >}}): Create a [run]({{< relref "../runs/intro.md" >}}) to track results.
+- [`wandb.Table()`]({{< relref "../../ref/python/data-types/table.md" >}}): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of the table.
-- [`run.log()`](../../ref/python/log.md): Log the table to save it to W&B.
+- [`run.log()`]({{< relref "../../ref/python/log.md" >}}): Log the table to save it to W&B.
 
 ```python showLineNumbers
 import wandb
@@ -47,5 +47,5 @@ run.log({"Table Name": my_table})
 ```
 
 ## How to get started
-* [Quickstart](./tables-walkthrough.md): Learn to log data tables, visualize data, and query data.
-* [Tables Gallery](./tables-gallery.md): See example use cases for Tables.
+* [Quickstart]({{< relref "./tables-walkthrough.md" >}}): Learn to log data tables, visualize data, and query data.
+* [Tables Gallery]({{< relref "./tables-gallery.md" >}}): See example use cases for Tables.

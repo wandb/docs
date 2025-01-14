@@ -9,7 +9,7 @@ weight: 30
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "../hosting-options/saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "../hosting-options//dedicated_cloud.md" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 
@@ -174,7 +174,7 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
 
-You must add the option `create_redis = true` to the same `main.tf` file that you used in [recommended deployment](#recommended-deployment) to enable the cache.
+You must add the option `create_redis = true` to the same `main.tf` file that you used in [recommended deployment]({{< relref "#recommended-deployment" >}}) to enable the cache.
 
 ```bash
 # Spin up all required services
@@ -197,7 +197,7 @@ module "wandb" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The Azure resource that provides the message broker is the `Azure Event Grid`, and to enable it, you must add the option `use_internal_queue = false` to the same `main.tf` that you used in the [recommended deployment](#recommended-deployment)
+The Azure resource that provides the message broker is the `Azure Event Grid`, and to enable it, you must add the option `use_internal_queue = false` to the same `main.tf` that you used in the [recommended deployment]({{< relref "#recommended-deployment" >}})
 ```bash
 # Spin up all required services
 module "wandb" {
@@ -219,4 +219,4 @@ module "wandb" {
 ## Other deployment options
 
 You can combine all three deployment options adding all configurations to the same file.
-The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that you can combine along with the standard options and the minimal configuration found in [recommended deployment](#recommended-deployment)
+The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that you can combine along with the standard options and the minimal configuration found in [recommended deployment]({{< relref "#recommended-deployment" >}})

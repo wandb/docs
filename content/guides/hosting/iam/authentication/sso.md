@@ -20,9 +20,9 @@ The ID token is a JWT that contains the user's identity information, such as the
 
 In the context of W&B Server, access tokens authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
 
-You can use environment variables to [configure IAM options](advanced_env_vars.md) for your [Dedicated cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
+You can use environment variables to [configure IAM options]({{< relref "advanced_env_vars.md" >}}) for your [Dedicated cloud]({{< relref "../hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "../hosting-options/self-managed.md" >}}) instance.
 
-To assist with configuring Identity Providers for [Dedicated cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) W&B Server installations, follow these guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
+To assist with configuring Identity Providers for [Dedicated cloud]({{< relref "../hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "../hosting-options/self-managed.md" >}}) W&B Server installations, follow these guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
 
 {{< tabpane text=true >}}
 {{% tab header="Cognito" value="cognito" %}}
@@ -176,7 +176,7 @@ To set up SSO, you need administrator privileges and the following information:
 Should your IdP require a OIDC Client Secret, specify it with the environment variable OIDC_SECRET.
 {{% /alert %}}
 
-You can configure SSO using either the W&B Server UI or by passing [environment variables](../env-vars.md) to the `wandb/local` pod. The environment variables take precedence over UI.
+You can configure SSO using either the W&B Server UI or by passing [environment variables]({{< relref "../env-vars.md" >}}) to the `wandb/local` pod. The environment variables take precedence over UI.
 
 {{% alert %}}
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and disables SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
@@ -184,9 +184,9 @@ If you're unable to log in to your instance after configuring SSO, you can resta
 
 {{< tabpane text=true >}}
 {{% tab header="System Console" value="console" %}}
-The System Console is the successor to the System Settings page. It is available with the [W&B Kubernetes Operator](../operator.md) based deployment.
+The System Console is the successor to the System Settings page. It is available with the [W&B Kubernetes Operator]({{< relref "../operator.md" >}}) based deployment.
 
-1. Refer to [Access the W&B Management Console](../operator.md#access-the-wb-management-console).
+1. Refer to [Access the W&B Management Console]({{< relref "../operator.md#access-the-wb-management-console" >}}).
 
 2. Navigate to **Settings**, then **Authentication**. Select **OIDC** in the **Type** dropdown.
     {{< img src="/images/hosting/sso_configure_via_console.png" alt="" >}}
