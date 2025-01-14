@@ -930,71 +930,6 @@ img, pre, .highlight, .code-toolbar:not(.tab-body *), .alert {
   }
 }
 
-// Add these docsearch overrides after your existing variables but before any styles
-
-// DocSearch custom theme variables
-:root {
-  // Replace primary blue with teal
-  --docsearch-primary-color: #{$teal-500};
-  --docsearch-highlight-color: #{$teal-500};
-  
-  // Use our font
-  --docsearch-font-family: "Source Sans Pro", sans-serif;
-  
-  // Match our modal styling
-  --docsearch-modal-background: #{$moon-white};
-  --docsearch-modal-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  
-  // Match our searchbox styling
-  --docsearch-searchbox-background: #{$moon-100};
-  --docsearch-searchbox-focus-background: #{$moon-white};
-  
-  // Use our text colors
-  --docsearch-text-color: #{$moon-800};
-  --docsearch-muted-color: #{$moon-500};
-  
-  // Hit/result styling
-  --docsearch-hit-color: #{$moon-800};
-  --docsearch-hit-active-color: #{$moon-white};
-  --docsearch-hit-background: #{$moon-white};
-  
-  // Footer styling  
-  --docsearch-footer-background: #{$moon-white};
-
-  // Additional specific overrides for modal elements
-  --docsearch-hit-active-background: #{$teal-500};
-  --docsearch-logo-color: #{$teal-500};
-  --docsearch-key-gradient: linear-gradient(-26.5deg, #{$moon-200}, #{$moon-100});
-  --docsearch-key-shadow: inset 0 -2px 0 0 #{$moon-300};
-  --docsearch-searchbox-shadow: inset 0 0 0 2px #{$teal-500};
-}
-
-// Dark theme overrides
-[data-bs-theme=dark] {
-  --docsearch-primary-color: #{$teal-400};
-  --docsearch-highlight-color: #{$teal-400};
-  
-  --docsearch-text-color: #{$moon-200};
-  --docsearch-muted-color: #{$moon-400};
-  
-  --docsearch-modal-background: #{$moon-800};
-  --docsearch-searchbox-background: #{$moon-900};
-  --docsearch-searchbox-focus-background: #{$moon-900};
-  
-  --docsearch-hit-color: #{$moon-200};
-  --docsearch-hit-background: #{$moon-800};
-  
-  --docsearch-footer-background: #{$moon-800};
-  
-  // Container background with opacity
-  --docsearch-container-background: rgba(21, 23, 31, 0.8);
-
-  --docsearch-hit-active-background: #{$teal-400};
-  --docsearch-logo-color: #{$teal-400};
-  --docsearch-key-gradient: linear-gradient(-26.5deg, #{$moon-800}, #{$moon-750});
-  --docsearch-key-shadow: inset 0 -2px 0 0 #{$moon-700};
-}
-
 // Update DocSearch button styles to use teal colors
 .DocSearch-Button {
     &:active,
@@ -1030,7 +965,20 @@ img, pre, .highlight, .code-toolbar:not(.tab-body *), .alert {
     --docsearch-key-shadow: inset 0 -2px 0 0 #{$moon-300} !important;
     --docsearch-searchbox-shadow: inset 0 0 0 2px #{$teal-500} !important;
 
-    // Rest of container styles...
+
+    // Style the search form
+    .DocSearch-Form {
+        border-radius: 8px;
+    }
+
+    // Style search results
+    .DocSearch-Hit {
+        border-radius: 8px;
+        
+        a {
+            border-radius: 8px;
+        }
+    }
 }
 
 [data-bs-theme=dark] .DocSearch-Container {
@@ -1066,41 +1014,6 @@ img, pre, .highlight, .code-toolbar:not(.tab-body *), .alert {
         box-shadow: inset 0 0 0 2px $teal-500 !important;
         color: var(--docsearch-text-color);
         outline: none;
-    }
-}
-
-// Add dark mode overrides
-[data-bs-theme=dark] .DocSearch-Container {
-    // Override DocSearch CSS variables for dark mode
-    --docsearch-primary-color: #{$teal-400} !important;
-    --docsearch-highlight-color: #{$teal-400} !important;
-    --docsearch-searchbox-shadow: inset 0 0 0 2px #{$teal-400} !important;
-    --docsearch-hit-active-background: #{$teal-400} !important;
-    --docsearch-logo-color: #{$teal-400} !important;
-
-    .DocSearch-Search-Icon {
-        color: $moon-200;
-    }
-
-    .DocSearch-Input:focus {
-        border-color: $teal-400;
-        box-shadow: inset 0 0 0 2px $teal-400;
-    }
-
-    .DocSearch-Form {
-        box-shadow: inset 0 0 0 2px $teal-400 !important;
-
-        &:focus-within {
-            box-shadow: inset 0 0 0 2px $teal-400 !important;
-        }
-    }
-
-    .DocSearch-Hit[aria-selected=true] {
-        background-color: $teal-400 !important;
-    }
-
-    .DocSearch-Hit mark {
-        color: $teal-400 !important;
     }
 }
 
