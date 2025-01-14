@@ -826,11 +826,11 @@ img, iframe {
     // Dark mode styles
     [data-bs-theme=dark] & {
         color: $dark-text-primary !important;
-        background-color: $dark-bg-primary !important;
+        background-color: $dark-bg-secondary !important;
         border: none !important;
         
         &:hover {
-            background-color: $dark-bg-secondary !important;
+            background-color: $dark-bg-tertiary !important;
             border: none !important;
             box-shadow: none !important;
         }
