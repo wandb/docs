@@ -12,6 +12,7 @@ $moon-white: #ffffff;
 $moon-50: #fafafa;
 $moon-100: #f5f6f7;
 $moon-200: #e4e6eb;
+$moon-250: #dfe0e2;
 $moon-300: #d3d7de;
 $moon-350: #c1c6cf;
 $moon-400: #aeb3bd;
@@ -31,6 +32,16 @@ $teal-450: #10bfcc;
 $teal-500: #13a9ba;
 $teal-550: #0e97a7;
 $teal-600: #038194;
+
+// Border colors
+$border-default: $moon-200;      // Using moon-200 instead of moon-250
+$border-hover: $moon-350;        // color/moon/350
+$dark-border-default: $moon-750; // color/moon/750
+$dark-border-hover: $moon-650;   // color/moon/650
+
+// Border radius
+$border-radius-medium: 8px;   // Used for most components
+$border-radius-large: 12px;   // Used for modals and larger components
 
 // Then define the semantic color tokens
 // Text colors
@@ -77,11 +88,72 @@ $hover-bg: #A9EDF248;
 $sunset-gradient: linear-gradient(98deg, #e180ff 0%, #ffcf4d 100%);
 $wandb-gradient: linear-gradient(180deg, #ffcc33 39%, #ffad33 72%);
 
+// Typography Component
+// Base body styles
 body {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     color: $text-primary;
     background-color: $bg-primary;
+
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary;
+        background-color: $dark-bg-primary;
+    }
+}
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400 !important;
+    font-family: "Source Serif 4", sans-serif;
+    color: $text-primary;
+
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary;
+    }
+}
+
+// Heading sizes
+h1, .td-content h1 { font-size: 32px !important; }
+h2, .td-content h2 { font-size: 24px !important; }
+h3, .td-content h3 { font-size: 20px !important; }
+h4, .td-content h4 { font-size: 16px !important; }
+h5, .td-content h5 { font-size: 14px !important; }
+h6, .td-content h6 { font-size: 12px !important; }
+
+// Lead paragraph
+.td-content .lead {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+}
+
+// Reading time
+.reading-time {
+    font-size: 14px;
+    color: $text-secondary;
+
+    [data-bs-theme=dark] & {
+        color: $dark-text-secondary;
+    }
+}
+
+// Links
+a {
+    color: $link-primary !important;
+    text-decoration: none !important;
+    
+    &:hover {
+        color: $link-hover !important;
+        text-decoration: underline !important;
+    }
+
+    [data-bs-theme=dark] & {
+        color: $dark-link-primary !important;
+        
+        &:hover {
+            color: $dark-link-hover !important;
+        }
+    }
 }
 
 // hide "create child" and "create project issue" links
@@ -198,7 +270,40 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
 // Ensure hover state for nav links doesn't change color
 .td-navbar {
     color: $moon-white;
+    background-color: $nav-bg !important;
+
+    // Hide the doc site name from top-left
+    .navbar-brand__name { 
+        display: none; 
+    }
+
+    // Navigation links
+    .nav-link {
+        color: $moon-white !important;
+        font-weight: 400 !important;
+
+        &:hover {
+            color: $wandb-gold !important;
+            text-decoration: none !important;
+        }
+
+        &.active {
+            border-bottom: 2px solid $wandb-gold !important;
+            font-weight: 400 !important;
+        }
+    }
+
+    // Dark mode overrides
+    [data-bs-theme=dark] & {
+        // Add any specific dark mode styles if needed
+    }
 }
+
+// Ensure navbar stays consistent when scrolling
+.js-navbar-scroll {
+    background-color: $nav-bg !important;
+}
+
 a.nav-link:hover {
     color: $wandb-gold !important;
 }
@@ -232,7 +337,7 @@ h6, .td-content h6 {
     font-size: 12px !important;
 }
 .td-sidebar-nav-active-item {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 #m-guideshostingiamorg_team_struct-li
@@ -242,6 +347,7 @@ h6, .td-content h6 {
   a {
     color: $text-secondary !important;
     font-weight: 400;
+    text-decoration: none !important;
     &:hover {
       color: $link-primary !important;
       text-decoration: none !important;
@@ -289,351 +395,256 @@ ol.breadcrumb:before {
     font-weight: 400 !important;
 }
 
-#TableOfContents:before { 
-    content: "On this page"; 
-    font-weight: bold; 
-}
+// Table of Contents Component
 #TableOfContents { 
     margin-top: 15px;
     font-size: 16px !important;
     padding-left: 10px !important;
 
-    // Update list styles
-    ul { 
-        padding-top: 10px !important;
-        li {
-          padding-bottom: 10px;
-          line-height: 22px;
+    // Add "On this page" header
+    &:before { 
+        content: "On this page"; 
+        font-weight: bold; 
+        color: $text-primary;
+
+        [data-bs-theme=dark] & {
+            color: $dark-text-primary;
         }
     }
 
-    // Style links consistently with page meta
+    // List styles
+    ul { 
+        padding-top: 10px !important;
+        li {
+            padding-bottom: 10px;
+            line-height: 22px;
+        }
+    }
+
+    // Link styles
     a {
         display: block;
+        color: $text-secondary !important;
+        
+        &:hover {
+            color: $link-primary !important;
+            text-decoration: none !important;
+        }
+
+        [data-bs-theme=dark] & {
+            color: $dark-text-secondary !important;
+            
+            &:hover {
+                color: $dark-link-primary !important;
+            }
+        }
+    }
+
+    // Dark mode
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary;
     }
 }
 
-// algolia
-.DocSearch-Footer { display: none !important; }
-
-.cta-container {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 16px;
-}
-
-.cta-button {
-    display: inline-flex; 
-    align-items: center; 
+// Buttons Component
+// Base button styles
+.button-base {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    color: $moon-800 !important;
-    gap: 8px; 
-    padding: 0 12px; 
     font-size: 16px;
     line-height: 20px;
     font-weight: 600;
-    font-display: none;
-    text-decoration: none;
-    border-radius: 4px;
-    background-color: $moon-100;
-    transition: background-color 0.3s, color 0.3s;
-    text-align: center; 
+    padding: 0 12px;
     min-height: 40px;
-
-}
-
-.cta-button:hover {
-    background-color: $hover-bg;
+    border-radius: $border-radius-medium;
+    transition: background-color 0.3s, color 0.3s;
     text-decoration: none !important;
-}
-
-.cta-button-icon {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-}
-
-.wb-icon {
-    background-image: url('/path-to-icons/wb-logo.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 35px; 
-}
-
-pre {
-    font-size: 14px !important;
-}
-
-.filename-preview {
-    text-align: right !important;
-    padding-right: 3px !important;
-}
-
-.banner {
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    padding: 45px !important;
-    position: relative;
-    width: 100%;
-    background-size: cover;
-    min-height: 200px;
-    margin-bottom: 30px;
-    border-radius: 7px;
-    color: white;
-    h1,h2,p, div {
-        filter: drop-shadow(5px 5px 5px #000000);
-    }
+    border: none;
     
+    &:hover {
+        text-decoration: none !important;
+    }
 }
 
-.help-banner {
-    display: flex;
-    padding: 56px 40px 72px 40px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 32px;
-    align-self: stretch;
-    border-radius: 12px;
-    background: var(--Moon-Moon-900, #1A1D24);
-    background-image: url('/images/support/support_banner.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-shadow: none;  
-  }
-  
-  .help-banner h2,
-  .help-banner p {
-    font-family: "Source Sans Pro";
-    font-style: normal;
-    line-height: 140%;
-  }
-  
-  .help-banner h2 {
-    color: var(--Moon-Moon-50, #FAFAFA);
-    font-size: 40px;
-    font-weight: 600;
-  }
-  
-  .help-banner p {
-    color: var(--Moon-Moon-250, #DADEE3); 
-    font-size: 20px;
-    font-weight: 400;
-  }
-  
-  .help-banner.card:hover {
-    box-shadow: none;
-    transform: none;
-  }
-  
-  
-  /* Container for the card rows */
-  .card-container {
-    display: flex;
-    justify-content: space-between; /* Add space between cards */
-    gap: 8px; /* Add some space between the cards */
-    margin-bottom: 16px; /* Space between rows */
-  }
-  
-  
-  .card {
-    box-shadow: none; /* Adjust as needed */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .card:hover {
-    box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.2);
-    transform: translateY(-5px);
-  }
-  
-  .card-icon-left,
-  .card-icon-right {
-    width: 24px;
-    height: 24px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  
-  .card-icon-left {
-    /* This icon will be part of the normal flow, above the header */
-    margin-bottom: 8px; /* Increased space between icon and header */  
-  }
-  
-  .card-icon-right {
-    position: absolute;
-    top: 40px; /* Aligns with the top padding of the card */
-    right: 40px; /* Aligns with the right padding of the card */
-  }
-  
-  .card-title {
-    color: var(--Grayscale-gray-900, #181B1F);
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 32px; /* 133.333% */
-    margin: 0;
-  }
-  
-  .card-content {
-    color: var(--Moon-Moon-800, #2B3038);
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 24px; /* 150% */
-    margin: 0;
-  }
-  
-  
-  .card-pink,
-  .card-yellow,
-  .card-gray,
-  .card-blue {
-    border-radius: 6px;
-  }
-  
-  .card-pink {
-    background: var(--color-sienna-300, #FFCFB2);
-    background-repeat: no-repeat;
-  }
-  
-  .card-yellow {
-    background: var(--Gold-gold-light2, #FFD95C);
-  }
-  
-  
-  .card-gray {
-    background: var(--Moon-Moon-150, #EDEFF2);
-  }
-  
-  .card-blue { 
-    background: var(--color-teal-550, #0097AB);
-    color: var(--color-moon-white, #FFF);
-  }
-  
-  .card-blue h2, 
-  .card-blue p {
-    color: var(--color-moon-white, #FFF);
-  }
-  
-  .card-support-index {
-    background-color: rgb(235, 237, 240);
-    padding: 16px 16px 0px 16px;
-    margin-bottom: 16px;
-    min-height: 0px;
-    color: #000
-  }
-  
-  .card-support-index:hover {
-    color: #000
-  }
-  
-  .card-banner {
+// CTA Button
+.cta-button {
+    @extend .button-base;
+    color: $moon-800 !important;
+    background-color: $moon-100;
+    gap: 8px;
+
+    &:hover {
+        background-color: $hover-bg;
+    }
+
+    // Icon styles
+    &-icon {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+    }
+
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary !important;
+        background-color: $dark-bg-secondary;
+
+        &:hover {
+            background-color: $dark-bg-tertiary;
+        }
+    }
+}
+
+// Contact Us Button
+.contact-us-button {
+    @extend .button-base;
+    background-color: $teal-500;
+    color: $moon-white !important;
+    gap: 8px;
+
+    &:hover {
+        background-color: $teal-450;
+    }
+
+    img {
+        width: 112px;
+        height: 24px;
+    }
+
+    p {
+        margin: 0;
+        color: $moon-white;
+    }
+
+    [data-bs-theme=dark] & {
+        background-color: $teal-450;
+
+        &:hover {
+            background-color: $teal-400;
+        }
+    }
+}
+
+// Banners Component
+// Base banner styles
+.banner-base {
     display: flex;
     padding: 32px 40px;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 24px;
-    align-self: stretch;
-    border-radius: 12px;
-    background: var(--Moon-Moon-50, #FAFAFA);
-    color: var(--Moon-Moon-800, #2B3038);  
-  }
-  
-  .card-banner h2,
-  .card-banner p {
-    font-family: "Source Sans Pro";
-    font-style: normal;
-    line-height: 140%;
-    margin: 0px;
-  }
-  
-  .card-banner h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #181B1F;
-  }
-  
-  .card-banner p {
-    color: var(--Moon-Moon-800, #2B3038);
-    font-size: 16px;
-    font-weight: 400;
-  }
-  
-  .card-banner-gray {
-    border-radius: 12px;
-    background: var(--Moon-Moon-50, #FAFAFA);
-  }
-  
-  .card-banner.card-banner-gray:hover {
-    box-shadow: none;
-    transform: none;
-    color: var(--Moon-Moon-800, #181B1F);  
-  }
-  
-  .card-banner-icon {
-    display: flex;
-    width: 64px;
-    height: 64px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100px;
-    background: var(--Backgrounds-Teal-tag-background, rgba(169, 237, 242, 0.48));
-  }
-  
-  .card-banner-icon img {
-    width: 32px; /* Make the SVG smaller than the container */
-    height: 32px;
-  }
-  
-  
-  .contact-us-button {
-    display: flex;
-    padding: var(--Spacing-spacing-sm, 8px) var(--Spacing-spacing-sm-md, 12px);
-    justify-content: center;
-    align-items: center;
-    gap: var(--Spacing-spacing-sm, 8px);
-    border-radius: var(--Radius-radius-sm, 4px);
-    background: var(--buttons-primary-button-rest, #13A9BA); /* Teal background */
-    color: white;
-    font-family: "Source Sans Pro";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 24px; /* 150% */
-  }
-  
-  .contact-us-button:hover {
-    background: var(--color-teal-450, #00B8D4); /* Lighter teal on hover */
-  }
-  
-  .contact-us-button img {
-    width: 112px;
-    height: 24px;
-  }
-  
-  .contact-us-button p {
-    margin: 0;
-    color: white;
-  }
-  
-  .faq-container {
-    max-width: 768px;
-    margin: 0 auto;
-  }
+    border-radius: $border-radius-large;
+    margin-bottom: 30px;
 
-.reading-time {
-    font-size: 14px;
-    color: $text-secondary;
+    h1, h2, p, div {
+        filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    }
+}
+
+// Standard Banner
+.banner {
+    @extend .banner-base;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 200px;
+    color: $moon-white;
+    overflow: hidden;
+}
+
+// Help Banner
+.help-banner {
+    @extend .banner-base;
+    padding: 56px 40px 72px 40px;
+    background: $moon-900;
+    background-image: url('/images/support/support_banner.png');
+    background-size: cover;
+    background-position: center;
+    box-shadow: none;
+
+    &.card:hover {
+        box-shadow: none;
+        transform: none;
+    }
+
+    h2 {
+        color: $moon-50;
+        font-size: 40px;
+        font-weight: 600;
+        font-family: "Source Sans Pro";
+        line-height: 140%;
+    }
+
+    p {
+        color: $moon-250;
+        font-size: 20px;
+        font-weight: 400;
+        font-family: "Source Sans Pro";
+        line-height: 140%;
+    }
+}
+
+// Card Banner
+.card-banner {
+    @extend .banner-base;
+    align-items: center;
+    background: $moon-50;
+    color: $moon-800;
+
+    h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: $moon-900;
+        margin: 0;
+    }
+
+    p {
+        font-size: 16px;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    &.card-banner-gray {
+        &:hover {
+            box-shadow: none;
+            transform: none;
+        }
+    }
+
+    // Icon container
+    &-icon {
+        display: flex;
+        width: 64px;
+        height: 64px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        background: rgba($teal-300, 0.48);
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    [data-bs-theme=dark] & {
+        background: $dark-bg-secondary;
+        color: $dark-text-primary;
+
+        h2 {
+            color: $dark-text-primary;
+        }
+
+        p {
+            color: $dark-text-secondary;
+        }
+    }
 }
 
 // Add border radius to all images, code blocks and alerts
 img, pre, .highlight, .code-toolbar, .alert {
-  border-radius: 8px !important;
+  border-radius: $border-radius-medium !important;
 }
 
 // Style images and iframes consistently
@@ -690,87 +701,35 @@ img, iframe {
         color: $dark-text-primary !important;
         border-top: 1px solid $moon-750 !important;
     }
-}
 
-// Add styles for feedback buttons
-.feedback--answer {
-    display: inline-flex !important; 
-    align-items: center !important; 
-    justify-content: center !important;
-    color: $moon-800 !important;
-    gap: 8px !important; 
-    padding: 0 12px !important; 
-    font-size: 16px !important;
-    line-height: 20px !important;
-    font-weight: 600 !important;
-    font-display: none !important;
-    text-decoration: none !important;
-    border-radius: 4px !important;
-    background-color: $moon-100 !important;
-    background-image: none !important;
-    transition: background-color 0.3s, color 0.3s !important;
-    text-align: center !important; 
-    min-height: 40px !important;
-    border: none !important;
-    margin-right: 8px !important;
-    box-shadow: none !important;
-
-    &:hover {
-        background-color: $hover-bg !important;
-        text-decoration: none !important;
-        border: none !important;
-        box-shadow: none !important;
-    }
-}
-
-// Remove the mb-4 class from the buttons in the HTML or override it here
-.feedback--answer.mb-4 {
-    margin-bottom: 0 !important;
-}
-
-// Dark mode support
-[data-bs-theme=dark] {
-    .feedback--answer {
-        color: $dark-text-primary !important;
-        background-color: $dark-bg-primary !important;
-        background-image: none !important;
+    // Update border colors for dark mode
+    .border,
+    .border-top,
+    .border-right,
+    .border-bottom,
+    .border-left {
+        border-color: $dark-border-default !important;
         
         &:hover {
-            background-color: $dark-bg-secondary !important;
-            border: none !important;
-            box-shadow: none !important;
+            border-color: $dark-border-hover !important;
         }
     }
 }
 
-.d-print-none {
-    margin-top: 4rem;
-
-    .feedback--title {
-        display: none; // Hide the feedback title
-    }
-
-    .feedback--question {
-        display: inline-block; // Make question inline
-        margin-right: 1rem; // Add spacing between question and buttons
-        margin-bottom: 0; // Remove bottom margin to align with buttons
-    }
-
-    .feedback--answer {
-        display: inline-block !important; // Force inline display
-        margin-bottom: 0 !important; // Remove bottom margin
-    }
-
-    .feedback--response {
-        margin-top: 1rem; // Add some space above responses
+// For light mode (default) borders
+.border,
+.border-top,
+.border-right,
+.border-bottom,
+.border-left {
+    border-color: $border-default !important;
+    
+    &:hover {
+        border-color: $border-hover !important;
     }
 }
 
-.td-page-meta__lastmod {
-    margin-top: 1rem !important;
-}
-
-// Update footer styles to match page background and text color
+// Footer Component
 .td-footer {
     background-color: transparent !important;
     color: $text-primary !important;
@@ -779,13 +738,22 @@ img, iframe {
     min-height: auto !important;
     margin: 0 !important;
     
-    [data-bs-theme=dark] & {
-        background-color: transparent !important;
-        color: $dark-text-primary !important;
-        border-top: 1px solid $moon-750 !important;
+    // Container styles
+    .container-fluid {
+        padding: 0 2rem !important;
     }
 
-    // Ensure links and icons inherit the text color
+    // Row alignment
+    .row {
+        align-items: center !important;
+    }
+
+    // Footer links
+    &__links-item {
+        margin-bottom: 0 !important;
+    }
+
+    // Links and icons
     a, i {
         color: inherit !important;
         transition: color 0.3s !important;
@@ -795,85 +763,178 @@ img, iframe {
         }
     }
 
-    [data-bs-theme=dark] a:hover,
-    [data-bs-theme=dark] i:hover {
-        color: $wandb-gold !important;
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        background-color: transparent !important;
+        color: $dark-text-primary !important;
+        border-top: 1px solid $moon-750 !important;
+
+        a:hover,
+        i:hover {
+            color: $wandb-gold !important;
+        }
+    }
+}
+
+// Feedback Component
+.d-print-none {
+    margin-top: 4rem;
+
+    // Hide feedback title
+    .feedback--title {
+        display: none;
     }
 
-    // Remove default container padding
-    .container-fluid {
-        padding: 0 2rem !important;
+    // Question styling
+    .feedback--question {
+        display: inline-block;
+        margin-right: 1rem;
+        margin-bottom: 0;
     }
 
-    // Center align all content vertically in the footer
-    .row {
-        align-items: center !important;
+    // Response styling
+    .feedback--response {
+        margin-top: 1rem;
+    }
+}
+
+// Feedback buttons
+.feedback--answer {
+    @extend .button-base;
+    color: $moon-800 !important;
+    background-color: $moon-100 !important;
+    background-image: none !important;
+    margin-right: 8px !important;
+    box-shadow: none !important;
+    display: inline-block !important;
+    margin-bottom: 0 !important;
+
+    &:hover {
+        background-color: $hover-bg !important;
+        text-decoration: none !important;
+        border: none !important;
+        box-shadow: none !important;
     }
 
-    // Remove bottom margin from footer links
-    .td-footer__links-item {
+    // Remove unwanted margin
+    &.mb-4 {
         margin-bottom: 0 !important;
     }
-}
 
-// Add padding to main content area
-main[role="main"] {
-    padding-bottom: 1rem !important;
-    padding-left: 3rem !important;
-}
-
-// Add border radius to tab content and panes
-.tab-content {
-  .tab-pane {
-    border: 1px solid $moon-200;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
-    overflow: hidden;
-    
-    pre, .highlight, .code-toolbar {
-      margin-bottom: 1rem;
-    }
-  }
-}
-
-// Dark mode support for tab panes
-[data-bs-theme=dark] .tab-content .tab-pane {
-  border-color: $moon-700;
-}
-
-// Add border radius to standalone elements
-img, pre, .highlight, .code-toolbar:not(.tab-body *), .alert {
-  border-radius: 8px;
-}
-
-// Style tabs
-.nav-tabs {
-  border: none !important;
-  
-  .nav-item {
-    margin-bottom: 0 !important;
-  }
-}
-
-// Update DocSearch button styles to use teal colors
-.DocSearch-Button {
-    &:active,
-    &:focus,
-    &:hover {
-        background: var(--docsearch-searchbox-focus-background);
-        box-shadow: inset 0 0 0 2px $teal-500 !important; // Use teal border instead of default primary color
-        color: var(--docsearch-text-color);
-        outline: none;
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary !important;
+        background-color: $dark-bg-primary !important;
+        
+        &:hover {
+            background-color: $dark-bg-secondary !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
     }
 }
 
-// Update DocSearch button and modal styles
+// Last modified date
+.td-page-meta__lastmod {
+    margin-top: 1rem !important;
+}
+
+// Update the sidebar navigation styles
+.td-sidebar-nav {
+    font-family: "Source Sans Pro", sans-serif;
+    padding-left: 15px !important;
+
+    // Base link styles
+    a {
+        color: $text-secondary !important;
+        font-weight: 400;
+        text-decoration: none !important;
+
+        &:hover {
+            color: $link-primary !important;
+            text-decoration: none !important;
+        }
+    }
+
+    // Active item styles
+    .td-sidebar-nav-active-item {
+        color: $link-primary !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+
+        &:hover {
+            text-decoration: none !important;
+        }
+    }
+
+    // Section title styles
+    &__section-title {
+        display: block;
+        font-weight: 400 !important;
+        line-height: 19px;
+        margin-bottom: 10px !important;
+        margin-top: 5px !important;
+
+        .active {
+            font-weight: 400 !important;
+        }
+        
+        a {
+            color: var(--bs-secondary-color);
+            font-weight: 400 !important;
+        }
+    }
+
+    // Dark mode overrides
+    [data-bs-theme=dark] & {
+        a {
+            color: $dark-text-secondary !important;
+            
+            &:hover {
+                color: $dark-link-primary !important;
+            }
+        }
+
+        .td-sidebar-nav-active-item {
+            color: $dark-link-primary !important;
+        }
+    }
+}
+
+// DocSearch Component
+.DocSearch {
+    // Button styles
+    &-Button {
+        font-family: "Source Sans Pro", sans-serif;
+        font-size: 16px;
+        
+        &:active,
+        &:focus,
+        &:hover {
+            background: var(--docsearch-searchbox-focus-background);
+            box-shadow: inset 0 0 0 2px $teal-500 !important;
+            color: var(--docsearch-text-color);
+            outline: none;
+        }
+    }
+
+    // Modal styles
+    &-Modal {
+        border-radius: $border-radius-large !important;
+    }
+
+    // Hide footer
+    &-Footer {
+        display: none !important;
+    }
+}
+
+// DocSearch Container with CSS Variables
 .DocSearch-Container {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
 
-    // Override DocSearch CSS variables at the container level
+    // Light mode variables
     --docsearch-primary-color: #{$teal-500} !important;
     --docsearch-highlight-color: #{$teal-500} !important;
     --docsearch-text-color: #{$moon-800} !important;
@@ -891,55 +952,38 @@ img, pre, .highlight, .code-toolbar:not(.tab-body *), .alert {
     --docsearch-key-shadow: inset 0 -2px 0 0 #{$moon-300} !important;
     --docsearch-searchbox-shadow: inset 0 0 0 2px #{$teal-500} !important;
 
-
-    // Style the search form
+    // Search form styles
     .DocSearch-Form {
-        border-radius: 8px;
+        border-radius: $border-radius-medium;
     }
 
-    // Style search results
+    // Search results styles
     .DocSearch-Hit {
-        border-radius: 8px;
+        border-radius: $border-radius-medium;
         
         a {
-            border-radius: 8px;
+            border-radius: $border-radius-medium;
         }
     }
-}
 
-[data-bs-theme=dark] .DocSearch-Container {
-    // Override DocSearch CSS variables for dark mode
-    --docsearch-primary-color: #{$teal-400} !important;
-    --docsearch-highlight-color: #{$teal-400} !important;
-    --docsearch-text-color: #{$moon-200} !important;
-    --docsearch-muted-color: #{$moon-400} !important;
-    --docsearch-container-background: rgba(21, 23, 31, 0.8) !important;
-    --docsearch-modal-background: #{$moon-800} !important;
-    --docsearch-searchbox-background: #{$moon-900} !important;
-    --docsearch-searchbox-focus-background: #{$moon-900} !important;
-    --docsearch-hit-color: #{$moon-200} !important;
-    --docsearch-hit-background: #{$moon-800} !important;
-    --docsearch-hit-active-background: #{$teal-400} !important;
-    --docsearch-footer-background: #{$moon-800} !important;
-    --docsearch-logo-color: #{$teal-400} !important;
-    --docsearch-key-gradient: linear-gradient(-26.5deg, #{$moon-800}, #{$moon-750}) !important;
-    --docsearch-key-shadow: inset 0 -2px 0 0 #{$moon-700} !important;
-    --docsearch-searchbox-shadow: inset 0 0 0 2px #{$teal-400} !important;
-
-    // Rest of dark mode styles...
-}
-
-.DocSearch-Button {
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 16px;
-    
-    &:active,
-    &:focus,
-    &:hover {
-        background: var(--docsearch-searchbox-focus-background);
-        box-shadow: inset 0 0 0 2px $teal-500 !important;
-        color: var(--docsearch-text-color);
-        outline: none;
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        --docsearch-primary-color: #{$teal-400} !important;
+        --docsearch-highlight-color: #{$teal-400} !important;
+        --docsearch-text-color: #{$moon-200} !important;
+        --docsearch-muted-color: #{$moon-400} !important;
+        --docsearch-container-background: rgba(21, 23, 31, 0.8) !important;
+        --docsearch-modal-background: #{$moon-800} !important;
+        --docsearch-searchbox-background: #{$moon-900} !important;
+        --docsearch-searchbox-focus-background: #{$moon-900} !important;
+        --docsearch-hit-color: #{$moon-200} !important;
+        --docsearch-hit-background: #{$moon-800} !important;
+        --docsearch-hit-active-background: #{$teal-400} !important;
+        --docsearch-footer-background: #{$moon-800} !important;
+        --docsearch-logo-color: #{$teal-400} !important;
+        --docsearch-key-gradient: linear-gradient(-26.5deg, #{$moon-800}, #{$moon-750}) !important;
+        --docsearch-key-shadow: inset 0 -2px 0 0 #{$moon-700} !important;
+        --docsearch-searchbox-shadow: inset 0 0 0 2px #{$teal-400} !important;
     }
 }
 
