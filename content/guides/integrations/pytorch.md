@@ -18,7 +18,7 @@ You can also see our [example repo](https://github.com/wandb/examples) for scrip
 
 ## Log gradients with `wandb.watch`
 
-To automatically log gradients, you can call [`wandb.watch`](../../ref/python/watch.md) and pass in your PyTorch model.
+To automatically log gradients, you can call [`wandb.watch`](../../ref/python/watch/) and pass in your PyTorch model.
 
 ```python
 import wandb
@@ -40,7 +40,7 @@ for batch_idx, (data, target) in enumerate(train_loader):
         wandb.log({"loss": loss})
 ```
 
-If you need to track multiple models in the same script, you can call `wandb.watch` on each model separately. Reference documentation for this function is [here](../../ref/python/watch.md).
+If you need to track multiple models in the same script, you can call `wandb.watch` on each model separately. Reference documentation for this function is [here](../../ref/python/watch/).
 
 {{% alert color="secondary" %}}
 Gradients, metrics, and the graph won't be logged until `wandb.log` is called after a forward _and_ backward pass.
@@ -48,14 +48,14 @@ Gradients, metrics, and the graph won't be logged until `wandb.log` is called af
 
 ## Log images and media
 
-You can pass PyTorch `Tensors` with image data into [`wandb.Image`](../../ref/python/data-types/image.md) and utilities from [`torchvision`](https://pytorch.org/vision/stable/index.html) will be used to convert them to images automatically:
+You can pass PyTorch `Tensors` with image data into [`wandb.Image`](../../ref/python/data-types/image/) and utilities from [`torchvision`](https://pytorch.org/vision/stable/index.html) will be used to convert them to images automatically:
 
 ```python
 images_t = ...  # generate or load images as PyTorch Tensors
 wandb.log({"examples": [wandb.Image(im) for im in images_t]})
 ```
 
-For more on logging rich media to W&B in PyTorch and other frameworks, check out our [media logging guide](../track/log/media.md).
+For more on logging rich media to W&B in PyTorch and other frameworks, check out our [media logging guide](../track/log/media/).
 
 If you also want to include information alongside media, like your model's predictions or derived metrics, use a `wandb.Table`.
 
@@ -72,7 +72,7 @@ wandb.log({"mnist_predictions": my_table})
 
 {{< img src="/images/integrations/pytorch_example_table.png" alt="The code above generates a table like this one. This model's looking good!" >}}
 
-For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../tables/intro.md).
+For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../tables/intro/).
 
 ## Profile PyTorch code
 

@@ -258,7 +258,7 @@ See our [example repo](https://github.com/wandb/examples) for scripts, including
 
 The `WandbCallback` class supports a wide variety of logging configuration options: specifying a metric to monitor, tracking of weights and gradients, logging of predictions on training_data and validation_data, and more.
 
-Check out [the reference documentation for the `keras.WandbCallback`](../../ref/python/integrations/keras/wandbcallback.md) for full details.
+Check out [the reference documentation for the `keras.WandbCallback`](../../ref/python/integrations/keras/wandbcallback/) for full details.
 
 The `WandbCallback` 
 
