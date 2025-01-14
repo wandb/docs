@@ -112,7 +112,7 @@ Direct colleagues to a specific panel in your project. The link redirects users 
 
 The settings of the project determine who can view the panel. This means that if the project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
 
-If you have multiple panels with the same name, W&B directs users to the first panel with that name.
+If multiple panels have the same name, W&B shares the first panel with the name.
 
 ## Manage sections
 
