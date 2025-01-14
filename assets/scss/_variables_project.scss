@@ -88,11 +88,19 @@ $hover-bg: #A9EDF248;
 $sunset-gradient: linear-gradient(98deg, #e180ff 0%, #ffcf4d 100%);
 $wandb-gradient: linear-gradient(180deg, #ffcc33 39%, #ffad33 72%);
 
+// Font weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
 // Typography Component
 // Base body styles
 body {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
+    font-weight: $font-weight-regular;
     color: $text-primary;
     background-color: $bg-primary;
 
@@ -104,7 +112,7 @@ body {
 
 // Headings
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
     font-family: "Source Serif 4", sans-serif;
     color: $text-primary;
 
@@ -177,7 +185,7 @@ a {
 // Target links in the navigation and make them white with consistent font-weight
 .td-navbar .nav-link {
     color: $moon-white !important;
-    font-weight: 400 !important;  // Ensure consistent font-weight in main nav
+    font-weight: $font-weight-regular !important;  // Ensure consistent font-weight in main nav
 
     &:hover {
         color: $wandb-gold !important;
@@ -192,7 +200,7 @@ a {
 // Ensure active nav link maintains same weight
 .nav-link.active {
     border-bottom: 2px solid $wandb-gold !important;
-    font-weight: 400 !important;  // Keep consistent with other nav links
+    font-weight: $font-weight-regular !important;  // Keep consistent with other nav links
 }
 
 nav.foldable-nav .with-child, nav.foldable-nav .without-child {
@@ -257,7 +265,7 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
     // Navigation links
     .nav-link {
         color: $moon-white !important;
-        font-weight: 400 !important;
+        font-weight: $font-weight-regular !important;
 
         &:hover {
             color: $wandb-gold !important;
@@ -266,7 +274,7 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
 
         &.active {
             border-bottom: 2px solid $wandb-gold !important;
-            font-weight: 400 !important;
+            font-weight: $font-weight-regular !important;
         }
     }
 
@@ -283,7 +291,7 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
 
 // headings use WandB serif font
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
     font-family: "Source Serif 4", sans-serif;
     color: $text-primary;
 }
@@ -315,7 +323,7 @@ h6, .td-content h6 {
   font-family: "Source Sans Pro", sans-serif;
   a {
     color: $text-secondary !important;
-    font-weight: 400;
+    font-weight: $font-weight-regular;
     text-decoration: none !important;
     &:hover {
       color: $link-primary !important;
@@ -325,7 +333,7 @@ h6, .td-content h6 {
     .td-sidebar-nav-active-item {
       color: $link-primary !important;
       text-decoration: none !important;
-      font-weight: 500 !important;
+      font-weight: $font-weight-medium !important;
     }
   }
 }
@@ -347,15 +355,15 @@ ol.breadcrumb:before {
 
 .td-sidebar-nav__section-title {
     display: block;
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
     line-height: 19px;
     .active {
-        font-weight: 400 !important;
+        font-weight: $font-weight-regular !important;
     }
     
     a {
         color: var(--bs-secondary-color);
-        font-weight: 400 !important;
+        font-weight: $font-weight-regular !important;
     }
 }
 
@@ -423,7 +431,7 @@ ol.breadcrumb:before {
     justify-content: center;
     font-size: 16px;
     line-height: 20px;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     padding: 0 12px;
     min-height: 40px;
     border-radius: $border-radius-medium;
@@ -540,7 +548,7 @@ ol.breadcrumb:before {
     h2 {
         color: $moon-50;
         font-size: 40px;
-        font-weight: 600;
+        font-weight: $font-weight-semibold;
         font-family: "Source Sans Pro";
         line-height: 140%;
     }
@@ -548,7 +556,7 @@ ol.breadcrumb:before {
     p {
         color: $moon-250;
         font-size: 20px;
-        font-weight: 400;
+        font-weight: $font-weight-regular;
         font-family: "Source Sans Pro";
         line-height: 140%;
     }
@@ -563,14 +571,14 @@ ol.breadcrumb:before {
 
     h2 {
         font-size: 24px;
-        font-weight: 600;
+        font-weight: $font-weight-semibold;
         color: $moon-900;
         margin: 0;
     }
 
     p {
         font-size: 16px;
-        font-weight: 400;
+        font-weight: $font-weight-regular;
         margin: 0;
     }
 
@@ -816,7 +824,7 @@ img, iframe {
     // Base link styles
     a {
         color: $text-secondary !important;
-        font-weight: 400;
+        font-weight: $font-weight-regular;
         text-decoration: none !important;
 
         &:hover {
@@ -828,7 +836,7 @@ img, iframe {
     // Active item styles
     .td-sidebar-nav-active-item {
         color: $link-primary !important;
-        font-weight: 500 !important;
+        font-weight: $font-weight-medium !important;
         text-decoration: none !important;
 
         &:hover {
@@ -839,18 +847,18 @@ img, iframe {
     // Section title styles
     &__section-title {
         display: block;
-        font-weight: 400 !important;
+        font-weight: $font-weight-regular !important;
         line-height: 19px;
         margin-bottom: 10px !important;
         margin-top: 5px !important;
 
         .active {
-            font-weight: 400 !important;
+            font-weight: $font-weight-regular !important;
         }
         
         a {
             color: var(--bs-secondary-color);
-            font-weight: 400 !important;
+            font-weight: $font-weight-regular !important;
         }
     }
 
