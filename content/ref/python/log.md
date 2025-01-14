@@ -18,7 +18,7 @@ log(
 Use `log` to log data from runs, such as scalars, images, video,
 histograms, plots, and tables.
 
-See our [guides to logging](https://docs.wandb.ai/guides/track/log) for
+See our [guides to logging](/guides/track/log) for
 live examples, code snippets, best practices, and more.
 
 The most basic usage is `run.log({"train-loss": 0.5, "accuracy": 0.9})`.
@@ -26,18 +26,18 @@ This will save the loss and accuracy to the run's history and update
 the summary values for these metrics.
 
 Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
-or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+or locally on a [self-hosted instance](/guides/hosting)
+of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with [our API](/guides/track/public-api-guide).
 
 Logged values don't have to be scalars. Logging any wandb object is supported.
 For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an
 example image which will be displayed nicely in the W&B UI.
 See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
 for all of the different supported types or check out our
-[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
+[guides to logging](/guides/track/log) for examples,
 from 3D molecular structures and segmentation masks to PR curves and histograms.
 You can use `wandb.Table` to log structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/tables/tables-walkthrough)
+[guide to logging tables](/guides/tables/tables-walkthrough)
 for details.
 
 The W&B UI organizes metrics with a forward slash (`/`) in their name
@@ -77,7 +77,7 @@ you'd treat a timestamp rather than a training step.
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-See also [define_metric](https://docs.wandb.ai/ref/python/run#define_metric).
+See also [define_metric](/ref/python/run#define_metric).
 
 It is possible to use multiple `log` invocations to log to
 the same step with the `step` and `commit` parameters.

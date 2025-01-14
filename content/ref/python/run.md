@@ -66,13 +66,13 @@ assert wandb.run is None
 ```
 
 See the documentation for `wandb.init` for more on creating runs, or check out
-[our guide to `wandb.init`](https://docs.wandb.ai/guides/track/launch).
+[our guide to `wandb.init`](/guides/track/launch).
 
 In distributed training, you can either create a single run in the rank 0 process
 and then log information only from that process, or you can create a run in each process,
 logging from each separately, and group the results together with the `group` argument
 to `wandb.init`. For more details on distributed training with W&B, check out
-[our guide](https://docs.wandb.ai/guides/track/log/distributed-training).
+[our guide](/guides/track/log/distributed-training).
 
 Currently, there is a parallel `Run` object in the `wandb.Api`. Eventually these
 two objects will be merged.
@@ -396,7 +396,7 @@ Upload run data.
 Use `log` to log data from runs, such as scalars, images, video,
 histograms, plots, and tables.
 
-See our [guides to logging](https://docs.wandb.ai/guides/track/log) for
+See our [guides to logging](/guides/track/log) for
 live examples, code snippets, best practices, and more.
 
 The most basic usage is `run.log({"train-loss": 0.5, "accuracy": 0.9})`.
@@ -404,18 +404,18 @@ This will save the loss and accuracy to the run's history and update
 the summary values for these metrics.
 
 Visualize logged data in the workspace at [wandb.ai](https://wandb.ai)
-or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app. Use our [API](https://docs.wandb.ai/guides/track/public-api-guide) to export data to visualize and explore locally
+or locally on a [self-hosted instance](/guides/hosting)
+of the W&B app. Use our [API](/guides/track/public-api-guide) to export data to visualize and explore locally
 
 Logged values don't have to be scalars. Logging any wandb object is supported.
 For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an
 example image which will be displayed nicely in the W&B UI.
 See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
 for all of the different supported types or check out our
-[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
+[guides to logging](/guides/track/log) for examples,
 from 3D molecular structures and segmentation masks to PR curves and histograms.
 You can use `wandb.Table` to log structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/tables/tables-walkthrough)
+[guide to logging tables](/guides/tables/tables-walkthrough)
 for details.
 
 The W&B UI organizes metrics with a forward slash (`/`) in their name
@@ -455,7 +455,7 @@ you'd treat a timestamp rather than a training step.
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-See also [define_metric](https://docs.wandb.ai/ref/python/run#define_metric).
+See also [define_metric](/ref/python/run#define_metric).
 
 It is possible to use multiple `log` invocations to log to
 the same step with the `step` and `commit` parameters.

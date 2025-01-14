@@ -55,7 +55,7 @@ When you're done logging data, call `wandb.finish()` to end the run. If you
 don't call `wandb.finish()`, the run ends when your script exits.
 
 For more on using `wandb.init()`, including detailed examples, check out our
-[guide and FAQs](https://docs.wandb.ai/guides/track/launch).
+[guide and FAQs](/guides/track/launch).
 
 #### Examples:
 
@@ -120,7 +120,7 @@ call `wandb.finish()` at the end of the block.
 
 | Returns |  |
 | :--- | :--- |
-|  A `Run` object, which is a handle to the current run. Use this object to perform operations like logging data, saving files, and finishing the run. See the [Run API](https://docs.wandb.ai/ref/python/run) for more details. |
+|  A `Run` object, which is a handle to the current run. Use this object to perform operations like logging data, saving files, and finishing the run. See the [Run API](/ref/python/run) for more details. |
 
 | Raises |  |
 | :--- | :--- |
