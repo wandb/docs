@@ -144,7 +144,7 @@ a {
     
     &:hover {
         color: $link-hover !important;
-        text-decoration: underline !important;
+        text-decoration: none !important;
     }
 
     [data-bs-theme=dark] & {
@@ -173,26 +173,6 @@ a {
 
 // hide left nav label 
 .tree-root { display: none !important;}
-
-// Add blue color for links and remove underline
-a {
-    color: $link-primary !important;
-    text-decoration: none !important;
-    &:hover {
-        color: $link-hover !important;
-    }
-}
-[data-bs-theme=dark] a {
-    color: $dark-link-primary !important;
-    text-decoration: none !important;
-    &:hover {
-        color: $dark-link-hover !important;
-    }
-}
-// Style for link hover state
-a:hover {
-    text-decoration: underline !important;
-}
 
 // Target links in the navigation and make them white with consistent font-weight
 .td-navbar .nav-link {
@@ -973,6 +953,27 @@ img, iframe {
         --docsearch-key-gradient: linear-gradient(-26.5deg, #{$moon-800}, #{$moon-750}) !important;
         --docsearch-key-shadow: inset 0 -2px 0 0 #{$moon-700} !important;
         --docsearch-searchbox-shadow: inset 0 0 0 2px #{$teal-400} !important;
+    }
+
+    .DocSearch-Hit-source {
+        color: $text-secondary !important;
+        font-size: 14px !important;
+    }
+
+    .DocSearch-Hit-title {
+        font-size: 1rem !important;
+    }
+
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        .DocSearch-Hit-source {
+            color: $dark-text-secondary !important;
+            font-size: 14px !important;
+        }
+
+        .DocSearch-Hit-title {
+            font-size: 1rem !important;
+        }
     }
 }
 
