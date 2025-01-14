@@ -162,7 +162,7 @@ The Launch agent needs permission to create Amazon SageMaker training jobs. Foll
 For more information on how to create IAM role, see the [AWS Identity and Access Management Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html).
 
 {{% alert %}}
-* If you want the launch agent to build images, see the [Advanced agent set up](./setup-agent-advanced.md) for additional permissions required.
+* If you want the launch agent to build images, see the [Advanced agent set up](./setup-agent-advanced/) for additional permissions required.
 * The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.
 {{% /alert %}}
 

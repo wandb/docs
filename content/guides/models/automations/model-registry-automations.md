@@ -26,7 +26,7 @@ An *event* is a change that takes place in the W&B ecosystem. The Model Registry
 - Use **Linking a new artifact to a registered model** to test new model candidates.
 - Use **Adding a new alias to a version of the registered model** to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
 
-See [Link a model version](./link-model-version.md) and [Create a custom alias](../artifacts/create-a-custom-alias.md).
+See [Link a model version](./link-model-version/) and [Create a custom alias](../artifacts/create-a-custom-alias/).
 
 
 ## Create a webhook automation 
@@ -44,7 +44,7 @@ To use a secret in your webhook, you must first add that secret to your team's s
 {{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
-* Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
+* Secrets are also available if you use [W&B Server](../hosting/intro/) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
 {{% /alert %}}
 
 There are two types of secrets W&B suggests that you create when you use a webhook automation:
@@ -179,7 +179,7 @@ Verify that your access tokens have required set of permissions to trigger your 
   ${entity_name} --> "<entity>"
   ```
 
-  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
+  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API](../artifacts/download-and-use-an-artifact/).
 
   For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 

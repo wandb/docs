@@ -20,7 +20,7 @@ Deployment time varies by model and machine type. The base Llama2-7b config take
 
 ## Quickstart
 
-1. [Create a launch queue](../launch/add-job-to-queue.md) if you don't have one already. See an example queue config below.
+1. [Create a launch queue](../launch/add-job-to-queue/) if you don't have one already. See an example queue config below.
 
    ```yaml
    net: host

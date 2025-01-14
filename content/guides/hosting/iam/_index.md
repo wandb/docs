@@ -16,11 +16,11 @@ W&B Platform has three IAM scopes within W&B: [Organizations](#organization), [T
 
 An *Organization* is the root scope in your W&B account or instance. All actions in your account or instance take place within the context of that root scope, including managing users, managing teams, managing projects within teams, tracking usage and more.
 
-If you are using [Multi-tenant Cloud](../hosting-options/saas_cloud.md), you may have more than one organization where each may correspond to a business unit, a personal user, a joint partnership with another business and more.
+If you are using [Multi-tenant Cloud](../hosting-options/saas_cloud/), you may have more than one organization where each may correspond to a business unit, a personal user, a joint partnership with another business and more.
 
-If you are using [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or a [Self-managed instance](../hosting-options/self-managed.md), it corresponds to one organization. Your company may have more than one of Dedicated Cloud or Self-managed instances to map to different business units or departments, though that is strictly an optional way to manage AI practioners across your businesses or departments.
+If you are using [Dedicated Cloud](../hosting-options/dedicated_cloud/) or a [Self-managed instance](../hosting-options/self-managed/), it corresponds to one organization. Your company may have more than one of Dedicated Cloud or Self-managed instances to map to different business units or departments, though that is strictly an optional way to manage AI practioners across your businesses or departments.
 
-For more information, see [Manage orrganizations](./manage-organization.md).
+For more information, see [Manage orrganizations](./manage-organization/).
 
 ## Team
 
@@ -35,4 +35,4 @@ For more information, see [Add and manage teams](./manage-organization.md#add-an
 A *Project* is a subscope within a team, that maps to an actual AI project with specific intended outcomes. You may have more than one project within a team. Each project has a visibility mode which determines who can access it.
 
 
-Every project is comprised of [Workspaces](../../track/workspaces.md) and [Reports](../../reports/intro.md), and is linked to relevant [Artifacts](../../artifacts/intro.md), [Sweeps](../../sweeps/intro.md), [Launch Jobs](../../launch/intro.md) and [Automations](../../artifacts/project-scoped-automations.md).
+Every project is comprised of [Workspaces](../../track/workspaces/) and [Reports](../../reports/intro/), and is linked to relevant [Artifacts](../../artifacts/intro/), [Sweeps](../../sweeps/intro/), [Launch Jobs](../../launch/intro/) and [Automations](../../artifacts/project-scoped-automations/).

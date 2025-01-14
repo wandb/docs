@@ -17,17 +17,17 @@ W&B Registry is now in public preview. Visit [this](#enable-wb-registry) section
 {{% /alert %}}
 
 
-W&B Registry is a curated central repository of [artifact](../artifacts/intro.md) versions within your organization. Users who [have permission](./configure_registry.md) within your organization can [download](./download_use_artifact.md), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
+W&B Registry is a curated central repository of [artifact](../artifacts/intro/) versions within your organization. Users who [have permission](./configure_registry/) within your organization can [download](./download_use_artifact/), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
 
-You can use the Registry to [track artifact versions](./link_version.md), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD](../automations/intro.md).
+You can use the Registry to [track artifact versions](./link_version/), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD](../automations/intro/).
 
 In summary, use W&B Registry to:
 
-- [Promote](./link_version.md) artifact versions that satisfy a machine learning task to other users in your organization.
-- Organize [artifacts with tags](./organize-with-tags.md) so that you can find or reference specific artifacts.
-- Track an [artifact’s lineage](../model_registry/model-lineage.md) and audit the history of changes.
-- [Automate](../model_registry/model-registry-automations.md) downstream processes such as model CI/CD.
-- [Limit who in your organization](./configure_registry.md) can access artifacts in each registry.
+- [Promote](./link_version/) artifact versions that satisfy a machine learning task to other users in your organization.
+- Organize [artifacts with tags](./organize-with-tags/) so that you can find or reference specific artifacts.
+- Track an [artifact’s lineage](../model_registry/model-lineage/) and audit the history of changes.
+- [Automate](../model_registry/model-registry-automations/) downstream processes such as model CI/CD.
+- [Limit who in your organization](./configure_registry/) can access artifacts in each registry.
 
 <!-- - Quickly find or reference important artifacts with a unique identifier known as aliases.-->
 
@@ -37,13 +37,13 @@ The preceding image shows the Registry App with "Model" and "Dataset" core regis
 
 
 ## Learn the basics
-Each organization initially contains two registries that you can use to organize your model and dataset artifacts called **Models** and **Datasets**, respectively. You can create [additional registries to organize other artifact types based on your organization's needs](./registry_types.md). 
+Each organization initially contains two registries that you can use to organize your model and dataset artifacts called **Models** and **Datasets**, respectively. You can create [additional registries to organize other artifact types based on your organization's needs](./registry_types/). 
 
-Each [registry](./configure_registry.md) consists of one or more [collections](./create_collection.md). Each collection represents a distinct task or use case.
+Each [registry](./configure_registry/) consists of one or more [collections](./create_collection/). Each collection represents a distinct task or use case.
 
 {{< img src="/images/registry/homepage_registry.png" >}}
 
-To add an artifact to a registry, you first log a [specific artifact version to W&B](../artifacts/create-a-new-artifact-version.md). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
+To add an artifact to a registry, you first log a [specific artifact version to W&B](../artifacts/create-a-new-artifact-version/). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
 
 Once you log an artifact to W&B, you can then link that specific artifact version to a collection in the registry. 
 
@@ -51,7 +51,7 @@ Once you log an artifact to W&B, you can then link that specific artifact versio
 The term "link" refers to pointers that connect where W&B stores the artifact and where the artifact is accessible in the registry. W&B does not duplicate artifacts when you link an artifact to a collection.
 {{% /alert %}}
 
-As an example, the proceeding code example shows how to log and link a fake model artifact called "my_model.txt" to a collection named "first-collection" in the [core Model registry](./registry_types.md). More specifically, the code accomplishes the following:
+As an example, the proceeding code example shows how to log and link a fake model artifact called "my_model.txt" to a collection named "first-collection" in the [core Model registry](./registry_types/). More specifically, the code accomplishes the following:
 
 1. Initialize a W&B run.
 2. Log the artifact to W&B.
@@ -129,7 +129,7 @@ Depending on your use case, explore the following resources to get started with
 The legacy Model Registry is scheduled for deprecation with the exact date not yet decided. Before deprecating the legacy Model Registry, W&B will migrate the contents of the legacy Model Registry to the W&B Registry. 
 
 
-See [Migrating from legacy Model Registry](./model_registry_eol.md) for more information about the migration process from the legacy Model Registry to W&B Registry.
+See [Migrating from legacy Model Registry](./model_registry_eol/) for more information about the migration process from the legacy Model Registry to W&B Registry.
 
 Until the migration occurs, W&B supports both the legacy Model Registry and the new Registry. 
 

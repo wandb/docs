@@ -37,4 +37,4 @@ Define the scope of a W&B project to limit who can view, edit, and submit W&B ru
 
 An organization admin, team admin, or the owner of a project can both set and edit a project's visibility. 
 
-For more information, see [Project visibility](./restricted-projects.md).
+For more information, see [Project visibility](./restricted-projects/).

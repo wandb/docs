@@ -23,7 +23,7 @@ Pass an optional group and job_type to wandb.init(). This gives you a dedicated 
 
 ### 2. Set a group environment variable
 
-Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [**Environment Variables**](../track/environment-variables.md)**. Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`
+Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [**Environment Variables**](../track/environment-variables/)**. Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`
 
 ### 3. Toggle grouping in the UI
 

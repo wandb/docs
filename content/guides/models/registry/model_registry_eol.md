@@ -7,7 +7,7 @@ title: Migrate from legacy Model Registry
 weight: 8
 ---
 
-W&B will transition assets from the legacy [W&B Model Registry](../model_registry/intro.md) to the new [W&B Registry](./intro.md). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
+W&B will transition assets from the legacy [W&B Model Registry](../model_registry/intro/) to the new [W&B Registry](./intro/). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
 
 The transition will take place once the new W&B Registry includes all the functionalities currently available in the Model Registry. W&B will attempt to preserve current workflows, codebases, and references.
 
@@ -31,7 +31,7 @@ Artifacts linked to the legacy Model Registry have team level visibility. This m
 Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. In a Restricted registry, only selected members can access the content, maintaining privacy and control. For more information about registry visibility, see [Registry visibility types](./configure_registry.md#registry-visibility-types).
 
 ### Create custom registries
-Unlike the legacy Model Registry, W&B Registry is not limited to models or dataset registries. You can create custom registries tailored to specific workflows or project needs, capable of holding any arbitrary object type. This flexibility allows teams to organize and manage artifacts according to their unique requirements. For more information on how to create a custom registry, see [Create a custom registry](./create_registry.md).  
+Unlike the legacy Model Registry, W&B Registry is not limited to models or dataset registries. You can create custom registries tailored to specific workflows or project needs, capable of holding any arbitrary object type. This flexibility allows teams to organize and manage artifacts according to their unique requirements. For more information on how to create a custom registry, see [Create a custom registry](./create_registry/).  
 
 {{< img src="/images/registry/mode_reg_eol.png" alt="" >}}
 
@@ -61,7 +61,7 @@ W&B will migrate registered models (now called collections) and associated artif
 
 ### Team visibility to organization visibility
 
-After the migration, your model registry will have organization level visibility. You can restrict who has access to a registry by [assigning roles](./configure_registry.md). This helps ensure that only specific members have access to specific registries.
+After the migration, your model registry will have organization level visibility. You can restrict who has access to a registry by [assigning roles](./configure_registry/). This helps ensure that only specific members have access to specific registries.
 
 The migration will preserve existing permission boundaries of your current team-level registered models (soon to be called collections) in the legacy W&B Model Registry. Permissions currently defined in the legacy Model Registry will be preserved in the new Registry. This means that collections currently restricted to specific team members will remain protected during and after the migration. 
 
@@ -83,7 +83,7 @@ Users are encouraged to explore the new features and capabilities available in t
 
 Support is available if you are interested in trying the W&B Registry early, or for new users that prefer to start with Registry and not the legacy W&B Model Registry. Contact support@wandb.com or your Sales MLE to enable this functionality. Note that any early migration will be into a BETA version. The BETA version of W&B Registry might not have all the functionality or features of the legacy Model Registry.
 
-For more details and to learn about the full range of features in the W&B Registry, visit the [W&B Registry Guide](./intro.md).
+For more details and to learn about the full range of features in the W&B Registry, visit the [W&B Registry Guide](./intro/).
 
 ## FAQs
 

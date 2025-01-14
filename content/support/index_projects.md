@@ -13,6 +13,6 @@ your question answered, try [asking the community](https://community.wandb.ai/),
 or email [support@wandb.com](mailto:support@wandb.com).
 {{% /card %}}
 
-- [How can I make my project public?](project_make_public.md)
-- [How do I rename a project?](rename_project.md)
-- [How many runs can I create per project?](runs_create_per_project.md)
+- [How can I make my project public?](project_make_public/)
+- [How do I rename a project?](rename_project/)
+- [How many runs can I create per project?](runs_create_per_project/)

@@ -117,7 +117,7 @@ for step in range(1000000):
         )  # Commit batched, per-step metrics together
 ```
 
-<!-- Enable batching in calls to `wandb.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](../../ref/python/log.md) for `wandb.log` for more details. -->
+<!-- Enable batching in calls to `wandb.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](../../ref/python/log/) for `wandb.log` for more details. -->
 
 {{% alert %}}
 W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines.
@@ -154,7 +154,7 @@ with f as open("large_config.json", "r"):
 
 For faster loading times, keep the total number of runs in a single project under 10,000. Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.
 
-If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving _other_ runs](../runs/manage-runs.md) to a new project used as an archive, leaving a smaller set of runs in your working project.
+If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving _other_ runs](../runs/manage-runs/) to a new project used as an archive, leaving a smaller set of runs in your working project.
 
 ### Section count
 
@@ -202,7 +202,7 @@ The preceding table describes rate limit HTTP headers:
 
 ### Rate limits on metric logging API
 
-The `wandb.log` calls in your script utilize a metrics logging API to log your training data to W&B. This API is engaged through either online or [offline syncing](../../ref/cli/wandb-sync.md). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration.
+The `wandb.log` calls in your script utilize a metrics logging API to log your training data to W&B. This API is engaged through either online or [offline syncing](../../ref/cli/wandb-sync/). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration.
 
 W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) have higher rate limits than those on the Free plan.
 
@@ -221,7 +221,7 @@ if epoch % 5 == 0:  # Log metrics every 5 epochs
     wandb.log({"acc": accuracy, "loss": loss})
 ```
 
-- Manual data syncing: W&B store your run data locally if you are rate limited. You can manually sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`](../../ref/cli/wandb-sync.md) reference.
+- Manual data syncing: W&B store your run data locally if you are rate limited. You can manually sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`](../../ref/cli/wandb-sync/) reference.
 
 ### Rate limits on GraphQL API
 

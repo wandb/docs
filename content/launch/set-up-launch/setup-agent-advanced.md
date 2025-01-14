@@ -13,7 +13,7 @@ This guide provides information on how to set up the W&B Launch agent to build c
 {{% alert %}}
 Build is only required for git and code artifact jobs. Image jobs do not require build.
 
-See [Create a launch job](./create-launch-job.md) for more information on job types.
+See [Create a launch job](./create-launch-job/) for more information on job types.
 {{% /alert %}}
 
 ## Builders

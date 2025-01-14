@@ -18,7 +18,7 @@ Use W&B Sweeps to automate hyperparameter search and visualize rich, interactive
 {{< img src="/images/sweeps/intro_what_it_is.png" alt="Draw insights from large hyperparameter tuning experiments with interactive dashboards." >}}
 
 ### How it works
-Create a sweep with two [W&B CLI](../../ref/cli/README.md) commands:
+Create a sweep with two [W&B CLI](../../ref/cli/README/) commands:
 
 
 1. Initialize a sweep
@@ -34,7 +34,7 @@ wandb agent <sweep-ID>
 ```
 
 {{% alert %}}
-The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the Sweeps [Walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
+The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the Sweeps [Walkthrough](./walkthrough/) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
 {{% /alert %}}
 
 
@@ -43,14 +43,14 @@ The preceding code snippet, and the colab linked on this page, show how to initi
 
 Depending on your use case, explore the following resources to get started with W&B Sweeps:
 
-* Read through the [sweeps walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
+* Read through the [sweeps walkthrough](./walkthrough/) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
 * Explore this chapter to learn how to:
-  * [Add W&B to your code](./add-w-and-b-to-your-code.md)
-  * [Define sweep configuration](./define-sweep-configuration.md)
-  * [Initialize sweeps](./initialize-sweeps.md)
-  * [Start sweep agents](./start-sweep-agents.md)
-  * [Visualize sweep results](./visualize-sweep-results.md)
-* Explore a [curated list of Sweep experiments](./useful-resources.md) that explore hyperparameter optimization with W&B Sweeps. Results are stored in W&B Reports.
+  * [Add W&B to your code](./add-w-and-b-to-your-code/)
+  * [Define sweep configuration](./define-sweep-configuration/)
+  * [Initialize sweeps](./initialize-sweeps/)
+  * [Start sweep agents](./start-sweep-agents/)
+  * [Visualize sweep results](./visualize-sweep-results/)
+* Explore a [curated list of Sweep experiments](./useful-resources/) that explore hyperparameter optimization with W&B Sweeps. Results are stored in W&B Reports.
 
 For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases).
 

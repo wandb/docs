@@ -11,10 +11,10 @@ A service account represents a non-human or machine user that can automatically 
 	
 A service account's API key allows the caller to read from or write to projects within the service account's scope.
 
-Service accounts allow for centralized management of workflows by multiple users or teams, to automate experiment tracking for W&B Models or to log traces for W&B Weave. You have the option to associate a human user's identity with a workflow managed by a service account, by using either of the [environment variables](../../track/environment-variables.md) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
+Service accounts allow for centralized management of workflows by multiple users or teams, to automate experiment tracking for W&B Models or to log traces for W&B Weave. You have the option to associate a human user's identity with a workflow managed by a service account, by using either of the [environment variables](../../track/environment-variables/) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
 
 {{% alert %}}
-Service accounts are available on [Dedicated Cloud](../hosting-options/dedicated_cloud.md), [Self-managed instances](../hosting-options/self-managed.md) with an enterprise license, and enterprise accounts in [SaaS Cloud](../hosting-options/saas_cloud.md).
+Service accounts are available on [Dedicated Cloud](../hosting-options/dedicated_cloud/), [Self-managed instances](../hosting-options/self-managed/) with an enterprise license, and enterprise accounts in [SaaS Cloud](../hosting-options/saas_cloud/).
 {{% /alert %}}
 
 ## Organization-scoped service accounts

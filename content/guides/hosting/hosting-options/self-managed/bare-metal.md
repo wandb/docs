@@ -8,7 +8,7 @@ title: Deploy W&B Platform On-premises
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud/) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud/) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 
@@ -78,7 +78,7 @@ Some tested and working providers:
 
 #### Secure Storage Connector
 
-The [Secure Storage Connector](../data-security/secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
+The [Secure Storage Connector](../data-security/secure-storage-connector/) is not available for teams at this time for bare metal deployments.
 
 ## MySQL database
 

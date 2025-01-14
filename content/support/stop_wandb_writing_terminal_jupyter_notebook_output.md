@@ -5,7 +5,7 @@ type: docs
 tags:
    - environment variables
 ---
-Set the environment variable [`WANDB_SILENT`](../guides/track/environment-variables.md) to `true`.
+Set the environment variable [`WANDB_SILENT`](../guides/track/environment-variables/) to `true`.
 
 {{< tabpane text=true langEqualsHeader=true >}}
   {{% tab header="Python" %}}

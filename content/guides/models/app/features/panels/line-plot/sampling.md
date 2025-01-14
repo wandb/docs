@@ -120,7 +120,7 @@ By default, W&B uses full fidelity mode. To enable random sampling, follow these
 
 ### Access non sampled data
 
-You can access the complete history of metrics logged during a run using the [W&B Run API](../../../../../ref/python/public-api/run.md). The following example demonstrates how to retrieve and process the loss values from a specific run:
+You can access the complete history of metrics logged during a run using the [W&B Run API](../../../../../ref/python/public-api/run/). The following example demonstrates how to retrieve and process the loss values from a specific run:
 
 
 ```python

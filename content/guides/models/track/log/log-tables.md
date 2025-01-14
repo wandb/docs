@@ -146,11 +146,11 @@ with wandb.init() as run:
     my_table = run.use_artifact("run-<run-id>-<table-name>:<tag>").get("<table-name>")
 ```
 
-For more information on Artifacts, see the [Artifacts Chapter](../../artifacts/intro.md) in the Developer Guide. 
+For more information on Artifacts, see the [Artifacts Chapter](../../artifacts/intro/) in the Developer Guide. 
 
 ### Visualize tables
 
-Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables](../../tables/visualize-tables.md).
+Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables](../../tables/visualize-tables/).
 
 
 ## Artifact tables

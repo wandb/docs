@@ -12,7 +12,7 @@ The System for Cross-domain Identity Management (SCIM) API allows instance or or
 The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema. W&B adds the `/Roles` endpoints to support automated management of custom roles in W&B organizations.
 
 {{% alert %}}
-SCIM API applies to all hosting options including [Dedicated Cloud](../hosting-options/dedicated_cloud.md), [Self-managed instances](../hosting-options/self-managed.md), and [SaaS Cloud](../hosting-options/saas_cloud.md). In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization` within user settings.
+SCIM API applies to all hosting options including [Dedicated Cloud](../hosting-options/dedicated_cloud/), [Self-managed instances](../hosting-options/self-managed/), and [SaaS Cloud](../hosting-options/saas_cloud/). In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization` within user settings.
 {{% /alert %}}
 
 ## Authentication
@@ -27,7 +27,7 @@ The SCIM user resource maps to W&B users.
 
 - **Endpoint:** **`<host-url>/scim/Users/{id}`**
 - **Method**: GET
-- **Description**: Retrieve the information for a specific user in your [SaaS Cloud](../hosting-options/saas_cloud.md) organization or your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance by providing the user's unique ID.
+- **Description**: Retrieve the information for a specific user in your [SaaS Cloud](../hosting-options/saas_cloud/) organization or your [Dedicated Cloud](../hosting-options/dedicated_cloud/) or [Self-managed](../hosting-options/self-managed/) instance by providing the user's unique ID.
 - **Request Example**:
 
 ```bash
@@ -68,7 +68,7 @@ GET /scim/Users/abc
 
 - **Endpoint:** **`<host-url>/scim/Users`**
 - **Method**: GET
-- **Description**: Retrieve the list of all users in your [SaaS Cloud](../hosting-options/saas_cloud.md) organization or your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
+- **Description**: Retrieve the list of all users in your [SaaS Cloud](../hosting-options/saas_cloud/) organization or your [Dedicated Cloud](../hosting-options/dedicated_cloud/) or [Self-managed](../hosting-options/self-managed/) instance.
 - **Request Example**:
 
 ```bash
@@ -180,7 +180,7 @@ POST /scim/Users
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: DELETE
-- **Description**: Fully delete a user from your [SaaS Cloud](../hosting-options/saas_cloud.md) organization or your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance by providing the user's unique ID. Use the [Create user](#create-user) API to add the user again to the organization or instance if needed.
+- **Description**: Fully delete a user from your [SaaS Cloud](../hosting-options/saas_cloud/) organization or your [Dedicated Cloud](../hosting-options/dedicated_cloud/) or [Self-managed](../hosting-options/self-managed/) instance by providing the user's unique ID. Use the [Create user](#create-user) API to add the user again to the organization or instance if needed.
 - **Request Example**:
 
 {{% alert %}}
@@ -201,7 +201,7 @@ DELETE /scim/Users/abc
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: PATCH
-- **Description**: Temporarily deactivate a user in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance by providing the user's unique ID. Use the [Reactivate user](#reactivate-user) API to reactivate the user when needed.
+- **Description**: Temporarily deactivate a user in your [Dedicated Cloud](../hosting-options/dedicated_cloud/) or [Self-managed](../hosting-options/self-managed/) instance by providing the user's unique ID. Use the [Reactivate user](#reactivate-user) API to reactivate the user when needed.
 - **Supported Fields**:
 
 | Field | Type | Required |
@@ -210,7 +210,7 @@ DELETE /scim/Users/abc
 | value | Object | Object `{"active": false}` indicating that the user should be deactivated. |
 
 {{% alert %}}
-User deactivation and reactivation operations are not supported in [SaaS Cloud](../hosting-options/saas_cloud.md).
+User deactivation and reactivation operations are not supported in [SaaS Cloud](../hosting-options/saas_cloud/).
 {{% /alert %}}
 
 - **Request Example**:
@@ -266,7 +266,7 @@ This returns the User object.
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: PATCH
-- **Description**: Reactivate a deactivated user in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance by providing the user's unique ID.
+- **Description**: Reactivate a deactivated user in your [Dedicated Cloud](../hosting-options/dedicated_cloud/) or [Self-managed](../hosting-options/self-managed/) instance by providing the user's unique ID.
 - **Supported Fields**:
 
 | Field | Type | Required |
@@ -275,7 +275,7 @@ This returns the User object.
 | value | Object | Object `{"active": true}` indicating that the user should be reactivated. |
 
 {{% alert %}}
-User deactivation and reactivation operations are not supported in [SaaS Cloud](../hosting-options/saas_cloud.md).
+User deactivation and reactivation operations are not supported in [SaaS Cloud](../hosting-options/saas_cloud/).
 {{% /alert %}}
 
 - **Request Example**:
@@ -331,7 +331,7 @@ This returns the User object.
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: PATCH
-- **Description**: Assign an organization-level role to a user. The role can be one of `admin`, `viewer` or `member` as described [here](./manage-organization.md#invite-a-user). For [SaaS Cloud](../hosting-options/saas_cloud.md), ensure that you have configured the correct organization for SCIM API in user settings.
+- **Description**: Assign an organization-level role to a user. The role can be one of `admin`, `viewer` or `member` as described [here](./manage-organization.md#invite-a-user). For [SaaS Cloud](../hosting-options/saas_cloud/), ensure that you have configured the correct organization for SCIM API in user settings.
 - **Supported Fields**:
 
 | Field | Type | Required |
@@ -400,7 +400,7 @@ This returns the User object.
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: PATCH
-- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here](./manage-organization.md#assign-or-update-a-team-members-role). For [SaaS Cloud](../hosting-options/saas_cloud.md), ensure that you have configured the correct organization for SCIM API in user settings.
+- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here](./manage-organization.md#assign-or-update-a-team-members-role). For [SaaS Cloud](../hosting-options/saas_cloud/), ensure that you have configured the correct organization for SCIM API in user settings.
 - **Supported Fields**:
 
 | Field | Type | Required |

@@ -29,7 +29,7 @@ Configure a workspaces layout to define the overall structure of the workspace. 
 
 {{< img src="/images/app_ui/workspace_layout_settings.png" alt="" >}}
 
-The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels](panels/intro.md).
+The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels](panels/intro/).
 
 This table describes each workspace layout option.
 
@@ -55,9 +55,9 @@ You can edit two main settings within **Line plots** settings: **Data** and **Di
 | ----- | ----- |
 | **X axis** |  The scale of the x-axis in line plots. The x-axis is set to **Step** by default. See the proceeding table for the list of x-axis options. |
 | **Range** |  Minimum and maximum settings to display for x axis. |
-| **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots](./panels/line-plot/smoothing.md). |
+| **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots](./panels/line-plot/smoothing/). |
 | **Outliers** | Rescale to exclude outliers from the default plot min and max scale. |
-| **Point aggregation method** | Improve data visualization accuracy and performance. See [Point aggregation](./panels/line-plot/sampling.md) for more information. |
+| **Point aggregation method** | Improve data visualization accuracy and performance. See [Point aggregation](./panels/line-plot/sampling/) for more information. |
 | **Max number of runs or groups** | Limit the number of runs or groups displayed on the line plot. |
 
 In addition to **Step**, there are other options for the x-axis:

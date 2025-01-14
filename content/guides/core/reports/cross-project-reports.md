@@ -24,7 +24,7 @@ Share a view-only link to a report that is in a private project or team project.
 
 {{< img src="/images/reports/magic-links.gif" alt="" >}}
 
-View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. Anyone can use the magic link to view the report without logging in first. For customers on [W&B Local](../hosting/intro.md) private cloud installations, these links remain behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link can view the report.
+View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. Anyone can use the magic link to view the report without logging in first. For customers on [W&B Local](../hosting/intro/) private cloud installations, these links remain behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link can view the report.
 
 In **view-only mode**, someone who is not logged in can see the charts and mouse over to see tooltips of values, zoom in and out on charts, and scroll through columns in the table. When in view mode, they cannot create new charts or new table queries to explore the data. View-only visitors to the report link won't be able to click a run to get to the run page. Also, the view-only visitors would not be able to see the share modal but instead would see a tooltip on hover which says: `Sharing not available for view only access`.
 

@@ -13,7 +13,7 @@ cascade:
 ## Use self-managed cloud or on-prem infrastructure
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](./saas_cloud.md) or [W&B Dedicated Cloud](./dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](./saas_cloud/) or [W&B Dedicated Cloud](./dedicated_cloud/) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 Deploy W&B Server on your [AWS, GCP, or Azure cloud account](#deploy-wb-server-within-self-managed-cloud-accounts) or within your [on-premises infrastructure](#deploy-wb-server-in-on-prem-infrastructure). 
@@ -26,7 +26,7 @@ Your IT/DevOps/MLOps team is responsible for provisioning your deployment, manag
 
 W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into your AWS, GCP, or Azure cloud account.
 
-See specific cloud provider documentation for more information on how to set up W&B Server in [AWS](../self-managed/aws-tf.md), [GCP](../self-managed/gcp-tf.md) or [Azure](../self-managed/azure-tf.md).
+See specific cloud provider documentation for more information on how to set up W&B Server in [AWS](../self-managed/aws-tf/), [GCP](../self-managed/gcp-tf/) or [Azure](../self-managed/azure-tf/).
 
 ## Deploy W&B Server in on-prem infrastructure
 
@@ -37,7 +37,7 @@ You need to configure several infrastructure components in order to set up W&B S
 - Amazon S3-compatible object storage
 - Redis cache cluster
 
-See [Install on on-prem infrastructure](../self-managed/bare-metal.md) for more information on how to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
+See [Install on on-prem infrastructure](../self-managed/bare-metal/) for more information on how to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
 
 ## Deploy W&B Server on a custom cloud platform
 

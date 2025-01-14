@@ -8,7 +8,7 @@ weight: 1
 title: Create an experiment
 ---
 
-Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API](../../ref/python/public-api/README.md).
+Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API](../../ref/python/public-api/README/).
 
 This guide describes how to use W&B building blocks to create a W&B Experiment. 
 
@@ -22,7 +22,7 @@ Create a W&B Experiment in four steps:
 4. [Log an artifact to W&B](#log-an-artifact-to-wb)
 
 ### Initialize a W&B run
-At the beginning of your script call, the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a W&B Run. 
+At the beginning of your script call, the [`wandb.init()`](../../ref/python/init/) API to generate a background process to sync and log data as a W&B Run. 
 
 The proceeding code snippet demonstrates how to create a new W&B project named `“cat-classification”`. A note `“My first experiment”` was added to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
 
@@ -37,7 +37,7 @@ run = wandb.init(
     tags=["baseline", "paper1"],
 )
 ```
-A [Run](../../ref/python/run.md) object is returned when you initialize W&B with `wandb.init()`. Additionally, W&B creates a local directory where all logs and files are saved and streamed asynchronously to a W&B server.
+A [Run](../../ref/python/run/) object is returned when you initialize W&B with `wandb.init()`. Additionally, W&B creates a local directory where all logs and files are saved and streamed asynchronously to a W&B server.
 
 {{% alert %}}
 Note: Runs are added to pre-existing projects if that project already exists when you call wandb.init().  For example, if you already have a project called `“cat-classification”`, that project will continue to exist and not be deleted. Instead, a new run is added to that project.
@@ -50,10 +50,10 @@ Save a dictionary of hyperparameters such as learning rate or model type. The mo
 #  2. Capture a dictionary of hyperparameters
 wandb.config = {"epochs": 100, "learning_rate": 0.001, "batch_size": 128}
 ```
-For more information on how to configure an experiment, see [Configure Experiments](./config.md).
+For more information on how to configure an experiment, see [Configure Experiments](./config/).
 
 ### Log metrics inside your training loop
-Log metrics during each `for` loop (epoch), the accuracy and loss values are computed and logged to W&B with [`wandb.log()`](../../ref/python/log.md). By default, when you call wandb.log it appends a new step to the history object and updates the summary object.
+Log metrics during each `for` loop (epoch), the accuracy and loss values are computed and logged to W&B with [`wandb.log()`](../../ref/python/log/). By default, when you call wandb.log it appends a new step to the history object and updates the summary object.
 
 The following code example shows how to log metrics with `wandb.log`.
 
@@ -72,14 +72,14 @@ for epoch in range(wandb.config.epochs):
         # model performance
         wandb.log({"accuracy": accuracy, "loss": loss})
 ```
-For more information on different data types you can log with W&B, see [Log Data During Experiments](./log/intro.md).
+For more information on different data types you can log with W&B, see [Log Data During Experiments](./log/intro/).
 
 ### Log an artifact to W&B 
 Optionally log a W&B Artifact. Artifacts make it easy to version datasets and models. 
 ```python
 wandb.log_artifact(model)
 ```
-For more information about Artifacts, see the [Artifacts Chapter](../artifacts/intro.md). For more information about versioning models, see [Model Management](../model_registry/intro.md).
+For more information about Artifacts, see the [Artifacts Chapter](../artifacts/intro/). For more information about versioning models, see [Model Management](../model_registry/intro/).
 
 
 ### Putting it all together
@@ -113,11 +113,11 @@ wandb.save("model.onnx")
 ```
 
 ## Next steps: Visualize your experiment 
-Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyzes](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
+Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates/),[ parameter importance analyzes](../app/features/panels/parameter-importance/), and [more](../app/features/panels/intro/).
 
 {{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example" >}}
 
-For more information on how to view experiments and specific runs, see [Visualize results from experiments](../track/workspaces.md).
+For more information on how to view experiments and specific runs, see [Visualize results from experiments](../track/workspaces/).
 
 
 ## Best practices
@@ -145,4 +145,4 @@ wandb.init(
 )
 ```
 
-For more information about available parameters when defining a W&B Experiment, see the [`wandb.init`](../../ref/python/init.md) API docs in the [API Reference Guide](../../ref/python/README.md).
+For more information about available parameters when defining a W&B Experiment, see the [`wandb.init`](../../ref/python/init/) API docs in the [API Reference Guide](../../ref/python/README/).

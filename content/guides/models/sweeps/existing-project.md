@@ -25,7 +25,7 @@ Optionally explore the example appear in the W&B App UI dashboard.
 
 ## 2. Create a sweep
 
-From your project page, open the [Sweep tab](./sweeps-ui.md) in the sidebar and select **Create Sweep**.
+From your project page, open the [Sweep tab](./sweeps-ui/) in the sidebar and select **Create Sweep**.
 
 {{< img src="/images/sweeps/sweep1.png" alt="" >}}
 

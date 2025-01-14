@@ -7,7 +7,7 @@ title: View organization dashboard
 ---
 
 {{% alert color="secondary" %}}
-Organization dashboard is only available with [Dedicated Cloud](../hosting-options/dedicated_cloud.md) and [Self-managed instances](../hosting-options/self-managed.md).
+Organization dashboard is only available with [Dedicated Cloud](../hosting-options/dedicated_cloud/) and [Self-managed instances](../hosting-options/self-managed/).
 {{% /alert %}}
 
 

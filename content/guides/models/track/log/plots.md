@@ -7,7 +7,7 @@ menu:
 title: Create and track plots from experiments
 ---
 
-Using the methods in `wandb.plot`, you can track charts with `wandb.log`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide](../../app/features/custom-charts/walkthrough.md).
+Using the methods in `wandb.plot`, you can track charts with `wandb.log`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide](../../app/features/custom-charts/walkthrough/).
 
 ### Basic charts
 
@@ -211,7 +211,7 @@ You can log this wherever your code has access to:
 
 ### Interactive custom charts
 
-For full customization, tweak a built-in [Custom Chart preset](../../app/features/custom-charts/walkthrough.md) or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
+For full customization, tweak a built-in [Custom Chart preset](../../app/features/custom-charts/walkthrough/) or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
 
 ```python
 # Create a table with the columns to plot
@@ -235,7 +235,7 @@ my_custom_chart = wandb.plot_table(
 
 ### Matplotlib and Plotly plots
 
-Instead of using W&B [Custom Charts](../../app/features/custom-charts/walkthrough.md) with `wandb.plot`, you can log charts generated with [matplotlib](https://matplotlib.org/) and [Plotly](https://plotly.com/).
+Instead of using W&B [Custom Charts](../../app/features/custom-charts/walkthrough/) with `wandb.plot`, you can log charts generated with [matplotlib](https://matplotlib.org/) and [Plotly](https://plotly.com/).
 
 ```python
 import matplotlib.pyplot as plt

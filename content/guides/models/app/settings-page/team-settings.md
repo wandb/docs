@@ -39,7 +39,7 @@ Toggle the switch next to the event type you want to receive alerts from. Weight
 * **Runs finished**: whether a Weights and Biases run successfully finished.
 * **Run crashed**: if a run has failed to finish.
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](../../runs/alert.md).
+For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](../../runs/alert/).
 
 ## Privacy
 
@@ -54,4 +54,4 @@ The **Usage** section describes the total memory usage the team has consumed on 
 
 ## Storage
 
-The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector](../features/teams.md#secure-storage-connector) or check out our [W&B Server](../../hosting/data-security/secure-storage-connector.md) docs if you are self-hosting.
+The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector](../features/teams.md#secure-storage-connector) or check out our [W&B Server](../../hosting/data-security/secure-storage-connector/) docs if you are self-hosting.

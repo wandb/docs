@@ -6,7 +6,7 @@ menu:
 title: Manage job inputs
 url: guides/launch/job-inputs
 ---
-The core experience of Launch is easily experimenting with different job inputs like hyperparameters and datasets, and routing these jobs to appropriate hardware. Once a job is created, users beyond the original author can adjust these inputs via the W&B GUI or CLI. For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs](./add-job-to-queue.md) guide.
+The core experience of Launch is easily experimenting with different job inputs like hyperparameters and datasets, and routing these jobs to appropriate hardware. Once a job is created, users beyond the original author can adjust these inputs via the W&B GUI or CLI. For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs](./add-job-to-queue/) guide.
 
 This section describes how to programmatically control the inputs that can be tweaked for a job.
 
@@ -14,7 +14,7 @@ By default, W&B jobs capture the entire `Run.config` as the inputs to a job, but
 
 
 {{% alert %}}
-Launch SDK functions require `wandb-core`. See the [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README.md) for more information.
+Launch SDK functions require `wandb-core`. See the [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README/) for more information.
 {{% /alert %}}
 
 ## Reconfigure the `Run` object
@@ -95,7 +95,7 @@ to load the run config input values anywhere in the job code.
 The Launch SDK also provides a way to manage input values stored in config files in the job code. This is a common pattern in many deep learning and large language model use cases, like this [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) example or this [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)). 
 
 {{% alert %}}
-[Sweeps on Launch](./sweeps-on-launch.md) does not support the use of config file inputs as sweep parameters. Sweep parameters must be controlled through the `Run.config` object.
+[Sweeps on Launch](./sweeps-on-launch/) does not support the use of config file inputs as sweep parameters. Sweep parameters must be controlled through the `Run.config` object.
 {{% /alert %}}
 
 The `launch.manage_config_file` function can be used to add a config file as an input to the Launch job, giving you access to edit values within the config file when launching the job.

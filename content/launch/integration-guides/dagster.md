@@ -9,10 +9,10 @@ url: guides/integrations/dagster
 ---
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
-* Use and create [W&B Artifacts](../artifacts/intro.md).
-* Use and create Registered Models in [W&B Model Registry](../model_registry/intro.md).
-* Run training jobs on dedicated compute using [W&B Launch](../launch/intro.md).
-* Use the [wandb](../../ref/python/README.md) client in ops and assets.
+* Use and create [W&B Artifacts](../artifacts/intro/).
+* Use and create Registered Models in [W&B Model Registry](../model_registry/intro/).
+* Run training jobs on dedicated compute using [W&B Launch](../launch/intro/).
+* Use the [wandb](../../ref/python/README/) client in ops and assets.
 
 The W&B Dagster integration provides a W&B-specific Dagster resource and IO Manager:
 
@@ -25,13 +25,13 @@ The following guide demonstrates how to satisfy prerequisites to use W&B in Dags
 You will need the following resources to use Dagster within Weights and Biases:
 1. **W&B API Key**.
 2. **W&B entity (user or team)**: An entity is a username or team name where you send W&B Runs and Artifacts. Make sure to create your account or team entity in the W&B App UI before you log runs. If you do not specify ain entity, the run will be sent to your default entity, which is usually your username. Change your default entity in your settings under **Project Defaults**.
-3. **W&B project**: The name of the project where [W&B Runs](../runs/intro.md) are stored.
+3. **W&B project**: The name of the project where [W&B Runs](../runs/intro/) are stored.
 
 Find your W&B entity by checking the profile page for that user or team in the W&B App. You can use a pre-existing W&B project or create a new one. New projects can be created on the W&B App homepage or on user/team profile page. If a project does not exist it will be automatically created when you first use it. The proceeding instructions demonstrate how to get an API key: 
 
 ### How to get an API key
 1. [Log in to W&B](https://wandb.ai/login). Note: if you are using W&B Server ask your admin for the instance host name.
-2. Collect your API key by navigating to the [authorize page](https://wandb.ai/authorize) or in your user/team settings. For a production environment we recommend using a [service account](../../support/service_account_useful.md) to own that key. 
+2. Collect your API key by navigating to the [authorize page](https://wandb.ai/authorize) or in your user/team settings. For a production environment we recommend using a [service account](../../support/service_account_useful/) to own that key. 
 3. Set an environment variable for that API key export `WANDB_API_KEY=YOUR_KEY`.
 
 
@@ -154,7 +154,7 @@ def create_dataset():
 You can annotate your `@op`, `@asset` and `@multi_asset` with a metadata configuration in order to write Artifacts. Similarly you can also consume W&B Artifacts even if they were created outside Dagster. 
 
 ## Write W&B Artifacts
-Before continuing, we recommend you to have a good understanding of how to use W&B Artifacts. Consider reading the [Guide on Artifacts](../artifacts/intro.md).
+Before continuing, we recommend you to have a good understanding of how to use W&B Artifacts. Consider reading the [Guide on Artifacts](../artifacts/intro/).
 
 Return an object from a Python function to write a W&B Artifact. The following objects are supported by W&B:
 * Python objects (int, dict, list…)
@@ -186,7 +186,7 @@ def create_dataset():
 W&B supports multiple Pickle-based serialization modules ([pickle](https://docs.python.org/3/library/pickle.html), [dill](https://github.com/uqfoundation/dill), [cloudpickle](https://github.com/cloudpipe/cloudpickle), [joblib](https://github.com/joblib/joblib)). You can also use more advanced serialization like [ONNX](https://onnx.ai/) or [PMML](https://en.wikipedia.org/wiki/Predictive_Model_Markup_Language). Please refer to the [Serialization](#serialization-configuration) section for more information.
 {{% /tab %}}
 {{% tab "W&B Object" %}}
-Any native W&B object (e.g [Table](../../ref/python/data-types/table.md), [Image](../../ref/python/data-types/image.md), or [Graph](../../ref/python/data-types/graph.md)) is added to an Artifact created by the integration. Here’s an example using a Table.
+Any native W&B object (e.g [Table](../../ref/python/data-types/table/), [Image](../../ref/python/data-types/image/), or [Graph](../../ref/python/data-types/graph/)) is added to an Artifact created by the integration. Here’s an example using a Table.
 
 ```python
 import wandb
@@ -849,7 +849,7 @@ The integration provides an importable `@op` called `run_launch_agent`. It start
 
 Agents are processes that poll launch queues and execute the jobs (or dispatch them to external services to be executed) in order.
 
-Refer to the [reference documentation](../launch/intro.md) for configuration
+Refer to the [reference documentation](../launch/intro/) for configuration
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -897,7 +897,7 @@ The integration provides an importable `@op` called `run_launch_job`. It execute
 
 A Launch job is assigned to a queue in order to be executed. You can create a queue or use the default one. Make sure you have an active agent listening to that queue. You can run an agent inside your Dagster instance but can also consider using a deployable agent in Kubernetes.
 
-Refer to the [reference documentation](../launch/intro.md) for configuration.
+Refer to the [reference documentation](../launch/intro/) for configuration.
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -966,7 +966,7 @@ This allows you to take advantage of the integration to read externally created 
 You can train small models inside your Dagster cluster and you can run Dagster in a Kubernetes cluster with GPU nodes. We recommend using W&B Launch for large model training. This will prevent overloading your instance and provide access to more adequate compute. 
 
 7. When experiment tracking within Dagster, set your W&B Run ID to the value of your Dagster Run ID.
-We recommend that you both: make the [Run resumable](../runs/resuming.md) and set the W&B Run ID to the Dagster Run ID or to a string of your choice. Following this recommendation ensures your W&B metrics and W&B Artifacts are stored in the same W&B Run when you train models inside of Dagster.
+We recommend that you both: make the [Run resumable](../runs/resuming/) and set the W&B Run ID to the Dagster Run ID or to a string of your choice. Following this recommendation ensures your W&B metrics and W&B Artifacts are stored in the same W&B Run when you train models inside of Dagster.
 
 
 Either set the W&B Run ID to the Dagster Run ID.

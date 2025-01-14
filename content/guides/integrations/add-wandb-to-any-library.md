@@ -98,7 +98,7 @@ wandb.login()
 {{% /tab %}}
 
 {{% tab header="Environment Variable" value="environment" %}}
-Set a [W&B environment variable](../track/environment-variables.md) for the API key:
+Set a [W&B environment variable](../track/environment-variables/) for the API key:
 
 ```bash
 export WANDB_API_KEY=$YOUR_API_KEY
@@ -319,7 +319,7 @@ For frameworks supporting distributed environments, you can adapt any of the fol
 * Detect which is the "main" process and only use `wandb` there. Any required data coming from other processes must be routed to the main process first. (This workflow is encouraged).
 * Call `wandb` in every process and auto-group them by giving them all the same unique `group` name.
 
-See [Log Distributed Training Experiments](../track/log/distributed-training.md) for more details.
+See [Log Distributed Training Experiments](../track/log/distributed-training/) for more details.
 
 ### Logging Model Checkpoints And More
 

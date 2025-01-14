@@ -12,7 +12,7 @@ Delete artifacts interactively with the App UI or programmatically with the W&B 
 
 The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
 
-The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
+The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl/).
 
 {{% alert %}}
 Artifacts that are scheduled for deletion with a TTL policy, deleted with the W&B SDK, or deleted with the W&B App UI are first soft-deleted. Artifacts that are soft deleted undergo garbage collection before they are hard-deleted.
@@ -129,9 +129,9 @@ The `X` indicates you must satisfy the requirement:
 |                                                | Environment variable    | Enable versioning | 
 | -----------------------------------------------| ------------------------| ----------------- | 
 | Shared cloud                                   |                         |                   | 
-| Shared cloud with [secure storage connector](../hosting/data-security/secure-storage-connector.md)|                         | X                 | 
+| Shared cloud with [secure storage connector](../hosting/data-security/secure-storage-connector/)|                         | X                 | 
 | Dedicated cloud                                |                         |                   | 
-| Dedicated cloud with [secure storage connector](../hosting/data-security/secure-storage-connector.md)|                         | X                 | 
+| Dedicated cloud with [secure storage connector](../hosting/data-security/secure-storage-connector/)|                         | X                 | 
 | Customer-managed cloud                         | X                       | X                 | 
 | Customer managed on-prem                       | X                       | X                 |
  

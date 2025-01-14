@@ -37,7 +37,7 @@ Use these optional environment variables to do things like set up authentication
 | --------------------------- | ---------- |
 | **WANDB_ANONYMOUS**        | Set this to `allow`, `never`, or `must` to let users create anonymous runs with secret urls.                                                    |
 | **WANDB_API_KEY**         | Sets the authentication key associated with your account. You can find your key on [your settings page](https://app.wandb.ai/settings). This must be set if `wandb login` hasn't been run on the remote machine.               |
-| **WANDB_BASE_URL**        | If you're using [wandb/local](../hosting/intro.md) you should set this environment variable to `http://YOUR_IP:YOUR_PORT`        |
+| **WANDB_BASE_URL**        | If you're using [wandb/local](../hosting/intro/) you should set this environment variable to `http://YOUR_IP:YOUR_PORT`        |
 | **WANDB_CACHE_DIR**       | This defaults to \~/.cache/wandb, you can override this location with this environment variable                    |
 | **WANDB_CONFIG_DIR**      | This defaults to \~/.config/wandb, you can override this location with this environment variable                             |
 | **WANDB_CONFIG_PATHS**    | Comma separated list of yaml files to load into wandb.config. See [config](./config.md#file-based-configs).                                          |
@@ -51,14 +51,14 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB_HOST**             | Set this to the hostname you want to see in the wandb interface if you don't want to use the system provided hostname                                |
 | **WANDB_IGNORE_GLOBS**    | Set this to a comma separated list of file globs to ignore. These files will not be synced to the cloud.                              |
 | **WANDB_JOB_NAME**        | Specify a name for any jobs created by `wandb`. |
-| **WANDB_JOB_TYPE**        | Specify the job type, like "training" or "evaluation" to indicate different types of runs. See [grouping](../runs/grouping.md) for more info.               |
+| **WANDB_JOB_TYPE**        | Specify the job type, like "training" or "evaluation" to indicate different types of runs. See [grouping](../runs/grouping/) for more info.               |
 | **WANDB_MODE**             | If you set this to "offline" wandb will save your run metadata locally and not sync to the server. If you set this to `disabled` wandb will turn off completely.                  |
 | **WANDB_NAME**             | The human-readable name of your run. If not set it will be randomly generated for you                       |
 | **WANDB_NOTEBOOK_NAME**   | If you're running in jupyter you can set the name of the notebook with this variable. We attempt to auto detect this.                    |
 | **WANDB_NOTES**            | Longer notes about your run. Markdown is allowed and you can edit this later in the UI.                                    |
 | **WANDB_PROJECT**          | The project associated with your run. This can also be set with `wandb init`, but the environmental variable will override the value.                               |
 | **WANDB_RESUME**           | By default this is set to _never_. If set to _auto_ wandb will automatically resume failed runs. If set to _must_ forces the run to exist on startup. If you want to always generate your own unique ids, set this to _allow_ and always set **WANDB_RUN_ID**.      |
-| **WANDB_RUN_GROUP**       | Specify the experiment name to automatically group runs together. See [grouping](../runs/grouping.md) for more info.                                 |
+| **WANDB_RUN_GROUP**       | Specify the experiment name to automatically group runs together. See [grouping](../runs/grouping/) for more info.                                 |
 | **WANDB_RUN_ID**          | Set this to a globally unique string (per project) corresponding to a single run of your script. It must be no longer than 64 characters. All non-word characters will be converted to dashes. This can be used to resume an existing run in cases of failure.      |
 | **WANDB_SILENT**           | Set this to **true** to silence wandb log statements. If this is set all logs will be written to **WANDB_DIR**/debug.log               |
 | **WANDB_SHOW_RUN**        | Set this to **true** to automatically open a browser with the run url if your operating system supports it.        |

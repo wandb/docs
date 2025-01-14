@@ -63,7 +63,7 @@ fabric.log_dict({"important_metric": important_metric})
 
 3. In your browser, find your API key on the [Authorize page](https://wandb.ai/authorize).
 
-4. If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
+4. If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart/)
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
@@ -617,7 +617,7 @@ The core integration is based on the [Lightning `loggers` API](https://pytorch-l
 
 ### What does the integration log without any additional code?
 
-We'll save your model checkpoints to W&B, where you can view them or download them for use in future runs. We'll also capture [system metrics](../app/features/system-metrics.md), like GPU usage and network I/O, environment information, like hardware and OS information, [code state](../app/features/panels/code.md) (including git commit and diff patch, notebook contents and session history), and anything printed to the standard out.
+We'll save your model checkpoints to W&B, where you can view them or download them for use in future runs. We'll also capture [system metrics](../app/features/system-metrics/), like GPU usage and network I/O, environment information, like hardware and OS information, [code state](../app/features/panels/code/) (including git commit and diff patch, notebook contents and session history), and anything printed to the standard out.
 
 ### What if I need to use `wandb.run` in my training setup?
 

@@ -10,7 +10,7 @@ cascade:
 - url: guides/app/features/panels/:filename
 ---
 
-Use workspace panel visualizations to explore your [logged data](/ref/python/log.md) by key, visualize the relationships between hyperparameters and output metrics, and more. 
+Use workspace panel visualizations to explore your [logged data](/ref/python/log/) by key, visualize the relationships between hyperparameters and output metrics, and more. 
 
 ## Workspace modes
 
@@ -58,7 +58,7 @@ To add a custom panel to your workspace:
 1. Select the type of panel you’d like to create.
 1. Follow the prompts to configure the panel.
 
-To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots](line-plot/intro.md) or [Bar plots](bar-plot.md).
+To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots](line-plot/intro/) or [Bar plots](bar-plot/).
 
 ## Manage panels
 

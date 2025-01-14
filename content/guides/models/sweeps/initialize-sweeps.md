@@ -13,8 +13,8 @@ W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally 
 The following code snippets demonstrate how to initialize sweeps with the CLI and within a Jupyter Notebook or Python script.
 
 {{% alert color="secondary" %}}
-1. Before you initialize a sweep, make sure you have a sweep configuration defined either in a YAML file or a nested Python dictionary object in your script. For more information see, [Define sweep configuration](../../guides/sweeps/define-sweep-configuration.md).
-2. Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize W&B ([`wandb.init`](../../ref/python/init.md)) must match the name of the project you provide when you initialize a W&B Sweep ([`wandb.sweep`](../../ref/python/sweep.md)).
+1. Before you initialize a sweep, make sure you have a sweep configuration defined either in a YAML file or a nested Python dictionary object in your script. For more information see, [Define sweep configuration](../../guides/sweeps/define-sweep-configuration/).
+2. Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize W&B ([`wandb.init`](../../ref/python/init/)) must match the name of the project you provide when you initialize a W&B Sweep ([`wandb.sweep`](../../ref/python/sweep/)).
 {{% /alert %}}
 
 
@@ -48,7 +48,7 @@ The [`wandb.sweep`](../../ref/python/sweep) function returns the sweep ID. The s
 
 Use the W&B CLI to initialize a sweep. Provide the name of your configuration file. Optionally provide the name of the project for the `project` flag. If the project is not specified, the W&B Run is put in an "Uncategorized" project.
 
-Use the [`wandb sweep`](../../ref/cli/wandb-sweep.md) command to initialize a sweep. The proceeding code example initializes a sweep for a `sweeps_demo` project and uses a `config.yaml` file for the configuration.
+Use the [`wandb sweep`](../../ref/cli/wandb-sweep/) command to initialize a sweep. The proceeding code example initializes a sweep for a `sweeps_demo` project and uses a `config.yaml` file for the configuration.
 
 ```bash
 wandb sweep --project sweeps_demo config.yaml

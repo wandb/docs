@@ -68,7 +68,7 @@ def generate_raw_data(train_size=6000):
 (x_train, y_train), (x_eval, y_eval) = generate_raw_data()
 ```
 
-Next, upload the dataset to W&B. To do this, create an [artifact](../artifacts/intro.md) object and add the dataset to that artifact. 
+Next, upload the dataset to W&B. To do this, create an [artifact](../artifacts/intro/) object and add the dataset to that artifact. 
 
 ```python
 project = "model-registry-dev"
@@ -116,7 +116,7 @@ Train a model with the artifact dataset you created in the previous step.
 
 ### Declare dataset artifact as an input to the run
 
-Declare the dataset artifact you created in a previous step as the input to the W&B run. This is particularly useful in the context of logging models because declaring an artifact as an input to a run lets you track the dataset (and the version of the dataset) used to train a specific model. W&B uses the information collected to create a [lineage map](./model-lineage.md). 
+Declare the dataset artifact you created in a previous step as the input to the W&B run. This is particularly useful in the context of logging models because declaring an artifact as an input to a run lets you track the dataset (and the version of the dataset) used to train a specific model. W&B uses the information collected to create a [lineage map](./model-lineage/). 
 
 Use the `use_artifact` API to both declare the dataset artifact as the input of the run and to retrieve the artifact itself. 
 
@@ -143,7 +143,7 @@ x_train = train_table.get_column("x_train", convert_to="numpy")
 y_train = train_table.get_column("y_train", convert_to="numpy")
 ```
 
-For more information about tracking the inputs and output of a model, see [Create model lineage](./model-lineage.md) map. 
+For more information about tracking the inputs and output of a model, see [Create model lineage](./model-lineage/) map. 
 
 ### Define and train model
 
@@ -210,7 +210,7 @@ model.save(path)
 
 
 ## Log and link a model to the Model Registry
-Use the [`link_model`](../../ref/python/run.md#link_model) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry](./intro.md).
+Use the [`link_model`](../../ref/python/run.md#link_model) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry](./intro/).
 
 ```python
 path = "./model.h5"

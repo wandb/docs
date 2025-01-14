@@ -13,7 +13,7 @@ Launch jobs are blueprints for reproducing W&B runs. Jobs are W&B Artifacts that
 Create and run jobs with the `wandb launch` command.
 
 {{% alert %}}
-To create a job without submitting it for execution, use the `wandb job create` command. See the [command reference docs](../../ref/cli/wandb-job/wandb-job-create.md) for more information.
+To create a job without submitting it for execution, use the `wandb job create` command. See the [command reference docs](../../ref/cli/wandb-job/wandb-job-create/) for more information.
 {{% /alert %}}
 
 

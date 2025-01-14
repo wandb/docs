@@ -5,4 +5,4 @@ type: docs
 tags:
    - experiments
 ---
-You likely lost connection to your machine during training. Recover data by running [`wandb sync [PATH_TO_RUN]`](../ref/cli/wandb-sync.md). The path to your run is a folder in your `wandb` directory that matches the Run ID of the ongoing run.
+You likely lost connection to your machine during training. Recover data by running [`wandb sync [PATH_TO_RUN]`](../ref/cli/wandb-sync/). The path to your run is a folder in your `wandb` directory that matches the Run ID of the ongoing run.

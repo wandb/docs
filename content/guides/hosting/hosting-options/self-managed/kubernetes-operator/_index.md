@@ -62,7 +62,7 @@ Satisfy the following requirements to deploy W&B with the W&B Kubernetes operato
 
 Refer to the [reference architecture](./self-managed/ref-arch.md#infrastructure-requirements). In addition, [obtain a valid W&B Server license](./hosting-options/self-managed.md#obtain-your-wb-server-license).
 
-See [this](./self-managed/bare-metal.md) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See [this](./self-managed/bare-metal/) guide for a detailed explanation on how to set up and configure a self-managed installation.
 
 Depending on the installation method, you might need to meet the following requirements:
 * Kubectl installed and configured with the correct Kubernetes cluster context.
@@ -168,7 +168,7 @@ For a detailed description on how to use these modules, refer to this [section](
 
 ### Verify the installation
 
-To verify the installation, W&B recommends using the [W&B CLI](../../ref/cli/README.md). The verify command executes several tests that verify all components and configurations. 
+To verify the installation, W&B recommends using the [W&B CLI](../../ref/cli/README/). The verify command executes several tests that verify all components and configurations. 
 
 {{% alert %}}
 This step assumes that the first admin user account is created with the browser.
@@ -349,7 +349,7 @@ Follow these steps to migrate to the Operator-based Helm chart:
 
 This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Some configuration options are exposed with the below configuration, some need to be set as environment variables.
 
-The documentation has two lists of environment variables: [basic](./env-vars.md) and [advanced](./iam/advanced_env_vars.md). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
+The documentation has two lists of environment variables: [basic](./env-vars/) and [advanced](./iam/advanced_env_vars/). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
 
 The W&B Server application configuration file for a production deployment requires the following contents. This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
 

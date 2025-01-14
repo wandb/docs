@@ -5,7 +5,7 @@ description: >-
 displayed_sidebar: default
 title: "Tutorial: Create, track, and use a dataset artifact"
 ---
-This walkthrough demonstrates how to create, track, and use a dataset artifact from [W&B Runs](../runs/intro.md).
+This walkthrough demonstrates how to create, track, and use a dataset artifact from [W&B Runs](../runs/intro/).
 
 ## 1. Log into W&B
 
@@ -19,7 +19,7 @@ wandb.login()
 
 ## 2. Initialize a run
 
-Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a W&B Run. Provide a project name and a job type:
+Use the [`wandb.init()`](../../ref/python/init/) API to generate a background process to sync and log data as a W&B Run. Provide a project name and a job type:
 
 ```python
 # Create a W&B Run. Here we specify 'dataset' as the job type since this example
@@ -29,7 +29,7 @@ run = wandb.init(project="artifacts-example", job_type="upload-dataset")
 
 ## 3. Create an artifact object
 
-Create an artifact object with the [`wandb.Artifact()`](../../ref/python/artifact.md) API. Provide a name for the artifact and a description of the file type for the `name` and `type` parameters, respectively.
+Create an artifact object with the [`wandb.Artifact()`](../../ref/python/artifact/) API. Provide a name for the artifact and a description of the file type for the `name` and `type` parameters, respectively.
 
 For example, the following code snippet demonstrates how to create an artifact called `‘bicycle-dataset’` with a `‘dataset’` label:
 
@@ -37,7 +37,7 @@ For example, the following code snippet demonstrates how to create an artifact c
 artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 ```
 
-For more information about how to construct an artifact, see [Construct artifacts](./construct-an-artifact.md).
+For more information about how to construct an artifact, see [Construct artifacts](./construct-an-artifact/).
 
 ## Add the dataset to the artifact
 
@@ -60,7 +60,7 @@ Use the W&B run objects `log_artifact()` method to both save your artifact versi
 run.log_artifact(artifact)
 ```
 
-A `'latest'` alias is created by default when you log an artifact. For more information about artifact aliases and versions, see [Create a custom alias](./create-a-custom-alias.md) and [Create new artifact versions](./create-a-new-artifact-version.md), respectively.
+A `'latest'` alias is created by default when you log an artifact. For more information about artifact aliases and versions, see [Create a custom alias](./create-a-custom-alias/) and [Create new artifact versions](./create-a-new-artifact-version/), respectively.
 
 ## 5. Download and use the artifact
 
@@ -82,4 +82,4 @@ artifact = run.use_artifact("bicycle-dataset:latest")
 artifact_dir = artifact.download()
 ```
 
-Alternatively, you can use the Public API (`wandb.Api`) to export (or update data) data already saved in a W&B outside of a Run. See [Track external files](./track-external-files.md) for more information.
+Alternatively, you can use the Public API (`wandb.Api`) to export (or update data) data already saved in a W&B outside of a Run. See [Track external files](./track-external-files/) for more information.

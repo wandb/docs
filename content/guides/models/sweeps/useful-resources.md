@@ -37,4 +37,4 @@ The following how-to-guide demonstrates how to solve real-world problems with W&
 
 ### Sweep GitHub repository
 
-W&B advocates open source and welcome contributions from the community. Find the GitHub repository at [https://github.com/wandb/sweeps](https://github.com/wandb/sweeps). For information on how to contribute to the W&B open source repo, see the W&B GitHub [Contribution guidelines](https://github.com/wandb/wandb/blob/master/CONTRIBUTING.md).
+W&B advocates open source and welcome contributions from the community. Find the GitHub repository at [https://github.com/wandb/sweeps](https://github.com/wandb/sweeps). For information on how to contribute to the W&B open source repo, see the W&B GitHub [Contribution guidelines](https://github.com/wandb/wandb/blob/master/CONTRIBUTING/).

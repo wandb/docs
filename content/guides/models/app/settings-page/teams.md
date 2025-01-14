@@ -53,7 +53,7 @@ Select a team role when you invite colleagues to join a team. There are followin
 - **Member**: A regular member of the team. An admin invites a team member by email. A team member cannot invite other members. Team members can only delete runs and sweep runs created by that member. Suppose you have two members A and B. Member B moves a Run from team B's project to a different project owned by Member A. Member A can not delete the Run Member B moved to Member A's project. Only the member that creates the Run, or the team admin, can delete the run.
 - **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs. View-Only members do not have an API key.
 - **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles based on either of the **View-Only** or **Member** roles, together with additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [Introducing Custom Roles for W&B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details.
-- **Service accounts (Enterprise-only feature)**: Refer to [Use service accounts to automate workflows](../../hosting/iam/service-accounts.md).
+- **Service accounts (Enterprise-only feature)**: Refer to [Use service accounts to automate workflows](../../hosting/iam/service-accounts/).
 
 {{% alert %}}
 W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
@@ -80,7 +80,7 @@ The proceeding table lists permissions that apply to all projects across a given
 |Add/Remove Registry Admins  |           |             | X              | X | 
 |Add/Remove Protected Aliases|           |             | X              |   | 
 
-See the [Model Registry](../../model_registry/access_controls.md) chapter for more information about protected aliases.
+See the [Model Registry](../../model_registry/access_controls/) chapter for more information about protected aliases.
 
 ### Reports
 Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
@@ -140,7 +140,7 @@ For example, to add a Twitter follow badge, add `[{{< img src="https://img.shiel
 
 ## Team trials
 
-See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API](../../../ref/python/public-api/README.md).
+See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API](../../../ref/python/public-api/README/).
 
 ## Privacy settings
 
@@ -151,4 +151,4 @@ You can see the privacy settings of all team projects on the team settings page:
 
 ### Secure storage connector
 
-The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. Refer to [Secure Storage Connector](../../hosting/data-security/secure-storage-connector.md) for more information.
+The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. Refer to [Secure Storage Connector](../../hosting/data-security/secure-storage-connector/) for more information.

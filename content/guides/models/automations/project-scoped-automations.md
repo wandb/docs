@@ -14,7 +14,7 @@ Create an automation that triggers when an artifact is changed. Use artifact aut
 {{% alert %}}
 Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
 
-This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry. They are triggered when events are performed on model versions linked to the [Model Registry](../model_registry/intro.md). For information on how to create an automations for model versions, see the [Automations for Model CI/CD](../model_registry/model-registry-automations.md) page in the [Model Registry chapter](../model_registry/intro.md).
+This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry. They are triggered when events are performed on model versions linked to the [Model Registry](../model_registry/intro/). For information on how to create an automations for model versions, see the [Automations for Model CI/CD](../model_registry/model-registry-automations/) page in the [Model Registry chapter](../model_registry/intro/).
 {{% /alert %}}
 
 
@@ -42,7 +42,7 @@ To use a secret in your webhook, you must first add that secret to your team's s
 {{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.
-* Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
+* Secrets are also available if you use [W&B Server](../hosting/intro/) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
 {{% /alert %}}
 
 
@@ -170,7 +170,7 @@ ${project_name} --> "<project_name>"
 ${entity_name} --> "<entity>"
 ```
 
-Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
+Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API](../artifacts/download-and-use-an-artifact/).
 
 For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 {{% /tab %}}

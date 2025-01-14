@@ -54,7 +54,7 @@ Update the inherited role for a custom role with the `PUT Role` endpoint. This o
 
 ## W&B Python SDK API
 
-Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API](../../../ref/python/public-api/api.md) for that purpose. Keep a note of the following methods:
+Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API](../../../ref/python/public-api/api/) for that purpose. Keep a note of the following methods:
 
 | Method name | Purpose |
 |-------------|---------|

@@ -8,10 +8,10 @@ url: guides/launch/launch-terminology
 weight: 2
 ---
 
-With W&B Launch, you enqueue [jobs](#launch-job) onto [queues](#launch-queue) to create runs. Jobs are python scripts instrumented with W&B. Queues hold a list of jobs to execute on a [target resource](#target-resources). [Agents](#launch-agent) pull jobs from queues and execute the jobs on target resources. W&B tracks launch jobs similarly to how W&B tracks [runs](../runs/intro.md).
+With W&B Launch, you enqueue [jobs](#launch-job) onto [queues](#launch-queue) to create runs. Jobs are python scripts instrumented with W&B. Queues hold a list of jobs to execute on a [target resource](#target-resources). [Agents](#launch-agent) pull jobs from queues and execute the jobs on target resources. W&B tracks launch jobs similarly to how W&B tracks [runs](../runs/intro/).
 
 ### Launch job
-A launch job is a specific type of [W&B Artifact](../artifacts/intro.md) that represents a task to complete. For example, common launch jobs include training a model or triggering a model evaluation. Job definitions include:
+A launch job is a specific type of [W&B Artifact](../artifacts/intro/) that represents a task to complete. For example, common launch jobs include training a model or triggering a model evaluation. Job definitions include:
 
 - Python code and other file assets, including at least one runnable entrypoint.
 - Information about the input (config parameter) and output (metrics logged).
@@ -39,10 +39,10 @@ The compute environment that a Launch queue is configured to execute jobs on is 
 
 W&B Launch supports the following target resources:
 
-- [Docker](./setup-launch-docker.md)
-- [Kubernetes](./setup-launch-kubernetes.md)
-- [AWS SageMaker](./setup-launch-sagemaker.md)
-- [GCP Vertex](./setup-vertex.md)
+- [Docker](./setup-launch-docker/)
+- [Kubernetes](./setup-launch-kubernetes/)
+- [AWS SageMaker](./setup-launch-sagemaker/)
+- [GCP Vertex](./setup-vertex/)
 
 Each target resource accepts a different set of configuration parameters called *resource configurations*. Resource configurations take on default values defined by each Launch queue, but can be overridden independently by each job. See the documentation for each target resource for more details.
 

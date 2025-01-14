@@ -18,7 +18,7 @@ All W&B logging features are compatible with data-parallel multi-GPU training, s
 {{% /alert %}}
 
 ## Track core experiments
-Simply by installing `wandb`, you'll activate the built-in W&B [logging features](../track/log/intro.md): system metrics, model metrics, and media logged to interactive [Dashboards](../track/workspaces.md).
+Simply by installing `wandb`, you'll activate the built-in W&B [logging features](../track/log/intro/): system metrics, model metrics, and media logged to interactive [Dashboards](../track/workspaces/).
 
 ```python
 pip install wandb
@@ -34,9 +34,9 @@ Just follow the links printed to the standard out by wandb.
 
 By passing a few simple command line arguments to YOLO, you can take advantage of even more W&B features.
 
-* Passing a number to `--save_period` will turn on [model versioning](../model_registry/intro.md). At the end of every `save_period` epochs, the model weights will be saved to W&B. The best-performing model on the validation set will be tagged automatically.
+* Passing a number to `--save_period` will turn on [model versioning](../model_registry/intro/). At the end of every `save_period` epochs, the model weights will be saved to W&B. The best-performing model on the validation set will be tagged automatically.
 * Turning on the `--upload_dataset` flag will also upload the dataset for data versioning.
-* Passing a number to `--bbox_interval` will turn on [data visualization](../intro.md). At the end of every `bbox_interval` epochs, the outputs of the model on the validation set will be uploaded to W&B.
+* Passing a number to `--bbox_interval` will turn on [data visualization](../intro/). At the end of every `bbox_interval` epochs, the outputs of the model on the validation set will be uploaded to W&B.
 
 {{< tabpane text=true >}}
 {{% tab header="Model Versioning Only" value="modelversioning" %}}

@@ -14,7 +14,7 @@ As a team administrator you can [manage teams](#add-and-manage-teams).
 The following workflow applies to users with instance administrator roles. Reach out to an administrator in your organization if you believe you should have instance administrator permissions. 
 {{% /alert %}}
 
-If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
+If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam/).
 
 <!-- W&B assigns an Admin role to new users within an organization by default.  -->
 
@@ -85,7 +85,7 @@ A W&B user with matching email domain can sign in to your W&B Organization with 
 {{% alert title="Enable SSO for authentication" %}}
 W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). Reach out to your W&B team to enable SSO for your organization. 
 
-To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).{{% /alert %}}
+To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso/) or [SSO with LDAP](./ldap/).{{% /alert %}}
 
 
 W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
@@ -226,7 +226,7 @@ Use your organization's dashboard to create  and manage teams within your organi
 - Manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
 
-<!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->
+<!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam/). -->
 
 
 ### Create a team

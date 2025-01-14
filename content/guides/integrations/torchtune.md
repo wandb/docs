@@ -48,7 +48,7 @@ log_every_n_steps: 5
 
 Enable W&B logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
 
-You can also pass any other `kwargs` as you would to the [wandb.init](../../ref/python/init.md) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
+You can also pass any other `kwargs` as you would to the [wandb.init](../../ref/python/init/) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
 
 {{< tabpane text=true >}}
 {{% tab header="Recipe's Config" value="config" %}}
@@ -123,7 +123,7 @@ This is a fast evolving library, the current metrics are subject to change. If y
 
 The torchtune library supports various [checkpoint formats](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Depending on the origin of the model you are using, you should switch to the appropriate [checkpointer class](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html).
 
-If you want to save the model checkpoints to [W&B Artifacts](../artifacts/intro.md), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
+If you want to save the model checkpoints to [W&B Artifacts](../artifacts/intro/), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
 
 Here is an example of how you can override the `save_checkpoint` function to save the model checkpoints to W&B Artifacts.
 

@@ -17,11 +17,11 @@ Team members with view-only seats cannot download artifacts.
 
 ### Download and use an artifact stored on W&B
 
-Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](../../ref/python/public-api/api.md)) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide](../../ref/python/public-api/README.md).
+Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](../../ref/python/public-api/api/)) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide](../../ref/python/public-api/README/).
 
 {{< tabpane text=true >}}
   {{% tab header="During a run" %}}
-First, import the W&B Python SDK. Next, create a W&B [Run](../../ref/python/run.md):
+First, import the W&B Python SDK. Next, create a W&B [Run](../../ref/python/run/):
 
 ```python
 import wandb
@@ -54,7 +54,7 @@ This fetches only the file at the path `name`. It returns an `Entry` object with
 * `Entry.download`: Downloads file from the artifact at path `name`
 * `Entry.ref`: If `add_reference` stored the entry as a reference, returns the URI
 
-References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files](../../guides/artifacts/track-external-files.md).  
+References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files](../../guides/artifacts/track-external-files/).  
   {{% /tab %}}
   {{% tab header="Outside of a run" %}}
 First, import the W&B SDK. Next, create an artifact from the Public API Class. Provide the entity, project, artifact, and alias associated with that artifact:
@@ -130,4 +130,4 @@ artifact.add_file("model.h5")
 run.use_artifact(artifact)
 ```
 
-For more information about constructing an artifact, see [Construct an artifact](../../guides/artifacts/construct-an-artifact.md).
+For more information about constructing an artifact, see [Construct an artifact](../../guides/artifacts/construct-an-artifact/).

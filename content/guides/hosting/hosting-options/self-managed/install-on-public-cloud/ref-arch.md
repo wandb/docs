@@ -21,7 +21,7 @@ Consider carefully whether a self-managed approach with W&B is suitable for your
 
 A strong understanding of how to run and maintain  production-grade application is an important prerequisite before you deploy self-managed W&B. If your team needs assistance, our Professional Services team and partners offer support for implementation and optimization.
 
-To learn more about managed solutions for running W&B instead of managing it yourself, refer to [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) and [W&B Dedicated Cloud](../hosting-options/dedicated_cloud.md).
+To learn more about managed solutions for running W&B instead of managing it yourself, refer to [W&B Multi-tenant Cloud](../hosting-options/saas_cloud/) and [W&B Dedicated Cloud](../hosting-options/dedicated_cloud/).
 
 ## Infrastructure
 
@@ -38,7 +38,7 @@ The storage layer consists of a MySQL database and object storage. The MySQL dat
 ## Infrastructure requirements
 
 ### Kubernetes
-The W&B Server application is deployed as a [Kubernetes Operator](../operator.md) that deploys multiple Pods. For this reason, W&B requires a Kubernetes cluster with:
+The W&B Server application is deployed as a [Kubernetes Operator](../operator/) that deploys multiple Pods. For this reason, W&B requires a Kubernetes cluster with:
 - A fully configured and functioning Ingress controller
 - The capability to provision Persistent Volumes.
 

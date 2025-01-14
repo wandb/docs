@@ -22,7 +22,7 @@ Before you get start, you must install the W&B SDK(`wandb`). Type the following 
 pip install wandb sweeps 
 ```
 
-The following examples assume you already have a configuration file and a training loop defined in a python script or Jupyter Notebook. For more information about how to define a configuration file, see [Define sweep configuration](./define-sweep-configuration.md).
+The following examples assume you already have a configuration file and a training loop defined in a python script or Jupyter Notebook. For more information about how to define a configuration file, see [Define sweep configuration](./define-sweep-configuration/).
 
 ### Run the local controller from the command line
 
@@ -47,14 +47,14 @@ Next, initialize the sweep:
 wandb sweep config.yaml
 ```
 
-After you initialized the sweep, start a controller with [`wandb controller`](../../ref/python/controller.md):
+After you initialized the sweep, start a controller with [`wandb controller`](../../ref/python/controller/):
 
 ```bash
 # wandb sweep command will print a sweep_id
 wandb controller {user}/{entity}/{sweep_id}
 ```
 
-Once you have specified you want to use a local controller, start one or more Sweep agents to execute the sweep. Start a W&B Sweep similar to how you normally would. See [Start sweep agents](../../guides/sweeps/start-sweep-agents.md), for more information.
+Once you have specified you want to use a local controller, start one or more Sweep agents to execute the sweep. Start a W&B Sweep similar to how you normally would. See [Start sweep agents](../../guides/sweeps/start-sweep-agents/), for more information.
 
 ```bash
 wandb sweep sweep_ID
@@ -64,7 +64,7 @@ wandb sweep sweep_ID
 
 The following code snippets demonstrate how to specify and use a local controller with the W&B Python SDK.
 
-The simplest way to use a controller with the Python SDK is to pass the sweep ID to the [`wandb.controller`](../../ref/python/controller.md) method. Next, use the return objects `run` method to start the sweep job:
+The simplest way to use a controller with the Python SDK is to pass the sweep ID to the [`wandb.controller`](../../ref/python/controller/) method. Next, use the return objects `run` method to start the sweep job:
 
 ```python
 sweep = wandb.controller(sweep_id)
