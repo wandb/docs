@@ -823,6 +823,11 @@ img, iframe {
         margin-bottom: 0 !important;
     }
 
+    // Hide disabled buttons
+    &:disabled {
+        display: none !important;
+    }
+
     // Dark mode styles
     [data-bs-theme=dark] & {
         color: $dark-text-primary !important;
