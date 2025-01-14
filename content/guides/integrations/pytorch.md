@@ -6,7 +6,7 @@ menu:
 title: PyTorch
 weight: 300
 ---
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/Intro_to_Weights_%26_Biases.ipynb" >}}
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" >}}
 
 PyTorch is one of the most popular frameworks for deep learning in Python, especially among researchers. W&B provides first class support for PyTorch, from logging gradients to profiling your code on the CPU and GPU.
 
@@ -18,7 +18,7 @@ You can also see our [example repo](https://github.com/wandb/examples) for scrip
 
 ## Log gradients with `wandb.watch`
 
-To automatically log gradients, you can call [`wandb.watch`](../../ref/python/watch/) and pass in your PyTorch model.
+To automatically log gradients, you can call [`wandb.watch`](../../ref/python/watch.md) and pass in your PyTorch model.
 
 ```python
 import wandb
@@ -40,7 +40,7 @@ for batch_idx, (data, target) in enumerate(train_loader):
         wandb.log({"loss": loss})
 ```
 
-If you need to track multiple models in the same script, you can call `wandb.watch` on each model separately. Reference documentation for this function is [here](../../ref/python/watch/).
+If you need to track multiple models in the same script, you can call `wandb.watch` on each model separately. Reference documentation for this function is [here](../../ref/python/watch.md).
 
 {{% alert color="secondary" %}}
 Gradients, metrics, and the graph won't be logged until `wandb.log` is called after a forward _and_ backward pass.
@@ -48,14 +48,14 @@ Gradients, metrics, and the graph won't be logged until `wandb.log` is called af
 
 ## Log images and media
 
-You can pass PyTorch `Tensors` with image data into [`wandb.Image`](../../ref/python/data-types/image/) and utilities from [`torchvision`](https://pytorch.org/vision/stable/index.html) will be used to convert them to images automatically:
+You can pass PyTorch `Tensors` with image data into [`wandb.Image`](../../ref/python/data-types/image.md) and utilities from [`torchvision`](https://pytorch.org/vision/stable/index.html) will be used to convert them to images automatically:
 
 ```python
 images_t = ...  # generate or load images as PyTorch Tensors
 wandb.log({"examples": [wandb.Image(im) for im in images_t]})
 ```
 
-For more on logging rich media to W&B in PyTorch and other frameworks, check out our [media logging guide](../track/log/media/).
+For more on logging rich media to W&B in PyTorch and other frameworks, check out our [media logging guide](../track/log/media.md).
 
 If you also want to include information alongside media, like your model's predictions or derived metrics, use a `wandb.Table`.
 
@@ -72,13 +72,13 @@ wandb.log({"mnist_predictions": my_table})
 
 {{< img src="/images/integrations/pytorch_example_table.png" alt="The code above generates a table like this one. This model's looking good!" >}}
 
-For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../tables/).
+For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../tables/intro.md).
 
 ## Profile PyTorch code
 
 {{< img src="/images/integrations/pytorch_example_dashboard.png" alt="View detailed traces of PyTorch code execution inside W&B dashboards." >}}
 
-W&B integrates directly with [PyTorch Kineto](https://github.com/pytorch/kineto)'s [Tensorboard plugin](https://github.com/pytorch/kineto/blob/master/tb_plugin/README/) to provide tools for profiling PyTorch code, inspecting the details of CPU and GPU communication, and identifying bottlenecks and optimizations.
+W&B integrates directly with [PyTorch Kineto](https://github.com/pytorch/kineto)'s [Tensorboard plugin](https://github.com/pytorch/kineto/blob/master/tb_plugin/README.md) to provide tools for profiling PyTorch code, inspecting the details of CPU and GPU communication, and identifying bottlenecks and optimizations.
 
 ```python
 profile_dir = "path/to/run/tbprofile/"

@@ -6,7 +6,7 @@ menu:
 title: Keras
 weight: 160
 ---
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/Intro_to_Weights_%26_Biases_keras.ipynb" >}}
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" >}}
 
 ## Keras callbacks
 
@@ -258,7 +258,7 @@ See our [example repo](https://github.com/wandb/examples) for scripts, including
 
 The `WandbCallback` class supports a wide variety of logging configuration options: specifying a metric to monitor, tracking of weights and gradients, logging of predictions on training_data and validation_data, and more.
 
-Check out [the reference documentation for the `keras.WandbCallback`](../../ref/python/integrations/keras/wandbcallback/) for full details.
+Check out [the reference documentation for the `keras.WandbCallback`](../../ref/python/integrations/keras/wandbcallback.md) for full details.
 
 The `WandbCallback` 
 

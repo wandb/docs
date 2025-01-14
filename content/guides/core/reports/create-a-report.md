@@ -11,7 +11,7 @@ weight: 10
 Create a report interactively with the W&B App UI or programmatically with the W&B Python SDK.
 
 {{% alert %}}
-See this [Google Colab for an example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/Report_API_Quickstart.ipynb).
+See this [Google Colab for an example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
 {{% /alert %}}
 
 {{< tabpane text=true >}}
