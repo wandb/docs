@@ -1,7 +1,11 @@
 ---
 title: Reference Architecture
 description: W&B Reference Architecture
-displayed_sidebar: default
+menu:
+  default:
+    identifier: ref-arch
+    parent: self-managed
+weight: 1
 ---
 
 

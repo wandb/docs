@@ -5,6 +5,7 @@ menu:
     identifier: bare-metal
     parent: self-managed
 title: Deploy W&B Platform On-premises
+weight: 5
 ---
 
 {{% alert %}}

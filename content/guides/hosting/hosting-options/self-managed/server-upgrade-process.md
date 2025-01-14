@@ -7,6 +7,7 @@ menu:
     parent: self-managed
 title: Update W&B license and version
 url: guides/hosting/server-upgrade-process
+weight: 6
 ---
 
 Update your W&B Server Version and License with the same method you installed W&B Server with. The following table lists how to update your license and version based on different deployment methods:
