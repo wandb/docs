@@ -7,7 +7,7 @@ weight: 5
 no_list: true
 ---
 
-W&B Core is the foundational framework supporting [W&B Models]({{< relref "./models.md" >}}) and [W&B Weave]({{< relref "./weave_platform.md" >}}), and is itself supported by the [W&B Platform]({{< relref "./hosting/_index.md" >}}). 
+W&B Core is the foundational framework supporting [W&B Models]({{< relref "../models/" >}}) and [W&B Weave]({{< relref "./weave_platform.md" >}}), and is itself supported by the [W&B Platform]({{< relref "./hosting/_index.md" >}}). 
 
 {{< img src="/images/general/core.png" alt="" >}}
 

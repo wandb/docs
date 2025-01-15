@@ -150,7 +150,7 @@ def train_model(
 
 ### With implicit wandb integrations
 
-If you're using a [framework integration we support]({{< relref "/guides/integrations" >}}), you can also pass in the callback directly:
+If you're using a [framework integration we support]({{< relref "/guides/integrations/" >}}), you can also pass in the callback directly:
 
 ```python
 @wandb_log

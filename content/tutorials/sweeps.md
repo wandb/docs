@@ -169,7 +169,7 @@ import pprint
 pprint.pprint(sweep_config)
 ```
 
-For a full list of configuration options, see [Sweep configuration options]({{< relref "/guides/sweeps/sweep-config-keys" >}}). 
+For a full list of configuration options, see [Sweep configuration options]({{< relref "/guides/sweeps/sweep-config-keys/" >}}). 
 
 {{% alert %}}
 For hyperparameters that have potentially infinite options,

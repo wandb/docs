@@ -44,7 +44,7 @@ In the notebook below, we'll walk through these 3 steps in more detail.
 We highly encourage you to fork this notebook, tweak the parameters, or try the model with your own dataset.
 
 ### Resources
-- [Sweeps docs →]({{< relref "/guides/sweeps" >}})
+- [Sweeps docs →]({{< relref "/guides/sweeps/" >}})
 - [Launching from the command line →](https://www.wandb.com/articles/hyperparameter-tuning-as-easy-as-1-2-3)
 
 

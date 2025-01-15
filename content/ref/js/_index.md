@@ -60,7 +60,7 @@ In node environments we look for `process.env.WANDB_API_KEY` and prompt for it's
 
 # Integrations
 
-Our [Python integrations]({{< relref "/guides/integrations" >}}) are widely used by our community, and we hope to build out more JavaScript integrations to help LLM app builders leverage whatever tool they want. 
+Our [Python integrations]({{< relref "/guides/integrations/" >}}) are widely used by our community, and we hope to build out more JavaScript integrations to help LLM app builders leverage whatever tool they want. 
 
 If you have any requests for additional integrations, we'd love you to open an issue with details about the request.
 

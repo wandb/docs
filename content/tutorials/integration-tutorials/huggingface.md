@@ -66,7 +66,7 @@ import wandb
 wandb.login()
 ```
 
-Optionally, we can set environment variables to customize W&B logging. See [documentation]({{< relref="/guides/integrations/huggingface" >}}).
+Optionally, we can set environment variables to customize W&B logging. See [documentation]({{< relref="/guides/integrations/huggingface/" >}}).
 
 
 ```python

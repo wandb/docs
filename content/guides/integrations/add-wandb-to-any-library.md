@@ -351,7 +351,7 @@ aliases = ["best", "epoch_10"]
 wandb.log_artifact(artifact, aliases=aliases)
 ```
 
-For information on how to create a custom alias, see [Create a Custom Alias]({{< relref "/guides/artifacts/create-a-custom-alias" >}}).
+For information on how to create a custom alias, see [Create a Custom Alias]({{< relref "/guides/artifacts/create-a-custom-alias/" >}}).
 
 You can log output Artifacts at any frequency (for example, every epoch, every 500 steps, and so on) and they are automatically versioned.
 
@@ -387,7 +387,7 @@ For more information, see [Download and Use Artifacts]({{< relref "/guides/artif
 
 ### Hyper-parameter Tuning
 
-If your library would like to leverage W&B hyper-parameter tuning, [W&B Sweeps]({{< relref "/guides/sweeps" >}}) can also be added to your library.
+If your library would like to leverage W&B hyper-parameter tuning, [W&B Sweeps]({{< relref "/guides/sweeps/" >}}) can also be added to your library.
 
 ### Advanced Integrations
 

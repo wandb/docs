@@ -17,10 +17,10 @@ no_list: true
 
 The following tutorials take you through the fundamentals of W&B for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
 
-1. [Track experiments]({{< relref "/tutorials/experiments" >}}) 
-2. [Visualize predictions]({{< relref "/tutorials/tables" >}})
-3. [Tune hyperparameters]({{< relref "/tutorials/sweeps" >}})
-4. [Track models and datasets]({{< relref "/tutorials/artifacts" >}})
+1. [Track experiments]({{< relref "/tutorials/experiments/" >}}) 
+2. [Visualize predictions]({{< relref "/tutorials/tables/" >}})
+3. [Tune hyperparameters]({{< relref "/tutorials/sweeps/" >}})
+4. [Track models and datasets]({{< relref "/tutorials/artifacts/" >}})
 
 
 ## Popular ML framework tutorials
@@ -31,13 +31,13 @@ See the following tutorials for step by step information on how to use popular M
 - [HuggingFace Transformers]({{< relref "/tutorials/huggingface" >}})
 - Tensorflow
     - [Track experiments]({{< relref "/tutorials/tensorflow" >}})
-    - [Tune hyperparameters]({{< relref "/tutorials/tensorflow_sweeps" >}})
+    - [Tune hyperparameters]({{< relref "/tutorials/tensorflow_sweeps/" >}})
 - Keras
-    - [Track experiments]({{< relref "/tutorials/keras" >}})
-    - [Visualize predictions]({{< relref "/tutorials/keras_tables" >}})
-    - [Model Checkpointing]({{< relref "/tutorials/keras_models" >}})
+    - [Track experiments]({{< relref "/tutorials/keras/" >}})
+    - [Visualize predictions]({{< relref "/tutorials/keras_tables/" >}})
+    - [Model Checkpointing]({{< relref "/tutorials/keras_models/" >}})
 - XGBoost
-    - [Tune hyperparameters]({{< relref "/tutorials/xgboost_sweeps" >}})
+    - [Tune hyperparameters]({{< relref "/tutorials/xgboost_sweeps/" >}})
 
 
 

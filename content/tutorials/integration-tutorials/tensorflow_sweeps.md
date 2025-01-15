@@ -23,7 +23,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 * **Transparent**: The project cites all algorithms used, and the [code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
 * **Powerful**: Sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 
-**[Check out the official documentation]({{< relref "/guides/sweeps" >}})**
+**[Check out the official documentation]({{< relref "/guides/sweeps/" >}})**
 
 
 ## What this notebook covers
@@ -296,6 +296,6 @@ See examples of projects tracked and visualized with W&B in the [Gallery →](ht
 5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
 
 ## Advanced Setup
-1. [Environment variables]({{< relref "/guides/hosting/env-vars" >}}): Set API keys in environment variables so you can run training on a managed cluster.
+1. [Environment variables]({{< relref "/guides/hosting/env-vars/" >}}): Set API keys in environment variables so you can run training on a managed cluster.
 2. [Offline mode]({{< relref "../support/run_wandb_offline.md" >}})
 3. [On-prem]({{< relref "/guides/hosting/hosting-options/self-managed" >}}): Install W&B in a private cloud or air-gapped servers in your own infrastructure. Everyone from academics to enterprise teams use local installations.

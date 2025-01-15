@@ -43,7 +43,7 @@ wandb.login()
 
 Create, track, and visualize a machine learning experiment. To do this:
 
-1. Initialize a [W&B run]({{< relref "/guides/runs" >}}) and pass in the hyperparameters you want to track.
+1. Initialize a [W&B run]({{< relref "/guides/runs/" >}}) and pass in the hyperparameters you want to track.
 2. Within your training loop, log metrics such as the accuruacy and loss.
 
 
@@ -98,7 +98,7 @@ W&B runs automatically log [metrics]({{< relref "/guides/runs/#workspace-tab" >}
 [system information]({{< relref "/guides/runs/#system-tab" >}}),
 [hyperparameters]({{< relref "/guides/runs/#overview-tab" >}}),
 [terminal output]({{< relref "/guides/runs/#logs-tab" >}}) and
-you'll see an [interactive table]({{< relref "/guides/tables" >}})
+you'll see an [interactive table]({{< relref "/guides/tables/" >}})
 with model inputs and outputs. 
 
 ### Set up PyTorch Dataloader
