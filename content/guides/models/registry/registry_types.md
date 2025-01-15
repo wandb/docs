@@ -7,7 +7,7 @@ title: Registry types
 weight: 1
 ---
 
-W&B supports two types of registries: [Core registries](#core-registry) and [Custom registries](#custom-registry). 
+W&B supports two types of registries: [Core registries]({{< relref "#core-registry" >}}) and [Custom registries]({{< relref "#custom-registry" >}}). 
 
 ## Core registry
 A core registry is a template for specific use cases: **Models** and **Datasets**.
@@ -20,7 +20,7 @@ By default, the **Models** registry is configured to accept `"model"` artifact t
 
 The preceding image shows the **Models** and the **Dataset** core registry along with a custom registry called **Fine_Tuned_Models** in the W&B Registry App UI.
 
-A core registry has [organization visibility](./configure_registry.md#registry-visibility-types). A registry admin can not change the visibility of a core registry. 
+A core registry has [organization visibility]({{< relref "./configure_registry.md#registry-visibility-types" >}}). A registry admin can not change the visibility of a core registry. 
 
 ## Custom registry
 Custom registries are not restricted to `"model"` artifact types or `"dataset"` artifact types.
@@ -31,9 +31,9 @@ For example, you might create a registry called "Benchmark_Datasets" for organiz
 
 {{< img src="/images/registry/custom_registry_example.png" alt="" >}}
 
-A custom registry can have either [organization or restricted visibility](./configure_registry.md#registry-visibility-types). A registry admin can change the visibility of a custom registry from organization to restricted. However, the registry admin can not change a custom registry's visibility from restricted to organizational visibility.
+A custom registry can have either [organization or restricted visibility]({{< relref "./configure_registry.md#registry-visibility-types" >}}). A registry admin can change the visibility of a custom registry from organization to restricted. However, the registry admin can not change a custom registry's visibility from restricted to organizational visibility.
 
-For information on how to create a custom registry, see [Create a custom registry](./create_collection.md).
+For information on how to create a custom registry, see [Create a custom registry]({{< relref "./create_collection.md" >}}).
 
 
 ## Summary

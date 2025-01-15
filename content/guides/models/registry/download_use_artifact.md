@@ -9,7 +9,7 @@ weight: 6
 
 Use the W&B Python SDK to download an artifact linked to a registry. To download and use an artifact, you need to know the name of the registry, the name of the collection, and the alias or index of the artifact version you want to download. 
 
-Once you know the properties of the artifact, you can [construct the path to the linked artifact](#construct-path-to-linked-artifact) and download the artifact. Alternatively, you can [copy and paste a pre-generated code snippet](#copy-and-paste-pre-generated-code-snippet) from the W&B App UI to download an artifact linked to a registry. 
+Once you know the properties of the artifact, you can [construct the path to the linked artifact]({{< relref "#construct-path-to-linked-artifact" >}}) and download the artifact. Alternatively, you can [copy and paste a pre-generated code snippet]({{< relref "#copy-and-paste-pre-generated-code-snippet" >}}) from the W&B App UI to download an artifact linked to a registry. 
 
 
 ## Construct path to linked artifact
@@ -52,7 +52,7 @@ fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)
 download_path = fetched_artifact.download()  
 ```
 
-The `.use_artifact()` method both creates a [run](../runs/intro.md) and marks the artifact you download as the input to that run. 
+The `.use_artifact()` method both creates a [run]({{< relref "/guides/models/track/runs/" >}}) and marks the artifact you download as the input to that run. 
 Marking an artifact as the input to a run enables W&B to track the lineage of that artifact. 
 
 If you do not want to create a run, you can use the `wandb.Api()` object to access the artifact:
@@ -99,7 +99,7 @@ downloaded_path = fetched_artifact.download()
 
 
 
-See [`use_artifact`](../../ref/python/run.md#use_artifact) and [`Artifact.download()`](/ref/python/artifact#download) in the API Reference guide for more information on possible parameters and return type.
+See [`use_artifact`]({{< relref "/ref/python/run.md#use_artifact" >}}) and [`Artifact.download()`]({{< relref "/ref/python/artifact#download" >}}) in the API Reference guide for more information on possible parameters and return type.
 
 {{% alert title="Users with a personal entity that belong to multiple organizations" %}} 
 Users with a personal entity that belong to multiple organizations must also specify either the name of their organization or use a team entity when accessing artifacts linked to a registry.
@@ -137,4 +137,4 @@ W&B creates a code snippet that you can copy and paste into your Python script, 
 6. Copy the code snippet shown in the **Usage API** section.
 7. Paste the code snippet into your Python script, notebook, or terminal.
 
-![](/images/registry/find_usage_in_registry_ui.gif)
+{{< img src="/images/registry/find_usage_in_registry_ui.gif" >}}

@@ -29,7 +29,7 @@ For example, suppose you have a fixed resource (such as DGX BasePod). If you obs
 
 On the other hand, suppose you use a cloud resource and you see periodic bursts of activity. Periodic bursts of activity might suggest an opportunity to save money by reserving resources for particular times.
 
-To the right of the plot is a key that shows which colors represent the [status of a launch job](./launch-view-jobs.md#check-the-status-of-a-job).
+To the right of the plot is a key that shows which colors represent the [status of a launch job]({{< relref "./launch-view-jobs.md#check-the-status-of-a-job" >}}).
 
 {{% alert %}}
 `Queued` items might indicate opportunities to shift workloads to other queues. A spike in failures can identify users who might need help with their launch job setup.

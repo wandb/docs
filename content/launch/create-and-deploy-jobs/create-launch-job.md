@@ -13,7 +13,7 @@ Launch jobs are blueprints for reproducing W&B runs. Jobs are W&B Artifacts that
 Create and run jobs with the `wandb launch` command.
 
 {{% alert %}}
-To create a job without submitting it for execution, use the `wandb job create` command. See the [command reference docs](../../ref/cli/wandb-job/wandb-job-create.md) for more information.
+To create a job without submitting it for execution, use the `wandb job create` command. See the [command reference docs]({{< relref "/ref/cli/wandb-job/wandb-job-create.md" >}}) for more information.
 {{% /alert %}}
 
 
@@ -94,7 +94,7 @@ wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"
 
 W&B will automatically create and track a job for any run with tracked source code, even if that run was not created with Launch. Runs are considered to have tracked source code if any of the three following conditions are met:
 - The run has an associated git remote and commit hash
-- The run logged a code artifact (see [`Run.log_code`](../../ref/python/run.md#log_code) for more information)
+- The run logged a code artifact (see [`Run.log_code`]({{< relref "/ref/python/run.md#log_code" >}}) for more information)
 - The run was executed in a Docker container with the `WANDB_DOCKER` environment variable set to an image tag
 
 The Git remote URL is inferred from the local git repository if your Launch job is created automatically by a W&B run. 
@@ -148,14 +148,14 @@ The term build context refers to the tree of files and directories that are sent
 {{% alert %}}
 The `--build-context` argument is particularly useful for working with Git jobs that refer to a monorepo with multiple projects. By specifying a subdirectory as the build context, you can build a container image for a specific project within the monorepo.
 
-See the [example above](#git-jobs) for a demonstration of how to use the `--build-context` argument with the official W&B Launch jobs repository.
+See the [example above]({{< relref "#git-jobs" >}}) for a demonstration of how to use the `--build-context` argument with the official W&B Launch jobs repository.
 {{% /alert %}}
 
 ### Dockerfile
 
 The Dockerfile is a text file that contains instructions for building a Docker image. By default, Launch uses a default Dockerfile that installs the `requirements.txt` file. To use a custom Dockerfile, specify the path to the file with the `--dockerfile` argument of `wandb launch`.
 
-The Dockerfile path is specified relative to the build context. For example, if the build context is `jobs/hello_world`, and the Dockerfile is located in the `jobs/hello_world` directory, the `--dockerfile` argument should be set to `Dockerfile.wandb`. See the [example above](#git-jobs) for a demonstration of how to use the `--dockerfile` argument with the official W&B Launch jobs repository.
+The Dockerfile path is specified relative to the build context. For example, if the build context is `jobs/hello_world`, and the Dockerfile is located in the `jobs/hello_world` directory, the `--dockerfile` argument should be set to `Dockerfile.wandb`. See the [example above]({{< relref "#git-jobs" >}}) for a demonstration of how to use the `--dockerfile` argument with the official W&B Launch jobs repository.
 
 ### Requirements file
 

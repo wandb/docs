@@ -7,7 +7,7 @@ title: Configure private connectivity to Dedicated Cloud
 weight: 4
 ---
 
-You can connect to your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) instance over the cloud provider's secure private network. This applies to the access from your AI workloads to the W&B APIs and optionally from your user browsers to the W&B app UI as well. When using private connectivity, the relevant requests and responses do not transit through the public network or internet.
+You can connect to your [Dedicated Cloud]({{< relref "../hosting-options/dedicated_cloud.md" >}}) instance over the cloud provider's secure private network. This applies to the access from your AI workloads to the W&B APIs and optionally from your user browsers to the W&B app UI as well. When using private connectivity, the relevant requests and responses do not transit through the public network or internet.
 
 {{% alert %}}
 Secure private connectivity is available in preview as an advanced security option with Dedicated Cloud.
@@ -25,4 +25,4 @@ Once enabled, W&B creates a private endpoint service for your instance and provi
 If you would like to use this feature, contact your W&B team.
 {{% /alert %}}
 
-You can use secure private connectivity with [IP allowlisting](./ip-allowlisting.md). If you use secure private connectivity for IP allowlisting, W&B recommends that you secure private connectivity for all traffic from your AI workloads and majority of the traffic from your user browsers if possible, while using IP allowlisting for instance administration from privileged locations.
+You can use secure private connectivity with [IP allowlisting]({{< relref "./ip-allowlisting.md" >}}). If you use secure private connectivity for IP allowlisting, W&B recommends that you secure private connectivity for all traffic from your AI workloads and majority of the traffic from your user browsers if possible, while using IP allowlisting for instance administration from privileged locations.

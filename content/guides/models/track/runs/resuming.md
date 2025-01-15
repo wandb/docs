@@ -30,7 +30,7 @@ Pass one of the following arguments to the `resume` parameter to determine how W
 - `"allow"`:  If the run ID exists, W&B resumes the run with that run ID. If the run ID does not exist, W&B initializes a new run with the specified run ID.
 - `"never"`: If the run ID exists, W&B does nothing. If the run ID does not exist, W&B starts a new run with the specified run ID.  -->
 
-You can also specify `resume="auto"` to let W&B to automatically try to restart the run on your behalf. However, you will need to ensure that you restart your run from the same directory. See the [Enable runs to automatically resume](#enable-runs-to-automatically-resume) section for more information.
+You can also specify `resume="auto"` to let W&B to automatically try to restart the run on your behalf. However, you will need to ensure that you restart your run from the same directory. See the [Enable runs to automatically resume]({{< relref "#enable-runs-to-automatically-resume" >}}) section for more information.
 
 For all the examples below, replace values enclosed within `<>` with your own.
 
@@ -53,7 +53,7 @@ run = wandb.init(entity="<entity>", \
 Unexpected results will occur if multiple processes use the same `id` concurrently. 
 
 
-For more information on  how to manage multiple processes, see the [Log distributed training experiments](../track/log/distributed-training.md) 
+For more information on  how to manage multiple processes, see the [Log distributed training experiments]({{< relref "/guides/models/track/log/distributed-training.md" >}}) 
 {{% /alert %}}
 
 ## Resume a run without overriding the existing run
@@ -111,7 +111,7 @@ For example, suppose you execute a python script called `train.py` in a director
 
 
 {{% alert %}}
-If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Custom run IDs](./intro.md#custom-run-ids) section in the "What are runs?" page for more information on run IDs.
+If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Custom run IDs]({{< relref "./#custom-run-ids" >}}) section in the "What are runs?" page for more information on run IDs.
 {{% /alert %}}
 
 
@@ -119,9 +119,9 @@ If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variab
 
 
 ## Resume preemptible Sweeps runs
-Automatically requeue interrupted [sweep](../sweeps/intro.md) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
+Automatically requeue interrupted [sweep]({{< relref "/guides/models/sweeps/" >}}) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
 
-Use the [`mark_preempting`](../../ref/python/run.md#mark_preempting) function to enable W&B to automatically requeue interrupted sweep runs. For example, the following code snippet
+Use the [`mark_preempting`]({{< relref "/ref/python/run.md#mark_preempting" >}}) function to enable W&B to automatically requeue interrupted sweep runs. For example, the following code snippet
 
 ```python
 run = wandb.init()  # Initialize a run

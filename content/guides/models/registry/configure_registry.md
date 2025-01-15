@@ -9,10 +9,10 @@ weight: 3
 
 <!-- A registry, and the linked artifacts inside a registry, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, if that team has correct access control. -->
 
-Registry admins can limit who can access a registry by navigating to a registry's settings and assigning a user's role to [Admin, Member, or Viewer](#registry-roles-permissions). Users can have different roles in different registries. For example, a user can have a view role in "Registry A" and a member role in the "Registry B". 
+Registry admins can limit who can access a registry by navigating to a registry's settings and assigning a user's role to [Admin, Member, or Viewer]({{< relref "#registry-roles-permissions" >}}). Users can have different roles in different registries. For example, a user can have a view role in "Registry A" and a member role in the "Registry B". 
 
 {{% alert %}}
-Only registry admins can [restrict visibility](#restrict-visibility-to-a-registry), [configure user roles](#configure-user-roles-in-a-registry), or [remove users](#remove-a-user-from-a-registry) from registries in an organization.
+Only registry admins can [restrict visibility]({{< relref "#restrict-visibility-to-a-registry" >}}), [configure user roles]({{< relref "#configure-user-roles-in-a-registry" >}}), or [remove users]({{< relref "#remove-a-user-from-a-registry" >}}) from registries in an organization.
 {{% /alert %}}
 
 ## Registry roles permissions
@@ -20,7 +20,7 @@ Only registry admins can [restrict visibility](#restrict-visibility-to-a-registr
 A user within an organization can have different roles, and therefore permissions, for each registry in their organization.
 
 {{% alert title="W&B role types" %}}
-W&B has three different types of roles: Organization roles, [team roles](../app/features/teams.md#team-roles-and-permissions), and [registry roles](#registry-roles-permissions).
+W&B has three different types of roles: Organization roles, [team roles]({{< relref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}), and [registry roles]({{< relref "#registry-roles-permissions" >}}).
 
 Your role in a team has no impact or relationship on your role in any registry.
 {{% /alert %}}
@@ -90,7 +90,7 @@ There are two registry visibility types: restricted or organization visibility. 
 
 ## Restrict visibility to a registry
 <!-- Who can do this? -->
-Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. A custom registry can have either restricted or organization visibility. For more information on registry visibilities, see [Registry visibility types](./configure_registry.md#registry-visibility-types).
+Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. A custom registry can have either restricted or organization visibility. For more information on registry visibilities, see [Registry visibility types]({{< relref "./configure_registry.md#registry-visibility-types" >}}).
 
 <!-- | Visibility | Description |
 | --- | --- |

@@ -9,7 +9,7 @@ weight: 5
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud/" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 
@@ -17,7 +17,7 @@ Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto
 
 ## Infrastructure guidelines
 
-Before you start deploying W&B, refer to the [reference architecture](./ref-arch.md#infrastructure-requirements), especially the infrastructure requirements.
+Before you start deploying W&B, refer to the [reference architecture]({{< relref "ref-arch.md#infrastructure-requirements" >}}), especially the infrastructure requirements.
 
 ## MySQL database
 
@@ -130,7 +130,7 @@ mc mb --region=us-east1 local/local-files
 
 ## Deploy W&B Server application to Kubernetes
 
-The recommended installation method is with the official W&B Helm chart. Follow [this section](../operator.md#deploy-wb-with-helm-cli) to deploy the W&B Server application.
+The recommended installation method is with the official W&B Helm chart. Follow [this section]({{< relref "./kubernetes-operator/#deploy-wb-with-helm-cli" >}}) to deploy the W&B Server application.
 
 ### OpenShift
 

@@ -6,6 +6,6 @@ menu:
 title: W&B App UI Reference
 url: guides/app
 aliases:
-- /guides/app/features
+- /guides/models/app/features
 ---
 
