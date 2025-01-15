@@ -15,7 +15,7 @@ This notebook shows how to use W&B Weave together with W&B Models. Specifically,
 
 Find the public workspace for both W&B Models and W&B Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations).
 
-<img src="/images/tutorials/weave_models_workflow.jpg"  alt="Weights & Biases" />
+<img src="https://github.com/wandb/docs/blob/main/assets/images/tutorials/weave_models_workflow.jpg"  alt="Weights & Biases" />
 
 The workflow covers the following steps:
 
