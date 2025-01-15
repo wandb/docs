@@ -9,7 +9,7 @@ weight: 20
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud/" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 
@@ -115,7 +115,7 @@ This is the most straightforward deployment option configuration that will creat
 
 1. Create the `main.tf`
 
-   In the same directory where you created the files in the [General Steps](#general-steps), create a file `main.tf` with the following content:
+   In the same directory where you created the files in the [General Steps]({{< relref "#general-steps" >}}), create a file `main.tf` with the following content:
 
    ```
    provider "google" {
@@ -176,7 +176,7 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speedup the application response when loading the metrics for the experiments.
 
-You need to add the option `create_redis = true` to the same `main.tf` file specified in the recommended [Deployment option section](#deployment---recommended-20-mins) to enable the cache.
+You need to add the option `create_redis = true` to the same `main.tf` file specified in the recommended [Deployment option section]({{< relref "#deployment---recommended-20-mins" >}}) to enable the cache.
 
 ```
 [...]
@@ -201,7 +201,7 @@ module "wandb" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` specified in the recommended [Deployment option section](#deployment---recommended-20-mins)
+The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` specified in the recommended [Deployment option section]({{< relref "#deployment---recommended-20-mins" >}})
 
 ```
 [...]
@@ -235,9 +235,9 @@ The [Terraform Module](https://github.com/wandb/terraform-google-wandb) provides
 
 To use a GCP Storage bucket as a file storage backend for W&B, you will need to create a:
 
-* [PubSub Topic and Subscription](#create-pubsub-topic-and-subscription)
-* [Storage Bucket](#create-storage-bucket)
-* [PubSub Notification](#create-pubsub-notification)
+* [PubSub Topic and Subscription]({{< relref "#create-pubsub-topic-and-subscription" >}})
+* [Storage Bucket]({{< relref "#create-storage-bucket" >}})
+* [PubSub Notification]({{< relref "#create-pubsub-notification" >}})
 
 
 ### Create PubSub Topic and Subscription
@@ -336,4 +336,4 @@ Follow the steps outlined here to update W&B:
   Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
   {{% /alert %}}
 
-2. After you update your configuration, complete the steps described in the [Deployment option section](#deployment---recommended-20-mins).
+2. After you update your configuration, complete the steps described in the [Deployment option section]({{< relref "#deployment---recommended-20-mins" >}}).

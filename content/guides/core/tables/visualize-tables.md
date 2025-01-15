@@ -23,11 +23,11 @@ W&B Tables posses the following behaviors:
 1. **Stateless in an artifact context**: any table logged alongside an artifact version resets to its default state after you close the browser window
 2. **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report persists.
 
-For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
+For information on how to save your current W&B Table view, see [Save your view]({{< relref "#save-your-view" >}}).
 {{% /alert %}}
 
 ## How to view two tables
-Compare two tables with a [merged view](#merged-view) or a [side-by-side view](#side-by-side-view). For example, the image below demonstrates a table comparison of MNIST data.
+Compare two tables with a [merged view]({{< relref "#merged-view" >}}) or a [side-by-side view]({{< relref "#side-by-side-view" >}}). For example, the image below demonstrates a table comparison of MNIST data.
 
 {{< img src="/images/data_vis/table_comparison.png" alt="Left: mistakes after 1 training epochs, Right: mistakes after 5 epochs" max-width="90%" >}}
 
@@ -72,7 +72,7 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 
 
 ## Compare artifacts
-You can also [compare tables across time](#compare-tables-across-time) or [model variants](#compare-tables-across-model-variants). 
+You can also [compare tables across time]({{< relref "#compare-tables-across-time" >}}) or [model variants]({{< relref "#compare-tables-across-model-variants" >}}). 
 
 
 ### Compare tables across time

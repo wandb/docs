@@ -43,7 +43,7 @@ def run_experiment(cfg):
 
 ## Troubleshoot multiprocessing
 
-If your process hangs when started, this may be caused by [this known issue](../../track/log/distributed-training.md). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
+If your process hangs when started, this may be caused by [this known issue]({{< relref "/guides/models/track/log/distributed-training.md" >}}). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
@@ -57,7 +57,7 @@ $ export WANDB_START_METHOD=thread
 
 ## Optimize Hyperparameters
 
-[W&B Sweeps](../../sweeps/intro.md) is a highly scalable hyperparameter search platform, which provides interesting insights and visualization about W&B experiments with minimal requirements code real-estate. Sweeps integrates seamlessly with Hydra projects with no-coding requirements. The only thing needed is a configuration file describing the various parameters to sweep over as normal.
+[W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}) is a highly scalable hyperparameter search platform, which provides interesting insights and visualization about W&B experiments with minimal requirements code real-estate. Sweeps integrates seamlessly with Hydra projects with no-coding requirements. The only thing needed is a configuration file describing the various parameters to sweep over as normal.
 
 A simple example `sweep.yaml` file would be:
 

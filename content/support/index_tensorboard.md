@@ -13,5 +13,5 @@ your question answered, try [asking the community](https://community.wandb.ai/),
 or email [support@wandb.com](mailto:support@wandb.com).
 {{% /card %}}
 
-- [How is W&B different from TensorBoard?](different_tensorboard.md)
-- [What formula do you use for your smoothing algorithm?](formula_smoothing_algorithm.md)
+- [How is W&B different from TensorBoard?]({{< relref "different_tensorboard.md" >}})
+- [What formula do you use for your smoothing algorithm?]({{< relref "formula_smoothing_algorithm.md" >}})

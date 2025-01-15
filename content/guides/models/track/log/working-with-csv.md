@@ -7,7 +7,7 @@ menu:
 title: Track CSV files with experiments
 ---
 
-Use the W&B Python Library to log a CSV file and visualize it in a [W&B Dashboard](../../track/workspaces.md). W&B Dashboard are the central place to organize and visualize results from your machine learning models. This is particularly useful if you have a [CSV file that contains information of previous machine learning experiments](#import-and-log-your-csv-of-experiments) that are not logged in W&B or if you have [CSV file that contains a dataset](#import-and-log-your-dataset-csv-file).
+Use the W&B Python Library to log a CSV file and visualize it in a [W&B Dashboard]({{< relref "/guides/models/track/workspaces.md" >}}). W&B Dashboard are the central place to organize and visualize results from your machine learning models. This is particularly useful if you have a [CSV file that contains information of previous machine learning experiments]({{< relref "#import-and-log-your-csv-of-experiments" >}}) that are not logged in W&B or if you have [CSV file that contains a dataset]({{< relref "#import-and-log-your-dataset-csv-file" >}}).
 
 ## Import and log your dataset CSV file
 
@@ -25,7 +25,7 @@ import pandas as pd
 new_iris_dataframe = pd.read_csv("iris.csv")
 ```
 
-2. Convert the CSV file to a W&B Table to utilize [W&B Dashboards](../../track/workspaces.md). 
+2. Convert the CSV file to a W&B Table to utilize [W&B Dashboards]({{< relref "/guides/models/track/workspaces.md" >}}). 
 
 ```python
 # Convert the DataFrame into a W&B Table
@@ -43,7 +43,7 @@ iris_table_artifact.add(iris_table, "iris_table")
 # Log the raw csv file within an artifact to preserve our data
 iris_table_artifact.add_file("iris.csv")
 ```
-For more information about W&B Artifacts, see the [Artifacts chapter](../../artifacts/intro.md).  
+For more information about W&B Artifacts, see the [Artifacts chapter]({{< relref "/guides/core/artifacts/" >}}).  
 
 4. Lastly, start a new W&B Run to track and log to W&B with `wandb.init`:
 
@@ -105,9 +105,9 @@ The below table becomes this Weights & Biases Dashboard after conversion
 In some cases, you might have your experiment details in a CSV file. Common details found in such CSV files include:
 
 * A name for the experiment run
-* Initial [notes](../../runs/intro.md#add-a-note-to-a-run)
-* [Tags](../../runs/tags.md) to differentiate the experiments
-* Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](../../sweeps/intro.md)).
+* Initial [notes]({{< relref "/guides/models/track/runs/#add-a-note-to-a-run" >}})
+* [Tags]({{< relref "/guides/models/track/runs/tags.md" >}}) to differentiate the experiments
+* Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning]({{< relref "/guides/models/sweeps/" >}})).
 
 | Experiment   | Model Name       | Notes                                            | Tags          | Num Layers | Final Train Acc | Final Val Acc | Training Losses                       |
 | ------------ | ---------------- | ------------------------------------------------ | ------------- | ---------- | --------------- | ------------- | ------------------------------------- |
@@ -157,7 +157,7 @@ for i, row in loaded_experiment_df.iterrows():
 ```
 
 
-2. Next,  start a new W&B Run to track and log to W&B with [`wandb.init()`](../../../ref/python/init.md):
+2. Next,  start a new W&B Run to track and log to W&B with [`wandb.init()`]({{< relref "/ref/python/init.md" >}}):
 
 ```python
 run = wandb.init(
@@ -165,21 +165,21 @@ run = wandb.init(
 )
 ```
 
-As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`](../../../ref/python/log.md) command to accomplish this:
+As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`]({{< relref "/ref/python/log.md" >}}) command to accomplish this:
 
 ```python
 run.log({key: val})
 ```
 
-You can optionally log a final summary metric to define the outcome of the run. Use the W&B  [`define_metric`](../../../ref/python/run.md#define_metric) API to accomplish this. In this example case, we will add the summary metrics to our run with `run.summary.update()`:
+You can optionally log a final summary metric to define the outcome of the run. Use the W&B  [`define_metric`]({{< relref "/ref/python/run.md#define_metric" >}}) API to accomplish this. In this example case, we will add the summary metrics to our run with `run.summary.update()`:
 
 ```python
 run.summary.update(summaries)
 ```
 
-For more information about summary metrics, see [Log Summary Metrics](./log-summary.md).
+For more information about summary metrics, see [Log Summary Metrics]({{< relref "./log-summary.md" >}}).
 
-Below is the full example script that converts the above sample table into a [W&B Dashboard](../../track/workspaces.md):
+Below is the full example script that converts the above sample table into a [W&B Dashboard]({{< relref "/guides/models/track/workspaces.md" >}}):
 
 ```python
 FILENAME = "experiments.csv"

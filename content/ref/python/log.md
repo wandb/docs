@@ -18,7 +18,7 @@ log(
 Use `log` to log data from runs, such as scalars, images, video,
 histograms, plots, and tables.
 
-See our [guides to logging](https://docs.wandb.ai/guides/track/log) for
+See our [guides to logging](https://docs.wandb.ai/guides/models/track/log) for
 live examples, code snippets, best practices, and more.
 
 The most basic usage is `run.log({"train-loss": 0.5, "accuracy": 0.9})`.
@@ -27,17 +27,17 @@ the summary values for these metrics.
 
 Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
 or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with [our API](https://docs.wandb.ai/guides/models/track/public-api-guide).
 
 Logged values don't have to be scalars. Logging any wandb object is supported.
 For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an
 example image which will be displayed nicely in the W&B UI.
 See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
 for all of the different supported types or check out our
-[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
+[guides to logging](https://docs.wandb.ai/guides/models/track/log) for examples,
 from 3D molecular structures and segmentation masks to PR curves and histograms.
 You can use `wandb.Table` to log structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/tables/tables-walkthrough)
+[guide to logging tables](https://docs.wandb.ai/guides/core/tables/tables-walkthrough)
 for details.
 
 The W&B UI organizes metrics with a forward slash (`/`) in their name
@@ -112,7 +112,7 @@ run.log({"accuracy": 0.9}, step=current_step)
 #### Examples:
 
 For more and more detailed examples, see
-[our guides to logging](https://docs.wandb.com/guides/track/log).
+[our guides to logging](https://docs.wandb.com/guides/models/track/log).
 
 ### Basic usage
 
@@ -187,7 +187,10 @@ run = wandb.init()
 examples = []
 for i in range(3):
     pixels = np.random.randint(
-        low=0, high=256, size=(100, 100, 3), dtype=np.uint8
+        low=0,
+        high=256,
+        size=(100, 100, 3),
+        dtype=np.uint8,
     )
     pil_image = PILImage.fromarray(pixels, mode="RGB")
     image = wandb.Image(pil_image, caption=f"random field {i}")
@@ -199,7 +202,6 @@ run.log({"examples": examples})
 
 <!--yeadoc-test:init-and-log-video-numpy-->
 
-
 ```python
 import numpy as np
 import wandb
@@ -207,7 +209,10 @@ import wandb
 run = wandb.init()
 # axes are (time, channel, height, width)
 frames = np.random.randint(
-    low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
+    low=0,
+    high=256,
+    size=(10, 3, 100, 100),
+    dtype=np.uint8,
 )
 run.log({"video": wandb.Video(frames, fps=4)})
 ```

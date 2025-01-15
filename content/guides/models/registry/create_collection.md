@@ -53,7 +53,7 @@ artifact = wandb.Artifact(
 
 When you create a collection, you can select from a list of predefined artifact types. The artifact types available to you depend on the registry that the collection belongs to. .
 
-Before you link an artifact to a collection or create a new collection, [investigate the types of artifacts that collection accepts](#check-the-types-of-artifact-that-a-collection-accepts).
+Before you link an artifact to a collection or create a new collection, [investigate the types of artifacts that collection accepts]({{< relref "#check-the-types-of-artifact-that-a-collection-accepts" >}}).
 
 ### Check the types of artifact that a collection accepts
 
@@ -101,7 +101,7 @@ Note that you do not initialize a run with the proceeding code snippet. This is 
 
 
 
-Once you know what type of artifact a collection accepts, you can [create a collection](#create-a-collection).
+Once you know what type of artifact a collection accepts, you can [create a collection]({{< relref "#create-a-collection" >}}).
 
 
 ## Create a collection

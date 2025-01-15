@@ -21,7 +21,7 @@ In this tutorial you will create a hyperparameter search with W&B PyTorch integr
 
 Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
 
-1. **Define the sweep:** we do this by creating a dictionary or a [YAML file](/guides/sweeps/define-sweep-configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
+1. **Define the sweep:** we do this by creating a dictionary or a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 
 2. **Initialize the sweep:** with one line of code we initialize the sweep and pass in the dictionary of sweep configurations:
 `sweep_id = wandb.sweep(sweep_config)`
@@ -64,12 +64,12 @@ Before you start a sweep, you must define your sweep strategy with a _sweep conf
 {{% alert %}}
 The sweep configuration you create for a sweep must be in a nested dictionary if you start a sweep in a Jupyter Notebook.
 
-If you run a sweep within the command line, you must specify your sweep config with a [YAML file](/guides/sweeps/define-sweep-configuration).
+If you run a sweep within the command line, you must specify your sweep config with a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}).
 {{% /alert %}}
 
 ### Pick a search method
 
-First, specify a hyperparameter search method within your configuration dictionary. [There are three hyperparameter search strategies to choose from: grid, random, and Bayesian search](/guides/sweeps/sweep-config-keys#method).
+First, specify a hyperparameter search method within your configuration dictionary. [There are three hyperparameter search strategies to choose from: grid, random, and Bayesian search]({{< relref "/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/#method" >}}).
 
 For this tutorial, you will use a random search. Within your notebook, create a dictionary and specify `random` for the `method` key. 
 
@@ -169,7 +169,7 @@ import pprint
 pprint.pprint(sweep_config)
 ```
 
-For a full list of configuration options, see [Sweep configuration options](/guides/sweeps/sweep-config-keys). 
+For a full list of configuration options, see [Sweep configuration options]({{< relref "/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/" >}}). 
 
 {{% alert %}}
 For hyperparameters that have potentially infinite options,
@@ -207,7 +207,7 @@ wandb sweep config.yaml
 ```
 {{% /alert %}}
 
-For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/guides/sweeps/walkthrough).
+For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough]({{< relref "/guides/models/sweeps/walkthrough" >}}).
 
 
 ## Step 3:  Define your machine learning code
@@ -246,9 +246,9 @@ def train(config=None):
 ```
 
 Within the `train` function, you will notice the following W&B Python SDK methods:
-* [`wandb.init()`](/ref/python/init): Initialize a new W&B run. Each run is a single execution of the training function.
-* [`wandb.config`](/guides/track/config): Pass sweep configuration with the hyperparameters you want to experiment with.
-* [`wandb.log()`](/ref/python/log): Log the training loss for each epoch.
+* [`wandb.init()`]({{< relref "/ref/python/init" >}}): Initialize a new W&B run. Each run is a single execution of the training function.
+* [`wandb.config`]({{< relref "/guides/models/track/config" >}}): Pass sweep configuration with the hyperparameters you want to experiment with.
+* [`wandb.log()`]({{< relref "/ref/python/log" >}}): Log the training loss for each epoch.
 
 
 The proceeding cell defines four functions:
@@ -340,7 +340,7 @@ wandb.agent(sweep_id, train, count=5)
 Since the `random` search method was specified in the sweep configuration, the sweep controller provides randomly generated hyperparameter values.
 {{% /alert %}}
 
-For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/guides/sweeps/walkthrough).
+For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough]({{< relref "/guides/models/sweeps/walkthrough" >}}).
 
 ## Visualize Sweep Results
 

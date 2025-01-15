@@ -9,7 +9,7 @@ title: Create an artifact version
 weight: 6
 ---
 
-Create a new artifact version with a single [run](../runs/intro.md) or collaboratively with distributed runs. You can optionally create a new artifact version from a previous version known as an [incremental artifact](#create-a-new-artifact-version-from-an-existing-version).
+Create a new artifact version with a single [run]({{< relref "/guides/models/track/runs/" >}}) or collaboratively with distributed runs. You can optionally create a new artifact version from a previous version known as an [incremental artifact]({{< relref "#create-a-new-artifact-version-from-an-existing-version" >}}).
 
 {{% alert %}}
 We recommend that you create an incremental artifact when you need to apply changes to a subset of files in an artifact, where the size of the original artifact is significantly larger.

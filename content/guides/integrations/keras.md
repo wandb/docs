@@ -13,11 +13,11 @@ weight: 160
 W&B has three callbacks for Keras, available from `wandb` v0.13.4. For the legacy `WandbCallback` scroll down.
 
 
-- **`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](/guides/track). It logs your training and validation metrics along with system metrics to Weights and Biases.
+- **`WandbMetricsLogger`** : Use this callback for [Experiment Tracking]({{< relref "/guides/models/track" >}}). It logs your training and validation metrics along with system metrics to Weights and Biases.
 
-- **`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts](/guides/artifacts).
+- **`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts]({{< relref "/guides/core/artifacts/" >}}).
 
-- **`WandbEvalCallback`**: This base callback logs model predictions to Weights and Biases [Tables](/guides/tables) for interactive visualization.
+- **`WandbEvalCallback`**: This base callback logs model predictions to Weights and Biases [Tables]({{< relref "/guides/core/tables/" >}}) for interactive visualization.
 
 These new callbacks:
 
@@ -208,7 +208,7 @@ model.fit(
 ```
 
 {{% alert %}}
-The W&B [Artifact page](/guides/artifacts/explore-and-traverse-an-artifact-graph) includes Table logs by default, rather than the **Workspace** page.
+The W&B [Artifact page]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph" >}}) includes Table logs by default, rather than the **Workspace** page.
 {{% /alert %}}
 
 ### `WandbEvalCallback` reference
@@ -232,7 +232,7 @@ You can override the `on_train_begin` or `on_epoch_end` methods to have more fin
 
 ## `WandbCallback` [legacy]
 
-Use the W&B library [`WandbCallback`](/ref/python/integrations/keras/wandbcallback) Class to automatically save all the metrics and the loss values tracked in `model.fit`.
+Use the W&B library [`WandbCallback`]({{< relref "/ref/python/integrations/keras/wandbcallback" >}}) Class to automatically save all the metrics and the loss values tracked in `model.fit`.
 
 ```python
 import wandb
@@ -258,7 +258,7 @@ See our [example repo](https://github.com/wandb/examples) for scripts, including
 
 The `WandbCallback` class supports a wide variety of logging configuration options: specifying a metric to monitor, tracking of weights and gradients, logging of predictions on training_data and validation_data, and more.
 
-Check out [the reference documentation for the `keras.WandbCallback`](../../ref/python/integrations/keras/wandbcallback.md) for full details.
+Check out [the reference documentation for the `keras.WandbCallback`]({{< relref "/ref/python/integrations/keras/wandbcallback.md" >}}) for full details.
 
 The `WandbCallback` 
 
