@@ -18,7 +18,7 @@ Depending on your use case, explore the proceeding tabs to learn how to parallel
 
 {{< tabpane text=true >}}
   {{% tab header="CLI" %}}
-Use the [`wandb agent`]({{< relref "../../ref/cli/wandb-agent.md" >}}) command to parallelize your W&B Sweep agent across multiple CPUs with the terminal. Provide the sweep ID that was returned when you [initialized the sweep]({{< relref "./initialize-sweeps.md" >}}). 
+Use the [`wandb agent`]({{< relref "/ref/cli/wandb-agent.md" >}}) command to parallelize your W&B Sweep agent across multiple CPUs with the terminal. Provide the sweep ID that was returned when you [initialized the sweep]({{< relref "./initialize-sweeps.md" >}}). 
 
 1. Open more than one terminal window on your local machine.
 2. Copy and paste the code snippet below and replace `sweep_id` with your sweep ID:
@@ -46,7 +46,7 @@ wandb.agent(sweep_id=sweep_id, function=function_name)
 Follow the procedure outlined to parallelize your W&B Sweep agent across multiple GPUs with a terminal using CUDA Toolkit:
 
 1. Open more than one terminal window on your local machine.
-2. Specify the GPU instance to use with `CUDA_VISIBLE_DEVICES` when you start a W&B Sweep job ([`wandb agent`]({{< relref "../../ref/cli/wandb-agent.md" >}})). Assign `CUDA_VISIBLE_DEVICES` an integer value corresponding to the GPU instance to use.
+2. Specify the GPU instance to use with `CUDA_VISIBLE_DEVICES` when you start a W&B Sweep job ([`wandb agent`]({{< relref "/ref/cli/wandb-agent.md" >}})). Assign `CUDA_VISIBLE_DEVICES` an integer value corresponding to the GPU instance to use.
 
 For example, suppose you have two NVIDIA GPUs on your local machine. Open a terminal window and set `CUDA_VISIBLE_DEVICES` to `0` (`CUDA_VISIBLE_DEVICES=0`). Replace `sweep_ID` in the proceeding example with the W&B Sweep ID that is returned when you initialized a W&B Sweep:
 

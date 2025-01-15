@@ -284,7 +284,7 @@ This table lists the roles you can assign to a member of a team:
 <!-- {{% alert %}}
 W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
 
-Refer to [Team Service Account Behavior]({{< relref "../../app/features/teams.md#team-service-account-behavior" >}}) for more information.
+Refer to [Team Service Account Behavior]({{< relref "/guides/models/app/features/teams.md#team-service-account-behavior" >}}) for more information.
 {{% /alert %}} -->
 
 

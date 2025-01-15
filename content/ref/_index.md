@@ -27,4 +27,4 @@ These docs are automatically generated from the [`wandb` library](https://github
 
 [Our examples repo](https://github.com/wandb/examples) has scripts and colabs to try W&B features, and see integrations with various libraries.
 
-[Our developer guide]({{< relref "../guides/" >}}) has guides, tutorials, and FAQs for the various W&B products.
+[Our developer guide]({{< relref "/guides/" >}}) has guides, tutorials, and FAQs for the various W&B products.

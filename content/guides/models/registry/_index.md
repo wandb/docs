@@ -17,7 +17,7 @@ W&B Registry is now in public preview. Visit [this]({{< relref "#enable-wb-regis
 {{% /alert %}}
 
 
-W&B Registry is a curated central repository of [artifact]({{< relref "../artifacts/" >}}) versions within your organization. Users who [have permission]({{< relref "./configure_registry.md" >}}) within your organization can [download]({{< relref "./download_use_artifact.md" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
+W&B Registry is a curated central repository of [artifact]({{< relref "/guides/core/artifacts/" >}}) versions within your organization. Users who [have permission]({{< relref "./configure_registry.md" >}}) within your organization can [download]({{< relref "./download_use_artifact.md" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
 
 You can use the Registry to [track artifact versions]({{< relref "./link_version.md" >}}), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD]({{< relref "../automations/" >}}).
 
@@ -43,7 +43,7 @@ Each [registry]({{< relref "./configure_registry.md" >}}) consists of one or mor
 
 {{< img src="/images/registry/homepage_registry.png" >}}
 
-To add an artifact to a registry, you first log a [specific artifact version to W&B]({{< relref "../artifacts/create-a-new-artifact-version.md" >}}). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
+To add an artifact to a registry, you first log a [specific artifact version to W&B]({{< relref "/guides/core/artifacts/create-a-new-artifact-version.md" >}}). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
 
 Once you log an artifact to W&B, you can then link that specific artifact version to a collection in the registry. 
 

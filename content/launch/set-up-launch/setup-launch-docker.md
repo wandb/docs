@@ -23,7 +23,7 @@ When you use Docker with W&B Launch, W&B will first build an image, and then bui
 ## Configure a Docker queue
 
 
-The launch queue configuration (for a Docker target resource) accepts the same options defined in the [`docker run`]({{< relref "../../ref/cli/wandb-docker-run.md" >}}) CLI command.
+The launch queue configuration (for a Docker target resource) accepts the same options defined in the [`docker run`]({{< relref "/ref/cli/wandb-docker-run.md" >}}) CLI command.
 
 The agent receives options defined in the queue configuration. The agent then merges the received options with any overrides from the launch job’s configuration to produce a final `docker run` command that is executed on the target resource (in this case, a local machine).
 
@@ -97,7 +97,7 @@ Create a queue that uses Docker as compute resource with the W&B CLI:
 Configure the launch agent with a YAML config file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
 
 {{% alert %}}
-You can use the W&B CLI to specify core configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`]({{< relref "../../ref/cli/wandb-launch-agent.md" >}}) command for more information.
+You can use the W&B CLI to specify core configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`]({{< relref "/ref/cli/wandb-launch-agent.md" >}}) command for more information.
 {{% /alert %}}
 
 

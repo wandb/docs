@@ -15,28 +15,28 @@ W&B Dedicated Cloud is available in [multiple global regions for each cloud prov
 
 ## Data security 
 
-You can bring your own bucket (BYOB) using the [secure storage connector]({{< relref "../data-security/secure-storage-connector.md" >}}) at the [instance and team levels]({{< relref "../data-security/secure-storage-connector.md#configuration-options" >}}) to store your files such as models, datasets, and more.
+You can bring your own bucket (BYOB) using the [secure storage connector]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) at the [instance and team levels]({{< relref "/guides/hosting/data-security/secure-storage-connector.md#configuration-options" >}}) to store your files such as models, datasets, and more.
 
 Similar to W&B Multi-tenant Cloud, you can configure a single bucket for multiple teams or you can use separate buckets for different teams. If you do not configure secure storage connector for a team, that data is stored in the instance level bucket.
 
 {{< img src="/images/hosting/dedicated_cloud_arch.png" alt="" >}}
 
-In addition to BYOB with secure storage connector, you can utilize [IP allowlisting]({{< relref "../data-security/ip-allowlisting.md" >}}) to restrict access to your Dedicated Cloud instance from only trusted network locations. 
+In addition to BYOB with secure storage connector, you can utilize [IP allowlisting]({{< relref "/guides/hosting/data-security/ip-allowlisting.md" >}}) to restrict access to your Dedicated Cloud instance from only trusted network locations. 
 
-You can also privately connect to your Dedicated Cloud instance using [cloud provider's secure connectivity solution]({{< relref "../data-security/private-connectivity.md" >}}).
+You can also privately connect to your Dedicated Cloud instance using [cloud provider's secure connectivity solution]({{< relref "/guides/hosting/data-security/private-connectivity.md" >}}).
 
 ## Identity and access management (IAM)
 
 Use the identity and access management capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Dedicated Cloud instances:
 
-* Authenticate with [SSO using OpenID Connect (OIDC)]({{< relref "../iam/sso.md" >}}) or with [LDAP]({{< relref "../iam/ldap.md" >}}).
-* [Configure appropriate user roles]({{< relref "../iam/manage-organization.md#assign-or-update-a-users-role" >}}) at the scope of the organization and within a team.
-* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects]({{< relref "../iam/restricted-projects.md" >}}).
-* Leverage JSON Web Tokens with [identity federation]({{< relref "../iam/identity_federation.md" >}}) to access W&B APIs.
+* Authenticate with [SSO using OpenID Connect (OIDC)]({{< relref "/guides/hosting/iam/sso.md" >}}) or with [LDAP]({{< relref "/guides/hosting/iam/ldap.md" >}}).
+* [Configure appropriate user roles]({{< relref "/guides/hosting/iam/manage-organization.md#assign-or-update-a-users-role" >}}) at the scope of the organization and within a team.
+* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects]({{< relref "/guides/hosting/iam/restricted-projects.md" >}}).
+* Leverage JSON Web Tokens with [identity federation]({{< relref "/guides/hosting/iam/identity_federation.md" >}}) to access W&B APIs.
 
 ## Monitor
 
-Use [Audit logs]({{< relref "../monitoring-usage/audit-logging.md" >}}) to track user activity within your teams and to conform to your enterprise governance requirements. Also, you can view organization usage in our Dedicated Cloud instance with [W&B Organization Dashboard]({{< relref "../monitoring-usage/org_dashboard.md" >}}).
+Use [Audit logs]({{< relref "/guides/hosting/monitoring-usage/audit-logging.md" >}}) to track user activity within your teams and to conform to your enterprise governance requirements. Also, you can view organization usage in our Dedicated Cloud instance with [W&B Organization Dashboard]({{< relref "/guides/hosting/monitoring-usage/org_dashboard.md" >}}).
 
 ## Maintenance
 

@@ -21,7 +21,7 @@ Consider carefully whether a self-managed approach with W&B is suitable for your
 
 A strong understanding of how to run and maintain  production-grade application is an important prerequisite before you deploy self-managed W&B. If your team needs assistance, our Professional Services team and partners offer support for implementation and optimization.
 
-To learn more about managed solutions for running W&B instead of managing it yourself, refer to [W&B Multi-tenant Cloud]({{< relref "../hosting-options/saas_cloud.md" >}}) and [W&B Dedicated Cloud]({{< relref "../hosting-options/dedicated_cloud.md" >}}).
+To learn more about managed solutions for running W&B instead of managing it yourself, refer to [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) and [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}).
 
 ## Infrastructure
 
@@ -84,7 +84,7 @@ Please note: W&B does not recommend the use self-signed certificates and custom 
 W&B runs on the Intel (x86) CPU architecture. ARM is not supported.
 
 ## Infrastructure provisioning
-Terraform is the recommended way to deploy W&B for production. Using Terraform, you define the required resources, their references to other resources, and their dependencies. W&B provides Terraform modules for the major cloud providers. For details, refer to [Deploy W&B Server within self managed cloud accounts]({{< relref "../hosting-options/self-managed.md#deploy-wb-server-within-self-managed-cloud-accounts" >}}).
+Terraform is the recommended way to deploy W&B for production. Using Terraform, you define the required resources, their references to other resources, and their dependencies. W&B provides Terraform modules for the major cloud providers. For details, refer to [Deploy W&B Server within self managed cloud accounts]({{< relref "/guides/hosting/hosting-options/self-managed.md#deploy-wb-server-within-self-managed-cloud-accounts" >}}).
 
 ## Sizing
 

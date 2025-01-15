@@ -19,11 +19,11 @@ Common patterns for initiating a run include, but are not limited to:
 * Training a model
 * Changing a hyperparameter and conducting a new experiment
 * Conducting a new machine learning experiment with a different model
-* Logging data or a model as a [W&B Artifact]({{< relref "../artifacts/" >}})
-* [Downloading a W&B Artifact]({{< relref "../artifacts/download-and-use-an-artifact.md" >}})
+* Logging data or a model as a [W&B Artifact]({{< relref "/guides/core/artifacts/" >}})
+* [Downloading a W&B Artifact]({{< relref "/guides/core/artifacts/download-and-use-an-artifact.md" >}})
 
 
-W&B stores runs that you create into [*projects*]({{< relref "../track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App UI. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "../../ref/python/public-api/run.md" >}}) object.
+W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App UI. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/public-api/run.md" >}}) object.
 
 Anything you log with `run.log` is recorded in that run. Consider the proceeding code snippet.
 
@@ -114,12 +114,12 @@ Note that W&B captures the simulated training loop within a single run called `j
 
 {{< img src="/images/runs/run_log_example_2.png" alt="" >}}
 
-As another example, during a [sweep]({{< relref "../sweeps/" >}}), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
+As another example, during a [sweep]({{< relref "/guides/models/sweeps/" >}}), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
 
 
 ## Initialize a run
 
-Initialize a W&B run with [`wandb.init()`]({{< relref "../../ref/python/init.md" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
+Initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/init.md" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
 
@@ -202,7 +202,7 @@ For example, in the proceeding image, the unique run ID is `9mxi1arc`:
 
 
 ### Custom run IDs
-You can specify your own run ID by passing the `id` parameter to the [`wandb.init`]({{< relref "../../ref/python/init.md" >}}) method. 
+You can specify your own run ID by passing the `id` parameter to the [`wandb.init`]({{< relref "/ref/python/init.md" >}}) method. 
 
 ```python 
 import wandb
@@ -227,7 +227,7 @@ By default, W&B generates a random run name when you initialize a new run. The n
 Use run names as a way to quickly identify a run in your project workspace.
 {{% /alert %}}
 
-You can specify a name for your run by passing the `name` parameter to the [`wandb.init`]({{< relref "../../ref/python/init.md" >}}) method. 
+You can specify a name for your run by passing the `name` parameter to the [`wandb.init`]({{< relref "/ref/python/init.md" >}}) method. 
 
 
 ```python 
@@ -322,7 +322,7 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **Command**: The command that initializes the run.
 * **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App UI or programmatically with the Python SDK.
 * **Duration**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting.
-* **Git repository**: The git repository associated with the run. You must [enable git]({{< relref "../app/settings-page/user-settings.md#personal-github-integration" >}}) to view this field.
+* **Git repository**: The git repository associated with the run. You must [enable git]({{< relref "/guides/models/app/settings-page/user-settings.md#personal-github-integration" >}}) to view this field.
 * **Host name**: Where W&B computes the run. W&B displays the name of your machine if you initialize the run locally on your machine.
 * **Name**: The name of the run.
 * **OS**: Operating system that initializes the run.
@@ -340,8 +340,8 @@ Use the **Overview** tab to learn about specific run information in a project, s
 W&B stores the proceeding information below the overview section:
 
 * **Artifact Outputs**: Artifact outputs produced by the run.
-* **Config**: List of config parameters saved with [`wandb.config`]({{< relref "../../guides/track/config.md" >}}).
-* **Summary**: List of summary parameters saved with [`wandb.log()`]({{< relref "../../guides/track/log/" >}}). By default, W&B sets this value to the last value logged. 
+* **Config**: List of config parameters saved with [`wandb.config`]({{< relref "/guides/models/track/config.md" >}}).
+* **Summary**: List of summary parameters saved with [`wandb.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged. 
 
 {{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab" >}}
 
@@ -357,7 +357,7 @@ View an example project workspace [here](https://wandb.ai/stacey/deep-drive/work
 ### System tab
 The **System tab** shows system metrics tracked for a specific run such as CPU utilization, system memory, disk I/O, network traffic, GPU utilization and more.
 
-For a full list of system metrics W&B tracks, see [System metrics]({{< relref "../app/features/system-metrics.md" >}}).
+For a full list of system metrics W&B tracks, see [System metrics]({{< relref "/guides/models/app/features/system-metrics.md" >}}).
 
 {{< img src="/images/app_ui/wandb_system_utilization.png" alt="" >}}
 
@@ -381,7 +381,7 @@ Use the **Files tab** to view files associated with a specific run such as model
 View an example files tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images).
 
 ### Artifacts tab
-The **Artifacts** tab lists the input and output [artifacts]({{< relref "../artifacts/" >}}) for the specified run.
+The **Artifacts** tab lists the input and output [artifacts]({{< relref "/guides/core/artifacts/" >}}) for the specified run.
 
 {{< img src="/images/app_ui/artifacts_tab.png" alt="" >}}
 

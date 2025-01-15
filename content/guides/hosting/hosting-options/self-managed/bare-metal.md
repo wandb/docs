@@ -8,7 +8,7 @@ title: Deploy W&B Platform On-premises
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "../hosting-options/saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "../hosting-options//dedicated_cloud.md" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options//dedicated_cloud.md" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 
@@ -68,7 +68,7 @@ Additionally, W&B recommends the following [parameter overrides]({{< relref "#my
 
 W&B is compatible with an object storage that supports S3 API interface, Signed URLs and CORS. W&B recommends specifying the storage array to the current needs of your practitioners and to capacity plan on a regular cadence.
 
-More details on object store configuration can be found in the [how-to section]({{< relref "../self-managed/bare-metal.md#object-store" >}}).
+More details on object store configuration can be found in the [how-to section]({{< relref "/guides/hosting/hosting-options/self-managed/bare-metal.md#object-store" >}}).
 
 Some tested and working providers:
 - [MinIO](https://min.io/)
@@ -78,7 +78,7 @@ Some tested and working providers:
 
 #### Secure Storage Connector
 
-The [Secure Storage Connector]({{< relref "../data-security/secure-storage-connector.md" >}}) is not available for teams at this time for bare metal deployments.
+The [Secure Storage Connector]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) is not available for teams at this time for bare metal deployments.
 
 ## MySQL database
 

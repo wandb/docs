@@ -52,7 +52,7 @@ fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)
 download_path = fetched_artifact.download()  
 ```
 
-The `.use_artifact()` method both creates a [run]({{< relref "../runs/" >}}) and marks the artifact you download as the input to that run. 
+The `.use_artifact()` method both creates a [run]({{< relref "/guides/models/track/runs/" >}}) and marks the artifact you download as the input to that run. 
 Marking an artifact as the input to a run enables W&B to track the lineage of that artifact. 
 
 If you do not want to create a run, you can use the `wandb.Api()` object to access the artifact:
@@ -99,7 +99,7 @@ downloaded_path = fetched_artifact.download()
 
 
 
-See [`use_artifact`]({{< relref "../../ref/python/run.md#use_artifact" >}}) and [`Artifact.download()`]({{< relref "/ref/python/artifact#download" >}}) in the API Reference guide for more information on possible parameters and return type.
+See [`use_artifact`]({{< relref "/ref/python/run.md#use_artifact" >}}) and [`Artifact.download()`]({{< relref "/ref/python/artifact#download" >}}) in the API Reference guide for more information on possible parameters and return type.
 
 {{% alert title="Users with a personal entity that belong to multiple organizations" %}} 
 Users with a personal entity that belong to multiple organizations must also specify either the name of their organization or use a team entity when accessing artifacts linked to a registry.

@@ -12,7 +12,7 @@ weight: 10
 This guide provides best practices on how to integrate W&B into your Python library to get powerful Experiment Tracking, GPU and System Monitoring, Model Checkpointing, and more for your own library.
 
 {{% alert %}}
-If you are still learning how to use W&B, we recommend exploring the other W&B Guides in these docs, such as [Experiment Tracking]({{< relref "/guides/track" >}}), before reading further.
+If you are still learning how to use W&B, we recommend exploring the other W&B Guides in these docs, such as [Experiment Tracking]({{< relref "/guides/models/track" >}}), before reading further.
 {{% /alert %}}
 
 Below we cover best tips and best practices when the codebase you are working on is more complicated than a single Python training script or Jupyter notebook. The topics covered are:
@@ -98,7 +98,7 @@ wandb.login()
 {{% /tab %}}
 
 {{% tab header="Environment Variable" value="environment" %}}
-Set a [W&B environment variable]({{< relref "../track/environment-variables.md" >}}) for the API key:
+Set a [W&B environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) for the API key:
 
 ```bash
 export WANDB_API_KEY=$YOUR_API_KEY
@@ -238,13 +238,13 @@ Use `wandb.config.update` to update the config. Updating your configuration dict
 wandb.config.update({"model_parameters": 3500})
 ```
 
-For more information on how to define a config file, see [Configure Experiments with wandb.config]({{< relref "/guides/track/config" >}}).
+For more information on how to define a config file, see [Configure Experiments with wandb.config]({{< relref "/guides/models/track/config" >}}).
 
 ### Logging To W&B
 
 #### Log Metrics
 
-Create a dictionary where the key value is the name of the metric. Pass this dictionary object to [`wandb.log`]({{< relref "/guides/track/log" >}}):
+Create a dictionary where the key value is the name of the metric. Pass this dictionary object to [`wandb.log`]({{< relref "/guides/models/track/log" >}}):
 
 ```python
 for epoch in range(NUM_EPOCHS):
@@ -269,7 +269,7 @@ wandb.log(metrics)
 
 {{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="A W&B Workspace with 2 separate sections" >}}
 
-For more on `wandb.log`, see [Log Data with wandb.log]({{< relref "/guides/track/log" >}}).
+For more on `wandb.log`, see [Log Data with wandb.log]({{< relref "/guides/models/track/log" >}}).
 
 #### Preventing x-axis Misalignments
 
@@ -310,7 +310,7 @@ Some considerations when logging data include:
   * For images, you can log sample predictions, segmentation masks, etc., to see the evolution over time.
   * For text, you can log tables of sample predictions for later exploration.
 
-Refer to [Log Data with wandb.log]({{< relref "/guides/track/log" >}}) for a full guide on logging media, objects, plots, and more.
+Refer to [Log Data with wandb.log]({{< relref "/guides/models/track/log" >}}) for a full guide on logging media, objects, plots, and more.
 
 ### Distributed Training
 
@@ -319,7 +319,7 @@ For frameworks supporting distributed environments, you can adapt any of the fol
 * Detect which is the "main" process and only use `wandb` there. Any required data coming from other processes must be routed to the main process first. (This workflow is encouraged).
 * Call `wandb` in every process and auto-group them by giving them all the same unique `group` name.
 
-See [Log Distributed Training Experiments]({{< relref "../track/log/distributed-training.md" >}}) for more details.
+See [Log Distributed Training Experiments]({{< relref "/guides/models/track/log/distributed-training.md" >}}) for more details.
 
 ### Logging Model Checkpoints And More
 
@@ -351,7 +351,7 @@ aliases = ["best", "epoch_10"]
 wandb.log_artifact(artifact, aliases=aliases)
 ```
 
-For information on how to create a custom alias, see [Create a Custom Alias]({{< relref "/guides/artifacts/create-a-custom-alias/" >}}).
+For information on how to create a custom alias, see [Create a Custom Alias]({{< relref "/guides/core/artifacts/create-a-custom-alias/" >}}).
 
 You can log output Artifacts at any frequency (for example, every epoch, every 500 steps, and so on) and they are automatically versioned.
 
@@ -383,11 +383,11 @@ artifact = wandb.Api().artifact("user/project/artifact:latest")
 local_path = artifact.download()
 ```
 
-For more information, see [Download and Use Artifacts]({{< relref "/guides/artifacts/download-and-use-an-artifact" >}}).
+For more information, see [Download and Use Artifacts]({{< relref "/guides/core/artifacts/download-and-use-an-artifact" >}}).
 
 ### Hyper-parameter Tuning
 
-If your library would like to leverage W&B hyper-parameter tuning, [W&B Sweeps]({{< relref "/guides/sweeps/" >}}) can also be added to your library.
+If your library would like to leverage W&B hyper-parameter tuning, [W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}) can also be added to your library.
 
 ### Advanced Integrations
 

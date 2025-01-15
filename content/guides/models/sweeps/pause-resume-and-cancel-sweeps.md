@@ -46,7 +46,7 @@ Cancel a sweep to kill all running runs and stop running new runs. Use the `wand
 wandb sweep --cancel entity/project/sweep_ID
 ```
 
-For a full list of CLI command options, see the [wandb sweep]({{< relref "../../ref/cli/wandb-sweep.md" >}}) CLI Reference Guide.
+For a full list of CLI command options, see the [wandb sweep]({{< relref "/ref/cli/wandb-sweep.md" >}}) CLI Reference Guide.
 
 ### Pause, resume, stop, and cancel a sweep across multiple agents
 

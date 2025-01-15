@@ -16,7 +16,7 @@ Under the hood, W&B creates a lineage of [model artifact]({{< relref "./model-ma
 
 ## How to log a model
 
-Use the `run.log_model` API to log a model. Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI]({{< relref "../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" >}}) to an external bucket such as `s3://bucket/path`. 
+Use the `run.log_model` API to log a model. Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI]({{< relref "/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" >}}) to an external bucket such as `s3://bucket/path`. 
 
 Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B uses the basename of the input path prepended with the run ID. 
 

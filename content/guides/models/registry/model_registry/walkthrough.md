@@ -68,7 +68,7 @@ def generate_raw_data(train_size=6000):
 (x_train, y_train), (x_eval, y_eval) = generate_raw_data()
 ```
 
-Next, upload the dataset to W&B. To do this, create an [artifact]({{< relref "../artifacts/" >}}) object and add the dataset to that artifact. 
+Next, upload the dataset to W&B. To do this, create an [artifact]({{< relref "/guides/core/artifacts/" >}}) object and add the dataset to that artifact. 
 
 ```python
 project = "model-registry-dev"
@@ -210,7 +210,7 @@ model.save(path)
 
 
 ## Log and link a model to the Model Registry
-Use the [`link_model`]({{< relref "../../ref/python/run.md#link_model" >}}) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry]({{< relref "./" >}}).
+Use the [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry]({{< relref "./" >}}).
 
 ```python
 path = "./model.h5"
@@ -222,7 +222,7 @@ run.finish()
 
 W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
-See [`link_model`]({{< relref "../../ref/python/run.md#link_model" >}}) in the API Reference guide for more information on optional parameters.
+See [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) in the API Reference guide for more information on optional parameters.
 ## Evaluate the performance of a model
 It is common practice to evaluate the performance of a one or more models. 
 

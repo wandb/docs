@@ -13,7 +13,7 @@ Launch jobs are blueprints for reproducing W&B runs. Jobs are W&B Artifacts that
 Create and run jobs with the `wandb launch` command.
 
 {{% alert %}}
-To create a job without submitting it for execution, use the `wandb job create` command. See the [command reference docs]({{< relref "../../ref/cli/wandb-job/wandb-job-create.md" >}}) for more information.
+To create a job without submitting it for execution, use the `wandb job create` command. See the [command reference docs]({{< relref "/ref/cli/wandb-job/wandb-job-create.md" >}}) for more information.
 {{% /alert %}}
 
 
@@ -94,7 +94,7 @@ wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"
 
 W&B will automatically create and track a job for any run with tracked source code, even if that run was not created with Launch. Runs are considered to have tracked source code if any of the three following conditions are met:
 - The run has an associated git remote and commit hash
-- The run logged a code artifact (see [`Run.log_code`]({{< relref "../../ref/python/run.md#log_code" >}}) for more information)
+- The run logged a code artifact (see [`Run.log_code`]({{< relref "/ref/python/run.md#log_code" >}}) for more information)
 - The run was executed in a Docker container with the `WANDB_DOCKER` environment variable set to an image tag
 
 The Git remote URL is inferred from the local git repository if your Launch job is created automatically by a W&B run. 

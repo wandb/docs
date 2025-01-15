@@ -26,7 +26,7 @@ Your IT/DevOps/MLOps team is responsible for provisioning your deployment, manag
 
 W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into your AWS, GCP, or Azure cloud account.
 
-See specific cloud provider documentation for more information on how to set up W&B Server in [AWS]({{< relref "../self-managed/aws-tf.md" >}}), [GCP]({{< relref "../self-managed/gcp-tf.md" >}}) or [Azure]({{< relref "../self-managed/azure-tf.md" >}}).
+See specific cloud provider documentation for more information on how to set up W&B Server in [AWS]({{< relref "/guides/hosting/hosting-options/self-managed/aws-tf.md" >}}), [GCP]({{< relref "/guides/hosting/hosting-options/self-managed/gcp-tf.md" >}}) or [Azure]({{< relref "/guides/hosting/hosting-options/self-managed/azure-tf.md" >}}).
 
 ## Deploy W&B Server in on-prem infrastructure
 
@@ -37,7 +37,7 @@ You need to configure several infrastructure components in order to set up W&B S
 - Amazon S3-compatible object storage
 - Redis cache cluster
 
-See [Install on on-prem infrastructure]({{< relref "../self-managed/bare-metal.md" >}}) for more information on how to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
+See [Install on on-prem infrastructure]({{< relref "/guides/hosting/hosting-options/self-managed/bare-metal.md" >}}) for more information on how to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
 
 ## Deploy W&B Server on a custom cloud platform
 

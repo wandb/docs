@@ -159,12 +159,12 @@ Specify either `min_iter` or `max_iter` to create a bracket schedule.
 
 
 {{% alert %}}
-Hyperband checks which [W&B runs]({{< relref "../../ref/python/run.md" >}}) to end once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
+Hyperband checks which [W&B runs]({{< relref "/ref/python/run.md" >}}) to end once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
 {{% /alert %}}
 
 ## `command` 
 
-<!-- Agents created with [`wandb agent`]({{< relref "../../ref/cli/wandb-agent.md" >}}) receive a command in the following format by default: -->
+<!-- Agents created with [`wandb agent`]({{< relref "/ref/cli/wandb-agent.md" >}}) receive a command in the following format by default: -->
 
 Modify the format and contents with nested values within the `command` key. You can directly include fixed components such as filenames.
 

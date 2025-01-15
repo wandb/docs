@@ -23,4 +23,4 @@ wandb.log({"losses": wandb.Histogram(losses)})
 {{% /tab %}}
 {{< /tabpane >}}
 
-For more, see [the documentation on logging]({{< relref "/guides/track/log/" >}}).
+For more, see [the documentation on logging]({{< relref "/guides/models/track/log/" >}}).

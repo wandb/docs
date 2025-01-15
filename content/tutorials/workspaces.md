@@ -10,7 +10,7 @@ weight: 5
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" >}}
 Organize and visualize your machine learning experiments more effectively by programmatically creating, managing, and customizing workspaces. You can define configurations, set panel layouts, and organize sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. You can load and modify workspaces by URL, use expressions to filter and group runs, and customize the appearances of runs.
 
-`wandb-workspaces` is a Python library for programmatically creating and customizing W&B [Workspaces]({{< relref "/guides/track/workspaces/" >}}) and [Reports]({{< relref "/guides/reports/" >}}).
+`wandb-workspaces` is a Python library for programmatically creating and customizing W&B [Workspaces]({{< relref "/guides/models/track/workspaces/" >}}) and [Reports]({{< relref "/guides/core/reports/" >}}).
 
 In this tutorial you will see how to use `wandb-workspaces` to create and customize workspaces by defining configurations, set panel layouts, and organize sections.
 
@@ -20,7 +20,7 @@ In this tutorial you will see how to use `wandb-workspaces` to create and custom
 
 
 {{% alert %}}
-Programmatic interaction with workspaces is currently supported for [**Saved workspaces views**]({{< relref "/guides/track/workspaces#saved-workspace-views" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
+Programmatic interaction with workspaces is currently supported for [**Saved workspaces views**]({{< relref "/guides/models/track/workspaces#saved-workspace-views" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
 {{% /alert %}}
 
 ## 1. Install and import dependencies

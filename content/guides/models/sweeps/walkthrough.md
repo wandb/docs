@@ -57,7 +57,7 @@ The following sections break down and explains each step in the code sample.
 ## Set up your training code
 Define a training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metrics.
 
-Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`]({{< relref "../../ref/python/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
+Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`]({{< relref "/ref/python/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
 
 {{% alert %}}
 Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
@@ -110,7 +110,7 @@ For more information about initializing sweeps, see [Initialize sweeps]({{< relr
 
 ## Start the Sweep
 
-Use the [`wandb.agent`]({{< relref "../../ref/python/agent.md" >}}) API call to start a sweep.
+Use the [`wandb.agent`]({{< relref "/ref/python/agent.md" >}}) API call to start a sweep.
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
@@ -118,7 +118,7 @@ wandb.agent(sweep_id, function=main, count=10)
 
 ## Visualize results (optional)
 
-Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref "../app/features/panels/parallel-coordinates.md" >}}),[ parameter importance analyzes]({{< relref "../app/features/panels/parameter-importance.md" >}}), and [more]({{< relref "../app/features/panels/" >}}).
+Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref "/guides/models/app/features/panels/parallel-coordinates.md" >}}),[ parameter importance analyzes]({{< relref "/guides/models/app/features/panels/parameter-importance.md" >}}), and [more]({{< relref "/guides/models/app/features/panels/" >}}).
 
 {{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard example" >}}
 

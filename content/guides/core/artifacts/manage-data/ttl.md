@@ -18,7 +18,7 @@ Check out [this](https://www.youtube.com/watch?v=hQ9J6BoVmnc) video tutorial to 
 W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that linked models do not accidentally expire if used in production workflows.
 {{% /alert %}}
 {{% alert %}}
-* Only team admins can view a [team's settings]({{< relref "../app/settings-page/team-settings.md" >}}) and access team level TTL settings such as (1) permitting who can set or edit a TTL policy or (2) setting a team default TTL.  
+* Only team admins can view a [team's settings]({{< relref "/guides/models/app/settings-page/team-settings.md" >}}) and access team level TTL settings such as (1) permitting who can set or edit a TTL policy or (2) setting a team default TTL.  
 * If you do not see the option to set or edit a TTL policy in an artifact's details in the W&B App UI or if setting a TTL programmatically does not successfully change an artifact's TTL property, your team admin has not given you permissions to do so. 
 {{% /alert %}}
 
@@ -31,7 +31,7 @@ The following Artifact types indicate an auto-generated Artifact:
 - `job`
 - Any Artifact type starting with: `wandb-*`
 
-You can check an Artifact's type on the [W&B platform]({{< relref "../artifacts/explore-and-traverse-an-artifact-graph.md" >}}) or programmatically:
+You can check an Artifact's type on the [W&B platform]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph.md" >}}) or programmatically:
 
 ```python
 import wandb
@@ -105,7 +105,7 @@ When you modify an artifact's TTL, the time the artifact takes to expire is stil
   {{% tab header="Python SDK" %}}
 1. [Fetch your artifact]({{< relref "./download-and-use-an-artifact.md" >}}).
 2. Pass in a time delta to the artifact's `ttl` attribute. 
-3. Update the artifact with the [`save`]({{< relref "../../ref/python/run.md#save" >}}) method.
+3. Update the artifact with the [`save`]({{< relref "/ref/python/run.md#save" >}}) method.
 
 
 The following code snippet shows how to set a TTL policy for an artifact:
@@ -182,7 +182,7 @@ Artifacts with TTL turned off will not inherit an artifact collection's TTL. Ref
   {{% tab header="Python SDK" %}}
 1. [Fetch your artifact]({{< relref "./download-and-use-an-artifact.md" >}}).
 2. Set the artifact's `ttl` attribute to `None`.
-3. Update the artifact with the [`save`]({{< relref "../../ref/python/run.md#save" >}}) method.
+3. Update the artifact with the [`save`]({{< relref "/ref/python/run.md#save" >}}) method.
 
 
 The following code snippet shows how to turn off a TTL policy for an artifact:

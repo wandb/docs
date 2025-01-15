@@ -20,7 +20,7 @@ Only registry admins can [restrict visibility]({{< relref "#restrict-visibility-
 A user within an organization can have different roles, and therefore permissions, for each registry in their organization.
 
 {{% alert title="W&B role types" %}}
-W&B has three different types of roles: Organization roles, [team roles]({{< relref "../app/features/teams.md#team-roles-and-permissions" >}}), and [registry roles]({{< relref "#registry-roles-permissions" >}}).
+W&B has three different types of roles: Organization roles, [team roles]({{< relref "/guides/models/app/features/teams.md#team-roles-and-permissions" >}}), and [registry roles]({{< relref "#registry-roles-permissions" >}}).
 
 Your role in a team has no impact or relationship on your role in any registry.
 {{% /alert %}}

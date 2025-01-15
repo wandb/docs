@@ -48,7 +48,7 @@ Hugging Face AutoTrain expects your CSV custom dataset to have a specific format
 
 ## Train using `autotrain`
 
-You can start training using the `autotrain` advanced from the command line or a notebook. Use the `--log` argument, or use `--log wandb` to log your results to a [W&B run]({{< relref "/guides/runs/" >}}). 
+You can start training using the `autotrain` advanced from the command line or a notebook. Use the `--log` argument, or use `--log wandb` to log your results to a [W&B run]({{< relref "/guides/models/track/runs/" >}}). 
 
 {{< tabpane text=true >}}
 

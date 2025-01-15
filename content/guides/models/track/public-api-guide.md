@@ -161,7 +161,7 @@ Use the Public API to export or update data that you have saved to W&B. Before u
 - **Export Data**: Pull down a dataframe for custom analysis in a Jupyter Notebook. Once you have explored the data, you can sync your findings by creating a new analysis run and logging results, for example: `wandb.init(job_type="analysis")`
 - **Update Existing Runs**: You can update the data logged in association with a W&B run. For example, you might want to update the config of a set of runs to include additional information, like the architecture or a hyperparameter that wasn't originally logged.
 
-See the [Generated Reference Docs]({{< relref "../../ref/python/public-api/" >}}) for details on available functions.
+See the [Generated Reference Docs]({{< relref "/ref/python/public-api/" >}}) for details on available functions.
 
 ### Authentication
 
@@ -172,7 +172,7 @@ Authenticate your machine with your [API key](https://wandb.ai/authorize) in one
 
 ### Find the run path
 
-To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ]({{< relref "../runs/#overview-tab" >}})to get the run path.
+To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ]({{< relref "/guides/models/track/runs/#overview-tab" >}})to get the run path.
 
 
 ### Export Run Data
@@ -320,13 +320,13 @@ If you're thinking about ways to set useful identifiers for your runs, here's wh
 - **Run ID**: leave it as the generated hash. This needs to be unique across runs in your project.
 - **Run name**: This should be something short, readable, and preferably unique so that you can tell the difference between different lines on your charts.
 - **Run notes**: This is a great place to put a quick description of what you're doing in your run. You can set this with `wandb.init(notes="your notes here")`
-- **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to just the runs you care about. You can set tags from your script and then edit them in the UI, both in the runs table and the overview tab of the run page. See the detailed instructions [here]({{< relref "../runs/tags.md" >}}).
+- **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to just the runs you care about. You can set tags from your script and then edit them in the UI, both in the runs table and the overview tab of the run page. See the detailed instructions [here]({{< relref "/guides/models/track/runs/tags.md" >}}).
 
 ## Public API Examples
 
 ### Export data to visualize in matplotlib or seaborn
 
-Check out our [API examples]({{< relref "../../ref/python/public-api/" >}}) for some common export patterns. You can also click the download button on a custom plot or on the expanded runs table to download a CSV from your browser.
+Check out our [API examples]({{< relref "/ref/python/public-api/" >}}) for some common export patterns. You can also click the download button on a custom plot or on the expanded runs table to download a CSV from your browser.
 
 ### Read metrics from a run
 

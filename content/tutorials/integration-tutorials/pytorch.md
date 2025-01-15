@@ -434,7 +434,7 @@ You can use Weights & Biases Sweeps to automate hyperparameter testing and explo
 
 Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
 
-1. **Define the sweep:** We do this by creating a dictionary or a [YAML file]({{< relref "/guides/sweeps/define-sweep-configuration" >}}) that specifies the parameters to search through, the search strategy, the optimization metric et all.
+1. **Define the sweep:** We do this by creating a dictionary or a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 
 2. **Initialize the sweep:** 
 `sweep_id = wandb.sweep(sweep_config)`
@@ -453,6 +453,6 @@ See examples of projects tracked and visualized with W&B in our [Gallery →](ht
 
 ## Advanced Setup
 1. [Environment variables]({{< relref "/guides/hosting/env-vars/" >}}): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode]({{< relref "../support/run_wandb_offline.md" >}}): Use `dryrun` mode to train offline and sync results later.
+2. [Offline mode]({{< relref "/support/run_wandb_offline.md" >}}): Use `dryrun` mode to train offline and sync results later.
 3. [On-prem]({{< relref "/guides/hosting/hosting-options/self-managed" >}}): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
-4. [Sweeps]({{< relref "/guides/sweeps/" >}}): Set up hyperparameter search quickly with our lightweight tool for tuning.
+4. [Sweeps]({{< relref "/guides/models/sweeps/" >}}): Set up hyperparameter search quickly with our lightweight tool for tuning.

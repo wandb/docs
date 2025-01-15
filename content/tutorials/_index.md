@@ -26,18 +26,18 @@ The following tutorials take you through the fundamentals of W&B for machine lea
 ## Popular ML framework tutorials
 See the following tutorials for step by step information on how to use popular ML frameworks and libraries with W&B:
 
-- [PyTorch]({{< relref "/tutorials/pytorch" >}})
-- [PyTorch Lightning]({{< relref "/tutorials/lightning" >}})
-- [HuggingFace Transformers]({{< relref "/tutorials/huggingface" >}})
+- [PyTorch]({{< relref "/tutorials/integration-tutorials/pytorch" >}})
+- [PyTorch Lightning]({{< relref "/tutorials/integration-tutorials/lightning" >}})
+- [HuggingFace Transformers]({{< relref "/tutorials/integration-tutorials/huggingface" >}})
 - Tensorflow
-    - [Track experiments]({{< relref "/tutorials/tensorflow" >}})
-    - [Tune hyperparameters]({{< relref "/tutorials/tensorflow_sweeps/" >}})
+    - [Track experiments]({{< relref "/tutorials/integration-tutorials/tensorflow" >}})
+    - [Tune hyperparameters]({{< relref "/tutorials/integration-tutorials/tensorflow_sweeps/" >}})
 - Keras
-    - [Track experiments]({{< relref "/tutorials/keras/" >}})
-    - [Visualize predictions]({{< relref "/tutorials/keras_tables/" >}})
-    - [Model Checkpointing]({{< relref "/tutorials/keras_models/" >}})
+    - [Track experiments]({{< relref "/tutorials/integration-tutorials/keras/" >}})
+    - [Visualize predictions]({{< relref "/tutorials/integration-tutorials/keras_tables/" >}})
+    - [Model Checkpointing]({{< relref "/tutorials/integration-tutorials/keras_models/" >}})
 - XGBoost
-    - [Tune hyperparameters]({{< relref "/tutorials/xgboost_sweeps/" >}})
+    - [Tune hyperparameters]({{< relref "/tutorials/integration-tutorials/xgboost_sweeps/" >}})
 
 
 

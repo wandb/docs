@@ -58,6 +58,6 @@ Create a report programmatically with the `wandb` library.
     report.save()
     ```
 
-For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report]({{< relref "/guides/reports/edit-a-report" >}}).
+For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report]({{< relref "/guides/core/reports/edit-a-report" >}}).
 {{% /tab %}}
 {{< /tabpane >}}

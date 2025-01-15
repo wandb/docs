@@ -98,7 +98,7 @@ To delete an artifact collection:
 3. Select the kebab dropdown next to the artifact collection name.
 4. Choose Delete.
 
-You can also delete artifact collection programmatically with the [delete()]({{< relref "../../ref/python/artifact.md#delete" >}}) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
+You can also delete artifact collection programmatically with the [delete()]({{< relref "/ref/python/artifact.md#delete" >}}) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
 
 ```python
 import wandb
@@ -129,9 +129,9 @@ The `X` indicates you must satisfy the requirement:
 |                                                | Environment variable    | Enable versioning | 
 | -----------------------------------------------| ------------------------| ----------------- | 
 | Shared cloud                                   |                         |                   | 
-| Shared cloud with [secure storage connector]({{< relref "../hosting/data-security/secure-storage-connector.md" >}})|                         | X                 | 
+| Shared cloud with [secure storage connector]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}})|                         | X                 | 
 | Dedicated cloud                                |                         |                   | 
-| Dedicated cloud with [secure storage connector]({{< relref "../hosting/data-security/secure-storage-connector.md" >}})|                         | X                 | 
+| Dedicated cloud with [secure storage connector]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}})|                         | X                 | 
 | Customer-managed cloud                         | X                       | X                 | 
 | Customer managed on-prem                       | X                       | X                 |
  

@@ -18,7 +18,7 @@ All W&B logging features are compatible with data-parallel multi-GPU training, s
 {{% /alert %}}
 
 ## Track core experiments
-Simply by installing `wandb`, you'll activate the built-in W&B [logging features]({{< relref "../track/log/" >}}): system metrics, model metrics, and media logged to interactive [Dashboards]({{< relref "../track/workspaces.md" >}}).
+Simply by installing `wandb`, you'll activate the built-in W&B [logging features]({{< relref "/guides/models/track/log/" >}}): system metrics, model metrics, and media logged to interactive [Dashboards]({{< relref "/guides/models/track/workspaces.md" >}}).
 
 ```python
 pip install wandb

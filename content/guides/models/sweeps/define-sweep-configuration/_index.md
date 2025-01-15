@@ -375,7 +375,7 @@ command:
   {{% /tab %}}
   {{% tab header="Hydra" %}}
 
-You can change the command to pass arguments the way tools like [Hydra](https://hydra.cc) expect. See [Hydra with W&B]({{< relref "../integrations/other/hydra.md" >}}) for more information.
+You can change the command to pass arguments the way tools like [Hydra](https://hydra.cc) expect. See [Hydra with W&B]({{< relref "/guides/integrations/other/hydra.md" >}}) for more information.
 
 ```yaml
 command:

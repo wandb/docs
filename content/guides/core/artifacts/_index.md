@@ -15,10 +15,10 @@ weight: 1
 
 {{< cta-button productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifact_fundamentals.ipynb" >}}
 
-Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs]({{< relref "../runs/" >}}). For example, a model training run might take in a dataset as input and produce a trained model as output. You can log hyperparameters, metadatra, and metrics to a run, and you can use an artifact to log, track, and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as output.
+Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs]({{< relref "/guides/models/track/runs/" >}}). For example, a model training run might take in a dataset as input and produce a trained model as output. You can log hyperparameters, metadatra, and metrics to a run, and you can use an artifact to log, track, and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as output.
 
 ## Use cases
-You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs]({{< relref "../runs/" >}}). You can use datasets, models, or even other artifacts as inputs for processing.
+You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs]({{< relref "/guides/models/track/runs/" >}}). You can use datasets, models, or even other artifacts as inputs for processing.
 
 {{< img src="/images/artifacts/artifacts_landing_page2.png" >}}
 
@@ -26,7 +26,7 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 |------------------------|-----------------------------|------------------------------|
 | Model Training         | Dataset (training and validation data)     | Trained Model                |
 | Dataset Pre-Processing | Dataset (raw data)          | Dataset (pre-processed data) |
-| Model Evaluation       | Model + Dataset (test data) | [W&B Table]({{< relref "../tables/" >}})                        |
+| Model Evaluation       | Model + Dataset (test data) | [W&B Table]({{< relref "/guides/core/tables/" >}})                        |
 | Model Optimization     | Model                       | Optimized Model              |
 
 
@@ -37,8 +37,8 @@ The proceeding code snippets are meant to be run in order.
 ## Create an artifact
 
 Create an artifact with four lines of code:
-1. Create a [W&B run]({{< relref "../runs/" >}}).
-2. Create an artifact object with the [`wandb.Artifact`]({{< relref "../../ref/python/artifact.md" >}}) API.
+1. Create a [W&B run]({{< relref "/guides/models/track/runs/" >}}).
+2. Create an artifact object with the [`wandb.Artifact`]({{< relref "/ref/python/artifact.md" >}}) API.
 3. Add one or more files, such as a model file or dataset, to your artifact object.
 4. Log your artifact to W&B.
 
@@ -60,7 +60,7 @@ See the [track external files]({{< relref "./track-external-files.md" >}}) page 
 {{% /alert %}}
 
 ## Download an artifact
-Indicate the artifact you want to mark as input to your run with the [`use_artifact`]({{< relref "../../ref/python/run.md#use_artifact" >}}) method.
+Indicate the artifact you want to mark as input to your run with the [`use_artifact`]({{< relref "/ref/python/run.md#use_artifact" >}}) method.
 
 Following the preceding code snippet, this next code block shows how to use the `training_dataset` artifact: 
 
@@ -76,7 +76,7 @@ datadir = artifact.download() #downloads the full "my_data" artifact to the defa
 ```
 
 {{% alert %}}
-You can pass a custom path into the `root` [parameter]({{< relref "../../ref/python/artifact.md" >}}) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts]({{< relref "./download-and-use-an-artifact.md" >}}).
+You can pass a custom path into the `root` [parameter]({{< relref "/ref/python/artifact.md" >}}) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts]({{< relref "./download-and-use-an-artifact.md" >}}).
 {{% /alert %}}
 
 
@@ -84,4 +84,4 @@ You can pass a custom path into the `root` [parameter]({{< relref "../../ref/pyt
 * Learn how to [version]({{< relref "./create-a-new-artifact-version.md" >}}), [update]({{< relref "./update-an-artifact.md" >}}), or [delete]({{< relref "./delete-artifacts.md" >}}) artifacts.
 * Learn how to trigger downstream workflows in response to changes to your artifacts with [artifact automation]({{< relref "./project-scoped-automations.md" >}}).
 * Learn about the [model registry]({{< relref "../model_registry/" >}}), a space that houses trained models.
-* Explore the [Python SDK]({{< relref "../../ref/python/artifact.md" >}}) and [CLI]({{< relref "../../ref/cli/wandb-artifact/README.md" >}}) reference guides.
+* Explore the [Python SDK]({{< relref "/ref/python/artifact.md" >}}) and [CLI]({{< relref "/ref/cli/wandb-artifact/README.md" >}}) reference guides.

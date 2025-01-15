@@ -21,7 +21,7 @@ And then see W&B Alerts messages in Slack (or your email):
 {{% alert %}}
 The following guide only applies to alerts in multi-tenant cloud.
 
-If you're using [W&B Server]({{< relref "../hosting/" >}}) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation]({{< relref "../hosting/monitoring-usage/slack-alerts.md" >}}) to setup Slack alerts.
+If you're using [W&B Server]({{< relref "/guides/hosting/" >}}) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation]({{< relref "/guides/hosting/monitoring-usage/slack-alerts.md" >}}) to setup Slack alerts.
 {{% /alert %}}
 
 

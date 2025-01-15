@@ -91,7 +91,7 @@ By using the `Forked From` field, you can effortlessly navigate the tree of arch
 
 ## Fork from a run that you rewind
 
-To fork from a rewound run, use the [**`fork_from`**]({{< relref "/guides/runs/forking" >}}) argument in `wandb.init()` and specify the source run ID and the step from the source run to fork from:
+To fork from a rewound run, use the [**`fork_from`**]({{< relref "/guides/models/track/runs/forking" >}}) argument in `wandb.init()` and specify the source run ID and the step from the source run to fork from:
 
 ```python 
 import wandb

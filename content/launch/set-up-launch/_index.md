@@ -53,7 +53,7 @@ Independent of your use case, there are core configurable options for the launch
 * `queues`: the name of one or more queues for the agent to watch
 
 {{% alert %}}
-You can use the W&B CLI to specify universal configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`]({{< relref "../../ref/cli/wandb-launch-agent.md" >}}) command for more information.
+You can use the W&B CLI to specify universal configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`]({{< relref "/ref/cli/wandb-launch-agent.md" >}}) command for more information.
 {{% /alert %}}
 
 

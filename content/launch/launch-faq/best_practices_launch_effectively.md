@@ -10,4 +10,4 @@ title: Are there best practices for using Launch effectively?
 
 2. Create a W&B service account to initiate the agent, ensuring it is not linked to an individual user account.
 
-3. Use `wandb.config` to manage hyperparameters, allowing for overwriting during job re-runs. Refer to [this guide]({{< relref "/guides/track/config/#set-the-configuration-with-argparse" >}}) for details on using argparse.
+3. Use `wandb.config` to manage hyperparameters, allowing for overwriting during job re-runs. Refer to [this guide]({{< relref "/guides/models/track/config/#set-the-configuration-with-argparse" >}}) for details on using argparse.

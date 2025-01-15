@@ -53,7 +53,7 @@ run = wandb.init(entity="<entity>", \
 Unexpected results will occur if multiple processes use the same `id` concurrently. 
 
 
-For more information on  how to manage multiple processes, see the [Log distributed training experiments]({{< relref "../track/log/distributed-training.md" >}}) 
+For more information on  how to manage multiple processes, see the [Log distributed training experiments]({{< relref "/guides/models/track/log/distributed-training.md" >}}) 
 {{% /alert %}}
 
 ## Resume a run without overriding the existing run
@@ -119,9 +119,9 @@ If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variab
 
 
 ## Resume preemptible Sweeps runs
-Automatically requeue interrupted [sweep]({{< relref "../sweeps/" >}}) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
+Automatically requeue interrupted [sweep]({{< relref "/guides/models/sweeps/" >}}) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
 
-Use the [`mark_preempting`]({{< relref "../../ref/python/run.md#mark_preempting" >}}) function to enable W&B to automatically requeue interrupted sweep runs. For example, the following code snippet
+Use the [`mark_preempting`]({{< relref "/ref/python/run.md#mark_preempting" >}}) function to enable W&B to automatically requeue interrupted sweep runs. For example, the following code snippet
 
 ```python
 run = wandb.init()  # Initialize a run
