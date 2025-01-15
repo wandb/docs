@@ -116,10 +116,10 @@ Here's a mapping of Kubeflow Pipelines concepts to W&B
 
 | Kubeflow Pipelines | W&B | Location in W&B |
 | ------------------ | --- | --------------- |
-| Input Scalar | [`config`]({{< relref "/guides/track/config" >}}) | [Overview tab]({{< relref "../../runs/intro.md#overview-tab" >}}) |
-| Output Scalar | [`summary`]({{< relref "/guides/track/log" >}}) | [Overview tab]({{< relref "../../runs/intro.md#overview-tab" >}}) |
-| Input Artifact | Input Artifact | [Artifacts tab]({{< relref "../../runs/intro.md#artifacts-tab" >}}) |
-| Output Artifact | Output Artifact | [Artifacts tab]({{< relref "../../runs/intro.md#artifacts-tab" >}}) |
+| Input Scalar | [`config`]({{< relref "/guides/track/config" >}}) | [Overview tab]({{< relref "../../runs/#overview-tab" >}}) |
+| Output Scalar | [`summary`]({{< relref "/guides/track/log" >}}) | [Overview tab]({{< relref "../../runs/#overview-tab" >}}) |
+| Input Artifact | Input Artifact | [Artifacts tab]({{< relref "../../runs/#artifacts-tab" >}}) |
+| Output Artifact | Output Artifact | [Artifacts tab]({{< relref "../../runs/#artifacts-tab" >}}) |
 
 ## Fine-grain logging
 

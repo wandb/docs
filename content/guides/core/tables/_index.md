@@ -32,7 +32,7 @@ A Table is a two-dimensional grid of data where each column has a single type of
 
 Log a table with a few lines of code:
 
-- [`wandb.init()`]({{< relref "../../ref/python/init.md" >}}): Create a [run]({{< relref "../runs/intro.md" >}}) to track results.
+- [`wandb.init()`]({{< relref "../../ref/python/init.md" >}}): Create a [run]({{< relref "../runs/" >}}) to track results.
 - [`wandb.Table()`]({{< relref "../../ref/python/data-types/table.md" >}}): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of the table.

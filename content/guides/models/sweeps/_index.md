@@ -18,7 +18,7 @@ Use W&B Sweeps to automate hyperparameter search and visualize rich, interactive
 {{< img src="/images/sweeps/intro_what_it_is.png" alt="Draw insights from large hyperparameter tuning experiments with interactive dashboards." >}}
 
 ### How it works
-Create a sweep with two [W&B CLI]({{< relref "../../ref/cli/README.md" >}}) commands:
+Create a sweep with two [W&B CLI]({{< relref "../../ref/cli/" >}}) commands:
 
 
 1. Initialize a sweep

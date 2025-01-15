@@ -8,7 +8,7 @@ weight: 1
 title: Create an experiment
 ---
 
-Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API]({{< relref "../../ref/python/public-api/README.md" >}}).
+Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API]({{< relref "../../ref/python/public-api/" >}}).
 
 This guide describes how to use W&B building blocks to create a W&B Experiment. 
 
@@ -72,14 +72,14 @@ for epoch in range(wandb.config.epochs):
         # model performance
         wandb.log({"accuracy": accuracy, "loss": loss})
 ```
-For more information on different data types you can log with W&B, see [Log Data During Experiments]({{< relref "./log/intro.md" >}}).
+For more information on different data types you can log with W&B, see [Log Data During Experiments]({{< relref "./log/" >}}).
 
 ### Log an artifact to W&B 
 Optionally log a W&B Artifact. Artifacts make it easy to version datasets and models. 
 ```python
 wandb.log_artifact(model)
 ```
-For more information about Artifacts, see the [Artifacts Chapter]({{< relref "../artifacts/intro.md" >}}). For more information about versioning models, see [Model Management]({{< relref "../model_registry/intro.md" >}}).
+For more information about Artifacts, see the [Artifacts Chapter]({{< relref "../artifacts/" >}}). For more information about versioning models, see [Model Management]({{< relref "../model_registry/" >}}).
 
 
 ### Putting it all together
@@ -113,7 +113,7 @@ wandb.save("model.onnx")
 ```
 
 ## Next steps: Visualize your experiment 
-Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref "../app/features/panels/parallel-coordinates.md" >}}),[ parameter importance analyzes]({{< relref "../app/features/panels/parameter-importance.md" >}}), and [more]({{< relref "../app/features/panels/intro.md" >}}).
+Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref "../app/features/panels/parallel-coordinates.md" >}}),[ parameter importance analyzes]({{< relref "../app/features/panels/parameter-importance.md" >}}), and [more]({{< relref "../app/features/panels/" >}}).
 
 {{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example" >}}
 
@@ -145,4 +145,4 @@ wandb.init(
 )
 ```
 
-For more information about available parameters when defining a W&B Experiment, see the [`wandb.init`]({{< relref "../../ref/python/init.md" >}}) API docs in the [API Reference Guide]({{< relref "../../ref/python/README.md" >}}).
+For more information about available parameters when defining a W&B Experiment, see the [`wandb.init`]({{< relref "../../ref/python/init.md" >}}) API docs in the [API Reference Guide]({{< relref "../../ref/python/" >}}).

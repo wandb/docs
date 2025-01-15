@@ -14,7 +14,7 @@ Create an automation that triggers when an artifact is changed. Use artifact aut
 {{% alert %}}
 Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
 
-This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry. They are triggered when events are performed on model versions linked to the [Model Registry]({{< relref "../model_registry/intro.md" >}}). For information on how to create an automations for model versions, see the [Automations for Model CI/CD]({{< relref "../model_registry/model-registry-automations.md" >}}) page in the [Model Registry chapter]({{< relref "../model_registry/intro.md" >}}).
+This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry. They are triggered when events are performed on model versions linked to the [Model Registry]({{< relref "../model_registry/" >}}). For information on how to create an automations for model versions, see the [Automations for Model CI/CD]({{< relref "../model_registry/model-registry-automations.md" >}}) page in the [Model Registry chapter]({{< relref "../model_registry/" >}}).
 {{% /alert %}}
 
 
@@ -42,7 +42,7 @@ To use a secret in your webhook, you must first add that secret to your team's s
 {{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.
-* Secrets are also available if you use [W&B Server]({{< relref "../hosting/intro.md" >}}) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
+* Secrets are also available if you use [W&B Server]({{< relref "../hosting/" >}}) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
 {{% /alert %}}
 
 

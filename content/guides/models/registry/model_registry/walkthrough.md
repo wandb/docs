@@ -68,7 +68,7 @@ def generate_raw_data(train_size=6000):
 (x_train, y_train), (x_eval, y_eval) = generate_raw_data()
 ```
 
-Next, upload the dataset to W&B. To do this, create an [artifact]({{< relref "../artifacts/intro.md" >}}) object and add the dataset to that artifact. 
+Next, upload the dataset to W&B. To do this, create an [artifact]({{< relref "../artifacts/" >}}) object and add the dataset to that artifact. 
 
 ```python
 project = "model-registry-dev"
@@ -210,7 +210,7 @@ model.save(path)
 
 
 ## Log and link a model to the Model Registry
-Use the [`link_model`]({{< relref "../../ref/python/run.md#link_model" >}}) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry]({{< relref "./intro.md" >}}).
+Use the [`link_model`]({{< relref "../../ref/python/run.md#link_model" >}}) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry]({{< relref "./" >}}).
 
 ```python
 path = "./model.h5"

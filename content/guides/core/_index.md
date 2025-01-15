@@ -13,7 +13,7 @@ W&B Core is the foundational framework supporting [W&B Models]({{< relref "./mod
 
 W&B Core provides capabilities across the entire ML lifecycle. With W&B Core, you can:
 
-- [Version and manage ML]({{< relref "./artifacts/_index.md" >}}) pipelines with full lineage tracing for easy auditing and reproducibility.
+- [Version and manage ML]({{< relref "./artifacts/" >}}) pipelines with full lineage tracing for easy auditing and reproducibility.
 - Explore and evaluate data and metrics using [interactive, configurable visualizations]({{< relref "./tables/_index.md" >}}).
-- [Document and share]({{< relref "./reports/_index_.md" >}}) insights across the entire organization by generating live reports in digestible, visual formats that are easily understood by non-technical stakeholders.
-- [Query and create visualizations of your data]({{< relref "../guides/app/features/panels/query-panel/_index.md" >}}) that serve your custom needs.
+- [Document and share]({{< relref "./reports/" >}}) insights across the entire organization by generating live reports in digestible, visual formats that are easily understood by non-technical stakeholders.
+- [Query and create visualizations of your data]({{< relref "../guides/app/features/panels/query-panel/" >}}) that serve your custom needs.

@@ -9,15 +9,15 @@ url: guides/launch/sweeps-on-launch
 ---
 {{< cta-button colabLink="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7" >}}
 
-Create a hyperparameter tuning job ([sweeps]({{< relref "../sweeps/intro.md" >}})) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep scheduler starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
+Create a hyperparameter tuning job ([sweeps]({{< relref "../sweeps/" >}})) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep scheduler starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
 
 You can use the default W&B Sweep scheduling engine or implement your own custom scheduler:
 
-1. Standard sweep scheduler: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps]({{< relref "../sweeps/intro.md" >}}). The familiar `bayes`, `grid`, and `random` methods are available.
+1. Standard sweep scheduler: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps]({{< relref "../sweeps/" >}}). The familiar `bayes`, `grid`, and `random` methods are available.
 2. Custom sweep scheduler: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found in the section below.
  
 {{% alert %}}
-This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, see the [how to get started]({{< relref "./intro.md#how-to-get-started" >}}) section of the launch documentation. 
+This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, see the [how to get started]({{< relref "./#how-to-get-started" >}}) section of the launch documentation. 
 {{% /alert %}}
 
 {{% alert %}}
@@ -108,7 +108,7 @@ For information on how to create a sweep configuration, see the [Define sweep co
 wandb launch-sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entity>  --project <project_name>
 ```
 
-For more information on W&B Sweeps, see the [Tune Hyperparameters]({{< relref "../sweeps/intro.md" >}}) chapter.
+For more information on W&B Sweeps, see the [Tune Hyperparameters]({{< relref "../sweeps/" >}}) chapter.
 
 {{% /tab %}}
 {{< /tabpane >}}

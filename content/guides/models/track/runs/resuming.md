@@ -111,7 +111,7 @@ For example, suppose you execute a python script called `train.py` in a director
 
 
 {{% alert %}}
-If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Custom run IDs]({{< relref "./intro.md#custom-run-ids" >}}) section in the "What are runs?" page for more information on run IDs.
+If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Custom run IDs]({{< relref "./#custom-run-ids" >}}) section in the "What are runs?" page for more information on run IDs.
 {{% /alert %}}
 
 
@@ -119,7 +119,7 @@ If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variab
 
 
 ## Resume preemptible Sweeps runs
-Automatically requeue interrupted [sweep]({{< relref "../sweeps/intro.md" >}}) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
+Automatically requeue interrupted [sweep]({{< relref "../sweeps/" >}}) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
 
 Use the [`mark_preempting`]({{< relref "../../ref/python/run.md#mark_preempting" >}}) function to enable W&B to automatically requeue interrupted sweep runs. For example, the following code snippet
 

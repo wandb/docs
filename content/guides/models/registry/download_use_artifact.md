@@ -52,7 +52,7 @@ fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)
 download_path = fetched_artifact.download()  
 ```
 
-The `.use_artifact()` method both creates a [run]({{< relref "../runs/intro.md" >}}) and marks the artifact you download as the input to that run. 
+The `.use_artifact()` method both creates a [run]({{< relref "../runs/" >}}) and marks the artifact you download as the input to that run. 
 Marking an artifact as the input to a run enables W&B to track the lineage of that artifact. 
 
 If you do not want to create a run, you can use the `wandb.Api()` object to access the artifact:

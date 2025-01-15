@@ -44,7 +44,7 @@ To use a secret in your webhook, you must first add that secret to your team's s
 {{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
-* Secrets are also available if you use [W&B Server]({{< relref "../hosting/intro.md" >}}) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
+* Secrets are also available if you use [W&B Server]({{< relref "../hosting/" >}}) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
 {{% /alert %}}
 
 There are two types of secrets W&B suggests that you create when you use a webhook automation:

@@ -25,7 +25,7 @@ To learn more about managed solutions for running W&B instead of managing it you
 
 ## Infrastructure
 
-![W&B infrastructure diagram]({{< relref "/images/hosting/reference_architecture.png" >}})
+{{< img src="/images/hosting/reference_architecture.png" alt="W&B infrastructure diagram" >}}
 
 ### Application layer
 

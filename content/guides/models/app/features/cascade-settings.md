@@ -29,7 +29,7 @@ Configure a workspaces layout to define the overall structure of the workspace. 
 
 {{< img src="/images/app_ui/workspace_layout_settings.png" alt="" >}}
 
-The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels]({{< relref "panels/intro.md" >}}).
+The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels]({{< relref "panels/" >}}).
 
 This table describes each workspace layout option.
 
@@ -72,7 +72,7 @@ In addition to **Step**, there are other options for the x-axis:
 
 
 {{% alert %}}
-For information on how to edit an individual line plot, see [Edit line panel settings]({{< relref "./panels/line-plot/intro.md#edit-line-panel-settings" >}}) in Line plots. 
+For information on how to edit an individual line plot, see [Edit line panel settings]({{< relref "./panels/line-plot/#edit-line-panel-settings" >}}) in Line plots. 
 {{% /alert %}}
 
 
@@ -123,4 +123,4 @@ Customize an individual panel's settings to compare multiple lines on the same p
 3. Within the modal that appears, you can edit settings related to the panel's data, display preferences, and more.
 {{< img src="/images/app_ui/panel_settings_modal.png" alt="" >}}
 
-For a complete list of settings you can apply to a panel, see [Edit line panel settings]({{< relref "./panels/line-plot/intro.md#edit-line-panel-settings" >}}).
+For a complete list of settings you can apply to a panel, see [Edit line panel settings]({{< relref "./panels/line-plot/#edit-line-panel-settings" >}}).

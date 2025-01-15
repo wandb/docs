@@ -173,13 +173,13 @@ See all the snapshots of results in one place, and share findings with your team
 
 ## Sweeps tab
 
-Start a new [sweep]({{< relref "../sweeps/intro.md" >}}) from your project.
+Start a new [sweep]({{< relref "../sweeps/" >}}) from your project.
 
 {{< img src="/images/app_ui/sweeps-tab.png" alt="" >}}
 
 ## Artifacts tab
 
-View all the [artifacts]({{< relref "../artifacts/intro.md" >}}) associated with a project, from training datasets and [fine-tuned models]({{< relref "../model_registry/intro.md" >}}) to [tables of metrics and media]({{< relref "../tables/tables-walkthrough.md" >}}).
+View all the [artifacts]({{< relref "../artifacts/" >}}) associated with a project, from training datasets and [fine-tuned models]({{< relref "../model_registry/" >}}) to [tables of metrics and media]({{< relref "../tables/tables-walkthrough.md" >}}).
 
 ### Overview panel
 

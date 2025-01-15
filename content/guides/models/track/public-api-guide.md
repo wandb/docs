@@ -161,7 +161,7 @@ Use the Public API to export or update data that you have saved to W&B. Before u
 - **Export Data**: Pull down a dataframe for custom analysis in a Jupyter Notebook. Once you have explored the data, you can sync your findings by creating a new analysis run and logging results, for example: `wandb.init(job_type="analysis")`
 - **Update Existing Runs**: You can update the data logged in association with a W&B run. For example, you might want to update the config of a set of runs to include additional information, like the architecture or a hyperparameter that wasn't originally logged.
 
-See the [Generated Reference Docs]({{< relref "../../ref/python/public-api/README.md" >}}) for details on available functions.
+See the [Generated Reference Docs]({{< relref "../../ref/python/public-api/" >}}) for details on available functions.
 
 ### Authentication
 
@@ -172,7 +172,7 @@ Authenticate your machine with your [API key](https://wandb.ai/authorize) in one
 
 ### Find the run path
 
-To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ]({{< relref "../runs/intro.md#overview-tab" >}})to get the run path.
+To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ]({{< relref "../runs/#overview-tab" >}})to get the run path.
 
 
 ### Export Run Data
@@ -326,7 +326,7 @@ If you're thinking about ways to set useful identifiers for your runs, here's wh
 
 ### Export data to visualize in matplotlib or seaborn
 
-Check out our [API examples]({{< relref "../../ref/python/public-api/README.md" >}}) for some common export patterns. You can also click the download button on a custom plot or on the expanded runs table to download a CSV from your browser.
+Check out our [API examples]({{< relref "../../ref/python/public-api/" >}}) for some common export patterns. You can also click the download button on a custom plot or on the expanded runs table to download a CSV from your browser.
 
 ### Read metrics from a run
 

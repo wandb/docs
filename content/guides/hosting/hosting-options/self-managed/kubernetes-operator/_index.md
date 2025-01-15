@@ -168,7 +168,7 @@ For a detailed description on how to use these modules, refer to this [section](
 
 ### Verify the installation
 
-To verify the installation, W&B recommends using the [W&B CLI]({{< relref "../../ref/cli/README.md" >}}). The verify command executes several tests that verify all components and configurations. 
+To verify the installation, W&B recommends using the [W&B CLI]({{< relref "../../ref/cli/" >}}). The verify command executes several tests that verify all components and configurations. 
 
 {{% alert %}}
 This step assumes that the first admin user account is created with the browser.

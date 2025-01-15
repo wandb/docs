@@ -72,7 +72,7 @@ wandb.log({"mnist_predictions": my_table})
 
 {{< img src="/images/integrations/pytorch_example_table.png" alt="The code above generates a table like this one. This model's looking good!" >}}
 
-For more on logging and visualizing datasets and models, check out our [guide to W&B Tables]({{< relref "../tables/intro.md" >}}).
+For more on logging and visualizing datasets and models, check out our [guide to W&B Tables]({{< relref "../tables/" >}}).
 
 ## Profile PyTorch code
 

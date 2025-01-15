@@ -140,7 +140,7 @@ For example, to add a Twitter follow badge, add `[{{< img src="https://img.shiel
 
 ## Team trials
 
-See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API]({{< relref "../../../ref/python/public-api/README.md" >}}).
+See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API]({{< relref "../../../ref/python/public-api/" >}}).
 
 ## Privacy settings
 
