@@ -32,7 +32,7 @@ Organization admins can enforce privacy settings for all teams in their organiza
 * Enforce team visibility restrictions
     * Enable this option to hide all teams from non-members
 * Enforce privacy for future projects
-    * Enable this option to enforce all future projects in all teams to be private or [restricted]({{< relref "./iam/restricted-projects.md" >}})
+    * Enable this option to enforce all future projects in all teams to be private or [restricted]({{< relref "./iam/access-management/restricted-projects.md" >}})
 * Enforce invitation control
     * Enable this option to prevent non-admins from inviting members to any team
 * Enforce report sharing control

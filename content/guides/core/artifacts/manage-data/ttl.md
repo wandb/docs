@@ -68,15 +68,15 @@ For all the code snippets below, replace the content wrapped in `<>` with your i
 Use the W&B Python SDK to define a TTL policy when you create an artifact. TTL policies are typically defined in days.    
 
 {{% alert %}}
-Defining a TTL policy when you create an artifact is similar to how you normally [create an artifact]({{< relref "./construct-an-artifact.md" >}}). With the exception that you pass in a time delta to the artifact's `ttl` attribute.
+Defining a TTL policy when you create an artifact is similar to how you normally [create an artifact]({{< relref "../construct-an-artifact.md" >}}). With the exception that you pass in a time delta to the artifact's `ttl` attribute.
 {{% /alert %}}
 
 The steps are as follows: 
 
-1. [Create an artifact]({{< relref "./construct-an-artifact.md" >}}).
-2. [Add content to the artifact]({{< relref "./construct-an-artifact.md#add-files-to-an-artifact" >}}) such as files, a directory, or a reference.
+1. [Create an artifact]({{< relref "../construct-an-artifact.md" >}}).
+2. [Add content to the artifact]({{< relref "../construct-an-artifact.md#add-files-to-an-artifact" >}}) such as files, a directory, or a reference.
 3. Define a TTL time limit with the [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) data type that is part of Python's standard library.
-4. [Log the artifact]({{< relref "./construct-an-artifact.md#3-save-your-artifact-to-the-wb-server" >}}).
+4. [Log the artifact]({{< relref "../construct-an-artifact.md#3-save-your-artifact-to-the-wb-server" >}}).
 
 The following code snippet demonstrates how to create an artifact and set a TTL policy. 
 
@@ -103,7 +103,7 @@ When you modify an artifact's TTL, the time the artifact takes to expire is stil
 
 {{< tabpane text=true >}}
   {{% tab header="Python SDK" %}}
-1. [Fetch your artifact]({{< relref "./download-and-use-an-artifact.md" >}}).
+1. [Fetch your artifact]({{< relref "../download-and-use-an-artifact.md" >}}).
 2. Pass in a time delta to the artifact's `ttl` attribute. 
 3. Update the artifact with the [`save`]({{< relref "/ref/python/run.md#save" >}}) method.
 
@@ -180,7 +180,7 @@ Artifacts with TTL turned off will not inherit an artifact collection's TTL. Ref
 
 {{< tabpane text=true >}}
   {{% tab header="Python SDK" %}}
-1. [Fetch your artifact]({{< relref "./download-and-use-an-artifact.md" >}}).
+1. [Fetch your artifact]({{< relref "../download-and-use-an-artifact.md" >}}).
 2. Set the artifact's `ttl` attribute to `None`.
 3. Update the artifact with the [`save`]({{< relref "/ref/python/run.md#save" >}}) method.
 

@@ -357,11 +357,11 @@ View an example project workspace [here](https://wandb.ai/stacey/deep-drive/work
 ### System tab
 The **System tab** shows system metrics tracked for a specific run such as CPU utilization, system memory, disk I/O, network traffic, GPU utilization and more.
 
-For a full list of system metrics W&B tracks, see [System metrics]({{< relref "/guides/models/app/features/system-metrics.md" >}}).
+For a full list of system metrics W&B tracks, see [System metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}).
 
 {{< img src="/images/app_ui/wandb_system_utilization.png" alt="" >}}
 
-View an example system tab [here]({{< relref "https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey" >}}).
+View an example system tab [here](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey).
 
 
 ### Logs tab

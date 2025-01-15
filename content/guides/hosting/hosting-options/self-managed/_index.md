@@ -13,7 +13,7 @@ cascade:
 ## Use self-managed cloud or on-prem infrastructure
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "./saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "./dedicated_cloud.md" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "../saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "../dedicated_cloud/" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 Deploy W&B Server on your [AWS, GCP, or Azure cloud account]({{< relref "#deploy-wb-server-within-self-managed-cloud-accounts" >}}) or within your [on-premises infrastructure]({{< relref "#deploy-wb-server-in-on-prem-infrastructure" >}}). 
@@ -26,7 +26,7 @@ Your IT/DevOps/MLOps team is responsible for provisioning your deployment, manag
 
 W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into your AWS, GCP, or Azure cloud account.
 
-See specific cloud provider documentation for more information on how to set up W&B Server in [AWS]({{< relref "/guides/hosting/hosting-options/self-managed/aws-tf.md" >}}), [GCP]({{< relref "/guides/hosting/hosting-options/self-managed/gcp-tf.md" >}}) or [Azure]({{< relref "/guides/hosting/hosting-options/self-managed/azure-tf.md" >}}).
+See specific cloud provider documentation for more information on how to set up W&B Server in [AWS]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" >}}), [GCP]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/gcp-tf.md" >}}) or [Azure]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/azure-tf.md" >}}).
 
 ## Deploy W&B Server in on-prem infrastructure
 

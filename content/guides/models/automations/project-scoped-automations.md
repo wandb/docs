@@ -14,7 +14,7 @@ Create an automation that triggers when an artifact is changed. Use artifact aut
 {{% alert %}}
 Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
 
-This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry. They are triggered when events are performed on model versions linked to the [Model Registry]({{< relref "../model_registry/" >}}). For information on how to create an automations for model versions, see the [Automations for Model CI/CD]({{< relref "../model_registry/model-registry-automations.md" >}}) page in the [Model Registry chapter]({{< relref "../model_registry/" >}}).
+This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry. They are triggered when events are performed on model versions linked to the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}). For information on how to create an automations for model versions, see the [Automations for Model CI/CD]({{< relref "/guides/models/automations/model-registry-automations.md" >}}) page in the [Model Registry chapter]({{< relref "/guides/models/registry/model_registry/" >}}).
 {{% /alert %}}
 
 

@@ -25,7 +25,7 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-The name you provide for `registered_model_name` is the name that appears in the [Model Registry App]({{< relref "https://wandb.ai/registry/model" >}}).
+The name you provide for `registered_model_name` is the name that appears in the [Model Registry App](https://wandb.ai/registry/model).
 
 ## Interactively create a registered model
 Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model).

@@ -21,8 +21,8 @@ Enterprise plan users can [bring their own bucket (BYOB) using the secure storag
 If you are on enterprise plan, you can use the identity and access managements capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Multi-tenant Cloud:
 
 * SSO authentication with OIDC or SAML. Reach out to your W&B team or support if you would like to configure SSO for your organization.
-* [Configure appropriate user roles]({{< relref "/guides/hosting/iam/manage-organization.md#assign-or-update-a-users-role" >}}) at the scope of the organization and within a team.
-* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects]({{< relref "/guides/hosting/iam/restricted-projects.md" >}}).
+* [Configure appropriate user roles]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" >}}) at the scope of the organization and within a team.
+* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects]({{< relref "/guides/hosting/iam/access-management/restricted-projects.md" >}}).
 
 ## Monitor
 Organization admins can manage usage and billing for their account from the `Billing` tab in their account view. If using the shared cloud storage on Multi-tenant Cloud, an admin can optimize storage usage across different teams in their organization.

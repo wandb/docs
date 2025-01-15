@@ -53,10 +53,10 @@ wandb.log_artifact(model)
 
 Depending on your use case, explore the following resources to get started with W&B Experiments:
 
-* Read the [W&B Quickstart]({{< relref "../../quickstart.md" >}}) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
+* Read the [W&B Quickstart]({{< relref "/guides/quickstart.md" >}}) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Explore this chapter to learn how to:
   * Create an experiment
   * Configure experiments
   * Log data from experiments
   * View results from experiments
-* Explore the [W&B Python Library]({{< relref "/ref/python/" >}}) within the [W&B API Reference Guide]({{< relref "/ref/README.md" >}}).
+* Explore the [W&B Python Library]({{< relref "/ref/python/" >}}) within the [W&B API Reference Guide]({{< relref "/ref/" >}}).

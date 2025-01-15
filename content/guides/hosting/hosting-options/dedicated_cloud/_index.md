@@ -29,10 +29,10 @@ You can also privately connect to your Dedicated Cloud instance using [cloud pro
 
 Use the identity and access management capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Dedicated Cloud instances:
 
-* Authenticate with [SSO using OpenID Connect (OIDC)]({{< relref "/guides/hosting/iam/sso.md" >}}) or with [LDAP]({{< relref "/guides/hosting/iam/ldap.md" >}}).
-* [Configure appropriate user roles]({{< relref "/guides/hosting/iam/manage-organization.md#assign-or-update-a-users-role" >}}) at the scope of the organization and within a team.
-* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects]({{< relref "/guides/hosting/iam/restricted-projects.md" >}}).
-* Leverage JSON Web Tokens with [identity federation]({{< relref "/guides/hosting/iam/identity_federation.md" >}}) to access W&B APIs.
+* Authenticate with [SSO using OpenID Connect (OIDC)]({{< relref "/guides/hosting/iam/authentication/sso.md" >}}) or with [LDAP]({{< relref "/guides/hosting/iam/authentication/ldap.md" >}}).
+* [Configure appropriate user roles]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" >}}) at the scope of the organization and within a team.
+* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects]({{< relref "/guides/hosting/iam/access-management/restricted-projects.md" >}}).
+* Leverage JSON Web Tokens with [identity federation]({{< relref "/guides/hosting/iam/authentication/identity_federation.md" >}}) to access W&B APIs.
 
 ## Monitor
 
@@ -42,7 +42,7 @@ Use [Audit logs]({{< relref "/guides/hosting/monitoring-usage/audit-logging.md" 
 
 Similar to W&B Multi-tenant Cloud, you do not incur the overhead and costs of provisioning and maintaining the W&B platform with Dedicated Cloud.
 
-To understand how W&B manages updates on Dedicated Cloud, refer to the [server release process]({{< relref "../server-release-process.md" >}}).
+To understand how W&B manages updates on Dedicated Cloud, refer to the [server release process]({{< relref "/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" >}}).
 
 ## Compliance
 
@@ -50,7 +50,7 @@ Security controls for W&B Dedicated Cloud are periodically audited internally an
 
 ## Migration options
 
-Migration to Dedicated Cloud from a [Self-managed instance]({{< relref "./self-managed.md" >}}) or [Multi-tenant Cloud]({{< relref "./saas_cloud.md" >}}) is supported.
+Migration to Dedicated Cloud from a [Self-managed instance]({{< relref "../self-managed/" >}}) or [Multi-tenant Cloud]({{< relref "../saas_cloud.md" >}}) is supported.
 
 ## Next steps
 

@@ -19,7 +19,7 @@ Service accounts are available on [Dedicated Cloud]({{< relref "/guides/hosting/
 
 ## Organization-scoped service accounts
 
-Service accounts scoped to an organization have permissions to read and write in all projects in the organization, regardless of the team, with the exception of [restricted projects]({{< relref "./restricted-projects.md#visibility-scopes" >}}). Before an organization-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
+Service accounts scoped to an organization have permissions to read and write in all projects in the organization, regardless of the team, with the exception of [restricted projects]({{< relref "../access-management/restricted-projects.md#visibility-scopes" >}}). Before an organization-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
 
 An organization admin can obtain the API key for an organization-scoped service account from the **Service Accounts** tab of the organization or account dashboard.
 
@@ -38,7 +38,7 @@ An organization-scoped service account requires a default team, even though it h
 
 ## Team-scoped service accounts
 
-A team-scoped service account can read and write in all projects within its team, except to [restricted projects]({{< relref "./restricted-projects.md#visibility-scopes" >}}) in that team. Before a team-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
+A team-scoped service account can read and write in all projects within its team, except to [restricted projects]({{< relref "../access-management/restricted-projects.md#visibility-scopes" >}}) in that team. Before a team-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
 
 As a team admin, you can get the API key for a team-scoped service account in your team at `<WANDB_HOST_URL>/<your-team-name>/service-accounts`. Alternatively you can go to the **Team settings** for your team and then refer to the **Service Accounts** tab.
 
@@ -54,7 +54,7 @@ To create a new team scoped service account for your team:
 If you do not configure a team in your model training or generative AI app environment that uses a team-scoped service account, the model runs or weave traces log to the named project within the service account's parent team. In such a scenario, user attribution using the `WANDB_USERNAME` or `WANDB_USER_EMAIL` variables _do not work_ unless the referenced user is part of the service account's parent team.
 
 {{% alert color="warning" %}}
-A team-scoped service account cannot log runs to a [team or restricted-scoped project]({{< relref "./restricted-projects.md#visibility-scopes" >}}) in a team different from its parent team, but it can log runs to an open visibility project within another team.
+A team-scoped service account cannot log runs to a [team or restricted-scoped project]({{< relref "../access-management/restricted-projects.md#visibility-scopes" >}}) in a team different from its parent team, but it can log runs to an open visibility project within another team.
 {{% /alert %}}
 
 ### External service accounts

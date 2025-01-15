@@ -14,10 +14,10 @@ If you are approaching or exceeding your storage limit, there are multiple paths
 W&B offers different methods of optimizing your storage consumption:
 
 -  Use [reference artifacts]({{< relref "/guides/core/artifacts/track-external-files.md" >}}) to track files saved outside the W&B system, instead of uploading them to W&B storage.
-- Use an [external cloud storage bucket]({{< relref "../features/teams.md" >}}) for storage. *(Enterprise only)*
+- Use an [external cloud storage bucket]({{< relref "teams.md" >}}) for storage. *(Enterprise only)*
 
 ## Delete data
 You can also choose to delete data to remain under your storage limit. There are several ways to do this:
 
 - Delete data interactively with the app UI.
-- [Set a TTL policy]({{< relref "/guides/core/artifacts/ttl.md" >}}) on Artifacts so they are automatically deleted.
+- [Set a TTL policy]({{< relref "/guides/core/artifacts/manage-data/ttl.md" >}}) on Artifacts so they are automatically deleted.

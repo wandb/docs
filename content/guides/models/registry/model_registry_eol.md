@@ -7,7 +7,7 @@ title: Migrate from legacy Model Registry
 weight: 8
 ---
 
-W&B will transition assets from the legacy [W&B Model Registry]({{< relref "../model_registry/" >}}) to the new [W&B Registry]({{< relref "./" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
+W&B will transition assets from the legacy [W&B Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to the new [W&B Registry]({{< relref "./" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
 
 The transition will take place once the new W&B Registry includes all the functionalities currently available in the Model Registry. W&B will attempt to preserve current workflows, codebases, and references.
 

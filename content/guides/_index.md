@@ -25,7 +25,7 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 **[W&B Models]({{< relref "/guides/models/" >}})** is a set of lightweight, interoperable tools for machine learning practitioners training and fine-tuning models.
 - [Experiments]({{< relref "/guides/models/track/" >}}): Machine learning experiment tracking
 - [Sweeps]({{< relref "/guides/models/sweeps/" >}}): Hyperparameter tuning and model optimization
-- [Registry]({{< relref "/guides/registry/" >}}): Publish and share your ML models and datasets
+- [Registry]({{< relref "/guides/models/registry/" >}}): Publish and share your ML models and datasets
 
 **[W&B Weave](/guides/weave/)** is a lightweight toolkit for tracking and evaluating LLM applications.
 

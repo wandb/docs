@@ -86,7 +86,7 @@ Iterate over every combination of hyperparameter values. Grid search makes uninf
 Grid search executes forever if it is searching within in a continuous search space.
 
 #### Random search
-Choose a random, uninformed, set of hyperparameter values on each iteration based on a distribution. Random search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI]({{< relref "./sweeps-ui.md" >}}).
+Choose a random, uninformed, set of hyperparameter values on each iteration based on a distribution. Random search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI]({{< relref "../sweeps-ui.md" >}}).
 
 Specify the distribution space with the metric key if you choose random (`method: random`) search.
 
@@ -95,7 +95,7 @@ In contrast to [random]({{< relref "#random-search" >}}) and [grid]({{< relref "
 
 <!-- There are different Bayesian optimization methods. W&B uses a Gaussian process to model the relationship between hyperparameters and the model metric. For more information, see this paper. [LINK] -->
 
-Bayesian search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI]({{< relref "./sweeps-ui.md" >}}). 
+Bayesian search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI]({{< relref "../sweeps-ui.md" >}}). 
 
 ### Distribution options for random and Bayesian search
 Within the `parameter` key, nest the name of the hyperparameter. Next, specify the `distribution` key and specify a distribution for the value.

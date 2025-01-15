@@ -13,7 +13,7 @@ This tutorial is intended to guide users with direct access to a machine that ha
 
 W&B recommends you create a Kubernetes cluster with GPU support that uses your cloud provider, if you want to set up a minikube cluster on a cloud machine. For example, AWS, GCP, Azure, Coreweave, and other cloud providers have tools to create Kubernetes clusters with GPU support.
 
-W&B recommends you use a [Launch Docker queue]({{< relref "/launch/setup-launch-docker" >}}) if you want to set up a minikube cluster for scheduling GPUs on a machine that has a single GPU. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
+W&B recommends you use a [Launch Docker queue]({{< relref "../set-up-launch/setup-launch-docker" >}}) if you want to set up a minikube cluster for scheduling GPUs on a machine that has a single GPU. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
 {{% /alert %}}
 
 ## Background
@@ -90,7 +90,7 @@ spec:
 {{% /tab %}}
 {{< /tabpane >}}
 
-For more information about queue configurations, see the [Set up Launch on Kubernetes]({{< relref "/launch/setup-launch-kubernetes.md" >}}) and the [Advanced queue setup guide]({{< relref "/launch/setup-queue-advanced.md" >}}).   
+For more information about queue configurations, see the [Set up Launch on Kubernetes]({{< relref "../set-up-launch/setup-launch-kubernetes.md" >}}) and the [Advanced queue setup guide]({{< relref "../set-up-launch/setup-queue-advanced.md" >}}).   
 
 
 The `${image_uri}` and `{{gpus}}` strings are examples of the two kinds of

@@ -60,9 +60,9 @@ This hierarchical model ensures that configurations are flexible and customizabl
 ### Requirements to use the W&B Kubernetes Operator
 Satisfy the following requirements to deploy W&B with the W&B Kubernetes operator:
 
-Refer to the [reference architecture]({{< relref "./self-managed/ref-arch.md#infrastructure-requirements" >}}). In addition, [obtain a valid W&B Server license]({{< relref "./hosting-options/self-managed.md#obtain-your-wb-server-license" >}}).
+Refer to the [reference architecture]({{< relref "../install-on-public-cloud/ref-arch.md#infrastructure-requirements" >}}). In addition, [obtain a valid W&B Server license]({{< relref "../#obtain-your-wb-server-license" >}}).
 
-See [this]({{< relref "./self-managed/bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
 
 Depending on the installation method, you might need to meet the following requirements:
 * Kubectl installed and configured with the correct Kubernetes cluster context.
@@ -164,7 +164,7 @@ W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules de
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 
-For a detailed description on how to use these modules, refer to this [section]({{< relref "./hosting-options/self-managed.md#deploy-wb-server-within-self-managed-cloud-accounts" >}}) to self-managed installations section in the docs.
+For a detailed description on how to use these modules, refer to this [section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) to self-managed installations section in the docs.
 
 ### Verify the installation
 
@@ -284,7 +284,7 @@ The W&B Operator is the default and recommended installation method for W&B Serv
 
 ### Migrate to Operator-based AWS Terraform Modules
 
-For a detailed description of the migration process,  continue [here]({{< relref "self-managed/aws-tf.md#migrate-to-operator-based-aws-terraform-modules" >}}).
+For a detailed description of the migration process,  continue [here]({{< relref "../install-on-public-cloud/aws-tf.md#migrate-to-operator-based-aws-terraform-modules" >}}).
 
 ### Migrate to Operator-based GCP Terraform Modules
 
@@ -349,7 +349,7 @@ Follow these steps to migrate to the Operator-based Helm chart:
 
 This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases]({{< relref "#how-it-works" >}}). Some configuration options are exposed with the below configuration, some need to be set as environment variables.
 
-The documentation has two lists of environment variables: [basic]({{< relref "./env-vars.md" >}}) and [advanced]({{< relref "./iam/advanced_env_vars.md" >}}). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
+The documentation has two lists of environment variables: [basic]({{< relref "/guides/hosting/env-vars/" >}}) and [advanced]({{< relref "/guides/hosting/iam/advanced_env_vars/" >}}). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
 
 The W&B Server application configuration file for a production deployment requires the following contents. This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
 

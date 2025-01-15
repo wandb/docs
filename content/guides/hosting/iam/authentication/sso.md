@@ -176,7 +176,7 @@ To set up SSO, you need administrator privileges and the following information:
 Should your IdP require a OIDC Client Secret, specify it with the environment variable OIDC_SECRET.
 {{% /alert %}}
 
-You can configure SSO using either the W&B Server UI or by passing [environment variables]({{< relref "../env-vars.md" >}}) to the `wandb/local` pod. The environment variables take precedence over UI.
+You can configure SSO using either the W&B Server UI or by passing [environment variables]({{< relref "/guides/hosting/env-vars.md" >}}) to the `wandb/local` pod. The environment variables take precedence over UI.
 
 {{% alert %}}
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and disables SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
@@ -184,9 +184,9 @@ If you're unable to log in to your instance after configuring SSO, you can resta
 
 {{< tabpane text=true >}}
 {{% tab header="System Console" value="console" %}}
-The System Console is the successor to the System Settings page. It is available with the [W&B Kubernetes Operator]({{< relref "../operator.md" >}}) based deployment.
+The System Console is the successor to the System Settings page. It is available with the [W&B Kubernetes Operator]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator.md" >}}) based deployment.
 
-1. Refer to [Access the W&B Management Console]({{< relref "../operator.md#access-the-wb-management-console" >}}).
+1. Refer to [Access the W&B Management Console]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator.md#access-the-wb-management-console" >}}).
 
 2. Navigate to **Settings**, then **Authentication**. Select **OIDC** in the **Type** dropdown.
     {{< img src="/images/hosting/sso_configure_via_console.png" alt="" >}}

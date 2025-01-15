@@ -11,7 +11,7 @@ Bring your own bucket (BYOB) allows you to store W&B artifacts and other related
 
 {{% alert %}}
 * Communication between W&B SDK / CLI / UI and your buckets occurs using [pre-signed URLs]({{< relref "./presigned-urls.md" >}}).
-* W&B uses a garbage collection process to delete W&B Artifacts. For more information, see [Deleting Artifacts]({{< relref "/guides/core/artifacts/delete-artifacts.md" >}}).
+* W&B uses a garbage collection process to delete W&B Artifacts. For more information, see [Deleting Artifacts]({{< relref "/guides/core/artifacts/manage-data/delete-artifacts.md" >}}).
 * You can specify a sub-path when configuring a bucket, to ensure that W&B does not store any files in a folder at the root of the bucket. It can help you better conform to your organzation's bucket governance policy.
 {{% /alert %}}
 
@@ -212,7 +212,7 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
         * For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `arn:aws:iam::725579432336:role/WandbIntegration`
         * For [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `arn:aws:iam::830241207209:root`
   
-  For more details, see the [AWS self-managed hosting guide]({{< relref "/guides/hosting/hosting-options/self-managed/aws-tf.md" >}}).
+  For more details, see the [AWS self-managed hosting guide]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" >}}).
 {{% /tab %}}
 
 {{% tab header="GCP" value="gcp"%}}

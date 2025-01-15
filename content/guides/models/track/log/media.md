@@ -13,7 +13,7 @@ title: Log media and objects
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
 {{% alert %}}
-Looking for reference docs for our media types? You want [this page]({{< relref "/ref/python/data-types/README.md" >}}).
+Looking for reference docs for our media types? You want [this page]({{< relref "/ref/python/data-types/" >}}).
 {{% /alert %}}
 
 {{% alert %}}

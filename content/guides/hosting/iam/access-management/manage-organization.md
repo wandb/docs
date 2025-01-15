@@ -14,7 +14,7 @@ As a team administrator you can [manage teams]({{< relref "#add-and-manage-teams
 The following workflow applies to users with instance administrator roles. Reach out to an administrator in your organization if you believe you should have instance administrator permissions. 
 {{% /alert %}}
 
-If you are looking to simplify user management in your organization, refer to [Automate user and team management]({{< relref "./automate_iam.md" >}}).
+If you are looking to simplify user management in your organization, refer to [Automate user and team management]({{< relref "../automate_iam.md" >}}).
 
 <!-- W&B assigns an Admin role to new users within an organization by default.  -->
 
@@ -85,7 +85,7 @@ A W&B user with matching email domain can sign in to your W&B Organization with 
 {{% alert title="Enable SSO for authentication" %}}
 W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). Reach out to your W&B team to enable SSO for your organization. 
 
-To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC]({{< relref "./sso.md" >}}) or [SSO with LDAP]({{< relref "./ldap.md" >}}).{{% /alert %}}
+To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC]({{< relref "../authentication/sso.md" >}}) or [SSO with LDAP]({{< relref "../authentication/ldap.md" >}}).{{% /alert %}}
 
 
 W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
@@ -225,10 +225,6 @@ Use your organization's dashboard to create  and manage teams within your organi
 - Automate the addition of users to a team when they join your organization.
 - Manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
-
-<!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management]({{< relref "./automate_iam.md" >}}). -->
-
-
 ### Create a team
 
 Use your organization's dashboard to create a team:
@@ -280,13 +276,6 @@ This table lists the roles you can assign to a member of a team:
 | View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team administrator. A view-only user only has read access to the team and its contents.  |
 | Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
 | Custom Roles (Enterprise-only feature)   | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
-
-<!-- {{% alert %}}
-W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
-
-Refer to [Team Service Account Behavior]({{< relref "/guides/models/app/features/teams.md#team-service-account-behavior" >}}) for more information.
-{{% /alert %}} -->
-
 
 {{% alert %}}
 Only enterprise licenses on Dedicated cloud or Self-managed deployment can assign custom roles to members in a team.

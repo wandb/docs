@@ -6,7 +6,7 @@ title: W&B Platform
 weight: 6
 no_list: true
 ---
-W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core]({{< relref "../core.md" >}}), [Models]({{< relref "../models.md" >}}) and [Weave]({{< relref "../weave_platform.md" >}}). 
+W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core]({{< relref "../core.md" >}}), [Models]({{< relref "../models.md" >}}) and [Weave]({{< relref "/guides/weave/" >}}). 
 
 W&B Platform is available in three different deployment options:
 

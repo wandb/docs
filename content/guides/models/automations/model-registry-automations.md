@@ -26,7 +26,7 @@ An *event* is a change that takes place in the W&B ecosystem. The Model Registry
 - Use **Linking a new artifact to a registered model** to test new model candidates.
 - Use **Adding a new alias to a version of the registered model** to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
 
-See [Link a model version]({{< relref "./link-model-version.md" >}}) and [Create a custom alias]({{< relref "/guides/core/artifacts/create-a-custom-alias.md" >}}).
+See [Link a model version]({{< relref "/guides/models/registry/link_version.md" >}}) and [Create a custom alias]({{< relref "/guides/core/artifacts/create-a-custom-alias.md" >}}).
 
 
 ## Create a webhook automation 

@@ -12,7 +12,7 @@ weight: 3
 A *project* is a central location where you visualize results, compare experiments, view and download artifacts, create an automation, and more. 
 
 {{% alert %}}
-Each project has a visibility setting that determines who can access it. For more information about who can access a project, see [Project visibility]({{< relref "/guides/hosting/iam/restricted-projects.md" >}}).
+Each project has a visibility setting that determines who can access it. For more information about who can access a project, see [Project visibility]({{< relref "/guides/hosting/iam/access-management/restricted-projects.md" >}}).
 {{% /alert %}}
 
 Each project contains the proceeding which you can access from the sidebar:
@@ -29,7 +29,7 @@ Each project contains the proceeding which you can access from the sidebar:
 
 * **Project name**: The name of the project. W&B creates a project for you when you initialize a run with the name you provide for the project field. You can change the name of the project at any time by selecting the **Edit** button in the upper right corner.
 * **Description**: A description of the project.
-* **Project visibility**: The visibility of the project. The visibility setting that determines who can access it. See [Project visibility]({{< relref "/guides/hosting/iam/restricted-projects.md" >}}) for more information.
+* **Project visibility**: The visibility of the project. The visibility setting that determines who can access it. See [Project visibility]({{< relref "/guides/hosting/iam/access-management/restricted-projects.md" >}}) for more information.
 * **Last active**: Timestamp of the last time data is logged to this project
 * **Owner**: The entity that owns this project
 * **Contributors**: The number of users that contribute to this project
@@ -179,7 +179,7 @@ Start a new [sweep]({{< relref "/guides/models/sweeps/" >}}) from your project.
 
 ## Artifacts tab
 
-View all the [artifacts]({{< relref "/guides/core/artifacts/" >}}) associated with a project, from training datasets and [fine-tuned models]({{< relref "../model_registry/" >}}) to [tables of metrics and media]({{< relref "/guides/core/tables/tables-walkthrough.md" >}}).
+View all the [artifacts]({{< relref "/guides/core/artifacts/" >}}) associated with a project, from training datasets and [fine-tuned models]({{< relref "/guides/models/registry/model_registry/" >}}) to [tables of metrics and media]({{< relref "/guides/core/tables/tables-walkthrough.md" >}}).
 
 ### Overview panel
 

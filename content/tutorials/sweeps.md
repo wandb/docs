@@ -69,7 +69,7 @@ If you run a sweep within the command line, you must specify your sweep config w
 
 ### Pick a search method
 
-First, specify a hyperparameter search method within your configuration dictionary. [There are three hyperparameter search strategies to choose from: grid, random, and Bayesian search]({{< relref "/guides/models/sweeps/sweep-config-keys#method" >}}).
+First, specify a hyperparameter search method within your configuration dictionary. [There are three hyperparameter search strategies to choose from: grid, random, and Bayesian search]({{< relref "/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/#method" >}}).
 
 For this tutorial, you will use a random search. Within your notebook, create a dictionary and specify `random` for the `method` key. 
 
@@ -169,7 +169,7 @@ import pprint
 pprint.pprint(sweep_config)
 ```
 
-For a full list of configuration options, see [Sweep configuration options]({{< relref "/guides/models/sweeps/sweep-config-keys/" >}}). 
+For a full list of configuration options, see [Sweep configuration options]({{< relref "/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/" >}}). 
 
 {{% alert %}}
 For hyperparameters that have potentially infinite options,

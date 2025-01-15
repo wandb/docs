@@ -5,4 +5,4 @@ type: docs
 tags:
    - team management
 ---
-For additional information about teams, visit the [teams section]({{< relref "/guides/models/app/features/teams.md" >}}).
+For additional information about teams, visit the [teams section]({{< relref "/guides/models/app/settings-page/teams.md" >}}).

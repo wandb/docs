@@ -28,7 +28,7 @@ We recommend you create a sweep on launch using the 'basic' method if you are a 
 Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI. 
 
 {{% alert %}}
-Before you create a sweep with W&B Launch, ensure that you first create a job to sweep over. See the [Create a Job]({{< relref "./create-launch-job.md" >}}) page for more information. 
+Before you create a sweep with W&B Launch, ensure that you first create a job to sweep over. See the [Create a Job]({{< relref "./create-and-deploy-jobs/create-launch-job.md" >}}) page for more information. 
 {{% /alert %}}
 
 {{< tabpane text=true >}}

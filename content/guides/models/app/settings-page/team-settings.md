@@ -21,7 +21,7 @@ Only Administration account types can change team settings or remove a member fr
 ## Members
 The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, email, team role, as well as their access privileges to Models and Weave, which is inherited by from the Organization. There are three standard team roles: Administrator (Admin), Member, and View-only.
 
-See [Add and Manage teams]({{< relref "/guides/hosting/iam/manage-organization.md#add-and-manage-teams" >}}) for information on how to create a tea, invite users to a team, remove users from a team, and change a user's role.
+See [Add and Manage teams]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" >}}) for information on how to create a tea, invite users to a team, remove users from a team, and change a user's role.
 
 ## Avatar
 
@@ -54,4 +54,4 @@ The **Usage** section describes the total memory usage the team has consumed on 
 
 ## Storage
 
-The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector]({{< relref "../features/teams.md#secure-storage-connector" >}}) or check out our [W&B Server]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) docs if you are self-hosting.
+The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector]({{< relref "teams.md#secure-storage-connector" >}}) or check out our [W&B Server]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) docs if you are self-hosting.
