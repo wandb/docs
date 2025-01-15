@@ -187,7 +187,10 @@ run = wandb.init()
 examples = []
 for i in range(3):
     pixels = np.random.randint(
-        low=0, high=256, size=(100, 100, 3), dtype=np.uint8
+        low=0,
+        high=256,
+        size=(100, 100, 3),
+        dtype=np.uint8,
     )
     pil_image = PILImage.fromarray(pixels, mode="RGB")
     image = wandb.Image(pil_image, caption=f"random field {i}")
@@ -199,7 +202,6 @@ run.log({"examples": examples})
 
 <!--yeadoc-test:init-and-log-video-numpy-->
 
-
 ```python
 import numpy as np
 import wandb
@@ -207,7 +209,10 @@ import wandb
 run = wandb.init()
 # axes are (time, channel, height, width)
 frames = np.random.randint(
-    low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
+    low=0,
+    high=256,
+    size=(10, 3, 100, 100),
+    dtype=np.uint8,
 )
 run.log({"video": wandb.Video(frames, fps=4)})
 ```
