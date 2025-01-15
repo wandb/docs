@@ -9,7 +9,7 @@ url: guides/launch/add-job-to-queue
 The following page describes how to add launch jobs to a launch queue.
 
 {{% alert %}}
-Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Set up Launch](./setup-launch.md) page.
+Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Set up Launch]({{< relref "../set-up-launch/" >}}) page.
 {{% /alert %}}
 
 ## Add jobs to your queue
@@ -26,7 +26,7 @@ Add a job to your queue programmatically with the W&B App.
 3. The **Jobs** page displays a list of W&B launch jobs that were created from previously executed W&B runs. 
   {{< img src="/images/launch/view_jobs.png" alt="" >}}
 4. Select the **Launch** button next to the name of the Job name. A modal will appear on the right side of the page.
-5. From the **Job version** dropdown, select the version of hte launch job you want to use. Launch jobs are versioned like any other [W&B Artifact](../artifacts/create-a-new-artifact-version.md). Different versions of the same launch job will be created if you make modifications to the software dependencies or source code used to run the job.
+5. From the **Job version** dropdown, select the version of hte launch job you want to use. Launch jobs are versioned like any other [W&B Artifact]({{< relref "/guides/core/artifacts/create-a-new-artifact-version.md" >}}). Different versions of the same launch job will be created if you make modifications to the software dependencies or source code used to run the job.
 6. Within the **Overrides** section, provide new values for any inputs that are configured for your launch job. Common overrides include a new entrypoint command, arguments, or values in the `wandb.config` of your new W&B run.  
   {{< img src="/images/launch/create_starter_queue_gs.png" alt="" >}}
   You can copy and paste values from other W&B runs that used your launch job by clicking on the **Paste from...** button.
@@ -42,7 +42,7 @@ For example, in the following example, the team admin configured AWS instance ty
 {{% /tab %}}
 {{% tab "W&B CLI" %}}
 
-Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart](./walkthrough.md) guide, we create a JSON file with the following overrides:
+Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart]({{< relref "../walkthrough.md" >}}) guide, we create a JSON file with the following overrides:
 
 ```json title="config.json"
 {

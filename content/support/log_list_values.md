@@ -6,7 +6,7 @@ tags:
   - logs
   - experiments
 ---
-These examples show logging losses a couple of different ways using [`wandb.log()`](/ref/python/log/).
+These examples show logging losses a couple of different ways using [`wandb.log()`]({{< relref "/ref/python/log/" >}}).
 
 {{< tabpane text=true >}}
 {{% tab "Using a dictionary" %}}
@@ -23,4 +23,4 @@ wandb.log({"losses": wandb.Histogram(losses)})
 {{% /tab %}}
 {{< /tabpane >}}
 
-For more, see [the documentation on logging](/guides/track/log/).
+For more, see [the documentation on logging]({{< relref "/guides/models/track/log/" >}}).

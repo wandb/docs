@@ -10,7 +10,7 @@ title: Manage artifact data retention
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" >}}
 
-Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts](./delete-artifacts.md) page.
+Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts]({{< relref "./delete-artifacts.md" >}}) page.
 
 Check out [this](https://www.youtube.com/watch?v=hQ9J6BoVmnc) video tutorial to learn how to manage data retention with Artifacts TTL in the W&B App.
 
@@ -18,7 +18,7 @@ Check out [this](https://www.youtube.com/watch?v=hQ9J6BoVmnc) video tutorial to 
 W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that linked models do not accidentally expire if used in production workflows.
 {{% /alert %}}
 {{% alert %}}
-* Only team admins can view a [team's settings](../app/settings-page/team-settings.md) and access team level TTL settings such as (1) permitting who can set or edit a TTL policy or (2) setting a team default TTL.  
+* Only team admins can view a [team's settings]({{< relref "/guides/models/app/settings-page/team-settings.md" >}}) and access team level TTL settings such as (1) permitting who can set or edit a TTL policy or (2) setting a team default TTL.  
 * If you do not see the option to set or edit a TTL policy in an artifact's details in the W&B App UI or if setting a TTL programmatically does not successfully change an artifact's TTL property, your team admin has not given you permissions to do so. 
 {{% /alert %}}
 
@@ -31,7 +31,7 @@ The following Artifact types indicate an auto-generated Artifact:
 - `job`
 - Any Artifact type starting with: `wandb-*`
 
-You can check an Artifact's type on the [W&B platform](../artifacts/explore-and-traverse-an-artifact-graph.md) or programmatically:
+You can check an Artifact's type on the [W&B platform]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph.md" >}}) or programmatically:
 
 ```python
 import wandb
@@ -68,15 +68,15 @@ For all the code snippets below, replace the content wrapped in `<>` with your i
 Use the W&B Python SDK to define a TTL policy when you create an artifact. TTL policies are typically defined in days.    
 
 {{% alert %}}
-Defining a TTL policy when you create an artifact is similar to how you normally [create an artifact](./construct-an-artifact.md). With the exception that you pass in a time delta to the artifact's `ttl` attribute.
+Defining a TTL policy when you create an artifact is similar to how you normally [create an artifact]({{< relref "../construct-an-artifact.md" >}}). With the exception that you pass in a time delta to the artifact's `ttl` attribute.
 {{% /alert %}}
 
 The steps are as follows: 
 
-1. [Create an artifact](./construct-an-artifact.md).
-2. [Add content to the artifact](./construct-an-artifact.md#add-files-to-an-artifact) such as files, a directory, or a reference.
+1. [Create an artifact]({{< relref "../construct-an-artifact.md" >}}).
+2. [Add content to the artifact]({{< relref "../construct-an-artifact.md#add-files-to-an-artifact" >}}) such as files, a directory, or a reference.
 3. Define a TTL time limit with the [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) data type that is part of Python's standard library.
-4. [Log the artifact](./construct-an-artifact.md#3-save-your-artifact-to-the-wb-server).
+4. [Log the artifact]({{< relref "../construct-an-artifact.md#3-save-your-artifact-to-the-wb-server" >}}).
 
 The following code snippet demonstrates how to create an artifact and set a TTL policy. 
 
@@ -103,9 +103,9 @@ When you modify an artifact's TTL, the time the artifact takes to expire is stil
 
 {{< tabpane text=true >}}
   {{% tab header="Python SDK" %}}
-1. [Fetch your artifact](./download-and-use-an-artifact.md).
+1. [Fetch your artifact]({{< relref "../download-and-use-an-artifact.md" >}}).
 2. Pass in a time delta to the artifact's `ttl` attribute. 
-3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
+3. Update the artifact with the [`save`]({{< relref "/ref/python/run.md#save" >}}) method.
 
 
 The following code snippet shows how to set a TTL policy for an artifact:
@@ -180,9 +180,9 @@ Artifacts with TTL turned off will not inherit an artifact collection's TTL. Ref
 
 {{< tabpane text=true >}}
   {{% tab header="Python SDK" %}}
-1. [Fetch your artifact](./download-and-use-an-artifact.md).
+1. [Fetch your artifact]({{< relref "../download-and-use-an-artifact.md" >}}).
 2. Set the artifact's `ttl` attribute to `None`.
-3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
+3. Update the artifact with the [`save`]({{< relref "/ref/python/run.md#save" >}}) method.
 
 
 The following code snippet shows how to turn off a TTL policy for an artifact:

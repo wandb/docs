@@ -37,7 +37,7 @@ If you'd rather dive straight into working code, check out this [Google Colab](h
 
 3. To log in with your training script, you'll need to sign in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
-If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
+If you are using Weights and Biases for the first time you might want to check out our [**quickstart**]({{< relref "/guides/quickstart.md" >}})
 
 {{< tabpane text=true >}}
 
@@ -151,7 +151,7 @@ Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`
 ### 4. Turn on model checkpointing 
 
 
-Using Weights & Biases' [Artifacts](../artifacts/intro.md), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Model Registry](../model_registry/intro.md) to register models to prepare them for staging or deployment in your production environment.
+Using Weights & Biases' [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to register models to prepare them for staging or deployment in your production environment.
 
  Logging your Hugging Face model checkpoints to Artifacts can be done by setting the `WANDB_LOG_MODEL` environment variable to one of `end` or `checkpoint` or `false`: 
 
@@ -191,7 +191,7 @@ WANDB_LOG_MODEL="checkpoint"
 
 {{< /tabpane >}}
 
-Any Transformers `Trainer` you initialize from now on will upload models to your W&B project. The model checkpoints you log will be viewable through the [Artifacts](../artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)). 
+Any Transformers `Trainer` you initialize from now on will upload models to your W&B project. The model checkpoints you log will be viewable through the [Artifacts]({{< relref "/guides/core/artifacts/" >}}) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)). 
 
 
 {{% alert %}}
@@ -200,9 +200,9 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 {{% /alert %}}
 
 #### W&B Model Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Model Registry](../model_registry/intro.md)**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](/guides/artifacts/project-scoped-automations/#create-a-webhook-automation) downstream actions with webhooks or jobs. 
+Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Model Registry]({{< relref "/guides/models/registry/model_registry/" >}})**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
 
-See the [Model Registry](../model_registry/intro.md) documentation for how to link a model Artifact to the Model Registry.
+See the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) documentation for how to link a model Artifact to the Model Registry.
  
 ### 5. Visualise evaluation outputs during training
 
@@ -210,7 +210,7 @@ Visualing your model outputs during training or evaluation is often essential to
 
 By using the callbacks system in the Transformers Trainer, you can log additional helpful data to W&B such as your models' text generation outputs or other predictions to W&B Tables. 
 
-See the **[Custom logging section](#custom-logging-log-and-view-evaluation-samples-during-training)** below for a full guide on how to log evaluation outupts while training to log to a W&B Table like this:
+See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-evaluation-samples-during-training" >}})** below for a full guide on how to log evaluation outupts while training to log to a W&B Table like this:
 
 
 {{< img src="/images/integrations/huggingface_eval_tables.png" alt="Shows a W&B Table with evaluation outputs" >}}
@@ -231,14 +231,14 @@ wandb.finish()
 
 ### 7. Visualize your results
 
-Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard](../track/workspaces.md). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
+Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard]({{< relref "/guides/models/track/workspaces.md" >}}). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
 
 ## Advanced features and FAQs
 
 ### How do I save the best model?
 If `load_best_model_at_end=True` is set in the `TrainingArguments` that are passed to the `Trainer`, then W&B will save the best performing model checkpoint to Artifacts.
 
-If you'd like to centralize all your best model versions across your team to organize them by ML task, stage them for production, bookmark them for further evaluation, or kick off downstream Model CI/CD processes then ensure you're saving your model checkpoints to Artifacts. Once logged to Artifacts, these checkpoints can then be promoted to the [Model Registry](../model_registry/intro.md).
+If you'd like to centralize all your best model versions across your team to organize them by ML task, stage them for production, bookmark them for further evaluation, or kick off downstream Model CI/CD processes then ensure you're saving your model checkpoints to Artifacts. Once logged to Artifacts, these checkpoints can then be promoted to the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}).
 
 ### How do I load a saved model?
 
@@ -421,7 +421,7 @@ For a more detailed example please refer to this [colab](https://colab.research.
 
 ### What additional W&B settings are available?
 
-Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here](/guides/hosting/env-vars/).
+Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here]({{< relref "/guides/hosting/env-vars/" >}}).
 
 | Environment Variable | Usage                                                                                                                                                                                                                                                                                                    |
 | -------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -458,7 +458,7 @@ WANDB_SILENT=true
 
 The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
 
-An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation](../../ref/python/init.md).
+An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation]({{< relref "/ref/python/init.md" >}}).
 
 ```python
 wandb.init(

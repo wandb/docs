@@ -11,7 +11,7 @@ The following sections highlight some of the ways you can use tables:
 
 ### View your data
 
-Log metrics and rich media during model training or evaluation, then visualize results in a persistent database synced to the cloud, or to your [hosting instance](/guides/hosting). 
+Log metrics and rich media during model training or evaluation, then visualize results in a persistent database synced to the cloud, or to your [hosting instance]({{< relref "/guides/hosting" >}}). 
 
 {{< img src="/images/data_vis/tables_see_data.png" alt="Browse examples and verify the counts and distribution of your data" max-width="90%" >}}
 

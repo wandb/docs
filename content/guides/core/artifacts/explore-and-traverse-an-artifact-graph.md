@@ -57,7 +57,7 @@ Clicking on a node opens a preview with an overview of the node. Clicking on the
 {{< img src="/images/artifacts/lineage3b.gif" alt="Searching a run cluster" >}}
 
 ## Use the API to track lineage
-You can also navigate a graph using the [W&B API](../../ref/python/public-api/api.md). 
+You can also navigate a graph using the [W&B API]({{< relref "/ref/python/public-api/api.md" >}}). 
 
 Create an artifact. First, create a run with `wandb.init`. Then,create a new artifact or retrieve an existing one with `wandb.Artifact`. Next, add files to the artifact with `.add_file`. Finally, log the artifact to the run with `.log_artifact`. The finished code looks something like this:
 
@@ -71,7 +71,7 @@ with wandb.init() as run:
     run.log_artifact(artifact)
 ```
 
-Use the artifact object's [`logged_by`](../../ref/python/artifact.md#logged_by) and [`used_by`](../../ref/python/artifact.md#used_by) methods to walk the graph from the artifact:
+Use the artifact object's [`logged_by`]({{< relref "/ref/python/artifact.md#logged_by" >}}) and [`used_by`]({{< relref "/ref/python/artifact.md#used_by" >}}) methods to walk the graph from the artifact:
 
 ```python
 # Walk up and down the graph from an artifact:
@@ -79,6 +79,6 @@ producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 ```
 ## Next steps
-- [Explore artifacts in more detail](../artifacts/artifacts-walkthrough.md)
-- [Manage artifact storage](../artifacts/delete-artifacts.md)
+- [Explore artifacts in more detail]({{< relref "/guides/core/artifacts/artifacts-walkthrough.md" >}})
+- [Manage artifact storage]({{< relref "/guides/core/artifacts/manage-data/delete-artifacts.md" >}})
 - [Explore an artifacts project](https://wandb.ai/wandb-smle/artifact_workflow/artifacts/raw_dataset/raw_data/v0/lineage)

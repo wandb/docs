@@ -10,10 +10,10 @@ weight: 30
 
 W&B supports three types of smoothing:
 
-- [exponential moving average](smoothing.md#exponential-moving-average-default) (default)
-- [gaussian smoothing](smoothing.md#gaussian-smoothing)
-- [running average](smoothing.md#running-average)
-- [exponential moving average - Tensorboard](smoothing.md#exponential-moving-average-deprecated) (deprecated)
+- [exponential moving average]({{< relref "smoothing.md#exponential-moving-average-default" >}}) (default)
+- [gaussian smoothing]({{< relref "smoothing.md#gaussian-smoothing" >}})
+- [running average]({{< relref "smoothing.md#running-average" >}})
+- [exponential moving average - Tensorboard]({{< relref "smoothing.md#exponential-moving-average-deprecated" >}}) (deprecated)
 
 See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc).
 

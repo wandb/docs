@@ -28,10 +28,10 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage all aspects of integrati
 
 ##### Build AI models
 
-Use [W&B Models](/guides) to manage all aspects of building your own AI models, including training, fine-tuning, reporting, automating hyperparameter sweeps, and using our model registry to assist with versioning and reproducibility.
+Use [W&B Models]({{< relref "/guides/" >}}) to manage all aspects of building your own AI models, including training, fine-tuning, reporting, automating hyperparameter sweeps, and using our model registry to assist with versioning and reproducibility.
 
-- [Introduction](/guides)
-- [Quickstart](/quickstart)
+- [Introduction]({{< relref "/guides/" >}})
+- [Quickstart]({{< relref "/guides/quickstart/" >}})
 - [YouTube Tutorial](https://www.youtube.com/watch?v=tHAFujRhZLA)
 - [Online Course](https://www.wandb.courses/courses/wandb-101)
 

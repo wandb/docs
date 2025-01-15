@@ -48,7 +48,7 @@ if current_loss < threshold:
 ```    
     {{% /tab %}}
     {{% tab header="Public API" %}}
-After you create a run, you can update tags using [the Public API](../track/public-api-guide.md). For example:
+After you create a run, you can update tags using [the Public API]({{< relref "/guides/models/track/public-api-guide.md" >}}). For example:
 
 ```python
 run = wandb.Api().run("{entity}/{project}/{run-id}")

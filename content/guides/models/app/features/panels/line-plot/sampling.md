@@ -8,7 +8,7 @@ weight: 20
 ---
 
 
-Use point aggregation methods within your line plots for improved data visualization accuracy and performance. There are two types of point aggregation modes: [full fidelity](#full-fidelity) and [random sampling](#random-sampling). W&B uses full fidelity mode by default.
+Use point aggregation methods within your line plots for improved data visualization accuracy and performance. There are two types of point aggregation modes: [full fidelity]({{< relref "#full-fidelity" >}}) and [random sampling]({{< relref "#random-sampling" >}}). W&B uses full fidelity mode by default.
 
 ## Full fidelity
 
@@ -120,7 +120,7 @@ By default, W&B uses full fidelity mode. To enable random sampling, follow these
 
 ### Access non sampled data
 
-You can access the complete history of metrics logged during a run using the [W&B Run API](../../../../../ref/python/public-api/run.md). The following example demonstrates how to retrieve and process the loss values from a specific run:
+You can access the complete history of metrics logged during a run using the [W&B Run API]({{< relref "/ref/python/public-api/run.md" >}}). The following example demonstrates how to retrieve and process the loss values from a specific run:
 
 
 ```python
