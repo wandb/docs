@@ -61,6 +61,7 @@ To add a custom panel to your workspace:
 
 To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots]({{< relref "line-plot/" >}}) or [Bar plots]({{< relref "bar-plot.md" >}}).
 
+
 ## Manage panels
 
 ### Edit a panel
@@ -102,6 +103,17 @@ To remove a panel:
 To remove all panels from a manual workspace, click its action `...` menu, then click **Clear all panels**.
 
 To remove all panels from an automatic or manual workspace, you can [reset the workspace]({{< relref "#reset-a-workspace" >}}). Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
+
+### Share a full-screen panel directly
+Direct colleagues to a specific panel in your project. The link redirects users to a full screen view of that panel when they click that link. To create a link to a panel:
+
+1. Hover your mouse over the panel.
+2. Select the action `...` menu.
+3. Click **Copy panel URL**.
+
+The settings of the project determine who can view the panel. This means that if the project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
+
+If multiple panels have the same name, W&B shares the first panel with the name.
 
 ## Manage sections
 
