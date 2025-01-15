@@ -35,6 +35,7 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 - [Reports]({{< relref "/guides/core/reports/" >}}): Document and collaborate on your discoveries
 
 ## How does W&B work?
+
 Read the following sections in this order if you are a first-time user of W&B and you are interested in training, tracking, and visualizing machine learning models and experiments:
 
 1. Learn about [runs]({{< relref "/guides/models/track/runs/" >}}), W&B's basic unit of computation.
