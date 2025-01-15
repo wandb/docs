@@ -10,7 +10,7 @@ Choose the product for which you need documentation.
 {{< cardpane >}}
 {{% card %}}<div onclick="window.location.href='https://weave-docs.wandb.ai'" style="cursor: pointer;">
 
-## Weave
+## W&B Weave
 
 ##### Use AI models in your app
 
@@ -24,7 +24,7 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage all aspects of integrati
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
 
-## Models
+## W&B Models
 
 ##### Build AI models
 
