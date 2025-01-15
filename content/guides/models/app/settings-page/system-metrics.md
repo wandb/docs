@@ -64,7 +64,7 @@ W&B assigns a `disk.in` tag to this metric.
 
 ### Disk Out
 Represents the total system disk write in megabytes (MB). 
-Similar to [Disk In](#disk-in), the initial disk write bytes are recorded when the first sample is taken. Subsequent samples calculate the difference between the current write bytes and the initial value.
+Similar to [Disk In]({{< relref "#disk-in" >}}), the initial disk write bytes are recorded when the first sample is taken. Subsequent samples calculate the difference between the current write bytes and the initial value.
 
 W&B assigns a `disk.out` tag to this metric.
 
@@ -104,7 +104,7 @@ W&B assigns a `network.sent` tag to this metric.
 ### Network Received
 
 Indicates the total bytes received over the network.
-Similar to [Network Sent](#network-sent), the initial bytes received are recorded when the metric is first initialized. Subsequent samples calculate the difference between the current bytes received and the initial value.
+Similar to [Network Sent]({{< relref "#network-sent" >}}), the initial bytes received are recorded when the metric is first initialized. Subsequent samples calculate the difference between the current bytes received and the initial value.
 
 W&B assigns a `network.recv` tag to this metric.
 

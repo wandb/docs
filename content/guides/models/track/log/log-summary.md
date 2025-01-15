@@ -22,7 +22,7 @@ for epoch in range(1, args.epochs + 1):
         best_accuracy = test_accuracy
 ```
 
-You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API](../../../ref/python/public-api/README.md) to update the summary attribute:
+You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API]({{< relref "../../../ref/python/public-api/README.md" >}}) to update the summary attribute:
 
 ```python
 api = wandb.Api()

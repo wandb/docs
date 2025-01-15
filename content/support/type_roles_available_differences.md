@@ -6,4 +6,4 @@ tags:
    - user management
    - team management
 ---
-Visit [this](../guides/app/features/teams.md#team-roles-and-permissions) page for an overview of the available roles and permissions.
+Visit [this]({{< relref "../guides/app/features/teams.md#team-roles-and-permissions" >}}) page for an overview of the available roles and permissions.

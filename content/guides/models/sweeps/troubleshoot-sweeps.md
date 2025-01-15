@@ -60,7 +60,7 @@ Navigate to your CLI and initialize a W&B Sweep with wandb sweep:
 wandb sweep config.yaml
 ```
 
-Make a note of the W&B Sweep ID that is returned. Next, start the Sweep job with [`wandb agent`](../../ref/cli/wandb-agent.md) with the CLI instead of the Python SDK ([`wandb.agent`](../../ref/python/agent.md)). Replace `sweep_ID` in the code snippet below with the Sweep ID that was returned in the previous step:
+Make a note of the W&B Sweep ID that is returned. Next, start the Sweep job with [`wandb agent`]({{< relref "../../ref/cli/wandb-agent.md" >}}) with the CLI instead of the Python SDK ([`wandb.agent`]({{< relref "../../ref/python/agent.md" >}})). Replace `sweep_ID` in the code snippet below with the Sweep ID that was returned in the previous step:
 
 ```shell
 wandb agent sweep_ID
@@ -75,4 +75,4 @@ wandb: ERROR Error while calling W&B API: anaconda 400 error:
 {"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
 ```
 
-Within your YAML file or nested dictionary you specify a key named "metric" to optimize. Ensure that you log (`wandb.log`) this metric. In addition, ensure you use the _exact_ metric name that you defined the sweep to optimize within your Python script or Jupyter Notebook. For more information about configuration files, see [Define sweep configuration](./define-sweep-configuration.md).
+Within your YAML file or nested dictionary you specify a key named "metric" to optimize. Ensure that you log (`wandb.log`) this metric. In addition, ensure you use the _exact_ metric name that you defined the sweep to optimize within your Python script or Jupyter Notebook. For more information about configuration files, see [Define sweep configuration]({{< relref "./define-sweep-configuration.md" >}}).

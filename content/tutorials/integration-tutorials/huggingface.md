@@ -38,7 +38,7 @@ Here's an in depth look at how the integration works: [Hugging Face + W&B Report
 
 Install the Hugging Face and Weights & Biases libraries, and the GLUE dataset and training script for this tutorial.
 - [Hugging Face Transformers](https://github.com/huggingface/transformers): Natural language models and datasets
-- [Weights & Biases](/): Experiment tracking and visualization
+- [Weights & Biases]({{< relref "/" >}}): Experiment tracking and visualization
 - [GLUE dataset](https://gluebenchmark.com/): A language understanding benchmark dataset
 - [GLUE script](https://github.com/huggingface/transformers/blob/master/examples/run_glue.py): Model training script for sequence classification
 
@@ -66,7 +66,7 @@ import wandb
 wandb.login()
 ```
 
-Optionally, we can set environment variables to customize W&B logging. See [documentation](/guides/integrations/huggingface).
+Optionally, we can set environment variables to customize W&B logging. See [documentation]({{< relref="/guides/integrations/huggingface" >}}).
 
 
 ```python
@@ -117,6 +117,6 @@ Weights & Biases saves a new run for each experiment. Here's the information tha
 - **System Metrics**: GPU and CPU utilization, memory, temperature etc.
 
 ## Learn more
-- [Documentation](/guides/integrations/huggingface): docs on the Weights & Biases and Hugging Face integration
+- [Documentation]({{< relref "/guides/integrations/huggingface" >}}): docs on the Weights & Biases and Hugging Face integration
 - [Videos](http://wandb.me/youtube): tutorials, interviews with practitioners, and more on our YouTube channel
 - Contact: Message us at contact@wandb.com with questions

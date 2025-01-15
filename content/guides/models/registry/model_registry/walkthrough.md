@@ -68,7 +68,7 @@ def generate_raw_data(train_size=6000):
 (x_train, y_train), (x_eval, y_eval) = generate_raw_data()
 ```
 
-Next, upload the dataset to W&B. To do this, create an [artifact](../artifacts/intro.md) object and add the dataset to that artifact. 
+Next, upload the dataset to W&B. To do this, create an [artifact]({{< relref "../artifacts/intro.md" >}}) object and add the dataset to that artifact. 
 
 ```python
 project = "model-registry-dev"
@@ -116,7 +116,7 @@ Train a model with the artifact dataset you created in the previous step.
 
 ### Declare dataset artifact as an input to the run
 
-Declare the dataset artifact you created in a previous step as the input to the W&B run. This is particularly useful in the context of logging models because declaring an artifact as an input to a run lets you track the dataset (and the version of the dataset) used to train a specific model. W&B uses the information collected to create a [lineage map](./model-lineage.md). 
+Declare the dataset artifact you created in a previous step as the input to the W&B run. This is particularly useful in the context of logging models because declaring an artifact as an input to a run lets you track the dataset (and the version of the dataset) used to train a specific model. W&B uses the information collected to create a [lineage map]({{< relref "./model-lineage.md" >}}). 
 
 Use the `use_artifact` API to both declare the dataset artifact as the input of the run and to retrieve the artifact itself. 
 
@@ -143,7 +143,7 @@ x_train = train_table.get_column("x_train", convert_to="numpy")
 y_train = train_table.get_column("y_train", convert_to="numpy")
 ```
 
-For more information about tracking the inputs and output of a model, see [Create model lineage](./model-lineage.md) map. 
+For more information about tracking the inputs and output of a model, see [Create model lineage]({{< relref "./model-lineage.md" >}}) map. 
 
 ### Define and train model
 
@@ -210,7 +210,7 @@ model.save(path)
 
 
 ## Log and link a model to the Model Registry
-Use the [`link_model`](../../ref/python/run.md#link_model) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry](./intro.md).
+Use the [`link_model`]({{< relref "../../ref/python/run.md#link_model" >}}) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry]({{< relref "./intro.md" >}}).
 
 ```python
 path = "./model.h5"
@@ -222,7 +222,7 @@ run.finish()
 
 W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
-See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
+See [`link_model`]({{< relref "../../ref/python/run.md#link_model" >}}) in the API Reference guide for more information on optional parameters.
 ## Evaluate the performance of a model
 It is common practice to evaluate the performance of a one or more models. 
 
@@ -248,7 +248,7 @@ x_eval = eval_table.get_column("x_eval", convert_to="numpy")
 y_eval = eval_table.get_column("y_eval", convert_to="numpy")
 ```
 
-Download the [model version](./model-management-concepts.md#model-version) from W&B that you want to evaluate. Use the `use_model` API to access and download your model.
+Download the [model version]({{< relref "./model-management-concepts.md#model-version" >}}) from W&B that you want to evaluate. Use the `use_model` API to access and download your model.
 
 ```python
 alias = "latest"  # alias
@@ -277,7 +277,7 @@ run.log(data={"loss": (loss, _)})
 
 
 ## Promote a model version 
-Mark a model version ready for the next stage of your machine learning workflow with a [*model alias*](./model-management-concepts.md#model-alias). Each registered model can have one or more model aliases. A model alias can only belong to a single model version at a time.
+Mark a model version ready for the next stage of your machine learning workflow with a [*model alias*]({{< relref "./model-management-concepts.md#model-alias" >}}). Each registered model can have one or more model aliases. A model alias can only belong to a single model version at a time.
 
 For example, suppose that after evaluating a model's performance, you are confident that the model is ready for production. To promote that model version, add the `production` alias to that specific model version. 
 

@@ -7,7 +7,7 @@ title: Sweep configuration options
 ---
 
 
-A sweep configuration consists of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search such as the parameters to search through ([`parameter`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
+A sweep configuration consists of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search such as the parameters to search through ([`parameter`]({{< relref "./sweep-config-keys.md#parameters" >}}) key), the methodology to search the parameter space ([`method`]({{< relref "./sweep-config-keys.md#method" >}}) key), and more. 
 
 The proceeding table lists top-level sweep configuration keys and a brief description. See the respective sections for more information about each key. 
 
@@ -19,14 +19,14 @@ The proceeding table lists top-level sweep configuration keys and a brief descri
 | `project` | The project for this sweep |
 | `description` | Text description of the sweep |
 | `name` | The name of the sweep, displayed in the W&B UI. |
-| [`method`](#method) | (required) The search strategy |
-| [`metric`](#metric) | The metric to optimize (only used by certain search strategies and stopping criteria) |
-| [`parameters`](#parameters) | (required) Parameter bounds to search |
-| [`early_terminate`](#early_terminate) | Any early stopping criteria |
-| [`command`](#command) | Command structure for invoking and passing arguments to the training script |
+| [`method`]({{< relref "#method" >}}) | (required) The search strategy |
+| [`metric`]({{< relref "#metric" >}}) | The metric to optimize (only used by certain search strategies and stopping criteria) |
+| [`parameters`]({{< relref "#parameters" >}}) | (required) Parameter bounds to search |
+| [`early_terminate`]({{< relref "#early_terminate" >}}) | Any early stopping criteria |
+| [`command`]({{< relref "#command" >}}) | Command structure for invoking and passing arguments to the training script |
 | `run_cap` | Maximum number of runs for this sweep |
 
-See the [Sweep configuration](./sweep-config-keys.md) structure for more information on how to structure your sweep configuration.
+See the [Sweep configuration]({{< relref "./sweep-config-keys.md" >}}) structure for more information on how to structure your sweep configuration.
 
 <!-- ## `program`
 
@@ -61,7 +61,7 @@ The proceeding table shows supported hyperparameter search constraints. Based on
 | --------------- | ------------------------------------------------------------------------------ |
 | `values`        | Specifies all valid values for this hyperparameter. Compatible with `grid`.    |
 | `value`         | Specifies the single valid value for this hyperparameter. Compatible with `grid`.  |
-| `distribution`  | Specify a probability [distribution](#distribution-options-for-random-and-bayesian-search). See the note following this table for information on default values. |
+| `distribution`  | Specify a probability [distribution]({{< relref "#distribution-options-for-random-and-bayesian-search" >}}). See the note following this table for information on default values. |
 | `probabilities` | Specify the probability of selecting each element of `values` when using `random`.  |
 | `min`, `max`    | (`int`or `float`) Maximum and minimum values. If `int`, for `int_uniform` -distributed hyperparameters. If `float`, for `uniform` -distributed hyperparameters. |
 | `mu`            | (`float`) Mean parameter for `normal` - or `lognormal` -distributed hyperparameters. |
@@ -71,7 +71,7 @@ The proceeding table shows supported hyperparameter search constraints. Based on
 
 
 {{% alert %}}
-W&B sets the following distributions based on the following conditions if a [distribution](#distribution-options-for-random-and-bayesian-search) is not specified:
+W&B sets the following distributions based on the following conditions if a [distribution]({{< relref "#distribution-options-for-random-and-bayesian-search" >}}) is not specified:
 * `categorical` if you specify `values`
 * `int_uniform` if you specify `max` and `min` as integers
 * `uniform` if you specify `max` and `min` as floats
@@ -86,16 +86,16 @@ Iterate over every combination of hyperparameter values. Grid search makes uninf
 Grid search executes forever if it is searching within in a continuous search space.
 
 #### Random search
-Choose a random, uninformed, set of hyperparameter values on each iteration based on a distribution. Random search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI](./sweeps-ui.md).
+Choose a random, uninformed, set of hyperparameter values on each iteration based on a distribution. Random search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI]({{< relref "./sweeps-ui.md" >}}).
 
 Specify the distribution space with the metric key if you choose random (`method: random`) search.
 
 #### Bayesian search
-In contrast to [random](#random-search) and [grid](#grid-search) search, Bayesian models make informed decisions. Bayesian optimization uses a probabilistic model to decide which values to use through an iterative process of testing values on a surrogate function before evaluating the objective function. Bayesian search works well for small numbers of continuous parameters but scales poorly. For more information about Bayesian search, see the [Bayesian Optimization Primer paper](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf).
+In contrast to [random]({{< relref "#random-search" >}}) and [grid]({{< relref "#grid-search" >}}) search, Bayesian models make informed decisions. Bayesian optimization uses a probabilistic model to decide which values to use through an iterative process of testing values on a surrogate function before evaluating the objective function. Bayesian search works well for small numbers of continuous parameters but scales poorly. For more information about Bayesian search, see the [Bayesian Optimization Primer paper]({{< relref "https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf" >}}).
 
 <!-- There are different Bayesian optimization methods. W&B uses a Gaussian process to model the relationship between hyperparameters and the model metric. For more information, see this paper. [LINK] -->
 
-Bayesian search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI](./sweeps-ui.md). 
+Bayesian search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI]({{< relref "./sweeps-ui.md" >}}). 
 
 ### Distribution options for random and Bayesian search
 Within the `parameter` key, nest the name of the hyperparameter. Next, specify the `distribution` key and specify a distribution for the value.
@@ -159,12 +159,12 @@ Specify either `min_iter` or `max_iter` to create a bracket schedule.
 
 
 {{% alert %}}
-Hyperband checks which [W&B runs](../../ref/python/run.md) to end once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
+Hyperband checks which [W&B runs]({{< relref "../../ref/python/run.md" >}}) to end once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
 {{% /alert %}}
 
 ## `command` 
 
-<!-- Agents created with [`wandb agent`](../../ref/cli/wandb-agent.md) receive a command in the following format by default: -->
+<!-- Agents created with [`wandb agent`]({{< relref "../../ref/cli/wandb-agent.md" >}}) receive a command in the following format by default: -->
 
 Modify the format and contents with nested values within the `command` key. You can directly include fixed components such as filenames.
 

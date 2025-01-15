@@ -9,7 +9,7 @@ title: Model registry automations
 url: guides/model_registry/model-registry-automations
 ---
 
-Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the action you want to occur based on an [event type](#event-types).
+Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the action you want to occur based on an [event type]({{< relref "#event-types" >}}).
 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
 
@@ -26,7 +26,7 @@ An *event* is a change that takes place in the W&B ecosystem. The Model Registry
 - Use **Linking a new artifact to a registered model** to test new model candidates.
 - Use **Adding a new alias to a version of the registered model** to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
 
-See [Link a model version](./link-model-version.md) and [Create a custom alias](../artifacts/create-a-custom-alias.md).
+See [Link a model version]({{< relref "./link-model-version.md" >}}) and [Create a custom alias]({{< relref "../artifacts/create-a-custom-alias.md" >}}).
 
 
 ## Create a webhook automation 
@@ -44,7 +44,7 @@ To use a secret in your webhook, you must first add that secret to your team's s
 {{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
-* Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
+* Secrets are also available if you use [W&B Server]({{< relref "../hosting/intro.md" >}}) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
 {{% /alert %}}
 
 There are two types of secrets W&B suggests that you create when you use a webhook automation:
@@ -62,7 +62,7 @@ Follow the instructions below to create a webhook:
 6. Add your secret into the **Secret** field. 
 7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 
-Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
+Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook]({{< relref "#configure-a-webhook" >}}) section for more information. 
 
 {{% alert %}}
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
@@ -81,7 +81,7 @@ Before you can use a webhook, first configure that webhook in the W&B App UI.
 
 {{% alert %}}
 * Only W&B Admins can configure a webhook for a W&B Team.
-* Ensure you already [created one or more secrets](#add-a-secret-for-authentication-or-authorization) if your webhook requires additional secret keys or tokens to authenticate your webhook.
+* Ensure you already [created one or more secrets]({{< relref "#add-a-secret-for-authentication-or-authorization" >}}) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 {{% /alert %}}
 
 1. Navigate to the W&B App UI.
@@ -95,7 +95,7 @@ Before you can use a webhook, first configure that webhook in the W&B App UI.
 9. (Optional) From the **Access token** dropdown menu select additional secret keys or tokens required to authenticate a webhook  (such as an access token).
 
 {{% alert %}}
-See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
+See the [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}) section to view where the secret and access token are specified in
 the POST request.
 {{% /alert %}}
 
@@ -103,7 +103,7 @@ the POST request.
 ### Add a webhook 
 Once you have a webhook configured and (optionally) a secret, navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 
-1. From the **Event type** dropdown, select an [event type](#event-types).
+1. From the **Event type** dropdown, select an [event type]({{< relref "#event-types" >}}).
 {{< img src="/images/models/webhook_select_event.png" alt="" >}}
 2. (Optional) If you selected **A new version is added to a registered model** event, provide the name of a registered model from the **Registered model** dropdown. 
 {{< img src="/images/models/webhook_new_version_reg_model.png" alt="" >}}
@@ -111,7 +111,7 @@ Once you have a webhook configured and (optionally) a secret, navigate to the Mo
 4. Click on the **Next step** button.
 5. Select a webhook from the **Webhook** dropdown.
 {{< img src="/images/models/webhooks_select_from_dropdown.png" alt="" >}}
-6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for common use case examples.
+6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload]({{< relref "#example-payloads" >}}) section for common use case examples.
 7. Click on **Next step**.
 8. Provide a name for your webhook automation in the **Automation name** field. 
 {{< img src="/images/models/webhook_name_automation.png" alt="" >}}
@@ -179,7 +179,7 @@ Verify that your access tokens have required set of permissions to trigger your 
   ${entity_name} --> "<entity>"
   ```
 
-  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
+  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API]({{< relref "../artifacts/download-and-use-an-artifact.md" >}}).
 
   For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 
@@ -278,7 +278,7 @@ Interactively troubleshoot your webhook with the W&B App UI or programmatically 
   3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
   4. Select **Test**.
   5. From the UI panel that appears, paste your POST request to the field that appears. 
-  ![](/images/models/webhook_ui.png)
+     {{< img src="/images/models/webhook_ui.png" >}}
   6. Click on **Test webhook**.
 
   Within the W&B App UI, W&B posts the response made by your endpoint.

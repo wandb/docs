@@ -13,5 +13,5 @@ your question answered, try [asking the community](https://community.wandb.ai/),
 or email [support@wandb.com](mailto:support@wandb.com).
 {{% /card %}}
 
-- [Can W&B team members see my data?](wandb_see_data.md)
-- [How can I make my project public?](project_make_public.md)
+- [Can W&B team members see my data?]({{< relref "wandb_see_data.md" >}})
+- [How can I make my project public?]({{< relref "project_make_public.md" >}})

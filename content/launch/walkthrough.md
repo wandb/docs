@@ -12,29 +12,29 @@ weight: 1
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" >}}
 
-Easily scale training [runs](../runs/intro.md) from your desktop to a compute resource like Amazon SageMaker, Kubernetes and more with W&B Launch. Once W&B Launch is configured, you can quickly run training scripts, model evaluation suites, prepare models for production inference, and more with a few clicks and commands. 
+Easily scale training [runs]({{< relref "../runs/intro.md" >}}) from your desktop to a compute resource like Amazon SageMaker, Kubernetes and more with W&B Launch. Once W&B Launch is configured, you can quickly run training scripts, model evaluation suites, prepare models for production inference, and more with a few clicks and commands. 
 
 ## How it works
 
 Launch is composed of three fundamental components: **launch jobs**, **queues**, and **agents**.
 
-A [*launch job*](./launch-terminology.md#launch-job) is a blueprint for configuring and running tasks in your ML workflow. Once you have a launch job, you can add it to a [*launch queue*](./launch-terminology.md#launch-queue). A launch queue is a first-in, first-out (FIFO) queue where you can configure and submit your jobs to a particular compute target resource, such as Amazon SageMaker or a Kubernetes cluster. 
+A [*launch job*]({{< relref "./launch-terminology.md#launch-job" >}}) is a blueprint for configuring and running tasks in your ML workflow. Once you have a launch job, you can add it to a [*launch queue*]({{< relref "./launch-terminology.md#launch-queue" >}}). A launch queue is a first-in, first-out (FIFO) queue where you can configure and submit your jobs to a particular compute target resource, such as Amazon SageMaker or a Kubernetes cluster. 
 
-As jobs are added to the queue, [*launch agents*](./launch-terminology.md#launch-agent) poll that queue and execute the job on the system targeted by the queue.
+As jobs are added to the queue, [*launch agents*]({{< relref "./launch-terminology.md#launch-agent" >}}) poll that queue and execute the job on the system targeted by the queue.
 
 {{< img src="/images/launch/launch_overview.png" alt="" >}}
 
-Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target](./launch-terminology.md#target-resources) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
+Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target]({{< relref "./launch-terminology.md#target-resources" >}}) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
 
-See the [Terms and concepts](./launch-terminology.md) page for more information on launch jobs, how queues work, launch agents, and additional information on how W&B Launch works.
+See the [Terms and concepts]({{< relref "./launch-terminology.md" >}}) page for more information on launch jobs, how queues work, launch agents, and additional information on how W&B Launch works.
 
 ## How to get started
 
 Depending on your use case, explore the following resources to get started with W&B Launch:
 
-* If this is your first time using W&B Launch, we recommend you go through the [Walkthrough](#walkthrough) guide.
-* Learn how to set up [W&B Launch](./setup-launch.md).
-* Create a [launch job](./create-launch-job.md).
+* If this is your first time using W&B Launch, we recommend you go through the [Walkthrough]({{< relref "#walkthrough" >}}) guide.
+* Learn how to set up [W&B Launch]({{< relref "./setup-launch.md" >}}).
+* Create a [launch job]({{< relref "./create-launch-job.md" >}}).
 * Check out the W&B Launch [public jobs GitHub repository](https://github.com/wandb/launch-jobs) for templates of common tasks like [deploying to Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), [evaluating an LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals), or more.
     * View launch jobs created from this repository in this public [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs) W&B project.
 
@@ -77,7 +77,7 @@ pip install wandb>=0.17.1
 {{% /tabpane %}}
 
 ## Create a launch job
-Create a [launch job](./launch-terminology.md#launch-job) in one of three ways: with a Docker image, from a git repository or from local source code:
+Create a [launch job]({{< relref "./launch-terminology.md#launch-job" >}}) in one of three ways: with a Docker image, from a git repository or from local source code:
 
 {{< tabpane text=true >}}
 {{% tab "With a Docker image" %}}
@@ -157,7 +157,7 @@ After clicking the button, the browser will redirect to the **Agents** tab of th
 
 {{< img src="/images/launch/create_docker_queue.gif" alt="" >}}
 
-For advanced queue configuration options, see the [advanced queue setup page](./setup-queue-advanced.md).
+For advanced queue configuration options, see the [advanced queue setup page]({{< relref "./setup-queue-advanced.md" >}}).
 
 ## Connect an agent to the queue
 

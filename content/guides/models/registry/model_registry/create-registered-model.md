@@ -10,7 +10,7 @@ weight: 4
 ---
 
 
-Create a [registered model](./model-management-concepts.md#registered-model) to hold all the candidate models for your modeling tasks. You can create a registered model interactively within the Model Registry or programmatically with the Python SDK.
+Create a [registered model]({{< relref "./model-management-concepts.md#registered-model" >}}) to hold all the candidate models for your modeling tasks. You can create a registered model interactively within the Model Registry or programmatically with the Python SDK.
 
 ## Programmatically create registered a model
 Programmatically register a model with the W&B Python SDK. W&B automatically creates a registered model for you if the registered model doesn't exist.
@@ -25,7 +25,7 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-The name you provide for `registered_model_name` is the name that appears in the [Model Registry App](https://wandb.ai/registry/model).
+The name you provide for `registered_model_name` is the name that appears in the [Model Registry App]({{< relref "https://wandb.ai/registry/model" >}}).
 
 ## Interactively create a registered model
 Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model).
@@ -44,7 +44,7 @@ Interactively create a registered model within the [Model Registry App](https://
 
 
 {{% alert %}}
-Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry](link-model-version#programmatically-link-a-model).
+Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry]({{< relref "link-model-version#programmatically-link-a-model" >}}).
 
 For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluates the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
 {{% /alert %}}

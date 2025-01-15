@@ -91,7 +91,7 @@ queues:
   - <queue-name>
 ```
 
-If you want the launch agent to build images for you that are executed in Vertex AI, see [Advanced agent set up](./setup-agent-advanced.md).
+If you want the launch agent to build images for you that are executed in Vertex AI, see [Advanced agent set up]({{< relref "./setup-agent-advanced.md" >}}).
 
 ## Set up agent permissions
 

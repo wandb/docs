@@ -10,10 +10,10 @@ title: Log tables
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
 Use `wandb.Table` to log data to visualize and query with W&B. In this guide, learn how to:
 
-1. [Create Tables](./log-tables.md#create-tables)
-2. [Add Data](./log-tables.md#add-data)
-3. [Retrieve Data](./log-tables.md#retrieve-data)
-4. [Save Tables](./log-tables.md#save-tables)
+1. [Create Tables]({{< relref "./log-tables.md#create-tables" >}})
+2. [Add Data]({{< relref "./log-tables.md#add-data" >}})
+3. [Retrieve Data]({{< relref "./log-tables.md#retrieve-data" >}})
+4. [Save Tables]({{< relref "./log-tables.md#save-tables" >}})
 
 ## Create tables
 
@@ -60,7 +60,7 @@ Tables are mutable. As your script executes you can add more data to your table,
 
 ### Adding data incrementally
 
-This code sample shows how to create and populate a W&B table incrementally. You define the table with predefined columns, including confidence scores for all possible labels, and add data row by row during inference. You can also [add data to tables incrementally when resuming runs](#adding-data-to-resumed-runs).
+This code sample shows how to create and populate a W&B table incrementally. You define the table with predefined columns, including confidence scores for all possible labels, and add data row by row during inference. You can also [add data to tables incrementally when resuming runs]({{< relref "#adding-data-to-resumed-runs" >}}).
 
 ```python
 # Define the columns for the table, including confidence scores for each label
@@ -146,11 +146,11 @@ with wandb.init() as run:
     my_table = run.use_artifact("run-<run-id>-<table-name>:<tag>").get("<table-name>")
 ```
 
-For more information on Artifacts, see the [Artifacts Chapter](../../artifacts/intro.md) in the Developer Guide. 
+For more information on Artifacts, see the [Artifacts Chapter]({{< relref "../../artifacts/intro.md" >}}) in the Developer Guide. 
 
 ### Visualize tables
 
-Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables](../../tables/visualize-tables.md).
+Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables]({{< relref "../../tables/visualize-tables.md" >}}).
 
 
 ## Artifact tables

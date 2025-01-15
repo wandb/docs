@@ -10,7 +10,7 @@ You can use W&B Launch to push ML workloads to a Kubernetes cluster, giving ML e
 
 W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that W&B maintains. 
 
-W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the Launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the Launch agent, or how to turn off job building and only use prebuilt Docker images, see [Advanced agent set up](./setup-agent-advanced.md).
+W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the Launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the Launch agent, or how to turn off job building and only use prebuilt Docker images, see [Advanced agent set up]({{< relref "./setup-agent-advanced.md" >}}).
 
 {{% alert %}}
 To install Helm and apply or upgrade W&B's Launch agent Helm chart, you need `kubectl` access to the cluster with sufficient permissions to create, update, and delete Kubernetes resources. Typically, a user with cluster-admin or a custom role with equivalent permissions is required.
@@ -111,7 +111,7 @@ Create a queue in the W&B App that uses Kubernetes as its compute resource:
 3. Select the **Entity** you would like to create the queue in.
 4. Provide a name for your queue in the **Name** field.
 5. Select **Kubernetes** as the **Resource**.
-6. Within the **Configuration** field, provide the Kubernetes Job workflow spec or Custom Resource spec you [configured in the previous section](#configure-a-queue-for-kubernetes).
+6. Within the **Configuration** field, provide the Kubernetes Job workflow spec or Custom Resource spec you [configured in the previous section]({{< relref "#configure-a-queue-for-kubernetes" >}}).
 
 ## Configure a Launch agent with Helm
 
@@ -194,4 +194,4 @@ serviceAccount:
 azureStorageAccessKey: ''
 ```
 
-For more information on registries, environments, and required agent permissions see [Advanced agent set up](./setup-agent-advanced.md).
+For more information on registries, environments, and required agent permissions see [Advanced agent set up]({{< relref "./setup-agent-advanced.md" >}}).

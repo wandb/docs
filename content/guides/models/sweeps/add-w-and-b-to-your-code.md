@@ -67,12 +67,12 @@ The following code examples demonstrate how to add the W&B Python SDK into your 
   To create a W&B Sweep, we added the following to the code example:
 
 1. Line 1: Import the Weights & Biases Python SDK.
-2. Line 6: Create a dictionary object where the key-value pairs define the sweep configuration. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep. For more information on how to create a sweep configuration, see [Define sweep configuration](./define-sweep-configuration.md).
-3. Line 19: Pass the sweep configuration dictionary to [`wandb.sweep`](../../ref/python/sweep.md). This initializes the sweep. This returns a sweep ID (`sweep_id`). For more information on how to initialize sweeps, see [Initialize sweeps](./initialize-sweeps.md).
-4. Line 33: Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a [W&B Run](../../ref/python/run.md).
+2. Line 6: Create a dictionary object where the key-value pairs define the sweep configuration. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep. For more information on how to create a sweep configuration, see [Define sweep configuration]({{< relref "./define-sweep-configuration.md" >}}).
+3. Line 19: Pass the sweep configuration dictionary to [`wandb.sweep`]({{< relref "../../ref/python/sweep.md" >}}). This initializes the sweep. This returns a sweep ID (`sweep_id`). For more information on how to initialize sweeps, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
+4. Line 33: Use the [`wandb.init()`]({{< relref "../../ref/python/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "../../ref/python/run.md" >}}).
 5. Line 37-39: (Optional) define values from `wandb.config` instead of defining hard coded values.
-6. Line 45: Log the metric we want to optimize with [`wandb.log`](../../ref/python/log.md). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value).
-7. Line 54: Start the sweep with the [`wandb.agent`](../../ref/python/agent.md) API call. Provide the sweep ID (line 19), the name of the function the sweep will execute (`function=main`), and set the maximum number of runs to try to four (`count=4`). For more information on how to start W&B Sweep, see [Start sweep agents](./start-sweep-agents.md).
+6. Line 45: Log the metric we want to optimize with [`wandb.log`]({{< relref "../../ref/python/log.md" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value).
+7. Line 54: Start the sweep with the [`wandb.agent`]({{< relref "../../ref/python/agent.md" >}}) API call. Provide the sweep ID (line 19), the name of the function the sweep will execute (`function=main`), and set the maximum number of runs to try to four (`count=4`). For more information on how to start W&B Sweep, see [Start sweep agents]({{< relref "./start-sweep-agents.md" >}}).
 
 
 ```python showLineNumbers
@@ -163,7 +163,7 @@ parameters:
     values: [5, 10, 15]
 ```
 
-For more information on how to create a W&B Sweep configuration, see [Define sweep configuration](./define-sweep-configuration.md).
+For more information on how to create a W&B Sweep configuration, see [Define sweep configuration]({{< relref "./define-sweep-configuration.md" >}}).
 
 Note that you must provide the name of your Python script for the `program` key in your YAML file.
 
@@ -171,9 +171,9 @@ Next, we add the following to the code example:
 
 1. Line 1-2: Import the Wieghts & Biases Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
 2. Line 18: Read in the configuration file.
-3. Line 21: Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a [W&B Run](../../ref/python/run.md). We pass the config object to the config parameter.
+3. Line 21: Use the [`wandb.init()`]({{< relref "../../ref/python/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "../../ref/python/run.md" >}}). We pass the config object to the config parameter.
 4. Line 25 - 27: Define hyperparameter values from `wandb.config` instead of using hard coded values.
-5. Line 33-39: Log the metric we want to optimize with [`wandb.log`](../../ref/python/log.md). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
+5. Line 33-39: Log the metric we want to optimize with [`wandb.log`]({{< relref "../../ref/python/log.md" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
 
 
 ```python showLineNumbers
@@ -233,21 +233,21 @@ Navigate to your CLI. Within your CLI, set a maximum number of runs the sweep ag
 NUM=5
 ```
 
-Next, initialize the sweep with the [`wandb sweep`](../../ref/cli/wandb-sweep.md) command. Provide the name of the YAML file. Optionally provide the name of the project for the project flag (`--project`):
+Next, initialize the sweep with the [`wandb sweep`]({{< relref "../../ref/cli/wandb-sweep.md" >}}) command. Provide the name of the YAML file. Optionally provide the name of the project for the project flag (`--project`):
 
 ```bash
 wandb sweep --project sweep-demo-cli config.yaml
 ```
 
-This returns a sweep ID. For more information on how to initialize sweeps, see [Initialize sweeps](./initialize-sweeps.md).
+This returns a sweep ID. For more information on how to initialize sweeps, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
 
-Copy the sweep ID and replace `sweepID` in the proceeding code snippet to start the sweep job with the [`wandb agent`](../../ref/cli/wandb-agent.md) command:
+Copy the sweep ID and replace `sweepID` in the proceeding code snippet to start the sweep job with the [`wandb agent`]({{< relref "../../ref/cli/wandb-agent.md" >}}) command:
 
 ```bash
 wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
-For more information on how to start sweep jobs, see [Start sweep jobs](./start-sweep-agents.md).
+For more information on how to start sweep jobs, see [Start sweep jobs]({{< relref "./start-sweep-agents.md" >}}).
 
 {{% /tab %}}
 {{< /tabpane >}}

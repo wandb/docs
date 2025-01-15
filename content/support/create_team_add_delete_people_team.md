@@ -5,4 +5,4 @@ type: docs
 tags:
    - team management
 ---
-Refer to the link for details on roles and permissions: [Team Roles and Permissions](../guides/app/features/teams.md#team-roles-and-permissions).
+Refer to the link for details on roles and permissions: [Team Roles and Permissions]({{< relref "../guides/app/features/teams.md#team-roles-and-permissions" >}}).

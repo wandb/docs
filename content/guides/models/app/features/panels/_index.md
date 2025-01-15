@@ -10,7 +10,7 @@ cascade:
 - url: guides/app/features/panels/:filename
 ---
 
-Use workspace panel visualizations to explore your [logged data](/ref/python/log.md) by key, visualize the relationships between hyperparameters and output metrics, and more. 
+Use workspace panel visualizations to explore your [logged data]({{< relref "/ref/python/log.md" >}}) by key, visualize the relationships between hyperparameters and output metrics, and more. 
 
 ## Workspace modes
 
@@ -21,7 +21,7 @@ W&B projects support two different workspace modes. The icon next to the workspa
 | {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}} | **Automated workspaces** automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project. |
 | {{<img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
 
-To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
+To change how a workspace generates panels, [reset the workspace]({{< relref "#reset-a-workspace" >}}).
 
 {{% alert title="Undo changes to your workspace" %}} 
 To undo changes to your workspace, click the Undo button (arrow that points left) or type **CMD + Z** (macOS) or **CTRL + Z** (Windows / Linux).
@@ -43,7 +43,8 @@ To add a panel:
 1. To add a panel globally, click **Add panels** in the control bar near the panel search field.
 1. To add a panel directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
 1. Select the type of panel to add.
-![](/images/app_ui/add_single_panel.gif)
+   
+   {{< img src="/images/app_ui/add_single_panel.gif" >}}
 
 ### Quick add
 
@@ -58,7 +59,7 @@ To add a custom panel to your workspace:
 1. Select the type of panel you’d like to create.
 1. Follow the prompts to configure the panel.
 
-To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots](line-plot/intro.md) or [Bar plots](bar-plot.md).
+To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots]({{< relref "line-plot/intro.md" >}}) or [Bar plots]({{< relref "bar-plot.md" >}}).
 
 ## Manage panels
 
@@ -88,7 +89,7 @@ To duplicate a panel:
 1. At the top of the panel, click the action `...` menu.
 1. Click **Duplicate**.
 
-If desired, you can [customize](#edit-a-panel) or [move](#move-a-panel) the duplicated panel.
+If desired, you can [customize]({{< relref "#edit-a-panel" >}}) or [move]({{< relref "#move-a-panel" >}}) the duplicated panel.
 
 ### Remove panels
 
@@ -100,7 +101,7 @@ To remove a panel:
 
 To remove all panels from a manual workspace, click its action `...` menu, then click **Clear all panels**.
 
-To remove all panels from an automatic or manual workspace, you can [reset the workspace](#reset-a-workspace). Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
+To remove all panels from an automatic or manual workspace, you can [reset the workspace]({{< relref "#reset-a-workspace" >}}). Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
 
 ## Manage sections
 

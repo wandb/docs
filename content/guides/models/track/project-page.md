@@ -12,24 +12,24 @@ weight: 3
 A *project* is a central location where you visualize results, compare experiments, view and download artifacts, create an automation, and more. 
 
 {{% alert %}}
-Each project has a visibility setting that determines who can access it. For more information about who can access a project, see [Project visibility](../hosting/iam/restricted-projects.md).
+Each project has a visibility setting that determines who can access it. For more information about who can access a project, see [Project visibility]({{< relref "../hosting/iam/restricted-projects.md" >}}).
 {{% /alert %}}
 
 Each project contains the proceeding which you can access from the sidebar:
 
-* [**Overview**](project-page.md#overview-tab): snapshot of your project
-* [**Workspace**](project-page.md#workspace-tab): personal visualization sandbox
-* [**Runs**](#runs-tab): A table that lists all the runs in your project
+* [**Overview**]({{< relref "project-page.md#overview-tab" >}}): snapshot of your project
+* [**Workspace**]({{< relref "project-page.md#workspace-tab" >}}): personal visualization sandbox
+* [**Runs**]({{< relref "#runs-tab" >}}): A table that lists all the runs in your project
 * **Automations**: Automations configured in your project
-* [**Sweeps**](project-page.md#sweeps-tab): automated exploration and optimization
-* [**Reports**](project-page.md#reports-tab): saved snapshots of notes, runs, and graphs
-* [**Artifacts**](#artifacts-tab): Contains all runs and the artifacts associated with that run
+* [**Sweeps**]({{< relref "project-page.md#sweeps-tab" >}}): automated exploration and optimization
+* [**Reports**]({{< relref "project-page.md#reports-tab" >}}): saved snapshots of notes, runs, and graphs
+* [**Artifacts**]({{< relref "#artifacts-tab" >}}): Contains all runs and the artifacts associated with that run
 
 ## Overview tab
 
 * **Project name**: The name of the project. W&B creates a project for you when you initialize a run with the name you provide for the project field. You can change the name of the project at any time by selecting the **Edit** button in the upper right corner.
 * **Description**: A description of the project.
-* **Project visibility**: The visibility of the project. The visibility setting that determines who can access it. See [Project visibility](../hosting/iam/restricted-projects.md) for more information.
+* **Project visibility**: The visibility of the project. The visibility setting that determines who can access it. See [Project visibility]({{< relref "../hosting/iam/restricted-projects.md" >}}) for more information.
 * **Last active**: Timestamp of the last time data is logged to this project
 * **Owner**: The entity that owns this project
 * **Contributors**: The number of users that contribute to this project
@@ -173,13 +173,13 @@ See all the snapshots of results in one place, and share findings with your team
 
 ## Sweeps tab
 
-Start a new [sweep](../sweeps/intro.md) from your project.
+Start a new [sweep]({{< relref "../sweeps/intro.md" >}}) from your project.
 
 {{< img src="/images/app_ui/sweeps-tab.png" alt="" >}}
 
 ## Artifacts tab
 
-View all the [artifacts](../artifacts/intro.md) associated with a project, from training datasets and [fine-tuned models](../model_registry/intro.md) to [tables of metrics and media](../tables/tables-walkthrough.md).
+View all the [artifacts]({{< relref "../artifacts/intro.md" >}}) associated with a project, from training datasets and [fine-tuned models]({{< relref "../model_registry/intro.md" >}}) to [tables of metrics and media]({{< relref "../tables/tables-walkthrough.md" >}}).
 
 ### Overview panel
 
@@ -205,7 +205,7 @@ The Usage panel provides a code snippet for downloading the artifact for use out
 
 The files panel lists the files and folders associated with the artifact. W&B uploads certain files for a run automatically. For example, `requirements.txt` shows the versions of each library the run used, and `wandb-metadata.json`, and `wandb-summary.json` include information about the run. Other files may be uploaded, such as artifacts or media, depending on the run's configuration. You can navigate through this file tree and view the contents directly in the W&B web app.
 
-[Tables](../tables/tables-walkthrough.md) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](../tables/visualize-tables.md).
+[Tables]({{< relref "../tables/tables-walkthrough.md" >}}) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here]({{< relref "../tables/visualize-tables.md" >}}).
 
 {{< img src="/images/app_ui/files_panel_table.png" alt="" >}}
 

@@ -13,7 +13,7 @@ title: Log media and objects
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
 {{% alert %}}
-Looking for reference docs for our media types? You want [this page](../../../ref/python/data-types/README.md).
+Looking for reference docs for our media types? You want [this page]({{< relref "../../../ref/python/data-types/README.md" >}}).
 {{% /alert %}}
 
 {{% alert %}}
@@ -306,7 +306,7 @@ wandb.log(
 
 
 
-If histograms are in your summary they will appear on the Overview tab of the [Run Page](../../runs/intro.md). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
+If histograms are in your summary they will appear on the Overview tab of the [Run Page]({{< relref "../../runs/intro.md" >}}). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
 
 ## 3D visualizations
 
@@ -336,9 +336,9 @@ Three different formats of NumPy arrays are supported for flexible color schemes
 
 #### Python object
 
-Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method](/ref/python/data-types/object3d/#from_point_cloud) as shown below.
+Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method]({{< relref "/ref/python/data-types/object3d/#from_point_cloud" >}}) as shown below.
 
-* `points`is a NumPy array containing coordinates and colors for the points to render using [the same formats as the simple point cloud renderer shown above](#python-object).
+* `points`is a NumPy array containing coordinates and colors for the points to render using [the same formats as the simple point cloud renderer shown above]({{< relref "#python-object" >}}).
 * `boxes` is a NumPy array of python dictionaries with three attributes:
   * `corners`- a list of eight corners
   * `label`- a string representing the label to be rendered on the box (Optional)
@@ -393,7 +393,7 @@ When viewing a point cloud, you can hold control and use the mouse to move aroun
 
 #### Point cloud files
 
-You can use [the `from_file` method](/ref/python/data-types/object3d/#from_file) to load in a JSON file full of point cloud data.
+You can use [the `from_file` method]({{< relref "/ref/python/data-types/object3d/#from_file" >}}) to load in a JSON file full of point cloud data.
 
 ```python
 run.log({"my_cloud_from_file": wandb.Object3D.from_file(
@@ -489,7 +489,7 @@ An example of how to format the point cloud data is shown below.
 ```
 #### NumPy arrays
 
-Using [the same array formats defined above](#numpy-array-formats), you can use `numpy` arrays directly with [the `from_numpy` method](/ref/python/data-types/object3d/#from_numpy) to define a point cloud.
+Using [the same array formats defined above]({{< relref "#numpy-array-formats" >}}), you can use `numpy` arrays directly with [the `from_numpy` method]({{< relref "/ref/python/data-types/object3d/#from_numpy" >}}) to define a point cloud.
 
 ```python
 run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
@@ -567,7 +567,7 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 ### PNG image
 
-[`wandb.Image`](../../../ref/python/data-types/image.md) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
+[`wandb.Image`]({{< relref "../../../ref/python/data-types/image.md" >}}) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
 
 ```python
 wandb.log({"example": wandb.Image(...)})
@@ -577,7 +577,7 @@ wandb.log({"example": [wandb.Image(...) for img in images]})
 
 ### Video
 
-Videos are logged using the [`wandb.Video`](../../../ref/python/data-types/video.md) data type:
+Videos are logged using the [`wandb.Video`]({{< relref "../../../ref/python/data-types/video.md" >}}) data type:
 
 ```python
 wandb.log({"example": wandb.Video("myvideo.mp4")})
@@ -587,7 +587,7 @@ Now you can view videos in the media browser. Go to your project workspace, run 
 
 ## 2D view of a molecule
 
-You can log a 2D view of a molecule using the [`wandb.Image`](../../../ref/python/data-types/image.md) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
+You can log a 2D view of a molecule using the [`wandb.Image`]({{< relref "../../../ref/python/data-types/image.md" >}}) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
 
 ```python
 molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")
@@ -620,7 +620,7 @@ wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif
 
 If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
 
-On the W&B [Run](../../runs/intro.md) and [Project](../../track/project-page.md) Pages, you will see your videos in the Media section.    
+On the W&B [Run]({{< relref "../../runs/intro.md" >}}) and [Project]({{< relref "../../track/project-page.md" >}}) Pages, you will see your videos in the Media section.    
     {{% /tab %}}
     {{% tab header="Text" %}}
 Use `wandb.Table` to log text in tables to show up in the UI. By default, the column headers are `["Input", "Output", "Expected"]`. To ensure optimal UI performance, the default maximum number of rows is set to 10,000. However, users can explicitly override the maximum with `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.

@@ -9,12 +9,12 @@ title: Trigger CI/CD events when artifact changes
 url: guides/artifacts/project-scoped-automations
 ---
 
-Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the action you want to occur based on an [event type](#event-types).  
+Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the action you want to occur based on an [event type]({{< relref "#event-types" >}}).  
 
 {{% alert %}}
 Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
 
-This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry. They are triggered when events are performed on model versions linked to the [Model Registry](../model_registry/intro.md). For information on how to create an automations for model versions, see the [Automations for Model CI/CD](../model_registry/model-registry-automations.md) page in the [Model Registry chapter](../model_registry/intro.md).
+This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry. They are triggered when events are performed on model versions linked to the [Model Registry]({{< relref "../model_registry/intro.md" >}}). For information on how to create an automations for model versions, see the [Automations for Model CI/CD]({{< relref "../model_registry/model-registry-automations.md" >}}) page in the [Model Registry chapter]({{< relref "../model_registry/intro.md" >}}).
 {{% /alert %}}
 
 
@@ -42,7 +42,7 @@ To use a secret in your webhook, you must first add that secret to your team's s
 {{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.
-* Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
+* Secrets are also available if you use [W&B Server]({{< relref "../hosting/intro.md" >}}) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
 {{% /alert %}}
 
 
@@ -62,7 +62,7 @@ Follow the instructions below to create a webhook:
 6. Add your secret into the **Secret** field. 
 7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 
-Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
+Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook]({{< relref "#configure-a-webhook" >}}) section for more information. 
 
 {{% alert %}}
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
@@ -73,7 +73,7 @@ Before you can use a webhook, you will first need to configure that webhook in t
 
 {{% alert %}}
 * Only W&B Admins can configure a webhook for a W&B Team.
-* Ensure you already [created one or more secrets](#add-a-secret-for-authentication-or-authorization) if your webhook requires additional secret keys or tokens to authenticate your webhook.
+* Ensure you already [created one or more secrets]({{< relref "#add-a-secret-for-authentication-or-authorization" >}}) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 {{% /alert %}}
 
 1. Navigate to the W&B App UI.
@@ -87,14 +87,14 @@ Before you can use a webhook, you will first need to configure that webhook in t
 9. (Optional) From the **Access token** dropdown menu select additional secret keys or tokens required to authenticate a webhook  (such as an access token).
 
 {{% alert %}}
-See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
+See the [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}) section to view where the secret and access token are specified in
 the POST request.
 {{% /alert %}}
 
 ### Add a webhook 
 Once you have a webhook configured and (optionally) a secret, navigate to your project workspace. Click on the **Automations** tab on the left sidebar.
 
-1. From the **Event type** dropdown, select an [event type](#event-types).
+1. From the **Event type** dropdown, select an [event type]({{< relref "#event-types" >}}).
 {{< img src="/images/artifacts/artifact_webhook_select_event.png" alt="" >}}
 2. If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection that the automation should respond to from the **Artifact collection** dropdown. 
 {{< img src="/images/artifacts/webhook_new_version_artifact.png" alt="" >}}
@@ -102,7 +102,7 @@ Once you have a webhook configured and (optionally) a secret, navigate to your p
 4. Click on the **Next step** button.
 5. Select a webhook from the **Webhook** dropdown.
 {{< img src="/images/artifacts/artifacts_webhooks_select_from_dropdown.png" alt="" >}}
-6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for common use case examples.
+6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload]({{< relref "#example-payloads" >}}) section for common use case examples.
 7. Click on **Next step**.
 8. Provide a name for your webhook automation in the **Automation name** field. 
 {{< img src="/images/artifacts/artifacts_webhook_name_automation.png" alt="" >}}
@@ -170,7 +170,7 @@ ${project_name} --> "<project_name>"
 ${entity_name} --> "<entity>"
 ```
 
-Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
+Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API]({{< relref "../artifacts/download-and-use-an-artifact.md" >}}).
 
 For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 {{% /tab %}}

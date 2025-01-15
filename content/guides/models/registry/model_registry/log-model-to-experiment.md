@@ -12,11 +12,11 @@ weight: 3
 
 Track a model, the model's dependencies, and other information relevant to that model with the W&B Python SDK. 
 
-Under the hood, W&B creates a lineage of [model artifact](./model-management-concepts.md#model-artifact) that you can view with the W&B App UI or programmatically with the W&B Python SDK. See the [Create model lineage map](./model-lineage.md) for more information.
+Under the hood, W&B creates a lineage of [model artifact]({{< relref "./model-management-concepts.md#model-artifact" >}}) that you can view with the W&B App UI or programmatically with the W&B Python SDK. See the [Create model lineage map]({{< relref "./model-lineage.md" >}}) for more information.
 
 ## How to log a model
 
-Use the `run.log_model` API to log a model. Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
+Use the `run.log_model` API to log a model. Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI]({{< relref "../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" >}}) to an external bucket such as `s3://bucket/path`. 
 
 Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B uses the basename of the input path prepended with the run ID. 
 
