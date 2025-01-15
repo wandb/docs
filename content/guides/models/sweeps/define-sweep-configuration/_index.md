@@ -32,25 +32,6 @@ For example, the proceeding code snippets show the same sweep configuration defi
 
 {{< tabpane  text=true >}}
   {{% tab header="CLI" %}}
-Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or Jupyter notebook. 
-
-The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
-
-```python title="train.py"
-sweep_configuration = {
-    "name": "sweepdemo",
-    "method": "bayes",
-    "metric": {"goal": "minimize", "name": "validation_loss"},
-    "parameters": {
-        "learning_rate": {"min": 0.0001, "max": 0.1},
-        "batch_size": {"values": [16, 32, 64]},
-        "epochs": {"values": [5, 10, 15]},
-        "optimizer": {"values": ["adam", "sgd"]},
-    },
-}
-```  
-  {{% /tab %}}
-  {{% tab header="Python script or Jupyter notebook" %}}
 Define a sweep configuration in a YAML file if you want to manage sweeps interactively from the command line (CLI)
 
 ```yaml title="config.yaml"
@@ -70,6 +51,25 @@ parameters:
     values: [5, 10, 15]
   optimizer:
     values: ["adam", "sgd"]
+```
+  {{% /tab %}}
+  {{% tab header="Python script or Jupyter notebook" %}}
+Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or Jupyter notebook. 
+
+The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
+
+```python title="train.py"
+sweep_configuration = {
+    "name": "sweepdemo",
+    "method": "bayes",
+    "metric": {"goal": "minimize", "name": "validation_loss"},
+    "parameters": {
+        "learning_rate": {"min": 0.0001, "max": 0.1},
+        "batch_size": {"values": [16, 32, 64]},
+        "epochs": {"values": [5, 10, 15]},
+        "optimizer": {"values": ["adam", "sgd"]},
+    },
+}
 ```  
   {{% /tab %}}
 {{< /tabpane >}}
