@@ -27,13 +27,12 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 - [Sweeps]({{< relref "/guides/models/sweeps/" >}}): Hyperparameter tuning and model optimization
 - [Registry]({{< relref "/guides/models/registry/" >}}): Publish and share your ML models and datasets
 
-**[W&B Weave](/guides/weave/)** is a lightweight toolkit for tracking and evaluating LLM applications.
+**[W&B Weave]({{< relref "/guides/weave/" >}})** is a lightweight toolkit for tracking and evaluating LLM applications.
 
 **[W&B Core]({{< relref "/guides/core/" >}})** is set of powerful building blocks for tracking and visualizing data and models, and communicating results.
 - [Artifacts]({{< relref "/guides/core/artifacts/" >}}): Version assets and track lineage
 - [Tables]({{< relref "/guides/core/tables/" >}}): Visualize and query tabular data
 - [Reports]({{< relref "/guides/core/reports/" >}}): Document and collaborate on your discoveries
-<!-- - [Weave](/guides/models/app/features/panels/weave) Query and create visualizations of your data -->
 
 ## How does W&B work?
 Read the following sections in this order if you are a first-time user of W&B and you are interested in training, tracking, and visualizing machine learning models and experiments:
