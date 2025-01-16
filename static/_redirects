@@ -94,7 +94,10 @@
 /guides/artifacts/api /ref/python/public-api/api#artifact 301
 /guides/artifacts/artifacts-core-concepts /guides/artifacts 301
 /guides/artifacts/dataset-versioning /guides/artifacts 301
-/guides/artifacts/model-versioning /guides/model_registry 301
+/guides/model_registry /guides/models/registry 301
+/guides/artifacts/model-versioning /guides/models/registry 301
+/guides/data-and-model-versioning/model-versioning /guides/models/registry 301
+/guides/models/automation /guides/models/registry 301
 /guides/artifacts/references /guides/artifacts 301
 /guides/artifacts/using-artifacts /guides/artifacts/download-and-use-an-artifact 301
 /guides/comparing-runs /guides/runs 301
@@ -103,7 +106,6 @@
 /guides/data-and-model-versioning / 301
 /guides/data-and-model-versioning/dataset-versioning /guides/artifacts 301
 /guides/data-and-model-versioning/intro / 301
-/guides/data-and-model-versioning/model-versioning /guides/model_registry 301
 /guides/data-vis/log-tables /guides/track/log/log-tables 301
 /guides/data_types /ref/python/data-types 301
 /guides/datasets-and-predictions / 301
@@ -218,12 +220,11 @@
 /guides/launch/getting-started /guides/launch/walkthrough 301
 /guides/launch/launch-jobs /guides/launch/add-job-to-queue 301
 /guides/models/walkthrough /guides/model_registry/walkthrough 301
+/guides/model_registry/quickstart /guides/model_registry/walkthrough 301
 /guides/models/model_tags /guides/model_registry/model_tags 301
 /guides/models/access_controls /guides/model_registry/access_controls 301
-/guides/models/automation /guides/model_registry/model-registry-automations 301
 /guides/models/notifications /guides/model_registry/notifications 301
 /guides/models/model-management-concepts /guides/model_registry/model-management-concepts 301
-/guides/model_registry/quickstart /guides/model_registry/walkthrough 301
 /guides/manage-runs /guides/runs/manage-runs 301
 /guides/projects/campaigns / 301
 /guides/prompts/intro /guides 301

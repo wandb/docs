@@ -3,10 +3,10 @@ description: Use an Automation for model CI (automated model evaluation pipeline
   and model deployment.
 menu:
   default:
-    identifier: model-registry-automations
+    identifier: registry-automations
     parent: automations
-title: Model registry automations
-url: guides/model_registry/model-registry-automations
+title: Registry automations
+url: guides/models/automations/registry-automations
 ---
 
 Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the action you want to occur based on an [event type]({{< relref "#event-types" >}}).
@@ -15,18 +15,18 @@ For example, you can create a trigger that automatically deploys a model to GitH
 
 {{% alert %}}
 Looking for companion tutorials for automations? 
-1. [This](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) tutorial shows you how to set up an automation that triggers a Github Action for model evaluation and deployment
-2. [This](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared) video series shows webhook basics and how to set them up in W&B.
-3. [This](https://www.youtube.com/watch?v=s5CMj_w3DaQ) demo details how to setup an automation to deploy a model to a Sagemaker Endpoint
+1. [Set up an automation that triggers a GitHub Action](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) for model evaluation and deployment.
+2. [Watch a video series to learn about webhooks](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared) and how to set them up in W&B.
+3. [Set up an automation to deploy a model to a Sagemaker Endpoint](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
 {{% /alert %}}
 
 ## Event types
-An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types:
+An *event* is a change that takes place in the W&B ecosystem. The Registry supports two event types:
 
-- Use **Linking a new artifact to a registered model** to test new model candidates.
-- Use **Adding a new alias to a version of the registered model** to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
+- **Linking a new artifact to a registered model**: Test new model candidates.
+- **Adding a new alias to a version of the registered model**: Specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
 
-See [Link a model version]({{< relref "/guides/models/registry/link_version.md" >}}) and [Create a custom alias]({{< relref "/guides/core/artifacts/create-a-custom-alias.md" >}}).
+Refer to [Link a model version]({{< relref "/guides/models/registry/link_version.md" >}}) and [Create a custom alias]({{< relref "/guides/core/artifacts/create-a-custom-alias.md" >}}).
 
 
 ## Create a webhook automation 
@@ -101,7 +101,7 @@ the POST request.
 
 
 ### Add a webhook 
-Once you have a webhook configured and (optionally) a secret, navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+Once you have a webhook configured and (optionally) a secret, navigate to the [Registry](https://wandb.ai/registry/model).
 
 1. From the **Event type** dropdown, select an [event type]({{< relref "#event-types" >}}).
 {{< img src="/images/models/webhook_select_event.png" alt="" >}}
@@ -332,8 +332,8 @@ Interactively troubleshoot your webhook with the W&B App UI or programmatically 
 
 View automations associated to a registered model from the W&B App UI. 
 
-1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select on a registered model. 
+1. Navigate to the [Registry](https://wandb.ai/registry/model).
+2. Select a registered model. 
 3. Scroll to the bottom of the page to the **Automations** section.
 
 Within the Automations section you can find the following properties of automations created for the model you selected:
@@ -346,8 +346,8 @@ Within the Automations section you can find the following properties of automati
 ## Delete an automation
 Delete an automation associated with a model. Actions in progress are not affected if you delete that automation before the action completes. 
 
-1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Click on a registered model. 
+1. Navigate to the Registry App at [Registry](https://wandb.ai/registry/model).
+2. Select registered model. 
 3. Scroll to the bottom of the page to the **Automations** section.
-4. Hover your mouse next to the name of the automation and click on the kebob (three vertical dots) menu. 
+4. Hover your mouse next to the name of the automation and click the three vertical dots menu. 
 5. Select **Delete**.

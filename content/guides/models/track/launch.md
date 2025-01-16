@@ -79,7 +79,7 @@ Optionally log a W&B Artifact. Artifacts make it easy to version datasets and mo
 ```python
 wandb.log_artifact(model)
 ```
-For more information about Artifacts, see the [Artifacts Chapter]({{< relref "/guides/core/artifacts/" >}}). For more information about versioning models, see [Model Management]({{< relref "/guides/models/registry/model_registry/" >}}).
+For more information about Artifacts, see [Artifacts]({{< relref "/guides/core/artifacts/" >}}). For more information about versioning models, see [Registry]({{< relref "/guides/models/registry/" >}}).
 
 
 ### Putting it all together

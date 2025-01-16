@@ -51,14 +51,14 @@ Once you log an artifact to W&B, you can then link that specific artifact versio
 The term "link" refers to pointers that connect where W&B stores the artifact and where the artifact is accessible in the registry. W&B does not duplicate artifacts when you link an artifact to a collection.
 {{% /alert %}}
 
-As an example, the proceeding code example shows how to log and link a fake model artifact called "my_model.txt" to a collection named "first-collection" in the [core Model registry]({{< relref "./registry_types.md" >}}). More specifically, the code accomplishes the following:
+As an example, the proceeding code example shows how to log and link a fake model artifact called "my_model.txt" to a collection named "first-collection" in the [core registry]({{< relref "./registry_types.md" >}}):
 
 1. Initialize a W&B run.
 2. Log the artifact to W&B.
-3. Specify the name of the collection and registry you want to link your artifact version to.
+3. Specify the name of the collection and registry to link your artifact version to.
 4. Link the artifact to the collection.
 
-Copy and paste the proceeding code snippet into a Python script and run it. Ensure that you have W&B Python SDK version 0.18.6 or greater.
+Save this Python code to a script and run it. W&B Python SDK version 0.18.6 or newer is required.
 
 ```python title="hello_collection.py"
 import wandb

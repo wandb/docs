@@ -183,14 +183,13 @@ Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`
 ### Turn on model checkpointing 
 
 
-Using W&B's [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the W&B [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to register models to prepare them for staging or deployment in your production environment.
+Using [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Registry]({{< relref "/guides/models/registry/" >}}). Using Registry, you can register models to explore and evaluate them, prepare them for staging, or deploy them in your production environment.
 
- Logging your Hugging Face model checkpoints to Artifacts can be done by setting the `WANDB_LOG_MODEL` environment variable to one of `end` or `checkpoint` or `false`: 
+To log your Hugging Face model checkpoints to Artifact, set the `WANDB_LOG_MODEL` environment variable:
 
-- **`checkpoint`**: a checkpoint will be uploaded every `args.save_steps` from the [`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments). 
-- **`end`**:  the model will be uploaded at the end of training. 
-
-Use `WANDB_LOG_MODEL` along with `load_best_model_at_end` to upload the best model at the end of training.
+- **`checkpoint`**: Upload a checkpoint every `args.save_steps` from the [`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments). 
+- **`end`**: Upload the model at the end of training, if `load_best_model_at_end` is also set.
+- **`false`**: Do not upload the model.
 
 
 {{< tabpane text=true >}}
@@ -231,10 +230,10 @@ By default, your model will be saved to W&B Artifacts as `model-{run_id}` when `
 However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.run_name) in your `TrainingArguments`, the model will be saved as `model-{run_name}` or `checkpoint-{run_name}`.
 {{% /alert %}}
 
-#### W&B Model Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the  **[Model Registry]({{< relref "/guides/models/registry/model_registry/" >}})**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
+#### W&B Registry
+Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Registry]({{< relref "/guides/models/registry/" >}})**. Using Registry, you can organize your best models by task, manage the lifecycles of models, track and audit the entire ML lifecyle, and [automate]({{< relref "/guides/models/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
 
-See the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) documentation for how to link a model Artifact to the Model Registry.
+To link a model Artifact, refer to [Registry]({{< relref "/guides/models/registry/" >}}).
  
 ### Visualise evaluation outputs during training
 
@@ -268,9 +267,13 @@ Once you have logged your training results you can explore your results dynamica
 ## Advanced features and FAQs
 
 ### How do I save the best model?
-If `load_best_model_at_end=True` is set in the `TrainingArguments` that are passed to the `Trainer`, then W&B will save the best performing model checkpoint to Artifacts.
+If your code sets `load_best_model_at_end=True` in the `TrainingArguments` you pass to the `Trainer`, W&B saves the best performing model checkpoint to Artifacts.
 
-If you'd like to centralize all your best model versions across your team to organize them by ML task, stage them for production, bookmark them for further evaluation, or kick off downstream Model CI/CD processes then ensure you're saving your model checkpoints to Artifacts. Once logged to Artifacts, these checkpoints can then be promoted to the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}).
+If you save your model checkpoints as Artifacts, you can promote them to the [Registry]({{< relref "/guides/models/registry/" >}}). In Registry, you can:
+- Organize your best model versions by ML task.
+- Centralize models and share them with your team.
+- Stage models for production or bookmark them for further evaluation.
+- Trigger downstream CI/CD processes.
 
 ### How do I load a saved model?
 
