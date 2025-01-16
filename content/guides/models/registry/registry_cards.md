@@ -22,7 +22,7 @@ In general, a collection description should include:
 If your collections training data, you might want to include:
 * **Training data**: Describe the training data used
 * **Processing**: Processing done on the training data set.
-* **Data storage**: Where is that data stored and so forth.
+* **Data storage**: Where is that data stored and how to access it.
 
 
 If your collection contains a machine learning model, you might want to include:
