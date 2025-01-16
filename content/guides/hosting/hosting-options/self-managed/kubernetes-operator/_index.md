@@ -60,7 +60,7 @@ This hierarchical model ensures that configurations are flexible and customizabl
 ### Requirements to use the W&B Kubernetes Operator
 Satisfy the following requirements to deploy W&B with the W&B Kubernetes operator:
 
-Refer to the [reference architecture]({{< relref "../install-on-public-cloud/ref-arch.md#infrastructure-requirements" >}}). In addition, [obtain a valid W&B Server license]({{< relref "../#obtain-your-wb-server-license" >}}).
+Refer to the [reference architecture]({{< relref "../ref-arch.md#infrastructure-requirements" >}}). In addition, [obtain a valid W&B Server license]({{< relref "../#obtain-your-wb-server-license" >}}).
 
 See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
 
