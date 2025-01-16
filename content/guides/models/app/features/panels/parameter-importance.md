@@ -44,7 +44,7 @@ With the parameter manager, we can manually set the visible and hidden parameter
 
 {{< img src="/images/general/parameter-importance-4.png" alt="" >}}
 
-This panel shows you all the parameters passed to the [wandb.config](/guides/track/config/) object in your training script. Next, it shows the feature importances and correlations of these config parameters with respect to the model metric you select (`val_loss` in this case).
+This panel shows you all the parameters passed to the [wandb.config]({{< relref "/guides/models/track/config/" >}}) object in your training script. Next, it shows the feature importances and correlations of these config parameters with respect to the model metric you select (`val_loss` in this case).
 
 ### Importance
 

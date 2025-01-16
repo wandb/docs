@@ -42,7 +42,7 @@ Set LDAP an connection with the following environment variables:
 | `LOCAL_LDAP_GROUP_ALLOW_LIST` | No       |                                 |
 | `LOCAL_LDAP_LOGIN`            | No       |                                 |
 
-See the [Configuration parameters](#configuration-parameters) section for definitions of each environment variable. Note that the environment variable prefix `LOCAL_LDAP` was omitted from the definition names for clarity.
+See the [Configuration parameters]({{< relref "#configuration-parameters" >}}) section for definitions of each environment variable. Note that the environment variable prefix `LOCAL_LDAP` was omitted from the definition names for clarity.
 {{% /tab %}}
 {{< /tabpane >}}
 

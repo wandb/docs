@@ -14,7 +14,7 @@ When you link an artifact to a registry, this "publishes" that artifact to that 
 In other words, linking an artifact to a registry collection brings that artifact version from a private, project-level scope, to a shared organization level scope.
 
 {{% alert %}}
-The term "type" refers to the artifact object's type. When you create an artifact object ([`wandb.Artifact`](../../ref/python/artifact.md)), or log an artifact ([`wandb.init.log_artifact`](../../ref/python/run.md#log_artifact)), you specify a type for the `type` parameter. 
+The term "type" refers to the artifact object's type. When you create an artifact object ([`wandb.Artifact`]({{< relref "/ref/python/artifact.md" >}})), or log an artifact ([`wandb.init.log_artifact`]({{< relref "/ref/python/run.md#log_artifact" >}})), you specify a type for the `type` parameter. 
 <!-- If you are familiar with Python, you can think of artifact types in W&B as having similar functions as Python data types.  -->
 {{% /alert %}}
 
@@ -23,14 +23,14 @@ The term "type" refers to the artifact object's type. When you create an artifac
 Link an artifact version to a collection interactively or programmatically. 
 
 {{% alert %}}
-Before you link an artifact to a registry, check the types of artifacts that collection permits. For more information about collection types, see "Collection types" within [Create a collection](./create_collection.md).
+Before you link an artifact to a registry, check the types of artifacts that collection permits. For more information about collection types, see "Collection types" within [Create a collection]({{< relref "./create_collection.md" >}}).
 {{% /alert %}}
 
 Based on your use case, follow the instructions described in the tabs below to link an artifact version.
 
 {{< tabpane text=true >}}
   {{% tab header="Python SDK" %}}
-Programmatically link an artifact version to a collection with [`wandb.init.Run.link_artifact()`](../../ref/python/run.md#link_artifact).
+Programmatically link an artifact version to a collection with [`wandb.init.Run.link_artifact()`]({{< relref "/ref/python/run.md#link_artifact" >}}).
 
 {{% alert %}}
 Before you link an artifact to a collection, ensure that the registry that the collection belongs to already exists. To check that the registry exists, navigate to the Registry app on the W&B App UI and search for the name of the registry.
@@ -106,7 +106,7 @@ If you want to link an artifact version to the Model registry or the Dataset reg
 
 
 <!-- {{% alert title="Linked vs source artifact versions" %}}
-* Source version: the artifact version inside a team's project that is logged to a [run](../runs/intro.md).
+* Source version: the artifact version inside a team's project that is logged to a [run]({{< relref "/guides/models/track/runs/" >}}).
 * Linked version: the artifact version that is published to the registry. This is a pointer to the source artifact, and is the exact same artifact version, just made available in the scope of the registry.
 {{% /alert %}}
  -->
@@ -156,7 +156,7 @@ You can confirm the name of your team by:
 2. Copy the site's URL. It has the form of `https://wandb.ai/<team>`. Where `<team>` is the both the name of your team and the team's entity.
 
 #### Log from a team entity
-1. Specify the team as the entity when you initialize a run with [`wandb.init()`](/ref/python/init). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity. 
+1. Specify the team as the entity when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/init" >}}). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity. 
   ```python 
   import wandb   
 
@@ -170,7 +170,7 @@ You can confirm the name of your team by:
     ```python
     artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
     ```
-    For more information on how to log artifacts, see [Construct artifacts](../artifacts/construct-an-artifact.md).
+    For more information on how to log artifacts, see [Construct artifacts]({{< relref "/guides/core/artifacts/construct-an-artifact.md" >}}).
 3. If an artifact is logged to your personal entity, you will need to re-log it to an entity within your organization.
 
 ### Confirm the path of a registry in the W&B App UI

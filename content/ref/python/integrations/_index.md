@@ -7,4 +7,4 @@ title: Integrations
 
 ## Modules
 
-[`keras`](./keras) module: Tools for integrating `wandb` with [`Keras`](https://keras.io/).
+[`keras`]({{< relref "./keras/" >}}) module: Tools for integrating `wandb` with [`Keras`](https://keras.io/).

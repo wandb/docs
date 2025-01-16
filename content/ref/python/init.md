@@ -7,39 +7,35 @@ title: init
 
 Start a new run to track and log to W&B.
 
-```python
-from typing import Sequence, Literal, Any
 
-def init(
-    entity: str | None = None,
-    project: str | None = None,
-    dir: "StrPath" | None = None,  # Assuming StrPath is defined elsewhere
-    id: str | None = None,
-    name: str | None = None,
-    notes: str | None = None,
-    tags: Sequence[str] | None = None,
-    config: dict[str, Any] | str | None = None,
-    config_exclude_keys: list[str] | None = None,
-    config_include_keys: list[str] | None = None,
-    allow_val_change: bool | None = None,
-    group: str | None = None,
-    job_type: str | None = None,
-    mode: Literal["online", "offline", "disabled"] | None = None,
-    force: bool | None = None,
-    anonymous: Literal["never", "allow", "must"] | None = None,
-    reinit: bool | None = None,
-    resume: bool | Literal["allow", "never", "must", "auto"] | None = None,
-    resume_from: str | None = None,
-    fork_from: str | None = None,
-    save_code: bool | None = None,
-    tensorboard: bool | None = None,
-    sync_tensorboard: bool | None = None,
-    monitor_gym: bool | None = None,
-    settings: (
-        "Settings" | dict[str, Any] | None
-    ) = None,  # Assuming Settings is defined elsewhere
-) -> "Run":  # Assuming Run is defined elsewhere
-pass
+```python
+init(
+    entity: (str | None) = None,
+    project: (str | None) = None,
+    dir: (StrPath | None) = None,
+    id: (str | None) = None,
+    name: (str | None) = None,
+    notes: (str | None) = None,
+    tags: (Sequence[str] | None) = None,
+    config: (dict[str, Any] | str | None) = None,
+    config_exclude_keys: (list[str] | None) = None,
+    config_include_keys: (list[str] | None) = None,
+    allow_val_change: (bool | None) = None,
+    group: (str | None) = None,
+    job_type: (str | None) = None,
+    mode: (Literal['online', 'offline', 'disabled'] | None) = None,
+    force: (bool | None) = None,
+    anonymous: (Literal['never', 'allow', 'must'] | None) = None,
+    reinit: (bool | None) = None,
+    resume: (bool | Literal['allow', 'never', 'must', 'auto'] | None) = None,
+    resume_from: (str | None) = None,
+    fork_from: (str | None) = None,
+    save_code: (bool | None) = None,
+    tensorboard: (bool | None) = None,
+    sync_tensorboard: (bool | None) = None,
+    monitor_gym: (bool | None) = None,
+    settings: (Settings | dict[str, Any] | None) = None
+) -> Run
 ```
 
 In an ML training pipeline, you could add `wandb.init()` to the beginning of
@@ -55,7 +51,7 @@ When you're done logging data, call `wandb.finish()` to end the run. If you
 don't call `wandb.finish()`, the run ends when your script exits.
 
 For more on using `wandb.init()`, including detailed examples, check out our
-[guide and FAQs](https://docs.wandb.ai/guides/track/launch).
+[guide and FAQs](https://docs.wandb.ai/guides/models/track/launch).
 
 #### Examples:
 
@@ -103,13 +99,13 @@ call `wandb.finish()` at the end of the block.
 |  `config_exclude_keys` |  A list of specific keys to exclude from `wandb.config`. |
 |  `config_include_keys` |  A list of specific keys to include in `wandb.config`. |
 |  `allow_val_change` |  Controls whether config values can be modified after their initial set. By default, an exception is raised if a config value is overwritten. For tracking variables that change during training, such as a learning rate, consider using `wandb.log()` instead. By default, this is `False` in scripts and `True` in Notebook environments. |
-|  `group` |  Specify a group name to organize individual runs as part of a larger experiment. This is useful for cases like cross-validation or running multiple jobs that train and evaluate a model on different test sets. Grouping allows you to manage related runs collectively in the UI, making it easy to toggle and review results as a unified experiment. For more information, refer to the [guide to grouping runs](https://docs.wandb.com/guides/runs/grouping). |
+|  `group` |  Specify a group name to organize individual runs as part of a larger experiment. This is useful for cases like cross-validation or running multiple jobs that train and evaluate a model on different test sets. Grouping allows you to manage related runs collectively in the UI, making it easy to toggle and review results as a unified experiment. For more information, refer to the [guide to grouping runs](https://docs.wandb.com/guides/models/track/runs/grouping). |
 |  `job_type` |  Specify the type of run, especially helpful when organizing runs within a group as part of a larger experiment. For example, in a group, you might label runs with job types such as "train" and "eval". Defining job types enables you to easily filter and group similar runs in the UI, facilitating direct comparisons. |
 |  `mode` |  Specifies how run data is managed, with the following options: - `"online"` (default): Enables live syncing with W&B when a network connection is available, with real-time updates to visualizations. - `"offline"`: Suitable for air-gapped or offline environments; data is saved locally and can be synced later. Ensure the run folder is preserved to enable future syncing. - `"disabled"`: Disables all W&B functionality, making the run’s methods no-ops. Typically used in testing to bypass W&B operations. |
 |  `force` |  Determines if a W&B login is required to run the script. If `True`, the user must be log in to W&B; otherwise, the script will not proceed. If `False` (default), the script can proceed without a login, switching to offline mode if the user is not logged in. |
 |  `anonymous` |  Specifies the level of control over anonymous data logging. Available options are: - `"never"` (default): Requires you to link your W&B account before tracking the run. This prevents unintentional creation of anonymous runs by ensuring each run is associated with an account. - `"allow"`: Enables a logged-in user to track runs with their account, but also allows someone running the script without a W&B account to view the charts and data in the UI. - `"must"`: Forces the run to be logged to an anonymous account, even if the user is logged in. |
 |  `reinit` |  Determines if multiple `wandb.init()` calls can start new runs within the same process. By default (`False`), if an active run exists, calling `wandb.init()` returns the existing run instead of creating a new one. When `reinit=True`, the active run is finished before a new run is initialized. In notebook environments, runs are reinitialized by default unless `reinit` is explicitly set to `False`. |
-|  `resume` |  Controls the behavior when resuming a run with the specified `id`. Available options are: - `"allow"`: If a run with the specified `id` exists, it will resume from the last step; otherwise, a new run will be created. - `"never"`: If a run with the specified `id` exists, an error will be raised. If no such run is found, a new run will be created. - `"must"`: If a run with the specified `id` exists, it will resume from the last step. If no run is found, an error will be raised. - `"auto"`: Automatically resumes the previous run if it crashed on this machine; otherwise, starts a new run. - `True`: Deprecated. Use `"auto"` instead. - `False`: Deprecated. Use the default behavior (leaving `resume` unset) to always start a new run. Note: If `resume` is set, `fork_from` and `resume_from` cannot be used. When `resume` is unset, the system will always start a new run. For more details, see the [guide to resuming runs](https://docs.wandb.com/guides/runs/resuming). |
+|  `resume` |  Controls the behavior when resuming a run with the specified `id`. Available options are: - `"allow"`: If a run with the specified `id` exists, it will resume from the last step; otherwise, a new run will be created. - `"never"`: If a run with the specified `id` exists, an error will be raised. If no such run is found, a new run will be created. - `"must"`: If a run with the specified `id` exists, it will resume from the last step. If no run is found, an error will be raised. - `"auto"`: Automatically resumes the previous run if it crashed on this machine; otherwise, starts a new run. - `True`: Deprecated. Use `"auto"` instead. - `False`: Deprecated. Use the default behavior (leaving `resume` unset) to always start a new run. Note: If `resume` is set, `fork_from` and `resume_from` cannot be used. When `resume` is unset, the system will always start a new run. For more details, see the [guide to resuming runs](https://docs.wandb.com/guides/models/track/runs/resuming). |
 |  `resume_from` |  Specifies a moment in a previous run to resume a run from, using the format `{run_id}?_step={step}`. This allows users to truncate the history logged to a run at an intermediate step and resume logging from that step. The target run must be in the same project. If an `id` argument is also provided, the `resume_from` argument will take precedence. `resume`, `resume_from` and `fork_from` cannot be used together, only one of them can be used at a time. Note: This feature is in beta and may change in the future. |
 |  `fork_from` |  Specifies a point in a previous run from which to fork a new run, using the format `{id}?_step={step}`. This creates a new run that resumes logging from the specified step in the target run’s history. The target run must be part of the current project. If an `id` argument is also provided, it must be different from the `fork_from` argument, an error will be raised if they are the same. `resume`, `resume_from` and `fork_from` cannot be used together, only one of them can be used at a time. Note: This feature is in beta and may change in the future. |
 |  `save_code` |  Enables saving the main script or notebook to W&B, aiding in experiment reproducibility and allowing code comparisons across runs in the UI. By default, this is disabled, but you can change the default to enable on your [settings page](https://wandb.ai/settings). |

@@ -18,13 +18,13 @@ Define a sweep configuration either in a [Python dictionary](https://docs.python
 Define your sweep configuration in a YAML file if you want to initialize a sweep and start a sweep agent from the command line. Define your sweep in a Python dictionary if you initialize a sweep and start a sweep entirely within a Python script or Jupyter notebook.
 {{% /alert %}}
 
-The following guide describes how to format your sweep configuration. See [Sweep configuration options](./sweep-config-keys.md) for a comprehensive list of top-level sweep configuration keys.
+The following guide describes how to format your sweep configuration. See [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}) for a comprehensive list of top-level sweep configuration keys.
 
 ## Basic structure
 
 Both sweep configuration format options (YAML and Python dictionary) utilize key-value pairs and nested structures. 
 
-Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys.md) key), the parameters to search through ([`parameters`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
+Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`]({{< relref "./sweep-config-keys.md" >}}) key), the parameters to search through ([`parameters`]({{< relref "./sweep-config-keys.md#parameters" >}}) key), the methodology to search the parameter space ([`method`]({{< relref "./sweep-config-keys.md#method" >}}) key), and more. 
 
 
 For example, the proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 
@@ -32,25 +32,6 @@ For example, the proceeding code snippets show the same sweep configuration defi
 
 {{< tabpane  text=true >}}
   {{% tab header="CLI" %}}
-Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or Jupyter notebook. 
-
-The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
-
-```python title="train.py"
-sweep_configuration = {
-    "name": "sweepdemo",
-    "method": "bayes",
-    "metric": {"goal": "minimize", "name": "validation_loss"},
-    "parameters": {
-        "learning_rate": {"min": 0.0001, "max": 0.1},
-        "batch_size": {"values": [16, 32, 64]},
-        "epochs": {"values": [5, 10, 15]},
-        "optimizer": {"values": ["adam", "sgd"]},
-    },
-}
-```  
-  {{% /tab %}}
-  {{% tab header="Python script or Jupyter notebook" %}}
 Define a sweep configuration in a YAML file if you want to manage sweeps interactively from the command line (CLI)
 
 ```yaml title="config.yaml"
@@ -70,12 +51,31 @@ parameters:
     values: [5, 10, 15]
   optimizer:
     values: ["adam", "sgd"]
+```
+  {{% /tab %}}
+  {{% tab header="Python script or Jupyter notebook" %}}
+Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or Jupyter notebook. 
+
+The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
+
+```python title="train.py"
+sweep_configuration = {
+    "name": "sweepdemo",
+    "method": "bayes",
+    "metric": {"goal": "minimize", "name": "validation_loss"},
+    "parameters": {
+        "learning_rate": {"min": 0.0001, "max": 0.1},
+        "batch_size": {"values": [16, 32, 64]},
+        "epochs": {"values": [5, 10, 15]},
+        "optimizer": {"values": ["adam", "sgd"]},
+    },
+}
 ```  
   {{% /tab %}}
 {{< /tabpane >}}
 
 
-Within the top level `parameters` key, the following keys are nested: `learning_rate`, `batch_size`, `epoch`, and `optimizer`. For each of the nested keys you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters](./sweep-config-keys.md#parameters) section in [Sweep configuration options](./sweep-config-keys.md). 
+Within the top level `parameters` key, the following keys are nested: `learning_rate`, `batch_size`, `epoch`, and `optimizer`. For each of the nested keys you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters]({{< relref "./sweep-config-keys.md#parameters" >}}) section in [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}). 
 
 
 ## Double nested parameters
@@ -375,7 +375,7 @@ command:
   {{% /tab %}}
   {{% tab header="Hydra" %}}
 
-You can change the command to pass arguments the way tools like [Hydra](https://hydra.cc) expect. See [Hydra with W&B](../integrations/other/hydra.md) for more information.
+You can change the command to pass arguments the way tools like [Hydra](https://hydra.cc) expect. See [Hydra with W&B]({{< relref "/guides/integrations/hydra.md" >}}) for more information.
 
 ```yaml
 command:

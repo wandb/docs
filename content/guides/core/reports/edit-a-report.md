@@ -17,7 +17,7 @@ _Panel grids_ are a specific type of block that hold panels and _run sets_. Run 
 
 
 {{% alert %}}
-Check out the [Programmatic workspaces tutorial](../../tutorials/workspaces.md) for a step by step example on how create and customize a saved workspace view.
+Check out the [Programmatic workspaces tutorial]({{< relref "/tutorials/workspaces.md" >}}) for a step by step example on how create and customize a saved workspace view.
 {{% /alert %}}
 
 {{% alert %}}

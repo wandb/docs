@@ -66,7 +66,7 @@ collection.save()
 
 Update a tag programmatically by reassigning or by mutating the `tags` attribute. W&B recommends, and it is good Python practice, that you reassign the `tags` attribute instead of in-place mutation.
 
-For example, the proceeding code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to a collection section](#add-a-tag-to-a-collection): 
+For example, the proceeding code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to a collection section]({{< relref "#add-a-tag-to-a-collection" >}}): 
 
 ```python
 collection.tags = [*collection.tags, "new-tag", "other-tag"]
@@ -190,7 +190,7 @@ artifact.save()
 
 Update a tag programmatically by reassigning or by mutating the `tags` attribute. W&B recommends, and it is good Python practice, that you reassign the `tags` attribute instead of in-place mutation.
 
-For example, the proceeding code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to an artifact version section](#add-a-tag-to-an-artifact-version): 
+For example, the proceeding code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to an artifact version section]({{< relref "#add-a-tag-to-an-artifact-version" >}}): 
 
 ```python
 artifact.tags = [*artifact.tags, "new-tag", "other-tag"]

@@ -48,7 +48,7 @@ Create a report programmatically with the `wandb` library.
     import wandb
     import wandb_workspaces.reports.v2 as wr
     ```       
-3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`](/ref/python/public-api/api#reports)). Specify a name for the project.   
+3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`]({{< relref "/ref/python/public-api/api#reports" >}})). Specify a name for the project.   
     ```python
     report = wr.Report(project="report_standard")
     ```  
@@ -58,6 +58,6 @@ Create a report programmatically with the `wandb` library.
     report.save()
     ```
 
-For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report](/guides/reports/edit-a-report).
+For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report]({{< relref "/guides/core/reports/edit-a-report" >}}).
 {{% /tab %}}
 {{< /tabpane >}}

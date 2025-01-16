@@ -63,7 +63,7 @@ add = components.create_component_from_func(add)
 
 ### Pass environment variables to containers
 
-You may need to explicitly pass [environment variables](../../track/environment-variables.md) to your containers. For two-way linking, you should also set the environment variables `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance. For example, `https://kubeflow.mysite.com`.
+You may need to explicitly pass [environment variables]({{< relref "/guides/models/track/environment-variables.md" >}}) to your containers. For two-way linking, you should also set the environment variables `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance. For example, `https://kubeflow.mysite.com`.
 
 ```python
 import os
@@ -100,7 +100,7 @@ Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 
 ### Via the web app UI
 
-The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space. Learn [more about the web app UI here](/guides/app).
+The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space. Learn [more about the web app UI here]({{< relref "/guides/models/app" >}}).
 
 {{< img src="/images/integrations/kubeflow_pipelines.png" alt="View details about a particular run (and link back to the Kubeflow UI)" >}}
 
@@ -108,7 +108,7 @@ The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipe
 
 ### Via the Public API (for programmatic access)
 
-* For programmatic access, [see our Public API](/ref/python/public-api).
+* For programmatic access, [see our Public API]({{< relref "/ref/python/public-api" >}}).
 
 ### Concept mapping from Kubeflow Pipelines to W&B
 
@@ -116,10 +116,10 @@ Here's a mapping of Kubeflow Pipelines concepts to W&B
 
 | Kubeflow Pipelines | W&B | Location in W&B |
 | ------------------ | --- | --------------- |
-| Input Scalar | [`config`](/guides/track/config) | [Overview tab](../../runs/intro.md#overview-tab) |
-| Output Scalar | [`summary`](/guides/track/log) | [Overview tab](../../runs/intro.md#overview-tab) |
-| Input Artifact | Input Artifact | [Artifacts tab](../../runs/intro.md#artifacts-tab) |
-| Output Artifact | Output Artifact | [Artifacts tab](../../runs/intro.md#artifacts-tab) |
+| Input Scalar | [`config`]({{< relref "/guides/models/track/config" >}}) | [Overview tab]({{< relref "/guides/models/track/runs/#overview-tab" >}}) |
+| Output Scalar | [`summary`]({{< relref "/guides/models/track/log" >}}) | [Overview tab]({{< relref "/guides/models/track/runs/#overview-tab" >}}) |
+| Input Artifact | Input Artifact | [Artifacts tab]({{< relref "/guides/models/track/runs/#artifacts-tab" >}}) |
+| Output Artifact | Output Artifact | [Artifacts tab]({{< relref "/guides/models/track/runs/#artifacts-tab" >}}) |
 
 ## Fine-grain logging
 
@@ -150,7 +150,7 @@ def train_model(
 
 ### With implicit wandb integrations
 
-If you're using a [framework integration we support](/guides/integrations), you can also pass in the callback directly:
+If you're using a [framework integration we support]({{< relref "/guides/integrations/" >}}), you can also pass in the callback directly:
 
 ```python
 @wandb_log

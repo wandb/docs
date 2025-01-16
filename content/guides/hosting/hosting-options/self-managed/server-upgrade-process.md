@@ -7,6 +7,7 @@ menu:
     parent: self-managed
 title: Update W&B license and version
 url: guides/hosting/server-upgrade-process
+weight: 6
 ---
 
 Update your W&B Server Version and License with the same method you installed W&B Server with. The following table lists how to update your license and version based on different deployment methods:
@@ -14,8 +15,8 @@ Update your W&B Server Version and License with the same method you installed W&
 
 | Release Type    | Description         |
 | ---------------- | ------------------ |
-| [Terraform](#update-with-terraform) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [Helm](#update-with-helm)              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.  |
+| [Terraform]({{< relref "#update-with-terraform" >}}) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
+| [Helm]({{< relref "#update-with-helm" >}})              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.  |
 
 ## Update with Terraform
 
