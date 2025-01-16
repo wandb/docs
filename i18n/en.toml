@@ -59,7 +59,7 @@ other = "Click here to print"
 [print_show_regular]
 other = "Return to the regular view of this page"
 [print_entire_section]
-other = "Print entire section"
+other = "View PDF of section"
 
 # Community
 [community_join]
