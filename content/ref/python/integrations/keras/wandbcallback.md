@@ -2,8 +2,7 @@
 title: WandbCallback
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/keras.py#L291-L1091" >}}
-
+{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/integration/keras/keras.py#L291-L1091" >}
 
 `WandbCallback` automatically integrates keras with wandb.
 
@@ -36,7 +35,7 @@ model.fit(
 metrics collected by keras: loss and anything passed into `keras_model.compile()`.
 
 `WandbCallback` will set summary metrics for the run associated with the "best" training
-step, where "best" is defined by the `monitor` and `mode` attributes. This defaults
+step, where "best" is defined by the `monitor` and `mode` attributes.  This defaults
 to the epoch with the minimum `val_loss`. `WandbCallback` will by default save the model
 associated with the best `epoch`.
 
@@ -57,7 +56,7 @@ associated with the best `epoch`.
 |  `validation_data` |  (tuple) Same format `(X,y)` as passed to `model.fit`. A set of data for wandb to visualize. If this is set, every epoch, wandb will make a small number of predictions and save the results for later visualization. In case you are working with image data, please also set `input_type` and `output_type` in order to log correctly. |
 |  `generator` |  (generator) a generator that returns validation data for wandb to visualize. This generator should return tuples `(X,y)`. Either `validate_data` or generator should be set for wandb to visualize specific data examples. In case you are working with image data, please also set `input_type` and `output_type` in order to log correctly. |
 |  `validation_steps` |  (int) if `validation_data` is a generator, how many steps to run the generator for the full validation set. |
-|  `labels` |  (list) If you are visualizing your data with wandb this list of labels will convert numeric output to understandable string if you are building a multiclass classifier. If you are making a binary classifier you can pass in a list of two labels [`label for false`, `label for true`]. If `validate_data` and generator are both false, this won't do anything. |
+|  `labels` |  (list) If you are visualizing your data with wandb this list of labels will convert numeric output to understandable string if you are building a multiclass classifier. If you are making a binary classifier you can pass in a list of two labels ["label for false", "label for true"]. If `validate_data` and generator are both false, this won't do anything. |
 |  `predictions` |  (int) the number of predictions to make for visualization each epoch, max is 100. |
 |  `input_type` |  (string) type of the model input to help visualization. can be one of: (`image`, `images`, `segmentation_mask`, `auto`). |
 |  `output_type` |  (string) type of the model output to help visualization. can be one of: (`image`, `images`, `segmentation_mask`, `label`). |
@@ -76,19 +75,19 @@ associated with the best `epoch`.
 
 ### `get_flops`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/keras.py#L1045-L1091)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/integration/keras/keras.py#L1045-L1091)
 
 ```python
 get_flops() -> float
 ```
 
-Calculate FLOPS [GFLOPs] for a `tf.keras.Model` or `tf.keras.Sequential` model in inference mode.
+Calculate FLOPS [GFLOPs] for a tf.keras.Model or tf.keras.Sequential model in inference mode.
 
-It uses `tf.compat.v1.profiler` under the hood.
+It uses tf.compat.v1.profiler under the hood.
 
 ### `set_model`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/keras.py#L567-L576)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/integration/keras/keras.py#L567-L576)
 
 ```python
 set_model(
@@ -98,7 +97,7 @@ set_model(
 
 ### `set_params`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/keras.py#L564-L565)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/integration/keras/keras.py#L564-L565)
 
 ```python
 set_params(

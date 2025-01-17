@@ -1,3 +1,0 @@
----
-title: wandb job list
----

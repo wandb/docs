@@ -1,3 +1,0 @@
----
-title: wandb artifact put
----

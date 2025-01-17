@@ -2,7 +2,7 @@
 title: ImageMask
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/helper_types/image_mask.py#L18-L235" >}}
+{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/image_mask.py#L18-L241" >}
 
 Format image masks or overlays for logging to W&B.
 
@@ -16,7 +16,7 @@ ImageMask(
 | Args |  |
 | :--- | :--- |
 |  `val` |  (dictionary) One of these two keys to represent the image: mask_data : (2D numpy array) The mask containing an integer class label for each pixel in the image path : (string) The path to a saved image file of the mask class_labels : (dictionary of integers to strings, optional) A mapping of the integer class labels in the mask to readable class names. These will default to class_0, class_1, class_2, etc. |
-|  `key` |  (string) The readable name or id for this mask type. Examples: `predictions`, `ground_truth` |
+|  `key` |  (string) The readable name or id for this mask type (e.g. predictions, ground_truth) |
 
 #### Examples:
 
@@ -115,7 +115,7 @@ wandb.log({"random_field": table})
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/helper_types/image_mask.py#L213-L215)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/image_mask.py#L213-L215)
 
 ```python
 @classmethod
@@ -124,7 +124,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/helper_types/image_mask.py#L217-L241)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/image_mask.py#L217-L241)
 
 ```python
 validate(

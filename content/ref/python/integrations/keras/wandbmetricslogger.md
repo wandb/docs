@@ -2,7 +2,7 @@
 title: WandbMetricsLogger
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/callbacks/metrics_logger.py#L23-L136" >}}
+{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/integration/keras/callbacks/metrics_logger.py#L16-L129" >}
 
 Logger that sends system metrics to W&B.
 
@@ -34,7 +34,7 @@ the product of the cardinality of the training dataset and the batch size.
 
 | Args |  |
 | :--- | :--- |
-|  `log_freq` |  (`epoch`, `batch`, or an `int`) if `epoch`, logs metrics at the end of each epoch. If `batch`, logs metrics at the end of each batch. If an `int`, logs metrics at the end of that many batches. Defaults to `epoch`. |
+|  `log_freq` |  ("epoch", "batch", or int) if "epoch", logs metrics at the end of each epoch. If "batch", logs metrics at the end of each batch. If an integer, logs metrics at the end of that many batches. Defaults to "epoch". |
 |  `initial_global_step` |  (int) Use this argument to correctly log the learning rate when you resume training from some `initial_epoch`, and a learning rate scheduler is used. This can be computed as `step_size * initial_step`. Defaults to 0. |
 
 ## Methods

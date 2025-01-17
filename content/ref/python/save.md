@@ -2,7 +2,7 @@
 title: save
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/wandb_run.py#L1924-L2028" >}}
+{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/wandb_run.py#L1897-L2001" >}
 
 Sync one or more files to W&B.
 
@@ -16,7 +16,7 @@ save(
 
 Relative paths are relative to the current working directory.
 
-A Unix glob, such as `"myfiles/*"`, is expanded at the time `save` is
+A Unix glob, such as "myfiles/*", is expanded at the time `save` is
 called regardless of the `policy`. In particular, new files are not
 picked up automatically.
 
@@ -25,7 +25,7 @@ uploaded files. It should be a prefix of `glob_str`, and the directory
 structure beneath it is preserved. It's best understood through
 examples:
 
-```python
+```
 wandb.save("these/are/myfiles/*")
 # => Saves files in a "these/are/myfiles/" folder in the run.
 

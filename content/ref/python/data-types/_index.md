@@ -1,19 +1,21 @@
 ---
-title: Data Types
+title: data-types
 ---
 
+<!-- Insert buttons and diff -->
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/__init__.py" >}}
+
+{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/**init**.py" >}
 
 This module defines data types for logging rich, interactive visualizations to W&B.
 
 Data types include common media types, like images, audio, and videos,
 flexible containers for information, like tables and HTML, and more.
 
-For more on logging media, see [our guide](https://docs.wandb.com/guides/models/track/log/media)
+For more on logging media, see [our guide](https://docs.wandb.com/guides/track/log/media)
 
 For more on logging structured data for interactive dataset and model analysis,
-see [our guide to W&B Tables](https://docs.wandb.com/guides/core/tables/).
+see [our guide to W&B Tables](https://docs.wandb.com/guides/tables/).
 
 All of these special data types are subclasses of WBValue. All the data types
 serialize to JSON, since that is what wandb uses to save the objects locally

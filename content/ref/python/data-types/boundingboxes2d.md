@@ -2,7 +2,7 @@
 title: BoundingBoxes2D
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L16-L295" >}}
+{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L16-L305" >}
 
 Format images with 2D bounding box overlays for logging to W&B.
 
@@ -15,8 +15,8 @@ BoundingBoxes2D(
 
 | Args |  |
 | :--- | :--- |
-|  `val` |  (dictionary) A dictionary of the following form: `box_data: (list of dictionaries)` One dictionary for each bounding box, containing: `position: (dictionary)` the position and size of the bounding box, in one of two formats Note that boxes need not all use the same format. `{"minX", "minY", "maxX", "maxY"}: (dictionary)` A set of coordinates defining the upper and lower bounds of the box (the bottom left and top right corners) `{"middle", "width", "height"}: (dictionary)` A set of coordinates defining the center and dimensions of the box, with `"middle"` as a `list [x, y]` for the center point and `"width"` and `"height"` as numbers `domain: (string)` One of two options for the bounding box coordinate domain null: By default, or if no argument is passed, the coordinate domain is assumed to be relative to the original image, expressing this box as a fraction or percentage of the original image. This means all coordinates and dimensions passed into the `"position"` argument are floating point numbers between 0 and 1. `"pixel": (string literal)` The coordinate domain is set to the pixel space. This means all coordinates and dimensions passed into `"position"` are integers within the bounds of the image dimensions. `class_id: (integer)` The class label id for this box `scores: (dictionary of string to number, optional)` A mapping of named fields to numerical values (`float` or `int`), can be used for filtering boxes in the UI based on a range of values for the corresponding field `box_caption: (string, optional)` A string to be displayed as the label text above this box in the UI, often composed of the class label, class name, and/or scores `class_labels: (dictionary, optional)` A map of integer class labels to their readable class names |
-|  `key` |  (string) The readable name or id for this set of bounding boxes. Examples: `predictions`, `ground_truth` |
+|  `val` |  (dictionary) A dictionary of the following form: box_data: (list of dictionaries) One dictionary for each bounding box, containing: position: (dictionary) the position and size of the bounding box, in one of two formats Note that boxes need not all use the same format. {"minX", "minY", "maxX", "maxY"}: (dictionary) A set of coordinates defining the upper and lower bounds of the box (the bottom left and top right corners) {"middle", "width", "height"}: (dictionary) A set of coordinates defining the center and dimensions of the box, with "middle" as a list [x, y] for the center point and "width" and "height" as numbers domain: (string) One of two options for the bounding box coordinate domain null: By default, or if no argument is passed, the coordinate domain is assumed to be relative to the original image, expressing this box as a fraction or percentage of the original image. This means all coordinates and dimensions passed into the "position" argument are floating point numbers between 0 and 1. "pixel": (string literal) The coordinate domain is set to the pixel space. This means all coordinates and dimensions passed into "position" are integers within the bounds of the image dimensions. class_id: (integer) The class label id for this box scores: (dictionary of string to number, optional) A mapping of named fields to numerical values (float or int), can be used for filtering boxes in the UI based on a range of values for the corresponding field box_caption: (string, optional) A string to be displayed as the label text above this box in the UI, often composed of the class label, class name, and/or scores class_labels: (dictionary, optional) A map of integer class labels to their readable class names |
+|  `key` |  (string) The readable name or id for this set of bounding boxes (e.g. predictions, ground_truth) |
 
 #### Examples:
 
@@ -134,7 +134,7 @@ wandb.log({"driving_scene": table})
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L225-L227)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L225-L227)
 
 ```python
 @classmethod
@@ -143,7 +143,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L229-L286)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L229-L286)
 
 ```python
 validate(
