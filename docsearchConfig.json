@@ -2,27 +2,31 @@
   "index_name": "docodile",
   "sitemaps": ["https://docs.wandb.ai/sitemap.xml"],
   "start_urls": ["https://docs.wandb.ai"],
-  "stop_urls": ["https://docs.wandb.ai/ja", "https://docs.wandb.ai/ko"],
+  "stop_urls": [
+    "https://docs.wandb.ai/ja",
+    "https://docs.wandb.ai/ko",
+    ".*_print.*"
+  ],
   "sitemap_alternate_links": false,
   "selectors": {
     "lvl0": {
-      "selector": "(//ul[contains(@class,'menu__list')]//a[contains(@class, 'menu__link menu__link--sublist menu__link--active')]/text() | //nav[contains(@class, 'navbar')]//a[contains(@class, 'navbar__link--active')]/text())[last()]",
+      "selector": "(//ul[contains(@class,'navbar_nav')]//a[contains(@class, 'nav_link active')]/text() | //ul[contains(@class,'ul_0')]//a[contains(@class, 'td-sidebar-link active')]/text())",
       "type": "xpath",
       "global": true,
       "default_value": "Documentation"
     },
-    "lvl1": "header h1, article h1",
-    "lvl2": "article h2",
-    "lvl3": "article h3",
-    "lvl4": "article h4",
-    "lvl5": "article h5, article td:first-child",
-    "lvl6": "article h6",
-    "text": "article p, article li, article code, article td:last-child"
+    "lvl1": "header h1, main h1",
+    "lvl2": "main h2",
+    "lvl3": "main h3",
+    "lvl4": "main h4",
+    "lvl5": "main h5, main td:first-child",
+    "lvl6": "main h6",
+    "text": "main p, main li, main code, main td:last-child"
   },
   "strip_chars": " .,;:#",
   "custom_settings": {
     "separatorsToIndex": "_",
-    "attributesForFaceting": ["language", "version", "type", "docusaurus_tag"],
+    "attributesForFaceting": ["language", "version", "type"],
     "attributesToRetrieve": [
       "hierarchy",
       "content",
