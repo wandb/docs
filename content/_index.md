@@ -10,7 +10,10 @@ Choose the product for which you need documentation.
 {{< cardpane >}}
 {{% card %}}<div onclick="window.location.href='https://weave-docs.wandb.ai'" style="cursor: pointer;">
 
-## W&B Weave
+<div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
+<img src="/img/weave-logo.svg" alt="W&B Weave logo" width="50" height="50"/>
+</div>
+<h2>W&B Weave</h2>
 
 ##### Use AI models in your app
 
@@ -24,7 +27,10 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage all aspects of integrati
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
 
-## W&B Models
+<div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
+<img src="/img/wandb-gold.svg" alt="W&B Models logo" width="40" height="40"/>
+</div>
+<h2>W&B Models</h2>
 
 ##### Build AI models
 
@@ -41,4 +47,8 @@ Use [W&B Models]({{< relref "/guides/" >}}) to manage all aspects of building yo
 <!-- End max-width constraing -->
 </div>
 <!-- HTML override just for landing page -->
-<style>.td-card-group { margin: 0 auto }</style>
+<style>
+.td-card-group { margin: 0 auto }
+p { overflow: hidden; display: block; }
+ul { margin-left: 50px; }
+</style>
