@@ -25,7 +25,7 @@ In summary, use W&B Registry to:
 
 - [Promote]({{< relref "./link_version.md" >}}) artifact versions that satisfy a machine learning task to other users in your organization.
 - Organize [artifacts with tags]({{< relref "./organize-with-tags.md" >}}) so that you can find or reference specific artifacts.
-- Track an [artifact’s lineage]({{< relref "/guides/models/registry/model_registry/model-lineage.md" >}}) and audit the history of changes.
+- Track an [artifact’s lineage]({{< relref "/guides/models/registry/lineage.md" >}}) and audit the history of changes.
 - [Automate]({{< relref "/guides/models/automations/model-registry-automations.md" >}}) downstream processes such as model CI/CD.
 - [Limit who in your organization]({{< relref "./configure_registry.md" >}}) can access artifacts in each registry.
 
