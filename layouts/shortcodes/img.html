@@ -5,13 +5,23 @@
 {{- $fill := .Get (cond .IsNamedParams "fill" 4) -}}
 {{- $crop := .Get (cond .IsNamedParams "crop" 5) -}}
 {{- $convert := .Get (cond .IsNamedParams "convert" 6) -}}
+{{- $width := .Get (cond .IsNamedParams "width" 7) -}}
+{{- $height := .Get (cond .IsNamedParams "height" 8) -}}
 {{- $isRemote := (or (strings.HasPrefix $imagePath "http://") (strings.HasPrefix $imagePath "https://")) -}}
 
+{{- $widthHTML := "" -}}
+{{- $heightHTML := "" -}}
+{{- if $width -}}
+    {{- $widthHTML = printf "width=\"%s\"" $width -}}
+{{- end -}}
+{{- if $height -}}
+    {{- $heightHTML = printf "height=\"%s\"" $height -}}
+{{- end -}}
 {{- if $isRemote -}}
     {{/* remote file */}}
     {{- $remoteResource := resources.GetRemote $imagePath -}}
     {{- if $remoteResource -}}
-        <img src="{{ $remoteResource.Permalink }}" alt="{{ $alt }}">
+        <img src="{{ $remoteResource.Permalink }}" alt="{{ $alt }}" {{ $widthHTML | safeHTMLAttr }} {{ $heightHTML | safeHTMLAttr }} />
     {{- else -}}
         {{- errorf "Error: Unable to fetch remote image at: %s" $imagePath .Position -}}
   {{ end }}
@@ -40,7 +50,7 @@
     {{- end -}}
 
     {{- if $img -}}
-        <img src="{{ $img.Permalink }}" alt="{{ $alt }}" />
+        <img src="{{ $img.Permalink }}" alt="{{ $alt }}" {{ $widthHTML | safeHTMLAttr }} {{ $heightHTML | safeHTMLAttr }} />
     {{- else -}}
         {{- errorf "Image not found: %s" $imagePath .Position -}}
     {{- end -}}
