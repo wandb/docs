@@ -39,16 +39,12 @@ Browse articles by category.
 {{< cardpane >}}
   {{< card >}}
     <a href="index_experiments">
-      <div className="card-icon-left" style="backgroundImage: url('/images/support/icon-running-repeat.svg')"></div>
-      <div className="card-icon-right" style="backgroundImage: url('/images/support/icon-forward-next.svg')"></div>
       <h2 className="card-title">Experiments</h2>
       <p className="card-content">Track, visualize, and compare machine learning experiments</p>
     </a>
   {{< /card >}}
   {{< card >}}
     <a href="index_artifacts">
-      <div className="card-icon-left" style="backgroundImage: url('/images/support/icon-versions-layers.svg')"></div>
-      <div className="card-icon-right" style="backgroundImage: url('/images/support/icon-forward-next.svg')"></div>
       <h2 className="card-title">Artifacts</h2>
       <p className="card-content">Version and track datasets, models, and other machine learning artifacts</p>
     </a>
@@ -57,16 +53,12 @@ Browse articles by category.
 {{< cardpane >}}
   {{< card >}}
     <a href="index_reports">
-      <div className="card-icon-left" style="backgroundImage: url('/images/support/icon-category-multimodal.svg')"></div>
-      <div className="card-icon-right" style="backgroundImage: url('/images/support/icon-forward-next.svg')"></div>
       <h2 className="card-title">Reports</h2>
       <p className="card-content">Create interactive, collaborative reports to share your work</p>
     </a>
   {{< /card >}}
   {{< card >}}
     <a href="index_sweeps">
-      <div className="card-icon-left" style="backgroundImage: url('/images/support/white-icon-category-multimodal.svg')"></div>
-      <div className="card-icon-right" style="backgroundImage: url('/images/support/white-icon-forward-next.svg')"></div>
       <h2 className="card-title">Sweeps</h2>
       <p className="card-content">Automate hyperparameter search</p>
     </a>
