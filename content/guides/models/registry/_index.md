@@ -13,7 +13,7 @@ cascade:
 
 
 {{% alert %}}
-W&B Registry is now in public preview. Visit [this]({{< relref "#enable-wb-registry" >}}) section to learn how to enable it for your deployment type.
+W&B Registry is now in public preview. Visit [this]({{< relref "./#enable-wb-registry" >}}) section to learn how to enable it for your deployment type.
 {{% /alert %}}
 
 
