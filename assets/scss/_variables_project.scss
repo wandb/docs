@@ -82,7 +82,7 @@ $dark-bg-disabled: $moon-650;     // color/moon/650
 $nav-bg: rgb(26, 28, 31);
 $wandb-gold: #FFCC33;
 $wandb-link-blue: rgb(7, 177, 196);
-$hover-bg: #A9EDF248;
+$hover-bg: #A9EDF260;
 
 // Gradients
 $sunset-gradient: linear-gradient(98deg, #e180ff 0%, #ffcf4d 100%);
@@ -94,6 +94,11 @@ $font-weight-regular: 400;
 $font-weight-medium: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
+
+// Bootstrap overrides
+:root {
+    --bs-nav-link-font-size: 18px;
+}
 
 // Typography Component
 // Base body styles
@@ -363,12 +368,12 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
         &:hover {
             color: $teal-500 !important;
             text-decoration: none !important;
-            background-color: rgba($moon-300, 0.1) !important;
+            background-color: rgba($moon-300, 0.2) !important;
         }
 
         &.active {
             color: $teal-500 !important;
-            background-color: rgba($moon-300, 0.1) !important;
+            background-color: rgba($moon-300, 0.2) !important;
             font-weight: $font-weight-regular !important;
         }
     }
@@ -1083,6 +1088,9 @@ img, iframe {
     &-Button {
         font-family: "Source Sans Pro", sans-serif;
         font-size: 16px;
+        width: 300px !important;
+        background: transparent !important;
+        border: 1px solid $border-default !important;
         
         &:active,
         &:focus,
@@ -1091,6 +1099,35 @@ img, iframe {
             box-shadow: inset 0 0 0 2px $teal-500 !important;
             color: var(--docsearch-text-color);
             outline: none;
+            border-color: $teal-500 !important;
+        }
+
+        // Dark mode styles
+        [data-bs-theme=dark] & {
+            border: 1px solid $dark-border-default !important;
+            
+            &:hover, &:focus, &:active {
+                border-color: $teal-500 !important;
+                box-shadow: inset 0 0 0 2px $teal-450 !important;
+            }
+        }
+    }
+
+    // Placeholder text color
+    &-Button-Placeholder {
+        color: $text-secondary !important;
+        
+        [data-bs-theme=dark] & {
+            color: $dark-text-secondary !important;
+        }
+    }
+
+    // Search icon color
+    &-Search-Icon {
+        color: $text-secondary !important;
+        
+        [data-bs-theme=dark] & {
+            color: $dark-text-secondary !important;
         }
     }
 
@@ -1220,6 +1257,31 @@ img, iframe {
         &.d-none.d-lg-block,
         &.td-light-dark-menu {
             margin: 0 4px !important;
+
+            // Remove hover background and style text
+            .nav-link {
+                font-size: 16px !important;
+                font-weight: $font-weight-regular !important;
+                
+                &:hover {
+                    background-color: transparent !important;
+                }
+            }
+        }
+    }
+
+    // Remove dropdown carets
+    .nav-item.dropdown {
+        .nav-link::after {
+            display: none !important;
+        }
+        
+        // Specifically target language and theme toggles
+        &.d-none.d-lg-block,
+        &.td-light-dark-menu {
+            .nav-link::after {
+                display: none !important;
+            }
         }
     }
 }
