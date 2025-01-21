@@ -17,7 +17,7 @@
       {{- end -}}
     </span>
   </a>
-  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+  <div class="td-navbar-nav-scroll" id="main_navbar">
     <ul class="navbar-nav">
       {{ $p := . -}}
       {{ range .Site.Menus.main -}}
@@ -42,6 +42,13 @@
         </a>
       </li>
       {{ end -}}
+    </ul>
+  </div>
+  <div class="navbar-right-items">
+    <div class="d-none d-lg-block">
+      {{ partial "search-input.html" . }}
+    </div>
+    <ul class="navbar-nav">
       {{ if .Site.Params.versions -}}
       <li class="nav-item dropdown d-none d-lg-block">
         {{ partial "navbar-version-selector.html" . -}}
@@ -58,9 +65,6 @@
       </li>
       {{ end -}}
     </ul>
-  </div>
-  <div class="d-none d-lg-block">
-    {{ partial "search-input.html" . }}
   </div>
 </div>
 </nav>

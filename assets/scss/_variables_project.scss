@@ -184,13 +184,15 @@ a {
 
 header {
     nav {
-
         &.td-navbar {
-
             > .container-fluid {
                 flex-direction: row !important;
                 align-items: center !important;
                 padding: 8px 26px !important;
+                
+                // Add these new styles
+                justify-content: flex-start !important;
+                gap: 32px !important;  // Add space between logo and nav items
             }
         }
 
@@ -321,6 +323,11 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
     color: $wandb-gold !important;
 }
 
+// Dark mode hover state
+[data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
+    color: $wandb-gold !important;
+}
+
 // Keep the newer, more comprehensive navbar styles
 .td-navbar {
     background-color: $bg-primary !important;
@@ -369,14 +376,41 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
     // Update navbar container spacing
     .container-fluid {
         padding: 8px 16px !important;
+        
+        // Add right-side container for search and controls
+        .navbar-right-items {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            margin-left: auto !important;
+
+            // Reset list styles and align items
+            .navbar-nav {
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+                padding-left: 0 !important;
+                margin: 0 !important;
+            }
+
+            // Ensure dropdowns are aligned properly
+            .nav-item.dropdown {
+                display: flex !important;
+                align-items: center !important;
+            }
+        }
     }
 
     // Increase spacing between nav items
     .td-navbar-nav-scroll {
-        .navbar-nav {
-            gap: 8px !important;
-        }
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
+}
+
+// Move the search to the right
+.td-navbar .d-none.d-lg-block {
+    margin-left: 0 !important;
 }
 
 // headings use WandB serif font
@@ -1167,5 +1201,26 @@ img, iframe {
   .theme-dark-only {
     display: none;
   }
+}
+
+// Move the language and theme selectors next to search
+.td-navbar {
+    .td-navbar-nav-scroll {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    // Remove the auto margin from search container
+    .d-none.d-lg-block {
+        margin-left: 0 !important;
+    }
+
+    // Style the language and theme toggles container
+    .nav-item.dropdown {
+        &.d-none.d-lg-block,
+        &.td-light-dark-menu {
+            margin: 0 4px !important;
+        }
+    }
 }
 
