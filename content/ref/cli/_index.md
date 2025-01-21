@@ -1,17 +1,11 @@
 ---
 title: Command Line Interface
-menu:
-    reference:
-        identifier: cli
-        parent: reference
-cascade:
-    menu:
-        reference:
-            parent: cli
 ---
+
 **Usage**
 
 `wandb [OPTIONS] COMMAND [ARGS]...`
+
 
 
 **Options**
@@ -19,6 +13,7 @@ cascade:
 | **Option** | **Description** |
 | :--- | :--- |
 | --version | Show the version and exit. |
+
 
 **Commands**
 
@@ -48,3 +43,4 @@ cascade:
 | sweep | Initialize a hyperparameter sweep. |
 | sync | Upload an offline training directory to W&B |
 | verify | Verify your local instance |
+

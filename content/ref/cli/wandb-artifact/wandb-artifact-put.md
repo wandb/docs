@@ -1,6 +1,7 @@
 ---
 title: wandb artifact put
 ---
+
 **Usage**
 
 `wandb artifact put [OPTIONS] PATH`
@@ -8,6 +9,7 @@ title: wandb artifact put
 **Summary**
 
 Upload an artifact to wandb
+
 
 **Options**
 
@@ -21,4 +23,6 @@ Upload an artifact to wandb
 | --resume | Resume the last run from your current   directory. |
 | --skip_cache | Skip caching while uploading artifact files. |
 | --policy [mutable|immutable] | Set the storage policy while uploading   artifact files. |
+
+
 

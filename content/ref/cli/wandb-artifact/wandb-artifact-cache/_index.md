@@ -1,6 +1,7 @@
 ---
 title: wandb artifact cache
 ---
+
 **Usage**
 
 `wandb artifact cache [OPTIONS] COMMAND [ARGS]...`
@@ -9,13 +10,16 @@ title: wandb artifact cache
 
 Commands for interacting with the artifact cache
 
+
 **Options**
 
 | **Option** | **Description** |
 | :--- | :--- |
+
 
 **Commands**
 
 | **Command** | **Description** |
 | :--- | :--- |
 | cleanup | Clean up less frequently used files from the artifacts cache |
+

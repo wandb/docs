@@ -2,7 +2,7 @@
 title: Runs
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L61-L269" >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/apis/public/runs.py#L64-L273 >}}
 
 An iterable collection of runs associated with a project and optional filter.
 
@@ -27,7 +27,7 @@ This is generally used indirectly via the `Api`.runs method.
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L141-L173)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/apis/public/runs.py#L141-L173)
 
 ```python
 convert_objects()
@@ -35,7 +35,7 @@ convert_objects()
 
 ### `histories`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/runs.py#L175-L270)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/apis/public/runs.py#L175-L270)
 
 ```python
 histories(
@@ -54,17 +54,17 @@ Return sampled history metrics for all runs that fit the filters conditions.
 |  `samples` |  (int, optional) The number of samples to return per run |
 |  `keys` |  (list[str], optional) Only return metrics for specific keys |
 |  `x_axis` |  (str, optional) Use this metric as the xAxis defaults to _step |
-|  `format` |  (Literal, optional) Format to return data in, options are `default`, `pandas`, `polars` |
-|  `stream` |  (Literal, optional) `default` for metrics, `system` for machine metrics |
+|  `format` |  (Literal, optional) Format to return data in, options are "default", "pandas", "polars" |
+|  `stream` |  (Literal, optional) "default" for metrics, "system" for machine metrics |
 
 | Returns |  |
 | :--- | :--- |
-|  `pandas.DataFrame` |  If format=`"pandas"`, returns a `pandas.DataFrame` of history metrics. |
-|  `polars.DataFrame` |  If format=`"polars"` returns a `polars.DataFrame` of history metrics. list of dicts: If format=`"default"`, returns a list of dicts containing history metrics with a `run_id` key. |
+|  `pandas.DataFrame` |  If format="pandas", returns a `pandas.DataFrame` of history metrics. |
+|  `polars.DataFrame` |  If format="polars", returns a `polars.DataFrame` of history metrics. list of dicts: If format="default", returns a list of dicts containing history metrics with a run_id key. |
 
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/paginator.py#L72-L79)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/apis/paginator.py#L72-L79)
 
 ```python
 next()
@@ -72,7 +72,7 @@ next()
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/paginator.py#L52-L53)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/apis/paginator.py#L52-L53)
 
 ```python
 update_variables()
@@ -80,7 +80,7 @@ update_variables()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/paginator.py#L65-L70)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/apis/paginator.py#L65-L70)
 
 ```python
 __getitem__(
@@ -90,7 +90,7 @@ __getitem__(
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/paginator.py#L26-L28)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/apis/paginator.py#L26-L28)
 
 ```python
 __iter__()
@@ -98,7 +98,7 @@ __iter__()
 
 ### `__len__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/paginator.py#L30-L35)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/apis/paginator.py#L30-L35)
 
 ```python
 __len__()

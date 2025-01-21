@@ -1,10 +1,10 @@
 ---
 title: launch-library
 ---
+
 <!-- Insert buttons and diff -->
 
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/__init__.py" >}}
 
 ## Classes
 
@@ -14,4 +14,4 @@ title: launch-library
 
 [`launch(...)`](./launch.md): Launch a W&B launch experiment.
 
-[`launch_add(...)`](./launch_add.md): Enqueue a W&B launch experiment by `uri`, `job`, or `docker_image`.
+[`launch_add(...)`](./launch_add.md): Enqueue a W&B launch experiment. With either a source uri, job or docker_image.
