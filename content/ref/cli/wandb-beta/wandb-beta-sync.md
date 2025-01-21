@@ -1,6 +1,7 @@
 ---
 title: wandb beta sync
 ---
+
 **Usage**
 
 `wandb beta sync [OPTIONS] WANDB_DIR`
@@ -8,6 +9,7 @@ title: wandb beta sync
 **Summary**
 
 Upload a training run to W&B
+
 
 **Options**
 
@@ -23,4 +25,6 @@ Upload a training run to W&B
 | --mark-synced / --no-mark-synced | Mark runs as synced |
 | --skip-synced / --no-skip-synced | Skip synced runs |
 | --dry-run | Perform a dry run without uploading   anything. |
+
+
 
