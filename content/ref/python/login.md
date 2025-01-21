@@ -2,7 +2,7 @@
 title: login
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/wandb_login.py#L46-L104">}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/wandb_login.py#L40-L98 >}}
 
 Set up W&B login credentials.
 
@@ -24,7 +24,7 @@ verifying them with the W&B server. To verify credentials, pass
 
 | Args |  |
 | :--- | :--- |
-|  `anonymous` |  (string, optional) Can be `must`, `allow`, or `never`. If set to `must`, always log a user in anonymously. If set to `allow`, only create an anonymous user if the user isn't already logged in. If set to `never`, never log a user anonymously. Default set to `never`. |
+|  `anonymous` |  (string, optional) Can be "must", "allow", or "never". If set to "must", always log a user in anonymously. If set to "allow", only create an anonymous user if the user isn't already logged in. If set to "never", never log a user anonymously. Default set to "never". |
 |  `key` |  (string, optional) The API key to use. |
 |  `relogin` |  (bool, optional) If true, will re-prompt for API key. |
 |  `host` |  (string, optional) The host to connect to. |

@@ -1,6 +1,7 @@
 ---
 title: wandb controller
 ---
+
 **Usage**
 
 `wandb controller [OPTIONS] SWEEP_ID`
@@ -9,9 +10,12 @@ title: wandb controller
 
 Run the W&B local sweep controller
 
+
 **Options**
 
 | **Option** | **Description** |
 | :--- | :--- |
 | --verbose | Display verbose output |
+
+
 

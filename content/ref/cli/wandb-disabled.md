@@ -1,6 +1,7 @@
 ---
 title: wandb disabled
 ---
+
 **Usage**
 
 `wandb disabled [OPTIONS]`
@@ -9,9 +10,12 @@ title: wandb disabled
 
 Disable W&B.
 
+
 **Options**
 
 | **Option** | **Description** |
 | :--- | :--- |
 | --service | Disable W&B service  [default: True] |
+
+
 

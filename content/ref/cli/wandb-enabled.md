@@ -1,6 +1,7 @@
 ---
 title: wandb enabled
 ---
+
 **Usage**
 
 `wandb enabled [OPTIONS]`
@@ -9,9 +10,12 @@ title: wandb enabled
 
 Enable W&B.
 
+
 **Options**
 
 | **Option** | **Description** |
 | :--- | :--- |
 | --service | Enable W&B service  [default: True] |
+
+
 
