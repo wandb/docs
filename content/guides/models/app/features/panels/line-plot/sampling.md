@@ -18,7 +18,7 @@ There are three main advantages to using full fidelity mode for point aggregatio
 
 * Preserve extreme values and spikes: retain extreme values and spikes in your data 
 * Configure how minimum and maximum points render: use the W&B App to interactively decide whether you want to show extreme (min/max) values as a shaded area.
-* Explore your data without losing data fidelity: W&B recalculate x-axis bucket sizes when you zoom into specific data points. This helps ensure that you can explore your data without losing accuracy. Caching is used to store previously computed aggregations to help reduce loading times which is particularly useful if you are navigating through large datasets.
+* Explore your data without losing data fidelity: W&B recalculates x-axis bucket sizes when you zoom into specific data points. This helps ensure that you can explore your data without losing accuracy. Caching is used to store previously computed aggregations to help reduce loading times which is particularly useful if you are navigating through large datasets.
 
 ### Configure how minimum and maximum points render
 
