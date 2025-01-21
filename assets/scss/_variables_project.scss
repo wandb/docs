@@ -182,45 +182,46 @@ a {
 // hide left nav label 
 .tree-root { display: none !important;}
 
-// Add blue color for links and remove underline
-a {
-    color: $teal-600 !important;
-    text-decoration: none !important;
-    &:hover {
-        color: $teal-500 !important;
-    }
-}
-[data-bs-theme=dark] a {
-    color: $wandb-link-blue !important;
-    text-decoration: none !important;
-    &:hover {
-        color: $wandb-gold !important;
-    }
-}
-// Style for link hover state
-a:hover {
-    text-decoration: underline !important;
-}
-
 // Target links in the navigation and make them white with consistent font-weight
 .td-navbar .nav-link {
-    color: $moon-white !important;
-    font-weight: 400 !important;  // Ensure consistent font-weight in main nav
+    color: $text-primary !important;
+    font-weight: $font-weight-regular !important;  // Ensure consistent font-weight in main nav
+    padding: 12px 16px !important; // Add more padding for better spacing
+    border-radius: $border-radius-medium !important; // Add border radius for hover effect
+    transition: all 0.2s ease-in-out !important; // Smooth transition for hover effects
+    border-bottom: none !important; // Ensure no bottom border
 
     &:hover {
-        color: $wandb-gold !important;
+        color: $teal-500 !important;
         text-decoration: none !important;
+        background-color: rgba($moon-white, 0.1) !important; // Semi-transparent white background on hover
+    }
+
+    &.active {
+        color: $teal-500 !important;
+        background-color: rgba($moon-white, 0.1) !important; // Same background for active state
+        font-weight: $font-weight-regular !important;  // Keep consistent with other nav links
+    }
+
+    // Add dark mode styles
+    [data-bs-theme=dark] & {
+        color: $moon-white !important;
+        
+        &:hover {
+            color: $teal-500 !important;
+        }
+        
+        &.active {
+            color: $teal-500 !important;
+        }
     }
 }
 
-// Align left-nav with logo
-.td-sidebar-nav {
-  padding-left: 15px !important;
-}
-// Ensure active nav link maintains same weight
+// Ensure active nav link maintains same weight and background
 .nav-link.active {
-    border-bottom: 2px solid $wandb-gold !important;
-    font-weight: 400 !important;  // Keep consistent with other nav links
+    color: $teal-500 !important;
+    background-color: rgba($moon-white, 0.1) !important; // Same background for active state
+    font-weight: $font-weight-regular !important;  // Keep consistent with other nav links
 }
 
 nav.foldable-nav .with-child, nav.foldable-nav .without-child {
@@ -274,14 +275,74 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
 
 // Ensure hover state for nav links doesn't change color
 .td-navbar {
-    color: $moon-white;
-}
-a.nav-link:hover {
-    color: $wandb-gold !important;
-}
-.nav-link.active 
-{
-    border-bottom: 2px solid $wandb-gold !important;
+    background-color: $bg-primary !important;
+    padding: 0 !important;
+    border-bottom: 1px solid $border-default !important;  // Add border to bottom
+
+    // Hide the doc site name from top-left
+    .navbar-brand__name { 
+        display: none !important;
+    }
+
+    // Style the logo
+    .navbar-brand__logo {
+        path {
+            fill: $text-primary !important; // Light mode logo color
+        }
+    }
+
+    &.js-navbar-scroll {
+        background-color: $bg-primary !important;
+    }
+
+    [data-bs-theme=dark] & {
+        background-color: $dark-bg-primary !important;
+        border-bottom: 1px solid $dark-border-default !important;  // Dark mode border
+
+        // Dark mode logo color
+        .navbar-brand__logo {
+            path {
+                fill: $dark-text-primary !important;
+            }
+        }
+
+        &.js-navbar-scroll {
+            background-color: $dark-bg-primary !important;
+        }
+    }
+
+    .nav-link {
+        color: $text-primary !important;
+        font-weight: $font-weight-regular !important;
+        padding: 12px 16px !important;
+        border-radius: $border-radius-medium !important;
+        transition: all 0.2s ease-in-out !important;
+        border-bottom: none !important;
+
+        &:hover {
+            color: $teal-500 !important;
+            text-decoration: none !important;
+            background-color: rgba($moon-300, 0.1) !important;
+        }
+
+        &.active {
+            color: $teal-500 !important;
+            background-color: rgba($moon-300, 0.1) !important;
+            font-weight: $font-weight-regular !important;
+        }
+    }
+
+    // Update navbar container spacing
+    .container-fluid {
+        padding: 8px 16px !important;
+    }
+
+    // Increase spacing between nav items
+    .td-navbar-nav-scroll {
+        .navbar-nav {
+            gap: 8px !important;
+        }
+    }
 }
 
 // headings use WandB serif font
