@@ -182,6 +182,54 @@ a {
 // hide left nav label 
 .tree-root { display: none !important;}
 
+header {
+    nav {
+
+        &.td-navbar {
+
+            > .container-fluid {
+                flex-direction: row !important;
+                align-items: center !important;
+                padding: 8px 26px !important;
+            }
+        }
+
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            padding: 0 !important;
+            margin-right: 1rem !important;
+            
+            .navbar-logo {
+                display: block;
+                width: auto;
+                height: 2rem;
+                margin: 0 !important;
+
+                svg {
+                    margin: 0 !important;
+                    width: 100%;
+                }
+
+                // Theme visibility
+                .theme-light-only {
+                    display: none;
+                    [data-bs-theme="light"] & {
+                        display: block;
+                    }
+                }
+                
+                .theme-dark-only {
+                    display: none;
+                    [data-bs-theme="dark"] & {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}
+
 // Target links in the navigation and make them white with consistent font-weight
 .td-navbar .nav-link {
     color: $text-primary !important;
@@ -273,7 +321,7 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
     color: $wandb-gold !important;
 }
 
-// Ensure hover state for nav links doesn't change color
+// Keep the newer, more comprehensive navbar styles
 .td-navbar {
     background-color: $bg-primary !important;
     padding: 0 !important;
@@ -284,13 +332,6 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
         display: none !important;
     }
 
-    // Style the logo
-    .navbar-brand__logo {
-        path {
-            fill: $text-primary !important; // Light mode logo color
-        }
-    }
-
     &.js-navbar-scroll {
         background-color: $bg-primary !important;
     }
@@ -298,13 +339,6 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
     [data-bs-theme=dark] & {
         background-color: $dark-bg-primary !important;
         border-bottom: 1px solid $dark-border-default !important;  // Dark mode border
-
-        // Dark mode logo color
-        .navbar-brand__logo {
-            path {
-                fill: $dark-text-primary !important;
-            }
-        }
 
         &.js-navbar-scroll {
             background-color: $dark-bg-primary !important;
@@ -1070,5 +1104,24 @@ img, iframe {
             font-size: 1rem !important;
         }
     }
+}
+
+// Theme-based logo visibility
+[data-bs-theme="dark"] {
+  .theme-light-only {
+    display: none;
+  }
+  .theme-dark-only {
+    display: block;
+  }
+}
+
+[data-bs-theme="light"] {
+  .theme-light-only {
+    display: block;
+  }
+  .theme-dark-only {
+    display: none;
+  }
 }
 
