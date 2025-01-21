@@ -513,6 +513,37 @@ ol.breadcrumb:before {
     }
 }
 
+// tabs
+ul {
+    &.nav-tabs {
+        border-bottom: none !important;
+
+        li {
+
+            &.nav-item {
+                margin: 0 !important;
+
+                button {
+                    color: $text-primary !important;
+                    
+                    &.active {
+                        color: $link-primary !important;
+                        background-color: var(--td-pre-bg) !important;
+                        border-bottom-color: var(--td-pre-bg) !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.tab-content {
+    > .tab-pane {
+        border-radius: 0 $border-radius-medium $border-radius-medium $border-radius-medium !important;
+        border: 1px solid $border-default !important;
+    }
+}
+
 // Buttons Component
 // Base button styles
 .button-base {
