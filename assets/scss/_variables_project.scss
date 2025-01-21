@@ -519,7 +519,6 @@ ul {
         border-bottom: none !important;
 
         li {
-
             &.nav-item {
                 margin: 0 !important;
 
@@ -531,6 +530,15 @@ ul {
                         background-color: var(--td-pre-bg) !important;
                         border-bottom-color: var(--td-pre-bg) !important;
                     }
+
+                    // Add dark mode styles
+                    [data-bs-theme=dark] & {
+                        color: $dark-text-primary !important;
+                        
+                        &.active {
+                            color: $dark-link-primary !important;
+                        }
+                    }
                 }
             }
         }
@@ -541,6 +549,11 @@ ul {
     > .tab-pane {
         border-radius: 0 $border-radius-medium $border-radius-medium $border-radius-medium !important;
         border: 1px solid $border-default !important;
+
+        // Add dark mode styles
+        [data-bs-theme=dark] & {
+            border-color: $dark-border-default !important;
+        }
     }
 }
 
