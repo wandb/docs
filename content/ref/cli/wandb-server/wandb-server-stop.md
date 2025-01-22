@@ -1,6 +1,7 @@
 ---
 title: wandb server stop
 ---
+
 **Usage**
 
 `wandb server stop [OPTIONS]`
@@ -9,8 +10,11 @@ title: wandb server stop
 
 Stop a local W&B server
 
+
 **Options**
 
 | **Option** | **Description** |
 | :--- | :--- |
+
+
 

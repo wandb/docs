@@ -2,7 +2,7 @@
 title: Object3D
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/object_3d.py#L190-L466" >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/object_3d.py#L186-L462 >}}
 
 Wandb class for 3D point clouds.
 
@@ -29,7 +29,7 @@ The shape of the numpy array must be one of either:
 
 ### `from_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/object_3d.py#L332-L349)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/object_3d.py#L332-L349)
 
 ```python
 @classmethod
@@ -43,11 +43,11 @@ Initializes Object3D from a file or stream.
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path (Union["TextIO", str])`: A path to a file or a `TextIO` stream. `file_type (str)`: Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension. |
+|  data_or_path (Union["TextIO", str]): A path to a file or a `TextIO` stream. file_type (str): Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension. |
 
 ### `from_numpy`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/object_3d.py#L351-L380)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/object_3d.py#L351-L380)
 
 ```python
 @classmethod
@@ -72,7 +72,7 @@ The shape of the numpy array must be one of either:
 
 ### `from_point_cloud`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/object_3d.py#L382-L416)
+[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/object_3d.py#L382-L416)
 
 ```python
 @classmethod
@@ -88,7 +88,7 @@ Initializes Object3D from a python object.
 
 | Args |  |
 | :--- | :--- |
-|  `points (Sequence["Point"])`: The points in the point cloud. `boxes (Sequence["Box3D"])`: 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations. `vectors (Optional[Sequence["Vector3D"]])`: Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to `None`. `point_cloud_type ("lidar/beta")`: At this time, only the `"lidar/beta"` type is supported. Defaults to `"lidar/beta"`. |
+|  points (Sequence["Point"]): The points in the point cloud. boxes (Sequence["Box3D"]): 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations. vectors (Optional[Sequence["Vector3D"]]): Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None. point_cloud_type ("lidar/beta"): At this time, only the "lidar/beta" type is supported. Defaults to "lidar/beta". |
 
 | Class Variables |  |
 | :--- | :--- |

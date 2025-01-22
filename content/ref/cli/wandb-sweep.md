@@ -1,6 +1,7 @@
 ---
 title: wandb sweep
 ---
+
 **Usage**
 
 `wandb sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID`
@@ -9,6 +10,7 @@ title: wandb sweep
 
 Initialize a hyperparameter sweep. Search for hyperparameters that optimizes
 a cost function of a machine learning model by testing various combinations.
+
 
 **Options**
 
@@ -26,4 +28,6 @@ a cost function of a machine learning model by testing various combinations.
 | --pause | Pause a sweep to temporarily stop running new runs. |
 | --resume | Resume a sweep to continue running new runs. |
 | --prior_run | ID of an existing run to add to this sweep |
+
+
 

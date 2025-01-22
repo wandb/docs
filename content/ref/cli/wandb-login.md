@@ -1,6 +1,7 @@
 ---
 title: wandb login
 ---
+
 **Usage**
 
 `wandb login [OPTIONS] [KEY]...`
@@ -8,6 +9,7 @@ title: wandb login
 **Summary**
 
 Login to Weights & Biases
+
 
 **Options**
 
@@ -18,4 +20,6 @@ Login to Weights & Biases
 | --relogin | Force relogin if already logged in. |
 | --anonymously | Log in anonymously |
 | --verify | Verify login credentials |
+
+
 
