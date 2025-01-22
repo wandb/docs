@@ -174,6 +174,7 @@ a {
 
 // shrink the right nav a bit
 .td-page-meta {
+    display: none !important;
     font-size: 16px !important;
     a {
         padding-bottom: 15px;
@@ -941,8 +942,9 @@ img, iframe {
 // Feedback Component
 .td-content > .d-print-none {  // Target only the feedback section at bottom of content
     margin-top: 4rem;
+    position: relative; // Add relative positioning
     display: flex;
-    align-items: center; // Vertically align all items
+    align-items: center; // Change back to center for vertical alignment
     flex-wrap: wrap; // Allow wrapping on smaller screens
     gap: 8px; // Consistent spacing between elements
 
@@ -951,14 +953,31 @@ img, iframe {
         display: none;
     }
 
-    // Question styling
+    // Question and buttons container
     .feedback--question {
         margin: 0; // Remove default margins
         padding-right: 16px; // Add some space between question and buttons
+        display: flex; // Add flex display
+        align-items: center; // Center vertically
+        gap: 16px; // Space between question and buttons
+    }
+
+    // Move links to right side
+    .feedback--links {
+        position: absolute; // Position absolutely
+        right: 0; // Align to right
+        top: 50%; // Center vertically
+        transform: translateY(-50%); // Perfect vertical centering
+        display: flex;
+        align-items: center; // Center items vertically
+        gap: 16px; // Space between links
     }
 
     .btn {
         min-width: 50px;
+        display: flex; // Add flex display
+        align-items: center; // Center vertically
+        justify-content: center; // Center horizontally
 
         &.feedback--answer-no {
             margin: 0 !important;
@@ -1015,9 +1034,62 @@ img, iframe {
     }
 }
 
-// Last modified date
-.td-content > .td-page-meta__lastmod {
+// Last modified date with feedback links
+div.td-page-meta__lastmod {
     margin-top: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    color: $text-secondary !important;
+    font-size: 14px !important;
+
+    // Container for last modified text and commit link
+    &:first-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+
+    // Style the commit link
+    a {
+        color: $text-secondary !important;
+        &:hover {
+            color: $link-primary !important;
+        }
+    }
+    
+    .feedback--links {
+        display: flex !important;
+        align-items: center !important;
+        gap: 16px !important;
+        margin-left: auto !important;
+
+        // Style the edit/issue links
+        a {
+            color: $text-secondary !important;
+            &:hover {
+                color: $link-primary !important;
+            }
+        }
+    }
+
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        color: $dark-text-secondary !important;
+        
+        a {
+            color: $dark-text-secondary !important;
+            &:hover {
+                color: $dark-link-primary !important;
+            }
+        }
+    }
+}
+
+// Remove feedback links from original location
+.td-content > .d-print-none .feedback--links {
+    display: none !important;
 }
 
 // Update the sidebar navigation styles
@@ -1292,6 +1364,17 @@ img, iframe {
             .nav-link::after {
                 display: none !important;
             }
+        }
+    }
+}
+
+// Add consistent padding for main content
+.td-main {
+    
+    main {
+        &.ps-md-5 {
+            padding-left: 3rem !important;
+            padding-right: 3rem !important;
         }
     }
 }
