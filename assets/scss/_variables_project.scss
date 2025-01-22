@@ -213,6 +213,13 @@ $breakpoint-xl: 1200px;   // Large desktop
                 padding-left: 0 !important;
                 margin: 0 !important;
                 gap: 16px !important;
+
+                // Update mobile light/dark toggle styles
+                .td-light-dark-menu {
+                    display: flex !important;
+                    align-items: center !important;
+                    margin: 0 !important; // Remove top margin to align with other items
+                }
             }
         }
         
@@ -399,6 +406,22 @@ $breakpoint-xl: 1200px;   // Large desktop
                         color: $dark-link-primary !important;
                     }
                 }
+            }
+        }
+    }
+
+    // Update the light/dark menu styles
+    .td-light-dark-menu {
+        &.nav-item.dropdown {
+            margin: 0 2px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        // Hide from navbar-right on mobile
+        &.d-none {
+            @media (max-width: #{$breakpoint-lg - 1}) {
+                display: none !important;
             }
         }
     }
