@@ -945,7 +945,6 @@ img, iframe {
 // Feedback Component
 .td-content > .d-print-none {  // Target only the feedback section at bottom of content
     margin-top: 4rem;
-    position: relative; // Add relative positioning
     display: flex;
     align-items: center; // Change back to center for vertical alignment
     flex-wrap: wrap; // Allow wrapping on smaller screens
@@ -958,29 +957,18 @@ img, iframe {
 
     // Question and buttons container
     .feedback--question {
-        margin: 0; // Remove default margins
-        padding-right: 16px; // Add some space between question and buttons
-        display: flex; // Add flex display
-        align-items: center; // Center vertically
-        gap: 16px; // Space between question and buttons
-    }
-
-    // Move links to right side
-    .feedback--links {
-        position: absolute; // Position absolutely
-        right: 0; // Align to right
-        top: 50%; // Center vertically
-        transform: translateY(-50%); // Perfect vertical centering
+        margin: 0;
         display: flex;
-        align-items: center; // Center items vertically
-        gap: 16px; // Space between links
+        align-items: center;
+        gap: 16px;
     }
 
+    // Buttons container
     .btn {
         min-width: 50px;
-        display: flex; // Add flex display
-        align-items: center; // Center vertically
-        justify-content: center; // Center horizontally
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &.feedback--answer-no {
             margin: 0 !important;
@@ -989,8 +977,71 @@ img, iframe {
 
     // Response styling
     .feedback--response {
-        width: 100%; // Full width for responses
+        width: 100%;
         margin-top: 1rem;
+    }
+}
+
+// Last modified date with feedback links - mobile styles
+div.td-page-meta__lastmod {
+    display: flex !important;
+    flex-direction: column !important; // Stack elements vertically on mobile
+    gap: 8px !important;
+    color: $text-secondary !important;
+    font-size: 14px !important;
+    margin-top: 0 !important;
+
+    // Container for last modified text and commit link
+    &:first-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+
+    // Style the commit link
+    a {
+        color: $text-secondary !important;
+        &:hover {
+            color: $link-primary !important;
+        }
+    }
+    
+    .feedback--links {
+        display: flex !important;
+        margin-top: 8px !important;
+        align-items: center !important;
+        gap: 16px !important;
+
+        // Style the edit/issue links
+        a {
+            color: $text-secondary !important;
+            &:hover {
+                color: $link-primary !important;
+            }
+        }
+    }
+
+    // Tablet and desktop styles
+    @media (min-width: $breakpoint-lg) {
+        flex-direction: row !important; // Switch to horizontal layout
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        .feedback--links {
+            margin-left: auto !important;
+        }
+    }
+
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        color: $dark-text-secondary !important;
+        
+        a {
+            color: $dark-text-secondary !important;
+            &:hover {
+                color: $dark-link-primary !important;
+            }
+        }
     }
 }
 
@@ -1033,59 +1084,6 @@ img, iframe {
             background-color: $dark-bg-tertiary !important;
             border: none !important;
             box-shadow: none !important;
-        }
-    }
-}
-
-// Last modified date with feedback links
-div.td-page-meta__lastmod {
-    margin-top: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 16px !important;
-    color: $text-secondary !important;
-    font-size: 14px !important;
-
-    // Container for last modified text and commit link
-    &:first-child {
-        display: flex !important;
-        align-items: center !important;
-        gap: 4px !important;
-    }
-
-    // Style the commit link
-    a {
-        color: $text-secondary !important;
-        &:hover {
-            color: $link-primary !important;
-        }
-    }
-    
-    .feedback--links {
-        display: flex !important;
-        align-items: center !important;
-        gap: 16px !important;
-        margin-left: auto !important;
-
-        // Style the edit/issue links
-        a {
-            color: $text-secondary !important;
-            &:hover {
-                color: $link-primary !important;
-            }
-        }
-    }
-
-    // Dark mode styles
-    [data-bs-theme=dark] & {
-        color: $dark-text-secondary !important;
-        
-        a {
-            color: $dark-text-secondary !important;
-            &:hover {
-                color: $dark-link-primary !important;
-            }
         }
     }
 }
