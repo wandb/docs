@@ -1,6 +1,7 @@
 ---
 title: wandb init
 ---
+
 **Usage**
 
 `wandb init [OPTIONS]`
@@ -9,6 +10,7 @@ title: wandb init
 
 Configure a directory with Weights & Biases
 
+
 **Options**
 
 | **Option** | **Description** |
@@ -16,5 +18,7 @@ Configure a directory with Weights & Biases
 | -p, --project | The project to use. |
 | -e, --entity | The entity to scope the project to. |
 | --reset | Reset settings |
-| -m, --mode | Can be `online`, `offline` or `disabled`. Defaults to `online`. |
+| -m, --mode | Can be "online", "offline" or "disabled". Defaults to   online. |
+
+
 
