@@ -1262,9 +1262,19 @@ img, iframe {
             .nav-link {
                 font-size: 16px !important;
                 font-weight: $font-weight-regular !important;
+                color: $text-secondary !important;
                 
                 &:hover {
                     background-color: transparent !important;
+                    color: $link-primary !important;
+                }
+            }
+
+            [data-bs-theme=dark] & .nav-link {
+                color: $dark-text-secondary !important;
+                
+                &:hover {
+                    color: $dark-link-primary !important;
                 }
             }
         }
