@@ -188,183 +188,83 @@ a {
 // hide left nav label 
 .tree-root { display: none !important;}
 
-header {
-    nav {
-        &.td-navbar {
-            > .container-fluid {
-                flex-direction: row !important;
-                align-items: center !important;
-                padding: 8px 26px !important;
-                
-                // Add these new styles
-                justify-content: flex-start !important;
-                gap: 32px !important;  // Add space between logo and nav items
-            }
-        }
+// First define breakpoints
+$breakpoint-sm: 576px;    // Phone
+$breakpoint-md: 768px;    // Tablet
+$breakpoint-lg: 992px;    // Desktop
+$breakpoint-xl: 1200px;   // Large desktop
 
-        .navbar-brand {
-            display: flex !important;
-            align-items: center !important;
-            padding: 0 !important;
-            margin-right: 1rem !important;
-            
-            .navbar-logo {
-                display: block;
-                width: auto;
-                height: 2rem;
-                margin: 0 !important;
-
-                svg {
-                    margin: 0 !important;
-                    width: 100%;
-                }
-
-                // Theme visibility
-                .theme-light-only {
-                    display: none;
-                    [data-bs-theme="light"] & {
-                        display: block;
-                    }
-                }
-                
-                .theme-dark-only {
-                    display: none;
-                    [data-bs-theme="dark"] & {
-                        display: block;
-                    }
-                }
-            }
-        }
-    }
-}
-
-// Target links in the navigation and make them white with consistent font-weight
-.td-navbar .nav-link {
-    color: $text-primary !important;
-    font-weight: $font-weight-regular !important;  // Ensure consistent font-weight in main nav
-    padding: 12px 16px !important; // Add more padding for better spacing
-    border-radius: $border-radius-medium !important; // Add border radius for hover effect
-    transition: all 0.2s ease-in-out !important; // Smooth transition for hover effects
-    border-bottom: none !important; // Ensure no bottom border
-
-    &:hover {
-        color: $teal-500 !important;
-        text-decoration: none !important;
-        background-color: rgba($moon-white, 0.1) !important; // Semi-transparent white background on hover
-    }
-
-    &.active {
-        color: $teal-500 !important;
-        background-color: rgba($moon-white, 0.1) !important; // Same background for active state
-        font-weight: $font-weight-regular !important;  // Keep consistent with other nav links
-    }
-
-    // Add dark mode styles
-    [data-bs-theme=dark] & {
-        color: $moon-white !important;
-        
-        &:hover {
-            color: $teal-500 !important;
-        }
-        
-        &.active {
-            color: $teal-500 !important;
-        }
-    }
-}
-
-// Ensure active nav link maintains same weight and background
-.nav-link.active {
-    color: $teal-500 !important;
-    background-color: rgba($moon-white, 0.1) !important; // Same background for active state
-    font-weight: $font-weight-regular !important;  // Keep consistent with other nav links
-}
-
-nav.foldable-nav .with-child, nav.foldable-nav .without-child {
-  padding-left: 10px !important;
-}
-// Update existing chevron styles
-nav.foldable-nav .ul-1 .with-child {
-    & > label {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        position: relative;
-        padding-right: 20px; // Space for chevron
-        
-        // Remove default chevrons
-        &:before {
-            display: none !important;
-        }
-    }
-}
-
-// Add chevrons to all expandable items
-nav.foldable-nav .ul-1 .with-child > label:after {
-    content: "\f105" !important; // fa-angle-right (thinner chevron)
-    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
-    font-weight: 900;
-    color: $moon-500;
-    transition: color 0.3s;
-    font-size: 14px;
-    position: absolute;
-    right: 0px;
-    top: 35%;
-    transform: translateY(-50%);
-}
-
-// Change chevron for expanded items
-nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
-    content: "\f107" !important; // fa-angle-down (thinner chevron)
-}
-
-// Hover states
-nav.foldable-nav .ul-1 .with-child > label:hover:after {
-    color: $teal-600 !important;
-}
-
-// Dark mode hover state
-[data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
-    color: $wandb-gold !important;
-}
-
-// Dark mode hover state
-[data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
-    color: $wandb-gold !important;
-}
-
-// Keep the newer, more comprehensive navbar styles
+// Consolidated navbar styles with mobile-first approach
 .td-navbar {
     background-color: $bg-primary !important;
     padding: 0 !important;
-    border-bottom: 1px solid $border-default !important;  // Add border to bottom
+    border-bottom: 1px solid $border-default !important;
 
-    // Hide the doc site name from top-left
+    // Base styles (mobile first)
+    .container-fluid {
+        padding: 8px !important;
+
+        .td-navbar-nav-scroll {
+            margin-top: 8px !important;
+
+            .navbar-nav {
+                display: flex !important;
+                align-items: center !important;
+                padding-left: 0 !important;
+                margin: 0 !important;
+                gap: 16px !important;
+            }
+        }
+        
+        .navbar-right-items {
+            align-items: center !important;
+            margin-left: auto !important;
+            gap: 4px !important;
+
+            .navbar-nav {
+                display: flex !important;
+                align-items: center !important;
+                padding-left: 0 !important;
+                margin: 0 !important;
+                gap: 8px !important;
+            }
+        }
+    }
+
+    // Brand/logo styles
+    .navbar-brand {
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 !important;
+        margin-right: 0 !important;
+        
+        .navbar-logo {
+            display: block;
+            width: auto;
+            height: auto;
+            margin: 0 !important;
+
+            svg {
+                margin: 0 !important;
+                width: 100%;
+            }
+        }
+    }
+
+    // Hide the doc site name
     .navbar-brand__name { 
         display: none !important;
     }
 
-    &.js-navbar-scroll {
-        background-color: $bg-primary !important;
-    }
-
-    [data-bs-theme=dark] & {
-        background-color: $dark-bg-primary !important;
-        border-bottom: 1px solid $dark-border-default !important;  // Dark mode border
-
-        &.js-navbar-scroll {
-            background-color: $dark-bg-primary !important;
-        }
-    }
-
+    // Nav links base styles
     .nav-link {
         color: $text-primary !important;
         font-weight: $font-weight-regular !important;
-        padding: 6px 12px !important;
-        border-radius: $border-radius-medium !important;
         transition: all 0.2s ease-in-out !important;
         border-bottom: none !important;
+        border-radius: $border-radius-medium !important;
+        padding: 4px 8px !important;
+        font-size: 14px !important;
 
         &:hover {
             color: $teal-500 !important;
@@ -379,44 +279,129 @@ nav.foldable-nav .ul-1 .with-child > label:hover:after {
         }
     }
 
-    // Update navbar container spacing
-    .container-fluid {
-        padding: 8px 16px !important;
-        
-        // Add right-side container for search and controls
-        .navbar-right-items {
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            margin-left: auto !important;
+    // Dropdown styles
+    .nav-item.dropdown {
+        &.d-none.d-lg-block,
+        &.td-light-dark-menu {
+            margin: 0 2px !important;
 
-            // Reset list styles and align items
-            .navbar-nav {
-                display: flex !important;
-                align-items: center !important;
-                gap: 8px !important;
-                padding-left: 0 !important;
-                margin: 0 !important;
+            .nav-link {
+                font-size: 14px !important;
+                font-weight: $font-weight-regular !important;
+                color: $text-secondary !important;
+                
+                &:hover {
+                    background-color: transparent !important;
+                    color: $link-primary !important;
+                }
             }
 
-            // Ensure dropdowns are aligned properly
-            .nav-item.dropdown {
-                display: flex !important;
-                align-items: center !important;
+            // Remove dropdown carets
+            .nav-link::after {
+                display: none !important;
             }
         }
     }
 
-    // Increase spacing between nav items
+    // Navigation scroll spacing
     .td-navbar-nav-scroll {
         margin-left: 0 !important;
         margin-right: 0 !important;
     }
-}
 
-// Move the search to the right
-.td-navbar .d-none.d-lg-block {
-    margin-left: 0 !important;
+    // Tablet styles (577px and up)
+    @media (min-width: $breakpoint-sm + 1) {
+        .container-fluid {
+            padding: 8px 12px !important;
+
+            .navbar-right-items {
+                gap: 6px !important;
+
+                .navbar-nav {
+                    gap: 6px !important;
+                }
+            }
+        }
+
+        .navbar-brand {
+            margin-right: 1rem !important;
+        }
+
+        .nav-link {
+            padding: 5px 10px !important;
+            font-size: 15px !important;
+        }
+    }
+
+    // Desktop styles (992px and up)
+    @media (min-width: $breakpoint-lg) {
+        .container-fluid {
+            padding: 8px 16px !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 32px !important;
+
+            .navbar-right-items {
+                gap: 8px !important;
+
+                .navbar-nav {
+                    gap: 8px !important;
+                }
+            }
+        }
+
+        .nav-link {
+            padding: 6px 12px !important;
+            font-size: 16px !important;
+        }
+
+        .nav-item.dropdown {
+            &.d-none.d-lg-block,
+            &.td-light-dark-menu {
+                margin: 0 4px !important;
+
+                .nav-link {
+                    font-size: 16px !important;
+                }
+            }
+        }
+    }
+
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        background-color: $dark-bg-primary !important;
+        border-bottom: 1px solid $dark-border-default !important;
+
+        &.js-navbar-scroll {
+            background-color: $dark-bg-primary !important;
+        }
+
+        .nav-link {
+            color: $moon-white !important;
+            
+            &:hover {
+                color: $teal-500 !important;
+            }
+            
+            &.active {
+                color: $teal-500 !important;
+            }
+        }
+
+        .nav-item.dropdown {
+            &.d-none.d-lg-block,
+            &.td-light-dark-menu {
+                .nav-link {
+                    color: $dark-text-secondary !important;
+                    
+                    &:hover {
+                        color: $dark-link-primary !important;
+                    }
+                }
+            }
+        }
+    }
 }
 
 // headings use WandB serif font
@@ -468,10 +453,6 @@ h6, .td-content h6 {
   }
 }
 
-.td-navbar, .js-navbar-scroll {
-    background-color: $nav-bg !important;
-}
-
 ol.breadcrumb:before {
     content: "🏠︎" !important;
     color: grey; filter: grayscale(100%);
@@ -510,8 +491,7 @@ ol.breadcrumb:before {
 
     // Add "On this page" header
     &:before { 
-        content: "On this page"; 
-        font-weight: bold; 
+        content: "On this page";
         color: $text-primary;
 
         [data-bs-theme=dark] & {
@@ -1312,61 +1292,6 @@ div.td-page-meta__lastmod {
   }
 }
 
-// Move the language and theme selectors next to search
-.td-navbar {
-    .td-navbar-nav-scroll {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-
-    // Remove the auto margin from search container
-    .d-none.d-lg-block {
-        margin-left: 0 !important;
-    }
-
-    // Style the language and theme toggles container
-    .nav-item.dropdown {
-        &.d-none.d-lg-block,
-        &.td-light-dark-menu {
-            margin: 0 4px !important;
-
-            // Remove hover background and style text
-            .nav-link {
-                font-size: 16px !important;
-                font-weight: $font-weight-regular !important;
-                color: $text-secondary !important;
-                
-                &:hover {
-                    background-color: transparent !important;
-                    color: $link-primary !important;
-                }
-            }
-
-            [data-bs-theme=dark] & .nav-link {
-                color: $dark-text-secondary !important;
-                
-                &:hover {
-                    color: $dark-link-primary !important;
-                }
-            }
-        }
-    }
-
-    // Remove dropdown carets
-    .nav-item.dropdown {
-        .nav-link::after {
-            display: none !important;
-        }
-        
-        // Specifically target language and theme toggles
-        &.d-none.d-lg-block,
-        &.td-light-dark-menu {
-            .nav-link::after {
-                display: none !important;
-            }
-        }
-    }
-}
 
 // Add consistent padding for main content
 .td-main {

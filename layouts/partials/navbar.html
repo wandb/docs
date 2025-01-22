@@ -17,7 +17,7 @@
       {{- end -}}
     </span>
   </a>
-  <div class="td-navbar-nav-scroll" id="main_navbar">
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       {{ $p := . -}}
       {{ range .Site.Menus.main -}}
@@ -44,7 +44,7 @@
       {{ end -}}
     </ul>
   </div>
-  <div class="navbar-right-items">
+  <div class="navbar-right-items d-none d-lg-flex">
     <div class="d-none d-lg-block">
       {{ partial "search-input.html" . }}
     </div>
@@ -55,7 +55,7 @@
       </li>
       {{ end -}}
       {{ if (gt (len .Site.Home.Translations) 0) -}}
-      <li class="nav-item dropdown d-none d-lg-block">
+      <li class="nav-item dropdown d-none d-lg-flex">
         {{ partial "navbar-lang-selector.html" . -}}
       </li>
       {{ end -}}
