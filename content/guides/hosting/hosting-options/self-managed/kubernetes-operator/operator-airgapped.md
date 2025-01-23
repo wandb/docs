@@ -26,22 +26,92 @@ Before starting, make sure your environment meets the following requirements:
 
 ## Step 2: Prepare internal container registry
 
-Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry. 
-These images are critical for the successful deployment of W&B components.
+Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry:
+* docker.io/wandb/controller
+* docker.io/wandb/local
+* docker.io/wandb/console
+* docker.io/bitnami/redis
+* docker.io/otel/opentelemetry-collector-contrib
+* quay.io/prometheus/prometheus
+* quay.io/prometheus-operator/prometheus-config-reloader
+
+These images are critical for the successful deployment of W&B components. W&B recommends that you use WSM to prepare the container registry. If your organization already uses an internal container registry, you can add the images to it. Otherwise, follow the proceeding section to use a called WSM to prepare the container repository.
+
+### Install WSM
+
+Install WSM using one of these methods.
+
+{{% alert %}}
+WSM requires a functioning Docker installation.
+{{% /alert %}}
+
+#### Bash
+Run the Bash script directly from GitHub:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/wandb/wsm/main/install.sh | bash
+```
+The script downloads the binary to the folder in which you executed the script. To move it to another folder, execute:
+
+```bash
+sudo mv wsm /usr/local/bin
+```
+
+#### GitHub
+Download or clone WSM from the W&B managed `wandb/wsm` GitHub repository at `https://github.com/wandb/wsm`. See the `wandb/wsm` [release notes](https://github.com/wandb/wsm/releases) for the latest release.
+
+### List images and their versions
+
+Get an up to date list of image versions using `wsm list`.
+
+```bash
+wsm list
+```
+
+The output looks similar to the following:
 
 ```text
-wandb/local                                             0.59.2
-wandb/console                                           2.12.2
-wandb/controller                                        1.13.0
-otel/opentelemetry-collector-contrib                    0.97.0
-bitnami/redis                                           7.2.4-debian-12-r9
-quay.io/prometheus/prometheus                           v2.47.0
-quay.io/prometheus-operator/prometheus-config-reloader  v0.67.0
+:package: Starting the process to list all images required for deployment...
+Operator Images:
+  wandb/controller:1.16.1
+W&B Images:
+  wandb/local:0.62.2
+  docker.io/bitnami/redis:7.2.4-debian-12-r9
+  quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
+  quay.io/prometheus/prometheus:v2.47.0
+  otel/opentelemetry-collector-contrib:0.97.0
+  wandb/console:2.13.1
+Here are the images required to deploy W&B. Ensure these images are available in your internal container registry and update the values.yaml accordingly.
 ```
+
+### Download images
+
+Download all images in the latest versions using `wsm download`.
+
+```bash
+wsm download
+```
+
+The output looks similar to the following:
+
+```text
+Downloading operator helm chart
+Downloading wandb helm chart
+✓ wandb/controller:1.16.1
+✓ docker.io/bitnami/redis:7.2.4-debian-12-r9
+✓ otel/opentelemetry-collector-contrib:0.97.0
+✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
+✓ wandb/console:2.13.1
+✓ quay.io/prometheus/prometheus:v2.47.0
+
+  Done! Installed 7 packages.
+```
+
+WSM downloads a `.tgz` archive for each image to the `bundle` directory.
 
 ## Step 3: Prepare internal Helm chart repository
 
-Along with the container images, you also must ensure that the following Helm charts are available in your internal Helm Chart repository. 
+Along with the container images, you also must ensure that the following Helm charts are available in your internal Helm Chart repository. The WSM tool introduced in the last step can also download the Helm charts. Alternatively, download them here:
 
 
 - [W&B Operator](https://github.com/wandb/helm-charts/tree/main/charts/operator)
@@ -73,15 +143,21 @@ image:
 airgapped: true
 ```
 
+Replace the tag with the version that is available in your internal registry.
+Execute the following to install the operator:
+```bash
+helm upgrade --install operator wandb/operator -n wandb --create-namespace -f values.yaml
+```
+
 You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
-## Step 6: Configure CustomResourceDefinitions 
+## Step 6: Configure W&B Custom Resource Definition 
 
-After installing the W&B Kubernetes operator, you must configure the Custom Resource Definitions (CRDs) to point to your internal Helm repository and container registry. 
+After installing the W&B Kubernetes operator, you must configure the Custom Resource Definition (CRD) to point to your internal Helm repository and container registry.
 
 This configuration ensures that the Kubernetes operators uses your internal registry and repository are when it deploys the required components of the W&B platform. 
 
-Below is an example of how to configure the CRD.
+Save this example CRD as a file named `wandb.yaml`.
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -141,7 +217,9 @@ spec:
 
 To deploy the W&B platform, the Kubernetes Operator uses the `operator-wandb` chart from your internal repository and use the values from your CRD to configure the Helm chart.
 
-You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
+Replace all tags/versions with the versions that are available in your internal registry.
+
+More information on creating the preceding configuration file can be found [here]({{< relref "../kubernetes-operator/#configuration-reference-for-wb-server" >}}). 
 
 ## Step 7: Deploy the W&B platform
 
