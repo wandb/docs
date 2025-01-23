@@ -36,8 +36,11 @@ $teal-600: #038194;
 // Border colors
 $border-default: $moon-200;      // Using moon-200 instead of moon-250
 $border-hover: $moon-350;        // color/moon/350
+$border-active: $teal-500;       // color/teal/500
+$border-subtle: $moon-100;       // color/moon/100
 $dark-border-default: $moon-750; // color/moon/750
 $dark-border-hover: $moon-650;   // color/moon/650
+$dark-border-subtle: $moon-800;  // color/moon/800
 
 // Border radius
 $border-radius-medium: 8px;   // Used for most components
@@ -217,7 +220,7 @@ $breakpoint-xl: 1200px;   // Large desktop
                 align-items: center !important;
                 padding-left: 0 !important;
                 margin: 0 !important;
-                gap: 16px !important;
+                gap: 8px !important;
 
                 &.main-nav {
                     padding: 0 !important;
@@ -225,13 +228,14 @@ $breakpoint-xl: 1200px;   // Large desktop
 
                     // Nav links base styles
                     .nav-link {
+                        border: 1px solid transparent !important;
                         color: $text-primary !important;
-                        font-weight: $font-weight-regular !important;
+                        font-weight: $font-weight-light !important;
                         transition: all 0.2s ease-in-out !important;
                         border-bottom: none !important;
                         border-radius: $border-radius-medium !important;
                         padding: 6px 8px !important;
-                        font-size: 14px !important;
+                        font-size: 16px !important;
 
                         &:hover {
                             color: $teal-500 !important;
@@ -243,6 +247,7 @@ $breakpoint-xl: 1200px;   // Large desktop
                             color: $teal-500 !important;
                             background-color: rgba($moon-300, 0.2) !important;
                             font-weight: $font-weight-regular !important;
+                            border: 1px solid rgba($moon-300, 0.2) !important;
                         }
                     }
 
@@ -348,9 +353,6 @@ $breakpoint-xl: 1200px;   // Large desktop
                         }
                     }
 
-                    &.main-nav-search {
-                    }
-
                     &.main-nav-right {
                         gap: 16px !important;
 
@@ -358,6 +360,15 @@ $breakpoint-xl: 1200px;   // Large desktop
                             font-size: 16px !important;
                             color: $text-secondary !important;
                         }
+                    }
+                }
+
+                .main-nav-search { 
+                    min-width: 300px !important;
+
+                    .DocSearch.DocSearch-Button {
+                        margin: 0 !important;
+                        min-width: 100% !important;
                     }
                 }
             }
@@ -1227,7 +1238,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
     &-Button {
         font-family: "Source Sans Pro", sans-serif;
         font-size: 16px;
-        width: 300px !important;
         background: transparent !important;
         border: 1px solid $border-default !important;
         
