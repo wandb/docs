@@ -502,9 +502,23 @@ ol.breadcrumb:before {
     margin-right: 10px;
 }
 
+.td-sidebar-nav__section.nav-item.dropdown {
+    font-size: 14px !important;
+    color: $text-secondary !important;
+}
+
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
   margin-bottom: 10px !important;
   margin-top: 5px !important;
+
+  .nav-link.dropdown-toggle {
+    margin-left: 10px !important;
+    font-size: 14px !important;
+
+    &::after {
+      display: none !important;
+    }
+  }
 }
 
 .td-sidebar-nav__section-title {
