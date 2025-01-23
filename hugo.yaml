@@ -87,6 +87,9 @@ outputs:
     - RSS
     - print
 
+services:
+  googleAnalytics:
+    id: GTM-5BL5RTH
 
 params:
   search:
@@ -154,6 +157,7 @@ params:
     authors: Weights & Biases
     from_year: 2017
 
+
   # User interface configuration
   ui:
     # Set to true to disable breadcrumb navigation.
@@ -180,7 +184,6 @@ params:
         Glad to hear it! Please <a href="https://github.com/wandb/docs/issues/new">tell us how we can improve</a>.
       'no': >-
         Sorry to hear that. Please <a href="https://github.com/wandb/docs/issues/new">tell us how we can improve</a>.
-
     # Adds a reading time to the top of each doc.
     # If you want this feature, but occasionally need to remove the Reading time from a single page,
     # add "hide_readingtime: true" to the page's front matter
