@@ -140,7 +140,7 @@ h6, .td-content h6 { font-size: 12px !important; }
 // Lead paragraph
 .td-content .lead {
     font-size: 16px !important;
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
 }
 
 // Reading time
@@ -222,32 +222,33 @@ $breakpoint-xl: 1200px;   // Large desktop
                 margin: 0 !important;
                 gap: 8px !important;
 
+                .nav-item {
+                    padding-inline-end: 0 !important;
+                }
+
                 &.main-nav {
                     padding: 0 !important;
                     margin: 0 !important;
 
                     // Nav links base styles
                     .nav-link {
-                        border: 1px solid transparent !important;
-                        color: $text-primary !important;
-                        font-weight: $font-weight-light !important;
+                        color: $text-secondary !important;
+                        font-weight: $font-weight-regular !important;
                         transition: all 0.2s ease-in-out !important;
                         border-bottom: none !important;
                         border-radius: $border-radius-medium !important;
-                        padding: 6px 8px !important;
+                        padding: 8px 10px !important;
                         font-size: 16px !important;
 
                         &:hover {
-                            color: $teal-500 !important;
                             text-decoration: none !important;
                             background-color: rgba($moon-300, 0.2) !important;
                         }
 
                         &.active {
-                            color: $teal-500 !important;
+                            color: $link-primary !important;
                             background-color: rgba($moon-300, 0.2) !important;
                             font-weight: $font-weight-regular !important;
-                            border: 1px solid rgba($moon-300, 0.2) !important;
                         }
                     }
 
@@ -275,11 +276,10 @@ $breakpoint-xl: 1200px;   // Large desktop
                         .nav-link {
                             font-size: 16px !important;
                             font-weight: $font-weight-regular !important;
-                            color: $dark-text-secondary !important;
+                            color: $text-secondary !important;
                             
                             &:hover {
                                 background-color: transparent !important;
-                                color: $link-primary !important;
                             }
 
                             &::after {
@@ -332,7 +332,7 @@ $breakpoint-xl: 1200px;   // Large desktop
     // Desktop styles (992px and up)
     @media (min-width: $breakpoint-lg) {
         .container-fluid {
-            padding: 8px 16px !important;
+            padding: 8px 24px !important;
             flex-direction: row !important;
             align-items: center !important;
             justify-content: flex-start !important;
@@ -523,7 +523,7 @@ ol.breadcrumb:before {
 
 .td-content .lead {
     font-size: 16px !important;
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
 }
 
 // Table of Contents Component
@@ -837,14 +837,19 @@ img, pre, .highlight, .code-toolbar, .alert {
 img, iframe {
   margin-top: 1rem;
   margin-bottom: 2rem;
-  max-width: 80% !important;
   display: block;
+}
+
+@media (min-width: $breakpoint-lg) {
+    img, iframe {
+        max-width: 80% !important;
+    }
 }
 
 // Override section index heading font weight
 .section-index h5 a, .section-index .h5 a {
   font-size: 20px !important;
-  font-weight: 400 !important;
+  font-weight: $font-weight-regular !important;
 }
 
 // Add dark mode styles using data-bs-theme attribute
