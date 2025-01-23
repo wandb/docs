@@ -1164,6 +1164,63 @@ div.td-page-meta__lastmod {
     }
 }
 
+// Foldable Nav
+nav.foldable-nav .with-child, nav.foldable-nav .without-child {
+    padding-left: 10px !important;
+  }
+  // Update existing chevron styles
+  nav.foldable-nav .ul-1 .with-child {
+      & > label {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          position: relative;
+          padding-right: 20px; // Space for chevron
+          
+          // Remove default chevrons
+          &:before {
+              display: none !important;
+          }
+      }
+  }
+  
+  // Add chevrons to all expandable items
+  nav.foldable-nav .ul-1 .with-child > label:after {
+      content: "\f105" !important; // fa-angle-right (thinner chevron)
+      font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+      font-weight: 900;
+      color: $moon-500;
+      transition: color 0.3s;
+      font-size: 14px;
+      position: absolute;
+      right: 0px;
+      top: 35%;
+      transform: translateY(-50%);
+  }
+  
+  // Change chevron for expanded items
+  nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
+      content: "\f107" !important; // fa-angle-down (thinner chevron)
+  }
+  
+  // Hover states
+  nav.foldable-nav .ul-1 .with-child > label:hover:after {
+      color: $teal-600 !important;
+  }
+  
+  // Dark mode hover state
+  [data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
+      color: $wandb-gold !important;
+  }
+  
+  // Dark mode hover state
+  [data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
+      color: $wandb-gold !important;
+  }
+  
+
+
 // DocSearch Component
 .DocSearch {
     // Button styles
