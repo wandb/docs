@@ -1,4 +1,4 @@
-baseURL: https://docs.wandb.ai
+baseURL: /
 title: Weights & Biases Documentation
 
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
