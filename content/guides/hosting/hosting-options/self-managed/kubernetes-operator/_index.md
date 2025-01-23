@@ -452,26 +452,18 @@ global:
 
 **Other providers (Minio, Ceph, etc.)**
 
-For other S3 compatible providers, set the bucket configuration as a environment variable as follows:
+For other S3 compatible providers, set the bucket configuration as follows:
 ```yaml
 global:
-  extraEnv:
-    "BUCKET": "s3://wandb:changeme@mydb.com/wandb?tls=true"
+  bucket:
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    accessKey: 5WOA500...P5DK7I
+    secretKey: HDKYe4Q...JAp1YyjysnX
 ```
-The variable contains a connection string in this form:
-
-```yaml
-s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
-```
-
-You can optionally tell W&B to only connect over TLS if you configure a trusted SSL certificate for your object store. To do so, add the `tls` query parameter to the url:
-
-```yaml
-s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
-```
-{{% alert color="secondary" %}}
-This works only for a trusted SSL certificate. W&B does not support self-signed certificates.
-{{% /alert %}}
 
 ### MySQL
 
@@ -763,6 +755,59 @@ global:
     aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
     -----END CERTIFICATE-----
 ```
+
+### Custom security context
+
+Each W&B component supports custom security context configurations of the following form:
+
+```yaml
+pod:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 0
+    fsGroup: 1001
+    fsGroupChangePolicy: Always
+    seccompProfile:
+      type: RuntimeDefault
+container:
+  securityContext:
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false 
+```
+
+{{% alert %}}
+The only valid value for `runAsGroup:` is `0`. Any other value is an error.
+{{% /alert %}}
+
+
+To configure the application pod, add a section `app` to your configuration:
+
+```yaml
+global:
+  ...
+app:
+  pod:
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 0
+      fsGroup: 1001
+      fsGroupChangePolicy: Always
+      seccompProfile:
+        type: RuntimeDefault
+  container:
+    securityContext:
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: false 
+```
+The same concept applies to `console`, `weave`, `otel`, `weave-trace`, `flat-run-fields-updater` and `parquet`.
 
 ## Configuration Reference for W&B Operator
 
