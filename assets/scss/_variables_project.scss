@@ -203,9 +203,13 @@ $breakpoint-xl: 1200px;   // Large desktop
     // Base styles (mobile first)
     .container-fluid {
         padding: 8px !important;
+        gap: 8px !important;
 
         .td-navbar-nav-scroll {
+            align-items: center !important;
+            height: auto !important;
             margin-top: 8px !important;
+            gap: 16px !important;
 
             .navbar-nav {
                 display: flex !important;
@@ -214,12 +218,27 @@ $breakpoint-xl: 1200px;   // Large desktop
                 margin: 0 !important;
                 gap: 16px !important;
 
-                // Update mobile light/dark toggle styles
-                .td-light-dark-menu {
-                    display: flex !important;
-                    align-items: center !important;
-                    margin: 0 !important; // Remove top margin to align with other items
+                &.main-nav {
+                    padding: 0 !important;
+                    margin: 0 !important;
                 }
+
+                &.main-nav-right {
+                    padding: 0 !important;
+                    margin: 0 !important;
+                    align-items: center !important;
+                    gap: 0 !important;
+
+                    // Update mobile light/dark toggle styles
+                    .td-light-dark-menu {
+                        display: flex !important;
+                        align-items: center !important;
+                        margin: 0 !important;
+                        gap: 0 !important;
+                        min-width: 0 !important;
+                    }
+                }
+
             }
         }
         
