@@ -27,15 +27,19 @@ Before starting, make sure your environment meets the following requirements:
 ## Step 2: Prepare internal container registry
 
 Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry:
-* docker.io/wandb/controller
-* docker.io/wandb/local
-* docker.io/wandb/console
-* docker.io/bitnami/redis
-* docker.io/otel/opentelemetry-collector-contrib
-* quay.io/prometheus/prometheus
-* quay.io/prometheus-operator/prometheus-config-reloader
+* [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller)
+* [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local)
+* [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console)
+* [`docker.io/bitnami/redis`](https://hub.docker.com/r/bitnami/redis)
+* [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)
+* [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus)
+* [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader)
 
-These images are critical for the successful deployment of W&B components. W&B recommends that you use WSM to prepare the container registry. If your organization already uses an internal container registry, you can add the images to it. Otherwise, follow the proceeding section to use a called WSM to prepare the container repository.
+These images are critical for the successful deployment of W&B components. W&B recommends that you use WSM to prepare the container registry. 
+
+If your organization already uses an internal container registry, you can add the images to it. Otherwise, follow the proceeding section to use a called WSM to prepare the container repository.
+
+You are responsible for tracking the Operator's requirements and for checking for and downloading image upgrades, either by [using WSM]({{< relref "#list-images-and-their-versions" >}}) or by using your organization's own processes.
 
 ### Install WSM
 
