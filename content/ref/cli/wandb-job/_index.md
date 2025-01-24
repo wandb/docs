@@ -1,6 +1,7 @@
 ---
 title: wandb job
 ---
+
 **Usage**
 
 `wandb job [OPTIONS] COMMAND [ARGS]...`
@@ -9,10 +10,12 @@ title: wandb job
 
 Commands for managing and viewing W&B jobs
 
+
 **Options**
 
 | **Option** | **Description** |
 | :--- | :--- |
+
 
 **Commands**
 
@@ -21,3 +24,4 @@ Commands for managing and viewing W&B jobs
 | create | Create a job from a source, without a wandb run. |
 | describe | Describe a launch job. |
 | list | List jobs in a project |
+
