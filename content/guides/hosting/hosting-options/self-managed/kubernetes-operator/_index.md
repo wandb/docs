@@ -478,7 +478,7 @@ global:
     path: wandb
     region: default
     secret:
-      secretName: wandb-bucket
+      secretName: bucket-secret
       accessKeyName: ACCESS_KEY
       secretKeyName: SECRET_KEY
 ```
@@ -506,7 +506,7 @@ global:
      database: wandb_local
      user: wandb
      passwordSecret:
-       name: mysql-wandb-credentials
+       name: database-secret
        passwordKey: MYSQL_WANDB_PASSWORD
 ```
 
@@ -522,7 +522,7 @@ To reference the `license` from a secret:
 ```yaml
 global:
   licenseSecret:
-    name: customer-wandb-license
+    name: license-secret
     key: CUSTOMER_WANDB_LICENSE
 ```
 
@@ -875,7 +875,7 @@ app:
       readOnlyRootFilesystem: false
       allowPrivilegeEscalation: false 
 ```
-The same concept applies to `console`, `weave`, `weave-trace`, `flat-run-fields-updater` and `parquet`.
+The same concept applies to `console`, `weave`, `weave-trace` and `parquet`.
 
 ## Configuration Reference for W&B Operator
 
