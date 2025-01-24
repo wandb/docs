@@ -412,13 +412,12 @@ spec:
         kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
 ```
 
-
 ### Host
 ```yaml
  # Provide the FQDN with protocol
 global:
-  # example host name,  replace with your own
-  host: https://abc-wandb.sandbox-gcp.wandb.ml
+  # example host name, replace with your own
+  host: https://wandb.example.com
 ```
 
 ### Object storage (bucket)
@@ -456,6 +455,7 @@ For other S3 compatible providers, set the bucket configuration as follows:
 ```yaml
 global:
   bucket:
+    # Example values, replace with your own
     provider: s3
     name: storage.example.com
     kmsKey: null
@@ -465,26 +465,65 @@ global:
     secretKey: HDKYe4Q...JAp1YyjysnX
 ```
 
+The `kmsKey` must be `null`.
+
+To reference `accessKey` and `secretKey` from a secret:
+```yaml
+global:
+  bucket:
+    # Example values, replace with your own
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    secret:
+      secretName: wandb-bucket
+      accessKeyName: ACCESS_KEY
+      secretKeyName: SECRET_KEY
+```
+
 ### MySQL
 
 ```yaml
 global:
    mysql:
      # Example values, replace with your own
-     database: wandb_local
-     host: 10.218.0.2
-     name: wandb_local
-     password: 8wtX6cJH...ZcUarK4zZGjpV
+     host: db.example.com
      port: 3306
+     database: wandb_local
      user: wandb
+     password: 8wtX6cJH...ZcUarK4zZGjpV 
+```
+
+To reference the `password` from a secret:
+```yaml
+global:
+   mysql:
+     # Example values, replace with your own
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     passwordSecret:
+       name: mysql-wandb-credentials
+       passwordKey: MYSQL_WANDB_PASSWORD
 ```
 
 ### License
 
 ```yaml
 global:
-  # Example license,  replace with your own
+  # Example license, replace with your own
   license: eyJhbGnUzaHgyQjQy...VFnPS_KETXg1hi
+```
+
+To reference the `license` from a secret:
+```yaml
+global:
+  licenseSecret:
+    name: customer-wandb-license
+    key: CUSTOMER_WANDB_LICENSE
 ```
 
 ### Ingress
@@ -620,7 +659,7 @@ global:
     caCert: ""
 ```
 
-Alternatively with redis password in a Kubernetes secret:
+To reference the `password` from a secret:
 
 ```console
 kubectl create secret generic redis-secret --from-literal=redis-password=supersecret
@@ -709,9 +748,12 @@ global:
     oidc:
       clientId: ""
       secret: ""
+      # Only include if your IdP requires it.
       authMethod: ""
       issuer: ""
 ```
+
+`authMethod` is optional. 
 
 ### SMTP
 
@@ -756,6 +798,32 @@ global:
     -----END CERTIFICATE-----
 ```
 
+CA certificates can also be stored in a ConfigMap:
+```yaml
+global:
+  caCertsConfigMap: custom-ca-certs
+```
+
+The ConfigMap must look like this:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+**Important:**
+If using a ConfigMap, each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
+
 ### Custom security context
 
 Each W&B component supports custom security context configurations of the following form:
@@ -784,7 +852,7 @@ The only valid value for `runAsGroup:` is `0`. Any other value is an error.
 {{% /alert %}}
 
 
-To configure the application pod, add a section `app` to your configuration:
+Example: To configure the application pod, add a section `app` to your configuration:
 
 ```yaml
 global:
@@ -807,7 +875,7 @@ app:
       readOnlyRootFilesystem: false
       allowPrivilegeEscalation: false 
 ```
-The same concept applies to `console`, `weave`, `otel`, `weave-trace`, `flat-run-fields-updater` and `parquet`.
+The same concept applies to `console`, `weave`, `weave-trace`, `flat-run-fields-updater` and `parquet`.
 
 ## Configuration Reference for W&B Operator
 
@@ -839,6 +907,31 @@ customCACerts:
   aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
   -----END CERTIFICATE-----
 ```
+
+CA certificates can also be stored in a ConfigMap:
+```yaml
+caCertsConfigMap: custom-ca-certs
+```
+
+The ConfigMap must look like this:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+**Important:**
+Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
 
 ## FAQ
 
