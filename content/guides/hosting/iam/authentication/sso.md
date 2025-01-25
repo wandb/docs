@@ -184,9 +184,9 @@ If you're unable to log in to your instance after configuring SSO, you can resta
 
 {{< tabpane text=true >}}
 {{% tab header="System Console" value="console" %}}
-The System Console is the successor to the System Settings page. It is available with the [W&B Kubernetes Operator]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator.md" >}}) based deployment.
+The System Console is the successor to the System Settings page. It is available with the [W&B Kubernetes Operator]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/" >}}) based deployment.
 
-1. Refer to [Access the W&B Management Console]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator.md#access-the-wb-management-console" >}}).
+1. Refer to [Access the W&B Management Console]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#access-the-wb-management-console" >}}).
 
 2. Navigate to **Settings**, then **Authentication**. Select **OIDC** in the **Type** dropdown.
     {{< img src="/images/hosting/sso_configure_via_console.png" alt="" >}}
