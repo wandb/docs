@@ -122,7 +122,7 @@ Along with the container images, you also must ensure that the following Helm ch
 - [W&B Platform](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
 
 
-The `operator` chart is used to deploy the W&B Operator, or the Controller Manager. While the `platform` chart is used to deploy the W&B Platform using the values configured in the custom resource definition (CRD).
+The `operator` chart is used to deploy the W&B Operator aka the Controller Manager. While the `platform` chart is used to deploy the W&B Platform using the values configured in the custom resource definition (CRD).
 
 ## Step 4: Set up Helm repository
 
@@ -148,20 +148,20 @@ airgapped: true
 ```
 
 Replace the tag with the version that is available in your internal registry.
-Execute the following to install the operator:
+Execute the following to install the operator and the CRD:
 ```bash
 helm upgrade --install operator wandb/operator -n wandb --create-namespace -f values.yaml
 ```
 
 You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
-## Step 6: Configure W&B Custom Resource Definition 
+## Step 6: Configure W&B Custom Resource 
 
-After installing the W&B Kubernetes operator, you must configure the Custom Resource Definition (CRD) to point to your internal Helm repository and container registry.
+After installing the W&B Kubernetes operator, you must configure the Custom Resource (CR) to point to your internal Helm repository and container registry.
 
 This configuration ensures that the Kubernetes operators uses your internal registry and repository are when it deploys the required components of the W&B platform. 
 
-Save this example CRD as a file named `wandb.yaml`.
+Save this example CR as a file named `wandb.yaml`.
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -219,7 +219,7 @@ spec:
     
 ```
 
-To deploy the W&B platform, the Kubernetes Operator uses the `operator-wandb` chart from your internal repository and use the values from your CRD to configure the Helm chart.
+To deploy the W&B platform, the Kubernetes Operator uses the `operator-wandb` chart from your internal repository and use the values from your CR to configure the Helm chart.
 
 Replace all tags/versions with the versions that are available in your internal registry.
 
@@ -227,7 +227,7 @@ More information on creating the preceding configuration file can be found [here
 
 ## Step 7: Deploy the W&B platform
 
-Finally, after setting up the Kubernetes operator and the CRD, deploy the W&B platform using the following command:
+Finally, after setting up the Kubernetes operator and the CR, deploy the W&B platform using the following command:
 
 ```bash
 kubectl apply -f wandb.yaml
