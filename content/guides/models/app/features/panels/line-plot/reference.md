@@ -67,7 +67,10 @@ You can set the [smoothing coefficient]({{< relref "/support/formula_smoothing_a
 
 ## Ignore outliers
 
-Ignore outliers sets the graph's Y-axis range from 5% to 95%, rather than from 0% to 100% to make all data visible.
+Rescale the plot to exclude outliers from the default plot min and max scale. The setting's impact on the plot depends on the plot's sampling mode.
+
+- For plots that use [random sampling mode]({{< relref "sampling.md#random-sampling" >}}), shows only points from 5% to 95%, rather than from 0% to 100%.
+- For plots that use [full fidelity mode]({{< relref "sampling.md#full-fidelity" >}}), hides the portion of the chart from 0-5% and from 95% to 100%, rather than only hiding the points within the plot.
 
 ## Expression
 
