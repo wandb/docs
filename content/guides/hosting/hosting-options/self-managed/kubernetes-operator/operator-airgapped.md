@@ -199,7 +199,7 @@ spec:
       extraEnv:
         ENABLE_REGISTRY_UI: 'true'
     
-    # Ensre it's set to use your own MySQL
+    # Ensure it's set to use your own MySQL
     mysql:
       install: false
 
