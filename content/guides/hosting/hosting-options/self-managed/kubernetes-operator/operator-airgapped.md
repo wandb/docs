@@ -196,6 +196,8 @@ spec:
         password: password
         port: 3306
         user: wandb
+      extraEnv:
+        ENABLE_REGISTRY_UI: 'true'
     
     # Ensre it's set to use your own MySQL
     mysql:
