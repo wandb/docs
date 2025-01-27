@@ -132,6 +132,8 @@ helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
            password: password
            port: 3306
            user: wandb
+         extraEnv:
+           ENABLE_REGISTRY_UI: 'true'
 
        # Ensure it's set to use your own MySQL
        mysql:
