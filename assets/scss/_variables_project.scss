@@ -36,8 +36,11 @@ $teal-600: #038194;
 // Border colors
 $border-default: $moon-200;      // Using moon-200 instead of moon-250
 $border-hover: $moon-350;        // color/moon/350
+$border-active: $teal-500;       // color/teal/500
+$border-subtle: $moon-100;       // color/moon/100
 $dark-border-default: $moon-750; // color/moon/750
 $dark-border-hover: $moon-650;   // color/moon/650
+$dark-border-subtle: $moon-800;  // color/moon/800
 
 // Border radius
 $border-radius-medium: 8px;   // Used for most components
@@ -82,7 +85,7 @@ $dark-bg-disabled: $moon-650;     // color/moon/650
 $nav-bg: rgb(26, 28, 31);
 $wandb-gold: #FFCC33;
 $wandb-link-blue: rgb(7, 177, 196);
-$hover-bg: #A9EDF248;
+$hover-bg: #A9EDF260;
 
 // Gradients
 $sunset-gradient: linear-gradient(98deg, #e180ff 0%, #ffcf4d 100%);
@@ -94,6 +97,11 @@ $font-weight-regular: 400;
 $font-weight-medium: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
+
+// Bootstrap overrides
+:root {
+    --bs-nav-link-font-size: 18px;
+}
 
 // Typography Component
 // Base body styles
@@ -132,7 +140,7 @@ h6, .td-content h6 { font-size: 12px !important; }
 // Lead paragraph
 .td-content .lead {
     font-size: 16px !important;
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
 }
 
 // Reading time
@@ -169,6 +177,7 @@ a {
 
 // shrink the right nav a bit
 .td-page-meta {
+    display: none !important;
     font-size: 16px !important;
     a {
         padding-bottom: 15px;
@@ -182,111 +191,264 @@ a {
 // hide left nav label 
 .tree-root { display: none !important;}
 
-// Target links in the navigation and make them white with consistent font-weight
-.td-navbar .nav-link {
-    color: $moon-white !important;
-    font-weight: $font-weight-regular !important;  // Ensure consistent font-weight in main nav
+// First define breakpoints
+$breakpoint-sm: 576px;    // Phone
+$breakpoint-md: 768px;    // Tablet
+$breakpoint-lg: 992px;    // Desktop
+$breakpoint-xl: 1200px;   // Large desktop
 
-    &:hover {
-        color: $wandb-gold !important;
-        text-decoration: none !important;
-    }
-}
-
-// Align left-nav with logo
-.td-sidebar-nav {
-  padding-left: 15px !important;
-}
-// Ensure active nav link maintains same weight
-.nav-link.active {
-    border-bottom: 2px solid $wandb-gold !important;
-    font-weight: $font-weight-regular !important;  // Keep consistent with other nav links
-}
-
-nav.foldable-nav .with-child, nav.foldable-nav .without-child {
-  padding-left: 10px !important;
-}
-// Update existing chevron styles
-nav.foldable-nav .ul-1 .with-child {
-    & > label {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        position: relative;
-        padding-right: 20px; // Space for chevron
-        
-        // Remove default chevrons
-        &:before {
-            display: none !important;
-        }
-    }
-}
-
-// Add chevrons to all expandable items
-nav.foldable-nav .ul-1 .with-child > label:after {
-    content: "\f105" !important; // fa-angle-right (thinner chevron)
-    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
-    font-weight: 900;
-    color: $moon-500;
-    transition: color 0.3s;
-    font-size: 14px;
-    position: absolute;
-    right: 0px;
-    top: 35%;
-    transform: translateY(-50%);
-}
-
-// Change chevron for expanded items
-nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
-    content: "\f107" !important; // fa-angle-down (thinner chevron)
-}
-
-// Hover states
-nav.foldable-nav .ul-1 .with-child > label:hover:after {
-    color: $teal-600 !important;
-}
-
-// Dark mode hover state
-[data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
-    color: $wandb-gold !important;
-}
-
-// Ensure hover state for nav links doesn't change color
+// Consolidated navbar styles with mobile-first approach
 .td-navbar {
-    color: $moon-white;
-    background-color: $nav-bg !important;
+    background-color: $bg-primary !important;
+    padding: 0 !important;
+    border-bottom: 1px solid $border-default !important;
 
-    // Hide the doc site name from top-left
+    // Base styles (mobile first)
+    .container-fluid {
+        padding: 8px !important;
+        gap: 16px !important;
+
+        .td-navbar-nav-scroll {
+            align-items: center !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            gap: 16px !important;
+
+            .navbar-nav {
+                display: flex !important;
+                align-items: center !important;
+                padding-left: 0 !important;
+                margin: 0 !important;
+                gap: 8px !important;
+
+                .nav-item {
+                    padding-inline-end: 0 !important;
+                }
+
+                &.main-nav {
+                    padding: 0 !important;
+                    margin: 0 !important;
+
+                    // Nav links base styles
+                    .nav-link {
+                        color: $text-secondary !important;
+                        font-weight: $font-weight-regular !important;
+                        transition: all 0.2s ease-in-out !important;
+                        border-bottom: none !important;
+                        border-radius: $border-radius-medium !important;
+                        padding: 8px 10px !important;
+                        font-size: 16px !important;
+
+                        &:hover {
+                            text-decoration: none !important;
+                            background-color: rgba($moon-300, 0.2) !important;
+                        }
+
+                        &.active {
+                            color: $link-primary !important;
+                            background-color: rgba($moon-300, 0.2) !important;
+                            font-weight: $font-weight-regular !important;
+                        }
+                    }
+
+                }
+
+                &.main-nav-right {
+                    padding: 0 !important;
+                    margin: 0 !important;
+                    align-items: center !important;
+                    gap: 0 !important;
+
+                    // Update mobile light/dark toggle styles
+                    .td-light-dark-menu {
+                        display: flex !important;
+                        align-items: center !important;
+                        margin: 0 !important;
+                        gap: 0 !important;
+                        min-width: 0 !important;
+                    }
+
+                        // Dropdown styles
+                    .nav-item.dropdown {
+                        margin: 0 !important;
+
+                        .nav-link {
+                            font-size: 16px !important;
+                            font-weight: $font-weight-regular !important;
+                            color: $text-secondary !important;
+                            
+                            &:hover {
+                                background-color: transparent !important;
+                            }
+
+                            &::after {
+                                display: none !important;
+                            }
+
+                            [data-bs-theme=dark] & {
+                                color: $dark-text-secondary !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Brand/logo styles
+    .navbar-brand {
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 !important;
+        margin-right: 0 !important;
+        
+        .navbar-logo {
+            display: block;
+            width: auto;
+            height: auto;
+            margin: 0 !important;
+
+            svg {
+                margin: 0 !important;
+                width: 100%;
+            }
+        }
+    }
+
+    // Hide the doc site name
     .navbar-brand__name { 
-        display: none; 
+        display: none !important;
     }
 
-    // Navigation links
-    .nav-link {
-        color: $moon-white !important;
-        font-weight: $font-weight-regular !important;
 
-        &:hover {
-            color: $wandb-gold !important;
-            text-decoration: none !important;
+    // Tablet styles (577px and up)
+    @media (min-width: $breakpoint-sm + 1) {
+        .container-fluid {
+            padding: 8px 12px !important;
         }
 
-        &.active {
-            border-bottom: 2px solid $wandb-gold !important;
-            font-weight: $font-weight-regular !important;
+        .navbar-brand {
+            margin-right: 1rem !important;
         }
     }
 
-    // Dark mode overrides
+    // Desktop styles (992px and up)
+    @media (min-width: $breakpoint-lg) {
+        .container-fluid {
+            padding: 8px 24px !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 32px !important;
+
+            .td-navbar-nav-scroll {
+                flex-grow: 1 !important;
+
+                .navbar-nav {
+                    
+                    &.main-nav {
+                        flex-grow: 1 !important;
+                        gap: 16px !important;
+                        
+                        .nav-link {
+                            padding: 6px 12px !important;
+                            font-size: 18px !important;
+                        }
+                    }
+
+                    &.main-nav-right {
+                        gap: 16px !important;
+
+                        .nav-link{
+                            font-size: 16px !important;
+                            color: $text-secondary !important;
+                        }
+                    }
+                }
+
+                .main-nav-search { 
+                    min-width: 300px !important;
+
+                    .DocSearch.DocSearch-Button {
+                        margin: 0 !important;
+                        min-width: 100% !important;
+                    }
+                }
+            }
+        }
+
+
+        .nav-item.dropdown {
+            &.d-none.d-lg-block,
+            &.td-light-dark-menu {
+                margin: 0 4px !important;
+
+                .nav-link {
+                    font-size: 16px !important;
+                }
+            }
+        }
+    }
+
+    // Dark mode styles
     [data-bs-theme=dark] & {
-        // Add any specific dark mode styles if needed
-    }
-}
+        background-color: $dark-bg-primary !important;
+        border-bottom: 1px solid $dark-border-default !important;
 
-// Apply same background color to navbar when scrolling
-.js-navbar-scroll {
-    background-color: $nav-bg !important;
+        &.js-navbar-scroll {
+            background-color: $dark-bg-primary !important;
+        }
+
+        .td-navbar-nav-scroll {
+
+            .navbar-nav {
+
+                &.main-nav {
+                    .nav-link {
+                        color: $moon-white !important;
+                        
+                        &:hover {
+                            color: $teal-500 !important;
+                        }
+                        
+                        &.active {
+                            color: $teal-500 !important;
+                        }
+                    }
+                }
+
+                .nav-item.dropdown {
+                    &.d-none.d-lg-block,
+                    &.td-light-dark-menu {
+                        .nav-link {
+                            color: $dark-text-primary !important;
+                            
+                            &:hover {
+                                color: $dark-link-primary !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Update the light/dark menu styles
+    .td-light-dark-menu {
+        &.nav-item.dropdown {
+            margin: 0 2px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        // Hide from navbar-right on mobile
+        &.d-none {
+            @media (max-width: #{$breakpoint-lg - 1}) {
+                display: none !important;
+            }
+        }
+    }
 }
 
 // headings use WandB serif font
@@ -338,19 +500,29 @@ h6, .td-content h6 {
   }
 }
 
-.td-navbar, .js-navbar-scroll {
-    background-color: $nav-bg !important;
-}
-
 ol.breadcrumb:before {
     content: "🏠︎" !important;
     color: grey; filter: grayscale(100%);
     margin-right: 10px;
 }
 
+.td-sidebar-nav__section.nav-item.dropdown {
+    font-size: 14px !important;
+    color: $text-secondary !important;
+}
+
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
   margin-bottom: 10px !important;
   margin-top: 5px !important;
+
+  .nav-link.dropdown-toggle {
+    margin-left: 10px !important;
+    font-size: 14px !important;
+
+    &::after {
+      display: none !important;
+    }
+  }
 }
 
 .td-sidebar-nav__section-title {
@@ -369,7 +541,7 @@ ol.breadcrumb:before {
 
 .td-content .lead {
     font-size: 16px !important;
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
 }
 
 // Table of Contents Component
@@ -380,8 +552,7 @@ ol.breadcrumb:before {
 
     // Add "On this page" header
     &:before { 
-        content: "On this page"; 
-        font-weight: bold; 
+        content: "On this page";
         color: $text-primary;
 
         [data-bs-theme=dark] & {
@@ -420,6 +591,50 @@ ol.breadcrumb:before {
     // Dark mode
     [data-bs-theme=dark] & {
         color: $dark-text-primary;
+    }
+}
+
+// tabs
+ul {
+    &.nav-tabs {
+        border-bottom: none !important;
+
+        li {
+            &.nav-item {
+                margin: 0 !important;
+
+                button {
+                    color: $text-primary !important;
+                    
+                    &.active {
+                        color: $link-primary !important;
+                        background-color: var(--td-pre-bg) !important;
+                        border-bottom-color: var(--td-pre-bg) !important;
+                    }
+
+                    // Add dark mode styles
+                    [data-bs-theme=dark] & {
+                        color: $dark-text-primary !important;
+                        
+                        &.active {
+                            color: $dark-link-primary !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.tab-content {
+    > .tab-pane {
+        border-radius: 0 $border-radius-medium $border-radius-medium $border-radius-medium !important;
+        border: 1px solid $border-default !important;
+
+        // Add dark mode styles
+        [data-bs-theme=dark] & {
+            border-color: $dark-border-default !important;
+        }
     }
 }
 
@@ -640,14 +855,19 @@ img, pre, .highlight, .code-toolbar, .alert {
 img, iframe {
   margin-top: 1rem;
   margin-bottom: 2rem;
-  max-width: 80% !important;
   display: block;
+}
+
+@media (min-width: $breakpoint-lg) {
+    img, iframe {
+        max-width: 80% !important;
+    }
 }
 
 // Override section index heading font weight
 .section-index h5 a, .section-index .h5 a {
   font-size: 20px !important;
-  font-weight: 400 !important;
+  font-weight: $font-weight-regular !important;
 }
 
 // Add dark mode styles using data-bs-theme attribute
@@ -769,7 +989,7 @@ img, iframe {
 .td-content > .d-print-none {  // Target only the feedback section at bottom of content
     margin-top: 4rem;
     display: flex;
-    align-items: center; // Vertically align all items
+    align-items: center; // Change back to center for vertical alignment
     flex-wrap: wrap; // Allow wrapping on smaller screens
     gap: 8px; // Consistent spacing between elements
 
@@ -778,14 +998,20 @@ img, iframe {
         display: none;
     }
 
-    // Question styling
+    // Question and buttons container
     .feedback--question {
-        margin: 0; // Remove default margins
-        padding-right: 16px; // Add some space between question and buttons
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 16px;
     }
 
+    // Buttons container
     .btn {
         min-width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &.feedback--answer-no {
             margin: 0 !important;
@@ -794,8 +1020,72 @@ img, iframe {
 
     // Response styling
     .feedback--response {
-        width: 100%; // Full width for responses
+        width: 100%;
         margin-top: 1rem;
+    }
+}
+
+// Last modified date with feedback links - mobile styles
+div.td-page-meta__lastmod {
+    display: flex !important;
+    flex-direction: column !important; // Stack elements vertically on mobile
+    gap: 8px !important;
+    color: $text-secondary !important;
+    font-size: 14px !important;
+    margin-top: 0 !important;
+
+    // Container for last modified text and commit link
+    &:first-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+
+    // Style the commit link
+    a {
+        color: $text-secondary !important;
+        &:hover {
+            color: $link-primary !important;
+        }
+    }
+    
+    .feedback--links {
+        display: flex !important;
+        margin-top: 8px !important;
+        align-items: center !important;
+        gap: 16px !important;
+
+        // Style the edit/issue links
+        a {
+            color: $text-secondary !important;
+            &:hover {
+                color: $link-primary !important;
+            }
+        }
+    }
+
+    // Tablet and desktop styles
+    @media (min-width: $breakpoint-lg) {
+        flex-direction: row !important; // Switch to horizontal layout
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        .feedback--links {
+            margin-top: 0 !important;
+            margin-left: auto !important;
+        }
+    }
+
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        color: $dark-text-secondary !important;
+        
+        a {
+            color: $dark-text-secondary !important;
+            &:hover {
+                color: $dark-link-primary !important;
+            }
+        }
     }
 }
 
@@ -842,9 +1132,9 @@ img, iframe {
     }
 }
 
-// Last modified date
-.td-content > .td-page-meta__lastmod {
-    margin-top: 0 !important;
+// Remove feedback links from original location
+.td-content > .d-print-none .feedback--links {
+    display: none !important;
 }
 
 // Update the sidebar navigation styles
@@ -909,12 +1199,71 @@ img, iframe {
     }
 }
 
+// Foldable Nav
+nav.foldable-nav .with-child, nav.foldable-nav .without-child {
+    padding-left: 10px !important;
+  }
+  // Update existing chevron styles
+  nav.foldable-nav .ul-1 .with-child {
+      & > label {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          position: relative;
+          padding-right: 20px; // Space for chevron
+          
+          // Remove default chevrons
+          &:before {
+              display: none !important;
+          }
+      }
+  }
+  
+  // Add chevrons to all expandable items
+  nav.foldable-nav .ul-1 .with-child > label:after {
+      content: "\f105" !important; // fa-angle-right (thinner chevron)
+      font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+      font-weight: 900;
+      color: $moon-500;
+      transition: color 0.3s;
+      font-size: 14px;
+      position: absolute;
+      right: 0px;
+      top: 35%;
+      transform: translateY(-50%);
+  }
+  
+  // Change chevron for expanded items
+  nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
+      content: "\f107" !important; // fa-angle-down (thinner chevron)
+  }
+  
+  // Hover states
+  nav.foldable-nav .ul-1 .with-child > label:hover:after {
+      color: $teal-600 !important;
+  }
+  
+  // Dark mode hover state
+  [data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
+      color: $wandb-gold !important;
+  }
+  
+  // Dark mode hover state
+  [data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
+      color: $wandb-gold !important;
+  }
+  
+
+
 // DocSearch Component
 .DocSearch {
     // Button styles
     &-Button {
         font-family: "Source Sans Pro", sans-serif;
         font-size: 16px;
+        background: transparent !important;
+        border: 1px solid $border-default !important;
         
         &:active,
         &:focus,
@@ -923,6 +1272,35 @@ img, iframe {
             box-shadow: inset 0 0 0 2px $teal-500 !important;
             color: var(--docsearch-text-color);
             outline: none;
+            border-color: $teal-500 !important;
+        }
+
+        // Dark mode styles
+        [data-bs-theme=dark] & {
+            border: 1px solid $dark-border-default !important;
+            
+            &:hover, &:focus, &:active {
+                border-color: $teal-500 !important;
+                box-shadow: inset 0 0 0 2px $teal-450 !important;
+            }
+        }
+    }
+
+    // Placeholder text color
+    &-Button-Placeholder {
+        color: $text-secondary !important;
+        
+        [data-bs-theme=dark] & {
+            color: $dark-text-secondary !important;
+        }
+    }
+
+    // Search icon color
+    &-Search-Icon {
+        color: $text-secondary !important;
+        
+        [data-bs-theme=dark] & {
+            color: $dark-text-secondary !important;
         }
     }
 
@@ -960,17 +1338,25 @@ img, iframe {
     --docsearch-key-shadow: inset 0 -2px 0 0 #{$moon-300} !important;
     --docsearch-searchbox-shadow: inset 0 0 0 2px #{$teal-500} !important;
 
+    .DocSearch-Modal {
+        border-radius: 0 !important;
+        max-width: 800px !important;
+    }
+
     // Search form styles
     .DocSearch-Form {
-        border-radius: $border-radius-medium;
+        border-radius: 30px !important;
     }
 
     // Search results styles
     .DocSearch-Hit {
         border-radius: $border-radius-medium;
         
-        a {
+        > a {
+            box-shadow: none !important;
             border-radius: $border-radius-medium;
+            border: 1px solid $border-default !important;
+
         }
     }
 
@@ -1005,6 +1391,17 @@ img, iframe {
 
     // Dark mode styles
     [data-bs-theme=dark] & {
+
+        .DocSearch-Modal {
+            box-shadow: inset 1px 1px 0 0 hsla(0, 0%, 18%, 0.5), 0 3px 8px 0 $moon-900;
+        }
+
+        .DocSearch-Hit {
+            > a {
+                border: 1px solid $dark-border-default !important;
+            }
+        }
+
         .DocSearch-Hit-source {
             color: $dark-text-secondary !important;
             font-size: 14px !important;
@@ -1012,6 +1409,51 @@ img, iframe {
 
         .DocSearch-Hit-title {
             font-size: 1rem !important;
+        }
+    }
+}
+
+@media (min-width: $breakpoint-lg) {
+    .DocSearch {
+
+        .DocSearch-Modal {
+            border-radius: $border-radius-large !important;
+        }
+    }
+}
+
+// Theme-based logo visibility
+[data-bs-theme="dark"] {
+  .theme-light-only {
+    display: none;
+  }
+  .theme-dark-only {
+    display: block;
+  }
+}
+
+[data-bs-theme="light"] {
+  .theme-light-only {
+    display: block;
+  }
+  .theme-dark-only {
+    display: none;
+  }
+}
+
+
+// Add consistent padding for main content
+.td-main {
+    main {
+        &.ps-md-5 {
+            padding-left: 2rem !important;
+            padding-right: 2rem !important;
+
+            // Tablet (768px and up)
+            @media (min-width: $breakpoint-md) {
+                padding-left: 3rem !important;
+                padding-right: 3rem !important;
+            }
         }
     }
 }
