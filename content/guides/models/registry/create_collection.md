@@ -164,3 +164,133 @@ The following steps describe how to create a collection within a registry using 
 12. Click on the **Create collection** button.
 
 {{< img src="/images/registry/create_collection.gif" alt="" >}}
+
+
+## Search for existing collections
+
+Search for an existing collection by name. 
+
+1. Navigate to the W&B Registry at https://wandb.ai/registry.
+2. Click on a registry card.
+3. Enter the name of the collection in the search bar at the top of the page.
+
+{{% pageinfo color="info" %}}
+Consider searching for a collection with global search if you are unsure which registry contains the collection you are looking for.
+<!-- See the Search for more information. -->
+{{% /pageinfo %}}
+
+## Organize collections with tags
+
+Add one or more tags to a collection to organize and categorize collections. Tags help you quickly find collections that belong to a specific category or have a specific attribute.
+
+
+### Add a tag to a collection
+
+Use the W&B App UI or Python SDK to add a tag to a collection:
+
+{{< tabpane text=true >}}
+{{% tab header="W&B App" %}}
+
+Use the W&B App UI to add a tag to a collection:
+
+1. Navigate to the W&B Registry at https://wandb.ai/registry
+2. Click on a registry card
+3. Click **View details** next to the name of a collection
+4. Within the collection card, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
+5. Press **Enter** on your keyboard
+
+{{< img src="/images/registry/add_tag_collection.gif" alt="" >}}
+
+{{% /tab %}}
+{{% tab header="Python SDK" %}}
+
+```python
+import wandb
+
+COLLECTION_TYPE = "<collection_type>"
+ORG_NAME = "<org_name>"
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+
+full_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+collection = wandb.Api().artifact_collection(
+  type_name = COLLECTION_TYPE, 
+  name = full_name
+  )
+
+collection.tags = ["your-tag"]
+collection.save()
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+Tags you add to a collection appear next to the name of that collection.
+
+For example, in the proceeding image, a tag called "tag1" was added to the "zoo-dataset-tensors" collection.
+
+{{< img src="/images/registry/tag_collection.png" alt="" >}}
+
+### Update a collection's tags
+
+<!-- To do: add interactive steps -->
+
+Update a tag programmatically by reassigning or by mutating the `tags` attribute. W&B recommends, and it is good Python practice, that you reassign the `tags` attribute instead of in-place mutation.
+
+For example, the proceeding code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to a collection section]({{< relref "#add-a-tag-to-a-collection" >}}): 
+
+```python
+collection.tags = [*collection.tags, "new-tag", "other-tag"]
+collection.tags = collection.tags + ["new-tag", "other-tag"]
+
+collection.tags = set(collection.tags) - set(tags_to_delete)
+collection.tags = []  # deletes all tags
+```
+
+The following code snippet shows how you can use in-place mutation to update tags that belong to an artifact version:
+
+```python
+collection.tags += ["new-tag", "other-tag"]
+collection.tags.append("new-tag")
+
+collection.tags.extend(["new-tag", "other-tag"])
+collection.tags[:] = ["new-tag", "other-tag"]
+collection.tags.remove("existing-tag")
+collection.tags.pop()
+collection.tags.clear()
+```
+
+### View existing tags in a collection
+
+View tags to belong to a collection within the collection card:
+
+1. Navigate to the W&B Registry at https://wandb.ai/registry.
+2. Click on a registry card.
+3. Click **View details** next to the name of a collection.
+
+
+### Search for a specific collection tag
+
+Search through tags to find specific attributes or categories that a collection belongs to. To search for a specific tag:
+
+1. Navigate to the W&B Registry at https://wandb.ai/registry.
+2. Select the name of the registry that contains the collection you want to view tags for.
+3. Enter the tags in the search bar at the top of the page.
+
+{{< img src="/images/registry/search_tags.gif" alt="" >}}
+
+<!-- If a collection has one or more tags, you can view those tags within the collection card next to the **Tags** field.
+
+{{< img src="/images/registry/tag_collection_selected.png" alt="" >}} -->
+
+
+### Remove a tag from a collection
+
+Use the W&B App UI to remove a tag from a collection:
+
+1. Navigate to the W&B Registry at https://wandb.ai/registry.
+2. Click on a registry card.
+3. Click **View details** next to the name of a collection.
+4. Within the collection card, hover your mouse over the name of the tag you want to remove.
+5. Click on the cancel button (**X** icon).
