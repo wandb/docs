@@ -1357,4 +1357,9 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
 {
     color: $text-tertiary !important;
     border: $text-tertiary !important;
+    background-color: transparent !important;
+    [data-bs-theme=dark] & {
+        color: $dark-text-tertiary !important;
+        border: $dark-text-tertiary !important;
+    }
 }
