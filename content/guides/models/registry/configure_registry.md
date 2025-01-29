@@ -9,18 +9,20 @@ weight: 3
 
 <!-- A registry, and the linked artifacts inside a registry, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, if that team has correct access control. -->
 
-Registry admins can limit who can access a registry by navigating to a registry's settings and assigning a user's role to [Admin, Member, or Viewer]({{< relref "#registry-roles-permissions" >}}). Users can have different roles in different registries. For example, a user can have a view role in "Registry A" and a member role in the "Registry B". 
+<!-- Registry admins can limit who can access a registry by navigating to a registry's settings and assigning a user's role to [Admin, Member, or Viewer]({{< relref "#registry-roles-permissions" >}}).   -->
+
+Registry administrators can assign each user in an organization a *registry role* to control that user's permissions. Registry roles determine what users can do in a given registry. 
 
 {{% alert %}}
 Only registry admins can [restrict visibility]({{< relref "#restrict-visibility-to-a-registry" >}}), [configure user roles]({{< relref "#configure-user-roles-in-a-registry" >}}), or [remove users]({{< relref "#remove-a-user-from-a-registry" >}}) from registries in an organization.
 {{% /alert %}}
 
-## Registry roles permissions
+## Registry role permissions
 
-A user within an organization can have different roles, and therefore permissions, for each registry in their organization.
+A user can have different roles in different registries. For example, a user can have a `Viewer` role in "Registry A" and a `Member` role in the "Registry B".
 
 {{% alert title="W&B role types" %}}
-W&B has three different types of roles: Organization roles, [team roles]({{< relref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}), and [registry roles]({{< relref "#registry-roles-permissions" >}}).
+There are two different types of roles in W&B: [Team roles]({{< relref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}) and [Registry roles]({{< relref "#registry-roles-permissions" >}}).
 
 Your role in a team has no impact or relationship on your role in any registry.
 {{% /alert %}}
@@ -78,36 +80,3 @@ The proceeding table lists the different roles a user can have and their permiss
 
 
 
-## Registry visibility types
-
-There are two registry visibility types: restricted or organization visibility. The following table describes who has access to the registry by default:
-
-| Visibility | Description | Default role | Example |
-| --- | --- | --- | --- |
-| Organization | Everyone in the org can access the registry. | By default, organization administrators are an admin for the registry. All other users are a viewer in the registry by default. | Core registry |
-| Restricted   | Only invited org members can access the registry.| The user who created the restricted registry is the only user in the registry by default, and is the organization's owner. | Custom registry or core registry |
-
-
-## Restrict visibility to a registry
-<!-- Who can do this? -->
-Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. A custom registry can have either restricted or organization visibility. For more information on registry visibilities, see [Registry visibility types]({{< relref "./configure_registry.md#registry-visibility-types" >}}).
-
-<!-- | Visibility | Description |
-| --- | --- |
-| Organization | Anyone in the organization can view the registry. |
-| Restricted   | Only invited organization members can view and edit the registry.|  -->
-
-The following steps describe how to restrict the visibility of a custom registry that already exists:
-
-1. Navigate to the **Registry** App in the W&B App UI.
-2. Select a registry.
-3. Click on the gear icon on the upper right hand corner.
-4. From the **Registry visibility** dropdown, select the desired registry visibility.
-
-Continue if you select **Restricted visibility**:
-
-5. Add members of your organization that you want to have access to this registry. Scroll to the **Registry members and roles** section and click on the **Add member** button. 
-6. Within the **Member** field, add the email or username of the member you want to add.
-7. Click **Add new member**.
-
-{{< img src="/images/registry/change_registry_visibility.gif" alt="" >}}
