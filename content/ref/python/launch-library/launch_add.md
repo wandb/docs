@@ -2,7 +2,7 @@
 title: launch_add
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/launch/_launch_add.py#L34-L131 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/launch/_launch_add.py#L34-L131 >}}
 
 Enqueue a W&B launch experiment. With either a source uri, job or docker_image.
 
