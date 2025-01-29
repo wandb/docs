@@ -1290,15 +1290,14 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
 .gs-title {
     font-family: "Source Serif 4", sans-serif !important;
 }
-.gs-title b, .gs-title a, .gsc-cursor-page, .gsc-above-wrapper-area {
+.gs-title b, .gs-title a, .gsc-cursor-page, .gsc-above-wrapper-area, .gcsc-find-more-on-google-query, .gcsc-find-more-on-google-magnifier {
     color: $link-primary !important;
     text-decoration: none !important;
-    
+    font-size: 18px !important;
     &:hover {
         color: $link-hover !important;
         text-decoration: none !important;
     }
-
     [data-bs-theme=dark] & {
         color: $dark-link-primary !important;
         
@@ -1310,15 +1309,21 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
 .gsc-above-wrapper-area a:hover{
      background-color: $bg-secondary !important;
 }
- .gsc-result-info, .gs-per-result-labels {
+.gsc-result-info, .gs-per-result-labels {
     font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 14px !important;
     color: $text-secondary !important;
     [data-bs-theme=dark] & {
         color: $dark-text-secondary !important;
     }
 }
+.gsc-refinementBlock span {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
 .gs-visibleUrl-breadcrumb {
     font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 14px !important;
     color: $text-tertiary !important;
     [data-bs-theme=dark] & {
         color: $wandb-gold !important;
@@ -1327,12 +1332,13 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
 
 .gs-snippet, .gsc-refinementHeader {
     font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 16px !important;
     color: $text-primary !important;
     [data-bs-theme=dark] & {
         color: $dark-text-primary !important;
     }
 }
-.gcsc-find-more-on-google, .gsc-above-wrapper-area {
+.gsc-above-wrapper-area {
     display: none !important;
 }
 body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
@@ -1362,4 +1368,7 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
         color: $dark-text-tertiary !important;
         border: $dark-text-tertiary !important;
     }
+}
+.gcsc-find-more-on-google {
+    display: none !important;
 }
