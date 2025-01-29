@@ -204,10 +204,6 @@ params:
         desc: Connect with the worldwide community of W&B users.
     # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
     developer:
-      - name: W&B on GitHub
-        url: https://github.com/wandb/
-        icon: fab fa-github
-        desc: The Weights & Biases GitHub organization has all our open-source projects for you to view
       - name: W&B on YouTube
         url: https://www.youtube.com/c/WeightsBiases
         icon: fab fa-youtube
