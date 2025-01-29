@@ -1466,7 +1466,7 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
 .gs-title {
     font-family: "Source Serif 4", sans-serif !important;
 }
-.gs-title b, .gs-title a, .gsc-cursor-page {
+.gs-title b, .gs-title a, .gsc-cursor-page, .gsc-above-wrapper-area {
     color: $link-primary !important;
     text-decoration: none !important;
     
@@ -1483,7 +1483,7 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
         }
     }
 }
-.gs-visibleUrl-breadcrumb, .gsc-result-info {
+.gs-visibleUrl-breadcrumb, .gsc-result-info, .gs-per-result-labels {
     font-family: "Source Sans Pro", sans-serif !important;
     color: $text-secondary !important;
     [data-bs-theme=dark] & {
@@ -1497,9 +1497,19 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
         color: $dark-text-primary !important;
     }
 }
-.gcsc-find-more-on-google {
+.gcsc-find-more-on-google, .gsc-above-wrapper-area {
     display: none !important;
 }
 body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
     margin-left: 1.0rem !important;
+}
+.gs-per-result-labels {
+    background-color: $bg-secondary !important;
+    padding: 5px !important;
+    border-radius: $border-radius-medium;
+    font-size: 12px;
+    max-width: fit-content;
+}
+.gs-per-result-labels span {
+    display: none;
 }
