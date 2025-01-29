@@ -106,7 +106,7 @@ $font-weight-bold: 700;
 // Typography Component
 // Base body styles
 body {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: "Source Sans Pro", sans-serif !important;
     font-size: 16px;
     font-weight: $font-weight-regular;
     color: $text-primary;
@@ -1458,3 +1458,48 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
     }
 }
 
+// Google Search style overrides
+.gsc-control-cse, .gsc-webResult.gsc-result, .gsc-cursor-page {
+    background-color: transparent !important;
+    border: 0px !important;
+}
+.gs-title {
+    font-family: "Source Serif 4", sans-serif !important;
+}
+.gs-title b, .gs-title a, .gsc-cursor-page {
+    color: $link-primary !important;
+    text-decoration: none !important;
+    
+    &:hover {
+        color: $link-hover !important;
+        text-decoration: none !important;
+    }
+
+    [data-bs-theme=dark] & {
+        color: $dark-link-primary !important;
+        
+        &:hover {
+            color: $dark-link-hover !important;
+        }
+    }
+}
+.gs-visibleUrl-breadcrumb, .gsc-result-info {
+    font-family: "Source Sans Pro", sans-serif !important;
+    color: $text-secondary !important;
+    [data-bs-theme=dark] & {
+        color: $dark-text-secondary !important;
+    }
+}
+.gs-snippet {
+    font-family: "Source Sans Pro", sans-serif !important;
+    color: $text-primary !important;
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary !important;
+    }
+}
+.gcsc-find-more-on-google {
+    display: none !important;
+}
+body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
+    margin-left: 1.0rem !important;
+}
