@@ -2,7 +2,7 @@
 title: log
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/wandb_run.py#L1628-L1895 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/wandb_run.py#L1611-L1871 >}}
 
 Upload run data.
 
@@ -117,9 +117,6 @@ For more and more detailed examples, see
 
 ### Basic usage
 
-<!--yeadoc-test:init-and-log-basic-->
-
-
 ```python
 import wandb
 
@@ -128,9 +125,6 @@ run.log({"accuracy": 0.9, "epoch": 5})
 ```
 
 ### Incremental logging
-
-<!--yeadoc-test:init-and-log-incremental-->
-
 
 ```python
 import wandb
@@ -143,9 +137,6 @@ run.log({"accuracy": 0.8})
 
 ### Histogram
 
-<!--yeadoc-test:init-and-log-histogram-->
-
-
 ```python
 import numpy as np
 import wandb
@@ -157,9 +148,6 @@ run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
 ### Image from numpy
-
-<!--yeadoc-test:init-and-log-image-numpy-->
-
 
 ```python
 import numpy as np
@@ -175,9 +163,6 @@ run.log({"examples": examples})
 ```
 
 ### Image from PIL
-
-<!--yeadoc-test:init-and-log-image-pillow-->
-
 
 ```python
 import numpy as np
@@ -201,9 +186,6 @@ run.log({"examples": examples})
 
 ### Video from numpy
 
-<!--yeadoc-test:init-and-log-video-numpy-->
-
-
 ```python
 import numpy as np
 import wandb
@@ -220,9 +202,6 @@ run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
 ### Matplotlib Plot
-
-<!--yeadoc-test:init-and-log-matplotlib-->
-
 
 ```python
 from matplotlib import pyplot as plt
