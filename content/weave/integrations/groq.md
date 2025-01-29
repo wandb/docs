@@ -57,8 +57,9 @@ client = Groq(
     api_key=os.environ.get("GROQ_API_KEY"),
 )
 
+
 @weave.op()
-def recommend_places_to_visit(city: str, model: str="llama3-8b-8192"):
+def recommend_places_to_visit(city: str, model: str = "llama3-8b-8192"):
     chat_completion = client.chat.completions.create(
         messages=[
             {
@@ -68,7 +69,7 @@ def recommend_places_to_visit(city: str, model: str="llama3-8b-8192"):
             {
                 "role": "user",
                 "content": city,
-            }
+            },
         ],
         model="llama3-8b-8192",
     )

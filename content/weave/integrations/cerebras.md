@@ -48,16 +48,18 @@ weave.init("cerebras_speedster")
 
 client = Cerebras(api_key=os.environ["CEREBRAS_API_KEY"])
 
+
 # Weave will track the inputs, outputs and code of this function
 @weave.op
 def animal_speedster(animal: str, model: str) -> str:
     "Find out how fast an animal can run"
-    
+
     response = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": f"How fast can a {animal} run?"}],
     )
     return response.choices[0].message.content
+
 
 animal_speedster("cheetah", "llama3.1-8b")
 animal_speedster("ostrich", "llama3.1-8b")
@@ -79,25 +81,26 @@ weave.init("cerebras_speedster")
 
 client = Cerebras(api_key=os.environ["CEREBRAS_API_KEY"])
 
+
 class AnimalSpeedModel(weave.Model):
     model: str
     temperature: float
 
     @weave.op
     def predict(self, animal: str) -> str:
-        "Predict the top speed of an animal"        
+        "Predict the top speed of an animal"
 
         response = client.chat.completions.create(
             model=self.model,
-            messages=[{"role": "user", "content": f"What's the top speed of a {animal}?"}],
-            temperature=self.temperature
+            messages=[
+                {"role": "user", "content": f"What's the top speed of a {animal}?"}
+            ],
+            temperature=self.temperature,
         )
         return response.choices[0].message.content
 
-speed_model = AnimalSpeedModel(
-    model="llama3.1-8b",
-    temperature=0.7
-)
+
+speed_model = AnimalSpeedModel(model="llama3.1-8b", temperature=0.7)
 result = speed_model.predict(animal="cheetah")
 print(result)
 ```

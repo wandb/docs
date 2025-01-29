@@ -19,9 +19,7 @@ from llama_index.core.chat_engine import SimpleChatEngine
 weave.init("llamaindex_demo")
 
 chat_engine = SimpleChatEngine.from_defaults()
-response = chat_engine.chat(
-    "Say something profound and romantic about fourth of July"
-)
+response = chat_engine.chat("Say something profound and romantic about fourth of July")
 print(response)
 ```
 
@@ -87,6 +85,7 @@ Context: {context_str}
 Answer:
 """
 
+
 # highlight-next-line
 class SimpleRAGPipeline(weave.Model):
     chat_llm: str = "gpt-4"
@@ -124,7 +123,7 @@ class SimpleRAGPipeline(weave.Model):
             text_qa_template=prompt_template,
         )
 
-# highlight-next-line
+    # highlight-next-line
     @weave.op()
     def predict(self, query: str):
         query_engine = self.get_query_engine(
@@ -133,6 +132,7 @@ class SimpleRAGPipeline(weave.Model):
         )
         response = query_engine.query(query)
         return {"response": response.response}
+
 
 # highlight-next-line
 weave.init("test-llamaindex-weave")
@@ -175,6 +175,7 @@ eval_examples = [
 llm_judge = OpenAI(model="gpt-4", temperature=0.0)
 evaluator = CorrectnessEvaluator(llm=llm_judge)
 
+
 # highlight-next-line
 @weave.op()
 def correctness_evaluator(query: str, ground_truth: str, model_output: dict):
@@ -182,6 +183,7 @@ def correctness_evaluator(query: str, ground_truth: str, model_output: dict):
         query=query, reference=ground_truth, response=model_output["response"]
     )
     return {"correctness": float(result.score)}
+
 
 # highlight-next-line
 evaluation = weave.Evaluation(dataset=eval_examples, scorers=[correctness_evaluator])

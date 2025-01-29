@@ -39,7 +39,9 @@ import weave
 from vertexai.generative_models import GenerativeModel
 
 weave.init(project_name="vertex-ai-test")
-vertexai.init(project="<YOUR-VERTEXAIPROJECT-NAME>", location="<YOUR-VERTEXAI-PROJECT-LOCATION>")
+vertexai.init(
+    project="<YOUR-VERTEXAIPROJECT-NAME>", location="<YOUR-VERTEXAI-PROJECT-LOCATION>"
+)
 model = GenerativeModel("gemini-1.5-flash-002")
 response = model.generate_content(
     "What's a good name for a flower shop specialising in selling dried flower bouquets?"

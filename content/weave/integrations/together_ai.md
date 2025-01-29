@@ -18,18 +18,18 @@ import openai
 import weave
 
 # highlight-next-line
-weave.init('together-weave')
+weave.init("together-weave")
 
 system_content = "You are a travel agent. Be descriptive and helpful."
 user_content = "Tell me about San Francisco"
 
 # highlight-next-line
 client = openai.OpenAI(
-# highlight-next-line
+    # highlight-next-line
     api_key=os.environ.get("TOGETHER_API_KEY"),
-# highlight-next-line
+    # highlight-next-line
     base_url="https://api.together.xyz/v1",
-# highlight-next-line
+    # highlight-next-line
 )
 chat_completion = client.chat.completions.create(
     model="mistralai/Mixtral-8x7B-Instruct-v0.1",

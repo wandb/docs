@@ -12,10 +12,11 @@ Weave's serialization layer saves and versions objects.
 
     ```python
     import weave
+
     # Initialize tracking to the project 'intro-example'
-    weave.init('intro-example')
+    weave.init("intro-example")
     # Save a list, giving it the name 'cat-names'
-    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    weave.publish(["felix", "jimbo", "billie"], "cat-names")
     ```
 
   </TabItem>
@@ -46,8 +47,8 @@ Saving an object with a name will create the first version of that object if it 
     You can construct a ref and then fetch the object back.
 
     ```python
-    weave.init('intro-example')
-    cat_names = weave.ref('cat-names').get()
+    weave.init("intro-example")
+    cat_names = weave.ref("cat-names").get()
     ```
 
   </TabItem>
@@ -65,8 +66,8 @@ Saving an object with a name will create the first version of that object if it 
     To delete a version of an object, call `.delete()` on the object ref.
 
     ```python
-    weave.init('intro-example')
-    cat_names_ref = weave.ref('cat-names:v1')
+    weave.init("intro-example")
+    cat_names_ref = weave.ref("cat-names:v1")
     cat_names_ref.delete()
     ```
 

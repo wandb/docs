@@ -26,6 +26,7 @@ Building on our [basic tracing example](/quickstart), we will now add additional
 
     client = OpenAI()
 
+
     # highlight-next-line
     @weave.op()
     def extract_dinos(sentence: str) -> dict:
@@ -35,16 +36,14 @@ Building on our [basic tracing example](/quickstart), we will now add additional
                 {
                     "role": "system",
                     "content": """Extract any dinosaur `name`, their `common_name`, \
-    names and whether its `diet` is a herbivore or carnivore, in JSON format."""
+    names and whether its `diet` is a herbivore or carnivore, in JSON format.""",
                 },
-                {
-                    "role": "user",
-                    "content": sentence
-                }
-                ],
-                response_format={ "type": "json_object" }
-            )
+                {"role": "user", "content": sentence},
+            ],
+            response_format={"type": "json_object"},
+        )
         return response.choices[0].message.content
+
 
     # highlight-next-line
     @weave.op()
@@ -52,6 +51,7 @@ Building on our [basic tracing example](/quickstart), we will now add additional
         # count the number of items in the returned list
         k = list(dino_data.keys())[0]
         return len(dino_data[k])
+
 
     # highlight-next-line
     @weave.op()
@@ -64,8 +64,9 @@ Building on our [basic tracing example](/quickstart), we will now add additional
         n_dinos = count_dinos(dino_data)
         return {"n_dinosaurs": n_dinos, "dinosaurs": dino_data}
 
+
     # highlight-next-line
-    weave.init('jurassic-park')
+    weave.init("jurassic-park")
 
     sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
     both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
@@ -152,7 +153,7 @@ Continuing our example from above:
     ```python
     import weave
 
-    weave.init('jurassic-park')
+    weave.init("jurassic-park")
 
     sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
     both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
@@ -160,7 +161,7 @@ Continuing our example from above:
 
     # track metadata alongside our previously defined function
     # highlight-next-line
-    with weave.attributes({'user_id': 'lukas', 'env': 'production'}):
+    with weave.attributes({"user_id": "lukas", "env": "production"}):
         result = dino_tracker(sentence)
     ```
 

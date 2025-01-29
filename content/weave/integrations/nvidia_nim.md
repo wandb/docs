@@ -22,15 +22,22 @@ It’s important to store traces of LLM applications in a central database, both
     ```python
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
     import weave
-    client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.8, max_tokens=64, top_p=1)
-    # highlight-next-line
-    weave.init('emoji-bot')
 
-    messages=[
+    client = ChatNVIDIA(
+        model="mistralai/mixtral-8x7b-instruct-v0.1",
+        temperature=0.8,
+        max_tokens=64,
+        top_p=1,
+    )
+    # highlight-next-line
+    weave.init("emoji-bot")
+
+    messages = [
         {
-          "role": "system",
-          "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
-        }]
+            "role": "system",
+            "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only.",
+        }
+    ]
 
     response = client.invoke(messages)
     ```
@@ -60,10 +67,25 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
     import weave
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
     import requests, random
-    PROMPT="""Emulate the Pokedex from early Pokémon episodes. State the name of the Pokemon and then describe it.
+
+    PROMPT = """Emulate the Pokedex from early Pokémon episodes. State the name of the Pokemon and then describe it.
             Your tone is informative yet sassy, blending factual details with a touch of dry humor. Be concise, no more than 3 sentences. """
-    POKEMON = ['pikachu', 'charmander', 'squirtle', 'bulbasaur', 'jigglypuff', 'meowth', 'eevee']
-    client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.7, max_tokens=100, top_p=1)
+    POKEMON = [
+        "pikachu",
+        "charmander",
+        "squirtle",
+        "bulbasaur",
+        "jigglypuff",
+        "meowth",
+        "eevee",
+    ]
+    client = ChatNVIDIA(
+        model="mistralai/mixtral-8x7b-instruct-v0.1",
+        temperature=0.7,
+        max_tokens=100,
+        top_p=1,
+    )
+
 
     # highlight-next-line
     @weave.op
@@ -87,6 +109,7 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
         else:
             return None
 
+
     # highlight-next-line
     @weave.op
     def pokedex(name: str, prompt: str) -> str:
@@ -94,18 +117,20 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
         # This is your root op that calls out to other ops
         # highlight-next-line
         data = get_pokemon_data(name)
-        if not data: return "Error: Unable to fetch data"
+        if not data:
+            return "Error: Unable to fetch data"
 
-        messages=[
-                {"role": "system","content": prompt},
-                {"role": "user", "content": str(data)}
-            ]
+        messages = [
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": str(data)},
+        ]
 
         response = client.invoke(messages)
         return response.content
 
+
     # highlight-next-line
-    weave.init('pokedex-nvidia')
+    weave.init("pokedex-nvidia")
     # Get data for a specific Pokémon
     pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
     ```
@@ -135,32 +160,33 @@ Navigate to Weave and you can click `get_pokemon_data` in the UI to see the inpu
     import weave
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
 
-    weave.init('grammar-nvidia')
+    weave.init("grammar-nvidia")
 
-    class GrammarCorrectorModel(weave.Model): # Change to `weave.Model`
-      system_message: str
 
-      @weave.op()
-      def predict(self, user_input): # Change to `predict`
-        client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0, max_tokens=100, top_p=1)
+    class GrammarCorrectorModel(weave.Model):  # Change to `weave.Model`
+        system_message: str
 
-        messages=[
-              {
-                  "role": "system",
-                  "content": self.system_message
-              },
-              {
-                  "role": "user",
-                  "content": user_input
-              }
-              ]
+        @weave.op()
+        def predict(self, user_input):  # Change to `predict`
+            client = ChatNVIDIA(
+                model="mistralai/mixtral-8x7b-instruct-v0.1",
+                temperature=0,
+                max_tokens=100,
+                top_p=1,
+            )
 
-        response = client.invoke(messages)
-        return response.content
+            messages = [
+                {"role": "system", "content": self.system_message},
+                {"role": "user", "content": user_input},
+            ]
+
+            response = client.invoke(messages)
+            return response.content
 
 
     corrector = GrammarCorrectorModel(
-        system_message = "You are a grammar checker, correct the following user input.")
+        system_message="You are a grammar checker, correct the following user input."
+    )
     result = corrector.predict("That was so easy, it was a piece of pie!")
     print(result)
     ```

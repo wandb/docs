@@ -18,10 +18,10 @@ class MyScorer(Scorer):
     def score(self, output: str) -> float:
         """
         Evaluate the given result and return a score between 0 and 1.
-        
+
         Args:
             result: The LLM-generated content to evaluate
-            
+
         Returns:
             float: Score indicating quality/safety (0 = fail, 1 = pass)
         """
@@ -63,16 +63,16 @@ Guardrails provide active safety mechanisms by evaluating LLM outputs in real-ti
 async def process_with_guardrail(user_input: str) -> str:
     """
     Process user input with safety guardrails.
-    
+
     Args:
         user_input: The user's input to process
-        
+
     Returns:
         str: Processed result if guardrail passes, fallback response if it fails
     """
     result, call = op.call(user_input)
     evaluation = await call.apply_scorer(guardrail)
-    
+
     if evaluation.score < 0.5:
         return handle_failed_guardrail(result)
     return result
@@ -88,20 +88,20 @@ While guardrails provide active intervention, monitors offer passive evaluation 
 async def monitored_operation(user_input: str, sampling_rate: float = 0.25) -> str:
     """
     Execute operation with monitoring.
-    
+
     Args:
         user_input: The input to process
         sampling_rate: Percentage of operations to monitor (0.0 to 1.0)
-        
+
     Returns:
         str: Operation result
     """
     result, call = op.call(user_input)
-    
+
     # Apply monitoring based on sampling rate
     if random.random() < sampling_rate:
         await call.apply_scorer(scorer)
-    
+
     return result
 ```
 
@@ -125,10 +125,12 @@ All scorer results are automatically logged as Feedback records in Weave, access
 
 #### HTTP API
 ```python
-calls = client.server.calls_query_stream({
-    # ... your filters
-    "include_feedback": True,  # Include all scorer results
-})
+calls = client.server.calls_query_stream(
+    {
+        # ... your filters
+        "include_feedback": True,  # Include all scorer results
+    }
+)
 ```
 
 #### Python SDK

@@ -27,19 +27,20 @@ provider as usual:
 from notdiamond import NotDiamond
 
 import weave
-weave.init('notdiamond-quickstart')
+
+weave.init("notdiamond-quickstart")
 
 client = NotDiamond()
 session_id, provider = client.chat.completions.model_select(
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Concisely explain merge sort."}
+        {"role": "user", "content": "Concisely explain merge sort."},
     ],
-    model=['openai/gpt-4o', 'anthropic/claude-3-5-sonnet-20240620']
+    model=["openai/gpt-4o", "anthropic/claude-3-5-sonnet-20240620"],
 )
 
 print("LLM called: ", provider.provider)  # openai, anthropic, etc
-print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620, etc
+print("Provider model: ", provider.model)  # gpt-4o, claude-3-5-sonnet-20240620, etc
 ```
 
 ## Custom routing
@@ -59,8 +60,8 @@ gpt_4o = weave.Model(...)
 sonnet = weave.Model(...)
 
 model_evals = {
-    'openai/gpt-4o': evaluation.get_eval_results(gpt_4o),
-    'anthropic/claude-3-5-sonnet-20240620': evaluation.get_eval_results(sonnet),
+    "openai/gpt-4o": evaluation.get_eval_results(gpt_4o),
+    "anthropic/claude-3-5-sonnet-20240620": evaluation.get_eval_results(sonnet),
 }
 preference_id = train_router(
     model_evals=model_evals,
@@ -76,24 +77,25 @@ to maximize performance and minimize cost on your evaluation data:
 
 ```python
 from notdiamond import NotDiamond
+
 client = NotDiamond()
 
 import weave
-weave.init('notdiamond-quickstart')
+
+weave.init("notdiamond-quickstart")
 
 session_id, provider = client.chat.completions.model_select(
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Concisely explain merge sort."}
+        {"role": "user", "content": "Concisely explain merge sort."},
     ],
-    model=['openai/gpt-4o', 'anthropic/claude-3-5-sonnet-20240620'],
-
+    model=["openai/gpt-4o", "anthropic/claude-3-5-sonnet-20240620"],
     # passing this preference ID reuses your custom router
-    preference_id=preference_id
+    preference_id=preference_id,
 )
 
 print("LLM called: ", provider.provider)  # openai, anthropic, etc
-print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620, etc
+print("Provider model: ", provider.model)  # gpt-4o, claude-3-5-sonnet-20240620, etc
 ```
 
 ## Additional support

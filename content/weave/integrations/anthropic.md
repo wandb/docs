@@ -13,7 +13,8 @@ It’s important to store traces of LLM applications in a central database, both
 Weave will automatically capture traces for [anthropic-sdk-python](https://github.com/anthropics/anthropic-sdk-python). You can use the library as usual, start by calling `weave.init()`:
 
 ```python
-import weave    
+import weave
+
 # use the anthropic library as usual
 import os
 from anthropic import Anthropic
@@ -65,25 +66,30 @@ client = Anthropic(
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
 )
 
+
 # highlight-next-line
 @weave.op()
-def call_anthropic(user_input:str, model:str) -> str:
+def call_anthropic(user_input: str, model: str) -> str:
     message = client.messages.create(
-    max_tokens=1024,
-    messages=[
-        {
-            "role": "user",
-            "content": user_input,
-        }
+        max_tokens=1024,
+        messages=[
+            {
+                "role": "user",
+                "content": user_input,
+            }
         ],
         model=model,
     )
     return message.content[0].text
 
+
 # highlight-next-line
 @weave.op()
 def generate_joke(topic: str) -> str:
-    return call_anthropic(f"Tell me a joke about {topic}", model="claude-3-haiku-20240307")
+    return call_anthropic(
+        f"Tell me a joke about {topic}", model="claude-3-haiku-20240307"
+    )
+
 
 print(generate_joke("chickens"))
 print(generate_joke("cars"))
@@ -100,36 +106,37 @@ In addition to versioning code and capturing inputs/outputs, [`Model`](/guides/c
 In the example below, you can experiment with `model` and `temperature`. Every time you change one of these, you'll get a new _version_ of `JokerModel`. 
 
 ```python
-import weave    
+import weave
+
 # use the anthropic library as usual
 import os
 from anthropic import Anthropic
-weave.init('joker-anthropic')
 
-class JokerModel(weave.Model): # Change to `weave.Model`
-  model: str
-  temperature: float
-  
-  @weave.op()
-  def predict(self, topic): # Change to `predict`
-    client = Anthropic()
-    message = client.messages.create(
-    max_tokens=1024,
-    messages=[
-        {
-            "role": "user",
-            "content": f"Tell me a joke about {topic}",
-        }
-        ],
-        model=self.model,
-        temperature=self.temperature
-    )
-    return message.content[0].text
+weave.init("joker-anthropic")
 
 
-joker = JokerModel(
-    model="claude-3-haiku-20240307",
-    temperature = 0.1)
+class JokerModel(weave.Model):  # Change to `weave.Model`
+    model: str
+    temperature: float
+
+    @weave.op()
+    def predict(self, topic):  # Change to `predict`
+        client = Anthropic()
+        message = client.messages.create(
+            max_tokens=1024,
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"Tell me a joke about {topic}",
+                }
+            ],
+            model=self.model,
+            temperature=self.temperature,
+        )
+        return message.content[0].text
+
+
+joker = JokerModel(model="claude-3-haiku-20240307", temperature=0.1)
 result = joker.predict("Chickens and Robots")
 print(result)
 ```

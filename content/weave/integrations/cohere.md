@@ -86,15 +86,17 @@ In the example below, you can experiment with `model` and `temperature`. Every t
 import weave
 import cohere
 import os
+
 # we need to patch before we create the client
 cohere_patcher.attempt_patch()
 
-weave.init('weather-cohere')
+weave.init("weather-cohere")
+
 
 class WeatherModel(weave.Model):
     model: str
     temperature: float
-  
+
     @weave.op()
     def predict(self, location: str) -> str:
         co = cohere.Client(api_key=os.environ["COHERE_API_KEY"])
@@ -102,14 +104,12 @@ class WeatherModel(weave.Model):
             message=f"How is the weather in {location}?",
             model=self.model,
             temperature=self.temperature,
-            connectors=[{"id": "web-search"}]
+            connectors=[{"id": "web-search"}],
         )
         return response.text
 
-weather_model = WeatherModel(
-    model="command",
-    temperature=0.7
-)
+
+weather_model = WeatherModel(model="command", temperature=0.7)
 result = weather_model.predict("Boston")
 print(result)
 ```

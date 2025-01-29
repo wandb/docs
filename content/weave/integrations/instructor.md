@@ -20,6 +20,7 @@ class UserInfo(BaseModel):
     user_name: str
     age: int
 
+
 # Initialize Weave
 weave.init(project_name="instructor-test")
 

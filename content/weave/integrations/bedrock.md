@@ -29,17 +29,17 @@ patch_client(client)
 # Use the client as usual
 response = client.invoke_model(
     modelId="anthropic.claude-3-5-sonnet-20240620-v1:0",
-    body=json.dumps({
-        "anthropic_version": "bedrock-2023-05-31",
-        "max_tokens": 100,
-        "messages": [
-            {"role": "user", "content": "What is the capital of France?"}
-        ]
-    }),
-    contentType='application/json',
-    accept='application/json'
+    body=json.dumps(
+        {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": 100,
+            "messages": [{"role": "user", "content": "What is the capital of France?"}],
+        }
+    ),
+    contentType="application/json",
+    accept="application/json",
 )
-response_dict = json.loads(response.get('body').read())
+response_dict = json.loads(response.get("body").read())
 print(response_dict["content"][0]["text"])
 ```
 
@@ -55,7 +55,6 @@ response = client.converse(
     inferenceConfig={"maxTokens": 100},
 )
 print(response["output"]["message"]["content"][0]["text"])
-
 ```
 
 ## Wrapping with your own ops
@@ -65,27 +64,25 @@ You can create reusable operations using the `@weave.op()` decorator. Here's an 
 ```python
 @weave.op
 def call_model_invoke(
-    model_id: str,
-    prompt: str,
-    max_tokens: int = 100,
-    temperature: float = 0.7
+    model_id: str, prompt: str, max_tokens: int = 100, temperature: float = 0.7
 ) -> dict:
-    body = json.dumps({
-        "anthropic_version": "bedrock-2023-05-31",
-        "max_tokens": max_tokens,
-        "temperature": temperature,
-        "messages": [
-            {"role": "user", "content": prompt}
-        ]
-    })
+    body = json.dumps(
+        {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+    )
 
     response = client.invoke_model(
         modelId=model_id,
         body=body,
-        contentType='application/json',
-        accept='application/json'
+        contentType="application/json",
+        accept="application/json",
     )
-    return json.loads(response.get('body').read())
+    return json.loads(response.get("body").read())
+
 
 @weave.op
 def call_model_converse(
@@ -118,11 +115,8 @@ class BedrockLLM(weave.Model):
     @weave.op
     def predict(self, prompt: str) -> str:
         "Generate a response using Bedrock's converse API"
-        
-        messages = [{
-            "role": "user",
-            "content": [{"text": prompt}]
-        }]
+
+        messages = [{"role": "user", "content": [{"text": prompt}]}]
 
         response = client.converse(
             modelId=self.model_id,
@@ -132,11 +126,12 @@ class BedrockLLM(weave.Model):
         )
         return response["output"]["message"]["content"][0]["text"]
 
+
 # Create and use the model
 model = BedrockLLM(
     model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
     max_tokens=100,
-    system_message="You are an expert software engineer that knows a lot of programming. You prefer short answers."
+    system_message="You are an expert software engineer that knows a lot of programming. You prefer short answers.",
 )
 result = model.predict("What is the best way to handle errors in Python?")
 print(result)

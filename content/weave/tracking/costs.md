@@ -19,9 +19,7 @@ import TabItem from '@theme/TabItem';
     client = weave.init("my_custom_cost_model")
 
     client.add_cost(
-        llm_id="your_model_name",
-        prompt_token_cost=0.01,
-        completion_token_cost=0.02
+        llm_id="your_model_name", prompt_token_cost=0.01, completion_token_cost=0.02
     )
 
     client.add_costs(
@@ -103,6 +101,8 @@ import TabItem from '@theme/TabItem';
     import weave
 
     weave.init("project_costs")
+
+
     @weave.op()
     def get_costs_for_project(project_name: str):
         total_cost = 0
@@ -116,7 +116,10 @@ import TabItem from '@theme/TabItem';
 
         for call in calls:
             # If the call has costs, we add them to the total cost
-            if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
+            if (
+                call.summary["weave"] is not None
+                and call.summary["weave"].get("costs", None) is not None
+            ):
                 for k, cost in call.summary["weave"]["costs"].items():
                     requests += cost["requests"]
                     total_cost += cost["prompt_tokens_total_cost"]
@@ -128,6 +131,7 @@ import TabItem from '@theme/TabItem';
             "requests": requests,
             "calls": len(calls),
         }
+
 
     # Since we decorated our function with @weave.op(),
     # our totals are stored in weave for historic cost total calculations

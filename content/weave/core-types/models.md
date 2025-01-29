@@ -17,6 +17,7 @@ import TabItem from '@theme/TabItem';
     from weave import Model
     import weave
 
+
     class YourModel(Model):
         attribute1: str
         attribute2: int
@@ -24,18 +25,19 @@ import TabItem from '@theme/TabItem';
         @weave.op()
         def predict(self, input_data: str) -> dict:
             # Model logic goes here
-            prediction = self.attribute1 + ' ' + input_data
-            return {'pred': prediction}
+            prediction = self.attribute1 + " " + input_data
+            return {"pred": prediction}
     ```
 
     You can call the model as usual with:
 
     ```python
     import weave
-    weave.init('intro-example')
 
-    model = YourModel(attribute1='hello', attribute2=5)
-    model.predict('world')
+    weave.init("intro-example")
+
+    model = YourModel(attribute1="hello", attribute2=5)
+    model.predict("world")
     ```
 
     This will track the model settings along with the inputs and outputs anytime you call `predict`.
@@ -49,10 +51,11 @@ import TabItem from '@theme/TabItem';
 
     ```python
     import weave
-    weave.init('intro-example')
 
-    model = YourModel(attribute1='howdy', attribute2=10)
-    model.predict('world')
+    weave.init("intro-example")
+
+    model = YourModel(attribute1="howdy", attribute2=10)
+    model.predict("world")
     ```
 
     After calling this, you will see that you now have two versions of this Model in the UI, each with different tracked calls.
@@ -72,8 +75,8 @@ import TabItem from '@theme/TabItem';
     To separate production calls, you can add an additional attribute to the predictions for easy filtering in the UI or API.
 
     ```python
-    with weave.attributes({'env': 'production'}):
-        model.predict('world')
+    with weave.attributes({"env": "production"}):
+        model.predict("world")
     ```
 
   </TabItem>

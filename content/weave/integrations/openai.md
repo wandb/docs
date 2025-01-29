@@ -20,25 +20,23 @@ It’s important to store traces of LLM applications in a central database, both
     ```python
     from openai import OpenAI
     import weave
+
     client = OpenAI()
     # highlight-next-line
-    weave.init('emoji-bot')
+    weave.init("emoji-bot")
 
     response = client.chat.completions.create(
-      model="gpt-4",
-      messages=[
-        {
-          "role": "system",
-          "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
-        },
-        {
-          "role": "user",
-          "content": "How are you?"
-        }
-      ],
-      temperature=0.8,
-      max_tokens=64,
-      top_p=1
+        model="gpt-4",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only.",
+            },
+            {"role": "user", "content": "How are you?"},
+        ],
+        temperature=0.8,
+        max_tokens=64,
+        top_p=1,
     )
     ```
 
@@ -96,10 +94,20 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
     import weave
     from openai import OpenAI
     import requests, random
-    PROMPT="""Emulate the Pokedex from early Pokémon episodes. State the name of the Pokemon and then describe it.
+
+    PROMPT = """Emulate the Pokedex from early Pokémon episodes. State the name of the Pokemon and then describe it.
             Your tone is informative yet sassy, blending factual details with a touch of dry humor. Be concise, no more than 3 sentences. """
-    POKEMON = ['pikachu', 'charmander', 'squirtle', 'bulbasaur', 'jigglypuff', 'meowth', 'eevee']
+    POKEMON = [
+        "pikachu",
+        "charmander",
+        "squirtle",
+        "bulbasaur",
+        "jigglypuff",
+        "meowth",
+        "eevee",
+    ]
     client = OpenAI()
+
 
     # highlight-next-line
     @weave.op
@@ -123,6 +131,7 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
         else:
             return None
 
+
     # highlight-next-line
     @weave.op
     def pokedex(name: str, prompt: str) -> str:
@@ -130,21 +139,23 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
         # This is your root op that calls out to other ops
         # highlight-next-line
         data = get_pokemon_data(name)
-        if not data: return "Error: Unable to fetch data"
+        if not data:
+            return "Error: Unable to fetch data"
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system","content": prompt},
-                {"role": "user", "content": str(data)}
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": str(data)},
             ],
             temperature=0.7,
             max_tokens=100,
-            top_p=1
+            top_p=1,
         )
         return response.choices[0].message.content
 
+
     # highlight-next-line
-    weave.init('pokedex-openai')
+    weave.init("pokedex-openai")
     # Get data for a specific Pokémon
     pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
     ```
@@ -265,35 +276,31 @@ Wrapping a function with `weave.op` starts capturing inputs, outputs and app log
     import weave
     from openai import OpenAI
 
-    weave.init('grammar-openai')
+    weave.init("grammar-openai")
 
-    class GrammarCorrectorModel(weave.Model): # Change to `weave.Model`
-      model: str
-      system_message: str
 
-      @weave.op()
-      def predict(self, user_input): # Change to `predict`
-        client = OpenAI()
-        response = client.chat.completions.create(
-          model=self.model,
-          messages=[
-              {
-                  "role": "system",
-                  "content": self.system_message
-              },
-              {
-                  "role": "user",
-                  "content": user_input
-              }
-              ],
-              temperature=0,
-        )
-        return response.choices[0].message.content
+    class GrammarCorrectorModel(weave.Model):  # Change to `weave.Model`
+        model: str
+        system_message: str
+
+        @weave.op()
+        def predict(self, user_input):  # Change to `predict`
+            client = OpenAI()
+            response = client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": self.system_message},
+                    {"role": "user", "content": user_input},
+                ],
+                temperature=0,
+            )
+            return response.choices[0].message.content
 
 
     corrector = GrammarCorrectorModel(
         model="gpt-3.5-turbo-1106",
-        system_message = "You are a grammar checker, correct the following user input.")
+        system_message="You are a grammar checker, correct the following user input.",
+    )
     result = corrector.predict("That was so easy, it was a piece of pie!")
     print(result)
     ```

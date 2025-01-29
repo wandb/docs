@@ -38,24 +38,20 @@ In the example below, the **model name, temperature and system prompt will be tr
 
     import weave
 
+
     @weave.op()
     def extract_dinos(wmodel: weave.Model, sentence: str) -> dict:
         response = wmodel.client.chat.completions.create(
             model=wmodel.model_name,
             temperature=wmodel.temperature,
             messages=[
-                {
-                    "role": "system",
-                    "content": wmodel.system_prompt
-                },
-                {
-                    "role": "user",
-                    "content": sentence
-                }
-                ],
-                response_format={ "type": "json_object" }
-            )
+                {"role": "system", "content": wmodel.system_prompt},
+                {"role": "user", "content": sentence},
+            ],
+            response_format={"type": "json_object"},
+        )
         return response.choices[0].message.content
+
 
     # Sub-class with a weave.Model
     # highlight-next-line
@@ -70,7 +66,7 @@ In the example below, the **model name, temperature and system prompt will be tr
         @weave.op()
         # highlight-next-line
         def invoke(self, sentence: str) -> dict:
-            dino_data  = extract_dinos(self, sentence)
+            dino_data = extract_dinos(self, sentence)
             return json.loads(dino_data)
     ```
 
@@ -87,7 +83,7 @@ Now you can instantiate and call the model with `invoke`:
 <Tabs groupId="programming-language" queryString>
   <TabItem value="python" label="Python" default>
     ```python
-    weave.init('jurassic-park')
+    weave.init("jurassic-park")
     client = OpenAI()
 
     system_prompt = """Extract any dinosaur `name`, their `common_name`, \
@@ -95,10 +91,7 @@ Now you can instantiate and call the model with `invoke`:
 
     # highlight-next-line
     dinos = ExtractDinos(
-        client=client,
-        model_name='gpt-4o',
-        temperature=0.4,
-        system_prompt=system_prompt
+        client=client, model_name="gpt-4o", temperature=0.4, system_prompt=system_prompt
     )
 
     sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
@@ -143,7 +136,9 @@ Once you have the URI of the Model object, you can export and re-use it. Note th
     ```python
     # the exported weave model is already initialised and ready to be called
     # highlight-next-line
-    new_dinos = weave.ref("weave:///morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
+    new_dinos = weave.ref(
+        "weave:///morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4"
+    ).get()
 
     # set the client to the openai client again
     new_dinos.client = client

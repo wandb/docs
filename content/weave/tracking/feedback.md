@@ -79,7 +79,8 @@ You can also get additional information for each feedback object in `client.get_
   <TabItem value="python" label="Python" default>
     ```python
     import weave
-    client = weave.init('intro-example')
+
+    client = weave.init("intro-example")
 
     # Get all feedback in a project
     all_feedback = client.get_feedback()
@@ -119,7 +120,8 @@ You can add feedback to a call using the call's UUID. To use the UUID to get a p
   <TabItem value="python" label="Python" default>
     ```python
     import weave
-    client = weave.init('intro-example')
+
+    client = weave.init("intro-example")
 
     call = client.get_call("<call_uuid>")
 
@@ -132,7 +134,7 @@ You can add feedback to a call using the call's UUID. To use the UUID to get a p
     # Adding custom key/value pairs.
     # The first argument is a user-defined "type" string.
     # Feedback must be JSON serializable and less than 1 KB when serialized.
-    call.feedback.add("correctness", { "value": 5 })
+    call.feedback.add("correctness", {"value": 5})
     ```
 
   </TabItem>
@@ -157,9 +159,10 @@ To retrieve the UUID during call execution, get the current call, and return the
 <Tabs groupId="programming-language" queryString>
   <TabItem value="python" label="Python" default>
     ```python
-
     import weave
+
     weave.init("uuid")
+
 
     @weave.op()
     def simple_operation(input_value):
@@ -187,11 +190,14 @@ Alternatively, you can use `call()` method to execute the operation and retrieve
   <TabItem value="python" label="Python" default>
     ```python
     import weave
+
     weave.init("uuid")
+
 
     @weave.op()
     def simple_operation(input_value):
         return f"Processed {input_value}"
+
 
     # Execute the operation and retrieve the result and call ID
     result, call = simple_operation.call("example input")
@@ -284,21 +290,21 @@ In the following example, two scorers are created. The first scorer, `Temperatur
     api = weave.init("feedback-example")
 
     spec1 = AnnotationSpec(
-      name="Temperature",
-      description="The perceived temperature of the llm call",
-      field_schema={
-        "type": "number",
-        "minimum": -1,
-        "maximum": 1,
-      }
+        name="Temperature",
+        description="The perceived temperature of the llm call",
+        field_schema={
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1,
+        },
     )
     spec2 = AnnotationSpec(
-      name="Tone",
-      description="The tone of the llm response",
-      field_schema={
-        "type": "string",
-        "enum": ["Aggressive", "Neutral", "Polite", "N/A"],
-      },
+        name="Tone",
+        description="The tone of the llm response",
+        field_schema={
+            "type": "string",
+            "enum": ["Aggressive", "Neutral", "Polite", "N/A"],
+        },
     )
     api.save(spec1, "temperature-scorer")
     api.save(spec2, "tone-scorer")
@@ -328,13 +334,13 @@ Expanding on [creating a human annotation scorer using the API](#create-a-human-
 
     # create a new version of the scorer
     spec1 = AnnotationSpec(
-      name="Temperature",
-      description="The perceived temperature of the llm call",
-      field_schema={
-        "type": "integer",  # <<- change type to integer
-        "minimum": -1,
-        "maximum": 1,
-      }
+        name="Temperature",
+        description="The perceived temperature of the llm call",
+        field_schema={
+            "type": "integer",  # <<- change type to integer
+            "minimum": -1,
+            "maximum": 1,
+        },
     )
     api.save(spec1, "temperature-scorer")
     ```

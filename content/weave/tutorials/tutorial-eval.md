@@ -28,6 +28,7 @@ Weave automatically captures when they are used and updates the version when the
     import openai
     import weave
 
+
     # highlight-next-line
     class ExtractFruitsModel(weave.Model):
         model_name: str
@@ -42,7 +43,10 @@ Weave automatically captures when they are used and updates the version when the
             response = await client.chat.completions.create(
                 model=self.model_name,
                 messages=[
-                    {"role": "user", "content": self.prompt_template.format(sentence=sentence)}
+                    {
+                        "role": "user",
+                        "content": self.prompt_template.format(sentence=sentence),
+                    }
                 ],
             )
             result = response.choices[0].message.content
@@ -58,10 +62,12 @@ Weave automatically captures when they are used and updates the version when the
     import asyncio
     import weave
 
-    weave.init('intro-example')
+    weave.init("intro-example")
 
-    model = ExtractFruitsModel(model_name='gpt-3.5-turbo-1106',
-                            prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}')
+    model = ExtractFruitsModel(
+        model_name="gpt-3.5-turbo-1106",
+        prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}',
+    )
     sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy."
     print(asyncio.run(model.predict(sentence)))
     # if you're in a Jupyter Notebook, run:
@@ -106,17 +112,17 @@ Checkout the [Models](/guides/core-types/models) guide to learn more.
     sentences = [
         "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
         "Pounits are a bright green color and are more savory than sweet.",
-        "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."
+        "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them.",
     ]
     labels = [
-        {'fruit': 'neoskizzles', 'color': 'purple', 'flavor': 'candy'},
-        {'fruit': 'pounits', 'color': 'bright green', 'flavor': 'savory'},
-        {'fruit': 'glowls', 'color': 'pale orange', 'flavor': 'sour and bitter'}
+        {"fruit": "neoskizzles", "color": "purple", "flavor": "candy"},
+        {"fruit": "pounits", "color": "bright green", "flavor": "savory"},
+        {"fruit": "glowls", "color": "pale orange", "flavor": "sour and bitter"},
     ]
     examples = [
-        {'id': '0', 'sentence': sentences[0], 'target': labels[0]},
-        {'id': '1', 'sentence': sentences[1], 'target': labels[1]},
-        {'id': '2', 'sentence': sentences[2], 'target': labels[2]}
+        {"id": "0", "sentence": sentences[0], "target": labels[0]},
+        {"id": "1", "sentence": sentences[1], "target": labels[1]},
+        {"id": "2", "sentence": sentences[2], "target": labels[2]},
     ]
     ```
 
@@ -162,11 +168,13 @@ Here `sentence` is passed to the model's predict function, and `target` is used 
     import weave
     from weave.scorers import MultiTaskBinaryClassificationF1
 
-    weave.init('intro-example')
+    weave.init("intro-example")
+
 
     @weave.op()
     def fruit_name_score(target: dict, output: dict) -> dict:
-        return {'correct': target['fruit'] == output['fruit']}
+        return {"correct": target["fruit"] == output["fruit"]}
+
 
     # highlight-next-line
     evaluation = weave.Evaluation(
@@ -177,10 +185,10 @@ Here `sentence` is passed to the model's predict function, and `target` is used 
             # highlight-next-line
             MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]),
             # highlight-next-line
-            fruit_name_score
-        # highlight-next-line
+            fruit_name_score,
+            # highlight-next-line
         ],
-    # highlight-next-line
+        # highlight-next-line
     )
     # highlight-next-line
     print(asyncio.run(evaluation.evaluate(model)))
@@ -230,14 +238,17 @@ In some applications we want to create custom `Scorer` classes - where for examp
     ```python
     import json
     import asyncio
+
     # highlight-next-line
     import weave
+
     # highlight-next-line
     from weave.scorers import MultiTaskBinaryClassificationF1
     import openai
 
     # We create a model class with one predict function.
     # All inputs, predictions and parameters are automatically captured for easy inspection.
+
 
     # highlight-next-line
     class ExtractFruitsModel(weave.Model):
@@ -253,9 +264,12 @@ In some applications we want to create custom `Scorer` classes - where for examp
             response = await client.chat.completions.create(
                 model=self.model_name,
                 messages=[
-                    {"role": "user", "content": self.prompt_template.format(sentence=sentence)}
+                    {
+                        "role": "user",
+                        "content": self.prompt_template.format(sentence=sentence),
+                    }
                 ],
-                response_format={ "type": "json_object" }
+                response_format={"type": "json_object"},
             )
             result = response.choices[0].message.content
             if result is None:
@@ -263,43 +277,54 @@ In some applications we want to create custom `Scorer` classes - where for examp
             parsed = json.loads(result)
             return parsed
 
+
     # We call init to begin capturing data in the project, intro-example.
-    weave.init('intro-example')
+    weave.init("intro-example")
 
     # We create our model with our system prompt.
-    model = ExtractFruitsModel(name='gpt4',
-                            model_name='gpt-4-0125-preview',
-                            prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor") from the following text, as json: {sentence}')
-    sentences = ["There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
-    "Pounits are a bright green color and are more savory than sweet.",
-    "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."]
+    model = ExtractFruitsModel(
+        name="gpt4",
+        model_name="gpt-4-0125-preview",
+        prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor") from the following text, as json: {sentence}',
+    )
+    sentences = [
+        "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+        "Pounits are a bright green color and are more savory than sweet.",
+        "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them.",
+    ]
     labels = [
-        {'fruit': 'neoskizzles', 'color': 'purple', 'flavor': 'candy'},
-        {'fruit': 'pounits', 'color': 'bright green', 'flavor': 'savory'},
-        {'fruit': 'glowls', 'color': 'pale orange', 'flavor': 'sour and bitter'}
+        {"fruit": "neoskizzles", "color": "purple", "flavor": "candy"},
+        {"fruit": "pounits", "color": "bright green", "flavor": "savory"},
+        {"fruit": "glowls", "color": "pale orange", "flavor": "sour and bitter"},
     ]
     examples = [
-        {'id': '0', 'sentence': sentences[0], 'target': labels[0]},
-        {'id': '1', 'sentence': sentences[1], 'target': labels[1]},
-        {'id': '2', 'sentence': sentences[2], 'target': labels[2]}
+        {"id": "0", "sentence": sentences[0], "target": labels[0]},
+        {"id": "1", "sentence": sentences[1], "target": labels[1]},
+        {"id": "2", "sentence": sentences[2], "target": labels[2]},
     ]
     # If you have already published the Dataset, you can run:
     # dataset = weave.ref('example_labels').get()
 
+
     # We define a scoring function to compare our model predictions with a ground truth label.
     @weave.op()
     def fruit_name_score(target: dict, output: dict) -> dict:
-        return {'correct': target['fruit'] == output['fruit']}
+        return {"correct": target["fruit"] == output["fruit"]}
+
 
     # Finally, we run an evaluation of this model.
     # This will generate a prediction for each input example, and then score it with each scoring function.
     # highlight-next-line
     evaluation = weave.Evaluation(
         # highlight-next-line
-        name='fruit_eval',
+        name="fruit_eval",
         # highlight-next-line
-        dataset=examples, scorers=[MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]), fruit_name_score],
-    # highlight-next-line
+        dataset=examples,
+        scorers=[
+            MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]),
+            fruit_name_score,
+        ],
+        # highlight-next-line
     )
     print(asyncio.run(evaluation.evaluate(model)))
     # if you're in a Jupyter Notebook, run:

@@ -16,24 +16,25 @@ examples = [
     {"question": "What is the square root of 64?", "expected": "8"},
 ]
 
+
 # Define any custom scoring function
 @weave.op()
 def match_score1(expected: str, model_output: dict) -> dict:
     # Here is where you'd define the logic to score the model output
-    return {'match': expected == model_output['generated_text']}
+    return {"match": expected == model_output["generated_text"]}
+
 
 @weave.op()
 def function_to_evaluate(question: str):
     # here's where you would add your LLM call and return the output
-    return  {'generated_text': 'Paris'}
+    return {"generated_text": "Paris"}
+
 
 # Score your examples using scoring functions
-evaluation = Evaluation(
-    dataset=examples, scorers=[match_score1]
-)
+evaluation = Evaluation(dataset=examples, scorers=[match_score1])
 
 # Start tracking the evaluation
-weave.init('intro-example')
+weave.init("intro-example")
 # Run the evaluation
 asyncio.run(evaluation.evaluate(function_to_evaluate))
 ```
@@ -66,11 +67,12 @@ examples = [
     {"question": "What is the square root of 64?", "expected": "8"},
 ]
 
+
 # Define any custom scoring function
 @weave.op()
 def match_score1(expected: str, model_output: dict) -> dict:
     # Here is where you'd define the logic to score the model output
-    return {'match': expected == model_output['generated_text']}
+    return {"match": expected == model_output["generated_text"]}
 ```
 
 ### Optional: Define a custom `Scorer` class
@@ -87,20 +89,20 @@ To evaluate a `Model`, call `evaluate` on it using an `Evaluation`. `Models` are
 from weave import Model, Evaluation
 import asyncio
 
+
 class MyModel(Model):
     prompt: str
 
     @weave.op()
     def predict(self, question: str):
         # here's where you would add your LLM call and return the output
-        return {'generated_text': 'Hello, ' + self.prompt}
+        return {"generated_text": "Hello, " + self.prompt}
 
-model = MyModel(prompt='World')
 
-evaluation = Evaluation(
-    dataset=examples, scorers=[match_score1]
-)
-weave.init('intro-example') # begin tracking results with weave
+model = MyModel(prompt="World")
+
+evaluation = Evaluation(dataset=examples, scorers=[match_score1])
+weave.init("intro-example")  # begin tracking results with weave
 asyncio.run(evaluation.evaluate(model))
 ```
 
@@ -111,9 +113,7 @@ This will run `predict` on each example and score the output with each scoring f
 You can change the name of the Evaluation itself by passing a `name` parameter to the `Evaluation` class.
 
 ```python
-evaluation = Evaluation(
-    dataset=examples, scorers=[match_score1], name="My Evaluation"
-)
+evaluation = Evaluation(dataset=examples, scorers=[match_score1], name="My Evaluation")
 ```
 
 You can also change the name of individual evaluations by setting the `display_name` key of the `__weave` dictionary.
@@ -126,9 +126,7 @@ UI, you will see the display name if set, otherwise the Evaluation object name w
 :::
 
 ```python
-evaluation = Evaluation(
-    dataset=examples, scorers=[match_score1]
-)
+evaluation = Evaluation(dataset=examples, scorers=[match_score1])
 evaluation.evaluate(model, __weave={"display_name": "My Evaluation Run"})
 ```
 
@@ -140,7 +138,8 @@ Alternatively, you can also evaluate a function that is wrapped in a `@weave.op(
 @weave.op()
 def function_to_evaluate(question: str):
     # here's where you would add your LLM call and return the output
-    return  {'generated_text': 'some response'}
+    return {"generated_text": "some response"}
+
 
 asyncio.run(evaluation.evaluate(function_to_evaluate))
 ```
@@ -151,20 +150,24 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 from weave import Evaluation, Model
 import weave
 import asyncio
-weave.init('intro-example')
+
+weave.init("intro-example")
 examples = [
     {"question": "What is the capital of France?", "expected": "Paris"},
     {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
     {"question": "What is the square root of 64?", "expected": "8"},
 ]
 
+
 @weave.op()
 def match_score1(expected: str, model_output: dict) -> dict:
-    return {'match': expected == model_output['generated_text']}
+    return {"match": expected == model_output["generated_text"]}
+
 
 @weave.op()
 def match_score2(expected: dict, model_output: dict) -> dict:
-    return {'match': expected == model_output['generated_text']}
+    return {"match": expected == model_output["generated_text"]}
+
 
 class MyModel(Model):
     prompt: str
@@ -172,17 +175,20 @@ class MyModel(Model):
     @weave.op()
     def predict(self, question: str):
         # here's where you would add your LLM call and return the output
-        return {'generated_text': 'Hello, ' + question + self.prompt}
+        return {"generated_text": "Hello, " + question + self.prompt}
 
-model = MyModel(prompt='World')
+
+model = MyModel(prompt="World")
 evaluation = Evaluation(dataset=examples, scorers=[match_score1, match_score2])
 
 asyncio.run(evaluation.evaluate(model))
 
+
 @weave.op()
 def function_to_evaluate(question: str):
     # here's where you would add your LLM call and return the output
-    return  {'generated_text': 'some response' + question}
+    return {"generated_text": "some response" + question}
+
 
 asyncio.run(evaluation.evaluate(function_to_evaluate))
 ```
@@ -211,30 +217,30 @@ examples = [
     {"input_text": "What is the square root of 64?", "expected": "8"},
 ]
 
+
 @weave.op()
 def preprocess_example(example):
     # Rename input_text to question
-    return {
-        "question": example["input_text"]
-    }
+    return {"question": example["input_text"]}
+
 
 @weave.op()
 def match_score(expected: str, model_output: dict) -> dict:
-    return {'match': expected == model_output['generated_text']}
+    return {"match": expected == model_output["generated_text"]}
+
 
 @weave.op()
 def function_to_evaluate(question: str):
-    return {'generated_text': f'Answer to: {question}'}
+    return {"generated_text": f"Answer to: {question}"}
+
 
 # Create evaluation with preprocessing
 evaluation = Evaluation(
-    dataset=examples,
-    scorers=[match_score],
-    preprocess_model_input=preprocess_example
+    dataset=examples, scorers=[match_score], preprocess_model_input=preprocess_example
 )
 
 # Run the evaluation
-weave.init('preprocessing-example')
+weave.init("preprocessing-example")
 asyncio.run(evaluation.evaluate(function_to_evaluate))
 ```
 

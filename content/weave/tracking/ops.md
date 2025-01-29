@@ -12,11 +12,13 @@ A Weave op is a versioned function that automatically logs all calls.
     ```python showLineNumbers
     import weave
 
+
     @weave.op()
     def track_me(v):
         return v + 5
 
-    weave.init('intro-example')
+
+    weave.init("intro-example")
     track_me(15)
     ```
 
@@ -59,8 +61,7 @@ A Weave op is a versioned function that automatically logs all calls.
 
     ```python
     @weave.op(name="custom_name")
-    def func():
-        ...
+    def func(): ...
     ```
 
   </TabItem>
@@ -86,16 +87,20 @@ A Weave op is a versioned function that automatically logs all calls.
     from typing import Any
     import weave
 
+
     @dataclass
     class CustomObject:
         x: int
         secret_password: str
 
+
     def postprocess_inputs(inputs: dict[str, Any]) -> dict[str, Any]:
-        return {k:v for k,v in inputs.items() if k != "hide_me"}
+        return {k: v for k, v in inputs.items() if k != "hide_me"}
+
 
     def postprocess_output(output: CustomObject) -> CustomObject:
         return CustomObject(x=output.x, secret_password="REDACTED")
+
 
     @weave.op(
         postprocess_inputs=postprocess_inputs,
@@ -104,7 +109,8 @@ A Weave op is a versioned function that automatically logs all calls.
     def func(a: int, hide_me: str) -> CustomObject:
         return CustomObject(x=a, secret_password=hide_me)
 
-    weave.init('hide-data-example') # 🐝
+
+    weave.init("hide-data-example")  # 🐝
     func(a=1, hide_me="password123")
     ```
 
@@ -128,6 +134,7 @@ A Weave op is a versioned function that automatically logs all calls.
     @weave.op(tracing_sample_rate=0.1)  # Only trace ~10% of calls
     def high_frequency_op(x: int) -> int:
         return x + 1
+
 
     @weave.op(tracing_sample_rate=1.0)  # Always trace (default)
     def always_traced_op(x: int) -> int:
@@ -164,8 +171,8 @@ export WEAVE_PRINT_CALL_LINK=false
     To delete a version of an op, call `.delete()` on the op ref.
 
     ```python
-    weave.init('intro-example')
-    my_op_ref = weave.ref('track_me:v1')
+    weave.init("intro-example")
+    my_op_ref = weave.ref("track_me:v1")
     my_op_ref.delete()
     ```
 

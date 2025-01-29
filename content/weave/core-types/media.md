@@ -18,8 +18,9 @@ Logging type: `PIL.Image.Image`. Here is an example of logging an image with the
     import requests
     from PIL import Image
 
-    weave.init('image-example')
+    weave.init("image-example")
     client = OpenAI()
+
 
     @weave.op
     def generate_image(prompt: str) -> Image:
@@ -36,6 +37,7 @@ Logging type: `PIL.Image.Image`. Here is an example of logging an image with the
 
         # return a PIL.Image.Image object to be logged as an image
         return image
+
 
     generate_image("a cat with a pumpkin hat")
     ```
@@ -107,6 +109,7 @@ Logging type: `wave.Wave_read`. Here is an example of logging an audio file usin
 
         # return a wave.Wave_read object to be logged as audio
         return wave.open("output.wav")
+
 
     make_audio_file_streaming("Hello, how are you?")
     ```

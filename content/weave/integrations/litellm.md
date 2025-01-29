@@ -20,16 +20,16 @@ import weave
 weave.init("weave_litellm_integration")
 
 openai_response = litellm.completion(
-    model="gpt-3.5-turbo", 
+    model="gpt-3.5-turbo",
     messages=[{"role": "user", "content": "Translate 'Hello, how are you?' to French"}],
-    max_tokens=1024
+    max_tokens=1024,
 )
 print(openai_response.choices[0].message.content)
 
 claude_response = litellm.completion(
-    model="claude-3-5-sonnet-20240620", 
+    model="claude-3-5-sonnet-20240620",
     messages=[{"role": "user", "content": "Translate 'Hello, how are you?' to French"}],
-    max_tokens=1024
+    max_tokens=1024,
 )
 print(claude_response.choices[0].message.content)
 ```
@@ -47,15 +47,19 @@ import weave
 # highlight-next-line
 weave.init("weave_litellm_integration")
 
+
 # highlight-next-line
 @weave.op()
 def translate(text: str, target_language: str, model: str) -> str:
     response = litellm.completion(
         model=model,
-        messages=[{"role": "user", "content": f"Translate '{text}' to {target_language}"}],
-        max_tokens=1024
+        messages=[
+            {"role": "user", "content": f"Translate '{text}' to {target_language}"}
+        ],
+        max_tokens=1024,
     )
     return response.choices[0].message.content
+
 
 print(translate("Hello, how are you?", "French", "gpt-3.5-turbo"))
 print(translate("Hello, how are you?", "Spanish", "claude-3-5-sonnet-20240620"))
@@ -74,26 +78,31 @@ import litellm
 import weave
 
 # highlight-next-line
-weave.init('weave_litellm_integration')
+weave.init("weave_litellm_integration")
+
 
 # highlight-next-line
 class TranslatorModel(weave.Model):
     model: str
     temperature: float
-  
+
     # highlight-next-line
     @weave.op()
     def predict(self, text: str, target_language: str):
         response = litellm.completion(
             model=self.model,
             messages=[
-                {"role": "system", "content": f"You are a translator. Translate the given text to {target_language}."},
-                {"role": "user", "content": text}
+                {
+                    "role": "system",
+                    "content": f"You are a translator. Translate the given text to {target_language}.",
+                },
+                {"role": "user", "content": text},
             ],
             max_tokens=1024,
-            temperature=self.temperature
+            temperature=self.temperature,
         )
         return response.choices[0].message.content
+
 
 # Create instances with different models
 gpt_translator = TranslatorModel(model="gpt-3.5-turbo", temperature=0.3)
@@ -137,7 +146,7 @@ response = litellm.completion(
                     "target_language": {
                         "type": "string",
                         "description": "The language to translate to",
-                    }
+                    },
                 },
                 "required": ["text", "target_language"],
             },

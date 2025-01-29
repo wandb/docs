@@ -18,27 +18,40 @@ This guide will show you how to:
     ```python
     import weave
     from weave import Dataset
+
     # Initialize Weave
-    weave.init('intro-example')
+    weave.init("intro-example")
 
     # Create a dataset
     dataset = Dataset(
-        name='grammar',
+        name="grammar",
         rows=[
-            {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
-            {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
-            {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
-        ]
+            {
+                "id": "0",
+                "sentence": "He no likes ice cream.",
+                "correction": "He doesn't like ice cream.",
+            },
+            {
+                "id": "1",
+                "sentence": "She goed to the store.",
+                "correction": "She went to the store.",
+            },
+            {
+                "id": "2",
+                "sentence": "They plays video games all day.",
+                "correction": "They play video games all day.",
+            },
+        ],
     )
 
     # Publish the dataset
     weave.publish(dataset)
 
     # Retrieve the dataset
-    dataset_ref = weave.ref('grammar').get()
+    dataset_ref = weave.ref("grammar").get()
 
     # Access a specific example
-    example_label = dataset_ref.rows[2]['sentence']
+    example_label = dataset_ref.rows[2]["sentence"]
     ```
 
   </TabItem>
@@ -83,6 +96,7 @@ This guide will show you how to:
     def model(task: str) -> str:
         return f"Now working on {task}"
 
+
     res1, call1 = model.call(task="fetch")
     res2, call2 = model.call(task="parse")
 
@@ -97,11 +111,25 @@ This guide will show you how to:
     ```python
     import pandas as pd
 
-    df = pd.DataFrame([
-        {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
-        {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
-        {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
-    ])
+    df = pd.DataFrame(
+        [
+            {
+                "id": "0",
+                "sentence": "He no likes ice cream.",
+                "correction": "He doesn't like ice cream.",
+            },
+            {
+                "id": "1",
+                "sentence": "She goed to the store.",
+                "correction": "She went to the store.",
+            },
+            {
+                "id": "2",
+                "sentence": "They plays video games all day.",
+                "correction": "They play video games all day.",
+            },
+        ]
+    )
     dataset = Dataset.from_pandas(df)
     df2 = dataset.to_pandas()
 

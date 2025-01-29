@@ -56,11 +56,12 @@ class RAG(dspy.Module):
 
         self.retrieve = dspy.Retrieve(k=num_passages)
         self.generate_answer = dspy.ChainOfThought(GenerateAnswer)
-    
+
     def forward(self, question):
         context = self.retrieve(question).passages
         prediction = self.generate_answer(context=context, question=question)
         return dspy.Prediction(context=context, answer=prediction.answer)
+
 
 @weave.op()
 def validate_context_and_answer(example, pred, trace=None):
@@ -70,12 +71,16 @@ def validate_context_and_answer(example, pred, trace=None):
 
 
 weave.init(project_name="dspy_rag")
-turbo = dspy.OpenAI(model='gpt-3.5-turbo')
-colbertv2_wiki17_abstracts = dspy.ColBERTv2(url='http://20.102.90.50:2017/wiki17_abstracts')
+turbo = dspy.OpenAI(model="gpt-3.5-turbo")
+colbertv2_wiki17_abstracts = dspy.ColBERTv2(
+    url="http://20.102.90.50:2017/wiki17_abstracts"
+)
 dspy.settings.configure(lm=turbo, rm=colbertv2_wiki17_abstracts)
-dataset = HotPotQA(train_seed=1, train_size=20, eval_seed=2023, dev_size=50, test_size=0)
-trainset = [x.with_inputs('question') for x in dataset.train]
-devset = [x.with_inputs('question') for x in dataset.dev]
+dataset = HotPotQA(
+    train_seed=1, train_size=20, eval_seed=2023, dev_size=50, test_size=0
+)
+trainset = [x.with_inputs("question") for x in dataset.train]
+devset = [x.with_inputs("question") for x in dataset.dev]
 teleprompter = BootstrapFewShot(metric=validate_context_and_answer)
 compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 ```
@@ -98,7 +103,7 @@ import weave
 
 weave.init(project_name="dspy_rag")
 
-gpt3_turbo = dspy.OpenAI(model='gpt-3.5-turbo-1106', max_tokens=300)
+gpt3_turbo = dspy.OpenAI(model="gpt-3.5-turbo-1106", max_tokens=300)
 dspy.configure(lm=gpt3_turbo)
 
 
@@ -107,7 +112,9 @@ class CheckCitationFaithfulness(dspy.Signature):
 
     context = dspy.InputField(desc="facts here are assumed to be true")
     text = dspy.InputField()
-    faithfulness = dspy.OutputField(desc="True/False indicating if text is faithful to context")
+    faithfulness = dspy.OutputField(
+        desc="True/False indicating if text is faithful to context"
+    )
 
 
 class WeaveModel(weave.Model):
@@ -116,6 +123,7 @@ class WeaveModel(weave.Model):
     @weave.op()
     def predict(self, context: str, text: str) -> bool:
         return dspy.ChainOfThought(self.signature)(context=context, text=text)
+
 
 context = "The 21-year-old made seven appearances for the Hammers and netted his only goal for them in a Europa League qualification round match against Andorran side FC Lustrains last season. Lee had two loan spells in League One last term, with Blackpool and then Colchester United. He scored twice for the U's but was unable to save them from relegation. The length of Lee's contract with the promoted Tykes has not been revealed. Find all the latest football transfers on our dedicated page."
 text = "Lee scored 3 goals for Colchester United."

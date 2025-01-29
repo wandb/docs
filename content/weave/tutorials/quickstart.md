@@ -52,6 +52,7 @@ _In this example, we're using openai so you will need to add an OpenAI [API key]
 
     client = OpenAI()
 
+
     # Weave will track the inputs, outputs and code of this function
     # highlight-next-line
     @weave.op()
@@ -62,21 +63,18 @@ _In this example, we're using openai so you will need to add an OpenAI [API key]
                 {
                     "role": "system",
                     "content": """In JSON format extract a list of `dinosaurs`, with their `name`,
-    their `common_name`, and whether its `diet` is a herbivore or carnivore"""
+    their `common_name`, and whether its `diet` is a herbivore or carnivore""",
                 },
-                {
-                    "role": "user",
-                    "content": sentence
-                }
-                ],
-                response_format={ "type": "json_object" }
-            )
+                {"role": "user", "content": sentence},
+            ],
+            response_format={"type": "json_object"},
+        )
         return response.choices[0].message.content
 
 
     # Initialise the weave project
     # highlight-next-line
-    weave.init('jurassic-park')
+    weave.init("jurassic-park")
 
     sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
     both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \

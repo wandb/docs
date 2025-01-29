@@ -12,6 +12,7 @@ Weave will automatically capture traces for [mistralai](https://github.com/mistr
 
 ```python
 import weave
+
 weave.init("cheese_recommender")
 
 # then use mistralai library as usual
@@ -47,9 +48,9 @@ Weave ops make results *reproducible* by automatically versioning code as you ex
 ```python
 # highlight-next-line
 @weave.op()
-def cheese_recommender(region:str, model:str) -> str:
+def cheese_recommender(region: str, model: str) -> str:
     "Recommend the best cheese in a given region"
-    
+
     messages = [
         {
             "role": "user",
@@ -62,6 +63,7 @@ def cheese_recommender(region:str, model:str) -> str:
         messages=messages,
     )
     return chat_response.choices[0].message.content
+
 
 cheese_recommender(region="France", model="mistral-large-latest")
 cheese_recommender(region="Spain", model="mistral-large-latest")
@@ -84,14 +86,15 @@ from mistralai import Mistral
 
 weave.init("mistralai_project")
 
-class CheeseRecommender(weave.Model): # Change to `weave.Model`
+
+class CheeseRecommender(weave.Model):  # Change to `weave.Model`
     model: str
     temperature: float
 
     @weave.op()
-    def predict(self, region:str) -> str: # Change to `predict`
+    def predict(self, region: str) -> str:  # Change to `predict`
         "Recommend the best cheese in a given region"
-        
+
         client = Mistral(api_key=api_key)
 
         messages = [
@@ -102,16 +105,12 @@ class CheeseRecommender(weave.Model): # Change to `weave.Model`
         ]
 
         chat_response = client.chat.complete(
-            model=model,
-            messages=messages,
-            temperature=self.temperature
+            model=model, messages=messages, temperature=self.temperature
         )
         return chat_response.choices[0].message.content
 
-cheese_model = CheeseRecommender(
-    model="mistral-medium-latest",
-    temperature=0.0
-    )
+
+cheese_model = CheeseRecommender(model="mistral-medium-latest", temperature=0.0)
 result = cheese_model.predict(region="France")
 print(result)
 ```
