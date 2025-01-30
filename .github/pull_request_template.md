@@ -1,7 +1,12 @@
-## Description
+{Short description}
 
-What does the pull request do? 
+{More details, or remove this line}
 
-## Ticket
+-- Remove this line and following from the merge commit message --
 
-Does this PR fix an existing issue? If yes, provide a link here.
+{JIRA / GitHub issue, or remove this line}
+{Upstream code PR, or remove this line}
+
+Confirm that tests pass and this change is ready for review:
+- [ ] Local `hugo serve`
+- [ ] Local `vale ./content`
