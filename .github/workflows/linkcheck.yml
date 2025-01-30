@@ -3,7 +3,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "41 14 * * *"
+    - cron: "1 0 1 * *" # 12:01 on the 1st of each month
 
 jobs:
   linkChecker:
@@ -11,13 +11,6 @@ jobs:
     permissions:
       issues: write # required for peter-evans/create-issue-from-file
     steps:
-      # Cache lychee results (e.g. to avoid hitting rate limits)
-      - name: Restore lychee cache
-        uses: actions/cache@v4
-        with:
-          path: .lycheecache
-          key: cache-lychee-${{ github.sha }}
-          restore-keys: cache-lychee-
       # check URLs with Lychee
       - uses: actions/checkout@v4
 
@@ -35,7 +28,7 @@ jobs:
           args: >-
             --accept 200,429
             --base content
-            --cache
+            --no-cache
             --max-cache-age 1d
             --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
             --max-concurrency 5
@@ -51,13 +44,6 @@ jobs:
         env:
           # to be used in case rate limits are surpassed
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-      - name: Save lychee cache
-        uses: actions/cache/save@v3
-        if: always()
-        with:
-          path: .lycheecache
-          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
 
       - name: Create Issue From File
         if: steps.lychee.outputs.exit_code != 0
