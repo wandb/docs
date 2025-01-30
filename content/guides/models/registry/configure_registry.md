@@ -40,7 +40,7 @@ To edit a user's role, see [Configure user roles in a registry]({{< relref "conf
 Registry administrators can assign each user in an organization a *registry role* to control that user's permissions. Registry roles determine what users can do in a given registry. 
 
 {{% alert %}}
-Only registry admins can [restrict visibility]({{< relref "configure_registry.md#restrict-visibility-to-a-registry" >}}), [configure user roles]({{< relref "configure_registry.md#configure-user-roles-in-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-from-a-registry" >}}) from registries in an organization.
+Only registry administrators can [restrict visibility]({{< relref "configure_registry.md#restrict-visibility-to-a-registry" >}}), [configure user roles]({{< relref "configure_registry.md#configure-user-roles-in-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-from-a-registry" >}}) from registries in an organization.
 {{% /alert %}}
 
 A user can have different roles in different registries. For example, a user can have a `Viewer` role in "Registry A" and a `Member` role in the "Registry B".
