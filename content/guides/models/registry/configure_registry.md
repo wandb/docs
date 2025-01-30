@@ -7,24 +7,46 @@ title: Configure registry access
 weight: 3
 ---
 
-<!-- A registry, and the linked artifacts inside a registry, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, if that team has correct access control. -->
+Add or remove a user or a team to a registry. Assign registry roles to individuals users or teams for greater control of user and team permissions.
 
-<!-- Registry admins can limit who can access a registry by navigating to a registry's settings and assigning a user's role to [Admin, Member, or Viewer]({{< relref "#registry-roles-permissions" >}}).   -->
+## Add a user or a team to a registry
+
+A team administrator or registry administrator can add a user or a team to a registry. To add a user or a team to a registry:
+
+1. Navigate to the Registry App at https://wandb.ai/registry/.
+2. Select the registry you want to add a user or team to.
+3. Click on the gear icon on the upper right hand corner.
+4. Scroll to the **Registry access** section.
+5. Click on the **Add access** button.
+6. Add a user name, email, or the name of a team to the **Include users and teams** field.
+7. Click **Add access**.
+
+
+W&B assigns all users, including members of a team, a [`Viewer` registry role]({{< relref "configure_registry.md#registry-role-permissions" >}}) when they are added to a registry by default. 
+
+To edit a user's role, see [Configure user roles in a registry]({{< relref "configure_registry.md#configure-user-roles-in-a-registry" >}}).
+
+## Remove a user or team from a registry
+1. Navigate to the Registry App at https://wandb.ai/registry/.
+2. Select a core or custom registry.
+3. Click on the gear icon on the upper right hand corner.
+4. Scroll to the **Registry members and roles** section and type in the username, email, or team you want to remove.
+5. Click the **Delete** button.
+
+
+
+## Registry role permissions
 
 Registry administrators can assign each user in an organization a *registry role* to control that user's permissions. Registry roles determine what users can do in a given registry. 
 
 {{% alert %}}
-Only registry admins can [restrict visibility]({{< relref "#restrict-visibility-to-a-registry" >}}), [configure user roles]({{< relref "#configure-user-roles-in-a-registry" >}}), or [remove users]({{< relref "#remove-a-user-from-a-registry" >}}) from registries in an organization.
+Only registry admins can [restrict visibility]({{< relref "configure_registry.md#restrict-visibility-to-a-registry" >}}), [configure user roles]({{< relref "configure_registry.md#configure-user-roles-in-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-from-a-registry" >}}) from registries in an organization.
 {{% /alert %}}
-
-## Registry role permissions
 
 A user can have different roles in different registries. For example, a user can have a `Viewer` role in "Registry A" and a `Member` role in the "Registry B".
 
 {{% alert title="W&B role types" %}}
-There are two different types of roles in W&B: [Team roles]({{< relref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}) and [Registry roles]({{< relref "#registry-roles-permissions" >}}).
-
-Your role in a team has no impact or relationship on your role in any registry.
+There are two different types of roles in W&B: [Team roles]({{< relref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) and [Registry roles]({{< relref "configure_registry.md#registry-role-permissions" >}}).
 {{% /alert %}}
 
 The proceeding table lists the different roles a user can have and their permissions:
@@ -59,9 +81,24 @@ The proceeding table lists the different roles a user can have and their permiss
 | Assign or change a user's role in a registry                   | Admin            |        |        |   X   |   X   |
 
 
+### Resolving role conflicts
+
+When an administrator adds a user to a registry, W&B attempts to assign that user a `Viewer` registry role by default. In the event of a conflict between a user's [team role]({{< relref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) and default registry role, W&B assigns the user the highest level of privilege as the registry role.
+
+For example, suppose a user has a `Member` team role in "Registry A". A registry administrator then adds that user to "Registry B". That user will have a `Member` role in "Registry B" because it has more privilege than the default `Viewer` role.
+
+The proceeding table shows the inherited registry role in the event of a conflict between a user's team role and default registry role:
+
+| Team role | Registry role | Inherited registry role |
+| ------ | ------ | ------ | 
+| Viewer | Viewer | Viewer |
+| Member | Viewer | Member |
+| Admin  | Viewer | Admin  |
+
+
 
 ## Configure user roles in a registry
-1. Navigate to the **Registry** App in the W&B App UI.
+1. Navigate to the Registry App at https://wandb.ai/registry/.
 2. Select the registry you want to configure.
 3. Click on the gear icon on the upper right hand corner.
 4. Scroll to the **Registry members and roles** section.
@@ -69,14 +106,6 @@ The proceeding table lists the different roles a user can have and their permiss
 6. Click on the user's role within the **Registry role** column. 
 7. From the dropdown, select the role you want to assign to the user.
 
-{{< img src="/images/registry/configure_role_registry.gif" alt="" >}}
-
-## Remove a user from a registry
-1. Navigate to the **Registry** App in the W&B App UI.
-2. Select a core or custom registry.
-3. Click on the gear icon on the upper right hand corner.
-4. Scroll to the **Registry members and roles** section and type in the username of the member you want to remove.
-5. Click the **Delete** button.
-
-
+<!-- To do: add new image -->
+<!-- {{< img src="/images/registry/configure_role_registry.gif" alt="" >}} -->
 

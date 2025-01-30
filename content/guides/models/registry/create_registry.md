@@ -7,17 +7,12 @@ title: Create a custom registry
 weight: 2
 ---
 
-Use custom registries to organize artifacts that are specific to your organization or project. 
-<!-- To do: add an example custom registry -->
+<!-- Custom registries offer additional tooling to organize artifacts in W&B. Unlike a core registry, a custom registry is customizable and can be tailored for your team's needs. -->
 
-
-
-<!-- Unlike a [core registry]({{< relref "./registry_types.md#core-registry" >}}), a team administrator can [restrict the visibility]({{< relref "./create_registry.md#assign-the-visibility-of-a-custom-registry" >}}) of a custom registry. Restricting the visibility of a custom registry helps ensure that you can limit who can access a registry.  -->
-
-Team administrators can limit who in an organization can access a custom registry by [restricting the visibility]({{< relref "./create_registry.md#assign-the-visibility-of-a-custom-registry" >}}) of a custom registry. Restricting the visibility of a custom registry helps ensure that only members that you add to a custom registry can access that registry.
+A custom registry offers flexibility and control over the artifact types that you can use, the visibility of the registry to other teams, and more.
 
 {{% pageinfo color="info" %}}
-A core registry can only have Organization visibility.
+See the summary table in [Registry types]({{< relref "registry_types.md#summary" >}}) for a complete comparison of core and custom registries.
 {{% /pageinfo %}}
 
 
@@ -44,16 +39,23 @@ For example, the preceding image shows a custom registry called "Fine_Tuned_Mode
 
 ## Registry visibility types
 
-The visibility type of a registry determines who can access the registry. A custom registry can have either a *Restricted* or *Organization* visibility. 
+The *visibility* of a registry determines who can access that registry. Restricting the visibility of a custom registry helps ensure that only specified members can access that registry.
 
-| Visibility | Description | Default role | 
-| --- | --- | --- | 
-| Organization | Everyone in the org can access the registry. | By default, organization administrators are an admin for the registry. All other users are a viewer in the registry by default. | 
-| Restricted   | Only invited organization members can access the registry.| The user who created the restricted registry is the only user in the registry by default, and is the organization's owner. |
+There are two type of registry visibility: *Restricted* and *Organization*. A custom registry can have either a Restricted or Organization visibility. Core registries can only have Organization visibility. 
+
+A team administrator or registry administrator can set the visibility of a custom registry.
+
+| Visibility | Description |
+| --- | --- | 
+| Organization | Everyone in the org can access the registry. |
+| Restricted   | Only invited organization members can access the registry.| 
+
+The user who creates a custom registry with Restricted visibility is the only user in that registry initially. That user is given an administrative role and they can add other users to that registry.  
+
 
 ## Assign the visibility of a custom registry
 
-A team administrator can assign the visibility of a custom registry during or after the creation of a custom registry. 
+A team administrator or registry administrator can assign the visibility of a custom registry during or after the creation of a custom registry. 
 
 To restrict the visibility of an existing custom registry:
 
@@ -73,3 +75,19 @@ Continue if you select **Restricted** visibility:
 {{< img src="/images/registry/change_registry_visibility.gif" alt="" >}}
 
 See [Create a custom registry]({{< relref "./create_registry.md#create-a-custom-registry" >}}) for more information on how assign the visibility of a custom registry when a team administrator creates it.
+
+<!-- 
+## Add users to a custom registry with Restricted visibility
+
+A team administrator or registry administrator can add users to a custom registry with Restricted visibility.
+
+Follow the steps outlined in [Create a custom registry]({{< relref "create_registry.md#create-a-custom-registry" >}}). For step 5, select **Restricted** from the **Registry visibility** dropdown. Once you create a custom registry, you can add users to that registry.
+
+Once you have a custom registry with Restricted visibility, you can add users to that registry:
+
+1. Select that newly created registry.
+2. Click on the gear icon on the upper right hand corner.
+3. Within the **Registry members & roles** section, click on the **Add access** button.
+4. Add a user name, email, or the name of a team to the **Member** field.
+5. Select **Add access**.  -->
+
