@@ -57,21 +57,28 @@ Consider the following when you deploy a self-managed MySQL database:
 - **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
 
 ### Object storage
-W&B requires object storage with Pre-signed URL and CORS support, deployed in Amazon S3, Azure Cloud Storage, Google Cloud Storage, or a storage service compatible with Amazon S3) 
+W&B requires object storage with Pre-signed URL and CORS support, deployed in one of:
+- Amazon S3
+- Azure Cloud Storage
+- Google Cloud Storage
+- storage service compatible with Amazon S3
 
 ### Versions
-* Kubernetes: at least version 1.29.
-* MySQL: at least 8.0.0. Choose a MySQL ["General availability"](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/) release.
+| Software     | Minimum version                              |
+| ------------ | -------------------------------------------- |
+| Kubernetes   | v1.29                                        |
+| MySQL        | v8.0.0, "General Availability" releases only |
 
 ### Networking
 
-Egress to the following endpoints is required during installation _and_ during runtime:
-* `https://deploy.wandb.ai`
-* `https://charts.wandb.ai`
-* `https://docker.io`
-* `https://quay.io`
+For a networked deployment, egress to these endpoints is required during _both_ installation and runtime:
+* https://deploy.wandb.ai
+* https://charts.wandb.ai
+* https://docker.io
+* https://quay.io
 * `https://gcr.io`
 
+To learn about air-gapped deployments, refer to [Kubernetes operator for air-gapped instances]({{< relref "kubernetes-operator/operator-airgapped.md" >}}).
 Access to W&B and to the object storage is required for the training infrastructure and for each system that tracks the needs of experiments.
 
 ### DNS
