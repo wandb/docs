@@ -152,5 +152,3 @@ Explore the rest of the W&B ecosystem.
 3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}).
 4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard]({{< relref "/guides/core/tables/" >}}).
 5. Navigate to W&B AI Academy and learn about LLMs, MLOps and W&B Models from hands-on [courses](https://wandb.me/courses).
-
-{{< img src="/images/quickstart/wandb_demo_experiments.gif" alt="" >}}
