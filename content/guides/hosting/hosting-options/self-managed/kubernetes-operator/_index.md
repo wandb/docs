@@ -96,9 +96,8 @@ helm repo update
 ```shell
 helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 ```
-3. Configure the W&B operator custom resource to trigger the W&B Server installation. Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}) for details.
+3. Configure the W&B operator custom resource to trigger the W&B Server installation. Copy this example configuration to a file named `operator.yaml`, so that you can customioze your W&B deployment. Refer to [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}).
 
-    Below is an example operator.yaml file:
    ```yaml
    apiVersion: apps.wandb.com/v1
    kind: WeightsAndBiases
@@ -155,7 +154,7 @@ helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
          class: nginx
    ```
 
-    Once you have the specification YAML created and filled with your values, run the following and the operator applies the configuration and install the W&B Server application based on your configuration.
+    Start the Operator with your custom configuration so that it can install and configure the W&B Server application.
 
     ```shell
     kubectl apply -f operator.yaml
