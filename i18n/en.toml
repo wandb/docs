@@ -35,7 +35,7 @@ other = "Created"
 [post_last_mod]
 other = "Last modified"
 [post_edit_this]
-other = "Edit this page"
+other = "Edit page"
 [post_view_this]
 other = "View page source"
 [post_create_child_page]
@@ -59,7 +59,7 @@ other = "Click here to print"
 [print_show_regular]
 other = "Return to the regular view of this page"
 [print_entire_section]
-other = "View PDF"
+other = "PDF"
 
 # Community
 [community_join]
