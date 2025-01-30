@@ -465,7 +465,7 @@ global:
     secretKey: HDKYe4Q...JAp1YyjysnX
 ```
 
-The `kmsKey` must be `null`.
+For S3-compatible storage hosted outside of AWS, `kmsKey` must be `null`.
 
 To reference `accessKey` and `secretKey` from a secret:
 ```yaml
@@ -821,8 +821,9 @@ data:
     -----END CERTIFICATE-----
 ```
 
-**Important:**
-If using a ConfigMap, each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
+{{% alert %}}
+If using a ConfigMap, each key in the ConfigMap must end with `.crt` (for example, `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
+{{% /alert %}}
 
 ### Custom security context
 
@@ -852,7 +853,7 @@ The only valid value for `runAsGroup:` is `0`. Any other value is an error.
 {{% /alert %}}
 
 
-Example: To configure the application pod, add a section `app` to your configuration:
+For example, to configure the application pod, add a section `app` to your configuration:
 
 ```yaml
 global:
@@ -875,6 +876,7 @@ app:
       readOnlyRootFilesystem: false
       allowPrivilegeEscalation: false 
 ```
+
 The same concept applies to `console`, `weave`, `weave-trace` and `parquet`.
 
 ## Configuration Reference for W&B Operator
@@ -930,8 +932,9 @@ data:
     -----END CERTIFICATE-----
 ```
 
-**Important:**
+{{% alert %}}
 Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
+{{% /alert %}}
 
 ## FAQ
 
