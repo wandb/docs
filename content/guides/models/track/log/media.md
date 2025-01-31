@@ -603,16 +603,15 @@ wandb.log({"acetic_acid": wandb.Image(pil_image)})
 
 W&B also supports logging of a variety of other media types.
 
-{{< tabpane text=true >}}
-   {{% tab header="Audio" %}}
+### Audio
 
 ```python
 wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-The maximum number of audio clips that can be logged per step is 100.   
-   {{% /tab %}}
-    {{% tab header="Video" %}}
+The maximum number of audio clips that can be logged per step is 100. For more usage information, see [`audio-file`]({{< relref "/ref/query-panel/audio-file" >}}).
+
+### Video
 
 ```python
 wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
@@ -620,9 +619,12 @@ wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif
 
 If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
 
-On the W&B [Run]({{< relref "/guides/models/track/runs/" >}}) and [Project]({{< relref "/guides/models/track/project-page.md" >}}) Pages, you will see your videos in the Media section.    
-    {{% /tab %}}
-    {{% tab header="Text" %}}
+On the W&B [Run]({{< relref "/guides/models/track/runs/" >}}) and [Project]({{< relref "/guides/models/track/project-page.md" >}}) Pages, you will see your videos in the Media section.
+
+For more usage information, see [`video-file`]({{< relref "/ref/query-panel/video-file" >}}).
+
+### Text
+
 Use `wandb.Table` to log text in tables to show up in the UI. By default, the column headers are `["Input", "Output", "Expected"]`. To ensure optimal UI performance, the default maximum number of rows is set to 10,000. However, users can explicitly override the maximum with `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
 
 ```python
@@ -643,21 +645,22 @@ You can also pass a pandas `DataFrame` object.
 
 ```python
 table = wandb.Table(dataframe=my_dataframe)
-```    
-    {{% /tab %}}
-    {{% tab header="HTML" %}}
+```
+
+For more usage information, see [`string`]({{< relref "/ref/query-panel/" >}}).
+
+### HTML
 
 ```python
 wandb.log({"custom_file": wandb.Html(open("some.html"))})
 wandb.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 ```
 
-Custom html can be logged at any key, and this exposes an HTML panel on the run page. By default we inject default styles, you can turn off default styles by passing `inject=False`.
+Custom HTML can be logged at any key, and this exposes an HTML panel on the run page. By default, we inject default styles; you can turn off default styles by passing `inject=False`.
 
 ```python
 wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
-    {{% /tab %}}
-{{< /tabpane >}}
+For more usage information, see [`html-file`]({{< relref "/ref/query-panel/html-file" >}}).
 
