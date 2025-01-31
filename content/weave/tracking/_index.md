@@ -1,12 +1,12 @@
 ---
-title: "Tracing"
+title: Tracing
 menu:
-  weave:
-    weight: 20
+  default:
+    identifier: tracing
+    weight: 1
 type: docs
 cascade:
   type: docs
-title: Tracing
 no_list: true
 ---
 

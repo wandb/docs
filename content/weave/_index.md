@@ -1,12 +1,12 @@
 ---
 description: Get started using Weights & Biases Weave
-title: Weave
 menu:
-  weave: # Custom menu group for the Weave docs
+  weave:
     weight: 1
+type: docs
+no_list: true
+title: W&B Weave
 ---
-
-# W&B Weave
 
 Weights & Biases (W&B) Weave is a framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications. Designed for flexibility and scalability, Weave supports every stage of your LLM application development workflow:
 

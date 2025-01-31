@@ -1,7 +1,12 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Costs
+---
+title: Costs
+menu:
+  default:
+    parent: tracing
+    identifier: tracing-costs
+cascade:
+  type: docs
+---
 
 ## Adding a custom cost
 
