@@ -2,7 +2,7 @@
 title: Image
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/image.py#L65-L692 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L65-L689 >}}
 
 Format images for logging to W&B.
 
@@ -31,9 +31,6 @@ Note : When logging a `torch.Tensor` as a `wandb.Image`, images are normalized. 
 
 ### Create a wandb.Image from a numpy array
 
-<!--yeadoc-test:log-image-numpy-->
-
-
 ```python
 import numpy as np
 import wandb
@@ -48,9 +45,6 @@ with wandb.init() as run:
 ```
 
 ### Create a wandb.Image from a PILImage
-
-<!--yeadoc-test:log-image-pillow-->
-
 
 ```python
 import numpy as np
@@ -70,9 +64,6 @@ with wandb.init() as run:
 ```
 
 ### log .jpg rather than .png (default)
-
-<!--yeadoc-test:log-image-format-->
-
 
 ```python
 import numpy as np
@@ -94,7 +85,7 @@ with wandb.init() as run:
 
 ### `all_boxes`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/image.py#L613-L634)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L610-L631)
 
 ```python
 @classmethod
@@ -108,7 +99,7 @@ all_boxes(
 
 ### `all_captions`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/image.py#L636-L640)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L633-L637)
 
 ```python
 @classmethod
@@ -119,7 +110,7 @@ all_captions(
 
 ### `all_masks`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/image.py#L590-L611)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L587-L608)
 
 ```python
 @classmethod
@@ -133,7 +124,7 @@ all_masks(
 
 ### `guess_mode`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/image.py#L477-L489)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L474-L486)
 
 ```python
 guess_mode(
@@ -145,7 +136,7 @@ Guess what type of image the np.array is representing.
 
 ### `to_uint8`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/image.py#L491-L514)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L488-L511)
 
 ```python
 @classmethod
