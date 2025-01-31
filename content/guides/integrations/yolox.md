@@ -8,7 +8,7 @@ title: YOLOX
 weight: 490
 ---
 
-[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. You can use the YOLOX Weights & Biases integration to turn on logging of metrics related to training, validation, and the system, and you can interactively validate predictions with a single command-line argument.
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. You can use the YOLOX W&B integration to turn on logging of metrics related to training, validation, and the system, and you can interactively validate predictions with a single command-line argument.
 
 ## Sign up and create an API key
 
@@ -61,9 +61,9 @@ wandb.login()
 
 ## Log metrics
 
-Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [wandb.init]({{< relref "/ref/python/init" >}}) would expect, just prepend `wandb-` to the start of each argument
+Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init`]({{< relref "/ref/python/init" >}}) expects; prepend each argument with `wandb-`.
 
-`num_eval_imges` controls the number of validation set images and predictions that are  logged to Weights & Biases tables for model evaluation.
+`num_eval_imges` controls the number of validation set images and predictions that are  logged to W&B tables for model evaluation.
 
 ```shell
 # login to wandb
@@ -86,4 +86,4 @@ python tools/train.py .... --logger wandb \
 
 {{< img src="/images/integrations/yolox_example_dashboard.png" alt="" >}}
 
-Any questions or issues about this Weights & Biases integration? Open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).
+Any questions or issues about this W&B integration? Open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).

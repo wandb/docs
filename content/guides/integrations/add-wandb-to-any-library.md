@@ -250,7 +250,7 @@ wandb.config.update({"model_parameters": 3500})
 
 For more information on how to define a config file, see [Configure Experiments with wandb.config]({{< relref "/guides/models/track/config" >}}).
 
-### Log o W&B
+### Log to W&B
 
 #### Log metrics
 

@@ -78,7 +78,7 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-If you are using Weights and Biases for the first time you might want to check out our [**quickstart**]({{< relref "/guides/quickstart.md" >}})
+If you are using W&B for the first time you might want to check out our [**quickstart**]({{< relref "/guides/quickstart.md" >}})
 
 
 ### Name the project
@@ -120,11 +120,11 @@ If a project name is not specified the project name defaults to `huggingface`.
 
 ### Log your training runs to W&B
 
-This is **the most important step** when defining your `Trainer` training arguments, either inside your code or from the command line, is to set `report_to` to `"wandb"` in order enable logging with Weights & Biases.
+This is **the most important step** when defining your `Trainer` training arguments, either inside your code or from the command line, is to set `report_to` to `"wandb"` in order enable logging with W&B.
 
 The `logging_steps` argument in `TrainingArguments` will control how often training metrics are pushed to W&B during training. You can also give a name to the training run in W&B using the `run_name` argument. 
 
-That's it. Now your models will log losses, evaluation metrics, model topology, and gradients to Weights & Biases while they train.
+That's it. Now your models will log losses, evaluation metrics, model topology, and gradients to W&B while they train.
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
@@ -168,7 +168,7 @@ Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`
 ### Turn on model checkpointing 
 
 
-Using Weights & Biases' [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to register models to prepare them for staging or deployment in your production environment.
+Using W&B's [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the W&B [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to register models to prepare them for staging or deployment in your production environment.
 
  Logging your Hugging Face model checkpoints to Artifacts can be done by setting the `WANDB_LOG_MODEL` environment variable to one of `end` or `checkpoint` or `false`: 
 
@@ -217,7 +217,7 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 {{% /alert %}}
 
 #### W&B Model Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Model Registry]({{< relref "/guides/models/registry/model_registry/" >}})**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
+Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the  **[Model Registry]({{< relref "/guides/models/registry/model_registry/" >}})**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
 
 See the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) documentation for how to link a model Artifact to the Model Registry.
  
@@ -314,7 +314,7 @@ with wandb.init(
 
 ### How do I log and view evaluation samples during training
 
-Logging to Weights & Biases via the Transformers `Trainer` is taken care of by the [`WandbCallback`](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback by subclassing `WandbCallback` and adding additional functionality that leverages additional methods from the Trainer class. 
+Logging to W&B via the Transformers `Trainer` is taken care of by the [`WandbCallback`](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback by subclassing `WandbCallback` and adding additional functionality that leverages additional methods from the Trainer class. 
 
 Below is the general pattern to add this new callback to the HF Trainer, and further down is a code-complete example to log evaluation outputs to a W&B Table:
 
@@ -527,7 +527,7 @@ Read the full report [here](https://wandb.ai/cayush/bert-finetuning/reports/Sent
 
 <summary>A Step by Step Guide to Tracking Hugging Face Model Performance</summary>
 
-* We use Weights & Biases and Hugging Face transformers to train DistilBERT, a Transformer that's 40% smaller than BERT but retains 97% of BERT's accuracy, on the GLUE benchmark
+* We use W&B and Hugging Face transformers to train DistilBERT, a Transformer that's 40% smaller than BERT but retains 97% of BERT's accuracy, on the GLUE benchmark
 * The GLUE benchmark is a collection of nine datasets and tasks for training NLP models
 
 Read the full report [here](https://wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-HuggingFace-Model-Performance--VmlldzoxMDE2MTU).
