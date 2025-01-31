@@ -1,37 +1,54 @@
 name: Lychee check
 on:
-  pull_request:
-    paths:
-      - '**.md'
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "1 0 2 * *" # 12:01 on the 1st of each month
 
 jobs:
-  lychee:
+  linkChecker:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write # required for peter-evans/create-issue-from-file
     steps:
+      # check URLs with Lychee
       - uses: actions/checkout@v4
 
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v45
         with:
-          files: "**.md"
+          files: "content/**.md"
 
       - name: Link Checker
         id: lychee
-        uses: lycheeverse/lychee-action@v1.10.0
+        uses: lycheeverse/lychee-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: > 
-          --scheme https --scheme http --verbose --no-cache
-          --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-          --max-concurrency 5 --retry-count 3 --retry-delay 2
-          ${{ steps.changed-files.outputs.all_changed_files }}
+          args: >-
+            --accept 200,429
+            --base content
+            --no-cache
+            --max-cache-age 1d
+            --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+            --max-concurrency 5
+            --verbose
+            --no-progress
+            --retry-count 1
+            --retry-delay 2
+            --scheme https
+            --scheme http
+            './content/*.md'
+            './content/*.html'
+          fail: false
         env:
+          # to be used in case rate limits are surpassed
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Create PR comment with link reults
-        uses: marocchino/sticky-pull-request-comment@v2
+      - name: Create Issue From File
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
         with:
-          header: lychee
-          recreate: true
-          path: ./lychee/out.md
+          title: Link Checker Report
+          content-filepath: ./lychee/out.md
+          labels: report, automated issue
