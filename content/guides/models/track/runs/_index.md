@@ -403,6 +403,28 @@ Delete one or more runs from a project with the W&B App.
 For projects that contain a large number of runs, you can use either the search bar to filter runs you want to delete using Regex or the filter button to filter runs based on their status, tags, or other properties. 
 {{% /alert %}}
 
+## Organize runs 
+
+This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (e.g., experiment names) and specifying job types (e.g., preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.
+
+### Assigning runs to groups and job types
+
+Each run in W&B can be categorized by **group** and a **job type**:
+
+- **Group**: Represents a broader experiment category, making it easier to organize and filter runs.
+- **Job type**: Describes the function of the run, such as preprocessing, training, or evaluation.
+
+In the following [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), a baseline model is trained using increasing amounts of data from the Fashion-MNIST dataset. The color coding in the workspace represents the amount of data used:
+
+- **Yellow to dark green**: Increasing amounts of data for the baseline model.
+- **Light blue to violet to magenta**: Increasing amounts of data for a more complex "double" model with additional parameters.
+
+Using W&B's filtering options and search bar, you can easily compare runs based on specific conditions, such as:
+- Training on the same dataset.
+- Evaluating on the same test set.
+
+Applying filters dynamically updates the **Table** view, allowing you to quickly identify performance differences between models. For example, you can determine which classes are significantly more challenging for one model compared to another.
+
 <!-- ### Search runs
 
 Search for a specific run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
