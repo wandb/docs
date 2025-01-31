@@ -96,9 +96,65 @@ helm repo update
 ```shell
 helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 ```
-3. Configure the W&B operator custom resource to trigger the W&B Server installation. Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}) for details.
+3. Configure the W&B operator custom resource to trigger the W&B Server installation. Copy this example configuration to a file named `operator.yaml`, so that you can customioze your W&B deployment. Refer to [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}).
 
-    Once you have the specification YAML created and filled with your values, run the following and the operator applies the configuration and install the W&B Server application based on your configuration.
+   ```yaml
+   apiVersion: apps.wandb.com/v1
+   kind: WeightsAndBiases
+   metadata:
+     labels:
+       app.kubernetes.io/instance: wandb
+       app.kubernetes.io/name: weightsandbiases
+     name: wandb
+     namespace: default
+
+   spec:
+     chart:
+       url: http://charts.yourdomain.com
+       name: operator-wandb
+       version: 0.18.0
+
+     values:
+       global:
+         host: https://wandb.yourdomain.com
+         license: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+         bucket:
+           accessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+           secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+           name: s3.yourdomain.com:port #Ex.: s3.yourdomain.com:9000
+           path: bucket_name
+           provider: s3
+           region: us-east-1
+         mysql:
+           database: wandb
+           host: mysql.home.lab
+           password: password
+           port: 3306
+           user: wandb
+         extraEnv:
+           ENABLE_REGISTRY_UI: 'true'
+
+       # Ensure it's set to use your own MySQL
+       mysql:
+         install: false
+
+       app:
+         image:
+           repository: registry.yourdomain.com/local
+           tag: 0.59.2
+
+       console:
+         image:
+           repository: registry.yourdomain.com/console
+           tag: 2.12.2
+
+       ingress:
+         annotations:
+           nginx.ingress.kubernetes.io/proxy-body-size: 64m
+         class: nginx
+   ```
+
+    Start the Operator with your custom configuration so that it can install and configure the W&B Server application.
 
     ```shell
     kubectl apply -f operator.yaml
@@ -106,7 +162,7 @@ helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 
     Wait until the deployment completes. This takes a few minutes.
 
-4. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
+5. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
 
 
 ### Deploy W&B with Helm Terraform Module
