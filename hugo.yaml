@@ -140,7 +140,6 @@ params:
   github_branch: main
 
   # Google Custom Search Engine ID. Remove or comment out to disable search.
-  # gcs_engine_id: 674c0c3807d874d09
 
   # Enable Lunr.js offline search
   offlineSearch: false
