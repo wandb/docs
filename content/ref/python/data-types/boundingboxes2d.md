@@ -2,7 +2,7 @@
 title: BoundingBoxes2D
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L16-L305 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L16-L305 >}}
 
 Format images with 2D bounding box overlays for logging to W&B.
 
@@ -21,9 +21,6 @@ BoundingBoxes2D(
 #### Examples:
 
 ### Log bounding boxes for a single image
-
-<!--yeadoc-test:boundingbox-2d-->
-
 
 ```python
 import numpy as np
@@ -70,9 +67,6 @@ wandb.log({"driving_scene": img})
 ```
 
 ### Log a bounding box overlay to a Table
-
-<!--yeadoc-test:bb2d-image-with-labels-->
-
 
 ```python
 import numpy as np
@@ -134,7 +128,7 @@ wandb.log({"driving_scene": table})
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L225-L227)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L225-L227)
 
 ```python
 @classmethod
@@ -143,7 +137,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L229-L286)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L229-L286)
 
 ```python
 validate(

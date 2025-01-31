@@ -2,7 +2,7 @@
 title: Object3D
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/object_3d.py#L186-L462 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/object_3d.py#L186-L462 >}}
 
 Wandb class for 3D point clouds.
 
@@ -29,7 +29,7 @@ The shape of the numpy array must be one of either:
 
 ### `from_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/object_3d.py#L332-L349)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/object_3d.py#L332-L349)
 
 ```python
 @classmethod
@@ -47,7 +47,7 @@ Initializes Object3D from a file or stream.
 
 ### `from_numpy`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/object_3d.py#L351-L380)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/object_3d.py#L351-L380)
 
 ```python
 @classmethod
@@ -72,7 +72,7 @@ The shape of the numpy array must be one of either:
 
 ### `from_point_cloud`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/object_3d.py#L382-L416)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/object_3d.py#L382-L416)
 
 ```python
 @classmethod

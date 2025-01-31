@@ -2,7 +2,7 @@
 title: ImageMask
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/image_mask.py#L18-L241 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/image_mask.py#L18-L241 >}}
 
 Format image masks or overlays for logging to W&B.
 
@@ -21,9 +21,6 @@ ImageMask(
 #### Examples:
 
 ### Logging a single masked image
-
-<!--yeadoc-test:log-image-mask-->
-
 
 ```python
 import numpy as np
@@ -60,9 +57,6 @@ wandb.log({"img_with_masks": masked_image})
 ```
 
 ### Log a masked image inside a Table
-
-<!--yeadoc-test:log-image-mask-table-->
-
 
 ```python
 import numpy as np
@@ -115,7 +109,7 @@ wandb.log({"random_field": table})
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/image_mask.py#L213-L215)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/image_mask.py#L213-L215)
 
 ```python
 @classmethod
@@ -124,7 +118,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/helper_types/image_mask.py#L217-L241)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/image_mask.py#L217-L241)
 
 ```python
 validate(
