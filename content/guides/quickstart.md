@@ -10,67 +10,57 @@ weight: 2
 ---
 Install W&B and start tracking your machine learning experiments in minutes.
 
-## 1. Create an account and install W&B
-Before you get started, make sure you create an account and install W&B:
+## Sign up and create an API key
 
-1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then log in to your wandb account.  
-2. Install the wandb library on your machine in a Python 3 environment using [`pip`](https://pypi.org/project/wandb/).  
-3. Navigate to [the **Authorize** page](https://wandb.ai/authorize) to create an API key, and save it for later use.
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-The following code snippets demonstrate how to install and log into W&B using the W&B CLI and Python Library:
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
+
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+
+## Install the `wandb` library and log in
+
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
-{{% tab "Command-Line" %}}
-Install the CLI and Python library for interacting with the Weights and Biases API:
+{{% tab header="Command Line" value="cli" %}}
 
-```bash
-pip install wandb
-```
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) to your API key.
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. Install the `wandb` library and log in.
+
+
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+
 {{% /tab %}}
-{{% tab "Notebook" %}}
-Install the CLI and Python library for interacting with the Weights and Biases API:
 
+{{% tab header="Python" value="python" %}}
 
 ```notebook
 !pip install wandb
-```
-{{% /tab %}}
-{{< /tabpane >}}
 
-## 2. Log in to W&B
-
-
-{{< tabpane text=true >}}
-{{% tab "Command-Line" %}}
-Next, log in to W&B:
-
-```bash
-wandb login
-```
-
-Or if you are using [W&B Server]({{< relref "/guides/hosting/" >}}) (including **Dedicated Cloud** or **Self-managed**):
-
-```bash
-wandb login --relogin --host=http://your-shared-local-host.com
-```
-
-If needed, ask your deployment admin for the hostname.
-
-Provide [your API key](https://wandb.ai/authorize) when prompted.
-{{% /tab %}}
-{{% tab "Notebook" %}}
-Next, import the W&B Python SDK and log in:
-
-```python
+import wandb
 wandb.login()
 ```
 
-Provide [your API key](https://wandb.ai/authorize) when prompted.
 {{% /tab %}}
 {{< /tabpane >}}
 
 
-## 3. Start a run and track hyperparameters
+## Start a run and track hyperparameters
 
 Initialize a W&B Run object in your Python script or notebook with [`wandb.init()`]({{< relref "/ref/python/run.md" >}}) and pass a dictionary to the `config` parameter with key-value pairs of hyperparameter names and values:
 
@@ -90,10 +80,7 @@ run = wandb.init(
 A [run]({{< relref "/guides/models/track/runs/" >}}) is the basic building block of W&B. You will use them often to [track metrics]({{< relref "/guides/models/track/" >}}), [create logs]({{< relref "/guides/core/artifacts/" >}}), and more.
 
 
-
-
-
-## Putting it all together
+## Put it all together
 
 Putting it all together, your training script might look similar to the following code example. The highlighted code shows W&B-specific code. 
 Note that we added code that mimics machine learning training.

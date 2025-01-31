@@ -29,25 +29,40 @@ If you'd rather dive straight into working code, check out this [Google Colab](h
 
 ## Get started: track experiments
 
-### 1. Sign Up, install the `wandb` library and log in
+### Sign up and create an API key
 
-1. [**Sign up**](https://wandb.ai/site) for a free account
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-2. Pip install the `wandb` library
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
 
-3. To log in with your training script, you'll need to sign in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
-If you are using Weights and Biases for the first time you might want to check out our [**quickstart**]({{< relref "/guides/quickstart.md" >}})
+### Install the `wandb` library and log in
+
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
-
 {{% tab header="Command Line" value="cli" %}}
 
-```shell
-pip install wandb
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) to your API key.
 
-wandb login
-```
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. Install the `wandb` library and log in.
+
+
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
 
 {{% /tab %}}
 
@@ -61,10 +76,12 @@ wandb.login()
 ```
 
 {{% /tab %}}
-
 {{< /tabpane >}}
 
-### 2. Name the project
+If you are using Weights and Biases for the first time you might want to check out our [**quickstart**]({{< relref "/guides/quickstart.md" >}})
+
+
+### Name the project
 
 A W&B Project is where all of the charts, data, and models logged from related runs are stored. Naming your project helps you organize your work and keep all the information about a single project in one place.
 
@@ -101,7 +118,7 @@ Make sure you set the project name _before_ you initialize the `Trainer`.
 
 If a project name is not specified the project name defaults to `huggingface`.
 
-### 3. Log your training runs to W&B
+### Log your training runs to W&B
 
 This is **the most important step** when defining your `Trainer` training arguments, either inside your code or from the command line, is to set `report_to` to `"wandb"` in order enable logging with Weights & Biases.
 
@@ -148,7 +165,7 @@ trainer.train()  # start training and logging to W&B
 Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`.
 {{% /alert %}}
 
-### 4. Turn on model checkpointing 
+### Turn on model checkpointing 
 
 
 Using Weights & Biases' [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to register models to prepare them for staging or deployment in your production environment.
@@ -204,7 +221,7 @@ Once you have logged your checkpoints to Artifacts, you can then register your b
 
 See the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) documentation for how to link a model Artifact to the Model Registry.
  
-### 5. Visualise evaluation outputs during training
+### Visualise evaluation outputs during training
 
 Visualing your model outputs during training or evaluation is often essential to really understand how your model is training.
 
@@ -215,7 +232,7 @@ See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-eval
 
 {{< img src="/images/integrations/huggingface_eval_tables.png" alt="Shows a W&B Table with evaluation outputs" >}}
 
-### 6. Finish your W&B Run (Notebook only) 
+### Finish your W&B Run (Notebook only) 
 
 If your training is encapsulated in a Python script, the W&B run will end when your script finishes.
 
@@ -229,7 +246,7 @@ trainer.train()  # start training and logging to W&B
 wandb.finish()
 ```
 
-### 7. Visualize your results
+### Visualize your results
 
 Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard]({{< relref "/guides/models/track/workspaces.md" >}}). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
 

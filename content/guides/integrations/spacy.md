@@ -8,20 +8,46 @@ weight: 410
 ---
 [spaCy](https://spacy.io) is a popular "industrial-strength" NLP library: fast, accurate models with a minimum of fuss. As of spaCy v3, Weights and Biases can now be used with [`spacy train`](https://spacy.io/api/cli#train) to track your spaCy model's training metrics as well as to save and version your models and datasets. And all it takes is a few added lines in your configuration.
 
-## 1. Install the `wandb` library and log in
+## Sign up and create an API key
+
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
+
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+
+## Install the `wandb` library and log in
+
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-```python
-pip install wandb
-wandb login
-```
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) to your API key.
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. Install the `wandb` library and log in.
+
+
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
 
 {{% /tab %}}
-{{% tab header="Notebook" value="notebook" %}}
 
-```python
+{{% tab header="Python" value="python" %}}
+
+```notebook
 !pip install wandb
 
 import wandb
@@ -31,7 +57,7 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## 2. Add the `WandbLogger` to your spaCy config file
+## Add the `WandbLogger` to your spaCy config file
 
 spaCy config files are used to specify all aspects of training, not just logging -- GPU allocation, optimizer choice, dataset paths, and more. Minimally, under `[training.logger]` you need to provide the key `@loggers` with the value `"spacy.WandbLogger.v3"`, plus a `project_name`. 
 
@@ -57,7 +83,7 @@ model_log_interval = 1000
 | `entity`               | `Optional str` . If passed, the run will be created in the specified entity                                                                                                                                                                                   |
 | `run_name`             | `Optional str` . If specified, the run will be created with the specified name.                                                                                                                                                                               |
 
-## 3. Start training
+## Start training
 
 Once you have added the `WandbLogger` to your spaCy training config you can run `spacy train` as usual.
 

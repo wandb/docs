@@ -163,12 +163,18 @@ Use the Public API to export or update data that you have saved to W&B. Before u
 
 See the [Generated Reference Docs]({{< relref "/ref/python/public-api/" >}}) for details on available functions.
 
-### Authentication
+### Create an API key
 
-Authenticate your machine with your [API key](https://wandb.ai/authorize) in one of two ways:
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-1. Run `wandb login` on the command line and paste in your API key.
-2. Set the `WANDB_API_KEY` environment variable to your API key.
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
+
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+
 
 ### Find the run path
 
@@ -416,7 +422,7 @@ run.summary["accuracy_histogram"] = wandb.Histogram(numpy_array)
 run.summary.update()
 ```
 
-### Rename a metric in a run, after the run has finished
+### Rename a metric in a completed run
 
 This example renames a summary column in your tables.
 
@@ -431,9 +437,11 @@ del run.summary["old_name"]
 run.summary.update()
 ```
 
-{{% alert color="secondary" %}}
+{{% alert %}}
 Renaming a column only applies to tables. Charts will still refer to metrics by their original names.
 {{% /alert %}}
+
+
 
 ### Update config for an existing run
 

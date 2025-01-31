@@ -18,30 +18,53 @@ This integration lets users apply decorators to Metaflow [steps and flows](https
 
 ## Quickstart
 
-### Install W&B and login
+### Sign up and create an API key
+
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
+
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+
+### Install the `wandb` library and log in
+
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 
-{{% tab header="Notebook" value="notebook" %}}
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) to your API key.
 
-```python
-!pip install -Uqqq metaflow fastcore wandb
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. Install the `wandb` library and log in.
+
+
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+
+{{% /tab %}}
+
+{{% tab header="Python" value="python" %}}
+
+```notebook
+!pip install wandb
 
 import wandb
 wandb.login()
 ```
 
 {{% /tab %}}
-
-{{% tab header="Command Line" value="cli" %}}
-
-```bash
-pip install -Uqqq metaflow fastcore wandb
-wandb login
-```
-
-{{% /tab %}}
-
 {{< /tabpane >}}
 
 ### Decorate your flows and steps
