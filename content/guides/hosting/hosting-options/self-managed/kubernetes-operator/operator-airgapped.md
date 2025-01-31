@@ -197,8 +197,10 @@ spec:
         password: password
         port: 3306
         user: wandb
+      extraEnv:
+        ENABLE_REGISTRY_UI: 'true'
     
-    # Ensre it's set to use your own MySQL
+    # If install: true, Helm installs a MySQL database for the deployment to use. Set to `false` to use your own external MySQL deployment.
     mysql:
       install: false
 
@@ -248,4 +250,4 @@ You must split the certificates into multiple entries in the `customCACerts` sec
 You can turn off auto-updates from the W&B console. Reach out to your W&B team for any questions on the supported versions. Also, note that W&B supports platform versions released in last 6 months. W&B recommends performing periodic upgrades. 
 
 ### Does the deployment work if the environment has no connection to public repositories?
-As long as you have enabled the `airgapped: true` configuration, the Kubernetes operator does not attempt to reach public repositories. The Kubernetes operator attempts to use your internal resources.
+If your configuration sets `airgapped` to `true`, the Kubernetes operator uses only your internal resources and does not attempt to connect to public repositories. 
