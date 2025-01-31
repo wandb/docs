@@ -7,8 +7,6 @@ title: Create a custom registry
 weight: 2
 ---
 
-<!-- Custom registries offer additional tooling to organize artifacts in W&B. Unlike a core registry, a custom registry is customizable and can be tailored for your team's needs. -->
-
 A custom registry offers flexibility and control over the artifact types that you can use, the visibility of the registry to other teams, and more.
 
 {{% pageinfo color="info" %}}
@@ -76,18 +74,4 @@ Continue if you select **Restricted** visibility:
 
 See [Create a custom registry]({{< relref "./create_registry.md#create-a-custom-registry" >}}) for more information on how assign the visibility of a custom registry when a team administrator creates it.
 
-<!-- 
-## Add users to a custom registry with Restricted visibility
-
-A team administrator or registry administrator can add users to a custom registry with Restricted visibility.
-
-Follow the steps outlined in [Create a custom registry]({{< relref "create_registry.md#create-a-custom-registry" >}}). For step 5, select **Restricted** from the **Registry visibility** dropdown. Once you create a custom registry, you can add users to that registry.
-
-Once you have a custom registry with Restricted visibility, you can add users to that registry:
-
-1. Select that newly created registry.
-2. Click on the gear icon on the upper right hand corner.
-3. Within the **Registry members & roles** section, click on the **Add access** button.
-4. Add a user name, email, or the name of a team to the **Member** field.
-5. Select **Add access**.  -->
 
