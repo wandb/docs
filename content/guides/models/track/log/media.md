@@ -609,7 +609,7 @@ W&B also supports logging of a variety of other media types.
 wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-The maximum number of audio clips that can be logged per step is 100. For more usage information, see [`audio-file`]({{< relref "/ref/query-panel/audio-file" >}}).
+A maximum of 100 audio clips can be logged per step. For more usage information, see [`audio-file`]({{< relref "/ref/query-panel/audio-file.md" >}}).
 
 ### Video
 
