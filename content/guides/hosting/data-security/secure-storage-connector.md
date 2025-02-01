@@ -19,7 +19,7 @@ Bring your own bucket (BYOB) allows you to store W&B artifacts and other related
 
 When using BYOB functionality, certain types of data will be stored in the W&B central database, and other types will be stored in your bucket. 
 
-### Database-stored
+### Database
 
 - Metadata for users, teams, artifacts, experiments, and projects
 - Reports
