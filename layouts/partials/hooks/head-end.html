@@ -1,0 +1,8 @@
+{{- $currentPage := . -}}
+{{- range site.Menus.main -}}
+  {{- if $currentPage.IsMenuCurrent .Menu . -}}
+    <meta name="docsearch:section" content="{{ .Name }}">
+  {{- else if $currentPage.HasMenuCurrent .Menu . -}}
+    <meta name="docsearch:section" content="{{ .Name }}">
+  {{- end -}}
+{{- end -}}
