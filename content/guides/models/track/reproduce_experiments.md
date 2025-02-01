@@ -18,33 +18,6 @@ Before you reproduce an experiment, make note of the:
 This section assumes you know the name of the project that contains the run you want to reproduce.
 {{% /alert %}}
 
-<!-- ## Find the name of the run
-
-There are numerous ways to find the name of the run you want to reproduce. The proceeding tabs describe two of the most common ways to find the name of a run.
-
-{{< tabpane text=true >}}
-{{% tab "Re create an artifact" %}}
-
-If you know the name of the artifact that you want to reproduce, you can find the run that logged the artifact by:
-
-1. Click on **Artifacts** in the left sidebar.
-2. Select the name of the artifact.
-3. Select the version of the artifact you want to reproduce.
-4. The name of the run is listed in the **Created By** field.
-
-
-{{% /tab %}}
-{{% tab "Filter or compare runs" %}}
-
-1. Within the project, click on the **Runs** tab to see a list of all the runs that were logged to that project. 
-2. From there, you can [filter runs]({{< relref "/guides/models/track/runs/filter-runs.md" >}}) or [compare runs]({{< relref "/guides/models/app/features/panels/run-comparer.md" >}}) to find the specific run you want to reproduce.
-
-{{% /tab %}}
-{{< /tabpane >}}
-
-Alternatively, you can find the name of the run by searching and filtering runs in a project based on metrics, hyperparameters, and more. To do this: -->
-
-
 Once you have the name of the project and run you want to reproduce, you can reproduce an experiment that a team member created by:
 
 1. Navigate to the project where the run is logged to.
@@ -77,29 +50,43 @@ Clone the GitHub repository your teammate used when creating the experiment. To 
 ```bash
 git clone https://github.com/your-repo.git && cd your-repo
 ```
-2. Copy and paste **Git state** into your terminal. The Git state is a set of Git commands that will check out the exact commit that your teammate used to create the experiment. 
+2. Copy and paste **Git state** into your terminal. The Git state is a set of Git commands that will check out the exact commit that your teammate used to create the experiment. Replace values specified in the proceeding code snippet with your own:
 ```bash
-git checkout -b "<run-name>" c456952671f413445f4bf3b063710c9f5c305315
+git checkout -b "<run-name>" 0123456789012345678901234567890123456789
 ```
+
 
 
 {{% /tab %}}
 {{< /tabpane >}}
 
 5. Select **Files** in the left navigation bar.
-6. Download the `reqiuirements.txt` file.
-7. (Recommended) On your local machine, create a Python virtual environment.
+6. Download the `requirements.txt` file and store it in your working directory. This directory should contain either the cloned GitHub repo or the downloaded Python script or notebook.
+7. (Recommended) Create a Python virtual environment.
 8. Install the requirements specified in the `requirements.txt` file.
     ```bash
     pip install -r requirements.txt
     ```
+
+Now that you have the code and dependencies, you can run the script or notebook to reproduce the experiment. If you cloned a repo, you might need to navigate to the directory where the script or notebook is located. Otherwise, you can run the script or notebook from your working directory.
+
+{{< tabpane text=true >}}
+{{% tab "Python notebook" %}}
 
 If you downloaded a Python notebook, navigate to the directory where you downloaded the notebook and run the following command in your terminal:
 ```bash
 jupyter notebook
 ```
 
-If you downloaded a Python script, navigate to the directory where you downloaded the script and run the following command in your terminal:
+{{% /tab %}}
+{{% tab "Python script" %}}
+
+If you downloaded a Python script, navigate to the directory where you downloaded the script and run the following command in your terminal; Replace values enclosed in `<>` with your own:
+
 ```bash
 python <your-script-name>.py
 ```
+
+
+{{% /tab %}}
+{{< /tabpane >}}
