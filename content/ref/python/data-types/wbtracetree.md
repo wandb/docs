@@ -2,7 +2,7 @@
 title: WBTraceTree
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/38b83df32bc652a763acb1345e687c88746bf647/wandb/sdk/data_types/trace_tree.py#L80-L119 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/trace_tree.py#L80-L119 >}}
 
 Media object for trace tree data.
 
