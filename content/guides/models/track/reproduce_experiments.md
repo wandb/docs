@@ -25,7 +25,7 @@ Once you have the name of the project and run you want to reproduce, you can rep
 3. From the list of runs, select the run that you want to reproduce.
 4. Click **Overview**.
 
-Depending on how your team member configured their project, you can reproduce an experiment by either checking out their GitHub repo or downloading their code.
+Depending on how your team member configured their project, you can reproduce an experiment by either checking out their GitHub repository or downloading their code.
 
 {{< tabpane text=true >}}
 {{% tab "Download Python script or notebook" %}}
@@ -46,7 +46,7 @@ Before you continue, ensure you have access to the GitHub repository that your t
 
 Clone the GitHub repository your teammate used when creating the experiment. To do this, 
 
-1. Copy and paste the GitHub repo URL specified in the **Git repository** field.
+1. Copy and paste the GitHub repository URL specified in the **Git repository** field.
 ```bash
 git clone https://github.com/your-repo.git && cd your-repo
 ```
@@ -61,14 +61,14 @@ git checkout -b "<run-name>" 0123456789012345678901234567890123456789
 {{< /tabpane >}}
 
 5. Select **Files** in the left navigation bar.
-6. Download the `requirements.txt` file and store it in your working directory. This directory should contain either the cloned GitHub repo or the downloaded Python script or notebook.
+6. Download the `requirements.txt` file and store it in your working directory. This directory should contain either the cloned GitHub repository or the downloaded Python script or notebook.
 7. (Recommended) Create a Python virtual environment.
 8. Install the requirements specified in the `requirements.txt` file.
     ```bash
     pip install -r requirements.txt
     ```
 
-Now that you have the code and dependencies, you can run the script or notebook to reproduce the experiment. If you cloned a repo, you might need to navigate to the directory where the script or notebook is located. Otherwise, you can run the script or notebook from your working directory.
+Now that you have the code and dependencies, you can run the script or notebook to reproduce the experiment. If you cloned a repository, you might need to navigate to the directory where the script or notebook is located. Otherwise, you can run the script or notebook from your working directory.
 
 {{< tabpane text=true >}}
 {{% tab "Python notebook" %}}
