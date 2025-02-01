@@ -15,7 +15,7 @@ Bring your own bucket (BYOB) allows you to store W&B artifacts and other related
 * You can specify a sub-path when configuring a bucket, to ensure that W&B does not store any files in a folder at the root of the bucket. It can help you better conform to your organzation's bucket governance policy.
 {{% /alert %}}
 
-## Central database-stored data vs. bucket-stored data
+## Data stored in the central database vs buckets
 
 When using BYOB functionality, certain types of data will be stored in the W&B central database, and other types will be stored in your bucket. 
 
