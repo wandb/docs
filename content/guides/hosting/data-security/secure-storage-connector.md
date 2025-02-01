@@ -26,7 +26,7 @@ When using BYOB functionality, certain types of data will be stored in the W&B c
 - Experiment logs
 - System metrics
 
-## Bucket-stored
+## Buckets
 
 - Experiment files and metrics
 - Artifact files
