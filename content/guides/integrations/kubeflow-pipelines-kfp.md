@@ -7,7 +7,7 @@ menu:
 title: Kubeflow Pipelines (kfp)
 weight: 170
 ---
-## Overview
+
 
 [Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/overview/)is a platform for building and deploying portable, scalable machine learning (ML) workflows based on Docker containers.
 
@@ -15,36 +15,69 @@ This integration lets users apply decorators to kfp python functional components
 
 This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`
 
-## Quickstart
+## Sign up and create an API key
 
-### Install W&B and login
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
+
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+
+## Install the `wandb` library and log in
+
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 
-{{% tab header="Notebook" value="notebook" %}}
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) to your API key.
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. Install the `wandb` library and log in.
+
+
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+
+{{% /tab %}}
+
+{{% tab header="Python" value="python" %}}
 
 ```bash
-!pip install kfp wandb
-
+pip install wandb
+```
+```python
 import wandb
 wandb.login()
 ```
 
 {{% /tab %}}
 
-{{% tab header="Command Line" value="cli" %}}
+{{% tab header="Python notebook" value="notebook" %}}
 
-```python
-pip install kfp wandb
-wandb login
+```notebook
+!pip install wandb
+
+import wandb
+wandb.login()
 ```
 
 {{% /tab %}}
-
 {{< /tabpane >}}
 
 
-### Decorate your components
+## Decorate your components
 
 Add the `@wandb_log` decorator and create your components as usual. This will automatically log the input/outputs parameters and artifacts to W&B each time you run your pipeline.
 
@@ -61,7 +94,7 @@ def add(a: float, b: float) -> float:
 add = components.create_component_from_func(add)
 ```
 
-### Pass environment variables to containers
+## Pass environment variables to containers
 
 You may need to explicitly pass [environment variables]({{< relref "/guides/models/track/environment-variables.md" >}}) to your containers. For two-way linking, you should also set the environment variables `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance. For example, `https://kubeflow.mysite.com`.
 
