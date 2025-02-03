@@ -47,6 +47,18 @@ To install the `wandb` library locally and log in:
 
 {{% tab header="Python" value="python" %}}
 
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+
+{{% /tab %}}
+
+{{% tab header="Python notebook" value="notebook" %}}
+
 ```notebook
 !pip install wandb
 
@@ -101,10 +113,10 @@ python -m spacy train \
 
 {{% /tab %}}
 
-{{% tab header="Notebook" value="notebook" %}}
+{{% tab header="Python" value="python" %}}
 
 ```python
-!python -m spacy train \
+python -m spacy train \
     config.cfg \
     --output ./output \
     --paths.train ./train \
@@ -113,6 +125,17 @@ python -m spacy train \
 
 {{% /tab %}}
 
+{{% tab header="Python notebook" value="notebook" %}}
+
+```notebook
+!python -m spacy train \
+    config.cfg \
+    --output ./output \
+    --paths.train ./train \
+    --paths.dev ./dev
+```
+
+{{% /tab %}}
 {{< /tabpane >}}
 
 When training begins, a link to your training run's [W&B page]({{< relref "/guides/models/track/runs/" >}}) will be output which will take you to this run's experiment tracking [dashboard]({{< relref "/guides/models/track/workspaces.md" >}}) in the Weights & Biases web UI.

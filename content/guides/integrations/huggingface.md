@@ -68,6 +68,18 @@ To install the `wandb` library locally and log in:
 
 {{% tab header="Python" value="python" %}}
 
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+
+{{% /tab %}}
+
+{{% tab header="Python notebook" value="python" %}}
+
 ```notebook
 !pip install wandb
 
@@ -95,21 +107,24 @@ WANDB_PROJECT=amazon_sentiment_analysis
 ```
 
 {{% /tab %}}
-{{% tab header="Notebook" value="notebook" %}}
+
+{{% tab header="Python" value="python" %}}
+
+```python
+import os
+os.environ["WANDB_PROJECT"]="amazon_sentiment_analysis"
+```
+
+{{% /tab %}}
+
+{{% tab header="Python notebook" value="notebook" %}}
 
 ```notebook
 %env WANDB_PROJECT=amazon_sentiment_analysis
 ```
 
 {{% /tab %}}
-{{% tab header="Python" value="python" %}}
 
-```notebook
-import os
-os.environ["WANDB_PROJECT"]="amazon_sentiment_analysis"
-```
-
-{{% /tab %}}
 {{< /tabpane >}}
 
 {{% alert %}}
@@ -180,6 +195,14 @@ Use `WANDB_LOG_MODEL` along with `load_best_model_at_end` to upload the best mod
 
 {{< tabpane text=true >}}
 
+{{% tab header="Command Line" value="cli" %}}
+
+```bash
+WANDB_LOG_MODEL="checkpoint"
+```
+
+{{% /tab %}}
+
 {{% tab header="Python" value="python" %}}
 
 ```python
@@ -190,15 +213,7 @@ os.environ["WANDB_LOG_MODEL"] = "checkpoint"
 
 {{% /tab %}}
 
-{{% tab header="Command Line" value="cli" %}}
-
-```bash
-WANDB_LOG_MODEL="checkpoint"
-```
-
-{{% /tab %}}
-
-{{% tab header="Notebook" value="notebook" %}}
+{{% tab header="Python notebook" value="notebook" %}}
 
 ```notebook
 %env WANDB_LOG_MODEL="checkpoint"

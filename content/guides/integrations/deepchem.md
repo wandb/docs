@@ -23,11 +23,11 @@ model.fit(…)
 
 Explore the Using [W&B with DeepChem: Molecular Graph Convolutional Networks](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=) article for an example charts generated using the W&B DeepChem integration.
 
-If you'd rather dive straight into working code, check out this [**Google Colab**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb).
+To dive straight into working code, check out this [**Google Colab**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb).
 
 ## Track experiments
 
-Setup Weights & Biases for DeepChem models of type [KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) or [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models).
+Set up W&B for DeepChem models of type [KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) or [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models).
 
 ### Sign up and create an API key
 
@@ -68,6 +68,18 @@ To install the `wandb` library locally and log in:
 
 {{% tab header="Python" value="python" %}}
 
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+
+{{% /tab %}}
+
+{{% tab header="Python notebook" value="python-notebook" %}}
+
 ```notebook
 !pip install wandb
 
@@ -76,11 +88,12 @@ wandb.login()
 ```
 
 {{% /tab %}}
+
 {{< /tabpane >}}
 
 ### Log your training and evaluation data to W&B
 
-Training loss and evaluation metrics can be automatically logged to Weights & Biases. Optional evaluation can be enabled using the DeepChem [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py), the `WandbLogger` will detect ValidationCallback callback and log the metrics generated.
+Training loss and evaluation metrics can be automatically logged to W&B. Optional evaluation can be enabled using the DeepChem [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py), the `WandbLogger` will detect ValidationCallback callback and log the metrics generated.
 
 {{< tabpane text=true >}}
 

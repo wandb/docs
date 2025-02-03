@@ -57,6 +57,18 @@ To install the `wandb` library locally and log in:
 
 {{% tab header="Python" value="python" %}}
 
+```bash
+pip install -Uqqq metaflow fastcore wandb
+```
+```python
+import wandb
+wandb.login()
+```
+
+{{% /tab %}}
+
+{{% tab header="Python notebook" value="notebook" %}}
+
 ```notebook
 !pip install -Uqqq metaflow fastcore wandb
 
@@ -150,7 +162,7 @@ class WandbExampleFlow(FlowSpec):
 
 You can access the information we've captured in three ways: inside the original Python process being logged using the [`wandb` client library]({{< relref "/ref/python/" >}}), with the [web app UI]({{< relref "/guides/models/track/workspaces.md" >}}), or programmatically using [our Public API]({{< relref "/ref/python/public-api/" >}}). `Parameter`s are saved to W&B's [`config`]({{< relref "/guides/models/track/config.md" >}}) and can be found in the [Overview tab]({{< relref "/guides/models/track/runs/#overview-tab" >}}). `datasets`, `models`, and `others` are saved to [W&B Artifacts]({{< relref "/guides/core/artifacts/" >}}) and can be found in the [Artifacts tab]({{< relref "/guides/models/track/runs/#artifacts-tab" >}}). Base python types are saved to W&B's [`summary`]({{< relref "/guides/models/track/log/" >}}) dict and can be found in the Overview tab. See our [guide to the Public API]({{< relref "/guides/models/track/public-api-guide.md" >}}) for details on using the API to get this information programmatically from outside .
 
-### Cheat sheet
+### Quick reference
 
 | Data                                            | Client library                            | UI                    |
 | ----------------------------------------------- | ----------------------------------------- | --------------------- |

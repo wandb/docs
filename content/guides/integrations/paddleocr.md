@@ -52,6 +52,18 @@ To install the `wandb` library locally and log in:
 
 {{% tab header="Python" value="python" %}}
 
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+
+{{% /tab %}}
+
+{{% tab header="Python notebook" value="notebook" %}}
+
 ```notebook
 !pip install wandb
 
@@ -96,6 +108,6 @@ Once you run your `train.py` file with Weights & Biases turned on, a link will b
 
 {{< img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="W&B Dashboard for the Text Detection Model" >}}
 
-## Feedback or Issues?
+## Feedback or issues
 
 If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

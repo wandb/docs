@@ -49,6 +49,18 @@ To install the `wandb` library locally and log in:
 
 {{% tab header="Python" value="python" %}}
 
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+
+{{% /tab %}}
+
+{{% tab header="Python notebook" value="python-notebook" %}}
+
 ```notebook
 !pip install wandb
 
@@ -148,7 +160,7 @@ $ torchrun --nproc_per_node 2 train.py
 in this case, the machine has 2 GPUs.
 
 {{% /tab %}}
-{{% tab header="Notebook" value="notebook" %}}
+{{% tab header="Python notebook" value="notebook" %}}
 
 You can now run distributed training directly inside a notebook.
 
@@ -225,7 +237,7 @@ $ torchrun --nproc_per_node 2 train.py
 ```
 
 {{% /tab %}}
-{{% tab header="Notebook" value="notebook" %}}
+{{% tab header="Python notebook" value="notebook" %}}
 
 ```python
 import wandb
