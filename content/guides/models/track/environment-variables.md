@@ -27,6 +27,9 @@ WANDB_PROJECT=$project
 ```python
 # If you don't want your script to sync to the cloud
 os.environ["WANDB_MODE"] = "offline"
+
+# Add sweep ID tracking to Run objects and related classes
+os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 ```
 
 ## Optional environment variables
@@ -36,7 +39,7 @@ Use these optional environment variables to do things like set up authentication
 | Variable name               | Usage                                  |
 | --------------------------- | ---------- |
 | **WANDB_ANONYMOUS**        | Set this to `allow`, `never`, or `must` to let users create anonymous runs with secret urls.                                                    |
-| **WANDB_API_KEY**         | Sets the authentication key associated with your account. You can find your key on [your settings page](https://app.wandb.ai/settings). This must be set if `wandb login` hasn't been run on the remote machine.               |
+| **WANDB_API_KEY**         | Sets the authentication key associated with your account. You can find your key on [your settings page](https://app.wandb.ai/settings).  This must be set if `wandb login` hasn't been run on the remote machine.               |
 | **WANDB_BASE_URL**        | If you're using [wandb/local]({{< relref "/guides/hosting/" >}}) you should set this environment variable to `http://YOUR_IP:YOUR_PORT`        |
 | **WANDB_CACHE_DIR**       | This defaults to \~/.cache/wandb, you can override this location with this environment variable                    |
 | **WANDB_CONFIG_DIR**      | This defaults to \~/.config/wandb, you can override this location with this environment variable                             |
@@ -62,6 +65,7 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB_RUN_ID**          | Set this to a globally unique string (per project) corresponding to a single run of your script. It must be no longer than 64 characters. All non-word characters will be converted to dashes. This can be used to resume an existing run in cases of failure.      |
 | **WANDB_SILENT**           | Set this to **true** to silence wandb log statements. If this is set all logs will be written to **WANDB_DIR**/debug.log               |
 | **WANDB_SHOW_RUN**        | Set this to **true** to automatically open a browser with the run url if your operating system supports it.        |
+| **WANDB_SWEEP_ID**        | Add sweep ID tracking to `Run` objects and related classes, and display in the UI.           |
 | **WANDB_TAGS**             | A comma separated list of tags to be applied to the run.                 |
 | **WANDB_USERNAME**         | The username of a member of your team associated with the run. This can be used along with a service account API key to enable attribution of automated runs to members of your team.               |
 | **WANDB_USER_EMAIL**      | The email of a member of your team associated with the run. This can be used along with a service account API key to enable attribution of automated runs to members of your team.            |
