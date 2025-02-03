@@ -7,7 +7,7 @@ title: Manage billing settings
 weight: 20
 ---
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**, then click **Billing**.
+Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Billing**, or choose **Settings** and then select the **Billing** tab.
 
 ## Plan details
 
@@ -24,9 +24,10 @@ From here, you can compare plans or talk to Sales.
 ### Storage
 The **Storage** section shows how much storage your organization uses, both free and paid. Each organization has 100 GB of free storage per month.
 
-To purchase additional storage, click **Buy storage**.
+- To purchase additional storage, click **Buy storage**.
+- To view details about each team's storage, click **Manage storage**. From there, you can optinally delete a team to free up its storage.
 
-To view details about each team's storage, click **Manage storage**. From there, you can optinally delete a team to free up its storage.
+Learn more about [storage settings]({{< relref "storage.md" >}}).
 
 ## Plan usage
 This section visually summarizes the same usage information as in the **Team plan** section in a different way. For more details, click **View usage** on an individual tile. From here, you can also upgrade your Weave plan and manage storage.
