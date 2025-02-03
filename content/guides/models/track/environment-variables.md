@@ -27,6 +27,9 @@ WANDB_PROJECT=$project
 ```python
 # If you don't want your script to sync to the cloud
 os.environ["WANDB_MODE"] = "offline"
+
+# Add sweep ID tracking to Run objects and related classes
+os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 ```
 
 ## Optional environment variables
@@ -43,7 +46,7 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB_CONFIG_PATHS**    | Comma separated list of yaml files to load into wandb.config. See [config]({{< relref "./config.md#file-based-configs" >}}).                                          |
 | **WANDB_CONSOLE**          | Set this to "off" to disable stdout / stderr logging. This defaults to "on" in environments that support it.                                          |
 | **WANDB_DIR**              | Set this to an absolute path to store all generated files here instead of the _wandb_ directory relative to your training script. _be sure this directory exists and the user your process runs as can write to it_. Note that this does not affect the location of downloaded artifacts, which can instead be set using _WANDB_ARTIFACT_DIR_                  |
-| **WANDB_ARTIFACT_DIR**              | Set this to an absolute path to store all downloaded artifacts here instead of the _artifacts_ directory relative to your training script. _be sure this directory exists and the user your process runs as can write to it_. Note that this does not affect the location of generated metadata files, which can instead be set using _WANDB_DIR_                  |
+| **WANDB_ARTIFACT_DIR**              | Set this to an absolute path to store all downloaded artifacts here instead of the _artifacts_ directory relative to your training script. Make sure this directory exists and the user your process runs as can write to it. Note that this does not affect the location of generated metadata files, which can instead be set using _WANDB_DIR_                  |
 | **WANDB_DISABLE_GIT**     | Prevent wandb from probing for a git repository and capturing the latest commit / diff.      |
 | **WANDB_DISABLE_CODE**    | Set this to true to prevent wandb from saving notebooks or git diffs. We'll still save the current commit if we're in a git repo.                   |
 | **WANDB_DOCKER**           | Set this to a docker image digest to enable restoring of runs. This is set automatically with the wandb docker command. You can obtain an image digest by running `wandb docker my/image/name:tag --digest` |
@@ -63,6 +66,7 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB_RUN_ID**          | Set this to a globally unique string (per project) corresponding to a single run of your script. It must be no longer than 64 characters. All non-word characters will be converted to dashes. This can be used to resume an existing run in cases of failure.      |
 | **WANDB_SILENT**           | Set this to **true** to silence wandb log statements. If this is set all logs will be written to **WANDB_DIR**/debug.log               |
 | **WANDB_SHOW_RUN**        | Set this to **true** to automatically open a browser with the run url if your operating system supports it.        |
+| **WANDB_SWEEP_ID**        | Add sweep ID tracking to `Run` objects and related classes, and display in the UI.           |
 | **WANDB_TAGS**             | A comma separated list of tags to be applied to the run.                 |
 | **WANDB_USERNAME**         | The username of a member of your team associated with the run. This can be used along with a service account API key to enable attribution of automated runs to members of your team.               |
 | **WANDB_USER_EMAIL**      | The email of a member of your team associated with the run. This can be used along with a service account API key to enable attribution of automated runs to members of your team.            |

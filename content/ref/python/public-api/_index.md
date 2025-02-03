@@ -1,9 +1,10 @@
 ---
 title: Import & Export API
 ---
+
 <!-- Insert buttons and diff -->
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/__init__.py" >}}
+
 
 ## Classes
 

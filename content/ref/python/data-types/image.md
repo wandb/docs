@@ -2,7 +2,7 @@
 title: Image
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L65-L690" >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L65-L689 >}}
 
 Format images for logging to W&B.
 
@@ -21,18 +21,15 @@ Image(
 
 | Args |  |
 | :--- | :--- |
-| `data_or_path` | (numpy array, string, io) Accepts numpy array of image data, or a PIL image. The class attempts to infer the data format and converts it. |
-| `mode` | (string) The PIL mode for an image. Most common are `L`, `RGB`, `RGBA`. Full explanation at https://pillow.readthedocs.io/en/stable/handbook/concepts.`html#modes |
-| `caption` | (string) Label for display of image. |
+|  `data_or_path` |  (numpy array, string, io) Accepts numpy array of image data, or a PIL image. The class attempts to infer the data format and converts it. |
+|  `mode` |  (string) The PIL mode for an image. Most common are "L", "RGB", "RGBA". Full explanation at https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes |
+|  `caption` |  (string) Label for display of image. |
 
 Note : When logging a `torch.Tensor` as a `wandb.Image`, images are normalized. If you do not want to normalize your images, please convert your tensors to a PIL Image.
 
 #### Examples:
 
-### Create a `wandb.Image` from a numpy array
-
-<!--yeadoc-test:log-image-numpy-->
-
+### Create a wandb.Image from a numpy array
 
 ```python
 import numpy as np
@@ -47,10 +44,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### Create a `wandb.Image` from a `PILImage`
-
-<!--yeadoc-test:log-image-pillow-->
-
+### Create a wandb.Image from a PILImage
 
 ```python
 import numpy as np
@@ -69,10 +63,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### log `.jpg` rather than `.png` (default)
-
-<!--yeadoc-test:log-image-format-->
-
+### log .jpg rather than .png (default)
 
 ```python
 import numpy as np
@@ -94,7 +85,7 @@ with wandb.init() as run:
 
 ### `all_boxes`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L613-L634)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L610-L631)
 
 ```python
 @classmethod
@@ -108,7 +99,7 @@ all_boxes(
 
 ### `all_captions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L636-L640)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L633-L637)
 
 ```python
 @classmethod
@@ -119,7 +110,7 @@ all_captions(
 
 ### `all_masks`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L590-L611)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L587-L608)
 
 ```python
 @classmethod
@@ -133,7 +124,7 @@ all_masks(
 
 ### `guess_mode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L477-L489)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L474-L486)
 
 ```python
 guess_mode(
@@ -145,7 +136,7 @@ Guess what type of image the np.array is representing.
 
 ### `to_uint8`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/data_types/image.py#L491-L514)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L488-L511)
 
 ```python
 @classmethod
@@ -161,5 +152,5 @@ Convert floating point image on the range [0,1] and integer images on the range
 
 | Class Variables |  |
 | :--- | :--- |
-| `MAX_DIMENSION`<a id="MAX_DIMENSION"></a> | `65500` |
-| `MAX_ITEMS`<a id="MAX_ITEMS"></a> | `108` |
+|  `MAX_DIMENSION`<a id="MAX_DIMENSION"></a> |  `65500` |
+|  `MAX_ITEMS`<a id="MAX_ITEMS"></a> |  `108` |

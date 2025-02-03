@@ -1,6 +1,7 @@
 ---
 title: wandb restore
 ---
+
 **Usage**
 
 `wandb restore [OPTIONS] RUN`
@@ -8,6 +9,7 @@ title: wandb restore
 **Summary**
 
 Restore code, config and docker state for a run
+
 
 **Options**
 
@@ -17,4 +19,6 @@ Restore code, config and docker state for a run
 | --branch / --no-branch | Whether to create a branch or checkout detached |
 | -p, --project | The project you wish to upload to. |
 | -e, --entity | The entity to scope the listing to. |
+
+
 
