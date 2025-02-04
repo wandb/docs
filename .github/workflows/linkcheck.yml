@@ -3,7 +3,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "1 0 2 * *" # 12:01 on the 1st of each month
+    - cron: "1 0 3 * *" # 12:01 on the 1st of each month
 
 jobs:
   linkChecker:
@@ -28,8 +28,6 @@ jobs:
           args: >-
             --accept 200,429
             --base content
-            --no-cache
-            --max-cache-age 1d
             --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
             --max-concurrency 5
             --verbose
