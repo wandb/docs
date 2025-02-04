@@ -3,7 +3,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "30 20 4 * *" # In UTC, currently 8:30 PM on the 4th of the month
+    - cron: "30 20 59 * *" # In UTC, currently 8:30 PM on the 4th of the month
 
 jobs:
   linkChecker:
@@ -29,13 +29,13 @@ jobs:
             --accept 200,429
             --base content
             --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-            --max-concurrency 5
-            --verbose
-            --no-progress
-            --retry-count 1
-            --retry-delay 2
             --scheme https
             --scheme http
+            --verbose
+            --no-progress
+            --max-concurrency 5
+            --max-retries 1
+            --retry-wait-time 2
             './content/*.md'
             './content/*.html'
           fail: false
