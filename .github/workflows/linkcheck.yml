@@ -3,7 +3,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "20 21 04 * *" # In UTC, currently 8:30 PM on the 4th of the month
+    - cron: "42 21 04 * *" # In UTC, currently 8:30 PM on the 4th of the month
 
 jobs:
   linkChecker:
@@ -13,12 +13,6 @@ jobs:
     steps:
       # check URLs with Lychee
       - uses: actions/checkout@v4
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v45
-        with:
-          files: "content/**.md"
 
       - name: Link Checker
         id: lychee
