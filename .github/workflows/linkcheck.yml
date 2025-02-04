@@ -3,7 +3,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "50 21 04 * *" # In UTC, currently 9:50 PM on the 4th of the month
+    - cron: "00 23 04 * *" # In UTC, currently 11:00 PM on the 4th of the month
 
 jobs:
   linkChecker:
@@ -19,19 +19,8 @@ jobs:
         uses: lycheeverse/lychee-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: >-
-            --accept 200,429
-            --base content
-            --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-            --scheme https
-            --scheme http
-            --verbose
-            --no-progress
-            --max-concurrency 5
-            --max-retries 1
-            --retry-wait-time 2
-            './content/*.md'
-            './content/*.html'
+          args: "--base content --accept 200,429 --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' --scheme https --scheme http
+ --max-concurrency 5 --max-retries 1 --retry-wait-time 2 --verbose --no-progress"
           fail: false
         env:
           # to be used in case rate limits are surpassed
