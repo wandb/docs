@@ -52,7 +52,7 @@ Configuring a Slack integration takes multiple steps. First, [add one or more Sl
 
   If necessary, sign in to your Slack instance. A browser window appears, asking that you grant Weights and Biases permission to post to the Slack channel you select. Read the page, then click **Search for a channel** and begin typing the channel name. Select the channel from the list, then click **Allow**.
 
-1. In Slack, go to the channel you selected. If you see a post like "[Your Slack handle] added an integration to this channel: Weights & Biases", the integration is configured correctly.
+1. In Slack, go to the channel you selected. If you see a post like `[Your Slack handle] added an integration to this channel: Weights & Biases`, the integration is configured correctly.
 
 Now you can [create an automation that uses the Slack integration]({{< relref "#create-slack-automation" >}}).
 
@@ -340,4 +340,4 @@ Copy and paste the code below into a shell script to troubleshoot your webhook. 
 1. To view an automation's details, click the action `...` menu and click **View details**.
 1. To delete an automation, click the action `...` menu and click **Delete automation**.
 
-    After you delete an automation, go to the the **Settings** page to delete any Slack integrations, webhooks, or secrets that are no longer required.
+    After you delete an automation, go to the **Settings** page to delete any Slack integrations, webhooks, or secrets that are no longer required.
