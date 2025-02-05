@@ -177,6 +177,15 @@ report.save()
 {{% /tab %}}
 {{< /tabpane >}}
 
+
+## Freeze a run set
+
+A report automatically updates run sets to show the latest data from the project. You can preserve the run set in a report by *freezing* that run set. When you freeze a run set, you preserve the state of the run set in a report at a point in time.
+
+To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
+
+{{< img src="/images/reports/freeze_runset.png" alt="" >}}
+
 ## Add code blocks
 
 Add code blocks to your report interactively with the App UI or with the W&B SDK.
