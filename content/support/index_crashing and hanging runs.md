@@ -13,6 +13,8 @@ your question answered, try [asking the community](https://community.wandb.ai/),
 or email [support@wandb.com](mailto:support@wandb.com).
 {{% /card %}}
 
+- [How can I resolve the `AttributeError: module 'wandb' has no attribute 'init'`?]({{< relref "how_can_i_resolve_the_attributeerror_module_wandb_has_no_attribute_init.md" >}})
+- [How can I resolve the `AttributeError: module 'wandb' has no attribute 'login'`?]({{< relref "how_can_i_resolve_the_attributeerror_module_wandb_has_no_attribute_login.md" >}})
 - [How do I kill a job with wandb?]({{< relref "kill_job_wandb.md" >}})
 - [How do I resolve a run initialization timeout error in wandb?]({{< relref "initialization_timeout_error.md" >}})
 - [If wandb crashes, will it possibly crash my training run?]({{< relref "crashes_crash_training_run.md" >}})
