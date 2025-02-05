@@ -394,7 +394,7 @@ Sort all rows in a Table by the value in a given column.
 The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
    {{% /tab %}}
    {{% tab header="Filter" %}}
-Filter all rows by an expression with the **Filter** button on the top left of the dashboard. 
+Filter all rows by an expression with the **Filter** button above the dashboard. 
 
 {{< img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong." >}}
 
@@ -411,7 +411,7 @@ The expression editor shows a list of options for each term using autocomplete o
 The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.   
    {{% /tab %}}
    {{% tab header="Group" %}}
-Group all rows by the value in a particular column with the **Group by** button in a column header. 
+Group all rows by the value in a particular column with the **Group by** button above the dashboard. 
 
 {{< img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s." >}}
 
