@@ -178,25 +178,13 @@ report.save()
 {{< /tabpane >}}
 
 
-## Preserve run set display
+## Freeze a run set
 
-Reports automatically update run sets to show the latest data from the project. You can preserve the run set in a report by *freezing* that run set. When you freeze a run set, you preserve the state of the run set at a point in time.
+A report automatically updates run sets to show the latest data from the project. You can preserve the run set in a report by *freezing* that run set. When you freeze a run set, you preserve the state of the run set in a report at a point in time.
 
-To freeze a run set:
-
-1. Navigate to your report.
-2. Click the snowflake icon located in the run set's panel grid, next to the **Filter** button.
-
+To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
 
 {{< img src="/images/reports/freeze_runset.png" alt="" >}}
-
-
-
-
-
-
-
-
 
 ## Add code blocks
 
