@@ -40,7 +40,7 @@ An automation can run a webhook on a third-party service such as GitHub or Micro
 These sections show how to configure a Slack automation or a webhook automation.
 
 ### Configure a Slack automation
-Configuring a Slack integration takes multiple steps. First, [add one or more Slack channels]({{< relref "#add-a-slack-channel" >}}) as alert destinations. Next, [create the automation that notifies the Slack channel]({{< relref ""#create-slack-automation" >}}).
+Configuring a Slack integration takes multiple steps. First, [add one or more Slack channels]({{< relref "#add-a-slack-channel" >}}) as alert destinations. Next, [create the automation that notifies the Slack channel]({{< relref "#create-slack-automation" >}}).
 
 #### Add a Slack channel
 
