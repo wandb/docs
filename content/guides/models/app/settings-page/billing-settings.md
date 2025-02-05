@@ -11,18 +11,16 @@ Navigate to your user profile page and select your user icon on the top right co
 
 ## Plan details
 
-The **Plan details** section summarizes your organization's current plan, including a summary of monthly charges, as well as your current monthly usage:
+The **Plan details** section  summarizes your organization's current plan, charges, limits, and usage.
 
-- Monthly charges.
-- Seats used. For details and a list of users, click **Manage users**.
-- Tracked hours used. For details, click **View usage**.
-- Amount of monthly data ingested by Weave. For details, click **View usage**.
-- Amount of storage your organization uses, both free and paid. Each organization has 100 GB of free storage per month. From here, you can purchase additional storage or manage storage that is currently in use. Learn more about [storage settings]({{< relref "storage.md" >}}).
+- For details and a list of users, click **Manage users**.
+- For details about usage, click **View usage**.
+- Amount of storage your organization uses, both free and paid. From here, you can purchase additional storage and manage storage that is currently in use. Learn more about [storage settings]({{< relref "storage.md" >}}).
 
 From here, you can compare plans or talk to Sales.
 
 ## Plan usage
-This section visually summarizes the same usage information as in the **Team plan** section in a different way. For more details, click **View usage** on an individual tile. From here, you can also upgrade your Weave plan and manage storage.
+This section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
 
 ## Payment methods
 This section shows the payment methods on file for your organization. If you have not added a payment method, you will be prompted to do so when you upgrade your plan or add paid storage.
@@ -42,4 +40,6 @@ To change the billing admin or assign the role to additional users:
 1. Read the summary, then click **Change billing user**.
 
 ## Invoices
-This section allows you to view monthly invoices. If your organization incurs no charges, no invoice is generated.
+If you pay using a credit card, this section allows you to view monthly invoices.
+- For Enterprise accounts that pay via wire transfer, this section is blank.
+- If your organization incurs no charges, no invoice is generated.
