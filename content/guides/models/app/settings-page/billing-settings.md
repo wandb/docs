@@ -41,5 +41,5 @@ To change the billing admin or assign the role to additional users:
 
 ## Invoices
 If you pay using a credit card, this section allows you to view monthly invoices.
-- For Enterprise accounts that pay via wire transfer, this section is blank. For questions, contact your account teams.
+- For Enterprise accounts that pay via wire transfer, this section is blank. For questions, contact your account team.
 - If your organization incurs no charges, no invoice is generated.
