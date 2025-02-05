@@ -42,3 +42,13 @@
   </script>
   <script async src="https://js.qualified.com/qualified.js?token=GMjrmCoq7HvrWi46"></script>
 <!-- End Qualified -->
+
+<!-- inject lvl0 value from top-tier menu name into Algolia -->
+{{- $currentPage := . -}}
+{{- range site.Menus.main -}}
+  {{- if $currentPage.IsMenuCurrent .Menu . -}}
+    <div class="lvl0" content="{{ .Name }}" style="display:none">
+  {{- else if $currentPage.HasMenuCurrent .Menu . -}}
+    <div class="lvl0" content="{{ .Name }}" style="display:none">
+  {{- end -}}
+{{- end -}}
