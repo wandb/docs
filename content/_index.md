@@ -39,7 +39,7 @@ Use [W&B Models]({{< relref "/guides/" >}}) to manage all aspects of building yo
 - [Introduction]({{< relref "/guides/" >}})
 - [Quickstart]({{< relref "/guides/quickstart/" >}})
 - [YouTube Tutorial](https://www.youtube.com/watch?v=tHAFujRhZLA)
-- [Online Course](https://www.wandb.courses/courses/wandb-101)
+- [Online Course](https://wandb.ai/site/courses/101/)
 
 </div>{{% /card %}}
 {{< /cardpane >}}
