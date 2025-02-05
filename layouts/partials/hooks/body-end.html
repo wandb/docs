@@ -47,8 +47,8 @@
 {{- $currentPage := . -}}
 {{- range site.Menus.main -}}
   {{- if $currentPage.IsMenuCurrent .Menu . -}}
-    <div class="lvl0" content="{{ .Name }}" style="display:none">
+    <div class="lvl0" style="display:none">{{ .Name }}</div>
   {{- else if $currentPage.HasMenuCurrent .Menu . -}}
-    <div class="lvl0" content="{{ .Name }}" style="display:none">
+  <div class="lvl0" style="display:none">{{ .Name }}</div>
   {{- end -}}
 {{- end -}}
