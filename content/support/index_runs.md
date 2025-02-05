@@ -29,5 +29,5 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [How many runs can I create per project?]({{< relref "runs_create_per_project.md" >}})
 - [Is it possible to change the group assigned to a run after completion?]({{< relref "change_group_after_completion.md" >}})
 - [Is it possible to move a run from one project to another?]({{< relref "move_from_project_another.md" >}})
-- [Why am I receiving the error "resume='must' but run (<run_id>) doesn't exist"?]({{< relref "why_am_i_receiving_the_error_resumemust_but_run_run_id_doesnt_exist.md" >}})
+- [Why am I receiving the error "resume='must' but run (<run_id>) doesn't exist?"]({{< relref "why_am_i_receiving_the_error_resumemust_but_run_run_id_doesnt_exist.md" >}})
 - [Why does exporting a metric as CSV not download all the steps?]({{< relref "why_does_exporting_a_metric_as_csv_not_download_all_the_steps.md" >}})
