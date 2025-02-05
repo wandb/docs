@@ -11,23 +11,15 @@ Navigate to your user profile page and select your user icon on the top right co
 
 ## Plan details
 
-### Teams plan
-The **Teams plan** section summarizes your organization's current plan, including a summary of monthly charges, as well as your current monthly usage:
+The **Plan details** section summarizes your organization's current plan, including a summary of monthly charges, as well as your current monthly usage:
 
 - Monthly charges.
 - Seats used. For details and a list of users, click **Manage users**.
 - Tracked hours used. For details, click **View usage**.
 - Amount of monthly data ingested by Weave. For details, click **View usage**.
+- Amount of storage your organization uses, both free and paid. Each organization has 100 GB of free storage per month. From here, you can purchase additional storage or manage storage that is currently in use. Learn more about [storage settings]({{< relref "storage.md" >}}).
 
 From here, you can compare plans or talk to Sales.
-
-### Storage
-The **Storage** section shows how much storage your organization uses, both free and paid. Each organization has 100 GB of free storage per month.
-
-- To purchase additional storage, click **Buy storage**.
-- To view details about each team's storage, click **Manage storage**. From there, you can optinally delete a team to free up its storage.
-
-Learn more about [storage settings]({{< relref "storage.md" >}}).
 
 ## Plan usage
 This section visually summarizes the same usage information as in the **Team plan** section in a different way. For more details, click **View usage** on an individual tile. From here, you can also upgrade your Weave plan and manage storage.
