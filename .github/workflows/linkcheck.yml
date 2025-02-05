@@ -3,7 +3,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "1 0 2 * *" # 12:01 on the 1st of each month
+    - cron: "06 23 04 * *" # In UTC, currently 11:00 PM on the 4th of the month
 
 jobs:
   linkChecker:
@@ -14,32 +14,12 @@ jobs:
       # check URLs with Lychee
       - uses: actions/checkout@v4
 
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v45
-        with:
-          files: "content/**.md"
-
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: >-
-            --accept 200,429
-            --base content
-            --no-cache
-            --max-cache-age 1d
-            --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-            --max-concurrency 5
-            --verbose
-            --no-progress
-            --retry-count 1
-            --retry-delay 2
-            --scheme https
-            --scheme http
-            './content/*.md'
-            './content/*.html'
+          args: "--base content --accept 200,429 --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' --scheme https --scheme http --max-concurrency 5 --max-retries 1 --retry-wait-time 2 --verbose --no-progress './**/*.md' './**/*.html'"
           fail: false
         env:
           # to be used in case rate limits are surpassed
