@@ -67,7 +67,10 @@ You can set the [smoothing coefficient]({{< relref "/support/formula_smoothing_a
 
 ## Ignore outliers
 
-Ignore outliers sets the graph's Y-axis range from 5% to 95%, rather than from 0% to 100% to make all data visible.
+Rescale the plot to exclude outliers from the default plot min and max scale. The setting's impact on the plot depends on the plot's sampling mode.
+
+- For plots that use [random sampling mode]({{< relref "sampling.md#random-sampling" >}}), when you enable **Ignore outliers**, only points from 5% to 95% are shown. When outliers are shown, they are not formatted differently from other points.
+- For plots that use [full fidelity mode]({{< relref "sampling.md#full-fidelity" >}}), all points are always shown, condensed down to the last value in each bucket. When **Ignore outliers** is enabled, the minimum and maximum bounds of each bucket are shaded. Otherwise, no area is shaded.
 
 ## Expression
 
