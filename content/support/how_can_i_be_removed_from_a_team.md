@@ -7,4 +7,4 @@ tags:
   - team management
 ---
 
-To be removed from a team, you will need to reach out to a team admin and ask them to delete you from the Users tab.
+A team admin can [remove you from a team]({{< relref "/guides/models/app/settings-page/teams.md" >}})  from the **Users** tab of the team settings.
