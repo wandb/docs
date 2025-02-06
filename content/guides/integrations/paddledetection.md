@@ -18,40 +18,71 @@ The PaddleDetection `WandbLogger` logs your training and evaluation metrics to W
 
 [**Read a W&B blog post**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) which illustrates how to integrate a YOLOX model with PaddleDetection on a subset of the `COCO2017` dataset.
 
-## Use PaddleDetection with W&B
+## Sign up and create an API key
 
-### Sign up and log in to W&B
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-[**Sign up**](https://wandb.ai/site) for a free Weights & Biases account, then pip install the wandb library. To login, you'll need to be signed in to you account at www.wandb.ai. Once signed in **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
+
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+
+## Install the `wandb` library and log in
+
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
-
 {{% tab header="Command Line" value="cli" %}}
 
-```shell
-pip install wandb
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) to your API key.
 
-wandb login
-```
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. Install the `wandb` library and log in.
+
+
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
 
 {{% /tab %}}
 
-{{% tab header="Notebook" value="notebook" %}}
+{{% tab header="Python" value="python" %}}
 
-```notebook
-!pip install wandb
-
+```bash
+pip install wandb
+```
+```python
+import wandb
 wandb.login()
 ```
 
 {{% /tab %}}
 
+{{% tab header="Python notebook" value="python" %}}
+
+```notebook
+!pip install wandb
+
+import wandb
+wandb.login()
+```
+
+{{% /tab %}}
 {{< /tabpane >}}
 
-### Activate the `WandbLogger` in your training script
+## Activate the `WandbLogger` in your training script
 
-#### Use the CLI
-
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 To use wandb via arguments to `train.py` in [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/):
 
 * Add the `--use_wandb` flag
@@ -67,10 +98,9 @@ python tools/train.py
     wandb-entity=MyTeam \
     wandb-save_dir=./logs
 ```
-
-#### Use a `config.yml` file
-
-You can also activate wandb via the config file. Add the wandb arguments to the config.yml file under the wandb header like so:
+{{% /tab %}}
+{{% tab header="`config.yml`" value="config" %}}
+Add the wandb arguments to the config.yml file under the `wandb` key:
 
 ```
 wandb:
@@ -79,9 +109,11 @@ wandb:
   save_dir: ./logs
 ```
 
-Once you run your `train.py` file with Weights & Biases turned on, a link will be generated to bring you to your W&B dashboard:
+When you run your `train.py` file, it generates a link to your W&B dashboard.
 
 {{< img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A Weights & Biases Dashboard" >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Feedback or issues
 
