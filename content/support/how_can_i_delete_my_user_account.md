@@ -6,4 +6,4 @@ tags:
   - user management
 ---
 
-You can delete your user account from the bottom of your `<base-url>/settings` page.
+Delete your user account by clicking **Delete account** in your [user settings]({{< relref "/guides/models/app/settings-page/user-settings.md#delete-your-account" >}}).
