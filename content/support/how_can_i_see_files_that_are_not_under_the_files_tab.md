@@ -6,7 +6,7 @@ tags:
   - experiments
 ---
 
-The Files tab is limited to 10,000 files. Use the Public API to download hidden files:
+The Files tab shows a maximum of 10,000 files. To download all files, use the [public API]({{< relref "/ref/python/public-api/api.md" >}}):
 
 ```python
 import wandb
