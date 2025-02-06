@@ -75,7 +75,7 @@ Configuring a webhook integration takes multiple steps:
 
 1. If your webhook requires any sensitive strings, [add them as secrets]({{< relref "#add-a-secret" >}}) for any sensitive strings required by the webhook. If the webhook requires a bearer token, do not configure a secret for it. Instead, you configure it as part of creating the webhook.
 1. [Create the webook]({{< relref "#add-a-webhook" >}}). If necessary, specify its access token, and grant it access to any secrets it needs.
-1. [Create an automation that uses the webhook]({{< relref "create-webhook-automation" >}}), configuring the payload it sends to the third-party service.
+1. [Create an automation that uses the webhook]({{< relref "#create-webhook-automation" >}}), configuring the payload it sends to the third-party service.
 
 #### Add a secret
 A secret is a team-level variable that lets you obfuscate a sensitive string such as a credential, API key, password, or token. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
