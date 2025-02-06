@@ -96,9 +96,65 @@ helm repo update
 ```shell
 helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 ```
-3. Configure the W&B operator custom resource to trigger the W&B Server installation. Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}) for details.
+3. Configure the W&B operator custom resource to trigger the W&B Server installation. Copy this example configuration to a file named `operator.yaml`, so that you can customioze your W&B deployment. Refer to [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}).
 
-    Once you have the specification YAML created and filled with your values, run the following and the operator applies the configuration and install the W&B Server application based on your configuration.
+   ```yaml
+   apiVersion: apps.wandb.com/v1
+   kind: WeightsAndBiases
+   metadata:
+     labels:
+       app.kubernetes.io/instance: wandb
+       app.kubernetes.io/name: weightsandbiases
+     name: wandb
+     namespace: default
+
+   spec:
+     chart:
+       url: http://charts.yourdomain.com
+       name: operator-wandb
+       version: 0.18.0
+
+     values:
+       global:
+         host: https://wandb.yourdomain.com
+         license: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+         bucket:
+           accessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+           secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+           name: s3.yourdomain.com:port #Ex.: s3.yourdomain.com:9000
+           path: bucket_name
+           provider: s3
+           region: us-east-1
+         mysql:
+           database: wandb
+           host: mysql.home.lab
+           password: password
+           port: 3306
+           user: wandb
+         extraEnv:
+           ENABLE_REGISTRY_UI: 'true'
+
+       # Ensure it's set to use your own MySQL
+       mysql:
+         install: false
+
+       app:
+         image:
+           repository: registry.yourdomain.com/local
+           tag: 0.59.2
+
+       console:
+         image:
+           repository: registry.yourdomain.com/console
+           tag: 2.12.2
+
+       ingress:
+         annotations:
+           nginx.ingress.kubernetes.io/proxy-body-size: 64m
+         class: nginx
+   ```
+
+    Start the Operator with your custom configuration so that it can install and configure the W&B Server application.
 
     ```shell
     kubectl apply -f operator.yaml
@@ -106,7 +162,7 @@ helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 
     Wait until the deployment completes. This takes a few minutes.
 
-4. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
+5. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
 
 
 ### Deploy W&B with Helm Terraform Module
@@ -412,13 +468,12 @@ spec:
         kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
 ```
 
-
 ### Host
 ```yaml
  # Provide the FQDN with protocol
 global:
-  # example host name,  replace with your own
-  host: https://abc-wandb.sandbox-gcp.wandb.ml
+  # example host name, replace with your own
+  host: https://wandb.example.com
 ```
 
 ### Object storage (bucket)
@@ -456,6 +511,7 @@ For other S3 compatible providers, set the bucket configuration as follows:
 ```yaml
 global:
   bucket:
+    # Example values, replace with your own
     provider: s3
     name: storage.example.com
     kmsKey: null
@@ -465,26 +521,65 @@ global:
     secretKey: HDKYe4Q...JAp1YyjysnX
 ```
 
+For S3-compatible storage hosted outside of AWS, `kmsKey` must be `null`.
+
+To reference `accessKey` and `secretKey` from a secret:
+```yaml
+global:
+  bucket:
+    # Example values, replace with your own
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    secret:
+      secretName: bucket-secret
+      accessKeyName: ACCESS_KEY
+      secretKeyName: SECRET_KEY
+```
+
 ### MySQL
 
 ```yaml
 global:
    mysql:
      # Example values, replace with your own
-     database: wandb_local
-     host: 10.218.0.2
-     name: wandb_local
-     password: 8wtX6cJH...ZcUarK4zZGjpV
+     host: db.example.com
      port: 3306
+     database: wandb_local
      user: wandb
+     password: 8wtX6cJH...ZcUarK4zZGjpV 
+```
+
+To reference the `password` from a secret:
+```yaml
+global:
+   mysql:
+     # Example values, replace with your own
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     passwordSecret:
+       name: database-secret
+       passwordKey: MYSQL_WANDB_PASSWORD
 ```
 
 ### License
 
 ```yaml
 global:
-  # Example license,  replace with your own
+  # Example license, replace with your own
   license: eyJhbGnUzaHgyQjQy...VFnPS_KETXg1hi
+```
+
+To reference the `license` from a secret:
+```yaml
+global:
+  licenseSecret:
+    name: license-secret
+    key: CUSTOMER_WANDB_LICENSE
 ```
 
 ### Ingress
@@ -620,7 +715,7 @@ global:
     caCert: ""
 ```
 
-Alternatively with redis password in a Kubernetes secret:
+To reference the `password` from a secret:
 
 ```console
 kubectl create secret generic redis-secret --from-literal=redis-password=supersecret
@@ -709,9 +804,12 @@ global:
     oidc:
       clientId: ""
       secret: ""
+      # Only include if your IdP requires it.
       authMethod: ""
       issuer: ""
 ```
+
+`authMethod` is optional. 
 
 ### SMTP
 
@@ -756,6 +854,33 @@ global:
     -----END CERTIFICATE-----
 ```
 
+CA certificates can also be stored in a ConfigMap:
+```yaml
+global:
+  caCertsConfigMap: custom-ca-certs
+```
+
+The ConfigMap must look like this:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+{{% alert %}}
+If using a ConfigMap, each key in the ConfigMap must end with `.crt` (for example, `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
+{{% /alert %}}
+
 ### Custom security context
 
 Each W&B component supports custom security context configurations of the following form:
@@ -784,7 +909,7 @@ The only valid value for `runAsGroup:` is `0`. Any other value is an error.
 {{% /alert %}}
 
 
-To configure the application pod, add a section `app` to your configuration:
+For example, to configure the application pod, add a section `app` to your configuration:
 
 ```yaml
 global:
@@ -807,7 +932,8 @@ app:
       readOnlyRootFilesystem: false
       allowPrivilegeEscalation: false 
 ```
-The same concept applies to `console`, `weave`, `otel`, `weave-trace`, `flat-run-fields-updater` and `parquet`.
+
+The same concept applies to `console`, `weave`, `weave-trace` and `parquet`.
 
 ## Configuration Reference for W&B Operator
 
@@ -839,6 +965,32 @@ customCACerts:
   aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
   -----END CERTIFICATE-----
 ```
+
+CA certificates can also be stored in a ConfigMap:
+```yaml
+caCertsConfigMap: custom-ca-certs
+```
+
+The ConfigMap must look like this:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+{{% alert %}}
+Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
+{{% /alert %}}
 
 ## FAQ
 
