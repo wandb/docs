@@ -35,7 +35,7 @@ Review a complete example on [GitHub](https://github.com/wandb/examples/tree/mas
 You can also read the [tutorial](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE) on deploying a sentiment analyzer using SageMaker and W&B.
 
 {{% alert color="secondary" %}}
-The W&B sweep agent will only behave as expected in a SageMaker job if your SageMaker integration is turned off. You can turn off the SageMaker integration in your runs by modifying your invocation of `wandb.init` as follows:
+The W&B sweep agent behaves as expected in a SageMaker job only if your SageMaker integration is turned off. Turn off the SageMaker integration by modifying your invocation of `wandb.init`:
 
 ```python
 wandb.init(..., settings=wandb.Settings(sagemaker_disable=True))
