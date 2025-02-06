@@ -65,6 +65,10 @@ To learn more about the options for each type of panel, refer to the relevant se
 
 This section describes the various ways to share a panel and how each way differs.
 
+The settings of a project determine who can view the panel. This means that if the project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
+
+If multiple panels have the same name, W&B shares the first panel with the name.
+
 ### View and share a panel in full-screen mode
 In full-screen mode, the panel plots 10,000 buckets rather than 1,000 when not in full-screen mode. The state of the run selector is preserved, so you can toggle runs on or off or search for runs.
 
@@ -115,17 +119,6 @@ To move a panel to a different section, you can use the drag handle on the panel
 1. Click **Move**, then select a new section.
 
 You can also use the drag handle to rearrange panels within a section.
-
-### Share a full-screen panel directly
-Direct colleagues to a specific panel in your project. The link redirects users to a full screen view of that panel when they click that link. To create a link to a panel:
-
-1. Hover your mouse over the panel.
-2. Select the action `...` menu.
-3. Click **Copy panel URL**.
-
-The settings of the project determine who can view the panel. This means that if the project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
-
-If multiple panels have the same name, W&B shares the first panel with the name.
 
 ### Duplicate a panel
 
