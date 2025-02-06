@@ -13,4 +13,4 @@ If you encounter the error `resume='must' but run (<run_id>) doesn't exist`, the
 wandb.init(entity=<entity>, project=<project>, id=<run-id>, resume='must')
 ```
 
-We recommend running `wandb login --relogin` to verify authentication.
+Run [`wandb login --relogin`]({{< relref "/ref/cli/wandb-login.md" >}}) to verify that you are authenticated.
