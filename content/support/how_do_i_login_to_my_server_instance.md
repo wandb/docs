@@ -1,5 +1,5 @@
 ---
-title: How do I login to my server instance?
+title: How can I log in to W&B Server?
 toc_hide: true
 type: docs
 tags:
