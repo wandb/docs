@@ -6,6 +6,10 @@ tags:
   - user management
 ---
 
-To login to a server instance, you should point to its URL by either:
+Set the login URL by either of these methods:
+
+- Set the [environment variable]({{< relref "/guides/track/environment-variables.md" >}}) `WANDB_BASE_URL` to the Server URL.
+- Set the `--host` flag of [`wandb login`]({{< relref "/ref/cli/wandb-login.md" >}}) to the Server URL.
+
 - Setting the environment variable `WANDB_BASE_URL=<instance-url>`
 - Adding `--host=<instance-url>` to `wandb login --relogin --host=<instance-url>`
