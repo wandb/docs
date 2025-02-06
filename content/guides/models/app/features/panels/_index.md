@@ -95,7 +95,6 @@ To share a panel _publicly_, such as on social media or embedded in a website:
 1. Click **Share panel in report**.
 1. In the **Share** tab, change **Only those who are invited have access** to **Anyone with the link cah view**, then choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
 
-
 ## Manage panels
 
 ### Edit a panel
@@ -158,6 +157,13 @@ By default, sections in a workspace reflect the logging hierarchy of your keys. 
 To add a section, click **Add section** after the last section.
 
 To add a new section before or after an existing section, you can instead click the section's action `...` menu, then click **New section below** or **New section above**.
+
+
+### Manage a section's visible panels
+By default, each section shows 6 panels. To customize a section that has more than 6 panels:
+
+1. At the top of the section, click **1 to 6 of <X>**, where `<X>` is the total number of panels.
+1. Choose how many panels to show, or click **Show all panels**.
 
 ### Rename a section
 
