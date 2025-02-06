@@ -8,6 +8,8 @@ title: Move runs
 
 Move runs between your projects or to a team you are a member of.
 
+To customize the **Runs** tab, refer to [Project page]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
+
 ## Move runs between your projects
 
 To move runs from one project to another:
