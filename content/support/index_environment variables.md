@@ -14,7 +14,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 {{% /card %}}
 
 - [Do environment variables overwrite the parameters passed to wandb.init()?]({{< relref "environment_variables_overwrite_parameters.md" >}})
-- [How can I define the local folder where to save the wandb files?]({{< relref "how_can_i_define_the_local_folder_where_to_save_the_wandb_files.md" >}})
+- [How can I define the local location for `wandb` files?]({{< relref "how_can_i_define_the_local_folder_where_to_save_the_wandb_files.md" >}})
 - [How do I handle the 'Failed to query for notebook' error?]({{< relref "query_notebook_failed.md" >}})
 - [How do I silence W&B info messages?]({{< relref "silence_info_messages.md" >}})
 - [How do I stop wandb from writing to my terminal or my jupyter notebook output?]({{< relref "stop_wandb_writing_terminal_jupyter_notebook_output.md" >}})

@@ -22,7 +22,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [How can I access the data logged to my runs directly and programmatically?]({{< relref "access_data_logged_runs_directly_programmatically.md" >}})
 - [How can I compare images or media across epochs or steps?]({{< relref "compare_images_media_across_epochs_steps.md" >}})
 - [How can I configure the name of the run in my training code?]({{< relref "configure_name_run_training_code.md" >}})
-- [How can I define the local folder where to save the wandb files?]({{< relref "how_can_i_define_the_local_folder_where_to_save_the_wandb_files.md" >}})
+- [How can I define the local location for `wandb` files?]({{< relref "how_can_i_define_the_local_folder_where_to_save_the_wandb_files.md" >}})
 - [How can I organize my logged charts and media in the W&B UI?]({{< relref "organize_logged_charts_media_wb_ui.md" >}})
 - [How can I save the git commit associated with my run?]({{< relref "save_git_commit_associated_run.md" >}})
 - [How can I see files that do not appear in the Files tab?]({{< relref "how_can_i_see_files_that_do_not_appear_in_the_files_tab.md" >}})
