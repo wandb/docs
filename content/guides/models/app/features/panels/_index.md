@@ -61,6 +61,40 @@ To add a custom panel to your workspace:
 
 To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots]({{< relref "line-plot/" >}}) or [Bar plots]({{< relref "bar-plot.md" >}}).
 
+## Share panels
+
+This section describes the various ways to share a panel and how each way differs.
+
+### View and share a panel in full-screen mode
+In full-screen mode, the panel plots 10,000 buckets rather than 1,000 when not in full-screen mode. The state of the run selector is preserved, so you can toggle runs on or off or search for runs.
+
+1. Hover over the panel, then click the panel's action menu `...`.
+1. Click the full-screen button, which looks like a viewfinder.
+    {{< img src='/images/app_ui/panel_fullscreen.png' alt='View panel full-screen' >}}
+
+    The panel opens in full-screen mode.
+1. Copy the URL from the browser or click the action menu `...` and select **Copy panel URL**.
+1. Share the link with the user or team. When they access the link, the panel opens in full-screen mode automatically.
+
+### Share a panel with a direct link that anyone can access
+1. Hover over the panel, then click the panel's action menu `...`.
+1. Click **Share panel in report**.
+1. At the bottom of the **Invite** tab, optionally change **Only those who are invited have access** to  **Anyone with the link can view**, then click **Copy report link**.
+1. Share the link with the user or team.
+
+### Share a panel as a report
+1. Hover over the panel, then click the panel's action menu `...`.
+1. Click **Share panel in report**.
+1. In the **Invite** tab, enter an email address or username.
+1. Specify **can view** or **can edit**.
+1. Click **Invite**. W&B sends an email to the user with a clickable link to the report.
+
+### Share or embed a panel publicly
+To share a panel _publicly_, such as on social media or embedded in a website:
+1. Hover over the panel, then click the panel's action menu `...`.
+1. Click **Share panel in report**.
+1. In the **Share** tab, change **Only those who are invited have access** to **Anyone with the link cah view**, then choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
+
 
 ## Manage panels
 
