@@ -82,6 +82,5 @@ You can pass a custom path into the `root` [parameter]({{< relref "/ref/python/a
 
 ## Next steps
 * Learn how to [version]({{< relref "./create-a-new-artifact-version.md" >}}) and [update]({{< relref "./update-an-artifact.md" >}}) artifacts.
-* Learn how to trigger downstream workflows in response to changes to your artifacts with [artifact automation]({{< relref "/guides/models/automations/project-scoped-automations/" >}}).
-* Learn about the [registry]({{< relref "/guides/models/registry/" >}}), a space that houses trained models.
+* Learn how to trigger downstream workflows or notify a Slack channel in response to changes to your artifacts or registered models with [automations]({{< relref "/guides/models/automations/" >}}).
 * Explore the [Python SDK]({{< relref "/ref/python/artifact.md" >}}) and [CLI]({{< relref "/ref/cli/wandb-artifact/" >}}) reference guides.

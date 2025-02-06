@@ -166,7 +166,7 @@ Linking a model is analogous to 'bookmarking' or 'publishing' a model to a centr
 
 When you link a model, that model is not duplicated in the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}). That model is also not moved out of the project and into the registry. A linked model is a pointer to the original model in your project.
 
-Use the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/model-registry-automations.md" >}}) downstream actions with webhooks or jobs.
+Use the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/" >}}) downstream actions with webhooks or jobs.
 
 A *Registered Model* is a collection or folder of linked model versions in the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}). Registered models typically represent candidate models for a single modeling use case or task. 
 

@@ -80,7 +80,7 @@ The proceeding table lists permissions that apply to all projects across a given
 |Add or remove Registry Admins  |           |             | X              | X | 
 |Add or remove Protected Aliases|           |             | X              |   | 
 
-For more details about protected aliases, refer to [Registry Access Controls]({{< relref "/guides/models/registry/access_controls.md" >}}).
+For more details about protected aliases, refer to [Registry Access Controls]({{< relref "/guides/models/registry/model_registry/access_controls.md" >}}).
 
 ### Reports
 Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
