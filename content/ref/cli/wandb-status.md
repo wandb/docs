@@ -1,6 +1,7 @@
 ---
 title: wandb status
 ---
+
 **Usage**
 
 `wandb status [OPTIONS]`
@@ -9,9 +10,12 @@ title: wandb status
 
 Show configuration settings
 
+
 **Options**
 
 | **Option** | **Description** |
 | :--- | :--- |
 | --settings / --no-settings | Show the current settings |
+
+
 

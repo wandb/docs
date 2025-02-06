@@ -2,7 +2,7 @@
 title: RunQueue
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/jobs.py#L433-L659" >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/public/jobs.py#L427-L653 >}}
 
 ```python
 RunQueue(
@@ -18,13 +18,13 @@ RunQueue(
 
 | Attributes |  |
 | :--- | :--- |
-|  `items` |  Up to the first 100 queued runs. Modifying this list will not modify the queue or any enqueued items. |
+|  `items` |  Up to the first 100 queued runs. Modifying this list will not modify the queue or any enqueued items! |
 
 ## Methods
 
 ### `create`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/jobs.py#L640-L653)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/public/jobs.py#L640-L653)
 
 ```python
 @classmethod
@@ -40,7 +40,7 @@ create(
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/apis/public/jobs.py#L514-L536)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/public/jobs.py#L514-L536)
 
 ```python
 delete()

@@ -1,8 +1,10 @@
 ---
-title: Keras
+title: keras
 ---
+
 <!-- Insert buttons and diff -->
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/integration/keras/__init__.py" >}}
+
+
 
 Tools for integrating `wandb` with [`Keras`](https://keras.io/).
 

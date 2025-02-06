@@ -61,7 +61,7 @@ languages:
 markup:
   tableOfContents:
     startLevel: 2
-    endLevel: 2
+    endLevel: 3
   goldmark:
     parser:
       attribute:
@@ -83,13 +83,16 @@ outputs:
     - RSS
     - print
 
+services:
+  googleAnalytics:
+    id: GTM-5BL5RTH
 
 params:
-  search:
-    algolia:
-      appId: 2D210VB5MP
-      apiKey: 730cfa02025b8ba2e95d4c33b1e38cc7
-      indexName: docodile
+  #search:
+  #  algolia:
+  #    appId: 2D210VB5MP
+  #    apiKey: 730cfa02025b8ba2e95d4c33b1e38cc7
+  #    indexName: docodile
   taxonomy:
     # set taxonomyCloud = [] to hide taxonomy clouds
     taxonomyCloud: []
@@ -137,10 +140,10 @@ params:
   github_branch: main
 
   # Google Custom Search Engine ID. Remove or comment out to disable search.
-  #gcs_engine_id: d72aa9b2712488cc3
+  gcs_engine_id: 674c0c3807d874d09
 
   # Enable Lunr.js offline search
-  # offlineSearch: false
+  offlineSearch: false
 
 
   # Enable syntax highlighting and copy buttons on code blocks with Prism
@@ -149,6 +152,7 @@ params:
   copyright:
     authors: Weights & Biases
     from_year: 2017
+
 
   # User interface configuration
   ui:
@@ -176,7 +180,6 @@ params:
         Glad to hear it! Please <a href="https://github.com/wandb/docs/issues/new">tell us how we can improve</a>.
       'no': >-
         Sorry to hear that. Please <a href="https://github.com/wandb/docs/issues/new">tell us how we can improve</a>.
-
     # Adds a reading time to the top of each doc.
     # If you want this feature, but occasionally need to remove the Reading time from a single page,
     # add "hide_readingtime: true" to the page's front matter
@@ -201,10 +204,6 @@ params:
         desc: Connect with the worldwide community of W&B users.
     # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
     developer:
-      - name: W&B on GitHub
-        url: https://github.com/wandb/
-        icon: fab fa-github
-        desc: The Weights & Biases GitHub organization has all our open-source projects for you to view
       - name: W&B on YouTube
         url: https://www.youtube.com/c/WeightsBiases
         icon: fab fa-youtube

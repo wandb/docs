@@ -10,45 +10,82 @@ weight: 100
 ---
 If you're using **fastai** to train your models, W&B has an easy integration using the `WandbCallback`. Explore the details in[ interactive docs with examples →](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
 
-## Log with W&B
+## Sign up and create an API key
 
-1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then log in to your wandb account.
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-2. Install the wandb library on your machine in a Python 3 environment using `pip`
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
 
-3. log in to the wandb library on your machine.
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
-    1. Find your API key [https://wandb.ai/authorize](https://wandb.ai/authorize).
+## Install the `wandb` library and log in
 
-        - Command line:
-            ```shell
-            pip install wandb
-            wandb login
-            ```
-        - Notebook:
-            ```notebook
-            !pip install wandb
+To install the `wandb` library locally and log in:
 
-            import wandb
-            wandb.login()
-            ```
+{{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
+
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) to your API key.
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. Install the `wandb` library and log in.
 
 
-    2. Add the `WandbCallback` to the `learner` or `fit` method:
 
-        ```python
-        import wandb
-        from fastai.callback.wandb import *
+    ```shell
+    pip install wandb
 
-        # start logging a wandb run
-        wandb.init(project="my_project")
+    wandb login
+    ```
 
-        # To log only during one training phase
-        learn.fit(..., cbs=WandbCallback())
+{{% /tab %}}
 
-        # To log continuously for all training phases
-        learn = learner(..., cbs=WandbCallback())
-        ```
+{{% tab header="Python" value="python" %}}
+
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+
+{{% /tab %}}
+
+{{% tab header="Python notebook" value="python-notebook" %}}
+
+```notebook
+!pip install wandb
+
+import wandb
+wandb.login()
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+## Add the `WandbCallback` to the `learner` or `fit` method
+
+```python
+import wandb
+from fastai.callback.wandb import *
+
+# start logging a wandb run
+wandb.init(project="my_project")
+
+# To log only during one training phase
+learn.fit(..., cbs=WandbCallback())
+
+# To log continuously for all training phases
+learn = learner(..., cbs=WandbCallback())
+```
 
 {{% alert %}}
 If you use version 1 of Fastai, refer to the [Fastai v1 docs]({{< relref "v1.md" >}}).
@@ -123,7 +160,7 @@ $ torchrun --nproc_per_node 2 train.py
 in this case, the machine has 2 GPUs.
 
 {{% /tab %}}
-{{% tab header="Notebook" value="notebook" %}}
+{{% tab header="Python notebook" value="notebook" %}}
 
 You can now run distributed training directly inside a notebook.
 
@@ -200,7 +237,7 @@ $ torchrun --nproc_per_node 2 train.py
 ```
 
 {{% /tab %}}
-{{% tab header="Notebook" value="notebook" %}}
+{{% tab header="Python notebook" value="notebook" %}}
 
 ```python
 import wandb

@@ -6,173 +6,184 @@ Add styles or override variables from the theme here.
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
 
-// Color variables based on color.styles.tokens.json
-
+// First define the base color tokens
 // Moon (Grayscale)
-// White: Page background (type 1), Primary button text
 $moon-white: #ffffff;
-
-// Light mode: Page background type 2, Disabled button background color
-// Dark mode: Tooltip background color, Toast background color
 $moon-50: #fafafa;
-
-// Light mode: Background color of table row with column headers, Table row or menu item hover highlight
 $moon-100: #f5f6f7;
-
-// Light mode: Scroll bar hover, Chart secondary lines
-// Dark mode: Body text, Decorative icons, Secondary button text (rest)
 $moon-200: #e4e6eb;
-
-// Light mode: Tag background color (48% rest, 64% hover), Info banner background color (48% opacity)
+$moon-250: #dfe0e2;
 $moon-300: #d3d7de;
-
-// Light mode: Run color 15
-// Dark mode: Tag text color, Info banner text color, Run color 15
+$moon-350: #c1c6cf;
 $moon-400: #aeb3bd;
-
-// Light/Dark mode: Secondary text, Placeholder text, Table column header text, Non-selected tabs text
 $moon-500: #79808a;
-
-// Light mode: Tag text color, Info banner text color
 $moon-600: #565c66;
-
-// Dark mode: Tag background color (48% rest, 64% hover), Info banner background color (48% opacity)
+$moon-650: #4a4f58;
 $moon-700: #3f464f;
-
-// Light mode: Body text, Decorative icons, Secondary button text (rest)
-// Dark mode: Chart secondary lines, Scroll bar rest
 $moon-750: #363c44;
-
-// Light mode: Tooltip background color, Toast background color, Top bar background color
-// Dark mode: Containers, fields and modals background color, Top bar background color
 $moon-800: #2b3038;
-
-// Light mode: Body text, Decorative icons, Secondary button text (rest)
-// Dark mode: Chart secondary lines, Scroll bar rest
 $moon-900: #1a1d24;
-
-// Dark mode: Page background type 1 and 2
 $moon-950: #171a1f;
 
-// Light/Dark mode: Dropshadows (opacity varies), Background dimming behind modals
-$oblivion: #15151f;
-
-// Teal
-// Light mode: Tag background color (48% rest, 64% hover), Selected global nav item highlight (32%)
+// Teal colors
 $teal-300: #a9edf2;
-
-// Light mode: Field 2px stroke color (focus)
-// Dark mode: Link (Hover), Tag text color, Selected global nav item text, Secondary button text (hover)
 $teal-400: #58d3db;
-
-// Light/Dark mode: Primary button color (Hover), Run color 01
 $teal-450: #10bfcc;
-
-// Light/Dark mode: Primary button color (Rest), Selected tab underline
 $teal-500: #13a9ba;
-
-// Light mode: Link (rest), Tag text color, Selected global nav item text, Secondary button text (hover)
-// Dark mode: Field 2px stroke color (focus)
+$teal-550: #0e97a7;
 $teal-600: #038194;
 
-// Green
-// Light mode: Tag background color (48% opacity at rest, 64% on hover), Green banner background color (48% opacity)
-$green-300: #a1f0cb;
+// Border colors
+$border-default: $moon-200;      // Using moon-200 instead of moon-250
+$border-hover: $moon-350;        // color/moon/350
+$border-active: $teal-500;       // color/teal/500
+$border-subtle: $moon-100;       // color/moon/100
+$dark-border-default: $moon-750; // color/moon/750
+$dark-border-hover: $moon-650;   // color/moon/650
+$dark-border-subtle: $moon-800;  // color/moon/800
 
-// Dark mode: Tag text color, Green banner text color
-$green-400: #5ed6a4;
+// Border radius
+$border-radius-medium: 8px;   // Used for most components
+$border-radius-large: 12px;   // Used for modals and larger components
 
-// Light/Dark mode: Green button background color (hover)
-$green-450: #28c787;
+// Then define the semantic color tokens
+// Text colors
+$text-primary: $moon-800;    // color/moon/800
+$text-secondary: $moon-600;  // color/moon/600
+$text-tertiary: $moon-500;   // color/moon/500
+$text-disabled: $moon-350;   // color/moon/350
 
-// Light/Dark mode: Green button background color (rest), Run color 04
-$green-500: #00b26e;
+// Link colors  
+$link-primary: $teal-600;    // color/teal/600
+$link-hover: $teal-550;      // color/teal/550
+$link-secondary: $moon-600;  // color/moon/600
+$link-secondary-hover: $moon-500; // color/moon/500
 
-// Light mode: Tag text color, Green banner text color
-$green-600: #00875a;
+// Background colors
+$bg-primary: $moon-white;    // White background
+$bg-secondary: $moon-50;     // color/moon/50 
+$bg-tertiary: $moon-100;     // color/moon/100
+$bg-disabled: $moon-350;     // color/moon/350
 
-// Gold
-// Light mode: Tag background color (48% opacity at rest, 64% on hover), Announcement banner background color (48% opacity)
-$gold-300: #ffe49e;
+// Dark mode colors
+$dark-text-primary: $moon-200;    // color/moon/200
+$dark-text-secondary: $moon-400;  // color/moon/400  
+$dark-text-tertiary: $moon-500;   // color/moon/500
+$dark-text-disabled: $moon-650;   // color/moon/650
 
-// Light mode: Run color 06
-// Dark mode: Tag text color, Announcement banner text color, Run color 06
-$gold-400: #ffcf4d;
+$dark-link-primary: $teal-500;    // color/teal/500
+$dark-link-hover: $teal-450;      // color/teal/450
+$dark-link-secondary: $moon-600;  // color/moon/600
+$dark-link-secondary-hover: $moon-500; // color/moon/500
 
-// Light/Dark mode: Weights & Biases logo color
-$gold-450: #fac13c;
+$dark-bg-primary: $moon-900;      // color/moon/900
+$dark-bg-secondary: $moon-800;    // color/moon/800
+$dark-bg-tertiary: $moon-700;     // color/moon/700
+$dark-bg-disabled: $moon-650;     // color/moon/650
 
-// Light/Dark mode: Top bar background color in Admin mode
-$gold-550: #d4870d;
-
-// Light mode: Tag text color, Announcement banner text color
-$gold-600: #b8740f;
-
-// Red
-// Light mode: Tag background color (48% opacity at rest, 64% on hover), Error banner background color (48% opacity)
-$red-300: #ffc7ca;
-
-// Dark mode: Tag text color, Error banner text color
-$red-400: #ff7a88;
-
-// Light mode: Destructive button background color (hover), Error field 2px stroke color
-// Dark mode: Destructive button background color (hover), Field error message
-$red-450: #ff596d;
-
-// Light/Dark mode: Destructive color background color (rest), Run color 09
-$red-500: #ff3d5a;
-
-// Light mode: Tag text color, Error banner text color
-$red-600: #cc2944;
-
-// Blue
-// Light mode: Tag background color (48% opacity at rest, 64% on hover)
-$blue-300: #bdd9ff;
-
-// Light/Dark mode: Run color 13
-// Dark mode: Tag text color
-$blue-400: #7db1fa;
-
-// Unused in provided descriptions
-$blue-500: #397eed;
-
-// Light mode: Tag text color
-$blue-600: #1f59c4;
-
-// wandb.com nav bg
+// Other brand colors
 $nav-bg: rgb(26, 28, 31);
 $wandb-gold: #FFCC33;
 $wandb-link-blue: rgb(7, 177, 196);
-
-$hover-bg: #A9EDF248;
+$hover-bg: #A9EDF260;
 
 // Gradients
 $sunset-gradient: linear-gradient(98deg, #e180ff 0%, #ffcf4d 100%);
 $wandb-gradient: linear-gradient(180deg, #ffcc33 39%, #ffad33 72%);
 
-// hide "create child" and "create project issue" links
-.td-page-meta__child, .td-page-meta__project-issue { display: none !important; }
+// Font weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
 
+// Bootstrap overrides
+:root {
+    --bs-nav-link-font-size: 18px;
+}
+
+// Typography Component
+// Base body styles
 body {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
-    color: $moon-800;
-    background-color: $moon-white;
-}
-.fa-solid .fa-print fa-fw {
+    font-weight: $font-weight-regular;
+    color: $text-primary;
+    background-color: $bg-primary;
 
-}
-// shrink the right nav a bit
-.td-page-meta
-{
-    font-size: 16px !important;
-    a {
-      padding-bottom: 15px;
-      line-height: 22px;
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary;
+        background-color: $dark-bg-primary;
     }
 }
-// hide the doc site name from the top-left
-.td-navbar .navbar-brand__name { display: none; }
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+    font-weight: $font-weight-regular !important;
+    font-family: "Source Serif 4", sans-serif;
+    color: $text-primary;
+
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary;
+    }
+}
+
+// Heading sizes
+h1, .td-content h1 { font-size: 32px !important; }
+h2, .td-content h2 { font-size: 24px !important; }
+h3, .td-content h3 { font-size: 20px !important; }
+h4, .td-content h4 { font-size: 16px !important; }
+h5, .td-content h5 { font-size: 14px !important; }
+h6, .td-content h6 { font-size: 12px !important; }
+
+// Lead paragraph
+.td-content .lead {
+    font-size: 16px !important;
+    font-weight: $font-weight-regular !important;
+}
+
+// Reading time
+.reading-time {
+    font-size: 14px;
+    color: $text-secondary;
+
+    [data-bs-theme=dark] & {
+        color: $dark-text-secondary;
+    }
+}
+
+// Links
+a {
+    color: $link-primary !important;
+    text-decoration: none !important;
+    
+    &:hover {
+        color: $link-hover !important;
+        text-decoration: none !important;
+    }
+
+    [data-bs-theme=dark] & {
+        color: $dark-link-primary !important;
+        
+        &:hover {
+            color: $dark-link-hover !important;
+        }
+    }
+}
+
+// hide "create child" and "create project issue" links
+.td-page-meta__child, .td-page-meta__project-issue { display: none !important; }
+
+// shrink the right nav a bit
+.td-page-meta {
+    display: none !important;
+    font-size: 16px !important;
+    a {
+        padding-bottom: 15px;
+        line-height: 22px;
+    }
+}
 
 // hide taxonomy cloud on right and top
 .taxonomy-terms-cloud, .taxonomy-terms-article { display: none; }
@@ -180,112 +191,262 @@ body {
 // hide left nav label 
 .tree-root { display: none !important;}
 
-// Add blue color for links and remove underline
-a {
-    color: $teal-600 !important;
-    text-decoration: none !important;
-    &:hover {
-        color: $teal-500 !important;
+// First define breakpoints
+$breakpoint-sm: 576px;    // Phone
+$breakpoint-md: 768px;    // Tablet
+$breakpoint-lg: 992px;    // Desktop
+$breakpoint-xl: 1200px;   // Large desktop
+
+// Consolidated navbar styles with mobile-first approach
+.td-navbar {
+    background-color: $bg-primary !important;
+    padding: 0 !important;
+    border-bottom: 1px solid $border-default !important;
+
+    // Base styles (mobile first)
+    .container-fluid {
+        padding: 8px !important;
+        gap: 16px !important;
+
+        .td-navbar-nav-scroll {
+            align-items: center !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            gap: 16px !important;
+
+            .navbar-nav {
+                display: flex !important;
+                align-items: center !important;
+                padding-left: 0 !important;
+                margin: 0 !important;
+                gap: 8px !important;
+
+                .nav-item {
+                    padding-inline-end: 0 !important;
+                }
+
+                &.main-nav {
+                    padding: 0 !important;
+                    margin: 0 !important;
+
+                    // Nav links base styles
+                    .nav-link {
+                        color: $text-secondary !important;
+                        font-weight: $font-weight-regular !important;
+                        transition: all 0.2s ease-in-out !important;
+                        border-bottom: none !important;
+                        border-radius: $border-radius-medium !important;
+                        padding: 8px 10px !important;
+                        font-size: 16px !important;
+
+                        &:hover {
+                            text-decoration: none !important;
+                            background-color: rgba($moon-300, 0.2) !important;
+                        }
+
+                        &.active {
+                            color: $link-primary !important;
+                            background-color: rgba($moon-300, 0.2) !important;
+                            font-weight: $font-weight-regular !important;
+                        }
+                    }
+
+                }
+
+                &.main-nav-right {
+                    padding: 0 !important;
+                    margin: 0 !important;
+                    align-items: center !important;
+                    gap: 0 !important;
+
+                    // Update mobile light/dark toggle styles
+                    .td-light-dark-menu {
+                        display: flex !important;
+                        align-items: center !important;
+                        margin: 0 !important;
+                        gap: 0 !important;
+                        min-width: 0 !important;
+                    }
+
+                        // Dropdown styles
+                    .nav-item.dropdown {
+                        margin: 0 !important;
+
+                        .nav-link {
+                            font-size: 16px !important;
+                            font-weight: $font-weight-regular !important;
+                            color: $text-secondary !important;
+                            
+                            &:hover {
+                                background-color: transparent !important;
+                            }
+
+                            &::after {
+                                display: none !important;
+                            }
+
+                            [data-bs-theme=dark] & {
+                                color: $dark-text-secondary !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-}
-[data-bs-theme=dark] a {
-    color: $wandb-link-blue !important;
-    text-decoration: none !important;
-    &:hover {
-        color: $wandb-gold !important;
-    }
-}
-// Style for link hover state
-a:hover {
-    text-decoration: underline !important;
-}
 
-// Target links in the navigation and make them white with consistent font-weight
-.td-navbar .nav-link {
-    color: $moon-white !important;
-    font-weight: 400 !important;  // Ensure consistent font-weight in main nav
-
-    &:hover {
-        color: $wandb-gold !important;
-        text-decoration: none !important;
-    }
-}
-
-// Align left-nav with logo
-.td-sidebar-nav {
-  padding-left: 15px !important;
-}
-// Ensure active nav link maintains same weight
-.nav-link.active {
-    border-bottom: 2px solid $wandb-gold !important;
-    font-weight: 400 !important;  // Keep consistent with other nav links
-}
-
-nav.foldable-nav .with-child, nav.foldable-nav .without-child {
-  padding-left: 10px !important;
-}
-// Update existing chevron styles
-nav.foldable-nav .ul-1 .with-child {
-    & > label {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        position: relative;
-        padding-right: 20px; // Space for chevron
+    // Brand/logo styles
+    .navbar-brand {
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 !important;
+        margin-right: 0 !important;
         
-        // Remove default chevrons
-        &:before {
-            display: none !important;
+        .navbar-logo {
+            display: block;
+            width: auto;
+            height: auto;
+            margin: 0 !important;
+
+            svg {
+                margin: 0 !important;
+                width: 100%;
+            }
+        }
+    }
+
+    // Hide the doc site name
+    .navbar-brand__name { 
+        display: none !important;
+    }
+
+
+    // Tablet styles (577px and up)
+    @media (min-width: $breakpoint-sm + 1) {
+        .container-fluid {
+            padding: 8px 12px !important;
+        }
+
+        .navbar-brand {
+            margin-right: 1rem !important;
+        }
+    }
+
+    // Desktop styles (992px and up)
+    @media (min-width: $breakpoint-lg) {
+        .container-fluid {
+            padding: 8px 24px !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 32px !important;
+
+            .td-navbar-nav-scroll {
+                flex-grow: 1 !important;
+
+                .navbar-nav {
+                    
+                    &.main-nav {
+                        flex-grow: 1 !important;
+                        gap: 16px !important;
+                        
+                        .nav-link {
+                            padding: 6px 12px !important;
+                            font-size: 18px !important;
+                        }
+                    }
+
+                    &.main-nav-right {
+                        gap: 16px !important;
+
+                        .nav-link{
+                            font-size: 16px !important;
+                            color: $text-secondary !important;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        .nav-item.dropdown {
+            &.d-none.d-lg-block,
+            &.td-light-dark-menu {
+                margin: 0 4px !important;
+
+                .nav-link {
+                    font-size: 16px !important;
+                }
+            }
+        }
+    }
+
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        background-color: $dark-bg-primary !important;
+        border-bottom: 1px solid $dark-border-default !important;
+
+        &.js-navbar-scroll {
+            background-color: $dark-bg-primary !important;
+        }
+
+        .td-navbar-nav-scroll {
+
+            .navbar-nav {
+
+                &.main-nav {
+                    .nav-link {
+                        color: $moon-white !important;
+                        
+                        &:hover {
+                            color: $teal-500 !important;
+                        }
+                        
+                        &.active {
+                            color: $teal-500 !important;
+                        }
+                    }
+                }
+
+                .nav-item.dropdown {
+                    &.d-none.d-lg-block,
+                    &.td-light-dark-menu {
+                        .nav-link {
+                            color: $dark-text-primary !important;
+                            
+                            &:hover {
+                                color: $dark-link-primary !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Update the light/dark menu styles
+    .td-light-dark-menu {
+        &.nav-item.dropdown {
+            margin: 0 2px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        // Hide from navbar-right on mobile
+        &.d-none {
+            @media (max-width: #{$breakpoint-lg - 1}) {
+                display: none !important;
+            }
         }
     }
 }
 
-// Add chevrons to all expandable items
-nav.foldable-nav .ul-1 .with-child > label:after {
-    content: "\f105" !important; // fa-angle-right (thinner chevron)
-    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
-    font-weight: 900;
-    color: $moon-500;
-    transition: color 0.3s;
-    font-size: 14px;
-    position: absolute;
-    right: 0px;
-    top: 35%;
-    transform: translateY(-50%);
-}
-
-// Change chevron for expanded items
-nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
-    content: "\f107" !important; // fa-angle-down (thinner chevron)
-}
-
-// Hover states
-nav.foldable-nav .ul-1 .with-child > label:hover:after {
-    color: $teal-600 !important;
-}
-
-// Dark mode hover state
-[data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
-    color: $wandb-gold !important;
-}
-
-// Ensure hover state for nav links doesn't change color
-.td-navbar {
-    color: $moon-white;
-}
-a.nav-link:hover {
-    color: $wandb-gold !important;
-}
-.nav-link.active 
-{
-    border-bottom: 2px solid $wandb-gold !important;
-}
-
 // headings use WandB serif font
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
     font-family: "Source Serif 4", sans-serif;
+    color: $text-primary;
 }
 h1, .td-content h1 {
     font-size: 32px !important;
@@ -306,7 +467,7 @@ h6, .td-content h6 {
     font-size: 12px !important;
 }
 .td-sidebar-nav-active-item {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 #m-guideshostingiamorg_team_struct-li
@@ -314,23 +475,20 @@ h6, .td-content h6 {
 .td-sidebar-nav, .td-navbar .nav-link  {
   font-family: "Source Sans Pro", sans-serif;
   a {
-    color: $moon-500 !important;
-    font-weight: 400;
+    color: $text-secondary !important;
+    font-weight: $font-weight-regular;
+    text-decoration: none !important;
     &:hover {
-      color: $teal-600 !important;
+      color: $link-primary !important;
       text-decoration: none !important;
     }
 
     .td-sidebar-nav-active-item {
-      color: $teal-600 !important;
+      color: $link-primary !important;
       text-decoration: none !important;
-      font-weight: 500 !important;
+      font-weight: $font-weight-medium !important;
     }
   }
-}
-
-.td-navbar, .js-navbar-scroll {
-    background-color: $nav-bg !important;
 }
 
 ol.breadcrumb:before {
@@ -339,455 +497,600 @@ ol.breadcrumb:before {
     margin-right: 10px;
 }
 
+.td-sidebar-nav__section.nav-item.dropdown {
+    font-size: 14px !important;
+    color: $text-secondary !important;
+}
+
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
   margin-bottom: 10px !important;
   margin-top: 5px !important;
+
+  .nav-link.dropdown-toggle {
+    margin-left: 10px !important;
+    font-size: 14px !important;
+
+    &::after {
+      display: none !important;
+    }
+  }
 }
 
 .td-sidebar-nav__section-title {
     display: block;
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
     line-height: 19px;
     .active {
-        font-weight: 400 !important;
+        font-weight: $font-weight-regular !important;
     }
     
     a {
         color: var(--bs-secondary-color);
-        font-weight: 400 !important;
+        font-weight: $font-weight-regular !important;
     }
 }
 
 .td-content .lead {
     font-size: 16px !important;
-    font-weight: 400 !important;
+    font-weight: $font-weight-regular !important;
 }
 
-#TableOfContents:before { 
-    content: "On this page"; 
-    font-weight: bold; 
-}
+// Table of Contents Component
 #TableOfContents { 
     margin-top: 15px;
     font-size: 16px !important;
     padding-left: 10px !important;
 
-    // Update list styles
-    ul { 
-        padding-top: 10px !important;
-        li {
-          padding-bottom: 10px;
-          line-height: 22px;
+    // Add "On this page" header
+    &:before { 
+        content: "On this page";
+        color: $text-primary;
+
+        [data-bs-theme=dark] & {
+            color: $dark-text-primary;
         }
     }
 
-    // Style links consistently with page meta
+    // List styles
+    ul { 
+        padding-top: 10px !important;
+        li {
+            padding-bottom: 10px;
+            line-height: 22px;
+        }
+    }
+
+    // Link styles
     a {
         display: block;
+        color: $text-secondary !important;
+        
+        &:hover {
+            color: $link-primary !important;
+            text-decoration: none !important;
+        }
+
+        [data-bs-theme=dark] & {
+            color: $dark-text-secondary !important;
+            
+            &:hover {
+                color: $dark-link-primary !important;
+            }
+        }
+    }
+
+    // Dark mode
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary;
     }
 }
 
-// algolia
-.DocSearch-Footer { display: none !important; }
+// tabs
+ul {
+    &.nav-tabs {
+        border-bottom: none !important;
 
-.cta-container {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 16px;
+        li {
+            &.nav-item {
+                margin: 0 !important;
+
+                button {
+                    color: $text-primary !important;
+                    
+                    &.active {
+                        color: $link-primary !important;
+                        background-color: var(--td-pre-bg) !important;
+                        border-bottom-color: var(--td-pre-bg) !important;
+                    }
+
+                    // Add dark mode styles
+                    [data-bs-theme=dark] & {
+                        color: $dark-text-primary !important;
+                        
+                        &.active {
+                            color: $dark-link-primary !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
-.cta-button {
-    display: inline-flex; 
-    align-items: center; 
+.tab-content {
+    > .tab-pane {
+        border-radius: 0 $border-radius-medium $border-radius-medium $border-radius-medium !important;
+        border: 1px solid $border-default !important;
+
+        // Add dark mode styles
+        [data-bs-theme=dark] & {
+            border-color: $dark-border-default !important;
+        }
+    }
+}
+
+// Buttons Component
+// Base button styles
+.button-base {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    color: $moon-800 !important;
-    gap: 8px; 
-    padding: 0 12px; 
     font-size: 16px;
     line-height: 20px;
-    font-weight: 600;
-    font-display: none;
-    text-decoration: none;
-    border-radius: 4px;
-    background-color: $moon-100;
-    transition: background-color 0.3s, color 0.3s;
-    text-align: center; 
+    font-weight: $font-weight-semibold;
+    padding: 0 12px;
     min-height: 40px;
-
-}
-
-.cta-button:hover {
-    background-color: $hover-bg;
+    border-radius: $border-radius-medium;
+    transition: background-color 0.3s, color 0.3s;
     text-decoration: none !important;
-}
-
-.cta-button-icon {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-}
-
-.wb-icon {
-    background-image: url('/path-to-icons/wb-logo.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 35px; 
-}
-
-pre {
-    font-size: 14px !important;
-}
-
-.filename-preview {
-    text-align: right !important;
-    padding-right: 3px !important;
-}
-
-.banner {
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    padding: 45px !important;
-    position: relative;
-    width: 100%;
-    background-size: cover;
-    min-height: 200px;
-    margin-bottom: 30px;
-    border-radius: 7px;
-    color: white;
-    h1,h2,p, div {
-        filter: drop-shadow(5px 5px 5px #000000);
-    }
+    border: none;
     
+    &:hover {
+        text-decoration: none !important;
+    }
 }
 
-.help-banner {
+// CTA Container styles
+.cta-container {
     display: flex;
-    padding: 56px 40px 72px 40px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 32px;
-    align-self: stretch;
-    border-radius: 12px;
-    background: var(--Moon-Moon-900, #1A1D24);
-    background-image: url('/images/support/support_banner.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-shadow: none;  
-  }
-  
-  .help-banner h2,
-  .help-banner p {
-    font-family: "Source Sans Pro";
-    font-style: normal;
-    line-height: 140%;
-  }
-  
-  .help-banner h2 {
-    color: var(--Moon-Moon-50, #FAFAFA);
-    font-size: 40px;
-    font-weight: 600;
-  }
-  
-  .help-banner p {
-    color: var(--Moon-Moon-250, #DADEE3); 
-    font-size: 20px;
-    font-weight: 400;
-  }
-  
-  .help-banner.card:hover {
-    box-shadow: none;
-    transform: none;
-  }
-  
-  
-  /* Container for the card rows */
-  .card-container {
-    display: flex;
-    justify-content: space-between; /* Add space between cards */
-    gap: 8px; /* Add some space between the cards */
-    margin-bottom: 16px; /* Space between rows */
-  }
-  
-  
-  .card {
-    box-shadow: none; /* Adjust as needed */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .card:hover {
-    box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.2);
-    transform: translateY(-5px);
-  }
-  
-  .card-icon-left,
-  .card-icon-right {
-    width: 24px;
-    height: 24px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  
-  .card-icon-left {
-    /* This icon will be part of the normal flow, above the header */
-    margin-bottom: 8px; /* Increased space between icon and header */  
-  }
-  
-  .card-icon-right {
-    position: absolute;
-    top: 40px; /* Aligns with the top padding of the card */
-    right: 40px; /* Aligns with the right padding of the card */
-  }
-  
-  .card-title {
-    color: var(--Grayscale-gray-900, #181B1F);
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 32px; /* 133.333% */
-    margin: 0;
-  }
-  
-  .card-content {
-    color: var(--Moon-Moon-800, #2B3038);
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 24px; /* 150% */
-    margin: 0;
-  }
-  
-  
-  .card-pink,
-  .card-yellow,
-  .card-gray,
-  .card-blue {
-    border-radius: 6px;
-  }
-  
-  .card-pink {
-    background: var(--color-sienna-300, #FFCFB2);
-    background-repeat: no-repeat;
-  }
-  
-  .card-yellow {
-    background: var(--Gold-gold-light2, #FFD95C);
-  }
-  
-  
-  .card-gray {
-    background: var(--Moon-Moon-150, #EDEFF2);
-  }
-  
-  .card-blue { 
-    background: var(--color-teal-550, #0097AB);
-    color: var(--color-moon-white, #FFF);
-  }
-  
-  .card-blue h2, 
-  .card-blue p {
-    color: var(--color-moon-white, #FFF);
-  }
-  
-  .card-support-index {
-    background-color: rgb(235, 237, 240);
-    padding: 16px 16px 0px 16px;
-    margin-bottom: 16px;
-    min-height: 0px;
-    color: #000
-  }
-  
-  .card-support-index:hover {
-    color: #000
-  }
-  
-  .card-banner {
+    align-items: center; // Vertically center the buttons
+    gap: 16px; // Consistent spacing between buttons
+    margin: 24px 0;
+    flex-wrap: wrap; // Allow wrapping on smaller screens
+}
+
+// CTA Button
+.cta-button {
+    @extend .button-base;
+    color: $moon-800 !important;
+    background-color: $moon-100;
+    height: 40px; // Fixed height for consistency
+    padding: 0 16px;
+    display: inline-flex;
+    align-items: center; // Center button contents vertically
+    white-space: nowrap; // Prevent text wrapping inside button
+
+    &:hover {
+        background-color: $hover-bg;
+    }
+
+    // Icon styles
+    svg, img {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+    }
+
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary !important;
+        background-color: $dark-bg-secondary;
+
+        &:hover {
+            background-color: $dark-bg-tertiary;
+        }
+    }
+}
+
+// Contact Us Button
+.contact-us-button {
+    @extend .button-base;
+    background-color: $teal-500;
+    color: $moon-white !important;
+    gap: 8px;
+
+    &:hover {
+        background-color: $teal-450;
+    }
+
+    img {
+        width: 112px;
+        height: 24px;
+    }
+
+    p {
+        margin: 0;
+        color: $moon-white;
+    }
+
+    [data-bs-theme=dark] & {
+        background-color: $teal-450;
+
+        &:hover {
+            background-color: $teal-400;
+        }
+    }
+}
+
+// Banners Component
+// Base banner styles
+.banner-base {
     display: flex;
     padding: 32px 40px;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 24px;
-    align-self: stretch;
-    border-radius: 12px;
-    background: var(--Moon-Moon-50, #FAFAFA);
-    color: var(--Moon-Moon-800, #2B3038);  
-  }
-  
-  .card-banner h2,
-  .card-banner p {
-    font-family: "Source Sans Pro";
-    font-style: normal;
-    line-height: 140%;
-    margin: 0px;
-  }
-  
-  .card-banner h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #181B1F;
-  }
-  
-  .card-banner p {
-    color: var(--Moon-Moon-800, #2B3038);
-    font-size: 16px;
-    font-weight: 400;
-  }
-  
-  .card-banner-gray {
-    border-radius: 12px;
-    background: var(--Moon-Moon-50, #FAFAFA);
-  }
-  
-  .card-banner.card-banner-gray:hover {
-    box-shadow: none;
-    transform: none;
-    color: var(--Moon-Moon-800, #181B1F);  
-  }
-  
-  .card-banner-icon {
-    display: flex;
-    width: 64px;
-    height: 64px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100px;
-    background: var(--Backgrounds-Teal-tag-background, rgba(169, 237, 242, 0.48));
-  }
-  
-  .card-banner-icon img {
-    width: 32px; /* Make the SVG smaller than the container */
-    height: 32px;
-  }
-  
-  
-  .contact-us-button {
-    display: flex;
-    padding: var(--Spacing-spacing-sm, 8px) var(--Spacing-spacing-sm-md, 12px);
-    justify-content: center;
-    align-items: center;
-    gap: var(--Spacing-spacing-sm, 8px);
-    border-radius: var(--Radius-radius-sm, 4px);
-    background: var(--buttons-primary-button-rest, #13A9BA); /* Teal background */
-    color: white;
-    font-family: "Source Sans Pro";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 24px; /* 150% */
-  }
-  
-  .contact-us-button:hover {
-    background: var(--color-teal-450, #00B8D4); /* Lighter teal on hover */
-  }
-  
-  .contact-us-button img {
-    width: 112px;
-    height: 24px;
-  }
-  
-  .contact-us-button p {
-    margin: 0;
-    color: white;
-  }
-  
-  .faq-container {
-    max-width: 768px;
-    margin: 0 auto;
-  }
+    border-radius: $border-radius-large;
+    margin-bottom: 30px;
 
-.reading-time {
-    font-size: 14px;
-    color: $moon-600;
+    h1, h2, p, div {
+        filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    }
+}
+
+// Standard Banner
+.banner {
+    @extend .banner-base;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 200px;
+    color: $moon-white;
+    overflow: hidden;
+}
+
+// Help Banner
+.help-banner {
+    @extend .banner-base;
+    padding: 56px 40px 72px 40px;
+    background: $moon-900;
+    background-image: url('/images/support/support_banner.png');
+    background-size: cover;
+    background-position: center;
+    box-shadow: none;
+
+    &.card:hover {
+        box-shadow: none;
+        transform: none;
+    }
+
+    h2 {
+        color: $moon-50;
+        font-size: 40px;
+        font-weight: $font-weight-semibold;
+        font-family: "Source Sans Pro";
+        line-height: 140%;
+    }
+
+    p {
+        color: $moon-250;
+        font-size: 20px;
+        font-weight: $font-weight-regular;
+        font-family: "Source Sans Pro";
+        line-height: 140%;
+    }
+}
+
+// Card Banner
+.card-banner {
+    @extend .banner-base;
+    align-items: center;
+    background: $moon-50;
+    color: $moon-800;
+
+    h2 {
+        font-size: 24px;
+        font-weight: $font-weight-semibold;
+        color: $moon-900;
+        margin: 0;
+    }
+
+    p {
+        font-size: 16px;
+        font-weight: $font-weight-regular;
+        margin: 0;
+    }
+
+    &.card-banner-gray {
+        &:hover {
+            box-shadow: none;
+            transform: none;
+        }
+    }
+
+    // Icon container
+    &-icon {
+        display: flex;
+        width: 64px;
+        height: 64px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        background: rgba($teal-300, 0.48);
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    [data-bs-theme=dark] & {
+        background: $dark-bg-secondary;
+        color: $dark-text-primary;
+
+        h2 {
+            color: $dark-text-primary;
+        }
+
+        p {
+            color: $dark-text-secondary;
+        }
+    }
 }
 
 // Add border radius to all images, code blocks and alerts
 img, pre, .highlight, .code-toolbar, .alert {
-  border-radius: 8px !important;
+  border-radius: $border-radius-medium !important;
 }
 
 // Style images and iframes consistently
 img, iframe {
   margin-top: 1rem;
   margin-bottom: 2rem;
-  max-width: 80% !important;
   display: block;
+}
+
+@media (min-width: $breakpoint-lg) {
+    img, iframe {
+        max-width: 80% !important;
+    }
 }
 
 // Override section index heading font weight
 .section-index h5 a, .section-index .h5 a {
   font-size: 20px !important;
-  font-weight: 400 !important;
+  font-weight: $font-weight-regular !important;
 }
 
 // Add dark mode styles using data-bs-theme attribute
 [data-bs-theme=dark] {
     body {
-        color: $moon-200;
-        background-color: $moon-900;
+        color: $dark-text-primary;
+        background-color: $dark-bg-primary;
     }
 
     // Update sidebar nav colors for dark mode
     .td-sidebar-nav {
         a {
-            color: $moon-300 !important;
+            color: $dark-text-secondary !important;
             &:hover {
-                color: $teal-400 !important;
+                color: $dark-link-primary !important;
             }
             .td-sidebar-nav-active-item {
-                color: $teal-400 !important;
+                color: $dark-link-primary !important;
             }
         }
     }
 
     // Update headings color for dark mode
     h1, h2, h3, h4, h5, h6 {
-        color: $moon-50;
+        color: $dark-text-primary;
     }
 
     // Update reading time color for dark mode
     .reading-time {
-        color: $moon-300;
+        color: $dark-text-secondary;
     }
 
     // Update table of contents color
     #TableOfContents {
-        color: $moon-200;
+        color: $dark-text-primary;
     }
 
     .td-footer {
         background-color: transparent !important;
-        color: $moon-200 !important;
+        color: $dark-text-primary !important;
         border-top: 1px solid $moon-750 !important;
+    }
+
+    // Update border colors for dark mode
+    .border,
+    .border-top,
+    .border-right,
+    .border-bottom,
+    .border-left {
+        border-color: $dark-border-default !important;
+        
+        &:hover {
+            border-color: $dark-border-hover !important;
+        }
     }
 }
 
-// Add styles for feedback buttons
+// For light mode (default) borders
+.border,
+.border-top,
+.border-right,
+.border-bottom,
+.border-left {
+    border-color: $border-default !important;
+    
+    &:hover {
+        border-color: $border-hover !important;
+    }
+}
+
+// Footer Component
+.td-footer {
+    background-color: transparent !important;
+    color: $text-primary !important;
+    border-top: 1px solid $moon-200 !important;
+    padding: 1.5rem 0 !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    
+    // Container styles
+    .container-fluid {
+        padding: 0 2rem !important;
+    }
+
+    // Row alignment
+    .row {
+        align-items: center !important;
+    }
+
+    // Footer links
+    &__links-item {
+        margin-bottom: 0 !important;
+    }
+
+    // Links and icons
+    a, i {
+        color: inherit !important;
+        transition: color 0.3s !important;
+
+        &:hover {
+            color: $link-hover !important;
+        }
+    }
+
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        background-color: transparent !important;
+        color: $dark-text-primary !important;
+        border-top: 1px solid $moon-750 !important;
+
+        a:hover,
+        i:hover {
+            color: $wandb-gold !important;
+        }
+    }
+}
+
+// Feedback Component
+.td-content > .d-print-none {  // Target only the feedback section at bottom of content
+    margin-top: 4rem;
+    display: flex;
+    align-items: center; // Change back to center for vertical alignment
+    flex-wrap: wrap; // Allow wrapping on smaller screens
+    gap: 8px; // Consistent spacing between elements
+
+    // Hide feedback title
+    .feedback--title {
+        display: none;
+    }
+
+    // Question and buttons container
+    .feedback--question {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    // Buttons container
+    .btn {
+        min-width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.feedback--answer-no {
+            margin: 0 !important;
+        }
+    }
+
+    // Response styling
+    .feedback--response {
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
+// Last modified date with feedback links - mobile styles
+div.td-page-meta__lastmod {
+    display: flex !important;
+    flex-direction: column !important; // Stack elements vertically on mobile
+    gap: 8px !important;
+    color: $text-secondary !important;
+    font-size: 14px !important;
+    margin-top: 0 !important;
+
+    // Container for last modified text and commit link
+    &:first-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+
+    // Style the commit link
+    a {
+        color: $text-secondary !important;
+        &:hover {
+            color: $link-primary !important;
+        }
+    }
+    
+    .feedback--links {
+        display: flex !important;
+        margin-top: 8px !important;
+        align-items: center !important;
+        gap: 16px !important;
+
+        // Style the edit/issue links
+        a {
+            color: $text-secondary !important;
+            &:hover {
+                color: $link-primary !important;
+            }
+        }
+    }
+
+    // Tablet and desktop styles
+    @media (min-width: $breakpoint-lg) {
+        flex-direction: row !important; // Switch to horizontal layout
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        .feedback--links {
+            margin-top: 0 !important;
+            margin-left: auto !important;
+        }
+    }
+
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        color: $dark-text-secondary !important;
+        
+        a {
+            color: $dark-text-secondary !important;
+            &:hover {
+                color: $dark-link-primary !important;
+            }
+        }
+    }
+}
+
+// Feedback buttons
 .feedback--answer {
-    display: inline-flex !important; 
-    align-items: center !important; 
-    justify-content: center !important;
+    @extend .button-base;
     color: $moon-800 !important;
-    gap: 8px !important; 
-    padding: 0 12px !important; 
-    font-size: 16px !important;
-    line-height: 20px !important;
-    font-weight: 600 !important;
-    font-display: none !important;
-    text-decoration: none !important;
-    border-radius: 4px !important;
     background-color: $moon-100 !important;
     background-image: none !important;
-    transition: background-color 0.3s, color 0.3s !important;
-    text-align: center !important; 
-    min-height: 40px !important;
-    border: none !important;
     margin-right: 8px !important;
     box-shadow: none !important;
+    display: inline-block !important;
+    margin-bottom: 0 !important;
+    border: none !important;
 
     &:hover {
         background-color: $hover-bg !important;
@@ -795,137 +1098,277 @@ img, iframe {
         border: none !important;
         box-shadow: none !important;
     }
-}
 
-// Remove the mb-4 class from the buttons in the HTML or override it here
-.feedback--answer.mb-4 {
-    margin-bottom: 0 !important;
-}
+    // Remove unwanted margin
+    &.mb-4 {
+        margin-bottom: 0 !important;
+    }
 
-// Dark mode support
-[data-bs-theme=dark] {
-    .feedback--answer {
-        color: $moon-200 !important;
-        background-color: $moon-800 !important;
-        background-image: none !important;
+    // Hide disabled buttons
+    &:disabled {
+        display: none !important;
+    }
+
+    // Dark mode styles
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary !important;
+        background-color: $dark-bg-secondary !important;
+        border: none !important;
         
         &:hover {
-            background-color: $moon-700 !important;
+            background-color: $dark-bg-tertiary !important;
             border: none !important;
             box-shadow: none !important;
         }
     }
 }
 
-.d-print-none {
-    margin-top: 4rem;
-
-    .feedback--title {
-        display: none; // Hide the feedback title
-    }
-
-    .feedback--question {
-        display: inline-block; // Make question inline
-        margin-right: 1rem; // Add spacing between question and buttons
-        margin-bottom: 0; // Remove bottom margin to align with buttons
-    }
-
-    .feedback--answer {
-        display: inline-block !important; // Force inline display
-        margin-bottom: 0 !important; // Remove bottom margin
-    }
-
-    .feedback--response {
-        margin-top: 1rem; // Add some space above responses
-    }
+// Remove feedback links from original location
+.td-content > .d-print-none .feedback--links {
+    display: none !important;
 }
 
-.td-page-meta__lastmod {
-    margin-top: 1rem !important;
-}
+// Update the sidebar navigation styles
+.td-sidebar-nav {
+    font-family: "Source Sans Pro", sans-serif;
+    padding-left: 15px !important;
 
-// Update footer styles to match page background and text color
-.td-footer {
-    background-color: transparent !important;
-    color: $moon-800 !important;
-    border-top: 1px solid $moon-200 !important;
-    padding: 1.5rem 0 !important;
-    min-height: auto !important;
-    margin: 0 !important;
-    
-    [data-bs-theme=dark] & {
-        background-color: transparent !important;
-        color: $moon-200 !important;
-        border-top: 1px solid $moon-700 !important;
-    }
-
-    // Ensure links and icons inherit the text color
-    a, i {
-        color: inherit !important;
-        transition: color 0.3s !important;
+    // Base link styles
+    a {
+        color: $text-secondary !important;
+        font-weight: $font-weight-regular;
+        text-decoration: none !important;
 
         &:hover {
-            color: $teal-500 !important;
+            color: $link-primary !important;
+            text-decoration: none !important;
         }
     }
 
-    [data-bs-theme=dark] a:hover,
-    [data-bs-theme=dark] i:hover {
+    // Active item styles
+    .td-sidebar-nav-active-item {
+        color: $link-primary !important;
+        font-weight: $font-weight-medium !important;
+        text-decoration: none !important;
+
+        &:hover {
+            text-decoration: none !important;
+        }
+    }
+
+    // Section title styles
+    &__section-title {
+        display: block;
+        font-weight: $font-weight-regular !important;
+        line-height: 19px;
+        margin-bottom: 10px !important;
+        margin-top: 5px !important;
+
+        .active {
+            font-weight: $font-weight-regular !important;
+        }
+        
+        a {
+            color: var(--bs-secondary-color);
+            font-weight: $font-weight-regular !important;
+        }
+    }
+
+    // Dark mode overrides
+    [data-bs-theme=dark] & {
+        a {
+            color: $dark-text-secondary !important;
+            
+            &:hover {
+                color: $dark-link-primary !important;
+            }
+        }
+
+        .td-sidebar-nav-active-item {
+            color: $dark-link-primary !important;
+        }
+    }
+}
+
+// Foldable Nav
+nav.foldable-nav .with-child, nav.foldable-nav .without-child {
+    padding-left: 10px !important;
+  }
+  // Update existing chevron styles
+  nav.foldable-nav .ul-1 .with-child {
+      & > label {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          position: relative;
+          padding-right: 20px; // Space for chevron
+          
+          // Remove default chevrons
+          &:before {
+              display: none !important;
+          }
+      }
+  }
+  
+  // Add chevrons to all expandable items
+  nav.foldable-nav .ul-1 .with-child > label:after {
+      content: "\f105" !important; // fa-angle-right (thinner chevron)
+      font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+      font-weight: 900;
+      color: $moon-500;
+      transition: color 0.3s;
+      font-size: 14px;
+      position: absolute;
+      right: 0px;
+      top: 35%;
+      transform: translateY(-50%);
+  }
+  
+  // Change chevron for expanded items
+  nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
+      content: "\f107" !important; // fa-angle-down (thinner chevron)
+  }
+  
+  // Hover states
+  nav.foldable-nav .ul-1 .with-child > label:hover:after {
+      color: $teal-600 !important;
+  }
+  
+  // Dark mode hover state
+  [data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
+      color: $wandb-gold !important;
+  }
+  
+  // Dark mode hover state
+  [data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
+      color: $wandb-gold !important;
+  }
+  
+
+// Theme-based logo visibility
+[data-bs-theme="dark"] {
+  .theme-light-only {
+    display: none;
+  }
+  .theme-dark-only {
+    display: block;
+  }
+}
+
+[data-bs-theme="light"] {
+  .theme-light-only {
+    display: block;
+  }
+  .theme-dark-only {
+    display: none;
+  }
+}
+
+
+// Add consistent padding for main content
+.td-main {
+    main {
+        &.ps-md-5 {
+            padding-left: 2rem !important;
+            padding-right: 2rem !important;
+
+            // Tablet (768px and up)
+            @media (min-width: $breakpoint-md) {
+                padding-left: 3rem !important;
+                padding-right: 3rem !important;
+            }
+        }
+    }
+}
+
+// Google Search style overrides
+.gsc-control-cse, .gsc-webResult.gsc-result, .gsc-cursor-page, .gsc-refinementHeader, .gs-no-results-result div {
+    background-color: transparent !important;
+    border: 0px !important;
+}
+.gs-title {
+    font-family: "Source Serif 4", sans-serif !important;
+}
+.gs-title b, .gs-title a, .gsc-cursor-page, .gsc-above-wrapper-area, .gcsc-find-more-on-google-query, .gcsc-find-more-on-google-magnifier {
+    color: $link-primary !important;
+    text-decoration: none !important;
+    font-size: 18px !important;
+    &:hover {
+        color: $link-hover !important;
+        text-decoration: none !important;
+    }
+    [data-bs-theme=dark] & {
+        color: $dark-link-primary !important;
+        
+        &:hover {
+            color: $dark-link-hover !important;
+        }
+    }
+}
+.gsc-above-wrapper-area a:hover{
+     background-color: $bg-secondary !important;
+}
+.gsc-result-info, .gs-per-result-labels {
+    font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 14px !important;
+    color: $text-secondary !important;
+    [data-bs-theme=dark] & {
+        color: $dark-text-secondary !important;
+    }
+}
+.gsc-refinementBlock span {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+.gs-visibleUrl-breadcrumb {
+    font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 14px !important;
+    color: $text-tertiary !important;
+    [data-bs-theme=dark] & {
         color: $wandb-gold !important;
     }
+}
 
-    // Remove default container padding
-    .container-fluid {
-        padding: 0 2rem !important;
-    }
-
-    // Center align all content vertically in the footer
-    .row {
-        align-items: center !important;
-    }
-
-    // Remove bottom margin from footer links
-    .td-footer__links-item {
-        margin-bottom: 0 !important;
+.gs-snippet, .gsc-refinementHeader {
+    font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 16px !important;
+    color: $text-primary !important;
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary !important;
     }
 }
-
-// Add padding to main content area
-main[role="main"] {
-    padding-bottom: 1rem !important;
-    padding-left: 3rem !important;
+.gsc-above-wrapper-area {
+    display: none !important;
 }
-
-// Add border radius to tab content and panes
-.tab-content {
-  .tab-pane {
-    border: 1px solid $moon-200;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
-    overflow: hidden;
-    
-    pre, .highlight, .code-toolbar {
-      margin-bottom: 1rem;
+body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
+    margin-left: 1.0rem !important;
+}
+.gs-per-result-labels {
+    padding: 5px !important;
+    border-radius: $border-radius-medium;
+    font-size: 12px;
+    max-width: fit-content;
+}
+.gs-per-result-labels span {
+    display: none;
+}
+.gsc-inline-block:hover, .gsc-refinementhActive, .gs-per-result-labels {
+    background-color: $bg-tertiary !important;
+    [data-bs-theme=dark] & {
+        background-color: $dark-bg-tertiary !important;
     }
-  }
 }
-
-// Dark mode support for tab panes
-[data-bs-theme=dark] .tab-content .tab-pane {
-  border-color: $moon-700;
+.td-search__input, .form-control, .td-search-input
+{
+    color: $text-tertiary !important;
+    border: $text-tertiary !important;
+    background-color: transparent !important;
+    [data-bs-theme=dark] & {
+        color: $dark-text-tertiary !important;
+        border: $dark-text-tertiary !important;
+    }
 }
-
-// Add border radius to standalone elements
-img, pre, .highlight, .code-toolbar:not(.tab-body *), .alert {
-  border-radius: 8px;
-}
-
-// Style tabs
-.nav-tabs {
-  border: none !important;
-  
-  .nav-item {
-    margin-bottom: 0 !important;
-  }
+.gcsc-find-more-on-google {
+    display: none !important;
 }

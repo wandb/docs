@@ -2,7 +2,7 @@
 title: log
 ---
 
-{{< cta-button githubLink="https://www.github.com/wandb/wandb/tree/v0.19.2/wandb/sdk/wandb_run.py#L1667-L1922">}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/wandb_run.py#L1611-L1871 >}}
 
 Upload run data.
 
@@ -18,7 +18,7 @@ log(
 Use `log` to log data from runs, such as scalars, images, video,
 histograms, plots, and tables.
 
-See our [guides to logging](https://docs.wandb.ai/guides/models/track/log) for
+See our [guides to logging](https://docs.wandb.ai/guides/track/log) for
 live examples, code snippets, best practices, and more.
 
 The most basic usage is `run.log({"train-loss": 0.5, "accuracy": 0.9})`.
@@ -27,17 +27,18 @@ the summary values for these metrics.
 
 Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
 or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with [our API](https://docs.wandb.ai/guides/models/track/public-api-guide).
+of the W&B app, or export data to visualize and explore locally, e.g. in
+Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
 
 Logged values don't have to be scalars. Logging any wandb object is supported.
 For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an
 example image which will be displayed nicely in the W&B UI.
 See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
 for all of the different supported types or check out our
-[guides to logging](https://docs.wandb.ai/guides/models/track/log) for examples,
+[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
 from 3D molecular structures and segmentation masks to PR curves and histograms.
 You can use `wandb.Table` to log structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/core/tables/tables-walkthrough)
+[guide to logging tables](https://docs.wandb.ai/guides/tables/tables-walkthrough)
 for details.
 
 The W&B UI organizes metrics with a forward slash (`/`) in their name
@@ -55,8 +56,8 @@ run.log(
 )
 ```
 
-Only one level of nesting is supported. `run.log({"a/b/c": 1})`
-produces a section named `"a/b"`.
+Only one level of nesting is supported; `run.log({"a/b/c": 1})`
+produces a section named "a/b".
 
 `run.log` is not intended to be called more than a few times per second.
 For optimal performance, limit your logging to once every N iterations,
@@ -64,7 +65,7 @@ or collect data over multiple iterations and log it in a single step.
 
 ### The W&B step
 
-With basic usage, each call to `log` creates a new `step`.
+With basic usage, each call to `log` creates a new "step".
 The step must always increase, and it is not possible to log
 to a previous step.
 
@@ -72,7 +73,7 @@ Note that you can use any metric as the X axis in charts.
 In many cases, it is better to treat the W&B step like
 you'd treat a timestamp rather than a training step.
 
-```python
+```
 # Example: log an "epoch" metric for use as an X axis.
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
@@ -112,12 +113,9 @@ run.log({"accuracy": 0.9}, step=current_step)
 #### Examples:
 
 For more and more detailed examples, see
-[our guides to logging](https://docs.wandb.com/guides/models/track/log).
+[our guides to logging](https://docs.wandb.com/guides/track/log).
 
 ### Basic usage
-
-<!--yeadoc-test:init-and-log-basic-->
-
 
 ```python
 import wandb
@@ -127,9 +125,6 @@ run.log({"accuracy": 0.9, "epoch": 5})
 ```
 
 ### Incremental logging
-
-<!--yeadoc-test:init-and-log-incremental-->
-
 
 ```python
 import wandb
@@ -142,9 +137,6 @@ run.log({"accuracy": 0.8})
 
 ### Histogram
 
-<!--yeadoc-test:init-and-log-histogram-->
-
-
 ```python
 import numpy as np
 import wandb
@@ -156,9 +148,6 @@ run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
 ### Image from numpy
-
-<!--yeadoc-test:init-and-log-image-numpy-->
-
 
 ```python
 import numpy as np
@@ -174,9 +163,6 @@ run.log({"examples": examples})
 ```
 
 ### Image from PIL
-
-<!--yeadoc-test:init-and-log-image-pillow-->
-
 
 ```python
 import numpy as np
@@ -200,8 +186,6 @@ run.log({"examples": examples})
 
 ### Video from numpy
 
-<!--yeadoc-test:init-and-log-video-numpy-->
-
 ```python
 import numpy as np
 import wandb
@@ -218,9 +202,6 @@ run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
 ### Matplotlib Plot
-
-<!--yeadoc-test:init-and-log-matplotlib-->
-
 
 ```python
 from matplotlib import pyplot as plt

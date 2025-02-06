@@ -1,6 +1,7 @@
 ---
 title: wandb server
 ---
+
 **Usage**
 
 `wandb server [OPTIONS] COMMAND [ARGS]...`
@@ -9,10 +10,12 @@ title: wandb server
 
 Commands for operating a local W&B server
 
+
 **Options**
 
 | **Option** | **Description** |
 | :--- | :--- |
+
 
 **Commands**
 
@@ -20,3 +23,4 @@ Commands for operating a local W&B server
 | :--- | :--- |
 | start | Start a local W&B server |
 | stop | Stop a local W&B server |
+
