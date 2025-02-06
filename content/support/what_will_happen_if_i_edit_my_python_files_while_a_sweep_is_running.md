@@ -6,10 +6,6 @@ tags:
   - sweeps
 ---
 
-There are two things could change:
-- The `train.py` which the sweep uses
-- The files that `train.py` references (such as other scripts, let’s say a `helper.py` with helper functions is imported in `train.py`)
-
-If you change `train.py` during a sweep, the sweep will continue to use the original version of `train.py`. It will not use the updated version of `train.py`.
-
-However, if you change `helper.py` during the sweep, the sweep will use the newer version of `helper.py`.
+While a sweep is running:
+- If the `train.py` script which the sweep uses changes, the sweep continues to use the original `train.py`
+- If files that the `train.py` script references change, such as helper functions in the `helper.py` script, the sweep begins to use the updated `helper.py`.
