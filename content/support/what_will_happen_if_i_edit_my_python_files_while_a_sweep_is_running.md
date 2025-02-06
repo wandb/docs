@@ -1,5 +1,5 @@
 ---
-title: What will happen if I edit my Python files while a sweep is running?
+title: What happens if I edit my Python files while a sweep is running?
 toc_hide: true
 type: docs
 tags:
