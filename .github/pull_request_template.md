@@ -1,7 +1,6 @@
-## Description
+{Description of the change}
 
-What does the pull request do? 
+-- Remove this line and following from the merge commit message --
 
-## Ticket
-
-Does this PR fix an existing issue? If yes, provide a link here.
+{JIRA / GitHub issue, or remove this line}
+{Upstream code PR, or remove this line}
