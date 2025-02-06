@@ -7,15 +7,17 @@ tags:
   - environment variables
 ---
 
-By default, artifacts download to the `artifacts/` folder. You can change this by:
+By default, artifacts download to the `artifacts/` folder. To change the location:
 
-```python
-wandb.Artifact().download(root="<path_to_download>")
-```
+- Pass it to [`wandb.Artifact().download`]({{< relref "/ref/python/public-api/api.md" >}}):
 
-Or by setting an environment variable:
+    ```python
+    wandb.Artifact().download(root="<path_to_download>")
+    ```
 
-```python
-import os
-os.environ["WANDB_ARTIFACT_DIR"] = "<path_to_download>"
-```
+- Set the `WANDB_ARTIFACT_DIR` [environment variable]({{< relref "/guides/track/environment-variables.md" >}}):
+
+    ```python
+    import os
+    os.environ["WANDB_ARTIFACT_DIR"] = "<path_to_download>"
+    ```
