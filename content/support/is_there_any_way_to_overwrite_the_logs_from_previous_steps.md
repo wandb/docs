@@ -1,5 +1,5 @@
 ---
-title: Is there any way to overwrite the logs from previous steps?
+title: How can I overwrite the logs from previous steps?
 toc_hide: true
 type: docs
 tags:
