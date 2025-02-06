@@ -217,11 +217,10 @@ If you place a file named `config-defaults.yaml` in the same directory as your r
 The following code snippet shows a sample `config-defaults.yaml` YAML file:
 
 ```yaml
-# config-defaults.yaml
-	@@ -224,9 +225,21 @@ batch_size:
-  desc: Size of each mini-batch
-  value: 32
+desc: Size of each mini-batch
+value: 32
 ```
+
 You can override the default values automatically loaded from `config-defaults.yaml` by setting updated values in the `config` argument of `wandb.init`. For example:
 
 ```python
