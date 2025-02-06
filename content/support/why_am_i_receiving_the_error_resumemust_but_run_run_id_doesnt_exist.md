@@ -1,5 +1,5 @@
 ---
-title: Why am I receiving the error "resume='must' but run (<run_id>) doesn't exist"?
+title: How do I fix the error `resume='must' but run (<run_id>) doesn't exist`?
 toc_hide: true
 type: docs
 tags:
