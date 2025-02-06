@@ -1,5 +1,5 @@
 ---
-title: How can I define the local folder where to save the wandb files?
+title: How can I define the local download location for saving artifacts?
 toc_hide: true
 type: docs
 tags:
