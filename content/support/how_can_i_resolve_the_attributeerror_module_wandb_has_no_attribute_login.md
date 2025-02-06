@@ -1,5 +1,5 @@
 ---
-title: "How can I resolve the `AttributeError: module 'wandb' has no attribute 'login'`?"
+title: "How can I fix the error `AttributeError: module 'wandb' has no attribute 'login'`?"
 toc_hide: true
 type: docs
 tags:
