@@ -1,5 +1,5 @@
 ---
-title: How can I see files that are not under the Files tab?
+title: How can I see files that do not appear in the Files tab?
 toc_hide: true
 type: docs
 tags:
