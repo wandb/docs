@@ -7,7 +7,7 @@ title: Configure registry access
 weight: 3
 ---
 
-Add, remove, and manage registry roles for teams and individual users in a registry.
+Add, remove, and manage registry roles for teams and individual users in a registry by configuring a registry's settings.
 
 {{% alert %}}
 Only team or registry administrators can [restrict visibility]({{< relref "configure_registry.md#restrict-visibility-to-a-registry" >}}), [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "configure_registry.md#add-a-user-from-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-from-a-registry" >}}) from a registry.
@@ -20,14 +20,16 @@ Team or registry administrators can add individual users or entire teams to a re
 
 1. Navigate to the Registry App at https://wandb.ai/registry/.
 2. Select the registry you want to add a user or team to.
-3. Click on the gear icon on the upper right hand corner.
-4. Scroll to the **Registry access** section.
+3. Click on the gear icon on the upper right hand corner to access the registry settings.
+4. Navigate to the **Registry access** section.
 5. Click on the **Add access** button.
 6. Add a user name, email, or the name of a team to the **Include users and teams** field.
 7. Click **Add access**.
 
 
-When an administrator adds a user to a registry, W&B attempts to assign that user a `Viewer` registry role by default. If the user has a [team role]({{< relref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) in the organization, W&B assigns the user the highest level of privilege as their registry role. See [Resolve role conflicts]({{< relref "configure_registry.md#resolve-role-conflicts" >}}) for more information.
+
+
+W&B attempts to assign users added to a registry a `Viewer` registry role by default. If the user has a [team role]({{< relref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) in the organization, W&B assigns the user the highest level of privilege as their registry role. See [Resolve role conflicts]({{< relref "configure_registry.md#resolve-role-conflicts" >}}) for more information.
 
 To edit a user's role, see [Configure user roles in a registry]({{< relref "configure_registry.md#configure-user-roles-in-a-registry" >}}).
 
@@ -36,8 +38,8 @@ Team or registry administrators can remove individual users or entire teams to a
 
 1. Navigate to the Registry App at https://wandb.ai/registry/.
 2. Select the registry you want to remove a user from.
-3. Click on the gear icon on the upper right hand corner.
-4. Scroll to the **Registry members and roles** section and type in the username, email, or team you want to remove.
+3. Click on the gear icon on the upper right hand corner to access the registry settings.
+4. Navigate to the **Registry access** section and type in the username, email, or team you want to remove.
 5. Click the **Delete** button.
 
 
