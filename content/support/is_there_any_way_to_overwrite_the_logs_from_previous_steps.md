@@ -7,4 +7,4 @@ tags:
   - metrics
 ---
 
-Yes, you can use our features [forking]({{< relref "guides/models/track/runs/forking.md" >}}) and [rewind]({{< relref "guides/models/track/runs/rewind.md" >}}).
+To overwrite logs from previous steps, use [forking]({{< relref "guides/models/track/runs/forking.md" >}}) and [rewind]({{< relref "guides/models/track/runs/rewind.md" >}}).
