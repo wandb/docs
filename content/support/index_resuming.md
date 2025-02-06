@@ -14,4 +14,4 @@ or email [support@wandb.com](mailto:support@wandb.com).
 {{% /card %}}
 
 - [How do I use the resume parameter when resuming a run in W&B?]({{< relref "resume_parameter.md" >}})
-- [Why am I receiving the error "resume='must' but run (<run_id>) doesn't exist?"]({{< relref "why_am_i_receiving_the_error_resumemust_but_run_run_id_doesnt_exist.md" >}})
+- [How do I fix the error `resume='must' but run (<run_id>) doesn't exist`?]({{< relref "how_do_i_fix_the_error_resume_must_but_run_run_id_doesnt_exist.md" >}})

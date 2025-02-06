@@ -15,7 +15,7 @@ By default, artifacts download to the `artifacts/` folder. To change the locatio
     wandb.Artifact().download(root="<path_to_download>")
     ```
 
-- Set the `WANDB_ARTIFACT_DIR` [environment variable]({{< relref "/guides/track/environment-variables.md" >}}):
+- Set the `WANDB_ARTIFACT_DIR` [environment variable]({{< relref "guides/models/track/environment-variables.md" >}}):
 
     ```python
     import os

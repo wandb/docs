@@ -21,7 +21,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [How can I resolve login issues with my account?]({{< relref "resolve_login_issues_with_account.md" >}})
 - [How do I export a list of users from my W&B Organisation?]({{< relref "export_list_users_account.md" >}})
 - [How do I find my API key?]({{< relref "find_api_key.md" >}})
-- [How do I login to my server instance?]({{< relref "how_do_i_login_to_my_server_instance.md" >}})
+- [How can I log in to W&B Server?]({{< relref "how_can_i_log_in_to_wb_server.md" >}})
 - [How do I request the complete deletion of my W&B account?]({{< relref "request_complete_deletion_account.md" >}})
 - [Is it possible to change the username?]({{< relref "change_username.md" >}})
 - [Is it possible to create a new account with an email that was previously used for a deleted account?]({{< relref "create_account_email_that_previously_used_deleted_account.md" >}})
