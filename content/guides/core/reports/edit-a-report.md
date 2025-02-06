@@ -386,3 +386,10 @@ Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
 
 {{< img src="/images/reports/collapse_headers.gif" alt="" >}}
+
+## Visualize relationships across multiple dimensions
+
+To effectively visualize relationships across multiple dimensions, use a color gradient to represent one of the variables. This enhances clarity and makes patterns easier to interpret.
+
+1. Choose a variable to represent with a color gradient (e.g., penalty scores, learning rates, etc.). This allows for a clearer understanding of how penalty (color) interacts with reward/side effects (y-axis) over training time (x-axis).
+2. Highlight key trends. Hovering over a specific group of runs highlights them in the visualization.
