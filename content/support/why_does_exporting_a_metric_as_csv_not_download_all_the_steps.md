@@ -1,5 +1,5 @@
 ---
-title: Why does exporting a metric as CSV not download all the steps?
+title: Why are steps missing from a CSV metric export?
 toc_hide: true
 type: docs
 tags:
