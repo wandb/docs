@@ -1,5 +1,5 @@
 ---
-title: How can I reduce the frequency at which System Metrics are logged?
+title: How can I reduce how frequently to log system metrics?
 toc_hide: true
 type: docs
 tags:
