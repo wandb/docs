@@ -6,7 +6,7 @@ tags:
   - crashing and hanging runs
 ---
 
-This error might appear when trying to import `wandb` from a Python environment that does not have `wandb` installed, but there is a directory named `wandb` where the code is being executed. We recommend:
+If you encounter the error `AttributeError: module 'wandb' has no attribute 'init'` when importing `wandb` in Python, `wandb` is not installed or the installation is corrupted, but a `wandb` directory exists in the current working directory. To fix this error, uninstall `wandb`, delete the directory, then install `wandb`:
 
 ```bash
 pip uninstall wandb && pip install wandb
