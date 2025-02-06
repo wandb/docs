@@ -405,7 +405,7 @@ For projects that contain a large number of runs, you can use either the search 
 
 ## Organize runs 
 
-This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (e.g., experiment names) and specifying job types (e.g., preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.
+This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (for example, experiment names) and specifying job types (for example, preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.
 
 ### Assigning runs to groups and job types
 
