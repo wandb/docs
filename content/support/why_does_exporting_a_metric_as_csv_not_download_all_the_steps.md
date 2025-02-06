@@ -7,7 +7,7 @@ tags:
   - runs
 ---
 
-There are some export limits, so you may not be able to export the entire run history via CSV or the run.history API. To access the complete run history, download the run history artifact parquet file:
+Export limits can prevent the entire run history from being exported as a CSV or using the `run.history` API. To access the complete run history, download the run history artifact using Parquet format:
 
 ```python
 import wandb
