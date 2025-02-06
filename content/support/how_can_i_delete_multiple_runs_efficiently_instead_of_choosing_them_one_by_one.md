@@ -7,7 +7,7 @@ tags:
   - runs
 ---
 
-Use the Public API to delete multiple runs efficiently:
+Use the [public API]({{< relref "/ref/python/public-api/api.md" >}}) to delete multiple runs in a single operation:
 
 ```python
 import wandb
