@@ -3,7 +3,7 @@ menu:
   default:
     identifier: search_registry
     parent: registry
-title: Use search to find registry items 
+title: Find registry items 
 weight: 7
 ---
 
