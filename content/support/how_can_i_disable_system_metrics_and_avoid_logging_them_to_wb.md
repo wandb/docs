@@ -7,7 +7,7 @@ tags:
   - runs
 ---
 
-To disable System Metrics:
+To disable logging of [system metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}), set `_disable_stats` to `True`:
 
 ```python
 wandb.init(settings=wandb.Settings(_disable_stats=True))
