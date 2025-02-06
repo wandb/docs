@@ -1,5 +1,5 @@
 ---
-title: How can I define the local download location for saving artifacts?
+title: How can I define the local location for `wandb` files?
 toc_hide: true
 type: docs
 tags:
