@@ -1,5 +1,5 @@
 ---
-title: How can I disable System Metrics and avoid logging them to W&B?
+title: How can I disable logging of system metrics to W&B?
 toc_hide: true
 type: docs
 tags:
