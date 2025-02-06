@@ -7,18 +7,14 @@ title: Reproduce experiments
 weight: 7
 ---
 
-Use W&B to reproduce an experiment that a team member creates. Reproducing a machine learning experiment is a crucial part in verifying and validating the results of that experiment. 
+Reproduce an experiment that a team member creates to verify and validate their results.
 
-Before you reproduce an experiment, make note of the:
+Before you reproduce an experiment, you need to make note of the:
 
 * Name of the project the run was logged to
 * Name of the run you want to reproduce
 
-{{% alert %}}
-This section assumes you know the name of the project that contains the run you want to reproduce.
-{{% /alert %}}
-
-Once you have the name of the project and run you want to reproduce, you can reproduce an experiment that a team member created by:
+To reproduce an experiment:
 
 1. Navigate to the project where the run is logged to.
 2. Select the **Workspace** tab in the left sidebar.
@@ -30,30 +26,28 @@ Depending on how your team member configured their project, you can reproduce an
 {{< tabpane text=true >}}
 {{% tab "Download Python script or notebook" %}}
 
-Download a Python script or notebook that your teammate used to create the experiment:
+Download the experiment's Python script or notebook:
 
-1. Note of the Python script or notebook in the **Command** field. This is the script that your teammate used to create the experiment.
+1. In the **Command** field, make a note of the name of the script that created the experiment.
 2. Select the **Code** tab in the left navigation bar.
-3. Download the Python script or notebook specified in the **Command** field. Click on the **Download** button next to the name of the file.
+3. Click **Download** next to the file that corresponds to the script or notebook.
 
 
 {{% /tab %}}
 {{% tab "GitHub" %}}
 
-{{% alert %}}
-Before you continue, ensure you have access to the GitHub repository that your teammate used to create the experiment.
-{{% /alert %}}
+Clone the GitHub repository your teammate used when creating the experiment. To do this:
 
-Clone the GitHub repository your teammate used when creating the experiment. To do this, 
-
-1. Copy and paste the GitHub repository URL specified in the **Git repository** field.
-```bash
-git clone https://github.com/your-repo.git && cd your-repo
-```
-2. Copy and paste **Git state** into your terminal. The Git state is a set of Git commands that will check out the exact commit that your teammate used to create the experiment. Replace values specified in the proceeding code snippet with your own:
-```bash
-git checkout -b "<run-name>" 0123456789012345678901234567890123456789
-```
+1. If necessary, gain access to the GitHub repository that your teammate used to create the experiment.
+2. Copy the **Git repository** field, which contains the GitHub repository URL.
+3. Clone the repository:
+    ```bash
+    git clone https://github.com/your-repo.git && cd your-repo
+    ```
+4. Copy and paste the **Git state** field into your terminal. The Git state is a set of Git commands that checks out the exact commit that your teammate used to create the experiment. Replace values specified in the proceeding code snippet with your own:
+    ```bash
+    git checkout -b "<run-name>" 0123456789012345678901234567890123456789
+    ```
 
 
 
@@ -68,7 +62,7 @@ git checkout -b "<run-name>" 0123456789012345678901234567890123456789
     pip install -r requirements.txt
     ```
 
-Now that you have the code and dependencies, you can run the script or notebook to reproduce the experiment. If you cloned a repository, you might need to navigate to the directory where the script or notebook is located. Otherwise, you can run the script or notebook from your working directory.
+9. Now that you have the code and dependencies, you can run the script or notebook to reproduce the experiment. If you cloned a repository, you might need to navigate to the directory where the script or notebook is located. Otherwise, you can run the script or notebook from your working directory.
 
 {{< tabpane text=true >}}
 {{% tab "Python notebook" %}}
