@@ -70,7 +70,7 @@ In full-screen mode, the panel plots 10,000 buckets rather than 1,000 when not i
 
 1. Hover over the panel, then click the panel's action menu `...`.
 1. Click the full-screen button, which looks like a viewfinder.
-    {{< img src='/images/app_ui/panel_fullscreen.png' alt='View panel full-screen' >}}
+    {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
 
     The panel opens in full-screen mode.
 1. Copy the URL from the browser or click the action menu `...` and select **Copy panel URL**.
