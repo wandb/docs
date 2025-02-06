@@ -354,6 +354,71 @@ Use the Workspace tab to view, search, group, and arrange visualizations such as
 
 View an example project workspace [here](https://wandb.ai/stacey/deep-drive/workspace?nw=nwuserstacey)
 
+### Runs tab
+<!-- Keep this in sync with /guide/models/track/project-page.md -->
+Use the Runs tab to filter, group, and sort your runs.
+
+{{< img src="/images/runs/run-table-example.png" alt="" >}}
+
+<!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
+
+
+The proceeding tabs demonstrate some common actions you can take in the Runs tab.
+
+{{< tabpane text=true >}}
+   {{% tab header="Customize columns" %}}
+The Runs tab shows details about runs in the project. It shows a large number of columns by default.
+
+- To view all visible columns, scroll the page horizontally.
+- To change the order of the columns, drag a column to the left or right.
+- To pin a column, hover over the column name, click the action menu `...`. that appears, then click **Pin column**. Pinned columns appear near the left of the page, after the **Name** column. To unpin a pinned column, choose **Unpin column**
+- To hide a column, hover over the column name, click the action menu `...`. that appears, then click **Hide column**. To view all columns that are currently hidden, click **Columns**.
+- To show, hide, pin, and unpin multiple columns at once, click **Columns**.
+  - Click the name of a hidden column to unhide it.
+  - Click the name of a visible column to hide it.
+  - Click the pin icon next to a visible column to pin it.
+
+When you customize the Runs tab, the customization is also reflected in the **Runs** selector of the [Workspace tab]({{< relref "#workspace-tab" >}}).
+
+   {{% /tab %}}
+
+   {{% tab header="Sort" %}}
+Sort all rows in a Table by the value in a given column. 
+
+1. Hover your mouse over the column title. A kebob menu will appear (three vertical docs).
+2. Select on the kebob menu (three vertical dots).
+3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
+
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
+
+The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
+   {{% /tab %}}
+   {{% tab header="Filter" %}}
+Filter all rows by an expression with the **Filter** button above the dashboard. 
+
+{{< img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong." >}}
+
+Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
+
+|                   | Column name | Binary relation    | Value       |
+| -----------       | ----------- | ----------- | ----------- |
+| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
+
+
+The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+
+{{< img src="/images/data_vis/filter_example.png" alt="" >}}
+The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.   
+   {{% /tab %}}
+   {{% tab header="Group" %}}
+Group all rows by the value in a particular column with the **Group by** button above the dashboard. 
+
+{{< img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s." >}}
+
+By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.   
+   {{% /tab %}}
+{{< /tabpane >}}
+
 ### System tab
 The **System tab** shows system metrics tracked for a specific run such as CPU utilization, system memory, disk I/O, network traffic, GPU utilization and more.
 

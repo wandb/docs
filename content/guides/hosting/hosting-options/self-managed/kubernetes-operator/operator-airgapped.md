@@ -122,7 +122,7 @@ Along with the container images, you also must ensure that the following Helm ch
 - [W&B Platform](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
 
 
-The `operator` chart is used to deploy the W&B Operator, or the Controller Manager. While the `platform` chart is used to deploy the W&B Platform using the values configured in the custom resource definition (CRD).
+The `operator` chart is used to deploy the W&B Operator, which is also referred to as the Controller Manager. The `platform` chart is used to deploy the W&B Platform using the values configured in the custom resource definition (CRD).
 
 ## Step 4: Set up Helm repository
 
@@ -148,20 +148,21 @@ airgapped: true
 ```
 
 Replace the tag with the version that is available in your internal registry.
-Execute the following to install the operator:
+
+Install the operator and the CRD:
 ```bash
 helm upgrade --install operator wandb/operator -n wandb --create-namespace -f values.yaml
 ```
 
-You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
+For full details about the supported values, refer to the [Kubernetes operator GitHub repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
-## Step 6: Configure W&B Custom Resource Definition 
+## Step 6: Configure W&B Custom Resource 
 
-After installing the W&B Kubernetes operator, you must configure the Custom Resource Definition (CRD) to point to your internal Helm repository and container registry.
+After installing the W&B Kubernetes operator, you must configure the Custom Resource (CR) to point to your internal Helm repository and container registry.
 
 This configuration ensures that the Kubernetes operators uses your internal registry and repository are when it deploys the required components of the W&B platform. 
 
-Save this example CRD as a file named `wandb.yaml`.
+Copy this example CR to a new file named `wandb.yaml`.
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -196,8 +197,10 @@ spec:
         password: password
         port: 3306
         user: wandb
+      extraEnv:
+        ENABLE_REGISTRY_UI: 'true'
     
-    # Ensre it's set to use your own MySQL
+    # If install: true, Helm installs a MySQL database for the deployment to use. Set to `false` to use your own external MySQL deployment.
     mysql:
       install: false
 
@@ -219,7 +222,7 @@ spec:
     
 ```
 
-To deploy the W&B platform, the Kubernetes Operator uses the `operator-wandb` chart from your internal repository and use the values from your CRD to configure the Helm chart.
+To deploy the W&B platform, the Kubernetes Operator uses the values from your CR to configure the `operator-wandb` Helm chart from your internal repository.
 
 Replace all tags/versions with the versions that are available in your internal registry.
 
@@ -227,7 +230,7 @@ More information on creating the preceding configuration file can be found [here
 
 ## Step 7: Deploy the W&B platform
 
-Finally, after setting up the Kubernetes operator and the CRD, deploy the W&B platform using the following command:
+Now that the Kubernetes operator and the CR are configured, apply the `wandb.yaml` configuration to deploy the W&B platform:
 
 ```bash
 kubectl apply -f wandb.yaml
@@ -247,4 +250,4 @@ You must split the certificates into multiple entries in the `customCACerts` sec
 You can turn off auto-updates from the W&B console. Reach out to your W&B team for any questions on the supported versions. Also, note that W&B supports platform versions released in last 6 months. W&B recommends performing periodic upgrades. 
 
 ### Does the deployment work if the environment has no connection to public repositories?
-As long as you have enabled the `airgapped: true` configuration, the Kubernetes operator does not attempt to reach public repositories. The Kubernetes operator attempts to use your internal resources.
+If your configuration sets `airgapped` to `true`, the Kubernetes operator uses only your internal resources and does not attempt to connect to public repositories. 
