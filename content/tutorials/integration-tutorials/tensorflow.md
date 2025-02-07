@@ -222,7 +222,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 ### Benefits of using W&B Sweeps
 
 * **Quick setup**: With just a few lines of code you can run W&B sweeps.
-* **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/client/tree/master/wandb/sweeps).
+* **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/sweeps).
 * **Powerful**: Our sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 
 {{< img src="/images/tutorials/tensorflow/sweeps.png" alt="Sweep result" >}}
