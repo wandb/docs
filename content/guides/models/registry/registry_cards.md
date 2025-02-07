@@ -3,8 +3,8 @@ menu:
   default:
     identifier: registry_cards
     parent: registry
-title: Document collections
-weight: 9
+title: Annotate collections
+weight: 8
 ---
 
 Add human-friendly text to your collections to help users understand the purpose of the collection and the artifacts it contains. 
@@ -19,13 +19,13 @@ In general, a collection description should include:
 * **License**: The legal terms and permissions associated with the use of the machine learning model. It helps model users understand the legal framework under which they can utilize the model.
 * **References**: Citations or references to relevant research papers, datasets, or external resources.
 
-If your collection contains training data, you might want to include:
+If your collection contains training data, consider including these additional details:
 * **Training data**: Describe the training data used
 * **Processing**: Processing done on the training data set.
 * **Data storage**: Where is that data stored and how to access it.
 
 
-If your collection contains a machine learning model, you might want to include:
+If your collection contains a machine learning model, consider including these additional details:
 * **Architecture**: Information about the model architecture, layers, and any specific design choices.
 * **Task**: The specific type of task or problem that the machine that the collection model is designed to perform. It's a categorization of the model's intended capability.
 * **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
@@ -35,10 +35,10 @@ If your collection contains a machine learning model, you might want to include:
 
 ## Add a description to a collection
 
-Programmatically or interavtively add a description to a collection.
+Interactively or programmatically add a description to a collection with the W&B Registry UI or Python SDK, respectively.
 
 {{< tabpane text=true >}}
-  {{% tab header="W&B Registry" %}}
+  {{% tab header="W&B Registry UI" %}}
 1. Navigate to W&B Registry at [https://wandb.ai/registry/](https://wandb.ai/registry/).
 2. Click on a collection.
 3. Select **View details** next to the name of the collection.
