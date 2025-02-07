@@ -27,31 +27,31 @@ The following procedure describes how to create a custom registry:
 8. Click on the **Create registry** button. 
 
 {{% alert %}}
-You can not remove an artifact type from a registry once you add and save it in the registry's settings.
+An artifact type cannot be removed from a registry once it is saved in the registry's settings.
 {{% /alert %}}
 
 {{< img src="/images/registry/create_registry.gif" alt="" >}}
 
-For example, the preceding image shows a custom registry called "Fine_Tuned_Models" that a user is about to create. The registry is set to **Restricted** which means that only members that are manually added to the "Fine_Tuned_Models" registry will have access to this registry.
+For example, the preceding image shows a custom registry called `Fine_Tuned_Models` that a user is about to create. The registry is **Restricted** to only members that are manually added to the registry.
 
 
-## Registry visibility types
+## Visibility types
 
 The *visibility* of a registry determines who can access that registry. Restricting the visibility of a custom registry helps ensure that only specified members can access that registry.
 
-There are two type of registry visibility: *Restricted* and *Organization*. A custom registry can have either a Restricted or Organization visibility. Core registries can only have Organization visibility. 
-
-A team administrator or registry administrator can set the visibility of a custom registry.
+There are two type registry visibility options for a custom registry: 
 
 | Visibility | Description |
 | --- | --- | 
-| Organization | Everyone in the org can access the registry. |
 | Restricted   | Only invited organization members can access the registry.| 
+| Organization | Everyone in the org can access the registry. |
 
-The user who creates a custom registry with Restricted visibility is the only user in that registry initially. That user is given an administrative role and they can add other users to that registry.  
+A team administrator or registry administrator can set the visibility of a custom registry.
+
+The user who creates a custom registry with Restricted visibility is added to the registry automatically as its registry admin. 
 
 
-## Assign the visibility of a custom registry
+## Configure the visibility of a custom registry
 
 A team administrator or registry administrator can assign the visibility of a custom registry during or after the creation of a custom registry. 
 

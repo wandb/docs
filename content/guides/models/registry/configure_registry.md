@@ -7,7 +7,7 @@ title: Configure registry access
 weight: 3
 ---
 
-Registry administrators can [configure registry roles]({{< relref "#configure-registry-roles" >}}), [add users]({{< relref "#add-a-user-or-team-to-a-registry" >}}), or [remove users]({{< relref "#remove-a-user-or-team-from-a-registry" >}}) from a registry by configuring the registry's settings.
+Registry administrators can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "#add-a-user-or-team-to-a-registry" >}}), or [remove users]({{< relref "#remove-a-user-or-team-from-a-registry" >}}) from a registry by configuring the registry's settings.
 
 {{% alert %}}
 Only registry administrators can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "configure_registry.md#add-a-user-or-a-team-to-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-or-team-from-a-registry" >}}) from a registry.
@@ -62,7 +62,6 @@ There are two different types of roles in W&B: [Team roles]({{< relref "/guides/
 Your role in a team has no impact or relationship to your role in any registry.
 {{% /alert %}}
 
-A user can have different registry roles in different registries. For example, a user can have a `Viewer` role in "Registry A" and a `Member` role in the "Registry B".
 
 The proceeding table lists the different roles a user can have and their permissions:
 
