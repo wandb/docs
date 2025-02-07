@@ -7,16 +7,16 @@ title: Configure registry access
 weight: 3
 ---
 
-Registry administrators can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "#add-a-user-or-team-to-a-registry" >}}), or [remove users]({{< relref "#remove-a-user-or-team-from-a-registry" >}}) from a registry by configuring the registry's settings.
+Registry admins can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "#add-a-user-or-team-to-a-registry" >}}), or [remove users]({{< relref "#remove-a-user-or-team-from-a-registry" >}}) from a registry by configuring the registry's settings.
 
 {{% alert %}}
-Only registry administrators can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "configure_registry.md#add-a-user-or-a-team-to-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-or-team-from-a-registry" >}}) from a registry.
+Only registry admins can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "configure_registry.md#add-a-user-or-a-team-to-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-or-team-from-a-registry" >}}) from a registry.
 {{% /alert %}}
 
 
 ## Add a user or a team to a registry
 
-Registry administrators can add individual users or entire teams to a registry. To add a user or team to a registry:
+Registry admins can add individual users or entire teams to a registry. To add a user or team to a registry:
 
 1. Navigate to the Registry App at https://wandb.ai/registry/.
 2. Select the registry you want to add a user or team to.
@@ -30,7 +30,7 @@ Registry administrators can add individual users or entire teams to a registry. 
 See [Registry role permissions]({{< relref "configure_registry.md#registry-role-permissions" >}}) for more information about registry roles. To edit roles, see [Configure user roles in a registry]({{< relref "configure_registry.md#configure-registry-roles" >}}).
 
 ## Remove a user or team from a registry
-Registry administrators can remove individual users or entire teams from a registry. To remove a user or team from a registry:
+Registry admins can remove individual users or entire teams from a registry. To remove a user or team from a registry:
 
 1. Navigate to the Registry App at https://wandb.ai/registry/.
 2. Select the registry you want to remove a user from.
@@ -42,18 +42,18 @@ Registry administrators can remove individual users or entire teams from a regis
 
 ## Registry role permissions
 
-Each user or team in a registry has a specific *registry role*. Registry roles determine what a user can do in that registry. 
+Each user in a registry has a *registry role*, which determines what they can do in that registry. 
 
 W&B automatically assigns default registry roles to a user or team when they are added to a registry. 
 
 | Entity | Default registry role |
 | ----- | ----- |
 | Team | Viewer |
-| User (non administrator) | Viewer |
-| Org administrator | Admin |
+| User (non admin) | Viewer |
+| Org admin | Admin |
 
 
-Registry administrators can assign or modify roles for users and teams in a registry.
+Registry admins can assign or modify roles for users and teams in a registry.
 See [Configure user roles in a registry]({{< relref "configure_registry.md#configure-registry-roles" >}}) for more information.
 
 {{% alert title="W&B role types" %}}
@@ -99,7 +99,7 @@ The proceeding table lists the different roles a user can have and their permiss
 
 A user's permission in a registry depends on the highest level of privilege assigned to that user, whether through a team or directly. 
 
-For example, suppose a registry administrator adds a user called Nico to Registry A and assigns them a `Viewer` registry role. The registry administrator then adds a team called Team Awesome to Registry A and assigns Team Awesome a `Member` registry role. Nico is a member of Team Awesome.
+For example, suppose a registry admin adds a user called Nico to Registry A and assigns them a `Viewer` registry role. The registry admin then adds a team called Team Awesome to Registry A and assigns Team Awesome a `Member` registry role. Nico is a member of Team Awesome.
 
 Since Nico is a member of Team Awesome, W&B grants Nico `Member` registry role permissions because `Member` registry roles have higher level of permissions than `Viewer`. 
 
