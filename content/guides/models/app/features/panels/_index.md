@@ -67,8 +67,6 @@ This section describes the various ways to share a panel and how each way differ
 
 The settings of a project determine who can view the panel. This means that if the project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
 
-If multiple panels have the same name, W&B shares the first panel with the name.
-
 ### View and share a panel in full-screen mode
 In full-screen mode, the panel plots 10,000 buckets rather than 1,000 when not in full-screen mode. The state of the run selector is preserved, so you can toggle runs on or off or search for runs.
 
@@ -79,6 +77,17 @@ In full-screen mode, the panel plots 10,000 buckets rather than 1,000 when not i
     The panel opens in full-screen mode.
 1. Copy the URL from the browser or click the action menu `...` and select **Copy panel URL**.
 1. Share the link with the user or team. When they access the link, the panel opens in full-screen mode automatically.
+
+The proceeding section shows how to determine a panel's full-screen URL programmatically.
+
+#### Compose a panel's full-screen URL programmatically
+In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows how to compose The URL for a panel programmatically. In the proceeding example, replace the entity, project, panel, and section names in brackets.
+
+```text
+https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&panelSectionName=<SECTON_NAME>
+```
+
+If multiple panels have the same name, this is the URL for the first panel with the name. In this case, find the URL by [viewing the panel in full-screen mode]({{< relref "#view-and-share-a-panel-in-full-screen-mode" >}}).
 
 ### Share a panel with a direct link that anyone can access
 1. Hover over the panel, then click the panel's action menu `...`.
@@ -98,6 +107,12 @@ To share a panel _publicly_, such as on social media or embedded in a website:
 1. Hover over the panel, then click the panel's action menu `...`.
 1. Click **Share panel in report**.
 1. In the **Share** tab, change **Only those who are invited have access** to **Anyone with the link cah view**, then choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
+
+### Determine a panel's full-screen URL programmatically
+
+
+
+
 
 ## Manage panels
 
@@ -153,10 +168,10 @@ To add a new section before or after an existing section, you can instead click 
 
 
 ### Manage a section's visible panels
-By default, each section shows 6 panels. To customize a section that has more than 6 panels:
+By default, each section shows 6 panels, but you can show a maximum of 100 panels. To customize a section that has more than 6 panels:
 
 1. At the top of the section, click **1 to 6 of <X>**, where `<X>` is the total number of panels.
-1. Choose how many panels to show, or click **Show all panels**.
+1. Choose how many panels to show.
 
 ### Rename a section
 
