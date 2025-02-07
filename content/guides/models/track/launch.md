@@ -127,6 +127,7 @@ The following are some suggested guidelines to consider when you create experime
 2. **Project**: A project is a set of experiments you can compare together. Each project gets a dedicated dashboard page, and you can easily turn on and off different groups of runs to compare different model versions.
 3. **Notes**: Set a quick commit message directly from your script. Edit and access notes in the Overview section of a run in the W&B App.
 4. **Tags**: Identify baseline runs and favorite runs. You can filter runs using tags. You can edit tags at a later time on the Overview section of your project's dashboard on the W&B App.
+5. **Create multiple run sets for easy comparison**: When comparing experiments, create multiple run sets to make metrics easy to compare. You can toggle run sets on or off on the same chart or group of charts.
 
 The following code snippet demonstrates how to define a W&B Experiment using the best practices listed above:
 
