@@ -3,7 +3,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "06 23 04 * *" # In UTC, currently 11:00 PM on the 4th of the month
+    - cron: "5 0 1 * *" # In UTC, currently 12:05 AM on the 1st of each month
 
 jobs:
   linkChecker:
