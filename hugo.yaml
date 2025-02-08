@@ -55,8 +55,12 @@ languages:
       description: Weights & Biases Documentation Site
   ja:
     languageName: Japanese
+    contentDir: content/ja
+    baseURL: https://docs.wandb.ai/ja
   ko:
     languageName: Korean
+    contentDir: content/ko
+    bbaseURL: https://docs.wandb.ai/ko
 
 markup:
   tableOfContents:
