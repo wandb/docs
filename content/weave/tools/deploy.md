@@ -1,4 +1,10 @@
-# Deploy
+---
+title: "Deploy"
+menu:
+  weave:
+    weight: 20
+type: docs
+--- 
 
 ## Deploy to GCP
 

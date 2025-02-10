@@ -1,4 +1,10 @@
-# Local Models
+---
+title: "Local Models"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Many developers download and run open source models like LLama-3, Mixtral, Gemma, Phi and more locally. There are quite a few ways of running these models locally and Weave supports a few of them out of the box, as long as they support OpenAI SDK compatibility.
 

@@ -1,4 +1,10 @@
-# Comparison
+---
+title: "Comparison"
+menu:
+  weave:
+    weight: 20
+type: docs
+--- 
 
 The Weave Comparison feature allows you to visually compare and diff code, traces, prompts, models, and model configurations.  You can compare two objects side-by-side or analyze a larger set of objects to identify differences, patterns, and trends.
 

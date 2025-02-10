@@ -1,4 +1,10 @@
-# Serve
+---
+title: "Serve"
+menu:
+  weave:
+    weight: 20
+type: docs
+--- 
 
 Given a Weave ref to any Weave Model you can run:
 

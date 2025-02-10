@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Objects
+---
+title: "Objects"
+menu:
+  weave:
+    weight: 10
+type: docs
+--- 
 
 ## Publishing an object
 

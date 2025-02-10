@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Datasets
+---
+title: "Datasets"
+menu:
+  weave:
+    weight: 30
+type: docs
+--- 
 
 `Dataset`s enable you to collect examples for evaluation and automatically track versions for accurate comparisons. Use this to download the latest version locally with a simple API.
 

@@ -1,4 +1,10 @@
-# MistralAI
+---
+title: "MistralAI"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weave automatically tracks and logs LLM calls made via the [MistralAI Python library](https://github.com/mistralai/client-python). 
 

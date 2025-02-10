@@ -1,4 +1,10 @@
-# Amazon Bedrock
+---
+title: "Amazon Bedrock"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weave automatically tracks and logs LLM calls made via Amazon Bedrock, AWS's fully managed service that offers foundation models from leading AI companies through a unified API.
 

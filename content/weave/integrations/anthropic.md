@@ -1,4 +1,10 @@
-# Anthropic
+---
+title: "Anthropic"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weave automatically tracks and logs LLM calls made via the [Anthropic Python library](https://github.com/anthropics/anthropic-sdk-python), after `weave.init()` is called.
 

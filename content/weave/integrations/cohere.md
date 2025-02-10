@@ -1,4 +1,10 @@
-# Cohere
+---
+title: "Cohere"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weave automatically tracks and logs LLM calls made via the [Cohere Python library](https://github.com/cohere-ai/cohere-python) after `weave.init()` is called.
 

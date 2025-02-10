@@ -1,4 +1,10 @@
-# Environment variables
+---
+title: "Environment variables"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weave provides a set of environment variables to configure and optimize its behavior. You can set these variables in your shell or within scripts to control specific functionality.
 

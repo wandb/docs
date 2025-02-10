@@ -1,13 +1,9 @@
 ---
-title: Tracing
+title: "Tracing"
 menu:
-  default:
-    identifier: tracing
-    weight: 1
+  weave:
+    weight: 10
 type: docs
-cascade:
-  type: docs
-no_list: true
 ---
 
 Weave provides powerful tracing capabilities to track and version objects and function calls in your applications. This comprehensive system enables better monitoring, debugging, and iterative development of AI-powered applications, allowing you to "track insights between commits."

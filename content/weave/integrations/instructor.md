@@ -1,4 +1,10 @@
-# Instructor
+---
+title: "Instructor"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 [Instructor](https://python.useinstructor.com/) is a lightweight library that makes it easy to get structured data like JSON from LLMs.
 

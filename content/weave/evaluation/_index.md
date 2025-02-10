@@ -1,17 +1,10 @@
 ---
-title: "Evaluation"
+title: "Evaluations"
 menu:
   weave:
-    identifier: evaluation
-    weight: 20
+    weight: 30
 type: docs
-cascade:
-  type: docs
-title: Evaluation
-no_list: true
----
-
-# Evaluations
+--- 
 
 Evaluation-driven development helps you reliably iterate on an application. The `Evaluation` class is designed to assess the performance of a `Model` on a given `Dataset` or set of examples using scoring functions.
 

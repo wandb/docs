@@ -1,4 +1,10 @@
-# Not Diamond ¬◇
+---
+title: "Not Diamond"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 When building complex LLM workflows users may need to prompt different models according to accuracy,
 cost, or call latency. Users can use [Not Diamond][nd] to route prompts in these workflows to the

@@ -1,4 +1,10 @@
-# DSPy
+---
+title: "DSPy"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 [DSPy](https://dspy-docs.vercel.app/) is a framework for algorithmically optimizing LM prompts and weights, especially when LMs are used one or more times within a pipeline. Weave automatically tracks and logs calls made using DSPy modules and functions.
 

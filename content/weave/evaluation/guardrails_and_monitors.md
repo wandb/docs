@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Guardrails and Monitors
+---
+title: "Guardrails and Monitors"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 ![Feedback](./../../../static/img/guardrails_scorers.png)
 

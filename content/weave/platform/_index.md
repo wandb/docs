@@ -1,4 +1,10 @@
-# Platform & Security
+---
+title: "Platform & Security"
+menu:
+  weave:
+    weight: 90
+type: docs
+--- 
 
 Weave is available on the following deployment options:
 

@@ -1,4 +1,10 @@
-# LangChain
+---
+title: "LangChain"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weave is designed to make tracking and logging all calls made through the [LangChain Python library](https://github.com/langchain-ai/langchain) effortless.
 

@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Models
+---
+title: "Models"
+menu:
+  weave:
+    weight: 50
+type: docs
+--- 
 
 <Tabs groupId="programming-language" queryString>
   <TabItem value="python" label="Python" default>

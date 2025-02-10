@@ -1,4 +1,10 @@
-# Integrations
+---
+title: "Integrations"
+menu:
+  weave:
+    weight: 60
+type: docs
+--- 
 
 :::success[Automatic Tracking]
 In most cases, all you need to do is call `weave.init()` at the top of your script or program in order for Weave to automatically patch and track any of these libraries!

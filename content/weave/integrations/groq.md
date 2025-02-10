@@ -1,4 +1,10 @@
-# Groq
+---
+title: "Groq"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 :::note
 Do you want to experiment with Groq models on Weave without any set up? Try the [LLM Playground](../tools/playground.md).

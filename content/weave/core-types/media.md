@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Logging media
+---
+title: "Media"
+menu:
+  weave:
+    weight: 50
+type: docs
+--- 
 
 Weave supports logging and displaying multiple first class media types. Log images with `PIL.Image.Image` and audio with `wave.Wave_read` either directly with the object API, or as the inputs or output of an op.
 

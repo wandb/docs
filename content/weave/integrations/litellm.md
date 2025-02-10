@@ -1,4 +1,10 @@
-# LiteLLM
+---
+title: "LiteLLM"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weave automatically tracks and logs LLM calls made via LiteLLM, after `weave.init()` is called.
 

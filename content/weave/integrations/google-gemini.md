@@ -1,4 +1,10 @@
-# Google Gemini
+---
+title: "Google Gemini"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 :::tip
 For the latest tutorials, visit [Weights & Biases on Google Cloud](https://wandb.ai/site/partners/googlecloud/).

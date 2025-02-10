@@ -1,14 +1,10 @@
 ---
-title: Costs
+title: "Costs"
 menu:
-  default:
-    parent: tracing
-    identifier: tracing-costs
-cascade:
-  type: docs
----
-
-## Adding a custom cost
+  weave:
+    weight: 10
+type: docs
+--- 
 
 <Tabs groupId="programming-language" queryString>
   <TabItem value="python" label="Python" default>

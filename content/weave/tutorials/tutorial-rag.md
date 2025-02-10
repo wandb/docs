@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Tutorial: Model-Based Evaluation of RAG applications
+---
+title: "Model-Based Evaluation of RAG applications"
+menu:
+  weave:
+    weight: 10
+type: docs
+--- 
 
 Retrieval Augmented Generation (RAG) is a common way of building Generative AI applications that have access to custom knowledge bases.
 

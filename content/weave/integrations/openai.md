@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# OpenAI
+---
+title: "OpenAI"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 :::note
 Do you want to experiment with OpenAI models on Weave without any set up? Try the [LLM Playground](../tools/playground.md).

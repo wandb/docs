@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Track data flows and app metadata
+---
+title: "Track data flows and app metadata"
+menu:
+  weave:
+    weight: 10
+type: docs
+--- 
 
 In the [Track LLM inputs & outputs](/quickstart) tutorial, the basics of tracking the inputs and outputs of your LLMs was covered.
 

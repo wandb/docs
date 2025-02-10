@@ -1,4 +1,10 @@
-# Tools & Utilities
+---
+title: "Tools & Utilities"
+menu:
+  weave:
+    weight: 50
+type: docs
+--- 
 
 Weave is developing a set of tools and utilities to help with your workflow and deployment process for AI applications. These are currently in early alpha stages and subject to change. Here's an overview of what we're working on:
 

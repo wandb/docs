@@ -1,4 +1,10 @@
-# Cerebras
+---
+title: "Cerebras"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weave automatically tracks and logs LLM calls made via the [Cerebras Cloud SDK](https://inference-docs.cerebras.ai/introduction).
 

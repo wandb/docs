@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Track LLM inputs & outputs
+---
+title: "Track LLM inputs & outputs"
+menu:
+  weave:
+    weight: 10
+type: docs
+--- 
 
 <!-- TODO: Update wandb.me/weave-quickstart to match this new link -->
 

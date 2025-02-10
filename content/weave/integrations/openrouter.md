@@ -1,4 +1,10 @@
-# Open Router
+---
+title: "Open Router"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Openrouter.ai is a unified interface for many LLMs, supporting both foundational models like OpenAI GPT-4, Anthropic Claude, Google Gemini but also open source models like LLama-3, Mixtral and [many more](https://openrouter.ai/models), some models are even offered for free. 
 

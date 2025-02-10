@@ -1,4 +1,10 @@
-# Microsoft Azure
+---
+title: "Microsoft Azure"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weights & Biases integrates with Microsoft Azure OpenAI services, helping teams to manage, debug, and optimize their Azure AI workflows at scale. This guide introduces the W&B integration, what it means for Weave users, its key features, and how to get started.
 

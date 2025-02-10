@@ -1,7 +1,10 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-# Ops
+---
+title: "Ops"
+menu:
+  weave:
+    weight: 10
+type: docs
+--- 
 
 A Weave op is a versioned function that automatically logs all calls.
 

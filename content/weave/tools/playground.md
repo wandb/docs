@@ -1,4 +1,10 @@
-# Playground
+---
+title: "Playground"
+menu:
+  weave:
+    weight: 20
+type: docs
+--- 
 
 > **The LLM Playground is currently in preview.**
 

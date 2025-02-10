@@ -1,4 +1,10 @@
-# LlamaIndex
+---
+title: "LlamaIndex"
+menu:
+  weave:
+    weight: 40
+type: docs
+--- 
 
 Weave is designed to simplify the tracking and logging of all calls made through the [LlamaIndex Python library](https://github.com/run-llama/llama_index).
 

@@ -1,4 +1,10 @@
-# Prompts
+---
+title: "Prompts"
+menu:
+  weave:
+    weight: 50
+type: docs
+--- 
 
 Creating, evaluating, and refining prompts is a core activity for AI engineers.
 Small changes to a prompt can have big impacts on your application's behavior.
