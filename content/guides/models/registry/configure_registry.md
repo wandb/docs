@@ -7,12 +7,7 @@ title: Configure registry access
 weight: 3
 ---
 
-Registry admins can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "#add-a-user-or-team-to-a-registry" >}}), or [remove users]({{< relref "#remove-a-user-or-team-from-a-registry" >}}) from a registry by configuring the registry's settings.
-
-{{% alert %}}
-Only registry admins can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "configure_registry.md#add-a-user-or-a-team-to-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-or-team-from-a-registry" >}}) from a registry.
-{{% /alert %}}
-
+Registry admins can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "configure_registry.md#add-a-user-or-a-team-to-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-or-team-from-a-registry" >}}) from a registry by configuring the registry's settings.
 
 ## Add a user or a team to a registry
 
@@ -26,6 +21,7 @@ Registry admins can add individual users or entire teams to a registry. To add a
 6. Specify one or more user names, emails, or the team names to the **Include users and teams** field.
 7. Click **Add access**.
 
+{{< img src="/images/registry/add_team_registry.gif" alt="Animation of using the UI to add teams and individual users to a registry" >}}
 
 See [Registry role permissions]({{< relref "configure_registry.md#registry-role-permissions" >}}) for more information about registry roles. To edit roles, see [Configure user roles in a registry]({{< relref "configure_registry.md#configure-registry-roles" >}}).
 
@@ -38,7 +34,9 @@ Registry admins can remove individual users or entire teams from a registry. To 
 4. Navigate to the **Registry access** section and type in the username, email, or team you want to remove.
 5. Click the **Delete** button.
 
-
+{{% alert %}}
+Removing a user from a team also removes that user's access to the registry.
+{{% /alert %}}
 
 ## Registry role permissions
 
@@ -97,15 +95,15 @@ The proceeding table lists the different roles a user can have and their permiss
 
 ### Inherited permissions
 
-A user's permission in a registry depends on the highest level of privilege assigned to that user, whether through a team or directly. 
+A user's permission in a registry depends on the highest level of privilege assigned to that user, whether through a team or individual. 
 
-For example, suppose a registry admin adds a user called Nico to Registry A and assigns them a `Viewer` registry role. The registry admin then adds a team called Team Awesome to Registry A and assigns Team Awesome a `Member` registry role. Nico is a member of Team Awesome.
+For example, suppose a registry admin adds a user called Nico to Registry A and assigns them a `Viewer` registry role. The registry admin then adds a team called Foundation Model Team to Registry A and assigns Foundation Model Team a `Member` registry role. Nico is a member of Foundation Model Team.
 
-Since Nico is a member of Team Awesome, W&B grants Nico `Member` registry role permissions because `Member` registry roles have higher level of permissions than `Viewer`. 
+Since Nico is a member of Foundation Model Team, W&B grants Nico `Member` registry role permissions because `Member` registry roles have higher level of permissions than `Viewer`. 
 
 The proceeding table shows the highest level of permission in the event of a conflict:
 
-| Registry Role A | Registry role B  | Inherited registry role |
+| Registry role A | Registry role B  | Inherited registry role |
 | ------ | ------ | ------ | 
 | Viewer | Viewer | Viewer |
 | Member | Viewer | Member |
@@ -113,7 +111,9 @@ The proceeding table shows the highest level of permission in the event of a con
 
 W&B displays the highest level of permissions next to the name of the user in the event of a conflict.
 
-<!-- to do: add image -->
+{{< img src="/images/registry/role_conflict.png" alt="A user inherits a Member role because they are part of a team." >}}
+
+For example, in the preceding image Ishita inherits `Member` role privileges because she is a member of smle-reg-team-1.
 
 ## Configure registry roles
 1. Navigate to the Registry App at https://wandb.ai/registry/.
