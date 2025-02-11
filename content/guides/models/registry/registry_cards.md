@@ -16,7 +16,7 @@ Depending on the collection, you might want to include information about the tra
 
 In general, a collection description should include:
 * **Summary**: The purpose of the collection. The machine learning framework used for the machine learning experiment.
-* **License**: The legal terms and permissions associated with the use of the machine learning model. It helps model users understand the legal framework under which they can utilize the model.
+* **License**: The legal terms and permissions associated with the use of the machine learning model. It helps model users understand the legal framework under which they can utilize the model. Common licenses include Apache 2.0, MIT, and GPL.
 * **References**: Citations or references to relevant research papers, datasets, or external resources.
 
 If your collection contains training data, consider including these additional details:
@@ -44,8 +44,6 @@ Interactively or programmatically add a description to a collection with the W&B
 3. Select **View details** next to the name of the collection.
 4. Within the **Description** field, provide information about your collection. Format text within with [Markdown markup language](https://www.markdownguide.org/).
 
-For example, the following images shows the model card of a **Credit-card Default Prediction** registered model.
-{{< img src="/images/models/model_card_credit_example.png" alt="" >}}  
   {{% /tab %}}
   {{% tab header="Python SDK" %}}
 
@@ -76,3 +74,6 @@ collection.save()
   {{% /tab %}}
 {{< /tabpane >}}
 
+For example, the proceeding image shows a collection that documents a model's architecture, intended use, performance information and more.
+
+{{< img src="/images/registry/registry_card.png" alt="Collection card with information about the model architecture, intended use, performance information and more." >}}  
