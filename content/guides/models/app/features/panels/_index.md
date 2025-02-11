@@ -87,7 +87,7 @@ In certain situations, such as when [creating an automation]({{< relref "/guides
 https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&panelSectionName=<SECTON_NAME>
 ```
 
-If multiple panels have the same name, this is the URL for the first panel with the name. In this case, find the URL by [viewing the panel in full-screen mode]({{< relref "#view-and-share-a-panel-in-full-screen-mode" >}}).
+If multiple panels in the same section have the same name, this URL opens the first panel with the name.
 
 ### Share a panel with a direct link that anyone can access
 1. Hover over the panel, then click the panel's action menu `...`.
