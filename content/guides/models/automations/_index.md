@@ -105,7 +105,7 @@ To add a secret:
 Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook]({{< relref "#configure-a-webhook" >}}) section for more information. 
 
 {{% alert %}}
-Once you create a secret and grant the webhook access to it, you can use it in your automation's webhook payload by prefixing its name with with `$`.
+Once you create a secret and grant the webhook access to it, you can use it in your automation's webhook payload by prefixing its name with `$`.
 {{% /alert %}}
 
 #### Add a webhook
