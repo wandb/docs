@@ -33,7 +33,7 @@ You can configure an automation to run based on the results of a run:
 - **Run metric threshold met**: Apply recurring actions based on a run metric's value and whether it is above, below, or exactly equal to the threshold. Optionally, specify how to average results.
 - **Run metric change threshold met**: Apply recurring actions based on whether a run metric's amount of change (absolute or relative) is above, below, or exactly equal to the threshold. Optionally, specify how to average results.
 
-## Evant actions
+## Event actions
 An automation can run a webhook on a third-party service such as GitHub or Microsoft Teams, or it can post to a Slack channel.
 
 ## Create an automation
@@ -66,7 +66,7 @@ After you [configure a Slack integration]({{< relref "#configure-the-slack-integ
 1. Choose the **Event** which triggers the automation. If applicable, provide options that are specific to the event type. If your project has no registries, registry events will not be available. Click **Next step**.
 1. Select the team where you added the Slack integration.
 1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
-1. Proviude a name for the automation. Optionally, provide a description.
+1. Provide a name for the automation. Optionally, provide a description.
 1. Click **Create automation**.
 
 ### Configure a webhook automation
@@ -75,7 +75,7 @@ Configuring a webhook integration takes multiple steps:
 
 1. If your webhook requires any sensitive strings, [add them as secrets]({{< relref "#add-a-secret" >}}) for any sensitive strings required by the webhook. If the webhook requires a bearer token, do not configure a secret for it. Instead, you configure it as part of creating the webhook.
 1. [Create the webook]({{< relref "#add-a-webhook" >}}). If necessary, specify its access token, and grant it access to any secrets it needs.
-1. [Create an automation that uses the webhook]({{< relref "#create-webhook-automation" >}}), configuring the payload it sends to the third-party service.
+1. [Create an automation that uses the webhook]({{< relref "#create-webhook-automation" >}}), configuring the payload it sends.
 
 #### Add a secret
 A secret is a team-level variable that lets you obfuscate a sensitive string such as a credential, API key, password, or token. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
@@ -105,7 +105,7 @@ To add a secret:
 Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook]({{< relref "#configure-a-webhook" >}}) section for more information. 
 
 {{% alert %}}
-Once you create a secret, you can access that secret in your W&B workflows with `$`.
+Once you create a secret and grant the webhook access to it, you can use it in your automation's webhook payload by prefixing its name with with `$`.
 {{% /alert %}}
 
 #### Add a webhook
@@ -140,7 +140,7 @@ Now you can [create an automation that uses the webhook]({{< relref "#create-web
 1. Choose the **Event** which triggers the automation. If applicable, provide options that are specific to the event type. If your project has no registries, registry events will not be available. Click **Next step**.
 1. Select the team where you added the webhook.
 1. Set **Action type** to **Webhook**, then select the webhook.
-1. Provide the payload for the webhook in **Payload**. Refer to the reference for varialbles that you can use. For details, refer to the [Example webhook payloads]({{< relref "#example-webhook-payloads" >}}) section.
+1. Provide the payload for the webhook in **Payload**. Refer to the reference for variables that you can use. For details, refer to the [Example webhook payloads]({{< relref "#example-webhook-payloads" >}}) section.
 1. Click **Next step**.
 1. Provide a name for the automation. Optionally, provide a description.
 1. Click **Create automation**.
