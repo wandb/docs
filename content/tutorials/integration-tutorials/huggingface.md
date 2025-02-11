@@ -40,16 +40,16 @@ Install the Hugging Face and Weights & Biases libraries, and the GLUE dataset an
 - [Hugging Face Transformers](https://github.com/huggingface/transformers): Natural language models and datasets
 - [Weights & Biases]({{< relref "/" >}}): Experiment tracking and visualization
 - [GLUE dataset](https://gluebenchmark.com/): A language understanding benchmark dataset
-- [GLUE script](https://github.com/huggingface/transformers/blob/master/examples/run_glue.py): Model training script for sequence classification
+- [GLUE script](https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py): Model training script for sequence classification
 
 
-```python
+```notebook
 !pip install datasets wandb evaluate accelerate -qU
-!wget https://raw.githubusercontent.com/huggingface/transformers/master/examples/pytorch/text-classification/run_glue.py
+!wget https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py
 ```
 
 
-```python
+```notebook
 # the run_glue.py script requires transformers dev
 !pip install -q git+https://github.com/huggingface/transformers
 ```
