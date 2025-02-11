@@ -21,7 +21,7 @@ To reproduce an experiment:
 3. From the list of runs, select the run that you want to reproduce.
 4. Click **Overview**.
 
-Depending on how your team member configured their project, you can reproduce an experiment by either checking out their GitHub repository or downloading their code.
+To continue, download the experiment's code at a given hash or clone the experiment's entire repository.
 
 {{< tabpane text=true >}}
 {{% tab "Download Python script or notebook" %}}
