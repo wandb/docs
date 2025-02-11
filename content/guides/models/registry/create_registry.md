@@ -7,7 +7,7 @@ title: Create a custom registry
 weight: 2
 ---
 
-A custom registry offers flexibility and control over the artifact types that you can use, the visibility of the registry to other teams, and more.
+A custom registry offers flexibility and control over the artifact types that you can use, allows you to restrict the registry's visibility, and more.
 
 {{% pageinfo color="info" %}}
 See the summary table in [Registry types]({{< relref "registry_types.md#summary" >}}) for a complete comparison of core and custom registries.
@@ -16,7 +16,7 @@ See the summary table in [Registry types]({{< relref "registry_types.md#summary"
 
 ## Create a custom registry
 
-The following procedure describes how to create a custom registry:
+To create a custom registry:
 1. Navigate to the **Registry** App at https://wandb.ai/registry/.
 2. Within **Custom registry**, click on the **Create registry** button.
 3. Provide a name for your registry in the **Name** field.
@@ -30,10 +30,9 @@ The following procedure describes how to create a custom registry:
 An artifact type cannot be removed from a registry once it is saved in the registry's settings.
 {{% /alert %}}
 
+For example, the proceeding image shows a custom registry called `Fine_Tuned_Models` that a user is about to create. The registry is **Restricted** to only members that are manually added to the registry.
+
 {{< img src="/images/registry/create_registry.gif" alt="" >}}
-
-For example, the preceding image shows a custom registry called `Fine_Tuned_Models` that a user is about to create. The registry is **Restricted** to only members that are manually added to the registry.
-
 
 ## Visibility types
 
@@ -61,17 +60,12 @@ To restrict the visibility of an existing custom registry:
 2. Select a registry.
 3. Click on the gear icon on the upper right hand corner.
 4. From the **Registry visibility** dropdown, select the desired registry visibility.
-
-Continue if you select **Restricted** visibility:
-
-<!-- To do: Add updated process of adding a team -->
-
-5. Add members of your organization that you want to have access to this registry. Scroll to the **Registry members and roles** section and click on the **Add member** button. 
-6. Within the **Member** field, add the email or username of the member you want to add.
-7. Click **Add new member**.
+5. if you select **Restricted visibility**:
+   1. Add members of your organization that you want to have access to this registry. Scroll to the **Registry members and roles** section and click on the **Add member** button. 
+   2. Within the **Member** field, add the email or username of the member you want to add.
+   3. Click **Add new member**.
 
 {{< img src="/images/registry/change_registry_visibility.gif" alt="" >}}
 
 See [Create a custom registry]({{< relref "./create_registry.md#create-a-custom-registry" >}}) for more information on how assign the visibility of a custom registry when a team administrator creates it.
-
 
