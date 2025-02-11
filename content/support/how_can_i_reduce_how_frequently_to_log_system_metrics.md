@@ -1,5 +1,5 @@
 ---
-title: How can I reduce how frequently to log system metrics?
+title: How can I change how frequently to log system metrics?
 toc_hide: true
 type: docs
 tags:
