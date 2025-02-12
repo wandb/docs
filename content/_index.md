@@ -8,7 +8,7 @@ Choose the product for which you need documentation.
 {{< /banner >}}
 
 {{< cardpane >}}
-{{% card %}}<div onclick="window.location.href='https://weave-docs.wandb.ai'" style="cursor: pointer;">
+{{% card %}}<div onclick="window.location.href='/weave/docs'" style="cursor: pointer;">
 
 <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
 <img src="/img/weave-logo.svg" alt="W&B Weave logo" width="50" height="50"/>
@@ -17,12 +17,14 @@ Choose the product for which you need documentation.
 
 ##### Use AI models in your app
 
-Use [W&B Weave](https://weave-docs.wandb.ai/) to manage all aspects of integrating AI models into your code, including tracing, output evaluation, cost estimates, and using our LLM playground to help compare the various LLM models and their configuration paramaters.
+Use [W&B Weave]({{< relref "/weave/" >}}) to manage all aspects of integrating AI models into your code, including tracing, output evaluation, cost estimates, and using our LLM playground to help compare the various LLM models and their configuration paramaters. 
 
-- [Introduction](https://weave-docs.wandb.ai/)
-- [Quickstart](https://weave-docs.wandb.ai/quickstart)
+
+- [Sign up for W&B Weave (FREE!)](https://wandb.ai/signup)
+- [Introduction]({{< relref "/weave/" >}}) 
+- [Quickstart]({{< relref "/weave/tutorials/quickstart" >}}) 
 - [YouTube Demo](https://www.youtube.com/watch?v=IQcGGNLN3zo)
-- [Try the Playground](https://wandb.ai/wandb/weave-playground/weave/playground) (Free [sign up](https://wandb.ai/signup) required)
+- [Try the LLM Playground](https://wandb.ai/wandb/weave-playground/weave/playground) 
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">

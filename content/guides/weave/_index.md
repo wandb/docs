@@ -1,7 +1,7 @@
 ---
 menu:
   default:
-    identifier: weave
+    identifier: weave-placeholder
 title: W&B Weave
 weight: 4
 ---
