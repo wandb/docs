@@ -67,8 +67,27 @@ This section describes the various ways to share a panel and how each way differ
 
 The settings of a project determine who can view the panel. This means that if the project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
 
+### Share a panel with a direct link
+
+To share a panel with a specific user or team:
+
+1. Hover over the panel, then click the panel's action menu `...`.
+1. Click **Share panel in report**.
+1. To invite a specific user by email, select the **Invite** tab.
+    1. Enter an email address or username.
+    1. Optionally, change **can view** to **can edit**.
+    1. Click **Invite**. W&B sends an email to the user with a clickable link to the report.
+1. To copy a shareable link to the panel, click the **Share** tab.
+    1. Change **Only those who are invited have access** to **Anyone with the link can view**.
+    1. Click **Copy report link**, then share the link with the user or team.
+    1. Choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
+
+When the user access the link, the panel opens in the normal view. You can instead [view and share a panel in full-screen mode]({{< relref "#view-and-share-a-panel-in-full-screen-mode" >}}).
+
 ### View and share a panel in full-screen mode
 In full-screen mode, the panel plots 10,000 buckets rather than 1,000 when not in full-screen mode. The state of the run selector is preserved, so you can toggle runs on or off or search for runs.
+
+To view and share a panel in full-screen mode:
 
 1. Hover over the panel, then click the panel's action menu `...`.
 1. Click the full-screen button, which looks like a viewfinder.
@@ -78,40 +97,16 @@ In full-screen mode, the panel plots 10,000 buckets rather than 1,000 when not i
 1. Copy the URL from the browser or click the action menu `...` and select **Copy panel URL**.
 1. Share the link with the user or team. When they access the link, the panel opens in full-screen mode automatically.
 
-The proceeding section shows how to determine a panel's full-screen URL programmatically.
+The proceeding section shows how to compose a panel's full-screen URL programmatically instead of finding it interactively.
 
 #### Compose a panel's full-screen URL programmatically
-In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows how to compose The URL for a panel programmatically. In the proceeding example, replace the entity, project, panel, and section names in brackets.
+In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
 
 ```text
 https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&panelSectionName=<SECTON_NAME>
 ```
 
 If multiple panels in the same section have the same name, this URL opens the first panel with the name.
-
-### Share a panel with a direct link that anyone can access
-1. Hover over the panel, then click the panel's action menu `...`.
-1. Click **Share panel in report**.
-1. At the bottom of the **Invite** tab, optionally change **Only those who are invited have access** to  **Anyone with the link can view**, then click **Copy report link**.
-1. Share the link with the user or team.
-
-### Share a panel as a report
-1. Hover over the panel, then click the panel's action menu `...`.
-1. Click **Share panel in report**.
-1. In the **Invite** tab, enter an email address or username.
-1. Specify **can view** or **can edit**.
-1. Click **Invite**. W&B sends an email to the user with a clickable link to the report.
-
-### Share or embed a panel publicly
-To share a panel _publicly_, such as on social media or embedded in a website:
-1. Hover over the panel, then click the panel's action menu `...`.
-1. Click **Share panel in report**.
-1. In the **Share** tab, change **Only those who are invited have access** to **Anyone with the link cah view**, then choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
-
-### Determine a panel's full-screen URL programmatically
-
-
-
 
 
 ## Manage panels
