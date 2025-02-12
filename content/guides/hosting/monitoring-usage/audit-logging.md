@@ -61,7 +61,7 @@ An instance admin can fetch the audit logs for your W&B instance using the follo
     - `anonymize`: if set to `true`, remove any PII; defaults to `false`
 2. Execute HTTP GET request on the constructed full API endpoint, either by directly running it within a modern browser, or by using a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), cURL command or more.
 
-If your W&B instance URL is `https://mycompany.wandb.io` and you would like to get audit logs without PII for user activity within the last week, you must use the API endpoint `https://mycompany.wandb.io?numDays=7&anonymize=true`.
+If your W&B instance URL is `https://mycompany.wandb.io` and you would like to get audit logs without PII for user activity within the last week, you must use the API endpoint `https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true`.
 
 {{% alert %}}
 Only W&B [instance admins]({{< relref "/guides/hosting/iam/access-management/" >}}) can fetch audit logs using the API. If you are not an instance admin or not logged into your organization, you get a `HTTP 403 Forbidden` error.
