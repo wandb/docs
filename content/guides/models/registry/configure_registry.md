@@ -92,10 +92,6 @@ There are two registry visibility types: restricted or organization visibility. 
 <!-- Who can do this? -->
 Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. A custom registry can have either restricted or organization visibility. For more information on registry visibilities, see [Registry visibility types]({{< relref "./configure_registry.md#registry-visibility-types" >}}).
 
-<!-- | Visibility | Description |
-| --- | --- |
-| Organization | Anyone in the organization can view the registry. |
-| Restricted   | Only invited organization members can view and edit the registry.|  -->
 
 The following steps describe how to restrict the visibility of a custom registry that already exists:
 
