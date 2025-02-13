@@ -14,7 +14,7 @@ Depending on the collection, you might want to include information about the tra
 
 
 
-In general, a collection description should include:
+W&B recommends including at minimum these details:
 * **Summary**: The purpose of the collection. The machine learning framework used for the machine learning experiment.
 * **License**: The legal terms and permissions associated with the use of the machine learning model. It helps model users understand the legal framework under which they can utilize the model. Common licenses include Apache 2.0, MIT, and GPL.
 * **References**: Citations or references to relevant research papers, datasets, or external resources.
@@ -35,7 +35,7 @@ If your collection contains a machine learning model, consider including these a
 
 ## Add a description to a collection
 
-Interactively or programmatically add a description to a collection with the W&B Registry UI or Python SDK, respectively.
+Interactively or programmatically add a description to a collection with the W&B Registry UI or Python SDK.
 
 {{< tabpane text=true >}}
   {{% tab header="W&B Registry UI" %}}
