@@ -198,7 +198,7 @@ Start a new [sweep]({{< relref "/guides/models/sweeps/" >}}) from your project.
 
 ## Artifacts tab
 
-View all the [artifacts]({{< relref "/guides/core/artifacts/" >}}) associated with a project, from training datasets and [fine-tuned models]({{< relref "/guides/models/registry/model_registry/" >}}) to [tables of metrics and media]({{< relref "/guides/core/tables/tables-walkthrough.md" >}}).
+View all the [artifacts]({{< relref "/guides/core/artifacts/" >}}) associated with a project, from training datasets and [fine-tuned models]({{< relref "/guides/models/registry/" >}}) to [tables of metrics and media]({{< relref "/guides/core/tables/tables-walkthrough.md" >}}).
 
 ### Overview panel
 
