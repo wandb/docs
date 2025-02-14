@@ -61,45 +61,30 @@ To add a custom panel to your workspace:
 
 To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots]({{< relref "line-plot/" >}}) or [Bar plots]({{< relref "bar-plot.md" >}}).
 
-## Share panels
+## Share a panel
 
-This section describes the various ways to share a panel and how each way differs.
+This section shows how to share a panel. You can also [email a snapshot of a panel]({{< relref "#email-a-snapshot-of-a-panel" >}}).
 
 The settings of a project determine who can view the panel. This means that if the project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
 
-### Share a panel with a direct link
+{{% alert %}}
+If you share a panel while viewing it in full-screen mode, the link opens the panel in full-screen mode. In full-screen mode:
 
-To share a panel with a specific user or team:
-
-1. Hover over the panel, then click the panel's action menu `...`.
-1. Click **Share panel in report**.
-1. To invite a specific user by email, select the **Invite** tab.
-    1. Enter an email address or username.
-    1. Optionally, change **can view** to **can edit**.
-    1. Click **Invite**. W&B sends an email to the user with a clickable link to the report.
-1. To copy a shareable link to the panel, click the **Share** tab.
-    1. Change **Only those who are invited have access** to **Anyone with the link can view**.
-    1. Click **Copy report link**, then share the link with the user or team.
-    1. Choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
-
-When the user access the link, the panel opens in the normal view. You can instead [view and share a panel in full-screen mode]({{< relref "#view-and-share-a-panel-in-full-screen-mode" >}}).
-
-### View and share a panel in full-screen mode
-In full-screen mode, the panel plots 10,000 buckets rather than 1,000 when not in full-screen mode. The state of the run selector is preserved, so you can toggle runs on or off or search for runs.
+- A panel plots 10,000 buckets rather than 1,000 when not in full-screen mode.
+- The state of the run selector is preserved, so you can toggle runs on or off or search for runs.
+{{% /alert %}}
 
 To view and share a panel in full-screen mode:
 
-1. Hover over the panel, then click the panel's action menu `...`.
-1. Click the full-screen button, which looks like a viewfinder.
+1.  Complete the next steps from this menu.
+1. **Optional**: To share the panel in full-screen mode, first view the panel in full-screen mode. Hover over the panel, click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder.
     {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
 
     The panel opens in full-screen mode.
 1. Copy the URL from the browser or click the action menu `...` and select **Copy panel URL**.
-1. Share the link with the user or team. When they access the link, the panel opens in full-screen mode automatically.
+1. Share the link with the user or team.
 
-The proceeding section shows how to compose a panel's full-screen URL programmatically instead of finding it interactively.
-
-#### Compose a panel's full-screen URL programmatically
+### Compose a panel's full-screen link programmatically
 In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
 
 ```text
@@ -108,6 +93,24 @@ https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&pane
 
 If multiple panels in the same section have the same name, this URL opens the first panel with the name.
 
+### Embed or share a panel on social media
+To embed a panel in a website or share it on social media, the panel must be viewable by anyone with the link.
+
+1. From the workspace, hover over the panel, then click its action menu `...`.
+1. Click the **Share** tab.
+1. Change **Only those who are invited have access** to **Anyone with the link can view**. Otherwise, the choices in the next step are not available.
+1. Choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
+
+### Email a snapshot of a panel
+
+This section shows how to email a point-in-time snapshot of a panel as a report. After you share it, the report does not update. By contrast, when you [share a panel]({{< relref "#share-a-panel" >}}).
+
+1. Hover over the panel, then click the panel's action menu `...`.
+1. Click **Share panel in report**.
+1. Select the **Invite** tab.
+1. Enter an email address or username.
+1. Optionally, change **can view** to **can edit**.
+1. Click **Invite**. W&B sends an email to the user with a clickable link to the report. 
 
 ## Manage panels
 
