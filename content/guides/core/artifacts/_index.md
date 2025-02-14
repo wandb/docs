@@ -1,6 +1,5 @@
 ---
-description: Overview of what W&B Artifacts are, how they work, and how to get started
-  using W&B Artifacts.
+description: Overview of W&B Artifacts, how they work, and how to get started using them.
 menu:
   default:
     identifier: artifacts

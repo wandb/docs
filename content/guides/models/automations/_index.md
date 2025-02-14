@@ -16,16 +16,17 @@ An automation defines the [event scopes and types]({{< relref "#event-scopes-and
 An automation's triggering event depends on the automation's scope.
 
 ### Registry
-For a [registered model]({{< relref "/guides/models/registry/">}}), you can configure an automation to run on these events:
+For an Artifact in a [Registry]({{< relref "/guides/models/registry/">}}) or a collection, [registered model]({{< relref "/guides/models/registry/">}}), you can configure an automation to run on these events:
 
-- **Linking a new artifact to a registered model**: Test and validate new model candidates.
-- **Adding a new alias to a version of the registered model**: Trigger a special step of your workflow when a new model version has a label or alias applied. For example, deploy a model when it has the `deploy` alias applied.
+- **Linking a new Artifact**: Test and validate new models, datasets, etc.
+- **Adding a new alias to a version of an Artifact**: Trigger a special step of your workflow when a new Artifact version has a specific label or alias applied. For example, deploy a model when it has the `deploy` alias applied.
 
 ### Project
-For a model in a project that is not in a registry, you can configure an automation to run on these events:
+For an Artifact in a project or a collection, you can configure an automation to run on these events:
 
-- **A new version of an artifact is created in a collection**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
-- **An artifact alias is added**: Apply recurring actions when a specific alias is applied to an artifact version. For example, run a series of downstream processing steps when an artifact gains the `test-set-quality-check` alias.
+- **Linking a new Artifact**: Test and validate new models, datasets, etc.
+- **Creating a new version of an Artifact**: Apply recurring actions to each version of an Artifact. For example, start a training job when a new dataset artifact version is created.
+- **Adding a new alia to a version of an Artifacts**: Trigger a special step of your workflow when a new Artifact version has a specific label or alias applied. For example, , run a series of downstream processing steps when an Artifact has the `test-set-quality-check` alias applied.
 
 ## Evant actions
 An automation can run a webhook on a third-party service such as GitHub or Microsoft Teams, or it can post to a Slack channel.
@@ -65,63 +66,32 @@ After you [configure a Slack integration]({{< relref "#configure-the-slack-integ
 
 ### Configure a webhook automation
 
-Configuring a webhook integration takes multiple steps:
+To configure a webhook integration, you take these steps:
 
-1. If your webhook requires any sensitive strings, [add them as secrets]({{< relref "#add-a-secret" >}}) for any sensitive strings required by the webhook. If the webhook requires a bearer token, do not configure a secret for it. Instead, you configure it as part of creating the webhook.
-1. [Create the webook]({{< relref "#add-a-webhook" >}}). If necessary, specify its access token, and grant it access to any secrets it needs.
-1. [Create an automation that uses the webhook]({{< relref "#create-webhook-automation" >}}), configuring the payload it sends to the third-party service.
+1. If your webhook requires any sensitive strings, such as a Bearer token for authorization, [add them as secrets]({{< relref "/guides/secrets.md#add-a-secret" >}}) before creating the webhook.
+1. [Create the webook]({{< relref "#add-a-webhook" >}}). Grant it access to any secrets it requires, including those you just created.
+1. [Create an automation that uses the webhook]({{< relref "#create-webhook-automation" >}}).
 
-#### Add a secret
-A secret is a team-level variable that lets you obfuscate a sensitive string such as a credential, API key, password, or token. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
-
-To use a secret in a webhook, you must first add that secret to your team's secret manager. If your webhook requires no secrets, skip this step.
+#### Add the webhook {#add-a-webhook}
+A W&B Admin can configure a webhook for a team.
 
 {{% alert %}}
-* Only W&B Admins can create, edit, or delete a secret.
-* Skip this section if the external server you send HTTP POST requests to does not use secrets.
-* Secrets are also available if you use [W&B Server]({{< relref "/guides/hosting/" >}}) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
-* If you use secrets in W&B Server, you are responsible for configuring security measures that satisfy your security needs. 
-
-  - W&B strongly recommends that you store secrets in a W&B instance of a cloud secrets manager provided by AWS, GCP, or Azure. Secret managers provided by AWS, GCP, and Azure are configured with advanced security capabilities.
-
-  - W&B does not recommend that you use a Kubernetes cluster as the backend of your secrets store. Consider a Kubernetes cluster only if you are not able to use a W&B instance of a cloud secrets manager (AWS, GCP, or Azure), and you understand how to prevent security vulnerabilities that can occur if you use a cluster.
+If the webhook requires a Bearer token, [create a secret that contains it]({{< relref "/guides/secrets.md#add-a-secret" >}}) before creating the webhoook.
 {{% /alert %}}
 
-To add a secret:
-
-1. If necessary, generate the sensitive string in the webhook's service. For example, generate an API key or set a password. If necessary, save the sensitive string securely, such as in a password manager.
-1. Log in to W&B and go to the **Settings** page.
-1. In the **Team Secrets** section, click **New secret**.
-1. Using letters, numbers, and `_`, provide a name for the secret.
-1. Paste the sensitive string into the **Secret** field.
-1. Click **Add secret**.
-
-Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook]({{< relref "#configure-a-webhook" >}}) section for more information. 
-
-{{% alert %}}
-Once you create a secret, you can access that secret in your W&B workflows with `$`.
-{{% /alert %}}
-
-#### Add a webhook
-
-{{% alert %}}
-* Only W&B Admins can configure a webhook for a W&B Team.
-* Before you create a webhook, [create any secrets it needs]({{< relref "#add-a-secret" >}}).
-{{% /alert %}}
-
-This section shows how to configure a webhook's URL, as well as any access tokens and secrets it requires.
+This section shows how to configure a webhook's URL and Bearer token., as well as any access tokens and secrets it requires.
 
 1. If the webhook requires any access tokens or other sensitive strings, create a secret in W&B for each sensitive string, and make a note of the secret's name.
 1. Log in to W&B and go to the **Settings** page.
 1. In the **Webhooks** section, click **New webhook**.
 1. Provide a name for the webhook. 
 1. Provide the endpoint URL for the webhook.
-1. If the webhook authenticates using an access token, set **Access token** to the name of the secret that contains the access token. When you configure an automation that uses this webhook, the access token will be available in the `$ACCESS_TOKEN` environment variable, and the HTTP header will have `Authorization: Bearer $ACCESS_TOKEN`.
-1. If the webhook validates its payload using a sensitive string, set **Secret** to the name of the secret that contains the sensitive string.
-1. Click **Test** to test the webhook. Optionally, provide a payload to test. Any payload you specify in this step does not persist, and will need to be specified when you [create the webhook automation]({{< relref "#create-webhook-automation" >}}).
+1. If the webhook's payload requires an access token or any other [secrets]({{< relref "/guides/secrets.md" >}}), grant the webhook access to the secret by setting **Secret** to the secret's name. When you configure an automation that uses the webhook, you can access the secret in the payload by prefixing its name with `$`.
+1. If the webhook authenticates using an access token, set **Access token** to the name of the secret that contains it. When you configure an automation that uses the webhook, you can access the token in the `$ACCESS_TOKEN` environment variable, and the HTTP header sets `Authorization: Bearer` to the access token.
+1. Click **Test** to test the webhook. Optionally, provide a payload to test. Any payload you specify in this step does not persist, and will need to be specified when you [create the automation]({{< relref "#create-webhook-automation" >}}).
 
 {{% alert %}}
-See the [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}) section to view where the secret and access token are specified in
+See [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}) to view where the secret and access token are specified in
 the POST request.
 {{% /alert %}}
 
@@ -134,7 +104,7 @@ Now you can [create an automation that uses the webhook]({{< relref "#create-web
 1. Choose the **Event** which triggers the automation. If applicable, provide options that are specific to the event type. If your project has no registries, registry events will not be available. Click **Next step**.
 1. Select the team where you added the webhook.
 1. Set **Action type** to **Webhook**, then select the webhook.
-1. Provide the payload for the webhook in **Payload**. Refer to the reference for varialbles that you can use. For details, refer to the [Example webhook payloads]({{< relref "#example-webhook-payloads" >}}) section.
+1. Provide the payload for the webhook in **Payload**. Refer to [Example webhook payloads]({{< relref "#example-webhook-payloads" >}}) for variables you can use. If the [webhook]({{< relref "#add-a-webhook" >}}) has access to any secrets, you can access the secret in the payload by prefixing its name with `$`. If the webhook has an access token, you can access the token in the `$ACCESS_TOKEN` environment variable, and the HTTP header sets `Authorization: Bearer` to the access token.
 1. Click **Next step**.
 1. Provide a name for the automation. Optionally, provide a description.
 1. Click **Create automation**.
