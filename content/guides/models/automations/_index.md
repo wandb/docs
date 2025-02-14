@@ -7,7 +7,7 @@ title: Create and manage automations
 weight: 4
 ---
 
-This page describes _automations_ in W&B and shows how to create and manage them. Create an automation to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) or a [registered model is changed]({{< relref "/guides/models/registry/" >}}), or based on the results of a [run]({{< relref "/guides/models/track/runs/manage-runs.md" >}})
+This page describes _automations_ in W&B and shows how to create and manage them. Create an automation to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) or a [registered model is changed]({{< relref "/guides/models/registry/" >}}).
 
 An automation defines the [event scopes and types]({{< relref "#event-scopes-and-types" >}}) to watch for and the [action]({{< relref "#event-actions" >}}) to take when the event occurs, such as running a webhook or posting to a Slack channel.
 
@@ -26,12 +26,6 @@ For a model in a project that is not in a registry, you can configure an automat
 
 - **A new version of an artifact is created in a collection**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
 - **An artifact alias is added**: Apply recurring actions when a specific alias is applied to an artifact version. For example, run a series of downstream processing steps when an artifact gains the `test-set-quality-check` alias.
-
-### Run
-You can configure an automation to run based on the results of a run:
-
-- **Run metric threshold met**: Apply recurring actions based on a run metric's value and whether it is above, below, or exactly equal to the threshold. Optionally, specify how to average results.
-- **Run metric change threshold met**: Apply recurring actions based on whether a run metric's amount of change (absolute or relative) is above, below, or exactly equal to the threshold. Optionally, specify how to average results.
 
 ## Evant actions
 An automation can run a webhook on a third-party service such as GitHub or Microsoft Teams, or it can post to a Slack channel.
@@ -253,7 +247,7 @@ You can use template strings to inject W&B data into your payload at the time of
 This section is provided for historical purposes. If you currently use a webhook to integrate with Slack, W&B recommends that you update your configuration to use the [new Slack integration]({{ relref "#create-a-slack-automation"}}) instead.
 {{% /alert %}}
 
-Set up your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Toke`n as your W&B webhook’s access token. 
+Set up your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Token` as your W&B webhook’s access token. 
 
 The following is an example payload:
 
@@ -307,7 +301,7 @@ Interactively test a webhook with the W&B App UI.
 3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
 4. Select **Test**.
 5. From the UI panel that appears, paste your POST request to the field that appears. 
-{{< img src="/images/models/webhook_ui.png" alt="" >}}
+    {{< img src="/images/models/webhook_ui.png" alt="" >}}
 6. Click on **Test webhook**.
 
 Within the W&B App UI, W&B posts the response made by your endpoint.
