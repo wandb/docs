@@ -34,6 +34,19 @@ To reset a workspace:
 1. At the top of the workspace, click the action menu `...`.
 1. Click **Reset workspace**.
 
+## View a panel in full-screen mode
+
+In full-screen mode:
+
+- A panel plots 10,000 buckets rather than 1,000 when not in full-screen mode.
+- The state of the run selector is preserved, so you can toggle runs on or off or search for runs.
+
+To view a panel in full-screen mode:
+
+1. Hover over the panel.
+1. Click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder.
+    {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
+
 ## Add panels
 
 You can add panels to your workspace, either globally or at the section level.
@@ -63,26 +76,14 @@ To learn more about the options for each type of panel, refer to the relevant se
 
 ## Share a panel
 
-This section shows how to share a panel. You can also [email a snapshot of a panel]({{< relref "#email-a-snapshot-of-a-panel" >}}).
+This section shows how to share a panel using a link.
 
-The settings of a project determine who can view the panel. This means that if the project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
+To share a panel, you can either:
 
-{{% alert %}}
-If you share a panel while viewing it in full-screen mode, the link opens the panel in full-screen mode. In full-screen mode:
+- While viewing the panel in full-screen mode, copy the URL from the browser.
+- Click the action menu `...` and select **Copy panel URL**.
 
-- A panel plots 10,000 buckets rather than 1,000 when not in full-screen mode.
-- The state of the run selector is preserved, so you can toggle runs on or off or search for runs.
-{{% /alert %}}
-
-To view and share a panel in full-screen mode:
-
-1.  Complete the next steps from this menu.
-1. **Optional**: To share the panel in full-screen mode, first view the panel in full-screen mode. Hover over the panel, click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder.
-    {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
-
-    The panel opens in full-screen mode.
-1. Copy the URL from the browser or click the action menu `...` and select **Copy panel URL**.
-1. Share the link with the user or team.
+Share the link with the user or team. When they access the link, tpanel opens in [full-screen mode]({{< relref "#view-a-panel-in-full-screen-mode" >}}).
 
 ### Compose a panel's full-screen link programmatically
 In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
@@ -94,7 +95,9 @@ https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&pane
 If multiple panels in the same section have the same name, this URL opens the first panel with the name.
 
 ### Embed or share a panel on social media
-To embed a panel in a website or share it on social media, the panel must be viewable by anyone with the link.
+To embed a panel in a website or share it on social media, the panel must be viewable by anyone with the link. If a project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
+
+To get the code to embed or share a panel on social media:
 
 1. From the workspace, hover over the panel, then click its action menu `...`.
 1. Click the **Share** tab.
