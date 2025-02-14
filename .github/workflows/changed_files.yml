@@ -1,0 +1,83 @@
+name: List files changed as GitHub comment
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  list-files-changed:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Format list of changed files
+        id: format
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          declare -a output
+          pr_num=${{ github.event.pull_request.number }}
+
+          files=$(gh pr view ${pr_num} --json files --jq '.files.[].path')
+          removed_files=$(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' |grep 'removed' | awk -F ' ' {'print $2'})
+
+          SAVEIFS=$IFS
+          IFS=$'\n'
+          files=($files)
+          IFS=$SAVEIFS 
+
+          function generatePreviewURL() {
+            # Preprocess input paths to output paths
+            #   using # as sed separation character
+            #
+            #   - Remove content/
+            #   - Remove _index/
+            #   - Remove integration_tutorials/
+
+            # Generate HTML preview for added and modified files only
+            if [[ ! " ${removed_files[*]} " =~ $1 ]]; then
+              html_file=$(echo "${1%.md}/" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+              # Save a URL instead of just a plaintext file
+              file="<a href=\"https://docs-$pr_num.docodile.pages.dev/$html_file\" target=\"_blank\" rel=\"noopener\">$1</a>"
+            else
+              file="<b>Removed</b>: $1"
+            fi
+           
+            # Apend to output (non-Markdown added in the else of the next block)
+            output+="<li>$file</li>"
+          }
+
+          for file in ${files[@]}; do
+            # Generate links for changed Markdown files
+            if [[ $file == content/**/*.md ]]
+            then
+              generatePreviewURL "$file"
+            # Otherwise just list changed file paths
+            else
+              output+="<li><b>No preview</b>: $file</li>"
+            fi
+          done;
+          body="${output[@]}"
+          echo "body:\n\n$body"
+          echo "body=$body" >> $GITHUB_ENV
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2.0.1
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 'HTML previews:'
+
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v2.1.0
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            <h3>HTML previews:</h3><ul>${{ env.body }}</ul><p>Preview links work **only** after the `Cloudflare Pages` build check succeeds. Links are generated only for new and modified <code>.md</code> files under <code>content/</code>.</p><p><a href="https://github.com/wandb/docs/issues/new?title=Feedback+about+HTML+preview+comments&assignees=mdlinville&body=Link+to+PR+and+describe+the+issue">Feedback about HTML previews</a>
