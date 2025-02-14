@@ -28,7 +28,7 @@ For an Artifact in a project or a collection, you can configure an automation to
 - **Creating a new version of an Artifact**: Apply recurring actions to each version of an Artifact. For example, start a training job when a new dataset artifact version is created.
 - **Adding a new alia to a version of an Artifacts**: Trigger a special step of your workflow when a new Artifact version has a specific label or alias applied. For example, , run a series of downstream processing steps when an Artifact has the `test-set-quality-check` alias applied.
 
-## Evant actions
+## Event actions
 An automation can run a webhook on a third-party service such as GitHub or Microsoft Teams, or it can post to a Slack channel.
 
 ## Create an automation
@@ -61,7 +61,7 @@ After you [configure a Slack integration]({{< relref "#configure-the-slack-integ
 1. Choose the **Event** which triggers the automation. If applicable, provide options that are specific to the event type. If your project has no registries, registry events will not be available. Click **Next step**.
 1. Select the team where you added the Slack integration.
 1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
-1. Proviude a name for the automation. Optionally, provide a description.
+1. Provide a name for the automation. Optionally, provide a description.
 1. Click **Create automation**.
 
 ### Configure a webhook automation
