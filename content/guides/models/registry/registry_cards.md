@@ -30,7 +30,7 @@ If your collection contains a machine learning model, consider including these a
 * **Task**: The specific type of task or problem that the machine that the collection model is designed to perform. It's a categorization of the model's intended capability.
 * **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
 * **Task**: The specific type of task or problem that the machine learning model is designed to perform. It's a categorization of the model's intended capability.
-* **Deployment**: Details on how and where the model is deployed and guidance on how the model is integrated into other enterprise systems, such as a workflow orchestration platforms.
+
 
 
 ## Add a description to a collection
