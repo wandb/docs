@@ -25,3 +25,4 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [Is it possible to recover an artifact after it has been deleted with a run?]({{< relref "recover_artifact_after_deleted.md" >}})
 - [Using artifacts with multiple architectures and runs?]({{< relref "artifacts_multiple_architectures_runs.md" >}})
 - [Who has access to my artifacts?]({{< relref "access_artifacts.md" >}})
+- [Where are artifacts downloaded and how can I control that?]({{< relref "where_are_artifacts_downloaded_and_how_can_i_control_that.md" >}})

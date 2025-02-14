@@ -14,6 +14,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 {{% /card %}}
 
 - [Can I just log metrics, no code or dataset examples?]({{< relref "just_log_metrics_no_code_dataset_examples.md" >}})
+- [How can I be removed from a team?]({{< relref "how_can_i_be_removed_from_a_team.md" >}})
 - [How do I delete a team from my account?]({{< relref "delete_team_from_account.md" >}})
 - [How do I get added to a team on W&B?]({{< relref "join_team.md" >}})
 - [Is it possible to add the same service account to multiple teams?]({{< relref "add_same_service_account_multiple_teams.md" >}})

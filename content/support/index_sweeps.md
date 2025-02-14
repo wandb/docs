@@ -28,3 +28,4 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [Is there a way to add extra values to a sweep, or do I need to start a new one?]({{< relref "add_extra_values_sweep_start_new_one.md" >}})
 - [Optimizing multiple metrics]({{< relref "optimizing_multiple_metrics.md" >}})
 - [What is the `Est. Runs` column?]({{< relref "est_runs_column.md" >}})
+- [What happens if I edit my Python files while a sweep is running?]({{< relref "what_happens_if_i_edit_my_python_files_while_a_sweep_is_running.md" >}})
