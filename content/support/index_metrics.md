@@ -21,6 +21,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [How often are system metrics collected?]({{< relref "system_metrics_collected.md" >}})
 - [Is it possible to plot the max of a metric rather than plot step by step?]({{< relref "plot_max_metric.md" >}})
 - [Is it possible to save metrics offline and sync them to W&B later?]({{< relref "save_metrics_offline_sync_them_wb_later.md" >}})
+- [How can I overwrite the logs from previous steps?]({{< relref "how_can_i_overwrite_the_logs_from_previous_steps.md" >}})
 - [Optimizing multiple metrics]({{< relref "optimizing_multiple_metrics.md" >}})
 - [What if I want to log some metrics on batches and some metrics only on epochs?]({{< relref "log_metrics_batches_some_metrics_epochs.md" >}})
 - [Why am I seeing fewer data points than I logged?]({{< relref "seeing_fewer_data_points_logged.md" >}})

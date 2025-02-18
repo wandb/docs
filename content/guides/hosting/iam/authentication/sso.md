@@ -101,7 +101,7 @@ Follow the procedure below to set up Okta for authorization:
     The Okta UI shows the company name under **Organization Contact**.
     {{< img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="" >}}
 
-The OIDC issuer URL has the following format: https://COMPANY.okta.com. Replace COMPANY with the corresponding value. Make note of it.
+The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replace COMPANY with the corresponding value. Make note of it.
 {{% /tab %}}
 
 {{% tab header="Entra" value="entra"%}}
@@ -173,7 +173,7 @@ To set up SSO, you need administrator privileges and the following information:
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
 {{% alert %}}
-Should your IdP require a OIDC Client Secret, specify it with the environment variable OIDC_SECRET.
+Should your IdP require a OIDC Client Secret, specify it with the environment variable `OIDC_CLIENT_SECRET`.
 {{% /alert %}}
 
 You can configure SSO using either the W&B Server UI or by passing [environment variables]({{< relref "/guides/hosting/env-vars.md" >}}) to the `wandb/local` pod. The environment variables take precedence over UI.

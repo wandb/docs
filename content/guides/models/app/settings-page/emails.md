@@ -5,7 +5,7 @@ menu:
     identifier: emails
     parent: settings
 title: Manage email settings
-weight: 30
+weight: 40
 ---
 
 

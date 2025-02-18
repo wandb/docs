@@ -48,7 +48,7 @@ Each project contains the proceeding which you can access from the sidebar:
 A project's *workspace* gives you a personal sandbox to compare experiments. Use projects to organize models that can be compared, working on the same problem with different architectures, hyperparameters, datasets, preprocessing etc.
 
 
-**Runs Sidebar**: list of all the runs in your project
+**Runs Sidebar**: list of all the runs in your project.
 
 * **Dot menu**: hover over a row in the sidebar to see the menu appear on the left side. Use this menu to rename a run, delete a run, or stop and active run.
 * **Visibility icon**: click the eye to turn on and off runs on graphs
@@ -59,6 +59,8 @@ A project's *workspace* gives you a personal sandbox to compare experiments. Use
 * **Sort**: pick a value to sort your runs by, for example runs with the lowest loss or highest accuracy. Sorting will affect which runs show up on the graphs.
 * **Expand button**: expand the sidebar into the full table
 * **Run count**: the number in parentheses at the top is the total number of runs in the project. The number (N visualized) is the number of runs that have the eye turned on and are available to be visualized in each plot. In the example below, the graphs are only showing the first 10 of 183 runs. Edit a graph to increase the max number of runs visible.
+
+If you pin, hide, or change the order of columns in the [Runs tab](#runs-tab), the Runs sidebar reflects these customizations.
 
 **Panels layout**: use this scratch space to explore results, add and remove charts, and compare versions of your models based on different metrics
 
@@ -115,15 +117,32 @@ Use the table to filter, group, and sort your results.
 
 
 ## Runs tab
-Use the runs tab to filter, group, and sort your results.
+<!-- Keep this in sync with /guide/models/track/runs/_index.md -->
+Use the Runs tab to filter, group, and sort your runs.
 
 {{< img src="/images/runs/run-table-example.png" alt="" >}}
 
 <!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
 
-The proceeding tabs demonstrate some common actions you can take in the runs tab.
+
+The proceeding tabs demonstrate some common actions you can take in the Runs tab.
 
 {{< tabpane text=true >}}
+   {{% tab header="Customize columns" %}}
+The Runs tab shows details about runs in the project. It shows a large number of columns by default.
+
+- To view all visible columns, scroll the page horizontally.
+- To change the order of the columns, drag a column to the left or right.
+- To pin a column, hover over the column name, click the action menu `...`. that appears, then click **Pin column**. Pinned columns appear near the left of the page, after the **Name** column. To unpin a pinned column, choose **Unpin column**
+- To hide a column, hover over the column name, click the action menu `...`. that appears, then click **Hide column**. To view all columns that are currently hidden, click **Columns**.
+- To show, hide, pin, and unpin multiple columns at once, click **Columns**.
+  - Click the name of a hidden column to unhide it.
+  - Click the name of a visible column to hide it.
+  - Click the pin icon next to a visible column to pin it.
+
+When you customize the Runs tab, the customization is also reflected in the **Runs** selector of the [Workspace tab]({{< relref "#workspace-tab" >}}).
+   {{% /tab %}}
+
    {{% tab header="Sort" %}}
 Sort all rows in a Table by the value in a given column. 
 
