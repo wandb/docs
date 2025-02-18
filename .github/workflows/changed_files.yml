@@ -19,16 +19,36 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          declare -a output
-          pr_num=${{ github.event.pull_request.number }}
+          declare -a output added_files modified_files removed_files no_preview_files
 
-          files=$(gh pr view ${pr_num} --json files --jq '.files.[].path')
-          removed_files=$(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' |grep 'removed' | awk -F ' ' {'print $2'})
+          pr_num="${{ github.event.pull_request.number }}"
 
-          SAVEIFS=$IFS
-          IFS=$'\n'
-          files=($files)
-          IFS=$SAVEIFS 
+          all_changed_files="$(gh pr view ${pr_num} --json files --jq '.files.[].path')"
+          for changed_file in "${all_changed_files[@]}"; do
+            status="$(echo '$changed_file' | awk -F ' ' {'print $1'})"
+            echo "Status: $status"
+            path="$(echo '$changed_file' | awk -F ' ' {'print $2'})"
+            echo "Path: $path"
+            if [ "$status" = "added" ]; then
+              added_files+=("$path")
+            elif [ "$status = "modified" ]; then
+              modified_files+=("$path")
+            elif [ "$status" = "removed" ]; then
+              removed_files+=("path")
+            fi
+          done
+
+          echo "Added:"
+          echo "${added_files[@}"
+          echo
+
+          echo "Modified:"
+          echo "${modified_files[@}"
+          echo
+
+          echo "Removed:"
+          echo "${removed_files[@}"
+          echo
 
           function generatePreviewURL() {
             # Preprocess input paths to output paths
@@ -38,30 +58,40 @@ jobs:
             #   - Remove _index/
             #   - Remove integration_tutorials/
 
-            # Generate HTML preview for added and modified files only
-            if [[ ! " ${removed_files[*]} " =~ $1 ]]; then
-              html_file=$(echo "${1%.md}/" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
-              # Save a URL instead of just a plaintext file
-              file="<a href=\"https://docs-$pr_num.docodile.pages.dev/$html_file\" target=\"_blank\" rel=\"noopener\">$1</a>"
-            else
-              file="<b>Removed</b>: $1"
-            fi
-           
-            # Apend to output (non-Markdown added in the else of the next block)
-            output+="<li>$file</li>"
-          }
+            # Generate HTML preview links for added files in content/
+            for file in ${added_files[@]}; do
+              if [[ "$file" =~ .*\/content\/.*\.md ]]; then
+                output_path=$(echo "$file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path" target=\"_blank\" rel=\"noopener\">$file</a>"
+                output+=("<li><b>Added</b>: $preview_link</li>")
+              else
+                no_preview_links+=("<b>Added, no preview</b>: $file")
+              fi
+            done
 
-          for file in ${files[@]}; do
-            # Generate links for changed Markdown files
-            if [[ $file == content/**/*.md ]]
-            then
-              generatePreviewURL "$file"
-            # Otherwise just list changed file paths
-            else
-              output+="<li><b>No preview</b>: $file</li>"
-            fi
-          done;
-          body="${output[@]}"
+            # Generate HTML preview links for modified files in content/
+            for file in ${modified_files[@]}; do
+              if [[ "$file" =~ .*\/content\/.*\.md ]]; then
+                output_path=$(echo "$file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path" target=\"_blank\" rel=\"noopener\">$file</a>"
+                output+=("<li><b>Modified</b>: $preview_link</li>")
+              else
+                no_preview_links+=("<b>Modified, no preview</b>: $file")
+              fi
+            done
+
+            # Process removed files
+            for file in ${removed_files[@]}; do
+              no_preview_links+=("<b>Removed, no preview</b>: $file")
+            done
+
+            # Process no preview 
+            for file in ${no_preview_files[@]}; do
+              output+=("<li>$file</li>")
+            done
+          }
+          # Compose the body
+          body="<ul>${output[@]}</ul>"
           echo "body:\n\n$body"
           echo "body=$body" >> $GITHUB_ENV
 
@@ -80,4 +110,4 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           edit-mode: replace
           body: |
-            <h3>HTML previews:</h3><ul>${{ env.body }}</ul><p>Preview links work **only** after the `Cloudflare Pages` build check succeeds. Links are generated only for new and modified <code>.md</code> files under <code>content/</code>.</p><p><a href="https://github.com/wandb/docs/issues/new?title=Feedback+about+HTML+preview+comments&assignees=mdlinville&body=Link+to+PR+and+describe+the+issue">Feedback about HTML previews</a>
+            <h3>HTML previews:</h3><ul>${{ env.body }}</ul><p>Preview links work <b>only</b> after the `Cloudflare Pages` build check succeeds. Links are generated only for new and modified <code>.md</code> files under <code>content/</code>.</p><p><a href="https://github.com/wandb/docs/issues/new?title=Feedback+about+HTML+preview+comments&assignees=mdlinville&body=Link+to+PR+and+describe+the+issue">Feedback about HTML previews</a>
