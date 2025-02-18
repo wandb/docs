@@ -19,8 +19,6 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [Can you group runs by tags?]({{< relref "group_runs_tags.md" >}})
 - [How can I change the colors of each run in the same group?]({{< relref "group_runs_custom_meter.md" >}})
 - [How can I delete multiple runs in bulk instead of one at a time?]({{< relref "how_can_i_delete_multiple_runs_in_bulk_instead_of_one_at_a_time.md" >}})
-- [How can I disable logging of system metrics to W&B?]({{< relref "how_can_i_disable_logging_of_system_metrics_to_wb.md" >}})
-- [How can I reduce how frequently to log system metrics?]({{< relref "how_can_i_reduce_how_frequently_to_log_system_metrics.md" >}})
 - [How can I log a metric that doesn't change over time such as a final evaluation accuracy?]({{< relref "log_metric_doesnt_change_time_such_final.md" >}})
 - [How can I log additional metrics after a run completes?]({{< relref "log_additional_metrics_run_completes.md" >}})
 - [How can I recover deleted runs?]({{< relref "recover_deleted_runs.md" >}})
