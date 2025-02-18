@@ -68,7 +68,7 @@ After you [configure a Slack integration]({{< relref "#configure-the-slack-integ
 
 To configure a webhook integration, you take these steps:
 
-1. If your webhook requires any sensitive strings, such as a Bearer token for authorization, [add them as secrets]({{< relref "/guides/secrets.md#add-a-secret" >}}) before creating the webhook.
+1. If your webhook requires any sensitive strings, such as a Bearer token for authorization, [add them as secrets]({{< relref "/guides/core/secrets.md#add-a-secret" >}}) before creating the webhook.
 1. [Create the webook]({{< relref "#add-a-webhook" >}}). Grant it access to any secrets it requires, including those you just created.
 1. [Create an automation that uses the webhook]({{< relref "#create-webhook-automation" >}}).
 
@@ -76,7 +76,7 @@ To configure a webhook integration, you take these steps:
 A W&B Admin can configure a webhook for a team.
 
 {{% alert %}}
-If the webhook requires a Bearer token, [create a secret that contains it]({{< relref "/guides/secrets.md#add-a-secret" >}}) before creating the webhoook.
+If the webhook requires a Bearer token, [create a secret that contains it]({{< relref "/guides/core/secrets.md#add-a-secret" >}}) before creating the webhoook.
 {{% /alert %}}
 
 This section shows how to configure a webhook's URL and Bearer token., as well as any access tokens and secrets it requires.
@@ -86,7 +86,7 @@ This section shows how to configure a webhook's URL and Bearer token., as well a
 1. In the **Webhooks** section, click **New webhook**.
 1. Provide a name for the webhook. 
 1. Provide the endpoint URL for the webhook.
-1. If the webhook's payload requires an access token or any other [secrets]({{< relref "/guides/secrets.md" >}}), grant the webhook access to the secret by setting **Secret** to the secret's name. When you configure an automation that uses the webhook, you can access the secret in the payload by prefixing its name with `$`.
+1. If the webhook's payload requires an access token or any other [secrets]({{< relref "/guides/core/secrets.md" >}}), grant the webhook access to the secret by setting **Secret** to the secret's name. When you configure an automation that uses the webhook, you can access the secret in the payload by prefixing its name with `$`.
 1. If the webhook authenticates using an access token, set **Access token** to the name of the secret that contains it. When you configure an automation that uses the webhook, you can access the token in the `$ACCESS_TOKEN` environment variable, and the HTTP header sets `Authorization: Bearer` to the access token.
 1. Click **Test** to test the webhook. Optionally, provide a payload to test. Any payload you specify in this step does not persist, and will need to be specified when you [create the automation]({{< relref "#create-webhook-automation" >}}).
 
