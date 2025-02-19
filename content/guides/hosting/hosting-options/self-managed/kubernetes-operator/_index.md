@@ -994,7 +994,7 @@ Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1
 
 ## FAQ
 
-### What is the purpose/role of the individual pods?
+### What is the purpose/role of each individual pod?
 * **wandb-app:** The core of our backend, including the GraphQL API and frontend application. It powers most of our platform’s functionality.
 * **wandb-console:** The administration console is a separate application and can be accessed via /console. 
 * **wandb-otel:** OpenTelemetry collects metrics and logs from Kubernetes resources to be displayed in the administration console.
