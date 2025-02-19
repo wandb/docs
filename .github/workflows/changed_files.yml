@@ -23,15 +23,16 @@ jobs:
 
           pr_num="${{ github.event.pull_request.number }}"
 
-          all_changed_files="$(gh pr view ${pr_num} --json files --jq '.files.[].path')"
+          all_changed_files="$(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' | sort)"
+
           for changed_file in "${all_changed_files[@]}"; do
-            status="$(echo '$changed_file' | awk -F ' ' {'print $1'})"
+            status="$(echo \"$changed_file\" | awk -F ' ' {'print $1'})"
             echo "Status: $status"
-            path="$(echo '$changed_file' | awk -F ' ' {'print $2'})"
+            path="$(echo \"$changed_file\" | awk -F ' ' {'print $2'})"
             echo "Path: $path"
             if [ "$status" = "added" ]; then
               added_files+=("$path")
-            elif [ "$status = "modified" ]; then
+            elif [ "$status" = "modified" ]; then
               modified_files+=("$path")
             elif [ "$status" = "removed" ]; then
               removed_files+=("path")
@@ -39,15 +40,15 @@ jobs:
           done
 
           echo "Added:"
-          echo "${added_files[@}"
+          echo "${added_files[@]}"
           echo
 
           echo "Modified:"
-          echo "${modified_files[@}"
+          echo "${modified_files[@]}"
           echo
 
           echo "Removed:"
-          echo "${removed_files[@}"
+          echo "${removed_files[@]}"
           echo
 
           function generatePreviewURL() {
@@ -61,8 +62,8 @@ jobs:
             # Generate HTML preview links for added files in content/
             for file in ${added_files[@]}; do
               if [[ "$file" =~ .*\/content\/.*\.md ]]; then
-                output_path=$(echo "$file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
-                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path" target=\"_blank\" rel=\"noopener\">$file</a>"
+                output_path="$(echo \"$file\" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$file</a>"
                 output+=("<li><b>Added</b>: $preview_link</li>")
               else
                 no_preview_links+=("<b>Added, no preview</b>: $file")
@@ -72,8 +73,8 @@ jobs:
             # Generate HTML preview links for modified files in content/
             for file in ${modified_files[@]}; do
               if [[ "$file" =~ .*\/content\/.*\.md ]]; then
-                output_path=$(echo "$file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
-                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path" target=\"_blank\" rel=\"noopener\">$file</a>"
+                output_path="$(echo \"$file\" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')"
+                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$file</a>"
                 output+=("<li><b>Modified</b>: $preview_link</li>")
               else
                 no_preview_links+=("<b>Modified, no preview</b>: $file")
