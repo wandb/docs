@@ -39,7 +39,7 @@ To reset a workspace:
 In full-screen mode:
 
 - A panel plots 10,000 buckets rather than 1,000 when not in full-screen mode.
-- The state of the run selector is preserved, so you can toggle runs on or off or search for runs.
+- The run selector displays, so you can toggle runs on or off and search for runs.
 
 To view a panel in full-screen mode:
 
@@ -83,7 +83,7 @@ To share a panel, you can either:
 - While viewing the panel in full-screen mode, copy the URL from the browser.
 - Click the action menu `...` and select **Copy panel URL**.
 
-Share the link with the user or team. When they access the link, tpanel opens in [full-screen mode]({{< relref "#view-a-panel-in-full-screen-mode" >}}).
+Share the link with the user or team. When they access the link, the panel opens in [full-screen mode]({{< relref "#view-a-panel-in-full-screen-mode" >}}).
 
 ### Compose a panel's full-screen link programmatically
 In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
@@ -168,11 +168,21 @@ To add a section, click **Add section** after the last section.
 To add a new section before or after an existing section, you can instead click the section's action `...` menu, then click **New section below** or **New section above**.
 
 
-### Manage a section's visible panels
-By default, each section shows 6 panels, but you can show a maximum of 100 panels. To customize a section that has more than 6 panels:
+### Manage a section's panels
+If a section has a large number of panels, by default they are paginated.
 
-1. At the top of the section, click **1 to 6 of <X>**, where `<X>` is the total number of panels.
-1. Choose how many panels to show.
+- If a section uses the **Standard grid**, you can customize the number of panels to show:
+  1. At the top of the section, click **1 to <X> of <Y>**, where `<X>` is the number of visible panels and `<Y>` is the total number of panels.
+  1. Choose how many panels to show, up to 100..
+- To show all panels when there are a large number of them, click the section's action `...` menu, then click **Custom grid**.
+- To resize a panel, hover over it and use the drag handle to resize it.
+  - If the section uses the **Standard grid**, all of the section's panels are updated to the new size.
+  - If the section uses the **Custom grid**, only the panel you are resizing is updated.
+- To delete a panel from a section:
+  1. Hover over the panel, then click its action `...` menu.
+  1. Click **Delete**.
+  
+  If you reset a workspace to an automated workspace, all deleted panels appear again.
 
 ### Rename a section
 
