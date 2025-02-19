@@ -34,7 +34,7 @@ Just follow the links printed to the standard out by wandb.
 
 By passing a few simple command line arguments to YOLO, you can take advantage of even more W&B features.
 
-* Passing a number to `--save_period` will turn on [model versioning]({{< relref "/guides/models/registry/" >}}). At the end of every `save_period` epochs, saves the model weights to W&B and tags the best performing model on the validation set.
+* If you pass a number to `--save_period`, W&B saves a [model version]({{< relref "/guides/models/registry/" >}}) at the end of every `save_period` epochs. The model version includes the model weights and tags the best-performing model in the validation set.
 * Turning on the `--upload_dataset` flag will also upload the dataset for data versioning.
 * Passing a number to `--bbox_interval` will turn on [data visualization]({{< relref "../" >}}). At the end of every `bbox_interval` epochs, the outputs of the model on the validation set will be uploaded to W&B.
 
