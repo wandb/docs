@@ -995,13 +995,13 @@ Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1
 ## FAQ
 
 ### What is the purpose/role of each individual pod?
-* **wandb-app:** The core of our backend, including the GraphQL API and frontend application. It powers most of our platform’s functionality.
-* **wandb-console:** The administration console is a separate application and can be accessed via /console. 
-* **wandb-otel:** OpenTelemetry collects metrics and logs from Kubernetes resources to be displayed in the administration console.
-* **wandb-prometheus:** Prometheus captures metrics from various components to be displayed in the administration console.
-* **wandb-parquet:** A backend microservice separate from the wandb-app pod, responsible for exporting database data to object storage in Parquet format.
-* **wandb-weave:** Another backend microservice that loads query tables in the UI and supports various core app features.
-* **wandb-weave-trace:** A framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications. The framework is accessed via wandb-app.
+* **`wandb-app`**: the core of W&B, including the GraphQL API and frontend application. It powers most of our platform’s functionality.
+* **`wandb-console`**: the administration console, accessed via `/console`. 
+* **`wandb-otel`**: the OpenTelemetry agent, which collects metrics and logs from resources at the Kubernetes layer for display in the administration console.
+* **`wandb-prometheus`**: the Prometheus server, which captures metrics from various components for display in the administration console.
+* **`wandb-parquet`**: a backend microservice separate from the wandb-app pod, responsible for exporting database data to object storage in Parquet format.
+* **`wandb-weave`**: another backend microservice that loads query tables in the UI and supports various core app features.
+* **`wandb-weave-trace`**: a framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications. The framework is accessed via wandb-app.
 
 ### How to get the  W&B Operator Console password
 See [Accessing the W&B Kubernetes Operator Management Console]({{< relref "#access-the-wb-management-console" >}}).
