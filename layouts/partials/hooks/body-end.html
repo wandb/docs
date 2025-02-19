@@ -43,12 +43,54 @@
   <script async src="https://js.qualified.com/qualified.js?token=GMjrmCoq7HvrWi46"></script>
 <!-- End Qualified -->
 
+{{- $topLevelItem := "" -}}
 <!-- inject lvl0 value from top-tier menu name into Algolia -->
 {{- $currentPage := . -}}
 {{- range site.Menus.main -}}
   {{- if $currentPage.IsMenuCurrent .Menu . -}}
-    <div class="lvl0" style="display:none">{{ .Name }}</div>
+    {{- $topLevelItem := . }}
+    <div class="lvl0" style="display:none">{{ $topLevelItem.Name }}</div>
   {{- else if $currentPage.HasMenuCurrent .Menu . -}}
-  <div class="lvl0" style="display:none">{{ .Name }}</div>
+    {{- $topLevelItem := . }}
+    <div class="lvl0" style="display:none">{{ $topLevelItem.Name }}</div>
   {{- end -}}
 {{- end -}}
+
+
+{{- $lvl0 := "" -}}
+{{- $lvl1 := "" -}}
+{{- $current := . -}}
+
+<!-- Step 1: Find the top-level menu item (lvl0) -->
+{{- range site.Menus.main }}
+  {{- if or ($current.IsMenuCurrent .Menu .) ($current.HasMenuCurrent .Menu .) }}
+    {{- $lvl0 = . }}
+  {{- end }}
+{{- end }}
+
+<!-- Step 2: Find lvl1 by looking at menu items that have lvl0 as a parent -->
+{{- if $lvl0 }}
+  {{- $ancestor := $current.Parent }}  <!-- Start at the parent page -->
+
+  <!-- Check if the direct parent is in the menu -->
+  {{- with $ancestor }}
+    {{- range site.Menus.main }}
+      {{- if and (eq .Parent $lvl0.Name) (.Page) (eq .Page $ancestor) }}
+        {{- $lvl1 = . }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+
+  <!-- If lvl1 wasn't found, check one level higher -->
+  {{- if and (not $lvl1) $ancestor.Parent }}
+    {{- range site.Menus.main }}
+      {{- if and (eq .Parent $lvl0.Name) (.Page) (eq .Page $ancestor.Parent) }}
+        {{- $lvl1 = . }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+<!-- Step 3: Output lvl0 and lvl1 -->
+{{- if $lvl0 }}<div class="lvl0" style="display:none">{{ $lvl0.Name }}</div>{{- end }}
+{{- if $lvl1 }}<div class="lvl1" style="display:none">{{ $lvl1.Name }}</div>{{- end }}
