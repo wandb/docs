@@ -38,7 +38,7 @@ To reset a workspace:
 
 In full-screen mode:
 
-- A panel plots 10,000 buckets rather than 1,000 when not in full-screen mode.
+- In full-screen, a panel that uses full-fidelity sampling mode plots 10,000 buckets, rather than 1,000 when not in full-screen mode.
 - The run selector displays, so you can toggle runs on or off and search for runs.
 
 To view a panel in full-screen mode:
