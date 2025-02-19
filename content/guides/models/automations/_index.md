@@ -18,7 +18,7 @@ An automation's triggering event depends on the automation's scope.
 ### Registry
 For an Artifact in a [Registry]({{< relref "/guides/models/registry/">}}) or a collection, [registered model]({{< relref "/guides/models/registry/">}}), you can configure an automation to run on these events:
 
-- **Linking a new Artifact**: Test and validate new models, datasets, etc.
+- **Linking a new Artifact to a collection**: Test and validate new models, datasets, etc.
 - **Adding a new alias to a version of an Artifact**: Trigger a special step of your workflow when a new Artifact version has a specific label or alias applied. For example, deploy a model when it has the `deploy` alias applied.
 
 ### Project
@@ -26,7 +26,7 @@ For an Artifact in a project or a collection, you can configure an automation to
 
 - **Linking a new Artifact**: Test and validate new models, datasets, etc.
 - **Creating a new version of an Artifact**: Apply recurring actions to each version of an Artifact. For example, start a training job when a new dataset artifact version is created.
-- **Adding a new alia to a version of an Artifacts**: Trigger a special step of your workflow when a new Artifact version has a specific label or alias applied. For example, , run a series of downstream processing steps when an Artifact has the `test-set-quality-check` alias applied.
+- **Adding a new alias to a version of an Artifact**: Trigger a special step of your workflow when a new Artifact version in a project or collection has a specific label or alias applied. For example, , run a series of downstream processing steps when an Artifact has the `test-set-quality-check` alias applied.
 
 ## Event actions
 An automation can run a webhook on a third-party service such as GitHub or Microsoft Teams, or it can post to a Slack channel.
