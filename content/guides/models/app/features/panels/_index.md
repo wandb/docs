@@ -47,6 +47,8 @@ To view a panel in full-screen mode:
 1. Click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder.
     {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
 
+To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
+
 ## Add panels
 
 You can add panels to your workspace, either globally or at the section level.
@@ -85,6 +87,8 @@ To share a panel, you can either:
 
 Share the link with the user or team. When they access the link, the panel opens in [full-screen mode]({{< relref "#view-a-panel-in-full-screen-mode" >}}).
 
+To get back to a panel's workspace while viewing a panel in full-screen mode, click the left-pointing arrow at the top of the page.
+
 ### Compose a panel's full-screen link programmatically
 In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
 
@@ -104,16 +108,17 @@ To get the code to embed or share a panel on social media:
 1. Change **Only those who are invited have access** to **Anyone with the link can view**. Otherwise, the choices in the next step are not available.
 1. Choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
 
-### Email a snapshot of a panel
-
-This section shows how to email a point-in-time snapshot of a panel as a report. After you share it, the report does not update. By contrast, when you [share a panel]({{< relref "#share-a-panel" >}}).
+### Email a panel report
+This section shows how to email a single panel as a stand-alone report.
 
 1. Hover over the panel, then click the panel's action menu `...`.
 1. Click **Share panel in report**.
 1. Select the **Invite** tab.
 1. Enter an email address or username.
 1. Optionally, change **can view** to **can edit**.
-1. Click **Invite**. W&B sends an email to the user with a clickable link to the report. 
+1. Click **Invite**. W&B sends an email to the user with a clickable link to the report that contains only the panel you are sharing. 
+
+Unlike when you [share a panel]({{< relref "#share-a-panel" >}}), the recipient cannot get to the workspace from this report.
 
 ## Manage panels
 
