@@ -9,18 +9,18 @@ url: guides/secrets
 weight: 1
 ---
 
-A W&B secret is a team-level variable that lets you obfuscate a sensitive string such as a credential, API key, password, or token. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
+W&B Secret Manager allows you to securely and centrally store, manage, and inject _secrets_, which are sensitive strings such as passwords, API keys, or certificates. W&B Secret Manager removes the need to add sensitive strings directly to your code or to the configuration of an [automation]({{< relref "/guides/models/automations/" >}}).
 
-You add a secret to your team's secret manager.
+Secrets are stored and managed in each team's Secret Manager.
 
 {{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
-* Secrets are also available if you use [W&B Server]({{< relref "/guides/hosting/" >}}) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
-* If you use secrets in W&B Server, you are responsible for configuring security measures that satisfy your security needs. 
+* Secrets are included as a core part of W&B, including in [W&B Server deployments]({{< relref "/guides/hosting/" >}}) that you host in Azure, GCP, or AWS. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
+* In W&B Server, you are responsible for configuring security measures that satisfy your security needs. 
 
-  - W&B strongly recommends that you store secrets in a W&B instance of a cloud secrets manager provided by AWS, GCP, or Azure. Secret managers provided by AWS, GCP, and Azure are configured with advanced security capabilities.
+  - W&B strongly recommends that you store secrets in a W&B instance of a cloud secrets manager provided by AWS, GCP, or Azure, which are configured with advanced security capabilities.
 
-  - W&B does not recommend that you use a Kubernetes cluster as the backend of your secrets store. Consider a Kubernetes cluster only if you are not able to use a W&B instance of a cloud secrets manager (AWS, GCP, or Azure), and you understand how to prevent security vulnerabilities that can occur if you use a cluster.
+  - W&B recommends against using a Kubernetes cluster as the backend of your secrets store unless you are unable to use a W&B instance of a cloud secrets manager (AWS, GCP, or Azure), and you understand how to prevent security vulnerabilities that can occur if you use a cluster.
 {{% /alert %}}
 
 ## Add a secret
@@ -39,8 +39,20 @@ Specify the secrets you want to use for your webhook automation when you configu
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
 {{% /alert %}}
 
-## Manage secrets
-TODO
+## Rotate a secret
+To rotate a secret and update its value:
+1. Click the pencil icon in the secret's row to open the secret's details.
+1. Set **Secret** to the new value. Optionally click **Reveal secret** to verify the new value.
+1. Click **Add secret**. The secret's value updates and no longer resolves to the previous value.
+
+{{% alert %}}
+After a secret is created or updated, you can no longer reveal its current value. Instead, rotate the secret to a new value.
+{{% /alert %}}
+
+## Delete a secret
+To delete a secret:
+1. Click the trash icon in the secret's row.
+1. Read the confirmation dialog, then click **Delete**. The secret is deleted immediately and permanently.
 
 ## Manage access to secrets
-TODO
+Each member of a team have access to its secrets. To revoke access to a secret from a particular member, remove that member from the team.
