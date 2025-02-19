@@ -185,7 +185,7 @@ Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`
 
 Using [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Registry]({{< relref "/guides/models/registry/" >}}). Using Registry, you can register models to explore and evaluate them, prepare them for staging, or deploy them in your production environment.
 
-To log your Hugging Face model checkpoints to Artifact, set the `WANDB_LOG_MODEL` environment variable:
+To log your Hugging Face model checkpoints to Artifacts, set the `WANDB_LOG_MODEL` environment variable to _one_ of:
 
 - **`checkpoint`**: Upload a checkpoint every `args.save_steps` from the [`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments). 
 - **`end`**: Upload the model at the end of training, if `load_best_model_at_end` is also set.
@@ -231,7 +231,7 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 {{% /alert %}}
 
 #### W&B Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Registry]({{< relref "/guides/models/registry/" >}})**. Using Registry, you can organize your best models by task, manage the lifecycles of models, track and audit the entire ML lifecyle, and [automate]({{< relref "/guides/models/automations/#create-webhook-automation" >}}) downstream actions with webhooks or jobs. 
+Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team with **[Registry]({{< relref "/guides/models/registry/" >}})**. Using Registry, you can organize your best models by task, manage the lifecycles of models, track and audit the entire ML lifecyle, and [automate]({{< relref "/guides/models/automations/#create-webhook-automation" >}}) downstream actions.
 
 To link a model Artifact, refer to [Registry]({{< relref "/guides/models/registry/" >}}).
  
@@ -267,7 +267,7 @@ Once you have logged your training results you can explore your results dynamica
 ## Advanced features and FAQs
 
 ### How do I save the best model?
-If your code sets `load_best_model_at_end=True` in the `TrainingArguments` you pass to the `Trainer`, W&B saves the best performing model checkpoint to Artifacts.
+If you pass `TrainingArguments` with `load_best_model_at_end=True` to your `Trainer`, W&B saves the best performing model checkpoint to Artifacts.
 
 If you save your model checkpoints as Artifacts, you can promote them to the [Registry]({{< relref "/guides/models/registry/" >}}). In Registry, you can:
 - Organize your best model versions by ML task.
