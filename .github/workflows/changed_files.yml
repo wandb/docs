@@ -63,10 +63,10 @@ jobs:
             for file in ${added_files[@]}; do
               if [[ "$file" =~ .*\/content\/.*\.md ]]; then
                 output_path="$(echo \"$file\" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
-                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$file</a>"
-                output+=("<li><b>Added</b>: $preview_link</li>")
+                preview_link="\<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\"\>$file\</a\>"
+                output+=("\<li\>\<b\>Added\</b\>: $preview_link\</li\>")
               else
-                no_preview_links+=("<b>Added, no preview</b>: $file")
+                no_preview_links+=("\<b\>Added, no preview\</b\>: $file")
               fi
             done
 
@@ -74,25 +74,25 @@ jobs:
             for file in ${modified_files[@]}; do
               if [[ "$file" =~ .*\/content\/.*\.md ]]; then
                 output_path="$(echo \"$file\" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')"
-                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$file</a>"
-                output+=("<li><b>Modified</b>: $preview_link</li>")
+                preview_link="\<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\"\>$file\</a\>"
+                output+=("\<li\>\<b\>Modified\</b>\: $preview_link\</li\>")
               else
-                no_preview_links+=("<b>Modified, no preview</b>: $file")
+                no_preview_links+=("\<b\>Modified, no preview\</b\>: $file")
               fi
             done
 
             # Process removed files
             for file in ${removed_files[@]}; do
-              no_preview_links+=("<b>Removed, no preview</b>: $file")
+              no_preview_links+=("\<b\>Removed, no preview\</b\>: $file")
             done
 
             # Process no preview 
             for file in ${no_preview_files[@]}; do
-              output+=("<li>$file</li>")
+              output+=("\<li\>$file\</li\>")
             done
           }
           # Compose the body
-          body="<ul>${output[@]}</ul>"
+          body="\<ul\>${output[@]}\</ul\>"
           echo "body:\n\n$body"
           echo "body=$body" >> $GITHUB_ENV
 
