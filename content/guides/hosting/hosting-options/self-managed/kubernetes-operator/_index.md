@@ -1003,7 +1003,6 @@ Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1
 * **wandb-weave:** Another backend microservice that loads query tables in the UI and supports various core app features.
 * **wandb-weave-trace:** A framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications. The framework is accessed via wandb-app.
 
-
 ### How to get the  W&B Operator Console password
 See [Accessing the W&B Kubernetes Operator Management Console]({{< relref "#access-the-wb-management-console" >}}).
 
