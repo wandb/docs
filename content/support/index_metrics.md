@@ -16,7 +16,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [Can I just log metrics, no code or dataset examples?]({{< relref "just_log_metrics_no_code_dataset_examples.md" >}})
 - [Can I log metrics on two different time scales?]({{< relref "log_metrics_two_different_time_scales_example_log_training.md" >}})
 - [How can I disable logging of system metrics to W&B?]({{< relref "how_can_i_disable_logging_of_system_metrics_to_wb.md" >}})
-- [How can I reduce how frequently to log system metrics?]({{< relref "how_can_i_reduce_how_frequently_to_log_system_metrics.md" >}})
+- [How can I change how frequently to log system metrics?]({{< relref "how_can_i_reduce_how_frequently_to_log_system_metrics.md" >}})
 - [How can I log additional metrics after a run completes?]({{< relref "log_additional_metrics_run_completes.md" >}})
 - [How often are system metrics collected?]({{< relref "system_metrics_collected.md" >}})
 - [Is it possible to plot the max of a metric rather than plot step by step?]({{< relref "plot_max_metric.md" >}})
