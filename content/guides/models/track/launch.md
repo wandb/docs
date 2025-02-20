@@ -72,7 +72,7 @@ for epoch in range(wandb.config.epochs):
         # model performance
         wandb.log({"accuracy": accuracy, "loss": loss})
 ```
-For more information on different data types you can log with W&B, see [Log Data During Experiments]({{< relref "./log/" >}}).
+For more information on different data types you can log with W&B, see [Log Data During Experiments]({{< relref "/guides/models/track/log/" >}}).
 
 ### Log an artifact to W&B 
 Optionally log a W&B Artifact. Artifacts make it easy to version datasets and models. 

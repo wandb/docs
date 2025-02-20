@@ -4,9 +4,6 @@ menu:
   support:
     identifier: support
     parent: null
-  main:
-    weight: 4
-    parent: null
 url: support
 no_list: true
 type: docs

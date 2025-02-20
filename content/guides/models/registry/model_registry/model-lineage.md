@@ -11,7 +11,7 @@ weight: 7
 This page describes creating lineage graphs in the legacy W&B Model Registry. To learn about lineage graphs in W&B Registry, refer to [Create and view lineage maps]({{< relref "../lineage.md" >}}).
 
 {{% alert %}}
-W&B will transition assets from the legacy [W&B Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to the new [W&B Registry]({{< relref "./" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows. Refer to [Migrate from legacy Model Registry]({{< relref "model_registry_eol.md" >}}).
+W&B will transition assets from the legacy [W&B Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to the new [W&B Registry]({{< relref "./" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows. Refer to [Migrate from legacy Model Registry]({{< relref "../model_registry_eol.md" >}}).
 {{% /alert %}}
 
 
