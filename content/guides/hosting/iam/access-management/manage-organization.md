@@ -6,12 +6,12 @@ menu:
 title: Manage your organization
 weight: 1
 ---
-As an administrator of an organization you can [manage individual users]({{< relref "#add-and-manage-users" >}}) within your organization and [manage teams]({{< relref "#add-and-manage-teams" >}}). 
+As an admin of an organization you can [manage individual users]({{< relref "#add-and-manage-users" >}}) within your organization and [manage teams]({{< relref "#add-and-manage-teams" >}}). 
 
-As a team administrator you can [manage teams]({{< relref "#add-and-manage-teams" >}}).
+As a team admin you can [manage teams]({{< relref "#add-and-manage-teams" >}}).
 
 {{% alert %}}
-The following workflow applies to users with instance administrator roles. Reach out to an administrator in your organization if you believe you should have instance administrator permissions. 
+The following workflow applies to users with instance admin roles. Reach out to an admin in your organization if you believe you should have instance admin permissions. 
 {{% /alert %}}
 
 If you are looking to simplify user management in your organization, refer to [Automate user and team management]({{< relref "../automate_iam.md" >}}).
@@ -31,12 +31,12 @@ The following workflow only applies to W&B Multi-tenant SaaS Cloud.
 
 ## Add and manage users
 
-As an administrator, use your organization's dashboard to:
+As an admin, use your organization's dashboard to:
 - Invite or remove users.
-- Assign or update a user's role.
-- Assign the billing administrator.
+- Assign or update a user's organization role, and create custom roles.
+- Assign the billing admin.
 
-There are several ways an organization administrator can add users to an organization:
+There are several ways an organization admin can add users to an organization:
 
 1. Member-by-invite
 2. Auto provisioning with SSO
@@ -53,7 +53,7 @@ The proceeding table summarizes how seats work for Models and Weave:
 
 ### Invite a user
 
-Administrators can invite users to their organization, as well as specific teams within the organization.
+admins can invite users to their organization, as well as specific teams within the organization.
 
 {{< tabpane text=true >}}
 {{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
@@ -112,8 +112,46 @@ Use the W&B Console to turn off auto provisioning with SSO:
 {{< /tabpane >}}
 
 {{% alert title="" %}}
-Auto provisioning with SSO is useful for adding users to an organization at scale because organization administrators do not need to generate individual user invitations.
+Auto provisioning with SSO is useful for adding users to an organization at scale because organization admins do not need to generate individual user invitations.
 {{% /alert %}}
+
+### Create custom roles
+{{% alert %}}
+An Enterprise license is required to create or assign custom roles on Dedicated cloud or Self-managed deployments.
+{{% /alert %}}
+
+Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Custom roles are created at the organization level but are assigned at the team level.
+
+To create a custom role:
+
+{{< tabpane text=true >}}
+{{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
+1. Navigate to https://wandb.ai/home.
+1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
+1. Click **Roles**.
+1. In the **Custom roles** section, click **Create a role**.
+1. Provide a name for the role. Optionally provide a description.
+1. Choose the role to base the custom role on, either **Viewer** or **Member**.
+1. To add permissions, click the **Search permissions** field, then select one or more permissions to add.
+1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
+1. Click **Create Role**.
+{{% /tab %}}
+
+{{% tab header="Dedicated or Self-managed" value="dedicated"%}}
+Use the W&B Console to turn off auto provisioning with SSO:
+
+1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
+1. In the **Custom roles** section, click **Create a role**.
+1. Provide a name for the role. Optionally provide a description.
+1. Choose the role to base the custom role on, either **Viewer** or **Member**.
+1. To add permissions, click the **Search permissions** field, then select one or more permissions to add.
+1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
+1. Click **Create Role**.
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+A team admin can now assign the custom role to members of a team from the [Team settings]({{< relref "#invite-users-to-a-team" >}}).
 
 ### Domain capture
 Domain capture helps your employees join the your companies organization to ensure new users do not create assets outside of your company jurisdiction. 
@@ -151,11 +189,11 @@ You must enable domain matching within a team's settings before you can automati
 
 {{% /tab %}}
 {{% tab header="Dedicated or Self-managed" value="dedicated" %}}
-Reach out to your W&B Account Team if you use Dedicated or Self-managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your administrator to request access to your Dedicated or Self-managed instance.
+Reach out to your W&B Account Team if you use Dedicated or Self-managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your admin to request access to your Dedicated or Self-managed instance.
 
 | | With domain capture | Without domain capture |
 | ----- | ----- | -----|
-| New users | Users who sign up for W&B on SaaS cloud from verified domains are automatically prompted to contact an administrator with an email address you customize. They can still create an organizations on SaaS cloud to trial the product. | Users can create W&B SaaS cloud accounts without learning their company has a centralized dedicated instance. | 
+| New users | Users who sign up for W&B on SaaS cloud from verified domains are automatically prompted to contact an admin with an email address you customize. They can still create an organizations on SaaS cloud to trial the product. | Users can create W&B SaaS cloud accounts without learning their company has a centralized dedicated instance. | 
 | Existing users | Existing W&B users may be spread across multiple organizations and teams.| Existing W&B users may be spread across multiple organizations and teams.|
 {{% /tab %}}
 {{< /tabpane >}}
@@ -171,10 +209,10 @@ A user within an organization can have one of the proceeding roles:
 
 | Role | Descriptions |
 | ----- | ----- |
-| Administrator| A instance administrator who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one administrator in the event that your administrator is unavailable. |
-| Member | A regular user of the organization, invited by an instance administrator. A organization member cannot invite other users or manage existing users in the organization. |
-| Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an instance administrator. A viewer only has read access to the organization and the underlying teams that they are a member of. |
-|Custom Roles (Enterprise-only feature) | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams.|
+| admin| A instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one admin in the event that your admin is unavailable. |
+| Member | A regular user of the organization, invited by an instance admin. A organization member cannot invite other users or manage existing users in the organization. |
+| Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are a member of. |
+|Custom Roles (Enterprise-only feature) | Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams.|
 
 To change a user's role:
 
@@ -211,15 +249,15 @@ The organization role and subscription type determines which seat types are avai
 5. Select the ellipses or three dots icon (**...**) when it appears.
 6. From the dropdown, choose **Remove member**.
 
-### Assign the billing administrator
+### Assign the billing admin
 1. Navigate to https://wandb.ai/home.
 2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
 4. Provide the name or email of the user in the search bar.
-5. Under the **Billing admin** column, choose the user you want to assign as the billing administrator.
+5. Under the **Billing admin** column, choose the user you want to assign as the billing admin.
 
 
 ## Add and manage teams
-Use your organization's dashboard to create  and manage teams within your organization. The org administrator or a team administrator can:
+Use your organization's dashboard to create  and manage teams within your organization. An organization admin or a team admin can:
 - Invite users to a team or remove users from a team.
 - Manage a team member's roles.
 - Automate the addition of users to a team when they join your organization.
@@ -258,7 +296,7 @@ In addition to inviting users manually with email invites, you can automatically
 
 Allow new users within your organization discover Teams within your organization when they sign-up. New users must have a verified email domain that matches your organization's verified email domain. Verified new users can view a list of verified teams that belong to an organization when they sign up for a W&B account.
 
-An organization administrator must enable domain claiming. To enable domain capture, see the steps described in [Domain capture]({{< relref "#domain-capture" >}}).
+An organization admin must enable domain claiming. To enable domain capture, see the steps described in [Domain capture]({{< relref "#domain-capture" >}}).
 
 
 ### Assign or update a team member's role
@@ -271,11 +309,11 @@ This table lists the roles you can assign to a member of a team:
 
 | Role   |   Definition   |
 |-----------|---------------------------|
-| Administrator    | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
-| Member    | A regular user of a team, invited by email or their organization-level username by the team administrator. A member user cannot invite other users to the team.  |
-| View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team administrator. A view-only user only has read access to the team and its contents.  |
+| admin    | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
+| Member    | A regular user of a team, invited by email or their organization-level username by the team admin. A member user cannot invite other users to the team.  |
+| View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team admin. A view-only user only has read access to the team and its contents.  |
 | Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
-| Custom Roles (Enterprise-only feature)   | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
+| Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
 
 {{% alert %}}
 Only enterprise licenses on Dedicated cloud or Self-managed deployment can assign custom roles to members in a team.
