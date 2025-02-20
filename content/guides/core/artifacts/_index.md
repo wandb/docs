@@ -26,7 +26,7 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 |------------------------|-----------------------------|------------------------------|
 | Model Training         | Dataset (training and validation data)     | Trained Model                |
 | Dataset Pre-Processing | Dataset (raw data)          | Dataset (pre-processed data) |
-| Model Evaluation       | Model + Dataset (test data) | [W&B Table]({{< relref "/guides/core/tables/" >}})                        |
+| Model Evaluation       | Model + Dataset (test data) | [W&B Table]({{< relref "/guides/models/tables/" >}})                        |
 | Model Optimization     | Model                       | Optimized Model              |
 
 

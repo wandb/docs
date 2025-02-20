@@ -98,7 +98,7 @@ W&B runs automatically log [metrics]({{< relref "/guides/models/track/runs/#work
 [system information]({{< relref "/guides/models/track/runs/#system-tab" >}}),
 [hyperparameters]({{< relref "/guides/models/track/runs/#overview-tab" >}}),
 [terminal output]({{< relref "/guides/models/track/runs/#logs-tab" >}}) and
-you'll see an [interactive table]({{< relref "/guides/core/tables/" >}})
+you'll see an [interactive table]({{< relref "/guides/models/tables//" >}})
 with model inputs and outputs. 
 
 ### Set up PyTorch Dataloader
