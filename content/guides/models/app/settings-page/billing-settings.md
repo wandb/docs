@@ -22,6 +22,12 @@ From here, you can compare plans or talk to Sales.
 ## Plan usage
 This section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
 
+### Usage alerts
+Your organization's members receive alerts via email **once** when certain thresholds are met, along with details about how to increase your organization's limits if you are the Billing Admin, or how to contact the Billing Admin otherwise. These alerts are not configurable, but are sent:
+
+- Your organization is approaching a monthly limit of a category of usage (85% of hours used) and when it reaches 100% of the limit.
+- Your organization's accumulated average monthly charge reaches each of these thresholds: $200, $450, $700, and $1000.
+
 ## Payment methods
 This section shows the payment methods on file for your organization. If you have not added a payment method, you will be prompted to do so when you upgrade your plan or add paid storage.
 
