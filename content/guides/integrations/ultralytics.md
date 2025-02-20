@@ -53,7 +53,7 @@ from wandb.integration.ultralytics import add_wandb_callback
 from ultralytics import YOLO
 ```
 
-Initialize the `YOLO` model of your choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This ensures that when you perform training, fine-tuning, validation, or inference, it automatically saves the experiment logs and the images, overlaid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) on W&B along with additional insights in a [`wandb.Table`]({{< relref "/guides/core/tables/" >}}).
+Initialize the `YOLO` model of your choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This ensures that when you perform training, fine-tuning, validation, or inference, it automatically saves the experiment logs and the images, overlaid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) on W&B along with additional insights in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
 
 ```python
 # Initialize YOLO Model
@@ -76,7 +76,7 @@ Here's how experiments tracked using W&B for an Ultralytics training or fine-tun
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/TB76U9O"  ><a href="//imgur.com/a/TB76U9O">YOLO Fine-tuning Experiments</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
-Here's how epoch-wise validation results are visualized using a [W&B Table]({{< relref "/guides/core/tables/" >}}):
+Here's how epoch-wise validation results are visualized using a [W&B Table]({{< relref "/guides/models/tables/" >}}):
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/kU5h7W4"  ><a href="//imgur.com/a/kU5h7W4">WandB Validation Visualization Table</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
@@ -115,7 +115,7 @@ Next, initialize a W&B [run]({{< relref "/guides/models/track/runs/" >}}) using 
 wandb.init(project="ultralytics", job_type="inference")
 ```
 
-Next, initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, it automatically logs the images overlaid with your [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) along with additional insights in a [`wandb.Table`]({{< relref "/guides/core/tables/" >}}).
+Next, initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, it automatically logs the images overlaid with your [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) along with additional insights in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
 
 ```python
 # Initialize YOLO Model

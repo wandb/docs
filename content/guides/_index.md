@@ -31,7 +31,7 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 
 **[W&B Core]({{< relref "/guides/core/" >}})** is set of powerful building blocks for tracking and visualizing data and models, and communicating results.
 - [Artifacts]({{< relref "/guides/core/artifacts/" >}}): Version assets and track lineage
-- [Tables]({{< relref "/guides/core/tables/" >}}): Visualize and query tabular data
+- [Tables]({{< relref "/guides/models/tables/" >}}): Visualize and query tabular data
 - [Reports]({{< relref "/guides/core/reports/" >}}): Document and collaborate on your discoveries
 
 ## How does W&B work?
@@ -43,7 +43,7 @@ Read the following sections in this order if you are a first-time user of W&B an
 3. Discover W&B's flexible and lightweight building block for dataset and model versioning with [Artifacts]({{< relref "/guides/core/artifacts/" >}}).
 4. Automate hyperparameter search and explore the space of possible models with [Sweeps]({{< relref "/guides/models/sweeps/" >}}).
 5. Manage the model lifecycle from training to production with [Registry]({{< relref "/guides/models/registry/" >}}).
-6. Visualize predictions across model versions with our [Data Visualization]({{< relref "/guides/core/tables/" >}}) guide.
+6. Visualize predictions across model versions with our [Data Visualization]({{< relref "/guides/models/tables/" >}}) guide.
 7. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [Reports]({{< relref "/guides/core/reports/" >}}).
 
 <iframe width="100%" height="330" src="https://www.youtube.com/embed/tHAFujRhZLA" title="Weights &amp; Biases End-to-End Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
