@@ -48,7 +48,7 @@ To customize a line plot, overriding section and workspace settings for line plo
   - **Chart**: Titles for the panel, the X-axis, and Ythe -axis, whether or not to show the legend and its position, and font settings for the plot.
   - **Legend**: Customize the appearance of the panel's legend:
     * **Legend**: The field in the legend for each line in the plot in the legend of the plot for each line.
-    * **Legend template**: Define a fully-customizable template for the legend, specifying exactly what text and variables you want to show up in the template at the top of the line plot as well as the legend that appears when you hover your mouse over the plot.
+    * **Legend template**: Define a fully customizable template for the legend, specifying exactly what text and variables you want to show up in the template at the top of the line plot as well as the legend that appears when you hover your mouse over the plot.
   - **Expressions**: Custom calculated expressions to add to the panel:
     * **Y Axis Expressions**: Add calculated metrics to your graph. You can use any of the logged metrics as well as configuration values like hyperparameters to calculate custom lines.
     * **X Axis Expressions**: Rescale the x-axis to use calculated values using custom expressions. Useful variables include\*\*_step\*\* for the default x-axis, and the syntax for referencing summary values is `${summary:value}`
@@ -64,7 +64,7 @@ To customize the defaults for all line plots in a section, overriding workspace 
 To customize the defaults for all line plots in a workspace:
 1. Click the workspace's settings, which has a gear with the label **Settings**.
 1. Click **Line plots**.
-1. Within the modal that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the workspace.  For details, refer to the preceding section, [Individual line plot]({{< relref "#individual-line-plot" >}}).
+1. Within the modal that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the workspace. For details, refer to the preceding section, [Individual line plot]({{< relref "#individual-line-plot" >}}).
 
 ## Visualize average values on a plot
 
