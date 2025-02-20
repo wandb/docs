@@ -1,0 +1,13 @@
+---
+menu:
+  support:
+    identifier: ko-support-create_team_add_delete_people_team
+tags:
+- team management
+title: Who can create a team? Who can add or delete people from a team? Who can delete
+  projects?
+toc_hide: true
+type: docs
+---
+
+Refer to the link for details on roles and permissions: [Team Roles and Permissions]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ko" >}}).

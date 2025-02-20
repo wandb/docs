@@ -24,8 +24,8 @@ The image above shows an example dashboard where you can view and compare metric
 
 Track a machine learning experiment with a few lines of code:
 1. Create a [W&B run]({{< relref "/guides/models/track/runs/" >}}).
-2. Store a dictionary of hyperparameters, such as learning rate or model type, into your configuration ([`wandb.config`]({{< relref "./config.md" >}})).
-3. Log metrics ([`wandb.log()`]({{< relref "./log/" >}})) over time in a training loop, such as accuracy and loss.
+2. Store a dictionary of hyperparameters, such as learning rate or model type, into your configuration ([`wandb.config`]({{< relref "/guides/models/track/config.md" >}})).
+3. Log metrics ([`wandb.log()`]({{< relref "/guides/models/track/log/" >}})) over time in a training loop, such as accuracy and loss.
 4. Save outputs of a run, like the model weights or a table of predictions.
 
 The proceeding pseudocode demonstrates a common W&B Experiment tracking workflow:

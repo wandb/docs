@@ -4,9 +4,6 @@ description: Generated documentation for Weights & Biases APIs
 menu: 
   reference:
     identifier: reference
-menu:
-  main:
-    weight: 2
 type: docs
 cascade:
   type: docs
@@ -18,10 +15,10 @@ These docs are automatically generated from the [`wandb` library](https://github
 
 ### Reference sections
 
-1. [Python Library]({{< relref "./python/" >}}): Add `wandb` to your script to capture metrics and save artifacts
-2. [Command Line Interface]({{< relref "./cli/" >}}): Log in, run jobs, execute sweeps, and more using shell commands
-3. [JavaScript Library]({{< relref "./js/" >}}): A beta JavaScript/TypeScript client to track metrics from your Node server
-4. [Query panels]({{< relref "./query-panel/" >}}): A beta query language to select and aggregate data
+1. [Python Library]({{< relref "/ref/python/" >}}): Add `wandb` to your script to capture metrics and save artifacts
+2. [Command Line Interface]({{< relref "/ref/cli/" >}}): Log in, run jobs, execute sweeps, and more using shell commands
+3. [JavaScript Library]({{< relref "/ref/js/" >}}): A beta JavaScript/TypeScript client to track metrics from your Node server
+4. [Query panels]({{< relref "/ref/query-panel/" >}}): A beta query language to select and aggregate data
 
 ### Examples and guides
 

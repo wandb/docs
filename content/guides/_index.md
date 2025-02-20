@@ -5,8 +5,6 @@ menu:
   default:
     identifier: guides
     weight: 1
-  main:
-    weight: 1
 type: docs
 cascade:
   type: docs
