@@ -1,67 +1,67 @@
 ---
-description: Pause, resume, and cancel a W&B Sweep with the CLI.
+title: Manage sweeps with the CLI
+description: CLI を使用して W&B Sweep を一時停止、再開、およびキャンセルします。
 menu:
   default:
     identifier: ja-guides-models-sweeps-pause-resume-and-cancel-sweeps
     parent: sweeps
-title: Manage sweeps with the CLI
 weight: 8
 ---
 
-Pause, resume, and cancel a W&B Sweep with the CLI.  Pausing a W&B Sweep tells the W&B agent that new W&B Runs should not be executed until the Sweep is resumed. Resuming a Sweep tells the agent to continue executing new W&B Runs. Stopping a W&B Sweep tells the W&B Sweep agent to stop creating or executing new W&B Runs. Cancelling a W&B Sweep tells the Sweep agent to kill currently executing W&B Runs and stop executing new Runs.
+W&B Sweep を CLI で一時停止、再開、およびキャンセルします。W&B Sweep を一時停止すると、新しい W&B Runs が Sweep を再開するまで起動されないことを W&B エージェントに伝えます。Sweep を再開すると、エージェントに新しい W&B Runs の実行を続行するように指示します。W&B Sweep を停止すると、W&B Sweep エージェントに新しい W&B Runs の作成または実行を停止するよう指示します。W&B Sweep をキャンセルすると、Sweep エージェントに現在実行中の W&B Runs を中止し、新しい Runs の実行を停止するよう指示します。
 
-In each case, provide the W&B Sweep ID that was generated when you initialized a W&B Sweep. Optionally open a new terminal window to execute the proceeding commands. A new terminal window makes it easier to execute a command if a W&B Sweep is printing output statements to your current terminal window.
+それぞれの場合で、W&B Sweep を初期化したときに生成された W&B Sweep ID を提供します。オプションとして、新しいターミナルウィンドウを開いて、後続のコマンドを実行することができます。新しいターミナルウィンドウを使用すれば、現在のターミナルウィンドウに W&B Sweep が出力文を表示していても、コマンドを簡単に実行できます。
 
-Use the following guidance to pause, resume, and cancel sweeps.
+以下のガイダンスを使用して、スイープを一時停止、再開、キャンセルします。
 
-### Pause sweeps
+### スイープの一時停止
 
-Pause a W&B Sweep so it temporarily stops executing new W&B Runs. Use the `wandb sweep --pause` command to pause a W&B Sweep. Provide the W&B Sweep ID that you want to pause.
+W&B Sweep を一時停止して、新しい W&B Runs の実行を一時的に停止します。`wandb sweep --pause` コマンドを使用して、W&B Sweep を一時停止します。一時停止したい W&B Sweep ID を指定してください。
 
 ```bash
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-### Resume sweeps
+### スイープの再開
 
-Resume a paused W&B Sweep with the `wandb sweep --resume` command. Provide the W&B Sweep ID that you want to resume:
+一時停止された W&B Sweep を `wandb sweep --resume` コマンドで再開します。再開したい W&B Sweep ID を指定してください。
 
 ```bash
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-### Stop sweeps
+### スイープの停止
 
-Finish a W&B sweep to stop executing newW&B Runs and let currently executing Runs finish.
+新しい W&B Runs の実行を停止し、現在実行中の Runs が終了するように、W&B Sweep を終了します。
 
 ```bash
 wandb sweep --stop entity/project/sweep_ID
 ```
 
-### Cancel sweeps
+### スイープのキャンセル
 
-Cancel a sweep to kill all running runs and stop running new runs. Use the `wandb sweep --cancel` command to cancel a W&B Sweep. Provide the W&B Sweep ID that you want to cancel.
+すべての実行中の runs を中止し、新しい runs の実行を停止するために sweep をキャンセルします。`wandb sweep --cancel` コマンドを使用して、W&B Sweep をキャンセルします。キャンセルしたい W&B Sweep ID を指定してください。
 
 ```bash
 wandb sweep --cancel entity/project/sweep_ID
 ```
 
-For a full list of CLI command options, see the [wandb sweep]({{< relref path="/ref/cli/wandb-sweep.md" lang="ja" >}}) CLI Reference Guide.
+CLI コマンドオプションの全リストについては、[wandb sweep]({{< relref path="/ref/cli/wandb-sweep.md" lang="ja" >}}) CLI リファレンスガイドを参照してください。
 
-### Pause, resume, stop, and cancel a sweep across multiple agents
+### 複数のエージェントにまたがるスイープの一時停止、再開、停止およびキャンセル
 
-Pause, resume, stop, or cancel a W&B Sweep across multiple agents from a single terminal. For example, suppose you have a multi-core machine. After you initialize a W&B Sweep, you open new terminal windows and copy the Sweep ID to each new terminal.
+単一のターミナルから複数のエージェントにまたがる W&B Sweep を一時停止、再開、停止またはキャンセルします。たとえば、マルチコアマシンを持っているとします。W&B Sweep を初期化した後、新しいターミナルウィンドウを開き、それぞれの新しいターミナルに Sweep ID をコピーします。
 
-Within any terminal, use the `wandb sweep` CLI command to pause, resume, stop, or cancel a W&B Sweep. For example, the proceeding code snippet demonstrates how to pause a W&B Sweep across multiple agents with the CLI:
+いずれのターミナルでも、`wandb sweep` CLI コマンドを使用して、W&B Sweep を一時停止、再開、停止またはキャンセルします。たとえば、次のコードスニペットは、CLI で複数のエージェントにわたる W&B Sweep を一時停止する方法を示しています。
 
 ```
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-Specify the `--resume` flag along with the Sweep ID to resume the Sweep across your agents:
+Sweep ID とともに `--resume` フラグを指定して、エージェント全体で Sweep を再開します。
 
 ```
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-For more information on how to parallelize W&B agents, see [Parallelize agents]({{< relref path="./parallelize-agents.md" lang="ja" >}}).
+W&B エージェントを並列化する方法の詳細については、[エージェントの並列化]({{< relref path="./parallelize-agents.md" lang="ja" >}})を参照してください。

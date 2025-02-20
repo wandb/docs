@@ -1,57 +1,56 @@
 ---
-description: Manage a team's members, avatar, alerts, and privacy settings with the
-  Team Settings page.
+title: Manage team settings
+description: チーム設定ページでチームメンバー、アバター、アラート、プライバシー設定を管理します。
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-team-settings
     parent: settings
-title: Manage team settings
 weight: 30
 ---
 
 # Team settings
 
-Change your team's settings, including members, avatar, alerts, privacy, and usage. Only team administrators can view and edit a team's settings.
+チームの設定を変更し、メンバー、アバター、アラート、プライバシー、使用状況を含めることができます。チームの設定を閲覧および編集できるのは、チーム管理者のみです。
 
 {{% alert %}}
-Only Administration account types can change team settings or remove a member from a team.
+チーム設定の変更やチームからメンバーを削除できるのは、管理アカウントの種類のみです。
 {{% /alert %}}
 
 
 ## Members
-The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, email, team role, as well as their access privileges to Models and Weave, which is inherited by from the Organization. There are three standard team roles: Administrator (Admin), Member, and View-only.
+**Members** セクションには、すべての保留中の招待状と、チームへの招待を受け入れたメンバーの一覧が表示されます。各メンバーリストには、メンバーの名前、ユーザー名、メールアドレス、チーム役割、および Organization から受け継がれる Models と Weave へのアクセス権限が表示されます。標準的なチーム役割には、Administrator (Admin)、Member、および View-only の 3 つがあります。
 
-See [Add and Manage teams]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) for information on how to create a tea, invite users to a team, remove users from a team, and change a user's role.
+チームの作成方法、ユーザーをチームへ招待する方法、ユーザーをチームから削除する方法、ユーザーの役割を変更する方法については、[Add and Manage teams]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) を参照してください。
 
 ## Avatar
 
-Set an avatar by navigating to the **Avatar** section and uploading an image.
+**Avatar** セクションに移動し、画像をアップロードすることでアバターを設定できます。
 
-1. Select the **Update Avatar** to prompt a file dialog to appear.
-2. From the file dialog, choose the image you want to use.
+1. **Update Avatar** を選択して、ファイルダイアログを表示させます。
+2. ファイルダイアログから使用したい画像を選択します。
 
 ## Alerts
 
-Notify your team when runs crash, finish, or set custom alerts. Your team can receive alerts either through email or Slack.
+runs がクラッシュしたとき、終了したとき、またはカスタムアラートを設定したときにチームに通知します。チームはメールまたは Slack 経由でアラートを受け取ることができます。
 
-Toggle the switch next to the event type you want to receive alerts from. Weights and Biases provides the following event type options be default:
+受信したいイベントタイプの横にあるスイッチを切り替えます。Weights and Biases では、デフォルトで以下のイベントタイプオプションを提供しています：
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: if a run has failed to finish.
+* **Runs finished**: Weights and Biases の run が成功裏に終了したかどうか。
+* **Run crashed**: run が終了できなかった場合。
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}).
+アラートの設定方法や管理方法についての詳細は、[Send alerts with wandb.alert]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) を参照してください。
 
 ## Privacy
 
-Navigate to the **Privacy** section to change privacy settings. Only members with Administrative roles can modify privacy settings. Administrator roles can:
+プライバシー設定を変更するには、**Privacy** セクションへ移動します。プライバシー設定を変更できるのは、管理役割を持つメンバーのみです。管理者の役割は以下を実行できます：
 
-* Force projects in the team to be private.
-* Enable code saving by default.
+* チーム内の Projects を非公開に強制する。
+* デフォルトでコードの保存を有効にする。
 
 ## Usage
 
-The **Usage** section describes the total memory usage the team has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+**Usage** セクションでは、Weights and Biases のサーバーでチームが消費したメモリの総使用量が記載されています。デフォルトのストレージプランは 100GB です。ストレージと価格についての詳細は、[Pricing](https://wandb.ai/site/pricing) ページをご覧ください。
 
 ## Storage
 
-The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector]({{< relref path="teams.md#secure-storage-connector" lang="ja" >}}) or check out our [W&B Server]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) docs if you are self-hosting.
+**Storage** セクションでは、チームのデータに使用されているクラウドストレージバケット設定について説明しています。詳細は [Secure Storage Connector]({{< relref path="teams.md#secure-storage-connector" lang="ja" >}}) を参照してください。また、自分でホスティングしている場合は、[W&B Server]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) ドキュメントをチェックしてください。

@@ -1,28 +1,28 @@
 ---
-description: Compare results across machine learning experiments
+title: Parallel coordinates
+description: 機械学習の実験間で結果を比較する
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-parallel-coordinates
     parent: panels
-title: Parallel coordinates
 weight: 30
 ---
 
-Parallel coordinates charts summarize the relationship between large numbers of hyperparameters and model metrics at a glance.
+大規模なハイパーパラメーターとモデルメトリクスの関係を一目でまとめるのが、並行座標チャートです。
 
 {{< img src="/images/app_ui/parallel_coordinates.gif" alt="" >}}
 
-* **Axes**: Different hyperparameters from [`wandb.config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) and metrics from [`wandb.log`]({{< relref path="/guides/models/track/log/" lang="ja" >}}).
-* **Lines**: Each line represents a single run. Mouse over a line to see a tooltip with details about the run. All lines that match the current filters will be shown, but if you turn off the eye, lines will be grayed out.
+* **Axes**: [`wandb.config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) からの異なるハイパーパラメーターおよび [`wandb.log`]({{< relref path="/guides/models/track/log/" lang="ja" >}}) からのメトリクス。
+* **Lines**: 各ラインは単一の run を表します。ラインにマウスオーバーすると、その run の詳細がツールチップとして表示されます。現在のフィルタに一致するすべてのラインが表示されますが、目をオフにするとラインがグレーアウトされます。
 
-## Panel Settings
+## パネル設定
 
-Configure these features in the panel settings— click the edit button in the upper right corner of the panel.
+これらの機能はパネル設定で構成されます— パネルの右上隅にある編集ボタンをクリックしてください。
 
-* **Tooltip**: On hover, a legend shows up with info on each run
-* **Titles**: Edit the axis titles to be more readable
-* **Gradient**: Customize the gradient to be any color range you like
-* **Log scale**: Each axis can be set to view on a log scale independently
-* **Flip axis**: Switch the axis direction— this is useful when you have both accuracy and loss as columns
+* **Tooltip**: ホバーすると、各 run に関する情報が表示される凡例が表示されます
+* **Titles**: 軸のタイトルを編集して、より読みやすく
+* **Gradient**: 勾配を任意の色の範囲にカスタマイズ
+* **Log scale**: 各軸は独立してログスケールで表示するように設定可能
+* **Flip axis**: 軸の方向を切り替えます— これは、精度と損失の両方が列にある場合に便利です
 
 [See it live →](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
