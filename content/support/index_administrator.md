@@ -15,6 +15,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 
 - [Can I get an academic plan as a student?]({{< relref "academic_plan_student.md" >}})
 - [Can I just log metrics, no code or dataset examples?]({{< relref "just_log_metrics_no_code_dataset_examples.md" >}})
+- [How can I be removed from a team?]({{< relref "how_can_i_be_removed_from_a_team.md" >}})
 - [How can I change my account from corporate to academic?]({{< relref "change_account_from_corporate_academic.md" >}})
 - [How can I remove projects from a team space without admin privileges?]({{< relref "remove_projects_from_team_space_without_admin_privileges.md" >}})
 - [How can I rotate or revoke access?]({{< relref "rotate_revoke_access.md" >}})
