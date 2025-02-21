@@ -1,134 +1,128 @@
 ---
-description: Use an project scoped artifact automation in your project to trigger
-  actions when aliases or versions in an artifact collection are created or changed.
+title: Trigger CI/CD events when artifact changes
+description: プロジェクト スコープのアーティファクト自動化をプロジェクトで使用して、アーティファクトコレクション内のエイリアスまたはバージョンが作成または変更されたときにアクションをトリガーします。
 menu:
   default:
     identifier: ja-guides-models-automations-project-scoped-automations
     parent: automations
-title: Trigger CI/CD events when artifact changes
 url: guides/artifacts/project-scoped-automations
 ---
 
-Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the action you want to occur based on an [event type]({{< relref path="#event-types" lang="ja" >}}).  
+Artifacts が変更されたときにトリガーされるオートメーションを作成します。Artifacts の バージョン管理 のためのダウンストリームアクションを自動化する場合は、Artifacts オートメーションを使用します。オートメーションを作成するには、[イベントタイプ]({{< relref path="#event-types" lang="ja" >}}) に基づいて発生させたいアクションを定義します。
 
 {{% alert %}}
-Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
+Artifacts オートメーションは、プロジェクトのスコープに設定されています。つまり、プロジェクト内のイベントのみが Artifacts オートメーションをトリガーします。
 
-This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry. They are triggered when events are performed on model versions linked to the [Model Registry]({{< relref path="/guides/models/registry/model_registry/" lang="ja" >}}). For information on how to create an automations for model versions, see the [Automations for Model CI/CD]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}}) page in the [Model Registry chapter]({{< relref path="/guides/models/registry/model_registry/" lang="ja" >}}).
+これは、W&B Model Registry で作成されたオートメーションとは対照的です。Model Registry で作成されたオートメーションは、Model Registry のスコープ内にあります。これらは、[Model Registry]({{< relref path="/guides/models/registry/model_registry/" lang="ja" >}}) にリンクされたモデルバージョンでイベントが実行されたときにトリガーされます。モデルバージョンのオートメーションを作成する方法については、[Model CI/CD のためのオートメーション]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}}) ページの [Model Registry chapter]({{< relref path="/guides/models/registry/model_registry/" lang="ja" >}}) を参照してください。
 {{% /alert %}}
 
-
-## Event types
-An *event* is a change that takes place in the W&B ecosystem. You can define two different event types for artifact collections in your project: **A new version of an artifact is created in a collection** and **An artifact alias is added**.
+## イベントタイプ
+*イベント* とは、W&B エコシステム で発生する変更のことです。プロジェクトの Artifacts コレクション に対して、**Artifacts の新しい バージョン がコレクションに作成された** と **Artifacts の エイリアス が追加された** という 2 種類のイベントタイプを定義できます。
 
 {{% alert %}}
-Use the **A new version of an artifact is created in a collection** event type for applying recurring actions to each version of an artifact. For example, you can create an automation that automatically starts a training job when a new dataset artifact version is created.
+Artifacts の各 バージョン に定期的なアクションを適用するには、**Artifacts の新しい バージョン がコレクションに作成された** イベントタイプを使用します。たとえば、新しいデータセット Artifacts バージョン が作成されたときに、自動的にトレーニング ジョブを開始するオートメーションを作成できます。
 
-Use the **An artifact alias is added** event type to create an automation that activates when a specific alias is applied to an artifact version. For example, you could create an automation that triggers an action when someone adds "test-set-quality-check" alias to an artifact that then triggers downstream processing on that dataset. 
+特定の エイリアス が Artifacts バージョン に適用されたときにアクティブ化されるオートメーションを作成するには、**Artifacts の エイリアス が追加された** イベントタイプを使用します。たとえば、誰かが「test-set-quality-check」 エイリアス を Artifacts に追加したときにアクションをトリガーし、そのデータセット でダウンストリーム処理をトリガーするオートメーションを作成できます。
 {{% /alert %}}
 
-## Create a webhook automation 
-Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
+## Webhook オートメーションを作成する
+W&B App UI でのアクションに基づいて Webhook を自動化します。これを行うには、まず Webhook を確立し、次に Webhook オートメーションを構成します。
 
 {{% alert %}}
-Specify an endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
+Address レコード (A レコード) を持つ Webhook のエンドポイントを指定します。W&B は、`[0-255].[0-255].[0-255].[0.255]` などの IP アドレスで直接公開されているエンドポイント、または `localhost` として公開されているエンドポイントへの接続をサポートしていません。この制限は、サーバーサイド リクエスト フォージェリ (SSRF) 攻撃やその他の関連する脅威ベクトルから保護するのに役立ちます。
 {{% /alert %}}
 
-### Add a secret for authentication or authorization
-Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
+### 認証または承認のための シークレット を追加する
+シークレット は、認証情報、 APIキー 、パスワード、トークンなどのプライベート文字列を難読化できる Team レベルの変数です。W&B では、プレーンテキストコンテンツを保護したい文字列を保存するために シークレット を使用することをお勧めします。
 
-To use a secret in your webhook, you must first add that secret to your team's secret manager.
+Webhook で シークレット を使用するには、まずその シークレット を Team の シークレット マネージャーに追加する必要があります。
 
 {{% alert %}}
-* Only W&B Admins can create, edit, or delete a secret.
-* Skip this section if the external server you send HTTP POST requests to does not use secrets.
-* Secrets are also available if you use [W&B Server]({{< relref path="/guides/hosting/" lang="ja" >}}) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
+* W&B Admin のみ シークレット を作成、編集、または削除できます。
+* HTTP POST リクエスト を送信する外部 サーバー が シークレット を使用しない場合は、このセクションをスキップしてください。
+* Azure、GCP、または AWS デプロイメントで [W&B サーバー]({{< relref path="/guides/hosting/" lang="ja" >}}) を使用する場合も、シークレット を利用できます。別のデプロイメントタイプを使用する場合は、W&B アカウント Team に連絡して、W&B で シークレット を使用する方法について話し合ってください。
 {{% /alert %}}
 
+Webhook オートメーションを使用する場合、W&B が作成を推奨する シークレット には、次の 2 種類があります。
 
+* **アクセス トークン**: 送信者を承認して、Webhook リクエスト のセキュリティを強化します
+* **シークレット**: ペイロード から送信されるデータの信頼性と整合性を確保します
 
-There are two types of secrets W&B suggests that you create when you use a webhook automation:
+Webhook を作成するには、次の手順に従います。
 
-* **Access tokens**: Authorize senders to help secure webhook requests 
-* **Secret**: Ensure the authenticity and integrity of data transmitted from payloads
+1. W&B App UI に移動します。
+2. [**Team 設定**] をクリックします。
+3. [**Team シークレット**] セクションが見つかるまで、ページを下にスクロールします。
+4. [**新しい シークレット**] ボタンをクリックします。
+5. モーダルが表示されます。[**シークレット 名**] フィールドに シークレット の名前を入力します。
+6. [**シークレット**] フィールドに シークレット を追加します。
+7. (オプション) Webhook の認証に別の シークレット キーまたはトークンが必要な場合は、手順 5 と 6 を繰り返して別の シークレット (アクセス トークンなど) を作成します。
 
-Follow the instructions below to create a webhook:
-
-1. Navigate to the W&B App UI.
-2. Click on **Team Settings**.
-3. Scroll down the page until you find the **Team secrets** section.
-4. Click on the **New secret** button.
-5. A modal will appear. Provide a name for your secret in the **Secret name** field.
-6. Add your secret into the **Secret** field. 
-7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token) if your webhook requires additional secret keys or tokens to authenticate your webhook.
-
-Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook]({{< relref path="#configure-a-webhook" lang="ja" >}}) section for more information. 
+Webhook を構成するときに、Webhook オートメーションに使用する シークレット を指定します。詳細については、[Webhook の構成]({{< relref path="#configure-a-webhook" lang="ja" >}}) セクションを参照してください。
 
 {{% alert %}}
-Once you create a secret, you can access that secret in your W&B workflows with `$`.
+シークレット を作成すると、W&B ワークフロー で `$` を使用してその シークレット にアクセスできます。
 {{% /alert %}}
 
-### Configure a webhook
-Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
+### Webhook を構成する
+Webhook を使用する前に、まず W&B App UI でその Webhook を構成する必要があります。
 
 {{% alert %}}
-* Only W&B Admins can configure a webhook for a W&B Team.
-* Ensure you already [created one or more secrets]({{< relref path="#add-a-secret-for-authentication-or-authorization" lang="ja" >}}) if your webhook requires additional secret keys or tokens to authenticate your webhook.
+* W&B Admin のみ W&B Team の Webhook を構成できます。
+* Webhook の認証に別の シークレット キーまたはトークンが必要な場合は、[1 つ以上の シークレット をすでに作成している]({{< relref path="#add-a-secret-for-authentication-or-authorization" lang="ja" >}}) ことを確認してください。
 {{% /alert %}}
 
-1. Navigate to the W&B App UI.
-2. Click on **Team Settings**.
-4. Scroll down the page until you find the **Webhooks** section.
-5. Click on the **New webhook** button.  
-6. Provide a name for your webhook in the **Name** field.
-7. Provide the endpoint URL for the webhook in the **URL** field.
-8. (Optional) From the **Secret** dropdown menu, select the secret you want to use to authenticate the webhook payload.
-9. (Optional) From the **Access token** dropdown menu, select the access token you want to use to authorize the sender.
-9. (Optional) From the **Access token** dropdown menu select additional secret keys or tokens required to authenticate a webhook  (such as an access token).
+1. W&B App UI に移動します。
+2. [**Team 設定**] をクリックします。
+4. [**Webhook**] セクションが見つかるまで、ページを下にスクロールします。
+5. [**新しい Webhook**] ボタンをクリックします。
+6. [**名前**] フィールドに Webhook の名前を入力します。
+7. [**URL**] フィールドに Webhook のエンドポイント URL を入力します。
+8. (オプション) [**シークレット**] ドロップダウン メニューから、Webhook ペイロード の認証に使用する シークレット を選択します。
+9. (オプション) [**アクセス トークン**] ドロップダウン メニューから、送信者の承認に使用する アクセス トークン を選択します。
+9. (オプション) [**アクセス トークン**] ドロップダウン メニューから、Webhook の認証に必要な別の シークレット キーまたはトークン (アクセス トークン など) を選択します。
 
 {{% alert %}}
-See the [Troubleshoot your webhook]({{< relref path="#troubleshoot-your-webhook" lang="ja" >}}) section to view where the secret and access token are specified in
-the POST request.
+POST リクエスト で シークレット と アクセス トークン が指定されている場所を確認するには、[Webhook のトラブルシューティング]({{< relref path="#troubleshoot-your-webhook" lang="ja" >}}) セクションを参照してください。
 {{% /alert %}}
 
-### Add a webhook 
-Once you have a webhook configured and (optionally) a secret, navigate to your project workspace. Click on the **Automations** tab on the left sidebar.
+### Webhook を追加する
+Webhook を構成し、（オプションで）シークレット を設定したら、プロジェクト ワークスペース に移動します。左側のサイドバーにある [**オートメーション**] タブをクリックします。
 
-1. From the **Event type** dropdown, select an [event type]({{< relref path="#event-types" lang="ja" >}}).
+1. [**イベントタイプ**] ドロップダウンから、[イベントタイプ]({{< relref path="#event-types" lang="ja" >}}) を選択します。
 {{< img src="/images/artifacts/artifact_webhook_select_event.png" alt="" >}}
-2. If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection that the automation should respond to from the **Artifact collection** dropdown. 
+2. [**Artifacts の新しい バージョン がコレクションに作成された**] イベントを選択した場合は、[**Artifacts コレクション**] ドロップダウンから、オートメーション が応答する Artifacts コレクション の名前を入力します。
 {{< img src="/images/artifacts/webhook_new_version_artifact.png" alt="" >}}
-3. Select **Webhooks** from the **Action type** dropdown. 
-4. Click on the **Next step** button.
-5. Select a webhook from the **Webhook** dropdown.
+3. [**アクションタイプ**] ドロップダウンから [**Webhook**] を選択します。
+4. [**次のステップ**] ボタンをクリックします。
+5. [**Webhook**] ドロップダウンから Webhook を選択します。
 {{< img src="/images/artifacts/artifacts_webhooks_select_from_dropdown.png" alt="" >}}
-6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload]({{< relref path="#example-payloads" lang="ja" >}}) section for common use case examples.
-7. Click on **Next step**.
-8. Provide a name for your webhook automation in the **Automation name** field. 
+6. (オプション) JSON 式エディターで ペイロード を指定します。一般的な ユースケース の例については、[ペイロード の例]({{< relref path="#example-payloads" lang="ja" >}}) セクションを参照してください。
+7. [**次のステップ**] をクリックします。
+8. [**オートメーション 名**] フィールドに Webhook オートメーション の名前を入力します。
 {{< img src="/images/artifacts/artifacts_webhook_name_automation.png" alt="" >}}
-9. (Optional) Provide a description for your webhook. 
-10. Click on the **Create automation** button.
+9. (オプション) Webhook の説明を入力します。
+10. [**オートメーション の作成**] ボタンをクリックします。
 
-### Example payloads
+### ペイロード の例
 
-The following tabs demonstrate example payloads based on common use cases. Within the examples they reference the following keys to refer to condition objects in the payload parameters:
-* `${event_type}` Refers to the type of event that triggered the action.
-* `${event_author}` Refers to the user that triggered the action.
-* `${artifact_version}` Refers to the specific artifact version that triggered the action. Passed as an artifact instance.
-* `${artifact_version_string}` Refers to the specific artifact version that triggered the action. Passed as a string.
-* `${artifact_collection_name}` Refers to the name of the artifact collection that the artifact version is linked to.
-* `${project_name}` Refers to the name of the project owning the mutation that triggered the action.
-* `${entity_name}` Refers to the name of the entity owning the mutation that triggered the action.
-
+次のタブは、一般的な ユースケース に基づいた ペイロード の例を示しています。例の中では、次の キー を参照して、 ペイロード パラメータ の条件 オブジェクト を参照しています。
+* `${event_type}` アクションをトリガーしたイベントのタイプを参照します。
+* `${event_author}` アクションをトリガーした ユーザー を参照します。
+* `${artifact_version}` アクションをトリガーした特定の Artifacts バージョン を参照します。Artifacts インスタンスとして渡されます。
+* `${artifact_version_string}` アクションをトリガーした特定の Artifacts バージョン を参照します。文字列として渡されます。
+* `${artifact_collection_name}` Artifacts バージョン がリンクされている Artifacts コレクション の名前を参照します。
+* `${project_name}` アクションをトリガーした変更を所有する Project の名前を参照します。
+* `${entity_name}` アクションをトリガーした変更を所有する Entity の名前を参照します。
 
 {{< tabpane text=true >}}
 
 {{% tab header="GitHub repository dispatch" value="github" %}}
 {{% alert %}}
-Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
+アクセス トークン に、GHA ワークフロー をトリガーするために必要な権限セットがあることを確認してください。詳細については、[これらの GitHub ドキュメントを参照してください](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event)。
 {{% /alert %}}
 
-Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
+W&B から リポジトリ ディスパッチ を送信して GitHub アクション をトリガーします。たとえば、`on` キー のトリガーとして リポジトリ ディスパッチ を受け入れる ワークフロー があるとします。
 
 ```yaml
 on:
@@ -136,7 +130,7 @@ on:
     types: BUILD_AND_DEPLOY
 ```
 
-The payload for the repository might look something like:
+リポジトリ の ペイロード は次のようになります。
 
 ```json
 {
@@ -155,13 +149,13 @@ The payload for the repository might look something like:
 ```
 
 {{% alert %}}
-The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
+Webhook ペイロード の `event_type` キー は、GitHub ワークフロー YAML ファイル の `types` フィールドと一致する必要があります。
 {{% /alert %}}
 
-The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either `LINK_ARTIFACT` or `ADD_ARTIFACT_ALIAS`. See below for an example mapping:
+レンダリングされたテンプレート文字列の内容と位置は、オートメーション が構成されているイベントまたはモデル バージョン によって異なります。`${event_type}` は `LINK_ARTIFACT` または `ADD_ARTIFACT_ALIAS` のいずれかとしてレンダリングされます。マッピングの例を以下に示します。
 
 ```json
-${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
+${event_type} --> "LINK_ARTIFACT" または "ADD_ARTIFACT_ALIAS"
 ${event_author} --> "<wandb-user>"
 ${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
 ${artifact_version_string} --> "<entity>/<project_name>/<artifact_name>:<alias>"
@@ -170,14 +164,14 @@ ${project_name} --> "<project_name>"
 ${entity_name} --> "<entity>"
 ```
 
-Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ja" >}}).
+テンプレート文字列を使用して、W&B から GitHub Actions やその他の ツール にコンテキスト を動的に渡します。これらの ツール が Python スクリプト を呼び出すことができる場合、[W&B API]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ja" >}}) を通じて W&B Artifacts を使用できます。
 
-For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
+リポジトリ ディスパッチ の詳細については、[GitHub Marketplace の公式ドキュメント](https://github.com/marketplace/actions/repository-dispatch) を参照してください。
 {{% /tab %}}
 
 {{% tab header="Microsoft Teams notification" value="microsoft"%}}
 
-Configure an ‘Incoming Webhook' to get the webhook URL for your Teams Channel by configuring. The following is an example payload:
+‘受信 Webhook' を構成して、構成することにより、Team チャンネル の Webhook URL を取得します。以下は ペイロード の例です。
   
 ```json 
 {
@@ -204,15 +198,15 @@ Configure an ‘Incoming Webhook' to get the webhook URL for your Teams Channel 
 }
 ```
 
-You can use template strings to inject W&B data into your payload at the time of execution (as shown in the Teams example above).
+テンプレート文字列を使用して、実行時に W&B データ を ペイロード に挿入できます (上記の Teams の例に示すように)。
 
 {{% /tab %}}
 
 {{% tab header="Slack notifications" value="slack"%}}
 
-Setup your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Toke`n as your W&B webhook’s access token. 
+[Slack API ドキュメント](https://api.slack.com/messaging/webhooks) で強調表示されている手順に従って Slack アプリ をセットアップし、受信 Webhook インテグレーション を追加します。`Bot User OAuth Toke` n に指定されている シークレット が W&B Webhook の アクセス トークン であることを確認してください。
   
-The following is an example payload:
+以下は ペイロード の例です。
 
 ```json
   {
@@ -249,37 +243,35 @@ The following is an example payload:
 
 {{< /tabpane >}}
 
+### Webhook のトラブルシューティング
 
-### Troubleshoot your webhook
-
-Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
-
+W&B App UI を使用してインタラクティブ に、または Bash スクリプト を使用してプログラムで Webhook のトラブルシューティングを行います。新しい Webhook を作成するとき、または既存の Webhook を編集するときに、Webhook のトラブルシューティングを行うことができます。
 
 {{< tabpane text=true >}}
 {{% tab header="W&B App UI" value="app" %}}
 
-Interactively test a webhook with the W&B App UI. 
+W&B App UI を使用して Webhook をインタラクティブ にテストします。
 
-1. Navigate to your W&B Team Settings page.
-2. Scroll to the **Webhooks** section.
-3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
-4. Select **Test**.
-5. From the UI panel that appears, paste your POST request to the field that appears. 
+1. W&B Team 設定 ページに移動します。
+2. [**Webhook**] セクションまでスクロールします。
+3. Webhook の名前の横にある水平方向の 3 つのドキュメント (ミートボール アイコン) をクリックします。
+4. [**テスト**] を選択します。
+5. 表示される UI パネル から、表示されるフィールドに POST リクエスト を貼り付けます。
 {{< img src="/images/models/webhook_ui.png" alt="" >}}
-6. Click on **Test webhook**.
+6. [**Webhook のテスト**] をクリックします。
 
-Within the W&B App UI, W&B posts the response made by your endpoint.
+W&B App UI 内で、W&B はエンドポイント によって行われた応答を投稿します。
 
 {{< img src="/images/models/webhook_ui_testing.gif" alt="" >}}
 
-See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
+実際の例を見るには、[Weights & Biases での Webhook のテスト](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube ビデオ を参照してください。
 {{% /tab %}}
 
 {{% tab header="Bash script" value="bash"%}}
 
-The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
+次の bash スクリプト は、トリガーされたときに W&B が Webhook オートメーション に送信する POST リクエスト と同様の POST リクエスト を生成します。
 
-Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
+Webhook のトラブルシューティングを行うには、以下のコード をコピーしてシェル スクリプト に貼り付けます。以下に独自の値 (Value) を指定します。
 
 * `ACCESS_TOKEN`
 * `SECRET`
@@ -291,27 +283,27 @@ Copy and paste the code below into a shell script to troubleshoot your webhook. 
 {{% /tab %}}
 {{< /tabpane >}}
 
-## View an automation
+## オートメーション を表示する
 
-View automations associated to an artifact from the W&B App UI. 
+W&B App UI から Artifacts に関連付けられた オートメーション を表示します。
 
-1. Navigate to your project workspace on the W&B App. 
-2. Click on the **Automations** tab on the left sidebar.
+1. W&B App で Project ワークスペース に移動します。
+2. 左側のサイドバーにある [**オートメーション**] タブをクリックします。
 
 {{< img src="/images/artifacts/automations_sidebar.gif" alt="" >}}
 
-Within the Automations section you can find the following properties for each automations that was created in your project"
+[オートメーション] セクション内では、Project で作成された各オートメーション の次のプロパティを見つけることができます。
 
-- **Trigger type**: The type of trigger that was configured.
-- **Action type**: The action type that triggers the automation.
-- **Action name**: The action name you provided when you created the automation.
-- **Queue**: The name of the queue the job was enqueued to. This field is left empty if you selected a webhook action type.
+- **トリガー タイプ**: 構成されたトリガー のタイプ。
+- **アクション タイプ**: オートメーション をトリガーするアクション タイプ。
+- **アクション 名**: オートメーション の作成時に指定したアクション 名。
+- **キュー**: ジョブ がエンキュー されたキューの名前。Webhook アクション タイプを選択した場合は、このフィールドは空のままになります。
 
-## Delete an automation
-Delete an automation associated with a artifact. Actions in progress are not affected if you delete that automation before the action completes. 
+## オートメーション を削除する
+Artifacts に関連付けられた オートメーション を削除します。アクション の完了前に オートメーション を削除しても、進行中のアクション は影響を受けません。
 
-1. Navigate to your project workspace on the W&B App. 
-2. Click on the **Automations** tab on the left sidebar.
-3. From the list, select the name of the automation you want to view.
-4. Hover your mouse next to the name of the automation and click on the kebob (three vertical dots) menu. 
-5. Select **Delete**.
+1. W&B App で Project ワークスペース に移動します。
+2. 左側のサイドバーにある [**オートメーション**] タブをクリックします。
+3. リスト から、表示する オートメーション の名前を選択します。
+4. オートメーション の名前の横にマウス カーソル を置き、ケバブ (縦に 3 つのドット) メニューをクリックします。
+5. [**削除**] を選択します。

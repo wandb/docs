@@ -1,17 +1,15 @@
 ---
+title: Tables
 menu:
   support:
     identifier: ja-support-index_tables
     parent: support
-title: Tables
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Tables</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+以下のサポートに関する質問には、<b>テーブル</b> のタグが付けられています。質問の回答が見つからない場合は、[コミュニティ](https://community.wandb.ai/) で質問するか、[support@wandb.com](mailto:support@wandb.com) 宛にメールでお問い合わせください。
 {{% /card %}}
 
-- [How do I add Plotly or Bokeh Charts into Tables?]({{< relref path="add_plotlybokeh_charts_tables.md" lang="ja" >}})
-- [How do I insert a table?]({{< relref path="insert_table.md" lang="ja" >}})
+*   [Plotly または Bokeh のグラフをテーブルに追加するにはどうすればよいですか？]({{< relref path="add_plotlybokeh_charts_tables.md" lang="ja" >}})
+*   [テーブルを挿入するにはどうすればよいですか？]({{< relref path="insert_table.md" lang="ja" >}})

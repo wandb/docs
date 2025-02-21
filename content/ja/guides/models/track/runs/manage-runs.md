@@ -1,39 +1,35 @@
 ---
+title: Move runs
 menu:
   default:
     identifier: ja-guides-models-track-runs-manage-runs
     parent: what-are-runs
-title: Move runs
 ---
 
-Move runs between your projects or to a team you are a member of.
+自身の Projects 間、またはメンバーになっている Team に Runs を移動します。
 
-To customize the **Runs** tab, refer to [Project page]({{< relref path="/guides/models/track/project-page.md#runs-tab" lang="ja" >}}).
+**Runs** タブをカスタマイズするには、[Project page]({{< relref path="/guides/models/track/project-page.md#runs-tab" lang="ja" >}}) を参照してください。
 
-## Move runs between your projects
+## Projects 間で Runs を移動する
 
-To move runs from one project to another:
+ある Project から別の Project に Runs を移動するには、次の手順に従います。
 
-1. Navigate to the project that contains the runs you want to move.
-2. Select the **Runs** tab from the project sidebar.
-3. Select the checkbox next to the runs you want to move.
-4. Choose the **Move** button above the table.
-5. Select the destination project from the dropdown.
-
-
+1. 移動する Runs が含まれている Project に移動します。
+2. Project のサイドバーから **Runs** タブを選択します。
+3. 移動する Runs の横にあるチェックボックスをオンにします。
+4. テーブルの上にある **Move** ボタンを選択します。
+5. ドロップダウンから移動先の Project を選択します。
 
 {{< img src="/images/app_ui/howto_move_runs.gif" alt="" >}}
 
+## Team に Runs を移動する
 
+自分がメンバーになっている Team に Runs を移動します。
 
-## Move runs to a team
-
-Move runs to a team you are a member of:
-
-1. Navigate to the project that contains the runs you want to move.
-2. Select the **Runs** tab from the project sidebar.
-3. Select the checkbox next to the runs you want to move.
-4. Choose the **Move** button above the table.
-5. Select the destination team and project from the dropdown.
+1. 移動する Runs が含まれている Project に移動します。
+2. Project のサイドバーから **Runs** タブを選択します。
+3. 移動する Runs の横にあるチェックボックスをオンにします。
+4. テーブルの上にある **Move** ボタンを選択します。
+5. ドロップダウンから移動先の Team と Project を選択します。
 
 {{< img src="/images/app_ui/demo_move_runs.gif" alt="" >}}

@@ -1,12 +1,12 @@
 ---
+title: When multiple jobs in a Docker queue download the same artifact, is any caching
+  used, or is it re-downloaded every run?
 menu:
   launch:
     identifier: ja-launch-launch-faq-docker_queues_run_multiple_jobs_download_same_artifact_useartifact
     parent: launch-faq
-title: When multiple jobs in a Docker queue download the same artifact, is any caching
-  used, or is it re-downloaded every run?
 ---
 
-No caching exists. Each launch job operates independently. Configure the queue or agent to mount a shared cache using Docker arguments in the queue configuration.
+キャッシュは存在しません。各 Launch ジョブは独立して動作します。キューまたは エージェント を設定して、キュー設定の Docker 引数を使用して共有キャッシュをマウントします。
 
-Additionally, mount the W&B artifacts cache as a persistent volume for specific use cases.
+さらに、特定の ユースケース に対して、W&B Artifacts キャッシュを永続ボリュームとしてマウントします。

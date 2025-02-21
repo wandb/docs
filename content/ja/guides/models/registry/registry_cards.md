@@ -1,61 +1,56 @@
 ---
+title: Annotate collections
 menu:
   default:
     identifier: ja-guides-models-registry-registry_cards
     parent: registry
-title: Annotate collections
 weight: 8
 ---
 
-Add human-friendly text to your collections to help users understand the purpose of the collection and the artifacts it contains. 
+コレクションにわかりやすいテキストを追加して、 ユーザー がコレクションの目的とそれに含まれる Artifacts を理解できるようにします。
 
+コレクションによっては、トレーニングデータ、モデルアーキテクチャ、タスク、ライセンス、参考文献、 デプロイメント に関する情報を含めることができます。以下に、コレクションに記述する価値のあるトピックをいくつか示します。
 
-Depending on the collection, you might want to include information about the training data, model architecture, task, license, references, and deployment. The proceeding lists some topics worth documenting in a collection:
+W&B では、少なくとも以下の詳細を含めることを推奨します。
+* **概要**: コレクションの目的。 機械学習 実験に使用される 機械学習 フレームワーク。
+* **ライセンス**: 機械学習 モデル の使用に関連する法的条件と許可。モデル ユーザー がモデルを利用できる法的 枠組み を理解するのに役立ちます。一般的なライセンスには、Apache 2.0、MIT、GPL があります。
+* **参考文献**: 関連する 研究 論文、 データセット 、または外部リソースへの引用または参照。
 
+コレクションにトレーニングデータが含まれている場合は、次の詳細を含めることを検討してください。
+* **トレーニングデータ**: 使用されるトレーニングデータについて説明します
+* **プロセッシング**: トレーニングデータセットに対して行われた プロセッシング 。
+* **データストレージ**: そのデータはどこに保存され、どのように アクセス するか。
 
+コレクションに 機械学習 モデルが含まれている場合は、次の詳細を含めることを検討してください。
+* **アーキテクチャー**: モデルアーキテクチャ、レイヤー、および特定の設計上の選択に関する情報。
+* **タスク**: コレクションモデルが実行するように設計されているタスクまたは問題の特定のタイプ。モデルの意図された機能を分類したものです。
+* **モデルのデシリアライズ**: チームの誰かがモデルをメモリにロードする方法に関する情報を提供します。
+* **タスク**: 機械学習 モデルが実行するように設計されているタスクまたは問題の特定のタイプ。モデルの意図された機能を分類したものです。
+* **デプロイメント**: モデルの デプロイ 方法と場所の詳細、およびワークフロー オーケストレーション プラットフォーム など、モデルを他のエンタープライズシステムに統合する方法に関するガイダンス。
 
-W&B recommends including at minimum these details:
-* **Summary**: The purpose of the collection. The machine learning framework used for the machine learning experiment.
-* **License**: The legal terms and permissions associated with the use of the machine learning model. It helps model users understand the legal framework under which they can utilize the model. Common licenses include Apache 2.0, MIT, and GPL.
-* **References**: Citations or references to relevant research papers, datasets, or external resources.
+## コレクションに説明を追加する
 
-If your collection contains training data, consider including these additional details:
-* **Training data**: Describe the training data used
-* **Processing**: Processing done on the training data set.
-* **Data storage**: Where is that data stored and how to access it.
-
-
-If your collection contains a machine learning model, consider including these additional details:
-* **Architecture**: Information about the model architecture, layers, and any specific design choices.
-* **Task**: The specific type of task or problem that the machine that the collection model is designed to perform. It's a categorization of the model's intended capability.
-* **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
-* **Task**: The specific type of task or problem that the machine learning model is designed to perform. It's a categorization of the model's intended capability.
-* **Deployment**: Details on how and where the model is deployed and guidance on how the model is integrated into other enterprise systems, such as a workflow orchestration platforms.
-
-
-## Add a description to a collection
-
-Interactively or programmatically add a description to a collection with the W&B Registry UI or Python SDK.
+W&B Registry UI または Python SDK を使用して、コレクションに説明をインタラクティブまたはプログラムで追加します。
 
 {{< tabpane text=true >}}
   {{% tab header="W&B Registry UI" %}}
-1. Navigate to W&B Registry at [https://wandb.ai/registry/](https://wandb.ai/registry/).
-2. Click on a collection.
-3. Select **View details** next to the name of the collection.
-4. Within the **Description** field, provide information about your collection. Format text within with [Markdown markup language](https://www.markdownguide.org/).
+1. [https://wandb.ai/registry/](https://wandb.ai/registry/) の W&B Registry に移動します。
+2. コレクションをクリックします。
+3. コレクション名の横にある [**詳細を表示**] を選択します。
+4. [**説明**] フィールドに、コレクションに関する情報を入力します。 [Markdown マークアップ言語](https://www.markdownguide.org/) を使用してテキストの書式を設定します。
 
   {{% /tab %}}
   {{% tab header="Python SDK" %}}
 
-Use the [`wandb.Api().artifact_collection()`]({{< relref path="/ref/python/public-api/api.md#artifact_collection" lang="ja" >}}) method to access a collection's description. Use the returned object's `description` property to add, or update, a description to the collection.
+[`wandb.Api().artifact_collection()`]({{< relref path="/ref/python/public-api/api.md#artifact_collection" lang="ja" >}}) メソッドを使用して、コレクションの説明に アクセス します。返された オブジェクト の `description` プロパティを使用して、コレクションに説明を追加または更新します。
 
-Specify the collection's type for the `type_name` parameter and the collection's full name for the `name` parameter. A collection's name consists of the prefix “wandb-registry”, the name of the registry, and the name of the collection separated by a forward slashes:
+`type_name` パラメータにコレクションのタイプを指定し、`name` パラメータにコレクションのフルネームを指定します。コレクションの名前は、プレフィックス "wandb-registry"、Registry の名前、およびコレクションの名前をフォワードスラッシュで区切ったもので構成されます。
 
 ```text
 wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
 ```
 
-Copy and paste the proceeding code snippet into your Python script or notebook. Replace values enclosed in angle brackets (`<>`) with your own.
+次の コードスニペット を Python スクリプト または ノートブック にコピーして貼り付けます。山かっこ (`<>`) で囲まれた 値 を独自の値に置き換えます。
 
 ```python
 import wandb
@@ -63,17 +58,17 @@ import wandb
 api = wandb.Api()
 
 collection = api.artifact_collection(
-  type_name = "<collection_type>", 
+  type_name = "<collection_type>",
   name = "<collection_name>"
   )
 
 
 collection.description = "This is a description."
-collection.save()  
-```  
+collection.save()
+```
   {{% /tab %}}
 {{< /tabpane >}}
 
-For example, the proceeding image shows a collection that documents a model's architecture, intended use, performance information and more.
+たとえば、次の画像は、モデルのアーキテクチャ、意図された用途、パフォーマンス情報などを記述したコレクションを示しています。
 
 {{< img src="/images/registry/registry_card.png" alt="Collection card with information about the model architecture, intended use, performance information and more." >}}

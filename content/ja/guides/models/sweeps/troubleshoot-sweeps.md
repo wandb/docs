@@ -1,27 +1,27 @@
 ---
-description: Troubleshoot common W&B Sweep issues.
+title: Sweeps troubleshooting
+description: W&B Sweep でよくある問題のトラブルシューティング。
 menu:
   default:
     identifier: ja-guides-models-sweeps-troubleshoot-sweeps
     parent: sweeps
-title: Sweeps troubleshooting
 ---
 
-Troubleshoot common error messages with the guidance suggested.
+提案されたガイダンスに従って、一般的なエラーメッセージのトラブルシューティングを行います。
 
-### `CommError, Run does not exist` and `ERROR Error uploading`
+### `CommError, Run does not exist` および `ERROR Error uploading`
 
-Your W&B Run ID might be defined if these two error messages are both returned. As an example, you might have a similar code snippet defined somewhere in your Jupyter Notebooks or Python script:
+これらの 2 つのエラーメッセージが両方とも返された場合、W&B の Run ID が定義されている可能性があります。例として、Jupyter Notebooks または Python スクリプトのどこかに、次のようなコードスニペットが定義されている場合があります。
 
 ```python
 wandb.init(id="some-string")
 ```
 
-You can not set a Run ID for W&B Sweeps because W&B automatically generates random, unique IDs for Runs created by W&B Sweeps.
+W&B は W&B Sweeps によって作成された Runs に対して、ランダムで一意な ID を自動的に生成するため、W&B Sweeps の Run ID を設定することはできません。
 
-W&B Run IDs need to be unique within a project.
+W&B の Run ID は、project 内で一意である必要があります。
 
-We recommend you pass a name to the name parameter when you initialized W&B, if you want to set a custom name that will appear on tables and graphs. For example:
+テーブル やグラフに表示されるカスタム名を付けたい場合は、W&B を初期化する際に、name パラメータに名前を渡すことをお勧めします。例：
 
 ```python
 wandb.init(name="a helpful readable run name")
@@ -29,9 +29,9 @@ wandb.init(name="a helpful readable run name")
 
 ### `Cuda out of memory`
 
-Refactor your code to use process-based executions if you see this error message. More specifically, rewrite your code to a Python script. In addition, call the W&B Sweep Agent from the CLI, instead of the W&B Python SDK.
+このエラーメッセージが表示された場合は、プロセスベースの実行を使用するようにコードをリファクタリングしてください。より具体的には、コードを Python スクリプトに書き換えます。さらに、W&B Python SDK ではなく、CLI から W&B Sweep Agent を呼び出します。
 
-As an example, suppose you rewrite your code to a Python script called  `train.py`. Add the name of the training script (`train.py`) to your YAML Sweep configuration file (`config.yaml` in this example):
+例として、コードを `train.py` という Python スクリプトに書き換えたとします。トレーニング スクリプト (`train.py`) の名前を YAML Sweep 設定ファイル (`config.yaml` （この例の場合）) に追加します。
 
 ```yaml
 program: train.py
@@ -47,20 +47,20 @@ parameters:
     values: ["adam", "sgd"]
 ```
 
-Next, add the following to your `train.py` Python script:
+次に、次の内容を `train.py` Python スクリプトに追加します。
 
 ```python
 if _name_ == "_main_":
     train()
 ```
 
-Navigate to your CLI and initialize a W&B Sweep with wandb sweep:
+CLI に移動し、wandb sweep で W&B Sweep を初期化します。
 
 ```shell
 wandb sweep config.yaml
 ```
 
-Make a note of the W&B Sweep ID that is returned. Next, start the Sweep job with [`wandb agent`]({{< relref path="/ref/cli/wandb-agent.md" lang="ja" >}}) with the CLI instead of the Python SDK ([`wandb.agent`]({{< relref path="/ref/python/agent.md" lang="ja" >}})). Replace `sweep_ID` in the code snippet below with the Sweep ID that was returned in the previous step:
+返された W&B Sweep ID をメモしておきます。次に、Python SDK ([`wandb.agent`]({{< relref path="/ref/python/agent.md" lang="ja" >}})) ではなく、CLI で [`wandb agent`]({{< relref path="/ref/cli/wandb-agent.md" lang="ja" >}}) を使用して Sweep ジョブを開始します。以下のコードスニペットの `sweep_ID` を、前の手順で返された Sweep ID に置き換えます。
 
 ```shell
 wandb agent sweep_ID
@@ -68,11 +68,11 @@ wandb agent sweep_ID
 
 ### `anaconda 400 error`
 
-The following error usually occurs when you do not log the metric that you are optimizing:
+通常、次のエラーは、最適化しているメトリックをログに記録していない場合に発生します。
 
 ```shell
 wandb: ERROR Error while calling W&B API: anaconda 400 error: 
 {"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
 ```
 
-Within your YAML file or nested dictionary you specify a key named "metric" to optimize. Ensure that you log (`wandb.log`) this metric. In addition, ensure you use the _exact_ metric name that you defined the sweep to optimize within your Python script or Jupyter Notebook. For more information about configuration files, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}).
+YAML ファイルまたはネストされた 辞書 内で、最適化する "metric" という名前の キー を指定します。このメトリックを必ずログ (`wandb.log`) に記録してください。さらに、Python スクリプトまたは Jupyter Notebook 内で sweep を最適化するために定義した _exact_ なメトリック名を使用していることを確認してください。設定ファイルの詳細については、[Sweep 設定の定義]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}})を参照してください。

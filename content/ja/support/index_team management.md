@@ -1,27 +1,25 @@
 ---
+title: Team Management
 menu:
   support:
     identifier: ja-support-index_team management
     parent: support
-title: Team Management
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Team Management</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+以下のサポートに関する質問には、<b>Team Management</b> のタグが付けられています。質問の回答が見つからない場合は、[コミュニティ](https://community.wandb.ai/) で質問するか、[support@wandb.com](mailto:support@wandb.com) にメールでお問い合わせください。
 {{% /card %}}
 
-- [Can I just log metrics, no code or dataset examples?]({{< relref path="just_log_metrics_no_code_dataset_examples.md" lang="ja" >}})
-- [How can I be removed from a team?]({{< relref path="how_can_i_be_removed_from_a_team.md" lang="ja" >}})
-- [How do I delete a team from my account?]({{< relref path="delete_team_from_account.md" lang="ja" >}})
-- [How do I get added to a team on W&B?]({{< relref path="join_team.md" lang="ja" >}})
-- [Is it possible to add the same service account to multiple teams?]({{< relref path="add_same_service_account_multiple_teams.md" lang="ja" >}})
-- [Is there a monthly subscription option for the teams plan?]({{< relref path="monthly_subscription_option_teams_plan.md" lang="ja" >}})
-- [What is a team and where can I find more information about it?]({{< relref path="team_find_more_information.md" lang="ja" >}})
-- [What is the difference between team and entity? As a user - what does entity mean for me?]({{< relref path="difference_team_entity_user_entity_mean_me.md" lang="ja" >}})
-- [What is the difference between team and organization?]({{< relref path="difference_team_organization.md" lang="ja" >}})
-- [What type of roles are available and what are the differences between them?]({{< relref path="type_roles_available_differences.md" lang="ja" >}})
-- [When should I log to my personal entity against my team entity?]({{< relref path="log_personal_entity_team_entity.md" lang="ja" >}})
-- [Who can create a team? Who can add or delete people from a team? Who can delete projects?]({{< relref path="create_team_add_delete_people_team.md" lang="ja" >}})
+- [コード や データセット の例なしで、 メトリクス だけを ログ に記録できますか？]({{< relref path="just_log_metrics_no_code_dataset_examples.md" lang="ja" >}})
+- [Team から削除されるにはどうすればよいですか？]({{< relref path="how_can_i_be_removed_from_a_team.md" lang="ja" >}})
+- [自分のアカウントから Team を削除するにはどうすればよいですか？]({{< relref path="delete_team_from_account.md" lang="ja" >}})
+- [W&B の Team に参加するにはどうすればよいですか？]({{< relref path="join_team.md" lang="ja" >}})
+- [同じサービスアカウントを複数の Team に追加できますか？]({{< relref path="add_same_service_account_multiple_teams.md" lang="ja" >}})
+- [Team プランの月額サブスクリプションオプションはありますか？]({{< relref path="monthly_subscription_option_teams_plan.md" lang="ja" >}})
+- [Team とは何ですか？詳細情報はどこで入手できますか？]({{< relref path="team_find_more_information.md" lang="ja" >}})
+- [Team と Entity の違いは何ですか？ ユーザー として - Entity は自分にとって何を意味しますか？]({{< relref path="difference_team_entity_user_entity_mean_me.md" lang="ja" >}})
+- [Team と Organization の違いは何ですか？]({{< relref path="difference_team_organization.md" lang="ja" >}})
+- [どのような種類のロールがあり、それらの違いは何ですか？]({{< relref path="type_roles_available_differences.md" lang="ja" >}})
+- [自分の個人 Entity に対して Team Entity に ログ を記録するのはいつですか？]({{< relref path="log_personal_entity_team_entity.md" lang="ja" >}})
+- [誰が Team を作成できますか？ 誰が Team からユーザー を追加または削除できますか？ 誰が Projects を削除できますか？]({{< relref path="create_team_add_delete_people_team.md" lang="ja" >}})

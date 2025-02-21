@@ -1,20 +1,19 @@
 ---
-description: Create a registered model to hold all the candidate models for your modeling
-  tasks.
+title: Create a registered model
+description: モデリングタスクのすべての候補モデルを保持するために、登録済み モデル を作成します。
 menu:
   default:
     identifier: ja-guides-models-registry-model_registry-create-registered-model
     parent: model-registry
-title: Create a registered model
 weight: 4
 ---
 
-Create a [registered model]({{< relref path="./model-management-concepts.md#registered-model" lang="ja" >}}) to hold all the candidate models for your modeling tasks. You can create a registered model interactively within the Model Registry or programmatically with the Python SDK.
+モデリングタスクのすべての候補モデルを保持するために、[登録済みモデル]({{< relref path="./model-management-concepts.md#registered-model" lang="ja" >}})を作成します。登録済みモデルは、モデルレジストリ内でインタラクティブに作成するか、Python SDK でプログラム的に作成できます。
 
-## Programmatically create registered a model
-Programmatically register a model with the W&B Python SDK. W&B automatically creates a registered model for you if the registered model doesn't exist.
+## プログラム的に登録済みモデルを作成する
+W&B Python SDK を使用して、プログラム的にモデルを登録します。登録済みモデルが存在しない場合、W&B は自動的に登録済みモデルを作成します。
 
-Ensure to replace other the values enclosed in `<>` with your own:
+`< >` で囲まれた値を必ず独自の値に置き換えてください。
 
 ```python
 import wandb
@@ -24,26 +23,25 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-The name you provide for `registered_model_name` is the name that appears in the [Model Registry App](https://wandb.ai/registry/model).
+`registered_model_name` に指定した名前が、[Model Registry App](https://wandb.ai/registry/model) に表示される名前になります。
 
-## Interactively create a registered model
-Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model).
+## インタラクティブに登録済みモデルを作成する
+[Model Registry App](https://wandb.ai/registry/model) 内でインタラクティブに登録済みモデルを作成します。
 
-1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model) の Model Registry App に移動します。
 {{< img src="/images/models/create_registered_model_1.png" alt="" >}}
-2. Click the **New registered model** button located in the top right of the Model Registry page.
+2. Model Registry ページの右上にある [**New registered model**] ボタンをクリックします。
 {{< img src="/images/models/create_registered_model_model_reg_app.png" alt="" >}}
-3. From the panel that appears, select the entity you want the registered model to belong to from the **Owning Entity** dropdown.
+3. 表示される パネル で、登録済みモデルが属する Entity を [**Owning Entity**] ドロップダウンから選択します。
 {{< img src="/images/models/create_registered_model_3.png" alt="" >}}
-4. Provide a name for your model in the **Name** field. 
-5. From the **Type** dropdown, select the type of artifacts to link to the registered model.
-6. (Optional) Add a description about your model in the **Description** field. 
-7. (Optional) Within the **Tags** field, add one or more tags. 
-8. Click **Register model**.
-
+4. [**Name**] フィールドにモデルの名前を入力します。
+5. [**Type**] ドロップダウンから、登録済みモデルにリンクする Artifacts のタイプを選択します。
+6. （オプション）[**Description**] フィールドにモデルの説明を追加します。
+7. （オプション）[**Tags**] フィールド内で、1 つまたは複数のタグを追加します。
+8. [**Register model**] をクリックします。
 
 {{% alert %}}
-Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry]({{< relref path="link-model-version#programmatically-link-a-model" lang="ja" >}}).
+モデルをモデルレジストリに手動でリンクすることは、単発のモデルに役立ちます。ただし、多くの場合、[モデル バージョンをモデルレジストリにプログラム的にリンクする]({{< relref path="link-model-version#programmatically-link-a-model" lang="ja" >}})と便利です。
 
-For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluates the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
+たとえば、毎晩実行するジョブがあるとします。毎晩作成されたモデルを手動でリンクするのは面倒です。代わりに、モデルを評価するスクリプトを作成し、モデルのパフォーマンスが向上した場合、W&B Python SDK を使用してそのモデルをモデルレジストリにリンクすることができます。
 {{% /alert %}}

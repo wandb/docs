@@ -1,21 +1,21 @@
 ---
+title: Data encryption in Dedicated cloud
 menu:
   default:
     identifier: ja-guides-hosting-data-security-data-encryption
     parent: data-security
-title: Data encryption in Dedicated cloud
 ---
 
-W&B uses a W&B-managed cloud-native key to encrypt the W&B-managed database and object storage in every [Dedicated cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), by using the customer-managed encryption key (CMEK) capability in each cloud. In this case, W&B acts as a `customer` of the cloud provider, while providing the W&B platform as a service to you. Using a W&B-managed key means that W&B has control over the keys that it uses to encrypt the data in each cloud, thus doubling down on its promise to provide a highly safe and secure platform to all of its customers.
+W&B は、すべての [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) で、各クラウドのカスタマーマネージド暗号化キー (CMEK) 機能を使用して、W&B が管理するクラウドネイティブキーを使用して、W&B が管理するデータベースとオブジェクトストレージを暗号化します。この場合、W&B はクラウドプロバイダーの「顧客」として機能し、W&B platform をサービスとして提供します。W&B 管理のキーを使用するということは、W&B が各クラウドでデータを暗号化するために使用するキーを管理できることを意味し、すべてのお客様に非常に安全でセキュアな platform を提供するという約束をさらに強化します。
 
-W&B uses a `unique key` to encrypt the data in each customer instance, providing another layer of isolation between Dedicated cloud tenants. The capability is available on AWS, Azure and GCP.
+W&B は、各顧客インスタンスのデータを暗号化するために「固有のキー」を使用し、専用クラウドテナント間に追加の分離レイヤーを提供します。この機能は、AWS、Azure、GCP で利用できます。
 
 {{% alert %}}
-Dedicated cloud instances on GCP and Azure that W&B provisioned before August 2024 use the default cloud provider managed key for encrypting the W&B-managed database and object storage. Only new instances that W&B has been creating starting August 2024 use the W&B-managed cloud-native key for the relevant encryption.
+2024 年 8 月より前に W&B がプロビジョニングした GCP および Azure 上の専用クラウドインスタンスは、W&B が管理するデータベースとオブジェクトストレージの暗号化に、デフォルトのクラウドプロバイダー管理キーを使用します。2024 年 8 月以降に W&B が作成した新しいインスタンスのみが、関連する暗号化に W&B 管理のクラウドネイティブキーを使用します。
 
-Dedicated cloud instances on AWS have been using the W&B-managed cloud-native key for encryption from before August 2024.
+AWS 上の専用クラウドインスタンスは、2024 年 8 月以前から暗号化に W&B 管理のクラウドネイティブキーを使用していました。
 {{% /alert %}}
 
-W&B doesn't generally allow customers to bring their own cloud-native key to encrypt the W&B-managed database and object storage in their Dedicated cloud instance, because multiple teams and personas in an organization could have access to its cloud infrastructure for various reasons. Some of those teams or personas may not have context on W&B as a critical component in the organization's technology stack, and thus may remove the cloud-native key completely or revoke W&B's access to it. Such an action could corrupt all data in the organization's W&B instance and thus leave it in a irrecoverable state.
+W&B は通常、お客様が独自のクラウドネイティブキーを持ち込んで、専用クラウドインスタンス内の W&B 管理のデータベースとオブジェクトストレージを暗号化することを許可していません。これは、組織内の複数の Teams と担当者が、さまざまな理由でクラウドインフラストラクチャにアクセスできる可能性があるためです。これらの Teams または担当者の中には、組織のテクノロジースタックにおける重要なコンポーネントとしての W&B に関するコンテキストを持っていない可能性があり、クラウドネイティブキーを完全に削除したり、W&B のアクセスを取り消したりする可能性があります。このようなアクションは、組織の W&B インスタンス内のすべてのデータを破損させ、回復不能な状態にする可能性があります。
 
-If your organization needs to use their own cloud-native key to encrypt the W&B-managed database and object storage to approve the use of Dedicated cloud for your AI workflows, W&B can review it on a exception basis. If approved, use of your cloud-native key for encryption would conform to the `shared responsibility model` of W&B Dedicated cloud. If any user in your organization removes your key or revokes W&B's access to it at any point when your Dedicated cloud instance is live, W&B would not be liable for any resulting data loss or corruption and also would not be responsible for recovery of such data.
+組織が独自のクラウドネイティブキーを使用して W&B 管理のデータベースとオブジェクトストレージを暗号化し、AI ワークフローでの専用クラウドの使用を承認する必要がある場合、W&B は例外ベースでそれを確認できます。承認された場合、暗号化にクラウドネイティブキーを使用することは、W&B 専用クラウドの「責任共有モデル」に準拠します。専用クラウドインスタンスが稼働しているときに、組織内のいずれかの ユーザー がキーを削除したり、W&B のアクセスを取り消したりした場合、W&B は結果として生じるデータ損失または破損について責任を負わず、そのようなデータの回復についても責任を負いません。

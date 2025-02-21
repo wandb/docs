@@ -1,18 +1,18 @@
 ---
+title: Can I run wandb offline?
 menu:
   support:
     identifier: ja-support-run_wandb_offline
 tags:
 - experiments
-title: Can I run wandb offline?
 toc_hide: true
 type: docs
 ---
 
-If training occurs on an offline machine, use the following steps to upload results to the servers:
+オフラインマシンでトレーニング が行われる場合は、次の手順に従って 結果 を サーバー にアップロードします。
 
-1. Set the environment variable `WANDB_MODE=offline` to save metrics locally without an internet connection.
-2. When ready to upload, run `wandb init` in your directory to set the project name. 
-3. Use `wandb sync YOUR_RUN_DIRECTORY` to transfer metrics to the cloud service and access results in the hosted web app.
+1. 環境 変数 `WANDB_MODE=offline` を設定して、インターネット接続なしで メトリクス をローカルに保存します。
+2. アップロードの準備ができたら、 ディレクトリー で `wandb init` を実行して、 project 名を設定します。
+3. `wandb sync YOUR_RUN_DIRECTORY` を使用して、 メトリクス を クラウド サービスに転送し、ホストされているウェブアプリで 結果 に アクセスします。
 
-To confirm the run is offline, check `run.settings._offline` or `run.settings.mode` after executing `wandb.init()`.
+run がオフラインであることを確認するには、`wandb.init()` を実行した後で、`run.settings._offline` または `run.settings.mode` を確認してください。

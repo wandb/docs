@@ -1,25 +1,25 @@
 ---
+title: How do I resolve a run initialization timeout error in wandb?
 menu:
   support:
     identifier: ja-support-initialization_timeout_error
 tags:
 - connectivity
 - crashing and hanging runs
-title: How do I resolve a run initialization timeout error in wandb?
 toc_hide: true
 type: docs
 ---
 
-To resolve a run initialization timeout error, follow these steps:
+run の初期化タイムアウトエラーを解決するには、以下の手順に従ってください。
 
-- **Retry initialization**: Attempt to restart the run.
-- **Check network connection**: Confirm a stable internet connection.
-- **Update wandb version**: Install the latest version of wandb.
-- **Increase timeout settings**: Modify the `WANDB_INIT_TIMEOUT` environment variable:
+- **初期化を再試行**: run の再起動を試みます。
+- **ネットワーク接続を確認**: インターネット接続が安定しているか確認します。
+- **wandb の バージョン を更新**: wandb の最新 バージョン をインストールします。
+- **タイムアウト 設定 を増やす**: `WANDB_INIT_TIMEOUT` 環境 変数 を変更します。
   ```python
   import os
   os.environ['WANDB_INIT_TIMEOUT'] = '600'
   ```
-- **Enable debugging**: Set `WANDB_DEBUG=true` and `WANDB_CORE_DEBUG=true` for detailed logs.
-- **Verify configuration**: Check that the API key and project settings are correct.
-- **Review logs**: Inspect `debug.log`, `debug-internal.log`, `debug-core.log`, and `output.log` for errors.
+- **デバッグを有効にする**: 詳細な ログ を表示するために、`WANDB_DEBUG=true` と `WANDB_CORE_DEBUG=true` を設定します。
+- **設定 を確認**: APIキー と プロジェクト の 設定 が正しいことを確認します。
+- **ログ を確認**: `debug.log`、`debug-internal.log`、`debug-core.log`、および `output.log` にエラーがないか調べます。

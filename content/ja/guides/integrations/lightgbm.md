@@ -1,37 +1,37 @@
 ---
-description: Track your trees with W&B.
+title: LightGBM
+description: W&B で ツリー を追跡しましょう。
 menu:
   default:
     identifier: ja-guides-integrations-lightgbm
     parent: integrations
-title: LightGBM
 weight: 190
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" >}}
 
-The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of Weights & Biases to track large experiments, like hyperparameter sweeps.
+`wandb` ライブラリには、[LightGBM](https://lightgbm.readthedocs.io/en/latest/) 用の特別な callback が含まれています。Weights & Biases の汎用的なログ機能を使用すると、ハイパーパラメーター探索などの大規模な experiment を簡単に追跡できます。
 
 ```python
 from wandb.integration.lightgbm import wandb_callback, log_summary
 import lightgbm as lgb
 
-# Log metrics to W&B
+# W&B にメトリクスを記録
 gbm = lgb.train(..., callbacks=[wandb_callback()])
 
-# Log feature importance plot and upload model checkpoint to W&B
+# 特徴量のインポータンスプロットを記録し、モデルのチェックポイントを W&B にアップロード
 log_summary(gbm, save_model_checkpoint=True)
 ```
 
 {{% alert %}}
-Looking for working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
+動作するコード例をお探しですか？[GitHub の examples リポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms) をご覧ください。
 {{% /alert %}}
 
-## Tuning your hyperparameters with Sweeps
+## Sweeps でハイパーパラメーターを調整する
 
-Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
+モデルのパフォーマンスを最大限に引き出すには、木の深さや学習率などのハイパーパラメーターを調整する必要があります。Weights & Biases には、大規模なハイパーパラメーター テスト experiment の構成、調整、分析を行うための強力なツールキットである [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) が含まれています。
 
-To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out this interactive Colab notebook.
+これらのツールについて詳しく知り、XGBoost で Sweeps を使用する方法の例については、このインタラクティブな Colabノートブック をご覧ください。
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" >}}
 

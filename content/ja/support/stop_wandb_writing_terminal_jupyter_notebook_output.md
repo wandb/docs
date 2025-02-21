@@ -1,15 +1,15 @@
 ---
+title: How do I stop wandb from writing to my terminal or my Jupyter notebook output?
 menu:
   support:
     identifier: ja-support-stop_wandb_writing_terminal_jupyter_notebook_output
 tags:
 - environment variables
-title: How do I stop wandb from writing to my terminal or my Jupyter notebook output?
 toc_hide: true
 type: docs
 ---
 
-Set the environment variable [`WANDB_SILENT`]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to `true`.
+環境変数 [`WANDB_SILENT`]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) を `true` に設定します。
 
 {{< tabpane text=true langEqualsHeader=true >}}
   {{% tab header="Python" %}}

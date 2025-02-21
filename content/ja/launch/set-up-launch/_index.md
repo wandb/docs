@@ -1,64 +1,62 @@
 ---
+title: Set up Launch
 menu:
   launch:
     identifier: ja-launch-set-up-launch-_index
     parent: launch
-title: Set up Launch
 weight: 3
 ---
 
-This page describes the high-level steps required to set up W&B Launch:
+このページでは、W&B Launch の設定に必要な大まかな手順について説明します。
 
-1. **Set up a queue**: Queues are FIFO and possess a queue configuration. A queue's configuration controls where and how jobs are executed on a target resource.
-2. **Set up an agent**: Agents run on your machine/infrastructure and poll one or more queues for launch jobs. When a job is pulled, the agent ensures that the image is built and available. The agent then submits the job to the target resource.
+1.  **キューの設定**: キューは FIFO (先入れ先出し) であり、キューの設定を持っています。キューの設定は、ターゲットリソース上でジョブがどこでどのように実行されるかを制御します。
+2.  **エージェントの設定**: エージェントは、あなたのマシン/インフラストラクチャー上で実行され、Launch ジョブのために 1 つまたは複数のキューをポーリングします。ジョブがプルされると、エージェントはイメージがビルドされ、利用可能であることを確認します。その後、エージェントはジョブをターゲットリソースに送信します。
 
+## キューの設定
+Launch キューは、特定ターゲットリソースと、そのリソースに固有の追加設定を指すように設定する必要があります。たとえば、Kubernetes クラスターを指す Launch キューには、環境変数を含めたり、Launch キュー設定でカスタム名前空間を設定したりする場合があります。キューを作成する際には、使用するターゲットリソースと、使用するリソースの設定の両方を指定します。
 
-## Set up a queue
-Launch queues must be configured to point to a specific target resource along with any additional configuration specific to that resource. For example, a launch queue that points to a Kubernetes cluster might include environment variables or set a custom namespace its launch queue configuration. When you create a queue, you will specify both the target resource you want to use and the configuration for that resource to use.
+エージェントがキューからジョブを受信すると、キュー設定も受信します。エージェントがジョブをターゲットリソースに送信する際、ジョブ自体からの上書きとともに、キュー設定が含まれます。たとえば、ジョブ設定を使用して、そのジョブインスタンスのみの Amazon SageMaker インスタンスタイプを指定できます。この場合、エンド ユーザーインターフェイスとして[キュー設定テンプレート]({{< relref path="./setup-queue-advanced.md#configure-queue-template" lang="ja" >}})を使用するのが一般的です。
 
-When an agent receives a job from a queue, it also receives the queue configuration. When the agent submits the job to the target resource, it includes the queue configuration along with any overrides from the job itself. For example, you can use a job configuration to specify the Amazon SageMaker instance type for that job instance only. In this case, it is common to use [queue config templates]({{< relref path="./setup-queue-advanced.md#configure-queue-template" lang="ja" >}}) as the end user interface. 
-
-### Create a queue
-1. Navigate to Launch App at [wandb.ai/launch](https://wandb.ai/launch). 
-2. Click the **create queue** button on the top right of the screen. 
+### キューの作成
+1.  [wandb.ai/launch](https://wandb.ai/launch) の Launch アプリに移動します。
+2.  画面の右上にある **キューの作成** ボタンをクリックします。
 
 {{< img src="/images/launch/create-queue.gif" alt="" >}}
 
-3. From the **Entity** dropdown menu, select the entity the queue will belong to. 
-4. Provide a name for your queue in the **Queue** field. 
-5. From the **Resource** dropdown, select the compute resource you want jobs added to this queue to use.
-6. Choose whether to allow **Prioritization** for this queue. If prioritization is enabled, a user on your team can define a priority for their launch job when they enqueue them. Higher priority jobs are executed before lower priority jobs.
-7. Provide a resource configuration in either JSON or YAML format in the **Configuration** field. The structure and semantics of your configuration document will depend on the resource type that the queue is pointing to. For more details, see the dedicated set up page for your target resource.
+3.  **Entity** ドロップダウンメニューから、キューが属する Entity を選択します。
+4.  **Queue** フィールドに、キューの名前を入力します。
+5.  **Resource** ドロップダウンから、このキューに追加されたジョブに使用するコンピューティングリソースを選択します。
+6.  このキューで **Prioritization** を許可するかどうかを選択します。優先順位付けが有効になっている場合、チームのユーザーは、エンキュー時に Launch ジョブの優先順位を定義できます。優先度の高いジョブは、優先度の低いジョブよりも先に実行されます。
+7.  **Configuration** フィールドに、JSON または YAML 形式でリソース設定を入力します。設定ドキュメントの構造とセマンティクスは、キューが指しているリソースタイプによって異なります。詳細については、ターゲットリソースの専用設定ページを参照してください。
 
-## Set up a launch agent
-Launch agents are long running processes that poll one or more launch queues for jobs. Launch agents dequeue jobs in first in, first out (FIFO) order or in priority order depending on the queues they pull from. When an agent dequeues a job from a queue, it optionally builds an image for that job. The agent then submits the job to the target resource along with configuration options specified in the queue configuration.
+## Launch エージェントの設定
+Launch エージェントは、ジョブのために 1 つまたは複数の Launch キューをポーリングする長時間実行プロセスです。Launch エージェントは、先入れ先出し (FIFO) 順、またはポーリング元のキューに応じて優先順位順にジョブをデキューします。エージェントがキューからジョブをデキューすると、オプションでそのジョブのイメージを構築します。その後、エージェントはジョブをターゲットリソースに、キュー設定で指定された設定オプションとともに送信します。
 
 {{% alert %}}
-Agents are highly flexible and can be configured to support a wide variety of use cases. The required configuration for your agent will depend on your specific use case. See the dedicated page for [Docker]({{< relref path="./setup-launch-docker.md" lang="ja" >}}), [Amazon SageMaker]({{< relref path="./setup-launch-sagemaker.md" lang="ja" >}}), [Kubernetes]({{< relref path="./setup-launch-kubernetes.md" lang="ja" >}}), or [Vertex AI]({{< relref path="./setup-vertex.md" lang="ja" >}}).
+エージェントは非常に柔軟性があり、さまざまなユースケースをサポートするように設定できます。エージェントに必要な設定は、特定のユースケースによって異なります。 [Docker]({{< relref path="./setup-launch-docker.md" lang="ja" >}}), [Amazon SageMaker]({{< relref path="./setup-launch-sagemaker.md" lang="ja" >}}), [Kubernetes]({{< relref path="./setup-launch-kubernetes.md" lang="ja" >}}), または [Vertex AI]({{< relref path="./setup-vertex.md" lang="ja" >}}) の専用ページを参照してください。
 {{% /alert %}}
 
 {{% alert %}}
-W&B recommends you start agents with a service account's API key, rather than a specific user's API key. There are two benefits to using a service account's API key:
-1. The agent isn't dependent on an individual user.
-2. The author associated with a run created through Launch is viewed by Launch as the user who submitted the launch job, rather than the user associated with the agent.
+W&B では、特定 User の APIキー ではなく、サービスアカウントの APIキー でエージェントを開始することをお勧めします。サービスアカウントの APIキー を使用することには、次の 2 つの利点があります。
+1.  エージェントは個々の User に依存しません。
+2.  Launch を介して作成された Run に関連付けられた作成者は、エージェントに関連付けられた User ではなく、Launch ジョブを送信した User として Launch によって認識されます。
 {{% /alert %}}
 
-### Agent configuration
-Configure the launch agent with a YAML file named `launch-config.yaml`. By default, W&B checks for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
+### エージェントの設定
+`launch-config.yaml` という YAML ファイルで Launch エージェントを設定します。デフォルトでは、W&B は `~/.config/wandb/launch-config.yaml` にある設定ファイルを確認します。Launch エージェントをアクティブ化する際に、別のディレクトリーをオプションで指定できます。
 
-The contents of your launch agent's configuration file will depend on your launch agent's environment, the launch queue's target resource, Docker builder requirements, cloud registry requirements, and so forth. 
+Launch エージェントの設定ファイルの内容は、Launch エージェントの環境、Launch キューのターゲットリソース、Docker ビルダーの要件、クラウドレジストリの要件などによって異なります。
 
-Independent of your use case, there are core configurable options for the launch agent:
-* `max_jobs`: maximum number of jobs the agent can execute in parallel 
-* `entity`: the entity that the queue belongs to
-* `queues`: the name of one or more queues for the agent to watch
+ユースケースに関係なく、Launch エージェントには、構成可能な主要オプションがあります。
+*   `max_jobs`: エージェントが並行して実行できるジョブの最大数
+*   `entity`: キューが属する Entity
+*   `queues`: エージェントが監視する 1 つまたは複数のキューの名前
 
 {{% alert %}}
-You can use the W&B CLI to specify universal configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`]({{< relref path="/ref/cli/wandb-launch-agent.md" lang="ja" >}}) command for more information.
+W&B CLI を使用して、Launch エージェントの汎用的な構成可能オプション (設定 YAML ファイルの代わりに): ジョブの最大数、W&B Entity、および Launch キューを指定できます。詳細については、[`wandb launch-agent`]({{< relref path="/ref/cli/wandb-launch-agent.md" lang="ja" >}}) コマンドを参照してください。
 {{% /alert %}}
 
-
-The following YAML snippet shows how to specify core launch agent config keys:
+次の YAML コードスニペットは、主要な Launch エージェントの設定 Key を指定する方法を示しています。
 
 ```yaml title="launch-config.yaml"
 # Max number of concurrent runs to perform. -1 = no limit
@@ -71,42 +69,42 @@ queues:
   - <queue-name>
 ```
 
-### Configure a container builder
-The launch agent can be configured to build images. You must configure the agent to use a container builder if you intend to use launch jobs created from git repositories or code artifacts. See the [Create a launch job]({{< relref path="../create-and-deploy-jobs/create-launch-job.md" lang="ja" >}}) for more information on how to create a launch job. 
+### コンテナビルダーの設定
+Launch エージェントは、イメージを構築するように設定できます。git リポジトリーまたは コード Artifacts から作成された Launch ジョブを使用する場合は、コンテナビルダーを使用するようにエージェントを設定する必要があります。 Launch ジョブの作成方法の詳細については、[Launch ジョブの作成]({{< relref path="../create-and-deploy-jobs/create-launch-job.md" lang="ja" >}})を参照してください。
 
-W&B Launch supports three builder options:
+W&B Launch は、次の 3 つのビルダーオプションをサポートしています。
 
-* Docker: The Docker builder uses a local Docker daemon to build images.
-* [Kaniko](https://github.com/GoogleContainerTools/kaniko):  Kaniko is a Google project that enables image building in environments where a Docker daemon is unavailable. 
-* Noop: The agent will not try to build jobs, and instead only pull pre-built images.
+*   Docker: Docker ビルダーは、ローカルの Docker デーモンを使用してイメージを構築します。
+*   [Kaniko](https://github.com/GoogleContainerTools/kaniko): Kaniko は、Docker デーモンが利用できない環境でイメージを構築できる Google プロジェクトです。
+*   Noop: エージェントはジョブを構築しようとせず、代わりに事前に構築されたイメージのみをプルします。
 
 {{% alert %}}
-Use the Kaniko builder if your agent is polling in an environment where a Docker daemon is unavailable (for example, a Kubernetes cluster).
+エージェントが Docker デーモンが利用できない環境 (たとえば、Kubernetes クラスター) でポーリングしている場合は、Kaniko ビルダーを使用します。
 
-See the [Set up Kubernetes]({{< relref path="./setup-launch-kubernetes.md" lang="ja" >}}) for details about the Kaniko builder.
+Kaniko ビルダーの詳細については、[Kubernetes の設定]({{< relref path="./setup-launch-kubernetes.md" lang="ja" >}})を参照してください。
 {{% /alert %}}
 
-To specify an image builder, include the builder key in your agent configuration. For example, the following code snippet shows a portion of the launch config (`launch-config.yaml`) that specifies to use Docker or Kaniko:
+イメージビルダーを指定するには、エージェント設定に builder Key を含めます。たとえば、次のコードスニペットは、Docker または Kaniko を使用するように指定する Launch 設定 (`launch-config.yaml`) の一部を示しています。
 
 ```yaml title="launch-config.yaml"
 builder:
   type: docker | kaniko | noop
 ```
 
-### Configure a container registry
-In some cases, you might want to connect a launch agent to a cloud registry. Common scenarios where you might want to connect a launch agent to a cloud registry include:
+### コンテナレジストリーの設定
+場合によっては、Launch エージェントをクラウドリレジストリーに接続することが必要な場合があります。 Launch エージェントをクラウドリレジストリーに接続することが必要な一般的なシナリオを次に示します。
 
-* You want to run a job in an envirnoment other than where you built it, such as a powerful workstation or cluster.
-* You want to use the agent to build images and run these images on Amazon SageMaker or VertexAI.
-* You want the launch agent to provide credentials to pull from an image repository.
+*   強力なワークステーションやクラスターなど、構築した環境とは別の環境でジョブを実行したい。
+*   エージェントを使用してイメージを構築し、これらのイメージを Amazon SageMaker または VertexAI で実行したい。
+*   Launch エージェントに、イメージリポジトリーからプルするための認証情報を提供させたい。
 
-To learn more about how to configure the agent to interact with a container registry, see the [Advanced agent set]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}) up page.
+エージェントがコンテナレジストリーとやり取りするように設定する方法の詳細については、[エージェントの詳細設定]({{< relref path="./setup-agent-advanced.md" lang="ja" >}})ページを参照してください。
 
-## Activate the launch agent
-Activate the launch agent with the `launch-agent` W&B CLI command:
+## Launch エージェントのアクティブ化
+`launch-agent` W&B CLI コマンドで Launch エージェントをアクティブ化します。
 
 ```bash
 wandb launch-agent -q <queue-1> -q <queue-2> --max-jobs 5
 ```
 
-In some use cases, you might want to have a launch agent polling queues from within a Kubernetes cluster. See the [Advanced queue set up page]({{< relref path="./setup-queue-advanced.md" lang="ja" >}}) for more information.
+一部のユースケースでは、Kubernetes クラスター内から Launch エージェントにキューをポーリングさせることが必要な場合があります。詳細については、[キューの詳細設定ページ]({{< relref path="./setup-queue-advanced.md" lang="ja" >}})を参照してください。

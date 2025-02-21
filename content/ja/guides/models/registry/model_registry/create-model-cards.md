@@ -1,31 +1,31 @@
 ---
-description: Add descriptions to model card to document your model
+title: Document machine learning model
+description: モデルカードに説明を追加して、あなたのモデルを文書化しましょう。
 menu:
   default:
     identifier: ja-guides-models-registry-model_registry-create-model-cards
     parent: model-registry
-title: Document machine learning model
 weight: 8
 ---
 
-Add a description to the model card of your registered model to document aspects of your machine learning model. Some topics worth documenting include:
+登録されたモデルのモデルカードに説明を追加して、 機械学習 モデルの側面を文書化します。文書化する価値のあるトピックには、次のものがあります。
 
-* **Summary**: A summary of what the model is. The purpose of the model. The machine learning framework the model uses, and so forth. 
-* **Training data**: Describe the training data used, processing done on the training data set, where is that data stored and so forth.
-* **Architecture**: Information about the model architecture, layers, and any specific design choices.
-* **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
-* **Task**: The specific type of task or problem that the machine learning model is designed to perform. It's a categorization of the model's intended capability.
-* **License**: The legal terms and permissions associated with the use of the machine learning model. It helps model users understand the legal framework under which they can utilize the model.
-* **References**: Citations or references to relevant research papers, datasets, or external resources.
-* **Deployment**: Details on how and where the model is deployed and guidance on how the model is integrated into other enterprise systems, such as a workflow orchestration platforms.
+* **概要** : モデルの概要。モデルの目的。モデルが使用する 機械学習 フレームワークなど。
+* **トレーニングデータ** : 使用したトレーニングデータ、トレーニング データセット で行った処理、データの保存場所などを記述します。
+* **アーキテクチャー** : モデルのアーキテクチャー、レイヤー、および特定の設計上の選択に関する情報。
+* **モデルのデシリアライズ** : チームの誰かがモデルをメモリーにロードする方法に関する情報を提供します。
+* **タスク** : 機械学習 モデルが実行するように設計されている特定のタイプのタスクまたは問題。モデルの意図された機能の分類です。
+* **ライセンス** : 機械学習 モデルの使用に関連する法的条件と許可。モデル ユーザーがモデルを利用できる法的枠組みを理解するのに役立ちます。
+* **参考文献** : 関連する研究論文、データセット、または外部リソースの引用または参考文献。
+* **デプロイメント** : モデルのデプロイ方法と場所の詳細、および ワークフロー オーケストレーション プラットフォーム などの他のエンタープライズ システムにモデルを統合する方法に関するガイダンス。
 
-## Add a description to the model card
+## モデルカードに説明を追加する
 
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select **View details** next to the name of the registered model you want to create a model card for.
-2. Go to the **Model card** section.
+1. W&B Model Registry アプリ ( [https://wandb.ai/registry/model](https://wandb.ai/registry/model) ) に移動します。
+2. モデルカードを作成する Registered Model の名前の横にある [**View details**] を選択します。
+2. [**Model card**] セクションに移動します。
 {{< img src="/images/models/model_card_example.png" alt="" >}}
-3. Within the **Description** field, provide information about your machine learning model. Format text within a model card with [Markdown markup language](https://www.markdownguide.org/).
+3. [**Description**] フィールドに、 機械学習 モデルに関する情報を入力します。 [Markdown markup language](https://www.markdownguide.org/) でモデルカード内のテキストをフォーマットします。
 
-For example, the following images shows the model card of a **Credit-card Default Prediction** registered model.
+たとえば、次の画像は、**Credit-card Default Prediction** Registered Model のモデルカードを示しています。
 {{< img src="/images/models/model_card_credit_example.png" alt="" >}}

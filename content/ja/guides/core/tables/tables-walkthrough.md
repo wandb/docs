@@ -1,42 +1,42 @@
 ---
-description: Explore how to use W&B Tables with this 5 minute Quickstart.
+title: 'Tutorial: Log tables, visualize and query data'
+description: W&B テーブル を使用する方法を、この 5 分間の クイックスタート で見てみましょう。
 menu:
   default:
     identifier: ja-guides-core-tables-tables-walkthrough
     parent: tables
-title: 'Tutorial: Log tables, visualize and query data'
 weight: 1
 ---
 
-The following Quickstart demonstrates how to log data tables, visualize data, and query data.
+次の クイックスタート では、データテーブル のログ記録、データの可視化、およびデータのクエリ方法について説明します。
 
-Select the button below to try a PyTorch Quickstart example project on MNIST data. 
+下のボタンを選択して、MNIST データに関する PyTorch の クイックスタート のサンプル プロジェクト を試してください。
 
-## 1. Log a table
-Log a table with W&B. You can either construct a new table or pass a Pandas Dataframe.
+## 1. テーブル のログ
+W&B で テーブル を ログ します。新しい テーブル を作成するか、Pandas Dataframe を渡すことができます。
 
 {{< tabpane text=true >}}
-{{% tab header="Construct a table" value="construct" %}}
-To construct and log a new Table, you will use:
-- [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}): Create a [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) to track results.
-- [`wandb.Table()`]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}): Create a new table object.
-  - `columns`: Set the column names.
-  - `data`: Set the contents of each row.
-- [`run.log()`]({{< relref path="/ref/python/log.md" lang="ja" >}}): Log the table to save it to W&B.
+{{% tab header="テーブル の作成" value="construct" %}}
+新しい テーブル を作成して ログ に記録するには、以下を使用します。
+- [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}): [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) を作成して、結果を追跡します。
+- [`wandb.Table()`]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}): 新しい テーブル オブジェクトを作成します。
+  - `columns`: 列名を設定します。
+  - `data`: 各行の内容を設定します。
+- [`run.log()`]({{< relref path="/ref/python/log.md" lang="ja" >}}): テーブル を ログ に記録して、W&B に保存します。
 
-Here's an example:
+次に例を示します。
 ```python
 import wandb
 
 run = wandb.init(project="table-test")
-# Create and log a new table.
+# 新しいテーブルを作成してログに記録します。
 my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
 run.log({"Table Name": my_table})
 ```
 {{% /tab %}}
 
 {{% tab header="Pandas Dataframe" value="pandas"%}}
-Pass a Pandas Dataframe to `wandb.Table()` to create a new table.
+Pandas Dataframe を `wandb.Table()` に渡して、新しい テーブル を作成します。
 
 ```python
 import wandb
@@ -49,28 +49,27 @@ my_table = wandb.Table(dataframe=df)
 wandb.log({"Table Name": my_table})
 ```
 
-For more information on supported data types, see the [`wandb.Table`]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}) in the W&B API Reference Guide.
+サポートされているデータ型 の詳細については、W&B API Reference Guide の [`wandb.Table`]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}) を参照してください。
 {{% /tab %}}
 {{< /tabpane >}}
 
+## 2. プロジェクト の ワークスペース で テーブル を可視化する
 
-## 2. Visualize tables in your project workspace
+ワークスペース で結果の テーブル を表示します。
 
-View the resulting table in your workspace. 
-
-1. Navigate to your project in the W&B App.
-2. Select the name of your run in your project workspace. A new panel is added for each unique table key. 
+1. W&B App で プロジェクト に移動します。
+2. プロジェクト の ワークスペース で run の名前を選択します。一意の テーブル の キー ごとに新しい パネル が追加されます。
 
 {{< img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="" >}}
 
-In this example, `my_table`, is logged under the key `"Table Name"`.
+この例では、`my_table` は キー `"Table Name"` で ログ に記録されます。
 
-## 3. Compare across model versions
+## 3. モデル の バージョン 間で比較する
 
-Log sample tables from multiple W&B Runs and compare results in the project workspace. In this [example workspace](https://wandb.ai/carey/table-test?workspace=user-carey), we show how to combine rows from multiple different versions in the same table.
+複数の W&B の Runs からサンプル テーブル を ログ に記録し、 プロジェクト の ワークスペース で結果を比較します。この[ワークスペース の例](https://wandb.ai/carey/table-test?workspace=user-carey)では、同じ テーブル 内の複数の異なる バージョン の行を結合する方法を示します。
 
 {{< img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="" >}}
 
-Use the table filter, sort, and grouping features to explore and evaluate model results.
+テーブル のフィルター、ソート、およびグループ化機能を使用して、モデル の結果を調べて評価します。
 
 {{< img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="" >}}

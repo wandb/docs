@@ -1,13 +1,13 @@
 ---
+title: How do I delete a panel grid?
 menu:
   support:
     identifier: ja-support-delete_panel_grid
 tags:
 - reports
 - wysiwyg
-title: How do I delete a panel grid?
 toc_hide: true
 type: docs
 ---
 
-Select the panel grid and press delete or backspace. Click the drag handle in the top-right corner to select the panel grid.
+パネル グリッドを選択し、Delete または Backspace キーを押します。右上隅のドラッグ ハンドルをクリックして、パネル グリッドを選択します。

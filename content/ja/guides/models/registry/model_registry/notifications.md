@@ -1,33 +1,29 @@
 ---
-description: Get Slack notifications when a new model version is linked to the model
-  registry.
+title: Create alerts and notifications
+description: 新しい モデル バージョンが モデルレジストリ にリンクされたときに、Slack 通知を受け取る。
 menu:
   default:
     identifier: ja-guides-models-registry-model_registry-notifications
     parent: model-registry
-title: Create alerts and notifications
 weight: 9
 ---
 
-<!-- # Notifications for new model versions -->
-Receive Slack notifications when a new model version is linked to the model registry. 
+新しいモデル バージョンがモデルレジストリにリンクされたときに、Slack 通知を受信します。
 
-
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select the registered model you want to receive notifications from.
-3. Click on the **Connect Slack** button.
+1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model) にある W&B Model Registry アプリに移動します。
+2. 通知を受信する登録済みモデルを選択します。
+3. [**Slack に接続**] ボタンをクリックします。
     {{< img src="/images/models/connect_to_slack.png" alt="" >}}
-4. Follow the instructions to enable W&B in your Slack workspace that appear on the OAuth page.
+4. OAuth ページに表示される手順に従って、Slack ワークスペースで W&B を有効にします。
 
-
-Once you have configured Slack notifications for your team, you can pick and choose registered models to get notifications from. 
+チームの Slack 通知を設定したら、通知を受信する登録済みモデルを選択できます。
 
 {{% alert %}}
-A toggle that reads **New model version linked to...** appears instead of a **Connect Slack** button if you have Slack notifications configured for your team.
+チームの Slack 通知が構成されている場合、[**Slack に接続**] ボタンの代わりに [**新しいモデル バージョンが...にリンクされました**] と表示されるトグルが表示されます。
 {{% /alert %}}
 
-The screenshot below shows a FMNIST classifier registered model that has Slack notifications. 
+以下のスクリーンショットは、Slack 通知が設定されている FMNIST classifier 登録済みモデルを示しています。
 
 {{< img src="/images/models/conect_to_slack_fmnist.png" alt="" >}}
 
-A message is automatically posted to the connected Slack channel each time a new model version is linked to the FMNIST classifier registered model.
+新しいモデル バージョンが FMNIST classifier 登録済みモデルにリンクされるたびに、メッセージが接続された Slack チャンネルに自動的に投稿されます。

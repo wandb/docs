@@ -1,74 +1,69 @@
 ---
-description: Visualize the relationships between your model's hyperparameters and
-  output metrics
+title: Parameter importance
+description: モデルの ハイパーパラメーター と出力 メトリクス の関係を可視化します。
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-parameter-importance
     parent: panels
-title: Parameter importance
 weight: 60
 ---
 
-Discover which of your hyperparameters were the best predictors of, and highly correlated to desirable values of your metrics.
-
+どのハイパーパラメータが最も優れた予測因子であり、メトリクスの望ましい値と高い相関関係にあるかを発見します。
 
 {{< img src="/images/general/parameter-importance-1.png" alt="" >}}
 
-**Correlation** is the linear correlation between the hyperparameter and the chosen metric (in this case val_loss). So a high correlation means that when the hyperparameter has a higher value, the metric also has higher values and vice versa. Correlation is a great metric to look at but it can’t capture second order interactions between inputs and it can get messy to compare inputs with wildly different ranges.
+**相関** は、ハイパーパラメータと選択されたメトリクス (この場合は val_loss) の間の線形相関です。したがって、高い相関は、ハイパーパラメータが高い値を持つ場合、メトリクスも高い値を持つことを意味し、その逆もまた然りです。相関は調べるのに最適なメトリクスですが、入力間の二次的な相互作用を捉えることができず、大きく異なる範囲の入力を比較するのが面倒になる可能性があります。
 
-Therefore W&B also calculates an **importance** metric. W&B trains a random forest with the hyperparameters as inputs and the metric as the target output and report the feature importance values for the random forest.
+したがって、W&B は **重要度** メトリクスも計算します。W&B は、ハイパーパラメータを入力として、メトリクスをターゲット出力として ランダムフォレスト をトレーニングし、 ランダムフォレスト の特徴量の重要度の値をレポートします。
 
-The idea for this technique was inspired by a conversation with [Jeremy Howard](https://twitter.com/jeremyphoward) who has pioneered the use of random forest feature importances to explore hyperparameter spaces at [Fast.ai](http://fast.ai). W&B highly recommends you check out this [lecture](http://course18.fast.ai/lessonsml1/lesson4.html) (and these [notes](https://forums.fast.ai/t/wiki-lesson-thread-lesson-4/7540)) to learn more about the motivation behind this analysis.
+この手法のアイデアは、[Jeremy Howard](https://twitter.com/jeremyphoward) との会話からインスピレーションを得たもので、彼は [Fast.ai](http://fast.ai) でハイパーパラメータ空間を調査するために ランダムフォレスト の特徴量の重要度の使用を開拓しました。W&B は、この 分析 の背後にある動機について詳しく学ぶために、この [レクチャー](http://course18.fast.ai/lessonsml1/lesson4.html) (およびこれらの [ノート](https://forums.fast.ai/t/wiki-lesson-thread-lesson-4/7540)) をチェックすることを強くお勧めします。
 
-Hyperparameter importance panel untangles the complicated interactions between highly correlated hyperparameters. In doing so, it helps you fine tune your hyperparameter searches by showing you which of your hyperparameters matter the most in terms of predicting model performance.
+ハイパーパラメータの重要度 パネル は、高度に相関するハイパーパラメータ間の複雑な相互作用を解きほぐします。そうすることで、モデル のパフォーマンスの予測に関してどのハイパーパラメータが最も重要かを示すことで、ハイパーパラメータ検索を微調整するのに役立ちます。
 
-## Creating a hyperparameter importance panel
+## ハイパーパラメータの重要度 パネル の作成
 
-1. Navigate to your W&B project.
-2. Select **Add panels** buton.
-3. Expand the **CHARTS** dropdown, choose **Parallel coordinates** from the dropdown.
-
+1. W&B の プロジェクト に移動します。
+2. [**Add panels**] ボタンを選択します。
+3. [**CHARTS**] ドロップダウンを展開し、ドロップダウンから [**Parallel coordinates**] を選択します。
 
 {{% alert %}}
-If an empty panel appears, make sure that your runs are ungrouped
+空の パネル が表示される場合は、run がグループ化されていないことを確認してください
 {{% /alert %}}
-
 
 {{< img src="/images/app_ui/hyperparameter_importance_panel.gif" alt="Using automatic parameter visualization" >}}
 
-With the parameter manager, we can manually set the visible and hidden parameters.
+パラメータ マネージャーを使用すると、表示および非表示の パラメータ を手動で設定できます。
 
 {{< img src="/images/app_ui/hyperparameter_importance_panel_manual.gif" alt="Manually setting the visible and hidden fields" >}}
 
-## Interpreting a hyperparameter importance panel
+## ハイパーパラメータの重要度 パネル の解釈
 
 {{< img src="/images/general/parameter-importance-4.png" alt="" >}}
 
-This panel shows you all the parameters passed to the [wandb.config]({{< relref path="/guides/models/track/config/" lang="ja" >}}) object in your training script. Next, it shows the feature importances and correlations of these config parameters with respect to the model metric you select (`val_loss` in this case).
+この パネル には、トレーニング スクリプト の [wandb.config]({{< relref path="/guides/models/track/config/" lang="ja" >}}) オブジェクト に渡されたすべての パラメータ が表示されます。次に、これらの config パラメータ の特徴量の重要度と相関関係が、選択した モデル メトリクス (この場合は `val_loss`) に関連して表示されます。
 
-### Importance
+### 重要度
 
-The importance column shows you the degree to which each hyperparameter was useful in predicting the chosen metric. Imagine a scenario were you start tuning a plethora of hyperparameters and using this plot to hone in on which ones merit further exploration. The subsequent sweeps can then be limited to the most important hyperparameters, thereby finding a better model faster and cheaper.
-
-{{% alert %}}
-W&B calculate importances using a tree based model rather than a linear model as the former are more tolerant of both categorical data and data that’s not normalized.
-{{% /alert %}}
-
-In the preceding image, you can see that `epochs, learning_rate, batch_size` and `weight_decay` were fairly important.
-
-### Correlations
-
-Correlations capture linear relationships between individual hyperparameters and metric values. They answer the question of whether there a significant relationship between using a hyperparameter, such as the SGD optimizer, and the `val_loss` (the answer in this case is yes). Correlation values range from -1 to 1, where positive values represent positive linear correlation, negative values represent negative linear correlation and a value of 0 represents no correlation. Generally a value greater than 0.7 in either direction represents strong correlation.
-
-You might use this graph to further explore the values that are have a higher correlation to our metric (in this case you might pick stochastic gradient descent or adam over rmsprop or nadam) or train for more epochs.
-
+重要度の列には、選択した メトリクス の予測に各ハイパーパラメータがどの程度役立ったかが表示されます。多数のハイパーパラメータの チューニング を開始し、このプロット を使用して、さらに調査する価値のあるハイパーパラメータを絞り込むシナリオを想像してください。後続の Sweeps は、最も重要なハイパーパラメータに限定できるため、より優れた モデル をより速く、より安価に見つけることができます。
 
 {{% alert %}}
-* correlations show evidence of association, not necessarily causation.
-* correlations are sensitive to outliers, which might turn a strong relationship to a moderate one, specially if the sample size of hyperparameters tried is small.
-* and finally, correlations only capture linear relationships between hyperparameters and metrics. If there is a strong polynomial relationship, it won’t be captured by correlations.
+W&B は、 ツリー ベース の モデル を使用して重要度を計算します。これは、線形 モデル よりも、カテゴリ データ と正規化されていないデータの両方に対して寛容であるためです。
 {{% /alert %}}
 
-The disparities between importance and correlations result from the fact that importance accounts for interactions between hyperparameters, whereas correlation only measures the affects of individual hyperparameters on metric values. Secondly, correlations capture only the linear relationships, whereas importances can capture more complex ones.
+上の図では、`epochs, learning_rate, batch_size` および `weight_decay` がかなり重要であることがわかります。
 
-As you can see both importance and correlations are powerful tools for understanding how your hyperparameters influence model performance.
+### 相関
+
+相関は、個々のハイパーパラメータと メトリクス 値の間の線形関係を捉えます。それらは、SGD オプティマイザー などのハイパーパラメータを使用することと `val_loss` の間に有意な関係があるかどうかという質問に答えます (この場合の答えはイエスです)。相関値の範囲は -1 から 1 で、正の値は正の線形相関を表し、負の値は負の線形相関を表し、0 の値は相関がないことを表します。一般に、どちらかの方向に 0.7 より大きい値は強い相関を表します。
+
+このグラフを使用して、メトリクス との相関が高い値をさらに調べたり (この場合は、確率的勾配降下法または adam を rmsprop または nadam よりも選択する場合があります)、より多くの エポック で トレーニング したりできます。
+
+{{% alert %}}
+* 相関関係は、必ずしも因果関係ではなく、関連性の証拠を示しています。
+* 相関関係は外れ値に敏感です。特に、試行されたハイパーパラメータのサンプル サイズが小さい場合、強い関係が中程度の関係に変わる可能性があります。
+* 最後に、相関関係はハイパーパラメータと メトリクス の間の線形関係のみを捉えます。強い多項式関係がある場合、それは相関関係によって捉えられません。
+{{% /alert %}}
+
+重要度と相関関係の格差は、重要度がハイパーパラメータ間の相互作用を考慮するのに対し、相関関係は個々のハイパーパラメータが メトリクス 値に与える影響のみを測定するという事実に起因します。次に、相関関係は線形関係のみを捉えるのに対し、重要度はより複雑な関係を捉えることができます。
+
+ご覧のとおり、重要度と相関関係はどちらも、ハイパーパラメータが モデル のパフォーマンスにどのように影響するかを理解するための強力な ツール です。

@@ -1,18 +1,18 @@
 ---
-description: How to integrate W&B with Prodigy.
+title: Prodigy
+description: Prodigy と W&B を統合する方法。
 menu:
   default:
     identifier: ja-guides-integrations-prodigy
     parent: integrations
-title: Prodigy
 weight: 290
 ---
 
-[Prodigy](https://prodi.gy/) is an annotation tool for creating training and evaluation data for machine learning models, error analysis, data inspection & cleaning. [W&B Tables]({{< relref path="/guides/core/tables/tables-walkthrough.md" lang="ja" >}}) allow you to log, visualize, analyze, and share datasets (and more!) inside W&B.
+[Prodigy](https://prodi.gy/) は、機械学習 モデルのトレーニング および評価データ、エラー 分析、データ検査とクリーニングを作成するためのアノテーション ツールです。[W&B Tables]({{< relref path="/guides/core/tables/tables-walkthrough.md" lang="ja" >}}) を使用すると、W&B 内でデータセット (など) をログ記録、可視化、分析、共有できます。
 
-The [W&B integration with Prodigy](https://github.com/wandb/wandb/blob/master/wandb/integration/prodigy/prodigy.py) adds simple and easy-to-use functionality to upload your Prodigy-annotated dataset directly to W&B for use with Tables.
+[Prodigy との W&B integration](https://github.com/wandb/wandb/blob/master/wandb/integration/prodigy/prodigy.py) は、Prodigy でアノテーションされたデータセットを直接 W&B にアップロードして Tables で使用するための、シンプルで使いやすい機能を追加します。
 
-Run a few lines of code, like these:
+次のようなコードを数行実行します。
 
 ```python
 import wandb
@@ -22,20 +22,20 @@ with wandb.init(project="prodigy"):
     upload_dataset("news_headlines_ner")
 ```
 
-and get visual, interactive, shareable tables like this one:
+次のような、視覚的でインタラクティブな共有可能なテーブルを取得します。
 
 {{< img src="/images/integrations/prodigy_interactive_visual.png" alt="" >}}
 
-## Quickstart
+## クイックスタート
 
-Use `wandb.integration.prodigy.upload_dataset` to upload your annotated prodigy dataset directly from the local Prodigy database to W&B in our [Table]({{< relref path="/ref/python/data-types/table" lang="ja" >}}) format. For more information on Prodigy, including installation & setup, please refer to the [Prodigy documentation](https://prodi.gy/docs/).
+`wandb.integration.prodigy.upload_dataset` を使用して、アノテーションが付けられた Prodigy データセットをローカルの Prodigy データベースから W&B に [Table]({{< relref path="/ref/python/data-types/table" lang="ja" >}}) 形式で直接アップロードします。インストールやセットアップなど、Prodigy の詳細については、[Prodigy のドキュメント](https://prodi.gy/docs/) を参照してください。
 
-W&B will automatically try to convert images and named entity fields to [`wandb.Image`]({{< relref path="/ref/python/data-types/image" lang="ja" >}}) and [`wandb.Html`]({{< relref path="/ref/python/data-types/html" lang="ja" >}})respectively. Extra columns may be added to the resulting table to include these visualizations.
+W&B は、画像および固有表現フィールドを [`wandb.Image`]({{< relref path="/ref/python/data-types/image" lang="ja" >}}) および [`wandb.Html`]({{< relref path="/ref/python/data-types/html" lang="ja" >}}) に自動的に変換しようとします。これらの可視化を含めるために、追加の列が結果のテーブルに追加される場合があります。
 
-## Read through a detailed example
+## 詳細な例を読む
 
-Explore the [Visualizing Prodigy Datasets Using W&B Tables](https://wandb.ai/kshen/prodigy/reports/Visualizing-Prodigy-Datasets-Using-W-B-Tables--Vmlldzo5NDE2MTc) for example visualizations generated with W&B Prodigy integration.  
+W&B Prodigy integration で生成された可視化の例については、[Visualizing Prodigy Datasets Using W&B Tables](https://wandb.ai/kshen/prodigy/reports/Visualizing-Prodigy-Datasets-Using-W-B-Tables--Vmlldzo5NDE2MTc) を参照してください。
 
-## Also using spaCy?
+## spaCy も使用していますか？
 
-W&B also has an integration with spaCy, see the [docs here]({{< relref path="/guides/integrations/spacy" lang="ja" >}}).
+W&B には spaCy との integration もあります。[ドキュメントはこちら]({{< relref path="/guides/integrations/spacy" lang="ja" >}}) を参照してください。

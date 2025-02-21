@@ -1,21 +1,21 @@
 ---
+title: W&B Models
 menu:
   default:
     identifier: ja-guides-models-_index
 no_list: true
-title: W&B Models
 weight: 3
 ---
 
-W&B Models is the system of record for ML Practitioners who want to organize their models, boost productivity and collaboration, and deliver production ML at scale. 
+W&B Models は、モデルを整理し、生産性とコラボレーションを高め、大規模なプロダクション ML を実現したい機械学習エンジニアのための SoR ( system of record )です。
 
 {{< img src="/images/general/architecture.png" alt="" >}}
 
-With W&B Models, you can: 
+W&B Modelsを使用すると、次のことが可能です。
 
-- Track and visualize all [ML experiments]({{< relref path="/guides/models/track/" lang="ja" >}}).
-- Optimize and fine-tune models at scale with [hyperparameter sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}).
-- [Maintain a centralized hub of all models]({{< relref path="/guides/models/registry/" lang="ja" >}}), with a seamless handoff point to devops and deployment
-- Configure custom automations that trigger key workflows for [model CI/CD]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}}).
+- すべての [ML 実験]({{< relref path="/guides/models/track/" lang="ja" >}})を追跡および可視化します。
+- [ハイパーパラメータースイープ]({{< relref path="/guides/models/sweeps/" lang="ja" >}})を使用して、大規模なモデルを最適化およびファインチューンします。
+- DevOps およびデプロイメントへのシームレスな引き渡しポイントを備えた[すべてのモデルの中央ハブを維持]({{< relref path="/guides/models/registry/" lang="ja" >}})します。
+- [モデル CI / CD]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}})の主要なワークフローをトリガーするカスタムオートメーションを構成します。
 
-Machine learning practitioners rely on W&B Models as their ML system of record to track and visualize experiments, manage model versions and lineage, and optimize hyperparameters.
+機械学習エンジニアは、W&B Models を ML の SoR として信頼して、実験を追跡および可視化し、モデルのバージョンとリネージを管理し、ハイパーパラメーターを最適化します。

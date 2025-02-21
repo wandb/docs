@@ -1,4 +1,5 @@
 ---
+title: How do I add Plotly or Bokeh Charts into Tables?
 menu:
   support:
     identifier: ja-support-add_plotlybokeh_charts_tables
@@ -6,12 +7,11 @@ tags:
 - experiments
 - tables
 - charts
-title: How do I add Plotly or Bokeh Charts into Tables?
 toc_hide: true
 type: docs
 ---
 
-Direct integration of Plotly or Bokeh figures into tables is not supported. Instead, export the figures to HTML and include the HTML in the table. Below are examples demonstrating this with interactive Plotly and Bokeh charts.
+PlotlyまたはBokehの図をテーブルに直接統合することはサポートされていません。代わりに、図をHTMLにエクスポートし、そのHTMLをテーブルに含めます。以下は、インタラクティブなPlotlyおよびBokehチャートでこれを示す例です。
 
 {{< tabpane text=true >}}
 {{% tab "Using Plotly" %}}

@@ -1,19 +1,17 @@
 ---
+title: Connectivity
 menu:
   support:
     identifier: ja-support-index_connectivity
     parent: support
-title: Connectivity
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Connectivity</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+以下のサポートに関する質問には、<b>接続性</b> のタグが付けられています。質問の回答が見つからない場合は、[コミュニティに質問](https://community.wandb.ai/) したり、[support@wandb.com](mailto:support@wandb.com) にメールで問い合わせてみてください。
 {{% /card %}}
 
-- [How can I resolve the Filestream rate limit exceeded error?]({{< relref path="filestream_rate_limit_exceeded_error.md" lang="ja" >}})
-- [How do I deal with network issues?]({{< relref path="deal_network_issues.md" lang="ja" >}})
-- [How do I resolve a run initialization timeout error in wandb?]({{< relref path="initialization_timeout_error.md" lang="ja" >}})
-- [Is there a W&B outage?]({{< relref path="wandb_status.md" lang="ja" >}})
+- [Filestream のレート制限超過エラーを解決するにはどうすればよいですか？]({{< relref path="filestream_rate_limit_exceeded_error.md" lang="ja" >}})
+- [ネットワークの問題にどのように対処すればよいですか？]({{< relref path="deal_network_issues.md" lang="ja" >}})
+- [wandb での run の初期化タイムアウトエラーを解決するにはどうすればよいですか？]({{< relref path="initialization_timeout_error.md" lang="ja" >}})
+- [W&B の停止はありますか？]({{< relref path="wandb_status.md" lang="ja" >}})

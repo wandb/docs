@@ -1,62 +1,61 @@
 ---
-description: Manage your profile information, account defaults, alerts, participation
-  in beta products, GitHub integration, storage usage, account activation, and create
-  teams in your user settings.
+title: Manage user settings
+description: プロフィール情報、アカウントのデフォルト設定、アラート、ベータ版製品への参加、GitHub インテグレーション 、ストレージ使用量、アカウントのアクティベーションを管理したり、
+  user settings で Teams を作成したりできます。
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-user-settings
     parent: settings
-title: Manage user settings
 weight: 10
 ---
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
+ユーザー プロフィールページに移動し、右上隅にあるユーザー アイコンを選択します。ドロップダウンから [**設定**] を選択します。
 
-## Profile
+## プロフィール
 
-Within the **Profile** section you can manage and modify your account name and institution. You can optionally add a biography, location, link to a personal or your institution’s website, and upload a profile image.
+[**プロフィール**] セクションでは、アカウント名と所属機関を管理および変更できます。必要に応じて、略歴、所在地、個人または所属機関のウェブサイトへのリンクを追加したり、プロフィール画像をアップロードしたりできます。
 
 ## Teams
 
-Create a new team in the **Team** section. To create a new team, select the **New team** button and provide the following:
+[**Team**] セクションで新しい Team を作成します。新しい Team を作成するには、[**新しい Team**] ボタンを選択し、以下を入力します。
 
-* **Team name** - the name of your team. The team mane must be unique. Team names can not be changed.
-* **Team type** - Select either the **Work** or **Academic** button.
-* **Company/Organization** - Provide the name of the team’s company or organization. Choose the dropdown menu to select a company or organization. You can optionally provide a new organization.
+* **Team 名**: Team の名前。Team 名は一意である必要があります。Team 名は変更できません。
+* **Team タイプ**: [**Work**] ボタンまたは [**Academic**] ボタンを選択します。
+* **会社/組織**: Team の会社または組織の名前を入力します。ドロップダウン メニューを選択して、会社または組織を選択します。必要に応じて、新しい組織を入力できます。
 
 {{% alert %}}
-Only administrative accounts can create a team.
+管理者アカウントのみが Team を作成できます。
 {{% /alert %}}
 
-## Beta features
+## ベータ機能
 
-Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable.
+[**ベータ機能**] セクションでは、必要に応じて、開発中の新製品の楽しいアドオンや先行プレビューを有効にできます。有効にするベータ機能の横にある切り替えスイッチを選択します。
 
-## Alerts
+## アラート
 
-Get notified when your runs crash, finish, or set custom alerts with [wandb.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
+[wandb.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) で、run のクラッシュ、完了時に通知を受けたり、カスタム アラートを設定したりできます。メールまたは Slack で通知を受信します。アラートを受信するイベント タイプの横にあるスイッチを切り替えます。
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: notification if a run has failed to finish.
+* **Runs finished**: Weights & Biases の run が正常に完了したかどうか。
+* **Run crashed**: run が完了しなかった場合に通知。
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}).
+アラートの設定と管理方法の詳細については、[wandb.alert でアラートを送信]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) を参照してください。
 
-## Personal GitHub integration
+## 個人の GitHub インテグレーション
 
-Connect a personal Github account. To connect a Github account:
+個人の Github アカウントを接続します。Github アカウントを接続するには:
 
-1. Select the **Connect Github** button. This will redirect you to an open authorization (OAuth) page.
-2. Select the organization to grant access in the **Organization access** section.
-3. Select **Authorize** **wandb**.
+1. [**Github に接続**] ボタンを選択します。これにより、オープン認証 (OAuth) ページにリダイレクトされます。
+2. [**組織アクセス**] セクションで、アクセスを許可する組織を選択します。
+3. [**Authorize**] [**wandb**] を選択します。
 
-## Delete your account
+## アカウントの削除
 
-Select the **Delete Account** button to delete your account.
+[**アカウントの削除**] ボタンを選択して、アカウントを削除します。
 
 {{% alert color="secondary" %}}
-Account deletion can not be reversed.
+アカウントの削除は元に戻せません。
 {{% /alert %}}
 
-## Storage
+## ストレージ
 
-The **Storage** section describes the total memory usage the your account has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+[**ストレージ**] セクションでは、アカウントが Weights & Biases サーバーで使用した総メモリ使用量について説明します。デフォルトのストレージ プランは 100 GB です。ストレージと価格の詳細については、[価格](https://wandb.ai/site/pricing) ページを参照してください。

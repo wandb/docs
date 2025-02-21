@@ -1,15 +1,15 @@
 ---
+title: How does W&B Launch build images?
 menu:
   launch:
     identifier: ja-launch-launch-faq-launch_build_images
     parent: launch-faq
-title: How does W&B Launch build images?
 ---
 
-The steps for building an image depend on the job source and the specified accelerator base image in the resource configuration.
+イメージを構築する手順は、ジョブのソースと、リソース設定で指定されたアクセラレータのベースイメージによって異なります。
 
 {{% alert %}}
-When configuring a queue or submitting a job, include a base accelerator image in the queue or job resource configuration:
+キューを設定するか、ジョブを送信する際に、キューまたはジョブのリソース設定にベースアクセラレータイメージを含めます。
 ```json
 {
     "builder": {
@@ -21,6 +21,6 @@ When configuring a queue or submitting a job, include a base accelerator image i
 ```
 {{% /alert %}}
 
-The build process includes the following actions based on the job type and provided accelerator base image:
+構築プロセスには、ジョブタイプと提供されたアクセラレータのベースイメージに基づいて、次のアクションが含まれます。
 
-| | Install Python using apt | Install Python packages | Create a user and workdir | Copy code into image | Set entrypoint | |
+| | apt を使用して Python をインストール | Python パッケージをインストール | ユーザー と workdir を作成 | コード をイメージにコピー | エントリーポイント を設定 | |

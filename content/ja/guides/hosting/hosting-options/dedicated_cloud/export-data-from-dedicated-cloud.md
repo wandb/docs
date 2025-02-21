@@ -1,24 +1,24 @@
 ---
-description: Export data from Dedicated cloud
+title: Export data from Dedicated cloud
+description: 専用クラウド からのデータのエクスポート
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-dedicated_cloud-export-data-from-dedicated-cloud
     parent: dedicated-cloud
-title: Export data from Dedicated cloud
 url: guides/hosting/export-data-from-dedicated-cloud
 ---
 
-If you would like to export all the data managed in your Dedicated cloud instance, you can use the W&B SDK API to extract the runs, metrics, artifacts, and more with the [Import and Export API]({{< relref path="/ref/python/public-api/" lang="ja" >}}). The following table has covers some of the key exporting use cases.
+もし Dedicated cloud インスタンスで管理しているすべてのデータをエクスポートしたい場合は、W&B SDK API を使用して、runs、メトリクス、アーティファクト などを [Import and Export API]({{< relref path="/ref/python/public-api/" lang="ja" >}}) で抽出できます。次の表は、主要なエクスポートのユースケースをいくつかまとめたものです。
 
-| Purpose | Documentation |
+| 目的 | ドキュメント |
 |---------|---------------|
-| Export project metadata | [Projects API]({{< relref path="/ref/python/public-api/projects/" lang="ja" >}}) |
-| Export runs in a project | [Runs API]({{< relref path="/ref/python/public-api/runs/" lang="ja" >}}) |
-| Export reports | [Reports API]({{< relref path="/guides/core/reports/clone-and-export-reports/" lang="ja" >}}) |
-| Export artifacts | [Explore artifact graphs]({{< relref path="/guides/core/artifacts/explore-and-traverse-an-artifact-graph" lang="ja" >}}), [Download and use artifacts]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb" lang="ja" >}}) |
+| プロジェクト のメタデータのエクスポート | [Projects API]({{< relref path="/ref/python/public-api/projects/" lang="ja" >}}) |
+| プロジェクト 内の runs のエクスポート | [Runs API]({{< relref path="/ref/python/public-api/runs/" lang="ja" >}}) |
+| Reports のエクスポート | [Reports API]({{< relref path="/guides/core/reports/clone-and-export-reports/" lang="ja" >}}) |
+| アーティファクト のエクスポート | [アーティファクト グラフの探索]({{< relref path="/guides/core/artifacts/explore-and-traverse-an-artifact-graph" lang="ja" >}}), [アーティファクト のダウンロードと使用]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb" lang="ja" >}}) |
 
-If you manage artifacts stored in the Dedicated cloud with [Secure Storage Connector]({{< relref path="/guides/models/app/settings-page/teams/#secure-storage-connector" lang="ja" >}}), you may not need to export the artifacts using the W&B SDK API.
+[Secure Storage Connector]({{< relref path="/guides/models/app/settings-page/teams/#secure-storage-connector" lang="ja" >}}) を使用して Dedicated cloud に保存されている アーティファクト を管理している場合は、W&B SDK API を使用して アーティファクト をエクスポートする必要がない場合があります。
 
 {{% alert %}}
-Using W&B SDK API to export all of your data can be slow if you have a large number of runs, artifacts etc. W&B recommends running the export process in appropriately sized batches so as not to overwhelm your Dedicated cloud instance.
+W&B SDK API を使用してすべてのデータをエクスポートすると、多数の runs や アーティファクト がある場合に時間がかかることがあります。W&B では、Dedicated cloud インスタンスに負荷をかけすぎないように、適切なサイズのバッチでエクスポート プロセス を実行することをお勧めします。
 {{% /alert %}}

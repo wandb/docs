@@ -1,46 +1,46 @@
 ---
-description: Manage your organization's billing settings
+title: Manage billing settings
+description: 組織の課金 設定 を管理する
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-billing-settings
     parent: settings
-title: Manage billing settings
 weight: 20
 ---
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Billing**, or choose **Settings** and then select the **Billing** tab.
+右上隅にある ユーザー アイコンを選択して、 ユーザー プロフィール ページに移動します。ドロップダウンから、**Billing** を選択するか、**Settings** を選択してから **Billing** タブを選択します。
 
-## Plan details
+## プランの詳細
 
-The **Plan details** section  summarizes your organization's current plan, charges, limits, and usage.
+**Plan details** セクションでは、組織の現在のプラン、料金、制限、および使用状況が要約されています。
 
-- For details and a list of users, click **Manage users**.
-- For details about usage, click **View usage**.
-- Amount of storage your organization uses, both free and paid. From here, you can purchase additional storage and manage storage that is currently in use. Learn more about [storage settings]({{< relref path="storage.md" lang="ja" >}}).
+- 詳細と ユーザー のリストについては、**Manage users** をクリックします。
+- 使用状況の詳細については、**View usage** をクリックします。
+- 組織が使用するストレージの量（無料と有料の両方）。ここから、追加のストレージを購入したり、現在使用中のストレージを管理したりできます。[ストレージ 設定 ]({{< relref path="storage.md" lang="ja" >}})の詳細をご覧ください。
 
-From here, you can compare plans or talk to Sales.
+ここから、プランを比較したり、営業担当者に問い合わせたりできます。
 
-## Plan usage
-This section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
+## プランの使用状況
+このセクションでは、現在の使用状況が視覚的に要約され、今後の使用料金が表示されます。月ごとの使用状況に関する詳細なインサイトを得るには、個々のタイルで **View usage** をクリックします。カレンダー月、 Teams 、または プロジェクト ごとに使用状況をエクスポートするには、**Export CSV** をクリックします。
 
-## Payment methods
-This section shows the payment methods on file for your organization. If you have not added a payment method, you will be prompted to do so when you upgrade your plan or add paid storage.
+## 支払い方法
+このセクションでは、組織に登録されている支払い方法が表示されます。支払い方法を追加していない場合は、プランをアップグレードするか、有料ストレージを追加するときに追加するように求められます。
 
-## Billing admin
-This section shows the current billing admin. The billing admin receives all billing-related emails, has organization admin role, and can view and manage payment methods.
+## 請求管理者
+このセクションには、現在の請求管理者が表示されます。請求管理者は、請求関連のすべてのメールを受信し、組織の管理者ロールを持ち、支払い方法を表示および管理できます。
 
 {{% alert %}}
-In W&B Dedicated Cloud, multiple users can be billing admins. In W&B Multi-tenant Cloud, only one user at a time can be the billing admin.
+W&B 専用クラウド では、複数の ユーザー が請求管理者になることができます。W&B マルチテナント クラウド では、一度に 1 人の ユーザー のみが請求管理者になることができます。
 {{% /alert %}}
 
-To change the billing admin or assign the role to additional users:
+請求管理者を変更するか、ロールを追加の ユーザー に割り当てるには：
 
-1. Click **Manage roles**.
-1. Search for a user.
-1. Click the **Billing admin** field in that user's row.
-1. Read the summary, then click **Change billing user**.
+1. **Manage roles** をクリックします。
+2. ユーザー を検索します。
+3. その ユーザー の行の **Billing admin** フィールドをクリックします。
+4. 概要を読んでから、**Change billing user** をクリックします。
 
-## Invoices
-If you pay using a credit card, this section allows you to view monthly invoices.
-- For Enterprise accounts that pay via wire transfer, this section is blank. For questions, contact your account team.
-- If your organization incurs no charges, no invoice is generated.
+## 請求書
+クレジットカードで支払う場合、このセクションでは毎月の請求書を表示できます。
+- 銀行振込で支払うエンタープライズ アカウントの場合、このセクションは空白です。ご不明な点がございましたら、アカウント チームにお問い合わせください。
+- 組織に料金が発生しない場合、請求書は生成されません。

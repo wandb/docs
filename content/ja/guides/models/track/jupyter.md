@@ -1,25 +1,24 @@
 ---
-description: se W&B with Jupyter to get interactive visualizations without leaving
-  your notebook.
+title: Track Jupyter notebooks
+description: Jupyter で W&B を使用して、ノートブック を離れることなくインタラクティブな 可視化 を取得します。
 menu:
   default:
     identifier: ja-guides-models-track-jupyter
     parent: experiments
-title: Track Jupyter notebooks
 weight: 6
 ---
 
-Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged.
+Jupyter を W&B と共に使用すると、ノートブックから離れることなくインタラクティブな可視化ができます。カスタム 分析 、 実験 、プロトタイプを組み合わせて、すべて完全にログに記録されます。
 
-## Use cases for W&B with Jupyter notebooks
+## Jupyter ノートブックと W&B の ユースケース
 
-1. **Iterative experimentation**: Run and re-run experiments, tweaking parameters, and have all the runs you do saved automatically to W&B without having to take manual notes along the way.
-2. **Code saving**: When reproducing a model, it's hard to know which cells in a notebook ran, and in which order. Turn on code saving on your [settings page]({{< relref path="/guides/models/app/settings-page/" lang="ja" >}}) to save a record of cell execution for each experiment.
-3. **Custom analysis**: Once runs are logged to W&B, it's easy to get a dataframe from the API and do custom analysis, then log those results to W&B to save and share in reports.
+1.  **反復的な 実験 **: パラメータを微調整して 実験 を実行および再実行すると、実行したすべての run が自動的に W&B に保存されるため、途中で手動でメモを取る必要がありません。
+2.  **コード の保存**: モデル を再現する場合、ノートブックのどのセルがどの順序で実行されたかを知ることは困難です。[ 設定 ページ]({{< relref path="/guides/models/app/settings-page/" lang="ja" >}}) でコード の保存をオンにすると、各 実験 のセル実行の記録を保存できます。
+3.  **カスタム 分析 **: run が W&B に記録されると、API からデータフレームを取得してカスタム 分析 を行い、それらの 結果 を W&B に記録して レポート で保存および共有することが簡単になります。
 
-## Getting started in a notebook
+## ノートブックで始める
 
-Start your notebook with the following code to install W&B and link your account:
+次の コード でノートブックを開始して、W&B をインストールし、アカウントをリンクします。
 
 ```notebook
 !pip install wandb -qqq
@@ -27,7 +26,7 @@ import wandb
 wandb.login()
 ```
 
-Next, set up your experiment and save hyperparameters:
+次に、 実験 を設定し、 ハイパーパラメータ を保存します。
 
 ```python
 wandb.init(
@@ -40,7 +39,7 @@ wandb.init(
 )
 ```
 
-After running `wandb.init()` , start a new cell with `%%wandb` to see live graphs in the notebook. If you run this cell multiple times, data will be appended to the run.
+`wandb.init()` を実行した後、`%%wandb` で新しいセルを開始して、ノートブックでライブグラフを表示します。このセルを複数回実行すると、データが run に追加されます。
 
 ```notebook
 %%wandb
@@ -48,13 +47,13 @@ After running `wandb.init()` , start a new cell with `%%wandb` to see live graph
 # Your training loop here
 ```
 
-Try it for yourself in this [example notebook](http://wandb.me/jupyter-interact-colab).
+この[ノートブック の例](http://wandb.me/jupyter-interact-colab)でお試しください。
 
 {{< img src="/images/track/jupyter_widget.png" alt="" >}}
 
-### Rendering live W&B interfaces directly in your notebooks
+### ノートブックでライブ W&B インターフェイスを直接レンダリングする
 
-You can also display any existing dashboards, sweeps, or reports directly in your notebook using the `%wandb` magic:
+`%wandb` マジックを使用して、既存の ダッシュボード 、 Sweeps 、または Reports をノートブックで直接表示することもできます。
 
 ```notebook
 # Display a project workspace
@@ -69,7 +68,7 @@ You can also display any existing dashboards, sweeps, or reports directly in you
 %wandb USERNAME/PROJECT -h 2048
 ```
 
-As an alternative to the `%%wandb` or `%wandb` magics, after running `wandb.init()` you can end any cell with `wandb.run` to show in-line graphs, or call `ipython.display(...)` on any report, sweep, or run object returned from our apis.
+`%%wandb` または `%wandb` マジックの代わりに、`wandb.init()` を実行した後、セルを `wandb.run` で終了してインライングラフを表示するか、API から返された report 、 sweep 、または run オブジェクトで `ipython.display(...)` を呼び出すことができます。
 
 ```python
 # Initialize wandb.run first
@@ -80,15 +79,15 @@ wandb.run
 ```
 
 {{% alert %}}
-Want to know more about what you can do with W&B? Check out our [guide to logging data and media]({{< relref path="/guides/models/track/log/" lang="ja" >}}), learn [how to integrate us with your favorite ML toolkits]({{< relref path="/guides/integrations/" lang="ja" >}}), or just dive straight into the [reference docs]({{< relref path="/ref/python/" lang="ja" >}}) or our [repo of examples](https://github.com/wandb/examples).
+W&B で何ができるかについてもっと知りたいですか？[データとメディアをログに記録する ガイド ]({{< relref path="/guides/models/track/log/" lang="ja" >}}) を確認するか、[お気に入りの ML ツールキットと 統合 する方法]({{< relref path="/guides/integrations/" lang="ja" >}}) を学ぶか、[リファレンス ドキュメント]({{< relref path="/ref/python/" lang="ja" >}}) または[examples の repo](https://github.com/wandb/examples)に直接飛び込んでください。
 {{% /alert %}}
 
-## Additional Jupyter features in W&B
+## W&B の追加の Jupyter 機能
 
-1. **Easy authentication in Colab**: When you call `wandb.init` for the first time in a Colab, we automatically authenticate your runtime if you're currently logged in to W&B in your browser. On the overview tab of your run page, you'll see a link to the Colab.
-2. **Jupyter Magic:** Display dashboards, sweeps and reports directly in your notebooks. The `%wandb` magic accepts a path to your project, sweeps or reports and will render the W&B interface directly in the notebook.
-3. **Launch dockerized Jupyter**: Call `wandb docker --jupyter` to launch a docker container, mount your code in it, ensure Jupyter is installed, and launch on port 8888.
-4. **Run cells in arbitrary order without fear**: By default, we wait until the next time `wandb.init` is called to mark a run as `finished`. That allows you to run multiple cells (say, one to set up data, one to train, one to test) in whatever order you like and have them all log to the same run. If you turn on code saving in [settings](https://app.wandb.ai/settings), you'll also log the cells that were executed, in order and in the state in which they were run, enabling you to reproduce even the most non-linear of pipelines. To mark a run as complete manually in a Jupyter notebook, call `run.finish`.
+1.  **Colab での簡単な認証**: Colab で `wandb.init` を初めて呼び出すと、ブラウザで W&B に現在ログインしている場合、ランタイムが自動的に認証されます。run ページの Overviewタブ に、Colab へのリンクが表示されます。
+2.  **Jupyter Magic:** ダッシュボード 、 Sweeps 、 Reports をノートブックで直接表示します。`%wandb` マジックは、 project 、 Sweeps 、または Reports へのパスを受け入れ、W&B インターフェイスをノートブックで直接レンダリングします。
+3.  **docker container 化された Jupyter を Launch**: `wandb docker --jupyter` を呼び出して docker container を Launch し、 コード をマウントし、Jupyter がインストールされていることを確認して、ポート 8888 で Launch します。
+4.  **恐れることなく任意の順序でセルを実行**: デフォルトでは、run を `finished` としてマークするために、次回の `wandb.init` が呼び出されるまで待機します。これにより、複数のセル (たとえば、データを設定するセル、トレーニングするセル、テストするセル) を好きな順序で実行し、それらすべてを同じ run に記録できます。[ 設定 ](https://app.wandb.ai/settings) で コード の保存をオンにすると、実行されたセルも、実行された順序と実行された状態で記録され、最も非線形の パイプライン でさえ再現できるようになります。Jupyter ノートブックで run を手動で完了としてマークするには、`run.finish` を呼び出します。
 
 ```python
 import wandb

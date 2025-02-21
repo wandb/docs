@@ -1,38 +1,35 @@
 ---
-description: Use model registry role based access controls (RBAC) to control who can
-  update protected aliases.
+title: Manage data governance and access control
+description: モデルレジストリ のロールベース アクセス制御（RBAC）を使用して、保護された エイリアス を更新できるユーザーを制御します。
 menu:
   default:
     identifier: ja-guides-models-registry-model_registry-access_controls
     parent: model-registry
-title: Manage data governance and access control
 weight: 10
 ---
 
-Use *protected aliases* to represent key stages of your model development pipeline. Only *Model Registry Administrators* can add, modify, or remove protected aliases. Model registry admins can define and use protected aliases. W&B blocks non admin users from adding or removing protected aliases from model versions.
+*保護されたエイリアス* を使用して、モデル開発パイプラインの主要な段階を表します。*モデルレジストリ管理者* のみが、保護されたエイリアスの追加、変更、または削除を実行できます。モデルレジストリ管理者は、保護されたエイリアスを定義して使用できます。W&B は、管理者以外の ユーザー がモデル バージョン から保護されたエイリアスを追加または削除することをブロックします。
 
 {{% alert %}}
-Only Team admins or current registry admins can manage the list of registry admins.
+Team の管理者または現在のレジストリ管理者のみが、レジストリ管理者のリストを管理できます。
 {{% /alert %}}
 
-For example, suppose you set `staging` and `production` as protected aliases. Any member of your team can add new model versions. However, only admins can add a `staging` or `production` alias.
+たとえば、`staging` と `production` を保護されたエイリアスとして設定するとします。Team のメンバーは誰でも新しいモデル バージョンを追加できます。ただし、管理者のみが `staging` または `production` エイリアスを追加できます。
 
+## アクセス 制御のセットアップ
+次の手順では、Team のモデルレジストリのアクセス制御を設定する方法について説明します。
 
-## Set up access control
-The following steps describe how to set up access controls for your team’s model registry.
-
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select the gear button on the top right of the page.
+1. W&B Model Registry アプリ ([https://wandb.ai/registry/model](https://wandb.ai/registry/model)) に移動します。
+2. ページの右上にある歯車ボタンを選択します。
 {{< img src="/images/models/rbac_gear_button.png" alt="" >}}
-3. Select the **Manage registry admins** button. 
-4. Within the **Members** tab, select the users you want to grant access to add and remove protected aliases from model versions.
+3. [**レジストリ管理者の管理**] ボタンを選択します。
+4. [**メンバー**] タブ内で、モデル バージョンから保護されたエイリアスを追加および削除する アクセス 権を付与する ユーザー を選択します。
 {{< img src="/images/models/access_controls_admins.gif" alt="" >}}
 
-
-## Add protected aliases
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select the gear button on the top right of the page.
+## 保護されたエイリアスの追加
+1. W&B Model Registry アプリ ([https://wandb.ai/registry/model](https://wandb.ai/registry/model)) に移動します。
+2. ページの右上にある歯車ボタンを選択します。
 {{< img src="/images/models/rbac_gear_button.png" alt="" >}}
-3. Scroll down to the **Protected Aliases** section.
-4. Click on the plus icon (**+**) icon to add new a new alias.
+3. [**保護されたエイリアス**] セクションまでスクロールします。
+4. プラス アイコン ( **+** ) アイコンをクリックして、新しいエイリアスを追加します。
 {{< img src="/images/models/access_controls_add_protected_aliases.gif" alt="" >}}

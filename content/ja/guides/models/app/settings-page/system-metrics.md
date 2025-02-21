@@ -1,41 +1,39 @@
 ---
-description: Metrics automatically logged by wandb
+title: System metrics
+description: wandb によって自動的に ログ される メトリクス
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-system-metrics
     parent: settings
-title: System metrics
 weight: 70
 ---
 
-This page provides detailed information about the system metrics that are tracked by the W&B SDK.
+このページでは、W&B SDK で追跡されるシステム メトリクスの詳細について説明します。
 
 {{% alert %}}
-`wandb` automatically logs system metrics every 10 seconds.
+`wandb` は、システム メトリクスを 10 秒ごとに自動的にログ記録します。
 {{% /alert %}}
 
 ## CPU
 
-### Process CPU Percent (CPU)
-Percentage of CPU usage by the process, normalized by the number of available CPUs.
+### プロセス CPU 使用率 (CPU)
+利用可能な CPU 数で正規化された、プロセスによる CPU 使用率のパーセンテージ。
 
-W&B assigns a `cpu` tag to this metric.
+W&B は、このメトリクスに `cpu` タグを割り当てます。
 
-### CPU Percent
-CPU usage of the system on a per-core basis.
+### CPU 使用率
+システム全体の CPU 使用率（コアごと）。
 
-W&B assigns a `cpu.{i}.cpu_percent` tag to this metric.
+W&B は、このメトリクスに `cpu.{i}.cpu_percent` タグを割り当てます。
 
-### Process CPU Threads 
-The number of threads utilized by the process.
+### プロセス CPU スレッド数
+プロセスで使用されるスレッドの数。
 
-W&B assigns a `proc.cpu.threads` tag to this metric.
-
-<!-- New section -->
+W&B は、このメトリクスに `proc.cpu.threads` タグを割り当てます。
 
 ## Disk
 
-By default, the usage metrics are collected for the `/` path. To configure the paths to be monitored, use the following setting:
+デフォルトでは、使用状況のメトリクスは `/` パスに対して収集されます。監視するパスを構成するには、次の設定を使用します。
 
 ```python
 run = wandb.init(
@@ -45,273 +43,261 @@ run = wandb.init(
 )
 ```
 
-### Disk Usage Percent
-Represents the total system disk usage in percentage for specified paths.
+### ディスク使用率
+指定されたパスに対するシステム全体のディスク使用率をパーセンテージで表します。
 
-W&B assigns a `disk.{path}.usagePercen` tag to this metric.
+W&B は、このメトリクスに `disk.{path}.usagePercen` タグを割り当てます。
 
-### Disk Usage
-Represents the total system disk usage in gigabytes (GB) for specified paths.
-The paths that are accessible are sampled, and the disk usage (in GB) for each path is appended to the samples.
+### ディスク使用量
+指定されたパスに対するシステム全体のディスク使用量をギガバイト (GB) で表します。
+アクセス可能なパスがサンプリングされ、各パスのディスク使用量 (GB 単位) がサンプルに追加されます。
 
-W&B assigns a `disk.{path}.usageGB)` tag to this metric.
+W&B は、このメトリクスに `disk.{path}.usageGB)` タグを割り当てます。
 
 ### Disk In
-Indicates the total system disk read in megabytes (MB). 
-The initial disk read bytes are recorded when the first sample is taken. Subsequent samples calculate the difference between the current read bytes and the initial value.
+システム全体のディスク読み取り量をメガバイト (MB) で示します。
+最初のサンプルが取得されると、最初のディスク読み取りバイト数が記録されます。後続のサンプルでは、現在の読み取りバイト数と初期値の差が計算されます。
 
-W&B assigns a `disk.in` tag to this metric.
+W&B は、このメトリクスに `disk.in` タグを割り当てます。
 
 ### Disk Out
-Represents the total system disk write in megabytes (MB). 
-Similar to [Disk In]({{< relref path="#disk-in" lang="ja" >}}), the initial disk write bytes are recorded when the first sample is taken. Subsequent samples calculate the difference between the current write bytes and the initial value.
+システム全体のディスク書き込み量をメガバイト (MB) で表します。
+[Disk In]({{< relref path="#disk-in" lang="ja" >}}) と同様に、最初のサンプルが取得されると、最初のディスク書き込みバイト数が記録されます。後続のサンプルでは、現在の書き込みバイト数と初期値の差が計算されます。
 
-W&B assigns a `disk.out` tag to this metric.
-
-<!-- New section -->
+W&B は、このメトリクスに `disk.out` タグを割り当てます。
 
 ## Memory
 
-### Process Memory RSS
-Represents the Memory Resident Set Size (RSS) in megabytes (MB) for the process. RSS is the portion of memory occupied by a process that is held in main memory (RAM).
+### プロセス Memory RSS
+プロセスの Memory Resident Set Size (RSS) をメガバイト (MB) で表します。RSS は、メイン メモリ (RAM) に保持されているプロセスが占有するメモリの量です。
 
-W&B assigns a `proc.memory.rssMB` tag to this metric.
+W&B は、このメトリクスに `proc.memory.rssMB` タグを割り当てます。
 
-### Process Memory Percent
-Indicates the memory usage of the process as a percentage of the total available memory.
+### プロセス Memory 使用率
+プロセスが使用するメモリの割合を、利用可能な合計メモリに対するパーセンテージで示します。
 
-W&B assigns a `proc.memory.percent` tag to this metric.
+W&B は、このメトリクスに `proc.memory.percent` タグを割り当てます。
 
-### Memory Percent
-Represents the total system memory usage as a percentage of the total available memory.
+### Memory 使用率
+システム全体のメモリ使用量を、利用可能な合計メモリに対するパーセンテージで表します。
 
-W&B assigns a `memory` tag to this metric.
+W&B は、このメトリクスに `memory` タグを割り当てます。
 
-### Memory Available
-Indicates the total available system memory in megabytes (MB).
+### Memory 空き容量
+利用可能なシステム メモリの合計をメガバイト (MB) で示します。
 
-W&B assigns a `proc.memory.availableMB` tag to this metric.
+W&B は、このメトリクスに `proc.memory.availableMB` タグを割り当てます。
 
-<!-- New section -->
 ## Network
 
 ### Network Sent
-Represents the total bytes sent over the network.
-The initial bytes sent are recorded when the metric is first initialized. Subsequent samples calculate the difference between the current bytes sent and the initial value.
+ネットワーク経由で送信された合計バイト数を表します。
+最初にメトリクスが初期化されると、最初に送信されたバイト数が記録されます。後続のサンプルでは、現在送信されたバイト数と初期値の差が計算されます。
 
-W&B assigns a `network.sent` tag to this metric.
+W&B は、このメトリクスに `network.sent` タグを割り当てます。
 
 ### Network Received
 
-Indicates the total bytes received over the network.
-Similar to [Network Sent]({{< relref path="#network-sent" lang="ja" >}}), the initial bytes received are recorded when the metric is first initialized. Subsequent samples calculate the difference between the current bytes received and the initial value.
+ネットワーク経由で受信した合計バイト数を示します。
+[Network Sent]({{< relref path="#network-sent" lang="ja" >}}) と同様に、最初にメトリクスが初期化されると、最初に受信されたバイト数が記録されます。後続のサンプルでは、現在受信されたバイト数と初期値の差が計算されます。
 
-W&B assigns a `network.recv` tag to this metric.
+W&B は、このメトリクスに `network.recv` タグを割り当てます。
 
-<!-- New section -->
 ## NVIDIA GPU
 
-In addition to the metrics described below, if the process and/or its children use a particular GPU, W&B captures the corresponding metrics as `gpu.process.{gpu_index}...`
+以下に示すメトリクスに加えて、プロセスまたはその子が特定の GPU を使用している場合、W&B は対応するメトリクスを `gpu.process.{gpu_index}...` としてキャプチャします。
 
-### GPU Memory Utilization
-Represents the GPU memory utilization in percent for each GPU.
+### GPU Memory 使用率
+各 GPU の GPU メモリ使用率をパーセントで表します。
 
-W&B assigns a `gpu.{gpu_index}.memory` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.memory` タグを割り当てます。
 
-### GPU Memory Allocated
-Indicates the GPU memory allocated as a percentage of the total available memory for each GPU.
+### GPU Memory 割り当て済み
+各 GPU に割り当てられた GPU メモリを、利用可能な合計メモリに対するパーセンテージで示します。
 
-W&B assigns a `gpu.{gpu_index}.memoryAllocated` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.memoryAllocated` タグを割り当てます。
 
-### GPU Memory Allocated Bytes
-Specifies the GPU memory allocated in bytes for each GPU.
+### GPU Memory 割り当て済みバイト数
+各 GPU に割り当てられた GPU メモリをバイト単位で指定します。
 
-W&B assigns a `gpu.{gpu_index}.memoryAllocatedBytes` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.memoryAllocatedBytes` タグを割り当てます。
 
-### GPU Utilization
-Reflects the GPU utilization in percent for each GPU.
+### GPU 使用率
+各 GPU の GPU 使用率をパーセントで反映します。
 
-W&B assigns a `gpu.{gpu_index}.gpu` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.gpu` タグを割り当てます。
 
-### GPU Temperature
-The GPU temperature in Celsius for each GPU.
+### GPU 温度
+各 GPU の GPU 温度を摂氏で示します。
 
-W&B assigns a `gpu.{gpu_index}.temp` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.temp` タグを割り当てます。
 
-### GPU Power Usage Watts
-Indicates the GPU power usage in Watts for each GPU.
+### GPU 消費電力 (ワット)
+各 GPU の GPU 消費電力をワット単位で示します。
 
-W&B assigns a `gpu.{gpu_index}.powerWatts` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.powerWatts` タグを割り当てます。
 
-### GPU Power Usage Percent
+### GPU 消費電力 (%)
 
-Reflects the GPU power usage as a percentage of its power capacity for each GPU.
+各 GPU の電力容量に対する GPU 消費電力の割合を反映します。
 
-W&B assigns a `gpu.{gpu_index}.powerPercent` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.powerPercent` タグを割り当てます。
 
-### GPU SM Clock Speed 
-Represents the clock speed of the Streaming Multiprocessor (SM) on the GPU in MHz. This metric is indicative of the processing speed within the GPU cores responsible for computation tasks.
+### GPU SM クロック速度
+GPU のストリーミング マルチプロセッサ (SM) のクロック速度を MHz で表します。このメトリクスは、計算タスクを担当する GPU コア内の処理速度を示します。
 
-W&B assigns a `gpu.{gpu_index}.smClock` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.smClock` タグを割り当てます。
 
-### GPU Memory Clock Speed
-Represents the clock speed of the GPU memory in MHz, which influences the rate of data transfer between the GPU memory and processing cores.
+### GPU Memory クロック速度
+GPU メモリのクロック速度を MHz で表します。これは、GPU メモリとプロセッシング コア間のデータ転送速度に影響します。
 
-W&B assigns a `gpu.{gpu_index}.memoryClock` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.memoryClock` タグを割り当てます。
 
-### GPU Graphics Clock Speed 
+### GPU グラフィックス クロック速度
 
-Represents the base clock speed for graphics rendering operations on the GPU, expressed in MHz. This metric often reflects performance during visualization or rendering tasks.
+GPU 上のグラフィックス レンダリング操作のベース クロック速度を MHz で表します。このメトリクスは、多くの場合、可視化またはレンダリング タスク中のパフォーマンスを反映します。
 
-W&B assigns a `gpu.{gpu_index}.graphicsClock` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.graphicsClock` タグを割り当てます。
 
-### GPU Corrected Memory Errors
+### GPU 訂正済み Memory エラー
 
-Tracks the count of memory errors on the GPU that W&B automatically corrects by error-checking protocols, indicating recoverable hardware issues.
+W&B がエラー チェック プロトコルによって自動的に訂正する GPU 上の Memory エラーの数を追跡し、回復可能なハードウェアの問題を示します。
 
-W&B assigns a `gpu.{gpu_index}.correctedMemoryErrors` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.correctedMemoryErrors` タグを割り当てます。
 
-### GPU Uncorrected Memory Errors
-Tracks the count of memory errors on the GPU that W&B uncorrected, indicating non-recoverable errors which can impact processing reliability.
+### GPU 未訂正 Memory エラー
+W&B が訂正しなかった GPU 上の Memory エラーの数を追跡し、処理の信頼性に影響を与える可能性のある回復不能なエラーを示します。
 
-W&B assigns a `gpu.{gpu_index}.unCorrectedMemoryErrors` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.unCorrectedMemoryErrors` タグを割り当てます。
 
-### GPU Encoder Utilization
+### GPU エンコーダー使用率
 
-Represents the percentage utilization of the GPU's video encoder, indicating its load when encoding tasks (for example, video rendering) are running.
+GPU のビデオ エンコーダーの使用率をパーセンテージで表し、エンコード タスク (ビデオ レンダリングなど) の実行時の負荷を示します。
 
-W&B assigns a `gpu.{gpu_index}.encoderUtilization` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.encoderUtilization` タグを割り当てます。
 
-<!-- New section -->
 ## AMD GPU
-W&B extracts metrics from the output of the `rocm-smi` tool supplied by AMD (`rocm-smi -a --json`).
+W&B は、AMD が提供する `rocm-smi` ツール (`rocm-smi -a --json`) の出力からメトリクスを抽出します。
 
-### AMD GPU Utilization
-Represents the GPU utilization in percent for each AMD GPU device.
+### AMD GPU 使用率
+各 AMD GPU デバイスの GPU 使用率をパーセントで表します。
 
-W&B assigns a `gpu.{gpu_index}.gpu` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.gpu` タグを割り当てます。
 
-### AMD GPU Memory Allocated
-Indicates the GPU memory allocated as a percentage of the total available memory for each AMD GPU device.
+### AMD GPU Memory 割り当て済み
+各 AMD GPU デバイスに割り当てられた GPU メモリを、利用可能な合計メモリに対するパーセンテージで示します。
 
-W&B assigns a `gpu.{gpu_index}.memoryAllocated` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.memoryAllocated` タグを割り当てます。
 
-### AMD GPU Temperature
-The GPU temperature in Celsius for each AMD GPU device.
+### AMD GPU 温度
+各 AMD GPU デバイスの GPU 温度を摂氏で示します。
 
-W&B assigns a `gpu.{gpu_index}.temp` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.temp` タグを割り当てます。
 
-### AMD GPU Power Usage Watts
-The GPU power usage in Watts for each AMD GPU device.
+### AMD GPU 消費電力 (ワット)
+各 AMD GPU デバイスの GPU 消費電力をワット単位で示します。
 
-W&B assigns a `gpu.{gpu_index}.powerWatts` tag to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.powerWatts` タグを割り当てます。
 
-### AMD GPU Power Usage Percent
-Reflects the GPU power usage as a percentage of its power capacity for each AMD GPU device.
+### AMD GPU 消費電力 (%)
+各 AMD GPU デバイスの電力容量に対する GPU 消費電力の割合を反映します。
 
-W&B assigns a `gpu.{gpu_index}.powerPercent` to this metric.
+W&B は、このメトリクスに `gpu.{gpu_index}.powerPercent` タグを割り当てます。
 
-<!-- New section -->
 ## Apple ARM Mac GPU
 
-### Apple GPU Utilization
-Indicates the GPU utilization in percent for Apple GPU devices, specifically on ARM Macs.
+### Apple GPU 使用率
+Apple GPU デバイス、特に ARM Mac 上の GPU 使用率をパーセントで示します。
 
-W&B assigns a `gpu.0.gpu` tag to this metric.
+W&B は、このメトリクスに `gpu.0.gpu` タグを割り当てます。
 
-### Apple GPU Memory Allocated
-The GPU memory allocated as a percentage of the total available memory for Apple GPU devices on ARM Macs.
+### Apple GPU Memory 割り当て済み
+ARM Mac 上の Apple GPU デバイスに割り当てられた GPU メモリを、利用可能な合計メモリに対するパーセンテージで示します。
 
-W&B assigns a `gpu.0.memoryAllocated` tag to this metric.
+W&B は、このメトリクスに `gpu.0.memoryAllocated` タグを割り当てます。
 
-### Apple GPU Temperature
-The GPU temperature in Celsius for Apple GPU devices on ARM Macs.
+### Apple GPU 温度
+ARM Mac 上の Apple GPU デバイスの GPU 温度を摂氏で示します。
 
-W&B assigns a `gpu.0.temp` tag to this metric.
+W&B は、このメトリクスに `gpu.0.temp` タグを割り当てます。
 
-### Apple GPU Power Usage Watts
-The GPU power usage in Watts for Apple GPU devices on ARM Macs.
+### Apple GPU 消費電力 (ワット)
+ARM Mac 上の Apple GPU デバイスの GPU 消費電力をワット単位で示します。
 
-W&B assigns a `gpu.0.powerWatts` tag to this metric.
+W&B は、このメトリクスに `gpu.0.powerWatts` タグを割り当てます。
 
-### Apple GPU Power Usage Percent
-The GPU power usage as a percentage of its power capacity for Apple GPU devices on ARM Macs.
+### Apple GPU 消費電力 (%)
+ARM Mac 上の Apple GPU デバイスの電力容量に対する GPU 消費電力の割合を示します。
 
-W&B assigns a `gpu.0.powerPercent` tag to this metric.
+W&B は、このメトリクスに `gpu.0.powerPercent` タグを割り当てます。
 
-<!-- New section -->
 ## Graphcore IPU
-Graphcore IPUs (Intelligence Processing Units) are unique hardware accelerators designed specifically for machine intelligence tasks.
+Graphcore IPU (Intelligence Processing Unit) は、機械学習タスク専用に設計された独自のハードウェア アクセラレータです。
 
-### IPU Device Metrics
-These metrics represent various statistics for a specific IPU device. Each metric has a device ID (`device_id`) and a metric key (`metric_key`) to identify it. W&B assigns a `ipu.{device_id}.{metric_key}` tag to this metric.
+### IPU デバイス メトリクス
+これらのメトリクスは、特定の IPU デバイスのさまざまな統計情報を表します。各メトリクスには、デバイス ID (`device_id`) とメトリクス キー (`metric_key`) があり、それを識別します。W&B は、このメトリクスに `ipu.{device_id}.{metric_key}` タグを割り当てます。
 
-Metrics are extracted using the proprietary `gcipuinfo` library, which interacts with Graphcore's `gcipuinfo` binary. The `sample` method fetches these metrics for each IPU device associated with the process ID (`pid`). Only the metrics that change over time, or the first time a device's metrics are fetched, are logged to avoid logging redundant data.
+メトリクスは、Graphcore の `gcipuinfo` バイナリと対話する、独自の `gcipuinfo` ライブラリを使用して抽出されます。`sample` メソッドは、プロセス ID (`pid`) に関連付けられた各 IPU デバイスのこれらのメトリクスを取得します。冗長なデータのログ記録を回避するために、時間の経過とともに変化するメトリクス、またはデバイスのメトリクスが最初に取得されるメトリクスのみがログに記録されます。
 
-For each metric, the method `parse_metric` is used to extract the metric's value from its raw string representation. The metrics are then aggregated across multiple samples using the `aggregate` method.
+各メトリクスについて、メソッド `parse_metric` は、メトリクスの値をその生の文字列形式から抽出するために使用されます。次に、メトリクスは `aggregate` メソッドを使用して複数のサンプルにわたって集計されます。
 
-The following lists available metrics and their units:
+以下に使用可能なメトリクスとその単位を示します。
 
-- **Average Board Temperature** (`average board temp (C)`): Temperature of the IPU board in Celsius.
-- **Average Die Temperature** (`average die temp (C)`): Temperature of the IPU die in Celsius.
-- **Clock Speed** (`clock (MHz)`): The clock speed of the IPU in MHz.
-- **IPU Power** (`ipu power (W)`): Power consumption of the IPU in Watts.
-- **IPU Utilization** (`ipu utilisation (%)`): Percentage of IPU utilization.
-- **IPU Session Utilization** (`ipu utilisation (session) (%)`): IPU utilization percentage specific to the current session.
-- **Data Link Speed** (`speed (GT/s)`): Speed of data transmission in Giga-transfers per second.
-
-<!-- New section -->
+- **Average Board Temperature** (`average board temp (C)`): IPU ボードの温度 (摂氏)。
+- **Average Die Temperature** (`average die temp (C)`): IPU ダイの温度 (摂氏)。
+- **Clock Speed** (`clock (MHz)`): IPU のクロック速度 (MHz)。
+- **IPU Power** (`ipu power (W)`): IPU の消費電力 (ワット)。
+- **IPU Utilization** (`ipu utilisation (%)`): IPU の使用率 (%)。
+- **IPU Session Utilization** (`ipu utilisation (session) (%)`): 現在のセッションに固有の IPU 使用率 (%)。
+- **Data Link Speed** (`speed (GT/s)`): データ伝送速度 (ギガ転送/秒)。
 
 ## Google Cloud TPU
-Tensor Processing Units (TPUs) are Google's custom-developed ASICs (Application Specific Integrated Circuits) used to accelerate machine learning workloads.
+Tensor Processing Unit (TPU) は、機械学習ワークロードを高速化するために使用される Google 独自のカスタム開発 ASIC (特定用途向け集積回路) です。
 
+### TPU Memory 使用量
+TPU コアごとの現在の高帯域幅 Memory 使用量 (バイト単位)。
 
-### TPU Memory usage
-The current High Bandwidth Memory usage in bytes per TPU core. 
+W&B は、このメトリクスに `tpu.{tpu_index}.memoryUsageBytes` タグを割り当てます。
 
-W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
+### TPU Memory 使用率 (%)
+TPU コアごとの現在の高帯域幅 Memory 使用率 (%)。
 
-### TPU Memory usage percentage
-The current High Bandwidth Memory usage in percent per TPU core. 
+W&B は、このメトリクスに `tpu.{tpu_index}.memoryUsageBytes` タグを割り当てます。
 
-W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
+### TPU デューティ サイクル
+TPU デバイスごとの TensorCore デューティ サイクル (%)。アクセラレータ TensorCore がアクティブに処理していたサンプル期間中の時間の割合を追跡します。値が大きいほど、TensorCore の使用率が高いことを意味します。
 
-### TPU Duty cycle
-TensorCore duty cycle percentage per TPU device. Tracks the percentage of time over the sample period during which the accelerator TensorCore was actively processing. A larger value means better TensorCore utilization. 
-
-W&B assigns a `tpu.{tpu_index}.dutyCycle` tag to this metric.
-
-<!-- New section -->
+W&B は、このメトリクスに `tpu.{tpu_index}.dutyCycle` タグを割り当てます。
 
 ## AWS Trainium
-[AWS Trainium](https://aws.amazon.com/machine-learning/trainium/) is a specialized hardware platform offered by AWS that focuses on accelerating machine learning workloads. The `neuron-monitor` tool from AWS is used to capture the AWS Trainium metrics.
+[AWS Trainium](https://aws.amazon.com/machine-learning/trainium/) は、AWS が提供する特殊なハードウェア プラットフォームであり、機械学習ワークロードの高速化に重点を置いています。AWS の `neuron-monitor` ツールは、AWS Trainium のメトリクスをキャプチャするために使用されます。
 
-### Trainium Neuron Core Utilization
-The utilization percentage of each NeuronCore, reported on a per-core basis.
+### Trainium Neuron Core 使用率
+NeuronCore ごとの使用率 (%)。コアごとに報告されます。
 
-W&B assigns a `trn.{core_index}.neuroncore_utilization` tag to this metric.
+W&B は、このメトリクスに `trn.{core_index}.neuroncore_utilization` タグを割り当てます。
 
-### Trainium Host Memory Usage, Total 
-The total memory consumption on the host in bytes.
+### Trainium ホスト Memory 使用量、合計
+ホスト上の Memory 消費量の合計 (バイト単位)。
 
-W&B assigns a `trn.host_total_memory_usage` tag to this metric.
+W&B は、このメトリクスに `trn.host_total_memory_usage` タグを割り当てます。
 
-### Trainium Neuron Device Total Memory Usage 
-The total memory usage on the Neuron device in bytes.
+### Trainium Neuron デバイス Memory 使用量、合計
+Neuron デバイス上の Memory 使用量の合計 (バイト単位)。
 
-W&B assigns a  `trn.neuron_device_total_memory_usage)` tag to this metric.
+W&B は、このメトリクスに `trn.neuron_device_total_memory_usage)` タグを割り当てます。
 
-### Trainium Host Memory Usage Breakdown:
+### Trainium ホスト Memory 使用量の内訳:
 
-The following is a breakdown of memory usage on the host:
+以下は、ホスト上の Memory 使用量の内訳です。
 
-- **Application Memory** (`trn.host_total_memory_usage.application_memory`): Memory used by the application.
-- **Constants** (`trn.host_total_memory_usage.constants`): Memory used for constants.
-- **DMA Buffers** (`trn.host_total_memory_usage.dma_buffers`): Memory used for Direct Memory Access buffers.
-- **Tensors** (`trn.host_total_memory_usage.tensors`): Memory used for tensors.
+- **Application Memory** (`trn.host_total_memory_usage.application_memory`): アプリケーションで使用される Memory。
+- **Constants** (`trn.host_total_memory_usage.constants`): 定数に使用される Memory。
+- **DMA Buffers** (`trn.host_total_memory_usage.dma_buffers`): ダイレクト Memory アクセス バッファに使用される Memory。
+- **Tensors** (`trn.host_total_memory_usage.tensors`): テンソルに使用される Memory。
 
-### Trainium Neuron Core Memory Usage Breakdown
-Detailed memory usage information for each NeuronCore:
+### Trainium Neuron Core Memory 使用量の内訳
+NeuronCore ごとの詳細な Memory 使用量情報:
 
 - **Constants** (`trn.{core_index}.neuroncore_memory_usage.constants`)
 - **Model Code** (`trn.{core_index}.neuroncore_memory_usage.model_code`)
@@ -320,6 +306,6 @@ Detailed memory usage information for each NeuronCore:
 - **Tensors** (`trn.{core_index}.neuroncore_memory_usage.tensors`)
 
 ## OpenMetrics
-Capture and log metrics from external endpoints that expose OpenMetrics / Prometheus-compatible data with support for custom regex-based metric filters to be applied to the consumed endpoints.
+消費されたエンドポイントに適用されるカスタム regex ベースのメトリクス フィルターをサポートし、OpenMetrics / Prometheus 互換のデータを公開する外部エンドポイントからメトリクスをキャプチャしてログに記録します。
 
-Refer to [this report](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1) for a detailed example of how to use this feature in a particular case of monitoring GPU cluster performance with the [NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html).
+[このレポート](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1) を参照して、[NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html) を使用して GPU クラスターのパフォーマンスを監視する特定の場合に、この機能を実際に使用する方法の詳細な例を確認してください。

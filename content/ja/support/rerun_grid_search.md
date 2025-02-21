@@ -1,4 +1,5 @@
 ---
+title: Can I rerun a grid search?
 menu:
   support:
     identifier: ja-support-rerun_grid_search
@@ -6,11 +7,10 @@ tags:
 - sweeps
 - hyperparameter
 - runs
-title: Can I rerun a grid search?
 toc_hide: true
 type: docs
 ---
 
-If a grid search completes but some W&B Runs need re-execution due to crashes, delete the specific W&B Runs to re-run. Then, select the **Resume** button on the [sweep control page]({{< relref path="/guides/models/sweeps/sweeps-ui.md" lang="ja" >}}). Start new W&B Sweep agents using the new Sweep ID.
+グリッド検索 が完了したが、クラッシュが原因でいくつかの W&B Runs の再実行が必要な場合は、特定の W&B Runs を削除して再実行してください。次に、[スイープコントロールページ]({{< relref path="/guides/models/sweeps/sweeps-ui.md" lang="ja" >}}) で [**再開**] ボタンを選択します。新しい Sweep ID を使用して、新しい W&B Sweep agent を開始します。
 
-W&B Run parameter combinations that completed are not re-executed.
+完了した W&B Run パラメータの組み合わせは再実行されません。

@@ -1,30 +1,29 @@
 ---
+title: What are runs?
+description: W&B の基本的な構成要素である Runs について学びましょう。
 cascade:
 - url: guides/runs/:filename
-description: Learn about the basic building block of W&B, Runs.
 menu:
   default:
     identifier: ja-guides-models-track-runs-_index
     parent: experiments
-title: What are runs?
 url: guides/runs
 weight: 5
 ---
 
-A *run* is a single unit of computation logged by W&B. You can think of a W&B run as an atomic element of your whole project. In other words, each run is a record of a specific computation, such as training a model and logging the results, hyperparameter sweeps, and so forth.
+W&B でログされる単一の計算単位が *run* です。W&B の run は、プロジェクト全体を構成する原子要素と考えることができます。言い換えれば、各 run は、モデルのトレーニングと結果のログ、ハイパーパラメータースイープなど、特定の計算の記録です。
 
-Common patterns for initiating a run include, but are not limited to: 
+run を開始する一般的なパターンには、以下が含まれますが、これらに限定されません。
 
-* Training a model
-* Changing a hyperparameter and conducting a new experiment
-* Conducting a new machine learning experiment with a different model
-* Logging data or a model as a [W&B Artifact]({{< relref path="/guides/core/artifacts/" lang="ja" >}})
-* [Downloading a W&B Artifact]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ja" >}})
+* モデルのトレーニング
+* ハイパーパラメーターを変更して新しい実験を行う
+* 異なるモデルで新しい 機械学習 の実験を行う
+* [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) としてデータまたはモデルをログに記録する
+* [W&B Artifacts のダウンロード]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ja" >}})
 
+W&B は、作成した run を [*Projects*]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}) に保存します。W&B App UI で、run とそのプロパティを run の project ワークスペース内で表示できます。また、[`wandb.Api.Run`]({{< relref path="/ref/python/public-api/run.md" lang="ja" >}}) オブジェクトを使用して、プログラムで run のプロパティにアクセスすることもできます。
 
-W&B stores runs that you create into [*projects*]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}). You can view runs and their properties within the run's project workspace on the W&B App UI. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref path="/ref/python/public-api/run.md" lang="ja" >}}) object.
-
-Anything you log with `run.log` is recorded in that run. Consider the proceeding code snippet.
+`run.log` でログに記録する内容はすべて、その run に記録されます。次のコードスニペットを検討してください。
 
 ```python
 import wandb
@@ -33,9 +32,9 @@ run = wandb.init(entity="nico", project="awesome-project")
 run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
-The first line imports the W&B Python SDK. The second line initializes a run in the project `awesome-project` under the entity `nico`. The third line logs the accuracy and loss of the model to that run.
+最初の行は、W&B Python SDK をインポートします。2 行目は、エンティティ `nico` の下の project `awesome-project` で run を初期化します。3 行目は、モデルの精度と損失をその run に記録します。
 
-Within the terminal, W&B returns:
+ターミナル内では、W&B は以下を返します。
 
 ```bash
 wandb: Syncing run earnest-sunset-1
@@ -44,8 +43,8 @@ wandb: 🚀 View run at https://wandb.ai/nico/awesome-project/runs/1jx1ud12
 wandb:                                                                                
 wandb: 
 wandb: Run history:
-wandb: accuracy ▁
-wandb:     loss ▁
+wandb: accuracy  
+wandb:     loss  
 wandb: 
 wandb: Run summary:
 wandb: accuracy 0.9
@@ -57,11 +56,11 @@ wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other fil
 wandb: Find logs at: ./wandb/run-20241105_111006-1jx1ud12/logs
 ```
 
-The URL W&B returns in the terminal to redirects you to the run's workspace in the W&B App UI. Note that the panels generated in the workspace corresponds to the single point.
+ターミナルで W&B が返す URL は、W&B App UI の run のワークスペースにリダイレクトします。ワークスペースで生成されたパネルは、単一のポイントに対応していることに注意してください。
 
 {{< img src="/images/runs/single-run-call.png" alt="" >}}
 
-Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
+単一の時点での メトリクス のログ記録は、それほど役に立たない場合があります。判別モデルのトレーニングの場合のより現実的な例は、定期的に メトリクス をログに記録することです。たとえば、次のコードスニペットを検討してください。
 
 ```python
 epochs = 10
@@ -86,7 +85,7 @@ for epoch in range(epochs):
     run.log({"accuracy": acc, "loss": loss})
 ```
 
-This returns the following output:
+これにより、次の出力が返されます。
 
 ```bash
 wandb: Syncing run jolly-haze-4
@@ -107,20 +106,19 @@ wandb: 🚀 View run jolly-haze-4 at: https://wandb.ai/nico/awesome-project/runs
 wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 ```
 
-The training script calls `run.log` 10 times. Each time the script calls `run.log`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
+トレーニングスクリプトは `run.log` を 10 回呼び出します。スクリプトが `run.log` を呼び出すたびに、W&B はそのエポックの精度と損失をログに記録します。W&B が前の出力から出力する URL を選択すると、W&B App UI の run のワークスペースに移動します。
 
-Note that W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init` method only once. 
+W&B は、`jolly-haze-4` という単一の run 内でシミュレートされたトレーニングループをキャプチャすることに注意してください。これは、スクリプトが `wandb.init` メソッドを 1 回だけ呼び出すためです。
 
 {{< img src="/images/runs/run_log_example_2.png" alt="" >}}
 
-As another example, during a [sweep]({{< relref path="/guides/models/sweeps/" lang="ja" >}}), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
+別の例として、[スイープ]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) 中に、W&B は指定したハイパーパラメーター探索空間を探索します。W&B は、スイープが作成する新しいハイパーパラメーターの組み合わせを、一意の run として実装します。
 
+## run を初期化する
 
-## Initialize a run
+[`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}) で W&B run を初期化します。次のコードスニペットは、W&B Python SDK をインポートして run を初期化する方法を示しています。
 
-Initialize a W&B run with [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
-
-Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
+山かっこ (`< >`) で囲まれた値は、独自の値に置き換えてください。
 
 ```python
 import wandb
@@ -128,24 +126,24 @@ import wandb
 run = wandb.init(entity="<entity>", project="<project>")
 ```
 
-When you initialize a run, W&B logs your run to the project you specify for the project field (`wandb.init(project="<project>"`). W&B creates a new project if the project does not already exist. If the project already exists, W&B stores the run in that project.
+run を初期化すると、W&B は project フィールドに指定した project (`wandb.init(project="<project>"` ) に run を記録します。W&B は、 project がまだ存在しない場合は、新しい project を作成します。project がすでに存在する場合、W&B はその project に run を保存します。
 
 {{% alert %}}
-If you do not specify a project name, W&B stores the run in a project called `Uncategorized`.
+project 名を指定しない場合、W&B は run を `Uncategorized` という project に保存します。
 {{% /alert %}}
 
-Each run in W&B has a [unique identifier known as a *run ID*]({{< relref path="#unique-run-identifiers" lang="ja" >}}). [You can specify a unique ID]({{< relref path="#unique-run-identifiers" lang="ja" >}}) or let [W&B randomly generate one for you]({{< relref path="#autogenerated-run-ids" lang="ja" >}}).
+W&B の各 run には、[*run ID* として知られる一意の識別子]({{< relref path="#unique-run-identifiers" lang="ja" >}}) があります。[一意の ID を指定]({{< relref path="#unique-run-identifiers" lang="ja" >}}) することも、[W&B に ID をランダムに生成させる]({{< relref path="#autogenerated-run-ids" lang="ja" >}}) こともできます。
 
-Each run also has a human-readable,[ non-unique identifier known as a *run name*]({{< relref path="#name-your-run" lang="ja" >}}). You can specify a name for your run or let W&B randomly generate one for you.
+各 run には、人間が判読できる [ *run 名* として知られる一意でない識別子]({{< relref path="#name-your-run" lang="ja" >}}) もあります。run の名前を指定することも、W&B に名前をランダムに生成させることもできます。
 
-For example, consider the proceeding code snippet: 
+たとえば、次のコードスニペットを検討してください。
 
 ```python title="basic.py"
 import wandb
 
 run = wandb.init(entity="wandbee", project="awesome-project")
 ```
-The code snippet produces the proceeding output:
+コードスニペットは次の出力を生成します。
 
 ```bash
 🚀 View run exalted-darkness-6 at: 
@@ -153,10 +151,10 @@ https://wandb.ai/nico/awesome-project/runs/pgbn9y21
 Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 ```
 
-Since the preceding code did not specify an argument for the id parameter, W&B creates a unique run ID. Where `nico` is the entity that logged the run, `awesome-project` is the name of the project the run is logged to, `exalted-darkness-6` is the name of the run, and `pgbn9y21` is the run ID.
+上記のコードでは id パラメータの引数が指定されていないため、W&B は一意の run ID を作成します。`nico` は run をログに記録した エンティティ 、`awesome-project` は run がログに記録される project の名前、`exalted-darkness-6` は run の名前、`pgbn9y21` は run ID です。
 
-{{% alert title="Notebook users" %}}
-Specify `run.finish()` at the end of your run to mark the run finished. This helps ensure that the run is properly logged to your project and does not continue in the background.
+{{% alert title="ノートブック ユーザー" %}}
+run の最後に `run.finish()` を指定して、run が完了したことをマークします。これにより、run が project に適切にログに記録され、バックグラウンドで続行されないようになります。
 
 ```python title="notebook.ipynb"
 import wandb
@@ -167,41 +165,39 @@ run.finish()
 ```
 {{% /alert %}}
 
-Each run has a state that describes the current status of the run. See [Run states]({{< relref path="#run-states" lang="ja" >}}) for a full list of possible run states.
+各 run には、run の現在のステータスを示す状態があります。可能な run 状態の完全なリストについては、[Run 状態]({{< relref path="#run-states" lang="ja" >}}) を参照してください。
 
-## Run states
-The proceeding table describes the possible states a run can be in: 
+## Run の状態
+次の表は、run がとりうる状態について説明しています。
 
-| State | Description |
+| 状態 | 説明 |
 | ----- | ----- |
-| Finished| Run ended and fully synced data, or called `wandb.finish()` |
-| Failed | Run ended with a non-zero exit status | 
-| Crashed | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes | 
-| Running | Run is still running and has recently sent a heartbeat  |
+| 完了 | run が終了し、データが完全に同期されたか、`wandb.finish()` が呼び出されました |
+| 失敗 | run がゼロ以外の終了ステータスで終了しました |
+| クラッシュ | run が内部プロセスでハートビートの送信を停止しました。これは、マシンがクラッシュした場合に発生する可能性があります |
+| 実行中 | run はまだ実行されており、最近ハートビートを送信しました |
 
+## 一意の run 識別子
 
-## Unique run identifiers
+Run ID は、run の一意の識別子です。デフォルトでは、新しい run を初期化すると、[W&B がランダムで一意の run ID を生成します]({{< relref path="#autogenerated-run-ids" lang="ja" >}})。run を初期化するときに、[自分自身の一意の run ID を指定]({{< relref path="#custom-run-ids" lang="ja" >}}) することもできます。
 
-Run IDs are unique identifiers for runs. By default, [W&B generates a random and unique run ID for you]({{< relref path="#autogenerated-run-ids" lang="ja" >}}) when you initialize a new run. You can also [specify your own unique run ID]({{< relref path="#custom-run-ids" lang="ja" >}}) when you initialize a run. 
+### 自動生成された run ID
 
-### Autogenerated run IDs
+run を初期化するときに run ID を指定しない場合、W&B はランダムな run ID を生成します。run の一意の ID は、W&B App UI で確認できます。
 
-If you do not specify a run ID when you initialize a run, W&B generates a random run ID for you. You can find the unique ID of a run in the W&B App UI.
+1. [https://wandb.ai/home](https://wandb.ai/home) で W&B App UI に移動します。
+2. run を初期化したときに指定した W&B project に移動します。
+3. project のワークスペース内で、[**Runs**] タブを選択します。
+4. [**Overview**] タブを選択します。
 
-1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
-2. Navigate to the W&B project you specified when you initialized the run.
-3. Within your project's workspace, select the **Runs** tab.
-4. Select the **Overview** tab.
+W&B は、[**Run パス**] フィールドに一意の run ID を表示します。run パスは、チームの名前、project の名前、および run ID で構成されます。一意の ID は、run パスの最後の部分です。
 
-W&B displays the unique run ID in the **Run path** field. The run path consists of the name of your team, the name of the project, and the run ID. The unique ID is the last part of the run path.
-
-For example, in the proceeding image, the unique run ID is `9mxi1arc`:
+たとえば、次の図では、一意の run ID は `9mxi1arc` です。
 
 {{< img src="/images/runs/unique-run-id.png" alt="" >}}
 
-
-### Custom run IDs
-You can specify your own run ID by passing the `id` parameter to the [`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}}) method. 
+### カスタム run ID
+[`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}}) メソッドに `id` パラメーターを渡すことで、独自の run ID を指定できます。
 
 ```python 
 import wandb
@@ -209,25 +205,24 @@ import wandb
 run = wandb.init(entity="<project>", project="<project>", id="<run-id>")
 ```
 
-You can use a run's unique ID to directly navigate to the run's overview page in the W&B App UI. The proceeding cell shows the URL path for a specific run:
+run の一意の ID を使用して、W&B App UI で run の概要ページに直接移動できます。次のセルは、特定の run の URL パスを示しています。
 
-```text title="W&B App URL for a specific run"
+```text title="特定の run の W&B App URL"
 https://wandb.ai/<entity>/<project>/<run-id>
 ```
 
-Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the entity, project, and run ID.
+山かっこ (`< >`) で囲まれた値は、エンティティ 、project 、run ID の実際の値のプレースホルダーです。
 
-## Name your run 
-The name of a run is a human-readable, non-unique identifier. 
+## run に名前を付ける
+run の名前は、人間が判読できる一意でない識別子です。
 
-By default, W&B generates a random run name when you initialize a new run. The name of a run appears within your project's workspace and at the top of the [run's overview page]({{< relref path="#overview-tab" lang="ja" >}}).
+デフォルトでは、新しい run を初期化すると、W&B はランダムな run 名を生成します。run の名前は、project のワークスペース内と、[run の概要ページ]({{< relref path="#overview-tab" lang="ja" >}}) の上部に表示されます。
 
 {{% alert %}}
-Use run names as a way to quickly identify a run in your project workspace.
+run 名を使用して、project ワークスペース内の run をすばやく識別します。
 {{% /alert %}}
 
-You can specify a name for your run by passing the `name` parameter to the [`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}}) method. 
-
+[`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}}) メソッドに `name` パラメーターを渡すことで、run の名前を指定できます。
 
 ```python 
 import wandb
@@ -235,25 +230,24 @@ import wandb
 run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
 ```
 
-## Add a note to a run
-Notes that you add to a specific run appear on the run page in the **Overview** tab and in the table of runs on the project page.
+## run にメモを追加する
+特定の run に追加したメモは、[**Overview**] タブの run ページと project ページの run のテーブルに表示されます。
 
-1. Navigate to your W&B project
-2. Select the **Workspace** tab from the project sidebar
-3. Select the run you want to add a note to from the run selector
-4. Choose the **Overview** tab
-5. Select the pencil icon next to the **Description** field and add your notes
+1. W&B project に移動します
+2. project サイドバーから [**Workspace**] タブを選択します
+3. メモを追加する run を run セレクターから選択します
+4. [**Overview**] タブを選択します
+5. [**Description**] フィールドの横にある鉛筆アイコンを選択し、メモを追加します
 
-
-## Stop a run
-Stop a run from the W&B App or programmatically.
+## run を停止する
+W&B App またはプログラムで run を停止します。
 
 {{< tabpane text=true >}}
-  {{% tab header="Programmatically" %}}
-1. Navigate to the terminal or code editor where you initialized the run.
-2. Press `Ctrl+D` to stop the run.
+  {{% tab header="プログラムで" %}}
+1. run を初期化したターミナルまたはコードエディターに移動します。
+2. `Ctrl+D` を押して run を停止します。
 
-For example, following the preceding instructions, your terminal might looks similar to the following: 
+たとえば、上記の手順に従うと、ターミナルは次のようになります。
 
 ```bash
 KeyboardInterrupt
@@ -262,215 +256,198 @@ wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 1 other fil
 wandb: Find logs at: ./wandb/run-20241106_095857-o8sdbztv/logs
 ```
 
-Navigate to the W&B App UI to confirm the run is no longer active:
+W&B App UI に移動して、run がアクティブでなくなったことを確認します。
 
-1. Navigate to the project that your run was logging to.
-2. Select the name of the run. 
+1. run がログに記録されていた project に移動します。
+2. run の名前を選択します。
   {{% alert %}}
-  You can find the name of the run that you stop from the output of your terminal or code editor. For example, in the preceding example, the name of the run is `legendary-meadow-2`.
+  ターミナルまたはコードエディターの出力から停止する run の名前を見つけることができます。たとえば、上記の例では、run の名前は `legendary-meadow-2` です。
   {{% /alert %}}
-3. Choose the **Overview** tab from the project sidebar.
+3. project サイドバーから [**Overview**] タブを選択します。
 
-Next to the **State** field, the run's state changes from `running` to `Killed`.
+[**State**] フィールドの横にある run の状態が `running` から `Killed` に変わります。
 
 {{< img src="/images/runs/stop-run-terminal.png" alt="" >}}  
   {{% /tab %}}
   {{% tab header="W&B App" %}}
 
-1. Navigate to the project that your run is logging to.
-2. Select the run you want to stop within the run selector.
-3. Choose the **Overview** tab from the project sidebar.
-4. Select the top button next to the **State** field.
+1. run がログに記録されている project に移動します。
+2. run セレクター内で停止する run を選択します。
+3. project サイドバーから [**Overview**] タブを選択します。
+4. [**State**] フィールドの横にある上部のボタンを選択します。
 {{< img src="/images/runs/stop-run-manual.png" alt="" >}}
 
-Next to the **State** field, the run's state changes from `running` to `Killed`.
+[**State**] フィールドの横にある run の状態が `running` から `Killed` に変わります。
 
 {{< img src="/images/runs/stop-run-manual-status.png" alt="" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
 
-See [State fields]({{< relref path="#run-states" lang="ja" >}}) for a full list of possible run states.
+可能な run 状態の完全なリストについては、[状態フィールド]({{< relref path="#run-states" lang="ja" >}}) を参照してください。
 
-## View logged runs
+## ログに記録された run を表示する
 
-View a information about a specific run such as the state of the run, artifacts logged to the run, log files recorded during the run, and more. 
+run の状態、run にログに記録された Artifacts 、run 中に記録されたログファイルなど、特定の run に関する情報を表示します。
 
 {{< img src="/images/runs/demo-project.gif" alt="" >}}
 
-To view a specific run:
+特定の run を表示するには:
 
-1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
-2. Navigate to the W&B project you specified when you initialized the run.
-3. Within the project sidebar, select the **Workspace** tab.
-4. Within the run selector, click the run you want to view, or enter a partial run name to filter for matching runs.
+1. [https://wandb.ai/home](https://wandb.ai/home) で W&B App UI に移動します。
+2. run を初期化したときに指定した W&B project に移動します。
+3. project サイドバー内で、[**Workspace**] タブを選択します。
+4. run セレクター内で、表示する run をクリックするか、run 名の一部を入力して一致する run をフィルター処理します。
 
-    By default, long run names are truncated in the middle for readability. To truncate run names at the beginning or end instead, click the action `...` menu at the top of the list of runs, then set **Run name cropping** to crop the end, middle, or beginning. 
+    デフォルトでは、長い run 名は読みやすくするために中央で切り捨てられます。代わりに run 名を先頭または末尾で切り捨てるには、run のリストの上部にあるアクション `...` メニューをクリックし、[**Run 名のクロップ**] を設定して、末尾、中央、または先頭をクロップします。
 
-Note that the URL path of a specific run has the proceeding format:
+特定の run の URL パスには、次の形式があることに注意してください。
 
 ```text
 https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 ```
 
-Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
+山かっこ (`< >`) で囲まれた値は、チーム名、project 名、および run ID の実際の値のプレースホルダーです。
 
-### Overview tab
-Use the **Overview** tab to learn about specific run information in a project, such as:
+### Overview タブ
+[**Overview**] タブを使用して、 project 内の特定の run 情報について学習します。次に例を示します。
 
-* **Author**: The W&B entity that creates the run.
-* **Command**: The command that initializes the run.
-* **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App UI or programmatically with the Python SDK.
-* **Duration**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting.
-* **Git repository**: The git repository associated with the run. You must [enable git]({{< relref path="/guides/models/app/settings-page/user-settings.md#personal-github-integration" lang="ja" >}}) to view this field.
-* **Host name**: Where W&B computes the run. W&B displays the name of your machine if you initialize the run locally on your machine.
-* **Name**: The name of the run.
-* **OS**: Operating system that initializes the run.
-* **Python executable**: The command that starts the run.
-* **Python version**: Specifies the Python version that creates the run.
-* **Run path**: Identifies the unique run identifier in the form `entity/project/run-ID`.
-* **Runtime**: Measures the total time from the start to the end of the run. It’s the wall-clock time for the run. Runtime includes any time where the run is paused or waiting for resources, while duration does not.
-* **Start time**: The timestamp when you initialize the run.
-* **State**: The [state of the run]({{< relref path="#run-states" lang="ja" >}}).
-* **System hardware**: The hardware W&B uses to compute the run.
-* **Tags**: A list of strings. Tags are useful for organizing related runs together or applying temporary labels like `baseline` or `production`.
-* **W&B CLI version**: The W&B CLI version installed on the machine that hosted the run command.
-<!-- * **Git state**: -->
+* **作成者**: run を作成する W&B エンティティ 。
+* **コマンド**: run を初期化するコマンド。
+* **説明**: 提供された run の説明。run の作成時に説明を指定しない場合、このフィールドは空です。W&B App UI を使用するか、Python SDK を使用してプログラムで run に説明を追加できます。
+* **期間**: run がアクティブに計算またはデータをログに記録している時間。一時停止または待機は除きます。
+* **Git リポジトリ**: run に関連付けられた git リポジトリ。[Git を有効にする]({{< relref path="/guides/models/app/settings-page/user-settings.md#personal-github-integration" lang="ja" >}}) して、このフィールドを表示する必要があります。
+* **ホスト名**: W&B が run を計算する場所。マシンでローカルに run を初期化すると、W&B にマシンの名前が表示されます。
+* **名前**: run の名前。
+* **OS**: run を初期化するオペレーティングシステム。
+* **Python 実行可能ファイル**: run を開始するコマンド。
+* **Python バージョン**: run を作成する Python バージョンを指定します。
+* **Run パス**: `entity/project/run-ID` の形式で一意の run 識別子を識別します。
+* **ランタイム**: run の開始から終了までの合計時間を測定します。これは、run のウォールクロック時間です。ランタイムには、run が一時停止またはリソースを待機している時間が含まれますが、期間には含まれません。
+* **開始時間**: run を初期化するタイムスタンプ。
+* **状態**: [run の状態]({{< relref path="#run-states" lang="ja" >}})。
+* **システムハードウェア**: W&B が run の計算に使用するハードウェア。
+* **タグ**: 文字列のリスト。タグは、関連する run をまとめて整理したり、`ベースライン` や `本番環境` などの一時的なラベルを適用したりするのに役立ちます。
+* **W&B CLI バージョン**: run コマンドをホストするマシンにインストールされている W&B CLI バージョン。
 
-W&B stores the proceeding information below the overview section:
+W&B は、概要セクションの下に次の情報を保存します。
 
-* **Artifact Outputs**: Artifact outputs produced by the run.
-* **Config**: List of config parameters saved with [`wandb.config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}).
-* **Summary**: List of summary parameters saved with [`wandb.log()`]({{< relref path="/guides/models/track/log/" lang="ja" >}}). By default, W&B sets this value to the last value logged. 
+* **Artifacts 出力**: run によって生成された Artifacts 出力。
+* **Config**: [`wandb.config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) で保存された config パラメータのリスト。
+* **Summary**: [`wandb.log()`]({{< relref path="/guides/models/track/log/" lang="ja" >}}) で保存された summary パラメータのリスト。デフォルトでは、W&B はこの値を最後にログに記録された値に設定します。
 
-{{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab" >}}
+{{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B ダッシュボード run の概要タブ" >}}
 
-View an example project overview [here](https://wandb.ai/stacey/deep-drive/overview).
+project の概要の例は、[こちら](https://wandb.ai/stacey/deep-drive/overview) を参照してください。
 
-### Workspace tab
-Use the Workspace tab to view, search, group, and arrange visualizations such as autogenerated and custom plots, system metrics, and more. 
+### Workspace タブ
+[Workspace] タブを使用して、自動生成されたプロットやカスタムプロット、システム メトリクス など、可視化を表示、検索、グループ化、および配置します。
 
 {{< img src="/images/app_ui/wandb-run-page-workspace-tab.png" alt="" >}}
 
-View an example project workspace [here](https://wandb.ai/stacey/deep-drive/workspace?nw=nwuserstacey)
+project ワークスペースの例は、[こちら](https://wandb.ai/stacey/deep-drive/workspace?nw=nwuserstacey) を参照してください。
 
-### Runs tab
-<!-- Keep this in sync with /guide/models/track/project-page.md -->
-Use the Runs tab to filter, group, and sort your runs.
+### Runs タブ
+
+[Runs] タブを使用して、run をフィルター処理、グループ化、および並べ替えます。
 
 {{< img src="/images/runs/run-table-example.png" alt="" >}}
 
-<!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
-
-
-The proceeding tabs demonstrate some common actions you can take in the Runs tab.
+次のタブは、[Runs] タブで実行できる一般的なアクションの一部を示しています。
 
 {{< tabpane text=true >}}
-   {{% tab header="Customize columns" %}}
-The Runs tab shows details about runs in the project. It shows a large number of columns by default.
+   {{% tab header="列をカスタマイズする" %}}
+[Runs] タブには、 project 内の run に関する詳細が表示されます。デフォルトでは、多数の列が表示されます。
 
-- To view all visible columns, scroll the page horizontally.
-- To change the order of the columns, drag a column to the left or right.
-- To pin a column, hover over the column name, click the action menu `...`. that appears, then click **Pin column**. Pinned columns appear near the left of the page, after the **Name** column. To unpin a pinned column, choose **Unpin column**
-- To hide a column, hover over the column name, click the action menu `...`. that appears, then click **Hide column**. To view all columns that are currently hidden, click **Columns**.
-- To show, hide, pin, and unpin multiple columns at once, click **Columns**.
-  - Click the name of a hidden column to unhide it.
-  - Click the name of a visible column to hide it.
-  - Click the pin icon next to a visible column to pin it.
+- 表示されているすべての列を表示するには、ページを水平方向にスクロールします。
+- 列の順序を変更するには、列を左または右にドラッグします。
+- 列を固定するには、列名の上にマウスカーソルを置き、表示されるアクションメニュー `...` をクリックして、[**列を固定**] をクリックします。固定された列は、[**名前**] 列の後に、ページの左側の近くに表示されます。固定された列を固定解除するには、[**列を固定解除**] を選択します
+- 列を非表示にするには、列名の上にマウスカーソルを置き、表示されるアクションメニュー `...` をクリックして、[**列を非表示にする**] をクリックします。現在非表示になっているすべての列を表示するには、[**列**] をクリックします。
+  - 非表示の列の名前をクリックして、表示します。
+  - 表示されている列の名前をクリックして、非表示にします。
+  - 表示されている列の横にあるピンアイコンをクリックして、固定します。
 
-When you customize the Runs tab, the customization is also reflected in the **Runs** selector of the [Workspace tab]({{< relref path="#workspace-tab" lang="ja" >}}).
+[Runs] タブをカスタマイズすると、カスタマイズは、[Workspace タブ]({{< relref path="#workspace-tab" lang="ja" >}}) の [**Runs**] セレクターにも反映されます。
 
    {{% /tab %}}
 
-   {{% tab header="Sort" %}}
-Sort all rows in a Table by the value in a given column. 
+   {{% tab header="並べ替え" %}}
+テーブル内のすべての行を、指定された列の値で並べ替えます。
 
-1. Hover your mouse over the column title. A kebob menu will appear (three vertical docs).
-2. Select on the kebob menu (three vertical dots).
-3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
+1. マウスを列タイトルに合わせます。ケバブメニューが表示されます (3 つの垂直ドキュメント)。
+2. ケバブメニュー (3 つの垂直ドット) で選択します。
+3. [**昇順で並べ替え**] または [**降順で並べ替え**] を選択して、行をそれぞれ昇順または降順で並べ替えます。
 
-{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="'0' と最も自信を持って推測したモデルの数字を参照してください。" >}}
 
-The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
+上の画像は、`val_acc` という名前のテーブル列の並べ替えオプションを表示する方法を示しています。
    {{% /tab %}}
-   {{% tab header="Filter" %}}
-Filter all rows by an expression with the **Filter** button above the dashboard. 
+   {{% tab header="フィルター" %}}
+ダッシュボードの上にある [**フィルター**] ボタンを使用して、式で行をすべてフィルター処理します。
 
-{{< img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong." >}}
+{{< img src="/images/data_vis/filter.png" alt="モデルが間違っている例のみを参照してください。" >}}
 
-Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
+[**フィルターを追加**] を選択して、行に 1 つ以上のフィルターを追加します。3 つのドロップダウンメニューが表示されます。左から右に、フィルターのタイプは、列名、演算子、および値に基づいています。
 
-|                   | Column name | Binary relation    | Value       |
-| -----------       | ----------- | ----------- | ----------- |
-| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
+|  | 列名 | 二項関係 | 値 |
+| ----------- | ----------- | ----------- | ----------- |
+| 受け入れられる値 | 文字列 | =, ≠, ≤, ≥, IN, NOT IN, | 整数、浮動小数点数、文字列、タイムスタンプ、null |
 
-
-The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+式エディターには、列名と論理述語構造のオートコンプリートを使用して、各項のオプションのリストが表示されます。「and」または「or」(および場合によっては括弧) を使用して、複数の論理述語を 1 つの式に接続できます。
 
 {{< img src="/images/data_vis/filter_example.png" alt="" >}}
-The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.   
+上の画像は、`val_loss` 列に基づいたフィルターを示しています。フィルターは、検証損失が 1 以下の run を表示します。
    {{% /tab %}}
-   {{% tab header="Group" %}}
-Group all rows by the value in a particular column with the **Group by** button above the dashboard. 
+   {{% tab header="グループ" %}}
+ダッシュボードの上にある [**グループ化**] ボタンを使用して、特定の列の値で行をすべてグループ化します。
 
-{{< img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s." >}}
+{{< img src="/images/data_vis/group.png" alt="真実の分布は小さなエラーを示しています: 8 と 2 は 7 と 9、2 は 2 と混同されています。" >}}
 
-By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.   
+デフォルトでは、これにより、他の数値列が、グループ全体のその列の値の分布を示すヒストグラムに変わります。グループ化は、データの高レベルのパターンを理解するのに役立ちます。
    {{% /tab %}}
 {{< /tabpane >}}
 
-### System tab
-The **System tab** shows system metrics tracked for a specific run such as CPU utilization, system memory, disk I/O, network traffic, GPU utilization and more.
+### System タブ
+[**System タブ**] には、CPU 使用率、システムメモリ、ディスク I/O、ネットワークトラフィック、GPU 使用率など、特定の run について追跡されたシステム メトリクス が表示されます。
 
-For a full list of system metrics W&B tracks, see [System metrics]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ja" >}}).
+W&B が追跡するシステム メトリクス の完全なリストについては、[システム メトリクス]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ja" >}}) を参照してください。
 
 {{< img src="/images/app_ui/wandb_system_utilization.png" alt="" >}}
 
-View an example system tab [here](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey).
+[System タブ] の例は、[こちら](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey) を参照してください。
 
+### Logs タブ
+[**Log タブ**] には、コマンドラインに出力された出力 (標準出力 (`stdout`) や標準エラー (`stderr`) など) が表示されます。
 
-### Logs tab
-The **Log tab** shows output printed on the command line such as the standard output (`stdout`) and standard error (`stderr`). 
-
-Choose the **Download** button in the upper right hand corner to download the log file.
+ログファイルをダウンロードするには、右上隅にある [**ダウンロード**] ボタンを選択します。
 
 {{< img src="/images/app_ui/wandb_run_page_log_tab.png" alt="" >}}
 
-View an example logs tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs).
+[Logs タブ] の例は、[こちら](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs) を参照してください。
 
-### Files tab
-Use the **Files tab** to view files associated with a specific run such as model checkpoints, validation set examples, and more
+### Files タブ
+[**Files タブ**] を使用して、モデル チェックポイント、検証セットの例など、特定の run に関連付けられたファイルを表示します。
 
 {{< img src="/images/app_ui/wandb_run_page_files_tab.png" alt="" >}}
 
-View an example files tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images).
+[Files タブ] の例は、[こちら](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images) を参照してください。
 
-### Artifacts tab
-The **Artifacts** tab lists the input and output [artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) for the specified run.
+### Artifacts タブ
+[**Artifacts**] タブには、指定された run の入力および出力 [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) が一覧表示されます。
 
 {{< img src="/images/app_ui/artifacts_tab.png" alt="" >}}
 
-View an example artifacts tab [here](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts).
+[Artifacts タブ] の例は、[こちら](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts) を参照してください。
 
+## run を削除する
 
-## Delete runs
+W&B App で project から 1 つ以上の run を削除します。
 
-Delete one or more runs from a project with the W&B App.
-
-1. Navigate to the project that contains the runs you want to delete.
-2. Select the **Runs** tab from the project sidebar.
-3. Select the checkbox next to the runs you want to delete.
-4. Choose the **Delete** button (trash can icon) above the table.
-5. From the modal that appears, choose **Delete**.
-
+1. 削除する run が含まれている project に移動します。
+2. project サイドバーから [**Runs**] タブを選択します。
+3. 削除する run の横にあるチェックボックスをオンにします。
+4. テーブルの上にある [**削除**] ボタン (ゴミ箱アイコン) を選択します。
+5. 表示されるモーダルから [**削除**] を選択します。
 
 {{% alert %}}
-For projects that contain a large number of runs, you can use either the search bar to filter runs you want to delete using Regex or the filter button to filter runs based on their status, tags, or other properties. 
+多数の run が含まれている project の場合、検索バーを使用して Regex を使用して削除する run をフィルター処理するか、フィルターボタンを使用してステータス、タグ、またはその他のプロパティに基づいて run をフィルター処理できます。
 {{% /alert %}}
-
-<!-- ### Search runs
-
-Search for a specific run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
-
-### Filter runs
-
-### Organize runs -->

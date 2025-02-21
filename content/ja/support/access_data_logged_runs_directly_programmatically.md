@@ -1,15 +1,15 @@
 ---
+title: How can I access the data logged to my runs directly and programmatically?
 menu:
   support:
     identifier: ja-support-access_data_logged_runs_directly_programmatically
 tags:
 - experiments
-title: How can I access the data logged to my runs directly and programmatically?
 toc_hide: true
 type: docs
 ---
 
-The history object tracks metrics logged with `wandb.log`. Access the history object using the API:
+history オブジェクトは、`wandb.log` でログされたメトリクスを追跡します。API を使用して history オブジェクトにアクセスします。
 
 ```python
 api = wandb.Api()

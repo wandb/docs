@@ -1,15 +1,15 @@
 ---
+title: How do I find an artifact from the best run in a sweep?
 menu:
   support:
     identifier: ja-support-find_artifact_best_run_sweep
 tags:
 - artifacts
-title: How do I find an artifact from the best run in a sweep?
 toc_hide: true
 type: docs
 ---
 
-To retrieve artifacts from the best performing run in a sweep, use the following code:
+ある sweep で最高のパフォーマンスを発揮した run から Artifacts を取得するには、次のコードを使用します。
 
 ```python
 api = wandb.Api()

@@ -1,45 +1,45 @@
 ---
+title: Do I need to provide values for all hyperparameters as part of the W&B Sweep.
+  Can I set defaults?
 menu:
   support:
     identifier: ja-support-need_provide_values_all_hyperparameters_part_wb_sweep_set
 tags:
 - sweeps
-title: Do I need to provide values for all hyperparameters as part of the W&B Sweep.
-  Can I set defaults?
 toc_hide: true
 type: docs
 ---
 
-Access hyperparameter names and values from the sweep configuration using `wandb.config`, which acts like a dictionary.
+`wandb.config` を使用して、 sweep configuration からハイパーパラメータの名前と値にアクセスします。これは辞書のように機能します。
 
-For runs outside a sweep, set `wandb.config` values by passing a dictionary to the `config` argument in `wandb.init`. In a sweep, any configuration supplied to `wandb.init` serves as a default value, which the sweep can override.
+sweep 外の run の場合、 `wandb.init` の `config` 引数に辞書を渡して `wandb.config` の値を設定します。 sweep では、 `wandb.init` に指定された設定はすべてデフォルト値として機能し、 sweep はそれを上書きできます。
 
-Use `config.setdefaults` for explicit behavior. The following code snippets illustrate both methods:
+明示的な振る舞いには `config.setdefaults` を使用します。次のコードスニペットは、両方のメソッドを示しています。
 
 {{< tabpane text=true >}}
 {{% tab "wandb.init()" %}}
 ```python
-# Set default values for hyperparameters
+# ハイパーパラメータのデフォルト値を設定
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# Start a run and provide defaults
-# that a sweep can override
+# run を開始し、 sweep が上書きできる
+# デフォルト値を提供します
 with wandb.init(config=config_defaults) as run:
-    # Add training code here
+    # ここにトレーニング コードを追加
     ...
 ```
 {{% /tab %}}
 {{% tab "config.setdefaults()" %}}
 ```python
-# Set default values for hyperparameters
+# ハイパーパラメータのデフォルト値を設定
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# Start a run
+# run を開始
 with wandb.init() as run:
-    # Update any values not set by the sweep
+    # sweep で設定されていない値を更新します
     run.config.setdefaults(config_defaults)
 
-    # Add training code here
+    # ここにトレーニング コードを追加
 ```
 {{% /tab %}}
 {{< /tabpane >}}

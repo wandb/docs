@@ -1,44 +1,42 @@
 ---
+title: PyTorch Geometric
 menu:
   default:
     identifier: ja-guides-integrations-pytorch-geometric
     parent: integrations
-title: PyTorch Geometric
 weight: 310
 ---
 
-[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) or PyG is one of the most popular libraries for geometric deep learning and W&B works extremely well with it for visualizing graphs and tracking experiments. 
+[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric)、または PyG は、幾何学的 ディープラーニング で最も人気のある ライブラリの 1 つであり、W&B は、グラフの 可視化 と Experiments の 追跡において非常にうまく連携します。
 
-After you have installed Pytorch Geometric, follow these steps to get started.
+Pytorch Geometric をインストールしたら、次の手順に従って開始してください。
 
-## Sign up and create an API key
+## サインアップして APIキー を作成する
 
-An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+APIキー は、お使いのマシンを W&B に対して認証します。APIキー は、 ユーザー プロフィールから生成できます。
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+より効率的なアプローチとして、[https://wandb.ai/authorize](https://wandb.ai/authorize) に直接アクセスして APIキー を生成できます。表示された APIキー をコピーして、パスワードマネージャーなどの安全な場所に保存してください。
 {{% /alert %}}
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+1. 右上隅にある ユーザー プロフィール アイコンをクリックします。
+2. 「**User Settings**（ユーザー 設定）」を選択し、「**API Keys**（APIキー ）」セクションまでスクロールします。
+3. 「**Reveal**（表示）」をクリックします。表示された APIキー をコピーします。APIキー を非表示にするには、ページをリロードします。
 
-## Install the `wandb` library and log in
+## `wandb` ライブラリをインストールしてログインする
 
-To install the `wandb` library locally and log in:
+`wandb` ライブラリをローカルにインストールしてログインするには:
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to your API key.
+1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) を APIキー に設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. Install the `wandb` library and log in.
-
-
+2. `wandb` ライブラリをインストールしてログインします。
 
     ```shell
     pip install wandb
@@ -72,13 +70,13 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Visualize the graphs
+## グラフを 可視化 する
 
-You can save details about the input graphs including number of edges, number of nodes and more. W&B supports logging plotly charts and HTML panels so any visualizations you create for your graph can then also be logged to W&B.
+エッジ数、ノード数など、入力グラフに関する詳細を保存できます。W&B は plotly チャートと HTML パネルの ログ記録 をサポートしているため、グラフ用に作成した 可視化 は W&B にも ログ記録 できます。
 
-### Use PyVis
+### PyVis の使用
 
-The following snippet shows how you could do that with PyVis and HTML.
+次のスニペットは、PyVis と HTML でそれを行う方法を示しています。
 
 ```python
 from pyvis.network import Network
@@ -88,6 +86,7 @@ wandb.init(project=’graph_vis’)
 net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
 
 # Add the edges from the PyG graph to the PyVis network
+# PyG グラフのエッジを PyVis ネットワークに追加します
 for e in tqdm(g.edge_index.T):
     src = e[0].item()
     dst = e[1].item()
@@ -98,6 +97,7 @@ for e in tqdm(g.edge_index.T):
     net.add_edge(src, dst, value=0.1)
 
 # Save the PyVis visualisation to a HTML file
+# PyVis の 可視化 を HTML ファイルに保存します
 net.show("graph.html")
 wandb.log({"eda/graph": wandb.Html("graph.html")})
 wandb.finish()
@@ -105,9 +105,9 @@ wandb.finish()
 
 {{< img src="/images/integrations/pyg_graph_wandb.png" alt="This image shows the input graph as an interactive HTML visualization." >}}
 
-### Use Plotly
+### Plotly の使用
 
-To use plotly to create a graph visualization, first you need to convert the PyG graph to a networkx object. Following this you will need to create Plotly scatter plots for both nodes and edges. The snippet below can be used for this task.
+plotly を使用してグラフの 可視化 を作成するには、まず PyG グラフを networkx オブジェクトに変換する必要があります。次に、ノードとエッジの両方に対して Plotly 散布図を作成する必要があります。次のスニペットは、このタスクに使用できます。
 
 ```python
 def create_vis(graph):
@@ -159,9 +159,9 @@ wandb.finish()
 
 {{< img src="/images/integrations/pyg_graph_plotly.png" alt="A visualization created using the example function and logged inside a W&B Table." >}}
 
-## Log metrics
+## メトリクス の ログ記録
 
-You can use W&B to track your experiments and related metrics, such as loss functions, accuracy, and more. Add the following line to your training loop:
+W&B を使用して、Experiments や、損失関数、精度などの関連 メトリクス を 追跡 できます。次の行を トレーニング ループに追加します。
 
 ```python
 wandb.log({
@@ -174,8 +174,8 @@ wandb.log({
 
 {{< img src="/images/integrations/pyg_metrics.png" alt="Plots from W&B showing how the hits@K metric changes over epochs for different values of K." >}}
 
-## More resources
+## その他のリソース
 
-- [Recommending Amazon Products using Graph Neural Networks in PyTorch Geometric](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
-- [Point Cloud Classification using PyTorch Geometric](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)
-- [Point Cloud Segmentation using PyTorch Geometric](https://wandb.ai/wandb/point-cloud-segmentation/reports/Point-Cloud-Segmentation-using-Dynamic-Graph-CNN--VmlldzozMTk5MDcy)
+- [PyTorch Geometric でグラフ ニューラルネットワーク を使用して Amazon 製品を推奨する](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
+- [PyTorch Geometric を使用した Point Cloud Classification](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)
+- [PyTorch Geometric を使用した Point Cloud Segmentation](https://wandb.ai/wandb/point-cloud-segmentation/reports/Point-Cloud-Segmentation-using-Dynamic-Graph-CNN--VmlldzozMTk5MDcy)

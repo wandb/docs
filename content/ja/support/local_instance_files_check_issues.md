@@ -1,15 +1,15 @@
 ---
+title: On a local instance, which files should I check when I have issues?
 menu:
   support:
     identifier: ja-support-local_instance_files_check_issues
 tags:
 - administrator
-title: On a local instance, which files should I check when I have issues?
 toc_hide: true
 type: docs
 ---
 
-Check the `Debug Bundle`. An admin can retrieve it from the `/system-admin` page by selecting the W&B icon in the top right corner and then choosing `Debug Bundle`.
+「デバッグバンドル」を確認してください。管理者 は、右上隅にある W&B アイコンを選択し、「デバッグバンドル」を選択することで、`/system-admin` ページから取得できます。
 
-{{< img src="/images/technical_faq/local_system_settings.png" alt="Access System settings page as an Admin of a local instance" >}}
-{{< img src="/images/technical_faq/debug_bundle.png" alt="Download the Debug Bundle as an Admin of a local instance" >}}
+{{< img src="/images/technical_faq/local_system_settings.png" alt="ローカルインスタンスの管理者としてシステム設定ページにアクセスする" >}}
+{{< img src="/images/technical_faq/debug_bundle.png" alt="ローカルインスタンスの管理者としてデバッグバンドルをダウンロードする" >}}

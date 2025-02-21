@@ -1,18 +1,18 @@
 ---
+title: What is the difference between `.log()` and `.summary`?
 menu:
   support:
     identifier: ja-support-difference_log_summary
 tags:
 - Charts
-title: What is the difference between `.log()` and `.summary`?
 toc_hide: true
 type: docs
 ---
 
-The summary displays in the table, while the log saves all values for future plotting.
+サマリーはテーブルに表示され、 ログ には将来のプロットのためにすべての 値 が保存されます。
 
-For instance, call `wandb.log` whenever accuracy changes. By default, `wandb.log()` updates the summary value unless set manually for that metric.
+たとえば、精度が変化するたびに `wandb.log` を呼び出します。デフォルトでは、`wandb.log()` は、そのメトリクスに対して手動で設定されていない限り、サマリー の 値 を更新します。
 
-The scatterplot and parallel coordinate plots use the summary value, while the line plot shows all values recorded by `.log`.
+散布図と平行座標プロットはサマリー の 値 を使用し、折れ線グラフは `.log` によって記録されたすべての 値 を表示します。
 
-Some users prefer to set the summary manually to reflect the optimal accuracy instead of the most recent accuracy logged.
+一部の ユーザー は、 ログ に記録された最新の精度ではなく、最適な精度を反映するように、サマリーを手動で設定することを好みます。

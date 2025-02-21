@@ -1,25 +1,25 @@
 ---
+title: Hugging Face AutoTrain
 menu:
   default:
     identifier: ja-guides-integrations-autotrain
     parent: integrations
-title: Hugging Face AutoTrain
 weight: 130
 ---
 
-[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
+[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) は、自然言語処理 (NLP) タスク、コンピュータビジョン (CV) タスク、音声タスク、さらには表形式タスクのために、最先端の モデル を トレーニング するためのノーコード ツール です。
 
-[Weights & Biases](http://wandb.com/) is directly integrated into Hugging Face AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments
+[Weights & Biases](http://wandb.com/) は、Hugging Face AutoTrain に直接 統合 されており、 実験管理 とconfig管理を提供します。 実験 のための CLI コマンド で単一の パラメータ を使用するのと同じくらい簡単です。
 
-{{< img src="/images/integrations/hf-autotrain-1.png" alt="An example of logging the metrics of an experiment" >}}
+{{< img src="/images/integrations/hf-autotrain-1.png" alt="実験 の メトリクス を ログ に記録する例" >}}
 
-## Install prerequisites
+## 前提条件のインストール
 
-Install `autotrain-advanced` and `wandb`.
+`autotrain-advanced` と `wandb` をインストールします。
 
 {{< tabpane text=true >}}
 
-{{% tab header="Command Line" value="script" %}}
+{{% tab header="コマンドライン" value="script" %}}
 
 ```shell
 pip install --upgrade autotrain-advanced wandb
@@ -37,23 +37,23 @@ pip install --upgrade autotrain-advanced wandb
 
 {{< /tabpane >}}
 
-To demonstrate these changes, this page fine-tines an LLM on a math dataset to achieve SoTA result in `pass@1` on the [GSM8k Benchmarks](https://github.com/openai/grade-school-math).
+これらの変更を示すために、このページでは、[GSM8k Benchmarks](https://github.com/openai/grade-school-math) で `pass@1` で SoTA の 結果 を達成するために、数学 データセット で LLM を微調整します。
 
-## Prepare the dataset
+## データセット を準備する
 
-Hugging Face AutoTrain expects your CSV custom dataset to have a specific format to work properly.
+Hugging Face AutoTrain は、適切に動作するために、CSV カスタム データセット が特定の形式であることを想定しています。
 
-- Your training file must contain a `text` column, which the training uses. For best results, the `text` column's data must conform to the `### Human: Question?### Assistant: Answer.` format. Review a great example in [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco).
+- トレーニング ファイルには、 トレーニング で使用する `text` 列が含まれている必要があります。最良の 結果 を得るには、`text` 列の データ が `### Human: Question?### Assistant: Answer.` 形式に準拠している必要があります。[`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco) で素晴らしい例を確認してください。
 
-    However, the [MetaMathQA dataset](https://huggingface.co/datasets/meta-math/MetaMathQA) includes the columns `query`, `response`, and `type`. First, pre-process this dataset. Remove  the `type` column and combine the content of the `query` and `response` columns into a new `text` column in the `### Human: Query?### Assistant: Response.` format. Training uses the resulting dataset, [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath).
+    ただし、[MetaMathQA dataset](https://huggingface.co/datasets/meta-math/MetaMathQA) には、`query`、`response`、および `type` 列が含まれています。まず、この データセット を前処理します。`type` 列を削除し、`query` および `response` 列のコンテンツを `### Human: Query?### Assistant: Response.` 形式の新しい `text` 列に結合します。トレーニング では、 結果 の データセット [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath) を使用します。
 
-## Train using `autotrain`
+## `autotrain` を使用して トレーニング する
 
-You can start training using the `autotrain` advanced from the command line or a notebook. Use the `--log` argument, or use `--log wandb` to log your results to a [W&B run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}). 
+コマンドライン または ノートブック から `autotrain` advanced を使用して トレーニング を開始できます。`--log` 引数を使用するか、`--log wandb` を使用して、[W&B run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) に 結果 を ログ 記録します。
 
 {{< tabpane text=true >}}
 
-{{% tab header="Command Line" value="script" %}}
+{{% tab header="コマンドライン" value="script" %}}
 
 ```shell
 autotrain llm \
@@ -88,7 +88,7 @@ autotrain llm \
 {{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
-# Set hyperparameters
+# ハイパーパラメータ を設定
 learning_rate = 2e-5
 num_epochs = 3
 batch_size = 4
@@ -102,7 +102,7 @@ lora_alpha = 32
 lora_dropout = 0.05
 logging_steps = 10
 
-# Run training
+# トレーニング を実行
 !autotrain llm \
     --train \
     --model "HuggingFaceH4/zephyr-7b-alpha" \
@@ -135,9 +135,9 @@ logging_steps = 10
 {{< /tabpane >}}
 
 
-{{< img src="/images/integrations/hf-autotrain-2.gif" alt="An example of saving the configs of your experiment." >}}
+{{< img src="/images/integrations/hf-autotrain-2.gif" alt="実験 の config を保存する例。" >}}
 
-## More Resources
+## その他のリソース
 
 * [AutoTrain Advanced now supports Experiment Tracking](https://huggingface.co/blog/rishiraj/log-autotrain) by [Rishiraj Acharya](https://huggingface.co/rishiraj).
 * [Hugging Face AutoTrain Docs](https://huggingface.co/docs/autotrain/index)

@@ -1,47 +1,47 @@
 ---
-description: Manage emails from the Settings page.
+title: Manage email settings
+description: '[設定] ページからメールを管理します。'
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-emails
     parent: settings
-title: Manage email settings
 weight: 40
 ---
 
-Add, delete, manage email types and primary email addresses in your W&B Profile Settings page. Select your profile icon in the upper right corner of the W&B dashboard. From the dropdown, select **Settings**. Within the Settings page, scroll down to the Emails dashboard:
+W&B プロフィールの 設定 ページで、メールの種類や主要なメール アドレスの追加、削除、管理ができます。W&B ダッシュボード の右上隅にあるプロフィール アイコンを選択します。ドロップダウンから「**設定**」を選択します。設定 ページ内で、Emails ダッシュボード までスクロールします。
 
 {{< img src="/images/app_ui/manage_emails.png" alt="" >}}
 
-## Manage primary email
+## 主要メールの管理
 
-The primary email is marked with a 😎 emoji. The primary email is automatically defined with the email you provided when you created a W&B account.
+主要メールは 😎 絵文字でマークされています。主要メールは、W&B アカウント を作成したときに入力したメール アドレスで自動的に定義されます。
 
-Select the kebab dropdown to change the primary email associated with your Weights And Biases account:
+kebab ドロップダウンを選択して、Weights And Biases アカウント に関連付けられた主要メールを変更します。
 
 {{% alert %}}
-Only verified emails can be set as primary
+確認済みのメールのみを主要メールとして設定できます。
 {{% /alert %}}
 
 {{< img src="/images/app_ui/primary_email.png" alt="" >}}
 
-## Add emails
+## メールを追加
 
-Select **+ Add Email** to add an email. This will take you to an Auth0 page. You can enter in the credentials for the new email or connect using single sign-on (SSO).
+**+ Add Email** を選択して、メールを追加します。Auth0 ページに移動します。新しいメールの認証情報を入力するか、シングル サインオン（SSO）を使用して接続できます。
 
-## Delete emails
+## メールを削除
 
-Select the kebab dropdown and choose **Delete Emails** to delete an email that is registered to your W&B account
+kebab ドロップダウンを選択し、**Delete Emails** を選択して、W&B アカウント に登録されているメールを削除します。
 
 {{% alert %}}
-Primary emails cannot be deleted. You need to set a different email as a primary email before deleting.
+主要メールは削除できません。削除する前に、別のメールを主要メールとして設定する必要があります。
 {{% /alert %}}
 
-## Log in methods
+## ログイン 方法
 
-The Log in Methods column displays the log in methods that are associated with your account.
+「ログイン 方法」の列には、アカウント に関連付けられているログイン 方法が表示されます。
 
-A verification email is sent to your email account when you create a W&B account. Your email account is considered unverified until you verify your email address. Unverified emails are displayed in red.
+W&B アカウント を作成すると、確認メールがメール アカウント に送信されます。メール アドレスを確認するまで、メール アカウント は未確認と見なされます。未確認のメールは赤で表示されます。
 
-Attempt to log in with your email address again to retrieve a second verification email if you no longer have the original verification email that was sent to your email account.
+メール アドレス で再度ログインして、メール アカウント に送信された最初の確認メールが既になくても、2 通目の確認メールを取得してみてください。
 
-Contact support@wandb.com for account log in issues.
+アカウント のログインに関する問題については、support@wandb.com までお問い合わせください。

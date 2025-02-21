@@ -1,14 +1,14 @@
 ---
+title: Incorporating LaTeX
 menu:
   support:
     identifier: ja-support-incorporating_latex
 tags:
 - reports
-title: Incorporating LaTeX
 toc_hide: true
 type: docs
 ---
 
-LaTeX integrates seamlessly into reports. To add LaTeX, create a new report and begin typing in the rich text area to write notes and save custom visualizations and tables.
+LaTeX は、レポート にシームレスに統合できます。LaTeX を追加するには、新しい report を作成し、リッチテキスト領域に入力を開始して、メモを記述し、カスタムの 可視化 と テーブル を保存します。
 
-On a new line, press `/` and navigate to the inline equations tab to insert LaTeX content.
+新しい行で `/` を押し、インライン方程式タブに移動して LaTeX コンテンツを挿入します。

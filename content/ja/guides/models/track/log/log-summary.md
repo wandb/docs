@@ -1,16 +1,17 @@
 ---
+title: Log summary metrics
 menu:
   default:
     identifier: ja-guides-models-track-log-log-summary
     parent: log-objects-and-media
-title: Log summary metrics
 ---
 
-In addition to values that change over time during training, it is often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B Run's `summary` dictionary. A Run's summary dictionary can handle numpy arrays, PyTorch tensors or TensorFlow tensors. When a value is one of these types we persist the entire tensor in a binary file and store high level metrics in the summary object, such as min, mean, variance, percentiles, and more.
+トレーニング中に時間とともに変化する値に加えて、モデルや前処理のステップを要約する単一の値を追跡することも重要です。この情報を W&B の Run の `summary` 辞書に記録します。Run の summary 辞書は、NumPy 配列、PyTorch テンソル、または TensorFlow テンソルを処理できます。値がこれらのタイプのいずれかである場合、テンソル全体をバイナリファイルに保持し、最小、平均、分散、パーセンタイルなどの高レベルのメトリクスを summary オブジェクトに格納します。
 
- The last value logged with `wandb.log` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
+`wandb.log` で記録された最後の値は、W&B の Run で summary 辞書として自動的に設定されます。summary メトリクス辞書が変更されると、以前の値は失われます。
 
-The proceeding code snippet demonstrates how to provide a custom summary metric to W&B:
+次のコードスニペットは、カスタム summary メトリクスを W&B に提供する方法を示しています。
+
 ```python
 wandb.init(config=args)
 
@@ -22,7 +23,7 @@ for epoch in range(1, args.epochs + 1):
         best_accuracy = test_accuracy
 ```
 
-You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API]({{< relref path="/ref/python/public-api/" lang="ja" >}}) to update the summary attribute:
+トレーニングが完了した後、既存の W&B の Run の summary 属性を更新できます。[W&B Public API]({{< relref path="/ref/python/public-api/" lang="ja" >}}) を使用して、summary 属性を更新します。
 
 ```python
 api = wandb.Api()
@@ -31,11 +32,11 @@ run.summary["tensor"] = np.random.random(1000)
 run.summary.update()
 ```
 
-## Customize summary metrics
+## summary メトリクスのカスタマイズ
 
-Custom metric summaries are useful to capture model performance at the best step, instead of the last step, of training in your `wandb.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
+カスタムメトリクスの summary は、`wandb.summary` でのトレーニングの最後のステップではなく、最適なステップでモデルのパフォーマンスをキャプチャするのに役立ちます。たとえば、最終的な値の代わりに、最大精度または最小損失値をキャプチャすることができます。
 
-Summary metrics can be controlled using the `summary` argument in `define_metric` which accepts the following values: `"min"`, `"max"`, `"mean"` ,`"best"`, `"last"` and `"none"`. The `"best"` parameter can only be used in conjunction with the optional `objective` argument which accepts values `"minimize"` and `"maximize"`. Here's an example of capturing the lowest value of loss and the maximum value of accuracy in the summary, instead of the default summary behavior, which uses the final value from history.
+Summary メトリクスは、`define_metric` の `summary` 引数を使用して制御できます。この引数は、`"min"`、`"max"`、`"mean"`、`"best"`、`"last"`、および `"none"` の値を受け入れます。`"best"` パラメータは、`"minimize"` および `"maximize"` の値を受け入れるオプションの `objective` 引数と組み合わせてのみ使用できます。以下は、履歴からの最終値を使用するデフォルトの summary の振る舞いではなく、損失の最小値と精度の最大値を summary にキャプチャする例です。
 
 ```python
 import wandb
@@ -43,9 +44,9 @@ import random
 
 random.seed(1)
 wandb.init()
-# define a metric we are interested in the minimum of
+# 最小値に関心のあるメトリクスを定義します
 wandb.define_metric("loss", summary="min")
-# define a metric we are interested in the maximum of
+# 最大値に関心のあるメトリクスを定義します
 wandb.define_metric("acc", summary="max")
 for i in range(10):
     log_dict = {
@@ -55,6 +56,6 @@ for i in range(10):
     wandb.log(log_dict)
 ```
 
-Here's what the resulting min and max summary values look like, in pinned columns in the sidebar on the Project Page workspace:
+以下は、Project Page のワークスペースのサイドバーにある固定された列に表示される、最小値と最大値の summary の結果です。
 
 {{< img src="/images/track/customize_sumary.png" alt="Project Page Sidebar" >}}

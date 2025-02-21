@@ -1,124 +1,116 @@
 ---
-description: Visualize and analyze W&B Tables.
+title: Visualize and analyze tables
+description: W&B Tables を可視化し、分析します。
 menu:
   default:
     identifier: ja-guides-core-tables-visualize-tables
     parent: tables
-title: Visualize and analyze tables
 weight: 2
 ---
 
-Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
+W&B Tables をカスタマイズして、機械学習モデルのパフォーマンスに関する質問に答えたり、データを分析したりできます。
 
-Interactively explore your data to:
+データをインタラクティブに探索して、以下を実現します。
 
-* Compare changes precisely across models, epochs, or individual examples
-* Understand higher-level patterns in your data
-* Capture and communicate your insights with visual samples
-
-
+* モデル、エポック、または個々のサンプル全体で、変更を正確に比較する
+* データ内のより高レベルのパターンを理解する
+* 視覚的なサンプルで洞察を捉え、伝達する
 
 {{% alert %}}
-W&B Tables posses the following behaviors:
-1. **Stateless in an artifact context**: any table logged alongside an artifact version resets to its default state after you close the browser window
-2. **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report persists.
+W&B Tables は、以下の 振る舞 いをします。
+1.  **Artifacts コンテキストではステートレス**: Artifacts バージョンとともに記録されたテーブルは、ブラウザウィンドウを閉じるとデフォルトの状態にリセットされます。
+2.  **ワークスペース または report コンテキストではステートフル**: 単一の run ワークスペース、マルチ run の project ワークスペース、または Report 内のテーブルに対する変更は保持されます。
 
-For information on how to save your current W&B Table view, see [Save your view]({{< relref path="#save-your-view" lang="ja" >}}).
+現在の W&B Table ビューを保存する方法については、[ビューの保存]({{< relref path="#save-your-view" lang="ja" >}})を参照してください。
 {{% /alert %}}
 
-## How to view two tables
-Compare two tables with a [merged view]({{< relref path="#merged-view" lang="ja" >}}) or a [side-by-side view]({{< relref path="#side-by-side-view" lang="ja" >}}). For example, the image below demonstrates a table comparison of MNIST data.
+## 2つのテーブルの表示方法
+[マージされたビュー]({{< relref path="#merged-view" lang="ja" >}})または[並べて表示するビュー]({{< relref path="#side-by-side-view" lang="ja" >}})で2つのテーブルを比較します。たとえば、下の画像は MNIST データのテーブル比較を示しています。
 
-{{< img src="/images/data_vis/table_comparison.png" alt="Left: mistakes after 1 training epochs, Right: mistakes after 5 epochs" max-width="90%" >}}
+{{< img src="/images/data_vis/table_comparison.png" alt="左：1回のトレーニングエポック後の間違い、右：5エポック後の間違い" max-width="90%" >}}
 
-Follow these steps to compare two tables:
+次の手順に従って、2つのテーブルを比較します。
 
-1. Go to your project in the W&B App.
-2. Select the artifacts icon on the left panel.
-2. Select an artifact version. 
+1. W&B App で project に移動します。
+2. 左側の パネル で Artifacts アイコンを選択します。
+3. Artifacts バージョンを選択します。
 
-In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
+次の画像では、5つのエポックのそれぞれで MNIST 検証データに対するモデルの予測を示しています ([インタラクティブな例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json))。
 
-{{< img src="/images/data_vis/preds_mnist.png" alt="Click on 'predictions' to view the Table" max-width="90%" >}}
+{{< img src="/images/data_vis/preds_mnist.png" alt="[予測]をクリックしてテーブルを表示します" max-width="90%" >}}
 
+4. サイドバー で比較する 2 番目の Artifacts バージョンにカーソルを合わせ、表示されたら [**比較**] をクリックします。たとえば、下の画像では、5 エポックの トレーニング 後に同じモデルによって行われた MNIST 予測と比較するために、"v4" というラベルの付いた バージョン を選択します。
 
-3. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
+{{< img src="/images/data_vis/preds_2.png" alt="1 エポック (ここに表示) と 5 エポック (v4) のトレーニング後のモデル予測を比較する準備" max-width="90%" >}}
 
-{{< img src="/images/data_vis/preds_2.png" alt="Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)" max-width="90%" >}}
+### マージされたビュー
 
-### Merged view
-<!-- To do, add steps -->
-Initially you see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
+最初は、両方のテーブルがマージされて表示されます。最初に選択したテーブルにはインデックス0と青色のハイライトが付き、2番目のテーブルにはインデックス1と黄色のハイライトが付きます。[マージされたテーブルのライブ例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)をご覧ください。
 
-{{< img src="/images/data_vis/merged_view.png" alt="In the merged view, numerical columns appears as histograms by default" max-width="90%">}}
+{{< img src="/images/data_vis/merged_view.png" alt="マージされたビューでは、数値列はデフォルトでヒストグラムとして表示されます" max-width="90%">}}
 
-From the merged view, you can
+マージされたビューから、次のことができます。
 
-* **choose the join key**: use the dropdown at the top left to set the column to use as the join key for the two tables. Typically this is the unique identifier of each row, such as the filename of a specific example in your dataset or an incrementing index on your generated samples. Note that it's currently possible to select _any_ column, which may yield illegible tables and slow queries.
-* **concatenate instead of join**: select "concatenating all tables" in this dropdown to _union all the rows_ from both tables into one larger Table instead of joining across their columns
-* **reference each Table explicitly**: use 0, 1, and \* in the filter expression to explicitly specify a column in one or both table instances
-* **visualize detailed numerical differences as histograms**: compare the values in any cell at a glance
+* **結合キーを選択する**: 左上のドロップダウンを使用して、2つのテーブルの結合キーとして使用する列を設定します。通常、これはデータセット 内の特定の例のファイル名や、生成されたサンプル のインクリメント インデックスなど、各行の一意の識別子です。現在、_任意の_ 列を選択できるため、判読できないテーブルや低速なクエリが発生する可能性があることに注意してください。
+* **結合の代わりに連結する**: このドロップダウンで [すべてのテーブルを連結する] を選択して、列全体を結合する代わりに、両方のテーブルから_すべての行を結合_して1つの大きな Table にします。
+* **各 Table を明示的に参照する**: フィルタ式で 0、1、および * を使用して、一方または両方の Table インスタンスの列を明示的に指定します。
+* **詳細な数値の差異をヒストグラムとして可視化する**: 一目で任意のセルの値を比較します。
 
-### Side-by-side view
+### 並べて表示するビュー
 
-<!-- To do -->
+2つのテーブルを並べて表示するには、最初のドロップダウンを [テーブルのマージ：テーブル] から [リスト：テーブル] に変更し、[ページサイズ] をそれぞれ更新します。ここでは、最初に選択した Table が左側に、2番目の Table が右側にあります。また、[垂直] チェックボックスをクリックして、これらのテーブルを垂直方向に比較することもできます。
 
-To view the two tables side-by-side, change the first dropdown from "Merge Tables: Table" to "List of: Table" and then update the "Page size" respectively. Here the first Table selected is on the left and the second one is on the right. Also, you can compare these tables vertically as well by clicking on the "Vertical" checkbox.
+{{< img src="/images/data_vis/side_by_side.png" alt="並べて表示するビューでは、Table の行は互いに独立しています。" max-width="90%" >}}
 
-{{< img src="/images/data_vis/side_by_side.png" alt="In the side-by-side view, Table rows are independent of each other." max-width="90%" >}}
+* **テーブルを一目で比較する**: 両方のテーブルに (並べ替え、フィルタリング、グループ化) 操作を同時に適用し、変更や差異をすばやく見つけます。たとえば、推測でグループ化された不正な予測、全体で最も難しいネガティブ、真のラベルごとの信頼度スコア分布などを表示します。
+* **2つのテーブルを個別に探索する**: スクロールして、目的のサイド/行に焦点を当てます。
 
-* **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
-* **explore two tables independently**: scroll through and focus on the side/rows of interest
+## Artifacts を比較する
+[経時的にテーブルを比較]({{< relref path="#compare-tables-across-time" lang="ja" >}}) したり、[モデル バリアント を比較]({{< relref path="#compare-tables-across-model-variants" lang="ja" >}}) したりすることもできます。
 
+### 経時的にテーブルを比較する
+トレーニング の意味のあるステップごとに Artifacts にテーブルを記録して、トレーニング 時間中のモデルのパフォーマンスを分析します。たとえば、すべての検証ステップの終了時、トレーニング の 50 エポックごと、または パイプライン に適した頻度でテーブルを記録できます。並べて表示するビューを使用して、モデルの予測の変化を可視化します。
 
-## Compare artifacts
-You can also [compare tables across time]({{< relref path="#compare-tables-across-time" lang="ja" >}}) or [model variants]({{< relref path="#compare-tables-across-model-variants" lang="ja" >}}). 
+{{< img src="/images/data_vis/compare_across_time.png" alt="ラベルごとに、モデルは 1 回のトレーニングエポック (L) よりも 5 回のトレーニングエポック (R) の方が間違いが少なくなります" max-width="90%" >}}
 
+トレーニング 時間中の予測の可視化の詳細なチュートリアルについては、[このレポート](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)とこのインタラクティブな[ノートブック の例](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..)を参照してください。
 
-### Compare tables across time
-Log a table in an artifact for each meaningful step of training to analyze model performance over training time. For example, you could log a table at the end of every validation step, after every 50 epochs of training, or any frequency that makes sense for your pipeline. Use the side-by-side view to visualize changes in model predictions.
+### モデル バリアント 間でテーブルを比較する
 
-{{< img src="/images/data_vis/compare_across_time.png" alt="For each label, the model makes fewer mistakes after 5 training epochs (R) than after 1 (L)" max-width="90%" >}}
+2つの異なるモデルに対して同じステップで記録された2つの Artifacts バージョンを比較して、異なる 設定 (ハイパーパラメーター 、ベース アーキテクチャー など) 全体でモデルのパフォーマンスを分析します。
 
-For a more detailed walkthrough of visualizing predictions across training time, [see this report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..).
-
-### Compare tables across model variants
-
-Compare two artifact versions logged at the same step for two different models to analyze model performance across different configurations (hyperparameters, base architectures, and so forth).
-
-For example, compare predictions between a `baseline` and a new model variant, `2x_layers_2x_lr`, where the first convolutional layer doubles from 32 to 64, the second from 128 to 256, and the learning rate from 0.001 to 0.002. From [this live example](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr), use the side-by-side view and filter down to the incorrect predictions after 1 (left tab) versus 5 training epochs (right tab).
+たとえば、`ベースライン` と新しいモデル バリアント `2x_layers_2x_lr` の間の予測を比較します。ここで、最初の畳み込みレイヤーは 32 から 64 に、2番目の畳み込みレイヤーは 128 から 256 に、学習率は 0.001 から 0.002 に倍増します。[このライブ例](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr)から、並べて表示するビューを使用し、1 (左側のタブ) 対 5 トレーニング エポック (右側のタブ) 後の不正な予測までフィルタリングします。
 
 {{< tabpane text=true >}}
-{{% tab header="1 training epoch" value="one_epoch" %}}
-{{< img src="/images/data_vis/compare_across_variants.png" alt="After 1 epoch, performance is mixed: precision improves for some classes and worsens for others." >}}
+{{% tab header="1 トレーニングエポック" value="one_epoch" %}}
+{{< img src="/images/data_vis/compare_across_variants.png" alt="1 エポック後、パフォーマンスは混在しています。一部のクラスでは精度が向上し、他のクラスでは悪化しています。" >}}
 {{% /tab %}}
-{{% tab header="5 training epochs" value="five_epochs" %}}
-{{< img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="After 5 epochs, the 'double' variant is catching up to the baseline." >}}
+{{% tab header="5 トレーニングエポック" value="five_epochs" %}}
+{{< img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="5 エポック後、[ダブル] バリアント は ベースライン に追いついています。" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Save your view
+## ビューを保存する
 
-Tables you interact with in the run workspace, project workspace, or a report automatically saves their view state. If you apply any table operations then close your browser, the table retains the last viewed configuration when you next navigate to the table. 
+run ワークスペース 、 project ワークスペース 、または Report で操作する Tables は、ビューの状態を自動的に保存します。テーブル操作を適用してブラウザを閉じると、次にテーブルに移動したときに、テーブルは最後に表示された 設定 を保持します。
 
 {{% alert %}}
-Tables you interact with in the artifact context remains stateless.
+Artifacts コンテキストで操作する Tables はステートレスのままです。
 {{% /alert %}}
 
-To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to report:
-1. Select the kebob icon (three vertical dots) in the top right corner of your workspace visualization panel.
-2. Select either **Share panel** or **Add to report**.
+ワークスペース から特定の状態でテーブルを保存するには、W&B Report にエクスポートします。テーブルを Report にエクスポートするには:
+1. ワークスペース 可視化 パネル の右上隅にあるケバブ アイコン (3つの垂直ドット) を選択します。
+2. [**パネルを共有**] または [**レポートに追加**] のいずれかを選択します。
 
-{{< img src="/images/data_vis/share_your_view.png" alt="Share panel creates a new report, Add to report lets you append to an existing report." max-width="90%">}}
+{{< img src="/images/data_vis/share_your_view.png" alt="[パネルを共有] を選択すると新しい Report が作成され、[レポートに追加] を選択すると既存の Report に追加できます。" max-width="90%">}}
 
+## 例
 
-## Examples
+これらの Reports は、W&B Tables のさまざまな ユースケース を示しています。
 
-These reports highlight the different use cases of W&B Tables:
-
-* [Visualize Predictions Over Time](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
-* [How to Compare Tables in Workspaces](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)
-* [Image & Classification Models](https://wandb.ai/stacey/mendeleev/reports/Tables-Tutorial-Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)
-* [Text & Generative Language Models](https://wandb.ai/stacey/nlg/reports/Tables-Tutorial-Visualize-Text-Data-Predictions---Vmlldzo1NzcwNzY)
-* [Named Entity Recognition](https://wandb.ai/stacey/ner_spacy/reports/Named-Entity-Recognition--Vmlldzo3MDE3NzQ)
-* [AlphaFold Proteins](https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc)
+* [経時的な予測の可視化](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
+* [ワークスペース でテーブルを比較する方法](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)
+* [画像と分類モデル](https://wandb.ai/stacey/mendeleev/reports/Tables-Tutorial-Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)
+* [テキストと生成言語モデル](https://wandb.ai/stacey/nlg/reports/Tables-Tutorial-Visualize-Text-Data-Predictions---Vmlldzo1NzcwNzY)
+* [固有表現認識](https://wandb.ai/stacey/ner_spacy/reports/Named-Entity-Recognition--Vmlldzo3MDE3NzQ)
+* [AlphaFold タンパク質](https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc)

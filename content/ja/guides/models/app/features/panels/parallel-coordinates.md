@@ -1,28 +1,28 @@
 ---
-description: Compare results across machine learning experiments
+title: Parallel coordinates
+description: 機械学習 の 実験 全体で 結果 を比較する
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-parallel-coordinates
     parent: panels
-title: Parallel coordinates
 weight: 30
 ---
 
-Parallel coordinates charts summarize the relationship between large numbers of hyperparameters and model metrics at a glance.
+並列座標チャートは、多数のハイパーパラメーター と モデル の メトリクス の関係を一目で把握できるようにまとめたものです。
 
 {{< img src="/images/app_ui/parallel_coordinates.gif" alt="" >}}
 
-* **Axes**: Different hyperparameters from [`wandb.config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) and metrics from [`wandb.log`]({{< relref path="/guides/models/track/log/" lang="ja" >}}).
-* **Lines**: Each line represents a single run. Mouse over a line to see a tooltip with details about the run. All lines that match the current filters will be shown, but if you turn off the eye, lines will be grayed out.
+*   **軸**: [`wandb.config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) のさまざまな ハイパーパラメーター と、[`wandb.log`]({{< relref path="/guides/models/track/log/" lang="ja" >}}) の メトリクス 。
+*   **線**: 各線は単一の run を表します。線にマウスオーバーすると、その run に関する詳細がツールチップに表示されます。現在のフィルターに一致するすべての線が表示されますが、目のアイコンをオフにすると、線はグレー表示になります。
 
-## Panel Settings
+## パネル の 設定
 
-Configure these features in the panel settings— click the edit button in the upper right corner of the panel.
+これらの機能は パネル の 設定で構成します。パネル の右上隅にある編集ボタンをクリックしてください。
 
-* **Tooltip**: On hover, a legend shows up with info on each run
-* **Titles**: Edit the axis titles to be more readable
-* **Gradient**: Customize the gradient to be any color range you like
-* **Log scale**: Each axis can be set to view on a log scale independently
-* **Flip axis**: Switch the axis direction— this is useful when you have both accuracy and loss as columns
+*   **ツールチップ**: マウスオーバーすると、各 run の 情報 が凡例に表示されます
+*   **タイトル**: 軸のタイトルを編集して、より読みやすくします
+*   **勾配**: 好みのカラー範囲に合わせて 勾配 をカスタマイズできます
+*   **対数スケール**: 各軸は、対数スケールで個別に表示するように設定できます
+*   **軸を反転**: 軸の方向を切り替えます。これは、精度と損失の両方を列として使用する場合に便利です
 
-[See it live →](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+[実際の表示はこちら →](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)

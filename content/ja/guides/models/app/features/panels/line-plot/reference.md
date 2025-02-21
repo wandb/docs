@@ -1,93 +1,92 @@
 ---
+title: Line plot reference
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-line-plot-reference
     parent: line-plot
-title: Line plot reference
 weight: 10
 ---
 
-## X-Axis
+## X軸
 
 {{< img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis" >}}
 
-You can set the x-axis of a line plot to any value that you have logged with W&B.log as long as it's always logged as a number.
+折れ線グラフのX軸は、W&B. log で記録した値であれば、常に数値として記録されている限り、任意の値に設定できます。
 
-## Y-Axis variables
+## Y軸変数
 
-You can set the y-axis variables to any value you have logged with wandb.log as long as you were logging numbers, arrays of numbers or a histogram of numbers. If you logged more than 1500 points for a variable, W&B samples down to 1500 points.
+Y軸変数は、wandb.log で記録した値であれば、数値、数値の配列、または数値のヒストグラムを記録している限り、任意の値に設定できます。変数のポイント数が1500を超える場合、W&B は1500ポイントにサンプルダウンします。
 
 {{% alert %}}
-You can change the color of your y axis lines by changing the color of the run in the runs table.
+Y軸の線の色は、runsテーブルで run の色を変更することで変更できます。
 {{% /alert %}}
 
-## X range and Y range
+## XレンジとYレンジ
 
-You can change the maximum and minimum values of X and Y for the plot.
+プロットのXとYの最大値と最小値を変更できます。
 
-X range default is from the smallest value of your x-axis to the largest.
+Xレンジのデフォルトは、X軸の最小値から最大値までです。
 
-Y range default is from the smallest value of your metrics and zero to the largest value of your metrics.
+Yレンジのデフォルトは、メトリクスの最小値とゼロからメトリクスの最大値までです。
 
-## Max runs/groups
+## 最大 run / グループ数
 
-By default you will only plot 10 runs or groups of runs. The runs will be taken from the top of your runs table or run set, so if you sort your runs table or run set you can change the runs that are shown.
+デフォルトでは、10個の run または run のグループのみをプロットします。run は runs テーブルまたは run セットの上位から取得されるため、runs テーブルまたは run セットをソートすると、表示される run を変更できます。
 
-## Legend
+## 凡例
 
-You can control the legend of your chart to show for any run any config value that you logged and meta data from the runs such as the created at time or the user who created the run.
+グラフの凡例を制御して、run で記録した任意の config の値と、作成時間や run を作成した user など、run からのメタ data を表示できます。
 
-Example:
+例：
 
-`${run:displayName} - ${config:dropout}` will make the legend name for each run something like `royal-sweep - 0.5` where `royal-sweep` is the run name and `0.5` is the config parameter named `dropout`.
+`${run:displayName} - ${config:dropout}` は、各 run の凡例名を `royal-sweep - 0.5` のようにします。ここで、`royal-sweep` は run 名で、`0.5` は `dropout` という名前の config の parameter です。
 
-You can set value inside`[[ ]]` to display point specific values in the crosshair when hovering over a chart. For example `\[\[ $x: $y ($original) ]]` would display something like "2: 3 (2.9)"
+`[[ ]]` 内に値を設定すると、グラフにカーソルを合わせたときに、ポイント固有の値をクロスヘアに表示できます。たとえば、`\[\[ $x: $y ($original) ]]` は "2: 3 (2.9)" のように表示されます。
 
-Supported values inside `[[ ]]` are as follows:
+`[[ ]]` 内でサポートされている値は次のとおりです。
 
 | Value         | Meaning                                    |
 | ------------  | ------------------------------------------ |
-| `${x}`        | X value                                    |
-| `${y}`        | Y value (Including smoothing adjustment)   |
-| `${original}` | Y value not including smoothing adjustment |
-| `${mean}`     | Mean of grouped runs                       |
-| `${stddev}`   | Standard Deviation of grouped runs         |
-| `${min}`      | Min of grouped runs                        |
-| `${max}`      | Max of grouped runs                        |
-| `${percent}`  | Percent of total (for stacked area charts) |
+| `${x}`        | X の 値                                    |
+| `${y}`        | Y の 値（平滑化調整を含む）                   |
+| `${original}` | Y の 値（平滑化調整を含まない）               |
+| `${mean}`     | グループ化された runs の平均                   |
+| `${stddev}`   | グループ化された runs の標準偏差               |
+| `${min}`      | グループ化された runs の最小値                 |
+| `${max}`      | グループ化された runs の最大値                 |
+| `${percent}`  | 合計のパーセント（積み上げ面グラフの場合）       |
 
-## Grouping
+## グルーピング
 
-You can aggregate all of the runs by turning on grouping, or group over an individual variable. You can also turn on grouping by grouping inside the table and the groups will automatically populate into the graph.
+グルーピングをオンにしてすべての run を集計したり、個々の変数でグループ化したりできます。テーブル内でグループ化してグルーピングをオンにすることもでき、グループは自動的にグラフに入力されます。
 
-## Smoothing
+## 平滑化
 
-You can set the [smoothing coefficient]({{< relref path="/support/formula_smoothing_algorithm.md" lang="ja" >}}) to be between 0 and 1 where 0 is no smoothing and 1 is maximum smoothing.
+[平滑化係数]({{< relref path="/support/formula_smoothing_algorithm.md" lang="ja" >}})を0から1の間で設定できます。0は平滑化なし、1は最大平滑化です。
 
+## 外れ値を無視
 
-## Ignore outliers
+デフォルトのプロットの最小スケールと最大スケールから外れ値を排除するようにプロットをリスケールします。設定がプロットに与える影響は、プロットのサンプリングモードによって異なります。
 
-Rescale the plot to exclude outliers from the default plot min and max scale. The setting's impact on the plot depends on the plot's sampling mode.
+- [ランダムサンプリングモード]({{< relref path="sampling.md#random-sampling" lang="ja" >}})を使用するプロットの場合、**外れ値を無視**を有効にすると、5％から95％のポイントのみが表示されます。外れ値が表示されても、他のポイントとは異なる形式にはなりません。
+- [フルフィデリティモード]({{< relref path="sampling.md#full-fidelity" lang="ja" >}})を使用するプロットの場合、すべてのポイントが常に表示され、各バケットの最後の値に凝縮されます。**外れ値を無視**が有効になっている場合、各バケットの最小範囲と最大範囲が網掛け表示されます。それ以外の場合、領域は網掛け表示されません。
 
-- For plots that use [random sampling mode]({{< relref path="sampling.md#random-sampling" lang="ja" >}}), when you enable **Ignore outliers**, only points from 5% to 95% are shown. When outliers are shown, they are not formatted differently from other points.
-- For plots that use [full fidelity mode]({{< relref path="sampling.md#full-fidelity" lang="ja" >}}), all points are always shown, condensed down to the last value in each bucket. When **Ignore outliers** is enabled, the minimum and maximum bounds of each bucket are shaded. Otherwise, no area is shaded.
+## 式
 
-## Expression
+式を使用すると、1-精度などのメトリクスから導出された値をプロットできます。現在、これは単一のメトリクスをプロットする場合にのみ機能します。単純な算術式（+、-、\*、/、％）と、べき乗の\*\*を実行できます。
 
-Expression lets you plot values derived from metrics like 1-accuracy. It currently only works if you are plotting a single metric. You can do simple arithmetic expressions, +, -, \*, / and % as well as \*\* for powers.
+## プロットスタイル
 
-## Plot style
+折れ線グラフのスタイルを選択します。
 
-Select a style for your line plot.
-
-**Line plot:**
+**折れ線グラフ：**
 
 {{< img src="/images/app_ui/plot_style_line_plot.png" alt="" >}}
 
-**Area plot:**
+**面グラフ：**
 
 {{< img src="/images/app_ui/plot_style_area_plot.png" alt="" >}}
 
-**Percentage area plot:**
+**パーセンテージ面グラフ：**
 
 {{< img src="/images/app_ui/plot_style_percentage_plot.png" alt="" >}}

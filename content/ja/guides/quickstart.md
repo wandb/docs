@@ -1,44 +1,42 @@
 ---
-description: W&B Quickstart
+title: W&B Quickstart
+description: W&B クイックスタート
 menu:
   default:
     identifier: ja-guides-quickstart
     parent: guides
-title: W&B Quickstart
 url: quickstart
 weight: 2
 ---
 
-Install W&B and start tracking your machine learning experiments in minutes.
+W&B をインストールして、数分で 機械学習 の 実験管理 を開始しましょう。
 
-## Sign up and create an API key
+## サインアップして APIキー を作成する
 
-An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+APIキー は、あなたのマシンを W&B に対して認証します。APIキー は、 ユーザー プロフィールから生成できます。
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+より効率的な方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize) に直接アクセスして APIキー を生成できます。表示された APIキー をコピーして、パスワードマネージャーなどの安全な場所に保存してください。
 {{% /alert %}}
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+1. 右上隅にある ユーザー プロフィールアイコンをクリックします。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+3. **Reveal** をクリックします。表示された APIキー をコピーします。APIキー を非表示にするには、ページをリロードしてください。
 
-## Install the `wandb` library and log in
+## `wandb` ライブラリをインストールしてログインする
 
-To install the `wandb` library locally and log in:
+`wandb` ライブラリをローカルにインストールしてログインするには:
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to your API key.
+1. `WANDB_API_KEY` [ 環境 変数 ]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をあなたの APIキー に設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. Install the `wandb` library and log in.
-
-
+1. `wandb` ライブラリをインストールしてログインします。
 
     ```shell
     pip install wandb
@@ -72,16 +70,15 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
+## run を開始して ハイパーパラメーター を追跡する
 
-## Start a run and track hyperparameters
-
-Initialize a W&B Run object in your Python script or notebook with [`wandb.init()`]({{< relref path="/ref/python/run.md" lang="ja" >}}) and pass a dictionary to the `config` parameter with key-value pairs of hyperparameter names and values:
+Python スクリプトまたは ノートブック で [`wandb.init()`]({{< relref path="/ref/python/run.md" lang="ja" >}}) を使用して W&B の Run オブジェクトを初期化し、 ハイパーパラメーター の名前と 値 のキーと 値 のペアを持つ 辞書 を `config` パラメータに渡します。
 
 ```python
 run = wandb.init(
-    # Set the project where this run will be logged
+    # この run が記録される プロジェクト を設定します
     project="my-awesome-project",
-    # Track hyperparameters and run metadata
+    # ハイパーパラメーター と run の メタデータ を追跡します
     config={
         "learning_rate": 0.01,
         "epochs": 10,
@@ -89,14 +86,12 @@ run = wandb.init(
 )
 ```
 
+[run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) は、W&B の基本的な構成要素です。これらは、[ メトリクス の追跡 ]({{< relref path="/guides/models/track/" lang="ja" >}}), [ ログ の作成 ]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) などで頻繁に使用します。
 
-A [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) is the basic building block of W&B. You will use them often to [track metrics]({{< relref path="/guides/models/track/" lang="ja" >}}), [create logs]({{< relref path="/guides/core/artifacts/" lang="ja" >}}), and more.
+## 完全にまとめる
 
-
-## Put it all together
-
-Putting it all together, your training script might look similar to the following code example. The highlighted code shows W&B-specific code. 
-Note that we added code that mimics machine learning training.
+すべてをまとめると、 トレーニング スクリプト は次の コード例 のようになります。強調表示された コード は、W&B 固有の コード を示しています。
+機械学習 の トレーニング を模倣する コード を追加したことに注意してください。
 
 ```python
 # train.py
@@ -111,9 +106,9 @@ lr = 0.01
 
 # highlight-start
 run = wandb.init(
-    # Set the project where this run will be logged
+    # この run が記録される プロジェクト を設定します
     project="my-awesome-project",
-    # Track hyperparameters and run metadata
+    # ハイパーパラメーター と run の メタデータ を追跡します
     config={
         "learning_rate": lr,
         "epochs": epochs,
@@ -135,20 +130,19 @@ for epoch in range(2, epochs):
 # run.log_code()
 ```
 
-That's it. Navigate to the W&B App at [https://wandb.ai/home](https://wandb.ai/home) to view how the metrics we logged with W&B (accuracy and loss) improved during each training step.
+以上です。[https://wandb.ai/home](https://wandb.ai/home) にある W&B アプリケーション に移動して、W&B で ログ に記録した メトリクス ( 精度 と 損失 ) が各 トレーニング ステップ でどのように改善されたかを確認してください。
 
-{{< img src="/images/quickstart/quickstart_image.png" alt="Shows the loss and accuracy that was tracked from each time we ran the script above. " >}}
+{{< img src="/images/quickstart/quickstart_image.png" alt="上記 の スクリプト を実行するたびに追跡された損失と 精度 を示しています。" >}}
 
-The image above (click to expand) shows the loss and accuracy that was tracked from each time we ran the script above. Each run object that was created is show within the **Runs** column. Each run name is randomly generated.
+上の画像 (クリックして拡大) は、 上記 の スクリプト を実行するたびに追跡された損失と 精度 を示しています。作成された各 run オブジェクトは、**Runs** 列に表示されます。各 run 名はランダムに生成されます。
 
+## 次は何ですか？
 
-## What's next?
+W&B エコシステム の残りの部分を探索してください。
 
-Explore the rest of the W&B ecosystem.
-
-1. Check out [W&B Integrations]({{< relref path="guides/integrations/" lang="ja" >}}) to learn how to integrate W&B with your ML framework such as PyTorch, ML library such as Hugging Face, or ML service such as SageMaker. 
-2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports]({{< relref path="/guides/core/reports/" lang="ja" >}}).
-2. Create [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
-3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}).
-4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard]({{< relref path="/guides/core/tables/" lang="ja" >}}).
-5. Navigate to W&B AI Academy and learn about LLMs, MLOps and W&B Models from hands-on [courses](https://wandb.me/courses).
+1. [W&B Integrations]({{< relref path="guides/integrations/" lang="ja" >}}) をチェックして、PyTorch などの ML フレームワーク 、Hugging Face などの ML ライブラリ 、または SageMaker などの ML サービス と W&B を 統合 する方法を学んでください。
+2. [W&B Reports]({{< relref path="/guides/core/reports/" lang="ja" >}}) を使用して、run を整理し、 可視化 を埋め込んで自動化し、 学び を記述し、 コラボレーター と更新を共有します。
+3. [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) を作成して、機械学習 パイプライン の各ステップを通じて、 データセット 、 モデル 、依存関係、および 結果 を追跡します。
+4. [W&B Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) で ハイパーパラメーター の検索を自動化し、可能な モデル の スペース を探索します。
+5. [ 中央 ダッシュボード ]({{< relref path="/guides/core/tables/" lang="ja" >}}) で データセット を理解し、 モデル の 予測 を 可視化 し、 インサイト を共有します。
+6. W&B AI Academy に移動し、実践的な [コース](https://wandb.me/courses) で LLM、MLOps、および W&B Models について学びましょう。

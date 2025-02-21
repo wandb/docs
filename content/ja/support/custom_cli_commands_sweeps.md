@@ -1,17 +1,17 @@
 ---
+title: How do I use custom CLI commands with sweeps?
 menu:
   support:
     identifier: ja-support-custom_cli_commands_sweeps
 tags:
 - sweeps
-title: How do I use custom CLI commands with sweeps?
 toc_hide: true
 type: docs
 ---
 
-You can use W&B Sweeps with custom CLI commands if training configuration passes command-line arguments.
+W&B Sweeps は、トレーニング設定がコマンドライン 引数を渡す場合、カスタム CLI コマンドで使用できます。
 
-In the example below, the code snippet illustrates a bash terminal where a user trains a Python script named `train.py`, providing values that the script parses:
+以下の例では、ユーザーが `train.py` という名前の Python スクリプトをトレーニング し、スクリプトが解析する値を指定する bash ターミナルを示すコード スニペットを示しています。
 
 ```bash
 /usr/bin/env python train.py -b \
@@ -20,7 +20,7 @@ In the example below, the code snippet illustrates a bash terminal where a user 
     --lr 0.00001
 ```
 
-To implement custom commands, modify the `command` key in the YAML file. Based on the previous example, the configuration appears as follows:
+カスタム コマンドを実装するには、YAML ファイルの `command` キーを変更します。前の例に基づいて、設定は次のようになります。
 
 ```yaml
 program:
@@ -40,17 +40,18 @@ command:
   - ${args}
 ```
 
-The `${args}` key expands to all parameters in the sweep configuration, formatted for `argparse` as `--param1 value1 --param2 value2`.
+`${args}` キーは、sweep configuration のすべての パラメータ に展開され、`argparse` 用に `--param1 value1 --param2 value2` としてフォーマットされます。
 
-For additional arguments outside of `argparse`, implement the following:
+`argparse` 以外の追加の 引数 については、以下を実装します。
 
 ```python
+import argparse
 parser = argparse.ArgumentParser()
 args, unknown = parser.parse_known_args()
 ```
 
 {{% alert %}}
-Depending on the environment, `python` might refer to Python 2. To ensure invocation of Python 3, use `python3` in the command configuration:
+環境によっては、`python` が Python 2 を指している場合があります。Python 3 の呼び出しを確実にするには、コマンド 設定で `python3` を使用します。
 
 ```yaml
 program:

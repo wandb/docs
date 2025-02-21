@@ -1,19 +1,19 @@
 ---
+title: Does Launch support parallelization?  How can I limit the resources consumed
+  by a job?
 menu:
   launch:
     identifier: ja-launch-launch-faq-launch_support_parallelization_limit_resources_consumed_job
     parent: launch-faq
-title: Does Launch support parallelization?  How can I limit the resources consumed
-  by a job?
 ---
 
-Launch supports scaling jobs across multiple GPUs and nodes. Refer to [this guide]({{< relref path="/launch/integration-guides/volcano.md" lang="ja" >}}) for details.
+Launch は、複数の GPU とノードにまたがってジョブをスケールすることをサポートしています。詳細については、[こちらのガイド]({{< relref path="/launch/integration-guides/volcano.md" lang="ja" >}})を参照してください。
 
-Each launch agent is configured with a `max_jobs` parameter, which determines the maximum number of simultaneous jobs it can run. Multiple agents can point to a single queue as long as they connect to an appropriate launching infrastructure.
+各 Launch エージェントは `max_jobs` パラメータで設定され、これは実行できる同時ジョブの最大数を決定します。複数のエージェントが、適切な起動インフラストラクチャに接続している限り、単一のキューを指すことができます。
 
-You can set limits on CPU, GPU, memory, and other resources at the queue or job run level in the resource configuration. For information on setting up queues with resource limits on Kubernetes, refer to [this guide]({{< relref path="/launch/set-up-launch/setup-launch-kubernetes.md" lang="ja" >}}).
+リソース構成では、CPU、GPU、メモリ、およびその他のリソースの制限を、キューまたはジョブの run レベルで設定できます。Kubernetes でリソース制限付きのキューをセットアップする方法については、[こちらのガイド]({{< relref path="/launch/set-up-launch/setup-launch-kubernetes.md" lang="ja" >}})を参照してください。
 
-For sweeps, include the following block in the queue configuration to limit the number of concurrent runs:
+Sweeps の場合、同時 run の数を制限するには、次のブロックをキュー構成に含めます。
 
 ```yaml title="queue config"
   scheduler:

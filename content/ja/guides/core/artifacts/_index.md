@@ -1,47 +1,46 @@
 ---
+title: Artifacts
+description: W&B Artifacts の概要、その仕組み、そして W&B Artifacts の開始方法について説明します。
 cascade:
 - url: guides/artifacts/:filename
-description: Overview of what W&B Artifacts are, how they work, and how to get started
-  using W&B Artifacts.
 menu:
   default:
     identifier: ja-guides-core-artifacts-_index
     parent: core
-title: Artifacts
 url: guides/artifacts
 weight: 1
 ---
 
 {{< cta-button productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifact_fundamentals.ipynb" >}}
 
-Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}}). For example, a model training run might take in a dataset as input and produce a trained model as output. You can log hyperparameters, metadatra, and metrics to a run, and you can use an artifact to log, track, and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as output.
+W&B Artifacts を使用して、[W&B Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) の入力および出力としてデータを追跡およびバージョン管理します。たとえば、モデルトレーニング run は、データセットを入力として受け取り、トレーニング済みのモデルを出力として生成する場合があります。ハイパーパラメーター 、メタデータ、および メトリクス を run に ログ できます。また、artifact を使用して、モデルのトレーニングに使用するデータセットを入力として、および結果のモデル チェックポイント を出力として ログ 、追跡、およびバージョン管理できます。
 
-## Use cases
-You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}}). You can use datasets, models, or even other artifacts as inputs for processing.
+## ユースケース
+[runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) の入力および出力として、ML ワークフロー 全体で Artifacts を使用できます。データセット、モデル、またはその他の artifact を、プロセッシング の入力として使用できます。
 
 {{< img src="/images/artifacts/artifacts_landing_page2.png" >}}
 
-| Use Case               | Input                       | Output                       |
+| ユースケース               | 入力                       | 出力                       |
 |------------------------|-----------------------------|------------------------------|
-| Model Training         | Dataset (training and validation data)     | Trained Model                |
-| Dataset Pre-Processing | Dataset (raw data)          | Dataset (pre-processed data) |
-| Model Evaluation       | Model + Dataset (test data) | [W&B Table]({{< relref path="/guides/core/tables/" lang="ja" >}})                        |
-| Model Optimization     | Model                       | Optimized Model              |
+| モデルトレーニング         | データセット (トレーニング および 検証 データ)     | トレーニング済み モデル                |
+| データセット の事前処理 | データセット (raw データ)          | データセット (事前処理済み データ) |
+| モデル評価       | モデル + データセット (テスト データ) | [W&B Table]({{< relref path="/guides/core/tables/" lang="ja" >}})                        |
+| モデル最適化     | モデル                       | 最適化されたモデル              |
 
 
 {{% alert %}}
-The proceeding code snippets are meant to be run in order.
+次の コードスニペット は、順番に実行されることを意図しています。
 {{% /alert %}}
 
-## Create an artifact
+## artifact の作成
 
-Create an artifact with four lines of code:
-1. Create a [W&B run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}).
-2. Create an artifact object with the [`wandb.Artifact`]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) API.
-3. Add one or more files, such as a model file or dataset, to your artifact object.
-4. Log your artifact to W&B.
+4 行の コード で artifact を作成します。
+1. [W&B run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) を作成します。
+2. [`wandb.Artifact`]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) API を使用して、artifact オブジェクトを作成します。
+3. モデル ファイル や データセット など、1 つまたは複数のファイルを artifact オブジェクトに追加します。
+4. artifact を W&B に ログ します。
 
-For example, the proceeding code snippet shows how to log a file called `dataset.h5` to an artifact called `example_artifact`:
+たとえば、次の コードスニペット は、`dataset.h5` というファイルを `example_artifact` という artifact に ログ する方法を示しています。
 
 ```python
 import wandb
@@ -51,36 +50,36 @@ artifact = wandb.Artifact(name = "example_artifact", type = "dataset")
 artifact.add_file(local_path = "./dataset.h5", name = "training_dataset")
 artifact.save()
 
-# Logs the artifact version "my_data" as a dataset with data from dataset.h5
+# artifact のバージョン "my_data" を dataset.h5 のデータを持つデータセットとしてログします。
 ```
 
 {{% alert %}}
-See the [track external files]({{< relref path="./track-external-files.md" lang="ja" >}}) page for information on how to add references to files or directories stored in external object storage, like an Amazon S3 bucket. 
+Amazon S3 バケット など、外部オブジェクト ストレージに保存されているファイルまたは ディレクトリー への参照を追加する方法については、[track external files]({{< relref path="./track-external-files.md" lang="ja" >}}) ページを参照してください。
 {{% /alert %}}
 
-## Download an artifact
-Indicate the artifact you want to mark as input to your run with the [`use_artifact`]({{< relref path="/ref/python/run.md#use_artifact" lang="ja" >}}) method.
+## artifact のダウンロード
+[`use_artifact`]({{< relref path="/ref/python/run.md#use_artifact" lang="ja" >}}) メソッドを使用して、run への入力としてマークする artifact を指定します。
 
-Following the preceding code snippet, this next code block shows how to use the `training_dataset` artifact: 
+上記の コードスニペット に続いて、次の コード ブロック は `training_dataset` artifact の使用方法を示しています。
 
 ```python
-artifact = run.use_artifact("training_dataset:latest") #returns a run object using the "my_data" artifact
+artifact = run.use_artifact("training_dataset:latest") # "my_data" artifact を使用して run オブジェクトを返します
 ```
-This returns an artifact object.
+これにより、artifact オブジェクトが返されます。
 
-Next, use the returned object to download all contents of the artifact:
+次に、返されたオブジェクトを使用して、artifact のすべてのコンテンツをダウンロードします。
 
 ```python
-datadir = artifact.download() #downloads the full "my_data" artifact to the default directory.
+datadir = artifact.download() # "my_data" artifact 全体をデフォルト ディレクトリー にダウンロードします。
 ```
 
 {{% alert %}}
-You can pass a custom path into the `root` [parameter]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts]({{< relref path="./download-and-use-an-artifact.md" lang="ja" >}}).
+`root` [parameter]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) にカスタム パスを渡して、artifact を特定の ディレクトリー にダウンロードできます。artifact をダウンロードする別の方法、および追加の parameter を確認するには、[downloading and using artifacts]({{< relref path="./download-and-use-an-artifact.md" lang="ja" >}}) の ガイド を参照してください。
 {{% /alert %}}
 
 
-## Next steps
-* Learn how to [version]({{< relref path="./create-a-new-artifact-version.md" lang="ja" >}}) and [update]({{< relref path="./update-an-artifact.md" lang="ja" >}}) artifacts.
-* Learn how to trigger downstream workflows in response to changes to your artifacts with [artifact automation]({{< relref path="/guides/models/automations/project-scoped-automations/" lang="ja" >}}).
-* Learn about the [registry]({{< relref path="/guides/models/registry/" lang="ja" >}}), a space that houses trained models.
-* Explore the [Python SDK]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) and [CLI]({{< relref path="/ref/cli/wandb-artifact/" lang="ja" >}}) reference guides.
+## 次のステップ
+* artifact の[バージョン管理]({{< relref path="./create-a-new-artifact-version.md" lang="ja" >}}) および[更新]({{< relref path="./update-an-artifact.md" lang="ja" >}}) 方法を学びます。
+* [artifact automation]({{< relref path="/guides/models/automations/project-scoped-automations/" lang="ja" >}}) を使用して、artifact への変更に応じてダウンストリーム ワークフロー をトリガーする方法を学びます。
+* トレーニング済み モデル を格納するスペースである[registry]({{< relref path="/guides/models/registry/" lang="ja" >}}) について学びます。
+* [Python SDK]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) および [CLI]({{< relref path="/ref/cli/wandb-artifact/" lang="ja" >}}) リファレンス ガイド を参照してください。

@@ -1,80 +1,80 @@
 ---
+title: Supported Dedicated Cloud regions
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-dedicated_cloud-dedicated_regions
     parent: dedicated-cloud
-title: Supported Dedicated Cloud regions
 url: guides/hosting/hosting-options/dedicated_regions
 weight: 1
 ---
 
-AWS, GCP, and Azure support cloud computing services in multiple locations worldwide. Global regions help ensure that you satisfy requirements related to data residency & compliance, latency, cost efficiency and more. W&B supports many of the available global regions for Dedicated Cloud.
+AWS、GCP、および Azure は、世界中の複数の場所でクラウドコンピューティングサービスをサポートしています。グローバルリージョンは、データ所在地とコンプライアンス、レイテンシー、コスト効率などに関する要件を満たすのに役立ちます。W&B は、Dedicated Cloud で利用可能な多くのグローバルリージョンをサポートしています。
 
 {{% alert %}}
-Reach out to W&B Support if your preferred AWS, GCP, or Azure Region is not listed. W&B can validate if the relevant region has all the services that Dedicated Cloud needs and prioritize support depending on the outcome of the evaluation.
+ご希望の AWS、GCP、または Azure リージョンがリストにない場合は、W&B サポートにお問い合わせください。W&B は、関連するリージョンに Dedicated Cloud に必要なすべてのサービスがあるかどうかを検証し、評価の結果に応じてサポートを優先順位付けできます。
 {{% /alert %}}
 
-## Supported AWS Regions
+## サポートされている AWS リージョン
 
-The following table lists [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) that W&B currently supports for Dedicated Cloud instances.
+次の表に、W&B が現在 Dedicated Cloud インスタンスでサポートしている [AWS リージョン](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) を示します。
 
-| Region location | Region name |
+| リージョンの場所 | リージョン名 |
 |-------------|--------|
-|US East (Ohio)| us-east-2|
-|US East (N. Virginia)|us-east-1|
-|US West (N. California)|us-west-1|
-|US West (Oregon)|us-west-2|
-|Canada (Central)|ca-central-1|
-|Europe (Frankfurt)|eu-central-1|
-|Europe (Ireland)|eu-west-1|
-|Europe (London)|eu-west-2|
-|Europe (Milan)|eu-south-1|
-|Europe (Stockholm)|eu-north-1|
-|Asia Pacific (Mumbai)|ap-south-1|
-|Asia Pacific (Singapore)| ap-southeast-1|
-|Asia Pacific (Sydney)|ap-southeast-2|
-|Asia Pacific (Tokyo)|ap-northeast-1|
-|Asia Pacific (Seoul)|ap-northeast-2|
+|米国東部 (オハイオ)| us-east-2|
+|米国東部 (バージニア北部)|us-east-1|
+|米国西部 (北カリフォルニア)|us-west-1|
+|米国西部 (オレゴン)|us-west-2|
+|カナダ (中部)|ca-central-1|
+|ヨーロッパ (フランクフルト)|eu-central-1|
+|ヨーロッパ (アイルランド)|eu-west-1|
+|ヨーロッパ (ロンドン)|eu-west-2|
+|ヨーロッパ (ミラノ)|eu-south-1|
+|ヨーロッパ (ストックホルム)|eu-north-1|
+|アジアパシフィック (ムンバイ)|ap-south-1|
+|アジアパシフィック (シンガポール)| ap-southeast-1|
+|アジアパシフィック (シドニー)|ap-southeast-2|
+|アジアパシフィック (東京)|ap-northeast-1|
+|アジアパシフィック (ソウル)|ap-northeast-2|
 
-For more information about AWS Regions, see the [Regions, Availability Zones, and Local Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) in the AWS Documentation.
+AWS リージョンの詳細については、AWS ドキュメントの[リージョン、アベイラビリティーゾーン、およびローカルゾーン](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html)を参照してください。
 
-See [What to Consider when Selecting a Region for your Workloads](https://aws.amazon.com/blogs/architecture/what-to-consider-when-selecting-a-region-for-your-workloads/) for an overview of factors that you should consider when choosing an AWS Region. 
+AWS リージョンを選択する際に考慮すべき要素の概要については、[ワークロードのリージョンを選択する際に考慮すべきこと](https://aws.amazon.com/blogs/architecture/what-to-consider-when-selecting-a-region-for-your-workloads/)を参照してください。
 
-## Supported GCP Regions
-The following table lists [GCP Regions](https://cloud.google.com/compute/docs/regions-zones) that W&B currently supports for Dedicated Cloud instances.
+## サポートされている GCP リージョン
+次の表に、W&B が現在 Dedicated Cloud インスタンスでサポートしている [GCP リージョン](https://cloud.google.com/compute/docs/regions-zones) を示します。
 
-| Region location | Region name |
+| リージョンの場所 | リージョン名 |
 |-------------|--------|
-|South Carolina|us-east1|
-|N. Virginia|us-east4|
-|Iowa|us-central1|
-|Oregon|us-west1|
-|Los Angeles|us-west2|
-|Las Vegas|us-west4|
-|Toronto|northamerica-northeast2|
-|Belgium|europe-west1|
-|London|europe-west2|
-|Frankfurt|europe-west3|
-|Netherlands|europe-west4|
-|Sydney|australia-southeast1|
-|Tokyo|asia-northeast1|
-|Seoul|asia-northeast3|
+|サウスカロライナ|us-east1|
+|バージニア北部|us-east4|
+|アイオワ|us-central1|
+|オレゴン|us-west1|
+|ロサンゼルス|us-west2|
+|ラスベガス|us-west4|
+|トロント|northamerica-northeast2|
+|ベルギー|europe-west1|
+|ロンドン|europe-west2|
+|フランクフルト|europe-west3|
+|オランダ|europe-west4|
+|シドニー|australia-southeast1|
+|東京|asia-northeast1|
+|ソウル|asia-northeast3|
 
-For more information about GCP Regions, see [Regions and zones](https://cloud.google.com/compute/docs/regions-zones) in the GCP Documentation.
+GCP リージョンの詳細については、GCP ドキュメントの[リージョンとゾーン](https://cloud.google.com/compute/docs/regions-zones)を参照してください。
 
-## Supported Azure Region
-The following table lists [Azure regions](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#geographies) that W&B currently supports for Dedicated Cloud instances.
+## サポートされている Azure リージョン
+次の表に、W&B が現在 Dedicated Cloud インスタンスでサポートしている [Azure リージョン](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#geographies) を示します。
 
-| Region location | Region name |
+| リージョンの場所 | リージョン名 |
 |-------------|--------|
-|Virginia|eastus|
-|Iowa|centralus|
-|Washington|westus2|
-|California|westus|
-|Canada Central|canadacentral|
-|France Central|francecentral|
-|Netherlands|westeurope|
-|Tokyo, Saitama|japaneast|
-|Seoul|koreacentral|
+|バージニア|eastus|
+|アイオワ|centralus|
+|ワシントン|westus2|
+|カリフォルニア|westus|
+|カナダ中部|canadacentral|
+|フランス中部|francecentral|
+|オランダ|westeurope|
+|東京、埼玉|japaneast|
+|ソウル|koreacentral|
 
-For more information about Azure regions, see [Azure geographies](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview) in the Azure Documentation.
+Azure リージョンの詳細については、Azure ドキュメントの[Azure geography](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview)を参照してください。

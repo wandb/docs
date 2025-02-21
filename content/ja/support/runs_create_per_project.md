@@ -1,13 +1,13 @@
 ---
+title: How many runs can I create per project?
 menu:
   support:
     identifier: ja-support-runs_create_per_project
 tags:
 - projects
 - runs
-title: How many runs can I create per project?
 toc_hide: true
 type: docs
 ---
 
-Limit each project to approximately 10,000 runs for optimal performance.
+最適なパフォーマンスを得るために、各 プロジェクト を約10,000 run に制限してください。

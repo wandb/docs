@@ -1,93 +1,90 @@
 ---
+title: Line plots
+description: メトリクス を可視化し、軸をカスタマイズし、プロット上の複数の線を比較します。
 cascade:
 - url: guides/app/features/panels/line-plot/:filename
-description: Visualize metrics, customize axes, and compare multiple lines on a plot
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-line-plot-_index
     parent: panels
-title: Line plots
 url: guides/app/features/panels/line-plot
 weight: 10
 ---
 
-Line plots show up by default when you plot metrics over time with **wandb.log()**. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
+**wandb.log()** で時間経過に伴う メトリクス をプロットすると、デフォルトで折れ線プロットが表示されます。チャート 設定 をカスタマイズして、同じプロット上に複数の線を比較したり、カスタム軸を計算したり、ラベルの名前を変更したりできます。
 
 {{< img src="/images/app_ui/line_plot_example.png" alt="" >}}
 
-## Edit line panel settings
+## 折れ線 パネル の 設定 を編集する
  
-Hover your mouse over the panel you want to edit its settings for. Select the pencil icon that appears. Within the modal that appears, select a tab to edit the Data, Grouping, Chart, Expressions, or Legend settings.
+設定 を編集する パネル の上にマウスを移動します。表示される鉛筆アイコンを選択します。表示されるモーダル内で、タブを選択して、 データ 、 グルーピング 、 チャート 、 式 、または 凡例 の 設定 を編集します。
 
-### Data 
+### データ
 
-Select the **Data** tab to edit the x-axis, y-axis, smoothing filter, point aggregation and more. The proceeding describes some of the options you can edit:
+**データ** タブを選択して、X軸、Y軸、平滑化フィルター、点集約などを編集します。以下に、編集できるオプションのいくつかについて説明します。
 
 {{% alert %}}
-If you'd like to use a custom x-axis, make sure it's logged in the same call to `wandb.log()` that you use to log the y-axis.
+カスタムX軸を使用する場合は、Y軸の ログ に使用するのと同じ `wandb.log()` の呼び出しで ログ されていることを確認してください。
 {{% /alert %}} 
 
-* **X axis**: By default the x-axis is set to **Step**. You can change the x-axis to **Relative Time**, or select a custom axis based on values you log with W&B.
-  * **Relative Time (Wall)** is clock time since the process started, so if you started a run and resumed it a day later and logged something that would be plotted a 24hrs.
-  * **Relative Time (Process)** is time inside the running process, so if you started a run and ran for 10 seconds and resumed a day later that point would be plotted at 10s
-  * **Wall Time** is minutes elapsed since the start of the first run on the graph
-  * **Step** increments by default each time `wandb.log()` is called, and is supposed to reflect the number of training steps you've logged from your model
-* **Y axes**: Select y-axes from the logged values, including metrics and hyperparameters that change over time.
-* **Min, max, and log scale**: Minimum, maximum, and log scale settings for x axis and y axis in line plots
-* **Smoothing**: Change the smoothing on the line plot.
-* **Outliers**: Rescale to exclude outliers from the default plot min and max scale
-* **Max runs to show**: Show more lines on the line plot at once by increasing this number, which defaults to 10 runs. You'll see the message "Showing first 10 runs" on the top of the chart if there are more than 10 runs available but the chart is constraining the number visible.
-* **Chart type**: Change between a line plot, an area plot, and a percentage area plot
+* **X軸**: デフォルトでは、X軸は **Step** に設定されています。X軸を **Relative Time** に変更するか、W&B で ログ に記録した 値 に基づいてカスタム軸を選択できます。
+  * **Relative Time (Wall)** は プロセス が開始されてからのクロック時間であるため、 run を開始して1日後に再開し、何かを ログ に記録すると、24時間後にプロットされます。
+  * **Relative Time (Process)** は実行中の プロセス 内の時間であるため、 run を開始して10秒間実行し、1日後に再開すると、その時点は10秒でプロットされます。
+  * **Wall Time** は、グラフ上の最初の run の開始からの経過時間（分）です。
+  * **Step** は、`wandb.log()` が呼び出されるたびにデフォルトで増分され、 モデル から ログ に記録した トレーニング ステップ の数を反映することになっています。
+* **Y軸**: 時間の経過とともに変化する メトリクス や ハイパーパラメーター など、 ログ に記録された 値 からY軸を選択します。
+* **最小値 、 最大値 、および ログ スケール**: 折れ線プロットのX軸とY軸の最小値、最大値、および ログ スケール 設定
+* **平滑化**: 折れ線プロットの平滑化を変更します。
+* **外れ値**: デフォルトのプロットの最小 スケール と最大 スケール から外れ値を排除するようにリスケールします。
+* **表示する run の最大数**: この数を増やすことで、折れ線プロットに一度に多くの線を表示できます。デフォルトは10 run です。利用可能な run が10を超えるが、チャートが表示数を制限している場合は、チャートの上部に「最初の10 run を表示しています」というメッセージが表示されます。
+* **チャート タイプ**: 折れ線プロット、面プロット、およびパーセンテージ面プロットを切り替えます。
 
 {{% alert %}}
-Pick **multiple y-axes** in the line plot settings to compare different metrics on the same chart, like accuracy and validation accuracy for example.
+折れ線プロット 設定 で **複数のY軸** を選択して、精度や 検証精度 などの異なる メトリクス を同じチャートで比較します。
 {{% /alert %}}
 
-### Grouping
+### グルーピング
 
-Select the **Grouping** tab to use group by methods to organize your data.
+**グルーピング** タブを選択して、グループ化 メソッド を使用して データ を整理します。
 
+* **グループ化**: 列を選択すると、その列に同じ 値 を持つすべての run がグループ化されます。
+* **集計**: 集計 — グラフ上の線の 値 。オプションは、グループの平均、中央値、最小値、および最大値です。
 
-* **Group by**: Select a column, and all the runs with the same value in that column will be grouped together.
-* **Agg**: Aggregation— the value of the line on the graph. The options are mean, median, min, and max of the group.
+### チャート
+[グラフ]タブを選択して、プロットのタイトル、軸タイトル、 凡例 などを編集します。
 
-### Chart
-Select the Chart tab to edit the plot's title, axis titles, legend, and more.
+* **タイトル**: 折れ線プロットにカスタムタイトルを追加します。これはチャートの上部に表示されます。
+* **X軸タイトル**: 折れ線プロットのX軸にカスタムタイトルを追加します。これはチャートの右下隅に表示されます。
+* **Y軸タイトル**: 折れ線プロットのY軸にカスタムタイトルを追加します。これはチャートの左上隅に表示されます。
+* **凡例 を表示**: 凡例 のオン/オフを切り替えます
+* **フォント サイズ**: チャートタイトル、X軸タイトル、Y軸タイトルのフォント サイズを変更します
+* **凡例 の位置**: チャート上の 凡例 の位置を変更します
 
-* **Title**: Add a custom title for line plot, which shows up at the top of the chart
-* **X-Axis title**: Add a custom title for the x-axis of the line plot, which shows up in the lower right corner of the chart.
-* **Y-Axis title**: Add a custom title for the y-axis of the line plot, which shows up in the upper left corner of the chart.
-* **Show legend**: Toggle legend on or off
-* **Font size**: Change the font size of the chart title, x-axis title, and y-axis title
-* **Legend position**: Change the position of the legend on the chart
+### 凡例
 
+* **凡例**: 各線のプロットの 凡例 に表示するフィールドを選択します。たとえば、 run の名前と学習率を表示できます。
+* **凡例 テンプレート**: 完全にカスタマイズ可能なこの強力な テンプレート を使用すると、折れ線プロットの上部にある テンプレート に表示するテキストと 変数 、およびマウスをプロットの上に置いたときに表示される 凡例 を正確に指定できます。
 
-### Legend
+### 式
 
+* **Y軸式**: 計算された メトリクス をグラフに追加します。ログ に記録された メトリクス と、 ハイパーパラメーター などの 設定 値 を使用して、カスタム線を計算できます。
+* **X軸式**: カスタム式を使用して計算された 値 を使用するようにX軸をリスケールします。便利な 変数 には、デフォルトのX軸の\*\*_step\*\*が含まれ、要約 値 を参照するための構文は `${summary:value}` です。
 
-* **Legend**: Select field that you want to see in the legend of the plot for each line. You could, for example, show the name of the run and the learning rate.
-* **Legend template**: Fully customizable, this powerful template allows you to specify exactly what text and variables you want to show up in the template at the top of the line plot as well as the legend that appears when you hover your mouse over the plot.
+## プロット上の平均 値 を 可視化 する
 
-### Expressions
+いくつかの異なる Experiments があり、プロット上の 値 の平均を表示する場合は、テーブルの グルーピング 機能を使用できます。 run テーブルの上にある「グループ」をクリックし、「すべて」を選択して、グラフに平均 値 を表示します。
 
-* **Y Axis Expressions**: Add calculated metrics to your graph. You can use any of the logged metrics as well as configuration values like hyperparameters to calculate custom lines.
-* **X Axis Expressions**: Rescale the x-axis to use calculated values using custom expressions. Useful variables include\*\*_step\*\* for the default x-axis, and the syntax for referencing summary values is `${summary:value}`
-
-## Visualize average values on a plot
-
-If you have several different experiments and you'd like to see the average of their values on a plot, you can use the Grouping feature in the table. Click "Group" above the run table and select "All" to show averaged values in your graphs.
-
-Here is what the graph looks like before averaging:
+平均化前のグラフは次のようになります。
 
 {{< img src="/images/app_ui/demo_precision_lines.png" alt="" >}}
 
-The proceeding image shows a graph that represents average values across runs using grouped lines.
+次の図は、グループ化された線を使用して run 全体の平均 値 を表すグラフを示しています。
 
 {{< img src="/images/app_ui/demo_average_precision_lines.png" alt="" >}}
 
-## Visualize NaN value on a plot
+## プロットで NaN 値 を 可視化 する
 
-You can also plot `NaN` values including PyTorch tensors on a line plot with `wandb.log`. For example:
+`wandb.log` を使用して、PyTorch テンソルを含む `NaN` 値 を折れ線プロットにプロットすることもできます。例：
 
 ```python
 wandb.log({"test": [..., float("nan"), ...]})
@@ -95,63 +92,62 @@ wandb.log({"test": [..., float("nan"), ...]})
 
 {{< img src="/images/app_ui/visualize_nan.png" alt="" >}}
 
-## Compare two metrics on one chart
+## 1つのチャートで2つの メトリクス を比較する
 
 {{< img src="/images/app_ui/visualization_add.gif" alt="" >}}
 
-1. Select the **Add panels** button in the top right corner of the page.
-2. From the left panel that appears, expand the Evaluation dropdown.
-3. Select **Run comparer**
+1. ページの右上隅にある **パネル を追加** ボタンを選択します。
+2. 表示される左側の パネル で、[評価]ドロップダウンを展開します。
+3. **Run comparer** を選択します
 
+## 折れ線プロットの色を変更する
 
-## Change the color of the line plots
-
-Sometimes the default color of runs is not helpful for comparison. To help overcome this, wandb provides two instances with which one can manually change the colors.
+run のデフォルトの色が比較に役立たない場合があります。これを克服するために、wandb は手動で色を変更できる2つの インスタンス を提供します。
 
 {{< tabpane text=true >}}
-{{% tab header="From the run table" value="run_table" %}}
+{{% tab header="Run table から" value="run_table" %}}
 
-  Each run is given a random color by default upon initialization.
+  各 run には、初期化時にデフォルトでランダムな色が与えられます。
 
-  {{< img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Random colors given to runs" >}}
+  {{< img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Run に与えられたランダムな色" >}}
 
-  Upon clicking any of the colors, a color palette appears from which we can manually choose the color we want.
+  いずれかの色をクリックすると、カラー パレット が表示され、そこから必要な色を手動で選択できます。
 
-  {{< img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="The color palette" >}}
+  {{< img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="カラー パレット" >}}
 
 {{% /tab %}}
 
-{{% tab header="From the chart legend settings" value="legend_settings" %}}
+{{% tab header="チャート 凡例 設定 から" value="legend_settings" %}}
 
-1. Hover your mouse over the panel you want to edit its settings for.
-2. Select the pencil icon that appears.
-3. Choose the **Legend** tab.
+1. 設定 を編集する パネル の上にマウスを移動します。
+2. 表示される鉛筆アイコンを選択します。
+3. **Legend** タブを選択します。
 
 {{< img src="/images/app_ui/plot_style_line_plot_legend.png" alt="" >}}
 
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Visualize on different x axes
+## 異なるX軸で 可視化 する
 
-If you'd like to see the absolute time that an experiment has taken, or see what day an experiment ran, you can switch the x axis. Here's an example of switching from steps to relative time and then to wall time.
+実験 にかかった絶対時間を確認したり、実験 を実行した日を確認したりする場合は、X軸を切り替えることができます。ステップ から相対時間、次にウォール時間への切り替えの例を次に示します。
 
 {{< img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="" >}}
 
-## Area plots
+## 面プロット
 
-In the line plot settings, in the advanced tab, click on different plot styles to get an area plot or a percentage area plot.
+折れ線プロット 設定 の [詳細] タブで、異なるプロット スタイル をクリックして、面プロットまたはパーセンテージ面プロットを取得します。
 
 {{< img src="/images/app_ui/line_plots_area_plots.gif" alt="" >}}
 
-## Zoom
+## ズーム
 
-Click and drag a rectangle to zoom vertically and horizontally at the same time. This changes the x-axis and y-axis zoom.
+長方形をクリックしてドラッグすると、垂直方向と水平方向に同時に ズーム できます。これにより、X軸とY軸の ズーム が変更されます。
 
 {{< img src="/images/app_ui/line_plots_zoom.gif" alt="" >}}
 
-## Hide chart legend
+## チャート 凡例 を非表示にする
 
-Turn off the legend in the line plot with this simple toggle:
+この簡単なトグルで折れ線プロットの 凡例 をオフにします。
 
 {{< img src="/images/app_ui/demo_hide_legend.gif" alt="" >}}

@@ -1,13 +1,13 @@
 ---
+title: Can I group runs without using the "Group" feature?
 menu:
   support:
     identifier: ja-support-group_runs_without_group_feature
 tags:
 - workspaces
 - runs
-title: Can I group runs without using the "Group" feature?
 toc_hide: true
 type: docs
 ---
 
-Yes, you can also use tags or custom metadata to categorize runs. That can be done using the `Group` button which is available in the Workspace and Runs views of the project.
+はい、タグやカスタム メタデータ を使用して run を分類することもできます。これは、プロジェクト の Workspace および Runs ビューで使用できる [Group] ボタンを使用して実行できます。

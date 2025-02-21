@@ -1,19 +1,19 @@
 ---
+title: Hugging Face Diffusers
 menu:
   default:
     identifier: ja-guides-integrations-diffusers
     parent: integrations
-title: Hugging Face Diffusers
 weight: 120
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" >}}
 
-[Hugging Face Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pre-trained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization, pipeline architecture, and configuration management to interactive centralized dashboards without compromising that ease of use.
+[Hugging Face Diffusers](https://huggingface.co/docs/diffusers) は、画像、オーディオ、さらには分子の 3D 構造を生成するための、最先端の学習済み拡散モデルの頼りになるライブラリです。Weights & Biases の インテグレーション により、使いやすさを損なうことなく、インタラクティブな集中 ダッシュボード に、豊富で柔軟な 実験管理 、メディア 可視化 、 パイプライン アーキテクチャー 、および 設定 管理 が追加されます。
 
-## Next-level logging in just two lines
+## たった 2 行で次世代の ログ記録
 
-Log all the prompts, negative prompts, generated media, and configs associated with your experiment by simply including 2 lines of code. Here are the 2 lines of code to begin logging:
+たった 2 行の コード を含めるだけで、 プロンプト 、ネガティブ プロンプト 、生成されたメディア、および 実験 に関連付けられた config をすべて ログ に記録します。 ログ 記録を開始するための 2 行の コード を次に示します。
 
 ```python
 # import the autolog function
@@ -25,45 +25,44 @@ autolog(init=dict(project="diffusers_logging"))
 
 | {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="An example of how the results of your experiment are logged" >}} | 
 |:--:| 
-| **An example of how the results of your experiment are logged.** |
+| **実験 の 結果 がどのように ログ に記録されるかの例。** |
 
-## Get started
+## はじめに
 
-1. Install `diffusers`, `transformers`, `accelerate`, and `wandb`.
+1.  `diffusers`、`transformers`、`accelerate`、および `wandb` をインストールします。
 
-    - Command line:
+    - コマンドライン:
 
         ```shell
         pip install --upgrade diffusers transformers accelerate wandb
         ```
 
-    - Notebook:
+    - ノートブック:
 
         ```bash
         !pip install --upgrade diffusers transformers accelerate wandb
         ```
 
+2.  `autolog` を使用して Weights & Biases の run を初期化し、[サポートされているすべての パイプライン 呼び出し](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)からの入力と出力を自動的に追跡します。
 
-2. Use `autolog` to initialize a Weights & Biases run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
+    `autolog()` 関数は、[`wandb.init()`]({{< relref path="/ref/python/init" lang="ja" >}})に必要な パラメータ の 辞書 を受け入れる `init` パラメータ を使用して呼び出すことができます。
 
-    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`]({{< relref path="/ref/python/init" lang="ja" >}}).
+    `autolog()` を呼び出すと、Weights & Biases の run が初期化され、[サポートされているすべての パイプライン 呼び出し](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)からの入力と出力が自動的に追跡されます。
 
-    When you call `autolog()`, it initializes a Weights & Biases run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
-
-    - Each pipeline call is tracked into its own [table]({{< relref path="/guides/core/tables/" lang="ja" >}}) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
-    - The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`]({{< relref path="/guides/core/tables/" lang="ja" >}}).
-    - All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
-    - The generated media for each pipeline call are also logged in [media panels]({{< relref path="/guides/models/track/log/media" lang="ja" >}}) in the run.
+    - 各 パイプライン 呼び出しは、 ワークスペース 内の独自の [table]({{< relref path="/guides/core/tables/" lang="ja" >}})に追跡され、 パイプライン 呼び出しに関連付けられた config は、その run の config 内の ワークフロー の リスト に追加されます。
+    - プロンプト 、ネガティブ プロンプト 、および生成されたメディアは、[`wandb.Table`]({{< relref path="/guides/core/tables/" lang="ja" >}})に ログ 記録されます。
+    - シード や パイプライン アーキテクチャー など、 実験 に関連付けられているその他すべての config は、 run の config セクションに保存されます。
+    - 各 パイプライン 呼び出しで生成されたメディアも、 run の [メディア パネル ]({{< relref path="/guides/models/track/log/media" lang="ja" >}})に ログ 記録されます。
 
     {{% alert %}}
-    You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
+    サポートされている パイプライン 呼び出しの リスト は[こちら](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)にあります。この インテグレーション の新機能のリクエストや、それに関連する バグ の報告を行う場合は、[https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues) で issue を提起してください。
     {{% /alert %}}
 
-## Examples
+## 例
 
-### Autologging
+### 自動 ログ記録
 
-Here is a brief end-to-end example of the autolog in action:
+自動 ログ の簡単な エンドツーエンド の例を次に示します。
 
 {{< tabpane text=true >}}
 {{% tab header="Script" value="script" %}}
@@ -135,25 +134,25 @@ wandb.finish()
 {{< /tabpane >}}
 
 
-- The results of a single experiment:
+- 単一の 実験 の 結果 :
 
     {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}}
 
-- The results of multiple experiments:
+- 複数の 実験 の 結果 :
 
     {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged" >}}
 
-- The config of an experiment:
+- 実験 の config:
 
     {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
 
 {{% alert %}}
-You need to explicitly call [`wandb.finish()`]({{< relref path="/ref/python/finish" lang="ja" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
+パイプライン を呼び出した後、IPython ノートブック 環境 で コード を実行する場合は、[`wandb.finish()`]({{< relref path="/ref/python/finish" lang="ja" >}})を明示的に呼び出す必要があります。 python スクリプト を実行する場合は、これは必要ありません。
 {{% /alert %}}
 
-### Tracking multi-pipeline workflows
+### 複数 パイプライン ワークフロー の追跡
 
-This section demonstrates the autolog with a typical [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) workflow, in which the latents generated by the [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) is refined by the corresponding refiner.
+このセクションでは、[`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl)によって生成されたレイテンシが対応するリファイナーによってリファインされる、典型的な[Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) ワークフロー を使用した自動 ログ を示します。
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/sdxl-diffusers.ipynb" >}}
 
@@ -288,10 +287,10 @@ wandb.finish()
 
 {{< /tabpane >}}
 
-- Example of a Stable Diffisuion XL + Refiner experiment:
+- Stable Diffisuion XL + Refiner 実験 の例:
     {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}}
 
-## More resources
+## その他の リソース
 
-* [A Guide to Prompt Engineering for Stable Diffusion](https://wandb.ai/geekyrakshit/diffusers-prompt-engineering/reports/A-Guide-to-Prompt-Engineering-for-Stable-Diffusion--Vmlldzo1NzY4NzQ3)
-* [PIXART-α: A Diffusion Transformer Model for Text-to-Image Generation](https://wandb.ai/geekyrakshit/pixart-alpha/reports/PIXART-A-Diffusion-Transformer-Model-for-Text-to-Image-Generation--Vmlldzo2MTE1NzM3)
+* [Stable Diffusion の プロンプト エンジニアリング ガイド](https://wandb.ai/geekyrakshit/diffusers-prompt-engineering/reports/A-Guide-to-Prompt-Engineering-for-Stable-Diffusion--Vmlldzo1NzY4NzQ3)
+* [PIXART-α: text-to-image 生成のための Diffusion Transformer Model](https://wandb.ai/geekyrakshit/pixart-alpha/reports/PIXART-A-Diffusion-Transformer-Model-for-Text-to-Image-Generation--Vmlldzo2MTE1NzM3)

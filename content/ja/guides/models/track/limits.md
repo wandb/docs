@@ -1,134 +1,117 @@
 ---
-description: Keep your pages in W&B faster and more responsive by logging within these
-  suggested bounds.
+title: Experiments limits and performance
+description: これらの推奨範囲内でログを記録することで、W&B のページをより速く、より応答性の高い状態に保つことができます。
 menu:
   default:
     identifier: ja-guides-models-track-limits
     parent: experiments
-title: Experiments limits and performance
 weight: 7
 ---
 
-<!-- ## Best Practices for Fast Pages -->
+以下の推奨範囲内でログを記録することで、W&B のページをより高速かつ応答性の高い状態に保つことができます。
 
-Keep your pages in W&B faster and more responsive by logging within the following suggested bounds.
+## 記録される メトリクス
 
-## Logged metrics
+`wandb.log` を使用して、実験 メトリクス を追跡します。ログに記録されると、これらの メトリクス はチャートを生成し、テーブルに表示されます。ログに記録するデータが多すぎると、アプリケーションの動作が遅くなる可能性があります。
 
-Use `wandb.log` to track experiment metrics. Once logged, these metrics generate charts and show up in tables. Too much logged data can make the app slow.
+### 個別の メトリクス 数
 
-### Distinct metric count
-
-For faster performance, keep the total number of distinct metrics in a project under 10,000.
+パフォーマンスを向上させるには、1 つの project 内の個別の メトリクス の総数を 10,000 未満に抑えてください。
 
 ```python
 import wandb
 
 wandb.log(
     {
-        "a": 1,  # "a" is a distinct metric
+        "a": 1,  # "a" は個別の メトリクス
         "b": {
-            "c": "hello",  # "b.c" is a distinct metric
-            "d": [1, 2, 3],  # "b.d" is a distinct metric
+            "c": "hello",  # "b.c" は個別の メトリクス
+            "d": [1, 2, 3],  # "b.d" は個別の メトリクス
         },
     }
 )
 ```
 
 {{% alert %}}
-W&B automatically flattens nested values. This means that if you pass a dictionary, W&B turns it into a dot-separated name. For config values, W&B supports 3 dots in the name. For summary values, W&B supports 4 dots.
+W&B は、ネストされた値を自動的にフラット化します。つまり、辞書を渡すと、W&B はそれをドットで区切られた名前に変換します。 config の値の場合、W&B は名前に 3 つのドットをサポートします。 summary の値の場合、W&B は 4 つのドットをサポートします。
 {{% /alert %}}
 
-<!-- ### Log media with same metric name
-Log related media to the same metric name:
+もし ワークスペース の動作が突然遅くなった場合は、最近の runs が意図せずに数千もの新しい メトリクス を記録していないか確認してください。（これは、1 つまたは 2 つの runs のみが表示されている数千ものプロットがあるセクションを見ることで、最も簡単に見つけることができます。）もし記録している場合は、それらの runs を削除し、目的の メトリクス で再作成することを検討してください。
+
+### 値の幅
+
+1 回のログ記録された値のサイズを 1 MB 未満に、1 回の `wandb.log` 呼び出しの合計サイズを 25 MB 未満に制限してください。この制限は、`wandb.Image`、`wandb.Audio` などの `wandb.Media` タイプには適用されません。
 
 ```python
-for i, img in enumerate(images):
-    # ❌ not recommended
-    wandb.log({f"pred_img_{i}": wandb.Image(image)})
-
-    # ✅ recommended
-    wandb.log({"pred_imgs": [wandb.Image(image) for image in images]})
-``` -->
-
-If your workspace suddenly slows down, check whether recent runs have unintentionally logged thousands of new metrics. (This is easiest to spot by seeing sections with thousands of plots that have only one or two runs visible on them.) If they have, consider deleting those runs and recreating them with the desired metrics.
-
-### Value width
-
-Limit the size of a single logged value to under 1 MB and the total size of a single `wandb.log` call to under 25 MB. This limit does not apply to `wandb.Media` types like `wandb.Image`, `wandb.Audio`, etc.
-
-```python
-# ❌ not recommended
+# ❌ 推奨されません
 wandb.log({"wide_key": range(10000000)})
 
-# ❌ not recommended
+# ❌ 推奨されません
 with f as open("large_file.json", "r"):
     large_data = json.load(f)
     wandb.log(large_data)
 ```
 
-Wide values can affect the plot load times for all metrics in the run, not just the metric with the wide values.
+幅の広い値は、幅の広い値を持つ メトリクス だけでなく、run 内のすべての メトリクス のプロットのロード時間に影響を与える可能性があります。
 
 {{% alert %}}
-Data is saved and tracked even if you log values wider than the recommended amount. However, your plots may load more slowly.
+データは、推奨量よりも幅の広い値を記録した場合でも保存および追跡されます。ただし、プロットのロードが遅くなる可能性があります。
 {{% /alert %}}
 
-### Metric frequency
+### メトリクス の頻度
 
-Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, the wider the metric the less frequently you should log it. W&B recommends:
+ログに記録する メトリクス に適切なログ記録頻度を選択してください。一般的な経験則として、メトリクス の幅が広いほど、ログに記録する頻度を少なくする必要があります。W&B は以下を推奨します。
 
-- Scalars: \<100,000 logged points per metric
-- Media: \<50,000 logged points per metric
-- Histograms: \<10,000 logged points per metric
+- スカラー: メトリクス ごとに \<100,000 ログポイント
+- メディア: メトリクス ごとに \<50,000 ログポイント
+- ヒストグラム: メトリクス ごとに \<10,000 ログポイント
 
 ```python
-# Training loop with 1m total steps
+# 100 万ステップのトレーニング ループ
 for step in range(1000000):
-    # ❌ not recommended
+    # ❌ 推奨されません
     wandb.log(
         {
-            "scalar": step,  # 100,000 scalars
-            "media": wandb.Image(...),  # 100,000 images
-            "histogram": wandb.Histogram(...),  # 100,000 histograms
+            "scalar": step,  # 100,000 スカラー
+            "media": wandb.Image(...),  # 100,000 画像
+            "histogram": wandb.Histogram(...),  # 100,000 ヒストグラム
         }
     )
 
-    # ✅ recommended
+    # ✅ 推奨
     if step % 1000 == 0:
         wandb.log(
             {
-                "histogram": wandb.Histogram(...),  # 10,000 histograms
+                "histogram": wandb.Histogram(...),  # 10,000 ヒストグラム
             },
             commit=False,
         )
     if step % 200 == 0:
         wandb.log(
             {
-                "media": wandb.Image(...),  # 50,000 images
+                "media": wandb.Image(...),  # 50,000 画像
             },
             commit=False,
         )
     if step % 100 == 0:
         wandb.log(
             {
-                "scalar": step,  # 100,000 scalars
+                "scalar": step,  # 100,000 スカラー
             },
             commit=True,
-        )  # Commit batched, per-step metrics together
+        )  # バッチ処理されたステップごとの メトリクス をまとめてコミットします
 ```
 
-<!-- Enable batching in calls to `wandb.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs]({{< relref path="/ref/python/log.md" lang="ja" >}}) for `wandb.log` for more details. -->
-
 {{% alert %}}
-W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines.
+ガイドラインを超過した場合でも、W&B はログに記録されたデータを受け入れ続けますが、ページのロードが遅くなる可能性があります。
 {{% /alert %}}
 
-### Config size
+### Config サイズ
 
-Limit the total size of your run config to less than 10 MB. Logging large values could slow down your project workspaces and runs table operations.
+run config の合計サイズを 10 MB 未満に制限してください。大きな値を記録すると、project の ワークスペース と runs テーブルの操作が遅くなる可能性があります。
 
 ```python
-# ✅ recommended
+# ✅ 推奨
 wandb.init(
     config={
         "lr": 0.1,
@@ -137,109 +120,108 @@ wandb.init(
     }
 )
 
-# ❌ not recommended
+# ❌ 推奨されません
 wandb.init(
     config={
         "steps": range(10000000),
     }
 )
 
-# ❌ not recommended
+# ❌ 推奨されません
 with f as open("large_config.json", "r"):
     large_config = json.load(f)
     wandb.init(config=large_config)
 ```
 
-### Run count
+### Run 数
 
-For faster loading times, keep the total number of runs in a single project under 10,000. Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.
+ロード時間を短縮するには、1 つの project 内の runs の合計数を 10,000 未満に抑えてください。run 数が多いと、project の ワークスペース と runs テーブルの操作が遅くなる可能性があります。特に、グループ化が有効になっている場合や、runs に多数の個別の メトリクス がある場合は遅くなる可能性があります。
 
-If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving _other_ runs]({{< relref path="/guides/models/track/runs/manage-runs.md" lang="ja" >}}) to a new project used as an archive, leaving a smaller set of runs in your working project.
+あなたまたはあなたの team が頻繁に同じ runs のセット (たとえば、最近の runs) にアクセスしている場合は、[_他の_ runs を一括で移動する]({{< relref path="/guides/models/track/runs/manage-runs.md" lang="ja" >}}) ことを検討して、アーカイブとして使用される新しい project に移動し、作業 project にはより少ない runs のセットを残します。
 
-### Section count
+### セクション数
 
-Having hundreds of sections in a workspace can hurt performance. Consider creating sections based on high-level groupings of metrics and avoiding an anti-pattern of one section for each metric.
+ワークスペース に数百のセクションがあると、パフォーマンスが低下する可能性があります。メトリクス の高レベルのグループ化に基づいてセクションを作成し、メトリクス ごとに 1 つのセクションというアンチパターンを避けることを検討してください。
 
-If you find you have too many sections and performance is slow, consider the workspace setting to create sections by prefix rather than suffix, which can result in fewer sections and better performance.
+セクションが多すぎてパフォーマンスが遅い場合は、接尾辞ではなくプレフィックスでセクションを作成する ワークスペース の設定を検討してください。これにより、セクションの数が減り、パフォーマンスが向上する可能性があります。
 
-{{< img src="/images/track/section_prefix_toggle.gif" alt="Toggling section creation" >}}
+{{< img src="/images/track/section_prefix_toggle.gif" alt="セクションの作成の切り替え" >}}
 
-### File count
+### ファイル数
 
-Keep the total number of files uploaded for a single run under 1,000. You can use W&B Artifacts when you need to log a large number of files. Exceeding 1,000 files in a single run can slow down your run pages.
+1 回の run でアップロードされるファイルの合計数を 1,000 未満に抑えてください。多数のファイルをログに記録する必要がある場合は、W&B Artifacts を使用できます。1 回の run で 1,000 を超えるファイルがあると、run ページの動作が遅くなる可能性があります。
 
-## Python script performance
+## Python スクリプトのパフォーマンス
 
-There are a few ways that the performance of your python script is reduced:
+Python スクリプトのパフォーマンスが低下する原因はいくつかあります。
 
-1. The size of your data is too large. Large data sizes could introduce a >1 ms overhead to the training loop.
-2. The speed of your network and how the W&B backend is configured
-3. Calling `wandb.log` more than a few times per second. This is due to a small latency added to the training loop every time `wandb.log` is called.
-
-{{% alert %}}
-Is frequent logging slowing your training runs down? Check out [this Colab](http://wandb.me/log-hf-colab) for methods to get better performance by changing your logging strategy.
-{{% /alert %}}
-
-W&B does not assert any limits beyond rate limiting. The W&B Python SDK automatically completes an exponential "backoff" and "retry" requests that exceed limits. W&B Python SDK responds with a “Network failure” on the command line. For unpaid accounts, W&B may reach out in extreme cases where usage exceeds reasonable thresholds.
-
-## Rate limits
-
-W&B SaaS Cloud API implements a rate limit to maintain system integrity and ensure availability. This measure prevents any single user from monopolizing available resources in the shared infrastructure, ensuring that the service remains accessible to all users. You may encounter a lower rate limit for a variety of reasons.
+1. データのサイズが大きすぎる。データのサイズが大きいと、トレーニング ループに >1 ms のオーバーヘッドが発生する可能性があります。
+2. ネットワークの速度と W&B バックエンドの構成方法
+3. `wandb.log` を 1 秒に数回以上呼び出す。これは、`wandb.log` が呼び出されるたびに、トレーニング ループに小さな遅延が追加されるためです。
 
 {{% alert %}}
-Rate limits are subject to change.
+頻繁なログ記録によってトレーニング run の速度が低下していませんか? ログ記録戦略を変更してパフォーマンスを向上させる方法については、[この Colab](http://wandb.me/log-hf-colab) を参照してください。
 {{% /alert %}}
 
-### Rate limit HTTP headers
+W&B は、レート制限を超える制限は一切主張しません。W&B Python SDK は、制限を超えるリクエストに対して、指数関数的な「バックオフ」および「再試行」リクエストを自動的に完了します。W&B Python SDK は、コマンドラインで「ネットワーク障害」で応答します。無償アカウントの場合、W&B は、使用量が妥当な閾値を超える極端な場合に連絡する場合があります。
 
-The preceding table describes rate limit HTTP headers:
+## レート制限
 
-| Header name         | Description                                                                             |
-| ------------------- | --------------------------------------------------------------------------------------- |
-| RateLimit-Limit     | The amount of quota available per time window, scaled in the range of 0 to 1000         |
-| RateLimit-Remaining | The amount of quota in the current rate limit window, scaled in the range of 0 and 1000 |
-| RateLimit-Reset     | The number of seconds until the current quota resets                                    |
+W&B SaaS Cloud API は、システムの整合性を維持し、可用性を確保するために、レート制限を実装しています。この対策により、共有 インフラストラクチャー で利用可能なリソースを 1 人の ユーザー が独占することを防ぎ、すべての ユーザー がサービスにアクセスできるようにします。さまざまな理由で、より低いレート制限が発生する可能性があります。
 
-### Rate limits on metric logging API
+{{% alert %}}
+レート制限は変更される可能性があります。
+{{% /alert %}}
 
-The `wandb.log` calls in your script utilize a metrics logging API to log your training data to W&B. This API is engaged through either online or [offline syncing]({{< relref path="/ref/cli/wandb-sync.md" lang="ja" >}}). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration.
+### レート制限 HTTP ヘッダー
 
-W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) have higher rate limits than those on the Free plan.
+前のテーブルでは、レート制限 HTTP ヘッダーについて説明しています。
 
-When you hit the rate limit while using the metrics logging API, you see a relevant message indicating the error in the standard output.
+| ヘッダー名          | 説明                                                                                |
+| ------------------- | ----------------------------------------------------------------------------------- |
+| RateLimit-Limit     | 時間枠あたりのクォータの量。0 ～ 1000 の範囲でスケーリングされます                            |
+| RateLimit-Remaining | 現在のレート制限ウィンドウのクォータの量。0 ～ 1000 の範囲でスケーリングされます                       |
+| RateLimit-Reset     | 現在のクォータがリセットされるまでの秒数                                                         |
 
-### Suggestions for staying under the metrics logging API rate limit
+### メトリクス ログ記録 API のレート制限
 
-Exceeding the rate limit may delay `run.finish()` until the rate limit resets. To avoid this, consider the following strategies:
+スクリプト内の `wandb.log` 呼び出しは、メトリクス ログ記録 API を利用して、トレーニングデータを W&B に記録します。この API は、オンラインまたは[オフライン同期]({{< relref path="/ref/cli/wandb-sync.md" lang="ja" >}})のいずれかを介して利用されます。どちらの場合も、ローリング時間枠でレート制限クォータ制限が課せられます。これには、合計リクエスト サイズとリクエスト レートの制限が含まれており、後者は時間内のリクエスト数を指します。
 
-- Update your W&B Python SDK version: Ensure you are using the latest version of the W&B Python SDK. The W&B Python SDK is regularly updated and includes enhanced mechanisms for gracefully retrying requests and optimizing quota usage.
-- Reduce metric logging frequency:
-  Minimize the frequency of logging metrics to conserve your quota. For example, you can modify your code to log metrics every five epochs instead of every epoch:
+W&B は、W&B project ごとにレート制限を適用します。したがって、team に 3 つの project がある場合、各 project には独自のレート制限クォータがあります。[Teams と Enterprise プラン](https://wandb.ai/site/pricing)の ユーザー は、無料プランの ユーザー よりも高いレート制限があります。
+
+メトリクス ログ記録 API の使用中にレート制限に達すると、標準出力にエラーを示す関連メッセージが表示されます。
+
+### メトリクス ログ記録 API のレート制限を下回るための推奨事項
+
+レート制限を超えると、レート制限がリセットされるまで `run.finish()` が遅れる可能性があります。これを回避するには、次の戦略を検討してください。
+
+- W&B Python SDK のバージョンを更新します。最新バージョンの W&B Python SDK を使用していることを確認してください。W&B Python SDK は定期的に更新されており、リクエストを正常に再試行し、クォータの使用量を最適化するための拡張メカニズムが含まれています。
+- メトリクス ログ記録の頻度を減らします。
+  クォータを節約するために、メトリクス をログに記録する頻度を最小限に抑えます。たとえば、エポックごとに メトリクス をログに記録する代わりに、5 エポックごとに メトリクス をログに記録するようにコードを変更できます。
 
 ```python
-if epoch % 5 == 0:  # Log metrics every 5 epochs
+if epoch % 5 == 0:  # 5 エポックごとに メトリクス をログに記録します
     wandb.log({"acc": accuracy, "loss": loss})
 ```
 
-- Manual data syncing: W&B store your run data locally if you are rate limited. You can manually sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`]({{< relref path="/ref/cli/wandb-sync.md" lang="ja" >}}) reference.
+- 手動データ同期: レートが制限されている場合、W&B は run データをローカルに保存します。コマンド `wandb sync <run-file-path>` を使用して、データを手動で同期できます。詳細については、[`wandb sync`]({{< relref path="/ref/cli/wandb-sync.md" lang="ja" >}}) リファレンスを参照してください。
 
-### Rate limits on GraphQL API
+### GraphQL API のレート制限
 
-The W&B Models UI and SDK’s [public API](https://docs.wandb.ai/ref/python/public-api/api) make GraphQL requests to the server for querying and modifying data. For all GraphQL requests in SaaS Cloud, W&B applies rate limits per IP address for unauthorized requests and per user for authorized requests. The limit is based on request rate (request per second) within a fixed time window, where your pricing plan determines the default limits. For relevant SDK requests that specify a project path (for example, reports, runs, artifacts), W&B applies rate limits per project, measured by database query time.
+W&B Models UI と SDK の[パブリック API](https://docs.wandb.ai/ref/python/public-api/api)は、GraphQL リクエストをサーバーに送信して、データのクエリと変更を行います。SaaS Cloud のすべての GraphQL リクエストについて、W&B は承認されていないリクエストについては IP アドレスごとに、承認されたリクエストについては ユーザー ごとにレート制限を適用します。制限は、固定時間枠内のリクエスト レート (1 秒あたりのリクエスト数) に基づいており、料金プランによってデフォルトの制限が決まります。project パス (たとえば、レポート、runs、Artifacts) を指定する関連 SDK リクエストの場合、W&B はデータベース クエリ時間で測定された project ごとにレート制限を適用します。
 
-Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
-When you hit the rate limit while using the W&B Models SDK's public API, you see a relevant message indicating the error in the standard output.
+[Teams と Enterprise プラン](https://wandb.ai/site/pricing)の ユーザー は、無料プランの ユーザー よりも高いレート制限を受け取ります。W&B Models SDK のパブリック API の使用中にレート制限に達すると、標準出力にエラーを示す関連メッセージが表示されます。
 
-### Suggestions for staying under the GraphQL API rate limit
+### GraphQL API のレート制限を下回るための推奨事項
 
-If you are fetching a large volume of data using the W&B Models SDK's [public API](https://docs.wandb.ai/ref/python/public-api/api), consider waiting at least one second between requests. If you receive a `429` status code or see `RateLimit-Remaining=0` in the response headers, wait for the number of seconds specified in `RateLimit-Reset` before retrying.
+W&B Models SDK の[パブリック API](https://docs.wandb.ai/ref/python/public-api/api)を使用して大量のデータを取得する場合は、リクエストの間隔を少なくとも 1 秒空けることを検討してください。`429` ステータス コードを受信した場合、または応答ヘッダーに `RateLimit-Remaining=0` が表示された場合は、再試行する前に `RateLimit-Reset` で指定された秒数待機してください。
 
-## Browser considerations
+## ブラウザに関する考慮事項
 
-The W&B app can be memory-intensive and performs best in Chrome. Depending on your computer's memory, having W&B active in 3+ tabs at once can cause performance to degrade. If you encounter unexpectedly slow performance, consider closing other tabs or applications.
+W&B アプリはメモリを大量に消費する可能性があり、Chrome で最高のパフォーマンスを発揮します。コンピューターのメモリによっては、W&B が 3 つ以上のタブで同時にアクティブになっていると、パフォーマンスが低下する可能性があります。予期せぬパフォーマンスの低下が発生した場合は、他のタブまたはアプリケーションを閉じることを検討してください。
 
-## Reporting performance issues to W&B
+## W&B へのパフォーマンス問題の報告
 
-W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking W&B's built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console.
+W&B はパフォーマンスを重視しており、遅延のすべてのレポートを調査しています。調査を迅速化するために、ロード時間の遅延を報告する際は、主要な メトリクス とパフォーマンス イベントをキャプチャする W&B の組み込みパフォーマンス ロガーを起動することを検討してください。URL に &PERF_LOGGING を追加し、コンソールの出力を共有します。
 
-{{< img src="/images/track/adding_perf_logging.gif" alt="Adding PERF_LOGGING" >}}
+{{< img src="/images/track/adding_perf_logging.gif" alt="PERF_LOGGING の追加" >}}

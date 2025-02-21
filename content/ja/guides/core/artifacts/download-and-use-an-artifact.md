@@ -1,27 +1,26 @@
 ---
-description: Download and use Artifacts from multiple projects.
+title: Download and use artifacts
+description: 複数の プロジェクト から Artifacts をダウンロードして使用します。
 menu:
   default:
     identifier: ja-guides-core-artifacts-download-and-use-an-artifact
     parent: artifacts
-title: Download and use artifacts
 weight: 3
 ---
 
-Download and use an artifact that is already stored on the W&B server or construct an artifact object and pass it in to for de-duplication as necessary.
+W&B サーバー に既に保存されている Artifacts をダウンロードして使用するか、 Artifacts オブジェクトを構築し、必要に応じて重複排除のために渡します。
 
 {{% alert %}}
-Team members with view-only seats cannot download artifacts.
+表示専用の権限を持つ チームメンバー は、 Artifacts をダウンロードできません。
 {{% /alert %}}
 
+### W&B に保存されている Artifacts をダウンロードして使用する
 
-### Download and use an artifact stored on W&B
-
-Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}})) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide]({{< relref path="/ref/python/public-api/" lang="ja" >}}).
+W&B [Run]({{< relref path="/ref/python/run.md" lang="ja" >}}) の内部または外部で、W&B に保存されている Artifacts をダウンロードして使用します。Public API ( [`wandb.Api`]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) ) を使用して、W&B に既に保存されている データ をエクスポート (または データ を更新) します。詳細については、W&B の[Public API Reference guide]({{< relref path="/ref/python/public-api/" lang="ja" >}}) を参照してください。
 
 {{< tabpane text=true >}}
-  {{% tab header="During a run" %}}
-First, import the W&B Python SDK. Next, create a W&B [Run]({{< relref path="/ref/python/run.md" lang="ja" >}}):
+  {{% tab header="Run 中" %}}
+まず、W&B Python SDK をインポートします。次に、W&B [Run]({{< relref path="/ref/python/run.md" lang="ja" >}}) を作成します。
 
 ```python
 import wandb
@@ -29,35 +28,35 @@ import wandb
 run = wandb.init(project="<example>", job_type="<job-type>")
 ```
 
-Indicate the artifact you want to use with the [`use_artifact`]({{< relref path="/ref/python/run.md#use_artifact" lang="ja" >}}) method. This returns a run object. In the proceeding code snippet specifies an artifact called `'bike-dataset'` with the alias `'latest'`:
+[`use_artifact`]({{< relref path="/ref/python/run.md#use_artifact" lang="ja" >}}) メソッドを使用して、使用する Artifacts を指定します。これにより、run オブジェクトが返されます。次の コードスニペット では、エイリアス `'latest'` を持つ `'bike-dataset'` という名前の Artifacts を指定します。
 
 ```python
 artifact = run.use_artifact("bike-dataset:latest")
 ```
 
-Use the object returned to download all the contents of the artifact:
+返されたオブジェクトを使用して、 Artifacts のすべてのコンテンツをダウンロードします。
 
 ```python
 datadir = artifact.download()
 ```
 
-You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide]({{< relref path="/ref/python/artifact.md#download" lang="ja" >}}).
+オプションで、パスを root パラメータに渡して、 Artifacts のコンテンツを特定の ディレクトリー にダウンロードできます。詳細については、[Python SDK Reference Guide]({{< relref path="/ref/python/artifact.md#download" lang="ja" >}}) を参照してください。
 
-Use the [`get_path`]({{< relref path="/ref/python/artifact.md#get_path" lang="ja" >}}) method to download only subset of files:
+[`get_path`]({{< relref path="/ref/python/artifact.md#get_path" lang="ja" >}}) メソッドを使用して、ファイルの サブセット のみをダウンロードします。
 
 ```python
 path = artifact.get_path(name)
 ```
 
-This fetches only the file at the path `name`. It returns an `Entry` object with the following methods:
+これは、パス `name` にあるファイルのみをフェッチします。次のメソッドを持つ `Entry` オブジェクトを返します。
 
-* `Entry.download`: Downloads file from the artifact at path `name`
-* `Entry.ref`: If `add_reference` stored the entry as a reference, returns the URI
+* `Entry.download`: パス `name` にある Artifacts からファイルをダウンロードします
+* `Entry.ref`: `add_reference` がエントリをリファレンスとして保存した場合、URI を返します
 
-References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files]({{< relref path="/guides/core/artifacts/track-external-files.md" lang="ja" >}}).  
+W&B が処理する方法を知っているスキームを持つリファレンスは、 Artifacts ファイルとまったく同じようにダウンロードされます。詳細については、[Track external files]({{< relref path="/guides/core/artifacts/track-external-files.md" lang="ja" >}}) を参照してください。
   {{% /tab %}}
-  {{% tab header="Outside of a run" %}}
-First, import the W&B SDK. Next, create an artifact from the Public API Class. Provide the entity, project, artifact, and alias associated with that artifact:
+  {{% tab header="Run の外部" %}}
+まず、W&B SDK をインポートします。次に、Public API クラスから Artifacts を作成します。その Artifacts に関連付けられている エンティティ 、 プロジェクト 、 Artifacts 、 エイリアス を指定します。
 
 ```python
 import wandb
@@ -66,61 +65,60 @@ api = wandb.Api()
 artifact = api.artifact("entity/project/artifact:alias")
 ```
 
-Use the object returned to download the contents of the artifact:
+返されたオブジェクトを使用して、 Artifacts のコンテンツをダウンロードします。
 
 ```python
 artifact.download()
 ```
 
-You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide]({{< relref path="/ref/python/artifact.md#download" lang="ja" >}}).  
+オプションで、パスを `root` パラメータに渡して、 Artifacts のコンテンツを特定の ディレクトリー にダウンロードできます。詳細については、[API Reference Guide]({{< relref path="/ref/python/artifact.md#download" lang="ja" >}}) を参照してください。
   {{% /tab %}}
   {{% tab header="W&B CLI" %}}
-Use the `wandb artifact get` command to download an artifact from the W&B server.
+`wandb artifact get` コマンドを使用して、W&B サーバー から Artifacts をダウンロードします。
 
 ```
 $ wandb artifact get project/artifact:alias --root mnist/
-```  
+```
   {{% /tab %}}
 {{< /tabpane >}}
 
+### Artifacts の部分的なダウンロード
 
-### Partially download an artifact
-
-You can optionally download part of an artifact based on a prefix. Using the `path_prefix` parameter, you can download a single file or the content of a sub-folder.
+オプションで、プレフィックスに基づいて Artifacts の一部をダウンロードできます。`path_prefix` パラメータを使用すると、単一のファイルまたはサブフォルダーのコンテンツをダウンロードできます。
 
 ```python
 artifact = run.use_artifact("bike-dataset:latest")
 
-artifact.download(path_prefix="bike.png") # downloads only bike.png
+artifact.download(path_prefix="bike.png") # bike.png のみをダウンロードします
 ```
 
-Alternatively, you can download files from a certain directory:
+または、特定の ディレクトリー からファイルをダウンロードできます。
 
 ```python
-artifact.download(path_prefix="images/bikes/") # downloads files in the images/bikes directory
+artifact.download(path_prefix="images/bikes/") # images/bikes ディレクトリー のファイルをダウンロードします
 ```
-### Use an artifact from a different project
+### 別の プロジェクト の Artifacts を使用する
 
-Specify the name of artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
+Artifacts の名前を プロジェクト 名とともに指定して、 Artifacts を参照します。エンティティ 名とともに Artifacts の名前を指定して、 エンティティ 全体で Artifacts を参照することもできます。
 
-The following code example demonstrates how to query an artifact from another project as input to the current W&B run.
+次の コード 例は、別の プロジェクト から Artifacts をクエリして、現在の W&B run への入力として使用する方法を示しています。
 
 ```python
 import wandb
 
 run = wandb.init(project="<example>", job_type="<job-type>")
-# Query W&B for an artifact from another project and mark it
-# as an input to this run.
+# 別の プロジェクト から Artifacts を W&B にクエリし、
+# これをこの run への入力としてマークします。
 artifact = run.use_artifact("my-project/artifact:alias")
 
-# Use an artifact from another entity and mark it as an input
+# 別の エンティティ から Artifacts を使用し、これをこの run への入力としてマークします。
 # to this run.
 artifact = run.use_artifact("my-entity/my-project/artifact:alias")
 ```
 
-### Construct and use an artifact simultaneously
+### Artifacts の構築と同時使用
 
-Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`use_artifact`]({{< relref path="/ref/python/run.md#use_artifact" lang="ja" >}}) API is idempotent, so you can call it as many times as you like.
+Artifacts を同時に構築して使用します。Artifacts オブジェクトを作成し、use_artifact に渡します。これにより、 Artifacts がまだ存在しない場合は W&B に作成されます。[`use_artifact`]({{< relref path="/ref/python/run.md#use_artifact" lang="ja" >}}) API はべき等であるため、必要な回数だけ呼び出すことができます。
 
 ```python
 import wandb
@@ -130,4 +128,4 @@ artifact.add_file("model.h5")
 run.use_artifact(artifact)
 ```
 
-For more information about constructing an artifact, see [Construct an artifact]({{< relref path="/guides/core/artifacts/construct-an-artifact.md" lang="ja" >}}).
+Artifacts の構築の詳細については、[Construct an artifact]({{< relref path="/guides/core/artifacts/construct-an-artifact.md" lang="ja" >}}) を参照してください。

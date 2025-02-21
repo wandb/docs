@@ -1,81 +1,79 @@
 ---
+title: Model registry
+description: '**モデルレジストリ** は、トレーニングからプロダクションまでの モデル のライフサイクルを管理します。'
 cascade:
 - url: guides/model_registry/:filename
-description: Model registry to manage the model lifecycle from training to production
 menu:
   default:
     identifier: ja-guides-models-registry-model_registry-_index
     parent: registry
-title: Model registry
 url: guides/model_registry
 weight: 9
 ---
 
 {{% alert %}}
-W&B will no longer support W&B Model Registry after 2024. Users are encouraged to instead use [W&B Registry]({{< relref path="/guides/models/registry/" lang="ja" >}}) for linking and sharing their model artifacts versions. W&B Registry broadens the capabilities of the legacy W&B Model Registry. For more information about W&B Registry, see the [Registry docs]({{< relref path="/guides/models/registry/" lang="ja" >}}).
+W&B は、2024 年以降 W&B Model Registry をサポートしなくなります。代わりに、[W&B Registry]({{< relref path="/guides/models/registry/" lang="ja" >}}) を使用して、model artifacts バージョンをリンクおよび共有することをお勧めします。W&B Registry は、従来の W&B Model Registry の機能を拡張します。W&B Registry の詳細については、[Registry のドキュメント]({{< relref path="/guides/models/registry/" lang="ja" >}}) を参照してください。
 
-
-W&B will migrate existing model artifacts linked to the legacy Model Registry to the new W&B Registry in the Fall or early Winter of 2024. See [Migrating from legacy Model Registry]({{< relref path="/guides/models/registry/model_registry_eol.md" lang="ja" >}}) for information about the migration process.
+W&B は、従来の Model Registry にリンクされている既存の model artifacts を、2024 年の秋または初冬に新しい W&B Registry に移行します。移行プロセスについては、[従来の Model Registry からの移行]({{< relref path="/guides/models/registry/model_registry_eol.md" lang="ja" >}}) を参照してください。
 {{% /alert %}}
 
-The W&B Model Registry houses a team's trained models where ML Practitioners can publish candidates for production to be consumed by downstream teams and stakeholders. It is used to house staged/candidate models and manage workflows associated with staging.
+W&B Model Registry は、チームでトレーニングされたモデルを保管する場所で、ML 実務者は、ダウンストリームのチームやステークホルダーが利用するために、プロダクションの候補を公開できます。これは、ステージングされたモデルや候補モデルを保管し、ステージングに関連するワークフローを管理するために使用されます。
 
 {{< img src="/images/models/model_reg_landing_page.png" alt="" >}}
 
-With W&B Model Registry, you can:
+W&B Model Registry を使用すると、次のことが可能になります。
 
-* [Bookmark your best model versions for each machine learning task.]({{< relref path="./link-model-version.md" lang="ja" >}})
-* [Automate]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}}) downstream processes and model CI/CD.
-* Move model versions through its ML lifecycle; from staging to production.
-* Track a model's lineage and audit the history of changes to production models.
+* [各 機械学習 タスクに最適なモデル バージョンをブックマークする。]({{< relref path="./link-model-version.md" lang="ja" >}})
+* ダウンストリームのプロセスとモデル CI/CD を [自動化]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}}) する。
+* モデル バージョンを ML ライフサイクル (ステージングからプロダクション) に移行する。
+* モデル の リネージ を追跡し、プロダクション モデル への変更履歴を監査する。
 
 {{< img src="/images/models/models_landing_page.png" alt="" >}}
 
-## How it works
-Track and manage your staged models with a few simple steps.
+## 仕組み
+いくつかの簡単なステップで、ステージングされたモデルを追跡および管理します。
 
-1. **Log a model version**: In your training script, add a few lines of code to save the model files as an artifact to W&B. 
-2. **Compare performance**: Check live charts to compare the metrics and sample predictions from model training and validation. Identify which model version performed the best.
-3. **Link to registry**: Bookmark the best model version by linking it to a registered model, either programmatically in Python or interactively in the W&B UI.
+1. **モデル バージョンを ログ に記録する**: トレーニング スクリプト で、数行の コード を追加して、モデル ファイル を Artifacts として W&B に保存します。
+2. **パフォーマンスを比較する**: ライブ チャート を確認して、モデル トレーニング と バリデーション からの メトリクス とサンプル 予測 を比較します。どのモデル バージョン が最もパフォーマンスが高いかを特定します。
+3. **Registry にリンクする**: Python でプログラム的に、または W&B UI でインタラクティブに、登録されたモデルにリンクして、最適なモデル バージョン をブックマークします。
 
-The following code snippet demonstrates how to log and link a model to the Model Registry:
+次の コード スニペット は、モデル を Model Registry に ログ してリンクする方法を示しています。
 
 ```python showLineNumbers
 import wandb
 import random
 
-# Start a new W&B run
+# 新しい W&B run を開始します
 run = wandb.init(project="models_quickstart")
 
-# Simulate logging model metrics
+# モデル の メトリクス の ログ をシミュレートします
 run.log({"acc": random.random()})
 
-# Create a simulated model file
+# シミュレートされたモデル ファイル を作成します
 with open("my_model.h5", "w") as f:
     f.write("Model: " + str(random.random()))
 
-# Log and link the model to the Model Registry
+# モデル を ログ に記録し、Model Registry にリンクします
 run.link_model(path="./my_model.h5", registered_model_name="MNIST")
 
 run.finish()
 ```
 
-4. **Connect model transitions to CI/DC workflows**: transition candidate models through workflow stages and [automate downstream actions]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}}) with webhooks or jobs.
+4. **モデル の移行を CI/DC ワークフロー に接続する**: 候補モデル をワークフロー の段階を経て移行し、webhook または job で [ダウンストリーム のアクション を自動化]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}}) します。
 
+## 開始方法
+ユースケース に応じて、次のリソース を調べて W&B Models を開始してください。
 
-## How to get started
-Depending on your use case, explore the following resources to get started with W&B Models:
-
-* Check out the two-part video series:
-  1. [Logging and registering models](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
-  2. [Consuming models and automating downstream processes](https://www.youtube.com/watch?v=8PFCrDSeHzw) in the Model Registry.
-* Read the [models walkthrough]({{< relref path="./walkthrough.md" lang="ja" >}}) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
-* Learn about:
-   * [Protected models and access control]({{< relref path="./access_controls.md" lang="ja" >}}).
-   * [How to connect the Model Registry to CI/CD processes]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}}).
-   * Set up [Slack notifications]({{< relref path="./notifications.md" lang="ja" >}}) when a new model version is linked to a registered model.
-* Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
-* Take the W&B [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
-  * Use the W&B Model Registry to manage and version your models, track lineage, and promote models through different lifecycle stages
-  * Automate your model management workflows using webhooks.
-  * See how the Model Registry integrates with external ML systems and tools in your model development lifecycle for model evaluation, monitoring, and deployment.
+* 2 部構成のビデオ シリーズ をご覧ください。
+  1. [モデル の ログ と登録](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
+  2. Model Registry での [モデル の消費とダウンストリーム プロセス の自動化](https://www.youtube.com/watch?v=8PFCrDSeHzw)。
+* W&B Python SDK コマンド のステップバイステップ の概要については、[モデル のウォークスルー]({{< relref path="./walkthrough.md" lang="ja" >}}) を参照して、データセット Artifacts の作成、追跡、および使用に使用できます。
+* 以下について学びます。
+   * [保護されたモデル と アクセス 制御]({{< relref path="./access_controls.md" lang="ja" >}})。
+   * [Model Registry を CI/CD プロセス に接続する方法]({{< relref path="/guides/models/automations/model-registry-automations.md" lang="ja" >}})。
+   * 新しいモデル バージョン が登録されたモデル にリンクされている場合、[Slack 通知]({{< relref path="./notifications.md" lang="ja" >}}) を設定します。
+* Model Registry が ML ワークフロー にどのように適合し、モデル 管理 に使用するメリット については、[こちら](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) の レポート を確認してください。
+* W&B [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) コース を受講して、以下を学びます。
+  * W&B Model Registry を使用して、モデル の管理と バージョン 管理、リネージ の追跡、およびさまざまな ライフサイクル 段階でのモデル の昇格を行います。
+  * webhook を使用して、モデル 管理 ワークフロー を自動化します。
+  * Model Registry が、モデル の 評価 、監視、および デプロイメント のためのモデル 開発 ライフサイクル における外部 ML システム および ツール とどのように統合されるかを確認します。

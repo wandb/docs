@@ -1,12 +1,12 @@
 ---
+title: How can I compare images or media across epochs or steps?
 menu:
   support:
     identifier: ja-support-compare_images_media_across_epochs_steps
 tags:
 - experiments
-title: How can I compare images or media across epochs or steps?
 toc_hide: true
 type: docs
 ---
 
-Expand the image panel and use the step slider to navigate through images from different steps. This process facilitates comparison of a model's output changes during training.
+イメージ パネル を展開し、ステップ スライダー を使用して、異なるステップ のイメージ をナビゲート します。この プロセス は、トレーニング 中の モデル の出力の変化の比較を容易にします。

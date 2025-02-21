@@ -1,39 +1,37 @@
 ---
+title: Create model lineage map
 description: ''
 menu:
   default:
     identifier: ja-guides-models-registry-model_registry-model-lineage
     parent: model-registry
-title: Create model lineage map
 weight: 7
 ---
 
-This page describes creating lineage graphs in the legacy W&B Model Registry. To learn about lineage graphs in W&B Registry, refer to [Create and view lineage maps]({{< relref path="../lineage.md" lang="ja" >}}).
+このページでは、従来の W&B モデルレジストリ で リネージ グラフを作成する方法について説明します。W&B Registry の リネージ グラフについては、[リネージ マップの作成と表示]({{< relref path="../lineage.md" lang="ja" >}}) を参照してください。
 
 {{% alert %}}
-W&B will transition assets from the legacy [W&B Model Registry]({{< relref path="/guides/models/registry/model_registry/" lang="ja" >}}) to the new [W&B Registry]({{< relref path="./" lang="ja" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows. Refer to [Migrate from legacy Model Registry]({{< relref path="../model_registry_eol.md" lang="ja" >}}).
+W&B は、従来の [W&B モデルレジストリ]({{< relref path="/guides/models/registry/model_registry/" lang="ja" >}}) から新しい [W&B Registry]({{< relref path="./" lang="ja" >}}) にアセットを移行します。この移行は完全に W&B によって管理およびトリガーされ、 ユーザー による介入は必要ありません。このプロセスは、既存の ワークフロー への混乱を最小限に抑え、可能な限りシームレスになるように設計されています。[従来の モデルレジストリ からの移行]({{< relref path="../model_registry_eol.md" lang="ja" >}}) を参照してください。
 {{% /alert %}}
 
+モデル アーティファクト を W&B に ログ 記録する便利な機能は、リネージ グラフです。リネージ グラフは、 run によって ログ 記録された アーティファクト と、特定の run によって使用された アーティファクト を示します。
 
-A useful feature of logging model artifacts to W&B are lineage graphs. Lineage graphs show artifacts logged by a run as well as artifacts used by specific run. 
+つまり、モデル アーティファクト を ログ 記録すると、少なくともモデル アーティファクト を使用または生成した W&B run を表示できるようになります。[依存関係を追跡する]({{< relref path="#track-an-artifact-dependency" lang="ja" >}}) 場合、モデル アーティファクト で使用される入力も表示されます。
 
-This means that, when you log a model artifact, you at a minimum have access to view the W&B run that used or produced the model artifact. If you [track a dependency]({{< relref path="#track-an-artifact-dependency" lang="ja" >}}), you also see the inputs used by the model artifact.
-
-For example, the proceeding image shows artifacts created and used throughout an ML experiment:
+たとえば、次の図は、ML 実験 全体で作成および使用された アーティファクト を示しています。
 
 {{< img src="/images/models/model_lineage_example.png" alt="" >}}
 
-From left to right, the image shows:
-1. The `jumping-monkey-1` W&B run created the `mnist_dataset:v0` dataset artifact.
-2. The `vague-morning-5` W&B run trained a model using the `mnist_dataset:v0` dataset artifact. The output of this W&B run was a model artifact called `mnist_model:v0`.
-3. A run called `serene-haze-6` used the model artifact (`mnist_model:v0`) to evaluate the model.
+左から右へ、画像は以下を示しています。
+1. `jumping-monkey-1` W&B run は、`mnist_dataset:v0` データセット アーティファクト を作成しました。
+2. `vague-morning-5` W&B run は、`mnist_dataset:v0` データセット アーティファクト を使用して モデル をトレーニングしました。この W&B run の出力は、`mnist_model:v0` という モデル アーティファクト でした。
+3. `serene-haze-6` という run は、モデル アーティファクト （`mnist_model:v0`）を使用して モデル を評価しました。
 
+## アーティファクト の依存関係を追跡する
 
-## Track an artifact dependency
+`use_artifact` API を使用して、データセット アーティファクト を W&B run への入力として宣言し、依存関係を追跡します。
 
-Declare an dataset artifact as an input to a W&B run with the `use_artifact` API to track a dependency. 
-
-The proceeding code snippet shows how to use the `use_artifact` API:
+次の コードスニペット は、`use_artifact` API の使用方法を示しています。
 
 ```python
 # Initialize a run
@@ -43,11 +41,11 @@ run = wandb.init(project=project, entity=entity)
 artifact = run.use_artifact(artifact_or_name="name", aliases="<alias>")
 ```
 
-Once you have retrieved your artifact, you can use that artifact to (for example), evaluate the performance of a model. 
+アーティファクト を取得したら、その アーティファクト を使用して、（たとえば） モデル のパフォーマンスを評価できます。
 
 <details>
 
-<summary>Example: Train a model and track a dataset as the input of a model</summary>
+<summary>例：モデル をトレーニングし、データセット を モデル の入力として追跡する</summary>
 
 ```python
 job_type = "train_model"
@@ -128,3 +126,4 @@ run.finish()
 ```
 
 </details>
+```

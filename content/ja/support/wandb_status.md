@@ -1,13 +1,13 @@
 ---
+title: Is there a W&B outage?
 menu:
   support:
     identifier: ja-support-wandb_status
 tags:
 - connectivity
 - outage
-title: Is there a W&B outage?
 toc_hide: true
 type: docs
 ---
 
-Check if the W&B multi-tenant cloud at wandb.ai is experiencing an outage by visiting the W&B status page at https://status.wandb.com.
+wandb.ai の W&B マルチテナント クラウド で障害が発生しているかどうかを確認するには、https://status.wandb.com の W&B ステータス ページにアクセスしてください。

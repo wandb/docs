@@ -1,15 +1,15 @@
 ---
+title: Can I just set the run name to the run ID?
 menu:
   support:
     identifier: ja-support-just_set_run_name_run_id
 tags:
 - experiments
-title: Can I just set the run name to the run ID?
 toc_hide: true
 type: docs
 ---
 
-Yes. To overwrite the run name with the run ID, use the following code snippet:
+はい。 run 名を run ID で上書きするには、次のコードスニペットを使用します。
 
 ```python
 import wandb

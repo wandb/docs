@@ -1,21 +1,19 @@
 ---
+title: Security
 menu:
   support:
     identifier: ja-support-index_security
     parent: support
-title: Security
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Security</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+以下のサポートに関する質問には、<b>セキュリティ</b> のタグが付けられています。質問の回答が見つからない場合は、[コミュニティに質問](https://community.wandb.ai/) するか、[support@wandb.com](mailto:support@wandb.com) 宛にメールでお問い合わせください。
 {{% /card %}}
 
-- [Can W&B team members see my data?]({{< relref path="wandb_see_data.md" lang="ja" >}})
-- [Do you have a bug bounty program?]({{< relref path="bounty_program.md" lang="ja" >}})
-- [Does W&B support SSO for Multi-tenant?]({{< relref path="sso_multitenant.md" lang="ja" >}})
-- [How can I rotate or revoke access?]({{< relref path="rotate_revoke_access.md" lang="ja" >}})
-- [How do I find my API key?]({{< relref path="find_api_key.md" lang="ja" >}})
-- [How do I resolve permission errors when logging a run?]({{< relref path="resolve_permission_errors_when_logging_wandb_entity.md" lang="ja" >}})
+- [W&B の チームメンバー は私の データ を見ることができますか？]({{< relref path="wandb_see_data.md" lang="ja" >}})
+- [バグバウンティプログラムはありますか？]({{< relref path="bounty_program.md" lang="ja" >}})
+- [W&B はマルチテナントの SSO をサポートしていますか？]({{< relref path="sso_multitenant.md" lang="ja" >}})
+- [どのように アクセス をローテーションまたは取り消すことができますか？]({{< relref path="rotate_revoke_access.md" lang="ja" >}})
+- [APIキー はどこにありますか？]({{< relref path="find_api_key.md" lang="ja" >}})
+- [run を ログ に記録する際のパーミッションエラーを解決するにはどうすればよいですか？]({{< relref path="resolve_permission_errors_when_logging_wandb_entity.md" lang="ja" >}})

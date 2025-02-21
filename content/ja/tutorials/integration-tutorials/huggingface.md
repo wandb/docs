@@ -1,83 +1,77 @@
 ---
+title: Hugging Face
 menu:
   tutorials:
     identifier: ja-tutorials-integration-tutorials-huggingface
     parent: integration-tutorials
-title: Hugging Face
 weight: 3
 ---
 
 {{< img src="/images/tutorials/huggingface.png" alt="" >}}
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb" >}}
-Visualize your [Hugging Face](https://github.com/huggingface/transformers) model's performance quickly with a seamless [W&B](https://wandb.ai/site) integration.
+[Hugging Face](https://github.com/huggingface/transformers) モデルのパフォーマンスを、シームレスな [W&B](https://wandb.ai/site) の インテグレーションで素早く可視化しましょう。
 
-Compare hyperparameters, output metrics, and system stats like GPU utilization across your models. 
+モデル間で、ハイパーパラメーター 、出力 メトリクス、および GPU 使用率のようなシステム統計を比較します。
 
-## Why should I use W&B?
+## W&B を使うべき理由
 {.skipvale}
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
-- **Unified dashboard**: Central repository for all your model metrics and predictions
-- **Lightweight**: No code changes required to integrate with Hugging Face
-- **Accessible**: Free for individuals and academic teams
-- **Secure**: All projects are private by default
-- **Trusted**: Used by machine learning teams at OpenAI, Toyota, Lyft and more
+- **統一された ダッシュボード**: すべてのモデル メトリクスと 予測 のための一元的なリポジトリ
+- **軽量**: Hugging Face と インテグレーションするために必要なコード変更はありません
+- **アクセス可能**: 個人およびアカデミック な Teams は無料
+- **セキュア**: デフォルトでは、すべての Projects はプライベートです
+- **信頼**: OpenAI、Toyota、Lyft などの 機械学習 の Teams で使用されています
 
-Think of W&B like GitHub for machine learning models— save machine learning experiments to your private, hosted dashboard. Experiment quickly with the confidence that all the versions of your models are saved for you, no matter where you're running your scripts.
+W&B は 機械学習 モデル用の GitHub のようなものだと考えてください。機械学習 の 実験 をプライベートなホストされた ダッシュボード に保存します。スクリプトを実行している場所に関係なく、モデルのすべての バージョン が保存されているという自信を持って、迅速に 実験 できます。
 
-W&B lightweight integrations works with any Python script, and all you need to do is sign up for a free W&B account to start tracking and visualizing your models.
+W&B の軽量な インテグレーション は、あらゆる Python スクリプト で動作し、モデルのトラッキングと 可視化 を開始するために必要なのは、無料の W&B アカウントにサインアップすることだけです。
 
-In the Hugging Face Transformers repo, we've instrumented the Trainer to automatically log training and evaluation metrics to W&B at each logging step.
+Hugging Face Transformers リポジトリでは、各ログ ステップ で トレーニング および 評価 メトリクスを自動的に W&B に記録するように Trainer をインストルメントしています。
 
-Here's an in depth look at how the integration works: [Hugging Face + W&B Report](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/Train-a-model-with-Hugging-Face-and-Weights-%26-Biases--VmlldzoxMDE2MTU).
+インテグレーション がどのように機能するかの詳細はこちら: [Hugging Face + W&B Report](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/Train-a-model-with-Hugging-Face-and-Weights-%26-Biases--VmlldzoxMDE2MTU)。
 
-## Install, import, and log in
+## インストール、インポート、ログイン
 
-
-
-Install the Hugging Face and Weights & Biases libraries, and the GLUE dataset and training script for this tutorial.
-- [Hugging Face Transformers](https://github.com/huggingface/transformers): Natural language models and datasets
-- [Weights & Biases]({{< relref path="/" lang="ja" >}}): Experiment tracking and visualization
-- [GLUE dataset](https://gluebenchmark.com/): A language understanding benchmark dataset
-- [GLUE script](https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py): Model training script for sequence classification
-
+Hugging Face と Weights & Biases ライブラリ、およびこの チュートリアル のための GLUE データセット と トレーニング スクリプト をインストールします。
+- [Hugging Face Transformers](https://github.com/huggingface/transformers): 自然言語モデルと データセット
+- [Weights & Biases]({{< relref path="/" lang="ja" >}}): 実験管理 と 可視化
+- [GLUE dataset](https://gluebenchmark.com/): 言語理解 ベンチマーク データセット
+- [GLUE script](https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py): シーケンス分類のためのモデル トレーニング スクリプト
 
 ```notebook
 !pip install datasets wandb evaluate accelerate -qU
 !wget https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py
 ```
 
-
 ```notebook
 # the run_glue.py script requires transformers dev
 !pip install -q git+https://github.com/huggingface/transformers
 ```
 
-Before continuing, [sign up for a free account](https://app.wandb.ai/login?signup=true).
+続行する前に、[無料アカウントにサインアップ](https://app.wandb.ai/login?signup=true) してください。
 
-## Put in your API key
+## APIキー を入力してください
 
-Once you've signed up, run the next cell and click on the link to get your API key and authenticate this notebook.
-
+サインアップしたら、次のセルを実行し、リンクをクリックして APIキー を取得し、この ノートブック を認証します。
 
 ```python
 import wandb
 wandb.login()
 ```
 
-Optionally, we can set environment variables to customize W&B logging. See [documentation]({{< relref path="/guides/integrations/huggingface/" lang="ja" >}}).
-
+オプションで、環境変数 を設定して W&B のログをカスタマイズできます。詳細は [ドキュメント]({{< relref path="/guides/integrations/huggingface/" lang="ja" >}}) を参照してください。
 
 ```python
 # Optional: log both gradients and parameters
+# オプション: 勾配 と パラメータ の両方をログに記録します
 %env WANDB_WATCH=all
 ```
 
-## Train the model
-Next, call the downloaded training script [run_glue.py](https://huggingface.co/transformers/examples.html#glue) and see training automatically get tracked to the Weights & Biases dashboard. This script fine-tunes BERT on the Microsoft Research Paraphrase Corpus— pairs of sentences with human annotations indicating whether they are semantically equivalent.
-
+## モデル の トレーニング
+次に、ダウンロードした トレーニング スクリプト [run_glue.py](https://huggingface.co/transformers/examples.html#glue) を呼び出して、 トレーニング が自動的に Weights & Biases ダッシュボード に追跡されるのを確認します。このスクリプトは、Microsoft Research Paraphrase Corpus (意味的に同等かどうかを示す人間の注釈が付いた文のペア) で BERT を ファインチューン します。
 
 ```python
 %env WANDB_PROJECT=huggingface-demo
@@ -97,27 +91,27 @@ Next, call the downloaded training script [run_glue.py](https://huggingface.co/t
   --logging_steps 50
 ```
 
-##  Visualize results in dashboard
-Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to see your results stream in live. The link to see your run in the browser will appear after all the dependencies are loaded. Look for the following output: "**wandb**: 🚀 View run at [URL to your unique run]"
+## ダッシュボード で 結果 を 可視化する
+上記に出力されたリンクをクリックするか、[wandb.ai](https://app.wandb.ai) にアクセスして、結果 がライブでストリームされるのを確認します。ブラウザで run を確認するためのリンクは、すべての依存関係がロードされた後に表示されます。次の出力を探してください: "**wandb**: 🚀 View run at [URL to your unique run]"
 
-**Visualize Model Performance**
-It's easy to look across dozens of experiments, zoom in on interesting findings, and visualize highly dimensional data.
+**モデル パフォーマンス の 可視化**
+数十の 実験 を簡単に見渡し、興味深い 学び にズームインし、高次元の データ を 可視化 できます。
 
 {{< img src="/images/tutorials/huggingface-visualize.gif" alt="" >}}
 
-**Compare Architectures**
-Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU). It's easy to see how different architectures effect the evaluation accuracy throughout training with automatic line plot visualizations.
+**アーキテクチャ の比較**
+[BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU) を比較した例を次に示します。自動折れ線グラフ 可視化 により、さまざまな アーキテクチャー が トレーニング 全体を通して 評価 精度にどのように影響するかを簡単に確認できます。
 
 {{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="" >}}
 
-## Track key information effortlessly by default
-Weights & Biases saves a new run for each experiment. Here's the information that gets saved by default:
-- **Hyperparameters**: Settings for your model are saved in Config
-- **Model Metrics**: Time series data of metrics streaming in are saved in Log
-- **Terminal Logs**: Command line outputs are saved and available in a tab
-- **System Metrics**: GPU and CPU utilization, memory, temperature etc.
+## デフォルト で、主要な 情報 を簡単に追跡する
+Weights & Biases は、 実験 ごとに新しい run を保存します。デフォルト で保存される 情報 は次のとおりです。
+- **ハイパーパラメーター**: モデル の 設定 は Config に保存されます
+- **モデル メトリクス**: ストリーミングされる メトリクス の 時系列 データ は Log に保存されます
+- **ターミナル ログ**: コマンドライン の 出力 は保存され、タブで利用できます
+- **システム メトリクス**: GPU と CPU の 使用率、メモリ、温度 など。
 
-## Learn more
-- [Documentation]({{< relref path="/guides/integrations/huggingface" lang="ja" >}}): docs on the Weights & Biases and Hugging Face integration
-- [Videos](http://wandb.me/youtube): tutorials, interviews with practitioners, and more on our YouTube channel
-- Contact: Message us at contact@wandb.com with questions
+## より詳しく知る
+- [ドキュメント]({{< relref path="/guides/integrations/huggingface" lang="ja" >}}): Weights & Biases と Hugging Face の インテグレーション に関するドキュメント
+- [ビデオ](http://wandb.me/youtube): チュートリアル 、 実践者 への インタビュー 、および YouTube チャンネル の詳細
+- 連絡先: ご質問は contact@wandb.com までメッセージをお送りください
