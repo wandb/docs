@@ -1,17 +1,15 @@
 ---
+title: Tensorboard
 menu:
   support:
     identifier: ja-support-index_tensorboard
     parent: support
-title: Tensorboard
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Tensorboard</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+次のサポート質問は <b> Tensorboard </b> にタグ付けされています。あなたの質問が解決されない場合、[コミュニティに尋ねる](https://community.wandb.ai/)か、[support@wandb.com](mailto:support@wandb.com)にメールしてください。
 {{% /card %}}
 
-- [How is W&B different from TensorBoard?]({{< relref path="different_tensorboard.md" lang="ja" >}})
-- [What formula do you use for your smoothing algorithm?]({{< relref path="formula_smoothing_algorithm.md" lang="ja" >}})
+- [W&BはTensorBoardとどう違うのですか？]({{< relref path="different_tensorboard.md" lang="ja" >}})
+- [スムージングアルゴリズムにどのような公式を使用していますか？]({{< relref path="formula_smoothing_algorithm.md" lang="ja" >}})

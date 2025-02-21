@@ -1,12 +1,12 @@
 ---
+title: Which files should I check when my code crashes?
 menu:
   support:
     identifier: ja-support-files_check_code_crashes
 tags:
 - logs
-title: Which files should I check when my code crashes?
 toc_hide: true
 type: docs
 ---
 
-For the affected run, check `debug.log` and `debug-internal.log` in `wandb/run-<date>_<time>-<run-id>/logs` in the directory where your code is running.
+影響を受けた run については、コードが実行されているディレクトリーの `wandb/run-<date>_<time>-<run-id>/logs` にある `debug.log` と `debug-internal.log` を確認してください。

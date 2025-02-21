@@ -1,20 +1,20 @@
 ---
+title: Does W&B support SSO for Multi-tenant?
 menu:
   support:
     identifier: ja-support-sso_multitenant
 tags:
 - security
-title: Does W&B support SSO for Multi-tenant?
 toc_hide: true
 type: docs
 ---
 
-W&B supports Single Sign-On (SSO) for the Multi-tenant offering through Auth0. SSO integration is compatible with any OIDC-compliant identity provider, such as Okta or Azure AD. To configure an OIDC provider, follow these steps:
+W&B は、Multi-tenant 提供のために Auth0 を通じてシングルサインオン (SSO) をサポートしています。SSO インテグレーションは、Okta や Azure AD など、OIDC に準拠した任意のアイデンティティプロバイダと互換性があります。OIDC プロバイダを設定するには、以下の手順に従ってください:
 
-* Create a Single Page Application (SPA) on the identity provider.
-* Set the `grant_type` to `implicit` flow.
-* Set the callback URI to `https://wandb.auth0.com/login/callback`.
+* アイデンティティプロバイダ上でシングルページアプリケーション (SPA) を作成します。
+* `grant_type` を `implicit` フローに設定します。
+* コールバック URI を `https://wandb.auth0.com/login/callback` に設定します。
 
-**Requirements for W&B**
+**W&B の要件**
 
-After completing the setup, contact the customer success manager (CSM) with the `Client ID` and `Issuer URL` for the application. W&B will establish an Auth0 connection using these details and enable SSO.
+セットアップを完了したら、アプリケーションの `Client ID` と `Issuer URL` を持ってカスタマーサクセスマネージャー (CSM) に連絡してください。W&B はこれらの詳細を使用して Auth0 接続を確立し、SSO を有効にします。

@@ -1,17 +1,15 @@
 ---
+title: Storage
 menu:
   support:
     identifier: ja-support-index_storage
     parent: support
-title: Storage
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Storage</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+次のサポート質問は<b>ストレージ</b>タグが付けられています。質問が解決しない場合は、[コミュニティに質問する](https://community.wandb.ai/)か、[support@wandb.com](mailto:support@wandb.com)にメールしてください。
 {{% /card %}}
 
-- [How much storage does each artifact version use?]({{< relref path="artifact_storage_version.md" lang="ja" >}})
-- [Why does the storage meter not update after deleting runs?]({{< relref path="storage_meter_update_after_deleting_runs.md" lang="ja" >}})
+- [各アーティファクト バージョンはどれくらいのストレージを使用しますか？]({{< relref path="artifact_storage_version.md" lang="ja" >}})
+- [run を削除した後にストレージメーターが更新されないのはなぜですか？]({{< relref path="storage_meter_update_after_deleting_runs.md" lang="ja" >}})

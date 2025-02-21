@@ -1,17 +1,15 @@
 ---
+title: Outage
 menu:
   support:
     identifier: ja-support-index_outage
     parent: support
-title: Outage
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Outage</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+以下のサポート質問は<b>障害</b>タグが付けられています。質問の回答が見つからない場合は、[コミュニティに質問する](https://community.wandb.ai/)か、[support@wandb.com](mailto:support@wandb.com)にメールしてください。
 {{% /card %}}
 
-- [How can I resolve the Filestream rate limit exceeded error?]({{< relref path="filestream_rate_limit_exceeded_error.md" lang="ja" >}})
-- [Is there a W&B outage?]({{< relref path="wandb_status.md" lang="ja" >}})
+- [Filestream のレート制限超過エラーを解決するにはどうすればよいですか？]({{< relref path="filestream_rate_limit_exceeded_error.md" lang="ja" >}})
+- [W&B に障害がありますか？]({{< relref path="wandb_status.md" lang="ja" >}})

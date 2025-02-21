@@ -1,12 +1,12 @@
 ---
+title: How do I fix the "overflows maximum values of a signed 64 bits integer" error?
 menu:
   support:
     identifier: ja-support-overflows_maximum_values_error
 tags:
 - workspaces
-title: How do I fix the "overflows maximum values of a signed 64 bits integer" error?
 toc_hide: true
 type: docs
 ---
 
-To resolve this error, add `?workspace=clear` to the end of the URL and press Enter. This action directs you to a cleared version of the project page workspace.
+このエラーを解決するには、URL の最後に `?workspace=clear` を追加し、Enter キーを押してください。この操作により、プロジェクトページのクリアされた Workspace に移動します。

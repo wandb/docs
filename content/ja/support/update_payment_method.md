@@ -1,21 +1,21 @@
 ---
+title: How do we update our payment method?
 menu:
   support:
     identifier: ja-support-update_payment_method
 tags:
 - billing
-title: How do we update our payment method?
 toc_hide: true
 type: docs
 ---
 
-To update your payment method, follow these steps:
+お支払い方法を更新するには、次の手順に従ってください：
 
-1. **Go to your profile page**: First, navigate to your user profile page.
-2. **Select your Organization**: Choose the relevant organization from the Account selector.
-3. **Access Billing settings**: Under **Account**, select **Billing**.
-4. **Add a new payment method**:
-   - Click **Add payment method**.
-   - Enter your new card details and select the option to make it your **primary** payment method.
+1. **プロフィールページに移動**: まず、ユーザーのプロフィールページにアクセスします。
+2. **組織を選択**: アカウントセレクターから関連する組織を選択します。
+3. **Billing 設定にアクセス**: **Account** の下で **Billing** を選択します。
+4. **新しい支払い方法を追加**:
+   - **Add payment method** をクリックします。
+   - 新しいカードの詳細を入力し、それを **primary** 支払い方法にするオプションを選択します。
 
-> **Note:** To manage billing, you must be assigned as the billing admin for your organization.
+> **Note:** Billing を管理するには、組織の billing admin に割り当てられている必要があります。

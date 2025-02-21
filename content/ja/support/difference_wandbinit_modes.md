@@ -1,16 +1,16 @@
 ---
+title: What is the difference between wandb.init modes?
 menu:
   support:
     identifier: ja-support-difference_wandbinit_modes
 tags:
 - experiments
-title: What is the difference between wandb.init modes?
 toc_hide: true
 type: docs
 ---
 
-These modes are available:
+これらのモードが利用可能です:
 
-* `online` (default): The client sends data to the wandb server.
-* `offline`: The client stores data locally on the machine instead of sending it to the wandb server. Use the [`wandb sync`]({{< relref path="/ref/cli/wandb-sync.md" lang="ja" >}}) command to synchronize the data later.
-* `disabled`: The client simulates operation by returning mocked objects and prevents any network communication. All logging is turned off, but all API method stubs remain callable. This mode is typically used for testing.
+* `online` (デフォルト): クライアントはデータを wandb サーバーに送信します。
+* `offline`: クライアントはデータを wandb サーバーに送信する代わりに、ローカルのマシンにデータを保存します。データを後で同期するには、[`wandb sync`]({{< relref path="/ref/cli/wandb-sync.md" lang="ja" >}}) コマンドを使用してください。
+* `disabled`: クライアントがオペレーションをシミュレートし、モックオブジェクトを返すことで、あらゆるネットワーク通信を防ぎます。すべてのログはオフになりますが、すべての API メソッドのスタブは呼び出せます。このモードは通常、テストに使用されます。

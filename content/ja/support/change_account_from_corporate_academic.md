@@ -1,4 +1,5 @@
 ---
+title: How can I change my account from corporate to academic?
 menu:
   support:
     identifier: ja-support-change_account_from_corporate_academic
@@ -6,17 +7,16 @@ tags:
 - administrator
 - academic
 - user management
-title: How can I change my account from corporate to academic?
 toc_hide: true
 type: docs
 ---
 
-To change an account from corporate to academic in Weights & Biases, follow these steps:
+アカウントを Weights & Biases の企業アカウントから学術アカウントに変更するには、次の手順に従ってください：
 
-1. **Link your academic email**:
-   - Access account settings.
-   - Add and set the academic email as the primary email.
+1. **学術用メールをリンク**:
+   - アカウント設定にアクセスします。
+   - 学術用メールを追加し、プライマリメールとして設定します。
 
-2. **Apply for an academic plan**:
-   - Visit the academic application page at [https://wandb.ai/academic_application](https://wandb.ai/academic_application).
-   - Submit the application for review.
+2. **学術プランを申請**:
+   - [https://wandb.ai/academic_application](https://wandb.ai/academic_application) にある学術申請ページを訪問します。
+   - 審査のためアプリケーションを提出します。

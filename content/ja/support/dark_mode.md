@@ -1,16 +1,16 @@
 ---
+title: Is there a dark mode?
 menu:
   support:
     identifier: ja-support-dark_mode
 tags:
 - workspaces
-title: Is there a dark mode?
 toc_hide: true
 type: docs
 ---
 
-To enable dark mode:
+ダークモードを有効にするには:
 
-1. Go to your account settings at [https://wandb.ai/settings](https://wandb.ai/settings).
-2. Scroll to the **Beta Features** section.
-3. Activate the **Night mode** option.
+1. [ https://wandb.ai/settings ](https://wandb.ai/settings) でアカウント設定に移動します。
+2. **ベータ機能** セクションまでスクロールします。
+3. **ナイトモード** オプションを有効にします。

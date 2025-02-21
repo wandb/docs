@@ -1,13 +1,13 @@
 ---
+title: My report is running slowly after the change to WYSIWYG
 menu:
   support:
     identifier: ja-support-report_slow_after_wysiwyg
 tags:
 - reports
 - wysiwyg
-title: My report is running slowly after the change to WYSIWYG
 toc_hide: true
 type: docs
 ---
 
-Performance issues may arise on older hardware or with very large reports. To mitigate this, collapse sections of the report that are not currently in use.
+古いハードウェアや大規模なレポートではパフォーマンスの問題が発生することがあります。これを軽減するために、現在使用していないレポートのセクションを折りたたんでください。

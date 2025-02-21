@@ -1,20 +1,20 @@
 ---
+title: How do I find my API key?
 menu:
   support:
     identifier: ja-support-find_api_key
 tags:
 - security
 - user management
-title: How do I find my API key?
 toc_hide: true
 type: docs
 ---
 
-To find your API key for Weights and Biases (W&B):
+W&B (Weights and Biases) の APIキーを見つけるには、次の手順に従います。
 
-- Log in to W&B at [https://wandb.ai/authorize](https://wandb.ai/authorize).
-- Alternatively, access your profile:
-  1. Click your user profile in the upper right corner.
-  2. Select "User Settings."
-  3. Scroll to the "Danger Zone" section.
-  4. Click "Reveal" next to "API Keys."
+- [https://wandb.ai/authorize](https://wandb.ai/authorize) にアクセスし、W&B にログインします。
+- または、プロフィールにアクセスします：
+  1. 右上のユーザープロフィールをクリックします。
+  2. 「ユーザー設定」を選択します。
+  3. 「危険ゾーン」セクションまでスクロールします。
+  4. 「API キー」の横にある「表示」をクリックします。

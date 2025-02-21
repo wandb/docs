@@ -1,18 +1,18 @@
 ---
+title: Who can edit and share reports?
 menu:
   support:
     identifier: ja-support-edit_share_reports
 tags:
 - reports
-title: Who can edit and share reports?
 toc_hide: true
 type: docs
 ---
 
-Reports created within an individual's private project remain visible only to that user. The user can share their project with a team or the public.
+個人のプライベートプロジェクト内で作成されたレポートは、そのユーザーにのみ表示されます。ユーザーはプロジェクトをチームまたは公開で共有することができます。
 
-In team projects, the administrator or the member who created the report can toggle permissions between edit and view access for other team members. Team members can share reports.
+チームプロジェクトでは、管理者またはレポートを作成したメンバーが、他のチームメンバーの編集または閲覧アクセスの権限を切り替えることができます。チームメンバーはレポートを共有できます。
 
-To share a report, select the **Share** button in the upper right corner. Provide an email address or copy the magic link. Users invited by email must log into W&B to view the report, while users with a magic link do not need to log in.
+レポートを共有するには、右上隅にある **Share** ボタンを選択します。メールアドレスを指定するか、マジックリンクをコピーします。メールで招待されたユーザーは、レポートを表示するには W&B にログインする必要がありますが、マジックリンクを持っているユーザーはログインする必要がありません。
 
-Shared reports maintain view-only access.
+共有されたレポートは、閲覧専用アクセスを維持します。

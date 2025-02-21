@@ -1,20 +1,18 @@
 ---
+title: Wysiwyg
 menu:
   support:
     identifier: ja-support-index_wysiwyg
     parent: support
-title: Wysiwyg
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Wysiwyg</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+次のサポート質問は <b>Wysiwyg</b> タグが付けられています。質問への回答が見つからない場合は、[コミュニティに質問する](https://community.wandb.ai/)か、[support@wandb.com](mailto:support@wandb.com) にメールしてください。
 {{% /card %}}
 
-- [How do I delete a panel grid?]({{< relref path="delete_panel_grid.md" lang="ja" >}})
-- [How do I insert a table?]({{< relref path="insert_table.md" lang="ja" >}})
-- [I converted my report to WYSIWYG but want to revert back to Markdown]({{< relref path="convert_from_wysiwyg_markdown.md" lang="ja" >}})
-- [My report is running slowly after the change to WYSIWYG]({{< relref path="report_slow_after_wysiwyg.md" lang="ja" >}})
-- [My report looks different after converting from Markdown.]({{< relref path="report_looks_different_converting_markdown.md" lang="ja" >}})
+- [パネルグリッドを削除するにはどうすればよいですか？]({{< relref path="delete_panel_grid.md" lang="ja" >}})
+- [テーブルを挿入するにはどうすればよいですか？]({{< relref path="insert_table.md" lang="ja" >}})
+- [レポートを WYSIWYG に変換したが Markdown に戻したい]({{< relref path="convert_from_wysiwyg_markdown.md" lang="ja" >}})
+- [WYSIWYG に変更後、レポートが遅くなった]({{< relref path="report_slow_after_wysiwyg.md" lang="ja" >}})
+- [Markdown から変換後、レポートの見た目が変わった。]({{< relref path="report_looks_different_converting_markdown.md" lang="ja" >}})

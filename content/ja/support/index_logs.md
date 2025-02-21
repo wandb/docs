@@ -1,20 +1,18 @@
 ---
+title: Logs
 menu:
   support:
     identifier: ja-support-index_logs
     parent: support
-title: Logs
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Logs</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+次のサポート質問は <b>ログ</b> タグが付いています。質問が回答されていない場合は、[コミュニティに質問する](https://community.wandb.ai/) か、[support@wandb.com](mailto:support@wandb.com) にメールしてください。
 {{% /card %}}
 
-- [How do I log runs launched by continuous integration or internal tools?]({{< relref path="log_automated_runs_service_account.md" lang="ja" >}})
-- [How do I log to the right wandb user on a shared machine?]({{< relref path="log_shared_machine.md" lang="ja" >}})
-- [How do I turn off logging?]({{< relref path="logging_turn_off.md" lang="ja" >}})
-- [How can I overwrite the logs from previous steps?]({{< relref path="how_can_i_overwrite_the_logs_from_previous_steps.md" lang="ja" >}})
-- [Which files should I check when my code crashes?]({{< relref path="files_check_code_crashes.md" lang="ja" >}})
+- [継続的インテグレーションや内部ツールによってローンチされた runs をどのようにログしますか？]({{< relref path="log_automated_runs_service_account.md" lang="ja" >}})
+- [共有マシンでどのように適切な wandb ユーザーにログしますか？]({{< relref path="log_shared_machine.md" lang="ja" >}})
+- [ログをオフにするにはどうすればよいですか？]({{< relref path="logging_turn_off.md" lang="ja" >}})
+- [前のステップのログをどのように上書きできますか？]({{< relref path="how_can_i_overwrite_the_logs_from_previous_steps.md" lang="ja" >}})
+- [コードがクラッシュしたときにどのファイルをチェックすべきですか？]({{< relref path="files_check_code_crashes.md" lang="ja" >}})

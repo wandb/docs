@@ -1,17 +1,15 @@
 ---
+title: Resuming
 menu:
   support:
     identifier: ja-support-index_resuming
     parent: support
-title: Resuming
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Resuming</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+次のサポート質問は<b>Resuming</b>タグが付いています。ご質問への回答が見つからない場合は、[コミュニティに質問](https://community.wandb.ai/)してみるか、[support@wandb.com](mailto:support@wandb.com) にメールしてください。
 {{% /card %}}
 
-- [How do I use the resume parameter when resuming a run in W&B?]({{< relref path="resume_parameter.md" lang="ja" >}})
-- [How do I fix the error `resume='must' but run (<run_id>) doesn't exist`?]({{< relref path="how_do_i_fix_the_error_resume_must_but_run_run_id_doesnt_exist.md" lang="ja" >}})
+- [W&B で run を再開する際に resume パラメータをどのように使用しますか？]({{< relref path="resume_parameter.md" lang="ja" >}})
+- [エラー `resume='must' but run (<run_id>) doesn't exist` をどのように修正しますか？]({{< relref path="how_do_i_fix_the_error_resume_must_but_run_run_id_doesnt_exist.md" lang="ja" >}})

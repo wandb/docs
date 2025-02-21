@@ -1,18 +1,16 @@
 ---
+title: Notebooks
 menu:
   support:
     identifier: ja-support-index_notebooks
     parent: support
-title: Notebooks
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Notebooks</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+次のサポート質問には <b>ノートブック</b> がタグ付けされています。質問への回答が見つからない場合は、[コミュニティに尋ねる](https://community.wandb.ai/)か、[support@wandb.com](mailto:support@wandb.com) にメールしてください。
 {{% /card %}}
 
-- [Do "Run Finished" alerts work in notebooks?]({{< relref path="run_finished_alerts.md" lang="ja" >}})
-- [How do I handle the 'Failed to query for notebook' error?]({{< relref path="query_notebook_failed.md" lang="ja" >}})
-- [How do I silence W&B info messages?]({{< relref path="silence_info_messages.md" lang="ja" >}})
+- [ノートブックで "Run Finished" のアラートは機能しますか？]({{< relref path="run_finished_alerts.md" lang="ja" >}})
+- ['Failed to query for notebook' エラーをどのように対処すればいいですか？]({{< relref path="query_notebook_failed.md" lang="ja" >}})
+- [W&B の情報メッセージをどのように消音しますか？]({{< relref path="silence_info_messages.md" lang="ja" >}})

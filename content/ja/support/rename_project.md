@@ -1,19 +1,19 @@
 ---
+title: How do I rename a project?
 menu:
   support:
     identifier: ja-support-rename_project
 tags:
 - projects
-title: How do I rename a project?
 toc_hide: true
 type: docs
 ---
 
-To rename a project:
+プロジェクトの名前を変更するには：
 
-- Navigate to the Project overview.
-- Click on **Edit Project**.
+- プロジェクト概要に移動します。
+- **Edit Project** をクリックします。
 
-Note:
+注意：
 
-- If the project name is protected, such as `model-registry`, it cannot be renamed. Contact support for assistance with protected names.
+- プロジェクト名が `model-registry` のように保護されている場合、名前を変更することはできません。保護された名前に関してはサポートにお問い合わせください。

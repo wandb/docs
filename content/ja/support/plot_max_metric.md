@@ -1,12 +1,12 @@
 ---
+title: Is it possible to plot the max of a metric rather than plot step by step?
 menu:
   support:
     identifier: ja-support-plot_max_metric
 tags:
 - metrics
-title: Is it possible to plot the max of a metric rather than plot step by step?
 toc_hide: true
 type: docs
 ---
 
-Create a scatter plot of the metric. Open the **Edit** menu and select **Annotations**. From there, plot the running maximum of the values.
+メトリックの散布図を作成します。**Edit** メニューを開き、**Annotations** を選択します。そこから、値の最大値のランニングをプロットします。

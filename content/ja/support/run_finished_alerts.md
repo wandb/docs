@@ -1,15 +1,15 @@
 ---
+title: Do "Run Finished" alerts work in notebooks?
 menu:
   support:
     identifier: ja-support-run_finished_alerts
 tags:
 - alerts
 - notebooks
-title: Do "Run Finished" alerts work in notebooks?
 toc_hide: true
 type: docs
 ---
 
-No. **Run Finished** alerts (activated with the **Run Finished** setting in User Settings) operate only with Python scripts and remain turned off in Jupyter Notebook environments to avoid notifications for each cell execution. 
+**Run Finished** アラート （ユーザー設定の **Run Finished** 設定で有効にする）は Python スクリプトでのみ動作し、各セルの実行について通知が行われないよう Jupyter Notebook 環境ではオフのままです。
 
-Use `wandb.alert()` in notebook environments instead.
+代わりに、ノートブック環境では `wandb.alert()` を使用してください。

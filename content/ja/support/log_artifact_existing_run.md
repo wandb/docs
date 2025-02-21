@@ -1,15 +1,15 @@
 ---
+title: How do I log an artifact to an existing run?
 menu:
   support:
     identifier: ja-support-log_artifact_existing_run
 tags:
 - artifacts
-title: How do I log an artifact to an existing run?
 toc_hide: true
 type: docs
 ---
 
-Occasionally, it is necessary to mark an artifact as the output of a previously logged run. In this case, reinitialize the old run and log new artifacts as follows:
+場合によっては、以前にログされた run の出力としてアーティファクトをマークする必要があります。この場合、古い run を再初期化して、新しいアーティファクトを以下のようにログしてください：
 
 ```python
 with wandb.init(id="existing_run_id", resume="allow") as run:

@@ -1,13 +1,13 @@
 ---
+title: Can W&B team members see my data?
 menu:
   support:
     identifier: ja-support-wandb_see_data
 tags:
 - privacy
 - security
-title: Can W&B team members see my data?
 toc_hide: true
 type: docs
 ---
 
-Key engineers and support staff at W&B access logged values for debugging purposes with user permission. All data stores encrypt data at rest, and audit logs record access. For complete data security from W&B employees, license the self-hosted solution to run a W&B server within your own infrastructure.
+W&B の主要なエンジニアとサポートスタッフは、ユーザーの許可を得てデバッグ目的でログされた値にアクセスします。すべてのデータストアは静止データを暗号化し、アクセスを記録する監査ログがあります。W&B の従業員からの完全なデータセキュリティを確保するには、セルフホスト型ソリューションをライセンスして、自社のインフラストラクチャー内で W&B サーバーを実行してください。

@@ -1,17 +1,15 @@
 ---
+title: AWS
 menu:
   support:
     identifier: ja-support-index_aws
     parent: support
-title: AWS
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Aws</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+以下のサポート質問は <b>Aws</b> にタグ付けされています。質問が回答されていない場合は、[コミュニティに質問してみてください](https://community.wandb.ai/)、または [support@wandb.com](mailto:support@wandb.com) にメールを送ってください。
 {{% /card %}}
 
-- [Can I use Sweeps and SageMaker?]({{< relref path="sweeps_sagemaker.md" lang="ja" >}})
-- [Can you use W&B Sweeps with cloud infrastructures such as AWS Batch, ECS, etc.?]({{< relref path="sweeps_cloud_infrastructures_such_aws_batch_ecs.md" lang="ja" >}})
+- [Sweeps と SageMaker は一緒に使用できますか？]({{< relref path="sweeps_sagemaker.md" lang="ja" >}})
+- [W&B Sweeps を AWS Batch、ECS などのクラウドインフラストラクチャーと一緒に使用できますか？]({{< relref path="sweeps_cloud_infrastructures_such_aws_batch_ecs.md" lang="ja" >}})

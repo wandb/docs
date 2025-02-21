@@ -1,17 +1,15 @@
 ---
+title: Privacy
 menu:
   support:
     identifier: ja-support-index_privacy
     parent: support
-title: Privacy
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Privacy</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+次のサポート質問は <b>プライバシー</b> にタグ付けされています。質問への回答が見つからない場合は、[コミュニティに質問する](https://community.wandb.ai/) か、 [support@wandb.com](mailto:support@wandb.com) にメールしてください。
 {{% /card %}}
 
-- [Can W&B team members see my data?]({{< relref path="wandb_see_data.md" lang="ja" >}})
-- [How can I make my project public?]({{< relref path="project_make_public.md" lang="ja" >}})
+- [W&B チームメンバーは私のデータを見ることができますか？]({{< relref path="wandb_see_data.md" lang="ja" >}})
+- [プロジェクトを公開にするにはどうすればよいですか？]({{< relref path="project_make_public.md" lang="ja" >}})

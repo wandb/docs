@@ -1,12 +1,12 @@
 ---
+title: Will wandb slow down my training?
 menu:
   support:
     identifier: ja-support-slow_training
 tags:
 - experiments
-title: Will wandb slow down my training?
 toc_hide: true
 type: docs
 ---
 
-W&B has a minimal impact on training performance under normal usage conditions. Normal use includes logging at a rate of less than once per second and limiting data to a few megabytes per step. W&B operates in a separate process with non-blocking function calls, ensuring that brief network outages or intermittent disk read/write issues do not disrupt performance. Excessive logging of large amounts of data may lead to disk I/O issues. For further inquiries, contact support.
+W&B は、通常の使用条件下でのトレーニング パフォーマンスに最小限の影響を与えます。通常の使用には、1 秒未満のレートでのログや、ステップごとに数メガバイトにデータを制限することが含まれます。W&B は非ブロッキング関数呼び出しを使用して別のプロセスで動作するため、短時間のネットワーク停止や断続的なディスク読み取り/書き込みの問題が発生してもパフォーマンスには影響しません。大量のデータの過剰なログ記録は、ディスク I/O の問題につながる可能性があります。さらに質問がある場合は、サポートにお問い合わせください。

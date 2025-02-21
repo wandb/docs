@@ -1,18 +1,18 @@
 ---
+title: How do I launch multiple runs from one script?
 menu:
   support:
     identifier: ja-support-launch_multiple_runs_one_script
 tags:
 - experiments
-title: How do I launch multiple runs from one script?
 toc_hide: true
 type: docs
 ---
 
-Use `wandb.init` and `run.finish()` to log multiple runs within a single script:
+`wandb.init` と `run.finish()` を使用して、単一のスクリプト内で複数の run をログ:
 
-1. Use `run = wandb.init(reinit=True)` to allow reinitialization of runs.
-2. Call `run.finish()` at the end of each run to complete logging.
+1. `run = wandb.init(reinit=True)` を使用して、run の再初期化を許可する。
+2. 各 run の最後で `run.finish()` を呼び出してログを完了させる。
 
 ```python
 import wandb
@@ -24,7 +24,7 @@ for x in range(10):
     run.finish()
 ```
 
-Alternatively, utilize a Python context manager to automatically finish logging:
+または、Python のコンテキストマネージャを利用して、自動的にログを完了させる:
 
 ```python
 import wandb

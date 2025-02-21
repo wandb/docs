@@ -1,12 +1,12 @@
 ---
+title: How do I get the random run name in my script?
 menu:
   support:
     identifier: ja-support-random_run_name_script
 tags:
 - experiments
-title: How do I get the random run name in my script?
 toc_hide: true
 type: docs
 ---
 
-Call `wandb.run.save()` to save the current run. Retrieve the name using `wandb.run.name`.
+`wandb.run.save()` を呼び出して現在の run を保存します。`wandb.run.name` を使用して名前を取得します。

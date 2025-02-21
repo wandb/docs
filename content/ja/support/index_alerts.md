@@ -1,17 +1,15 @@
 ---
+title: Alerts
 menu:
   support:
     identifier: ja-support-index_alerts
     parent: support
-title: Alerts
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Alerts</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+次のサポート質問には <b>Alerts</b> タグが付いています。あなたの質問に対する回答が見つからない場合は、[コミュニティに尋ねる](https://community.wandb.ai/)か、[support@wandb.com](mailto:support@wandb.com) にメールしてみてください。
 {{% /card %}}
 
-- [Do "Run Finished" alerts work in notebooks?]({{< relref path="run_finished_alerts.md" lang="ja" >}})
-- [How can I send run alerts to Microsoft Teams?]({{< relref path="send_alerts_microsoft_teams_using_wb.md" lang="ja" >}})
+- [ "Run Finished" アラートはノートブックで動作しますか？]({{< relref path="run_finished_alerts.md" lang="ja" >}})
+- [run アラートを Microsoft Teams に送信するにはどうすればいいですか？]({{< relref path="send_alerts_microsoft_teams_using_wb.md" lang="ja" >}})

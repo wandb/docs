@@ -1,30 +1,28 @@
 ---
+title: Reports
 menu:
   support:
     identifier: ja-support-index_reports
     parent: support
-title: Reports
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with **Reports**. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+次のサポート質問は **Reports** タグが付けられています。あなたの質問が回答されていない場合は、 [コミュニティに問い合わせる](https://community.wandb.ai/) か、[support@wandb.com](mailto:support@wandb.com) にメールしてください。
 {{% /card %}}
 
-- [Adding multiple authors to a report]({{< relref path="adding_multiple_authors_report.md" lang="ja" >}})
-- [Can I use Markdown in my reports?]({{< relref path="reports_markdown.md" lang="ja" >}})
-- [Embedding Reports]({{< relref path="embedding_reports.md" lang="ja" >}})
-- [Filter and delete unwanted reports]({{< relref path="filter_delete_unwanted_reports.md" lang="ja" >}})
-- [How do I delete a panel grid?]({{< relref path="delete_panel_grid.md" lang="ja" >}})
-- [How do I insert a table?]({{< relref path="insert_table.md" lang="ja" >}})
-- [How to get multiple charts with different selected runs?]({{< relref path="multiple_charts_different_selected_runs.md" lang="ja" >}})
-- [I converted my report to WYSIWYG but want to revert back to Markdown]({{< relref path="convert_from_wysiwyg_markdown.md" lang="ja" >}})
-- [Incorporating LaTeX]({{< relref path="incorporating_latex.md" lang="ja" >}})
-- [My report is running slowly after the change to WYSIWYG]({{< relref path="report_slow_after_wysiwyg.md" lang="ja" >}})
-- [My report looks different after converting from Markdown.]({{< relref path="report_looks_different_converting_markdown.md" lang="ja" >}})
-- [Refreshing data]({{< relref path="refreshing_data.md" lang="ja" >}})
-- [Upload a CSV to a report]({{< relref path="upload_csv_report.md" lang="ja" >}})
-- [Upload an image to a report]({{< relref path="upload_image_report.md" lang="ja" >}})
-- [Who can edit and share reports?]({{< relref path="edit_share_reports.md" lang="ja" >}})
+- [レポートに複数の著者を追加する]({{< relref path="adding_multiple_authors_report.md" lang="ja" >}})
+- [レポートで Markdown を使用できますか？]({{< relref path="reports_markdown.md" lang="ja" >}})
+- [Reports の埋め込み]({{< relref path="embedding_reports.md" lang="ja" >}})
+- [不要なレポートのフィルターと削除]({{< relref path="filter_delete_unwanted_reports.md" lang="ja" >}})
+- [パネルグリッドを削除するにはどうすればよいですか？]({{< relref path="delete_panel_grid.md" lang="ja" >}})
+- [テーブルを挿入するにはどうすればよいですか？]({{< relref path="insert_table.md" lang="ja" >}})
+- [異なる run を選択して複数のチャートを取得する方法は？]({{< relref path="multiple_charts_different_selected_runs.md" lang="ja" >}})
+- [レポートを WYSIWYG に変換しましたが、Markdown に戻したい]({{< relref path="convert_from_wysiwyg_markdown.md" lang="ja" >}})
+- [LaTeX の組み込み]({{< relref path="incorporating_latex.md" lang="ja" >}})
+- [WYSIWYG への変更後、レポートの動作が遅くなった]({{< relref path="report_slow_after_wysiwyg.md" lang="ja" >}})
+- [Markdown から変換後、レポートの見た目が変わった]({{< relref path="report_looks_different_converting_markdown.md" lang="ja" >}})
+- [データの更新]({{< relref path="refreshing_data.md" lang="ja" >}})
+- [CSV をレポートにアップロードする]({{< relref path="upload_csv_report.md" lang="ja" >}})
+- [画像をレポートにアップロードする]({{< relref path="upload_image_report.md" lang="ja" >}})
+- [誰がレポートを編集および共有できますか？]({{< relref path="edit_share_reports.md" lang="ja" >}})

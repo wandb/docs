@@ -1,14 +1,14 @@
 ---
+title: How do I log to the right wandb user on a shared machine?
 menu:
   support:
     identifier: ja-support-log_shared_machine
 tags:
 - logs
-title: How do I log to the right wandb user on a shared machine?
 toc_hide: true
 type: docs
 ---
 
-When using a shared machine, ensure that runs log to the correct WandB account by setting the `WANDB_API_KEY` environment variable for authentication. If sourced in the environment, this variable provides the correct credentials upon login. Alternatively, set the environment variable directly in the script.
+共有マシンを使用する場合、`WANDB_API_KEY` 環境変数を設定して認証することで、正しい WandB アカウントにrunをログすることを確認してください。環境で指定されている場合、この変数はログイン時に正しい資格情報を提供します。あるいは、スクリプト内で直接環境変数を設定することもできます。
 
-Execute the command `export WANDB_API_KEY=X`, replacing X with your API key. Logged-in users can find their API key at [wandb.ai/authorize](https://app.wandb.ai/authorize).
+コマンド `export WANDB_API_KEY=X` を実行し、X をあなたのAPIキーに置き換えてください。ログインしているユーザーは、自分のAPIキーを [wandb.ai/authorize](https://app.wandb.ai/authorize) で見つけることができます。

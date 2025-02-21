@@ -1,20 +1,20 @@
 ---
+title: Is it possible to move a run from one project to another?
 menu:
   support:
     identifier: ja-support-move_from_project_another
 tags:
 - runs
-title: Is it possible to move a run from one project to another?
 toc_hide: true
 type: docs
 ---
 
-You can move a run from one project to another by following these steps:
+ランをあるプロジェクトから別のプロジェクトに移動するには、次の手順に従ってください:
 
-- Navigate to the project page with the run to be moved.
-- Click on the **Runs** tab to open the runs table.
-- Select the runs to move.
-- Click the **Move** button.
-- Choose the destination project and confirm the action.
+- 移動させたいランがあるプロジェクトページに移動します。
+- **Runs** タブをクリックしてランのテーブルを開きます。
+- 移動するランを選択します。
+- **Move** ボタンをクリックします。
+- 移動先のプロジェクトを選択し、操作を確認します。
 
-W&B supports moving runs through the UI, but does not support copying runs. Artifacts logged with the runs do not transfer to the new project.
+W&B は UI を通じたランの移動をサポートしていますが、ランのコピーはサポートしていません。ランでログされた Artifacts は新しいプロジェクトには移動されません。
