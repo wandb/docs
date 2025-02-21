@@ -4,8 +4,8 @@ title: Weights & Biases Documentation
 
 <div style="padding-top:50px;">&nbsp;</div>
 <div style="max-width:1200px; margin: 0 auto">
-{{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
-Choose the product for which you need documentation.
+{{< banner title="Weights & Biases ドキュメント" background="/images/support/support_banner.png" >}}
+必要な製品のドキュメントを選択してください。
 {{< /banner >}}
 
 {{< cardpane >}}
@@ -16,14 +16,14 @@ Choose the product for which you need documentation.
 </div>
 <h2>W&B Weave</h2>
 
-##### Use AI models in your app
+##### AI モデルをアプリに使用する
 
-Use [W&B Weave](https://weave-docs.wandb.ai/) to manage all aspects of integrating AI models into your code, including tracing, output evaluation, cost estimates, and using our LLM playground to help compare the various LLM models and their configuration paramaters.
+[W&B Weave](https://weave-docs.wandb.ai/) を使用して、AI モデルをコードに統合するすべての側面を管理します。トレース、出力評価、コスト見積もり、さまざまな LLM モデルとその設定パラメータを比較するための LLM プレイグラウンドの使用が含まれます。
 
-- [Introduction](https://weave-docs.wandb.ai/)
-- [Quickstart](https://weave-docs.wandb.ai/quickstart)
-- [YouTube Demo](https://www.youtube.com/watch?v=IQcGGNLN3zo)
-- [Try the Playground](https://wandb.ai/wandb/weave-playground/weave/playground) (Free [sign up](https://wandb.ai/signup) required)
+- [イントロダクション](https://weave-docs.wandb.ai/)
+- [クイックスタート](https://weave-docs.wandb.ai/quickstart)
+- [YouTube デモ](https://www.youtube.com/watch?v=IQcGGNLN3zo)
+- [プレイグラウンドを試す](https://wandb.ai/wandb/weave-playground/weave/playground)（無料の[サインアップ](https://wandb.ai/signup)が必要です）
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
@@ -33,21 +33,23 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage all aspects of integrati
 </div>
 <h2>W&B Models</h2>
 
-##### Build AI models
+##### AI モデルを構築する
 
-Use [W&B Models]({{< relref path="/guides/" lang="ja" >}}) to manage all aspects of building your own AI models, including training, fine-tuning, reporting, automating hyperparameter sweeps, and using our model registry to assist with versioning and reproducibility.
+[W&B Models]({{< relref path="/guides/" lang="ja" >}}) を使用して、独自の AI モデルを構築するすべての側面を管理します。トレーニング、ファインチューニング、レポート作成、ハイパーパラメーター探索の自動化、バージョン管理と再現性を支援するモデルレジストリの使用が含まれます。
 
-- [Introduction]({{< relref path="/guides/" lang="ja" >}})
-- [Quickstart]({{< relref path="/guides/quickstart/" lang="ja" >}})
-- [YouTube Tutorial](https://www.youtube.com/watch?v=tHAFujRhZLA)
-- [Online Course](https://wandb.ai/site/courses/101/)
+- [イントロダクション]({{< relref path="/guides/" lang="ja" >}})
+- [クイックスタート]({{< relref path="/guides/quickstart/" lang="ja" >}})
+- [YouTube チュートリアル](https://www.youtube.com/watch?v=tHAFujRhZLA)
+- [オンラインコース](https://wandb.ai/site/courses/101/)
 
 </div>{{% /card %}}
 {{< /cardpane >}}
 
-<!-- End max-width constraing -->
+
+
 </div>
-<!-- HTML override just for landing page -->
+
+
 <style>
 .td-card-group { margin: 0 auto }
 p { overflow: hidden; display: block; }
