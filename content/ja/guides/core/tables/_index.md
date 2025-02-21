@@ -1,42 +1,42 @@
 ---
+title: Tables
+description: データセットを反復してモデルの予測を理解する
 cascade:
 - url: guides/tables/:filename
-description: Iterate on datasets and understand model predictions
 menu:
   default:
     identifier: ja-guides-core-tables-_index
     parent: core
-title: Tables
 url: guides/tables
 weight: 2
 ---
 
 {{< cta-button productLink="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" >}}
 
-Use W&B Tables to visualize and query tabular data. For example:
+W&B Tables を使用して、表形式のデータを可視化およびクエリできます。例えば：
 
-* Compare how different models perform on the same test set
-* Identify patterns in your data
-* Look at sample model predictions visually
-* Query to find commonly misclassified examples
-
+* 異なるモデルが同じテストセットでどのように動作するか比較する
+* データのパターンを識別する
+* モデルのサンプル予測を視覚的に確認する
+* 一般的に誤分類された例を見つけるためにクエリを実行する
 
 {{< img src="/images/data_vis/tables_sample_predictions.png" alt="" >}}
-The above image shows a table with semantic segmentation and custom metrics. View this table here in this [sample project from the W&B ML Course](https://wandb.ai/av-team/mlops-course-001).
 
-## How it works
+上の画像は、セマンティックセグメンテーションとカスタムメトリクスを含むテーブルを示しています。このテーブルは、ここでこの [W&B ML Course のサンプルプロジェクト](https://wandb.ai/av-team/mlops-course-001)で表示できます。
 
-A Table is a two-dimensional grid of data where each column has a single type of data. Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types. 
+## 仕組み
 
-## Log a Table
+Table は、各列が単一タイプのデータを持つ 2 次元のデータグリッドです。Tables は、プリミティブおよび数値型、ネストされたリスト、辞書、およびリッチメディア型をサポートします。
 
-Log a table with a few lines of code:
+## テーブルをログに記録する
 
-- [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}): Create a [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) to track results.
-- [`wandb.Table()`]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}): Create a new table object.
-  - `columns`: Set the column names.
-  - `data`: Set the contents of the table.
-- [`run.log()`]({{< relref path="/ref/python/log.md" lang="ja" >}}): Log the table to save it to W&B.
+数行のコードでテーブルをログに記録します：
+
+- [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}): 結果を追跡するための [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) を作成します。
+- [`wandb.Table()`]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}): 新しいテーブルオブジェクトを作成します。
+  - `columns`: 列名を設定します。
+  - `data`: テーブルの内容を設定します。
+- [`run.log()`]({{< relref path="/ref/python/log.md" lang="ja" >}}): テーブルをログに記録して W&B に保存します。
 
 ```python showLineNumbers
 import wandb
@@ -46,6 +46,6 @@ my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
 run.log({"Table Name": my_table})
 ```
 
-## How to get started
-* [Quickstart]({{< relref path="./tables-walkthrough.md" lang="ja" >}}): Learn to log data tables, visualize data, and query data.
-* [Tables Gallery]({{< relref path="./tables-gallery.md" lang="ja" >}}): See example use cases for Tables.
+## 開始方法
+* [クイックスタート]({{< relref path="./tables-walkthrough.md" lang="ja" >}}): データテーブルをログし、データを可視化し、データをクエリする方法を学びます。
+* [Tables Gallery]({{< relref path="./tables-gallery.md" lang="ja" >}}): Tables のユースケース例を参照してください。

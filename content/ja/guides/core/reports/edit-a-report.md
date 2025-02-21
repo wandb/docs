@@ -1,50 +1,47 @@
 ---
-description: Edit a report interactively with the App UI or programmatically with
-  the W&B SDK.
+title: Edit a report
+description: レポートをインタラクティブにアプリ UI で編集するか、W&B SDK を使用してプログラムから編集します。
 menu:
   default:
     identifier: ja-guides-core-reports-edit-a-report
     parent: reports
-title: Edit a report
 weight: 20
 ---
 
-Edit a report interactively with the App UI or programmatically with the W&B SDK.
+レポートを App UI で対話的に、または W&B SDK を使ってプログラム的に編集します。
 
-Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
+Reports は _ブロック_ で構成されています。ブロックはレポートの本文を構成します。これらのブロックには、テキスト、画像、埋め込み可視化、実験と run のプロット、パネル グリッドを追加できます。
 
-_Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
-
+_パネル グリッド_ はパネルと _run セット_ を持つ特定のタイプのブロックです。Run セットとは、W&B のプロジェクトにログされた run のコレクションのことです。パネルは run セット データの可視化です。
 
 {{% alert %}}
-Check out the [Programmatic workspaces tutorial]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) for a step by step example on how create and customize a saved workspace view.
+レポートを保存されたワークスペースビューとして作成し、カスタマイズする方法についてのステップバイステップの例は、[ワークスペースのプログラム的チュートリアル]({{< relref path="/tutorials/workspaces.md" lang="ja" >}})をご覧ください。
 {{% /alert %}}
 
 {{% alert %}}
-Ensure that you have `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
+レポートをプログラム的に編集したい場合は、W&B Python SDK に加えて `wandb-workspaces` がインストールされていることを確認してください。
 
 ```pip
 pip install wandb wandb-workspaces
 ```
 {{% /alert %}}
 
-## Add plots
+## プロットを追加する
 
-Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data shows up on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
+各パネル グリッドには、run セットとパネルのセットがあります。セクションの下部にある run セットは、グリッド内のパネルに表示されるデータを制御します。異なる run セットからデータを取得してグラフを追加したい場合は、新しいパネル グリッドを作成します。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B, including a line plot, scatter plot or parallel coordinates chart.
+レポートでスラッシュ (`/`)を入力すると、ドロップダウンメニューが表示されます。 **Add panel** を選択してパネルを追加します。W&B がサポートするラインプロット、散布プロット、またはパラレル座標チャートなど、任意のパネルを追加できます。
 
-{{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
+{{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="レポートにチャートを追加する" >}}
 {{% /tab %}}
 
 {{% tab header="Workspaces API" value="sdk"%}}
-Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
+SDK を使用してレポートにプロットをプログラム的に追加します。`PanelGrid` Public API クラスの `panels` パラメータに 1 つ以上のプロットまたはチャートオブジェクトのリストを渡します。関連する Python クラスを使ってプロットまたはチャート オブジェクトを作成します。
 
-
-The proceeding examples demonstrates how to create a line plot and scatter plot.
+次の例では、ラインプロットと散布プロットの作成方法を示します。
 
 ```python
 import wandb
@@ -69,31 +66,31 @@ report.blocks = blocks
 report.save()
 ```
 
-For more information about available plots and charts you can add to a report programmatically, see `wr.panels`.
+プログラム的にレポートに追加できる利用可能なプロットとチャートの詳細については、 `wr.panels` を参照してください。
 
 {{% /tab %}}
 {{< /tabpane >}}
 
 
-## Add run sets
+## Run セットを追加する
 
-Add run sets from projects interactively with the App UI or the W&B SDK.
+Run セットを W&B SDK または App UI を使ってプロジェクトから対話的に追加します。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose Panel Grid. This will automatically import the run set from the project the report was created from.
+レポートでスラッシュ (`/`)を入力するとドロップダウンメニューが表示されます。ドロップダウンから Panel Grid を選択します。これにより、レポートが作成されたプロジェクトから自動的に run セットがインポートされます。
 
 {{% /tab %}}
 
 {{% tab header="Workspaces API" value="sdk"%}}
 
-Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
+`wr.Runset()` および `wr.PanelGrid` クラスを使用してプロジェクトから run セットを追加します。次の手順では、runset の追加方法について説明します。
 
-1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the runsets for the project parameter and the entity that owns the project for the entity parameter.
-2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `runsets` parameter.
-3. Store one or more `wr.PanelGrid()` object instances in a list.
-4. Update the report instance blocks attribute with the list of panel grid instances.
+1. `wr.Runset()` オブジェクトインスタンスを作成します。プロジェクトパラメータにrunsetを含むプロジェクトの名前を、entityパラメータにプロジェクトを所有する entity を指定します。
+2. `wr.PanelGrid()` オブジェクトインスタンスを作成します。1 つ以上の runset オブジェクトを `runsets` パラメータに渡します。
+3. 1 つ以上の `wr.PanelGrid()` オブジェクトインスタンスをリストに保存します。
+4. パネル グリッド インスタンスのリストでレポート インスタンス ブロック属性を更新します。
 
 ```python
 import wandb
@@ -113,7 +110,7 @@ report.blocks = [panel_grids]
 report.save()
 ```
 
-You can optionally add runsets and panels with one call to the SDK:
+SDK への 1 回の呼び出しで runset と パネルを追加することもできます。
 
 ```python
 import wandb
@@ -177,33 +174,32 @@ report.save()
 {{% /tab %}}
 {{< /tabpane >}}
 
+## Run セットをフリーズする
 
-## Freeze a run set
+プロジェクトから最新のデータを表示するために、レポートは自動的に run セットを更新します。*Freezing* された run セットは、レポート内の run セットの状態をある時点で保持します。
 
-A report automatically updates run sets to show the latest data from the project. You can preserve the run set in a report by *freezing* that run set. When you freeze a run set, you preserve the state of the run set in a report at a point in time.
-
-To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
+レポートを表示するときに run セットをフリーズするには、**Filter** ボタンの近くにあるパネル グリッド内のスノーフレーク アイコンをクリックします。
 
 {{< img src="/images/reports/freeze_runset.png" alt="" >}}
 
-## Add code blocks
+## コードブロックを追加する
 
-Add code blocks to your report interactively with the App UI or with the W&B SDK.
+コードブロックを App UI または W&B SDK を使用して対話的にレポートに追加します。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Code**.
+レポートでスラッシュ (`/`)を入力すると、ドロップダウンメニューが表示されます。 ドロップダウンから**Code**を選択します。
 
-Select the name of the programming language on the right hand of the code block. This will expand a dropdown. From the dropdown, select your programming language syntax. You can choose from Javascript, Python, CSS, JSON, HTML, Markdown, and YAML.
+コードブロックの右側にあるプログラミング言語の名前を選択します。これによりドロップダウンが展開されます。ドロップダウンからプログラミング言語の構文を選択します。選択可能なのは Javascript, Python, CSS, JSON, HTML, Markdown, YAML です。
 
 {{% /tab %}}
 
 {{% tab header="Workspaces API" value="sdk" %}}
 
-Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
+`wr.CodeBlock` クラスを使って、コードブロックをプログラム的に作成します。language パラメータには言語の名前を、code パラメータには表示したいコードを指定します。
 
-For example the proceeding example demonstrates a list in YAML file:
+以下の例は YAML ファイルのリストを示しています。
 
 ```python
 import wandb
@@ -220,7 +216,7 @@ report.blocks = [
 report.save()
 ```
 
-This will render a code block similar to:
+これにより、次のようなコードブロックがレンダリングされます。
 
 ```yaml
 this:
@@ -231,7 +227,7 @@ cool:
 - file
 ```
 
-The proceeding example demonstrates a Python code block:
+次の例は Python コードブロックです。
 
 ```python
 report = wr.Report(project="report-editing")
@@ -242,7 +238,7 @@ report.blocks = [wr.CodeBlock(code=["Hello, World!"], language="python")]
 report.save()
 ```
 
-This will render a code block similar to:
+これにより、次のようなコードブロックがレンダリングされます。
 
 ```md
 Hello, World!
@@ -252,20 +248,20 @@ Hello, World!
 
 {{% /tabpane %}}
 
-## Add markdown
+## Markdown を追加する
 
-Add markdown to your report interactively with the App UI or with the W&B SDK.
+Markdown を App UI または W&B SDK を使用して対話的にレポートに追加します。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Markdown**.
+レポート内でスラッシュ (`/`) を入力すると、ドロップダウンメニューが表示されます。 ドロップダウンから**Markdown**を選択します。
 
 {{% /tab %}}
 
 {{% tab header="Workspaces API" value="sdk" %}}
 
-Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block programmatically. Pass a string to the `text` parameter:
+`wandb.apis.reports.MarkdownBlock` クラスを使って、markdown ブロックをプログラム的に作成します。`text` パラメータには文字列を渡します。
 
 ```python
 import wandb
@@ -278,7 +274,7 @@ report.blocks = [
 ]
 ```
 
-This will render a markdown block similar to:
+これにより、次のような markdown ブロックがレンダリングされます。
 
 {{< img src="/images/reports/markdown.png" alt="" >}}
 
@@ -287,20 +283,20 @@ This will render a markdown block similar to:
 {{% /tabpane %}}
 
 
-## Add HTML elements
+## HTML 要素を追加する
 
-Add HTML elements to your report interactively with the App UI or with the W&B SDK.
+HTML 要素を App UI または W&B SDK を使用して対話的にレポートに追加します。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
+レポートでスラッシュ (`/`)を入力すると、ドロップダウンメニューが表示されます。ドロップダウンからテキストブロックのタイプを選択します。たとえば、H2 見出しブロックを作成するには、`Heading 2` オプションを選択します。
 
 {{% /tab %}}
 
 {{% tab header="Workspaces API" value="sdk" %}}
 
-Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to create an H1, H2, and an unordered list:
+`wandb.apis.reports.blocks` 属性に 1 つ以上の HTML 要素を渡します。次の例では、H1、H2、および順序なしリストを作成する方法を示します。
 
 ```python
 import wandb
@@ -317,8 +313,7 @@ report.blocks = [
 report.save()
 ```
 
-This will render a HTML elements  to the following:
-
+これにより、次のような HTML 要素が表示されます。
 
 {{< img src="/images/reports/render_html.png" alt="" >}}
 
@@ -326,30 +321,30 @@ This will render a HTML elements  to the following:
 
 {{% /tabpane %}}
 
-## Embed rich media links
+## リッチメディアリンクを埋め込む
 
-Embed rich media within the report with the App UI or with the W&B SDK.
+リッチメディアを App UI または W&B SDK を使ってレポート内に埋め込みます。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Copy and past URLs into reports to embed rich media within the report. The following animations demonstrate how to copy and paste URLs from Twitter, YouTube, and SoundCloud.
+URL をコピーしてレポート内に貼り付けることで、リッチメディアをレポート内に埋め込むことができます。次のアニメーションでは、Twitter、YouTube、SoundCloud から URL をコピーして貼り付ける方法を示しています。
 
 ### Twitter
 
-Copy and paste a Tweet link URL into a report to view the Tweet within the report.
+Tweet のリンク URL をレポートにコピーアンドペーストして、レポート内で Tweet を表示します。
 
 {{< img src="/images/reports/twitter.gif" alt="" >}}
 
-### Youtube
+### YouTube
 
-Copy and paste a YouTube video URL link to embed a video in the report.
+YouTube ビデオの URL リンクをコピーアンドペーストして、レポート内にビデオを埋め込みます。
 
 {{< img src="/images/reports/youtube.gif" alt="" >}}
 
 ### SoundCloud
 
-Copy and paste a SoundCloud link to embed an audio file into a report.
+SoundCloud リンクをコピーアンドペーストして、レポートに音声ファイルを埋め込みます。
 
 {{< img src="/images/reports/soundcloud.gif" alt="" >}}
 
@@ -357,7 +352,7 @@ Copy and paste a SoundCloud link to embed an audio file into a report.
 
 {{% tab header="Workspaces API" value="sdk" %}}
 
-Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to embed video and Twitter media into a report:
+1つ以上の埋め込みメディアオブジェクトのリストを `wandb.apis.reports.blocks` 属性に渡します。次の例では、ビデオと Twitter メディアをレポートに埋め込む方法を示します。
 
 ```python
 import wandb
@@ -378,20 +373,20 @@ report.save()
 
 {{% /tabpane %}}
 
-## Duplicate and delete panel grids
+## パネル グリッドを複製および削除する
 
-If you have a layout that you would like to reuse, you can select a panel grid and copy-paste it to duplicate it in the same report or even paste it into a different report.
+再利用したいレイアウトがある場合は、パネル グリッドを選択し、コピーして貼り付けて、同じレポート内または別のレポートに複製できます。
 
-Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
+右上隅のドラッグハンドルを選択して、パネルグリッドセクション全体をハイライトします。クリックしてドラッグすると、レポート内のパネルグリッド、テキスト、見出しなどの領域をハイライトして選択できます。
 
 {{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="" >}}
 
-Select a panel grid and press `delete` on your keyboard to delete a panel grid.
+パネルグリッドを選択し、キーボードの `delete` キーを押してパネルグリッドを削除します。
 
 {{< img src="/images/reports/delete_panel_grid.gif" alt="" >}}
 
-## Collapse headers to organize Reports
+## レポートを整理するためにヘッダーを折りたたむ
 
-Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
+レポート内のテキストブロックのコンテンツを非表示にするために、レポート内のヘッダーを折りたたみます。レポートが読み込まれると、展開されているヘッダーだけがコンテンツを表示します。レポート内のヘッダーを折りたたむと、コンテンツを整理し、データの過剰な読み込みを防ぐのに役立ちます。次の gif では、そのプロセスを示しています。
 
 {{< img src="/images/reports/collapse_headers.gif" alt="" >}}

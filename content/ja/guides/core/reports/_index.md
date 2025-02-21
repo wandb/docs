@@ -1,52 +1,52 @@
 ---
+title: Reports
+description: 機械学習プロジェクトのためのプロジェクト管理とコラボレーションツール
 cascade:
 - url: guides/reports/:filename
-description: Project management and collaboration tools for machine learning projects
 menu:
   default:
     identifier: ja-guides-core-reports-_index
     parent: core
-title: Reports
 url: guides/reports
 weight: 3
 ---
 
 {{< cta-button productLink="https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ?utm_source=fully_connected&utm_medium=blog&utm_campaign=view+from+the+drivers+seat" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" >}}
 
-Use W&B Reports to:
-- Organize Runs.
-- Embed and automate visualizations.
-- Describe your findings.
-- Share updates with collaborators, either as a LaTeX zip file a PDF.
+W&B Reports を使用して以下を行います:
+- Runs を整理。
+- 可視化を埋め込み、自動化。
+- 学びを説明。
+- Collaborators と LaTeX zip ファイルまたは PDF 形式でアップデートを共有。
 
-<!-- {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} -->
-
-The following image shows a section of a report created from metrics that were logged to W&B over the course of training. 
+この画像は、トレーニング中に W&B にログされたメトリクスから作成されたレポートの一部を示しています。
 
 {{< img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="" max-width="90%" >}}
 
-View the report where the above image was taken from [here](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM).
+上記の画像が含まれているレポートを [こちら](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM) で確認できます。
 
-## How it works
-Create a collaborative report with a few clicks.
+## 仕組み
 
-1. Navigate to your W&B project workspace in the W&B App.
-2. Click the **Create report** button in the upper right corner of your workspace.
+数クリックで協力的なレポートを作成。
+
+1. W&B アプリ内の W&B プロジェクトワークスペースに移動します。
+2. ワークスペースの右上隅にある **Create report** ボタンをクリックします。
 
 {{< img src="/images/reports/create_a_report_button.png" alt="" max-width="90%">}}
 
-3. A modal titled **Create Report** will appear. Select the charts and panels you want to add to your report. (You can add or remove charts and panels later).
-4. Click **Create report**. 
-5. Edit the report to your desired state. 
-6. Click **Publish to project**.
-7. Click the **Share** button to share your report with collaborators. 
+3. **Create Report** というモーダルが表示されます。レポートに追加したいチャートやパネルを選択します。（チャートやパネルは後で追加や削除が可能です）。
+4. **Create report** をクリックします。
+5. レポートを希望の状態に編集します。
+6. **Publish to project** をクリックします。
+7. **Share** ボタンを使って、Collaborators とレポートを共有します。
 
-See the [Create a report]({{< relref path="./create-a-report.md" lang="ja" >}}) page for more information on how to create reports interactively an programmatically with the W&B Python SDK.
+W&B Python SDK を使用してインタラクティブにまたはプログラムでレポートを作成する詳細については、[Create a report]({{< relref path="./create-a-report.md" lang="ja" >}}) ページを参照してください。
 
-## How to get started
-Depending on your use case, explore the following resources to get started with W&B Reports:
+## 開始方法
 
-* Check out our [video demonstration](https://www.youtube.com/watch?v=2xeJIv_K_eI) to get an overview of W&B Reports.
-* Explore the [Reports gallery]({{< relref path="./reports-gallery.md" lang="ja" >}}) for examples of live reports.
-* Try the [Programmatic Workspaces]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) tutorial to learn how to create and customize your workspace.
-* Read curated Reports in [W&B Fully Connected](http://wandb.me/fc).
+ユースケースに応じて、W&B Reports を始めるための以下のリソースを探索してください:
+
+* W&B Reports の概要をつかむために[ビデオデモンストレーション](https://www.youtube.com/watch?v=2xeJIv_K_eI)をチェックしてください。
+* ライブ報告の例を見るために、[Reports ギャラリー]({{< relref path="./reports-gallery.md" lang="ja" >}}) を探索してください。
+* ワークスペースの作成とカスタマイズ方法を学ぶために [Programmatic Workspaces]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) チュートリアルを試してください。
+* [W&B Fully Connected](http://wandb.me/fc) で curated Reports を読んでください。
