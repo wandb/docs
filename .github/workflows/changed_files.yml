@@ -19,11 +19,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          declare -a output
-          declare -a added_files
-          declare -a modified_files
-          declare -a removed_files
-          declare -a no_preview_files
+          output=()
+          all_changed_files=()
+          added_files=()
+          modified_files=()
+          removed_files=()
+          no_preview_files=()
 
           pr_num="${{ github.event.pull_request.number }}"
 
@@ -37,10 +38,13 @@ jobs:
               echo "Path: $path"
               if [ "$status" = "added" ]; then
                 added_files+=("$path")
+                echo "${added_files[@]}"
               elif [ "$status" = "modified" ]; then
                 modified_files+=("$path")
+                echo "${modified_files[@]}"
               elif [ "$status" = "removed" ]; then
                 removed_files+=("path")
+                echo "${removed_files[@]}"
               fi
             done
           done
