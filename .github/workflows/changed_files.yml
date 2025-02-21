@@ -31,21 +31,30 @@ jobs:
           export all_changed_files="$(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' | sort)"
 
           for changed_file in "${all_changed_files[@]}"; do
+            export status=''
+            export path=''
             echo "$changed_file" | while read i; do
-              export status=$(echo "$i" | awk -F ' ' {'print $1'})
+              status=$(echo "$i" | awk -F ' ' {'print $1'})
               echo "Status: $status"
-              export path=$(echo "$i" | awk -F ' ' {'print $2'})
+              path=$(echo "$i" | awk -F ' ' {'print $2'})
               echo "Path: $path"
-              if [ "$status" = "added" ]; then
-                added_files+=("$path")
-                echo "${added_files[@]}"
-              elif [ "$status" = "modified" ]; then
-                modified_files+=("$path")
-                echo "${modified_files[@]}"
-              elif [ "$status" = "removed" ]; then
-                removed_files+=("path")
-                echo "${removed_files[@]}"
-              fi
+              case "$status" in
+                "added")
+                  added_files+=("$path")
+                  echo "${added_files[@]}"
+                  ;;
+                "modified")
+                  modified_files+=("$path")
+                  echo "${modified_files[@]}"
+                  ;;
+                "removed")
+                  removed_files+=("path")
+                  echo "${removed_files[@]}"
+                *)
+                  echo "Unknown status $status for file $path. Giving up."
+                  exit -1
+                  ;;
+              esac
             done
           done
 
