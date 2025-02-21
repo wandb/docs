@@ -26,9 +26,9 @@ jobs:
           all_changed_files="$(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' | sort)"
 
           for changed_file in "${all_changed_files[@]}"; do
-            status="$(echo \"$changed_file\" | awk -F ' ' {'print $1'})"
+            status=$(echo "$changed_file" | awk -F ' ' {'print $1'})
             echo "Status: $status"
-            path="$(echo \"$changed_file\" | awk -F ' ' {'print $2'})"
+            path=$(echo "$changed_file" | awk -F ' ' {'print $2'})
             echo "Path: $path"
             if [ "$status" = "added" ]; then
               added_files+=("$path")
@@ -60,10 +60,10 @@ jobs:
             #   - Remove integration_tutorials/
 
             # Generate HTML preview links for added files in content/
-            for file in ${added_files[@]}; do
+            for file in "${added_files[@]}"; do
               if [[ "$file" =~ .*\/content\/.*\.md ]]; then
-                output_path="$(echo \"$file\" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
-                preview_link="\<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\"\>$file\</a\>"
+                output_path=$(echo "$file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\"\>$file\</a\>"
                 output+=("\<li\>\<b\>Added\</b\>: $preview_link\</li\>")
               else
                 no_preview_links+=("\<b\>Added, no preview\</b\>: $file")
@@ -71,9 +71,9 @@ jobs:
             done
 
             # Generate HTML preview links for modified files in content/
-            for file in ${modified_files[@]}; do
+            for file in "${modified_files[@]}"; do
               if [[ "$file" =~ .*\/content\/.*\.md ]]; then
-                output_path="$(echo \"$file\" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')"
+                output_path=$(echo "$file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
                 preview_link="\<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\"\>$file\</a\>"
                 output+=("\<li\>\<b\>Modified\</b>\: $preview_link\</li\>")
               else
@@ -82,12 +82,12 @@ jobs:
             done
 
             # Process removed files
-            for file in ${removed_files[@]}; do
+            for file in "${removed_files[@]}"; do
               no_preview_links+=("\<b\>Removed, no preview\</b\>: $file")
             done
 
             # Process no preview 
-            for file in ${no_preview_files[@]}; do
+            for file in "${no_preview_files[@]}"; do
               output+=("\<li\>$file\</li\>")
             done
           }
