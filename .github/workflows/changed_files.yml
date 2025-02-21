@@ -34,22 +34,22 @@ jobs:
             export status=''
             export path=''
             echo "$changed_file" | while read i; do
-              status=$(echo "$i" | awk -F ' ' {'print $1'})
+              status="$(echo $i | awk -F ' ' {'print $1'})"
               echo "Status: $status"
-              path=$(echo "$i" | awk -F ' ' {'print $2'})
+              path="$(echo $i | awk -F ' ' {'print $2'})"
               echo "Path: $path"
               case "$status" in
                 "added")
                   added_files+=("$path")
-                  echo "${added_files[*]}"
+                  echo "${added_files[@]}"
                   ;;
                 "modified")
                   modified_files+=("$path")
-                  echo "${modified_files[*]}"
+                  echo "${modified_files[@]}"
                   ;;
                 "removed")
-                  removed_files+=("path")
-                  echo "${removed_files[*]}"
+                  removed_files+=("$path")
+                  echo "${removed_files[@]}"
                 *)
                   echo "Unknown status $status for file $path. Giving up."
                   exit -1
@@ -59,15 +59,15 @@ jobs:
           done
 
           echo "Added:"
-          echo "${added_files[*]}"
+          echo "${added_files[@]}"
           echo
 
           echo "Modified:"
-          echo "${modified_files[*]}"
+          echo "${modified_files[@]}"
           echo
 
           echo "Removed:"
-          echo "${removed_files[*]}"
+          echo "${removed_files[@]}"
           echo
 
           function generatePreviewURL() {
@@ -81,7 +81,7 @@ jobs:
             # Generate HTML preview links for added files in content/
             for file in "${added_files[@]}"; do
               if [[ "$file" =~ .*\/content\/.*\.md ]]; then
-                output_path=$(echo "$file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+                output_path="$(echo $file | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')"
                 preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$file</a>"
                 output+=("<li><b>Added</b>: $preview_link</li>")
               else
@@ -92,7 +92,7 @@ jobs:
             # Generate HTML preview links for modified files in content/
             for file in "${modified_files[@]}"; do
               if [[ "$file" =~ .*\/content\/.*\.md ]]; then
-                output_path=$(echo "$file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+                output_path="$(echo $file | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')"
                 preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$file</a>"
                 output+=("<li><b>Modified</b>: $preview_link</li>")
               else
