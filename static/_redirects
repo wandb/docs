@@ -198,6 +198,8 @@
 /guides/models/access_controls /guides/model_registry/access_controls 301
 /guides/models/automation /guides/model_registry/model-registry-automations 301
 /guides/models/notifications /guides/model_registry/notifications 301
+/guides/models/registry /guides/core/registry 301
+/guides/registry /guides/core/registry 301
 /guides/models/model-management-concepts /guides/model_registry/model-management-concepts 301
 /guides/model_registry/quickstart /guides/model_registry/walkthrough 301
 /guides/manage-runs /guides/runs/manage-runs 301
