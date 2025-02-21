@@ -1,14 +1,14 @@
 ---
+title: What requirements does the accelerator base image have?
 menu:
   launch:
     identifier: ja-launch-launch-faq-requirements_accelerator_base_image
     parent: launch-faq
-title: What requirements does the accelerator base image have?
 ---
 
-For jobs utilizing an accelerator, provide a base image that includes the necessary accelerator components. Ensure the following requirements for the accelerator image:
+アクセラレータを利用するジョブの場合、必要なアクセラレータコンポーネントを含むベースイメージを提供してください。アクセラレータイメージの要件は以下の通りです:
 
-- Compatibility with Debian (the Launch Dockerfile uses apt-get to install Python)
-- Supported CPU and GPU hardware instruction set (confirm the CUDA version compatibility with the intended GPU)
-- Compatibility between the supplied accelerator version and the packages in the machine learning algorithm
-- Installation of packages that require additional steps for hardware compatibility
+- Debian との互換性 (Launch Dockerfile は Python のインストールに apt-get を使用します)
+- サポートされている CPU と GPU のハードウェア命令セット (意図した GPU との CUDA バージョン互換性を確認する)
+- 提供されたアクセラレータのバージョンと機械学習アルゴリズムのパッケージ間の互換性
+- ハードウェア互換性のために追加の手順が必要なパッケージのインストール

@@ -1,6 +1,8 @@
 ---
+title: Launch integration guides
 menu:
   launch:
     identifier: ja-launch-integration-guides-_index
-title: Launch integration guides
 ---
+
+こちらに翻訳されたMarkdown形式のドキュメントを入力してください。

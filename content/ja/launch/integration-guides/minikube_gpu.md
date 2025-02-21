@@ -1,50 +1,48 @@
 ---
+title: Spin up a single node GPU cluster with Minikube
 menu:
   launch:
     identifier: ja-launch-integration-guides-minikube_gpu
     parent: launch-integration-guides
-title: Spin up a single node GPU cluster with Minikube
 url: tutorials/minikube_gpu
 ---
 
-Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads. 
+W&B Launch を Minikube クラスターでセットアップし、GPU ワークロードをスケジュールして実行する
 
 {{% alert %}}
-This tutorial is intended to guide users with direct access to a machine that has multiple GPUs. This tutorial is not intended for users who rent a cloud machine.
+このチュートリアルは、複数の GPU を搭載したマシンに直接アクセスできるユーザーを案内することを目的としています。このチュートリアルは、クラウドマシンをレンタルしているユーザーを対象としていません。
 
-W&B recommends you create a Kubernetes cluster with GPU support that uses your cloud provider, if you want to set up a minikube cluster on a cloud machine. For example, AWS, GCP, Azure, Coreweave, and other cloud providers have tools to create Kubernetes clusters with GPU support.
+クラウドマシンで Minikube クラスターをセットアップしたい場合、W&B はクラウドプロバイダを使用した GPU サポートのある Kubernetes クラスターを作成することをお勧めします。たとえば、AWS、GCP、Azure、Coreweave、その他のクラウドプロバイダーは、GPU サポートを備えた Kubernetes クラスターを作成するためのツールを提供しています。
 
-W&B recommends you use a [Launch Docker queue]({{< relref path="/launch/set-up-launch/setup-launch-docker/" lang="ja" >}}) if you want to set up a minikube cluster for scheduling GPUs on a machine that has a single GPU. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
+マシンに単一の GPU が搭載されている場合、GPU のスケジューリングのために Minikube クラスターをセットアップしたい場合は、[Launch Docker キュー]({{< relref path="/launch/set-up-launch/setup-launch-docker/" lang="ja" >}}) を使用することをお勧めします。楽しみのためにチュートリアルを続けることはできますが、GPU スケジューリングはあまり役に立たないでしょう。
 {{% /alert %}}
 
-## Background
+## 背景
 
-<!-- Paraphrase commented paragraph below in more clear wording. -->
+[Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) により、Docker で GPU 対応のワークフローを実行することが容易になりました。唯一の制限は、ボリュームによる GPU スケジューリングのネイティブサポートがないことです。`docker run` コマンドで GPU を使用したい場合、特定の GPU を ID で要求するか、すべての GPU を使用する必要があり、多くの分散 GPU 対応ワークロードにとって不便です。Kubernetes はボリューム リクエストによるスケジューリングをサポートしていますが、GPU スケジューリングを備えたローカル Kubernetes クラスターのセットアップには多くの時間と労力が必要です。しかし、最近では異なります。単一ノード Kubernetes クラスターを実行する最も人気のあるツールの1つであるMinikubeが、最近 [GPU スケジューリングのサポートをリリースしました](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉 このチュートリアルでは、複数GPUを搭載したマシンにMinikubeクラスターを作成し、W&B Launchを使用してクラスターに同時に安定したディフュージョン推論ジョブを起動します 🚀
 
-The [Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) has made it easy to run GPU-enabled workflows on Docker. One limitation is a lack of native support for scheduling GPU by volume. If you want to use a GPU with the `docker run` command you must either request specific GPU by ID or all GPU present, which makes many distributed GPU enabled workloads impractical. Kubernetes offers support for scheduling by a volume request, but setting up a local Kubernetes cluster with GPU scheduling can take considerable time and effort, until recently. Minikube, one of the most popular tools for running single node Kubernetes clusters, recently released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉 In this tutorial, we will create a Minikube cluster on a multi-GPU machine and launch concurrent stable diffusion inference jobs to the cluster using W&B Launch 🚀
+## 前提条件
 
-## Prerequisites
+始める前に、次のものが必要です:
 
-Before getting started, you will need:
-
-1. A W&B account.
-2. Linux machine with the following installed and running:
-   1. Docker runtime
-   2. Drivers for any GPU you want to use
+1. W&B アカウント
+2. 次のものがインストールされ、実行されている Linux マシン
+   1. Docker ランタイム
+   2. 使用したい任意の GPU のドライバー
    3. Nvidia container toolkit
 
 {{% alert %}}
-For testing and creating this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 NVIDIA Tesla T4 GPU connected.
+このチュートリアルのテストと作成には、4 台の NVIDIA Tesla T4 GPU が接続された `n1-standard-16` Google Cloud Compute Engine インスタンスを使用しました。
 {{% /alert %}}
 
-## Create a queue for launch jobs
+## Launch ジョブのためのキューを作成 
 
-First, create a launch queue for our launch jobs. 
+最初に、launch ジョブのための launch キューを作成します。
 
-1. Navigate to [wandb.ai/launch](https://wandb.ai/launch) (or `<your-wandb-url>/launch` if you use a private W&B server).
-2. In the top right corner of your screen, click the blue **Create a queue** button. A queue creation drawer will slide out from the right side of your screen.
-3. Select an entity, enter a name, and select **Kubernetes** as the type for your queue.
-4. The **Config** section of the drawer is where you will enter a [Kubernetes job specification](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for the launch queue. Any runs launched from this queue will be created using this job specification, so you can modify this configuration as needed to customize your jobs. For this tutorial, you can copy and paste the sample config below in your queue config as YAML or JSON:
+1. [wandb.ai/launch](https://wandb.ai/launch) (プライベート W&B サーバーを使用している場合は `<your-wandb-url>/launch`) へ移動します。
+2. 画面の右上隅にある青色の **Create a queue** ボタンをクリックします。キュー作成用の引き出しメニューが画面の右側からスライドします。
+3. エンティティを選択し、名前を入力し、キューのタイプとして **Kubernetes** を選択します。
+4. 引き出しの **Config** セクションでは、launch キューのために [Kubernetes ジョブ仕様](https://kubernetes.io/docs/concepts/workloads/controllers/job/) を入力します。このキューから起動された run はこのジョブ仕様を使用して作成されるため、ジョブをカスタマイズするために必要に応じてこの設定を変更できます。このチュートリアルのために、以下のサンプル設定を YAML または JSON としてキュー設定にコピー＆ペーストできます:
 
 {{< tabpane text=true >}}
 {{% tab "YAML" %}}
@@ -91,45 +89,35 @@ spec:
 {{% /tab %}}
 {{< /tabpane >}}
 
-For more information about queue configurations, see the [Set up Launch on Kubernetes]({{< relref path="../set-up-launch/setup-launch-kubernetes.md" lang="ja" >}}) and the [Advanced queue setup guide]({{< relref path="../set-up-launch/setup-queue-advanced.md" lang="ja" >}}).   
+キュー設定の詳細については、[Set up Launch on Kubernetes]({{< relref path="../set-up-launch/setup-launch-kubernetes.md" lang="ja" >}}) および [Advanced queue setup guide]({{< relref path="../set-up-launch/setup-queue-advanced.md" lang="ja" >}}) を参照してください。
 
+`${image_uri}` と `{{gpus}}` の文字列は、キュー設定で使用できる2種類の変数テンプレートの例です。`${image_uri}` テンプレートは、launchするジョブのイメージ URI でエージェントによって置き換えられます。`{{gpus}}` テンプレートは、ジョブを提出するときに launchのUI、CLI、またはSDKからオーバーライドできるテンプレート変数を作成するために使用されます。これらの値は、ジョブのイメージおよび GPU リソースを制御する正しいフィールドを変更するためにジョブ仕様に配置されます。
 
-The `${image_uri}` and `{{gpus}}` strings are examples of the two kinds of
-variable templates that you can use in your queue configuration. The `${image_uri}`
-template will be replaced with the image URI of the job you are launching by the
-agent. The `{{gpus}}` template will be used to create a template variable that
-you can override from the launch UI, CLI, or SDK when submitting a job. These values
-are placed in the job specification so that they will modify the correct fields
-to control the image and GPU resources used by the job.
-
-5. Click the **Parse configuration** button to begin customizing your `gpus` template
-variable. 
-6. Set the **Type** to `Integer` and the **Default**, **Min**, and **Max** to values of your choosing.
-Attempts to submit a run to this queue which violate the constraints of the template variable will
-be rejected.
+5. **Parse configuration** ボタンをクリックして、`gpus` テンプレート変数をカスタマイズ開始します。
+6. **Type** を `Integer` に設定し、**Default**, **Min**, **Max** を選択した値に設定します。
+テンプレート変数の制約に違反する run をこのキューに送信しようとした場合、その run は拒否されます。
 
 {{< img src="/images/tutorials/minikube_gpu/create_queue.png" alt="Image of queue creation drawer with gpus template variable" >}}
 
-7. Click **Create queue** to create your queue. You will be redirected to the queue page for your new queue.
+7. **Create queue** をクリックしてキューを作成します。新しいキューのキュー ページにリダイレクトされます。
 
+次のセクションでは、作成したキューからジョブをプルして実行できるエージェントをセットアップします。
 
-In the next section, we will set up an agent that can pull and execute jobs from the queue you created.
+## Docker + NVIDIA CTK のセットアップ
 
-## Setup Docker + NVIDIA CTK
+既にマシンに Docker と Nvidia container toolkit がセットアップされている場合、このセクションをスキップできます。
 
-If you already have Docker and the Nvidia container toolkit setup on your machine, you can skip this section.
+システムに Docker コンテナエンジンをセットアップする手順については、[Docker のドキュメント](https://docs.docker.com/engine/install/) を参照してください。
 
-Refer to [Docker’s documentation](https://docs.docker.com/engine/install/) for instructions on setting up the Docker container engine on your system.
+Docker がインストールされたら、Nvidia container toolkit を [Nvidia のドキュメントの指示に従って](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) インストールします。
 
-Once you have Docker installed, install the Nvidia container toolkit [following the instructions in Nvidia’s documentation](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
-
-To validate that your container runtime has access to your GPU, you can run:
+コンテナランタイムが GPU にアクセスできることを確認するには、次のコマンドを実行します:
 
 ```bash
 docker run --gpus all ubuntu nvidia-smi
 ```
 
-You should see `nvidia-smi` output describing the GPU connected to your machine. For example, on our setup the output looks like this:
+このコマンドにより、マシンに接続された GPU を示す `nvidia-smi` の出力が表示されます。たとえば、私たちのセットアップでは、出力は次のようになります:
 
 ```
 Wed Nov  8 23:25:53 2023
@@ -166,66 +154,66 @@ Wed Nov  8 23:25:53 2023
 +-----------------------------------------------------------------------------+
 ```
 
-## Setup Minikube
+## Minikube のセットアップ
 
-Minikube’s GPU support requires version `v1.32.0` or later. Refer to [Minikube’s install documentation](https://minikube.sigs.k8s.io/docs/start/) for up to date installation help. For this tutorial, we installed the latest Minikube release using the command:
+Minikube の GPU サポートには、バージョン `v1.32.0` 以上が必要です。最新のインストール手順については、[Minikube のインストールドキュメント](https://minikube.sigs.k8s.io/docs/start/) を参照してください。このチュートリアルでは、次のコマンドを使用して最新の Minikube リリースをインストールしました：
 
 ```yaml
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 
-The next step is to start a minikube cluster using your GPU. On your machine, run:
+次のステップは、GPU を使用して minikube クラスターを開始することです。マシン上で以下を実行します：
 
 ```yaml
 minikube start --gpus all
 ```
 
-The output of the command above will indicate whether a cluster has been successfully created.
+上記のコマンドの出力により、クラスターが正常に作成されたかどうかが示されます。
 
-## Start launch agent
+## Launch エージェントの開始
 
-The launch agent for your new cluster can either be started by invoking `wandb launch-agent` directly or by deploying the launch agent using a [helm chart managed by W&B](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). 
+新しいクラスターの launch エージェントは、`wandb launch-agent` を直接起動するか、W&B の管理する [helm チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を使用して launch エージェントを展開するかのいずれかで開始できます。
 
-In this tutorial we will run the agent directly on our host machine. 
+このチュートリアルでは、エージェントをホストマシン上で直接実行します。
 
 {{% alert %}}
-Running the agent outside of a container also means we can use the local Docker host to build images for our cluster to run.
+コンテナの外でエージェントを実行すると、クラスタが実行するためのイメージを構築するためにローカルの Docker ホストを使用できることも意味します。
 {{% /alert %}}
 
-To run the agent locally, make sure your default Kubernetes API context refers to the Minikube cluster. Then, execute the following:
+エージェントをローカルで実行するには、デフォルトの Kubernetes API コンテキストが Minikube クラスターを指していることを確認します。次に、次のコマンドを実行してエージェントの依存関係をインストールします：
 
 ```bash
 pip install "wandb[launch]"
 ```
 
-to install the agent’s dependencies. To setup authentication for the agent, run `wandb login` or set the `WANDB_API_KEY` environment variable.
+エージェントの認証情報を設定するには、`wandb login` を実行するか、`WANDB_API_KEY` 環境変数を設定します。
 
-To start the agent, execute this command:
+エージェントを開始するには、次のコマンドを実行します：
 
 ```bash
 wandb launch-agent -j <max-number-concurrent-jobs> -q <queue-name> -e <queue-entity>
 ```
 
-Within your terminal you should see the launch agent start to print polling message. 
+あなたのターミナルには、launch エージェントが polling メッセージを出力し始めるはずです。
 
-Congratulations, you have a launch agent polling your launch queue. When a job is added to your queue, your agent will pick it up and schedule it to run on your Minikube cluster.
+おめでとうございます！あなたは launch エージェントが launch キューをポーリングするようになりました。キューにジョブが追加されると、エージェントがそのジョブを取得し、Minikube クラスター上で実行するためのスケジュールを設定します。
 
-## Launch a job
+## ジョブを起動
 
-Let's send a job to our agent. You can launch a simple "hello world" from a terminal logged into your W&B account with:
+エージェントにジョブを送信してみましょう。W&B アカウントにログインしたターミナルからシンプルな "hello world" をローンチできます：
 
 ```yaml
 wandb launch -d wandb/job_hello_world:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
 ```
 
-You can test with any job or image you like, but make sure your cluster can pull your image. See [Minikube’s documentation](https://minikube.sigs.k8s.io/docs/handbook/registry/) for additional guidance. You can also [test using one of our public jobs](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman).
+任意のジョブやイメージでテストすることができますが、必ずクラスタがイメージをプルできることを確認してください。詳細な手引きについては、[Minikube のドキュメント](https://minikube.sigs.k8s.io/docs/handbook/registry/) を参照してください。また、[我々のパブリックジョブのいずれかを使用してテストすることもできます](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman)。
 
-## (Optional) Model and data caching with NFS
+## (オプション) モデルとデータの NFS を使ったキャッシュ
 
-For ML workloads we will often want multiple jobs to have access to the same data. For example, you might want to have a shared cache to avoid repeatedly downloading large assets like datasets or model weights. Kubernetes supports this through [persistent volumes and persistent volume claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). Persistent volumes can be used to create `volumeMounts` in our Kubernetes workloads, providing direct filesystem access to the shared cache.
+ML ワークロードでは、複数のジョブが同じデータにアクセスすることを望むことがよくあります。たたえば、大規模なデータセットやモデルの重みを繰り返しダウンロードするのを避けるために、共用のキャッシュを持ちたいとします。Kubernetes は[永続的なボリュームと永続的なボリュームクレーム](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)を通じてこれをサポートしています。永続的なボリュームは、Kubernetes ワークロードで `volumeMounts` を作成するために使用でき、共有キャッシュへの直接的なファイルシステムアクセスを提供します。
 
-In this step, we will set up a network file system (NFS) server that can be used as a shared cache for model weights. The first step is to install and configure NFS. This process varies by operating system. Since our VM is running Ubuntu, we installed nfs-kernel-server and configured an export at `/srv/nfs/kubedata`:
+このステップでは、モデルウェイトの共有キャッシュとして使用できるネットワークファイルシステム (NFS) サーバーを設定します。最初のステップは、NFS をインストールし構成することです。プロセスはオペレーティングシステムによって異なります。我々の VM は Ubuntu を実行しているので、nfs-kernel-server をインストールし、`/srv/nfs/kubedata` にエクスポートを設定しました：
 
 ```bash
 sudo apt-get install nfs-kernel-server
@@ -236,11 +224,11 @@ sudo exportfs -ra
 sudo systemctl restart nfs-kernel-server
 ```
 
-Keep note of the export location of the server in your host filesystem, as well as the local IP address of your NFS server. You need this information in the next step.
+エクスポートの場所と NFS サーバーのローカル IP アドレスをホストのファイルシステムに記録しておいてください。次のステップでこの情報が必要になります。
 
-Next, you will need to create a persistent volume and persistent volume claim for this NFS. Persistent volumes are highly customizable, but we will use straightforward configuration here for the sake of simplicity.
+次に、この NFS のために永続的なボリュームと永続的なボリュームクレームを作成する必要があります。永続的なボリュームは非常にカスタマイズ可能ですが、シンプルさを考慮して、ここでは簡単な構成を使用します。
 
-Copy the yaml below into a file named `nfs-persistent-volume.yaml` , making sure to fill out your desired volume capacity and claim request. The `PersistentVolume.spec.capcity.storage` field controls the maximum size of the underlying volume. The `PersistentVolumeClaim.spec.resources.requests.stroage` can be used to limit the volume capacity allotted for a particular claim. For our use case, it makes sense to use the same value for each.
+以下の yaml を `nfs-persistent-volume.yaml` という名前のファイルにコピーし、希望のボリューム容量とクレームリクエストを入力してください。`PersistentVolume.spec.capcity.storage` フィールドは、基礎となるボリュームの最大サイズを制御します。`PersistentVolumeClaim.spec.resources.requests.stroage` は特定のクレームに割り当てられるボリューム容量を制限するために使用できます。ケースごとに同じ値を使用するのが理にかなっています。
 
 ```yaml
 apiVersion: v1
@@ -249,12 +237,12 @@ metadata:
   name: nfs-pv
 spec:
   capacity:
-    storage: 100Gi # Set this to your desired capacity.
+    storage: 100Gi # 希望の容量を設定してください。
   accessModes:
     - ReadWriteMany
   nfs:
-    server: <your-nfs-server-ip> # TODO: Fill this in.
-    path: '/srv/nfs/kubedata' # Or your custom path
+    server: <your-nfs-server-ip> # TODO: ここを記入してください。
+    path: '/srv/nfs/kubedata' # またはカスタムパス
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -265,18 +253,18 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Gi # Set this to your desired capacity.
+      storage: 100Gi # 希望の容量を設定してください。
   storageClassName: ''
   volumeName: nfs-pv
 ```
 
-Create the resources in your cluster with:
+次のコマンドを実行してクラスタにリソースを作成します：
 
 ```yaml
 kubectl apply -f nfs-persistent-volume.yaml
 ```
 
-In order for our runs to make use of this cache, we will need to add `volumes` and `volumeMounts` to our launch queue config. To edit the launch config, head back to [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server), find your queue, click to the queue page, and then click the **Edit config** tab. The original config can be modified to:
+弊社の `runs` でこのキャッシュを利用するには、`volumes` と `volumeMounts` を launch キューの設定に追加する必要があります。設定を編集するには、[wandb.ai/launch](http://wandb.ai/launch) (または wandb サーバーの `\<your-wandb-url\>/launch` ) に戻り、キューを探し、キューのページを開き、**Edit config** タブをクリックしてください。元の設定を次のように修正できます：
 
 {{< tabpane text=true >}}
 {{% tab "YAML" %}}
@@ -344,33 +332,26 @@ spec:
 {{% /tab %}}
 {{< /tabpane >}}
 
-Now, our NFS will be mounted at `/root/.cache` in the containers running our jobs. The mount path will require adjustment if your container runs as a user other than `root`. Huggingface’s libraries and W&B Artifacts both make use of `$HOME/.cache/` by default, so downloads should only happen once.
+現在、NFS は ジョブを実行するコンテナ内の `/root/.cache` にマウントされます。コンテナが `root` 以外のユーザーとして実行される場合、マウントパスの調整が必要です。Huggingface のライブラリと W&B Artifacts はいずれもデフォルトで `$HOME/.cache/` を利用するため、ダウンロードは1度だけで済むはずです。
 
-## Playing with stable diffusion
+## ステーブルディフュージョンで遊ぶ
 
-To test out our new system, we are going to experiment with stable diffusion’s inference parameters.
-To run a simple stable diffusion inference job with a default prompt and sane
-parameters, you can run:
+この新しいシステムをテストするために、ステーブルディフュージョンの推論パラメータを実験してみましょう。
+デフォルトのプロンプトと適切なパラメータを使用してシンプルなステーブルディフュージョン推論ジョブを実行するには、次のコマンドを実行します：
 
 ```
 wandb launch -d wandb/job_stable_diffusion_inference:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
 ```
 
-The command above will submit the container image `wandb/job_stable_diffusion_inference:main` to your queue.
-Once your agent picks up the job and schedules it for execution on your cluster,
-it may take a while for the image to be pulled, depending on your connection.
-You can follow the status of the job on the queue page on [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server).
+上記のコマンドは、コンテナイメージ `wandb/job_stable_diffusion_inference:main` をキューに送信します。
+エージェントがジョブを取得し、クラスター上で実行するためにスケジュールを設定すると、接続に応じてイメージのプルに時間がかかる場合があります。
+[wandb.ai/launch](http://wandb.ai/launch) (または wandb サーバーの `<your-wandb-url>/launch` ) のキュー ページでジョブのステータスをフォローできます。
 
-Once the run has finished, you should have a job artifact in the project you specified.
-You can check your project's job page (`<project-url>/jobs`) to find the job artifact. Its default name should
-be `job-wandb_job_stable_diffusion_inference` but you can change that to whatever you like on the job's page
-by clicking the pencil icon next to the job name.
+run が終了すると、指定したプロジェクトにジョブのアーティファクトが作成されます。
+プロジェクトのジョブ ページ (`<project-url>/jobs`) でジョブアーティファクトを見つけることができます。デフォルトの名前は `job-wandb_job_stable_diffusion_inference` ですが、ジョブ ページでジョブ名の横にある鉛筆アイコンをクリックすることで好きな名前に変更できます。
 
-You can now use this job to run more stable diffusion inference on your cluster.
-From the job page, we can click the **Launch** button in the top right hand corner
-to configure a new inference job and submit it to our queue. The job configuration
-page will be pre-populated with the parameters from the original run, but you can
-change them to whatever you like by modifying their values in the **Overrides** section
-of the launch drawer.
+このジョブを使用して、クラスター上でさらにステーブルディフュージョンの推論を実行できます。
+ジョブ ページから、右上隅の **Launch** ボタンをクリックして、新しい推論ジョブを設定し、キューに送信します。ジョブ設定ページは元の run からのパラメータでプリセットされますが、launch 引き出しの **Overrides** セクションで値を変更することで任意に変更できます。
 
 {{< img src="/images/tutorials/minikube_gpu/sd_launch_drawer.png" alt="Image of launch UI for stable diffusion inference job" >}}
+```
