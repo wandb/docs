@@ -223,6 +223,7 @@
 /guides/models/model_tags /guides/model_registry/model_tags 301
 /guides/models/access_controls /guides/model_registry/access_controls 301
 /guides/models/automation /guides/model_registry/model-registry-automations 301
+/guides/models/automations /guide/core/automations 301
 /guides/models/notifications /guides/model_registry/notifications 301
 /guides/models/registry /guides/core/registry 301
 /guides/registry /guides/core/registry 301
