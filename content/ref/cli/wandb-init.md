@@ -15,10 +15,10 @@ Configure a directory with Weights & Biases
 
 | **Option** | **Description** |
 | :--- | :--- |
-| -p, --project | The project to use. |
-| -e, --entity | The entity to scope the project to. |
-| --reset | Reset settings |
-| -m, --mode | Can be "online", "offline" or "disabled". Defaults to   online. |
+| `-p, --project` | The project to use. |
+| `-e, --entity` | The entity to scope the project to. |
+| `--reset` | Reset settings |
+| `-m, --mode` | Can be "online", "offline" or "disabled". Defaults to   online. |
 
 
 
