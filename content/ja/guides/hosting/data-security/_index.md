@@ -1,8 +1,10 @@
 ---
+title: Data security
 menu:
   default:
     identifier: ja-guides-hosting-data-security-_index
     parent: w-b-platform
-title: Data security
 weight: 3
 ---
+
+There is no text provided for translation. Please provide the chunk of documentation you would like to have translated into Japanese.

@@ -1,104 +1,111 @@
 ---
-description: Deploy W&B Platform with Kubernetes Operator
+title: Run W&B Server on Kubernetes
+description: Kubernetes オペレーターを使用して W&B プラットフォーム をデプロイする
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-kubernetes-operator-_index
     parent: self-managed
-title: Run W&B Server on Kubernetes
 url: guides/hosting/operator
 weight: 2
 ---
 
 ## W&B Kubernetes Operator
 
-Use the W&B Kubernetes Operator to simplify deploying, administering, troubleshooting, and scaling your W&B Server deployments on Kubernetes. You can think of the operator as a smart assistant for your W&B instance.
+W&B Kubernetes Operator を使用して、Kubernetes 上での W&B サーバーデプロイメントのデプロイ、管理、トラブルシューティング、スケーリングを簡素化します。オペレーターは、W&B インスタンスのスマートなアシスタントと考えることができます。
 
-The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuous updates and improvements across deployment types, W&B users a Kubernetes operator.
+W&B サーバーのアーキテクチャーと設計は、AI 開発者向けのツールの能力を拡張し、高パフォーマンス、より良いスケーラビリティ、より簡単な管理のための適切なプリミティブを提供するために、継続的に進化しています。この進化は、コンピュートサービス、関連するストレージ、およびそれらの間の接続性に適用されます。デプロイメントタイプ全体での継続的な更新と改善を促進するために、W&B ユーザーは Kubernetes オペレーターを使用します。
 
 {{% alert %}}
-W&B uses the operator to deploy and manage Dedicated cloud instances on AWS, GCP and Azure public clouds.
+W&B はオペレーターを使用して、AWS、GCP、Azure のパブリッククラウドで Dedicated cloud インスタンスをデプロイおよび管理します。
 {{% /alert %}}
 
-For more information about Kubernetes operators, see [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) in the Kubernetes documentation.
+Kubernetes オペレーターの詳細については、Kubernetes ドキュメントの [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) を参照してください。
 
-### Reasons for the architecture shift
-Historically, the W&B application was deployed as a single deployment and pod within a Kubernetes Cluster or a single Docker container. W&B has, and continues to recommend, to externalize the Database and Object Store. Externalizing the Database and Object store decouples the application's state.
+### アーキテクチャー変更の理由
 
-As the application grew, the need to evolve from a monolithic container to a distributed system (microservices) was apparent. This change facilitates backend logic handling and seamlessly introduces built-in Kubernetes infrastructure capabilities. Distributed systems also supports deploying new services essential for additional features that W&B relies on.
+歴史的に、W&B アプリケーションは Kubernetes クラスター内または単一の Docker コンテナ内で単一デプロイメントとポッドとしてデプロイされていました。W&B は、データベースとオブジェクトストアを外部化することを推奨し続けています。データベースとオブジェクトストアを外部化することで、アプリケーションの状態が分離されます。
 
-Before 2024, any Kubernetes-related change required manually updating the [terraform-kubernetes-wandb](https://github.com/wandb/terraform-kubernetes-wandb) Terraform module. Updating the Terraform module ensures compatibility across cloud providers, configuring necessary Terraform variables, and executing a Terraform apply for each backend or Kubernetes-level change. 
+アプリケーションが成長するにつれて、モノリシックなコンテナから分散システム (マイクロサービス) への進化の必要性が明らかになりました。この変更により、バックエンドのロジック処理が可能になり、Kubernetes の組み込みのインフラストラクチャー機能がスムーズに導入されます。分散システムは、W&B が依存している追加機能に不可欠な新しいサービスのデプロイをサポートします。
 
-This process was not scalable since W&B Support had to assist each customer with upgrading their Terraform module.
+2024 年以前は、Kubernetes に関連する変更には、[terraform-kubernetes-wandb](https://github.com/wandb/terraform-kubernetes-wandb) Terraform モジュールの手動更新が必要でした。Terraform モジュールを更新することで、クラウドプロバイダー間の互換性を確保し、必要な Terraform 変数を設定し、各バックエンドまたは Kubernetes レベルの変更に対して Terraform を適用します。
 
-The solution was to implement an operator that connects to a central [deploy.wandb.ai](https://deploy.wandb.ai) server to request the latest specification changes for a given release channel and apply them. Updates are received as long as the license is valid. [Helm](https://helm.sh/) is used as both the deployment mechanism for the W&B operator and the means for the operator to handle all configuration templating of the W&B Kubernetes stack, Helm-ception.
+このプロセスはスケーラブルではありませんでした。W&B サポートは、Terraform モジュールのアップグレード時に各顧客を支援しなければなりませんでした。
 
-### How it works
-You can install the operator with helm or from the source. See [charts/operator](https://github.com/wandb/helm-charts/tree/main/charts/operator) for detailed instructions. 
+解決策は、中央の [deploy.wandb.ai](https://deploy.wandb.ai) サーバーに接続して、特定のリリースチャンネルの最新の仕様変更を要求し、それを適用するオペレーターを実装することでした。ライセンスが有効な限り、更新を受け取ります。[Helm](https://helm.sh/) は、W&B オペレーターのデプロイメントメカニズムとして、また W&B Kubernetes スタックのすべての設定テンプレートを処理する手段として使用されます。これは Helm-ception と呼ばれます。
 
-The installation process creates a deployment called `controller-manager` and uses a [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) definition named `weightsandbiases.apps.wandb.com` (shortName: `wandb`), that takes a single `spec` and applies it to the cluster:
+### 仕組み
 
-```yaml
+オペレーターを helm またはソースからインストールできます。詳細な手順については、[charts/operator](https://github.com/wandb/helm-charts/tree/main/charts/operator) を参照してください。
+
+インストールプロセスは `controller-manager` と呼ばれるデプロイメントを作成し、クラスタに適用する単一の `spec` を使用する `weightsandbiases.apps.wandb.com` (短縮名: `wandb`) という名前の [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 定義を使用します。
+
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: weightsandbiases.apps.wandb.com
-```
 
-The `controller-manager` installs [charts/operator-wandb](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb) based on the spec of the custom resource, release channel, and a user defined config. The configuration specification hierarchy enables maximum configuration flexibility at the user end and enables W&B to release new images, configurations, features, and Helm updates automatically.
+`controller-manager` は、カスタムリソース、リリースチャンネル、およびユーザー定義設定の spec に基づいて [charts/operator-wandb](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb) をインストールします。設定仕様の階層は、ユーザー側での最大の設定柔軟性を可能にし、W&B が新しいイメージ、設定、機能、Helm の更新を自動的にリリースできるようにします。
 
-Refer to the [configuration specification hierarchy]({{< relref path="#configuration-specification-hierarchy" lang="ja" >}}) and [configuration reference]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}) for configuration options.
+設定オプションについては、[設定仕様の階層構造]({{< relref path="#configuration-specification-hierarchy" lang="ja" >}}) および [W&B オペレーターの設定リファレンス]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}) を参照してください。
 
-### Configuration specification hierarchy
-Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here’s how it works:
+### 設定仕様の階層構造
 
-- **Release Channel Values**: This base level configuration sets default values and configurations based on the release channel set by W&B for the deployment.
-- **User Input Values**: Users can override the default settings provided by the Release Channel Spec through the System Console.
-- **Custom Resource Values**: The highest level of specification, which comes from the user. Any values specified here override both the User Input and Release Channel specifications. For a detailed description of the configuration options, see [Configuration Reference]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}).
+設定仕様は、上位の仕様が下位のものを上書きする階層モデルに従います。仕組みは次のとおりです。
 
-This hierarchical model ensures that configurations are flexible and customizable to meet varying needs while maintaining a manageable and systematic approach to upgrades and changes.
+- **Release Channel Values**: この基本レベルの設定は、デプロイメントのために W&B によって設定されるリリースチャンネルに基づいてデフォルトの値と設定を設定します。
+- **ユーザー入力値**: ユーザーは、Release Channel Spec によって提供されるデフォルト設定をシステムコンソールを通じて上書きすることができます。
+- **カスタムリソース値**: ユーザーから提供される仕様の最高レベル。ここで指定された値は、ユーザー入力とリリースチャンネルの両方の仕様を上書きします。設定オプションの詳細については、[Configuration Reference]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}) を参照してください。
 
-### Requirements to use the W&B Kubernetes Operator
-Satisfy the following requirements to deploy W&B with the W&B Kubernetes operator:
+この階層型モデルは、設定がフレキシブルでカスタマイズ可能であり、さまざまなニーズに対応できる一方で、アップグレードや変更に対して管理しやすく体系的なアプローチを維持します。
 
-Refer to the [reference architecture]({{< relref path="../ref-arch.md#infrastructure-requirements" lang="ja" >}}). In addition, [obtain a valid W&B Server license]({{< relref path="../#obtain-your-wb-server-license" lang="ja" >}}).
+### W&B Kubernetes Operator を使用するための要件
 
-See [this]({{< relref path="../bare-metal.md" lang="ja" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
+W&B Kubernetes Operator を使用して W&B をデプロイするために次の要件を満たしてください:
 
-Depending on the installation method, you might need to meet the following requirements:
-* Kubectl installed and configured with the correct Kubernetes cluster context.
-* Helm is installed.
+[リファレンスアーキテクチャー]({{< relref path="../ref-arch.md#infrastructure-requirements" lang="ja" >}}) を参照してください。さらに、[有効な W&B サーバーライセンスを取得]({{< relref path="../#obtain-your-wb-server-license" lang="ja" >}}) してください。
 
-### Air-gapped installations
-See the [Deploy W&B in airgapped environment with Kubernetes]({{< relref path="./operator-airgapped.md" lang="ja" >}}) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
+詳細なセットアップおよび自己管理型インストールの設定方法については、[このガイド]({{< relref path="../bare-metal.md" lang="ja" >}}) を参照してください。
 
-## Deploy W&B Server application
-This section describes different ways to deploy the W&B Kubernetes operator. 
+インストール方法によっては、次の要件を満たす必要があります:
+
+* 正しい Kubernetes クラスタコンテキストでインストールされ、設定済みの Kubectl。
+* Helm がインストールされていること。
+
+### エアギャップインストール
+
+Kubernetes を使用したエアギャップ環境での W&B のデプロイ方法については、[Deploy W&B in airgapped environment with Kubernetes]({{< relref path="./operator-airgapped.md" lang="ja" >}}) のチュートリアルを参照してください。
+
+## W&B サーバーアプリケーションのデプロイ
+
+このセクションでは、W&B Kubernetes Operator をデプロイするさまざまな方法について説明します。
+
 {{% alert %}}
-The W&B Operator is the default and recommended installation method for W&B Server
+W&B Operator は W&B サーバーのデフォルトおよび推奨されるインストール方法です。
 {{% /alert %}}
 
-**Choose one of the following:**
-- If you have provisioned all required external services and want to deploy W&B onto Kubernetes with Helm CLI, continue [here]({{< relref path="#deploy-wb-with-helm-cli" lang="ja" >}}).
-- If you prefer managing infrastructure and the W&B Server with Terraform, continue [here]({{< relref path="#deploy-wb-with-helm-terraform-module" lang="ja" >}}).
-- If you want to utilize the W&B Cloud Terraform Modules, continue [here]({{< relref path="#deploy-wb-with-wb-cloud-terraform-modules" lang="ja" >}}).
+**次のいずれかを選択してください:**
 
-### Deploy W&B with Helm CLI
-W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
+- 必要な外部サービスすべてをプロビジョニングして W&B を Kubernetes に Helm CLI でデプロイしたい場合は、[こちらを続けてください]({{< relref path="#deploy-wb-with-helm-cli" lang="ja" >}})。
+- インフラストラクチャーと W&B サーバーを Terraform で管理することを希望する場合は、[こちらを続けてください]({{< relref path="#deploy-wb-with-helm-terraform-module" lang="ja" >}})。
+- W&B Cloud Terraform Modules を利用したい場合は、[こちらを続けてください]({{< relref path="#deploy-wb-with-wb-cloud-terraform-modules" lang="ja" >}})。
 
-Follow those steps to install the W&B Kubernetes Operator with Helm CLI:
+### Helm CLI で W&B をデプロイ
 
-1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository. Add the repo with the following commands:
-```shell
+W&B は W&B Kubernetes オペレーターを Kubernetes クラスターにデプロイするための Helm Chart を提供します。このアプローチにより、W&B サーバーを Helm CLI または ArgoCD のような継続的デリバリーツールでデプロイできます。上記の要件が満たされていることを確認してください。
+
+Helm CLI で W&B Kubernetes Operator をインストールする手順を以下に従ってください:
+
+1. W&B Helm リポジトリを追加します。W&B Helm chart は W&B Helm リポジトリにあります。次のコマンドを使用してリポジトリを追加します:
+
 helm repo add wandb https://charts.wandb.ai
 helm repo update
-```
-2. Install the Operator on a Kubernetes cluster. Copy and paste the following:
-```shell
-helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
-```
-3. Configure the W&B operator custom resource to trigger the W&B Server installation. Copy this example configuration to a file named `operator.yaml`, so that you can customioze your W&B deployment. Refer to [Configuration Reference]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}).
 
-   ```yaml
+2. Kubernetes クラスターに Operator をインストールします。次をコピーして貼り付けてください:
+
+helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
+
+3. W&B オペレーターのカスタムリソースを設定して、W&B サーバーのインストールをトリガーします。この例の設定を `operator.yaml` という名前のファイルにコピーして、W&B デプロイメントをカスタマイズします。[Configuration Reference]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}) を参照してください。
+
    apiVersion: apps.wandb.com/v1
    kind: WeightsAndBiases
    metadata:
@@ -152,24 +159,20 @@ helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
          annotations:
            nginx.ingress.kubernetes.io/proxy-body-size: 64m
          class: nginx
-   ```
 
-    Start the Operator with your custom configuration so that it can install and configure the W&B Server application.
+    カスタム設定でオペレーターを起動し、W&B サーバーアプリケーションをインストールおよび設定できます。
 
-    ```shell
     kubectl apply -f operator.yaml
-    ```
 
-    Wait until the deployment completes. This takes a few minutes.
+    デプロイメントが完了するまで待ちます。これには数分かかります。
 
-5. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref path="#verify-the-installation" lang="ja" >}}).
+5. Web UI を使用してインストールを確認するには、最初の管理者ユーザーアカウントを作成し、[インストールの確認]({{< relref path="#verify-the-installation" lang="ja" >}}) に記載された確認手順に従います。
 
+### Helm Terraform Module で W&B をデプロイ
 
-### Deploy W&B with Helm Terraform Module
+この方法は、特定の要件に合わせたカスタマイズされたデプロイメントを可能にし、Terraform のインフラストラクチャーコードとしてのアプローチを活用して一貫性と再現性を提供します。公式の W&B Helm ベースの Terraform Module は [ここ](https://registry.terraform.io/modules/wandb/wandb/helm/latest) にあります。
 
-This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module is located [here](https://registry.terraform.io/modules/wandb/wandb/helm/latest). 
-
-The following code can be used as a starting point and includes all necessary configuration options for a production grade deployment. 
+次のコードは始めるためのものとして使用できます。すべての必要な設定オプションを含むプロダクショングレードのデプロイメントを含んでいます。
 
 ```hcl
 module "wandb" {
@@ -201,16 +204,19 @@ module "wandb" {
 }
 ```
 
-Note that the configuration options are the same as described in [Configuration Reference]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
+設定オプションは [Configuration Reference]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}) に記載されているものと同じであることに注意してください。ただし、構文は HashiCorp Configuration Language (HCL) に従わなければなりません。Terraform モジュールは W&B カスタムリソース定義 (CRD) を作成します。
 
-To see how W&B&Biases themselves use the Helm Terraform module to deploy “Dedicated cloud” installations for customers,  follow those links:
+W&B&Biases 自体が顧客向けに「Dedicated cloud」インストールをデプロイするために Helm Terraform モジュールを使用する方法を確認するには、以下のリンクに従ってください。
+
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
+
 - [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
+
 - [GCP](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
 
-### Deploy W&B with W&B Cloud Terraform modules
+### W&B Cloud Terraform モジュールを使用した W&B のデプロイ
 
-W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules deploy entire infrastructures including Kubernetes clusters, load balancers, MySQL databases and so on as well as the W&B Server application. The W&B Kubernetes Operator is already pre-baked with those official W&B cloud-specific Terraform Modules with the following versions:
+W&B は AWS、GCP、Azure 用の一連の Terraform Modules を提供しています。これらのモジュールは、Kubernetes クラスター、ロードバランサー、MySQL データベースなどを含むインフラストラクチャー全体をデプロイし、W&B サーバーアプリケーションを含めます。公式の W&B クラウド専用 Terraform Modules には、次のバージョンで W&B Kubernetes Operator がすでに組み込まれており、事前に設定されています。
 
 | Terraform Registry                                                  | Source Code                                      | Version |
 | ------------------------------------------------------------------- | ------------------------------------------------ | ------- |
@@ -218,40 +224,39 @@ W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules de
 | [Azure](https://github.com/wandb/terraform-azurerm-wandb)           | https://github.com/wandb/terraform-azurerm-wandb | v2.0.0+ |
 | [GCP](https://github.com/wandb/terraform-google-wandb)              | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
 
-This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
+このインテグレーションにより、最小限のセットアップで W&B Kubernetes Operator をインスタンスで使用する準備が整い、クラウド環境で W&B サーバーのデプロイと管理のための合理化されたパスが提供されます。
 
-For a detailed description on how to use these modules, refer to this [section]({{< relref path="../#deploy-wb-server-within-self-managed-cloud-accounts" lang="ja" >}}) to self-managed installations section in the docs.
+これらのモジュールの使用方法の詳細については、ドキュメントの自己管理型インストールセクションのこの[セクション]({{< relref path="../#deploy-wb-server-within-self-managed-cloud-accounts" lang="ja" >}}) を参照してください。
 
-### Verify the installation
+### インストールの確認
 
-To verify the installation, W&B recommends using the [W&B CLI]({{< relref path="/ref/cli/" lang="ja" >}}). The verify command executes several tests that verify all components and configurations. 
+インストールを確認するには、W&B は [W&B CLI]({{< relref path="/ref/cli/" lang="ja" >}}) を使用することを推奨します。verify コマンドは、すべてのコンポーネントと設定を確認するいくつかのテストを実行します。
 
 {{% alert %}}
-This step assumes that the first admin user account is created with the browser.
+この手順では、ブラウザで最初の管理者ユーザーアカウントを作成したことを前提としています。
 {{% /alert %}}
 
-Follow these steps to verify the installation:
+インストールを確認するために以下の手順に従ってください:
 
-1. Install the W&B CLI:
-    ```shell
+1. W&B CLI をインストールします。
+
     pip install wandb
-    ```
-2. Log in to W&B:
-    ```shell
-    wandb login --host=https://YOUR_DNS_DOMAIN
-    ```
 
-    For example:
+2. W&B にログインします。
+
+    wandb login --host=https://YOUR_DNS_DOMAIN
+
+    たとえば:
     ```shell
     wandb login --host=https://wandb.company-name.com
     ```
 
-3. Verify the installation:
+3. インストールを確認します:
     ```shell
     wandb verify
     ```
 
-A successful installation and fully working W&B deployment shows the following output:
+正常なインストールと完全に動作する W&B のデプロイメントは、次の出力を示します:
 
 ```console
 Default host selected:  https://wandb.company-name.com
@@ -267,147 +272,145 @@ Checking logged metrics, saving and downloading a file..................✅
 Checking artifact save and download workflows...........................✅
 ``` 
 
-## Access the W&B Management Console
-The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example `https://wandb.company-name.com/` console.
+## W&B 管理コンソールへのアクセス
 
-There are two ways to log in to the management console:
+W&B Kubernetes オペレーターには管理コンソールが付属しています。これは `${HOST_URI}/console` にあります。たとえば、`https://wandb.company-name.com/console` です。
+
+管理コンソールにログインする方法は2つあります:
 
 {{< tabpane text=true >}}
-{{% tab header="Option 1 (Recommended)" value="option1" %}}
-1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
-2. Access the console. Click on the icon in the top right corner and then click **System console**. Only users with admin privileges can see the **System console** entry.
+{{% tab header="オプション1 (推奨)" value="option1" %}}
+1. ブラウザで W&B アプリケーションを開き、ログインします。W&B アプリケーションには `${HOST_URI}/` でログインします。たとえば `https://wandb.company-name.com/` です。
+2. コンソールにアクセスします。右上隅のアイコンをクリックし、**System console** をクリックします。管理権限のあるユーザーのみが**System console** エントリーを見ることができます。
 
     {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="" >}}
 {{% /tab %}}
 
-{{% tab header="Option 2" value="option2"%}}
+{{% tab header="オプション2" value="option2"%}}
 {{% alert %}}
-W&B recommends you access the console using the following steps only if Option 1 does not work.
+オプション1でうまくいかない場合にのみ、以下の手順でコンソールにアクセスすることを W&B は推奨します。
 {{% /alert %}}
 
-1. Open console application in browser. Open the above described URL, which redirects you to the login screen:
+1. ブラウザでコンソールアプリケーションを開きます。上記の説明に従った URL を開くと、ログイン画面にリダイレクトされます:
     {{< img src="/images/hosting/access_system_console_directly.png" alt="" >}}
-2. Retrieve the password from the Kubernetes secret that the installation generates:
+2. インストールで生成された Kubernetes シークレットからパスワードを取得します:
     ```shell
     kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d
     ```
-    Copy the password.
-3. Login to the console. Paste the copied password, then click **Login**.
+    パスワードをコピーします。
+3. コンソールにログインします。コピーしたパスワードを貼り付け、**Login** をクリックします。
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Update the W&B Kubernetes operator
-This section describes how to update the W&B Kubernetes operator. 
+## W&B Kubernetes オペレーターの更新
+
+このセクションでは、W&B Kubernetes オペレーターを更新する方法について説明します。
 
 {{% alert %}}
-* Updating the W&B Kubernetes operator does not update the W&B server application.
-* See the instructions [here]({{< relref path="#migrate-self-managed-instances-to-wb-operator" lang="ja" >}}) if you use a Helm chart that does not user the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
+* W&B Kubernetes オペレーターの更新は、W&B サーバーアプリケーションを更新するわけではありません。
+* W&B Kubernetes オペレーターを使用しない Helm チャートを使用している場合、W&B オペレーターを更新するための手順に従う前に、[こちら]({{< relref path="#migrate-self-managed-instances-to-wb-operator" lang="ja" >}}) の説明を参照してください。
 {{% /alert %}}
 
-Copy and paste the code snippets below into your terminal. 
+下記のコードスニペットをターミナルにコピーして貼り付けてください。
 
-1. First, update the repo with [`helm repo update`](https://helm.sh/docs/helm/helm_repo_update/):
+1. まず、[`helm repo update`](https://helm.sh/docs/helm/helm_repo_update/) でリポジトリを更新します:
     ```shell
     helm repo update
     ```
 
-2. Next, update the Helm chart with [`helm upgrade`](https://helm.sh/docs/helm/helm_upgrade/):
+2. 次に、[`helm upgrade`](https://helm.sh/docs/helm/helm_upgrade/) を使用して Helm チャートを更新します:
     ```shell
     helm upgrade operator wandb/operator -n wandb-cr --reuse-values
     ```
 
-## Update the W&B Server application
-You no longer need to update W&B Server application if you use the W&B Kubernetes operator.
+## W&B サーバーアプリケーションの更新
 
-The operator automatically updates your W&B Server application when a new version of the software of W&B is released.
+W&B Kubernetes オペレーターを使用している場合、W&B サーバーアプリケーションを更新する必要はありません。
 
+オペレーターは、新しいバージョンのソフトウェアがリリースされると、W&B サーバーアプリケーションを自動的に更新します。
 
-## Migrate self-managed instances to W&B Operator
-The proceeding section describe how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
+## 独自管理インスタンスを W&B オペレーターに移行する
+
+このセクションでは、独自に W&B サーバーインストールを管理する方法から、W&B オペレーターを使用してそれを行う方法に移行する方法を説明します。移行プロセスは W&B サーバーをインストールした方法によって異なります。
 
 {{% alert %}}
-The W&B Operator is the default and recommended installation method for W&B Server. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
+W&B オペレーターは W&B サーバーのデフォルトおよび推奨されるインストール方法です。ご質問がある場合は、[カスタマーサポート](mailto:support@wandb.com) または W&B チームにお問い合わせください。
 {{% /alert %}}
 
-- If you used the official W&B Cloud Terraform Modules, navigate to the appropriate documentation and follow the steps there:
+- 公式の W&B Cloud Terraform Modules を使用した場合、適切なドキュメントに移動してそこに記載されている手順に従ってください:
   - [AWS]({{< relref path="#migrate-to-operator-based-aws-terraform-modules" lang="ja" >}})
   - [GCP]({{< relref path="#migrate-to-operator-based-gcp-terraform-modules" lang="ja" >}})
   - [Azure]({{< relref path="#migrate-to-operator-based-azure-terraform-modules" lang="ja" >}})
-- If you used the [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb),  continue [here]({{< relref path="#migrate-to-operator-based-helm-chart" lang="ja" >}}).
-- If you used the [W&B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest),  continue [here]({{< relref path="#migrate-to-operator-based-terraform-helm-chart" lang="ja" >}}).
-- If you created the Kubernetes resources with manifests,  continue [here]({{< relref path="#migrate-to-operator-based-helm-chart" lang="ja" >}}).
+- [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb) を使用した場合、[こちらを続けてください]({{< relref path="#migrate-to-operator-based-helm-chart" lang="ja" >}})。
+- [W&B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest) を使用した場合、[こちらを続けてください]({{< relref path="#migrate-to-operator-based-terraform-helm-chart" lang="ja" >}})。
+- マニフェストを使用して Kubernetes リソースを作成した場合、[こちらを続けてください]({{< relref path="#migrate-to-operator-based-helm-chart" lang="ja" >}})。
 
+### オペレーターをベースとした AWS Terraform モジュールへの移行
 
-### Migrate to Operator-based AWS Terraform Modules
+移行プロセスの詳細な説明については、[こちら]({{< relref path="../install-on-public-cloud/aws-tf.md#migrate-to-operator-based-aws-terraform-modules" lang="ja" >}}) を参照してください。
 
-For a detailed description of the migration process,  continue [here]({{< relref path="../install-on-public-cloud/aws-tf.md#migrate-to-operator-based-aws-terraform-modules" lang="ja" >}}).
+### オペレーターをベースとした GCP Terraform モジュールへの移行
 
-### Migrate to Operator-based GCP Terraform Modules
+ご質問や支援が必要な場合は、[カスタマーサポート](mailto:support@wandb.com) または W&B チームにお問い合わせください。
 
-Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
+### オペレーターをベースとした Azure Terraform モジュールへの移行
 
+ご質問や支援が必要な場合は、[カスタマーサポート](mailto:support@wandb.com) または W&B チームにお問い合わせください。
 
-### Migrate to Operator-based Azure Terraform Modules
+### オペレーターをベースとした Helm チャートへの移行
 
-Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
+オペレーターをベースとした Helm チャートへの移行手順に従ってください:
 
-### Migrate to Operator-based Helm chart
-
-Follow these steps to migrate to the Operator-based Helm chart:
-
-1. Get the current W&B configuration. If W&B was deployed with an non-operator-based version of the Helm chart,  export the values like this:
+1. 現在の W&B 設定を取得します。非オペレーター基盤の Helm チャートで W&B がデプロイされた場合、次のように値をエクスポートします:
     ```shell
     helm get values wandb
     ```
-    If W&B was deployed with Kubernetes manifests,  export the values like this:
+    Kubernetes マニフェストで W&B をデプロイした場合、次のように値をエクスポートします:
     ```shell
     kubectl get deployment wandb -o yaml
     ```
-    You now have all the configuration values you need for the next step. 
+    次のステップに必要なすべての設定値が得られました。
 
-2. Create a file called `operator.yaml`. Follow the format described in the [Configuration Reference]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}). Use the values from step 1.
+2. `operator.yaml` というファイルを作成します。[Configuration Reference]({{< relref path="#configuration-reference-for-wb-operator" lang="ja" >}}) に記載されている形式に従ってください。ステップ1からの値を使用します。
 
-3. Scale the current deployment to 0 pods. This step is stops the current deployment.
+3. 現在のデプロイメントを 0 ポッドにスケールします。このステップは現在のデプロイメントを停止します。
     ```shell
     kubectl scale --replicas=0 deployment wandb
     ```
-4. Update the Helm chart repo:
+4. Helm チャートリポジトリを更新します:
     ```shell
     helm repo update
     ```
-5. Install the new Helm chart:
+5. 新しい Helm チャートをインストールします:
     ```shell
     helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
     ```
-6. Configure the new helm chart and trigger W&B application deployment. Apply the new configuration.
+6. 新しい Helm チャートを設定して W&B アプリケーションのデプロイをトリガーします。新しい設定を適用します。
     ```shell
     kubectl apply -f operator.yaml
     ```
-    The deployment takes a few minutes to complete.
+    デプロイメントが完了するまで数分かかります。
 
-7. Verify the installation. Make sure that everything works by following the steps in [Verify the installation]({{< relref path="#verify-the-installation" lang="ja" >}}).
+7. インストールを確認します。[インストールの確認]({{< relref path="#verify-the-installation" lang="ja" >}}) のステップに従って、すべてが機能することを確認してください。
 
-8. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
+8. 古いインストールを削除します。古い Helm チャートをアンインストールするか、マニフェストで作成されたリソースを削除します。
 
-### Migrate to Operator-based Terraform Helm chart
+### オペレーターをベースとした Terraform Helm チャートへの移行
 
-Follow these steps to migrate to the Operator-based Helm chart:
+これらのステップに従ってオペレーターをベースとした Helm チャートに移行します:
 
+1. Terraform の設定を準備します。古いデプロイメントのために Terraform 設定にある Terraform コードを、[ここに記載されている]({{< relref path="#deploy-wb-with-helm-terraform-module" lang="ja" >}}) ものと置き換えます。以前と同じ変数を設定します。tfvars ファイルを変更しないでください。
+2. Terraform run を実行します。terraform init、plan、apply を実行します
+3. インストールを確認します。[インストールの確認]({{< relref path="#verify-the-installation" lang="ja" >}}) のステップに従って、すべてが機能することを確認してください。
+4. 古いインストールを削除します。古い Helm チャートをアンインストールするか、マニフェストで作成されたリソースを削除します。
 
-1. Prepare Terraform config. Replace the Terraform code from the old deployment in your Terraform config with the one that is described [here]({{< relref path="#deploy-wb-with-helm-terraform-module" lang="ja" >}}). Set the same variables as before. Do not change .tfvars file if you have one.
-2. Execute Terraform run. Execute terraform init, plan and apply
-3. Verify the installation. Make sure that everything works by following the steps in [Verify the installation]({{< relref path="#verify-the-installation" lang="ja" >}}).
-4. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
+## W&B サーバーの設定リファレンス
 
+このセクションでは W&B サーバーアプリケーションの設定オプションについて説明します。アプリケーションは [WeightsAndBiases]({{< relref path="#how-it-works" lang="ja" >}}) という名前のカスタムリソース定義として設定を受け取ります。一部の設定オプションは以下の構成で公開されており、一部は環境変数として設定する必要があります。
 
+ドキュメントには 2 つの環境変数のリストがあります: [基本]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}) と [高度]({{< relref path="/guides/hosting/iam/advanced_env_vars/" lang="ja" >}})。Helm Chart を使用して必要な設定オプションが公開されていない場合にのみ、環境変数を使用してください。
 
-## Configuration Reference for W&B Server
-
-This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases]({{< relref path="#how-it-works" lang="ja" >}}). Some configuration options are exposed with the below configuration, some need to be set as environment variables.
-
-The documentation has two lists of environment variables: [basic]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}) and [advanced]({{< relref path="/guides/hosting/iam/advanced_env_vars/" lang="ja" >}}). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
-
-The W&B Server application configuration file for a production deployment requires the following contents. This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
+プロダクションデプロイメントのための W&B サーバーアプリケーション設定ファイルには以下の内容が必要です。この YAML ファイルは、W&B デプロイメントの望ましい状態を定義し、バージョン、環境変数、外部リソース（データベースなど）、および他の必要な設定を含みます。
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -432,597 +435,4 @@ spec:
         <redacted>
 ```
 
-Find the full set of values in the [W&B Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml), and change only those values you need to override.
-
-### Complete example 
-This is an example configuration that uses GCP Kubernetes with GCP Ingress and GCS (GCP Object storage):
-
-```yaml
-apiVersion: apps.wandb.com/v1
-kind: WeightsAndBiases
-metadata:
-  labels:
-    app.kubernetes.io/name: weightsandbiases
-    app.kubernetes.io/instance: wandb
-  name: wandb
-  namespace: default
-spec:
-  values:
-    global:
-      host: https://abc-wandb.sandbox-gcp.wandb.ml
-      bucket:
-        name: abc-wandb-moving-pipefish
-        provider: gcs
-      mysql:
-        database: wandb_local
-        host: 10.218.0.2
-        name: wandb_local
-        password: 8wtX6cJHizAZvYScjDzZcUarK4zZGjpV
-        port: 3306
-        user: wandb
-      license: eyJhbGnUzaHgyQjQyQWhEU3...ZieKQ2x5GGfw
-    ingress:
-      annotations:
-        ingress.gcp.kubernetes.io/pre-shared-cert: abc-wandb-cert-creative-puma
-        kubernetes.io/ingress.class: gce
-        kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
-```
-
-### Host
-```yaml
- # Provide the FQDN with protocol
-global:
-  # example host name, replace with your own
-  host: https://wandb.example.com
-```
-
-### Object storage (bucket)
-
-**AWS**
-```yaml
-global:
-  bucket:
-    provider: "s3"
-    name: ""
-    kmsKey: ""
-    region: ""
-```
-
-**GCP**
-```yaml
-global:
-  bucket:
-    provider: "gcs"
-    name: ""
-```
-
-**Azure**
-```yaml
-global:
-  bucket:
-    provider: "az"
-    name: ""
-    secretKey: ""
-```
-
-**Other providers (Minio, Ceph, etc.)**
-
-For other S3 compatible providers, set the bucket configuration as follows:
-```yaml
-global:
-  bucket:
-    # Example values, replace with your own
-    provider: s3
-    name: storage.example.com
-    kmsKey: null
-    path: wandb
-    region: default
-    accessKey: 5WOA500...P5DK7I
-    secretKey: HDKYe4Q...JAp1YyjysnX
-```
-
-For S3-compatible storage hosted outside of AWS, `kmsKey` must be `null`.
-
-To reference `accessKey` and `secretKey` from a secret:
-```yaml
-global:
-  bucket:
-    # Example values, replace with your own
-    provider: s3
-    name: storage.example.com
-    kmsKey: null
-    path: wandb
-    region: default
-    secret:
-      secretName: bucket-secret
-      accessKeyName: ACCESS_KEY
-      secretKeyName: SECRET_KEY
-```
-
-### MySQL
-
-```yaml
-global:
-   mysql:
-     # Example values, replace with your own
-     host: db.example.com
-     port: 3306
-     database: wandb_local
-     user: wandb
-     password: 8wtX6cJH...ZcUarK4zZGjpV 
-```
-
-To reference the `password` from a secret:
-```yaml
-global:
-   mysql:
-     # Example values, replace with your own
-     host: db.example.com
-     port: 3306
-     database: wandb_local
-     user: wandb
-     passwordSecret:
-       name: database-secret
-       passwordKey: MYSQL_WANDB_PASSWORD
-```
-
-### License
-
-```yaml
-global:
-  # Example license, replace with your own
-  license: eyJhbGnUzaHgyQjQy...VFnPS_KETXg1hi
-```
-
-To reference the `license` from a secret:
-```yaml
-global:
-  licenseSecret:
-    name: license-secret
-    key: CUSTOMER_WANDB_LICENSE
-```
-
-### Ingress
-
-To identify the ingress class,  see this FAQ [entry]({{< relref path="#how-to-identify-the-kubernetes-ingress-class" lang="ja" >}}).
-
-**Without TLS**
-
-```yaml
-global:
-# IMPORTANT: Ingress is on the same level in the YAML as ‘global’ (not a child)
-ingress:
-  class: ""
-```
-
-**With TLS**
-
-Create a secret that contains the certificate
-
-```console
-kubectl create secret tls wandb-ingress-tls --key wandb-ingress-tls.key --cert wandb-ingress-tls.crt
-```
-
-Reference the secret in the ingress configuration
-```yaml
-global:
-# IMPORTANT: Ingress is on the same level in the YAML as ‘global’ (not a child)
-ingress:
-  class: ""
-  annotations:
-    {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  tls: 
-    - secretName: wandb-ingress-tls
-      hosts:
-        - <HOST_URI>
-```
-
-In case of Nginx you might have to add the following annotation:
-
-```
-ingress:
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 64m
-```
-
-### Custom Kubernetes ServiceAccounts
-
-Specify custom Kubernetes service accounts to run the W&B pods. 
-
-The following snippet creates a service account as part of the deployment with the specified name:
-
-```yaml
-app:
-  serviceAccount:
-    name: custom-service-account
-    create: true
-
-parquet:
-  serviceAccount:
-    name: custom-service-account
-    create: true
-
-global:
-  ...
-```
-The subsystems "app" and "parquet" run under the specified service account. The other subsystems run under the default service account.
-
-If the service account already exists on the cluster, set `create: false`:
-
-```yaml
-app:
-  serviceAccount:
-    name: custom-service-account
-    create: false
-
-parquet:
-  serviceAccount:
-    name: custom-service-account
-    create: false
-    
-global:
-  ...
-```
-
-You can specify service accounts on different subsystems such as app, parquet, console, and others:
-
-```yaml
-app:
-  serviceAccount:
-    name: custom-service-account
-    create: true
-
-console:
-  serviceAccount:
-    name: custom-service-account
-    create: true
-
-global:
-  ...
-```
-
-The service accounts can be different between the subsystems:
-
-```yaml
-app:
-  serviceAccount:
-    name: custom-service-account
-    create: false
-
-console:
-  serviceAccount:
-    name: another-custom-service-account
-    create: true
-
-global:
-  ...
-```
-
-### External Redis
-
-```yaml
-redis:
-  install: false
-
-global:
-  redis:
-    host: ""
-    port: 6379
-    password: ""
-    parameters: {}
-    caCert: ""
-```
-
-To reference the `password` from a secret:
-
-```console
-kubectl create secret generic redis-secret --from-literal=redis-password=supersecret
-```
-
-Reference it in below configuration:
-```yaml
-redis:
-  install: false
-
-global:
-  redis:
-    host: redis.example
-    port: 9001
-    auth:
-      enabled: true
-      secret: redis-secret
-      key: redis-password
-```
-
-### LDAP
-**Without TLS**
-```yaml
-global:
-  ldap:
-    enabled: true
-    # LDAP server address including "ldap://" or "ldaps://"
-    host:
-    # LDAP search base to use for finding users
-    baseDN:
-    # LDAP user to bind with (if not using anonymous bind)
-    bindDN:
-    # Secret name and key with LDAP password to bind with (if not using anonymous bind)
-    bindPW:
-    # LDAP attribute for email and group ID attribute names as comma separated string values.
-    attributes:
-    # LDAP group allow list
-    groupAllowList:
-    # Enable LDAP TLS
-    tls: false
-```
-
-**With TLS**
-
-The LDAP TLS cert configuration requires a config map pre-created with the certificate content.
-
-To create the config map you can use the following command:
-
-```console
-kubectl create configmap ldap-tls-cert --from-file=certificate.crt
-```
-
-And use the config map in the YAML like the example below
-
-```yaml
-global:
-  ldap:
-    enabled: true
-    # LDAP server address including "ldap://" or "ldaps://"
-    host:
-    # LDAP search base to use for finding users
-    baseDN:
-    # LDAP user to bind with (if not using anonymous bind)
-    bindDN:
-    # Secret name and key with LDAP password to bind with (if not using anonymous bind)
-    bindPW:
-    # LDAP attribute for email and group ID attribute names as comma separated string values.
-    attributes:
-    # LDAP group allow list
-    groupAllowList:
-    # Enable LDAP TLS
-    tls: true
-    # ConfigMap name and key with CA certificate for LDAP server
-    tlsCert:
-      configMap:
-        name: "ldap-tls-cert"
-        key: "certificate.crt"
-```
-
-### OIDC SSO
-
-```yaml
-global: 
-  auth:
-    sessionLengthHours: 720
-    oidc:
-      clientId: ""
-      secret: ""
-      # Only include if your IdP requires it.
-      authMethod: ""
-      issuer: ""
-```
-
-`authMethod` is optional. 
-
-### SMTP
-
-```yaml
-global:
-  email:
-    smtp:
-      host: ""
-      port: 587
-      user: ""
-      password: ""
-```
-
-### Environment Variables
-```yaml
-global:
-  extraEnv:
-    GLOBAL_ENV: "example"
-```
-
-### Custom certificate authority
-`customCACerts` is a list and can take many certificates. Certificate authorities specified in `customCACerts` only apply to the W&B Server application.
-
-```yaml
-global:
-  customCACerts:
-  - |
-    -----BEGIN CERTIFICATE-----
-    MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
-    MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
-    MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
-    SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
-    P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
-    -----END CERTIFICATE-----
-  - |
-    -----BEGIN CERTIFICATE-----
-    MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
-    MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
-    MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
-    SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
-    aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
-    -----END CERTIFICATE-----
-```
-
-CA certificates can also be stored in a ConfigMap:
-```yaml
-global:
-  caCertsConfigMap: custom-ca-certs
-```
-
-The ConfigMap must look like this:
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: custom-ca-certs
-data:
-  ca-cert1.crt: |
-    -----BEGIN CERTIFICATE-----
-    ...
-    -----END CERTIFICATE-----
-  ca-cert2.crt: |
-    -----BEGIN CERTIFICATE-----
-    ...
-    -----END CERTIFICATE-----
-```
-
-{{% alert %}}
-If using a ConfigMap, each key in the ConfigMap must end with `.crt` (for example, `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
-{{% /alert %}}
-
-### Custom security context
-
-Each W&B component supports custom security context configurations of the following form:
-
-```yaml
-pod:
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 1001
-    runAsGroup: 0
-    fsGroup: 1001
-    fsGroupChangePolicy: Always
-    seccompProfile:
-      type: RuntimeDefault
-container:
-  securityContext:
-    capabilities:
-      drop:
-        - ALL
-    readOnlyRootFilesystem: false
-    allowPrivilegeEscalation: false 
-```
-
-{{% alert %}}
-The only valid value for `runAsGroup:` is `0`. Any other value is an error.
-{{% /alert %}}
-
-
-For example, to configure the application pod, add a section `app` to your configuration:
-
-```yaml
-global:
-  ...
-app:
-  pod:
-    securityContext:
-      runAsNonRoot: true
-      runAsUser: 1001
-      runAsGroup: 0
-      fsGroup: 1001
-      fsGroupChangePolicy: Always
-      seccompProfile:
-        type: RuntimeDefault
-  container:
-    securityContext:
-      capabilities:
-        drop:
-          - ALL
-      readOnlyRootFilesystem: false
-      allowPrivilegeEscalation: false 
-```
-
-The same concept applies to `console`, `weave`, `weave-trace` and `parquet`.
-
-## Configuration Reference for W&B Operator
-
-This section describes configuration options for W&B Kubernetes operator (`wandb-controller-manager`). The operator receives its configuration in the form of a YAML file. 
-
-By default, the W&B Kubernetes operator does not need a configuration file. Create a configuration file if required. For example, you might need a configuration file to specify custom certificate authorities, deploy in an air gap environment and so forth. 
-
-Find the full list of spec customization [in the Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
-
-### Custom CA
-A custom certificate authority (`customCACerts`), is a list and can take many certificates. Those certificate authorities when added only apply to the W&B Kubernetes operator (`wandb-controller-manager`). 
-
-```yaml
-customCACerts:
-- |
-  -----BEGIN CERTIFICATE-----
-  MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
-  MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
-  MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
-  SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
-  P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
-  -----END CERTIFICATE-----
-- |
-  -----BEGIN CERTIFICATE-----
-  MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
-  MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
-  MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
-  SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
-  aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
-  -----END CERTIFICATE-----
-```
-
-CA certificates can also be stored in a ConfigMap:
-```yaml
-caCertsConfigMap: custom-ca-certs
-```
-
-The ConfigMap must look like this:
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: custom-ca-certs
-data:
-  ca-cert1.crt: |
-    -----BEGIN CERTIFICATE-----
-    ...
-    -----END CERTIFICATE-----
-  ca-cert2.crt: |
-    -----BEGIN CERTIFICATE-----
-    ...
-    -----END CERTIFICATE-----
-```
-
-{{% alert %}}
-Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
-{{% /alert %}}
-
-## FAQ
-
-### How to get the  W&B Operator Console password
-See [Accessing the W&B Kubernetes Operator Management Console]({{< relref path="#access-the-wb-management-console" lang="ja" >}}).
-
-
-### How to access the W&B Operator Console if Ingress doesn’t work
-
-Execute the following command on a host that can reach the Kubernetes cluster:
-
-```console
-kubectl port-forward svc/wandb-console 8082
-```
-
-Access the console in the browser with `https://localhost:8082/` console.
-
-See [Accessing the W&B Kubernetes Operator Management Console]({{< relref path="#access-the-wb-management-console" lang="ja" >}}) on how to get the password (Option 2).
-
-### How to view W&B Server logs
-
-The application pod is named **wandb-app-xxx**.
-
-```console
-kubectl get pods
-kubectl logs wandb-XXXXX-XXXXX
-```
-
-### How to identify the Kubernetes ingress class
-
-You can get the ingress class installed in your cluster by running
-
-```console
-kubectl get ingressclass
-```
+変更が必要な値だけを上書きするために、[W&B Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) の完全な set を見つけてください。

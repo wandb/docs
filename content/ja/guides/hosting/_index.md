@@ -1,42 +1,41 @@
 ---
+title: W&B Platform
 menu:
   default:
     identifier: ja-guides-hosting-_index
 no_list: true
-title: W&B Platform
 weight: 6
 ---
 
-W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core]({{< relref path="/guides/core/" lang="ja" >}}), [Models]({{< relref path="/guides/models/" lang="ja" >}}) and [Weave]({{< relref path="/guides/weave/" lang="ja" >}}). 
+W&B Platform は、[Core]({{< relref path="/guides/core/" lang="ja" >}})、[Models]({{< relref path="/guides/models/" lang="ja" >}})、[Weave]({{< relref path="/guides/weave/" lang="ja" >}}) などの W&B 製品をサポートする基盤インフラストラクチャー、ツール、ガバナンスの足場です。
 
-W&B Platform is available in three different deployment options:
+W&B Platform は、次の 3 つの異なるデプロイメントオプションで利用できます。
 
 * [W&B Multi-tenant Cloud]({{< relref path="#wb-multi-tenant-cloud" lang="ja" >}})
 * [W&B Dedicated Cloud]({{< relref path="#wb-dedicated-cloud" lang="ja" >}})
 * [W&B Customer-managed]({{< relref path="#wb-customer-managed" lang="ja" >}})
 
-
-The following responsibility matrix outlines some of the key differences between the different options:
+以下の責任分担マトリックスは、異なるオプション間のいくつかの重要な違いを示しています。
 {{< img src="/images/hosting/shared_responsibility_matrix.png" alt="" >}}
 
-## Deployment options
-The following sections provide an overview of each deployment type. 
+## デプロイメントオプション
+以下のセクションでは、各デプロイメントタイプの概要を提供します。
 
 ### W&B Multi-tenant Cloud
-W&B Multi-tenant Cloud is a fully managed service deployed in W&B's cloud infrastructure, where you can seamlessly access the W&B products at the desired scale, with cost-efficient options for pricing, and with continuous updates for the latest features and functionalities. W&B recommends to use the Multi-tenant Cloud for your product trial, or to manage your production AI workflows if you do not need the security of a private deployment, self-service onboarding is important, and cost efficiency is critical.
+W&B Multi-tenant Cloud は、W&B のクラウド インフラストラクチャーにデプロイされたフル マネージド サービスで、W&B 製品にシームレスにアクセスでき、希望の規模でコスト効率の高い価格オプションを提供し、最新の機能と特長のために継続的に更新されます。プライベートデプロイメントのセキュリティを必要とせず、セルフサービスオンボーディングが重要で、コスト効率がクリティカルである場合に、製品のトライアルやプロダクション AI ワークフローの管理には、Multi-tenant Cloud を使用することを W&B は推奨します。
 
-See [W&B Multi-tenant Cloud]({{< relref path="./hosting-options/saas_cloud.md" lang="ja" >}}) for more information. 
+詳細は [W&B Multi-tenant Cloud]({{< relref path="./hosting-options/saas_cloud.md" lang="ja" >}}) を参照してください。
 
 ### W&B Dedicated Cloud
-W&B Dedicated Cloud is a single-tenant, fully managed service deployed in W&B's cloud infrastructure. It is the best place to onboard W&B if your organization requires conformance to strict governance controls including data residency, have need of advanced security capabilities, and are looking to optimize their AI operating costs by not having to build & manage the required infrastructure with security, scale & performance characteristics.
+W&B Dedicated Cloud は、W&B のクラウド インフラストラクチャーにデプロイされたシングルテナントのフル マネージド サービスです。データの所在管理、厳密なガバナンスコントロールに従う必要があり、高度なセキュリティ機能を備えた AI 運用コストを最適化したい場合には、W&B に最適の導入場所です。
 
-See [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) for more information.
+詳細は [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) を参照してください。
 
 ### W&B Customer-Managed
-With this option, you can deploy and manage W&B Server on your own managed infrastructure. W&B Server is a self-contained packaged mechanism to run the W&B Platform & its supported W&B products. W&B recommends this option if all your existing infrastructure is on-prem, or your organization has strict regulatory needs that are not satisfied by W&B Dedicated Cloud. With this option, you are fully responsible to manage the provisioning, and continuous maintenance & upgrades of the infrastructure required to support W&B Server.
+このオプションでは、独自の管理インフラストラクチャー上で W&B Server をデプロイおよび管理できます。W&B Server は、W&B Platform とそのサポート対象 W&B 製品を実行するためのパッケージ化されたメカニズムです。既存のインフラストラクチャーがすべてオンプレミスであるか、または W&B Dedicated Cloud では満たされない厳しい規制要件がある場合には、このオプションを W&B は推奨します。このオプションを選択した場合、W&B Server をサポートするために必要なインフラストラクチャーのプロビジョニング、継続的な保守、アップグレードを管理する完全な責任があります。
 
-See [W&B Self Managed]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) for more information.
+詳細は [W&B Self Managed]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) を参照してください。
 
-## Next steps
+## 次のステップ
 
-If you're looking to try any of the W&B products, W&B recommends using the [Multi-tenant Cloud](https://wandb.ai/home). If you're looking for an enterprise-friendly setup, choose the appropriate deployment type for your trial [here](https://wandb.ai/site/enterprise-trial).
+W&B のいずれかの製品をお試しになりたい場合、W&B は [Multi-tenant Cloud](https://wandb.ai/home) を使用することをお勧めします。エンタープライズ向けのセットアップが必要な場合は、[こちら](https://wandb.ai/site/enterprise-trial) で適切なデプロイメントタイプを選んでトライアルください。

@@ -1,37 +1,37 @@
 ---
+title: Use W&B Multi-tenant SaaS
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-saas_cloud
     parent: deployment-options
-title: Use W&B Multi-tenant SaaS
 weight: 1
 ---
 
-W&B Multi-tenant Cloud is a fully managed platform deployed in W&B's Google Cloud Platform (GCP) account in [GPC's North America regions](https://cloud.google.com/compute/docs/regions-zones). W&B Multi-tenant Cloud utilizes autoscaling in GCP to ensure that the platform scales appropriately based on increases or decreases in traffic. 
+W&B Multi-tenant Cloud は、W&B の Google Cloud Platform (GCP) アカウント内にデプロイされた完全に管理されたプラットフォームで、[GPC の北アメリカ地域](https://cloud.google.com/compute/docs/regions-zones)で運用されています。W&B Multi-tenant Cloud は GCP の自動スケーリングを利用し、トラフィックの増減に基づいてプラットフォームが適切にスケールすることを保証します。
 
 {{< img src="/images/hosting/saas_cloud_arch.png" alt="" >}}
 
-## Data security
+## データ セキュリティ
 
-For non enterprise plan users, all data is only stored in the shared cloud storage and is processed with shared cloud compute services. Depending on your pricing plan, you may be subject to storage limits.
+エンタープライズプラン以外のユーザーの場合、すべてのデータは共有クラウドストレージにのみ保存され、共有クラウドコンピュートサービスで処理されます。ご利用の料金プランによっては、ストレージの制限が適用される場合があります。
 
-Enterprise plan users can [bring their own bucket (BYOB) using the secure storage connector]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) at the [team level]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md#configuration-options" lang="ja" >}}) to store their files such as models, datasets, and more. You can configure a single bucket for multiple teams or you can use separate buckets for different W&B Teams. If you do not configure secure storage connector for a team, that data is stored in the shared cloud storage.
+エンタープライズプランのユーザーは、[安全なストレージコネクタを使用して独自のバケット (BYOB) を持ち込む]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}})ことができ、[チームレベル]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md#configuration-options" lang="ja" >}})でモデルやデータセットなどのファイルを保存します。複数のチームで単一のバケットを設定することもできますし、異なる W&B Teams 用に個別のバケットを使用することもできます。チーム用の安全なストレージコネクタを設定しない場合、そのデータは共有クラウドストレージに保存されます。
 
-## Identity and access management (IAM)
-If you are on enterprise plan, you can use the identity and access managements capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Multi-tenant Cloud:
+## アイデンティティおよびアクセス管理 (IAM)
+エンタープライズプランの場合、W&B Organizationでの安全な認証と効果的な認可のために、アイデンティティおよびアクセス管理機能を利用できます。Multi-tenant Cloud における IAM の次の機能が利用可能です：
 
-* SSO authentication with OIDC or SAML. Reach out to your W&B team or support if you would like to configure SSO for your organization.
-* [Configure appropriate user roles]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" lang="ja" >}}) at the scope of the organization and within a team.
-* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}}).
+* OIDC または SAML を使用した SSO 認証。組織向けに SSO を設定する場合は、W&B チームまたはサポートに連絡してください。
+* [適切なユーザー ロールを設定]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" lang="ja" >}}) し、組織およびチーム内での役割の範囲を決定。
+* [制限されたプロジェクト]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}}) を使用して、W&B プロジェクトの範囲を定義し、誰がそれに W&B runs を表示、編集、提出できるかを制限。
 
-## Monitor
-Organization admins can manage usage and billing for their account from the `Billing` tab in their account view. If using the shared cloud storage on Multi-tenant Cloud, an admin can optimize storage usage across different teams in their organization.
+## モニター
+組織管理者は、アカウントビューの `Billing` タブからアカウントの使用状況と請求を管理できます。Multi-tenant Cloud の共有クラウドストレージを使用している場合、管理者は組織内の異なるチーム間でのストレージ使用量を最適化できます。
 
-## Maintenance
-W&B Multi-tenant Cloud is a multi-tenant, fully managed platform. Since W&B Multi-tenant Cloud is managed by W&B, you do not incur the overhead and costs of provisioning and maintaining the W&B platform.
+## メンテナンス
+W&B Multi-tenant Cloud はマルチテナントの完全に管理されたプラットフォームです。W&B Multi-tenant Cloud は W&B によって管理されているため、W&B プラットフォームのプロビジョニングおよびメンテナンスにかかるオーバーヘッドとコストは発生しません。
 
-## Compliance 
-Security controls for Multi-tenant Cloud are periodically audited internally and externally. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the SOC2 report and other security and compliance documents.
+## コンプライアンス
+Multi-tenant Cloud のセキュリティコントロールは定期的に内部および外部で監査されています。SOC2レポートやその他のセキュリティおよびコンプライアンス文書をリクエストするには、[W&B Security Portal](https://security.wandb.ai/) を参照してください。
 
-## Next steps
-Access [Multi-tenant Cloud directly](https://wandb.ai) if you are looking for non-enterprise capabilities. To start with the enterprise plan, submit [this form](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial).
+## 次のステップ
+エンタープライズ以外の機能をお探しの場合は、[Multi-tenant Cloud に直接アクセス](https://wandb.ai) してください。エンタープライズプランを開始するには、[このフォーム](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial)にご記入ください。

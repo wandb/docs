@@ -1,57 +1,57 @@
 ---
-description: How to configure the W&B Server installation
+title: Configure environment variables
+description: W&B サーバー インストールの設定方法
 menu:
   default:
     identifier: ja-guides-hosting-env-vars
     parent: w-b-platform
-title: Configure environment variables
 weight: 7
 ---
 
-In addition to configuring instance level settings via the System Settings admin UI, W&B also provides a way to configure these values via code using Environment Variables. Also, refer to [advanced configuration for IAM]({{< relref path="./iam/advanced_env_vars.md" lang="ja" >}}).
+システム設定管理UIを通じてインスタンスレベルの設定を配置することに加えて、W&Bは環境変数を使用してこれらの値をコードで設定する方法も提供しています。また、[IAMの高度な設定]({{< relref path="./iam/advanced_env_vars.md" lang="ja" >}})も参照してください。
 
-## Environment variable reference
+## 環境変数リファレンス
 
-| Environment Variable             | Description                                                                                                                                                                              |
-|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| LICENSE                          | Your wandb/local license                                                                                                                                                                 |
-| MYSQL                            | The MySQL connection string                                                                                                                                                              |
-| BUCKET                           | The S3 / GCS bucket for storing data                                                                                                                                                     |
-| BUCKET_QUEUE                     | The SQS / Google PubSub queue for object creation events                                                                                                                                 |
-| NOTIFICATIONS_QUEUE              | The SQS queue on which to publish run events                                                                                                                                             |
-| AWS_REGION                       | The AWS Region where your bucket lives                                                                                                                                                   |
-| HOST                             | The FQD of your instance, that is `https://my.domain.net`                                                                                                       |
-| OIDC_ISSUER                      | A URL to your Open ID Connect identity provider, that is `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd` |
-| OIDC_CLIENT_ID                   | The Client ID of application in your identity provider                                                                                                                                   |
-| OIDC_AUTH_METHOD                 | Implicit (default) or pkce, see below for more context                                                                                                                                   |
-| SLACK_CLIENT_ID                  | The client ID of the Slack application you want to use for alerts                                                                                                                        |
-| SLACK_SECRET                     | The secret of the Slack application you want to use for alerts                                                                                                                           |
-| LOCAL_RESTORE                    | You can temporarily set this to true if you're unable to access your instance. Check the logs from the container for temporary credentials.                                              |
-| REDIS                            | Can be used to setup an external REDIS instance with W&B.                                                                                                                                |
-| LOGGING_ENABLED                  | When set to true, access logs are streamed to stdout. You can also mount a sidecar container and tail `/var/log/gorilla.log` without setting this variable.                              |
-| GORILLA_ALLOW_USER_TEAM_CREATION | When set to true, allows non-admin users to create a new team. False by default.                                                                                                         |
-| GORILLA_DATA_RETENTION_PERIOD | How long to retain deleted data from runs in hours. Deleted run data is unrecoverable. Append an `h` to the input value. For example, `"24h"`. |
-| ENABLE_REGISTRY_UI               |  When set to true, enables the new W&B Registry UI.            |
+| 環境変数                        | 説明                                                                                                                         |
+|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| LICENSE                          | あなたの wandb/local ライセンス                                                                                              |
+| MYSQL                            | MySQL接続文字列                                                                                                              |
+| BUCKET                           | データを保存するためのS3 / GCS バケット                                                                                       |
+| BUCKET_QUEUE                     | オブジェクト作成イベント用のSQS / Google PubSubキュー                                                                       |
+| NOTIFICATIONS_QUEUE              | runイベントを公開するためのSQSキュー                                                                                         |
+| AWS_REGION                       | あなたのバケットが存在するAWSリージョン                                                                                       |
+| HOST                             | あなたのインスタンスのFQD、例：`https://my.domain.net`                                                                        |
+| OIDC_ISSUER                      | あなたのOpen ID Connect IDプロバイダーへのURL、例：`https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd`         |
+| OIDC_CLIENT_ID                   | IDプロバイダー内のアプリケーションのクライアントID                                                                           |
+| OIDC_AUTH_METHOD                 | 暗黙的（デフォルト）またはpkce、詳細は以下を参照                                                                             |
+| SLACK_CLIENT_ID                  | アラート用に使用したいSlackアプリケーションのクライアントID                                                                   |
+| SLACK_SECRET                     | アラート用に使用したいSlackアプリケーションのシークレット                                                                     |
+| LOCAL_RESTORE                    | インスタンスにアクセスできない場合、一時的にtrueに設定できます。コンテナからのログで一時的な資格情報を確認してください。       |
+| REDIS                            | W&Bで外部のREDISインスタンスをセットアップするために使用できます。                                                           |
+| LOGGING_ENABLED                  | trueに設定した場合、アクセスログがstdoutにストリーミングされます。また、サイドカーコンテナをマウントし、変数を設定せずに`/var/log/gorilla.log`を監視することもできます。 |
+| GORILLA_ALLOW_USER_TEAM_CREATION | trueに設定した場合、非管理者ユーザーが新しいチームを作成できるようになります。デフォルトはfalseです。                        |
+| GORILLA_DATA_RETENTION_PERIOD    | 削除したrunからのデータを保持する期間（時間）。削除されたrunデータは復元できません。入力値に `h` を追加してください。例えば、`"24h"`。 |
+| ENABLE_REGISTRY_UI               | trueに設定した場合、新しいW&B Registry UIを有効にします。                                                                       |
 
 {{% alert %}}
-Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously. Data is removed immediately once the environment variable is set. We also recommend that you backup both the database and the storage bucket before you enable this flag.
+GORILLA_DATA_RETENTION_PERIOD 環境変数は慎重に使用してください。環境変数が設定されるとすぐにデータが削除されます。このフラグを有効にする前に、データベースとストレージバケットの両方をバックアップすることをお勧めします。
 {{% /alert %}}
 
-## Advanced Reliability Settings
+## 高度な信頼性設定
 
 ### Redis
 
-Configuring an external Redis server is optional but recommended for production systems. Redis helps improve the reliability of the service and enable caching to decrease load times, especially in large projects. Use a managed Redis service such ElastiCache with high availability (HA) and the following specifications:
+外部のRedisサーバーの設定は任意ですが、プロダクションシステムには推奨されます。Redisはサービスの信頼性を向上させ、特に大規模プロジェクトにおいてロード時間を短縮するためにキャッシングを可能にします。HA（高可用性）と以下の仕様を備えたElastiCacheのようなマネージドRedisサービスを使用します：
 
-- Minimum 4GB of memory, suggested 8GB
-- Redis version 6.x
-- In transit encryption
-- Authentication enabled
+- 最小4GBのメモリ、推奨8GB
+- Redis バージョン 6.x
+- イン・トランジット暗号化
+- 認証有効化
 
-To configure the Redis instance with W&B, you can navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the Redis connection string in the following format:
+RedisインスタンスをW&Bで設定するには、`http(s)://YOUR-W&B-SERVER-HOST/system-admin`でW&B設定ページに移動します。「外部Redisインスタンスを使用する」オプションを有効にし、次の形式でRedis接続文字列を入力します：
 
-{{< img src="/images/hosting/configure_redis.png" alt="Configuring REDIS in W&B" >}}
+{{< img src="/images/hosting/configure_redis.png" alt="W&BでのREDIS設定" >}}
 
-You can also configure Redis using the environment variable `REDIS` on the container or in your Kubernetes deployment. Alternatively, you could also setup `REDIS` as a Kubernetes secret.
+コンテナ上またはKubernetesデプロイメントで環境変数`REDIS`を使用してRedisを設定することもできます。あるいはKubernetesのシークレットとして`REDIS`を設定することもできます。
 
-This page assumes the Redis instance is running at the default port of `6379`. If you configure a different port, setup authentication and also want to have TLS enabled on the `redis` instance the connection string format would look something like: `redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`
+このページはRedisインスタンスがデフォルトのポート`6379`で動作していることを前提としています。異なるポートを設定し、認証を設定し、`redis`インスタンスでTLSを有効にしたい場合、接続文字列の形式は次のようになります： `redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`

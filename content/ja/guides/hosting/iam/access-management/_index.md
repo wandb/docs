@@ -1,40 +1,38 @@
 ---
+title: Access management
 cascade:
 - url: guides/hosting/iam/access-management/:filename
 menu:
   default:
     identifier: ja-guides-hosting-iam-access-management-_index
     parent: identity-and-access-management-iam
-title: Access management
 url: guides/hosting/iam/access-management-intro
 weight: 2
 ---
 
 ## Manage users and teams within an organization
-The first user to sign up to W&B with a unique organization domain is assigned as that organization's *instance administrator role*. The organization administrator assigns specific users team administrator roles.
+ユニークな組織ドメインでW&Bに最初にサインアップしたユーザーは、その組織の *インスタンス管理者ロール* として割り当てられます。組織管理者は特定のユーザーにチーム管理者ロールを割り当てます。
 
 {{% alert %}}
-W&B recommends to have more than one instance admin in an organization. It is a best practice to ensure that admin operations can continue when the primary admin is not available. 
+W&Bは、組織に複数のインスタンス管理者を持つことを推奨しています。これは、主要な管理者が利用できない場合でも、管理者の操作を続けられるようにするためのベストプラクティスです。
 {{% /alert %}}
 
-A *team administrator* is a user in organization that has administrative permissions within a team. 
+*チーム管理者* は、組織内でチーム内の管理権限を持つユーザーです。
 
+組織管理者は `https://wandb.ai/account-settings/` で組織のアカウント設定にアクセスし、ユーザーを招待したり、ユーザーのロールを割り当てまたは更新したり、チームを作成したり、組織からユーザーを削除したり、請求管理者を割り当てたりすることができます。詳細については、[Add and manage users]({{< relref path="./manage-organization.md#add-and-manage-users" lang="ja" >}}) を参照してください。
 
-The organization administrator can access and use an organization's account settings at `https://wandb.ai/account-settings/` to invite users, assign or update a user's role, create teams, remove users from your organization, assign the billing administrator, and more. See [Add and manage users]({{< relref path="./manage-organization.md#add-and-manage-users" lang="ja" >}}) for more information. 
+組織管理者がチームを作成すると、インスタンス管理者またはチーム管理者は以下を行うことができます：
 
-Once an organization administrator creates a team, the instance administrator or ateam administrator can:
+- そのチームにユーザーを招待したり、チームからユーザーを削除したりします。
+- チームメンバーのロールを割り当てたり更新したりします。
+- 新しいユーザーが組織に参加したときに自動的にチームに追加します。
 
-- Invite users to that team or remove users from the team.
-- Assign or update a team member's role.
-- Automatically add new users to a team when they join your organization.
-
-Both the organization administrator and the team administrator use team dashboards at `https://wandb.ai/<your-team-name>` to manage teams. For more information on what organization administrators and team administrators can do, see [Add and manage teams]({{< relref path="./manage-organization.md#add-and-manage-teams" lang="ja" >}}).
-
+組織管理者とチーム管理者の両方が、`https://wandb.ai/<your-team-name>` のチームダッシュボードを使用してチームを管理します。組織管理者とチーム管理者ができることの詳細については、[Add and manage teams]({{< relref path="./manage-organization.md#add-and-manage-teams" lang="ja" >}}) を参照してください。
 
 ## Limit visibility to specific projects
 
-Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. Limiting who can view a project is particularly useful if a team works with sensitive or confidential data.
+W&B プロジェクトの範囲を定義して、誰がそのプロジェクトを表示、編集、および W&B Runs を送信できるかを制限します。プロジェクトを表示できる人を制限することは、チームが機密または秘密のデータを扱う場合に特に有用です。
 
-An organization admin, team admin, or the owner of a project can both set and edit a project's visibility. 
+組織管理者、チーム管理者、またはプロジェクトの所有者は、プロジェクトの可視性を設定および編集できます。
 
-For more information, see [Project visibility]({{< relref path="./restricted-projects.md" lang="ja" >}}).
+詳細については、[Project visibility]({{< relref path="./restricted-projects.md" lang="ja" >}}) を参照してください。

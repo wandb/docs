@@ -1,63 +1,62 @@
 ---
+title: View organization dashboard
 menu:
   default:
     identifier: ja-guides-hosting-monitoring-usage-org_dashboard
     parent: monitoring-and-usage
-title: View organization dashboard
 ---
 
 {{% alert color="secondary" %}}
-Organization dashboard is only available with [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) and [Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}).
+Organization dashboard は、[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) と [Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) でのみ利用可能です。
 {{% /alert %}}
 
 
-## View organization usage of W&B
-Use the organization dashboard to get a holistic view of users that belong to your organization, how users of your organization use W&B, along with properties such as:
+## W&B の組織使用状況を表示する
+組織のダッシュボードを使用して、組織に属するユーザーの全体像や、組織のユーザーが W&B をどのように使用しているか、次のようなプロパティを含めて視覚化できます。
 
-* **Name**: The name of the user and their W&B username.
-* **Last active**: The time the user last used W&B. This includes any activity that requires authentication, including viewing pages in the product, logging runs or taking any other action, or logging in.
-* **Role**: The role of the user. 
-* **Email**: The email of the user.
-* **Team**: The names of teams the user belongs to.
+* **Name**: ユーザーの名前とその W&B ユーザー名。
+* **Last active**: ユーザーが最後に W&B を使用した時刻。これは、プロダクト内のページの閲覧、run のログをとったりその他のアクションを実行したり、ログインするなど、認証が必要なアクティビティを含みます。
+* **Role**: ユーザーの役割。
+* **Email**: ユーザーのメールアドレス。
+* **Team**: ユーザーが所属するチームの名前。
 
-### View the status of a user
-The **Last Active** column shows if a user is pending an invitation or an active user. A user is one of three states:
+### ユーザーのステータスを表示する
+**Last Active** 列は、ユーザーが招待を保留中かアクティブなユーザーかを示します。ユーザーは 3 つの状態のいずれかです:
 
-* **Invite pending**: Admin has sent invite but user has not accepted invitation. 
-* **Active**: User has accepted the invite and created an account.
-* **Deactivated**: Admin has revoked access of the user.
+* **Invite pending**: 管理者が招待を送信しましたが、ユーザーが招待を受け入れていない状態。
+* **Active**: ユーザーが招待を受け入れ、アカウントを作成した状態。
+* **Deactivated**: 管理者がユーザーのアクセスを取り消した状態。
 
 {{< img src="/images/hosting/view_status_of_user.png" alt="" >}}
 
-### View and share how your organization uses W&B
-View how your organization uses W&B in CSV format.
+### 組織が W&B をどのように利用しているかを表示・共有する
+組織が W&B をどのように利用しているかを CSV 形式で表示します。
 
-1. Select the three dots next to the **Add user** button.
-2. From the dropdown, select **Export as CSV**.
+1. **Add user** ボタンの横にある三点リーダーを選択します。
+2. ドロップダウンから **Export as CSV** を選択します。
 
     {{< img src="/images/hosting/export_org_usage.png" alt="" >}}
 
-This exports a CSV file that lists all users of an organization along with details about the user, such as their user name, time stamp of when they were last active, roles, email, and more.
+これにより、組織内のすべてのユーザーと、そのユーザーに関する詳細（ユーザー名、最後にアクティブだった時刻、役割、メールアドレスなど）を一覧表示する CSV ファイルがエクスポートされます。
 
-### View user activity
-Use the **Last Active** column to get an **Activity summary** of an individual user. 
+### ユーザーのアクティビティを表示する
+**Last Active** 列を使用して、個々のユーザーの **Activity summary** を取得します。
 
-1. Hover your mouse over the **Last Active** entry for a user. 
-2. A tooltip appears and provides a summary of information about the user's activity.
-
+1. ユーザーの **Last Active** エントリの上にマウスを置きます。
+2. ツールチップが表示され、ユーザーのアクティビティに関する情報の概要が提供されます。
 
 {{< img src="/images/hosting/activity_tooltip.png" alt="" >}}
 
-A user is _active_ if they:
-- log in to W&B.
-- view any page in the W&B App.
-- log runs.
-- use the SDK to track an experiment.
-- interact with the W&B Server in any way.
+ユーザーが _active_ である条件は以下の通りです:
+- W&B にログインします。
+- W&B アプリで任意のページを表示します。
+- run のログをとります。
+- 実験を追跡するために SDK を使用します。
+- W&B サーバーと何らかの形でインタラクトします。
 
-### View active users over time
-Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time (right most plot in image below). 
+### 時間経過に伴うアクティブユーザーを表示する
+組織のダッシュボードにある **Users active over time** プロットを使用して、時間経過に伴うアクティブユーザーの集計概要を取得します（下の画像の最も右側のプロット）。
 
 {{< img src="/images/hosting/dashboard_summary.png" alt="" >}}
 
-You can use the dropdown menu to filter results based on days, months, or all time.
+ドロップダウンメニューを使用して、日、月、またはオールタイムに基づいて結果をフィルタリングできます。

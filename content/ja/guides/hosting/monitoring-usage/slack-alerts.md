@@ -1,59 +1,59 @@
 ---
+title: Configure Slack alerts
 menu:
   default:
     identifier: ja-guides-hosting-monitoring-usage-slack-alerts
     parent: monitoring-and-usage
-title: Configure Slack alerts
 ---
 
 Integrate W&B Server with [Slack](https://slack.com/).
 
-## Create the Slack application
+## Slack アプリケーションを作成する
 
-Follow the procedure below to create a Slack application.
+次の手順に従って Slack のアプリケーションを作成します。
 
-1. Visit https://api.slack.com/apps and select **Create an App**.
+1. https://api.slack.com/apps にアクセスし、 **Create an App** を選択します。
 
     {{< img src="/images/hosting/create_an_app.png" alt="" >}}
 
-2. Provide a name for your app in the **App Name** field.
-3. Select a Slack workspace where you want to develop your app in. Ensure that the Slack workspace you use is the same workspace you intend to use for alerts.
+2. **App Name** フィールドに、アプリの名前を入力します。
+3. アプリを開発したい Slack ワークスペースを選択します。使用する Slack ワークスペースがアラート用に使用する予定のワークスペースと同じであることを確認してください。
 
     {{< img src="/images/hosting/name_app_workspace.png" alt="" >}}
 
-## Configure the Slack application
+## Slack アプリケーションを設定する
 
-1. On the left sidebar, select **OAth & Permissions**.
+1. 左側のサイドバーで、 **OAth & Permissions** を選択します。
 
     {{< img src="/images/hosting/add_an_oath.png" alt="" >}}
 
-2. Within the Scopes section, provide the bot with the **incoming_webhook** scope. Scopes give your app permission to perform actions in your development workspace.
+2. Scopes セクション内で、ボットに **incoming_webhook** スコープを提供します。スコープは、開発ワークスペースで操作を実行するためのアプリの権限を与えます。
 
-    For more information about OAuth scopes for Bots, see the Understanding OAuth scopes for Bots tutorial in the Slack API documentation.
+    Bot の OAuth スコープに関する詳細は、Slack API ドキュメントの "Understanding OAuth scopes for Bots" チュートリアルを参照してください。
 
     {{< img src="/images/hosting/save_urls.png" alt="" >}}
 
-3. Configure the Redirect URL to point to your W&B installation. Use the same URL that your host URL is set to in your local system settings. You can specify multiple URLs if you have different DNS mappings to your instance.
+3. リダイレクト URL を W&B のインストール先を指すように設定します。ローカル システム設定のホスト URL 設定と同じ URL を使用します。インスタンスに異なる DNS マッピングがある場合は、複数の URL を指定できます。
 
     {{< img src="/images/hosting/redirect_urls.png" alt="" >}}
 
-4. Select **Save URLs**.
-5. You can optionally specify an IP range under **Restrict API Token Usage**, allow-list the IP or IP range of your W&B instances. Limiting the allowed IP address helps further secure your Slack application.
+4. **Save URLs** を選択します。
+5. 任意で **Restrict API Token Usage** の下に IP レンジを指定し、W&B インスタンスの IP または IP レンジを許可リスト化します。許可される IP アドレスを制限することで、Slack アプリケーションをさらに保護することができます。
 
-## Register your Slack application with W&B
+## W&B に Slack アプリケーションを登録する
 
-1. Navigate to the **System Settings** or **System Console** page of your W&B instance, depending on your deployment
+1. デプロイメントに応じて、W&B インスタンスの **System Settings** または **System Console** ページに移動します。
 
-2. Depending on the System page you are on follow one of the below options:
+2. 現在のシステムページに応じて、以下のオプションのいずれかを実行します:
 
-    - If you are in the **System Console**: go to **Settings** then to **Notifications**
+    - **System Console** にいる場合: **Settings** に移動し、次に **Notifications** に移動します。
 
       {{< img src="/images/hosting/register_slack_app_console.png" alt="" >}}
 
-    - If you are in the **System Settings**: toggle the **Enable a custom Slack application to dispatch alerts** to enable a custom Slack application
+    - **System Settings** にいる場合: カスタム Slack アプリケーションでアラートを送信する **Enable a custom Slack application to dispatch alerts** をトグルして有効にします。
 
       {{< img src="/images/hosting/register_slack_app.png" alt="" >}}
 
-3. Supply your **Slack client ID** and **Slack secret** then click **Save**. Navigate to Basic Information in Settings to find your application’s client ID and secret.
+3. **Slack client ID** と **Slack secret** を入力し、**Save** をクリックします。設定の Basic Information を参照して、アプリケーションのクライアント ID とシークレットを見つけます。
 
-4. Verify that everything is working by setting up a Slack integration in the W&B app.
+4. W&B アプリで Slack インテグレーションを設定して、すべてが正常に動作していることを確認します。

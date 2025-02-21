@@ -1,63 +1,58 @@
 ---
+title: Configure SSO with LDAP
 menu:
   default:
     identifier: ja-guides-hosting-iam-authentication-ldap
     parent: authentication
-title: Configure SSO with LDAP
 ---
 
-Authenticate your credentials with the W&B Server LDAP server. The following guide explains how to configure the settings for W&B Server. It covers mandatory and optional configurations, as well as instructions for configuring the LDAP connection from systems settings UI. it also provides information on the different inputs of the LDAP configuration, such as the address, base distinguished name, and attributes. You can specify these attributes from the W&B App UI or using environment variables. You can setup either an anonymous bind, or bind with an administrator DN and Password.
-
-<!-- {{% alert %}}
-As a W&B Team Admin you can setup either an anonymous bind, or bind with an administrator DN and Password.
-{{% /alert %}} -->
+あなたの資格情報を W&B サーバーの LDAP サーバーで認証します。以下のガイドは、W&B サーバーの設定を行う方法を説明します。必須およびオプションの設定、システム設定 UI からの LDAP 接続の設定方法に関する指示を網羅しています。また、アドレス、ベース識別名、および属性など、LDAP 設定のさまざまな入力方法に関する情報も提供しています。これらの属性は W&B アプリ UI から指定するか、環境変数を使用して指定することができます。匿名バインド、または管理者 DN とパスワードを用いたバインドを設定できます。
 
 {{% alert %}}
-Only W&B Admin roles can enable and configure LDAP authentication.
+LDAP 認証を有効にし、設定できるのは W&B 管理者ロールのみです。
 {{% /alert %}}
 
-## Configure LDAP connection
+## LDAP 接続の設定
 
 {{< tabpane text=true >}}
-{{% tab header="W&B App" value="app" %}}
-1. Navigate to the W&B App. 
-2. Select your profile icon from the upper right. From the dropdown, select **System Settings**. 
-3. Toggle **Configure LDAP Client**.
-4. Add the details in the form. Refer to **Configuring Parameters** section for details on each input.
-5. Click on **Update Settings** to test your settings. This will establish a test client/connection with the W&B server.
-6. If your connection is verified, toggle the **Enable LDAP Authentication** and select the **Update Settings** button.
+{{% tab header="W&B アプリ" value="app" %}}
+1. W&B アプリに移動します。
+2. 右上のプロフィールアイコンを選択します。ドロップダウンから **System Settings** を選択します。
+3. **Configure LDAP Client** を切り替えます。
+4. フォームに詳細を入力します。各入力に関する詳細については、**Configuring Parameters** セクションを参照してください。
+5. **Update Settings** をクリックして設定をテストします。これにより、W&B サーバーとのテストクライアント/接続が確立されます。
+6. 接続が検証済みである場合、**Enable LDAP Authentication** を切り替え、**Update Settings** ボタンを選択します。
 {{% /tab %}}
 
-{{% tab header="Environment variable" value="env"%}}
-Set LDAP an connection with the following environment variables:
+{{% tab header="環境変数" value="env"%}}
+次の環境変数を使用して LDAP 接続を設定します。
 
-| Environment variable          | Required | Example                         |
-| ----------------------------- | -------- | ------------------------------- |
-| `LOCAL_LDAP_ADDRESS`          | Yes      | `ldaps://ldap.example.com:636`  |
-| `LOCAL_LDAP_BASE_DN`          | Yes      | `email=mail,group=gidNumber`    |
-| `LOCAL_LDAP_BIND_DN`          | No       | `cn=admin`, `dc=example,dc=org` |
-| `LOCAL_LDAP_BIND_PW`          | No       |                                 |
-| `LOCAL_LDAP_ATTRIBUTES`       | Yes      | `email=mail`, `group=gidNumber` |
-| `LOCAL_LDAP_TLS_ENABLE`       | No       |                                 |
-| `LOCAL_LDAP_GROUP_ALLOW_LIST` | No       |                                 |
-| `LOCAL_LDAP_LOGIN`            | No       |                                 |
+| 環境変数                        | 必須   | 例                                |
+| ----------------------------- | ------ | -------------------------------- |
+| `LOCAL_LDAP_ADDRESS`          | Yes    | `ldaps://ldap.example.com:636`  |
+| `LOCAL_LDAP_BASE_DN`          | Yes    | `email=mail,group=gidNumber`    |
+| `LOCAL_LDAP_BIND_DN`          | No     | `cn=admin`, `dc=example,dc=org` |
+| `LOCAL_LDAP_BIND_PW`          | No     |                                 |
+| `LOCAL_LDAP_ATTRIBUTES`       | Yes    | `email=mail`, `group=gidNumber` |
+| `LOCAL_LDAP_TLS_ENABLE`       | No     |                                 |
+| `LOCAL_LDAP_GROUP_ALLOW_LIST` | No     |                                 |
+| `LOCAL_LDAP_LOGIN`            | No     |                                 |
 
-See the [Configuration parameters]({{< relref path="#configuration-parameters" lang="ja" >}}) section for definitions of each environment variable. Note that the environment variable prefix `LOCAL_LDAP` was omitted from the definition names for clarity.
+各環境変数の定義については [Configuration parameters]({{< relref path="#configuration-parameters" lang="ja" >}}) セクションを参照してください。わかりやすくするために、環境変数の定義名から `LOCAL_LDAP` プレフィックスを省略しています。
 {{% /tab %}}
 {{< /tabpane >}}
 
+## 設定パラメータ
 
-## Configuration parameters
+以下のテーブルでは、必須およびオプションの LDAP 設定を一覧化して説明します。
 
-The following table lists and describes required and optional LDAP configurations.
-
-| Environment variable | Definition              | Required |
-| -------------------- | ----------------------- | -------- |
-| `ADDRESS`            | This is the address of your LDAP server within the VPC that hosts W&B Server.      | Yes      |
-| `BASE_DN`            | The root path searches start from and required for doing any queries into this directory.             | Yes      |
-| `BIND_DN`            | Path of the administrative user registered in the LDAP server. This is required if the LDAP server does not support unauthenticated binding. If specified, W&B Server connects to the LDAP server as this user. Otherwise, W&B Server connects using anonymous binding. | No       |
-| `BIND_PW`            | The password for administrative user, this is used to authenticate the binding. If left blank, W&B Server connects using anonymous binding.   | No       |
-| `ATTRIBUTES`         | Provide an email and group ID attribute names as comma separated string values.    | Yes      |
-| `TLS_ENABLE`         | Enable TLS.                | No       |
-| `GROUP_ALLOW_LIST`   | Group allowlist.           | No       |
-| `LOGIN`              | This tells W&B Server to use LDAP to authenticate. Set to either `True` or `False`. Optionally set this to false to test the LDAP configuration. Set this to true to start LDAP authentication. | No       |
+| 環境変数       | 定義                        | 必須   |
+| -------------- | --------------------------- | ------ |
+| `ADDRESS`      | W&B サーバーをホストする VPC 内の LDAP サーバーのアドレスです。   | Yes    |
+| `BASE_DN`      | ディレクトリー内のクエリを実行するために開始するルートパスです。  | Yes    |
+| `BIND_DN`      | LDAP サーバーに登録されている管理ユーザーのパスです。LDAP サーバーが未認証のバインドをサポートしていない場合に必要です。指定されている場合、W&B サーバーはこのユーザーとして LDAP サーバーに接続します。そうでない場合、W&B サーバーは匿名バインドを使用して接続します。 | No     |
+| `BIND_PW`      | 管理ユーザーのパスワードであり、バインドの認証に使用されます。空白の場合、W&B サーバーは匿名バインドを使用して接続します。 | No     |
+| `ATTRIBUTES`   | メールとグループ ID の属性名をカンマ区切りの文字列として提供します。 | Yes    |
+| `TLS_ENABLE`   | TLS を有効にします。          | No     |
+| `GROUP_ALLOW_LIST` | グループ許可リスト。      | No     |
+| `LOGIN`        | W&B サーバーに LDAP を使用して認証するよう指示します。`True` または `False` に設定します。オプションで、LDAP 設定をテストするために false に設定します。LDAP 認証を開始するには true に設定します。| No     |

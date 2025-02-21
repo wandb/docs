@@ -1,66 +1,69 @@
 ---
-description: Guide for updating W&B (Weights & Biases) version and license across
-  different installation methods.
+title: Update W&B license and version
+description: W&B (Weights & Biases) のバージョンとライセンスを異なるインストールメソッドで更新するためのガイド。
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-server-upgrade-process
     parent: self-managed
-title: Update W&B license and version
 url: guides/hosting/server-upgrade-process
 weight: 6
 ---
 
-Update your W&B Server Version and License with the same method you installed W&B Server with. The following table lists how to update your license and version based on different deployment methods:
+W&B Server のバージョンとライセンスを、W&B サーバーをインストールしたのと同じ方法で更新することができます。以下の表は、さまざまなデプロイメント メソッドに基づくライセンスとバージョンの更新方法を示しています。
 
+| リリースタイプ | 説明 |
+| ----------- | ---- |
+| [Terraform]({{< relref path="#update-with-terraform" lang="ja" >}}) | W&B はクラウドデプロイメントのために[AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest)、[GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest)、および[Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)の3つのパブリックTerraformモジュールをサポートしています。 |
+| [Helm]({{< relref path="#update-with-helm" lang="ja" >}}) | [Helm Chart](https://github.com/wandb/helm-charts)を使用して、既存のKubernetesクラスターにW&Bをインストールすることができます。 |
 
-| Release Type    | Description         |
-| ---------------- | ------------------ |
-| [Terraform]({{< relref path="#update-with-terraform" lang="ja" >}}) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [Helm]({{< relref path="#update-with-helm" lang="ja" >}})              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.  |
+## Terraformで更新する
 
-## Update with Terraform
+Terraformを使用してライセンスとバージョンを更新します。以下の表は、クラウドプラットフォームに基づくW&B 管理のTerraformモジュールを示しています。
 
-Update your license and version with Terraform. The proceeding table lists W&B managed Terraform modules based cloud platform.
+| クラウド プロバイダー | Terraform モジュール |
+| -------------- | ------------------- |
+| AWS      | [AWS Terraform モジュール](https://registry.terraform.io/modules/wandb/wandb/aws/latest) |
+| GCP      | [GCP Terraform モジュール](https://registry.terraform.io/modules/wandb/wandb/google/latest) |
+| Azure    | [Azure Terraform モジュール](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) |
 
-|Cloud provider| Terraform module|
-|-----|-----|
-|AWS|[AWS Terraform module](https://registry.terraform.io/modules/wandb/wandb/aws/latest)|
-|GCP|[GCP Terraform module](https://registry.terraform.io/modules/wandb/wandb/google/latest)|
-|Azure|[Azure Terraform module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)|
-
-1. First, navigate to the W&B maintained Terraform module for your appropriate cloud provider. See the preceding table to find the appropriate Terraform module based on your cloud provider.
-2. Within your Terraform configuration, update `wandb_version` and `license` in your Terraform `wandb_app` module configuration:
+1. 最初に、適切なクラウドプロバイダーに対応するW&Bが管理しているTerraformモジュールに移動します。対応するTerraformモジュールを見つけるには、前の表を参照してください。
+2. Terraform 設定内で、`wandb_version` および `license` を Terraform `wandb_app` モジュールの設定で更新します。
 
    ```hcl
    module "wandb_app" {
        source  = "wandb/wandb/<cloud-specific-module>"
        version = "new_version"
-       license       = "new_license_key" # Your new license key
-       wandb_version = "new_wandb_version" # Desired W&B version
+       license       = "new_license_key" # 新しいライセンスキー
+       wandb_version = "new_wandb_version" # 希望する W&B バージョン
        ...
    }
    ```
-3. Apply the Terraform configuration with `terraform plan` and `terraform apply`.
+
+3. `terraform plan` と `terraform apply` を使用して、Terraform 設定を適用します。
+
    ```bash
    terraform init
    terraform apply
    ```
 
-4. (Optional) If you use a `terraform.tfvars` or other `.tfvars` file.
+4. (オプション) `terraform.tfvars` またはその他の `.tfvars` ファイルを使用している場合。
 
-   Update or create a `terraform.tfvars` file with the new W&B version and license key.
+   新しいW&Bバージョンとライセンスキーで `terraform.tfvars` ファイルを更新または作成します。
+
    ```bash
    terraform plan -var-file="terraform.tfvars"
    ```
-   Apply the configuration. In your Terraform workspace directory execute:  
+
+   設定を適用します。Terraformワークスペースディレクトリーで以下を実行してください:  
    ```bash
    terraform apply -var-file="terraform.tfvars"
    ```
-## Update with Helm
 
-### Update W&B with spec
+## Helm で更新する
 
-1. Specify a new version by modifying the `image.tag` and/or `license` values in your Helm chart `*.yaml` configuration file:
+### specでW&Bを更新
+
+1. Helmチャート `*.yaml` の設定ファイル内で `image.tag` および/または `license` 値を変更して新しいバージョンを指定します。
 
    ```yaml
    license: 'new_license'
@@ -69,7 +72,7 @@ Update your license and version with Terraform. The proceeding table lists W&B m
      tag: 'new_version'
    ```
 
-2. Execute the Helm upgrade with the following command:
+2. 以下のコマンドで、Helm アップグレードを実行します。
 
    ```bash
    helm repo update
@@ -78,16 +81,16 @@ Update your license and version with Terraform. The proceeding table lists W&B m
      -f ${wandb_install_spec.yaml}
    ```
 
-### Update license and version directly
+### ライセンスとバージョンを直接更新
 
-1. Set the new license key and image tag as environment variables:
+1. 環境変数として新しいライセンスキーとイメージタグを設定します。
 
    ```bash
    export LICENSE='new_license'
    export TAG='new_version'
    ```
 
-2. Upgrade your Helm release with the command below, merging the new values with the existing configuration:
+2. 以下のコマンドで、既存の設定に新しい値をマージしてHelmリリースをアップグレードします。
 
    ```bash
    helm repo update
@@ -96,13 +99,13 @@ Update your license and version with Terraform. The proceeding table lists W&B m
      --reuse-values --set license=$LICENSE --set image.tag=$TAG
    ```
 
-For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/blob/main/upgrade.md) in the public repository.
+詳細については、パブリックリポジトリの[アップグレードガイド](https://github.com/wandb/helm-charts/blob/main/upgrade.md)を参照してください。
 
-## Update with admin UI
+## 管理者UIで更新する
 
-This method is only works for updating licenses that are not set with an environment variable in the W&B server container, typically in self-hosted Docker installations.
+このメソッドは、自己ホスト型 Docker インストールで通常、W&B サーバー コンテナ内の環境変数で設定されていないライセンスを更新する場合にのみ機能します。
 
-1. Obtain a new license from the [W&B Deployment Page](https://deploy.wandb.ai/), ensuring it matches the correct organization and deployment ID for the deployment you are looking to upgrade.
-2. Access the W&B Admin UI at `<host-url>/system-settings`.
-3. Navigate to the license management section.
-4. Enter the new license key and save your changes.
+1. [W&Bデプロイメントページ](https://deploy.wandb.ai/)から新しいライセンスを取得し、アップグレードしようとしているデプロイメントの正しい組織とデプロイメントIDと一致することを確認します。
+2. `<host-url>/system-settings` でW&B管理者UIにアクセスします。
+3. ライセンス管理セクションに移動します。
+4. 新しいライセンスキーを入力し、変更を保存します。

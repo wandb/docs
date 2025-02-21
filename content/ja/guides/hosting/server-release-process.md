@@ -1,44 +1,44 @@
 ---
-description: Release process for W&B Server
+title: Release process for W&B Server
+description: W&B サーバーのリリースプロセス
 menu:
   default:
     identifier: ja-guides-hosting-server-release-process
     parent: w-b-platform
-title: Release process for W&B Server
 ---
 
 ## Frequency and deployment types
-W&B Server releases apply to the **Dedicated Cloud** and **Self-managed** deployments. There are three kinds of server releases:
+W&B Server リリースは、**専用クラウド** と **セルフマネージド** のデプロイメントに適用されます。サーバーリリースには3種類あります。
 
 | Release type | Description |
 |--------------|-------------|
-| Monthly | Monthly releases include new features, enhancements, plus medium and low severity bug fixes. |
-| Patch | Patch releases include critical and high severity bug fixes. Patches are only rarely released, as needed. |
-| Feature | The feature release targets a specific release date for a new product feature, which occasionally happens before the standard monthly release. |
+| Monthly | 毎月のリリースには新機能、機能強化、中および低重大度のバグ修正が含まれます。 |
+| Patch | パッチリリースには、重大および高重大度のバグ修正が含まれます。パッチは必要に応じて稀にリリースされます。 |
+| Feature | 機能リリースは、新しい製品機能の特定のリリース日をターゲットにしており、通常の月例リリースの前に行われることがあります。 |
 
-All releases are immediately deployed to all **Dedicated Cloud** instances once the acceptance testing phase is complete. It keeps those managed instances fully updated, making the latest features and fixes available to relevant customers. Customers with **Self-managed** instances are responsible for the [update process]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}}) on their own schedule, where they can use [the latest Docker image](https://hub.docker.com/r/wandb/local). Refer to [release support and end of life]({{< relref path="#release-support-and-end-of-life-policy" lang="ja" >}}).
+全てのリリースは受け入れテストフェーズが完了するとすぐに、全ての **専用クラウド** インスタンスにデプロイされます。これにより、管理されたインスタンスが完全に更新され、最新の機能と修正が関連する顧客に提供されます。**セルフマネージド** インスタンスの顧客は、自身のスケジュールに沿った [アップデートプロセス]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}}) の責任を負っており、[最新の Docker イメージ](https://hub.docker.com/r/wandb/local) を利用できます。[リリースサポートおよびエンドオブライフ]({{< relref path="#release-support-and-end-of-life-policy" lang="ja" >}})を参照してください。
 
 {{% alert %}}
-- Some advanced features are available only with the enterprise license. So even if you get the latest Docker image but don't have an enterprise license, you would not be able to take advantage of the relevant advanced capabilities.
+- 一部の高度な機能はエンタープライズライセンスでのみ利用可能です。そのため、最新の Docker イメージを取得してもエンタープライズライセンスを持っていない場合には、該当する高度な機能を利用できません。
 
-- Some new features start in private preview, which means they are only available to design partners or early adopters. The W&B team must enable a private preview feature before you can use it in your instance.
+- 一部の新機能はプライベートプレビューから開始され、デザインパートナーや早期導入者のみが利用できます。インスタンスで使用するには、W&B のチームがプライベートプレビュー機能を有効にする必要があります。
 {{% /alert %}}
 
 ## Release notes
-The release notes for all releases are available at [W&B Server Releases on GitHub](https://github.com/wandb/server/releases). Customers who use Slack can receive automatic release announcements in their W&B Slack channel. Ask your W&B team to enable these updates.
+全てのリリースノートは [W&B Server Releases on GitHub](https://github.com/wandb/server/releases)で利用できます。Slack を使用する顧客は、W&B Slack チャンネルで自動リリース通知を受け取ることができます。W&B チームにこれらのアップデートを有効にすることを依頼してください。
 
 ## Release update and downtime
-A server release does not generally require instance downtime for **Dedicated Cloud** instances and for customers with **Self-managed** deployments who have implemented a proper rolling update process.
+サーバーリリースは、**専用クラウド** インスタンスおよび、適切なローリングアップデートプロセスを実装している **セルフマネージド** デプロイメントの顧客に対しては、通常インスタンスのダウンタイムを必要としません。
 
-Downtime might occur for the following scenarios:
-* A new feature or enhancement requires changes to the underlying infrastructure such as compute, storage or network. W&B tries to send relevant advance notifications to **Dedicated Cloud** customers.
-* An infrastructure change due to a security patch or to avoid `support end-of-life` for a particular version. For urgent changes, **Dedicated Cloud** customers may not receive advance notifications. The priority here is to keep the fleet secure and fully supported.
+ダウンタイムが発生する可能性があるシナリオ:
+* 新機能や強化が、コンピュート、ストレージ、ネットワークなどの基盤インフラストラクチャーの変更を必要とする場合。W&B は **専用クラウド** の顧客に関連する事前通知を送信するよう努めます。
+* セキュリティパッチによるインフラストラクチャーの変更、または特定のバージョンの `サポート終了` を回避するためのインフラストラクチャーの変更。緊急変更の場合、**専用クラウド** の顧客は事前通知を受けない場合があります。ここでの優先事項は、フリートを安全かつ完全にサポートされた状態に保つことです。
 
-For both cases, updates roll out to all **Dedicated Cloud** instances without exception. Customers with **Self-managed** instances are responsible to manage such updates on their own schedule. Refer to [release support and end of life]({{< relref path="#release-support-and-end-of-life-policy" lang="ja" >}}).
+両方の場合で、更新は全ての **専用クラウド** インスタンスに例外なくロールアウトされます。**セルフマネージド** インスタンスの顧客は、そのようなアップデートを自身のスケジュールで管理する責任があります。[リリースサポートおよびエンドオブライフ]({{< relref path="#release-support-and-end-of-life-policy" lang="ja" >}})を参照してください。
 
 ## Release support and end of life policy
-W&B supports every server release for six months from the release date. **Dedicated Cloud** instances are automatically updated. Customers with **Self-managed** instances are responsible to update their deployments in time to comply with the support policy. Avoid staying on a version older than six months as it would significantly limit support from W&B.
+W&B はリリース日から6ヶ月間全てのサーバーリリースをサポートします。**専用クラウド** インスタンスは自動的に更新されます。**セルフマネージド** インスタンスの顧客は、サポートポリシーを遵守するために適時にデプロイメントを更新する責任があります。サポートが著しく制限されるため、6ヶ月以上前のバージョンに留まらないようにしてください。
 
 {{% alert %}}
-W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at least every quarter. This ensures that you are using the latest and greatest capabilities while also keeping well ahead of the release end of life.
+W&B は、最新リリースでデプロイメントを更新することを四半期ごとに少なくとも1回することを、**セルフマネージド** インスタンスの顧客に強く推奨しています。これにより、最新かつ最高の機能を利用しながら、リリースのエンドオブライフを大幅に超えておくことができます。
 {{% /alert %}}
