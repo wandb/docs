@@ -19,22 +19,22 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          output=()
-          all_changed_files=()
-          added_files=()
-          modified_files=()
-          removed_files=()
-          no_preview_files=()
+          export output=()
+          export all_changed_files=()
+          export added_files=()
+          export modified_files=()
+          export removed_files=()
+          export no_preview_files=()
 
-          pr_num="${{ github.event.pull_request.number }}"
+          export pr_num="${{ github.event.pull_request.number }}"
 
-          all_changed_files="$(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' | sort)"
+          export all_changed_files="$(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' | sort)"
 
           for changed_file in "${all_changed_files[@]}"; do
             echo "$changed_file" | while read i; do
-              status=$(echo "$i" | awk -F ' ' {'print $1'})
+              export status=$(echo "$i" | awk -F ' ' {'print $1'})
               echo "Status: $status"
-              path=$(echo "$i" | awk -F ' ' {'print $2'})
+              export path=$(echo "$i" | awk -F ' ' {'print $2'})
               echo "Path: $path"
               if [ "$status" = "added" ]; then
                 added_files+=("$path")
