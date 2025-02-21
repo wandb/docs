@@ -23,7 +23,7 @@ From here, you can compare plans or talk to Sales.
 This section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
 
 ### Usage alerts
-Organization admins receive alerts via email **once** when certain thresholds are met, along with details about how to increase your organization's limits if you are a [billing admin]({{< relref "#billing-admin" >}}) and how to contact a billing admin otherwise. On the Pro plan, only the billing admin receives usage alerts.
+Organization admins receive alerts via email **once per billing period** when certain thresholds are met, along with details about how to increase your organization's limits if you are a [billing admin]({{< relref "#billing-admin" >}}) and how to contact a billing admin otherwise. On the Pro plan, only the billing admin receives usage alerts.
 
 These alerts are not configurable, and are sent when:
 
