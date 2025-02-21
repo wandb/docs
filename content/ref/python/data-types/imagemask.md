@@ -2,7 +2,7 @@
 title: ImageMask
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/image_mask.py#L18-L241 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/helper_types/image_mask.py#L18-L247 >}}
 
 Format image masks or overlays for logging to W&B.
 
@@ -26,7 +26,7 @@ ImageMask(
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 image = np.random.randint(low=0, high=256, size=(100, 100, 3), dtype=np.uint8)
 predicted_mask = np.empty((100, 100), dtype=np.uint8)
 ground_truth_mask = np.empty((100, 100), dtype=np.uint8)
@@ -46,14 +46,17 @@ class_labels = {0: "person", 1: "tree", 2: "car", 3: "road"}
 masked_image = wandb.Image(
     image,
     masks={
-        "predictions": {"mask_data": predicted_mask, "class_labels": class_labels},
+        "predictions": {
+            "mask_data": predicted_mask,
+            "class_labels": class_labels,
+        },
         "ground_truth": {
             "mask_data": ground_truth_mask,
             "class_labels": class_labels,
         },
     },
 )
-wandb.log({"img_with_masks": masked_image})
+run.log({"img_with_masks": masked_image})
 ```
 
 ### Log a masked image inside a Table
@@ -62,7 +65,7 @@ wandb.log({"img_with_masks": masked_image})
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 image = np.random.randint(low=0, high=256, size=(100, 100, 3), dtype=np.uint8)
 predicted_mask = np.empty((100, 100), dtype=np.uint8)
 ground_truth_mask = np.empty((100, 100), dtype=np.uint8)
@@ -91,7 +94,10 @@ class_set = wandb.Classes(
 masked_image = wandb.Image(
     image,
     masks={
-        "predictions": {"mask_data": predicted_mask, "class_labels": class_labels},
+        "predictions": {
+            "mask_data": predicted_mask,
+            "class_labels": class_labels,
+        },
         "ground_truth": {
             "mask_data": ground_truth_mask,
             "class_labels": class_labels,
@@ -102,14 +108,14 @@ masked_image = wandb.Image(
 
 table = wandb.Table(columns=["image"])
 table.add_data(masked_image)
-wandb.log({"random_field": table})
+run.log({"random_field": table})
 ```
 
 ## Methods
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/image_mask.py#L213-L215)
+[View source](https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/helper_types/image_mask.py#L219-L221)
 
 ```python
 @classmethod
@@ -118,7 +124,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/image_mask.py#L217-L241)
+[View source](https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/helper_types/image_mask.py#L223-L247)
 
 ```python
 validate(
