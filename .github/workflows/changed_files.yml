@@ -41,15 +41,15 @@ jobs:
               case "$status" in
                 "added")
                   added_files+=("$path")
-                  echo "${added_files[@]}"
+                  echo "${added_files[*]}"
                   ;;
                 "modified")
                   modified_files+=("$path")
-                  echo "${modified_files[@]}"
+                  echo "${modified_files[*]}"
                   ;;
                 "removed")
                   removed_files+=("path")
-                  echo "${removed_files[@]}"
+                  echo "${removed_files[*]}"
                 *)
                   echo "Unknown status $status for file $path. Giving up."
                   exit -1
@@ -59,15 +59,15 @@ jobs:
           done
 
           echo "Added:"
-          echo "${added_files[@]}"
+          echo "${added_files[*]}"
           echo
 
           echo "Modified:"
-          echo "${modified_files[@]}"
+          echo "${modified_files[*]}"
           echo
 
           echo "Removed:"
-          echo "${removed_files[@]}"
+          echo "${removed_files[*]}"
           echo
 
           function generatePreviewURL() {
