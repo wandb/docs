@@ -232,7 +232,7 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 {{% /alert %}}
 
 #### W&B Model Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the  **[Model Registry]({{< relref "/guides/core/registry/model_registry/" >}})**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
+Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the  **[Model Registry]({{< relref "/guides/core/registry/model_registry/" >}})**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/core/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
 
 See the [Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}) documentation for how to link a model Artifact to the Model Registry.
  

@@ -16,3 +16,4 @@ W&B Core provides capabilities across the entire ML lifecycle. With W&B Core, yo
 - [Version and manage ML]({{< relref "./artifacts/" >}}) pipelines with full lineage tracing for easy auditing and reproducibility.
 - [Document and share]({{< relref "./reports/" >}}) insights across the entire organization by generating live reports in digestible, visual formats that are easily understood by non-technical stakeholders.
 - [Query and create visualizations of your data]({{< relref "/guides/models/app/features/panels/query-panels/" >}}) that serve your custom needs.
+- Configure custom automations that trigger key workflows for [model CI/CD]({{< relref "/guides/core/automations/model-registry-automations.md" >}}).
