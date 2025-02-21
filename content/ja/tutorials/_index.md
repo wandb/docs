@@ -1,28 +1,28 @@
 ---
+title: Tutorials
+description: Weights & Biases を使い始めるには、インタラクティブなチュートリアルをご利用ください。
 cascade:
   menu:
     tutorials:
       parent: tutorials
   type: docs
-description: Get started using Weights & Biases with interactive tutorials.
 menu:
   tutorials:
     identifier: ja-tutorials-_index
 no_list: true
-title: Tutorials
 type: docs
 ---
 
-The following tutorials take you through the fundamentals of W&B for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
+W&B を使用した機械学習実験管理、モデルの評価、ハイパーパラメータチューニング、モデルとデータセットのバージョン管理などの基本を学べるチュートリアルです。
 
-1. [Track experiments]({{< relref path="/tutorials/experiments/" lang="ja" >}}) 
+1. [Track experiments]({{< relref path="/tutorials/experiments/" lang="ja" >}})
 2. [Visualize predictions]({{< relref path="/tutorials/tables/" lang="ja" >}})
 3. [Tune hyperparameters]({{< relref path="/tutorials/sweeps/" lang="ja" >}})
 4. [Track models and datasets]({{< relref path="/tutorials/artifacts/" lang="ja" >}})
 
+## 人気のある ML フレームワークのチュートリアル
 
-## Popular ML framework tutorials
-See the following tutorials for step by step information on how to use popular ML frameworks and libraries with W&B:
+W&B と共に人気のある ML フレームワークとライブラリを使用するためのステップバイステップガイドを以下のチュートリアルで確認してください。
 
 - [PyTorch]({{< relref path="/tutorials/integration-tutorials/pytorch" lang="ja" >}})
 - [PyTorch Lightning]({{< relref path="/tutorials/integration-tutorials/lightning" lang="ja" >}})
@@ -37,17 +37,15 @@ See the following tutorials for step by step information on how to use popular M
 - XGBoost
     - [Tune hyperparameters]({{< relref path="/tutorials/integration-tutorials/xgboost_sweeps/" lang="ja" >}})
 
+## その他のリソース
 
+W&B AI Academy を訪れて、アプリケーションで LLM をトレーニング、ファインチューン、および使用する方法を学びましょう。MLOps と LLMOps ソリューションを実装し、W&B のコースで実世界の ML 課題に取り組みましょう。
 
-## Other resources
-
-Visit the W&B AI Academy to learn how to train, fine-tune and use LLMs in your applications. Implement MLOps and LLMOps solutions. Tackle real-world ML challenges with W&B courses.
-
-- Large Language Models (LLMs)
+- 大規模言語モデル (LLM)
     - [LLM Engineering: Structured Outputs](https://www.wandb.courses/courses/steering-language-models?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Building LLM-Powered Apps](https://www.wandb.courses/courses/building-llm-powered-apps?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Training and Fine-tuning Large Language Models](https://www.wandb.courses/courses/training-fine-tuning-LLMs?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
-- Effective MLOps
+- 効果的な MLOps
     - [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Effective MLOps: Model Development](https://www.wandb.courses/courses/effective-mlops-model-development?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [CI/CD for Machine Learning (GitOps)](https://www.wandb.courses/courses/ci-cd-for-machine-learning?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
