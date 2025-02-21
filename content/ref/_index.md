@@ -13,11 +13,11 @@ cascade:
 no_list: true
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
 
 {{< cardpane >}}
   {{< card >}}
-    <a href="./js/">
+    <a href="./python/">
       <h2 className="card-title">Python Library</h2>
       <p className="card-content">Train, fine-tune, and manage models from experimentation to production.</p>
     </a>
