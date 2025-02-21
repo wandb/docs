@@ -26,17 +26,19 @@ jobs:
           all_changed_files="$(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' | sort)"
 
           for changed_file in "${all_changed_files[@]}"; do
-            status=$(echo "$changed_file" | awk -F ' ' {'print $1'})
-            echo "Status: $status"
-            path=$(echo "$changed_file" | awk -F ' ' {'print $2'})
-            echo "Path: $path"
-            if [ "$status" = "added" ]; then
-              added_files+=("$path")
-            elif [ "$status" = "modified" ]; then
-              modified_files+=("$path")
-            elif [ "$status" = "removed" ]; then
-              removed_files+=("path")
-            fi
+            echo "$changed_file" | while read i; do
+              status=$(echo "$i" | awk -F ' ' {'print $1'})
+              echo "Status: $status"
+              path=$(echo "$i" | awk -F ' ' {'print $2'})
+              echo "Path: $path"
+              if [ "$status" = "added" ]; then
+                added_files+=("$path")
+              elif [ "$status" = "modified" ]; then
+                modified_files+=("$path")
+              elif [ "$status" = "removed" ]; then
+                removed_files+=("path")
+              fi
+            done
           done
 
           echo "Added:"
