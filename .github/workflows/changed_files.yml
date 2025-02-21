@@ -19,7 +19,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          declare -a output added_files modified_files removed_files no_preview_files
+          declare -a output
+          declare -a added_files
+          declare -a modified_files
+          declare -a removed_files
+          declare -a no_preview_files
 
           pr_num="${{ github.event.pull_request.number }}"
 
