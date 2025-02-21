@@ -1,26 +1,26 @@
 ---
+title: Pytorch torchtune
 menu:
   default:
     identifier: ja-guides-integrations-torchtune
     parent: integrations
-title: Pytorch torchtune
 weight: 320
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/torchtune/torchtune_and_wandb.ipynb" >}}
 
-[torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). Additionally, torchtune has built-in support for [logging with W&B](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes.
+[torchtune](https://pytorch.org/torchtune/stable/index.html) は、PyTorch ベースのライブラリで、大規模言語モデル (LLMs) の作成、ファインチューニング、及び実験管理プロセスを簡素化するように設計されています。さらに、torchtune には [W&B を使ったログ](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html) が組み込まれており、トレーニングプロセスの追跡と可視化を強化します。
 
 {{< img src="/images/integrations/torchtune_dashboard.png" alt="" >}}
 
-Check the W&B blog post on [Fine-tuning Mistral 7B using torchtune](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0).
+[torchtune を使った Mistral 7B のファインチューニング](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0) に関する W&B のブログ投稿をご覧ください。
 
-## W&B logging at your fingertips
+## W&B ログの活用
 
 {{< tabpane text=true >}}
-{{% tab header="Command line" value="cli" %}}
+{{% tab header="コマンドライン" value="cli" %}}
 
-Override command line arguments at launch:
+ローンチ時にコマンドライン引数をオーバーライド：
 
 ```bash
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -30,12 +30,12 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
 ```
 
 {{% /tab %}}
-{{% tab header="Recipe's config" value="config" %}}
+{{% tab header="レシピの設定" value="config" %}}
 
-Enable W&B logging on the recipe's config:
+レシピの設定で W&B ログを有効に：
 
 ```yaml
-# inside llama3/8B_lora_single_device.yaml
+# llama3/8B_lora_single_device.yaml 内
 metric_logger:
   _component_: torchtune.utils.metric_logging.WandBLogger
   project: llama3_lora
@@ -45,17 +45,17 @@ log_every_n_steps: 5
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Use the W&B metric logger
+## W&B メトリクスロガーを利用
 
-Enable W&B logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
+`metric_logger` セクションを修正して、レシピの設定ファイルで W&B ログを有効にします。`_component_` を `torchtune.utils.metric_logging.WandBLogger` クラスに変更します。また、`project` 名や `log_every_n_steps` を渡してログの振る舞いをカスタマイズすることができます。
 
-You can also pass any other `kwargs` as you would to the [wandb.init]({{< relref path="/ref/python/init.md" lang="ja" >}}) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
+他にも [wandb.init]({{< relref path="/ref/python/init.md" lang="ja" >}}) メソッドに渡すような `kwargs` を渡すこともできます。例えば、チームで作業している場合、チーム名を指定するために `entity` 引数を `WandBLogger` クラスに渡すことができます。
 
 {{< tabpane text=true >}}
-{{% tab header="Recipe's Config" value="config" %}}
+{{% tab header="レシピの設定" value="config" %}}
 
 ```yaml
-# inside llama3/8B_lora_single_device.yaml
+# llama3/8B_lora_single_device.yaml 内
 metric_logger:
   _component_: torchtune.utils.metric_logging.WandBLogger
   project: llama3_lora
@@ -67,7 +67,7 @@ log_every_n_steps: 5
 
 {{% /tab %}}
 
-{{% tab header="Command Line" value="cli" %}}
+{{% tab header="コマンドライン" value="cli" %}}
 
 ```shell
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -82,34 +82,34 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
 {{% /tab %}}
 {{< /tabpane >}}
 
-## What is logged?
+## 何がログされるのか？
 
-You can explore the W&B dashboard to see the logged metrics. By default W&B logs all of the hyperparameters from the config file and the launch overrides.
+ログされたメトリクスを見るために W&B ダッシュボードを探索できます。デフォルトで W&B は設定ファイルから全てのハイパーパラメーターをログし、ローンチのオーバーライドを記録します。
 
-W&B captures the resolved config on the **Overview** tab. W&B also stores the config in YAML format on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
+W&B は **Overview** タブで解決された設定をキャプチャします。W&B はまた YAML フォーマットで設定を [Files タブ](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files) に保存します。
 
 {{< img src="/images/integrations/torchtune_config.png" alt="" >}}
 
-### Logged Metrics
+### ログされたメトリクス
 
-Each recipe has its own training loop. Check each individual recipe to see its logged metrics, which include these by default:
+各レシピにはそれぞれのトレーニングループがあります。個々のレシピを確認して、そのログされたメトリクスを確認してください。デフォルトで以下が含まれます：
 
-| Metric | Description |
+| メトリクス | 説明 |
 | --- | --- |
-| `loss` | The loss of the model |
-| `lr` | The learning rate |
-| `tokens_per_second` | The tokens per second of the model |
-| `grad_norm` | The gradient norm of the model |
-| `global_step` | Corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken, the model is updated, the gradients are accumulated and the model is updated once every `gradient_accumulation_steps` |
+| `loss` | モデルの損失 |
+| `lr` | 学習率 |
+| `tokens_per_second` | モデルの毎秒のトークン数 |
+| `grad_norm` | モデルの勾配ノルム |
+| `global_step` | トレーニングループの現在のステップに対応。勾配累積を考慮し、オプティマイザーステップが行われるたびにモデルが更新され、勾配が累積され、`gradient_accumulation_steps` ごとにモデルが更新される |
 
 {{% alert %}}
-`global_step` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `global_step` is incremented by 1. For example, if the dataloader has 10 batches, gradient accumulation steps is 2 and run for 3 epochs, the optimizer will step 15 times, in this case `global_step` will range from 1 to 15.
+`global_step` はトレーニングステップの数と同じではありません。それはトレーニングループの現在のステップに対応します。勾配累積を考慮し、オプティマイザーステップが行われるたびに `global_step` が1増加します。例えば、データローダーに10バッチがあり、勾配累積ステップが2で3エポック実行される場合、オプティマイザーは15回ステップし、この場合 `global_step` は1から15の範囲になります。
 {{% /alert %}}
 
-The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding [recipe file](https://github.com/pytorch/torchtune/tree/main/recipes), for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
+torchtune の洗練されたデザインにより、カスタムメトリクスを簡単に追加したり、既存のメトリクスを修正したりすることができます。対応する [レシピファイル](https://github.com/pytorch/torchtune/tree/main/recipes) を修正するだけで十分です。例えば、以下のように `current_epoch` を全エポック数の割合としてログすることができます：
 
 ```python
-# inside `train.py` function in the recipe file
+# レシピファイル内の `train.py` 関数内
 self._metric_logger.log_dict(
     {"current_epoch": self.epochs * self.global_step / self._steps_per_epoch},
     step=self.global_step,
@@ -117,32 +117,32 @@ self._metric_logger.log_dict(
 ```
 
 {{% alert %}}
-This is a fast evolving library, the current metrics are subject to change. If you want to add a custom metric, you should modify the recipe and call the corresponding `self._metric_logger.*` function.
+これは急速に進化するライブラリであり、現在のメトリクスは変更される可能性があります。カスタムメトリクスを追加したい場合は、レシピを修正し、対応する `self._metric_logger.*` 関数を呼び出すべきです。
 {{% /alert %}}
 
-## Save and load checkpoints
+## チェックポイントの保存と読み込み
 
-The torchtune library supports various [checkpoint formats](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Depending on the origin of the model you are using, you should switch to the appropriate [checkpointer class](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html).
+torchtune ライブラリは様々な [チェックポイントフォーマット](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html) をサポートしています。使用しているモデルの起源に応じて、適切な [チェックポインタクラ](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)に切り替えるべきです。
 
-If you want to save the model checkpoints to [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
+[W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) にモデルのチェックポイントを保存したい場合、最も簡単な方法は対応するレシピ内で `save_checkpoint` 関数をオーバーライドすることです。
 
-Here is an example of how you can override the `save_checkpoint` function to save the model checkpoints to W&B Artifacts.
+以下は W&B Artifacts にモデルのチェックポイントを保存するために `save_checkpoint` 関数をオーバーライドする方法の例です。
 
 ```python
 def save_checkpoint(self, epoch: int) -> None:
     ...
-    ## Let's save the checkpoint to W&B
-    ## depending on the Checkpointer Class the file will be named differently
-    ## Here is an example for the full_finetune case
+    ## W&B にチェックポイントを保存しましょう
+    ## Checkpointer クラスに応じてファイル名が異なることがあります
+    ## これは full_finetune ケースの例です
     checkpoint_file = Path.joinpath(
         self._checkpointer._output_dir, f"torchtune_model_{epoch}"
     ).with_suffix(".pt")
     wandb_artifact = wandb.Artifact(
         name=f"torchtune_model_{epoch}",
         type="model",
-        # description of the model checkpoint
+        # モデルチェックポイントの説明
         description="Model checkpoint",
-        # you can add whatever metadata you want as a dict
+        # 任意のメタデータを辞書として追加可能
         metadata={
             utils.SEED_KEY: self.seed,
             utils.EPOCHS_KEY: self.epochs_run,

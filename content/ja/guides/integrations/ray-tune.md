@@ -1,43 +1,43 @@
 ---
-description: How to integrate W&B with Ray Tune.
+title: Ray Tune
+description: W&B を Ray Tune と統合する方法。
 menu:
   default:
     identifier: ja-guides-integrations-ray-tune
     parent: integrations
-title: Ray Tune
 weight: 360
 ---
 
-W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.
+W&B は、2 つの軽量なインテグレーションを提供することで [Ray](https://github.com/ray-project/ray) と統合します。
 
-- The`WandbLoggerCallback` function automatically logs metrics reported to Tune to the Wandb API.
-- The `setup_wandb()` function, which can be used with the function API,  automatically initializes the Wandb API with Tune's training information. You can use the Wandb API as usual. such as by using `wandb.log()` to log your training process.
+- `WandbLoggerCallback` 関数は、Tune に報告されたメトリクスを自動的に Wandb API にログします。
+-  `setup_wandb()` 関数は、関数 API と一緒に使用するもので、Tune のトレーニング情報を使用して Wandb API を自動的に初期化します。通常どおり Wandb API を使用できます。たとえば、`wandb.log()` を用いてあなたのトレーニングプロセスをログすることができます。
 
-## Configure the integration
+## インテグレーションの設定
 
 ```python
 from ray.air.integrations.wandb import WandbLoggerCallback
 ```
 
-Wandb configuration is done by passing a wandb key to the config parameter of `tune.run()` (see example below).
+Wandb の設定は、wandb キーを `tune.run()` の config パラメータに渡すことで行われます（下記の例を参照してください）。
 
-The content of the wandb config entry is passed to `wandb.init()` as keyword arguments. The exception are the following settings, which are used to configure the `WandbLoggerCallback` itself:
+wandb の config エントリの内容は、キーワード引数として `wandb.init()` に渡されます。例外として、`WandbLoggerCallback` 自体の設定に使用される次の設定があります:
 
 ### Parameters
 
-`project (str)`: Name of the Wandb project. Mandatory.
+`project (str)`: Wandb プロジェクトの名前。必須。
 
-`api_key_file (str)`: Path to file containing the Wandb API KEY.
+`api_key_file (str)`: Wandb API キーが含まれるファイルへのパス。
 
-`api_key (str)`: Wandb API Key. Alternative to setting `api_key_file`.
+`api_key (str)`: Wandb API キー。`api_key_file` を設定する代わり。
 
-`excludes (list)`: List of metrics to exclude from the log.
+`excludes (list)`: ログから除外するメトリクスのリスト。
 
-`log_config (bool)`: Whether to log the config parameter of the results dictionary. Defaults to False.
+`log_config (bool)`: 結果辞書の設定パラメータをログするかどうか。デフォルトは False です。
 
-`upload_checkpoints (bool)`:  If True, model checkpoints are uploaded as artifacts. Defaults to False.
+`upload_checkpoints (bool)`: True の場合、モデルチェックポイントがアーティファクトとしてアップロードされます。デフォルトは False です。
 
-### Example
+### 例
 
 ```python
 from ray import tune, train
@@ -73,14 +73,14 @@ results = tuner.fit()
 from ray.air.integrations.wandb import setup_wandb
 ```
 
-This utility function helps initialize Wandb for use with Ray Tune. For basic usage, call `setup_wandb()` in your training function:
+このユーティリティ関数は、Ray Tune で Wandb を使用するために初期化を支援します。基本的な使用法では、トレーニング関数内で `setup_wandb()` を呼び出してください:
 
 ```python
 from ray.air.integrations.wandb import setup_wandb
 
 
 def train_fn(config):
-    # Initialize wandb
+    # Wandb を初期化
     wandb = setup_wandb(config)
 
     for i in range(10):
@@ -92,19 +92,19 @@ def train_fn(config):
 tuner = tune.Tuner(
     train_fn,
     param_space={
-        # define search space here
+        # ここに探索空間を定義
         "a": tune.choice([1, 2, 3]),
         "b": tune.choice([4, 5, 6]),
-        # wandb configuration
+        # Wandb 設定
         "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
     },
 )
 results = tuner.fit()
 ```
 
-## Example Code
+## 例 コード
 
-We've created a few examples for you to see how the integration works:
+インテグレーションの動作を確認するためのいくつかの例を作成しました:
 
-* [Colab](http://wandb.me/raytune-colab): A simple demo to try the integration.
-* [Dashboard](https://wandb.ai/anmolmann/ray_tune): View dashboard generated from the example.
+* [Colab](http://wandb.me/raytune-colab): インテグレーションを試すためのシンプルなデモ。
+* [Dashboard](https://wandb.ai/anmolmann/ray_tune): 例から生成されたダッシュボードを表示。
