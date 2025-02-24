@@ -1,64 +1,63 @@
 ---
-description: Create a W&B Report with the App UI or programmatically with the Weights
-  & Biases SDK.
+title: Create a report
+description: Weights & Biases SDK를 사용하여 앱 UI 또는 프로그래밍 방식으로 W&B **Report**를 만드세요.
 menu:
   default:
     identifier: ko-guides-core-reports-create-a-report
     parent: reports
-title: Create a report
 weight: 10
 ---
 
-Create a report interactively with the W&B App UI or programmatically with the W&B Python SDK.
+W&B App UI 또는 W&B Python SDK를 사용하여 프로그래밍 방식으로 리포트를 상호 작용하며 생성합니다.
 
 {{% alert %}}
-See this [Google Colab for an example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
+[예제 Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)을 참조하세요.
 {{% /alert %}}
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
-1. Navigate to your project workspace in the W&B App.
-2. Click **Create report** in the upper right corner of your workspace.
+1. W&B App에서 프로젝트 워크스페이스로 이동합니다.
+2. 워크스페이스의 오른쪽 상단에서 **Create report**를 클릭합니다.
 
    {{< img src="/images/reports/create_a_report_button.png" alt="" >}}
 
-3. A modal will appear. Select the charts you would like to start with. You can add or delete charts later from the report interface.
+3. 모달이 나타납니다. 시작하려는 차트를 선택합니다. 리포트 인터페이스에서 나중에 차트를 추가하거나 삭제할 수 있습니다.
 
     {{< img src="/images/reports/create_a_report_modal.png" alt="" >}}
 
-4. Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
+4. 새로운 run이 리포트에 추가되는 것을 방지하려면 **Filter run sets** 옵션을 선택합니다. 이 옵션을 켜거나 끌 수 있습니다. **Create report**를 클릭하면 리포트 탭에서 계속 작업할 수 있는 초안 리포트를 사용할 수 있습니다.
 {{% /tab %}}
 
 {{% tab header="Report tab" value="reporttab"%}}
-1. Navigate to your project workspace in the W&B App.
-2. Select to the **Reports** tab (clipboard image) in your project.
-3. Select the **Create Report** button on the report page. 
+1. W&B App에서 프로젝트 워크스페이스로 이동합니다.
+2. 프로젝트에서 **Reports** 탭(클립보드 이미지)을 선택합니다.
+3. 리포트 페이지에서 **Create Report** 버튼을 선택합니다.
 
    {{< img src="/images/reports/create_report_button.png" alt="" >}}
 {{% /tab %}}
 
 {{% tab header="W&B Python SDK" value="sdk"%}}
-Create a report programmatically with the `wandb` library. 
+`wandb` 라이브러리를 사용하여 프로그래밍 방식으로 리포트를 생성합니다.
 
-1. Install W&B SDK and Workspaces API:
+1. W&B SDK 및 Workspaces API를 설치합니다:
     ```bash
     pip install wandb wandb-workspaces
     ```
-2. Next, import workspaces
+2. 다음으로, 워크스페이스를 가져옵니다.
     ```python
     import wandb
     import wandb_workspaces.reports.v2 as wr
     ```       
-3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`]({{< relref path="/ref/python/public-api/api#reports" lang="ko" >}})). Specify a name for the project.   
+3. `wandb_workspaces.reports.v2.Report`를 사용하여 리포트를 생성합니다. Report Class Public API([`wandb.apis.reports`]({{< relref path="/ref/python/public-api/api#reports" lang="ko" >}}))를 사용하여 리포트 인스턴스를 생성합니다. 프로젝트 이름을 지정합니다.
     ```python
     report = wr.Report(project="report_standard")
-    ```  
+    ```
 
-4. Save the report. Reports are not uploaded to the W&B server until you call the .`save()` method:
+4. 리포트를 저장합니다. `.save()` 메서드를 호출할 때까지 리포트가 W&B 서버에 업로드되지 않습니다.
     ```python
     report.save()
     ```
 
-For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report]({{< relref path="/guides/core/reports/edit-a-report" lang="ko" >}}).
+App UI 또는 프로그래밍 방식으로 리포트를 상호 작용하며 편집하는 방법에 대한 자세한 내용은 [리포트 편집]({{< relref path="/guides/core/reports/edit-a-report" lang="ko" >}})을 참조하십시오.
 {{% /tab %}}
 {{< /tabpane >}}

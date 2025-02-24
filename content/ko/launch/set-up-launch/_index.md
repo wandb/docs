@@ -1,64 +1,62 @@
 ---
+title: Set up Launch
 menu:
   launch:
     identifier: ko-launch-set-up-launch-_index
     parent: launch
-title: Set up Launch
 weight: 3
 ---
 
-This page describes the high-level steps required to set up W&B Launch:
+이 페이지에서는 W&B Launch를 설정하는 데 필요한 높은 수준의 단계를 설명합니다.
 
-1. **Set up a queue**: Queues are FIFO and possess a queue configuration. A queue's configuration controls where and how jobs are executed on a target resource.
-2. **Set up an agent**: Agents run on your machine/infrastructure and poll one or more queues for launch jobs. When a job is pulled, the agent ensures that the image is built and available. The agent then submits the job to the target resource.
+1. **대기열 설정**: 대기열은 FIFO이며 대기열 설정을 갖습니다. 대기열의 설정은 대상 리소스에서 작업을 실행하는 위치와 방법을 제어합니다.
+2. **에이전트 설정**: 에이전트는 사용자 머신/인프라에서 실행되며 Launch 작업을 위해 하나 이상의 대기열을 폴링합니다. 작업이 풀되면 에이전트는 이미지가 빌드되어 사용 가능한지 확인합니다. 그런 다음 에이전트는 작업을 대상 리소스에 제출합니다.
 
+## 대기열 설정
+Launch 대기열은 특정 대상 리소스와 해당 리소스에 특정한 추가 설정을 가리키도록 구성해야 합니다. 예를 들어, Kubernetes 클러스터를 가리키는 Launch 대기열은 환경 변수를 포함하거나 Launch 대기열 구성에 사용자 지정 네임스페이스를 설정할 수 있습니다. 대기열을 생성할 때 사용하려는 대상 리소스와 해당 리소스에 사용할 구성을 모두 지정합니다.
 
-## Set up a queue
-Launch queues must be configured to point to a specific target resource along with any additional configuration specific to that resource. For example, a launch queue that points to a Kubernetes cluster might include environment variables or set a custom namespace its launch queue configuration. When you create a queue, you will specify both the target resource you want to use and the configuration for that resource to use.
+에이전트가 대기열에서 작업을 수신하면 대기열 구성도 수신합니다. 에이전트가 작업을 대상 리소스에 제출할 때 작업 자체의 재정의와 함께 대기열 구성을 포함합니다. 예를 들어, 작업 구성을 사용하여 해당 작업 인스턴스에만 Amazon SageMaker 인스턴스 유형을 지정할 수 있습니다. 이 경우 최종 사용자 인터페이스로 [대기열 구성 템플릿]({{< relref path="./setup-queue-advanced.md#configure-queue-template" lang="ko" >}})을 사용하는 것이 일반적입니다.
 
-When an agent receives a job from a queue, it also receives the queue configuration. When the agent submits the job to the target resource, it includes the queue configuration along with any overrides from the job itself. For example, you can use a job configuration to specify the Amazon SageMaker instance type for that job instance only. In this case, it is common to use [queue config templates]({{< relref path="./setup-queue-advanced.md#configure-queue-template" lang="ko" >}}) as the end user interface. 
-
-### Create a queue
-1. Navigate to Launch App at [wandb.ai/launch](https://wandb.ai/launch). 
-2. Click the **create queue** button on the top right of the screen. 
+### 대기열 생성
+1. [wandb.ai/launch](https://wandb.ai/launch)에서 Launch 앱으로 이동합니다.
+2. 화면 오른쪽 상단에 있는 **대기열 생성** 버튼을 클릭합니다.
 
 {{< img src="/images/launch/create-queue.gif" alt="" >}}
 
-3. From the **Entity** dropdown menu, select the entity the queue will belong to. 
-4. Provide a name for your queue in the **Queue** field. 
-5. From the **Resource** dropdown, select the compute resource you want jobs added to this queue to use.
-6. Choose whether to allow **Prioritization** for this queue. If prioritization is enabled, a user on your team can define a priority for their launch job when they enqueue them. Higher priority jobs are executed before lower priority jobs.
-7. Provide a resource configuration in either JSON or YAML format in the **Configuration** field. The structure and semantics of your configuration document will depend on the resource type that the queue is pointing to. For more details, see the dedicated set up page for your target resource.
+3. **Entity** 드롭다운 메뉴에서 대기열이 속할 entity를 선택합니다.
+4. **대기열** 필드에 대기열 이름을 입력합니다.
+5. **리소스** 드롭다운에서 이 대기열에 추가할 작업에 사용할 컴퓨팅 리소스를 선택합니다.
+6. 이 대기열에 대해 **우선 순위 지정**을 허용할지 여부를 선택합니다. 우선 순위 지정이 활성화되면 팀의 사용자는 작업을 대기열에 넣을 때 Launch 작업에 대한 우선 순위를 정의할 수 있습니다. 우선 순위가 높은 작업은 우선 순위가 낮은 작업보다 먼저 실행됩니다.
+7. **구성** 필드에 JSON 또는 YAML 형식으로 리소스 구성을 제공합니다. 구성 문서의 구조와 의미는 대기열이 가리키는 리소스 유형에 따라 달라집니다. 자세한 내용은 대상 리소스에 대한 전용 설정 페이지를 참조하세요.
 
-## Set up a launch agent
-Launch agents are long running processes that poll one or more launch queues for jobs. Launch agents dequeue jobs in first in, first out (FIFO) order or in priority order depending on the queues they pull from. When an agent dequeues a job from a queue, it optionally builds an image for that job. The agent then submits the job to the target resource along with configuration options specified in the queue configuration.
+## Launch 에이전트 설정
+Launch 에이전트는 작업을 위해 하나 이상의 Launch 대기열을 폴링하는 장기 실행 프로세스입니다. Launch 에이전트는 선입선출(FIFO) 순서 또는 대기열에서 가져오는 우선 순위에 따라 작업을 대기열에서 제거합니다. 에이전트가 대기열에서 작업을 제거하면 해당 작업에 대한 이미지를 선택적으로 빌드합니다. 그런 다음 에이전트는 대기열 구성에 지정된 구성 옵션과 함께 작업을 대상 리소스에 제출합니다.
 
 {{% alert %}}
-Agents are highly flexible and can be configured to support a wide variety of use cases. The required configuration for your agent will depend on your specific use case. See the dedicated page for [Docker]({{< relref path="./setup-launch-docker.md" lang="ko" >}}), [Amazon SageMaker]({{< relref path="./setup-launch-sagemaker.md" lang="ko" >}}), [Kubernetes]({{< relref path="./setup-launch-kubernetes.md" lang="ko" >}}), or [Vertex AI]({{< relref path="./setup-vertex.md" lang="ko" >}}).
+에이전트는 매우 유연하며 광범위한 유스 케이스를 지원하도록 구성할 수 있습니다. 에이전트에 필요한 구성은 특정 유스 케이스에 따라 달라집니다. [Docker]({{< relref path="./setup-launch-docker.md" lang="ko" >}}), [Amazon SageMaker]({{< relref path="./setup-launch-sagemaker.md" lang="ko" >}}), [Kubernetes]({{< relref path="./setup-launch-kubernetes.md" lang="ko" >}}), 또는 [Vertex AI]({{< relref path="./setup-vertex.md" lang="ko" >}})에 대한 전용 페이지를 참조하십시오.
 {{% /alert %}}
 
 {{% alert %}}
-W&B recommends you start agents with a service account's API key, rather than a specific user's API key. There are two benefits to using a service account's API key:
-1. The agent isn't dependent on an individual user.
-2. The author associated with a run created through Launch is viewed by Launch as the user who submitted the launch job, rather than the user associated with the agent.
+W&B는 특정 user의 API 키가 아닌 서비스 계정의 API 키로 에이전트를 시작하는 것이 좋습니다. 서비스 계정의 API 키를 사용하면 다음과 같은 두 가지 이점이 있습니다.
+1. 에이전트는 개별 user에 의존하지 않습니다.
+2. Launch를 통해 생성된 run과 연결된 작성자는 에이전트와 연결된 user가 아닌 Launch 작업을 제출한 user로 Launch에서 간주합니다.
 {{% /alert %}}
 
-### Agent configuration
-Configure the launch agent with a YAML file named `launch-config.yaml`. By default, W&B checks for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
+### 에이전트 구성
+`launch-config.yaml`이라는 YAML 파일로 Launch 에이전트를 구성합니다. 기본적으로 W&B는 `~/.config/wandb/launch-config.yaml`에서 구성 파일을 확인합니다. Launch 에이전트를 활성화할 때 다른 디렉토리를 선택적으로 지정할 수 있습니다.
 
-The contents of your launch agent's configuration file will depend on your launch agent's environment, the launch queue's target resource, Docker builder requirements, cloud registry requirements, and so forth. 
+Launch 에이전트의 구성 파일 내용은 Launch 에이전트의 환경, Launch 대기열의 대상 리소스, Docker 빌더 요구 사항, cloud 레지스트리 요구 사항 등에 따라 달라집니다.
 
-Independent of your use case, there are core configurable options for the launch agent:
-* `max_jobs`: maximum number of jobs the agent can execute in parallel 
-* `entity`: the entity that the queue belongs to
-* `queues`: the name of one or more queues for the agent to watch
+유스 케이스와 관계없이 Launch 에이전트에 대한 핵심 구성 가능 옵션은 다음과 같습니다.
+* `max_jobs`: 에이전트가 병렬로 실행할 수 있는 최대 작업 수
+* `entity`: 대기열이 속한 entity
+* `queues`: 에이전트가 감시할 하나 이상의 대기열 이름
 
 {{% alert %}}
-You can use the W&B CLI to specify universal configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`]({{< relref path="/ref/cli/wandb-launch-agent.md" lang="ko" >}}) command for more information.
+W&B CLI를 사용하여 Launch 에이전트에 대한 일반적인 구성 가능 옵션(구성 YAML 파일 대신): 최대 작업 수, W&B entity 및 Launch 대기열을 지정할 수 있습니다. 자세한 내용은 [`wandb launch-agent`]({{< relref path="/ref/cli/wandb-launch-agent.md" lang="ko" >}}) 코맨드를 참조하십시오.
 {{% /alert %}}
 
-
-The following YAML snippet shows how to specify core launch agent config keys:
+다음 YAML 코드 조각은 핵심 Launch 에이전트 구성 키를 지정하는 방법을 보여줍니다.
 
 ```yaml title="launch-config.yaml"
 # Max number of concurrent runs to perform. -1 = no limit
@@ -71,42 +69,42 @@ queues:
   - <queue-name>
 ```
 
-### Configure a container builder
-The launch agent can be configured to build images. You must configure the agent to use a container builder if you intend to use launch jobs created from git repositories or code artifacts. See the [Create a launch job]({{< relref path="../create-and-deploy-jobs/create-launch-job.md" lang="ko" >}}) for more information on how to create a launch job. 
+### 컨테이너 빌더 구성
+Launch 에이전트는 이미지를 빌드하도록 구성할 수 있습니다. git 저장소 또는 code Artifacts에서 생성된 Launch 작업을 사용하려는 경우 에이전트가 컨테이너 빌더를 사용하도록 구성해야 합니다. Launch 작업 생성 방법에 대한 자세한 내용은 [Launch 작업 생성]({{< relref path="../create-and-deploy-jobs/create-launch-job.md" lang="ko" >}})을 참조하십시오.
 
-W&B Launch supports three builder options:
+W&B Launch는 세 가지 빌더 옵션을 지원합니다.
 
-* Docker: The Docker builder uses a local Docker daemon to build images.
-* [Kaniko](https://github.com/GoogleContainerTools/kaniko):  Kaniko is a Google project that enables image building in environments where a Docker daemon is unavailable. 
-* Noop: The agent will not try to build jobs, and instead only pull pre-built images.
+* Docker: Docker 빌더는 로컬 Docker 데몬을 사용하여 이미지를 빌드합니다.
+* [Kaniko](https://github.com/GoogleContainerTools/kaniko): Kaniko는 Docker 데몬을 사용할 수 없는 환경에서 이미지 빌드를 지원하는 Google 프로젝트입니다.
+* Noop: 에이전트는 작업을 빌드하려고 시도하지 않고 미리 빌드된 이미지만 가져옵니다.
 
 {{% alert %}}
-Use the Kaniko builder if your agent is polling in an environment where a Docker daemon is unavailable (for example, a Kubernetes cluster).
+에이전트가 Docker 데몬을 사용할 수 없는 환경(예: Kubernetes 클러스터)에서 폴링하는 경우 Kaniko 빌더를 사용하십시오.
 
-See the [Set up Kubernetes]({{< relref path="./setup-launch-kubernetes.md" lang="ko" >}}) for details about the Kaniko builder.
+Kaniko 빌더에 대한 자세한 내용은 [Kubernetes 설정]({{< relref path="./setup-launch-kubernetes.md" lang="ko" >}})을 참조하십시오.
 {{% /alert %}}
 
-To specify an image builder, include the builder key in your agent configuration. For example, the following code snippet shows a portion of the launch config (`launch-config.yaml`) that specifies to use Docker or Kaniko:
+이미지 빌더를 지정하려면 에이전트 구성에 빌더 키를 포함하십시오. 예를 들어, 다음 코드 조각은 Docker 또는 Kaniko를 사용하도록 지정하는 Launch 구성(`launch-config.yaml`)의 일부를 보여줍니다.
 
 ```yaml title="launch-config.yaml"
 builder:
   type: docker | kaniko | noop
 ```
 
-### Configure a container registry
-In some cases, you might want to connect a launch agent to a cloud registry. Common scenarios where you might want to connect a launch agent to a cloud registry include:
+### 컨테이너 레지스트리 구성
+경우에 따라 Launch 에이전트를 cloud 레지스트리에 연결할 수 있습니다. Launch 에이전트를 cloud 레지스트리에 연결하려는 일반적인 시나리오는 다음과 같습니다.
 
-* You want to run a job in an envirnoment other than where you built it, such as a powerful workstation or cluster.
-* You want to use the agent to build images and run these images on Amazon SageMaker or VertexAI.
-* You want the launch agent to provide credentials to pull from an image repository.
+* 강력한 워크스테이션 또는 클러스터와 같이 빌드한 환경 이외의 환경에서 작업을 실행하려는 경우.
+* 에이전트를 사용하여 이미지를 빌드하고 이러한 이미지를 Amazon SageMaker 또는 VertexAI에서 실행하려는 경우.
+* Launch 에이전트가 이미지 저장소에서 가져올 자격 증명을 제공하도록 하려는 경우.
 
-To learn more about how to configure the agent to interact with a container registry, see the [Advanced agent set]({{< relref path="./setup-agent-advanced.md" lang="ko" >}}) up page.
+에이전트가 컨테이너 레지스트리와 상호 작용하도록 구성하는 방법에 대한 자세한 내용은 [고급 에이전트 설정]({{< relref path="./setup-agent-advanced.md" lang="ko" >}}) 페이지를 참조하십시오.
 
-## Activate the launch agent
-Activate the launch agent with the `launch-agent` W&B CLI command:
+## Launch 에이전트 활성화
+`launch-agent` W&B CLI 코맨드를 사용하여 Launch 에이전트를 활성화합니다.
 
 ```bash
 wandb launch-agent -q <queue-1> -q <queue-2> --max-jobs 5
 ```
 
-In some use cases, you might want to have a launch agent polling queues from within a Kubernetes cluster. See the [Advanced queue set up page]({{< relref path="./setup-queue-advanced.md" lang="ko" >}}) for more information.
+일부 유스 케이스에서는 Kubernetes 클러스터 내에서 Launch 에이전트가 대기열을 폴링하도록 할 수 있습니다. 자세한 내용은 [고급 대기열 설정 페이지]({{< relref path="./setup-queue-advanced.md" lang="ko" >}})를 참조하십시오.

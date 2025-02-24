@@ -1,53 +1,52 @@
 ---
-description: Hosting W&B Server on Azure.
+title: Deploy W&B Platform on Azure
+description: Azure에서 W&B 서버 호스팅하기.
 menu:
   default:
     identifier: ko-guides-hosting-hosting-options-self-managed-install-on-public-cloud-azure-tf
     parent: install-on-public-cloud
-title: Deploy W&B Platform on Azure
 weight: 30
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) or [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ko" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+Weights & Biases는 [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) 또는 [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ko" >}}) 배포 유형과 같은 완전 관리형 배포 옵션을 권장합니다. Weights & Biases 완전 관리형 서비스는 사용하기 간단하고 안전하며, 필요한 설정이 최소화되어 있거나 전혀 필요하지 않습니다.
 {{% /alert %}}
 
+W&B Server를 자체 관리하기로 결정했다면, [W&B Server Azure Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)을 사용하여 Azure에 플랫폼을 배포하는 것이 좋습니다.
 
-If you've determined to self-managed W&B Server, W&B recommends using the [W&B Server Azure Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) to deploy the platform on Azure.
+모듈 문서는 광범위하며 사용 가능한 모든 옵션이 포함되어 있습니다. 이 문서에서는 몇 가지 배포 옵션을 다룹니다.
 
-The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
+시작하기 전에 Terraform에서 사용 가능한 [원격 백엔드](https://developer.hashicorp.com/terraform/language/backend) 중 하나를 선택하여 [State File](https://developer.hashicorp.com/terraform/language/state)을 저장하는 것이 좋습니다.
 
-Before you start, we recommend you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/backend) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+State File은 모든 구성 요소를 다시 만들지 않고도 업그레이드를 롤아웃하거나 배포를 변경하는 데 필요한 리소스입니다.
 
-The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
+Terraform Module은 다음과 같은 `필수` 구성 요소를 배포합니다.
 
-The Terraform Module will deploy the following `mandatory` components:
-
-- Azure Resource Group
+- Azure 리소스 그룹
 - Azure Virtual Network (VPC)
 - Azure MySQL Fliexible Server
 - Azure Storage Account & Blob Storage
 - Azure Kubernetes Service
 - Azure Application Gateway
 
-Other deployment options can also include the following optional components:
+다른 배포 옵션에는 다음과 같은 선택적 구성 요소도 포함될 수 있습니다.
 
 - Azure Cache for Redis
 - Azure Event Grid
 
-## **Pre-requisite permissions**
+## **사전 필수 권한**
 
-The simplest way to get the AzureRM provider configured is via [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli) but the incase of automation using [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) can also be useful.
-Regardless the authentication method used, the account that will run the Terraform needs to be able to create all components described in the Introduction.
+AzureRM 공급자를 구성하는 가장 간단한 방법은 [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli)를 사용하는 것이지만, [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret)을 사용한 자동화의 경우에도 유용할 수 있습니다.
+사용된 인증 방법에 관계없이 Terraform을 실행할 계정은 도입부에 설명된 모든 구성 요소를 만들 수 있어야 합니다.
 
-## General steps
-The steps on this topic are common for any deployment option covered by this documentation.
+## 일반적인 단계
+이 항목의 단계는 이 문서에서 다루는 모든 배포 옵션에 공통적입니다.
 
-1. Prepare the development environment.
-  * Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-  * We recommend creating a Git repository with the code that will be used, but you can keep your files locally.
+1. 개발 환경을 준비합니다.
+  * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)을 설치합니다.
+  * 사용할 코드로 Git 저장소를 만드는 것이 좋지만, 파일을 로컬에 보관할 수도 있습니다.
 
-2. **Create the `terraform.tfvars` file** The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+2. **`terraform.tfvars` 파일 생성** `tvfars` 파일 내용은 설치 유형에 따라 사용자 정의할 수 있지만, 최소 권장 사항은 아래 예제와 같습니다.
 
    ```bash
     namespace     = "wandb"
@@ -57,11 +56,11 @@ The steps on this topic are common for any deployment option covered by this doc
     location      = "westeurope"
    ```
 
-   The variables defined here need to be decided before the deployment because. The `namespace` variable will be a string that will prefix all resources created by Terraform.
+   여기에 정의된 변수는 배포 전에 결정해야 합니다. `namespace` 변수는 Terraform에서 생성한 모든 리소스에 접두사로 붙는 문자열입니다.
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
+   `subdomain`과 `domain`의 조합은 Weights & Biases가 구성될 FQDN을 형성합니다. 위 예에서 W&B FQDN은 `wandb-aws.wandb.ml`이 되고 FQDN 레코드가 생성될 DNS `zone_id`가 됩니다.
 
-3. **Create the file `versions.tf`** This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS
+3. **`versions.tf` 파일 생성** 이 파일에는 AWS에 W&B를 배포하는 데 필요한 Terraform 및 Terraform 공급자 버전이 포함됩니다.
   ```bash
   terraform {
     required_version = "~> 1.3"
@@ -75,45 +74,45 @@ The steps on this topic are common for any deployment option covered by this doc
   }
   ```
 
-  Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
+  AWS 공급자를 구성하려면 [Terraform 공식 문서](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration)를 참조하십시오.
 
-  Optionally, **but highly recommended**, you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/backend) mentioned at the beginning of this documentation.
+  선택적으로, **하지만 적극 권장되는** 사항으로, 이 문서의 시작 부분에서 언급한 [원격 백엔드 구성](https://developer.hashicorp.com/terraform/language/backend)을 추가할 수 있습니다.
 
-4. **Create the file** `variables.tf`. For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
+4. **`variables.tf` 파일 생성**. `terraform.tfvars`에 구성된 모든 옵션에 대해 Terraform은 해당 변수 선언이 필요합니다.
 
   ```bash
     variable "namespace" {
       type        = string
-      description = "String used for prefix resources."
+      description = "리소스 접두사에 사용되는 문자열입니다."
     }
 
     variable "location" {
       type        = string
-      description = "Azure Resource Group location"
+      description = "Azure 리소스 그룹 위치"
     }
 
     variable "domain_name" {
       type        = string
-      description = "Domain for accessing the Weights & Biases UI."
+      description = "Weights & Biases UI에 엑세스하기 위한 도메인입니다."
     }
 
     variable "subdomain" {
       type        = string
       default     = null
-      description = "Subdomain for accessing the Weights & Biases UI. Default creates record at Route53 Route."
+      description = "Weights & Biases UI에 엑세스하기 위한 서브 도메인입니다. 기본값은 Route53 Route에 레코드를 생성합니다."
     }
 
     variable "license" {
       type        = string
-      description = "Your wandb/local license"
+      description = "귀하의 wandb/local 라이센스"
     }
   ```
 
-## Recommended deployment
+## 권장 배포
 
-This is the most straightforward deployment option configuration that will create all `Mandatory` components and install in the `Kubernetes Cluster` the latest version of `W&B`.
+이는 모든 `필수` 구성 요소를 생성하고 `Kubernetes Cluster`에 최신 버전의 `W&B`를 설치하는 가장 간단한 배포 옵션 구성입니다.
 
-1. **Create the `main.tf`** In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
+1. **`main.tf` 생성** `General Steps`에서 파일을 만든 동일한 디렉토리에 다음 내용으로 `main.tf` 파일을 만듭니다.
 
   ```bash
   provider "azurerm" {
@@ -163,18 +162,18 @@ This is the most straightforward deployment option configuration that will creat
   }
   ```
 
-2. **Deploy to W&B** To deploy W&B, execute the following commands:
+2. **W&B에 배포** W&B를 배포하려면 다음 코맨드를 실행합니다.
 
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
 
-## Deployment with REDIS Cache
+## REDIS 캐시를 사용한 배포
 
-Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
+또 다른 배포 옵션은 `Redis`를 사용하여 SQL 쿼리를 캐시하고 Experiments에 대한 메트릭을 로드할 때 애플리케이션 응답 속도를 높이는 것입니다.
 
-You must add the option `create_redis = true` to the same `main.tf` file that you used in [recommended deployment]({{< relref path="#recommended-deployment" lang="ko" >}}) to enable the cache.
+캐시를 활성화하려면 [권장 배포]({{< relref path="#recommended-deployment" lang="ko" >}})에서 사용한 것과 동일한 `main.tf` 파일에 `create_redis = true` 옵션을 추가해야 합니다.
 
 ```bash
 # Spin up all required services
@@ -189,15 +188,15 @@ module "wandb" {
   domain_name = var.domain_name
   subdomain   = var.subdomain
 
-  create_redis       = true # Create Redis
+  create_redis       = true # Redis 생성
   [...]
 ```
 
-## Deployment with External Queue
+## 외부 큐를 사용한 배포
 
-Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
+배포 옵션 3은 외부 `message broker`를 활성화하는 것으로 구성됩니다. W&B가 broker를 내장하고 있기 때문에 이는 선택 사항입니다. 이 옵션은 성능 향상을 가져오지 않습니다.
 
-The Azure resource that provides the message broker is the `Azure Event Grid`, and to enable it, you must add the option `use_internal_queue = false` to the same `main.tf` that you used in the [recommended deployment]({{< relref path="#recommended-deployment" lang="ko" >}})
+message broker를 제공하는 Azure 리소스는 `Azure Event Grid`이며, 이를 활성화하려면 [권장 배포]({{< relref path="#recommended-deployment" lang="ko" >}})에서 사용한 것과 동일한 `main.tf`에 `use_internal_queue = false` 옵션을 추가해야 합니다.
 ```bash
 # Spin up all required services
 module "wandb" {
@@ -211,12 +210,12 @@ module "wandb" {
   domain_name = var.domain_name
   subdomain   = var.subdomain
 
-  use_internal_queue       = false # Enable Azure Event Grid
+  use_internal_queue       = false # Azure Event Grid 활성화
   [...]
 }
 ```
 
-## Other deployment options
+## 기타 배포 옵션
 
-You can combine all three deployment options adding all configurations to the same file.
-The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that you can combine along with the standard options and the minimal configuration found in [recommended deployment]({{< relref path="#recommended-deployment" lang="ko" >}})
+동일한 파일에 모든 구성을 추가하여 세 가지 배포 옵션을 모두 결합할 수 있습니다.
+[Terraform Module](https://github.com/wandb/terraform-azure-wandb)은 [권장 배포]({{< relref path="#recommended-deployment" lang="ko" >}})에서 찾을 수 있는 표준 옵션 및 최소 구성과 함께 결합할 수 있는 여러 옵션을 제공합니다.

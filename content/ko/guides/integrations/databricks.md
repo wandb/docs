@@ -1,45 +1,45 @@
 ---
-description: How to integrate W&B with Databricks.
+title: Databricks
+description: W&B를 Databricks와 통합하는 방법.
 menu:
   default:
     identifier: ko-guides-integrations-databricks
     parent: integrations
-title: Databricks
 weight: 50
 ---
 
-W&B integrates with [Databricks](https://www.databricks.com/) by customizing the W&B Jupyter notebook experience in the Databricks environment.
+W\&B는 Databricks 환경에서 W\&B Jupyter 노트북 경험을 커스터마이징하여 [Databricks](https://www.databricks.com/)와 통합됩니다.
 
-## Configure Databricks
+## Databricks 설정
 
-1. Install wandb in the cluster
+1. 클러스터에 wandb 설치
 
-    Navigate to your cluster configuration, choose your cluster, click **Libraries**. Click **Install New**, choose **PyPI**, and add the package `wandb`.
+    클러스터 설정으로 이동하여 클러스터를 선택하고 **Libraries**를 클릭합니다. **Install New**를 클릭하고 **PyPI**를 선택한 다음 패키지 `wandb`를 추가합니다.
 
-2. Set up authentication
+2. 인증 설정
 
-    To authenticate your W&B account you can add a Databricks secret which your notebooks can query.
+    W\&B 계정을 인증하려면 노트북이 쿼리할 수 있는 Databricks secret을 추가하면 됩니다.
 
     ```bash
-    # install databricks cli
+    # databricks cli 설치
     pip install databricks-cli
 
-    # Generate a token from databricks UI
+    # databricks UI에서 토큰 생성
     databricks configure --token
 
-    # Create a scope with one of the two commands (depending if you have security features enabled on databricks):
-    # with security add-on
+    # 다음 두 코맨드 중 하나를 사용하여 스코프를 생성합니다 (Databricks에서 보안 기능이 활성화되어 있는지 여부에 따라 다름).
+    # 보안 애드온 사용 시
     databricks secrets create-scope --scope wandb
-    # without security add-on
+    # 보안 애드온 미사용 시
     databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-    # Add your api_key from: https://app.wandb.ai/authorize
+    # https://app.wandb.ai/authorize에서 api_key를 추가합니다.
     databricks secrets put --scope wandb --key api_key
     ```
 
-## Examples
+## 예시
 
-### Simple example
+### 간단한 예시
 
 ```python
 import os
@@ -54,12 +54,12 @@ wandb.log({"foo": 1})
 
 ### Sweeps
 
-Setup required (temporary) for notebooks attempting to use wandb.sweep() or wandb.agent():
+wandb.sweep() 또는 wandb.agent()를 사용하려는 노트북에 필요한 설정 (임시):
 
 ```python
 import os
 
-# These will not be necessary in the future
+# 다음은 향후에는 필요하지 않습니다.
 os.environ["WANDB_ENTITY"] = "my-entity"
 os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```

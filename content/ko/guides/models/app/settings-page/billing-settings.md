@@ -1,46 +1,46 @@
 ---
-description: Manage your organization's billing settings
+title: Manage billing settings
+description: 조직의 결제 설정을 관리하세요
 menu:
   default:
     identifier: ko-guides-models-app-settings-page-billing-settings
     parent: settings
-title: Manage billing settings
 weight: 20
 ---
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Billing**, or choose **Settings** and then select the **Billing** tab.
+사용자 프로필 페이지로 이동한 다음 오른쪽 상단 모서리에 있는 사용자 아이콘을 선택합니다. 드롭다운 메뉴에서 **결제**를 선택하거나 **설정**을 선택한 다음 **결제** 탭을 선택합니다.
 
-## Plan details
+## 요금제 정보
 
-The **Plan details** section  summarizes your organization's current plan, charges, limits, and usage.
+**요금제 정보** 섹션에서는 조직의 현재 요금제, 요금, 제한 및 사용량을 요약합니다.
 
-- For details and a list of users, click **Manage users**.
-- For details about usage, click **View usage**.
-- Amount of storage your organization uses, both free and paid. From here, you can purchase additional storage and manage storage that is currently in use. Learn more about [storage settings]({{< relref path="storage.md" lang="ko" >}}).
+- 자세한 내용과 사용자 목록을 보려면 **사용자 관리**를 클릭합니다.
+- 사용량에 대한 자세한 내용을 보려면 **사용량 보기**를 클릭합니다.
+- 조직에서 사용하는 스토리지의 양(무료 및 유료). 여기에서 추가 스토리지를 구매하고 현재 사용 중인 스토리지를 관리할 수 있습니다. 자세한 내용은 [스토리지 설정]({{< relref path="storage.md" lang="ko" >}})을 참조하세요.
 
-From here, you can compare plans or talk to Sales.
+여기에서 요금제를 비교하거나 영업팀에 문의할 수 있습니다.
 
-## Plan usage
-This section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
+## 요금제 사용량
+이 섹션에서는 현재 사용량을 시각적으로 요약하고 예정된 사용량 요금을 표시합니다. 월별 사용량에 대한 자세한 내용은 개별 타일에서 **사용량 보기**를 클릭합니다. 달력 월, Teams 또는 Projects별로 사용량을 내보내려면 **CSV 내보내기**를 클릭합니다.
 
-## Payment methods
-This section shows the payment methods on file for your organization. If you have not added a payment method, you will be prompted to do so when you upgrade your plan or add paid storage.
+## 결제 방법
+이 섹션에서는 조직에 등록된 결제 방법을 보여줍니다. 결제 방법을 추가하지 않은 경우 요금제를 업그레이드하거나 유료 스토리지를 추가할 때 결제 방법을 추가하라는 메시지가 표시됩니다.
 
-## Billing admin
-This section shows the current billing admin. The billing admin receives all billing-related emails, has organization admin role, and can view and manage payment methods.
+## 결제 관리자
+이 섹션에서는 현재 결제 관리자를 보여줍니다. 결제 관리자는 모든 결제 관련 이메일을 수신하고, 조직 관리자 역할을 가지며, 결제 방법을 보고 관리할 수 있습니다.
 
 {{% alert %}}
-In W&B Dedicated Cloud, multiple users can be billing admins. In W&B Multi-tenant Cloud, only one user at a time can be the billing admin.
+W&B 전용 클라우드에서는 여러 Users가 결제 관리자가 될 수 있습니다. W&B 멀티 테넌트 클라우드에서는 한 번에 한 명의 User만 결제 관리자가 될 수 있습니다.
 {{% /alert %}}
 
-To change the billing admin or assign the role to additional users:
+결제 관리자를 변경하거나 다른 Users에게 역할을 할당하려면 다음을 수행합니다.
 
-1. Click **Manage roles**.
-1. Search for a user.
-1. Click the **Billing admin** field in that user's row.
-1. Read the summary, then click **Change billing user**.
+1. **역할 관리**를 클릭합니다.
+2. User를 검색합니다.
+3. 해당 User의 행에서 **결제 관리자** 필드를 클릭합니다.
+4. 요약을 읽은 다음 **결제 User 변경**을 클릭합니다.
 
-## Invoices
-If you pay using a credit card, this section allows you to view monthly invoices.
-- For Enterprise accounts that pay via wire transfer, this section is blank. For questions, contact your account team.
-- If your organization incurs no charges, no invoice is generated.
+## 송장
+신용 카드를 사용하여 결제하는 경우 이 섹션에서 월별 송장을 볼 수 있습니다.
+- 전신 송금을 통해 결제하는 Enterprise 계정의 경우 이 섹션은 비어 있습니다. 질문이 있으시면 계정 팀에 문의하세요.
+- 조직에 요금이 발생하지 않으면 송장이 생성되지 않습니다.

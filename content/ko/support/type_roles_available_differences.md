@@ -1,13 +1,13 @@
 ---
+title: What type of roles are available and what are the differences between them?
 menu:
   support:
     identifier: ko-support-type_roles_available_differences
 tags:
 - user management
 - team management
-title: What type of roles are available and what are the differences between them?
 toc_hide: true
 type: docs
 ---
 
-Visit [this]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ko" >}}) page for an overview of the available roles and permissions.
+사용 가능한 역할 및 권한에 대한 개요는 [이]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ko" >}}) 페이지를 방문하세요.

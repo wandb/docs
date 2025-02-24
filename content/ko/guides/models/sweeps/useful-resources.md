@@ -1,40 +1,40 @@
 ---
-description: Collection of useful sources for Sweeps.
+title: Learn more about sweeps
+description: Sweeps에 유용한 소스 모음입니다.
 menu:
   default:
     identifier: ko-guides-models-sweeps-useful-resources
     parent: sweeps
-title: Learn more about sweeps
 ---
 
-### Academic papers
+### 학술 논문
 
-Li, Lisha, et al. "[Hyperband: A novel bandit-based approach to hyperparameter optimization.](https://arxiv.org/pdf/1603.06560.pdf)" _The   Journal of Machine Learning Research_ 18.1 (2017): 6765-6816.
+Li, Lisha, et al. "[Hyperband: A novel bandit-based approach to hyperparameter optimization.](https://arxiv.org/pdf/1603.06560.pdf)" _The Journal of Machine Learning Research_ 18.1 (2017): 6765-6816.
 
 ### Sweep Experiments
 
-The following W&B Reports demonstrate examples of projects that explore hyperparameter optimization with W&B Sweeps.
+다음 W&B Reports는 W&B Sweeps를 사용하여 하이퍼파라미터 최적화를 탐색하는 프로젝트의 예시를 보여줍니다.
 
 * [Drought Watch Benchmark Progress](https://wandb.ai/stacey/droughtwatch/reports/Drought-Watch-Benchmark-Progress--Vmlldzo3ODQ3OQ)
-  * Description: Developing the baseline and exploring submissions to the Drought Watch benchmark.
+  * 설명: Drought Watch 베이스라인 개발 및 제출 탐색
 * [Tuning Safety Penalties in Reinforcement Learning](https://wandb.ai/safelife/benchmark-sweeps/reports/Tuning-Safety-Penalties-in-Reinforcement-Learning---VmlldzoyNjQyODM)
-  * Description: We examine agents trained with different side effect penalties on three different tasks: pattern creation, pattern removal, and navigation.
+  * 설명: 패턴 생성, 패턴 제거 및 탐색의 세 가지 다른 작업에서 서로 다른 부작용 페널티로 훈련된 에이전트를 검사합니다.
 * [Meaning and Noise in Hyperparameter Search with W&B](https://wandb.ai/stacey/pytorch_intro/reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
-  * Description: How do we distinguish signal from pareidolia (imaginary patterns)? This article is showcases what is possible with W&B and aims to inspire further exploration.
+  * 설명: 신호와 파레이돌리아(상상 속 패턴)를 어떻게 구별할까요? 이 기사는 W&B로 가능한 것을 보여주고 추가 탐색에 영감을 주는 것을 목표로 합니다.
 * [Who is Them? Text Disambiguation with Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc)
-  * Description: Using Hugging Face to explore models for natural language understanding
+  * 설명: Hugging Face를 사용하여 자연어 이해를 위한 모델 탐색
 * [DeepChem: Molecular Solubility](https://wandb.ai/stacey/deepchem_molsol/reports/DeepChem-Molecular-Solubility--VmlldzoxMjQxMjM)
-  * Description: Predict chemical properties from molecular structure with random forests and deep nets.
+  * 설명: 랜덤 포레스트와 딥넷을 사용하여 분자 구조에서 화학적 속성 예측
 * [Intro to MLOps: Hyperparameter Tuning](https://wandb.ai/iamleonie/Intro-to-MLOps/reports/Intro-to-MLOps-Hyperparameter-Tuning--VmlldzozMTg2OTk3)
-  * Description: Explore why hyperparameter optimization matters and look at three algorithms to automate hyperparameter tuning for your machine learning models.
+  * 설명: 하이퍼파라미터 최적화가 중요한 이유를 살펴보고 기계 학습 모델을 위한 하이퍼파라미터 튜닝을 자동화하는 세 가지 알고리즘을 살펴봅니다.
 
 ### selfm-anaged
 
-The following how-to-guide demonstrates how to solve real-world problems with W&B:
+다음 How-to 가이드에서는 W&B로 실제 문제를 해결하는 방법을 보여줍니다.
 
 * [Sweeps with XGBoost ](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)
-  * Description: How to use W&B Sweeps for hyperparameter tuning using XGBoost.
+  * 설명: XGBoost를 사용하여 하이퍼파라미터 튜닝을 위해 W&B Sweeps를 사용하는 방법
 
 ### Sweep GitHub repository
 
-W&B advocates open source and welcome contributions from the community. Find the GitHub repository at [https://github.com/wandb/sweeps](https://github.com/wandb/sweeps). For information on how to contribute to the W&B open source repo, see the W&B GitHub [Contribution guidelines](https://github.com/wandb/wandb/blob/master/CONTRIBUTING.md).
+W&B는 오픈 소스를 지지하며 커뮤니티의 기여를 환영합니다. GitHub 저장소는 [https://github.com/wandb/sweeps](https://github.com/wandb/sweeps)에서 찾을 수 있습니다. W&B 오픈 소스 저장소에 기여하는 방법에 대한 자세한 내용은 W&B GitHub [Contribution guidelines](https://github.com/wandb/wandb/blob/master/CONTRIBUTING.md)를 참조하세요.

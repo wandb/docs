@@ -1,13 +1,13 @@
 ---
+title: Is there a W&B outage?
 menu:
   support:
     identifier: ko-support-wandb_status
 tags:
 - connectivity
 - outage
-title: Is there a W&B outage?
 toc_hide: true
 type: docs
 ---
 
-Check if the W&B multi-tenant cloud at wandb.ai is experiencing an outage by visiting the W&B status page at https://status.wandb.com.
+wandb.ai에 있는 W&B 멀티 테넌트 클라우드 에 장애가 발생했는지 확인하려면 https://status.wandb.com의 W&B 상태 페이지를 방문하세요.

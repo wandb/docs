@@ -1,57 +1,55 @@
 ---
-description: Manage a team's members, avatar, alerts, and privacy settings with the
-  Team Settings page.
+title: Manage team settings
+description: '**Team Settings** 페이지에서 팀의 멤버, 아바타, 알림, 개인 정보 설정을 관리하세요.'
 menu:
   default:
     identifier: ko-guides-models-app-settings-page-team-settings
     parent: settings
-title: Manage team settings
 weight: 30
 ---
 
-# Team settings
+# 팀 설정
 
-Change your team's settings, including members, avatar, alerts, privacy, and usage. Only team administrators can view and edit a team's settings.
+팀원, 아바타, 알림, 개인 정보 보호 및 사용량을 포함한 팀 설정을 변경합니다. 팀 관리자만 팀 설정을 보고 편집할 수 있습니다.
 
 {{% alert %}}
-Only Administration account types can change team settings or remove a member from a team.
+관리 계정 유형만 팀 설정을 변경하거나 팀에서 팀원을 제거할 수 있습니다.
 {{% /alert %}}
 
+## 팀원
+팀원 섹션에는 보류 중인 초대와 팀 가입 초대를 수락한 팀원 목록이 표시됩니다. 나열된 각 팀원에게는 팀원의 이름, 사용자 이름, 이메일, 팀 역할과 Organizations에서 상속받은 Models 및 Weave에 대한 엑세스 권한이 표시됩니다. 관리자(Admin), 팀원 및 보기 전용의 세 가지 표준 팀 역할이 있습니다.
 
-## Members
-The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, email, team role, as well as their access privileges to Models and Weave, which is inherited by from the Organization. There are three standard team roles: Administrator (Admin), Member, and View-only.
+팀 생성, 팀에 Users 초대, 팀에서 Users 제거 및 User의 역할 변경 방법에 대한 자세한 내용은 [팀 추가 및 관리]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ko" >}})를 참조하세요.
 
-See [Add and Manage teams]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ko" >}}) for information on how to create a tea, invite users to a team, remove users from a team, and change a user's role.
+## 아바타
 
-## Avatar
+**아바타** 섹션으로 이동하여 이미지를 업로드하여 아바타를 설정합니다.
 
-Set an avatar by navigating to the **Avatar** section and uploading an image.
+1. **아바타 업데이트**를 선택하여 파일 대화 상자를 표시합니다.
+2. 파일 대화 상자에서 사용할 이미지를 선택합니다.
 
-1. Select the **Update Avatar** to prompt a file dialog to appear.
-2. From the file dialog, choose the image you want to use.
+## 알림
 
-## Alerts
+Runs이 충돌하거나 완료될 때 또는 사용자 지정 알림을 설정할 때 팀에 알립니다. 팀은 이메일 또는 Slack을 통해 알림을 받을 수 있습니다.
 
-Notify your team when runs crash, finish, or set custom alerts. Your team can receive alerts either through email or Slack.
+알림을 받을 이벤트 유형 옆에 있는 스위치를 토글합니다. Weights & Biases는 기본적으로 다음과 같은 이벤트 유형 옵션을 제공합니다.
 
-Toggle the switch next to the event type you want to receive alerts from. Weights and Biases provides the following event type options be default:
+* **Runs 완료**: Weights & Biases run이 성공적으로 완료되었는지 여부입니다.
+* **Run 충돌**: run이 완료되지 못한 경우입니다.
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: if a run has failed to finish.
+알림을 설정하고 관리하는 방법에 대한 자세한 내용은 [wandb.alert로 알림 보내기]({{< relref path="/guides/models/track/runs/alert.md" lang="ko" >}})를 참조하세요.
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert]({{< relref path="/guides/models/track/runs/alert.md" lang="ko" >}}).
+## 개인 정보 보호
 
-## Privacy
+**개인 정보 보호** 섹션으로 이동하여 개인 정보 보호 설정을 변경합니다. 관리자 역할이 있는 팀원만 개인 정보 보호 설정을 수정할 수 있습니다. 관리자 역할은 다음을 수행할 수 있습니다.
 
-Navigate to the **Privacy** section to change privacy settings. Only members with Administrative roles can modify privacy settings. Administrator roles can:
+* 팀의 Projects을 비공개로 강제 설정합니다.
+* 기본적으로 코드 저장을 활성화합니다.
 
-* Force projects in the team to be private.
-* Enable code saving by default.
+## 사용량
 
-## Usage
+**사용량** 섹션에서는 팀이 Weights & Biases 서버에서 소비한 총 메모리 사용량을 설명합니다. 기본 스토리지 플랜은 100GB입니다. 스토리지 및 가격 책정에 대한 자세한 내용은 [가격 책정](https://wandb.ai/site/pricing) 페이지를 참조하세요.
 
-The **Usage** section describes the total memory usage the team has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+## 스토리지
 
-## Storage
-
-The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector]({{< relref path="teams.md#secure-storage-connector" lang="ko" >}}) or check out our [W&B Server]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ko" >}}) docs if you are self-hosting.
+**스토리지** 섹션에서는 팀의 data에 사용되는 클라우드 스토리지 버킷 설정을 설명합니다. 자세한 내용은 [보안 스토리지 커넥터]({{< relref path="teams.md#secure-storage-connector" lang="ko" >}})를 참조하거나 자체 호스팅하는 경우 [W&B 서버]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ko" >}}) 문서를 확인하세요.

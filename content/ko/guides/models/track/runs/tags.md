@@ -1,24 +1,24 @@
 ---
+title: Add labels to runs with tags
 menu:
   default:
     identifier: ko-guides-models-track-runs-tags
     parent: what-are-runs
-title: Add labels to runs with tags
 ---
 
-Add tags to label runs with particular features that might not be obvious from the logged metrics or artifact data. 
+로그된 메트릭 또는 아티팩트 데이터에서 명확하지 않을 수 있는 특정 기능을 가진 run에 레이블을 추가하려면 태그를 추가하세요.
 
-For example, you can add a tag to a run to indicated that run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`, and so forth.
+예를 들어, run의 모델이 `in_production` 상태이거나, 해당 run이 `preemptible` 상태이거나, 해당 run이 `baseline`을 나타내는 등의 태그를 run에 추가할 수 있습니다.
 
-## Add tags to one or more runs
+## 하나 이상의 run에 태그 추가
 
-Programmatically or interactively add tags to your runs.
+프로그래밍 방식 또는 대화형 방식으로 run에 태그를 추가합니다.
 
-Based on your use case, select the tab below that best fits your needs:
+사용 사례에 따라 필요에 가장 적합한 아래 탭을 선택하세요.
 
 {{< tabpane text=true >}}
     {{% tab header="W&B Python SDK" %}}
-You can add tags to a run when it is created: 
+run이 생성될 때 태그를 추가할 수 있습니다.
 
 ```python
 import wandb
@@ -30,7 +30,7 @@ run = wandb.init(
 )
 ```
 
-You can also update the tags after you initialize a run. For example, the proceeding code snippet shows how to update a tag if a particular metrics crosses a pre-defined threshold:
+run을 초기화한 후 태그를 업데이트할 수도 있습니다. 예를 들어, 다음 코드 조각은 특정 메트릭이 미리 정의된 임계값을 넘을 경우 태그를 업데이트하는 방법을 보여줍니다.
 
 ```python
 import wandb
@@ -48,7 +48,7 @@ if current_loss < threshold:
 ```    
     {{% /tab %}}
     {{% tab header="Public API" %}}
-After you create a run, you can update tags using [the Public API]({{< relref path="/guides/models/track/public-api-guide.md" lang="ko" >}}). For example:
+run을 생성한 후 [Public API]({{< relref path="/guides/models/track/public-api-guide.md" lang="ko" >}})를 사용하여 태그를 업데이트할 수 있습니다. 예를 들면 다음과 같습니다.
 
 ```python
 run = wandb.Api().run("{entity}/{project}/{run-id}")
@@ -57,47 +57,45 @@ run.update()
 ```    
     {{% /tab %}}
     {{% tab header="Project page" %}}
-This method is best suited to tagging large numbers of runs with the same tag or tags.
+이 방법은 동일한 태그를 사용하여 많은 수의 run에 태그를 지정하는 데 가장 적합합니다.
 
-1. Navigate to your project workspace.
-2. Select **Runs** in the from the project sidebar.
-3. Select one or more runs from the table.
-4. Once you select one or more runs, select the **Tag** button above the table.
-5. Type the tag you want to add and select the **Create new tag** checkbox to add the tag.    
+1. 프로젝트 워크스페이스로 이동합니다.
+2. 프로젝트 사이드바에서 **Runs**를 선택합니다.
+3. 테이블에서 하나 이상의 run을 선택합니다.
+4. 하나 이상의 run을 선택한 후 테이블 위의 **Tag** 버튼을 선택합니다.
+5. 추가할 태그를 입력하고 **Create new tag** 확인란을 선택하여 태그를 추가합니다.
     {{% /tab %}}
     {{% tab header="Run page" %}}
-This method is best suited to applying a tag or tags to a single run manually.
+이 방법은 수동으로 단일 run에 태그를 적용하는 데 가장 적합합니다.
 
-1. Navigate to your project workspace.
-2. Select a run from the list of runs within your project's workspace.
-1. Select **Overview** from the project sidebar.
-2. Select the gray plus icon (**+**) button next to **Tags**.
-3. Type a tag you want to add and select **Add** below the text box to add a new tag.    
+1. 프로젝트 워크스페이스로 이동합니다.
+2. 프로젝트 워크스페이스 내의 run 목록에서 run을 선택합니다.
+3. 프로젝트 사이드바에서 **Overview**를 선택합니다.
+4. **Tags** 옆에 있는 회색 더하기 아이콘(**+**) 버튼을 선택합니다.
+5. 추가할 태그를 입력하고 텍스트 상자 아래의 **Add**를 선택하여 새 태그를 추가합니다.
     {{% /tab %}}
 {{< /tabpane >}}
 
+## 하나 이상의 run에서 태그 제거
 
-
-## Remove tags from one or more runs
-
-Tags can also be removed from runs with the W&B App UI.
+태그는 W&B App UI를 사용하여 run에서 제거할 수도 있습니다.
 
 {{< tabpane text=true >}}
 {{% tab header="Project page"%}}
-This method is best suited to removing tags from a large numbers of runs.
+이 방법은 많은 수의 run에서 태그를 제거하는 데 가장 적합합니다.
 
-1. In the Run sidebar of the project, select the table icon in the upper-right. This will expand the sidebar into the full runs table.
-2. Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox to select all runs.
-3. Select the checkbox to enable bulk actions. 
-4. Select the runs you want to remove tags.
-5. Select the **Tag** button above the rows of runs.
-6. Select the checkbox next to a tag to remove it from the run.
+1. 프로젝트의 Run 사이드바에서 오른쪽 상단의 테이블 아이콘을 선택합니다. 이렇게 하면 사이드바가 전체 run 테이블로 확장됩니다.
+2. 테이블에서 run 위로 마우스를 가져가 왼쪽의 확인란을 보거나 헤더 행에서 모든 run을 선택하는 확인란을 찾습니다.
+3. 확인란을 선택하여 대량 작업을 활성화합니다.
+4. 태그를 제거할 run을 선택합니다.
+5. run 행 위의 **Tag** 버튼을 선택합니다.
+6. 태그 옆의 확인란을 선택하여 run에서 제거합니다.
 
 {{% /tab %}}
 {{% tab header="Run page"%}}
 
-1. In the left sidebar of the Run page, select the top **Overview** tab. The tags on the run are visible here.
-2. Hover over a tag and select the "x" to remove it from the run.
+1. Run 페이지의 왼쪽 사이드바에서 맨 위의 **Overview** 탭을 선택합니다. run의 태그가 여기에 표시됩니다.
+2. 태그 위에 마우스를 가져가서 "x"를 선택하여 run에서 제거합니다.
 
 {{% /tab %}}
 {{< /tabpane >}}

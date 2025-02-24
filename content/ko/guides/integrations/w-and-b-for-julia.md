@@ -1,21 +1,21 @@
 ---
-description: How to integrate W&B with Julia.
+title: W&B for Julia
+description: Julia와 W&B를 통합하는 방법.
 menu:
   default:
     identifier: ko-guides-integrations-w-and-b-for-julia
     parent: integrations
-title: W&B for Julia
 weight: 450
 ---
 
-For those running machine learning experiments in the Julia programming language, a community contributor has created an unofficial set of Julia bindings called [wandb.jl](https://github.com/avik-pal/Wandb.jl) that you can use.
+Julia 프로그래밍 언어로 기계 학습 실험을 실행하는 사용자를 위해 커뮤니티 기여자가 [wandb.jl](https://github.com/avik-pal/Wandb.jl)이라는 비공식 Julia 바인딩 세트를 만들었습니다.
 
-You can find examples [in the documentation](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples) on the wandb.jl repository. Their "Getting Started" example is here:
+[wandb.jl 저장소의 문서](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples)에서 예제를 찾을 수 있습니다. "Getting Started" 예제는 다음과 같습니다.
 
 ```julia
 using Wandb, Dates, Logging
 
-# Start a new run, tracking hyperparameters in config
+# config에서 하이퍼파라미터를 추적하여 새 run 시작
 lg = WandbLogger(project = "Wandb.jl",
                  name = "wandbjl-demo-$(now())",
                  config = Dict("learning_rate" => 0.01,
@@ -23,17 +23,17 @@ lg = WandbLogger(project = "Wandb.jl",
                                "architecture" => "CNN",
                                "dataset" => "CIFAR-100"))
 
-# Use LoggingExtras.jl to log to multiple loggers together
+# LoggingExtras.jl을 사용하여 여러 로거에 함께 기록
 global_logger(lg)
 
-# Simulating the training or evaluation loop
+# 트레이닝 또는 평가 루프 시뮬레이션
 for x ∈ 1:50
     acc = log(1 + x + rand() * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
     loss = 10 - log(1 + x + rand() + x * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
-    # Log metrics from your script to W&B
+    # 스크립트에서 메트릭을 W&B에 기록
     @info "metrics" accuracy=acc loss=loss
 end
 
-# Finish the run
+# run 완료
 close(lg)
 ```

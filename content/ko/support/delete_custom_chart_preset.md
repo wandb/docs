@@ -1,14 +1,14 @@
 ---
+title: How do you delete a custom chart preset?
 menu:
   support:
     identifier: ko-support-delete_custom_chart_preset
 tags:
 - charts
-title: How do you delete a custom chart preset?
 toc_hide: true
 type: docs
 ---
 
-Access the custom chart editor. Click on the currently selected chart type to open a menu displaying all presets. Hover over the preset to delete, then click the Trash icon.
+커스텀 차트 편집기에 액세스합니다. 현재 선택된 차트 유형을 클릭하여 모든 사전 설정을 표시하는 메뉴를 엽니다. 삭제할 사전 설정 위에 마우스를 올린 다음 휴지통 아이콘을 클릭합니다.
 
 {{< img src="/images/app_ui/delete_custome_chart_preset.gif" alt="" >}}

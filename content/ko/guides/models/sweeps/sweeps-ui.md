@@ -1,10 +1,10 @@
 ---
-description: Describes the different components of the Sweeps UI.
+title: Sweeps UI
+description: Sweeps UI의 다양한 구성 요소에 대해 설명합니다.
 menu:
   default:
     identifier: ko-guides-models-sweeps-sweeps-ui
     parent: sweeps
-title: Sweeps UI
 ---
 
-The state (**State**), creation time (**Created**), the entity that started the sweep (**Creator**), the number of runs completed (**Run count**), and the time it took to compute the sweep (**Compute time**) are displayed in the Sweeps UI. The expected number of runs a sweep will create (**Est. Runs**) is provided when you do a grid search over a discrete search space. You can also click on a sweep to pause, resume, stop, or kill the sweep from the interface.
+**State**, 생성 시간 (**Created**), 스윕을 시작한 entity (**Creator**), 완료된 run 횟수 (**Run count**) 및 스윕을 계산하는 데 걸린 시간 (**Compute time**)은 Sweeps UI에 표시됩니다. 스윕이 생성할 것으로 예상되는 run 횟수 (**Est. Runs**)는 이산 검색 공간에서 그리드 탐색을 수행할 때 제공됩니다. 인터페이스에서 스윕을 일시 중지, 재개, 중지 또는 종료하려면 스윕을 클릭할 수도 있습니다.

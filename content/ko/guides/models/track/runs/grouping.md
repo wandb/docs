@@ -1,61 +1,61 @@
 ---
-description: Group training and evaluation runs into larger experiments
+title: Group runs into experiments
+description: 트레이닝 과 평가 runs 을 더 큰 Experiments 로 그룹화합니다
 menu:
   default:
     identifier: ko-guides-models-track-runs-grouping
     parent: what-are-runs
-title: Group runs into experiments
 ---
 
-Group individual jobs into experiments by passing a unique **group** name to **wandb.init()**.
+**wandb.init()** 에 고유한 **group** 이름을 전달하여 개별 작업을 Experiments 로 그룹화합니다.
 
-## Use cases
+## 유스 케이스
 
-1. **Distributed training:** Use grouping if your experiments are split up into different pieces with separate training and evaluation scripts that should be viewed as parts of a larger whole.
-2. **Multiple processes**: Group multiple smaller processes together into an experiment.
-3. **K-fold cross-validation**: Group together runs with different random seeds to see a larger experiment. Here's [an example](https://github.com/wandb/examples/tree/master/examples/wandb-sweeps/sweeps-cross-validation) of k-fold cross-validation with sweeps and grouping.
+1. **분산 트레이닝:** 더 큰 전체의 일부로 간주해야 하는 별도의 트레이닝 및 평가 스크립트로 Experiments 가 분할된 경우 그룹화를 사용합니다.
+2. **다중 프로세스**: 여러 개의 작은 프로세스를 함께 묶어 experiment 로 만듭니다.
+3. **K-fold 교차 검증**: 다른 랜덤 시드를 사용하여 Runs 를 함께 그룹화하여 더 큰 experiment 를 확인합니다. 다음은 스윕 및 그룹화를 사용한 k-fold 교차 검증 [예시](https://github.com/wandb/examples/tree/master/examples/wandb-sweeps/sweeps-cross-validation) 입니다.
 
-There are three ways to set grouping:
+그룹 설정을 하는 세 가지 방법이 있습니다.
 
-### 1. Set group in your script
+### 1. 스크립트에서 그룹 설정
 
-Pass an optional group and job_type to wandb.init(). This gives you a dedicated group page for each experiment, which contains the individual runs. For example:`wandb.init(group="experiment_1", job_type="eval")`
+wandb.init() 에 선택적 group 및 job_type 을 전달합니다. 그러면 각 experiment 에 대한 전용 그룹 페이지가 제공되며, 여기에는 개별 Runs 가 포함됩니다. 예: `wandb.init(group="experiment_1", job_type="eval")`
 
-### 2. Set a group environment variable
+### 2. 그룹 환경 변수 설정
 
-Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [**Environment Variables**]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}})**. Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`
+`WANDB_RUN_GROUP` 를 사용하여 Runs 에 대한 그룹을 환경 변수로 지정합니다. 자세한 내용은 [**환경 변수**]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}}) 에 대한 문서를 확인하세요. **Group** 은 프로젝트 내에서 고유해야 하며 그룹의 모든 Runs 에서 공유해야 합니다. `wandb.util.generate_id()` 를 사용하여 모든 프로세스에서 사용할 고유한 8자 문자열을 생성할 수 있습니다 (예: `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`).
 
-### 3. Toggle grouping in the UI
+### 3. UI 에서 그룹 전환
 
-You can dynamically group by any config column. For example, if you use `wandb.config` to log batch size or learning rate, you can then group by those hyperparameters dynamically in the web app.
+구성 열을 기준으로 동적으로 그룹화할 수 있습니다. 예를 들어 `wandb.config` 를 사용하여 배치 크기 또는 학습 속도를 기록한 다음 웹 앱에서 해당 하이퍼파라미터별로 동적으로 그룹화할 수 있습니다.
 
-## Distributed training with grouping
+## 그룹화를 사용한 분산 트레이닝
 
-Suppose you set grouping in `wandb.init()`, we will group runs by default in the UI. You can toggle this on and off by clicking the **Group** button at the top of the table. Here's an [example project](https://wandb.ai/carey/group-demo?workspace=user-carey) generated from [sample code](http://wandb.me/grouping) where we set grouping. You can click on each "Group" row in the sidebar to get to a dedicated group page for that experiment.
+`wandb.init()` 에서 그룹 설정을 했다고 가정하면 UI 에서 기본적으로 Runs 가 그룹화됩니다. 테이블 상단의 **Group** 버튼을 클릭하여 켜거나 끌 수 있습니다. 그룹 설정을 한 [샘플 코드](http://wandb.me/grouping) 에서 생성된 [예제 프로젝트](https://wandb.ai/carey/group-demo?workspace=user-carey) 입니다. 사이드바에서 각 "Group" 행을 클릭하여 해당 experiment 에 대한 전용 그룹 페이지로 이동할 수 있습니다.
 
 {{< img src="/images/track/distributed_training_wgrouping_1.png" alt="" >}}
 
-From the project page above, you can click a **Group** in the left sidebar to get to a dedicated page like [this one](https://wandb.ai/carey/group-demo/groups/exp_5?workspace=user-carey):
+위의 프로젝트 페이지에서 왼쪽 사이드바의 **Group** 을 클릭하여 [이 페이지](https://wandb.ai/carey/group-demo/groups/exp_5?workspace=user-carey) 와 같은 전용 페이지로 이동할 수 있습니다.
 
 {{< img src="/images/track/distributed_training_wgrouping_2.png" alt="" >}}
 
-## Grouping dynamically in the UI
+## UI 에서 동적으로 그룹화
 
-You can group runs by any column, for example by hyperparameter. Here's an example of what that looks like:
+예를 들어 하이퍼파라미터별로 열을 기준으로 Runs 를 그룹화할 수 있습니다. 다음과 같은 모양의 예가 있습니다.
 
-* **Sidebar**: Runs are grouped by the number of epochs.
-* **Graphs**: Each line represents the group's mean, and the shading indicates the variance. This behavior can be changed in the graph settings.
+* **사이드바**: Runs 가 epoch 수로 그룹화됩니다.
+* **그래프**: 각 선은 그룹의 평균을 나타내고 음영은 분산을 나타냅니다. 이 동작은 그래프 설정에서 변경할 수 있습니다.
 
 {{< img src="/images/track/demo_grouping.png" alt="" >}}
 
-## Turn off grouping
+## 그룹 해제
 
-Click the grouping button and clear group fields at any time, which returns the table and graphs to their ungrouped state.
+언제든지 그룹화 버튼을 클릭하고 그룹 필드를 지우면 테이블과 그래프가 그룹 해제된 상태로 돌아갑니다.
 
 {{< img src="/images/track/demo_no_grouping.png" alt="" >}}
 
-## Grouping graph settings
+## 그래프 설정 그룹화
 
-Click the edit button in the upper right corner of a graph and select the **Advanced** tab to change the line and shading. You can select the mean, minimum, or maximum value for the line in each group. For the shading, you can turn off shading, and show the min and max, the standard deviation, and the standard error.
+그래프의 오른쪽 상단 모서리에 있는 편집 버튼을 클릭하고 **Advanced** 탭을 선택하여 선과 음영을 변경합니다. 각 그룹에서 선의 평균, 최소값 또는 최대값을 선택할 수 있습니다. 음영의 경우 음영을 끄고 최소값과 최대값, 표준 편차 및 표준 오차를 표시할 수 있습니다.
 
 {{< img src="/images/track/demo_grouping_options_for_line_plots.gif" alt="" >}}

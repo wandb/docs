@@ -1,13 +1,13 @@
 ---
+title: How many runs can I create per project?
 menu:
   support:
     identifier: ko-support-runs_create_per_project
 tags:
 - projects
 - runs
-title: How many runs can I create per project?
 toc_hide: true
 type: docs
 ---
 
-Limit each project to approximately 10,000 runs for optimal performance.
+최적의 성능을 위해 각 프로젝트를 약 10,000개의 run으로 제한하세요.

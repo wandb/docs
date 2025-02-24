@@ -1,36 +1,33 @@
 ---
+title: Programmatic Workspaces
 menu:
   tutorials:
     identifier: ko-tutorials-workspaces
     parent: null
-title: Programmatic Workspaces
 weight: 5
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" >}}
-Organize and visualize your machine learning experiments more effectively by programmatically creating, managing, and customizing workspaces. You can define configurations, set panel layouts, and organize sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. You can load and modify workspaces by URL, use expressions to filter and group runs, and customize the appearances of runs.
+프로그래밍 방식으로 워크스페이스를 생성, 관리 및 사용자 정의하여 기계 학습 Experiments를 보다 효과적으로 구성하고 시각화하세요. [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B 라이브러리를 사용하여 설정을 정의하고, 패널 레이아웃을 설정하고, 섹션을 구성할 수 있습니다. URL로 워크스페이스를 로드 및 수정하고, 표현식을 사용하여 Runs를 필터링 및 그룹화하고, Runs의 모양을 사용자 정의할 수 있습니다.
 
-`wandb-workspaces` is a Python library for programmatically creating and customizing W&B [Workspaces]({{< relref path="/guides/models/track/workspaces/" lang="ko" >}}) and [Reports]({{< relref path="/guides/core/reports/" lang="ko" >}}).
+`wandb-workspaces`는 프로그래밍 방식으로 W&B [Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ko" >}}) 및 [Reports]({{< relref path="/guides/core/reports/" lang="ko" >}})를 생성하고 사용자 정의하기 위한 Python 라이브러리입니다.
 
-In this tutorial you will see how to use `wandb-workspaces` to create and customize workspaces by defining configurations, set panel layouts, and organize sections.
+이 튜토리얼에서는 `wandb-workspaces`를 사용하여 설정을 정의하고, 패널 레이아웃을 설정하고, 섹션을 구성하여 워크스페이스를 생성하고 사용자 정의하는 방법을 보여줍니다.
 
-## How to use this notebook
-* Run each cell one at a time. 
-* Copy and paste the URL that is printed after you run a cell to view the changes made to the workspace.
-
+## 이 노트북 사용 방법
+* 각 셀을 한 번에 하나씩 실행합니다.
+* 셀을 실행한 후 출력되는 URL을 복사하여 붙여넣어 워크스페이스에 적용된 변경 사항을 확인합니다.
 
 {{% alert %}}
-Programmatic interaction with workspaces is currently supported for [**Saved workspaces views**]({{< relref path="/guides/models/track/workspaces#saved-workspace-views" lang="ko" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
+워크스페이스와의 프로그래밍 방식 상호 작용은 현재 [**저장된 워크스페이스 보기**]({{< relref path="/guides/models/track/workspaces#saved-workspace-views" lang="ko" >}})에서 지원됩니다. 저장된 워크스페이스 보기는 워크스페이스의 협업 스냅샷입니다. 팀의 모든 구성원이 저장된 워크스페이스 보기를 보고, 편집하고, 변경 사항을 저장할 수 있습니다.
 {{% /alert %}}
 
-## 1. Install and import dependencies
-
+## 1. 종속성 설치 및 가져오기
 
 ```python
 # Install dependencies
 !pip install wandb wandb-workspaces rich
 ```
-
 
 ```python
 # Import dependencies
@@ -43,12 +40,11 @@ import wandb_workspaces.reports.v2 as wr # We use the Reports API for adding pan
 %load_ext rich
 ```
 
-## 2. Create a new project and workspace
+## 2. 새 프로젝트 및 워크스페이스 생성
 
-For this tutorial we will create a new project so that we can experiment with the `wandb_workspaces` API:
+이 튜토리얼에서는 `wandb_workspaces` API를 사용하여 실험할 수 있도록 새 프로젝트를 만듭니다.
 
-Note: You can load an existing workspace using its unique `Saved view` URL. See the next code block to see how to do this.
-
+참고: 고유한 `Saved view` URL을 사용하여 기존 워크스페이스를 로드할 수 있습니다. 이 작업을 수행하는 방법은 다음 코드 블록을 참조하세요.
 
 ```python
 # Initialize Weights & Biases and Login
@@ -77,10 +73,10 @@ project = create_project_and_log_data()
 entity = wandb.Api().default_entity
 ```
 
-### (Optional) Load an existing project and workspace
-Instead of creating a new project, you can load one of your own existing project and workspace. To do this, find the unique workspace URL and pass it to `ws.Workspace.from_url` as a string. The URL has the form `https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc`. 
+### (선택 사항) 기존 프로젝트 및 워크스페이스 로드
+새 프로젝트를 만드는 대신 기존 프로젝트 및 워크스페이스를 로드할 수 있습니다. 이렇게 하려면 고유한 워크스페이스 URL을 찾아 문자열로 `ws.Workspace.from_url`에 전달합니다. URL 형식은 `https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc`입니다.
 
-For example:
+예를 들어:
 
 ```python
 wandb.login()
@@ -94,9 +90,8 @@ workspace = ws.Workspace(
 )
 ```
 
-## 3. Programmatic workspace examples
-Below are examples for using programmatic workspace features:
-
+## 3. 프로그래밍 방식 워크스페이스 예제
+다음은 프로그래밍 방식 워크스페이스 기능 사용 예제입니다.
 
 ```python
 # See all available settings for workspaces, sections, and panels.
@@ -104,9 +99,8 @@ all_settings_objects = [x for x in dir(ws) if isinstance(getattr(ws, x), type)]
 all_settings_objects
 ```
 
-### Create a workspace with `saved view`
-This example demonstrates how to create a new workspace and populate it with sections and panels. Workspaces can be edited like regular Python objects, providing flexibility and ease of use.
-
+### `saved view`로 워크스페이스 생성
+이 예제에서는 새 워크스페이스를 만들고 섹션 및 패널로 채우는 방법을 보여줍니다. 워크스페이스는 일반 Python 오브젝트처럼 편집할 수 있어 유연성과 사용 편의성을 제공합니다.
 
 ```python
 def sample_workspace_saved_example(entity: str, project: str) -> str:
@@ -133,9 +127,8 @@ def sample_workspace_saved_example(entity: str, project: str) -> str:
 workspace_url: str = sample_workspace_saved_example(entity, project)
 ```
 
-### Load a workspace from a URL
-Duplicate and customize workspaces without affecting the original setup. To do this, load an existing workspace and save it as a new view:
-
+### URL에서 워크스페이스 로드
+원래 설정에 영향을 주지 않고 워크스페이스를 복제하고 사용자 정의합니다. 이렇게 하려면 기존 워크스페이스를 로드하고 새 보기로 저장합니다.
 
 ```python
 def save_new_workspace_view_example(url: str) -> None:
@@ -149,11 +142,10 @@ def save_new_workspace_view_example(url: str) -> None:
 save_new_workspace_view_example(workspace_url)
 ```
 
-Note that your workspace is now named "Updated Workspace Name".
+이제 워크스페이스 이름이 "Updated Workspace Name"으로 변경되었습니다.
 
-### Basic settings
-The following code shows how to create a workspace, add sections with panels, and configure settings for the workspace, individual sections, and panels:
-
+### 기본 설정
+다음 코드는 워크스페이스를 만들고, 패널이 있는 섹션을 추가하고, 워크스페이스, 개별 섹션 및 패널에 대한 설정을 구성하는 방법을 보여줍니다.
 
 ```python
 # Function to create and configure a workspace with custom settings
@@ -213,18 +205,17 @@ def custom_settings_example(entity: str, project: str) -> None:
 custom_settings_example(entity, project)
 ```
 
-Note that you are now viewing a different saved view called "An example workspace".
+이제 "An example workspace"라는 다른 저장된 보기를 보고 있습니다.
 
-## Customize runs
-The following code cells show you how to filter, change the color, group, and sort runs programmatically. 
+## Runs 사용자 정의
+다음 코드 셀은 프로그래밍 방식으로 Runs를 필터링, 색상 변경, 그룹화 및 정렬하는 방법을 보여줍니다.
 
-In each example, the general workflow is to specify the desired customization as an argument to the appropiate parameter in `ws.RunsetSettings`.
+각 예제에서 일반적인 워크플로우는 `ws.RunsetSettings`에서 해당 파라미터에 대한 인수로 원하는 사용자 정의를 지정하는 것입니다.
 
-### Filter runs
-You can create filters with python expressions and metrics you log with `wandb.log` or that are logged automatically as part of the run such as **Created Timestamp**.  You can also reference filters by how they appear in the W&B App UI such as the **Name**, **Tags**, or **ID**.
+### Runs 필터링
+Python 표현식과 `wandb.log`로 기록하거나 **생성 타임스탬프**와 같이 Run의 일부로 자동으로 기록되는 메트릭으로 필터를 만들 수 있습니다. **이름**, **태그** 또는 **ID**와 같이 W&B 앱 UI에 나타나는 방식으로 필터를 참조할 수도 있습니다.
 
-The following example shows how to filter runs based on the validation loss summary, validation accuracy summary, and the regex specified:
-
+다음 예제에서는 검증 손실 요약, 검증 정확도 요약 및 지정된 정규식을 기반으로 Runs를 필터링하는 방법을 보여줍니다.
 
 ```python
 def advanced_filter_example(entity: str, project: str) -> None:
@@ -266,11 +257,10 @@ def advanced_filter_example(entity: str, project: str) -> None:
 advanced_filter_example(entity, project)
 ```
 
-Note that passing in a list of filter expressions applies the boolean "AND" logic.
+필터 표현식 목록을 전달하면 부울 "AND" 논리가 적용됩니다.
 
-### Change the colors of runs
-This example demonstrates how to change the colors of the runs in a workspace:
-
+### Runs의 색상 변경
+이 예제에서는 워크스페이스에서 Runs의 색상을 변경하는 방법을 보여줍니다.
 
 ```python
 def run_color_example(entity: str, project: str) -> None:
@@ -308,11 +298,9 @@ def run_color_example(entity: str, project: str) -> None:
 run_color_example(entity, project)
 ```
 
-### Group runs
+### Runs 그룹화
 
-This example demonstrates how to group runs by specific metrics.
-
-
+이 예제에서는 특정 메트릭으로 Runs를 그룹화하는 방법을 보여줍니다.
 
 ```python
 def grouping_example(entity: str, project: str) -> None:
@@ -340,9 +328,8 @@ def grouping_example(entity: str, project: str) -> None:
 grouping_example(entity, project)
 ```
 
-### Sort runs
-This example demonstrates how to sort runs based on the validation loss summary:
-
+### Runs 정렬
+이 예제에서는 검증 손실 요약을 기준으로 Runs를 정렬하는 방법을 보여줍니다.
 
 ```python
 def sorting_example(entity: str, project: str) -> None:
@@ -370,10 +357,9 @@ def sorting_example(entity: str, project: str) -> None:
 sorting_example(entity, project)
 ```
 
-## 4. Putting it all together: comprehenive example
+## 4. 모두 함께 사용: 포괄적인 예제
 
-This example demonstrates how to create a comprehensive workspace, configure its settings, and add panels to sections:
-
+이 예제에서는 포괄적인 워크스페이스를 만들고, 설정을 구성하고, 섹션에 패널을 추가하는 방법을 보여줍니다.
 
 ```python
 def full_end_to_end_example(entity: str, project: str) -> None:

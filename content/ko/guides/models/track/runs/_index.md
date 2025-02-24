@@ -1,30 +1,29 @@
 ---
+title: What are runs?
+description: W&B의 기본 구성 요소인 Runs에 대해 알아보세요.
 cascade:
 - url: guides/runs/:filename
-description: Learn about the basic building block of W&B, Runs.
 menu:
   default:
     identifier: ko-guides-models-track-runs-_index
     parent: experiments
-title: What are runs?
 url: guides/runs
 weight: 5
 ---
 
-A *run* is a single unit of computation logged by W&B. You can think of a W&B run as an atomic element of your whole project. In other words, each run is a record of a specific computation, such as training a model and logging the results, hyperparameter sweeps, and so forth.
+W&B에서 *run*은 로깅된 단일 계산 단위를 말합니다. W&B run을 전체 프로젝트의 원자적 요소로 생각할 수 있습니다. 다시 말해, 각 run은 모델 트레이닝 및 결과 로깅, 하이퍼파라미터 탐색 등과 같은 특정 계산에 대한 기록입니다.
 
-Common patterns for initiating a run include, but are not limited to: 
+run을 시작하는 일반적인 패턴은 다음을 포함하지만 이에 국한되지는 않습니다.
 
-* Training a model
-* Changing a hyperparameter and conducting a new experiment
-* Conducting a new machine learning experiment with a different model
-* Logging data or a model as a [W&B Artifact]({{< relref path="/guides/core/artifacts/" lang="ko" >}})
-* [Downloading a W&B Artifact]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ko" >}})
+* 모델 트레이닝
+* 하이퍼파라미터를 변경하고 새로운 실험 수행
+* 다른 모델로 새로운 머신러닝 실험 수행
+* [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}})로 데이터 또는 모델 로깅
+* [W&B Artifacts 다운로드]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ko" >}})
 
+W&B는 생성한 run을 [*프로젝트*]({{< relref path="/guides/models/track/project-page.md" lang="ko" >}})에 저장합니다. W&B App UI에서 run 및 해당 속성을 run의 프로젝트 워크스페이스 내에서 볼 수 있습니다. [`wandb.Api.Run`]({{< relref path="/ref/python/public-api/run.md" lang="ko" >}}) 오브젝트를 사용하여 프로그래밍 방식으로 run 속성에 엑세스할 수도 있습니다.
 
-W&B stores runs that you create into [*projects*]({{< relref path="/guides/models/track/project-page.md" lang="ko" >}}). You can view runs and their properties within the run's project workspace on the W&B App UI. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref path="/ref/python/public-api/run.md" lang="ko" >}}) object.
-
-Anything you log with `run.log` is recorded in that run. Consider the proceeding code snippet.
+`run.log`로 로깅하는 모든 내용은 해당 run에 기록됩니다. 다음 코드 조각을 고려하십시오.
 
 ```python
 import wandb
@@ -33,9 +32,9 @@ run = wandb.init(entity="nico", project="awesome-project")
 run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
-The first line imports the W&B Python SDK. The second line initializes a run in the project `awesome-project` under the entity `nico`. The third line logs the accuracy and loss of the model to that run.
+첫 번째 줄은 W&B Python SDK를 가져옵니다. 두 번째 줄은 엔티티 `nico` 아래의 프로젝트 `awesome-project`에서 run을 초기화합니다. 세 번째 줄은 모델의 정확도와 손실을 해당 run에 로깅합니다.
 
-Within the terminal, W&B returns:
+터미널 내에서 W&B는 다음을 반환합니다.
 
 ```bash
 wandb: Syncing run earnest-sunset-1
@@ -44,8 +43,8 @@ wandb: 🚀 View run at https://wandb.ai/nico/awesome-project/runs/1jx1ud12
 wandb:                                                                                
 wandb: 
 wandb: Run history:
-wandb: accuracy ▁
-wandb:     loss ▁
+wandb: accuracy  
+wandb:     loss  
 wandb: 
 wandb: Run summary:
 wandb: accuracy 0.9
@@ -57,11 +56,11 @@ wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other fil
 wandb: Find logs at: ./wandb/run-20241105_111006-1jx1ud12/logs
 ```
 
-The URL W&B returns in the terminal to redirects you to the run's workspace in the W&B App UI. Note that the panels generated in the workspace corresponds to the single point.
+터미널에서 W&B가 반환하는 URL은 W&B App UI의 run 워크스페이스로 리디렉션합니다. 워크스페이스에서 생성된 패널은 단일 지점에 해당합니다.
 
 {{< img src="/images/runs/single-run-call.png" alt="" >}}
 
-Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
+특정 시점에 메트릭을 로깅하는 것은 그다지 유용하지 않을 수 있습니다. 판별 모델을 트레이닝하는 경우의 더 현실적인 예는 일정한 간격으로 메트릭을 로깅하는 것입니다. 예를 들어 다음 코드 조각을 고려하십시오.
 
 ```python
 epochs = 10
@@ -86,7 +85,7 @@ for epoch in range(epochs):
     run.log({"accuracy": acc, "loss": loss})
 ```
 
-This returns the following output:
+다음 출력을 반환합니다.
 
 ```bash
 wandb: Syncing run jolly-haze-4
@@ -107,20 +106,19 @@ wandb: 🚀 View run jolly-haze-4 at: https://wandb.ai/nico/awesome-project/runs
 wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 ```
 
-The training script calls `run.log` 10 times. Each time the script calls `run.log`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
+트레이닝 스크립트는 `run.log`를 10번 호출합니다. 스크립트가 `run.log`를 호출할 때마다 W&B는 해당 에포크에 대한 정확도와 손실을 로깅합니다. 이전 출력에서 W&B가 인쇄하는 URL을 선택하면 W&B App UI에서 run의 워크스페이스로 이동합니다.
 
-Note that W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init` method only once. 
+스크립트가 `wandb.init` 메소드를 한 번만 호출하기 때문에 W&B는 시뮬레이션된 트레이닝 루프를 `jolly-haze-4`라는 단일 run 내에서 캡처합니다.
 
 {{< img src="/images/runs/run_log_example_2.png" alt="" >}}
 
-As another example, during a [sweep]({{< relref path="/guides/models/sweeps/" lang="ko" >}}), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
+또 다른 예로, [스윕]({{< relref path="/guides/models/sweeps/" lang="ko" >}}) 중에 W&B는 사용자가 지정하는 하이퍼파라미터 검색 공간을 탐색합니다. W&B는 스윕이 생성하는 각 새로운 하이퍼파라미터 조합을 고유한 run으로 구현합니다.
 
+## Run 초기화
 
-## Initialize a run
+[`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ko" >}})으로 W&B run을 초기화합니다. 다음 코드 조각은 W&B Python SDK를 가져오고 run을 초기화하는 방법을 보여줍니다.
 
-Initialize a W&B run with [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ko" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
-
-Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
+꺾쇠 괄호(`<>`)로 묶인 값을 자신의 값으로 바꾸십시오.
 
 ```python
 import wandb
@@ -128,24 +126,24 @@ import wandb
 run = wandb.init(entity="<entity>", project="<project>")
 ```
 
-When you initialize a run, W&B logs your run to the project you specify for the project field (`wandb.init(project="<project>"`). W&B creates a new project if the project does not already exist. If the project already exists, W&B stores the run in that project.
+run을 초기화하면 W&B는 프로젝트 필드에 지정한 프로젝트(`wandb.init(project="<project>")`)에 run을 로깅합니다. W&B는 프로젝트가 아직 존재하지 않으면 새 프로젝트를 생성합니다. 프로젝트가 이미 존재하면 W&B는 해당 프로젝트에 run을 저장합니다.
 
 {{% alert %}}
-If you do not specify a project name, W&B stores the run in a project called `Uncategorized`.
+프로젝트 이름을 지정하지 않으면 W&B는 `Uncategorized`라는 프로젝트에 run을 저장합니다.
 {{% /alert %}}
 
-Each run in W&B has a [unique identifier known as a *run ID*]({{< relref path="#unique-run-identifiers" lang="ko" >}}). [You can specify a unique ID]({{< relref path="#unique-run-identifiers" lang="ko" >}}) or let [W&B randomly generate one for you]({{< relref path="#autogenerated-run-ids" lang="ko" >}}).
+W&B의 각 run에는 [*run ID*라고 하는 고유 식별자가 있습니다.]({{< relref path="#unique-run-identifiers" lang="ko" >}}) [고유 ID를 지정]({{< relref path="#unique-run-identifiers" lang="ko" >}})하거나 [W&B가 임의로 생성하도록 할]({{< relref path="#autogenerated-run-ids" lang="ko" >}}) 수 있습니다.
 
-Each run also has a human-readable,[ non-unique identifier known as a *run name*]({{< relref path="#name-your-run" lang="ko" >}}). You can specify a name for your run or let W&B randomly generate one for you.
+각 run에는 사람이 읽을 수 있는 [*run 이름*이라고 하는 고유하지 않은 식별자도 있습니다.]({{< relref path="#name-your-run" lang="ko" >}}) run 이름을 지정하거나 W&B가 임의로 생성하도록 할 수 있습니다.
 
-For example, consider the proceeding code snippet: 
+예를 들어 다음 코드 조각을 고려하십시오.
 
 ```python title="basic.py"
 import wandb
 
 run = wandb.init(entity="wandbee", project="awesome-project")
 ```
-The code snippet produces the proceeding output:
+코드 조각은 다음 출력을 생성합니다.
 
 ```bash
 🚀 View run exalted-darkness-6 at: 
@@ -153,10 +151,10 @@ https://wandb.ai/nico/awesome-project/runs/pgbn9y21
 Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 ```
 
-Since the preceding code did not specify an argument for the id parameter, W&B creates a unique run ID. Where `nico` is the entity that logged the run, `awesome-project` is the name of the project the run is logged to, `exalted-darkness-6` is the name of the run, and `pgbn9y21` is the run ID.
+이전 코드는 id 파라미터에 대한 인수를 지정하지 않았으므로 W&B는 고유한 run ID를 생성합니다. 여기서 `nico`는 run을 로깅한 엔티티이고, `awesome-project`는 run이 로깅된 프로젝트의 이름이고, `exalted-darkness-6`은 run의 이름이고, `pgbn9y21`은 run ID입니다.
 
-{{% alert title="Notebook users" %}}
-Specify `run.finish()` at the end of your run to mark the run finished. This helps ensure that the run is properly logged to your project and does not continue in the background.
+{{% alert title="노트북 사용자" %}}
+run이 끝날 때 `run.finish()`를 지정하여 run이 완료되었음을 표시합니다. 이렇게 하면 run이 프로젝트에 올바르게 로깅되고 백그라운드에서 계속되지 않도록 할 수 있습니다.
 
 ```python title="notebook.ipynb"
 import wandb
@@ -167,93 +165,89 @@ run.finish()
 ```
 {{% /alert %}}
 
-Each run has a state that describes the current status of the run. See [Run states]({{< relref path="#run-states" lang="ko" >}}) for a full list of possible run states.
+각 run에는 run의 현재 상태를 설명하는 상태가 있습니다. 가능한 run 상태의 전체 목록은 [Run 상태]({{< relref path="#run-states" lang="ko" >}})를 참조하십시오.
 
-## Run states
-The proceeding table describes the possible states a run can be in: 
+## Run 상태
+다음 표는 run이 가질 수 있는 가능한 상태를 설명합니다.
 
-| State | Description |
+| 상태 | 설명 |
 | ----- | ----- |
-| Finished| Run ended and fully synced data, or called `wandb.finish()` |
-| Failed | Run ended with a non-zero exit status | 
-| Crashed | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes | 
-| Running | Run is still running and has recently sent a heartbeat  |
+| Finished| Run이 종료되고 데이터가 완전히 동기화되었거나 `wandb.finish()`가 호출되었습니다. |
+| Failed | Run이 0이 아닌 종료 상태로 종료되었습니다. |
+| Crashed | Run이 내부 프로세스에서 하트비트를 보내는 것을 중단했습니다. 이는 컴퓨터가 충돌하는 경우에 발생할 수 있습니다. |
+| Running | Run이 여전히 실행 중이며 최근에 하트비트를 보냈습니다. |
 
+## 고유한 Run 식별자
 
-## Unique run identifiers
+Run ID는 run에 대한 고유한 식별자입니다. 기본적으로 W&B는 새 run을 초기화할 때 [임의의 고유한 run ID를 생성합니다.]({{< relref path="#autogenerated-run-ids" lang="ko" >}}) run을 초기화할 때 [자신의 고유한 run ID를 지정]({{< relref path="#custom-run-ids" lang="ko" >}})할 수도 있습니다.
 
-Run IDs are unique identifiers for runs. By default, [W&B generates a random and unique run ID for you]({{< relref path="#autogenerated-run-ids" lang="ko" >}}) when you initialize a new run. You can also [specify your own unique run ID]({{< relref path="#custom-run-ids" lang="ko" >}}) when you initialize a run. 
+### 자동 생성된 Run ID
 
-### Autogenerated run IDs
+run을 초기화할 때 run ID를 지정하지 않으면 W&B는 임의의 run ID를 생성합니다. W&B App UI에서 run의 고유한 ID를 찾을 수 있습니다.
 
-If you do not specify a run ID when you initialize a run, W&B generates a random run ID for you. You can find the unique ID of a run in the W&B App UI.
+1. [https://wandb.ai/home](https://wandb.ai/home)에서 W&B App UI로 이동합니다.
+2. run을 초기화할 때 지정한 W&B 프로젝트로 이동합니다.
+3. 프로젝트의 워크스페이스 내에서 **Runs** 탭을 선택합니다.
+4. **Overview** 탭을 선택합니다.
 
-1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
-2. Navigate to the W&B project you specified when you initialized the run.
-3. Within your project's workspace, select the **Runs** tab.
-4. Select the **Overview** tab.
+W&B는 **Run path** 필드에 고유한 run ID를 표시합니다. Run 경로는 팀 이름, 프로젝트 이름 및 run ID로 구성됩니다. 고유한 ID는 run 경로의 마지막 부분입니다.
 
-W&B displays the unique run ID in the **Run path** field. The run path consists of the name of your team, the name of the project, and the run ID. The unique ID is the last part of the run path.
-
-For example, in the proceeding image, the unique run ID is `9mxi1arc`:
+예를 들어 다음 이미지에서 고유한 run ID는 `9mxi1arc`입니다.
 
 {{< img src="/images/runs/unique-run-id.png" alt="" >}}
 
+### 사용자 지정 Run ID
+[`wandb.init`]({{< relref path="/ref/python/init.md" lang="ko" >}}) 메소드에 `id` 파라미터를 전달하여 자신의 run ID를 지정할 수 있습니다.
 
-### Custom run IDs
-You can specify your own run ID by passing the `id` parameter to the [`wandb.init`]({{< relref path="/ref/python/init.md" lang="ko" >}}) method. 
-
-```python 
+```python
 import wandb
 
 run = wandb.init(entity="<project>", project="<project>", id="<run-id>")
 ```
 
-You can use a run's unique ID to directly navigate to the run's overview page in the W&B App UI. The proceeding cell shows the URL path for a specific run:
+run의 고유한 ID를 사용하여 W&B App UI에서 run의 개요 페이지로 직접 이동할 수 있습니다. 다음 셀은 특정 run에 대한 URL 경로를 보여줍니다.
 
-```text title="W&B App URL for a specific run"
+```text title="특정 Run에 대한 W&B App URL"
 https://wandb.ai/<entity>/<project>/<run-id>
 ```
 
-Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the entity, project, and run ID.
+여기서 꺾쇠 괄호(`<>`)로 묶인 값은 엔티티, 프로젝트 및 run ID의 실제 값에 대한 자리 표시자입니다.
 
-## Name your run 
-The name of a run is a human-readable, non-unique identifier. 
+## Run 이름 지정
+Run의 이름은 사람이 읽을 수 있는 고유하지 않은 식별자입니다.
 
-By default, W&B generates a random run name when you initialize a new run. The name of a run appears within your project's workspace and at the top of the [run's overview page]({{< relref path="#overview-tab" lang="ko" >}}).
+기본적으로 W&B는 새 run을 초기화할 때 임의의 run 이름을 생성합니다. run의 이름은 프로젝트의 워크스페이스 내와 [run의 개요 페이지]({{< relref path="#overview-tab" lang="ko" >}})의 상단에 나타납니다.
 
 {{% alert %}}
-Use run names as a way to quickly identify a run in your project workspace.
+프로젝트 워크스페이스에서 run을 빠르게 식별하는 방법으로 run 이름을 사용하십시오.
 {{% /alert %}}
 
-You can specify a name for your run by passing the `name` parameter to the [`wandb.init`]({{< relref path="/ref/python/init.md" lang="ko" >}}) method. 
+[`wandb.init`]({{< relref path="/ref/python/init.md" lang="ko" >}}) 메소드에 `name` 파라미터를 전달하여 run 이름을 지정할 수 있습니다.
 
-
-```python 
+```python
 import wandb
 
 run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
 ```
 
-## Add a note to a run
-Notes that you add to a specific run appear on the run page in the **Overview** tab and in the table of runs on the project page.
+## Run에 메모 추가
+특정 run에 추가하는 메모는 **Overview** 탭의 run 페이지와 프로젝트 페이지의 run 테이블에 나타납니다.
 
-1. Navigate to your W&B project
-2. Select the **Workspace** tab from the project sidebar
-3. Select the run you want to add a note to from the run selector
-4. Choose the **Overview** tab
-5. Select the pencil icon next to the **Description** field and add your notes
+1. W&B 프로젝트로 이동합니다.
+2. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다.
+3. 메모를 추가할 run을 run 선택기에서 선택합니다.
+4. **Overview** 탭을 선택합니다.
+5. **Description** 필드 옆에 있는 연필 아이콘을 선택하고 메모를 추가합니다.
 
-
-## Stop a run
-Stop a run from the W&B App or programmatically.
+## Run 중지
+W&B App 또는 프로그래밍 방식으로 run을 중지합니다.
 
 {{< tabpane text=true >}}
-  {{% tab header="Programmatically" %}}
-1. Navigate to the terminal or code editor where you initialized the run.
-2. Press `Ctrl+D` to stop the run.
+  {{% tab header="프로그래밍 방식" %}}
+1. run을 초기화한 터미널 또는 코드 편집기로 이동합니다.
+2. `Ctrl+D`를 눌러 run을 중지합니다.
 
-For example, following the preceding instructions, your terminal might looks similar to the following: 
+예를 들어 이전 지침에 따라 터미널이 다음과 유사하게 보일 수 있습니다.
 
 ```bash
 KeyboardInterrupt
@@ -262,215 +256,199 @@ wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 1 other fil
 wandb: Find logs at: ./wandb/run-20241106_095857-o8sdbztv/logs
 ```
 
-Navigate to the W&B App UI to confirm the run is no longer active:
+W&B App UI로 이동하여 run이 더 이상 활성 상태가 아닌지 확인합니다.
 
-1. Navigate to the project that your run was logging to.
-2. Select the name of the run. 
+1. run이 로깅된 프로젝트로 이동합니다.
+2. run 이름을 선택합니다.
   {{% alert %}}
-  You can find the name of the run that you stop from the output of your terminal or code editor. For example, in the preceding example, the name of the run is `legendary-meadow-2`.
+  터미널 또는 코드 편집기의 출력에서 중지한 run 이름을 찾을 수 있습니다. 예를 들어 이전 예에서 run 이름은 `legendary-meadow-2`입니다.
   {{% /alert %}}
-3. Choose the **Overview** tab from the project sidebar.
+3. 프로젝트 사이드바에서 **Overview** 탭을 선택합니다.
 
-Next to the **State** field, the run's state changes from `running` to `Killed`.
+**State** 필드 옆에서 run 상태가 `running`에서 `Killed`로 변경됩니다.
 
-{{< img src="/images/runs/stop-run-terminal.png" alt="" >}}  
+{{< img src="/images/runs/stop-run-terminal.png" alt="" >}}
   {{% /tab %}}
   {{% tab header="W&B App" %}}
 
-1. Navigate to the project that your run is logging to.
-2. Select the run you want to stop within the run selector.
-3. Choose the **Overview** tab from the project sidebar.
-4. Select the top button next to the **State** field.
+1. run이 로깅된 프로젝트로 이동합니다.
+2. run 선택기에서 중지할 run을 선택합니다.
+3. 프로젝트 사이드바에서 **Overview** 탭을 선택합니다.
+4. **State** 필드 옆에 있는 상단 버튼을 선택합니다.
 {{< img src="/images/runs/stop-run-manual.png" alt="" >}}
 
-Next to the **State** field, the run's state changes from `running` to `Killed`.
+**State** 필드 옆에서 run 상태가 `running`에서 `Killed`로 변경됩니다.
 
-{{< img src="/images/runs/stop-run-manual-status.png" alt="" >}}  
+{{< img src="/images/runs/stop-run-manual-status.png" alt="" >}}
   {{% /tab %}}
 {{< /tabpane >}}
 
-See [State fields]({{< relref path="#run-states" lang="ko" >}}) for a full list of possible run states.
+가능한 run 상태의 전체 목록은 [상태 필드]({{< relref path="#run-states" lang="ko" >}})를 참조하십시오.
 
-## View logged runs
+## 로깅된 Run 보기
 
-View a information about a specific run such as the state of the run, artifacts logged to the run, log files recorded during the run, and more. 
+Run 상태, run에 로깅된 Artifacts, run 중에 기록된 로그 파일 등과 같은 특정 run에 대한 정보를 봅니다.
 
 {{< img src="/images/runs/demo-project.gif" alt="" >}}
 
-To view a specific run:
+특정 run을 보려면 다음을 수행하십시오.
 
-1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
-2. Navigate to the W&B project you specified when you initialized the run.
-3. Within the project sidebar, select the **Workspace** tab.
-4. Within the run selector, click the run you want to view, or enter a partial run name to filter for matching runs.
+1. [https://wandb.ai/home](https://wandb.ai/home)에서 W&B App UI로 이동합니다.
+2. run을 초기화할 때 지정한 W&B 프로젝트로 이동합니다.
+3. 프로젝트 사이드바 내에서 **Workspace** 탭을 선택합니다.
+4. run 선택기 내에서 보려는 run을 클릭하거나 일치하는 run을 필터링하기 위해 run 이름의 일부를 입력합니다.
 
-    By default, long run names are truncated in the middle for readability. To truncate run names at the beginning or end instead, click the action `...` menu at the top of the list of runs, then set **Run name cropping** to crop the end, middle, or beginning. 
+    기본적으로 긴 run 이름은 가독성을 위해 중간에 잘립니다. 대신 run 이름을 시작 또는 끝에서 자르려면 run 목록 상단에 있는 작업 `...` 메뉴를 클릭한 다음 **Run name cropping**을 설정하여 끝, 중간 또는 시작을 자릅니다.
 
-Note that the URL path of a specific run has the proceeding format:
+특정 run의 URL 경로는 다음 형식을 갖습니다.
 
 ```text
 https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 ```
 
-Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
+여기서 꺾쇠 괄호(`<>`)로 묶인 값은 팀 이름, 프로젝트 이름 및 run ID의 실제 값에 대한 자리 표시자입니다.
 
-### Overview tab
-Use the **Overview** tab to learn about specific run information in a project, such as:
+### Overview 탭
+**Overview** 탭을 사용하여 프로젝트의 특정 run 정보에 대해 알아봅니다.
 
-* **Author**: The W&B entity that creates the run.
-* **Command**: The command that initializes the run.
-* **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App UI or programmatically with the Python SDK.
-* **Duration**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting.
-* **Git repository**: The git repository associated with the run. You must [enable git]({{< relref path="/guides/models/app/settings-page/user-settings.md#personal-github-integration" lang="ko" >}}) to view this field.
-* **Host name**: Where W&B computes the run. W&B displays the name of your machine if you initialize the run locally on your machine.
-* **Name**: The name of the run.
-* **OS**: Operating system that initializes the run.
-* **Python executable**: The command that starts the run.
-* **Python version**: Specifies the Python version that creates the run.
-* **Run path**: Identifies the unique run identifier in the form `entity/project/run-ID`.
-* **Runtime**: Measures the total time from the start to the end of the run. It’s the wall-clock time for the run. Runtime includes any time where the run is paused or waiting for resources, while duration does not.
-* **Start time**: The timestamp when you initialize the run.
-* **State**: The [state of the run]({{< relref path="#run-states" lang="ko" >}}).
-* **System hardware**: The hardware W&B uses to compute the run.
-* **Tags**: A list of strings. Tags are useful for organizing related runs together or applying temporary labels like `baseline` or `production`.
-* **W&B CLI version**: The W&B CLI version installed on the machine that hosted the run command.
-<!-- * **Git state**: -->
+* **Author**: run을 생성하는 W&B 엔티티입니다.
+* **Command**: run을 초기화하는 코맨드입니다.
+* **Description**: 제공한 run에 대한 설명입니다. run을 생성할 때 설명을 지정하지 않으면 이 필드는 비어 있습니다. W&B App UI를 사용하거나 Python SDK를 사용하여 프로그래밍 방식으로 run에 설명을 추가할 수 있습니다.
+* **Duration**: 일시 중지 또는 대기 시간을 제외하고 run이 활발하게 데이터를 계산하거나 로깅하는 시간입니다.
+* **Git repository**: run과 연결된 git 리포지토리입니다. 이 필드를 보려면 [git을 활성화]({{< relref path="/guides/models/app/settings-page/user-settings.md#personal-github-integration" lang="ko" >}})해야 합니다.
+* **Host name**: W&B가 run을 계산하는 위치입니다. 컴퓨터에서 로컬로 run을 초기화하면 W&B는 컴퓨터 이름을 표시합니다.
+* **Name**: run의 이름입니다.
+* **OS**: run을 초기화하는 운영 체제입니다.
+* **Python executable**: run을 시작하는 코맨드입니다.
+* **Python version**: run을 생성하는 Python 버전을 지정합니다.
+* **Run path**: `entity/project/run-ID` 형식으로 고유한 run 식별자를 식별합니다.
+* **Runtime**: run 시작부터 종료까지의 총 시간을 측정합니다. run에 대한 실제 시간입니다. 런타임에는 run이 일시 중지되거나 리소스를 기다리는 시간이 포함되지만 기간에는 포함되지 않습니다.
+* **Start time**: run을 초기화할 때의 타임스탬프입니다.
+* **State**: [run의 상태]({{< relref path="#run-states" lang="ko" >}})입니다.
+* **System hardware**: W&B가 run을 계산하는 데 사용하는 하드웨어입니다.
+* **Tags**: 문자열 목록입니다. 태그는 관련된 run을 함께 구성하거나 `baseline` 또는 `production`과 같은 임시 레이블을 적용하는 데 유용합니다.
+* **W&B CLI version**: run 코맨드를 호스팅한 컴퓨터에 설치된 W&B CLI 버전입니다.
 
-W&B stores the proceeding information below the overview section:
+W&B는 개요 섹션 아래에 다음 정보를 저장합니다.
 
-* **Artifact Outputs**: Artifact outputs produced by the run.
-* **Config**: List of config parameters saved with [`wandb.config`]({{< relref path="/guides/models/track/config.md" lang="ko" >}}).
-* **Summary**: List of summary parameters saved with [`wandb.log()`]({{< relref path="/guides/models/track/log/" lang="ko" >}}). By default, W&B sets this value to the last value logged. 
+* **Artifacts Outputs**: run에서 생성된 Artifacts 출력입니다.
+* **Config**: [`wandb.config`]({{< relref path="/guides/models/track/config.md" lang="ko" >}})로 저장된 구성 파라미터 목록입니다.
+* **Summary**: [`wandb.log()`]({{< relref path="/guides/models/track/log/" lang="ko" >}})로 저장된 요약 파라미터 목록입니다. 기본적으로 W&B는 이 값을 마지막으로 로깅된 값으로 설정합니다.
 
-{{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab" >}}
+{{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B 대시보드 run 개요 탭" >}}
 
-View an example project overview [here](https://wandb.ai/stacey/deep-drive/overview).
+[여기](https://wandb.ai/stacey/deep-drive/overview)에서 프로젝트 개요의 예를 봅니다.
 
-### Workspace tab
-Use the Workspace tab to view, search, group, and arrange visualizations such as autogenerated and custom plots, system metrics, and more. 
+### Workspace 탭
+Workspace 탭을 사용하여 자동 생성된 사용자 지정 플롯, 시스템 메트릭 등과 같은 시각화를 보고, 검색하고, 그룹화하고, 정렬합니다.
 
 {{< img src="/images/app_ui/wandb-run-page-workspace-tab.png" alt="" >}}
 
-View an example project workspace [here](https://wandb.ai/stacey/deep-drive/workspace?nw=nwuserstacey)
+[여기](https://wandb.ai/stacey/deep-drive/workspace?nw=nwuserstacey)에서 프로젝트 워크스페이스의 예를 봅니다.
 
-### Runs tab
-<!-- Keep this in sync with /guide/models/track/project-page.md -->
-Use the Runs tab to filter, group, and sort your runs.
+### Runs 탭
+
+Runs 탭을 사용하여 run을 필터링, 그룹화 및 정렬합니다.
 
 {{< img src="/images/runs/run-table-example.png" alt="" >}}
 
-<!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
-
-
-The proceeding tabs demonstrate some common actions you can take in the Runs tab.
+다음 탭은 Runs 탭에서 수행할 수 있는 몇 가지 일반적인 작업을 보여줍니다.
 
 {{< tabpane text=true >}}
-   {{% tab header="Customize columns" %}}
-The Runs tab shows details about runs in the project. It shows a large number of columns by default.
+   {{% tab header="열 사용자 지정" %}}
+Runs 탭에는 프로젝트의 run에 대한 세부 정보가 표시됩니다. 기본적으로 많은 수의 열이 표시됩니다.
 
-- To view all visible columns, scroll the page horizontally.
-- To change the order of the columns, drag a column to the left or right.
-- To pin a column, hover over the column name, click the action menu `...`. that appears, then click **Pin column**. Pinned columns appear near the left of the page, after the **Name** column. To unpin a pinned column, choose **Unpin column**
-- To hide a column, hover over the column name, click the action menu `...`. that appears, then click **Hide column**. To view all columns that are currently hidden, click **Columns**.
-- To show, hide, pin, and unpin multiple columns at once, click **Columns**.
-  - Click the name of a hidden column to unhide it.
-  - Click the name of a visible column to hide it.
-  - Click the pin icon next to a visible column to pin it.
+- 보이는 모든 열을 보려면 페이지를 가로로 스크롤합니다.
+- 열 순서를 변경하려면 열을 왼쪽이나 오른쪽으로 드래그합니다.
+- 열을 고정하려면 열 이름 위로 마우스를 가져간 다음 나타나는 작업 메뉴 `...`을 클릭한 다음 **Pin column**을 클릭합니다. 고정된 열은 **Name** 열 뒤에 페이지 왼쪽에 가깝게 나타납니다. 고정된 열을 고정 해제하려면 **Unpin column**을 선택합니다.
+- 열을 숨기려면 열 이름 위로 마우스를 가져간 다음 나타나는 작업 메뉴 `...`을 클릭한 다음 **Hide column**을 클릭합니다. 현재 숨겨진 모든 열을 보려면 **Columns**를 클릭합니다.
+  - 숨겨진 열을 표시하거나, 숨기거나, 고정하거나, 고정 해제하려면 **Columns**를 클릭합니다.
+  - 숨겨진 열의 이름을 클릭하여 숨김을 해제합니다.
+  - 보이는 열의 이름을 클릭하여 숨깁니다.
+  - 보이는 열 옆에 있는 핀 아이콘을 클릭하여 고정합니다.
 
-When you customize the Runs tab, the customization is also reflected in the **Runs** selector of the [Workspace tab]({{< relref path="#workspace-tab" lang="ko" >}}).
+Runs 탭을 사용자 지정하면 사용자 지정이 [Workspace 탭]({{< relref path="#workspace-tab" lang="ko" >}})의 **Runs** 선택기에도 반영됩니다.
 
    {{% /tab %}}
 
-   {{% tab header="Sort" %}}
-Sort all rows in a Table by the value in a given column. 
+   {{% tab header="정렬" %}}
+지정된 열의 값으로 테이블의 모든 행을 정렬합니다.
 
-1. Hover your mouse over the column title. A kebob menu will appear (three vertical docs).
-2. Select on the kebob menu (three vertical dots).
-3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
+1. 마우스를 열 제목 위로 가져갑니다. 케밥 메뉴(세 개의 세로 점)가 나타납니다.
+2. 케밥 메뉴(세 개의 세로 점)를 선택합니다.
+3. **Sort Asc** 또는 **Sort Desc**를 선택하여 행을 각각 오름차순 또는 내림차순으로 정렬합니다.
 
-{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="모델이 '0'이라고 가장 확신을 가지고 추측한 숫자를 확인하십시오." >}}
 
-The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
+위의 이미지는 `val_acc`라는 테이블 열에 대한 정렬 옵션을 보는 방법을 보여줍니다.
    {{% /tab %}}
-   {{% tab header="Filter" %}}
-Filter all rows by an expression with the **Filter** button above the dashboard. 
+   {{% tab header="필터" %}}
+대시보드 위의 **Filter** 버튼이 있는 표현식으로 모든 행을 필터링합니다.
 
-{{< img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong." >}}
+{{< img src="/images/data_vis/filter.png" alt="모델이 잘못된 예만 확인하십시오." >}}
 
-Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
+**Add filter**를 선택하여 행에 하나 이상의 필터를 추가합니다. 세 개의 드롭다운 메뉴가 나타납니다. 왼쪽에서 오른쪽으로 필터 유형은 열 이름, 연산자 및 값을 기반으로 합니다.
 
-|                   | Column name | Binary relation    | Value       |
-| -----------       | ----------- | ----------- | ----------- |
-| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
+| | 열 이름 | 이진 관계 | 값 |
+| ----------- | ----------- | ----------- | ----------- |
+| 허용되는 값 | 문자열 | =, ≠, ≤, ≥, IN, NOT IN, | 정수, 부동 소수점, 문자열, 타임스탬프, null |
 
-
-The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+표현식 편집기는 열 이름 및 논리적 술어 구조에 자동 완성을 사용하여 각 용어에 대한 옵션 목록을 표시합니다. "and" 또는 "or"(그리고 때로는 괄호)를 사용하여 여러 논리적 술어를 하나의 표현식으로 연결할 수 있습니다.
 
 {{< img src="/images/data_vis/filter_example.png" alt="" >}}
-The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.   
+위의 이미지는 `val_loss` 열을 기반으로 하는 필터를 보여줍니다. 필터는 유효성 검사 손실이 1 이하인 run을 보여줍니다.
    {{% /tab %}}
-   {{% tab header="Group" %}}
-Group all rows by the value in a particular column with the **Group by** button above the dashboard. 
+   {{% tab header="그룹" %}}
+대시보드 위의 **Group by** 버튼이 있는 특정 열의 값으로 모든 행을 그룹화합니다.
 
-{{< img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s." >}}
+{{< img src="/images/data_vis/group.png" alt="진실 분포는 작은 오류를 보여줍니다. 8과 2는 7과 9, 9는 2와 혼동됩니다." >}}
 
-By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.   
+기본적으로 이것은 다른 숫자 열을 해당 그룹 전체의 해당 열 값의 분포를 보여주는 히스토그램으로 바꿉니다. 그룹화는 데이터에서 더 높은 수준의 패턴을 이해하는 데 유용합니다.
    {{% /tab %}}
 {{< /tabpane >}}
 
-### System tab
-The **System tab** shows system metrics tracked for a specific run such as CPU utilization, system memory, disk I/O, network traffic, GPU utilization and more.
+### System 탭
+**System 탭**은 CPU 사용률, 시스템 메모리, 디스크 I/O, 네트워크 트래픽, GPU 사용률 등과 같은 특정 run에 대해 추적된 시스템 메트릭을 보여줍니다.
 
-For a full list of system metrics W&B tracks, see [System metrics]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ko" >}}).
+W&B가 추적하는 시스템 메트릭의 전체 목록은 [시스템 메트릭]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ko" >}})을 참조하십시오.
 
 {{< img src="/images/app_ui/wandb_system_utilization.png" alt="" >}}
 
-View an example system tab [here](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey).
+[여기](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey)에서 시스템 탭의 예를 봅니다.
 
+### Logs 탭
+**Log 탭**은 표준 출력(`stdout`) 및 표준 오류(`stderr`)와 같은 코맨드라인에 인쇄된 출력을 보여줍니다.
 
-### Logs tab
-The **Log tab** shows output printed on the command line such as the standard output (`stdout`) and standard error (`stderr`). 
-
-Choose the **Download** button in the upper right hand corner to download the log file.
+로그 파일을 다운로드하려면 오른쪽 상단 모서리에서 **Download** 버튼을 선택합니다.
 
 {{< img src="/images/app_ui/wandb_run_page_log_tab.png" alt="" >}}
 
-View an example logs tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs).
+[여기](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs)에서 로그 탭의 예를 봅니다.
 
-### Files tab
-Use the **Files tab** to view files associated with a specific run such as model checkpoints, validation set examples, and more
+### Files 탭
+**Files 탭**을 사용하여 모델 체크포인트, 검증 세트 예제 등과 같은 특정 run과 연결된 파일을 봅니다.
 
 {{< img src="/images/app_ui/wandb_run_page_files_tab.png" alt="" >}}
 
-View an example files tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images).
+[여기](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images)에서 파일 탭의 예를 봅니다.
 
-### Artifacts tab
-The **Artifacts** tab lists the input and output [artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}}) for the specified run.
+### Artifacts 탭
+**Artifacts** 탭에는 지정된 run에 대한 입력 및 출력 [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}})가 나열됩니다.
 
 {{< img src="/images/app_ui/artifacts_tab.png" alt="" >}}
 
-View an example artifacts tab [here](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts).
+[여기](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts)에서 Artifacts 탭의 예를 봅니다.
 
+## Run 삭제
 
-## Delete runs
+W&B App으로 프로젝트에서 하나 이상의 run을 삭제합니다.
 
-Delete one or more runs from a project with the W&B App.
-
-1. Navigate to the project that contains the runs you want to delete.
-2. Select the **Runs** tab from the project sidebar.
-3. Select the checkbox next to the runs you want to delete.
-4. Choose the **Delete** button (trash can icon) above the table.
-5. From the modal that appears, choose **Delete**.
-
+1. 삭제하려는 run이 포함된 프로젝트로 이동합니다.
+2. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+3. 삭제하려는 run 옆에 있는 확인란을 선택합니다.
+4. 테이블 위의 **Delete** 버튼(휴지통 아이콘)을 선택합니다.
+5. 나타나는 모달에서 **Delete**를 선택합니다.
 
 {{% alert %}}
-For projects that contain a large number of runs, you can use either the search bar to filter runs you want to delete using Regex or the filter button to filter runs based on their status, tags, or other properties. 
+많은 수의 run을 포함하는 프로젝트의 경우 검색 막대를 사용하여 삭제하려는 run을 정규식으로 필터링하거나 필터 버튼을 사용하여 상태, 태그 또는 기타 속성을 기반으로 run을 필터링할 수 있습니다.
 {{% /alert %}}
-
-<!-- ### Search runs
-
-Search for a specific run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
-
-### Filter runs
-
-### Organize runs -->

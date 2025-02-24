@@ -1,17 +1,15 @@
 ---
+title: Anonymous
 menu:
   support:
     identifier: ko-support-index_anonymous
     parent: support
-title: Anonymous
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Anonymous</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+다음 지원 질문은 <b>익명</b>으로 태그되어 있습니다. 질문에 대한 답변을 찾을 수 없는 경우, [커뮤니티에 문의](https://community.wandb.ai/)하거나 [support@wandb.com](mailto:support@wandb.com)으로 이메일을 보내주세요.
 {{% /card %}}
 
-- [How does someone without an account see run results?]({{< relref path="run_results_anonymous_mode.md" lang="ko" >}})
-- [What are features that are not available to anonymous users?]({{< relref path="anon_users_unavailable_features.md" lang="ko" >}})
+- [계정이 없는 사용자는 run 결과를 어떻게 볼 수 있나요?]({{< relref path="run_results_anonymous_mode.md" lang="ko" >}})
+- [익명의 사용자에게 제공되지 않는 기능은 무엇인가요?]({{< relref path="anon_users_unavailable_features.md" lang="ko" >}})

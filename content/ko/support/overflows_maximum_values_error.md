@@ -1,12 +1,12 @@
 ---
+title: How do I fix the "overflows maximum values of a signed 64 bits integer" error?
 menu:
   support:
     identifier: ko-support-overflows_maximum_values_error
 tags:
 - workspaces
-title: How do I fix the "overflows maximum values of a signed 64 bits integer" error?
 toc_hide: true
 type: docs
 ---
 
-To resolve this error, add `?workspace=clear` to the end of the URL and press Enter. This action directs you to a cleared version of the project page workspace.
+이 오류를 해결하려면 URL 끝에 `?workspace=clear`를 추가하고 Enter 키를 누르세요. 이렇게 하면 프로젝트 페이지의 정리된 버전의 워크스페이스로 이동합니다.

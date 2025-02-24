@@ -1,12 +1,12 @@
 ---
+title: Why is nothing showing up in my graphs?
 menu:
   support:
     identifier: ko-support-graphs_nothing_showing
 tags:
 - experiments
-title: Why is nothing showing up in my graphs?
 toc_hide: true
 type: docs
 ---
 
-If the message "No visualization data logged yet" appears, the script has not executed the first `wandb.log` call. This situation may occur if the run takes a long time to complete a step. To expedite data logging, log multiple times per epoch instead of only at the end.
+"아직 시각화 데이터가 기록되지 않았습니다"라는 메시지가 나타나면 스크립트가 첫 번째 `wandb.log` 호출을 실행하지 않은 것입니다. 이러한 상황은 run이 단계를 완료하는 데 오랜 시간이 걸리는 경우에 발생할 수 있습니다. 데이터 로깅을 가속화하려면 에포크가 끝날 때 한 번만 로깅하는 대신 에포크당 여러 번 로깅하십시오.

@@ -1,14 +1,14 @@
 ---
+title: What happens if I edit my Python files while a sweep is running?
 menu:
   support:
     identifier: ko-support-what_happens_if_i_edit_my_python_files_while_a_sweep_is_running
 tags:
 - sweeps
-title: What happens if I edit my Python files while a sweep is running?
 toc_hide: true
 type: docs
 ---
 
-While a sweep is running:
-- If the `train.py` script which the sweep uses changes, the sweep continues to use the original `train.py`
-- If files that the `train.py` script references change, such as helper functions in the `helper.py` script, the sweep begins to use the updated `helper.py`.
+스윕이 실행되는 동안:
+- 스윕이 사용하는 `train.py` 스크립트가 변경되어도 스윕은 원래의 `train.py` 를 계속 사용합니다.
+- `train.py` 스크립트가 참조하는 파일 (예: `helper.py` 스크립트의 헬퍼 함수) 이 변경되면 스윕은 업데이트된 `helper.py` 를 사용하기 시작합니다.

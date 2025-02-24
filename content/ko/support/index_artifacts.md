@@ -1,28 +1,26 @@
 ---
+title: Artifacts
 menu:
   support:
     identifier: ko-support-index_artifacts
     parent: support
-title: Artifacts
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Artifacts</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+다음 지원 질문은 <b>Artifacts</b> 태그가 지정되어 있습니다. 질문에 대한 답변이 없으면 [커뮤니티에 문의](https://community.wandb.ai/)하거나 [support@wandb.com](mailto:support@wandb.com)으로 이메일을 보내주세요.
 {{% /card %}}
 
-- [Can I turn off wandb when testing my code?]({{< relref path="testing_code_turn_off.md" lang="ko" >}})
-- [How can I fetch these Version IDs and ETags in W&B?]({{< relref path="fetch_version_ids_etags_wb.md" lang="ko" >}})
-- [How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?]({{< relref path="find_artifacts_logged_consumed_run_find.md" lang="ko" >}})
-- [How do I best log models from runs in a sweep?]({{< relref path="best_log_models_runs_sweep.md" lang="ko" >}})
-- [How do I find an artifact from the best run in a sweep?]({{< relref path="find_artifact_best_run_sweep.md" lang="ko" >}})
-- [How do I log an artifact to an existing run?]({{< relref path="log_artifact_existing_run.md" lang="ko" >}})
-- [How do I save code?‌]({{< relref path="save_code‌.md" lang="ko" >}})
-- [How do I set a retention or expiration policy on my artifact?]({{< relref path="retention_expiration_policy_artifact.md" lang="ko" >}})
-- [How much storage does each artifact version use?]({{< relref path="artifact_storage_version.md" lang="ko" >}})
-- [Is it possible to recover an artifact after it has been deleted with a run?]({{< relref path="recover_artifact_after_deleted.md" lang="ko" >}})
-- [Using artifacts with multiple architectures and runs?]({{< relref path="artifacts_multiple_architectures_runs.md" lang="ko" >}})
-- [Who has access to my artifacts?]({{< relref path="access_artifacts.md" lang="ko" >}})
-- [Where are artifacts downloaded and how can I control that?]({{< relref path="where_are_artifacts_downloaded_and_how_can_i_control_that.md" lang="ko" >}})
+- [코드를 테스트할 때 wandb를 끄려면 어떻게 해야 하나요?]({{< relref path="testing_code_turn_off.md" lang="ko" >}})
+- [W&B에서 이러한 버전 ID와 ETag를 어떻게 가져올 수 있나요?]({{< relref path="fetch_version_ids_etags_wb.md" lang="ko" >}})
+- [run에서 로그하거나 사용한 아티팩트를 어떻게 찾을 수 있나요? 아티팩트를 생성하거나 사용한 run은 어떻게 찾을 수 있나요?]({{< relref path="find_artifacts_logged_consumed_run_find.md" lang="ko" >}})
+- [스윕에서 run의 모델을 가장 잘 기록하는 방법은 무엇인가요?]({{< relref path="best_log_models_runs_sweep.md" lang="ko" >}})
+- [스윕에서 가장 적합한 run에서 아티팩트를 어떻게 찾을 수 있나요?]({{< relref path="find_artifact_best_run_sweep.md" lang="ko" >}})
+- [기존 run에 아티팩트를 어떻게 기록하나요?]({{< relref path="log_artifact_existing_run.md" lang="ko" >}})
+- [코드를 어떻게 저장하나요?]({{< relref path="save_code‌.md" lang="ko" >}})
+- [아티팩트에 대한 보존 또는 만료 정책을 설정하려면 어떻게 해야 하나요?]({{< relref path="retention_expiration_policy_artifact.md" lang="ko" >}})
+- [각 아티팩트 버전은 얼마나 많은 스토리지를 사용하나요?]({{< relref path="artifact_storage_version.md" lang="ko" >}})
+- [run으로 삭제된 후 아티팩트를 복구할 수 있나요?]({{< relref path="recover_artifact_after_deleted.md" lang="ko" >}})
+- [여러 아키텍처 및 run에서 아티팩트를 사용하시겠습니까?]({{< relref path="artifacts_multiple_architectures_runs.md" lang="ko" >}})
+- [누가 내 아티팩트에 액세스할 수 있나요?]({{< relref path="access_artifacts.md" lang="ko" >}})
+- [아티팩트는 어디에 다운로드되며, 어떻게 제어할 수 있나요?]({{< relref path="where_are_artifacts_downloaded_and_how_can_i_control_that.md" lang="ko" >}})

@@ -1,126 +1,121 @@
 ---
+title: Query panels
+description: 이 페이지의 일부 기능은 베타 버전이며 기능 플래그 뒤에 숨겨져 있습니다. 프로필 페이지의 자기소개에 `weave-plot`을
+  추가하여 관련된 모든 기능을 잠금 해제하세요.
 cascade:
 - url: guides/app/features/panels/query-panels/:filename
-description: Some features on this page are in beta, hidden behind a feature flag.
-  Add `weave-plot` to your bio on your profile page to unlock all related features.
 menu:
   default:
     identifier: ko-guides-models-app-features-panels-query-panels-_index
     parent: panels
-title: Query panels
 url: guides/app/features/panels/query-panels
 ---
 
 {{% alert %}}
-Looking for W&B Weave? W&B's suite of tools for Generative AI application building? Find the docs for weave here: [wandb.me/weave](https://wandb.github.io/weave/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge).
+W&B Weave를 찾고 계신가요? 생성적 AI 애플리케이션 구축을 위한 W&B의 툴 모음인가요? weave에 대한 문서는 여기에서 찾으세요: [wandb.me/weave](https://wandb.github.io/weave/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge).
 {{% /alert %}}
 
-Use query panels to query and interactively visualize your data.
+쿼리 패널을 사용하여 데이터를 쿼리하고 대화형으로 시각화하세요.
 
 {{< img src="/images/weave/pretty_panel.png" alt="" >}}
 
-<!-- {{% alert %}}
-See [this report](http://wandb.me/keras-xla-benchmark) to see how this team used Weave Panels to visualize their benchmarks.
-{{% /alert %}} -->
+## 쿼리 패널 생성
 
-## Create a query panel
-
-Add a query to your workspace or within a report.
+워크스페이스 또는 리포트 내에 쿼리를 추가하세요.
 
 {{< tabpane text=true >}}
-{{% tab header="Project workspace" value="workspace" %}}
+{{% tab header="프로젝트 워크스페이스" value="workspace" %}}
 
-  1. Navigate to your project's workspace. 
-  2. In the upper right hand corner, click `Add panel`.
-  3. From the dropdown, select `Query panel`.
+  1. 프로젝트의 워크스페이스로 이동합니다.
+  2. 오른쪽 상단에서 `패널 추가`를 클릭합니다.
+  3. 드롭다운에서 `쿼리 패널`을 선택합니다.
   {{< img src="/images/weave/add_weave_panel_workspace.png" alt="" >}}
 
 {{% /tab %}}
 
-{{% tab header="W&B Report" value="report" %}}
+{{% tab header="W&B 리포트" value="report" %}}
 
-Type and select `/Query panel`.
+`/쿼리 패널`을 입력하고 선택합니다.
 
 {{< img src="/images/weave/add_weave_panel_report_1.png" alt="" >}}
 
-Alternatively, you can associate a query with a set of runs:
-1. Within your report, type and select `/Panel grid`.
-2. Click the `Add panel` button.
-3. From the dropdown, select `Query panel`.
+또는 쿼리를 run 집합과 연결할 수 있습니다:
+1. 리포트 내에서 `/패널 그리드`를 입력하고 선택합니다.
+2. `패널 추가` 버튼을 클릭합니다.
+3. 드롭다운에서 `쿼리 패널`을 선택합니다.
 
 {{% /tab %}}
 {{< /tabpane >}}
-  
 
-## Query components
+## 쿼리 구성 요소
 
-### Expressions
+### 표현식
 
-Use query expressions to query your data stored in W&B such as runs, artifacts, models, tables, and more. 
+쿼리 표현식을 사용하여 run, Artifacts, Models, 테이블 등과 같이 W&B에 저장된 데이터를 쿼리합니다.
 
-#### Example: Query a table
-Suppose you want to query a W&B Table. In your training code you log a table called `"cifar10_sample_table"`:
+#### 예시: 테이블 쿼리
+W&B Table을 쿼리한다고 가정합니다. 트레이닝 코드에서 `"cifar10_sample_table"`이라는 테이블을 로깅합니다:
 
 ```python
 import wandb
 wandb.log({"cifar10_sample_table":<MY_TABLE>})
 ```
 
-Within the query panel you can query your table with:
+쿼리 패널 내에서 다음을 사용하여 테이블을 쿼리할 수 있습니다:
 ```python
 runs.summary["cifar10_sample_table"]
 ```
 {{< img src="/images/weave/basic_weave_expression.png" alt="" >}}
 
-Breaking this down:
+자세히 살펴보면:
 
-* `runs` is a variable automatically injected in Query Panel Expressions when the Query Panel is in a Workspace. Its "value" is the list of runs which are visible for that particular Workspace. [Read about the different attributes available within a run here]({{< relref path="../../../../track/public-api-guide.md#understanding-the-different-attributes" lang="ko" >}}).
-* `summary` is an op which returns the Summary object for a Run. Ops are _mapped_, meaning this op is applied to each Run in the list, resulting in a list of Summary objects.
-* `["cifar10_sample_table"]` is a Pick op (denoted with brackets), with a parameter of `predictions`. Since Summary objects act like dictionaries or maps, this operation picks the `predictions` field off of each Summary object.
+* `runs`는 쿼리 패널이 워크스페이스에 있을 때 쿼리 패널 표현식에 자동으로 삽입되는 변수입니다. 해당 "값"은 특정 워크스페이스에 대해 보이는 run 목록입니다. [run 내에서 사용할 수 있는 다양한 속성에 대해 자세히 알아보려면 여기를 참조하세요]({{< relref path="../../../../track/public-api-guide.md#understanding-the-different-attributes" lang="ko" >}}).
+* `summary`는 Run에 대한 Summary 오브젝트를 반환하는 op입니다. Op는 _매핑_됩니다. 즉, 이 op는 목록의 각 Run에 적용되어 Summary 오브젝트 목록이 생성됩니다.
+* `["cifar10_sample_table"]`은 `predictions` 파라미터가 있는 Pick op(대괄호로 표시)입니다. Summary 오브젝트는 사전 또는 맵과 같이 작동하므로 이 작업은 각 Summary 오브젝트에서 `predictions` 필드를 선택합니다.
 
-To learn how to write your own queries interactively, see [this report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
+자신만의 쿼리를 대화형으로 작성하는 방법을 배우려면 [이 리포트](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)를 참조하세요.
 
-### Configurations
+### 설정
 
-Select the gear icon on the upper left corner of the panel to expand the query configuration. This allows the user to configure the type of panel and the parameters for the result panel.
+패널의 왼쪽 상단 모서리에 있는 기어 아이콘을 선택하여 쿼리 설정을 확장합니다. 이를 통해 사용자는 패널 유형과 결과 패널에 대한 파라미터를 구성할 수 있습니다.
 
 {{< img src="/images/weave/weave_panel_config.png" alt="" >}}
 
-### Result panels
+### 결과 패널
 
-Finally, the query result panel renders the result of the query expression, using the selected query panel, configured by the configuration to display the data in an interactive form. The following images shows a Table and a Plot of the same data.
+마지막으로 쿼리 결과 패널은 선택한 쿼리 패널을 사용하여 쿼리 표현식의 결과를 렌더링하고, 데이터를 대화형으로 표시하기 위해 설정에 의해 구성됩니다. 다음 이미지는 동일한 데이터의 테이블과 플롯을 보여줍니다.
 
 {{< img src="/images/weave/result_panel_table.png" alt="" >}}
 
 {{< img src="/images/weave/result_panel_plot.png" alt="" >}}
 
-## Basic operations
-The following common operations you can make within your query panels.
-### Sort
-Sort from the column options:
+## 기본 작업
+다음은 쿼리 패널 내에서 수행할 수 있는 일반적인 작업입니다.
+### 정렬
+열 옵션에서 정렬합니다:
 {{< img src="/images/weave/weave_sort.png" alt="" >}}
 
-### Filter
-You can either filter directly in the query or using the filter button in the top left corner (second image)
+### 필터
+쿼리에서 직접 필터링하거나 왼쪽 상단 모서리에 있는 필터 버튼을 사용할 수 있습니다(두 번째 이미지).
 {{< img src="/images/weave/weave_filter_1.png" alt="" >}}
 {{< img src="/images/weave/weave_filter_2.png" alt="" >}}
 
-### Map
-Map operations iterate over lists and apply a function to each element in the data. You can do this directly with a panel query  or by inserting a new column from the column options.
+### 맵
+맵 작업은 목록을 반복하고 데이터의 각 요소에 함수를 적용합니다. 패널 쿼리를 사용하여 직접 수행하거나 열 옵션에서 새 열을 삽입하여 수행할 수 있습니다.
 {{< img src="/images/weave/weave_map.png" alt="" >}}
 {{< img src="/images/weave/weave_map.gif" alt="" >}}
 
-### Groupby
-You can groupby using a query or from the column options.
+### 그룹화
+쿼리 또는 열 옵션에서 그룹화할 수 있습니다.
 {{< img src="/images/weave/weave_groupby.png" alt="" >}}
 {{< img src="/images/weave/weave_groupby.gif" alt="" >}}
 
-### Concat
-The concat operation allows you to concatenate 2 tables and concatenate or join from the panel settings
+### 연결
+연결 작업은 2개의 테이블을 연결하고 패널 설정에서 연결하거나 조인할 수 있습니다.
 {{< img src="/images/weave/weave_concat.gif" alt="" >}}
 
-### Join
-It is also possible to join tables directly in the query. Consider the following query expression:
+### 조인
+쿼리에서 직접 테이블을 조인할 수도 있습니다. 다음 쿼리 표현식을 고려하십시오:
 ```python
 project("luis_team_test", "weave_example_queries").runs.summary["short_table_0"].table.rows.concat.join(\
 project("luis_team_test", "weave_example_queries").runs.summary["short_table_1"].table.rows.concat,\
@@ -129,34 +124,33 @@ project("luis_team_test", "weave_example_queries").runs.summary["short_table_1"]
 ```
 {{< img src="/images/weave/weave_join.png" alt="" >}}
 
-The table on the left is generated from:
+왼쪽의 테이블은 다음에서 생성됩니다:
 ```python
 project("luis_team_test", "weave_example_queries").\
 runs.summary["short_table_0"].table.rows.concat.join
 ```
-The table in the right is generated from:
+오른쪽의 테이블은 다음에서 생성됩니다:
 ```python
 project("luis_team_test", "weave_example_queries").\
 runs.summary["short_table_1"].table.rows.concat
 ```
-Where:
-* `(row) => row["Label"]` are selectors for each table, determining which column to join on
-* `"Table1"` and `"Table2"` are the names of each table when joined
-* `true` and `false` are for left and right inner/outer join settings
+여기서:
+* `(row) => row["Label"]`은 각 테이블에 대한 선택기로, 조인할 열을 결정합니다.
+* `"Table1"` 및 `"Table2"`는 조인될 때 각 테이블의 이름입니다.
+* `true` 및 `false`는 왼쪽 및 오른쪽 내부/외부 조인 설정에 사용됩니다.
 
-
-## Runs object
-Use query panels to access the `runs` object. Run objects store records of your experiments. You can find more details about it in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object) of the report but, as quick overview, `runs` object has available:
-* `summary`: A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. You can set the contents of the summary directly. Think of the summary as the run's outputs.
-* `history`: A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.
-* `config`: A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs"
+## Runs 오브젝트
+쿼리 패널을 사용하여 `runs` 오브젝트에 엑세스합니다. Run 오브젝트는 experiment 기록을 저장합니다. [이 섹션](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object)의 리포트에서 자세한 내용을 확인할 수 있지만 간단히 살펴보면 `runs` 오브젝트는 다음을 사용할 수 있습니다.
+* `summary`: run 결과를 요약하는 정보 사전입니다. 여기에는 정확도 및 손실과 같은 스칼라 또는 큰 파일이 포함될 수 있습니다. 기본적으로 `wandb.log()`는 summary를 로깅된 시계열의 최종 값으로 설정합니다. summary 내용을 직접 설정할 수 있습니다. summary를 run의 출력으로 생각하십시오.
+* `history`: 손실과 같이 모델이 트레이닝되는 동안 변경되는 값을 저장하기 위한 사전 목록입니다. `wandb.log()` 코맨드는 이 오브젝트에 추가됩니다.
+* `config`: 트레이닝 Run에 대한 하이퍼파라미터 또는 데이터셋 Artifact를 생성하는 Run에 대한 전처리 방법과 같은 Run의 구성 정보 사전입니다. 이를 Run의 "입력"으로 생각하십시오.
 {{< img src="/images/weave/weave_runs_object.png" alt="" >}}
 
-## Access Artifacts
+## Artifacts 엑세스
 
-Artifacts are a core concept in W&B. They are a versioned, named collection of files and directories. Use Artifacts to track model weights, datasets, and any other file or directory. Artifacts are stored in W&B and can be downloaded or used in other runs. You can find more details and examples in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts) of the report. Artifacts are normally accessed from the `project` object:
-* `project.artifactVersion()`: returns the specific artifact version for a given name and version within a project
-* `project.artifact("")`: returns the artifact for a given name within a project. You can then use `.versions` to get a list of all versions of this artifact
-* `project.artifactType()`: returns the `artifactType` for a given name within a project. You can then use `.artifacts` to get a list of all artifacts with this type
-* `project.artifactTypes`: returns a list of all artifact types under the project
+Artifacts는 W&B의 핵심 개념입니다. Artifacts는 버전이 지정된 이름이 지정된 파일 및 디렉토리 모음입니다. Artifacts를 사용하여 모델 가중치, 데이터셋 및 기타 파일 또는 디렉토리를 추적합니다. Artifacts는 W&B에 저장되며 다른 Run에서 다운로드하거나 사용할 수 있습니다. [이 섹션](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts)의 리포트에서 자세한 내용과 예제를 확인할 수 있습니다. Artifacts는 일반적으로 `project` 오브젝트에서 엑세스됩니다.
+* `project.artifactVersion()`: 프로젝트 내에서 주어진 이름과 버전에 대한 특정 Artifact 버전이 반환됩니다.
+* `project.artifact("")`: 프로젝트 내에서 주어진 이름에 대한 Artifact가 반환됩니다. 그런 다음 `.versions`를 사용하여 이 Artifact의 모든 버전 목록을 가져올 수 있습니다.
+* `project.artifactType()`: 프로젝트 내에서 주어진 이름에 대한 `artifactType`이 반환됩니다. 그런 다음 `.artifacts`를 사용하여 이 유형의 모든 Artifact 목록을 가져올 수 있습니다.
+* `project.artifactTypes`: 프로젝트에서 모든 Artifact 유형 목록이 반환됩니다.
 {{< img src="/images/weave/weave_artifacts.png" alt="" >}}

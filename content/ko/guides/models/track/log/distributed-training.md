@@ -1,32 +1,32 @@
 ---
-description: Use W&B to log distributed training experiments with multiple GPUs.
+title: Log distributed training experiments
+description: W&B를 사용하여 여러 개의 GPU를 사용하는 분산 트레이닝 Experiments을 로그합니다.
 menu:
   default:
     identifier: ko-guides-models-track-log-distributed-training
     parent: log-objects-and-media
-title: Log distributed training experiments
 ---
 
-In distributed training, models are trained using multiple GPUs in parallel. W&B supports two patterns to track distributed training experiments:
+분산 트레이닝에서는 여러 GPU를 병렬로 사용하여 모델을 트레이닝합니다. W&B는 분산 트레이닝 Experiments를 추적하기 위한 두 가지 패턴을 지원합니다.
 
-1. **One process**: Initialize W&B ([`wandb.init`]({{< relref path="/ref//python/init.md" lang="ko" >}})) and log experiments ([`wandb.log`]({{< relref path="/ref//python/log.md" lang="ko" >}})) from a single process. This is a common solution for logging distributed training experiments with the [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class. In some cases, users funnel data over from other processes using a multiprocessing queue (or another communication primitive) to the main logging process.
-2. **Many processes**: Initialize W&B ([`wandb.init`]({{< relref path="/ref//python/init.md" lang="ko" >}})) and log experiments ([`wandb.log`]({{< relref path="/ref//python/log.md" lang="ko" >}})) in every process. Each process is effectively a separate experiment. Use the `group` parameter when you initialize W&B (`wandb.init(group='group-name')`) to define a shared experiment and group the logged values together in the W&B App UI.
+1. **단일 프로세스**: 단일 프로세스에서 W&B ([`wandb.init`]({{< relref path="/ref//python/init.md" lang="ko" >}}))를 초기화하고 Experiments ([`wandb.log`]({{< relref path="/ref//python/log.md" lang="ko" >}}))를 기록합니다. 이는 [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) 클래스로 분산 트레이닝 Experiments를 로깅하는 일반적인 솔루션입니다. 경우에 따라 사용자는 다중 처리 대기열(또는 다른 통신 기본 요소)을 사용하여 다른 프로세스의 데이터를 기본 로깅 프로세스로 보냅니다.
+2. **다중 프로세스**: 모든 프로세스에서 W&B ([`wandb.init`]({{< relref path="/ref//python/init.md" lang="ko" >}}))를 초기화하고 Experiments ([`wandb.log`]({{< relref path="/ref//python/log.md" >}}))를 기록합니다. 각 프로세스는 사실상 별도의 experiment입니다. W&B를 초기화할 때 `group` 파라미터(`wandb.init(group='group-name')`)를 사용하여 공유 experiment를 정의하고 W&B App UI에서 기록된 값들을 함께 그룹화합니다.
 
-The proceeding examples demonstrate how to track metrics with W&B using PyTorch DDP on two GPUs on a single machine. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the details of implementation may differ.
-
-{{% alert %}}
-Explore the code behind these examples in the W&B GitHub examples repository [here](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp). Specifically, see the [`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) Python script for information on how to implement one process and many process methods.
-{{% /alert %}}
-
-### Method 1: One process
-
-In this method we track only a rank 0 process. To implement this method, initialize W&B (`wandb.init)`, commence a W&B Run, and log metrics (`wandb.log`) within the rank 0 process. This method is simple and robust, however, this method does not log model metrics from other processes (for example, loss values or inputs from their batches). System metrics, such as usage and memory, are still logged for all GPUs since that information is available to all processes.
+다음 예제에서는 단일 머신에서 두 개의 GPU를 사용하여 PyTorch DDP로 W&B를 통해 메트릭을 추적하는 방법을 보여줍니다. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`torch.nn`의 `DistributedDataParallel`)은 분산 트레이닝을 위한 널리 사용되는 라이브러리입니다. 기본 원칙은 모든 분산 트레이닝 설정에 적용되지만 구현 세부 사항은 다를 수 있습니다.
 
 {{% alert %}}
-**Use this method to only track metrics available from a single process**. Typical examples include GPU/CPU utilization, behavior on a shared validation set, gradients and parameters, and loss values on representative data examples.
+W&B GitHub 예제 리포지토리 [여기](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp)에서 이러한 예제에 대한 코드를 살펴보세요. 특히, 단일 프로세스 및 다중 프로세스 메소드를 구현하는 방법에 대한 정보는 [`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) Python 스크립트를 참조하세요.
 {{% /alert %}}
 
-Within our [sample Python script (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py), we check to see if the rank is 0. To do so, we first launch multiple processes with `torch.distributed.launch`. Next, we check the rank with the `--local_rank` command line argument. If the rank is set to 0, we set up `wandb` logging conditionally in the [`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24) function. Within our Python script, we use the following check:
+### 방법 1: 단일 프로세스
+
+이 방법에서는 순위 0 프로세스만 추적합니다. 이 방법을 구현하려면 W&B(`wandb.init`)를 초기화하고, W&B Run을 시작하고, 순위 0 프로세스 내에서 메트릭(`wandb.log`)을 기록합니다. 이 방법은 간단하고 강력하지만 다른 프로세스의 모델 메트릭(예: 배치로부터의 손실 값 또는 입력)은 기록하지 않습니다. 사용량 및 메모리와 같은 시스템 메트릭은 해당 정보를 모든 프로세스에서 사용할 수 있으므로 모든 GPU에 대해 계속 기록됩니다.
+
+{{% alert %}}
+**단일 프로세스에서 사용할 수 있는 메트릭만 추적하려면 이 방법을 사용하세요**. 일반적인 예로는 GPU/CPU 사용률, 공유 검증 세트의 행동, 그래디언트 및 파라미터, 대표적인 데이터 예제의 손실 값이 있습니다.
+{{% /alert %}}
+
+[샘플 Python 스크립트 (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) 내에서 순위가 0인지 확인합니다. 이를 구현하기 위해 먼저 `torch.distributed.launch`로 여러 프로세스를 시작합니다. 다음으로 `--local_rank` 커맨드라인 인수로 순위를 확인합니다. 순위가 0으로 설정된 경우 [`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24) 함수에서 조건부로 `wandb` 로깅을 설정합니다. Python 스크립트 내에서 다음 검사를 사용합니다.
 
 ```python showLineNumbers
 if __name__ == "__main__":
@@ -45,25 +45,25 @@ if __name__ == "__main__":
         train(args)
 ```
 
-Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system) of metrics tracked from a single process. The dashboard displays system metrics such as temperature and utilization, that were tracked for both GPUs.
+W&B App UI를 탐색하여 단일 프로세스에서 추적된 메트릭의 [예제 대시보드](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system)를 확인하세요. 대시보드는 두 GPU에 대해 추적된 온도 및 사용률과 같은 시스템 메트릭을 표시합니다.
 
 {{< img src="/images/track/distributed_training_method1.png" alt="" >}}
 
-However, the loss values as a function epoch and batch size were only logged from a single GPU.
+그러나 에포크 및 배치 크기 함수로서의 손실 값은 단일 GPU에서만 기록되었습니다.
 
 {{< img src="/images/experiments/loss_function_single_gpu.png" alt="" >}}
 
-### Method 2: Many processes
+### 방법 2: 다중 프로세스
 
-In this method, we track each process in the job, calling `wandb.init()` and `wandb.log()` from each process separately. We suggest you call `wandb.finish()` at the end of training, to mark that the run has completed so that all processes exit properly.
+이 방법에서는 작업의 각 프로세스를 추적하고 각 프로세스에서 `wandb.init()` 및 `wandb.log()`를 호출합니다. 모든 프로세스가 제대로 종료되도록 트레이닝이 끝나면 `wandb.finish()`를 호출하여 Run이 완료되었음을 표시하는 것이 좋습니다.
 
-This method makes more information accessible for logging. However, note that multiple W&B Runs are reported in the W&B App UI. It might be difficult to keep track of W&B Runs across multiple experiments. To mitigate this, provide a value to the group parameter when you initialize W&B to keep track of which W&B Run belongs to a given experiment. For more information about how to keep track of training and evaluation W&B Runs in experiments, see [Group Runs]({{< relref path="/guides/models/track/runs/grouping.md" lang="ko" >}}).
+이 방법을 사용하면 로깅을 위해 더 많은 정보에 액세스할 수 있습니다. 그러나 여러 W&B Runs가 W&B App UI에 보고된다는 점에 유의하세요. 여러 Experiments에서 W&B Runs를 추적하기 어려울 수 있습니다. 이를 완화하려면 W&B를 초기화할 때 group 파라미터에 값을 제공하여 지정된 experiment에 속하는 W&B Run을 추적하세요. Experiments에서 트레이닝 및 평가 W&B Runs를 추적하는 방법에 대한 자세한 내용은 [Run 그룹화]({{< relref path="/guides/models/track/runs/grouping.md" lang="ko" >}})를 참조하세요.
 
 {{% alert %}}
-**Use this method if you want to track metrics from individual processes**. Typical examples include the data and predictions on each node (for debugging data distribution) and metrics on individual batches outside of the main node. This method is not necessary to get system metrics from all nodes nor to get summary statistics available on the main node.
+**개별 프로세스의 메트릭을 추적하려는 경우 이 방법을 사용하세요**. 일반적인 예로는 각 노드의 데이터 및 예측(데이터 배포 디버깅용)과 기본 노드 외부의 개별 배치에 대한 메트릭이 있습니다. 이 방법은 모든 노드에서 시스템 메트릭을 가져오거나 기본 노드에서 사용할 수 있는 요약 통계를 가져오는 데 필요하지 않습니다.
 {{% /alert %}}
 
-The following Python code snippet demonstrates how to set the group parameter when you initialize W&B:
+다음 Python 코드 조각은 W&B를 초기화할 때 group 파라미터를 설정하는 방법을 보여줍니다.
 
 ```python
 if __name__ == "__main__":
@@ -79,32 +79,32 @@ if __name__ == "__main__":
     train(args, run)
 ```
 
-Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna) of metrics tracked from multiple processes. Note that there are two W&B Runs grouped together in the left sidebar. Click on a group to view the dedicated group page for the experiment. The dedicated group page displays metrics from each process separately.
+W&B App UI를 탐색하여 다중 프로세스에서 추적된 메트릭의 [예제 대시보드](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna)를 확인하세요. 왼쪽 사이드바에 함께 그룹화된 두 개의 W&B Runs가 있습니다. 그룹을 클릭하여 experiment의 전용 그룹 페이지를 확인하세요. 전용 그룹 페이지에는 각 프로세스의 메트릭이 개별적으로 표시됩니다.
 
 {{< img src="/images/experiments/dashboard_grouped_runs.png" alt="" >}}
 
-The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
+위의 이미지는 W&B App UI 대시보드를 보여줍니다. 사이드바에는 두 개의 Experiments가 있습니다. 하나는 'null'로 레이블이 지정되고 두 번째는 'DPP'(노란색 상자로 묶임)라고 합니다. 그룹을 확장하면(그룹 드롭다운 선택) 해당 experiment와 연결된 W&B Runs가 표시됩니다.
 
-### Use W&B Service to avoid common distributed training issues
+### W&B Service를 사용하여 일반적인 분산 트레이닝 문제 방지
 
-There are two common issues you might encounter when using W&B and distributed training:
+W&B 및 분산 트레이닝을 사용할 때 발생할 수 있는 두 가지 일반적인 문제가 있습니다.
 
-1. **Hanging at the beginning of training** - A `wandb` process can hang if the `wandb` multiprocessing interferes with the multiprocessing from distributed training.
-2. **Hanging at the end of training** - A training job might hang if the `wandb` process does not know when it needs to exit. Call the `wandb.finish()` API at the end of your Python script to tell W&B that the Run finished. The wandb.finish() API will finish uploading data and will cause W&B to exit.
+1. **트레이닝 시작 시 멈춤** - `wandb` 다중 처리가 분산 트레이닝의 다중 처리를 방해하는 경우 `wandb` 프로세스가 멈출 수 있습니다.
+2. **트레이닝 종료 시 멈춤** - `wandb` 프로세스가 종료해야 할 시점을 모르는 경우 트레이닝 작업이 멈출 수 있습니다. Python 스크립트가 끝나면 `wandb.finish()` API를 호출하여 W&B에 Run이 완료되었음을 알립니다. wandb.finish() API는 데이터 업로드를 완료하고 W&B를 종료합니다.
 
-We recommend using the `wandb service` to improve the reliability of your distributed jobs. Both of the preceding training issues are commonly found in versions of the W&B SDK where wandb service is unavailable.
+`wandb service`를 사용하여 분산 작업의 안정성을 향상시키는 것이 좋습니다. 앞서 언급한 두 가지 트레이닝 문제는 wandb service를 사용할 수 없는 W&B SDK 버전에서 흔히 발생합니다.
 
-### Enable W&B Service
+### W&B Service 활성화
 
-Depending on your version of the W&B SDK, you might already have W&B Service enabled by default.
+W&B SDK 버전에 따라 W&B Service가 기본적으로 활성화되어 있을 수 있습니다.
 
-#### W&B SDK 0.13.0 and above
+#### W&B SDK 0.13.0 이상
 
-W&B Service is enabled by default for versions of the W&B SDK `0.13.0` and above.
+W&B SDK 버전 `0.13.0` 이상의 경우 W&B Service가 기본적으로 활성화되어 있습니다.
 
-#### W&B SDK 0.12.5 and above
+#### W&B SDK 0.12.5 이상
 
-Modify your Python script to enable W&B Service for W&B SDK version 0.12.5 and above. Use the `wandb.require` method and pass the string `"service"` within your main function:
+Python 스크립트를 수정하여 W&B SDK 버전 0.12.5 이상에 대해 W&B Service를 활성화합니다. `wandb.require` 메소드를 사용하고 기본 함수 내에서 문자열 `"service"`를 전달합니다.
 
 ```python
 if __name__ == "__main__":
@@ -116,19 +116,19 @@ def main():
     # rest-of-your-script-goes-here
 ```
 
-For optimal experience we do recommend you upgrade to the latest version.
+최적의 경험을 위해 최신 버전으로 업그레이드하는 것이 좋습니다.
 
-**W&B SDK 0.12.4 and below**
+**W&B SDK 0.12.4 이하**
 
-Set the `WANDB_START_METHOD` environment variable to `"thread"` to use multithreading instead if you use a W&B SDK version 0.12.4 and below.
+W&B SDK 버전 0.12.4 이하를 사용하는 경우 `WANDB_START_METHOD` 환경 변수를 `"thread"`로 설정하여 대신 멀티스레딩을 사용하세요.
 
-### Example use cases for multiprocessing
+### 다중 처리에 대한 예제 유스 케이스
 
-The following code snippets demonstrate common methods for advanced distributed use cases.
+다음 코드 조각은 고급 분산 유스 케이스에 대한 일반적인 방법을 보여줍니다.
 
-#### Spawn process
+#### Spawn 프로세스
 
-Use the `wandb.setup()[line 8]`method in your main function if you initiate a W&B Run in a spawned process:
+스폰된 프로세스에서 W&B Run을 시작하는 경우 기본 함수에서 `wandb.setup()[line 8]` 메소드를 사용합니다.
 
 ```python showLineNumbers
 import multiprocessing as mp
@@ -149,9 +149,9 @@ if __name__ == "__main__":
     main()
 ```
 
-#### Share a W&B Run
+#### W&B Run 공유
 
-Pass a W&B Run object as an argument to share W&B Runs between processes:
+W&B Run 오브젝트를 인수로 전달하여 프로세스 간에 W&B Runs를 공유합니다.
 
 ```python showLineNumbers
 def do_work(run):
@@ -171,5 +171,5 @@ if __name__ == "__main__":
 
 
 {{% alert %}}
-Note that we can not guarantee the logging order. Synchronization should be done by the author of the script.
+로깅 순서를 보장할 수 없습니다. 동기화는 스크립트 작성자가 수행해야 합니다.
 {{% /alert %}}

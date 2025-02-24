@@ -1,19 +1,17 @@
 ---
+title: Connectivity
 menu:
   support:
     identifier: ko-support-index_connectivity
     parent: support
-title: Connectivity
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Connectivity</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+다음 지원 질문은 <b>Connectivity</b> 태그가 지정되어 있습니다. 질문에 대한 답변이 없으면 [커뮤니티에 문의](https://community.wandb.ai/)하거나 [support@wandb.com](mailto:support@wandb.com)으로 이메일을 보내세요.
 {{% /card %}}
 
-- [How can I resolve the Filestream rate limit exceeded error?]({{< relref path="filestream_rate_limit_exceeded_error.md" lang="ko" >}})
-- [How do I deal with network issues?]({{< relref path="deal_network_issues.md" lang="ko" >}})
-- [How do I resolve a run initialization timeout error in wandb?]({{< relref path="initialization_timeout_error.md" lang="ko" >}})
-- [Is there a W&B outage?]({{< relref path="wandb_status.md" lang="ko" >}})
+- [Filestream rate limit exceeded 오류를 어떻게 해결할 수 있나요?]({{< relref path="filestream_rate_limit_exceeded_error.md" lang="ko" >}})
+- [네트워크 문제를 어떻게 처리해야 하나요?]({{< relref path="deal_network_issues.md" lang="ko" >}})
+- [wandb에서 run 초기화 시간 초과 오류를 어떻게 해결하나요?]({{< relref path="initialization_timeout_error.md" lang="ko" >}})
+- [W&B에 서비스 중단이 있나요?]({{< relref path="wandb_status.md" lang="ko" >}})

@@ -1,39 +1,36 @@
 ---
+title: 'Tutorial: Set up W&B Launch with Docker'
 menu:
   launch:
     identifier: ko-launch-set-up-launch-setup-launch-docker
     parent: set-up-launch
-title: 'Tutorial: Set up W&B Launch with Docker'
 url: guides/launch/setup-launch-docker
 ---
 
-The following guide describes how to configure W&B Launch to use Docker on a local machine for both the launch agent environment and for the queue's target resource.
+다음 가이드는 로컬 시스템에서 docker 컨테이너를 Launch 에이전트 환경과 큐의 대상 리소스로 사용하도록 W&B Launch를 구성하는 방법을 설명합니다.
 
-Using Docker to execute jobs and as the launch agent's environment on the same local machine is particularly useful if your compute is installed on a machine that does not have a cluster management system (such as Kubernetes).
+작업을 실행하는 데 Docker를 사용하고 동일한 로컬 시스템에서 Launch 에이전트의 환경으로 사용하는 것은 컴퓨팅이 Kubernetes와 같은 클러스터 관리 시스템이 없는 시스템에 설치된 경우에 특히 유용합니다.
 
-You can also use Docker queues to run workloads on powerful workstations.
+Docker 큐를 사용하여 강력한 워크스테이션에서 워크로드를 실행할 수도 있습니다.
 
 {{% alert %}}
-This set up is common for users who perform experiments on their local machine, or that have a remote machine that they SSH in to, to submit launch jobs.
+이 설정은 로컬 시스템에서 실험을 수행하거나 SSH를 통해 연결하여 Launch 작업을 제출하는 원격 시스템을 사용하는 사용자에게 일반적입니다.
 {{% /alert %}}
 
-When you use Docker with W&B Launch, W&B will first build an image, and then build and run a container from that image. The image is built with the Docker `docker run <image-uri>` command. The queue configuration is interpreted as additional arguments that are passed to the `docker run` command.
+W&B Launch와 함께 Docker를 사용하면 W&B는 먼저 이미지를 빌드한 다음 해당 이미지에서 컨테이너를 빌드하고 실행합니다. 이미지는 Docker `docker run <image-uri>` 코맨드로 빌드됩니다. 큐 설정은 `docker run` 코맨드에 전달되는 추가 인수로 해석됩니다.
 
-<!-- Future: Insert diagram -->
+## Docker 큐 구성
 
-## Configure a Docker queue
+Launch 큐 구성(Docker 대상 리소스용)은 [`docker run`]({{< relref path="/ref/cli/wandb-docker-run.md" lang="ko" >}}) CLI 코맨드에 정의된 것과 동일한 옵션을 허용합니다.
 
+에이전트는 큐 구성에 정의된 옵션을 수신합니다. 그런 다음 에이전트는 수신된 옵션을 Launch 작업의 설정에서 가져온 모든 재정의와 병합하여 대상 리소스(이 경우 로컬 시스템)에서 실행되는 최종 `docker run` 코맨드를 생성합니다.
 
-The launch queue configuration (for a Docker target resource) accepts the same options defined in the [`docker run`]({{< relref path="/ref/cli/wandb-docker-run.md" lang="ko" >}}) CLI command.
+다음과 같은 두 가지 구문 변환이 수행됩니다.
 
-The agent receives options defined in the queue configuration. The agent then merges the received options with any overrides from the launch job’s configuration to produce a final `docker run` command that is executed on the target resource (in this case, a local machine).
+1. 반복 옵션은 큐 구성에 목록으로 정의됩니다.
+2. 플래그 옵션은 큐 구성에 값 `true`의 Boolean으로 정의됩니다.
 
-There are two syntax transformations that take place:
-
-1. Repeated options are defined in the queue configuration as a list.
-2. Flag options are defined in the queue configuration as a Boolean with the value `true`.
-
-For example, the following queue configuration:
+예를 들어, 다음 큐 구성이 있습니다.
 
 ```json
 {
@@ -44,7 +41,7 @@ For example, the following queue configuration:
 }
 ```
 
-Results in the following `docker run` command:
+다음과 같은 `docker run` 코맨드가 생성됩니다.
 
 ```bash
 docker run \
@@ -55,17 +52,16 @@ docker run \
   --gpus all
 ```
 
-Volumes can be specified either as a list of strings, or a single string. Use a list if you specify multiple volumes.
+볼륨은 문자열 목록 또는 단일 문자열로 지정할 수 있습니다. 여러 볼륨을 지정하는 경우 목록을 사용하십시오.
 
-Docker automatically passes environment variables, that are not assigned a value, from the launch agent environment. This means that, if the launch agent has an environment variable `MY_EXISTING_ENV_VAR`, that environment variable is available in the container. This is useful if you want to use other config keys without publishing them in the queue configuration.
+Docker는 값이 할당되지 않은 환경 변수를 Launch 에이전트 환경에서 자동으로 전달합니다. 즉, Launch 에이전트에 환경 변수 `MY_EXISTING_ENV_VAR`가 있는 경우 해당 환경 변수를 컨테이너에서 사용할 수 있습니다. 이는 큐 설정에서 게시하지 않고 다른 구성 키를 사용하려는 경우에 유용합니다.
 
-The `--gpus` flag of the `docker run` command allows you to specify GPUs that are available to a Docker container. For more information on how to use the `gpus` flag, see the [Docker documentation](https://docs.docker.com/config/containers/resource_constraints/#gpu).
-
+`docker run` 코맨드의 `--gpus` 플래그를 사용하면 Docker 컨테이너에서 사용할 수 있는 GPU를 지정할 수 있습니다. `gpus` 플래그를 사용하는 방법에 대한 자세한 내용은 [Docker 설명서](https://docs.docker.com/config/containers/resource_constraints/#gpu)를 참조하십시오.
 
 {{% alert %}}
-* Install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) to use GPUs within a Docker container.
-* If you build images from a code or artifact-sourced job, you can override the base image used by the [agent]({{< relref path="#configure-a-launch-agent-on-a-local-machine" lang="ko" >}}) to include the NVIDIA Container Toolkit.
-  For example, within your launch queue, you can override the base image to `tensorflow/tensorflow:latest-gpu`:
+* Docker 컨테이너 내에서 GPU를 사용하려면 [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)을 설치하십시오.
+* 코드 또는 아티팩트 소스 작업에서 이미지를 빌드하는 경우 [에이전트]({{< relref path="#configure-a-launch-agent-on-a-local-machine" lang="ko" >}})에서 사용하는 기본 이미지를 재정의하여 NVIDIA Container Toolkit을 포함할 수 있습니다.
+  예를 들어, Launch 큐 내에서 기본 이미지를 `tensorflow/tensorflow:latest-gpu`로 재정의할 수 있습니다.
 
   ```json
   {
@@ -78,33 +74,29 @@ The `--gpus` flag of the `docker run` command allows you to specify GPUs that ar
   ```
 {{% /alert %}}
 
+## 큐 생성
 
+W&B CLI를 사용하여 Docker를 컴퓨팅 리소스로 사용하는 큐를 생성합니다.
 
+1. [Launch 페이지](https://wandb.ai/launch)로 이동합니다.
+2. **Create Queue** 버튼을 클릭합니다.
+3. 큐를 만들려는 **Entity**를 선택합니다.
+4. **Name** 필드에 큐 이름을 입력합니다.
+5. **Resource**로 **Docker**를 선택합니다.
+6. **Configuration** 필드에 Docker 큐 설정을 정의합니다.
+7. **Create Queue** 버튼을 클릭하여 큐를 생성합니다.
 
-## Create a queue
+## 로컬 시스템에서 Launch 에이전트 구성
 
-Create a queue that uses Docker as compute resource with the W&B CLI:
-
-1. Navigate to the [Launch page](https://wandb.ai/launch).
-2. Click on the **Create Queue** button.
-3. Select the **Entity** you would like to create the queue in.
-4. Enter a name for your queue in the **Name** field.
-5. Select **Docker** as the **Resource**.
-6. Define your Docker queue configuration in the **Configuration** field.
-7. Click on the **Create Queue** button to create the queue.
-
-## Configure a launch agent on a local machine
-
-Configure the launch agent with a YAML config file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
+`launch-config.yaml`이라는 YAML 구성 파일로 Launch 에이전트를 구성합니다. 기본적으로 W&B는 `~/.config/wandb/launch-config.yaml`에서 구성 파일을 확인합니다. Launch 에이전트를 활성화할 때 다른 디렉토리를 선택적으로 지정할 수 있습니다.
 
 {{% alert %}}
-You can use the W&B CLI to specify core configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`]({{< relref path="/ref/cli/wandb-launch-agent.md" lang="ko" >}}) command for more information.
+W&B CLI를 사용하여 Launch 에이전트의 핵심 구성 가능 옵션(최대 작업 수, W&B Entity 및 Launch 큐)을 지정할 수 있습니다(구성 YAML 파일 대신). 자세한 내용은 [`wandb launch-agent`]({{< relref path="/ref/cli/wandb-launch-agent.md" lang="ko" >}}) 코맨드를 참조하십시오.
 {{% /alert %}}
 
+## 핵심 에이전트 구성 옵션
 
-## Core agent config options
-
-The following tabs demonstrate how to specify the core config agent options with the W&B CLI and with a YAML config file:
+다음 탭은 W&B CLI와 YAML 구성 파일을 사용하여 핵심 구성 에이전트 옵션을 지정하는 방법을 보여줍니다.
 
 {{< tabpane text=true >}}
 {{% tab "W&B CLI" %}}
@@ -121,26 +113,25 @@ queues:
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Docker image builders
+## Docker 이미지 빌더
 
-The launch agent on your machine can be configured to build Docker images. By default, these images are stored on your machine’s local image repository. To enable your launch agent to build Docker images, set the `builder` key in the launch agent config to `docker`:
+머신에서 Launch 에이전트를 구성하여 Docker 이미지를 빌드할 수 있습니다. 기본적으로 이러한 이미지는 머신의 로컬 이미지 저장소에 저장됩니다. Launch 에이전트가 Docker 이미지를 빌드할 수 있도록 하려면 Launch 에이전트 구성에서 `builder` 키를 `docker`로 설정합니다.
 
 ```yaml title="launch-config.yaml"
 builder:
 	type: docker
 ```
 
-If you don't want the agent to build Docker images, and instead use prebuilt images from a registry, set the `builder` key in the launch agent config to `noop`
+에이전트가 Docker 이미지를 빌드하지 않고 레지스트리의 미리 빌드된 이미지를 대신 사용하려면 Launch 에이전트 구성에서 `builder` 키를 `noop`로 설정합니다.
 
 ```yaml title="launch-config.yaml"
 builder:
   type: noop
 ```
 
-## Container registries
+## 컨테이너 레지스트리
 
-Launch uses external container registeries such as Dockerhub, Google Container Registry, Azure Container Registry, and Amazon ECR.  
-If you want to run a job on a different environment from where you built it, configure your agent to be able to pull from a container registry. 
+Launch는 Dockerhub, Google Container Registry, Azure Container Registry 및 Amazon ECR과 같은 외부 컨테이너 레지스트리를 사용합니다.
+빌드한 환경과 다른 환경에서 작업을 실행하려면 컨테이너 레지스트리에서 풀할 수 있도록 에이전트를 구성합니다.
 
-
-To learn more about how connect the launch agent with a cloud registry, see the [Advanced agent setup]({{< relref path="./setup-agent-advanced.md#agent-configuration" lang="ko" >}}) page.
+Launch 에이전트를 클라우드 레지스트리에 연결하는 방법에 대한 자세한 내용은 [고급 에이전트 설정]({{< relref path="./setup-agent-advanced.md#agent-configuration" lang="ko" >}}) 페이지를 참조하십시오.

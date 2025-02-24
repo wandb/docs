@@ -1,17 +1,15 @@
 ---
+title: Tables
 menu:
   support:
     identifier: ko-support-index_tables
     parent: support
-title: Tables
 type: docs
 ---
 
 {{% card %}}
-The following support questions are tagged with <b>Tables</b>. If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+다음 지원 질문은 <b>Tables</b> 태그가 지정되어 있습니다. 질문에 대한 답변이 보이지 않으면 [커뮤니티에 문의](https://community.wandb.ai/)하거나 [support@wandb.com](mailto:support@wandb.com)으로 이메일을 보내주세요.
 {{% /card %}}
 
-- [How do I add Plotly or Bokeh Charts into Tables?]({{< relref path="add_plotlybokeh_charts_tables.md" lang="ko" >}})
-- [How do I insert a table?]({{< relref path="insert_table.md" lang="ko" >}})
+- [Plotly 또는 Bokeh 차트를 Tables 에 어떻게 추가하나요?]({{< relref path="add_plotlybokeh_charts_tables.md" lang="ko" >}})
+- [테이블을 어떻게 삽입하나요?]({{< relref path="insert_table.md" lang="ko" >}})

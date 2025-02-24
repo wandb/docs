@@ -1,40 +1,40 @@
 ---
+title: Manage users, groups, and roles with SCIM
 menu:
   default:
     identifier: ko-guides-hosting-iam-scim
     parent: identity-and-access-management-iam
-title: Manage users, groups, and roles with SCIM
 weight: 4
 ---
 
-The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
+System for Cross-domain Identity Management (SCIM) API를 사용하면 인스턴스 또는 organization 관리자가 W&B organization에서 user, group, custom role을 관리할 수 있습니다. SCIM group은 W&B Teams에 매핑됩니다.
 
-The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema. W&B adds the `/Roles` endpoints to support automated management of custom roles in W&B organizations.
+SCIM API는 `<host-url>/scim/`에서 엑세스할 수 있으며 [RC7643 프로토콜](https://www.rfc-editor.org/rfc/rfc7643)에서 찾을 수 있는 필드의 서브셋을 사용하여 `/Users` 및 `/Groups` 엔드포인트를 지원합니다. 또한 공식 SCIM 스키마의 일부가 아닌 `/Roles` 엔드포인트도 포함합니다. W&B는 W&B organization에서 custom role의 자동 관리를 지원하기 위해 `/Roles` 엔드포인트를 추가합니다.
 
 {{% alert %}}
-SCIM API applies to all hosting options including [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}), [Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}), and [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}). In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization` within user settings.
+SCIM API는 [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}), [자체 관리 인스턴스]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}), [SaaS 클라우드]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}})를 포함한 모든 호스팅 옵션에 적용됩니다. SaaS 클라우드에서 organization 관리자는 SCIM API 요청이 올바른 organization으로 전달되도록 user 설정에서 기본 organization을 구성해야 합니다. 이 설정은 user 설정 내의 `SCIM API Organization` 섹션에서 사용할 수 있습니다.
 {{% /alert %}}
 
-## Authentication
+## 인증
 
-An organization or instance admin can use basic authentication with their API key to access the SCIM API. Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
+organization 또는 인스턴스 관리자는 API 키로 기본 인증을 사용하여 SCIM API에 엑세스할 수 있습니다. HTTP 요청의 `Authorization` 헤더를 `Basic` 문자열 다음에 공백, 그리고 `username:API-KEY` 형식의 base-64로 인코딩된 문자열로 설정합니다. 즉, 사용자 이름과 API 키를 `:` 문자로 구분된 값으로 바꾸고 결과를 base-64로 인코딩합니다. 예를 들어 `demo:p@55w0rd`로 인증하려면 헤더는 `Authorization: Basic ZGVtbzpwQDU1dzByZA==`여야 합니다.
 
-## User resource
+## User 리소스
 
-The SCIM user resource maps to W&B users.
+SCIM user 리소스는 W&B Users에 매핑됩니다.
 
-### Get user
+### User 가져오기
 
-- **Endpoint:** **`<host-url>/scim/Users/{id}`**
-- **Method**: GET
-- **Description**: Retrieve the information for a specific user in your [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) organization or your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) instance by providing the user's unique ID.
-- **Request Example**:
+-   **엔드포인트:** **`<host-url>/scim/Users/{id}`**
+-   **메서드**: GET
+-   **설명**: user의 고유 ID를 제공하여 [SaaS 클라우드]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) organization 또는 [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 또는 [자체 관리]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) 인스턴스에서 특정 user에 대한 정보를 검색합니다.
+-   **요청 예시**:
 
 ```bash
 GET /scim/Users/abc
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 200)
@@ -64,18 +64,18 @@ GET /scim/Users/abc
 }
 ```
 
-### List users
+### User 나열하기
 
-- **Endpoint:** **`<host-url>/scim/Users`**
-- **Method**: GET
-- **Description**: Retrieve the list of all users in your [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) organization or your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) instance.
-- **Request Example**:
+-   **엔드포인트:** **`<host-url>/scim/Users`**
+-   **메서드**: GET
+-   **설명**: [SaaS 클라우드]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) organization 또는 [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 또는 [자체 관리]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) 인스턴스에 있는 모든 Users 목록을 검색합니다.
+-   **요청 예시**:
 
 ```bash
 GET /scim/Users
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 200)
@@ -115,18 +115,19 @@ GET /scim/Users
 }
 ```
 
-### Create user
+### User 만들기
 
-- **Endpoint**: **`<host-url>/scim/Users`**
-- **Method**: POST
-- **Description**: Create a new user resource.
-- **Supported Fields**:
+-   **엔드포인트**: **`<host-url>/scim/Users`**
+-   **메서드**: POST
+-   **설명**: 새 user 리소스를 만듭니다.
+-   **지원되는 필드**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| emails | Multi-Valued Array | Yes (Make sure `primary` email is set) |
-| userName | String | Yes |
-- **Request Example**:
+| 필드        | 유형               | 필수 |
+| ----------- | ------------------ | ---- |
+| emails      | 다중 값 어레이       | 예 (`primary` 이메일이 설정되었는지 확인) |
+| userName    | 문자열               | 예   |
+
+-   **요청 예시**:
 
 ```bash
 POST /scim/Users
@@ -147,7 +148,7 @@ POST /scim/Users
 }
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 201)
@@ -176,44 +177,44 @@ POST /scim/Users
 }
 ```
 
-### Delete user
+### User 삭제
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: DELETE
-- **Description**: Fully delete a user from your [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) organization or your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) instance by providing the user's unique ID. Use the [Create user]({{< relref path="#create-user" lang="ko" >}}) API to add the user again to the organization or instance if needed.
-- **Request Example**:
+-   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
+-   **메서드**: DELETE
+-   **설명**: user의 고유 ID를 제공하여 [SaaS 클라우드]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) organization 또는 [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 또는 [자체 관리]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) 인스턴스에서 user를 완전히 삭제합니다. 필요한 경우 [User 만들기]({{< relref path="#create-user" lang="ko" >}}) API를 사용하여 organization 또는 인스턴스에 user를 다시 추가합니다.
+-   **요청 예시**:
 
 {{% alert %}}
-To temporarily deactivate the user, refer to [Deactivate user]({{< relref path="#deactivate-user" lang="ko" >}}) API which uses the `PATCH` endpoint.
+user를 일시적으로 비활성화하려면 `PATCH` 엔드포인트를 사용하는 [User 비활성화]({{< relref path="#deactivate-user" lang="ko" >}}) API를 참조하십시오.
 {{% /alert %}}
 
 ```bash
 DELETE /scim/Users/abc
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```json
 (Status 204)
 ```
 
-### Deactivate user
+### User 비활성화
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: PATCH
-- **Description**: Temporarily deactivate a user in your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) instance by providing the user's unique ID. Use the [Reactivate user]({{< relref path="#reactivate-user" lang="ko" >}}) API to reactivate the user when needed.
-- **Supported Fields**:
+-   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
+-   **메서드**: PATCH
+-   **설명**: user의 고유 ID를 제공하여 [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 또는 [자체 관리]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) 인스턴스에서 user를 일시적으로 비활성화합니다. 필요한 경우 [User 다시 활성화]({{< relref path="#reactivate-user" lang="ko" >}}) API를 사용하여 user를 다시 활성화합니다.
+-   **지원되는 필드**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| value | Object | Object `{"active": false}` indicating that the user should be deactivated. |
+| 필드    | 유형     | 필수 |
+| ------- | -------- | ---- |
+| op      | 문자열   | 작업 유형. 허용되는 유일한 값은 `replace`입니다. |
+| value   | 오브젝트 | user를 비활성화해야 함을 나타내는 오브젝트 `{"active": false}`입니다. |
 
 {{% alert %}}
-User deactivation and reactivation operations are not supported in [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}).
+User 비활성화 및 재활성화 작업은 [SaaS 클라우드]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}})에서 지원되지 않습니다.
 {{% /alert %}}
 
-- **Request Example**:
+-   **요청 예시**:
 
 ```bash
 PATCH /scim/Users/abc
@@ -231,8 +232,8 @@ PATCH /scim/Users/abc
 }
 ```
 
-- **Response Example**:
-This returns the User object.
+-   **응답 예시**:
+User 오브젝트를 반환합니다.
 
 ```bash
 (Status 200)
@@ -262,23 +263,23 @@ This returns the User object.
 }
 ```
 
-### Reactivate user
+### User 다시 활성화
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: PATCH
-- **Description**: Reactivate a deactivated user in your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) instance by providing the user's unique ID.
-- **Supported Fields**:
+-   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
+-   **메서드**: PATCH
+-   **설명**: user의 고유 ID를 제공하여 [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 또는 [자체 관리]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) 인스턴스에서 비활성화된 user를 다시 활성화합니다.
+-   **지원되는 필드**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| value | Object | Object `{"active": true}` indicating that the user should be reactivated. |
+| 필드    | 유형     | 필수 |
+| ------- | -------- | ---- |
+| op      | 문자열   | 작업 유형. 허용되는 유일한 값은 `replace`입니다. |
+| value   | 오브젝트 | user를 다시 활성화해야 함을 나타내는 오브젝트 `{"active": true}`입니다. |
 
 {{% alert %}}
-User deactivation and reactivation operations are not supported in [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}).
+User 비활성화 및 재활성화 작업은 [SaaS 클라우드]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}})에서 지원되지 않습니다.
 {{% /alert %}}
 
-- **Request Example**:
+-   **요청 예시**:
 
 ```bash
 PATCH /scim/Users/abc
@@ -296,8 +297,8 @@ PATCH /scim/Users/abc
 }
 ```
 
-- **Response Example**:
-This returns the User object.
+-   **응답 예시**:
+User 오브젝트를 반환합니다.
 
 ```bash
 (Status 200)
@@ -327,19 +328,20 @@ This returns the User object.
 }
 ```
 
-### Assign organization-level role to user
+### User에게 organization 수준 Role 할당
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: PATCH
-- **Description**: Assign an organization-level role to a user. The role can be one of `admin`, `viewer` or `member` as described [here]({{< relref path="access-management/manage-organization.md#invite-a-user" lang="ko" >}}). For [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
-- **Supported Fields**:
+-   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
+-   **메서드**: PATCH
+-   **설명**: user에게 organization 수준 Role을 할당합니다. Role은 [여기]({{< relref path="access-management/manage-organization.md#invite-a-user" lang="ko" >}})에 설명된 대로 `admin`, `viewer` 또는 `member` 중 하나일 수 있습니다. [SaaS 클라우드]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}})의 경우 user 설정에서 SCIM API에 대한 올바른 organization을 구성했는지 확인하십시오.
+-   **지원되는 필드**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| path | String | The scope at which role assignment operation takes effect. The only allowed value is `organizationRole`. |
-| value | String | The predefined organization-level role to assign to the user. It can be one of `admin`, `viewer` or `member`. This field is case insensitive for predefined roles. |
-- **Request Example**:
+| 필드               | 유형     | 필수 |
+| ------------------ | -------- | ---- |
+| op                 | 문자열   | 작업 유형. 허용되는 유일한 값은 `replace`입니다. |
+| path               | 문자열   | Role 할당 작업이 적용되는 범위입니다. 허용되는 유일한 값은 `organizationRole`입니다. |
+| value              | 문자열   | user에게 할당할 미리 정의된 organization 수준 Role입니다. `admin`, `viewer` 또는 `member` 중 하나일 수 있습니다. 이 필드는 미리 정의된 Role에 대해 대소문자를 구분하지 않습니다. |
+
+-   **요청 예시**:
 
 ```bash
 PATCH /scim/Users/abc
@@ -358,8 +360,8 @@ PATCH /scim/Users/abc
 }
 ```
 
-- **Response Example**:
-This returns the User object.
+-   **응답 예시**:
+User 오브젝트를 반환합니다.
 
 ```bash
 (Status 200)
@@ -396,19 +398,20 @@ This returns the User object.
 }
 ```
 
-### Assign team-level role to user
+### User에게 팀 수준 Role 할당
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: PATCH
-- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here]({{< relref path="access-management/manage-organization.md#assign-or-update-a-team-members-role" lang="ko" >}}). For [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
-- **Supported Fields**:
+-   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
+-   **메서드**: PATCH
+-   **설명**: user에게 팀 수준 Role을 할당합니다. Role은 [여기]({{< relref path="access-management/manage-organization.md#assign-or-update-a-team-members-role" lang="ko" >}})에 설명된 대로 `admin`, `viewer`, `member` 또는 custom role 중 하나일 수 있습니다. [SaaS 클라우드]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}})의 경우 user 설정에서 SCIM API에 대한 올바른 organization을 구성했는지 확인하십시오.
+-   **지원되는 필드**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| path | String | The scope at which role assignment operation takes effect. The only allowed value is `teamRoles`. |
-| value | Object array | A one-object array where the object consists of `teamName` and `roleName` attributes. The `teamName` is the name of the team where the user holds the role, and `roleName` can be one of `admin`, `viewer`, `member` or a custom role. This field is case insensitive for predefined roles and case sensitive for custom roles. |
-- **Request Example**:
+| 필드    | 유형           | 필수 |
+| ------- | -------------- | ---- |
+| op      | 문자열         | 작업 유형. 허용되는 유일한 값은 `replace`입니다. |
+| path    | 문자열         | Role 할당 작업이 적용되는 범위입니다. 허용되는 유일한 값은 `teamRoles`입니다. |
+| value   | 오브젝트 어레이 | 오브젝트가 `teamName` 및 `roleName` 속성으로 구성된 단일 오브젝트 어레이입니다. `teamName`은 user가 Role을 보유하는 팀의 이름이고 `roleName`은 `admin`, `viewer`, `member` 또는 custom role 중 하나일 수 있습니다. 이 필드는 미리 정의된 Role에 대해 대소문자를 구분하지 않고 custom role에 대해 대소문자를 구분합니다. |
+
+-   **요청 예시**:
 
 ```bash
 PATCH /scim/Users/abc
@@ -432,8 +435,8 @@ PATCH /scim/Users/abc
 }
 ```
 
-- **Response Example**:
-This returns the User object.
+-   **응답 예시**:
+User 오브젝트를 반환합니다.
 
 ```bash
 (Status 200)
@@ -470,22 +473,22 @@ This returns the User object.
 }
 ```
 
-## Group resource
+## Group 리소스
 
-The SCIM group resource maps to W&B teams, that is, when you create a SCIM group in a W&B deployment, it creates a W&B team. Same applies to other group endpoints.
+SCIM group 리소스는 W&B Teams에 매핑됩니다. 즉, W&B 배포에서 SCIM group을 만들면 W&B Team이 생성됩니다. 다른 group 엔드포인트에도 동일하게 적용됩니다.
 
-### Get team
+### Team 가져오기
 
-- **Endpoint**: **`<host-url>/scim/Groups/{id}`**
-- **Method**: GET
-- **Description**: Retrieve team information by providing the team’s unique ID.
-- **Request Example**:
+-   **엔드포인트**: **`<host-url>/scim/Groups/{id}`**
+-   **메서드**: GET
+-   **설명**: team의 고유 ID를 제공하여 team 정보를 검색합니다.
+-   **요청 예시**:
 
 ```bash
 GET /scim/Groups/ghi
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 200)
@@ -515,18 +518,18 @@ GET /scim/Groups/ghi
 }
 ```
 
-### List teams
+### Team 나열하기
 
-- **Endpoint**: **`<host-url>/scim/Groups`**
-- **Method**: GET
-- **Description**: Retrieve a list of teams.
-- **Request Example**:
+-   **엔드포인트**: **`<host-url>/scim/Groups`**
+-   **메서드**: GET
+-   **설명**: team 목록을 검색합니다.
+-   **요청 예시**:
 
 ```bash
 GET /scim/Groups
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 200)
@@ -566,20 +569,21 @@ GET /scim/Groups
 }
 ```
 
-### Create team
+### Team 만들기
 
-- **Endpoint**: **`<host-url>/scim/Groups`**
-- **Method**: POST
-- **Description**: Create a new team resource.
-- **Supported Fields**:
+-   **엔드포인트**: **`<host-url>/scim/Groups`**
+-   **메서드**: POST
+-   **설명**: 새 team 리소스를 만듭니다.
+-   **지원되는 필드**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| displayName | String | Yes |
-| members | Multi-Valued Array | Yes (`value` sub-field is required and maps to a user ID) |
-- **Request Example**:
+| 필드        | 유형               | 필수 |
+| ----------- | ------------------ | ---- |
+| displayName | 문자열               | 예   |
+| members     | 다중 값 어레이       | 예 (하위 필드 `value`는 필수이며 user ID에 매핑됩니다.) |
 
-Creating a team called `wandb-support` with `dev-user2` as its member.
+-   **요청 예시**:
+
+`dev-user2`를 멤버로 포함하는 `wandb-support`라는 team 만들기
 
 ```bash
 POST /scim/Groups
@@ -597,7 +601,7 @@ POST /scim/Groups
 }
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 201)
@@ -627,15 +631,15 @@ POST /scim/Groups
 }
 ```
 
-### Update team
+### Team 업데이트
 
-- **Endpoint**: **`<host-url>/scim/Groups/{id}`**
-- **Method**: PATCH
-- **Description**: Update an existing team's membership list.
-- **Supported Operations**: `add` member, `remove` member
-- **Request Example**:
+-   **엔드포인트**: **`<host-url>/scim/Groups/{id}`**
+-   **메서드**: PATCH
+-   **설명**: 기존 team의 멤버십 목록을 업데이트합니다.
+-   **지원되는 작업**: 멤버 `add`, 멤버 `remove`
+-   **요청 예시**:
 
-Adding `dev-user2` to `wandb-devs`
+`wandb-devs`에 `dev-user2` 추가
 
 ```bash
 PATCH /scim/Groups/ghi
@@ -658,7 +662,7 @@ PATCH /scim/Groups/ghi
 }
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 200)
@@ -694,26 +698,26 @@ PATCH /scim/Groups/ghi
 }
 ```
 
-### Delete team
+### Team 삭제
 
-- Deleting teams is currently unsupported by the SCIM API since there is additional data linked to teams. Delete teams from the app to confirm you want everything deleted.
+-   Team 삭제는 team에 연결된 추가 data가 있으므로 현재 SCIM API에서 지원되지 않습니다. 모든 항목을 삭제할지 확인하려면 앱에서 team을 삭제하십시오.
 
-## Role resource
+## Role 리소스
 
-The SCIM role resource maps to W&B custom roles. As mentioned earlier, the `/Roles` endpoints are not part of the official SCIM schema, W&B adds `/Roles` endpoints to support automated management of custom roles in W&B organizations.
+SCIM role 리소스는 W&B custom role에 매핑됩니다. 앞에서 언급했듯이 `/Roles` 엔드포인트는 공식 SCIM 스키마의 일부가 아니며 W&B는 W&B organization에서 custom role의 자동 관리를 지원하기 위해 `/Roles` 엔드포인트를 추가합니다.
 
-### Get custom role
+### Custom role 가져오기
 
-- **Endpoint:** **`<host-url>/scim/Roles/{id}`**
-- **Method**: GET
-- **Description**: Retrieve information for a custom role by providing the role's unique ID.
-- **Request Example**:
+-   **엔드포인트:** **`<host-url>/scim/Roles/{id}`**
+-   **메서드**: GET
+-   **설명**: role의 고유 ID를 제공하여 custom role에 대한 정보를 검색합니다.
+-   **요청 예시**:
 
 ```bash
 GET /scim/Roles/abc
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 200)
@@ -750,18 +754,18 @@ GET /scim/Roles/abc
 }
 ```
 
-### List custom roles
+### Custom role 나열하기
 
-- **Endpoint:** **`<host-url>/scim/Roles`**
-- **Method**: GET
-- **Description**: Retrieve information for all custom roles in the W&B organization
-- **Request Example**:
+-   **엔드포인트:** **`<host-url>/scim/Roles`**
+-   **메서드**: GET
+-   **설명**: W&B organization의 모든 custom role에 대한 정보를 검색합니다.
+-   **요청 예시**:
 
 ```bash
 GET /scim/Roles
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 200)
@@ -835,20 +839,21 @@ GET /scim/Roles
 }
 ```
 
-### Create custom role
+### Custom role 만들기
 
-- **Endpoint**: **`<host-url>/scim/Roles`**
-- **Method**: POST
-- **Description**: Create a new custom role in the W&B organization.
-- **Supported Fields**:
+-   **엔드포인트**: **`<host-url>/scim/Roles`**
+-   **메서드**: POST
+-   **설명**: W&B organization에 새 custom role을 만듭니다.
+-   **지원되는 필드**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| name | String | Name of the custom role |
-| description | String | Description of the custom role |
-| permissions | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-| inheritedFrom | String | The predefined role which the custom role would inherit from. It can either be `member` or `viewer`. |
-- **Request Example**:
+| 필드          | 유형           | 필수 |
+| ------------- | -------------- | ---- |
+| name          | 문자열         | custom role의 이름 |
+| description   | 문자열         | custom role에 대한 설명 |
+| permissions   | 오브젝트 어레이 | 각 오브젝트에 `w&bobject:operation` 형식의 값을 갖는 `name` 문자열 필드가 포함된 권한 오브젝트의 어레이입니다. 예를 들어 W&B Runs에 대한 삭제 작업을 위한 권한 오브젝트의 `name`은 `run:delete`가 됩니다. |
+| inheritedFrom | 문자열         | custom role이 상속할 미리 정의된 Role입니다. `member` 또는 `viewer`일 수 있습니다. |
+
+-   **요청 예시**:
 
 ```bash
 POST /scim/Roles
@@ -868,7 +873,7 @@ POST /scim/Roles
 }
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 201)
@@ -905,37 +910,38 @@ POST /scim/Roles
 }
 ```
 
-### Delete custom role
+### Custom role 삭제
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: DELETE
-- **Description**: Delete a custom role in the W&B organization. **Use it with caution**. The predefined role from which the custom role inherited is now assigned to all users that were assigned the custom role before the operation.
-- **Request Example**:
+-   **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
+-   **메서드**: DELETE
+-   **설명**: W&B organization에서 custom role을 삭제합니다. **주의해서 사용하십시오**. custom role이 상속된 미리 정의된 Role이 이제 작업 전에 custom role이 할당된 모든 Users에게 할당됩니다.
+-   **요청 예시**:
 
 ```bash
 DELETE /scim/Roles/abc
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 204)
 ```
 
-### Update custom role permissions
+### Custom role 권한 업데이트
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PATCH
-- **Description**: Add or remove custom permissions in a custom role in the W&B organization.
-- **Supported Fields**:
+-   **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
+-   **메서드**: PATCH
+-   **설명**: W&B organization의 custom role에서 custom 권한을 추가하거나 제거합니다.
+-   **지원되는 필드**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| operations | Object array | Array of operation objects |
-| op | String | Type of operation within the operation object. It can either be `add` or `remove`. |
-| path | String | Static field in the operation object. Only value allowed is `permissions`. |
-| value | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-- **Request Example**:
+| 필드        | 유형           | 필수 |
+| ----------- | -------------- | ---- |
+| operations  | 오브젝트 어레이 | 작업 오브젝트의 어레이 |
+| op          | 문자열         | 작업 오브젝트 내의 작업 유형입니다. `add` 또는 `remove`일 수 있습니다. |
+| path        | 문자열         | 작업 오브젝트의 정적 필드입니다. 허용되는 유일한 값은 `permissions`입니다. |
+| value       | 오브젝트 어레이 | 각 오브젝트에 `w&bobject:operation` 형식의 값을 갖는 `name` 문자열 필드가 포함된 권한 오브젝트의 어레이입니다. 예를 들어 W&B Runs에 대한 삭제 작업을 위한 권한 오브젝트의 `name`은 `run:delete`가 됩니다. |
+
+-   **요청 예시**:
 
 ```bash
 PATCH /scim/Roles/abc
@@ -958,7 +964,7 @@ PATCH /scim/Roles/abc
 }
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 200)
@@ -999,19 +1005,20 @@ PATCH /scim/Roles/abc
 }
 ```
 
-### Update custom role metadata
+### Custom role 메타데이터 업데이트
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PUT
-- **Description**: Update the name, description or inherited role for a custom role in the W&B organization. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
-- **Supported Fields**:
+-   **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
+-   **메서드**: PUT
+-   **설명**: W&B organization에서 custom role의 이름, 설명 또는 상속된 Role을 업데이트합니다. 이 작업은 custom role의 기존 custom 권한(즉, 상속되지 않은 custom 권한)에 영향을 주지 않습니다.
+-   **지원되는 필드**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| name | String | Name of the custom role |
-| description | String | Description of the custom role |
-| inheritedFrom | String | The predefined role which the custom role inherits from. It can either be `member` or `viewer`. |
-- **Request Example**:
+| 필드          | 유형           | 필수 |
+| ------------- | -------------- | ---- |
+| name          | 문자열         | custom role의 이름 |
+| description   | 문자열         | custom role에 대한 설명 |
+| inheritedFrom | 문자열         | custom role이 상속할 미리 정의된 Role입니다. `member` 또는 `viewer`일 수 있습니다. |
+
+-   **요청 예시**:
 
 ```bash
 PUT /scim/Roles/abc
@@ -1026,7 +1033,7 @@ PUT /scim/Roles/abc
 }
 ```
 
-- **Response Example**:
+-   **응답 예시**:
 
 ```bash
 (Status 200)

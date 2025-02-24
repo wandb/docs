@@ -1,47 +1,44 @@
 ---
+title: Tutorials
+description: 대화형 튜토리얼을 통해 Weights & Biases 사용을 시작해 보세요.
 cascade:
   menu:
     tutorials:
       parent: tutorials
   type: docs
-description: Get started using Weights & Biases with interactive tutorials.
 menu:
   tutorials:
     identifier: ko-tutorials-_index
 no_list: true
-title: Tutorials
 type: docs
 ---
 
-The following tutorials take you through the fundamentals of W&B for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
+다음 튜토리얼에서는 기계 학습 실험 추적, 모델 평가, 하이퍼파라미터 튜닝, 모델 및 데이터셋 버전 관리 등을 위한 W&B의 기본 사항을 안내합니다.
 
-1. [Track experiments]({{< relref path="/tutorials/experiments/" lang="ko" >}}) 
-2. [Visualize predictions]({{< relref path="/tutorials/tables/" lang="ko" >}})
-3. [Tune hyperparameters]({{< relref path="/tutorials/sweeps/" lang="ko" >}})
-4. [Track models and datasets]({{< relref path="/tutorials/artifacts/" lang="ko" >}})
+1. [Experiments 추적]({{< relref path="/tutorials/experiments/" lang="ko" >}})
+2. [예측값 시각화]({{< relref path="/tutorials/tables/" lang="ko" >}})
+3. [하이퍼파라미터 튜닝]({{< relref path="/tutorials/sweeps/" lang="ko" >}})
+4. [모델 및 데이터셋 추적]({{< relref path="/tutorials/artifacts/" lang="ko" >}})
 
-
-## Popular ML framework tutorials
-See the following tutorials for step by step information on how to use popular ML frameworks and libraries with W&B:
+## 인기 있는 ML 프레임워크 튜토리얼
+다음 튜토리얼에서 W&B와 함께 인기 있는 ML 프레임워크 및 라이브러리를 사용하는 방법에 대한 단계별 정보를 확인하세요.
 
 - [PyTorch]({{< relref path="/tutorials/integration-tutorials/pytorch" lang="ko" >}})
 - [PyTorch Lightning]({{< relref path="/tutorials/integration-tutorials/lightning" lang="ko" >}})
 - [HuggingFace Transformers]({{< relref path="/tutorials/integration-tutorials/huggingface" lang="ko" >}})
 - Tensorflow
-    - [Track experiments]({{< relref path="/tutorials/integration-tutorials/tensorflow" lang="ko" >}})
-    - [Tune hyperparameters]({{< relref path="/tutorials/integration-tutorials/tensorflow_sweeps/" lang="ko" >}})
+    - [Experiments 추적]({{< relref path="/tutorials/integration-tutorials/tensorflow" lang="ko" >}})
+    - [하이퍼파라미터 튜닝]({{< relref path="/tutorials/integration-tutorials/tensorflow_sweeps/" lang="ko" >}})
 - Keras
-    - [Track experiments]({{< relref path="/tutorials/integration-tutorials/keras/" lang="ko" >}})
-    - [Visualize predictions]({{< relref path="/tutorials/integration-tutorials/keras_tables/" lang="ko" >}})
-    - [Model Checkpointing]({{< relref path="/tutorials/integration-tutorials/keras_models/" lang="ko" >}})
+    - [Experiments 추적]({{< relref path="/tutorials/integration-tutorials/keras/" lang="ko" >}})
+    - [예측값 시각화]({{< relref path="/tutorials/integration-tutorials/keras_tables/" lang="ko" >}})
+    - [모델 체크포인트]({{< relref path="/tutorials/integration-tutorials/keras_models/" lang="ko" >}})
 - XGBoost
-    - [Tune hyperparameters]({{< relref path="/tutorials/integration-tutorials/xgboost_sweeps/" lang="ko" >}})
+    - [하이퍼파라미터 튜닝]({{< relref path="/tutorials/integration-tutorials/xgboost_sweeps/" lang="ko" >}})
 
+## 기타 자료
 
-
-## Other resources
-
-Visit the W&B AI Academy to learn how to train, fine-tune and use LLMs in your applications. Implement MLOps and LLMOps solutions. Tackle real-world ML challenges with W&B courses.
+W&B AI Academy를 방문하여 애플리케이션에서 LLM을 트레이닝, 파인튜닝 및 사용하는 방법을 알아보세요. MLOps 및 LLMOps 솔루션을 구현하세요. W&B 코스로 실제 ML 문제에 도전해보세요.
 
 - Large Language Models (LLMs)
     - [LLM Engineering: Structured Outputs](https://www.wandb.courses/courses/steering-language-models?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
@@ -53,6 +50,6 @@ Visit the W&B AI Academy to learn how to train, fine-tune and use LLMs in your a
     - [CI/CD for Machine Learning (GitOps)](https://www.wandb.courses/courses/ci-cd-for-machine-learning?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Data Validation in Production ML Pipelines](https://www.wandb.courses/courses/data-validation-for-machine-learning?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Machine Learning for Business Decision Optimization](https://www.wandb.courses/courses/decision-optimization?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
-- W&B Models 
+- W&B Models
     - [W&B 101](https://wandb.ai/site/courses/101/?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [W&B 201: Model Registry](https://www.wandb.courses/courses/201-model-registry?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)

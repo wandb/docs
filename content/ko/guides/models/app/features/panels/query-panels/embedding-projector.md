@@ -1,25 +1,25 @@
 ---
-description: W&B's Embedding Projector allows users to plot multi-dimensional embeddings
-  on a 2D plane using common dimension reduction algorithms like PCA, UMAP, and t-SNE.
+title: Embed objects
+description: W&B의 Embedding Projector를 사용하면 PCA, UMAP, t-SNE와 같은 일반적인 차원 축소 알고리즘을
+  사용하여 다차원 임베딩을 2D 평면에 플롯할 수 있습니다.
 menu:
   default:
     identifier: ko-guides-models-app-features-panels-query-panels-embedding-projector
     parent: query-panels
-title: Embed objects
 ---
 
 {{< img src="/images/weave/embedding_projector.png" alt="" >}}
 
-[Embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) are used to represent objects (people, images, posts, words, etc...) with a list of numbers - sometimes referred to as a _vector_. In machine learning and data science use cases, embeddings can be generated using a variety of approaches across a range of applications. This page assumes the reader is familiar with embeddings and is interested in visually analyzing them inside of W&B.
+[Embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) 은 오브젝트 (사람, 이미지, 게시물, 단어 등)를 숫자 목록 (때로는 _벡터_ 라고도 함)으로 나타내는 데 사용됩니다. 기계 학습 및 데이터 과학 유스 케이스에서 임베딩은 다양한 애플리케이션에 걸쳐 다양한 접근 방식을 사용하여 생성할 수 있습니다. 이 페이지에서는 독자가 임베딩에 익숙하고 W&B 내에서 시각적으로 분석하는 데 관심이 있다고 가정합니다.
 
-## Embedding Examples
+## 임베딩 예제
 
-- [Live Interactive Demo Report](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq) 
-- [Example Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
+- [실시간 인터랙티브 데모 Report](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq)
+- [예제 Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
 
 ### Hello World
 
-W&B allows you to log embeddings using the `wandb.Table` class. Consider the following example of 3 embeddings, each consisting of 5 dimensions:
+W&B를 사용하면 `wandb.Table` 클래스를 사용하여 임베딩을 로그할 수 있습니다. 각각 5차원으로 구성된 3개의 임베딩의 다음 예를 고려하십시오.
 
 ```python
 import wandb
@@ -37,13 +37,13 @@ wandb.log(
 wandb.finish()
 ```
 
-After running the above code, the W&B dashboard will have a new Table containing your data. You can select `2D Projection` from the upper right panel selector to plot the embeddings in 2 dimensions. Smart default will be automatically selected, which can be easily overridden in the configuration menu accessed by clicking the gear icon. In this example, we automatically use all 5 available numeric dimensions.
+위의 코드를 실행하면 W&B 대시보드에 데이터가 포함된 새 Table이 표시됩니다. 오른쪽 상단 패널 선택기에서 `2D Projection`을 선택하여 임베딩을 2차원으로 플롯할 수 있습니다. 스마트 기본값이 자동으로 선택되며, 기어 아이콘을 클릭하여 엑세스할 수 있는 구성 메뉴에서 쉽게 재정의할 수 있습니다. 이 예에서는 사용 가능한 5개의 숫자 차원을 모두 자동으로 사용합니다.
 
 {{< img src="/images/app_ui/weave_hello_world.png" alt="" >}}
 
 ### Digits MNIST
 
-While the above example shows the basic mechanics of logging embeddings, typically you are working with many more dimensions and samples. Let's consider the MNIST Digits dataset ([UCI ML hand-written digits dataset](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)[s](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)) made available via [SciKit-Learn](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html). This dataset has 1797 records, each with 64 dimensions. The problem is a 10 class classification use case. We can convert the input data to an image for visualization as well.
+위의 예제에서는 임베딩을 로깅하는 기본 메커니즘을 보여 주지만 일반적으로 훨씬 더 많은 차원과 샘플을 사용합니다. MNIST Digits 데이터셋을 고려해 보겠습니다 ([UCI ML 필기 숫자 데이터셋](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)[s](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)) [SciKit-Learn](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html)을 통해 제공됩니다. 이 데이터셋에는 각각 64개의 차원을 가진 1797개의 레코드가 있습니다. 문제는 10개의 클래스 분류 유스 케이스입니다. 시각화를 위해 입력 데이터를 이미지로 변환할 수도 있습니다.
 
 ```python
 import wandb
@@ -71,35 +71,35 @@ wandb.log({"digits": df})
 wandb.finish()
 ```
 
-After running the above code, again we are presented with a Table in the UI. By selecting `2D Projection` we can configure the definition of the embedding, coloring, algorithm (PCA, UMAP, t-SNE), algorithm parameters, and even overlay (in this case we show the image when hovering over a point). In this particular case, these are all "smart defaults" and you should see something very similar with a single click on `2D Projection`. ([Click here to interact](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney) with this example).
+위의 코드를 실행한 후 UI에 Table이 다시 표시됩니다. `2D Projection`을 선택하면 임베딩, 색상, 알고리즘 (PCA, UMAP, t-SNE), 알고리즘 파라미터의 정의를 구성하고 오버레이할 수도 있습니다 (이 경우 포인트 위로 마우스를 가져갈 때 이미지를 표시합니다). 이 특정 경우에서는 모두 "스마트 기본값"이며 `2D Projection`에서 한 번 클릭하면 매우 유사한 내용을 볼 수 있습니다. ([여기를 클릭하여 이 예제와 상호 작용](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney)하십시오).
 
 {{< img src="/images/weave/embedding_projector.png" alt="" >}}
 
-## Logging Options
+## 로깅 옵션
 
-You can log embeddings in a number of different formats:
+다양한 형식으로 임베딩을 로그할 수 있습니다.
 
-1. **Single Embedding Column:** Often your data is already in a "matrix"-like format. In this case, you can create a single embedding column - where the data type of the cell values can be `list[int]`, `list[float]`, or `np.ndarray`.
-2. **Multiple Numeric Columns:** In the above two examples, we use this approach and create a column for each dimension. We currently accept python `int` or `float` for the cells.
+1. **단일 임베딩 열:** 데이터가 이미 "매트릭스"와 같은 형식인 경우가 많습니다. 이 경우 단일 임베딩 열을 만들 수 있습니다. 여기서 셀 값의 데이터 유형은 `list[int]`, `list[float]` 또는 `np.ndarray`일 수 있습니다.
+2. **여러 숫자 열:** 위의 두 예제에서는 이 접근 방식을 사용하고 각 차원에 대한 열을 만듭니다. 현재 셀에 대해 python `int` 또는 `float`을 허용합니다.
 
 {{< img src="/images/weave/logging_options.png" alt="Single Embedding Column" >}}
 {{< img src="/images/weave/logging_option_image_right.png" alt="Many Numeric Columns" >}}
 
-Furthermore, just like all tables, you have many options regarding how to construct the table:
+또한 모든 테이블과 마찬가지로 테이블 구성 방법에 대한 많은 옵션이 있습니다.
 
-1. Directly from a **dataframe** using `wandb.Table(dataframe=df)`
-2. Directly from a **list of data** using `wandb.Table(data=[...], columns=[...])`
-3. Build the table **incrementally row-by-row** (great if you have a loop in your code). Add rows to your table using `table.add_data(...)`
-4. Add an **embedding column** to your table (great if you have a list of predictions in the form of embeddings): `table.add_col("col_name", ...)`
-5. Add a **computed column** (great if you have a function or model you want to map over your table): `table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`
+1. `wandb.Table(dataframe=df)`를 사용하여 **데이터프레임**에서 직접
+2. `wandb.Table(data=[...], columns=[...])`를 사용하여 **데이터 목록**에서 직접
+3. 테이블을 **점진적으로 행 단위로** 빌드합니다 (코드에 루프가 있는 경우에 적합). `table.add_data(...)`를 사용하여 테이블에 행을 추가합니다.
+4. 테이블에 **임베딩 열**을 추가합니다 (임베딩 형식의 예측 목록이 있는 경우에 적합): `table.add_col("col_name", ...)`
+5. **계산된 열**을 추가합니다 (테이블에서 매핑하려는 함수 또는 model이 있는 경우에 적합): `table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`
 
-## Plotting Options
+## 플로팅 옵션
 
-After selecting `2D Projection`, you can click the gear icon to edit the rendering settings. In addition to selecting the intended columns (see above), you can select an algorithm of interest (along with the desired parameters). Below you can see the parameters for UMAP and t-SNE respectively.
+`2D Projection`을 선택한 후 기어 아이콘을 클릭하여 렌더링 설정을 편집할 수 있습니다. 의도한 열을 선택하는 것 외에도 (위 참조) 관심 있는 알고리즘 (원하는 파라미터와 함께)을 선택할 수 있습니다. 아래에서 각각 UMAP 및 t-SNE에 대한 파라미터를 볼 수 있습니다.
 
-{{< img src="/images/weave/plotting_options_left.png" alt="" >}} 
+{{< img src="/images/weave/plotting_options_left.png" alt="" >}}
 {{< img src="/images/weave/plotting_options_right.png" alt="" >}}
 
 {{% alert %}}
-Note: we currently downsample to a random subset of 1000 rows and 50 dimensions for all three algorithms.
+참고: 현재 세 가지 알고리즘 모두에 대해 1000행과 50차원의 임의의 서브셋으로 다운샘플링합니다.
 {{% /alert %}}
