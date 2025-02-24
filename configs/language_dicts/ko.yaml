@@ -13,12 +13,12 @@ Experiments: Experiments
 GPU: GPU
 How It Works: 작동 방식
 How to Get Started: 시작 방법
-Hugging Face transformer: Hugging Face 트랜스포머
-INFO: 안내
+Hugging Face transformer: Hugging Face transformer
+INFO: INFO
 IOU: IOU
 Integrations guide: 인테그레이션 가이드
-Let's Take a Look: 살펴볼까요
-Model Management: Model Management
+Let's Take a Look: Let's Take a Look
+Model Management: 모델 관리
 Optimizer: 옵티마이저
 Overview tab: Overview 탭
 Quickstart: 퀵스타트
@@ -30,18 +30,18 @@ W&B Developer Guide: W&B 개발자 가이드
 W&B Easy Integration YouTube: W&B 간단한 인테그레이션 YouTube
 W&B Fully Connected: W&B Fully Connected
 W&B SDK Reference Guide: W&B SDK 참조 가이드
-Weave expression: Weave 식
+Weave expression: Weave expression
 Weights & Biases: Weights & Biases
 What Next?: 다음 단계
 access: 엑세스
-accuracy plot: 정확도
+accuracy plot: 정확도 플롯
 address: 어드레스
 agent: 에이전트
 alias: 에일리어스
 analysis: 분석
 application: 애플리케이션
 architecture: 아키텍처
-arg: ARG
+arg: arg
 argument: 인수
 artifact: 아티팩트
 assignment: 과제
@@ -72,7 +72,7 @@ computer vision: 컴퓨터 비전
 configuration: 설정
 controller: 컨트롤러
 convolutional block: 컨볼루션 블록
-couple lines of code: 코드 2줄
+couple lines of code: 코드 몇줄
 course: 코스
 cross validation: 교차검증
 customer case study: 고객 사례 연구
@@ -103,9 +103,9 @@ findings: 발견한 내용
 fine-tune: 파인튜닝
 forward pass: forward 패스
 framework: 프레임워크
-gradient: 그레이디언트
-grid search: 그리드 검색
-ground truth: 그라운드 트루스
+gradient: 그래디언트
+grid search: 그리드 탐색
+ground truth: ground truth
 group partitioning: 그룹 파티셔닝
 guide: 가이드
 holdout set: 홀드아웃 세트
@@ -115,7 +115,7 @@ hyperparameter: 하이퍼파라미터
 hyperparameter sweep: 하이퍼파라미터 탐색
 hyperparameter tuning: 하이퍼파라미터 튜닝
 image classification: 이미지 분류
-image segmentation: 이미지 세스멘테이션
+image segmentation: 이미지 세그멘테이션
 infrastructure: 인프라
 instance segmentation: 인스턴스 세그멘테이션
 integration: 인테그레이션
@@ -127,7 +127,7 @@ key: 키
 learner object: 학습 오브젝트
 lesson: "\b레슨"
 library: 라이브러리
-line of code: 코드 행
+line of code: 코드 라인
 lineage: 계보
 local minima: 로컬 미니멈
 log: 로그
