@@ -14,17 +14,39 @@ no_list: true
 ---
 
 
-These docs are automatically generated from the [`wandb` library](https://github.com/wandb/wandb).
 
-### Reference sections
+{{< cardpane >}}
+  {{< card >}}
+    <a href="./python/">
+      <h2 className="card-title">Python Library</h2>
+      <p className="card-content">Train, fine-tune, and manage models from experimentation to production.</p>
+    </a>
+  {{< /card >}}
+  {{< card >}}
+    <a href="./query-panel/">
+      <h2 className="card-title">Command Line Interface</h2>
+      <p className="card-content">Log in, run jobs, execute sweeps, and more using shell commands.</p>
+    </a>
+  {{< /card >}}
+{{< /cardpane >}}
 
-1. [Python Library]({{< relref "./python/" >}}): Add `wandb` to your script to capture metrics and save artifacts
-2. [Command Line Interface]({{< relref "./cli/" >}}): Log in, run jobs, execute sweeps, and more using shell commands
-3. [JavaScript Library]({{< relref "./js/" >}}): A beta JavaScript/TypeScript client to track metrics from your Node server
-4. [Query panels]({{< relref "./query-panel/" >}}): A beta query language to select and aggregate data
+{{< cardpane >}}
+  {{< card >}}
+    <a href="./js/">
+      <h2 className="card-title">Javascript Library</h2>
+      <p className="card-content">A beta JavaScript/TypeScript client to track metrics from your Node server.</p>
+    </a>
+  {{< /card >}}
+  {{< card >}}
+    <a href="./query-panel/">
+      <h2 className="card-title">Query Panels</h2>
+      <p className="card-content"> A beta query language to select and aggregate data.</p>
+    </a>
+  {{< /card >}}
+{{< /cardpane >}}
 
-### Examples and guides
+{{% alert %}}
+Looking for Weave API? See the [W&B Weave Docs](https://weave-docs.wandb.ai/).
+{{% /alert %}}
 
-[Our examples repo](https://github.com/wandb/examples) has scripts and colabs to try W&B features, and see integrations with various libraries.
-
-[Our developer guide]({{< relref "/guides/" >}}) has guides, tutorials, and FAQs for the various W&B products.
+ 
