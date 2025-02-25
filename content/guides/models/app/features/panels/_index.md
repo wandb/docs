@@ -34,6 +34,19 @@ To reset a workspace:
 1. At the top of the workspace, click the action menu `...`.
 1. Click **Reset workspace**.
 
+## View a panel in full-screen mode
+
+In full-screen mode, the run selector displays and panels use full full-fidelity sampling mode plots with 10,000 buckets, rather than 1000 buckets otherwise.
+
+To view a panel in full-screen mode:
+
+1. Hover over the panel.
+1. Click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder or an outline showing the four corners of a square.
+    {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
+1. When you [share the panel]({{< relref "#share-a-panel" >}}) while viewing it in full-screen mode, the resulting link opens in full-screen mode automatically.
+
+To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
+
 ## Add panels
 
 You can add panels to your workspace, either globally or at the section level.
@@ -61,6 +74,48 @@ To add a custom panel to your workspace:
 
 To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots]({{< relref "line-plot/" >}}) or [Bar plots]({{< relref "bar-plot.md" >}}).
 
+## Share a panel
+
+This section shows how to share a panel using a link.
+
+To share a panel using a link, you can either:
+
+- While viewing the panel in full-screen mode, copy the URL from the browser.
+- Click the action menu `...` and select **Copy panel URL**.
+
+Share the link with the user or team. When they access the link, the panel opens in [full-screen mode]({{< relref "#view-a-panel-in-full-screen-mode" >}}).
+
+To return to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
+
+### Compose a panel's full-screen link programmatically
+In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
+
+```text
+https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&panelSectionName=<SECTON_NAME>
+```
+
+If multiple panels in the same section have the same name, this URL opens the first panel with the name.
+
+### Embed or share a panel on social media
+To embed a panel in a website or share it on social media, the panel must be viewable by anyone with the link. If a project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
+
+To get the code to embed or share a panel on social media:
+
+1. From the workspace, hover over the panel, then click its action menu `...`.
+1. Click the **Share** tab.
+1. Change **Only those who are invited have access** to **Anyone with the link can view**. Otherwise, the choices in the next step are not available.
+1. Choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
+
+### Email a panel report
+To email a single panel as a stand-alone report:
+1. Hover over the panel, then click the panel's action menu `...`.
+1. Click **Share panel in report**.
+1. Select the **Invite** tab.
+1. Enter an email address or username.
+1. Optionally, change **can view** to **can edit**.
+1. Click **Invite**. W&B sends an email to the user with a clickable link to the report that contains only the panel you are sharing. 
+
+Unlike when you [share a panel]({{< relref "#share-a-panel" >}}), the recipient cannot get to the workspace from this report.
 
 ## Manage panels
 
@@ -82,17 +137,6 @@ To move a panel to a different section, you can use the drag handle on the panel
 1. Click **Move**, then select a new section.
 
 You can also use the drag handle to rearrange panels within a section.
-
-### Share a full-screen panel directly
-Direct colleagues to a specific panel in your project. The link redirects users to a full screen view of that panel when they click that link. To create a link to a panel:
-
-1. Hover your mouse over the panel.
-2. Select the action `...` menu.
-3. Click **Copy panel URL**.
-
-The settings of the project determine who can view the panel. This means that if the project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
-
-If multiple panels have the same name, W&B shares the first panel with the name.
 
 ### Duplicate a panel
 
@@ -124,6 +168,24 @@ By default, sections in a workspace reflect the logging hierarchy of your keys. 
 To add a section, click **Add section** after the last section.
 
 To add a new section before or after an existing section, you can instead click the section's action `...` menu, then click **New section below** or **New section above**.
+
+
+### Manage a section's panels
+Sections with a large number of panels are paginated by default if they use the **Standard grid** layout. The default number of panels on a page depend on the panel's configuration and on the sizes of the panels in the section.
+
+1. To check which layout a section uses, click the section's action `...` menu. To change a section's layout, select **Standard grid** or **Custom grid** in the **Layout grid** section.
+1. To resize a panel, hover over it, click the drag handle, and drag it to adjust the panel's size.
+  - If a section uses the **Standard grid**, resizing one panel resizes all panels in the section.
+  - If a section uses the **Custom grid**, you can customize the size of each panel separately.
+1. If a section is paginated, you can customize the number of panels to show on a page:
+  1. At the top of the section, click **1 to <X> of <Y>**, where `<X>` is the number of visible panels and `<Y>` is the total number of panels.
+  1. Choose how many panels to show per page, up to 100.
+1. To show all panels when there are a large number of them, configure the panel to use the **Custom grid** layout. Click the section's action `...` menu, then select **Custom grid** in the **Layout grid** section
+1. To delete a panel from a section:
+  1. Hover over the panel, then click its action `...` menu.
+  1. Click **Delete**.
+  
+If you reset a workspace to an automated workspace, all deleted panels appear again.
 
 ### Rename a section
 
