@@ -31,13 +31,9 @@ jobs:
 
           echo "Examining PR $pr_num for changed files:"
 
-          # Set input field separator to newline
-          SAVEIFS=$IFS
-          IFS=$'\n'
-
           # Categorize files by status
           # Process substitution -- command at end of loop
-          while read -r changed_file; do
+          while IFS='\n' read -r changed_file; do
 
             file_status=$(echo "$changed_file" | awk -F ' ' {'print $1'})
             file_path=$(echo "$changed_file" | awk -F ' ' {'print $2'})
@@ -84,10 +80,11 @@ jobs:
 
             # Generate HTML preview links for added files in content/
             # Process substitution -- command at end of loop
-            while read -r added_file; do
+            while IFS=' ' read -r added_file; do
               if [[ "$added_file" =~ .*\/content\/.*\.md ]]; then
                 output_path=$(echo "$added_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
-                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$added_file</a>"
+                preview_path="https://docs-$pr_num.docodile.pages.dev/$output_path"
+                preview_link="<a href=\"$preview_path\" target=\"_blank\" rel=\"noopener\">$added_file</a>"
                 echo "Preview link: $preview_link"
                 output+=("<li><b>Added</b>: $preview_link</li>")
               else
@@ -97,7 +94,7 @@ jobs:
 
             # Generate HTML preview links for modified files in content/
             # Process substitution -- command at end of loop
-            while read -r modified_file; do
+            while IFS=' ' read -r modified_file; do
               if [[ "$modified_file" =~ .*\/content\/.*\.md ]]; then
                 output_path=$(echo "$modified_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
                 preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$modified_file</a>"
@@ -110,13 +107,13 @@ jobs:
 
             # Process removed files
             # Process substitution -- command at end of loop
-            while read -r removed_file; do
+            while IFS=' ' read -r removed_file; do
               no_preview_files+=("<li><b>Removed</b> (no preview): $removed_file</li>")
             done < <("${removed_files[*]}")
 
             # Process no preview 
             # Process substitution -- command at end of loop
-            while read -r removed_file; do
+            while IFS=' ' read -r removed_file; do
               output+=("$no_preview_file")
             done < <(echo "${no_preview_files[*]}")
           }
@@ -129,9 +126,6 @@ jobs:
           echo "${body}"
           echo "body:\n\n$body"
           echo "body=$body" >> $GITHUB_ENV
-
-          # Reset input field separator
-          IFS=$SAVEIFS 
 
       - name: Find Comment
         uses: peter-evans/find-comment@v2.0.1
