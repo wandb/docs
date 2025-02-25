@@ -70,53 +70,51 @@ jobs:
           echo "${removed_files[@]}"
           echo
 
-          function generatePreviewURL() {
-            # Preprocess input paths to output paths
-            #   using # as sed separation character
-            #
-            #   - Remove content/
-            #   - Remove _index/
-            #   - Remove integration_tutorials/
+          # Preprocess input paths to output paths
+          #   using # as sed separation character
+          #
+          #   - Remove content/
+          #   - Remove _index/
+          #   - Remove integration_tutorials/
 
-            # Generate HTML preview links for added files in content/
-            # Process substitution -- command at end of loop
-            while IFS=' ' read -r added_file; do
-              if [[ "$added_file" =~ .*\/content\/.*\.md ]]; then
-                output_path=$(echo "$added_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
-                preview_path="https://docs-$pr_num.docodile.pages.dev/$output_path"
-                preview_link="<a href=\"$preview_path\" target=\"_blank\" rel=\"noopener\">$added_file</a>"
-                echo "Preview link: $preview_link"
-                output+=("<li><b>Added</b>: $preview_link</li>")
-              else
-                no_preview_files+=("<li><b>Added</b> (no preview): $added_file</li>")
-              fi
-            done < <("echo ${added_files[@]}")
+          # Generate HTML preview links for added files in content/
+          # Process substitution -- command at end of loop
+          while IFS=' ' read -r added_file; do
+            if [[ "$added_file" =~ .*\/content\/.*\.md ]]; then
+              output_path=$(echo "$added_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+              preview_path="https://docs-$pr_num.docodile.pages.dev/$output_path"
+              preview_link="<a href=\"$preview_path\" target=\"_blank\" rel=\"noopener\">$added_file</a>"
+              echo "Preview link: $preview_link"
+              output+=("<li><b>Added</b>: $preview_link</li>")
+            else
+              no_preview_files+=("<li><b>Added</b> (no preview): $added_file</li>")
+            fi
+          done < <("echo ${added_files[@]}")
 
-            # Generate HTML preview links for modified files in content/
-            # Process substitution -- command at end of loop
-            while IFS=' ' read -r modified_file; do
-              if [[ "$modified_file" =~ .*\/content\/.*\.md ]]; then
-                output_path=$(echo "$modified_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
-                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$modified_file</a>"
-                echo "Preview link: $preview_link"
-                output+=("<li><b>Modified</b>: $preview_link</li>")
-              else
-                no_preview_files+=("<li><b>Modified</b> (no preview): $modified_file</li>")
-              fi
-            done < <(echo "${modified_files[@]}")
+          # Generate HTML preview links for modified files in content/
+          # Process substitution -- command at end of loop
+          while IFS=' ' read -r modified_file; do
+            if [[ "$modified_file" =~ .*\/content\/.*\.md ]]; then
+              output_path=$(echo "$modified_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+              preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$modified_file</a>"
+              echo "Preview link: $preview_link"
+              output+=("<li><b>Modified</b>: $preview_link</li>")
+            else
+              no_preview_files+=("<li><b>Modified</b> (no preview): $modified_file</li>")
+            fi
+          done < <(echo "${modified_files[@]}")
 
-            # Process removed files
-            # Process substitution -- command at end of loop
-            while IFS=' ' read -r removed_file; do
-              no_preview_files+=("<li><b>Removed</b> (no preview): $removed_file</li>")
-            done < <(echo "${removed_files[@]}")
+          # Process removed files
+          # Process substitution -- command at end of loop
+          while IFS=' ' read -r removed_file; do
+            no_preview_files+=("<li><b>Removed</b> (no preview): $removed_file</li>")
+          done < <(echo "${removed_files[@]}")
 
-            # Process no preview 
-            # Process substitution -- command at end of loop
-            while IFS=' ' read -r removed_file; do
-              output+=("$no_preview_file")
-            done < <(echo "${no_preview_files[@]}")
-          }
+          # Process no preview 
+          # Process substitution -- command at end of loop
+          while IFS=' ' read -r removed_file; do
+            output+=("$no_preview_file")
+          done < <(echo "${no_preview_files[@]}")
 
           # Compose the body
           echo "Output:"
