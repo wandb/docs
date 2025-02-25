@@ -19,50 +19,44 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          export output=()
-          export all_changed_files=()
-          export added_files=()
-          export modified_files=()
-          export removed_files=()
-          export no_preview_files=()
+          # Initialize arrays
+          declare -a output
+          declare -a dded_files
+          declare -a modified_files
+          declare -a removed_files
+          declare -a no_preview_files
 
-          export pr_num="${{ github.event.pull_request.number }}"
+          # Get the PR number from the GH environment
+          pr_num="${{ github.event.pull_request.number }}"
 
-          # Temporarily set input field separator (IFS) to newline before filling arrays
-          SAVEIFS=$IFS
-          IFS=$'\n'
+          echo "Examining PR $pr_num for changed files:"
 
-          export all_changed_files=("$(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' | sort)")
+          # Categorize files by status
+          # Process substitution -- command at end of loop
+          while IFS=$'\n' read -r changed_file; do
 
-          for changed_file in "${all_changed_files[@]}"; do
-            status="$(echo $changed_file | awk -F ' ' {'print $1'})"
-            echo "Status: $status"
-            
-            case "$status" in
-              "added")
-                path="$(echo $changed_file | awk -F ' ' {'print $2'})"
-                echo "Path: $path"
-                added_files+=("$path")
-                echo "${added_files[@]}"
-                ;;
-              "modified")
-                path="$(echo $changed_file | awk -F ' ' {'print $2'})"
-                echo "Path: $path"
-                modified_files+=("$path")
-                echo "${modified_files[@]}"
-                ;;
-              "removed")
-                path="$(echo $changed_file | awk -F ' ' {'print $2'})"
-                echo "Path: $path"
-                removed_files+=("$path")
-                echo "${removed_files[@]}"
-                ;;
-              *)
-                echo "Unknown status $status for file $path. Giving up."
-                exit -1
-                ;;
-            esac
-          done
+            file_status=$(echo "$changed_file" | awk -F ' ' {'print $1'})
+            file_path=$(echo "$changed_file" | awk -F ' ' {'print $2'})
+            echo "Status: $file_status"
+            echo "Path: $file_path"
+
+            if [ "$file_status" = "added" ]; then
+              added_files+=("$file_path")
+              echo "Added file $file_path added to list of added files, which is now:"
+              echo "${added_files[@]}"
+            elif [ "$file_status" = "modified" ]; then
+              modified_files+=("$file_path")
+              echo "Modified file $file_path added to list of modified files, which is now:"
+              echo "${modified_files[@]}"
+            elif [ "$file_status" = "removed" ]; then
+              removed_files+=("$file_path")
+              echo "Removed file $file_path added to list of removed files, which is now:"
+              echo "${removed_files[@]}"
+            else
+              echo "Unknown status $status for file $file_path. Giving up."
+              exit -1
+            fi
+          done < <(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' | sort)
 
           echo "Added:"
           echo "${added_files[@]}"
@@ -85,43 +79,49 @@ jobs:
             #   - Remove integration_tutorials/
 
             # Generate HTML preview links for added files in content/
-            for file in "${added_files[@]}"; do
-              if [[ "$file" =~ .*\/content\/.*\.md ]]; then
-                output_path="$(echo $file | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')"
-                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$file</a>"
+            # Process substitution -- command at end of loop
+            while IFS=$'\n' read -r added_file; do
+              if [[ "$added_file" =~ .*\/content\/.*\.md ]]; then
+                output_path="$(echo $added_file | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')"
+                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$added_file</a>"
                 output+=("<li><b>Added</b>: $preview_link</li>")
               else
-                no_preview_links+=("<b>Added, no preview</b>: $file")
+                no_preview_links+=("<b>Added, no preview</b>: $_added_file")
               fi
-            done
+            done < <("${added_files[*]}")
 
             # Generate HTML preview links for modified files in content/
-            for file in "${modified_files[@]}"; do
-              if [[ "$file" =~ .*\/content\/.*\.md ]]; then
-                output_path="$(echo $file | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')"
-                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$file</a>"
+            # Process substitution -- command at end of loop
+            while IFS=$'\n' read -r modified_file; do
+              if [[ "$modified_file" =~ .*\/content\/.*\.md ]]; then
+                output_path="$(echo $modified_file | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')"
+                preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$modified_file</a>"
                 output+=("<li><b>Modified</b>: $preview_link</li>")
               else
                 no_preview_links+=("<b>Modified, no preview</b>: $file")
               fi
-            done
+            done < <("${modified_files[*]}")
 
             # Process removed files
-            for file in "${removed_files[@]}"; do
-              no_preview_links+=("<b>Removed, no preview</b>: $file")
-            done
+            # Process substitution -- command at end of loop
+            while IFS=$'\n' read -r removed_file; do
+              no_preview_links+=("<b>Removed, no preview</b>: $removed_file")
+            done < <("${removed_files[*]}")
 
             # Process no preview 
-            for file in "${no_preview_files[@]}"; do
-              output+=("<li>$file</li>")
-            done
+            # Process substitution -- command at end of loop
+            while IFS=$'\n' read -r removed_file; do
+              output+=("<li>$no_preview_file</li>")
+            done < <(echo "${no_preview_files[*]}")
           }
 
-          # Reset the IFS
-          IFS=$SAVEIFS 
-
           # Compose the body
-          body="<ul>${output[@]}</ul>"
+          # output should contain HTML <li>s which should be wrapped in a <ul>
+          echo "Output:"
+          echo "${output[*]}"
+          body="<ul>${output[*]}</ul>"
+          echo "Body:"
+          echo "${body}"
           echo "body:\n\n$body"
           echo "body=$body" >> $GITHUB_ENV
 
