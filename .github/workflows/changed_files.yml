@@ -88,9 +88,10 @@ jobs:
               if [[ "$added_file" =~ .*\/content\/.*\.md ]]; then
                 output_path=$(echo "$added_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
                 preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$added_file</a>"
-                output+=("- **Added**: $preview_link")
+                echo "Preview link: $preview_link"
+                output+=("<li><b>Added</b>: $preview_link</li>")
               else
-                no_preview_files+=("- **Added** (no preview): $added_file")
+                no_preview_files+=("<li><b>Added</b> (no preview): $added_file</li>")
               fi
             done < <("${added_files[*]}")
 
@@ -100,16 +101,17 @@ jobs:
               if [[ "$modified_file" =~ .*\/content\/.*\.md ]]; then
                 output_path=$(echo "$modified_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
                 preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$modified_file</a>"
-                output+=("- **Modified**: $preview_link")
+                echo "Preview link: $preview_link"
+                output+=("<li><b>Modified</b>: $preview_link</li>")
               else
-                no_preview_files+=("**Modified** (no preview): $modified_file")
+                no_preview_files+=("<li><b>Modified</b> (no preview): $modified_file</li>")
               fi
             done < <("${modified_files[*]}")
 
             # Process removed files
             # Process substitution -- command at end of loop
             while read -r removed_file; do
-              no_preview_files+=("- **Removed** (no preview): $removed_file")
+              no_preview_files+=("<li><b>Removed</b> (no preview): $removed_file</li>")
             done < <("${removed_files[*]}")
 
             # Process no preview 
@@ -122,7 +124,7 @@ jobs:
           # Compose the body
           echo "Output:"
           echo "${output[*]}"
-          body="${output[*]}"
+          body="<ul>${output[*]}</ul>"
           echo "Body:"
           echo "${body}"
           echo "body:\n\n$body"
@@ -146,4 +148,4 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           edit-mode: replace
           body: |
-            <h3>HTML previews:</h3><ul>${{ env.body }}</ul><p>Preview links work <b>only</b> after the `Cloudflare Pages` build check succeeds. Links are generated only for new and modified <code>.md</code> files under <code>content/</code>.</p><p><a href="https://github.com/wandb/docs/issues/new?title=Feedback+about+HTML+preview+comments&assignees=mdlinville&body=Link+to+PR+and+describe+the+issue">Feedback about HTML previews</a>
+            <h3>HTML previews:</h3>${{ env.body }}<hr /><p>Preview links work <b>only</b> after the `Cloudflare Pages` build check succeeds. Links are generated only for new and modified <code>.md</code> files under <code>content/</code>.</p><p><a href="https://github.com/wandb/docs/issues/new?title=Feedback+about+HTML+preview+comments&assignees=mdlinville&body=Link+to+PR+and+describe+the+issue">Feedback about HTML previews</a>
