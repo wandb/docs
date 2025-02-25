@@ -276,11 +276,12 @@
 /guides/track/save-restore /guides/artifacts 301
 /guides/track/summary-metrics /guides/track/log/log-summary 301
 /guides/troubleshooting/network /guides/technical-faq 301
-/weave /guides/app/features/panels/query-panel 301
-/guides/app/features/panels/weave /guides/app/features/panels/query-panel 301
-/weave/boards /guides/app/features/panels/query-panel 301
+/guides/app/features/panels/query-panel /guides/app/features/panels/query-panels 301
+/weave /guides/app/features/panels/query-panels 301
+/guides/app/features/panels/weave /guides/app/features/panels/query-panels 301
+/weave/boards /guides/app/features/panels/query-panels 301
 /weave/streamtable /guides/app/features/panels/query-panel 301
-/guides/app/features/panels/weave/embedding-projector /guides/app/features/panels/query-panel/embedding-projector 301
+/guides/app/features/panels/weave/embedding-projector /guides/app/features/panels/query-panels/embedding-projector 301
 /guides/platform /guides/core 301
 /weave/prod-mon /guides/core 301
 /home / 301
