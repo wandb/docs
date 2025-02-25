@@ -120,7 +120,7 @@ Auto provisioning with SSO is useful for adding users to an organization at scal
 An Enterprise license is required to create or assign custom roles on Dedicated cloud or Self-managed deployments.
 {{% /alert %}}
 
-Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Custom roles are created at the organization level but are assigned at the team level.
+Organization admins can compose a new role based on either the View-Only or Member role and add additional permissions to achieve fine-grained access control. Team admins can assign a custom role to a team member. Custom roles are created at the organization level but are assigned at the team level.
 
 To create a custom role:
 
