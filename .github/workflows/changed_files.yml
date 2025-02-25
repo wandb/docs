@@ -90,7 +90,7 @@ jobs:
               else
                 no_preview_files+=("<li><b>Added</b> (no preview): $added_file</li>")
               fi
-            done < <("${added_files[*]}")
+            done < <("echo ${added_files[@]}")
 
             # Generate HTML preview links for modified files in content/
             # Process substitution -- command at end of loop
@@ -103,25 +103,25 @@ jobs:
               else
                 no_preview_files+=("<li><b>Modified</b> (no preview): $modified_file</li>")
               fi
-            done < <("${modified_files[*]}")
+            done < <(echo "${modified_files[@]}")
 
             # Process removed files
             # Process substitution -- command at end of loop
             while IFS=' ' read -r removed_file; do
               no_preview_files+=("<li><b>Removed</b> (no preview): $removed_file</li>")
-            done < <("${removed_files[*]}")
+            done < <(echo "${removed_files[@]}")
 
             # Process no preview 
             # Process substitution -- command at end of loop
             while IFS=' ' read -r removed_file; do
               output+=("$no_preview_file")
-            done < <(echo "${no_preview_files[*]}")
+            done < <(echo "${no_preview_files[@]}")
           }
 
           # Compose the body
           echo "Output:"
-          echo "${output[*]}"
-          body="<ul>${output[*]}</ul>"
+          echo "${output[@]}"
+          body="<ul>${output[@]}</ul>"
           echo "Body:"
           echo "${body}"
           echo "body:\n\n$body"
