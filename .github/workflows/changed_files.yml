@@ -79,50 +79,53 @@ jobs:
 
           # Generate HTML preview links for added files in content/
           # Process substitution -- command at end of loop
-          while IFS=' ' read -r added_file; do
+          while IFS= read -r added_file; do
             if [[ "$added_file" =~ .*\/content\/.*\.md ]]; then
               output_path=$(echo "$added_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
               preview_path="https://docs-$pr_num.docodile.pages.dev/$output_path"
-              preview_link="<a href=\"$preview_path\" target=\"_blank\" rel=\"noopener\">$added_file</a>"
+              preview_link=(printf '<a href="%s" target="_blank" rel="noopener">%s</a>\n' "$output_path" "$added_file")
               echo "Preview link: $preview_link"
-              output+=("<li><b>Added</b>: $preview_link</li>")
+              output+=(printf '<li>%s</li>\n' "$preview_link")
             else
-              no_preview_files+=("<li><b>Added</b> (no preview): $added_file</li>")
+              no_preview_files+=(printf '<li><b>Added</b> (no preview): %s</li>\n' "$added_file")
             fi
-          done < <("echo ${added_files[@]}")
+          done < <(printf "%s\n" "${added_files[@]}")
 
           # Generate HTML preview links for modified files in content/
           # Process substitution -- command at end of loop
-          while IFS=' ' read -r modified_file; do
+          while IFS= read -r modified_file; do
             if [[ "$modified_file" =~ .*\/content\/.*\.md ]]; then
               output_path=$(echo "$modified_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
-              preview_link="<a href=\"https://docs-$pr_num.docodile.pages.dev/$output_path\" target=\"_blank\" rel=\"noopener\">$modified_file</a>"
+              preview_path="https://docs-$pr_num.docodile.pages.dev/$output_path"
+              preview_link=(printf '<a href="%s" target="_blank" rel="noopener">%s</a>\n' "$output_path" "$modified_file")
               echo "Preview link: $preview_link"
-              output+=("<li><b>Modified</b>: $preview_link</li>")
+              output+=(printf '<li><b>Modified</b>: %s</li>\n' "$preview_link")
             else
-              no_preview_files+=("<li><b>Modified</b> (no preview): $modified_file</li>")
+              no_preview_files+=(printf '<li><b>Modified</b> (no preview): %s</li>\n' "$modified_file")
             fi
-          done < <(echo "${modified_files[@]}")
+          done < <(printf "%s\n" "${modified_files[@]}")
 
           # Process removed files
           # Process substitution -- command at end of loop
-          while IFS=' ' read -r removed_file; do
-            no_preview_files+=("<li><b>Removed</b> (no preview): $removed_file</li>")
-          done < <(echo "${removed_files[@]}")
+          while IFS= read -r removed_file; do
+            no_preview_files+=(printf '<li><b>Removed</b>: %s</li>\n' "$removed_file")
+          done < <(printf "%s\n" "${removed_files[@]}")
 
           # Process no preview 
           # Process substitution -- command at end of loop
-          while IFS=' ' read -r removed_file; do
-            output+=("$no_preview_file")
-          done < <(echo "${no_preview_files[@]}")
+          while IFS= read -r no_preview_file; do
+            output+=(printf "%s\n" "$no_preview_file")
+          done < <(printf "%s\n" "${no_preview_files[@]}")
 
           # Compose the body
           echo "Output:"
-          echo "${output[@]}"
-          body="<ul>${output[@]}</ul>"
+          inner_body=
+          while IFS= read -r output_entry; do
+            inner_body+=(printf "%s\n" "$output_entry")
+          done < <(printf "%s\n" "$output[@]")
+          body=$(echo "<ul>$inner_body</ul>")
           echo "Body:"
           echo "${body}"
-          echo "body:\n\n$body"
           echo "body=$body" >> $GITHUB_ENV
 
       - name: Find Comment
