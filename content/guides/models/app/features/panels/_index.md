@@ -36,16 +36,14 @@ To reset a workspace:
 
 ## View a panel in full-screen mode
 
-In full-screen mode:
-
-- A panel plots 10,000 buckets rather than 1,000 when not in full-screen mode.
-- The run selector displays, so you can toggle runs on or off and search for runs.
+In full-screen mode, the run selector displays and panels use full full-fidelity sampling mode plots with 10,000 buckets, rather than 1000 buckets otherwise.
 
 To view a panel in full-screen mode:
 
 1. Hover over the panel.
-1. Click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder.
+1. Click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder or an outline showing the four corners of a square.
     {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
+1. When you [share the panel]({{< relref "#share-a-panel" >}}) while viewing it in full-screen mode, the resulting link opens in full-screen mode automatically.
 
 To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
 
@@ -80,14 +78,14 @@ To learn more about the options for each type of panel, refer to the relevant se
 
 This section shows how to share a panel using a link.
 
-To share a panel, you can either:
+To share a panel using a link, you can either:
 
 - While viewing the panel in full-screen mode, copy the URL from the browser.
 - Click the action menu `...` and select **Copy panel URL**.
 
 Share the link with the user or team. When they access the link, the panel opens in [full-screen mode]({{< relref "#view-a-panel-in-full-screen-mode" >}}).
 
-To get back to a panel's workspace while viewing a panel in full-screen mode, click the left-pointing arrow at the top of the page.
+To return to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
 
 ### Compose a panel's full-screen link programmatically
 In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
@@ -109,8 +107,7 @@ To get the code to embed or share a panel on social media:
 1. Choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
 
 ### Email a panel report
-This section shows how to email a single panel as a stand-alone report.
-
+To email a single panel as a stand-alone report:
 1. Hover over the panel, then click the panel's action menu `...`.
 1. Click **Share panel in report**.
 1. Select the **Invite** tab.
@@ -174,20 +171,21 @@ To add a new section before or after an existing section, you can instead click 
 
 
 ### Manage a section's panels
-If a section has a large number of panels, by default they are paginated.
+Sections with a large number of panels are paginated by default if they use the **Standard grid** layout. The default number of panels on a page depend on the panel's configuration and on the sizes of the panels in the section.
 
-- If a section uses the **Standard grid**, you can customize the number of panels to show:
+1. To check which layout a section uses, click the section's action `...` menu. To change a section's layout, select **Standard grid** or **Custom grid** in the **Layout grid** section.
+1. To resize a panel, hover over it, click the drag handle, and drag it to adjust the panel's size.
+  - If a section uses the **Standard grid**, resizing one panel resizes all panels in the section.
+  - If a section uses the **Custom grid**, you can customize the size of each panel separately.
+1. If a section is paginated, you can customize the number of panels to show on a page:
   1. At the top of the section, click **1 to <X> of <Y>**, where `<X>` is the number of visible panels and `<Y>` is the total number of panels.
-  1. Choose how many panels to show, up to 100..
-- To show all panels when there are a large number of them, click the section's action `...` menu, then click **Custom grid**.
-- To resize a panel, hover over it and use the drag handle to resize it.
-  - If the section uses the **Standard grid**, all of the section's panels are updated to the new size.
-  - If the section uses the **Custom grid**, only the panel you are resizing is updated.
-- To delete a panel from a section:
+  1. Choose how many panels to show per page, up to 100.
+1. To show all panels when there are a large number of them, configure the panel to use the **Custom grid** layout. Click the section's action `...` menu, then select **Custom grid** in the **Layout grid** section
+1. To delete a panel from a section:
   1. Hover over the panel, then click its action `...` menu.
   1. Click **Delete**.
   
-  If you reset a workspace to an automated workspace, all deleted panels appear again.
+If you reset a workspace to an automated workspace, all deleted panels appear again.
 
 ### Rename a section
 
