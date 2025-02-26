@@ -71,7 +71,7 @@ wandb.agent(sweep_id, count=count)
 {{% /alert %}}
   {{% /tab %}}
   {{% tab header="CLI" %}}
-먼저 [`wandb sweep`]({{< relref path="/ref/cli/wandb-sweep.md" lang="ko" }}) 코맨드로 스윕을 초기화합니다. 자세한 내용은 [스윕 초기화]({{< relref path="./initialize-sweeps.md" lang="ko" >}})을 참조하세요.
+먼저 [`wandb sweep`]({{< relref path="/ref/cli/wandb-sweep.md" lang="ko" >}}) 코맨드로 스윕을 초기화합니다. 자세한 내용은 [스윕 초기화]({{< relref path="./initialize-sweeps.md" lang="ko" >}})을 참조하세요.
 
 ```
 wandb sweep config.yaml
