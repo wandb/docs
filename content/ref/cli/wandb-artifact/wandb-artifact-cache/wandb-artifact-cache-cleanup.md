@@ -15,7 +15,7 @@ Clean up less frequently used files from the artifacts cache
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --remove-temp / --no-remove-temp | Remove temp files |
+| `--remove-temp / --no-remove-temp` | Remove temp files |
 
 
 
