@@ -9,11 +9,11 @@ weight: 4
 
 This page describes _automations_ in W&B and shows how to create and manage them. Create an automation to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) or a [registered model is changed]({{< relref "/guides/models/registry/" >}}).
 
-An automation defines the [event scopes and types]({{< relref "#event-scopes-and-types" >}}) to watch for and the [action]({{< relref "#event-actions" >}}) to take when the event occurs, such as running a webhook or posting to a Slack channel.
+An automation defines the [event scopes and types]({{< relref "#event-scopes-and-types" >}}) to watch for and the [action]({{< relref "#actions" >}}) to take when the event occurs, such as running a webhook or posting to a Slack channel.
 
-## Event scopes and types
+## Events and event scopes
 
-An automation's triggering event depends on the automation's scope.
+An automation can run when a specific event occurs at a given scope, either a registry or a project.
 
 ### Registry
 For an Artifact in a [Registry]({{< relref "/guides/models/registry/">}}) or a collection, [registered model]({{< relref "/guides/models/registry/">}}), you can configure an automation to run on these events:
@@ -28,18 +28,21 @@ For an Artifact in a project or a collection, you can configure an automation to
 - **Creating a new version of an Artifact**: Apply recurring actions to each version of an Artifact. For example, start a training job when a new dataset artifact version is created.
 - **Adding a new alias to a version of an Artifact**: Trigger a special step of your workflow when a new Artifact version in a project or collection has a specific label or alias applied. For example, , run a series of downstream processing steps when an Artifact has the `test-set-quality-check` alias applied.
 
-## Event actions
-An automation can run a webhook on a third-party service such as GitHub or Microsoft Teams, or it can post to a Slack channel.
+## Event actions {#actions}
+
+When the configured event occurs, an automation runs the specified action, either by posting to a Slack channel or by running a webhook.
 
 ## Create an automation
 These sections show how to configure a Slack automation or a webhook automation.
 
 ### Configure a Slack automation
-Configuring a Slack integration takes multiple steps. First, [add one or more Slack channels]({{< relref "#add-a-slack-channel" >}}) as alert destinations. Next, [create the automation that notifies the Slack channel]({{< relref "#create-slack-automation" >}}).
+Configuring a Slack integration takes multiple steps:
+1. [Add one or more Slack channels]({{< relref "#add-a-slack-channel" >}}) as alert destinations.
+1. [Create the Slack automation]({{< relref "#create-slack-automation" >}}).
 
-#### Add a Slack channel
+#### Add a Slack destination
 
-1. Go to Team Settings page.
+1. Log in to W&B and go to Team Settings page.
 1. To integrate with a new Slack workspace and channel, click **Connect Slack**.
     {{% alert %}}
     To integrate with a new Slack channel in a workspace that is already set up, click **New integration**.
@@ -51,26 +54,27 @@ Configuring a Slack integration takes multiple steps. First, [add one or more Sl
 
 Now you can [create an automation that uses the Slack integration]({{< relref "#create-slack-automation" >}}).
 
-#### Create the automation {#create-slack-automation}
+#### Create a Slack automation {#create-slack-automation}
 
-After you [configure a Slack integration]({{< relref "#configure-the-slack-integration" >}}), follow these steps to create an automation that uses it.
+After you [configure a Slack integration]({{< relref "#add-a-slack-integration" >}}), follow these steps to create a Slack automation that uses it.
 
-1. Go to the project page.
+1. Log in to W&B and go to the project page.
 1. In the sidebar, click **Automations**.
 1. Click **Create automation**.
-1. Choose the **Event** which triggers the automation. If applicable, provide options that are specific to the event type. If your project has no registries, registry events will not be available. Click **Next step**.
+1. Choose the [**Event**]({{< relref "#events-and-event-scopes" >}}) which triggers the automation. If applicable, provide options that are specific to the event type. If your project has no registries, registry events will not be available. Click **Next step**.
 1. Select the team where you added the Slack integration.
-1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
+1. Set **Action type** to **Slack notification**.
+1. Select the Slack channel, then click **Next step**.
 1. Provide a name for the automation. Optionally, provide a description.
 1. Click **Create automation**.
 
 ### Configure a webhook automation
 
-To configure a webhook integration, you take these steps:
+Configuring a webhook integration tales multiple steps:
 
 1. If your webhook requires any sensitive strings, such as a Bearer token for authorization, [add them as secrets]({{< relref "/guides/core/secrets.md#add-a-secret" >}}) before creating the webhook.
 1. [Create the webook]({{< relref "#add-a-webhook" >}}). Grant it access to any secrets it requires, including those you just created.
-1. [Create an automation that uses the webhook]({{< relref "#create-webhook-automation" >}}).
+1. [Create a webhook automation]({{< relref "#create-webhook-automation" >}}).
 
 #### Add the webhook {#add-a-webhook}
 A W&B Admin can configure a webhook for a team.
@@ -81,21 +85,22 @@ If the webhook requires a Bearer token, [create a secret that contains it]({{< r
 
 This section shows how to configure a webhook's URL and Bearer token., as well as any access tokens and secrets it requires.
 
+1. Log in to W&B.
 1. If the webhook requires any access tokens or other sensitive strings, create a secret in W&B for each sensitive string, and make a note of the secret's name.
-1. Log in to W&B and go to the **Settings** page.
+1. Go to the **Settings** page.
 1. In the **Webhooks** section, click **New webhook**.
 1. Provide a name for the webhook. 
 1. Provide the endpoint URL for the webhook.
-1. If the webhook's payload requires an access token or any other [secrets]({{< relref "/guides/core/secrets.md" >}}), grant the webhook access to the secret by setting **Secret** to the secret's name. When you configure an automation that uses the webhook, you can access the secret in the payload by prefixing its name with `$`.
+1. If the webhook requires an access token or any other [secrets]({{< relref "/guides/core/secrets.md" >}}), grant the webhook access to each secret by setting **Secret** to the secret's name. When you configure the automation that uses the webhook, you can access the secret in the payload by prefixing its name with `$`.
 1. If the webhook authenticates using an access token, set **Access token** to the name of the secret that contains it. When you configure an automation that uses the webhook, you can access the token in the `$ACCESS_TOKEN` environment variable, and the HTTP header sets `Authorization: Bearer` to the access token.
-1. Click **Test** to test the webhook. Optionally, provide a payload to test. Any payload you specify in this step does not persist, and will need to be specified when you [create the automation]({{< relref "#create-webhook-automation" >}}).
+1. Click **Test** to test the webhook. Optionally, provide a payload to test. To refer to a secret the webhook has access to in the payload, prefix its name with `$`. Any payload you specify in this step does not persist, but allows you to test authentication. You configure an automation's payload when you [create the automation]({{< relref "#create-webhook-automation" >}}).
 
 {{% alert %}}
 See [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}) to view where the secret and access token are specified in
 the POST request.
 {{% /alert %}}
 
-Now you can [create an automation that uses the webhook]({{< relref "#create-webhook-automation" >}}).
+Now you can [create a webhook automation]({{< relref "#create-webhook-automation" >}}).
 
 #### Create the automation {#create-webhook-automation}
 1. Log in to W&B and go to the project page.
@@ -114,7 +119,7 @@ Now you can [create an automation that uses the webhook]({{< relref "#create-web
 The following tabs demonstrate example payloads based on common use cases. Within the examples they reference the following keys to refer to condition objects in the payload parameters:
 * `${event_type}` Refers to the type of event that triggered the action.
 * `${event_author}` Refers to the user that triggered the action.
-* `${artifact_version}` Refers to the specific artifact version that triggered the action. Passed as an artifact instance.
+* `${artifact_version}` Refers to the specific artifact version that triggered the action. Passed as a [`Wandb.Artifact`]({{< relref "/ref/python/artifact/" >}}).
 * `${artifact_version_string}` Refers to the specific artifact version that triggered the action. Passed as a string.
 * `${artifact_collection_name}` Refers to the name of the artifact collection that the artifact version is linked to.
 * `${project_name}` Refers to the name of the project owning the mutation that triggered the action.
@@ -158,7 +163,7 @@ The `event_type` key in the webhook payload must match the `types` field in the 
 
 The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either `LINK_ARTIFACT` or `ADD_ARTIFACT_ALIAS`. See below for an example mapping:
 
-```json
+```text
 ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
 ${event_author} --> "<wandb-user>"
 ${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
