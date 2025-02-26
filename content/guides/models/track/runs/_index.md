@@ -465,7 +465,6 @@ Delete one or more runs from a project with the W&B App.
 
 {{% alert %}}
 Once a run with a specific ID is deleted, it may not be used as a run ID for 7 days. During that time, the deleted run remains recoverable. After 7 days, the run is permanently deleted and the ID may be used again.
-Newer versions of the SDK (0.19.7+) display an error message if you attempt to initiate a run that has been deleted recently.
 {{% /alert %}}
 
 {{% alert %}}
