@@ -82,8 +82,8 @@
 /guides/app/features/app/features/panels/parallel-coordinates /guides/app/features/app/features/panels/parallel-coordinates 301
 /guides/app/features/panels/compare-metrics /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart 301
 /guides/app/features/panels/compare-metrics/reference /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart 301
-/guides/models/automations/registry-automations /guides/models/automations/
-/guides/artifacts/project-scoped-automations /guides/models/automations
+/guides/models/automations/registry-automations /guides/models/automations 301
+/guides/artifacts/project-scoped-automations /guides/models/automations 301
 /guides/app/features/panels/panels /guides/app/features/panels 301
 /guides/app/pages/guides/app/settings-page /guides/app/pages 301
 /guides/app/pages/intro /guides/app/pages 301
