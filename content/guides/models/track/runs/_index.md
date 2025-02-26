@@ -463,6 +463,10 @@ Delete one or more runs from a project with the W&B App.
 4. Choose the **Delete** button (trash can icon) above the table.
 5. From the modal that appears, choose **Delete**.
 
+{{% alert %}}
+Once a run with a specific ID is deleted, it may not be used as the id for another run for at least 7 days. This is due to W&B allowing you to recover accidentaly deleted runs up to 7 days after their deletion.
+Newer versions of the SDK (0.19.7+) display an error message if you attempt to initiate a run that has been deleted recently.
+{{% /alert %}}
 
 {{% alert %}}
 For projects that contain a large number of runs, you can use either the search bar to filter runs you want to delete using Regex or the filter button to filter runs based on their status, tags, or other properties. 
