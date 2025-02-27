@@ -7,7 +7,9 @@ title: Track user activity with audit logs
 weight: 1
 ---
 
-Use W&B audit logs to track user activity within your organization and to conform to your enterprise governance requirements. Audit logs are available in JSON format. How to access audit logs depends on your W&B platform deployment type:
+Use W&B audit logs to track user activity within your organization and to conform to your enterprise governance requirements. Audit logs are available in JSON format. Refer to [Audit log schema]({{< relref "#audit-log-schema" >}}).
+
+How to access audit logs depends on your W&B platform deployment type:
 
 | W&B Platform Deployment type | Audit logs access mechanism |
 |----------------------------|--------------------------------|
@@ -16,79 +18,75 @@ Use W&B audit logs to track user activity within your organization and to confor
 | [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) with W&B managed storage (without BYOB) | Available only by using [the API]({{< relref "#fetch-audit-logs-using-api" >}}). |
 | [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) | Available for Enterprise plans only. Available only by using [the API]({{< relref "#fetch-audit-logs-using-api" >}}).
 
-Once you've access to your audit logs, analyze those using your preferred tools, such as [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), and more. You may need to transform the JSON-formatted audit logs into a format relevant to the tool before analysis. Information on how to transform your audit logs for specific tools is outside the scope of W&B documentation.
+After fetching audit logs, you can analyze them using tools like [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), or [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric). Some audit log analysis tools do not support JSON; refer to the documentation for your analysis tool for guidelines and requirements for transforming the JSON-formatted audit logs before analysis.
 
-{{% alert %}}
-**Audit Log Retention:** If a compliance, security or risk team in your organization requires audit logs to be retained for a specific period of time, W&B recommends to periodically transfer the logs from your instance-level bucket to a long-term retention storage. If you're instead using the API to access the audit logs, you can implement a simple script that runs periodically (like daily or every few days) to fetch any logs that may have been generated since the time of the last script run, and store those in a short-term storage for analysis or directly transfer to a long-term retention storage.
+{{% alert title="Audit log retention" %}}
+If you require audit logs to be retained for a specific period of time, W&B recommends periodically transferring logs to long-term storage, either using storage buckets or the Audit Logging API.
+
+If you are subject to the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://aspe.hhs.gov/reports/health-insurance-portability-accountability-act-1996"), you must maintain audit logs must be retained for a minimum of 6 years in an environment where they cannot be deleted or modified by any internal or exterrnal actor before the end of the mandatory retention period. For HIPAA-compliant [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) instances with [BYOB]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}), you must configure guardrails for your managed storage, including any long-term retention storage
 {{% /alert %}}
 
-HIPAA compliance requires that you retain audit logs for a minimum of 6 years. For HIPAA-compliant [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) instances with [BYOB]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}), you must configure guardrails for your managed storage including any long-term retention storage, to ensure that no internal or external user can delete audit logs before the end of the mandatory retention period.
-
 ## Audit log schema
-The following table lists all the different keys that might be present in your audit logs. Each log contains only the assets relevant to the corresponding action, and others are omitted from the log.
+This table shows all keys which may appear in an audit log entry, ordered alphabetically. Depending on the action and the circumstances, a specific log entry may include only a subset of the possible fields.
 
 | Key | Definition |
 |---------| -------|
-|`timestamp`               | Time stamp in [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339). For example: `2023-01-23T12:34:56Z`, represents `12:34:56 UTC` time on Jan 23, 2023.
-|`action`                  | What [action]({{< relref "#actions" >}}) did the user take.
-|`actor_user_id`           | If present, ID of the logged-in user who performed the action.
-|`response_code`          | Http response code for the action.
-|`artifact_asset`          | If present, action was taken on this artifact id
-|`artifact_sequence_asset` | If present, action was taken on this artifact sequence id
-|`entity_asset`            | If present, action was taken on this entity or team id.
-|`project_asset`           | If present, action was taken on this project id.
-|`report_asset`            | If present, action was taken on this report id.
-|`user_asset`              | If present, action was taken on this user asset.
-|`cli_version`             | If the action is taken via python SDK, this will contain the version
-|`actor_ip`                | IP address of the logged-in user.
-|`actor_email`             | if present, action was taken on this actor email.
-|`artifact_digest`         | if present, action was taken on this artifact digest.
-|`artifact_qualified_name` | if present, action was taken on this artifact.
-|`entity_name`             | if present, action was taken on this entity or team name.
-|`project_name`            | if present, action was taken on this project name.
-|`report_name`             | if present, action was taken on this report name.
-|`user_email`              | if present, action was taken on this user email.
+|`action`                  | The [action]({{< relref "#actions" >}}) of the event.
+|`actor_email`             | The email address of the user that initiated the action, if applicable.
+|`actor_ip`                | The IP address of the user that initiated the action.
+|`actor_user_id`           | The ID of the logged-in user who performed the action, if applicable.
+|`artifact_asset`          | The artifact ID associated with the action, if applicable.
+|`artifact_digest`         | The artifact digest associated with the action, if applicable.
+|`artifact_qualified_name` | The full name of the artifact associated with the action, if applicable.
+|`artifact_sequence_asset` | The artifact sequence ID associated with the action, if applicable.
+|`cli_version`             | The version of the Python SDK that initiated the action, if applicable.
+|`entity_asset`            | The entity or team ID associated with the action, if applicable.
+|`entity_name`             | The entity or team name associated with the action, if applicable.
+|`project_asset`           | The project associated with the action, if applicable.
+|`project_name`            | The name of the project associated with the action, if applicable.
+|`report_asset`            | The report ID associated with the action, if applicable.
+|`report_name`             | The name of the report associated with the action, if applicable.
+|`response_code`           | The HTTP response code for the action, if applicable.
+|`timestamp`               | The time of the event in [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339). For example, `2023-01-23T12:34:56Z` represents January 23, 2023 at 12:34:56 UTC.
+|`user_asset`              | The user asset the action impacts (rather than the user performing the action), if applicable.
+|`user_email`              | The email address of the user the action (rather than the email address of the user performing the action), if applicable.
 
 ### Personally identifiable information (PII)
 
-Personally identifiable information (PII), such as email ids and the names of projects, teams, and reports, is available only using the API endpoint option.
+Personally identifiable information (PII), such as email addresses and the names of projects, teams, and reports, is available only using the API endpoint option.
 - For [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) and 
   [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), an organization admin can [exclude PII]({{< relref "#exclude-pii" >}}) when fetching audit logs.
 - For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
 
 ## Fetch audit logs
-An organization or instance admin can fetch the audit logs for a W&B instance using the `audit_logs` API.
+An organization or instance admin can fetch the audit logs for a W&B instance using the Audit Logging API, at the endpoint `audit_logs/`.
 
 {{% alert %}}
-If you are an admin of multiple Enterprise [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organizations, you must configure the organization where audit logging API requests are sent. Click your profile image, then click **User Settings**. The setting is named **Default API organization**.
+- If a user other than an admin attempts to fetch audit logs, a HTTP `403` error occurs, indicating that access is denied.
+
+- If you are an admin of multiple Enterprise [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organizations, you must configure the organization where audit logging API requests are sent. Click your profile image, then click **User Settings**. The setting is named **Default API organization**.
 {{% /alert %}}
 
 1. Determine the correct API endpoint for your instance:
 
-  - [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}): `<wandb-platform-url>/admin/audit_logs`
-  - [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `<wandb-platform-url>/admin/audit_logs`
-  - [SaaS Cloud (Enterprise required)]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `https://api.wandb.ai/audit_logs`
+    - [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}): `<wandb-platform-url>/admin/audit_logs`
+    - [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `<wandb-platform-url>/admin/audit_logs`
+    - [SaaS Cloud (Enterprise required)]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `https://api.wandb.ai/audit_logs`
 
-  In proceeding steps, replace `<API-endpoint>` with your API endpoint.
+    In proceeding steps, replace `<API-endpoint>` with your API endpoint.
 1. Construct the full API endpoint from the base endpoint, and optionally include URL parameters:
     - `anonymize`: if set to `true`, remove any PII; defaults to `false`. Refer to [Exclude PII when fetching audit logs]({{< relref "#exclude-pii" >}}). Not supported for SaaS Cloud.
     - `numDays`: logs will be fetched starting from `today - numdays` to most recent; defaults to `0`, which returns logs only for `today`. For SaaS Cloud, you can fetch audit logs from a maximum of 7 days in the past.
     - `startDate`: an optional date with format `YYYY-MM-DD`. Supported only on [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
 
-    {{% alert %}}
-    - If you set both `startDate` and `numDays`, logs are returned from `startDate` to `startDate` + `numDays`.
-    - If you omit `startDate` but include `numDays`, logs are returned from `today` to `numDays`.fetch for `today` only.
-    - If you set neither `startDate` nor `numDays`, logs are returned for `today` only.
-    {{% /alert %}}
+      `startDate` and `numDays` interact:
+        - If you set both `startDate` and `numDays`, logs are returned from `startDate` to `startDate` + `numDays`.
+        - If you omit `startDate` but include `numDays`, logs are returned from `today` to `numDays`.
+        - If you set neither `startDate` nor `numDays`, logs are returned for `today` only.
 
+1. Execute an HTTP `GET` request on the constructed fully qualified API endpoint using a web browser or a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), or cURL.
 
-1. Execute an HTTP GET request on the constructed fully qualified API endpoint using a web browser or a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), or cURL.
-
-The API response contains new-line separated JSON objects. Objects will include the fields described in the schema. It's the same format which is used when syncing audit log files to an instance-level bucket (wherever applicable as mentioned earlier). In those cases, the audit logs are located at the `/wandb-audit-logs` directory in your bucket.
-
-{{% alert %}}
-Only an W&B [instance or organization admin]({{< relref "/guides/hosting/iam/access-management/" >}}) can fetch audit logs using the API. Otherwise, the error `HTTP 403 Forbidden` occurs.
-{{% /alert %}}
+The API response contains new-line separated JSON objects. Objects will include the fields described in the [schema]({{< relref "#audit-log-schemag" >}}), just like when audit logs are synced to an instance-level bucket. In those cases, the audit logs are located in the `/wandb-audit-logs` directory in your bucket.
 
 ### Use basic authentication
 To use basic authentication with your API key to access the audit logs API, set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
@@ -104,14 +102,7 @@ https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true`.
 ```
 
 ## Actions
-The following table describes possible actions that can be recorded by W&B.
-
-{{% alert %}}
-On [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), audit logs are not collected for:
-- Open or Public projects.
-- The `report:read` action.
-- `User` actions which are not tried to a specific organization.
-{{% /alert %}}
+This table describes possible actions that can be recorded by W&B, sorted alphabetically.
 
 |Action | Definition |
 |-----|-----|
@@ -120,27 +111,32 @@ On [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}),
 | `artifact:read`               | Artifact is read.
 | `project:delete`              | Project is deleted.
 | `project:read`                | Project is read.
-| `report:read`                 | Report is read. Not collected on [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
+| `report:read`                 | Report is read. <sup><a href="#1">1</a></sup>
+| `run:delete_many`             | Batch of runs is deleted.
 | `run:delete`                  | Run is deleted.
-| `run:delete_many`             | Runs are deleted in batch.
-| `run:update_many`             | Runs are updated in batch.
 | `run:stop`                    | Run is stopped.
-| `run:undelete_many`           | Runs are brought back from trash in batch.
+| `run:undelete_many`           | Batch of runs is restored from trash.
+| `run:update_many`             | Batch of runs is updated.
 | `run:update`                  | Run is updated.
 | `sweep:create_agent`          | Sweep agent is created.
-| `team:invite_use`r            | User is invited to team.
 | `team:create_service_account` | Service account is created for the team.
 | `team:create`                 | Team is created.
-| `team:uninvite`               | User or service account is uninvited from team.
 | `team:delete`                 | Team is deleted.
-| `user:create`                 | User is created.
-| `user:delete_api_key`         | API key for the user is deleted.
-| `user:deactivate`             | User is deactivated.
-| `user:create_api_key`         | API key for the user is created.
-| `user:permanently_delete`     | User is permanently deleted.
-| `user:reactivate`             | User is reactivated.
-| `user:update`                 | User is updated.
-| `user:read`                   | User profile is read.
-| `user:login`                  | User logs in.
-| `user:initiate_login`         | User initiates log in.
-| `user:logout`                 | User logs out.
+| `team:invite_user`            | User is invited to team.
+| `team:uninvite`               | User or service account is uninvited from team.
+| `user:create_api_key`         | API key for the user is created. <sup><a href="#1">1</a></sup>
+| `user:create`                 | User is created. <sup><a href="#1">1</a></sup>
+| `user:deactivate`             | User is deactivated. <sup><a href="#1">1</a></sup>
+| `user:delete_api_key`         | API key for the user is deleted. <sup><a href="#1">1</a></sup>
+| `user:initiate_login`         | User initiates log in. <sup><a href="#1">1</a></sup>
+| `user:login`                  | User logs in. <sup><a href="#1">1</a></sup>
+| `user:logout`                 | User logs out. <sup><a href="#1">1</a></sup>
+| `user:permanently_delete`     | User is permanently deleted. <sup><a href="#1">1</a></sup>
+| `user:reactivate`             | User is reactivated. <sup><a href="#1">1</a></sup>
+| `user:read`                   | User profile is read. <sup><a href="#1">1</a></sup>
+| `user:update`                 | User is updated. <sup><a href="#1">1</a></sup>
+
+<a id="1">1</a>: On [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), audit logs are not collected for:
+- Open or Public projects.
+- The `report:read` action.
+- `User` actions which are not tried to a specific organization.
