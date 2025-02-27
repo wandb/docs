@@ -73,11 +73,11 @@ If you are an admin of multiple Enterprise [SaaS Cloud]({{< relref "/guides/host
 1. Construct the full API endpoint from the base endpoint, and optionally include URL parameters:
     - `anonymize`: if set to `true`, remove any PII; defaults to `false`. Refer to [Exclude PII when fetching audit logs]({{< relref "#exclude-pii" >}}). Not supported for SaaS Cloud.
     - `numDays`: logs will be fetched starting from `today - numdays` to most recent; defaults to `0`, which returns logs only for `today`. For SaaS Cloud, you can fetch audit logs from a maximum of 7 days in the past.
-    - `startDate`: an optional date with format `YYYY-MM-DD`.
+    - `startDate`: an optional date with format `YYYY-MM-DD`. Supported only on [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
 
     {{% alert %}}
     - If you set both `startDate` and `numDays`, logs are returned from `startDate` to `startDate` + `numDays`.
-    - If you omit `startDate` butr include `numDays`, logs are returned from `today` to `numDays`.fetch for `today` only.
+    - If you omit `startDate` but include `numDays`, logs are returned from `today` to `numDays`.fetch for `today` only.
     - If you set neither `startDate` nor `numDays`, logs are returned for `today` only.
     {{% /alert %}}
 
