@@ -81,9 +81,8 @@ An organization or instance admin can fetch the audit logs for a W&B instance us
 
       `startDate` and `numDays` interact:
         - If you set both `startDate` and `numDays`, logs are returned from `startDate` to `startDate` + `numDays`.
-        - If you omit `startDate` but include `numDays`, logs are returned from `today` to `numDays`.fetch for `today` only.
+        - If you omit `startDate` but include `numDays`, logs are returned from `today` to `numDays`.
         - If you set neither `startDate` nor `numDays`, logs are returned for `today` only.
-
 
 1. Execute an HTTP `GET` request on the constructed fully qualified API endpoint using a web browser or a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), or cURL.
 
@@ -123,7 +122,7 @@ This table describes possible actions that can be recorded by W&B, sorted alphab
 | `team:create_service_account` | Service account is created for the team.
 | `team:create`                 | Team is created.
 | `team:delete`                 | Team is deleted.
-| `team:invite_use`r            | User is invited to team.
+| `team:invite_user`            | User is invited to team.
 | `team:uninvite`               | User or service account is uninvited from team.
 | `user:create_api_key`         | API key for the user is created. <sup><a href="#1">1</a></sup>
 | `user:create`                 | User is created. <sup><a href="#1">1</a></sup>
