@@ -87,22 +87,22 @@ For more details and to learn about the full range of features in the W&B Regist
 
 ## FAQs
 
-#### Why is W&B migrating assets from Model Registry to W&B Registry?
+### Why is W&B migrating assets from Model Registry to W&B Registry?
 
 W&B is evolving its platform to offer more advanced features and capabilities with the new Registry. This migration is a step towards providing a more integrated and powerful toolset for managing models, datasets, and other artifacts.
 
-#### What needs to be done before the migration?
+### What needs to be done before the migration?
 
 No action is required from users before the migration. W&B will handle the transition, ensuring that workflows and references are preserved.
 
-#### Will access to model artifacts be lost?
+### Will access to model artifacts be lost?
 
 No, access to model artifacts will be retained after the migration. The legacy Model Registry will remain in a read-only state, and all relevant data will be migrated to the new Registry.
 
-#### Will metadata related to artifacts be preserved?
+### Will metadata related to artifacts be preserved?
 
 Yes, important metadata related to artifact creation, lineage, and other attributes will be preserved during the migration. Users will continue to have access to all relevant metadata after the migration, ensuring that the integrity and traceability of their artifacts remain intact.
 
-#### Who do I contact if I need help?
+### Who do I contact if I need help?
 
 Support is available for any questions or concerns. Reach out to support@wandb.com for assistance.
