@@ -245,6 +245,18 @@ The time when the artifact was last updated.
 
 ---
 
+### <kbd>property</kbd> Artifact.url
+
+Constructs the URL of the artifact. 
+
+
+
+**Returns:**
+ 
+ - `str`:  The URL of the artifact. 
+
+---
+
 ### <kbd>property</kbd> Artifact.use_as
 
 

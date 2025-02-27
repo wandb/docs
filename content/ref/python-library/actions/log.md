@@ -97,14 +97,14 @@ run.log({"accuracy": 0.9}, step=current_step)
 **Examples:**
  For more and more detailed examples, see [our guides to logging](https://docs.wandb.com/guides/track/log). 
 
-### Basic usage <!--yeadoc-test:init-and-log-basic--> ```python
+### Basic usage ```python
     import wandb
 
     run = wandb.init()
     run.log({"accuracy": 0.9, "epoch": 5})
     ``` 
 
-### Incremental logging <!--yeadoc-test:init-and-log-incremental--> ```python
+### Incremental logging ```python
     import wandb
 
     run = wandb.init()
@@ -113,7 +113,7 @@ run.log({"accuracy": 0.9}, step=current_step)
     run.log({"accuracy": 0.8})
     ``` 
 
-### Histogram <!--yeadoc-test:init-and-log-histogram--> ```python
+### Histogram ```python
     import numpy as np
     import wandb
 
@@ -123,7 +123,7 @@ run.log({"accuracy": 0.9}, step=current_step)
     run.log({"gradients": wandb.Histogram(gradients)})
     ``` 
 
-### Image from numpy <!--yeadoc-test:init-and-log-image-numpy--> ```python
+### Image from numpy ```python
     import numpy as np
     import wandb
 
@@ -136,7 +136,7 @@ run.log({"accuracy": 0.9}, step=current_step)
     run.log({"examples": examples})
     ``` 
 
-### Image from PIL <!--yeadoc-test:init-and-log-image-pillow--> ```python
+### Image from PIL ```python
     import numpy as np
     from PIL import Image as PILImage
     import wandb
@@ -145,7 +145,10 @@ run.log({"accuracy": 0.9}, step=current_step)
     examples = []
     for i in range(3):
          pixels = np.random.randint(
-             low=0, high=256, size=(100, 100, 3), dtype=np.uint8
+             low=0,
+             high=256,
+             size=(100, 100, 3),
+             dtype=np.uint8,
          )
          pil_image = PILImage.fromarray(pixels, mode="RGB")
          image = wandb.Image(pil_image, caption=f"random field {i}")
@@ -153,19 +156,22 @@ run.log({"accuracy": 0.9}, step=current_step)
     run.log({"examples": examples})
     ``` 
 
-### Video from numpy <!--yeadoc-test:init-and-log-video-numpy--> ```python
+### Video from numpy ```python
     import numpy as np
     import wandb
 
     run = wandb.init()
     # axes are (time, channel, height, width)
     frames = np.random.randint(
-         low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
+         low=0,
+         high=256,
+         size=(10, 3, 100, 100),
+         dtype=np.uint8,
     )
     run.log({"video": wandb.Video(frames, fps=4)})
     ``` 
 
-### Matplotlib Plot <!--yeadoc-test:init-and-log-matplotlib--> ```python
+### Matplotlib Plot ```python
     from matplotlib import pyplot as plt
     import numpy as np
     import wandb

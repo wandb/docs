@@ -33,9 +33,7 @@ This object works just like numpy's histogram function https://docs.scipy.org/do
 
 
 **Examples:**
- 
-
-Generate histogram from a sequence 
+ Generate histogram from a sequence. 
 
 ```python
 import wandb
@@ -46,6 +44,9 @@ wandb.Histogram([1, 2, 3])
 Efficiently initialize from np.histogram. 
 
 ```python
+import numpy as np
+import wandb
+
 hist = np.histogram(data)
 wandb.Histogram(np_histogram=hist)
 ``` 

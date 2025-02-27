@@ -27,9 +27,7 @@ This class is typically used for saving and displaying neural net models. It rep
 
 
 **Examples:**
- 
-
-Import a keras model 
+ Import a keras model. 
 
 ```python
 import wandb
