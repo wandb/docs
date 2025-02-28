@@ -23,7 +23,7 @@ Parallel coordinates charts summarize the relationship between large numbers of 
 
 ## Panel Settings
 
-To configure these features in the panel settingsm, click the edit button in the upper right corner of the panel.
+To configure these features in the panel settings, click the edit button in the upper right corner of the panel.
 
 * **Tooltip**: On hover, a legend shows up with info on each run
 * **Titles**: Edit the axis titles to be more readable
