@@ -28,6 +28,10 @@ Before you link an artifact to a registry, check the types of artifacts that col
 
 Based on your use case, follow the instructions described in the tabs below to link an artifact version.
 
+{{% alert %}}
+If an artifact version logs metrics (such as by using `run.log_artifact()`), you can view metrics for that version from its details page, and you can compare metrics across artifact versions from the artifact's page. Refer to [View linked artifacts in a registry]({{< relref "#view-linked-artifacts-in-a-registry" >}}).
+{{% /alert %}}
+
 {{< tabpane text=true >}}
   {{% tab header="Python SDK" %}}
 Programmatically link an artifact version to a collection with [`wandb.init.Run.link_artifact()`]({{< relref "/ref/python/run.md#link_artifact" >}}).
@@ -77,7 +81,7 @@ If you want to link an artifact version to the Model registry or the Dataset reg
   {{% /tab %}}
   {{% tab header="Registry App" %}}
 1. Navigate to the Registry App.
-{{< img src="/images/registry/navigate_to_registry_app.png" alt="" >}}
+    {{< img src="/images/registry/navigate_to_registry_app.png" alt="" >}}
 2. Hover your mouse next to the name of the collection you want to link an artifact version to.
 3. Select the meatball menu icon (three horizontal dots) next to  **View details**.
 4. From the dropdown, select **Link new version**.
@@ -120,9 +124,9 @@ View information about linked artifacts such as metadata, lineage, and usage inf
 1. Navigate to the Registry App.
 2. Select the name of the registry that you linked the artifact to.
 3. Select the name of the collection.
+4. If the collection's artifacts log metrics, compare metrics across versions by clicking **Show metrics**.
 4. From the list of artifact versions, select the version you want to access. Version numbers are incrementally assigned to each linked artifact version starting with `v0`.
-
-Once you select an artifact version, you can view that version's metadata, lineage, and usage information.
+5. To view details about an artifact version, click the version. From the tabs in this page, you can view that version's metadata (including logged metrics), lineage, and usage information.
 
 Make note of the **Full Name** field within the **Version** tab. The full name of a linked artifact consists of the registry, collection name, and the alias or index of the artifact version.
 

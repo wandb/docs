@@ -98,7 +98,11 @@ The URL that your terminal prints directs you to the project where W&B stores yo
 
 Navigate to the Registry App to view artifact versions that you and other members of your organization publish. To do so, first navigate to W&B. Select **Registry** in the left sidebar below **Applications**. Select the "Model" registry. Within the registry, you should see the "first-collection" collection with your linked artifact version.
 
-Once you link an artifact version to a collection within a registry, members of your organization can view, download, and manage your artifact versions, create downstream automations, and more if they have the proper permissions. 
+Once you link an artifact version to a collection within a registry, members of your organization can view, download, and manage your artifact versions, create downstream automations, and more if they have the proper permissions.
+
+{{% alert %}}
+If an artifact version logs metrics (such as by using `run.log_artifact()`), you can view metrics for that version from its details page, and you can compare metrics across artifact versions from the collection's page. Refer to [View linked artifacts in a registry]({{< relref "link_version.md#view-linked-artifacts-in-a-registry" >}}).
+{{% /alert %}}
 
 ## Enable W&B Registry
 
