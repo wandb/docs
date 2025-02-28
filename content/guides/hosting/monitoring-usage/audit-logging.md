@@ -23,7 +23,7 @@ After fetching audit logs, you can analyze them using tools like [Pandas](https:
 {{% alert title="Audit log retention" %}}
 If you require audit logs to be retained for a specific period of time, W&B recommends periodically transferring logs to long-term storage, either using storage buckets or the Audit Logging API.
 
-If you are subject to the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://aspe.hhs.gov/reports/health-insurance-portability-accountability-act-1996"), you must maintain audit logs must be retained for a minimum of 6 years in an environment where they cannot be deleted or modified by any internal or exterrnal actor before the end of the mandatory retention period. For HIPAA-compliant [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) instances with [BYOB]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}), you must configure guardrails for your managed storage, including any long-term retention storage
+If you are subject to the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://aspe.hhs.gov/reports/health-insurance-portability-accountability-act-1996"), audit logs must be retained for a minimum of 6 years in an environment where they cannot be deleted or modified by any internal or exterrnal actor before the end of the mandatory retention period. For HIPAA-compliant [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) instances with [BYOB]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}), you must configure guardrails for your managed storage, including any long-term retention storage
 {{% /alert %}}
 
 ## Audit log schema
@@ -49,7 +49,7 @@ This table shows all keys which may appear in an audit log entry, ordered alphab
 |`response_code`           | The HTTP response code for the action, if applicable.
 |`timestamp`               | The time of the event in [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339). For example, `2023-01-23T12:34:56Z` represents January 23, 2023 at 12:34:56 UTC.
 |`user_asset`              | The user asset the action impacts (rather than the user performing the action), if applicable.
-|`user_email`              | The email address of the user the action (rather than the email address of the user performing the action), if applicable.
+|`user_email`              | The email address of the user the action impacts (rather than the email address of the user performing the action), if applicable.
 
 ### Personally identifiable information (PII)
 
@@ -139,4 +139,4 @@ This table describes possible actions that can be recorded by W&B, sorted alphab
 <a id="1">1</a>: On [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), audit logs are not collected for:
 - Open or Public projects.
 - The `report:read` action.
-- `User` actions which are not tried to a specific organization.
+- `User` actions which are not tied to a specific organization.
