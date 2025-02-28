@@ -15,6 +15,12 @@ Parallel coordinates charts summarize the relationship between large numbers of 
 * **Axes**: Different hyperparameters from [`wandb.config`]({{< relref "/guides/models/track/config.md" >}}) and metrics from [`wandb.log`]({{< relref "/guides/models/track/log/" >}}).
 * **Lines**: Each line represents a single run. Mouse over a line to see a tooltip with details about the run. All lines that match the current filters will be shown, but if you turn off the eye, lines will be grayed out.
 
+## Create parallel coordinates panel
+
+1. Go to the landing page for your workspace
+2. Click **Add Panels**
+3. Select **Parallel coordinates**
+
 ## Panel Settings
 
 Configure these features in the panel settings— click the edit button in the upper right corner of the panel.
@@ -25,4 +31,4 @@ Configure these features in the panel settings— click the edit button in the u
 * **Log scale**: Each axis can be set to view on a log scale independently
 * **Flip axis**: Switch the axis direction— this is useful when you have both accuracy and loss as columns
 
-[See it live →](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+[See it live](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
