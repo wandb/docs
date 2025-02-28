@@ -116,7 +116,7 @@
 /guides/comparing-runs /guides/runs 301
 /guides/config /guides/sweeps/define-sweep-configuration 301
 /guides/configurations /guides/track/config 301
-/guides/core/tables /guides/models/tables 301
+/guides/core/tables/* /guides/models/tables/:splat 301
 /guides/data-and-model-versioning/dataset-versioning /guides/artifacts 301
 /guides/data-and-model-versioning/intro / 301
 /guides/data-and-model-versioning/model-versioning /guides/core/registry/model_registry 301
@@ -197,10 +197,10 @@
 /guides/models/model-management-concepts /guides/core/registry/model_registry/model-management-concepts 301
 /guides/models/model_tags /guides/core/registry/model_registry/model_tags 301
 /guides/models/notifications /guides/core/registry/model_registry/notifications 301
-/guides/models/registry /guides/core/registry 301
+/guides/models/registry/* /guides/core/registry/:splat 301
 /guides/models/walkthrough /guides/model_registry/walkthrough 301
 /guides/model_registry/quickstart /guides/core/registry/model_registry/walkthrough 301
-/guides/model_registry/ /guides/core/registry/model_registry 301
+/guides/model_registry/* /guides/core/registry/model_registry/:splat 301
 /guides/platform /guides/core 301
 /guides/projects/campaigns / 301
 /guides/prompts/intro /guides 301
@@ -214,7 +214,7 @@
 /guides/prompts/openai /guides 301
 /guides/prompts/quickstart /guides 301
 /guides/reference/data_types /ref/python/data-types 301
-/guides/registry /guides/core/registry 301
+/guides/registry/* /guides/core/registry/:splat 301
 /guides/reports/reports-faq /support/index_reports 301
 /guides/reports/reports-walkthrough /guides/reports 301
 /guides/run/grouping /guides/runs/grouping 301
@@ -234,7 +234,7 @@
 /guides/sweeps/parallelize-agent /guides/sweeps/parallelize-agents 301
 /guides/sweeps/python-api /ref/python/public-api/api 301
 /guides/tables/log-tables /guides/track/log/log-tables 301
-/guides/tables /guides/models/tables 301
+/guides/tables/* /guides/models/tables/:splat 301
 /guides/technical-faq/admin /support/index_administrator 301
 /guides/technical-faq/general /support/index 301
 /guides/technical-faq/metrics-and-performance /support/index_metrics 301
