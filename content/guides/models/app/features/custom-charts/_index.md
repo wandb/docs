@@ -10,28 +10,30 @@ cascade:
 - url: guides/app/features/custom-charts/:filename
 ---
 
-Use **Custom Charts** to create charts that aren't possible right now in the default UI. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
+Create custom charts in your W&B project. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
 
-* **What's possible**: Read the[ launch announcement](https://wandb.ai/wandb/posts/reports/Announcing-the-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
-* **Code**: Try a live example in a[ hosted notebook](https://tiny.cc/custom-charts)
-* **Video**: Watch a quick [walkthrough video](https://www.youtube.com/watch?v=3-N9OV6bkSM)
+* **Code**: Try an example [Colab Colab notebook](https://tiny.cc/custom-charts).
+* **Video**: Watch a [walkthrough video](https://www.youtube.com/watch?v=3-N9OV6bkSM).
 * **Example**: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
 
 {{< img src="/images/app_ui/supported_charts.png" alt="Supported charts from vega.github.io/vega" max-width="90%" >}}
 
 ### How it works
 
-1. **Log data**: From your script, log [config]({{< relref "/guides/models/track/config.md" >}}) and summary data as you normally would when running with W&B. To visualize a list of multiple values logged at one specific time, use a custom`wandb.Table`
-2. **Customize the chart**: Pull in any of this logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a powerful visualization grammar.
+1. **Log data**: From your script, log [config]({{< relref "/guides/models/track/config.md" >}}) and summary data.
+2. **Customize the chart**: Pull in logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a powerful visualization grammar.
 3. **Log the chart**: Call your own preset from your script with `wandb.plot_table()`.
 
 {{< img src="/images/app_ui/pr_roc.png" alt="" >}}
+
+If you do not see the data you are expecting, it might be because the column you are looking for is not logged in the runs you have selected. Save your chart and go back out to the runs table, and select the runs you would like to visualize with the **eye** icon.
+
 
 ## Log charts from a script
 
 ### Builtin presets
 
-These presets have builtin `wandb.plot` methods that make it fast to log charts directly from your script and see the exact visualizations you're looking for in the UI.
+W&B has a number of builtin chart presets that you can log directly from your script. These include line plots, scatter plots, bar charts, histograms, PR curves, and ROC curves.
 
 {{< tabpane text=true >}}
 {{% tab header="Line plot" value="line-plot" %}}
@@ -52,13 +54,11 @@ These presets have builtin `wandb.plot` methods that make it fast to log charts 
   )
   ```
 
-  You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
+  You can use this to log curves on any two dimensions. Note that if you are plotting two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
 
   {{< img src="/images/app_ui/line_plot.png" alt="" >}}
 
-  [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
-
-  [Run the code](https://tiny.cc/custom-charts)
+  [See an example report](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA) or [try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
 {{% /tab %}}
 
@@ -78,9 +78,7 @@ These presets have builtin `wandb.plot` methods that make it fast to log charts 
 
   {{< img src="/images/app_ui/demo_scatter_plot.png" alt="" >}}
 
-  [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
-
-  [Run the code](https://tiny.cc/custom-charts)
+  [See an example report](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ) or [try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
 {{% /tab %}}
 
@@ -106,9 +104,7 @@ These presets have builtin `wandb.plot` methods that make it fast to log charts 
 
   {{< img src="/images/app_ui/line_plot_bar_chart.png" alt="" >}}
 
-  [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
-
-  [Run the code](https://tiny.cc/custom-charts)
+  [See an example report](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk) or [try an example Google Colab notebook](https://tiny.cc/custom-charts).
 {{% /tab %}}
 
 {{% tab header="Histogram" value="histogram" %}}
@@ -127,9 +123,7 @@ These presets have builtin `wandb.plot` methods that make it fast to log charts 
 
   {{< img src="/images/app_ui/demo_custom_chart_histogram.png" alt="" >}}
 
-  [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
-
-  [Run the code](https://tiny.cc/custom-charts)
+  [See an example report](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM) or [try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
 {{% /tab %}}
 
@@ -155,9 +149,7 @@ These presets have builtin `wandb.plot` methods that make it fast to log charts 
   {{< img src="/images/app_ui/demo_average_precision_lines.png" alt="" >}}
 
 
-  [See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
-
-  [Run the code](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
+  [See an example report](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY) or [try an example Google Colab notebook](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing).
 
 {{% /tab %}}
 
@@ -184,16 +176,14 @@ These presets have builtin `wandb.plot` methods that make it fast to log charts 
 
   {{< img src="/images/app_ui/demo_custom_chart_roc_curve.png" alt="" >}}
 
-  [See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
-
-  [Run the code](https://colab.research.google.com/drive/1_RMppCqsA8XInV_jhJz32NCZG6Z5t1RO?usp=sharing)
+  [See an example report](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE) or [try an example Google Colab notebook](https://colab.research.google.com/drive/1_RMppCqsA8XInV_jhJz32NCZG6Z5t1RO?usp=sharing).
 
 {{% /tab %}}
 {{< /tabpane >}}
 
 ### Custom presets
 
-Tweak a builtin preset, or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
+Tweak a builtin preset, or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script. [Try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
 ```python
 # Create a table with the columns to plot
@@ -211,13 +201,13 @@ my_custom_chart = wandb.plot_table(
 )
 ```
 
-[Run the code](https://tiny.cc/custom-charts)
+
 
 {{< img src="/images/app_ui/custom_presets.png" alt="" max-width="90%" >}}
 
 ## Log data
 
-Here are the data types you can log from your script and use in a custom chart:
+You can log the following data types from your script and use them in a custom chart:
 
 * **Config**: Initial settings of your experiment (your independent variables). This includes any named fields you've logged as keys to `wandb.config` at the start of your training. For example: `wandb.config.learning_rate = 0.0001`
 * **Summary**: Single values logged during training (your results or dependent variables). For example, `wandb.log({"val_acc" : 0.8})`. If you write to this key multiple times during training via `wandb.log()`, the summary is set to the final value of that key.
@@ -227,9 +217,9 @@ Here are the data types you can log from your script and use in a custom chart:
 
 ### How to log a custom table
 
-Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`(`custom_data_table` below), and the individual fields will be accessible via the column names (`x`, `y`, and `z`). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows.
+Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`(`custom_data_table` below), and the individual fields will be accessible via the column names (`x`, `y`, and `z`). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows. [Try an example a Google Colab](https://tiny.cc/custom-charts).
 
-[Try it in a Google Colab](https://tiny.cc/custom-charts)
+
 
 ```python
 # Logging a custom table of data
@@ -247,7 +237,9 @@ Add a new custom chart to get started, then edit the query to select data from y
 
 ### Custom visualizations
 
-Select a **Chart** in the upper right corner to start with a default preset. Next, pick **Chart fields** to map the data you're pulling in from the query to the corresponding fields in your chart. Here's an example of selecting a metric to get from the query, then mapping that into the bar chart fields below.
+Select a **Chart** in the upper right corner to start with a default preset. Next, select **Chart fields** to map the data you're pulling in from the query to the corresponding fields in your chart.
+
+The following image shows an example on how to select a metric then mapping that into the bar chart fields below.
 
 {{< img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Creating a custom bar chart showing accuracy across runs in a project" max-width="90%" >}}
 
@@ -272,16 +264,6 @@ Apply any changes to a specific visualization panel with the button at the botto
 3. [Visualizing The Effect of Attention on Gradient Flow](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
 4. [Logging arbitrary curves](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
 
-## Frequently asked questions
-
-### Coming soon
-
-* **Polling**: Auto-refresh of data in the chart
-* **Sampling**: Dynamically adjust the total number of points loaded into the panel for efficiency
-
-### Gotchas
-
-* Not seeing the data you're expecting in the query as you're editing your chart? It might be because the column you're looking for is not logged in the runs you have selected. Save your chart and go back out to the runs table, and select the runs you'd like to visualize with the **eye** icon.
 
 ## Common use cases
 
