@@ -62,7 +62,7 @@ downloaded_model_path = run.use_model(name=f"{entity/project/model_artifact_name
 {{% alert title="Planned deprecation for W&B Model Registry in 2024" %}}
 The proceeding tabs demonstrate how to consume model artifacts using the soon to be deprecated Model Registry.
 
-Use the W&B Registry to track, organize and consume model artifacts. For more information see the [Registry docs]({{< relref "/guides/models/registry/" >}}).
+Use the W&B Registry to track, organize and consume model artifacts. For more information see the [Registry docs]({{< relref "/guides/core/registry/" >}}).
 {{% /alert %}}
 
 {{< tabpane text=true >}}

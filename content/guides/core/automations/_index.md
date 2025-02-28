@@ -2,7 +2,7 @@
 menu:
   default:
     identifier: automations
-    parent: w-b-models
+    parent: core
 title: Automations
 weight: 4
 ---

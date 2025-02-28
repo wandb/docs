@@ -38,7 +38,7 @@ for all of the different supported types or check out our
 [guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
 from 3D molecular structures and segmentation masks to PR curves and histograms.
 You can use `wandb.Table` to log structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/tables/tables-walkthrough)
+[guide to logging tables](https://docs.wandb.ai/guides/models/tables/tables-walkthrough)
 for details.
 
 The W&B UI organizes metrics with a forward slash (`/`) in their name
