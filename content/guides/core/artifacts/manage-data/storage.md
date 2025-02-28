@@ -19,7 +19,7 @@ During training, W&B locally saves logs, artifacts, and configuration files in t
 | artifacts | `~/.cache/wandb` | the `WANDB_CACHE_DIR` environment variable |
 | configs | `~/.config/wandb` | the `WANDB_CONFIG_DIR` environment variable |
 | staging artifacts for upload  | `~/.cache/wandb-data/` | the `WANDB_DATA_DIR` environment variable |
-| downloaded artifacts | `~/.cache/artifacts` | the `WANDB_ARTIFACT_DIR` environment variable |
+| downloaded artifacts | `~./artifacts` | the `WANDB_ARTIFACT_DIR` environment variable |
 
 For a complete guide to using environment variables to configure W&B, see [the environment variables reference]({{< relref "/guides/models/track/environment-variables.md" >}}).
 
