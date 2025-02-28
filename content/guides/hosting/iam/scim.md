@@ -14,7 +14,7 @@ The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `
 {{% alert %}}
 SCIM API applies to all hosting options including [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), [Self-managed instances]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}), and [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}). In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization` within user settings. 
 
-The chosen hosting option will affect the `<host-url>` used in the examples here, which use user IDs such as `abc` and `def`, etc. In production, the domain name in `<host-url>` will be the same as your W&B instance, and the user ID will be a hashed value. 
+The chosen hosting option determines the `<host-url>` used in the examples here, which use user IDs such as `abc` and `def`. In production, the domain name in `<host-url>` is the same as your W&B instance, and the user ID is a hashed value. 
 {{% /alert %}}
 
 ## Authentication
