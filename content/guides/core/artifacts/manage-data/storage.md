@@ -21,7 +21,7 @@ During training, W&B locally saves logs, artifacts, and configuration files in t
 | staging artifacts for upload  | `~/.cache/wandb-data/` | the `WANDB_DATA_DIR` environment variable |
 | downloaded artifacts | `~/.cache/artifacts` | the `WANDB_ARTIFACT_DIR` environment variable |
 
-Set this to an absolute path to store all downloaded artifacts here instead of the _artifacts_ directory relative to your training script. Make sure this directory exists and the user your process runs as can write to it. Note that this does not affect the location of generated metadata files, which can instead be set using _WANDB_DIR_
+For a complete guide to using environment variables to configure W&B, see [the environment variables reference]({{< relref "/guides/models/track/environment-variables.md" >}}).
 
 {{% alert color="secondary" %}}
 Depending on the machine on `wandb` is initialized on, these default folders may not be located in a writeable part of the file system. This might trigger an error.
