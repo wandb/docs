@@ -6,9 +6,9 @@ menu:
     parent: registry
 title: Model registry
 weight: 9
-url: guides/model_registry
+url: guides/core/registry/model_registry
 cascade:
-- url: guides/model_registry/:filename
+- url: guides/core/registry/model_registry/:filename
 ---
 
 {{% alert %}}
