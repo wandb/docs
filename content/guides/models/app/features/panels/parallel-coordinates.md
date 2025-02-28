@@ -23,7 +23,7 @@ Parallel coordinates charts summarize the relationship between large numbers of 
 
 ## Panel Settings
 
-Configure these features in the panel settings— click the edit button in the upper right corner of the panel.
+To configure these features in the panel settingsm, click the edit button in the upper right corner of the panel.
 
 * **Tooltip**: On hover, a legend shows up with info on each run
 * **Titles**: Edit the axis titles to be more readable
@@ -31,4 +31,4 @@ Configure these features in the panel settings— click the edit button in the u
 * **Log scale**: Each axis can be set to view on a log scale independently
 * **Flip axis**: Switch the axis direction— this is useful when you have both accuracy and loss as columns
 
-[See it live](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+[Interact with a live parallel coordinates panel](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
