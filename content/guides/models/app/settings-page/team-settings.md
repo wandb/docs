@@ -21,7 +21,7 @@ Only Administration account types can change team settings or remove a member fr
 ## Members
 The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, email, team role, as well as their access privileges to Models and Weave, which is inherited by from the Organization. You can choose from the standard team roles **Admin**, **Member**, and **View-only**. If your organization has created [custom roles]({{< relref "manage-organization.md#create-custom-roles" >}}), you can assign a custom role instead.
 
-See [Add and Manage teams]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" >}}) for information on how to create a team, manage teams, and manage team membership and roles.
+See [Add and Manage teams]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" >}}) for information on how to create a team, manage teams, and manage team membership and roles. To configure who can invite new members and configure other privacy settings for the team, refer to [Privacy]({{< relref "#privacy" >}}).
 
 ## Avatar
 
@@ -43,10 +43,11 @@ For more information about how to set up and manage alerts, see [Send alerts wit
 
 ## Privacy
 
-Navigate to the **Privacy** section to change privacy settings. Only organization admins can modify privacy setting, including:
+Navigate to the **Privacy** section to change privacy settings. Only organization admins can modify privacy setting.
 
-* Force projects in the team to be private.
-* Enable code saving by default.
+- Optionally disable the ability to make future projects public or to share reports publicly.
+- Optionally allow any team member to invite other members, rather than only team admins.
+- Enable or disable code saving by default.
 
 ## Usage
 

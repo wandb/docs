@@ -24,6 +24,7 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 1. [**Sign up or log in**](https://app.wandb.ai/login?signup=true) to your free W&B account.
 2. Click **Invite Team** in the navigation bar.
 3. Create your team and invite collaborators.
+4. To configure your team, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).
 
 {{% alert %}}
 **Note**: Only the admin of an organization can create a new team.
