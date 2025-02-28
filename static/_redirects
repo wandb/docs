@@ -279,7 +279,7 @@
 /huggingface /guides/integrations/huggingface 301
 /integrations/jupyter.html /guides/track/jupyter 301
 /integrations/lightning%3E%60_ /guides/integrations/lightning 301
-/integrations/* /guides/intgrations/:splat 301
+/integrations/* /guides/integrations/:splat 301
 /ja /ja/guides 301
 /java /ref 301
 /jp /ja/guides 301
