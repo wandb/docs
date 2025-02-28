@@ -13,12 +13,15 @@ For sensitive files, we recommend you set up [Private Hosting]({{< relref "/guid
 
 During training, W&B locally saves logs, artifacts, and configuration files in the following local directories:
 
-| File      | Default location  | To change default location set:                                   |
-| --------- | ----------------- | ----------------------------------------------------------------- |
-| logs      | `./wandb`         | `dir` in `wandb.init` or set the `WANDB_DIR` environment variable |
-| artifacts | `~/.cache/wandb`  | the `WANDB_CACHE_DIR` environment variable                        |
-| configs   | `~/.config/wandb` | the `WANDB_CONFIG_DIR` environment variable                       |
+| File | Default location | To change default location set: |
+| ---- | ---------------- | ------------------------------- |
+| logs | `./wandb` | `dir` in `wandb.init` or set the `WANDB_DIR` environment variable |
+| artifacts | `~/.cache/wandb` | the `WANDB_CACHE_DIR` environment variable |
+| configs | `~/.config/wandb` | the `WANDB_CONFIG_DIR` environment variable |
+| staging artifacts for upload  | `~/.cache/wandb-data/` | the `WANDB_DATA_DIR` environment variable |
+| downloaded artifacts | `~/.cache/artifacts` | the `WANDB_ARTIFACT_DIR` environment variable |
 
+Set this to an absolute path to store all downloaded artifacts here instead of the _artifacts_ directory relative to your training script. Make sure this directory exists and the user your process runs as can write to it. Note that this does not affect the location of generated metadata files, which can instead be set using _WANDB_DIR_
 
 {{% alert color="secondary" %}}
 Depending on the machine on `wandb` is initialized on, these default folders may not be located in a writeable part of the file system. This might trigger an error.
