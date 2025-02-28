@@ -5,7 +5,7 @@ menu:
   default:
     identifier: team-settings
     parent: settings
-title: Manage team settings
+title: Team settings
 weight: 30
 ---
 

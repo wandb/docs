@@ -7,4 +7,4 @@ tags:
   - team management
 ---
 
-A team admin can [remove you from a team]({{< relref "/guides/models/app/settings-page/teams.md" >}})  from the **Users** tab of the team settings.
+A team admin can [remove you from a team]({{< relref "/guides/models/app/features/teams.md" >}})  from the **Users** tab of the team settings.

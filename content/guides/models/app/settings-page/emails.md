@@ -4,7 +4,7 @@ menu:
   default:
     identifier: emails
     parent: settings
-title: Manage email settings
+title: Email settings
 weight: 40
 ---
 

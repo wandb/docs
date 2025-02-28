@@ -4,7 +4,7 @@ description: Collaborate with your colleagues, share results, and track all the 
 menu:
   default:
     identifier: teams
-    parent: settings
+    parent: w-b-app-ui-reference
 title: Manage teams
 weight: 50
 ---

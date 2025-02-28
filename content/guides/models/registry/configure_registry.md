@@ -56,7 +56,7 @@ A registry admin can assign or modify roles for users and teams in a registry.
 See [Configure user roles in a registry]({{< relref "configure_registry.md#configure-registry-roles" >}}) for more information.
 
 {{% alert title="W&B role types" %}}
-There are two different types of roles in W&B: [Team roles]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) and [Registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}).
+There are two different types of roles in W&B: [Team roles]({{< ref "/guides/models/app/features/teams.md#team-role-and-permissions" >}}) and [Registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}).
 
 Your role in a team has no impact or relationship to your role in any registry.
 {{% /alert %}}
