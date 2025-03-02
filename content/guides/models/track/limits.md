@@ -13,7 +13,7 @@ weight: 7
 
 Keep your pages in W&B faster and more responsive by logging within the following suggested bounds.
 
-## Logged metrics
+## Logging considerations
 
 Use `wandb.log` to track experiment metrics. Once logged, these metrics generate charts and show up in tables. Too much logged data can make the app slow.
 
@@ -149,10 +149,12 @@ with f as open("large_config.json", "r"):
     large_config = json.load(f)
     wandb.init(config=large_config)
 ```
+## Workspace considerations 
+
 
 ### Run count
 
-For faster loading times, keep the total number of runs in a single project under 10,000. Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.
+For fast loading times, keep the total number of runs in a single project under 100,000 (10,000 on Dedicated Cloud or Self-managed W&B deployments). Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.
 
 If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving _other_ runs]({{< relref "/guides/models/track/runs/manage-runs.md" >}}) to a new project used as an archive, leaving a smaller set of runs in your working project.
 
@@ -164,9 +166,17 @@ If you find you have too many sections and performance is slow, consider the wor
 
 {{< img src="/images/track/section_prefix_toggle.gif" alt="Toggling section creation" >}}
 
+### Metric count
+
+When logging 5000 - 100,000+ metrics per run, W&B recommends using (Manual workspace mode)[https://docs.wandb.ai/guides/app/features/panels/#workspace-modes].  This allows you to rapidly add plots for exactly the metrics you need to examine, without the performance overhead of all the other metrics (which are stored as usual, but not automatically plotted).  In Manual mode, you can easily add and remove panels in bulk as you choose to explore different sets of metrics-   To enter manual mode, first hit Reset workspace in the top workspace menu.  No run or metric data is lost when you reset your workspace--it is purely about the display.
+
 ### File count
 
 Keep the total number of files uploaded for a single run under 1,000. You can use W&B Artifacts when you need to log a large number of files. Exceeding 1,000 files in a single run can slow down your run pages.
+
+### Reports vs. Workspaces
+
+Reports allow for free-form composition of arbitrary arrangements of panel types, text, and media, making them powerful tools for sharing your insights with colleagues.  However, for high-density analysis of dozens-to-thousands of metrics across hundreds-to-hundreds-of-thousands of runs, Workspaces provide a far more performant experience--their structure allows for more optimized caching, querying, and loading behaviors. For single-project use cases centered on analysis and not presentation, W&B recommends using workspaces when you have arrays of 20 or more plots. 
 
 ## Python script performance
 
