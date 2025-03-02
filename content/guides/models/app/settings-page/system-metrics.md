@@ -4,7 +4,7 @@ menu:
   default:
     identifier: system-metrics
     parent: settings
-title: System metrics
+title: System metric settings
 weight: 70
 ---
 
