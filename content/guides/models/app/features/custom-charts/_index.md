@@ -12,9 +12,9 @@ cascade:
 
 Create custom charts in your W&B project. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
 
-* **Code**: Try an example [Colab Colab notebook](https://tiny.cc/custom-charts).
-* **Video**: Watch a [walkthrough video](https://www.youtube.com/watch?v=3-N9OV6bkSM).
-* **Example**: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
+* Code: Try an example [Colab Colab notebook](https://tiny.cc/custom-charts).
+* Video: Watch a [walkthrough video](https://www.youtube.com/watch?v=3-N9OV6bkSM).
+* Example: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
 
 {{< img src="/images/app_ui/supported_charts.png" alt="Supported charts from vega.github.io/vega" max-width="90%" >}}
 
@@ -26,7 +26,7 @@ Create custom charts in your W&B project. Log arbitrary tables of data and visua
 
 {{< img src="/images/app_ui/pr_roc.png" alt="" >}}
 
-If you do not see the data you are expecting, it might be because the column you are looking for is not logged in the runs you have selected. Save your chart and go back out to the runs table, and select the runs you would like to visualize with the **eye** icon.
+If you do not see the expected data, the column you are looking for might not be logged in the selected runs. Save your chart, go back out to the runs table, and verify selected runs using the **eye** icon.
 
 
 ## Log charts from a script
@@ -54,7 +54,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
   )
   ```
 
-  You can use this to log curves on any two dimensions. Note that if you are plotting two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
+  A line plot logs curves on any two dimensions. If you plot two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
 
   {{< img src="/images/app_ui/line_plot.png" alt="" >}}
 
