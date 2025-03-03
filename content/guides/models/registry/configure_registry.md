@@ -11,7 +11,11 @@ A registry admin can [configure registry roles]({{< relref "configure_registry.m
 
 ## Diagram
 
-This diagram illustrates the hierarchical permission structure in Weights & Biases (W&B), showing the relationships between Organization, Team, and Registry roles and how permissions are inherited. Users receive the highest permission level between their individual assignment and team membership, with Registry roles limited to three fixed types (Admin, Member, Viewer) that determine what actions users can perform.
+This diagram illustrates the hierarchical permission structure in Weights & Biases (W&B), showing the relationships between Organization, Team, and Registry roles and how permissions are inherited. Users receive the highest permission level between their individual assignment and team membership, with Registry roles limited to three fixed types (Admin, Member, Viewer) that determine what actions users can perform. 
+
+{{< alert >}}
+The permissions for teams and registries are separate. For example, being an admin on a team does not make a user an admin on a registry.
+{{< /alert >}}
 
 ```mermaid
 flowchart TD
@@ -38,20 +42,6 @@ flowchart TD
         RA["Registry Admin"]
         RM["Registry Member"]
         RV["Registry Viewer"]
-    end
-    
-    RegRoles --> ImportantNotes
-    
-    subgraph ImportantNotes["Important Notes"]
-        Note1["Team roles have NO impact<br>on Registry roles"]
-        Note2["Registry belongs to Organization,<br>not Teams"]
-        Note3["Only 3 fixed Registry roles:<br>Admin, Member, Viewer<br>(no custom roles)"]
-    end
-    
-    ImportantNotes --> InheritanceRule
-    
-    subgraph InheritanceRule["Inheritance Rule"]
-        Inherit["User gets highest permission level<br>between individual assignment<br>and team membership<br><br>Example: If user has Viewer role<br>but is in a team with Member role,<br>they get Member permissions"]
     end
     
     %% Default role assignment connections
