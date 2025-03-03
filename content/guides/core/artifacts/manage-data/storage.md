@@ -13,12 +13,15 @@ For sensitive files, we recommend you set up [Private Hosting]({{< relref "/guid
 
 During training, W&B locally saves logs, artifacts, and configuration files in the following local directories:
 
-| File      | Default location  | To change default location set:                                   |
-| --------- | ----------------- | ----------------------------------------------------------------- |
-| logs      | `./wandb`         | `dir` in `wandb.init` or set the `WANDB_DIR` environment variable |
-| artifacts | `~/.cache/wandb`  | the `WANDB_CACHE_DIR` environment variable                        |
-| configs   | `~/.config/wandb` | the `WANDB_CONFIG_DIR` environment variable                       |
+| File | Default location | To change default location set: |
+| ---- | ---------------- | ------------------------------- |
+| logs | `./wandb` | `dir` in `wandb.init` or set the `WANDB_DIR` environment variable |
+| artifacts | `~/.cache/wandb` | the `WANDB_CACHE_DIR` environment variable |
+| configs | `~/.config/wandb` | the `WANDB_CONFIG_DIR` environment variable |
+| staging artifacts for upload  | `~/.cache/wandb-data/` | the `WANDB_DATA_DIR` environment variable |
+| downloaded artifacts | `./artifacts` | the `WANDB_ARTIFACT_DIR` environment variable |
 
+For a complete guide to using environment variables to configure W&B, see the [environment variables reference]({{< relref "/guides/models/track/environment-variables.md" >}}).
 
 {{% alert color="secondary" %}}
 Depending on the machine on `wandb` is initialized on, these default folders may not be located in a writeable part of the file system. This might trigger an error.

@@ -101,7 +101,7 @@ Follow the procedure below to set up Okta for authorization:
     The Okta UI shows the company name under **Organization Contact**.
     {{< img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="" >}}
 
-The OIDC issuer URL has the following format: https://COMPANY.okta.com. Replace COMPANY with the corresponding value. Make note of it.
+The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replace COMPANY with the corresponding value. Make note of it.
 {{% /tab %}}
 
 {{% tab header="Entra" value="entra"%}}
