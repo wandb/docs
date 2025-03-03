@@ -45,9 +45,9 @@ For more information about how to set up and manage alerts, see [Send alerts wit
 
 Navigate to the **Privacy** section to change privacy settings. Only organization admins can modify privacy setting.
 
-- Optionally disable the ability to make future projects public or to share reports publicly.
-- Optionally allow any team member to invite other members, rather than only team admins.
-- Enable or disable code saving by default.
+- Turn off the ability to make future projects public or to share reports publicly.
+- Allow any team member to invite other members, rather than only team admins.
+- Manage whether code saving is turned on by default.
 
 ## Usage
 
