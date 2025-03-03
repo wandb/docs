@@ -78,4 +78,4 @@ If you're running containers in [Singularity](https://singularity.lbl.gov/index.
 
 ## Running on AWS
 
-If you're running batch jobs in AWS, it's easy to authenticate your machines with your W&B credentials. Get your API key from your [settings page](https://app.wandb.ai/settings), and set the WANDB_API_KEY environment variable in the [AWS batch job spec](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters).
+If you're running batch jobs in AWS, it's easy to authenticate your machines with your W&B credentials. Get your API key from your [settings page](https://app.wandb.ai/settings), and set the `WANDB_API_KEY` environment variable in the [AWS batch job spec](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters).
