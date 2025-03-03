@@ -7,7 +7,7 @@ title: Find registry items
 weight: 7
 --- 
 
-Use the global search bar in the W&B Registry App or Python SDK to find a specific registry, collection, collection tag, artifact tag, or artifact alias.
+Use the global search bar in the W&B Registry App or Python SDK to find a specific registry, collection, collection tag, artifact version name, artifact tag, or artifact alias.
 
 Only items that you have permission to view appear in the search results.
 
@@ -15,7 +15,7 @@ Only items that you have permission to view appear in the search results.
 
 To search globally:
 
-1. Navigate to the W&B Registry App at https://wandb.ai/registry/. 
+1. Navigate to the W&B Registry App.
 2. Specify the search term in the search bar at the top of the page. Press Enter to search.
 
 Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
@@ -37,41 +37,59 @@ api = wandb.Api()
 ```
 The proceeding code examples demonstrate some common search scenarios:
 
+
 ```python
-# Filter all collections, independent of registry, that 
-# contains the string `zoo` in the collection name
-filters = {
-    "name": {"$regex": "zoo"}
+# Filter all registries that contain the string `model`
+registry_filters = {
+    "name": {"$regex": "model"}
 }
 
-api.registries().collections(filter=filters)
+# Returns an iterable of all registries that
+# match the filters
+registries = api.registries(filter=registry_filters)
+```
+
+```python
+# Filter all collections, independent of registry, that 
+# contains the string `yolo` in the collection name
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# Returns an iterable of all collections that
+# match the filters
+collections = api.registries().collections(filter=collection_filters)
 ```
 
 ```python
 # Filter all collections, independent of registry, that
-# contains the string `zoo` in the collection name and
-# possesses `animal` as a tag
-filters = {
-    "name": {"$regex": "zoo"},
-    "tag": "animal"
+# contains the string `yolo` in the collection name and
+# possesses `cnn` as a tag
+collection_filters = {
+    "name": {"$regex": "yolo"},
+    "tag": "cnn"
 }
 
-api.registries().collections(filter=filters)
+# Returns an iterable of all collections that
+# match the filters
+collections = api.registries().collections(filter=collection_filters)
 ```
 
 ```python
 # Find all artifact versions that contains the
 # string `model` and has either the 
-# tag `prod` or an `latest` alias
-filters = {
+# tag `image-classification` or an `latest` alias
+registry_filters = {
     "name": {"$regex": "model"}
 }
 version_filters = {
     "$or": [
-        {"tag": "prod"},
-        {"alias": "latest"}
+        {"tag": "image-classification"},
+        {"alias": "production"}
     ]
 }
 
-api.registries(filter=filters).versions(filter=version_filters)
+# Returns an iterable of all artifact versions that
+# match the filters
+artifacts = api.registries(filter=registry_filters).versions(filter=version_filters)
 ```
