@@ -19,8 +19,7 @@ The permissions for teams and registries are separate. For example, being an adm
 
 ```mermaid
 flowchart TD
-    %% Stack all subgraphs vertically
-    
+
     subgraph OrgRoles["Organization Roles"]
         OA["Organization Admin"]
         OM["Organization Member"]
