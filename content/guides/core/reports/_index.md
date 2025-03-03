@@ -52,6 +52,6 @@ Depending on your use case, explore the following resources to get started with 
 * Try the [Programmatic Workspaces]({{< relref "/tutorials/workspaces.md" >}}) tutorial to learn how to create and customize your workspace.
 * Read curated Reports in [W&B Fully Connected](http://wandb.me/fc).
 
-## Best practices and tips 
+## Recommended practices and tips 
 
 For best practices and tips for Experiments and logging, see [Best Practices: Reports](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#reports).

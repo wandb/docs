@@ -475,23 +475,23 @@ For projects that contain a large number of runs, you can use either the search 
 
 This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (for example, experiment names) and specifying job types (for example, preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.
 
-### Assigning runs to groups and job types
+### Assign a group or job type to a run
 
 Each run in W&B can be categorized by **group** and a **job type**:
 
-- **Group**: Represents a broader experiment category, making it easier to organize and filter runs.
-- **Job type**: Describes the function of the run, such as preprocessing, training, or evaluation.
+- **Group**: a broad category for the experiment, used to organize and filter runs.
+- **Job type**: the function of the run, such as `preprocessing`, `training`, or `evaluation`.
 
-In the following [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), a baseline model is trained using increasing amounts of data from the Fashion-MNIST dataset. The color coding in the workspace represents the amount of data used:
+The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colorts to represent the amount of data used:
 
-- **Yellow to dark green**: Increasing amounts of data for the baseline model.
-- **Light blue to violet to magenta**: Increasing amounts of data for a more complex "double" model with additional parameters.
+- **Yellow to dark green** indicate increasing amounts of data for the baseline model.
+- **Light blue to violet to magenta** indicate amounts of data for a more complex "double" model with additional parameters.
 
-Using W&B's filtering options and search bar, you can easily compare runs based on specific conditions, such as:
+Use W&B's filtering options and search bar to compare runs based on specific conditions, such as:
 - Training on the same dataset.
 - Evaluating on the same test set.
 
-Applying filters dynamically updates the **Table** view, allowing you to quickly identify performance differences between models. For example, you can determine which classes are significantly more challenging for one model compared to another.
+When you apply filters, the **Table** view is updated automatically. This allows you to identify performance differences between models, such as determining which classes are significantly more challenging for one model compared to another.
 
 <!-- ### Search runs
 
