@@ -15,7 +15,7 @@ Parallel coordinates charts summarize the relationship between large numbers of 
 * **Axes**: Different hyperparameters from [`wandb.config`]({{< relref "/guides/models/track/config.md" >}}) and metrics from [`wandb.log`]({{< relref "/guides/models/track/log/" >}}).
 * **Lines**: Each line represents a single run. Mouse over a line to see a tooltip with details about the run. All lines that match the current filters will be shown, but if you turn off the eye, lines will be grayed out.
 
-## Create parallel coordinates panel
+## Create a parallel coordinates panel
 
 1. Go to the landing page for your workspace
 2. Click **Add Panels**
