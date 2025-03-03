@@ -3,7 +3,7 @@ description: Manage your organization's billing settings
 menu:
   default:
     parent: settings
-title: Manage billing settings
+title: Billing settings
 weight: 20
 ---
 

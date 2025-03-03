@@ -13,7 +13,7 @@ Among other things, service accounts are useful for tracking automated jobs logg
 
 
 
-Refer to [Team Service Account Behavior]({{< relref "/guides/models/app/settings-page/teams.md#team-service-account-behavior" >}}) for more information.
+Refer to [Team Service Account Behavior]({{< relref "/guides/models/app/features/teams.md#team-service-account-behavior" >}}) for more information.
 
 You can get the API key for a service account in your team at `<WANDB_HOST_URL>/<your-team-name>/service-accounts`. Alternatively you can go to the **Team settings** for your team and then refer to the **Service Accounts** tab. 
 
