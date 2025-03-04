@@ -15,7 +15,7 @@ weight: 1
 
 {{< cta-button productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifact_fundamentals.ipynb" >}}
 
-Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs]({{< relref "/guides/models/track/runs/" >}}). For example, a model training run might take in a dataset as input and produce a trained model as output. You can log hyperparameters, metadatra, and metrics to a run, and you can use an artifact to log, track, and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as output.
+Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs]({{< relref "/guides/models/track/runs/" >}}). For example, a model training run might take in a dataset as input and produce a trained model as output. You can log hyperparameters, metadata, and metrics to a run, and you can use an artifact to log, track, and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as output.
 
 ## Use cases
 You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs]({{< relref "/guides/models/track/runs/" >}}). You can use datasets, models, or even other artifacts as inputs for processing.
@@ -47,9 +47,9 @@ For example, the proceeding code snippet shows how to log a file called `dataset
 ```python
 import wandb
 
-run = wandb.init(project = "artifacts-example", job_type = "add-dataset")
-artifact = wandb.Artifact(name = "example_artifact", type = "dataset")
-artifact.add_file(local_path = "./dataset.h5", name = "training_dataset")
+run = wandb.init(project="artifacts-example", job_type="add-dataset")
+artifact = wandb.Artifact(name="example_artifact", type="dataset")
+artifact.add_file(local_path="./dataset.h5", name="training_dataset")
 artifact.save()
 
 # Logs the artifact version "my_data" as a dataset with data from dataset.h5
@@ -65,14 +65,18 @@ Indicate the artifact you want to mark as input to your run with the [`use_artif
 Following the preceding code snippet, this next code block shows how to use the `training_dataset` artifact: 
 
 ```python
-artifact = run.use_artifact("training_dataset:latest") #returns a run object using the "my_data" artifact
+artifact = run.use_artifact(
+    "training_dataset:latest"
+)  # returns a run object using the "my_data" artifact
 ```
 This returns an artifact object.
 
 Next, use the returned object to download all contents of the artifact:
 
 ```python
-datadir = artifact.download() #downloads the full "my_data" artifact to the default directory.
+datadir = (
+    artifact.download()
+)  # downloads the full `my_data` artifact to the default directory.
 ```
 
 {{% alert %}}
@@ -85,3 +89,8 @@ You can pass a custom path into the `root` [parameter]({{< relref "/ref/python/a
 * Learn how to trigger downstream workflows in response to changes to your artifacts with [artifact automation]({{< relref "/guides/models/automations/project-scoped-automations/" >}}).
 * Learn about the [registry]({{< relref "/guides/models/registry/" >}}), a space that houses trained models.
 * Explore the [Python SDK]({{< relref "/ref/python/artifact.md" >}}) and [CLI]({{< relref "/ref/cli/wandb-artifact/" >}}) reference guides.
+
+## Best practices and tips 
+
+For best practices and tips for Experiments and logging, see [Best Practices: Artifacts](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-artifacts).
+
