@@ -11,7 +11,7 @@ This page shows how to use scatter plots in W&B.
 
 ## Use case 
 
-Use scatter plots to compare multiple runs and visualize experiment performance. With scatter plots, you can:
+Use scatter plots to compare multiple runs and visualize the performance of an experiment:
 
 - Plot lines for minimum, maximum, and average values.
 - Customize metadata tooltips.
@@ -27,13 +27,13 @@ The following example shows a scatter plot displaying validation accuracy for di
 
 {{< img src="/images/general/scatter-plots-1.png" alt="" >}}
 
-## Create a scatter plot in the UI
+## Create a scatter plot
 
 To create a scatter plot in the W&B UI:
 
 1. Navigate to the **Workspaces** tab.
-2. In the **Charts** panel, click the three dots.
-3. From the pop-up menu, select **+ Add panels**.
+2. In the **Charts** panel, click the action menu `...`.
+3. From the pop-up menu, select **Add panels**.
 4. In the **Add panels** menu, select **Scatter plot**.
 5. Set the `x` and `y` axes to plot the data you want to view. Optionally, set maximum and minimum ranges for your axes or add a `z` axis.
 6. Click **Apply** to create the scatter plot.
