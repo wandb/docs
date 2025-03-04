@@ -34,6 +34,10 @@ If an artifact version logs metrics (such as by using `run.log_artifact()`), you
 
 {{< tabpane text=true >}}
   {{% tab header="Python SDK" %}}
+{{% alert %}}
+Prefer a video? Watch [this demo](https://www.youtube.com/watch?v=2i_n1ExgO0A) (8 min)
+{{% /alert %}}
+
 Programmatically link an artifact version to a collection with [`wandb.init.Run.link_artifact()`]({{< relref "/ref/python/run.md#link_artifact" >}}).
 
 {{% alert %}}

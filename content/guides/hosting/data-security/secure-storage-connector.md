@@ -319,6 +319,10 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
 If you're connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance, refer to [Cross-cloud or S3-compatible storage for team-level BYOB]({{< relref "#cross-cloud-or-s3-compatible-storage-for-team-level-byob" >}}). In such cases, you must specify the storage bucket using the `GORILLA_SUPPORTED_FILE_STORES` environment variable for your W&B instance, before you configure it for a team using the instructions below.
 {{% /alert %}}
 
+{{% alert %}}
+Prefer a video? Watch [this demo](https://www.youtube.com/watch?v=uda6jIx6n5o) (9 min)
+{{% /alert %}}
+
 To configure a storage bucket at the team level when you create a W&B Team:
 
 1. Provide a name for your team in the **Team Name** field. 

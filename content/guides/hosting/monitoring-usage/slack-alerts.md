@@ -7,6 +7,9 @@ title: Configure Slack alerts
 ---
 
 Integrate W&B Server with [Slack](https://slack.com/).
+{{% alert %}}
+Prefer a video? Watch [this demo](https://www.youtube.com/watch?v=JmvKb-7u-oU) (6 min)
+{{% /alert %}}
 
 ## Create the Slack application
 
