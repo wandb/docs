@@ -259,8 +259,10 @@ early_terminate:
 
 The proceeding tabs show how to specify either a minimum or maximum number of iterations for `early_terminate`:
 
-{{% tabpane text=true %}}
-  {{% tab header="Maximum number of iterations specified" %}}
+{{< tabpane  text=true >}}
+  {{% tab header="Maximum number of iterations" %}}
+
+The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.  
 
 ```yaml
 early_terminate:
@@ -268,9 +270,10 @@ early_terminate:
   min_iter: 3
 ```
 
-The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.  
   {{% /tab %}}
-  {{% tab header="Minimum number of iterations specified" %}}
+  {{% tab header="Minimum number of iterations" %}}
+
+The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`. 
 
 ```yaml
 early_terminate:
@@ -279,11 +282,8 @@ early_terminate:
   s: 2
 ```
 
-The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`. 
-
   {{% /tab %}}
-{{% /tabpane %}}
-
+{{< /tabpane >}}
 
 
 ### Command example
