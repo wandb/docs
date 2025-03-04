@@ -36,9 +36,9 @@ Use [regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) to find runs wi
 
 To group runs by one or more columns (including hidden columns):
 
-1. Below the search box, click the Group button, which looks like a lined sheet of paper.
+1. Below the search box, click the **Group** button, which looks like a lined sheet of paper.
 1. Select one or more columns to group results by.
-1. Each grouped set of runs is collapsed by default. To expand it, click the arrow next to the group name.
+1. Each set of grouped runs is collapsed by default. To expand it, click the arrow next to the group name.
 
 ## Sort runs by minimum and maximum values
 Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
