@@ -7,6 +7,10 @@ menu:
 title: Compare runs across projects
 weight: 60
 ---
+{{% alert %}}
+Prefer a video? Watch [this demo](https://www.youtube.com/watch?v=uD4if_nGrs4) (2 min)
+{{% /alert %}}
+
 
 Compare runs from two different projects with cross-project reports. Use the project selector in the run set table to pick a project.
 
