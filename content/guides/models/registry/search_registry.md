@@ -20,7 +20,7 @@ To search globally:
 
 Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
 
-{{< img src="/images/registry/search_registry.gif" alt="" >}}
+{{< img src="/images/registry/search_registry.gif" alt=".gif of user typing text into registry search bar to filter registry items" >}}
 
 ## Programmatically search for registry items
 
