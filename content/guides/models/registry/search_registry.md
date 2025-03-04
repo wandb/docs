@@ -22,21 +22,29 @@ Search results appear below the search bar if the term you specify matches an ex
 
 {{< img src="/images/registry/search_registry.gif" alt="" >}}
 
-
 ## Programmatically search for registry items
 
-Use the [`wandb.Api().registries()`]({{< relref "/ref/python/public-api/api.md#registries" >}}) method to filter registries, collections, and artifact versions based on one or more [MongoDB-style filters](https://www.mongodb.com/docs/compass/current/query/filter/). Common filters for registries, collections, and artifact versions include: `name`, `tag`, `created_at`, `updated_at`, and `alias`. For a full list of filter options, see the `filter` argument in the [`wandb.Api().registries()`]({{< relref "/ref/python/public-api/api.md#registries" >}}) API documentation.
+Use the [`wandb.Api().registries()`]({{< relref "/ref/python/public-api/api.md#registries" >}}) method to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
+
+The following table lists keys you can use query registries, collections, or artifact versions:
+
+| | filter key |
+| ----- | ----- |
+| registries | `name`, `description`, `created_at`, `updated_at` |
+| collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
+| versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
+
+The proceeding code examples demonstrate some common search scenarios. 
 
 To use the `wandb.Api().registries()` method, first import the W&B Python SDK ([`wandb`]({{< relref "/ref/python/_index.md" >}})) library:
 ```python
 import wandb
 
-# (Optional) Create an instance of the
-# wandb.Api() class for readability
+# (Optional) Create an instance of the wandb.Api() class for readability
 api = wandb.Api()
 ```
-The proceeding code examples demonstrate some common search scenarios:
 
+Filter all registries that contain the string `model`:
 
 ```python
 # Filter all registries that contain the string `model`
@@ -44,10 +52,11 @@ registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# Returns an iterable of all registries that
-# match the filters
+# Returns an iterable of all registries that match the filters
 registries = api.registries(filter=registry_filters)
 ```
+
+Filter all collections, independent of registry, that contains the string `yolo` in the collection name:
 
 ```python
 # Filter all collections, independent of registry, that 
@@ -56,32 +65,34 @@ collection_filters = {
     "name": {"$regex": "yolo"}
 }
 
-# Returns an iterable of all collections that
-# match the filters
+# Returns an iterable of all collections that match the filters
 collections = api.registries().collections(filter=collection_filters)
 ```
 
+Filter all collections, independent of registry, that contains the string `yolo` in the collection name and possesses `cnn` as a tag:
+
 ```python
-# Filter all collections, independent of registry, that
-# contains the string `yolo` in the collection name and
-# possesses `cnn` as a tag
+# Filter all collections, independent of registry, that contains the
+# string `yolo` in the collection name and possesses `cnn` as a tag
 collection_filters = {
     "name": {"$regex": "yolo"},
     "tag": "cnn"
 }
 
-# Returns an iterable of all collections that
-# match the filters
+# Returns an iterable of all collections that match the filters
 collections = api.registries().collections(filter=collection_filters)
 ```
 
+Find all artifact versions that contains the string `model` and has either the tag `image-classification` or an `latest` alias:
+
 ```python
-# Find all artifact versions that contains the
-# string `model` and has either the 
-# tag `image-classification` or an `latest` alias
+# Find all artifact versions that contains the string `model` and 
+# has either the tag `image-classification` or an `latest` alias
 registry_filters = {
     "name": {"$regex": "model"}
 }
+
+# Use logical $or operator to filter artifact versions
 version_filters = {
     "$or": [
         {"tag": "image-classification"},
@@ -89,7 +100,39 @@ version_filters = {
     ]
 }
 
-# Returns an iterable of all artifact versions that
-# match the filters
-artifacts = api.registries(filter=registry_filters).versions(filter=version_filters)
+# Returns an iterable of all artifact versions that match the filters
+artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
+
+See the MongoDB documentation for more information on [logical query operators](https://www.mongodb.com/docs/manual/reference/operator/query-logical/).
+
+Each item in the `artifacts` iterable in the previous code snippet is an instance of the `Artifact` class. This means that you can access each artifact's attributes, such as `name`, `collection`, `aliases`, `tags`, `created_at`, and more:
+
+```python
+for art in artifacts:
+    print(f"artifact name: {art.name}")
+    print(f"collection artifact belongs to: { art.collection.name}")
+    print(f"artifact aliases: {art.aliases}")
+    print(f"tags attached to artifact: {art.tags}")
+    print(f"artifact created at: {art.created_at}\n")
+```
+For a complete list of an artifact object's attributes, see the [Artifacts Class]({{< relref "/ref/python/artifact/_index.md" >}}) in the API Reference docs. 
+
+
+Filter all artifact versions, independent of registry or collection, created between 2024-01-08 and 2025-03-04 at 13:10 UTC:
+
+```python
+# Find all artifact versions created between 2024-01-08 and 2025-03-04 at 13:10 UTC. 
+
+artifact_filters = {
+    "alias": "latest",
+    "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
+}
+
+# Returns an iterable of all artifact versions that match the filters
+artifacts = api.registries().collections().versions(filter=artifact_filters)
+```
+
+Specify the date and time in the format `YYYY-MM-DD HH:MM:SS`. You can omit the hours, minutes, and seconds if you want to filter by date only.
+
+See the MongoDB documentation for more information on [query comparisons](https://www.mongodb.com/docs/manual/reference/operator/query-comparison/).
