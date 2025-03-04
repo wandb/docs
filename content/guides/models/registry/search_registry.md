@@ -7,11 +7,11 @@ title: Find registry items
 weight: 7
 --- 
 
-Use the global search bar in the W&B Registry App or Python SDK to find a specific registry, collection, collection tag, artifact version name, artifact tag, or artifact alias.
+Use the global search bar in the W&B Registry App to find a specific registry, collection, collection tag, artifact version tag, or artifact version alias. For more advanced search queries, you can use the W&B Python SDK to filter registries, collections, and artifact versions based on one or more MongoDB-style queries.
 
 Only items that you have permission to view appear in the search results.
 
-## Interactively search for registry items
+## Search for registry items
 
 To search globally:
 
@@ -22,7 +22,7 @@ Search results appear below the search bar if the term you specify matches an ex
 
 {{< img src="/images/registry/search_registry.gif" alt=".gif of user typing text into registry search bar to filter registry items" >}}
 
-## Programmatically search for registry items
+## Query registry items with MongoDB-style queries
 
 Use the [`wandb.Api().registries()`]({{< relref "/ref/python/public-api/api.md#registries" >}}) method to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
 
