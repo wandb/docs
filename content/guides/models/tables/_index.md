@@ -3,12 +3,12 @@ description: Iterate on datasets and understand model predictions
 menu:
   default:
     identifier: tables
-    parent: core
+    parent: models
 title: Tables
 weight: 2
-url: guides/tables
+url: guides/models/tables
 cascade:
-- url: guides/tables/:filename
+- url: guides/models/tables/:filename
 ---
 
 {{< cta-button productLink="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" >}}
@@ -19,7 +19,6 @@ Use W&B Tables to visualize and query tabular data. For example:
 * Identify patterns in your data
 * Look at sample model predictions visually
 * Query to find commonly misclassified examples
-
 
 {{< img src="/images/data_vis/tables_sample_predictions.png" alt="" >}}
 The above image shows a table with semantic segmentation and custom metrics. View this table here in this [sample project from the W&B ML Course](https://wandb.ai/av-team/mlops-course-001).

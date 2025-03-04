@@ -2,12 +2,12 @@
 menu:
   default:
     identifier: registry
-    parent: w-b-models
+    parent: core
 title: Registry
 weight: 3
-url: guides/registry
+url: guides/core/registry
 cascade:
-- url: guides/registry/:filename
+- url: guides/core/registry/:filename
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
 
@@ -19,14 +19,14 @@ W&B Registry is now in public preview. Visit [this]({{< relref "./#enable-wb-reg
 
 W&B Registry is a curated central repository of [artifact]({{< relref "/guides/core/artifacts/" >}}) versions within your organization. Users who [have permission]({{< relref "./configure_registry.md" >}}) within your organization can [download]({{< relref "./download_use_artifact.md" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
 
-You can use the Registry to [track artifact versions]({{< relref "./link_version.md" >}}), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD]({{< relref "../automations/" >}}).
+You can use the Registry to [track artifact versions]({{< relref "./link_version.md" >}}), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD]({{< relref "/guides/core/automations/" >}}).
 
 In summary, use W&B Registry to:
 
 - [Promote]({{< relref "./link_version.md" >}}) artifact versions that satisfy a machine learning task to other users in your organization.
 - Organize [artifacts with tags]({{< relref "./organize-with-tags.md" >}}) so that you can find or reference specific artifacts.
-- Track an [artifact’s lineage]({{< relref "/guides/models/registry/lineage.md" >}}) and audit the history of changes.
-- [Automate]({{< relref "/guides/models/automations/model-registry-automations.md" >}}) downstream processes such as model CI/CD.
+- Track an [artifact’s lineage]({{< relref "/guides/core/registry/lineage.md" >}}) and audit the history of changes.
+- [Automate]({{< relref "/guides/core/automations/model-registry-automations.md" >}}) downstream processes such as model CI/CD.
 - [Limit who in your organization]({{< relref "./configure_registry.md" >}}) can access artifacts in each registry.
 
 <!-- - Quickly find or reference important artifacts with a unique identifier known as aliases.-->
