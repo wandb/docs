@@ -54,8 +54,6 @@ flowchart TD
     style OrgRoles fill:#ddf,stroke:#333,stroke-width:1px
     style TeamRoles fill:#dfd,stroke:#333,stroke-width:1px
     style RegRoles fill:#fdf,stroke:#333,stroke-width:1px
-    style ImportantNotes fill:#fdd,stroke:#333,stroke-width:1px
-    style InheritanceRule fill:#ddf,stroke:#333,stroke-width:1px
 ```
 
 ## Manage users
