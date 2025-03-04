@@ -9,6 +9,53 @@ weight: 3
 
 A registry admin can [configure registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}), [add users]({{< relref "configure_registry.md#add-a-user-or-a-team-to-a-registry" >}}), or [remove users]({{< relref "configure_registry.md#remove-a-user-or-team-from-a-registry" >}}) from a registry by configuring the registry's settings.
 
+## Diagram
+
+This diagram illustrates the hierarchical permission structure in Weights & Biases (W&B), showing the relationships between Organization, Team, and Registry roles and how permissions are inherited. Users receive the highest permission level between their individual assignment and team membership, with Registry roles limited to three fixed types (Admin, Member, Viewer) that determine what actions users can perform. 
+
+{{< alert >}}
+The permissions for teams and registries are separate. For example, being an admin on a team does not make a user an admin on a registry.
+{{< /alert >}}
+
+```mermaid
+flowchart TD
+
+    subgraph OrgRoles["Organization Roles"]
+        OA["Organization Admin"]
+        OM["Organization Member"]
+        OV["Organization Viewer"]
+    end
+    
+    OrgRoles --> TeamRoles
+    
+    subgraph TeamRoles["Team Roles"]
+        TA["Team Admin"]
+        TM["Team Member"]
+        TV["Team Viewer"]
+        TC["Team Custom Roles"]
+    end
+    
+    TeamRoles --> RegRoles
+    
+    subgraph RegRoles["Registry Roles"]
+        RA["Registry Admin"]
+        RM["Registry Member"]
+        RV["Registry Viewer"]
+    end
+    
+    %% Default role assignment connections
+    OA -->|"Default: Admin"| RA
+    OM -->|"Default: Viewer"| RV
+    OV -->|"Default: Viewer"| RV
+    
+    %% Team assignment
+    TeamNode["Team"] -->|"Default: Viewer"| RV
+    
+    style OrgRoles fill:#ddf,stroke:#333,stroke-width:1px
+    style TeamRoles fill:#dfd,stroke:#333,stroke-width:1px
+    style RegRoles fill:#fdf,stroke:#333,stroke-width:1px
+```
+
 ## Manage users
 
 ### Add a user or a team
