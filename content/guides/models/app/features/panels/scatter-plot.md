@@ -7,7 +7,7 @@ title: Scatter plots
 weight: 40
 ---
 
-This page explains the use case for scatter plots in W&B, how to create them, and provides an example.
+This page shows how to use scatter plots in W&B.
 
 ## Use case 
 
