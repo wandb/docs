@@ -44,6 +44,8 @@ To configure the workspace layout, click **Settings** near the top of the worksp
   1. Click the padlock icon.
   1. Choose how to group panels within a section.
 
+To configure defaults for the workspace's line plots, refer to [Line plots]({{< relref "line-plot/#all-line-plots-in-a-workspace" >}}).
+
 ### Configure a section's layout {#configure-section-layout}
 
 To configure the layout of a section, click its gear icon, then click **Display preferences**.
