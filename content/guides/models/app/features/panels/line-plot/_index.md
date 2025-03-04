@@ -60,11 +60,20 @@ To customize the defaults for all line plots in a section, overriding workspace 
 1. Click the section's gear icon to open its settings.
 1. Within the modal that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the section. For details, refer to the preceding section, [Individual line plot]({{< relref "#individual-line-plot" >}}).
 
+{{% alert %}}
+To configure a section's display preferences, refer to [Configure section]({{< relref "/guides/models/app/panels#" >}})
+{{% /alert %}}
+
+
 ### All line plots in a workspace 
 To customize the defaults for all line plots in a workspace:
 1. Click the workspace's settings, which has a gear with the label **Settings**.
 1. Click **Line plots**.
 1. Within the modal that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the workspace. For details, refer to the preceding section, [Individual line plot]({{< relref "#individual-line-plot" >}}).
+
+{{% alert %}}
+In addition, you can configure the display preferences for a [workspace]({{< relref "line-plots/#configure-workspace-layout" >}}) or a [section]({{< relref "line-plots#configure-section-layout" >}}).
+{{% /alert %}}
 
 ## Visualize average values on a plot
 
