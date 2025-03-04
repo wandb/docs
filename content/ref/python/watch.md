@@ -2,7 +2,7 @@
 title: watch
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/wandb_run.py#L2808-L2843 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/wandb_run.py#L2803-L2838 >}}
 
 Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.
 
@@ -22,12 +22,7 @@ extended to support arbitrary machine learning models in the future.
 
 | Args |  |
 | :--- | :--- |
-|  `models` | A single model or a sequence of models to be monitored. | 
-|`criterion `| The loss function being optimized (optional). |
-|`log `| Specifies whether to log `gradients`, `parameters`, or `all`. Set to `None` to disable logging. (default="gradients") |
-|`log_freq `|: How frequently to log gradients and parameters, expressed in batches. (default=1000)| 
-|`idx `| Index used when tracking multiple models with `wandb.watch`. (default=None)| 
-|`log_graph `| Whether to log the model's computational graph. (default=False) |
+|  models (Union[torch.nn.Module, Sequence[torch.nn.Module]]): A single model or a sequence of models to be monitored. criterion (Optional[torch.F]): The loss function being optimized (optional). log (Optional[Literal["gradients", "parameters", "all"]]): Specifies whether to log "gradients", "parameters", or "all". Set to None to disable logging. (default="gradients") log_freq (int): Frequency (in batches) to log gradients and parameters. (default=1000) idx (Optional[int]): Index used when tracking multiple models with `wandb.watch`. (default=None) log_graph (bool): Whether to log the model's computational graph. (default=False) |
 
 | Raises |  |
 | :--- | :--- |

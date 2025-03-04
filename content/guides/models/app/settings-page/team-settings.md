@@ -11,7 +11,7 @@ weight: 30
 
 # Team settings
 
-Change your team's settings, including members, avatar, alerts, privacy, and usage. Only team administrators can view and edit a team's settings.
+Change your team's settings, including members, avatar, alerts, privacy, and usage. Organization admins and team admins can view and edit a team's settings.
 
 {{% alert %}}
 Only Administration account types can change team settings or remove a member from a team.
@@ -19,9 +19,9 @@ Only Administration account types can change team settings or remove a member fr
 
 
 ## Members
-The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, email, team role, as well as their access privileges to Models and Weave, which is inherited by from the Organization. There are three standard team roles: Administrator (Admin), Member, and View-only.
+The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, email, team role, as well as their access privileges to Models and Weave, which is inherited by from the Organization. You can choose from the standard team roles **Admin**, **Member**, and **View-only**. If your organization has created [custom roles]({{< relref "manage-organization.md#create-custom-roles" >}}), you can assign a custom role instead.
 
-See [Add and Manage teams]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" >}}) for information on how to create a tea, invite users to a team, remove users from a team, and change a user's role.
+See [Add and Manage teams]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" >}}) for information on how to create a team, manage teams, and manage team membership and roles. To configure who can invite new members and configure other privacy settings for the team, refer to [Privacy]({{< relref "#privacy" >}}).
 
 ## Avatar
 
@@ -43,10 +43,11 @@ For more information about how to set up and manage alerts, see [Send alerts wit
 
 ## Privacy
 
-Navigate to the **Privacy** section to change privacy settings. Only members with Administrative roles can modify privacy settings. Administrator roles can:
+Navigate to the **Privacy** section to change privacy settings. Only organization admins can modify privacy setting.
 
-* Force projects in the team to be private.
-* Enable code saving by default.
+- Turn off the ability to make future projects public or to share reports publicly.
+- Allow any team member to invite other members, rather than only team admins.
+- Manage whether code saving is turned on by default.
 
 ## Usage
 
