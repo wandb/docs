@@ -76,7 +76,7 @@ Next, use the returned object to download all contents of the artifact:
 ```python
 datadir = (
     artifact.download()
-)  # downloads the full "my_data" artifact to the default directory.
+)  # downloads the full `my_data` artifact to the default directory.
 ```
 
 {{% alert %}}
