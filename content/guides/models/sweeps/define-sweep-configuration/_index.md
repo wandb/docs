@@ -262,7 +262,6 @@ The proceeding tabs show how to specify either a minimum or maximum number of it
 {{< tabpane  text=true >}}
   {{% tab header="Maximum number of iterations" %}}
 
-
 The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.  
 
 ```yaml
