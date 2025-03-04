@@ -103,6 +103,7 @@
 /guides/artifacts/artifacts-faqs /support/index_artifacts 301
 /guides/artifacts/dataset-versioning /guides/artifacts 301
 /guides/artifacts/model-versioning /guides/core/registry/model_registry 301
+/guides/artifacts/project-scoped-automations /guides/core/automations/project-scoped-automations 301
 /guides/artifacts/quickstart /guides/artifacts/artifacts-walkthrough 301
 /guides/artifacts/references /guides/artifacts 301
 /guides/artifacts/using-artifacts /guides/artifacts/download-and-use-an-artifact 301
@@ -181,11 +182,11 @@
 /guides/manage-runs /guides/runs/manage-runs 301
 /guides/models/access_controls /guides/core/registry/model_registry/access_controls 301
 /guides/models/automation /guides/core/registry/model_registry/model-registry-automations 301
-/guides/models/automations /guides/core/automations 301
 /guides/models/model-management-concepts /guides/core/registry/model_registry/model-management-concepts 301
 /guides/models/model_tags /guides/core/registry/model_registry/model_tags 301
 /guides/models/notifications /guides/core/registry/model_registry/notifications 301
 /guides/models/walkthrough /guides/model_registry/walkthrough 301
+/guides/model_registry/model-registry-automations /guides/core/automations/model-registry-automations 301
 /guides/model_registry/quickstart /guides/core/registry/model_registry/walkthrough 301
 /guides/platform /guides/core 301
 /guides/projects/campaigns / 301
@@ -413,6 +414,7 @@
 /guides/core/tables/* /guides/models/tables/:splat 301
 /guides/integrations/other/* /guides/integrations/:splat 301
 /guides/integrations/prompts/* /guides 301
+/guides/models/automations/* /guides/core/automations/:splat 301
 /guides/models/registry/* /guides/core/registry/:splat 301
 /guides/model_registry/* /guides/core/registry/model_registry/:splat 301
 /guides/prompts/i*tro /guides 301
