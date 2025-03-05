@@ -49,7 +49,7 @@ To configure defaults for the workspace's line plots, refer to [Line plots]({{< 
 ### Configure a section's layout {#configure-section-layout}
 
 To configure the layout of a section, click its gear icon, then click **Display preferences**.
-- **Disable colored run names in tooltips** (turned on by default)
+- **Turn on or off colored run names in tooltips** (turned on by default)
 - **Only show highlighted run in companion chart tooltips** (turned off by default)
 - **Number of runs shown in tooltips** (a single run, all runs, or **Default**)
 - **Display full run names on the primary chart tooltip** (turned off by default)
