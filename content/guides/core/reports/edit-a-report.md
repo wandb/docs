@@ -84,6 +84,17 @@ Add run sets from projects interactively with the App UI or the W&B SDK.
 
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose Panel Grid. This will automatically import the run set from the project the report was created from.
 
+You can [rename a run]({{< relref "/guides/models/track/runs/#rename-a-run" >}}) in the run set:
+
+1. In the report, click the pencil icon to open the report editor.
+1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots, then select either:
+
+  - **Rename run for project**: rename the run across the entire project. To generate a new random name, leave the field blank.
+  - **Rename run for panel grid** rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
+
+  Submit the form.
+1. Click **Publish report**.
+
 {{% /tab %}}
 
 {{% tab header="Workspaces API" value="sdk"%}}
