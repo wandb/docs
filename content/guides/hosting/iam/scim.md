@@ -8,7 +8,7 @@ weight: 4
 ---
 
 {{% alert %}}
-Prefer a video? Watch [this demo](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12 min)
+Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12 min)
 {{% /alert %}}
 
 The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
