@@ -8,7 +8,7 @@ title: Compare runs across projects
 weight: 60
 ---
 {{% alert %}}
-Prefer a video? Watch [this demo](https://www.youtube.com/watch?v=uD4if_nGrs4) (2 min)
+Watch a [video demonstrating comparing runs across projects](https://www.youtube.com/watch?v=uD4if_nGrs4) (2 min).
 {{% /alert %}}
 
 
