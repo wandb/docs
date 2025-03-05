@@ -320,7 +320,7 @@ If you're connecting to a cloud-native storage bucket in another cloud or to an 
 {{% /alert %}}
 
 {{% alert %}}
-Prefer a video? Watch [this demo](https://www.youtube.com/watch?v=uda6jIx6n5o) (9 min)
+Watch a [video demonstrating the secure storage connector in action](https://www.youtube.com/watch?v=uda6jIx6n5o) (9 min).
 {{% /alert %}}
 
 To configure a storage bucket at the team level when you create a W&B Team:
