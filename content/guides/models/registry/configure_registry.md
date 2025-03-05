@@ -11,7 +11,7 @@ A registry admin can [configure registry roles]({{< relref "configure_registry.m
 
 ## Diagram
 
-This diagram illustrates the hierarchical permission structure in Weights & Biases (W&B), showing the relationships between Organization, Team, and Registry roles and how permissions are inherited. Users receive the highest permission level between their individual assignment and team membership, with Registry roles limited to three fixed types (Admin, Member, Viewer) that determine what actions users can perform. 
+This diagram illustrates the hierarchical permission structure in W&B, showing the relationships between Organization, Team, and Registry roles and how permissions are inherited. Users receive the highest permission level between their individual assignment and team membership, with Registry roles limited to three fixed types (Admin, Member, Viewer) that determine what actions users can perform. 
 
 {{< alert >}}
 The permissions for teams and registries are separate. For example, being an admin on a team does not make a user an admin on a registry.
