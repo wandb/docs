@@ -7,7 +7,7 @@ menu:
 title: Filter and search runs
 ---
 
-Use your project page to gain insights from runs logged to W&B.
+Use your project page to gain insights from runs logged to W&B. You can filter and search runs from both the **Workspace** page and the **Runs** page.
 
 ## Filter runs
 
@@ -28,13 +28,17 @@ If regex doesn't provide you the desired results, you can make use of [tags]({{<
 {{< img src="/images/app_ui/tags.gif" alt="If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table" >}}
 
 
-
-
-## Search run names
+## Search runs
 
 Use [regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) to find runs with the regex you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
 
+## Group runs
 
+To group runs by one or more columns (including hidden columns):
+
+1. Below the search box, click the **Group** button, which looks like a lined sheet of paper.
+1. Select one or more columns to group results by.
+1. Each set of grouped runs is collapsed by default. To expand it, click the arrow next to the group name.
 
 ## Sort runs by minimum and maximum values
 Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
