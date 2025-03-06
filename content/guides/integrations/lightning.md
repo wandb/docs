@@ -445,7 +445,7 @@ The model checkpoints you log are viewable through the [W&B Artifacts]({{< relre
 
 To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry]({{< relref "/guides/models" >}}).
 
-Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
+Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/core/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
 
 ## Log images, text, and more
 
