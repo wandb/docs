@@ -1,13 +1,10 @@
 
 # Blank lines and comments are allowed.
 # 
-# Sort entries alphabetically by left-hand side.
-# First match wins, so more specific rules before
-# less specific rules, and sort rules with splats
-# to the bottom of a group. after no-splats.
-# 
-# Splats are supported on both source (*) and destination (:splat)
-#   If both are used, :splat resolves to exactly what * matches
+# Within each section (individual rules, then splats), sort entries
+# alphabetically by left-hand side. First match wins.
+#
+# If possible, use splat rules rather than individual page rules.
 #
 # Examples
 #
@@ -19,6 +16,7 @@
 ##   but preserve subfolder structure
 # /app/features/* /guides/runs/:splat   
 
+## Individual page rules
 /app/features/alerts /guides/runs/alert 301
 /app/features/custom-charts/walkthrough /guides/app/features/custom-charts/walkthrough 301
 /app/features/custom-charts /guides/app/features/custom-charts 301
@@ -42,13 +40,11 @@
 /app/panels/parameter-importance /guides/app/features/panels/parameter-importance 301
 /app/visualizations /guides/app 301
 /app /guides/app 301
-
 /artifacts/api /ref/python/artifact 301
 /artifacts/dataset-versioning /guides/artifacts/create-a-new-artifact-version 301
 /artifacts/overview /guides/artifacts 301
 /artifacts/references /guides/artifacts/track-external-files 301
 /artifacts /guides/artifacts 301
-
 /authenticate / 301
 /authorize / 301
 /classes / 301
@@ -63,7 +59,7 @@
 /company/getting-help / 301
 /company https://wandb.ai/site/company 301
 /data-vis/log-tables /guides/track/log/log-tables 301
-/data-vis /guides/tables 301
+/data-vis /guides/models/tables 301
 /datasets-and-predictions /guides/integrations/mmdetection#visualize-dataset-and-model-prediction 301
 /define-sweep-configuration /guides/sweeps/define-sweep-configuration 301
 /deployment /guides/hosting 301
@@ -83,18 +79,15 @@
 /frameworks/keras /guides/integrations/keras 301
 /frameworks/pytorch /guides/integrations/pytorch 301
 /getting-started /quickstart 301
-
 /guides/app/settings-page/team-settings /guides/app/settings-page/team-settings 301
 /guides/app/features/app/features/panels/parallel-coordinates /guides/app/features/app/features/panels/parallel-coordinates 301
 /guides/app/features/panels/compare-metrics/reference /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart 301
 /guides/app/features/panels/compare-metrics /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart 301
 /guides/app/features/panels/panels /guides/app/features/panels 301
 /guides/app/features/panels/query-panel /guides/app/features/panels/query-panels 301
-
 /guides/app/features/panels/run-colors /guides/runs/filter-runs 301
 /guides/app/features/panels/weave/embedding-projector /guides/app/features/panels/query-panels/embedding-projector 301
 /guides/app/features/panels/weave /guides/app/features/panels/query-panels 301
-
 /guides/app/features/ /guides/models 301
 /guides/app/intro /guides/app/features/panels 301
 /guides/app/pages/guides/app/settings-page /guides/app/pages 301
@@ -109,23 +102,22 @@
 /guides/artifacts/artifacts-core-concepts /guides/artifacts 301
 /guides/artifacts/artifacts-faqs /support/index_artifacts 301
 /guides/artifacts/dataset-versioning /guides/artifacts 301
-/guides/artifacts/model-versioning /guides/model_registry 301
+/guides/artifacts/model-versioning /guides/core/registry/model_registry 301
+/guides/artifacts/project-scoped-automations /guides/core/automations/project-scoped-automations 301
 /guides/artifacts/quickstart /guides/artifacts/artifacts-walkthrough 301
 /guides/artifacts/references /guides/artifacts 301
 /guides/artifacts/using-artifacts /guides/artifacts/download-and-use-an-artifact 301
 /guides/comparing-runs /guides/runs 301
 /guides/config /guides/sweeps/define-sweep-configuration 301
 /guides/configurations /guides/track/config 301
-/guides/data-and-model-versioning / 301
-/guides/core/tables /guides/models/tables 301
-/guides/data_types /ref/python/data-types 301
 /guides/data-and-model-versioning/dataset-versioning /guides/artifacts 301
 /guides/data-and-model-versioning/intro / 301
-/guides/data-and-model-versioning/model-versioning /guides/model_registry 301
+/guides/data-and-model-versioning/model-versioning /guides/core/registry/model_registry 301
 /guides/data-and-model-versioning / 301
+/guides/data_types /ref/python/data-types 301
 /guides/data-vis/log-tables /guides/track/log/log-tables 301
-/guides/data-vis/tables /guides/tables 301
-/guides/data-vis/tables-quickstart /guides/tables/tables-walkthrough 301
+/guides/data-vis/tables /guides/models/tables 301
+/guides/data-vis/tables-quickstart /guides/models/tables/tables-walkthrough 301
 /guides/datasets-and-predictions / 301
 /guides/experiments/track /guides/track 301
 /guides/hosting/audit-logging /guides/hosting/monitoring-usage/audit-logging 301
@@ -168,11 +160,7 @@
 /guides/integrations/mmsegmentation /guides/integrations 301
 /guides/integrations/open /guides/integrations/openai 301
 /guides/integrations/other/kubeflow /guides/integrations/kubeflow-pipelines-kfp 301
-/guides/integrations/other/* /guides/integrations/:splat 301
 /guides/integrations/otherray-tune /guides/integrations 301
-/guides/integrations/prompts/intro /guides 301
-/guides/integrations/prompts/openai /guides 301
-/guides/integrations/prompts/quickstart /guides 301
 /guides/integrations/tensorboardgetting%20recal%20from%20precision /guides/integrations/tensorboard 301
 /guides/integrations/w-and-b-for-r /guides/integrations 301
 /guides/integrations/yolov8 /guides/integrations/yolov5 301
@@ -183,37 +171,27 @@
 /guides/launch/create-queue /guides/launch/setup-queue-advanced 301
 /guides/launch/docker /guides/launch/setup-launch-docker 301
 /guides/launch/getting-started /guides/launch/walkthrough 301
-/guides/launch/integrations/* /guides/launch 301
+/guides/launch/integrations/sagemaker /guides/launch 301
+/guides/launch/integrations /guides/launch 301
 /guides/launch/kubernetes /guides/launch/setup-launch-kubernetes 301
-/guides/launch/launch-faqs /support/index_launch 301
 /guides/launch/launch-jobs /guides/launch/add-job-to-queue 301
 /guides/launch/prerequisites /guides/launch/getting-started 301
 /guides/launch/run-agent /guides/launch/setup-agent-advanced 301
 /guides/launch/sagemaker /guides/launch/setup-launch-sagemaker 301
 /guides/launch/vertex /guides/launch/setup-vertex 301
 /guides/manage-runs /guides/runs/manage-runs 301
-/guides/model_registry/quickstart /guides/model_registry/walkthrough 301
-/guides/models/access_controls /guides/model_registry/access_controls 301
-/guides/models/automation /guides/model_registry/model-registry-automations 301
-/guides/models/notifications /guides/model_registry/notifications 301
-/guides/models/model-management-concepts /guides/model_registry/model-management-concepts 301
-/guides/model_registry/quickstart /guides/model_registry/walkthrough 301
-/guides/manage-runs /guides/runs/manage-runs 301
-/guides/models/automations /guide/core/automations 301
-/guides/models/model_tags /guides/model_registry/model_tags 301
-/guides/models/model-management-concepts /guides/model_registry/model-management-concepts 301
-/guides/models/notifications /guides/model_registry/notifications 301
-/guides/models/registry /guides/core/registry 301
+/guides/models/access_controls /guides/core/registry/model_registry/access_controls 301
+/guides/models/automation /guides/core/registry/model_registry/model-registry-automations 301
+/guides/models/model-management-concepts /guides/core/registry/model_registry/model-management-concepts 301
+/guides/models/model_tags /guides/core/registry/model_registry/model_tags 301
+/guides/models/notifications /guides/core/registry/model_registry/notifications 301
 /guides/models/walkthrough /guides/model_registry/walkthrough 301
+/guides/model_registry/model-registry-automations /guides/core/automations/model-registry-automations 301
+/guides/model_registry/quickstart /guides/core/registry/model_registry/walkthrough 301
 /guides/platform /guides/core 301
-
 /guides/projects/campaigns / 301
 /guides/projects/sharing-and-visibility / 301
-/guides/prompts/intro /guides 301
-/guides/prompts/openai /guides 301
-/guides/prompts/quickstart /guides 301
 /guides/reference/data_types /ref/python/data-types 301
-/guides/registry /guides/core/registry 301
 /guides/reports/reports-faq /support/index_reports 301
 /guides/reports/reports-walkthrough /guides/reports 301
 /guides/run/grouping /guides/runs/grouping 301
@@ -232,7 +210,6 @@
 /guides/sweeps/faq /support/index_sweeps 301
 /guides/sweeps/parallelize-agent /guides/sweeps/parallelize-agents 301
 /guides/sweeps/python-api /ref/python/public-api/api 301
-/guides/tables /guides/models/tables 301
 /guides/tables/log-tables /guides/track/log/log-tables 301
 /guides/technical-faq/admin /support/index_administrator 301
 /guides/technical-faq/general /support/index 301
@@ -271,19 +248,16 @@
 /guides/track/summary-metrics /guides/track/log/log-summary 301
 /guides/track/tracking-faq /support/index_experiments 301
 /guides/troubleshooting/network /guides/technical-faq 301
-
 /home / 301
 /hosting/setup /hosting 301
 /hosting /guides/hosting 301
 /huggingface /guides/integrations/huggingface 301
 /integrations/jupyter.html /guides/track/jupyter 301
 /integrations/lightning%3E%60_ /guides/integrations/lightning 301
-/integrations/* /guides/integrations/:splat 301
 /ja /ja/guides 301
 /java /ref 301
 /jp /ja/guides 301
 /ko /ko/guides 301
-
 /library/advanced/environment-variables /guides/track/environment-variables 301
 /library/advanced/grouping /guides/runs/grouping 301
 /library/advanced/limits /guides/track/limits 301
@@ -297,14 +271,12 @@
 /library/environment-variables /guides/track/environment-variables 301
 /library/example-projects /guides/integrations/tensorflow#examples 301
 /library/frameworks/pytorch/lightning /guides/integrations/lightning 301
-/library/frameworks/* /guides/integrations/:splat 301
 /library/graphs/graph-edit-axes / 301
 /library/grouping /guides/runs/grouping 301
 /library/hyperparameter-sweeps /guides/sweeps 301
 /library/init /ref/python/init 301
 /library/integrations/cpp /guides/integrations 301
 /library/integrations/pytorch-lightning /guides/integrations/lightning 301
-/library/integrations/* /guides/integrations/:splat 301
 /library/log /ref/python/log 301
 /library/plots/heatmap /guides/track/log/media 301
 /library/plots /guides/app 301
@@ -326,14 +298,11 @@
 /library/wandb.init /ref/python/init 301
 /library/wandb.save /ref/python 301
 /library /ref/python 301
-
 /python /ref/python 301
 /quickstar /quickstart 301
 /quickstart/korea /ko/quickstart 301
 /quickstart/korean /ko/quickstart 301
-
 /ref/api/public-methods /ref/python/public-api 301
-
 /ref/app/feature /guides/app/features 301
 /ref/app/features/alerts /guides/app 301
 /ref/app/features/anon /guides/app/features/anon 301
@@ -360,7 +329,6 @@
 /ref/app/features/tags /guides/app/features/tags 301
 /ref/app/features/teams /guides/app/features/teams 301
 /ref/app/features /guides/app/features 301
-
 /ref/app/pages/gradient-panel /guides/app/pages/gradient-panel 301
 /ref/app/pages/project-page /guides/app/pages/project-page 301
 /ref/app/pages/run-page /guides/app/pages/run-page 301
@@ -393,7 +361,6 @@
 /ref/run/summary /ref/python/run 301
 /ref/sweep/configurations /guides/sweeps/define-sweep-configuration 301
 /ref/weave/README /ref/weave 301
-
 /reports /guides/reports/create-a-report 301
 /resources/technical-faq / 301
 /runner / 301
@@ -410,7 +377,6 @@
 /self-hoted/local /guides/hosting 301
 /site / 301
 /start/windows /guides/hosting 301
-
 /sweeps/add-to-existing /guides/sweeps/add-w-and-b-to-your-code 301
 /sweeps/configuration /guides/sweeps/define-sweep-configuration 301
 /sweeps/early-stopping /guides/sweeps/define-sweep-configuration 301
@@ -427,7 +393,6 @@
 /sweeps/sweeps-examples /guides/sweeps 301
 /sweeps/visualize-sweep-results /guides/sweeps/visualize-sweep-results 301
 /sweeps /guides/sweeps 301
-
 /teams /guides/app/features/teams 301
 /tutorials/lightgbm /tutorials 301
 /tutorials/prompts /tutorials 301
@@ -438,8 +403,26 @@
 /wandb/init /ref/python/init 301
 /wandb/log /ref/python/log 301
 /weave/boards /guides/app/features/panels/query-panels 301
-/weave/prod-mon /guides/core 301
 /weave/streamtable /guides/app/features/panels/query-panels 301
 /weave /guides/app/features/panels/query-panels 301
 /weave/prod-mon /guides/core 301
 /zh / 301
+
+## Splat rules
+# Splats are supported on both source (*) and destination (:splat)
+# If both are used, :splat resolves to exactly what * matches
+/guides/core/tables/* /guides/models/tables/:splat 301
+/guides/integrations/other/* /guides/integrations/:splat 301
+/guides/integrations/prompts/* /guides 301
+/guides/models/automations/* /guides/core/automations/:splat 301
+/guides/models/registry/* /guides/core/registry/:splat 301
+/guides/model_registry/* /guides/core/registry/model_registry/:splat 301
+/guides/prompts/i*tro /guides 301
+/guides/registry/* /guides/core/registry/:splat 301
+/guides/tables/* /guides/models/tables/:splat 301
+/integrations/* /guides/integrations/:splat 301
+/library/frameworks/* /guides/integrations/:splat 301
+/library/integrations/* /guides/integrations/:splat 301
+
+
+
