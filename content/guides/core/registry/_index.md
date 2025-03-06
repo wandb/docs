@@ -2,12 +2,12 @@
 menu:
   default:
     identifier: registry
-    parent: w-b-models
+    parent: core
 title: Registry
 weight: 3
-url: guides/registry
+url: guides/core/registry
 cascade:
-- url: guides/registry/:filename
+- url: guides/core/registry/:filename
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
 
@@ -19,13 +19,13 @@ W&B Registry is now in public preview. Visit [this]({{< relref "./#enable-wb-reg
 
 W&B Registry is a curated central repository of [artifact]({{< relref "/guides/core/artifacts/" >}}) versions within your organization. Users who [have permission]({{< relref "./configure_registry.md" >}}) within your organization can [download]({{< relref "./download_use_artifact.md" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
 
-You can use the Registry to [track artifact versions]({{< relref "./link_version.md" >}}), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD]({{< relref "../automations/" >}}).
+You can use the Registry to [track artifact versions]({{< relref "./link_version.md" >}}), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD]({{< relref "/guides/core/automations/" >}}).
 
 In summary, use W&B Registry to:
 
 - [Promote]({{< relref "./link_version.md" >}}) artifact versions that satisfy a machine learning task to other users in your organization.
 - Organize [artifacts with tags]({{< relref "./organize-with-tags.md" >}}) so that you can find or reference specific artifacts.
-- Track an [artifact’s lineage]({{< relref "/guides/models/registry/lineage.md" >}}) and audit the history of changes.
+- Track an [artifact’s lineage]({{< relref "/guides/core/registry/lineage.md" >}}) and audit the history of changes.
 - [Automate]({{< relref "/guides/models/automations/" >}}) downstream processes such as model CI/CD.
 - [Limit who in your organization]({{< relref "./configure_registry.md" >}}) can access artifacts in each registry.
 
@@ -98,7 +98,11 @@ The URL that your terminal prints directs you to the project where W&B stores yo
 
 Navigate to the Registry App to view artifact versions that you and other members of your organization publish. To do so, first navigate to W&B. Select **Registry** in the left sidebar below **Applications**. Select the "Model" registry. Within the registry, you should see the "first-collection" collection with your linked artifact version.
 
-Once you link an artifact version to a collection within a registry, members of your organization can view, download, and manage your artifact versions, create downstream automations, and more if they have the proper permissions. 
+Once you link an artifact version to a collection within a registry, members of your organization can view, download, and manage your artifact versions, create downstream automations, and more if they have the proper permissions.
+
+{{% alert %}}
+If an artifact version logs metrics (such as by using `run.log_artifact()`), you can view metrics for that version from its details page, and you can compare metrics across artifact versions from the collection's page. Refer to [View linked artifacts in a registry]({{< relref "link_version.md#view-linked-artifacts-in-a-registry" >}}).
+{{% /alert %}}
 
 ## Enable W&B Registry
 

@@ -2,8 +2,8 @@
 menu:
   default:
     identifier: automations
-    parent: w-b-models
-title: Create and manage automations
+    parent: core
+title: Automations
 weight: 4
 ---
 

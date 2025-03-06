@@ -24,6 +24,7 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 1. [**Sign up or log in**](https://app.wandb.ai/login?signup=true) to your free W&B account.
 2. Click **Invite Team** in the navigation bar.
 3. Create your team and invite collaborators.
+4. To configure your team, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).
 
 {{% alert %}}
 **Note**: Only the admin of an organization can create a new team.
@@ -50,7 +51,9 @@ Team admins can open the team settings page and click the delete button next to 
 Select a team role when you invite colleagues to join a team. There are following team role options:
 
 - **Admin**: Team admins can add and remove other admins or team members. They have permissions to modify all projects and full deletion permissions. This includes, but is not limited to, deleting runs, projects, artifacts, and sweeps.
-- **Member**: A regular member of the team. An admin invites a team member by email. A team member cannot invite other members. Team members can only delete runs and sweep runs created by that member. Suppose you have two members A and B. Member B moves a Run from team B's project to a different project owned by Member A. Member A can not delete the Run Member B moved to Member A's project. Only the member that creates the Run, or the team admin, can delete the run.
+- **Member**: A regular member of the team. By default, only an admin can invite a team member. To change this behavior, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).
+
+A team member can delete only runs they created. Suppose you have two members A and B. Member B moves a run from team B's project to a different project owned by Member A. Member A cannot delete the run Member B moved to Member A's project. An admin can manage runs and sweep runs created by any team member.
 - **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs.
 - **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles based on either of the **View-Only** or **Member** roles, together with additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [Introducing Custom Roles for W&B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details.
 - **Service accounts (Enterprise-only feature)**: Refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}).
@@ -80,7 +83,7 @@ The proceeding table lists permissions that apply to all projects across a given
 |Add or remove Registry Admins  |           |             | X              | X | 
 |Add or remove Protected Aliases|           |             | X              |   | 
 
-For more details about protected aliases, refer to [Registry Access Controls]({{< relref "/guides/models/registry/model_registry/access_controls.md" >}}).
+For more details about protected aliases, refer to [Registry Access Controls]({{< relref "/guides/core/registry/access_controls.md" >}}).
 
 ### Reports
 Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
