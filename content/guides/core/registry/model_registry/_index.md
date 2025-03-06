@@ -60,7 +60,7 @@ run.link_model(path="./my_model.h5", registered_model_name="MNIST")
 run.finish()
 ```
 
-4. **Connect model transitions to CI/DC workflows**: transition candidate models through workflow stages and [automate downstream actions]({{< relref "/guides/core/automations/" >}}) with webhooks or jobs.
+4. **Connect model transitions to CI/CD workflows**: transition candidate models through workflow stages and [automate downstream actions]({{< relref "/guides/core/automations/" >}}) with webhooks.
 
 
 ## How to get started

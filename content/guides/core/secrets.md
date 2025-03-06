@@ -11,7 +11,7 @@ weight: 1
 
 W&B Secret Manager allows you to securely and centrally store, manage, and inject _secrets_, which are sensitive strings such as passwords, API keys, or certificates. W&B Secret Manager removes the need to add sensitive strings directly to your code or to the configuration of an [automation]({{< relref "/guides/models/automations/" >}}).
 
-Secrets are stored and managed in each team's Secret Manager.
+Secrets are stored and managed in each team's Secret Manager, in the **Team secrets** section of the [team settings]({{< relref "/guides/models/app/settings-page/team-settings/" >}}).
 
 {{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
@@ -27,7 +27,7 @@ Secrets are stored and managed in each team's Secret Manager.
 To add a secret:
 
 1. If necessary, generate the sensitive string in the webhook's service. For example, generate an API key or set a password. If necessary, save the sensitive string securely, such as in a password manager.
-1. Log in to W&B and go to the **Settings** page.
+1. Log in to W&B and go to the team's **Settings** page.
 1. In the **Team Secrets** section, click **New secret**.
 1. Using letters, numbers, and `_`, provide a name for the secret.
 1. Paste the sensitive string into the **Secret** field.
