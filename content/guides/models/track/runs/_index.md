@@ -471,6 +471,28 @@ Once a run with a specific ID is deleted, its ID may not be used again. Trying t
 For projects that contain a large number of runs, you can use either the search bar to filter runs you want to delete using Regex or the filter button to filter runs based on their status, tags, or other properties. 
 {{% /alert %}}
 
+## Organize runs 
+
+This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (for example, experiment names) and specifying job types (for example, preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.
+
+### Assign a group or job type to a run
+
+Each run in W&B can be categorized by **group** and a **job type**:
+
+- **Group**: a broad category for the experiment, used to organize and filter runs.
+- **Job type**: the function of the run, such as `preprocessing`, `training`, or `evaluation`.
+
+The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colorts to represent the amount of data used:
+
+- **Yellow to dark green** indicate increasing amounts of data for the baseline model.
+- **Light blue to violet to magenta** indicate amounts of data for a more complex "double" model with additional parameters.
+
+Use W&B's filtering options and search bar to compare runs based on specific conditions, such as:
+- Training on the same dataset.
+- Evaluating on the same test set.
+
+When you apply filters, the **Table** view is updated automatically. This allows you to identify performance differences between models, such as determining which classes are significantly more challenging for one model compared to another.
+
 <!-- ### Search runs
 
 Search for a specific run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
