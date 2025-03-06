@@ -94,8 +94,7 @@ A [run]({{< relref "/guides/models/track/runs/" >}}) is the basic building block
 
 ## Put it all together
 
-Putting it all together, your training script might look similar to the following code example. The highlighted code shows W&B-specific code. 
-Note that we added code that mimics machine learning training.
+Putting it all together, your training script might look similar to the following code example.
 
 ```python
 # train.py
