@@ -15,29 +15,73 @@ title: Tutorials
 no_list: true
 ---
 
+## Fundamentals
+
 The following tutorials take you through the fundamentals of W&B for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
 
-1. [Track experiments]({{< relref "/tutorials/experiments/" >}}) 
-2. [Visualize predictions]({{< relref "/tutorials/tables/" >}})
-3. [Tune hyperparameters]({{< relref "/tutorials/sweeps/" >}})
-4. [Track models and datasets]({{< relref "/tutorials/artifacts/" >}})
+{{< cardpane >}}
+  {{< card >}}
+    <a href="/tutorials/experiments/">
+      <h2 className="card-title">Track experiments</h2>
+      <p className="card-content">Use W&B for machine learning experiment tracking, model checkpointing, collaboration with your team and more.</p>
+    </a>
+  {{< /card >}}
+  {{< card >}}
+    <a href="/tutorials/tables/">
+      <h2 className="card-title">Visualize predictions</h2>
+      <p className="card-content">Track, visualize, and compare model predictions over the course of training, using PyTorch on MNIST data.</p>
+    </a>
+  {{< /card >}}
+{{< /cardpane >}}
+
+{{< cardpane >}}
+  {{< card >}}
+    <a href="/tutorials/sweeps/">
+      <h2 className="card-title">Tune hyperparameters</h2>
+      <p className="card-content">Use W&B Sweeps to create an organized way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, and more.</p>
+    </a>
+  {{< /card >}}
+  {{< card >}}
+    <a href="/tutorials/artifacts/">
+      <h2 className="card-title">Track models and datasets</h2>
+      <p className="card-content">Track your ML experiment pipelines using W&B Artifacts.</p>
+    </a>
+  {{< /card >}}
+{{< /cardpane >}}
 
 
 ## Popular ML framework tutorials
 See the following tutorials for step by step information on how to use popular ML frameworks and libraries with W&B:
 
-- [PyTorch]({{< relref "/tutorials/integration-tutorials/pytorch" >}})
-- [PyTorch Lightning]({{< relref "/tutorials/integration-tutorials/lightning" >}})
-- [HuggingFace Transformers]({{< relref "/tutorials/integration-tutorials/huggingface" >}})
-- Tensorflow
-    - [Track experiments]({{< relref "/tutorials/integration-tutorials/tensorflow" >}})
-    - [Tune hyperparameters]({{< relref "/tutorials/integration-tutorials/tensorflow_sweeps/" >}})
-- Keras
-    - [Track experiments]({{< relref "/tutorials/integration-tutorials/keras/" >}})
-    - [Visualize predictions]({{< relref "/tutorials/integration-tutorials/keras_tables/" >}})
-    - [Model Checkpointing]({{< relref "/tutorials/integration-tutorials/keras_models/" >}})
-- XGBoost
-    - [Tune hyperparameters]({{< relref "/tutorials/integration-tutorials/xgboost_sweeps/" >}})
+{{< cardpane >}}
+  {{< card >}}
+    <a href="/tutorials/pytorch">
+      <h2 className="card-title">PyTorch</h2>
+      <p className="card-content">Integrate W&B with your PyTorch code to add experiment tracking to your pipeline.</p>
+    </a>
+  {{< /card >}}
+  {{< card >}}
+    <a href="/tutorials/huggingface">
+      <h2 className="card-title">HuggingFace Transformers</h2>
+      <p className="card-content">Visualize your Hugging Face model’s performance quickly with the W&B integration.</p>
+    </a>
+  {{< /card >}}
+{{< /cardpane >}}
+
+{{< cardpane >}}
+  {{< card >}}
+    <a href="/tutorials/tensorflow">
+      <h2 className="card-title">Keras</h2>
+      <p className="card-content">Use W&B and Keras for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
+    </a>
+  {{< /card >}}
+  {{< card >}}
+    <a href="/tutorials/xgboost_sweeps/">
+      <h2 className="card-title">XGBoost</h2>
+      <p className="card-content">Use W&B and XGBoost for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
+    </a>
+  {{< /card >}}
+{{< /cardpane >}}
 
 
 
@@ -58,3 +102,4 @@ Visit the W&B AI Academy to learn how to train, fine-tune and use LLMs in your a
 - W&B Models 
     - [W&B 101](https://wandb.ai/site/courses/101/?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [W&B 201: Model Registry](https://www.wandb.courses/courses/201-model-registry?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
+
