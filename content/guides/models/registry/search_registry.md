@@ -7,7 +7,7 @@ title: Find registry items
 weight: 7
 --- 
 
-Use the global search bar in the W&B Registry App to find a specific registry, collection, collection tag, artifact version tag, or artifact version alias. For more advanced search queries, you can use the W&B Python SDK to filter registries, collections, and artifact versions based on one or more MongoDB-style queries.
+Use the global search bar in the W&B Registry App to find a specific registry, collection, artifact version tag, collection tag, or alias. For advanced search queries, use the W&B Python SDK to filter registries, collections, and artifact versions based on one or more MongoDB-style queries.
 
 Only items that you have permission to view appear in the search results.
 
