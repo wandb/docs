@@ -11,7 +11,7 @@ weight: 1
 
 W&B Secret Manager allows you to securely and centrally store, manage, and inject _secrets_, which are sensitive strings such as passwords, API keys, or certificates. W&B Secret Manager removes the need to add sensitive strings directly to your code or to the configuration of an [automation]({{< relref "/guides/models/automations/" >}}).
 
-Secrets are stored and managed in each team's Secret Manager.
+Secrets are stored and managed in each team's Secret Manager, in the **Team secrets** section of the [team settings]({{< relref "/guides/models/app/settings-page/team-settings/" >}}).
 
 {{% alert %}}
 * Only W&B Admins can create, edit, or delete a secret.
