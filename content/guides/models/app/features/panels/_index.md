@@ -108,7 +108,7 @@ Share the link with the user or team. When they access the link, the panel opens
 To return to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
 
 ### Compose a panel's full-screen link programmatically
-In certain situations, such as when [creating an automation]({{< relref "/guides/models/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
+In certain situations, such as when [creating an automation]({{< relref "/guides/core/automations/" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
 
 ```text
 https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&panelSectionName=<SECTON_NAME>
