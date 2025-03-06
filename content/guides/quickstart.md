@@ -94,21 +94,18 @@ A [run]({{< relref "/guides/models/track/runs/" >}}) is the basic building block
 
 ## Put it all together
 
-Putting it all together, your training script might look similar to the following code example. The highlighted code shows W&B-specific code. 
-Note that we added code that mimics machine learning training.
+Putting it all together, your training script might look similar to the following code example.
 
 ```python
 # train.py
 import wandb
 import random  # for demo script
 
-# highlight-next-line
 wandb.login()
 
 epochs = 10
 lr = 0.01
 
-# highlight-start
 run = wandb.init(
     # Set the project where this run will be logged
     project="my-awesome-project",
@@ -118,7 +115,6 @@ run = wandb.init(
         "epochs": epochs,
     },
 )
-# highlight-end
 
 offset = random.random() / 5
 print(f"lr: {lr}")
@@ -128,7 +124,6 @@ for epoch in range(2, epochs):
     acc = 1 - 2**-epoch - random.random() / epoch - offset
     loss = 2**-epoch + random.random() / epoch + offset
     print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
-    # highlight-next-line
     wandb.log({"accuracy": acc, "loss": loss})
 
 # run.log_code()
