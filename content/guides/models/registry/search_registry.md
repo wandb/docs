@@ -7,13 +7,14 @@ title: Find registry items
 weight: 7
 --- 
 
-Use the global search bar in the W&B Registry App to find a specific registry, collection, artifact version tag, collection tag, or alias. For advanced search queries, use the W&B Python SDK to filter registries, collections, and artifact versions based on one or more MongoDB-style queries.
+Use the [global search bar in the W&B Registry App]({{< relref "./search_registry.md#search-for-registry-items" >}}) to find a registry, collection, artifact version tag, collection tag, or alias. You can use MongoDB-style queries to [filter registries, collections, and artifact versions]({{< relref "./search_registry.md#query-registry-items-with-mongodb-style-queries" >}}) based on specific criteria using the W&B Python SDK.
+
 
 Only items that you have permission to view appear in the search results.
 
 ## Search for registry items
 
-To search globally:
+To search for a registry item:
 
 1. Navigate to the W&B Registry App.
 2. Specify the search term in the search bar at the top of the page. Press Enter to search.
@@ -24,11 +25,11 @@ Search results appear below the search bar if the term you specify matches an ex
 
 ## Query registry items with MongoDB-style queries
 
-Use the [`wandb.Api().registries()`]({{< relref "/ref/python/public-api/api.md#registries" >}}) method to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
+Use the [`wandb.Api().registries()`]({{< relref "/ref/python/public-api/api.md#registries" >}}) and [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
 
-The following table lists keys you can use query registries, collections, or artifact versions:
+The following table lists query names you can use based on the type of item you want to filter:
 
-| | filter key |
+| | query name |
 | ----- | ----- |
 | registries | `name`, `description`, `created_at`, `updated_at` |
 | collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
