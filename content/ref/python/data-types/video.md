@@ -2,7 +2,7 @@
 title: Video
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/video.py#L49-L251 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/video.py#L49-L251 >}}
 
 Format a video for logging to W&B.
 
@@ -43,7 +43,7 @@ run.log({"video": wandb.Video(frames, fps=4)})
 
 ### `encode`
 
-[View source](https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/video.py#L140-L179)
+[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/video.py#L140-L179)
 
 ```python
 encode(
