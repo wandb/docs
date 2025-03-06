@@ -7,7 +7,7 @@ title: Automations
 weight: 4
 ---
 
-This page describes _automations_ in W&B and shows how to create and manage them. Create an automation to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) or a [registered model is changed]({{< relref "/guides/models/registry/" >}}).
+This page describes _automations_ in W&B and shows how to create and manage them. Create an automation to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) or a [registered model is changed]({{< relref "/guides/core/registry/" >}}).
 
 An automation defines the [event scopes and types]({{< relref "#event-scopes-and-types" >}}) to watch for and the [action]({{< relref "#actions" >}}) to take when the event occurs, such as running a webhook or posting to a Slack channel.
 
@@ -16,7 +16,7 @@ An automation defines the [event scopes and types]({{< relref "#event-scopes-and
 An automation can run when a specific event occurs at a given scope, either a registry or a project.
 
 ### Registry
-For an artifact in [Registry]({{< relref "/guides/models/registry/">}}), you can configure an automation to run on these events:
+For an artifact in [Registry]({{< relref "/guides/core/registry/">}}), you can configure an automation to run on these events:
 
 - **Linking a new artifact to a collection**: Test and validate new models, datasets, etc.
 - **Adding a new alias to a version of an artifact**: Trigger a special step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `deploy` alias applied.
