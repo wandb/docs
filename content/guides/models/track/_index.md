@@ -24,29 +24,32 @@ The image above shows an example dashboard where you can view and compare metric
 
 Track a machine learning experiment with a few lines of code:
 1. Create a [W&B run]({{< relref "/guides/models/track/runs/" >}}).
-2. Store a dictionary of hyperparameters, such as learning rate or model type, into your configuration ([`wandb.config`]({{< relref "./config.md" >}})).
-3. Log metrics ([`wandb.log()`]({{< relref "./log/" >}})) over time in a training loop, such as accuracy and loss.
+2. Store a dictionary of hyperparameters, such as learning rate or model type, into your configuration ([`run.config`]({{< relref "./config.md" >}})).
+3. Log metrics ([`run.log()`]({{< relref "./log/" >}})) over time in a training loop, such as accuracy and loss.
 4. Save outputs of a run, like the model weights or a table of predictions.
 
-The proceeding pseudocode demonstrates a common W&B Experiment tracking workflow:
+The following code demonstrates a common W&B Experiment tracking workflow:
 
 ```python showLineNumbers
 # 1. Start a W&B Run
-wandb.init(entity="", project="my-project-name")
+#
+# When this block exits, it waits for logged data to finish uploading.
+# If an exception is raised, the run is marked failed.
+with wandb.init(entity="", project="my-project-name") as run:
 
-# 2. Save mode inputs and hyperparameters
-wandb.config.learning_rate = 0.01
+  # 2. Save mode inputs and hyperparameters
+  run.config.learning_rate = 0.01
 
-# Import model and data
-model, dataloader = get_model(), get_data()
+  # Import model and data
+  model, dataloader = get_model(), get_data()
 
-# Model training code goes here
+  # Model training code goes here
 
-# 3. Log metrics over time to visualize performance
-wandb.log({"loss": loss})
+  # 3. Log metrics over time to visualize performance
+  run.log({"loss": loss})
 
-# 4. Log an artifact to W&B
-wandb.log_artifact(model)
+  # 4. Log an artifact to W&B
+  run.log_artifact(model)
 ```
 
 ## How to get started
