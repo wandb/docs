@@ -2,7 +2,7 @@
 title: Image
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/image.py#L65-L689 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L65-L689 >}}
 
 Format images for logging to W&B.
 
@@ -85,7 +85,7 @@ with wandb.init() as run:
 
 ### `all_boxes`
 
-[View source](https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/image.py#L610-L631)
+[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L610-L631)
 
 ```python
 @classmethod
@@ -99,7 +99,7 @@ all_boxes(
 
 ### `all_captions`
 
-[View source](https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/image.py#L633-L637)
+[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L633-L637)
 
 ```python
 @classmethod
@@ -110,7 +110,7 @@ all_captions(
 
 ### `all_masks`
 
-[View source](https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/image.py#L587-L608)
+[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L587-L608)
 
 ```python
 @classmethod
@@ -124,7 +124,7 @@ all_masks(
 
 ### `guess_mode`
 
-[View source](https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/image.py#L474-L486)
+[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L474-L486)
 
 ```python
 guess_mode(
@@ -136,7 +136,7 @@ Guess what type of image the np.array is representing.
 
 ### `to_uint8`
 
-[View source](https://www.github.com/wandb/wandb/tree/2678738e59629208ad4770e3d36300a272147c05/wandb/sdk/data_types/image.py#L488-L511)
+[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L488-L511)
 
 ```python
 @classmethod
