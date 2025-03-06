@@ -1,0 +1,1469 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Weights & Biases API",
+    "version": "0.19.9",
+    "description": "Use wandb to track machine learning work.\n\nTrain and fine-tune models, manage models from experimentation to production.\n\nFor guides and examples, see https://docs.wandb.ai.\n\nFor scripts and interactive notebooks, see https://github.com/wandb/examples.\n\nFor reference documentation, see https://docs.wandb.com/ref/python.\n"
+  },
+  "paths": {
+    "/require": {
+      "post": {
+        "summary": "require",
+        "description": "Indicate which experimental features are used by the script.\n\nThis should be called before any other `wandb` functions, ideally right\nafter importing `wandb`.\n\nArgs:\n    requirement: The name of a feature to require or an iterable of\n        feature names.\n    experiment: An alias for `requirement`.\n\nRaises:\n    wandb.errors.UnsupportedError: If a feature name is unknown.",
+        "parameters": [
+          {
+            "name": "requirement",
+            "in": "query",
+            "description": "The name of a feature to require or an iterable of feature names.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d82bd0>"
+            },
+            "required": true
+          },
+          {
+            "name": "experiment",
+            "in": "query",
+            "description": "An alias for `requirement`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d827d0>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnsupportedError: If a feature name is unknown."
+          }
+        }
+      }
+    },
+    "/setup": {
+      "post": {
+        "summary": "setup",
+        "description": "Prepares W&B for use in the current process and its children.\n\nYou can usually ignore this as it is implicitly called by `wandb.init()`.\n\nWhen using wandb in multiple processes, calling `wandb.setup()`\nin the parent process before starting child processes may improve\nperformance and resource utilization.\n\nNote that `wandb.setup()` modifies `os.environ`, and it is important\nthat child processes inherit the modified environment variables.\n\nSee also `wandb.teardown()`.\n\nArgs:\n    settings: Configuration settings to apply globally. These can be\n        overridden by subsequent `wandb.init()` calls.\n\nExample:\n    ```python\n    import multiprocessing\n\n    import wandb\n\n    def run_experiment(params):\n        with wandb.init(config=params):\n            # Run experiment\n            pass\n\n    if __name__ == \"__main__\":\n        # Start backend and set global config\n        wandb.setup(settings={\"project\": \"my_project\"})\n\n        # Define experiment parameters\n        experiment_params = [\n            {\"learning_rate\": 0.01, \"epochs\": 10},\n            {\"learning_rate\": 0.001, \"epochs\": 20},\n        ]\n\n        # Start multiple processes, each running a separate experiment\n        processes = []\n        for params in experiment_params:\n            p = multiprocessing.Process(target=run_experiment, args=(params,))\n            p.start()\n            processes.append(p)\n\n        # Wait for all processes to complete\n        for p in processes:\n            p.join()\n\n        # Optional: Explicitly shut down the backend\n        wandb.teardown()\n    ```",
+        "parameters": [
+          {
+            "name": "settings",
+            "in": "query",
+            "description": "Configuration settings to apply globally. These can be overridden by subsequent `wandb.init()` calls.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d81d90>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "_WandbSetup"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/teardown": {
+      "post": {
+        "summary": "teardown",
+        "description": "Waits for wandb to finish and frees resources.\n\nCompletes any runs that were not explicitly finished\nusing `run.finish()` and waits for all data to be uploaded.\n\nIt is recommended to call this at the end of a session\nthat used `wandb.setup()`. It is invoked automatically\nin an `atexit` hook, but this is not reliable in certain setups\nsuch as when using Python's `multiprocessing` module.",
+        "parameters": [
+          {
+            "name": "exit_code",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d81590>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/init": {
+      "post": {
+        "summary": "init",
+        "description": "Start a new run to track and log to W&B.\n\nIn an ML training pipeline, you could add `wandb.init()` to the beginning of\nyour training script as well as your evaluation script, and each piece would\nbe tracked as a run in W&B.\n\n`wandb.init()` spawns a new background process to log data to a run, and it\nalso syncs data to https://wandb.ai by default, so you can see your results\nin real-time.\n\nCall `wandb.init()` to start a run before logging data with `wandb.log()`.\nWhen you're done logging data, call `wandb.finish()` to end the run. If you\ndon't call `wandb.finish()`, the run will end when your script exits.\n\nFor more on using `wandb.init()`, including detailed examples, check out our\n[guide and FAQs](https://docs.wandb.ai/guides/track/launch).\n\nExamples:\n    ### Explicitly set the entity and project and choose a name for the run:\n\n    ```python\n    import wandb\n\n    run = wandb.init(\n        entity=\"geoff\",\n        project=\"capsules\",\n        name=\"experiment-2021-10-31\",\n    )\n\n    # ... your training code here ...\n\n    run.finish()\n    ```\n\n    ### Add metadata about the run using the `config` argument:\n\n    ```python\n    import wandb\n\n    config = {\"lr\": 0.01, \"batch_size\": 32}\n    with wandb.init(config=config) as run:\n        run.config.update({\"architecture\": \"resnet\", \"depth\": 34})\n\n        # ... your training code here ...\n    ```\n\n    Note that you can use `wandb.init()` as a context manager to automatically\n    call `wandb.finish()` at the end of the block.\n\nArgs:\n    entity: The username or team name under which the runs will be logged.\n        The entity must already exist, so ensure you\u2019ve created your account\n        or team in the UI before starting to log runs. If not specified, the\n        run will default your default entity. To change the default entity,\n        go to [your settings](https://wandb.ai/settings) and update the\n        \"Default location to create new projects\" under \"Default team\".\n    project: The name of the project under which this run will be logged.\n        If not specified, we use a heuristic to infer the project name based\n        on the system, such as checking the git root or the current program\n        file. If we can't infer the project name, the project will default to\n        `\"uncategorized\"`.\n    dir: The absolute path to the directory where experiment logs and\n        metadata files are stored. If not specified, this defaults\n        to the `./wandb` directory. Note that this does not affect the\n        location where artifacts are stored when calling `download()`.\n    id: A unique identifier for this run, used for resuming. It must be unique\n        within the project and cannot be reused once a run is deleted. The\n        identifier must not contain any of the following special characters:\n        `/ \\ # ? % :`. For a short descriptive name, use the `name` field,\n        or for saving hyperparameters to compare across runs, use `config`.\n    name: A short display name for this run, which appears in the UI to help\n        you identify it. By default, we generate a random two-word name\n        allowing easy cross-reference runs from table to charts. Keeping these\n        run names brief enhances readability in chart legends and tables. For\n        saving hyperparameters, we recommend using the `config` field.\n    notes: A detailed description of the run, similar to a commit message in\n        Git. Use this argument to capture any context or details that may\n        help you recall the purpose or setup of this run in the future.\n    tags: A list of tags to label this run in the UI. Tags are helpful for\n        organizing runs or adding temporary identifiers like \"baseline\" or\n        \"production.\" You can easily add, remove tags, or filter by tags in\n        the UI.\n        If resuming a run, the tags provided here will replace any existing\n        tags. To add tags to a resumed run without overwriting the current\n        tags, use `run.tags += [\"new_tag\"]` after calling `run = wandb.init()`.\n    config: Sets `wandb.config`, a dictionary-like object for storing input\n        parameters to your run, such as model hyperparameters or data\n        preprocessing settings.\n        The config appears in the UI in an overview page, allowing you to\n        group, filter, and sort runs based on these parameters.\n        Keys should not contain periods (`.`), and values should be\n        smaller than 10 MB.\n        If a dictionary, `argparse.Namespace`, or `absl.flags.FLAGS` is\n        provided, the key-value pairs will be loaded directly into\n        `wandb.config`.\n        If a string is provided, it is interpreted as a path to a YAML file,\n        from which configuration values will be loaded into `wandb.config`.\n    config_exclude_keys: A list of specific keys to exclude from `wandb.config`.\n    config_include_keys: A list of specific keys to include in `wandb.config`.\n    allow_val_change: Controls whether config values can be modified after their\n        initial set. By default, an exception is raised if a config value is\n        overwritten. For tracking variables that change during training, such as\n        a learning rate, consider using `wandb.log()` instead. By default, this\n        is `False` in scripts and `True` in Notebook environments.\n    group: Specify a group name to organize individual runs as part of a larger\n        experiment. This is useful for cases like cross-validation or running\n        multiple jobs that train and evaluate a model on different test sets.\n        Grouping allows you to manage related runs collectively in the UI,\n        making it easy to toggle and review results as a unified experiment.\n        For more information, refer to our\n        [guide to grouping runs](https://docs.wandb.com/guides/runs/grouping).\n    job_type: Specify the type of run, especially helpful when organizing runs\n        within a group as part of a larger experiment. For example, in a group,\n        you might label runs with job types such as \"train\" and \"eval\".\n        Defining job types enables you to easily filter and group similar runs\n        in the UI, facilitating direct comparisons.\n    mode: Specifies how run data is managed, with the following options:\n        - `\"online\"` (default): Enables live syncing with W&B when a network\n            connection is available, with real-time updates to visualizations.\n        - `\"offline\"`: Suitable for air-gapped or offline environments; data\n            is saved locally and can be synced later. Ensure the run folder\n            is preserved to enable future syncing.\n        - `\"disabled\"`: Disables all W&B functionality, making the run\u2019s methods\n            no-ops. Typically used in testing to bypass W&B operations.\n    force: Determines if a W&B login is required to run the script. If `True`,\n        the user must be logged in to W&B; otherwise, the script will not\n        proceed. If `False` (default), the script can proceed without a login,\n        switching to offline mode if the user is not logged in.\n    anonymous: Specifies the level of control over anonymous data logging.\n        Available options are:\n        - `\"never\"` (default): Requires you to link your W&B account before\n            tracking the run. This prevents unintentional creation of anonymous\n            runs by ensuring each run is associated with an account.\n        - `\"allow\"`: Enables a logged-in user to track runs with their account,\n            but also allows someone running the script without a W&B account\n            to view the charts and data in the UI.\n        - `\"must\"`: Forces the run to be logged to an anonymous account, even\n            if the user is logged in.\n    reinit: Determines if multiple `wandb.init()` calls can start new runs\n        within the same process. By default (`False`), if an active run\n        exists, calling `wandb.init()` returns the existing run instead of\n        creating a new one. When `reinit=True`, the active run is finished\n        before a new run is initialized. In notebook environments, runs are\n        reinitialized by default unless `reinit` is explicitly set to `False`.\n    resume: Controls the behavior when resuming a run with the specified `id`.\n        Available options are:\n        - `\"allow\"`: If a run with the specified `id` exists, it will resume\n            from the last step; otherwise, a new run will be created.\n        - `\"never\"`: If a run with the specified `id` exists, an error will\n            be raised. If no such run is found, a new run will be created.\n        - `\"must\"`: If a run with the specified `id` exists, it will resume\n            from the last step. If no run is found, an error will be raised.\n        - `\"auto\"`: Automatically resumes the previous run if it crashed on\n            this machine; otherwise, starts a new run.\n        - `True`: Deprecated. Use `\"auto\"` instead.\n        - `False`: Deprecated. Use the default behavior (leaving `resume`\n            unset) to always start a new run.\n        Note: If `resume` is set, `fork_from` and `resume_from` cannot be\n        used. When `resume` is unset, the system will always start a new run.\n        For more details, see our\n        [guide to resuming runs](https://docs.wandb.com/guides/runs/resuming).\n    resume_from: Specifies a moment in a previous run to resume a run from,\n        using the format `{run_id}?_step={step}`. This allows users to truncate\n        the history logged to a run at an intermediate step and resume logging\n        from that step. The target run must be in the same project.\n        If an `id` argument is also provided, the `resume_from` argument will\n        take precedence.\n        `resume`, `resume_from` and `fork_from` cannot be used together, only\n        one of them can be used at a time.\n        Note: This feature is in beta and may change in the future.\n    fork_from: Specifies a point in a previous run from which to fork a new\n        run, using the format `{id}?_step={step}`. This creates a new run that\n        resumes logging from the specified step in the target run\u2019s history.\n        The target run must be part of the current project.\n        If an `id` argument is also provided, it must be different from the\n        `fork_from` argument, an error will be raised if they are the same.\n        `resume`, `resume_from` and `fork_from` cannot be used together, only\n        one of them can be used at a time.\n        Note: This feature is in beta and may change in the future.\n    save_code: Enables saving the main script or notebook to W&B, aiding in\n        experiment reproducibility and allowing code comparisons across runs in\n        the UI. By default, this is disabled, but you can change the default to\n        enable on your [settings page](https://wandb.ai/settings).\n    tensorboard: Deprecated. Use `sync_tensorboard` instead.\n    sync_tensorboard: Enables automatic syncing of W&B logs from TensorBoard\n        or TensorBoardX, saving relevant event files for viewing in the W&B UI.\n        saving relevant event files for viewing in the W&B UI. (Default: `False`)\n    monitor_gym: Enables automatic logging of videos of the environment when\n        using OpenAI Gym. For additional details, see our\n        [guide for gym integration](https://docs.wandb.com/guides/integrations/openai-gym).\n    settings: Specifies a dictionary or `wandb.Settings` object with advanced\n        settings for the run.\n\nReturns:\n    A `Run` object, which is a handle to the current run. Use this object\n    to perform operations like logging data, saving files, and finishing\n    the run. See the [Run API](https://docs.wandb.ai/ref/python/run) for\n    more details.\n\nRaises:\n    Error: If some unknown or internal error happened during the run\n        initialization.\n    AuthenticationError: If the user failed to provide valid credentials.\n    CommError: If there was a problem communicating with the W&B server.\n    UsageError: If the user provided invalid arguments to the function.\n    KeyboardInterrupt: If the user interrupts the run initialization process.\n        If the user interrupts the run initialization process.",
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "query",
+            "description": "The username or team name under which the runs will be logged. The entity must already exist, so ensure you\u2019ve created your account or team in the UI before starting to log runs. If not specified, the run will default your default entity. To change the default entity, go to [your settings](https://wandb.ai/settings) and update the \"Default location to create new projects\" under \"Default team\".",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d80d90>"
+            },
+            "required": true
+          },
+          {
+            "name": "project",
+            "in": "query",
+            "description": "The name of the project under which this run will be logged. If not specified, we use a heuristic to infer the project name based on the system, such as checking the git root or the current program file. If we can't infer the project name, the project will default to `\"uncategorized\"`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d80b90>"
+            },
+            "required": true
+          },
+          {
+            "name": "dir",
+            "in": "query",
+            "description": "The absolute path to the directory where experiment logs and metadata files are stored. If not specified, this defaults to the `./wandb` directory. Note that this does not affect the location where artifacts are stored when calling `download()`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d80990>"
+            },
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "A unique identifier for this run, used for resuming. It must be unique within the project and cannot be reused once a run is deleted. The identifier must not contain any of the following special characters: `/ \\ # ? % :`. For a short descriptive name, use the `name` field, or for saving hyperparameters to compare across runs, use `config`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d80790>"
+            },
+            "required": true
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "A short display name for this run, which appears in the UI to help you identify it. By default, we generate a random two-word name allowing easy cross-reference runs from table to charts. Keeping these run names brief enhances readability in chart legends and tables. For saving hyperparameters, we recommend using the `config` field.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d80590>"
+            },
+            "required": true
+          },
+          {
+            "name": "notes",
+            "in": "query",
+            "description": "A detailed description of the run, similar to a commit message in Git. Use this argument to capture any context or details that may help you recall the purpose or setup of this run in the future.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d80390>"
+            },
+            "required": true
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "A list of tags to label this run in the UI. Tags are helpful for organizing runs or adding temporary identifiers like \"baseline\" or \"production.\" You can easily add, remove tags, or filter by tags in the UI. If resuming a run, the tags provided here will replace any existing tags. To add tags to a resumed run without overwriting the current tags, use `run.tags += [\"new_tag\"]` after calling `run = wandb.init()`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d80190>"
+            },
+            "required": true
+          },
+          {
+            "name": "config",
+            "in": "query",
+            "description": "Sets `wandb.config`, a dictionary-like object for storing input parameters to your run, such as model hyperparameters or data preprocessing settings. The config appears in the UI in an overview page, allowing you to group, filter, and sort runs based on these parameters. Keys should not contain periods (`.`), and values should be smaller than 10 MB. If a dictionary, `argparse.Namespace`, or `absl.flags.FLAGS` is provided, the key-value pairs will be loaded directly into `wandb.config`. If a string is provided, it is interpreted as a path to a YAML file, from which configuration values will be loaded into `wandb.config`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d7be50>"
+            },
+            "required": true
+          },
+          {
+            "name": "config_exclude_keys",
+            "in": "query",
+            "description": "A list of specific keys to exclude from `wandb.config`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d7b910>"
+            },
+            "required": true
+          },
+          {
+            "name": "config_include_keys",
+            "in": "query",
+            "description": "A list of specific keys to include in `wandb.config`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d7b610>"
+            },
+            "required": true
+          },
+          {
+            "name": "allow_val_change",
+            "in": "query",
+            "description": "Controls whether config values can be modified after their initial set. By default, an exception is raised if a config value is overwritten. For tracking variables that change during training, such as a learning rate, consider using `wandb.log()` instead. By default, this is `False` in scripts and `True` in Notebook environments.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d7b310>"
+            },
+            "required": true
+          },
+          {
+            "name": "group",
+            "in": "query",
+            "description": "Specify a group name to organize individual runs as part of a larger experiment. This is useful for cases like cross-validation or running multiple jobs that train and evaluate a model on different test sets. Grouping allows you to manage related runs collectively in the UI, making it easy to toggle and review results as a unified experiment. For more information, refer to our [guide to grouping runs](https://docs.wandb.com/guides/runs/grouping).",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d7b110>"
+            },
+            "required": true
+          },
+          {
+            "name": "job_type",
+            "in": "query",
+            "description": "Specify the type of run, especially helpful when organizing runs within a group as part of a larger experiment. For example, in a group, you might label runs with job types such as \"train\" and \"eval\". Defining job types enables you to easily filter and group similar runs in the UI, facilitating direct comparisons.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d7af10>"
+            },
+            "required": true
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "Specifies how run data is managed, with the following options: - `\"online\"` (default): Enables live syncing with W&B when a network connection is available, with real-time updates to visualizations. - `\"offline\"`: Suitable for air-gapped or offline environments; data is saved locally and can be synced later. Ensure the run folder is preserved to enable future syncing. - `\"disabled\"`: Disables all W&B functionality, making the run\u2019s methods no-ops. Typically used in testing to bypass W&B operations.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d7ad10>"
+            },
+            "required": true
+          },
+          {
+            "name": "force",
+            "in": "query",
+            "description": "Determines if a W&B login is required to run the script. If `True`, the user must be logged in to W&B; otherwise, the script will not proceed. If `False` (default), the script can proceed without a login, switching to offline mode if the user is not logged in.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d7a110>"
+            },
+            "required": true
+          },
+          {
+            "name": "anonymous",
+            "in": "query",
+            "description": "Specifies the level of control over anonymous data logging. Available options are: - `\"never\"` (default): Requires you to link your W&B account before tracking the run. This prevents unintentional creation of anonymous runs by ensuring each run is associated with an account. - `\"allow\"`: Enables a logged-in user to track runs with their account, but also allows someone running the script without a W&B account to view the charts and data in the UI. - `\"must\"`: Forces the run to be logged to an anonymous account, even if the user is logged in.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d79f10>"
+            },
+            "required": true
+          },
+          {
+            "name": "reinit",
+            "in": "query",
+            "description": "Determines if multiple `wandb.init()` calls can start new runs within the same process. By default (`False`), if an active run exists, calling `wandb.init()` returns the existing run instead of creating a new one. When `reinit=True`, the active run is finished before a new run is initialized. In notebook environments, runs are reinitialized by default unless `reinit` is explicitly set to `False`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d79a50>"
+            },
+            "required": true
+          },
+          {
+            "name": "resume",
+            "in": "query",
+            "description": "Controls the behavior when resuming a run with the specified `id`. Available options are: - `\"allow\"`: If a run with the specified `id` exists, it will resume from the last step; otherwise, a new run will be created. - `\"never\"`: If a run with the specified `id` exists, an error will be raised. If no such run is found, a new run will be created. - `\"must\"`: If a run with the specified `id` exists, it will resume from the last step. If no run is found, an error will be raised. - `\"auto\"`: Automatically resumes the previous run if it crashed on this machine; otherwise, starts a new run. - `True`: Deprecated. Use `\"auto\"` instead. - `False`: Deprecated. Use the default behavior (leaving `resume` unset) to always start a new run.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d79850>"
+            },
+            "required": true
+          },
+          {
+            "name": "resume_from",
+            "in": "query",
+            "description": "Specifies a moment in a previous run to resume a run from, using the format `{run_id}?_step={step}`. This allows users to truncate the history logged to a run at an intermediate step and resume logging from that step. The target run must be in the same project. If an `id` argument is also provided, the `resume_from` argument will take precedence. `resume`, `resume_from` and `fork_from` cannot be used together, only one of them can be used at a time.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d79210>"
+            },
+            "required": true
+          },
+          {
+            "name": "fork_from",
+            "in": "query",
+            "description": "Specifies a point in a previous run from which to fork a new run, using the format `{id}?_step={step}`. This creates a new run that resumes logging from the specified step in the target run\u2019s history. The target run must be part of the current project. If an `id` argument is also provided, it must be different from the `fork_from` argument, an error will be raised if they are the same. `resume`, `resume_from` and `fork_from` cannot be used together, only one of them can be used at a time.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d79010>"
+            },
+            "required": true
+          },
+          {
+            "name": "save_code",
+            "in": "query",
+            "description": "Enables saving the main script or notebook to W&B, aiding in experiment reproducibility and allowing code comparisons across runs in the UI. By default, this is disabled, but you can change the default to enable on your [settings page](https://wandb.ai/settings).",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d78e10>"
+            },
+            "required": true
+          },
+          {
+            "name": "tensorboard",
+            "in": "query",
+            "description": "Deprecated. Use `sync_tensorboard` instead.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d78c10>"
+            },
+            "required": true
+          },
+          {
+            "name": "sync_tensorboard",
+            "in": "query",
+            "description": "Enables automatic syncing of W&B logs from TensorBoard or TensorBoardX, saving relevant event files for viewing in the W&B UI. saving relevant event files for viewing in the W&B UI. (Default: `False`)",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d78a10>"
+            },
+            "required": true
+          },
+          {
+            "name": "monitor_gym",
+            "in": "query",
+            "description": "Enables automatic logging of videos of the environment when using OpenAI Gym. For additional details, see our [guide for gym integration](https://docs.wandb.com/guides/integrations/openai-gym).",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d78810>"
+            },
+            "required": true
+          },
+          {
+            "name": "settings",
+            "in": "query",
+            "description": "Specifies a dictionary or `wandb.Settings` object with advanced settings for the run.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d78610>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A `Run` object, which is a handle to the current run. Use this object to perform operations like logging data, saving files, and finishing the run. See the [Run API](https://docs.wandb.ai/ref/python/run) for more details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "Run"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UsageError: If the user provided invalid arguments to the function. KeyboardInterrupt: If the user interrupts the run initialization process. If the user interrupts the run initialization process."
+          }
+        }
+      }
+    },
+    "/finish": {
+      "post": {
+        "summary": "finish",
+        "description": "Finish a run and upload any remaining data.\n\nMarks the completion of a W&B run and ensures all data is synced to the server.\nThe run's final state is determined by its exit conditions and sync status.\n\nRun States:\n- Running: Active run that is logging data and/or sending heartbeats.\n- Crashed: Run that stopped sending heartbeats unexpectedly.\n- Finished: Run completed successfully (`exit_code=0`) with all data synced.\n- Failed: Run completed with errors (`exit_code!=0`).\n\nArgs:\n    exit_code: Integer indicating the run's exit status. Use 0 for success,\n        any other value marks the run as failed.\n    quiet: Deprecated. Configure logging verbosity using `wandb.Settings(quiet=...)`.",
+        "parameters": [
+          {
+            "name": "exit_code",
+            "in": "query",
+            "description": "Integer indicating the run's exit status. Use 0 for success, any other value marks the run as failed.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d72a90>"
+            },
+            "required": true
+          },
+          {
+            "name": "quiet",
+            "in": "query",
+            "description": "Deprecated. Configure logging verbosity using `wandb.Settings(quiet=...)`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d72890>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "login",
+        "description": "Set up W&B login credentials.\n\nBy default, this will only store credentials locally without\nverifying them with the W&B server. To verify credentials, pass\n`verify=True`.\n\nArgs:\n    anonymous: (string, optional) Can be \"must\", \"allow\", or \"never\".\n        If set to \"must\", always log a user in anonymously. If set to\n        \"allow\", only create an anonymous user if the user\n        isn't already logged in. If set to \"never\", never log a\n        user anonymously. Default set to \"never\".\n    key: (string, optional) The API key to use.\n    relogin: (bool, optional) If true, will re-prompt for API key.\n    host: (string, optional) The host to connect to.\n    force: (bool, optional) If true, will force a relogin.\n    timeout: (int, optional) Number of seconds to wait for user input.\n    verify: (bool) Verify the credentials with the W&B server.\n\nReturns:\n    bool: if key is configured\n\nRaises:\n    AuthenticationError - if api_key fails verification with the server\n    UsageError - if api_key cannot be configured and no tty",
+        "parameters": [
+          {
+            "name": "anonymous",
+            "in": "query",
+            "description": "(string, optional) Can be \"must\", \"allow\", or \"never\". If set to \"must\", always log a user in anonymously. If set to \"allow\", only create an anonymous user if the user isn't already logged in. If set to \"never\", never log a user anonymously. Default set to \"never\".",
+            "schema": {
+              "enum": [
+                "(must",
+                "allow",
+                "never)"
+              ],
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "(string, optional) The API key to use.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "relogin",
+            "in": "query",
+            "description": "(bool, optional) If true, will re-prompt for API key.",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "host",
+            "in": "query",
+            "description": "(string, optional) The host to connect to.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "force",
+            "in": "query",
+            "description": "(bool, optional) If true, will force a relogin.",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "timeout",
+            "in": "query",
+            "description": "(int, optional) Number of seconds to wait for user input.",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "verify",
+            "in": "query",
+            "description": "(bool) Verify the credentials with the W&B server.",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "bool: if key is configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UsageError: if api_key cannot be configured and no tty"
+          }
+        }
+      }
+    },
+    "/log": {
+      "post": {
+        "summary": "log",
+        "description": "Upload run data.\n\nUse `log` to log data from runs, such as scalars, images, video,\nhistograms, plots, and tables.\n\nSee our [guides to logging](https://docs.wandb.ai/guides/track/log) for\nlive examples, code snippets, best practices, and more.\n\nThe most basic usage is `run.log({\"train-loss\": 0.5, \"accuracy\": 0.9})`.\nThis will save the loss and accuracy to the run's history and update\nthe summary values for these metrics.\n\nVisualize logged data in the workspace at [wandb.ai](https://wandb.ai),\nor locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)\nof the W&B app, or export data to visualize and explore locally, e.g. in\nJupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).\n\nLogged values don't have to be scalars. Logging any wandb object is supported.\nFor example `run.log({\"example\": wandb.Image(\"myimage.jpg\")})` will log an\nexample image which will be displayed nicely in the W&B UI.\nSee the [reference documentation](https://docs.wandb.com/ref/python/data-types)\nfor all of the different supported types or check out our\n[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,\nfrom 3D molecular structures and segmentation masks to PR curves and histograms.\nYou can use `wandb.Table` to log structured data. See our\n[guide to logging tables](https://docs.wandb.ai/guides/models/tables/tables-walkthrough)\nfor details.\n\nThe W&B UI organizes metrics with a forward slash (`/`) in their name\ninto sections named using the text before the final slash. For example,\nthe following results in two sections named \"train\" and \"validate\":\n\n```\nrun.log(\n    {\n        \"train/accuracy\": 0.9,\n        \"train/loss\": 30,\n        \"validate/accuracy\": 0.8,\n        \"validate/loss\": 20,\n    }\n)\n```\n\nOnly one level of nesting is supported; `run.log({\"a/b/c\": 1})`\nproduces a section named \"a/b\".\n\n`run.log` is not intended to be called more than a few times per second.\nFor optimal performance, limit your logging to once every N iterations,\nor collect data over multiple iterations and log it in a single step.\n\n### The W&B step\n\nWith basic usage, each call to `log` creates a new \"step\".\nThe step must always increase, and it is not possible to log\nto a previous step.\n\nNote that you can use any metric as the X axis in charts.\nIn many cases, it is better to treat the W&B step like\nyou'd treat a timestamp rather than a training step.\n\n```\n# Example: log an \"epoch\" metric for use as an X axis.\nrun.log({\"epoch\": 40, \"train-loss\": 0.5})\n```\n\nSee also [define_metric](https://docs.wandb.ai/ref/python/run#define_metric).\n\nIt is possible to use multiple `log` invocations to log to\nthe same step with the `step` and `commit` parameters.\nThe following are all equivalent:\n\n```\n# Normal usage:\nrun.log({\"train-loss\": 0.5, \"accuracy\": 0.8})\nrun.log({\"train-loss\": 0.4, \"accuracy\": 0.9})\n\n# Implicit step without auto-incrementing:\nrun.log({\"train-loss\": 0.5}, commit=False)\nrun.log({\"accuracy\": 0.8})\nrun.log({\"train-loss\": 0.4}, commit=False)\nrun.log({\"accuracy\": 0.9})\n\n# Explicit step:\nrun.log({\"train-loss\": 0.5}, step=current_step)\nrun.log({\"accuracy\": 0.8}, step=current_step)\ncurrent_step += 1\nrun.log({\"train-loss\": 0.4}, step=current_step)\nrun.log({\"accuracy\": 0.9}, step=current_step)\n```\n\nArgs:\n    data: A `dict` with `str` keys and values that are serializable\n        Python objects including: `int`, `float` and `string`;\n        any of the `wandb.data_types`; lists, tuples and NumPy arrays\n        of serializable Python objects; other `dict`s of this\n        structure.\n    step: The step number to log. If `None`, then an implicit\n        auto-incrementing step is used. See the notes in\n        the description.\n    commit: If true, finalize and upload the step. If false, then\n        accumulate data for the step. See the notes in the description.\n        If `step` is `None`, then the default is `commit=True`;\n        otherwise, the default is `commit=False`.\n    sync: This argument is deprecated and does nothing.\n\nExamples:\n    For more and more detailed examples, see\n    [our guides to logging](https://docs.wandb.com/guides/track/log).\n\n    ### Basic usage\n    ```python\n    import wandb\n\n    run = wandb.init()\n    run.log({\"accuracy\": 0.9, \"epoch\": 5})\n    ```\n\n    ### Incremental logging\n    ```python\n    import wandb\n\n    run = wandb.init()\n    run.log({\"loss\": 0.2}, commit=False)\n    # Somewhere else when I'm ready to report this step:\n    run.log({\"accuracy\": 0.8})\n    ```\n\n    ### Histogram\n    ```python\n    import numpy as np\n    import wandb\n\n    # sample gradients at random from normal distribution\n    gradients = np.random.randn(100, 100)\n    run = wandb.init()\n    run.log({\"gradients\": wandb.Histogram(gradients)})\n    ```\n\n    ### Image from numpy\n    ```python\n    import numpy as np\n    import wandb\n\n    run = wandb.init()\n    examples = []\n    for i in range(3):\n        pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))\n        image = wandb.Image(pixels, caption=f\"random field {i}\")\n        examples.append(image)\n    run.log({\"examples\": examples})\n    ```\n\n    ### Image from PIL\n    ```python\n    import numpy as np\n    from PIL import Image as PILImage\n    import wandb\n\n    run = wandb.init()\n    examples = []\n    for i in range(3):\n        pixels = np.random.randint(\n            low=0,\n            high=256,\n            size=(100, 100, 3),\n            dtype=np.uint8,\n        )\n        pil_image = PILImage.fromarray(pixels, mode=\"RGB\")\n        image = wandb.Image(pil_image, caption=f\"random field {i}\")\n        examples.append(image)\n    run.log({\"examples\": examples})\n    ```\n\n    ### Video from numpy\n    ```python\n    import numpy as np\n    import wandb\n\n    run = wandb.init()\n    # axes are (time, channel, height, width)\n    frames = np.random.randint(\n        low=0,\n        high=256,\n        size=(10, 3, 100, 100),\n        dtype=np.uint8,\n    )\n    run.log({\"video\": wandb.Video(frames, fps=4)})\n    ```\n\n    ### Matplotlib Plot\n    ```python\n    from matplotlib import pyplot as plt\n    import numpy as np\n    import wandb\n\n    run = wandb.init()\n    fig, ax = plt.subplots()\n    x = np.linspace(0, 10)\n    y = x * x\n    ax.plot(x, y)  # plot y = x^2\n    run.log({\"chart\": fig})\n    ```\n\n    ### PR Curve\n    ```python\n    import wandb\n\n    run = wandb.init()\n    run.log({\"pr\": wandb.plot.pr_curve(y_test, y_probas, labels)})\n    ```\n\n    ### 3D Object\n    ```python\n    import wandb\n\n    run = wandb.init()\n    run.log(\n        {\n            \"generated_samples\": [\n                wandb.Object3D(open(\"sample.obj\")),\n                wandb.Object3D(open(\"sample.gltf\")),\n                wandb.Object3D(open(\"sample.glb\")),\n            ]\n        }\n    )\n    ```\n\nRaises:\n    wandb.Error: if called before `wandb.init`\n    ValueError: if invalid data is passed",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "description": "A `dict` with `str` keys and values that are serializable Python objects including: `int`, `float` and `string`; any of the `wandb.data_types`; lists, tuples and NumPy arrays of serializable Python objects; other `dict`s of this structure.",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "format": "Any)"
+              }
+            },
+            "required": true
+          },
+          {
+            "name": "step",
+            "in": "query",
+            "description": "The step number to log. If `None`, then an implicit auto-incrementing step is used. See the notes in the description.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d9db50>"
+            },
+            "required": true
+          },
+          {
+            "name": "commit",
+            "in": "query",
+            "description": "If true, finalize and upload the step. If false, then accumulate data for the step. See the notes in the description. If `step` is `None`, then the default is `commit=True`; otherwise, the default is `commit=False`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d9d950>"
+            },
+            "required": true
+          },
+          {
+            "name": "sync",
+            "in": "query",
+            "description": "This argument is deprecated and does nothing.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d9d750>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ValueError: if invalid data is passed"
+          }
+        }
+      }
+    },
+    "/save": {
+      "post": {
+        "summary": "save",
+        "description": "Sync one or more files to W&B.\n\nRelative paths are relative to the current working directory.\n\nA Unix glob, such as \"myfiles/*\", is expanded at the time `save` is\ncalled regardless of the `policy`. In particular, new files are not\npicked up automatically.\n\nA `base_path` may be provided to control the directory structure of\nuploaded files. It should be a prefix of `glob_str`, and the directory\nstructure beneath it is preserved. It's best understood through\nexamples:\n\n```\nwandb.save(\"these/are/myfiles/*\")\n# => Saves files in a \"these/are/myfiles/\" folder in the run.\n\nwandb.save(\"these/are/myfiles/*\", base_path=\"these\")\n# => Saves files in an \"are/myfiles/\" folder in the run.\n\nwandb.save(\"/User/username/Documents/run123/*.txt\")\n# => Saves files in a \"run123/\" folder in the run. See note below.\n\nwandb.save(\"/User/username/Documents/run123/*.txt\", base_path=\"/User\")\n# => Saves files in a \"username/Documents/run123/\" folder in the run.\n\nwandb.save(\"files/*/saveme.txt\")\n# => Saves each \"saveme.txt\" file in an appropriate subdirectory\n#    of \"files/\".\n```\n\nNote: when given an absolute path or glob and no `base_path`, one\ndirectory level is preserved as in the example above.\n\nArgs:\n    glob_str: A relative or absolute path or Unix glob.\n    base_path: A path to use to infer a directory structure; see examples.\n    policy: One of `live`, `now`, or `end`.\n        * live: upload the file as it changes, overwriting the previous version\n        * now: upload the file once now\n        * end: upload file when the run ends\n\nReturns:\n    Paths to the symlinks created for the matched files.\n\n    For historical reasons, this may return a boolean in legacy code.",
+        "parameters": [
+          {
+            "name": "glob_str",
+            "in": "query",
+            "description": "A relative or absolute path or Unix glob.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d9ce50>"
+            },
+            "required": true
+          },
+          {
+            "name": "base_path",
+            "in": "query",
+            "description": "A path to use to infer a directory structure; see examples.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104d9cad0>"
+            },
+            "required": true
+          },
+          {
+            "name": "policy",
+            "in": "query",
+            "description": "One of `live`, `now`, or `end`. * live: upload the file as it changes, overwriting the previous version * now: upload the file once now * end: upload file when the run ends",
+            "schema": {
+              "type": "string",
+              "format": "PolicyName"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paths to the symlinks created for the matched files. For historical reasons, this may return a boolean in legacy code.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "<ast.BinOp object at 0x104d9c210>"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sweep": {
+      "post": {
+        "summary": "sweep",
+        "description": "Initialize a hyperparameter sweep.\n\nSearch for hyperparameters that optimizes a cost function\nof a machine learning model by testing various combinations.\n\nMake note the unique identifier, `sweep_id`, that is returned.\nAt a later step provide the `sweep_id` to a sweep agent.\n\nArgs:\n  sweep: The configuration of a hyperparameter search.\n    (or configuration generator). See\n    [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)\n    for information on how to define your sweep.\n    If you provide a callable, ensure that the callable does\n    not take arguments and that it returns a dictionary that\n    conforms to the W&B sweep config spec.\n  entity: The username or team name where you want to send W&B\n    runs created by the sweep to. Ensure that the entity you\n    specify already exists. If you don't specify an entity,\n    the run will be sent to your default entity,\n    which is usually your username.\n  project: The name of the project where W&B runs created from\n    the sweep are sent to. If the project is not specified, the\n    run is sent to a project labeled 'Uncategorized'.\n  prior_runs: The run IDs of existing runs to add to this sweep.\n\nReturns:\n  sweep_id: str. A unique identifier for the sweep.",
+        "parameters": [
+          {
+            "name": "sweep",
+            "in": "query",
+            "description": "The configuration of a hyperparameter search. (or configuration generator). See [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) for information on how to define your sweep. If you provide a callable, ensure that the callable does not take arguments and that it returns a dictionary that conforms to the W&B sweep config spec.",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "format": "(dict"
+                },
+                {
+                  "type": "string",
+                  "format": "Callable)"
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "entity",
+            "in": "query",
+            "description": "The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "project",
+            "in": "query",
+            "description": "The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled 'Uncategorized'.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "prior_runs",
+            "in": "query",
+            "description": "The run IDs of existing runs to add to this sweep.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sweep_id: str. A unique identifier for the sweep.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/controller": {
+      "post": {
+        "summary": "controller",
+        "description": "Public sweep controller constructor.\n\nUsage:\n    ```python\n    import wandb\n\n    tuner = wandb.controller(...)\n    print(tuner.sweep_config)\n    print(tuner.sweep_id)\n    tuner.configure_search(...)\n    tuner.configure_stopping(...)\n    ```",
+        "parameters": [
+          {
+            "name": "sweep_id_or_config",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "format": "(str"
+                },
+                {
+                  "type": "string",
+                  "format": "Dict)"
+                }
+              ],
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "entity",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "project",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "_WandbController"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent": {
+      "post": {
+        "summary": "agent",
+        "description": "Start one or more sweep agents.\n\nThe sweep agent uses the `sweep_id` to know which sweep it\nis a part of, what function to execute, and (optionally) how\nmany agents to run.\n\nArgs:\n    sweep_id: The unique identifier for a sweep. A sweep ID\n        is generated by W&B CLI or Python SDK.\n    function: A function to call instead of the \"program\"\n        specified in the sweep config.\n    entity: The username or team name where you want to send W&B\n        runs created by the sweep to. Ensure that the entity you\n        specify already exists. If you don't specify an entity,\n        the run will be sent to your default entity,\n        which is usually your username.\n    project: The name of the project where W&B runs created from\n        the sweep are sent to. If the project is not specified, the\n        run is sent to a project labeled \"Uncategorized\".\n    count: The number of sweep config trials to try.",
+        "parameters": [
+          {
+            "name": "sweep_id",
+            "in": "query",
+            "description": "The unique identifier for a sweep. A sweep ID is generated by W&B CLI or Python SDK.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "function",
+            "in": "query",
+            "description": "A function to call instead of the \"program\" specified in the sweep config.",
+            "schema": {
+              "type": "string",
+              "format": "Callable",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "entity",
+            "in": "query",
+            "description": "The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "project",
+            "in": "query",
+            "description": "The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled \"Uncategorized\".",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "required": true
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "The number of sweep config trials to try.",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/define_metric": {
+      "post": {
+        "summary": "define_metric",
+        "description": "Customize metrics logged with `wandb.log()`.\n\nArgs:\n    name: The name of the metric to customize.\n    step_metric: The name of another metric to serve as the X-axis\n        for this metric in automatically generated charts.\n    step_sync: Automatically insert the last value of step_metric into\n        `run.log()` if it is not provided explicitly. Defaults to True\n         if step_metric is specified.\n    hidden: Hide this metric from automatic plots.\n    summary: Specify aggregate metrics added to summary.\n        Supported aggregations include \"min\", \"max\", \"mean\", \"last\",\n        \"best\", \"copy\" and \"none\". \"best\" is used together with the\n        goal parameter. \"none\" prevents a summary from being generated.\n        \"copy\" is deprecated and should not be used.\n    goal: Specify how to interpret the \"best\" summary type.\n        Supported options are \"minimize\" and \"maximize\".\n    overwrite: If false, then this call is merged with previous\n        `define_metric` calls for the same metric by using their\n        values for any unspecified parameters. If true, then\n        unspecified parameters overwrite values specified by\n        previous calls.\n\nReturns:\n    An object that represents this call but can otherwise be discarded.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The name of the metric to customize.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "step_metric",
+            "in": "query",
+            "description": "The name of another metric to serve as the X-axis for this metric in automatically generated charts.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104db7390>"
+            },
+            "required": true
+          },
+          {
+            "name": "step_sync",
+            "in": "query",
+            "description": "Automatically insert the last value of step_metric into `run.log()` if it is not provided explicitly. Defaults to True if step_metric is specified.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104db7710>"
+            },
+            "required": true
+          },
+          {
+            "name": "hidden",
+            "in": "query",
+            "description": "Hide this metric from automatic plots.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104db7910>"
+            },
+            "required": true
+          },
+          {
+            "name": "summary",
+            "in": "query",
+            "description": "Specify aggregate metrics added to summary. Supported aggregations include \"min\", \"max\", \"mean\", \"last\", \"best\", \"copy\" and \"none\". \"best\" is used together with the goal parameter. \"none\" prevents a summary from being generated. \"copy\" is deprecated and should not be used.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104db7b10>"
+            },
+            "required": true
+          },
+          {
+            "name": "goal",
+            "in": "query",
+            "description": "Specify how to interpret the \"best\" summary type. Supported options are \"minimize\" and \"maximize\".",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104db7d10>"
+            },
+            "required": true
+          },
+          {
+            "name": "overwrite",
+            "in": "query",
+            "description": "If false, then this call is merged with previous `define_metric` calls for the same metric by using their values for any unspecified parameters. If true, then unspecified parameters overwrite values specified by previous calls.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104db7f10>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object that represents this call but can otherwise be discarded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "wandb_metric.Metric"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/log_artifact": {
+      "post": {
+        "summary": "log_artifact",
+        "description": "Declare an artifact as an output of a run.\n\nArgs:\n    artifact_or_path: (str or Artifact) A path to the contents of this artifact,\n        can be in the following forms:\n            - `/local/directory`\n            - `/local/directory/file.txt`\n            - `s3://bucket/path`\n        You can also pass an Artifact object created by calling\n        `wandb.Artifact`.\n    name: (str, optional) An artifact name. Valid names can be in the following forms:\n            - name:version\n            - name:alias\n            - digest\n        This will default to the basename of the path prepended with the current\n        run id  if not specified.\n    type: (str) The type of artifact to log, examples include `dataset`, `model`\n    aliases: (list, optional) Aliases to apply to this artifact,\n        defaults to `[\"latest\"]`\n    tags: (list, optional) Tags to apply to this artifact, if any.\n\nReturns:\n    An `Artifact` object.",
+        "parameters": [
+          {
+            "name": "artifact_or_path",
+            "in": "query",
+            "description": "(str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbca50>"
+            },
+            "required": true
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "(str, optional) An artifact name. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id  if not specified.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbcc50>"
+            },
+            "required": true
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "(str) The type of artifact to log, examples include `dataset`, `model`",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbce50>"
+            },
+            "required": true
+          },
+          {
+            "name": "aliases",
+            "in": "query",
+            "description": "(list, optional) Aliases to apply to this artifact, defaults to `[\"latest\"]`",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbd050>"
+            },
+            "required": true
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "(list, optional) Tags to apply to this artifact, if any.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbd350>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An `Artifact` object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "Artifact"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/use_artifact": {
+      "post": {
+        "summary": "use_artifact",
+        "description": "Declare an artifact as an input to a run.\n\nCall `download` or `file` on the returned object to get the contents locally.\n\nArgs:\n    artifact_or_name: (str or Artifact) An artifact name.\n        May be prefixed with project/ or entity/project/.\n        If no entity is specified in the name, the Run or API setting's entity is used.\n        Valid names can be in the following forms:\n            - name:version\n            - name:alias\n        You can also pass an Artifact object created by calling `wandb.Artifact`\n    type: (str, optional) The type of artifact to use.\n    aliases: (list, optional) Aliases to apply to this artifact\n    use_as: (string, optional) Optional string indicating what purpose the artifact was used with.\n                               Will be shown in UI.\n\nReturns:\n    An `Artifact` object.",
+        "parameters": [
+          {
+            "name": "artifact_or_name",
+            "in": "query",
+            "description": "(str or Artifact) An artifact name. May be prefixed with project/ or entity/project/. If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms: - name:version - name:alias You can also pass an Artifact object created by calling `wandb.Artifact`",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbddd0>"
+            },
+            "required": true
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "(str, optional) The type of artifact to use.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbdfd0>"
+            },
+            "required": true
+          },
+          {
+            "name": "aliases",
+            "in": "query",
+            "description": "(list, optional) Aliases to apply to this artifact",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbe1d0>"
+            },
+            "required": true
+          },
+          {
+            "name": "use_as",
+            "in": "query",
+            "description": "(string, optional) Optional string indicating what purpose the artifact was used with. Will be shown in UI.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbe4d0>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An `Artifact` object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "Artifact"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/log_model": {
+      "post": {
+        "summary": "log_model",
+        "description": "Logs a model artifact containing the contents inside the 'path' to a run and marks it as an output to this run.\n\nArgs:\n    path: (str) A path to the contents of this model,\n        can be in the following forms:\n            - `/local/directory`\n            - `/local/directory/file.txt`\n            - `s3://bucket/path`\n    name: (str, optional) A name to assign to the model artifact that the file contents will be added to.\n        The string must contain only the following alphanumeric characters: dashes, underscores, and dots.\n        This will default to the basename of the path prepended with the current\n        run id  if not specified.\n    aliases: (list, optional) Aliases to apply to the created model artifact,\n            defaults to `[\"latest\"]`\n\nExamples:\n    ```python\n    run.log_model(\n        path=\"/local/directory\",\n        name=\"my_model_artifact\",\n        aliases=[\"production\"],\n    )\n    ```\n\n    Invalid usage\n    ```python\n    run.log_model(\n        path=\"/local/directory\",\n        name=\"my_entity/my_project/my_model_artifact\",\n        aliases=[\"production\"],\n    )\n    ```\n\nRaises:\n    ValueError: if name has invalid special characters\n\nReturns:\n    None",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "description": "(str) A path to the contents of this model, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path`",
+            "schema": {
+              "type": "string",
+              "format": "StrPath"
+            },
+            "required": true
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "(str, optional) A name to assign to the model artifact that the file contents will be added to. The string must contain only the following alphanumeric characters: dashes, underscores, and dots. This will default to the basename of the path prepended with the current run id  if not specified.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbeed0>"
+            },
+            "required": true
+          },
+          {
+            "name": "aliases",
+            "in": "query",
+            "description": "(list, optional) Aliases to apply to the created model artifact, defaults to `[\"latest\"]`",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dbf0d0>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "None",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ValueError: if name has invalid special characters"
+          }
+        }
+      }
+    },
+    "/use_model": {
+      "post": {
+        "summary": "use_model",
+        "description": "Download the files logged in a model artifact 'name'.\n\nArgs:\n    name: (str) A model artifact name. 'name' must match the name of an existing logged\n        model artifact.\n        May be prefixed with entity/project/. Valid names\n        can be in the following forms:\n            - model_artifact_name:version\n            - model_artifact_name:alias\n\nExamples:\n    ```python\n    run.use_model(\n        name=\"my_model_artifact:latest\",\n    )\n\n    run.use_model(\n        name=\"my_project/my_model_artifact:v0\",\n    )\n\n    run.use_model(\n        name=\"my_entity/my_project/my_model_artifact:<digest>\",\n    )\n    ```\n\n    Invalid usage\n    ```python\n    run.use_model(\n        name=\"my_entity/my_project/my_model_artifact\",\n    )\n    ```\n\nRaises:\n    AssertionError: if model artifact 'name' is of a type that does not contain the substring 'model'.\n\nReturns:\n    path: (str) path to downloaded model artifact file(s).",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "(str) A model artifact name. 'name' must match the name of an existing logged model artifact. May be prefixed with entity/project/. Valid names can be in the following forms: - model_artifact_name:version - model_artifact_name:alias",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "path: (str) path to downloaded model artifact file(s).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "FilePathStr"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "AssertionError: if model artifact 'name' is of a type that does not contain the substring 'model'."
+          }
+        }
+      }
+    },
+    "/link_model": {
+      "post": {
+        "summary": "link_model",
+        "description": "Log a model artifact version and link it to a registered model in the model registry.\n\nThe linked model version will be visible in the UI for the specified registered model.\n\nSteps:\n    - Check if 'name' model artifact has been logged. If so, use the artifact version that matches the files\n    located at 'path' or log a new version. Otherwise log files under 'path' as a new model artifact, 'name'\n    of type 'model'.\n    - Check if registered model with name 'registered_model_name' exists in the 'model-registry' project.\n    If not, create a new registered model with name 'registered_model_name'.\n    - Link version of model artifact 'name' to registered model, 'registered_model_name'.\n    - Attach aliases from 'aliases' list to the newly linked model artifact version.\n\nArgs:\n    path: (str) A path to the contents of this model,\n        can be in the following forms:\n            - `/local/directory`\n            - `/local/directory/file.txt`\n            - `s3://bucket/path`\n    registered_model_name: (str) - the name of the registered model that the model is to be linked to.\n        A registered model is a collection of model versions linked to the model registry, typically representing a\n        team's specific ML Task. The entity that this registered model belongs to will be derived from the run\n    name: (str, optional) - the name of the model artifact that files in 'path' will be logged to. This will\n        default to the basename of the path prepended with the current run id  if not specified.\n    aliases: (List[str], optional) - alias(es) that will only be applied on this linked artifact\n        inside the registered model.\n        The alias \"latest\" will always be applied to the latest version of an artifact that is linked.\n\nExamples:\n    ```python\n    run.link_model(\n        path=\"/local/directory\",\n        registered_model_name=\"my_reg_model\",\n        name=\"my_model_artifact\",\n        aliases=[\"production\"],\n    )\n    ```\n\n    Invalid usage\n    ```python\n    run.link_model(\n        path=\"/local/directory\",\n        registered_model_name=\"my_entity/my_project/my_reg_model\",\n        name=\"my_model_artifact\",\n        aliases=[\"production\"],\n    )\n\n    run.link_model(\n        path=\"/local/directory\",\n        registered_model_name=\"my_reg_model\",\n        name=\"my_entity/my_project/my_model_artifact\",\n        aliases=[\"production\"],\n    )\n    ```\n\nRaises:\n    AssertionError: if registered_model_name is a path or\n        if model artifact 'name' is of a type that does not contain the substring 'model'\n    ValueError: if name has invalid special characters\n\nReturns:\n    None",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "description": "(str) A path to the contents of this model, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path`",
+            "schema": {
+              "type": "string",
+              "format": "StrPath"
+            },
+            "required": true
+          },
+          {
+            "name": "registered_model_name",
+            "in": "query",
+            "description": "(str) - the name of the registered model that the model is to be linked to. A registered model is a collection of model versions linked to the model registry, typically representing a team's specific ML Task. The entity that this registered model belongs to will be derived from the run",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "(str, optional) - the name of the model artifact that files in 'path' will be logged to. This will default to the basename of the path prepended with the current run id  if not specified.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dc8310>"
+            },
+            "required": true
+          },
+          {
+            "name": "aliases",
+            "in": "query",
+            "description": "(List[str], optional) - alias(es) that will only be applied on this linked artifact inside the registered model. The alias \"latest\" will always be applied to the latest version of an artifact that is linked.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dc8510>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "None",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "AssertionError: if registered_model_name is a path or if model artifact 'name' is of a type that does not contain the substring 'model'"
+          },
+          "400": {
+            "description": "ValueError: if name has invalid special characters"
+          }
+        }
+      }
+    },
+    "/plot_table": {
+      "post": {
+        "summary": "plot_table",
+        "description": "Creates a custom charts using a Vega-Lite specification and a `wandb.Table`.\n\nThis function creates a custom chart based on a Vega-Lite specification and\na data table represented by a `wandb.Table` object. The specification needs\nto be predefined and stored in the W&B backend. The function returns a custom\nchart object that can be logged to W&B using `wandb.log()`.\n\nArgs:\n    vega_spec_name (str): The name or identifier of the Vega-Lite spec\n        that defines the visualization structure.\n    data_table (wandb.Table): A `wandb.Table` object containing the data to be\n        visualized.\n    fields (dict[str, Any]): A mapping between the fields in the Vega-Lite spec and the\n        corresponding columns in the data table to be visualized.\n    string_fields (dict[str, Any] | None): A dictionary for providing values for any string constants\n        required by the custom visualization.\n    split_table (bool): Whether the table should be split into a separate section\n        in the W&B UI. If `True`, the table will be displayed in a section named\n        \"Custom Chart Tables\". Default is `False`.\n\nReturns:\n    CustomChart: A custom chart object that can be logged to W&B. To log the\n        chart, pass it to `wandb.log()`.\n\nRaises:\n    wandb.Error: If `data_table` is not a `wandb.Table` object.",
+        "parameters": [
+          {
+            "name": "vega_spec_name",
+            "in": "query",
+            "description": "The name or identifier of the Vega-Lite spec that defines the visualization structure.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "data_table",
+            "in": "query",
+            "description": "A `wandb.Table` object containing the data to be visualized.",
+            "schema": {
+              "type": "string",
+              "format": "wandb.Table"
+            },
+            "required": true
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A mapping between the fields in the Vega-Lite spec and the corresponding columns in the data table to be visualized.",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "format": "Any)"
+              }
+            },
+            "required": true
+          },
+          {
+            "name": "string_fields",
+            "in": "query",
+            "description": "A dictionary for providing values for any string constants required by the custom visualization.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dc9450>"
+            },
+            "required": true
+          },
+          {
+            "name": "split_table",
+            "in": "query",
+            "description": "Whether the table should be split into a separate section in the W&B UI. If `True`, the table will be displayed in a section named \"Custom Chart Tables\". Default is `False`.",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CustomChart: A custom chart object that can be logged to W&B. To log the chart, pass it to `wandb.log()`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "CustomChart"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/watch": {
+      "post": {
+        "summary": "watch",
+        "description": "Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.\n\nThis function can track parameters, gradients, or both during training. It should be\nextended to support arbitrary machine learning models in the future.\n\nArgs:\n    models (Union[torch.nn.Module, Sequence[torch.nn.Module]]):\n        A single model or a sequence of models to be monitored.\n    criterion (Optional[torch.F]):\n        The loss function being optimized (optional).\n    log (Optional[Literal[\"gradients\", \"parameters\", \"all\"]]):\n        Specifies whether to log \"gradients\", \"parameters\", or \"all\".\n        Set to None to disable logging. (default=\"gradients\")\n    log_freq (int):\n        Frequency (in batches) to log gradients and parameters. (default=1000)\n    idx (Optional[int]):\n        Index used when tracking multiple models with `wandb.watch`. (default=None)\n    log_graph (bool):\n        Whether to log the model's computational graph. (default=False)\n\nRaises:\n    ValueError:\n        If `wandb.init` has not been called or if any of the models are not instances\n        of `torch.nn.Module`.",
+        "parameters": [
+          {
+            "name": "models",
+            "in": "query",
+            "description": " A single model or a sequence of models to be monitored.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dca010>"
+            },
+            "required": true
+          },
+          {
+            "name": "criterion",
+            "in": "query",
+            "description": " The loss function being optimized (optional).",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dca510>"
+            },
+            "required": true
+          },
+          {
+            "name": "log",
+            "in": "query",
+            "description": " Specifies whether to log \"gradients\", \"parameters\", or \"all\". Set to None to disable logging. (default=\"gradients\")",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dca790>"
+            },
+            "required": true
+          },
+          {
+            "name": "log_freq",
+            "in": "query",
+            "description": " Frequency (in batches) to log gradients and parameters. (default=1000)",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "name": "idx",
+            "in": "query",
+            "description": " Index used when tracking multiple models with `wandb.watch`. (default=None)",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dcad50>"
+            },
+            "required": true
+          },
+          {
+            "name": "log_graph",
+            "in": "query",
+            "description": " Whether to log the model's computational graph. (default=False)",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ValueError: If `wandb.init` has not been called or if any of the models are not instances of `torch.nn.Module`."
+          }
+        }
+      }
+    },
+    "/unwatch": {
+      "post": {
+        "summary": "unwatch",
+        "description": "Remove pytorch model topology, gradient and parameter hooks.\n\nArgs:\n    models (torch.nn.Module | Sequence[torch.nn.Module]):\n        Optional list of pytorch models that have had watch called on them",
+        "parameters": [
+          {
+            "name": "models",
+            "in": "query",
+            "description": " Optional list of pytorch models that have had watch called on them",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dcb850>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restore": {
+      "post": {
+        "summary": "restore",
+        "description": "Download the specified file from cloud storage.\n\nFile is placed into the current directory or run directory.\nBy default, will only download the file if it doesn't already exist.\n\nArgs:\n    name: the name of the file\n    run_path: optional path to a run to pull files from, i.e. `username/project_name/run_id`\n        if wandb.init has not been called, this is required.\n    replace: whether to download the file even if it already exists locally\n    root: the directory to download the file to.  Defaults to the current\n        directory or the run directory if wandb.init was called.\n\nReturns:\n    None if it can't find the file, otherwise a file object open for reading\n\nRaises:\n    wandb.CommError: if we can't connect to the wandb backend\n    ValueError: if the file is not found or can't find run_path",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "the name of the file",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "run_path",
+            "in": "query",
+            "description": "optional path to a run to pull files from, i.e. `username/project_name/run_id` if wandb.init has not been called, this is required.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dd0590>"
+            },
+            "required": true
+          },
+          {
+            "name": "replace",
+            "in": "query",
+            "description": "whether to download the file even if it already exists locally",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": true
+          },
+          {
+            "name": "root",
+            "in": "query",
+            "description": "the directory to download the file to.  Defaults to the current directory or the run directory if wandb.init was called.",
+            "schema": {
+              "type": "string",
+              "format": "<ast.BinOp object at 0x104dd0890>"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "None if it can't find the file, otherwise a file object open for reading",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "<ast.BinOp object at 0x104dd0ed0>"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "CommError: if we can't connect to the wandb backend"
+          },
+          "400": {
+            "description": "ValueError: if the file is not found or can't find run_path"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "parameters": {},
+    "responses": {},
+    "securitySchemes": {}
+  }
+}
