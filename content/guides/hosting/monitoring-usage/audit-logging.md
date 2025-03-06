@@ -98,7 +98,7 @@ For [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" 
 To exclude PII, pass the `anonymize=true` URL parameter. For example, if your W&B instance URL is `https://mycompany.wandb.io` and you would like to get audit logs for user activity within the last week and exclude PII, use an API endpoint like:
 
 ```text
-https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true`.
+https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true.
 ```
 
 ## Actions
