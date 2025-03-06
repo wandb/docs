@@ -27,7 +27,7 @@ Secrets are stored and managed in each team's Secret Manager.
 To add a secret:
 
 1. If necessary, generate the sensitive string in the webhook's service. For example, generate an API key or set a password. If necessary, save the sensitive string securely, such as in a password manager.
-1. Log in to W&B and go to the **Settings** page.
+1. Log in to W&B and go to the team's **Settings** page.
 1. In the **Team Secrets** section, click **New secret**.
 1. Using letters, numbers, and `_`, provide a name for the secret.
 1. Paste the sensitive string into the **Secret** field.
