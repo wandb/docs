@@ -278,7 +278,6 @@ def train():
 def main():
     wandb.init(entity="<entity>", project="my-first-sweep")
     val_metrics = train()
-    # highlight-next-line
     wandb.log({"val_loss": val_metrics})
 
 
@@ -316,7 +315,6 @@ def train():
 def main():
     wandb.init(entity="<entity>", project="my-first-sweep")
     val_metrics = train()
-    # highlight-next-line
     wandb.log({"val_loss", val_metrics["val_loss"]})
 
 

@@ -78,7 +78,6 @@ full_path = os.path.join(local_filepath, model_filename)
 model.save(filepath=full_path)
 
 # Log the model
-# highlight-next-line
 run.log_model(path=full_path, name="MNIST")
 
 # Explicitly tell W&B to end the run.
