@@ -162,7 +162,7 @@ To reduce loading times, keep the total number of runs in a single project under
 
 Run counts over these thresholds can slow down operations that involve project workspaces or runs tables, especially when grouping runs or collecting a large number of distinct metrics during runs. See also the [Metric count]({{< relref "#metric-count" >}}) section.
 
-If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving _other_ runs]({{< relref "/guides/models/track/runs/manage-runs.md" >}}) to a new project used as an archive, leaving a smaller set of runs in your working project.
+If your team accesses the same set of runs frequently, such as the set of recent runs, consider [moving less frequently used runs in bulk]({{< relref "/guides/models/track/runs/manage-runs.md" >}}) to a new "archive" project, leaving a smaller set of runs in your working project.
 
 ### Section count
 
@@ -260,6 +260,6 @@ The W&B app can be memory-intensive and performs best in Chrome. Depending on yo
 
 ## Reporting performance issues to W&B
 
-W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking W&B's built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console.
+W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking W&B's built-in performance logger that captures key metrics and performance events. Append the URL parameter `&PERF_LOGGING` to a page that is loading slowly, then share the output of your console with your account team or Support.
 
 {{< img src="/images/track/adding_perf_logging.gif" alt="Adding PERF_LOGGING" >}}
