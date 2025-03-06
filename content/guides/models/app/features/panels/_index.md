@@ -34,6 +34,26 @@ To reset a workspace:
 1. At the top of the workspace, click the action menu `...`.
 1. Click **Reset workspace**.
 
+## Configure the workspace layout {#configure-workspace-layout}
+
+To configure the workspace layout, click **Settings** near the top of the workspace, then click **Workspace layout**.
+
+- **Hide empty sections during search** (turned on by default)
+- **Sort panels alphabetically** (turned off by default)
+- **Section organization** (grouped by first prefix by default). To modify this setting:
+  1. Click the padlock icon.
+  1. Choose how to group panels within a section.
+
+To configure defaults for the workspace's line plots, refer to [Line plots]({{< relref "line-plot/#all-line-plots-in-a-workspace" >}}).
+
+### Configure a section's layout {#configure-section-layout}
+
+To configure the layout of a section, click its gear icon, then click **Display preferences**.
+- **Turn on or off colored run names in tooltips** (turned on by default)
+- **Only show highlighted run in companion chart tooltips** (turned off by default)
+- **Number of runs shown in tooltips** (a single run, all runs, or **Default**)
+- **Display full run names on the primary chart tooltip** (turned off by default)
+
 ## View a panel in full-screen mode
 
 In full-screen mode, the run selector displays and panels use full full-fidelity sampling mode plots with 10,000 buckets, rather than 1000 buckets otherwise.
