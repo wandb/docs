@@ -64,9 +64,7 @@ run = wandb.init(project=project, job_type=job_type, config=config)
 version = "latest"
 name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 
-# highlight-start
 artifact = run.use_artifact(name)
-# highlight-end
 
 train_table = artifact.get("train_table")
 x_train = train_table.get_column("x_train", convert_to="numpy")
@@ -121,9 +119,7 @@ path = "./model.h5"
 registered_model_name = "MNIST-dev"
 name = "mnist_model"
 
-# highlight-start
 run.link_model(path=path, registered_model_name=registered_model_name, name=name)
-# highlight-end
 run.finish()
 ```
 
