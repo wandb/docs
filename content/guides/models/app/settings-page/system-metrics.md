@@ -186,6 +186,8 @@ W&B assigns a `gpu.{gpu_index}.encoderUtilization` tag to this metric.
 ## AMD GPU
 W&B extracts metrics from the output of the `rocm-smi` tool supplied by AMD (`rocm-smi -a --json`).
 
+ROCm [6.x (latest)](https://rocm.docs.amd.com/en/latest/) and [5.x](https://rocm.docs.amd.com/en/docs-5.6.0/) formats are supported. Learn more about ROCm formats in the [AMD ROCm documentation](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html). The newer format includes more details.
+
 ### AMD GPU Utilization
 Represents the GPU utilization in percent for each AMD GPU device.
 
