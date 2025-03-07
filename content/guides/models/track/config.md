@@ -25,10 +25,9 @@ To save output metrics or dependent variables like loss and accuracy, use `run.l
 ## Set up an experiment configuration
 Configurations are typically defined in the beginning of a training script. Machine learning workflows may vary, however, so you are not required to define a configuration at the beginning of your training script.
 
-{{% alert color="secondary" %}}
-We recommend that you avoid using dots in your config variable names. Instead, use a dash or underscore instead. Use the dictionary access syntax `["key"]["foo"]` instead of the attribute access syntax `config.key.foo` if your script accesses `run.config` keys below the root.
-{{% /alert %}}
-
+Use dashes (`-`) or underscores (`_`) instead of periods (`.`) in your config variable names.
+	
+Use the dictionary access syntax `["key"]["value"]` instead of the attribute access syntax `config.key.value` if your script accesses `run.config` keys below the root.
 
 The following sections outline different common scenarios of how to define your experiments configuration.
 
@@ -55,9 +54,7 @@ with wandb.init(project="config_example", config=config) as run:
     ...
 ```
 
-{{% alert %}}
-You can pass a nested dictionary as the `config`. W&B will flatten the names using dots.
-{{% /alert %}}
+If you pass a nested dictionary as the `config`, W&B flattens the names using dots.
 
 Access the values from the dictionary similarly to how you access other dictionaries in Python:
 

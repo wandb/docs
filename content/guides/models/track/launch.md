@@ -54,25 +54,17 @@ run.config = {"epochs": 100, "learning_rate": 0.001, "batch_size": 128}
 For more information on how to configure an experiment, see [Configure Experiments]({{< relref "./config.md" >}}).
 
 ### Log metrics inside your training loop
-Log metrics during each `for` loop (epoch), the accuracy and loss values are computed and logged to W&B with [`run.log()`]({{< relref "/ref/python/log.md" >}}). By default, when you call `run.log()` it appends a new step to the history object and updates the summary object.
-
-The following code example shows how to log metrics with `run.log`.
-
-{{% alert %}}
-Details of how to set up your mode and retrieve data are omitted. 
-{{% /alert %}}
+Call [`run.log()`]({{< relref "/ref/python/log.md" >}}) to log metrics about each training step such as accuracy and loss.
 
 ```python
-# Set up model and data
 model, dataloader = get_model(), get_data()
 
 for epoch in range(run.config.epochs):
     for batch in dataloader:
         loss, accuracy = model.training_step()
-        #  3. Log metrics inside your training loop to visualize
-        # model performance
         run.log({"accuracy": accuracy, "loss": loss})
 ```
+
 For more information on different data types you can log with W&B, see [Log Data During Experiments]({{< relref "./log/" >}}).
 
 ### Log an artifact to W&B 

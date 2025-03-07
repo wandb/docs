@@ -31,7 +31,7 @@ Below we cover best tips and best practices when the codebase you are working on
 
 Before you get started, decide whether or not to require W&B in your library’s dependencies:
 
-#### Require W&B On Installation
+#### Require W&B on installation
 
 Add the W&B Python library (`wandb`) to your dependencies file, for example, in your `requirements.txt` file:
 
@@ -41,7 +41,7 @@ torch==1.8.0
 wandb==0.13.*
 ```
 
-#### Make W&B optional On Installation
+#### Make W&B optional on installation
 
 There are two ways to make the W&B SDK (`wandb`) optional:
 
@@ -74,7 +74,7 @@ dev = [
 ]
 ```
 
-### User Login
+### User login
 
 #### Create an API key
 
@@ -166,11 +166,11 @@ with wandb.init() as run:
 ```
 
 
-#### Where To Place `wandb.init`?
+#### When to call `wandb.init`?
 
 Your library should create W&B Run as early as possible because any output in your console, including error messages, is logged as part of the W&B Run. This makes debugging easier.
 
-#### Run The Library With `wandb` As Optional
+#### Use `wandb` as an optional dependency
 
 If you want to make `wandb` optional when your users use your library, you can either:
 
