@@ -156,7 +156,18 @@ For faster loading times, keep the total number of runs in a single project unde
 
 If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving _other_ runs]({{< relref "/guides/models/track/runs/manage-runs.md" >}}) to a new project used as an archive, leaving a smaller set of runs in your working project.
 
-### Section count
+### Workspace performance
+This section gives tips for optimizing the performance of your workspace.
+
+#### Panel count
+By default, a workspace is _automatic_, and generates standard panels for each logged key. If a workspace for a large project includes panels for many logged keys, the workspace may be slow to load and use. To improve performance, you can:
+
+- Delete unused panels from the workspace. If you delete a panel in error, you can re-add it using [Quick add]({{< relref "/guides/models/app/features/panels/#quick-add" >}}).
+- Reset the workspace to manual mode, which includes no panels by default. You can use [Quick add]({{< relref "/guides/models/app/features/panels/#quick-add" >}}) to selectively add panels for the logged keys you need to visualize.
+
+To learn more about configuring your workspace, refer to [Panels]({{< relref "/guides/models/app/features/panels/" >}}).
+
+#### Section count
 
 Having hundreds of sections in a workspace can hurt performance. Consider creating sections based on high-level groupings of metrics and avoiding an anti-pattern of one section for each metric.
 
