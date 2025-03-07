@@ -15,63 +15,67 @@ Line plots show up by default when you plot metrics over time with **wandb.log()
 
 {{< img src="/images/app_ui/line_plot_example.png" alt="" >}}
 
-## Edit line panel settings
- 
-Hover your mouse over the panel you want to edit its settings for. Select the pencil icon that appears. Within the modal that appears, select a tab to edit the Data, Grouping, Chart, Expressions, or Legend settings.
+## Edit line plot settings
 
-### Data 
-
-Select the **Data** tab to edit the x-axis, y-axis, smoothing filter, point aggregation and more. The proceeding describes some of the options you can edit:
+This section shows how to edit the settings for an individual line plot panel, all line plot panels in a section, or all line plot panels in a workspace.
 
 {{% alert %}}
 If you'd like to use a custom x-axis, make sure it's logged in the same call to `wandb.log()` that you use to log the y-axis.
 {{% /alert %}} 
 
-* **X axis**: By default the x-axis is set to **Step**. You can change the x-axis to **Relative Time**, or select a custom axis based on values you log with W&B.
+### Individual line plot
+A line plot's individual settings override the line plot settings for the section or the workspace. To customize a line plot:
+
+1. Hover your mouse over the panel, then click the gear icon.
+1. Within the modal that appears, select a tab to edit its [settings]({{< relref "#line-plot-settings" >}}).
+1. Click **Apply**.
+
+#### Line plot settings
+You can configure these settings for a line plot:
+
+**Date**: Configure the plot's data-display details.
+* **X**: Select the value to use for the X axis (defaults to  **Step**). You can change the x-axis to **Relative Time** or select a custom axis based on values you log with W&B.
   * **Relative Time (Wall)** is clock time since the process started, so if you started a run and resumed it a day later and logged something that would be plotted a 24hrs.
-  * **Relative Time (Process)** is time inside the running process, so if you started a run and ran for 10 seconds and resumed a day later that point would be plotted at 10s
-  * **Wall Time** is minutes elapsed since the start of the first run on the graph
-  * **Step** increments by default each time `wandb.log()` is called, and is supposed to reflect the number of training steps you've logged from your model
-* **Y axes**: Select y-axes from the logged values, including metrics and hyperparameters that change over time.
-* **Min, max, and log scale**: Minimum, maximum, and log scale settings for x axis and y axis in line plots
-* **Smoothing**: Change the smoothing on the line plot.
-* **Outliers**: Rescale to exclude outliers from the default plot min and max scale
-* **Max runs to show**: Show more lines on the line plot at once by increasing this number, which defaults to 10 runs. You'll see the message "Showing first 10 runs" on the top of the chart if there are more than 10 runs available but the chart is constraining the number visible.
-* **Chart type**: Change between a line plot, an area plot, and a percentage area plot
+  * **Relative Time (Process)** is time inside the running process, so if you started a run and ran for 10 seconds and resumed a day later that point would be plotted at 10s.
+  * **Wall Time** is minutes elapsed since the start of the first run on the graph.
+  * **Step** increments by default each time `wandb.log()` is called, and is supposed to reflect the number of training steps you've logged from your model.
+* **Y**: Select one or more y-axes from the logged values, including metrics and hyperparameters that change over time.
+* **X Axis** and **Y Axis** minimum and maximum values (optional).
+* **Point aggregation method**. Either **Random sampling** (the default) or **Full fidelity**. Refer to [Sampling]({{< relref "sampling.md" >}}).
+* **Smoothing**: Change the smoothing on the line plot. Defaults to **Time weighted EMA**. Other values include **No smoothing**, **Running average**, and **Gaussian**.
+* **Outliers**: Rescale to exclude outliers from the default plot min and max scale.
+* **Max number of runs or groups**: Show more lines on the line plot at once by increasing this number, which defaults to 10 runs. You'll see the message "Showing first 10 runs" on the top of the chart if there are more than 10 runs available but the chart is constraining the number visible.
+* **Chart type**: Change between a line plot, an area plot, and a percentage area plot.
 
-{{% alert %}}
-Pick **multiple y-axes** in the line plot settings to compare different metrics on the same chart, like accuracy and validation accuracy for example.
-{{% /alert %}}
-
-### Grouping
-
-Select the **Grouping** tab to use group by methods to organize your data.
-
-
+**Grouping**: Configure whether and how to group and aggregate runs in the plot.
 * **Group by**: Select a column, and all the runs with the same value in that column will be grouped together.
 * **Agg**: Aggregation— the value of the line on the graph. The options are mean, median, min, and max of the group.
 
-### Chart
-Select the Chart tab to edit the plot's title, axis titles, legend, and more.
+**Chart**: Specify titles for the panel, the X axis, and the Y axis, and the -axis, hide or show the legend, and configure its position.
 
-* **Title**: Add a custom title for line plot, which shows up at the top of the chart
-* **X-Axis title**: Add a custom title for the x-axis of the line plot, which shows up in the lower right corner of the chart.
-* **Y-Axis title**: Add a custom title for the y-axis of the line plot, which shows up in the upper left corner of the chart.
-* **Show legend**: Toggle legend on or off
-* **Font size**: Change the font size of the chart title, x-axis title, and y-axis title
-* **Legend position**: Change the position of the legend on the chart
+**Legend**: Customize the appearance of the panel's legend, if it is enabled.
+* **Legend**: The field in the legend for each line in the plot in the legend of the plot for each line.
+* **Legend template**: Define a fully customizable template for the legend, specifying exactly what text and variables you want to show up in the template at the top of the line plot as well as the legend that appears when you hover your mouse over the plot.
 
-
-### Legend
-
-
-* **Legend**: Select field that you want to see in the legend of the plot for each line. You could, for example, show the name of the run and the learning rate.
-* **Legend template**: Fully customizable, this powerful template allows you to specify exactly what text and variables you want to show up in the template at the top of the line plot as well as the legend that appears when you hover your mouse over the plot.
-
-### Expressions
-
+**Expressions**: Add custom calculated expressions to the panel.
 * **Y Axis Expressions**: Add calculated metrics to your graph. You can use any of the logged metrics as well as configuration values like hyperparameters to calculate custom lines.
 * **X Axis Expressions**: Rescale the x-axis to use calculated values using custom expressions. Useful variables include\*\*_step\*\* for the default x-axis, and the syntax for referencing summary values is `${summary:value}`
+
+### All line plots in a section
+
+To customize the default settings for all line plots in a section, overriding workspace settings for line plots:
+1. Click the section's gear icon to open its settings.
+1. Within the modal that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the section. For details about each **Data** setting, refer to the preceding section, [Individual line plot]({{< relref "#line-plot-settings" >}}). For details about each display preference, refer to [Configure section layout]({{< relref "../#configure-section-layout" >}}).
+
+### All line plots in a workspace 
+To customize the default settings for all line plots in a workspace:
+1. Click the workspace's settings, which has a gear with the label **Settings**.
+1. Click **Line plots**.
+1. Within the modal that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the workspace.
+    - For details about each **Data** setting, refer to the preceding section, [Individual line plot]({{< relref "#line-plot-settings" >}}).
+
+    - For details about each **Display preferences** section, refer to [Workspace display preferences]({{< relref "../#configure-workspace-layout" >}}). At the workspace level, you can configure the default **Zooming** behavior for line plots. This setting controls whether to synchronize zooming across line plots with a matching x-axis key. Disabled by default.
+
 
 ## Visualize average values on a plot
 

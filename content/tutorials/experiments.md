@@ -98,7 +98,7 @@ W&B runs automatically log [metrics]({{< relref "/guides/models/track/runs/#work
 [system information]({{< relref "/guides/models/track/runs/#system-tab" >}}),
 [hyperparameters]({{< relref "/guides/models/track/runs/#overview-tab" >}}),
 [terminal output]({{< relref "/guides/models/track/runs/#logs-tab" >}}) and
-you'll see an [interactive table]({{< relref "/guides/core/tables/" >}})
+you'll see an [interactive table]({{< relref "/guides/models/tables/" >}})
 with model inputs and outputs. 
 
 ### Set up PyTorch Dataloader
@@ -200,7 +200,7 @@ def log_image_table(images, predicted, labels, probs):
 
 The following code trains and saves model checkpoints to your project. Use model checkpoints like you normally would to assess how the model performed during training. 
 
-W&B also makes it easy to share your saved models and model checkpoints with other members of your team or organization. To learn how to share your model and model checkpoints with members outside of your team, see [W&B Registry]({{< relref "/guides/models/registry/" >}}).
+W&B also makes it easy to share your saved models and model checkpoints with other members of your team or organization. To learn how to share your model and model checkpoints with members outside of your team, see [W&B Registry]({{< relref "/guides/core/registry/" >}}).
 
 
 ```python

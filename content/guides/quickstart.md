@@ -94,21 +94,18 @@ A [run]({{< relref "/guides/models/track/runs/" >}}) is the basic building block
 
 ## Put it all together
 
-Putting it all together, your training script might look similar to the following code example. The highlighted code shows W&B-specific code. 
-Note that we added code that mimics machine learning training.
+Putting it all together, your training script might look similar to the following code example.
 
 ```python
 # train.py
 import wandb
 import random  # for demo script
 
-# highlight-next-line
 wandb.login()
 
 epochs = 10
 lr = 0.01
 
-# highlight-start
 run = wandb.init(
     # Set the project where this run will be logged
     project="my-awesome-project",
@@ -118,7 +115,6 @@ run = wandb.init(
         "epochs": epochs,
     },
 )
-# highlight-end
 
 offset = random.random() / 5
 print(f"lr: {lr}")
@@ -128,7 +124,6 @@ for epoch in range(2, epochs):
     acc = 1 - 2**-epoch - random.random() / epoch - offset
     loss = 2**-epoch + random.random() / epoch + offset
     print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
-    # highlight-next-line
     wandb.log({"accuracy": acc, "loss": loss})
 
 # run.log_code()
@@ -149,5 +144,5 @@ Explore the rest of the W&B ecosystem.
 2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports]({{< relref "/guides/core/reports/" >}}).
 2. Create [W&B Artifacts]({{< relref "/guides/core/artifacts/" >}}) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
 3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}).
-4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard]({{< relref "/guides/core/tables/" >}}).
+4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard]({{< relref "/guides/models/tables/" >}}).
 5. Navigate to W&B AI Academy and learn about LLMs, MLOps and W&B Models from hands-on [courses](https://wandb.me/courses).

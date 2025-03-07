@@ -11,7 +11,7 @@ weight: 7
 This page describes creating lineage graphs in the legacy W&B Model Registry. To learn about lineage graphs in W&B Registry, refer to [Create and view lineage maps]({{< relref "../lineage.md" >}}).
 
 {{% alert %}}
-W&B will transition assets from the legacy [W&B Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to the new [W&B Registry]({{< relref "./" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows. Refer to [Migrate from legacy Model Registry]({{< relref "model_registry_eol.md" >}}).
+W&B will transition assets from the legacy [W&B Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}) to the new [W&B Registry]({{< relref "./" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows. Refer to [Migrate from legacy Model Registry]({{< relref "model_registry_eol.md" >}}).
 {{% /alert %}}
 
 
@@ -64,9 +64,7 @@ run = wandb.init(project=project, job_type=job_type, config=config)
 version = "latest"
 name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 
-# highlight-start
 artifact = run.use_artifact(name)
-# highlight-end
 
 train_table = artifact.get("train_table")
 x_train = train_table.get_column("x_train", convert_to="numpy")
@@ -121,9 +119,7 @@ path = "./model.h5"
 registered_model_name = "MNIST-dev"
 name = "mnist_model"
 
-# highlight-start
 run.link_model(path=path, registered_model_name=registered_model_name, name=name)
-# highlight-end
 run.finish()
 ```
 
