@@ -9,7 +9,7 @@ title: Configure experiments
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb" >}}
 
-Use the `config` property of a Run to save your training configuration such as: 
+Use the `config` property of a run to save your training configuration: 
 - hyperparameter
 - input settings such as the dataset name or model type
 - any other independent variables for your experiments. 
@@ -17,7 +17,7 @@ Use the `config` property of a Run to save your training configuration such as:
 The `run.config` property makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the settings of different W&B Runs and view how different training configurations affect the output. A Run's `config` property is a dictionary-like object, and it can be built from lots of dictionary-like objects.
 
 {{% alert %}}
-Dependent variables (like loss and accuracy) or output metrics should be saved with `run.log` instead.
+To save output metrics or dependent variables like loss and accuracy, use `run.log` instead of `run.config`.
 {{% /alert %}}
 
 

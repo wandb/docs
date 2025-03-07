@@ -155,7 +155,7 @@ Optionally, you can provide a name for their project, or let the user set it the
 run = wandb.init(project=wandb_project, entity=wandb_entity)
 ```
 
-It is important to eventually call `run.finish()` on the run. If this works with your integartion's design, the most convenient way to do this is by using the run as a context manager:
+You must call `run.finish()` to finish the run. If this works with your integration's design,  use the run as a context manager:
 
 ```python
 # When this block exits, it calls run.finish() automatically.
@@ -302,13 +302,13 @@ run.log(metrics)
 
 {{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="A W&B Workspace with 2 separate sections" >}}
 
-For more on `run.log`, see [here]({{< relref "/guides/models/track/log" >}}).
+[Learn more about `run.log`]({{< relref "/guides/models/track/log" >}}).
 
 #### Prevent x-axis misalignments
 
-Sometimes you might need to perform multiple calls to `run.log` for the same training step. The wandb SDK has its own internal step counter that is incremented every time a `run.log` call is made. This means that there is a possibility that the wandb log counter is not aligned with the training step in your training loop.
+If you perform multiple calls to `run.log` for the same training step, the wandb SDK increments an internal step counter for each call to `run.log`. This counter may not align with the training step in your training loop.
 
-To avoid this, we recommend that you specifically define your x-axis step. You can define the x-axis with `run.define_metric` and you only need to do this once, after `wandb.init` is called:
+To avoid this situation, define your x-axis step explicitly with `run.define_metric`, one time, immediately after you call `wandb.init`:
 
 ```python
 with wandb.init(...) as run:
@@ -321,7 +321,7 @@ The glob pattern, `*`, means that every metric will use `global_step` as the x-a
 run.define_metric("train/loss", step_metric="global_step")
 ```
 
-Now that you've called `run.define_metric`, you just need to log your metrics as well as your `step_metric`, `global_step`, every time you call `run.log`:
+Now, log your metrics, your `step` metric, and your `global_step` each time you call `run.log`:
 
 ```python
 for step, (input, ground_truth) in enumerate(data):
@@ -343,7 +343,7 @@ Some considerations when logging data include:
   * For images, you can log sample predictions, segmentation masks, etc., to see the evolution over time.
   * For text, you can log tables of sample predictions for later exploration.
 
-Refer [here]({{< relref "/guides/models/track/log" >}}) for a full guide on logging media, objects, plots, and more.
+[Learn more about logging]({{< relref "/guides/models/track/log" >}}) media, objects, plots, and more.
 
 ### Distributed training
 

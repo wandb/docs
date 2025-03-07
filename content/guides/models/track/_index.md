@@ -52,7 +52,7 @@ with wandb.init(entity="", project="my-project-name") as run:
   run.log_artifact(model)
 ```
 
-## How to get started
+## Get started
 
 Depending on your use case, explore the following resources to get started with W&B Experiments:
 
