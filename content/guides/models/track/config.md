@@ -14,7 +14,7 @@ Use the `config` property of a run to save your training configuration:
 - input settings such as the dataset name or model type
 - any other independent variables for your experiments. 
 
-The `run.config` property makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the settings of different W&B Runs and view how different training configurations affect the output. A Run's `config` property is a dictionary-like object, and it can be built from lots of dictionary-like objects.
+The `run.config` property makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the configurations of different W&B runs, and evaluate how each training configuration affects the output. The `config` property is a dictionary-like object that can be composed from multiple dictionary-like objects.
 
 {{% alert %}}
 To save output metrics or dependent variables like loss and accuracy, use `run.log` instead of `run.config`.
@@ -175,23 +175,25 @@ run.config.update({"lr": 0.1, "channels": 16})
 ```
 
 ### Set the configuration after your Run has finished
-Use the [W&B Public API]({{< relref "/ref/python/public-api/" >}}) to update your config (or anything else about from a complete Run) after your Run. This is particularly useful if you forgot to log a value during a Run. 
+Use the [W&B Public API]({{< relref "/ref/python/public-api/" >}}) to update a completed run's config. 
 
-Provide your `entity`, `project name`, and the `Run ID` to update your configuration after a Run has finished. Find these values directly from the Run object itself or from the [W&B App UI]({{< relref "/guides/models/track/workspaces.md" >}}):
+You will need to provide your entity, project name and the run's ID, which you can get from the Run object or find in the [W&B App UI]({{< relref "/guides/models/track/workspaces.md" >}}):
 
 ```python
 with wandb.init() as run:
-    api = wandb.Api()
+    ...
 
-    # You can access attributes on the run object directly.
-    username = run.entity
-    project = run.project
-    run_id = run.id
+# You can access attributes from the run object directly if you are in the same
+# script or notebook, or you can get them from the app.
+username = run.entity
+project = run.project
+run_id = run.id
 
-    # NOTE: api.run returns a different type of object than wandb.init().
-    api_run = api.run(f"{username}/{project}/{run_id}")
-    api_run.config["bar"] = 32
-    api_run.update()
+# NOTE: api.run returns a different type of object than wandb.init().
+api = wandb.Api()
+api_run = api.run(f"{username}/{project}/{run_id}")
+api_run.config["bar"] = 32
+api_run.update()
 ```
 
 
