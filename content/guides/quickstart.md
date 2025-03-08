@@ -10,6 +10,7 @@ weight: 2
 ---
 Install W&B and start tracking your machine learning experiments in minutes.
 
+
 ## Sign up and create an API key
 
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
