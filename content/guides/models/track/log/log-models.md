@@ -162,13 +162,11 @@ The [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) method is cur
 
 Use the [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) method to log model files to a W&B run and link it to the [W&B Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
 
-{{% alert %}}
-You can think of linking a model similar to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
+Linking a model is analogous to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
 
-Note that when you link a model, that model is not duplicated in the [Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}). That model is also not moved out of the project and intro the registry. A linked model is a pointer to the original model in your project.
+When you link a model, that model is not duplicated in the [Registry]({{< relref "/guides/core/registry/model_registry/" >}}) or moved out of the project and into the registry. A linked model is a pointer to the original model in your project.
 
-Use the [Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}) to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/core/automations/model-registry-automations.md" >}}) downstream actions with webhooks or jobs.
-{{% /alert %}}
+Use the [Registry]({{< relref "/guides/core/registry/" >}}) to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/core/automations/" >}}) downstream actions with webhooks or jobs.
 
 A *Registered Model* is a collection or folder of linked model versions in the [Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}). Registered models typically represent candidate models for a single modeling use case or task. 
 
