@@ -1,0 +1,11 @@
+<!-- Overrides Docsy alert shortcode -->
+{{- $title := .Get "title" -}}
+{{- $color := .Get "color" | default "info" -}}
+<div class="alert alert-{{- $color -}}" role="alert">
+{{- with $title -}}<h4>{{- . | safeHTML -}}</h4>{{- end -}}
+{{- if eq .Page.File.Ext "md" -}}
+    {{- .Inner | markdownify -}}
+{{- else -}}
+    {{- .Inner | htmlUnescape | safeHTML -}}
+{{- end -}}
+</div>

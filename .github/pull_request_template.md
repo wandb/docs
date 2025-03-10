@@ -1,15 +1,6 @@
-## Description
+{Description of the change}
 
-What does the pull request do? If it fixes a bug or resolves a feature request, be sure to link to that issue.
+-- Remove this line and following from the merge commit message --
 
-## Ticket
-
-Does this PR fix an existing issue? If yes, provide a link to the ticket here:
-
-## Checklist
-
-Check if your PR fulfills the following requirements. Put an `X` in the boxes that apply.
-
-- [ ] Files I edited were previewed on my local development server with `yarn start`. My changes did not break the local preview.
-- [ ] Build (`yarn docusaurus build`) was run locally and successfully without errors or warnings.
-- [ ] I merged the latest changes from `main` into my feature branch before submitting this PR.
+{JIRA / GitHub issue, or remove this line}
+{Upstream code PR, or remove this line}

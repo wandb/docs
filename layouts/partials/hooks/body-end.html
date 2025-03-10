@@ -1,0 +1,37 @@
+<script>
+    // add line numbers and download buttons
+    /*
+    const preElements = document.querySelectorAll('pre');
+    preElements.forEach(pre => {
+      let codeTitle = pre.getAttribute('data-title');
+      if (codeTitle) Prism.plugins.toolbar.registerButton('title', {
+        text: codeTitle,
+      });
+    });
+    */
+    // show search keyword
+    document.addEventListener("DOMContentLoaded", function () {
+      // Function to sanitize input
+      function sanitize(str) {
+          const temp = document.createElement("div");
+          temp.textContent = str;
+          return temp.innerHTML;
+      }
+  
+      // Get query string parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryValue = urlParams.get("q");
+  
+      // Check if 'q' has a value
+      if (queryValue) {
+          // Select the first h2 with class 'ms-4'
+          const heading = document.querySelector("h2.ms-4");
+          
+          // Append the sanitized query value if the heading exists
+          if (heading) {
+              heading.textContent += `: "${sanitize(queryValue)}"`;
+          }
+      }
+  });
+  
+</script>

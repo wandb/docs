@@ -5,18 +5,21 @@ import json
 import glob
 
 # Specify the directory containing the markdown files
-directory = 'docs/support'
+directory = 'content/support'
 tagList = dict()
 outputTemplate = """---
 title: {{tag}} 
+menu:
+  support:
+    identifier: index_{{ tag }}
+    parent: support
+type: docs
 ---
-import Card from '@site/src/components/Card';
-
-<Card className="card-support-index">
-  <p>The following support questions are tagged with <b>{{tag}}</b>. If you don't see 
+{{% card %}}
+The following support questions are tagged with **{{tag}}**. If you don't see 
 your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).</p>
-</Card>
+or email [support@wandb.com](mailto:support@wandb.com).
+{{% /card %}}
 """
 def append_topic_to_tag_page(tag,markdown):
     tag = tag.lower()
@@ -39,7 +42,7 @@ def delete_files_matching_pattern(pattern, directory="."):
             print(f"Error deleting {file}: {e}")
 
 # Example usage:
-delete_files_matching_pattern("docs/support/index_*.md")  # Deletes all existing support nav files
+delete_files_matching_pattern("content/support/index_*.md")  # Deletes all existing support nav files
 
 # Loop through all files in the directory
 for filename in os.listdir(directory):
@@ -62,27 +65,8 @@ for filename in os.listdir(directory):
                             if tag not in tagList:
                                 tagList[tag] = []
                                 write_tag_page(tag)
-                            tagList[tag].append('[' + data['title'] + '](' + file_path.replace('docs/support/','') + ')')
+                            tagList[tag].append('[' + data['title'] + '](' + file_path.replace('content/support/','') + ')')
                         
 
             except Exception as error:
                 print("ERROR:",error,file_path)
-
-# Rewrite support section sidebar
-sidebar_prefix = "  support: [{type: 'doc',id: 'support/index',label: 'Support',},"
-topic_additions = ""
-sidebar_suffix = "]"
-for tag in tagList:
-    tagList[tag].sort()
-    for markdown in tagList[tag]:
-        append_topic_to_tag_page(tag,markdown)
-with open('sidebars.js', 'r') as infile, open('output.txt', 'w') as outfile:
-    for line in infile:
-        if sidebar_prefix in line:
-            for tag in sorted(tagList):
-                topic_additions += "'support/index_" + tag.lower() + "',"
-            line = sidebar_prefix + topic_additions + sidebar_suffix + '\n'
-        outfile.write(line)
-os.remove('sidebars.js')
-os.rename('output.txt', 'sidebars.js')
-print(tagList)
