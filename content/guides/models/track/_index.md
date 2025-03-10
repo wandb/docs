@@ -28,7 +28,7 @@ Track a machine learning experiment with a few lines of code:
 3. Log metrics ([`run.log()`]({{< relref "./log/" >}})) over time in a training loop, such as accuracy and loss.
 4. Save outputs of a run, like the model weights or a table of predictions.
 
-The following code demonstrates a common W&B Experiment tracking workflow:
+The following code demonstrates a common W&B experiment tracking workflow:
 
 ```python
 # Start a run.
