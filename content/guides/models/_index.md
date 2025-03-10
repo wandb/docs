@@ -13,8 +13,8 @@ W&B Models is the system of record for ML Practitioners who want to organize the
 
 With W&B Models, you can: 
 
-- Track and visualize all [ML experiments]({{< relref "./track/" >}}).
-- Optimize and fine-tune models at scale with [hyperparameter sweeps]({{< relref "./sweeps/" >}}).
+- Track and visualize all [ML experiments]({{< relref "/guides/models/track/" >}}).
+- Optimize and fine-tune models at scale with [hyperparameter sweeps]({{< relref "/guides/models/sweeps/" >}}).
 - [Maintain a centralized hub of all models]({{< relref "/guides/core/registry/" >}}), with a seamless handoff point to devops and deployment teams.
 - Configure custom automations that trigger key workflows for [model CI/CD]({{< relref "/guides/core/automations/model-registry-automations.md" >}}).
 

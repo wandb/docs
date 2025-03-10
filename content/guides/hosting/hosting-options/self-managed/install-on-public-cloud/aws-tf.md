@@ -390,7 +390,7 @@ Follow the steps outlined here to update W&B:
 This section details the steps required to upgrade from _pre-operator_ to  _post-operator_ environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
 
 {{% alert %}}
-The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See [this section]({{< relref "../kubernetes-operator/#reasons-for-the-architecture-shift" >}}) for a detailed explanation for the architecture shift.
+The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See [this section]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#reasons-for-the-architecture-shift" >}}) for a detailed explanation for the architecture shift.
 {{% /alert %}}
 
 
