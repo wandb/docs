@@ -18,8 +18,13 @@ W&B projects support two different workspace modes. The icon next to the workspa
 
 | Icon | Workspace mode |
 | --- | --- |
+<<<<<<< HEAD
 | {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}} | **Automated workspaces** automatically generate panels for all keys logged in the project. Choose an automatic workspace:<ul><li>To get started quickly by visualizing all available data for the project.</li><li>For a smaller projects that log fewer keys.</li><li>For more broad analysis.</li></ul>If you delete a panel from an automatic workspace, you can use [Quick add]({{< relref "#quick-add" >}}) to recreate it. |
 | {{<img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace:<ul><li>When you care mainly about a fraction of the keys logged in the project.</li><li>For more focused analysis.</li><li>To improve the performance of a workspace, avoiding loading panels that are less useful to you.</li></ul>Use [Quick add]({{< relref "#quick-add" >}}) to easily populate a manual workspace and its sections with useful visualizations rapidly. |
+=======
+| {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}} | **Automated workspaces** automatically generate panels for all keys logged in the project. This can help you get started by visualizing all available data for the project. |
+| {{<img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace when you care mainly about a fraction of the keys logged in the project, or for a more focused analysis. |
+>>>>>>> 81ed8226d (Script management)
 
 To change how a workspace generates panels, [reset the workspace]({{< relref "#reset-a-workspace" >}}).
 
@@ -69,6 +74,7 @@ To get back to a panel's workspace from full-screen mode, click the left-pointin
 
 ## Add panels
 
+<<<<<<< HEAD
 This section shows various ways to add panels to your workspace.
 
 ### Add a panel manually
@@ -97,6 +103,32 @@ For an automated workspace with no deleted panels, the **Quick add** option is n
     - To add all available panels, click the **Add <N> panels** button at the top of the list. The **Quick Add** list closes and the new panels display in the workspace.
     - To add an individual panel from the list, hover over the panel's row, then click **Add**. Repeat this step for each panel you want to add, then click the **X** at the top right to close the **Quick Add** list. The new panels display in the workspace.
 1. Optionally, customize the panel's settings.
+=======
+You can add panels to your workspace, either globally or at the section level.
+
+To add a panel:
+
+1. To add a panel globally, click **Add panels** in the control bar near the panel search field.
+1. To add a panel directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
+1. Select the type of panel to add.
+   
+   {{< img src="/images/app_ui/add_single_panel.gif" >}}
+
+### Quick add
+
+**Quick Add** allows you to select a key in the project from a list to generate a standard panel for it.
+
+For an automated workspace with no deleted panels, **Quick add** is not available. You can use **Quick add** to re-add a panel that you deleted.
+
+### Custom panel add
+
+To add a custom panel to your workspace:
+
+1. Select the type of panel you’d like to create.
+1. Follow the prompts to configure the panel.
+
+To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots]({{< relref "line-plot/" >}}) or [Bar plots]({{< relref "bar-plot.md" >}}).
+>>>>>>> 81ed8226d (Script management)
 
 ## Share a panel
 

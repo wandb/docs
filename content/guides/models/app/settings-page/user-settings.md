@@ -16,6 +16,7 @@ Navigate to your user profile page and select your user icon on the top right co
 
 Within the **Profile** section you can manage and modify your account name and institution. You can optionally add a biography, location, link to a personal or your institution’s website, and upload a profile image.
 
+<<<<<<< HEAD
 ## Edit your intro
 
 To edit your intro, click **Edit** at the top of your profile. The WYSIWYG editor that opens supports Markdown.
@@ -33,6 +34,8 @@ To add a follow badge for the `@weights_biases` account on X, you could add a Ma
 ```
 In an `<img>` tag, you can specify `width`, `height`, or both. If you specify only one of them, the image's proportions are maintained.
 
+=======
+>>>>>>> 81ed8226d (Script management)
 ## Teams
 
 Create a new team in the **Team** section. To create a new team, select the **New team** button and provide the following:
