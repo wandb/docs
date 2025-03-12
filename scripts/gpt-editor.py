@@ -1,6 +1,8 @@
 import sys
 from openai import OpenAI
 import os
+import subprocess
+import json 
 
 # This file uses GPT to do an edit pass on a markdown file. 
 #
@@ -18,14 +20,49 @@ with open(file, 'r') as file:
 
 data = input.split('---') # data[0]=blank, data[1]=frontmatter, data[2]=content
 
+result = subprocess.run(
+    ["vale", "--output=JSON", file.name], 
+    text=True, 
+    capture_output=True
+)
+
+try:
+    vale_output = json.loads(result.stdout)
+except json.JSONDecodeError:
+    print("Failed to parse Vale JSON output")
+    vale_output = {}
+
 # Set your API key
 client = OpenAI(
     # This is the default and can be omitted
     api_key=os.environ.get("OPENAI_API_KEY", 1),
 )
 
-prompt = """Given a page comprised of the following markdown, rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide. Do not remove things like the import statements at the top of the markdown file as that is used to tell our markdown processor that it needs to import certain libraries to render the content correctly. Be sure to leave markup intact, as well, such as <TabItem> and <Tab> tags. Avoid the use of future tense and the word "will," for example do not say "W&B will do x, y, or z." Avoid the use of Latin abbreviations such as "i.e." and "e.g." Do not wrap the output in triple tics or label it as markdown, it will be parsed as markdown already. Avoid any use of passive voice, such as the phrases "be added" or "are stored." Do not use soft language like "may," "should," "might," and "maybe." Avoid use of problematic or non-inclusive language, for example do not describe things as "disabled" or "enabled" but rather "turned off" or "turned on," and don't say things are "blacklisted" or "whitelisted," but rather "allowed" or "not allowed." Avoid the use of first-person pronouns such as "I," "my," and "we." Use the Oxford comma when appropriate. Commas and periods must go inside quotation marks. Headings must use sentence-style capitalization.
-"""
+prompt = f"""Given a page comprised of the following markdown, rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide. 
+
+### Markdown File Linting Issues:
+{vale_output}
+
+Make sure to:
+- Do not remove import statements at the top.
+- Leave markup tags such as `<TabItem>` and `<Tab>` intact.
+- Avoid future tense (e.g., do not use "will").
+- Avoid Latin abbreviations like "i.e." and "e.g."
+- Avoid wrapping the output in triple backticks or labeling it as markdown.
+- Do not use passive voice (e.g., "be added" → "adds").
+- Use direct and inclusive language (e.g., "allowed" instead of "whitelisted").
+- Do not use first-person pronouns (e.g., "I," "we").
+- Use the Oxford comma when appropriate.
+- Commas and periods must go inside quotation marks.
+- Headings must use sentence-style capitalization.
+
+Here is the markdown content:
+
+```md
+{file}
+```
+Please rewrite it accordingly. """
+
 response = client.chat.completions.create(
   model="gpt-4o-mini",
   messages=[
