@@ -4,6 +4,11 @@ import json
 import subprocess
 from openai import OpenAI
 
+import weave
+
+weave.init("gpt-markdown-editor-v0.0.5")  # Initialize Weave project
+
+@weave.op  # Log file reading
 def read_markdown_file(file_path):
     """Reads the markdown file and returns its content split into sections."""
     try:
@@ -14,6 +19,7 @@ def read_markdown_file(file_path):
         print(f"Error: File '{file_path}' not found.")
         sys.exit(1)
 
+@weave.op  # Track Vale outputs
 def run_vale_linter(file_path):
     """Runs Vale linter on the file and returns the parsed JSON output."""
     result = subprocess.run(["vale", "--output=JSON", file_path], text=True, capture_output=True)
@@ -50,6 +56,7 @@ Here is the markdown content:
 ```
 Please rewrite it accordingly."""
 
+@weave.op  # Log OpenAI API calls
 def get_gpt_rewrite(client, model, prompt, content):
     """Gets a rewrite of the content using OpenAI's GPT model."""
     response = client.chat.completions.create(
@@ -61,6 +68,7 @@ def get_gpt_rewrite(client, model, prompt, content):
     )
     return response.choices[0].message.content
 
+@weave.op  # Log before/after comparisons
 def main():
     """Main execution function."""
     if len(sys.argv) <= 1:
