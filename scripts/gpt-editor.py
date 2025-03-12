@@ -1,47 +1,34 @@
 import sys
-from openai import OpenAI
 import os
+import json
 import subprocess
-import json 
+from openai import OpenAI
 
-# This file uses GPT to do an edit pass on a markdown file. 
-#
-# Usage (run from root of repo):
-# OPENAI_API_KEY={key} python scripts/gpt-editor.py path/to/markdown-file.md
+def read_markdown_file(file_path):
+    """Reads the markdown file and returns its content split into sections."""
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read()
+        return content.split('---')  # [blank, frontmatter, content]
+    except FileNotFoundError:
+        print(f"Error: File '{file_path}' not found.")
+        sys.exit(1)
 
+def run_vale_linter(file_path):
+    """Runs Vale linter on the file and returns the parsed JSON output."""
+    result = subprocess.run(["vale", "--output=JSON", file_path], text=True, capture_output=True)
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError:
+        print("Warning: Failed to parse Vale JSON output.")
+        return {}
 
-if len(sys.argv) > 1:
-    file = sys.argv[1]
-else:
-    print("No command line arguments provided.")
-with open(file, 'r') as file:
-    input = file.read()
-    file.close()
-
-data = input.split('---') # data[0]=blank, data[1]=frontmatter, data[2]=content
-
-result = subprocess.run(
-    ["vale", "--output=JSON", file.name], 
-    text=True, 
-    capture_output=True
-)
-
-try:
-    vale_output = json.loads(result.stdout)
-except json.JSONDecodeError:
-    print("Failed to parse Vale JSON output")
-    vale_output = {}
-
-# Set your API key
-client = OpenAI(
-    # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY", 1),
-)
-
-prompt = f"""Given a page comprised of the following markdown, rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide. 
+def generate_prompt(content, vale_output):
+    """Generates the prompt for the OpenAI model."""
+    return f"""Given a page comprised of the following markdown, rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide.
 
 ### Markdown File Linting Issues:
-{vale_output}
+{json.dumps(vale_output, indent=2)}
 
 Make sure to:
 - Do not remove import statements at the top.
@@ -59,28 +46,49 @@ Make sure to:
 Here is the markdown content:
 
 ```md
-{file}
+{content}
 ```
-Please rewrite it accordingly. """
+Please rewrite it accordingly."""
 
-response = client.chat.completions.create(
-  model="gpt-4o-mini",
-  messages=[
-        {"role": "system", "content": prompt},
-        {"role": "user", "content": data[2]},
-    ]
-)
-new_content = response.choices[0].message.content
-# Print the response
-print("OLD CONTENT:")
-print(data[2])
-# Print the response
-print("NEW CONTENT:")
-print(new_content)
+def get_gpt_rewrite(client, model, prompt, content):
+    """Gets a rewrite of the content using OpenAI's GPT model."""
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": content},
+        ]
+    )
+    return response.choices[0].message.content
 
-output = "---" + data[1] + "---\n" + new_content
+def main():
+    """Main execution function."""
+    if len(sys.argv) <= 1:
+        print("Usage: python scripts/gpt-editor.py path/to/markdown-file.md")
+        sys.exit(1)
+    
+    file_path = sys.argv[1]
+    data = read_markdown_file(file_path)
+    if len(data) < 3:
+        print("Error: Invalid markdown file structure. Expected frontmatter and content.")
+        sys.exit(1)
+    
+    frontmatter, content = data[1], data[2]
+    vale_output = run_vale_linter(file_path)
+    
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    prompt = generate_prompt(content, vale_output)
+    
+    new_content = get_gpt_rewrite(client, "gpt-4o-mini", prompt, content)
+    
+    print("OLD CONTENT:\n", content)
+    print("NEW CONTENT:\n", new_content)
+    
+    output = f"---{frontmatter}---\n{new_content}"
+    
+    with open(file_path, "w") as file:
+        file.write(output)
+    print(f"File '{file_path}' successfully updated.")
 
-with open(sys.argv[1], "w") as file:
-    file.write(output) 
-
-
+if __name__ == "__main__":
+    main()
