@@ -45,5 +45,3 @@ output = "---" + data[1] + "---\n" + new_content
 
 with open(sys.argv[1], "w") as file:
     file.write(output) 
-
-
