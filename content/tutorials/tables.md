@@ -157,10 +157,10 @@ For every epoch, run a training step and a test step. For each test step, create
 
 
 ```python
-# ✨ W&B: Initialize a new run to track this model's training
+# W&B: Initialize a new run to track this model's training
 wandb.init(project="table-quickstart")
 
-# ✨ W&B: Log hyperparameters using config
+# W&B: Log hyperparameters using config
 cfg = wandb.config
 cfg.update({"epochs" : EPOCHS, "batch_size": BATCH_SIZE, "lr" : LEARNING_RATE,
             "l1_size" : L1_SIZE, "l2_size": L2_SIZE,
@@ -206,14 +206,14 @@ for epoch in range(EPOCHS):
         loss.backward()
         optimizer.step()
   
-        # ✨ W&B: Log loss over training steps, visualized in the UI live
+        # W&B: Log loss over training steps, visualized in the UI live
         wandb.log({"loss" : loss})
         if (i+1) % 100 == 0:
             print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                 .format(epoch+1, EPOCHS, i+1, total_step, loss.item()))
             
 
-    # ✨ W&B: Create a Table to store predictions for each test step
+    # W&B: Create a Table to store predictions for each test step
     columns=["id", "image", "guess", "truth"]
     for digit in range(10):
       columns.append("score_" + str(digit))
@@ -237,17 +237,17 @@ for epoch in range(EPOCHS):
             correct += (predicted == labels).sum().item()
 
         acc = 100 * correct / total
-        # ✨ W&B: Log accuracy across training epochs, to visualize in the UI
+        # W&B: Log accuracy across training epochs, to visualize in the UI
         wandb.log({"epoch" : epoch, "acc" : acc})
         print('Test Accuracy of the model on the 10000 test images: {} %'.format(acc))
 
-    # ✨ W&B: Log predictions table to wandb
+    # W&B: Log predictions table to wandb
     wandb.log({"test_predictions" : test_table})
 
-# ✨ W&B: Mark the run as complete (useful for multi-cell notebook)
+# W&B: Mark the run as complete (useful for multi-cell notebook)
 wandb.finish()
 ```
 
 ## What's next?
 The next tutorial, you will learn how to optimize hyperparameters using W&B Sweeps:
-## 👉 [Optimize Hyperparameters]({{< relref "sweeps.md" >}})
+## [Optimize Hyperparameters]({{< relref "sweeps.md" >}})
