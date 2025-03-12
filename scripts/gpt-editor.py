@@ -37,8 +37,7 @@ def generate_prompt(content, vale_output):
 {json.dumps(vale_output, indent=2)}
 
 Make sure to:
-- Do not remove import statements at the top.
-- Leave markup tags such as `<TabItem>` and `<Tab>` intact.
+- Leave Hugo markup tags such as `{{< relref >}}` and `{{< note >}}` intact.
 - Avoid future tense (e.g., do not use "will").
 - Avoid Latin abbreviations like "i.e." and "e.g."
 - Avoid wrapping the output in triple backticks or labeling it as markdown.
