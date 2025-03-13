@@ -71,13 +71,20 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
         run: |
-          # Run the script and tee its output to both stdout and a file
-          python scripts/gpt-editor.py ${{ github.event.inputs.file_path }} | tee pr_body.txt
+          # Run the script and redirect both stdout and stderr to a file
+          python scripts/gpt-editor.py ${{ github.event.inputs.file_path }} > pr_body.txt 2>&1
           
-          # Check if the output file is empty and provide a default if it is
+          # Show the output in logs too
+          cat pr_body.txt
+          
+          # Make sure we have something in the PR body even if the script doesn't output anything
           if [ ! -s pr_body.txt ]; then
-            echo "This PR contains changes made by the GPT Editor script." > pr_body.txt
+            echo "This PR contains GPT-edited changes to ${{ github.event.inputs.file_path }}." > pr_body.txt
+            echo "No additional information was provided by the script." >> pr_body.txt
           fi
+          
+          # Set the PR body as an environment variable
+          echo "PULL_REQUEST_BODY=$(cat pr_body.txt)" >> $GITHUB_ENV
 
       - name: Commit changes
         run: |
@@ -92,7 +99,7 @@ jobs:
           source_branch: ${{ steps.branch.outputs.branch_name }}
           destination_branch: ${{ github.ref_name }}
           pr_title: "GPT Editor: Automated edit of ${{ github.event.inputs.file_path }}"
-          pr_body_path: pr_body.txt
+          pr_body: "${{ github.env.PULL_REQUEST_BODY }}"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Output PR Info
