@@ -1,4 +1,4 @@
-name: GPT Editor Workflow
+name: GPT Editor
 
 on:
   workflow_dispatch:
@@ -49,7 +49,9 @@ jobs:
           pip install wandb openai
           
           # Install Vale
-          curl -sfL https://install.goreleaser.com/github.com/ValeLint/vale.sh | sh -s -- -b /tmp/vale
+          curl -sL https://github.com/errata-ai/vale/releases/download/v2.30.0/vale_2.30.0_Linux_64-bit.tar.gz -o vale.tar.gz
+          mkdir -p /tmp/vale
+          tar -xzf vale.tar.gz -C /tmp/vale
           sudo mv /tmp/vale/vale /usr/local/bin/
           vale -v # Verify installation
 
