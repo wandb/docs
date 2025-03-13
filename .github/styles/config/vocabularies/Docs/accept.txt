@@ -49,6 +49,7 @@ Kubernetes
 kfp
 (?i)latent
 LLMOps
+LLMs
 Matplotlib
 MMEngine
 MMDetection
