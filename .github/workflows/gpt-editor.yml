@@ -112,15 +112,18 @@ jobs:
       - name: Verify file exists
         run: |
           if [ ! -f "${{ github.event.inputs.file_path }}" ]; then
-            echo "Error: File '${{ github.event.inputs.file_path }}' does not exist in the repository."
+            echo "Error: File '${{ github.event.inputs.file_path }}' does not exist."
             exit 1
           fi
+          echo "File exists, first 10 lines:"
+          head -n 10 "${{ github.event.inputs.file_path }}"
 
       - name: Run GPT Editor script
-        id: gpt-editor
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+          # Set environment variable to handle Vale failures
+          VALE_FALLBACK: "true"
         run: |
           # Run the script and tee its output to both stdout and a file
           python scripts/gpt-editor.py ${{ github.event.inputs.file_path }} | tee pr_body.txt
