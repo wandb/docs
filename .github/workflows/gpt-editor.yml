@@ -1,4 +1,14 @@
-name: GPT Editor
+name: GPT Editor (on-demand version)
+
+# This workflow is designed to be run on-demand at:
+# https://github.com/wandb/docs/actions/workflows/gpt-editor.yml
+#
+# It allows you to select a file to edit with the GPT Editor script,
+# creates a branch, commits the changes, and opens a PR with the edits.
+#
+# Required repository secrets:
+# - OPENAI_API_KEY: Your OpenAI API key
+# - WANDB_API_KEY: Your Weights & Biases API key
 
 on:
   workflow_dispatch:
@@ -20,11 +30,6 @@ on:
         description: 'Pull request title'
         required: false
         default: 'GPT Editor: Automated content update'
-        type: string
-      pr_body:
-        description: 'Pull request description'
-        required: false
-        default: 'This PR contains changes made by the GPT Editor script.'
         type: string
 
 jobs:
@@ -100,11 +105,19 @@ jobs:
           fi
 
       - name: Run GPT Editor script
+        id: gpt-editor
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
         run: |
-          python scripts/gpt-editor.py ${{ github.event.inputs.file_path }}
+          # Capture script output to use as PR body
+          OUTPUT=$(python scripts/gpt-editor.py ${{ github.event.inputs.file_path }})
+          
+          # Save output to a file for the PR body
+          echo "$OUTPUT" > pr_body.txt
+          
+          # Also print it to stdout for logging
+          echo "$OUTPUT"
 
       - name: Commit changes
         run: |
