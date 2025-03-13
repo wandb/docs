@@ -1,11 +1,12 @@
 {{ if and .GitInfo .Site.Params.github_repo -}}
-<div class="td-page-meta">
-  <div>
-    {{- T "post_last_mod" }}
-    <a data-proofer-ignore href="{{ .Site.Params.github_repo }}/commit/{{ .GitInfo.Hash }}">
-      {{- .Lastmod.Format .Site.Params.time_format_default -}}
+<div class="td-page-meta__lastmod">
+  {{ T "post_last_mod" }} {{ .Lastmod.Format .Site.Params.time_format_default -}}
+  {{ with .GitInfo }}: {{/* Trim WS */ -}}
+    <a data-proofer-ignore href="{{ $.Site.Params.github_repo }}/commit/{{ .Hash }}">
+      {{ .AbbreviatedHash }} {{- /* Trim WS */ -}}
     </a>
-  </div>
+  {{- end }}
+
   <div class="feedback--links">
     {{ $path := strings.TrimPrefix (add hugo.WorkingDir "/") $.File.Filename -}}
     {{ $gh_repo := $.Param "github_repo" -}}
