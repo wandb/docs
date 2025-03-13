@@ -1,47 +1,101 @@
 import sys
-from openai import OpenAI
 import os
+import json
+import subprocess
+from openai import OpenAI
 
-# This file uses GPT to do an edit pass on a markdown file. 
-#
-# Usage (run from root of repo):
-# OPENAI_API_KEY={key} python scripts/gpt-editor.py path/to/markdown-file.md
+import weave
 
+weave.init("gpt-markdown-editor-v0.0.5")  # Initialize Weave project
 
-if len(sys.argv) > 1:
-    file = sys.argv[1]
-else:
-    print("No command line arguments provided.")
-with open(file, 'r') as file:
-    input = file.read()
-    file.close()
+@weave.op  # Log file reading
+def read_markdown_file(file_path):
+    """Reads the markdown file and returns its content split into sections."""
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read()
+        return content.split('---')  # [blank, frontmatter, content]
+    except FileNotFoundError:
+        print(f"Error: File '{file_path}' not found.")
+        sys.exit(1)
 
-data = input.split('---') # data[0]=blank, data[1]=frontmatter, data[2]=content
+@weave.op  # Track Vale outputs
+def run_vale_linter(file_path):
+    """Runs Vale linter on the file and returns the parsed JSON output."""
+    result = subprocess.run(["vale", "--output=JSON", file_path], text=True, capture_output=True)
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError:
+        print("Warning: Failed to parse Vale JSON output.")
+        return {}
 
-# Set your API key
-client = OpenAI(
-    # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY", 1),
-)
+def generate_prompt(content, vale_output):
+    """Generates the prompt for the OpenAI model."""
+    return f"""Given a page comprised of the following markdown, rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide.
 
-prompt = """Given a page comprised of the following markdown, rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide. Do not remove things like the import statements at the top of the markdown file as that is used to tell our markdown processor that it needs to import certain libraries to render the content correctly. Be sure to leave markup intact, as well, such as <TabItem> and <Tab> tags. Avoid the use of future tense and the word "will," for example do not say "W&B will do x, y, or z." Avoid the use of Latin abbreviations such as "i.e." and "e.g." Do not wrap the output in triple tics or label it as markdown, it will be parsed as markdown already. Avoid any use of passive voice, such as the phrases "be added" or "are stored." Do not use soft language like "may," "should," "might," and "maybe." Avoid use of problematic or non-inclusive language, for example do not describe things as "disabled" or "enabled" but rather "turned off" or "turned on," and don't say things are "blacklisted" or "whitelisted," but rather "allowed" or "not allowed." Avoid the use of first-person pronouns such as "I," "my," and "we." Use the Oxford comma when appropriate. Commas and periods must go inside quotation marks. Headings must use sentence-style capitalization.
-"""
-response = client.chat.completions.create(
-  model="gpt-4o-mini",
-  messages=[
-        {"role": "system", "content": prompt},
-        {"role": "user", "content": data[2]},
-    ]
-)
-new_content = response.choices[0].message.content
-# Print the response
-print("OLD CONTENT:")
-print(data[2])
-# Print the response
-print("NEW CONTENT:")
-print(new_content)
+### Markdown File Linting Issues:
+{json.dumps(vale_output, indent=2)}
 
-output = "---" + data[1] + "---\n" + new_content
+Make sure to:
+- Leave Hugo markup tags such as `{{< relref >}}` and `{{< note >}}` intact.
+- Avoid future tense (e.g., do not use "will").
+- Avoid Latin abbreviations like "i.e." and "e.g."
+- Avoid wrapping the output in triple backticks or labeling it as markdown.
+- Do not use passive voice (e.g., "be added" → "adds").
+- Use direct and inclusive language (e.g., "allowed" instead of "whitelisted").
+- Do not use first-person pronouns (e.g., "I," "we").
+- Use the Oxford comma when appropriate.
+- Commas and periods must go inside quotation marks.
+- Headings must use sentence-style capitalization.
 
-with open(sys.argv[1], "w") as file:
-    file.write(output) 
+Here is the markdown content:
+
+```md
+{content}
+```
+Please rewrite it accordingly."""
+
+@weave.op  # Log OpenAI API calls
+def get_gpt_rewrite(client, model, prompt, content):
+    """Gets a rewrite of the content using OpenAI's GPT model."""
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": content},
+        ]
+    )
+    return response.choices[0].message.content
+
+@weave.op  # Log before/after comparisons
+def main():
+    """Main execution function."""
+    if len(sys.argv) <= 1:
+        print("Usage: python scripts/gpt-editor.py path/to/markdown-file.md")
+        sys.exit(1)
+    
+    file_path = sys.argv[1]
+    data = read_markdown_file(file_path)
+    if len(data) < 3:
+        print("Error: Invalid markdown file structure. Expected frontmatter and content.")
+        sys.exit(1)
+    
+    frontmatter, content = data[1], data[2]
+    vale_output = run_vale_linter(file_path)
+    
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    prompt = generate_prompt(content, vale_output)
+    
+    new_content = get_gpt_rewrite(client, "gpt-4o-mini", prompt, content)
+    
+    print("OLD CONTENT:\n", content)
+    print("NEW CONTENT:\n", new_content)
+    
+    output = f"---{frontmatter}---\n{new_content}"
+    
+    with open(file_path, "w") as file:
+        file.write(output)
+    print(f"File '{file_path}' successfully updated.")
+
+if __name__ == "__main__":
+    main()
