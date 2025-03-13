@@ -22,10 +22,42 @@ def read_markdown_file(file_path):
 def run_vale_linter(file_path):
     """Runs Vale linter on the file and returns the parsed JSON output."""
     result = subprocess.run(["vale", "--output=JSON", file_path], text=True, capture_output=True)
+    
+    # Print raw output for debugging
+    print(f"Vale stdout: {result.stdout!r}")
+    print(f"Vale stderr: {result.stderr!r}")
+    
+    if result.returncode != 0:
+        print(f"Warning: Vale exited with code {result.returncode}")
+    
     try:
-        return json.loads(result.stdout)
-    except json.JSONDecodeError:
-        print("Warning: Failed to parse Vale JSON output.")
+        # Try stdout first
+        if result.stdout.strip():
+            return json.loads(result.stdout)
+        # Some tools output to stderr instead
+        elif result.stderr.strip():
+            return json.loads(result.stderr)
+        else:
+            print("Warning: Vale produced no output")
+            return {}
+    except json.JSONDecodeError as e:
+        print(f"JSON decode error: {e}")
+        print(f"Position: {e.pos}, Line: {e.lineno}, Column: {e.colno}")
+        
+        # Try to clean the output if it might have extra text
+        cleaned_output = result.stdout.strip()
+        # Find first '{' and last '}'
+        start = cleaned_output.find('{')
+        end = cleaned_output.rfind('}')
+        
+        if start >= 0 and end > start:
+            try:
+                cleaned_json = cleaned_output[start:end+1]
+                print(f"Attempting to parse cleaned JSON: {cleaned_json[:100]}...")
+                return json.loads(cleaned_json)
+            except json.JSONDecodeError:
+                print("Failed to parse cleaned JSON as well")
+        
         return {}
 
 def generate_prompt(content, vale_output):
@@ -48,7 +80,7 @@ When handling the Vale feedback and using it to rewrite the following markdown c
 - Commas and periods must go inside quotation marks.
 - Headings must use sentence-style capitalization.
 - You can touch any of the example code inside the markdown, except for the code comments
-- Avoid using indirect, soft terms like "may," "should," and "perhaps." Technical documentation is prescriptive and documents exactly what happens and when.
+- Remove instances of indirect, soft terms like "may," "might," and "should." Technical documentation is prescriptive and documents exactly what happens and when.
 - We want to hit a Flesch-Kincaid readability level of 7th grade and Flesch-Kincaid ease-of-reading score above 70.
 - If Vale reports violations of a Microsoft rule and a Google rule and the error messages seem to conflict, favor the Google style guide.
 
@@ -91,9 +123,6 @@ def main():
     prompt = generate_prompt(content, vale_output)
     
     new_content = get_gpt_rewrite(client, "gpt-4o-mini", prompt, content)
-    
-    print("OLD CONTENT:\n", content)
-    print("NEW CONTENT:\n", new_content)
     
     output = f"---{frontmatter}---\n{new_content}"
     
