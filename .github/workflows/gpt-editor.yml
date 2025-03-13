@@ -1,7 +1,7 @@
 name: GPT Editor Workflow
 
 on:
-  pull_request:
+  workflow_dispatch:
     inputs:
       file_path:
         description: 'Path to the file to be edited'
