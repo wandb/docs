@@ -23,7 +23,7 @@ on:
         type: string
 
 jobs:
-  gpt-edit:
+  gpt-editor:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
