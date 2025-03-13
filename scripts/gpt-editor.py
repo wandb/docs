@@ -21,7 +21,12 @@ def read_markdown_file(file_path):
 @weave.op  # Track Vale outputs
 def run_vale_linter(file_path):
     """Runs Vale linter on the file and returns the parsed JSON output."""
-    result = subprocess.run(["vale", "--output=JSON", file_path], text=True, capture_output=True)
+    print(f"Running Vale on file: {file_path}")
+    result = subprocess.run(["vale", "--output=JSON", "--no-exit", file_path], text=True, capture_output=True)
+    
+    print(f"Vale stdout: {result.stdout}")
+    print(f"Vale stderr: {result.stderr}")
+    print(f"Vale exit code: {result.returncode}")
     
     json_data = {}
     try:
@@ -29,6 +34,10 @@ def run_vale_linter(file_path):
             json_data = json.loads(result.stdout)
         else:
             print("Warning: Vale produced no output")
+            # Create placeholder data
+            json_data = {file_path: [
+                {"Check": "PlaceholderCheck", "Message": "Vale produced no output", "Line": 1, "Column": 1}
+            ]}
     except json.JSONDecodeError as e:
         print(f"JSON decode error: {e}")
         
@@ -43,6 +52,15 @@ def run_vale_linter(file_path):
                 json_data = json.loads(cleaned_json)
             except json.JSONDecodeError:
                 print("Failed to parse cleaned JSON as well")
+                # Create placeholder data
+                json_data = {file_path: [
+                    {"Check": "ParseError", "Message": "Failed to parse Vale output", "Line": 1, "Column": 1}
+                ]}
+        else:
+            # Create placeholder data
+            json_data = {file_path: [
+                {"Check": "JSONError", "Message": "No JSON found in Vale output", "Line": 1, "Column": 1}
+            ]}
     
     # Count total linting errors
     total_errors = 0
@@ -62,19 +80,20 @@ def run_vale_linter(file_path):
     
     return json_data
 
+@weave.op  # Log prompt generation
 def generate_prompt(content, vale_output):
     """Generates the prompt for the OpenAI model."""
-    return f"""You are a brilliant. technical documentation editor. Given a page comprised of the following markdown, please rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide.
+    return f"""You are a brilliant technical documentation editor. Given a page comprised of the following markdown, please rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide.
 
 ### Markdown File Linting Issues:
 {json.dumps(vale_output, indent=2)}
 
 When handling the Vale feedback and using it to rewrite the following markdown content, here are your general instructions:
 - If Vale feedback matches line 1, column 1, that is Vale's way of saying that it's a general comment on the entire markdown file, so please keep that feedback in mind throughout the text.
-- Leave Hugo markup tags such as `{{< relref >}}` and `{{< note >}}` intact.
-- Avoid future tense (e.g., do not use "will").
+- Leave Hugo markup tags such as `{{< relref >}}`, `{{% tab %}}`, and `{{< note >}}` intact.
+- Avoid future tense (for example, do not use "will").
 - Avoid Latin abbreviations like "i.e." and "e.g."
-- Remove any emoji
+- Remove any emoji (for example: 👉)
 - Avoid wrapping the output in triple backticks or labeling it as markdown.
 - Use active voice and correct instances of passive voice (for example, change "be added" to "adds").
 - Use direct and inclusive language (for example, use "allowed" instead of "whitelisted").
@@ -127,7 +146,7 @@ def main():
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     prompt = generate_prompt(content, vale_output)
     
-    new_content = get_gpt_rewrite(client, "gpt-4o-mini", prompt, content)
+    new_content = get_gpt_rewrite(client, "gpt-4o", prompt, content)
     
     output = f"---{frontmatter}---\n{new_content}"
     
