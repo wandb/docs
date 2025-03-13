@@ -1,4 +1,4 @@
-name: GPT Editor Workflow
+name: GPT Editor
 
 on:
   workflow_dispatch:
