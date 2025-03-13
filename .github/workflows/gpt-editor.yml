@@ -91,12 +91,16 @@ jobs:
           git push --set-upstream origin ${{ steps.branch.outputs.branch_name }}
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        id: create-pr
+        uses: repo-sync/pull-request@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: ${{ github.event.inputs.commit_message }}
-          branch: ${{ steps.branch.outputs.branch_name }}
-          delete-branch: false
-          title: ${{ github.event.inputs.pr_title }}
-          body: ${{ github.event.inputs.pr_body }}
-          draft: false
+          source_branch: ${{ steps.branch.outputs.branch_name }}
+          destination_branch: ${{ github.ref_name }}
+          pr_title: ${{ github.event.inputs.pr_title }}
+          pr_body: ${{ github.event.inputs.pr_body }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Output PR Info
+        run: |
+          echo "Pull Request URL: ${{ steps.create-pr.outputs.pr_url }}"
+          echo "Pull Request Number: ${{ steps.create-pr.outputs.pr_number }}"
