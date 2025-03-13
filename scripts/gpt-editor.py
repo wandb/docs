@@ -74,6 +74,7 @@ When handling the Vale feedback and using it to rewrite the following markdown c
 - Leave Hugo markup tags such as `{{< relref >}}` and `{{< note >}}` intact.
 - Avoid future tense (e.g., do not use "will").
 - Avoid Latin abbreviations like "i.e." and "e.g."
+- Remove any emoji
 - Avoid wrapping the output in triple backticks or labeling it as markdown.
 - Use active voice and correct instances of passive voice (for example, change "be added" to "adds").
 - Use direct and inclusive language (for example, use "allowed" instead of "whitelisted").
@@ -81,7 +82,7 @@ When handling the Vale feedback and using it to rewrite the following markdown c
 - Use the Oxford comma when appropriate.
 - Commas and periods must go inside quotation marks.
 - Headings must use sentence-style capitalization.
-- You can touch any of the example code inside the markdown, except for the code comments
+- You can touch any of the example code inside the markdown (enclosed in triple backticks), except for the code comments
 - Remove instances of indirect, soft terms like "may," "might," and "should." Technical documentation is prescriptive and documents exactly what happens and when.
 - We want to hit a Flesch-Kincaid readability level of 7th grade and Flesch-Kincaid ease-of-reading score above 70.
 - If Vale reports violations of a Microsoft rule and a Google rule and the error messages seem to conflict, favor the Google style guide.

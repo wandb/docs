@@ -17,20 +17,6 @@ on:
         description: 'Path to the file to be edited'
         required: true
         type: string
-      branch_name:
-        description: 'Name for the new branch (default: gpt-edit-<timestamp>)'
-        required: false
-        type: string
-      commit_message:
-        description: 'Commit message'
-        required: false
-        default: 'GPT-edited content'
-        type: string
-      pr_title:
-        description: 'Pull request title'
-        required: false
-        default: 'GPT Editor: Automated content update'
-        type: string
 
 jobs:
   gpt-edit:
@@ -63,12 +49,8 @@ jobs:
       - name: Set branch name
         id: branch
         run: |
-          if [ -z "${{ github.event.inputs.branch_name }}" ]; then
-            timestamp=$(date +%Y%m%d%H%M%S)
-            echo "branch_name=gpt-edit-${timestamp}" >> $GITHUB_OUTPUT
-          else
-            echo "branch_name=${{ github.event.inputs.branch_name }}" >> $GITHUB_OUTPUT
-          fi
+          timestamp=$(date +%Y%m%d%H%M%S)
+          echo "branch_name=gpt-edit-${timestamp}" >> $GITHUB_OUTPUT
 
       - name: Create new branch
         run: |
@@ -89,19 +71,18 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
         run: |
-          # Capture script output to use as PR body
-          OUTPUT=$(python scripts/gpt-editor.py ${{ github.event.inputs.file_path }})
+          # Run the script and tee its output to both stdout and a file
+          python scripts/gpt-editor.py ${{ github.event.inputs.file_path }} | tee pr_body.txt
           
-          # Save output to a file for the PR body
-          echo "$OUTPUT" > pr_body.txt
-          
-          # Also print it to stdout for logging
-          echo "$OUTPUT"
+          # Check if the output file is empty and provide a default if it is
+          if [ ! -s pr_body.txt ]; then
+            echo "This PR contains changes made by the GPT Editor script." > pr_body.txt
+          fi
 
       - name: Commit changes
         run: |
           git add ${{ github.event.inputs.file_path }}
-          git commit -m "${{ github.event.inputs.commit_message }}"
+          git commit -m "GPT-edited content"
           git push --set-upstream origin ${{ steps.branch.outputs.branch_name }}
 
       - name: Create Pull Request
@@ -110,7 +91,7 @@ jobs:
         with:
           source_branch: ${{ steps.branch.outputs.branch_name }}
           destination_branch: ${{ github.ref_name }}
-          pr_title: ${{ github.event.inputs.pr_title }}
+          pr_title: "GPT Editor: Automated edit of ${{ github.event.inputs.file_path }}"
           pr_body_path: pr_body.txt
           github_token: ${{ secrets.GITHUB_TOKEN }}
           
