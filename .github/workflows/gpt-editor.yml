@@ -116,7 +116,10 @@ jobs:
           source_branch: ${{ steps.branch.outputs.branch_name }}
           destination_branch: ${{ github.event.inputs.source_branch || github.ref_name }}
           pr_title: "GPT Editor: Automated edit of ${{ github.event.inputs.file_path }}"
-          pr_body: ${{ env.PR_BODY }}
+          pr_body: |
+            This PR contains GPT-edited changes to ${{ github.event.inputs.file_path }}.
+            
+            [View the GitHub Action run that created this PR](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
           github_token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Output PR Info
