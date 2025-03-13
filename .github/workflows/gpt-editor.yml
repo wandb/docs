@@ -36,21 +36,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          
-      - name: Set PR body
-        id: set-pr-body
-        run: |
-          # This step must be placed after running the script to ensure pr_body.txt exists
-          
-          # Create a multiline string for the PR body
-          echo 'PR_BODY<<EOF' >> $GITHUB_ENV
-          echo "This PR contains GPT-edited changes to ${{ github.event.inputs.file_path }}." >> $GITHUB_ENV
-          echo "" >> $GITHUB_ENV
-          echo "Script output:" >> $GITHUB_ENV
-          echo '```' >> $GITHUB_ENV
-          cat pr_body.txt >> $GITHUB_ENV
-          echo '```' >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
@@ -91,17 +76,8 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
         run: |
-          # Run the script and redirect both stdout and stderr to a file
-          python scripts/gpt-editor.py ${{ github.event.inputs.file_path }} > pr_body.txt 2>&1
-          
-          # Show the output in logs too
-          cat pr_body.txt
-          
-          # Make sure we have something in the PR body even if the script doesn't output anything
-          if [ ! -s pr_body.txt ]; then
-            echo "This PR contains GPT-edited changes to ${{ github.event.inputs.file_path }}." > pr_body.txt
-            echo "No additional information was provided by the script." >> pr_body.txt
-          fi
+          # Run the script
+          python scripts/gpt-editor.py ${{ github.event.inputs.file_path }}
 
       - name: Commit changes
         run: |
