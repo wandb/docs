@@ -3,7 +3,6 @@ import os
 import json
 import subprocess
 from openai import OpenAI
-
 import weave
 
 weave.init("gpt-markdown-editor-v0.0.5")  # Initialize Weave project

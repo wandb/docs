@@ -46,7 +46,7 @@ jobs:
           # Install Python dependencies
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install wandb openai
+          pip install wandb openai weave
           
           # Install Vale
           curl -sL https://github.com/errata-ai/vale/releases/download/v2.30.0/vale_2.30.0_Linux_64-bit.tar.gz -o vale.tar.gz
