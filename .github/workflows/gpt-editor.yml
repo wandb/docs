@@ -1,0 +1,106 @@
+name: GPT Editor
+
+on:
+  workflow_dispatch:
+    inputs:
+      file_path:
+        description: 'Path to the file to be edited'
+        required: true
+        type: string
+      branch_name:
+        description: 'Name for the new branch (default: gpt-edit-<timestamp>)'
+        required: false
+        type: string
+      commit_message:
+        description: 'Commit message'
+        required: false
+        default: 'GPT-edited content'
+        type: string
+      pr_title:
+        description: 'Pull request title'
+        required: false
+        default: 'GPT Editor: Automated content update'
+        type: string
+      pr_body:
+        description: 'Pull request description'
+        required: false
+        default: 'This PR contains changes made by the GPT Editor script.'
+        type: string
+
+jobs:
+  gpt-edit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          # Install Python dependencies
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install wandb openai
+          
+          # Install Vale
+          curl -sL https://github.com/errata-ai/vale/releases/download/v2.30.0/vale_2.30.0_Linux_64-bit.tar.gz -o vale.tar.gz
+          mkdir -p /tmp/vale
+          tar -xzf vale.tar.gz -C /tmp/vale
+          sudo mv /tmp/vale/vale /usr/local/bin/
+          vale -v # Verify installation
+
+      - name: Set branch name
+        id: branch
+        run: |
+          if [ -z "${{ github.event.inputs.branch_name }}" ]; then
+            timestamp=$(date +%Y%m%d%H%M%S)
+            echo "branch_name=gpt-edit-${timestamp}" >> $GITHUB_OUTPUT
+          else
+            echo "branch_name=${{ github.event.inputs.branch_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create new branch
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git checkout -b ${{ steps.branch.outputs.branch_name }}
+
+      - name: Verify file exists
+        run: |
+          if [ ! -f "${{ github.event.inputs.file_path }}" ]; then
+            echo "Error: File '${{ github.event.inputs.file_path }}' does not exist in the repository."
+            exit 1
+          fi
+
+      - name: Run GPT Editor script
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python scripts/gpt-editor.py ${{ github.event.inputs.file_path }}
+
+      - name: Commit changes
+        run: |
+          git add ${{ github.event.inputs.file_path }}
+          git commit -m "${{ github.event.inputs.commit_message }}"
+          git push --set-upstream origin ${{ steps.branch.outputs.branch_name }}
+
+      - name: Create Pull Request
+        id: create-pr
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: ${{ steps.branch.outputs.branch_name }}
+          destination_branch: ${{ github.ref_name }}
+          pr_title: ${{ github.event.inputs.pr_title }}
+          pr_body: ${{ github.event.inputs.pr_body }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Output PR Info
+        run: |
+          echo "Pull Request URL: ${{ steps.create-pr.outputs.pr_url }}"
+          echo "Pull Request Number: ${{ steps.create-pr.outputs.pr_number }}"
