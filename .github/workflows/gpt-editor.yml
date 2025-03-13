@@ -46,7 +46,7 @@ jobs:
           # Install Python dependencies
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install wandb openai weave
+          pip install wandb openai
           
           # Install Vale
           curl -sL https://github.com/errata-ai/vale/releases/download/v2.30.0/vale_2.30.0_Linux_64-bit.tar.gz -o vale.tar.gz
@@ -81,6 +81,7 @@ jobs:
       - name: Run GPT Editor script
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
         run: |
           python scripts/gpt-editor.py ${{ github.event.inputs.file_path }}
 
