@@ -8,15 +8,15 @@ title: W&B Quickstart
 url: quickstart
 weight: 2
 ---
-Install W&B to track, visualize, and manage machine learning experiments of any scale.
+Install W&B to track, visualize, and manage machine learning experiments of any size.
 
 ## Sign up and create an API key
 
-An API key authenticates your machine with W&B. Generate one from your user profile or at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and store it securely in a password manager.
+To authenticate your machine with W&B, generate an API key from your user profile or at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
 
 ## Install the `wandb` library and log in
 
-Follow these steps to install the `wandb` library and log in:
+Install the `wandb` library and log in by following these steps:
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
@@ -61,7 +61,7 @@ wandb.login()
 
 ## Start a run and track hyperparameters
 
-Initialize a W&B run object in your Python script or notebook using [`wandb.init()`]({{< relref "/ref/python/run.md" >}}). Use a dictionary for the `config` parameter to specify hyperparameter names and values:
+In your Python script or notebook, initialize a W&B run object with [`wandb.init()`]({{< relref "/ref/python/run.md" >}}). Use a dictionary for the `config` parameter to specify hyperparameter names and values:
 
 ```python
 run = wandb.init(
@@ -73,11 +73,11 @@ run = wandb.init(
 )
 ```
 
-A [run]({{< relref "/guides/models/track/runs/" >}}) is the core element of W&B, used to [track metrics]({{< relref "/guides/models/track/" >}}), [create logs]({{< relref "/guides/core/artifacts/" >}}), and more.
+A [run]({{< relref "/guides/models/track/runs/" >}}) serves as the core element of W&B, used to [track metrics]({{< relref "/guides/models/track/" >}}), [create logs]({{< relref "/guides/core/artifacts/" >}}), and more.
 
 ## Assemble the components
 
-The following mock training script logs simulated accuracy and loss metrics to W&B:
+This mock training script logs simulated accuracy and loss metrics to W&B:
 
 ```python
 # train.py
@@ -110,15 +110,15 @@ for epoch in range(2, epochs):
 # run.log_code()
 ```
 
-Visit the W&B App at [wandb.ai/home](https://wandb.ai/home) to view metrics, such as accuracy and loss, recorded during each training step.
+Visit the W&B App at [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss during each training step.
 
 {{< img src="/images/quickstart/quickstart_image.png" alt="Shows loss and accuracy tracked from each run." >}}
 
-The preceding image illustrates the loss and accuracy tracked from each run. Each created run object appears in the **Runs** column with generated names.
+The preceding image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
 ## Next steps
 
-Explore other features of the W&B ecosystem:
+Explore more features of the W&B ecosystem:
 
 1. Review [W&B Integrations]({{< relref "guides/integrations/" >}}) to combine W&B with ML frameworks like PyTorch, ML libraries like Hugging Face, or services like SageMaker.
 2. Organize runs, automate visualizations, summarize findings, and share updates with collaborators using [W&B Reports]({{< relref "/guides/core/reports/" >}}).

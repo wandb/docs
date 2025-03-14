@@ -19,9 +19,10 @@ def read_markdown_file(file_path):
         sys.exit(1)
 
 @weave.op  # Track Vale outputs
-def run_vale_linter(file_path, json_output=True):
+def run_vale_linter(file_path, json_output=True, verbose=True):
     """Runs Vale linter on the file and returns the parsed JSON output and error count."""
-    print(f"Running Vale on file: {file_path}")
+    if verbose:
+        print(f"Running Vale on file: {file_path}")
     
     cmd = ["vale", "--no-exit", file_path]
     if json_output:
@@ -48,15 +49,18 @@ def run_vale_linter(file_path, json_output=True):
                 for file_path, alerts in json_data.items():
                     file_errors = len(alerts)
                     total_errors += file_errors
-                    print(f"Found {file_errors} linting issues in {file_path}")
+                    if verbose:
+                        print(f"Found {file_errors} linting issues in {file_path}")
         else:
-            print("Warning: Vale produced no output")
+            if verbose:
+                print("Warning: Vale produced no output")
             # Create placeholder data
             json_data = {file_path: [
                 {"Check": "PlaceholderCheck", "Message": "Vale produced no output", "Line": 1, "Column": 1}
             ]}
     except json.JSONDecodeError as e:
-        print(f"JSON decode error: {e}")
+        if verbose:
+            print(f"JSON decode error: {e}")
         
         # Try to clean the output
         cleaned_output = result.stdout.strip()
@@ -72,7 +76,8 @@ def run_vale_linter(file_path, json_output=True):
                 for file_path, alerts in json_data.items():
                     total_errors += len(alerts)
             except json.JSONDecodeError:
-                print("Failed to parse cleaned JSON as well")
+                if verbose:
+                    print("Failed to parse cleaned JSON as well")
                 # Create placeholder data
                 json_data = {file_path: [
                     {"Check": "ParseError", "Message": "Failed to parse Vale output", "Line": 1, "Column": 1}
@@ -86,10 +91,11 @@ def run_vale_linter(file_path, json_output=True):
             total_errors = 1
     
     # Display status based on error count
-    if total_errors == 0:
-        print("Linting completed successfully: No linting errors found")
-    else:
-        print(f"\nLinting completed with issues: {total_errors} total linting errors found")
+    if verbose:
+        if total_errors == 0:
+            print("Linting completed successfully: No linting errors found")
+        else:
+            print(f"\nLinting completed with issues: {total_errors} total linting errors found")
     
     return json_data, total_errors
 
@@ -106,6 +112,8 @@ def generate_prompt(content, vale_output):
 ### Vale feedback in a JSON report:
 {json.dumps(vale_output, indent=2)}
 
+CRITICAL INSTRUCTION: You must NEVER modify ANY code blocks in the document. Code blocks are enclosed between triple backticks. The content inside code blocks must remain 100% unchanged, including whitespace, comments, variable names, and syntax.
+
 When handling the Vale feedback and using it to rewrite the following markdown content, here are your general instructions:
 - If Vale feedback matches line 1, column 1, that is Vale's way of saying that it's a general comment on the entire markdown file, so please keep that feedback in mind throughout the text.
 - Leave Hugo markup tags such as `{{< relref >}}`, `{{% tab %}}`, and `{{< note >}}` intact.
@@ -119,19 +127,23 @@ When handling the Vale feedback and using it to rewrite the following markdown c
 - Use the Oxford comma when appropriate.
 - Commas and periods must go inside quotation marks.
 - Headings must use sentence-style capitalization.
-- You can touch any of the example code inside the markdown (enclosed in triple backticks), except for the code comments
+- Remove non-standard characters like arrows (for example: →)
+- Do NOT change URLs in the text (for example wandb.ai/authorize)
+- Do NOT modify any example code inside the markdown (enclosed in triple backticks). All code examples must remain EXACTLY the same, byte for byte.
 - Remove instances of indirect, soft terms like "may," "might," and "should." Technical documentation is prescriptive and documents exactly what happens and when.
 - We want to hit a Flesch-Kincaid readability level of 7th grade and Flesch-Kincaid ease-of-reading score above 70.
 - If Vale reports violations of a Microsoft rule and a Google rule and the error messages seem to conflict, favor the Google style guide.
 - If Vale suggests that an acronym is not spelled out, remember that it only needs to be spelled out in the first instance of the page, then it's okay to use the acronym.
 - Above all, emphasize brevity and clarity and avoid marketing speak that sells the product we're documenting!
 
+IMPORTANT: 
+- Do NOT include any markdown code fence markers (```md) in your response
+- Return ONLY the raw content
+- ANY code between triple backticks must remain EXACTLY the same, byte for byte, with no changes whatsoever
+
 Here is the markdown content:
 
-```md
-{content}
-```
-Please rewrite it accordingly. Thank you!"""
+{content}"""
 
 @weave.op  # Log OpenAI API calls
 def get_gpt_rewrite(client, model, prompt, content):
@@ -144,6 +156,122 @@ def get_gpt_rewrite(client, model, prompt, content):
         ]
     )
     return response.choices[0].message.content
+
+@weave.op  # Generate focused fix for specific issue
+def generate_focused_prompt(content, issue):
+    """Generates a focused prompt for fixing a single Vale issue."""
+    line = issue.get('Line', 'Unknown')
+    
+    # Check for whole-document issue (Line 1 + Column/Span 1)
+    is_whole_document = (line == 1 and 
+                         (issue.get('Column', 0) == 1 or 
+                          (isinstance(issue.get('Span', []), list) and 
+                           len(issue.get('Span', [])) >= 2 and 
+                           issue.get('Span', [0, 0])[0] == 1 and 
+                           issue.get('Span', [0, 0])[1] == 1)))
+    
+    if is_whole_document:
+        scope_text = "This issue applies to the ENTIRE document. Please review and fix throughout the text portions only."
+    else:
+        scope_text = f"Located at line {line}, column {issue.get('Column', issue.get('Span', [0, 0])[1] if isinstance(issue.get('Span', []), list) and len(issue.get('Span', [])) >= 2 else 'Unknown')}"
+    
+    return f"""You are a precise technical documentation editor. You need to fix ONE specific style issue in markdown content.
+
+The issue details:
+- Rule: {issue.get('Check', 'Unknown')}
+- Message: {issue.get('Message', 'Unknown')}
+- {scope_text}
+
+CRITICAL INSTRUCTION: You must NEVER modify ANY code blocks in the document. Code blocks are enclosed between triple backticks. The content inside code blocks must remain 100% unchanged, including whitespace, comments, variable names, and syntax.
+
+Here's the content with the issue. Please return the ENTIRE document with just this one issue fixed.
+Do not change anything else in the document. Focus only on fixing this specific issue while preserving
+all other content, formatting, and structure.
+
+IMPORTANT: 
+- Do NOT include any markdown code fence markers (```md) in your response
+- Return ONLY the raw content
+- ANY code between triple backticks must remain EXACTLY the same, byte for byte, with no changes whatsoever
+- Do NOT change URLs in the text (for example wandb.ai/authorize)
+- Remove non-standard characters like arrows (for example: →) only if that's part of the issue you're fixing
+
+{content}"""
+
+@weave.op
+def filter_duplicate_issues(issues):
+    """Filter out duplicate issues that target the same problem on the same line."""
+    if not issues:
+        return []
+    
+    # Group issues by line number
+    issues_by_line = {}
+    for issue in issues:
+        line = issue.get('Line', 0)
+        if line not in issues_by_line:
+            issues_by_line[line] = []
+        issues_by_line[line].append(issue)
+    
+    # Filter out duplicates within each line
+    filtered_issues = []
+    
+    # Keep track of processed groups
+    processed_issues = 0
+    
+    for line, line_issues in issues_by_line.items():
+        processed_issues += len(line_issues)
+        
+        if len(line_issues) == 1:
+            filtered_issues.extend(line_issues)
+            continue
+            
+        # Group by issue type
+        issue_groups = {
+            'passive': [],
+            'readability': [],
+            'spelling': [],
+            'acronym': [],
+            'other': []
+        }
+        
+        for issue in line_issues:
+            check = issue.get('Check', '').lower()
+            msg = issue.get('Message', '').lower()
+            
+            # Passive voice issues
+            if 'passive' in check or 'passive' in msg:
+                issue_groups['passive'].append(issue)
+            # Readability metrics
+            elif 'readability' in check or any(x in check for x in ['fog', 'flesch', 'kincaid', 'lix']):
+                issue_groups['readability'].append(issue)
+            # Spelling/wording issues
+            elif any(x in check for x in ['spell', 'typo', 'dict']):
+                issue_groups['spelling'].append(issue)
+            # Acronym issues
+            elif 'acronym' in check or (('definition' in msg or 'spell out' in msg) and any(word.isupper() for word in msg.split())):
+                issue_groups['acronym'].append(issue)
+            else:
+                issue_groups['other'].append(issue)
+        
+        # Take one from each category
+        for category, group_issues in issue_groups.items():
+            if not group_issues:
+                continue
+                
+            if category in ['passive', 'acronym']:
+                # Prefer Google style guide issues when available
+                google_issues = [i for i in group_issues if 'google' in i.get('Check', '').lower()]
+                filtered_issues.append(google_issues[0] if google_issues else group_issues[0])
+            elif category in ['readability', 'spelling']:
+                filtered_issues.append(group_issues[0])
+            else:
+                # Add all "other" issues as they're likely different
+                filtered_issues.extend(group_issues)
+    
+    print(f"Original issue count: {len(issues)}")
+    print(f"Filtered issue count: {len(filtered_issues)}")
+    print(f"Removed {len(issues) - len(filtered_issues)} duplicate issues")
+    
+    return filtered_issues
 
 @weave.op  # Log iteration progress
 def process_markdown_with_loop(file_path, max_iterations=5):
@@ -171,6 +299,11 @@ def process_markdown_with_loop(file_path, max_iterations=5):
     previous_error_count = initial_error_count
     total_issues_solved = 0
     iteration = 1
+    
+    # Keep track of the best version so far
+    best_error_count = initial_error_count
+    best_content = content
+    best_frontmatter = frontmatter
     
     while iteration <= max_iterations:
         print(f"\n=== Iteration {iteration} ===")
@@ -204,22 +337,124 @@ def process_markdown_with_loop(file_path, max_iterations=5):
         print(f"Issues solved this iteration: {issues_solved_this_round}")
         print(f"Total issues solved so far: {total_issues_solved}")
         
+        # Check if this is the best version so far
+        if error_count_after < best_error_count:
+            best_error_count = error_count_after
+            best_content = new_content
+            best_frontmatter = frontmatter
+            print(f"New best version with {best_error_count} issues!")
+        
         # Check if we should continue or exit
         if error_count_after == 0:
             print(f"\nAll issues resolved!")
             break
         
-        if issues_solved_this_round <= 0:
+        # If we made negative progress, restore the best version
+        if issues_solved_this_round < 0:
+            print(f"\nDetected regression. Restoring best version with {best_error_count} issues.")
+            output = f"---{best_frontmatter}---\n{best_content}"
+            with open(file_path, "w") as file:
+                file.write(output)
+            break
+        
+        # If no progress was made, exit the loop
+        if issues_solved_this_round == 0:
             print(f"\nNo further improvement possible.")
             break
         
         iteration += 1
     
+    # If there are remaining issues, try focused approach with gpt-4o-mini
+    remaining_issues = initial_error_count - total_issues_solved
+    if remaining_issues > 0:
+        print("\n=== Starting Focused Fix Mode ===")
+        print(f"Attempting to fix {remaining_issues} remaining issues individually with gpt-4o-mini")
+        
+        # Get current content and issues
+        current_data = read_markdown_file(file_path)
+        frontmatter, content = current_data[1], current_data[2]
+        vale_output, current_error_count = run_vale_linter(file_path)
+        
+        if current_error_count > 0 and vale_output:
+            # Track issues fixed in focused mode
+            focused_fixes = 0
+            focused_iterations = 0
+            
+            # Process each file in vale output
+            for file_key, issues in vale_output.items():
+                # Filter out duplicate issues
+                filtered_issues = filter_duplicate_issues(issues)
+                
+                # Sort issues by line number to process them in order
+                sorted_issues = sorted(filtered_issues, key=lambda x: x.get('Line', 0))
+                
+                for issue in sorted_issues:
+                    focused_iterations += 1
+                    
+                    # Display issue info with clearer whole-document indication
+                    is_whole_document = (issue.get('Line', 0) == 1 and 
+                                        (issue.get('Column', 0) == 1 or 
+                                         (isinstance(issue.get('Span', []), list) and 
+                                          len(issue.get('Span', [])) >= 2 and 
+                                          issue.get('Span', [0, 0])[0] == 1 and 
+                                          issue.get('Span', [0, 0])[1] == 1)))
+                    
+                    if is_whole_document:
+                        print(f"\n--- Fixing Issue {focused_iterations}/{len(sorted_issues)} ---")
+                        print(f"Rule: {issue.get('Check', 'Unknown')}")
+                        print(f"Message: {issue.get('Message', 'Unknown')}")
+                        print(f"Scope: Whole document")
+                    else:
+                        print(f"\n--- Fixing Issue {focused_iterations}/{len(sorted_issues)} ---")
+                        print(f"Rule: {issue.get('Check', 'Unknown')}")
+                        print(f"Message: {issue.get('Message', 'Unknown')}")
+                        print(f"Line: {issue.get('Line', 'Unknown')}")
+                    
+                    # Generate focused prompt for this issue
+                    focused_prompt = generate_focused_prompt(content, issue)
+                    fixed_content = get_gpt_rewrite(client, "gpt-4o-mini", focused_prompt, content)
+                    
+                    # Write fixed content
+                    output = f"---{frontmatter}---\n{fixed_content}"
+                    with open(file_path, "w") as file:
+                        file.write(output)
+                        
+                    # Check if fix worked
+                    new_vale_output, new_error_count = run_vale_linter(file_path, verbose=False)
+                    issues_fixed = current_error_count - new_error_count
+                    
+                    if issues_fixed > 0:
+                        focused_fixes += issues_fixed
+                        # Update for next iteration
+                        current_error_count = new_error_count
+                        content = fixed_content
+                        
+                        # Refresh vale output if we fixed something
+                        vale_output = new_vale_output
+                        
+                        # Break early if all issues are fixed
+                        if current_error_count == 0:
+                            print("All issues have been fixed!")
+                            break
+                    else:
+                        # Revert to previous content since fix didn't work
+                        output = f"---{frontmatter}---\n{content}"
+                        with open(file_path, "w") as file:
+                            file.write(output)
+            
+            print(f"\n=== Focused Fix Results ===")
+            print(f"Additional issues fixed: {focused_fixes}")
+            total_issues_solved += focused_fixes
+    
     # Final summary and non-JSON Vale report
     print("\n=== Final Results ===")
     print(f"Initial Vale issues: {initial_error_count}")
     print(f"Issues solved: {total_issues_solved}")
-    print(f"Remaining issues: {initial_error_count - total_issues_solved}")
+    
+    # Get current error count for accurate remaining issues
+    _, final_error_count = run_vale_linter(file_path, verbose=False)
+    print(f"Remaining issues: {final_error_count}")
+    
     print("\nFinal Vale report (non-JSON format):")
     final_report, _ = run_vale_linter(file_path, json_output=False)
 
