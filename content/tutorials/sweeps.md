@@ -18,7 +18,7 @@ Running a hyperparameter sweep with Weights & Biases involves three steps:
 
 1. **Define the sweep**: Create a dictionary or a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}) that specifies parameters to search, strategy, and optimization metrics.
 2. **Initialize the sweep**: Use `sweep_id = wandb.sweep(sweep_config)` to initialize the sweep.
-3. **Run the sweep personal digital assistant**: Call `wandb.agent(sweep_id, function=train)` to run the sweep and pass a function that defines and trains your model.
+3. **Run the sweep**: Call `wandb.agent(sweep_id, function=train)` to run the sweep and pass a function that defines and trains your model.
 
 ## Before you begin
 
