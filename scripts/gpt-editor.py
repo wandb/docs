@@ -115,11 +115,11 @@ def generate_prompt(content, vale_output):
 CRITICAL INSTRUCTION: You must NEVER modify ANY code blocks in the document. Code blocks are enclosed between triple backticks. The content inside code blocks must remain 100% unchanged, including whitespace, comments, variable names, and syntax.
 
 When handling the Vale feedback and using it to rewrite the following markdown content, here are your general instructions:
-- If Vale feedback matches line 1, column 1, that is Vale's way of saying that it's a general comment on the entire markdown file, so please keep that feedback in mind throughout the text.
+- If Vale feedback is for a span of 1,1 (meaning line 1 column 1), that is Vale's way of saying that it's a general comment on the entire markdown file, so please keep that feedback in mind throughout the text.
 - Leave Hugo markup tags such as `{{< relref >}}`, `{{% tab %}}`, and `{{< note >}}` intact.
 - Avoid future tense (for example, do not use "will").
 - Avoid Latin abbreviations like "i.e." and "e.g."
-- Remove any emoji (for example: 👉)
+- Remove any emoji or other non-standard character (for example: 👉 and →)
 - Avoid wrapping the output in triple backticks or labeling it as markdown.
 - Use active voice and correct instances of passive voice (for example, change "be added" to "adds").
 - Use direct and inclusive language (for example, use "allowed" instead of "whitelisted").
@@ -127,9 +127,7 @@ When handling the Vale feedback and using it to rewrite the following markdown c
 - Use the Oxford comma when appropriate.
 - Commas and periods must go inside quotation marks.
 - Headings must use sentence-style capitalization.
-- Remove non-standard characters like arrows (for example: →)
 - Do NOT change URLs in the text (for example wandb.ai/authorize)
-- Do NOT modify any example code inside the markdown (enclosed in triple backticks). All code examples must remain EXACTLY the same, byte for byte.
 - Remove instances of indirect, soft terms like "may," "might," and "should." Technical documentation is prescriptive and documents exactly what happens and when.
 - We want to hit a Flesch-Kincaid readability level of 7th grade and Flesch-Kincaid ease-of-reading score above 70.
 - If Vale reports violations of a Microsoft rule and a Google rule and the error messages seem to conflict, favor the Google style guide.
@@ -188,12 +186,10 @@ Here's the content with the issue. Please return the ENTIRE document with just t
 Do not change anything else in the document. Focus only on fixing this specific issue while preserving
 all other content, formatting, and structure.
 
-IMPORTANT: 
+IMPORTANT:
 - Do NOT include any markdown code fence markers (```md) in your response
 - Return ONLY the raw content
 - ANY code between triple backticks must remain EXACTLY the same, byte for byte, with no changes whatsoever
-- Do NOT change URLs in the text (for example wandb.ai/authorize)
-- Remove non-standard characters like arrows (for example: →) only if that's part of the issue you're fixing
 
 {content}"""
 
@@ -240,9 +236,6 @@ def filter_duplicate_issues(issues):
             # Passive voice issues
             if 'passive' in check or 'passive' in msg:
                 issue_groups['passive'].append(issue)
-            # Readability metrics
-            elif 'readability' in check or any(x in check for x in ['fog', 'flesch', 'kincaid', 'lix']):
-                issue_groups['readability'].append(issue)
             # Spelling/wording issues
             elif any(x in check for x in ['spell', 'typo', 'dict']):
                 issue_groups['spelling'].append(issue)

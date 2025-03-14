@@ -37,7 +37,7 @@ Helm
 (?i)hostname
 HTML
 Hyperband
-(?i)hyperparameter
+(?i)hyperparameter(s)
 (?i)importance
 JWT
 Kaniko
