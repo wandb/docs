@@ -18,7 +18,7 @@ on:
         required: true
         type: string
       source_branch:
-        description: 'Source branch to create new branch from and target PR to (default: current branch)'
+        description: 'Source branch to create new branch from and target PR to (default: main)'
         required: false
         type: string
 
@@ -53,6 +53,7 @@ jobs:
 
       - name: Debug Vale configuration
         run: |
+          vale sync
           # Check Vale config
           echo "Vale configuration:"
           cat .vale.ini
@@ -117,7 +118,7 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add "${{ github.event.inputs.file_path }}"
+          git add .
           git commit -m "GPT-edited content"
           git push --set-upstream origin ${{ steps.branch.outputs.branch_name }}
 
