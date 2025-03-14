@@ -8,7 +8,9 @@ weight: 3
 ---
 W&B Sweeps optimize machine learning models by exploring combinations of hyperparameters, such as learning rate, batch size, hidden layer count, and optimizer type, to efficiently achieve metrics.
 
-This guide shows how to create a hyperparameter search using the W&B PyTorch integration. Follow along with this [video tutorial](http://wandb.me/sweeps-video).
+This guide shows how to create a hyperparameter search using the W&B PyTorch integration. Follow along with this [video tutorial](http://wandb.me/sweeps-video) or this Google Colab notebook. 
+
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb" >}}
 
 ## Sweeps: An overview
 
