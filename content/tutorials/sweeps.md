@@ -22,29 +22,30 @@ Running a hyperparameter sweep with Weights & Biases involves three steps:
 
 ## Before you begin
 
-Install W&B and import the W&B Python SDK:
+Obtain an API key at http://wandb.ai/authorize and save it as an environment variable under the key `WANDB_API_KEY`:
 
-1. Install:
-
-```
-!pip install wandb -Uq
+```shell
+export WANDB_API_KEY={Your API Key}
 ```
 
-2. Import:
+Install the W&B Python SDK in your environment using `pip`:
 
+```shell
+pip install wandb
 ```
+
+Log in to W&B, either via the shell with `wandb login` or in your Python script by importing `wandb` and calling `wandb.login()`:
+
+```python
 import wandb
-```
 
-3. Log in and enter your API key:
-
-```
 wandb.login()
 ```
 
+
 ## Step 1: define a sweep
 
-W&B Sweep combines a strategy for trying different hyperparameter values with evaluation code. Define your sweep strategy with a sweep configuration.
+W&B Sweeps combine a strategy for trying different hyperparameter values with evaluation code. Define your sweep strategy with a sweep configuration.
 
 {{% alert %}}
 If starting a sweep in a Jupyter Notebook, the configuration must be a nested dictionary. On the command line, use a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}).
@@ -56,13 +57,13 @@ Specify a hyperparameter search method in your configuration dictionary. Choose 
 
 Use random search for this tutorial:
 
-```
+```python
 sweep_config = {'method': 'random'}
 ```
 
 Specify a metric for optimization. While not required for random search methods, tracking your sweep goals is important:
 
-```
+```python
 metric = {'name': 'loss', 'goal': 'minimize'}
 sweep_config['metric'] = metric
 ```
@@ -71,7 +72,7 @@ sweep_config['metric'] = metric
 
 Define which hyperparameters to search over by adding them to `parameters_dict` in your sweep configuration:
 
-```
+```python
 parameters_dict = {
     'optimizer': {'values': ['adam', 'sgd']},
     'fc_layer_size': {'values': [128, 256, 512]},
@@ -83,7 +84,7 @@ sweep_config['parameters'] = parameters_dict
 
 To track a hyperparameter without varying it, specify its exact value:
 
-```
+```python
 parameters_dict.update({'epochs': {'value': 1}})
 ```
 
@@ -91,7 +92,7 @@ For a `random` search, all parameter `values` have an equal probability of selec
 
 Optionally, specify a distribution for parameters:
 
-```
+```python
 parameters_dict.update({
     'learning_rate': {
         'distribution': 'uniform',
@@ -109,7 +110,7 @@ parameters_dict.update({
 
 After defining `sweep_config`, print it to review:
 
-```
+```python
 import pprint
 pprint.pprint(sweep_config)
 ```
@@ -117,7 +118,7 @@ pprint.pprint(sweep_config)
 For all configuration options, see [Sweep configuration options]({{< relref "/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/" >}}). 
 
 {{% alert %}}
-For hyperparameters with many options, focus on key `values`. For instance, `layer_size` and `dropout` have definite values.
+For hyperparameters with potentially infinite options, start by trying out a few select `values`. For example, the preceding sweep configuration has a list of finite values specified for the `layer_size` and `dropout` parameter keys.
 {{% /alert %}}
 
 ## Step 2: initialize the sweep
@@ -130,7 +131,7 @@ By default, sweep controllers run on W&B's servers while personal digital assist
 
 Activate the controller within your notebook using the `wandb.sweep` method with your `sweep_config`:
 
-```
+```python
 sweep_id = wandb.sweep(sweep_config, project="pytorch-sweeps-demo")
 ```
 
@@ -138,6 +139,7 @@ The `wandb.sweep` method returns a `sweep_id` to activate your sweep.
 
 {{% alert %}}
 To run this function from the command line, use:
+
 ```python
 wandb sweep config.yaml
 ```
@@ -175,7 +177,7 @@ def train(config=None):
             wandb.log({"loss": avg_loss, "epoch": epoch})           
 ```
 
-Observe these W&B Python SDK methods within the `train` function:
+This example uses these W&B Python SDK methods within the `train` function:
 * [`wandb.init()`]({{< relref "/ref/python/init" >}}): Initializes a new W&B run.
 * [`wandb.config`]({{< relref "/guides/models/track/config" >}}): Passes the sweep configuration.
 * [`wandb.log()`]({{< relref "/ref/python/log" >}}): Logs training loss for each epoch.
