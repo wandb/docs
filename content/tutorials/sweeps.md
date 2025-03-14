@@ -6,219 +6,148 @@ menu:
 title: Tune hyperparameters with sweeps
 weight: 3
 ---
+W&B Sweeps optimize machine learning models by exploring combinations of hyperparameters, such as learning rate, batch size, hidden layer count, and optimizer type, to efficiently achieve metrics.
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb" >}}
+This guide shows how to create a hyperparameter search using the W&B PyTorch integration. Follow along with this [video tutorial](http://wandb.me/sweeps-video).
 
-Finding a machine learning model that meets your desired metric (such as model accuracy) is normally a redundant task that can take multiple iterations. To make matters worse, it might be unclear which hyperparameter combinations to use for a given training run. 
+## Sweeps: An overview
 
-Use W&B Sweeps to create an organized and efficient way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, optimizer type and more to find values that optimize your model based on your desired metric.
+Running a hyperparameter sweep with Weights & Biases involves three steps:
 
-In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](http://wandb.me/sweeps-video).
+1. **Define the sweep**: Create a dictionary or a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}) that specifies parameters to search, strategy, and optimization metrics.
+2. **Initialize the sweep**: Use `sweep_id = wandb.sweep(sweep_config)` to initialize the sweep.
+3. **Run the sweep personal digital assistant**: Call `wandb.agent(sweep_id, function=train)` to run the sweep and pass a function that defines and trains your model.
 
-{{< img src="/images/tutorials/sweeps-1.png" alt="" >}}
+## Before you begin
 
-## Sweeps: An Overview
+Install W&B and import the W&B Python SDK:
 
-Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
-
-1. **Define the sweep:** we do this by creating a dictionary or a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}) that specifies the parameters to search through, the search strategy, the optimization metric et all.
-
-2. **Initialize the sweep:** with one line of code we initialize the sweep and pass in the dictionary of sweep configurations:
-`sweep_id = wandb.sweep(sweep_config)`
-
-3. **Run the sweep agent:** also accomplished with one line of code, we call `wandb.agent()` and pass the `sweep_id` to run, along with a function that defines your model architecture and trains it:
-`wandb.agent(sweep_id, function=train)`
-
-
-## Before you get started
-
-Install W&B and import the W&B Python SDK into your notebook:
-
-1. Install with `!pip install`:
-
+1. Install:
 
 ```
 !pip install wandb -Uq
 ```
 
-2. Import W&B:
-
+2. Import:
 
 ```
 import wandb
 ```
 
-3. Log in to W&B and provide your API key when prompted:
-
+3. Log in and enter your API key:
 
 ```
 wandb.login()
 ```
 
-## Step 1️: Define a sweep
+## Step 1: define a sweep
 
-A W&B Sweep combines a strategy for trying numerous hyperparameter values with the code that evaluates them.
-Before you start a sweep, you must define your sweep strategy with a _sweep configuration_.
-
+W&B Sweep combines a strategy for trying different hyperparameter values with evaluation code. Define your sweep strategy with a sweep configuration.
 
 {{% alert %}}
-The sweep configuration you create for a sweep must be in a nested dictionary if you start a sweep in a Jupyter Notebook.
-
-If you run a sweep within the command line, you must specify your sweep config with a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}).
+If starting a sweep in a Jupyter Notebook, the configuration must be a nested dictionary. On the command line, use a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}).
 {{% /alert %}}
 
 ### Pick a search method
 
-First, specify a hyperparameter search method within your configuration dictionary. [There are three hyperparameter search strategies to choose from: grid, random, and Bayesian search]({{< relref "/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/#method" >}}).
+Specify a hyperparameter search method in your configuration dictionary. Choose from grid, random, and Bayesian search.
 
-For this tutorial, you will use a random search. Within your notebook, create a dictionary and specify `random` for the `method` key. 
-
-
-```
-sweep_config = {
-    'method': 'random'
-    }
-```
-
-Specify a metric that you want to optimize for. You do not need to specify the metric and goal for sweeps that use random search method. However, it is good practice to keep track of your sweep goals because you can refer to it at a later time.
-
+Use random search for this tutorial:
 
 ```
-metric = {
-    'name': 'loss',
-    'goal': 'minimize'   
-    }
+sweep_config = {'method': 'random'}
+```
 
+Specify a metric for optimization. While not required for random search methods, tracking your sweep goals is important:
+
+```
+metric = {'name': 'loss', 'goal': 'minimize'}
 sweep_config['metric'] = metric
 ```
 
-### Specify hyperparameters to search through
+### Specify hyperparameters to search
 
-Now that you have a search method specified in your sweep configuration, specify the hyperparameters you want to search over.
-
-To do this, specify one or more hyperparameter names to the `parameter` key and specify one or more hyperparameter values for the `value` key.
-
-The values you search through for a given hyperparamter depend on the type of hyperparameter you are investigating.  
-
-For example, if you choose a machine learning optimizer, you must specify one or more finite optimizer names such as the Adam optimizer and stochastic gradient dissent.
-
+Define which hyperparameters to search over by adding them to `parameters_dict` in your sweep configuration:
 
 ```
 parameters_dict = {
-    'optimizer': {
-        'values': ['adam', 'sgd']
-        },
-    'fc_layer_size': {
-        'values': [128, 256, 512]
-        },
-    'dropout': {
-          'values': [0.3, 0.4, 0.5]
-        },
-    }
+    'optimizer': {'values': ['adam', 'sgd']},
+    'fc_layer_size': {'values': [128, 256, 512]},
+    'dropout': {'values': [0.3, 0.4, 0.5]},
+}
 
 sweep_config['parameters'] = parameters_dict
 ```
 
-Sometimes you want to track a hyperparameter, but not vary its value. In this case, add the hyperparameter to your sweep configuration and specify the exact value that you want to use. For example, in the following code cell, `epochs` is set to 1.
-
+To track a hyperparameter without varying it, specify its exact value:
 
 ```
-parameters_dict.update({
-    'epochs': {
-        'value': 1}
-    })
+parameters_dict.update({'epochs': {'value': 1}})
 ```
 
-For a `random` search,
-all the `values` of a parameter are equally likely to be chosen on a given run.
+For a `random` search, all parameter `values` have an equal probability of selection.
 
-Alternatively,
-you can specify a named `distribution`,
-plus its parameters, like the mean `mu`
-and standard deviation `sigma` of a `normal` distribution.
-
+Optionally, specify a distribution for parameters:
 
 ```
 parameters_dict.update({
     'learning_rate': {
-        # a flat distribution between 0 and 0.1
         'distribution': 'uniform',
         'min': 0,
-        'max': 0.1
-      },
+        'max': 0.1,
+    },
     'batch_size': {
-        # integers between 32 and 256
-        # with evenly-distributed logarithms 
         'distribution': 'q_log_uniform_values',
         'q': 8,
         'min': 32,
         'max': 256,
-      }
-    })
+    }
+})
 ```
 
-When we're finished, `sweep_config` is a nested dictionary
-that specifies exactly which `parameters` we're interested in trying
-and the `method` we're going to use to try them.
-
-Let's see how the sweep configuration looks like:
-
+After defining `sweep_config`, print it to review:
 
 ```
 import pprint
 pprint.pprint(sweep_config)
 ```
 
-For a full list of configuration options, see [Sweep configuration options]({{< relref "/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/" >}}). 
+For all configuration options, see [Sweep configuration options]({{< relref "/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/" >}}). 
 
 {{% alert %}}
-For hyperparameters that have potentially infinite options,
-it usually makes sense to try out
-a few select `values`. For example, the preceding sweep configuration has a list of finite values specified for the `layer_size` and `dropout` parameter keys.
+For hyperparameters with many options, focus on key `values`. For instance, `layer_size` and `dropout` have definite values.
 {{% /alert %}}
 
-## Step 2️: Initialize the Sweep
+## Step 2: initialize the sweep
 
-Once you've defined the search strategy, it's time to set up something to implement it.
-
-W&B uses a Sweep Controller to manage sweeps on the cloud or locally across one or more machines. For this tutorial, you will use a sweep controller managed by W&B.
-
-While sweep controllers manage sweeps, the component that actually executes a sweep is known as a _sweep agent_.
-
+After defining your strategy, set up your implementation. W&B manages sweeps with a Sweep Controller, either cloud-based or local. This tutorial uses a cloud-managed sweep controller.
 
 {{% alert %}}
-By default, sweep controllers components are initiated on W&B's servers and sweep agents, the component that creates sweeps, are activated on your local machine.
+By default, sweep controllers run on W&B's servers while personal digital assistants operate on your machine.
 {{% /alert %}}
 
-
-Within your notebook, you can activate a sweep controller with the `wandb.sweep` method. Pass your sweep configuration dictionary you defined earlier to the `sweep_config` field:
-
+Activate the controller within your notebook using the `wandb.sweep` method with your `sweep_config`:
 
 ```
 sweep_id = wandb.sweep(sweep_config, project="pytorch-sweeps-demo")
 ```
 
-The `wandb.sweep` function returns a `sweep_id` that you will use at a later step to activate your sweep.
+The `wandb.sweep` method returns a `sweep_id` to activate your sweep.
 
 {{% alert %}}
-On the command line, this function is replaced with
+To run this function from the command line, use:
 ```python
 wandb sweep config.yaml
 ```
 {{% /alert %}}
 
-For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough]({{< relref "/guides/models/sweeps/walkthrough" >}}).
+For terminal instructions, see the [W&B Sweep walkthrough]({{< relref "/guides/models/sweeps/walkthrough" >}}).
 
+## Step 3: define your machine learning code
 
-## Step 3:  Define your machine learning code
+Define a training procedure that accesses the hyperparameter values from the sweep configuration before running the sweep. The helper functions `build_dataset`, `build_network`, `build_optimizer`, and `train_epoch` use this configuration.
 
-Before you execute the sweep,
-define the training procedure that uses the hyperparameter values you want to try. The key to integrating W&B Sweeps into your training code is to ensure that, for each training experiment, that your training logic can access the hyperparameter values you defined in your sweep configuration.
-
-In the proceeding code example, the helper functions `build_dataset`, `build_network`, `build_optimizer`, and `train_epoch` access the sweep hyperparameter configuration dictionary. 
-
-Run the proceeding machine learning training code in your notebook. The functions define a basic fully connected neural network in PyTorch.
-
+The following PyTorch training code defines a basic fully connected neural network:
 
 ```python
 import torch
@@ -232,8 +161,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def train(config=None):
     # Initialize a new wandb run
     with wandb.init(config=config):
-        # If called by wandb.agent, as below,
-        # this config will be set by Sweep Controller
+        # If called by wandb.agent, this config is set by the Sweep Controller
         config = wandb.config
 
         loader = build_dataset(config.batch_size)
@@ -245,17 +173,12 @@ def train(config=None):
             wandb.log({"loss": avg_loss, "epoch": epoch})           
 ```
 
-Within the `train` function, you will notice the following W&B Python SDK methods:
-* [`wandb.init()`]({{< relref "/ref/python/init" >}}): Initialize a new W&B run. Each run is a single execution of the training function.
-* [`wandb.config`]({{< relref "/guides/models/track/config" >}}): Pass sweep configuration with the hyperparameters you want to experiment with.
-* [`wandb.log()`]({{< relref "/ref/python/log" >}}): Log the training loss for each epoch.
+Observe these W&B Python SDK methods within the `train` function:
+* [`wandb.init()`]({{< relref "/ref/python/init" >}}): Initializes a new W&B run.
+* [`wandb.config`]({{< relref "/guides/models/track/config" >}}): Passes the sweep configuration.
+* [`wandb.log()`]({{< relref "/ref/python/log" >}}): Logs training loss for each epoch.
 
-
-The proceeding cell defines four functions:
-`build_dataset`, `build_network`, `build_optimizer`, and `train_epoch`. 
-These functions are a standard part of a basic PyTorch pipeline,
-and their implementation is unaffected by the use of W&B.
-
+The next cell defines functions typical in a PyTorch pipeline, unaffected by W&B use:
 
 ```python
 def build_dataset(batch_size):
@@ -263,7 +186,7 @@ def build_dataset(batch_size):
     transform = transforms.Compose(
         [transforms.ToTensor(),
          transforms.Normalize((0.1307,), (0.3081,))])
-    # download MNIST training dataset
+    # Download MNIST training dataset
     dataset = datasets.MNIST(".", train=True, download=True,
                              transform=transform)
     sub_dataset = torch.utils.data.Subset(
@@ -274,7 +197,7 @@ def build_dataset(batch_size):
 
 
 def build_network(fc_layer_size, dropout):
-    network = nn.Sequential(  # fully connected, single hidden layer
+    network = nn.Sequential(  # Fully connected, single hidden layer
         nn.Flatten(),
         nn.Linear(784, fc_layer_size), nn.ReLU(),
         nn.Dropout(dropout),
@@ -313,56 +236,51 @@ def train_epoch(network, loader, optimizer):
     return cumu_loss / len(loader)
 ```
 
-For more details on instrumenting W&B with PyTorch, see [this Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb).
+For a complete guide on using W&B with PyTorch, visit [this Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb).
 
-## Step 4: Activate sweep agents
-Now that you have your sweep configuration defined and a training script that can utilize those hyperparameter in an interactive way, you are ready to activate a sweep agent. Sweep agents are responsible for running an experiment with a set of hyperparameter values that you defined in your sweep configuration.
+## Step 4: activate sweep agents
 
-Create sweep agents with the `wandb.agent` method. Provide the following:
-1. The sweep the agent is a part of (`sweep_id`)
-2. The function the sweep is supposed to run. In this example, the sweep will use the `train` function.
-3. (optionally) How many configs to ask the sweep controller for (`count`)
+With your sweep configuration and training script ready, activate a sweep agent. Sweep agents run experiments using the hyperparameter values from your configuration.
+
+Use the `wandb.agent` method to create agents. Provide:
+1. The sweep (`sweep_id`) the agent belongs to.
+2. The function for the sweep to run (for example, `train`).
+3. Optionally, how many configs to request from the sweep controller (`count`).
 
 {{% alert %}}
-You can start multiple sweep agents with the same `sweep_id`
-on different compute resources. The sweep controller ensures that they work together
-according to the sweep configuration you defined.
+Start multiple agents with the same `sweep_id` across different resources. The controller ensures collaborative functioning per configuration.
 {{% /alert %}}
 
-The proceeding cell activates a sweep agent that runs the training function (`train`) 5 times:
-
+The following cell initiates an agent running `train` 5 times:
 
 ```python
 wandb.agent(sweep_id, train, count=5)
 ```
 
 {{% alert %}}
-Since the `random` search method was specified in the sweep configuration, the sweep controller provides randomly generated hyperparameter values.
+The sweep controller generates random hyperparameter values due to the specified `random` search method.
 {{% /alert %}}
 
-For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough]({{< relref "/guides/models/sweeps/walkthrough" >}}).
+For more information, view the [W&B Sweep walkthrough]({{< relref "/guides/models/sweeps/walkthrough" >}}).
 
-## Visualize Sweep Results
+## Visualize sweep results
 
+### Parallel coordinates plot
 
-
-### Parallel Coordinates Plot
-This plot maps hyperparameter values to model metrics. It’s useful for honing in on combinations of hyperparameters that led to the best model performance.
+This visualization maps hyperparameter values to model metrics and identifies effective hyperparameter combinations.
 
 {{< img src="/images/tutorials/sweeps-2.png" alt="" >}}
 
+### Hyperparameter importance plot
 
-### Hyperparameter Importance Plot
-The hyperparameter importance plot surfaces which hyperparameters were the best predictors of your metrics.
-We report feature importance (from a random forest model) and correlation (implicitly a linear model).
+This visualization highlights hyperparameters that best predict metrics, displaying feature importance and correlation.
 
 {{< img src="/images/tutorials/sweeps-3.png" alt="" >}}
 
-These visualizations can help you save both time and resources running expensive hyperparameter optimizations by honing in on the parameters (and value ranges) that are the most important, and thereby worthy of further exploration.
+These visualizations identify crucial parameters and aid resource savings during hyperparameter optimizations.
 
+## Learn more about W&B sweeps
 
-## Learn more about W&B Sweeps
+Explore a training script and [various sweep configurations](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion). Experiment with these examples.
 
-We created a simple training script and [a few flavors of sweep configs](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion) for you to play with. We highly encourage you to give these a try.
-
-That repo also has examples to help you try more advanced sweep features like [Bayesian Hyperband](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/us0ifmrf?workspace=user-lavanyashukla), and [Hyperopt](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/xbs2wm5e?workspace=user-lavanyashukla).
+Find more examples showcasing advanced features like [Bayesian Hyperband](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/us0ifmrf?workspace=user-lavanyashukla) and [Hyperopt](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/xbs2wm5e?workspace=user-lavanyashukla).
