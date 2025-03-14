@@ -285,6 +285,6 @@ These visualizations identify crucial parameters and aid resource savings during
 
 ## Learn more about W&B sweeps
 
-Explore a training script and [various sweep configurations](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion). Experiment with these examples.
+Explore a training script and [various sweep configurations](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion).
 
 Find more examples showcasing advanced features like [Bayesian Hyperband](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/us0ifmrf?workspace=user-lavanyashukla) and [Hyperopt](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/xbs2wm5e?workspace=user-lavanyashukla).
