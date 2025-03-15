@@ -83,6 +83,8 @@ Ultra[Ll]ytics
 [Ww]alkthroughs?
 wandb
 wandb.com
+W&B Models
+W&B Weave
 W&B Server
 [Ww]ebhooks?
 [Ww]orkspaces?
