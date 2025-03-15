@@ -81,7 +81,7 @@ Within a dictionary, specify what hyperparameters you want to sweep over and. Fo
 
 The proceeding example demonstrates a sweep configuration that uses a random search (`'method':'random'`). The sweep will randomly select a random set of values listed in the configuration for the batch size, epoch, and the learning rate.
 
-Throughout the sweeps, W&B will maximize the metric specified in the metric key (`metric`). In the following example, W&B will minimize (`"goal": "minimize"`) the score (`"name": "score"`).
+Throughout the sweeps, W&B will maximize the metric specified in the metric key (`metric`). In the following example, W&B will maximize (`'goal':'maximize'`) the validation accuracy (`'val_acc'`).
 
 
 ```python
