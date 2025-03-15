@@ -1,8 +1,7 @@
 name: GPT Editor (CI version)
 
 on:
-    repository_dispatch:
-      types: [gpt-edit-command]
+    pull_request:
 
 jobs:
   improve-docs:
