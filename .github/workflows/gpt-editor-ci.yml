@@ -1,8 +1,8 @@
 name: GPT Editor (CI version)
 
 on:
-  issue_comment:
-    types: [created]
+    repository_dispatch:
+      types: [gpt-edit-command]
 
 jobs:
   improve-docs:
