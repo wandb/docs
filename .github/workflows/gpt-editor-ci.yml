@@ -42,7 +42,7 @@ jobs:
               id: changed-files
               uses: tj-actions/changed-files@v45
               with:
-              files: '**/*.md'
+                files: '**/*.md'
             - name: Install GitHub CLI
               run: |
                 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
@@ -52,8 +52,8 @@ jobs:
             - name: Process files with GPT and create suggestions
               if: steps.changed-files.outputs.any_changed == 'true'
               env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              PR_NUMBER: ${{ github.event.issue.number }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                PR_NUMBER: ${{ github.event.issue.number }}
               run: |
                 # Create a Python script to process the markdown files
                 cat > gpt_suggestions.py << 'EOF'
