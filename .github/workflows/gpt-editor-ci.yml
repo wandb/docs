@@ -1,19 +1,13 @@
 name: GPT Editor (CI version)
 
 on:
-  issue_comment:
-    types: [created]
+    workflow_dispatch:
 
 jobs:
   improve-docs:
     runs-on: ubuntu-latest
     # Only run on PR comments containing "gpt editor" (case insensitive)
-    if: |
-      github.event.issue.pull_request &&
-      contains(github.event.comment.body, 'gpt editor') || 
-      contains(github.event.comment.body, 'GPT Editor') || 
-      contains(github.event.comment.body, 'GPT editor') || 
-      contains(github.event.comment.body, 'gpt Editor')
+
     permissions:
       contents: read
       pull-requests: write
