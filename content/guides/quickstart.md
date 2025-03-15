@@ -10,6 +10,7 @@ weight: 2
 ---
 Install W&B to track, visualize, and manage machine learning experiments of any size.
 
+
 ## Sign up and create an API key
 
 To authenticate your machine with W&B, generate an API key from your user profile or at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
