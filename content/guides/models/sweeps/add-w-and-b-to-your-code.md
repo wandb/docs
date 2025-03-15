@@ -113,7 +113,7 @@ def evaluate_one_epoch(epoch):
 
 
 def main():
-    run = wandb.init()
+    wandb.init()
 
     # note that we define values from `wandb.config`
     # instead of defining hard values
@@ -200,7 +200,7 @@ def main():
     with open("./config.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
-    run = wandb.init(config=config)
+    wandb.init(config=config)
 
     # Note that we define values from `wandb.config`
     # instead of  defining hard values
@@ -315,7 +315,7 @@ def train():
 def main():
     wandb.init(entity="<entity>", project="my-first-sweep")
     val_metrics = train()
-    wandb.log({"val_loss", val_metrics["val_loss"]})
+    wandb.log({"val_loss": val_metrics["val_loss"]})
 
 
 sweep_configuration = {
