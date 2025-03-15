@@ -7,22 +7,24 @@ title: Keras
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" >}}
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Use Weights & Biases for machine learning experiment tracking, dataset
+versioning, and project collaboration.
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
-This Colab notebook introduces the `WandbMetricsLogger` callback. Use this callback for [Experiment Tracking]({{< relref "/guides/models/track" >}}). It will log your training and validation metrics along with system metrics to Weights and Biases.
-
+This notebook introduces the `WandbMetricsLogger` callback. Use this callback
+for [Experiment Tracking]({{< relref "/guides/models/track" >}}). It will log
+your training and validation metrics along with system metrics to Weights and
+Biases.
 
 ## Setup and Installation
 
-First, let us install the latest version of Weights and Biases. We will then authenticate this colab instance to use W&B.
-
+First, let us install the latest version of Weights and Biases. We will then
+authenticate this colab instance to use W&B.
 
 ```shell
 pip install -qq -U wandb
 ```
-
 
 ```python
 import os
@@ -36,8 +38,10 @@ import wandb
 from wandb.integration.keras import WandbMetricsLogger
 ```
 
-If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up for a [free account](https://wandb.ai/signup) is as easy as a few clicks.
-
+If this is your first time using W&B or you are not logged in, the link that
+appears after running `wandb.login()` will take you to sign-up/login page.
+Signing up for a [free account](https://wandb.ai/signup) is as easy as a few
+clicks.
 
 ```python
 wandb.login()
@@ -45,8 +49,9 @@ wandb.login()
 
 ## Hyperparameters
 
-Use of proper config system is a recommended best practice for reproducible machine learning. We can track the hyperparameters for every experiment using W&B. In this colab we will be using simple Python `dict` as our config system.
-
+Use of proper config system is a recommended best practice for reproducible
+machine learning. We can track the hyperparameters for every experiment using
+W&B. In this colab we will be using simple Python `dict` as our config system.
 
 ```python
 configs = dict(
@@ -63,13 +68,14 @@ configs = dict(
 
 ## Dataset
 
-In this colab, we will be using [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
-
+In this colab, we will be using
+[CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) dataset from
+TensorFlow Dataset catalog. We aim to build a simple image classification
+pipeline using TensorFlow/Keras.
 
 ```python
 train_ds, valid_ds = tfds.load("fashion_mnist", split=["train", "test"])
 ```
-
 
 ```python
 AUTOTUNE = tf.data.AUTOTUNE
@@ -98,14 +104,12 @@ def get_dataloader(ds, configs, dataloader_type="train"):
     return dataloader
 ```
 
-
 ```python
 trainloader = get_dataloader(train_ds, configs)
 validloader = get_dataloader(valid_ds, configs, dataloader_type="valid")
 ```
 
 ## Model
-
 
 ```python
 def get_model(configs):
@@ -127,7 +131,6 @@ def get_model(configs):
     return models.Model(inputs=inputs, outputs=outputs)
 ```
 
-
 ```python
 tf.keras.backend.clear_session()
 model = get_model(configs)
@@ -135,7 +138,6 @@ model.summary()
 ```
 
 ## Compile Model
-
 
 ```python
 model.compile(
@@ -149,7 +151,6 @@ model.compile(
 ```
 
 ## Train
-
 
 ```python
 # Initialize a W&B run

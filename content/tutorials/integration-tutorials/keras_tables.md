@@ -7,11 +7,8 @@ title: Keras tables
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" >}}
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
-
-This Colab notebook introduces the `WandbEvalCallback` which is an abstract callback that be inherited to build useful callbacks for model prediction visualization and dataset visualization. 
+This notebook introduces the `WandbEvalCallback` which is an abstract callback that be inherited to build useful callbacks for model prediction visualization and dataset visualization. 
 
 ## Setup and Installation
 
@@ -21,7 +18,6 @@ First, let us install the latest version of Weights and Biases. We will then aut
 ```shell
 pip install -qq -U wandb
 ```
-
 
 ```python
 import os
@@ -73,7 +69,7 @@ train_ds, valid_ds = tfds.load("fashion_mnist", split=["train", "test"])
 ```
 
 
-```
+```python
 AUTOTUNE = tf.data.AUTOTUNE
 
 
