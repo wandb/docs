@@ -1,0 +1,460 @@
+name: GPT Editor (CI version)
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  improve-docs:
+    runs-on: ubuntu-latest
+    # Only run on PR comments containing "gpt editor" (case insensitive)
+    if: |
+      github.event.issue.pull_request &&
+      (contains(github.event.comment.body, 'gpt editor') || 
+       contains(github.event.comment.body, 'GPT Editor') || 
+       contains(github.event.comment.body, 'GPT editor') || 
+       contains(github.event.comment.body, 'gpt Editor'))
+    permissions:
+      contents: read
+      pull-requests: write
+    
+    steps:
+      - name: Post initial comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          # Create link to current action run
+          ACTION_URL="https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          
+          # Determine if we're processing all lines or just changed lines
+          COMMENT="${{ github.event.comment.body }}"
+          if [[ "$COMMENT" == *"all lines"* ]] || [[ "$COMMENT" == *"ALL LINES"* ]] || [[ "$COMMENT" == *"All Lines"* ]] || [[ "$COMMENT" == *"All lines"* ]]; then
+            MESSAGE="GPT Editor has begun analysis of ALL lines in the markdown files in this PR."
+          else
+            MESSAGE="GPT Editor has begun analysis of the markdown changes in this PR."
+          fi
+          
+          # Create comment body with markdown link
+          COMMENT_BODY="{\"body\":\"[$MESSAGE]($ACTION_URL)\"}"
+          
+          # Post comment using GitHub REST API
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments \
+            -d "$COMMENT_BODY"
+      
+      - name: Determine filtering mode
+        id: filter-mode
+        run: |
+          COMMENT="${{ github.event.comment.body }}"
+          echo "Comment: $COMMENT"
+          
+          if [[ "$COMMENT" == *"all lines"* ]] || [[ "$COMMENT" == *"ALL LINES"* ]] || [[ "$COMMENT" == *"All Lines"* ]] || [[ "$COMMENT" == *"All lines"* ]]; then
+            echo "filter_by_changes=false" >> $GITHUB_OUTPUT
+            echo "Processing ALL lines in files (not filtering by PR changes)"
+          else
+            echo "filter_by_changes=true" >> $GITHUB_OUTPUT
+            echo "Processing only changed lines in PR"
+          fi
+      
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history to access PR changes
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          pip install openai weave
+          
+          # Install Vale
+          curl -sL https://github.com/errata-ai/vale/releases/download/v3.9.6/vale_3.9.6_Linux_64-bit.tar.gz -o vale.tar.gz
+          mkdir -p /tmp/vale
+          tar -xzf vale.tar.gz -C /tmp/vale
+          sudo mv /tmp/vale/vale /usr/local/bin/
+          vale -v
+      
+      - name: Checkout PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ github.event.issue.number }}"
+          echo "Checking out PR #$PR_NUMBER"
+          
+          # Configure git to fetch PRs
+          git config --global --add remote.origin.fetch +refs/pull/*/head:refs/remotes/origin/pr/*
+          git fetch origin
+          
+          # Check out the PR
+          git checkout origin/pr/$PR_NUMBER
+          
+          echo "Current git status:"
+          git status
+      
+      - name: Get changed markdown files
+        id: changed-files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          PR_NUMBER="${{ github.event.issue.number }}"
+          
+          # Find the merge base (common ancestor) with the target branch using API
+          PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
+          
+          # Extract target branch properly using Python instead of grep
+          TARGET_BRANCH=$(python3 -c "import json, sys; print(json.loads(sys.stdin.read())['base']['ref'])" <<< "$PR_INFO")
+          echo "Target branch: $TARGET_BRANCH"
+          
+          if [ -z "$TARGET_BRANCH" ]; then
+            echo "Error: Could not determine target branch"
+            # Try to print the first part of PR_INFO for debugging
+            echo "PR_INFO (truncated):"
+            echo "$PR_INFO" | head -n 20
+            exit 1
+          fi
+          
+          # Get the merge base
+          MERGE_BASE=$(git merge-base HEAD origin/$TARGET_BRANCH)
+          echo "Merge base: $MERGE_BASE"
+          
+          # Get changed markdown files
+          CHANGED_FILES=$(git diff --name-only $MERGE_BASE HEAD | grep '\.md$' || echo "")
+          echo "Changed markdown files:"
+          echo "$CHANGED_FILES"
+          
+          # Set output variables for use in next steps
+          if [ -n "$CHANGED_FILES" ]; then
+            echo "any_changed=true" >> $GITHUB_OUTPUT
+            echo "all_changed_files<<EOF" >> $GITHUB_OUTPUT
+            echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "any_changed=false" >> $GITHUB_OUTPUT
+            echo "No markdown files were found in the PR"
+          fi
+      
+      - name: Process files with GPT and create suggestions
+        if: steps.changed-files.outputs.any_changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          # Debug the files we're about to process
+          echo "Processing the following files:"
+          echo "${{ steps.changed-files.outputs.all_changed_files }}"
+          
+          # Create a Python script to process the markdown files
+          cat > gpt_suggestions.py << 'EOF'
+          import os
+          import sys
+          import subprocess
+          import difflib
+          import tempfile
+          import json
+          
+          def process_file(file_path, filter_by_changes=True):
+              """Process a markdown file with GPT editor and create suggestions for improvements"""
+              print(f"Processing {file_path}")
+              
+              # Get the lines modified in the PR using git diff
+              modified_line_ranges = []
+              if filter_by_changes:
+                  try:
+                      # Find base branch reference to diff against
+                      base_ref_result = subprocess.run(
+                          ['git', 'merge-base', 'HEAD', 'origin/main'], 
+                          capture_output=True, text=True, check=False
+                      )
+                      if base_ref_result.returncode != 0:
+                          # Try with master if main doesn't exist
+                          base_ref_result = subprocess.run(
+                              ['git', 'merge-base', 'HEAD', 'origin/master'], 
+                              capture_output=True, text=True, check=True
+                          )
+                      
+                      base_ref = base_ref_result.stdout.strip()
+                      
+                      # Get line numbers added/modified in the PR
+                      diff_result = subprocess.run(
+                          ['git', 'diff', '--unified=0', base_ref, '--', file_path],
+                          capture_output=True, text=True, check=True
+                      )
+                      
+                      # Parse the diff to get line numbers
+                      for line in diff_result.stdout.splitlines():
+                          # Look for lines like @@ -71,0 +72,3 @@ which show line changes
+                          if line.startswith('@@'):
+                              parts = line.split(' ')
+                              if len(parts) >= 3:
+                                  # Parse the +A,B part to get the line range in the current version
+                                  # where A is the starting line and B is the number of lines
+                                  added_part = parts[2]
+                                  if added_part.startswith('+'):
+                                      range_part = added_part[1:].split(',')
+                                      start_line = int(range_part[0])
+                                      num_lines = 1 if len(range_part) == 1 else int(range_part[1])
+                                      if num_lines > 0:
+                                          modified_line_ranges.append((start_line, start_line + num_lines - 1))
+                      
+                      print(f"Modified line ranges in PR: {modified_line_ranges}")
+                  except subprocess.CalledProcessError as e:
+                      print(f"Error getting modified lines: {e}")
+                      modified_line_ranges = []
+              else:
+                  print("Processing all lines, not filtering by PR changes")
+              
+              # Save original content (the PR version)
+              with open(file_path, 'r') as f:
+                  original_content = f.read()
+                  original_lines = original_content.splitlines()
+              
+              # Run gpt-editor.py to get improved content
+              try:
+                  print(f"Running GPT editor on {file_path}")
+                  result = subprocess.run(['python', 'scripts/gpt-editor.py', file_path], 
+                                        check=True, capture_output=True, text=True)
+                  print(f"GPT editor output: {result.stdout}")
+                  print(f"Successfully ran GPT editor on {file_path}")
+              except subprocess.CalledProcessError as e:
+                  print(f"Error running GPT editor: {e}")
+                  print(f"Error output: {e.stdout}")
+                  print(f"Error stderr: {e.stderr}")
+                  return
+              
+              # Read the improved content
+              with open(file_path, 'r') as f:
+                  improved_content = f.read()
+                  improved_lines = improved_content.splitlines()
+              
+              # Restore the original content (so PR doesn't get modified)
+              with open(file_path, 'w') as f:
+                  f.write(original_content)
+              
+              # If no changes were made, exit
+              if original_content == improved_content:
+                  print(f"No improvements made to {file_path}")
+                  return
+              
+              # Find changed sections using sequence matcher
+              matcher = difflib.SequenceMatcher(None, original_lines, improved_lines)
+              
+              # Get sections that have changes
+              sections_to_process = []
+              
+              for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+                  # Only process changes (not matches)
+                  if tag in ('replace', 'delete', 'insert'):
+                      # Get the original and improved sections
+                      original_section = original_lines[i1:i2]
+                      improved_section = improved_lines[j1:j2]
+                      
+                      # Check if this change overlaps with modified lines in the PR
+                      # Line numbers are 1-based in GitHub but 0-based in the list
+                      line_start = i1 + 1  # Convert to 1-based
+                      line_end = i2  # i2 is exclusive in Python, but we need inclusive for line ranges
+                      
+                      # Only create suggestions for sections that overlap with PR changes if filtering
+                      should_process = not filter_by_changes or (modified_line_ranges and any(
+                          max(range_start, line_start) <= min(range_end, line_end)
+                          for range_start, range_end in modified_line_ranges
+                      ))
+                      
+                      if should_process:
+                          # Store the section for processing
+                          sections_to_process.append((line_start, line_end, original_section, improved_section))
+                      else:
+                          print(f"Skipping suggestion for {file_path} lines {line_start}-{line_end} as they weren't modified in the PR")
+              
+              # Process accumulated sections with proper line information
+              # Sort by starting line to process in order
+              for line_start, line_end, original_section, improved_section in sorted(sections_to_process, key=lambda x: x[0]):
+                  if len(original_section) == 0 and len(improved_section) == 0:
+                      continue  # Skip if both sections are empty
+                      
+                  # Check for empty original section (insertion case)
+                  if len(original_section) == 0:
+                      # Insertion - point to the line where we want to insert
+                      create_suggestion(file_path, line_start, line_start, original_section, improved_section)
+                  else:
+                      create_suggestion(file_path, line_start, line_end, original_section, improved_section)
+          
+          def create_suggestion(file_path, start_line, end_line, original_section, improved_section):
+              """Create a GitHub PR review comment with a suggestion"""
+              # Get run ID and repository for the action URL
+              run_id = os.environ.get('GITHUB_RUN_ID')
+              repo = os.environ.get('GITHUB_REPOSITORY')
+              action_url = f"https://github.com/{repo}/actions/runs/{run_id}"
+              
+              # Validate that the line numbers make sense
+              if start_line < 1:
+                  print(f"Warning: Invalid start line {start_line}, adjusting to 1")
+                  start_line = 1
+              
+              # Format the suggestion with link to the action run
+              body = f"```suggestion\n{chr(10).join(improved_section)}\n```\n\n*[Generated by GPT Editor]({action_url})*"
+              
+              pr_number = os.environ.get('PR_NUMBER')
+              github_token = os.environ.get('GITHUB_TOKEN')
+              
+              # Debug output to help track line mappings
+              print(f"Suggesting change for {file_path} lines {start_line}-{end_line}")
+              print(f"Original ({len(original_section)} lines): {original_section[:1]}...")
+              print(f"Improved ({len(improved_section)} lines): {improved_section[:1]}...")
+              
+              # Create a review comment using GitHub API
+              try:
+                  # First get the latest commit SHA on the PR
+                  curl_cmd = [
+                      'curl', '-s',
+                      '-H', f'Authorization: token {github_token}',
+                      '-H', 'Accept: application/vnd.github.v3+json',
+                      f'https://api.github.com/repos/{repo}/pulls/{pr_number}'
+                  ]
+                  
+                  pr_info_result = subprocess.run(curl_cmd, capture_output=True, text=True, check=True)
+                  pr_info = json.loads(pr_info_result.stdout)
+                  commit_id = pr_info['head']['sha']
+                  
+                  # Create a review comment
+                  review_data = {
+                      "commit_id": commit_id,
+                      "path": file_path,
+                      "body": body,
+                      "line": start_line,
+                      "side": "RIGHT"
+                  }
+                  
+                  # Convert to JSON
+                  review_json = json.dumps(review_data)
+                  
+                  # Create temp file for curl input
+                  with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+                      tmp.write(review_json)
+                      tmp_path = tmp.name
+                  
+                  # Create the comment using curl
+                  curl_comment_cmd = [
+                      'curl', '-X', 'POST',
+                      '-H', f'Authorization: token {github_token}',
+                      '-H', 'Accept: application/vnd.github.v3+json',
+                      '-H', 'Content-Type: application/json',
+                      f'https://api.github.com/repos/{repo}/pulls/{pr_number}/comments',
+                      '-d', f'@{tmp_path}'
+                  ]
+                  
+                  subprocess.run(curl_comment_cmd, check=True)
+                  
+                  # Clean up temp file
+                  os.unlink(tmp_path)
+                  
+                  print(f"Created suggestion for {file_path} line {start_line}")
+              except subprocess.CalledProcessError as e:
+                  print(f"Error creating review comment: {e}")
+          
+          # Process all files passed on the command line
+          if __name__ == "__main__":
+              if len(sys.argv) < 2:
+                  print("Usage: python gpt_suggestions.py <file_path> [filter_by_changes=true]")
+                  sys.exit(1)
+                  
+              file_path = sys.argv[1]
+              # Check if we should filter by changed lines
+              filter_by_changes = True  # Default behavior
+              if len(sys.argv) > 2:
+                  filter_by_changes = sys.argv[2].lower() == "true"
+              
+              print(f"Processing {file_path} with filter_by_changes={filter_by_changes}")
+              
+              if file_path.endswith('.md'):
+                  process_file(file_path, filter_by_changes)
+          EOF
+          
+          # Add extensive debugging
+          echo "CURRENT DIRECTORY: $(pwd)"
+          echo "LISTING ALL FILES IN SCRIPTS DIR:"
+          ls -la scripts/
+          echo "CHECKING IF GPT EDITOR EXISTS:"
+          if [ -f "scripts/gpt-editor.py" ]; then
+            echo "✅ GPT editor script exists"
+          else
+            echo "❌ GPT editor script NOT found at scripts/gpt-editor.py"
+            # Try to find it elsewhere
+            find . -name "gpt-editor.py" -type f
+          fi
+          
+          echo "CHECKING PERMISSIONS:"
+          ls -la scripts/gpt-editor.py || echo "Cannot access script"
+          
+          echo "PYTHON VERSION:"
+          python --version
+          
+          FILTER="${{ steps.filter-mode.outputs.filter_by_changes }}"
+          
+          # Save files to temporary file and read line by line
+          echo "${{ steps.changed-files.outputs.all_changed_files }}" > changed_md_files.txt
+          
+          echo "STARTING TO PROCESS ACTUAL MARKDOWN FILES:"
+          while IFS= read -r FILE; do
+            if [ -n "$FILE" ] && [ -f "$FILE" ]; then
+              echo "===================================================="
+              echo "🔄 PROCESSING FILE: $FILE"
+              echo "===================================================="
+              
+              # 1. Print file content for debugging
+              echo "FILE CONTENT PREVIEW (first 10 lines):"
+              head -n 10 "$FILE" || echo "Cannot read file"
+              
+              # 2. Run the GPT editor script directly
+              echo "RUNNING GPT EDITOR DIRECTLY:"
+              python scripts/gpt-editor.py "$FILE"
+              GPT_RESULT=$?
+              
+              echo "GPT EDITOR EXIT CODE: $GPT_RESULT"
+              
+              if [ $GPT_RESULT -eq 0 ]; then
+                echo "✅ GPT EDITOR COMPLETED SUCCESSFULLY"
+                
+                # 3. Now run our processing script
+                echo "RUNNING SUGGESTION PROCESSOR:"
+                python gpt_suggestions.py "$FILE" "$FILTER"
+                echo "SUGGESTION PROCESSOR EXIT CODE: $?"
+              else
+                echo "❌ GPT EDITOR FAILED"
+              fi
+              
+              echo "===================================================="
+            fi
+          done < changed_md_files.txt
+      
+      - name: Comment if no markdown files were changed
+        if: steps.changed-files.outputs.any_changed != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          # Create comment body
+          COMMENT_BODY="{\"body\":\"No markdown files were changed in this PR, so the GPT editor has nothing to process.\"}"
+          
+          # Post comment using GitHub REST API
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments \
+            -d "$COMMENT_BODY"
