@@ -6,31 +6,39 @@ menu:
 title: 3D brain tumor segmentation with MONAI
 weight: 10
 ---
+
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/monai/3d_brain_tumor_segmentation.ipynb" >}}
 
-This tutorial demonstrates how to construct a training workflow of multi-labels 3D brain tumor segmentation task using [MONAI](https://github.com/Project-MONAI/MONAI) and use experiment tracking and data visualization features of [Weights & Biases](https://wandb.ai/site). The tutorial contains the following features:
+This tutorial demonstrates how to construct a training workflow of multi-labels
+3D brain tumor segmentation task using
+[MONAI](https://github.com/Project-MONAI/MONAI) and use experiment tracking and
+data visualization features of [Weights & Biases](https://wandb.ai/site). The
+tutorial contains the following features:
 
-1. Initialize a Weights & Biases run and synchronize all configs associated with the run for reproducibility.
+1. Initialize a Weights & Biases run and synchronize all configs associated with
+   the run for reproducibility.
 2. MONAI transform API:
-    1. MONAI Transforms for dictionary format data.
-    2. How to define a new transform according to MONAI `transforms` API.
-    3. How to randomly adjust intensity for data augmentation.
+   1. MONAI Transforms for dictionary format data.
+   2. How to define a new transform according to MONAI `transforms` API.
+   3. How to randomly adjust intensity for data augmentation.
 3. Data Loading and Visualization:
-    1. Load `Nifti` image with metadata, load a list of images and stack them.
-    2. Cache IO and transforms to accelerate training and validation.
-    3. Visualize the data using `wandb.Table` and interactive segmentation overlay on Weights & Biases.
+   1. Load `Nifti` image with metadata, load a list of images and stack them.
+   2. Cache IO and transforms to accelerate training and validation.
+   3. Visualize the data using `wandb.Table` and interactive segmentation
+      overlay on Weights & Biases.
 4. Training a 3D `SegResNet` model
-    1. Using the `networks`, `losses`, and `metrics` APIs from MONAI.
-    2. Training the 3D `SegResNet` model using a PyTorch training loop.
-    3. Track the training experiment using Weights & Biases.
-    4. Log and version model checkpoints as model artifacts on Weights & Biases.
-5. Visualize and compare the predictions on the validation dataset using `wandb.Table` and interactive segmentation overlay on Weights & Biases.
+   1. Using the `networks`, `losses`, and `metrics` APIs from MONAI.
+   2. Training the 3D `SegResNet` model using a PyTorch training loop.
+   3. Track the training experiment using Weights & Biases.
+   4. Log and version model checkpoints as model artifacts on Weights & Biases.
+5. Visualize and compare the predictions on the validation dataset using
+   `wandb.Table` and interactive segmentation overlay on Weights & Biases.
 
 ## Setup and Installation
 
 First, install the latest version of both MONAI and Weights and Biases.
 
-```python
+```jupyter
 !python -c "import monai" || pip install -q -U "monai[nibabel, tqdm]"
 !python -c "import wandb" || pip install -q -U wandb
 ```
@@ -83,7 +91,9 @@ Start a new W&B run to start tracking the experiment.
 wandb.init(project="monai-brain-tumor-segmentation")
 ```
 
-Use of proper config system is a recommended best practice for reproducible machine learning. You can track the hyperparameters for every experiment using W&B.
+Use of proper config system is a recommended best practice for reproducible
+machine learning. You can track the hyperparameters for every experiment using
+W&B.
 
 ```python
 config = wandb.config
@@ -108,7 +118,8 @@ config.inference_roi_size = (128, 128, 64)
 config.max_prediction_images_visualized = 20
 ```
 
-You also need to set the random seed for modules to enable or turn off deterministic training.
+You also need to set the random seed for modules to enable or turn off
+deterministic training.
 
 ```python
 set_determinism(seed=config.seed)
@@ -120,7 +131,8 @@ os.makedirs(config.checkpoint_dir, exist_ok=True)
 
 ## Data Loading and Transformation
 
-Here, use the `monai.transforms` API to create a custom transform that converts the multi-classes labels into multi-labels segmentation task in one-hot format.
+Here, use the `monai.transforms` API to create a custom transform that converts
+the multi-classes labels into multi-labels segmentation task in one-hot format.
 
 ```python
 class ConvertToMultiChannelBasedOnBratsClassesd(MapTransform):
@@ -200,9 +212,15 @@ val_transform = Compose(
 
 ### The Dataset
 
-The dataset used for this experiment comes from http://medicaldecathlon.com/. It uses multi-modal multi-site MRI data (FLAIR, T1w, T1gd, T2w) to segment Gliomas, necrotic/active tumour, and oedema. The dataset consists of 750 4D volumes (484 Training + 266 Testing).
+The dataset used for this experiment comes from http://medicaldecathlon.com/. It
+uses multi-modal multi-site MRI data (FLAIR, T1w, T1gd, T2w) to segment Gliomas,
+necrotic/active tumour, and oedema. The dataset consists of 750 4D volumes (484
+Training + 266 Testing).
 
-Use the `DecathlonDataset` to automatically download and extract the dataset. It inherits MONAI `CacheDataset` which enables you to set `cache_num=N` to cache `N` items for training and use the default arguments to cache all the items for validation, depending on your memory size.
+Use the `DecathlonDataset` to automatically download and extract the dataset. It
+inherits MONAI `CacheDataset` which enables you to set `cache_num=N` to cache
+`N` items for training and use the default arguments to cache all the items for
+validation, depending on your memory size.
 
 ```python
 train_dataset = DecathlonDataset(
@@ -225,13 +243,20 @@ val_dataset = DecathlonDataset(
 )
 ```
 
-{{% alert %}}
-**Note:** Instead of applying the `train_transform` to the `train_dataset`, apply `val_transform` to both the training and validation datasets. This is because, before training, you would be visualizing samples from both the splits of the dataset.
-{{% /alert %}}
+{{% alert %}} **Note:** Instead of applying the `train_transform` to the
+`train_dataset`, apply `val_transform` to both the training and validation
+datasets. This is because, before training, you would be visualizing samples
+from both the splits of the dataset. {{% /alert %}}
 
 ### Visualizing the Dataset
 
-Weights & Biases supports images, video, audio, and more. You can log rich media to explore your results and visually compare our runs, models, and datasets. Use the [segmentation mask overlay system]({{< relref "/guides/models/track/log/media/#image-overlays-in-tables" >}}) to visualize our data volumes. To log segmentation masks in [tables]({{< relref "/guides/models/tables/" >}}), you must provide a `wandb.Image` object for each row in the table.
+Weights & Biases supports images, video, audio, and more. You can log rich media
+to explore your results and visually compare our runs, models, and datasets. Use
+the [segmentation mask overlay
+system]({{< relref "/guides/models/track/log/media/#image-overlays-in-tables" >}})
+to visualize our data volumes. To log segmentation masks in
+[tables]({{< relref "/guides/models/tables/" >}}), you must provide a
+`wandb.Image` object for each row in the table.
 
 An example is provided in the pseudocode below:
 
@@ -252,7 +277,9 @@ for id, img, label in zip(ids, images, labels):
 wandb.log({"Table": table})
 ```
 
-Now write a simple utility function that takes a sample image, label, `wandb.Table` object and some associated metadata and populate the rows of a table that would be logged to the Weights & Biases dashboard.
+Now write a simple utility function that takes a sample image, label,
+`wandb.Table` object and some associated metadata and populate the rows of a
+table that would be logged to the Weights & Biases dashboard.
 
 ```python
 def log_data_samples_into_tables(
@@ -292,7 +319,8 @@ def log_data_samples_into_tables(
     return table
 ```
 
-Next, define the `wandb.Table` object and what columns it consists of so that it can populate with the data visualizations.
+Next, define the `wandb.Table` object and what columns it consists of so that it
+can populate with the data visualizations.
 
 ```python
 table = wandb.Table(
@@ -308,7 +336,9 @@ table = wandb.Table(
 )
 ```
 
-Then, loop over the `train_dataset` and `val_dataset` respectively to generate the visualizations for the data samples and populate the rows of the table which to log to the dashboard.
+Then, loop over the `train_dataset` and `val_dataset` respectively to generate
+the visualizations for the data samples and populate the rows of the table which
+to log to the dashboard.
 
 ```python
 # Generate visualizations for train_dataset
@@ -359,25 +389,32 @@ for data_idx, sample in progress_bar:
 wandb.log({"Tumor-Segmentation-Data": table})
 ```
 
-The data appears on the W&B dashboard in an interactive tabular format. We can see each channel of a particular slice from a data volume overlaid with the respective segmentation mask in each row. You can write [Weave queries]({{< relref "/guides/weave" >}}) to filter the data on the table and focus on one particular row.
+The data appears on the W&B dashboard in an interactive tabular format. We can
+see each channel of a particular slice from a data volume overlaid with the
+respective segmentation mask in each row. You can write [Weave
+queries]({{< relref "/guides/weave" >}}) to filter the data on the table and
+focus on one particular row.
 
-| {{< img src="/images/tutorials/monai/viz-1.gif" alt="An example of logged table data." >}} | 
-|:--:| 
-| **An example of logged table data.** |
+| {{< img src="/images/tutorials/monai/viz-1.gif" alt="An example of logged table data." >}} |
+| :----------------------------------------------------------------------------------------: |
+|                            **An example of logged table data.**                            |
 
-Open an image and see how you can interact with each of the segmentation masks using the interactive overlay.
+Open an image and see how you can interact with each of the segmentation masks
+using the interactive overlay.
 
-| {{< img src="/images/tutorials/monai/viz-2.gif" alt="An example of visualized segmentation maps." >}} | 
-|:--:| 
-| **An example of visualized segmentation maps.* |
+| {{< img src="/images/tutorials/monai/viz-2.gif" alt="An example of visualized segmentation maps." >}} |
+| :---------------------------------------------------------------------------------------------------: |
+|                            \*_An example of visualized segmentation maps._                            |
 
-{{% alert %}}
-**Note:** The labels in the dataset consist of non-overlapping masks across classes. The overlay logs the labels as separate masks in the overlay.
-{{% /alert %}}
+{{% alert %}} **Note:** The labels in the dataset consist of non-overlapping
+masks across classes. The overlay logs the labels as separate masks in the
+overlay. {{% /alert %}}
 
 ### Loading the Data
 
-Create the PyTorch DataLoaders for loading the data from the datasets. Before creating the DataLoaders, set the `transform` for `train_dataset` to `train_transform` to pre-process and transform the data for training.
+Create the PyTorch DataLoaders for loading the data from the datasets. Before
+creating the DataLoaders, set the `transform` for `train_dataset` to
+`train_transform` to pre-process and transform the data for training.
 
 ```python
 # apply train_transforms to the training dataset
@@ -402,7 +439,10 @@ val_loader = DataLoader(
 
 ## Creating the Model, Loss, and Optimizer
 
-This tutorial crates a `SegResNet` model based on the paper [3D MRI brain tumor segmentation using auto-encoder regularization](https://arxiv.org/pdf/1810.11654.pdf). The `SegResNet` model that comes implemented as a PyTorch Module as part of the `monai.networks` API as well as an optimizer and learning rate scheduler.
+This tutorial crates a `SegResNet` model based on the paper
+[3D MRI brain tumor segmentation using auto-encoder regularization](https://arxiv.org/pdf/1810.11654.pdf).
+The `SegResNet` model that comes implemented as a PyTorch Module as part of the
+`monai.networks` API as well as an optimizer and learning rate scheduler.
 
 ```python
 device = torch.device("cuda:0")
@@ -430,7 +470,8 @@ lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
 )
 ```
 
-Define the loss as multi-label `DiceLoss` using the `monai.losses` API and the corresponding dice metrics using the `monai.metrics` API.
+Define the loss as multi-label `DiceLoss` using the `monai.losses` API and the
+corresponding dice metrics using the `monai.metrics` API.
 
 ```python
 loss_function = DiceLoss(
@@ -450,7 +491,9 @@ scaler = torch.cuda.amp.GradScaler()
 torch.backends.cudnn.benchmark = True
 ```
 
-Define a small utility for mixed-precision inference. This will be useful during the validation step of the training process and when you want to run the model after training.
+Define a small utility for mixed-precision inference. This will be useful during
+the validation step of the training process and when you want to run the model
+after training.
 
 ```python
 def inference(model, input):
@@ -469,7 +512,8 @@ def inference(model, input):
 
 ## Training and Validation
 
-Before training, define the metric properties which will later be logged with `wandb.log()` for tracking the training and validation experiments.
+Before training, define the metric properties which will later be logged with
+`wandb.log()` for tracking the training and validation experiments.
 
 ```python
 wandb.define_metric("epoch/epoch_step")
@@ -503,7 +547,7 @@ for epoch in epoch_progress_bar:
 
     total_batch_steps = len(train_dataset) // train_loader.batch_size
     batch_progress_bar = tqdm(train_loader, total=total_batch_steps, leave=False)
-    
+
     # Training Step
     for batch_data in batch_progress_bar:
         inputs, labels = (
@@ -559,7 +603,7 @@ for epoch in epoch_progress_bar:
 
             checkpoint_path = os.path.join(config.checkpoint_dir, "model.pth")
             torch.save(model.state_dict(), checkpoint_path)
-            
+
             # Log and versison model checkpoints using W&B artifacts.
             artifact.add_file(local_path=checkpoint_path)
             wandb.log_artifact(artifact, aliases=[f"epoch_{epoch}"])
@@ -581,27 +625,34 @@ for epoch in epoch_progress_bar:
 artifact.wait()
 ```
 
-Instrumenting the code with `wandb.log` not only enables tracking all metrics associated with the training and validation process, but also the all system metrics (our CPU and GPU in this case) on the W&B dashboard.
+Instrumenting the code with `wandb.log` not only enables tracking all metrics
+associated with the training and validation process, but also the all system
+metrics (our CPU and GPU in this case) on the W&B dashboard.
 
-| {{< img src="/images/tutorials/monai/viz-3.gif" alt="An example of training and validation process tracking on W&B." >}} | 
-|:--:| 
-| **An example of training and validation process tracking on W&B.** |
+| {{< img src="/images/tutorials/monai/viz-3.gif" alt="An example of training and validation process tracking on W&B." >}} |
+| :----------------------------------------------------------------------------------------------------------------------: |
+|                            **An example of training and validation process tracking on W&B.**                            |
 
-Navigate to the artifacts tab in the W&B run dashboard to access the different versions of model checkpoint artifacts logged during training.
+Navigate to the artifacts tab in the W&B run dashboard to access the different
+versions of model checkpoint artifacts logged during training.
 
-| {{< img src="/images/tutorials/monai/viz-4.gif" alt="An example of model checkpoints logging and versioning on W&B." >}} | 
-|:--:| 
-| **An example of model checkpoints logging and versioning on W&B.** |
+| {{< img src="/images/tutorials/monai/viz-4.gif" alt="An example of model checkpoints logging and versioning on W&B." >}} |
+| :----------------------------------------------------------------------------------------------------------------------: |
+|                            **An example of model checkpoints logging and versioning on W&B.**                            |
 
 ## Inference
 
-Using the artifacts interface, you can select which version of the artifact is the best model checkpoint, in this case, the mean epoch-wise training loss. You can also explore the entire lineage of the artifact and use the version that you need.
+Using the artifacts interface, you can select which version of the artifact is
+the best model checkpoint, in this case, the mean epoch-wise training loss. You
+can also explore the entire lineage of the artifact and use the version that you
+need.
 
-| {{< img src="/images/tutorials/monai/viz-5.gif" alt="An example of model artifact tracking on W&B." >}} | 
-|:--:| 
-| **An example of model artifact tracking on W&B.** |
+| {{< img src="/images/tutorials/monai/viz-5.gif" alt="An example of model artifact tracking on W&B." >}} |
+| :-----------------------------------------------------------------------------------------------------: |
+|                            **An example of model artifact tracking on W&B.**                            |
 
-Fetch the version of the model artifact with the best epoch-wise mean training loss and load the checkpoint state dictionary to the model.
+Fetch the version of the model artifact with the best epoch-wise mean training
+loss and load the checkpoint state dictionary to the model.
 
 ```python
 model_artifact = wandb.use_artifact(
@@ -615,7 +666,9 @@ model.eval()
 
 ### Visualizing Predictions and Comparing with the Ground Truth Labels
 
-Create another utility function to visualize the predictions of the pre-trained model and compare them with the corresponding ground-truth segmentation mask using the interactive segmentation mask overlay,.
+Create another utility function to visualize the predictions of the pre-trained
+model and compare them with the corresponding ground-truth segmentation mask
+using the interactive segmentation mask overlay,.
 
 ```python
 def log_predictions_into_tables(
@@ -734,13 +787,14 @@ with torch.no_grad():
 wandb.finish()
 ```
 
-Use the interactive segmentation mask overlay to analyze and compare the predicted segmentation masks and the ground-truth labels for each class.
+Use the interactive segmentation mask overlay to analyze and compare the
+predicted segmentation masks and the ground-truth labels for each class.
 
-| {{< img src="/images/tutorials/monai/viz-6.gif" alt="An example of predictions and ground-truth visualization on W&B." >}} | 
-|:--:| 
-| **An example of predictions and ground-truth visualization on W&B.** |
+| {{< img src="/images/tutorials/monai/viz-6.gif" alt="An example of predictions and ground-truth visualization on W&B." >}} |
+| :------------------------------------------------------------------------------------------------------------------------: |
+|                            **An example of predictions and ground-truth visualization on W&B.**                            |
 
 ## Acknowledgements and more resources
 
-* [MONAI Tutorial: Brain tumor 3D segmentation with MONAI](https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb)
-* [WandB Report: Brain Tumor Segmentation using MONAI and WandB](https://wandb.ai/geekyrakshit/brain-tumor-segmentation/reports/Brain-Tumor-Segmentation-using-MONAI-and-WandB---Vmlldzo0MjUzODIw)
+- [MONAI Tutorial: Brain tumor 3D segmentation with MONAI](https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb)
+- [WandB Report: Brain Tumor Segmentation using MONAI and WandB](https://wandb.ai/geekyrakshit/brain-tumor-segmentation/reports/Brain-Tumor-Segmentation-using-MONAI-and-WandB---Vmlldzo0MjUzODIw)

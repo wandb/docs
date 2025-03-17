@@ -8,36 +8,37 @@ weight: 5
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb" >}}
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
-
-Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models, complete with interactive dashboards like this:
+Use Weights & Biases Sweeps to automate hyperparameter optimization and explore
+the space of possible models, complete with interactive dashboards like this:
 
 {{< img src="/images/tutorials/tensorflow/sweeps.png" alt="" >}}
 
-
 ## Why Should I Use Sweeps?
 
-* **Quick setup**: With just a few lines of code, you can run W&B sweeps.
-* **Transparent**: The project cites all algorithms used, and the [code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
-* **Powerful**: Sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
+- **Quick setup**: With just a few lines of code, you can run W&B sweeps.
+- **Transparent**: The project cites all algorithms used, and the
+  [code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
+- **Powerful**: Sweeps are completely customizable and configurable. You can
+  launch a sweep across dozens of machines, and it's just as easy as starting a
+  sweep on your laptop.
 
-**[Check out the official documentation]({{< relref "/guides/models/sweeps/" >}})**
-
+**[Check out the official
+documentation]({{< relref "/guides/models/sweeps/" >}})**
 
 ## What this notebook covers
 
-* Simple steps to get started with W&B Sweep with custom training loop in TensorFlow.
-* Finding the best hyperparameters for an image classification task.
+- Simple steps to get started with W&B Sweep with custom training loop in
+  TensorFlow.
+- Finding the best hyperparameters for an image classification task.
 
-**Note**: Sections starting with _Step_ are all you need to perform hyperparameter sweep in existing code.
-The rest of the code is there to set up a simple example.
+**Note**: Sections starting with _Step_ are all you need to perform
+hyperparameter sweep in existing code. The rest of the code is there to set up a
+simple example.
 
 ## Install, Import, and Log in
 
 ### Install W&B
-
 
 ```bash
 %%capture
@@ -45,7 +46,6 @@ The rest of the code is there to set up a simple example.
 ```
 
 ### Import W&B and Login
-
 
 ```python
 import tqdm
@@ -59,7 +59,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 ```
 
-
 ```python
 import wandb
 from wandb.integration.keras import WandbMetricsLogger
@@ -67,10 +66,11 @@ from wandb.integration.keras import WandbMetricsLogger
 wandb.login()
 ```
 
-> Side note: If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up is as easy as a few clicks.
+> Side note: If this is your first time using W&B or you are not logged in, the
+> link that appears after running `wandb.login()` will take you to sign-up/login
+> page. Signing up is as easy as a few clicks.
 
 ## Prepare Dataset
-
 
 ```python
 # Prepare the training dataset
@@ -83,7 +83,6 @@ x_test = np.reshape(x_test, (-1, 784))
 ```
 
 ## Build a Simple Classifier MLP
-
 
 ```python
 def Model():
@@ -185,13 +184,15 @@ def train(
 ## Configure the Sweep
 
 This is where you will:
-* Define the hyperparameters you're sweeping over
-* Provide your hyperparameter optimization method. We have `random`, `grid` and `bayes` methods.
-* Provide an objective and a `metric` if using `bayes`, for example to `minimize` the `val_loss`.
-* Use `hyperband` for early termination of poorly performing runs.
+
+- Define the hyperparameters you're sweeping over
+- Provide your hyperparameter optimization method. We have `random`, `grid` and
+  `bayes` methods.
+- Provide an objective and a `metric` if using `bayes`, for example to
+  `minimize` the `val_loss`.
+- Use `hyperband` for early termination of poorly performing runs.
 
 #### [Check out more on Sweep Configs]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}})
-
 
 ```python
 sweep_config = {
@@ -207,10 +208,8 @@ sweep_config = {
 
 ## Wrap the Training Loop
 
-You'll need a function, like `sweep_train` below,
-that uses `wandb.config` to set the hyperparameters
-before `train` gets called.
-
+You'll need a function, like `sweep_train` below, that uses `wandb.config` to
+set the hyperparameters before `train` gets called.
 
 ```python
 def sweep_train(config_defaults=None):
@@ -265,15 +264,15 @@ def sweep_train(config_defaults=None):
     )
 ```
 
-## Initialize Sweep and Run Agent 
-
+## Initialize Sweep and Run Agent
 
 ```python
 sweep_id = wandb.sweep(sweep_config, project="sweeps-tensorflow")
 ```
 
-You can limit the number of total runs with the `count` parameter, we will limit a 10 to make the script run fast, feel free to increase the number of runs and see what happens.
-
+You can limit the number of total runs with the `count` parameter, we will limit
+a 10 to make the script run fast, feel free to increase the number of runs and
+see what happens.
 
 ```python
 wandb.agent(sweep_id, function=sweep_train, count=10)
@@ -283,19 +282,28 @@ wandb.agent(sweep_id, function=sweep_train, count=10)
 
 Click on the **Sweep URL** link above to see your live results.
 
-
 ## Example Gallery
 
-See examples of projects tracked and visualized with W&B in the [Gallery →](https://app.wandb.ai/gallery)
+See examples of projects tracked and visualized with W&B in the
+[Gallery →](https://app.wandb.ai/gallery)
 
 ## Best Practices
-1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`
-2. **Groups**: For multiple processes or cross validation folds, log each process as a runs and group them together. `wandb.init(group='experiment-1')`
+
+1. **Projects**: Log multiple runs to a project to compare them.
+   `wandb.init(project="project-name")`
+2. **Groups**: For multiple processes or cross validation folds, log each
+   process as a runs and group them together. `wandb.init(group='experiment-1')`
 3. **Tags**: Add tags to track your current baseline or production model.
 4. **Notes**: Type notes in the table to track the changes between runs.
-5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
+5. **Reports**: Take quick notes on progress to share with colleagues and make
+   dashboards and snapshots of your ML projects.
 
 ## Advanced Setup
-1. [Environment variables]({{< relref "/guides/hosting/env-vars/" >}}): Set API keys in environment variables so you can run training on a managed cluster.
+
+1. [Environment variables]({{< relref "/guides/hosting/env-vars/" >}}): Set API
+   keys in environment variables so you can run training on a managed cluster.
 2. [Offline mode]({{< relref "/support/run_wandb_offline.md" >}})
-3. [On-prem]({{< relref "/guides/hosting/hosting-options/self-managed" >}}): Install W&B in a private cloud or air-gapped servers in your own infrastructure. Everyone from academics to enterprise teams use local installations.
+3. [On-prem]({{< relref "/guides/hosting/hosting-options/self-managed" >}}):
+   Install W&B in a private cloud or air-gapped servers in your own
+   infrastructure. Everyone from academics to enterprise teams use local
+   installations.
