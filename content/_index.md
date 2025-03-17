@@ -32,7 +32,7 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. 
 </div>
 <h2>W&B Models</h2>
 
-##### Build AI models
+##### Develop AI models
 
 Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
 
