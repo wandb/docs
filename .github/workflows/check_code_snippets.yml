@@ -12,7 +12,10 @@ jobs:
 
       - name: Find Python scripts
         id: list-scripts
-        run: echo "scripts=$(jq -c -R 'split("\n")[:-1]' < <(ls code_examples/source/*.py))" >> $GITHUB_ENV
+        run: |
+           SCRIPTS=$(find scripts -name "*.py" | jq -R -s -c 'split("\n")[:-1]')
+           echo "scripts=$SCRIPTS" >> $GITHUB_ENV
+           echo "::set-output name=scripts::$SCRIPTS"
 
   test:
     needs: generate-matrix
