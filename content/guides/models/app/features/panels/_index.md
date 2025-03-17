@@ -76,7 +76,7 @@ This section shows various ways to add panels to your workspace.
 Use **Quick add** to generate a standard panel for each key you select, either globally or at the section level.
 
 {{% alert %}}
-For an automated workspace with no deleted panels, the **Quick add** option is not visible becasue the workspace already includes standard panels for all logged keys. You can use **Quick add** to re-add a panel that you deleted.
+For an automated workspace with no deleted panels, the **Quick add** option is not visible because the workspace already includes standard panels for all logged keys. You can use **Quick add** to re-add a panel that you deleted.
 {{% /alert %}}
 
 1. To use **Quick add** to add a panel globally, click **Add panels** in the control bar near the panel search field, then click **Quick add**.
