@@ -13,7 +13,7 @@ jobs:
       - name: Find Python scripts
         id: list-scripts
         run: |
-           SCRIPTS=$(find scripts -name "*.py" | jq -R -s -c 'split("\n")[:-1]')
+           SCRIPTS=$(find code_examples/source -name "*.py" | jq -R -s -c 'split("\n")[:-1]')
            echo "scripts=$SCRIPTS" >> $GITHUB_ENV
            echo "::set-output name=scripts::$SCRIPTS"
 
