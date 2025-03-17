@@ -127,4 +127,4 @@ For more information about how to visualize results, see [Visualize sweep result
 
 ## Stop the agent (optional)
 
-In the terminal, press `Ctrl+C` to stop the current run. Press it again to stop the agent entirely.
+In the terminal, press `Ctrl+C` to stop the current run. Press it again to terminate the agent.
