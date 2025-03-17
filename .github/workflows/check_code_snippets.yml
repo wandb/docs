@@ -1,0 +1,36 @@
+name: Test W&B Doc Code Snippets
+on: [push, pull_request]
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      scripts: ${{ steps.list-scripts.outputs.scripts }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Find Python scripts
+        id: list-scripts
+        run: echo "scripts=$(jq -c -R 'split("\n")[:-1]' < <(ls code_examples/source/*.py))" >> $GITHUB_ENV
+
+  test:
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        script: ${{ fromJson(needs.generate-matrix.outputs.scripts) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install and check dependencies
+        run: bash code_examples/check_dependencies.sh
+
+      - name: Run W&B script
+        run: python3 ${{ matrix.script }}
