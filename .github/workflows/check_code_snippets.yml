@@ -1,5 +1,5 @@
 name: Test W&B Doc Code Snippets
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   generate-matrix:
