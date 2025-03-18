@@ -382,27 +382,80 @@ jobs:
                       tmp.write(review_json)
                       tmp_path = tmp.name
                   
-                  # Create the comment using curl with verbose output
-                  curl_comment_cmd = [
+                  # For GitHub suggestion comments, we need to create a review first
+                  print(f"Creating comment for PR #{pr_number}, file {file_path}, line {line_number}")
+                  
+                  # First create a review
+                  review_data = {
+                      "commit_id": commit_id,
+                      "body": "GPT Editor review",
+                      "event": "COMMENT"
+                  }
+                  
+                  with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+                      tmp.write(json.dumps(review_data))
+                      tmp_path = tmp.name
+                  
+                  # Create the review
+                  curl_review_cmd = [
                       'curl', '-v', '-X', 'POST',
                       '-H', f'Authorization: token {github_token}',
                       '-H', 'Accept: application/vnd.github.v3+json',
                       '-H', 'Content-Type: application/json',
-                      f'https://api.github.com/repos/{repo}/pulls/{pr_number}/comments',
+                      f'https://api.github.com/repos/{repo}/pulls/{pr_number}/reviews',
                       '-d', f'@{tmp_path}'
                   ]
                   
-                  print(f"Posting suggestion for {file_path} line {line_number}")
-                  curl_result = subprocess.run(curl_comment_cmd, capture_output=True, text=True)
+                  review_result = subprocess.run(curl_review_cmd, capture_output=True, text=True)
                   
-                  if curl_result.returncode == 0:
-                      print(f"Successfully created suggestion")
-                      # Show response snippet to debug
-                      response_snippet = curl_result.stdout[:200] + "..." if len(curl_result.stdout) > 200 else curl_result.stdout
-                      print(f"API response: {response_snippet}")
-                  else:
-                      print(f"Error creating suggestion: {curl_result.stderr}")
-                      print(f"Response: {curl_result.stdout}")
+                  if review_result.returncode != 0:
+                      print(f"Error creating review: {review_result.stderr}")
+                      os.unlink(tmp_path)
+                      return
+                  
+                  try:
+                      review_response = json.loads(review_result.stdout)
+                      review_id = review_response.get('id')
+                      
+                      if not review_id:
+                          print("Failed to get review ID from response")
+                          print(f"Response: {review_result.stdout[:200]}...")
+                          os.unlink(tmp_path)
+                          return
+                      
+                      # Now create a comment on the review using the GitHub REST API directly
+                      os.unlink(tmp_path)  # Remove the old temp file
+                      
+                      # Create a PR comment using the API
+                      comment_data = {
+                          "body": body,
+                          "path": file_path,
+                          "line": line_number,
+                          "side": "RIGHT"
+                      }
+                      
+                      with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+                          tmp.write(json.dumps(comment_data))
+                          tmp_path = tmp.name
+                      
+                      curl_comment_cmd = [
+                          'curl', '-v', '-X', 'POST',
+                          '-H', f'Authorization: token {github_token}',
+                          '-H', 'Accept: application/vnd.github.v3+json',
+                          '-H', 'Content-Type: application/json',
+                          f'https://api.github.com/repos/{repo}/pulls/{pr_number}/comments',
+                          '-d', f'@{tmp_path}'
+                      ]
+                      
+                      comment_result = subprocess.run(curl_comment_cmd, capture_output=True, text=True)
+                      
+                      if comment_result.returncode == 0:
+                          print("Successfully created suggestion comment")
+                      else:
+                          print(f"Error creating comment: {comment_result.stderr}")
+                          print(f"Response: {comment_result.stdout}")
+                  except json.JSONDecodeError:
+                      print(f"Error parsing review response: {review_result.stdout[:200]}...")
                   
                   # Clean up temp file
                   os.unlink(tmp_path)
