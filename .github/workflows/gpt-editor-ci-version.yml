@@ -167,6 +167,8 @@ jobs:
           import difflib
           import tempfile
           import json
+          import re
+          import re
           
           def process_file(file_path, filter_by_changes=True):
               """Process a markdown file with GPT editor and create suggestions for improvements"""
@@ -182,7 +184,6 @@ jobs:
                           capture_output=True, text=True, check=False
                       )
                       if base_ref_result.returncode != 0:
-                          # Try with master if main doesn't exist
                           base_ref_result = subprocess.run(
                               ['git', 'merge-base', 'HEAD', 'origin/master'], 
                               capture_output=True, text=True, check=True
@@ -190,20 +191,17 @@ jobs:
                       
                       base_ref = base_ref_result.stdout.strip()
                       
-                      # Get line numbers added/modified in the PR
+                      # Get PR modified lines
                       diff_result = subprocess.run(
                           ['git', 'diff', '--unified=0', base_ref, '--', file_path],
                           capture_output=True, text=True, check=True
                       )
                       
-                      # Parse the diff to get line numbers
+                      # Parse the diff for PR modified line ranges
                       for line in diff_result.stdout.splitlines():
-                          # Look for lines like @@ -71,0 +72,3 @@ which show line changes
                           if line.startswith('@@'):
                               parts = line.split(' ')
                               if len(parts) >= 3:
-                                  # Parse the +A,B part to get the line range in the current version
-                                  # where A is the starting line and B is the number of lines
                                   added_part = parts[2]
                                   if added_part.startswith('+'):
                                       range_part = added_part[1:].split(',')
@@ -213,11 +211,8 @@ jobs:
                                           modified_line_ranges.append((start_line, start_line + num_lines - 1))
                       
                       print(f"Modified line ranges in PR: {modified_line_ranges}")
-                  except subprocess.CalledProcessError as e:
+                  except Exception as e:
                       print(f"Error getting modified lines: {e}")
-                      modified_line_ranges = []
-              else:
-                  print("Processing all lines, not filtering by PR changes")
               
               # Save original content (the PR version)
               with open(file_path, 'r') as f:
@@ -225,10 +220,12 @@ jobs:
                   original_lines = original_content.splitlines()
               
               # Run gpt-editor.py to get improved content
+              print("Running GPT editor (this may take a while)...")
               try:
-                  subprocess.run(['python', 'scripts/gpt-editor.py', file_path], check=True)
-                  print(f"Successfully ran GPT editor on {file_path}")
-              except subprocess.CalledProcessError as e:
+                  # Don't capture output so it shows in CI logs
+                  subprocess.run(['python', 'scripts/gpt-editor.py', file_path], check=True, capture_output=False)
+                  print("GPT editor completed successfully")
+              except Exception as e:
                   print(f"Error running GPT editor: {e}")
                   return
               
@@ -237,40 +234,111 @@ jobs:
                   improved_content = f.read()
                   improved_lines = improved_content.splitlines()
               
-              # Restore the original content (so PR doesn't get modified)
+              # Create temporary files for git diff
+              with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.md') as original_file:
+                  original_file.write(original_content)
+                  original_path = original_file.name
+              
+              with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.md') as improved_file:
+                  improved_file.write(improved_content)
+                  improved_path = improved_file.name
+              
+              # Restore the original content
               with open(file_path, 'w') as f:
                   f.write(original_content)
               
               # If no changes were made, exit
               if original_content == improved_content:
-                  print(f"No improvements made to {file_path}")
+                  os.unlink(original_path)
+                  os.unlink(improved_path)
                   return
               
-              # Find changed sections using sequence matcher
-              matcher = difflib.SequenceMatcher(None, original_lines, improved_lines)
-              
-              for tag, i1, i2, j1, j2 in matcher.get_opcodes():
-                  # Only process changes (not matches)
-                  if tag in ('replace', 'delete', 'insert'):
-                      # Get the original and improved sections
-                      original_section = original_lines[i1:i2]
-                      improved_section = improved_lines[j1:j2]
+              # Use git diff to find changes with exact line positions
+              try:
+                  # Get exact line changes with git diff
+                  diff_cmd = ['git', 'diff', '--no-index', original_path, improved_path]
+                  diff_result = subprocess.run(diff_cmd, capture_output=True, text=True, check=False)
+                  diff_output = diff_result.stdout
+                  
+                  # Parse the diff for line changes
+                  hunks = []
+                  in_hunk = False
+                  hunk_start = None
+                  hunk_lines = []
+                  hunk_original_lines = []
+                  
+                  lines = diff_output.splitlines()
+                  i = 0
+                  while i < len(lines):
+                      line = lines[i]
                       
-                      # Check if this change overlaps with modified lines in the PR
-                      # Line numbers are 1-based in GitHub but 0-based in the list
-                      line_start = i1 + 1  # Convert to 1-based
-                      line_end = i2  # i2 is exclusive in Python, but we need inclusive for line ranges
-                      
-                      # Only create suggestions for sections that overlap with PR changes if filtering
-                      if not filter_by_changes or (modified_line_ranges and any(
-                          max(range_start, line_start) <= min(range_end, line_end)
-                          for range_start, range_end in modified_line_ranges
-                      )):
-                          create_suggestion(file_path, line_start, line_end, original_section, improved_section)
+                      # Find hunk headers
+                      if line.startswith('@@'):
+                          # If we have a previous hunk, save it
+                          if in_hunk and hunk_start is not None and hunk_lines:
+                              hunks.append((hunk_start, hunk_original_lines, hunk_lines))
+                          
+                          # Start a new hunk
+                          in_hunk = True
+                          hunk_lines = []
+                          hunk_original_lines = []
+                          
+                          # Parse the hunk header
+                          # Example: "@@ -10,4 +10,5 @@"
+                          match = re.search(r'@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@', line)
+                          if match:
+                              # Get the starting line number in the new file
+                              hunk_start = int(match.group(2))
+                              i += 1
+                              
+                              # Process lines in this hunk
+                              while i < len(lines) and not lines[i].startswith('@@'):
+                                  if lines[i].startswith('+') and not lines[i].startswith('+++'):
+                                      hunk_lines.append(lines[i][1:])  # Remove the '+' prefix
+                                  elif lines[i].startswith('-') and not lines[i].startswith('---'):
+                                      hunk_original_lines.append(lines[i][1:])  # Remove the '-' prefix
+                                  i += 1
+                              
+                              # Back up one to handle the next hunk header in the outer loop
+                              i -= 1
+                          else:
+                              in_hunk = False
+                              i += 1
                       else:
-                          print(f"Skipping suggestion for {file_path} lines {line_start}-{line_end} as they weren't modified in the PR")
+                          i += 1
+                  
+                  # Don't forget the last hunk
+                  if in_hunk and hunk_start is not None and hunk_lines:
+                      hunks.append((hunk_start, hunk_original_lines, hunk_lines))
+                  
+                  # Process each hunk
+                  for start_line, original_section, improved_section in hunks:
+                      # Only consider hunks with actual improvements
+                      if not improved_section:
+                          continue
+                          
+                      # Skip hunks outside modified ranges if filtering
+                      if filter_by_changes:
+                          in_modified_range = any(
+                              range_start <= start_line <= range_end or
+                              (start_line <= range_start and start_line + len(improved_section) - 1 >= range_start)
+                              for range_start, range_end in modified_line_ranges
+                          )
+                          
+                          if not in_modified_range:
+                              continue
+                      
+                      # Create a suggestion for this hunk
+                      create_suggestion(file_path, start_line, original_section, improved_section)
+              
+              except Exception as e:
+                  print(f"Error processing diff: {e}")
+              
+              # Clean up
+              os.unlink(original_path)
+              os.unlink(improved_path)
           
-          def create_suggestion(file_path, start_line, end_line, original_section, improved_section):
+          def create_suggestion(file_path, line_number, original_section, improved_section):
               """Create a GitHub PR review comment with a suggestion"""
               # Get run ID and repository for the action URL
               run_id = os.environ.get('GITHUB_RUN_ID')
@@ -302,7 +370,7 @@ jobs:
                       "commit_id": commit_id,
                       "path": file_path,
                       "body": body,
-                      "line": start_line,
+                      "line": line_number,
                       "side": "RIGHT"
                   }
                   
@@ -314,23 +382,86 @@ jobs:
                       tmp.write(review_json)
                       tmp_path = tmp.name
                   
-                  # Create the comment using curl
-                  curl_comment_cmd = [
-                      'curl', '-X', 'POST',
+                  # For GitHub suggestion comments, we need to create a review first
+                  print(f"Creating comment for PR #{pr_number}, file {file_path}, line {line_number}")
+                  
+                  # First create a review
+                  review_data = {
+                      "commit_id": commit_id,
+                      "body": "GPT Editor review",
+                      "event": "COMMENT"
+                  }
+                  
+                  with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+                      tmp.write(json.dumps(review_data))
+                      tmp_path = tmp.name
+                  
+                  # Create the review
+                  curl_review_cmd = [
+                      'curl', '-v', '-X', 'POST',
                       '-H', f'Authorization: token {github_token}',
                       '-H', 'Accept: application/vnd.github.v3+json',
                       '-H', 'Content-Type: application/json',
-                      f'https://api.github.com/repos/{repo}/pulls/{pr_number}/comments',
+                      f'https://api.github.com/repos/{repo}/pulls/{pr_number}/reviews',
                       '-d', f'@{tmp_path}'
                   ]
                   
-                  subprocess.run(curl_comment_cmd, check=True)
+                  review_result = subprocess.run(curl_review_cmd, capture_output=True, text=True)
+                  
+                  if review_result.returncode != 0:
+                      print(f"Error creating review: {review_result.stderr}")
+                      os.unlink(tmp_path)
+                      return
+                  
+                  try:
+                      review_response = json.loads(review_result.stdout)
+                      review_id = review_response.get('id')
+                      
+                      if not review_id:
+                          print("Failed to get review ID from response")
+                          print(f"Response: {review_result.stdout[:200]}...")
+                          os.unlink(tmp_path)
+                          return
+                      
+                      # Now create a comment on the review using the GitHub REST API directly
+                      os.unlink(tmp_path)  # Remove the old temp file
+                      
+                      # Create a PR comment using the API
+                      comment_data = {
+                          "body": body,
+                          "path": file_path,
+                          "line": line_number,
+                          "side": "RIGHT"
+                      }
+                      
+                      with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+                          tmp.write(json.dumps(comment_data))
+                          tmp_path = tmp.name
+                      
+                      curl_comment_cmd = [
+                          'curl', '-v', '-X', 'POST',
+                          '-H', f'Authorization: token {github_token}',
+                          '-H', 'Accept: application/vnd.github.v3+json',
+                          '-H', 'Content-Type: application/json',
+                          f'https://api.github.com/repos/{repo}/pulls/{pr_number}/comments',
+                          '-d', f'@{tmp_path}'
+                      ]
+                      
+                      comment_result = subprocess.run(curl_comment_cmd, capture_output=True, text=True)
+                      
+                      if comment_result.returncode == 0:
+                          print("Successfully created suggestion comment")
+                      else:
+                          print(f"Error creating comment: {comment_result.stderr}")
+                          print(f"Response: {comment_result.stdout}")
+                  except json.JSONDecodeError:
+                      print(f"Error parsing review response: {review_result.stdout[:200]}...")
                   
                   # Clean up temp file
                   os.unlink(tmp_path)
                   
-                  print(f"Created suggestion for {file_path} line {start_line}")
-              except subprocess.CalledProcessError as e:
+                  print(f"Created suggestion for {file_path} line {line_number}")
+              except Exception as e:
                   print(f"Error creating review comment: {e}")
           
           # Process all files passed on the command line
@@ -351,13 +482,54 @@ jobs:
                   process_file(file_path, filter_by_changes)
           EOF
           
-          # Process each file individually
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [ -n "$file" ] && [ -f "$file" ]; then
-              echo "Processing $file"
-              python gpt_suggestions.py "$file" ${{ steps.filter-mode.outputs.filter_by_changes }}
+          # Add basic diagnostics
+          echo "CURRENT DIRECTORY: $(pwd)"
+          echo "CHECKING IF GPT EDITOR EXISTS:"
+          if [ -f "scripts/gpt-editor.py" ]; then
+            echo "✅ GPT editor script exists"
+          else
+            echo "❌ GPT editor script NOT found at scripts/gpt-editor.py"
+            find . -name "gpt-editor.py" -type f
+            exit 1
+          fi
+          
+          FILTER="${{ steps.filter-mode.outputs.filter_by_changes }}"
+          
+          # Save files to temporary file and read line by line
+          echo "${{ steps.changed-files.outputs.all_changed_files }}" > changed_md_files.txt
+          
+          echo "STARTING TO PROCESS ACTUAL MARKDOWN FILES:"
+          while IFS= read -r FILE; do
+            if [ -n "$FILE" ] && [ -f "$FILE" ]; then
+              echo "===================================================="
+              echo "🔄 PROCESSING FILE: $FILE"
+              echo "===================================================="
+              
+              # 1. Print file content for debugging
+              echo "FILE CONTENT PREVIEW (first 10 lines):"
+              head -n 10 "$FILE" || echo "Cannot read file"
+              
+              # 2. Run the GPT editor script directly
+              echo "RUNNING GPT EDITOR DIRECTLY:"
+              python scripts/gpt-editor.py "$FILE"
+              GPT_RESULT=$?
+              
+              echo "GPT EDITOR EXIT CODE: $GPT_RESULT"
+              
+              if [ $GPT_RESULT -eq 0 ]; then
+                echo "✅ GPT EDITOR COMPLETED SUCCESSFULLY"
+                
+                # 3. Now run our processing script
+                echo "RUNNING SUGGESTION PROCESSOR:"
+                python gpt_suggestions.py "$FILE" "$FILTER"
+                echo "SUGGESTION PROCESSOR EXIT CODE: $?"
+              else
+                echo "❌ GPT EDITOR FAILED"
+              fi
+              
+              echo "===================================================="
             fi
-          done
+          done < changed_md_files.txt
       
       - name: Comment if no markdown files were changed
         if: steps.changed-files.outputs.any_changed != 'true'
