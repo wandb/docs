@@ -220,7 +220,14 @@ jobs:
                   original_lines = original_content.splitlines()
               
               # Run gpt-editor.py to get improved content
-              subprocess.run(['python', 'scripts/gpt-editor.py', file_path], check=True)
+              print("Running GPT editor (this may take a while)...")
+              try:
+                  # Don't capture output so it shows in CI logs
+                  subprocess.run(['python', 'scripts/gpt-editor.py', file_path], check=True, capture_output=False)
+                  print("GPT editor completed successfully")
+              except Exception as e:
+                  print(f"Error running GPT editor: {e}")
+                  return
               
               # Read the improved content
               with open(file_path, 'r') as f:
@@ -375,9 +382,9 @@ jobs:
                       tmp.write(review_json)
                       tmp_path = tmp.name
                   
-                  # Create the comment using curl
+                  # Create the comment using curl with verbose output
                   curl_comment_cmd = [
-                      'curl', '-s', '-X', 'POST',
+                      'curl', '-v', '-X', 'POST',
                       '-H', f'Authorization: token {github_token}',
                       '-H', 'Accept: application/vnd.github.v3+json',
                       '-H', 'Content-Type: application/json',
@@ -385,7 +392,17 @@ jobs:
                       '-d', f'@{tmp_path}'
                   ]
                   
-                  subprocess.run(curl_comment_cmd, check=True, capture_output=True)
+                  print(f"Posting suggestion for {file_path} line {line_number}")
+                  curl_result = subprocess.run(curl_comment_cmd, capture_output=True, text=True)
+                  
+                  if curl_result.returncode == 0:
+                      print(f"Successfully created suggestion")
+                      # Show response snippet to debug
+                      response_snippet = curl_result.stdout[:200] + "..." if len(curl_result.stdout) > 200 else curl_result.stdout
+                      print(f"API response: {response_snippet}")
+                  else:
+                      print(f"Error creating suggestion: {curl_result.stderr}")
+                      print(f"Response: {curl_result.stdout}")
                   
                   # Clean up temp file
                   os.unlink(tmp_path)
