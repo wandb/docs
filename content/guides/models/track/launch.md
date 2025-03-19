@@ -24,33 +24,36 @@ Create a W&B Experiment in four steps:
 ### Initialize a W&B run
 Use [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) to create a W&B Run.
 
-The proceeding code snippet demonstrates how to create a new W&B project named `“cat-classification”`. A note `“My first experiment”` was added to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
+The following snippet creates a run in a W&B project named `“cat-classification”` with the description `“My first experiment”` to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
 
 ```python
-# Import the W&B Python Library
 import wandb
 
-# 1. Start a W&B Run
 with wandb.init(
     project="cat-classification",
     notes="My first experiment",
     tags=["baseline", "paper1"],
 ) as run:
-    ...  # Experiment code goes here
+    ...
 ```
-A [Run]({{< relref "/ref/python/run.md" >}}) object is returned when you initialize W&B with `wandb.init()`. Additionally, W&B creates a local directory where all logs and files are saved and streamed asynchronously to a W&B server.
+
+`wandb.init()` returns a [Run]({{< relref "/ref/python/run.md" >}}) object.
 
 {{% alert %}}
-Note: Runs are added to pre-existing projects if that project already exists when you call wandb.init().  For example, if you already have a project called `“cat-classification”`, that project will continue to exist and not be deleted. Instead, a new run is added to that project.
+Note: Runs are added to pre-existing projects if that project already exists when you call `wandb.init()`. For example, if you already have a project called `“cat-classification”`, that project will continue to exist and not be deleted. Instead, a new run is added to that project.
 {{% /alert %}}
 
 ### Capture a dictionary of hyperparameters
 Save a dictionary of hyperparameters such as learning rate or model type. The model settings you capture in config are useful later to organize and query your results.
 
 ```python
-#  2. Capture a dictionary of hyperparameters
-run.config = {"epochs": 100, "learning_rate": 0.001, "batch_size": 128}
+with wandb.init(
+    ...,
+    config={"epochs": 100, "learning_rate": 0.001, "batch_size": 128},
+) as run:
+    ...
 ```
+
 For more information on how to configure an experiment, see [Configure Experiments]({{< relref "./config.md" >}}).
 
 ### Log metrics inside your training loop
@@ -70,7 +73,10 @@ For more information on different data types you can log with W&B, see [Log Data
 ### Log an artifact to W&B 
 Optionally log a W&B Artifact. Artifacts make it easy to version datasets and models. 
 ```python
-run.log_artifact(model)
+# You can save any file or even a directory. In this example, we pretend
+# the model has a save() method that outputs an ONNX file.
+model.save("path_to_model.onnx")
+run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ```
 For more information about Artifacts, see the [Artifacts Chapter]({{< relref "/guides/core/artifacts/" >}}). For more information about versioning models, see [Model Management]({{< relref "/guides/core/registry/model_registry/" >}}).
 
@@ -78,34 +84,27 @@ For more information about Artifacts, see the [Artifacts Chapter]({{< relref "/g
 ### Putting it all together
 The full script with the preceding code snippets is found below:
 ```python
-# Import the W&B Python Library
 import wandb
 
-# 1. Start a W&B Run
 with wandb.init(
     project="cat-classification",
     notes="",
     tags=["baseline", "paper1"],
+    # Record the run's hyperparameters.
+    config={"epochs": 100, "learning_rate": 0.001, "batch_size": 128},
 ) as run:
-    # 2. Capture a dictionary of hyperparameters
-    run.config = {"epochs": 100, "learning_rate": 0.001, "batch_size": 128}
-
-    # Set up model and data
+    # Set up model and data.
     model, dataloader = get_model(), get_data()
 
-    for epoch in range(run.config.epochs):
+    # Run your training while logging metrics to visualize model performance.
+    for epoch in range(run.config["epochs"]):
         for batch in dataloader:
             loss, accuracy = model.training_step()
-            #  3. Log metrics inside your training loop to visualize
-            # model performance
             run.log({"accuracy": accuracy, "loss": loss})
 
-    # 4. Log an artifact to W&B
-    run.log_artifact(model)
-
-    # Optional: save model at the end
-    model.to_onnx()
-    run.save("model.onnx")
+    # Upload the trained model as an artifact.
+    model.save("path_to_model.onnx")
+    run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ```
 
 ## Next steps: Visualize your experiment 
@@ -140,12 +139,12 @@ The following code snippet demonstrates how to define a W&B Experiment using the
 ```python
 import wandb
 
-config = dict(
-    learning_rate=0.01,
-    momentum=0.2,
-    architecture="CNN",
-    dataset_id="cats-0192",
-)
+config = {
+    "learning_rate": 0.01,
+    "momentum": 0.2,
+    "architecture": "CNN",
+    "dataset_id": "cats-0192",
+}
 
 with wandb.init(
     project="detect-cats",
