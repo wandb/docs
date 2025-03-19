@@ -1,17 +1,8 @@
 ---
 title: Support
 menu:
-  support:
-    identifier: support
-    parent: null
-  main:
-    weight: 4
-    parent: null
-url: support
-no_list: true
-type: docs
-cascade:
-- url: support/:filename
+    main:
+        weight: 4
 ---
 
 {{< banner title="How can we help?" background="/images/support/support_banner.png" >}}
