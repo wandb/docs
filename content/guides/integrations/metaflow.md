@@ -34,6 +34,11 @@ For a more streamlined approach, you can generate an API key by going directly t
 
 To install the `wandb` library locally and log in:
 
+{{% alert %}}
+For wandbkversions <= 0.19.8, install `fastcore<1.8.0` instead of `plum-dispatch`:
+{{% /alert %}}
+
+
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
@@ -48,7 +53,7 @@ To install the `wandb` library locally and log in:
 
 
     ```shell
-    pip install -Uqqq metaflow plum-dispatch wandb
+    pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
 
     wandb login
     ```
@@ -58,7 +63,7 @@ To install the `wandb` library locally and log in:
 {{% tab header="Python" value="python" %}}
 
 ```bash
-pip install -Uqqq metaflow plum-dispatch wandb
+pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
 ```
 ```python
 import wandb
@@ -70,7 +75,7 @@ wandb.login()
 {{% tab header="Python notebook" value="notebook" %}}
 
 ```notebook
-!pip install -Uqqq metaflow plum-dispatch wandb
+!pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
 
 import wandb
 wandb.login()
