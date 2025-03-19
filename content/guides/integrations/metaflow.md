@@ -48,7 +48,7 @@ To install the `wandb` library locally and log in:
 
 
     ```shell
-    pip install -Uqqq metaflow fastcore wandb
+    pip install -Uqqq metaflow plum-dispatch wandb
 
     wandb login
     ```
@@ -58,7 +58,7 @@ To install the `wandb` library locally and log in:
 {{% tab header="Python" value="python" %}}
 
 ```bash
-pip install -Uqqq metaflow fastcore wandb
+pip install -Uqqq metaflow plum-dispatch wandb
 ```
 ```python
 import wandb
@@ -70,7 +70,7 @@ wandb.login()
 {{% tab header="Python notebook" value="notebook" %}}
 
 ```notebook
-!pip install -Uqqq metaflow fastcore wandb
+!pip install -Uqqq metaflow plum-dispatch wandb
 
 import wandb
 wandb.login()
