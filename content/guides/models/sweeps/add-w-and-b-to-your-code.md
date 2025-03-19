@@ -77,7 +77,7 @@ create a W&B Sweep, we added the following to the code example:
 1. Line 1: Import the Weights & Biases Python SDK.
 2. Line 9 & 15: Define training and evaluation functions that take in
    hyperparameter values from `wandb.config` and use them to train a model and
-   return metric/performance values (here, accuracy and loss).
+   return performance metric values (here, accuracy and loss).
 3. Line 22: Create a dictionary object where the key-value pairs define the sweep
    configuration. In the proceeding example, the batch size (`batch_size`),
    epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied
@@ -89,22 +89,22 @@ create a W&B Sweep, we added the following to the code example:
    performance values to W&B.
 5. Line 43-45: (Optional) define values from `wandb.config` instead of defining
    hard coded values.
-6. Line 51: Log the metric we want to optimize with
-   [`wandb.log`]({{< relref "/ref/python/log.md" >}}). You must log the metric
-   defined in your configuration. Within the configuration dictionary
-   (`sweep_configuration` in this example) we defined the sweep to maximize the
-   `val_acc` value).
+6. Line 51: Log the metric we want to optimize with [`wandb.log()`]({{< relref
+   "/ref/python/log.md" >}}). You must log the metric defined in your
+   configuration (`sweep_configuration`). here, we ask sweep to maximize the
+   `val_acc` value.
 7. Line 64: Pass the sweep configuration dictionary to
-   [`wandb.sweep`]({{< relref "/ref/python/sweep.md" >}}). This initializes the
-   sweep. This returns a sweep ID (`sweep_id`). For more information on how to
+   [`wandb.sweep()`]({{< relref "/ref/python/sweep.md" >}}). This initializes the
+   sweep and returns a sweep ID (`sweep_id`). For more information on how to
    initialize sweeps, see [Initialize
    sweeps]({{< relref "./initialize-sweeps.md" >}}).
-8. Line 67: Start the sweep with the
-   [`wandb.agent`]({{< relref "/ref/python/agent.md" >}}) API call. Provide the
-   sweep ID (line 19), the name of the function the sweep will execute
-   (`function=main`), and set the maximum number of runs to try to four
-   (`count=4`). For more information on how to start W&B Sweep, see [Start sweep
-   agents]({{< relref "./start-sweep-agents.md" >}}).
+8. Line 67: Start the sweep with the [`wandb.agent()`]({{< relref
+   "/ref/python/agent.md" >}}) API call. Provide the sweep ID (line 19), the
+   name of the function the sweep will execute (`function=main`) in each run,
+   and the maximum number of runs (`count=4`). For more information on how to
+   start a W&B Sweep, see [Start sweep agents]({{< relref
+   "./start-sweep-agents.md"
+   >}}).
 
 ```python showLineNumbers
 import wandb
@@ -114,7 +114,7 @@ import random
 
 # Define training function that takes in hyperparameter
 # values from `wandb.config` and uses them to train a
-# model and return metric
+# model and return the metric(s)
 def train_one_epoch(epoch, lr, bs):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
     loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
@@ -127,7 +127,7 @@ def evaluate_one_epoch(epoch):
     return acc, loss
 
 
-# Define sweep config
+# Define a sweep config dictionary
 sweep_configuration = {
     "method": "random",
     "name": "sweep",
@@ -139,20 +139,21 @@ sweep_configuration = {
     },
 }
 
-# (Optional) Provide a name of the project.
+# (Optional) Provide a name for the project.
 project = "my-first-sweep"
 
 def main():
-    # Use with context to automatically end the run
-    # equivalent to using `run.finish()` at the end of each run
+    # Use the `with` context manager statement to automatically end the run.
+    # This is equivalent to using `run.finish()` at the end of each run
     with wandb.init(project=project) as run:
 
-        # note that we define values from `wandb.config`
-        # instead of defining hard values
+        # Note that we fetch the hyperparameter values from `wandb.config`
+        # instead of defining them explicitly
         lr = run.config["lr"]
         bs = run.config["batch_size"]
         epochs = run.config["epochs"]
 
+        # Execute the training loop and log the performance values to W&B
         for epoch in np.arange(1, epochs):
             train_acc, train_loss = train_one_epoch(epoch, lr, bs)
             val_acc, val_loss = evaluate_one_epoch(epoch)
@@ -169,10 +170,10 @@ def main():
 
 
 if __name__ == "__main__":
-    # Initialize sweep by passing in config
+    # Initialize the sweep by passing in the config dictionary
     sweep_id = wandb.sweep(sweep=sweep_configuration, project=project)
 
-    # Start sweep job
+    # Start the sweep job
     wandb.agent(sweep_id, function=main, count=4)
 
 ```
@@ -183,7 +184,7 @@ context manager statement to generate a background process to sync and log data
 as a [W&B Run]({{< relref "/ref/python/run.md" >}}). This ensures the run is
 properly terminated after uploading the logged values. An alternative approach
 is to call `wandb.init()` and `wandb.finish()` at the beginning and end of the
-training script, respectively. 
+training script, respectively.
 {{% /alert %}}
 
 {{% /tab %}} {{% tab header="CLI" %}}
