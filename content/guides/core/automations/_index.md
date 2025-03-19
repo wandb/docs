@@ -29,9 +29,9 @@ To [create an automation]({{< relref "create-automations/" >}}), you:
 
 1. If required, configure [secrets]({{< relref "/guides/core/secrets.md" >}}) for sensitive strings the automation requires, such as access tokens, passwords, or sensitive configuration details.
 1. Authorize W&B to post to Slack or run the webhook on your behalf. This is required once per Slack channel or webhook.
-1. Create the automation:
+1. In the project or registry, create the automation:
   1. Grant it access to any secrets you created for it.
-  1. Define the [event]({{< relref "#automation-events" >}}) to watch for at a given scope, such as in a registry, a project, or a collection.
+  1. Define the [event]({{< relref "#automation-events" >}}) to watch for, such as when a new artifact or version is created or linked.
   1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook) and the payload to send.
 
 ## Next steps

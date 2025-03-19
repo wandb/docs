@@ -7,24 +7,21 @@ title: Create a webhook automation
 weight: 3
 ---
 
-This page shows how to create Slaa webhook [automation]({{< relref "/guides/core/automations/" >}}> ). To create a Slack automation, refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}) instead.
+This page shows how to create a webhook [automation]({{< relref "/guides/core/automations/" >}}> ). To create a Slack automation, refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}) instead.
 
-At a high level, to create a webhook automation, a W&B Admin takes these steps:
+At a high level, to create a webhook automation, you take these steps:
 1. If necessary, [create a W&B secret]({{< relref "/guides/core/secrets.md" >}}) for each sensitive string required by the automation, such as an access token, password, or SSH key. Secrets are defined in your team settings.
-1. [Add a webhook integration]({{< relref "#add-a-slack-channel" >}}), which defines the webhook's endpoint and authorization details. Grant the integration access to any secrets it needs.
-1. [Create the webhook automation]({{< relref "#create-slack-automation" >}}), which defines the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for and the payload W&B will send.
+1. [Add a webhook integration]({{< relref "#add-a-slack-channel" >}}) to define the webhook's endpoint and authorization details and grant the integration access to any secrets it needs.
+1. [Create the webhook automation]({{< relref "#create-slack-automation" >}}) to define the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for and the payload W&B will send. Grant the automation access to any secrets it needs for the payload.
 
 ## Add a webhook integration
-A W&B Admin can configure a webhook integration for a team. The integration defines the endpoint URL and the authentication and authorization details for the webhook and allows you to test them.
+A team admin can add integrations to the team.
 
 {{% alert %}}
 If the webhook requires a Bearer token, [create a secret that contains it]({{< relref "/guides/core/secrets.md#add-a-secret" >}}) before creating the webhoook.
 {{% /alert %}}
 
-To configure a webhook integration:
-
-1. Log in to W&B.
-1. Go to the **Settings** page.
+1. Log in to W&B and go to Team Settings page.
 1. In the **Webhooks** section, click **New webhook**.
 1. Provide a name for the webhook. 
 1. Provide the endpoint URL for the webhook.
@@ -32,35 +29,77 @@ To configure a webhook integration:
 1. If required, set **Access token** to the name of the secret that contains the token. When you [configure an automation that uses the webhook]({{< relref "#create-a-webhook-automation">}}), you can access the token in the `$ACCESS_TOKEN` environment variable, and the HTTP header sets `Authorization: Bearer` to the access token.
 1. Click **Test**. W&B attempts to authenticate to the webhook's endpoint using the accesss token you configured.
 
-    Optionally, provide a payload to test. To refer to a secret the webhook has access to in the payload, prefix its name with `$`. This payload is only used for testing and is not saved.  You configure an automation's payload when you [create the automation]({{< relref "#create-a-webhook-automation" >}}).
+    Optionally, provide a payload to test. To refer to a secret the webhook has access to in the payload, prefix its name with `$`. This payload is only used for testing and is not saved.  You configure an automation's payload when you [create the automation]({{< relref "#create-a-webhook-automation" >}}). See [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}) to view where the secret and access token are specified in the POST request.
 
-{{% alert %}}
-See [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}) to view where the secret and access token are specified in
-the POST request.
-{{% /alert %}}
-
-Now you can [create a webhook automation]({{< relref "#create-webhook-automation" >}}).
+Now you can [create a webhook automation]({{< relref "#create-a-webhook-automation" >}}).
 
 ## Create a webhook automation
-After you [add a webhook integration]({{< relref "#add-a-webhook-integration">}}), follow these steps to create a webhook automation that uses it.
+After you [configure a webhook integration]({{< relref "#add-a-webhook-integration" >}}), select **Registry** or **Project**, then follow these steps to create a webhook automation.
+
+{{< tabpane text=true >}}
+{{% tab "Registry" %}}
+A Registry admin can create automations in that registry. Registry automations are applied to all collections in the registry, including those added in the future.
+
+1. Log in to W&B.
+1. Click the name of a registry to view its details, 
+1. To create an automation that applies to the registry and all of its collections (including those created in the future), click the **Automations** tab, then click  **Create automation**.
+
+    To create an automation that applies only to a specific collection, click the collection's action `...` menu, then click **Create automation**. Alternatively, create an automation for a collection from the **Automations** section of the collection's details page by clicking **Create automation**.
+1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+
+    1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+    
+    1. Click **Next step**.
+1. Select the team that owns the [webhook integration]({{< relref "#add-a-webhook-integration" >}}).
+1. Set **Action type** to **Webhooks**. then select the [webhook integration]({{< relref "#add-a-webhook-integration" >}}) to use. Click **Next step**.
+1. Provide a name for the automation. Optionally, provide a description.
+1. Click **Create automation**.
+
+{{% /tab %}}
+{{% tab "Project" %}}
+A W&B admin can create automations in a project.
 
 1. Log in to W&B and go to the project page.
 1. In the sidebar, click **Automations**.
 1. Click **Create automation**.
-1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for. Fill in any additional fields that appear, which depend upon the event. Click **Next step**.
-1. Select the team that owns the [webhook integration]({{< relref "#add-a-webhook-integration">}}).
-1. Set **Action type** to **Webhook**, then select the webhook.
-1. Provide the payload for the webhook in **Payload**. Refer to [Example webhook payloads]({{< relref "#example-webhook-payloads" >}}) for variables you can use. If the [webhook]({{< relref "#add-a-webhook" >}}) has access to any secrets, you can access the secret in the payload by prefixing its name with `$`. If the webhook has an access token, you can access the token in the `$ACCESS_TOKEN` environment variable, and the HTTP header sets `Authorization: Bearer` to the access token.
-1. Click **Next step**.
+1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+
+    1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+
+    1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
+    
+    1. Click **Next step**.
+1. Select the team that owns the [webhook integration]({{< relref "#add-a-webhook-integration" >}}).
+1. Set **Action type** to **Webhooks**. then select the [webhook integration]({{< relref "#add-a-webhook-integration" >}}) to use. Click **Next step**.
 1. Provide a name for the automation. Optionally, provide a description.
 1. Click **Create automation**.
 
+{{% /tab %}}
+{{< /tabpane >}}
+
+
 ## View and manage automations
-View and manage a project's automations from the project's **Automations** tab.
+{{< tabpane text=true >}}
+{{% tab "Registry" %}}
+
+- Manage the registry's automations from the registry's **Automations** tab.
+- Mamage a collection's automations from the **Automations** section of the collection's details page.
+
+From either of these pages, a Registry admin can manage existing automations:
+- To view an automation's details, click its name.
+- To edit an automation, click its action `...` menu, then click **Edit automation**.
+- To delete an automation, click its action `...` menu, then click **Delete automation**. Confiruation is required.
+
+
+{{% /tab %}}
+{{% tab "Project" %}}
+A W&B admin can view and manage a project's automations from the project's **Automations** tab.
 
 - To view an automation's details, click its name.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
 - To delete an automation, click its action `...` menu, then click **Delete automation**. Confiruation is required.
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Troubleshoot your webhook
 Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
@@ -68,26 +107,23 @@ Interactively troubleshoot your webhook with the W&B App UI or programmatically 
 {{< tabpane text=true >}}
 {{% tab header="W&B App UI" value="app" %}}
 
-Interactively test a webhook with the W&B App UI. 
+A team admin can test a webhook interactively with the W&B App UI. 
 
 1. Navigate to your W&B Team Settings page.
 2. Scroll to the **Webhooks** section.
 3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
 4. Select **Test**.
 5. From the UI panel that appears, paste your POST request to the field that appears. 
-    {{< img src="/images/models/webhook_ui.png" alt="" >}}
-6. Click on **Test webhook**.
+    {{< img src="/images/models/webhook_ui.png" alt="Demo of testing a webhook payload" >}}
+6. Click on **Test webhook**. Within the W&B App UI, W&B posts the response from your endpoint.
+    {{< img src="/images/models/webhook_ui_testing.gif" alt="Demo of testing a webhook" >}}
 
-Within the W&B App UI, W&B posts the response made by your endpoint.
-
-{{< img src="/images/models/webhook_ui_testing.gif" alt="" >}}
-
-See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
+Watch the video [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a demonstration.
 {{% /tab %}}
 
 {{% tab header="Bash script" value="bash"%}}
 
-The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
+This shell script shows one method to generate a `POST` request similar to the request W&B sends to your webhook automation when it is triggered.
 
 Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
 
@@ -101,24 +137,32 @@ Copy and paste the code below into a shell script to troubleshoot your webhook. 
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Example webhook payloads
+## Example payloads
 
-The following tabs demonstrate example payloads based on common use cases. Within the examples they reference the following keys to refer to condition objects in the payload parameters:
-* `${event_type}` Refers to the type of event that triggered the action.
-* `${event_author}` Refers to the user that triggered the action.
-* `${artifact_version}` Refers to the specific artifact version that triggered the action. Passed as a [`Wandb.Artifact`]({{< relref "/ref/python/artifact/" >}}).
-* `${artifact_version_string}` Refers to the specific artifact version that triggered the action. Passed as a string.
-* `${artifact_collection_name}` Refers to the name of the artifact collection that the artifact version is linked to.
-* `${project_name}` Refers to the name of the project owning the mutation that triggered the action.
-* `${entity_name}` Refers to the name of the entity owning the mutation that triggered the action.
+The following tabs demonstrate example payloads based on common use cases. Within the examples they reference the following keys to refer to condition objects in the payload parameters.
 
+### Variables
+You can use the following variables when you construct your payload:
+
+| Variable | Details |
+|----------|---------|
+| `${event_type}` | The type of event that triggered the action. |
+| `${event_author}` | The user that triggered the action. |
+| `${artifact_version}` | The specific artifact version that triggered the action. Passed as a [`Wandb.Artifact`]({{< relref "/ref/python/artifact/" >}}). |
+| `${artifact_version_string}` | The specific artifact version that triggered the action. Passed as a string. |
+| `${artifact_collection_name}` | The name of the artifact collection that the artifact version is linked to. |
+| `${project_name}` | The name of the project that owns the mutation that triggered the action. |
+| `${entity_name}` | The name of the entity othat owns the mutation that triggered the action.
+| `TODO metadata` | TODO |
+
+### Examples
 {{< tabpane text=true >}}
 {{% tab header="GitHub repository dispatch" value="github" %}}
 
 {{% alert %}}
 Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
 {{% /alert %}}
-  
+
 Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
 
 ```yaml
@@ -162,11 +206,11 @@ ${entity_name} --> "<entity>"
 
 Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API]({{< relref "/guides/core/artifacts/download-and-use-an-artifact.md" >}}).
 
-For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
+- For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 
-Watch the videos [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) and [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases), which guide you to create automations for model evaluation and deployment. 
+- Watch the videos [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) and [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases), which guide you to create automations for model evaluation and deployment. 
 
-Review a W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw), which illustrates how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
+- Review a W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw), which illustrates how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
 
 {{% /tab %}}
 

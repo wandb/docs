@@ -14,10 +14,10 @@ At a high level, to create a Slack automation, you take these steps:
 1. [Create the Slack automation]({{< relref "#create-slack-automation" >}}), which defines the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for and the channel to post to.
 
 ## Add a Slack integration
-1. Log in to W&B and go to Team Settings page.
-1. To integrate with a new Slack workspace and channel, click **Connect Slack**.
+A team admin can add integrations to the team.
 
-    To integrate with a new Slack channel in a workspace that is already set up, click **New integration**.
+1. Log in to W&B and go to Team Settings page.
+1. In the **Slack channel integrations** section, click **Connect Slack** to add a new Slack instance. To add another channel in an existing Slack instance, click **New integration**.
 
     If necessary, sign in to your Slack instance. A browser window appears, asking that you grant Weights and Biases permission to post to the Slack channel you select. Read the page, then click **Search for a channel** and begin typing the channel name. Select the channel from the list, then click **Allow**.
 
@@ -26,26 +26,75 @@ At a high level, to create a Slack automation, you take these steps:
 Now you can [create a Slack automation]({{< relref "#create-a-slack-automation" >}}).
 
 ## View and manage Slack integration
+A team admin can view and manage the team's integrations.
+
 1. Log in to W&B and go to **Team Settings**.
-1. The **Slack channel integrations** section lists each Slack destination.
+1. View each Slack destination in the **Slack channel integrations** section.
 1. Delete a destination by clicking its trash icon.
 
 ## Create a Slack automation
-After you [configure a Slack integration]({{< relref "#add-a-slack-integration" >}}), follow these steps to create a Slack automation that uses it.
+After you [configure a Slack integration]({{< relref "#add-a-slack-integration" >}}), select **Registry** or **Project**, then follow these steps to create a Slack automation.
 
-1. Log in to W&B and go to the project page.
-1. In the sidebar, click **Automations**.
-1. Click **Create automation**.
-1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for. Fill in any additional fields that appear, which depend upon the event. Click **Next step**.
+{{< tabpane text=true >}}
+{{% tab "Registry" %}}
+A Registry admin can create automations in that registry.
+
+1. Log in to W&B.
+1. Click the name of a registry to view its details, 
+1. To create an automation that applies to the registry and all of its collections (including those created in the future), click the **Automations** tab, then click  **Create automation**.
+
+    To create an automation that applies only to a specific collection, click the collection's action `...` menu, then click **Create automation**. Alternatively, create an automation for a collection from the **Automations** section of the collection's details page by clicking **Create automation**.
+1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+
+    Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+    
+    Click **Next step**.
 1. Select the team that owns the [Slack integration]({{< relref "#add-a-slack-integration" >}}).
-1. Set **Action type** to **Slack notification**.
-1. Select the Slack channel, then click **Next step**.
+1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
 1. Provide a name for the automation. Optionally, provide a description.
 1. Click **Create automation**.
 
+{{% /tab %}}
+{{% tab "Project" %}}
+A W&B admin can create automations in a project.
+
+1. Log in to W&B.
+1. Go the project page and click the **Automations** tab.
+1. Click **Create automation**.
+1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+
+    Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+    
+    Click **Next step**.
+1. Select the team that owns the [Slack integration]({{< relref "#add-a-slack-integration" >}}).
+1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
+1. Provide a name for the automation. Optionally, provide a description.
+1. Click **Create automation**.
+
+{{% /tab %}}
+{{< /tabpane >}}
+
 ## View and manage automations
-View and manage a project's automations from the project's **Automations** tab.
+
+{{< tabpane text=true >}}
+{{% tab "Registry" %}}
+
+- Manage the registry's automations from the registry's **Automations** tab.
+- Mamage a collection's automations from the **Automations** section of the collection's details page.
+
+From either of these pages, a Registry admin can manage existing automations:
+- To view an automation's details, click its name.
+- To edit an automation, click its action `...` menu, then click **Edit automation**.
+- To delete an automation, click its action `...` menu, then click **Delete automation**. Confiruation is required.
+
+
+{{% /tab %}}
+{{% tab "Project" %}}
+A W&B admin can view and manage a project's automations from the project's **Automations** tab.
 
 - To view an automation's details, click its name.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
 - To delete an automation, click its action `...` menu, then click **Delete automation**. Confiruation is required.
+{{% /tab %}}
+{{< /tabpane >}}
+
