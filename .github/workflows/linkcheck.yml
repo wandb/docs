@@ -14,7 +14,7 @@ jobs:
       # check URLs with Lychee
       - uses: actions/checkout@v4
 
-      - name: Link Checker
+      - name: Link Checker (source)
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
@@ -25,10 +25,21 @@ jobs:
           # to be used in case rate limits are surpassed
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
+      - name: Link Checker (live site)
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: "--accept 200,429,403 --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' --scheme https --scheme http --max-concurrency 5 --max-retries 1 --retry-wait-time 2 --verbose --no-progress 'https://docs.wandb.com' 'lychee/remote_out.md'"
+          fail: false
+        env:
+          # to be used in case rate limits are surpassed
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
       - name: Create Issue From File
         if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@v5
         with:
           title: Link Checker Report
-          content-filepath: ./lychee/out.md
+          content-filepath: ./lychee/*.md
           labels: report, automated issue
