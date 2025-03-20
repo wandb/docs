@@ -23,7 +23,7 @@ The following responsibility matrix outlines some of the key differences:
 | SSO Support                          | W&B managed via Auth0             | **Option 1**: Customer managed<br />**Option 2**: Managed by W&B via Auth0 | Fully managed by customer   |
 | W&B Service (App)                    | Fully managed by W&B              | Fully managed by W&B                                                | Fully managed by customer          |
 | App security                         | Fully managed by W&B              | Shared responsibility of W&B and customer                           | Fully manbaged by customer         |
-| Maintenance (upgrades, backups, etc.)| Maintained by W&B every two weeks | Maintained by W&B every two weeks                                   | Managed by customer                |
+| Maintenance (upgrades, backups, etc.)| Managed by W&B | Managed by W&B | Managed by customer |
 | Support                              | Support SLA                       | Support SLA                                                         | Support SLA |
 | Supported cloud infrastructure       | GCP                               | AWS, GCP, Azure                                                     | AWS, GCP, Azure, On-Prem bare-metal |
 
