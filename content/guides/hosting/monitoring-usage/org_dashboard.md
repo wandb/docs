@@ -34,7 +34,7 @@ To sort the list of users by activity, click the **Last Active** column heading.
 From the **Users** tab, view details about how your organization uses W&B in CSV format.
 
 1. Click the action `...` menu next to the **Invite new user user** button.
-2. Click **Export as CSV**. A CSV file downloads. It lists details about each user of an organization, such as their user name and email address, the time they were last active, their roles, and more.
+2. Click **Export as CSV**. The CSV files that downloads lists details about each user of an organization, such as their user name and email address, the time they were last active, their roles, and more.
 
 ## View user activity
 In the **Users** tab, use the **Last Active** column to get an **Activity summary** of an individual user. 
