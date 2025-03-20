@@ -147,7 +147,7 @@ def main():
     # This is equivalent to using `run.finish()` at the end of each run
     with wandb.init(project=project) as run:
 
-        # Note that we fetch the hyperparameter values from `wandb.config`
+        # This code fetches the hyperparameter values from `wandb.config`
         # instead of defining them explicitly
         lr = run.config["lr"]
         bs = run.config["batch_size"]
