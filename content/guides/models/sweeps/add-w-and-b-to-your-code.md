@@ -114,7 +114,7 @@ import random
 
 # Define training function that takes in hyperparameter
 # values from `wandb.config` and uses them to train a
-# model and return the metric(s)
+# model and return the metrics
 def train_one_epoch(epoch, lr, bs):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
     loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
