@@ -73,7 +73,7 @@ for i in range(10):
 
 ## View summary metrics
 
-You can view summary values within a run's **Overview** page or within your project's **Run Table**. 
+You can view summary values within a run's **Overview** page or within your project's **Run Table**.
 
 {{< tabpane text=true >}}
 {{% tab header="Run Overview" value="overview" %}}
@@ -92,6 +92,54 @@ You can view summary values within a run's **Overview** page or within your proj
 1. Navigate to the W&P App.
 2. Select the **Runs** tab.
 3. Within the **Runs** table, you can view the summary values within the columns based on the name of the summary value.
+
+{{% /tab %}}
+
+{{% tab header="W&B Public API" value="api" %}}
+
+You can use the W&B Public API to fetch the summary values of a run. 
+
+For example, the following code example demonstrates one way to retrieve the summary values logged to a specific run using the W&B Public API and Pandas:
+
+```python
+import wandb
+import pandas
+
+entity = "<your-entity>"
+project = "<your-project>"
+run_name = "<your-run-name>" # Name of run with summary values
+
+all_runs = []
+
+for run in api.runs(f"{entity}/{project_name}"):
+  print("Fetching details for run: ", run.id, run.name)
+  run_data = {
+            "id": run.id,
+            "name": run.name,
+            "url": run.url,
+            "state": run.state,
+            "tags": run.tags,
+            "config": run.config,
+            "created_at": run.created_at,
+            "system_metrics": run.system_metrics,
+            "summary": run.summary,
+            "project": run.project,
+            "entity": run.entity,
+            "user": run.user,
+            "path": run.path,
+            "notes": run.notes,
+            "read_only": run.read_only,
+            "history_keys": run.history_keys,
+            "metadata": run.metadata,
+        }
+  all_runs.append(run_data)
+  
+# Convert to DataFrame  
+df = pd.DataFrame(all_runs)
+
+# Get row based on the column name (run) and convert to dictionary
+df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+```
 
 {{% /tab %}}
 {{< /tabpane >}}
