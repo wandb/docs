@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How does wandb stream logs and writes to disk?"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can we flag boolean variables as hyperparameters?"
 toc_hide: true
 type: docs

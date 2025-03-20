@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do you delete a custom chart preset?
 toc_hide: true
 type: docs

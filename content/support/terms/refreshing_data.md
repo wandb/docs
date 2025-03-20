@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Refreshing data"
 toc_hide: true
 type: docs

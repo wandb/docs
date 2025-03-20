@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I organize my logged charts and media in the W&B UI?"
 toc_hide: true
 type: docs

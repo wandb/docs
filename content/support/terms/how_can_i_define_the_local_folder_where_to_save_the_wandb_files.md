@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I define the local location for `wandb` files?
 toc_hide: true
 type: docs

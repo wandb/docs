@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: What are features that are not available to anonymous users?
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I install the wandb Python library in environments without gcc?"
 toc_hide: true
 type: docs

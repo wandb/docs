@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Is there a way to add more seats?
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can I turn off wandb when testing my code?"
 toc_hide: true
 type: docs

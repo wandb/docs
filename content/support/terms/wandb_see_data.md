@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Can W&B team members see my data?
 toc_hide: true
 type: docs

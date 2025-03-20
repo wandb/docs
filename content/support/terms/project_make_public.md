@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I make my project public?
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I disable logging of system metrics to W&B?
 toc_hide: true
 type: docs

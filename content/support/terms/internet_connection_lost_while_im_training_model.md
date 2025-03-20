@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What happens if internet connection is lost while I'm training a model?"
 toc_hide: true
 type: docs

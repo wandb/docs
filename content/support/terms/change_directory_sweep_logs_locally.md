@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I change the directory my sweep logs to locally?"
 toc_hide: true
 type: docs

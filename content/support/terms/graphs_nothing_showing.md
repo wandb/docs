@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Why is nothing showing up in my graphs?"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I log an artifact to an existing run?"
 toc_hide: true
 type: docs

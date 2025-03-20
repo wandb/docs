@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Is it possible to change the username?
 toc_hide: true
 type: docs

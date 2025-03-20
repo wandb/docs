@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I configure the name of the run in my training code?"
 toc_hide: true
 type: docs

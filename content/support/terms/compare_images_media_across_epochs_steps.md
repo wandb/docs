@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I compare images or media across epochs or steps?"
 toc_hide: true
 type: docs

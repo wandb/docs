@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Who has access to my artifacts?"
 toc_hide: true
 type: docs

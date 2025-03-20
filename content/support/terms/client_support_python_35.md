@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Does the W&B client support Python 3.5?"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I use wandb with multiprocessing, e.g. distributed training?"
 toc_hide: true
 type: docs

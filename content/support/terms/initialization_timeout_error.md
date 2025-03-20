@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I resolve a run initialization timeout error in wandb?
 toc_hide: true
 type: docs

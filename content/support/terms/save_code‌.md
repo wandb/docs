@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I save code?‌"
 toc_hide: true
 type: docs

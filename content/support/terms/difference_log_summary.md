@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What is the difference between `.log()` and `.summary`?"
 toc_hide: true
 type: docs

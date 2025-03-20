@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "If I am the admin of my local instance, how should I manage it?"
 toc_hide: true
 type: docs

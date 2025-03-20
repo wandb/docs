@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "My report looks different after converting from Markdown."
 toc_hide: true
 type: docs

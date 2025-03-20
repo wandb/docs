@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I handle the 'Failed to query for notebook' error?"
 toc_hide: true
 type: docs

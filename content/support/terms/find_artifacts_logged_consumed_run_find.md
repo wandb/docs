@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?"
 toc_hide: true
 type: docs

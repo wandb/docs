@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I regain access to my account if I cannot receive a password reset email?
 toc_hide: true
 type: docs

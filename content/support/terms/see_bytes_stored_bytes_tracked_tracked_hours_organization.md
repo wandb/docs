@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I see the bytes stored, bytes tracked and tracked hours of my organization?"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I find my API key?
 toc_hide: true
 type: docs

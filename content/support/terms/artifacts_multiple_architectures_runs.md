@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Using artifacts with multiple architectures and runs?"
 toc_hide: true
 type: docs

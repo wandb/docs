@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I kill a job with wandb?"
 toc_hide: true
 type: docs

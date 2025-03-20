@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How should I run sweeps on SLURM?"
 toc_hide: true
 type: docs

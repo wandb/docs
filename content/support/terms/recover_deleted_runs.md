@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I recover deleted runs?
 toc_hide: true
 type: docs

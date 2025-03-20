@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What happens if I pass a class attribute into wandb.log()?"
 toc_hide: true
 type: docs

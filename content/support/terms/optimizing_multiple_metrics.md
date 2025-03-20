@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Optimizing multiple metrics"
 toc_hide: true
 type: docs

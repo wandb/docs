@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I cancel my subscription?  
 toc_hide: true
 type: docs

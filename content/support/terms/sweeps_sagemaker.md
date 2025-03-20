@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can I use Sweeps and SageMaker?"
 toc_hide: true
 type: docs

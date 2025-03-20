@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do you show a "step slider" in a custom chart?
 toc_hide: true
 type: docs

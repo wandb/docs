@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Why are steps missing from a CSV metric export?
 toc_hide: true
 type: docs

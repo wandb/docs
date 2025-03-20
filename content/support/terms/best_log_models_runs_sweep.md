@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I best log models from runs in a sweep?"
 toc_hide: true
 type: docs

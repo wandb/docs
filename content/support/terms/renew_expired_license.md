@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I renew my expired license?  
 toc_hide: true
 type: docs

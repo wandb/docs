@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can I just log metrics, no code or dataset examples?"
 toc_hide: true
 type: docs

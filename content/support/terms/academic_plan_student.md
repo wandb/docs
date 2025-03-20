@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Can I get an academic plan as a student?
 toc_hide: true
 type: docs

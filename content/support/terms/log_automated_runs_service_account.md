@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I log runs launched by continuous integration or internal tools?
 toc_hide: true
 type: docs

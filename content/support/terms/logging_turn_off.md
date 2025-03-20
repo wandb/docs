@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I turn off logging?
 toc_hide: true
 type: docs

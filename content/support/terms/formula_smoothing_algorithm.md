@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What formula do you use for your smoothing algorithm?"
 toc_hide: true
 type: docs

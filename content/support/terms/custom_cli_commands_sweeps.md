@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I use custom CLI commands with sweeps?"
 toc_hide: true
 type: docs

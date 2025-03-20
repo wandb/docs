@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Is it possible to create a new account with an email that was previously used for a deleted account?
 toc_hide: true
 type: docs

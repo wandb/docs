@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What if I want to log some metrics on batches and some metrics only on epochs?"
 toc_hide: true
 type: docs

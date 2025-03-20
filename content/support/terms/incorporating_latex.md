@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Incorporating LaTeX"
 toc_hide: true
 type: docs

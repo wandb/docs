@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I fetch these Version IDs and ETags in W&B?"
 toc_hide: true
 type: docs

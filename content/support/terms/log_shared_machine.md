@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I log to the right wandb user on a shared machine?
 toc_hide: true
 type: docs

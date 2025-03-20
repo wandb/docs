@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I delete my user account?
 toc_hide: true
 type: docs

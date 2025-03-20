@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I be removed from a team?
 toc_hide: true
 type: docs

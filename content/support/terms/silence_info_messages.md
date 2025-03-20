@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I silence W&B info messages?"
 toc_hide: true
 type: docs

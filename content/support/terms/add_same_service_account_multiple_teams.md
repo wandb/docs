@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Is it possible to add the same service account to multiple teams?
 toc_hide: true
 type: docs

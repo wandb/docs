@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Best practices to organize hyperparameter searches"
 toc_hide: true
 type: docs

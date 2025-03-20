@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I resolve the Filestream rate limit exceeded error?
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can I use Markdown in my reports?"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "When should I log to my personal entity against my team entity?"
 toc_hide: true
 type: docs

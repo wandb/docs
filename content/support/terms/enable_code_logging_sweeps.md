@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I enable code logging with Sweeps?"
 toc_hide: true
 type: docs

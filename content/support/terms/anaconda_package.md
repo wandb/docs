@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Is there an anaconda package for Weights and Biases?"
 toc_hide: true
 type: docs

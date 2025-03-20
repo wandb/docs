@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How does someone without an account see run results?
 toc_hide: true
 type: docs

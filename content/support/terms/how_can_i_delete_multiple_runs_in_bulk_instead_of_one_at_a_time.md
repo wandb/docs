@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I delete multiple runs in bulk instead of one at a time?
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "My report is running slowly after the change to WYSIWYG"
 toc_hide: true
 type: docs

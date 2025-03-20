@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I find an artifact from the best run in a sweep?"
 toc_hide: true
 type: docs

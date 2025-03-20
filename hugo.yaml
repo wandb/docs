@@ -30,7 +30,6 @@ pygmentsStyle: monokai
 # Configure how URLs look like per section.
 permalinks:
   blog: /:section/:year/:month/:day/:slug/
-  support: /support/:filename
 
 # Image processing configuration.
 imaging:

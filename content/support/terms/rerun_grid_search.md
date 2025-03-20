@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can I rerun a grid search?"
 toc_hide: true
 type: docs

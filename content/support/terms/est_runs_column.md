@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What is the `Est. Runs` column?"
 toc_hide: true
 type: docs

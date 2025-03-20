@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Why is the same metric appearing more than once?"
 toc_hide: true
 type: docs

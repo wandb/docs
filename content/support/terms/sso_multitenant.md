@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Does W&B support SSO for Multi-tenant?"
 toc_hide: true
 type: docs

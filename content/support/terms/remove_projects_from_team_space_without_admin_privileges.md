@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I remove projects from a team space without admin privileges?
 toc_hide: true
 type: docs

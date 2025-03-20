@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I plot multiple lines on a plot with a legend?"
 toc_hide: true
 type: docs

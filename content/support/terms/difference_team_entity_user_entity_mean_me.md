@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What is the difference between team and entity? As a user - what does entity mean for me?"
 toc_hide: true
 type: docs

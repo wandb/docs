@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Is it possible to save metrics offline and sync them to W&B later?"
 toc_hide: true
 type: docs

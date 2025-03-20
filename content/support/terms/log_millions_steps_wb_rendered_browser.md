@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What happens when I log millions of steps to W&B? How is that rendered in the browser?"
 toc_hide: true
 type: docs

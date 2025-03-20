@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I change my account from corporate to academic?
 toc_hide: true
 type: docs

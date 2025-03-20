@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Where are artifacts downloaded, and how can I control that?
 toc_hide: true
 type: docs

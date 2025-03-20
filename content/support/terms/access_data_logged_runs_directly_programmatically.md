@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I access the data logged to my runs directly and programmatically?"
 toc_hide: true
 type: docs

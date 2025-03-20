@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Who can edit and share reports?
 toc_hide: true
 type: docs

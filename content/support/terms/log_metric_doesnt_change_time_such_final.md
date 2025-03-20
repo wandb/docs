@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I log a metric that doesn't change over time such as a final evaluation accuracy?"
 toc_hide: true
 type: docs

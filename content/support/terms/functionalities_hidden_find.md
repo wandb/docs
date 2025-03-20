@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What really good functionalities are hidden and where can I find those?"
 toc_hide: true
 type: docs

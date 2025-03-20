@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I log additional metrics after a run completes?"
 toc_hide: true
 type: docs

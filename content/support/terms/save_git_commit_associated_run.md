@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I save the git commit associated with my run?"
 toc_hide: true
 type: docs

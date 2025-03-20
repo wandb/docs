@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "InitStartError: Error communicating with wandb process"
 toc_hide: true
 type: docs

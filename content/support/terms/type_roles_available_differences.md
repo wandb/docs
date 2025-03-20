@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What type of roles are available and what are the differences between them?"
 toc_hide: true
 type: docs

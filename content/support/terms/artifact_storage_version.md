@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How much storage does each artifact version use?
 toc_hide: true
 type: docs

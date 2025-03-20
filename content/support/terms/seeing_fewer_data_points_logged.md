@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Why am I seeing fewer data points than I logged?"
 toc_hide: true
 type: docs

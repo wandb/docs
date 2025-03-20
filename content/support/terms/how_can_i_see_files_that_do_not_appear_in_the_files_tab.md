@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I see files that do not appear in the Files tab?
 toc_hide: true
 type: docs

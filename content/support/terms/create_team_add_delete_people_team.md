@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Who can create a team? Who can add or delete people from a team? Who can delete projects?"
 toc_hide: true
 type: docs

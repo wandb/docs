@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I log in to W&B Server?
 toc_hide: true
 type: docs

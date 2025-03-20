@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I fix the "overflows maximum values of a signed 64 bits integer" error?
 toc_hide: true
 type: docs

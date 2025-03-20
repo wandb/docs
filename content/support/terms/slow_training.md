@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Will wandb slow down my training?"
 toc_hide: true
 type: docs

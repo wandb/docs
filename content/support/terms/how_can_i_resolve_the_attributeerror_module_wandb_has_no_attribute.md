@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I fix an error like `AttributeError: module 'wandb' has no attribute ...`?"
 toc_hide: true
 type: docs

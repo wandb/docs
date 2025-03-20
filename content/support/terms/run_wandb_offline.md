@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can I run wandb offline?"
 toc_hide: true
 type: docs

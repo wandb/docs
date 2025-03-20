@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I launch multiple runs from one script?"
 toc_hide: true
 type: docs

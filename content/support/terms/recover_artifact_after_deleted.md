@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Is it possible to recover an artifact after it has been deleted with a run?  
 toc_hide: true
 type: docs

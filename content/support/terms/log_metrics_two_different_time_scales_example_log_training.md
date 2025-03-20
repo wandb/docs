@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can I log metrics on two different time scales?"
 toc_hide: true
 type: docs

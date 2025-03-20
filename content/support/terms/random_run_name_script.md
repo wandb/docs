@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I get the random run name in my script?"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do we update our payment method?
 toc_hide: true
 type: docs

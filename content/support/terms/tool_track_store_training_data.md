@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Does your tool track or store training data?"
 toc_hide: true
 type: docs

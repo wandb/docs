@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I stop wandb from writing to my terminal or my Jupyter notebook output?"
 toc_hide: true
 type: docs

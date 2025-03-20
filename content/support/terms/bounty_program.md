@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Do you have a bug bounty program?
 toc_hide: true
 type: docs

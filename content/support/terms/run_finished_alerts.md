@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Do "Run Finished" alerts work in notebooks?
 toc_hide: true
 type: docs

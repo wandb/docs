@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can I just set the run name to the run ID?"
 toc_hide: true
 type: docs

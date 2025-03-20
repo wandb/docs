@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Can you group runs by tags?
 toc_hide: true
 type: docs

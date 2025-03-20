@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Can I group runs without using the "Group" feature?
 toc_hide: true
 type: docs

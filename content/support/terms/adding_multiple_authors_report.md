@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Adding multiple authors to a report"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Why does the storage meter not update after deleting runs?
 toc_hide: true
 type: docs

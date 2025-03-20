@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Can you use W&B Sweeps with cloud infrastructures such as AWS Batch, ECS, etc.?"
 toc_hide: true
 type: docs

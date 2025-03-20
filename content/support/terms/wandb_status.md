@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Is there a W&B outage?
 toc_hide: true
 type: docs

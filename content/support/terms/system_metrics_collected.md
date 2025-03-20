@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How often are system metrics collected?"
 toc_hide: true
 type: docs

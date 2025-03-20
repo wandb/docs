@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I get added to a team on W&B?
 toc_hide: true
 type: docs

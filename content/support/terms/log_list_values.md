@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I log a list of values?"
 toc_hide: true
 type: docs

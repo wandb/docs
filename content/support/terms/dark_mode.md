@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Is there a dark mode?"
 toc_hide: true
 type: docs

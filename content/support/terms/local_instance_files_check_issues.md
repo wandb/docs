@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "On a local instance, which files should I check when I have issues?"
 toc_hide: true
 type: docs

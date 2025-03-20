@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Is it possible to plot the max of a metric rather than plot step by step?
 toc_hide: true
 type: docs

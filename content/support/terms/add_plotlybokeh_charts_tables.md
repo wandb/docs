@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I add Plotly or Bokeh Charts into Tables?"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I export a list of users from my W&B Organisation?
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "If wandb crashes, will it possibly crash my training run?"
 toc_hide: true
 type: docs

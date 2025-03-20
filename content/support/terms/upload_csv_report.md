@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Upload a CSV to a report"
 toc_hide: true
 type: docs

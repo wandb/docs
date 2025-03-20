@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I resume a sweep using Python code?
 toc_hide: true
 type: docs

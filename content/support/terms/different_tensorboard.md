@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How is W&B different from TensorBoard?"
 toc_hide: true
 type: docs

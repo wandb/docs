@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I insert a table?
 toc_hide: true
 type: docs

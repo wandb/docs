@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What is a service account, and why is it useful?"
 toc_hide: true
 type: docs

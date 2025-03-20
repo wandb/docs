@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Is there a monthly subscription option for the teams plan?
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How can I rotate or revoke access?"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I switch between accounts on the same machine?"
 toc_hide: true
 type: docs

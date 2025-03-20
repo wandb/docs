@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Embedding Reports"
 toc_hide: true
 type: docs

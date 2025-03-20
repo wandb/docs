@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What is the difference between wandb.init modes?"
 toc_hide: true
 type: docs

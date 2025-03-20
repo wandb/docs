@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Which files should I check when my code crashes?"
 toc_hide: true
 type: docs

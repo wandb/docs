@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I send run alerts to Microsoft Teams?
 toc_hide: true
 type: docs

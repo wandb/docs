@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I rename a project?
 toc_hide: true
 type: docs

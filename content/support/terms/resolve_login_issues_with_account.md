@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How can I resolve login issues with my account?
 toc_hide: true
 type: docs

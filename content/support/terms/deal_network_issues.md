@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I deal with network issues?"
 toc_hide: true
 type: docs

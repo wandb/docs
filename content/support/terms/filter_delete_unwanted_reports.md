@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "Filter and delete unwanted reports"
 toc_hide: true
 type: docs

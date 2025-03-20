@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How do I set a retention or expiration policy on my artifact?"
 toc_hide: true
 type: docs

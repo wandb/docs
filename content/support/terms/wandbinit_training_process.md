@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "What does wandb.init do to my training process?"
 toc_hide: true
 type: docs

@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: I converted my report to WYSIWYG but want to revert back to Markdown
 toc_hide: true
 type: docs

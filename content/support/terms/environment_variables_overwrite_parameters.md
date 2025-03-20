@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: Do environment variables overwrite the parameters passed to wandb.init()?
 toc_hide: true
 type: docs

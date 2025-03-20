@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I delete a team from my account?  
 toc_hide: true
 type: docs

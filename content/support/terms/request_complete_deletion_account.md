@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I request the complete deletion of my W&B account?  
 toc_hide: true
 type: docs

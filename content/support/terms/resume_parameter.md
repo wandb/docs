@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: How do I use the resume parameter when resuming a run in W&B?  
 toc_hide: true
 type: docs

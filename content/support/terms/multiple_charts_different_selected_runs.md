@@ -1,4 +1,5 @@
 ---
+url: /support/:filename
 title: "How to get multiple charts with different selected runs?"
 toc_hide: true
 type: docs
