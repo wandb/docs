@@ -66,7 +66,7 @@ A W&B admin can create automations in a project.
 1. Log in to W&B and go to the project page.
 1. In the sidebar, click **Automations**.
 1. Click **Create automation**.
-1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
