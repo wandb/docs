@@ -32,7 +32,7 @@ jobs:
       - name: Check for Hugo
         id: check-hugo
         run: |
-          if [ -f "config.toml" ] || [ -f "config.yaml" ] || [ -f "config.json" ] || [ -d "themes" ]; then
+          if [ -f "config.toml" ] || [ -f "config.yaml" ] || [ -f "config.json" ] || [ -f "hugo.yaml" ] || [ -f "hugo.toml" ] || [ -f "hugo.json" ] || [ -d "themes" ]; then
             echo "is_hugo=true" >> $GITHUB_OUTPUT
             echo "✅ Detected Hugo site"
           else
