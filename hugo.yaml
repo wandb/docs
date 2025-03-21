@@ -87,6 +87,12 @@ params:
 
   privacy_policy: https://wandb.ai/site/privacy/
 
+  taxonomy:
+    taxonomyCloud:
+      - none
+    taxonomyPageHeader:
+      - support
+
   # First one is picked as the Twitter card image if not set on page.
   # images: [images/project-illustration.png]
 
