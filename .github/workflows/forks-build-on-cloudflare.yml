@@ -1,7 +1,7 @@
 name: PR Deploy to Cloudflare Pages
 
 on:
-  pull_request:
+  pull_request_target:  # Use pull_request_target instead of pull_request for fork security
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -14,9 +14,11 @@ jobs:
     if: github.event.pull_request.head.repo.full_name != github.repository
     
     steps:
+    # Note: When using pull_request_target, this step is important for security
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}  # Checkout the PR's head
           fetch-depth: 0  # Required for Cloudflare Pages to have complete Git history
       
       - name: Setup Node.js
