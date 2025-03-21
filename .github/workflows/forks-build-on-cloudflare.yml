@@ -145,8 +145,9 @@ jobs:
       
       - name: Check Deployment Status
         id: check-status
+        if: always()  # Run this step even if previous steps failed
         run: |
-          if [ "${{ steps.cloudflare-deployment.outcome }}" == "success" ]; then
+          if [ -n "${{ steps.cloudflare-deployment.outputs.url }}" ]; then
             echo "status=success" >> $GITHUB_OUTPUT
             echo "message=Deployment completed successfully" >> $GITHUB_OUTPUT
           else
