@@ -16,8 +16,6 @@ To authenticate your machine with W&B, generate an API key from your user profil
 
 ## Install the `wandb` library and log in
 
-Install the `wandb` library and log in.
-
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
