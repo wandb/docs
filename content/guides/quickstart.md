@@ -118,7 +118,7 @@ Visit the W&B App at [wandb.ai/home](https://wandb.ai/home) to view recorded met
 
 Explore more features of the W&B ecosystem:
 
-1. Review [W&B Integrations]({{< relref "guides/integrations/" >}}) to combine W&B with ML frameworks like PyTorch, ML libraries like Hugging Face, or services like SageMaker.
+1. Read our [W&B Integrations]({{< relref "guides/integrations/" >}}) tutorials that combine W&B with ML frameworks like PyTorch, ML libraries like Hugging Face, or services like SageMaker.
 2. Organize runs, automate visualizations, summarize findings, and share updates with collaborators using [W&B Reports]({{< relref "/guides/core/reports/" >}}).
 3. Create [W&B Artifacts]({{< relref "/guides/core/artifacts/" >}}) to track datasets, models, dependencies, and results throughout your machine learning pipeline.
 4. Automate hyperparameter searches and explore models with [W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}).
