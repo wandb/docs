@@ -1,0 +1,124 @@
+name: PR Deploy to Cloudflare Pages
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  deploy-pr:
+    name: Deploy PR to Cloudflare Pages
+    runs-on: ubuntu-latest
+    
+    # Only run on PRs from forks
+    # GitHub context: https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for Cloudflare Pages to have complete Git history
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build project
+        run: npm run build
+      
+      - name: Get current timestamp
+        id: timestamp
+        run: echo "timestamp=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+      
+      - name: Deploy to Cloudflare Pages
+        id: cloudflare-deployment
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+          directory: ./dist  # Change this to your build output directory (e.g., build, dist, out, etc.)
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref || github.ref_name }}
+          # Enable preview deployments for PRs
+          wranglerVersion: '3.0.0'
+      
+      - name: Check for existing comment
+        id: find-comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.issue.number;
+            const commentIdentifier = '🚀 PR Preview deployed successfully!';
+            
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes(commentIdentifier)
+            );
+            
+            if (botComment) {
+              return {
+                comment_id: botComment.id,
+                exists: true
+              };
+            }
+            
+            return {
+              exists: false,
+              comment_id: null
+            };
+      
+      - name: Create or update comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const deploymentUrl = '${{ steps.cloudflare-deployment.outputs.url }}';
+            const buildTimestamp = '${{ steps.timestamp.outputs.timestamp }}';
+            const prNumber = context.issue.number;
+            const commentExists = ${{ steps.find-comment.outputs.result.exists }};
+            const commentId = ${{ steps.find-comment.outputs.result.comment_id }};
+            
+            const shortSHA = context.payload.pull_request.head.sha.substring(0, 7);
+            
+            const commentBody = `🚀 PR Preview deployed successfully!\n\n` +
+                                `📝 Preview URL: ${deploymentUrl}\n\n` +
+                                `✅ Last built: ${buildTimestamp}\n` +
+                                `📌 Commit: ${shortSHA}\n\n` +
+                                `This preview was automatically generated from fork PR \`${{ github.event.pull_request.head.label }}\`.`;
+            
+            if (commentExists) {
+              github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: commentId,
+                body: commentBody
+              });
+              
+              console.log(`Updated existing comment ID ${commentId} with new deployment info`);
+            } else {
+              github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: commentBody
+              });
+              
+              console.log(`Posted new comment with deployment URL to PR #${prNumber}`);
+            }
+            
+            if (!deploymentUrl) {
+              core.setFailed('Failed to get deployment URL from Cloudflare Pages action');
+            }
