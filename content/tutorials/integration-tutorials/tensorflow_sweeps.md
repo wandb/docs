@@ -35,8 +35,7 @@ For more information, see the [Sweep documentation]({{< relref "/guides/models/s
 ### Install W&B
 
 ```bash
-%%capture
-!pip install wandb
+pip install wandb
 ```
 
 ### Import W&B and log in
@@ -60,7 +59,9 @@ from wandb.integration.keras import WandbMetricsLogger
 wandb.login()
 ```
 
-> Note: If you are new to W&B or not logged in, the link after running `wandb.login()` directs to the sign-up/login page. Sign-up involves a few clicks.
+{{< alert >}}
+If you are new to W&B or not logged in, the link after running `wandb.login()` directs to the sign-up/login page.
+{{< /alert >}}
 
 ## Prepare dataset
 
