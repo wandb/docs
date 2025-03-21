@@ -23,13 +23,45 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          # Remove the cache option since we don't have a lock file
+          # cache: 'npm'
+      
+      - name: Check for package.json
+        id: check-package
+        run: |
+          if [ -f "package.json" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
       
       - name: Install dependencies
-        run: npm ci
+        if: steps.check-package.outputs.exists == 'true'
+        run: |
+          if [ -f "package-lock.json" ] || [ -f "npm-shrinkwrap.json" ]; then
+            npm ci
+          elif [ -f "yarn.lock" ]; then
+            yarn install --frozen-lockfile
+          else
+            npm install
+          fi
       
       - name: Build project
-        run: npm run build
+        if: steps.check-package.outputs.exists == 'true'
+        run: npm run build || yarn build || echo "No build script found, continuing workflow"
+      
+      # Fallback for projects without Node.js build process
+      - name: Check for common static directories
+        id: check-static
+        if: steps.check-package.outputs.exists == 'false'
+        run: |
+          for dir in "public" "static" "dist" "build" "out" "_site" "site"; do
+            if [ -d "$dir" ]; then
+              echo "static_dir=$dir" >> $GITHUB_OUTPUT
+              echo "Found static directory: $dir"
+              break
+            fi
+          done
       
       - name: Get current timestamp
         id: timestamp
@@ -43,7 +75,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: ./dist  # Change this to your build output directory (e.g., build, dist, out, etc.)
+          directory: ${{ steps.check-static.outputs.static_dir || (steps.check-package.outputs.exists == 'true' && './dist') || '.' }}  # Use detected static dir, build output, or repo root
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref || github.ref_name }}
           # Enable preview deployments for PRs
