@@ -7,11 +7,11 @@ title: TensorFlow Sweeps
 weight: 5
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb" >}}
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Use W&B for machine learning experiment tracking, dataset versioning, and project collaboration.
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
-Use Weights & Biases Sweeps to automate hyperparameter optimization and explore model possibilities with interactive dashboards:
+Use W&B Sweeps to automate hyperparameter optimization and explore model possibilities with interactive dashboards:
 
 {{< img src="/images/tutorials/tensorflow/sweeps.png" alt="" >}}
 
