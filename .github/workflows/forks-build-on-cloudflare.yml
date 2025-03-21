@@ -40,6 +40,20 @@ jobs:
             echo "⚠️ Not a Hugo site"
           fi
       
+      # Setup Node.js for PostCSS
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Install PostCSS and other dependencies for Hugo
+      - name: Install PostCSS and dependencies
+        if: steps.check-hugo.outputs.is_hugo == 'true'
+        run: |
+          npm install -g postcss postcss-cli autoprefixer
+          echo "Installed PostCSS and dependencies:"
+          postcss --version
+      
       # Install Hugo if needed
       - name: Setup Hugo
         if: steps.check-hugo.outputs.is_hugo == 'true'
