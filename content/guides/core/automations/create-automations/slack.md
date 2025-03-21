@@ -44,7 +44,7 @@ A Registry admin can create automations in that registry.
 1. To create an automation that applies to the registry and all of its collections (including those created in the future), click the **Automations** tab, then click  **Create automation**.
 
     To create an automation that applies only to a specific collection, click the collection's action `...` menu, then click **Create automation**. Alternatively, create an automation for a collection from the **Automations** section of the collection's details page by clicking **Create automation**.
-1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold
 
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
     
