@@ -50,9 +50,24 @@ jobs:
       - name: Install PostCSS and dependencies
         if: steps.check-hugo.outputs.is_hugo == 'true'
         run: |
-          npm install -g postcss postcss-cli autoprefixer
+          # Create package.json if it doesn't exist
+          if [ ! -f "package.json" ]; then
+            echo '{"name":"hugo-build","version":"1.0.0","private":true}' > package.json
+          fi
+          
+          # Install both globally and locally to ensure modules are found
+          npm install -g postcss postcss-cli
+          npm install --save-dev autoprefixer postcss postcss-cli
+          
+          # Create postcss.config.js if it doesn't exist
+          if [ ! -f "postcss.config.js" ]; then
+            echo 'module.exports = {plugins: {autoprefixer: {}}}' > postcss.config.js
+          fi
+          
           echo "Installed PostCSS and dependencies:"
           postcss --version
+          echo "Node modules directory:"
+          ls -la node_modules
       
       # Install Hugo if needed
       - name: Setup Hugo
