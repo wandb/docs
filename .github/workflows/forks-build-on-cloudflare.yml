@@ -28,42 +28,100 @@ jobs:
           # Remove the cache option since we don't have a lock file
           # cache: 'npm'
       
-      - name: Check for package.json
-        id: check-package
+      # Check if this is a Hugo site
+      - name: Check for Hugo
+        id: check-hugo
         run: |
-          if [ -f "package.json" ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
+          if [ -f "config.toml" ] || [ -f "config.yaml" ] || [ -f "config.json" ] || [ -d "themes" ]; then
+            echo "is_hugo=true" >> $GITHUB_OUTPUT
+            echo "✅ Detected Hugo site"
           else
-            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "is_hugo=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Not a Hugo site"
           fi
       
-      - name: Install dependencies
-        if: steps.check-package.outputs.exists == 'true'
-        run: |
-          if [ -f "package-lock.json" ] || [ -f "npm-shrinkwrap.json" ]; then
-            npm ci
-          elif [ -f "yarn.lock" ]; then
-            yarn install --frozen-lockfile
-          else
-            npm install
-          fi
+      # Install Hugo if needed
+      - name: Setup Hugo
+        if: steps.check-hugo.outputs.is_hugo == 'true'
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
       
-      - name: Build project
-        if: steps.check-package.outputs.exists == 'true'
-        run: npm run build || yarn build || echo "No build script found, continuing workflow"
+      # Build Hugo site
+      - name: Build with Hugo
+        if: steps.check-hugo.outputs.is_hugo == 'true'
+        run: hugo --minify
+        
+      # Check build output
+      - name: Verify Hugo output
+        if: steps.check-hugo.outputs.is_hugo == 'true'
+        run: |
+          if [ -d "public" ]; then
+            echo "✅ Hugo generated 'public' directory"
+            echo "Contents of public directory:"
+            ls -la public
+          else
+            echo "❌ Hugo did not generate 'public' directory"
+          fi
       
       # Fallback for projects without Node.js build process
-      - name: Check for common static directories
-        id: check-static
-        if: steps.check-package.outputs.exists == 'false'
+      # Debug directory structure
+      - name: Debug directory structure
         run: |
-          for dir in "public" "static" "dist" "build" "out" "_site" "site"; do
-            if [ -d "$dir" ]; then
-              echo "static_dir=$dir" >> $GITHUB_OUTPUT
-              echo "Found static directory: $dir"
-              break
-            fi
-          done
+          echo "Current directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
+          echo "--------------------"
+          
+          if [ -d "public" ]; then
+            echo "✅ Found 'public' directory (Hugo output)"
+            echo "deploy_dir=public" >> $GITHUB_OUTPUT
+          elif [ -d "dist" ]; then
+            echo "✅ Found 'dist' directory"
+            echo "deploy_dir=dist" >> $GITHUB_OUTPUT
+          elif [ -d "build" ]; then
+            echo "✅ Found 'build' directory"
+            echo "deploy_dir=build" >> $GITHUB_OUTPUT
+          elif [ -d "_site" ]; then
+            echo "✅ Found '_site' directory"
+            echo "deploy_dir=_site" >> $GITHUB_OUTPUT
+          else
+            # Create a directory with a simple index.html if none exists
+            mkdir -p _preview
+            echo "<html><body><h1>PR Preview</h1><p>This is a preview of PR #${{ github.event.pull_request.number }} from ${{ github.event.pull_request.head.label }}</p></body></html>" > _preview/index.html
+            echo "deploy_dir=_preview" >> $GITHUB_OUTPUT
+            echo "Created fallback _preview directory with placeholder content"
+          fi
+      
+      # Create a directory if none exists
+      - name: Ensure deploy directory exists
+        id: ensure-dir
+        run: |
+          # Check if any common directories exist
+          if [ -d "dist" ]; then
+            echo "deploy_dir=dist" >> $GITHUB_OUTPUT
+          elif [ -d "build" ]; then
+            echo "deploy_dir=build" >> $GITHUB_OUTPUT
+          elif [ -d "public" ]; then
+            echo "deploy_dir=public" >> $GITHUB_OUTPUT
+          elif [ -d "_site" ]; then
+            echo "deploy_dir=_site" >> $GITHUB_OUTPUT
+          elif [ -d "out" ]; then
+            echo "deploy_dir=out" >> $GITHUB_OUTPUT
+          elif [ -d "static" ]; then
+            echo "deploy_dir=static" >> $GITHUB_OUTPUT
+          elif [ -d "site" ]; then
+            echo "deploy_dir=site" >> $GITHUB_OUTPUT
+          else
+            # Create a directory with a simple index.html if none exists
+            mkdir -p _preview
+            echo "<html><body><h1>PR Preview</h1><p>This is a preview of PR #${{ github.event.pull_request.number }} from ${{ github.event.pull_request.head.label }}</p></body></html>" > _preview/index.html
+            echo "deploy_dir=_preview" >> $GITHUB_OUTPUT
+            echo "Created fallback _preview directory with placeholder content"
+          fi
+          
+          echo "Will deploy from directory: $(cat $GITHUB_OUTPUT | cut -d= -f2)"
       
       - name: Get current timestamp
         id: timestamp
@@ -77,11 +135,11 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: ${{ steps.check-static.outputs.static_dir || (steps.check-package.outputs.exists == 'true' && './dist') || '.' }}  # Use detected static dir, build output, or repo root
+          directory: ${{ steps.ensure-dir.outputs.deploy_dir }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref || github.ref_name }}
-          # Enable preview deployments for PRs
-          wranglerVersion: '3.0.0'
+          # Use latest version instead of specific version to avoid deprecation warnings
+          wranglerVersion: 'latest'
       
       - name: Check Deployment Status
         id: check-status
