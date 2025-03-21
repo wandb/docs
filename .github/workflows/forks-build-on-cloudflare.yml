@@ -212,7 +212,7 @@ jobs:
           gh api repos/$REPO/issues/$PR_NUMBER/comments > "$COMMENTS_FILE"
           
           # Search for an existing bot comment that mentions PR Preview
-          COMMENT_ID=$(jq -r '.[] | select(.user.login=="github-actions[bot]" and .body | contains("PR Preview")) | .id' "$COMMENTS_FILE")
+          COMMENT_ID=$(jq -r '.[] | select(.user.login=="github-actions[bot]" and (.body | contains("PR Preview"))) | .id' "$COMMENTS_FILE")
           
           if [ -n "$COMMENT_ID" ]; then
             # Update existing comment
