@@ -15,18 +15,20 @@ At a high level, to create a webhook automation, you take these steps:
 1. [Create the webhook automation]({{< relref "#create-slack-automation" >}}) to define the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for and the payload W&B will send. Grant the automation access to any secrets it needs for the payload.
 
 ## Add a webhook integration
-A team admin can add integrations to the team.
+A team admin can add a webhook integrations to the team.
 
 {{% alert %}}
-If the webhook requires a Bearer token, [create a secret that contains it]({{< relref "/guides/core/secrets.md#add-a-secret" >}}) before creating the webhoook.
+If the webhook requires a Bearer token, [create a secret that contains it]({{< relref "/guides/core/secrets.md#add-a-secret" >}}) before creating the webhoook. Your webhook's authentication and authorization requirements are determined by the webhook's service.
 {{% /alert %}}
 
 1. Log in to W&B and go to Team Settings page.
 1. In the **Webhooks** section, click **New webhook**.
 1. Provide a name for the webhook. 
 1. Provide the endpoint URL for the webhook.
-1. If the webhook requires an access token or any other [secrets]({{< relref "/guides/core/secrets.md" >}}) for authentication, grant the webhook access to each secret by setting **Secret** to the secret's name. When you configure the automation that uses the webhook, you can access the secret in the payload by prefixing its name with `$`. If the webhook's access token is stored in a secret, you must _also_ complete the next step to specify the secret to use as the access token.
-1. If required, set **Access token** to the name of the secret that contains the token. When you [configure an automation that uses the webhook]({{< relref "#create-a-webhook-automation">}}), you can access the token in the `$ACCESS_TOKEN` environment variable, and the HTTP header sets `Authorization: Bearer` to the access token.
+1. If the webhook requires an access token or any other [secrets]({{< relref "/guides/core/secrets.md" >}}) for authentication, grant the webhook access to each secret by setting **Secret** to the secret's name. When you configure the automation that uses the webhook, you can access the secret as a [payload variable]({{< relref "#payload-variables" >}}) by prefixing its name with `$`.
+
+    If the webhook's access token is stored in a secret, you must _also_ complete the next step to specify the secret as the access token.
+1. If required, set **Access token** to the name of the secret that contains the token. When you [configure an automation that uses the webhook]({{< relref "#create-a-webhook-automation">}}), you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}), and the HTTP header sets `Authorization: Bearer` to the access token. Your webhook's authentication and authorization requirements are determined by the webhook's service.
 1. Click **Test**. W&B attempts to authenticate to the webhook's endpoint using the accesss token you configured.
 
     Optionally, provide a payload to test. To refer to a secret the webhook has access to in the payload, prefix its name with `$`. This payload is only used for testing and is not saved.  You configure an automation's payload when you [create the automation]({{< relref "#create-a-webhook-automation" >}}). See [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}) to view where the secret and access token are specified in the POST request.
@@ -49,11 +51,12 @@ A Registry admin can create automations in that registry. Registry automations a
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
     
-    1. Click **Next step**.
+    Click **Next step**.
 1. Select the team that owns the [webhook integration]({{< relref "#add-a-webhook-integration" >}}).
-1. Set **Action type** to **Webhooks**. then select the [webhook integration]({{< relref "#add-a-webhook-integration" >}}) to use. Click **Next step**.
-1. Provide a name for the automation. Optionally, provide a description.
-1. Click **Create automation**.
+1. Set **Action type** to **Webhooks**. then select the [webhook integration]({{< relref "#add-a-webhook-integration" >}}) to use.
+1. If your webhook requires a payload, construct it and paste it into the **Payload** field. Refer to [Payload variables]({{< relref "#payload-variables" >}}). Your webhook's requirements are determined by the webhook's service.
+1. Click **Next step**.
+1. Provide a name for the automation. Optionally, provide a description. Click **Create automation**.
 
 {{% /tab %}}
 {{% tab "Project" %}}
@@ -68,11 +71,12 @@ A W&B admin can create automations in a project.
 
     1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
     
-    1. Click **Next step**.
+    Click **Next step**.
 1. Select the team that owns the [webhook integration]({{< relref "#add-a-webhook-integration" >}}).
-1. Set **Action type** to **Webhooks**. then select the [webhook integration]({{< relref "#add-a-webhook-integration" >}}) to use. Click **Next step**.
-1. Provide a name for the automation. Optionally, provide a description.
-1. Click **Create automation**.
+1. Set **Action type** to **Webhooks**. then select the [webhook integration]({{< relref "#add-a-webhook-integration" >}}) to use. 
+1. If your webhook requires a payload, construct it and paste it into the **Payload** field. Refer to [Payload variables]({{< relref "#payload-variables" >}}). Your webhook's requirements are determined by the webhook's service.
+1. Click **Next step**.
+1. Provide a name for the automation. Optionally, provide a description. Click **Create automation**.
 
 {{% /tab %}}
 {{< /tabpane >}}
@@ -83,7 +87,7 @@ A W&B admin can create automations in a project.
 {{% tab "Registry" %}}
 
 - Manage the registry's automations from the registry's **Automations** tab.
-- Mamage a collection's automations from the **Automations** section of the collection's details page.
+- Manage a collection's automations from the **Automations** section of the collection's details page.
 
 From either of these pages, a Registry admin can manage existing automations:
 - To view an automation's details, click its name.
@@ -101,61 +105,28 @@ A W&B admin can view and manage a project's automations from the project's **Aut
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Troubleshoot your webhook
-Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
+## Payload reference
+Use these sections to construct your webhoook's payload. For details about testing your webhook and its payload, refer to [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}).
 
-{{< tabpane text=true >}}
-{{% tab header="W&B App UI" value="app" %}}
-
-A team admin can test a webhook interactively with the W&B App UI. 
-
-1. Navigate to your W&B Team Settings page.
-2. Scroll to the **Webhooks** section.
-3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
-4. Select **Test**.
-5. From the UI panel that appears, paste your POST request to the field that appears. 
-    {{< img src="/images/models/webhook_ui.png" alt="Demo of testing a webhook payload" >}}
-6. Click on **Test webhook**. Within the W&B App UI, W&B posts the response from your endpoint.
-    {{< img src="/images/models/webhook_ui_testing.gif" alt="Demo of testing a webhook" >}}
-
-Watch the video [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a demonstration.
-{{% /tab %}}
-
-{{% tab header="Bash script" value="bash"%}}
-
-This shell script shows one method to generate a `POST` request similar to the request W&B sends to your webhook automation when it is triggered.
-
-Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
-
-* `ACCESS_TOKEN`
-* `SECRET`
-* `PAYLOAD`
-* `API_ENDPOINT`
-
-{{< prism file="/webhook_test.sh" title="webhook_test.sh">}}{{< /prism >}}
-
-{{% /tab %}}
-{{< /tabpane >}}
-
-## Example payloads
-
-The following tabs demonstrate example payloads based on common use cases. Within the examples they reference the following keys to refer to condition objects in the payload parameters.
-
-### Variables
-You can use the following variables when you construct your payload:
+### Payload variables
+This section describes the variables you can use to construct your webhook's payload.
 
 | Variable | Details |
 |----------|---------|
-| `${event_type}` | The type of event that triggered the action. |
-| `${event_author}` | The user that triggered the action. |
-| `${artifact_version}` | The specific artifact version that triggered the action. Passed as a [`Wandb.Artifact`]({{< relref "/ref/python/artifact/" >}}). |
-| `${artifact_version_string}` | The specific artifact version that triggered the action. Passed as a string. |
+| `${project_name}`             | The name of the project that owns the mutation that triggered the action. |
+| `${entity_name}`              | The name of the entity or team that owns the mutation that triggered the action.
+| `${event_type}`               | The type of event that triggered the action. |
+| `${event_author}`             | The user that triggered the action. |
 | `${artifact_collection_name}` | The name of the artifact collection that the artifact version is linked to. |
-| `${project_name}` | The name of the project that owns the mutation that triggered the action. |
-| `${entity_name}` | The name of the entity othat owns the mutation that triggered the action.
-| `TODO metadata` | TODO |
+| `${artifact_metadata.<KEY>}`  | The value of an arbitrary top-level metadata key from the artifact version that triggered the action. Replace `<KEY>` with the name of a top-level metadata key. Only top-level metadata keys are available in the webhook's payload. |
+| `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref "/ref/python/artifact/" >}}) representation of the artifact version that triggered the action. |
+| `${artifact_version_string}` | The `string` representation of the  artifact version that triggered the action. |
+| `${ACCESS_TOKEN}` | The value of the access token configured in the [webhook integration]({{< relref "#add-a-webhook-integration" >}}), if an access token is configured. The access token is automatically passed in the `Authorization: Bearer` HTTP header. |
+| `${<SECRET>}` | If configured, the value of a secret configured in the [webhook integration]({{< relref "#add-a-webhook-integration" >}}). Replace `<SECRET>` with the name of the secret. |
 
-### Examples
+### Payload examples
+This section includes examples of webhook payloads for some common use cases. The examples demonstrate how to use [payload variables]({{< relref "#payload-variables" >}}).
+
 {{< tabpane text=true >}}
 {{% tab header="GitHub repository dispatch" value="github" %}}
 
@@ -288,6 +259,42 @@ The following is an example payload:
     ]
 }
 ```
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+## Troubleshoot your webhook
+Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
+
+{{< tabpane text=true >}}
+{{% tab header="W&B App UI" value="app" %}}
+
+A team admin can test a webhook interactively with the W&B App UI. 
+
+1. Navigate to your W&B Team Settings page.
+2. Scroll to the **Webhooks** section.
+3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
+4. Select **Test**.
+5. From the UI panel that appears, paste your POST request to the field that appears. 
+    {{< img src="/images/models/webhook_ui.png" alt="Demo of testing a webhook payload" >}}
+6. Click on **Test webhook**. Within the W&B App UI, W&B posts the response from your endpoint.
+    {{< img src="/images/models/webhook_ui_testing.gif" alt="Demo of testing a webhook" >}}
+
+Watch the video [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a demonstration.
+{{% /tab %}}
+
+{{% tab header="Bash script" value="bash"%}}
+
+This shell script shows one method to generate a `POST` request similar to the request W&B sends to your webhook automation when it is triggered.
+
+Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for:
+
+* `ACCESS_TOKEN`
+* `SECRET`
+* `PAYLOAD`
+* `API_ENDPOINT`
+
+{{< prism file="/webhook_test.sh" title="webhook_test.sh">}}{{< /prism >}}
 
 {{% /tab %}}
 {{< /tabpane >}}
