@@ -164,13 +164,11 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: ${{ steps.deploy-dir.outputs.dir }}
+          directory: ${{ steps.deploy-dir.outputs.dir || 'public' }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref || github.ref_name }}
           # Specify a newer wrangler version
           wranglerVersion: 'latest'
-          # Use new deploy command
-          command: deploy
       
       - name: Check Deployment Status
         id: check-status
