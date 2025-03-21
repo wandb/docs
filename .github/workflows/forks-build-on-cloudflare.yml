@@ -38,6 +38,7 @@ jobs:
       - name: Deploy to Cloudflare Pages
         id: cloudflare-deployment
         uses: cloudflare/pages-action@v1
+        continue-on-error: true  # Continue workflow even if deployment fails
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -47,6 +48,17 @@ jobs:
           branch: ${{ github.head_ref || github.ref_name }}
           # Enable preview deployments for PRs
           wranglerVersion: '3.0.0'
+      
+      - name: Check Deployment Status
+        id: check-status
+        run: |
+          if [ "${{ steps.cloudflare-deployment.outcome }}" == "success" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "message=Deployment completed successfully" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "message=Deployment to Cloudflare Pages failed" >> $GITHUB_OUTPUT
+          fi
       
       - name: Check for existing comment
         id: find-comment
@@ -93,10 +105,14 @@ jobs:
             
             const shortSHA = context.payload.pull_request.head.sha.substring(0, 7);
             
+            const runId = context.runId;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId}`;
+            
             const commentBody = `🚀 PR Preview deployed successfully!\n\n` +
                                 `📝 Preview URL: ${deploymentUrl}\n\n` +
                                 `✅ Last built: ${buildTimestamp}\n` +
-                                `📌 Commit: ${shortSHA}\n\n` +
+                                `📌 Commit: ${shortSHA}\n` +
+                                `🔍 [View build details](${runUrl})\n\n` +
                                 `This preview was automatically generated from fork PR \`${{ github.event.pull_request.head.label }}\`.`;
             
             if (commentExists) {
