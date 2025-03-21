@@ -125,4 +125,4 @@ Explore more features of the W&B ecosystem:
 3. Create [W&B Artifacts]({{< relref "/guides/core/artifacts/" >}}) to track datasets, models, dependencies, and results throughout your machine learning pipeline.
 4. Automate hyperparameter searches and explore models with [W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}).
 5. Analyze datasets, visualize model predictions, and share insights on a [central dashboard]({{< relref "/guides/models/tables/" >}}).
-6. Visit W&B AI Academy to learn about LLMs, MLOps, and W&B Models through hands-on [courses](https://wandb.me/courses).
+6. Access W&B AI Academy to learn about LLMs, MLOps, and W&B Models through hands-on [courses](https://wandb.me/courses).
