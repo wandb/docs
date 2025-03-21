@@ -110,11 +110,9 @@ for epoch in range(2, epochs):
 # run.log_code()
 ```
 
-Visit the W&B App at [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss during each training step.
+Visit the W&B App at [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
 {{< img src="/images/quickstart/quickstart_image.png" alt="Shows loss and accuracy tracked from each run." >}}
-
-The preceding image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
 ## Next steps
 
