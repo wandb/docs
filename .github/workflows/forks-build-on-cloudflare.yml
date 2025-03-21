@@ -129,17 +129,19 @@ jobs:
       
       - name: Deploy to Cloudflare Pages
         id: cloudflare-deployment
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/pages-action@v1.5.0
         continue-on-error: true  # Continue workflow even if deployment fails
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: ${{ steps.ensure-dir.outputs.deploy_dir }}
+          directory: ${{ steps.deploy-dir.outputs.dir }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref || github.ref_name }}
-          # Use latest version instead of specific version to avoid deprecation warnings
+          # Specify a newer wrangler version
           wranglerVersion: 'latest'
+          # Use new deploy command
+          command: deploy
       
       - name: Check Deployment Status
         id: check-status
