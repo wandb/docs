@@ -1,6 +1,6 @@
 module docsy
 
-go 1.23.2
+go 1.23
 
 require (
 	github.com/FortAwesome/Font-Awesome v0.0.0-20240716171331-37eff7fa00de // indirect
