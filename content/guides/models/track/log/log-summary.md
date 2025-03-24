@@ -35,7 +35,7 @@ run.summary.update()
 
 Custom summary metrics are useful for capturing model performance at the best step of training in your `wandb.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
 
-The default summary behavior uses the final value from history. You can customize summary metrics using the `summary` argument in `define_metric` which accepts the following values:
+By default, the summary uses the final value from history. To customize summary metrics, pass the `summary` argument in `define_metric`. It accepts the following values:
 
 * `"min"`
 * `"max"`
@@ -44,9 +44,9 @@ The default summary behavior uses the final value from history. You can customiz
 * `"last"`
 * `"none"`
 
-The `"best"` parameter can only be used in conjunction with the optional `objective` argument which accepts values `"minimize"` and `"maximize"`. 
+You can use `"best"` only when you also set the optional `objective` argument to `"minimize"` or `"maximize"`. 
 
-The following code snippet demonstrates how track the min and max values of loss and accuracy in the summary:
+The following example adds the min and max values of loss and accuracy to the summary:
 
 ```python
 import wandb
@@ -73,25 +73,25 @@ for i in range(10):
 
 ## View summary metrics
 
-You can view summary values within a run's **Overview** page or within your project's **Run Table**.
+View summary values in a run's **Overview** page or the project's runs table.
 
 {{< tabpane text=true >}}
 {{% tab header="Run Overview" value="overview" %}}
 
-1. Navigate to the W&P App.
+1. Navigate to the W&B App.
 2. Select the **Workspace** tab.
-3. From the list of runs, select the name of the run that logged the summary values.
-4. Click on the **Overview** tab.
-5. Scroll down to the **Summary** section to view the summary values.
+3. From the list of runs, click the name of the run that logged the summary values.
+4. Select the **Overview** tab.
+5. View the summary values in the **Summary** section.
 
-{{< img src="/images/track/customize_summary.png" alt="" >}}
+{{< img src="/images/track/customize_summary.png" alt="Overview page of a run logged to W&B. Bottom right corner of UI shows the min and max of the machine learning models accuracy and loss within the Summary metrics section." >}}
 
 {{% /tab %}}
 {{% tab header="Run Table" value="run table" %}}
 
-1. Navigate to the W&P App.
+1. Navigate to the W&B App.
 2. Select the **Runs** tab.
-3. Within the **Runs** table, you can view the summary values within the columns based on the name of the summary value.
+3. Within the runs table, you can view the summary values within the columns based on the name of the summary value.
 
 {{% /tab %}}
 
@@ -99,7 +99,7 @@ You can view summary values within a run's **Overview** page or within your proj
 
 You can use the W&B Public API to fetch the summary values of a run. 
 
-For example, the following code example demonstrates one way to retrieve the summary values logged to a specific run using the W&B Public API and Pandas:
+The following code example demonstrates one way to retrieve the summary values logged to a specific run using the W&B Public API and pandas:
 
 ```python
 import wandb
