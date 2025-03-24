@@ -77,7 +77,7 @@ torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.
                                       if not mirror.startswith("http://yann.lecun.com")]
 ```
 
-### 0️⃣ Step 0: Install W&B
+### Step 0: Install W&B
 
 To get started, we'll need to get the library.
 `wandb` is easily installed using `pip`.
@@ -87,7 +87,7 @@ To get started, we'll need to get the library.
 !pip install wandb onnx -Uq
 ```
 
-### 1️⃣ Step 1: Import W&B and Login
+### Step 1: Import W&B and Login
 
 In order to log data to our web service,
 you'll need to log in.
@@ -409,7 +409,7 @@ the Run page, where this run's results will be stored.
 Navigate to the Run page and check out these tabs:
 
 1. **Charts**, where the model gradients, parameter values, and loss are logged throughout training
-2. **System**, which contains a variety of system metrics, including Disk I/O utilization, CPU and GPU metrics (watch that temperature soar 🔥), and more
+2. **System**, which contains a variety of system metrics, including Disk I/O utilization, CPU and GPU metrics (watch that temperature soar), and more
 3. **Logs**, which has a copy of anything pushed to standard out during training
 4. **Files**, where, once training is complete, you can click on the `model.onnx` to view our network with the [Netron model viewer](https://github.com/lutzroeder/netron).
 
