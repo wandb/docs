@@ -14,9 +14,18 @@ W&B Platform is available in three different deployment options:
 * [W&B Dedicated Cloud]({{< relref "#wb-dedicated-cloud" >}})
 * [W&B Customer-managed]({{< relref "#wb-customer-managed" >}})
 
+The following responsibility matrix outlines some of the key differences:
 
-The following responsibility matrix outlines some of the key differences between the different options:
-{{< img src="/images/hosting/shared_responsibility_matrix.png" alt="" >}}
+|                                      | Multi-tenant Cloud                | Dedicated Cloud                                                     | Customer-managed |
+|--------------------------------------|-----------------------------------|---------------------------------------------------------------------|------------------|
+| MySQL / DB management                | Fully hosted and managed by W&B     | Fully hosted & managed by W&B on cloud or region of customer choice | Fully hosted and managed by customer |
+| Object Storage (S3/GCS/Blob storage) | **Option 1**: Fully hosted by W&B<br />**Option 2**: Customer can configure their own bucket per team, using the [Secure Storage Connector]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}})  | **Option 1**: Fully hosted by W&B<br />**Option 2**: Customer can configure their own bucket per instance or team, using the [Secure Storage Connector]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) | Fully hosted and managed by customer |
+| SSO Support                          | W&B managed via Auth0             | **Option 1**: Customer managed<br />**Option 2**: Managed by W&B via Auth0 | Fully managed by customer   |
+| W&B Service (App)                    | Fully managed by W&B              | Fully managed by W&B                                                | Fully managed by customer          |
+| App security                         | Fully managed by W&B              | Shared responsibility of W&B and customer                           | Fully manbaged by customer         |
+| Maintenance (upgrades, backups, etc.)| Managed by W&B | Managed by W&B | Managed by customer |
+| Support                              | Support SLA                       | Support SLA                                                         | Support SLA |
+| Supported cloud infrastructure       | GCP                               | AWS, GCP, Azure                                                     | AWS, GCP, Azure, On-Prem bare-metal |
 
 ## Deployment options
 The following sections provide an overview of each deployment type. 
