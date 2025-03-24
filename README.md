@@ -9,6 +9,37 @@ The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is 
 
 After this, someone from the docs team will merge the PR and it will go live in a matter of minutes!
 
+## Quickstart
+
+This section shows how to edit a page or report a bug from within your browser without cloning the repository or installing anything locally. To edit multiple files or build the documentation locally, refer to the [Prerequisites](#prerequisites) and the following sections.
+
+### Edit a page
+
+1. To edit a page you're reading on docs.wandb.com, scroll to the bottom of the page and click **Edit page** to open the Markdown file in the GitHub editor.
+
+   To edit a page from https://github.com/wandb/docs, browse to or search for the page, then click the pencil icon to open the Markdown file in the GitHub editor.
+1. Edit the page, then click **Commit changes**. In the dialog, choose to create a new branch, then specify:
+  - A name for the branch
+  - A commit message that describes the change. By default, this becomes the pull request title.
+  - An optional extended descrption. By default, this becomes the pull request body.
+1. Click **Propose change**. A new branch is created with the commit you just created. A new dialog opens where you can create a pull request.
+1. Optionally edit the pull request's title and description. Markdown is allowed. You can refer to a PR or issue by number or URL, and you can refer to a JIRA issue by its ID.
+1. Click **Create pull request**. A member of @docs-team reviews your changes, provides feedback, and works with you to merge the change.
+
+### Report a bug
+
+If you work for Weights & Biases, file a doc JIRA, using this template: https://wandb.atlassian.net/secure/CreateIssueDetails!init.jspa?priority=3&pid=10026&issuetype=10047.
+
+
+To report a bug on a page you're reading on docs.wandb.com:
+1. Scroll to the bottom of the page and click **Report issue**.
+1. Provide a title and optionally edit the description, then click **Create**.
+
+To report a bug from https://github.com/wandb/docs:
+1. Click the **Issues** tab.
+1. Click **New issue**. Optionally select a template, then click **Create**.
+1. Provide a title and a description. If applicable, include the URL of the page with the bug. Click **Create**.
+
 ## Prerequisites
 
 A current version of NodeJS is required; ideally, something newer than version 20. If you still need to use an old version of node for other projects, we suggest using `nvm` and setting up version 20 using that, which you can swap into with the `use` command:

@@ -8,30 +8,25 @@ weight: 4
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Simple_TensorFlow_Integration.ipynb" >}}
 
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
-
-{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
-
 ## What this notebook covers
 
 * Easy integration of Weights and Biases with your TensorFlow pipeline for experiment tracking.
 * Computing metrics with `keras.metrics`
 * Using `wandb.log` to log those metrics in your custom training loop.
 
-
 {{< img src="/images/tutorials/tensorflow/dashboard.png" alt="dashboard" >}}
 
 **Note**: Sections starting with _Step_ are all you need to integrate W&B into existing code. The rest is just a standard MNIST example.
 
 ```python
+import os
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.datasets import cifar10
-
-import os
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 ```
 
 ## Install, Import, Login
@@ -39,7 +34,7 @@ import matplotlib.pyplot as plt
 ### Install W&B
 
 
-```python
+```jupyter
 %%capture
 !pip install wandb
 ```
@@ -58,7 +53,6 @@ wandb.login()
 
 ### Prepare Dataset
 
-
 ```python
 # Prepare the training dataset
 BATCH_SIZE = 64
@@ -75,7 +69,6 @@ val_dataset = val_dataset.batch(BATCH_SIZE)
 ```
 
 ## Define the Model and the Training Loop
-
 
 ```python
 def make_model():
@@ -116,30 +109,42 @@ def test_step(x, y, model, loss_fn, val_acc_metric):
 
 
 ```python
-def train(train_dataset, val_dataset,  model, optimizer,
-          train_acc_metric, val_acc_metric,
-          epochs=10,  log_step=200, val_log_step=50):
-  
+def train(
+    train_dataset,
+    val_dataset,
+    model,
+    optimizer,
+    train_acc_metric,
+    val_acc_metric,
+    epochs=10,
+    log_step=200,
+    val_log_step=50,
+):
     for epoch in range(epochs):
         print("\nStart of epoch %d" % (epoch,))
 
-        train_loss = []   
+        train_loss = []
         val_loss = []
 
         # Iterate over the batches of the dataset
         for step, (x_batch_train, y_batch_train) in enumerate(train_dataset):
-            loss_value = train_step(x_batch_train, y_batch_train, 
-                                    model, optimizer, 
-                                    loss_fn, train_acc_metric)
+            loss_value = train_step(
+                x_batch_train,
+                y_batch_train,
+                model,
+                optimizer,
+                loss_fn,
+                train_acc_metric,
+            )
             train_loss.append(float(loss_value))
 
         # Run a validation loop at the end of each epoch
         for step, (x_batch_val, y_batch_val) in enumerate(val_dataset):
-            val_loss_value = test_step(x_batch_val, y_batch_val, 
-                                       model, loss_fn, 
-                                       val_acc_metric)
+            val_loss_value = test_step(
+                x_batch_val, y_batch_val, model, loss_fn, val_acc_metric
+            )
             val_loss.append(float(val_loss_value))
-            
+
         # Display metrics at the end of each epoch
         train_acc = train_acc_metric.result()
         print("Training acc over epoch: %.4f" % (float(train_acc),))
@@ -152,11 +157,15 @@ def train(train_dataset, val_dataset,  model, optimizer,
         val_acc_metric.reset_states()
 
         # ⭐: log metrics using wandb.log
-        wandb.log({'epochs': epoch,
-                   'loss': np.mean(train_loss),
-                   'acc': float(train_acc), 
-                   'val_loss': np.mean(val_loss),
-                   'val_acc':float(val_acc)})
+        wandb.log(
+            {
+                "epochs": epoch,
+                "loss": np.mean(train_loss),
+                "acc": float(train_acc),
+                "val_loss": np.mean(val_loss),
+                "val_acc": float(val_acc),
+            }
+        )
 ```
 
 ## Run Training
@@ -169,20 +178,20 @@ so we can give it a unique ID and a dashboard.
 [Check out the official documentation]({{< relref "/ref/python/init" >}})
 
 ```python
-# initialize wandb with your project name and optionally with configutations.
+# initialize wandb with your project name and optionally with configuration.
 # play around with the config values and see the result on your wandb dashboard.
 config = {
-              "learning_rate": 0.001,
-              "epochs": 10,
-              "batch_size": 64,
-              "log_step": 200,
-              "val_log_step": 50,
-              "architecture": "CNN",
-              "dataset": "CIFAR-10"
-           }
+    "learning_rate": 0.001,
+    "epochs": 10,
+    "batch_size": 64,
+    "log_step": 200,
+    "val_log_step": 50,
+    "architecture": "CNN",
+    "dataset": "CIFAR-10",
+}
 
 run = wandb.init(project='my-tf-integration', config=config)
-config = wandb.config
+config = run.config
 
 # Initialize model.
 model = make_model()
@@ -196,15 +205,17 @@ loss_fn = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 train_acc_metric = keras.metrics.SparseCategoricalAccuracy()
 val_acc_metric = keras.metrics.SparseCategoricalAccuracy()
 
-train(train_dataset,
-      val_dataset, 
-      model,
-      optimizer,
-      train_acc_metric,
-      val_acc_metric,
-      epochs=config.epochs, 
-      log_step=config.log_step, 
-      val_log_step=config.val_log_step)
+train(
+    train_dataset,
+    val_dataset, 
+    model,
+    optimizer,
+    train_acc_metric,
+    val_acc_metric,
+    epochs=config.epochs, 
+    log_step=config.log_step, 
+    val_log_step=config.val_log_step,
+)
 
 run.finish()  # In Jupyter/Colab, let us know you're finished!
 ```
@@ -231,14 +242,14 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 
 See examples of projects tracked and visualized with W&B in our gallery of examples, [Fully Connected →](https://wandb.me/fc)
 
-# 📏 Best Practices
+## Best Practices
 1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`
-2. **Groups**: For multiple processes or cross validation folds, log each process as a runs and group them together. `wandb.init(group='experiment-1')`
+2. **Groups**: For multiple processes or cross validation folds, log each process as a runs and group them together. `wandb.init(group="experiment-1")`
 3. **Tags**: Add tags to track your current baseline or production model.
 4. **Notes**: Type notes in the table to track the changes between runs.
 5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
 
-## Advanced Setup
+### Advanced Setup
 1. [Environment variables]({{< relref "/guides/hosting/env-vars/" >}}): Set API keys in environment variables so you can run training on a managed cluster.
 2. [Offline mode]({{< relref "/support/run_wandb_offline.md" >}})
 3. [On-prem]({{< relref "/guides/hosting/hosting-options/self-managed" >}}): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
