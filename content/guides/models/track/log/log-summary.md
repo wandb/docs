@@ -18,7 +18,7 @@ best_accuracy = 0
 for epoch in range(1, args.epochs + 1):
     test_loss, test_accuracy = test()
     if test_accuracy > best_accuracy:
-        wandb.run.summary["best_accuracy"] = test_accuracy
+        wandb.summary["best_accuracy"] = test_accuracy
         best_accuracy = test_accuracy
 ```
 
@@ -33,9 +33,20 @@ run.summary.update()
 
 ## Customize summary metrics
 
-Custom metric summaries are useful to capture model performance at the best step, instead of the last step, of training in your `wandb.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
+Custom summary metrics are useful for capturing model performance at the best step of training in your `wandb.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
 
-Summary metrics can be controlled using the `summary` argument in `define_metric` which accepts the following values: `"min"`, `"max"`, `"mean"` ,`"best"`, `"last"` and `"none"`. The `"best"` parameter can only be used in conjunction with the optional `objective` argument which accepts values `"minimize"` and `"maximize"`. Here's an example of capturing the lowest value of loss and the maximum value of accuracy in the summary, instead of the default summary behavior, which uses the final value from history.
+By default, the summary uses the final value from history. To customize summary metrics, pass the `summary` argument in `define_metric`. It accepts the following values:
+
+* `"min"`
+* `"max"`
+* `"mean"`
+* `"best"`
+* `"last"`
+* `"none"`
+
+You can use `"best"` only when you also set the optional `objective` argument to `"minimize"` or `"maximize"`. 
+
+The following example adds the min and max values of loss and accuracy to the summary:
 
 ```python
 import wandb
@@ -43,10 +54,15 @@ import random
 
 random.seed(1)
 wandb.init()
-# define a metric we are interested in the minimum of
+
+# Min and max summary values for loss
 wandb.define_metric("loss", summary="min")
-# define a metric we are interested in the maximum of
+wandb.define_metric("loss", summary="max")
+
+# Min and max summary values for accuracy
+wandb.define_metric("acc", summary="min")
 wandb.define_metric("acc", summary="max")
+
 for i in range(10):
     log_dict = {
         "loss": random.uniform(0, 1 / (i + 1)),
@@ -55,6 +71,81 @@ for i in range(10):
     wandb.log(log_dict)
 ```
 
-Here's what the resulting min and max summary values look like, in pinned columns in the sidebar on the Project Page workspace:
+## View summary metrics
 
-{{< img src="/images/track/customize_sumary.png" alt="Project Page Sidebar" >}}
+View summary values in a run's **Overview** page or the project's runs table.
+
+{{< tabpane text=true >}}
+{{% tab header="Run Overview" value="overview" %}}
+
+1. Navigate to the W&B App.
+2. Select the **Workspace** tab.
+3. From the list of runs, click the name of the run that logged the summary values.
+4. Select the **Overview** tab.
+5. View the summary values in the **Summary** section.
+
+{{< img src="/images/track/customize_summary.png" alt="Overview page of a run logged to W&B. Bottom right corner of UI shows the min and max of the machine learning models accuracy and loss within the Summary metrics section." >}}
+
+{{% /tab %}}
+{{% tab header="Run Table" value="run table" %}}
+
+1. Navigate to the W&B App.
+2. Select the **Runs** tab.
+3. Within the runs table, you can view the summary values within the columns based on the name of the summary value.
+
+{{% /tab %}}
+
+{{% tab header="W&B Public API" value="api" %}}
+
+You can use the W&B Public API to fetch the summary values of a run. 
+
+The following code example demonstrates one way to retrieve the summary values logged to a specific run using the W&B Public API and pandas:
+
+```python
+import wandb
+import pandas
+
+entity = "<your-entity>"
+project = "<your-project>"
+run_name = "<your-run-name>" # Name of run with summary values
+
+all_runs = []
+
+for run in api.runs(f"{entity}/{project_name}"):
+  print("Fetching details for run: ", run.id, run.name)
+  run_data = {
+            "id": run.id,
+            "name": run.name,
+            "url": run.url,
+            "state": run.state,
+            "tags": run.tags,
+            "config": run.config,
+            "created_at": run.created_at,
+            "system_metrics": run.system_metrics,
+            "summary": run.summary,
+            "project": run.project,
+            "entity": run.entity,
+            "user": run.user,
+            "path": run.path,
+            "notes": run.notes,
+            "read_only": run.read_only,
+            "history_keys": run.history_keys,
+            "metadata": run.metadata,
+        }
+  all_runs.append(run_data)
+  
+# Convert to DataFrame  
+df = pd.DataFrame(all_runs)
+
+# Get row based on the column name (run) and convert to dictionary
+df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+
+
+
+
+

@@ -40,7 +40,7 @@ Track and manage your staged models with a few simple steps.
 
 The following code snippet demonstrates how to log and link a model to the Model Registry:
 
-```python showLineNumbers
+```python
 import wandb
 import random
 
