@@ -71,20 +71,6 @@ To get back to a panel's workspace from full-screen mode, click the left-pointin
 
 This section shows various ways to add panels to your workspace.
 
-### Quick add panels {#quick-add}
-
-Use **Quick add** to generate a standard panel for each key you select, either globally or at the section level.
-
-{{% alert %}}
-For an automated workspace with no deleted panels, the **Quick add** option is not visible becasue the workspace already includes standard panels for all logged keys. You can use **Quick add** to re-add a panel that you deleted.
-{{% /alert %}}
-
-1. To use **Quick add** to add a panel globally, click **Add panels** in the control bar near the panel search field, then click **Quick add**.
-1. To use **Quick add** to add a panel directly to a section, click the section's action `...` menu, click **Add panels**, then click **Quick add**.
-1. A list of panels appears. Each panel with a checkmark is already included in the workspace.
-    - To add all available panels, click the **Add <N> panels** button at the top of the list. The **Quick Add** list closes and the new panels display in the workspace.
-    - To add an individual panel from the list, hover over the panel's row, then click **Add**. Repeat this step for each panel you want to add, then click the **X** at the top right to close the **Quick Add** list. The new panels display in the workspace.
-
 ### Add a panel manually
 
 Add panels to your workspace one at a time, either globally or at the section level.
@@ -96,6 +82,21 @@ Add panels to your workspace one at a time, either globally or at the section le
 1. Click **Apply**.
 
 {{< img src="/images/app_ui/add_single_panel.gif" alt="Demo of adding a panel" >}} 
+
+### Quick add panels {#quick-add}
+
+Use **Quick add** to add a panel automatically for each key you select, either globally or at the section level.
+
+{{% alert %}}
+For an automated workspace with no deleted panels, the **Quick add** option is not visible because the workspace already includes panels for all logged keys. You can use **Quick add** to re-add a panel that you deleted.
+{{% /alert %}}
+
+1. To use **Quick add** to add a panel globally, click **Add panels** in the control bar near the panel search field, then click **Quick add**.
+1. To use **Quick add** to add a panel directly to a section, click the section's action `...` menu, click **Add panels**, then click **Quick add**.
+1. A list of panels appears. Each panel with a checkmark is already included in the workspace.
+    - To add all available panels, click the **Add <N> panels** button at the top of the list. The **Quick Add** list closes and the new panels display in the workspace.
+    - To add an individual panel from the list, hover over the panel's row, then click **Add**. Repeat this step for each panel you want to add, then click the **X** at the top right to close the **Quick Add** list. The new panels display in the workspace.
+1. Optionally, customize the panel's settings.
 
 ## Share a panel
 

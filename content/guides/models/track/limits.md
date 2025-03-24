@@ -170,8 +170,12 @@ This section gives tips for optimizing the performance of your workspace.
 #### Panel count
 By default, a workspace is _automatic_, and generates standard panels for each logged key. If a workspace for a large project includes panels for many logged keys, the workspace may be slow to load and use. To improve performance, you can:
 
-- Delete unused panels from the workspace. If you delete a panel in error, you can re-add it using [Quick add]({{< relref "/guides/models/app/features/panels/#quick-add" >}}).
-- Reset the workspace to manual mode, which includes no panels by default. You can use [Quick add]({{< relref "/guides/models/app/features/panels/#quick-add" >}}) to selectively add panels for the logged keys you need to visualize.
+1. Reset the workspace to manual mode, which includes no panels by default.
+1. Use [Quick add]({{< relref "/guides/models/app/features/panels/#quick-add" >}}) to selectively add panels for the logged keys you need to visualize.
+
+{{% alert %}}
+Deleting unused panels one at a time has little impact on performance. Instead, reset the workspace and seletively add back only those panels you need.
+{{% /alert %}}
 
 To learn more about configuring your workspace, refer to [Panels]({{< relref "/guides/models/app/features/panels/" >}}).
 
