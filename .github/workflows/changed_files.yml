@@ -1,0 +1,146 @@
+name: List files changed as GitHub comment
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  list-files-changed:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Format list of changed files
+        id: format
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Initialize arrays
+          declare -a output
+          declare -a dded_files
+          declare -a modified_files
+          declare -a removed_files
+          declare -a no_preview_files
+
+          # Get the PR number from the GH environment
+          pr_num="${{ github.event.pull_request.number }}"
+
+          echo "Examining PR $pr_num for changed files:"
+
+          # Categorize files by status
+          # Process substitution -- command at end of loop
+          while IFS='\n' read -r changed_file; do
+
+            file_status=$(echo "$changed_file" | awk -F ' ' {'print $1'})
+            file_path=$(echo "$changed_file" | awk -F ' ' {'print $2'})
+            echo "Status: $file_status"
+            echo "Path: $file_path"
+
+            if [ "$file_status" = "added" ]; then
+              added_files+=("$file_path")
+              echo "Added file $file_path added to list of added files, which is now:"
+              echo "${added_files[@]}"
+            elif [ "$file_status" = "modified" ]; then
+              modified_files+=("$file_path")
+              echo "Modified file $file_path added to list of modified files, which is now:"
+              echo "${modified_files[@]}"
+            elif [ "$file_status" = "removed" ]; then
+              removed_files+=("$file_path")
+              echo "Removed file $file_path added to list of removed files, which is now:"
+              echo "${removed_files[@]}"
+            else
+              echo "Unknown status $file_status for file $file_path. Giving up."
+              exit -1
+            fi
+          done < <(gh api repos/wandb/docs/pulls/${pr_num}/files -q '.[] | [.status,.filename] | @tsv' | sort)
+
+          echo "Added:"
+          echo "${added_files[@]}"
+          echo
+
+          echo "Modified:"
+          echo "${modified_files[@]}"
+          echo
+
+          echo "Removed:"
+          echo "${removed_files[@]}"
+          echo
+
+          # Preprocess input paths to output paths
+          #   using # as sed separation character
+          #
+          #   - Remove content/
+          #   - Remove _index/
+          #   - Remove integration_tutorials/
+
+          # Generate HTML preview links for added files in content/
+          # Process substitution -- command at end of loop
+          while IFS= read -r added_file; do
+            if [[ "$added_file" =~ .*\/content\/.*\.md ]]; then
+              output_path=$(echo "$added_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+              preview_path="https://docs-$pr_num.docodile.pages.dev/$output_path"
+              preview_link=(printf '<a href="%s" target="_blank" rel="noopener">%s</a>\n' "$output_path" "$added_file")
+              echo "Preview link: $preview_link"
+              output+=(printf '<li>%s</li>\n' "$preview_link")
+            else
+              no_preview_files+=(printf '<li><b>Added</b> (no preview): %s</li>\n' "$added_file")
+            fi
+          done < <(printf "%s\n" "${added_files[@]}")
+
+          # Generate HTML preview links for modified files in content/
+          # Process substitution -- command at end of loop
+          while IFS= read -r modified_file; do
+            if [[ "$modified_file" =~ .*\/content\/.*\.md ]]; then
+              output_path=$(echo "$modified_file" | sed -E 's#content\/##g' | sed -E 's#/_index/##g' | sed -E 's#integration-tutorials\/##g')
+              preview_path="https://docs-$pr_num.docodile.pages.dev/$output_path"
+              preview_link=(printf '<a href="%s" target="_blank" rel="noopener">%s</a>\n' "$output_path" "$modified_file")
+              echo "Preview link: $preview_link"
+              output+=(printf '<li><b>Modified</b>: %s</li>\n' "$preview_link")
+            else
+              no_preview_files+=(printf '<li><b>Modified</b> (no preview): %s</li>\n' "$modified_file")
+            fi
+          done < <(printf "%s\n" "${modified_files[@]}")
+
+          # Process removed files
+          # Process substitution -- command at end of loop
+          while IFS= read -r removed_file; do
+            no_preview_files+=(printf '<li><b>Removed</b>: %s</li>\n' "$removed_file")
+          done < <(printf "%s\n" "${removed_files[@]}")
+
+          # Process no preview 
+          # Process substitution -- command at end of loop
+          while IFS= read -r no_preview_file; do
+            output+=(printf "%s\n" "$no_preview_file")
+          done < <(printf "%s\n" "${no_preview_files[@]}")
+
+          # Compose the body
+          echo "Output:"
+          inner_body=
+          while IFS= read -r output_entry; do
+            inner_body+=(printf "%s\n" "$output_entry")
+          done < <(printf "%s\n" "$output[@]")
+          body=$(echo "<ul>$inner_body</ul>")
+          echo "Body:"
+          echo "${body}"
+          echo "body=$body" >> $GITHUB_ENV
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2.0.1
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 'HTML previews:'
+
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v2.1.0
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            <h3>HTML previews:</h3>${{ env.body }}<hr /><p>Preview links work <b>only</b> after the `Cloudflare Pages` build check succeeds. Links are generated only for new and modified <code>.md</code> files under <code>content/</code>.</p><p><a href="https://github.com/wandb/docs/issues/new?title=Feedback+about+HTML+preview+comments&assignees=mdlinville&body=Link+to+PR+and+describe+the+issue">Feedback about HTML previews</a>

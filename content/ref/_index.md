@@ -13,8 +13,6 @@ cascade:
 no_list: true
 ---
 
-
-
 {{< cardpane >}}
   {{< card >}}
     <a href="./python/">
