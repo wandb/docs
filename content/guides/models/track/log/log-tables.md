@@ -102,6 +102,9 @@ best_checkpt_table = wandb.Table(
     columns=["col1", "col2", "col3"], data=best_checkpt_table.data
 )
 
+# Initialize the Run
+run = wandb.init()
+
 # Log the updated table to Weights & Biases
 run.log({table_name: best_checkpt_table})
 ```
