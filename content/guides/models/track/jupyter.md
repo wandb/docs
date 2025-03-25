@@ -1,5 +1,5 @@
 ---
-description: se W&B with Jupyter to get interactive visualizations without leaving
+description: Use W&B with Jupyter to get interactive visualizations without leaving
   your notebook.
 menu:
   default:
