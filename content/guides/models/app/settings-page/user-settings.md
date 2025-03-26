@@ -32,6 +32,7 @@ To add a follow badge for the `@weights_biases` account on X, you could add a Ma
 [<img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="X: @weights_biases" >](https://x.com/intent/follow?screen_name=weights_biases)
 ```
 In an `<img>` tag, you can specify `width`, `height`, or both. If you specify only one of them, the image's proportions are maintained.
+
 ## Teams
 
 Create a new team in the **Team** section. To create a new team, select the **New team** button and provide the following:
