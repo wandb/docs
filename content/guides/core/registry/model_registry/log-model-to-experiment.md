@@ -38,7 +38,7 @@ run.log_model(path="<path-to-model>", name="<name>")
 
 The proceeding code example shows how to log a convolutional neural network (CNN) model to W&B.
 
-```python showLineNumbers
+```python
 import os
 import wandb
 from tensorflow import keras
