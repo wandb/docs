@@ -41,7 +41,7 @@ If the webhook requires a Bearer token or its payload requires a sensitive strin
 Now you can [create an automation]({{< relref "#create-a-webhook-automation" >}}) that uses the webhook.
 
 ## Create an automation
-After you [configure a webhook]({{< relref "#reate-a-webhook" >}}), select **Registry** or **Project**, then follow these steps to create an automation that triggers the webhook.
+After you [configure a webhook]({{< relref "#create-a-webhook" >}}), select **Registry** or **Project**, then follow these steps to create an automation that triggers the webhook.
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
