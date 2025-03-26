@@ -65,7 +65,7 @@ jobs:
       # Install Hugo if needed
       - name: Setup Hugo
         if: steps.check-hugo.outputs.is_hugo == 'true'
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: 'latest'
           extended: true
