@@ -6,7 +6,7 @@ menu:
     identifier: project-scoped-automations
     parent: automations
 title: Trigger CI/CD events when artifact changes
-url: guides/artifacts/project-scoped-automations
+url: guides/core/artifacts/project-scoped-automations
 ---
 
 Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the action you want to occur based on an [event type]({{< relref "#event-types" >}}).  

@@ -80,7 +80,7 @@ wandb.run
 ```
 
 {{% alert %}}
-Want to know more about what you can do with W&B? Check out our [guide to logging data and media]({{< relref "/guides/models/track/log/" >}}), learn [how to integrate us with your favorite ML toolkits]({{< relref "/guides/integrations/" >}}), or just dive straight into the [reference docs]({{< relref "/ref/python/" >}}) or our [repo of examples](https://github.com/wandb/examples).
+Want to know more about what you can do with W&B? Check out our [guide to logging data and media]({{< relref "log/" >}}), learn [how to integrate us with your favorite ML toolkits]({{< relref "/guides/integrations/" >}}), or just dive straight into the [reference docs]({{< relref "/ref/python/" >}}) or our [repo of examples](https://github.com/wandb/examples).
 {{% /alert %}}
 
 ## Additional Jupyter features in W&B

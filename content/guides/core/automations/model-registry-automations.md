@@ -6,7 +6,7 @@ menu:
     identifier: model-registry-automations
     parent: automations
 title: Model registry automations
-url: guides/model_registry/model-registry-automations
+url: guides/core/model_registry/model-registry-automations
 ---
 
 Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the action you want to occur based on an [event type]({{< relref "#event-types" >}}).

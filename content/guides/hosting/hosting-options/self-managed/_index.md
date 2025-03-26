@@ -13,7 +13,7 @@ cascade:
 ## Use self-managed cloud or on-prem infrastructure
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "../saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud/" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "../saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "../dedicated_cloud/" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
 Deploy W&B Server on your [AWS, GCP, or Azure cloud account]({{< relref "#deploy-wb-server-within-self-managed-cloud-accounts" >}}) or within your [on-premises infrastructure]({{< relref "#deploy-wb-server-in-on-prem-infrastructure" >}}). 
