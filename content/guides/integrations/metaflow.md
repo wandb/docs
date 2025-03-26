@@ -35,7 +35,7 @@ For a more streamlined approach, you can generate an API key by going directly t
 To install the `wandb` library locally and log in:
 
 {{% alert %}}
-For wandb versions <= 0.19.8, install `fastcore<1.8.0` instead of `plum-dispatch`:
+For `wandb` version 0.19.8 or below, install `fastcore` version 1.8.0 or below (`fastcore<1.8.0`) instead of `plum-dispatch`.
 {{% /alert %}}
 
 
