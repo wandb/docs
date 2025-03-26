@@ -36,7 +36,7 @@ To [create an automation]({{< relref "create-automations/" >}}), you:
 1. Configure the webhook or Slack notification to authorize W&B to post to Slack or run the webhook on your behalf. A single automation action (webhook or Slack notification) can be used by multiple automations. These actions are defined in your **Team Settings**.
 1. In the project or registry, create the automation:
   1. Grant it access to any secrets you created for it.
-  1. Define the [event]({{< relref "#automation-events" >}}) to watch for, such as when a new artifact or version is created or linked, or when a run metric changes by a configured threshold..
+  1. Define the [event]({{< relref "#automation-events" >}}) to watch for, such as when a new artifact or version is created or linked, or when a run metric changes by a configured threshold.
   1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook) and the payload to send.
 
 ## Next steps
