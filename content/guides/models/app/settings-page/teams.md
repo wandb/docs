@@ -133,14 +133,6 @@ Use system permissions to create and manage teams and their members and to adjus
 * When you **do not** configure a team in your training environment and use a service account, the runs log to the named project within that service account's parent team. In this case as well, you can attribute the runs to a user if **WANDB_USERNAME** or **WANDB_USER_EMAIL** variable exists in your environment and the referenced user is part of the service account's parent team.
 * A service account can not log runs to a private project in a team different from its parent team. A service account can log to runs to project only if the project is set to `Open` project visibility.
 
-#### Add social badges to your intro
-
-In your Intro, type `/` and choose Markdown and paste the markdown snippet that renders your badge. Once you convert it to WYSIWYG, you can resize it.
-
-For example, to add a Twitter follow badge, add `[{{< img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="Twitter: @weights_biase" >}}](https://twitter.com/intent/follow?screen_name=weights_biases` replacing `weights_biases` with your Twitter username.
-
-[{{< img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="Twitter: @weights_biases" >}}](https://twitter.com/intent/follow?screen_name=weights_biases)
-
 ## Team trials
 
 See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API]({{< relref "/ref/python/public-api/" >}}).

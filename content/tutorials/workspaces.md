@@ -142,7 +142,7 @@ def save_new_workspace_view_example(url: str) -> None:
     workspace: ws.Workspace = ws.Workspace.from_url(url)
 
     workspace.name = "Updated Workspace Name"
-    workspace.save()
+    workspace.save_as_new_view()
 
     print(f"Workspace saved as new view.")
 

@@ -15,17 +15,8 @@ enableRobotsTXT: true
 # Will give values to .Lastmod etc.
 enableGitInfo: true
 
-# Comment out to enable taxonomies in Docsy
-# disableKinds: [taxonomy, taxonomyTerm]
-
-# You can add your own taxonomies
-#taxonomies:
-#  tag: tags
-
-# [ml] Disable taxonomies for now
-disableKinds:
-- taxonomy
-- term
+taxonomies:
+    support: support
 
 # Highlighting config
 pygmentsCodeFences: true
@@ -93,17 +84,14 @@ params:
   #    appId: 2D210VB5MP
   #    apiKey: 730cfa02025b8ba2e95d4c33b1e38cc7
   #    indexName: docodile
-  taxonomy:
-    # set taxonomyCloud = [] to hide taxonomy clouds
-    taxonomyCloud: []
-
-    # If used, must have same length as taxonomyCloud
-    taxonomyCloudTitle: []
-
-    # set taxonomyPageHeader = [] to hide taxonomies on the page headers
-    taxonomyPageHeader: []
 
   privacy_policy: https://wandb.ai/site/privacy/
+
+  taxonomy:
+    taxonomyCloud:
+      - none
+    taxonomyPageHeader:
+      - support
 
   # First one is picked as the Twitter card image if not set on page.
   # images: [images/project-illustration.png]
@@ -158,6 +146,7 @@ params:
   ui:
     # Set to true to disable breadcrumb navigation.
     breadcrumb_disable: true
+    taxonomy_breadcrumb_disable: true
     # Set to false if you don't want to display a logo (/assets/icons/logo.svg) in the top navbar
     navbar_logo: true
     # Set to true if you don't want the top navbar to be translucent when over a `block/cover`, like on the homepage.
