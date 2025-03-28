@@ -1,17 +1,8 @@
 ---
 title: Support
 menu:
-  support:
-    identifier: support
-    parent: null
-  main:
-    weight: 4
-    parent: null
-url: support
-no_list: true
-type: docs
-cascade:
-- url: support/:filename
+    main:
+        weight: 4
 ---
 
 {{< banner title="How can we help?" background="/images/support/support_banner.png" >}}
@@ -23,10 +14,10 @@ and the W&B community.
 
 Here are the most commonly asked questions across all categories.
 
-* [What does `wandb.init` do to my training process?]({{< relref "./wandbinit_training_process.md" >}})
-* [How do I use custom CLI commands with sweeps?]({{< relref "./custom_cli_commands_sweeps.md" >}})
-* [Is it possible to save metrics offline and sync them to W&B later?]({{< relref "./same_metric_appearing_more.md" >}})
-* [How can I configure the name of the run in my training code?]({{< relref "./configure_name_run_training_code.md" >}})
+* [What does `wandb.init` do to my training process?]({{< relref "wandbinit_training_process.md" >}})
+* [How do I use custom CLI commands with sweeps?]({{< relref "custom_cli_commands_sweeps.md" >}})
+* [Is it possible to save metrics offline and sync them to W&B later?]({{< relref "same_metric_appearing_more.md" >}})
+* [How can I configure the name of the run in my training code?]({{< relref "configure_name_run_training_code.md" >}})
 
 
 If you can't find what you are looking for, browse through the [popular categories]({{< relref "#popular-categories" >}}) below or search through articles based on categories.
@@ -38,13 +29,13 @@ Browse articles by category.
 
 {{< cardpane >}}
   {{< card >}}
-    <a href="index_experiments">
+    <a href="/support/experiments">
       <h2 className="card-title">Experiments</h2>
       <p className="card-content">Track, visualize, and compare machine learning experiments</p>
     </a>
   {{< /card >}}
   {{< card >}}
-    <a href="index_artifacts">
+    <a href="/support/artifacts">
       <h2 className="card-title">Artifacts</h2>
       <p className="card-content">Version and track datasets, models, and other machine learning artifacts</p>
     </a>
@@ -52,13 +43,13 @@ Browse articles by category.
 {{< /cardpane >}}
 {{< cardpane >}}
   {{< card >}}
-    <a href="index_reports">
+    <a href="/support/reports">
       <h2 className="card-title">Reports</h2>
       <p className="card-content">Create interactive, collaborative reports to share your work</p>
     </a>
   {{< /card >}}
   {{< card >}}
-    <a href="index_sweeps">
+    <a href="/support/sweeps">
       <h2 className="card-title">Sweeps</h2>
       <p className="card-content">Automate hyperparameter search</p>
     </a>

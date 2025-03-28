@@ -22,14 +22,14 @@ git checkout japanese_docs
 npm -g install yarn
 yarn install
 sh scripts/build-prod-docs.sh
-mv build/ja ../../public
+mv build/ja ../../public/ja
 git stash
 # KO
 git checkout korean_docs
 npm -g install yarn
 yarn install
 sh scripts/build-prod-docs.sh
-mv build/ko ../../public
+mv build/ko ../../public/ko
 git stash
 # Cleanup
 cd ../..
