@@ -21,7 +21,7 @@ For an artifact in a [Registry]({{< relref "/guides/core/registry/">}}), you can
 - When a new artifact version is linked to a collection. For example, trigger testing and validation workflows for new candidate models.
 - When an alias is added to an artifact version. For example, trigger a deployment workflow when an alias is added to a model version.
 
-For an artifact in a project, you can configure an automation to run:
+For an artifact in a project, you can configure an automation to start:
 - When a new version of an artifact is created. For example, start a training job when a new version of a dataset artifact is created.
 - When a new artifact is linked to a project or collection. For example, trigger testing and validation workflows for new models.
 - When an alias is added to a new version of an artifact. For example, trigger a deployment workflow when the `deploy` alias is added to a model version.
@@ -33,7 +33,7 @@ For more details, refer to [Automation events and scopes]({{< relref "automation
 To [create an automation]({{< relref "create-automations/" >}}), you:
 
 1. If required, configure [secrets]({{< relref "/guides/core/secrets.md" >}}) for sensitive strings the automation requires, such as access tokens, passwords, or sensitive configuration details. Secrets are defined in your **Team Settings**. Secrets are most commonly used in webhook automations to securely pass credentials or tokens to the webhook's external service without exposing it in plain text or hard-coding it in the webhook's payload.
-1. Authorize W&B to post to Slack, or configure the webhook's endpoint and authorization details. This is required once per Slack destination or webhook endpoint.
+1. Configure the webhook or Slack notification to authorize W&B to post to Slack or run the webhook on your behalf. A single automation action (webhook or Slack notification) can be used by multiple automations. These actions are defined in your **Team Settings**.
 1. In the project or registry, create the automation:
   1. Define the [event]({{< relref "#automation-events" >}}) to watch for, such as when a new artifact version is added. 
   1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook). For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
