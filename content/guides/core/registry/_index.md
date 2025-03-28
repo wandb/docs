@@ -51,7 +51,7 @@ Once you log an artifact to W&B, you can then link that specific artifact versio
 The term "link" refers to pointers that connect where W&B stores the artifact and where the artifact is accessible in the registry. W&B does not duplicate artifacts when you link an artifact to a collection.
 {{% /alert %}}
 
-As an example, the proceeding code example shows how to log and link a fake model artifact called "my_model.txt" to a collection named "first-collection" in the [core registry]({{< relref "./registry_types.md" >}}):
+As an example, the proceeding code example shows how to log and link a model artifact called "my_model.txt" to a collection named "first-collection" in the [core registry]({{< relref "./registry_types.md" >}}):
 
 1. Initialize a W&B run.
 2. Log the artifact to W&B.
