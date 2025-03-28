@@ -28,7 +28,7 @@ Looking for companion tutorials for automations?
 Create an automation from the project or registry's **Automations** tab. At a high level, to create an automation, follow these steps:
 
 1. If necessary, [create a W&B secret]({{< relref "/guides/core/secrets.md" >}}) for each sensitive string required by the automation, such as an access token, password, or SSH key. Secrets are defined in your **Team Settings**. Secrets are most commonly used in webhook automations.
-1. Configure the webhook or Slack connection to authorize W&B to post to Slack or run the webhook on your behalf. A single connection can be used by multiple automations. These connections are defined in your **Team Settings**. 
+1. Configure the webhook or Slack notification to authorize W&B to post to Slack or run the webhook on your behalf. A single automation action (webhook or Slack notification) can be used by multiple automations. These actions are defined in your **Team Settings**. 
 1. In the project or registry, create the automation, which specifies the event to watch for and the action to take (such as posting to Slack or running a webhook). When you create a webhook automation, you configure the payload it send.
 
 For details, refer to:
