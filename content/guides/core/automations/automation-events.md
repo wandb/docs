@@ -6,13 +6,20 @@ menu:
 title: Automation events and scopes
 weight: 2
 ---
-An automation can run when a specific event occurs at a given scope, either a registry or a project. This page lists the events that can trigger an automation at each scope.
+An automation can run when a specific event occurs at a given scope, either a registry or a project. This page describes the events that can trigger an automation at each scope.
+
+Learn more about automations in the [Automations overview]({{< relref "/guides/core/automations/" >}}) or [Create an automation]({{< relref "create-automations/" >}}).
 
 ## Registry
-This section describes the scopes and events for an automation in a Registry.
+This section describes the scopes and events for an automation in a [Registry]({{< relref "/guides/core/registry/">}}).
+
+1. Navigate to the **Registry** App at https://wandb.ai/registry/.
+1. Click the name of a registry, then view and create automations in the **Automations** tab.
+
+Learn more about [creating automations]({{< relref "create-automations/" >}}).
 
 ### Scopes
-You create a Registry automation at these scopes:
+You can create a Registry automation at these scopes:
 - A [Registry]({{< relref "/guides/core/registry/">}}). The automation watches for the event taking place on any collection in the registry.
 - A single collection in a registry.
 
@@ -22,7 +29,12 @@ A Registry automation can watch for these events:
 - **Adding a new alias to a version of an artifact**: Trigger a special step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
 
 ## Project
-This section describes the scopes and events for an automation in a project.
+This section describes the scopes and events for an automation in a [project]({{< relref "/guides/models/track/project-page.md" >}}).
+
+1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
+1. View and create automations in the **Automations** tab.
+
+Learn more about [creating automations]({{< relref "create-automations/" >}}).
 
 ### Scopes
 You can create a project automation at these scopes:
