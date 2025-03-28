@@ -53,39 +53,36 @@ This section describes the events related to an artifact that can trigger an aut
 - **Adding a new alias to a version of an artifact**: Trigger a special step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
 
 ### Run metrics events
-This section describes the run metrics events that can trigger an automation.
+An automation can watch for changes in a run metric:
 
-- **Run metrics threshold met**: Trigger a workflow when, for a given metric, a run or the average of a number of runs meets the threshold you specify for a given metric.
-- **Run metrics change threshold met**: Trigger a workflow when, for a given metric, a run or the average of a number of runs increases or decreases by the threshold you specify for a given metric.
+- **Run metrics threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged values meets the threshold you specify.
+- **Run metrics change threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged value changes by the threshold you specify.
 
-To set up the metric for a run metrics event, you specify:
+{{% alert %}}
+You can create aautomations triggered by system metrics such as the `cpu` metric, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds. Find each metric's name and details in [System metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}).
+{{% /alert %}}
 
-- An optional run name filter. Only runs matching this filter can trigger the automation.
-- The metric.
-- The threshold for evaluation.
-- The comparison to make. Choices differ for each type of event. Refer to [Run metrics comparison choices]({{< relref "#run-metrics-comparison-choices" >}}).
+For a run metric event, you can configure how to compare the run metric value with the threshold you specify. Your choices depend on the event type.
 
-#### Run metrics comparison choices
-When configuring an automation for a run metric event, you can configure how to compare the run metric value with the threshold you specify. Your choices depend on the event type.
-
-For **Run metrics threshold met** events, you can configure:
+#### Threshold
+For **Run metrics threshold met** events, you configure:
 1. The number of logged values to average across (defaults to 5).
-1. How to compare the values with the threshold:
-    - Above
-    - Above or equal to
-    - Below
-    - Below or equal to
-    - Not equal to
-    - Equal to
+1. How to compare the values with the threshold.
 
-For **Run metrics change threshold met**, you can configure:
-1. The current window of logged values to average across (defaults to 10).
-1. The prior window of logged values to average across (defaults to 50).
+For example, trigger an automation when `accuracy` exceeds `.6`.
+
+#### Change threshold
+
+For **Run metrics change threshold met** events, you can configure:
+1. The current window of logged values to average across (defaults to the 10 most recent logged values).
+1. The prior window of logged values to average across (defaults to the 50 most recent logged values prior to the current window).
 1. Whether to evaluate the values as relative or absolute (defaults to **Relative**).
 1. How to compare the values with the threshold:
       - Increases by at least
       - Decreases by at least
       - Increases or decreases by at least
+
+The current and prior window do not overlap. By default, the current window includes the 10 most recent logged values, and the prior window includes the 50 logged values prior to the current window.
 
 ## Next steps
 - [Create a Slack automation]({{< relref "create-automations/slack.md" >}})
