@@ -21,12 +21,13 @@ For an artifact in a [Registry]({{< relref "/guides/core/registry/">}}), you can
 - When a new artifact version is linked to a collection. For example, trigger testing and validation workflows for new candidate models.
 - When an alias is added to an artifact version. For example, trigger a deployment workflow when an alias is added to a model version.
 
-For an artifact in a project, you can configure an automation to start:
-- When a new version of an artifact is created. For example, start a training job when a new version of a dataset artifact is created.
-- When a new artifact is linked to a project or collection. For example, trigger testing and validation workflows for new models.
-- When an alias is added to a new version of an artifact. For example, trigger a deployment workflow when the `deploy` alias is added to a model version.
-- When a metric for a run or set of runs meets or exceeds a configured threshold.
-- When a metric for a run or set of runs changes by a configured threshold.
+For an artifact in a [project]({{< relref "/guides/models/track/project-page.md" >}}), you can configure an automation to run:
+- When a new version is added to an artifact. For example, start a training job when a new version of a dataset artifact is added to a given collection.
+- When an alias is added to an artifact version. For example, trigger a PII redaction workflow when the alias "redaction" is added to a dataset artifact.
+- When a metric for a run meets or exceeds a configured threshold.
+- When a metric for a run changes by a configured threshold.
+
+Each run is considered separately, even if it is part of a run set.
 
 For more details, refer to [Automation events and scopes]({{< relref "automation-events.md" >}}).
 
