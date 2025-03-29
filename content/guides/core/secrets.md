@@ -36,7 +36,7 @@ To add a secret:
 Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook]({{< relref "#configure-a-webhook" >}}) section for more information. 
 
 {{% alert %}}
-Once you create a secret, you can access that secret in your W&B workflows with `$`.
+Once you create a secret, you can access that secret in a [webhook automation's payload]({{< relref "/guides/core/automations/create-automations/webhook.md" >}}) using the format `${SECRET_NAME}`.
 {{% /alert %}}
 
 ## Rotate a secret
@@ -55,4 +55,4 @@ To delete a secret:
 1. Read the confirmation dialog, then click **Delete**. The secret is deleted immediately and permanently.
 
 ## Manage access to secrets
-Each member of a team have access to its secrets. To revoke access to a secret from a particular member, remove that member from the team.
+A team's automations can use the team's secrets. Before you remove a secret, update or remove automations that use it so they don't stop working.
