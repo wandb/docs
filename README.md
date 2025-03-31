@@ -124,7 +124,15 @@ Hit `CTRL+C` in the terminal that is showing `hugo` activity to interrupt the se
     ```markdown
     {{< prism file="/webhook_test.sh" title="webhook_test.sh">}}{{< /prism >}}
     ```
+- We are _experimenting_ with using `readfile` for includes. If you run into issues, report it in a Github issue.
 
+    Add a Markdown file with no front matter to `content/_includes/`. Subdirectories are supported. Include the file using the [`readfile`](https://www.docsy.dev/docs/adding-content/shortcodes/#reuse-documentation) shortcode. For example:
+    ```markdown
+    {{< readfile file="/_includes/enterprise-only.md" >}}
+    ```
+
+    - If you change an include, the `hugo serve` incremental build does not pick up the change. Stop and restart `hugo serve`.
+    - Hugo and Docsy shortcodes are **not** supported inside  the include file.
 ## Editing style
 
 Style overrides are in `/assets/scss/_variables_project.scss`. Here we can override all the styles that ship with the Docsy theme. O

@@ -6,6 +6,10 @@ menu:
 title: Automation events and scopes
 weight: 2
 ---
+{{% pageinfo color="info" %}}
+{{< readfile file="/_includes/enterprise-only.md" >}}
+{{% /pageinfo %}}
+
 An automation can run when a specific event occurs at a given scope, either a registry or a project. This page describes the events that can trigger an automation at each scope.
 
 Learn more about automations in the [Automations overview]({{< relref "/guides/core/automations/" >}}) or [Create an automation]({{< relref "create-automations/" >}}).

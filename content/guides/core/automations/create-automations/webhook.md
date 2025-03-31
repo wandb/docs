@@ -6,6 +6,9 @@ menu:
 title: Create a webhook automation
 weight: 3
 ---
+{{% pageinfo color="info" %}}
+{{< readfile file="/_includes/enterprise-only.md" >}}
+{{% /pageinfo %}}
 
 This page shows how to create a webhook [automation]({{< relref "/guides/core/automations/" >}}> ). To create a Slack automation, refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}) instead.
 
@@ -54,7 +57,7 @@ A Registry admin can create automations in that registry. Registry automations a
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
     
     Click **Next step**.
-1. Select the team that owns the [webhook]({{< relref "#create-a-webhook >}}).
+1. Select the team that owns the [webhook]({{< relref "#create-a-webhook" >}}).
 1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref "#create-a-webhook" >}}) to use.
 1. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
 1. Click **Next step**.
