@@ -132,7 +132,7 @@ Hit `CTRL+C` in the terminal that is showing `hugo` activity to interrupt the se
     ```
 
     - If you change an include, the `hugo serve` incremental build does not pick up the change. Stop and restart `hugo serve`.
-    - Hugo and Docsy shortcodes are **not** supported inside  the include file.
+    - Hugo and Docsy shortcodes are **not** supported inside the include file.
 ## Editing style
 
 Style overrides are in `/assets/scss/_variables_project.scss`. Here we can override all the styles that ship with the Docsy theme. O
