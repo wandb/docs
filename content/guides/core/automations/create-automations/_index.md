@@ -7,7 +7,7 @@ title: Create an automation
 weight: 1
 ---
 {{% pageinfo color="info" %}}
-{{< readfile file="/_includes/enterprise-only.md" >}}
+{{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
 This page gives an overview of creating and managing W&B [automations]({{< relref "/guides/core/automations/">}}). For more detailed instructions, refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}) or [Create a webhook automation]({{< relref "/guides/core/automations/create-automations/webhook.md" >}}).

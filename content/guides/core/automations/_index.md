@@ -7,7 +7,7 @@ title: Automations
 weight: 4
 ---
 {{% pageinfo color="info" %}}
-{{< readfile file="/_includes/enterprise-only.md" >}}
+{{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
 This page describes _automations_ in W&B. [Create an automation]({{< relref "create-automations/" >}}) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) artifact version is created ({{< relref "/guides/core/registry/" >}}).

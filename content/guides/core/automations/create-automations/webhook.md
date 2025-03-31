@@ -7,7 +7,7 @@ title: Create a webhook automation
 weight: 3
 ---
 {{% pageinfo color="info" %}}
-{{< readfile file="/_includes/enterprise-only.md" >}}
+{{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
 This page shows how to create a webhook [automation]({{< relref "/guides/core/automations/" >}}> ). To create a Slack automation, refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}) instead.
