@@ -58,11 +58,13 @@ An automation can watch for changes in a run metric:
 - **Run metrics threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged values meets the threshold you specify.
 - **Run metrics change threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged value changes by the threshold you specify.
 
+Each run is considered separately, even if the automation has a run filter that matches with multiple runs. Each run's values are put into a separate window and compared to the threshold separately. If an automation starts due to the result of one run, it can still start for another matching run. A particular run metric automation runs only once per run per 24-hour period.
+
 {{% alert %}}
 You can create automations triggered by system metrics such as the `cpu` metric, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds. Find each metric's name and details in [System metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}).
 {{% /alert %}}
 
-For a run metric event, you can configure how to compare the run metric value with the threshold you specify. Your choices depend on the event type.
+To set up a run metric automation, you configure how to compare the run metric value with the threshold you specify. Your choices depend on the event type.
 
 #### Threshold
 For **Run metrics threshold met** events, you configure:

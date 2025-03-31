@@ -27,8 +27,6 @@ For an artifact in a [project]({{< relref "/guides/models/track/project-page.md"
 - When a metric for a run meets or exceeds a configured threshold.
 - When a metric for a run changes by a configured threshold.
 
-Each run is considered separately, even if it is part of a run set.
-
 For more details, refer to [Automation events and scopes]({{< relref "automation-events.md" >}}).
 
 To [create an automation]({{< relref "create-automations/" >}}), you:
