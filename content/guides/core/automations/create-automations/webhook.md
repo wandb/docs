@@ -28,7 +28,7 @@ If the webhook requires a Bearer token or its payload requires a sensitive strin
 1. In the **Webhooks** section, click **New webhook**.
 1. Provide a name for the webhook. 
 1. Provide the endpoint URL for the webhook.
-1. If the webhook requires a Bearer token, set **Access token** to the [secret]({{< relref "/guides/core/secrets.md" >}})that contains it. When running the webhook automation, W&B sets the `Authorization: Bearer` HTTP header to the access token, and you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}).
+1. If the webhook requires a Bearer token, set **Access token** to the [secret]({{< relref "/guides/core/secrets.md" >}}) that contains it. When using the webhook automation, W&B sets the `Authorization: Bearer` HTTP header to the access token, and you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}).
 1. If the webhook requires a password or other sensitive string in its payload, set **Secret** to the secret that contains it. When you configure the automation that uses the webhook, you can access the secret as a [payload variable]({{< relref "#payload-variables" >}}) by prefixing its name with `$`.
 
     If the webhook's access token is stored in a secret, you must _also_ complete the next step to specify the secret as the access token.
@@ -52,11 +52,7 @@ A Registry admin can create automations in that registry. Registry automations a
 1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
 
     To create an automation scoped only to a specific collection in the registry, click the collection's action `...` menu, then click **Create automation**. Alternatively, while viewing a collection, create an automation for it using the **Create automation** button in the **Automations** section of the collection's details page.
-1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
-
-    1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
-    
-    Click **Next step**.
+1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**. Click **Next step**.
 1. Select the team that owns the [webhook]({{< relref "#create-a-webhook" >}}).
 1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref "#create-a-webhook" >}}) to use.
 1. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
@@ -139,7 +135,7 @@ This section includes examples of webhook payloads for some common use cases. Th
 Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
 {{% /alert %}}
 
-Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
+Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have a GitHub workflow file that accepts a repository dispatch as a trigger for the `on` key:
 
 ```yaml
 on:
@@ -192,7 +188,7 @@ Use template strings to dynamically pass context from W&B to GitHub Actions and 
 
 {{% tab header="Microsoft Teams notification" value="microsoft"%}}
 
-Configure an ‘Incoming Webhook' to get the webhook URL for your Teams Channel by configuring. The following is an example payload:
+This example payload shows how to notify your Teams channel using a webhook:
 
 ```json 
 {

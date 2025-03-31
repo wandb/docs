@@ -1,5 +1,5 @@
 ---
-description: Overview W&B secrets, how they work, and how to get started using them.
+description: Overview of W&B secrets, how they work, and how to get started using them.
 menu:
   default:
     identifier: secrets
@@ -9,7 +9,7 @@ url: guides/secrets
 weight: 1
 ---
 
-W&B Secret Manager allows you to securely and centrally store, manage, and inject _secrets_, which are sensitive strings such as access tokens, bearer tokens, API keys, or passwords. W&B Secret Manager removes the need to add sensitive strings directly to your code or when configuring a webhook's header or payload({{< relref "/guides/core/automations/" >}}).
+W&B Secret Manager allows you to securely and centrally store, manage, and inject _secrets_, which are sensitive strings such as access tokens, bearer tokens, API keys, or passwords. W&B Secret Manager removes the need to add sensitive strings directly to your code or when configuring a webhook's header or [payload]({{< relref "/guides/core/automations/" >}}).
 
 Secrets are stored and managed in each team's Secret Manager, in the **Team secrets** section of the [team settings]({{< relref "/guides/models/app/settings-page/team-settings/" >}}).
 
@@ -29,7 +29,7 @@ To add a secret:
 1. If the receiving service requires it to authenticate incoming webhooks, generate the required token or API key. If necessary, save the sensitive string securely, such as in a password manager.
 1. Log in to W&B and go to the team's **Settings** page.
 1. In the **Team Secrets** section, click **New secret**.
-1. Using letters, numbers, and `_`, provide a name for the secret.
+1. Using letters, numbers, and underscores (`_`), provide a name for the secret.
 1. Paste the sensitive string into the **Secret** field.
 1. Click **Add secret**.
 
