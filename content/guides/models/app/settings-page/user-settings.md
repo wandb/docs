@@ -58,6 +58,10 @@ Get notified when your runs crash, finish, or set custom alerts with [wandb.aler
 
 For more information about how to set up and manage alerts, see [Send alerts with wandb.alert]({{< relref "/guides/models/track/runs/alert.md" >}}).
 
+{{% pageinfo color="info" %}}
+{{< readfile file="/_includes/enterprise-only.md" >}}
+{{% /pageinfo %}}
+
 ## Personal GitHub integration
 
 Connect a personal Github account. To connect a Github account:
