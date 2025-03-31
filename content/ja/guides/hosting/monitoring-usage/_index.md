@@ -1,8 +1,0 @@
----
-menu:
-  default:
-    identifier: ja-guides-hosting-monitoring-usage-_index
-    parent: w-b-platform
-title: Monitoring and usage
-weight: 5
----
