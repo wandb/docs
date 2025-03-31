@@ -12,7 +12,7 @@ cascade:
 ---
 
 {{% alert %}}
-W&B will eventually stop supporting the W&B Model Registry. Users are encouraged to instead use [W&B Registry]({{< relref "/guides/core/registry/" >}}) for linking and sharing their model artifacts versions. W&B Registry broadens the capabilities of the legacy W&B Model Registry. For more information about W&B Registry, see the [Registry docs]({{< relref "/guides/core/registry/" >}}).
+W&B will eventually stop supporting W&B Model Registry. Users are encouraged to instead use [W&B Registry]({{< relref "/guides/core/registry/" >}}) for linking and sharing their model artifacts versions. W&B Registry broadens the capabilities of the legacy W&B Model Registry. For more information about W&B Registry, see the [Registry docs]({{< relref "/guides/core/registry/" >}}).
 
 
 W&B will migrate existing model artifacts linked to the legacy Model Registry to the new W&B Registry in the near future. See [Migrating from legacy Model Registry]({{< relref "/guides/core/registry/model_registry_eol.md" >}}) for information about the migration process.
