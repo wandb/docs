@@ -36,8 +36,8 @@ To [create an automation]({{< relref "create-automations/" >}}), you:
 1. If required, configure [secrets]({{< relref "/guides/core/secrets.md" >}}) for sensitive strings the automation requires, such as access tokens, passwords, or sensitive configuration details. Secrets are defined in your **Team Settings**. Secrets are most commonly used in webhook automations to securely pass credentials or tokens to the webhook's external service without exposing it in plain text or hard-coding it in the webhook's payload.
 1. Configure the webhook or Slack notification to authorize W&B to post to Slack or run the webhook on your behalf. A single automation action (webhook or Slack notification) can be used by multiple automations. These actions are defined in your **Team Settings**.
 1. In the project or registry, create the automation:
-  1. Define the [event]({{< relref "#automation-events" >}}) to watch for, such as when a new artifact version is added. 
-  1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook). For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
+    1. Define the [event]({{< relref "#automation-events" >}}) to watch for, such as when a new artifact version is added. 
+    1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook). For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
 
 ## Next steps
 - [Create an automation]({{< relref "create-automations/" >}}).
