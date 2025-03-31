@@ -62,7 +62,7 @@ You can aggregate all of the runs by turning on grouping, or group over an indiv
 
 ## Smoothing
 
-You can set the [smoothing coefficient]({{< relref path="formula_smoothing_algorithm.md" lang="ja" >}}) to be between 0 and 1 where 0 is no smoothing and 1 is maximum smoothing.
+You can set the [smoothing coefficient]({{< relref path="/support/kb-articles/formula_smoothing_algorithm.md" lang="ja" >}}) to be between 0 and 1 where 0 is no smoothing and 1 is maximum smoothing.
 
 
 ## Ignore outliers

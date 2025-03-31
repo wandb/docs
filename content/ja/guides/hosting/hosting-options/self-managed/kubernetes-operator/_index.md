@@ -69,7 +69,7 @@ Depending on the installation method, you might need to meet the following requi
 * Helm is installed.
 
 ### Air-gapped installations
-See the [Deploy W&B in airgapped environment with Kubernetes]({{< relref path="./operator-airgapped" lang="ja" >}}) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
+See the [Deploy W&B in airgapped environment with Kubernetes]({{< relref path="operator-airgapped.md" lang="ja" >}}) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
 
 ## Deploy W&B Server application
 This section describes different ways to deploy the W&B Kubernetes operator. 

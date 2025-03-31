@@ -454,6 +454,6 @@ See examples of projects tracked and visualized with W&B in our [Gallery →](ht
 
 ## Advanced Setup
 1. [Environment variables]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode]({{< relref path="run_wandb_offline.md" lang="ja" >}}): Use `dryrun` mode to train offline and sync results later.
+2. [Offline mode]({{< relref path="/support/kb-articles/run_wandb_offline.md" lang="ja" >}}): Use `dryrun` mode to train offline and sync results later.
 3. [On-prem]({{< relref path="/guides/hosting/hosting-options/self-managed" lang="ja" >}}): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
 4. [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}): Set up hyperparameter search quickly with our lightweight tool for tuning.

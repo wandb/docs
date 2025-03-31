@@ -285,5 +285,5 @@ Explore projects tracked and visualized with W&B in the [Gallery](https://app.wa
 
 ## Advanced setup
 1. [Environment variables]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}): Set API keys for training on a managed cluster.
-2. [Offline mode]({{< relref path="run_wandb_offline" lang="ja" >}})
+2. [Offline mode]({{< relref path="/support/kb-articles/run_wandb_offline.md" lang="ja" >}})
 3. [On-prem]({{< relref path="/guides/hosting/hosting-options/self-managed" lang="ja" >}}): Install W&B in a private cloud or air-gapped servers in your infrastructure. Local installations suit academics and enterprise teams.

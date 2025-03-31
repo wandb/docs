@@ -24,7 +24,7 @@ Where:
 
 Provide the name of the function the W&B Sweep will execute if you start a W&B Sweep agent within a Jupyter Notebook or Python script.
 
-The proceeding code snippets demonstrate how to start an agent with W&B. We assume you already have a configuration file and you have already initialized a W&B Sweep. For more information about how to define a configuration file, see [Define sweep configuration]({{< relref path="./define-sweep-configuration.md" lang="ko" >}}).
+The proceeding code snippets demonstrate how to start an agent with W&B. We assume you already have a configuration file and you have already initialized a W&B Sweep. For more information about how to define a configuration file, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ko" >}}).
 
 {{< tabpane text=true >}}
 {{% tab header="CLI" %}}

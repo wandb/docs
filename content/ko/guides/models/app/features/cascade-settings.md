@@ -55,9 +55,9 @@ You can edit two main settings within **Line plots** settings: **Data** and **Di
 | ----- | ----- |
 | **X axis** |  The scale of the x-axis in line plots. The x-axis is set to **Step** by default. See the proceeding table for the list of x-axis options. |
 | **Range** |  Minimum and maximum settings to display for x axis. |
-| **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots]({{< relref path="./panels/line-plot/smoothing.md" lang="ko" >}}). |
+| **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots]({{< relref path="/guides/models/app/features/panels/line-plot/smoothing.md" lang="ko" >}}). |
 | **Outliers** | Rescale to exclude outliers from the default plot min and max scale. |
-| **Point aggregation method** | Improve data visualization accuracy and performance. See [Point aggregation]({{< relref path="./panels/line-plot/sampling.md" lang="ko" >}}) for more information. |
+| **Point aggregation method** | Improve data visualization accuracy and performance. See [Point aggregation]({{< relref path="/guides/models/app/features/panels/line-plot/sampling.md" lang="ko" >}}) for more information. |
 | **Max number of runs or groups** | Limit the number of runs or groups displayed on the line plot. |
 
 In addition to **Step**, there are other options for the x-axis:
@@ -72,7 +72,7 @@ In addition to **Step**, there are other options for the x-axis:
 
 
 {{% alert %}}
-For information on how to edit an individual line plot, see [Edit line panel settings]({{< relref path="./panels/line-plot/#edit-line-panel-settings" lang="ko" >}}) in Line plots. 
+For information on how to edit an individual line plot, see [Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ko" >}}) in Line plots. 
 {{% /alert %}}
 
 
@@ -123,4 +123,4 @@ Customize an individual panel's settings to compare multiple lines on the same p
 3. Within the modal that appears, you can edit settings related to the panel's data, display preferences, and more.
 {{< img src="/images/app_ui/panel_settings_modal.png" alt="" >}}
 
-For a complete list of settings you can apply to a panel, see [Edit line panel settings]({{< relref path="./panels/line-plot/#edit-line-panel-settings" lang="ko" >}}).
+For a complete list of settings you can apply to a panel, see [Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ko" >}}).

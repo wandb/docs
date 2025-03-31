@@ -68,7 +68,7 @@ for epoch in range(run.config.epochs):
         run.log({"accuracy": accuracy, "loss": loss})
 ```
 
-For more information on different data types you can log with W&B, see [Log Data During Experiments]({{< relref path="./log/" lang="ko" >}}).
+For more information on different data types you can log with W&B, see [Log Data During Experiments]({{< relref path="/guides/models/track/log/" lang="ko" >}}).
 
 ### Log an artifact to W&B 
 Optionally log a W&B Artifact. Artifacts make it easy to version datasets and models. 

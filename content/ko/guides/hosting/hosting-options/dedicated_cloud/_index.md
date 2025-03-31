@@ -50,7 +50,7 @@ Security controls for W&B Dedicated Cloud are periodically audited internally an
 
 ## Migration options
 
-Migration to Dedicated Cloud from a [Self-managed instance]({{< relref path="../self-managed/" lang="ko" >}}) or [Multi-tenant Cloud]({{< relref path="../saas_cloud.md" lang="ko" >}}) is supported.
+Migration to Dedicated Cloud from a [Self-managed instance]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ko" >}}) or [Multi-tenant Cloud]({{< relref path="../saas_cloud.md" lang="ko" >}}) is supported.
 
 ## Next steps
 

@@ -78,7 +78,7 @@ def main():
 
 ## Define the search space with a sweep configuration
 
-Specify the hyperparameters to sweep in a dictionary. For configuration options, see [Define sweep configuration]({{< relref path="./define-sweep-configuration.md" lang="ko" >}}).
+Specify the hyperparameters to sweep in a dictionary. For configuration options, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ko" >}}).
 
 The proceeding example demonstrates a sweep configuration that uses a random search (`'method':'random'`). The sweep will randomly select a random set of values listed in the configuration for the batch size, epoch, and the learning rate.
 

@@ -17,10 +17,10 @@ and the W&B community.
 
 Here are the most commonly asked questions across all categories.
 
-* [What does `wandb.init` do to my training process?]({{< relref path="wandbinit_training_process.md" lang="ja" >}})
-* [How do I use custom CLI commands with sweeps?]({{< relref path="custom_cli_commands_sweeps.md" lang="ja" >}})
-* [Is it possible to save metrics offline and sync them to W&B later?]({{< relref path="same_metric_appearing_more.md" lang="ja" >}})
-* [How can I configure the name of the run in my training code?]({{< relref path="configure_name_run_training_code.md" lang="ja" >}})
+* [What does `wandb.init` do to my training process?]({{< relref path="/support/kb-articles/wandbinit_training_process.md" lang="ja" >}})
+* [How do I use custom CLI commands with sweeps?]({{< relref path="/support/kb-articles/custom_cli_commands_sweeps.md" lang="ja" >}})
+* [Is it possible to save metrics offline and sync them to W&B later?]({{< relref path="/support/kb-articles/same_metric_appearing_more.md" lang="ja" >}})
+* [How can I configure the name of the run in my training code?]({{< relref path="/support/kb-articles/configure_name_run_training_code.md" lang="ja" >}})
 
 
 If you can't find what you are looking for, browse through the [popular categories]({{< relref path="#popular-categories" lang="ja" >}}) below or search through articles based on categories.

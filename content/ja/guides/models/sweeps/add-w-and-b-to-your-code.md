@@ -59,7 +59,7 @@ The following code examples demonstrate how to add the W&B Python SDK into your 
   To create a W&B Sweep, we added the following to the code example:
 
 1. Import the Weights & Biases Python SDK.
-2. Create a dictionary object where the key-value pairs define the sweep configuration. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep. For more information on how to create a sweep configuration, see [Define sweep configuration]({{< relref path="./define-sweep-configuration.md" lang="ja" >}}).
+2. Create a dictionary object where the key-value pairs define the sweep configuration. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep. For more information on how to create a sweep configuration, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}).
 3. Pass the sweep configuration dictionary to [`wandb.sweep`]({{< relref path="/ref/python/sweep.md" lang="ja" >}}). This initializes the sweep. This returns a sweep ID (`sweep_id`). For more information on how to initialize sweeps, see [Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}}).
 4. Use the [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref path="/ref/python/run.md" lang="ja" >}}).
 5. (Optional) define values from `wandb.config` instead of defining hard coded values.
@@ -155,7 +155,7 @@ parameters:
     values: [5, 10, 15]
 ```
 
-For more information on how to create a W&B Sweep configuration, see [Define sweep configuration]({{< relref path="./define-sweep-configuration.md" lang="ja" >}}).
+For more information on how to create a W&B Sweep configuration, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}).
 
 Note that you must provide the name of your Python script for the `program` key in your YAML file.
 

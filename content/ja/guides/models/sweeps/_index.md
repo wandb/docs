@@ -47,7 +47,7 @@ Depending on your use case, explore the following resources to get started with 
 * Read through the [sweeps walkthrough]({{< relref path="./walkthrough.md" lang="ja" >}}) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
 * Explore this chapter to learn how to:
   * [Add W&B to your code]({{< relref path="./add-w-and-b-to-your-code.md" lang="ja" >}})
-  * [Define sweep configuration]({{< relref path="./define-sweep-configuration.md" lang="ja" >}})
+  * [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}})
   * [Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}})
   * [Start sweep agents]({{< relref path="./start-sweep-agents.md" lang="ja" >}})
   * [Visualize sweep results]({{< relref path="./visualize-sweep-results.md" lang="ja" >}})

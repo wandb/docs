@@ -10,7 +10,7 @@ url: guides/launch/add-job-to-queue
 The following page describes how to add launch jobs to a launch queue.
 
 {{% alert %}}
-Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Set up Launch]({{< relref path="../set-up-launch/" lang="ko" >}}) page.
+Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Set up Launch]({{< relref path="/launch/set-up-launch/" lang="ko" >}}) page.
 {{% /alert %}}
 
 ## Add jobs to your queue
