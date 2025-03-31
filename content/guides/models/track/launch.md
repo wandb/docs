@@ -78,7 +78,7 @@ Optionally log a W&B Artifact. Artifacts make it easy to version datasets and mo
 model.save("path_to_model.onnx")
 run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ```
-For more information about Artifacts, see the [Artifacts Chapter]({{< relref "/guides/core/artifacts/" >}}). For more information about versioning models, see [Model Management]({{< relref "/guides/core/registry/model_registry/" >}}).
+Learn more about [Artifacts]({{< relref "/guides/core/artifacts/" >}}) or about versioning models in [Registry]({{< relref "/guides/core/registry/" >}}).
 
 
 ### Putting it all together
