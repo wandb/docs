@@ -44,10 +44,66 @@ languages:
     title: Weights & Biases Documentation
     params:
       description: Weights & Biases Documentation Site
+    menus:
+      main:
+      - name: Guides
+        pageRef: /guides
+        weight: 1
+        identifier: guides-en
+      - name: Tutorials
+        pageRef: /tutorials
+        weight: 2
+        identifier: tutorials-en
+      - name: Reference
+        pageRef: /ref
+        weight: 3
+        identifier: reference-en
+      - name: Support
+        pageRef: /support
+        weight: 4
+        identifier: support-en
   ja:
     languageName: Japanese
+    contentDir: content/ja
+    menus:
+      main:
+      - name: Guides
+        pageRef: /guides
+        weight: 1
+        identifier: guides-ja
+      - name: Tutorials
+        pageRef: /tutorials
+        weight: 2
+        identifier: tutorials-ja
+      - name: Reference
+        pageRef: /ref
+        weight: 3
+        identifier: reference-ja
+      - name: Support
+        pageRef: /support
+        weight: 4
+        identifier: support-ja
   ko:
     languageName: Korean
+    contentDir: content/ko
+    menus:
+      main:
+      - name: Guides
+        pageRef: /guides
+        weight: 1
+        identifier: guides-ko
+      - name: Tutorials
+        pageRef: /tutorials
+        weight: 2
+        identifier: tutorials-ko
+      - name: Reference
+        pageRef: /ref
+        weight: 3
+        identifier: reference-ko
+      - name: Support
+        pageRef: /support
+        weight: 4
+        identifier: support-ko
 
 markup:
   tableOfContents:
