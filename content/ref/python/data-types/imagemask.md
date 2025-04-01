@@ -2,7 +2,7 @@
 title: ImageMask
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/helper_types/image_mask.py#L18-L247 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/helper_types/image_mask.py#L18-L247 >}}
 
 Format image masks or overlays for logging to W&B.
 
@@ -115,7 +115,7 @@ run.log({"random_field": table})
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/helper_types/image_mask.py#L219-L221)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/helper_types/image_mask.py#L219-L221)
 
 ```python
 @classmethod
@@ -124,7 +124,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/helper_types/image_mask.py#L223-L247)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/helper_types/image_mask.py#L223-L247)
 
 ```python
 validate(
