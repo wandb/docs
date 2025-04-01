@@ -21,7 +21,7 @@ The workflow covers the following steps:
 
 1. Instrument the RAG app code with W&B Weave
 2. Fine-tune an LLM (such as Llama 3.2, but you can replace it with any other LLM) and track it with W&B Models
-3. Log the fine-tuned model to the [W&B Registry](https://docs.wandb.ai/guides/registry)
+3. Log the fine-tuned model to the [W&B Registry](https://docs.wandb.ai/guides/core/registry)
 4. Implement the RAG app with the new fine-tuned model and evaluate the app with W&B Weave
 5. Once satisfied with the results, save a reference to the updated Rag app in the W&B Registry
 

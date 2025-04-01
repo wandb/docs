@@ -22,7 +22,7 @@ Upload an artifact to wandb
 | `--id` | The run you want to upload to. |
 | `--resume` | Resume the last run from your current   directory. |
 | `--skip_cache` | Skip caching while uploading artifact files. |
-| `--policy [mutable|immutable]` | Set the storage policy while uploading   artifact files. |
+| `--policy [mutable\|immutable]` | Set the storage policy while uploading   artifact files. |
 
 
 

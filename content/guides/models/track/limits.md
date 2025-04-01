@@ -13,7 +13,7 @@ weight: 7
 
 Keep your pages in W&B faster and more responsive by logging within the following suggested bounds.
 
-## Logged metrics
+## Logging considerations
 
 Use `wandb.log` to track experiment metrics. Once logged, these metrics generate charts and show up in tables. Too much logged data can make the app slow.
 
@@ -150,13 +150,36 @@ with f as open("large_config.json", "r"):
     wandb.init(config=large_config)
 ```
 
+## Workspace considerations 
+
+
 ### Run count
 
-For faster loading times, keep the total number of runs in a single project under 10,000. Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.
+To reduce loading times, keep the total number of runs in a single project under:
 
-If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving _other_ runs]({{< relref "/guides/models/track/runs/manage-runs.md" >}}) to a new project used as an archive, leaving a smaller set of runs in your working project.
+- 100,000 on SaaS Cloud
+- 10,000 on Dedicated Cloud or Self-managed
 
-### Section count
+Run counts over these thresholds can slow down operations that involve project workspaces or runs tables, especially when grouping runs or collecting a large number of distinct metrics during runs. See also the [Metric count]({{< relref "#metric-count" >}}) section.
+
+If your team accesses the same set of runs frequently, such as the set of recent runs, consider [moving less frequently used runs in bulk]({{< relref "/guides/models/track/runs/manage-runs.md" >}}) to a new "archive" project, leaving a smaller set of runs in your working project.
+
+### Workspace performance
+This section gives tips for optimizing the performance of your workspace.
+
+#### Panel count
+By default, a workspace is _automatic_, and generates standard panels for each logged key. If a workspace for a large project includes panels for many logged keys, the workspace may be slow to load and use. To improve performance, you can:
+
+1. Reset the workspace to manual mode, which includes no panels by default.
+1. Use [Quick add]({{< relref "/guides/models/app/features/panels/#quick-add" >}}) to selectively add panels for the logged keys you need to visualize.
+
+{{% alert %}}
+Deleting unused panels one at a time has little impact on performance. Instead, reset the workspace and seletively add back only those panels you need.
+{{% /alert %}}
+
+To learn more about configuring your workspace, refer to [Panels]({{< relref "/guides/models/app/features/panels/" >}}).
+
+#### Section count
 
 Having hundreds of sections in a workspace can hurt performance. Consider creating sections based on high-level groupings of metrics and avoiding an anti-pattern of one section for each metric.
 
@@ -164,9 +187,21 @@ If you find you have too many sections and performance is slow, consider the wor
 
 {{< img src="/images/track/section_prefix_toggle.gif" alt="Toggling section creation" >}}
 
+### Metric count
+
+When logging between 5000 and 100,000 metrics per run, W&B recommends using a [manual workspace[{{ relref "/guides/models/app/features/panels/#workspace-modes" >}}). In Manual mode, you can easily add and remove panels in bulk as you choose to explore different sets of metrics. With a more focused set of plots, the workspace loads faster. Metrics that are not plotted are still collected and stored as usual.
+
+To reset a workspace to manual mode, click the workspace's action `...` menu, then click **Reset workspace**. Resetting a workspace has no impact on stored metrics for runs. [Learn more about managing workspaces]({{< relref "/guides/models/app/features/panels/" >}}).
+
 ### File count
 
 Keep the total number of files uploaded for a single run under 1,000. You can use W&B Artifacts when you need to log a large number of files. Exceeding 1,000 files in a single run can slow down your run pages.
+
+### Reports vs. Workspaces
+
+A report is a free-form composition of arbitrary arrangements of panels, text, and media, allowing you to easily share your insights with colleagues.
+
+By contrast, a workspace allows high-density and performant analysis of dozens to thousands of metrics across hundreds to hundreds of thousands of runs. Workspaces have optimized caching, querying, and loading capabilities, when compared to reports. Workspaces are recommended for a project that is used primarily for analysis, rather than presentation, or when you need to show 20 or more plots together.
 
 ## Python script performance
 
@@ -240,6 +275,6 @@ The W&B app can be memory-intensive and performs best in Chrome. Depending on yo
 
 ## Reporting performance issues to W&B
 
-W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking W&B's built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console.
+W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking W&B's built-in performance logger that captures key metrics and performance events. Append the URL parameter `&PERF_LOGGING` to a page that is loading slowly, then share the output of your console with your account team or Support.
 
 {{< img src="/images/track/adding_perf_logging.gif" alt="Adding PERF_LOGGING" >}}

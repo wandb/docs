@@ -77,11 +77,12 @@ def main():
 ```
 
 ## Define the search space with a sweep configuration
-Within a dictionary, specify what hyperparameters you want to sweep over and. For more information about configuration options, see [Define sweep configuration]({{< relref "./define-sweep-configuration.md" >}}).
+
+Specify the hyperparameters to sweep in a dictionary. For configuration options, see [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}).
 
 The proceeding example demonstrates a sweep configuration that uses a random search (`'method':'random'`). The sweep will randomly select a random set of values listed in the configuration for the batch size, epoch, and the learning rate.
 
-Throughout the sweeps, W&B will maximize the metric specified in the metric key (`metric`). In the following example, W&B will maximize (`'goal':'maximize'`) the validation accuracy (`'val_acc'`).
+W&B minimizes the metric specified in the `metric` key when `"goal": "minimize"` is associated with it. In this case, W&B will optimize for minimizing the metric  `score` (`"name": "score"`).
 
 
 ```python
@@ -126,4 +127,4 @@ For more information about how to visualize results, see [Visualize sweep result
 
 ## Stop the agent (optional)
 
-From the terminal, hit `Ctrl+c` to stop the run that the Sweep agent is currently running. To kill the agent, hit `Ctrl+c` again after the run is stopped.
+In the terminal, press `Ctrl+C` to stop the current run. Press it again to terminate the agent.
