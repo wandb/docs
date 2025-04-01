@@ -58,13 +58,12 @@ An automation can watch for changes in a run metric:
 - **Run metrics threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged values meets the threshold you specify.
 - **Run metrics change threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged value changes by the threshold you specify.
 
-Each run is considered separately, even if the automation has a run filter that matches with multiple runs. Each run's values are put into a separate window and compared to the threshold separately. If an automation starts due to the result of one run, it can still start for another matching run. A particular run metric automation runs only once per run per 24-hour period.
+To set up a run metric automation, you configure how to compare the run metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
-{{% alert %}}
-You can create automations triggered by system metrics such as the `cpu` metric, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds. Find each metric's name and details in [System metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}).
-{{% /alert %}}
-
-To set up a run metric automation, you configure how to compare the run metric value with the threshold you specify. Your choices depend on the event type.
+#### Metric names
+You can create an automation triggered by:
+- Metrics in a run's history.
+- System metrics such as the `cpu` metric, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds. Find details about each metric in [System metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}).
 
 #### Threshold
 For **Run metrics threshold met** events, you configure:
@@ -74,7 +73,6 @@ For **Run metrics threshold met** events, you configure:
 For example, trigger an automation when `accuracy` exceeds `.6`.
 
 #### Change threshold
-
 For **Run metrics change threshold met** events, you can configure:
 1. The current window of logged values to average across (defaults to the 10 most recent logged values).
 1. The prior window of logged values to average across (defaults to the 50 most recent logged values prior to the current window).
@@ -85,6 +83,14 @@ For **Run metrics change threshold met** events, you can configure:
       - Increases or decreases by at least
 
 The current and prior window do not overlap. By default, the current window includes the 10 most recent logged values, and the prior window includes the 50 logged values prior to the current window.
+
+#### Run filters
+This section describes how the automation selects runs to evaluate.
+
+- Each run is considered separately, and the automation can potentially start due to the result of multiple runs.
+- Each run's values are put into a separate window and compared to the threshold separately.
+- If you specify a run filter, only matching runs can start the automation.
+- A particular run metric automation runs at maximum once per run per 24-hour period.
 
 ## Next steps
 - [Create a Slack automation]({{< relref "create-automations/slack.md" >}})
