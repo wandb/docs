@@ -48,9 +48,9 @@ You can create a project automation at these scopes:
 ### Artifact events
 This section describes the events related to an artifact that can trigger an automation.
 
-- **Linking a new artifact**: Test and validate new models, datasets or dataset automatically.
+- **Linking a new artifact**: Test and validate new models or datasets automatically.
 - **Creating a new version of an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
-- **Adding a new alias to a version of an artifact**: Trigger a special step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
+- **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
 
 ### Run metrics events
 For a given run, an automation can start when these events occur:
@@ -91,10 +91,10 @@ The current and prior window do not overlap.
 #### Run filters
 This section describes how the automation selects runs to evaluate.
 
-- Each run is considered separately, and the automation can potentially start due to the result of multiple runs.
+- Each run is considered separately and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
 - If you specify a run filter, only matching runs can start the automation.
-- A particular run metric automation runs at maximum once per run per 24-hour period.
+- In a 24 hour period, a particular automation can fire at most once per run.
 
 ## Next steps
 - [Create a Slack automation]({{< relref "create-automations/slack.md" >}})
