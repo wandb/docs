@@ -10,9 +10,9 @@ weight: 4
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-This page describes _automations_ in W&B. [Create an automation]({{< relref "create-automations/" >}}) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) artifact version is created.
+This page describes _automations_ in W&B. [Create an automation]({{< relref "create-automations/" >}}) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) artifact version is created or when a [run metric]({{< relref "/guides/models/track/runs.md" >}}) meets or changes by a threshold.
 
-For example, an automation can post to a Slack channel when a new version is created, or can run a webhook to trigger automated testing when the `production` alias is added to an artifact.
+For example, an automation can post to a Slack channel when a new version is created, run an automated testing webhook when the `production` alias is added to an artifact, or start a validation job only when a run's `loss` is within acceptable bounds.
 
 ## Overview
 An automation can run when a specific [event]({{< relref "automation-events.md" >}}) occurs in a registry or project.
@@ -36,6 +36,9 @@ To [create an automation]({{< relref "create-automations/" >}}), you:
 1. In the project or registry, create the automation:
     1. Define the [event]({{< relref "#automation-events" >}}) to watch for, such as when a new artifact version is added. 
     1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook). For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
+
+## Limitations
+[Run metrics automations]({{< relref "automation-events.md#run-metrics-events">}}) are currently supported only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
 
 ## Next steps
 - [Create an automation]({{< relref "create-automations/" >}}).

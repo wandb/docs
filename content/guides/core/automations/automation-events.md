@@ -10,7 +10,7 @@ weight: 2
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-An automation can start when a specific event occurs within a project's or registrie's  scope. The *scope* of a project refers to [INSERT tech def of scope]. This page describes the events that can trigger an automation within each scope.
+An automation can start when a specific event occurs within a project's or registry. This page describes the events that can trigger an automation within each scope.
 
 Learn more about automations in the [Automations overview]({{< relref "/guides/core/automations/" >}}) or [Create an automation]({{< relref "create-automations/" >}}).
 
@@ -53,17 +53,21 @@ This section describes the events related to an artifact that can trigger an aut
 - **Adding a new alias to a version of an artifact**: Trigger a special step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
 
 ### Run metrics events
-An automation can watch for changes in a run metric:
+For a given run, an automation can start when these events occur:
 
 - **Run metrics threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged values meets the threshold you specify.
-- **Run metrics change threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged value changes by the threshold you specify.
+- **Run metrics change threshold met**: Trigger a workflow when the average logged values of a run change by the absolute or relative threshold you specify.
 
-To set up a run metric automation, you configure how to compare the run metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
+To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
+
+{{% alert %}}
+Run metrics automations are currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
+{{% /alert %}}
 
 #### Metric names
 You can create an automation triggered by:
-- Metrics in a run's history.
-- System metrics such as the `cpu` metric, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds. Find details about each metric in [System metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}).
+- A metric in a run's history.
+- A [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
 
 #### Threshold
 For **Run metrics threshold met** events, you configure:
@@ -82,7 +86,7 @@ For **Run metrics change threshold met** events, you can configure:
       - Decreases by at least
       - Increases or decreases by at least
 
-The current and prior window do not overlap. By default, the current window includes the 10 most recent logged values, and the prior window includes the 50 logged values prior to the current window.
+The current and prior window do not overlap.
 
 #### Run filters
 This section describes how the automation selects runs to evaluate.
