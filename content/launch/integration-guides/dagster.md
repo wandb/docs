@@ -10,7 +10,7 @@ url: guides/integrations/dagster
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
 * Use and create [W&B Artifacts]({{< relref "/guides/core/artifacts/" >}}).
-* Use and create Registered Models in [W&B Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}).
+* Use and create Registered Models in [W&B Registry]({{< relref "/guides/core/registry/" >}}).
 * Run training jobs on dedicated compute using [W&B Launch]({{< relref "/launch/" >}}).
 * Use the [wandb]({{< relref "/ref/python/" >}}) client in ops and assets.
 
@@ -31,7 +31,7 @@ Find your W&B entity by checking the profile page for that user or team in the W
 
 ### How to get an API key
 1. [Log in to W&B](https://wandb.ai/login). Note: if you are using W&B Server ask your admin for the instance host name.
-2. Collect your API key by navigating to the [authorize page](https://wandb.ai/authorize) or in your user/team settings. For a production environment we recommend using a [service account]({{< relref "service_account_useful.md" >}}) to own that key. 
+2. Collect your API key by navigating to the [authorize page](https://wandb.ai/authorize) or in your user/team settings. For a production environment we recommend using a [service account]({{< relref "/support/kb-articles/service_account_useful.md" >}}) to own that key. 
 3. Set an environment variable for that API key export `WANDB_API_KEY=YOUR_KEY`.
 
 
