@@ -10,7 +10,7 @@ weight: 2
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-An automation can start when a specific event occurs within a project's or registry. This page describes the events that can trigger an automation within each scope.
+An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope.
 
 Learn more about automations in the [Automations overview]({{< relref "/guides/core/automations/" >}}) or [Create an automation]({{< relref "create-automations/" >}}).
 
