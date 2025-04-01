@@ -27,7 +27,6 @@ Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variabl
 
 ### 3. Set a group in the UI
 
-To set a run's group in the UI:
 
 After a run is initialized, you can move it to a new group from your workspace or its **Runs** page.
 
@@ -35,7 +34,7 @@ After a run is initialized, you can move it to a new group from your workspace o
 1. Select the **Workspace** or **Runs** tab from the project sidebar.
 1. Search or scroll to the run you want to rename.
 
-  Hover over the run name, click the three vertical dots, then click **Move to another group**.
+    Hover over the run name, click the three vertical dots, then click **Move to another group**.
 1. To create a new group, click **New group**. Type a group name, then submit the form.
 1. Select the run's new group from the list, then click **Move**.
 
