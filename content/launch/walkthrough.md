@@ -33,7 +33,7 @@ See the [Terms and concepts]({{< relref "./launch-terminology.md" >}}) page for 
 Depending on your use case, explore the following resources to get started with W&B Launch:
 
 * If this is your first time using W&B Launch, we recommend you go through the [Walkthrough]({{< relref "#walkthrough" >}}) guide.
-* Learn how to set up [W&B Launch]({{< relref "./set-up-launch/" >}}).
+* Learn how to set up [W&B Launch]({{< relref "/launch/set-up-launch/" >}}).
 * Create a [launch job]({{< relref "./create-and-deploy-jobs/create-launch-job.md" >}}).
 * Check out the W&B Launch [public jobs GitHub repository](https://github.com/wandb/launch-jobs) for templates of common tasks like [deploying to Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), [evaluating an LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals), or more.
     * View launch jobs created from this repository in this public [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs) W&B project.
@@ -157,7 +157,7 @@ After clicking the button, the browser will redirect to the **Agents** tab of th
 
 {{< img src="/images/launch/create_docker_queue.gif" alt="" >}}
 
-For advanced queue configuration options, see the [advanced queue setup page]({{< relref "./set-up-launch/setup-queue-advanced.md" >}}).
+For advanced queue configuration options, see the [advanced queue setup page]({{< relref "/launch/set-up-launch/setup-queue-advanced.md" >}}).
 
 ## Connect an agent to the queue
 
