@@ -1,13 +1,13 @@
 ---
+title: Run
 menu:
   reference:
     identifier: ja-ref-python-run
-title: Run
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_run.py#L461-L4042 >}}
 
-A unit of computation logged by wandb. Typically, this is an ML experiment.
+wandb によってログされる計算の単位。通常、これは 機械学習 の実験です。
 
 ```python
 Run(
@@ -18,7 +18,7 @@ Run(
 ) -> None
 ```
 
-Create a run with `wandb.init()`:
+`wandb.init()` で run を作成します。
 
 ```python
 import wandb
@@ -26,8 +26,8 @@ import wandb
 run = wandb.init()
 ```
 
-There is only ever at most one active `wandb.Run` in any process,
-and it is accessible as `wandb.run`:
+プロセス内にアクティブな `wandb.Run` は最大で 1 つだけであり、
+`wandb.run` としてアクセスできます。
 
 ```python
 import wandb
@@ -39,11 +39,11 @@ wandb.init()
 assert wandb.run is not None
 ```
 
-anything you log with `wandb.log` will be sent to that run.
+`wandb.log` でログに記録した内容はすべて、その run に送信されます。
 
-If you want to start more runs in the same script or notebook, you'll need to
-finish the run that is in-flight. Runs can be finished with `wandb.finish` or
-by using them in a `with` block:
+同じスクリプトまたは notebook で複数の run を開始する場合は、
+実行中の run を終了する必要があります。Run は `wandb.finish` で終了するか、
+`with` ブロックで使用することで終了できます。
 
 ```python
 import wandb
@@ -59,41 +59,41 @@ with wandb.init() as run:
 assert wandb.run is None
 ```
 
-See the documentation for `wandb.init` for more on creating runs, or check out
-[our guide to `wandb.init`](https://docs.wandb.ai/guides/track/launch).
+run の作成の詳細については、`wandb.init` のドキュメントを参照するか、
+[`wandb.init` のガイド](https://docs.wandb.ai/guides/track/launch) を確認してください。
 
-In distributed training, you can either create a single run in the rank 0 process
-and then log information only from that process, or you can create a run in each process,
-logging from each separately, and group the results together with the `group` argument
-to `wandb.init`. For more details on distributed training with W&B, check out
-[our guide](https://docs.wandb.ai/guides/track/log/distributed-training).
+分散トレーニングでは、ランク 0 のプロセスで単一の run を作成し、
+そのプロセスからのみ情報をログに記録するか、各プロセスで run を作成し、
+それぞれから個別にログに記録し、`wandb.init` への `group` 引数を使用して結果をグループ化できます。
+W&B を使用した分散トレーニングの詳細については、
+[ガイド](https://docs.wandb.ai/guides/track/log/distributed-training) を確認してください。
 
-Currently, there is a parallel `Run` object in the `wandb.Api`. Eventually these
-two objects will be merged.
+現在、`wandb.Api` には並列 `Run` オブジェクトがあります。最終的には、これら 2 つの
+オブジェクトはマージされます。
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
-|  `summary` |  (Summary) Single values set for each `wandb.log()` key. By default, summary is set to the last value logged. You can manually set summary to the best value, like max accuracy, instead of the final value. |
-|  `config` |  Config object associated with this run. |
-|  `dir` |  The directory where files associated with the run are saved. |
-|  `entity` |  The name of the W&B entity associated with the run. Entity can be a username or the name of a team or organization. |
-|  `group` |  Name of the group associated with the run. Setting a group helps the W&B UI organize runs in a sensible way. If you are doing a distributed training you should give all of the runs in the training the same group. If you are doing cross-validation you should give all the cross-validation folds the same group. |
-|  `id` |  Identifier for this run. |
-|  `mode` |  For compatibility with `0.9.x` and earlier, deprecate eventually. |
-|  `name` |  Display name of the run. Display names are not guaranteed to be unique and may be descriptive. By default, they are randomly generated. |
-|  `notes` |  Notes associated with the run, if there are any. Notes can be a multiline string and can also use markdown and latex equations inside `$$`, like `$x + 3$`. |
-|  `path` |  Path to the run. Run paths include entity, project, and run ID, in the format `entity/project/run_id`. |
-|  `project` |  Name of the W&B project associated with the run. |
-|  `resumed` |  True if the run was resumed, False otherwise. |
-|  `settings` |  A frozen copy of run's Settings object. |
-|  `start_time` |  Unix timestamp (in seconds) of when the run started. |
-|  `starting_step` |  The first step of the run. |
-|  `step` |  Current value of the step. This counter is incremented by `wandb.log`. |
-|  `sweep_id` |  ID of the sweep associated with the run, if there is one. |
-|  `tags` |  Tags associated with the run, if there are any. |
-|  `url` |  The W&B url associated with the run. |
+|  `summary` |  (Summary) 各 `wandb.log()` キーに設定された単一の値。デフォルトでは、summary は最後にログに記録された値に設定されます。最終値の代わりに、最大精度のような最良の値に summary を手動で設定できます。 |
+|  `config` |  この run に関連付けられた Config オブジェクト。 |
+|  `dir` |  run に関連付けられたファイルが保存されるディレクトリー。 |
+|  `entity` |  run に関連付けられた W&B のエンティティーの名前。エンティティーは、ユーザー名、チーム名、または組織名にすることができます。 |
+|  `group` |  run に関連付けられたグループの名前。グループを設定すると、W&B UI で run をわかりやすい方法で整理できます。分散トレーニングを行っている場合は、トレーニング内のすべての run に同じグループを指定する必要があります。クロスバリデーションを行っている場合は、すべてのクロスバリデーションの fold に同じグループを指定する必要があります。 |
+|  `id` |  この run の識別子。 |
+|  `mode` |  `0.9.x` 以前との互換性のため。最終的には非推奨になります。 |
+|  `name` |  run の表示名。表示名は一意であるとは限らず、記述的な場合があります。デフォルトでは、ランダムに生成されます。 |
+|  `notes` |  run に関連付けられたメモ (存在する場合)。メモは複数行の文字列にすることができ、`$$` 内で markdown および latex 数式を使用することもできます (例: `$x + 3$`)。 |
+|  `path` |  run へのパス。run パスには、エンティティー、プロジェクト、run ID が `entity/project/run_id` の形式で含まれます。 |
+|  `project` |  run に関連付けられた W&B プロジェクトの名前。 |
+|  `resumed` |  run が再開された場合は True、そうでない場合は False。 |
+|  `settings` |  run の Settings オブジェクトのフリーズされたコピー。 |
+|  `start_time` |  run が開始されたときの Unix タイムスタンプ (秒単位)。 |
+|  `starting_step` |  run の最初のステップ。 |
+|  `step` |  ステップの現在の値。このカウンターは `wandb.log` によってインクリメントされます。 |
+|  `sweep_id` |  run に関連付けられた sweep の ID (存在する場合)。 |
+|  `tags` |  run に関連付けられたタグ (存在する場合)。 |
+|  `url` |  run に関連付けられた W&B の URL。 |
 
-## Methods
+## メソッド
 
 ### `alert`
 
@@ -108,14 +108,14 @@ alert(
 ) -> None
 ```
 
-Launch an alert with the given title and text.
+指定されたタイトルとテキストでアラートを起動します。
 
 | Args |  |
 | :--- | :--- |
-|  `title` |  (str) The title of the alert, must be less than 64 characters long. |
-|  `text` |  (str) The text body of the alert. |
-|  `level` |  (str or AlertLevel, optional) The alert level to use, either: `INFO`, `WARN`, or `ERROR`. |
-|  `wait_duration` |  (int, float, or timedelta, optional) The time to wait (in seconds) before sending another alert with this title. |
+|  `title` |  (str) アラートのタイトル。64 文字未満である必要があります。 |
+|  `text` |  (str) アラートのテキスト本文。 |
+|  `level` |  (str または AlertLevel、オプション) 使用するアラートレベル。`INFO`、`WARN`、または `ERROR` のいずれかです。 |
+|  `wait_duration` |  (int、float、または timedelta、オプション) このタイトルで別のアラートを送信するまでの待機時間 (秒単位)。 |
 
 ### `define_metric`
 
@@ -133,21 +133,21 @@ define_metric(
 ) -> wandb_metric.Metric
 ```
 
-Customize metrics logged with `wandb.log()`.
+`wandb.log()` でログに記録されたメトリクスをカスタマイズします。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  The name of the metric to customize. |
-|  `step_metric` |  The name of another metric to serve as the X-axis for this metric in automatically generated charts. |
-|  `step_sync` |  Automatically insert the last value of step_metric into `run.log()` if it is not provided explicitly. Defaults to True if step_metric is specified. |
-|  `hidden` |  Hide this metric from automatic plots. |
-|  `summary` |  Specify aggregate metrics added to summary. Supported aggregations include "min", "max", "mean", "last", "best", "copy" and "none". "best" is used together with the goal parameter. "none" prevents a summary from being generated. "copy" is deprecated and should not be used. |
-|  `goal` |  Specify how to interpret the "best" summary type. Supported options are "minimize" and "maximize". |
-|  `overwrite` |  If false, then this call is merged with previous `define_metric` calls for the same metric by using their values for any unspecified parameters. If true, then unspecified parameters overwrite values specified by previous calls. |
+|  `name` |  カスタマイズするメトリクスの名前。 |
+|  `step_metric` |  自動生成されたグラフで、このメトリクスの X 軸として機能する別のメトリクスの名前。 |
+|  `step_sync` |  step_metric が明示的に指定されていない場合、step_metric の最後の値を自動的に `run.log()` に挿入します。step_metric が指定されている場合、デフォルトは True です。 |
+|  `hidden` |  このメトリクスを自動プロットから非表示にします。 |
+|  `summary` |  summary に追加される集計メトリクスを指定します。サポートされている集計には、"min"、"max"、"mean"、"last"、"best"、"copy"、および "none" があります。"best" は goal パラメータとともに使用されます。"none" は summary が生成されないようにします。"copy" は非推奨であり、使用しないでください。 |
+|  `goal` |  "best" summary タイプを解釈する方法を指定します。サポートされているオプションは、"minimize" と "maximize" です。 |
+|  `overwrite` |  false の場合、この呼び出しは、指定されていないパラメータにそれらの値を使用して、同じメトリクスの以前の `define_metric` 呼び出しとマージされます。true の場合、指定されていないパラメータは、以前の呼び出しで指定された値を上書きします。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An object that represents this call but can otherwise be discarded. |
+|  この呼び出しを表すオブジェクト。それ以外の場合は破棄できます。 |
 
 ### `detach`
 
@@ -168,7 +168,7 @@ display(
 ) -> bool
 ```
 
-Display this run in jupyter.
+この run を jupyter で表示します。
 
 ### `finish`
 
@@ -181,22 +181,22 @@ finish(
 ) -> None
 ```
 
-Finish a run and upload any remaining data.
+run を終了し、残りのデータをアップロードします。
 
-Marks the completion of a W&B run and ensures all data is synced to the server.
-The run's final state is determined by its exit conditions and sync status.
+W&B run の完了をマークし、すべてのデータがサーバーに同期されるようにします。
+run の最終状態は、終了条件と同期ステータスによって決まります。
 
-#### Run States:
+#### Run の状態:
 
-- Running: Active run that is logging data and/or sending heartbeats.
-- Crashed: Run that stopped sending heartbeats unexpectedly.
-- Finished: Run completed successfully (`exit_code=0`) with all data synced.
-- Failed: Run completed with errors (`exit_code!=0`).
+- Running: データをログに記録している、またはハートビートを送信しているアクティブな run。
+- Crashed: ハートビートの送信が予期せず停止した run。
+- Finished: すべてのデータが同期されて正常に完了した run (`exit_code=0`)。
+- Failed: エラーで完了した run (`exit_code!=0`)。
 
 | Args |  |
 | :--- | :--- |
-|  `exit_code` |  Integer indicating the run's exit status. Use 0 for success, any other value marks the run as failed. |
-|  `quiet` |  Deprecated. Configure logging verbosity using `wandb.Settings(quiet=...)`. |
+|  `exit_code` |  run の終了ステータスを示す整数。成功の場合は 0 を使用し、他の値を使用すると run が失敗としてマークされます。 |
+|  `quiet` |  非推奨。`wandb.Settings(quiet=...)` を使用して、ログの冗長性を構成します。 |
 
 ### `finish_artifact`
 
@@ -212,21 +212,21 @@ finish_artifact(
 ) -> Artifact
 ```
 
-Finishes a non-finalized artifact as output of a run.
+run の出力として、非 final な artifact を終了します。
 
-Subsequent "upserts" with the same distributed ID will result in a new version.
+同じ分散 ID を使用した後続の "upsert" は、新しいバージョンになります。
 
 | Args |  |
 | :--- | :--- |
-|  `artifact_or_path` |  (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-|  `name` |  (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-|  `type` |  (str) The type of artifact to log, examples include `dataset`, `model` |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
-|  `distributed_id` |  (string, optional) Unique string that all distributed jobs share. If None, defaults to the run's group name. |
+|  `artifact_or_path` |  (str または Artifact) この artifact のコンテンツへのパス。次の形式にすることができます。- `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact` を呼び出して作成された Artifact オブジェクトを渡すこともできます。 |
+|  `name` |  (str、オプション) artifact 名。エンティティー/プロジェクトでプレフィックスを付けることができます。有効な名前は、次の形式にすることができます。- name:version - name:alias - digest これが指定されていない場合、パスの basename に現在の run ID が付加されたものがデフォルトになります。 |
+|  `type` |  (str) ログに記録する artifact のタイプ (例: `dataset`、`model`) |
+|  `aliases` |  (list、オプション) この artifact に適用するエイリアス。デフォルトは `["latest"]` です。 |
+|  `distributed_id` |  (string、オプション) すべての分散ジョブが共有する一意の文字列。None の場合、run のグループ名がデフォルトになります。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
 ### `get_project_url`
 
@@ -236,9 +236,9 @@ Subsequent "upserts" with the same distributed ID will result in a new version.
 get_project_url() -> (str | None)
 ```
 
-Return the url for the W&B project associated with the run, if there is one.
+run に関連付けられた W&B プロジェクトの URL を返します (存在する場合)。
 
-Offline runs will not have a project url.
+オフライン run にはプロジェクト URL がありません。
 
 ### `get_sweep_url`
 
@@ -248,7 +248,7 @@ Offline runs will not have a project url.
 get_sweep_url() -> (str | None)
 ```
 
-Return the url for the sweep associated with the run, if there is one.
+run に関連付けられた sweep の URL を返します (存在する場合)。
 
 ### `get_url`
 
@@ -258,9 +258,9 @@ Return the url for the sweep associated with the run, if there is one.
 get_url() -> (str | None)
 ```
 
-Return the url for the W&B run, if there is one.
+W&B run の URL を返します (存在する場合)。
 
-Offline runs will not have a url.
+オフライン run には URL がありません。
 
 ### `join`
 
@@ -272,7 +272,7 @@ join(
 ) -> None
 ```
 
-Deprecated alias for `finish()` - use finish instead.
+`finish()` の非推奨のエイリアス - 代わりに finish を使用してください。
 
 ### `link_artifact`
 
@@ -286,19 +286,19 @@ link_artifact(
 ) -> None
 ```
 
-Link the given artifact to a portfolio (a promoted collection of artifacts).
+指定された artifact をポートフォリオ (artifact の昇格されたコレクション) にリンクします。
 
-The linked artifact will be visible in the UI for the specified portfolio.
+リンクされた artifact は、指定されたポートフォリオの UI に表示されます。
 
 | Args |  |
 | :--- | :--- |
-|  `artifact` |  the (public or local) artifact which will be linked |
-|  `target_path` |  `str` - takes the following forms: `{portfolio}`, `{project}/{portfolio}`, or `{entity}/{project}/{portfolio}` |
-|  `aliases` |  `List[str]` - optional alias(es) that will only be applied on this linked artifact inside the portfolio. The alias "latest" will always be applied to the latest version of an artifact that is linked. |
+|  `artifact` |  リンクされる (パブリックまたはローカル) artifact |
+|  `target_path` |  `str` - 次の形式を取ります: `{portfolio}`、`{project}/{portfolio}`、または `{entity}/{project}/{portfolio}` |
+|  `aliases` |  `List[str]` - オプションのエイリアス。このリンクされた artifact のポートフォリオ内でのみ適用されます。エイリアス "latest" は、リンクされている artifact の最新バージョンに常に適用されます。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  None |
+|  なし |
 
 ### `link_model`
 
@@ -313,28 +313,25 @@ link_model(
 ) -> None
 ```
 
-Log a model artifact version and link it to a registered model in the model registry.
+モデル artifact バージョンをログに記録し、モデルレジストリ内の登録済みモデルにリンクします。
 
-The linked model version will be visible in the UI for the specified registered model.
+リンクされたモデルバージョンは、指定された登録済みモデルの UI に表示されます。
 
-#### Steps:
+#### 手順:
 
-- Check if 'name' model artifact has been logged. If so, use the artifact version that matches the files
-  located at 'path' or log a new version. Otherwise log files under 'path' as a new model artifact, 'name'
-  of type 'model'.
-- Check if registered model with name 'registered_model_name' exists in the 'model-registry' project.
-  If not, create a new registered model with name 'registered_model_name'.
-- Link version of model artifact 'name' to registered model, 'registered_model_name'.
-- Attach aliases from 'aliases' list to the newly linked model artifact version.
+- 'name' モデル artifact がログに記録されているかどうかを確認します。ログに記録されている場合は、'path' にあるファイルと一致する artifact バージョンを使用するか、新しいバージョンをログに記録します。それ以外の場合は、'path' の下のファイルを新しいモデル artifact 'name'、タイプ 'model' としてログに記録します。
+- 'model-registry' プロジェクトに名前 'registered_model_name' の登録済みモデルが存在するかどうかを確認します。存在しない場合は、名前 'registered_model_name' の新しい登録済みモデルを作成します。
+- モデル artifact 'name' のバージョンを登録済みモデル 'registered_model_name' にリンクします。
+- 'aliases' リストからエイリアスを新しくリンクされたモデル artifact バージョンにアタッチします。
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) A path to the contents of this model, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
-|  `registered_model_name` |  (str) - the name of the registered model that the model is to be linked to. A registered model is a collection of model versions linked to the model registry, typically representing a team's specific ML Task. The entity that this registered model belongs to will be derived from the run |
-|  `name` |  (str, optional) - the name of the model artifact that files in 'path' will be logged to. This will default to the basename of the path prepended with the current run id if not specified. |
-|  `aliases` |  (List[str], optional) - alias(es) that will only be applied on this linked artifact inside the registered model. The alias "latest" will always be applied to the latest version of an artifact that is linked. |
+|  `path` |  (str) このモデルのコンテンツへのパス。次の形式にすることができます。- `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
+|  `registered_model_name` |  (str) - モデルがリンクされる登録済みモデルの名前。登録済みモデルは、モデルレジストリにリンクされたモデルバージョンのコレクションであり、通常はチーム固有の ML タスクを表します。この登録済みモデルが属するエンティティーは、run から派生します。 |
+|  `name` |  (str、オプション) - 'path' 内のファイルがログに記録されるモデル artifact の名前。指定されていない場合、パスの basename に現在の run ID が付加されたものがデフォルトになります。 |
+|  `aliases` |  (List[str]、オプション) - このリンクされた artifact の登録済みモデル内でのみ適用されるエイリアス。エイリアス "latest" は、リンクされている artifact の最新バージョンに常に適用されます。 |
 
-#### Examples:
+#### 例:
 
 ```python
 run.link_model(
@@ -345,7 +342,7 @@ run.link_model(
 )
 ```
 
-Invalid usage
+無効な使用法
 
 ```python
 run.link_model(
@@ -365,12 +362,12 @@ run.link_model(
 
 | Raises |  |
 | :--- | :--- |
-|  `AssertionError` |  if registered_model_name is a path or if model artifact 'name' is of a type that does not contain the substring 'model' |
-|  `ValueError` |  if name has invalid special characters |
+|  `AssertionError` |  registered_model_name がパスの場合、またはモデル artifact 'name' がサブストリング 'model' を含まないタイプの場合。 |
+|  `ValueError` |  name に無効な特殊文字がある場合 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  None |
+|  なし |
 
 ### `log`
 
@@ -385,37 +382,36 @@ log(
 ) -> None
 ```
 
-Upload run data.
+run データをアップロードします。
 
-Use `log` to log data from runs, such as scalars, images, video,
-histograms, plots, and tables.
+`log` を使用して、スカラー、画像、ビデオ、
+ヒストグラム、プロット、テーブルなどの run からデータをログに記録します。
 
-See our [guides to logging](https://docs.wandb.ai/guides/track/log) for
-live examples, code snippets, best practices, and more.
+ライブの例、コードスニペット、ベストプラクティスなどについては、
+[ログ記録のガイド](https://docs.wandb.ai/guides/track/log) を参照してください。
 
-The most basic usage is `run.log({"train-loss": 0.5, "accuracy": 0.9})`.
-This will save the loss and accuracy to the run's history and update
-the summary values for these metrics.
+最も基本的な使用法は `run.log({"train-loss": 0.5, "accuracy": 0.9})` です。
+これにより、損失と精度が run の履歴に保存され、
+これらのメトリクスの summary 値が更新されます。
 
-Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
-or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, e.g. in
-Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+ログに記録されたデータは、[wandb.ai](https://wandb.ai) のワークスペース、
+または W&B アプリの [セルフホストインスタンス](https://docs.wandb.ai/guides/hosting) で、
+またはデータをエクスポートして、ローカルで視覚化および探索できます。
+たとえば、[API](https://docs.wandb.ai/guides/track/public-api-guide) を使用して、
+Jupyter notebook で視覚化および探索できます。
 
-Logged values don't have to be scalars. Logging any wandb object is supported.
-For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an
-example image which will be displayed nicely in the W&B UI.
-See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
-for all of the different supported types or check out our
-[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
-from 3D molecular structures and segmentation masks to PR curves and histograms.
-You can use `wandb.Table` to log structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/models/tables/tables-walkthrough)
-for details.
+ログに記録された値は、スカラーである必要はありません。wandb オブジェクトのログ記録はすべてサポートされています。
+たとえば、`run.log({"example": wandb.Image("myimage.jpg")})` は、
+W&B UI で適切に表示されるサンプル画像をログに記録します。
+サポートされているさまざまなタイプについては、[リファレンスドキュメント](https://docs.wandb.com/ref/python/data-types) を参照するか、
+例については、[ログ記録のガイド](https://docs.wandb.ai/guides/track/log) を確認してください。
+3D 分子構造やセグメンテーションマスクから PR 曲線やヒストグラムまであります。
+`wandb.Table` を使用して、構造化データをログに記録できます。詳細については、
+[テーブルのログ記録のガイド](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) を参照してください。
 
-The W&B UI organizes metrics with a forward slash (`/`) in their name
-into sections named using the text before the final slash. For example,
-the following results in two sections named "train" and "validate":
+W&B UI は、名前のフォワードスラッシュ (`/`) を使用してメトリクスを整理し、
+最後のスラッシュの前のテキストを使用してセクションに名前を付けます。たとえば、
+次の結果は、"train" と "validate" という名前の 2 つのセクションになります。
 
 ```
 run.log(
@@ -428,46 +424,45 @@ run.log(
 )
 ```
 
-Only one level of nesting is supported; `run.log({"a/b/c": 1})`
-produces a section named "a/b".
+ネストのレベルは 1 つだけサポートされています。`run.log({"a/b/c": 1})`
+は、"a/b" という名前のセクションを生成します。
 
-`run.log` is not intended to be called more than a few times per second.
-For optimal performance, limit your logging to once every N iterations,
-or collect data over multiple iterations and log it in a single step.
+`run.log` は、1 秒あたり数回以上呼び出されることを想定していません。
+最適なパフォーマンスを得るには、ログ記録を N 回のイテレーションごとに 1 回に制限するか、
+複数のイテレーションでデータを収集し、1 つのステップでログに記録します。
 
-### The W&B step
+### W&B ステップ
 
-With basic usage, each call to `log` creates a new "step".
-The step must always increase, and it is not possible to log
-to a previous step.
+基本的な使用法では、`log` の各呼び出しによって新しい "ステップ" が作成されます。
+ステップは常に増加する必要があり、前のステップにログに記録することはできません。
 
-Note that you can use any metric as the X axis in charts.
-In many cases, it is better to treat the W&B step like
-you'd treat a timestamp rather than a training step.
+グラフでは、任意のメトリクスを X 軸として使用できることに注意してください。
+多くの場合、W&B ステップをトレーニングステップとしてではなく、
+タイムスタンプとして扱う方が適しています。
 
 ```
-# Example: log an "epoch" metric for use as an X axis.
+# 例: X 軸として使用する "epoch" メトリクスをログに記録します。
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-See also [define_metric](https://docs.wandb.ai/ref/python/run#define_metric).
+[define_metric](https://docs.wandb.ai/ref/python/run#define_metric) も参照してください。
 
-It is possible to use multiple `log` invocations to log to
-the same step with the `step` and `commit` parameters.
-The following are all equivalent:
+複数の `log` 呼び出しを使用して、
+`step` および `commit` パラメータを使用して同じステップにログに記録することができます。
+次はすべて同等です。
 
 ```
-# Normal usage:
+# 通常の使用法:
 run.log({"train-loss": 0.5, "accuracy": 0.8})
 run.log({"train-loss": 0.4, "accuracy": 0.9})
 
-# Implicit step without auto-incrementing:
+# 自動インクリメントなしの暗黙的なステップ:
 run.log({"train-loss": 0.5}, commit=False)
 run.log({"accuracy": 0.8})
 run.log({"train-loss": 0.4}, commit=False)
 run.log({"accuracy": 0.9})
 
-# Explicit step:
+# 明示的なステップ:
 run.log({"train-loss": 0.5}, step=current_step)
 run.log({"accuracy": 0.8}, step=current_step)
 current_step += 1
@@ -477,17 +472,17 @@ run.log({"accuracy": 0.9}, step=current_step)
 
 | Args |  |
 | :--- | :--- |
-|  `data` |  A `dict` with `str` keys and values that are serializable Python objects including: `int`, `float` and `string`; any of the `wandb.data_types`; lists, tuples and NumPy arrays of serializable Python objects; other `dict`s of this structure. |
-|  `step` |  The step number to log. If `None`, then an implicit auto-incrementing step is used. See the notes in the description. |
-|  `commit` |  If true, finalize and upload the step. If false, then accumulate data for the step. See the notes in the description. If `step` is `None`, then the default is `commit=True`; otherwise, the default is `commit=False`. |
-|  `sync` |  This argument is deprecated and does nothing. |
+|  `data` |  `str` キーと、`int`、`float`、`string`、`wandb.data_types`、シリアル化可能な Python オブジェクトのリスト、タプル、NumPy 配列、この構造の他の `dict` など、シリアル化可能な Python オブジェクトである値を含む `dict`。 |
+|  `step` |  ログに記録するステップ番号。`None` の場合、暗黙的な自動インクリメントステップが使用されます。説明のメモを参照してください。 |
+|  `commit` |  true の場合、ステップを確定してアップロードします。false の場合、ステップのデータを累積します。説明のメモを参照してください。`step` が `None` の場合、デフォルトは `commit=True` です。それ以外の場合、デフォルトは `commit=False` です。 |
+|  `sync` |  この引数は非推奨であり、何も行いません。 |
 
-#### Examples:
+#### 例:
 
-For more and more detailed examples, see
-[our guides to logging](https://docs.wandb.com/guides/track/log).
+詳細な例については、
+[ログ記録のガイド](https://docs.wandb.ai/guides/track/log) を参照してください。
 
-### Basic usage
+### 基本的な使用法
 
 ```python
 import wandb
@@ -496,7 +491,7 @@ run = wandb.init()
 run.log({"accuracy": 0.9, "epoch": 5})
 ```
 
-### Incremental logging
+### 増分ログ記録
 
 ```python
 import wandb
@@ -504,22 +499,24 @@ import wandb
 run = wandb.init()
 run.log({"loss": 0.2}, commit=False)
 # Somewhere else when I'm ready to report this step:
+# 別の場所で、このステップを報告する準備ができたとき:
 run.log({"accuracy": 0.8})
 ```
 
-### Histogram
+### ヒストグラム
 
 ```python
 import numpy as np
 import wandb
 
 # sample gradients at random from normal distribution
+# 正規分布からランダムに勾配をサンプリングします
 gradients = np.random.randn(100, 100)
 run = wandb.init()
 run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
-### Image from numpy
+### numpy からの画像
 
 ```python
 import numpy as np
@@ -534,7 +531,7 @@ for i in range(3):
 run.log({"examples": examples})
 ```
 
-### Image from PIL
+### PIL からの画像
 
 ```python
 import numpy as np
@@ -556,7 +553,7 @@ for i in range(3):
 run.log({"examples": examples})
 ```
 
-### Video from numpy
+### numpy からのビデオ
 
 ```python
 import numpy as np
@@ -564,6 +561,7 @@ import wandb
 
 run = wandb.init()
 # axes are (time, channel, height, width)
+# 軸は (時間、チャンネル、高さ、幅) です
 frames = np.random.randint(
     low=0,
     high=256,
@@ -573,7 +571,7 @@ frames = np.random.randint(
 run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
-### Matplotlib Plot
+### Matplotlib プロット
 
 ```python
 from matplotlib import pyplot as plt
@@ -585,10 +583,11 @@ fig, ax = plt.subplots()
 x = np.linspace(0, 10)
 y = x * x
 ax.plot(x, y)  # plot y = x^2
+# y = x^2 をプロットします
 run.log({"chart": fig})
 ```
 
-### PR Curve
+### PR 曲線
 
 ```python
 import wandb
@@ -597,7 +596,7 @@ run = wandb.init()
 run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
 ```
 
-### 3D Object
+### 3D オブジェクト
 
 ```python
 import wandb
@@ -616,8 +615,8 @@ run.log(
 
 | Raises |  |
 | :--- | :--- |
-|  `wandb.Error` |  if called before `wandb.init` |
-|  `ValueError` |  if invalid data is passed |
+|  `wandb.Error` |  `wandb.init` の前に呼び出された場合 |
+|  `ValueError` |  無効なデータが渡された場合 |
 
 ### `log_artifact`
 
@@ -633,19 +632,19 @@ log_artifact(
 ) -> Artifact
 ```
 
-Declare an artifact as an output of a run.
+artifact を run の出力として宣言します。
 
 | Args |  |
 | :--- | :--- |
-|  `artifact_or_path` |  (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-|  `name` |  (str, optional) An artifact name. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-|  `type` |  (str) The type of artifact to log, examples include `dataset`, `model` |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
-|  `tags` |  (list, optional) Tags to apply to this artifact, if any. |
+|  `artifact_or_path` |  (str または Artifact) この artifact のコンテンツへのパス。次の形式にすることができます。- `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact` を呼び出して作成された Artifact オブジェクトを渡すこともできます。 |
+|  `name` |  (str、オプション) artifact 名。有効な名前は、次の形式にすることができます。- name:version - name:alias - digest これが指定されていない場合、パスの basename に現在の run ID が付加されたものがデフォルトになります。 |
+|  `type` |  (str) ログに記録する artifact のタイプ (例: `dataset`、`model`) |
+|  `aliases` |  (list、オプション) この artifact に適用するエイリアス。デフォルトは `["latest"]` です。 |
+|  `tags` |  (list、オプション) この artifact に適用するタグ (存在する場合)。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
 ### `log_code`
 
@@ -660,26 +659,26 @@ log_code(
 ) -> (Artifact | None)
 ```
 
-Save the current state of your code to a W&B Artifact.
+コードの現在の状態を W&B Artifact に保存します。
 
-By default, it walks the current directory and logs all files that end with `.py`.
+デフォルトでは、現在のディレクトリーを調べて、`.py` で終わるすべてのファイルをログに記録します。
 
 | Args |  |
 | :--- | :--- |
-|  `root` |  The relative (to `os.getcwd()`) or absolute path to recursively find code from. |
-|  `name` |  (str, optional) The name of our code artifact. By default, we'll name the artifact `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. There may be scenarios where you want many runs to share the same artifact. Specifying name allows you to achieve that. |
-|  `include_fn` |  A callable that accepts a file path and (optionally) root path and returns True when it should be included and False otherwise. This defaults to: `lambda path, root: path.endswith(".py")` |
-|  `exclude_fn` |  A callable that accepts a file path and (optionally) root path and returns `True` when it should be excluded and `False` otherwise. This defaults to a function that excludes all files within `<root>/.wandb/` and `<root>/wandb/` directories. |
+|  `root` |  コードを再帰的に検索する相対パス ( `os.getcwd()` ) または絶対パス。 |
+|  `name` |  (str、オプション) コード artifact の名前。デフォルトでは、artifact に `source-$PROJECT_ID-$ENTRYPOINT_RELPATH` という名前を付けます。多くの run で同じ artifact を共有したい場合があります。name を指定すると、それを実現できます。 |
+|  `include_fn` |  ファイルパスと (オプションで) ルートパスを受け入れ、含める場合は True、それ以外の場合は False を返す callable。これはデフォルトで次のようになります: `lambda path, root: path.endswith(".py")` |
+|  `exclude_fn` |  ファイルパスと (オプションで) ルートパスを受け入れ、除外する場合は `True`、それ以外の場合は `False` を返す callable。これはデフォルトで、`<root>/.wandb/` および `<root>/wandb/` ディレクトリー内のすべてのファイルを除外する関数です。 |
 
-#### Examples:
+#### 例:
 
-Basic usage
+基本的な使用法
 
 ```python
 run.log_code()
 ```
 
-Advanced usage
+高度な使用法
 
 ```python
 run.log_code(
@@ -691,9 +690,9 @@ run.log_code(
 )
 ```
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `Artifact` object if code was logged |
+|  コードがログに記録された場合は `Artifact` オブジェクト |
 
 ### `log_model`
 
@@ -707,15 +706,15 @@ log_model(
 ) -> None
 ```
 
-Logs a model artifact containing the contents inside the 'path' to a run and marks it as an output to this run.
+'path' 内のコンテンツを含むモデル artifact を run にログに記録し、この run の出力としてマークします。
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) A path to the contents of this model, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
-|  `name` |  (str, optional) A name to assign to the model artifact that the file contents will be added to. The string must contain only the following alphanumeric characters: dashes, underscores, and dots. This will default to the basename of the path prepended with the current run id if not specified. |
-|  `aliases` |  (list, optional) Aliases to apply to the created model artifact, defaults to `["latest"]` |
+|  `path` |  (str) このモデルのコンテンツへのパス。次の形式にすることができます。- `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
+|  `name` |  (str、オプション) ファイルコンテンツが追加されるモデル artifact に割り当てる名前。文字列には、次の英数字、ダッシュ、アンダースコア、ドットのみを含める必要があります。指定されていない場合、パスの basename に現在の run ID が付加されたものがデフォルトになります。 |
+|  `aliases` |  (list、オプション) 作成されたモデル artifact に適用するエイリアス。デフォルトは `["latest"]` です。 |
 
-#### Examples:
+#### 例:
 
 ```python
 run.log_model(
@@ -725,7 +724,7 @@ run.log_model(
 )
 ```
 
-Invalid usage
+無効な使用法
 
 ```python
 run.log_model(
@@ -737,11 +736,11 @@ run.log_model(
 
 | Raises |  |
 | :--- | :--- |
-|  `ValueError` |  if name has invalid special characters |
+|  `ValueError` |  name に無効な特殊文字がある場合 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  None |
+|  なし |
 
 ### `mark_preempting`
 
@@ -751,9 +750,9 @@ run.log_model(
 mark_preempting() -> None
 ```
 
-Mark this run as preempting.
+この run をプリエンプトとしてマークします。
 
-Also tells the internal process to immediately report this to server.
+また、内部プロセスにこれをすぐにサーバーに報告するように指示します。
 
 ### `project_name`
 
@@ -776,26 +775,26 @@ restore(
 ) -> (None | TextIO)
 ```
 
-Download the specified file from cloud storage.
+クラウドストレージから指定されたファイルをダウンロードします。
 
-File is placed into the current directory or run directory.
-By default, will only download the file if it doesn't already exist.
+ファイルは、現在のディレクトリーまたは run ディレクトリーに配置されます。
+デフォルトでは、ファイルがまだ存在しない場合にのみダウンロードされます。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  the name of the file |
-|  `run_path` |  optional path to a run to pull files from, i.e. `username/project_name/run_id` if wandb.init has not been called, this is required. |
-|  `replace` |  whether to download the file even if it already exists locally |
-|  `root` |  the directory to download the file to. Defaults to the current directory or the run directory if wandb.init was called. |
+|  `name` |  ファイルの名前 |
+|  `run_path` |  ファイルをプルする run へのオプションのパス。つまり、wandb.init が呼び出されていない場合は `username/project_name/run_id` が必要です。 |
+|  `replace` |  ファイルがローカルに既に存在する場合でも、ファイルをダウンロードするかどうか |
+|  `root` |  ファイルをダウンロードするディレクトリー。デフォルトは、現在のディレクトリー、または wandb.init が呼び出された場合は run ディレクトリーです。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  None if it can't find the file, otherwise a file object open for reading |
+|  ファイルが見つからない場合は None。それ以外の場合は、読み取り用に開いているファイルオブジェクト |
 
 | Raises |  |
 | :--- | :--- |
-|  `wandb.CommError` |  if we can't connect to the wandb backend |
-|  `ValueError` |  if the file is not found or can't find run_path |
+|  `wandb.CommError` |  wandb バックエンドに接続できない場合 |
+|  `ValueError` |  ファイルが見つからない場合、または run_path が見つからない場合 |
 
 ### `save`
 
@@ -809,49 +808,53 @@ save(
 ) -> (bool | list[str])
 ```
 
-Sync one or more files to W&B.
+1 つまたは複数のファイルを W&B に同期します。
 
-Relative paths are relative to the current working directory.
+相対パスは、現在の作業ディレクトリーに対する相対パスです。
 
-A Unix glob, such as "myfiles/*", is expanded at the time `save` is
-called regardless of the `policy`. In particular, new files are not
-picked up automatically.
+"myfiles/*" などの Unix glob は、`policy` に関係なく、`save` が
+呼び出されたときに展開されます。特に、新しいファイルは
+自動的に選択されません。
 
-A `base_path` may be provided to control the directory structure of
-uploaded files. It should be a prefix of `glob_str`, and the directory
-structure beneath it is preserved. It's best understood through
-examples:
+`base_path` を指定して、アップロードされたファイルのディレクトリー構造を
+制御できます。これは `glob_str` のプレフィックスである必要があり、その下のディレクトリー
+構造が保持されます。これは、例を通して理解するのが最適です。
 
 ```
 wandb.save("these/are/myfiles/*")
 # => Saves files in a "these/are/myfiles/" folder in the run.
+# => run の "these/are/myfiles/" フォルダーにファイルを保存します。
 
 wandb.save("these/are/myfiles/*", base_path="these")
 # => Saves files in an "are/myfiles/" folder in the run.
+# => run の "are/myfiles/" フォルダーにファイルを保存します。
 
 wandb.save("/User/username/Documents/run123/*.txt")
 # => Saves files in a "run123/" folder in the run. See note below.
+# => run の "run123/" フォルダーにファイルを保存します。以下のメモを参照してください。
 
 wandb.save("/User/username/Documents/run123/*.txt", base_path="/User")
 # => Saves files in a "username/Documents/run123/" folder in the run.
+# => run の "username/Documents/run123/" フォルダーにファイルを保存します。
 
 wandb.save("files/*/saveme.txt")
 # => Saves each "saveme.txt" file in an appropriate subdirectory
+# => 各 "saveme.txt" ファイルを適切なサブディレクトリーに保存します
 #    of "files/".
+#    "files/" の。
 ```
 
-Note: when given an absolute path or glob and no `base_path`, one
-directory level is preserved as in the example above.
+注: 絶対パスまたは glob が指定され、`base_path` が指定されていない場合、上記の例のように、1 つのディレクトリーレベルが保持されます。
 
 | Args |  |
 | :--- | :--- |
-|  `glob_str` |  A relative or absolute path or Unix glob. |
-|  `base_path` |  A path to use to infer a directory structure; see examples. |
-|  `policy` |  One of `live`, `now`, or `end`. * live: upload the file as it changes, overwriting the previous version * now: upload the file once now * end: upload file when the run ends |
+|  `glob_str` |  相対パスまたは絶対パス、あるいは Unix glob。 |
+|  `base_path` |  ディレクトリー構造を推測するために使用するパス。例を参照してください。 |
+|  `policy` |  `live`、`now`、または `end` のいずれか。* live: ファイルが変更されると、ファイルをアップロードし、以前のバージョンを上書きします * now: ファイルを今すぐ 1 回アップロードします * end: run が終了したときにファイルをアップロードします |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  Paths to the symlinks created for the matched files. For historical reasons, this may return a boolean in legacy code. |
+|  一致したファイルに対して作成されたシンボリックリンクへのパス。履歴上の理由から、これはレガシーコードでブール値を返す場合があります。 |
 
 ### `status`
 
@@ -861,7 +864,7 @@ directory level is preserved as in the example above.
 status() -> RunStatus
 ```
 
-Get sync info from the internal backend, about the current run's sync status.
+現在の run の同期ステータスに関する、内部バックエンドからの同期情報を取得します。
 
 ### `to_html`
 
@@ -874,7 +877,7 @@ to_html(
 ) -> str
 ```
 
-Generate HTML containing an iframe displaying the current run.
+現在の run を表示する iframe を含む HTML を生成します。
 
 ### `unwatch`
 
@@ -886,11 +889,11 @@ unwatch(
 ) -> None
 ```
 
-Remove pytorch model topology, gradient and parameter hooks.
+pytorch モデルのトポロジ、勾配、およびパラメータフックを削除します。
 
 | Args |  |
 | :--- | :--- |
-|  models (torch.nn.Module | Sequence[torch.nn.Module]): Optional list of pytorch models that have had watch called on them |
+|  models (torch.nn.Module | Sequence[torch.nn.Module]): ウォッチが呼び出された pytorch モデルのオプションのリスト |
 
 ### `upsert_artifact`
 
@@ -906,22 +909,22 @@ upsert_artifact(
 ) -> Artifact
 ```
 
-Declare (or append to) a non-finalized artifact as output of a run.
+run の出力として、非 final な artifact を宣言します (または追加します)。
 
-Note that you must call run.finish_artifact() to finalize the artifact.
-This is useful when distributed jobs need to all contribute to the same artifact.
+artifact を final にするには、run.finish_artifact() を呼び出す必要があることに注意してください。
+これは、分散ジョブがすべて同じ artifact に貢献する必要がある場合に役立ちます。
 
 | Args |  |
 | :--- | :--- |
-|  `artifact_or_path` |  (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-|  `name` |  (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-|  `type` |  (str) The type of artifact to log, examples include `dataset`, `model` |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
-|  `distributed_id` |  (string, optional) Unique string that all distributed jobs share. If None, defaults to the run's group name. |
+|  `artifact_or_path` |  (str または Artifact) この artifact のコンテンツへのパス。次の形式にすることができます。- `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact` を呼び出して作成された Artifact オブジェクトを渡すこともできます。 |
+|  `name` |  (str、オプション) artifact 名。エンティティー/プロジェクトでプレフィックスを付けることができます。有効な名前は、次の形式にすることができます。- name:version - name:alias - digest これが指定されていない場合、パスの basename に現在の run ID が付加されたものがデフォルトになります。 |
+|  `type` |  (str) ログに記録する artifact のタイプ (例: `dataset`、`model`) |
+|  `aliases` |  (list、オプション) この artifact に適用するエイリアス。デフォルトは `["latest"]` です。 |
+|  `distributed_id` |  (string、オプション) すべての分散ジョブが共有する一意の文字列。None の場合、run のグループ名がデフォルトになります。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
 ### `use_artifact`
 
@@ -936,20 +939,20 @@ use_artifact(
 ) -> Artifact
 ```
 
-Declare an artifact as an input to a run.
+artifact を run への入力として宣言します。
 
-Call `download` or `file` on the returned object to get the contents locally.
+返されたオブジェクトで `download` または `file` を呼び出して、コンテンツをローカルで取得します。
 
 | Args |  |
 | :--- | :--- |
-|  `artifact_or_name` |  (str or Artifact) An artifact name. May be prefixed with project/ or entity/project/. If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms: - name:version - name:alias You can also pass an Artifact object created by calling `wandb.Artifact` |
-|  `type` |  (str, optional) The type of artifact to use. |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact |
-|  `use_as` |  (string, optional) Optional string indicating what purpose the artifact was used with. Will be shown in UI. |
+|  `artifact_or_name` |  (str または Artifact) artifact 名。プロジェクト/またはエンティティー/プロジェクト/でプレフィックスを付けることができます。名前でエンティティーが指定されていない場合、Run または API 設定のエンティティーが使用されます。有効な名前は、次の形式にすることができます。- name:version - name:alias `wandb.Artifact` を呼び出して作成された Artifact オブジェクトを渡すこともできます。 |
+|  `type` |  (str、オプション) 使用する artifact のタイプ。 |
+|  `aliases` |  (list、オプション) この artifact に適用するエイリアス |
+|  `use_as` |  (string、オプション) artifact が使用された目的を示すオプションの文字列。UI に表示されます。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
 ### `use_model`
 
@@ -961,13 +964,13 @@ use_model(
 ) -> FilePathStr
 ```
 
-Download the files logged in a model artifact 'name'.
+モデル artifact 'name' にログに記録されたファイルをダウンロードします。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) A model artifact name. 'name' must match the name of an existing logged model artifact. May be prefixed with entity/project/. Valid names can be in the following forms: - model_artifact_name:version - model_artifact_name:alias |
+|  `name` |  (str) モデル artifact 名。'name' は、既存のログに記録されたモデル artifact の名前と一致する必要があります。エンティティー/プロジェクト/でプレフィックスを付けることができます。有効な名前は、次の形式にすることができます。- model_artifact_name:version - model_artifact_name:alias |
 
-#### Examples:
+#### 例:
 
 ```python
 run.use_model(
@@ -983,7 +986,7 @@ run.use_model(
 )
 ```
 
-Invalid usage
+無効な使用法
 
 ```python
 run.use_model(
@@ -993,11 +996,11 @@ run.use_model(
 
 | Raises |  |
 | :--- | :--- |
-|  `AssertionError` |  if model artifact 'name' is of a type that does not contain the substring 'model'. |
+|  `AssertionError` |  モデル artifact 'name' が、サブストリング 'model' を含まないタイプの場合。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  `path` |  (str) path to downloaded model artifact file(s). |
+|  `path` |  (str) ダウンロードされたモデル artifact ファイルへのパス。 |
 
 ### `watch`
 
@@ -1014,18 +1017,17 @@ watch(
 ) -> None
 ```
 
-Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.
+指定された PyTorch モデルにフックして、勾配とモデルの計算グラフを監視します。
 
-This function can track parameters, gradients, or both during training. It should be
-extended to support arbitrary machine learning models in the future.
+この関数は、トレーニング中にパラメータ、勾配、またはその両方を追跡できます。将来は、任意の 機械学習 モデルをサポートするように拡張する必要があります。
 
 | Args |  |
 | :--- | :--- |
-|  models (Union[torch.nn.Module, Sequence[torch.nn.Module]]): A single model or a sequence of models to be monitored. criterion (Optional[torch.F]): The loss function being optimized (optional). log (Optional[Literal["gradients", "parameters", "all"]]): Specifies whether to log "gradients", "parameters", or "all". Set to None to disable logging. (default="gradients") log_freq (int): Frequency (in batches) to log gradients and parameters. (default=1000) idx (Optional[int]): Index used when tracking multiple models with `wandb.watch`. (default=None) log_graph (bool): Whether to log the model's computational graph. (default=False) |
+|  models (Union[torch.nn.Module, Sequence[torch.nn.Module]]): 監視する単一のモデルまたはモデルのシーケンス。criterion (Optional[torch.F]): 最適化される損失関数 (オプション)。log (Optional[Literal["gradients", "parameters", "all"]]): "gradients"、"parameters"、または "all" のいずれをログに記録するかを指定します。ログ記録を無効にするには None に設定します。(デフォルト="gradients") log_freq (int): 勾配とパラメータをログに記録する頻度 (バッチ単位)。(デフォルト=1000) idx (Optional[int]): `wandb.watch` で複数のモデルを追跡する場合に使用されるインデックス。(デフォルト=None) log_graph (bool): モデルの計算グラフをログに記録するかどうか。(デフォルト=False) |
 
 | Raises |  |
 | :--- | :--- |
-|  `ValueError` |  If `wandb.init` has not been called or if any of the models are not instances of `torch.nn.Module`. |
+|  `ValueError` |  `wandb.init` が呼び出されていない場合、またはモデルのいずれかが `torch.nn.Module` のインスタンスでない場合。 |
 
 ### `__enter__`
 

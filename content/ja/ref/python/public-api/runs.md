@@ -1,13 +1,13 @@
 ---
+title: Runs
 menu:
   reference:
     identifier: ja-ref-python-public-api-runs
-title: Runs
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L64-L273 >}}
 
-An iterable collection of runs associated with a project and optional filter.
+project とオプションのフィルターに関連付けられた、反復可能な Runs のコレクション。
 
 ```python
 Runs(
@@ -21,12 +21,12 @@ Runs(
 )
 ```
 
-This is generally used indirectly via the `Api`.runs method.
+これは通常、`Api`.runs メソッドを介して間接的に使用されます。
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `convert_objects`
 
@@ -50,20 +50,20 @@ histories(
 )
 ```
 
-Return sampled history metrics for all runs that fit the filters conditions.
+フィルター条件に適合するすべての run のサンプリングされた履歴 メトリクス を返します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `samples` |  (int, optional) The number of samples to return per run |
-|  `keys` |  (list[str], optional) Only return metrics for specific keys |
-|  `x_axis` |  (str, optional) Use this metric as the xAxis defaults to _step |
-|  `format` |  (Literal, optional) Format to return data in, options are "default", "pandas", "polars" |
-|  `stream` |  (Literal, optional) "default" for metrics, "system" for machine metrics |
+| `samples` | (int, optional) run ごとに返すサンプル数 |
+| `keys` | (list[str], optional) 特定の キー の メトリクス のみを返します |
+| `x_axis` | (str, optional) この メトリクス を xAxis のデフォルトとして使用します。_step |
+| `format` | (Literal, optional) データを返す形式。オプションは "default"、"pandas"、"polars" |
+| `stream` | (Literal, optional) メトリクス の場合は "default"、マシン メトリクス の場合は "system" |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  `pandas.DataFrame` |  If format="pandas", returns a `pandas.DataFrame` of history metrics. |
-|  `polars.DataFrame` |  If format="polars", returns a `polars.DataFrame` of history metrics. list of dicts: If format="default", returns a list of dicts containing history metrics with a run_id key. |
+| `pandas.DataFrame` | format="pandas" の場合、履歴 メトリクス の `pandas.DataFrame` を返します。 |
+| `polars.DataFrame` | format="polars" の場合、履歴 メトリクス の `polars.DataFrame` を返します。dicts のリスト: format="default" の場合、run_id キー を含む履歴 メトリクス を含む dict のリストを返します。 |
 
 ### `next`
 
@@ -107,6 +107,6 @@ __iter__()
 __len__()
 ```
 
-| Class Variables |  |
+| クラス変数 |  |
 | :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |
+| `QUERY`<a id="QUERY"></a> |   |

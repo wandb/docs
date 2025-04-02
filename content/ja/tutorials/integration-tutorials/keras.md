@@ -1,28 +1,25 @@
 ---
+title: Keras
 menu:
   tutorials:
     identifier: ja-tutorials-integration-tutorials-keras
     parent: integration-tutorials
-title: Keras
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" >}}
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Weights & Biases を使用して、 機械学習 の 実験管理 、 データセット の バージョン管理 、および プロジェクト コラボレーションを行います。
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
-This Colab notebook introduces the `WandbMetricsLogger` callback. Use this callback for [Experiment Tracking]({{< relref path="/guides/models/track" lang="ja" >}}). It will log your training and validation metrics along with system metrics to Weights and Biases.
+この Colab ノートブック では、`WandbMetricsLogger` コールバック を紹介します。この コールバック を[実験管理]({{< relref path="/guides/models/track" lang="ja" >}})に使用します。これは、トレーニング および バリデーション の メトリクス を、システム メトリクス とともに Weights and Biases に ログ します。
 
+## セットアップとインストール
 
-## Setup and Installation
-
-First, let us install the latest version of Weights and Biases. We will then authenticate this colab instance to use W&B.
-
+まず、Weights and Biases の最新 バージョン をインストールしましょう。次に、この Colab インスタンスを認証して W&B を使用します。
 
 ```shell
 pip install -qq -U wandb
 ```
-
 
 ```python
 import os
@@ -31,22 +28,20 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 import tensorflow_datasets as tfds
 
-# Weights and Biases related imports
+# Weights and Biases 関連のインポート
 import wandb
 from wandb.integration.keras import WandbMetricsLogger
 ```
 
-If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up for a [free account](https://wandb.ai/signup) is as easy as a few clicks.
-
+W&B を初めて使用する場合、または ログイン していない場合は、`wandb.login()` の実行後に表示されるリンクからサインアップ/ログイン ページに移動できます。[無料アカウント](https://wandb.ai/signup)へのサインアップは、数回クリックするだけで簡単に行えます。
 
 ```python
 wandb.login()
 ```
 
-## Hyperparameters
+## ハイパーパラメータ
 
-Use of proper config system is a recommended best practice for reproducible machine learning. We can track the hyperparameters for every experiment using W&B. In this colab we will be using simple Python `dict` as our config system.
-
+適切な config システムを使用することは、再現性のある 機械学習 において推奨されるベスト プラクティスです。W&B を使用して、すべての 実験 の ハイパーパラメータ を追跡できます。この Colab では、シンプルな Python `dict` を config システムとして使用します。
 
 ```python
 configs = dict(
@@ -61,26 +56,24 @@ configs = dict(
 )
 ```
 
-## Dataset
+## データセット
 
-In this colab, we will be using [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
-
+この Colab では、TensorFlow Dataset カタログの [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) データセット を使用します。TensorFlow/Keras を使用して、シンプルな 画像分類 パイプライン を構築することを目指します。
 
 ```python
 train_ds, valid_ds = tfds.load("fashion_mnist", split=["train", "test"])
 ```
-
 
 ```python
 AUTOTUNE = tf.data.AUTOTUNE
 
 
 def parse_data(example):
-    # Get image
+    # 画像を取得
     image = example["image"]
     # image = tf.image.convert_image_dtype(image, dtype=tf.float32)
 
-    # Get label
+    # ラベルを取得
     label = example["label"]
     label = tf.one_hot(label, depth=configs["num_classes"])
 
@@ -98,14 +91,12 @@ def get_dataloader(ds, configs, dataloader_type="train"):
     return dataloader
 ```
 
-
 ```python
 trainloader = get_dataloader(train_ds, configs)
 validloader = get_dataloader(valid_ds, configs, dataloader_type="valid")
 ```
 
-## Model
-
+## モデル
 
 ```python
 def get_model(configs):
@@ -127,15 +118,13 @@ def get_model(configs):
     return models.Model(inputs=inputs, outputs=outputs)
 ```
 
-
 ```python
 tf.keras.backend.clear_session()
 model = get_model(configs)
 model.summary()
 ```
 
-## Compile Model
-
+## モデル の コンパイル
 
 ```python
 model.compile(
@@ -148,23 +137,22 @@ model.compile(
 )
 ```
 
-## Train
-
+## トレーニング
 
 ```python
-# Initialize a W&B run
+# W&B run を初期化
 run = wandb.init(project="intro-keras", config=configs)
 
-# Train your model
+# モデル をトレーニング
 model.fit(
     trainloader,
     epochs=configs["epochs"],
     validation_data=validloader,
     callbacks=[
         WandbMetricsLogger(log_freq=10)
-    ],  # Notice the use of WandbMetricsLogger here
+    ],  # ここで WandbMetricsLogger を使用していることに注意してください
 )
 
-# Close the W&B run
+# W&B run を閉じる
 run.finish()
 ```

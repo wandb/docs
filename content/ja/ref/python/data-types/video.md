@@ -1,13 +1,13 @@
 ---
+title: Video
 menu:
   reference:
     identifier: ja-ref-python-data-types-video
-title: Video
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/video.py#L49-L251 >}}
 
-Format a video for logging to W&B.
+W&B に ログ を記録するためのビデオをフォーマットします。
 
 ```python
 Video(
@@ -20,17 +20,14 @@ Video(
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) Video can be initialized with a path to a file or an io object. The format must be "gif", "mp4", "webm" or "ogg". The format must be specified with the format argument. Video can be initialized with a numpy tensor. The numpy tensor must be either 4 dimensional or 5 dimensional. Channels should be (time, channel, height, width) or (batch, time, channel, height width) |
-|  `caption` |  (string) caption associated with the video for display |
-|  `fps` |  (int) The frame rate to use when encoding raw video frames. Default value is 4. This parameter has no effect when data_or_path is a string, or bytes. |
-|  `format` |  (string) format of video, necessary if initializing with path or io object. |
+|  `data_or_path` |  (numpy array, string, io) Video は、ファイルへのパスまたは io オブジェクトで初期化できます。フォーマットは "gif"、"mp4"、"webm" または "ogg" である必要があります。フォーマットは format 引数で指定する必要があります。Video は numpy テンソルで初期化できます。numpy テンソルは、4 次元または 5 次元である必要があります。チャンネルは (time, channel, height, width) または (batch, time, channel, height width) にする必要があります。 |
+|  `caption` |  (string) 表示するビデオに関連付けられたキャプション |
+|  `fps` |  (int) 生のビデオフレームをエンコードする際に使用するフレームレート。デフォルト値は 4 です。この パラメータ は、data_or_path が string または bytes の場合、効果はありません。 |
+|  `format` |  (string) ビデオのフォーマット。パスまたは io オブジェクトで初期化する場合に必要です。 |
 
-#### Examples:
+#### 例:
 
-### Log a numpy array as a video
-
-<!--yeadoc-test:log-video-numpy-->
-
+### numpy array をビデオとして ログ 記録する
 
 ```python
 import numpy as np
@@ -42,7 +39,7 @@ frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uin
 run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
-## Methods
+## メソッド
 
 ### `encode`
 

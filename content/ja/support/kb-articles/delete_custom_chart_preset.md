@@ -1,15 +1,15 @@
 ---
+title: How do you delete a custom chart preset?
 menu:
   support:
     identifier: ja-support-kb-articles-delete_custom_chart_preset
 support:
 - charts
-title: How do you delete a custom chart preset?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Access the custom chart editor. Click on the currently selected chart type to open a menu displaying all presets. Hover over the preset to delete, then click the Trash icon.
+カスタムチャートエディタに アクセス します。現在選択されているチャートの種類をクリックして、すべてのプリセットを表示するメニューを開きます。プリセットの上にカーソルを置いて削除し、ゴミ箱アイコンをクリックします。
 
 {{< img src="/images/app_ui/delete_custome_chart_preset.gif" alt="" >}}

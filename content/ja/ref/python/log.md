@@ -1,13 +1,13 @@
 ---
+title: log
 menu:
   reference:
     identifier: ja-ref-python-log
-title: log
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_run.py#L1613-L1873 >}}
 
-Upload run data.
+run データをアップロードします。
 
 ```python
 log(
@@ -18,35 +18,21 @@ log(
 ) -> None
 ```
 
-Use `log` to log data from runs, such as scalars, images, video,
-histograms, plots, and tables.
+`log` を使用して、スカラー、画像、ビデオ、ヒストグラム、プロット、テーブルなど、run からデータをログに記録します。
 
-See our [guides to logging](https://docs.wandb.ai/guides/track/log) for
-live examples, code snippets, best practices, and more.
+ライブの例、コードスニペット、ベストプラクティスなどについては、[ログ記録に関するガイド](https://docs.wandb.ai/guides/track/log) を参照してください。
 
-The most basic usage is `run.log({"train-loss": 0.5, "accuracy": 0.9})`.
-This will save the loss and accuracy to the run's history and update
-the summary values for these metrics.
+最も基本的な使い方は、`run.log({"train-loss": 0.5, "accuracy": 0.9})` です。
+これにより、損失と精度がrun の履歴に保存され、これらのメトリクスの概要値が更新されます。
 
-Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
-or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, e.g. in
-Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+[wandb.ai](https://wandb.ai) のワークスペース、または W&B アプリの[セルフホストインスタンス](https://docs.wandb.ai/guides/hosting) でログに記録されたデータを視覚化するか、[API](https://docs.wandb.ai/guides/track/public-api-guide) を使用してデータをエクスポートし、Jupyter ノートブックなどのローカルで視覚化および探索します。
 
-Logged values don't have to be scalars. Logging any wandb object is supported.
-For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an
-example image which will be displayed nicely in the W&B UI.
-See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
-for all of the different supported types or check out our
-[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
-from 3D molecular structures and segmentation masks to PR curves and histograms.
-You can use `wandb.Table` to log structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/models/tables/tables-walkthrough)
-for details.
+ログに記録される値は、スカラーである必要はありません。wandb オブジェクトのログ記録はすべてサポートされています。
+たとえば、`run.log({"example": wandb.Image("myimage.jpg")})` は、W&B UI に適切に表示されるサンプル画像をログに記録します。
+サポートされているすべての異なるタイプについては、[リファレンスドキュメント](https://docs.wandb.com/ref/python/data-types) を参照するか、3D 分子構造やセグメンテーションマスクから PR 曲線やヒストグラムまで、例については[ログ記録に関するガイド](https://docs.wandb.ai/guides/track/log) を確認してください。
+`wandb.Table` を使用して構造化されたデータをログに記録できます。詳細については、[テーブルのログ記録に関するガイド](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) を参照してください。
 
-The W&B UI organizes metrics with a forward slash (`/`) in their name
-into sections named using the text before the final slash. For example,
-the following results in two sections named "train" and "validate":
+W&B UI は、名前にフォワードスラッシュ（`/`）が付いたメトリクスを、最後のスラッシュの前のテキストを使用して名前が付けられたセクションに整理します。たとえば、以下は「train」と「validate」という名前の2つのセクションになります。
 
 ```
 run.log(
@@ -59,46 +45,41 @@ run.log(
 )
 ```
 
-Only one level of nesting is supported; `run.log({"a/b/c": 1})`
-produces a section named "a/b".
+ネストできるレベルは1つのみです。`run.log({"a/b/c": 1})` は、「a/b」という名前のセクションを生成します。
 
-`run.log` is not intended to be called more than a few times per second.
-For optimal performance, limit your logging to once every N iterations,
-or collect data over multiple iterations and log it in a single step.
+`run.log` は、1秒あたり数回以上呼び出されることは想定されていません。
+最適なパフォーマンスを得るには、ログ記録を N 回のイテレーションごとに1回に制限するか、複数のイテレーションでデータを収集して、1つのステップでログに記録します。
 
-### The W&B step
+### W&B ステップ
 
-With basic usage, each call to `log` creates a new "step".
-The step must always increase, and it is not possible to log
-to a previous step.
+基本的な使用法では、`log` を呼び出すたびに新しい「ステップ」が作成されます。
+ステップは常に増加する必要があり、前のステップにログを記録することはできません。
 
-Note that you can use any metric as the X axis in charts.
-In many cases, it is better to treat the W&B step like
-you'd treat a timestamp rather than a training step.
+任意のメトリクスをグラフの X 軸として使用できることに注意してください。
+多くの場合、W&B ステップをトレーニングステップとしてではなく、タイムスタンプのように扱う方が適しています。
 
 ```
-# Example: log an "epoch" metric for use as an X axis.
+# 例: X 軸として使用する「epoch」メトリクスをログに記録します。
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-See also [define_metric](https://docs.wandb.ai/ref/python/run#define_metric).
+[define_metric](https://docs.wandb.ai/ref/python/run#define_metric) も参照してください。
 
-It is possible to use multiple `log` invocations to log to
-the same step with the `step` and `commit` parameters.
-The following are all equivalent:
+複数の `log` 呼び出しを使用して、`step` および `commit` パラメータを使用して同じステップにログを記録できます。
+以下はすべて同等です。
 
 ```
-# Normal usage:
+# 通常の用法:
 run.log({"train-loss": 0.5, "accuracy": 0.8})
 run.log({"train-loss": 0.4, "accuracy": 0.9})
 
-# Implicit step without auto-incrementing:
+# 自動インクリメントなしの暗黙的なステップ:
 run.log({"train-loss": 0.5}, commit=False)
 run.log({"accuracy": 0.8})
 run.log({"train-loss": 0.4}, commit=False)
 run.log({"accuracy": 0.9})
 
-# Explicit step:
+# 明示的なステップ:
 run.log({"train-loss": 0.5}, step=current_step)
 run.log({"accuracy": 0.8}, step=current_step)
 current_step += 1
@@ -106,19 +87,18 @@ run.log({"train-loss": 0.4}, step=current_step)
 run.log({"accuracy": 0.9}, step=current_step)
 ```
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `data` |  A `dict` with `str` keys and values that are serializable Python objects including: `int`, `float` and `string`; any of the `wandb.data_types`; lists, tuples and NumPy arrays of serializable Python objects; other `dict`s of this structure. |
-|  `step` |  The step number to log. If `None`, then an implicit auto-incrementing step is used. See the notes in the description. |
-|  `commit` |  If true, finalize and upload the step. If false, then accumulate data for the step. See the notes in the description. If `step` is `None`, then the default is `commit=True`; otherwise, the default is `commit=False`. |
-|  `sync` |  This argument is deprecated and does nothing. |
+|  `data` |  `str` キーと、`int`、`float`、`string` などのシリアル化可能な Python オブジェクトである値を持つ `dict`。`wandb.data_types`、シリアル化可能な Python オブジェクトのリスト、タプル、NumPy 配列。この構造の他の `dict`。 |
+|  `step` |  ログに記録するステップ番号。`None` の場合、暗黙的な自動インクリメントステップが使用されます。説明の注記を参照してください。 |
+|  `commit` |  true の場合、ステップを確定してアップロードします。false の場合、ステップのデータを累積します。説明の注記を参照してください。`step` が `None` の場合、デフォルトは `commit=True` です。それ以外の場合、デフォルトは `commit=False` です。 |
+|  `sync` |  この引数は非推奨であり、何も行いません。 |
 
-#### Examples:
+#### 例:
 
-For more and more detailed examples, see
-[our guides to logging](https://docs.wandb.com/guides/track/log).
+より詳細な例については、[ログ記録に関するガイド](https://docs.wandb.com/guides/track/log) を参照してください。
 
-### Basic usage
+### 基本的な使用法
 
 ```python
 import wandb
@@ -127,30 +107,30 @@ with wandb.init() as run:
     run.log({"accuracy": 0.9, "epoch": 5})
 ```
 
-### Incremental logging
+### インクリメンタルログ記録
 
 ```python
 import wandb
 
 with wandb.init() as run:
     run.log({"loss": 0.2}, commit=False)
-    # Somewhere else when I'm ready to report this step:
+    # このステップを報告する準備ができたら、別の場所で:
     run.log({"accuracy": 0.8})
 ```
 
-### Histogram
+### ヒストグラム
 
 ```python
 import numpy as np
 import wandb
 
-# sample gradients at random from normal distribution
+# 正規分布からランダムに勾配をサンプリング
 gradients = np.random.randn(100, 100)
 with wandb.init() as run:
     run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
-### Image from numpy
+### numpy からの画像
 
 ```python
 import numpy as np
@@ -165,7 +145,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### Image from PIL
+### PIL からの画像
 
 ```python
 import numpy as np
@@ -187,14 +167,14 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### Video from numpy
+### numpy からの動画
 
 ```python
 import numpy as np
 import wandb
 
 with wandb.init() as run:
-    # axes are (time, channel, height, width)
+    # 軸は (時間、チャンネル、高さ、幅)
     frames = np.random.randint(
         low=0,
         high=256,
@@ -204,7 +184,7 @@ with wandb.init() as run:
     run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
-### Matplotlib Plot
+### Matplotlib プロット
 
 ```python
 from matplotlib import pyplot as plt
@@ -215,11 +195,11 @@ with wandb.init() as run:
     fig, ax = plt.subplots()
     x = np.linspace(0, 10)
     y = x * x
-    ax.plot(x, y)  # plot y = x^2
+    ax.plot(x, y)  # y = x^2 をプロット
     run.log({"chart": fig})
 ```
 
-### PR Curve
+### PR 曲線
 
 ```python
 import wandb
@@ -228,7 +208,7 @@ with wandb.init() as run:
     run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
 ```
 
-### 3D Object
+### 3D オブジェクト
 
 ```python
 import wandb
@@ -245,7 +225,8 @@ with wandb.init() as run:
     )
 ```
 
-| Raises |  |
+| 発生 |  |
 | :--- | :--- |
-|  `wandb.Error` |  if called before `wandb.init` |
-|  `ValueError` |  if invalid data is passed |
+|  `wandb.Error` |  `wandb.init` の前に呼び出された場合 |
+|  `ValueError` |  無効なデータが渡された場合 |
+```

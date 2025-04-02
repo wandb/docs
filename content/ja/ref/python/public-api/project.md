@@ -1,13 +1,13 @@
 ---
+title: Project
 menu:
   reference:
     identifier: ja-ref-python-public-api-project
-title: Project
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L79-L154 >}}
 
-A project is a namespace for runs.
+Project とは、runs の名前空間です。
 
 ```python
 Project(
@@ -15,10 +15,10 @@ Project(
 )
 ```
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `artifacts_types`
 
@@ -40,7 +40,7 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+この object を jupyter で表示します。
 
 ### `snake_to_camel`
 
@@ -70,4 +70,4 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this project.
+この project を表示する iframe を含む HTML を生成します。

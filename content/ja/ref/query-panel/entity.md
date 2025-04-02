@@ -1,53 +1,52 @@
 ---
+title: entity
 menu:
   reference:
     identifier: ja-ref-query-panel-entity
-title: entity
 ---
 
 ## Chainable Ops
 <h3 id="entity-link"><code>entity-link</code></h3>
 
-Returns the link of the [entity](entity.md)
+[Entity](entity.md) のリンクを返します。
 
 | Argument |  |
 | :--- | :--- |
-| `entity` | A [entity](entity.md) |
+| `entity` | [Entity](entity.md) |
 
 #### Return Value
-The link of the [entity](entity.md)
+[Entity](entity.md) のリンク
 
 <h3 id="entity-name"><code>entity-name</code></h3>
 
-Returns the name of the [entity](entity.md)
+[Entity](entity.md) の名前を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `entity` | A [entity](entity.md) |
+| `entity` | [Entity](entity.md) |
 
 #### Return Value
-The name of the [entity](entity.md)
-
+[Entity](entity.md) の名前
 
 ## List Ops
 <h3 id="entity-link"><code>entity-link</code></h3>
 
-Returns the link of the [entity](entity.md)
+[Entity](entity.md) のリンクを返します。
 
 | Argument |  |
 | :--- | :--- |
-| `entity` | A [entity](entity.md) |
+| `entity` | [Entity](entity.md) |
 
 #### Return Value
-The link of the [entity](entity.md)
+[Entity](entity.md) のリンク
 
 <h3 id="entity-name"><code>entity-name</code></h3>
 
-Returns the name of the [entity](entity.md)
+[Entity](entity.md) の名前を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `entity` | A [entity](entity.md) |
+| `entity` | [Entity](entity.md) |
 
 #### Return Value
-The name of the [entity](entity.md)
+[Entity](entity.md) の名前

@@ -1,18 +1,18 @@
 ---
+title: How can I log additional metrics after a run completes?
 menu:
   support:
     identifier: ja-support-kb-articles-log_additional_metrics_run_completes
 support:
 - runs
 - metrics
-title: How can I log additional metrics after a run completes?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-There are several ways to manage experiments.
+実験を管理するには、いくつかの方法があります。
 
-For complex workflows, use multiple runs and set the group parameters in [`wandb.init`]({{< relref path="/guides/models/track/launch.md" lang="ja" >}}) to a unique value for all processes within a single experiment. The [**Runs** tab]({{< relref path="/guides/models/track/project-page.md#runs-tab" lang="ja" >}}) will group the table by group ID, ensuring that visualizations function properly. This approach enables concurrent experiments and training runs while logging results in one location.
+複雑なワークフローでは、複数の run を使用し、[`wandb.init`]({{< relref path="/guides/models/track/launch.md" lang="ja" >}}) の group パラメータを、1つの実験内のすべてのプロセスに対して一意の値に設定します。[**Runs tab**]({{< relref path="/guides/models/track/project-page.md#runs-tab" lang="ja" >}}) は、テーブルをグループ ID でグループ化し、可視化が適切に機能するようにします。このアプローチにより、1つの場所で結果をログに記録しながら、同時実行の実験とトレーニング run が可能になります。
 
-For simpler workflows, call `wandb.init` with `resume=True` and `id=UNIQUE_ID`, then call `wandb.init` again with the same `id=UNIQUE_ID`. Log normally with [`wandb.log`]({{< relref path="/guides/models/track/log/" lang="ja" >}}) or `wandb.summary`, and the run values will update accordingly.
+よりシンプルなワークフローでは、`resume=True` および `id=UNIQUE_ID` を指定して `wandb.init` を呼び出し、同じ `id=UNIQUE_ID` で再度 `wandb.init` を呼び出します。[`wandb.log`]({{< relref path="/guides/models/track/log/" lang="ja" >}}) または `wandb.summary` で通常どおりログを記録すると、run の値がそれに応じて更新されます。

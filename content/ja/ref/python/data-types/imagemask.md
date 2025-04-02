@@ -1,13 +1,13 @@
 ---
+title: ImageMask
 menu:
   reference:
     identifier: ja-ref-python-data-types-imagemask
-title: ImageMask
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/helper_types/image_mask.py#L18-L247 >}}
 
-Format image masks or overlays for logging to W&B.
+W&B に ログ を記録するための画像マスクまたはオーバーレイのフォーマット。
 
 ```python
 ImageMask(
@@ -16,14 +16,14 @@ ImageMask(
 ) -> None
 ```
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `val` |  (dictionary) One of these two keys to represent the image: mask_data : (2D numpy array) The mask containing an integer class label for each pixel in the image path : (string) The path to a saved image file of the mask class_labels : (dictionary of integers to strings, optional) A mapping of the integer class labels in the mask to readable class names. These will default to class_0, class_1, class_2, etc. |
-|  `key` |  (string) The readable name or id for this mask type (e.g. predictions, ground_truth) |
+|  `val` |  (dictionary) 画像を表す次の2つの キー のいずれか: mask_data : (2D numpy 配列) 画像内の各ピクセルの整数クラスラベルを含むマスク path : (string) マスクの保存された画像ファイルへのパス class_labels : (integer から string への dictionary, optional) マスク内の integer クラスラベルから読み取り可能なクラス名へのマッピング。これらはデフォルトで class_0, class_1, class_2 などになります。 |
+|  `key` |  (string) このマスクタイプの読み取り可能な名前または ID (例: predictions, ground_truth) |
 
-#### Examples:
+#### 例:
 
-### Logging a single masked image
+### マスクされた単一の画像を ログ に記録する
 
 ```python
 import numpy as np
@@ -62,7 +62,7 @@ masked_image = wandb.Image(
 run.log({"img_with_masks": masked_image})
 ```
 
-### Log a masked image inside a Table
+### Table 内でマスクされた画像を ログ に記録する
 
 ```python
 import numpy as np
@@ -114,7 +114,7 @@ table.add_data(masked_image)
 run.log({"random_field": table})
 ```
 
-## Methods
+## メソッド
 
 ### `type_name`
 

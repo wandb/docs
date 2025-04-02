@@ -1,8 +1,8 @@
 ---
+title: Job
 menu:
   reference:
     identifier: ja-ref-python-public-api-job
-title: Job
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L30-L211 >}}
@@ -15,14 +15,14 @@ Job(
 ) -> None
 ```
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `call`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L167-L211)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L167-L211)
 
 ```python
 call(
@@ -33,7 +33,7 @@ call(
 
 ### `set_entrypoint`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L164-L165)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L164-L165)
 
 ```python
 set_entrypoint(

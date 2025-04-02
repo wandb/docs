@@ -1,13 +1,13 @@
 ---
+title: login
 menu:
   reference:
     identifier: ja-ref-python-login
-title: login
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_login.py#L40-L84 >}}
 
-Set up W&B login credentials.
+W&B のログイン認証情報を設定します。
 
 ```python
 login(
@@ -21,24 +21,22 @@ login(
 ) -> bool
 ```
 
-By default, this will only store credentials locally without
-verifying them with the W&B server. To verify credentials, pass
-`verify=True`.
+デフォルトでは、W&B サーバー で検証せずに、認証情報をローカルにのみ保存します。認証情報を検証するには、`verify=True` を渡します。
 
 | Args |  |
 | :--- | :--- |
-|  `anonymous` |  (string, optional) Can be "must", "allow", or "never". If set to "must", always log a user in anonymously. If set to "allow", only create an anonymous user if the user isn't already logged in. If set to "never", never log a user anonymously. Default set to "never". |
-|  `key` |  (string, optional) The API key to use. |
-|  `relogin` |  (bool, optional) If true, will re-prompt for API key. |
-|  `host` |  (string, optional) The host to connect to. |
-|  `force` |  (bool, optional) If true, will force a relogin. |
-|  `timeout` |  (int, optional) Number of seconds to wait for user input. |
-|  `verify` |  (bool) Verify the credentials with the W&B server. |
+|  `anonymous` |  (文字列、オプション) "must"、"allow"、または "never" を指定できます。"must" に設定すると、常に匿名で ユーザー をログインさせます。"allow" に設定すると、ユーザー がまだログインしていない場合にのみ、匿名 ユーザー を作成します。"never" に設定すると、匿名 ユーザー を決してログインさせません。デフォルトは "never" に設定されています。 |
+|  `key` |  (文字列、オプション) 使用する APIキー 。 |
+|  `relogin` |  (bool、オプション) Trueの場合、 APIキー の入力を再度求めます。 |
+|  `host` |  (文字列、オプション) 接続先のホスト。 |
+|  `force` |  (bool、オプション) Trueの場合、強制的に再ログインします。 |
+|  `timeout` |  (int、オプション) ユーザー 入力を待つ秒数。 |
+|  `verify` |  (bool) W&B サーバー で認証情報を検証します。 |
 
 | Returns |  |
 | :--- | :--- |
-|  `bool` |  if key is configured |
+|  `bool` |  APIキー が設定されている場合 |
 
 | Raises |  |
 | :--- | :--- |
-|  AuthenticationError - if api_key fails verification with the server UsageError - if api_key cannot be configured and no tty |
+|  AuthenticationError - サーバー で api_key の検証に失敗した場合 UsageError - api_key を設定できず、tty がない場合 |

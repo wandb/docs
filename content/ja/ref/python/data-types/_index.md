@@ -1,52 +1,44 @@
 ---
+title: Data Types
 menu:
   reference:
     identifier: ja-ref-python-data-types-_index
-title: Data Types
 ---
 
-<!-- Insert buttons and diff -->
+このモジュールでは、リッチでインタラクティブな 可視化 を W&B に ログ するための データ 型を定義します。
 
+データ 型には、画像、音声、ビデオなどの一般的なメディア タイプ、テーブル や HTML などの情報の柔軟なコンテナなどが含まれます。
 
+メディアの ログ に関する詳細については、[ガイド](https://docs.wandb.com/guides/track/log/media) を参照してください。
 
-This module defines data types for logging rich, interactive visualizations to W&B.
+インタラクティブな データセット および model の 分析 用に構造化された データを ログ する方法の詳細については、[W&B Tables に関するガイド](https://docs.wandb.com/guides/models/tables/) を参照してください。
 
-Data types include common media types, like images, audio, and videos,
-flexible containers for information, like tables and HTML, and more.
+これらの特殊な データ 型はすべて、WBValue のサブクラスです。すべての データ 型は JSON にシリアライズされます。これは、wandb が オブジェクト をローカルに保存し、W&B サーバー にアップロードするために使用する方法だからです。
 
-For more on logging media, see [our guide](https://docs.wandb.com/guides/track/log/media)
+## クラス
 
-For more on logging structured data for interactive dataset and model analysis,
-see [our guide to W&B Tables](https://docs.wandb.com/guides/models/tables/).
+[`class Audio`](./audio.md): オーディオクリップ用の Wandb クラス。
 
-All of these special data types are subclasses of WBValue. All the data types
-serialize to JSON, since that is what wandb uses to save the objects locally
-and upload them to the W&B server.
+[`class BoundingBoxes2D`](./boundingboxes2d.md): W&B に ログ するための2D バウンディングボックス オーバーレイを含む画像形式。
 
-## Classes
+[`class Graph`](./graph.md): グラフ用の Wandb クラス。
 
-[`class Audio`](./audio.md): Wandb class for audio clips.
+[`class Histogram`](./histogram.md): ヒストグラム用の wandb クラス。
 
-[`class BoundingBoxes2D`](./boundingboxes2d.md): Format images with 2D bounding box overlays for logging to W&B.
+[`class Html`](./html.md): 任意の html 用の Wandb クラス。
 
-[`class Graph`](./graph.md): Wandb class for graphs.
+[`class Image`](./image.md): W&B に ログ するための画像形式。
 
-[`class Histogram`](./histogram.md): wandb class for histograms.
+[`class ImageMask`](./imagemask.md): W&B に ログ するための画像マスクまたはオーバーレイ形式。
 
-[`class Html`](./html.md): Wandb class for arbitrary html.
+[`class Molecule`](./molecule.md): 3D 分子 データ 用の Wandb クラス。
 
-[`class Image`](./image.md): Format images for logging to W&B.
+[`class Object3D`](./object3d.md): 3D ポイントクラウド用の Wandb クラス。
 
-[`class ImageMask`](./imagemask.md): Format image masks or overlays for logging to W&B.
+[`class Plotly`](./plotly.md): plotly プロット用の Wandb クラス。
 
-[`class Molecule`](./molecule.md): Wandb class for 3D Molecular data.
+[`class Table`](./table.md): 表形式の データを表示および 分析 するために使用される Table クラス。
 
-[`class Object3D`](./object3d.md): Wandb class for 3D point clouds.
+[`class Video`](./video.md): W&B に ログ するためのビデオ形式。
 
-[`class Plotly`](./plotly.md): Wandb class for plotly plots.
-
-[`class Table`](./table.md): The Table class used to display and analyze tabular data.
-
-[`class Video`](./video.md): Format a video for logging to W&B.
-
-[`class WBTraceTree`](./wbtracetree.md): Media object for trace tree data.
+[`class WBTraceTree`](./wbtracetree.md): トレース ツリー データ 用のメディア オブジェクト。

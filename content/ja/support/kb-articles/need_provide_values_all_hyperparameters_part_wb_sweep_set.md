@@ -1,21 +1,21 @@
 ---
+title: Do I need to provide values for all hyperparameters as part of the W&B Sweep.
+  Can I set defaults?
 menu:
   support:
     identifier: ja-support-kb-articles-need_provide_values_all_hyperparameters_part_wb_sweep_set
 support:
 - sweeps
-title: Do I need to provide values for all hyperparameters as part of the W&B Sweep.
-  Can I set defaults?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Access hyperparameter names and values from the sweep configuration using `wandb.config`, which acts like a dictionary.
+`wandb.config` を使用して、sweep configuration からハイパーパラメータの名前と値にアクセスします。これは辞書のように機能します。
 
-For runs outside a sweep, set `wandb.config` values by passing a dictionary to the `config` argument in `wandb.init`. In a sweep, any configuration supplied to `wandb.init` serves as a default value, which the sweep can override.
+sweep 外の run の場合、`wandb.init` の `config` 引数に辞書を渡して、`wandb.config` の値を設定します。sweep では、`wandb.init` に指定された設定はすべてデフォルト値として機能し、sweep はそれを上書きできます。
 
-Use `config.setdefaults` for explicit behavior. The following code snippets illustrate both methods:
+明示的な振る舞いには `config.setdefaults` を使用します。次のコードスニペットは、両方の方法を示しています。
 
 {{< tabpane text=true >}}
 {{% tab "wandb.init()" %}}

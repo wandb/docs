@@ -1,15 +1,15 @@
 ---
+title: Does logging block my training?
 menu:
   support:
     identifier: ja-support-kb-articles-logging_block_training
 support:
 - experiments
-title: Does logging block my training?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-"Is the logging function lazy? I don't want to depend on the network to send results to your servers while executing local operations."
+「ログ関数は遅延評価されますか？ ローカル処理 の実行中に、 サーバー に 結果 を送信するためにネットワークに依存したくありません。」
 
-The `wandb.log` function writes a line to a local file and does not block network calls. When calling `wandb.init`, a new process starts on the same machine. This process listens for filesystem changes and communicates with the web service asynchronously, allowing local operations to continue uninterrupted.
+`wandb.log` 関数は、ローカルファイルに1行書き込みますが、ネットワーク呼び出しはブロックしません。`wandb.init` を呼び出すと、新しい プロセス が同じマシン上で開始されます。この プロセス はファイルシステムの変更を監視し、ウェブ サービス と非同期的に通信することで、ローカル処理 が中断されることなく続行されます。

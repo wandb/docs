@@ -1,13 +1,13 @@
 ---
+title: How do I enable code logging with Sweeps?
 menu:
   support:
     identifier: ja-support-kb-articles-enable_code_logging_sweeps
 support:
 - sweeps
-title: How do I enable code logging with Sweeps?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To enable code logging for sweeps, add `wandb.log_code()` after initializing the W&B Run. This action is necessary even when code logging is enabled in the W&B profile settings. For advanced code logging, refer to the [docs for `wandb.log_code()` here]({{< relref path="/ref/python/run.md#log_code" lang="ja" >}}).
+Sweeps のコード ログ記録を有効にするには、W&B Run の初期化後に `wandb.log_code()` を追加します。この操作は、W&B プロファイル 設定 でコード ログ記録が有効になっている場合でも必要です。高度なコード ログ記録については、[ `wandb.log_code()` のドキュメントはこちら]({{< relref path="/ref/python/run.md#log_code" lang="ja" >}}) を参照してください。

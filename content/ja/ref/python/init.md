@@ -1,13 +1,13 @@
 ---
+title: init
 menu:
   reference:
     identifier: ja-ref-python-init
-title: init
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_init.py#L1131-L1483 >}}
 
-Start a new run to track and log to W&B.
+W&B に track および ログ を記録するための新しい run を開始します。
 
 ```python
 init(
@@ -39,24 +39,17 @@ init(
 ) -> Run
 ```
 
-In an ML training pipeline, you could add `wandb.init()` to the beginning of
-your training script as well as your evaluation script, and each piece would
-be tracked as a run in W&B.
+ML トレーニング パイプラインでは、トレーニング スクリプトの先頭と評価スクリプトに `wandb.init()` を追加できます。各ピースは W&B の run として track されます。
 
-`wandb.init()` spawns a new background process to log data to a run, and it
-also syncs data to https://wandb.ai by default, so you can see your results
-in real-time.
+`wandb.init()` は、データを run に記録するための新しいバックグラウンド プロセスを生成し、デフォルトでデータを https://wandb.ai に同期するため、結果をリアルタイムで確認できます。
 
-Call `wandb.init()` to start a run before logging data with `wandb.log()`.
-When you're done logging data, call `wandb.finish()` to end the run. If you
-don't call `wandb.finish()`, the run will end when your script exits.
+`wandb.log()` でデータを ログ に記録する前に、`wandb.init()` を呼び出して run を開始します。データの ログ 記録が完了したら、`wandb.finish()` を呼び出して run を終了します。`wandb.finish()` を呼び出さない場合、run はスクリプトの終了時に終了します。
 
-For more on using `wandb.init()`, including detailed examples, check out our
-[guide and FAQs](https://docs.wandb.ai/guides/track/launch).
+詳細な例を含む `wandb.init()` の使用方法の詳細については、[ガイドと FAQ](https://docs.wandb.ai/guides/track/launch) を参照してください。
 
-#### Examples:
+#### 例：
 
-### Explicitly set the entity and project and choose a name for the run:
+### entity と project を明示的に設定し、run の名前を選択します。
 
 ```python
 import wandb
@@ -67,12 +60,12 @@ run = wandb.init(
     name="experiment-2021-10-31",
 )
 
-# ... your training code here ...
+# ... ここにトレーニングコードを記述 ...
 
 run.finish()
 ```
 
-### Add metadata about the run using the `config` argument:
+### `config` 引数を使用して、run に関する メタデータ を追加します。
 
 ```python
 import wandb
@@ -81,48 +74,47 @@ config = {"lr": 0.01, "batch_size": 32}
 with wandb.init(config=config) as run:
     run.config.update({"architecture": "resnet", "depth": 34})
 
-    # ... your training code here ...
+    # ... ここにトレーニングコードを記述 ...
 ```
 
-Note that you can use `wandb.init()` as a context manager to automatically
-call `wandb.finish()` at the end of the block.
+`wandb.init()` をコンテキスト マネージャーとして使用して、ブロックの最後に `wandb.finish()` を自動的に呼び出すことができることに注意してください。
 
 | Args |  |
 | :--- | :--- |
-|  `entity` |  The username or team name under which the runs will be logged. The entity must already exist, so ensure you’ve created your account or team in the UI before starting to log runs. If not specified, the run will default your default entity. To change the default entity, go to [your settings](https://wandb.ai/settings) and update the "Default location to create new projects" under "Default team". |
-|  `project` |  The name of the project under which this run will be logged. If not specified, we use a heuristic to infer the project name based on the system, such as checking the git root or the current program file. If we can't infer the project name, the project will default to `"uncategorized"`. |
-|  `dir` |  The absolute path to the directory where experiment logs and metadata files are stored. If not specified, this defaults to the `./wandb` directory. Note that this does not affect the location where artifacts are stored when calling `download()`. |
-|  `id` |  A unique identifier for this run, used for resuming. It must be unique within the project and cannot be reused once a run is deleted. The identifier must not contain any of the following special characters: `/ \ # ? % :`. For a short descriptive name, use the `name` field, or for saving hyperparameters to compare across runs, use `config`. |
-|  `name` |  A short display name for this run, which appears in the UI to help you identify it. By default, we generate a random two-word name allowing easy cross-reference runs from table to charts. Keeping these run names brief enhances readability in chart legends and tables. For saving hyperparameters, we recommend using the `config` field. |
-|  `notes` |  A detailed description of the run, similar to a commit message in Git. Use this argument to capture any context or details that may help you recall the purpose or setup of this run in the future. |
-|  `tags` |  A list of tags to label this run in the UI. Tags are helpful for organizing runs or adding temporary identifiers like "baseline" or "production." You can easily add, remove tags, or filter by tags in the UI. If resuming a run, the tags provided here will replace any existing tags. To add tags to a resumed run without overwriting the current tags, use `run.tags += ["new_tag"]` after calling `run = wandb.init()`. |
-|  `config` |  Sets `wandb.config`, a dictionary-like object for storing input parameters to your run, such as model hyperparameters or data preprocessing settings. The config appears in the UI in an overview page, allowing you to group, filter, and sort runs based on these parameters. Keys should not contain periods (`.`), and values should be smaller than 10 MB. If a dictionary, `argparse.Namespace`, or `absl.flags.FLAGS` is provided, the key-value pairs will be loaded directly into `wandb.config`. If a string is provided, it is interpreted as a path to a YAML file, from which configuration values will be loaded into `wandb.config`. |
-|  `config_exclude_keys` |  A list of specific keys to exclude from `wandb.config`. |
-|  `config_include_keys` |  A list of specific keys to include in `wandb.config`. |
-|  `allow_val_change` |  Controls whether config values can be modified after their initial set. By default, an exception is raised if a config value is overwritten. For tracking variables that change during training, such as a learning rate, consider using `wandb.log()` instead. By default, this is `False` in scripts and `True` in Notebook environments. |
-|  `group` |  Specify a group name to organize individual runs as part of a larger experiment. This is useful for cases like cross-validation or running multiple jobs that train and evaluate a model on different test sets. Grouping allows you to manage related runs collectively in the UI, making it easy to toggle and review results as a unified experiment. For more information, refer to our [guide to grouping runs](https://docs.wandb.com/guides/runs/grouping). |
-|  `job_type` |  Specify the type of run, especially helpful when organizing runs within a group as part of a larger experiment. For example, in a group, you might label runs with job types such as "train" and "eval". Defining job types enables you to easily filter and group similar runs in the UI, facilitating direct comparisons. |
-|  `mode` |  Specifies how run data is managed, with the following options: - `"online"` (default): Enables live syncing with W&B when a network connection is available, with real-time updates to visualizations. - `"offline"`: Suitable for air-gapped or offline environments; data is saved locally and can be synced later. Ensure the run folder is preserved to enable future syncing. - `"disabled"`: Disables all W&B functionality, making the run’s methods no-ops. Typically used in testing to bypass W&B operations. |
-|  `force` |  Determines if a W&B login is required to run the script. If `True`, the user must be logged in to W&B; otherwise, the script will not proceed. If `False` (default), the script can proceed without a login, switching to offline mode if the user is not logged in. |
-|  `anonymous` |  Specifies the level of control over anonymous data logging. Available options are: - `"never"` (default): Requires you to link your W&B account before tracking the run. This prevents unintentional creation of anonymous runs by ensuring each run is associated with an account. - `"allow"`: Enables a logged-in user to track runs with their account, but also allows someone running the script without a W&B account to view the charts and data in the UI. - `"must"`: Forces the run to be logged to an anonymous account, even if the user is logged in. |
-|  `reinit` |  Determines if multiple `wandb.init()` calls can start new runs within the same process. By default (`False`), if an active run exists, calling `wandb.init()` returns the existing run instead of creating a new one. When `reinit=True`, the active run is finished before a new run is initialized. In notebook environments, runs are reinitialized by default unless `reinit` is explicitly set to `False`. |
-|  `resume` |  Controls the behavior when resuming a run with the specified `id`. Available options are: - `"allow"`: If a run with the specified `id` exists, it will resume from the last step; otherwise, a new run will be created. - `"never"`: If a run with the specified `id` exists, an error will be raised. If no such run is found, a new run will be created. - `"must"`: If a run with the specified `id` exists, it will resume from the last step. If no run is found, an error will be raised. - `"auto"`: Automatically resumes the previous run if it crashed on this machine; otherwise, starts a new run. - `True`: Deprecated. Use `"auto"` instead. - `False`: Deprecated. Use the default behavior (leaving `resume` unset) to always start a new run. Note: If `resume` is set, `fork_from` and `resume_from` cannot be used. When `resume` is unset, the system will always start a new run. For more details, see our [guide to resuming runs](https://docs.wandb.com/guides/runs/resuming). |
-|  `resume_from` |  Specifies a moment in a previous run to resume a run from, using the format `{run_id}?_step={step}`. This allows users to truncate the history logged to a run at an intermediate step and resume logging from that step. The target run must be in the same project. If an `id` argument is also provided, the `resume_from` argument will take precedence. `resume`, `resume_from` and `fork_from` cannot be used together, only one of them can be used at a time. Note: This feature is in beta and may change in the future. |
-|  `fork_from` |  Specifies a point in a previous run from which to fork a new run, using the format `{id}?_step={step}`. This creates a new run that resumes logging from the specified step in the target run’s history. The target run must be part of the current project. If an `id` argument is also provided, it must be different from the `fork_from` argument, an error will be raised if they are the same. `resume`, `resume_from` and `fork_from` cannot be used together, only one of them can be used at a time. Note: This feature is in beta and may change in the future. |
-|  `save_code` |  Enables saving the main script or notebook to W&B, aiding in experiment reproducibility and allowing code comparisons across runs in the UI. By default, this is disabled, but you can change the default to enable on your [settings page](https://wandb.ai/settings). |
-|  `tensorboard` |  Deprecated. Use `sync_tensorboard` instead. |
-|  `sync_tensorboard` |  Enables automatic syncing of W&B logs from TensorBoard or TensorBoardX, saving relevant event files for viewing in the W&B UI. saving relevant event files for viewing in the W&B UI. (Default: `False`) |
-|  `monitor_gym` |  Enables automatic logging of videos of the environment when using OpenAI Gym. For additional details, see our [guide for gym integration](https://docs.wandb.com/guides/integrations/openai-gym). |
-|  `settings` |  Specifies a dictionary or `wandb.Settings` object with advanced settings for the run. |
+| `entity` | run が ログ される ユーザー名または Team 名。 entity は既に存在している必要があります。run の ログ 記録を開始する前に、UI でアカウントまたは Team を作成していることを確認してください。指定されていない場合、run はデフォルトの entity にデフォルト設定されます。デフォルトの entity を変更するには、[設定](https://wandb.ai/settings) に移動し、[デフォルトの Team] の下の [新しい project を作成するデフォルトの場所] を更新します。 |
+| `project` | この run が ログ される project の名前。指定されていない場合、git root や現在のプログラム ファイルの確認など、システムに基づいて project 名を推測するヒューリスティックを使用します。project 名を推測できない場合、project は `"uncategorized"` にデフォルト設定されます。 |
+| `dir` | 実験 ログ と メタデータ ファイルが保存されるディレクトリーへの絶対パス。指定されていない場合、これはデフォルトで `./wandb` ディレクトリーになります。これは、`download()` を呼び出すときに Artifacts が保存される場所に影響しないことに注意してください。 |
+| `id` | 再開に使用される、この run の一意の識別子。project 内で一意である必要があり、run が削除されると再利用できません。識別子に、次の特殊文字を含めることはできません：`/ \ # ? % :`。短い説明的な名前には、`name` フィールドを使用します。run 間で比較するために ハイパーパラメーター を保存するには、`config` を使用します。 |
+| `name` | この run の短い表示名。UI に表示され、run を識別するのに役立ちます。デフォルトでは、テーブルからチャートへの簡単な相互参照 run を可能にする、ランダムな 2 語の名前を生成します。これらの run 名を短く保つと、チャートの凡例とテーブルの可読性が向上します。ハイパーパラメーター を保存するには、`config` フィールドを使用することをお勧めします。 |
+| `notes` | Git のコミット メッセージと同様に、run の詳細な説明。この引数を使用して、今後この run の目的または設定を思い出すのに役立つコンテキストまたは詳細をキャプチャします。 |
+| `tags` | UI でこの run にラベルを付けるためのタグのリスト。タグは、run の整理や、"ベースライン" や "プロダクション" などの一時的な識別子の追加に役立ちます。UI でタグを簡単に追加、削除、またはタグでフィルタリングできます。run を再開する場合、ここで指定されたタグは、既存のタグを置き換えます。現在のタグを上書きせずに、再開された run にタグを追加するには、`run = wandb.init()` を呼び出した後で、`run.tags += ["new_tag"]` を使用します。 |
+| `config` | `wandb.config` を設定します。これは、モデルの ハイパーパラメーター や データ の 前処理 設定など、run への入力 パラメータ を保存するための辞書のようなオブジェクトです。config は UI の概要ページに表示され、これらの パラメータ に基づいて run をグループ化、フィルタリング、および並べ替えることができます。キー にはピリオド（`.`）を含めないでください。また、値は 10 MB 未満にする必要があります。辞書、`argparse.Namespace`、または `absl.flags.FLAGS` が指定されている場合、キーと値のペア は `wandb.config` に直接ロードされます。文字列が指定されている場合は、YAML ファイルへのパスとして解釈され、そこから構成値が `wandb.config` にロードされます。 |
+| `config_exclude_keys` | `wandb.config` から除外する特定のキーのリスト。 |
+| `config_include_keys` | `wandb.config` に含める特定のキーのリスト。 |
+| `allow_val_change` | config 値を最初に設定した後で変更できるかどうかを制御します。デフォルトでは、config 値が上書きされた場合、例外が発生します。学習率など、トレーニング 中に変化する変数を track する場合は、代わりに `wandb.log()` を使用することを検討してください。デフォルトでは、これはスクリプトでは `False` で、Notebook 環境では `True` です。 |
+| `group` | より大規模な実験の一部として個々の run を整理するために、グループ名を指定します。これは、交差検証や、異なる テストセット でモデルをトレーニングおよび評価する複数のジョブを実行する場合に役立ちます。グループ化を使用すると、UI で関連する run をまとめて管理できるため、統一された実験として結果を簡単に切り替えて確認できます。詳細については、[run のグループ化に関するガイド](https://docs.wandb.com/guides/runs/grouping) を参照してください。 |
+| `job_type` | 特に、より大規模な実験の一部としてグループ内の run を整理する場合に役立つ、run のタイプを指定します。たとえば、グループでは、"train" や "eval" などの ジョブタイプ で run にラベルを付けることができます。ジョブタイプ を定義すると、UI で同様の run を簡単にフィルタリングおよびグループ化できるため、直接比較が容易になります。 |
+| `mode` | run データの管理方法を指定します。次のオプションがあります。- `"online"`（デフォルト）：ネットワーク接続が利用可能な場合、W&B とのライブ同期を有効にし、可視化をリアルタイムで更新します。- `"offline"`：エアギャップ環境またはオフライン環境に適しています。データはローカルに保存され、後で同期できます。将来の同期を有効にするには、run フォルダーが保持されていることを確認してください。- `"disabled"`：すべての W&B 機能を無効にし、run の メソッド を no-op にします。通常、W&B 操作をバイパスするためにテストで使用されます。 |
+| `force` | スクリプトを実行するために W&B ログインが必要かどうかを決定します。`True` の場合、ユーザー は W&B にログインしている必要があります。そうでない場合、スクリプトは続行されません。`False` （デフォルト）の場合、ユーザー がログインしていなくてもスクリプトは続行でき、ユーザー がログインしていない場合はオフライン モードに切り替わります。 |
+| `anonymous` | 匿名 データ の ログ 記録に対する制御のレベルを指定します。使用可能なオプションは次のとおりです。- `"never"`（デフォルト）：run を track する前に、W&B アカウントをリンクする必要があります。これにより、各 run がアカウントに関連付けられるようにすることで、意図しない匿名の run の作成を防ぎます。- `"allow"`：ログイン ユーザー がアカウントで run を track できるようにするだけでなく、W&B アカウントなしでスクリプトを実行している ユーザー が UI でチャートと データを表示できるようにします。- `"must"`：ユーザー がログインしている場合でも、run が匿名アカウントに ログ されるように強制します。 |
+| `reinit` | 複数の `wandb.init()` 呼び出しが、同じ プロセス 内で新しい run を開始できるかどうかを決定します。デフォルト（`False`）では、アクティブな run が存在する場合、`wandb.init()` を呼び出すと、新しい run を作成する代わりに、既存の run が返されます。`reinit=True` の場合、新しい run が初期化される前に、アクティブな run が終了します。Notebook 環境では、`reinit` が明示的に `False` に設定されていない限り、run はデフォルトで再初期化されます。 |
+| `resume` | 指定された `id` で run を再開する際の 振る舞い を制御します。使用可能なオプションは次のとおりです。- `"allow"`：指定された `id` を持つ run が存在する場合、最後のステップから再開されます。それ以外の場合は、新しい run が作成されます。- `"never"`：指定された `id` を持つ run が存在する場合、エラーが発生します。そのような run が見つからない場合は、新しい run が作成されます。- `"must"`：指定された `id` を持つ run が存在する場合、最後のステップから再開されます。run が見つからない場合は、エラーが発生します。- `"auto"`：このマシンでクラッシュした場合、以前の run を自動的に再開します。それ以外の場合は、新しい run を開始します。- `True`：非推奨。代わりに `"auto"` を使用してください。- `False`：非推奨。常に新しい run を開始するには、デフォルトの 振る舞い （`resume` を設定しないままにする）を使用してください。注：`resume` が設定されている場合、`fork_from` と `resume_from` は使用できません。`resume` が設定されていない場合、システムは常に新しい run を開始します。詳細については、[run の再開に関するガイド](https://docs.wandb.com/guides/runs/resuming) を参照してください。 |
+| `resume_from` | 形式 `{run_id}?_step={step}` を使用して、以前の run の特定の時点から run を再開することを指定します。これにより、ユーザー は run に ログ された履歴を途中のステップで切り捨て、そのステップから ログ 記録を再開できます。ターゲット run は、同じ project 内にある必要があります。`id` 引数も指定されている場合、`resume_from` 引数が優先されます。`resume`、`resume_from`、および `fork_from` は一緒に使用できず、一度に 1 つだけ使用できます。注：この機能はベータ版であり、将来変更される可能性があります。 |
+| `fork_from` | 形式 `{id}?_step={step}` を使用して、以前の run の特定の時点から新しい run をフォークすることを指定します。これにより、ターゲット run の履歴の指定されたステップから ログ 記録を再開する新しい run が作成されます。ターゲット run は、現在の project の一部である必要があります。`id` 引数も指定されている場合、`fork_from` 引数とは異なる必要があります。同じ場合は、エラーが発生します。`resume`、`resume_from`、および `fork_from` は一緒に使用できず、一度に 1 つだけ使用できます。注：この機能はベータ版であり、将来変更される可能性があります。 |
+| `save_code` | メイン スクリプト または Notebook を W&B に保存できるようにします。これにより、実験 の 再現性 が向上し、UI で run 間の コード 比較が可能になります。デフォルトでは、これは無効になっていますが、[設定ページ](https://wandb.ai/settings) でデフォルトを変更して有効にすることができます。 |
+| `tensorboard` | 非推奨。代わりに `sync_tensorboard` を使用してください。 |
+| `sync_tensorboard` | TensorBoard または TensorBoardX から W&B ログ の自動同期を有効にし、W&B UI で表示するための関連 イベント ファイルを保存します。関連 イベント ファイルを保存して、W&B UI で表示します。（デフォルト：`False`） |
+| `monitor_gym` | OpenAI Gym を使用する場合に、環境のビデオ の自動 ログ 記録を有効にします。詳細については、[gym インテグレーション に関するガイド](https://docs.wandb.com/guides/integrations/openai-gym) を参照してください。 |
+| `settings` | run の詳細設定を含む辞書または `wandb.Settings` オブジェクトを指定します。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Run` object, which is a handle to the current run. Use this object to perform operations like logging data, saving files, and finishing the run. See the [Run API](https://docs.wandb.ai/ref/python/run) for more details. |
+| 現在の run へのハンドルである `Run` オブジェクト。このオブジェクトを使用して、データの ログ 記録、ファイルの保存、run の終了などの操作を実行します。詳細については、[Run API](https://docs.wandb.ai/ref/python/run) を参照してください。 |
 
 | Raises |  |
 | :--- | :--- |
-|  `Error` |  If some unknown or internal error happened during the run initialization. |
-|  `AuthenticationError` |  If the user failed to provide valid credentials. |
-|  `CommError` |  If there was a problem communicating with the W&B server. |
-|  `UsageError` |  If the user provided invalid arguments to the function. |
-|  `KeyboardInterrupt` |  If the user interrupts the run initialization process. If the user interrupts the run initialization process. |
+| `Error` | run の初期化中に不明なエラーまたは内部エラーが発生した場合。 |
+| `AuthenticationError` | ユーザー が有効な認証情報の提供に失敗した場合。 |
+| `CommError` | W&B サーバー との通信に問題が発生した場合。 |
+| `UsageError` | ユーザー が関数に無効な 引数 を指定した場合。 |
+| `KeyboardInterrupt` | ユーザー が run の初期化 プロセス を中断した場合。ユーザー が run の初期化 プロセス を中断した場合。 |

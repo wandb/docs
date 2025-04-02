@@ -1,13 +1,13 @@
 ---
+title: Run
 menu:
   reference:
     identifier: ja-ref-python-public-api-run
-title: Run
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L276-L1007 >}}
 
-A single run associated with an entity and project.
+ある entity と project に関連付けられた単一の run。
 
 ```python
 Run(
@@ -36,7 +36,7 @@ create(
 )
 ```
 
-Create a run for the given project.
+指定された project の run を作成します。
 
 ### `delete`
 
@@ -48,7 +48,7 @@ delete(
 )
 ```
 
-Delete the given run from the wandb backend.
+指定された run を wandb バックエンドから削除します。
 
 ### `display`
 
@@ -60,7 +60,7 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+このオブジェクトを jupyter で表示します。
 
 ### `file`
 
@@ -72,15 +72,15 @@ file(
 )
 ```
 
-Return the path of a file with a given name in the artifact.
+アーティファクト内の指定された名前のファイルのパスを返します。
 
 | Args |  |
 | :--- | :--- |
-|  name (str): name of requested file. |
+|  name (str): リクエストされたファイルの名前。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `File` matching the name argument. |
+|  name 引数に一致する `File`。 |
 
 ### `files`
 
@@ -92,15 +92,15 @@ files(
 )
 ```
 
-Return a file path for each file named.
+名前が指定された各ファイルのファイルパスを返します。
 
 | Args |  |
 | :--- | :--- |
-|  names (list): names of the requested files, if empty returns all files per_page (int): number of results per page. |
+|  names (list): リクエストされたファイルの名前。空の場合、すべてのファイルを返します。 per_page (int): ページごとの結果数。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Files` object, which is an iterator over `File` objects. |
+|  `File` オブジェクトのイテレーターである `Files` オブジェクト。 |
 
 ### `history`
 
@@ -112,21 +112,21 @@ history(
 )
 ```
 
-Return sampled history metrics for a run.
+run のサンプルされた履歴メトリクスを返します。
 
-This is simpler and faster if you are ok with the history records being sampled.
+履歴レコードのサンプリングが問題ない場合は、これを使用するとより簡単かつ高速になります。
 
 | Args |  |
 | :--- | :--- |
-|  `samples` |  (int, optional) The number of samples to return |
-|  `pandas` |  (bool, optional) Return a pandas dataframe |
-|  `keys` |  (list, optional) Only return metrics for specific keys |
-|  `x_axis` |  (str, optional) Use this metric as the xAxis defaults to _step |
-|  `stream` |  (str, optional) "default" for metrics, "system" for machine metrics |
+|  `samples` |  (int, optional) 返すサンプル数 |
+|  `pandas` |  (bool, optional) pandas DataFrame を返します |
+|  `keys` |  (list, optional) 特定のキーのメトリクスのみを返します |
+|  `x_axis` |  (str, optional) このメトリクスを xAxis として使用します。デフォルトは _step です |
+|  `stream` |  (str, optional) メトリクスには "default"、マシンメトリクスには "system" |
 
 | Returns |  |
 | :--- | :--- |
-|  `pandas.DataFrame` |  If pandas=True returns a `pandas.DataFrame` of history metrics. list of dicts: If pandas=False returns a list of dicts of history metrics. |
+|  `pandas.DataFrame` |  pandas=True の場合、履歴メトリクスの `pandas.DataFrame` を返します。 dict のリスト: pandas=False の場合、履歴メトリクスの dict のリストを返します。 |
 
 ### `load`
 
@@ -150,16 +150,16 @@ log_artifact(
 )
 ```
 
-Declare an artifact as output of a run.
+アーティファクトを run の出力として宣言します。
 
 | Args |  |
 | :--- | :--- |
-|  artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)`. aliases (list, optional): Aliases to apply to this artifact. |
-|  `tags` |  (list, optional) Tags to apply to this artifact, if any. |
+|  artifact (`Artifact`): `wandb.Api().artifact(name)` から返されたアーティファクト。 aliases (list, optional): このアーティファクトに適用するエイリアス。 |
+|  `tags` |  (list, optional) このアーティファクトに適用するタグ (存在する場合)。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
 ### `logged_artifacts`
 
@@ -171,18 +171,17 @@ logged_artifacts(
 ) -> public.RunArtifacts
 ```
 
-Fetches all artifacts logged by this run.
+この run によって記録されたすべてのアーティファクトをフェッチします。
 
-Retrieves all output artifacts that were logged during the run. Returns a
-paginated result that can be iterated over or collected into a single list.
+run 中に記録されたすべての出力 Artifacts を取得します。反復処理したり、単一のリストに収集したりできるページ分割された結果を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `per_page` |  Number of artifacts to fetch per API request. |
+|  `per_page` |  API リクエストごとにフェッチする Artifacts の数。 |
 
 | Returns |  |
 | :--- | :--- |
-|  An iterable collection of all Artifact objects logged as outputs during this run. |
+|  この run 中に出力として記録されたすべての Artifact オブジェクトの反復可能なコレクション。 |
 
 #### Example:
 
@@ -224,11 +223,11 @@ scan_history(
 )
 ```
 
-Returns an iterable collection of all history records for a run.
+run のすべての履歴レコードの反復可能なコレクションを返します。
 
 #### Example:
 
-Export all the loss values for an example run
+サンプル run のすべての損失値をエクスポートします。
 
 ```python
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
@@ -238,11 +237,11 @@ losses = [row["Loss"] for row in history]
 
 | Args |  |
 | :--- | :--- |
-|  keys ([str], optional): only fetch these keys, and only fetch rows that have all of keys defined. page_size (int, optional): size of pages to fetch from the api. min_step (int, optional): the minimum number of pages to scan at a time. max_step (int, optional): the maximum number of pages to scan at a time. |
+|  keys ([str], optional): これらのキーのみをフェッチし、すべてのキーが定義されている行のみをフェッチします。 page_size (int, optional): API からフェッチするページのサイズ。 min_step (int, optional): 一度にスキャンする最小ページ数。 max_step (int, optional): 一度にスキャンする最大ページ数。 |
 
 | Returns |  |
 | :--- | :--- |
-|  An iterable collection over history records (dict). |
+|  履歴レコード (dict) の反復可能なコレクション。 |
 
 ### `snake_to_camel`
 
@@ -264,7 +263,7 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this run.
+この run を表示する iframe を含む HTML を生成します。
 
 ### `update`
 
@@ -274,7 +273,7 @@ Generate HTML containing an iframe displaying this run.
 update()
 ```
 
-Persist changes to the run object to the wandb backend.
+run オブジェクトへの変更を wandb バックエンドに永続化します。
 
 ### `upload_file`
 
@@ -286,15 +285,15 @@ upload_file(
 )
 ```
 
-Upload a file.
+ファイルをアップロードします。
 
 | Args |  |
 | :--- | :--- |
-|  path (str): name of file to upload. root (str): the root path to save the file relative to. i.e. If you want to have the file saved in the run as "my_dir/file.txt" and you're currently in "my_dir" you would set root to "../". |
+|  path (str): アップロードするファイルの名前。 root (str): ファイルを相対的に保存するルートパス。 例: ファイルを run に "my_dir/file.txt" として保存し、現在 "my_dir" にいる場合は、root を "../" に設定します。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `File` matching the name argument. |
+|  name 引数に一致する `File`。 |
 
 ### `use_artifact`
 
@@ -306,15 +305,15 @@ use_artifact(
 )
 ```
 
-Declare an artifact as an input to a run.
+アーティファクトを run への入力として宣言します。
 
 | Args |  |
 | :--- | :--- |
-|  artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)` use_as (string, optional): A string identifying how the artifact is used in the script. Used to easily differentiate artifacts used in a run, when using the beta wandb launch feature's artifact swapping functionality. |
+|  artifact (`Artifact`): `wandb.Api().artifact(name)` から返されたアーティファクト use_as (string, optional): スクリプトでアーティファクトがどのように使用されるかを識別する文字列。 ベータ版の wandb launch 機能のアーティファクトスワップ機能を使用する場合に、run で使用されるアーティファクトを簡単に区別するために使用されます。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
 ### `used_artifacts`
 
@@ -326,19 +325,17 @@ used_artifacts(
 ) -> public.RunArtifacts
 ```
 
-Fetches artifacts explicitly used by this run.
+この run で明示的に使用されている Artifacts をフェッチします。
 
-Retrieves only the input artifacts that were explicitly declared as used
-during the run, typically via `run.use_artifact()`. Returns a paginated
-result that can be iterated over or collected into a single list.
+通常は `run.use_artifact()` を介して、run 中に使用されたと明示的に宣言された入力 Artifacts のみを取得します。反復処理したり、単一のリストに収集したりできるページ分割された結果を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `per_page` |  Number of artifacts to fetch per API request. |
+|  `per_page` |  API リクエストごとにフェッチする Artifacts の数。 |
 
 | Returns |  |
 | :--- | :--- |
-|  An iterable collection of Artifact objects explicitly used as inputs in this run. |
+|  この run で入力として明示的に使用される Artifact オブジェクトの反復可能なコレクション。 |
 
 #### Example:
 

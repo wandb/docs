@@ -1,8 +1,8 @@
 ---
+title: RunQueue
 menu:
   reference:
     identifier: ja-ref-python-public-api-runqueue
-title: RunQueue
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L427-L653 >}}
@@ -21,9 +21,9 @@ RunQueue(
 
 | Attributes |  |
 | :--- | :--- |
-|  `items` |  Up to the first 100 queued runs. Modifying this list will not modify the queue or any enqueued items! |
+|  `items` |  最初の100個までのキューに入った run 。このリストを変更しても、キューやキューに入ったアイテムは変更されません！ |
 
-## Methods
+## メソッド
 
 ### `create`
 
@@ -49,4 +49,5 @@ create(
 delete()
 ```
 
-Delete the run queue from the wandb backend.
+wandb バックエンドから run キューを削除します。
+```

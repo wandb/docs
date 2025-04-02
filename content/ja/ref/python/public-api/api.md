@@ -1,13 +1,13 @@
 ---
+title: Api
 menu:
   reference:
     identifier: ja-ref-python-public-api-api
-title: Api
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L104-L1573 >}}
 
-Used for querying the wandb server.
+wandb サーバー のクエリに使用されます。
 
 ```python
 Api(
@@ -17,9 +17,9 @@ Api(
 ) -> None
 ```
 
-#### Examples:
+#### 例:
 
-Most common way to initialize
+初期化の最も一般的な方法
 
 ```
 >>> wandb.Api()
@@ -27,12 +27,12 @@ Most common way to initialize
 
 | Args |  |
 | :--- | :--- |
-|  `overrides` |  (dict) You can set `base_url` if you are using a wandb server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`. |
+|  `overrides` |  (辞書) `https://api.wandb.ai` 以外の wandb サーバー を使用している場合は、`base_url` を設定できます。また、`entity`、`project`、および `run` のデフォルト値を設定することもできます。 |
 
 | Attributes |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `artifact`
 
@@ -45,25 +45,25 @@ artifact(
 )
 ```
 
-Return a single artifact by parsing path in the form `project/name` or `entity/project/name`.
+`project/name` または `entity/project/name` の形式でパスを解析して、単一の artifact を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact name. May be prefixed with project/ or entity/project/. If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms: name:version name:alias |
-|  `type` |  (str, optional) The type of artifact to fetch. |
+|  `name` |  (str) artifact 名。project/ または entity/project/ が前に付いている場合があります。名前で entity が指定されていない場合、Run または API 設定の entity が使用されます。有効な名前は、name:version name:alias の形式にすることができます。 |
+|  `type` |  (str, オプション) フェッチする artifact の型。 |
 
 | Returns |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
 | Raises |  |
 | :--- | :--- |
-|  `ValueError` |  If the artifact name is not specified. |
-|  `ValueError` |  If the artifact type is specified but does not match the type of the fetched artifact. |
+|  `ValueError` |  artifact 名が指定されていない場合。 |
+|  `ValueError` |  artifact の型が指定されているが、フェッチされた artifact の型と一致しない場合。 |
 
-#### Note:
+#### 注:
 
-This method is intended for external use only. Do not call `api.artifact()` within the wandb repository code.
+このメソッドは、外部での使用のみを目的としています。wandb リポジトリ コード内で `api.artifact()` を呼び出さないでください。
 
 ### `artifact_collection`
 
@@ -76,16 +76,16 @@ artifact_collection(
 ) -> "public.ArtifactCollection"
 ```
 
-Return a single artifact collection by type and parsing path in the form `entity/project/name`.
+型で単一の artifact collection を返し、`entity/project/name` の形式でパスを解析します。
 
 | Args |  |
 | :--- | :--- |
-|  `type_name` |  (str) The type of artifact collection to fetch. |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. |
+|  `type_name` |  (str) フェッチする artifact collection の型。 |
+|  `name` |  (str) artifact collection 名。entity/project が前に付いている場合があります。 |
 
 | Returns |  |
 | :--- | :--- |
-|  An `ArtifactCollection` object. |
+|  `ArtifactCollection` オブジェクト。 |
 
 ### `artifact_collection_exists`
 
@@ -98,16 +98,16 @@ artifact_collection_exists(
 ) -> bool
 ```
 
-Return whether an artifact collection exists within a specified project and entity.
+artifact collection が指定された project および entity 内に存在するかどうかを返します。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to "uncategorized". |
-|  `type` |  (str) The type of artifact collection |
+|  `name` |  (str) artifact collection 名。entity/project が前に付いている場合があります。entity または project が指定されていない場合、オーバーライド パラメータから推測されます (設定されている場合)。それ以外の場合、entity はユーザー設定から取得され、project はデフォルトで "uncategorized" になります。 |
+|  `type` |  (str) artifact collection の型 |
 
 | Returns |  |
 | :--- | :--- |
-|  True if the artifact collection exists, False otherwise. |
+|  artifact collection が存在する場合は True、それ以外の場合は False。 |
 
 ### `artifact_collections`
 
@@ -121,17 +121,17 @@ artifact_collections(
 ) -> "public.ArtifactCollections"
 ```
 
-Return a collection of matching artifact collections.
+一致する artifact collection の collection を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `project_name` |  (str) The name of the project to filter on. |
-|  `type_name` |  (str) The name of the artifact type to filter on. |
-|  `per_page` |  (int, optional) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+|  `project_name` |  (str) フィルタリングする project の名前。 |
+|  `type_name` |  (str) フィルタリングする artifact の型の名前。 |
+|  `per_page` |  (int, オプション) クエリ ページネーションのページ サイズを設定します。None を指定すると、デフォルト サイズが使用されます。通常、これを変更する理由はありません。 |
 
 | Returns |  |
 | :--- | :--- |
-|  An iterable `ArtifactCollections` object. |
+|  反復可能な `ArtifactCollections` オブジェクト。 |
 
 ### `artifact_exists`
 
@@ -144,16 +144,16 @@ artifact_exists(
 ) -> bool
 ```
 
-Return whether an artifact version exists within a specified project and entity.
+artifact バージョンが指定された project および entity 内に存在するかどうかを返します。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to "uncategorized". Valid names can be in the following forms: name:version name:alias |
-|  `type` |  (str, optional) The type of artifact |
+|  `name` |  (str) artifact 名。entity/project が前に付いている場合があります。entity または project が指定されていない場合、オーバーライド パラメータから推測されます (設定されている場合)。それ以外の場合、entity はユーザー設定から取得され、project はデフォルトで "uncategorized" になります。有効な名前は、name:version name:alias の形式にすることができます。 |
+|  `type` |  (str, オプション) artifact の型 |
 
 | Returns |  |
 | :--- | :--- |
-|  True if the artifact version exists, False otherwise. |
+|  artifact バージョンが存在する場合は True、それ以外の場合は False。 |
 
 ### `artifact_type`
 
@@ -166,16 +166,16 @@ artifact_type(
 ) -> "public.ArtifactType"
 ```
 
-Return the matching `ArtifactType`.
+一致する `ArtifactType` を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `type_name` |  (str) The name of the artifact type to retrieve. |
-|  `project` |  (str, optional) If given, a project name or path to filter on. |
+|  `type_name` |  (str) 取得する artifact の型の名前。 |
+|  `project` |  (str, オプション) 指定された場合、フィルタリングする project 名またはパス。 |
 
 | Returns |  |
 | :--- | :--- |
-|  An `ArtifactType` object. |
+|  `ArtifactType` オブジェクト。 |
 
 ### `artifact_types`
 
@@ -187,15 +187,15 @@ artifact_types(
 ) -> "public.ArtifactTypes"
 ```
 
-Return a collection of matching artifact types.
+一致する artifact 型の collection を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `project` |  (str, optional) If given, a project name or path to filter on. |
+|  `project` |  (str, オプション) 指定された場合、フィルタリングする project 名またはパス。 |
 
 | Returns |  |
 | :--- | :--- |
-|  An iterable `ArtifactTypes` object. |
+|  反復可能な `ArtifactTypes` オブジェクト。 |
 
 ### `artifact_versions`
 
@@ -207,7 +207,7 @@ artifact_versions(
 )
 ```
 
-Deprecated, use `artifacts(type_name, name)` instead.
+非推奨。代わりに `artifacts(type_name, name)` を使用してください。
 
 ### `artifacts`
 
@@ -222,18 +222,18 @@ artifacts(
 ) -> "public.Artifacts"
 ```
 
-Return an `Artifacts` collection from the given parameters.
+指定されたパラメータから `Artifacts` collection を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `type_name` |  (str) The type of artifacts to fetch. |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. |
-|  `per_page` |  (int, optional) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
-|  `tags` |  (list[str], optional) Only return artifacts with all of these tags. |
+|  `type_name` |  (str) フェッチする artifacts の型。 |
+|  `name` |  (str) artifact collection 名。entity/project が前に付いている場合があります。 |
+|  `per_page` |  (int, オプション) クエリ ページネーションのページ サイズを設定します。None を指定すると、デフォルト サイズが使用されます。通常、これを変更する理由はありません。 |
+|  `tags` |  (list[str], オプション) これらのタグをすべて持つ artifacts のみを返します。 |
 
 | Returns |  |
 | :--- | :--- |
-|  An iterable `Artifacts` object. |
+|  反復可能な `Artifacts` オブジェクト。 |
 
 ### `create_project`
 
@@ -246,12 +246,12 @@ create_project(
 ) -> None
 ```
 
-Create a new project.
+新しい project を作成します。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) The name of the new project. |
-|  `entity` |  (str) The entity of the new project. |
+|  `name` |  (str) 新しい project の名前。 |
+|  `entity` |  (str) 新しい project の entity。 |
 
 ### `create_run`
 
@@ -266,17 +266,17 @@ create_run(
 ) -> "public.Run"
 ```
 
-Create a new run.
+新しい run を作成します。
 
 | Args |  |
 | :--- | :--- |
-|  `run_id` |  (str, optional) The ID to assign to the run, if given. The run ID is automatically generated by default, so in general, you do not need to specify this and should only do so at your own risk. |
-|  `project` |  (str, optional) If given, the project of the new run. |
-|  `entity` |  (str, optional) If given, the entity of the new run. |
+|  `run_id` |  (str, オプション) 指定された場合、run に割り当てる ID。run ID はデフォルトで自動的に生成されるため、通常はこれを指定する必要はなく、自己責任で行う必要があります。 |
+|  `project` |  (str, オプション) 指定された場合、新しい run の project。 |
+|  `entity` |  (str, オプション) 指定された場合、新しい run の entity。 |
 
 | Returns |  |
 | :--- | :--- |
-|  The newly created `Run`. |
+|  新しく作成された `Run`。 |
 
 ### `create_run_queue`
 
@@ -293,24 +293,24 @@ create_run_queue(
 ) -> "public.RunQueue"
 ```
 
-Create a new run queue (launch).
+新しい run queue (Launch) を作成します。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create |
-|  `type` |  (str) Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex". |
-|  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either "V0" or None |
-|  `config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
-|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
+|  `name` |  (str) 作成する queue の名前 |
+|  `type` |  (str) queue に使用するリソースの型。"local-container"、"local-process"、"kubernetes"、"sagemaker"、または "gcp-vertex" のいずれか。 |
+|  `entity` |  (str) queue を作成する entity のオプションの名前。None の場合、設定されたまたはデフォルトの entity が使用されます。 |
+|  `prioritization_mode` |  (str) 使用する優先順位付けのオプションのバージョン。"V0" または None |
+|  `config` |  (dict) queue に使用するオプションのデフォルト リソース設定。handlebars (例: `{{var}}`) を使用してテンプレート変数を指定します。 |
+|  `template_variables` |  (dict) config で使用するテンプレート変数スキーマの辞書。予期される形式: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
 
 | Returns |  |
 | :--- | :--- |
-|  The newly created `RunQueue` |
+|  新しく作成された `RunQueue` |
 
 | Raises |  |
 | :--- | :--- |
-|  ValueError if any of the parameters are invalid wandb.Error on wandb API errors |
+|  パラメータが無効な場合は ValueError wandb API エラーの場合は wandb.Error |
 
 ### `create_team`
 
@@ -322,16 +322,16 @@ create_team(
 )
 ```
 
-Create a new team.
+新しい team を作成します。
 
 | Args |  |
 | :--- | :--- |
-|  `team` |  (str) The name of the team |
-|  `admin_username` |  (str) optional username of the admin user of the team, defaults to the current user. |
+|  `team` |  (str) team の名前 |
+|  `admin_username` |  (str) team の管理者ユーザーのオプションのユーザー名。デフォルトは現在のユーザーです。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Team` object |
+|  `Team` オブジェクト |
 
 ### `create_user`
 
@@ -343,16 +343,16 @@ create_user(
 )
 ```
 
-Create a new user.
+新しい user を作成します。
 
 | Args |  |
 | :--- | :--- |
-|  `email` |  (str) The email address of the user |
-|  `admin` |  (bool) Whether this user should be a global instance admin |
+|  `email` |  (str) ユーザーのメール アドレス |
+|  `admin` |  (bool) このユーザーをグローバル インスタンス管理者にするかどうか |
 
 | Returns |  |
 | :--- | :--- |
-|  A `User` object |
+|  `User` オブジェクト |
 
 ### `flush`
 
@@ -362,11 +362,9 @@ Create a new user.
 flush()
 ```
 
-Flush the local cache.
+ローカル キャッシュをフラッシュします。
 
-The api object keeps a local cache of runs, so if the state of the run may
-change while executing your script you must clear the local cache with
-`api.flush()` to get the latest values associated with the run.
+api オブジェクトは run のローカル キャッシュを保持するため、スクリプトの実行中に run の状態が変化する可能性がある場合は、`api.flush()` でローカル キャッシュをクリアして、run に関連付けられている最新の値を取得する必要があります。
 
 ### `from_path`
 
@@ -378,9 +376,9 @@ from_path(
 )
 ```
 
-Return a run, sweep, project or report from a path.
+パスから run、sweep、project、または report を返します。
 
-#### Examples:
+#### 例:
 
 ```
 project = api.from_path("my_project")
@@ -392,15 +390,15 @@ report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) The path to the project, run, sweep or report |
+|  `path` |  (str) project、run、sweep、または report へのパス |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Project`, `Run`, `Sweep`, or `BetaReport` instance. |
+|  `Project`、`Run`、`Sweep`、または `BetaReport` インスタンス。 |
 
 | Raises |  |
 | :--- | :--- |
-|  wandb.Error if path is invalid or the object doesn't exist |
+|  パスが無効であるか、オブジェクトが存在しない場合は wandb.Error |
 
 ### `job`
 
@@ -413,16 +411,16 @@ job(
 ) -> "public.Job"
 ```
 
-Return a `Job` from the given parameters.
+指定されたパラメータから `Job` を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) The job name. |
-|  `path` |  (str, optional) If given, the root path in which to download the job artifact. |
+|  `name` |  (str) ジョブ名。 |
+|  `path` |  (str, オプション) 指定された場合、ジョブ artifact をダウンロードするルート パス。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Job` object. |
+|  `Job` オブジェクト。 |
 
 ### `list_jobs`
 
@@ -435,16 +433,16 @@ list_jobs(
 ) -> List[Dict[str, Any]]
 ```
 
-Return a list of jobs, if any, for the given entity and project.
+指定された entity および project のジョブ (存在する場合) のリストを返します。
 
 | Args |  |
 | :--- | :--- |
-|  `entity` |  (str) The entity for the listed job(s). |
-|  `project` |  (str) The project for the listed job(s). |
+|  `entity` |  (str) リストされたジョブの entity。 |
+|  `project` |  (str) リストされたジョブの project。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A list of matching jobs. |
+|  一致するジョブのリスト。 |
 
 ### `project`
 
@@ -457,16 +455,16 @@ project(
 ) -> "public.Project"
 ```
 
-Return the `Project` with the given name (and entity, if given).
+指定された名前 (および指定された場合は entity) を持つ `Project` を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) The project name. |
-|  `entity` |  (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
+|  `name` |  (str) project 名。 |
+|  `entity` |  (str) 要求された entity の名前。None の場合、`Api` に渡されたデフォルトの entity にフォールバックします。デフォルトの entity がない場合は、`ValueError` が発生します。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Project` object. |
+|  `Project` オブジェクト。 |
 
 ### `projects`
 
@@ -479,16 +477,16 @@ projects(
 ) -> "public.Projects"
 ```
 
-Get projects for a given entity.
+指定された entity の projects を取得します。
 
 | Args |  |
 | :--- | :--- |
-|  `entity` |  (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+|  `entity` |  (str) 要求された entity の名前。None の場合、`Api` に渡されたデフォルトの entity にフォールバックします。デフォルトの entity がない場合は、`ValueError` が発生します。 |
+|  `per_page` |  (int) クエリ ページネーションのページ サイズを設定します。None を指定すると、デフォルト サイズが使用されます。通常、これを変更する理由はありません。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Projects` object which is an iterable collection of `Project` objects. |
+|  `Project` オブジェクトの反復可能な collection である `Projects` オブジェクト。 |
 
 ### `queued_run`
 
@@ -501,9 +499,9 @@ queued_run(
 )
 ```
 
-Return a single queued run based on the path.
+パスに基づいて、単一の queue に入れられた run を返します。
 
-Parses paths of the form entity/project/queue_id/run_queue_item_id.
+entity/project/queue_id/run_queue_item_id の形式のパスを解析します。
 
 ### `registries`
 
@@ -516,29 +514,28 @@ registries(
 ) -> Registries
 ```
 
-Returns a Registry iterator.
+Registry イテレーターを返します。
 
-Use the iterator to search and filter registries, collections,
-or artifact versions across your organization's registry.
+イテレーターを使用して、組織の registry 全体で registry、collection、または artifact バージョンを検索およびフィルタリングします。
 
-#### Examples:
+#### 例:
 
-Find all registries with the names that contain "model"
+名前に "model" が含まれるすべての registry を検索します
 
 ```python
 import wandb
 
-api = wandb.Api()  # specify an org if your entity belongs to multiple orgs
+api = wandb.Api()  # entity が複数の org に属している場合は org を指定します
 api.registries(filter={"name": {"$regex": "model"}})
 ```
 
-Find all collections in the registries with the name "my_collection" and the tag "my_tag"
+名前が "my_collection" でタグが "my_tag" の registry 内のすべての collection を検索します
 
 ```python
 api.registries().collections(filter={"name": "my_collection", "tag": "my_tag"})
 ```
 
-Find all artifact versions in the registries with a collection name that contains "my_collection" and a version that has the alias "best"
+名前が "my_collection" を含み、エイリアスが "best" のバージョンを持つ registry 内のすべての artifact バージョンを検索します
 
 ```python
 api.registries().collections(
@@ -546,7 +543,7 @@ api.registries().collections(
 ).versions(filter={"alias": "best"})
 ```
 
-Find all artifact versions in the registries that contain "model" and have the tag "prod" or alias "best"
+"model" を含み、タグ "prod" またはエイリアス "best" を持つ registry 内のすべての artifact バージョンを検索します
 
 ```python
 api.registries(filter={"name": {"$regex": "model"}}).versions(
@@ -556,12 +553,12 @@ api.registries(filter={"name": {"$regex": "model"}}).versions(
 
 | Args |  |
 | :--- | :--- |
-|  `organization` |  (str, optional) The organization of the registry to fetch. If not specified, use the organization specified in the user's settings. |
-|  `filter` |  (dict, optional) MongoDB-style filter to apply to each object in the registry iterator. Fields available to filter for collections are `name`, `description`, `created_at`, `updated_at`. Fields available to filter for collections are `name`, `tag`, `description`, `created_at`, `updated_at` Fields available to filter for versions are `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
+|  `organization` |  (str, オプション) フェッチする registry の組織。指定されていない場合は、ユーザーの設定で指定された組織を使用します。 |
+|  `filter` |  (dict, オプション) registry イテレーターの各オブジェクトに適用する MongoDB スタイルのフィルター。collection でフィルタリングに使用できるフィールドは、`name`、`description`、`created_at`、`updated_at` です。collection でフィルタリングに使用できるフィールドは、`name`、`tag`、`description`、`created_at`、`updated_at` です。バージョンでフィルタリングに使用できるフィールドは、`tag`、`alias`、`created_at`、`updated_at`、`metadata` です |
 
 | Returns |  |
 | :--- | :--- |
-|  A registry iterator. |
+|  registry イテレーター。 |
 
 ### `reports`
 
@@ -575,19 +572,19 @@ reports(
 ) -> "public.Reports"
 ```
 
-Get reports for a given project path.
+指定された project パスの reports を取得します。
 
-WARNING: This api is in beta and will likely change in a future release
+警告: この API はベータ版であり、将来のリリースで変更される可能性があります
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) path to project the report resides in, should be in the form: "entity/project" |
-|  `name` |  (str, optional) optional name of the report requested. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+|  `path` |  (str) report が存在する project へのパス。形式は "entity/project" である必要があります |
+|  `name` |  (str, オプション) 要求された report のオプションの名前。 |
+|  `per_page` |  (int) クエリ ページネーションのページ サイズを設定します。None を指定すると、デフォルト サイズが使用されます。通常、これを変更する理由はありません。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Reports` object which is an iterable collection of `BetaReport` objects. |
+|  `BetaReport` オブジェクトの反復可能な collection である `Reports` オブジェクト。 |
 
 ### `run`
 
@@ -599,15 +596,15 @@ run(
 )
 ```
 
-Return a single run by parsing path in the form entity/project/run_id.
+entity/project/run_id の形式でパスを解析して、単一の run を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id. |
+|  `path` |  (str) `entity/project/run_id` の形式の run へのパス。`api.entity` が設定されている場合は、`project/run_id` の形式にすることができ、`api.project` が設定されている場合は、run_id のみにすることができます。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Run` object. |
+|  `Run` オブジェクト。 |
 
 ### `run_queue`
 
@@ -619,9 +616,9 @@ run_queue(
 )
 ```
 
-Return the named `RunQueue` for entity.
+entity の名前付き `RunQueue` を返します。
 
-To create a new `RunQueue`, use `wandb.Api().create_run_queue(...)`.
+新しい `RunQueue` を作成するには、`wandb.Api().create_run_queue(...)` を使用します。
 
 ### `runs`
 
@@ -637,27 +634,27 @@ runs(
 )
 ```
 
-Return a set of runs from a project that match the filters provided.
+指定されたフィルターに一致する project から run のセットを返します。
 
-Fields you can filter by include:
+フィルターできるフィールドには、次のものがあります。
 
-- `createdAt`: The timestamp when the run was created. (in ISO 8601 format, e.g. "2023-01-01T12:00:00Z")
-- `displayName`: The human-readable display name of the run. (e.g. "eager-fox-1")
-- `duration`: The total runtime of the run in seconds.
-- `group`: The group name used to organize related runs together.
-- `host`: The hostname where the run was executed.
-- `jobType`: The type of job or purpose of the run.
-- `name`: The unique identifier of the run. (e.g. "a1b2cdef")
-- `state`: The current state of the run.
-- `tags`: The tags associated with the run.
-- `username`: The username of the user who initiated the run
+- `createdAt`: run が作成されたタイムスタンプ。(ISO 8601 形式、例: "2023-01-01T12:00:00Z")
+- `displayName`: run の人間が判読できる表示名。(例: "eager-fox-1")
+- `duration`: run の合計実行時間 (秒単位)。
+- `group`: 関連する run をまとめて整理するために使用されるグループ名。
+- `host`: run が実行されたホスト名。
+- `jobType`: run のジョブの種類または目的。
+- `name`: run の一意の識別子。(例: "a1b2cdef")
+- `state`: run の現在の状態。
+- `tags`: run に関連付けられているタグ。
+- `username`: run を開始したユーザーのユーザー名
 
-Additionally, you can filter by items in the run config or summary metrics.
-Such as `config.experiment_name`, `summary_metrics.loss`, etc.
+さらに、run config または summary metrics の項目でフィルタリングできます。
+`config.experiment_name`、`summary_metrics.loss` など。
 
-For more complex filtering, you can use MongoDB query operators.
-For details, see: https://docs.mongodb.com/manual/reference/operator/query
-The following operations are supported:
+より複雑なフィルタリングを行うには、MongoDB クエリ演算子を使用できます。
+詳細については、https://docs.mongodb.com/manual/reference/operator/query を参照してください。
+次の操作がサポートされています。
 
 - `$and`
 - `$or`
@@ -673,9 +670,9 @@ The following operations are supported:
 - `$exists`
 - `$regex`
 
-#### Examples:
+#### 例:
 
-Find runs in my_project where config.experiment_name has been set to "foo"
+config.experiment_name が "foo" に設定されている my_project で run を検索します
 
 ```
 api.runs(
@@ -684,7 +681,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where config.experiment_name has been set to "foo" or "bar"
+config.experiment_name が "foo" または "bar" に設定されている my_project で run を検索します
 
 ```
 api.runs(
@@ -698,7 +695,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where config.experiment_name matches a regex (anchors are not supported)
+config.experiment_name が正規表現に一致する my_project で run を検索します (アンカーはサポートされていません)
 
 ```
 api.runs(
@@ -707,7 +704,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where the run name matches a regex (anchors are not supported)
+run 名が正規表現に一致する my_project で run を検索します (アンカーはサポートされていません)
 
 ```
 api.runs(
@@ -716,7 +713,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where config.experiment contains a nested field "category" with value "testing"
+config.experiment に値 "testing" を持つネストされたフィールド "category" が含まれている my_project で run を検索します
 
 ```
 api.runs(
@@ -725,7 +722,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project with a loss value of 0.5 nested in a dictionary under model1 in the summary metrics
+summary metrics の model1 の下の辞書にネストされた損失値が 0.5 の my_project で run を検索します
 
 ```
 api.runs(
@@ -734,7 +731,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project sorted by ascending loss
+損失の昇順でソートされた my_project で run を検索します
 
 ```
 api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
@@ -742,15 +739,15 @@ api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str) path to project, should be in the form: "entity/project" |
-|  `filters` |  (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: `{"config.experiment_name": "foo"}` would find runs with a config entry of experiment name set to "foo" |
-|  `order` |  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from oldest to newest. |
-|  `per_page` |  (int) Sets the page size for query pagination. |
-|  `include_sweeps` |  (bool) Whether to include the sweep runs in the results. |
+|  `path` |  (str) project へのパス。形式は "entity/project" である必要があります |
+|  `filters` |  (dict) MongoDB クエリ言語を使用して特定の run をクエリします。config.key、summary_metrics.key、state、entity、createdAt などの run プロパティでフィルタリングできます。たとえば、`{"config.experiment_name": "foo"}` は、experiment 名が "foo" に設定された config エントリを持つ run を検索します |
+|  `order` |  (str) 順序は、`created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` にすることができます。順序の前に + を付けると、順序は昇順になります。順序の前に - を付けると、順序は降順になります (デフォルト)。デフォルトの順序は、run.created_at が最も古いものから最も新しいものになります。 |
+|  `per_page` |  (int) クエリ ページネーションのページ サイズを設定します。 |
+|  `include_sweeps` |  (bool) 結果に sweep runs を含めるかどうか。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Runs` object, which is an iterable collection of `Run` objects. |
+|  `Run` オブジェクトの反復可能な collection である `Runs` オブジェクト。 |
 
 ### `sweep`
 
@@ -762,15 +759,15 @@ sweep(
 )
 ```
 
-Return a sweep by parsing path in the form `entity/project/sweep_id`.
+`entity/project/sweep_id` の形式でパスを解析して sweep を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `path` |  (str, optional) path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id. |
+|  `path` |  (str, optional) entity/project/sweep_id の形式の sweep へのパス。`api.entity` が設定されている場合は、project/sweep_id の形式にすることができ、`api.project` が設定されている場合は、sweep_id のみにすることができます。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Sweep` object. |
+|  `Sweep` オブジェクト。 |
 
 ### `sync_tensorboard`
 
@@ -782,7 +779,7 @@ sync_tensorboard(
 )
 ```
 
-Sync a local directory containing tfevent files to wandb.
+tfevent ファイルを含むローカル ディレクトリを wandb に同期します。
 
 ### `team`
 
@@ -794,15 +791,15 @@ team(
 ) -> "public.Team"
 ```
 
-Return the matching `Team` with the given name.
+指定された名前を持つ一致する `Team` を返します。
 
 | Args |  |
 | :--- | :--- |
-|  `team` |  (str) The name of the team. |
+|  `team` |  (str) team の名前。 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Team` object. |
+|  `Team` オブジェクト。 |
 
 ### `upsert_run_queue`
 
@@ -820,25 +817,25 @@ upsert_run_queue(
 )
 ```
 
-Upsert a run queue (launch).
+run queue (Launch) をアップサートします。
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create |
-|  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
-|  `resource_config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
-|  `resource_type` |  (str) Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex". |
-|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
-|  `external_links` |  (dict) Optional dictionary of external links to be used with the queue. Expected format of: `{ "name": "url" }` |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either "V0" or None |
+|  `name` |  (str) 作成する queue の名前 |
+|  `entity` |  (str) queue を作成する entity のオプションの名前。None の場合、設定されたまたはデフォルトの entity が使用されます。 |
+|  `resource_config` |  (dict) queue に使用するオプションのデフォルト リソース設定。handlebars (例: `{{var}}`) を使用してテンプレート変数を指定します。 |
+|  `resource_type` |  (str) queue に使用するリソースの型。"local-container"、"local-process"、"kubernetes"、"sagemaker"、または "gcp-vertex" のいずれか。 |
+|  `template_variables` |  (dict) config で使用するテンプレート変数スキーマの辞書。予期される形式: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
+|  `external_links` |  (dict) queue で使用する外部リンクのオプションの辞書。予期される形式: `{ "name": "url" }` |
+|  `prioritization_mode` |  (str) 使用する優先順位付けのオプションのバージョン。"V0" または None |
 
 | Returns |  |
 | :--- | :--- |
-|  The upserted `RunQueue`. |
+|  アップサートされた `RunQueue`。 |
 
 | Raises |  |
 | :--- | :--- |
-|  ValueError if any of the parameters are invalid wandb.Error on wandb API errors |
+|  パラメータが無効な場合は ValueError wandb API エラーの場合は wandb.Error |
 
 ### `user`
 
@@ -850,17 +847,17 @@ user(
 ) -> Optional['public.User']
 ```
 
-Return a user from a username or email address.
+ユーザー名またはメール アドレスからユーザーを返します。
 
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
+注: この関数はローカル管理者に対してのみ機能します。自分のユーザー オブジェクトを取得しようとしている場合は、`api.viewer` を使用してください。
 
 | Args |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) The username or email address of the user |
+|  `username_or_email` |  (str) ユーザーのユーザー名またはメール アドレス |
 
 | Returns |  |
 | :--- | :--- |
-|  A `User` object or None if a user couldn't be found |
+|  `User` オブジェクト。ユーザーが見つからない場合は None |
 
 ### `users`
 
@@ -872,17 +869,17 @@ users(
 ) -> List['public.User']
 ```
 
-Return all users from a partial username or email address query.
+部分的なユーザー名またはメール アドレス クエリからすべてのユーザーを返します。
 
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
+注: この関数はローカル管理者に対してのみ機能します。自分のユーザー オブジェクトを取得しようとしている場合は、`api.viewer` を使用してください。
 
 | Args |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) The prefix or suffix of the user you want to find |
+|  `username_or_email` |  (str) 検索するユーザーのプレフィックスまたはサフィックス |
 
 | Returns |  |
 | :--- | :--- |
-|  An array of `User` objects |
+|  `User` オブジェクトの配列 |
 
 | Class Variables |  |
 | :--- | :--- |

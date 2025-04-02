@@ -1,13 +1,13 @@
 ---
+title: Graph
 menu:
   reference:
     identifier: ja-ref-python-data-types-graph
-title: Graph
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L245-L405 >}}
 
-Wandb class for graphs.
+グラフのための Wandb クラス。
 
 ```python
 Graph(
@@ -15,19 +15,17 @@ Graph(
 )
 ```
 
-This class is typically used for saving and displaying neural net models.  It
-represents the graph as an array of nodes and edges.  The nodes can have
-labels that can be visualized by wandb.
+このクラスは通常、ニューラルネットのモデルを保存および表示するために使用されます。これは、ノードとエッジの配列としてグラフを表します。ノードは wandb で可視化できるラベルを持つことができます。
 
-#### Examples:
+#### 例：
 
-Import a keras model:
+keras モデルをインポートします：
 
 ```
 Graph.from_keras(keras_model)
 ```
 
-## Methods
+## メソッド
 
 ### `add_edge`
 

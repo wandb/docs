@@ -1,101 +1,101 @@
 ---
+title: boolean
 menu:
   reference:
     identifier: ja-ref-query-panel-boolean
-title: boolean
 ---
 
 ## Chainable Ops
 <h3 id="and"><code>and</code></h3>
 
-Returns the logical `and` of the two values
+2つの 値 の論理積 `and` を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | First binary value |
-| `rhs` | Second binary value |
+| `lhs` | 最初の2進数値 |
+| `rhs` | 2番目の2進数値 |
 
 #### Return Value
-The logical `and` of the two values
+2つの 値 の論理積 `and`
 
 <h3 id="or"><code>or</code></h3>
 
-Returns the logical `or` of the two values
+2つの 値 の論理和 `or` を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | First binary value |
-| `rhs` | Second binary value |
+| `lhs` | 最初の2進数値 |
+| `rhs` | 2番目の2進数値 |
 
 #### Return Value
-The logical `or` of the two values
+2つの 値 の論理和 `or`
 
 <h3 id="boolean-not"><code>boolean-not</code></h3>
 
-Returns the logical inverse of the value
+値 の論理的な逆を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `bool` | The boolean value |
+| `bool` | ブール 値 |
 
 #### Return Value
-The logical inverse of the value
+値 の論理的な逆
 
 <h3 id="boolean-not"><code>boolean-not</code></h3>
 
-Returns the logical inverse of the value
+値 の論理的な逆を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `bool` | The boolean value |
+| `bool` | ブール 値 |
 
 #### Return Value
-The logical inverse of the value
+値 の論理的な逆
 
 
 ## List Ops
 <h3 id="and"><code>and</code></h3>
 
-Returns the logical `and` of the two values
+2つの 値 の論理積 `and` を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | First binary value |
-| `rhs` | Second binary value |
+| `lhs` | 最初の2進数値 |
+| `rhs` | 2番目の2進数値 |
 
 #### Return Value
-The logical `and` of the two values
+2つの 値 の論理積 `and`
 
 <h3 id="or"><code>or</code></h3>
 
-Returns the logical `or` of the two values
+2つの 値 の論理和 `or` を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | First binary value |
-| `rhs` | Second binary value |
+| `lhs` | 最初の2進数値 |
+| `rhs` | 2番目の2進数値 |
 
 #### Return Value
-The logical `or` of the two values
+2つの 値 の論理和 `or`
 
 <h3 id="boolean-not"><code>boolean-not</code></h3>
 
-Returns the logical inverse of the value
+値 の論理的な逆を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `bool` | The boolean value |
+| `bool` | ブール 値 |
 
 #### Return Value
-The logical inverse of the value
+値 の論理的な逆
 
 <h3 id="boolean-not"><code>boolean-not</code></h3>
 
-Returns the logical inverse of the value
+値 の論理的な逆を返します。
 
 | Argument |  |
 | :--- | :--- |
-| `bool` | The boolean value |
+| `bool` | ブール 値 |
 
 #### Return Value
-The logical inverse of the value
+値 の論理的な逆
