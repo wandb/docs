@@ -75,7 +75,7 @@ pip install wandb>=0.17.1
 
     `<your-api-key>` を W&B APIキーに置き換えます。
 {{% /tab %}}
-{{< /tabpane %}}
+{{< /tabpane >}}
 
 ## launch job の作成
 次の 3 つの方法のいずれかで [launch job]({{< relref path="./launch-terminology.md#launch-job" lang="ja" >}}) を作成します。Docker イメージを使用、git リポジトリから、またはローカル ソース コードから。
