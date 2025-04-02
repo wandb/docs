@@ -1,13 +1,13 @@
 ---
+title: Sweep
 menu:
   reference:
     identifier: ko-ref-python-public-api-sweep
-title: Sweep
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L30-L240 >}}
 
-A set of runs associated with a sweep.
+스윕과 관련된 run들의 집합입니다.
 
 ```python
 Sweep(
@@ -15,29 +15,29 @@ Sweep(
 )
 ```
 
-#### Examples:
+#### 예시:
 
-Instantiate with:
+다음과 같이 인스턴스화합니다:
 
 ```
 api = wandb.Api()
 sweep = api.sweep(path / to / sweep)
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
-|  `runs` |  (`Runs`) list of runs |
-|  `id` |  (str) sweep id |
-|  `project` |  (str) name of project |
-|  `config` |  (str) dictionary of sweep configuration |
-|  `state` |  (str) the state of the sweep |
-|  `expected_run_count` |  (int) number of expected runs for the sweep |
+|  `runs` |  (`Runs`) run들의 목록 |
+|  `id` |  (str) 스윕 ID |
+|  `project` |  (str) 프로젝트 이름 |
+|  `config` |  (str) 스윕 구성의 사전 |
+|  `state` |  (str) 스윕의 상태 |
+|  `expected_run_count` |  (int) 스윕에 예상되는 run의 수 |
 
-## Methods
+## 메소드
 
 ### `best_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L125-L148)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L125-L148)
 
 ```python
 best_run(
@@ -45,11 +45,11 @@ best_run(
 )
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in.
+구성에서 정의된 메트릭 또는 전달된 순서에 따라 정렬된 최상의 run을 반환합니다.
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
 
 ```python
 display(
@@ -57,11 +57,11 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+이 오브젝트를 jupyter에 표시합니다.
 
 ### `get`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L173-L222)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L173-L222)
 
 ```python
 @classmethod
@@ -70,11 +70,11 @@ get(
 )
 ```
 
-Execute a query against the cloud backend.
+클라우드 백엔드에 대해 쿼리를 실행합니다.
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L106-L114)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L106-L114)
 
 ```python
 load(
@@ -84,7 +84,7 @@ load(
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -94,7 +94,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L224-L232)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L224-L232)
 
 ```python
 to_html(
@@ -102,9 +102,9 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this sweep.
+이 스윕을 표시하는 iframe을 포함하는 HTML을 생성합니다.
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `LEGACY_QUERY`<a id="LEGACY_QUERY"></a> |   |
 |  `QUERY`<a id="QUERY"></a> |   |

@@ -1,35 +1,31 @@
 ---
-description: Export a W&B Report as a PDF or LaTeX.
+title: Clone and export reports
+description: W&B 리포트 를 PDF 또는 LaTeX로 내보내세요.
 menu:
   default:
     identifier: ko-guides-core-reports-clone-and-export-reports
     parent: reports
-title: Clone and export reports
 weight: 40
 ---
 
-## Export reports
+## Reports 내보내기
 
-Export a report as a PDF or LaTeX. Within your report, select the kebab icon to expand the dropdown menu. Choose **Download and** select either PDF or LaTeX output format.
+리포트를 PDF 또는 LaTeX로 내보냅니다. 리포트 내에서 케밥 아이콘을 선택하여 드롭다운 메뉴를 확장합니다. **다운로드**를 선택하고 PDF 또는 LaTeX 출력 형식을 선택합니다.
 
-## Cloning reports
+## Reports 복제
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
-Within your report, select the kebab icon to expand the dropdown menu. Choose the **Clone this report** button. Pick a destination for your cloned report in the modal. Choose **Clone report**.
+리포트 내에서 케밥 아이콘을 선택하여 드롭다운 메뉴를 확장합니다. **이 리포트 복제** 버튼을 선택합니다. 모달에서 복제된 리포트의 대상을 선택합니다. **리포트 복제**를 선택합니다.
 
 {{< img src="/images/reports/clone_reports.gif" alt="" >}}
 
-Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
+프로젝트의 템플릿과 형식을 재사용하기 위해 리포트를 복제합니다. 팀 계정 내에서 프로젝트를 복제하면 복제된 프로젝트가 팀에 표시됩니다. 개인 계정 내에서 복제된 프로젝트는 해당 사용자에게만 표시됩니다.
 {{% /tab %}}
 
 {{% tab header="Python SDK" value="python"%}}
 
-<!--
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" >}}
--->
-
-Load a Report from a URL to use it as a template.
+URL에서 Report를 로드하여 템플릿으로 사용합니다.
 
 ```python
 report = wr.Report(
@@ -39,7 +35,7 @@ report.save()  # Save
 new_report = wr.Report.from_url(report.url)  # Load
 ```
 
-Edit the content within `new_report.blocks`.
+`new_report.blocks` 내에서 콘텐츠를 편집합니다.
 
 ```python
 pg = wr.PanelGrid(

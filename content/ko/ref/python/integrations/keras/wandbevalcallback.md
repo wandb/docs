@@ -1,13 +1,13 @@
 ---
+title: WandbEvalCallback
 menu:
   reference:
     identifier: ko-ref-python-integrations-keras-wandbevalcallback
-title: WandbEvalCallback
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/integration/keras/callbacks/tables_builder.py#L10-L228 >}}
 
-Abstract base class to build Keras callbacks for model prediction visualization.
+모델 예측 시각화를 위한 Keras 콜백을 빌드하는 추상 기본 클래스입니다.
 
 ```python
 WandbEvalCallback(
@@ -18,25 +18,18 @@ WandbEvalCallback(
 ) -> None
 ```
 
-You can build callbacks for visualizing model predictions `on_epoch_end`
-that can be passed to `model.fit()` for classification, object detection,
-segmentation, etc. tasks.
+분류, 오브젝트 검출, 분할 등 작업을 위해 `model.fit()`에 전달될 수 있는 `on_epoch_end`에서 모델 예측을 시각화하기 위한 콜백을 빌드할 수 있습니다.
 
-To use this, inherit from this base callback class and implement the
-`add_ground_truth` and `add_model_prediction` methods.
+이를 사용하려면 이 기본 콜백 클래스에서 상속받아 `add_ground_truth` 및 `add_model_prediction` 메소드를 구현합니다.
 
-The base class will take care of the following:
+기본 클래스는 다음 사항을 처리합니다.
 
-- Initialize `data_table` for logging the ground truth and
-  `pred_table` for predictions.
-- The data uploaded to `data_table` is used as a reference for the
-  `pred_table`. This is to reduce the memory footprint. The `data_table_ref`
-  is a list that can be used to access the referenced data.
-  Check out the example below to see how it's done.
-- Log the tables to W&B as W&B Artifacts.
-- Each new `pred_table` is logged as a new version with aliases.
+- 그라운드 트루스 로깅을 위한 `data_table` 및 예측을 위한 `pred_table`을 초기화합니다.
+- `data_table`에 업로드된 데이터는 `pred_table`에 대한 참조로 사용됩니다. 이는 메모리 공간을 줄이기 위함입니다. `data_table_ref`는 참조된 데이터에 액세스하는 데 사용할 수 있는 목록입니다. 아래 예제를 통해 수행 방법을 확인하십시오.
+- 테이블을 W&B Artifacts로 W&B에 로그합니다.
+- 각 새 `pred_table`은 에일리어스와 함께 새 버전으로 로그됩니다.
 
-#### Example:
+#### 예시:
 
 ```python
 class WandbClfEvalCallback(WandbEvalCallback):
@@ -83,9 +76,7 @@ model.fit(
 )
 ```
 
-To have more fine-grained control, you can override the `on_train_begin` and
-`on_epoch_end` methods. If you want to log the samples after N batched, you
-can implement `on_train_batch_end` method.
+보다 세분화된 제어를 위해 `on_train_begin` 및 `on_epoch_end` 메소드를 재정의할 수 있습니다. N개 배치 후 샘플을 기록하려면 `on_train_batch_end` 메소드를 구현하면 됩니다.
 
 ## Methods
 
@@ -100,19 +91,18 @@ add_ground_truth(
 ) -> None
 ```
 
-Add ground truth data to `data_table`.
+그라운드 트루스 데이터를 `data_table`에 추가합니다.
 
-Use this method to write the logic for adding validation/training data to
-`data_table` initialized using `init_data_table` method.
+이 메소드를 사용하여 `init_data_table` 메소드를 사용하여 초기화된 `data_table`에 유효성 검사/트레이닝 데이터를 추가하는 로직을 작성합니다.
 
-#### Example:
+#### 예시:
 
 ```python
 for idx, data in enumerate(dataloader):
     self.data_table.add_data(idx, data)
 ```
 
-This method is called once `on_train_begin` or equivalent hook.
+이 메소드는 `on_train_begin` 또는 이와 동등한 훅에서 한 번 호출됩니다.
 
 ### `add_model_predictions`
 
@@ -126,15 +116,14 @@ add_model_predictions(
 ) -> None
 ```
 
-Add a prediction from a model to `pred_table`.
+모델의 예측값을 `pred_table`에 추가합니다.
 
-Use this method to write the logic for adding model prediction for validation/
-training data to `pred_table` initialized using `init_pred_table` method.
+이 메소드를 사용하여 `init_pred_table` 메소드를 사용하여 초기화된 `pred_table`에 대한 유효성 검사/트레이닝 데이터에 대한 모델 예측을 추가하는 로직을 작성합니다.
 
-#### Example:
+#### 예시:
 
 ```python
-# Assuming the dataloader is not shuffling the samples.
+# 데이터 로더가 샘플을 섞지 않는다고 가정합니다.
 for idx, data in enumerate(dataloader):
     preds = model.predict(data)
     self.pred_table.add_data(
@@ -144,7 +133,7 @@ for idx, data in enumerate(dataloader):
     )
 ```
 
-This method is called `on_epoch_end` or equivalent hook.
+이 메소드는 `on_epoch_end` 또는 이와 동등한 훅에서 호출됩니다.
 
 ### `init_data_table`
 
@@ -156,14 +145,13 @@ init_data_table(
 ) -> None
 ```
 
-Initialize the W&B Tables for validation data.
+유효성 검사 데이터를 위한 W&B Tables를 초기화합니다.
 
-Call this method `on_train_begin` or equivalent hook. This is followed by adding
-data to the table row or column wise.
+이 메소드를 `on_train_begin` 또는 이와 동등한 훅에서 호출합니다. 그 뒤에 테이블 행 또는 열 단위로 데이터를 추가합니다.
 
 | Args |  |
 | :--- | :--- |
-|  `column_names` |  (list) Column names for W&B Tables. |
+|  `column_names` | (list) W&B Tables의 열 이름입니다. |
 
 ### `init_pred_table`
 
@@ -175,14 +163,13 @@ init_pred_table(
 ) -> None
 ```
 
-Initialize the W&B Tables for model evaluation.
+모델 평가를 위한 W&B Tables를 초기화합니다.
 
-Call this method `on_epoch_end` or equivalent hook. This is followed by adding
-data to the table row or column wise.
+이 메소드를 `on_epoch_end` 또는 이와 동등한 훅에서 호출합니다. 그 뒤에 테이블 행 또는 열 단위로 데이터를 추가합니다.
 
 | Args |  |
 | :--- | :--- |
-|  `column_names` |  (list) Column names for W&B Tables. |
+|  `column_names` | (list) W&B Tables의 열 이름입니다. |
 
 ### `log_data_table`
 
@@ -196,16 +183,15 @@ log_data_table(
 ) -> None
 ```
 
-Log the `data_table` as W&B artifact and call `use_artifact` on it.
+`data_table`을 W&B 아티팩트로 기록하고 그에 대해 `use_artifact`를 호출합니다.
 
-This lets the evaluation table use the reference of already uploaded data
-(images, text, scalar, etc.) without re-uploading.
+이를 통해 평가 테이블은 이미 업로드된 데이터(이미지, 텍스트, 스칼라 등)의 참조를 다시 업로드하지 않고 사용할 수 있습니다.
 
 | Args |  |
 | :--- | :--- |
-|  `name` |  (str) A human-readable name for this artifact, which is how you can identify this artifact in the UI or reference it in use_artifact calls. (default is 'val') |
-|  `type` |  (str) The type of the artifact, which is used to organize and differentiate artifacts. (default is 'dataset') |
-|  `table_name` |  (str) The name of the table as will be displayed in the UI. (default is 'val_data'). |
+|  `name` | (str) 이 Artifacts에 대한 사람이 읽을 수 있는 이름입니다. UI에서 이 Artifacts를 식별하거나 use_artifact 호출에서 참조하는 방법입니다. (기본값은 'val') |
+|  `type` | (str) Artifacts의 유형으로, Artifacts를 구성하고 차별화하는 데 사용됩니다. (기본값은 'dataset') |
+|  `table_name` | (str) UI에 표시될 테이블의 이름입니다. (기본값은 'val_data') |
 
 ### `log_pred_table`
 
@@ -219,16 +205,15 @@ log_pred_table(
 ) -> None
 ```
 
-Log the W&B Tables for model evaluation.
+모델 평가를 위한 W&B Tables를 기록합니다.
 
-The table will be logged multiple times creating new version. Use this
-to compare models at different intervals interactively.
+테이블은 새 버전을 생성하여 여러 번 기록됩니다. 이를 사용하여 다른 간격으로 모델을 대화식으로 비교합니다.
 
 | Args |  |
 | :--- | :--- |
-|  `type` |  (str) The type of the artifact, which is used to organize and differentiate artifacts. (default is 'evaluation') |
-|  `table_name` |  (str) The name of the table as will be displayed in the UI. (default is 'eval_data') |
-|  `aliases` |  (List[str]) List of aliases for the prediction table. |
+|  `type` | (str) Artifacts의 유형으로, Artifacts를 구성하고 차별화하는 데 사용됩니다. (기본값은 'evaluation') |
+|  `table_name` | (str) UI에 표시될 테이블의 이름입니다. (기본값은 'eval_data') |
+|  `aliases` | (List[str]) 예측 테이블의 에일리어스 목록입니다. |
 
 ### `set_model`
 

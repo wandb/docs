@@ -1,22 +1,18 @@
 ---
+title: keras
 menu:
   reference:
     identifier: ko-ref-python-integrations-keras-_index
-title: keras
 ---
 
-<!-- Insert buttons and diff -->
+`wandb`를 [`Keras`](https://keras.io/)와 통합하기 위한 툴
 
+## 클래스
 
+[`class WandbCallback`](./wandbcallback.md): `WandbCallback`은 자동으로 keras를 wandb와 통합합니다.
 
-Tools for integrating `wandb` with [`Keras`](https://keras.io/).
+[`class WandbEvalCallback`](./wandbevalcallback.md): 모델 예측 시각화를 위한 Keras 콜백을 구축하기 위한 추상 베이스 클래스입니다.
 
-## Classes
+[`class WandbMetricsLogger`](./wandbmetricslogger.md): 시스템 메트릭을 W&B로 보내는 로거입니다.
 
-[`class WandbCallback`](./wandbcallback.md): `WandbCallback` automatically integrates keras with wandb.
-
-[`class WandbEvalCallback`](./wandbevalcallback.md): Abstract base class to build Keras callbacks for model prediction visualization.
-
-[`class WandbMetricsLogger`](./wandbmetricslogger.md): Logger that sends system metrics to W&B.
-
-[`class WandbModelCheckpoint`](./wandbmodelcheckpoint.md): A checkpoint that periodically saves a Keras model or model weights.
+[`class WandbModelCheckpoint`](./wandbmodelcheckpoint.md): Keras 모델 또는 모델 가중치를 주기적으로 저장하는 체크포인트입니다.

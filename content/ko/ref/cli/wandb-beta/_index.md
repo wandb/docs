@@ -1,27 +1,25 @@
 ---
+title: wandb beta
 menu:
   reference:
     identifier: ko-ref-cli-wandb-beta-_index
-title: wandb beta
 ---
 
-**Usage**
+**사용법**
 
 `wandb beta [OPTIONS] COMMAND [ARGS]...`
 
-**Summary**
+**요약**
 
-Beta versions of wandb CLI commands. Requires wandb-core.
+wandb CLI 코맨드의 베타 버전입니다. wandb-core가 필요합니다.
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
 
+**코맨드**
 
-**Commands**
-
-| **Command** | **Description** |
+| **코맨드** | **설명** |
 | :--- | :--- |
-| sync | Upload a training run to W&B |
+| sync | 트레이닝 run을 W&B에 업로드합니다 |

@@ -1,13 +1,13 @@
 ---
+title: sweep
 menu:
   reference:
     identifier: ko-ref-python-sweep
-title: sweep
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_sweep.py#L34-L92 >}}
 
-Initialize a hyperparameter sweep.
+하이퍼파라미터 스윕을 초기화합니다.
 
 ```python
 sweep(
@@ -18,19 +18,18 @@ sweep(
 ) -> str
 ```
 
-Search for hyperparameters that optimizes a cost function
-of a machine learning model by testing various combinations.
+다양한 조합을 테스트하여 기계 학습 모델의 비용 함수를 최적화하는 하이퍼파라미터를 검색합니다.
 
-Make note the unique identifier, `sweep_id`, that is returned.
-At a later step provide the `sweep_id` to a sweep agent.
+반환되는 고유 식별자인 `sweep_id` 를 기록해 두십시오.
+나중에 스윕 에이전트에 `sweep_id` 를 제공합니다.
 
-| Args |  |
+| 인수 |  |
 | :--- | :--- |
-|  `sweep` |  The configuration of a hyperparameter search. (or configuration generator). See [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) for information on how to define your sweep. If you provide a callable, ensure that the callable does not take arguments and that it returns a dictionary that conforms to the W&B sweep config spec. |
-|  `entity` |  The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username. |
-|  `project` |  The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled 'Uncategorized'. |
-|  `prior_runs` |  The run IDs of existing runs to add to this sweep. |
+|  `sweep` | 하이퍼파라미터 검색의 구성입니다 (또는 구성 생성기). 스윕 정의 방법에 대한 자세한 내용은 [스윕 구성 구조](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) 를 참조하십시오. 호출 가능한 항목을 제공하는 경우 호출 가능한 항목이 인수를 사용하지 않고 W&B 스윕 구성 사양을 준수하는 사전을 반환하는지 확인하십시오. |
+|  `entity` | 스윕에 의해 생성된 W&B run을 보낼 사용자 이름 또는 팀 이름입니다. 지정한 엔터티가 이미 존재하는지 확인하십시오. 엔터티를 지정하지 않으면 run은 기본 엔터티 (일반적으로 사용자 이름) 로 전송됩니다. |
+|  `project` | 스윕에서 생성된 W&B run이 전송되는 프로젝트의 이름입니다. 프로젝트를 지정하지 않으면 run은 'Uncategorized' 라는 프로젝트로 전송됩니다. |
+|  `prior_runs` | 이 스윕에 추가할 기존 run의 run ID입니다. |
 
-| Returns |  |
+| 반환 |  |
 | :--- | :--- |
-|  `sweep_id` |  str. A unique identifier for the sweep. |
+|  `sweep_id` |  str. 스윕에 대한 고유 식별자입니다. |

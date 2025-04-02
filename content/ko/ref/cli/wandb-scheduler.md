@@ -1,20 +1,19 @@
 ---
+title: wandb scheduler
 menu:
   reference:
     identifier: ko-ref-cli-wandb-scheduler
-title: wandb scheduler
 ---
 
-**Usage**
+**사용법**
 
 `wandb scheduler [OPTIONS] SWEEP_ID`
 
-**Summary**
+**요약**
 
-Run a W&B launch sweep scheduler (Experimental)
+W&B Launch 스윕 스케줄러를 실행합니다 (실험적).
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |

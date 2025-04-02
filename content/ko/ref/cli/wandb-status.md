@@ -1,21 +1,20 @@
 ---
+title: wandb status
 menu:
   reference:
     identifier: ko-ref-cli-wandb-status
-title: wandb status
 ---
 
-**Usage**
+**사용법**
 
 `wandb status [OPTIONS]`
 
-**Summary**
+**요약**
 
-Show configuration settings
+설정(configuration settings) 표시
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `--settings / --no-settings` | Show the current settings |
+| `--settings / --no-settings` | 현재 설정(settings) 표시 |

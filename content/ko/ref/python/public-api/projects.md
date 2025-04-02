@@ -1,13 +1,13 @@
 ---
+title: Projects
 menu:
   reference:
     identifier: ko-ref-python-public-api-projects
-title: Projects
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L20-L76 >}}
 
-An iterable collection of `Project` objects.
+`Project` 오브젝트의 반복 가능한 컬렉션입니다.
 
 ```python
 Projects(
@@ -15,14 +15,14 @@ Projects(
 )
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L69-L73)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L69-L73)
 
 ```python
 convert_objects()
@@ -30,7 +30,7 @@ convert_objects()
 
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
 
 ```python
 next()
@@ -38,7 +38,7 @@ next()
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
 
 ```python
 update_variables()
@@ -46,7 +46,7 @@ update_variables()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
 
 ```python
 __getitem__(
@@ -56,7 +56,7 @@ __getitem__(
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
 
 ```python
 __iter__()
@@ -64,12 +64,12 @@ __iter__()
 
 ### `__len__`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
 
 ```python
 __len__()
 ```
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `QUERY`<a id="QUERY"></a> |   |

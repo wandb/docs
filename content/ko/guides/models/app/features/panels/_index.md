@@ -1,220 +1,222 @@
 ---
+title: Panels
 cascade:
 - url: guides/app/features/panels/:filename
 menu:
   default:
     identifier: ko-guides-models-app-features-panels-_index
     parent: w-b-app-ui-reference
-title: Panels
 url: guides/app/features/panels
 weight: 1
 ---
 
-Use workspace panel visualizations to explore your [logged data]({{< relref path="/ref/python/log.md" lang="ko" >}}) by key, visualize the relationships between hyperparameters and output metrics, and more. 
+workspace 패널 시각화를 사용하여 키별로 [기록된 데이터]({{< relref path="/ref/python/log.md" lang="ko" >}})를 탐색하고, 하이퍼파라미터와 출력 메트릭 간의 관계를 시각화하는 등의 작업을 수행할 수 있습니다.
 
-## Workspace modes
+## workspace 모드
 
-W&B projects support two different workspace modes. The icon next to the workspace name shows its mode. 
+W&B 프로젝트는 두 가지 다른 workspace 모드를 지원합니다. workspace 이름 옆의 아이콘은 해당 모드를 나타냅니다.
 
-| Icon | Workspace mode |
+| 아이콘 | workspace 모드 |
 | --- | --- |
-| {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}} | **Automated workspaces** automatically generate panels for all keys logged in the project. Choose an automatic workspace:<ul><li>To get started quickly by visualizing all available data for the project.</li><li>For a smaller projects that log fewer keys.</li><li>For more broad analysis.</li></ul>If you delete a panel from an automatic workspace, you can use [Quick add]({{< relref path="#quick-add" lang="ko" >}}) to recreate it. |
-| {{<img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace:<ul><li>When you care mainly about a fraction of the keys logged in the project.</li><li>For more focused analysis.</li><li>To improve the performance of a workspace, avoiding loading panels that are less useful to you.</li></ul>Use [Quick add]({{< relref path="#quick-add" lang="ko" >}}) to easily populate a manual workspace and its sections with useful visualizations rapidly. |
+| {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}} | **자동화된 workspaces**는 프로젝트에 기록된 모든 키에 대한 패널을 자동으로 생성합니다. 자동 workspace를 선택하는 경우: <ul><li>프로젝트에 사용 가능한 모든 데이터를 시각화하여 빠르게 시작합니다.</li><li>더 적은 키를 기록하는 소규모 프로젝트에 적합합니다.</li><li>보다 광범위한 분석에 적합합니다.</li></ul>자동 workspace에서 패널을 삭제한 경우 [빠른 추가]({{< relref path="#quick-add" lang="ko" >}})를 사용하여 다시 만들 수 있습니다. |
+| {{<img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **수동 workspaces**는 빈 상태로 시작하여 사용자가 의도적으로 추가한 패널만 표시합니다. 수동 workspace를 선택하는 경우: <ul><li>프로젝트에 기록된 키의 일부에만 주로 관심이 있는 경우.</li><li>보다 집중적인 분석을 위해.</li><li>workspace 성능을 향상시키기 위해 덜 유용한 패널의 로딩을 방지합니다.</li></ul>[빠른 추가]({{< relref path="#quick-add" lang="ko" >}})를 사용하여 유용한 시각화로 수동 workspace 및 해당 섹션을 빠르게 채울 수 있습니다. |
 
-To change how a workspace generates panels, [reset the workspace]({{< relref path="#reset-a-workspace" lang="ko" >}}).
+workspace가 패널을 생성하는 방식을 변경하려면 [workspace 재설정]({{< relref path="#reset-a-workspace" lang="ko" >}})을 수행합니다.
 
-{{% alert title="Undo changes to your workspace" %}} 
-To undo changes to your workspace, click the Undo button (arrow that points left) or type **CMD + Z** (macOS) or **CTRL + Z** (Windows / Linux).
+{{% alert title="workspace 변경 사항 실행 취소" %}}
+workspace 변경 사항을 실행 취소하려면 실행 취소 버튼(왼쪽을 가리키는 화살표)을 클릭하거나 **CMD + Z**(macOS) 또는 **CTRL + Z**(Windows / Linux)를 누릅니다.
 {{% /alert %}}
 
-## Reset a workspace
+## workspace 재설정
 
-To reset a workspace:
+workspace를 재설정하려면:
 
-1. At the top of the workspace, click the action menu `...`.
-1. Click **Reset workspace**.
+1. workspace 상단에서 액션 메뉴 `...`를 클릭합니다.
+2. **workspace 재설정**을 클릭합니다.
 
-## Configure the workspace layout {#configure-workspace-layout}
+## workspace 레이아웃 구성 {#configure-workspace-layout}
 
-To configure the workspace layout, click **Settings** near the top of the workspace, then click **Workspace layout**.
+workspace 레이아웃을 구성하려면 workspace 상단의 **설정**을 클릭한 다음 **workspace 레이아웃**을 클릭합니다.
 
-- **Hide empty sections during search** (turned on by default)
-- **Sort panels alphabetically** (turned off by default)
-- **Section organization** (grouped by first prefix by default). To modify this setting:
-  1. Click the padlock icon.
-  1. Choose how to group panels within a section.
+- **검색 중에 비어 있는 섹션 숨기기**(기본적으로 켜져 있음)
+- **패널을 알파벳순으로 정렬**(기본적으로 꺼져 있음)
+- **섹션 구성**(기본적으로 첫 번째 접두사로 그룹화됨). 이 설정을 수정하려면:
+  1. 자물쇠 아이콘을 클릭합니다.
+  2. 섹션 내에서 패널을 그룹화하는 방법을 선택합니다.
 
-To configure defaults for the workspace's line plots, refer to [Line plots]({{< relref path="line-plot/#all-line-plots-in-a-workspace" lang="ko" >}}).
+workspace의 라인 플롯에 대한 기본값을 구성하려면 [라인 플롯]({{< relref path="line-plot/#all-line-plots-in-a-workspace" lang="ko" >}})을 참조하십시오.
 
-### Configure a section's layout {#configure-section-layout}
+### 섹션 레이아웃 구성 {#configure-section-layout}
 
-To configure the layout of a section, click its gear icon, then click **Display preferences**.
-- **Turn on or off colored run names in tooltips** (turned on by default)
-- **Only show highlighted run in companion chart tooltips** (turned off by default)
-- **Number of runs shown in tooltips** (a single run, all runs, or **Default**)
-- **Display full run names on the primary chart tooltip** (turned off by default)
+섹션의 레이아웃을 구성하려면 해당 기어 아이콘을 클릭한 다음 **표시 기본 설정**을 클릭합니다.
+- **툴팁에서 색상이 지정된 run 이름 켜거나 끄기**(기본적으로 켜져 있음)
+- **컴패니언 차트 툴팁에서 강조 표시된 run만 표시**(기본적으로 꺼져 있음)
+- **툴팁에 표시되는 run 수**(단일 run, 모든 runs 또는 **기본값**)
+- **기본 차트 툴팁에 전체 run 이름 표시**(기본적으로 꺼져 있음)
 
-## View a panel in full-screen mode
+## 전체 화면 모드에서 패널 보기
 
-In full-screen mode, the run selector displays and panels use full full-fidelity sampling mode plots with 10,000 buckets, rather than 1000 buckets otherwise.
+전체 화면 모드에서 run 선택기가 표시되고 패널은 그렇지 않은 경우 1000개의 버킷이 아닌 10,000개의 버킷이 있는 완전한 충실도 샘플링 모드 플롯을 사용합니다.
 
-To view a panel in full-screen mode:
+전체 화면 모드에서 패널을 보려면:
 
-1. Hover over the panel.
-1. Click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder or an outline showing the four corners of a square.
-    {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
-1. When you [share the panel]({{< relref path="#share-a-panel" lang="ko" >}}) while viewing it in full-screen mode, the resulting link opens in full-screen mode automatically.
+1. 패널 위로 마우스를 가져갑니다.
+2. 패널의 액션 메뉴 `...`를 클릭한 다음 뷰파인더 또는 정사각형의 네 모서리를 보여주는 윤곽선처럼 보이는 전체 화면 버튼을 클릭합니다.
+    {{< img src="/images/app_ui/panel_fullscreen.png" alt="패널 전체 화면 보기" >}}
+3. 전체 화면 모드에서 보고 있는 동안 [패널을 공유]({{< relref path="#share-a-panel" lang="ko" >}})하면 결과 링크가 자동으로 전체 화면 모드로 열립니다.
 
-To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
+전체 화면 모드에서 패널의 workspace로 돌아가려면 페이지 상단의 왼쪽 화살표를 클릭합니다.
 
-## Add panels
+## 패널 추가
 
-This section shows various ways to add panels to your workspace.
+이 섹션에서는 workspace에 패널을 추가하는 다양한 방법을 보여줍니다.
 
-### Add a panel manually
+### 패널 수동으로 추가
 
-Add panels to your workspace one at a time, either globally or at the section level.
+workspace에 패널을 한 번에 하나씩, 전체적으로 또는 섹션 수준에서 추가합니다.
 
-1. To add a panel globally, click **Add panels** in the control bar near the panel search field.
-1. To add a panel directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
-1. Select the type of panel to add, such as a chart. The panel's configuration details appear, with defaults selected.
-1. Optionally, customize the panel and its display preferences. Configuration options depend on the type of panel you select. To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots]({{< relref path="line-plot/" lang="ko" >}}) or [Bar plots]({{< relref path="bar-plot.md" lang="ko" >}}).
-1. Click **Apply**.
+1. 패널을 전체적으로 추가하려면 패널 검색 필드 근처의 컨트롤 바에서 **패널 추가**를 클릭합니다.
+2. 대신 섹션에 직접 패널을 추가하려면 섹션의 액션 `...` 메뉴를 클릭한 다음 **+ 패널 추가**를 클릭합니다.
+3. 추가할 패널 유형(예: 차트)을 선택합니다. 패널의 구성 세부 정보가 기본값으로 선택되어 나타납니다.
+4. 선택적으로 패널 및 해당 표시 기본 설정을 사용자 정의합니다. 구성 옵션은 선택한 패널 유형에 따라 다릅니다. 각 유형의 패널에 대한 옵션에 대한 자세한 내용은 아래의 관련 섹션(예: [라인 플롯]({{< relref path="line-plot/" lang="ko" >}}) 또는 [막대 플롯]({{< relref path="bar-plot.md" lang="ko" >}}))을 참조하십시오.
+5. **적용**을 클릭합니다.
 
-{{< img src="/images/app_ui/add_single_panel.gif" alt="Demo of adding a panel" >}} 
+{{< img src="/images/app_ui/add_single_panel.gif" alt="패널 추가 데모" >}}
 
-### Quick add panels {#quick-add}
+### 패널 빠르게 추가 {#quick-add}
 
-Use **Quick add** to add a panel automatically for each key you select, either globally or at the section level.
+**빠른 추가**를 사용하여 선택한 각 키에 대해 전체적으로 또는 섹션 수준에서 자동으로 패널을 추가합니다.
 
 {{% alert %}}
-For an automated workspace with no deleted panels, the **Quick add** option is not visible because the workspace already includes panels for all logged keys. You can use **Quick add** to re-add a panel that you deleted.
+삭제된 패널이 없는 자동화된 workspace의 경우 workspace에 이미 기록된 모든 키에 대한 패널이 포함되어 있으므로 **빠른 추가** 옵션이 표시되지 않습니다. 삭제한 패널을 다시 추가하려면 **빠른 추가**를 사용할 수 있습니다.
 {{% /alert %}}
 
-1. To use **Quick add** to add a panel globally, click **Add panels** in the control bar near the panel search field, then click **Quick add**.
-1. To use **Quick add** to add a panel directly to a section, click the section's action `...` menu, click **Add panels**, then click **Quick add**.
-1. A list of panels appears. Each panel with a checkmark is already included in the workspace.
-    - To add all available panels, click the **Add <N> panels** button at the top of the list. The **Quick Add** list closes and the new panels display in the workspace.
-    - To add an individual panel from the list, hover over the panel's row, then click **Add**. Repeat this step for each panel you want to add, then click the **X** at the top right to close the **Quick Add** list. The new panels display in the workspace.
-1. Optionally, customize the panel's settings.
+1. **빠른 추가**를 사용하여 패널을 전체적으로 추가하려면 패널 검색 필드 근처의 컨트롤 바에서 **패널 추가**를 클릭한 다음 **빠른 추가**를 클릭합니다.
+2. **빠른 추가**를 사용하여 패널을 섹션에 직접 추가하려면 섹션의 액션 `...` 메뉴를 클릭하고 **패널 추가**를 클릭한 다음 **빠른 추가**를 클릭합니다.
+3. 패널 목록이 나타납니다. 확인 표시가 있는 각 패널은 이미 workspace에 포함되어 있습니다.
+    - 사용 가능한 모든 패널을 추가하려면 목록 상단의 **패널 <N>개 추가** 버튼을 클릭합니다. **빠른 추가** 목록이 닫히고 새 패널이 workspace에 표시됩니다.
+    - 목록에서 개별 패널을 추가하려면 패널의 행 위로 마우스를 가져간 다음 **추가**를 클릭합니다. 추가할 각 패널에 대해 이 단계를 반복한 다음 오른쪽 상단의 **X**를 클릭하여 **빠른 추가** 목록을 닫습니다. 새 패널이 workspace에 표시됩니다.
+4. 선택적으로 패널의 설정을 사용자 정의합니다.
 
-## Share a panel
+## 패널 공유
 
-This section shows how to share a panel using a link.
+이 섹션에서는 링크를 사용하여 패널을 공유하는 방법을 보여줍니다.
 
-To share a panel using a link, you can either:
+링크를 사용하여 패널을 공유하려면 다음 중 하나를 수행할 수 있습니다.
 
-- While viewing the panel in full-screen mode, copy the URL from the browser.
-- Click the action menu `...` and select **Copy panel URL**.
+- 전체 화면 모드에서 패널을 보는 동안 브라우저에서 URL을 복사합니다.
+- 액션 메뉴 `...`를 클릭하고 **패널 URL 복사**를 선택합니다.
 
-Share the link with the user or team. When they access the link, the panel opens in [full-screen mode]({{< relref path="#view-a-panel-in-full-screen-mode" lang="ko" >}}).
+해당 링크를 사용자 또는 팀과 공유합니다. 링크에 액세스하면 패널이 [전체 화면 모드]({{< relref path="#view-a-panel-in-full-screen-mode" lang="ko" >}})로 열립니다.
 
-To return to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
+전체 화면 모드에서 패널의 workspace로 돌아가려면 페이지 상단의 왼쪽 화살표를 클릭합니다.
 
-### Compose a panel's full-screen link programmatically
-In certain situations, such as when [creating an automation]({{< relref path="/guides/core/automations/" lang="ko" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
+### 패널의 전체 화면 링크를 프로그래밍 방식으로 구성
+
+[자동화 생성]({{< relref path="/guides/core/automations/" lang="ko" >}})와 같은 특정 상황에서는 패널의 전체 화면 URL을 포함하는 것이 유용할 수 있습니다. 이 섹션에서는 패널의 전체 화면 URL 형식을 보여줍니다. 다음 예제에서 괄호 안의 entity, project, 패널 및 섹션 이름을 바꿉니다.
 
 ```text
 https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&panelSectionName=<SECTON_NAME>
 ```
 
-If multiple panels in the same section have the same name, this URL opens the first panel with the name.
+동일한 섹션에 이름이 같은 여러 패널이 있는 경우 이 URL은 해당 이름의 첫 번째 패널을 엽니다.
 
-### Embed or share a panel on social media
-To embed a panel in a website or share it on social media, the panel must be viewable by anyone with the link. If a project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
+### 소셜 미디어에 패널 포함 또는 공유
 
-To get the code to embed or share a panel on social media:
+웹 사이트에 패널을 포함하거나 소셜 미디어에 공유하려면 링크가 있는 모든 사람이 패널을 볼 수 있어야 합니다. 프로젝트가 비공개인 경우 프로젝트의 멤버만 패널을 볼 수 있습니다. 프로젝트가 공개인 경우 링크가 있는 모든 사람이 패널을 볼 수 있습니다.
 
-1. From the workspace, hover over the panel, then click its action menu `...`.
-1. Click the **Share** tab.
-1. Change **Only those who are invited have access** to **Anyone with the link can view**. Otherwise, the choices in the next step are not available.
-1. Choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
+소셜 미디어에 패널을 포함하거나 공유하는 코드를 얻으려면:
 
-### Email a panel report
-To email a single panel as a stand-alone report:
-1. Hover over the panel, then click the panel's action menu `...`.
-1. Click **Share panel in report**.
-1. Select the **Invite** tab.
-1. Enter an email address or username.
-1. Optionally, change **can view** to **can edit**.
-1. Click **Invite**. W&B sends an email to the user with a clickable link to the report that contains only the panel you are sharing. 
+1. workspace에서 패널 위로 마우스를 가져간 다음 해당 액션 메뉴 `...`를 클릭합니다.
+2. **공유** 탭을 클릭합니다.
+3. **초대된 사람만 액세스할 수 있음**을 **링크가 있는 모든 사람이 볼 수 있음**으로 변경합니다. 그렇지 않으면 다음 단계의 선택 사항을 사용할 수 없습니다.
+4. **트위터에 공유**, **레딧에 공유**, **링크드인에 공유** 또는 **임베드 링크 복사**를 선택합니다.
 
-Unlike when you [share a panel]({{< relref path="#share-a-panel" lang="ko" >}}), the recipient cannot get to the workspace from this report.
+### 패널 리포트 이메일 보내기
 
-## Manage panels
+단일 패널을 독립 실행형 리포트로 이메일로 보내려면:
+1. 패널 위로 마우스를 가져간 다음 패널의 액션 메뉴 `...`를 클릭합니다.
+2. **리포트에서 패널 공유**를 클릭합니다.
+3. **초대** 탭을 선택합니다.
+4. 이메일 주소 또는 사용자 이름을 입력합니다.
+5. 선택적으로 **볼 수 있음**을 **편집할 수 있음**으로 변경합니다.
+6. **초대**를 클릭합니다. W&B는 공유하는 패널만 포함된 리포트로 연결되는 클릭 가능한 링크가 있는 이메일을 사용자에게 보냅니다.
 
-### Edit a panel
+[패널 공유]({{< relref path="#share-a-panel" lang="ko" >}})와 달리 수신자는 이 리포트에서 workspace로 이동할 수 없습니다.
 
-To edit a panel:
+## 패널 관리
 
-1. Click its pencil icon.
-1. Modify the panel's settings.
-1. To change the panel to a different type, select the type and then configure the settings.
-1. Click **Apply**.
+### 패널 편집
 
-### Move a panel
+패널을 편집하려면:
 
-To move a panel to a different section, you can use the drag handle on the panel. To select the new section from a list instead:
+1. 해당 연필 아이콘을 클릭합니다.
+2. 패널의 설정을 수정합니다.
+3. 패널을 다른 유형으로 변경하려면 유형을 선택한 다음 설정을 구성합니다.
+4. **적용**을 클릭합니다.
 
-1. If necessary, create a new section by clicking **Add section** after the last section.
-1. Click the  action `...` menu for the panel.
-1. Click **Move**, then select a new section.
+### 패널 이동
 
-You can also use the drag handle to rearrange panels within a section.
+패널을 다른 섹션으로 이동하려면 패널의 드래그 핸들을 사용할 수 있습니다. 대신 목록에서 새 섹션을 선택하려면:
 
-### Duplicate a panel
+1. 필요한 경우 마지막 섹션 뒤에 **섹션 추가**를 클릭하여 새 섹션을 만듭니다.
+2. 패널의 액션 `...` 메뉴를 클릭합니다.
+3. **이동**을 클릭한 다음 새 섹션을 선택합니다.
 
-To duplicate a panel:
+드래그 핸들을 사용하여 섹션 내에서 패널을 재정렬할 수도 있습니다.
 
-1. At the top of the panel, click the action `...` menu.
-1. Click **Duplicate**.
+### 패널 복제
 
-If desired, you can [customize]({{< relref path="#edit-a-panel" lang="ko" >}}) or [move]({{< relref path="#move-a-panel" lang="ko" >}}) the duplicated panel.
+패널을 복제하려면:
 
-### Remove panels
+1. 패널 상단에서 액션 `...` 메뉴를 클릭합니다.
+2. **복제**를 클릭합니다.
 
-To remove a panel:
+원하는 경우 복제된 패널을 [사용자 정의]({{< relref path="#edit-a-panel" lang="ko" >}})하거나 [이동]({{< relref path="#move-a-panel" lang="ko" >}})할 수 있습니다.
 
-1. Hover your mouse over the panel.
-1. Select the action `...` menu.
-1. Click **Delete**.
+### 패널 제거
 
-To remove all panels from a manual workspace, click its action `...` menu, then click **Clear all panels**.
+패널을 제거하려면:
 
-To remove all panels from an automatic or manual workspace, you can [reset the workspace]({{< relref path="#reset-a-workspace" lang="ko" >}}). Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
+1. 패널 위로 마우스를 가져갑니다.
+2. 액션 `...` 메뉴를 선택합니다.
+3. **삭제**를 클릭합니다.
 
-## Manage sections
+수동 workspace에서 모든 패널을 제거하려면 해당 액션 `...` 메뉴를 클릭한 다음 **모든 패널 지우기**를 클릭합니다.
 
-By default, sections in a workspace reflect the logging hierarchy of your keys. However, in a manual workspace, sections appear only after you start adding panels.
+자동 또는 수동 workspace에서 모든 패널을 제거하려면 [workspace를 재설정]({{< relref path="#reset-a-workspace" lang="ko" >}})할 수 있습니다. **자동**을 선택하여 기본 패널 세트로 시작하거나 **수동**을 선택하여 패널이 없는 빈 workspace로 시작합니다.
 
-### Add a section
+## 섹션 관리
 
-To add a section, click **Add section** after the last section.
+기본적으로 workspace의 섹션은 키의 로깅 계층 구조를 반영합니다. 그러나 수동 workspace에서는 패널을 추가하기 시작한 후에만 섹션이 나타납니다.
 
-To add a new section before or after an existing section, you can instead click the section's action `...` menu, then click **New section below** or **New section above**.
+### 섹션 추가
 
+섹션을 추가하려면 마지막 섹션 뒤에 **섹션 추가**를 클릭합니다.
 
-### Manage a section's panels
-Sections with a large number of panels are paginated by default if they use the **Standard grid** layout. The default number of panels on a page depend on the panel's configuration and on the sizes of the panels in the section.
+기존 섹션 앞이나 뒤에 새 섹션을 추가하려면 섹션의 액션 `...` 메뉴를 클릭한 다음 **아래에 새 섹션** 또는 **위에 새 섹션**을 클릭할 수 있습니다.
 
-1. To check which layout a section uses, click the section's action `...` menu. To change a section's layout, select **Standard grid** or **Custom grid** in the **Layout grid** section.
-1. To resize a panel, hover over it, click the drag handle, and drag it to adjust the panel's size.
-  - If a section uses the **Standard grid**, resizing one panel resizes all panels in the section.
-  - If a section uses the **Custom grid**, you can customize the size of each panel separately.
-1. If a section is paginated, you can customize the number of panels to show on a page:
-  1. At the top of the section, click **1 to <X> of <Y>**, where `<X>` is the number of visible panels and `<Y>` is the total number of panels.
-  1. Choose how many panels to show per page, up to 100.
-1. To show all panels when there are a large number of them, configure the panel to use the **Custom grid** layout. Click the section's action `...` menu, then select **Custom grid** in the **Layout grid** section
-1. To delete a panel from a section:
-  1. Hover over the panel, then click its action `...` menu.
-  1. Click **Delete**.
-  
-If you reset a workspace to an automated workspace, all deleted panels appear again.
+### 섹션의 패널 관리
+많은 수의 패널이 있는 섹션은 **표준 그리드** 레이아웃을 사용하는 경우 기본적으로 페이지로 나뉩니다. 페이지당 패널의 기본 수는 패널의 구성과 섹션에 있는 패널의 크기에 따라 다릅니다.
 
-### Rename a section
+1. 섹션에서 사용하는 레이아웃을 확인하려면 섹션의 액션 `...` 메뉴를 클릭합니다. 섹션의 레이아웃을 변경하려면 **레이아웃 그리드** 섹션에서 **표준 그리드** 또는 **사용자 정의 그리드**를 선택합니다.
+2. 패널의 크기를 조정하려면 패널 위로 마우스를 가져가 드래그 핸들을 클릭하고 드래그하여 패널의 크기를 조정합니다.
+  - 섹션에서 **표준 그리드**를 사용하는 경우 하나의 패널 크기를 조정하면 섹션의 모든 패널 크기가 조정됩니다.
+  - 섹션에서 **사용자 정의 그리드**를 사용하는 경우 각 패널의 크기를 개별적으로 사용자 정의할 수 있습니다.
+3. 섹션이 페이지로 나뉘면 페이지에 표시할 패널 수를 사용자 정의할 수 있습니다.
+  1. 섹션 상단에서 **1에서 <X>개 중 <Y>개**를 클릭합니다. 여기서 `<X>`는 보이는 패널의 수이고 `<Y>`는 총 패널 수입니다.
+  2. 페이지당 표시할 패널 수를 최대 100개까지 선택합니다.
+4. 많은 수의 패널이 있는 경우 모든 패널을 표시하려면 **사용자 정의 그리드** 레이아웃을 사용하도록 패널을 구성합니다. 섹션의 액션 `...` 메뉴를 클릭한 다음 **레이아웃 그리드** 섹션에서 **사용자 정의 그리드**를 선택합니다.
+5. 섹션에서 패널을 삭제하려면:
+  1. 패널 위로 마우스를 가져간 다음 해당 액션 `...` 메뉴를 클릭합니다.
+  2. **삭제**를 클릭합니다.
 
-To rename a section, click its action `...` menu, then click **Rename section**.
+workspace를 자동 workspace로 재설정하면 삭제된 모든 패널이 다시 나타납니다.
 
-### Delete a section
+### 섹션 이름 바꾸기
 
-To delete a section, click its `...` menu, then click **Delete section**. This removes the section and its panels.
+섹션 이름을 바꾸려면 해당 액션 `...` 메뉴를 클릭한 다음 **섹션 이름 바꾸기**를 클릭합니다.
+
+### 섹션 삭제
+
+섹션을 삭제하려면 해당 `...` 메뉴를 클릭한 다음 **섹션 삭제**를 클릭합니다. 이렇게 하면 섹션과 해당 패널이 제거됩니다.

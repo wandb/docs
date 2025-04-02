@@ -1,13 +1,13 @@
 ---
+title: Image
 menu:
   reference:
     identifier: ko-ref-python-data-types-image
-title: Image
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L65-L689 >}}
 
-Format images for logging to W&B.
+W\&B에 로깅하기 위한 이미지 형식입니다.
 
 ```python
 Image(
@@ -22,17 +22,17 @@ Image(
 ) -> None
 ```
 
-| Args |  |
+| ARG |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) Accepts numpy array of image data, or a PIL image. The class attempts to infer the data format and converts it. |
-|  `mode` |  (string) The PIL mode for an image. Most common are "L", "RGB", "RGBA". Full explanation at https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes |
-|  `caption` |  (string) Label for display of image. |
+|  `data_or_path` |  (numpy array, string, io) 이미지 데이터의 numpy array 또는 PIL 이미지를 허용합니다. 클래스는 데이터 형식을 추론하고 변환을 시도합니다. |
+|  `mode` |  (string) 이미지의 PIL 모드입니다. 가장 일반적인 것은 "L", "RGB", "RGBA"입니다. 자세한 설명은 https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes 를 참조하세요. |
+|  `caption` |  (string) 이미지 표시를 위한 레이블입니다. |
 
-Note : When logging a `torch.Tensor` as a `wandb.Image`, images are normalized. If you do not want to normalize your images, please convert your tensors to a PIL Image.
+참고 : `torch.Tensor`를 `wandb.Image`로 로깅할 때 이미지는 정규화됩니다. 이미지를 정규화하지 않으려면 텐서를 PIL Image로 변환하십시오.
 
-#### Examples:
+#### 예시:
 
-### Create a wandb.Image from a numpy array
+### numpy array에서 wandb.Image 생성
 
 ```python
 import numpy as np
@@ -47,7 +47,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### Create a wandb.Image from a PILImage
+### PILImage에서 wandb.Image 생성
 
 ```python
 import numpy as np
@@ -66,7 +66,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### log .jpg rather than .png (default)
+### .png (기본값) 대신 .jpg 로깅
 
 ```python
 import numpy as np
@@ -81,7 +81,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
 ## Methods
@@ -135,7 +135,7 @@ guess_mode(
 ) -> str
 ```
 
-Guess what type of image the np.array is representing.
+np.array가 나타내는 이미지 유형을 추측합니다.
 
 ### `to_uint8`
 
@@ -148,12 +148,11 @@ to_uint8(
 ) -> "np.ndarray"
 ```
 
-Convert image data to uint8.
+이미지 데이터를 uint8로 변환합니다.
 
-Convert floating point image on the range [0,1] and integer images on the range
-[0,255] to uint8, clipping if necessary.
+[0,1] 범위의 부동 소수점 이미지와 [0,255] 범위의 정수 이미지를 uint8로 변환하고 필요한 경우 클리핑합니다.
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `MAX_DIMENSION`<a id="MAX_DIMENSION"></a> |  `65500` |
 |  `MAX_ITEMS`<a id="MAX_ITEMS"></a> |  `108` |

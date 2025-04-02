@@ -1,4 +1,5 @@
 ---
+title: Is there a monthly subscription option for the teams plan?
 menu:
   support:
     identifier: ko-support-kb-articles-monthly_subscription_option_teams_plan
@@ -6,10 +7,9 @@ support:
 - administrator
 - billing
 - team management
-title: Is there a monthly subscription option for the teams plan?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-The Teams plan does not offer a monthly subscription option. This subscription is billed annually.
+Teams 플랜은 월별 구독 옵션을 제공하지 않습니다. 이 구독은 연간 청구됩니다.
