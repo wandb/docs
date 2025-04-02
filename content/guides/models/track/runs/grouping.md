@@ -42,7 +42,7 @@ After a run is initialized, you can move it to a new group from your workspace o
 
 You can dynamically group by any column, including a column that is hidden. For example, if you use `wandb.config` to log batch size or learning rate, you can then group by those hyperparameters dynamically in the web app. The **Group by** feature is distinct from a [run's run group]({{< relref "grouping.md" >}}). You can group runs by run group. To move a run to a different run group, refer to [Set a group in the UI]({{< relref "#set-a-group-in-the-ui" >}}).
 
-{{% alert title='optional_title' %}}
+{{% alert %}}
 In the list of runs, the **Group** column is hidden by default.
 {{% /alert %}}
 
@@ -54,7 +54,7 @@ To group runs by one or more columns:
 1. Click anywhere outside of the form to dismiss it.
 
 ### Customize how runs are displayed
-You can customize how runs are displayed in your workspace from the **Workspace** or **Runs** tab, which share display settings.
+You can customize how runs are displayed in your project from the **Workspace** or **Runs** tabs. Both tabs use the same display configuration.
 
 To customize which columns are visible:
 1. Above the list of runs, click **Columns**.
