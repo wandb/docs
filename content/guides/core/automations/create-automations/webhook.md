@@ -41,7 +41,7 @@ If the webhook requires a Bearer token or its payload requires a sensitive strin
 Now you can [create an automation]({{< relref "#create-a-webhook-automation" >}}) that uses the webhook.
 
 ## Create an automation
-After you [configure a webhook]({{< relref "#reate-a-webhook" >}}), select **Registry** or **Project**, then follow these steps to create an automation that triggers the webhook.
+After you [configure a webhook]({{< relref "#create-a-webhook" >}}), select **Registry** or **Project**, then follow these steps to create an automation that triggers the webhook.
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
@@ -52,7 +52,7 @@ A Registry admin can create automations in that registry. Registry automations a
 1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
 
     To create an automation scoped only to a specific collection in the registry, click the collection's action `...` menu, then click **Create automation**. Alternatively, while viewing a collection, create an automation for it using the **Create automation** button in the **Automations** section of the collection's details page.
-1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**. Click **Next step**.
+1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**. Click **Next step**.
 1. Select the team that owns the [webhook]({{< relref "#create-a-webhook" >}}).
 1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref "#create-a-webhook" >}}) to use.
 1. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
@@ -66,7 +66,7 @@ A W&B admin can create automations in a project.
 1. Log in to W&B and go to the project page.
 1. In the sidebar, click **Automations**.
 1. Click **Create automation**.
-1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
