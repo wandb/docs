@@ -8,17 +8,26 @@ title: Compare run metrics
 weight: 70
 ---
 
-Use the Run Comparer to see what metrics are different across your runs.
+Use the Run Comparer to see differences and similarities across runs in your project. 
 
-
-{{< img src="/images/app_ui/visualization_add.gif" alt="" >}}
+## Add a Run Comparer panel
 
 1. Select the **Add panels** button in the top right corner of the page.
-2. From the left panel that appears, expand the Evaluation dropdown.
-3. Select **Run comparer**
+1. From the **Evaluation** section, select **Run comparer**.
 
+## Use Run Comparer
+Run Comparer shows the configuration and logged metrics for the 10 first visible runs in the project, one column per run.
 
+- To change the runs to compare, you can search, filter, group, or sort the list of runs on the left-hand side. The Run Comparer updates automatically.
+- To filter or search for a configuration key, use the search field at the top of the Run Comparer.
+- To quickly see differences and hide identical values, toggle **Diff only** at the top of the panel.
+- To adjust the column width or row height, use the formatting buttons at the top of the panel.
+- To copy any configuration or metric's value, hover your mouse over the value, then click the copy button. The entire value is copied, even if it is too long to display on the screen.
 
-Toggle the **diff only** option to hide rows where the values are the same across runs.​​
+{{% alert %}}
+Run Comparer does not differentiate runs by type. This means that it is possible to compare runs that are not really comparable, like comparing an image run to an audio run. Search, filter, group, or sort the list of runs to limit it to the runs you want to analyze.
+{{% /alert %}}
 
-{{< img src="/images/general/run-comparer-2.gif" alt="" >}}
+This image compares three image runs with **Diff only** enabled, and filters for configurations that match the string `run`.
+
+{{< img src="/images/general/run-comparer.png" alt="Run Comparer with three image runs, showing 'runtime' fields" >}}
