@@ -2,7 +2,7 @@
 title: log
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_run.py#L1613-L1873 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/wandb_run.py#L1685-L1946 >}}
 
 Upload run data.
 
@@ -120,8 +120,8 @@ For more and more detailed examples, see
 ```python
 import wandb
 
-with wandb.init() as run:
-    run.log({"accuracy": 0.9, "epoch": 5})
+run = wandb.init()
+run.log({"accuracy": 0.9, "epoch": 5})
 ```
 
 ### Incremental logging
@@ -129,10 +129,10 @@ with wandb.init() as run:
 ```python
 import wandb
 
-with wandb.init() as run:
-    run.log({"loss": 0.2}, commit=False)
-    # Somewhere else when I'm ready to report this step:
-    run.log({"accuracy": 0.8})
+run = wandb.init()
+run.log({"loss": 0.2}, commit=False)
+# Somewhere else when I'm ready to report this step:
+run.log({"accuracy": 0.8})
 ```
 
 ### Histogram
@@ -143,8 +143,8 @@ import wandb
 
 # sample gradients at random from normal distribution
 gradients = np.random.randn(100, 100)
-with wandb.init() as run:
-    run.log({"gradients": wandb.Histogram(gradients)})
+run = wandb.init()
+run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
 ### Image from numpy
@@ -153,13 +153,13 @@ with wandb.init() as run:
 import numpy as np
 import wandb
 
-with wandb.init() as run:
-    examples = []
-    for i in range(3):
-        pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-        image = wandb.Image(pixels, caption=f"random field {i}")
-        examples.append(image)
-    run.log({"examples": examples})
+run = wandb.init()
+examples = []
+for i in range(3):
+    pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+    image = wandb.Image(pixels, caption=f"random field {i}")
+    examples.append(image)
+run.log({"examples": examples})
 ```
 
 ### Image from PIL
@@ -169,19 +169,19 @@ import numpy as np
 from PIL import Image as PILImage
 import wandb
 
-with wandb.init() as run:
-    examples = []
-    for i in range(3):
-        pixels = np.random.randint(
-            low=0,
-            high=256,
-            size=(100, 100, 3),
-            dtype=np.uint8,
-        )
-        pil_image = PILImage.fromarray(pixels, mode="RGB")
-        image = wandb.Image(pil_image, caption=f"random field {i}")
-        examples.append(image)
-    run.log({"examples": examples})
+run = wandb.init()
+examples = []
+for i in range(3):
+    pixels = np.random.randint(
+        low=0,
+        high=256,
+        size=(100, 100, 3),
+        dtype=np.uint8,
+    )
+    pil_image = PILImage.fromarray(pixels, mode="RGB")
+    image = wandb.Image(pil_image, caption=f"random field {i}")
+    examples.append(image)
+run.log({"examples": examples})
 ```
 
 ### Video from numpy
@@ -190,15 +190,15 @@ with wandb.init() as run:
 import numpy as np
 import wandb
 
-with wandb.init() as run:
-    # axes are (time, channel, height, width)
-    frames = np.random.randint(
-        low=0,
-        high=256,
-        size=(10, 3, 100, 100),
-        dtype=np.uint8,
-    )
-    run.log({"video": wandb.Video(frames, fps=4)})
+run = wandb.init()
+# axes are (time, channel, height, width)
+frames = np.random.randint(
+    low=0,
+    high=256,
+    size=(10, 3, 100, 100),
+    dtype=np.uint8,
+)
+run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
 ### Matplotlib Plot
@@ -208,12 +208,12 @@ from matplotlib import pyplot as plt
 import numpy as np
 import wandb
 
-with wandb.init() as run:
-    fig, ax = plt.subplots()
-    x = np.linspace(0, 10)
-    y = x * x
-    ax.plot(x, y)  # plot y = x^2
-    run.log({"chart": fig})
+run = wandb.init()
+fig, ax = plt.subplots()
+x = np.linspace(0, 10)
+y = x * x
+ax.plot(x, y)  # plot y = x^2
+run.log({"chart": fig})
 ```
 
 ### PR Curve
@@ -221,8 +221,8 @@ with wandb.init() as run:
 ```python
 import wandb
 
-with wandb.init() as run:
-    run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
+run = wandb.init()
+run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
 ```
 
 ### 3D Object
@@ -230,16 +230,16 @@ with wandb.init() as run:
 ```python
 import wandb
 
-with wandb.init() as run:
-    run.log(
-        {
-            "generated_samples": [
-                wandb.Object3D(open("sample.obj")),
-                wandb.Object3D(open("sample.gltf")),
-                wandb.Object3D(open("sample.glb")),
-            ]
-        }
-    )
+run = wandb.init()
+run.log(
+    {
+        "generated_samples": [
+            wandb.Object3D(open("sample.obj")),
+            wandb.Object3D(open("sample.gltf")),
+            wandb.Object3D(open("sample.glb")),
+        ]
+    }
+)
 ```
 
 | Raises |  |
