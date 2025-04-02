@@ -28,7 +28,7 @@ In this method we track only a rank 0 process. To implement this method, initial
 
 Within our [sample Python script (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py), we check to see if the rank is 0. To do so, we first launch multiple processes with `torch.distributed.launch`. Next, we check the rank with the `--local_rank` command line argument. If the rank is set to 0, we set up `wandb` logging conditionally in the [`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24) function. Within our Python script, we use the following check:
 
-```python showLineNumbers
+```python
 if __name__ == "__main__":
     # Get args
     args = parse_args()
@@ -128,9 +128,9 @@ The following code snippets demonstrate common methods for advanced distributed 
 
 #### Spawn process
 
-Use the `wandb.setup()[line 8]`method in your main function if you initiate a W&B Run in a spawned process:
+Use the `wandb.setup()`method in your main function if you initiate a W&B Run in a spawned process:
 
-```python showLineNumbers
+```python
 import multiprocessing as mp
 
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
 
 Pass a W&B Run object as an argument to share W&B Runs between processes:
 
-```python showLineNumbers
+```python
 def do_work(run):
     run.log(dict(this=1))
 

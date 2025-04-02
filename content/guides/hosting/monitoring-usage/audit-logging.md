@@ -23,7 +23,7 @@ After fetching audit logs, you can analyze them using tools like [Pandas](https:
 {{% alert title="Audit log retention" %}}
 If you require audit logs to be retained for a specific period of time, W&B recommends periodically transferring logs to long-term storage, either using storage buckets or the Audit Logging API.
 
-If you are subject to the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://aspe.hhs.gov/reports/health-insurance-portability-accountability-act-1996"), audit logs must be retained for a minimum of 6 years in an environment where they cannot be deleted or modified by any internal or exterrnal actor before the end of the mandatory retention period. For HIPAA-compliant [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) instances with [BYOB]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}), you must configure guardrails for your managed storage, including any long-term retention storage.
+If you are subject to the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html), audit logs must be retained for a minimum of 6 years in an environment where they cannot be deleted or modified by any internal or exterrnal actor before the end of the mandatory retention period. For HIPAA-compliant [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) instances with [BYOB]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}), you must configure guardrails for your managed storage, including any long-term retention storage.
 {{% /alert %}}
 
 ## Audit log schema

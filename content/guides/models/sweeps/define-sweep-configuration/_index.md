@@ -104,7 +104,7 @@ Nested parameters defined in sweep configuration overwrite keys specified in a W
 For example, suppose you initialize a W&B run with the following configuration in a `train.py` Python script (see Lines 1-2). Next, you define a sweep configuration in a dictionary called `sweep_configuration` (see Lines 4-13). You then pass the sweep config dictionary to `wandb.sweep` to initialize a sweep config (see Line 16).
 
 
-```python title="train.py" showLineNumbers
+```python title="train.py" 
 def main():
     run = wandb.init(config={"nested_param": {"manual_key": 1}})
 
@@ -123,7 +123,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 # Start sweep job.
 wandb.agent(sweep_id, function=main, count=4)
 ```
-The `nested_param.manual_key` that is passed when the W&B run is initialized (line 2) is not accessible. The `run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary (lines 4-13).
+The `nested_param.manual_key` that is passed when the W&B run is initialized is not accessible. The `run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary.
 {{% /alert %}}
 
 

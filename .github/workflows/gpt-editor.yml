@@ -1,0 +1,140 @@
+name: GPT Editor (on-demand version)
+
+# This workflow is designed to be run on-demand at:
+# https://github.com/wandb/docs/actions/workflows/gpt-editor.yml
+#
+# It allows you to select a file to edit with the GPT Editor script,
+# creates a branch, commits the changes, and opens a PR with the edits.
+#
+# Required repository secrets:
+# - OPENAI_API_KEY: Your OpenAI API key
+# - WANDB_API_KEY: Your Weights & Biases API key
+
+on:
+  workflow_dispatch:
+    inputs:
+      file_path:
+        description: 'Path to the file to be edited'
+        required: true
+        type: string
+      source_branch:
+        description: 'Source branch to create new branch from and target PR to (default: current branch)'
+        required: false
+        type: string
+
+jobs:
+  gpt-editor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.source_branch || github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          # Install Python dependencies
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install weave openai
+          
+          # Install Vale
+          curl -sL https://github.com/errata-ai/vale/releases/download/v3.9.6/vale_3.9.6_Linux_64-bit.tar.gz -o vale.tar.gz
+          mkdir -p /tmp/vale
+          tar -xzf vale.tar.gz -C /tmp/vale
+          sudo mv /tmp/vale/vale /usr/local/bin/
+          vale -v
+
+      - name: Debug Vale configuration
+        run: |
+          # Check Vale config
+          echo "Vale configuration:"
+          cat .vale.ini
+          
+          # Check styles directory
+          STYLES_PATH=$(grep StylesPath .vale.ini | awk '{print $3}')
+          echo "StylesPath from config: $STYLES_PATH"
+          if [ -d "$STYLES_PATH" ]; then
+            echo "Styles directory exists, contents:"
+            ls -la "$STYLES_PATH"
+          else
+            echo "Warning: Styles directory not found"
+          fi
+          
+          # Test Vale directly
+          echo "Testing Vale directly on the target file:"
+          vale --no-exit "${{ github.event.inputs.file_path }}" || echo "Vale exited with code $?"
+
+      - name: Set branch name
+        id: branch
+        run: |
+          timestamp=$(date +%Y%m%d%H%M%S)
+          echo "branch_name=gpt-edit-${timestamp}" >> $GITHUB_OUTPUT
+
+      - name: Create new branch
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git checkout -b ${{ steps.branch.outputs.branch_name }}
+
+      - name: Verify file exists
+        run: |
+          if [ ! -f "${{ github.event.inputs.file_path }}" ]; then
+            echo "Error: File '${{ github.event.inputs.file_path }}' does not exist."
+            exit 1
+          fi
+          echo "File exists, first 10 lines:"
+          head -n 10 "${{ github.event.inputs.file_path }}"
+
+      - name: Run GPT Editor script
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+          # Set environment variable to handle Vale failures
+          VALE_FALLBACK: "true"
+        run: |
+          # Run the script
+          set +e  # Don't exit on error
+          python scripts/gpt-editor.py "${{ github.event.inputs.file_path }}"
+          SCRIPT_EXIT=$?
+          
+          if [ $SCRIPT_EXIT -ne 0 ]; then
+            echo "Script exited with error code $SCRIPT_EXIT"
+            # Check if the file was modified despite the error
+            if git diff --quiet "${{ github.event.inputs.file_path }}"; then
+              echo "File was not modified, exiting with error"
+              exit 1
+            else
+              echo "File was modified despite error, continuing with workflow"
+            fi
+          fi
+
+      - name: Commit changes
+        run: |
+          git add "${{ github.event.inputs.file_path }}"
+          git commit -m "GPT-edited content"
+          git push --set-upstream origin ${{ steps.branch.outputs.branch_name }}
+
+      - name: Create Pull Request
+        id: create-pr
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: ${{ steps.branch.outputs.branch_name }}
+          destination_branch: ${{ github.event.inputs.source_branch || github.ref_name }}
+          pr_title: "GPT Editor: Automated edit of ${{ github.event.inputs.file_path }}"
+          pr_body: |
+            This PR contains GPT-edited changes to ${{ github.event.inputs.file_path }}.
+            
+            [View the GitHub Action run that created this PR](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Output PR Info
+        run: |
+          echo "Pull Request URL: ${{ steps.create-pr.outputs.pr_url }}"
+          echo "Pull Request Number: ${{ steps.create-pr.outputs.pr_number }}"
