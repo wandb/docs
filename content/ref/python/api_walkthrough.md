@@ -103,19 +103,16 @@ run.finish()
 
 The key takeaways from the previous code block are:
 * Use `wandb.log` to log metrics during training.
-* Use `wandb.Artifact` to save models (datasets, and so forth) as an artifact using W&B.
+* Use `wandb.Artifact` to save models (datasets, and so forth) as an artifact to your W&B project.
 
 > Note: This example uses `wandb.init()` without a context manager for simplicity. It is considered best practice to use a context manager (`with wandb.init() as run:`) to ensure that the run is properly closed after logging and avoids leaving open runs that can consume resources.
 
-Since the model is saved to W&B (in the project specified in `wandb.init`), use [`wandb.use_artifact`](https://docs.wandb.ai/ref/python/run/#use_artifact) to retrieve the artifact and prepare it for publication in the Model registry.
-
-`wandb.use_artifact` serves two key purposes:
-* Retrieves the artifact object.
+Use [`wandb.use_artifact`](https://docs.wandb.ai/ref/python/run/#use_artifact) to retrieve the artifact from your project and prepare it for publication in the Model registry. `wandb.use_artifact` serves two key purposes:
+* Retrieves the artifact object from your project.
 * Marks the artifact as an input to the run, ensuring reproducibility and traceability. See [Create model lineage map](https://docs.wandb.ai/guides/core/registry/model_registry/model-lineage/) for details.
 
 ## Publish the model to the Model registry
-To share the model with others in your organization, publish it to a collection using `wandb.link_artifact`. This links the artifact to the [core Model registry](https://docs.wandb.ai/guides/core/registry/registry_types/#core-registry), making it accessible to your team.
-
+To share the model with others in your organization, publish it to a [collection](https://docs.wandb.ai/guides/core/registry/create_collection/) using `wandb.link_artifact`. The following code links the artifact to the [core Model registry](https://docs.wandb.ai/guides/core/registry/registry_types/#core-registry), making it accessible to your team.
 
 ```python
 # Artifact name specifies the specific artifact version within our team's project
@@ -135,36 +132,34 @@ run.link_artifact(artifact=model_artifact, target_path=target_path)
 run.finish()
 ```
 
-Within the Registry App, you should see the model artifact you just published within the DemoModels collection in the Model registry. You can click on it to view its details, including the version history, lineage map, and other metadata.
+Within the Registry App, you should see the model artifact within the DemoModels collection in the Model registry. You can click on it to view its details, including the version history, [lineage map](https://docs.wandb.ai/guides/core/registry/lineage/), and other [metadata](https://docs.wandb.ai/guides/core/registry/registry_cards/). 
+
+For additional information on how to link artifacts to a registry, see [Link artifacts to a registry](https://docs.wandb.ai/guides/core/registry/link_version/).
 
 ## Retrieve model artifact from registry for inference
 
-To use a model for inference in a different environment or project, download the artifact from the Model registry using the W&B Public API.
-
+To use a model for inference, use `wandb.use_artifact` to retrieve the published artifact from the Model registry. This returns an artifact object that you can then use the [`Artifact.download`](https://docs.wandb.ai/ref/python/artifact/#download) method to download the artifact.
 
 ```python
 REGISTRY_NAME = "Model"  # Name of the registry in W&B
 COLLECTION_NAME = "DemoModels"  # Name of the collection in the registry
-VERSION = 0
+VERSION = 0 # Version of the artifact to retrieve
 
 model_artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 print(f"Model artifact name: {model_artifact_name}")
-```
 
-Use `wandb.use_artifact` to retrieve the published artifact from the Model registry. This returns an artifact object that you can then use the [`Artifact.download`](https://docs.wandb.ai/ref/python/artifact/#download) method to download the artifact.
-
-
-```python
 run = wandb.init(entity=TEAM_ENTITY, project=PROJECT)
 registry_model = run.use_artifact(artifact_or_name=model_artifact_name)
 local_model_path = registry_model.download()
 ```
 
+For more information on how to retrieve artifacts from a registry, see [Download an artifact from a registry](https://docs.wandb.ai/guides/core/registry/download_use_artifact/).
+
 Depending on your machine learning framework, you may need to recreate the model architecture before loading the weights. This is left as an exercise for the reader, as it depends on the specific framework and model you are using. 
 
 ## Share your finds with a report
 
-Create and share a report to summarize your work. To create a report programmatically, use the W&B Reports API.
+Create and share a report to summarize your work. To create a report programmatically, use the [W&B Reports API](http://localhost:60218/ref/python/wandb_workspaces/reports/).
 
 First, install the W&B Reports API:
 
@@ -219,7 +214,7 @@ report.save()
 For more information on how to create a report programmatically or how to create a report interactively with the W&B App, see [Create a report](https://docs.wandb.ai/guides/reports/create-a-report/) in the W&B Docs Developer guide. 
 
 ## Query the registry
-Suppose time has elapsed since someone on your team created an artifact version and published it to a collection in a registry. You are unsure which artifacts are available in the registry. You can use the [W&B Public APIs](https://docs.wandb.ai/ref/python/public-api/) to query, analyze, and manage historical data from W&B. 
+Use the [W&B Public APIs](https://docs.wandb.ai/ref/python/public-api/) to query, analyze, and manage historical data from W&B. This can be useful for tracking the lineage of artifacts, comparing different versions, and analyzing the performance of models over time.
 
 The following code block demonstrates how to query the Model registry for all artifacts in a specific collection. It retrieves the collection and iterates through its versions, printing out the name and version of each artifact.
 
@@ -259,5 +254,4 @@ for art in artifacts:
 For more information on querying the registry, see the [Query registry items with MongoDB-style queries](https://docs.wandb.ai/guides/core/registry/search_registry/#query-registry-items-with-mongodb-style-queries).
 
 ## Next steps
-
 
