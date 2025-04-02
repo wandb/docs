@@ -3,7 +3,7 @@ title: API Walkthrough
 weight: 1
 ---
 
-Learn how to track, share, and manage model artifacts in your machine learning workflows with W&B. This notebook covers using W&B to log experiments, generate reports, and access logged data via the W&B Public API.
+Learn when and how to use different W&B APIs to track, share, and manage model artifacts in your machine learning workflows. This notebook covers logging experiments, generating reports, and accessing logged data using the appropriate W&B API for each task.
 
 You'll use the following W&B packages:
 
