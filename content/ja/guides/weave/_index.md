@@ -1,29 +1,29 @@
 ---
+title: W&B Weave
 menu:
   default:
     identifier: ja-guides-weave-_index
-title: W&B Weave
 weight: 4
 ---
 
 {{< cta-button colabLink="http://wandb.me/weave_colab" >}}
 
-Weave is a lightweight toolkit for tracking and evaluating LLM applications. Use W&B Weave to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
+Weave は、LLM アプリケーション を追跡および評価するための軽量な ツールキット です。 W&B Weave を使用して、LLM の実行フローを視覚化および検査し、LLM の入出力を分析し、中間 結果を表示し、プロンプトと LLM チェーンの 設定を安全に保存および管理します。
 
 {{< img src="/images/weave/weave-hero.png" alt="" >}}
 
-With W&B Weave, you can:
-* Log and debug language model inputs, outputs, and traces
-* Build rigorous, apples-to-apples evaluations for language model use cases
-* Organize all the information generated across the LLM workflow, from experimentation to evaluations to production
+W&B Weave を使用すると、次のことができます。
+* 言語 model の入力、出力、および トレース を ログ に記録してデバッグする
+* 言語 model の ユースケース に対して厳密な、同等の 評価 を構築する
+* 実験 から 評価 、 プロダクション まで、LLM ワークフロー 全体で生成されたすべての情報を整理する
 
 {{% alert %}}
-Looking for Weave docs? See the [W&B Weave Docs](https://weave-docs.wandb.ai/).
+Weave のドキュメントをお探しですか？ [W&B Weave Docs](https://weave-docs.wandb.ai/) を参照してください。
 {{% /alert %}}
 
-## How to get started 
-Depending on your use case, explore the following resources to get started with W&B Weave:
+## 開始方法
+ユースケース に応じて、次のリソースを参照して W&B Weave を開始してください。
 
-* [Quickstart: Track inputs and outputs of LLM calls](https://wandb.github.io/weave/quickstart)
-* [Build an Evaluation pipeline tutorial](https://wandb.github.io/weave/tutorial-eval)
-* [Model-Based Evaluation of RAG applications tutorial](https://wandb.github.io/weave/tutorial-rag)
+* [クイックスタート : LLM 呼び出しの入出力を追跡する](https://wandb.github.io/weave/quickstart)
+* [Evaluation pipeline の構築 チュートリアル](https://wandb.github.io/weave/tutorial-eval)
+* [RAG アプリケーション の Model-Based Evaluation チュートリアル](https://wandb.github.io/weave/tutorial-rag)

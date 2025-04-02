@@ -1,68 +1,68 @@
 ---
+title: Automate user and team management
 menu:
   default:
     identifier: ja-guides-hosting-iam-automate_iam
     parent: identity-and-access-management-iam
-title: Automate user and team management
 weight: 3
 ---
 
 ## SCIM API
 
-Use SCIM API to manage users, and the teams they belong to, in an efficient and repeatable manner. You can also use the SCIM API to manage custom roles or assign roles to users in your W&B organization. Role endpoints are not part of the official SCIM schema. W&B adds role endpoints to support automated management of custom roles.
+SCIM API を使用して、ユーザーと、ユーザーが所属する Teams を効率的かつ反復可能な方法で管理します。SCIM API を使用して、カスタムロールを管理したり、W&B organization 内の Users にロールを割り当てることもできます。ロールエンドポイントは、公式の SCIM スキーマの一部ではありません。W&B は、カスタムロールの自動管理をサポートするために、ロールエンドポイントを追加します。
 
-SCIM API is especially useful if you want to:
+SCIM API は、特に次のような場合に役立ちます。
 
-* manage user provisioning and de-provisioning at scale
-* manage users with a SCIM-supporting Identity Provider
+* 大規模なユーザーのプロビジョニングとプロビジョニング解除を管理する
+* SCIM をサポートする Identity Provider で Users を管理する
 
-There are broadly three categories of SCIM API - **User**, **Group**, and **Roles**.
+SCIM API には、大きく分けて **User**、**Group**、**Roles** の 3 つのカテゴリがあります。
 
 ### User SCIM API
 
-[User SCIM API]({{< relref path="./scim.md#user-resource" lang="ja" >}}) allows for creating, deactivating, getting the details of a user, or listing all users in a W&B organization. This API also supports assigning predefined or custom roles to users in an organization.
+[User SCIM API]({{< relref path="./scim.md#user-resource" lang="ja" >}}) を使用すると、User の作成、非アクティブ化、詳細の取得、または W&B organization 内のすべての Users の一覧表示が可能です。この API は、定義済みまたはカスタムロールを organization 内の Users に割り当てることもサポートしています。
 
 {{% alert %}}
-Deactivate a user within a W&B organization with the `DELETE User` endpoint. Deactivated users can no longer sign in. However, deactivated users still appears in the organization's user list.
+`DELETE User` エンドポイントを使用して、W&B organization 内の User を非アクティブ化します。非アクティブ化された Users は、サインインできなくなります。ただし、非アクティブ化された Users は、organization の User リストに引き続き表示されます。
 
-To fully remove a deactivated user from the user list, you must [remove the user from the organization]({{< relref path="access-management/manage-organization.md#remove-a-user" lang="ja" >}}).
+非アクティブ化された User を User リストから完全に削除するには、[organization から User を削除する]({{< relref path="access-management/manage-organization.md#remove-a-user" lang="ja" >}})必要があります。
 
-It is possible to re-enable a deactivated user, if needed.
+必要に応じて、非アクティブ化された User を再度有効にすることができます。
 {{% /alert %}}
 
 ### Group SCIM API
 
-[Group SCIM API]({{< relref path="./scim.md#group-resource" lang="ja" >}}) allows for managing W&B teams, including creating or removing teams in an organization. Use the `PATCH Group` to add or remove users in an existing team.
+[Group SCIM API]({{< relref path="./scim.md#group-resource" lang="ja" >}}) を使用すると、organization 内の Teams の作成や削除など、W&B Teams を管理できます。`PATCH Group` を使用して、既存の Team に Users を追加または削除します。
 
 {{% alert %}}
-There is no notion of a `group of users having the same role` within W&B. A W&B team closely resembles a group, and allows diverse personas with different roles to work collaboratively on a set of related projects. Teams can consist of different groups of users. Assign each user in a team a role: team admin, member, viewer, or a custom role.
+W&B には、`同じロールを持つ Users のグループ` という概念はありません。W&B の Team はグループによく似ており、異なるロールを持つ多様なペルソナが、関連する Projects のセットで共同作業を行うことができます。Teams は、異なるグループの Users で構成できます。Team の各 User に、Team 管理者、メンバー、閲覧者、またはカスタムロールを割り当てます。
 
-W&B maps Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
+W&B は、グループと W&B Teams の類似性から、Group SCIM API エンドポイントを W&B Teams にマッピングします。
 {{% /alert %}}
 
 ### Custom role API
 
-[Custom role SCIM API]({{< relref path="./scim.md#role-resource" lang="ja" >}}) allows for managing custom roles, including creating, listing, or updating custom roles in an organization.
+[Custom role SCIM API]({{< relref path="./scim.md#role-resource" lang="ja" >}}) を使用すると、organization 内のカスタムロールの作成、一覧表示、または更新など、カスタムロールを管理できます。
 
 {{% alert color="secondary" %}}
-Delete a custom role with caution.
+カスタムロールを削除する場合は注意してください。
 
-Delete a custom role within a W&B organization with the `DELETE Role` endpoint. The predefined role that the custom role inherits is assigned to all users that are assigned the custom role before the operation.
+`DELETE Role` エンドポイントを使用して、W&B organization 内のカスタムロールを削除します。カスタムロールが継承する定義済みのロールは、操作前にカスタムロールが割り当てられているすべての Users に割り当てられます。
 
-Update the inherited role for a custom role with the `PUT Role` endpoint. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
+`PUT Role` エンドポイントを使用して、カスタムロールの継承されたロールを更新します。この操作は、カスタムロール内の既存の、つまり継承されていないカスタム権限には影響しません。
 {{% /alert %}}
 
 ## W&B Python SDK API
 
-Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) for that purpose. Keep a note of the following methods:
+SCIM API で User と Team の管理を自動化できるのと同じように、[W&B Python SDK API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) で利用できる メソッド の一部もその目的に使用できます。次の メソッド に注意してください。
 
 | Method name | Purpose |
 |-------------|---------|
-| `create_user(email, admin=False)` | Add a user to the organization and optionally make them the organization admin. |
-| `user(userNameOrEmail)` | Return an existing user in the organization. |
-| `user.teams()` | Return the teams for the user. You can get the user object using the user(userNameOrEmail) method. |
-| `create_team(teamName, adminUserName)` | Create a new team and optionally make an organization-level user the team admin. |
-| `team(teamName)` | Return an existing team in the organization. |
-| `Team.invite(userNameOrEmail, admin=False)` | Add a user to the team. You can get the team object using the team(teamName) method. |
-| `Team.create_service_account(description)` | Add a service account to the team. You can get the team object using the team(teamName) method. |
-|` Member.delete()` | Remove a member user from a team. You can get the list of member objects in a team using the team object's `members` attribute. And you can get the team object using the team(teamName) method. |
+| `create_user(email, admin=False)` | organization に User を追加し、オプションで organization 管理者にします。 |
+| `user(userNameOrEmail)` | organization 内の既存の User を返します。 |
+| `user.teams()` | User の Teams を返します。user(userNameOrEmail) メソッド を使用して User オブジェクトを取得できます。 |
+| `create_team(teamName, adminUserName)` | 新しい Team を作成し、オプションで organization レベルの User を Team 管理者にします。 |
+| `team(teamName)` | organization 内の既存の Team を返します。 |
+| `Team.invite(userNameOrEmail, admin=False)` | Team に User を追加します。team(teamName) メソッド を使用して Team オブジェクトを取得できます。 |
+| `Team.create_service_account(description)` | Team にサービスアカウントを追加します。team(teamName) メソッド を使用して Team オブジェクトを取得できます。 |
+|` Member.delete()` | Team からメンバー User を削除します。team オブジェクトの `members` 属性を使用して、Team 内のメンバー オブジェクトのリストを取得できます。また、team(teamName) メソッド を使用して Team オブジェクトを取得できます。 |

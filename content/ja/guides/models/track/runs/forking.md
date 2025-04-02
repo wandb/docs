@@ -1,39 +1,38 @@
 ---
-description: Forking a W&B run
+title: Fork a run
+description: W&B の run をフォークする
 menu:
   default:
     identifier: ja-guides-models-track-runs-forking
     parent: what-are-runs
-title: Fork a run
 ---
 
 {{% alert color="secondary" %}}
-The ability to fork a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
+run をフォークする機能はプライベートプレビュー版です。この機能へのアクセスをご希望の場合は、W&B Support (support@wandb.com) までご連絡ください。
 {{% /alert %}}
 
-Use `fork_from` when you initialize a run with [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
+既存の W&B の run から「フォーク」するには、[`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}) で run を初期化する際に `fork_from` を使用します。run からフォークすると、W&B はソース run の `run ID` と `step` を使用して新しい run を作成します。
 
-Forking a run enables you to explore different parameters or models from a specific point in an experiment without impacting the original run.
+run をフォークすると、元の run に影響を与えることなく、実験の特定の時点から異なるパラメータまたは model を調べることができます。
 
 {{% alert %}}
-* Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
-* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`]({{< relref path="/ref/python/run#define_metric" lang="ja" >}}) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+* run をフォークするには、[`wandb`](https://pypi.org/project/wandb/) SDK バージョン 0.16.5 以上が必要です。
+* run をフォークするには、単調増加する step が必要です。[`define_metric()`]({{< relref path="/ref/python/run#define_metric" lang="ja" >}}) で定義された非単調な step を使用してフォークポイントを設定することはできません。run の履歴とシステム メトリクスの本質的な時間順序が崩れるためです。
 {{% /alert %}}
 
+## フォークされた run を開始する
 
-## Start a forked run
-
-To fork a run, use the `fork_from` argument in [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}) and specify the source `run ID` and the `step` from the source run to fork from:
+run をフォークするには、[`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}) で `fork_from` 引数を使用し、フォーク元のソース `run ID` とソース run からの `step` を指定します。
 
 ```python
 import wandb
 
-# Initialize a run to be forked later
+# 後でフォークされる run を初期化する
 original_run = wandb.init(project="your_project_name", entity="your_entity_name")
-# ... perform training or logging ...
+# ... トレーニングまたはログの記録を実行 ...
 original_run.finish()
 
-# Fork the run from a specific step
+# 特定の step から run をフォークする
 forked_run = wandb.init(
     project="your_project_name",
     entity="your_entity_name",
@@ -41,55 +40,55 @@ forked_run = wandb.init(
 )
 ```
 
-### Using an immutable run ID
+### イミュータブルな run ID を使用する
 
-Use an immutable run ID to ensure you have a consistent and unchanging reference to a specific run. Follow these steps to obtain the immutable run ID from the user interface:
+イミュータブルな run ID を使用して、特定の run への一貫性があり、変更されない参照を確保します。ユーザーインターフェースからイミュータブルな run ID を取得するには、次の手順に従います。
 
-1. **Access the Overview Tab:** Navigate to the [**Overview tab**]({{< relref path="./#overview-tab" lang="ja" >}}) on the source run's page.
+1. **Overviewタブにアクセスする:** ソース run のページの [**Overviewタブ**]({{< relref path="./#overview-tab" lang="ja" >}}) に移動します。
 
-2. **Copy the Immutable Run ID:** Click on the `...` menu (three dots) located in the top-right corner of the **Overview** tab. Select the `Copy Immutable Run ID` option from the dropdown menu.
+2. **イミュータブルな Run ID をコピーする:** **Overview** タブの右上隅にある `...` メニュー (3 つのドット) をクリックします。ドロップダウンメニューから [イミュータブルな Run ID をコピー] オプションを選択します。
 
-By following these steps, you will have a stable and unchanging reference to the run, which can be used for forking a run.
+これらの手順に従うことで、run への安定した変更されない参照が得られ、run のフォークに使用できます。
 
-## Continue from a forked run
-After initializing a forked run, you can continue logging to the new run. You can log the same metrics for continuity and introduce new metrics. 
+## フォークされた run から続行する
+フォークされた run を初期化したら、新しい run へのログ記録を続行できます。継続性のために同じメトリクスをログに記録し、新しいメトリクスを導入できます。
 
-For example, the following code example shows how to first fork a run and then how to log metrics to the forked run starting from a training step of 200:
+たとえば、次のコード例は、最初に run をフォークし、次に 200 のトレーニング step から始まるフォークされた run にメトリクスをログに記録する方法を示しています。
 
 ```python
 import wandb
 import math
 
-# Initialize the first run and log some metrics
+# 最初の run を初期化し、いくつかのメトリクスをログに記録する
 run1 = wandb.init("your_project_name", entity="your_entity_name")
 for i in range(300):
     run1.log({"metric": i})
 run1.finish()
 
-# Fork from the first run at a specific step and log the metric starting from step 200
+# 特定の step で最初の run からフォークし、step 200 から始まるメトリクスをログに記録する
 run2 = wandb.init(
     "your_project_name", entity="your_entity_name", fork_from=f"{run1.id}?_step=200"
 )
 
-# Continue logging in the new run
-# For the first few steps, log the metric as is from run1
-# After step 250, start logging the spikey pattern
+# 新しい run でログ記録を続行する
+# 最初のいくつかの step では、run1 からメトリクスをそのままログに記録する
+# Step 250 以降は、スパイキーパターンをログに記録し始める
 for i in range(200, 300):
     if i < 250:
-        run2.log({"metric": i})  # Continue logging from run1 without spikes
+        run2.log({"metric": i})  # スパイクなしで run1 からログ記録を続行する
     else:
-        # Introduce the spikey behavior starting from step 250
-        subtle_spike = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
+        # Step 250 からスパイキーな振る舞いを導入する
+        subtle_spike = i + (2 * math.sin(i / 3.0))  # 微妙なスパイキーパターンを適用する
         run2.log({"metric": subtle_spike})
-    # Additionally log the new metric at all steps
+    # さらに、すべての step で新しいメトリクスをログに記録する
     run2.log({"additional_metric": i * 1.1})
 run2.finish()
 ```
 
-{{% alert title="Rewind and forking compatibility" %}}
-Forking compliments a [`rewind`]({{< relref path="/guides/models/track/runs/rewind" lang="ja" >}}) by providing more flexibility in managing and experimenting with your runs. 
+{{% alert title="巻き戻しとフォークの互換性" %}}
+フォークは、run の管理と実験においてより柔軟性を提供することで、[`rewind`]({{< relref path="/guides/models/track/runs/rewind" lang="ja" >}}) を補完します。
 
-When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
+run からフォークすると、W&B は特定のポイントで run から新しいブランチを作成し、異なるパラメータまたは model を試すことができます。
 
-When you  rewind a run, W&B let's you correct or modify the run history itself.
+run を巻き戻すと、W&B は run の履歴自体を修正または変更できます。
 {{% /alert %}}

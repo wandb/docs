@@ -1,9 +1,9 @@
 ---
+title: Automations
 menu:
   default:
     identifier: ja-guides-core-automations-_index
     parent: core
-title: Automations
 weight: 4
 ---
 
@@ -11,32 +11,32 @@ weight: 4
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-This page describes _automations_ in W&B. [Create an automation]({{< relref path="create-automations/" lang="ja" >}}) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref path="/guides/core/artifacts" lang="ja" >}}) artifact version is created.
+このページでは、W&B の _automations_ について説明します。W&B のイベント（[artifact]({{< relref path="/guides/core/artifacts" lang="ja" >}}) Artifacts のバージョンが作成されたときなど）に基づいて、自動モデルテストやデプロイメントなどのワークフローステップをトリガーする [オートメーションの作成]({{< relref path="create-automations/" lang="ja" >}}) を行います。
 
-For example, an automation can post to a Slack channel when a new version is created, or can run a webhook to trigger automated testing when the `production` alias is added to an artifact.
+たとえば、新しいバージョンが作成されたときに Slack チャンネルに投稿したり、`production` エイリアスが Artifacts に追加されたときに webhook を実行して自動テストをトリガーしたりできます。
 
 ## Overview
-An automation can run when a specific [event]({{< relref path="automation-events.md" lang="ja" >}}) occurs in a registry or project.
+Automation は、特定の [event]({{< relref path="automation-events.md" lang="ja" >}}) が Registry または Project で発生したときに実行できます。
 
-For an artifact in a [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}), you can configure an automation to run:
-- When a new artifact version is linked to a collection. For example, trigger testing and validation workflows for new candidate models.
-- When an alias is added to an artifact version. For example, trigger a deployment workflow when an alias is added to a model version.
+[Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) 内の Artifacts の場合、Automation の実行を次のように設定できます。
+- 新しい Artifacts バージョンがコレクションにリンクされたとき。たとえば、新しい候補 Models のテストと検証のワークフローをトリガーします。
+- エイリアスが Artifacts バージョンに追加されたとき。たとえば、エイリアスが Model バージョンに追加されたときに、デプロイメント ワークフローをトリガーします。
 
-For an artifact in a [project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}), you can configure an automation to run:
-- When a new version is added to an artifact. For example, start a training job when a new version of a dataset artifact is added to a given collection.
-- When an alias is added to an artifact version. For example, trigger a PII redaction workflow when the alias "redaction" is added to a dataset artifact.
+[Project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}) 内の Artifacts の場合、Automation の実行を次のように設定できます。
+- 新しいバージョンが Artifacts に追加されたとき。たとえば、Dataset Artifacts の新しいバージョンが特定のコレクションに追加されたときに、Training ジョブを開始します。
+- エイリアスが Artifacts バージョンに追加されたとき。たとえば、エイリアス「redaction」が Dataset Artifacts に追加されたときに、PII 編集ワークフローをトリガーします。
 
-For more details, refer to [Automation events and scopes]({{< relref path="automation-events.md" lang="ja" >}}).
+詳細については、[オートメーションイベントとスコープ]({{< relref path="automation-events.md" lang="ja" >}}) を参照してください。
 
-To [create an automation]({{< relref path="create-automations/" lang="ja" >}}), you:
+[オートメーションを作成]({{< relref path="create-automations/" lang="ja" >}}) するには、次の手順を実行します。
 
-1. If required, configure [secrets]({{< relref path="/guides/core/secrets.md" lang="ja" >}}) for sensitive strings the automation requires, such as access tokens, passwords, or sensitive configuration details. Secrets are defined in your **Team Settings**. Secrets are most commonly used in webhook automations to securely pass credentials or tokens to the webhook's external service without exposing it in plain text or hard-coding it in the webhook's payload.
-1. Configure the webhook or Slack notification to authorize W&B to post to Slack or run the webhook on your behalf. A single automation action (webhook or Slack notification) can be used by multiple automations. These actions are defined in your **Team Settings**.
-1. In the project or registry, create the automation:
-    1. Define the [event]({{< relref path="#automation-events" lang="ja" >}}) to watch for, such as when a new artifact version is added. 
-    1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook). For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
+1. 必要に応じて、アクセストークン、パスワード、または機密性の高い設定の詳細など、Automation で必要な機密文字列の [secrets]({{< relref path="/guides/core/secrets.md" lang="ja" >}}) を設定します。Secrets は、**Team Settings** で定義されます。Secrets は、webhook Automation で最も一般的に使用され、認証情報またはトークンをプレーンテキストで公開したり、webhook のペイロードにハードコーディングしたりすることなく、webhook の外部サービスに安全に渡すために使用されます。
+1. W&B が Slack に投稿したり、ユーザーに代わって webhook を実行したりすることを承認するように、webhook または Slack 通知を設定します。単一の Automation アクション（webhook または Slack 通知）を複数の Automation で使用できます。これらのアクションは、**Team Settings** で定義されます。
+1. Project または Registry で、Automation を作成します。
+    1. 監視する [event]({{< relref path="#automation-events" lang="ja" >}}) （新しい Artifacts バージョンが追加されたときなど）を定義します。
+    1. イベントが発生したときに実行するアクション（Slack チャンネルへの投稿または webhook の実行）を定義します。Webhook の場合は、アクセストークンに使用する secret、および必要に応じてペイロードとともに送信する secret を指定します。
 
-## Next steps
-- [Create an automation]({{< relref path="create-automations/" lang="ja" >}}).
-- Learn about [Automation events and scopes]({{< relref path="automation-events.md" lang="ja" >}}).
-- [Create a secret]({{< relref path="/guides/core/secrets.md" lang="ja" >}}).
+## 次のステップ
+- [オートメーションの作成]({{< relref path="create-automations/" lang="ja" >}})。
+- [オートメーションイベントとスコープ]({{< relref path="automation-events.md" lang="ja" >}}) について学びます。
+- [secret の作成]({{< relref path="/guides/core/secrets.md" lang="ja" >}})。

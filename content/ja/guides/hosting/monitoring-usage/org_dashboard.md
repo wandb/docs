@@ -1,64 +1,64 @@
 ---
+title: View organization dashboard
 menu:
   default:
     identifier: ja-guides-hosting-monitoring-usage-org_dashboard
     parent: monitoring-and-usage
-title: View organization dashboard
 ---
 
 {{% alert color="secondary" %}}
-Organization dashboard is available only with [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) and [Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}).
+Organization dashboard は、[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) と [Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) でのみ利用可能です。
 {{% /alert %}}
 
-## View organization usage of W&B
-Use the organization dashboard to get a holistic view of your organization's usage of W&B. The dashboard is organized by tab.
+## W&B の組織利用状況の表示
+Organization dashboard を使用して、組織の W&B の利用状況を全体的に把握できます。ダッシュボードはタブで構成されています。
 
-- **Users**: lists details about each user, including their name, email, teams, roles, and last activity.
-- **Service accounts**: Lists details about service accounts and allows you to create service accounts.
-- **Activity**: lists details about each user's activity.
-- **Teams**: lists details about each team, including the number of users and tracked hours, and allows an admin to join a team.
-- **Billing**: ssummarizes your organization's charges, allows you to run and export billing reports, and shows details about your license, such as when it expires.
-- **Settings**: allows you to configure custom roles and settings related to privacy and authentication.
+- **Users**: 各 ユーザー の詳細（名前、メールアドレス、Teams、役割、最終アクティビティなど）をリスト表示します。
+- **Service accounts**: サービスアカウントの詳細をリスト表示し、サービスアカウントを作成できます。
+- **Activity**: 各 ユーザー のアクティビティの詳細をリスト表示します。
+- **Teams**: 各 Team の詳細（ユーザー数、追跡時間など）をリスト表示し、管理者が Team に参加できるようにします。
+- **Billing**: 組織の料金を要約し、請求 Reports の実行とエクスポートを可能にし、ライセンスの詳細（有効期限など）を表示します。
+- **Settings**: プライバシーと認証に関連するカスタムロールと設定を構成できます。
 
-## View the status of a user
-The **Users** tab lists all users, along with data about each user. The **Last Active** column shows whether a user has accepted an invitation and the user's current status:
+## ユーザー のステータスの表示
+**Users** タブには、すべての ユーザー と、各 ユーザー に関する データ がリスト表示されます。「最終アクティブ」列には、 ユーザー が招待を承諾したかどうかと、 ユーザー の現在のステータスが表示されます。
 
-* **Invite pending**: Admin has sent invite but user has not accepted invitation. 
-* **Active**: User has accepted the invite and created an account.
-* **-**: The user was previously active but has not been active in the last 6 months.
-* **Deactivated**: Admin has revoked access of the user.
+* **Invite pending**: 管理者が招待を送信しましたが、 ユーザー が招待を承諾していません。
+* **Active**: ユーザー が招待を承諾し、アカウントを作成しました。
+* **-**: ユーザー は以前はアクティブでしたが、過去 6 か月間アクティブではありません。
+* **Deactivated**: 管理者が ユーザー のアクセスを取り消しました。
 
-To sort the list of users by activity, click the **Last Active** column heading.
+アクティビティで ユーザー のリストを並べ替えるには、[最終アクティブ] 列の見出しをクリックします。
 
-## View and share how your organization uses W&B
-From the **Users** tab, view details about how your organization uses W&B in CSV format.
+## 組織が W&B をどのように使用しているかの表示と共有
+**Users** タブから、組織が W&B をどのように使用しているかの詳細を CSV 形式で表示します。
 
-1. Click the action `...` menu next to the **Invite new user user** button.
-2. Click **Export as CSV**. The CSV files that downloads lists details about each user of an organization, such as their user name and email address, the time they were last active, their roles, and more.
+1. [新しい ユーザー を招待] ボタンの横にあるアクション `...` メニューをクリックします。
+2. [CSV としてエクスポート] をクリックします。ダウンロードされる CSV ファイルには、組織の各 ユーザー の詳細（ ユーザー 名、メール アドレス、最終アクティブ時間、役割など）がリスト表示されます。
 
-## View user activity
-In the **Users** tab, use the **Last Active** column to get an **Activity summary** of an individual user. 
+## ユーザー アクティビティの表示
+**Users** タブの **最終アクティブ** 列を使用して、個々の ユーザー の **アクティビティの概要** を取得します。
 
-1. To sort the list of users by **Last Active**, click the column name.
-1. To see details about a user's last activity, hover your mouse over the **Last Active** field for the user.  A tooltip appears that shows when the user was added and how many total days the user has been active.
+1. **最終アクティブ** で ユーザー のリストを並べ替えるには、列名をクリックします。
+2. ユーザー の最終アクティビティの詳細を表示するには、 ユーザー の **最終アクティブ** フィールドにマウスを合わせます。ユーザー が追加された時期と、 ユーザー がアクティブであった合計日数を示すツールチップが表示されます。
 
-A user is _active_ if they:
-- log in to W&B.
-- view any page in the W&B App.
-- log runs.
-- use the SDK to track an experiment.
-- interact with the W&B Server in any way.
+ユーザー は、次のいずれかに該当する場合に _アクティブ_ になります。
+- W&B にログインする。
+- W&B App で任意のページを表示する。
+- Runs を ログ する。
+- SDK を使用して experiment を追跡する。
+- 何らかの方法で W&B Server とやり取りする。
 
-## View active users over time
-Use the plots in the **Activity** tab to get an aggregate view of how many users have been active over time
+## 経時的なアクティブ ユーザー の表示
+**Activity** タブのプロットを使用して、経時的にアクティブな ユーザー 数を集計して表示します。
 
-1. Click the **Activity** tab.
-1. The **Total active users** plot shows how many users have been active in a period of time (defaults to 3 months).
-1. The **Users active over time** plot shows the fluctuation of active users over a period of time (defaults to 6 months). Hover your mouse over a pointo to see the number of users on that date.
+1. **Activity** タブをクリックします。
+2. **アクティブ ユーザー の合計** プロットは、一定期間にアクティブであった ユーザー 数を示します（デフォルトは 3 か月）。
+3. **経時的なアクティブ ユーザー** プロットは、一定期間のアクティブ ユーザー の変動を示します（デフォルトは 6 か月）。ポイントにマウスを合わせると、その日付の ユーザー 数が表示されます。
 
-To change the period of time for a plot, use the drop-down. You can select:
-- Last 30 days
-- Last 3 months
-- Last 6 months
-- Last 12 months
-- All time
+プロットの期間を変更するには、ドロップダウンを使用します。選択できるオプションは次のとおりです。
+- 過去 30 日間
+- 過去 3 か月
+- 過去 6 か月
+- 過去 12 か月
+- 全期間

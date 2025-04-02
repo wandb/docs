@@ -1,24 +1,24 @@
 ---
-description: How to integrate W&B with Stable Baseline 3.
+title: Stable Baselines 3
+description: Stable Baseline 3 と W&B を統合する方法。
 menu:
   default:
     identifier: ja-guides-integrations-stable-baselines-3
     parent: integrations
-title: Stable Baselines 3
 weight: 420
 ---
 
-[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) is a set of reliable implementations of reinforcement learning algorithms in PyTorch. W&B's SB3 integration: 
+[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) (SB3) は、PyTorch で記述された強化学習アルゴリズムの信頼性の高い実装のセットです。W&B の SB3 インテグレーション:
 
-* Records metrics such as losses and episodic returns.
-* Uploads videos of agents playing the games.
-* Saves the trained model.
-* Logs the model's hyperparameters.
-* Logs the model gradient histograms.
+* 損失やエピソードリターンなどのメトリクスを記録します。
+* エージェントがゲームをプレイする動画をアップロードします。
+* トレーニング済みのモデルを保存します。
+* モデルのハイパーパラメーターをログに記録します。
+* モデルの勾配ヒストグラムをログに記録します。
 
-Review an [example](https://wandb.ai/wandb/sb3/runs/1jyr6z10) of a SB3 training run with W&B.
+W&B を使用した SB3 のトレーニング run の [例](https://wandb.ai/wandb/sb3/runs/1jyr6z10)を確認してください。
 
-## Log your SB3 experiments
+## SB3 の 実験管理
 
 ```python
 from wandb.integration.sb3 import WandbCallback
@@ -28,18 +28,18 @@ model.learn(..., callback=WandbCallback())
 
 {{< img src="/images/integrations/stable_baselines_demo.gif" alt="" >}}
 
-## WandbCallback Arguments
+## WandbCallback の引数
 
-| Argument | Usage |
+| 引数 | 使い方 |
 | :--- | :--- |
-| `verbose` | The verbosity of sb3 output |
-| `model_save_path` | Path to the folder where the model will be saved, The default value is \`None\` so the model is not logged |
-| `model_save_freq` | Frequency to save the model |
-| `gradient_save_freq` | Frequency to log gradient. The default value is 0 so the gradients are not logged |
+| `verbose` | sb3 出力の詳細度 |
+| `model_save_path` | モデルが保存されるフォルダーへのパス。デフォルト値は \`None\` なので、モデルはログに記録されません。 |
+| `model_save_freq` | モデルを保存する頻度 |
+| `gradient_save_freq` | 勾配をログに記録する頻度。デフォルト値は 0 なので、勾配はログに記録されません。 |
 
-## Basic Example
+## 基本的な例
 
-The W&B SB3 integration uses the logs output from TensorBoard to log your metrics 
+W&B SB3 インテグレーションは、TensorBoard からのログ出力を使用してメトリクスを記録します。
 
 ```python
 import gym
@@ -58,15 +58,15 @@ config = {
 run = wandb.init(
     project="sb3",
     config=config,
-    sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
-    monitor_gym=True,  # auto-upload the videos of agents playing the game
-    save_code=True,  # optional
+    sync_tensorboard=True,  # sb3 の tensorboard メトリクスを自動アップロード
+    monitor_gym=True,  # エージェントがゲームをプレイする動画を自動アップロード
+    save_code=True,  # オプション
 )
 
 
 def make_env():
     env = gym.make(config["env_name"])
-    env = Monitor(env)  # record stats such as returns
+    env = Monitor(env)  # リターンなどの統計を記録
     return env
 
 
