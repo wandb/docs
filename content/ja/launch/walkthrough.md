@@ -141,7 +141,7 @@ wandb launch --uri . --job-name hello-world-code --project launch-quickstart --e
 3. `train.py` と `requirements.txt` をベース イメージにコピーし、要件を `pip install` してコンテナ イメージを構築します。
 4. コンテナを起動し、`python train.py` を実行します。
 {{% /tab %}}
-{{< /tabpane %}}
+{{< /tabpane >}}
 
 ## queue の作成
 
