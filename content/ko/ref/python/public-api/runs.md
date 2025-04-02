@@ -1,13 +1,13 @@
 ---
+title: Runs
 menu:
   reference:
     identifier: ko-ref-python-public-api-runs
-title: Runs
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L64-L273 >}}
 
-An iterable collection of runs associated with a project and optional filter.
+프로젝트 및 선택적 필터와 연결된 runs의 반복 가능한 컬렉션입니다.
 
 ```python
 Runs(
@@ -21,16 +21,16 @@ Runs(
 )
 ```
 
-This is generally used indirectly via the `Api`.runs method.
+일반적으로 `Api`.runs 메소드를 통해 간접적으로 사용됩니다.
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L141-L173)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L141-L173)
 
 ```python
 convert_objects()
@@ -38,7 +38,7 @@ convert_objects()
 
 ### `histories`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L175-L270)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L175-L270)
 
 ```python
 histories(
@@ -50,24 +50,24 @@ histories(
 )
 ```
 
-Return sampled history metrics for all runs that fit the filters conditions.
+필터 조건에 맞는 모든 runs에 대해 샘플링된 히스토리 메트릭을 반환합니다.
 
 | Args |  |
 | :--- | :--- |
-|  `samples` |  (int, optional) The number of samples to return per run |
-|  `keys` |  (list[str], optional) Only return metrics for specific keys |
-|  `x_axis` |  (str, optional) Use this metric as the xAxis defaults to _step |
-|  `format` |  (Literal, optional) Format to return data in, options are "default", "pandas", "polars" |
-|  `stream` |  (Literal, optional) "default" for metrics, "system" for machine metrics |
+|  `samples` |  (int, optional) run 당 반환할 샘플 수 |
+|  `keys` |  (list[str], optional) 특정 키에 대한 메트릭만 반환 |
+|  `x_axis` |  (str, optional) 이 메트릭을 xAxis로 사용, 기본값은 _step |
+|  `format` |  (Literal, optional) 데이터를 반환할 형식, 옵션은 "default", "pandas", "polars" |
+|  `stream` |  (Literal, optional) 메트릭의 경우 "default", 머신 메트릭의 경우 "system" |
 
-| Returns |  |
+| 반환 값 |  |
 | :--- | :--- |
-|  `pandas.DataFrame` |  If format="pandas", returns a `pandas.DataFrame` of history metrics. |
-|  `polars.DataFrame` |  If format="polars", returns a `polars.DataFrame` of history metrics. list of dicts: If format="default", returns a list of dicts containing history metrics with a run_id key. |
+|  `pandas.DataFrame` |  format="pandas"인 경우, 히스토리 메트릭의 `pandas.DataFrame`을 반환합니다. |
+|  `polars.DataFrame` |  format="polars"인 경우, 히스토리 메트릭의 `polars.DataFrame`을 반환합니다. list of dicts: format="default"인 경우, run_id 키가 있는 히스토리 메트릭을 포함하는 dicts 목록을 반환합니다. |
 
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
 
 ```python
 next()
@@ -75,7 +75,7 @@ next()
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
 
 ```python
 update_variables()
@@ -83,7 +83,7 @@ update_variables()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
 
 ```python
 __getitem__(
@@ -93,7 +93,7 @@ __getitem__(
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
 
 ```python
 __iter__()
@@ -101,12 +101,12 @@ __iter__()
 
 ### `__len__`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
 
 ```python
 __len__()
 ```
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `QUERY`<a id="QUERY"></a> |   |

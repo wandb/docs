@@ -1,13 +1,13 @@
 ---
+title: LaunchAgent
 menu:
   reference:
     identifier: ko-ref-python-launch-library-launchagent
-title: LaunchAgent
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L164-L924 >}}
 
-Launch agent class which polls run given run queues and launches runs for wandb launch.
+run 큐를 폴링하고 wandb Launch에 대한 run을 시작하는 Launch 에이전트 클래스입니다.
 
 ```python
 LaunchAgent(
@@ -16,22 +16,22 @@ LaunchAgent(
 )
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `api` |  Api object to use for making requests to the backend. |
-|  `config` |  Config dictionary for the agent. |
+|  `api` | 백엔드에 요청을 보내는 데 사용할 Api 오브젝트입니다. |
+|  `config` | 에이전트의 구성 사전입니다. |
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
-|  `num_running_jobs` |  Return the number of jobs not including schedulers. |
-|  `num_running_schedulers` |  Return just the number of schedulers. |
-|  `thread_ids` |  Returns a list of keys running thread ids for the agent. |
+|  `num_running_jobs` | 스케줄러를 포함하지 않는 작업 수를 반환합니다. |
+|  `num_running_schedulers` | 스케줄러 수만 반환합니다. |
+|  `thread_ids` | 에이전트에 대해 실행 중인 스레드 ID의 키 목록을 반환합니다. |
 
-## Methods
+## 메소드
 
 ### `check_sweep_state`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L786-L803)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L786-L803)
 
 ```python
 check_sweep_state(
@@ -39,11 +39,11 @@ check_sweep_state(
 )
 ```
 
-Check the state of a sweep before launching a run for the sweep.
+스윕에 대한 run을 시작하기 전에 스윕의 상태를 확인합니다.
 
 ### `fail_run_queue_item`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L295-L304)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L295-L304)
 
 ```python
 fail_run_queue_item(
@@ -53,7 +53,7 @@ fail_run_queue_item(
 
 ### `finish_thread_id`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L416-L509)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L416-L509)
 
 ```python
 finish_thread_id(
@@ -61,11 +61,11 @@ finish_thread_id(
 )
 ```
 
-Removes the job from our list for now.
+현재 작업 목록에서 작업을 제거합니다.
 
 ### `get_job_and_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L908-L915)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L908-L915)
 
 ```python
 get_job_and_queue()
@@ -73,43 +73,43 @@ get_job_and_queue()
 
 ### `initialized`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L190-L193)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L190-L193)
 
 ```python
 @classmethod
 initialized() -> bool
 ```
 
-Return whether the agent is initialized.
+에이전트가 초기화되었는지 여부를 반환합니다.
 
 ### `loop`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L572-L653)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L572-L653)
 
 ```python
 loop()
 ```
 
-Loop infinitely to poll for jobs and run them.
+작업을 폴링하고 실행하기 위해 무한 루프합니다.
 
-| Raises |  |
+| 예외 |  |
 | :--- | :--- |
-|  `KeyboardInterrupt` |  if the agent is requested to stop. |
+|  `KeyboardInterrupt` | 에이전트가 중지 요청을 받은 경우 발생합니다. |
 
 ### `name`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L180-L188)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L180-L188)
 
 ```python
 @classmethod
 name() -> str
 ```
 
-Return the name of the agent.
+에이전트의 이름을 반환합니다.
 
 ### `pop_from_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L340-L363)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L340-L363)
 
 ```python
 pop_from_queue(
@@ -117,33 +117,33 @@ pop_from_queue(
 )
 ```
 
-Pops an item off the runqueue to run as a job.
+runqueue에서 항목을 팝하여 작업으로 실행합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `queue` |  Queue to pop from. |
+|  `queue` | 팝할 큐입니다. |
 
-| Returns |  |
+| 반환 값 |  |
 | :--- | :--- |
-|  Item popped off the queue. |
+|  큐에서 팝된 항목입니다. |
 
-| Raises |  |
+| 예외 |  |
 | :--- | :--- |
-|  `Exception` |  if there is an error popping from the queue. |
+|  `Exception` | 큐에서 팝하는 동안 오류가 발생한 경우 발생합니다. |
 
 ### `print_status`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L365-L381)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L365-L381)
 
 ```python
 print_status() -> None
 ```
 
-Prints the current status of the agent.
+에이전트의 현재 상태를 출력합니다.
 
 ### `run_job`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L511-L541)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L511-L541)
 
 ```python
 run_job(
@@ -151,15 +151,15 @@ run_job(
 )
 ```
 
-Set up project and run the job.
+프로젝트를 설정하고 작업을 실행합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `job` |  Job to run. |
+|  `job` | 실행할 작업입니다. |
 
 ### `task_run_job`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L656-L688)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L656-L688)
 
 ```python
 task_run_job(
@@ -169,7 +169,7 @@ task_run_job(
 
 ### `update_status`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L383-L394)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/launch/agent/agent.py#L383-L394)
 
 ```python
 update_status(
@@ -177,8 +177,8 @@ update_status(
 )
 ```
 
-Update the status of the agent.
+에이전트의 상태를 업데이트합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `status` |  Status to update the agent to. |
+|  `status` | 에이전트를 업데이트할 상태입니다. |

@@ -1,13 +1,13 @@
 ---
+title: Table
 menu:
   reference:
     identifier: ko-ref-python-data-types-table
-title: Table
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L183-L909 >}}
 
-The Table class used to display and analyze tabular data.
+표 형식의 데이터를 표시하고 분석하는 데 사용되는 Table 클래스입니다.
 
 ```python
 Table(
@@ -16,21 +16,18 @@ Table(
 )
 ```
 
-Unlike traditional spreadsheets, Tables support numerous types of data:
-scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.Media`.
-This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
-directly in Tables, alongside other traditional scalar values.
+기존 스프레드시트와 달리 Tables는 다양한 유형의 데이터를 지원합니다. 스칼라 값, 문자열, numpy 배열 및 `wandb.data_types.Media`의 대부분의 서브클래스가 해당됩니다.
+즉, 다른 기존 스칼라 값과 함께 `Images`, `Video`, `Audio` 및 기타 종류의 풍부하고 주석이 달린 미디어를 Tables에 직접 포함할 수 있습니다.
 
-This class is the primary class used to generate the Table Visualizer
-in the UI: https://docs.wandb.ai/guides/data-vis/tables.
+이 클래스는 UI에서 Table Visualizer를 생성하는 데 사용되는 기본 클래스입니다. https://docs.wandb.ai/guides/data-vis/tables를 참조하세요.
 
-| Args |  |
+| 인수 |  |
 | :--- | :--- |
-|  `columns` |  (List[str]) Names of the columns in the table. Defaults to ["Input", "Output", "Expected"]. |
-|  `data` |  (List[List[any]]) 2D row-oriented array of values. |
-|  `dataframe` |  (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
-|  `optional` |  (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |
-|  `allow_mixed_types` |  (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False |
+|  `columns` |  (List[str]) 테이블의 열 이름입니다. 기본값은 ["Input", "Output", "Expected"]입니다. |
+|  `data` |  (List[List[any]]) 값의 2D 행 중심 배열입니다. |
+|  `dataframe` |  (pandas.DataFrame) 테이블을 만드는 데 사용되는 DataFrame 오브젝트입니다. 설정되면 `data` 및 `columns` 인수는 무시됩니다. |
+|  `optional` |  (Union[bool,List[bool]]) `None` 값이 허용되는지 여부를 결정합니다. 기본값은 True입니다. 단일 bool 값인 경우 구성 시 지정된 모든 열에 대해 선택 사항이 적용됩니다. bool 값 목록인 경우 각 열에 선택 사항이 적용됩니다. `columns`와 길이가 같아야 합니다. 모든 열에 적용됩니다. bool 값 목록은 각 해당 열에 적용됩니다. |
+|  `allow_mixed_types` |  (bool) 열에 혼합된 유형을 허용할지 여부를 결정합니다(유형 유효성 검사 비활성화). 기본값은 False입니다. |
 
 ## Methods
 
@@ -44,13 +41,13 @@ add_column(
 )
 ```
 
-Adds a column of data to the table.
+테이블에 데이터 열을 추가합니다.
 
-| Args |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) - the unique name of the column |
-|  `data` |  (list | np.array) - a column of homogeneous data |
-|  `optional` |  (bool) - if null-like values are permitted |
+|  `name` |  (str) - 열의 고유한 이름 |
+|  `data` |  (list | np.array) - 동종 데이터 열 |
+|  `optional` |  (bool) - null과 유사한 값이 허용되는지 여부 |
 
 ### `add_computed_columns`
 
@@ -62,11 +59,11 @@ add_computed_columns(
 )
 ```
 
-Adds one or more computed columns based on existing data.
+기존 데이터를 기반으로 하나 이상의 계산된 열을 추가합니다.
 
-| Args |  |
+| 인수 |  |
 | :--- | :--- |
-|  `fn` |  A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. `row` is a dictionary keyed by existing columns |
+|  `fn` |  하나 또는 두 개의 파라미터, ndx (int) 및 row (dict)를 허용하는 함수입니다. 여기서 ndx는 행의 인덱스를 나타내는 정수입니다. `include_ndx`가 `True`로 설정된 경우에만 포함됩니다. `row`는 기존 열을 키로 사용하는 사전입니다. 이 함수는 해당 행에 대한 새 열을 나타내는 사전을 반환해야 합니다(새 열 이름을 키로 사용). |
 
 ### `add_data`
 
@@ -78,9 +75,9 @@ add_data(
 )
 ```
 
-Adds a new row of data to the table. The maximum amount of rows in a table is determined by `wandb.Table.MAX_ARTIFACT_ROWS`.
+테이블에 새 데이터 행을 추가합니다. 테이블의 최대 행 수는 `wandb.Table.MAX_ARTIFACT_ROWS`에 의해 결정됩니다.
 
-The length of the data should match the length of the table column.
+데이터 길이는 테이블 열의 길이와 일치해야 합니다.
 
 ### `add_row`
 
@@ -92,7 +89,7 @@ add_row(
 )
 ```
 
-Deprecated; use add_data instead.
+더 이상 사용되지 않습니다. 대신 add_data를 사용하세요.
 
 ### `cast`
 
@@ -104,16 +101,16 @@ cast(
 )
 ```
 
-Casts a column to a specific data type.
+열을 특정 데이터 유형으로 캐스팅합니다.
 
-This can be one of the normal python classes, an internal W&B type, or an
-example object, like an instance of wandb.Image or wandb.Classes.
+이는 일반 Python 클래스, 내부 W&B 유형 또는
+wandb.Image 또는 wandb.Classes의 인스턴스와 같은 예제 오브젝트 중 하나일 수 있습니다.
 
-| Args |  |
+| 인수 |  |
 | :--- | :--- |
-|  `col_name` |  (str) - The name of the column to cast. |
-|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - The target dtype. |
-|  `optional` |  (bool) - If the column should allow Nones. |
+|  `col_name` |  (str) - 캐스팅할 열의 이름입니다. |
+|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 대상 dtype입니다. |
+|  `optional` |  (bool) - 열에서 None을 허용해야 하는지 여부입니다. |
 
 ### `get_column`
 
@@ -125,12 +122,12 @@ get_column(
 )
 ```
 
-Retrieves a column from the table and optionally converts it to a NumPy object.
+테이블에서 열을 검색하고 선택적으로 NumPy 오브젝트로 변환합니다.
 
-| Args |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) - the name of the column |
-|  `convert_to` |  (str, optional) - "numpy": will convert the underlying data to numpy object |
+|  `name` |  (str) - 열의 이름 |
+|  `convert_to` |  (str, optional) - "numpy": 기본 데이터를 numpy 오브젝트로 변환합니다. |
 
 ### `get_dataframe`
 
@@ -140,7 +137,7 @@ Retrieves a column from the table and optionally converts it to a NumPy object.
 get_dataframe()
 ```
 
-Returns a `pandas.DataFrame` of the table.
+테이블의 `pandas.DataFrame`을 반환합니다.
 
 ### `get_index`
 
@@ -150,7 +147,7 @@ Returns a `pandas.DataFrame` of the table.
 get_index()
 ```
 
-Returns an array of row indexes for use in other tables to create links.
+다른 테이블에서 링크를 만드는 데 사용할 행 인덱스 배열을 반환합니다.
 
 ### `index_ref`
 
@@ -162,7 +159,7 @@ index_ref(
 )
 ```
 
-Gets a reference of the index of a row in the table.
+테이블에서 행의 인덱스에 대한 참조를 가져옵니다.
 
 ### `iterrows`
 
@@ -172,7 +169,7 @@ Gets a reference of the index of a row in the table.
 iterrows()
 ```
 
-Returns the table data by row, showing the index of the row and the relevant data.
+행의 인덱스 및 관련 데이터를 표시하여 테이블 데이터를 행별로 반환합니다.
 
 | Yields |  |
 | :--- | :--- |
@@ -180,10 +177,10 @@ Returns the table data by row, showing the index of the row and the relevant dat
 ***
 
 index : int
-The index of the row. Using this value in other W&B tables
-will automatically build a relationship between the tables
+행의 인덱스입니다. 다른 W&B 테이블에서 이 값을 사용하면
+테이블 간에 관계가 자동으로 구축됩니다.
 row : List[any]
-The data of the row.
+행의 데이터입니다.
 
 ### `set_fk`
 

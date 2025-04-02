@@ -1,13 +1,13 @@
 ---
+title: Plotly
 menu:
   reference:
     identifier: ko-ref-python-data-types-plotly
-title: Plotly
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/plotly.py#L33-L82 >}}
 
-Wandb class for plotly plots.
+plotly plot을 위한 Wandb 클래스입니다.
 
 ```python
 Plotly(
@@ -15,11 +15,11 @@ Plotly(
 )
 ```
 
-| Args |  |
+| ARG |  |
 | :--- | :--- |
-|  `val` |  matplotlib or plotly figure |
+|  `val` |  matplotlib 또는 plotly figure |
 
-## Methods
+## 메소드
 
 ### `make_plot_media`
 

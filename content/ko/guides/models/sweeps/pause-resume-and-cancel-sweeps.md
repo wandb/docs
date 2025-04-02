@@ -1,67 +1,67 @@
 ---
-description: Pause, resume, and cancel a W&B Sweep with the CLI.
+title: Manage sweeps with the CLI
+description: CLI를 사용하여 W&B 스윕을 일시 중지, 재개 및 취소합니다.
 menu:
   default:
     identifier: ko-guides-models-sweeps-pause-resume-and-cancel-sweeps
     parent: sweeps
-title: Manage sweeps with the CLI
 weight: 8
 ---
 
-Pause, resume, and cancel a W&B Sweep with the CLI.  Pausing a W&B Sweep tells the W&B agent that new W&B Runs should not be executed until the Sweep is resumed. Resuming a Sweep tells the agent to continue executing new W&B Runs. Stopping a W&B Sweep tells the W&B Sweep agent to stop creating or executing new W&B Runs. Cancelling a W&B Sweep tells the Sweep agent to kill currently executing W&B Runs and stop executing new Runs.
+CLI를 사용하여 W&B 스윕을 일시 중지, 재개 및 취소합니다. W&B 스윕을 일시 중지하면 스윕이 재개될 때까지 새로운 W&B Runs이 실행되지 않도록 W&B 에이전트에 알립니다. 스윕을 재개하면 에이전트가 새로운 W&B Runs을 계속 실행합니다. W&B 스윕을 중지하면 W&B 스윕 에이전트가 새로운 W&B Runs의 생성 또는 실행을 중지합니다. W&B 스윕을 취소하면 스윕 에이전트가 현재 실행 중인 W&B Runs을 중단하고 새로운 Runs 실행을 중지합니다.
 
-In each case, provide the W&B Sweep ID that was generated when you initialized a W&B Sweep. Optionally open a new terminal window to execute the proceeding commands. A new terminal window makes it easier to execute a command if a W&B Sweep is printing output statements to your current terminal window.
+각각의 경우, W&B 스윕을 초기화할 때 생성된 W&B 스윕 ID를 제공합니다. 선택적으로 새 터미널 창을 열어 다음 명령을 실행합니다. 새 터미널 창은 W&B 스윕이 현재 터미널 창에 출력문을 인쇄하는 경우 명령을 더 쉽게 실행할 수 있도록 합니다.
 
-Use the following guidance to pause, resume, and cancel sweeps.
+다음 지침에 따라 스윕을 일시 중지, 재개 및 취소합니다.
 
-### Pause sweeps
+### 스윕 일시 중지
 
-Pause a W&B Sweep so it temporarily stops executing new W&B Runs. Use the `wandb sweep --pause` command to pause a W&B Sweep. Provide the W&B Sweep ID that you want to pause.
+새로운 W&B Runs 실행을 일시적으로 중단하도록 W&B 스윕을 일시 중지합니다. `wandb sweep --pause` 코맨드를 사용하여 W&B 스윕을 일시 중지합니다. 일시 중지할 W&B 스윕 ID를 제공합니다.
 
 ```bash
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-### Resume sweeps
+### 스윕 재개
 
-Resume a paused W&B Sweep with the `wandb sweep --resume` command. Provide the W&B Sweep ID that you want to resume:
+`wandb sweep --resume` 코맨드로 일시 중지된 W&B 스윕을 재개합니다. 재개할 W&B 스윕 ID를 제공합니다.
 
 ```bash
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-### Stop sweeps
+### 스윕 중지
 
-Finish a W&B sweep to stop executing newW&B Runs and let currently executing Runs finish.
+새로운 W&B Runs 실행을 중지하고 현재 실행 중인 Runs을 완료하도록 W&B 스윕을 완료합니다.
 
 ```bash
 wandb sweep --stop entity/project/sweep_ID
 ```
 
-### Cancel sweeps
+### 스윕 취소
 
-Cancel a sweep to kill all running runs and stop running new runs. Use the `wandb sweep --cancel` command to cancel a W&B Sweep. Provide the W&B Sweep ID that you want to cancel.
+실행 중인 모든 Runs을 중단하고 새로운 Runs 실행을 중지하도록 스윕을 취소합니다. `wandb sweep --cancel` 코맨드를 사용하여 W&B 스윕을 취소합니다. 취소할 W&B 스윕 ID를 제공합니다.
 
 ```bash
 wandb sweep --cancel entity/project/sweep_ID
 ```
 
-For a full list of CLI command options, see the [wandb sweep]({{< relref path="/ref/cli/wandb-sweep.md" lang="ko" >}}) CLI Reference Guide.
+전체 CLI 코맨드 옵션 목록은 [wandb sweep]({{< relref path="/ref/cli/wandb-sweep.md" lang="ko" >}}) CLI 레퍼런스 가이드를 참조하세요.
 
-### Pause, resume, stop, and cancel a sweep across multiple agents
+### 여러 에이전트에서 스윕 일시 중지, 재개, 중지 및 취소
 
-Pause, resume, stop, or cancel a W&B Sweep across multiple agents from a single terminal. For example, suppose you have a multi-core machine. After you initialize a W&B Sweep, you open new terminal windows and copy the Sweep ID to each new terminal.
+단일 터미널에서 여러 에이전트에 걸쳐 W&B 스윕을 일시 중지, 재개, 중지 또는 취소합니다. 예를 들어, 다중 코어 머신이 있다고 가정합니다. W&B 스윕을 초기화한 후 새 터미널 창을 열고 각 새 터미널에 스윕 ID를 복사합니다.
 
-Within any terminal, use the `wandb sweep` CLI command to pause, resume, stop, or cancel a W&B Sweep. For example, the proceeding code snippet demonstrates how to pause a W&B Sweep across multiple agents with the CLI:
+터미널 내에서 `wandb sweep` CLI 코맨드를 사용하여 W&B 스윕을 일시 중지, 재개, 중지 또는 취소합니다. 예를 들어, 다음 코드 조각은 CLI를 사용하여 여러 에이전트에서 W&B 스윕을 일시 중지하는 방법을 보여줍니다.
 
 ```
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-Specify the `--resume` flag along with the Sweep ID to resume the Sweep across your agents:
+에이전트에서 스윕을 재개하려면 스윕 ID와 함께 `--resume` 플래그를 지정합니다.
 
 ```
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-For more information on how to parallelize W&B agents, see [Parallelize agents]({{< relref path="./parallelize-agents.md" lang="ko" >}}).
+W&B 에이전트를 병렬화하는 방법에 대한 자세한 내용은 [에이전트 병렬화]({{< relref path="./parallelize-agents.md" lang="ko" >}})를 참조하세요.

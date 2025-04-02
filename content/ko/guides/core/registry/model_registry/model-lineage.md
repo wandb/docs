@@ -1,39 +1,37 @@
 ---
+title: Create model lineage map
 description: ''
 menu:
   default:
     identifier: ko-guides-core-registry-model_registry-model-lineage
     parent: model-registry
-title: Create model lineage map
 weight: 7
 ---
 
-This page describes creating lineage graphs in the legacy W&B Model Registry. To learn about lineage graphs in W&B Registry, refer to [Create and view lineage maps]({{< relref path="../lineage.md" lang="ko" >}}).
+이 페이지에서는 기존 W&B Model Registry에서 계보 그래프를 생성하는 방법을 설명합니다. W&B Registry의 계보 그래프에 대해 자세히 알아보려면 [계보 맵 생성 및 보기]({{< relref path="../lineage.md" lang="ko" >}})를 참조하세요.
 
 {{% alert %}}
-W&B will transition assets from the legacy [W&B Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ko" >}}) to the new [W&B Registry]({{< relref path="./" lang="ko" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows. Refer to [Migrate from legacy Model Registry]({{< relref path="../model_registry_eol.md" lang="ko" >}}).
+W&B는 기존 [W&B Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ko" >}})의 자산을 새로운 [W&B Registry]({{< relref path="./" lang="ko" >}})로 이전할 예정입니다. 이 마이그레이션은 W&B에서 완전히 관리하고 트리거하며, 사용자의 개입이 필요하지 않습니다. 이 프로세스는 기존 워크플로우에 대한 중단을 최소화하면서 최대한 원활하게 진행되도록 설계되었습니다. [기존 Model Registry에서 마이그레이션]({{< relref path="../model_registry_eol.md" lang="ko" >}})을 참조하세요.
 {{% /alert %}}
 
+W&B에 모델 아티팩트를 로깅하는 유용한 기능은 계보 그래프입니다. 계보 그래프는 run에서 로깅한 아티팩트와 특정 run에서 사용한 아티팩트를 보여줍니다.
 
-A useful feature of logging model artifacts to W&B are lineage graphs. Lineage graphs show artifacts logged by a run as well as artifacts used by specific run. 
+즉, 모델 아티팩트를 로깅할 때 최소한 모델 아티팩트를 사용하거나 생성한 W&B run을 볼 수 있습니다. [아티팩트 종속성 추적]({{< relref path="#track-an-artifact-dependency" lang="ko" >}})을 통해 모델 아티팩트에서 사용한 입력도 볼 수 있습니다.
 
-This means that, when you log a model artifact, you at a minimum have access to view the W&B run that used or produced the model artifact. If you [track a dependency]({{< relref path="#track-an-artifact-dependency" lang="ko" >}}), you also see the inputs used by the model artifact.
-
-For example, the proceeding image shows artifacts created and used throughout an ML experiment:
+예를 들어, 다음 이미지는 ML 실험 전반에 걸쳐 생성 및 사용된 아티팩트를 보여줍니다.
 
 {{< img src="/images/models/model_lineage_example.png" alt="" >}}
 
-From left to right, the image shows:
-1. The `jumping-monkey-1` W&B run created the `mnist_dataset:v0` dataset artifact.
-2. The `vague-morning-5` W&B run trained a model using the `mnist_dataset:v0` dataset artifact. The output of this W&B run was a model artifact called `mnist_model:v0`.
-3. A run called `serene-haze-6` used the model artifact (`mnist_model:v0`) to evaluate the model.
+왼쪽에서 오른쪽으로 이미지는 다음을 보여줍니다.
+1. `jumping-monkey-1` W&B run은 `mnist_dataset:v0` 데이터셋 아티팩트를 생성했습니다.
+2. `vague-morning-5` W&B run은 `mnist_dataset:v0` 데이터셋 아티팩트를 사용하여 모델을 트레이닝했습니다. 이 W&B run의 출력은 `mnist_model:v0`라는 모델 아티팩트였습니다.
+3. `serene-haze-6`이라는 run은 모델 아티팩트(`mnist_model:v0`)를 사용하여 모델을 평가했습니다.
 
+## 아티팩트 종속성 추적
 
-## Track an artifact dependency
+`use_artifact` API를 사용하여 데이터셋 아티팩트를 W&B run에 대한 입력으로 선언하여 종속성을 추적합니다.
 
-Declare an dataset artifact as an input to a W&B run with the `use_artifact` API to track a dependency. 
-
-The proceeding code snippet shows how to use the `use_artifact` API:
+다음 코드 조각은 `use_artifact` API를 사용하는 방법을 보여줍니다.
 
 ```python
 # Initialize a run
@@ -43,11 +41,11 @@ run = wandb.init(project=project, entity=entity)
 artifact = run.use_artifact(artifact_or_name="name", aliases="<alias>")
 ```
 
-Once you have retrieved your artifact, you can use that artifact to (for example), evaluate the performance of a model. 
+아티팩트를 검색한 후에는 해당 아티팩트를 사용하여 (예를 들어) 모델의 성능을 평가할 수 있습니다.
 
 <details>
 
-<summary>Example: Train a model and track a dataset as the input of a model</summary>
+<summary>예시: 모델을 트레이닝하고 데이터셋을 모델의 입력으로 추적</summary>
 
 ```python
 job_type = "train_model"

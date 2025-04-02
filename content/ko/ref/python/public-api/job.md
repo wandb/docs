@@ -1,8 +1,8 @@
 ---
+title: Job
 menu:
   reference:
     identifier: ko-ref-python-public-api-job
-title: Job
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L30-L211 >}}
@@ -15,14 +15,14 @@ Job(
 ) -> None
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `call`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L167-L211)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L167-L211)
 
 ```python
 call(
@@ -33,7 +33,7 @@ call(
 
 ### `set_entrypoint`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L164-L165)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L164-L165)
 
 ```python
 set_entrypoint(

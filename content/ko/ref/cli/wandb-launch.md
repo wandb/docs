@@ -1,37 +1,36 @@
 ---
+title: wandb launch
 menu:
   reference:
     identifier: ko-ref-cli-wandb-launch
-title: wandb launch
 ---
 
-**Usage**
+**사용법**
 
 `wandb launch [OPTIONS]`
 
-**Summary**
+**요약**
 
-Launch or queue a W&B Job. See https://wandb.me/launch
+W&B Job을 시작하거나 대기열에 추가합니다. https://wandb.me/launch를 참조하세요.
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `-u, --uri (str)` | Local path or git repo uri to launch. If   provided this command will create a job from the specified uri. |
-| `-j, --job (str)` | Name of the job to launch. If passed in,   launch does not require a uri. |
-| `--entry-point` | Entry point within project. [default: main].   If the entry point is not found, attempts to run the project file with the specified name   as a script, using 'python' to run .py files and the default shell (specified by   environment variable $SHELL) to run .sh files. If passed in, will override the   entrypoint value passed in using a config file. |
-| `--build-context (str)` | Path to the build context within the source   code. Defaults to the root of the source code. Compatible only with -u. |
-| `--name` | Name of the run under which to launch the   run. If not specified, a random run name will be used to launch run. If passed in,   will override the name passed in using a config file. |
-| `-e, --entity (str)` | Name of the target entity which the new run   will be sent to. Defaults to using the entity set by local wandb/settings folder.   If passed in, will override the entity value passed in using a config file. |
-| `-p, --project (str)` | Name of the target project which the new run   will be sent to. Defaults to using the project name given by the source uri or for   github runs, the git repo name. If passed in, will override the project value passed   in using a config file. |
-| `-r, --resource` | Execution resource to use for run. Supported   values: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'.   This is now a required parameter if pushing to a queue with no resource configuration.   If passed in, will override the resource value passed in using a config file. |
-| `-d, --docker-image` | Specific docker image you'd like to use. In the form name:tag. If passed in, will   override the docker image value passed in using a config file. |
-| `--base-image` | Docker image to run job code in.   Incompatible with --docker-image. |
-| `-c, --config` | Path to JSON file (must end in '.json') or   JSON string which will be passed as a launch config. Dictation how the launched run will   be configured. |
-| `-v, --set-var` | Set template variable values for queues with   allow listing enabled, as key-value pairs e.g. `--set-var key1=value1 --set-var   key2=value2` |
-| `-q, --queue` | Name of run queue to push to. If none,   launches single run directly. If supplied without an argument (`--queue`), defaults to   queue 'default'. Else, if name supplied, specified run queue must exist under the   project and entity supplied. |
-| `--async` | Flag to run the job asynchronously. Defaults   to false, i.e. unless --async is set, wandb launch will wait for the job to finish. This   option is incompatible with --queue; asynchronous options when running with an   agent should be set on wandb launch-agent. |
-| `--resource-args` | Path to JSON file (must end in '.json') or   JSON string which will be passed as resource args to the compute resource. The exact   content which should be provided is different for each execution backend. See   documentation for layout of this file. |
-| `--dockerfile` | Path to the Dockerfile used to build the   job, relative to the job's root |
-| `--priority [critical|high|medium|low]` | When --queue is passed, set the priority of the job. Launch jobs with higher priority   are served first.  The order, from highest to lowest priority, is: critical, high,   medium, low |
+| `-u, --uri (str)` | 시작할 로컬 경로 또는 Git 저장소 URI입니다. 제공된 경우 이 코맨드는 지정된 URI에서 Job을 생성합니다. |
+| `-j, --job (str)` | 시작할 Job의 이름입니다. 전달된 경우 Launch는 URI를 필요로 하지 않습니다. |
+| `--entry-point` | 프로젝트 내 진입점입니다. [기본값: main]. 진입점을 찾을 수 없는 경우, 지정된 이름으로 프로젝트 파일을 스크립트로 실행하려고 시도합니다. `.py` 파일은 'python'을 사용하여 실행하고, `.sh` 파일은 환경 변수 $SHELL에 지정된 기본 셸을 사용하여 실행합니다. 전달된 경우, 설정 파일을 사용하여 전달된 진입점 값을 덮어씁니다. |
+| `--build-context (str)` | 소스 코드 내 빌드 컨텍스트 경로입니다. 기본값은 소스 코드의 루트입니다. -u와만 호환됩니다. |
+| `--name` | run을 시작할 run 이름입니다. 지정하지 않으면 임의의 run 이름이 run을 시작하는 데 사용됩니다. 전달된 경우, 설정 파일을 사용하여 전달된 이름을 덮어씁니다. |
+| `-e, --entity (str)` | 새 run이 전송될 대상 Entity의 이름입니다. 기본적으로 로컬 wandb/settings 폴더에 의해 설정된 Entity를 사용합니다. 전달된 경우, 설정 파일을 사용하여 전달된 Entity 값을 덮어씁니다. |
+| `-p, --project (str)` | 새 run이 전송될 대상 Project의 이름입니다. 기본적으로 소스 URI에서 제공하는 Project 이름 또는 Github run의 경우 Git 저장소 이름을 사용합니다. 전달된 경우, 설정 파일을 사용하여 전달된 Project 값을 덮어씁니다. |
+| `-r, --resource` | run에 사용할 실행 리소스입니다. 지원되는 값: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex' 입니다. 리소스 설정 없이 대기열에 푸시하는 경우 이제 필수 파라미터입니다. 전달된 경우, 설정 파일을 사용하여 전달된 리소스 값을 덮어씁니다. |
+| `-d, --docker-image` | 사용하려는 특정 Docker 이미지입니다. name:tag 형식입니다. 전달된 경우, 설정 파일을 사용하여 전달된 Docker 이미지 값을 덮어씁니다. |
+| `--base-image` | Job 코드를 실행할 Docker 이미지입니다. --docker-image와 호환되지 않습니다. |
+| `-c, --config` | Launch 설정을 전달할 JSON 파일(확장자가 '.json'이어야 함) 경로 또는 JSON 문자열입니다. Launch된 run이 구성되는 방식을 지정합니다. |
+| `-v, --set-var` | 허용 목록이 활성화된 대기열에 대한 템플릿 변수 값을 설정합니다. 키-값 쌍으로 지정합니다. 예: `--set-var key1=value1 --set-var key2=value2` |
+| `-q, --queue` | 푸시할 run 대기열의 이름입니다. 없는 경우 단일 run을 직접 시작합니다. 인수 없이 제공된 경우 (`--queue`), 기본적으로 'default' 대기열로 설정됩니다. 그렇지 않고 이름이 제공된 경우, 지정된 run 대기열은 제공된 Project 및 Entity 하에 존재해야 합니다. |
+| `--async` | Job을 비동기적으로 실행하는 플래그입니다. 기본값은 false입니다. 즉, --async가 설정되지 않은 경우 wandb launch는 Job이 완료될 때까지 기다립니다. 이 옵션은 --queue와 호환되지 않습니다. 에이전트로 실행할 때 비동기 옵션은 wandb launch-agent에서 설정해야 합니다. |
+| `--resource-args` | 컴퓨팅 리소스에 리소스 인수로 전달될 JSON 파일(확장자가 '.json'이어야 함) 경로 또는 JSON 문자열입니다. 제공해야 하는 정확한 콘텐츠는 각 실행 백엔드마다 다릅니다. 이 파일의 레이아웃은 설명서를 참조하십시오. |
+| `--dockerfile` | Job을 빌드하는 데 사용되는 Dockerfile의 경로입니다 (Job의 루트를 기준으로). |
+| `--priority [critical|high|medium|low]` | --queue가 전달되면 Job의 우선 순위를 설정합니다. 우선 순위가 높은 Launch Job이 먼저 처리됩니다. 가장 높은 우선 순위부터 가장 낮은 우선 순위 순서는 다음과 같습니다: critical, high, medium, low |

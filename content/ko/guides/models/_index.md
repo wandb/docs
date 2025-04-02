@@ -1,21 +1,21 @@
 ---
+title: W&B Models
 menu:
   default:
     identifier: ko-guides-models-_index
 no_list: true
-title: W&B Models
 weight: 3
 ---
 
-W&B Models is the system of record for ML Practitioners who want to organize their models, boost productivity and collaboration, and deliver production ML at scale. 
+W&B Models는 모델을 정리하고 생산성 및 협업을 향상시키며 프로덕션 규모로 ML을 제공하려는 ML 개발자를 위한 기록 시스템입니다.
 
 {{< img src="/images/general/architecture.png" alt="" >}}
 
-With W&B Models, you can: 
+W&B Models를 사용하면 다음을 수행할 수 있습니다.
 
-- Track and visualize all [ML experiments]({{< relref path="/guides/models/track/" lang="ko" >}}).
-- Optimize and fine-tune models at scale with [hyperparameter sweeps]({{< relref path="/guides/models/sweeps/" lang="ko" >}}).
-- [Maintain a centralized hub of all models]({{< relref path="/guides/core/registry/" lang="ko" >}}), with a seamless handoff point to devops and deployment
-- Configure custom automations that trigger key workflows for [model CI/CD]({{< relref path="/guides/core/automations/" lang="ko" >}}).
+- 모든 [ML Experiments]({{< relref path="/guides/models/track/" lang="ko" >}})를 추적하고 시각화합니다.
+- [하이퍼파라미터 Sweeps]({{< relref path="/guides/models/sweeps/" lang="ko" >}})를 사용하여 모델을 대규모로 최적화하고 파인튜닝합니다.
+- DevOps 및 배포에 대한 원활한 핸드오프 지점을 통해 [모든 모델의 중앙 집중식 허브를 유지 관리]({{< relref path="/guides/core/registry/" lang="ko" >}})합니다.
+- [모델 CI/CD]({{< relref path="/guides/core/automations/" lang="ko" >}})를 위한 핵심 워크플로우를 트리거하는 사용자 지정 자동화를 구성합니다.
 
-Machine learning practitioners rely on W&B Models as their ML system of record to track and visualize experiments, manage model versions and lineage, and optimize hyperparameters.
+기계 학습 개발자는 W&B Models를 사용하여 ML 기록 시스템으로 Experiments를 추적 및 시각화하고, 모델 버전 및 계보를 관리하고, 하이퍼파라미터를 최적화합니다.

@@ -1,31 +1,31 @@
 ---
+title: video-file
 menu:
   reference:
     identifier: ko-ref-query-panel-video-file
-title: video-file
 ---
 
-## Chainable Ops
+## 연결 가능한 Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+asset 의 _file_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | asset |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+asset 의 _file_
 
 
-## List Ops
+## 목록 Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+asset 의 _file_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | asset |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+asset 의 _file_

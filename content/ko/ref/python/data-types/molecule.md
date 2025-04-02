@@ -1,13 +1,13 @@
 ---
+title: Molecule
 menu:
   reference:
     identifier: ko-ref-python-data-types-molecule
-title: Molecule
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/molecule.py#L25-L241 >}}
 
-Wandb class for 3D Molecular data.
+3D 분자 데이터를 위한 Wandb 클래스입니다.
 
 ```python
 Molecule(
@@ -17,10 +17,10 @@ Molecule(
 ) -> None
 ```
 
-| Args |  |
+| ARG |  |
 | :--- | :--- |
-|  `data_or_path` |  (string, io) Molecule can be initialized from a file name or an io object. |
-|  `caption` |  (string) Caption associated with the molecule for display. |
+|  `data_or_path` |  (string, io) Molecule은 파일 이름이나 io 오브젝트에서 초기화할 수 있습니다. |
+|  `caption` |  (string) 표시를 위해 분자와 연결된 캡션입니다. |
 
 ## Methods
 
@@ -38,14 +38,14 @@ from_rdkit(
 ) -> "Molecule"
 ```
 
-Convert RDKit-supported file/object types to wandb.Molecule.
+RDKit에서 지원하는 파일/오브젝트 유형을 wandb.Molecule로 변환합니다.
 
-| Args |  |
+| ARG |  |
 | :--- | :--- |
-|  `data_or_path` |  (string, rdkit.Chem.rdchem.Mol) Molecule can be initialized from a file name or an rdkit.Chem.rdchem.Mol object. |
-|  `caption` |  (string) Caption associated with the molecule for display. |
-|  `convert_to_3d_and_optimize` |  (bool) Convert to rdkit.Chem.rdchem.Mol with 3D coordinates. This is an expensive operation that may take a long time for complicated molecules. |
-|  `mmff_optimize_molecule_max_iterations` |  (int) Number of iterations to use in rdkit.Chem.AllChem.MMFFOptimizeMolecule |
+|  `data_or_path` |  (string, rdkit.Chem.rdchem.Mol) Molecule은 파일 이름이나 rdkit.Chem.rdchem.Mol 오브젝트에서 초기화할 수 있습니다. |
+|  `caption` |  (string) 표시를 위해 분자와 연결된 캡션입니다. |
+|  `convert_to_3d_and_optimize` |  (bool) 3D 좌표로 rdkit.Chem.rdchem.Mol로 변환합니다. 이는 복잡한 분자에 대해 시간이 오래 걸릴 수 있는 비용이 많이 드는 작업입니다. |
+|  `mmff_optimize_molecule_max_iterations` |  (int) rdkit.Chem.AllChem.MMFFOptimizeMolecule에서 사용할 반복 횟수입니다. |
 
 ### `from_smiles`
 
@@ -62,15 +62,15 @@ from_smiles(
 ) -> "Molecule"
 ```
 
-Convert SMILES string to wandb.Molecule.
+SMILES 문자열을 wandb.Molecule로 변환합니다.
 
-| Args |  |
+| ARG |  |
 | :--- | :--- |
-|  `data` |  (string) SMILES string. |
-|  `caption` |  (string) Caption associated with the molecule for display |
-|  `sanitize` |  (bool) Check if the molecule is chemically reasonable by the RDKit's definition. |
-|  `convert_to_3d_and_optimize` |  (bool) Convert to rdkit.Chem.rdchem.Mol with 3D coordinates. This is an expensive operation that may take a long time for complicated molecules. |
-|  `mmff_optimize_molecule_max_iterations` |  (int) Number of iterations to use in rdkit.Chem.AllChem.MMFFOptimizeMolecule |
+|  `data` |  (string) SMILES 문자열. |
+|  `caption` |  (string) 표시를 위해 분자와 연결된 캡션 |
+|  `sanitize` |  (bool) 분자가 RDKit의 정의에 따라 화학적으로 합리적인지 확인합니다. |
+|  `convert_to_3d_and_optimize` |  (bool) 3D 좌표로 rdkit.Chem.rdchem.Mol로 변환합니다. 이는 복잡한 분자에 대해 시간이 오래 걸릴 수 있는 비용이 많이 드는 작업입니다. |
+|  `mmff_optimize_molecule_max_iterations` |  (int) rdkit.Chem.AllChem.MMFFOptimizeMolecule에서 사용할 반복 횟수입니다. |
 
 | Class Variables |  |
 | :--- | :--- |

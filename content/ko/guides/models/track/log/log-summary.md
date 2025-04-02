@@ -1,16 +1,16 @@
 ---
+title: Log summary metrics
 menu:
   default:
     identifier: ko-guides-models-track-log-log-summary
     parent: log-objects-and-media
-title: Log summary metrics
 ---
 
-In addition to values that change over time during training, it is often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B Run's `summary` dictionary. A Run's summary dictionary can handle numpy arrays, PyTorch tensors or TensorFlow tensors. When a value is one of these types we persist the entire tensor in a binary file and store high level metrics in the summary object, such as min, mean, variance, percentiles, and more.
+트레이닝 과정에서 시간이 지남에 따라 변하는 값 외에도, 모델 또는 전처리 단계를 요약하는 단일 값을 추적하는 것이 중요한 경우가 많습니다. W&B Run의 `summary` 사전에 이 정보를 기록하세요. Run의 summary 사전은 numpy 배열, PyTorch 텐서 또는 TensorFlow 텐서를 처리할 수 있습니다. 값이 이러한 유형 중 하나인 경우 전체 텐서를 바이너리 파일에 유지하고 요약 오브젝트에 최소값, 평균, 분산, 백분위수 등과 같은 높은 수준의 메트릭을 저장합니다.
 
- The last value logged with `wandb.log` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
+`wandb.log`로 기록된 마지막 값은 W&B Run에서 자동으로 summary 사전으로 설정됩니다. summary 메트릭 사전이 수정되면 이전 값은 손실됩니다.
 
-The proceeding code snippet demonstrates how to provide a custom summary metric to W&B:
+다음 코드 조각은 사용자 정의 summary 메트릭을 W&B에 제공하는 방법을 보여줍니다.
 ```python
 wandb.init(config=args)
 
@@ -22,7 +22,7 @@ for epoch in range(1, args.epochs + 1):
         best_accuracy = test_accuracy
 ```
 
-You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API]({{< relref path="/ref/python/public-api/" lang="ko" >}}) to update the summary attribute:
+트레이닝이 완료된 후 기존 W&B Run의 summary 속성을 업데이트할 수 있습니다. [W&B Public API]({{< relref path="/ref/python/public-api/" lang="ko" >}})를 사용하여 summary 속성을 업데이트합니다.
 
 ```python
 api = wandb.Api()
@@ -31,11 +31,11 @@ run.summary["tensor"] = np.random.random(1000)
 run.summary.update()
 ```
 
-## Customize summary metrics
+## summary 메트릭 사용자 정의
 
-Custom summary metrics are useful for capturing model performance at the best step of training in your `wandb.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
+사용자 정의 summary 메트릭은 `wandb.summary`에서 트레이닝의 최적 단계에서 모델 성능을 캡처하는 데 유용합니다. 예를 들어 최종 값 대신 최대 정확도 또는 최소 손실 값을 캡처할 수 있습니다.
 
-By default, the summary uses the final value from history. To customize summary metrics, pass the `summary` argument in `define_metric`. It accepts the following values:
+기본적으로 summary는 히스토리의 최종 값을 사용합니다. summary 메트릭을 사용자 정의하려면 `define_metric`에서 `summary` 인수를 전달합니다. 다음 값을 사용할 수 있습니다.
 
 * `"min"`
 * `"max"`
@@ -44,9 +44,9 @@ By default, the summary uses the final value from history. To customize summary 
 * `"last"`
 * `"none"`
 
-You can use `"best"` only when you also set the optional `objective` argument to `"minimize"` or `"maximize"`. 
+선택적 `objective` 인수를 `"minimize"` 또는 `"maximize"`로 설정한 경우에만 `"best"`를 사용할 수 있습니다.
 
-The following example adds the min and max values of loss and accuracy to the summary:
+다음 예제는 손실 및 정확도의 최소값과 최대값을 summary에 추가합니다.
 
 ```python
 import wandb
@@ -55,11 +55,11 @@ import random
 random.seed(1)
 wandb.init()
 
-# Min and max summary values for loss
+# 손실에 대한 최소값 및 최대값 summary
 wandb.define_metric("loss", summary="min")
 wandb.define_metric("loss", summary="max")
 
-# Min and max summary values for accuracy
+# 정확도에 대한 최소값 및 최대값 summary
 wandb.define_metric("acc", summary="min")
 wandb.define_metric("acc", summary="max")
 
@@ -71,35 +71,35 @@ for i in range(10):
     wandb.log(log_dict)
 ```
 
-## View summary metrics
+## summary 메트릭 보기
 
-View summary values in a run's **Overview** page or the project's runs table.
+run의 **Overview** 페이지 또는 프로젝트의 runs 테이블에서 summary 값을 봅니다.
 
 {{< tabpane text=true >}}
 {{% tab header="Run Overview" value="overview" %}}
 
-1. Navigate to the W&B App.
-2. Select the **Workspace** tab.
-3. From the list of runs, click the name of the run that logged the summary values.
-4. Select the **Overview** tab.
-5. View the summary values in the **Summary** section.
+1. W&B 앱으로 이동합니다.
+2. **Workspace** 탭을 선택합니다.
+3. runs 목록에서 summary 값이 기록된 run의 이름을 클릭합니다.
+4. **Overview** 탭을 선택합니다.
+5. **Summary** 섹션에서 summary 값을 봅니다.
 
-{{< img src="/images/track/customize_summary.png" alt="Overview page of a run logged to W&B. Bottom right corner of UI shows the min and max of the machine learning models accuracy and loss within the Summary metrics section." >}}
+{{< img src="/images/track/customize_summary.png" alt="W&B에 기록된 run의 Overview 페이지. UI의 오른쪽 하단 모서리에 Summary 메트릭 섹션 내에서 기계 학습 모델 정확도 및 손실의 최소값과 최대값이 표시됩니다." >}}
 
 {{% /tab %}}
 {{% tab header="Run Table" value="run table" %}}
 
-1. Navigate to the W&B App.
-2. Select the **Runs** tab.
-3. Within the runs table, you can view the summary values within the columns based on the name of the summary value.
+1. W&B 앱으로 이동합니다.
+2. **Runs** 탭을 선택합니다.
+3. runs 테이블 내에서 summary 값의 이름을 기준으로 열 내에서 summary 값을 볼 수 있습니다.
 
 {{% /tab %}}
 
 {{% tab header="W&B Public API" value="api" %}}
 
-You can use the W&B Public API to fetch the summary values of a run. 
+W&B Public API를 사용하여 run의 summary 값을 가져올 수 있습니다.
 
-The following code example demonstrates one way to retrieve the summary values logged to a specific run using the W&B Public API and pandas:
+다음 코드 예제는 W&B Public API 및 pandas를 사용하여 특정 run에 기록된 summary 값을 검색하는 한 가지 방법을 보여줍니다.
 
 ```python
 import wandb
@@ -107,7 +107,7 @@ import pandas
 
 entity = "<your-entity>"
 project = "<your-project>"
-run_name = "<your-run-name>" # Name of run with summary values
+run_name = "<your-run-name>" # summary 값이 있는 run의 이름
 
 all_runs = []
 
@@ -134,10 +134,10 @@ for run in api.runs(f"{entity}/{project_name}"):
         }
   all_runs.append(run_data)
   
-# Convert to DataFrame  
+# DataFrame으로 변환
 df = pd.DataFrame(all_runs)
 
-# Get row based on the column name (run) and convert to dictionary
+# 열 이름(run)을 기준으로 행을 가져오고 사전으로 변환
 df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
 ```
 
