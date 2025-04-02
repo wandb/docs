@@ -157,7 +157,7 @@ Depending on your machine learning framework, you may need to recreate the model
 
 ## Share your finds with a report
 
-Create and share a report to summarize your work. To create a report programmatically, use the [W&B Reports API]({{< relref path="./wandb_workspaces/reports.md" >}}).
+Create and share a [report]({{< relref path="../../guides/core/reports/_index.md" >}}) to summarize your work. To create a report programmatically, use the [W&B Reports API]({{< relref path="./wandb_workspaces/reports.md" >}}).
 
 First, install the W&B Reports API:
 
@@ -252,4 +252,16 @@ for art in artifacts:
 For more information on querying the registry, see the [Query registry items with MongoDB-style queries]({{< relref path="../../guides/core/registry/search_registry.md#query-registry-items-with-mongodb-style-queries" >}}).
 
 ## Next steps
+This guide introduced the various W&B APIs for tracking, sharing, and managing model artifacts in machine learning workflows. Key takeaways include:
 
+* W&B Python SDK (wandb.sdk): Use during training to log experiments, track metrics, and save model artifacts.
+* W&B Public API (wandb.apis.public): Query, analyze, and manage logged experiment data and historical artifacts.
+* W&B Reports API (wandb.wandb-workspaces): Programmatically create reports to summarize findings.
+
+Next, explore more features of the W&B ecosystem:
+
+1. Read the [W&B Integration tutorials]({{< relref path="guides/integrations/" >}}) that combine W&B with frameworks like PyTorch, libraries like Hugging Face, and services like SageMaker.
+1. Automate hyperparameter searches and optimize models with [W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}).
+1. Analyze runs, visualize model predictions, and share insights on a [central dashboard]({{< relref "/guides/models/tables/" >}}).
+1. Create an [automation]({{< relref path="../../guides/core/automations/_index.md" >}}) to trigger workflow steps, such as automated model testing and deployment.
+1. Visit [W&B AI Academy](https://wandb.ai/site/courses/) to learn about LLMs, MLOps, and W&B Models through hands-on courses.
