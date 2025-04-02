@@ -1,26 +1,26 @@
 ---
+title: Pytorch torchtune
 menu:
   default:
     identifier: ko-guides-integrations-torchtune
     parent: integrations
-title: Pytorch torchtune
 weight: 320
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/torchtune/torchtune_and_wandb.ipynb" >}}
 
-[torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). Additionally, torchtune has built-in support for [logging with W&B](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes.
+[torchtune](https://pytorch.org/torchtune/stable/index.html) 은 대규모 언어 모델 (LLM) 의 작성, 미세 조정 및 실험 프로세스를 간소화하도록 설계된 PyTorch 기반 라이브러리입니다. 또한 torchtune 은 [W&B 로깅](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html)을 기본적으로 지원하여 트레이닝 프로세스의 추적 및 시각화를 향상시킵니다.
 
 {{< img src="/images/integrations/torchtune_dashboard.png" alt="" >}}
 
-Check the W&B blog post on [Fine-tuning Mistral 7B using torchtune](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0).
+[torchtune 을 사용한 Mistral 7B 미세 조정](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0)에 대한 W&B 블로그 게시물을 확인하세요.
 
-## W&B logging at your fingertips
+## 간편한 W&B 로깅
 
 {{< tabpane text=true >}}
-{{% tab header="Command line" value="cli" %}}
+{{% tab header="커맨드라인" value="cli" %}}
 
-Override command line arguments at launch:
+실행 시 커맨드라인 인수를 재정의합니다:
 
 ```bash
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -30,9 +30,9 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
 ```
 
 {{% /tab %}}
-{{% tab header="Recipe's config" value="config" %}}
+{{% tab header="레시피 구성" value="config" %}}
 
-Enable W&B logging on the recipe's config:
+레시피 구성에서 W&B 로깅을 활성화합니다:
 
 ```yaml
 # inside llama3/8B_lora_single_device.yaml
@@ -45,14 +45,14 @@ log_every_n_steps: 5
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Use the W&B metric logger
+## W&B 메트릭 로거 사용
 
-Enable W&B logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
+`metric_logger` 섹션을 수정하여 레시피 구성 파일에서 W&B 로깅을 활성화합니다. `_component_` 를 `torchtune.utils.metric_logging.WandBLogger` 클래스로 변경합니다. `project` 이름과 `log_every_n_steps` 를 전달하여 로깅 행동을 사용자 정의할 수도 있습니다.
 
-You can also pass any other `kwargs` as you would to the [wandb.init]({{< relref path="/ref/python/init.md" lang="ko" >}}) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
+[wandb.init]({{< relref path="/ref/python/init.md" lang="ko" >}}) 메소드에 전달하는 것처럼 다른 `kwargs` 를 전달할 수도 있습니다. 예를 들어 팀에서 작업하는 경우 `entity` 인수를 `WandBLogger` 클래스에 전달하여 팀 이름을 지정할 수 있습니다.
 
 {{< tabpane text=true >}}
-{{% tab header="Recipe's Config" value="config" %}}
+{{% tab header="레시피 구성" value="config" %}}
 
 ```yaml
 # inside llama3/8B_lora_single_device.yaml
@@ -67,7 +67,7 @@ log_every_n_steps: 5
 
 {{% /tab %}}
 
-{{% tab header="Command Line" value="cli" %}}
+{{% tab header="커맨드 라인" value="cli" %}}
 
 ```shell
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -82,31 +82,31 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
 {{% /tab %}}
 {{< /tabpane >}}
 
-## What is logged?
+## 무엇이 로깅되나요?
 
-You can explore the W&B dashboard to see the logged metrics. By default W&B logs all of the hyperparameters from the config file and the launch overrides.
+W&B 대시보드를 탐색하여 기록된 메트릭을 확인할 수 있습니다. 기본적으로 W&B 는 구성 파일 및 실행 재정의의 모든 하이퍼파라미터를 기록합니다.
 
-W&B captures the resolved config on the **Overview** tab. W&B also stores the config in YAML format on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
+W&B 는 **Overview** 탭에서 확인된 구성을 캡처합니다. W&B 는 또한 YAML 형식으로 [파일 탭](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files)에 구성을 저장합니다.
 
 {{< img src="/images/integrations/torchtune_config.png" alt="" >}}
 
-### Logged Metrics
+### 로깅된 메트릭
 
-Each recipe has its own training loop. Check each individual recipe to see its logged metrics, which include these by default:
+각 레시피에는 자체 트레이닝 루프가 있습니다. 각 개별 레시피를 확인하여 기본적으로 포함되는 로깅된 메트릭을 확인하십시오.
 
 | Metric | Description |
 | --- | --- |
-| `loss` | The loss of the model |
-| `lr` | The learning rate |
-| `tokens_per_second` | The tokens per second of the model |
-| `grad_norm` | The gradient norm of the model |
-| `global_step` | Corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken, the model is updated, the gradients are accumulated and the model is updated once every `gradient_accumulation_steps` |
+| `loss` | 모델의 손실 |
+| `lr` | 학습률 |
+| `tokens_per_second` | 모델의 초당 토큰 수 |
+| `grad_norm` | 모델의 그레이디언트 norm |
+| `global_step` | 트레이닝 루프의 현재 단계를 나타냅니다. 그레이디언트 누적을 고려하며, 기본적으로 옵티마이저 단계가 수행될 때마다 모델이 업데이트되고, 그레이디언트가 누적되며, 모델은 `gradient_accumulation_steps` 마다 한 번 업데이트됩니다. |
 
 {{% alert %}}
-`global_step` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `global_step` is incremented by 1. For example, if the dataloader has 10 batches, gradient accumulation steps is 2 and run for 3 epochs, the optimizer will step 15 times, in this case `global_step` will range from 1 to 15.
+`global_step` 은 트레이닝 단계 수와 동일하지 않습니다. 트레이닝 루프의 현재 단계를 나타냅니다. 그레이디언트 누적을 고려하며, 기본적으로 옵티마이저 단계가 수행될 때마다 `global_step` 은 1 씩 증가합니다. 예를 들어 데이터 로더에 10 개의 배치, 그레이디언트 누적 단계가 2 이고 3 에포크 동안 실행되는 경우 옵티마이저는 15 번 단계별로 진행되며, 이 경우 `global_step` 은 1 에서 15 까지입니다.
 {{% /alert %}}
 
-The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding [recipe file](https://github.com/pytorch/torchtune/tree/main/recipes), for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
+torchtune 의 간소화된 설계를 통해 사용자 정의 메트릭을 쉽게 추가하거나 기존 메트릭을 수정할 수 있습니다. 예를 들어, [레시피 파일](https://github.com/pytorch/torchtune/tree/main/recipes)을 수정하여 총 에포크 수의 백분율로 `current_epoch` 을 계산하여 로깅할 수 있습니다.
 
 ```python
 # inside `train.py` function in the recipe file
@@ -117,16 +117,16 @@ self._metric_logger.log_dict(
 ```
 
 {{% alert %}}
-This is a fast evolving library, the current metrics are subject to change. If you want to add a custom metric, you should modify the recipe and call the corresponding `self._metric_logger.*` function.
+이것은 빠르게 진화하는 라이브러리이며 현재 메트릭은 변경될 수 있습니다. 사용자 정의 메트릭을 추가하려면 레시피를 수정하고 해당 `self._metric_logger.*` 함수를 호출해야 합니다.
 {{% /alert %}}
 
-## Save and load checkpoints
+## 체크포인트 저장 및 로드
 
-The torchtune library supports various [checkpoint formats](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Depending on the origin of the model you are using, you should switch to the appropriate [checkpointer class](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html).
+torchtune 라이브러리는 다양한 [체크포인트 형식](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)을 지원합니다. 사용 중인 모델의 출처에 따라 적절한 [체크포인터 클래스](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)로 전환해야 합니다.
 
-If you want to save the model checkpoints to [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}}), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
+모델 체크포인트를 [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}})에 저장하려면 해당 레시피 내에서 `save_checkpoint` 함수를 재정의하는 것이 가장 간단한 해결책입니다.
 
-Here is an example of how you can override the `save_checkpoint` function to save the model checkpoints to W&B Artifacts.
+다음은 모델 체크포인트를 W&B Artifacts 에 저장하기 위해 `save_checkpoint` 함수를 재정의하는 방법의 예입니다.
 
 ```python
 def save_checkpoint(self, epoch: int) -> None:
@@ -152,4 +152,5 @@ def save_checkpoint(self, epoch: int) -> None:
     )
     wandb_artifact.add_file(checkpoint_file)
     wandb.log_artifact(wandb_artifact)
+```
 ```

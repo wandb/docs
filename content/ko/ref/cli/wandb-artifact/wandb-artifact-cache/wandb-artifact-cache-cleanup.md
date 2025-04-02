@@ -1,21 +1,20 @@
 ---
+title: wandb artifact cache cleanup
 menu:
   reference:
     identifier: ko-ref-cli-wandb-artifact-wandb-artifact-cache-wandb-artifact-cache-cleanup
-title: wandb artifact cache cleanup
 ---
 
-**Usage**
+**사용법**
 
 `wandb artifact cache cleanup [OPTIONS] TARGET_SIZE`
 
-**Summary**
+**요약**
 
-Clean up less frequently used files from the artifacts cache
+덜 자주 사용되는 파일을 Artifacts 캐시에서 정리합니다.
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `--remove-temp / --no-remove-temp` | Remove temp files |
+| `--remove-temp / --no-remove-temp` | 임시 파일을 제거합니다. |

@@ -1,8 +1,8 @@
 ---
+title: RunQueue
 menu:
   reference:
     identifier: ko-ref-python-public-api-runqueue
-title: RunQueue
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L427-L653 >}}
@@ -21,7 +21,7 @@ RunQueue(
 
 | Attributes |  |
 | :--- | :--- |
-|  `items` |  Up to the first 100 queued runs. Modifying this list will not modify the queue or any enqueued items! |
+|  `items` |  처음 100개의 대기열에 있는 run. 이 목록을 수정해도 대기열 또는 대기열에 있는 항목은 수정되지 않습니다! |
 
 ## Methods
 
@@ -49,4 +49,4 @@ create(
 delete()
 ```
 
-Delete the run queue from the wandb backend.
+wandb 백엔드에서 run 대기열을 삭제합니다.

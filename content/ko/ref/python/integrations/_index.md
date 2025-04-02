@@ -1,14 +1,10 @@
 ---
+title: Integrations
 menu:
   reference:
     identifier: ko-ref-python-integrations-_index
-title: Integrations
 ---
 
-<!-- Insert buttons and diff -->
+## 모듈
 
-
-
-## Modules
-
-[`keras`](./keras) module: Tools for integrating `wandb` with [`Keras`](https://keras.io/).
+[`keras`](./keras) 모듈: `wandb`를 [`Keras`](https://keras.io/)와 통합하기 위한 툴입니다.

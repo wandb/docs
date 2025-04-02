@@ -1,13 +1,13 @@
 ---
+title: WandbCallback
 menu:
   reference:
     identifier: ko-ref-python-integrations-keras-wandbcallback
-title: WandbCallback
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/integration/keras/keras.py#L291-L1091 >}}
 
-`WandbCallback` automatically integrates keras with wandb.
+`WandbCallback`은 keras를 wandb와 자동으로 통합합니다.
 
 ```python
 WandbCallback(
@@ -23,7 +23,7 @@ WandbCallback(
 )
 ```
 
-#### Example:
+#### 예시:
 
 ```python
 model.fit(
@@ -34,45 +34,42 @@ model.fit(
 )
 ```
 
-`WandbCallback` will automatically log history data from any
-metrics collected by keras: loss and anything passed into `keras_model.compile()`.
+`WandbCallback`은 keras에서 수집한 모든 메트릭에서 히스토리 데이터를 자동으로 로깅합니다. 손실 및 `keras_model.compile()`에 전달된 모든 것.
 
-`WandbCallback` will set summary metrics for the run associated with the "best" training
-step, where "best" is defined by the `monitor` and `mode` attributes.  This defaults
-to the epoch with the minimum `val_loss`. `WandbCallback` will by default save the model
-associated with the best `epoch`.
+`WandbCallback`은 "최고" 트레이닝 단계와 관련된 run에 대한 요약 메트릭을 설정합니다.
+여기서 "최고"는 `monitor` 및 `mode` 속성에 의해 정의됩니다. 이것은 기본적으로 최소 `val_loss`를 갖는 에포크입니다. `WandbCallback`은 기본적으로 최고의 `epoch`와 관련된 모델을 저장합니다.
 
-`WandbCallback` can optionally log gradient and parameter histograms.
+`WandbCallback`은 선택적으로 그레이디언트 및 파라미터 히스토그램을 로깅할 수 있습니다.
 
-`WandbCallback` can optionally save training and validation data for wandb to visualize.
+`WandbCallback`은 시각화를 위해 트레이닝 및 검증 데이터를 wandb에 선택적으로 저장할 수 있습니다.
 
 | Args |  |
 | :--- | :--- |
-|  `monitor` |  (str) name of metric to monitor. Defaults to `val_loss`. |
-|  `mode` |  (str) one of {`auto`, `min`, `max`}. `min` - save model when monitor is minimized `max` - save model when monitor is maximized `auto` - try to guess when to save the model (default). |
-|  `save_model` |  True - save a model when monitor beats all previous epochs False - don't save models |
-|  `save_graph` |  (boolean) if True save model graph to wandb (default to True). |
-|  `save_weights_only` |  (boolean) if True, then only the model's weights will be saved (`model.save_weights(filepath)`), else the full model is saved (`model.save(filepath)`). |
-|  `log_weights` |  (boolean) if True save histograms of the model's layer's weights. |
-|  `log_gradients` |  (boolean) if True log histograms of the training gradients |
-|  `training_data` |  (tuple) Same format `(X,y)` as passed to `model.fit`. This is needed for calculating gradients - this is mandatory if `log_gradients` is `True`. |
-|  `validation_data` |  (tuple) Same format `(X,y)` as passed to `model.fit`. A set of data for wandb to visualize. If this is set, every epoch, wandb will make a small number of predictions and save the results for later visualization. In case you are working with image data, please also set `input_type` and `output_type` in order to log correctly. |
-|  `generator` |  (generator) a generator that returns validation data for wandb to visualize. This generator should return tuples `(X,y)`. Either `validate_data` or generator should be set for wandb to visualize specific data examples. In case you are working with image data, please also set `input_type` and `output_type` in order to log correctly. |
-|  `validation_steps` |  (int) if `validation_data` is a generator, how many steps to run the generator for the full validation set. |
-|  `labels` |  (list) If you are visualizing your data with wandb this list of labels will convert numeric output to understandable string if you are building a multiclass classifier. If you are making a binary classifier you can pass in a list of two labels ["label for false", "label for true"]. If `validate_data` and generator are both false, this won't do anything. |
-|  `predictions` |  (int) the number of predictions to make for visualization each epoch, max is 100. |
-|  `input_type` |  (string) type of the model input to help visualization. can be one of: (`image`, `images`, `segmentation_mask`, `auto`). |
-|  `output_type` |  (string) type of the model output to help visualization. can be one of: (`image`, `images`, `segmentation_mask`, `label`). |
-|  `log_evaluation` |  (boolean) if True, save a Table containing validation data and the model's predictions at each epoch. See `validation_indexes`, `validation_row_processor`, and `output_row_processor` for additional details. |
-|  `class_colors` |  ([float, float, float]) if the input or output is a segmentation mask, an array containing an rgb tuple (range 0-1) for each class. |
-|  `log_batch_frequency` |  (integer) if None, callback will log every epoch. If set to integer, callback will log training metrics every `log_batch_frequency` batches. |
-|  `log_best_prefix` |  (string) if None, no extra summary metrics will be saved. If set to a string, the monitored metric and epoch will be prepended with this value and stored as summary metrics. |
-|  `validation_indexes` |  ([wandb.data_types._TableLinkMixin]) an ordered list of index keys to associate with each validation example. If log_evaluation is True and `validation_indexes` is provided, then a Table of validation data will not be created and instead each prediction will be associated with the row represented by the `TableLinkMixin`. The most common way to obtain such keys are is use `Table.get_index()` which will return a list of row keys. |
-|  `validation_row_processor` |  (Callable) a function to apply to the validation data, commonly used to visualize the data. The function will receive an `ndx` (int) and a `row` (dict). If your model has a single input, then `row["input"]` will be the input data for the row. Else, it will be keyed based on the name of the input slot. If your fit function takes a single target, then `row["target"]` will be the target data for the row. Else, it will be keyed based on the name of the output slots. For example, if your input data is a single ndarray, but you wish to visualize the data as an Image, then you can provide `lambda ndx, row: {"img": wandb.Image(row["input"])}` as the processor. Ignored if log_evaluation is False or `validation_indexes` are present. |
-|  `output_row_processor` |  (Callable) same as `validation_row_processor`, but applied to the model's output. `row["output"]` will contain the results of the model output. |
-|  `infer_missing_processors` |  (bool) Determines if `validation_row_processor` and `output_row_processor` should be inferred if missing. Defaults to True. If `labels` are provided, we will attempt to infer classification-type processors where appropriate. |
-|  `log_evaluation_frequency` |  (int) Determines the frequency which evaluation results will be logged. Default 0 (only at the end of training). Set to 1 to log every epoch, 2 to log every other epoch, and so on. Has no effect when log_evaluation is False. |
-|  `compute_flops` |  (bool) Compute the FLOPs of your Keras Sequential or Functional model in GigaFLOPs unit. |
+|  `monitor` | (str) 모니터링할 메트릭 이름. 기본값은 `val_loss`입니다. |
+|  `mode` | (str) {`auto`, `min`, `max`} 중 하나입니다. `min` - 모니터가 최소화될 때 모델 저장 `max` - 모니터가 최대화될 때 모델 저장 `auto` - 모델을 저장할 시기를 추측하려고 시도합니다(기본값). |
+|  `save_model` | True - 모니터가 이전의 모든 에포크보다 좋을 때 모델을 저장합니다. False - 모델을 저장하지 않습니다. |
+|  `save_graph` | (boolean) True인 경우 모델 그래프를 wandb에 저장합니다 (기본값은 True). |
+|  `save_weights_only` | (boolean) True인 경우 모델의 가중치만 저장됩니다 (`model.save_weights(filepath)`), 그렇지 않으면 전체 모델이 저장됩니다 (`model.save(filepath)`). |
+|  `log_weights` | (boolean) True인 경우 모델 레이어 가중치의 히스토그램을 저장합니다. |
+|  `log_gradients` | (boolean) True인 경우 트레이닝 그레이디언트의 히스토그램을 로깅합니다. |
+|  `training_data` | `model.fit`에 전달된 것과 동일한 형식 `(X,y)`입니다. 이것은 그레이디언트를 계산하는 데 필요합니다. `log_gradients`가 `True`인 경우 필수입니다. |
+|  `validation_data` | `model.fit`에 전달된 것과 동일한 형식 `(X,y)`입니다. wandb가 시각화할 데이터 세트입니다. 이것이 설정되면 매 에포크마다 wandb는 적은 수의 예측값을 만들고 나중에 시각화할 수 있도록 결과를 저장합니다. 이미지 데이터를 사용하는 경우 올바르게 로깅하려면 `input_type` 및 `output_type`도 설정하십시오. |
+|  `generator` | wandb가 시각화할 검증 데이터를 반환하는 제너레이터입니다. 이 제너레이터는 튜플 `(X,y)`를 반환해야 합니다. wandb가 특정 데이터 예제를 시각화하려면 `validate_data` 또는 제너레이터를 설정해야 합니다. 이미지 데이터를 사용하는 경우 올바르게 로깅하려면 `input_type` 및 `output_type`도 설정하십시오. |
+|  `validation_steps` | `validation_data`가 제너레이터인 경우 전체 검증 세트에 대해 제너레이터를 실행할 단계 수입니다. |
+|  `labels` | wandb로 데이터를 시각화하는 경우 이 레이블 목록은 다중 클래스 분류기를 구축하는 경우 숫자 출력을 이해 가능한 문자열로 변환합니다. 이진 분류기를 만드는 경우 두 개의 레이블 목록 ["false에 대한 레이블", "true에 대한 레이블"]을 전달할 수 있습니다. `validate_data`와 제너레이터가 모두 false인 경우 아무 작업도 수행하지 않습니다. |
+|  `predictions` | 각 에포크에서 시각화를 위해 만들 예측 수이며 최대값은 100입니다. |
+|  `input_type` | 시각화를 돕기 위한 모델 입력 유형입니다. 다음 중 하나일 수 있습니다. (`image`, `images`, `segmentation_mask`, `auto`). |
+|  `output_type` | 시각화를 돕기 위한 모델 출력 유형입니다. 다음 중 하나일 수 있습니다. (`image`, `images`, `segmentation_mask`, `label`). |
+|  `log_evaluation` | True인 경우 각 에포크에서 검증 데이터와 모델의 예측값을 포함하는 Table을 저장합니다. 자세한 내용은 `validation_indexes`, `validation_row_processor` 및 `output_row_processor`를 참조하십시오. |
+|  `class_colors` | 입력 또는 출력이 세분화 마스크인 경우 각 클래스에 대한 rgb 튜플(범위 0-1)을 포함하는 배열입니다. |
+|  `log_batch_frequency` | None인 경우 콜백은 모든 에포크를 로깅합니다. 정수로 설정하면 콜백은 `log_batch_frequency` 배치마다 트레이닝 메트릭을 로깅합니다. |
+|  `log_best_prefix` | None인 경우 추가 요약 메트릭이 저장되지 않습니다. 문자열로 설정하면 모니터링되는 메트릭과 에포크가 이 값으로 시작하여 요약 메트릭으로 저장됩니다. |
+|  `validation_indexes` | 각 검증 예제와 연결할 인덱스 키의 정렬된 목록입니다. log_evaluation이 True이고 `validation_indexes`가 제공되면 검증 데이터의 Table이 생성되지 않고 대신 각 예측이 `TableLinkMixin`으로 표시되는 행과 연결됩니다. 이러한 키를 얻는 가장 일반적인 방법은 행 키 목록을 반환하는 `Table.get_index()`를 사용하는 것입니다. |
+|  `validation_row_processor` | 검증 데이터에 적용할 함수로, 일반적으로 데이터를 시각화하는 데 사용됩니다. 함수는 `ndx`(int)와 `row`(dict)를 받습니다. 모델에 단일 입력이 있는 경우 `row["input"]`은 행에 대한 입력 데이터가 됩니다. 그렇지 않으면 입력 슬롯의 이름을 기반으로 키가 지정됩니다. 적합 함수가 단일 대상을 사용하는 경우 `row["target"]`은 행에 대한 대상 데이터가 됩니다. 그렇지 않으면 출력 슬롯의 이름을 기반으로 키가 지정됩니다. 예를 들어 입력 데이터가 단일 ndarray이지만 데이터를 이미지로 시각화하려는 경우 `lambda ndx, row: {"img": wandb.Image(row["input"])}`를 프로세서로 제공할 수 있습니다. log_evaluation이 False이거나 `validation_indexes`가 있는 경우 무시됩니다. |
+|  `output_row_processor` | `validation_row_processor`와 동일하지만 모델의 출력에 적용됩니다. `row["output"]`에는 모델 출력 결과가 포함됩니다. |
+|  `infer_missing_processors` | 누락된 경우 `validation_row_processor` 및 `output_row_processor`를 추론해야 하는지 여부를 결정합니다. 기본값은 True입니다. `labels`가 제공되면 적절한 분류 유형 프로세서를 추론하려고 시도합니다. |
+|  `log_evaluation_frequency` | 평가 결과를 로깅할 빈도를 결정합니다. 기본값은 0입니다(트레이닝 종료 시에만). 모든 에포크를 로깅하려면 1로 설정하고, 다른 모든 에포크를 로깅하려면 2로 설정하는 식입니다. log_evaluation이 False인 경우에는 효과가 없습니다. |
+|  `compute_flops` | Keras Sequential 또는 Functional 모델의 FLOP 수를 GigaFLOPs 단위로 계산합니다. |
 
 ## Methods
 
@@ -84,9 +81,9 @@ associated with the best `epoch`.
 get_flops() -> float
 ```
 
-Calculate FLOPS [GFLOPs] for a tf.keras.Model or tf.keras.Sequential model in inference mode.
+추론 모드에서 tf.keras.Model 또는 tf.keras.Sequential 모델에 대한 FLOPS [GFLOPs]를 계산합니다.
 
-It uses tf.compat.v1.profiler under the hood.
+내부적으로 tf.compat.v1.profiler를 사용합니다.
 
 ### `set_model`
 

@@ -1,13 +1,13 @@
 ---
+title: controller
 menu:
   reference:
     identifier: ko-ref-python-controller
-title: controller
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_sweep.py#L95-L119 >}}
 
-Public sweep controller constructor.
+퍼블릭 스윕 컨트롤러 생성자.
 
 ```python
 controller(
@@ -17,7 +17,7 @@ controller(
 ) -> "_WandbController"
 ```
 
-#### Usage:
+#### 사용법:
 
 ```python
 import wandb

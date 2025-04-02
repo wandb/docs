@@ -1,13 +1,12 @@
 ---
-description: Use the Weights and Biases Settings Page to customize your individual
-  user profile or team settings.
+title: Settings
+description: Weights & Biases 설정 페이지를 사용하여 개별 사용자 프로필 또는 팀 설정을 사용자 정의하세요.
 menu:
   default:
     identifier: ko-guides-models-app-settings-page-_index
     parent: w-b-app-ui-reference
-title: Settings
 ---
 
-Within your individual user account you can edit: your profile picture, display name, geography location, biography information, emails associated to your account, and manage alerts for runs. You can also use the settings page to link your GitHub repository and delete your account. For more information, see [User settings]({{< relref path="./user-settings.md" lang="ko" >}}).
+개인 사용자 계정 내에서 프로필 사진, 표시 이름, 지리적 위치, 자기 소개 정보, 계정에 연결된 이메일을 편집하고 Runs 에 대한 알림을 관리할 수 있습니다. 또한 설정 페이지를 사용하여 GitHub 저장소를 연결하고 계정을 삭제할 수도 있습니다. 자세한 내용은 [사용자 설정]({{< relref path="./user-settings.md" lang="ko" >}})을 참조하세요.
 
-Use the team settings page to invite or remove new members to a team, manage alerts for team runs, change privacy settings, and view and manage storage usage. For more information about team settings, see [Team settings]({{< relref path="./team-settings.md" lang="ko" >}}).
+팀 설정 페이지를 사용하여 팀에 새 멤버를 초대하거나 제거하고, 팀 Runs 에 대한 알림을 관리하고, 개인 정보 설정을 변경하고, 저장소 사용량을 보고 관리할 수 있습니다. 팀 설정에 대한 자세한 내용은 [팀 설정]({{< relref path="./team-settings.md" lang="ko" >}})을 참조하세요.

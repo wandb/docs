@@ -1,13 +1,13 @@
 ---
+title: QueuedRun
 menu:
   reference:
     identifier: ko-ref-python-public-api-queuedrun
-title: QueuedRun
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L214-L417 >}}
 
-A single queued run associated with an entity and project. Call `run = queued_run.wait_until_running()` or `run = queued_run.wait_until_finished()` to access the run.
+엔티티 및 프로젝트와 연결된 단일 대기열 run입니다. `run = queued_run.wait_until_running()` 또는 `run = queued_run.wait_until_finished()`를 호출하여 run에 액세스합니다.
 
 ```python
 QueuedRun(
@@ -16,14 +16,14 @@ QueuedRun(
 )
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L338-L387)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L338-L387)
 
 ```python
 delete(
@@ -31,11 +31,11 @@ delete(
 )
 ```
 
-Delete the given queued run from the wandb backend.
+wandb 백엔드에서 지정된 대기열 run을 삭제합니다.
 
 ### `wait_until_finished`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L328-L336)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L328-L336)
 
 ```python
 wait_until_finished()
@@ -43,7 +43,7 @@ wait_until_finished()
 
 ### `wait_until_running`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L389-L414)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L389-L414)
 
 ```python
 wait_until_running()

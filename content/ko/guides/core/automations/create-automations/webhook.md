@@ -1,9 +1,9 @@
 ---
+title: Create a webhook automation
 menu:
   default:
     identifier: ko-guides-core-automations-create-automations-webhook
     parent: automations
-title: Create a webhook automation
 weight: 3
 ---
 
@@ -11,132 +11,130 @@ weight: 3
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-This page shows how to create a webhook [automation]({{< relref path="/guides/core/automations/" lang="ko" >}}> ). To create a Slack automation, refer to [Create a Slack automation]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ko" >}}) instead.
+이 페이지에서는 webhook [자동화]({{< relref path="/guides/core/automations/" lang="ko" >}})를 만드는 방법을 보여줍니다. Slack 자동화를 만들려면 [Slack 자동화 만들기]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ko" >}})를 참조하세요.
 
-At a high level, to create a webhook automation, you take these steps:
-1. If necessary, [create a W&B secret]({{< relref path="/guides/core/secrets.md" lang="ko" >}}) for each sensitive string required by the automation, such as an access token, password, or SSH key. Secrets are defined in your team settings.
-1. [Create a webhook]({{< relref path="#create-a-webhook" lang="ko" >}}) to define the endpoint and authorization details and grant the integration access to any secrets it needs.
-1. [Create the automation]({{< relref path="#create-an-automation" lang="ko" >}}) to define the [event]({{< relref path="/guides/core/automations/automation-events.md" lang="ko" >}}) to watch for and the payload W&B will send. Grant the automation access to any secrets it needs for the payload.
+개략적으로 webhook 자동화를 만들려면 다음 단계를 수행합니다.
+1. 필요한 경우 액세스 토큰, 비밀번호 또는 SSH 키와 같이 자동화에 필요한 각 민감한 문자열에 대해 [W&B secret 만들기]({{< relref path="/guides/core/secrets.md" lang="ko" >}})를 수행합니다. secret은 팀 설정에 정의되어 있습니다.
+1. [webhook 만들기]({{< relref path="#create-a-webhook" lang="ko" >}})를 수행하여 엔드포인트 및 인증 세부 정보를 정의하고 통합에 필요한 secret에 대한 엑세스 권한을 부여합니다.
+1. [자동화 만들기]({{< relref path="#create-an-automation" lang="ko" >}})를 수행하여 감시할 [이벤트]({{< relref path="/guides/core/automations/automation-events.md" lang="ko" >}})와 W&B가 보낼 페이로드를 정의합니다. 페이로드에 필요한 secret에 대한 자동화 엑세스 권한을 부여합니다.
 
-## Create a webhook
-A team admin can add a webhook for the team.
+## webhook 만들기
+팀 관리자는 팀에 대한 webhook을 추가할 수 있습니다.
 
 {{% alert %}}
-If the webhook requires a Bearer token or its payload requires a sensitive string, [create a secret that contains it]({{< relref path="/guides/core/secrets.md#add-a-secret" lang="ko" >}}) before creating the webhook. You can configure at most one access token and one other secret for a webhook. Your webhook's authentication and authorization requirements are determined by the webhook's service.
+webhook에 Bearer 토큰이 필요하거나 페이로드에 민감한 문자열이 필요한 경우 webhook을 만들기 전에 [해당 문자열을 포함하는 secret을 만드세요]({{< relref path="/guides/core/secrets.md#add-a-secret" lang="ko" >}}). webhook에 대해 최대 하나의 엑세스 토큰과 다른 하나의 secret을 구성할 수 있습니다. webhook의 인증 및 권한 부여 요구 사항은 webhook의 서비스에 의해 결정됩니다.
 {{% /alert %}}
 
-1. Log in to W&B and go to Team Settings page.
-1. In the **Webhooks** section, click **New webhook**.
-1. Provide a name for the webhook. 
-1. Provide the endpoint URL for the webhook.
-1. If the webhook requires a Bearer token, set **Access token** to the [secret]({{< relref path="/guides/core/secrets.md" lang="ko" >}}) that contains it. When using the webhook automation, W&B sets the `Authorization: Bearer` HTTP header to the access token, and you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref path="#payload-variables" lang="ko" >}}).
-1. If the webhook requires a password or other sensitive string in its payload, set **Secret** to the secret that contains it. When you configure the automation that uses the webhook, you can access the secret as a [payload variable]({{< relref path="#payload-variables" lang="ko" >}}) by prefixing its name with `$`.
+1. W&B에 로그인하고 팀 설정 페이지로 이동합니다.
+2. **Webhooks** 섹션에서 **New webhook**을 클릭합니다.
+3. webhook의 이름을 입력합니다.
+4. webhook의 엔드포인트 URL을 입력합니다.
+5. webhook에 Bearer 토큰이 필요한 경우 **Access token**을 해당 토큰을 포함하는 [secret]({{< relref path="/guides/core/secrets.md" lang="ko" >}})으로 설정합니다. webhook 자동화를 사용할 때 W&B는 `Authorization: Bearer` HTTP 헤더를 엑세스 토큰으로 설정하고 `${ACCESS_TOKEN}` [페이로드 변수]({{< relref path="#payload-variables" lang="ko" >}})에서 토큰에 엑세스할 수 있습니다.
+6. webhook의 페이로드에 비밀번호 또는 기타 민감한 문자열이 필요한 경우 **Secret**을 해당 문자열을 포함하는 secret으로 설정합니다. webhook을 사용하는 자동화를 구성할 때 이름 앞에 `$`를 붙여 [페이로드 변수]({{< relref path="#payload-variables" lang="ko" >}})로 secret에 엑세스할 수 있습니다.
 
-    If the webhook's access token is stored in a secret, you must _also_ complete the next step to specify the secret as the access token.
-1. To verify that the W&B can connect and authenticate to the endpoint:
-    1. Optionally, provide a payload to test. To refer to a secret the webhook has access to in the payload, prefix its name with `$`. This payload is only used for testing and is not saved. You configure an automation's payload when you [create the automation]({{< relref path="#create-a-webhook-automation" lang="ko" >}}). See [Troubleshoot your webhook]({{< relref path="#troubleshoot-your-webhook" lang="ko" >}}) to view where the secret and access token are specified in the `POST` request.
-    1. Click **Test**. W&B attempts to connect to the webhook's endpoint using the credentials you configured. If you provided a payload, W&B sends it.
+    webhook의 엑세스 토큰이 secret에 저장된 경우 secret을 엑세스 토큰으로 지정하려면 _또한_ 다음 단계를 완료해야 합니다.
+7. W&B가 엔드포인트에 연결하고 인증할 수 있는지 확인하려면:
+    1. 선택적으로 테스트할 페이로드를 제공합니다. 페이로드에서 webhook이 엑세스할 수 있는 secret을 참조하려면 이름 앞에 `$`를 붙입니다. 이 페이로드는 테스트에만 사용되며 저장되지 않습니다. [자동화를 만들 때]({{< relref path="#create-a-webhook-automation" lang="ko" >}}) 자동화의 페이로드를 구성합니다. secret과 엑세스 토큰이 `POST` 요청에 지정된 위치를 보려면 [webhook 문제 해결]({{< relref path="#troubleshoot-your-webhook" lang="ko" >}})을 참조하세요.
+    1. **Test**를 클릭합니다. W&B는 구성한 자격 증명을 사용하여 webhook의 엔드포인트에 연결을 시도합니다. 페이로드를 제공한 경우 W&B는 해당 페이로드를 보냅니다.
 
-    If the test does not succeed, verify the webhook's configuration and try again. If necessary, refer to [Troubleshoot your webhook]({{< relref path="#troubleshoot-your-webhook" lang="ko" >}}).
+    테스트가 성공하지 못하면 webhook의 구성을 확인하고 다시 시도하세요. 필요한 경우 [webhook 문제 해결]({{< relref path="#troubleshoot-your-webhook" lang="ko" >}})을 참조하세요.
 
-Now you can [create an automation]({{< relref path="#create-a-webhook-automation" lang="ko" >}}) that uses the webhook.
+이제 webhook을 사용하는 [자동화를 만들 수 있습니다]({{< relref path="#create-a-webhook-automation" lang="ko" >}}).
 
-## Create an automation
-After you [configure a webhook]({{< relref path="#reate-a-webhook" lang="ko" >}}), select **Registry** or **Project**, then follow these steps to create an automation that triggers the webhook.
+## 자동화 만들기
+[webhook을 구성한]({{< relref path="#reate-a-webhook" lang="ko" >}}) 후 **Registry** 또는 **Project**를 선택한 다음 다음 단계에 따라 webhook을 트리거하는 자동화를 만듭니다.
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
-A Registry admin can create automations in that registry. Registry automations are applied to all collections in the registry, including those added in the future.
+Registry 관리자는 해당 Registry에서 자동화를 만들 수 있습니다. Registry 자동화는 향후 추가되는 자동화를 포함하여 Registry의 모든 컬렉션에 적용됩니다.
 
-1. Log in to W&B.
-1. Click the name of a registry to view its details, 
-1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
+1. W&B에 로그인합니다.
+2. Registry 이름을 클릭하여 세부 정보를 확인합니다.
+3. Registry로 범위가 지정된 자동화를 만들려면 **Automations** 탭을 클릭한 다음 **Create automation**을 클릭합니다. Registry로 범위가 지정된 자동화는 향후 생성되는 컬렉션을 포함하여 모든 컬렉션에 자동으로 적용됩니다.
 
-    To create an automation scoped only to a specific collection in the registry, click the collection's action `...` menu, then click **Create automation**. Alternatively, while viewing a collection, create an automation for it using the **Create automation** button in the **Automations** section of the collection's details page.
-1. Choose the [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ko" >}}) to watch for. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**. Click **Next step**.
-1. Select the team that owns the [webhook]({{< relref path="#create-a-webhook" lang="ko" >}}).
-1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref path="#create-a-webhook" lang="ko" >}}) to use.
-1. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref path="#payload-variables" lang="ko" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
-1. Click **Next step**.
-1. Provide a name for the automation. Optionally, provide a description. Click **Create automation**.
+    Registry의 특정 컬렉션으로만 범위가 지정된 자동화를 만들려면 컬렉션의 액션 `...` 메뉴를 클릭한 다음 **Create automation**을 클릭합니다. 또는 컬렉션을 보는 동안 컬렉션 세부 정보 페이지의 **Automations** 섹션에 있는 **Create automation** 버튼을 사용하여 컬렉션에 대한 자동화를 만듭니다.
+4. 감시할 [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ko" >}})를 선택합니다. 이벤트에 따라 표시되는 추가 필드를 작성합니다. 예를 들어 **An artifact alias is added**를 선택한 경우 **Alias regex**를 지정해야 합니다. **Next step**을 클릭합니다.
+5. [webhook]({{< relref path="#create-a-webhook" lang="ko" >}})을 소유한 팀을 선택합니다.
+6. **Action type**을 **Webhooks**로 설정한 다음 사용할 [webhook]({{< relref path="#create-a-webhook" lang="ko" >}})을 선택합니다.
+7. webhook에 대해 엑세스 토큰을 구성한 경우 `${ACCESS_TOKEN}` [페이로드 변수]({{< relref path="#payload-variables" lang="ko" >}})에서 토큰에 엑세스할 수 있습니다. webhook에 대해 secret을 구성한 경우 이름 앞에 `$`를 붙여 페이로드에서 해당 secret에 엑세스할 수 있습니다. webhook의 요구 사항은 webhook의 서비스에 의해 결정됩니다.
+8. **Next step**을 클릭합니다.
+9. 자동화 이름을 입력합니다. 선택적으로 설명을 제공합니다. **Create automation**을 클릭합니다.
 
 {{% /tab %}}
 {{% tab "Project" %}}
-A W&B admin can create automations in a project.
+W&B 관리자는 Project에서 자동화를 만들 수 있습니다.
 
-1. Log in to W&B and go to the project page.
-1. In the sidebar, click **Automations**.
-1. Click **Create automation**.
-1. Choose the [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ko" >}}) to watch for.
+1. W&B에 로그인하고 Project 페이지로 이동합니다.
+2. 사이드바에서 **Automations**을 클릭합니다.
+3. **Create automation**을 클릭합니다.
+4. 감시할 [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ko" >}})를 선택합니다.
 
-    1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+    1. 이벤트에 따라 표시되는 추가 필드를 작성합니다. 예를 들어 **An artifact alias is added**를 선택한 경우 **Alias regex**를 지정해야 합니다.
 
-    1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
+    1. 선택적으로 컬렉션 필터를 지정합니다. 그렇지 않으면 자동화는 향후 추가되는 컬렉션을 포함하여 Project의 모든 컬렉션에 적용됩니다.
     
-    Click **Next step**.
-1. Select the team that owns the [webhook]({{< relref path="#create-a-webhook" lang="ko" >}}).
-1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref path="#create-a-webhook" lang="ko" >}}) to use. 
-1. If your webhook requires a payload, construct it and paste it into the **Payload** field. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref path="#payload-variables" lang="ko" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
-1. Click **Next step**.
-1. Provide a name for the automation. Optionally, provide a description. Click **Create automation**.
+    **Next step**을 클릭합니다.
+5. [webhook]({{< relref path="#create-a-webhook" lang="ko" >}})을 소유한 팀을 선택합니다.
+6. **Action type**을 **Webhooks**로 설정한 다음 사용할 [webhook]({{< relref path="#create-a-webhook" lang="ko" >}})을 선택합니다.
+7. webhook에 페이로드가 필요한 경우 페이로드를 구성하여 **Payload** 필드에 붙여넣습니다. webhook에 대해 엑세스 토큰을 구성한 경우 `${ACCESS_TOKEN}` [페이로드 변수]({{< relref path="#payload-variables" lang="ko" >}})에서 토큰에 엑세스할 수 있습니다. webhook에 대해 secret을 구성한 경우 이름 앞에 `$`를 붙여 페이로드에서 해당 secret에 엑세스할 수 있습니다. webhook의 요구 사항은 webhook의 서비스에 의해 결정됩니다.
+8. **Next step**을 클릭합니다.
+9. 자동화 이름을 입력합니다. 선택적으로 설명을 제공합니다. **Create automation**을 클릭합니다.
 
 {{% /tab %}}
 {{< /tabpane >}}
 
-
-## View and manage automations
+## 자동화 보기 및 관리
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
 
-- Manage a registry's automations from the registry's **Automations** tab.
-- Manage a collection's automations from the **Automations** section of the collection's details page.
+- Registry의 **Automations** 탭에서 Registry의 자동화를 관리합니다.
+- 컬렉션 세부 정보 페이지의 **Automations** 섹션에서 컬렉션의 자동화를 관리합니다.
 
-From either of these pages, a Registry admin can manage existing automations:
-- To view an automation's details, click its name.
-- To edit an automation, click its action `...` menu, then click **Edit automation**.
-- To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
-
+이러한 페이지에서 Registry 관리자는 기존 자동화를 관리할 수 있습니다.
+- 자동화 세부 정보를 보려면 이름을 클릭합니다.
+- 자동화를 편집하려면 해당 액션 `...` 메뉴를 클릭한 다음 **Edit automation**을 클릭합니다.
+- 자동화를 삭제하려면 해당 액션 `...` 메뉴를 클릭한 다음 **Delete automation**을 클릭합니다. 확인이 필요합니다.
 
 {{% /tab %}}
 {{% tab "Project" %}}
-A W&B admin can view and manage a project's automations from the project's **Automations** tab.
+W&B 관리자는 Project의 **Automations** 탭에서 Project의 자동화를 보고 관리할 수 있습니다.
 
-- To view an automation's details, click its name.
-- To edit an automation, click its action `...` menu, then click **Edit automation**.
-- To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
+- 자동화 세부 정보를 보려면 이름을 클릭합니다.
+- 자동화를 편집하려면 해당 액션 `...` 메뉴를 클릭한 다음 **Edit automation**을 클릭합니다.
+- 자동화를 삭제하려면 해당 액션 `...` 메뉴를 클릭한 다음 **Delete automation**을 클릭합니다. 확인이 필요합니다.
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Payload reference
-Use these sections to construct your webhoook's payload. For details about testing your webhook and its payload, refer to [Troubleshoot your webhook]({{< relref path="#troubleshoot-your-webhook" lang="ko" >}}).
+## 페이로드 참조
+이 섹션을 사용하여 webhook의 페이로드를 구성합니다. webhook 및 해당 페이로드 테스트에 대한 자세한 내용은 [webhook 문제 해결]({{< relref path="#troubleshoot-your-webhook" lang="ko" >}})을 참조하세요.
 
-### Payload variables
-This section describes the variables you can use to construct your webhook's payload.
+### 페이로드 변수
+이 섹션에서는 webhook의 페이로드를 구성하는 데 사용할 수 있는 변수에 대해 설명합니다.
 
-| Variable | Details |
+| 변수 | 세부 정보 |
 |----------|---------|
-| `${project_name}`             | The name of the project that owns the mutation that triggered the action. |
-| `${entity_name}`              | The name of the entity or team that owns the mutation that triggered the action.
-| `${event_type}`               | The type of event that triggered the action. |
-| `${event_author}`             | The user that triggered the action. |
-| `${artifact_collection_name}` | The name of the artifact collection that the artifact version is linked to. |
-| `${artifact_metadata.<KEY>}`  | The value of an arbitrary top-level metadata key from the artifact version that triggered the action. Replace `<KEY>` with the name of a top-level metadata key. Only top-level metadata keys are available in the webhook's payload. |
-| `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref path="/ref/python/artifact/" lang="ko" >}}) representation of the artifact version that triggered the action. |
-| `${artifact_version_string}` | The `string` representation of the artifact version that triggered the action. |
-| `${ACCESS_TOKEN}` | The value of the access token configured in the [webhook]({{< relref path="#create-a-webhook" lang="ko" >}}), if an access token is configured. The access token is automatically passed in the `Authorization: Bearer` HTTP header. |
-| `${SECRET_NAME}` | If configured, the value of a secret configured in the [webhook]({{< relref path="#create-a-webhook" lang="ko" >}}). Replace `SECRET_NAME` with the name of the secret. |
+| `${project_name}` | 액션을 트리거한 변경을 소유한 Project의 이름입니다. |
+| `${entity_name}` | 액션을 트리거한 변경을 소유한 엔터티 또는 팀의 이름입니다.
+| `${event_type}` | 액션을 트리거한 이벤트 유형입니다. |
+| `${event_author}` | 액션을 트리거한 사용자입니다. |
+| `${artifact_collection_name}` | 아티팩트 버전이 연결된 아티팩트 컬렉션의 이름입니다. |
+| `${artifact_metadata.<KEY>}` | 액션을 트리거한 아티팩트 버전의 임의의 최상위 메타데이터 키의 값입니다. `<KEY>`를 최상위 메타데이터 키의 이름으로 바꿉니다. 최상위 메타데이터 키만 webhook의 페이로드에서 사용할 수 있습니다. |
+| `${artifact_version}` | 액션을 트리거한 아티팩트 버전의 [`Wandb.Artifact`]({{< relref path="/ref/python/artifact/" lang="ko" >}}) 표현입니다. |
+| `${artifact_version_string}` | 액션을 트리거한 아티팩트 버전의 `string` 표현입니다. |
+| `${ACCESS_TOKEN}` | 엑세스 토큰이 구성된 경우 [webhook]({{< relref path="#create-a-webhook" lang="ko" >}})에 구성된 엑세스 토큰의 값입니다. 엑세스 토큰은 `Authorization: Bearer` HTTP 헤더에 자동으로 전달됩니다. |
+| `${SECRET_NAME}` | 구성된 경우 [webhook]({{< relref path="#create-a-webhook" lang="ko" >}})에 구성된 secret의 값입니다. `SECRET_NAME`을 secret 이름으로 바꿉니다. |
 
-### Payload examples
-This section includes examples of webhook payloads for some common use cases. The examples demonstrate how to use [payload variables]({{< relref path="#payload-variables" lang="ko" >}}).
+### 페이로드 예시
+이 섹션에는 몇 가지 일반적인 유스 케이스에 대한 webhook 페이로드 예시가 포함되어 있습니다. 이 예시는 [페이로드 변수]({{< relref path="#payload-variables" lang="ko" >}})를 사용하는 방법을 보여줍니다.
 
 {{< tabpane text=true >}}
 {{% tab header="GitHub repository dispatch" value="github" %}}
 
 {{% alert %}}
-Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
+엑세스 토큰에 GHA 워크플로우를 트리거하는 데 필요한 권한 집합이 있는지 확인하세요. 자세한 내용은 [이 GitHub 문서](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event)를 참조하세요.
 {{% /alert %}}
 
-Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have a GitHub workflow file that accepts a repository dispatch as a trigger for the `on` key:
+W&B에서 리포지토리 디스패치를 보내 GitHub 액션을 트리거합니다. 예를 들어 `on` 키에 대한 트리거로 리포지토리 디스패치를 허용하는 GitHub 워크플로우 파일이 있다고 가정합니다.
 
 ```yaml
 on:
@@ -144,7 +142,7 @@ repository_dispatch:
   types: BUILD_AND_DEPLOY
 ```
 
-The payload for the repository might look something like:
+리포지토리의 페이로드는 다음과 같을 수 있습니다.
 
 ```json
 {
@@ -162,13 +160,13 @@ The payload for the repository might look something like:
 ```
 
 {{% alert %}}
-The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
+webhook 페이로드의 `event_type` 키는 GitHub 워크플로우 YAML 파일의 `types` 필드와 일치해야 합니다.
 {{% /alert %}}
 
-The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either `LINK_ARTIFACT` or `ADD_ARTIFACT_ALIAS`. See below for an example mapping:
+렌더링된 템플릿 문자열의 내용과 위치는 자동화가 구성된 이벤트 또는 모델 버전에 따라 달라집니다. `${event_type}`은 `LINK_ARTIFACT` 또는 `ADD_ARTIFACT_ALIAS`로 렌더링됩니다. 아래에서 예시 매핑을 참조하세요.
 
 ```text
-${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
+${event_type} --> "LINK_ARTIFACT" 또는 "ADD_ARTIFACT_ALIAS"
 ${event_author} --> "<wandb-user>"
 ${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
 ${artifact_version_string} --> "<entity>/model-registry/<registered_model_name>:<alias>"
@@ -177,19 +175,19 @@ ${project_name} --> "model-registry"
 ${entity_name} --> "<entity>"
 ```
 
-Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ko" >}}).
+템플릿 문자열을 사용하여 W&B에서 GitHub Actions 및 기타 툴로 컨텍스트를 동적으로 전달합니다. 이러한 툴이 Python 스크립트를 호출할 수 있는 경우 [W&B API]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ko" >}})를 통해 등록된 모델 아티팩트를 사용할 수 있습니다.
 
-- For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).
+- 리포지토리 디스패치에 대한 자세한 내용은 [GitHub Marketplace의 공식 문서](https://github.com/marketplace/actions/repository-dispatch)를 참조하세요.
 
-- Watch the videos [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) and [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases), which guide you to create automations for model evaluation and deployment. 
+- 모델 평가 및 배포를 위한 자동화를 만드는 방법을 안내하는 동영상 [모델 평가를 위한 Webhook 자동화](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) 및 [모델 배포를 위한 Webhook 자동화](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases)를 시청하세요.
 
-- Review a W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw), which illustrates how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
+- Github Actions webhook 자동화를 모델 CI에 사용하는 방법을 보여주는 W&B [리포트](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)를 검토하세요. Modal Labs webhook으로 모델 CI를 만드는 방법을 알아보려면 [GitHub 리포지토리](https://github.com/hamelsmu/wandb-modal-webhook)를 확인하세요.
 
 {{% /tab %}}
 
-{{% tab header="Microsoft Teams notification" value="microsoft"%}}
+{{% tab header="Microsoft Teams 알림" value="microsoft"%}}
 
-This example payload shows how to notify your Teams channel using a webhook:
+이 예시 페이로드는 webhook을 사용하여 Teams 채널에 알리는 방법을 보여줍니다.
 
 ```json 
 {
@@ -216,19 +214,19 @@ This example payload shows how to notify your Teams channel using a webhook:
 }
 ```
 
-You can use template strings to inject W&B data into your payload at the time of execution (as shown in the Teams example above).
+템플릿 문자열을 사용하여 실행 시 W&B 데이터를 페이로드에 삽입할 수 있습니다(위의 Teams 예시 참조).
 
 {{% /tab %}}
 
-{{% tab header="Slack notifications" value="slack"%}}
+{{% tab header="Slack 알림" value="slack"%}}
 
 {{% alert %}}
-This section is provided for historical purposes. If you currently use a webhook to integrate with Slack, W&B recommends that you update your configuration to use the [new Slack integration]({{ relref "#create-a-slack-automation"}}) instead.
+이 섹션은 과거 기록을 위해 제공됩니다. 현재 webhook을 사용하여 Slack과 통합하는 경우 [새 Slack 인테그레이션]({{ relref "#create-a-slack-automation"}})을 사용하도록 구성을 업데이트하는 것이 좋습니다.
 {{% /alert %}}
 
-Set up your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Token` as your W&B webhook’s access token. 
+[Slack API 문서](https://api.slack.com/messaging/webhooks)에 강조 표시된 지침에 따라 Slack 앱을 설정하고 수신 webhook 통합을 추가합니다. `Bot User OAuth Token` 아래에 지정된 secret이 W&B webhook의 엑세스 토큰인지 확인합니다.
 
-The following is an example payload:
+다음은 예시 페이로드입니다.
 
 ```json
 {
@@ -265,31 +263,31 @@ The following is an example payload:
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Troubleshoot your webhook
-Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
+## webhook 문제 해결
+W&B App UI를 사용하여 대화식으로 또는 Bash 스크립트를 사용하여 프로그래밍 방식으로 webhook 문제를 해결합니다. 새 webhook을 만들거나 기존 webhook을 편집할 때 webhook 문제를 해결할 수 있습니다.
 
 {{< tabpane text=true >}}
 {{% tab header="W&B App UI" value="app" %}}
 
-A team admin can test a webhook interactively with the W&B App UI. 
+팀 관리자는 W&B App UI를 사용하여 대화식으로 webhook을 테스트할 수 있습니다.
 
-1. Navigate to your W&B Team Settings page.
-2. Scroll to the **Webhooks** section.
-3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
-4. Select **Test**.
-5. From the UI panel that appears, paste your POST request to the field that appears. 
+1. W&B 팀 설정 페이지로 이동합니다.
+2. **Webhooks** 섹션으로 스크롤합니다.
+3. webhook 이름 옆에 있는 가로 세 개의 점(미트볼 아이콘)을 클릭합니다.
+4. **Test**를 선택합니다.
+5. 나타나는 UI 패널에서 나타나는 필드에 POST 요청을 붙여넣습니다.
     {{< img src="/images/models/webhook_ui.png" alt="Demo of testing a webhook payload" >}}
-6. Click on **Test webhook**. Within the W&B App UI, W&B posts the response from your endpoint.
+6. **Test webhook**을 클릭합니다. W&B App UI 내에서 W&B는 엔드포인트에서 응답을 게시합니다.
     {{< img src="/images/models/webhook_ui_testing.gif" alt="Demo of testing a webhook" >}}
 
-Watch the video [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a demonstration.
+시연은 동영상 [Weights & Biases에서 Webhook 테스트](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases)를 시청하세요.
 {{% /tab %}}
 
-{{% tab header="Bash script" value="bash"%}}
+{{% tab header="Bash 스크립트" value="bash"%}}
 
-This shell script shows one method to generate a `POST` request similar to the request W&B sends to your webhook automation when it is triggered.
+이 셸 스크립트는 W&B가 트리거될 때 webhook 자동화로 보내는 요청과 유사한 `POST` 요청을 생성하는 한 가지 방법을 보여줍니다.
 
-Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for:
+아래 코드를 복사하여 셸 스크립트에 붙여넣어 webhook 문제를 해결합니다. 다음 값에 대해 사용자 고유의 값을 지정합니다.
 
 * `ACCESS_TOKEN`
 * `SECRET`

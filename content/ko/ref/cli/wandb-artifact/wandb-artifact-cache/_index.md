@@ -1,27 +1,27 @@
 ---
+title: wandb artifact cache
 menu:
   reference:
     identifier: ko-ref-cli-wandb-artifact-wandb-artifact-cache-_index
-title: wandb artifact cache
 ---
 
-**Usage**
+**사용법**
 
 `wandb artifact cache [OPTIONS] COMMAND [ARGS]...`
 
-**Summary**
+**요약**
 
-Commands for interacting with the artifact cache
+아티팩트 캐시와 상호 작용하기 위한 코맨드
 
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
 
 
-**Commands**
+**코맨드**
 
-| **Command** | **Description** |
+| **코맨드** | **설명** |
 | :--- | :--- |
-| cleanup | Clean up less frequently used files from the artifacts cache |
+| cleanup | 아티팩트 캐시에서 덜 자주 사용되는 파일을 정리합니다 |

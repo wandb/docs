@@ -1,44 +1,44 @@
 ---
-description: Release process for W&B Server
+title: Release process for W&B Server
+description: W&B 서버 릴리스 프로세스
 menu:
   default:
     identifier: ko-guides-hosting-server-release-process
     parent: w-b-platform
-title: Release process for W&B Server
 ---
 
-## Frequency and deployment types
-W&B Server releases apply to the **Dedicated Cloud** and **Self-managed** deployments. There are three kinds of server releases:
+## 빈도 및 배포 유형
+W&B Server 릴리스는 **전용 클라우드** 및 **자체 관리** 배포에 적용됩니다. 서버 릴리스에는 세 가지 종류가 있습니다.
 
-| Release type | Description |
+| 릴리스 유형 | 설명 |
 |--------------|-------------|
-| Monthly | Monthly releases include new features, enhancements, plus medium and low severity bug fixes. |
-| Patch | Patch releases include critical and high severity bug fixes. Patches are only rarely released, as needed. |
-| Feature | The feature release targets a specific release date for a new product feature, which occasionally happens before the standard monthly release. |
+| 월별 | 월별 릴리스에는 새로운 기능, 개선 사항, 중간 및 낮은 심각도의 버그 수정이 포함됩니다. |
+| 패치 | 패치 릴리스에는 중요 및 높은 심각도의 버그 수정이 포함됩니다. 패치는 필요에 따라 드물게 릴리스됩니다. |
+| 기능 | 기능 릴리스는 새로운 제품 기능에 대한 특정 릴리스 날짜를 대상으로 하며, 이는 표준 월별 릴리스보다 간혹 먼저 발생합니다. |
 
-All releases are immediately deployed to all **Dedicated Cloud** instances once the acceptance testing phase is complete. It keeps those managed instances fully updated, making the latest features and fixes available to relevant customers. Customers with **Self-managed** instances are responsible for the [update process]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ko" >}}) on their own schedule, where they can use [the latest Docker image](https://hub.docker.com/r/wandb/local). Refer to [release support and end of life]({{< relref path="#release-support-and-end-of-life-policy" lang="ko" >}}).
+모든 릴리스는 인수 테스트 단계가 완료되는 즉시 모든 **전용 클라우드** 인스턴스에 즉시 배포됩니다. 이렇게 하면 관리되는 인스턴스가 완전히 업데이트되어 최신 기능 및 수정 사항을 관련 고객에게 제공할 수 있습니다. **자체 관리** 인스턴스를 사용하는 고객은 자체 일정에 따라 [업데이트 프로세스]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ko" >}})를 수행해야 하며, 여기서 [최신 Docker 이미지](https://hub.docker.com/r/wandb/local)를 사용할 수 있습니다. [릴리스 지원 및 수명 종료]({{< relref path="#release-support-and-end-of-life-policy" lang="ko" >}})를 참조하십시오.
 
 {{% alert %}}
-- Some advanced features are available only with the enterprise license. So even if you get the latest Docker image but don't have an enterprise license, you would not be able to take advantage of the relevant advanced capabilities.
+- 일부 고급 기능은 엔터프라이즈 라이선스에서만 사용할 수 있습니다. 따라서 최신 Docker 이미지를 얻더라도 엔터프라이즈 라이선스가 없으면 관련 고급 기능을 활용할 수 없습니다.
 
-- Some new features start in private preview, which means they are only available to design partners or early adopters. The W&B team must enable a private preview feature before you can use it in your instance.
+- 일부 새로운 기능은 비공개 미리보기로 시작됩니다. 즉, 디자인 파트너 또는 얼리 어답터만 사용할 수 있습니다. 인스턴스에서 비공개 미리보기 기능을 사용하려면 W&B 팀에서 활성화해야 합니다.
 {{% /alert %}}
 
-## Release notes
-The release notes for all releases are available at [W&B Server Releases on GitHub](https://github.com/wandb/server/releases). Customers who use Slack can receive automatic release announcements in their W&B Slack channel. Ask your W&B team to enable these updates.
+## 릴리스 정보
+모든 릴리스에 대한 릴리스 정보는 [GitHub의 W&B Server Releases](https://github.com/wandb/server/releases)에서 확인할 수 있습니다. Slack을 사용하는 고객은 W&B Slack 채널에서 자동 릴리스 알림을 받을 수 있습니다. W&B 팀에 문의하여 이러한 업데이트를 활성화하십시오.
 
-## Release update and downtime
-A server release does not generally require instance downtime for **Dedicated Cloud** instances and for customers with **Self-managed** deployments who have implemented a proper rolling update process.
+## 릴리스 업데이트 및 가동 중지 시간
+일반적으로 서버 릴리스는 **전용 클라우드** 인스턴스 및 적절한 롤링 업데이트 프로세스를 구현한 **자체 관리** 배포 고객에게 인스턴스 가동 중지 시간을 요구하지 않습니다.
 
-Downtime might occur for the following scenarios:
-* A new feature or enhancement requires changes to the underlying infrastructure such as compute, storage or network. W&B tries to send relevant advance notifications to **Dedicated Cloud** customers.
-* An infrastructure change due to a security patch or to avoid `support end-of-life` for a particular version. For urgent changes, **Dedicated Cloud** customers may not receive advance notifications. The priority here is to keep the fleet secure and fully supported.
+다음 시나리오에서는 가동 중지 시간이 발생할 수 있습니다.
+* 새로운 기능 또는 개선 사항으로 인해 컴퓨팅, 스토리지 또는 네트워크와 같은 기본 인프라를 변경해야 합니다. W&B는 관련 사전 알림을 **전용 클라우드** 고객에게 보내려고 노력합니다.
+* 보안 패치 또는 특정 버전에 대한 '수명 종료 지원'을 피하기 위한 인프라 변경. 긴급한 변경의 경우 **전용 클라우드** 고객은 사전 알림을 받지 못할 수 있습니다. 여기서 우선 순위는 fleet을 안전하게 유지하고 완전히 지원하는 것입니다.
 
-For both cases, updates roll out to all **Dedicated Cloud** instances without exception. Customers with **Self-managed** instances are responsible to manage such updates on their own schedule. Refer to [release support and end of life]({{< relref path="#release-support-and-end-of-life-policy" lang="ko" >}}).
+두 경우 모두 업데이트는 예외 없이 모든 **전용 클라우드** 인스턴스에 롤아웃됩니다. **자체 관리** 인스턴스를 사용하는 고객은 자체 일정에 따라 이러한 업데이트를 관리해야 합니다. [릴리스 지원 및 수명 종료]({{< relref path="#release-support-and-end-of-life-policy" lang="ko" >}})를 참조하십시오.
 
-## Release support and end of life policy
-W&B supports every server release for six months from the release date. **Dedicated Cloud** instances are automatically updated. Customers with **Self-managed** instances are responsible to update their deployments in time to comply with the support policy. Avoid staying on a version older than six months as it would significantly limit support from W&B.
+## 릴리스 지원 및 수명 종료 정책
+W&B는 릴리스 날짜로부터 6개월 동안 모든 서버 릴리스를 지원합니다. **전용 클라우드** 인스턴스는 자동으로 업데이트됩니다. **자체 관리** 인스턴스를 사용하는 고객은 지원 정책을 준수하기 위해 제때 배포를 업데이트해야 합니다. W&B의 지원을 크게 제한할 수 있으므로 6개월 이상 된 버전을 사용하지 마십시오.
 
 {{% alert %}}
-W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at least every quarter. This ensures that you are using the latest and greatest capabilities while also keeping well ahead of the release end of life.
+W&B는 **자체 관리** 인스턴스를 사용하는 고객에게 최소한 분기마다 최신 릴리스로 배포를 업데이트할 것을 강력히 권장합니다. 이렇게 하면 최신의 가장 훌륭한 기능을 사용하는 동시에 릴리스 수명 종료를 훨씬 앞서 유지할 수 있습니다.
 {{% /alert %}}

@@ -1,13 +1,13 @@
 ---
+title: File
 menu:
   reference:
     identifier: ko-ref-python-public-api-file
-title: File
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L110-L263 >}}
 
-File is a class associated with a file saved by wandb.
+File은 wandb에 의해 저장된 파일과 연결된 클래스입니다.
 
 ```python
 File(
@@ -15,11 +15,11 @@ File(
 )
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
-|  `path_uri` |  Returns the uri path to the file in the storage bucket. |
+|  `path_uri` | 스토리지 버킷에 있는 파일의 uri 경로를 반환합니다. |
 
-## Methods
+## 메소드
 
 ### `delete`
 
@@ -39,7 +39,7 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+Jupyter에서 이 오브젝트를 표시합니다.
 
 ### `download`
 
@@ -54,15 +54,15 @@ download(
 ) -> io.TextIOWrapper
 ```
 
-Downloads a file previously saved by a run from the wandb server.
+wandb 서버에서 run에 의해 이전에 저장된 파일을 다운로드합니다.
 
 | Args |  |
 | :--- | :--- |
-|  replace (boolean): If `True`, download will overwrite a local file if it exists. Defaults to `False`. root (str): Local directory to save the file. Defaults to ".". exist_ok (boolean): If `True`, will not raise ValueError if file already exists and will not re-download unless replace=True. Defaults to `False`. api (Api, optional): If given, the `Api` instance used to download the file. |
+|  replace (boolean): `True`인 경우, 다운로드는 로컬 파일이 존재하면 덮어씁니다. 기본값은 `False`입니다. root (str): 파일을 저장할 로컬 디렉토리입니다. 기본값은 "."입니다. exist_ok (boolean): `True`인 경우, 파일이 이미 존재하면 ValueError를 발생시키지 않으며 replace=True가 아니면 다시 다운로드하지 않습니다. 기본값은 `False`입니다. api (Api, optional): 주어진 경우, 파일을 다운로드하는 데 사용되는 `Api` 인스턴스입니다. |
 
 | Raises |  |
 | :--- | :--- |
-|  `ValueError` if file already exists, replace=False and exist_ok=False. |
+|  파일이 이미 존재하고 replace=False 및 exist_ok=False인 경우 `ValueError`가 발생합니다. |
 
 ### `snake_to_camel`
 

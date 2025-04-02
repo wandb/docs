@@ -1,18 +1,17 @@
 ---
-description: Artifacts quickstart shows how to create, track, and use a dataset artifact
-  with W&B.
+title: 'Tutorial: Create, track, and use a dataset artifact'
+description: Artifacts 퀵스타트는 W&B를 사용하여 데이터셋 아티팩트를 생성, 추적 및 사용하는 방법을 보여줍니다.
 displayed_sidebar: default
 menu:
   default:
     identifier: ko-guides-core-artifacts-artifacts-walkthrough
-title: 'Tutorial: Create, track, and use a dataset artifact'
 ---
 
-This walkthrough demonstrates how to create, track, and use a dataset artifact from [W&B Runs]({{< relref path="/guides/models/track/runs/" lang="ko" >}}).
+이 가이드는 [W&B Runs]({{< relref path="/guides/models/track/runs/" lang="ko" >}})에서 데이터셋 Artifacts를 생성, 추적 및 사용하는 방법을 설명합니다.
 
-## 1. Log into W&B
+## 1. W&B에 로그인
 
-Import the W&B library and log in to W&B. You will need to sign up for a free W&B account if you have not done so already.
+W&B 라이브러리를 가져오고 W&B에 로그인합니다. 아직 가입하지 않은 경우 무료 W&B 계정에 가입해야 합니다.
 
 ```python
 import wandb
@@ -20,69 +19,68 @@ import wandb
 wandb.login()
 ```
 
-## 2. Initialize a run
+## 2. run 초기화
 
-Use the [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ko" >}}) API to generate a background process to sync and log data as a W&B Run. Provide a project name and a job type:
+[`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ko" >}}) API를 사용하여 W&B Run으로 데이터를 동기화하고 기록하는 백그라운드 프로세스를 생성합니다. project 이름과 job 유형을 제공합니다.
 
 ```python
-# Create a W&B Run. Here we specify 'dataset' as the job type since this example
-# shows how to create a dataset artifact.
+# W&B Run을 만듭니다. 이 예제에서는 데이터셋 Artifact를 만드는 방법을 보여주기 때문에
+# 'dataset'을 job 유형으로 지정합니다.
 run = wandb.init(project="artifacts-example", job_type="upload-dataset")
 ```
 
-## 3. Create an artifact object
+## 3. Artifact 오브젝트 생성
 
-Create an artifact object with the [`wandb.Artifact()`]({{< relref path="/ref/python/artifact.md" lang="ko" >}}) API. Provide a name for the artifact and a description of the file type for the `name` and `type` parameters, respectively.
+[`wandb.Artifact()`]({{< relref path="/ref/python/artifact.md" lang="ko" >}}) API를 사용하여 Artifact 오브젝트를 생성합니다. Artifact의 이름과 파일 형식에 대한 설명을 각각 `name` 및 `type` 파라미터에 제공합니다.
 
-For example, the following code snippet demonstrates how to create an artifact called `‘bicycle-dataset’` with a `‘dataset’` label:
+예를 들어 다음 코드 조각은 `‘bicycle-dataset’`이라는 Artifact를 `‘dataset’` 레이블로 만드는 방법을 보여줍니다.
 
 ```python
 artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 ```
 
-For more information about how to construct an artifact, see [Construct artifacts]({{< relref path="./construct-an-artifact.md" lang="ko" >}}).
+Artifact를 구성하는 방법에 대한 자세한 내용은 [Artifact 구성]({{< relref path="./construct-an-artifact.md" lang="ko" >}})을 참조하십시오.
 
-## Add the dataset to the artifact
+## Artifact에 데이터셋 추가
 
-Add a file to the artifact. Common file types include models and datasets. The following example adds a dataset named `dataset.h5` that is saved locally on our machine to the artifact:
+Artifact에 파일을 추가합니다. 일반적인 파일 유형에는 모델과 데이터셋이 있습니다. 다음 예제에서는 시스템에 로컬로 저장된 `dataset.h5`라는 데이터셋을 Artifact에 추가합니다.
 
 ```python
-# Add a file to the artifact's contents
+# Artifact 내용에 파일 추가
 artifact.add_file(local_path="dataset.h5")
 ```
 
-Replace the filename `dataset.h5` in the preceding code snippet with the path to the file you want to add to the artifact.
+이전 코드 조각에서 파일 이름 `dataset.h5`를 Artifact에 추가할 파일의 경로로 바꿉니다.
 
-## 4. Log the dataset
+## 4. 데이터셋 기록
 
-Use the W&B run objects `log_artifact()` method to both save your artifact version and declare the artifact as an output of the run.
+W&B run 오브젝트 `log_artifact()` 메소드를 사용하여 Artifact 버전을 저장하고 Artifact를 run의 출력으로 선언합니다.
 
 ```python
-# Save the artifact version to W&B and mark it
-# as the output of this run
+# Artifact 버전을 W&B에 저장하고 이 run의 출력으로 표시합니다.
 run.log_artifact(artifact)
 ```
 
-A `'latest'` alias is created by default when you log an artifact. For more information about artifact aliases and versions, see [Create a custom alias]({{< relref path="./create-a-custom-alias.md" lang="ko" >}}) and [Create new artifact versions]({{< relref path="./create-a-new-artifact-version.md" lang="ko" >}}), respectively.
+Artifact를 기록할 때 기본적으로 `'latest'` 에일리어스가 생성됩니다. Artifact 에일리어스 및 버전에 대한 자세한 내용은 [사용자 지정 에일리어스 만들기]({{< relref path="./create-a-custom-alias.md" lang="ko" >}}) 및 [새 Artifact 버전 만들기]({{< relref path="./create-a-new-artifact-version.md" lang="ko" >}})를 참조하십시오.
 
-## 5. Download and use the artifact
+## 5. Artifact 다운로드 및 사용
 
-The following code example demonstrates the steps you can take to use an artifact you have logged and saved to the W&B servers.
+다음 코드 예제는 W&B 서버에 기록하고 저장한 Artifact를 사용하는 단계를 보여줍니다.
 
-1. First, initialize a new run object with **`wandb.init()`.**
-2. Second, use the run objects [`use_artifact()`]({{< relref path="/ref/python/run.md#use_artifact" lang="ko" >}}) method to tell W&B what artifact to use. This returns an artifact object.
-3. Third, use the artifacts [`download()`]({{< relref path="/ref/python/artifact.md#download" lang="ko" >}}) method to download the contents of the artifact.
+1. 먼저 **`wandb.init()`**으로 새 run 오브젝트를 초기화합니다.
+2. 둘째, run 오브젝트 [`use_artifact()`]({{< relref path="/ref/python/run.md#use_artifact" lang="ko" >}}) 메소드를 사용하여 사용할 Artifact를 W&B에 알립니다. 그러면 Artifact 오브젝트가 반환됩니다.
+3. 셋째, Artifact [`download()`]({{< relref path="/ref/python/artifact.md#download" lang="ko" >}}) 메소드를 사용하여 Artifact의 내용을 다운로드합니다.
 
 ```python
-# Create a W&B Run. Here we specify 'training' for 'type'
-# because we will use this run to track training.
+# W&B Run을 만듭니다. 여기서는 'training'을 'type'으로 지정합니다.
+# 이 run을 사용하여 트레이닝을 추적하기 때문입니다.
 run = wandb.init(project="artifacts-example", job_type="training")
 
-# Query W&B for an artifact and mark it as input to this run
+# Artifact에 대해 W&B를 쿼리하고 이 run에 대한 입력으로 표시합니다.
 artifact = run.use_artifact("bicycle-dataset:latest")
 
-# Download the artifact's contents
+# Artifact의 내용 다운로드
 artifact_dir = artifact.download()
 ```
 
-Alternatively, you can use the Public API (`wandb.Api`) to export (or update data) data already saved in a W&B outside of a Run. See [Track external files]({{< relref path="./track-external-files.md" lang="ko" >}}) for more information.
+또는 Public API (`wandb.Api`)를 사용하여 Run 외부의 W&B에 이미 저장된 데이터를 내보내거나 (또는 업데이트)할 수 있습니다. 자세한 내용은 [외부 파일 추적]({{< relref path="./track-external-files.md" lang="ko" >}})을 참조하십시오.

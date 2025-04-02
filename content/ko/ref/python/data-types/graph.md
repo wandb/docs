@@ -1,13 +1,13 @@
 ---
+title: Graph
 menu:
   reference:
     identifier: ko-ref-python-data-types-graph
-title: Graph
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L245-L405 >}}
 
-Wandb class for graphs.
+graphs를 위한 Wandb 클래스입니다.
 
 ```python
 Graph(
@@ -15,23 +15,21 @@ Graph(
 )
 ```
 
-This class is typically used for saving and displaying neural net models.  It
-represents the graph as an array of nodes and edges.  The nodes can have
-labels that can be visualized by wandb.
+이 클래스는 일반적으로 신경망 모델을 저장하고 표시하는 데 사용됩니다. 노드와 엣지의 배열로 그래프를 나타냅니다. 노드는 wandb에서 시각화할 수 있는 레이블을 가질 수 있습니다.
 
-#### Examples:
+#### 예시:
 
-Import a keras model:
+keras 모델 가져오기:
 
 ```
 Graph.from_keras(keras_model)
 ```
 
-## Methods
+## 메소드
 
 ### `add_edge`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L330-L334)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L330-L334)
 
 ```python
 add_edge(
@@ -41,7 +39,7 @@ add_edge(
 
 ### `add_node`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L318-L328)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L318-L328)
 
 ```python
 add_node(
@@ -51,7 +49,7 @@ add_node(
 
 ### `from_keras`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L336-L366)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L336-L366)
 
 ```python
 @classmethod
@@ -62,7 +60,7 @@ from_keras(
 
 ### `pprint`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L312-L316)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L312-L316)
 
 ```python
 pprint()
@@ -70,7 +68,7 @@ pprint()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L309-L310)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L309-L310)
 
 ```python
 __getitem__(

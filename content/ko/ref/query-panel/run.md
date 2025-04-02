@@ -1,264 +1,264 @@
 ---
+title: run
 menu:
   reference:
     identifier: ko-ref-query-panel-run
-title: run
 ---
 
 ## Chainable Ops
 <h3 id="run-config"><code>run-config</code></h3>
 
-Returns the config _typedDict_ of the [run](run.md)
+[run](run.md)의 config _typedDict_를 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
-| `run` | A [run](run.md) |
+| `run` | [run](run.md) |
 
 #### Return Value
-The config _typedDict_ of the [run](run.md)
+[run](run.md)의 config _typedDict_
 
 <h3 id="run-createdAt"><code>run-createdAt</code></h3>
 
-Returns the created at datetime of the [run](run.md)
+[run](run.md)의 생성된 datetime을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The created at datetime of the [run](run.md)
+[run](run.md)의 생성된 datetime
 
 <h3 id="run-heartbeatAt"><code>run-heartbeatAt</code></h3>
 
-Returns the last heartbeat datetime of the [run](run.md)
+[run](run.md)의 마지막 heartbeat datetime을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The last heartbeat datetime of the [run](run.md)
+[run](run.md)의 마지막 heartbeat datetime
 
 <h3 id="run-history"><code>run-history</code></h3>
 
-Returns the log history of the [run](run.md)
+[run](run.md)의 로그 history를 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The log history of the [run](run.md)
+[run](run.md)의 로그 history
 
 <h3 id="run-jobType"><code>run-jobType</code></h3>
 
-Returns the job type of the [run](run.md)
+[run](run.md)의 job 유형을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The job type of the [run](run.md)
+[run](run.md)의 job 유형
 
 <h3 id="run-loggedArtifactVersion"><code>run-loggedArtifactVersion</code></h3>
 
-Returns the [artifactVersion](artifact-version.md) logged by the [run](run.md) for a given name and alias
+주어진 이름과 에일리어스에 대해 [run](run.md)에 의해 기록된 [artifactVersion](artifact-version.md)을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
-| `artifactVersionName` | The name:alias of the [artifactVersion](artifact-version.md) |
+| `artifactVersionName` | [artifactVersion](artifact-version.md)의 name:alias |
 
 #### Return Value
-The [artifactVersion](artifact-version.md) logged by the [run](run.md) for a given name and alias
+주어진 이름과 에일리어스에 대해 [run](run.md)에 의해 기록된 [artifactVersion](artifact-version.md)
 
 <h3 id="run-loggedArtifactVersions"><code>run-loggedArtifactVersions</code></h3>
 
-Returns all of the [artifactVersions](artifact-version.md) logged by the [run](run.md)
+[run](run.md)에 의해 기록된 모든 [artifactVersions](artifact-version.md)을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The [artifactVersions](artifact-version.md) logged by the [run](run.md)
+[run](run.md)에 의해 기록된 [artifactVersions](artifact-version.md)
 
 <h3 id="run-name"><code>run-name</code></h3>
 
-Returns the name of the [run](run.md)
+[run](run.md)의 이름을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The name of the [run](run.md)
+[run](run.md)의 이름
 
 <h3 id="run-runtime"><code>run-runtime</code></h3>
 
-Returns the runtime in seconds of the [run](run.md)
+[run](run.md)의 runtime(초)을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The runtime in seconds of the [run](run.md)
+[run](run.md)의 runtime(초)
 
 <h3 id="run-summary"><code>run-summary</code></h3>
 
-Returns the summary _typedDict_ of the [run](run.md)
+[run](run.md)의 summary _typedDict_를 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The summary _typedDict_ of the [run](run.md)
+[run](run.md)의 summary _typedDict_
 
 <h3 id="run-usedArtifactVersions"><code>run-usedArtifactVersions</code></h3>
 
-Returns all of the [artifactVersions](artifact-version.md) used by the [run](run.md)
+[run](run.md)에서 사용한 모든 [artifactVersions](artifact-version.md)을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The [artifactVersions](artifact-version.md) used by the [run](run.md)
+[run](run.md)에서 사용한 [artifactVersions](artifact-version.md)
 
 <h3 id="run-user"><code>run-user</code></h3>
 
-Returns the [user](user.md) of the [run](run.md)
+[run](run.md)의 [user](user.md)를 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The [user](user.md) of the [run](run.md)
+[run](run.md)의 [user](user.md)
 
 
 ## List Ops
 <h3 id="run-config"><code>run-config</code></h3>
 
-Returns the config _typedDict_ of the [run](run.md)
+[run](run.md)의 config _typedDict_를 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The config _typedDict_ of the [run](run.md)
+[run](run.md)의 config _typedDict_
 
 <h3 id="run-createdAt"><code>run-createdAt</code></h3>
 
-Returns the created at datetime of the [run](run.md)
+[run](run.md)의 생성된 datetime을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The created at datetime of the [run](run.md)
+[run](run.md)의 생성된 datetime
 
 <h3 id="run-heartbeatAt"><code>run-heartbeatAt</code></h3>
 
-Returns the last heartbeat datetime of the [run](run.md)
+[run](run.md)의 마지막 heartbeat datetime을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The last heartbeat datetime of the [run](run.md)
+[run](run.md)의 마지막 heartbeat datetime
 
 <h3 id="run-history"><code>run-history</code></h3>
 
-Returns the log history of the [run](run.md)
+[run](run.md)의 로그 history를 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The log history of the [run](run.md)
+[run](run.md)의 로그 history
 
 <h3 id="run-jobType"><code>run-jobType</code></h3>
 
-Returns the job type of the [run](run.md)
+[run](run.md)의 job 유형을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The job type of the [run](run.md)
+[run](run.md)의 job 유형
 
 <h3 id="run-loggedArtifactVersion"><code>run-loggedArtifactVersion</code></h3>
 
-Returns the [artifactVersion](artifact-version.md) logged by the [run](run.md) for a given name and alias
+주어진 이름과 에일리어스에 대해 [run](run.md)에 의해 기록된 [artifactVersion](artifact-version.md)을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
-| `artifactVersionName` | The name:alias of the [artifactVersion](artifact-version.md) |
+| `artifactVersionName` | [artifactVersion](artifact-version.md)의 name:alias |
 
 #### Return Value
-The [artifactVersion](artifact-version.md) logged by the [run](run.md) for a given name and alias
+주어진 이름과 에일리어스에 대해 [run](run.md)에 의해 기록된 [artifactVersion](artifact-version.md)
 
 <h3 id="run-loggedArtifactVersions"><code>run-loggedArtifactVersions</code></h3>
 
-Returns all of the [artifactVersions](artifact-version.md) logged by the [run](run.md)
+[run](run.md)에 의해 기록된 모든 [artifactVersions](artifact-version.md)을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The [artifactVersions](artifact-version.md) logged by the [run](run.md)
+[run](run.md)에 의해 기록된 [artifactVersions](artifact-version.md)
 
 <h3 id="run-name"><code>run-name</code></h3>
 
-Returns the name of the [run](run.md)
+[run](run.md)의 이름을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The name of the [run](run.md)
+[run](run.md)의 이름
 
 <h3 id="run-runtime"><code>run-runtime</code></h3>
 
-Returns the runtime in seconds of the [run](run.md)
+[run](run.md)의 runtime(초)을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The runtime in seconds of the [run](run.md)
+[run](run.md)의 runtime(초)
 
 <h3 id="run-summary"><code>run-summary</code></h3>
 
-Returns the summary _typedDict_ of the [run](run.md)
+[run](run.md)의 summary _typedDict_를 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The summary _typedDict_ of the [run](run.md)
+[run](run.md)의 summary _typedDict_
 
 <h3 id="run-usedArtifactVersions"><code>run-usedArtifactVersions</code></h3>
 
-Returns all of the [artifactVersions](artifact-version.md) used by the [run](run.md)
+[run](run.md)에서 사용한 모든 [artifactVersions](artifact-version.md)을 반환합니다.
 
 | Argument |  |
 | :--- | :--- |
 | `run` | A [run](run.md) |
 
 #### Return Value
-The [artifactVersions](artifact-version.md) used by the [run](run.md)
+[run](run.md)에서 사용한 [artifactVersions](artifact-version.md)

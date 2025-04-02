@@ -1,13 +1,13 @@
 ---
+title: Histogram
 menu:
   reference:
     identifier: ko-ref-python-data-types-histogram
-title: Histogram
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/histogram.py#L18-L94 >}}
 
-wandb class for histograms.
+히스토그램을 위한 wandb 클래스입니다.
 
 ```python
 Histogram(
@@ -17,35 +17,35 @@ Histogram(
 ) -> None
 ```
 
-This object works just like numpy's histogram function
+이 오브젝트는 numpy의 histogram 함수와 똑같이 작동합니다.
 https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
 
-#### Examples:
+#### 예시:
 
-Generate histogram from a sequence
+시퀀스에서 히스토그램 생성
 
 ```python
 wandb.Histogram([1, 2, 3])
 ```
 
-Efficiently initialize from np.histogram.
+np.histogram에서 효율적으로 초기화합니다.
 
 ```python
 hist = np.histogram(data)
 wandb.Histogram(np_histogram=hist)
 ```
 
-| Args |  |
+| 인자 |  |
 | :--- | :--- |
-|  `sequence` |  (array_like) input data for histogram |
-|  `np_histogram` |  (numpy histogram) alternative input of a precomputed histogram |
-|  `num_bins` |  (int) Number of bins for the histogram. The default number of bins is 64. The maximum number of bins is 512 |
+|  `sequence` |  (array_like) 히스토그램을 위한 입력 데이터 |
+|  `np_histogram` |  (numpy histogram) 미리 계산된 히스토그램의 대체 입력 |
+|  `num_bins` |  (int) 히스토그램의 bin 개수입니다. 기본 bin 개수는 64개입니다. 최대 bin 개수는 512개입니다. |
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
-|  `bins` |  ([float]) edges of bins |
-|  `histogram` |  ([int]) number of elements falling in each bin |
+|  `bins` |  ([float]) bin의 경계 |
+|  `histogram` |  ([int]) 각 bin에 속하는 요소의 수 |
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `MAX_LENGTH`<a id="MAX_LENGTH"></a> |  `512` |
