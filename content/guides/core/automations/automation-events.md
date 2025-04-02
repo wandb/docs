@@ -77,23 +77,29 @@ For **Run metrics threshold met** events, you configure:
 For example, trigger an automation when `accuracy` exceeds `.6`.
 
 #### Change threshold
-For **Run metrics change threshold met** events, you can configure:
-1. The current window of logged values to average across (defaults to the 10 most recent logged values).
-1. The prior window of logged values to average across (defaults to the 50 most recent logged values prior to the current window).
+For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
+
+- The _current window_ averages the 10 most recent values by default.
+- The _prior window_ averages the 50 most recent logged values prior to the current window.
+
+The windows are consecutive and do not overlap.
+
+To create the automation, you configure:
+
+1. The current window (defaults to 10).
+1. The prior window (defaults to 50).
 1. Whether to evaluate the values as relative or absolute (defaults to **Relative**).
 1. How to compare the values with the threshold:
       - Increases by at least
       - Decreases by at least
       - Increases or decreases by at least
 
-The current and prior window do not overlap.
-
 #### Run filters
 This section describes how the automation selects runs to evaluate.
 
-- Each run is considered separately and can potentially trigger the automation.
+- By default, any run in the project triggers the animation when the event occurs. To consider only specific runs, specify a run filter.
+- Each run is considered individually and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
-- If you specify a run filter, only matching runs can start the automation.
 - In a 24 hour period, a particular automation can fire at most once per run.
 
 ## Next steps
