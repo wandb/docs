@@ -35,7 +35,6 @@ Specify the entity of your team in the following code block:
 
 
 ```python
-
 TEAM_ENTITY = "<Team_Entity>" # Replace with your team entity
 PROJECT = "my-awesome-project"
 ```
