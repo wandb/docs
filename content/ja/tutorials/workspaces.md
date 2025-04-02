@@ -8,7 +8,7 @@ weight: 5
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" >}}
-[Workspaces]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})をプログラムで作成、管理、カスタマイズすることで、機械学習の実験をより効果的に整理し、可視化できます。設定を定義し、パネルレイアウトを設定し、[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B ライブラリでセクションを整理できます。URLで[Workspaces]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})をロードおよび変更したり、式を使用して[Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})をフィルタリングおよびグループ化したり、[Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})の外観をカスタマイズしたりできます。
+[Workspaces]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})をプログラムで作成、管理、カスタマイズすることで、機械学習の実験をより効果的に整理し、可視化できます。設定を定義し、パネルレイアウトを設定し、[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B ライブラリでセクションを整理できます。URLで[Workspaces]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})をロードおよび変更したり、式を使用して[Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})をフィルタリングおよびグループ化したり、[Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})の外観をカスタマイズしたりできます。
 
 `wandb-workspaces`は、W&Bの[Workspaces]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})と[Reports]({{< relref path="/guides/core/reports/" lang="ja" >}})をプログラムで作成およびカスタマイズするためのPythonライブラリです。
 
@@ -40,9 +40,9 @@ import wandb_workspaces.reports.v2 as wr # パネルを追加するためにRepo
 %load_ext rich
 ```
 
-## 2. 新しい[Project]({{< relref path="/docs/init" lang="ja" >}})と[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})を作成する
+## 2. 新しい[Project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}})と[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})を作成する
 
-このチュートリアルでは、`wandb_workspaces` APIを試すことができるように、新しい[Project]({{< relref path="/docs/init" lang="ja" >}})を作成します。
+このチュートリアルでは、`wandb_workspaces` APIを試すことができるように、新しい[Project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}})を作成します。
 
 注：一意の`Saved view` URLを使用して、既存の[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})をロードできます。これを行う方法については、次のコードブロックを参照してください。
 
@@ -73,8 +73,8 @@ project = create_project_and_log_data()
 entity = wandb.Api().default_entity
 ```
 
-### （オプション）既存の[Project]({{< relref path="/docs/init" lang="ja" >}})と[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})をロードする
-新しい[Project]({{< relref path="/docs/init" lang="ja" >}})を作成する代わりに、独自の既存の[Project]({{< relref path="/docs/init" lang="ja" >}})と[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})をロードできます。これを行うには、一意の[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}}) URLを見つけて、文字列として`ws.Workspace.from_url`に渡します。URLの形式は`https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc`です。
+### （オプション）既存の[Project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}})と[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})をロードする
+新しい[Project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}})を作成する代わりに、独自の既存の[Project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}})と[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})をロードできます。これを行うには、一意の[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}}) URLを見つけて、文字列として`ws.Workspace.from_url`に渡します。URLの形式は`https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc`です。
 
 例：
 
@@ -207,15 +207,15 @@ custom_settings_example(entity, project)
 
 「An example workspace」という別の保存されたビューを表示していることに注意してください。
 
-## [Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})をカスタマイズする
-次のコードセルは、[Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})をプログラムでフィルタリング、色の変更、グループ化、および並べ替える方法を示しています。
+## [Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})をカスタマイズする
+次のコードセルは、[Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})をプログラムでフィルタリング、色の変更、グループ化、および並べ替える方法を示しています。
 
 各例では、一般的なワークフローは、`ws.RunsetSettings`の適切なパラメータへの引数として、目的のカスタマイズを指定することです。
 
-### [Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})をフィルタリングする
-Python式と、`wandb.log`で記録するメトリクス、または**Created Timestamp**のように[Run]({{< relref path="/docs/run-management/runs" lang="ja" >}})の一部として自動的に記録されるメトリクスを使用してフィルタを作成できます。**Name**、**Tags**、または**ID**など、W&B App UIでの表示方法でフィルタを参照することもできます。
+### [Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})をフィルタリングする
+Python式と、`wandb.log`で記録するメトリクス、または**Created Timestamp**のように[Run]({{< relref path="/guides/models/track/runs/" lang="ja" >}})の一部として自動的に記録されるメトリクスを使用してフィルタを作成できます。**Name**、**Tags**、または**ID**など、W&B App UIでの表示方法でフィルタを参照することもできます。
 
-次の例は、検証損失の要約、検証精度の要約、および指定された正規表現に基づいて[Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})をフィルタリングする方法を示しています。
+次の例は、検証損失の要約、検証精度の要約、および指定された正規表現に基づいて[Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})をフィルタリングする方法を示しています。
 
 ```python
 def advanced_filter_example(entity: str, project: str) -> None:
@@ -259,8 +259,8 @@ advanced_filter_example(entity, project)
 
 フィルタ式のリストを渡すと、ブール値の「AND」ロジックが適用されることに注意してください。
 
-### [Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})の色を変更する
-この例では、[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})で[Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})の色を変更する方法を示します。
+### [Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})の色を変更する
+この例では、[Workspace]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}})で[Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})の色を変更する方法を示します。
 
 ```python
 def run_color_example(entity: str, project: str) -> None:
@@ -298,9 +298,9 @@ def run_color_example(entity: str, project: str) -> None:
 run_color_example(entity, project)
 ```
 
-### [Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})をグループ化する
+### [Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})をグループ化する
 
-この例では、特定のメトリクスで[Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})をグループ化する方法を示します。
+この例では、特定のメトリクスで[Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})をグループ化する方法を示します。
 
 ```python
 def grouping_example(entity: str, project: str) -> None:
@@ -328,8 +328,8 @@ def grouping_example(entity: str, project: str) -> None:
 grouping_example(entity, project)
 ```
 
-### [Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})をソートする
-この例では、検証損失の要約に基づいて[Runs]({{< relref path="/docs/run-management/runs" lang="ja" >}})をソートする方法を示します。
+### [Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})をソートする
+この例では、検証損失の要約に基づいて[Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})をソートする方法を示します。
 
 ```python
 def sorting_example(entity: str, project: str) -> None:
