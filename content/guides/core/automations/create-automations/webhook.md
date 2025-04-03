@@ -13,7 +13,7 @@ weight: 3
 This page shows how to create a webhook [automation]({{< relref "/guides/core/automations/" >}}> ). To create a Slack automation, refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}) instead.
 
 At a high level, to create a webhook automation, you take these steps:
-1. If necessary, [create a W&B secret]({{< relref "/guides/core/secrets.md" >}}) for each sensitive string required by the automation, such as an access token, password, or SSH key. Secrets are defined in your team settings.
+1. If necessary, [create a W&B secret]({{< relref "/guides/core/secrets.md" >}}) for each sensitive string required by the automation, such as an access token, password, or SSH key. Secrets are defined in your **Team Settings**.
 1. [Create a webhook]({{< relref "#create-a-webhook" >}}) to define the endpoint and authorization details and grant the integration access to any secrets it needs.
 1. [Create the automation]({{< relref "#create-an-automation" >}}) to define the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for and the payload W&B will send. Grant the automation access to any secrets it needs for the payload.
 
@@ -24,7 +24,7 @@ A team admin can add a webhook for the team.
 If the webhook requires a Bearer token or its payload requires a sensitive string, [create a secret that contains it]({{< relref "/guides/core/secrets.md#add-a-secret" >}}) before creating the webhook. You can configure at most one access token and one other secret for a webhook. Your webhook's authentication and authorization requirements are determined by the webhook's service.
 {{% /alert %}}
 
-1. Log in to W&B and go to Team Settings page.
+1. Log in to W&B and go to **Team Settings** page.
 1. In the **Webhooks** section, click **New webhook**.
 1. Provide a name for the webhook. 
 1. Provide the endpoint URL for the webhook.
@@ -64,8 +64,9 @@ A Registry admin can create automations in that registry. Registry automations a
 A W&B admin can create automations in a project.
 
 1. Log in to W&B and go to the project page.
-1. In the sidebar, click **Automations**.
-1. Click **Create automation**.
+1. In the sidebar, click **Automations**, then click **Create automation**.
+
+    Or, to create a [run metrics notification]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) from a line plot panel, hover over the panel, then click the bell icon.
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
