@@ -52,22 +52,20 @@ This section describes the events related to an artifact that can trigger an aut
 - **Creating a new version of an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
 - **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
 
-### Run metrics events
-For a given run, an automation can start when these events occur:
+### Run events
+From the project's **Automations** tab or directly from a line plot panel, you can create a run metrics notification triggered by:
+- A metric in a run's history.
+- A [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
 
+The notification can watch the metric for these events:
 - **Run metrics threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged values meets the threshold you specify.
 - **Run metrics change threshold met**: Trigger a workflow when the average logged values of a run change by the absolute or relative threshold you specify.
 
-To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
+To set up a run metrics notification, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
 {{% alert %}}
-Run metrics automations are currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
+Run metrics notifications are currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
 {{% /alert %}}
-
-#### Metric names
-You can create an automation triggered by:
-- A metric in a run's history.
-- A [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
 
 #### Threshold
 For **Run metrics threshold met** events, you configure:
@@ -85,7 +83,6 @@ For **Run metrics change threshold met** events, the automation uses two "window
 The windows are consecutive and do not overlap.
 
 To create the automation, you configure:
-
 1. The current window (defaults to 10).
 1. The prior window (defaults to 50).
 1. Whether to evaluate the values as relative or absolute (defaults to **Relative**).

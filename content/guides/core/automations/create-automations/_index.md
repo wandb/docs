@@ -20,7 +20,7 @@ Looking for companion tutorials for automations?
 {{% /alert %}}
 
 ## Requirements
-- A team admin can create and manage automations for the team's projects, as well as components of their automations, such as webhooks, secrets, or Slack connections. Refer to [Team settings]({{< relref "/guides/models/app/settings-page/team-settings/" >}}).
+- A team admin can create and manage automations for the team's projects, as well as components of their automations, such as webhooks, secrets, and Slack connections. Refer to [Team settings]({{< relref "/guides/models/app/settings-page/team-settings/" >}}).
 - To create a registry automation, you must have access to the registry. Refer to [Configure Registry access]({{< relref "/guides/core/registry/configure_registry.md#registry-roles" >}}).
 - To create a Slack automation, you must have permission to post to the Slack instance and channel you select.
 
@@ -28,8 +28,13 @@ Looking for companion tutorials for automations?
 Create an automation from the project or registry's **Automations** tab. At a high level, to create an automation, follow these steps:
 
 1. If necessary, [create a W&B secret]({{< relref "/guides/core/secrets.md" >}}) for each sensitive string required by the automation, such as an access token, password, or SSH key. Secrets are defined in your **Team Settings**. Secrets are most commonly used in webhook automations.
-1. Configure the webhook or Slack notification to authorize W&B to post to Slack or run the webhook on your behalf. A single automation action (webhook or Slack notification) can be used by multiple automations. These actions are defined in your **Team Settings**. 
-1. In the project or registry, create the automation, which specifies the event to watch for and the action to take (such as posting to Slack or running a webhook). When you create a webhook automation, you configure the payload it send.
+1. Configure the webhook or Slack connection to authorize W&B to post to Slack or run the webhook on your behalf. A single webhook or Slack connection can be used by multiple automations. These actions are defined in your **Team Settings**. 
+1. In the project or registry, create the automation, which specifies the event to watch for and the action to take (such as posting to Slack or running a webhook). When you create a webhook automation, you configure the payload it sends.
+
+Or, from a line plot in the workspace, you can quickly create a [run metrics notification]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows:
+
+1. Hover over the panel, then click the bell icon.
+1. Configure the automation using the basic or advanced configuration controls. For example, apply a run filter to limit the scope of the automation, or configure an absolute threshold.
 
 For details, refer to:
 
