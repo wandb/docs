@@ -1,61 +1,56 @@
 ---
+title: Annotate collections
 menu:
   default:
     identifier: ja-guides-core-registry-registry_cards
     parent: registry
-title: Annotate collections
 weight: 8
 ---
 
-Add human-friendly text to your collections to help users understand the purpose of the collection and the artifacts it contains. 
+コレクションに人に優しいテキストを追加して、ユーザーがコレクションの目的とそれに含まれる Artifacts を理解できるようにします。
 
+コレクションによっては、トレーニングデータ、モデルアーキテクチャー、タスク、ライセンス、参考文献、およびデプロイメントに関する情報を含めることをお勧めします。以下に、コレクションでドキュメント化する価値のあるトピックをいくつか示します。
 
-Depending on the collection, you might want to include information about the training data, model architecture, task, license, references, and deployment. The proceeding lists some topics worth documenting in a collection:
+W&B は、少なくとも以下の詳細を含めることを推奨します。
+* **Summary** : コレクションの目的。機械学習実験に使用される機械学習 フレームワーク。
+* **License**: 機械学習 モデルの使用に関連する法的条件と許可。これにより、モデルの ユーザー は、モデルを利用できる法的枠組みを理解できます。一般的なライセンスには、Apache 2.0、MIT、GPL などがあります。
+* **References**: 関連する 研究 論文、データセット、または外部リソースへの引用または参照。
 
+コレクションにトレーニングデータが含まれている場合は、次の詳細を含めることを検討してください。
+* **Training data**: 使用されるトレーニングデータを記述します。
+* **Processing**: トレーニングデータセットに対して行われた処理。
+* **Data storage**: そのデータはどこに保存され、どのようにアクセスするか。
 
+コレクションに機械学習 モデルが含まれている場合は、次の詳細を含めることを検討してください。
+* **Architecture**: モデルアーキテクチャー、レイヤー、および特定の設計の選択に関する情報。
+* **Task**: コレクション モデル が実行するように設計されているタスクまたは問題の特定のタイプ。これは、モデルの意図された機能を分類したものです。
+* **Deserialize the model**: チームの誰かがモデルをメモリーにロードする方法に関する情報を提供します。
+* **Task**: 機械学習 モデル が実行するように設計されているタスクまたは問題の特定のタイプ。これは、モデルの意図された機能を分類したものです。
+* **Deployment**: モデルがどのように、どこにデプロイされるかの詳細、およびワークフロー オーケストレーション プラットフォームなどの他のエンタープライズ システムにモデルを統合する方法に関するガイダンス。
 
-W&B recommends including at minimum these details:
-* **Summary**: The purpose of the collection. The machine learning framework used for the machine learning experiment.
-* **License**: The legal terms and permissions associated with the use of the machine learning model. It helps model users understand the legal framework under which they can utilize the model. Common licenses include Apache 2.0, MIT, and GPL.
-* **References**: Citations or references to relevant research papers, datasets, or external resources.
+## コレクションに説明を追加する
 
-If your collection contains training data, consider including these additional details:
-* **Training data**: Describe the training data used
-* **Processing**: Processing done on the training data set.
-* **Data storage**: Where is that data stored and how to access it.
-
-
-If your collection contains a machine learning model, consider including these additional details:
-* **Architecture**: Information about the model architecture, layers, and any specific design choices.
-* **Task**: The specific type of task or problem that the machine that the collection model is designed to perform. It's a categorization of the model's intended capability.
-* **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
-* **Task**: The specific type of task or problem that the machine learning model is designed to perform. It's a categorization of the model's intended capability.
-* **Deployment**: Details on how and where the model is deployed and guidance on how the model is integrated into other enterprise systems, such as a workflow orchestration platforms.
-
-
-## Add a description to a collection
-
-Interactively or programmatically add a description to a collection with the W&B Registry UI or Python SDK.
+W&B Registry UI または Python SDK を使用して、コレクションにインタラクティブまたはプログラムで説明を追加します。
 
 {{< tabpane text=true >}}
   {{% tab header="W&B Registry UI" %}}
-1. Navigate to W&B Registry at [https://wandb.ai/registry/](https://wandb.ai/registry/).
-2. Click on a collection.
-3. Select **View details** next to the name of the collection.
-4. Within the **Description** field, provide information about your collection. Format text within with [Markdown markup language](https://www.markdownguide.org/).
+1. [https://wandb.ai/registry/](https://wandb.ai/registry/) で W&B Registry に移動します。
+2. コレクションをクリックします。
+3. コレクション名の横にある [**詳細を表示**] を選択します。
+4. [**Description**] フィールドに、コレクションに関する情報を入力します。[Markdown markup language](https://www.markdownguide.org/) でテキストの書式を設定します。
 
   {{% /tab %}}
   {{% tab header="Python SDK" %}}
 
-Use the [`wandb.Api().artifact_collection()`]({{< relref path="/ref/python/public-api/api.md#artifact_collection" lang="ja" >}}) method to access a collection's description. Use the returned object's `description` property to add, or update, a description to the collection.
+[`wandb.Api().artifact_collection()`]({{< relref path="/ref/python/public-api/api.md#artifact_collection" lang="ja" >}}) メソッドを使用して、コレクションの説明にアクセスします。返されたオブジェクトの `description` プロパティを使用して、コレクションに説明を追加または更新します。
 
-Specify the collection's type for the `type_name` parameter and the collection's full name for the `name` parameter. A collection's name consists of the prefix “wandb-registry”, the name of the registry, and the name of the collection separated by a forward slashes:
+`type_name` パラメータにコレクションのタイプを指定し、`name` パラメータにコレクションのフルネームを指定します。コレクションの名前は、プレフィックス "wandb-registry"、レジストリの名前、およびフォワード スラッシュで区切られたコレクションの名前で構成されます。
 
 ```text
 wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
 ```
 
-Copy and paste the proceeding code snippet into your Python script or notebook. Replace values enclosed in angle brackets (`<>`) with your own.
+次のコード スニペットを Python スクリプトまたは ノートブック にコピーして貼り付けます。山かっこ (`<>`) で囲まれた値を独自の値に置き換えます。
 
 ```python
 import wandb
@@ -74,6 +69,6 @@ collection.save()
   {{% /tab %}}
 {{< /tabpane >}}
 
-For example, the proceeding image shows a collection that documents a model's architecture, intended use, performance information and more.
+たとえば、次の画像は、モデルのアーキテクチャー、意図された使用法、パフォーマンス情報などを文書化したコレクションを示しています。
 
-{{< img src="/images/registry/registry_card.png" alt="Collection card with information about the model architecture, intended use, performance information and more." >}}
+{{< img src="/images/registry/registry_card.png" alt="モデルのアーキテクチャー、意図された使用法、パフォーマンス情報などに関する情報を含むコレクションカード。" >}}

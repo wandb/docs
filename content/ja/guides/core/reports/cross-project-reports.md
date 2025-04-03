@@ -1,42 +1,41 @@
 ---
-description: Compare runs from two different projects with cross-project reports.
+title: Compare runs across projects
+description: 異なるプロジェクトのrunを、プロジェクトを跨いだReportsで比較します。
 menu:
   default:
     identifier: ja-guides-core-reports-cross-project-reports
     parent: reports
-title: Compare runs across projects
 weight: 60
 ---
 
 {{% alert %}}
-Watch a [video demonstrating comparing runs across projects](https://www.youtube.com/watch?v=uD4if_nGrs4) (2 min).
+[プロジェクトを跨いだrunの比較を示す動画](https://www.youtube.com/watch?v=uD4if_nGrs4) （2分）をご覧ください。
 {{% /alert %}}
 
+クロスプロジェクト レポートを使用して、2 つの異なるプロジェクトの run を比較します。run セット テーブルのプロジェクト セレクターを使用して、プロジェクトを選択します。
 
-Compare runs from two different projects with cross-project reports. Use the project selector in the run set table to pick a project.
+{{< img src="/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif" alt="異なるプロジェクト間でrunを比較する" >}}
 
-{{< img src="/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif" alt="Compare runs across different projects" >}}
+セクション内の 可視化 は、最初のアクティブな runset から列をプルします。ラインプロットで探している メトリクス が見つからない場合は、セクションで最初にチェックされた run セットにその列があることを確認してください。
 
-The visualizations in the section pull columns from the first active runset. Make sure that the first run set checked in the section has that column available if you do not see the metric you are looking for in the line plot.
+この機能は、 時系列 ラインの履歴データをサポートしていますが、異なるプロジェクトから異なるサマリー メトリクス をプルすることはサポートしていません。つまり、別のプロジェクトでのみ ログ に記録される列から散布図を作成することはできません。
 
-This feature supports history data on time series lines, but we don't support pulling different summary metrics from different projects. In other words, you can not create a scatter plot from columns that are only logged in another project.
+2 つのプロジェクトの run を比較する必要があり、列が機能しない場合は、一方のプロジェクトの run にタグを追加し、それらの run をもう一方のプロジェクトに移動します。各プロジェクトの run のみをフィルタリングできますが、 レポート には両方の run セットのすべての列が含まれます。
 
-If you need to compare runs from two projects and the columns are not working, add a tag to the runs in one project and then move those runs to the other project. You can still filter only the runs from each project, but the report includes all the columns for both sets of runs.
+## 表示専用の レポート リンク
 
-## View-only report links
-
-Share a view-only link to a report that is in a private project or team project.
+プライベート プロジェクト または Team プロジェクトにある レポート への表示専用リンクを共有します。
 
 {{< img src="/images/reports/magic-links.gif" alt="" >}}
 
-View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. Anyone can use the magic link to view the report without logging in first. For customers on [W&B Local]({{< relref path="/guides/hosting/" lang="ja" >}}) private cloud installations, these links remain behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link can view the report.
+表示専用の レポート リンクは、URL に秘密の アクセス トークンを追加するため、リンクを開いた人は誰でもページを表示できます。誰でもマジック リンクを使用して、最初に ログ インしなくても レポート を表示できます。[W&B Local]({{< relref path="/guides/hosting/" lang="ja" >}}) プライベート クラウド インストールをご利用のお客様の場合、これらのリンクはファイアウォールの内側に保持されるため、プライベート インスタンスへの アクセス 権と表示専用リンクへの アクセス 権を持つチームのメンバーのみが レポート を表示できます。
 
-In **view-only mode**, someone who is not logged in can see the charts and mouse over to see tooltips of values, zoom in and out on charts, and scroll through columns in the table. When in view mode, they cannot create new charts or new table queries to explore the data. View-only visitors to the report link won't be able to click a run to get to the run page. Also, the view-only visitors would not be able to see the share modal but instead would see a tooltip on hover which says: `Sharing not available for view only access`.
+**表示専用モード** では、 ログ インしていない人は、チャートを表示したり、マウスオーバーして 値 のツールチップを表示したり、チャートを拡大/縮小したり、テーブル内の列をスクロールしたりできます。表示モードの場合、新しいチャートや新しいテーブル クエリを作成して データを探索することはできません。表示専用の レポート リンクの訪問者は、run をクリックして run ページに移動することはできません。また、表示専用の訪問者には共有モーダルは表示されませんが、代わりにホバーすると、次のようなツールチップが表示されます: `表示専用アクセスでは共有は利用できません`。
 
 {{% alert color="info" %}}
-The magic links are only available for “Private” and “Team” projects. For “Public” (anyone can view) or “Open” (anyone can view and contribute runs) projects, the links can't turn on/off because this project is public implying that it is already available to anyone with the link.
+マジック リンクは、「プライベート」および「Team」プロジェクトでのみ使用できます。「パブリック」（誰でも表示可能）または「オープン」（誰でもrunを表示および投稿可能）プロジェクトの場合、このプロジェクトはパブリックであり、すでにリンクを持っている人なら誰でも利用できるため、リンクをオン/オフにすることはできません。
 {{% /alert %}}
 
-## Send a graph to a report
+## グラフを レポート に送信する
 
-Send a graph from your workspace to a report to keep track of your progress. Click the dropdown menu on the chart or panel you'd like to copy to a report and click **Add to report** to select the destination report.
+ワークスペース からグラフを レポート に送信して、進捗状況を追跡します。 レポート にコピーするチャートまたは パネル のドロップダウン メニューをクリックし、**Add to report** をクリックして宛先の レポート を選択します。

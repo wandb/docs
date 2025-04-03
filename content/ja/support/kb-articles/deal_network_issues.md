@@ -1,21 +1,21 @@
 ---
+title: How do I deal with network issues?
 menu:
   support:
     identifier: ja-support-kb-articles-deal_network_issues
 support:
 - connectivity
-title: How do I deal with network issues?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-If you encounter SSL or network errors, such as `wandb: Network error (ConnectionError), entering retry loop`, use the following solutions:
+SSLまたはネットワークエラー（`wandb: Network error (ConnectionError), entering retry loop`など）が発生した場合は、以下の解決策をお試しください。
 
-1. Upgrade the SSL certificate. On an Ubuntu server, run `update-ca-certificates`. A valid SSL certificate is essential for syncing training logs to mitigate security risks.
-2. If the network connection is unstable, operate in offline mode by setting the [optional environment variable]({{< relref path="/guides/models/track/environment-variables.md#optional-environment-variables" lang="ja" >}}) `WANDB_MODE` to `offline`, and sync files later from a device with Internet access.
-3. Consider using [W&B Private Hosting]({{< relref path="/guides/hosting/" lang="ja" >}}), which runs locally and avoids syncing to cloud servers.
+1. SSL証明書をアップグレードします。Ubuntu サーバーで `update-ca-certificates` を実行します。有効なSSL証明書は、セキュリティリスクを軽減するために、トレーニング ログを同期するために不可欠です。
+2. ネットワーク接続が不安定な場合は、[オプションの環境変数]({{< relref path="/guides/models/track/environment-variables.md#optional-environment-variables" lang="ja" >}}) `WANDB_MODE` を `offline` に設定してオフライン モードで動作させ、後でインターネット アクセスが可能なデバイスからファイルを同期します。
+3. ローカルで実行され、クラウド サーバーとの同期を回避する[W&B Private Hosting]({{< relref path="/guides/hosting/" lang="ja" >}}) の使用を検討してください。
 
-For the `SSL CERTIFICATE_VERIFY_FAILED` error, this issue might stem from a company firewall. Configure local CAs and execute:
+`SSL CERTIFICATE_VERIFY_FAILED` エラーの場合、この問題は会社のファイアウォールに起因する可能性があります。ローカルCAを構成して、以下を実行します。
 
 `export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt`

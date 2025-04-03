@@ -1,59 +1,58 @@
 ---
-description: Overview of W&B secrets, how they work, and how to get started using
-  them.
+title: Secrets
+description: W&B secrets の概要、その仕組み、およびその使用を開始する方法について説明します。
 menu:
   default:
     identifier: ja-guides-core-secrets
     parent: core
-title: Secrets
 url: guides/secrets
 weight: 1
 ---
 
-W&B Secret Manager allows you to securely and centrally store, manage, and inject _secrets_, which are sensitive strings such as access tokens, bearer tokens, API keys, or passwords. W&B Secret Manager removes the need to add sensitive strings directly to your code or when configuring a webhook's header or [payload]({{< relref path="/guides/core/automations/" lang="ja" >}}).
+W&B Secret Manager を使用すると、アクセス トークン、ベアラートークン、API キー、パスワードなどの機密性の高い文字列である _secrets（シークレット）_ を安全かつ一元的に保存、管理、および挿入できます。W&B Secret Manager を使用すると、機密性の高い文字列をコードに直接追加したり、Webhook のヘッダーまたは [ペイロード]({{< relref path="/guides/core/automations/" lang="ja" >}}) を構成したりする必要がなくなります。
 
-Secrets are stored and managed in each team's Secret Manager, in the **Team secrets** section of the [team settings]({{< relref path="/guides/models/app/settings-page/team-settings/" lang="ja" >}}).
-
-{{% alert %}}
-* Only W&B Admins can create, edit, or delete a secret.
-* Secrets are included as a core part of W&B, including in [W&B Server deployments]({{< relref path="/guides/hosting/" lang="ja" >}}) that you host in Azure, GCP, or AWS. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
-* In W&B Server, you are responsible for configuring security measures that satisfy your security needs. 
-
-  - W&B strongly recommends that you store secrets in a W&B instance of a cloud provider's secrets manager provided by AWS, GCP, or Azure, which are configured with advanced security capabilities.
-
-  - W&B recommends against using a Kubernetes cluster as the backend of your secrets store unless you are unable to use a W&B instance of a cloud secrets manager (AWS, GCP, or Azure), and you understand how to prevent security vulnerabilities that can occur if you use a cluster.
-{{% /alert %}}
-
-## Add a secret
-To add a secret:
-
-1. If the receiving service requires it to authenticate incoming webhooks, generate the required token or API key. If necessary, save the sensitive string securely, such as in a password manager.
-1. Log in to W&B and go to the team's **Settings** page.
-1. In the **Team Secrets** section, click **New secret**.
-1. Using letters, numbers, and underscores (`_`), provide a name for the secret.
-1. Paste the sensitive string into the **Secret** field.
-1. Click **Add secret**.
-
-Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook]({{< relref path="#configure-a-webhook" lang="ja" >}}) section for more information. 
+シークレットは、各 Teams の Secret Manager の、[Team Settings（チーム設定）]({{< relref path="/guides/models/app/settings-page/team-settings/" lang="ja" >}}) の **Team secrets（チームシークレット）** セクションに保存および管理されます。
 
 {{% alert %}}
-Once you create a secret, you can access that secret in a [webhook automation's payload]({{< relref path="/guides/core/automations/create-automations/webhook.md" lang="ja" >}}) using the format `${SECRET_NAME}`.
+* W&B の管理者のみが、シークレットの作成、編集、または削除を実行できます。
+* シークレットは、Azure、GCP、または AWS でホストする [W&B Server deployments]({{< relref path="/guides/hosting/" lang="ja" >}}) を含め、W&B のコア部分として含まれています。別の種類のデプロイメントを使用している場合は、W&B アカウントチームに連絡して、W&B でシークレットを使用する方法について話し合ってください。
+* W&B Server では、セキュリティ ニーズを満たすセキュリティ対策を構成する必要があります。
+
+  - W&B は、高度なセキュリティ機能で構成された、AWS、GCP、または Azure が提供するクラウド プロバイダーのシークレット マネージャーの W&B インスタンスにシークレットを保存することを強くお勧めします。
+
+  - クラウド シークレット マネージャー (AWS、GCP、または Azure) の W&B インスタンスを使用できない場合、およびクラスターを使用した場合に発生する可能性のあるセキュリティ脆弱性を防ぐ方法を理解している場合を除き、Kubernetes クラスターをシークレット ストアのバックエンドとして使用しないことをお勧めします。
 {{% /alert %}}
 
-## Rotate a secret
-To rotate a secret and update its value:
-1. Click the pencil icon in the secret's row to open the secret's details.
-1. Set **Secret** to the new value. Optionally click **Reveal secret** to verify the new value.
-1. Click **Add secret**. The secret's value updates and no longer resolves to the previous value.
+## Add a secret（シークレットの追加）
+シークレットを追加するには:
+
+1. 受信サービスで受信 Webhook の認証が必要な場合は、必要なトークンまたは API キーを生成します。必要に応じて、パスワード マネージャーなどを使用して、機密性の高い文字列を安全に保存します。
+2. W&B にログインし、チームの **Settings（設定）** ページに移動します。
+3. **Team Secrets（チームシークレット）** セクションで、**New secret（新しいシークレット）** をクリックします。
+4. 文字、数字、およびアンダースコア (`_`) を使用して、シークレットの名前を指定します。
+5. 機密性の高い文字列を **Secret（シークレット）** フィールドに貼り付けます。
+6. **Add secret（シークレットの追加）** をクリックします。
+
+Webhook を構成するときに、Webhook オートメーションに使用するシークレットを指定します。詳細については、[Webhook の構成]({{< relref path="#configure-a-webhook" lang="ja" >}}) セクションを参照してください。
 
 {{% alert %}}
-After a secret is created or updated, you can no longer reveal its current value. Instead, rotate the secret to a new value.
+シークレットを作成すると、`${SECRET_NAME}` という形式を使用して、[Webhook オートメーションのペイロード]({{< relref path="/guides/core/automations/create-automations/webhook.md" lang="ja" >}}) でそのシークレットにアクセスできます。
 {{% /alert %}}
 
-## Delete a secret
-To delete a secret:
-1. Click the trash icon in the secret's row.
-1. Read the confirmation dialog, then click **Delete**. The secret is deleted immediately and permanently.
+## Rotate a secret（シークレットのローテーション）
+シークレットをローテーションしてその値を更新するには:
+1. シークレットの行にある鉛筆アイコンをクリックして、シークレットの詳細を開きます。
+2. **Secret（シークレット）** を新しい値に設定します。必要に応じて、**Reveal secret（シークレットを表示）** をクリックして新しい値を確認します。
+3. **Add secret（シークレットの追加）** をクリックします。シークレットの値が更新され、以前の値に解決されなくなります。
 
-## Manage access to secrets
-A team's automations can use the team's secrets. Before you remove a secret, update or remove automations that use it so they don't stop working.
+{{% alert %}}
+シークレットを作成または更新した後は、その現在の値を表示できなくなります。代わりに、シークレットを新しい値にローテーションします。
+{{% /alert %}}
+
+## Delete a secret（シークレットの削除）
+シークレットを削除するには:
+1. シークレットの行にあるゴミ箱アイコンをクリックします。
+2. 確認ダイアログを読み、**Delete（削除）** をクリックします。シークレットはすぐに完全に削除されます。
+
+## Manage access to secrets（シークレットへのアクセス管理）
+チームのオートメーションは、チームのシークレットを使用できます。シークレットを削除する前に、それを使用するオートメーションが動作を停止しないように、更新または削除してください。

@@ -1,32 +1,32 @@
 ---
-description: Deploy W&B Platform with Kubernetes Operator (Airgapped)
+title: Kubernetes operator for air-gapped instances
+description: Kubernetes Operator で W&B プラットフォーム をデプロイする (エアギャップ)
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-kubernetes-operator-operator-airgapped
     parent: kubernetes-operator
-title: Kubernetes operator for air-gapped instances
 ---
 
-## Introduction
+## イントロダクション
 
-This guide provides step-by-step instructions to deploy the W&B Platform in air-gapped customer-managed environments. 
+このガイドでは、エアギャップされた顧客管理環境に W&B Platform をデプロイするためのステップごとの手順を説明します。
 
-Use an internal repository or registry to host the Helm charts and container images. Run all commands in a shell console with proper access to the Kubernetes cluster.
+内部リポジトリまたはレジストリを使用して、Helm chartとコンテナイメージをホストします。 Kubernetes クラスターへの適切なアクセス権を持つシェルコンソールですべてのコマンドを実行します。
 
-You could utilize similar commands in any continuous delivery tooling that you use to deploy Kubernetes applications.
+Kubernetes アプリケーションのデプロイに使用する継続的デリバリー ツールで、同様のコマンドを利用できます。
 
-## Step 1: Prerequisites
+## ステップ 1: 前提条件
 
-Before starting, make sure your environment meets the following requirements:
+開始する前に、ご使用の環境が次の要件を満たしていることを確認してください。
 
-- Kubernetes version >= 1.28
-- Helm version >= 3
-- Access to an internal container registry with the required W&B images
-- Access to an internal Helm repository for W&B Helm charts
+- Kubernetes バージョン >= 1.28
+- Helm バージョン >= 3
+- 必要な W&B イメージを持つ内部コンテナレジストリへのアクセス
+- W&B Helm chart 用の内部 Helm リポジトリへのアクセス
 
-## Step 2: Prepare internal container registry
+## ステップ 2: 内部コンテナレジストリの準備
 
-Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry:
+デプロイメントに進む前に、次のコンテナイメージが内部コンテナレジストリで利用可能であることを確認する必要があります。
 * [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller)
 * [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local)
 * [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console)
@@ -35,44 +35,44 @@ Before proceeding with the deployment, you must ensure that the following contai
 * [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus)
 * [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader)
 
-These images are critical for the successful deployment of W&B components. W&B recommends that you use WSM to prepare the container registry. 
+これらのイメージは、W&B コンポーネントを正常にデプロイするために重要です。 W&B は、WSM を使用してコンテナレジストリを準備することを推奨します。
 
-If your organization already uses an internal container registry, you can add the images to it. Otherwise, follow the proceeding section to use a called WSM to prepare the container repository.
+組織がすでに内部コンテナレジストリを使用している場合は、イメージをそこに追加できます。 それ以外の場合は、次のセクションに従って、WSM と呼ばれるものを使用してコンテナリポジトリを準備します。
 
-You are responsible for tracking the Operator's requirements and for checking for and downloading image upgrades, either by [using WSM]({{< relref path="#list-images-and-their-versions" lang="ja" >}}) or by using your organization's own processes.
+Operator の要件の追跡、およびイメージのアップグレードの確認とダウンロードは、[WSM を使用]({{< relref path="#list-images-and-their-versions" lang="ja" >}})するか、組織独自のプロセスを使用することによって、ユーザーが行う必要があります。
 
-### Install WSM
+### WSM のインストール
 
-Install WSM using one of these methods.
+次のいずれかの方法を使用して WSM をインストールします。
 
 {{% alert %}}
-WSM requires a functioning Docker installation.
+WSM には、機能する Docker インストールが必要です。
 {{% /alert %}}
 
 #### Bash
-Run the Bash script directly from GitHub:
+GitHub から Bash スクリプトを直接実行します。
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/wandb/wsm/main/install.sh | bash
 ```
-The script downloads the binary to the folder in which you executed the script. To move it to another folder, execute:
+スクリプトは、スクリプトを実行したフォルダーにバイナリをダウンロードします。 別のフォルダーに移動するには、次を実行します。
 
 ```bash
 sudo mv wsm /usr/local/bin
 ```
 
 #### GitHub
-Download or clone WSM from the W&B managed `wandb/wsm` GitHub repository at `https://github.com/wandb/wsm`. See the `wandb/wsm` [release notes](https://github.com/wandb/wsm/releases) for the latest release.
+W&B が管理する GitHub リポジトリ `wandb/wsm`（`https://github.com/wandb/wsm`）から WSM をダウンロードまたはクローンします。 最新リリースについては、`wandb/wsm` の [リリースノート](https://github.com/wandb/wsm/releases)を参照してください。
 
-### List images and their versions
+### イメージとそのバージョンのリスト
 
-Get an up to date list of image versions using `wsm list`.
+`wsm list` を使用して、イメージバージョンの最新リストを取得します。
 
 ```bash
 wsm list
 ```
 
-The output looks similar to the following:
+出力は次のようになります。
 
 ```text
 :package: Starting the process to list all images required for deployment...
@@ -88,15 +88,15 @@ W&B Images:
 Here are the images required to deploy W&B. Ensure these images are available in your internal container registry and update the values.yaml accordingly.
 ```
 
-### Download images
+### イメージのダウンロード
 
-Download all images in the latest versions using `wsm download`.
+`wsm download` を使用して、最新バージョンのすべてのイメージをダウンロードします。
 
 ```bash
 wsm download
 ```
 
-The output looks similar to the following:
+出力は次のようになります。
 
 ```text
 Downloading operator helm chart
@@ -111,34 +111,31 @@ Downloading wandb helm chart
   Done! Installed 7 packages.
 ```
 
-WSM downloads a `.tgz` archive for each image to the `bundle` directory.
+WSM は、各イメージの `.tgz` アーカイブを `bundle` ディレクトリーにダウンロードします。
 
-## Step 3: Prepare internal Helm chart repository
+## ステップ 3: 内部 Helm chart リポジトリの準備
 
-Along with the container images, you also must ensure that the following Helm charts are available in your internal Helm Chart repository. The WSM tool introduced in the last step can also download the Helm charts. Alternatively, download them here:
-
+コンテナイメージに加えて、次の Helm chartが内部 Helm Chart リポジトリで利用可能であることも確認する必要があります。 前のステップで紹介した WSM ツールは、Helm chartもダウンロードできます。 または、ここでダウンロードしてください。
 
 - [W&B Operator](https://github.com/wandb/helm-charts/tree/main/charts/operator)
 - [W&B Platform](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
 
+`operator` chartは、Controller Manager とも呼ばれる W&B Operator をデプロイするために使用されます。 `platform` chartは、カスタムリソース定義 (CRD) で構成された値を使用して W&B Platform をデプロイするために使用されます。
 
-The `operator` chart is used to deploy the W&B Operator, which is also referred to as the Controller Manager. The `platform` chart is used to deploy the W&B Platform using the values configured in the custom resource definition (CRD).
+## ステップ 4: Helm リポジトリの設定
 
-## Step 4: Set up Helm repository
-
-Now, configure the Helm repository to pull the W&B Helm charts from your internal repository. Run the following commands to add and update the Helm repository:
+次に、内部リポジトリから W&B Helm chartをプルするように Helm リポジトリを設定します。 次のコマンドを実行して、Helm リポジトリを追加および更新します。
 
 ```bash
 helm repo add local-repo https://charts.yourdomain.com
 helm repo update
 ```
 
-## Step 5: Install the Kubernetes operator
+## ステップ 5: Kubernetes operator のインストール
 
-The W&B Kubernetes operator, also known as the controller manager, is responsible for managing the W&B platform components. To install it in an air-gapped environment, 
-you must configure it to use your internal container registry.
+コントローラマネージャとも呼ばれる W&B Kubernetes operator は、W&B platform コンポーネントの管理を担当します。 エアギャップ環境にインストールするには、内部コンテナレジストリを使用するように構成する必要があります。
 
-To do so, you must override the default image settings to use your internal container registry and set the key `airgapped: true` to indicate the expected deployment type. Update the `values.yaml` file as shown below:
+これを行うには、内部コンテナレジストリを使用するようにデフォルトのイメージ設定をオーバーライドし、キー `airgapped: true` を設定して、予想されるデプロイメントタイプを示す必要があります。 次に示すように、`values.yaml` ファイルを更新します。
 
 ```yaml
 image:
@@ -147,22 +144,22 @@ image:
 airgapped: true
 ```
 
-Replace the tag with the version that is available in your internal registry.
+タグを、内部レジストリで使用可能なバージョンに置き換えます。
 
-Install the operator and the CRD:
+operator と CRD をインストールします。
 ```bash
 helm upgrade --install operator wandb/operator -n wandb --create-namespace -f values.yaml
 ```
 
-For full details about the supported values, refer to the [Kubernetes operator GitHub repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
+サポートされている値の詳細については、[Kubernetes operator GitHub リポジトリ](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml)を参照してください。
 
-## Step 6: Configure W&B Custom Resource 
+## ステップ 6: W&B カスタムリソースの設定
 
-After installing the W&B Kubernetes operator, you must configure the Custom Resource (CR) to point to your internal Helm repository and container registry.
+W&B Kubernetes operator をインストールしたら、内部 Helm リポジトリとコンテナレジストリを指すようにカスタムリソース (CR) を構成する必要があります。
 
-This configuration ensures that the Kubernetes operators uses your internal registry and repository are when it deploys the required components of the W&B platform. 
+この設定により、Kubernetes operator は、W&B platform の必要なコンポーネントをデプロイするときに、内部レジストリとリポジトリを使用することが保証されます。
 
-Copy this example CR to a new file named `wandb.yaml`.
+この CR の例を `wandb.yaml` という新しいファイルにコピーします。
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -222,15 +219,15 @@ spec:
     
 ```
 
-To deploy the W&B platform, the Kubernetes Operator uses the values from your CR to configure the `operator-wandb` Helm chart from your internal repository.
+W&B platform をデプロイするために、Kubernetes Operator は CR の値を使用して、内部リポジトリから `operator-wandb` Helm chart を構成します。
 
-Replace all tags/versions with the versions that are available in your internal registry.
+すべてのタグ/バージョンを、内部レジストリで使用可能なバージョンに置き換えます。
 
-More information on creating the preceding configuration file can be found [here]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#configuration-reference-for-wb-server" lang="ja" >}}). 
+上記の構成ファイルの作成の詳細については、[こちら]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#configuration-reference-for-wb-server" lang="ja" >}})をご覧ください。
 
-## Step 7: Deploy the W&B platform
+## ステップ 7: W&B platform のデプロイ
 
-Now that the Kubernetes operator and the CR are configured, apply the `wandb.yaml` configuration to deploy the W&B platform:
+Kubernetes operator と CR が構成されたので、`wandb.yaml` 構成を適用して W&B platform をデプロイします。
 
 ```bash
 kubectl apply -f wandb.yaml
@@ -238,16 +235,16 @@ kubectl apply -f wandb.yaml
 
 ## FAQ
 
-Refer to the below frequently asked questions (FAQs) and troubleshooting tips during the deployment process:
+デプロイメントプロセス中に、以下のよくある質問 (FAQ) とトラブルシューティングのヒントを参照してください。
 
-### There is another ingress class. Can that class be used?
-Yes, you can configure your ingress class by modifying the ingress settings in `values.yaml`.
+### 別の ingress クラスがあります。 そのクラスを使用できますか？
+はい、`values.yaml` で ingress 設定を変更することで、ingress クラスを構成できます。
 
-### The certificate bundle has more than one certificate. Would that work?
-You must split the certificates into multiple entries in the `customCACerts` section of `values.yaml`.
+### 証明書バンドルに複数の証明書があります。 それは機能しますか？
+証明書を `values.yaml` の `customCACerts` セクションの複数のエントリに分割する必要があります。
 
-### How do you prevent the Kubernetes operator from applying unattended updates. Is that possible?
-You can turn off auto-updates from the W&B console. Reach out to your W&B team for any questions on the supported versions. Also, note that W&B supports platform versions released in last 6 months. W&B recommends performing periodic upgrades. 
+### Kubernetes operator が無人アップデートを適用するのを防ぐにはどうすればよいですか。 それは可能ですか？
+W&B console から自動アップデートをオフにすることができます。 サポートされているバージョンに関する質問については、W&B チームにお問い合わせください。 また、W&B は過去 6 か月以内にリリースされた platform バージョンをサポートしていることに注意してください。 W&B は定期的なアップグレードを実行することをお勧めします。
 
-### Does the deployment work if the environment has no connection to public repositories?
-If your configuration sets `airgapped` to `true`, the Kubernetes operator uses only your internal resources and does not attempt to connect to public repositories.
+### 環境がパブリックリポジトリに接続されていない場合、デプロイメントは機能しますか？
+構成で `airgapped` を `true` に設定すると、Kubernetes operator は内部リソースのみを使用し、パブリックリポジトリへの接続を試みません。

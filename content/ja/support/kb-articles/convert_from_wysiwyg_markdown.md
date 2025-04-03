@@ -1,18 +1,18 @@
 ---
+title: I converted my report to WYSIWYG but want to revert back to Markdown
 menu:
   support:
     identifier: ja-support-kb-articles-convert_from_wysiwyg_markdown
 support:
 - reports
 - wysiwyg
-title: I converted my report to WYSIWYG but want to revert back to Markdown
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-If the report conversion occurred through the message at the top, click the red "Revert" button to restore the prior state. Note that any changes made after conversion will be lost.
+もし レポート の変換が上部のメッセージを通じて行われた場合は、赤い "Revert" ボタンをクリックして以前の状態に戻してください。変換後に行われた変更はすべて失われることに注意してください。
 
-If a single Markdown block was converted, use `cmd+z` to undo.
+単一の Markdown ブロックが変換された場合は、`cmd+z` で元に戻してください。
 
-If options to revert are unavailable because of a closed session, consider discarding the draft or editing from the last saved version. If neither works, contact W&B Support.
+セッションが閉じているために元に戻すオプションが利用できない場合は、下書きを破棄するか、最後に保存された バージョン から編集することを検討してください。どちらも機能しない場合は、W&B Support にお問い合わせください。

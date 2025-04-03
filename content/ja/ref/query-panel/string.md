@@ -1,547 +1,547 @@
 ---
+title: string
 menu:
   reference:
     identifier: ja-ref-query-panel-string
-title: string
 ---
 
 ## Chainable Ops
 <h3 id="string-notEqual"><code>string-notEqual</code></h3>
 
-Determines inequality of two values.
+2つの 値 が等しくないかどうかを判断します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 比較する最初の 値 。 |
+| `rhs` | 比較する2番目の 値 。 |
 
 #### Return Value
-Whether the two values are not equal.
+2つの 値 が等しくないかどうか。
 
 <h3 id="string-add"><code>string-add</code></h3>
 
-Concatenates two [strings](string.md)
+2つの [strings](string.md) を連結します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | The first [string](string.md) |
-| `rhs` | The second [string](string.md) |
+| `lhs` | 最初の [string](string.md) |
+| `rhs` | 2番目の [string](string.md) |
 
 #### Return Value
-The concatenated [string](string.md)
+連結された [string](string.md)
 
 <h3 id="string-equal"><code>string-equal</code></h3>
 
-Determines equality of two values.
+2つの 値 が等しいかどうかを判断します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 比較する最初の 値 。 |
+| `rhs` | 比較する2番目の 値 。 |
 
 #### Return Value
-Whether the two values are equal.
+2つの 値 が等しいかどうか。
 
 <h3 id="string-append"><code>string-append</code></h3>
 
-Appends a suffix to a [string](string.md)
+[string](string.md) にサフィックスを追加します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to append to |
-| `suffix` | The suffix to append |
+| `str` | 追加先の [string](string.md) |
+| `suffix` | 追加するサフィックス |
 
 #### Return Value
-The [string](string.md) with the suffix appended
+サフィックスが追加された [string](string.md)
 
 <h3 id="string-contains"><code>string-contains</code></h3>
 
-Checks if a [string](string.md) contains a substring
+[string](string.md) が部分 文字列 を含むかどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
-| `sub` | The substring to check for |
+| `str` | 確認する [string](string.md) |
+| `sub` | 確認する部分 文字列 |
 
 #### Return Value
-Whether the [string](string.md) contains the substring
+[string](string.md) が部分 文字列 を含むかどうか
 
 <h3 id="string-endsWith"><code>string-endsWith</code></h3>
 
-Checks if a [string](string.md) ends with a suffix
+[string](string.md) がサフィックスで終わるかどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
-| `suffix` | The suffix to check for |
+| `str` | 確認する [string](string.md) |
+| `suffix` | 確認するサフィックス |
 
 #### Return Value
-Whether the [string](string.md) ends with the suffix
+[string](string.md) がサフィックスで終わるかどうか
 
 <h3 id="string-findAll"><code>string-findAll</code></h3>
 
-Finds all occurrences of a substring in a [string](string.md)
+[string](string.md) 内の部分 文字列 のすべての出現箇所を検索します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to find occurrences of the substring in |
-| `sub` | The substring to find |
+| `str` | 部分 文字列 の出現箇所を検索する [string](string.md) |
+| `sub` | 検索する部分 文字列 |
 
 #### Return Value
-The _list_ of indices of the substring in the [string](string.md)
+[string](string.md) 内の部分 文字列 のインデックスの _list_
 
 <h3 id="string-isAlnum"><code>string-isAlnum</code></h3>
 
-Checks if a [string](string.md) is alphanumeric
+[string](string.md) が英数字かどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
+| `str` | 確認する [string](string.md) |
 
 #### Return Value
-Whether the [string](string.md) is alphanumeric
+[string](string.md) が英数字かどうか
 
 <h3 id="string-isAlpha"><code>string-isAlpha</code></h3>
 
-Checks if a [string](string.md) is alphabetic
+[string](string.md) がアルファベットかどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
+| `str` | 確認する [string](string.md) |
 
 #### Return Value
-Whether the [string](string.md) is alphabetic
+[string](string.md) がアルファベットかどうか
 
 <h3 id="string-isNumeric"><code>string-isNumeric</code></h3>
 
-Checks if a [string](string.md) is numeric
+[string](string.md) が数値かどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
+| `str` | 確認する [string](string.md) |
 
 #### Return Value
-Whether the [string](string.md) is numeric
+[string](string.md) が数値かどうか
 
 <h3 id="string-lStrip"><code>string-lStrip</code></h3>
 
-Strip leading whitespace
+先頭の空白を削除します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to strip. |
+| `str` | 削除する [string](string.md)。 |
 
 #### Return Value
-The stripped [string](string.md).
+削除された [string](string.md)。
 
 <h3 id="string-len"><code>string-len</code></h3>
 
-Returns the length of a [string](string.md)
+[string](string.md) の長さを返します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
+| `str` | 確認する [string](string.md) |
 
 #### Return Value
-The length of the [string](string.md)
+[string](string.md) の長さ
 
 <h3 id="string-lower"><code>string-lower</code></h3>
 
-Converts a [string](string.md) to lowercase
+[string](string.md) を小文字に変換します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to convert to lowercase |
+| `str` | 小文字に変換する [string](string.md) |
 
 #### Return Value
-The lowercase [string](string.md)
+小文字の [string](string.md)
 
 <h3 id="string-partition"><code>string-partition</code></h3>
 
-Partitions a [string](string.md) into a _list_ of the [strings](string.md)
+[string](string.md) を [strings](string.md) の _list_ に分割します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to split |
-| `sep` | The separator to split on |
+| `str` | 分割する [string](string.md) |
+| `sep` | 分割に使用する区切り 文字 |
 
 #### Return Value
-A _list_ of [strings](string.md): the [string](string.md) before the separator, the separator, and the [string](string.md) after the separator
+[strings](string.md) の _list_：区切り 文字 の前の [string](string.md)、区切り 文字 、区切り 文字 の後の [string](string.md)
 
 <h3 id="string-prepend"><code>string-prepend</code></h3>
 
-Prepends a prefix to a [string](string.md)
+[string](string.md) の前にプレフィックスを追加します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to prepend to |
-| `prefix` | The prefix to prepend |
+| `str` | 前に追加する [string](string.md) |
+| `prefix` | 前に追加するプレフィックス |
 
 #### Return Value
-The [string](string.md) with the prefix prepended
+プレフィックスが前に追加された [string](string.md)
 
 <h3 id="string-rStrip"><code>string-rStrip</code></h3>
 
-Strip trailing whitespace
+末尾の空白を削除します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to strip. |
+| `str` | 削除する [string](string.md)。 |
 
 #### Return Value
-The stripped [string](string.md).
+削除された [string](string.md)。
 
 <h3 id="string-replace"><code>string-replace</code></h3>
 
-Replaces all occurrences of a substring in a [string](string.md)
+[string](string.md) 内の部分 文字列 のすべての出現箇所を置き換えます。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to replace contents of |
-| `sub` | The substring to replace |
-| `newSub` | The substring to replace the old substring with |
+| `str` | 内容を置き換える [string](string.md) |
+| `sub` | 置き換える部分 文字列 |
+| `newSub` | 古い部分 文字列 と置き換える部分 文字列 |
 
 #### Return Value
-The [string](string.md) with the replacements
+置き換えられた [string](string.md)
 
 <h3 id="string-slice"><code>string-slice</code></h3>
 
-Slices a [string](string.md) into a substring based on beginning and end indices
+開始インデックスと終了インデックスに基づいて、[string](string.md) を部分 文字列 にスライスします。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to slice |
-| `begin` | The beginning index of the substring |
-| `end` | The ending index of the substring |
+| `str` | スライスする [string](string.md) |
+| `begin` | 部分 文字列 の開始インデックス |
+| `end` | 部分 文字列 の終了インデックス |
 
 #### Return Value
-The substring
+部分 文字列
 
 <h3 id="string-split"><code>string-split</code></h3>
 
-Splits a [string](string.md) into a _list_ of [strings](string.md)
+[string](string.md) を [strings](string.md) の _list_ に分割します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to split |
-| `sep` | The separator to split on |
+| `str` | 分割する [string](string.md) |
+| `sep` | 分割に使用する区切り 文字 |
 
 #### Return Value
-The _list_ of [strings](string.md)
+[strings](string.md) の _list_
 
 <h3 id="string-startsWith"><code>string-startsWith</code></h3>
 
-Checks if a [string](string.md) starts with a prefix
+[string](string.md) がプレフィックスで始まるかどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
-| `prefix` | The prefix to check for |
+| `str` | 確認する [string](string.md) |
+| `prefix` | 確認するプレフィックス |
 
 #### Return Value
-Whether the [string](string.md) starts with the prefix
+[string](string.md) がプレフィックスで始まるかどうか
 
 <h3 id="string-strip"><code>string-strip</code></h3>
 
-Strip whitespace from both ends of a [string](string.md).
+[string](string.md) の両端から空白を削除します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to strip. |
+| `str` | 削除する [string](string.md)。 |
 
 #### Return Value
-The stripped [string](string.md).
+削除された [string](string.md)。
 
 <h3 id="string-upper"><code>string-upper</code></h3>
 
-Converts a [string](string.md) to uppercase
+[string](string.md) を大文字に変換します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to convert to uppercase |
+| `str` | 大文字に変換する [string](string.md) |
 
 #### Return Value
-The uppercase [string](string.md)
+大文字の [string](string.md)
 
 <h3 id="string-levenshtein"><code>string-levenshtein</code></h3>
 
-Calculates the Levenshtein distance between two [strings](string.md).
+2つの [strings](string.md) 間のレーベンシュタイン距離を計算します。
 
 | Argument |  |
 | :--- | :--- |
-| `str1` | The first [string](string.md). |
-| `str2` | The second [string](string.md). |
+| `str1` | 最初の [string](string.md)。 |
+| `str2` | 2番目の [string](string.md)。 |
 
 #### Return Value
-The Levenshtein distance between the two [strings](string.md).
+2つの [strings](string.md) 間のレーベンシュタイン距離。
 
 
 ## List Ops
 <h3 id="string-notEqual"><code>string-notEqual</code></h3>
 
-Determines inequality of two values.
+2つの 値 が等しくないかどうかを判断します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 比較する最初の 値 。 |
+| `rhs` | 比較する2番目の 値 。 |
 
 #### Return Value
-Whether the two values are not equal.
+2つの 値 が等しくないかどうか。
 
 <h3 id="string-add"><code>string-add</code></h3>
 
-Concatenates two [strings](string.md)
+2つの [strings](string.md) を連結します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | The first [string](string.md) |
-| `rhs` | The second [string](string.md) |
+| `lhs` | 最初の [string](string.md) |
+| `rhs` | 2番目の [string](string.md) |
 
 #### Return Value
-The concatenated [string](string.md)
+連結された [string](string.md)
 
 <h3 id="string-equal"><code>string-equal</code></h3>
 
-Determines equality of two values.
+2つの 値 が等しいかどうかを判断します。
 
 | Argument |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 比較する最初の 値 。 |
+| `rhs` | 比較する2番目の 値 。 |
 
 #### Return Value
-Whether the two values are equal.
+2つの 値 が等しいかどうか。
 
 <h3 id="string-append"><code>string-append</code></h3>
 
-Appends a suffix to a [string](string.md)
+[string](string.md) にサフィックスを追加します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to append to |
-| `suffix` | The suffix to append |
+| `str` | 追加先の [string](string.md) |
+| `suffix` | 追加するサフィックス |
 
 #### Return Value
-The [string](string.md) with the suffix appended
+サフィックスが追加された [string](string.md)
 
 <h3 id="string-contains"><code>string-contains</code></h3>
 
-Checks if a [string](string.md) contains a substring
+[string](string.md) が部分 文字列 を含むかどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
-| `sub` | The substring to check for |
+| `str` | 確認する [string](string.md) |
+| `sub` | 確認する部分 文字列 |
 
 #### Return Value
-Whether the [string](string.md) contains the substring
+[string](string.md) が部分 文字列 を含むかどうか
 
 <h3 id="string-endsWith"><code>string-endsWith</code></h3>
 
-Checks if a [string](string.md) ends with a suffix
+[string](string.md) がサフィックスで終わるかどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
-| `suffix` | The suffix to check for |
+| `str` | 確認する [string](string.md) |
+| `suffix` | 確認するサフィックス |
 
 #### Return Value
-Whether the [string](string.md) ends with the suffix
+[string](string.md) がサフィックスで終わるかどうか
 
 <h3 id="string-findAll"><code>string-findAll</code></h3>
 
-Finds all occurrences of a substring in a [string](string.md)
+[string](string.md) 内の部分 文字列 のすべての出現箇所を検索します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to find occurrences of the substring in |
-| `sub` | The substring to find |
+| `str` | 部分 文字列 の出現箇所を検索する [string](string.md) |
+| `sub` | 検索する部分 文字列 |
 
 #### Return Value
-The _list_ of indices of the substring in the [string](string.md)
+[string](string.md) 内の部分 文字列 のインデックスの _list_
 
 <h3 id="string-isAlnum"><code>string-isAlnum</code></h3>
 
-Checks if a [string](string.md) is alphanumeric
+[string](string.md) が英数字かどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
+| `str` | 確認する [string](string.md) |
 
 #### Return Value
-Whether the [string](string.md) is alphanumeric
+[string](string.md) が英数字かどうか
 
 <h3 id="string-isAlpha"><code>string-isAlpha</code></h3>
 
-Checks if a [string](string.md) is alphabetic
+[string](string.md) がアルファベットかどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
+| `str` | 確認する [string](string.md) |
 
 #### Return Value
-Whether the [string](string.md) is alphabetic
+[string](string.md) がアルファベットかどうか
 
 <h3 id="string-isNumeric"><code>string-isNumeric</code></h3>
 
-Checks if a [string](string.md) is numeric
+[string](string.md) が数値かどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
+| `str` | 確認する [string](string.md) |
 
 #### Return Value
-Whether the [string](string.md) is numeric
+[string](string.md) が数値かどうか
 
 <h3 id="string-lStrip"><code>string-lStrip</code></h3>
 
-Strip leading whitespace
+先頭の空白を削除します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to strip. |
+| `str` | 削除する [string](string.md)。 |
 
 #### Return Value
-The stripped [string](string.md).
+削除された [string](string.md)。
 
 <h3 id="string-len"><code>string-len</code></h3>
 
-Returns the length of a [string](string.md)
+[string](string.md) の長さを返します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
+| `str` | 確認する [string](string.md) |
 
 #### Return Value
-The length of the [string](string.md)
+[string](string.md) の長さ
 
 <h3 id="string-lower"><code>string-lower</code></h3>
 
-Converts a [string](string.md) to lowercase
+[string](string.md) を小文字に変換します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to convert to lowercase |
+| `str` | 小文字に変換する [string](string.md) |
 
 #### Return Value
-The lowercase [string](string.md)
+小文字の [string](string.md)
 
 <h3 id="string-partition"><code>string-partition</code></h3>
 
-Partitions a [string](string.md) into a _list_ of the [strings](string.md)
+[string](string.md) を [strings](string.md) の _list_ に分割します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to split |
-| `sep` | The separator to split on |
+| `str` | 分割する [string](string.md) |
+| `sep` | 分割に使用する区切り 文字 |
 
 #### Return Value
-A _list_ of [strings](string.md): the [string](string.md) before the separator, the separator, and the [string](string.md) after the separator
+[strings](string.md) の _list_：区切り 文字 の前の [string](string.md)、区切り 文字 、区切り 文字 の後の [string](string.md)
 
 <h3 id="string-prepend"><code>string-prepend</code></h3>
 
-Prepends a prefix to a [string](string.md)
+[string](string.md) の前にプレフィックスを追加します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to prepend to |
-| `prefix` | The prefix to prepend |
+| `str` | 前に追加する [string](string.md) |
+| `prefix` | 前に追加するプレフィックス |
 
 #### Return Value
-The [string](string.md) with the prefix prepended
+プレフィックスが前に追加された [string](string.md)
 
 <h3 id="string-rStrip"><code>string-rStrip</code></h3>
 
-Strip trailing whitespace
+末尾の空白を削除します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to strip. |
+| `str` | 削除する [string](string.md)。 |
 
 #### Return Value
-The stripped [string](string.md).
+削除された [string](string.md)。
 
 <h3 id="string-replace"><code>string-replace</code></h3>
 
-Replaces all occurrences of a substring in a [string](string.md)
+[string](string.md) 内の部分 文字列 のすべての出現箇所を置き換えます。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to replace contents of |
-| `sub` | The substring to replace |
-| `newSub` | The substring to replace the old substring with |
+| `str` | 内容を置き換える [string](string.md) |
+| `sub` | 置き換える部分 文字列 |
+| `newSub` | 古い部分 文字列 と置き換える部分 文字列 |
 
 #### Return Value
-The [string](string.md) with the replacements
+置き換えられた [string](string.md)
 
 <h3 id="string-slice"><code>string-slice</code></h3>
 
-Slices a [string](string.md) into a substring based on beginning and end indices
+開始インデックスと終了インデックスに基づいて、[string](string.md) を部分 文字列 にスライスします。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to slice |
-| `begin` | The beginning index of the substring |
-| `end` | The ending index of the substring |
+| `str` | スライスする [string](string.md) |
+| `begin` | 部分 文字列 の開始インデックス |
+| `end` | 部分 文字列 の終了インデックス |
 
 #### Return Value
-The substring
+部分 文字列
 
 <h3 id="string-split"><code>string-split</code></h3>
 
-Splits a [string](string.md) into a _list_ of [strings](string.md)
+[string](string.md) を [strings](string.md) の _list_ に分割します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to split |
-| `sep` | The separator to split on |
+| `str` | 分割する [string](string.md) |
+| `sep` | 分割に使用する区切り 文字 |
 
 #### Return Value
-The _list_ of [strings](string.md)
+[strings](string.md) の _list_
 
 <h3 id="string-startsWith"><code>string-startsWith</code></h3>
 
-Checks if a [string](string.md) starts with a prefix
+[string](string.md) がプレフィックスで始まるかどうかを確認します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to check |
-| `prefix` | The prefix to check for |
+| `str` | 確認する [string](string.md) |
+| `prefix` | 確認するプレフィックス |
 
 #### Return Value
-Whether the [string](string.md) starts with the prefix
+[string](string.md) がプレフィックスで始まるかどうか
 
 <h3 id="string-strip"><code>string-strip</code></h3>
 
-Strip whitespace from both ends of a [string](string.md).
+[string](string.md) の両端から空白を削除します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to strip. |
+| `str` | 削除する [string](string.md)。 |
 
 #### Return Value
-The stripped [string](string.md).
+削除された [string](string.md)。
 
 <h3 id="string-upper"><code>string-upper</code></h3>
 
-Converts a [string](string.md) to uppercase
+[string](string.md) を大文字に変換します。
 
 | Argument |  |
 | :--- | :--- |
-| `str` | The [string](string.md) to convert to uppercase |
+| `str` | 大文字に変換する [string](string.md) |
 
 #### Return Value
-The uppercase [string](string.md)
+大文字の [string](string.md)
 
 <h3 id="string-levenshtein"><code>string-levenshtein</code></h3>
 
-Calculates the Levenshtein distance between two [strings](string.md).
+2つの [strings](string.md) 間のレーベンシュタイン距離を計算します。
 
 | Argument |  |
 | :--- | :--- |
-| `str1` | The first [string](string.md). |
-| `str2` | The second [string](string.md). |
+| `str1` | 最初の [string](string.md)。 |
+| `str2` | 2番目の [string](string.md)。 |
 
 #### Return Value
-The Levenshtein distance between the two [strings](string.md).
+2つの [strings](string.md) 間のレーベンシュタイン距離。

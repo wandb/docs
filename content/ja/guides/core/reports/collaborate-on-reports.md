@@ -1,21 +1,21 @@
 ---
-description: Collaborate and share W&B Reports with peers, co-workers, and your team.
+title: Collaborate on reports
+description: W&B Reports を同僚、共同作業者、およびチームと共有してコラボレーションできます。
 menu:
   default:
     identifier: ja-guides-core-reports-collaborate-on-reports
     parent: reports
-title: Collaborate on reports
 weight: 30
 ---
 
-Once you have saved a report, you can select the **Share** button to collaborate. A draft copy of the report is created when you select the **Edit** button. Draft reports auto-save. Select **Save to report** to publish your changes to the shared report.
+レポートを保存したら、**Share**ボタンを選択して共同作業ができます。**Edit**ボタンを選択すると、レポートのドラフトコピーが作成されます。ドラフトレポートは自動保存されます。変更を共有レポートに公開するには、**Save to report**を選択します。
 
-A warning notification will appear if an edit conflict occurs. This can occur if you and another collaborator edit the same report at the same time. The warning notification will guide you to resolve potential edit conflicts.
+編集の競合が発生した場合、警告通知が表示されます。これは、あなたと別の共同作業者が同じレポートを同時に編集した場合に発生する可能性があります。警告通知は、潜在的な編集の競合を解決するのに役立ちます。
 
 {{< img src="/images/reports/share-report.gif" alt="Report sharing modal for a report in a 'Public' project" max-width="90%">}}
 
-## Comment on reports
+## レポートにコメントする
 
-Click the comment button on a panel in a report to add a comment directly to that panel.
+レポートの パネル にコメントボタンをクリックすると、その パネル に直接コメントを追加できます。
 
 {{< img src="/images/reports/demo_comment_on_panels_in_reports.gif" alt="Adding a comment to a panel" >}}

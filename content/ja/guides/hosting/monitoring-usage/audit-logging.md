@@ -1,142 +1,140 @@
 ---
+title: Track user activity with audit logs
 menu:
   default:
     identifier: ja-guides-hosting-monitoring-usage-audit-logging
     parent: monitoring-and-usage
-title: Track user activity with audit logs
 weight: 1
 ---
 
-Use W&B audit logs to track user activity within your organization and to conform to your enterprise governance requirements. Audit logs are available in JSON format. Refer to [Audit log schema]({{< relref path="#audit-log-schema" lang="ja" >}}).
+W&B の監査ログを使用すると、組織内のユーザーアクティビティを追跡し、企業のガバナンス要件に準拠できます。監査ログは JSON 形式で利用できます。[監査ログスキーマ]({{< relref path="#audit-log-schema" lang="ja" >}})を参照してください。
 
-How to access audit logs depends on your W&B platform deployment type:
+監査ログへのアクセス方法は、W&B プラットフォームのデプロイメントタイプによって異なります。
 
-| W&B Platform Deployment type | Audit logs access mechanism |
+| W&B Platform Deployment type | 監査ログアクセス方法 |
 |----------------------------|--------------------------------|
-| [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) | Synced to instance-level bucket every 10 minutes. Also available using [the API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}}). |
-| [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) with [secure storage connector (BYOB)]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) | Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}}). |
-| [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) with W&B managed storage (without BYOB) | Available only by using [the API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}}). |
-| [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) | Available for Enterprise plans only. Available only by using [the API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}}).
+| [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) | インスタンスレベルのバケットに10分ごとに同期されます。また、[API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}})を使用しても利用できます。 |
+| [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) with [secure storage connector (BYOB)]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) | インスタンスレベルのバケット (BYOB) に10分ごとに同期されます。また、[API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}})を使用しても利用できます。 |
+| [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) with W&B managed storage (without BYOB) | [API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}})を使用するとのみ利用できます。 |
+| [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) | Enterprise プランでのみ利用できます。[API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}})を使用するとのみ利用できます。
 
-After fetching audit logs, you can analyze them using tools like [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), or [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric). Some audit log analysis tools do not support JSON; refer to the documentation for your analysis tool for guidelines and requirements for transforming the JSON-formatted audit logs before analysis.
+監査ログを取得した後、[Pandas](https://pandas.pydata.org/docs/index.html)、[Amazon Redshift](https://aws.amazon.com/redshift/)、[Google BigQuery](https://cloud.google.com/bigquery)、または [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric) などのツールを使用して分析できます。一部の監査ログ分析ツールは JSON をサポートしていません。分析ツールに関するドキュメントを参照して、分析の前に JSON 形式の監査ログを変換するためのガイドラインと要件を確認してください。
 
-{{% alert title="Audit log retention" %}}
-If you require audit logs to be retained for a specific period of time, W&B recommends periodically transferring logs to long-term storage, either using storage buckets or the Audit Logging API.
+{{% alert title="監査ログの保持" %}}
+監査ログを特定の期間保持する必要がある場合、W&B は、ストレージバケットまたは Audit Logging API を使用して、ログを長期ストレージに定期的に転送することをお勧めします。
 
-If you are subject to the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html), audit logs must be retained for a minimum of 6 years in an environment where they cannot be deleted or modified by any internal or exterrnal actor before the end of the mandatory retention period. For HIPAA-compliant [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) instances with [BYOB]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}), you must configure guardrails for your managed storage, including any long-term retention storage.
+[Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html) の対象となる場合、監査ログは、義務的な保持期間が終了する前に、内部または外部の行為者によって削除または変更できない環境で、最低 6 年間保持する必要があります。HIPAA 準拠の [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) インスタンス ( [BYOB]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) ) の場合、長期保持ストレージを含む、管理対象ストレージのガードレールを構成する必要があります。
 {{% /alert %}}
 
-## Audit log schema
-This table shows all keys which may appear in an audit log entry, ordered alphabetically. Depending on the action and the circumstances, a specific log entry may include only a subset of the possible fields.
+## 監査ログスキーマ
+この表は、監査ログエントリに表示される可能性のあるすべてのキーをアルファベット順に示しています。アクションと状況に応じて、特定ログエントリには、可能なフィールドのサブセットのみが含まれる場合があります。
 
-| Key | Definition |
+| キー | 定義 |
 |---------| -------|
-|`action`                  | The [action]({{< relref path="#actions" lang="ja" >}}) of the event.
-|`actor_email`             | The email address of the user that initiated the action, if applicable.
-|`actor_ip`                | The IP address of the user that initiated the action.
-|`actor_user_id`           | The ID of the logged-in user who performed the action, if applicable.
-|`artifact_asset`          | The artifact ID associated with the action, if applicable.
-|`artifact_digest`         | The artifact digest associated with the action, if applicable.
-|`artifact_qualified_name` | The full name of the artifact associated with the action, if applicable.
-|`artifact_sequence_asset` | The artifact sequence ID associated with the action, if applicable.
-|`cli_version`             | The version of the Python SDK that initiated the action, if applicable.
-|`entity_asset`            | The entity or team ID associated with the action, if applicable.
-|`entity_name`             | The entity or team name associated with the action, if applicable.
-|`project_asset`           | The project associated with the action, if applicable.
-|`project_name`            | The name of the project associated with the action, if applicable.
-|`report_asset`            | The report ID associated with the action, if applicable.
-|`report_name`             | The name of the report associated with the action, if applicable.
-|`response_code`           | The HTTP response code for the action, if applicable.
-|`timestamp`               | The time of the event in [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339). For example, `2023-01-23T12:34:56Z` represents January 23, 2023 at 12:34:56 UTC.
-|`user_asset`              | The user asset the action impacts (rather than the user performing the action), if applicable.
-|`user_email`              | The email address of the user the action impacts (rather than the email address of the user performing the action), if applicable.
+|`action`                  | イベントの [アクション]({{< relref path="#actions" lang="ja" >}})。
+|`actor_email`             | アクションを開始したユーザーのメールアドレス (該当する場合)。
+|`actor_ip`                | アクションを開始したユーザーの IP アドレス。
+|`actor_user_id`           | アクションを実行したログインユーザーの ID (該当する場合)。
+|`artifact_asset`          | アクションに関連付けられた Artifact ID (該当する場合)。
+|`artifact_digest`         | アクションに関連付けられた Artifact ダイジェスト (該当する場合)。
+|`artifact_qualified_name` | アクションに関連付けられた Artifact の完全名 (該当する場合)。
+|`artifact_sequence_asset` | アクションに関連付けられた Artifact シーケンス ID (該当する場合)。
+|`cli_version`             | アクションを開始した Python SDK のバージョン (該当する場合)。
+|`entity_asset`            | アクションに関連付けられた Entity または Team ID (該当する場合)。
+|`entity_name`             | Entity または Team 名 (該当する場合)。
+|`project_asset`           | アクションに関連付けられた Project (該当する場合)。
+|`project_name`            | アクションに関連付けられた Project の名前 (該当する場合)。
+|`report_asset`            | アクションに関連付けられた Report ID (該当する場合)。
+|`report_name`             | アクションに関連付けられた Report の名前 (該当する場合)。
+|`response_code`           | アクションの HTTP レスポンスコード (該当する場合)。
+|`timestamp`               | [RFC3339 形式](https://www.rfc-editor.org/rfc/rfc3339)でのイベントの時刻。たとえば、`2023-01-23T12:34:56Z` は、2023 年 1 月 23 日の 12:34:56 UTC を表します。
+|`user_asset`              | アクションが影響を与える User アセット (アクションを実行するユーザーではなく) (該当する場合)。
+|`user_email`              | アクションが影響を与える User のメールアドレス (アクションを実行するユーザーのメールアドレスではなく) (該当する場合)。
 
-### Personally identifiable information (PII)
+### 個人情報 (PII)
 
-Personally identifiable information (PII), such as email addresses and the names of projects, teams, and reports, is available only using the API endpoint option.
-- For [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) and 
-  [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), an organization admin can [exclude PII]({{< relref path="#exclude-pii" lang="ja" >}}) when fetching audit logs.
-- For [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
+メールアドレスや Projects、Teams、Reports の名前などの個人情報 (PII) は、API エンドポイントオプションでのみ利用できます。
+- [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) および [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) の場合、組織管理者は、監査ログの取得時に [PII を除外]({{< relref path="#exclude-pii" lang="ja" >}}) できます。
+- [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) の場合、API エンドポイントは常に、PII を含む監査ログの関連フィールドを返します。これは構成できません。
 
-## Fetch audit logs
-An organization or instance admin can fetch the audit logs for a W&B instance using the Audit Logging API, at the endpoint `audit_logs/`.
+## 監査ログの取得
+組織またはインスタンス管理者は、エンドポイント `audit_logs/` で Audit Logging API を使用して、W&B インスタンスの監査ログを取得できます。
 
 {{% alert %}}
-- If a user other than an admin attempts to fetch audit logs, a HTTP `403` error occurs, indicating that access is denied.
+- 管理者以外のユーザーが監査ログを取得しようとすると、HTTP `403` エラーが発生し、アクセスが拒否されたことを示します。
 
-- If you are an admin of multiple Enterprise [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) organizations, you must configure the organization where audit logging API requests are sent. Click your profile image, then click **User Settings**. The setting is named **Default API organization**.
+- 複数の Enterprise [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織の管理者である場合は、監査ログ API リクエストの送信先となる組織を構成する必要があります。プロファイル画像をクリックし、[User Settings] をクリックします。設定の名前は [Default API organization] です。
 {{% /alert %}}
 
-1. Determine the correct API endpoint for your instance:
+1. インスタンスの正しい API エンドポイントを決定します。
 
     - [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}): `<wandb-platform-url>/admin/audit_logs`
     - [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}): `<wandb-platform-url>/admin/audit_logs`
     - [SaaS Cloud (Enterprise required)]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}): `https://api.wandb.ai/audit_logs`
 
-    In proceeding steps, replace `<API-endpoint>` with your API endpoint.
-1. Construct the full API endpoint from the base endpoint, and optionally include URL parameters:
-    - `anonymize`: if set to `true`, remove any PII; defaults to `false`. Refer to [Exclude PII when fetching audit logs]({{< relref path="#exclude-pii" lang="ja" >}}). Not supported for SaaS Cloud.
-    - `numDays`: logs will be fetched starting from `today - numdays` to most recent; defaults to `0`, which returns logs only for `today`. For SaaS Cloud, you can fetch audit logs from a maximum of 7 days in the past.
-    - `startDate`: an optional date with format `YYYY-MM-DD`. Supported only on [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}).
+    以下の手順では、`<API-endpoint>` を API エンドポイントに置き換えます。
+2. ベースエンドポイントから完全な API エンドポイントを作成し、オプションで URL パラメータを含めます。
+    - `anonymize`: `true` に設定すると、PII が削除されます。デフォルトは `false` です。[監査ログの取得時に PII を除外]({{< relref path="#exclude-pii" lang="ja" >}}) を参照してください。SaaS Cloud ではサポートされていません。
+    - `numDays`: ログは `today - numdays` から最新のものまで取得されます。デフォルトは `0` で、`today` のログのみが返されます。SaaS Cloud の場合、過去最大 7 日間の監査ログを取得できます。
+    - `startDate`: オプションの日付で、形式は `YYYY-MM-DD` です。[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) でのみサポートされています。
 
-      `startDate` and `numDays` interact:
-        - If you set both `startDate` and `numDays`, logs are returned from `startDate` to `startDate` + `numDays`.
-        - If you omit `startDate` but include `numDays`, logs are returned from `today` to `numDays`.
-        - If you set neither `startDate` nor `numDays`, logs are returned for `today` only.
+      `startDate` と `numDays` は相互に作用します。
+        - `startDate` と `numDays` の両方を設定した場合、ログは `startDate` から `startDate` + `numDays` まで返されます。
+        - `startDate` を省略して `numDays` を含めた場合、ログは `today` から `numDays` まで返されます。
+        - `startDate` も `numDays` も設定しない場合、ログは `today` に対してのみ返されます。
 
-1. Execute an HTTP `GET` request on the constructed fully qualified API endpoint using a web browser or a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), or cURL.
+3. Web ブラウザーまたは [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールを使用して、構築された完全修飾 API エンドポイントに対して HTTP `GET` リクエストを実行します。
 
-The API response contains new-line separated JSON objects. Objects will include the fields described in the [schema]({{< relref path="#audit-log-schemag" lang="ja" >}}), just like when audit logs are synced to an instance-level bucket. In those cases, the audit logs are located in the `/wandb-audit-logs` directory in your bucket.
+API レスポンスには、改行で区切られた JSON オブジェクトが含まれています。オブジェクトには、監査ログがインスタンスレベルのバケットに同期される場合と同様に、[スキーマ]({{< relref path="#audit-log-schemag" lang="ja" >}}) で説明されているフィールドが含まれます。これらの場合、監査ログはバケットの `/wandb-audit-logs` ディレクトリーにあります。
 
-### Use basic authentication
-To use basic authentication with your API key to access the audit logs API, set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
+### 基本認証の使用
+API キーで基本認証を使用して監査ログ API にアクセスするには、HTTP リクエストの `Authorization` ヘッダーを文字列 `Basic` の後にスペース、次に `username:API-KEY` 形式の base-64 エンコードされた文字列に設定します。つまり、ユーザー名と API キーを `:` 文字で区切られた値に置き換え、その結果を base-64 エンコードします。たとえば、`demo:p@55w0rd` として認証する場合、ヘッダーは `Authorization: Basic ZGVtbzpwQDU1dzByZA==` にする必要があります。
 
-### Exclude PII when fetching audit logs {#exclude-pii}
-For [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) and [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), a W&B organization or instance admin can exclude PII when fetching audit logs. For [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
+### 監査ログの取得時に PII を除外 {#exclude-pii}
+[Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) および [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) の場合、W&B 組織またはインスタンス管理者は、監査ログの取得時に PII を除外できます。[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) の場合、API エンドポイントは常に、PII を含む監査ログの関連フィールドを返します。これは構成できません。
 
-
-To exclude PII, pass the `anonymize=true` URL parameter. For example, if your W&B instance URL is `https://mycompany.wandb.io` and you would like to get audit logs for user activity within the last week and exclude PII, use an API endpoint like:
+PII を除外するには、`anonymize=true` URL パラメータを渡します。たとえば、W&B インスタンスの URL が `https://mycompany.wandb.io` で、過去 1 週間のユーザーアクティビティの監査ログを取得し、PII を除外する場合は、次のような API エンドポイントを使用します。
 
 ```text
 https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true.
 ```
 
-## Actions
-This table describes possible actions that can be recorded by W&B, sorted alphabetically.
+## アクション
+次の表は、W&B によって記録できるアクションをアルファベット順に説明しています。
 
-|Action | Definition |
+|アクション | 定義 |
 |-----|-----|
-| `artifact:create`             | Artifact is created.
-| `artifact:delete   `          | Artifact is deleted.
-| `artifact:read`               | Artifact is read.
-| `project:delete`              | Project is deleted.
-| `project:read`                | Project is read.
-| `report:read`                 | Report is read. <sup><a href="#1">1</a></sup>
-| `run:delete_many`             | Batch of runs is deleted.
-| `run:delete`                  | Run is deleted.
-| `run:stop`                    | Run is stopped.
-| `run:undelete_many`           | Batch of runs is restored from trash.
-| `run:update_many`             | Batch of runs is updated.
-| `run:update`                  | Run is updated.
-| `sweep:create_agent`          | Sweep agent is created.
-| `team:create_service_account` | Service account is created for the team.
-| `team:create`                 | Team is created.
-| `team:delete`                 | Team is deleted.
-| `team:invite_user`            | User is invited to team.
-| `team:uninvite`               | User or service account is uninvited from team.
-| `user:create_api_key`         | API key for the user is created. <sup><a href="#1">1</a></sup>
-| `user:create`                 | User is created. <sup><a href="#1">1</a></sup>
-| `user:deactivate`             | User is deactivated. <sup><a href="#1">1</a></sup>
-| `user:delete_api_key`         | API key for the user is deleted. <sup><a href="#1">1</a></sup>
-| `user:initiate_login`         | User initiates log in. <sup><a href="#1">1</a></sup>
-| `user:login`                  | User logs in. <sup><a href="#1">1</a></sup>
-| `user:logout`                 | User logs out. <sup><a href="#1">1</a></sup>
-| `user:permanently_delete`     | User is permanently deleted. <sup><a href="#1">1</a></sup>
-| `user:reactivate`             | User is reactivated. <sup><a href="#1">1</a></sup>
-| `user:read`                   | User profile is read. <sup><a href="#1">1</a></sup>
-| `user:update`                 | User is updated. <sup><a href="#1">1</a></sup>
+| `artifact:create`             | Artifact が作成されました。
+| `artifact:delete   `          | Artifact が削除されました。
+| `artifact:read`               | Artifact が読み取られました。
+| `project:delete`              | Project が削除されました。
+| `project:read`                | Project が読み取られました。
+| `report:read`                 | Report が読み取られました。<sup><a href="#1">1</a></sup>
+| `run:delete_many`             | Run のバッチが削除されました。
+| `run:delete`                  | Run が削除されました。
+| `run:stop`                    | Run が停止されました。
+| `run:undelete_many`           | Run のバッチがゴミ箱から復元されました。
+| `run:update_many`             | Run のバッチが更新されました。
+| `run:update`                  | Run が更新されました。
+| `sweep:create_agent`          | sweep agent が作成されました。
+| `team:create_service_account` | サービスアカウントが Team に対して作成されました。
+| `team:create`                 | Team が作成されました。
+| `team:delete`                 | Team が削除されました。
+| `team:invite_user`            | User が Team に招待されました。
+| `team:uninvite`               | User またはサービスアカウントが Team から招待解除されました。
+| `user:create_api_key`         | User の APIキー が作成されました。<sup><a href="#1">1</a></sup>
+| `user:create`                 | User が作成されました。<sup><a href="#1">1</a></sup>
+| `user:deactivate`             | User が非アクティブ化されました。<sup><a href="#1">1</a></sup>
+| `user:delete_api_key`         | User の APIキー が削除されました。<sup><a href="#1">1</a></sup>
+| `user:initiate_login`         | User がログインを開始しました。<sup><a href="#1">1</a></sup>
+| `user:login`                  | User がログインしました。<sup><a href="#1">1</a></sup>
+| `user:logout`                 | User がログアウトしました。<sup><a href="#1">1</a></sup>
+| `user:permanently_delete`     | User が完全に削除されました。<sup><a href="#1">1</a></sup>
+| `user:reactivate`             | User が再アクティブ化されました。<sup><a href="#1">1</a></sup>
+| `user:read`                   | User プロファイルが読み取られました。<sup><a href="#1">1</a></sup>
+| `user:update`                 | User が更新されました。<sup><a href="#1">1</a></sup>
 
-<a id="1">1</a>: On [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}), audit logs are not collected for:
-- Open or Public projects.
-- The `report:read` action.
-- `User` actions which are not tied to a specific organization.
+<a id="1">1</a>: [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、次の監査ログは収集されません。
+- オープンまたはパブリック Projects。
+- `report:read` アクション。
+- 特定の組織に関連付けられていない `User` アクション。

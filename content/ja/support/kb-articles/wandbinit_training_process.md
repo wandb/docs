@@ -1,14 +1,14 @@
 ---
+title: What does wandb.init do to my training process?
 menu:
   support:
     identifier: ja-support-kb-articles-wandbinit_training_process
 support:
 - environment variables
 - experiments
-title: What does wandb.init do to my training process?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-When `wandb.init()` runs in a training script, an API call creates a run object on the servers. A new process starts to stream and collect metrics, allowing the primary process to function normally. The script writes to local files while the separate process streams data to the servers, including system metrics. To turn off streaming, run `wandb off` from the training directory or set the `WANDB_MODE` environment variable to `offline`.
+`wandb.init()` がトレーニング スクリプトで実行されると、API 呼び出しによってサーバー上に run オブジェクトが作成されます。新しいプロセスが開始され、メトリクスがストリーミングおよび収集されるため、プライマリ プロセスは正常に機能します。スクリプトはローカル ファイルに書き込みますが、別のプロセスがシステム メトリクスを含むデータをサーバーにストリーミングします。ストリーミングをオフにするには、トレーニング ディレクトリーから `wandb off` を実行するか、`WANDB_MODE` 環境変数を `offline` に設定します。

@@ -1,31 +1,31 @@
 ---
+title: How do I log a list of values?
 menu:
   support:
     identifier: ja-support-kb-articles-log_list_values
 support:
 - logs
 - experiments
-title: How do I log a list of values?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-These examples show logging losses a couple of different ways using [`wandb.log()`]({{< relref path="/ref/python/log/" lang="ja" >}}).
+これらの例では、[`wandb.log()`]({{< relref path="/ref/python/log/" lang="ja" >}}) を使用して、いくつかの異なる方法で損失を ログ 記録する方法を示します。
 
 {{< tabpane text=true >}}
-{{% tab "Using a dictionary" %}}
+{{% tab "辞書を使用" %}}
 ```python
 wandb.log({f"losses/loss-{ii}": loss for ii, 
   loss in enumerate(losses)})
 ```
 {{% /tab %}}
-{{% tab "As a histogram" %}}
+{{% tab "ヒストグラムとして" %}}
 ```python
-# Converts losses to a histogram
+# 損失をヒストグラムに変換
 wandb.log({"losses": wandb.Histogram(losses)})  
 ```
 {{% /tab %}}
 {{< /tabpane >}}
 
-For more, see [the documentation on logging]({{< relref path="/guides/models/track/log/" lang="ja" >}}).
+詳細については、[ログに関するドキュメント]({{< relref path="/guides/models/track/log/" lang="ja" >}}) を参照してください。

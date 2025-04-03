@@ -1,9 +1,9 @@
 ---
+title: Create a webhook automation
 menu:
   default:
     identifier: ja-guides-core-automations-create-automations-webhook
     parent: automations
-title: Create a webhook automation
 weight: 3
 ---
 
@@ -11,132 +11,130 @@ weight: 3
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-This page shows how to create a webhook [automation]({{< relref path="/guides/core/automations/" lang="ja" >}}> ). To create a Slack automation, refer to [Create a Slack automation]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ja" >}}) instead.
+このページでは、webhook [ オートメーション ]({{< relref path="/guides/core/automations/" lang="ja" >}}) の作成方法について説明します。Slack オートメーションを作成するには、代わりに [Slack オートメーションの作成]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ja" >}}) を参照してください。
 
-At a high level, to create a webhook automation, you take these steps:
-1. If necessary, [create a W&B secret]({{< relref path="/guides/core/secrets.md" lang="ja" >}}) for each sensitive string required by the automation, such as an access token, password, or SSH key. Secrets are defined in your team settings.
-1. [Create a webhook]({{< relref path="#create-a-webhook" lang="ja" >}}) to define the endpoint and authorization details and grant the integration access to any secrets it needs.
-1. [Create the automation]({{< relref path="#create-an-automation" lang="ja" >}}) to define the [event]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}}) to watch for and the payload W&B will send. Grant the automation access to any secrets it needs for the payload.
+大まかに言うと、webhook オートメーションを作成するには、次の手順を実行します。
+1. 必要に応じて、アクセストークン、パスワード、SSH キーなど、オートメーションに必要な機密文字列ごとに [W&B シークレットを作成]({{< relref path="/guides/core/secrets.md" lang="ja" >}}) します。シークレットは、 Team の設定で定義されます。
+1. [webhook を作成]({{< relref path="#create-a-webhook" lang="ja" >}}) して、エンドポイントと認証の詳細を定義し、インテグレーションに必要なシークレットへのアクセスを許可します。
+1. [オートメーションを作成]({{< relref path="#create-an-automation" lang="ja" >}}) して、監視する [ イベント ]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}}) と、Weights & Biases が送信するペイロードを定義します。ペイロードに必要なシークレットへのオートメーションアクセスを許可します。
 
-## Create a webhook
-A team admin can add a webhook for the team.
+## webhook を作成する
+Team の管理者は、 Team に webhook を追加できます。
 
 {{% alert %}}
-If the webhook requires a Bearer token or its payload requires a sensitive string, [create a secret that contains it]({{< relref path="/guides/core/secrets.md#add-a-secret" lang="ja" >}}) before creating the webhook. You can configure at most one access token and one other secret for a webhook. Your webhook's authentication and authorization requirements are determined by the webhook's service.
+webhook に Bearer トークンが必要な場合、またはそのペイロードに機密文字列が必要な場合は、webhook を作成する前に [それを含むシークレットを作成]({{< relref path="/guides/core/secrets.md#add-a-secret" lang="ja" >}}) してください。webhook に対して設定できるアクセストークンとその他のシークレットは、それぞれ最大 1 つです。webhook の認証および認可の要件は、webhook のサービスによって決まります。
 {{% /alert %}}
 
-1. Log in to W&B and go to Team Settings page.
-1. In the **Webhooks** section, click **New webhook**.
-1. Provide a name for the webhook. 
-1. Provide the endpoint URL for the webhook.
-1. If the webhook requires a Bearer token, set **Access token** to the [secret]({{< relref path="/guides/core/secrets.md" lang="ja" >}}) that contains it. When using the webhook automation, W&B sets the `Authorization: Bearer` HTTP header to the access token, and you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref path="#payload-variables" lang="ja" >}}).
-1. If the webhook requires a password or other sensitive string in its payload, set **Secret** to the secret that contains it. When you configure the automation that uses the webhook, you can access the secret as a [payload variable]({{< relref path="#payload-variables" lang="ja" >}}) by prefixing its name with `$`.
+1. Weights & Biases にログインし、Team の Settings ページに移動します。
+1. **Webhooks** セクションで、**New webhook** をクリックします。
+1. webhook の名前を入力します。
+1. webhook のエンドポイント URL を入力します。
+1. webhook に Bearer トークンが必要な場合は、**Access token** をそれを含む [シークレット]({{< relref path="/guides/core/secrets.md" lang="ja" >}}) に設定します。webhook オートメーションを使用すると、Weights & Biases は `Authorization: Bearer` HTTP ヘッダーをアクセストークンに設定し、`${ACCESS_TOKEN}` [ペイロード変数]({{< relref path="#payload-variables" lang="ja" >}}) でトークンにアクセスできます。
+1. webhook のペイロードにパスワードまたはその他の機密文字列が必要な場合は、**Secret** をそれを含むシークレットに設定します。webhook を使用するオートメーションを設定すると、名前の先頭に `$` を付けることで、[ペイロード変数]({{< relref path="#payload-variables" lang="ja" >}}) としてシークレットにアクセスできます。
 
-    If the webhook's access token is stored in a secret, you must _also_ complete the next step to specify the secret as the access token.
-1. To verify that the W&B can connect and authenticate to the endpoint:
-    1. Optionally, provide a payload to test. To refer to a secret the webhook has access to in the payload, prefix its name with `$`. This payload is only used for testing and is not saved. You configure an automation's payload when you [create the automation]({{< relref path="#create-a-webhook-automation" lang="ja" >}}). See [Troubleshoot your webhook]({{< relref path="#troubleshoot-your-webhook" lang="ja" >}}) to view where the secret and access token are specified in the `POST` request.
-    1. Click **Test**. W&B attempts to connect to the webhook's endpoint using the credentials you configured. If you provided a payload, W&B sends it.
+    webhook のアクセストークンがシークレットに保存されている場合は、次の手順も完了して、シークレットをアクセストークンとして指定する _必要_ があります。
+1. Weights & Biases がエンドポイントに接続して認証できることを確認するには：
+    1. 必要に応じて、テストするペイロードを指定します。ペイロードで webhook がアクセスできるシークレットを参照するには、名前の先頭に `$` を付けます。このペイロードはテスト専用であり、保存されません。オートメーションのペイロードは、[オートメーションを作成]({{< relref path="#create-a-webhook-automation" lang="ja" >}}) するときに設定します。シークレットとアクセストークンが `POST` リクエストのどこに指定されているかを確認するには、[webhook のトラブルシューティング]({{< relref path="#troubleshoot-your-webhook" lang="ja" >}}) を参照してください。
+    1. **Test** をクリックします。Weights & Biases は、設定した資格情報を使用して webhook のエンドポイントへの接続を試みます。ペイロードを指定した場合は、Weights & Biases がそれを送信します。
 
-    If the test does not succeed, verify the webhook's configuration and try again. If necessary, refer to [Troubleshoot your webhook]({{< relref path="#troubleshoot-your-webhook" lang="ja" >}}).
+    テストが成功しない場合は、webhook の設定を確認して、もう一度お試しください。必要に応じて、[webhook のトラブルシューティング]({{< relref path="#troubleshoot-your-webhook" lang="ja" >}}) を参照してください。
 
-Now you can [create an automation]({{< relref path="#create-a-webhook-automation" lang="ja" >}}) that uses the webhook.
+これで、webhook を使用する [オートメーションを作成]({{< relref path="#create-a-webhook-automation" lang="ja" >}}) できます。
 
-## Create an automation
-After you [configure a webhook]({{< relref path="#reate-a-webhook" lang="ja" >}}), select **Registry** or **Project**, then follow these steps to create an automation that triggers the webhook.
+## オートメーションを作成する
+[webhook を設定]({{< relref path="#reate-a-webhook" lang="ja" >}}) したら、**Registry** または **Project** を選択し、次の手順に従って webhook をトリガーするオートメーションを作成します。
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
-A Registry admin can create automations in that registry. Registry automations are applied to all collections in the registry, including those added in the future.
+Registry 管理者は、その Registry でオートメーションを作成できます。Registry オートメーションは、今後追加されるものを含め、Registry 内のすべてのコレクションに適用されます。
 
-1. Log in to W&B.
-1. Click the name of a registry to view its details, 
-1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
+1. Weights & Biases にログインします。
+1. Registry の名前をクリックして詳細を表示します。
+1. Registry の範囲に設定されたオートメーションを作成するには、**Automations** タブをクリックし、**Create automation** をクリックします。Registry の範囲に設定されたオートメーションは、そのすべてのコレクション（今後作成されるものを含む）に自動的に適用されます。
 
-    To create an automation scoped only to a specific collection in the registry, click the collection's action `...` menu, then click **Create automation**. Alternatively, while viewing a collection, create an automation for it using the **Create automation** button in the **Automations** section of the collection's details page.
-1. Choose the [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}}) to watch for. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**. Click **Next step**.
-1. Select the team that owns the [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}).
-1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}) to use.
-1. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref path="#payload-variables" lang="ja" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
-1. Click **Next step**.
-1. Provide a name for the automation. Optionally, provide a description. Click **Create automation**.
+    Registry 内の特定のコレクションのみを範囲とするオートメーションを作成するには、コレクションのアクション `...` メニューをクリックし、**Create automation** をクリックします。または、コレクションを表示しながら、コレクションの詳細ページの **Automations** セクションにある **Create automation** ボタンを使用して、コレクションのオートメーションを作成します。
+1. 監視する [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}}) を選択します。イベントに応じて表示される追加フィールドに入力します。たとえば、**An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。**Next step** をクリックします。
+1. [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}) を所有する Team を選択します。
+1. **Action type** を **Webhooks** に設定し、使用する [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}) を選択します。
+1. webhook のアクセストークンを設定した場合は、`${ACCESS_TOKEN}` [ペイロード変数]({{< relref path="#payload-variables" lang="ja" >}}) でトークンにアクセスできます。webhook のシークレットを設定した場合は、名前の先頭に `$` を付けることで、ペイロードでアクセスできます。webhook の要件は、webhook のサービスによって決まります。
+1. **Next step** をクリックします。
+1. オートメーションの名前を入力します。必要に応じて、説明を入力します。**Create automation** をクリックします。
 
 {{% /tab %}}
 {{% tab "Project" %}}
-A W&B admin can create automations in a project.
+Weights & Biases 管理者は、Project でオートメーションを作成できます。
 
-1. Log in to W&B and go to the project page.
-1. In the sidebar, click **Automations**.
-1. Click **Create automation**.
-1. Choose the [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}}) to watch for.
+1. Weights & Biases にログインし、Project ページに移動します。
+1. サイドバーで、**Automations** をクリックします。
+1. **Create automation** をクリックします。
+1. 監視する [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}}) を選択します。
 
-    1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+    1. イベントに応じて表示される追加フィールドに入力します。たとえば、**An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
 
-    1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
+    1. 必要に応じて、コレクションフィルターを指定します。それ以外の場合、オートメーションは、今後追加されるものを含め、Project 内のすべてのコレクションに適用されます。
     
-    Click **Next step**.
-1. Select the team that owns the [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}).
-1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}) to use. 
-1. If your webhook requires a payload, construct it and paste it into the **Payload** field. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref path="#payload-variables" lang="ja" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
-1. Click **Next step**.
-1. Provide a name for the automation. Optionally, provide a description. Click **Create automation**.
+    **Next step** をクリックします。
+1. [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}) を所有する Team を選択します。
+1. **Action type** を **Webhooks** に設定し、使用する [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}) を選択します。
+1. webhook にペイロードが必要な場合は、ペイロードを作成して **Payload** フィールドに貼り付けます。webhook のアクセストークンを設定した場合は、`${ACCESS_TOKEN}` [ペイロード変数]({{< relref path="#payload-variables" lang="ja" >}}) でトークンにアクセスできます。webhook のシークレットを設定した場合は、名前の先頭に `$` を付けることで、ペイロードでアクセスできます。webhook の要件は、webhook のサービスによって決まります。
+1. **Next step** をクリックします。
+1. オートメーションの名前を入力します。必要に応じて、説明を入力します。**Create automation** をクリックします。
 
 {{% /tab %}}
 {{< /tabpane >}}
 
-
-## View and manage automations
+## オートメーションの表示と管理
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
 
-- Manage a registry's automations from the registry's **Automations** tab.
-- Manage a collection's automations from the **Automations** section of the collection's details page.
+- Registry のオートメーションは、Registry の **Automations** タブから管理します。
+- コレクションのオートメーションは、コレクションの詳細ページの **Automations** セクションから管理します。
 
-From either of these pages, a Registry admin can manage existing automations:
-- To view an automation's details, click its name.
-- To edit an automation, click its action `...` menu, then click **Edit automation**.
-- To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
-
+これらのページのいずれかから、Registry 管理者は既存のオートメーションを管理できます。
+- オートメーションの詳細を表示するには、その名前をクリックします。
+- オートメーションを編集するには、アクション `...` メニューをクリックし、**Edit automation** をクリックします。
+- オートメーションを削除するには、アクション `...` メニューをクリックし、**Delete automation** をクリックします。確認が必要です。
 
 {{% /tab %}}
 {{% tab "Project" %}}
-A W&B admin can view and manage a project's automations from the project's **Automations** tab.
+Weights & Biases 管理者は、Project の **Automations** タブから Project のオートメーションを表示および管理できます。
 
-- To view an automation's details, click its name.
-- To edit an automation, click its action `...` menu, then click **Edit automation**.
-- To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
+- オートメーションの詳細を表示するには、その名前をクリックします。
+- オートメーションを編集するには、アクション `...` メニューをクリックし、**Edit automation** をクリックします。
+- オートメーションを削除するには、アクション `...` メニューをクリックし、**Delete automation** をクリックします。確認が必要です。
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Payload reference
-Use these sections to construct your webhoook's payload. For details about testing your webhook and its payload, refer to [Troubleshoot your webhook]({{< relref path="#troubleshoot-your-webhook" lang="ja" >}}).
+## ペイロードリファレンス
+これらのセクションを使用して、webhook のペイロードを作成します。webhook とそのペイロードのテストの詳細については、[webhook のトラブルシューティング]({{< relref path="#troubleshoot-your-webhook" lang="ja" >}}) を参照してください。
 
-### Payload variables
-This section describes the variables you can use to construct your webhook's payload.
+### ペイロード変数
+このセクションでは、webhook のペイロードの作成に使用できる変数について説明します。
 
-| Variable | Details |
-|----------|---------|
-| `${project_name}`             | The name of the project that owns the mutation that triggered the action. |
-| `${entity_name}`              | The name of the entity or team that owns the mutation that triggered the action.
-| `${event_type}`               | The type of event that triggered the action. |
-| `${event_author}`             | The user that triggered the action. |
-| `${artifact_collection_name}` | The name of the artifact collection that the artifact version is linked to. |
-| `${artifact_metadata.<KEY>}`  | The value of an arbitrary top-level metadata key from the artifact version that triggered the action. Replace `<KEY>` with the name of a top-level metadata key. Only top-level metadata keys are available in the webhook's payload. |
-| `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref path="/ref/python/artifact/" lang="ja" >}}) representation of the artifact version that triggered the action. |
-| `${artifact_version_string}` | The `string` representation of the artifact version that triggered the action. |
-| `${ACCESS_TOKEN}` | The value of the access token configured in the [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}), if an access token is configured. The access token is automatically passed in the `Authorization: Bearer` HTTP header. |
-| `${SECRET_NAME}` | If configured, the value of a secret configured in the [webhook]({{< relref path="#create-a-webhook" lang="ja" >}}). Replace `SECRET_NAME` with the name of the secret. |
+| 変数                      | 詳細                                                                                                                                                                      |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `${project_name}`             | アクションをトリガーした変更を所有する Project の名前。                                                                                                                              |
+| `${entity_name}`              | アクションをトリガーした変更を所有する Entity または Team の名前。                                                                                                                               |
+| `${event_type}`               | アクションをトリガーしたイベントのタイプ。                                                                                                                                  |
+| `${event_author}`             | アクションをトリガーしたユーザー。                                                                                                                                      |
+| `${artifact_collection_name}` | Artifact バージョンがリンクされている Artifact コレクションの名前。                                                                                                                     |
+| `${artifact_metadata.<KEY>}`  | アクションをトリガーした Artifact バージョンからの任意のトップレベル メタデータ キーの値。`<KEY>` をトップレベル メタデータ キーの名前に置き換えます。トップレベル メタデータ キーのみが、webhook のペイロードで使用できます。 |
+| `${artifact_version}`         | アクションをトリガーした Artifact バージョンの [`Wandb.Artifact`]({{< relref path="/ref/python/artifact/" lang="ja" >}}) 表現。                                                                                                               |
+| `${artifact_version_string}` | アクションをトリガーした Artifact バージョンの `string` 表現。                                                                                                                            |
+| `${ACCESS_TOKEN}` | アクセストークンが設定されている場合は、[webhook]({{< relref path="#create-a-webhook" lang="ja" >}}) で設定されたアクセストークンの値。アクセストークンは、`Authorization: Bearer` HTTP ヘッダーで自動的に渡されます。                                                                   |
+| `${SECRET_NAME}` | 設定されている場合は、[webhook]({{< relref path="#create-a-webhook" lang="ja" >}}) で設定されたシークレットの値。`SECRET_NAME` をシークレットの名前に置き換えます。                                                                                                       |
 
-### Payload examples
-This section includes examples of webhook payloads for some common use cases. The examples demonstrate how to use [payload variables]({{< relref path="#payload-variables" lang="ja" >}}).
+### ペイロードの例
+このセクションには、一般的なユースケースの webhook ペイロードの例が含まれています。この例では、[ペイロード変数]({{< relref path="#payload-variables" lang="ja" >}}) の使用方法を示します。
 
 {{< tabpane text=true >}}
-{{% tab header="GitHub repository dispatch" value="github" %}}
+{{% tab header="GitHub リポジトリディスパッチ" value="github" %}}
 
 {{% alert %}}
-Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
+アクセストークンに、GHA ワークフローをトリガーするために必要な権限セットがあることを確認してください。詳細については、[GitHub ドキュメントを参照してください](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event)。
 {{% /alert %}}
 
-Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have a GitHub workflow file that accepts a repository dispatch as a trigger for the `on` key:
+Weights & Biases からリポジトリディスパッチを送信して、GitHub アクションをトリガーします。たとえば、`on` キーのトリガーとしてリポジトリディスパッチを受け入れる GitHub ワークフローファイルがあるとします。
 
 ```yaml
 on:
@@ -144,7 +142,7 @@ repository_dispatch:
   types: BUILD_AND_DEPLOY
 ```
 
-The payload for the repository might look something like:
+リポジトリのペイロードは、次のようになります。
 
 ```json
 {
@@ -162,10 +160,10 @@ The payload for the repository might look something like:
 ```
 
 {{% alert %}}
-The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
+webhook ペイロードの `event_type` キーは、GitHub ワークフロー YAML ファイルの `types` フィールドと一致する必要があります。
 {{% /alert %}}
 
-The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either `LINK_ARTIFACT` or `ADD_ARTIFACT_ALIAS`. See below for an example mapping:
+レンダリングされたテンプレート文字列の内容と配置は、オートメーションが設定されているイベントまたはモデルバージョンによって異なります。`${event_type}` は、`LINK_ARTIFACT` または `ADD_ARTIFACT_ALIAS` のいずれかとしてレンダリングされます。以下に、マッピングの例を示します。
 
 ```text
 ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
@@ -177,19 +175,19 @@ ${project_name} --> "model-registry"
 ${entity_name} --> "<entity>"
 ```
 
-Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ja" >}}).
+テンプレート文字列を使用して、Weights & Biases から GitHub Actions およびその他のツールにコンテキストを動的に渡します。これらのツールが Python スクリプトを呼び出すことができる場合は、[Weights & Biases API]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact.md" lang="ja" >}}) を使用して、登録されたモデル Artifacts を利用できます。
 
-- For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).
+- リポジトリディスパッチの詳細については、[GitHub Marketplace の公式ドキュメント](https://github.com/marketplace/actions/repository-dispatch) を参照してください。
 
-- Watch the videos [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) and [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases), which guide you to create automations for model evaluation and deployment. 
+- [モデル評価の Webhook オートメーション](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) および [モデルデプロイメントの Webhook オートメーション](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases) のビデオをご覧ください。これらのビデオでは、モデル評価およびデプロイメントのオートメーションを作成する方法を説明しています。
 
-- Review a W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw), which illustrates how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
+- Weights & Biases [レポート](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) を確認してください。このレポートでは、モデル CI に Github Actions webhook オートメーションを使用する方法を示しています。この [GitHub リポジトリ](https://github.com/hamelsmu/wandb-modal-webhook) をチェックして、Modal Labs webhook でモデル CI を作成する方法を学んでください。
 
 {{% /tab %}}
 
-{{% tab header="Microsoft Teams notification" value="microsoft"%}}
+{{% tab header="Microsoft Teams 通知" value="microsoft"%}}
 
-This example payload shows how to notify your Teams channel using a webhook:
+このペイロードの例は、webhook を使用して Teams チャンネルに通知する方法を示しています。
 
 ```json 
 {
@@ -216,19 +214,19 @@ This example payload shows how to notify your Teams channel using a webhook:
 }
 ```
 
-You can use template strings to inject W&B data into your payload at the time of execution (as shown in the Teams example above).
+テンプレート文字列を使用して、実行時に Weights & Biases データをペイロードに挿入できます（上記の Teams の例に示すように）。
 
 {{% /tab %}}
 
-{{% tab header="Slack notifications" value="slack"%}}
+{{% tab header="Slack 通知" value="slack"%}}
 
 {{% alert %}}
-This section is provided for historical purposes. If you currently use a webhook to integrate with Slack, W&B recommends that you update your configuration to use the [new Slack integration]({{ relref "#create-a-slack-automation"}}) instead.
+このセクションは、履歴を目的として提供されています。現在 webhook を使用して Slack と統合している場合は、[新しい Slack インテグレーション]({{ relref "#create-a-slack-automation"}}) を使用するように構成を更新することをお勧めします。
 {{% /alert %}}
 
-Set up your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Token` as your W&B webhook’s access token. 
+[Slack API ドキュメント](https://api.slack.com/messaging/webhooks) で強調表示されている手順に従って、Slack アプリを設定し、受信 webhook インテグレーションを追加します。`Bot User OAuth Token` で指定されたシークレットが、Weights & Biases webhook のアクセストークンであることを確認してください。
 
-The following is an example payload:
+以下は、ペイロードの例です。
 
 ```json
 {
@@ -265,31 +263,31 @@ The following is an example payload:
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Troubleshoot your webhook
-Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
+## webhook のトラブルシューティング
+Weights & Biases App UI を使用してインタラクティブに、または Bash スクリプトを使用してプログラムで webhook のトラブルシューティングを行います。新しい webhook を作成するとき、または既存の webhook を編集するときに、webhook のトラブルシューティングを行うことができます。
 
 {{< tabpane text=true >}}
-{{% tab header="W&B App UI" value="app" %}}
+{{% tab header="Weights & Biases App UI" value="app" %}}
 
-A team admin can test a webhook interactively with the W&B App UI. 
+Team 管理者は、Weights & Biases App UI を使用して webhook をインタラクティブにテストできます。
 
-1. Navigate to your W&B Team Settings page.
-2. Scroll to the **Webhooks** section.
-3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
-4. Select **Test**.
-5. From the UI panel that appears, paste your POST request to the field that appears. 
-    {{< img src="/images/models/webhook_ui.png" alt="Demo of testing a webhook payload" >}}
-6. Click on **Test webhook**. Within the W&B App UI, W&B posts the response from your endpoint.
-    {{< img src="/images/models/webhook_ui_testing.gif" alt="Demo of testing a webhook" >}}
+1. Weights & Biases Team の Settings ページに移動します。
+2. **Webhooks** セクションまでスクロールします。
+3. webhook の名前の横にある水平方向の 3 つのドキュメント（ミートボールアイコン）をクリックします。
+4. **Test** を選択します。
+5. 表示される UI パネルから、表示されるフィールドに POST リクエストを貼り付けます。
+    {{< img src="/images/models/webhook_ui.png" alt="Webhook ペイロードのテストのデモ" >}}
+6. **Test webhook** をクリックします。Weights & Biases App UI 内で、Weights & Biases はエンドポイントからの応答を投稿します。
+    {{< img src="/images/models/webhook_ui_testing.gif" alt="Webhook のテストのデモ" >}}
 
-Watch the video [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a demonstration.
+デモンストレーションについては、ビデオ [Weights & Biases での Webhook のテスト](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) をご覧ください。
 {{% /tab %}}
 
-{{% tab header="Bash script" value="bash"%}}
+{{% tab header="Bash スクリプト" value="bash"%}}
 
-This shell script shows one method to generate a `POST` request similar to the request W&B sends to your webhook automation when it is triggered.
+このシェルスクリプトは、トリガーされたときに Weights & Biases が webhook オートメーションに送信するリクエストと同様の `POST` リクエストを生成する 1 つの方法を示しています。
 
-Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for:
+以下のコードをコピーしてシェルスクリプトに貼り付け、webhook のトラブルシューティングを行います。次の独自の値（バリュー）を指定します。
 
 * `ACCESS_TOKEN`
 * `SECRET`

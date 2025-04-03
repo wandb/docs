@@ -1,13 +1,13 @@
 ---
+title: QueuedRun
 menu:
   reference:
     identifier: ja-ref-python-public-api-queuedrun
-title: QueuedRun
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L214-L417 >}}
 
-A single queued run associated with an entity and project. Call `run = queued_run.wait_until_running()` or `run = queued_run.wait_until_finished()` to access the run.
+Entity と Project に関連付けられた、単一のキューに登録された run 。run にアクセスするには、`run = queued_run.wait_until_running()` または `run = queued_run.wait_until_finished()` を呼び出します。
 
 ```python
 QueuedRun(
@@ -19,7 +19,7 @@ QueuedRun(
 | Attributes |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `delete`
 
@@ -31,7 +31,7 @@ delete(
 )
 ```
 
-Delete the given queued run from the wandb backend.
+指定されたキューに登録された run を wandb バックエンドから削除します。
 
 ### `wait_until_finished`
 

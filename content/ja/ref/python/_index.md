@@ -1,52 +1,48 @@
 ---
+title: Python Library
 menu:
   reference:
     identifier: ja-ref-python-_index
-title: Python Library
 ---
 
-<!-- Insert buttons and diff -->
+wandb を使用して、機械学習の作業を追跡します。
 
+モデルの学習とファインチューン、実験からプロダクションまでのモデルを管理します。
 
+ガイド と例については、https://docs.wandb.ai を参照してください。
 
-Use wandb to track machine learning work.
+スクリプト とインタラクティブな notebook については、https://github.com/wandb/examples を参照してください。
 
-Train and fine-tune models, manage models from experimentation to production.
+リファレンスドキュメントについては、https://docs.wandb.com/ref/python を参照してください。
 
-For guides and examples, see https://docs.wandb.ai.
+## クラス
 
-For scripts and interactive notebooks, see https://github.com/wandb/examples.
+[`class Artifact`](./artifact.md): データセット とモデルの バージョン管理のための、柔軟で軽量な構成要素。
 
-For reference documentation, see https://docs.wandb.com/ref/python.
+[`class Run`](./run.md): wandb によって記録される計算の単位。通常、これは ML の実験です。
 
-## Classes
+## 関数
 
-[`class Artifact`](./artifact.md): Flexible and lightweight building block for dataset and model versioning.
+[`agent(...)`](./agent.md): 1つまたは複数の sweep agent を起動します。
 
-[`class Run`](./run.md): A unit of computation logged by wandb. Typically, this is an ML experiment.
+[`controller(...)`](./controller.md): パブリック sweep controller コンストラクタ。
 
-## Functions
+[`finish(...)`](./finish.md): run を終了し、残りのデータをアップロードします。
 
-[`agent(...)`](./agent.md): Start one or more sweep agents.
+[`init(...)`](./init.md): 新しい run を開始して、W&B への追跡とログ記録を行います。
 
-[`controller(...)`](./controller.md): Public sweep controller constructor.
+[`log(...)`](./log.md): run データをアップロードします。
 
-[`finish(...)`](./finish.md): Finish a run and upload any remaining data.
+[`login(...)`](./login.md): W&B のログイン認証情報を設定します。
 
-[`init(...)`](./init.md): Start a new run to track and log to W&B.
+[`save(...)`](./save.md): 1つまたは複数のファイルを W&B に同期します。
 
-[`log(...)`](./log.md): Upload run data.
+[`sweep(...)`](./sweep.md): ハイパーパラメーター探索 を初期化します。
 
-[`login(...)`](./login.md): Set up W&B login credentials.
+[`watch(...)`](./watch.md): 指定された PyTorch モデルにフックして、勾配 とモデルの計算グラフを監視します。
 
-[`save(...)`](./save.md): Sync one or more files to W&B.
-
-[`sweep(...)`](./sweep.md): Initialize a hyperparameter sweep.
-
-[`watch(...)`](./watch.md): Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.
-
-| Other Members |  |
+| その他のメンバー |  |
 | :--- | :--- |
-|  `__version__`<a id="__version__"></a> |  `'0.19.8'` |
-|  `config`<a id="config"></a> |   |
-|  `summary`<a id="summary"></a> |   |
+| `__version__`<a id="__version__"></a> | `'0.19.8'` |
+| `config`<a id="config"></a> |   |
+| `summary`<a id="summary"></a> |   |

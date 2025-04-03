@@ -1,26 +1,26 @@
 ---
-description: The W&B SDK for TypeScript, Node, and modern Web Browsers
+title: JavaScript Library
+description: TypeScript、Node、および最新のWebブラウザ向けのW&B SDK
 menu:
   reference:
     identifier: ja-ref-js-_index
-title: JavaScript Library
 ---
 
-Similar to our Python library, we offer a client to track experiments in JavaScript/TypeScript.
+Python ライブラリと同様に、JavaScript/TypeScript での Experiments を追跡するクライアントも提供しています。
 
-- Log metrics from your Node server and display them in interactive plots on W&B
-- Debug LLM applications with interactive traces
-- Debug [LangChain.js](https://github.com/hwchase17/langchainjs) usage
+- Node サーバーからメトリクスをログに記録し、W&B のインタラクティブなプロットで表示します
+- インタラクティブな Traces で LLM アプリケーションをデバッグします
+- [LangChain.js](https://github.com/hwchase17/langchainjs) の使用をデバッグします
 
-This library is compatible with Node and modern JS run times. 
+このライブラリは、Node および最新の JS ランタイムと互換性があります。
 
-You can find the source code for the JavaScript client in the [Github repository](https://github.com/wandb/wandb-js).
+JavaScript クライアントのソースコードは、[Github リポジトリ](https://github.com/wandb/wandb-js) にあります。
 
 {{% alert %}}
-Our JavaScript integration is still in Beta, if you run into issues please let us know.
+JavaScript のインテグレーションはまだベータ版です。問題が発生した場合は、お知らせください。
 {{% /alert %}}
 
-### Installation
+### インストール
 
 ```shell
 npm install @wandb/sdk
@@ -28,7 +28,7 @@ npm install @wandb/sdk
 yarn add @wandb/sdk
 ```
 
-### Usage
+### 使用方法
 
 TypeScript/ESM:
 
@@ -46,7 +46,7 @@ await track()
 ```
 
 {{% alert color="secondary" %}}
-We spawn a separate MessageChannel to process all api calls async. This will cause your script to hang if you don't call `await wandb.finish()`.
+すべての API 呼び出しを非同期で処理するために、個別の MessageChannel を生成します。`await wandb.finish()` を呼び出さないと、スクリプトがハングアップします。
 {{% /alert %}}
 
 Node/CommonJS:
@@ -55,23 +55,23 @@ Node/CommonJS:
 const wandb = require('@wandb/sdk').default;
 ```
 
-We're currently missing a lot of the functionality found in our Python SDK, but basic logging functionality is available. We'll be adding additional features like [Tables]({{< relref path="/guides/models/tables/?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme" lang="ja" >}}) soon.
+現在、Python SDK にある機能の多くが欠けていますが、基本的なログ機能は利用可能です。 [Tables]({{< relref path="/guides/models/tables/?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme" lang="ja" >}}) のような機能もまもなく追加する予定です。
 
-### Authentication and Settings
+### 認証と設定
 
-In node environments we look for `process.env.WANDB_API_KEY` and prompt for it's input if we have a TTY. In non-node environments we look for `sessionStorage.getItem("WANDB_API_KEY")`. Additional settings can be [found here](https://github.com/wandb/wandb-js/blob/main/src/sdk/lib/config.ts).
+Node 環境では、`process.env.WANDB_API_KEY` を探し、TTY がある場合はその入力を求めます。非 Node 環境では、`sessionStorage.getItem("WANDB_API_KEY")` を探します。追加の settings は[こちら](https://github.com/wandb/wandb-js/blob/main/src/sdk/lib/config.ts)にあります。
 
-# Integrations
+# インテグレーション
 
-Our [Python integrations]({{< relref path="/guides/integrations/" lang="ja" >}}) are widely used by our community, and we hope to build out more JavaScript integrations to help LLM app builders leverage whatever tool they want. 
+当社の [Python integrations]({{< relref path="/guides/integrations/" lang="ja" >}}) はコミュニティで広く使用されており、LLM アプリケーションビルダーがあらゆる tool を活用できるように、より多くの JavaScript integrations を構築したいと考えています。
 
-If you have any requests for additional integrations, we'd love you to open an issue with details about the request.
+追加の integrations のリクエストがある場合は、リクエストの詳細を記載した issue をオープンしてください。
 
-## LangChain.js
+## LangChain.js
 
-This library integrates with the popular library for building LLM applications, [LangChain.js](https://github.com/hwchase17/langchainjs) version >= 0.0.75.
+このライブラリは、LLM アプリケーションを構築するための一般的なライブラリである [LangChain.js](https://github.com/hwchase17/langchainjs) バージョン >= 0.0.75 と統合されています。
 
-### Usage
+### 使用方法
 
 ```typescript
 import {WandbTracer} from '@wandb/sdk/integrations/langchain';
@@ -83,7 +83,7 @@ await WandbTracer.finish();
 ```
 
 {{% alert color="secondary" %}}
-We spawn a seperate MessageChannel to process all api calls async. This will cause your script to hang if you don't call `await WandbTracer.finish()`.
+すべての API 呼び出しを非同期で処理するために、別の MessageChannel を生成します。`await WandbTracer.finish()` を呼び出さないと、スクリプトがハングアップします。
 {{% /alert %}}
 
-See [this test](https://github.com/wandb/wandb-js/blob/main/src/sdk/integrations/langchain/langchain.test.ts) for a more detailed example.
+詳細な例については、[このテスト](https://github.com/wandb/wandb-js/blob/main/src/sdk/integrations/langchain/langchain.test.ts) を参照してください。

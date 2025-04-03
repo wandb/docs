@@ -1,12 +1,12 @@
 ---
+title: How do I make W&B Launch work with Tensorflow on GPU?
 menu:
   launch:
     identifier: ja-launch-launch-faq-launch_tensorflow_gpu
     parent: launch-faq
-title: How do I make W&B Launch work with Tensorflow on GPU?
 ---
 
-For TensorFlow jobs using GPUs, specify a custom base image for the container build. This ensures proper GPU utilization during runs. Add an image tag under the `builder.accelerator.base_image` key in the resource configuration. For example:
+GPU を使用する TensorFlow ジョブの場合、コンテナを構築するためのカスタムベースイメージを指定します。これにより、run 中の適切な GPU 使用率が保証されます。リソース設定の `builder.accelerator.base_image` キーの下にイメージタグを追加します。以下に例を示します。
 
 ```json
 {
@@ -19,4 +19,4 @@ For TensorFlow jobs using GPUs, specify a custom base image for the container bu
 }
 ```
 
-In versions prior to W&B 0.15.6, use `cuda` instead of `accelerator` as the parent key for `base_image`.
+W&B 0.15.6 より前のバージョンでは、`base_image` の親キーとして `accelerator` の代わりに `cuda` を使用します。

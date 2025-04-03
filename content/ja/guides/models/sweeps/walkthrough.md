@@ -1,31 +1,29 @@
 ---
-description: Sweeps quickstart shows how to define, initialize, and run a sweep. There
-  are four main steps
+title: 'Tutorial: Define, initialize, and run a sweep'
+description: Sweeps クイックスタート では、sweep の定義、初期化、および実行方法について説明します。主な手順は4つあります。
 menu:
   default:
     identifier: ja-guides-models-sweeps-walkthrough
     parent: sweeps
-title: 'Tutorial: Define, initialize, and run a sweep'
 weight: 1
 ---
 
-This page shows how to define, initialize, and run a sweep. There are four main steps:
+このページでは、sweep の定義、初期化、および実行方法について説明します。主な手順は4つあります。
 
-1. [Set up your training code]({{< relref path="#set-up-your-training-code" lang="ja" >}})
-2. [Define the search space with a sweep configuration]({{< relref path="#define-the-search-space-with-a-sweep-configuration" lang="ja" >}})
-3. [Initialize the sweep]({{< relref path="#initialize-the-sweep" lang="ja" >}})
-4. [Start the sweep agent]({{< relref path="#start-the-sweep" lang="ja" >}})
+1. [トレーニング コードのセットアップ]({{< relref path="#set-up-your-training-code" lang="ja" >}})
+2. [sweep configuration での探索空間の定義]({{< relref path="#define-the-search-space-with-a-sweep-configuration" lang="ja" >}})
+3. [sweep の初期化]({{< relref path="#initialize-the-sweep" lang="ja" >}})
+4. [sweep agent の起動]({{< relref path="#start-the-sweep" lang="ja" >}})
 
+次のコードをコピーして Jupyter Notebook または Python スクリプトに貼り付けます。
 
-Copy and paste the following code into a Jupyter Notebook or Python script:
-
-```python 
-# Import the W&B Python Library and log into W&B
+```python
+# W&B Python ライブラリをインポートして W&B にログインします
 import wandb
 
 wandb.login()
 
-# 1: Define objective/training function
+# 1: 目的関数/トレーニング関数を定義します
 def objective(config):
     score = config.x**3 + config.y
     return score
@@ -35,7 +33,7 @@ def main():
     score = objective(wandb.config)
     wandb.log({"score": score})
 
-# 2: Define the search space
+# 2: 探索空間を定義します
 sweep_configuration = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "score"},
@@ -45,26 +43,25 @@ sweep_configuration = {
     },
 }
 
-# 3: Start the sweep
+# 3: sweep を開始します
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-The following sections break down and explains each step in the code sample.
+以下のセクションでは、コード サンプルの各ステップを分解して説明します。
 
+## トレーニング コードのセットアップ
+`wandb.config` から ハイパーパラメーター の値を受け取り、それらを使用して model をトレーニングし、メトリクスを返すトレーニング関数を定義します。
 
-## Set up your training code
-Define a training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metrics.
-
-Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
+必要に応じて、W&B Run の出力を保存する project の名前を指定します ([`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}}) の project パラメータ)。project が指定されていない場合、run は「未分類」の project に配置されます。
 
 {{% alert %}}
-Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
+sweep と run は両方とも同じ project に存在する必要があります。したがって、W&B を初期化するときに指定する名前は、sweep を初期化するときに指定する project の名前と一致する必要があります。
 {{% /alert %}}
 
 ```python
-# 1: Define objective/training function
+# 1: 目的関数/トレーニング関数を定義します
 def objective(config):
     score = config.x**3 + config.y
     return score
@@ -76,17 +73,16 @@ def main():
     wandb.log({"score": score})
 ```
 
-## Define the search space with a sweep configuration
+## sweep configuration での探索空間の定義
 
-Specify the hyperparameters to sweep in a dictionary. For configuration options, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}).
+辞書で sweep する ハイパーパラメーター を指定します。configuration オプションについては、[sweep configuration の定義]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}})を参照してください。
 
-The proceeding example demonstrates a sweep configuration that uses a random search (`'method':'random'`). The sweep will randomly select a random set of values listed in the configuration for the batch size, epoch, and the learning rate.
+上記の例は、ランダム検索 (`'method':'random'`) を使用する sweep configuration を示しています。sweep は、バッチサイズ、エポック、および学習率について、configuration にリストされている値のランダムなセットをランダムに選択します。
 
-W&B minimizes the metric specified in the `metric` key when `"goal": "minimize"` is associated with it. In this case, W&B will optimize for minimizing the metric  `score` (`"name": "score"`).
-
+W&B は、`"goal": "minimize"` が関連付けられている場合、`metric` キーで指定された メトリクス を最小化します。この場合、W&B は メトリクス `score` (`"name": "score"`) の最小化のために最適化します。
 
 ```python
-# 2: Define the search space
+# 2: 探索空間を定義します
 sweep_configuration = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "score"},
@@ -97,34 +93,34 @@ sweep_configuration = {
 }
 ```
 
-## Initialize the Sweep
+## Sweep の初期化
 
-W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally (local) across one or more machines. For more information about Sweep Controllers, see [Search and stop algorithms locally]({{< relref path="./local-controller.md" lang="ja" >}}).
+W&B は _Sweep Controller_ を使用して、クラウド (標準)、ローカル (ローカル) で1つまたは複数のマシンにわたる Sweeps を管理します。Sweep Controller の詳細については、[ローカルでの検索と停止アルゴリズム]({{< relref path="./local-controller.md" lang="ja" >}})を参照してください。
 
-A sweep identification number is returned when you initialize a sweep:
+sweep 識別番号は、sweep を初期化するときに返されます。
 
 ```python
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
-For more information about initializing sweeps, see [Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}}).
+sweep の初期化の詳細については、[sweep の初期化]({{< relref path="./initialize-sweeps.md" lang="ja" >}})を参照してください。
 
-## Start the Sweep
+## Sweep の開始
 
-Use the [`wandb.agent`]({{< relref path="/ref/python/agent.md" lang="ja" >}}) API call to start a sweep.
+[`wandb.agent`]({{< relref path="/ref/python/agent.md" lang="ja" >}}) API 呼び出しを使用して sweep を開始します。
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-## Visualize results (optional)
+## 結果の可視化 (オプション)
 
-Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref path="/guides/models/app/features/panels/parallel-coordinates.md" lang="ja" >}}),[ parameter importance analyzes]({{< relref path="/guides/models/app/features/panels/parameter-importance.md" lang="ja" >}}), and [more]({{< relref path="/guides/models/app/features/panels/" lang="ja" >}}).
+project を開いて、W&B App ダッシュボードでライブ結果を確認します。数回クリックするだけで、[パラレル座標図]({{< relref path="/guides/models/app/features/panels/parallel-coordinates.md" lang="ja" >}})、[パラメーター の重要性分析]({{< relref path="/guides/models/app/features/panels/parameter-importance.md" lang="ja" >}}) などの豊富なインタラクティブなグラフを構築できます。[詳細]({{< relref path="/guides/models/app/features/panels/" lang="ja" >}})
 
 {{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard example" >}}
 
-For more information about how to visualize results, see [Visualize sweep results]({{< relref path="./visualize-sweep-results.md" lang="ja" >}}). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
+結果の可視化方法の詳細については、[sweep 結果の可視化]({{< relref path="./visualize-sweep-results.md" lang="ja" >}})を参照してください。ダッシュボードの例については、このサンプル[Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)を参照してください。
 
-## Stop the agent (optional)
+## エージェント の停止 (オプション)
 
-In the terminal, press `Ctrl+C` to stop the current run. Press it again to terminate the agent.
+ターミナル で、`Ctrl+C` を押して現在の run を停止します。もう一度押すと、agent が終了します。

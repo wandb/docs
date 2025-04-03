@@ -1,102 +1,62 @@
 ---
-description: How to use the sidebar and table on the project page
+title: Filter and search runs
+description: プロジェクトページでサイドバーとテーブルを使用する方法
 menu:
   default:
     identifier: ja-guides-models-track-runs-filter-runs
     parent: what-are-runs
-title: Filter and search runs
 ---
 
-Use your project page to gain insights from runs logged to W&B. You can filter and search runs from both the **Workspace** page and the **Runs** page.
+WandB にログされた run からの洞察を得るには、プロジェクトページを使用してください。**Workspace** ページと **Runs** ページの両方から、run をフィルタリングおよび検索できます。
 
-## Filter runs
+## run をフィルタリングする
 
-Filter runs based on their status, tags, or other properties with the filter button.
+フィルターボタンを使用して、ステータス、タグ、またはその他のプロパティに基づいて run をフィルタリングします。
 
+### タグで run をフィルタリングする
 
-### Filter runs with tags
-
-Filter runs based on their tags with the filter button.
+フィルターボタンを使用して、タグに基づいて run をフィルタリングします。
 
 {{< img src="/images/app_ui/filter_runs.gif" alt="" >}}
 
+### 正規表現で run をフィルタリングする
 
-### Filter runs with regex
-
-If regex doesn't provide you the desired results, you can make use of [tags]({{< relref path="tags.md" lang="ja" >}}) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
+正規表現で目的の検索結果が得られない場合は、[タグ]({{< relref path="tags.md" lang="ja" >}})を使用して、Runs Table で run をフィルタリングできます。タグは、run の作成時または完了後に追加できます。タグが run に追加されると、以下の gif に示すようにタグフィルターを追加できます。
 
 {{< img src="/images/app_ui/tags.gif" alt="If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table" >}}
 
+## run を検索する
 
-## Search runs
+[正規表現](https://dev.mysql.com/doc/refman/8.0/en/regexp.html)を使用して、指定した正規表現に一致する run を検索します。検索ボックスにクエリを入力すると、**Workspace** 上のグラフに表示される run が絞り込まれるとともに、テーブルの行もフィルタリングされます。
 
-Use [regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) to find runs with the regex you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
+## run をグループ化する
 
-## Group runs
+1 つまたは複数の列 (非表示の列を含む) で run をグループ化するには:
 
-To group runs by one or more columns (including hidden columns):
+1. 検索ボックスの下にある、罫線が引かれた用紙のような **Group** ボタンをクリックします。
+2. 結果をグループ化する 1 つまたは複数の列を選択します。
+3. グループ化された run の各セットは、デフォルトで折りたたまれています。展開するには、グループ名の横にある矢印をクリックします。
 
-1. Below the search box, click the **Group** button, which looks like a lined sheet of paper.
-1. Select one or more columns to group results by.
-1. Each set of grouped runs is collapsed by default. To expand it, click the arrow next to the group name.
+## 最小値と最大値で run を並べ替える
+ログに記録されたメトリクスの最小値または最大値で、run テーブルを並べ替えます。これは、記録された最高 (または最低) の値を表示する場合に特に役立ちます。
 
-## Sort runs by minimum and maximum values
-Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
+次のステップでは、記録された最小値または最大値に基づいて、特定のメトリクスで run テーブルを並べ替える方法について説明します。
 
-The following steps describe how to sort the run table by a specific metric based on the minimum or maximum recorded value:
-
-1. Hover your mouse over the column with the metric you want to sort with.
-2. Select the kebob menu (three vertical lines).
-3. From the dropdown, select either **Show min** or **Show max**.
-4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
+1. 並べ替えに使用するメトリクスを含む列にマウスを合わせます。
+2. ケバブメニュー (縦の 3 本線) を選択します。
+3. ドロップダウンから、**Show min** または **Show max** を選択します。
+4. 同じドロップダウンから、**Sort by asc** または **Sort by desc** を選択して、それぞれ昇順または降順で並べ替えます。
 
 {{< img src="/images/app_ui/runs_min_max.gif" alt="" >}}
 
-## Search End Time for runs
+## run の検索終了時間
 
-We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
+クライアント プロセスからの最後のハートビートをログに記録する `End Time` という名前の列を提供します。このフィールドはデフォルトで非表示になっています。
 
 {{< img src="/images/app_ui/search_run_endtime.png" alt="" >}}
 
+## Runs Table を CSV にエクスポート
 
-
-
-
-## Export runs table to CSV
-
-Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
+ダウンロードボタンを使用して、すべての run、ハイパーパラメーター 、およびサマリー メトリクスのテーブルを CSV にエクスポートします。
 
 {{< img src="/images/app_ui/export_to_csv.gif" alt="" >}}
-
-
-<!-- ## Edit run colors
-
-When a new run is created, it is assigned a default color. You can edit the color for a given run by clicking the color preview.
-
-Colors are locally scoped. On the project page, custom colors only apply to your own workspace. In reports, custom colors for runs only apply at the section level. You can visualize the same run in different sections, and it can have a different custom color in each section.
-
-1. Select the Run you want to visualize
-2. Click the colored dot 
-3. Select a color for the graphs of your run
-## See active runs
-
-Look for a green dot next to the name of runs— this indicates they're active in the table and on the graph legends. -->
-
-<!-- ## Bulk select runs
-
-Delete multiple runs at once, or tag a group of runs— bulk selection makes it easier to keep the runs table organized.
-
-{{< img src="/images/app_ui/howto_bulk_select.gif" alt="" >}} -->
-
-<!-- ## Select all runs in table
-
-Click the checkbox in the upper left corner of the table, and click "Select all runs" to select every run that matches the current set of filters.
-
-{{< img src="/images/app_ui/all_runs_select.gif" alt="" >}} -->
-
-<!-- 
-## Search columns in the table
-
-Search for the columns in the table UI guide with the **Columns** button.
-
-{{< img src="/images/app_ui/search_columns.gif" alt="" >}} -->

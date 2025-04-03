@@ -1,13 +1,13 @@
 ---
+title: WandbMetricsLogger
 menu:
   reference:
     identifier: ja-ref-python-integrations-keras-wandbmetricslogger
-title: WandbMetricsLogger
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/integration/keras/callbacks/metrics_logger.py#L16-L129 >}}
 
-Logger that sends system metrics to W&B.
+システムメトリクスを W&B に送信するロガー。
 
 ```python
 WandbMetricsLogger(
@@ -18,29 +18,24 @@ WandbMetricsLogger(
 ) -> None
 ```
 
-`WandbMetricsLogger` automatically logs the `logs` dictionary that callback methods
-take as argument to wandb.
+`WandbMetricsLogger` は、コールバックメソッドが wandb に引数として取る `logs` 辞書を自動的に ログ 記録します。
 
-This callback automatically logs the following to a W&B run page:
+このコールバックは、以下のものを自動的に W&B の run ページにログ記録します。
 
-* system (CPU/GPU/TPU) metrics,
-* train and validation metrics defined in `model.compile`,
-* learning rate (both for a fixed value or a learning rate scheduler)
+* システム (CPU/GPU/TPU) メトリクス
+* `model.compile` で定義されたトレーニングおよび検証メトリクス
+* 学習率（固定値と学習率スケジューラの両方）
 
-#### Notes:
+#### 注:
 
-If you resume training by passing `initial_epoch` to `model.fit` and you are using a
-learning rate scheduler, make sure to pass `initial_global_step` to
-`WandbMetricsLogger`. The `initial_global_step` is `step_size * initial_step`, where
-`step_size` is number of training steps per epoch. `step_size` can be calculated as
-the product of the cardinality of the training dataset and the batch size.
+`initial_epoch` を `model.fit` に渡してトレーニングを再開し、学習率スケジューラを使用している場合は、`initial_global_step` を `WandbMetricsLogger` に渡してください。`initial_global_step` は `step_size * initial_step` です。`step_size` は、エポックごとのトレーニングステップ数です。`step_size` は、トレーニングデータセットのカーディナリティとバッチサイズの積として計算できます。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `log_freq` |  ("epoch", "batch", or int) if "epoch", logs metrics at the end of each epoch. If "batch", logs metrics at the end of each batch. If an integer, logs metrics at the end of that many batches. Defaults to "epoch". |
-|  `initial_global_step` |  (int) Use this argument to correctly log the learning rate when you resume training from some `initial_epoch`, and a learning rate scheduler is used. This can be computed as `step_size * initial_step`. Defaults to 0. |
+|  `log_freq` |  ("epoch"、"batch"、または int) "epoch" の場合、各エポックの最後にメトリクスをログ記録します。"batch" の場合、各バッチの最後にメトリクスをログ記録します。整数である場合、その数のバッチの最後にメトリクスをログ記録します。デフォルトは "epoch" です。 |
+|  `initial_global_step` |  (int) `initial_epoch` からトレーニングを再開し、学習率スケジューラを使用している場合は、この引数を使用して学習率を正しくログ記録します。これは `step_size * initial_step` として計算できます。デフォルトは 0 です。 |
 
-## Methods
+## メソッド
 
 ### `set_model`
 

@@ -1,21 +1,21 @@
 ---
+title: Who has access to my artifacts?
 menu:
   support:
     identifier: ja-support-kb-articles-access_artifacts
 support:
 - artifacts
-title: Who has access to my artifacts?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Artifacts inherit access permissions from their parent project:
+Artifacts は、親の project からアクセス権を継承します。
 
-* In a private project, only team members can access artifacts.
-* In a public project, all users can read artifacts, while only team members can create or modify them.
-* In an open project, all users can read and write artifacts.
+* プライベート project では、チームメンバーのみが Artifacts にアクセスできます。
+* パブリック project では、すべてのユーザーが Artifacts を読み取ることができ、チームメンバーのみが Artifacts を作成または変更できます。
+* オープン project では、すべてのユーザーが Artifacts を読み書きできます。
 
-## Artifacts Workflows
+## Artifacts の ワークフロー
 
-This section outlines workflows for managing and editing Artifacts. Many workflows utilize [the W&B API]({{< relref path="/guides/models/track/public-api-guide.md" lang="ja" >}}), a component of [the client library]({{< relref path="/ref/python/" lang="ja" >}}) that provides access to W&B-stored data.
+このセクションでは、Artifacts の管理および編集に関するワークフローの概要を説明します。多くのワークフローは、[W&B API]({{< relref path="/guides/models/track/public-api-guide.md" lang="ja" >}})を利用します。これは、W&B に保存された data へのアクセスを提供する[クライアント library]({{< relref path="/ref/python/" lang="ja" >}})のコンポーネントです。

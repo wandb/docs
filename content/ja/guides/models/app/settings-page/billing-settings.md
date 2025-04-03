@@ -1,61 +1,61 @@
 ---
-description: Manage your organization's billing settings
+title: Manage billing settings
+description: 組織の課金 設定 を管理
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-billing-settings
     parent: settings
-title: Manage billing settings
 weight: 20
 ---
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Billing**, or choose **Settings** and then select the **Billing** tab.
+ユーザープロフィールページに移動し、右上隅にあるユーザーアイコンを選択します。ドロップダウンから、**Billing** を選択するか、**Settings** を選択し、**Billing** タブを選択します。
 
-## Plan details
+## プラン詳細
 
-The **Plan details** section summarizes your organization's current plan, charges, limits, and usage.
+**Plan details** セクションでは、組織の現在のプラン、料金、制限、使用状況の概要が示されます。
 
-- For details and a list of users, click **Manage users**.
-- For details about usage, click **View usage**.
-- Amount of storage your organization uses, both free and paid. From here, you can purchase additional storage and manage storage that is currently in use. Learn more about [storage settings]({{< relref path="storage.md" lang="ja" >}}).
+- ユーザーの詳細とリストを表示するには、**Manage users** をクリックします。
+- 使用状況の詳細を表示するには、**View usage** をクリックします。
+- 組織が使用するストレージの量（無料と有料の両方）。ここから、追加のストレージを購入したり、現在使用中のストレージを管理したりできます。[ストレージの設定]({{< relref path="storage.md" lang="ja" >}}) の詳細をご覧ください。
 
-From here, you can compare plans or talk to Sales.
+ここから、プランを比較したり、営業担当者と話をしたりできます。
 
-## Plan usage
-This section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
+## プランの使用状況
+このセクションでは、現在の使用状況を視覚的にまとめ、今後の使用料金を表示します。月ごとの使用状況の詳細な分析情報を得るには、個々のタイルで **View usage** をクリックします。カレンダー月、Team、または Project ごとに使用状況をエクスポートするには、**Export CSV** をクリックします。
 
-### Usage alerts
-
-{{% alert %}}
-Usage alerts are not available on the [Enterprise plan](https://wandb.ai/site/pricing/).
-{{% /alert %}}
-
-For organizations on paid plans, admins receive alerts via email **once per billing period** when certain thresholds are met, along with details about how to increase your organization's limits if you are a [billing admin]({{< relref path="#billing-admin" lang="ja" >}}) and how to contact a billing admin otherwise. On the [Pro plan](https://wandb.ai/site/pricing/), only the billing admin receives usage alerts.
-
-These alerts are not configurable, and are sent when:
-
-- Your organization is approaching a monthly limit of a category of usage (85% of hours used) and when it reaches 100% of the limit, according to your plan.
-- Your organization's accumulated average charges for a billing period exceed these thresholds: $200, $450, $700, and $1000. These overage charges are incurred when your organization accumulates more usage than your plan includes for tracked hours, storage, or Weave data ingestion.
-
-For questions about usage or billing, contact your account team or Support.
-
-## Payment methods
-This section shows the payment methods on file for your organization. If you have not added a payment method, you will be prompted to do so when you upgrade your plan or add paid storage.
-
-## Billing admin
-This section shows the current billing admin. The billing admin is an organization admin, receives all billing-related emails, and can view and manage payment methods.
+### 使用状況アラート
 
 {{% alert %}}
-In W&B Dedicated Cloud, multiple users can be billing admins. In W&B Multi-tenant Cloud, only one user at a time can be the billing admin.
+使用状況アラートは、[Enterprise plan](https://wandb.ai/site/pricing/) では利用できません。
 {{% /alert %}}
 
-To change the billing admin or assign the role to additional users:
+有料プランをご利用の組織の場合、管理者は、特定のしきい値に達すると、**1 回の請求期間につき 1 回**、メールでアラートを受信します。また、[請求管理者]({{< relref path="#billing-admin" lang="ja" >}}) の場合は、組織の制限を増やす方法、それ以外の場合は、請求管理者に連絡する方法の詳細も記載されています。[Pro plan](https://wandb.ai/site/pricing/) では、請求管理者のみが使用状況アラートを受信します。
 
-1. Click **Manage roles**.
-1. Search for a user.
-1. Click the **Billing admin** field in that user's row.
-1. Read the summary, then click **Change billing user**.
+これらのアラートは構成できず、次の場合に送信されます。
 
-## Invoices
-If you pay using a credit card, this section allows you to view monthly invoices.
-- For Enterprise accounts that pay via wire transfer, this section is blank. For questions, contact your account team.
-- If your organization incurs no charges, no invoice is generated.
+- 組織が、プランに応じた使用量のカテゴリの月間制限に近づいている場合（使用時間の 85%）および制限の 100% に達した場合。
+- 組織の請求期間の累積平均料金が、200 ドル、450 ドル、700 ドル、および 1000 ドルのしきい値を超えた場合。これらの超過料金は、組織が追跡時間、ストレージ、または Weave data ingestion に対して、プランに含まれる量よりも多くの使用量を累積した場合に発生します。
+
+使用状況または請求に関するご質問は、アカウントTeamまたはサポートにお問い合わせください。
+
+## 支払い方法
+このセクションには、組織に登録されている支払い方法が表示されます。支払い方法を追加していない場合は、プランをアップグレードするか、有料ストレージを追加するときに、追加するように求められます。
+
+## 請求管理者
+このセクションには、現在の請求管理者が表示されます。請求管理者は組織の管理者であり、請求関連のすべてのメールを受信し、支払い方法を表示および管理できます。
+
+{{% alert %}}
+W&B Dedicated Cloud では、複数のユーザーが請求管理者になることができます。W&B Multi-tenant Cloud では、一度に 1 人のユーザーのみが請求管理者になることができます。
+{{% /alert %}}
+
+請求管理者を変更するか、ロールを追加のユーザーに割り当てるには、次の手順に従います。
+
+1. **Manage roles** をクリックします。
+2. ユーザーを検索します。
+3. そのユーザーの行にある **Billing admin** フィールドをクリックします。
+4. 概要を読んでから、**Change billing user** をクリックします。
+
+## 請求書
+クレジットカードで支払う場合、このセクションでは毎月の請求書を表示できます。
+- 銀行振込で支払う Enterprise アカウントの場合、このセクションは空白です。ご不明な点がございましたら、アカウントTeamにお問い合わせください。
+- 組織が料金を発生させない場合、請求書は生成されません。

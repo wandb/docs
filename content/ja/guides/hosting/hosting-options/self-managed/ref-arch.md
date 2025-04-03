@@ -1,195 +1,193 @@
 ---
-description: W&B Reference Architecture
+title: Reference Architecture
+description: W&B リファレンス アーキテクチャー
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-ref-arch
     parent: self-managed
-title: Reference Architecture
 weight: 1
 ---
 
-This page describes a reference architecture for a Weights & Biases deployment and outlines the recommended infrastructure and resources to support a production deployment of the platform.
+このページでは、Weights & Biases のデプロイメントのリファレンスアーキテクチャについて説明し、プラットフォームのプロダクションデプロイメントをサポートするために推奨されるインフラストラクチャとリソースの概要を示します。
 
-Depending on your chosen deployment environment for Weights & Biases (W&B), various services can help to enhance the resiliency of your deployment.
+Weights & Biases (W&B) に選択したデプロイメント環境に応じて、さまざまなサービスがデプロイメントの回復性を高めるのに役立ちます。
 
-For instance, major cloud providers offer robust managed database services which help to reduce the complexity of database configuration, maintenance, high availability, and resilience.
+たとえば、主要なクラウドプロバイダーは、データベースの構成、メンテナンス、高可用性、および回復性の複雑さを軽減するのに役立つ、堅牢なマネージドデータベースサービスを提供しています。
 
-This reference architecture addresses some common deployment scenarios and shows how you can integrate your W&B deployment with cloud vendor services for optimal performance and reliability.
+このリファレンスアーキテクチャは、一般的なデプロイメントシナリオに対応し、最適なパフォーマンスと信頼性を実現するために、W&B のデプロイメントをクラウドベンダーサービスと統合する方法を示しています。
 
-## Before you start
+## 開始する前に
 
-Running any application in production comes with its own set of challenges, and W&B is no exception. While we aim to streamline the process, certain complexities may arise depending on your unique architecture and design decisions. Typically, managing a production deployment involves overseeing various components, including hardware, operating systems, networking, storage, security, the W&B platform itself, and other dependencies. This responsibility extends to both the initial setup of the environment and its ongoing maintenance.
+プロダクション環境でアプリケーションを実行するには、独自の課題があり、W&B も例外ではありません。プロセスの合理化を目指していますが、固有のアーキテクチャと設計上の決定によっては、特定の複雑さが発生する可能性があります。通常、プロダクションデプロイメントの管理には、ハードウェア、オペレーティングシステム、ネットワーク、ストレージ、セキュリティ、W&B プラットフォーム自体、およびその他の依存関係を含む、さまざまなコンポーネントの監視が含まれます。この責任は、環境の初期設定とその継続的なメンテナンスの両方に及びます。
 
-Consider carefully whether a self-managed approach with W&B is suitable for your team and specific requirements.
+W&B を使用した自己管理アプローチが、チームと特定の要件に適しているかどうかを慎重に検討してください。
 
-A strong understanding of how to run and maintain production-grade application is an important prerequisite before you deploy self-managed W&B. If your team needs assistance, our Professional Services team and partners offer support for implementation and optimization.
+プロダクショングレードのアプリケーションを実行および保守する方法をしっかりと理解しておくことは、自己管理の W&B をデプロイする前に重要な前提条件となります。チームが支援を必要とする場合は、当社の Professional Services チームとパートナーが、実装と最適化のサポートを提供します。
 
-To learn more about managed solutions for running W&B instead of managing it yourself, refer to [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) and [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}).
+W&B を自分で管理する代わりに、W&B を実行するためのマネージドソリューションの詳細については、[W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) および [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) を参照してください。
 
-## Infrastructure
+## インフラストラクチャ
 
 {{< img src="/images/hosting/reference_architecture.png" alt="W&B infrastructure diagram" >}}
 
-### Application layer
+### アプリケーション層
 
-The application layer consists of a multi-node Kubernetes cluster, with resilience against node failures. The Kubernetes cluster runs and maintains W&B's pods.
+アプリケーション層は、ノード障害に対する回復性を持つ、マルチノード Kubernetes クラスターで構成されています。Kubernetes クラスターは、W&B の pod を実行および保守します。
 
-### Storage layer
+### ストレージ層
 
-The storage layer consists of a MySQL database and object storage. The MySQL database stores metadata and the object storage stores artifacts such as models and datasets.
+ストレージ層は、MySQL データベースとオブジェクトストレージで構成されています。MySQL データベースはメタデータを格納し、オブジェクトストレージはモデルやデータセットなどの Artifacts を格納します。
 
-## Infrastructure requirements
+## インフラストラクチャ要件
 
 ### Kubernetes
-The W&B Server application is deployed as a [Kubernetes Operator]({{< relref path="kubernetes-operator/" lang="ja" >}}) that deploys multiple pods. For this reason, W&B requires a Kubernetes cluster with:
-- A fully configured and functioning Ingress controller.
-- The capability to provision Persistent Volumes.
+W&B Server アプリケーションは、複数の pod をデプロイする [Kubernetes Operator]({{< relref path="kubernetes-operator/" lang="ja" >}}) としてデプロイされます。このため、W&B には次のものを持つ Kubernetes クラスターが必要です。
+- 完全に構成され、機能する Ingress コントローラー。
+- Persistent Volumes をプロビジョニングする機能。
 
 ### MySQL
-W&B stores metadata in a MySQL database. The database's performance and storage requirements depend on the shapes of the model parameters and related metadata. For example, the database grows in size as you track more training runs, and load on the database increases based on queries in run tables, user workspaces, and reports.
+W&B は、メタデータを MySQL データベースに格納します。データベースのパフォーマンスとストレージ要件は、モデルパラメータと関連するメタデータの形状によって異なります。たとえば、トレーニング run を追跡するほどデータベースのサイズが大きくなり、run テーブル、ユーザー Workspace 、および Reports のクエリに基づいてデータベースの負荷が増加します。
 
-Consider the following when you deploy a self-managed MySQL database:
+自己管理の MySQL データベースをデプロイする場合は、以下を検討してください。
 
-- **Backups**. You should periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
-- **Performance.** The disk the server is running on should be fast. W&B recommends running the database on an SSD or accelerated NAS.
-- **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
-- **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
+- **バックアップ**。データベースを別の施設に定期的にバックアップする必要があります。W&B は、少なくとも 1 週間の保持期間で毎日バックアップすることをお勧めします。
+- **パフォーマンス**。サーバーが実行されているディスクは高速である必要があります。W&B は、SSD または高速化された NAS でデータベースを実行することをお勧めします。
+- **監視**。データベースの負荷を監視する必要があります。CPU 使用率がシステムの 40% を超えて 5 分以上維持されている場合は、サーバーのリソースが不足している可能性が高いことを示しています。
+- **可用性**。可用性と耐久性の要件に応じて、プライマリサーバーからリアルタイムですべての更新をストリーミングし、プライマリサーバーがクラッシュまたは破損した場合にフェイルオーバーに使用できる、別のマシン上のホットスタンバイを構成することができます。
 
-### Object storage
-W&B requires object storage with Pre-signed URL and CORS support, deployed in one of:
+### オブジェクトストレージ
+W&B には、次のいずれかにデプロイされた、事前署名付き URL と CORS をサポートするオブジェクトストレージが必要です。
 - Amazon S3
 - Azure Cloud Storage
 - Google Cloud Storage
-- storage service compatible with Amazon S3
+- Amazon S3 と互換性のあるストレージサービス
 
-### Versions
-| Software     | Minimum version                              |
-| ------------ | -------------------------------------------- |
-| Kubernetes   | v1.29                                        |
-| MySQL        | v8.0.0, "General Availability" releases only |
+### バージョン
+| ソフトウェア   | 最小バージョン                               |
+| -------- | -------------------------------------- |
+| Kubernetes | v1.29                                  |
+| MySQL    | v8.0.0, "General Availability" リリースのみ |
 
-### Networking
+### ネットワーク
 
-For a networked deployment, egress to these endpoints is required during _both_ installation and runtime:
+ネットワーク化されたデプロイメントでは、インストール時と実行時の_両方_で、これらのエンドポイントへの出力が必要です。
 * https://deploy.wandb.ai
 * https://charts.wandb.ai
 * https://docker.io
 * https://quay.io
 * `https://gcr.io`
 
-To learn about air-gapped deployments, refer to [Kubernetes operator for air-gapped instances]({{< relref path="kubernetes-operator/operator-airgapped.md" lang="ja" >}}).
-Access to W&B and to the object storage is required for the training infrastructure and for each system that tracks the needs of experiments.
+エアギャップデプロイメントの詳細については、[エアギャップインスタンス用の Kubernetes operator]({{< relref path="kubernetes-operator/operator-airgapped.md" lang="ja" >}}) を参照してください。
+トレーニングインフラストラクチャと、 Experiments のニーズを追跡する各システムには、W&B とオブジェクトストレージへのアクセスが必要です。
 
 ### DNS
-The fully qualified domain name (FQDN) of the W&B deployment must resolve to the IP address of the ingress/load balancer using an A record.
+W&B デプロイメントの完全修飾ドメイン名 (FQDN) は、A レコードを使用して、イングレス/ロードバランサーの IP アドレスに解決される必要があります。
 
 ### SSL/TLS
-W&B requires a valid signed SSL/TLS certificate for secure communication between clients and the server. SSL/TLS termination must occur on the ingress/load balancer. The W&B Server application does not terminate SSL or TLS connections.
+W&B では、クライアントとサーバー間の安全な通信のために、有効な署名付き SSL/TLS 証明書が必要です。SSL/TLS 終端は、イングレス/ロードバランサーで発生する必要があります。W&B Server アプリケーションは、SSL または TLS 接続を終端しません。
 
-Please note: W&B does not recommend the use self-signed certificates and custom CAs.
+注意: W&B は、自己署名証明書とカスタム CA の使用を推奨していません。
 
-### Supported CPU architectures
-W&B runs on the Intel (x86) CPU architecture. ARM is not supported.
+### サポートされている CPU アーキテクチャ
+W&B は、Intel (x86) CPU アーキテクチャで実行されます。ARM はサポートされていません。
 
-## Infrastructure provisioning
-Terraform is the recommended way to deploy W&B for production. Using Terraform, you define the required resources, their references to other resources, and their dependencies. W&B provides Terraform modules for the major cloud providers. For details, refer to [Deploy W&B Server within self managed cloud accounts]({{< relref path="/guides/hosting/hosting-options/self-managed.md#deploy-wb-server-within-self-managed-cloud-accounts" lang="ja" >}}).
+## インフラストラクチャのプロビジョニング
+Terraform は、プロダクション用に W&B をデプロイする推奨される方法です。Terraform を使用して、必要なリソース、他のリソースへの参照、および依存関係を定義します。W&B は、主要なクラウドプロバイダー向けの Terraform モジュールを提供しています。詳細については、[自己管理のクラウドアカウント内で W&B Server をデプロイする]({{< relref path="/guides/hosting/hosting-options/self-managed.md#deploy-wb-server-within-self-managed-cloud-accounts" lang="ja" >}}) を参照してください。
 
-## Sizing
-Use the following general guidelines as a starting point when planning a deployment. W&B recommends that you monitor all components of a new deployment closely and that you make adjustments based on observed usage patterns. Continue to monitor production deployments over time and make adjustments as needed to maintain optimal performance.
+## サイジング
+デプロイメントを計画する際の開始点として、次の一般的なガイドラインを使用してください。W&B は、新しいデプロイメントのすべてのコンポーネントを注意深く監視し、観察された使用パターンに基づいて調整することをお勧めします。時間の経過とともにプロダクションデプロイメントを監視し続け、最適なパフォーマンスを維持するために必要に応じて調整します。
 
-### Models only
-
-#### Kubernetes
-
-| Environment      | CPU	            | Memory	         | Disk               | 
-| ---------------- | ------------------ | ------------------ | ------------------ | 
-| Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
-| Production       | 8 cores            | 64 GB              | 100 GB             |
-
-Numbers are per Kubernetes worker node.
-
-#### MySQL
-
-| Environment      | CPU	            | Memory	         | Disk               | 
-| ---------------- | ------------------ | ------------------ | ------------------ | 
-| Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
-| Production       | 8 cores            | 64 GB              | 500 GB             |
-
-Numbers are per MySQL node.
-
-
-### Weave only
+### Models のみ
 
 #### Kubernetes
 
-| Environment      | CPU                | Memory             | Disk               | 
-| ---------------- | ------------------ | ------------------ | ------------------ | 
-| Test/Dev         | 4 cores            | 32 GB              | 100 GB             |
-| Production       | 12 cores           | 96 GB              | 100 GB             |
+| 環境       | CPU      | メモリ     | ディスク     |
+| -------- | -------- | -------- | -------- |
+| テスト/開発   | 2 コア    | 16 GB    | 100 GB   |
+| プロダクション | 8 コア    | 64 GB    | 100 GB   |
 
-Numbers are per Kubernetes worker node.
+数値は Kubernetes ワーカーノードごとの値です。
 
 #### MySQL
 
-| Environment      | CPU                | Memory             | Disk               | 
-| ---------------- | ------------------ | ------------------ | ------------------ | 
-| Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
-| Production       | 8 cores            | 64 GB              | 500 GB             |
+| 環境       | CPU      | メモリ     | ディスク     |
+| -------- | -------- | -------- | -------- |
+| テスト/開発   | 2 コア    | 16 GB    | 100 GB   |
+| プロダクション | 8 コア    | 64 GB    | 500 GB   |
 
-Numbers are per MySQL node.
+数値は MySQL ノードごとの値です。
 
-### Models and Weave
+### Weave のみ
 
 #### Kubernetes
 
-| Environment      | CPU                | Memory             | Disk               | 
-| ---------------- | ------------------ | ------------------ | ------------------ | 
-| Test/Dev         | 4 cores            | 32 GB              | 100 GB             |
-| Production       | 16 cores           | 128 GB             | 100 GB             |
+| 環境       | CPU      | メモリ     | ディスク     |
+| -------- | -------- | -------- | -------- |
+| テスト/開発   | 4 コア    | 32 GB    | 100 GB   |
+| プロダクション | 12 コア   | 96 GB    | 100 GB   |
 
-Numbers are per Kubernetes worker node.
+数値は Kubernetes ワーカーノードごとの値です。
 
 #### MySQL
 
-| Environment      | CPU                | Memory             | Disk               | 
-| ---------------- | ------------------ | ------------------ | ------------------ | 
-| Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
-| Production       | 8 cores            | 64 GB              | 500 GB             |
+| 環境       | CPU      | メモリ     | ディスク     |
+| -------- | -------- | -------- | -------- |
+| テスト/開発   | 2 コア    | 16 GB    | 100 GB   |
+| プロダクション | 8 コア    | 64 GB    | 500 GB   |
 
-Numbers are per MySQL node.
+数値は MySQL ノードごとの値です。
 
-## Cloud provider instance recommendations
+### Models と Weave
 
-### Services
+#### Kubernetes
 
-| Cloud       | Kubernetes	 | MySQL	                | Object Storage             |   
-| ----------- | ------------ | ------------------------ | -------------------------- | 
-| AWS         | EKS          | RDS Aurora               | S3                         |
-| GCP         | GKE          | Google Cloud SQL - Mysql | Google Cloud Storage (GCS) |
-| Azure       | AKS          | Azure Database for Mysql | Azure Blob Storage         |
+| 環境       | CPU      | メモリ     | ディスク     |
+| -------- | -------- | -------- | -------- |
+| テスト/開発   | 4 コア    | 32 GB    | 100 GB   |
+| プロダクション | 16 コア   | 128 GB   | 100 GB   |
 
+数値は Kubernetes ワーカーノードごとの値です。
 
-### Machine types
+#### MySQL
 
-These recommendations apply to each node of a self-managed deployment of W&B in cloud infrastructure.
+| 環境       | CPU      | メモリ     | ディスク     |
+| -------- | -------- | -------- | -------- |
+| テスト/開発   | 2 コア    | 16 GB    | 100 GB   |
+| プロダクション | 8 コア    | 64 GB    | 500 GB   |
+
+数値は MySQL ノードごとの値です。
+
+## クラウドプロバイダーのインスタンス推奨事項
+
+### サービス
+
+| クラウド   | Kubernetes | MySQL             | オブジェクトストレージ       |
+| ------ | ---------- | ----------------- | ------------------ |
+| AWS    | EKS        | RDS Aurora        | S3                 |
+| GCP    | GKE        | Google Cloud SQL - Mysql | Google Cloud Storage (GCS) |
+| Azure  | AKS        | Azure Database for Mysql | Azure Blob Storage         |
+
+### マシンタイプ
+
+これらの推奨事項は、クラウドインフラストラクチャでの W&B の自己管理デプロイメントの各ノードに適用されます。
 
 #### AWS
 
-| Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&Weave)  | MySQL	           |  
-| ----------- | ------------------ | ------------------ | ------------------- | ------------------ |  
-| Test/Dev    | r6i.large          | r6i.xlarge         | r6i.xlarge          | db.r6g.large       | 
-| Production  | r6i.2xlarge        | r6i.4xlarge        | r6i.4xlarge         | db.r6g.2xlarge     | 
+| 環境       | K8s (Models のみ) | K8s (Weave のみ) | K8s (Models&Weave) | MySQL          |
+| -------- | ----------------- | ----------------- | ------------------ | ----------------- |
+| テスト/開発   | r6i.large         | r6i.xlarge        | r6i.xlarge         | db.r6g.large      |
+| プロダクション | r6i.2xlarge       | r6i.4xlarge       | r6i.4xlarge        | db.r6g.2xlarge    |
 
 #### GCP
 
-| Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&Weave)  | MySQL              |  
-| ----------- | ------------------ | ------------------ | ------------------- | ------------------ |  
-| Test/Dev    | n2-highmem-2       | n2-highmem-4       | n2-highmem-4        | db-n1-highmem-2    | 
-| Production  | n2-highmem-8       | n2-highmem-16      | n2-highmem-16       | db-n1-highmem-8    | 
+| 環境       | K8s (Models のみ) | K8s (Weave のみ) | K8s (Models&Weave) | MySQL          |
+| -------- | ----------------- | ----------------- | ------------------ | ----------------- |
+| テスト/開発   | n2-highmem-2      | n2-highmem-4      | n2-highmem-4       | db-n1-highmem-2   |
+| プロダクション | n2-highmem-8      | n2-highmem-16     | n2-highmem-16      | db-n1-highmem-8   |
 
 #### Azure
 
-| Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&Weave)  | MySQL               |  
-| ----------- | ------------------ | ------------------ | ------------------- | ------------------- |  
-| Test/Dev    | Standard_E2_v5     | Standard_E4_v5     | Standard_E4_v5      | MO_Standard_E2ds_v4 | 
-| Production  | Standard_E8_v5     | Standard_E16_v5    | Standard_E16_v5     | MO_Standard_E8ds_v4 |
+| 環境       | K8s (Models のみ) | K8s (Weave のみ) | K8s (Models&Weave) | MySQL               |
+| -------- | ----------------- | ----------------- | ------------------ | -------------------- |
+| テスト/開発   | Standard_E2_v5    | Standard_E4_v5    | Standard_E4_v5     | MO_Standard_E2ds_v4  |
+| プロダクション | Standard_E8_v5    | Standard_E16_v5   | Standard_E16_v5    | MO_Standard_E8ds_v4  |

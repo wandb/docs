@@ -1,13 +1,13 @@
 ---
+title: How do I renew my expired license?
 menu:
   support:
     identifier: ja-support-kb-articles-renew_expired_license
 support:
 - administrator
-title: How do I renew my expired license?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To renew an expired license, contact the support team at support@wandb.com for assistance with the renewal process and to receive a new license key.
+期限切れのライセンスを更新するには、サポートチーム (support@wandb.com) に連絡して、更新プロセスに関するサポートを受け、新しいライセンスキーを入手してください。

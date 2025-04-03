@@ -1,340 +1,322 @@
 ---
+title: Manage your organization
 menu:
   default:
     identifier: ja-guides-hosting-iam-access-management-manage-organization
     parent: access-management
-title: Manage your organization
 weight: 1
 ---
 
-As an admin of an organization you can [manage individual users]({{< relref path="#add-and-manage-users" lang="ja" >}}) within your organization and [manage teams]({{< relref path="#add-and-manage-teams" lang="ja" >}}). 
+組織の管理者として、組織内の [個々のユーザーを管理]({{< relref path="#add-and-manage-users" lang="ja" >}}) したり、[Teams を管理]({{< relref path="#add-and-manage-teams" lang="ja" >}}) したりできます。
 
-As a team admin you can [manage teams]({{< relref path="#add-and-manage-teams" lang="ja" >}}).
+Team の管理者として、[Teams を管理]({{< relref path="#add-and-manage-teams" lang="ja" >}}) できます。
 
 {{% alert %}}
-The following workflow applies to users with instance admin roles. Reach out to an admin in your organization if you believe you should have instance admin permissions. 
+以下のワークフローは、インスタンス管理者のロールを持つユーザーに適用されます。インスタンス管理者権限が必要と思われる場合は、組織の管理者に連絡してください。
 {{% /alert %}}
 
-If you are looking to simplify user management in your organization, refer to [Automate user and team management]({{< relref path="../automate_iam.md" lang="ja" >}}).
+組織内のユーザー管理を簡素化したい場合は、[ユーザーと Team の管理の自動化]({{< relref path="../automate_iam.md" lang="ja" >}}) を参照してください。
 
-<!-- W&B assigns an Admin role to new users within an organization by default.  -->
-
-## Change the name of your organization
+## 組織名の変更
 {{% alert %}}
-The following workflow only applies to W&B Multi-tenant SaaS Cloud.
+以下のワークフローは、W&B Multi-tenant SaaS Cloud にのみ適用されます。
 {{% /alert %}}
 
-1. Navigate to https://wandb.ai/home.
-2. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
-3. Within the **Settings** tab, select **General**.
-4. Select the **Change name** button.
-5. Within the modal that appears, provide a new name for your organization and select the **Save name** button.
+1. https://wandb.ai/home に移動します。
+2. ページの右上隅にある **ユーザーメニュー** ドロップダウンを選択します。ドロップダウンの **アカウント** セクションで、**設定** を選択します。
+3. **設定** タブ内で、**一般** を選択します。
+4. **名前の変更** ボタンを選択します。
+5. 表示されるモーダル内で、組織の新しい名前を入力し、**名前を保存** ボタンを選択します。
 
-## Add and manage users
+## ユーザーの追加と管理
 
-As an admin, use your organization's dashboard to:
-- Invite or remove users.
-- Assign or update a user's organization role, and create custom roles.
-- Assign the billing admin.
+管理者として、組織のダッシュボードを使用して以下を行います。
+- ユーザーの招待または削除。
+- ユーザーの組織ロールの割り当てまたは更新、およびカスタムロールの作成。
+- 課金管理者の割り当て。
 
-There are several ways an organization admin can add users to an organization:
+組織管理者が組織にユーザーを追加する方法はいくつかあります。
 
-1. Member-by-invite
-2. Auto provisioning with SSO
-3. Domain capture
+1. 招待によるメンバー追加
+2. SSO による自動プロビジョニング
+3. ドメインキャプチャ
 
-### Seats and pricing
+### シートと料金
 
-The proceeding table summarizes how seats work for Models and Weave:
+以下の表は、Models と Weave のシートの仕組みをまとめたものです。
 
-| Product |Seats | Cost based on |
+| 製品  | シート   | 料金の基準  |
 | ----- | ----- | ----- |
-| Models | Pay per set | How many Models paid seats you have, and how much usage you’ve accrued determines your overall subscription cost. Each user can be assigned one of the three available seat types: Full, Viewer, and No-Access |
-| Weave | Free  | Usage based |
+| Models | セットごとに支払い | Models の有料シートの数と、発生した使用量によって、全体のサブスクリプション料金が決まります。各ユーザーには、フル、ビューアー、アクセスなしの 3 種類のシートタイプのうち 1 つを割り当てることができます |
+| Weave | 無料   | 使用量ベース |
 
-### Invite a user
+### ユーザーの招待
 
-admins can invite users to their organization, as well as specific teams within the organization.
+管理者は、ユーザーを組織、および組織内の特定の Team に招待できます。
 
 {{< tabpane text=true >}}
 {{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
-1. Navigate to https://wandb.ai/home.
-1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Users**.
-3. Select **Invite new user**.
-4. In the modal that appears, provide the email or username of the user in the **Email or username** field.
-5. (Recommended) Add the user to a team from the **Choose teams** dropdown menu.
-6. From the **Select role** dropdown, select the role to assign to the user. You can change the user's role at a later time. See the table listed in [Assign a role]({{< relref path="#assign-or-update-a-team-members-role" lang="ja" >}}) for more information about possible roles.
-7. Choose the **Send invite** button.
+1. https://wandb.ai/home に移動します。
+2. ページの右上隅にある **ユーザーメニュー** ドロップダウンを選択します。ドロップダウンの **アカウント** セクションで、**ユーザー** を選択します。
+3. **新しいユーザーを招待** を選択します。
+4. 表示されるモーダルで、**メールアドレスまたはユーザー名** フィールドにユーザーのメールアドレスまたはユーザー名を入力します。
+5. (推奨) **Team を選択** ドロップダウンメニューから、ユーザーを Team に追加します。
+6. **ロールを選択** ドロップダウンから、ユーザーに割り当てるロールを選択します。ユーザーのロールは後で変更できます。可能なロールの詳細については、[ロールの割り当て]({{< relref path="#assign-or-update-a-team-members-role" lang="ja" >}}) に記載されている表を参照してください。
+7. **招待を送信** ボタンを選択します。
 
-W&B sends an invite link using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
+W&B は、**招待を送信** ボタンを選択した後、サードパーティのメールサーバーを使用して、ユーザーのメールアドレスに招待リンクを送信します。ユーザーは招待を承諾すると、組織にアクセスできます。
 {{% /tab %}}
 
 {{% tab header="Dedicated or Self-managed" value="dedicated"%}}
-1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
-2. Select the **Add user** button
-3. Within the modal that appears, provide the email of the new user in the **Email** field.
-4. Select a role to assign to the user from the **Role** dropdown. You can change the user's role at a later time. See the table listed in [Assign a role]({{< relref path="#assign-or-update-a-team-members-role" lang="ja" >}}) for more information about possible roles.
-5. Check the **Send invite email to user** box if you want W&B to send an invite link using a third-party email server to the user's email.
-6. Select the **Add new user** button.
+1. `https://<org-name>.io/console/settings/` に移動します。`<org-name>` を組織名に置き換えます。
+2. **ユーザーを追加** ボタンを選択します。
+3. 表示されるモーダルで、**メールアドレス** フィールドに新しいユーザーのメールアドレスを入力します。
+4. **ロール** ドロップダウンから、ユーザーに割り当てるロールを選択します。ユーザーのロールは後で変更できます。可能なロールの詳細については、[ロールの割り当て]({{< relref path="#assign-or-update-a-team-members-role" lang="ja" >}}) に記載されている表を参照してください。
+5. W&B がサードパーティのメールサーバーを使用して、ユーザーのメールアドレスに招待リンクを送信する場合は、**ユーザーに招待メールを送信** ボックスをオンにします。
+6. **新しいユーザーを追加** ボタンを選択します。
 {{% /tab %}}
 {{< /tabpane >}}
 
-### Auto provision users
+### ユーザーの自動プロビジョニング
 
-A W&B user with matching email domain can sign in to your W&B Organization with Single Sign-On (SSO) if you configure SSO and your SSO provider permits it. SSO is available for all Enterprise licenses.
+SSO を構成し、SSO プロバイダーが許可している場合、一致するメールアドレスドメインを持つ W&B ユーザーは、シングルサインオン (SSO) で W&B Organization にサインインできます。SSO は、すべてのエンタープライズライセンスで利用できます。
 
-{{% alert title="Enable SSO for authentication" %}}
-W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). Reach out to your W&B team to enable SSO for your organization. 
+{{% alert title="認証に SSO を有効にする" %}}
+W&B は、シングルサインオン (SSO) を使用して認証することを強く推奨および推奨します。組織の SSO を有効にするには、W&B Team にお問い合わせください。
 
-To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC]({{< relref path="../authentication/sso.md" lang="ja" >}}) or [SSO with LDAP]({{< relref path="../authentication/ldap.md" lang="ja" >}}).{{% /alert %}}
+Dedicated cloud または Self-managed インスタンスで SSO を設定する方法の詳細については、[OIDC での SSO]({{< relref path="../authentication/sso.md" lang="ja" >}}) または [LDAP での SSO]({{< relref path="../authentication/ldap.md" lang="ja" >}}) を参照してください。{{% /alert %}}
 
+W&B は、自動プロビジョニングユーザーにデフォルトで「メンバー」ロールを割り当てます。自動プロビジョニングされたユーザーのロールはいつでも変更できます。
 
-W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
+SSO を使用したユーザーの自動プロビジョニングは、Dedicated cloud インスタンスと Self-managed デプロイメントではデフォルトでオンになっています。自動プロビジョニングはオフにすることができます。自動プロビジョニングをオフにすると、特定のユーザーを選択的に W&B 組織に追加できます。
 
-Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
-
-The proceeding tabs describe how to turn off SSO based on deployment type:
+以下のタブでは、デプロイメントタイプに基づいて SSO をオフにする方法について説明します。
 
 {{< tabpane text=true >}}
 {{% tab header="Dedicated cloud" value="dedicated" %}}
-Reach out to your W&B team if you are on Dedicated cloud instance and you want to turn off auto provisioning with SSO.
+Dedicated cloud インスタンスを使用している場合に、SSO での自動プロビジョニングをオフにする場合は、W&B Team にお問い合わせください。
 {{% /tab %}}
 
 {{% tab header="Self-managed" value="self_managed" %}}
-Use the W&B Console to turn off auto provisioning with SSO:
+W&B Console を使用して、SSO での自動プロビジョニングをオフにします。
 
-1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
-2. Choose **Security** 
-3. Select the **Disable SSO Provisioning** to turn off auto provisioning with SSO.
-
-<!-- For Self-managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.  -->
+1. `https://<org-name>.io/console/settings/` に移動します。`<org-name>` を組織名に置き換えます。
+2. **セキュリティ** を選択します
+3. **SSO プロビジョニングを無効にする** を選択して、SSO での自動プロビジョニングをオフにします。
 
 {{% /tab %}}
 {{< /tabpane >}}
 
 {{% alert title="" %}}
-Auto provisioning with SSO is useful for adding users to an organization at scale because organization admins do not need to generate individual user invitations.
+SSO での自動プロビジョニングは、組織管理者が個々のユーザー招待状を生成する必要がないため、大規模にユーザーを組織に追加する場合に役立ちます。
 {{% /alert %}}
 
-### Create custom roles
+### カスタムロールの作成
 {{% alert %}}
-An Enterprise license is required to create or assign custom roles on Dedicated cloud or Self-managed deployments.
+Dedicated cloud または Self-managed デプロイメントでカスタムロールを作成または割り当てるには、エンタープライズライセンスが必要です。
 {{% /alert %}}
 
-Organization admins can compose a new role based on either the View-Only or Member role and add additional permissions to achieve fine-grained access control. Team admins can assign a custom role to a team member. Custom roles are created at the organization level but are assigned at the team level.
+組織管理者は、表示のみまたはメンバーロールに基づいて新しいロールを作成し、追加の権限を追加して、きめ細かいアクセス制御を実現できます。Team 管理者は、Team メンバーにカスタムロールを割り当てることができます。カスタムロールは組織レベルで作成されますが、Team レベルで割り当てられます。
 
-To create a custom role:
+カスタムロールを作成するには:
 
 {{< tabpane text=true >}}
 {{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
-1. Navigate to https://wandb.ai/home.
-1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
-1. Click **Roles**.
-1. In the **Custom roles** section, click **Create a role**.
-1. Provide a name for the role. Optionally provide a description.
-1. Choose the role to base the custom role on, either **Viewer** or **Member**.
-1. To add permissions, click the **Search permissions** field, then select one or more permissions to add.
-1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
-1. Click **Create Role**.
+1. https://wandb.ai/home に移動します。
+2. ページの右上隅にある **ユーザーメニュー** ドロップダウンを選択します。ドロップダウンの **アカウント** セクションで、**設定** を選択します。
+3. **ロール** をクリックします。
+4. **カスタムロール** セクションで、**ロールを作成** をクリックします。
+5. ロールの名前を入力します。オプションで説明を入力します。
+6. カスタムロールのベースにするロールを選択します (**ビューアー** または **メンバー**)。
+7. 権限を追加するには、**権限を検索** フィールドをクリックし、追加する 1 つ以上の権限を選択します。
+8. **カスタムロールの権限** セクションを確認します。ここには、ロールが持つ権限がまとめられています。
+9. **ロールを作成** をクリックします。
 {{% /tab %}}
 
 {{% tab header="Dedicated or Self-managed" value="dedicated"%}}
-Use the W&B Console to turn off auto provisioning with SSO:
+W&B Console を使用して、SSO での自動プロビジョニングをオフにします。
 
-1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
-1. In the **Custom roles** section, click **Create a role**.
-1. Provide a name for the role. Optionally provide a description.
-1. Choose the role to base the custom role on, either **Viewer** or **Member**.
-1. To add permissions, click the **Search permissions** field, then select one or more permissions to add.
-1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
-1. Click **Create Role**.
+1. `https://<org-name>.io/console/settings/` に移動します。`<org-name>` を組織名に置き換えます。
+2. **カスタムロール** セクションで、**ロールを作成** をクリックします。
+3. ロールの名前を入力します。オプションで説明を入力します。
+4. カスタムロールのベースにするロールを選択します (**ビューアー** または **メンバー**)。
+5. 権限を追加するには、**権限を検索** フィールドをクリックし、追加する 1 つ以上の権限を選択します。
+6. **カスタムロールの権限** セクションを確認します。ここには、ロールが持つ権限がまとめられています。
+7. **ロールを作成** をクリックします。
 
 {{% /tab %}}
 {{< /tabpane >}}
 
-A team admin can now assign the custom role to members of a team from the [Team settings]({{< relref path="#invite-users-to-a-team" lang="ja" >}}).
+これで、Team 管理者は [Team の設定]({{< relref path="#invite-users-to-a-team" lang="ja" >}}) から Team のメンバーにカスタムロールを割り当てることができます。
 
-### Domain capture
-Domain capture helps your employees join the your companies organization to ensure new users do not create assets outside of your company jurisdiction. 
+### ドメインキャプチャ
+ドメインキャプチャは、従業員が会社組織に参加するのに役立ち、新しいユーザーが会社の管轄外で資産を作成しないようにします。
 
-{{% alert title="Domains must be unique" %}}
-Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
+{{% alert title="ドメインは一意である必要があります" %}}
+ドメインは一意の識別子です。つまり、別の組織ですでに使用されているドメインは使用できません。
 {{% /alert %}}
 
 {{< tabpane text=true >}}
 {{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
-Domain capture lets you automatically add people with a company email address, such as  `@example.com`, to your W&B SaaS cloud organization. This helps all your employees join the right organization and ensures that new users do not create assets outside of your company jurisdiction. 
+ドメインキャプチャを使用すると、`@example.com` などの会社のメールアドレスを持つユーザーを W&B SaaS cloud organization に自動的に追加できます。これにより、すべての従業員が適切な組織に参加し、新しいユーザーが会社の管轄外で資産を作成しないようにします。
 
-This table summarizes the behavior of new and existing users with and without domain capture enabled:
+以下の表は、ドメインキャプチャが有効な場合と無効な場合における、新規および既存のユーザーの振る舞いをまとめたものです。
 
-| | With domain capture | Without domain capture |
+| | ドメインキャプチャあり | ドメインキャプチャなし |
 | ----- | ----- | ----- |
-| New users | Users who sign up for W&B from verified domains are automatically added as members to your organization’s default team. They can choose additional teams to join at sign up, if you enable team joining. They can still join other organizations and teams with an invitation. | Users can create W&B accounts without knowing there is a centralized organization available. | 
-| Invited users | Invited users automatically join your organization when accepting your invite. Invited users are not automatically added as members to your organization’s default team. They can still join other organizations and teams with an invitation. | Invited users automatically join your organization when accepting your invite. They can still join other organizations and teams with an invitation.| 
-| Existing users | Existing users with verified email addresses from your domains can join your organization’s teams within the W&B App. All data that existing users create before joining your organization remains. W&B does not migrate the existing user's data. | Existing W&B users may be spread across multiple organizations and teams.|
+| 新規ユーザー | 検証済みのドメインから W&B にサインアップしたユーザーは、自動的に組織のデフォルト Team のメンバーとして追加されます。Team への参加を有効にすると、サインアップ時に参加する追加の Team を選択できます。招待状があれば、他の組織や Team にも参加できます。 | ユーザーは、利用可能な集中管理された組織があることを知らずに、W&B アカウントを作成できます。 |
+| 招待されたユーザー | 招待されたユーザーは、招待を承諾すると自動的に組織に参加します。招待されたユーザーは、自動的に組織のデフォルト Team のメンバーとして追加されるわけではありません。招待状があれば、他の組織や Team にも参加できます。 | 招待されたユーザーは、招待を承諾すると自動的に組織に参加します。招待状があれば、他の組織や Team にも参加できます。 |
+| 既存のユーザー | ドメインからの検証済みのメールアドレスを持つ既存のユーザーは、W&B App 内で組織の Team に参加できます。既存のユーザーが組織に参加する前に作成したすべてのデータは保持されます。W&B は既存のユーザーのデータを移行しません。 | 既存の W&B ユーザーは、複数の組織や Team に分散している可能性があります。 |
 
-To automatically assign non-invited new users to a default team when they join your organization:
+招待されていない新規ユーザーが組織に参加するときに、デフォルトの Team に自動的に割り当てるには:
 
-1. Navigate to https://wandb.ai/home.
-2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Settings**.
-3. Within the **Settings** tab, select **General**.
-4. Choose the **Claim domain** button within **Domain capture**.
-5. Select the team that you want new users to automatically join from the **Default team** dropdown. If no teams are available, you'll need to update team settings. See the instructions in [Add and manage teams]({{< relref path="#add-and-manage-teams" lang="ja" >}}).
-6. Click the **Claim email domain** button.
+1. https://wandb.ai/home に移動します。
+2. ページの右上隅にある **ユーザーメニュー** ドロップダウンを選択します。ドロップダウンから、**設定** を選択します。
+3. **設定** タブ内で、**一般** を選択します。
+4. **ドメインキャプチャ** 内の **ドメインの要求** ボタンを選択します。
+5. 新しいユーザーが自動的に参加する Team を **デフォルト Team** ドロップダウンから選択します。利用可能な Team がない場合は、Team の設定を更新する必要があります。[Team の追加と管理]({{< relref path="#add-and-manage-teams" lang="ja" >}}) の手順を参照してください。
+6. **メールアドレスドメインの要求** ボタンをクリックします。
 
-You must enable domain matching within a team's settings before you can automatically assign non-invited new users to that team.
+招待されていない新しいユーザーを Team に自動的に割り当てるには、Team の設定内でドメイン一致を有効にする必要があります。
 
-1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`. Where `<team-name>` is the name of the team you want to enable domain matching.
-2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
-3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
-
+1. `https://wandb.ai/<team-name>` で Team のダッシュボードに移動します。`<team-name>` は、ドメイン一致を有効にする Team の名前です。
+2. Team のダッシュボードの左側にあるグローバルナビゲーションで **Team の設定** を選択します。
+3. **プライバシー** セクション内で、"サインアップ時に、一致するメールアドレスドメインを持つ新しいユーザーにこの Team への参加を推奨する" オプションを切り替えます。
 {{% /tab %}}
 {{% tab header="Dedicated or Self-managed" value="dedicated" %}}
-Reach out to your W&B Account Team if you use Dedicated or Self-managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your admin to request access to your Dedicated or Self-managed instance.
+ドメインキャプチャを構成するには、Dedicated または Self-managed デプロイメントタイプを使用している場合は、W&B アカウント Team にお問い合わせください。構成が完了すると、W&B SaaS インスタンスは、会社のメールアドレスで W&B アカウントを作成するユーザーに、Dedicated または Self-managed インスタンスへのアクセスを要求するために管理者に連絡するように自動的に促します。
 
-| | With domain capture | Without domain capture |
+| | ドメインキャプチャあり | ドメインキャプチャなし |
 | ----- | ----- | -----|
-| New users | Users who sign up for W&B on SaaS cloud from verified domains are automatically prompted to contact an admin with an email address you customize. They can still create an organizations on SaaS cloud to trial the product. | Users can create W&B SaaS cloud accounts without learning their company has a centralized dedicated instance. | 
-| Existing users | Existing W&B users may be spread across multiple organizations and teams.| Existing W&B users may be spread across multiple organizations and teams.|
+| 新規ユーザー | 検証済みのドメインから SaaS cloud で W&B にサインアップしたユーザーは、カスタマイズしたメールアドレスで管理者に連絡するように自動的に促されます。SaaS cloud で組織を作成して、製品をトライアルできます。 | ユーザーは、会社に集中管理された Dedicated インスタンスがあることを知らずに、W&B SaaS cloud アカウントを作成できます。 |
+| 既存のユーザー | 既存の W&B ユーザーは、複数の組織や Team に分散している可能性があります。| 既存の W&B ユーザーは、複数の組織や Team に分散している可能性があります。|
 {{% /tab %}}
 {{< /tabpane >}}
 
+### ユーザーのロールの割り当てまたは更新
 
-### Assign or update a user's role
+Organization のすべてのメンバーは、W&B Models と Weave の両方に対して組織ロールとシートを持っています。シートのタイプによって、課金ステータスと各製品ラインで実行できるアクションが決まります。
 
-Every member in an Organization has an organization role and seat for both W&B Models and Weave. The type of seat they have determines both their billing status and the actions they can take in each product line.
+最初にユーザーを組織に招待するときに、ユーザーに組織ロールを割り当てます。ユーザーのロールは後で変更できます。
 
-You initially assign an organization role to a user when you invite them to your organization. You can change any user's role at a later time.
+組織内のユーザーは、次のいずれかのロールを持つことができます。
 
-A user within an organization can have one of the proceeding roles:
-
-| Role | Descriptions |
+| ロール  | 説明  |
 | ----- | ----- |
-| admin| A instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one admin in the event that your admin is unavailable. |
-| Member | A regular user of the organization, invited by an instance admin. A organization member cannot invite other users or manage existing users in the organization. |
-| Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are a member of. |
-|Custom Roles (Enterprise-only feature) | Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams.|
+| admin | 他のユーザーを組織に追加または削除したり、ユーザーロールを変更したり、カスタムロールを管理したり、Team を追加したりできるインスタンス管理者。W&B は、管理者が不在の場合に備えて、複数の管理者がいることを推奨します。 |
+| Member | インスタンス管理者によって招待された、組織の通常のユーザー。組織メンバーは、他のユーザーを招待したり、組織内の既存のユーザーを管理したりすることはできません。 |
+| Viewer (エンタープライズ限定機能) | インスタンス管理者によって招待された、組織の表示専用ユーザー。ビューアーは、組織とメンバーである基盤となる Team への読み取りアクセスのみを持っています。 |
+| カスタムロール (エンタープライズ限定機能) | カスタムロールを使用すると、組織管理者は、上記の表示専用またはメンバーロールから継承し、追加の権限を追加して、きめ細かいアクセス制御を実現することで、新しいロールを作成できます。Team 管理者は、これらのカスタムロールをそれぞれの Team のユーザーに割り当てることができます。 |
 
-To change a user's role:
+ユーザーのロールを変更するには:
 
-1. Navigate to https://wandb.ai/home.
-2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
-4. Provide the name or email of the user in the search bar.
-4. Select a role from the **TEAM ROLE** dropdown next to the name of the user.
+1. https://wandb.ai/home に移動します。
+2. ページの右上隅にある **ユーザーメニュー** ドロップダウンを選択します。ドロップダウンから、**ユーザー** を選択します。
+4. 検索バーにユーザーの名前またはメールアドレスを入力します。
+4. ユーザーの名前の横にある **TEAM ROLE** ドロップダウンからロールを選択します。
 
-### Assign or update a user's access
+### ユーザーのアクセスの割り当てまたは更新
 
-A user within an organization has one of the proceeding model seat or weave access types: full, viewer, or no access.  
+組織内のユーザーは、フル、ビューアー、またはアクセスなしのいずれかのモデルシートまたは Weave アクセスタイプを持っています。
 
-| Seat type | Description |
+| シートタイプ | 説明 |
 | ----- | ----- |
-| Full | Users with this role type have full permissions to write, read, and export data for Models or Weave. |
-| Viewer | A view-only user of your organization. A viewer only has read access to the organization and the underlying teams that they are a part of, and view only access to Models or Weave. |
-| No access | Users with this role have no access to the Models or Weave products. |
+| Full | このロールタイプのユーザーは、Models または Weave のデータを書き込み、読み取り、エクスポートするための完全な権限を持っています。 |
+| Viewer | 組織の表示専用ユーザー。ビューアーは、組織と所属する基盤となる Team への読み取りアクセスのみを持ち、Models または Weave への表示のみのアクセスを持っています。 |
+| No access | このロールのユーザーは、Models または Weave 製品にアクセスできません。 |
 
-Model seat type and weave access type are defined at the organization level, and inherited by the team. If you want to change a user's seat type, navigate to the organization settings and follow the proceeding steps:
+モデルシートタイプと Weave アクセスタイプは組織レベルで定義され、Team に継承されます。ユーザーのシートタイプを変更する場合は、組織の設定に移動し、次の手順に従ってください。
 
-1. For SaaS users, navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Ensure to replace the values enclosed in angle brackets (`<>`) with your organization name. For other Dedicated and Self-managed deployments, navigate to `https://<your-instance>.wandb.io/org/dashboard`.
-2. Select the **Users** tab.
-3. From the **Role** dropdown, select the seat type you want to assign to the user.
+1. SaaS ユーザーの場合は、`https://wandb.ai/account-settings/<organization>/settings` で組織の設定に移動します。山かっこ (`<>`) で囲まれた値を組織名に置き換えてください。他の Dedicated および Self-managed デプロイメントの場合は、`https://<your-instance>.wandb.io/org/dashboard` に移動します。
+2. **ユーザー** タブを選択します。
+3. **ロール** ドロップダウンから、ユーザーに割り当てるシートタイプを選択します。
 
 {{% alert %}}
-The organization role and subscription type determines which seat types are available within your organization.
+組織のロールとサブスクリプションタイプによって、組織内で利用できるシートタイプが決まります。
 {{% /alert %}}
 
-### Remove a user
+### ユーザーの削除
 
-1. Navigate to https://wandb.ai/home.
-2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
-4. Provide the name or email of the user in the search bar.
-5. Select the ellipses or three dots icon (**...**) when it appears.
-6. From the dropdown, choose **Remove member**.
+1. https://wandb.ai/home に移動します。
+2. ページの右上隅にある **ユーザーメニュー** ドロップダウンを選択します。ドロップダウンから、**ユーザー** を選択します。
+4. 検索バーにユーザーの名前またはメールアドレスを入力します。
+5. 表示されたら、省略記号または 3 つのドットのアイコン (**...**) を選択します。
+6. ドロップダウンから、**メンバーを削除** を選択します。
 
-### Assign the billing admin
-1. Navigate to https://wandb.ai/home.
-2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
-4. Provide the name or email of the user in the search bar.
-5. Under the **Billing admin** column, choose the user you want to assign as the billing admin.
+### 課金管理者の割り当て
+1. https://wandb.ai/home に移動します。
+2. ページの右上隅にある **ユーザーメニュー** ドロップダウンを選択します。ドロップダウンから、**ユーザー** を選択します。
+4. 検索バーにユーザーの名前またはメールアドレスを入力します。
+5. **課金管理者** 列で、課金管理者として割り当てるユーザーを選択します。
 
+## Team の追加と管理
+組織のダッシュボードを使用して、組織内に Team を作成および管理します。組織管理者または Team 管理者は次のことができます。
+- ユーザーを Team に招待したり、Team からユーザーを削除したりします。
+- Team メンバーのロールを管理します。
+- 組織に参加するときに、ユーザーを Team に自動的に追加します。
+- `https://wandb.ai/<team-name>` の Team のダッシュボードで Team のストレージを管理します。
 
-## Add and manage teams
-Use your organization's dashboard to create  and manage teams within your organization. An organization admin or a team admin can:
-- Invite users to a team or remove users from a team.
-- Manage a team member's roles.
-- Automate the addition of users to a team when they join your organization.
-- Manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
+### Team の作成
 
-### Create a team
+組織のダッシュボードを使用して Team を作成します。
 
-Use your organization's dashboard to create a team:
-
-1. Navigate to https://wandb.ai/home.
-2. Select **Create a team to collaborate** on the left navigation panel underneath **Teams**.
+1. https://wandb.ai/home に移動します。
+2. 左側のナビゲーションパネルの **Team** の下にある **コラボレーションする Team を作成** を選択します。
 {{< img src="/images/hosting/create_new_team.png" alt="" >}}
-3. Provide a name for your team in the **Team name** field in the modal that appears. 
-4. Choose a storage type. 
-5. Select the **Create team** button.
+3. 表示されるモーダルの **Team 名** フィールドに Team の名前を入力します。
+4. ストレージタイプを選択します。
+5. **Team を作成** ボタンを選択します。
 
-After you select **Create team** button, W&B redirects you to a new team page at `https://wandb.ai/<team-name>`. Where `<team-name>` consists of the name you provide when you create a team.
+**Team を作成** ボタンを選択すると、W&B は `https://wandb.ai/<team-name>` の新しい Team ページにリダイレクトします。`<team-name>` は、Team の作成時に入力した名前で構成されます。
 
-Once you have a team, you can add users to that team.
+Team を作成したら、その Team にユーザーを追加できます。
 
-### Invite users to a team
+### Team へのユーザーの招待
 
-Invite users to a team in your organization. Use the team's dashboard to invite users using their email address or W&B username if they already have a W&B account.
+組織内の Team にユーザーを招待します。Team のダッシュボードを使用して、メールアドレスまたは W&B のユーザー名を使用してユーザーを招待します (すでに W&B アカウントを持っている場合)。
 
-1. Navigate to `https://wandb.ai/<team-name>`.
-2. Select **Team settings** in the global navigation on the left side of the dashboard.
+1. `https://wandb.ai/<team-name>` に移動します。
+2. ダッシュボードの左側にあるグローバルナビゲーションで **Team の設定** を選択します。
 {{< img src="/images/hosting/team_settings.png" alt="" >}}
-3. Select the **Users** tab.
-4. Choose on **Invite a new user**.
-5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles]({{< relref path="#assign-or-update-a-team-members-role" lang="ja" >}}).
-6. Choose on the **Send invite** button.
+3. **ユーザー** タブを選択します。
+4. **新しいユーザーを招待** を選択します。
+5. 表示されるモーダルで、**メールアドレスまたはユーザー名** フィールドにユーザーのメールアドレスを入力し、**Team ロールを選択** ドロップダウンからユーザーに割り当てるロールを選択します。ユーザーが Team で持つことができるロールの詳細については、[Team ロール]({{< relref path="#assign-or-update-a-team-members-role" lang="ja" >}}) を参照してください。
+6. **招待を送信** ボタンを選択します。
 
-By default, only a team or instance admin can invite members to a team. To change this behavior, refer to [Team settings]({{< relref path="/guides/models/app/settings-page/team-settings.md#privacy" lang="ja" >}}).
+デフォルトでは、Team またはインスタンス管理者のみが Team にメンバーを招待できます。この振る舞いを変更するには、[Team の設定]({{< relref path="/guides/models/app/settings-page/team-settings.md#privacy" lang="ja" >}}) を参照してください。
 
-In addition to inviting users manually with email invites, you can automatically add new users to a team if the new user's [email matches the domain of your organization]({{< relref path="#domain-capture" lang="ja" >}}).
+メールでの招待を使用して手動でユーザーを招待するだけでなく、新しいユーザーの [メールが組織のドメインと一致する]({{< relref path="#domain-capture" lang="ja" >}}) 場合、新しいユーザーを Team に自動的に追加できます。
 
-### Match members to a team organization during sign up
+### サインアップ時にメンバーを Team 組織に一致させる
 
-Allow new users within your organization discover Teams within your organization when they sign-up. New users must have a verified email domain that matches your organization's verified email domain. Verified new users can view a list of verified teams that belong to an organization when they sign up for a W&B account.
+組織内の新しいユーザーがサインアップ時に組織内の Teams を見つけられるようにします。新しいユーザーは、組織の検証済みメールアドレスドメインと一致する検証済みのメールアドレスドメインを持っている必要があります。検証済みの新しいユーザーは、W&B アカウントにサインアップするときに、組織に属する検証済みの Team のリストを表示できます。
 
-An organization admin must enable domain claiming. To enable domain capture, see the steps described in [Domain capture]({{< relref path="#domain-capture" lang="ja" >}}).
+組織管理者は、ドメインの要求を有効にする必要があります。ドメインキャプチャを有効にするには、[ドメインキャプチャ]({{< relref path="#domain-capture" lang="ja" >}}) に記載されている手順を参照してください。
 
+### Team メンバーのロールの割り当てまたは更新
 
-### Assign or update a team member's role
+1. Team メンバーの名前の横にあるアカウントタイプのアイコンを選択します。
+2. ドロップダウンから、Team メンバーに持たせるアカウントタイプを選択します。
 
+次の表に、Team のメンバーに割り当てることができるロールを示します。
 
-1. Select the account type icon next to the name of the team member. 
-2. From the drop-down, choose the account type you want that team member to posses.
-
-This table lists the roles you can assign to a member of a team:
-
-| Role   |   Definition   |
+| ロール   |   定義   |
 |-----------|---------------------------|
-| admin    | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
-| Member    | A regular user of a team, invited by email or their organization-level username by the team admin. A member user cannot invite other users to the team.  |
-| View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team admin. A view-only user only has read access to the team and its contents.  |
-| Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
-| Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
+| admin    | Team 内で他のユーザーを追加および削除したり、ユーザーロールを変更したり、Team の設定を構成したりできるユーザー。   |
+| Member    | Team の通常のユーザー。Team 管理者によってメールまたは組織レベルのユーザー名で招待されます。メンバーユーザーは、他のユーザーを Team に招待することはできません。  |
+| View-Only (エンタープライズ限定機能) | Team の表示専用ユーザー。Team 管理者によってメールまたは組織レベルのユーザー名で招待されます。表示専用ユーザーは、Team とそのコンテンツへの読み取りアクセスのみを持っています。  |
+| Service (エンタープライズ限定機能)   | サービスワーカーまたはサービスアカウントは、run 自動化ツールで W&B を利用するのに役立つ APIキーです。Team のサービスアカウントから APIキーを使用する場合は、環境変数 `WANDB_USERNAME` を設定して、run を適切なユーザーに正しく帰属させるようにしてください。 |
+| カスタムロール (エンタープライズ限定機能)   | カスタムロールを使用すると、組織管理者は、上記の表示専用またはメンバーロールから継承し、追加の権限を追加して、きめ細かいアクセス制御を実現することで、新しいロールを作成できます。Team 管理者は、これらのカスタムロールをそれぞれの Team のユーザーに割り当てることができます。詳細については、[この記事](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) を参照してください。 |
 
 {{% alert %}}
-Only enterprise licenses on Dedicated cloud or Self-managed deployment can assign custom roles to members in a team.
+Dedicated cloud または Self-managed デプロイメントのエンタープライズライセンスのみが、Team のメンバーにカスタムロールを割り当てることができます。
 {{% /alert %}}
 
-### Remove users from a team
-Remove a user from a team using the team's dashboard. W&B preserves runs created in a team even if the member who created the runs is no longer on that team.
+### Team からのユーザーの削除
+Team のダッシュボードを使用して Team からユーザーを削除します。run を作成したメンバーがその Team にいなくなった場合でも、W&B は Team で作成された run を保持します。
 
-1. Navigate to `https://wandb.ai/<team-name>`.
-2. Select **Team settings** in the left navigation bar.
-3. Select the **Users** tab.
-4. Hover your mouse next to the name of the user you want to delete. Select the ellipses or three dots icon (**...**) when it appears. 
-5. From the dropdown, select **Remove user**. 
-
-
-<!-- To do as a follow up -->
-<!-- ### Manage team storage
-
-## Create and assign custom roles
-
-## Privacy -->
+1. `https://wandb.ai/<team-name>` に移動します。
+2. 左側のナビゲーションバーで **Team の設定** を選択します。
+3. **ユーザー** タブを選択します。
+4. 削除するユーザーの名前の横にマウスを移動します。表示されたら、省略記号または 3 つのドットのアイコン (**...**) を選択します。
+5. ドロップダウンから、**ユーザーを削除** を選択します。

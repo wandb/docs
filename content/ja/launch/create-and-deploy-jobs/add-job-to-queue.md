@@ -1,49 +1,49 @@
 ---
+title: Add job to queue
 menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-add-job-to-queue
     parent: create-and-deploy-jobs
-title: Add job to queue
 url: guides/launch/add-job-to-queue
 ---
 
-The following page describes how to add launch jobs to a launch queue.
+次のページでは、Launch キューに Launch ジョブを追加する方法について説明します。
 
 {{% alert %}}
-Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Set up Launch]({{< relref path="/launch/set-up-launch/" lang="ja" >}}) page.
+あなたまたはあなたのチームの誰かがすでに Launch キューを設定していることを確認してください。詳細については、[Launch の設定]({{< relref path="/launch/set-up-launch/" lang="ja" >}})のページを参照してください。
 {{% /alert %}}
 
-## Add jobs to your queue
+## キューにジョブを追加する
 
-Add jobs to your queue interactively with the W&B App or programmatically with the W&B CLI.
+W&B App を使用してインタラクティブに、または W&B CLI を使用してプログラムで、ジョブをキューに追加します。
 
 {{< tabpane text=true >}}
 {{% tab "W&B app" %}}
-Add a job to your queue programmatically with the W&B App.
+W&B App を使用して、プログラムでジョブをキューに追加します。
 
-1. Navigate to your W&B Project Page.
-2. Select the **Jobs** icon on the left panel:
+1. W&B の Project ページに移動します。
+2. 左側のパネルで、**Jobs** アイコンを選択します。
   {{< img src="/images/launch/project_jobs_tab_gs.png" alt="" >}}
-3. The **Jobs** page displays a list of W&B launch jobs that were created from previously executed W&B runs. 
+3. **Jobs** ページには、以前に実行された W&B の run から作成された W&B の Launch ジョブのリストが表示されます。
   {{< img src="/images/launch/view_jobs.png" alt="" >}}
-4. Select the **Launch** button next to the name of the Job name. A modal will appear on the right side of the page.
-5. From the **Job version** dropdown, select the version of hte launch job you want to use. Launch jobs are versioned like any other [W&B Artifact]({{< relref path="/guides/core/artifacts/create-a-new-artifact-version.md" lang="ja" >}}). Different versions of the same launch job will be created if you make modifications to the software dependencies or source code used to run the job.
-6. Within the **Overrides** section, provide new values for any inputs that are configured for your launch job. Common overrides include a new entrypoint command, arguments, or values in the `wandb.config` of your new W&B run.  
+4. ジョブ名の横にある **Launch** ボタンを選択します。モーダルがページの右側に表示されます。
+5. **Job version** ドロップダウンから、使用する Launch ジョブのバージョンを選択します。Launch ジョブは、他の [W&B Artifact]({{< relref path="/guides/core/artifacts/create-a-new-artifact-version.md" lang="ja" >}}) と同様にバージョン管理されています。ジョブの実行に使用されるソフトウェアの依存関係またはソースコードを変更すると、同じ Launch ジョブの異なるバージョンが作成されます。
+6. **Overrides** セクション内で、Launch ジョブに設定されているすべての入力に新しい値を指定します。一般的なオーバーライドには、新しいエントリポイントコマンド、引数、または新しい W&B の run の `wandb.config` の値が含まれます。
   {{< img src="/images/launch/create_starter_queue_gs.png" alt="" >}}
-  You can copy and paste values from other W&B runs that used your launch job by clicking on the **Paste from...** button.
-7. From the **Queue** dropdown, select the name of the launch queue you want to add your launch job to. 
-8. Use the **Job Priority** dropdown to specify the priority of your launch job. A launch job's priority is set to "Medium" if the launch queue does not support prioritization.
-9. **(Optional) Follow this step only if a queue config template was created by your team admin**  
-Within the **Queue Configurations** field, provide values for configuration options that were created by the admin of your team.  
-For example, in the following example, the team admin configured AWS instance types that can be used by the team. In this case, team members can pick either the `ml.m4.xlarge` or `ml.p3.xlarge` compute instance type to train their model.
+  **Paste from...** ボタンをクリックして、Launch ジョブを使用した他の W&B の run から値をコピーして貼り付けることができます。
+7. **Queue** ドロップダウンから、Launch ジョブを追加する Launch キューの名前を選択します。
+8. **Job Priority** ドロップダウンを使用して、Launch ジョブの優先度を指定します。Launch キューが優先順位付けをサポートしていない場合、Launch ジョブの優先度は「Medium」に設定されます。
+9. **（オプション）チーム管理者がキュー構成テンプレートを作成した場合にのみ、この手順に従ってください**
+**Queue Configurations** フィールド内で、チームの管理者によって作成された構成オプションの値を指定します。
+たとえば、次の例では、チーム管理者はチームが使用できる AWS インスタンスタイプを構成しました。この場合、チームメンバーは `ml.m4.xlarge` または `ml.p3.xlarge` コンピュートインスタンスタイプのいずれかを選択して、モデルをトレーニングできます。
 {{< img src="/images/launch/team_member_use_config_template.png" alt="" >}}
-10. Select the **Destination project**, where the resulting run will appear. This project needs to belong to the same entity as the queue.
-11. Select the **Launch now** button. 
+10. 結果の run が表示される **Destination project** を選択します。この Project は、キューと同じエンティティに属している必要があります。
+11. **Launch now** ボタンを選択します。
 
 {{% /tab %}}
 {{% tab "W&B CLI" %}}
 
-Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart]({{< relref path="../walkthrough.md" lang="ja" >}}) guide, we create a JSON file with the following overrides:
+`wandb launch` コマンドを使用して、ジョブをキューに追加します。ハイパー パラメーターのオーバーライドを含む JSON 構成を作成します。たとえば、[クイックスタート]({{< relref path="../walkthrough.md" lang="ja" >}}) ガイドのスクリプトを使用して、次のオーバーライドを含む JSON ファイルを作成します。
 
 ```json title="config.json"
 {
@@ -59,10 +59,10 @@ Use the `wandb launch` command to add jobs to a queue. Create a JSON configurati
 ```
 
 {{% alert %}}
-W&B Launch will use the default parameters if you do not provide a JSON configuration file.
+JSON 構成ファイルを提供しない場合、W&B Launch はデフォルトの パラメータ を使用します。
 {{% /alert %}}
 
-If you want to override the queue configuration, or if your launch queue does not have a configuration resource defined, you can specify the `resource_args` key in your config.json file. For example, following continuing the example above, your config.json file might look similar to the following:
+キュー構成をオーバーライドする場合、または Launch キューに構成リソースが定義されていない場合は、config.json ファイルで `resource_args` キーを指定できます。たとえば、上記の例に続いて、config.json ファイルは次のようになります。
 
 ```json title="config.json"
 {
@@ -82,15 +82,15 @@ If you want to override the queue configuration, or if your launch queue does no
 }
 ```
 
-Replace values within the `<>` with your own values.
+`<>` 内の値を独自の値に置き換えます。
 
-Provide the name of the queue for the `queue`(`-q`) flag, the name of the job for the `job`(`-j`) flag, and the path to the configuration file for the `config`(`-c`) flag.
+`queue`(`-q`) フラグのキューの名前、`job`(`-j`) フラグのジョブの名前、および `config`(`-c`) フラグの構成ファイルへのパスを指定します。
 
 ```bash
-wandb launch -j <job> -q <queue-name> \ 
+wandb launch -j <job> -q <queue-name> \
 -e <entity-name> -c path/to/config.json
 ```
-If you work within a W&B Team, we suggest you specify the `entity` flag (`-e`) to indicate which entity the queue will use.
+W&B の Teams で作業する場合は、キューが使用するエンティティを示すために `entity` フラグ (`-e`) を指定することをお勧めします。
 
 {{% /tab %}}
 {{% /tabpane %}}

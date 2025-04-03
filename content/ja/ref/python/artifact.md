@@ -1,13 +1,13 @@
 ---
+title: Artifact
 menu:
   reference:
     identifier: ja-ref-python-artifact
-title: Artifact
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/artifacts/artifact.py#L96-L2410 >}}
 
-Flexible and lightweight building block for dataset and model versioning.
+データセット と モデル の バージョン管理 のための、柔軟 で 軽量 な 構成要素 です。
 
 ```python
 Artifact(
@@ -20,55 +20,53 @@ Artifact(
 ) -> None
 ```
 
-Construct an empty W&B Artifact. Populate an artifacts contents with methods that
-begin with `add`. Once the artifact has all the desired files, you can call
-`wandb.log_artifact()` to log it.
+空 の W&B Artifact を構築します。`add` で始まる メソッド で Artifact の コンテンツ を 設定 します。Artifact に 必要な ファイル が 全て 揃ったら、`wandb.log_artifact()` を 呼び出して ログ に 記録 できます。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `name` |  A human-readable name for the artifact. Use the name to identify a specific artifact in the W&B App UI or programmatically. You can interactively reference an artifact with the `use_artifact` Public API. A name can contain letters, numbers, underscores, hyphens, and dots. The name must be unique across a project. |
-|  `type` |  The artifact's type. Use the type of an artifact to both organize and differentiate artifacts. You can use any string that contains letters, numbers, underscores, hyphens, and dots. Common types include `dataset` or `model`. Include `model` within your type string if you want to link the artifact to the W&B Model Registry. |
-|  `description` |  A description of the artifact. For Model or Dataset Artifacts, add documentation for your standardized team model or dataset card. View an artifact's description programmatically with the `Artifact.description` attribute or programmatically with the W&B App UI. W&B renders the description as markdown in the W&B App. |
-|  `metadata` |  Additional information about an artifact. Specify metadata as a dictionary of key-value pairs. You can specify no more than 100 total keys. |
-|  `incremental` |  Use `Artifact.new_draft()` method instead to modify an existing artifact. |
-|  `use_as` |  W&B Launch specific parameter. Not recommended for general use. |
+| `name` | Artifact の わかりやすい 名前。この 名前 を 使用して、W&B App UI で 特定 の Artifact を 識別したり、プログラム で 識別したりします。`use_artifact` Public API を 使用して、Artifact をインタラクティブ に 参照 できます。名前 には、文字、数字、アンダースコア、ハイフン、ドット を 含める ことができます。名前 は プロジェクト 全体 で 一意 で ある 必要 が あります。 |
+| `type` | Artifact の タイプ。Artifact の タイプ を 使用して、Artifact を 整理 および 区別 します。文字、数字、アンダースコア、ハイフン、ドット を 含む 任意 の 文字列 を 使用 できます。一般的 な タイプ には、`dataset` や `model` があります。Artifact を W&B Model Registry に リンク する 場合 は、タイプ 文字列 に `model` を 含めます。 |
+| `description` | Artifact の 説明。Model または Dataset Artifact の 場合 は、標準化 された チームモデル または データセット カード の ドキュメント を 追加 します。`Artifact.description` 属性 を 使用して プログラム で、または W&B App UI を 使用して プログラム で Artifact の 説明 を 表示 します。W&B は、W&B App で 説明 を Markdown として レンダリング します。 |
+| `metadata` | Artifact に関する 追加 情報。メタデータ を キー と 値 の ペア の ディクショナリー として 指定 します。合計 100 個 まで の キー を 指定 できます。 |
+| `incremental` | 既存 の Artifact を 変更 する には、代わり に `Artifact.new_draft()` メソッド を 使用 します。 |
+| `use_as` | W&B Launch 固有 の パラメータ。一般 的 な 使用 には お勧め しません。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+| `Artifact` オブジェクト。 |
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
-|  `aliases` |  List of one or more semantically-friendly references or identifying "nicknames" assigned to an artifact version. Aliases are mutable references that you can programmatically reference. Change an artifact's alias with the W&B App UI or programmatically. See [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) for more information. |
-|  `collection` |  The collection this artifact was retrieved from. A collection is an ordered group of artifact versions. If this artifact was retrieved from a portfolio / linked collection, that collection will be returned rather than the collection that an artifact version originated from. The collection that an artifact originates from is known as the source sequence. |
-|  `commit_hash` |  The hash returned when this artifact was committed. |
-|  `created_at` |  Timestamp when the artifact was created. |
-|  `description` |  A description of the artifact. |
-|  `digest` |  The logical digest of the artifact. The digest is the checksum of the artifact's contents. If an artifact has the same digest as the current `latest` version, then `log_artifact` is a no-op. |
-|  `entity` |  The name of the entity of the secondary (portfolio) artifact collection. |
-|  `file_count` |  The number of files (including references). |
-|  `id` |  The artifact's ID. |
-|  `manifest` |  The artifact's manifest. The manifest lists all of its contents, and can't be changed once the artifact has been logged. |
-|  `metadata` |  User-defined artifact metadata. Structured data associated with the artifact. |
-|  `name` |  The artifact name and version in its secondary (portfolio) collection. A string with the format `{collection}:{alias}`. Before the artifact is saved, contains only the name since the version is not yet known. |
-|  `project` |  The name of the project of the secondary (portfolio) artifact collection. |
-|  `qualified_name` |  The entity/project/name of the secondary (portfolio) collection. |
-|  `size` |  The total size of the artifact in bytes. Includes any references tracked by this artifact. |
-|  `source_collection` |  The artifact's primary (sequence) collection. |
-|  `source_entity` |  The name of the entity of the primary (sequence) artifact collection. |
-|  `source_name` |  The artifact name and version in its primary (sequence) collection. A string with the format `{collection}:{alias}`. Before the artifact is saved, contains only the name since the version is not yet known. |
-|  `source_project` |  The name of the project of the primary (sequence) artifact collection. |
-|  `source_qualified_name` |  The entity/project/name of the primary (sequence) collection. |
-|  `source_version` |  The artifact's version in its primary (sequence) collection. A string with the format `v{number}`. |
-|  `state` |  The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED". |
-|  `tags` |  List of one or more tags assigned to this artifact version. |
-|  `ttl` |  The time-to-live (TTL) policy of an artifact. Artifacts are deleted shortly after a TTL policy's duration passes. If set to `None`, the artifact deactivates TTL policies and will be not scheduled for deletion, even if there is a team default TTL. An artifact inherits a TTL policy from the team default if the team administrator defines a default TTL and there is no custom policy set on an artifact. |
-|  `type` |  The artifact's type. Common types include `dataset` or `model`. |
-|  `updated_at` |  The time when the artifact was last updated. |
-|  `url` |  Constructs the URL of the artifact. |
-|  `version` |  The artifact's version in its secondary (portfolio) collection. |
+| `aliases` | Artifact バージョン に 割り当てられた、1 つ または 複数 の 意味的に わかりやすい 参照 または 識別 用 の 「ニックネーム」 の リスト。エイリアス は、プログラム で 参照 できる 可変 参照 です。W&B App UI を 使用するか、プログラム で Artifact の エイリアス を 変更 します。詳細 については、[新しい Artifact バージョン を 作成 する](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) を 参照 して ください。 |
+| `collection` | この Artifact が 取得 された コレクション。コレクション は Artifact バージョン の 順序付けられた グループ です。この Artifact が ポートフォリオ / リンクされた コレクション から 取得 された 場合、Artifact バージョン の 元 の コレクション で はなく、その コレクション が 返されます。Artifact の 元 の コレクション は、ソース シーケンス と 呼ばれます。 |
+| `commit_hash` | この Artifact が コミット された とき に 返された ハッシュ。 |
+| `created_at` | Artifact が 作成 された とき の タイムスタンプ。 |
+| `description` | Artifact の 説明。 |
+| `digest` | Artifact の 論理 ダイジェスト。ダイジェスト は Artifact の コンテンツ の チェックサム です。Artifact の ダイジェスト が 現在 の `latest` バージョン と 同じ 場合、`log_artifact` は 何も しません。 |
+| `entity` | セカンダリ (ポートフォリオ) Artifact コレクション の エンティティ の 名前。 |
+| `file_count` | ファイル の 数 (参照 を 含む)。 |
+| `id` | Artifact の ID。 |
+| `manifest` | Artifact の マニフェスト。マニフェスト には 全て の コンテンツ が リスト されており、Artifact が ログ に 記録 された 後 は 変更 できません。 |
+| `metadata` | ユーザー定義 の Artifact メタデータ。Artifact に 関連付けられた 構造化 データ。 |
+| `name` | セカンダリ (ポートフォリオ) コレクション 内 の Artifact 名 と バージョン。`{collection}:{alias}` という 形式 の 文字列。Artifact が 保存 される 前 は、バージョン が まだ わからない ため、名前 のみ が 含まれます。 |
+| `project` | セカンダリ (ポートフォリオ) Artifact コレクション の プロジェクト の 名前。 |
+| `qualified_name` | セカンダリ (ポートフォリオ) コレクション の エンティティ / プロジェクト / 名前。 |
+| `size` | Artifact の 合計 サイズ (バイト単位)。この Artifact で 追跡 される 全て の 参照 が 含まれます。 |
+| `source_collection` | Artifact の プライマリ (シーケンス) コレクション。 |
+| `source_entity` | プライマリ (シーケンス) Artifact コレクション の エンティティ の 名前。 |
+| `source_name` | プライマリ (シーケンス) コレクション 内 の Artifact 名 と バージョン。`{collection}:{alias}` という 形式 の 文字列。Artifact が 保存 される 前 は、バージョン が まだ わからない ため、名前 のみ が 含まれます。 |
+| `source_project` | プライマリ (シーケンス) Artifact コレクション の プロジェクト の 名前。 |
+| `source_qualified_name` | プライマリ (シーケンス) コレクション の エンティティ / プロジェクト / 名前。 |
+| `source_version` | プライマリ (シーケンス) コレクション 内 の Artifact の バージョン。`v{number}` という 形式 の 文字列。 |
+| `state` | Artifact の ステータス。「PENDING」、「COMMITTED」、または「DELETED」 の いずれか。 |
+| `tags` | この Artifact バージョン に 割り当てられた 1 つ または 複数 の タグ の リスト。 |
+| `ttl` | Artifact の Time-To-Live (TTL) ポリシー。Artifact は TTL ポリシー の 期間 が 経過 すると すぐ に 削除 されます。`None` に 設定 すると、Artifact は TTL ポリシー を 非アクティブ化 し、チーム の デフォルト TTL が あっても 削除 の スケジュール は 設定 されません。チーム 管理者 が デフォルト の TTL を 定義 し、Artifact に カスタム ポリシー が 設定 されていない 場合、Artifact は チーム の デフォルト から TTL ポリシー を 継承 します。 |
+| `type` | Artifact の タイプ。一般的 な タイプ には、`dataset` や `model` があります。 |
+| `updated_at` | Artifact が 最後 に 更新 された 時刻。 |
+| `url` | Artifact の URL を 構築します。 |
+| `version` | セカンダリ (ポートフォリオ) コレクション 内 の Artifact の バージョン。 |
 
-## Methods
+## メソッド
 
 ### `add`
 
@@ -82,21 +80,21 @@ add(
 ) -> ArtifactManifestEntry
 ```
 
-Add wandb.WBValue `obj` to the artifact.
+wandb.WBValue `obj` を Artifact に 追加 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `obj` |  The object to add. Currently support one of Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D |
-|  `name` |  The path within the artifact to add the object. |
-|  `overwrite` |  If True, overwrite existing objects with the same file path (if applicable). |
+| `obj` | 追加 する オブジェクト。現在、Bokeh、JoinedTable、PartitionedTable、Table、Classes、ImageMask、BoundingBoxes2D、Audio、Image、Video、Html、Object3D の いずれか 1 つ を サポート しています。 |
+| `name` | オブジェクト を 追加 する Artifact 内 の パス。 |
+| `overwrite` | True の 場合、同じ ファイル パス を 持つ 既存 の オブジェクト を 上書き します (該当 する 場合)。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The added manifest entry |
+| 追加 された マニフェスト エントリー |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. |
+| `ArtifactFinalizedError` | 現在 の Artifact バージョン は 確定 されているため、変更 できません。代わり に 新しい Artifact バージョン を ログ に 記録 して ください。 |
 
 ### `add_dir`
 
@@ -111,19 +109,19 @@ add_dir(
 ) -> None
 ```
 
-Add a local directory to the artifact.
+ローカル ディレクトリ を Artifact に 追加 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `local_path` |  The path of the local directory. |
-|  `name` |  The subdirectory name within an artifact. The name you specify appears in the W&B App UI nested by artifact's `type`. Defaults to the root of the artifact. |
-|  `skip_cache` |  If set to `True`, W&B will not copy/move files to the cache while uploading |
-|  `policy` |  "mutable" | "immutable". By default, "mutable" "mutable": Create a temporary copy of the file to prevent corruption during upload. "immutable": Disable protection, rely on the user not to delete or change the file. |
+| `local_path` | ローカル ディレクトリ の パス。 |
+| `name` | Artifact 内 の サブ ディレクトリ 名。指定 する 名前 は、Artifact の `type` で ネスト された W&B App UI に 表示 されます。デフォルト は Artifact の ルート です。 |
+| `skip_cache` | `True` に 設定 すると、W&B は アップロード 中 に ファイル を キャッシュ に コピー / 移動 しません。 |
+| `policy` | "mutable" | "immutable"。デフォルト では、"mutable" です。"mutable" : アップロード 中 に 破損 を 防ぐ ため に、ファイル の 一時 コピー を 作成 します。"immutable" : 保護 を 無効 にし、ユーザー が ファイル を 削除 または 変更 しない こと に 依存 します。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. |
-|  `ValueError` |  Policy must be "mutable" or "immutable" |
+| `ArtifactFinalizedError` | 現在 の Artifact バージョン は 確定 されているため、変更 できません。代わり に 新しい Artifact バージョン を ログ に 記録 して ください。 |
+| `ValueError` | ポリシー は "mutable" または "immutable" で ある 必要 があります。 |
 
 ### `add_file`
 
@@ -140,25 +138,25 @@ add_file(
 ) -> ArtifactManifestEntry
 ```
 
-Add a local file to the artifact.
+ローカル ファイル を Artifact に 追加 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `local_path` |  The path to the file being added. |
-|  `name` |  The path within the artifact to use for the file being added. Defaults to the basename of the file. |
-|  `is_tmp` |  If true, then the file is renamed deterministically to avoid collisions. |
-|  `skip_cache` |  If `True`, W&B will not copy files to the cache after uploading. |
-|  `policy` |  By default, set to "mutable". If set to "mutable", create a temporary copy of the file to prevent corruption during upload. If set to "immutable", disable protection and rely on the user not to delete or change the file. |
-|  `overwrite` |  If `True`, overwrite the file if it already exists. |
+| `local_path` | 追加 する ファイル の パス。 |
+| `name` | 追加 する ファイル に 使用 する Artifact 内 の パス。デフォルト は ファイル の basename です。 |
+| `is_tmp` | True の 場合、ファイル の 名前 が 決定 的 に 変更 され、衝突 が 回避 されます。 |
+| `skip_cache` | `True` の 場合、W&B は アップロード 後 に ファイル を キャッシュ に コピー しません。 |
+| `policy` | デフォルト では、"mutable" に 設定 されます。"mutable" に 設定 すると、アップロード 中 に 破損 を 防ぐ ため に、ファイル の 一時 コピー が 作成 されます。"immutable" に 設定 すると、保護 が 無効 になり、ユーザー が ファイル を 削除 または 変更 しない こと に 依存 します。 |
+| `overwrite` | `True` の 場合、ファイル が 既に 存在 する 場合 は 上書き します。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The added manifest entry. |
+| 追加 された マニフェスト エントリー。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. |
-|  `ValueError` |  Policy must be "mutable" or "immutable" |
+| `ArtifactFinalizedError` | 現在 の Artifact バージョン は 確定 されているため、変更 できません。代わり に 新しい Artifact バージョン を ログ に 記録 して ください。 |
+| `ValueError` | ポリシー は "mutable" または "immutable" で ある 必要 があります。 |
 
 ### `add_reference`
 
@@ -173,44 +171,34 @@ add_reference(
 ) -> Sequence[ArtifactManifestEntry]
 ```
 
-Add a reference denoted by a URI to the artifact.
+URI で 示される 参照 を Artifact に 追加 します。
 
-Unlike files or directories that you add to an artifact, references are not
-uploaded to W&B. For more information,
-see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
+Artifact に 追加 する ファイル または ディレクトリ とは 異なり、参照 は W&B に アップロード されません。詳細 については、[外部 ファイル の 追跡](https://docs.wandb.ai/guides/artifacts/track-external-files) を 参照 して ください。
 
-By default, the following schemes are supported:
+デフォルト では、次 の スキーム が サポート されています。
 
-- http(s): The size and digest of the file will be inferred by the
-  `Content-Length` and the `ETag` response headers returned by the server.
-- s3: The checksum and size are pulled from the object metadata. If bucket
-  versioning is enabled, then the version ID is also tracked.
-- gs: The checksum and size are pulled from the object metadata. If bucket
-  versioning is enabled, then the version ID is also tracked.
-- https, domain matching `*.blob.core.windows.net` (Azure): The checksum and size
-  are be pulled from the blob metadata. If storage account versioning is
-  enabled, then the version ID is also tracked.
-- file: The checksum and size are pulled from the file system. This scheme
-  is useful if you have an NFS share or other externally mounted volume
-  containing files you wish to track but not necessarily upload.
+- http(s) : ファイル の サイズ と ダイジェスト は、サーバー から 返される `Content-Length` と `ETag` レスポンス ヘッダー によって 推測 されます。
+- s3 : チェックサム と サイズ は オブジェクト メタデータ から 取得 されます。バケット の バージョン管理 が 有効 になっている 場合 は、バージョン ID も 追跡 されます。
+- gs : チェックサム と サイズ は オブジェクト メタデータ から 取得 されます。バケット の バージョン管理 が 有効 になっている 場合 は、バージョン ID も 追跡 されます。
+- https、ドメイン が `*.blob.core.windows.net` (Azure) と 一致 する : チェックサム と サイズ は BLOB メタデータ から 取得 されます。ストレージ アカウント の バージョン管理 が 有効 になっている 場合 は、バージョン ID も 追跡 されます。
+- file : チェックサム と サイズ は ファイル システム から 取得 されます。この スキーム は、追跡 する 必要 が ある が 必ずしも アップロード する 必要 が ない ファイル を 含む NFS 共有 または その他 の 外部 マウント された ボリューム が ある 場合 に 役立ちます。
 
-For any other scheme, the digest is just a hash of the URI and the size is left
-blank.
+その他 の スキーム の 場合、ダイジェスト は URI の ハッシュ に すぎず、サイズ は 空白 の まま に なります。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `uri` |  The URI path of the reference to add. The URI path can be an object returned from `Artifact.get_entry` to store a reference to another artifact's entry. |
-|  `name` |  The path within the artifact to place the contents of this reference. |
-|  `checksum` |  Whether or not to checksum the resource(s) located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation. Disabling checksumming will speed up artifact creation but reference directories will not iterated through so the objects in the directory will not be saved to the artifact. We recommend setting `checksum=False` when adding reference objects, in which case a new version will only be created if the reference URI changes. |
-|  `max_objects` |  The maximum number of objects to consider when adding a reference that points to directory or bucket store prefix. By default, the maximum number of objects allowed for Amazon S3, GCS, Azure, and local files is 10,000,000. Other URI schemas do not have a maximum. |
+| `uri` | 追加 する 参照 の URI パス。URI パス には、別 の Artifact の エントリー への 参照 を 格納 する ため に `Artifact.get_entry` から 返される オブジェクト を 指定 できます。 |
+| `name` | この 参照 の コンテンツ を 配置 する Artifact 内 の パス。 |
+| `checksum` | 参照 URI に ある リソース の チェックサム を 計算 する か どうか。チェックサム を 計算 すると、自動 整合性 検証 が 有効 になるため、強く お勧め し ます。チェックサム を 無効 にすると、Artifact の 作成 が 高速化 されますが、参照 ディレクトリ は 反復 処理 されないため、ディレクトリ 内 の オブジェクト は Artifact に 保存 されません。参照 オブジェクト を 追加 する 場合 は `checksum=False` を 設定 し、参照 URI が 変更 された 場合 にのみ 新しい バージョン が 作成 される よう に する こと を お勧め します。 |
+| `max_objects` | ディレクトリ または バケット ストア プレフィックス を 指す 参照 を 追加 する 場合 に 考慮 する オブジェクト の 最大 数。デフォルト では、Amazon S3、GCS、Azure、および ローカル ファイル で 許可 される オブジェクト の 最大 数 は 10,000,000 です。その他 の URI スキーマ には 最大 値 が ありません。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The added manifest entries. |
+| 追加 された マニフェスト エントリー。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. |
+| `ArtifactFinalizedError` | 現在 の Artifact バージョン は 確定 されているため、変更 できません。代わり に 新しい Artifact バージョン を ログ に 記録 して ください。 |
 
 ### `checkout`
 
@@ -222,22 +210,21 @@ checkout(
 ) -> str
 ```
 
-Replace the specified root directory with the contents of the artifact.
+指定 された ルート ディレクトリ を Artifact の コンテンツ に 置き換え ます。
 
-WARNING: This will delete all files in `root` that are not included in the
-artifact.
+警告 : これ により、Artifact に 含まれていない `root` 内 の 全て の ファイル が 削除 されます。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `root` |  The directory to replace with this artifact's files. |
+| `root` | この Artifact の ファイル で 置き換える ディレクトリ。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The path of the checked out contents. |
+| チェックアウト された コンテンツ の パス。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
 
 ### `delete`
 
@@ -249,18 +236,17 @@ delete(
 ) -> None
 ```
 
-Delete an artifact and its files.
+Artifact と その ファイル を 削除 します。
 
-If called on a linked artifact (i.e. a member of a portfolio collection): only the link is deleted, and the
-source artifact is unaffected.
+リンクされた Artifact (つまり、ポートフォリオ コレクション の メンバー) で 呼び出された 場合 : リンク のみ が 削除 され、ソース Artifact は 影響 を 受けません。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `delete_aliases` |  If set to `True`, deletes all aliases associated with the artifact. Otherwise, this raises an exception if the artifact has existing aliases. This parameter is ignored if the artifact is linked (i.e. a member of a portfolio collection). |
+| `delete_aliases` | `True` に 設定 すると、Artifact に 関連付けられた 全て の エイリアス が 削除 されます。そう でない 場合、Artifact に 既存 の エイリアス が ある 場合 は 例外 が 発生 します。この パラメータ は、Artifact が リンクされている 場合 (つまり、ポートフォリオ コレクション の メンバー) は 無視 されます。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
 
 ### `download`
 
@@ -275,27 +261,25 @@ download(
 ) -> FilePathStr
 ```
 
-Download the contents of the artifact to the specified root directory.
+Artifact の コンテンツ を 指定 された ルート ディレクトリ に ダウンロード します。
 
-Existing files located within `root` are not modified. Explicitly delete `root`
-before you call `download` if you want the contents of `root` to exactly match
-the artifact.
+`root` 内 に ある 既存 の ファイル は 変更 されません。`root` の コンテンツ を Artifact と 正確 に 一致 させる 場合 は、`download` を 呼び出す 前 に `root` を 明示 的 に 削除 して ください。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `root` |  The directory W&B stores the artifact's files. |
-|  `allow_missing_references` |  If set to `True`, any invalid reference paths will be ignored while downloading referenced files. |
-|  `skip_cache` |  If set to `True`, the artifact cache will be skipped when downloading and W&B will download each file into the default root or specified download directory. |
-|  `path_prefix` |  If specified, only files with a path that starts with the given prefix will be downloaded. Uses unix format (forward slashes). |
+| `root` | W&B が Artifact の ファイル を 格納 する ディレクトリ。 |
+| `allow_missing_references` | `True` に 設定 すると、参照 ファイル の ダウンロード 中 に 無効 な 参照 パス は 無視 されます。 |
+| `skip_cache` | `True` に 設定 すると、ダウンロード 時 に Artifact キャッシュ が スキップ され、W&B は 各 ファイル を デフォルト の ルート または 指定 された ダウンロード ディレクトリ に ダウンロード します。 |
+| `path_prefix` | 指定 すると、指定 された プレフィックス で 始まる パス を 持つ ファイル のみ が ダウンロード されます。UNIX 形式 (フォワード スラッシュ) を 使用 します。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The path to the downloaded contents. |
+| ダウンロード された コンテンツ へ の パス。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
-|  `RuntimeError` |  If the artifact is attempted to be downloaded in offline mode. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
+| `RuntimeError` | Artifact を オフライン モード で ダウンロード しよう とした 場合。 |
 
 ### `file`
 
@@ -307,20 +291,20 @@ file(
 ) -> StrPath
 ```
 
-Download a single file artifact to the directory you specify with `root`.
+単一 の ファイル Artifact を `root` で 指定 する ディレクトリ に ダウンロード します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `root` |  The root directory to store the file. Defaults to './artifacts/self.name/'. |
+| `root` | ファイル を 格納 する ルート ディレクトリ。デフォルト は './artifacts/self.name/' です。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The full path of the downloaded file. |
+| ダウンロード された ファイル の フルパス。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
-|  `ValueError` |  If the artifact contains more than one file. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
+| `ValueError` | Artifact に 複数 の ファイル が 含まれている 場合。 |
 
 ### `files`
 
@@ -333,20 +317,20 @@ files(
 ) -> ArtifactFiles
 ```
 
-Iterate over all files stored in this artifact.
+この Artifact に 格納 されている 全て の ファイル を 反復 処理 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `names` |  The filename paths relative to the root of the artifact you wish to list. |
-|  `per_page` |  The number of files to return per request. |
+| `names` | リスト する Artifact の ルート に 関連 する ファイル名 パス。 |
+| `per_page` | リクエスト ごと に 返す ファイル の 数。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An iterator containing `File` objects. |
+| `File` オブジェクト を 含む イテレーター。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
 
 ### `finalize`
 
@@ -356,12 +340,9 @@ Iterate over all files stored in this artifact.
 finalize() -> None
 ```
 
-Finalize the artifact version.
+Artifact バージョン を 確定 します。
 
-You cannot modify an artifact version once it is finalized because the artifact
-is logged as a specific artifact version. Create a new artifact version
-to log more data to an artifact. An artifact is automatically finalized
-when you log the artifact with `log_artifact`.
+Artifact は 特定 の Artifact バージョン として ログ に 記録 される ため、確定 された Artifact バージョン は 変更 できません。新しい Artifact バージョン を 作成 して、Artifact に より 多く の データ を ログ に 記録 します。Artifact は、`log_artifact` で Artifact を ログ に 記録 すると 自動的 に 確定 されます。
 
 ### `get`
 
@@ -373,19 +354,19 @@ get(
 ) -> (WBValue | None)
 ```
 
-Get the WBValue object located at the artifact relative `name`.
+Artifact 関連 の `name` に ある WBValue オブジェクト を 取得 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `name` |  The artifact relative name to retrieve. |
+| `name` | 取得 する Artifact 関連 の 名前。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  W&B object that can be logged with `wandb.log()` and visualized in the W&B UI. |
+| `wandb.log()` で ログ に 記録 し、W&B UI で 可視化 できる W&B オブジェクト。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact isn't logged or the run is offline |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない か、run が オフライン の 場合。 |
 
 ### `get_added_local_path_name`
 
@@ -397,15 +378,15 @@ get_added_local_path_name(
 ) -> (str | None)
 ```
 
-Get the artifact relative name of a file added by a local filesystem path.
+ローカル ファイル システム パス によって 追加 された ファイル の Artifact 関連 の 名前 を 取得 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `local_path` |  The local path to resolve into an artifact relative name. |
+| `local_path` | Artifact 関連 の 名前 に 解決 する ローカル パス。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The artifact relative name. |
+| Artifact 関連 の 名前。 |
 
 ### `get_entry`
 
@@ -417,20 +398,20 @@ get_entry(
 ) -> ArtifactManifestEntry
 ```
 
-Get the entry with the given name.
+指定 された 名前 の エントリー を 取得 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `name` |  The artifact relative name to get |
+| `name` | 取得 する Artifact 関連 の 名前 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `W&B` object. |
+| `W&B` オブジェクト。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact isn't logged or the run is offline. |
-|  `KeyError` |  if the artifact doesn't contain an entry with the given name. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない か、run が オフライン の 場合。 |
+| `KeyError` | Artifact に 指定 された 名前 の エントリー が 含まれていない 場合。 |
 
 ### `get_path`
 
@@ -442,7 +423,7 @@ get_path(
 ) -> ArtifactManifestEntry
 ```
 
-Deprecated. Use `get_entry(name)`.
+非推奨。`get_entry(name)` を 使用 して ください。
 
 ### `is_draft`
 
@@ -452,9 +433,9 @@ Deprecated. Use `get_entry(name)`.
 is_draft() -> bool
 ```
 
-Check if artifact is not saved.
+Artifact が 保存 されていない か どうか を 確認 します。
 
-Returns: Boolean. `False` if artifact is saved. `True` if artifact is not saved.
+戻り値 : ブール値。Artifact が 保存 されている 場合 は `False`。Artifact が 保存 されていない 場合 は `True`。
 
 ### `json_encode`
 
@@ -464,11 +445,11 @@ Returns: Boolean. `False` if artifact is saved. `True` if artifact is not saved.
 json_encode() -> dict[str, Any]
 ```
 
-Returns the artifact encoded to the JSON format.
+Artifact を JSON 形式 に エンコード して 返します。
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `dict` with `string` keys representing attributes of the artifact. |
+| Artifact の 属性 を 表す `string` キー を 持つ `dict`。 |
 
 ### `link`
 
@@ -481,16 +462,16 @@ link(
 ) -> None
 ```
 
-Link this artifact to a portfolio (a promoted collection of artifacts).
+この Artifact を ポートフォリオ (Artifact の 昇格 された コレクション) に リンク します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `target_path` |  The path to the portfolio inside a project. The target path must adhere to one of the following schemas `{portfolio}`, `{project}/{portfolio}` or `{entity}/{project}/{portfolio}`. To link the artifact to the Model Registry, rather than to a generic portfolio inside a project, set `target_path` to the following schema `{"model-registry"}/{Registered Model Name}` or `{entity}/{"model-registry"}/{Registered Model Name}`. |
-|  `aliases` |  A list of strings that uniquely identifies the artifact inside the specified portfolio. |
+| `target_path` | プロジェクト 内 の ポートフォリオ へ の パス。ターゲット パス は、`{portfolio}`、`{project}/{portfolio}`、または `{entity}/{project}/{portfolio}` の いずれか の スキーマ に 準拠 して いる 必要 があります。Artifact を プロジェクト 内 の 一般 的 な ポートフォリオ で はなく、Model Registry に リンク する には、`target_path` を 次 の スキーマ `{model-registry}/{Registered Model Name}` または `{entity}/{model-registry}/{Registered Model Name}` に 設定 します。 |
+| `aliases` | 指定 された ポートフォリオ 内 の Artifact を 一意 に 識別 する 文字列 の リスト。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
 
 ### `logged_by`
 
@@ -500,15 +481,15 @@ Link this artifact to a portfolio (a promoted collection of artifacts).
 logged_by() -> (Run | None)
 ```
 
-Get the W&B run that originally logged the artifact.
+Artifact を 最初 に ログ に 記録 した W&B run を 取得 します。
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The name of the W&B run that originally logged the artifact. |
+| Artifact を 最初 に ログ に 記録 した W&B run の 名前。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
 
 ### `new_draft`
 
@@ -518,19 +499,17 @@ Get the W&B run that originally logged the artifact.
 new_draft() -> Artifact
 ```
 
-Create a new draft artifact with the same content as this committed artifact.
+この コミット された Artifact と 同じ コンテンツ を 持つ 新しい ドラフト Artifact を 作成 します。
 
-Modifying an existing artifact creates a new artifact version known
-as an "incremental artifact". The artifact returned can be extended or
-modified and logged as a new version.
+既存 の Artifact を 変更 すると、「増分 Artifact」 と 呼ば れる 新しい Artifact バージョン が 作成 されます。返された Artifact は、拡張 または 変更 して 新しい バージョン として ログ に 記録 できます。
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+| `Artifact` オブジェクト。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
 
 ### `new_file`
 
@@ -545,21 +524,21 @@ new_file(
 ) -> Iterator[IO]
 ```
 
-Open a new temporary file and add it to the artifact.
+新しい 一時 ファイル を 開き、Artifact に 追加 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `name` |  The name of the new file to add to the artifact. |
-|  `mode` |  The file access mode to use to open the new file. |
-|  `encoding` |  The encoding used to open the new file. |
+| `name` | Artifact に 追加 する 新しい ファイル の 名前。 |
+| `mode` | 新しい ファイル を 開く ため に 使用 する ファイル アクセス モード。 |
+| `encoding` | 新しい ファイル を 開く ため に 使用 する エンコード。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A new file object that can be written to. Upon closing, the file will be automatically added to the artifact. |
+| 書き込み 可能 な 新しい ファイル オブジェクト。閉じると、ファイル は 自動的 に Artifact に 追加 されます。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. |
+| `ArtifactFinalizedError` | 現在 の Artifact バージョン は 確定 されているため、変更 できません。代わり に 新しい Artifact バージョン を ログ に 記録 して ください。 |
 
 ### `remove`
 
@@ -571,16 +550,16 @@ remove(
 ) -> None
 ```
 
-Remove an item from the artifact.
+Artifact から アイテム を 削除 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `item` |  The item to remove. Can be a specific manifest entry or the name of an artifact-relative path. If the item matches a directory all items in that directory will be removed. |
+| `item` | 削除 する アイテム。特定 の マニフェスト エントリー または Artifact 関連 の パス の 名前 に する ことができます。アイテム が ディレクトリ と 一致 する 場合、その ディレクトリ 内 の 全て の アイテム が 削除 されます。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. |
-|  `FileNotFoundError` |  If the item isn't found in the artifact. |
+| `ArtifactFinalizedError` | 現在 の Artifact バージョン は 確定 されているため、変更 できません。代わり に 新しい Artifact バージョン を ログ に 記録 して ください。 |
+| `FileNotFoundError` | Artifact に アイテム が 見つからない 場合。 |
 
 ### `save`
 
@@ -593,15 +572,14 @@ save(
 ) -> None
 ```
 
-Persist any changes made to the artifact.
+Artifact に 行われた 変更 を 永続 化 します。
 
-If currently in a run, that run will log this artifact. If not currently in a
-run, a run of type "auto" is created to track this artifact.
+現在 run 内 に ある 場合、その run は この Artifact を ログ に 記録 します。現在 run 内 に ない 場合、「auto」 タイプ の run が 作成 され、この Artifact を 追跡 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `project` |  A project to use for the artifact in the case that a run is not already in context. |
-|  `settings` |  A settings object to use when initializing an automatic run. Most commonly used in testing harness. |
+| `project` | run が 既に コンテキスト 内 に ない 場合 に Artifact に 使用 する プロジェクト。 |
+| `settings` | 自動 run を 初期化 する とき に 使用 する settings オブジェクト。最も 一般 的 に テスト ハーネス で 使用 されます。 |
 
 ### `unlink`
 
@@ -611,12 +589,12 @@ run, a run of type "auto" is created to track this artifact.
 unlink() -> None
 ```
 
-Unlink this artifact if it is currently a member of a portfolio (a promoted collection of artifacts).
+この Artifact が 現在 ポートフォリオ (Artifact の 昇格 された コレクション) の メンバー で ある 場合 は、リンク を 解除 します。
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
-|  `ValueError` |  If the artifact is not linked, i.e. it is not a member of a portfolio collection. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
+| `ValueError` | Artifact が リンクされていない 場合、つまり ポートフォリオ コレクション の メンバー でない 場合。 |
 
 ### `used_by`
 
@@ -626,15 +604,15 @@ Unlink this artifact if it is currently a member of a portfolio (a promoted coll
 used_by() -> list[Run]
 ```
 
-Get a list of the runs that have used this artifact.
+この Artifact を 使用 した run の リスト を 取得 します。
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A list of `Run` objects. |
+| `Run` オブジェクト の リスト。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
 
 ### `verify`
 
@@ -646,19 +624,18 @@ verify(
 ) -> None
 ```
 
-Verify that the contents of an artifact match the manifest.
+Artifact の コンテンツ が マニフェスト と 一致 する こと を 確認 します。
 
-All files in the directory are checksummed and the checksums are then
-cross-referenced against the artifact's manifest. References are not verified.
+ディレクトリ 内 の 全て の ファイル が チェックサム され、チェックサム が Artifact の マニフェスト と 相互 参照 されます。参照 は 検証 されません。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `root` |  The directory to verify. If None artifact will be downloaded to './artifacts/self.name/' |
+| `root` | 検証 する ディレクトリ。None の 場合、Artifact は './artifacts/self.name/' に ダウンロード されます。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact is not logged. |
-|  `ValueError` |  If the verification fails. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない 場合。 |
+| `ValueError` | 検証 に 失敗 した場合。 |
 
 ### `wait`
 
@@ -670,15 +647,15 @@ wait(
 ) -> Artifact
 ```
 
-If needed, wait for this artifact to finish logging.
+必要 に 応じ て、この Artifact が ログ 記録 を 完了 する まで 待ちます。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `timeout` |  The time, in seconds, to wait. |
+| `timeout` | 待機 する 時間 (秒単位)。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+| `Artifact` オブジェクト。 |
 
 ### `__getitem__`
 
@@ -690,19 +667,19 @@ __getitem__(
 ) -> (WBValue | None)
 ```
 
-Get the WBValue object located at the artifact relative `name`.
+Artifact 関連 の `name` に ある WBValue オブジェクト を 取得 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `name` |  The artifact relative name to get. |
+| `name` | 取得 する Artifact 関連 の 名前。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  W&B object that can be logged with `wandb.log()` and visualized in the W&B UI. |
+| `wandb.log()` で ログ に 記録 し、W&B UI で 可視化 できる W&B オブジェクト。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  If the artifact isn't logged or the run is offline. |
+| `ArtifactNotLoggedError` | Artifact が ログ に 記録 されていない か、run が オフライン の 場合。 |
 
 ### `__setitem__`
 
@@ -715,17 +692,17 @@ __setitem__(
 ) -> ArtifactManifestEntry
 ```
 
-Add `item` to the artifact at path `name`.
+パス `name` に ある Artifact に `item` を 追加 します。
 
-| Args |  |
+| arg |  |
 | :--- | :--- |
-|  `name` |  The path within the artifact to add the object. |
-|  `item` |  The object to add. |
+| `name` | オブジェクト を 追加 する Artifact 内 の パス。 |
+| `item` | 追加 する オブジェクト。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The added manifest entry |
+| 追加 された マニフェスト エントリー |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. |
+| `ArtifactFinalizedError` | 現在 の Artifact バージョン は 確定 されているため、変更 できません。代わり に 新しい Artifact バージョン を ログ に 記録 して ください。 |

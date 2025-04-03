@@ -1,134 +1,125 @@
 ---
+title: Point aggregation
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-line-plot-sampling
     parent: line-plot
-title: Point aggregation
 weight: 20
 ---
 
-Use point aggregation methods within your line plots for improved data visualization accuracy and performance. There are two types of point aggregation modes: [full fidelity]({{< relref path="#full-fidelity" lang="ja" >}}) and [random sampling]({{< relref path="#random-sampling" lang="ja" >}}). W&B uses full fidelity mode by default.
+Data Visualization の精度とパフォーマンスを向上させるために、折れ線グラフ内でポイント集約メソッドを使用します。ポイント集約モードには、[full fidelity（完全精度）]({{< relref path="#full-fidelity" lang="ja" >}}) と [random sampling（ランダムサンプリング）]({{< relref path="#random-sampling" lang="ja" >}}) の2種類があります。W&B はデフォルトで完全精度モードを使用します。
 
 ## Full fidelity
 
-When you use full fidelity mode, W&B breaks the x-axis into dynamic buckets based on the number of data points. It then calculates the minimum, maximum, and average values within each bucket while rendering a point aggregation for the line plot. 
+完全精度モードを使用すると、W&B はデータポイントの数に基づいて、x軸を動的なバケットに分割します。次に、各バケット内の最小値、最大値、平均値を計算し、折れ線グラフのポイント集約をレンダリングします。
 
-There are three main advantages to using full fidelity mode for point aggregation:
+ポイント集約に完全精度モードを使用する主な利点は3つあります。
 
-* Preserve extreme values and spikes: retain extreme values and spikes in your data 
-* Configure how minimum and maximum points render: use the W&B App to interactively decide whether you want to show extreme (min/max) values as a shaded area.
-* Explore your data without losing data fidelity: W&B recalculates x-axis bucket sizes when you zoom into specific data points. This helps ensure that you can explore your data without losing accuracy. Caching is used to store previously computed aggregations to help reduce loading times which is particularly useful if you are navigating through large datasets.
+* 極端な値とスパイクを保持する: データ内の極端な値とスパイクを保持します。
+* 最小点と最大点のレンダリング方法を設定する: W&B App を使用して、極端な（最小/最大）値を影付きの領域として表示するかどうかをインタラクティブに決定します。
+* データ忠実度を損なわずにデータを探索する: W&B は、特定のデータポイントにズームインすると、x軸のバケットサイズを再計算します。これにより、精度を損なわずにデータを探索できます。キャッシュを使用して、以前に計算された集約を保存し、ロード時間を短縮します。これは、大規模なデータセットをナビゲートする場合に特に役立ちます。
 
-### Configure how minimum and maximum points render
+### 最小点と最大点のレンダリング方法を設定する
 
-Show or hide minimum and maximum values with shaded areas around your line plots.
+折れ線グラフの周りの影付き領域で最小値と最大値を表示または非表示にします。
 
-The proceeding image shows a blue line plot. The light blue shaded area represents the minimum and maximum values for each bucket.
+次の画像は、青い折れ線グラフを示しています。水色の影付き領域は、各バケットの最小値と最大値を表しています。
 
 {{< img src="/images/app_ui/shaded-areas.png" alt="" >}}
 
-There are three ways to render minimum and maximum values in your line plots:
+折れ線グラフで最小値と最大値をレンダリングするには、次の3つの方法があります。
 
-* **Never**: The min/max values are not displayed as a shaded area. Only show the aggregated line across the x-axis bucket.
-* **On hover**: The shaded area for min/max values appears dynamically when you hover over the chart. This option keeps the view uncluttered while allowing you to inspect ranges interactively.
-* **Always**: The min/max shaded area is consistently displayed for every bucket in the chart, helping you visualize the full range of values at all times. This can introduce visual noise if there are many runs visualized in the chart.
+* **Never**: 最小/最大値は影付きの領域として表示されません。x軸バケット全体の集約された線のみを表示します。
+* **On hover**: 最小/最大値の影付き領域は、チャートにカーソルを合わせると動的に表示されます。このオプションを使用すると、ビューがすっきりした状態に保たれ、範囲をインタラクティブに検査できます。
+* **Always**: 最小/最大影付き領域は、チャート内のすべてのバケットに対して常に表示され、常に値の全範囲を視覚化できます。チャートで多くの Runs が可視化されている場合、これは視覚的なノイズになる可能性があります。
 
-By default, the minimum and maximum values are not displayed as shaded areas. To view one of the shaded area options, follow these steps:
+デフォルトでは、最小値と最大値は影付き領域として表示されません。影付き領域オプションのいずれかを表示するには、次の手順に従います。
 
 {{< tabpane text=true >}}
-{{% tab header="All charts in a workspace" value="all_charts" %}}
-1. Navigate to your W&B project
-2. Select on the **Workspace** icon on the left tab
-3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
-4. From the UI slider that appears, select **Line plots**
-5. Within the **Point aggregation** section, choose **On over** or **Always** from the **Show min/max values as a shaded area** dropdown menu.
+{{% tab header="ワークスペース内のすべてのチャート" value="all_charts" %}}
+1. W&B の Projects に移動します。
+2. 左側のタブで **Workspace** アイコンを選択します。
+3. 画面の右上隅にある歯車アイコンを、**Add panels** ボタンの左側の横にあるアイコンを選択します。
+4. 表示される UI スライダーから、**Line plots** を選択します。
+5. **Point aggregation** セクション内で、**Show min/max values as a shaded area** ドロップダウンメニューから **On over** または **Always** を選択します。
 {{% /tab %}}
 
-{{% tab header="Individual chart in a workspace" value="single_chart"%}}
-1. Navigate to your W&B project
-2. Select on the **Workspace** icon on the left tab
-3. Select the line plot panel you want to enable full fidelity mode for
-4. Within the modal that appears, select **On hover** or **Always** from the **Show min/max values as a shaded area** dropdown menu.
+{{% tab header="ワークスペース内の個々のチャート" value="single_chart"%}}
+1. W&B の Projects に移動します。
+2. 左側のタブで **Workspace** アイコンを選択します。
+3. 完全精度モードを有効にする折れ線グラフ パネルを選択します。
+4. 表示されるモーダル内で、**Show min/max values as a shaded area** ドロップダウンメニューから **On hover** または **Always** を選択します。
 {{% /tab %}}
 {{< /tabpane >}}
 
+### データ忠実度を損なわずにデータを探索する
 
-### Explore your data without losing data fidelity
-
-Analyze specific regions of the dataset without missing critical points like extreme values or spikes. When you zoom in on a line plot, W&B adjusts the buckets sizes used to calculate the minimum, maximum, and average values within each bucket. 
-
+極端な値やスパイクなどの重要なポイントを見逃すことなく、データセットの特定領域を分析します。折れ線グラフをズームインすると、W&B は各バケット内の最小値、最大値、平均値を計算するために使用されるバケットサイズを調整します。
 
 {{< img src="/images/app_ui/zoom_in.gif" alt="" >}}
 
+W&B は x軸をデフォルトで1000個のバケットに動的に分割します。各バケットについて、W&B は次の値を計算します。
 
-W&B divides the x-axis is dynamically into 1000 buckets by default. For each bucket, W&B calculates the following values:
+- **Minimum**: そのバケット内の最小値。
+- **Maximum**: そのバケット内の最大値。
+- **Average**: そのバケット内のすべてのポイントの平均値。
 
-- **Minimum**: The lowest value in that bucket.
-- **Maximum**: The highest value in that bucket.
-- **Average**: The mean value of all points in that bucket.
+W&B は、完全なデータ表現を保持し、すべてのプロットに極端な値を含める方法でバケット内の値をプロットします。1,000ポイント以下にズームインすると、完全精度モードは追加の集約なしですべてのデータポイントをレンダリングします。
 
-W&B plots values in buckets in a way that preserves full data representation and includes extreme values in every plot. When zoomed in to 1,000 points or fewer, full fidelity mode renders every data point without additional aggregation.
+折れ線グラフをズームインするには、次の手順に従います。
 
+1. W&B の Projects に移動します。
+2. 左側のタブで **Workspace** アイコンを選択します。
+3. オプションで、折れ線グラフ パネルを ワークスペース に追加するか、既存の折れ線グラフ パネルに移動します。
+4. クリックしてドラッグし、ズームインする特定の領域を選択します。
 
-To zoom in on a line plot, follow these steps:
+{{% alert title="折れ線グラフのグループ化と式" %}}
+折れ線グラフのグループ化を使用すると、W&B は選択したモードに基づいて以下を適用します。
 
-1. Navigate to your W&B project
-2. Select on the **Workspace** icon on the left tab
-3. Optionally add a line plot panel to your workspace or navigate to an existing line plot panel.
-4. Click and drag to select a specific region to zoom in on.
-
-{{% alert title="Line plot grouping and expressions" %}}
-When you use Line Plot Grouping, W&B applies the following based on the mode selected:
-
-- **Non-windowed sampling (grouping)**: Aligns points across runs on the x-axis. The average is taken if multiple points share the same x-value; otherwise, they appear as discrete points.
-- **Windowed sampling (grouping and expressions)**: Divides the x-axis either into 250 buckets or the number of points in the longest line (whichever is smaller). W&B takes an average of points within each bucket.
-- **Full fidelity (grouping and expressions)**: Similar to non-windowed sampling, but fetches up to 500 points per run to balance performance and detail.
+- **非ウィンドウ サンプリング (グループ化)**: x軸上の Runs 全体でポイントを整列させます。複数のポイントが同じ x 値を共有する場合、平均が計算されます。それ以外の場合は、個別のポイントとして表示されます。
+- **ウィンドウ サンプリング (グループ化と式)**: x軸を 250 個のバケットまたは最長線のポイント数 (いずれか小さい方) に分割します。W&B は各バケット内のポイントの平均を取ります。
+- **Full fidelity (グループ化と式)**: 非ウィンドウ サンプリングと同様ですが、パフォーマンスと詳細のバランスを取るために、Run ごとに最大 500 ポイントを取得します。
 {{% /alert %}}
 
- 
 ## Random sampling
 
-Random sampling uses 1500 randomly sampled points to render line plots. Random sampling is useful for performance reasons when you have a large number of data points. 
+ランダムサンプリングは、1500個のランダムにサンプリングされたポイントを使用して折れ線グラフをレンダリングします。ランダムサンプリングは、多数のデータポイントがある場合にパフォーマンス上の理由で役立ちます。
 
 {{% alert color="warning" %}}
-Random sampling samples non-deterministically. This means that random sampling sometimes excludes important outliers or spikes in the data and therefore reduces data accuracy.
+ランダムサンプリングは、非決定論的にサンプリングします。これは、ランダムサンプリングがデータ内の重要な外れ値やスパイクを除外することがあり、データ精度が低下することを意味します。
 {{% /alert %}}
 
-
-### Enable random sampling
-By default, W&B uses full fidelity mode. To enable random sampling, follow these steps:
+### ランダムサンプリングを有効にする
+デフォルトでは、W&B は完全精度モードを使用します。ランダムサンプリングを有効にするには、次の手順に従います。
 
 {{< tabpane text=true >}}
-{{% tab header="All charts in a workspace" value="all_charts" %}}
-1. Navigate to your W&B project
-2. Select on the **Workspace** icon on the left tab
-3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
-4. From the UI slider that appears, select **Line plots**
-5. Choose **Random sampling** from the **Point aggregation** section
+{{% tab header="ワークスペース内のすべてのチャート" value="all_charts" %}}
+1. W&B の Projects に移動します。
+2. 左側のタブで **Workspace** アイコンを選択します。
+3. 画面の右上隅にある歯車アイコンを、**Add panels** ボタンの左側の横にあるアイコンを選択します。
+4. 表示される UI スライダーから、**Line plots** を選択します。
+5. **Point aggregation** セクションから **Random sampling** を選択します。
 {{% /tab %}}
 
-{{% tab header="Individual chart in a workspace" value="single_chart"%}}
-1. Navigate to your W&B project
-2. Select on the **Workspace** icon on the left tab
-3. Select the line plot panel you want to enable random sampling for
-4. Within the modal that appears, select **Random sampling** from the **Point aggregation method** section
+{{% tab header="ワークスペース内の個々のチャート" value="single_chart"%}}
+1. W&B の Projects に移動します。
+2. 左側のタブで **Workspace** アイコンを選択します。
+3. ランダムサンプリングを有効にする折れ線グラフ パネルを選択します。
+4. 表示されるモーダル内で、**Point aggregation method** セクションから **Random sampling** を選択します。
 {{% /tab %}}
 {{< /tabpane >}}
 
+### サンプリングされていないデータへのアクセス
 
-
-### Access non sampled data
-
-You can access the complete history of metrics logged during a run using the [W&B Run API]({{< relref path="/ref/python/public-api/run.md" lang="ja" >}}). The following example demonstrates how to retrieve and process the loss values from a specific run:
-
+[W&B Run API]({{< relref path="/ref/python/public-api/run.md" lang="ja" >}}) を使用して、Run 中にログに記録された メトリクス の完全な履歴にアクセスできます。次の例は、特定の Run から損失値を取得して処理する方法を示しています。
 
 ```python
-# Initialize the W&B API
+# W&B API を初期化します
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
 
-# Retrieve the history of the 'Loss' metric
+# 'Loss' メトリクスの履歴を取得します
 history = run.scan_history(keys=["Loss"])
 
-# Extract the loss values from the history
+# 履歴から損失値を抽出します
 losses = [row["Loss"] for row in history]
 ```

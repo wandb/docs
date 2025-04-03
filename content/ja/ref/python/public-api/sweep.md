@@ -1,13 +1,13 @@
 ---
+title: Sweep
 menu:
   reference:
     identifier: ja-ref-python-public-api-sweep
-title: Sweep
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L30-L240 >}}
 
-A set of runs associated with a sweep.
+sweep に関連付けられた一連の Runs。
 
 ```python
 Sweep(
@@ -15,29 +15,29 @@ Sweep(
 )
 ```
 
-#### Examples:
+#### 例:
 
-Instantiate with:
+以下でインスタンス化します:
 
 ```
 api = wandb.Api()
 sweep = api.sweep(path / to / sweep)
 ```
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
-|  `runs` |  (`Runs`) list of runs |
-|  `id` |  (str) sweep id |
-|  `project` |  (str) name of project |
-|  `config` |  (str) dictionary of sweep configuration |
-|  `state` |  (str) the state of the sweep |
-|  `expected_run_count` |  (int) number of expected runs for the sweep |
+| `runs` | (`Runs`) Runs のリスト |
+| `id` | (str) sweep ID |
+| `project` | (str) project 名 |
+| `config` | (str) sweep configuration の辞書 |
+| `state` | (str) sweep の状態 |
+| `expected_run_count` | (int) sweep に予想される Runs の数 |
 
-## Methods
+## メソッド
 
 ### `best_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L125-L148)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L125-L148)
 
 ```python
 best_run(
@@ -45,11 +45,11 @@ best_run(
 )
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in.
+config で定義されたメトリックまたは渡された順序でソートされた最適な Run を返します。
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
 
 ```python
 display(
@@ -57,11 +57,11 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+このオブジェクトを jupyter で表示します。
 
 ### `get`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L173-L222)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L173-L222)
 
 ```python
 @classmethod
@@ -70,11 +70,11 @@ get(
 )
 ```
 
-Execute a query against the cloud backend.
+クラウドバックエンドに対してクエリを実行します。
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L106-L114)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L106-L114)
 
 ```python
 load(
@@ -84,7 +84,7 @@ load(
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -94,7 +94,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L224-L232)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L224-L232)
 
 ```python
 to_html(
@@ -102,9 +102,9 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this sweep.
+この sweep を表示する iframe を含む HTML を生成します。
 
-| Class Variables |  |
+| クラス変数 |  |
 | :--- | :--- |
-|  `LEGACY_QUERY`<a id="LEGACY_QUERY"></a> |   |
-|  `QUERY`<a id="QUERY"></a> |   |
+| `LEGACY_QUERY`<a id="LEGACY_QUERY"></a> |   |
+| `QUERY`<a id="QUERY"></a> |   |

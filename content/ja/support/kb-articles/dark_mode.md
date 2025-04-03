@@ -1,17 +1,17 @@
 ---
+title: Is there a dark mode?
 menu:
   support:
     identifier: ja-support-kb-articles-dark_mode
 support:
 - workspaces
-title: Is there a dark mode?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Dark mode is in beta and not optimized for accessibility. To enable dark mode:
+ダークモードはベータ版であり、アクセシビリティ向けには最適化されていません。ダークモードを有効にするには、次の手順に従ってください。
 
-1. Go to your account settings at [https://wandb.ai/settings](https://wandb.ai/settings).
-2. Scroll to the **Public preview features** section.
-3. In **UI Display**, select **Dark mode** from the dropdown.
+1. [https://wandb.ai/settings](https://wandb.ai/settings) でアカウントの 設定 に移動します。
+2. **Public preview features** セクションまでスクロールします。
+3. **UI Display** で、ドロップダウンから **Dark mode** を選択します。

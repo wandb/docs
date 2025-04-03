@@ -1,37 +1,37 @@
 ---
-description: Manage storage, memory allocation of W&B Artifacts.
+title: Manage artifact storage and memory allocation
+description: W&B Artifacts のストレージ、メモリアロケーションを管理します。
 menu:
   default:
     identifier: ja-guides-core-artifacts-manage-data-storage
     parent: manage-data
-title: Manage artifact storage and memory allocation
 ---
 
-W&B stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
+W&B は artifact ファイルを、デフォルトで米国にあるプライベートな Google Cloud Storage バケットに保存します。すべてのファイルは、保存時および転送時に暗号化されます。
 
-For sensitive files, we recommend you set up [Private Hosting]({{< relref path="/guides/hosting/" lang="ja" >}}) or use [reference artifacts]({{< relref path="../track-external-files.md" lang="ja" >}}).
+機密性の高いファイルについては、[Private Hosting]({{< relref path="/guides/hosting/" lang="ja" >}}) をセットアップするか、[reference artifacts]({{< relref path="../track-external-files.md" lang="ja" >}}) を使用することをお勧めします。
 
-During training, W&B locally saves logs, artifacts, and configuration files in the following local directories:
+トレーニング中、W&B はログ、アーティファクト、および設定ファイルを次のローカルディレクトリーにローカルに保存します。
 
-| File | Default location | To change default location set: |
+| ファイル | デフォルトの場所 | デフォルトの場所を変更するには、以下を設定します： |
 | ---- | ---------------- | ------------------------------- |
-| logs | `./wandb` | `dir` in `wandb.init` or set the `WANDB_DIR` environment variable |
-| artifacts | `~/.cache/wandb` | the `WANDB_CACHE_DIR` environment variable |
-| configs | `~/.config/wandb` | the `WANDB_CONFIG_DIR` environment variable |
-| staging artifacts for upload  | `~/.cache/wandb-data/` | the `WANDB_DATA_DIR` environment variable |
-| downloaded artifacts | `./artifacts` | the `WANDB_ARTIFACT_DIR` environment variable |
+| ログ | `./wandb` | `wandb.init` の `dir` 、または `WANDB_DIR` 環境変数を設定 |
+| artifacts | `~/.cache/wandb` | `WANDB_CACHE_DIR` 環境変数 |
+| configs | `~/.config/wandb` | `WANDB_CONFIG_DIR` 環境変数 |
+| アップロード用に artifacts をステージング | `~/.cache/wandb-data/` | `WANDB_DATA_DIR` 環境変数 |
+| ダウンロードされた artifacts | `./artifacts` | `WANDB_ARTIFACT_DIR` 環境変数 |
 
-For a complete guide to using environment variables to configure W&B, see the [environment variables reference]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}).
+環境変数を使用して W&B を構成するための完全なガイドについては、[環境変数のリファレンス]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})を参照してください。
 
 {{% alert color="secondary" %}}
-Depending on the machine on `wandb` is initialized on, these default folders may not be located in a writeable part of the file system. This might trigger an error.
+`wandb` が初期化されるマシンによっては、これらのデフォルトフォルダーがファイルシステムの書き込み可能な場所に配置されていない場合があります。これにより、エラーが発生する可能性があります。
 {{% /alert %}}
 
-### Clean up local artifact cache
+### ローカル artifact キャッシュのクリーンアップ
 
-W&B caches artifact files to speed up downloads across versions that share files in common. Over time this cache directory can become large. Run the [`wandb artifact cache cleanup`]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-cache/" lang="ja" >}}) command to prune the cache and to remove any files that have not been used recently.
+W&B は artifact ファイルをキャッシュして、ファイルを共有する バージョン 間でのダウンロードを高速化します。時間の経過とともに、このキャッシュディレクトリーが大きくなる可能性があります。[`wandb artifact cache cleanup`]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-cache/" lang="ja" >}}) コマンドを実行して、キャッシュを削除し、最近使用されていないファイルを削除します。
 
-The proceeding code snippet demonstrates how to limit the size of the cache to 1GB. Copy and paste the code snippet into your terminal:
+次のコードスニペットは、キャッシュのサイズを 1GB に制限する方法を示しています。コードスニペットをコピーして ターミナル に貼り付けます。
 
 ```bash
 $ wandb artifact cache cleanup 1GB

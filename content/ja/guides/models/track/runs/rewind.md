@@ -1,54 +1,50 @@
 ---
-description: Rewind
+title: Rewind a run
+description: 巻き戻し
 menu:
   default:
     identifier: ja-guides-models-track-runs-rewind
     parent: what-are-runs
-title: Rewind a run
 ---
 
-# Rewind a run
+# run の巻き戻し
 {{% alert color="secondary" %}}
-The option to rewind a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
+run を巻き戻すオプションは、プライベートプレビュー版です。この機能へのアクセスをご希望の場合は、W&B Support（support@wandb.com）までご連絡ください。
 
-W&B currently does not support:
-* **Log rewind**: Logs are reset in the new run segment.
-* **System metrics rewind**: W&B logs only new system metrics after the rewind point.
-* **Artifact association**: W&B associates artifacts with the source run that produces them.
+W&B は現在、以下をサポートしていません。
+* **ログの巻き戻し**: ログは新しい run セグメントでリセットされます。
+* **システムメトリクスの巻き戻し**: W&B は、巻き戻しポイントより後の新しいシステムメトリクスのみを記録します。
+* **Artifact の関連付け**: W&B は、Artifact をそれを生成するソース run に関連付けます。
 {{% /alert %}}
 
 {{% alert %}}
-* To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
-* You must use monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`]({{< relref path="/ref/python/run#define_metric" lang="ja" >}}) because it disrupts the required chronological order of run history and system metrics.
+* run を巻き戻すには、[W&B Python SDK](https://pypi.org/project/wandb/) バージョン >= `0.17.1` が必要です。
+* 単調増加するステップを使用する必要があります。[`define_metric()`]({{< relref path="/ref/python/run#define_metric" lang="ja" >}}) で定義された非単調なステップは、run の履歴とシステムメトリクスの必要な時系列順序を混乱させるため使用できません。
 {{% /alert %}}
 
-Rewind a run to correct or modify the history of a run without losing the original data. In addition, when you 
-rewind a run, you can log new data from that point in time. W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:
-- **History truncation**: W&B truncates the history to the rewind point, allowing new data logging.
-- **Summary metrics**: Recomputed based on the newly logged history.
-- **Configuration preservation**: W&B preserves the original configurations and you can merge new configurations.
+run を巻き戻して、元のデータを失うことなく、run の履歴を修正または変更します。さらに、run を巻き戻すと、その時点から新しいデータを記録できます。W&B は、新たに記録された履歴に基づいて、巻き戻した run のサマリーメトリクスを再計算します。これは、次の振る舞いを意味します。
+- **履歴の切り捨て**: W&B は履歴を巻き戻しポイントまで切り捨て、新しいデータロギングを可能にします。
+- **サマリーメトリクス**: 新たに記録された履歴に基づいて再計算されます。
+- **設定の保持**: W&B は元の設定を保持し、新しい設定をマージできます。
 
-<!-- #### Manage runs -->
-When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This means that:
+run を巻き戻すと、W&B は run の状態を指定されたステップにリセットし、元のデータを保持し、一貫した run ID を維持します。これは次のことを意味します。
 
-- **Run archiving**: W&B archives the original runs. Runs are accessible from the [**Run Overview**]({{< relref path="./#overview-tab" lang="ja" >}}) tab.
-- **Artifact association**: Associates artifacts with the run that produce them.
-- **Immutable run IDs**: Introduced for consistent forking from a precise state.
-- **Copy immutable run ID**: A button to copy the immutable run ID for improved run management.
+- **run のアーカイブ**: W&B は元の run をアーカイブします。アーカイブされた run は、[**Run Overview**]({{< relref path="./#overview-tab" lang="ja" >}}) タブからアクセスできます。
+- **Artifact の関連付け**: Artifact をそれを生成する run に関連付けます。
+- **不変の run ID**: 正確な状態からのフォークの一貫性のために導入されました。
+- **不変の run ID のコピー**: run 管理を改善するために、不変の run ID をコピーするボタン。
 
-{{% alert title="Rewind and forking compatibility" %}}
-Forking compliments a rewind.
+{{% alert title="巻き戻しとフォークの互換性" %}}
+フォークは巻き戻しを補完します。
 
-When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
+run からフォークすると、W&B は特定の時点で run から新しいブランチを作成し、さまざまなパラメータや Models を試すことができます。
 
-When you  rewind a run, W&B lets you correct or modify the run history itself.
+run を巻き戻すと、W&B を使用して run の履歴自体を修正または変更できます。
 {{% /alert %}}
 
+## run の巻き戻し
 
-
-## Rewind a run
-
-Use `resume_from` with [`wandb.init()`]({{< relref path="/ref/python/init" lang="ja" >}}) to "rewind" a run’s history to a specific step. Specify the name of the run and the step you want to rewind from:
+`resume_from` を使用して [`wandb.init()`]({{< relref path="/ref/python/init" lang="ja" >}}) を使用して、run の履歴を特定のステップに「巻き戻し」ます。巻き戻す run の名前とステップを指定します。
 
 ```python
 import wandb
@@ -79,21 +75,20 @@ for i in range(200, 300):
 run2.finish()
 ```
 
-## View an archived run
+## アーカイブされた run の表示
 
+run を巻き戻した後、W&B App UI でアーカイブされた run を調べることができます。アーカイブされた run を表示するには、次の手順に従います。
 
-After you rewind a run, you can explore archived run with the W&B App UI. Follow these steps to view archived runs:
+1. **Overview タブにアクセスする**: run のページの [**Overview タブ**]({{< relref path="./#overview-tab" lang="ja" >}}) に移動します。このタブには、run の詳細と履歴の包括的なビューが表示されます。
+2. **Forked From フィールドを見つける**: **Overview** タブ内で、`Forked From` フィールドを見つけます。このフィールドは、再開の履歴をキャプチャします。**Forked From** フィールドには、ソース run へのリンクが含まれており、元の run にトレースバックして、巻き戻し履歴全体を理解できます。
 
-1. **Access the Overview Tab:** Navigate to the [**Overview tab**]({{< relref path="./#overview-tab" lang="ja" >}}) on the run's page. This tab provides a comprehensive view of the run's details and history.
-2. **Locate the Forked From field:** Within the **Overview** tab, find the `Forked From` field. This field captures the history of the resumptions. The **Forked From** field includes a link to the source run, allowing you to trace back to the original run and understand the entire rewind history.
+`Forked From` フィールドを使用すると、アーカイブされた再開の ツリー を簡単にナビゲートし、各巻き戻しのシーケンスとオリジンに関する洞察を得ることができます。
 
-By using the `Forked From` field, you can effortlessly navigate the tree of archived resumptions and gain insights into the sequence and origin of each rewind. 
+## 巻き戻した run からフォークする
 
-## Fork from a run that you rewind
+巻き戻した run からフォークするには、`wandb.init()` の [**`fork_from`**]({{< relref path="/guides/models/track/runs/forking" lang="ja" >}}) 引数を使用し、ソース run ID と、フォーク元のソース run からのステップを指定します。
 
-To fork from a rewound run, use the [**`fork_from`**]({{< relref path="/guides/models/track/runs/forking" lang="ja" >}}) argument in `wandb.init()` and specify the source run ID and the step from the source run to fork from:
-
-```python 
+```python
 import wandb
 
 # Fork the run from a specific step

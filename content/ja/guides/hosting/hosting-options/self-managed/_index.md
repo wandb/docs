@@ -1,63 +1,61 @@
 ---
+title: Self-managed
+description: W&B をプロダクション環境にデプロイする
 cascade:
 - url: guides/hosting/self-managed/:filename
-description: Deploying W&B in production
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-_index
     parent: deployment-options
-title: Self-managed
 url: guides/hosting/hosting-options/self-managed
 ---
 
-## Use self-managed cloud or on-prem infrastructure
+## セルフマネージドクラウドまたはオンプレミスインフラストラクチャーの使用
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref path="../saas_cloud.md" lang="ja" >}}) or [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B は、[W&B Multi-tenant Cloud]({{< relref path="../saas_cloud.md" lang="ja" >}}) や [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) のようなフルマネージドなデプロイメントオプションを推奨します。W&B のフルマネージドサービスは、シンプルで安全に使用でき、設定は最小限で済みます。
 {{% /alert %}}
 
-Deploy W&B Server on your [AWS, GCP, or Azure cloud account]({{< relref path="#deploy-wb-server-within-self-managed-cloud-accounts" lang="ja" >}}) or within your [on-premises infrastructure]({{< relref path="#deploy-wb-server-in-on-prem-infrastructure" lang="ja" >}}). 
+[AWS、GCP、または Azure クラウドアカウント]({{< relref path="#deploy-wb-server-within-self-managed-cloud-accounts" lang="ja" >}}) または [オンプレミスインフラストラクチャー]({{< relref path="#deploy-wb-server-in-on-prem-infrastructure" lang="ja" >}}) に W&B Server をデプロイします。
 
-Your IT/DevOps/MLOps team is responsible for provisioning your deployment, managing upgrades, and continuously maintaining your self managed W&B Server instance.
+お客様の IT/DevOps/MLOps チームは、お客様のデプロイメントのプロビジョニング、アップグレードの管理、およびセルフマネージドな W&B Server インスタンスの継続的なメンテナンスを担当します。
 
-<!-- Check [Obtain your W&B Server license]({{< relref path="#obtain-your-wb-server-license" lang="ja" >}}) to complete the setup. -->
+## セルフマネージドクラウドアカウント内への W&B Server のデプロイ
 
-## Deploy W&B Server within self managed cloud accounts
+W&B は、W&B Server を AWS、GCP、または Azure クラウドアカウントにデプロイするために、公式の W&B Terraform スクリプトを使用することを推奨します。
 
-W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into your AWS, GCP, or Azure cloud account.
+[AWS]({{< relref path="/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" lang="ja" >}}), [GCP]({{< relref path="/guides/hosting/hosting-options/self-managed/install-on-public-cloud/gcp-tf.md" lang="ja" >}}) または [Azure]({{< relref path="/guides/hosting/hosting-options/self-managed/install-on-public-cloud/azure-tf.md" lang="ja" >}}) での W&B Server のセットアップ方法の詳細については、特定のクラウドプロバイダーのドキュメントを参照してください。
 
-See specific cloud provider documentation for more information on how to set up W&B Server in [AWS]({{< relref path="/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" lang="ja" >}}), [GCP]({{< relref path="/guides/hosting/hosting-options/self-managed/install-on-public-cloud/gcp-tf.md" lang="ja" >}}) or [Azure]({{< relref path="/guides/hosting/hosting-options/self-managed/install-on-public-cloud/azure-tf.md" lang="ja" >}}).
+## オンプレミスインフラストラクチャーへの W&B Server のデプロイ
 
-## Deploy W&B Server in on-prem infrastructure
+オンプレミスインフラストラクチャーに W&B Server をセットアップするには、いくつかのインフラストラクチャーコンポーネントを設定する必要があります。これらのコンポーネントには、以下が含まれますが、これらに限定されません。
 
-You need to configure several infrastructure components in order to set up W&B Server in your on-prem infrastructure. Some of those components include include, but are not limited to: 
-
-- (Strongly recommended) Kubernetes cluster
+- (強く推奨) Kubernetes cluster
 - MySQL 8 database cluster
-- Amazon S3-compatible object storage
+- Amazon S3 互換 object storage
 - Redis cache cluster
 
-See [Install on on-prem infrastructure]({{< relref path="/guides/hosting/hosting-options/self-managed/bare-metal.md" lang="ja" >}}) for more information on how to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
+オンプレミスインフラストラクチャーへの W&B Server のインストール方法の詳細については、[オンプレミスインフラストラクチャーへのインストール]({{< relref path="/guides/hosting/hosting-options/self-managed/bare-metal.md" lang="ja" >}}) を参照してください。W&B は、さまざまなコンポーネントに関する推奨事項を提供し、インストールプロセスを通じてガイダンスを提供できます。
 
-## Deploy W&B Server on a custom cloud platform
+## カスタムクラウドプラットフォームへの W&B Server のデプロイ
 
-You can deploy W&B Server to a cloud platform that is not AWS, GCP, or Azure. Requirements for that are similar to that for deploying in [on-prem infrastructure]({{< relref path="#deploy-wb-server-in-on-prem-infrastructure" lang="ja" >}}).
+AWS、GCP、または Azure ではないクラウドプラットフォームに W&B Server をデプロイできます。そのための要件は、[オンプレミスインフラストラクチャー]({{< relref path="#deploy-wb-server-in-on-prem-infrastructure" lang="ja" >}}) にデプロイする場合と同様です。
 
-## Obtain your W&B Server license
+## W&B Server のライセンスの取得
 
-You need a W&B trial license to complete your configuration of the W&B server. Open the [Deploy Manager](https://deploy.wandb.ai/deploy) to generate a free trial license. 
+W&B サーバーの設定を完了するには、W&B trial ライセンスが必要です。[Deploy Manager](https://deploy.wandb.ai/deploy) を開いて、無料の trial ライセンスを生成してください。
 
 {{% alert %}}
-If you do not already have a W&B account, create one to generate your free license.
+まだ W&B アカウントをお持ちでない場合は、アカウントを作成して無料ライセンスを生成してください。
 
-If you need an enterprise license for W&B Server which includes support for important security & other enterprise-friendly capabilities, [submit this form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or reach out to your W&B team.
+重要なセキュリティやその他のエンタープライズフレンドリーな機能のサポートを含む W&B Server のエンタープライズライセンスが必要な場合は、[このフォームを送信](https://wandb.ai/site/for-enterprise/self-hosted-trial) するか、W&B チームにお問い合わせください。
 {{% /alert %}}
 
-The URL redirects you to a **Get a License for W&B Local** form. Provide the following information:
+URL をクリックすると、**Get a License for W&B Local** フォームにリダイレクトされます。次の情報を提供してください。
 
-1. Choose a deployment type from the **Choose Platform** step.
-2. Select the owner of the license or add a new organization in the **Basic Information** step.
-3. Provide a name for the instance in the **Name of Instance** field and optionally provide a description in the **Description** field in the **Get a License** step.
-4. Select the **Generate License Key** button.
+1. **Choose Platform** ステップで、デプロイメントタイプを選択します。
+2. **Basic Information** ステップで、ライセンスの所有者を選択するか、新しい組織を追加します。
+3. **Get a License** ステップの **Name of Instance** フィールドにインスタンスの名前を入力し、必要に応じて **Description** フィールドに説明を入力します。
+4. **Generate License Key** ボタンを選択します。
 
-A page displays with an overview of your deployment along with the license associated with the instance.
+ページに、デプロイメントの概要と、インスタンスに関連付けられたライセンスが表示されます。

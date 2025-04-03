@@ -1,58 +1,58 @@
 ---
+title: TensorBoard
 menu:
   default:
     identifier: ja-guides-integrations-tensorboard
     parent: integrations
-title: TensorBoard
 weight: 430
 ---
 
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb" >}}
 
 {{% alert %}}
-W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
+W&B は、W&B マルチテナント SaaS 用の埋め込み TensorBoard をサポートしています。
 {{% /alert %}}
 
-Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
+TensorBoard の ログ を クラウド にアップロードし、同僚やクラスメートとすばやく 結果 を共有して、 分析 を一元的な場所に保管できます。
 
 {{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="" >}}
 
-## Get started
+## はじめに
 
 ```python
 import wandb
 
-# Start a wandb run with `sync_tensorboard=True`
+# `sync_tensorboard=True` で wandb の run を開始します。
 wandb.init(project="my-project", sync_tensorboard=True)
 
-# Your training code using TensorBoard
+# TensorBoard を使用したトレーニングコード
 ...
 
-# [Optional]Finish the wandb run to upload the tensorboard logs to W&B (if running in Notebook)
+# [オプション] W&B に TensorBoard の ログ をアップロードするために、wandb の run を終了します ( Colabノートブック で実行している場合)。
 wandb.finish()
 ```
 
-Review an [example](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
+[例](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard) を確認してください。
 
-Once your run finishes, you can access your TensorBoard event files in W&B and you can visualize your metrics in native W&B charts, together with additional useful information like the system's CPU or GPU utilization, the `git` state, the terminal command the run used, and more.
+run が完了すると、W&B で TensorBoard イベントファイルに アクセス し、ネイティブの W&B チャートで メトリクス を視覚化できます。さらに、システムの CPU や GPU の使用率、`git` の状態、run が使用した ターミナル コマンドなど、役立つ追加情報も表示できます。
 
 {{% alert %}}
-W&B supports TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard 1.14 and higher with PyTorch as well as TensorBoardX.
+W&B は、すべての TensorFlow バージョンで TensorBoard をサポートしています。W&B は、PyTorch および TensorBoardX を使用した TensorBoard 1.14 以降もサポートしています。
 {{% /alert %}}
 
-## Frequently asked questions
+## よくある質問
 
-### How can I log metrics to W&B that aren't logged to TensorBoard?
+### TensorBoard に ログ 記録されない メトリクス を W&B に ログ 記録するにはどうすればよいですか？
 
-If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.log` in your code `wandb.log({"custom": 0.8})`
+TensorBoard に ログ 記録されていない追加のカスタム メトリクス を ログ 記録する必要がある場合は、コードで `wandb.log` を呼び出すことができます。`wandb.log({"custom": 0.8})`
 
-Setting the step argument in `wandb.log` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
+Tensorboard を同期すると、`wandb.log` の step 引数 の設定はオフになります。別の step カウントを設定する場合は、step メトリクス とともに メトリクス を ログ 記録できます。
 
 `wandb.log({"custom": 0.8, "global_step": global_step})`
 
-### How do I configure Tensorboard when I'm using it with `wandb`?
+### `wandb` で TensorBoard を使用している場合、TensorBoard をどのように構成しますか？
 
-If you want more control over how TensorBoard is patched you can call `wandb.tensorboard.patch` instead of passing `sync_tensorboard=True` to `wandb.init`.
+TensorBoard の パッチ 適用方法をより詳細に制御する場合は、`wandb.init` に `sync_tensorboard=True` を渡す代わりに、`wandb.tensorboard.patch` を呼び出すことができます。
 
 ```python
 import wandb
@@ -60,13 +60,13 @@ import wandb
 wandb.tensorboard.patch(root_logdir="<logging_directory>")
 wandb.init()
 
-# Finish the wandb run to upload the tensorboard logs to W&B (if running in Notebook)
+# W&B に TensorBoard の ログ をアップロードするために、wandb の run を終了します ( Colabノートブック で実行している場合)。
 wandb.finish()
 ```
 
-You can pass `tensorboard_x=False` to this method to ensure vanilla TensorBoard is patched, if you're using TensorBoard > 1.14 with PyTorch you can pass `pytorch=True` to ensure it's patched. Both of these options have smart defaults depending on what versions of these libraries have been imported.
+TensorBoard > 1.14 を PyTorch で使用している場合は、バニラ TensorBoard に パッチ が適用されていることを確認するために `tensorboard_x=False` をこの メソッド に渡し、 パッチ が適用されていることを確認するために `pytorch=True` を渡すことができます。これらのオプションには両方とも、これらのライブラリのどの バージョン がインポートされたかに応じて、スマートなデフォルトがあります。
 
-By default, we also sync the `tfevents` files and any `.pbtxt` files. This enables us to launch a TensorBoard instance on your behalf. You will see a [TensorBoard tab](https://www.wandb.com/articles/hosted-tensorboard) on the run page. This behavior can be turned off by passing `save=False` to `wandb.tensorboard.patch`
+デフォルトでは、`tfevents` ファイルと `.pbtxt` ファイルも同期します。これにより、お客様に代わって TensorBoard インスタンスを ローンンチ することができます。run ページに [TensorBoard タブ](https://www.wandb.com/articles/hosted-tensorboard) が表示されます。この 振る舞い は、`save=False` を `wandb.tensorboard.patch` に渡すことでオフにできます。
 
 ```python
 import wandb
@@ -74,27 +74,27 @@ import wandb
 wandb.init()
 wandb.tensorboard.patch(save=False, tensorboard_x=True)
 
-# If running in a notebook, finish the wandb run to upload the tensorboard logs to W&B
+# Colabノートブック で実行している場合は、wandb の run を終了して、TensorBoard の ログ を W&B にアップロードします。
 wandb.finish()
 ```
 
 {{% alert color="secondary" %}}
-You must call either `wandb.init` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
+`tf.summary.create_file_writer` を呼び出すか、`torch.utils.tensorboard` を介して `SummaryWriter` を構築する **前に** 、`wandb.init` または `wandb.tensorboard.patch` のいずれかを呼び出す必要があります。
 {{% /alert %}}
 
-### How do I sync historical TensorBoard runs?
+### 履歴 TensorBoard の run を同期するにはどうすればよいですか？
 
-If you have existing `tfevents` files stored locally and you would like to import them into W&B, you can run `wandb sync log_dir`, where `log_dir` is a local directory containing the `tfevents` files.
+既存の `tfevents` ファイルがローカルに保存されていて、それらを W&B にインポートする場合は、`wandb sync log_dir` を実行します。ここで、`log_dir` は `tfevents` ファイルを含むローカル ディレクトリー です。
 
-### How do I use Google Colab or Jupyter with TensorBoard?
+### Google Colab または Jupyter を TensorBoard で使用するにはどうすればよいですか？
 
-If running your code in a Jupyter or Colab notebook, make sure to call `wandb.finish()` and the end of your training. This will finish the wandb run and upload the tensorboard logs to W&B so they can be visualized. This is not necessary when running a `.py` script as wandb finishes automatically when a script finishes.
+Jupyter または Colabノートブック でコードを実行している場合は、トレーニングの最後に `wandb.finish()` を呼び出すようにしてください。これにより、wandb の run が終了し、TensorBoard の ログ が W&B にアップロードされて視覚化できるようになります。wandb は スクリプト の完了時に自動的に完了するため、`.py` スクリプト を実行する場合はこれは必要ありません。
 
-To run shell commands in a notebook environment, you must prepend a `!`, as in `!wandb sync directoryname`.
+ノートブック 環境で シェル コマンド を実行するには、`!wandb sync directoryname` のように `!` を先頭に付ける必要があります。
 
-### How do I use PyTorch with TensorBoard?
+### PyTorch を TensorBoard で使用するにはどうすればよいですか？
 
-If you use PyTorch's TensorBoard integration, you may need to manually upload the PyTorch Profiler JSON file.
+PyTorch の TensorBoard インテグレーション を使用する場合は、PyTorch Profiler JSON ファイルを手動でアップロードする必要がある場合があります。
 
 ```python
 wandb.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")

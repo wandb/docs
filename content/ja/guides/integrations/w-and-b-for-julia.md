@@ -1,16 +1,16 @@
 ---
-description: How to integrate W&B with Julia.
+title: W&B for Julia
+description: W&B を Julia と統合する方法。
 menu:
   default:
     identifier: ja-guides-integrations-w-and-b-for-julia
     parent: integrations
-title: W&B for Julia
 weight: 450
 ---
 
-For those running machine learning experiments in the Julia programming language, a community contributor has created an unofficial set of Julia bindings called [wandb.jl](https://github.com/avik-pal/Wandb.jl) that you can use.
+Julia プログラミング言語で機械学習 の 実験 を実行している方のために、コミュニティの貢献者の方が、[wandb.jl](https://github.com/avik-pal/Wandb.jl) と呼ばれる Julia バインディングの非公式セットを作成しました。
 
-You can find examples [in the documentation](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples) on the wandb.jl repository. Their "Getting Started" example is here:
+wandb.jl リポジトリの[ドキュメント](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples)に例があります。以下は「はじめに」の例です。
 
 ```julia
 using Wandb, Dates, Logging
@@ -20,8 +20,8 @@ lg = WandbLogger(project = "Wandb.jl",
                  name = "wandbjl-demo-$(now())",
                  config = Dict("learning_rate" => 0.01,
                                "dropout" => 0.2,
-                               "architecture" => "CNN",
-                               "dataset" => "CIFAR-100"))
+                               "architecture" => "CNN", # アーキテクチャー
+                               "dataset" => "CIFAR-100")) # データセット
 
 # Use LoggingExtras.jl to log to multiple loggers together
 global_logger(lg)

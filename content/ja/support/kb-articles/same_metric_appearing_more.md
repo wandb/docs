@@ -1,15 +1,15 @@
 ---
+title: Why is the same metric appearing more than once?
 menu:
   support:
     identifier: ja-support-kb-articles-same_metric_appearing_more
 support:
 - experiments
-title: Why is the same metric appearing more than once?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-When logging various data types under the same key, split them in the database. This results in multiple entries of the same metric name in the UI dropdown. The data types grouped are `number`, `string`, `bool`, `other` (primarily arrays), and any `wandb` data type such as `Histogram` or `Image`. Send only one type per key to prevent this issue.
+同じキーでさまざまな データ型 を ログ に記録する際に、データベース内でそれらを分割します。これにより、UIドロップダウンに同じ メトリック 名のエントリが複数表示されます。グループ化される データ型 は、`number`、`string`、`bool`、`other`（主に配列）、および`Histogram`や`Image`などの`wandb`の データ型 です。この問題を回避するには、キーごとに1つの型のみを送信してください。
 
-Metric names are case-insensitive. Avoid using names that differ only by case, such as `"My-Metric"` and `"my-metric"`.
+メトリック 名は大文字と小文字が区別されません。`"My-Metric"`や`"my-metric"`のように、大文字と小文字のみが異なる名前の使用は避けてください。

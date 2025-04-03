@@ -1,19 +1,19 @@
 ---
+title: How can I find the artifacts logged or consumed by a run? How can I find the
+  runs that produced or consumed an artifact?
 menu:
   support:
     identifier: ja-support-kb-articles-find_artifacts_logged_consumed_run_find
 support:
 - artifacts
-title: How can I find the artifacts logged or consumed by a run? How can I find the
-  runs that produced or consumed an artifact?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-W&B tracks artifacts logged by each run and those used by each run to construct an artifact graph. This graph is a bipartite, directed, acyclic graph with nodes representing runs and artifacts. An example can be viewed [here](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (click "Explode" to expand the graph).
+W&B は、各 run によって記録された Artifacts と、各 run が Artifacts グラフを構築するために使用する Artifacts を追跡します。このグラフは、run と Artifacts を表すノードを持つ、二部グラフ、有向非巡回グラフです。例は[こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph)で確認できます（グラフを展開するには「Explode」をクリックしてください）。
 
-Use the Public API to navigate the graph programmatically, starting from either an artifact or a run.
+Public API を使用して、Artifacts または run のいずれかから開始して、プログラムでグラフをナビゲートします。
 
 {{< tabpane text=true >}}
 {{% tab "From an Artifact" %}}

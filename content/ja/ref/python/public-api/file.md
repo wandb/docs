@@ -1,13 +1,13 @@
 ---
+title: File
 menu:
   reference:
     identifier: ja-ref-python-public-api-file
-title: File
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L110-L263 >}}
 
-File is a class associated with a file saved by wandb.
+File は wandb によって保存されたファイルに関連付けられたクラスです。
 
 ```python
 File(
@@ -17,9 +17,9 @@ File(
 
 | Attributes |  |
 | :--- | :--- |
-|  `path_uri` |  Returns the uri path to the file in the storage bucket. |
+|  `path_uri` |  ストレージ バケット内のファイルへの URI パスを返します。 |
 
-## Methods
+## メソッド
 
 ### `delete`
 
@@ -39,7 +39,7 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+このオブジェクトを jupyter で表示します。
 
 ### `download`
 
@@ -54,15 +54,15 @@ download(
 ) -> io.TextIOWrapper
 ```
 
-Downloads a file previously saved by a run from the wandb server.
+以前に run によって保存されたファイルを wandb サーバー からダウンロードします。
 
 | Args |  |
 | :--- | :--- |
-|  replace (boolean): If `True`, download will overwrite a local file if it exists. Defaults to `False`. root (str): Local directory to save the file. Defaults to ".". exist_ok (boolean): If `True`, will not raise ValueError if file already exists and will not re-download unless replace=True. Defaults to `False`. api (Api, optional): If given, the `Api` instance used to download the file. |
+|  replace (boolean): `True` の場合、ダウンロードはローカル ファイルが存在する場合に上書きします。デフォルトは `False` です。 root (str): ファイルを保存するローカル ディレクトリー。デフォルトは "." です。 exist_ok (boolean): `True` の場合、ファイルが既に存在する場合は ValueError を発生させず、replace=True でない限り再ダウンロードしません。デフォルトは `False` です。 api (Api, optional): 指定された場合、ファイルのダウンロードに使用される `Api` インスタンス。 |
 
 | Raises |  |
 | :--- | :--- |
-|  `ValueError` if file already exists, replace=False and exist_ok=False. |
+|  ファイルが既に存在し、replace=False かつ exist_ok=False の場合、`ValueError`。 |
 
 ### `snake_to_camel`
 

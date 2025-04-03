@@ -1,22 +1,18 @@
 ---
+title: keras
 menu:
   reference:
     identifier: ja-ref-python-integrations-keras-_index
-title: keras
 ---
 
-<!-- Insert buttons and diff -->
+`wandb` を [`Keras`](https://keras.io/) と統合するためのツール。
 
+## クラス
 
+[`class WandbCallback`](./wandbcallback.md): `WandbCallback` は、Keras と wandb を自動的に統合します。
 
-Tools for integrating `wandb` with [`Keras`](https://keras.io/).
+[`class WandbEvalCallback`](./wandbevalcallback.md): モデル の 予測 の 可視化 のための Keras コールバック を構築するための抽象基底クラス。
 
-## Classes
+[`class WandbMetricsLogger`](./wandbmetricslogger.md): システム メトリクス を W&B に送信する Logger。
 
-[`class WandbCallback`](./wandbcallback.md): `WandbCallback` automatically integrates keras with wandb.
-
-[`class WandbEvalCallback`](./wandbevalcallback.md): Abstract base class to build Keras callbacks for model prediction visualization.
-
-[`class WandbMetricsLogger`](./wandbmetricslogger.md): Logger that sends system metrics to W&B.
-
-[`class WandbModelCheckpoint`](./wandbmodelcheckpoint.md): A checkpoint that periodically saves a Keras model or model weights.
+[`class WandbModelCheckpoint`](./wandbmodelcheckpoint.md): Keras モデル または モデル の重みを定期的に保存する チェックポイント 。

@@ -1,13 +1,13 @@
 ---
+title: When should I log to my personal entity against my team entity?
 menu:
   support:
     identifier: ja-support-kb-articles-log_personal_entity_team_entity
 support:
 - team management
-title: When should I log to my personal entity against my team entity?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Personal Entities are unavailable for accounts created after May 21, 2024. W&B encourages all users to log new projects to a Team to enable sharing of results.
+2024年5月21日以降に作成されたアカウントでは、個人 Entity は利用できません。W&B では、すべての ユーザー が結果の共有を可能にするために、新しい プロジェクト を Team に ログ することを推奨しています。

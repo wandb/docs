@@ -1,52 +1,50 @@
 ---
-description: How to integrate W&B with Metaflow.
+title: Metaflow
+description: Metaflow と W&B を統合する方法。
 menu:
   default:
     identifier: ja-guides-integrations-metaflow
     parent: integrations
-title: Metaflow
 weight: 200
 ---
 
-## Overview
+## 概要
 
-[Metaflow](https://docs.metaflow.org) is a framework created by [Netflix](https://netflixtechblog.com) for creating and running ML workflows.
+[Metaflow](https://docs.metaflow.org) は、ML ワークフローを作成および実行するために [Netflix](https://netflixtechblog.com) によって作成されたフレームワークです。
 
-This integration lets users apply decorators to Metaflow [steps and flows](https://docs.metaflow.org/metaflow/basics) to automatically log parameters and artifacts to W&B.
+このインテグレーションを使用すると、Metaflow の [ステップとフロー](https://docs.metaflow.org/metaflow/basics) にデコレータを適用して、パラメータと Artifacts を自動的に W&B にログ記録できます。
 
-* Decorating a step will turn logging off or on for certain types within that step.
-* Decorating the flow will turn logging off or on for every step in the flow.
+* ステップをデコレートすると、そのステップ内の特定の種類に対するログ記録をオフまたはオンにします。
+* フローをデコレートすると、フロー内のすべてのステップに対するログ記録をオフまたはオンにします。
 
-## Quickstart
+## クイックスタート
 
-### Sign up and create an API key
+### サインアップして APIキー を作成する
 
-An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+APIキー は、お使いのマシンを W&B に対して認証します。APIキー は、ユーザープロファイルから生成できます。
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+より合理化されたアプローチとして、[https://wandb.ai/authorize](https://wandb.ai/authorize) に直接アクセスして APIキー を生成できます。表示された APIキー をコピーして、パスワードマネージャーなどの安全な場所に保存してください。
 {{% /alert %}}
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+1. 右上隅にあるユーザープロファイルアイコンをクリックします。
+2. [**User Settings**] を選択し、[**API Keys**] セクションまでスクロールします。
+3. [**Reveal**] をクリックします。表示された APIキー をコピーします。APIキー を非表示にするには、ページをリロードします。
 
-### Install the `wandb` library and log in
+### `wandb` ライブラリをインストールしてログインする
 
-To install the `wandb` library locally and log in:
+`wandb` ライブラリをローカルにインストールしてログインするには:
 
 {{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
+{{% tab header="コマンドライン" value="cli" %}}
 
-1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to your API key.
+1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) を APIキー に設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. Install the `wandb` library and log in.
-
-
+2. `wandb` ライブラリをインストールしてログインします。
 
     ```shell
     pip install -Uqqq metaflow fastcore wandb
@@ -80,14 +78,14 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-### Decorate your flows and steps
+### フローとステップをデコレートする
 
 {{< tabpane text=true >}}
-{{% tab header="Step" value="step" %}}
+{{% tab header="ステップ" value="step" %}}
 
-Decorating a step turns logging off or on for certain types within that step.
+ステップをデコレートすると、そのステップ内の特定の種類に対するログ記録をオフまたはオンにします。
 
-In this example, all datasets and models in `start` will be logged
+この例では、`start` 内のすべての Datasets と Models がログ記録されます。
 
 ```python
 from wandb.integration.metaflow import wandb_log
@@ -102,11 +100,11 @@ class WandbExampleFlow(FlowSpec):
 ```
 {{% /tab %}}
 
-{{% tab header="Flow" value="flow" %}}
+{{% tab header="フロー" value="flow" %}}
 
-Decorating a flow is equivalent to decorating all the constituent steps with a default.
+フローをデコレートすることは、すべての構成ステップをデフォルトでデコレートすることと同じです。
 
-In this case, all steps in `WandbExampleFlow` default to logging datasets and models by default, just like decorating each step with `@wandb_log(datasets=True, models=True)`
+この場合、`WandbExampleFlow` のすべてのステップは、Datasets と Models をデフォルトでログ記録します。これは、各ステップを `@wandb_log(datasets=True, models=True)` でデコレートするのと同じです。
 
 ```python
 from wandb.integration.metaflow import wandb_log
@@ -121,14 +119,14 @@ class WandbExampleFlow(FlowSpec):
 ```
 {{% /tab %}}
 
-{{% tab header="Flow and Steps" value="flow_and_steps" %}}
+{{% tab header="フローとステップ" value="flow_and_steps" %}}
 
-Decorating the flow is equivalent to decorating all steps with a default. That means if you later decorate a Step with another `@wandb_log`, it overrides the flow-level decoration.
+フローをデコレートすることは、すべてのステップをデフォルトでデコレートすることと同じです。つまり、後で別の `@wandb_log` でステップをデコレートすると、フローレベルのデコレーションがオーバーライドされます。
 
-In this example:
+この例では:
 
-* `start` and `mid` log both datasets and models.
-* `end` logs neither datasets nor models.
+* `start` と `mid` は Datasets と Models の両方をログ記録します。
+* `end` は Datasets も Models もログ記録しません。
 
 ```python
 from wandb.integration.metaflow import wandb_log
@@ -159,56 +157,56 @@ class WandbExampleFlow(FlowSpec):
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Access your data programmatically
+## プログラムでデータにアクセスする
 
-You can access the information we've captured in three ways: inside the original Python process being logged using the [`wandb` client library]({{< relref path="/ref/python/" lang="ja" >}}), with the [web app UI]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}), or programmatically using [our Public API]({{< relref path="/ref/python/public-api/" lang="ja" >}}). `Parameter`s are saved to W&B's [`config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) and can be found in the [Overview tab]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}}). `datasets`, `models`, and `others` are saved to [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) and can be found in the [Artifacts tab]({{< relref path="/guides/models/track/runs/#artifacts-tab" lang="ja" >}}). Base python types are saved to W&B's [`summary`]({{< relref path="/guides/models/track/log/" lang="ja" >}}) dict and can be found in the Overview tab. See our [guide to the Public API]({{< relref path="/guides/models/track/public-api-guide.md" lang="ja" >}}) for details on using the API to get this information programmatically from outside .
+キャプチャした情報には、次の 3 つの方法でアクセスできます。[`wandb` クライアントライブラリ]({{< relref path="/ref/python/" lang="ja" >}}) を使用してログ記録されている元の Python プロセス内、[web アプリ UI]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) を使用、または [Public API]({{< relref path="/ref/python/public-api/" lang="ja" >}}) を使用してプログラムでアクセスできます。`Parameter` は W&B の [`config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) に保存され、[Overview タブ]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}}) にあります。`datasets`、`models`、および `others` は [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) に保存され、[Artifacts タブ]({{< relref path="/guides/models/track/runs/#artifacts-tab" lang="ja" >}}) にあります。Base python タイプは W&B の [`summary`]({{< relref path="/guides/models/track/log/" lang="ja" >}}) 辞書に保存され、Overview タブにあります。API を使用してこの情報を外部からプログラムで取得する方法の詳細については、[Public API のガイド]({{< relref path="/guides/models/track/public-api-guide.md" lang="ja" >}}) を参照してください。
 
-### Quick reference
+### クイックリファレンス
 
-| Data                                            | Client library                            | UI                    |
+| データ                                            | クライアントライブラリ                            | UI                    |
 | ----------------------------------------------- | ----------------------------------------- | --------------------- |
-| `Parameter(...)`                                | `wandb.config`                            | Overview tab, Config  |
-| `datasets`, `models`, `others`                  | `wandb.use_artifact("{var_name}:latest")` | Artifacts tab         |
-| Base Python types (`dict`, `list`, `str`, etc.) | `wandb.summary`                           | Overview tab, Summary |
+| `Parameter(...)`                                | `wandb.config`                            | Overview タブ, Config  |
+| `datasets`、`models`、`others`                  | `wandb.use_artifact("{var_name}:latest")` | Artifacts タブ         |
+| Base Python タイプ (`dict`、`list`、`str` など) | `wandb.summary`                           | Overview タブ, Summary |
 
 ### `wandb_log` kwargs
 
-| kwarg      | Options                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| kwarg      | オプション                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `datasets` | <ul><li><code>True</code>: Log instance variables that are a dataset</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                         |
-| `models`   | <ul><li><code>True</code>: Log instance variables that are a model</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                           |
-| `others`   | <ul><li><code>True</code>: Log anything else that is serializable as a pickle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                |
-| `settings` | <ul><li><code>wandb.Settings(...)</code>: Specify your own <code>wandb</code> settings for this step or flow</li><li><code>None</code>: Equivalent to passing <code>wandb.Settings()</code></li></ul><p>By default, if:</p><ul><li><code>settings.run_group</code> is <code>None</code>, it will be set to <code>\{flow_name\}/\{run_id\}</code></li><li><code>settings.run_job_type</code> is <code>None</code>, it will be set to <code>\{run_job_type\}/\{step_name\}</code></li></ul> |
+| `datasets` | <ul><li><code>True</code>: データセットであるインスタンス変数をログに記録します</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                         |
+| `models`   | <ul><li><code>True</code>: モデルであるインスタンス変数をログに記録します</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                           |
+| `others`   | <ul><li><code>True</code>: シリアル化可能なものをピクルとしてログに記録します</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                |
+| `settings` | <ul><li><code>wandb.Settings(...)</code>: このステップまたはフローに独自の <code>wandb</code> 設定を指定します</li><li><code>None</code>: <code>wandb.Settings()</code> を渡すのと同じです</li></ul><p>デフォルトでは、以下の場合:</p><ul><li><code>settings.run_group</code> が <code>None</code> の場合、<code>\{flow_name\}/\{run_id\}</code> に設定されます</li><li><code>settings.run_job_type</code> が <code>None</code> の場合、<code>\{run_job_type\}/\{step_name\}</code> に設定されます</li></ul> |
 
-## Frequently Asked Questions
+## よくある質問
 
-### What exactly do you log? Do you log all instance and local variables?
+### 実際に何をログに記録しますか？すべてのインスタンス変数とローカル変数をログに記録しますか？
 
-`wandb_log` only logs instance variables. Local variables are NEVER logged. This is useful to avoid logging unnecessary data.
+`wandb_log` はインスタンス変数のみをログに記録します。ローカル変数は決してログに記録されません。これは、不要なデータのログ記録を回避するのに役立ちます。
 
-### Which data types get logged?
+### どのデータ型がログに記録されますか？
 
-We currently support these types:
+現在、これらのタイプをサポートしています。
 
-| Logging Setting     | Type                                                                                                                        |
+| ログ設定            | タイプ                                                                                                                        |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| default (always on) | <ul><li><code>dict, list, set, str, int, float, bool</code></li></ul>                                                       |
+| デフォルト (常にオン) | <ul><li><code>dict, list, set, str, int, float, bool</code></li></ul>                                                       |
 | `datasets`          | <ul><li><code>pd.DataFrame</code></li><li><code>pathlib.Path</code></li></ul>                                               |
 | `models`            | <ul><li><code>nn.Module</code></li><li><code>sklearn.base.BaseEstimator</code></li></ul>                                    |
-| `others`            | <ul><li>Anything that is <a href="https://wiki.python.org/moin/UsingPickle">pickle-able</a> and JSON serializable</li></ul> |
+| `others`            | <ul><li><a href="https://wiki.python.org/moin/UsingPickle">pickle-able</a> で JSON シリアル化可能なもの</li></ul> |
 
-### How can I configure logging behavior?
+### ログ記録の振る舞いを構成するにはどうすればよいですか？
 
-| Kind of Variable | behavior                      | Example         | Data Type      |
+| 変数の種類 | 振る舞い                      | 例              | データ型       |
 | ---------------- | ------------------------------ | --------------- | -------------- |
-| Instance         | Auto-logged                    | `self.accuracy` | `float`        |
-| Instance         | Logged if `datasets=True`      | `self.df`       | `pd.DataFrame` |
-| Instance         | Not logged if `datasets=False` | `self.df`       | `pd.DataFrame` |
-| Local            | Never logged                   | `accuracy`      | `float`        |
-| Local            | Never logged                   | `df`            | `pd.DataFrame` |
+| インスタンス         | 自動ログ記録                   | `self.accuracy` | `float`        |
+| インスタンス         | `datasets=True` の場合にログ記録 | `self.df`       | `pd.DataFrame` |
+| インスタンス         | `datasets=False` の場合はログ記録されません | `self.df`       | `pd.DataFrame` |
+| ローカル            | 決してログ記録されない                   | `accuracy`      | `float`        |
+| ローカル            | 決してログ記録されない                   | `df`            | `pd.DataFrame` |
 
-### Is artifact lineage tracked?
+### Artifacts のリネージは追跡されますか？
 
-Yes. If you have an artifact that is an output of step A and an input to step B, we automatically construct the lineage DAG for you.
+はい。Artifact がステップ A の出力であり、ステップ B の入力である場合、リネージ DAG が自動的に構築されます。
 
-For an example of this behavior, please see this[ notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) and its corresponding [W&B Artifacts page](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)
+この振る舞いの例については、この [notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) と対応する [W&B Artifacts ページ](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph) を参照してください。

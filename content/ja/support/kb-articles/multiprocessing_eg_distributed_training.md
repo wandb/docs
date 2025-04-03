@@ -1,22 +1,22 @@
 ---
+title: How can I use wandb with multiprocessing, e.g. distributed training?
 menu:
   support:
     identifier: ja-support-kb-articles-multiprocessing_eg_distributed_training
 support:
 - experiments
-title: How can I use wandb with multiprocessing, e.g. distributed training?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-If a training program uses multiple processes, structure the program to avoid making wandb method calls from processes without `wandb.init()`. 
+もしトレーニングプログラムが複数のプロセスを使用する場合、`wandb.init()` なしでプロセスから wandb のメソッド呼び出しをしないようにプログラムを構成してください。
 
-Manage multiprocess training using these approaches:
+マルチプロセス のトレーニングは、次の方法で管理します。
 
-1. Call `wandb.init` in all processes and use the [group]({{< relref path="/guides/models/track/runs/grouping.md" lang="ja" >}}) keyword argument to create a shared group. Each process will have its own wandb run, and the UI will group the training processes together.
-2. Call `wandb.init` from only one process and pass data to log through [multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes).
+1. 全てのプロセスで `wandb.init` を呼び出し、[group]({{< relref path="/guides/models/track/runs/grouping.md" lang="ja" >}}) キーワード 引数 を使用して、共有 グループ を作成します。各プロセスは独自の wandb run を持ち、UI はトレーニング プロセスをまとめてグループ化します。
+2. 1つのプロセスからのみ `wandb.init` を呼び出し、[multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes) を介して ログ に記録するデータを渡します。
 
 {{% alert %}}
-Refer to the [Distributed Training Guide]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}}) for detailed explanations of these approaches, including code examples with Torch DDP.
+Torch DDP を使用した コード 例など、これらのアプローチの詳細な説明については、[分散トレーニング ガイド]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}}) を参照してください。
 {{% /alert %}}

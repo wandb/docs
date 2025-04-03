@@ -1,31 +1,31 @@
 ---
-description: In line plots, use smoothing to see trends in noisy data.
+title: Smooth line plots
+description: 折れ線グラフでは、スムージングを使ってノイズの多いデータ のトレンドを確認します。
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-line-plot-smoothing
     parent: line-plot
-title: Smooth line plots
 weight: 30
 ---
 
-W&B supports three types of smoothing:
+W&B は3種類の平滑化をサポートしています。
 
-- [exponential moving average]({{< relref path="smoothing.md#exponential-moving-average-default" lang="ja" >}}) (default)
-- [gaussian smoothing]({{< relref path="smoothing.md#gaussian-smoothing" lang="ja" >}})
-- [running average]({{< relref path="smoothing.md#running-average" lang="ja" >}})
-- [exponential moving average - Tensorboard]({{< relref path="smoothing.md#exponential-moving-average-deprecated" lang="ja" >}}) (deprecated)
+- [指数移動平均]({{< relref path="smoothing.md#exponential-moving-average-default" lang="ja" >}}) (デフォルト)
+- [ガウシアン平滑化]({{< relref path="smoothing.md#gaussian-smoothing" lang="ja" >}})
+- [移動平均]({{< relref path="smoothing.md#running-average" lang="ja" >}})
+- [指数移動平均 - Tensorboard]({{< relref path="smoothing.md#exponential-moving-average-deprecated" lang="ja" >}}) (非推奨)
 
-See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc).
+これらの機能を [インタラクティブな W&B レポート](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc) でライブで確認できます。
 
 {{< img src="/images/app_ui/beamer_smoothing.gif" alt="" >}}
 
-## Exponential Moving Average (Default)
+## 指数移動平均 (デフォルト)
 
-Exponential smoothing is a technique for smoothing time series data by exponentially decaying the weight of previous points. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a de-bias term added so that early values in the time series are not biased towards zero.
+指数平滑化は、過去の点の重みを指数関数的に減衰させることで、 時系列 データを平滑化する手法です。範囲は0から1です。背景については、[指数平滑化](https://www.wikiwand.com/en/Exponential_smoothing)を参照してください。時系列の初期の値がゼロに偏らないように、バイアス除去項が追加されています。
 
-The EMA algorithm takes the density of points on the line (the number of `y` values per unit of range on x-axis) into account. This allows consistent smoothing when displaying multiple lines with different characteristics simultaneously.
+EMAアルゴリズムは、線上の点の密度 (x軸の範囲の単位あたりの `y` 値の数) を考慮します。これにより、異なる特性を持つ複数の線を同時に表示する際に、一貫した平滑化が可能になります。
 
-Here is sample code for how this works under the hood:
+以下は、この仕組みの内部動作を示すサンプル コードです。
 
 ```javascript
 const smoothingWeight = Math.min(Math.sqrt(smoothingParam || 0), 0.999);
@@ -34,7 +34,7 @@ let debiasWeight = 0;
 
 return yValues.map((yPoint, index) => {
   const prevX = index > 0 ? index - 1 : 0;
-  // VIEWPORT_SCALE scales the result to the chart's x-axis range
+  // VIEWPORT_SCALEは、結果をチャートのx軸範囲にスケールします
   const changeInX =
     ((xValues[index] - xValues[prevX]) / rangeOfX) * VIEWPORT_SCALE;
   const smoothingWeightAdj = Math.pow(smoothingWeight, changeInX);
@@ -45,37 +45,37 @@ return yValues.map((yPoint, index) => {
 });
 ```
 
-Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
+これは [アプリ内](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc) では次のようになります。
 
 {{< img src="/images/app_ui/weighted_exponential_moving_average.png" alt="" >}}
 
-## Gaussian Smoothing
+## ガウシアン平滑化
 
-Gaussian smoothing (or gaussian kernel smoothing) computes a weighted average of the points, where the weights correspond to a gaussian distribution with the standard deviation specified as the smoothing parameter. See . The smoothed value is calculated for every input x value.
+ガウシアン平滑化 (またはガウシアン カーネル平滑化) は、点の加重平均を計算します。ここで、重みは平滑化 パラメータ として指定された標準偏差を持つガウス分布に対応します。を参照してください。平滑化された 値 は、すべての入力x 値 に対して計算されます。
 
-Gaussian smoothing is a good standard choice for smoothing if you are not concerned with matching TensorBoard's behavior. Unlike an exponential moving average the point will be smoothed based on points occurring both before and after the value.
+TensorBoard の 振る舞い と一致させることを気にしない場合は、ガウシアン平滑化は平滑化に適した標準的な選択肢です。指数移動平均とは異なり、値の前後に発生する点に基づいて点が平滑化されます。
 
-Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing):
+これは [アプリ内](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing) では次のようになります。
 
 {{< img src="/images/app_ui/gaussian_smoothing.png" alt="" >}}
 
-## Running Average
+## 移動平均
 
-Running average is a smoothing algorithm that replaces a point with the average of points in a window before and after the given x value. See "Boxcar Filter" at [https://en.wikipedia.org/wiki/Moving_average](https://en.wikipedia.org/wiki/Moving_average). The selected parameter for running average tells Weights and Biases the number of points to consider in the moving average.
+移動平均は、指定されたx 値 の前後のウィンドウ内の点の平均で点を置き換える平滑化アルゴリズムです。[https://en.wikipedia.org/wiki/Moving_average](https://en.wikipedia.org/wiki/Moving_average) の「Boxcar Filter」を参照してください。移動平均に選択された パラメータ は、Weights and Biases に移動平均で考慮する点の数を伝えます。
 
-Consider using Gaussian Smoothing if your points are spaced unevenly on the x-axis.
+点 がx軸上で不均等に配置されている場合は、ガウシアン平滑化の使用を検討してください。
 
-The following image demonstrates how a running app looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
+次の画像は、実行中のアプリが [アプリ内](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average) でどのように見えるかを示しています。
 
 {{< img src="/images/app_ui/running_average.png" alt="" >}}
 
-## Exponential Moving Average (Deprecated)
+## 指数移動平均 (非推奨)
 
-> The TensorBoard EMA algorithm has been deprecated as it cannot accurately smooth multiple lines on the same chart that do not have a consistent point density (number of points plotted per unit of x-axis).
+> TensorBoard EMAアルゴリズムは、一貫した点密度 (x軸の単位あたりにプロットされる点の数) を持たない同じチャート上の複数の線を正確に平滑化できないため、非推奨になりました。
 
-Exponential moving average is implemented to match TensorBoard's smoothing algorithm. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a debias term added so that early values in the time series are not biases towards zero.
+指数移動平均は、TensorBoard の平滑化アルゴリズムと一致するように実装されています。範囲は0から1です。背景については、[指数平滑化](https://www.wikiwand.com/en/Exponential_smoothing)を参照してください。時系列の初期の値がゼロに偏らないように、バイアス除去項が追加されています。
 
-Here is sample code for how this works under the hood:
+以下は、この仕組みの内部動作を示すサンプル コードです。
 
 ```javascript
   data.forEach(d => {
@@ -86,16 +86,16 @@ Here is sample code for how this works under the hood:
     smoothedData.push(last / debiasWeight);
 ```
 
-Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
+これは [アプリ内](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc) では次のようになります。
 
 {{< img src="/images/app_ui/exponential_moving_average.png" alt="" >}}
 
-## Implementation Details
+## 実装の詳細
 
-All of the smoothing algorithms run on the sampled data, meaning that if you log more than 1500 points, the smoothing algorithm will run _after_ the points are downloaded from the server. The intention of the smoothing algorithms is to help find patterns in data quickly. If you need exact smoothed values on metrics with a large number of logged points, it may be better to download your metrics through the API and run your own smoothing methods.
+すべての平滑化アルゴリズムはサンプリングされた データ で実行されます。つまり、1500を超える点を ログ に記録すると、平滑化アルゴリズムは サーバー から点がダウンロードされた _後_ に実行されます。平滑化アルゴリズムの目的は、 データ 内のパターンをすばやく見つけるのに役立つことです。多数の ログ に記録された点 を持つ メトリクス で正確な平滑化された 値 が必要な場合は、API を介して メトリクス をダウンロードし、独自の平滑化 メソッド を実行する方が良い場合があります。
 
-## Hide original data
+## 元のデータを非表示にする
 
-By default we show the original, unsmoothed data as a faint line in the background. Click the **Show Original** toggle to turn this off.
+デフォルトでは、元の平滑化されていない データ が背景に薄い線として表示されます。これをオフにするには、[元のデータを表示] トグルをクリックします。
 
 {{< img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif" alt="" >}}
