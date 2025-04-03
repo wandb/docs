@@ -9,8 +9,6 @@ menu:
 no_list: true
 type: docs
 ---
-
-```markdown
 {{< cardpane >}}
   {{< card >}}
     <a href="./python/">
@@ -44,4 +42,3 @@ type: docs
 {{% alert %}}
 Weave API をお探しですか？ [W&B Weave Docs](https://weave-docs.wandb.ai/) をご覧ください。
 {{% /alert %}}
-```
