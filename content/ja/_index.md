@@ -4,8 +4,8 @@ title: Weights & Biases Documentation
 
 <div style="padding-top:50px;">&nbsp;</div>
 <div style="max-width:1200px; margin: 0 auto">
-{{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
-Choose the product for which you need documentation.
+{{< banner title="Weights & Biases ドキュメント" background="/images/support/support_banner.png" >}}
+ドキュメントが必要な製品を選択してください。
 {{< /banner >}}
 
 {{< cardpane >}}
@@ -16,14 +16,14 @@ Choose the product for which you need documentation.
 </div>
 <h2>W&B Weave</h2>
 
-##### Use AI models in your app
+##### アプリでAIモデルを使用する
 
-Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a playground for comparing different large language models (LLMs) and settings.
+[W&B Weave](https://weave-docs.wandb.ai/) を使用して、コード内のAIモデルを管理します。トレーシング、出力評価、コスト見積もり、およびさまざまな大規模言語モデル（LLM）と settings を比較するための playground などの機能が含まれています。
 
 - [Introduction](https://weave-docs.wandb.ai/)
 - [Quickstart](https://weave-docs.wandb.ai/quickstart)
 - [YouTube Demo](https://www.youtube.com/watch?v=IQcGGNLN3zo)
-- [Try the Playground](https://wandb.ai/wandb/weave-playground/weave/playground) (Free [sign up](https://wandb.ai/signup) required)
+- [Playground を試す](https://wandb.ai/wandb/weave-playground/weave/playground) （無料の [sign up](https://wandb.ai/signup) が必要です）
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
@@ -33,9 +33,9 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. 
 </div>
 <h2>W&B Models</h2>
 
-##### Develop AI models
+##### AIモデルを開発する
 
-Use [W&B Models]({{< relref path="/guides/" lang="ja" >}}) to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
+[W&B Models]({{< relref path="/guides/" lang="ja" >}}) を使用して、AIモデルの開発を管理します。トレーニング、微調整、レポート、ハイパーパラメーター Sweeps の自動化、および バージョン管理 と 再現性 のための モデルレジストリ の利用などの機能が含まれます。
 
 - [Introduction]({{< relref path="/guides/" lang="ja" >}})
 - [Quickstart]({{< relref path="/guides/quickstart/" lang="ja" >}})
@@ -45,9 +45,11 @@ Use [W&B Models]({{< relref path="/guides/" lang="ja" >}}) to manage AI model de
 </div>{{% /card %}}
 {{< /cardpane >}}
 
-<!-- End max-width constraing -->
+
+
 </div>
-<!-- HTML override just for landing page -->
+
+
 <style>
 .td-card-group { margin: 0 auto }
 p { overflow: hidden; display: block; }
