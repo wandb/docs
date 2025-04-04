@@ -179,7 +179,7 @@ The proceeding table describes the possible states a run can be in:
 | ----- | ----- |
 | `Crashed` | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. | 
 | `Failed` | Run ended with a non-zero exit status. | 
-| `Finished`| Run ended and fully synced data, or called `wandb.finish()`. |
+| `Finished`| Run ended and fully synced data, or called `Run.finish()`. |
 | `Killed` | Run was forcibly stopped before it could finish. |
 | `Running` | Run is still running and has recently sent a heartbeat.  |
 
