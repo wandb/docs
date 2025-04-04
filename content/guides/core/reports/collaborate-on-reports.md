@@ -8,14 +8,30 @@ title: Collaborate on reports
 weight: 30
 ---
 
-Once you have saved a report, you can select the **Share** button to collaborate. A draft copy of the report is created when you select the **Edit** button. Draft reports auto-save. Select **Save to report** to publish your changes to the shared report.
+This page describes various ways to collaborate on reports with your team.
 
-A warning notification will appear if an edit conflict occurs. This can occur if you and another collaborator edit the same report at the same time. The warning notification will guide you to resolve potential edit conflicts.
+## Share a report
+When viewing a report, click **Share**, then:
+1. To invite a member by email, click **Invite**. Enter an email address or username, select **Can view** or **Can edit**, then click **Invite**.
+1. To generate a sharing link instead, click **Share**. Adjust the permissions for the link, then click **Copy report link**. Share the link with the member.
+
+When viewing the report, click a panel to open it in full screen mode. If you copy the URL from the browser and share it with another user, when they access the link the panel will open directly in full screen mode.
+
+## Edit a report
+When any viewer clicks the **Edit** button to begin editing the report, a draft is automatically saved. Select **Save to report** to publish your changes.
+
+If an edit conflict occurs, such as when two members edit the report at once, a warning notification helps you to resolve any conflicts.
 
 {{< img src="/images/reports/share-report.gif" alt="Report sharing modal for a report in a 'Public' project" max-width="90%">}}
 
 ## Comment on reports
+Click **Comment** to leave a comment on a report.
 
-Click the comment button on a panel in a report to add a comment directly to that panel.
+To comment directly on a panel, hover over the panel, then click the comment button, which looks like a speech bubble.
 
 {{< img src="/images/reports/demo_comment_on_panels_in_reports.gif" alt="Adding a comment to a panel" >}}
+
+## Star a report
+If your team has a large number of reports, click **Star** at the top of a report to add it to your favorites. When viewing your team's list of reports, click the star in a report's row to add it to your favorites. Starred reports appear at the top of the list.
+
+From the list of reports, you can see how many members have starred each report to gauge its relative popularity.
