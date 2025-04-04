@@ -39,13 +39,6 @@
   window.intercomSettings = {
     api_base: "https://api-iam.intercom.io",
     app_id: "pjhf9g6l",
-    user_id: user.id, // IMPORTANT: 
-    // In Zendesk, ensure that each user has a unique external_id, typically their user_id or email.
-    // In Intercom, when installing Messenger, pass a user_id that matches the external_id used for that user in Zendesk.
-    // If no user_id exists, the user's email is used instead to match the external_id in Zendesk.
-    name: user.name, // IMPORTANT: Replace "user.name" with the variable you use to capture the user's name
-    email: user.email, // IMPORTANT: Replace "user.email" with the variable you use to capture the user's email address
-    created_at: user.createdAt, // IMPORTANT: Replace "user.createdAt" with the variable you use to capture the user's sign-up date
   };
 </script>
 
