@@ -64,7 +64,8 @@ A W&B admin can create automations in a project.
 1. Log in to W&B.
 1. Go the project page and click the **Automations** tab, then click **Create automation**.
 
-    Or, from a line plot in the workspace, you can quickly create a [run metric automation]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows. Hover over the panel, then click the bell icon.
+    Or, from a line plot in the workspace, you can quickly create a [run metric automation]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
+    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
 
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.

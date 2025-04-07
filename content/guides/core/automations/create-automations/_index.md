@@ -33,7 +33,9 @@ Create an automation from the project or registry's **Automations** tab. At a hi
 
 Or, from a line plot in the workspace, you can quickly create a [run metric automation]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows:
 
-1. Hover over the panel, then click the bell icon.
+1. Hover over the panel, then click the bell icon at the top of the panel.
+
+    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
 1. Configure the automation using the basic or advanced configuration controls. For example, apply a run filter to limit the scope of the automation, or configure an absolute threshold.
 
 For details, refer to:
