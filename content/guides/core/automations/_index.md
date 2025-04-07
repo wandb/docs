@@ -42,7 +42,7 @@ To [create an automation]({{< relref "create-automations/" >}}), you:
     1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook). For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
 
 ## Limitations
-[Run metrics notifications]({{< relref "automation-events.md#run-metrics-events">}}) are currently supported only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
+[Run metric automations]({{< relref "automation-events.md#run-metrics-events">}}) are currently supported only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
 
 ## Next steps
 - [Create an automation]({{< relref "create-automations/" >}}).

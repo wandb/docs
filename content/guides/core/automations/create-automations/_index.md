@@ -31,7 +31,7 @@ Create an automation from the project or registry's **Automations** tab. At a hi
 1. Configure the webhook or Slack connection to authorize W&B to post to Slack or run the webhook on your behalf. A single webhook or Slack connection can be used by multiple automations. These actions are defined in your **Team Settings**. 
 1. In the project or registry, create the automation, which specifies the event to watch for and the action to take (such as posting to Slack or running a webhook). When you create a webhook automation, you configure the payload it sends.
 
-Or, from a line plot in the workspace, you can quickly create a [run metrics notification]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows:
+Or, from a line plot in the workspace, you can quickly create a [run metric automation]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows:
 
 1. Hover over the panel, then click the bell icon.
 1. Configure the automation using the basic or advanced configuration controls. For example, apply a run filter to limit the scope of the automation, or configure an absolute threshold.
