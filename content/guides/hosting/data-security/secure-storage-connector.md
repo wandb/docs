@@ -71,7 +71,7 @@ To enable the use of cross-cloud or S3-compatible storage, specify the storage b
 
 Specify the path using the following format:
 ```text
-s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>?tls=true
+s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>&tls=true
 ```
 The `region` parameter is mandatory, except for when your W&B instance is in AWS and the `AWS_REGION` configured on the W&B instance nodes matches the region configured for the S3-compatible storage.
 
