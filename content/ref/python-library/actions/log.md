@@ -29,7 +29,7 @@ The most basic usage is `run.log({"train-loss": 0.5, "accuracy": 0.9})`. This wi
 
 Visualize logged data in the workspace at [wandb.ai](https://wandb.ai), or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting) of the W&B app, or export data to visualize and explore locally, e.g. in Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide). 
 
-Logged values don't have to be scalars. Logging any wandb object is supported. For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an example image which will be displayed nicely in the W&B UI. See the [reference documentation](https://docs.wandb.com/ref/python/data-types) for all of the different supported types or check out our [guides to logging](https://docs.wandb.ai/guides/track/log) for examples, from 3D molecular structures and segmentation masks to PR curves and histograms. You can use `wandb.Table` to log structured data. See our [guide to logging tables](https://docs.wandb.ai/guides/tables/tables-walkthrough) for details. 
+Logged values don't have to be scalars. Logging any wandb object is supported. For example `run.log({"example": wandb.Image("myimage.jpg")})` will log an example image which will be displayed nicely in the W&B UI. See the [reference documentation](https://docs.wandb.com/ref/python/data-types) for all of the different supported types or check out our [guides to logging](https://docs.wandb.ai/guides/track/log) for examples, from 3D molecular structures and segmentation masks to PR curves and histograms. You can use `wandb.Table` to log structured data. See our [guide to logging tables](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) for details. 
 
 The W&B UI organizes metrics with a forward slash (`/`) in their name into sections named using the text before the final slash. For example, the following results in two sections named "train" and "validate": 
 
@@ -100,9 +100,7 @@ run.log({"accuracy": 0.9}, step=current_step)
 
 
 **Examples:**
- 
-
-```python
+ ```python
 # Basic usage
 import wandb
 

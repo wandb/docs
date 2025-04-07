@@ -1,6 +1,6 @@
 ---
 title: Video
-object_type: data_type
+object_type: data-type
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/data_types/video.py >}}
@@ -23,9 +23,7 @@ Format a video for logging to W&B.
 
 
 **Examples:**
- 
-
-Log a numpy array as a video 
+ Log a numpy array as a video 
 
 ```python
 import numpy as np

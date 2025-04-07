@@ -21,6 +21,8 @@ Construct an empty W&B Artifact. Populate an artifacts contents with methods tha
  - `type` (str):  The artifact's type. Use the type of an artifact to both organize  and differentiate artifacts. You can use any string that contains letters,  numbers, underscores, hyphens, and dots. Common types include `dataset` or `model`.  Include `model` within your type string if you want to link the artifact  to the W&B Model Registry. 
  - `description (str | None) = None`:  A description of the artifact. For Model or Dataset Artifacts,  add documentation for your standardized team model or dataset card. View  an artifact's description programmatically with the `Artifact.description`  attribute or programmatically with the W&B App UI. W&B renders the  description as markdown in the W&B App. 
  - `metadata (dict[str, Any] | None) = None`:  Additional information about an artifact. Specify metadata as a  dictionary of key-value pairs. You can specify no more than 100 total keys. 
+ - `incremental`:  Use `Artifact.new_draft()` method instead to modify an  existing artifact. 
+ - `use_as`:  W&B Launch specific parameter. Not recommended for general use. 
 
 
 
@@ -244,6 +246,18 @@ The artifact's type. Common types include `dataset` or `model`.
 ### <kbd>property</kbd> Artifact.updated_at
 
 The time when the artifact was last updated. 
+
+---
+
+### <kbd>property</kbd> Artifact.url
+
+Constructs the URL of the artifact. 
+
+
+
+**Returns:**
+ 
+ - `str`:  The URL of the artifact. 
 
 ---
 
@@ -745,7 +759,7 @@ new_draft() → Artifact
 
 Create a new draft artifact with the same content as this committed artifact. 
 
-The artifact returned can be extended or modified and logged as a new version. 
+Modifying an existing artifact creates a new artifact version known as an "incremental artifact". The artifact returned can be extended or modified and logged as a new version. 
 
 
 

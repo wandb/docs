@@ -1,6 +1,6 @@
 ---
 title: Image
-object_type: data_type
+object_type: data-type
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/data_types/image.py >}}
@@ -100,6 +100,18 @@ __init__(
 
 
 
+### <kbd>method</kbd> `Image.guess_mode`
+
+```python
+guess_mode(
+    data: Union[ForwardRef('np.ndarray'), ForwardRef('torch.Tensor')],
+    file_type: Optional[str] = None
+) → str
+```
+
+Guess what type of image the np.array is representing. 
+
+---
 
 
 

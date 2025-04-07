@@ -1,6 +1,6 @@
 ---
 title: teams
-object_type: client_type
+object_type: public_apis_namespace
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/apis/public/teams.py >}}
@@ -9,16 +9,41 @@ object_type: client_type
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-Public API: teams. 
+W&B Public API for managing teams and team members. 
+
+This module provides classes for managing W&B teams and their members. Classes include: 
+
+Team: Manage W&B teams and their settings 
+- Create new teams 
+- Invite team members 
+- Create service accounts 
+- Manage team permissions and settings 
+
+Member: Represent and manage team members 
+- Access member information 
+- Delete members 
+- Manage member permissions 
+
+
+
+**Note:**
+
+> This module is part of the W&B Public API and provides methods to manage teams and their members. Team management operations require appropriate permissions. 
 
 
 
 ---
 
 ## <kbd>class</kbd> `Member`
+A member of a team. 
 
 
 
+**Args:**
+ 
+ - `client` (`wandb.apis.internal.Api`):  The client instance to use 
+ - `team` (str):  The name of the team this member belongs to 
+ - `attrs` (dict):  The member attributes 
 
 ### <kbd>method</kbd> `Member.__init__`
 
@@ -52,9 +77,23 @@ Remove a member from a team.
 ---
 
 ## <kbd>class</kbd> `Team`
+A class that represents a W&B team. 
+
+This class provides methods to manage W&B teams, including creating teams, inviting members, and managing service accounts. It inherits from Attrs to handle team attributes. 
 
 
 
+**Args:**
+ 
+ - `client` (`wandb.apis.public.Api`):  The api instance to use 
+ - `name` (str):  The name of the team 
+ - `attrs` (dict):  Optional dictionary of team attributes 
+
+
+
+**Note:**
+
+> Team management requires appropriate permissions. 
 
 ### <kbd>method</kbd> `Team.__init__`
 
@@ -143,8 +182,6 @@ Invite a user to a team.
 load(force=False)
 ```
 
-
-
-
+Return members that belong to a team. 
 
 

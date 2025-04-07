@@ -1,24 +1,31 @@
 ---
-title: Python Library
+title: Python
 ---
-
 {{< cardpane >}}
     {{< card >}}
         <a href="/ref/python-library/actions">
-        <h2 className="card-title">Actions</h2>
-        <p className="card-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <h2 className="card-title">SDK</h2>
+        <p className="card-content">Use during training to log experiments, track metrics, and save model artifacts.</p>
         </a>
     {{< /card >}}
     {{< card >}}
-        <a href="/ref/python-library/data_types">
+        <a href="/ref/python-library/data-type">
         <h2 className="card-title">Data Types</h2>
-        <p className="card-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+        <p className="card-content">Defines Data Types for logging interactive visualizations to W&B.</p>
         </a>
     {{< /card >}}
-        {{< card >}}
-        <a href="/ref/python-library/client_types">
-        <h2 className="card-title">Client Types</h2>
-        <p className="card-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+{{< /cardpane >}}
+{{< cardpane >}}
+    {{< card >}}
+        <a href="/ref/python-library/public-api">
+        <h2 className="card-title">Analytics and Query API</h2>
+        <p className="card-content">Query and analyze data logged to W&B.</p>
         </a>
     {{< /card >}}
-    {{< /cardpane >}}
+    {{< card >}}
+        <a href="/ref/python-library/launch-library">
+        <h2 className="card-title">Launch Library</h2>
+        <p className="card-content">A collection of launch APIs for W&B.</p>
+        </a>
+    {{< /card >}}
+{{< /cardpane >}}

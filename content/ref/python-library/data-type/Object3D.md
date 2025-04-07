@@ -1,6 +1,6 @@
 ---
 title: Object3D
-object_type: data_type
+object_type: data-type
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/data_types/object_3d.py >}}
@@ -33,6 +33,7 @@ W&B class for 3D point clouds.
 ```python
 __init__(
     data_or_path: Union[ForwardRef('np.ndarray'), str, ForwardRef('TextIO'), dict],
+    caption: Optional[str] = None,
     **kwargs: Optional[str, ForwardRef('FileFormat3D')]
 ) → None
 ```

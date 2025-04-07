@@ -1,6 +1,6 @@
 ---
 title: query_generator
-object_type: client_type
+object_type: public_apis_namespace
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/apis/public/query_generator.py >}}
@@ -17,23 +17,6 @@ object_type: client_type
 
 ---
 
-## <kbd>class</kbd> `QueryGenerator`
-QueryGenerator is a helper object to write filters for runs. 
-
-### <kbd>method</kbd> `QueryGenerator.__init__`
-
-```python
-__init__()
-```
-
-
-
-
-
-
-
-
----
 
 ### <kbd>method</kbd> `QueryGenerator.filter_to_mongo`
 
@@ -41,9 +24,7 @@ __init__()
 filter_to_mongo(filter)
 ```
 
-
-
-
+Returns dictionary with filter format converted to MongoDB filter. 
 
 ---
 
@@ -53,9 +34,7 @@ filter_to_mongo(filter)
 format_order_key(key: str)
 ```
 
-
-
-
+Format a key for sorting. 
 
 ---
 
@@ -65,9 +44,7 @@ format_order_key(key: str)
 key_to_server_path(key)
 ```
 
-
-
-
+Convert a key dictionary to the corresponding server path string. 
 
 ---
 
@@ -77,9 +54,7 @@ key_to_server_path(key)
 keys_to_order(keys)
 ```
 
-
-
-
+Convert a list of key dictionaries to an order string. 
 
 ---
 
@@ -89,9 +64,7 @@ keys_to_order(keys)
 mongo_to_filter(filter)
 ```
 
-
-
-
+Returns dictionary with MongoDB filter converted to filter format. 
 
 ---
 
@@ -101,9 +74,7 @@ mongo_to_filter(filter)
 order_to_keys(order)
 ```
 
-
-
-
+Convert an order string to a list of key dictionaries. 
 
 ---
 
@@ -113,8 +84,6 @@ order_to_keys(order)
 server_path_to_key(path)
 ```
 
-
-
-
+Convert a server path string to the corresponding key dictionary. 
 
 

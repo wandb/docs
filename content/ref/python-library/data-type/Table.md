@@ -1,6 +1,6 @@
 ---
 title: Table
-object_type: data_type
+object_type: data-type
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/data_types/table.py >}}

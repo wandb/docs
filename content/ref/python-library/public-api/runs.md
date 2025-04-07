@@ -1,6 +1,6 @@
 ---
 title: runs
-object_type: client_type
+object_type: public_apis_namespace
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/apis/public/runs.py >}}
@@ -9,14 +9,114 @@ object_type: client_type
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-Public API: runs. 
+W&B Public API for ML Runs. 
+
+This module provides classes for interacting with W&B runs and their associated data. Classes include: 
+
+Runs: A paginated collection of runs associated with a project 
+- Filter and query runs 
+- Access run histories and metrics 
+- Export data in various formats (pandas, polars) 
+
+Run: A single machine learning training run 
+- Access run metadata, configs, and metrics 
+- Upload and download files 
+- Work with artifacts 
+- Query run history 
+- Update run information 
+
+
+
+**Example:**
+ ```python
+from wandb.apis.public import Api
+
+# Initialize API
+api = Api()
+
+# Get runs matching filters
+runs = api.runs(
+     path="entity/project", filters={"state": "finished", "config.batch_size": 32}
+)
+
+# Access run data
+for run in runs:
+     print(f"Run: {run.name}")
+     print(f"Config: {run.config}")
+     print(f"Metrics: {run.summary}")
+
+     # Get history with pandas
+     history_df = run.history(keys=["loss", "accuracy"], pandas=True)
+
+     # Work with artifacts
+     for artifact in run.logged_artifacts():
+         print(f"Artifact: {artifact.name}")
+``` 
+
+
+
+**Note:**
+
+> This module is part of the W&B Public API and provides read/write access to run data. For logging new runs, use the wandb.init() function from the main wandb package. 
 
 
 
 ## <kbd>class</kbd> `Runs`
 An iterable collection of runs associated with a project and optional filter. 
 
-This is generally used indirectly via the `Api`.runs method. 
+This is generally used indirectly using the `Api.runs` namespace. 
+
+
+
+**Args:**
+ 
+ - `client`:  (`wandb.apis.public.RetryingClient`) The API client to use  for requests. 
+ - `entity`:  (str) The entity (username or team) that owns the project. 
+ - `project`:  (str) The name of the project to fetch runs from. 
+ - `filters`:  (Optional[Dict[str, Any]]) A dictionary of filters to apply  to the runs query. 
+ - `order`:  (Optional[str]) The order of the runs, can be "asc" or "desc"  Defaults to "desc". 
+ - `per_page`:  (int) The number of runs to fetch per request (default is 50). 
+ - `include_sweeps`:  (bool) Whether to include sweep information in the  runs. Defaults to True. 
+
+
+
+**Examples:**
+ ```python
+from wandb.apis.public.runs import Runs
+from wandb.apis.public import Api
+
+# Initialize the API client
+api = Api()
+
+# Get all runs from a project that satisfy the filters
+filters = {"state": "finished", "config.optimizer": "adam"}
+
+runs = Runs(
+    client=api.client,
+    entity="entity",
+    project="project_name",
+    filters=filters,
+)
+
+# Iterate over runs and print details
+for run in runs:
+    print(f"Run name: {run.name}")
+    print(f"Run ID: {run.id}")
+    print(f"Run URL: {run.url}")
+    print(f"Run state: {run.state}")
+    print(f"Run config: {run.config}")
+    print(f"Run summary: {run.summary}")
+    print(f"Run history (samples=5): {run.history(samples=5)}")
+    print("----------")
+
+# Get histories for all runs with specific metrics
+histories_df = runs.histories(
+    samples=100,  # Number of samples per run
+    keys=["loss", "accuracy"],  # Metrics to fetch
+    x_axis="_step",  # X-axis metric
+    format="pandas",  # Return as pandas DataFrame
+)
+``` 
 
 ### <kbd>method</kbd> `Runs.__init__`
 
@@ -41,25 +141,19 @@ __init__(
 
 ### <kbd>property</kbd> Runs.cursor
 
-
-
-
+Returns the cursor position for pagination of runs results. 
 
 ---
 
 ### <kbd>property</kbd> Runs.length
 
-
-
-
+Returns the total number of runs. 
 
 ---
 
 ### <kbd>property</kbd> Runs.more
 
-
-
-
+Returns `True` if there are more runs to fetch. Returns `False` if there are no more runs to fetch. 
 
 
 
@@ -71,9 +165,7 @@ __init__(
 convert_objects()
 ```
 
-
-
-
+Converts GraphQL edges to Runs objects. 
 
 ---
 
@@ -95,23 +187,34 @@ Return sampled history metrics for all runs that fit the filters conditions.
 
 **Args:**
  
- - `samples `:  (int, optional) The number of samples to return per run 
- - `keys `:  (list[str], optional) Only return metrics for specific keys 
- - `x_axis `:  (str, optional) Use this metric as the xAxis defaults to _step 
- - `format `:  (Literal, optional) Format to return data in, options are "default", "pandas", "polars" 
- - `stream `:  (Literal, optional) "default" for metrics, "system" for machine metrics 
+ - `samples`:  The number of samples to return per run 
+ - `keys`:  Only return metrics for specific keys 
+ - `x_axis`:  Use this metric as the xAxis defaults to _step 
+ - `format`:  Format to return data in, options are "default", "pandas",  "polars" 
+ - `stream`:  "default" for metrics, "system" for machine metrics 
 
 **Returns:**
  
- - `pandas.DataFrame`:  If format="pandas", returns a `pandas.DataFrame` of history metrics. 
- - `polars.DataFrame`:  If format="polars", returns a `polars.DataFrame` of history metrics. 
- - `list of dicts`:  If format="default", returns a list of dicts containing history metrics with a run_id key. 
+ - `pandas.DataFrame`:  If `format="pandas"`, returns a `pandas.DataFrame`  of history metrics. 
+ - `polars.DataFrame`:  If `format="polars"`, returns a `polars.DataFrame`  of history metrics. 
+ - `list of dicts`:  If `format="default"`, returns a list of dicts  containing history metrics with a `run_id` key. 
 
 
 ---
 
 ## <kbd>class</kbd> `Run`
 A single run associated with an entity and project. 
+
+
+
+**Args:**
+ 
+ - `client`:  The W&B API client. 
+ - `entity`:  The entity associated with the run. 
+ - `project`:  The project associated with the run. 
+ - `run_id`:  The unique identifier for the run. 
+ - `attrs`:  The attributes of the run. 
+ - `include_sweeps`:  Whether to include sweeps in the run. 
 
 
 
@@ -159,17 +262,13 @@ Run is always initialized by calling api.runs() where api is an instance of wand
 
 ### <kbd>property</kbd> Run.entity
 
-
-
-
+The entity associated with the run. 
 
 ---
 
 ### <kbd>property</kbd> Run.id
 
-
-
-
+The unique identifier for the run. 
 
 ---
 
@@ -183,73 +282,59 @@ Run is always initialized by calling api.runs() where api is an instance of wand
 
 ### <kbd>property</kbd> Run.lastHistoryStep
 
-
-
-
+Returns the last step logged in the run's history. 
 
 ---
 
 ### <kbd>property</kbd> Run.metadata
 
+Metadata about the run from wandb-metadata.json. 
 
-
-
+Metadata includes the run's description, tags, start time, memory usage and more. 
 
 ---
 
 ### <kbd>property</kbd> Run.name
 
-
-
-
+The name of the run. 
 
 ---
 
 ### <kbd>property</kbd> Run.path
 
-
-
-
+The path of the run. The path is a list containing the entity, project, and run_id. 
 
 ---
 
 ### <kbd>property</kbd> Run.state
 
-
-
-
+The state of the run. Can be one of: Finished, Failed, Crashed, or Running. 
 
 ---
 
 ### <kbd>property</kbd> Run.storage_id
 
-
-
-
+The unique storage identifier for the run. 
 
 ---
 
 ### <kbd>property</kbd> Run.summary
 
-
-
-
+A mutable dict-like property that holds summary values associated with the run. 
 
 ---
 
 ### <kbd>property</kbd> Run.url
 
+The URL of the run. 
 
-
-
+The run URL is generated from the entity, project, and run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/run_id`. 
 
 ---
 
 ### <kbd>property</kbd> Run.username
 
-
-
-
+This API is deprecated. Use `entity` instead. 
 
 
 
@@ -272,6 +357,12 @@ delete(delete_artifacts=False)
 ```
 
 Delete the given run from the wandb backend. 
+
+
+
+**Args:**
+ 
+ - `delete_artifacts` (bool, optional):  Whether to delete the artifacts  associated with the run. 
 
 ---
 
@@ -353,9 +444,15 @@ This is simpler and faster if you are ok with the history records being sampled.
 load(force=False)
 ```
 
+Fetch and update run data from GraphQL database. 
+
+Ensures run data is up to date. 
 
 
 
+**Args:**
+ 
+ - `force` (bool):  Whether to force a refresh of the run data. 
 
 ---
 
@@ -410,24 +507,26 @@ Retrieves all output artifacts that were logged during the run. Returns a pagina
 
 
 **Example:**
- ``` import wandb```
-    >>> import tempfile
-    >>> with tempfile.NamedTemporaryFile(
-    ...     mode="w", delete=False, suffix=".txt"
-    ... ) as tmp:
-    ...     tmp.write("This is a test artifact")
-    ...     tmp_path = tmp.name
-    >>> run = wandb.init(project="artifact-example")
-    >>> artifact = wandb.Artifact("test_artifact", type="dataset")
-    >>> artifact.add_file(tmp_path)
-    >>> run.log_artifact(artifact)
-    >>> run.finish()
-    >>> api = wandb.Api()
-    >>> finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
-    >>> for logged_artifact in finished_run.logged_artifacts():
-    ...     print(logged_artifact.name)
-    test_artifact
+ ```python
+import wandb
+import tempfile
 
+with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".txt") as tmp:
+    tmp.write("This is a test artifact")
+    tmp_path = tmp.name
+run = wandb.init(project="artifact-example")
+artifact = wandb.Artifact("test_artifact", type="dataset")
+artifact.add_file(tmp_path)
+run.log_artifact(artifact)
+run.finish()
+
+api = wandb.Api()
+
+finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
+
+for logged_artifact in finished_run.logged_artifacts():
+    print(logged_artifact.name)
+``` 
 
 ---
 
@@ -437,9 +536,7 @@ Retrieves all output artifacts that were logged during the run. Returns a pagina
 save()
 ```
 
-
-
-
+Persist changes to the run object to the W&B backend. 
 
 ---
 
@@ -450,17 +547,6 @@ scan_history(keys=None, page_size=1000, min_step=None, max_step=None)
 ```
 
 Returns an iterable collection of all history records for a run. 
-
-
-
-**Example:**
-  Export all the loss values for an example run 
-
-```python
-     run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
-     history = run.scan_history(keys=["Loss"])
-     losses = [row["Loss"] for row in history]
-    ``` 
 
 
 
@@ -475,6 +561,17 @@ Returns an iterable collection of all history records for a run.
 
 **Returns:**
  An iterable collection over history records (dict). 
+
+
+
+**Example:**
+ Export all the loss values for an example run 
+
+```python
+run = api.run("entity/project-name/run-id")
+history = run.scan_history(keys=["Loss"])
+losses = [row["Loss"] for row in history]
+``` 
 
 ---
 
@@ -504,19 +601,19 @@ Persist changes to the run object to the wandb backend.
 upload_file(path, root='.')
 ```
 
-Upload a file. 
+Uploads a local file to W&B, associating it with this run. 
 
 
 
 **Args:**
  
- - `path` (str):  name of file to upload. 
- - `root` (str):  the root path to save the file relative to.  i.e.  If you want to have the file saved in the run as "my_dir/file.txt"  and you're currently in "my_dir" you would set root to "../". 
+ - `path` (str):  Path to the file to upload. Can be absolute or relative. 
+ - `root` (str):  The root path to save the file relative to. For example,  if you want to have the file saved in the run as "my_dir/file.txt"  and you're currently in "my_dir" you would set root to "../".  Defaults to current directory ("."). 
 
 
 
 **Returns:**
- A `File` matching the name argument. 
+ A `File` object representing the uploaded file. 
 
 ---
 
@@ -566,16 +663,19 @@ Retrieves only the input artifacts that were explicitly declared as used during 
 
 
 **Example:**
- ``` import wandb```
-    >>> run = wandb.init(project="artifact-example")
-    >>> run.use_artifact("test_artifact:latest")
-    >>> run.finish()
-    >>> api = wandb.Api()
-    >>> finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
-    >>> for used_artifact in finished_run.used_artifacts():
-    ...     print(used_artifact.name)
-    test_artifact
+ ```python
+import wandb
 
+run = wandb.init(project="artifact-example")
+run.use_artifact("test_artifact:latest")
+run.finish()
+
+api = wandb.Api()
+finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
+for used_artifact in finished_run.used_artifacts():
+    print(used_artifact.name)
+test_artifact
+``` 
 
 ---
 
@@ -585,8 +685,6 @@ Retrieves only the input artifacts that were explicitly declared as used during 
 wait_until_finished()
 ```
 
-
-
-
+Check the state of the run until it is finished. 
 
 

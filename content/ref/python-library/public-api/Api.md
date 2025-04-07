@@ -1,6 +1,6 @@
 ---
 title: api
-object_type: client_type
+object_type: public_apis_namespace
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/apis/public/api.py >}}
@@ -248,7 +248,7 @@ Return whether an artifact collection exists within a specified project and enti
 artifact_collections(
     project_name: str,
     type_name: str,
-    per_page: Optional[int] = 50
+    per_page: int = 50
 ) → public.ArtifactCollections
 ```
 
@@ -260,7 +260,7 @@ Return a collection of matching artifact collections.
  
  - `project_name`:  (str) The name of the project to filter on. 
  - `type_name`:  (str) The name of the artifact type to filter on. 
- - `per_page`:  (int, optional) Sets the page size for query pagination.  None will use the default size.  Usually there is no reason to change this. 
+ - `per_page`:  (int) Sets the page size for query pagination.  Usually there is no reason to change this. 
 
 
 
@@ -355,7 +355,7 @@ Deprecated, use `artifacts(type_name, name)` instead.
 artifacts(
     type_name: str,
     name: str,
-    per_page: Optional[int] = 50,
+    per_page: int = 50,
     tags: Optional[List[str]] = None
 ) → public.Artifacts
 ```
@@ -368,7 +368,7 @@ Return an `Artifacts` collection from the given parameters.
  
  - `type_name`:  (str) The type of artifacts to fetch. 
  - `name`:  (str) An artifact collection name. May be prefixed with entity/project. 
- - `per_page`:  (int, optional) Sets the page size for query pagination.  None will use the default size.  Usually there is no reason to change this. 
+ - `per_page`:  (int) Sets the page size for query pagination.  Usually there is no reason to change this. 
  - `tags`:  (list[str], optional) Only return artifacts with all of these tags. 
 
 
@@ -629,10 +629,7 @@ Return the `Project` with the given name (and entity, if given).
 ### <kbd>method</kbd> `Api.projects`
 
 ```python
-projects(
-    entity: Optional[str] = None,
-    per_page: Optional[int] = 200
-) → public.Projects
+projects(entity: Optional[str] = None, per_page: int = 200) → public.Projects
 ```
 
 Get projects for a given entity. 
@@ -642,7 +639,7 @@ Get projects for a given entity.
 **Args:**
  
  - `entity`:  (str) Name of the entity requested.  If None, will fall back to the  default entity passed to `Api`.  If no default entity, will raise a `ValueError`. 
- - `per_page`:  (int) Sets the page size for query pagination.  None will use the default size.  Usually there is no reason to change this. 
+ - `per_page`:  (int) Sets the page size for query pagination.  Usually there is no reason to change this. 
 
 
 
@@ -670,13 +667,66 @@ Parses paths of the form entity/project/queue_id/run_queue_item_id.
 
 ---
 
+### <kbd>method</kbd> `Api.registries`
+
+```python
+registries(
+    organization: Optional[str] = None,
+    filter: Optional[Dict[str, Any]] = None
+) → Registries
+```
+
+Returns a Registry iterator. 
+
+Use the iterator to search and filter registries, collections, or artifact versions across your organization's registry. 
+
+
+
+**Examples:**
+  Find all registries with the names that contain "model" ```python
+     import wandb
+
+     api = wandb.Api()  # specify an org if your entity belongs to multiple orgs
+     api.registries(filter={"name": {"$regex": "model"}})
+    ``` 
+
+ Find all collections in the registries with the name "my_collection" and the tag "my_tag" ```python
+     api.registries().collections(filter={"name": "my_collection", "tag": "my_tag"})
+    ``` 
+
+ Find all artifact versions in the registries with a collection name that contains "my_collection" and a version that has the alias "best" ```python
+     api.registries().collections(
+         filter={"name": {"$regex": "my_collection"}}
+     ).versions(filter={"alias": "best"})
+    ``` 
+
+ Find all artifact versions in the registries that contain "model" and have the tag "prod" or alias "best" ```python
+     api.registries(filter={"name": {"$regex": "model"}}).versions(
+         filter={"$or": [{"tag": "prod"}, {"alias": "best"}]}
+     )
+    ``` 
+
+
+
+**Args:**
+ 
+ - `organization`:  (str, optional) The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
+ - `filter`:  (dict, optional) MongoDB-style filter to apply to each object in the registry iterator.  Fields available to filter for collections are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
+
+
+
+**Returns:**
+ A registry iterator. 
+
+---
+
 ### <kbd>method</kbd> `Api.reports`
 
 ```python
 reports(
     path: str = '',
     name: Optional[str] = None,
-    per_page: Optional[int] = 50
+    per_page: int = 50
 ) → public.Reports
 ```
 
@@ -690,7 +740,7 @@ WARNING: This api is in beta and will likely change in a future release
  
  - `path`:  (str) path to project the report resides in, should be in the form: "entity/project" 
  - `name`:  (str, optional) optional name of the report requested. 
- - `per_page`:  (int) Sets the page size for query pagination.  None will use the default size.  Usually there is no reason to change this. 
+ - `per_page`:  (int) Sets the page size for query pagination.  Usually there is no reason to change this. 
 
 
 
@@ -746,13 +796,45 @@ runs(
 
 Return a set of runs from a project that match the filters provided. 
 
-You can filter by `config.*`, `summary_metrics.*`, `tags`, `state`, `entity`, `createdAt`, etc. 
+Fields you can filter by include: 
+- `createdAt`: The timestamp when the run was created. (in ISO 8601 format, e.g. "2023-01-01T12:00:00Z") 
+- `displayName`: The human-readable display name of the run. (e.g. "eager-fox-1") 
+- `duration`: The total runtime of the run in seconds. 
+- `group`: The group name used to organize related runs together. 
+- `host`: The hostname where the run was executed. 
+- `jobType`: The type of job or purpose of the run. 
+- `name`: The unique identifier of the run. (e.g. "a1b2cdef") 
+- `state`: The current state of the run. 
+- `tags`: The tags associated with the run. 
+- `username`: The username of the user who initiated the run 
+
+Additionally, you can filter by items in the run config or summary metrics. Such as `config.experiment_name`, `summary_metrics.loss`, etc. 
+
+For more complex filtering, you can use MongoDB query operators. For details, see: https://docs.mongodb.com/manual/reference/operator/query The following operations are supported: 
+- `$and` 
+- `$or` 
+- `$nor` 
+- `$eq` 
+- `$ne` 
+- `$gt` 
+- `$gte` 
+- `$lt` 
+- `$lte` 
+- `$in` 
+- `$nin` 
+- `$exists` 
+- `$regex` 
+
+
 
 
 
 **Examples:**
   Find runs in my_project where config.experiment_name has been set to "foo" ```
-     api.runs(path="my_entity/my_project", filters={"config.experiment_name": "foo"})
+     api.runs(
+         path="my_entity/my_project",
+         filters={"config.experiment_name": "foo"},
+     )
     ``` 
 
  Find runs in my_project where config.experiment_name has been set to "foo" or "bar" ```
@@ -776,7 +858,22 @@ You can filter by `config.*`, `summary_metrics.*`, `tags`, `state`, `entity`, `c
 
  Find runs in my_project where the run name matches a regex (anchors are not supported) ```
      api.runs(
-         path="my_entity/my_project", filters={"display_name": {"$regex": "^foo.*"}}
+         path="my_entity/my_project",
+         filters={"display_name": {"$regex": "^foo.*"}},
+     )
+    ``` 
+
+ Find runs in my_project where config.experiment contains a nested field "category" with value "testing" ```
+     api.runs(
+         path="my_entity/my_project",
+         filters={"config.experiment.category": "testing"},
+     )
+    ``` 
+
+ Find runs in my_project with a loss value of 0.5 nested in a dictionary under model1 in the summary metrics ```
+     api.runs(
+         path="my_entity/my_project",
+         filters={"summary_metrics.model1.loss": 0.5},
      )
     ``` 
 
@@ -790,8 +887,7 @@ You can filter by `config.*`, `summary_metrics.*`, `tags`, `state`, `entity`, `c
  
  - `path`:  (str) path to project, should be in the form: "entity/project" 
  - `filters`:  (dict) queries for specific runs using the MongoDB query language.  You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. 
- - `For example`:  `{"config.experiment_name": "foo"}` would find runs with a config entry  of experiment name set to "foo" You can compose operations to make more complicated queries, 
- - `see Reference for the language is at  https`: //docs.mongodb.com/manual/reference/operator/query 
+ - `For example`:  `{"config.experiment_name": "foo"}` would find runs with a config entry  of experiment name set to "foo" 
  - `order`:  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`.  If you prepend order with a + order is ascending.  If you prepend order with a - order is descending (default).  The default order is run.created_at from oldest to newest. 
  - `per_page`:  (int) Sets the page size for query pagination. 
  - `include_sweeps`:  (bool) Whether to include the sweep runs in the results. 
