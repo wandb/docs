@@ -12,10 +12,10 @@ cascade:
 ---
 
 {{% alert %}}
-W&B will no longer support W&B Model Registry after 2024. Users are encouraged to instead use [W&B Registry]({{< relref "/guides/core/registry/" >}}) for linking and sharing their model artifacts versions. W&B Registry broadens the capabilities of the legacy W&B Model Registry. For more information about W&B Registry, see the [Registry docs]({{< relref "/guides/core/registry/" >}}).
+W&B will eventually stop supporting W&B Model Registry. Users are encouraged to instead use [W&B Registry]({{< relref "/guides/core/registry/" >}}) for linking and sharing their model artifacts versions. W&B Registry broadens the capabilities of the legacy W&B Model Registry. For more information about W&B Registry, see the [Registry docs]({{< relref "/guides/core/registry/" >}}).
 
 
-W&B will migrate existing model artifacts linked to the legacy Model Registry to the new W&B Registry in the Fall or early Winter of 2024. See [Migrating from legacy Model Registry]({{< relref "/guides/core/registry/model_registry_eol.md" >}}) for information about the migration process.
+W&B will migrate existing model artifacts linked to the legacy Model Registry to the new W&B Registry in the near future. See [Migrating from legacy Model Registry]({{< relref "/guides/core/registry/model_registry_eol.md" >}}) for information about the migration process.
 {{% /alert %}}
 
 The W&B Model Registry houses a team's trained models where ML Practitioners can publish candidates for production to be consumed by downstream teams and stakeholders. It is used to house staged/candidate models and manage workflows associated with staging.
@@ -25,7 +25,7 @@ The W&B Model Registry houses a team's trained models where ML Practitioners can
 With W&B Model Registry, you can:
 
 * [Bookmark your best model versions for each machine learning task.]({{< relref "./link-model-version.md" >}})
-* [Automate]({{< relref "/guides/core/automations/model-registry-automations.md" >}}) downstream processes and model CI/CD.
+* [Automate]({{< relref "/guides/core/automations/" >}}) downstream processes and model CI/CD.
 * Move model versions through its ML lifecycle; from staging to production.
 * Track a model's lineage and audit the history of changes to production models.
 
@@ -60,7 +60,7 @@ run.link_model(path="./my_model.h5", registered_model_name="MNIST")
 run.finish()
 ```
 
-4. **Connect model transitions to CI/DC workflows**: transition candidate models through workflow stages and [automate downstream actions]({{< relref "/guides/core/automations/model-registry-automations.md" >}}) with webhooks or jobs.
+4. **Connect model transitions to CI/CD workflows**: transition candidate models through workflow stages and [automate downstream actions]({{< relref "/guides/core/automations/" >}}) with webhooks.
 
 
 ## How to get started
@@ -72,7 +72,7 @@ Depending on your use case, explore the following resources to get started with 
 * Read the [models walkthrough]({{< relref "./walkthrough.md" >}}) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Learn about:
    * [Protected models and access control]({{< relref "./access_controls.md" >}}).
-   * [How to connect the Model Registry to CI/CD processes]({{< relref "/guides/core/automations/model-registry-automations.md" >}}).
+   * [How to connect Registry to CI/CD processes]({{< relref "/guides/core/automations/" >}}).
    * Set up [Slack notifications]({{< relref "./notifications.md" >}}) when a new model version is linked to a registered model.
 * Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
 * Take the W&B [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
