@@ -847,7 +847,7 @@ img, iframe {
 }
 
 @media (min-width: $breakpoint-lg) {
-    img, iframe {
+    img {
         max-width: 80% !important;
     }
 }
