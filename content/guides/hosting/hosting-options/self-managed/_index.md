@@ -18,7 +18,12 @@ W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]
 
 Deploy W&B Server on your [AWS, GCP, or Azure cloud account]({{< relref "#deploy-wb-server-within-self-managed-cloud-accounts" >}}) or within your [on-premises infrastructure]({{< relref "#deploy-wb-server-in-on-prem-infrastructure" >}}). 
 
-Your IT/DevOps/MLOps team is responsible for provisioning your deployment, managing upgrades, and continuously maintaining your self managed W&B Server instance.
+Your IT/DevOps/MLOps team is responsible for:
+- Provisioning your deployment.
+- Securing your infrastructure in accordance with your organization's policies and [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
+- Managing upgrades and applying patches.
+- Continuously maintaining your self managed W&B Server instance.
+
 
 <!-- Check [Obtain your W&B Server license]({{< relref "#obtain-your-wb-server-license" >}}) to complete the setup. -->
 
