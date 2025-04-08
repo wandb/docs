@@ -3,7 +3,7 @@
 # Build the English docs from this branch
 hugo mod get -u
 rm -rf public
-hugo
+hugo -b $CF_PAGES_URL
 rm public/sitemap.xml
 mv public/en/sitemap.xml public/sitemap.xml
 rm -rf public/ja
