@@ -13,7 +13,7 @@ weight: 1
 This page shows how to create a Slack [automation]({{< relref "/guides/core/automations/" >}}> ). To create a webhook automation, refer to [Create a webhook automation]({{< relref "/guides/core/automations/create-automations/webhook.md" >}}) instead.
 
 At a high level, to create a Slack automation, you take these steps:
-1. [Add a Slack integration]({{< relref "#add-a-slack-integration >}}), which authorizes W&B to post to the Slack instance and channel.
+1. [Add a Slack integration]({{< relref "#add-a-slack-integration" >}}), which authorizes W&B to post to the Slack instance and channel.
 1. [Create the automation]({{< relref "#create-an-automation" >}}), which defines the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for and the channel to notify.
 
 ## Add a Slack integration
