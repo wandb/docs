@@ -25,6 +25,8 @@ In addition to BYOB with secure storage connector, you can utilize [IP allowlist
 
 You can also privately connect to your Dedicated Cloud instance using [cloud provider's secure connectivity solution]({{< relref "/guides/hosting/data-security/private-connectivity.md" >}}).
 
+You are responsible for ensuring that your deployment complies with your organization's policies and [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
+
 ## Identity and access management (IAM)
 
 Use the identity and access management capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Dedicated Cloud instances:
