@@ -179,7 +179,7 @@ The proceeding table describes the possible states a run can be in:
 | ----- | ----- |
 | `Crashed` | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. | 
 | `Failed` | Run ended with a non-zero exit status. | 
-| `Finished`| Run ended and fully synced data, or called `wandb.finish()`. |
+| `Finished`| Run ended and fully synced data, or called `Run.finish()`. |
 | `Killed` | Run was forcibly stopped before it could finish. |
 | `Running` | Run is still running and has recently sent a heartbeat.  |
 
@@ -241,13 +241,13 @@ run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
 
 ### Rename a run
 
-After it is initialized, you can rename a run from your workspace or its **Runs** page.
+After you initialize a run, you can rename that run from your workspace or its **Runs** page.
 
 1. Navigate to your W&B project.
 1. Select the **Workspace** or **Runs** tab from the project sidebar.
 1. Search or scroll to the run you want to rename.
 
-  Hover over the run name, click the three vertical dots, then click **Rename run**.
+    Hover over the run name, click the three vertical dots, then click **Rename run**.
 1. Type a new name for the run. To generate a new random name, leave the field blank.
 1. Submit the form. The run's new name displays.
 
@@ -340,13 +340,13 @@ https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
 
 ### Customize how runs are displayed
-You can customize how runs are displayed in your project from the **Workspace** or **Runs** tab, which share display settings.
+You can customize how runs are displayed in your project from the **Workspace** or **Runs** tabs. Both tabs use the same display configuration.
 
 To customize which columns are visible:
 1. Above the list of runs, click **Columns**.
 1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
   
-  You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
+    You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
 1. Click **Done** to close the column browser.
 
 To sort the list of runs by any visible column:
