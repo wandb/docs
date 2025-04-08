@@ -89,10 +89,10 @@ If you import a panel into a report, run names are inherited from the project. I
 1. In the report, click the pencil icon to open the report editor.
 1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots, then select either:
 
-  - **Rename run for project**: rename the run across the entire project. To generate a new random name, leave the field blank.
-  - **Rename run for panel grid** rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
+    - **Rename run for project**: rename the run across the entire project. To generate a new random name, leave the field blank.
+    - **Rename run for panel grid** rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
 
-  Submit the form.
+    Submit the form.
 1. Click **Publish report**.
 
 {{% /tab %}}

@@ -60,7 +60,7 @@ To customize which columns are visible:
 1. Above the list of runs, click **Columns**.
 1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
   
-  You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
+    You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
 1. Click **Done** to close the column browser.
 
 To sort the list of runs by any visible column:
