@@ -12,7 +12,7 @@ weight: 4
 
 This page describes _automations_ in W&B. [Create an automation]({{< relref "create-automations/" >}}) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) artifact version is created or when a [run metric]({{< relref "/guides/models/track/runs.md" >}}) meets or changes by a threshold.
 
-For example, an automation can notify a Slack channel when a new version is created, run an automated testing webhook when the `production` alias is added to an artifact, or start a validation job only when a run's `loss` is within acceptable bounds.
+For example, an automation can notify a Slack channel when a new version is created, trigger an automated testing webhook when the `production` alias is added to an artifact, or start a validation job only when a run's `loss` is within acceptable bounds.
 
 ## Overview
 An automation can start when a specific [event]({{< relref "automation-events.md" >}}) occurs in a registry or project.
