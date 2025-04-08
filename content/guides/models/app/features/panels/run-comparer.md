@@ -25,9 +25,5 @@ Run Comparer shows the configuration and logged metrics for the 10 first visible
 - To copy any configuration or metric's value, hover your mouse over the value, then click the copy button. The entire value is copied, even if it is too long to display on the screen.
 
 {{% alert %}}
-Run Comparer does not differentiate runs by type. This means that it is possible to compare runs that are not really comparable, like comparing an image run to an audio run. Search, filter, group, or sort the list of runs to limit it to the runs you want to analyze.
+Run Comparer does not differentiate runs with different values for [`job_type`]({{< relref /ref/python/init.md" >}}). This means that it is possible to compare runs that are not really comparable, like comparing an image run to an audio run. Search, filter, group, or sort the list of runs to limit it to the runs you want to analyze. For example, filter or sort the list of runs by `job_type` to compare similar runs.
 {{% /alert %}}
-
-This image compares three image runs with **Diff only** enabled, and filters for configurations that match the string `run`.
-
-{{< img src="/images/general/run-comparer.png" alt="Run Comparer with three image runs, showing 'runtime' fields" >}}
