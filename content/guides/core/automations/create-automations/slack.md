@@ -13,11 +13,11 @@ weight: 1
 This page shows how to create a Slack [automation]({{< relref "/guides/core/automations/" >}}> ). To create a webhook automation, refer to [Create a webhook automation]({{< relref "/guides/core/automations/create-automations/webhook.md" >}}) instead.
 
 At a high level, to create a Slack automation, you take these steps:
-1. [Add a Slack connection]({{< relref "#add-a-slack-channel" >}}), which authorizes W&B to post to the Slack instance and channel.
+1. [Add a Slack integration]({{< relref "#add-a-slack-integration >}}), which authorizes W&B to post to the Slack instance and channel.
 1. [Create the automation]({{< relref "#create-an-automation" >}}), which defines the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for and the channel to notify.
 
-## Connect to Slack
-A team admin can add a Slack destination to the team.
+## Add a Slack integration
+A team admin can add a Slack integration to the team.
 
 1. Log in to W&B and go to **Team Settings**.
 1. In the **Slack channel integrations** section, click **Connect Slack** to add a new Slack instance. To add a channel for an existing Slack instance, click **New integration**.
@@ -28,7 +28,7 @@ A team admin can add a Slack destination to the team.
 
 Now you can [create an automation]({{< relref "#create-an-automation" >}}) that notifies the Slack channel you configured.
 
-## View and manage Slack connections
+## View and manage Slack integrations
 A team admin can view and manage the team's Slack instances and channels.
 
 1. Log in to W&B and go to **Team Settings**.
@@ -36,7 +36,7 @@ A team admin can view and manage the team's Slack instances and channels.
 1. Delete a destination by clicking its trash icon.
 
 ## Create an automation
-After you [connect your W&B team to Slack]({{< relref "#connect-to-slack" >}}), select **Registry** or **Project**, then follow these steps to create an automation that notifies the Slack channel.
+After you [add a Slack integration]({{< relref "#add-a-slack-integreation" >}}), select **Registry** or **Project**, then follow these steps to create an automation that notifies the Slack channel.
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
@@ -52,7 +52,7 @@ A Registry admin can create automations in that registry.
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
     
     Click **Next step**.
-1. Select the team that owns the [Slack integration]({{< relref "#connect-to-slack" >}}).
+1. Select the team that owns the [Slack integration]({{< relref "#add-a-slack-integration" >}}).
 1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
 1. Provide a name for the automation. Optionally, provide a description.
 1. Click **Create automation**.
@@ -71,7 +71,7 @@ A W&B admin can create automations in a project.
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
     
     Click **Next step**.
-1. Select the team that owns the [Slack integration]({{< relref "#connect-to-slack" >}}).
+1. Select the team that owns the [Slack integration]({{< relref "#add-a-slack-integration" >}}).
 1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
 1. Provide a name for the automation. Optionally, provide a description.
 1. Click **Create automation**.
