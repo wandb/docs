@@ -43,7 +43,6 @@ The following code simulates a basic machine learning workflow: training a model
 
 Use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.log`]({{< relref path="./run.md#log" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref path="./artifact.md" >}}) before finally adding the model file using [`Artifact.add_file`]({{< relref path="./artifact.md#add_file" >}}).
 
-
 ```python
 import random # For simulating data
 
@@ -61,53 +60,45 @@ config = {
     "learning_rate": 0.01,  # Learning rate for the optimizer
 }
 
-# Initialize W&B run
-run = wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config)
+# Use context manager to initialize and close W&B runs
+with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:    
+    # Simulate training loop
+    for epoch in range(config["epochs"]):
+        xb = weights + noise  # Simulated input training data
+        yb = weights + noise * 2  # Simulated target output (double the input noise)
+        
+        y_pred = model(xb)  # Model prediction
+        loss = (yb - y_pred) ** 2  # Mean Squared Error loss
 
-# Simulate training loop
-for epoch in range(config["epochs"]):
-    xb = weights + noise  # Simulated input training data
-    yb = weights + noise * 2  # Simulated target output (double the input noise)
-    
-    y_pred = model(xb)  # Model prediction
-    loss = (yb - y_pred) ** 2  # Mean Squared Error loss
+        print(f"epoch={epoch}, loss={y_pred}")
+        # Log epoch and loss to W&B
+        run.log({
+            "epoch": epoch,
+            "loss": loss,
+        })
 
-    print(f"epoch={epoch}, loss={y_pred}")
-    # Log epoch and loss to W&B
-    run.log({
-        "epoch": epoch,
-        "loss": loss,
-    })
+    # Unique name for the model artifact,
+    model_artifact_name = f"model-demo"  
 
-# Unique name for the model artifact
-model_artifact_name = f"model-{wandb.run.id}"  
+    # Local path to save the simulated model file
+    PATH = "model.txt" 
 
-# Local path to save the simulated model file
-PATH = "model.txt" 
+    # Save model locally
+    with open(PATH, "w") as f:
+        f.write(str(weights)) # Saving model weights to a file
 
-# Save model locally
-with open(PATH, "w") as f:
-    f.write(str(weights)) # Saving model weights to a file
-
-# Create an artifact object
-# Add locally saved model to artifact object
-artifact = wandb.Artifact(name=model_artifact_name, type="model", description="My trained model")
-artifact.add_file(local_path=PATH)
-artifact.save()
-
-# Explicitly tell W&B to finish the run
-run.finish()
+    # Create an artifact object
+    # Add locally saved model to artifact object
+    artifact = wandb.Artifact(name=model_artifact_name, type="model", description="My trained model")
+    artifact.add_file(local_path=PATH)
+    artifact.save()
 ```
 
 The key takeaways from the previous code block are:
 * Use `wandb.log` to log metrics during training.
 * Use `wandb.Artifact` to save models (datasets, and so forth) as an artifact to your W&B project.
 
-{{< alert >}}
-This example uses `wandb.init()` without a context manager for simplicity. It is considered best practice to use a context manager (`with wandb.init() as run:`) to ensure that the run is properly closed after logging and avoids leaving open runs that can consume resources.
-{{< /alert >}}
-
-Use [`wandb.use_artifact`]({{< relref path="./run.md#use_artifact" >}}) to retrieve the artifact from your project and prepare it for publication in the Model registry. `wandb.use_artifact` serves two key purposes:
+Now that you have trained a model and saved it as an artifact, you can publish it to a registry in W&B. Use [`wandb.use_artifact`]({{< relref path="./run.md#use_artifact" >}}) to retrieve the artifact from your project and prepare it for publication in the Model registry. `wandb.use_artifact` serves two key purposes:
 * Retrieves the artifact object from your project.
 * Marks the artifact as an input to the run, ensuring reproducibility and traceability. See [Create and view lineage map]({{< relref path="/guides/core/registry/lineage/" >}}) for details.
 
