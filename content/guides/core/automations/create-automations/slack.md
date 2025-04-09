@@ -13,22 +13,22 @@ weight: 1
 This page shows how to create a Slack [automation]({{< relref "/guides/core/automations/" >}}> ). To create a webhook automation, refer to [Create a webhook automation]({{< relref "/guides/core/automations/create-automations/webhook.md" >}}) instead.
 
 At a high level, to create a Slack automation, you take these steps:
-1. [Add a Slack integration]({{< relref "#add-a-slack-channel" >}}), which authorizes W&B to post to the Slack instance and channel.
-1. [Create the Slack automation]({{< relref "#create-slack-automation" >}}), which defines the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for and the channel to post to.
+1. [Add a Slack integration]({{< relref "#add-a-slack-integration" >}}), which authorizes W&B to post to the Slack instance and channel.
+1. [Create the automation]({{< relref "#create-an-automation" >}}), which defines the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for and the channel to notify.
 
-## Connect to Slack
-A team admin can add a Slack destination to the team.
+## Add a Slack integration
+A team admin can add a Slack integration to the team.
 
-1. Log in to W&B and go to Team Settings page.
+1. Log in to W&B and go to **Team Settings**.
 1. In the **Slack channel integrations** section, click **Connect Slack** to add a new Slack instance. To add a channel for an existing Slack instance, click **New integration**.
 
     If necessary, sign in to Slack in your browser. When prompted, grant W&B permission to post to the Slack channel you select. Read the page, then click **Search for a channel** and begin typing the channel name. Select the channel from the list, then click **Allow**.
 
 1. In Slack, go to the channel you selected. If you see a post like `[Your Slack handle] added an integration to this channel: Weights & Biases`, the integration is configured correctly.
 
-Now you can [create an automation]({{< relref "#create-a-slack-automation" >}}) that notifies the Slack channel you configured.
+Now you can [create an automation]({{< relref "#create-an-automation" >}}) that notifies the Slack channel you configured.
 
-## View and manage Slack connections
+## View and manage Slack integrations
 A team admin can view and manage the team's Slack instances and channels.
 
 1. Log in to W&B and go to **Team Settings**.
@@ -36,7 +36,7 @@ A team admin can view and manage the team's Slack instances and channels.
 1. Delete a destination by clicking its trash icon.
 
 ## Create an automation
-After you [connect your W&B team to Slack]({{< relref "#connect-to-slack" >}}), select **Registry** or **Project**, then follow these steps to create an automation that notifies the Slack channel.
+After you [add a Slack integration]({{< relref "#add-a-slack-integreation" >}}), select **Registry** or **Project**, then follow these steps to create an automation that notifies the Slack channel.
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
@@ -47,7 +47,7 @@ A Registry admin can create automations in that registry.
 1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
 
     To create an automation scoped only to a specific collection in the registry, click the collection's action `...` menu, then click **Create automation**. Alternatively, while viewing a collection, create an automation for it using the **Create automation** button in the **Automations** section of the collection's details page.
-1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
 
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
     
@@ -62,9 +62,11 @@ A Registry admin can create automations in that registry.
 A W&B admin can create automations in a project.
 
 1. Log in to W&B.
-1. Go the project page and click the **Automations** tab.
-1. Click **Create automation**.
-1. Choose the [**Event**]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+1. Go the project page and click the **Automations** tab, then click **Create automation**.
+
+    Or, from a line plot in the workspace, you can quickly create a [run metric automation]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
+    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
+1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
 
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
     
@@ -88,7 +90,7 @@ A W&B admin can create automations in a project.
 From either of these pages, a Registry admin can manage existing automations:
 - To view an automation's details, click its name.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
-- To delete an automation, click its action `...` menu, then click **Delete automation**. Confiruation is required.
+- To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
 
 
 {{% /tab %}}
@@ -97,6 +99,6 @@ A W&B admin can view and manage a project's automations from the project's **Aut
 
 - To view an automation's details, click its name.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
-- To delete an automation, click its action `...` menu, then click **Delete automation**. Confiruation is required.
+- To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
 {{% /tab %}}
 {{< /tabpane >}}
