@@ -6,7 +6,7 @@ menu:
     identifier: teams
     parent: settings
 title: Manage teams
-weight: 40
+weight: 50
 ---
 
 Use W&B Teams as a central workspace for your ML team to build better models faster.
@@ -24,6 +24,7 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 1. [**Sign up or log in**](https://app.wandb.ai/login?signup=true) to your free W&B account.
 2. Click **Invite Team** in the navigation bar.
 3. Create your team and invite collaborators.
+4. To configure your team, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).
 
 {{% alert %}}
 **Note**: Only the admin of an organization can create a new team.
@@ -50,7 +51,9 @@ Team admins can open the team settings page and click the delete button next to 
 Select a team role when you invite colleagues to join a team. There are following team role options:
 
 - **Admin**: Team admins can add and remove other admins or team members. They have permissions to modify all projects and full deletion permissions. This includes, but is not limited to, deleting runs, projects, artifacts, and sweeps.
-- **Member**: A regular member of the team. An admin invites a team member by email. A team member cannot invite other members. Team members can only delete runs and sweep runs created by that member. Suppose you have two members A and B. Member B moves a Run from team B's project to a different project owned by Member A. Member A can not delete the Run Member B moved to Member A's project. Only the member that creates the Run, or the team admin, can delete the run.
+- **Member**: A regular member of the team. By default, only an admin can invite a team member. To change this behavior, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).
+
+A team member can delete only runs they created. Suppose you have two members A and B. Member B moves a run from team B's project to a different project owned by Member A. Member A cannot delete the run Member B moved to Member A's project. An admin can manage runs and sweep runs created by any team member.
 - **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs.
 - **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles based on either of the **View-Only** or **Member** roles, together with additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [Introducing Custom Roles for W&B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details.
 - **Service accounts (Enterprise-only feature)**: Refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}).
@@ -68,19 +71,19 @@ Team settings allow you to manage the settings for your team and its members. Wi
 | Remove team members |           |             |     X      |
 | Manage team settings|           |             |     X      |
 
-### Model Registry
+### Registry
 The proceeding table lists permissions that apply to all projects across a given team.
 
-| Permissions                | View-Only | Team Member | Model Registry Admin | Team Admin | 
+| Permissions                | View-Only | Team Member | Registry Admin | Team Admin | 
 | ---------------------------| --------- | ----------- | -------------- | ---------- |
 | Add aliases                |           | X           | X              | X |
 | Add models to the registry |           | X           | X              | X |
 | View models in the registry| X         | X           | X              | X |
-|Download models             | X         | X           | X              | X |
-|Add/Remove Registry Admins  |           |             | X              | X | 
-|Add/Remove Protected Aliases|           |             | X              |   | 
+| Download models             | X         | X           | X              | X |
+|Add or remove Registry Admins  |           |             | X              | X | 
+|Add or remove Protected Aliases|           |             | X              |   | 
 
-See the [Model Registry]({{< relref "/guides/models/registry/model_registry/access_controls.md" >}}) chapter for more information about protected aliases.
+For more details about protected aliases, refer to [Registry Access Controls]({{< relref "/guides/core/registry/model_registry/access_controls.md" >}}).
 
 ### Reports
 Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
@@ -129,14 +132,6 @@ Use system permissions to create and manage teams and their members and to adjus
 * When you configure a team in your training environment, you can use a service account from that team to log runs in either of private or public projects within that team. Additionally, you can attribute those runs to a user if **WANDB_USERNAME** or **WANDB_USER_EMAIL** variable exists in your environment and the referenced user is part of that team.
 * When you **do not** configure a team in your training environment and use a service account, the runs log to the named project within that service account's parent team. In this case as well, you can attribute the runs to a user if **WANDB_USERNAME** or **WANDB_USER_EMAIL** variable exists in your environment and the referenced user is part of the service account's parent team.
 * A service account can not log runs to a private project in a team different from its parent team. A service account can log to runs to project only if the project is set to `Open` project visibility.
-
-#### Add social badges to your intro
-
-In your Intro, type `/` and choose Markdown and paste the markdown snippet that renders your badge. Once you convert it to WYSIWYG, you can resize it.
-
-For example, to add a Twitter follow badge, add `[{{< img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="Twitter: @weights_biase" >}}](https://twitter.com/intent/follow?screen_name=weights_biases` replacing `weights_biases` with your Twitter username.
-
-[{{< img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="Twitter: @weights_biases" >}}](https://twitter.com/intent/follow?screen_name=weights_biases)
 
 ## Team trials
 

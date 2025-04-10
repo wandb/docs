@@ -20,7 +20,7 @@ The ID token is a JWT that contains the user's identity information, such as the
 
 In the context of W&B Server, access tokens authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
 
-You can use environment variables to [configure IAM options]({{< relref "advanced_env_vars.md" >}}) for your [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance.
+You can use environment variables to [configure IAM options]({{< relref "../advanced_env_vars.md" >}}) for your [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance.
 
 To assist with configuring Identity Providers for [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) W&B Server installations, follow these guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
 
@@ -101,7 +101,7 @@ Follow the procedure below to set up Okta for authorization:
     The Okta UI shows the company name under **Organization Contact**.
     {{< img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="" >}}
 
-The OIDC issuer URL has the following format: https://COMPANY.okta.com. Replace COMPANY with the corresponding value. Make note of it.
+The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replace COMPANY with the corresponding value. Make note of it.
 {{% /tab %}}
 
 {{% tab header="Entra" value="entra"%}}
@@ -173,7 +173,7 @@ To set up SSO, you need administrator privileges and the following information:
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
 {{% alert %}}
-Should your IdP require a OIDC Client Secret, specify it with the environment variable OIDC_SECRET.
+Should your IdP require a OIDC Client Secret, specify it with the environment variable `OIDC_CLIENT_SECRET`.
 {{% /alert %}}
 
 You can configure SSO using either the W&B Server UI or by passing [environment variables]({{< relref "/guides/hosting/env-vars.md" >}}) to the `wandb/local` pod. The environment variables take precedence over UI.

@@ -15,6 +15,24 @@ Bring your own bucket (BYOB) allows you to store W&B artifacts and other related
 * You can specify a sub-path when configuring a bucket, to ensure that W&B does not store any files in a folder at the root of the bucket. It can help you better conform to your organzation's bucket governance policy.
 {{% /alert %}}
 
+## Data stored in the central database vs buckets
+
+When using BYOB functionality, certain types of data will be stored in the W&B central database, and other types will be stored in your bucket. 
+
+### Database
+
+- Metadata for users, teams, artifacts, experiments, and projects
+- Reports
+- Experiment logs
+- System metrics
+
+## Buckets
+
+- Experiment files and metrics
+- Artifact files
+- Media files
+- Run files
+
 ## Configuration options
 There are two scopes you can configure your storage bucket to: at the *Instance level* or at a *Team level*. 
 
@@ -53,7 +71,7 @@ To enable the use of cross-cloud or S3-compatible storage, specify the storage b
 
 Specify the path using the following format:
 ```text
-s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>?tls=true
+s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>&tls=true
 ```
 The `region` parameter is mandatory, except for when your W&B instance is in AWS and the `AWS_REGION` configured on the W&B instance nodes matches the region configured for the S3-compatible storage.
 
@@ -299,6 +317,10 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
 {{% tab header="Team level" value="team" %}}
 {{% alert %}}
 If you're connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance, refer to [Cross-cloud or S3-compatible storage for team-level BYOB]({{< relref "#cross-cloud-or-s3-compatible-storage-for-team-level-byob" >}}). In such cases, you must specify the storage bucket using the `GORILLA_SUPPORTED_FILE_STORES` environment variable for your W&B instance, before you configure it for a team using the instructions below.
+{{% /alert %}}
+
+{{% alert %}}
+Watch a [video demonstrating the secure storage connector in action](https://www.youtube.com/watch?v=uda6jIx6n5o) (9 min).
 {{% /alert %}}
 
 To configure a storage bucket at the team level when you create a W&B Team:

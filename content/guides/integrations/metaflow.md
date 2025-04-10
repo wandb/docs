@@ -18,30 +18,70 @@ This integration lets users apply decorators to Metaflow [steps and flows](https
 
 ## Quickstart
 
-### Install W&B and login
+### Sign up and create an API key
+
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
+
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+
+### Install the `wandb` library and log in
+
+To install the `wandb` library locally and log in:
+
+{{% alert %}}
+For `wandb` version 0.19.8 or below, install `fastcore` version 1.8.0 or below (`fastcore<1.8.0`) instead of `plum-dispatch`.
+{{% /alert %}}
+
 
 {{< tabpane text=true >}}
+{{% tab header="Command Line" value="cli" %}}
 
-{{% tab header="Notebook" value="notebook" %}}
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) to your API key.
 
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. Install the `wandb` library and log in.
+
+
+
+    ```shell
+    pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
+
+    wandb login
+    ```
+
+{{% /tab %}}
+
+{{% tab header="Python" value="python" %}}
+
+```bash
+pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
+```
 ```python
-!pip install -Uqqq metaflow fastcore wandb
-
 import wandb
 wandb.login()
 ```
 
 {{% /tab %}}
 
-{{% tab header="Command Line" value="cli" %}}
+{{% tab header="Python notebook" value="notebook" %}}
 
-```bash
-pip install -Uqqq metaflow fastcore wandb
-wandb login
+```notebook
+!pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
+
+import wandb
+wandb.login()
 ```
 
 {{% /tab %}}
-
 {{< /tabpane >}}
 
 ### Decorate your flows and steps
@@ -127,7 +167,7 @@ class WandbExampleFlow(FlowSpec):
 
 You can access the information we've captured in three ways: inside the original Python process being logged using the [`wandb` client library]({{< relref "/ref/python/" >}}), with the [web app UI]({{< relref "/guides/models/track/workspaces.md" >}}), or programmatically using [our Public API]({{< relref "/ref/python/public-api/" >}}). `Parameter`s are saved to W&B's [`config`]({{< relref "/guides/models/track/config.md" >}}) and can be found in the [Overview tab]({{< relref "/guides/models/track/runs/#overview-tab" >}}). `datasets`, `models`, and `others` are saved to [W&B Artifacts]({{< relref "/guides/core/artifacts/" >}}) and can be found in the [Artifacts tab]({{< relref "/guides/models/track/runs/#artifacts-tab" >}}). Base python types are saved to W&B's [`summary`]({{< relref "/guides/models/track/log/" >}}) dict and can be found in the Overview tab. See our [guide to the Public API]({{< relref "/guides/models/track/public-api-guide.md" >}}) for details on using the API to get this information programmatically from outside .
 
-### Cheat sheet
+### Quick reference
 
 | Data                                            | Client library                            | UI                    |
 | ----------------------------------------------- | ----------------------------------------- | --------------------- |

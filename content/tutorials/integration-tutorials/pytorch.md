@@ -77,7 +77,7 @@ torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.
                                       if not mirror.startswith("http://yann.lecun.com")]
 ```
 
-### 0️⃣ Step 0: Install W&B
+### Step 0: Install W&B
 
 To get started, we'll need to get the library.
 `wandb` is easily installed using `pip`.
@@ -87,7 +87,7 @@ To get started, we'll need to get the library.
 !pip install wandb onnx -Uq
 ```
 
-### 1️⃣ Step 1: Import W&B and Login
+### Step 1: Import W&B and Login
 
 In order to log data to our web service,
 you'll need to log in.
@@ -409,7 +409,7 @@ the Run page, where this run's results will be stored.
 Navigate to the Run page and check out these tabs:
 
 1. **Charts**, where the model gradients, parameter values, and loss are logged throughout training
-2. **System**, which contains a variety of system metrics, including Disk I/O utilization, CPU and GPU metrics (watch that temperature soar 🔥), and more
+2. **System**, which contains a variety of system metrics, including Disk I/O utilization, CPU and GPU metrics (watch that temperature soar), and more
 3. **Logs**, which has a copy of anything pushed to standard out during training
 4. **Files**, where, once training is complete, you can click on the `model.onnx` to view our network with the [Netron model viewer](https://github.com/lutzroeder/netron).
 
@@ -453,6 +453,6 @@ See examples of projects tracked and visualized with W&B in our [Gallery →](ht
 
 ## Advanced Setup
 1. [Environment variables]({{< relref "/guides/hosting/env-vars/" >}}): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode]({{< relref "/support/run_wandb_offline.md" >}}): Use `dryrun` mode to train offline and sync results later.
+2. [Offline mode]({{< relref "/support/kb-articles/run_wandb_offline.md" >}}): Use `dryrun` mode to train offline and sync results later.
 3. [On-prem]({{< relref "/guides/hosting/hosting-options/self-managed" >}}): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
 4. [Sweeps]({{< relref "/guides/models/sweeps/" >}}): Set up hyperparameter search quickly with our lightweight tool for tuning.

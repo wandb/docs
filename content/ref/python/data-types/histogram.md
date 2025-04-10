@@ -2,7 +2,7 @@
 title: Histogram
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/histogram.py#L18-L94 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/histogram.py#L18-L94 >}}
 
 wandb class for histograms.
 

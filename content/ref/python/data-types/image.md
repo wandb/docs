@@ -2,7 +2,7 @@
 title: Image
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L65-L689 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/image.py#L65-L708 >}}
 
 Format images for logging to W&B.
 
@@ -85,7 +85,7 @@ with wandb.init() as run:
 
 ### `all_boxes`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L610-L631)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/image.py#L629-L650)
 
 ```python
 @classmethod
@@ -99,7 +99,7 @@ all_boxes(
 
 ### `all_captions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L633-L637)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/image.py#L652-L656)
 
 ```python
 @classmethod
@@ -110,7 +110,7 @@ all_captions(
 
 ### `all_masks`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L587-L608)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/image.py#L606-L627)
 
 ```python
 @classmethod
@@ -124,11 +124,12 @@ all_masks(
 
 ### `guess_mode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L474-L486)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/image.py#L474-L505)
 
 ```python
 guess_mode(
-    data: "np.ndarray"
+    data: Union['np.ndarray', 'torch.Tensor'],
+    file_type: Optional[str] = None
 ) -> str
 ```
 
@@ -136,7 +137,7 @@ Guess what type of image the np.array is representing.
 
 ### `to_uint8`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/image.py#L488-L511)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/image.py#L507-L530)
 
 ```python
 @classmethod

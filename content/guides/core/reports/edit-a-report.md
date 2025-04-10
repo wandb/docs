@@ -82,7 +82,18 @@ Add run sets from projects interactively with the App UI or the W&B SDK.
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose Panel Grid. This will automatically import the run set from the project the report was created from.
+Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Panel Grid**. This will automatically import the run set from the project the report was created from.
+
+If you import a panel into a report, run names are inherited from the project. In the report, you can optionally [rename a run]({{< relref "/guides/models/track/runs/#rename-a-run" >}}) to give the reader more context. The run is renamed only in the individual panel. If you clone the panel in the same report, the run is also renamed in the cloned panel.
+
+1. In the report, click the pencil icon to open the report editor.
+1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots, then select either:
+
+    - **Rename run for project**: rename the run across the entire project. To generate a new random name, leave the field blank.
+    - **Rename run for panel grid** rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
+
+    Submit the form.
+1. Click **Publish report**.
 
 {{% /tab %}}
 
@@ -176,6 +187,15 @@ report.save()
 
 {{% /tab %}}
 {{< /tabpane >}}
+
+
+## Freeze a run set
+
+A report automatically updates run sets to show the latest data from the project. You can preserve the run set in a report by *freezing* that run set. When you freeze a run set, you preserve the state of the run set in a report at a point in time.
+
+To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
+
+{{< img src="/images/reports/freeze_runset.png" alt="" >}}
 
 ## Add code blocks
 
@@ -385,4 +405,11 @@ Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
 Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
 
-{{< img src="/images/reports/collapse_headers.gif" alt="" >}}
+{{< img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report." >}}
+
+## Visualize relationships across multiple dimensions
+
+To effectively visualize relationships across multiple dimensions, use a color gradient to represent one of the variables. This enhances clarity and makes patterns easier to interpret.
+
+1. Choose a variable to represent with a color gradient (e.g., penalty scores, learning rates, etc.). This allows for a clearer understanding of how penalty (color) interacts with reward/side effects (y-axis) over training time (x-axis).
+2. Highlight key trends. Hovering over a specific group of runs highlights them in the visualization.

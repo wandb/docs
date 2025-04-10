@@ -1,37 +1,34 @@
 name: Lychee check
 on:
-  pull_request:
-    paths:
-      - '**.md'
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "5 0 1 * *" # In UTC, currently 12:05 AM on the 1st of each month
 
 jobs:
-  lychee:
+  linkChecker:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write # required for peter-evans/create-issue-from-file
     steps:
+      # check URLs with Lychee
       - uses: actions/checkout@v4
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v45
-        with:
-          files: "**.md"
 
       - name: Link Checker
         id: lychee
-        uses: lycheeverse/lychee-action@v1.10.0
+        uses: lycheeverse/lychee-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: > 
-          --scheme https --scheme http --verbose --no-cache
-          --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-          --max-concurrency 5 --retry-count 3 --retry-delay 2
-          ${{ steps.changed-files.outputs.all_changed_files }}
+          args: "--accept 200,429,403 --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' --scheme https --scheme http --max-concurrency 5 --max-retries 1 --retry-wait-time 2 --verbose --no-progress 'content/**/*.md' 'content/**/*.html' 'https://docs.wandb.ai/guides/' 'https://docs.wandb.ai/ref/' 'https://docs.wandb.ai/tutorials/' 'https://docs.wandb.ai/support/'"
+          fail: false
         env:
+          # to be used in case rate limits are surpassed
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Create PR comment with link reults
-        uses: marocchino/sticky-pull-request-comment@v2
+      - name: Create Issue From File
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
         with:
-          header: lychee
-          recreate: true
-          path: ./lychee/out.md
+          title: Link Checker Report
+          content-filepath: ./lychee/out.md
+          labels: report, automated issue

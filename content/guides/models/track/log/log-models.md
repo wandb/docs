@@ -157,20 +157,18 @@ See [`use_model`]({{< relref "/ref/python/run.md#use_model" >}}) in the API Refe
 ## Log and link a model to the W&B Model Registry
 
 {{% alert %}}
-The [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) method is currently only compatible with the legacy W&B Model Registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the Registry [docs]({{< relref "../../registry/link_version.md" >}}). 
+The [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) method is currently only compatible with the legacy W&B Model Registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the Registry [docs]({{< relref "/guides/core/registry/link_version.md" >}}). 
 {{% /alert %}}
 
-Use the [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) method to log model files to a W&B run and link it to the [W&B Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
+Use the [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) method to log model files to a W&B run and link it to the [W&B Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
 
-{{% alert %}}
-You can think of linking a model similar to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
+Linking a model is analogous to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
 
-Note that when you link a model, that model is not duplicated in the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}). That model is also not moved out of the project and intro the registry. A linked model is a pointer to the original model in your project.
+When you link a model, that model is not duplicated in the [Registry]({{< relref "/guides/core/registry/model_registry/" >}}) or moved out of the project and into the registry. A linked model is a pointer to the original model in your project.
 
-Use the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}) to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/model-registry-automations.md" >}}) downstream actions with webhooks or jobs.
-{{% /alert %}}
+Use the [Registry]({{< relref "/guides/core/registry/" >}}) to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/core/automations/" >}}) downstream actions with webhooks or jobs.
 
-A *Registered Model* is a collection or folder of linked model versions in the [Model Registry]({{< relref "/guides/models/registry/model_registry/" >}}). Registered models typically represent candidate models for a single modeling use case or task. 
+A *Registered Model* is a collection or folder of linked model versions in the [Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}). Registered models typically represent candidate models for a single modeling use case or task. 
 
 The proceeding code snippet shows how to link a model with the [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) API. Ensure to replace other the values enclosed in `<>` with your own:
 

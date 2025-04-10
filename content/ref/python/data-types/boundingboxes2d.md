@@ -2,7 +2,7 @@
 title: BoundingBoxes2D
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L16-L305 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L16-L313 >}}
 
 Format images with 2D bounding box overlays for logging to W&B.
 
@@ -26,7 +26,7 @@ BoundingBoxes2D(
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 image = np.random.randint(low=0, high=256, size=(200, 300, 3))
 
 class_labels = {0: "person", 1: "car", 2: "road", 3: "building"}
@@ -50,7 +50,11 @@ img = wandb.Image(
                 },
                 {
                     # another box expressed in the pixel domain
-                    "position": {"middle": [150, 20], "width": 68, "height": 112},
+                    "position": {
+                        "middle": [150, 20],
+                        "width": 68,
+                        "height": 112,
+                    },
                     "domain": "pixel",
                     "class_id": 3,
                     "box_caption": "a building",
@@ -63,7 +67,7 @@ img = wandb.Image(
     },
 )
 
-wandb.log({"driving_scene": img})
+run.log({"driving_scene": img})
 ```
 
 ### Log a bounding box overlay to a Table
@@ -72,7 +76,7 @@ wandb.log({"driving_scene": img})
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 image = np.random.randint(low=0, high=256, size=(200, 300, 3))
 
 class_labels = {0: "person", 1: "car", 2: "road", 3: "building"}
@@ -105,7 +109,11 @@ img = wandb.Image(
                 },
                 {
                     # another box expressed in the pixel domain
-                    "position": {"middle": [150, 20], "width": 68, "height": 112},
+                    "position": {
+                        "middle": [150, 20],
+                        "width": 68,
+                        "height": 112,
+                    },
                     "domain": "pixel",
                     "class_id": 3,
                     "box_caption": "a building",
@@ -121,14 +129,14 @@ img = wandb.Image(
 
 table = wandb.Table(columns=["image"])
 table.add_data(img)
-wandb.log({"driving_scene": table})
+run.log({"driving_scene": table})
 ```
 
 ## Methods
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L225-L227)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L233-L235)
 
 ```python
 @classmethod
@@ -137,7 +145,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L229-L286)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L237-L294)
 
 ```python
 validate(

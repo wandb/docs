@@ -2,7 +2,7 @@
 title: Runs
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/public/runs.py#L64-L273 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/apis/public/runs.py#L64-L273 >}}
 
 An iterable collection of runs associated with a project and optional filter.
 
@@ -22,20 +22,24 @@ This is generally used indirectly via the `Api`.runs method.
 
 | Attributes |  |
 | :--- | :--- |
+|  `cursor` |  The start cursor to use for the next fetched page. |
+|  `more` |  Whether there are more pages to be fetched. |
 
 ## Methods
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/public/runs.py#L141-L173)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/apis/public/runs.py#L141-L173)
 
 ```python
 convert_objects()
 ```
 
+Convert the last fetched response data into the iterated objects.
+
 ### `histories`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/public/runs.py#L175-L270)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/apis/public/runs.py#L175-L270)
 
 ```python
 histories(
@@ -64,44 +68,48 @@ Return sampled history metrics for all runs that fit the filters conditions.
 
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L72-L79)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/apis/paginator.py#L100-L107)
 
 ```python
-next()
+next() -> T
 ```
+
+Return the next item from the iterator. When exhausted, raise StopIteration
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L52-L53)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/apis/paginator.py#L69-L71)
 
 ```python
-update_variables()
+update_variables() -> None
 ```
+
+Update the query variables for the next page fetch.
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L65-L70)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/apis/paginator.py#L93-L98)
 
 ```python
 __getitem__(
-    index
-)
+    index: (int | slice)
+) -> (T | list[T])
 ```
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L26-L28)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/apis/paginator.py#L48-L50)
 
 ```python
-__iter__()
+__iter__() -> Iterator[T]
 ```
 
 ### `__len__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L30-L35)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/apis/paginator.py#L115-L120)
 
 ```python
-__len__()
+__len__() -> int
 ```
 
 | Class Variables |  |

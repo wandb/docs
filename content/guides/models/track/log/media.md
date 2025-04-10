@@ -88,7 +88,7 @@ Log semantic segmentation masks and interact with them (altering opacity, viewin
 
 {{< img src="/images/track/semantic_segmentation.gif" alt="Interactive mask viewing in the W&B UI." >}}
 
-To log an overlay, you'll need to provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
+To log an overlay, provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
 
 * one of two keys representing the image mask:
   * `"mask_data"`: a 2D NumPy array containing an integer class label for each pixel
@@ -116,7 +116,11 @@ mask_img = wandb.Image(
         # ...
     },
 )
-```   
+```
+
+Segmentation masks for a key are defined at each step (each call to `wandb.log()`). 
+- If steps provide different values for the same mask key, only the most recent value for the key is applied to the image.
+- If steps provide different mask keys, all values for each key are shown, but only those defined in the step being viewed are applied to the image. Toggling the visibility of masks not defined in the step do not change the image.
    {{% /tab %}}
     {{% tab header="Bounding Boxes" %}}
 Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
@@ -603,16 +607,15 @@ wandb.log({"acetic_acid": wandb.Image(pil_image)})
 
 W&B also supports logging of a variety of other media types.
 
-{{< tabpane text=true >}}
-   {{% tab header="Audio" %}}
+### Audio
 
 ```python
 wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-The maximum number of audio clips that can be logged per step is 100.   
-   {{% /tab %}}
-    {{% tab header="Video" %}}
+A maximum of 100 audio clips can be logged per step. For more usage information, see [`audio-file`]({{< relref "/ref/query-panel/audio-file.md" >}}).
+
+### Video
 
 ```python
 wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
@@ -620,9 +623,12 @@ wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif
 
 If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
 
-On the W&B [Run]({{< relref "/guides/models/track/runs/" >}}) and [Project]({{< relref "/guides/models/track/project-page.md" >}}) Pages, you will see your videos in the Media section.    
-    {{% /tab %}}
-    {{% tab header="Text" %}}
+On the W&B [Run]({{< relref "/guides/models/track/runs/" >}}) and [Project]({{< relref "/guides/models/track/project-page.md" >}}) Pages, you will see your videos in the Media section.
+
+For more usage information, see [`video-file`]({{< relref "/ref/query-panel/video-file" >}}).
+
+### Text
+
 Use `wandb.Table` to log text in tables to show up in the UI. By default, the column headers are `["Input", "Output", "Expected"]`. To ensure optimal UI performance, the default maximum number of rows is set to 10,000. However, users can explicitly override the maximum with `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
 
 ```python
@@ -643,21 +649,22 @@ You can also pass a pandas `DataFrame` object.
 
 ```python
 table = wandb.Table(dataframe=my_dataframe)
-```    
-    {{% /tab %}}
-    {{% tab header="HTML" %}}
+```
+
+For more usage information, see [`string`]({{< relref "/ref/query-panel/" >}}).
+
+### HTML
 
 ```python
 wandb.log({"custom_file": wandb.Html(open("some.html"))})
 wandb.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 ```
 
-Custom html can be logged at any key, and this exposes an HTML panel on the run page. By default we inject default styles, you can turn off default styles by passing `inject=False`.
+Custom HTML can be logged at any key, and this exposes an HTML panel on the run page. By default, we inject default styles; you can turn off default styles by passing `inject=False`.
 
 ```python
 wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
-    {{% /tab %}}
-{{< /tabpane >}}
+For more usage information, see [`html-file`]({{< relref "/ref/query-panel/html-file" >}}).
 

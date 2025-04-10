@@ -7,17 +7,25 @@ title: Manage users, groups, and roles with SCIM
 weight: 4
 ---
 
+{{% alert %}}
+Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12 min)
+{{% /alert %}}
+
 The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
 
 The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema. W&B adds the `/Roles` endpoints to support automated management of custom roles in W&B organizations.
 
 {{% alert %}}
-SCIM API applies to all hosting options including [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), [Self-managed instances]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}), and [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}). In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization` within user settings.
+If you are an admin of multiple Enterprise [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organizations, you must configure the organization where SCIM API requests are sent. Click your profile image, then click **User Settings**. The setting is named **Default API organization**. This is required for all hosting options, including [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), [Self-managed instances]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}), and [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}). In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization.
+
+The chosen hosting option determines the value for the `<host-url>` placeholder used in the examples in this page.
+
+In addition, examples use user IDs such as `abc` and `def`. Real requests and responses have hashed values for user IDs.
 {{% /alert %}}
 
 ## Authentication
 
-The SCIM API is accessible by instance or organization admins using basic authentication with their API key. With basic authentication, send the HTTP request with the `Authorization` header that contains the word `Basic` followed by a space and a base64-encoded string for `username:password` where `password` is your API key. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
+An organization or instance admin can use basic authentication with their API key to access the SCIM API. Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
 
 ## User resource
 
