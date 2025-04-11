@@ -7,7 +7,7 @@ menu:
 title: Log distributed training experiments
 ---
 
-During distributed training you train models using multiple machines, such as GPUs or TPUs, in parallel. You can use W&B to track distributed training experiments. Based on your use case, use one of the following methods to track distributed training experiments:
+During distributed training you train models using multiple machines or clients in parallel. You can use W&B to track distributed training experiments. Based on your use case, use one of the following methods to track distributed training experiments:
 
 * **Single process**: Track a rank 0 (also known as a "leader" or "coordinator") process with W&B. This is a common solution for logging distributed training experiments with the [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class. 
 * **Multiple processes**: For multiple processes, you can either:
@@ -95,40 +95,66 @@ The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see
 
 ### Track all processes to a single run
 
-In this approach you use a primary node and one or more work nodes. Within the primary node you initialize a W&B run. That primary node then spawns additional worker nodes. Each worker node logs to the same run ID as the primary node. The W&B App UI aggregates these metrics, enabling you to see data from all processes in one place.
+{{% alert color="secondary"  %}}
+The option to track multiple processes to a single run is in public preview.
+{{% /alert %}}
 
-Use `wandb.Settings` to set both the `mode` parameter to `"shared"` and to specify a unique rank for each node with the `x_label` parameter. For the primary node, set `x_label` to 0 and and `x_primary` to `True`. For the worker nodes, set `x_label` to 1, 2, etc. and `x_primary` to `False`.
+{{% alert %}}
+To track multiple processes to a single run, you must have W&B Python SDK version `>=0.19.0`.
+{{% /alert  %}}
 
-Each process requires the run ID of the primary node. Consider using an environment variable to set the run ID of the primary node that you can then define in each worker node's machine.
+In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
 
-The following sample code demonstrates the high level requirements for this approach:
+Within the primary node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/init.md" >}}) and provide the following:
+
+1. A `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with:
+   * The `mode` parameter set to `"shared"` to enable shared mode.
+   * A unique label for `x_label`. You use the value you specify for `x_label` to identify which process the data is coming from in logs and system metrics in the W&B App UI.
+2. Set the `x_primary` parameter to `True` to indicate that this is the primary node.
+
+Make note of the run ID of the primary node. Each worker node needs this run ID.
+
+For each worker node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/init.md" >}}) and provide the following:
+1. A `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with:
+   * The `mode` parameter set to `"shared"` to enable shared mode.
+   * A unique label for `x_label`. You use the value you specify for `x_label` to identify which process the data is coming from in logs and system metrics in the W&B App UI.
+2. Set the `x_primary` parameter to `False` to indicate that this is a worker node.
+3. Pass the run ID of the primary node to the `id` parameter.
+4. Optionally set `x_update_finish_state` to `False`. This prevents non-primary nodes from updating the [run's state]({{< relref "/guides/models/track/runs/#run-states" >}}) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
+
+{{% alert %}}
+Consider using an environment variable to set the run ID of the primary node that you can then define in each worker node's machine.
+{{% /alert %}}
+
+The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
+
 
 ```python
-import os
 import wandb
 
-wandb_run_id = os.environ.get("WANDB_RUN_ID", "default_run_id")
-
-# user calls init in primary node
+# Initialize a run in the primary node
 run = wandb.init(
     entity="entity",
     project="project",
-	settings=wandb.Settings(x_label=0, mode="shared"),
-	id=wandb_run_id
+	settings=wandb.Settings(x_label="rank_0", mode="shared"),
     x_primary=True,
 )
 
-# user calls init in worker node 1
+# Note the run ID of the primary node.
+# Each worker node needs this run ID.
+run_id = run.id
+
+# Initialize a run in a worker node using the run ID of the primary node
 run = wandb.init(
-	settings=wandb.Settings(x_label=1, mode="shared"),
-	id=wandb_run_id,
+	settings=wandb.Settings(x_label="rank_1", mode="shared"),
+	id=run_id,
     x_primary=False,
 )
 
-# user calls init in workder node 2
+# Initialize a run in a worker node using the run ID of the primary node
 run = wandb.init(
-	settings=wandb.Settings(x_label=2, mode="shared"),
-	id=wandb_run_id,
+	settings=wandb.Settings(x_label="rank_2", mode="shared"),
+	id=run_id,
     x_primary=True,
 )
 ```
