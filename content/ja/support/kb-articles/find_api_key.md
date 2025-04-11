@@ -4,14 +4,14 @@ menu:
   support:
     identifier: ja-support-kb-articles-find_api_key
 support:
-- security
-- user management
+- セキュリティ
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-W&B（Weights and Biases）の APIキーを見つけるには、次の手順に従います。
+W&B（Weights and バイアス）の APIキーを見つけるには、次の手順に従います。
 
 - W&Bにログイン：[https://wandb.ai/authorize](https://wandb.ai/authorize)
 - または、プロフィールにアクセス：

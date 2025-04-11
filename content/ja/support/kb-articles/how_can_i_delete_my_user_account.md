@@ -1,10 +1,10 @@
 ---
-title: ユーザーアカウントを削除するにはどうすればよいですか？
+title: ユーザー アカウントを削除するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_delete_my_user_account
 support:
-- user management
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename

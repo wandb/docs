@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-report_slow_after_wysiwyg
 support:
-- reports
-- wysiwyg
+- レポート
+- 申し訳ありませんが、与えられた入力が不完全です。正しい翻訳を提供するためには、完全なドキュメントが必要です。再度提供してください。
 toc_hide: true
 type: docs
 url: /support/:filename

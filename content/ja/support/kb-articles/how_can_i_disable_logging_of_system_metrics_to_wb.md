@@ -1,10 +1,10 @@
 ---
-title: システムメトリクスの W&B へのログを無効にするにはどうすればいいですか？
+title: W&B へのシステムメトリクスのログを無効にするにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_disable_logging_of_system_metrics_to_wb
 support:
-- metrics
+- メトリクス
 - runs
 toc_hide: true
 type: docs

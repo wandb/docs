@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-rerun_grid_search
 support:
-- sweeps
-- hyperparameter
+- sweep
+- ハイパーパラメーター
 - runs
 toc_hide: true
 type: docs

@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-run_wandb_offline
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -16,4 +16,4 @@ url: /support/:filename
 2. アップロードの準備ができたら、ディレクトリーで `wandb init` を実行してプロジェクト名を設定します。
 3. `wandb sync YOUR_RUN_DIRECTORY` を使用してメトリクスをクラウドサービスに転送し、ホストされたウェブアプリで結果にアクセスします。
 
-run がオフラインであることを確認するには、`wandb.init()` を実行した後に `run.settings._offline` または `run.settings.mode` を確認してください。
+Run がオフラインであることを確認するには、`wandb.init()` を実行した後に `run.settings._offline` または `run.settings.mode` を確認してください。

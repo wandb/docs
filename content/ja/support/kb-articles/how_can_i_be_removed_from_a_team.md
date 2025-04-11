@@ -1,11 +1,11 @@
 ---
-title: チームから外れるにはどうしたらいいですか？
+title: チームから外れるにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_be_removed_from_a_team
 support:
-- administrator
-- team management
+- 管理者
+- チーム管理
 toc_hide: true
 type: docs
 url: /support/:filename

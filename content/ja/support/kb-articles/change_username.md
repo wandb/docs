@@ -1,11 +1,11 @@
 ---
-title: ユーザー名を変更することは可能ですか？
+title: ユーザー名を変更することはできますか？
 menu:
   support:
     identifier: ja-support-kb-articles-change_username
 support:
-- administrator
-- user management
+- 管理者
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename

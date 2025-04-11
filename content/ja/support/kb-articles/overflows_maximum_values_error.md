@@ -1,10 +1,10 @@
 ---
-title: 64 ビット符号付き整数の"最大値を超えた" エラーをどのように修正しますか？
+title: 64 ビット符号付き整数の "最大値を超えた" エラーをどのように修正しますか？
 menu:
   support:
     identifier: ja-support-kb-articles-overflows_maximum_values_error
 support:
-- workspaces
+- ワークスペース
 toc_hide: true
 type: docs
 url: /support/:filename

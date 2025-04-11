@@ -1,11 +1,11 @@
 ---
-title: なぜログしたデータポイントが少なく表示されるのですか？
+title: なぜログされたデータポイントが少なく表示されるのですか？
 menu:
   support:
     identifier: ja-support-kb-articles-seeing_fewer_data_points_logged
 support:
-- experiments
-- metrics
+- 実験管理
+- メトリクス
 toc_hide: true
 type: docs
 url: /support/:filename

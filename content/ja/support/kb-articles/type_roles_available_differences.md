@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-type_roles_available_differences
 support:
-- user management
-- team management
+- ユーザー管理
+- チーム管理
 toc_hide: true
 type: docs
 url: /support/:filename

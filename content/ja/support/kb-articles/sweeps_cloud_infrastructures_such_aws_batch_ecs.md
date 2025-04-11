@@ -1,5 +1,5 @@
 ---
-title: クラウドインフラストラクチャー（AWS Batch、ECS など）で W&B Sweeps を使用できますか？
+title: クラウド インフラストラクチャー（AWS Batch、ECS など）で W&B スイープを使用できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-sweeps_cloud_infrastructures_such_aws_batch_ecs

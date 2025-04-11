@@ -1,10 +1,10 @@
 ---
-title: sweep で最良の run からアーティファクトを見つけるにはどうすればよいですか？
+title: sweep で最良の run から Artifacts を見つけるにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-find_artifact_best_run_sweep
 support:
-- artifacts
+- アーティファクト
 toc_hide: true
 type: docs
 url: /support/:filename

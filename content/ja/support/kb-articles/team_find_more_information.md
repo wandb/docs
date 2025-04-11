@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-team_find_more_information
 support:
-- team management
+- チーム管理
 toc_hide: true
 type: docs
 url: /support/:filename

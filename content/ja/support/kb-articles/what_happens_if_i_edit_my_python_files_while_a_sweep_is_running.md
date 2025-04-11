@@ -1,10 +1,10 @@
 ---
-title: Pythonファイルを編集すると、sweep 実行中に何が起こりますか？
+title: Python ファイルを編集すると、sweep 実行中に何が起こりますか？
 menu:
   support:
     identifier: ja-support-kb-articles-what_happens_if_i_edit_my_python_files_while_a_sweep_is_running
 support:
-- sweeps
+- sweep
 toc_hide: true
 type: docs
 url: /support/:filename

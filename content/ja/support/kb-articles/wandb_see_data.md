@@ -1,11 +1,11 @@
 ---
-title: W&B のチームメンバーは私のデータを見ることができますか？
+title: W&B の チーム メンバー は 私 の データ を 見る こと が できます か？
 menu:
   support:
     identifier: ja-support-kb-articles-wandb_see_data
 support:
-- privacy
-- security
+- プライバシー
+- セキュリティ
 toc_hide: true
 type: docs
 url: /support/:filename

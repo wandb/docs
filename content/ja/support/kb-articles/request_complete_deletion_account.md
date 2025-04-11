@@ -1,10 +1,10 @@
 ---
-title: W&Bアカウントの完全削除を依頼するにはどうすればいいですか？
+title: W&B アカウントの完全削除を依頼するにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-request_complete_deletion_account
 support:
-- user management
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename

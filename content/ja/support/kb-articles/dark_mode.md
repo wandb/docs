@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-dark_mode
 support:
-- workspaces
+- ワークスペース
 toc_hide: true
 type: docs
 url: /support/:filename

@@ -1,10 +1,10 @@
 ---
-title: なぜ同じ指標が複数回表示されるのですか？
+title: なぜ同じ指標が複数回表示されるのでしょうか？
 menu:
   support:
     identifier: ja-support-kb-articles-same_metric_appearing_more
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename

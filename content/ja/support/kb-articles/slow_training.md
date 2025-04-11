@@ -1,10 +1,10 @@
 ---
-title: wandb は トレーニング を遅くしますか？
+title: wandb はトレーニングを遅くしますか？
 menu:
   support:
     identifier: ja-support-kb-articles-slow_training
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename

@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-send_alerts_microsoft_teams_using_wb
 support:
-- alerts
+- アラート
 toc_hide: true
 type: docs
 url: /support/:filename

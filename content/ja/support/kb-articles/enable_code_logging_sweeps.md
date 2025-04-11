@@ -1,10 +1,10 @@
 ---
-title: スイープでコード ログを有効にするにはどうすればよいですか？
+title: スイープでコードログを有効にするにはどうすれば良いですか？
 menu:
   support:
     identifier: ja-support-kb-articles-enable_code_logging_sweeps
 support:
-- sweeps
+- スイープ
 toc_hide: true
 type: docs
 url: /support/:filename

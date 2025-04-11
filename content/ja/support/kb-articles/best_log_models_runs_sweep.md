@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-best_log_models_runs_sweep
 support:
-- artifacts
-- sweeps
+- アーティファクト
+- sweep
 toc_hide: true
 type: docs
 url: /support/:filename

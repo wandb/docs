@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-add_extra_values_sweep_start_new_one
 support:
-- sweeps
+- sweep
 toc_hide: true
 type: docs
 url: /support/:filename

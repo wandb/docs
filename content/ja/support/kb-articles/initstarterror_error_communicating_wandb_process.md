@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-initstarterror_error_communicating_wandb_process
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename

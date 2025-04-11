@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-upload_csv_report
 support:
-- reports
+- レポート
 toc_hide: true
 type: docs
 url: /support/:filename

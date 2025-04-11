@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-run_finished_alerts
 support:
-- alerts
-- notebooks
+- アラート
+- ノートブック
 toc_hide: true
 type: docs
 url: /support/:filename

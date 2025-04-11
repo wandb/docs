@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-custom_cli_commands_sweeps
 support:
-- sweeps
+- sweep
 toc_hide: true
 type: docs
 url: /support/:filename

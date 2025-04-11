@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-anon_users_unavailable_features
 support:
-- anonymous
+- 匿名
 toc_hide: true
 type: docs
 url: /support/:filename

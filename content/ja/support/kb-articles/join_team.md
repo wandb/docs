@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-join_team
 support:
-- administrator
-- team management
+- 管理者
+- チーム管理
 toc_hide: true
 type: docs
 url: /support/:filename

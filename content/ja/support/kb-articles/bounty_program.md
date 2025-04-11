@@ -4,10 +4,10 @@ menu:
   support:
     identifier: ja-support-kb-articles-bounty_program
 support:
-- security
+- セキュリティ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Weights and Biases にはバグバウンティプログラムがあります。詳細はセキュリティポータルを アクセスしてください: [https://security.wandb.ai/](https://security.wandb.ai/).
+Weights and Biases にはバグバウンティプログラムがあります。詳細はセキュリティポータルをアクセスしてください: [https://security.wandb.ai/](https://security.wandb.ai/).

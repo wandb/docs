@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_log_in_to_wb_server
 support:
-- user management
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename

@@ -1,10 +1,10 @@
 ---
-title: 自分の run に名前を付けませんでした。run 名はどこから来ているのですか?
+title: 自分の run に名前を付けませんでした。run 名はどこから来ているのですか？
 menu:
   support:
     identifier: ja-support-kb-articles-didnt_name_run_run_name_coming
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename

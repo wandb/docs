@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-show_step_slider_custom_chart
 support:
-- charts
+- チャート
 toc_hide: true
 type: docs
 url: /support/:filename

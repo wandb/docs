@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-stream_logs_writes_disk
 support:
-- environment variables
+- 環境変数
 toc_hide: true
 type: docs
 url: /support/:filename

@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-silence_info_messages
 support:
-- notebooks
-- environment variables
+- ノートブック
+- 環境変数
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -29,7 +29,7 @@ logger.setLevel(logging.ERROR)
 ログ出力を完全にオフにするには、`WANDB_SILENT` 環境変数を設定します。これは `wandb.login` を実行する前にノートブックセル内で行う必要があります。
 
 {{< tabpane text=true langEqualsHeader=true >}}
-{{% tab "Notebook" %}}
+{{% tab "ノートブック" %}}
 ```python
 %env WANDB_SILENT=True
 ```

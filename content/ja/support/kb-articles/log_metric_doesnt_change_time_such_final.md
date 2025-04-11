@@ -1,5 +1,5 @@
 ---
-title: 時間とともに変化しない、最終評価の精度などの指標をどのようにログできますか？
+title: 時間とともに変化しない、最終評価の精度などの指標をどのように記録できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-log_metric_doesnt_change_time_such_final

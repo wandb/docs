@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-embedding_reports
 support:
-- reports
+- レポート
 toc_hide: true
 type: docs
 url: /support/:filename

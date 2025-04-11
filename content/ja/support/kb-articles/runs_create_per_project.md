@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-runs_create_per_project
 support:
-- projects
-- runs
+- プロジェクト
+- run
 toc_hide: true
 type: docs
 url: /support/:filename

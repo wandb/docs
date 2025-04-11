@@ -4,9 +4,9 @@ menu:
   support:
     identifier: ja-support-kb-articles-monthly_subscription_option_teams_plan
 support:
-- administrator
-- billing
-- team management
+- 管理者
+- 請求書
+- チーム管理
 toc_hide: true
 type: docs
 url: /support/:filename

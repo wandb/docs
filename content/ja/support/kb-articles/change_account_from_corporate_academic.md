@@ -1,12 +1,12 @@
 ---
-title: アカウントを法人から学術用に変更するにはどうすればいいですか？
+title: アカウントを法人から学術用に変更するにはどうすれば良いですか？
 menu:
   support:
     identifier: ja-support-kb-articles-change_account_from_corporate_academic
 support:
-- administrator
-- academic
-- user management
+- 管理者
+- 学術的
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename

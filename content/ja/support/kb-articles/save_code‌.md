@@ -1,10 +1,10 @@
 ---
-title: コードをどのように保存しますか？‌
+title: コードをどのように保存しますか？
 menu:
   support:
     identifier: ja-support-kb-articles-save_code‌
 support:
-- artifacts
+- アーティファクト
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -14,6 +14,8 @@ url: /support/:filename
 
 ```python
 code_artifact = wandb.Artifact(type="code")
+# ./train.py を追加
 code_artifact.add_file("./train.py")
+# アーティファクトをログ
 wandb.log_artifact(code_artifact)
 ```

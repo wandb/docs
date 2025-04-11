@@ -1,10 +1,10 @@
 ---
-title: wandbでジョブを終了するにはどうすればいいですか？
+title: wandb でジョブを終了するにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-kill_job_wandb
 support:
-- crashing and hanging runs
+- ランがクラッシュまたはハングする場合
 toc_hide: true
 type: docs
 url: /support/:filename

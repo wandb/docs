@@ -1,11 +1,11 @@
 ---
-title: 同じグループ内の各 run の色をどうやって変更できますか？
+title: 同じグループ内の各 run の色をどのように変更できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-group_runs_custom_meter
 support:
-- runs
-- workspaces
+- run
+- ワークスペース
 toc_hide: true
 type: docs
 url: /support/:filename

@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-add_more_seats
 support:
-- administrator
-- user management
+- 管理者
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename

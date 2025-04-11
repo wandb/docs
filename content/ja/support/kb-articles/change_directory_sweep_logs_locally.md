@@ -1,10 +1,10 @@
 ---
-title: How can I change the directory my sweep ログ to locally?
+title: 自分の sweep ログを保存するディレクトリーをローカルに変更するにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-change_directory_sweep_logs_locally
 support:
-- sweeps
+- sweep
 toc_hide: true
 type: docs
 url: /support/:filename

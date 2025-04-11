@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_delete_multiple_runs_in_bulk_instead_of_one_at_a_time
 support:
-- projects
+- プロジェクト
 - runs
 toc_hide: true
 type: docs
@@ -20,5 +20,5 @@ api = wandb.Api()
 runs = api.runs('<entity>/<project>')
 for run in runs:
     if <condition>:
-        run.delete()
+        run.delete()  # 条件が合えば run を削除
 ```

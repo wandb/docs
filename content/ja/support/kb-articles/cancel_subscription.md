@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-cancel_subscription
 support:
-- administrator
+- 管理者
 toc_hide: true
 type: docs
 url: /support/:filename

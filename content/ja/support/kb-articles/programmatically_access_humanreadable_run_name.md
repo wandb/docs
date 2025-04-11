@@ -1,10 +1,10 @@
 ---
-title: 人間が読みやすい run 名をプログラムで取得するにはどうすればいいですか？
+title: 人間が読みやすい Run 名をプログラムで取得するにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-programmatically_access_humanreadable_run_name
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -18,4 +18,3 @@ import wandb
 wandb.init()
 run_name = wandb.run.name
 ```
-

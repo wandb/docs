@@ -1,10 +1,10 @@
 ---
-title: W&B は マルチテナント に SSO をサポートしていますか？
+title: W&B はマルチテナントに SSO をサポートしていますか？
 menu:
   support:
     identifier: ja-support-kb-articles-sso_multitenant
 support:
-- security
+- セキュリティ
 toc_hide: true
 type: docs
 url: /support/:filename

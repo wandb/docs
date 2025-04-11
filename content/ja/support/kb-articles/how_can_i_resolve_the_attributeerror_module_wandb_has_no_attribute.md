@@ -1,10 +1,10 @@
 ---
-title: '`AttributeError: module ''wandb'' has no attribute ...` のようなエラーをどのように修正できますか?'
+title: '`AttributeError: module ''wandb'' has no attribute ...` のようなエラーをどのように修正できますか？'
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_resolve_the_attributeerror_module_wandb_has_no_attribute
 support:
-- crashing and hanging runs
+- run のクラッシュとハングアップ
 toc_hide: true
 type: docs
 url: /support/:filename

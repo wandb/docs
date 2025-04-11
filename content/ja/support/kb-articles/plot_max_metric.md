@@ -1,10 +1,10 @@
 ---
-title: メトリックの最大値をプロットすることは可能ですか、それとも一歩一歩プロットする必要がありますか？
+title: メトリックの最大値をプロットすることは可能ですか、それともステップごとにプロットする必要がありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-plot_max_metric
 support:
-- metrics
+- メトリクス
 toc_hide: true
 type: docs
 url: /support/:filename

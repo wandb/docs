@@ -1,10 +1,10 @@
 ---
-title: システムメトリクスをログする頻度をどのように変更できますか？
+title: システム メトリクスをログする頻度をどのように変更できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_reduce_how_frequently_to_log_system_metrics
 support:
-- metrics
+- メトリクス
 - runs
 toc_hide: true
 type: docs

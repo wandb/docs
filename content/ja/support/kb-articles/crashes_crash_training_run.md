@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-crashes_crash_training_run
 support:
-- crashing and hanging runs
+- run のクラッシュとハングアップ
 toc_hide: true
 type: docs
 url: /support/:filename

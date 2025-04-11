@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-organize_logged_charts_media_wb_ui
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename

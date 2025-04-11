@@ -1,10 +1,10 @@
 ---
-title: カスタム チャート プリセットを削除するにはどうすれば良いですか？
+title: カスタムチャートプリセットを削除するにはどうすれば良いですか？
 menu:
   support:
     identifier: ja-support-kb-articles-delete_custom_chart_preset
 support:
-- charts
+- グラフ
 toc_hide: true
 type: docs
 url: /support/:filename

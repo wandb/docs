@@ -1,10 +1,10 @@
 ---
-title: 既存の run にアーティファクトをログするにはどうすればよいですか？
+title: 既存の run に Artifacts をログするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-log_artifact_existing_run
 support:
-- artifacts
+- アーティファクト
 toc_hide: true
 type: docs
 url: /support/:filename

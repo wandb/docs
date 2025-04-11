@@ -1,10 +1,10 @@
 ---
-title: 私のターミナルまたは Jupyter ノートブック出力に書き込むのを wandb にやめさせるにはどうすればよいですか？
+title: 私のターミナルまたは Jupyter ノートブック出力に書き込むのを wandb にやめさせるにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-stop_wandb_writing_terminal_jupyter_notebook_output
 support:
-- environment variables
+- 環境変数
 toc_hide: true
 type: docs
 url: /support/:filename

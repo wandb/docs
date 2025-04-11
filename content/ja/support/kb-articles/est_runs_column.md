@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-est_runs_column
 support:
-- sweeps
-- hyperparameter
+- sweep
+- ハイパーパラメーター
 toc_hide: true
 type: docs
 url: /support/:filename

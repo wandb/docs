@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-rename_project
 support:
-- projects
+- プロジェクト
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -13,7 +13,7 @@ url: /support/:filename
 プロジェクトをリネームするには:
 
 - プロジェクトの概要に移動します。
-- **Edit Project**をクリックします。
+- **Edit Project** をクリックします。
 
 注:
 

@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-deal_network_issues
 support:
-- connectivity
+- 接続性
 toc_hide: true
 type: docs
 url: /support/:filename

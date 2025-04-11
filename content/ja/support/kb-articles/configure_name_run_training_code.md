@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-configure_name_run_training_code
 support:
-- experiments
+- 実験
 toc_hide: true
 type: docs
 url: /support/:filename

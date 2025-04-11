@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_define_the_local_folder_where_to_save_the_wandb_files
 support:
-- environment variables
-- experiments
+- 環境変数
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename

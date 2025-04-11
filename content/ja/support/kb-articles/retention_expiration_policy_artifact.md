@@ -1,10 +1,10 @@
 ---
-title: アーティファクトに保持ポリシーや有効期限を設定するにはどうすればいいですか？
+title: アーティファクトに保持ポリシーや有効期限を設定するにはどうすれば良いですか？
 menu:
   support:
     identifier: ja-support-kb-articles-retention_expiration_policy_artifact
 support:
-- artifacts
+- アーティファクト
 toc_hide: true
 type: docs
 url: /support/:filename

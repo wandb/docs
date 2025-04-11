@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-plot_multiple_lines_plot_legend
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename

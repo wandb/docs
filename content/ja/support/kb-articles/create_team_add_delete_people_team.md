@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-create_team_add_delete_people_team
 support:
-- team management
+- チーム管理
 toc_hide: true
 type: docs
 url: /support/:filename

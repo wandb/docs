@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-multiprocessing_eg_distributed_training
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -14,7 +14,7 @@ url: /support/:filename
 
 マルチプロセスのトレーニングを管理するには、以下のアプローチを使用します。
 
-1. すべてのプロセスで `wandb.init` を呼び出し、[group]({{< relref path="/guides/models/track/runs/grouping.md" lang="ja" >}}) キーワード引数を使用して共有グループを作成します。各プロセスは独自の wandb run を持ち、UI はトレーニングプロセスを一緒にグループ化します。
+1. すべてのプロセスで `wandb.init` を呼び出し、[group]({{< relref path="/guides/models/track/runs/grouping.md" lang="ja" >}}) キーワード引数を使用して共有グループを作成します。各プロセスは独自の wandb run を持ち、UI はトレーニング プロセスを一緒にグループ化します。
 2. ただ一つのプロセスから `wandb.init` を呼び出し、[multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes) を通じてログ記録するデータを渡します。
 
 {{% alert %}}

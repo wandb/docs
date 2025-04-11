@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-sweeps_sagemaker
 support:
-- sweeps
+- スイープ
 - aws
 toc_hide: true
 type: docs

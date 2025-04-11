@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-initialization_timeout_error
 support:
-- connectivity
-- crashing and hanging runs
+- 接続性
+- run のクラッシュとハングアップ
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -24,5 +24,5 @@ run の初期化タイムアウトエラーを解決するには、次の手順�
   ```
 
 - **デバッグを有効にする**: 詳細なログを取得するために `WANDB_DEBUG=true` と `WANDB_CORE_DEBUG=true` を設定します。
-- **設定を確認する**: APIキーとプロジェクト設定が正しいことを確認してください。
+- **設定を確認する**: API キーとプロジェクト設定が正しいことを確認してください。
 - **ログを確認する**: `debug.log`, `debug-internal.log`, `debug-core.log`, `output.log` を検査してエラーを確認してください。

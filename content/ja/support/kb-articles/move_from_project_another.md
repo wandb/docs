@@ -1,5 +1,5 @@
 ---
-title: 1 つのプロジェクトから別のプロジェクトに run を移動することは可能ですか？
+title: 1 つの Project から別の Project に run を移動することは可能ですか？
 menu:
   support:
     identifier: ja-support-kb-articles-move_from_project_another

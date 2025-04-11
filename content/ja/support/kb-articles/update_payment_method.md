@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-update_payment_method
 support:
-- billing
+- 課金
 toc_hide: true
 type: docs
 url: /support/:filename

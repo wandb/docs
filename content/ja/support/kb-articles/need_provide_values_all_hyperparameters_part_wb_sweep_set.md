@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-need_provide_values_all_hyperparameters_part_wb_sweep_set
 support:
-- sweeps
+- sweep
 toc_hide: true
 type: docs
 url: /support/:filename

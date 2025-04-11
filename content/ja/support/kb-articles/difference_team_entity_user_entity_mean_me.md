@@ -1,10 +1,10 @@
 ---
-title: チームとエンティティの違いは何ですか？ユーザーとして、エンティティは私にとって何を意味しますか？
+title: チームと Entities の違いは何ですか？ユーザーとして、Entities は私にとって何を意味しますか？
 menu:
   support:
     identifier: ja-support-kb-articles-difference_team_entity_user_entity_mean_me
 support:
-- team management
+- チーム管理
 toc_hide: true
 type: docs
 url: /support/:filename

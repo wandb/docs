@@ -1,10 +1,10 @@
 ---
-title: 1 つのスクリプトから複数の run をどうやって ローンンチ しますか？
+title: 1 つのスクリプトから複数の run をどうやってローンチしますか？
 menu:
   support:
     identifier: ja-support-kb-articles-launch_multiple_runs_one_script
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename

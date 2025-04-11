@@ -1,10 +1,21 @@
 ---
-title: Weights and Biases の anaconda パッケージはありますか？
+title: Weights and バイアス の anaconda パッケージはありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-anaconda_package
 support:
-- python
+- "{< tabpane >}  \n{% tab header=\"前書き\" %}  \nこのガイドでは、Data Science プロジェクトで wandb\
+  \ を使用してメトリクスを追跡する方法を説明します。ここの情報は、ラン、アーティファクト、チーム、エンティティに関する理解を深めるのに役立ちます。  \n{%\
+  \ /tab %}  \n{% tab header=\"ステップ 1\" %}  \n**wandb をインストールします**  \n\nwandb をインストールするには、以下のコマンドを実行します。\
+  \  \n\n```shell  \npip install wandb  \n```  \nこれで ready to track!  \n{% /tab %}\
+  \  \n{% tab header=\"ステップ 2\" %}  \n**ログイン**  \n\n次に、以下のコマンドで wandb にログインします。  \n\
+  \n```shell  \nwandb login  \n```  \nGitHub または Google の資格情報を使用してログインできます。  \n{%\
+  \ /tab %}  \n{% tab header=\"ステップ 3\" %}  \n**wandb に実験を記録する**  \n\n次のスクリプトを実行します。\
+  \  \n\n```python  \nimport wandb  \n\n# wandb プロジェクトを初期化  \nwandb.init(project=\"\
+  my-first-project\")  \n\n# ハイパーパラメータをログに記録  \nconfig = wandb.config  \nconfig.learning_rate\
+  \ = 0.01  \n\n# メインのトレーニングループ  \nfor x in range(10):     \n    # メトリクスをログに記録する \
+  \   \n    wandb.log({\"loss\": loss_value, \"epoch\": epoch})  \n```  \n\nこれにより、すべてのログはリアルタイムであなたのウェブベースのダッシュボードに表示されます。\
+  \  \n{% /tab %}  \n{< /tabpane >}  "
 toc_hide: true
 type: docs
 url: /support/:filename

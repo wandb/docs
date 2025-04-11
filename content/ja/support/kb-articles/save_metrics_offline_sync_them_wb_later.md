@@ -1,12 +1,12 @@
 ---
-title: メトリクスをオフラインで保存し、後で W&B に同期することはできますか？
+title: W&B にメトリクスをオフラインで保存し、後で同期することはできますか？
 menu:
   support:
     identifier: ja-support-kb-articles-save_metrics_offline_sync_them_wb_later
 support:
-- experiments
-- environment variables
-- metrics
+- 実験管理
+- 環境変数
+- メトリクス
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -16,7 +16,7 @@ url: /support/:filename
 
 次の環境変数を設定します:
 
-1. `WANDB_API_KEY=$KEY`、ここで `$KEY` はあなたの [settings page](https://app.wandb.ai/settings) から取得した APIキーです。
+1. `WANDB_API_KEY=$KEY`、ここで `$KEY` はあなたの [settings page](https://app.wandb.ai/settings) から取得した API キーです。
 2. `WANDB_MODE="offline"`。
 
 スクリプトでこれを実装する例を以下に示します:
@@ -25,18 +25,18 @@ url: /support/:filename
 import wandb
 import os
 
-os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"  # あなたのAPIキーをここに
+os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"  # あなたの API キーをここに
 os.environ["WANDB_MODE"] = "offline"  # オフラインモードを設定
 
 config = {
     "dataset": "CIFAR10",  # データセットを指定
-    "machine": "offline cluster",  # オフラインクラスターを指定
+    "machine": "offline cluster",  # オフライン クラスターを指定
     "model": "CNN",  # モデルを指定
     "learning_rate": 0.01,  # 学習率を指定
     "batch_size": 128,  # バッチサイズを指定
 }
 
-wandb.init(project="offline-demo")  # W&Bプロジェクトを初期化
+wandb.init(project="offline-demo")  # W&B プロジェクトを初期化
 
 for i in range(100):
     wandb.log({"accuracy": i})  # メトリクスをログ

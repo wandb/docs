@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-flag_boolean_variables_hyperparameters
 support:
-- sweeps
+- sweep
 toc_hide: true
 type: docs
 url: /support/:filename

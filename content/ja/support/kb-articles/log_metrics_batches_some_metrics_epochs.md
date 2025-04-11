@@ -1,11 +1,11 @@
 ---
-title: バッチごとにメトリクスをログし、エポックごとだけにメトリクスをログしたい場合はどうすればよいですか？
+title: エポックごとだけメトリクスをログし、バッチごとのメトリクスのログを避けたい場合はどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-log_metrics_batches_some_metrics_epochs
 support:
-- experiments
-- metrics
+- 実験管理
+- メトリクス
 toc_hide: true
 type: docs
 url: /support/:filename

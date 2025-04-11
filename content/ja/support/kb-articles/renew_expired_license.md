@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-renew_expired_license
 support:
-- administrator
+- 管理者
 toc_hide: true
 type: docs
 url: /support/:filename

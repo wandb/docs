@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-add_plotlybokeh_charts_tables
 support:
-- experiments
-- tables
+- 実験管理
+- テーブル
 - charts
 toc_hide: true
 type: docs

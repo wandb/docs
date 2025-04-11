@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-integrate_wb_project_dont_upload_any_images_media
 support:
-- experiments
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename

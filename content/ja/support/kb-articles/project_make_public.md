@@ -4,8 +4,8 @@ menu:
   support:
     identifier: ja-support-kb-articles-project_make_public
 support:
-- privacy
-- projects
+- プライバシー
+- プロジェクト
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -20,6 +20,6 @@ url: /support/:filename
 
 制限により「公開」オプションが利用できない場合は、次のオプションを検討してください。
 
-- レポートを介して閲覧専用リンクを共有する。
+- Reports を介して閲覧専用リンクを共有する。
 - 組織の管理者にアシスタンスを求める。
-- アカウント設定を確認し、公開プロジェクトの許可を確認する。
+- アカウント設定を確認し、公開 Projects の許可を確認する。

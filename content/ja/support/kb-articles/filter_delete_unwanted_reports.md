@@ -1,10 +1,10 @@
 ---
-title: 不要なレポートのフィルタリングと削除
+title: 不要なReportsのフィルタリングと削除
 menu:
   support:
     identifier: ja-support-kb-articles-filter_delete_unwanted_reports
 support:
-- reports
+- レポート
 toc_hide: true
 type: docs
 url: /support/:filename
