@@ -1,24 +1,24 @@
 ---
+title: 専用クラウドがサポートされている地域
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-dedicated_cloud-dedicated_regions
     parent: dedicated-cloud
-title: Supported Dedicated Cloud regions
 url: guides/hosting/hosting-options/dedicated_regions
 weight: 1
 ---
 
-AWS, GCP, and Azure support cloud computing services in multiple locations worldwide. Global regions help ensure that you satisfy requirements related to data residency & compliance, latency, cost efficiency and more. W&B supports many of the available global regions for Dedicated Cloud.
+AWS、GCP、Azure は世界中の複数の場所でクラウドコンピューティングサービスをサポートしています。グローバル地域は、データの居住地やコンプライアンス、レイテンシー、コスト効率などに関連する要件を満たすのに役立ちます。W&B は、Dedicated Cloud のために利用可能な多くのグローバル地域をサポートしています。
 
 {{% alert %}}
-Reach out to W&B Support if your preferred AWS, GCP, or Azure Region is not listed. W&B can validate if the relevant region has all the services that Dedicated Cloud needs and prioritize support depending on the outcome of the evaluation.
+ご希望の AWS、GCP、Azure の地域がリストにない場合は、W&B サポートにご連絡ください。W&B は、該当する地域が Dedicated Cloud に必要なすべてのサービスを備えているかどうかを検証し、評価の結果に応じてサポートを優先することができます。
 {{% /alert %}}
 
-## Supported AWS Regions
+## サポートされている AWS 地域
 
-The following table lists [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) that W&B currently supports for Dedicated Cloud instances.
+以下の表は、W&B が現在 Dedicated Cloud インスタンスについてサポートしている [AWS 地域](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) の一覧です。
 
-| Region location | Region name |
+| 地域の場所 | 地域名 |
 |-------------|--------|
 |US East (Ohio)| us-east-2|
 |US East (N. Virginia)|us-east-1|
@@ -36,14 +36,15 @@ The following table lists [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/la
 |Asia Pacific (Tokyo)|ap-northeast-1|
 |Asia Pacific (Seoul)|ap-northeast-2|
 
-For more information about AWS Regions, see the [Regions, Availability Zones, and Local Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) in the AWS Documentation.
+AWS 地域についての詳細は、AWS ドキュメントの [Regions, Availability Zones, and Local Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) を参照してください。
 
-See [What to Consider when Selecting a Region for your Workloads](https://aws.amazon.com/blogs/architecture/what-to-consider-when-selecting-a-region-for-your-workloads/) for an overview of factors that you should consider when choosing an AWS Region. 
+AWS 地域を選択する際に考慮すべき要素の概要については、[What to Consider when Selecting a Region for your Workloads](https://aws.amazon.com/blogs/architecture/what-to-consider-when-selecting-a-region-for-your-workloads/) をご覧ください。
 
-## Supported GCP Regions
-The following table lists [GCP Regions](https://cloud.google.com/compute/docs/regions-zones) that W&B currently supports for Dedicated Cloud instances.
+## サポートされている GCP 地域
 
-| Region location | Region name |
+以下の表は、W&B が現在 Dedicated Cloud インスタンスについてサポートしている [GCP 地域](https://cloud.google.com/compute/docs/regions-zones) の一覧です。
+
+| 地域の場所 | 地域名 |
 |-------------|--------|
 |South Carolina|us-east1|
 |N. Virginia|us-east4|
@@ -60,12 +61,13 @@ The following table lists [GCP Regions](https://cloud.google.com/compute/docs/re
 |Tokyo|asia-northeast1|
 |Seoul|asia-northeast3|
 
-For more information about GCP Regions, see [Regions and zones](https://cloud.google.com/compute/docs/regions-zones) in the GCP Documentation.
+GCP 地域についての詳細は、GCP ドキュメントの [Regions and zones](https://cloud.google.com/compute/docs/regions-zones) を参照してください。
 
-## Supported Azure Region
-The following table lists [Azure regions](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#geographies) that W&B currently supports for Dedicated Cloud instances.
+## サポートされている Azure 地域
 
-| Region location | Region name |
+以下の表は、W&B が現在 Dedicated Cloud インスタンスについてサポートしている [Azure 地域](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#geographies) の一覧です。
+
+| 地域の場所 | 地域名 |
 |-------------|--------|
 |Virginia|eastus|
 |Iowa|centralus|
@@ -77,4 +79,4 @@ The following table lists [Azure regions](https://azure.microsoft.com/en-us/expl
 |Tokyo, Saitama|japaneast|
 |Seoul|koreacentral|
 
-For more information about Azure regions, see [Azure geographies](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview) in the Azure Documentation.
+Azure 地域についての詳細は、Azure ドキュメントの [Azure geographies](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview) を参照してください。

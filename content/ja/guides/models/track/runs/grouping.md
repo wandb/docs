@@ -1,61 +1,61 @@
 ---
-description: Group training and evaluation runs into larger experiments
+title: run を実験にまとめる
+description: トレーニングと評価 run をグループ化して大規模な Experiments を構成する
 menu:
   default:
     identifier: ja-guides-models-track-runs-grouping
     parent: what-are-runs
-title: Group runs into experiments
 ---
 
-Group individual jobs into experiments by passing a unique **group** name to **wandb.init()**.
+個々のジョブを実験としてグループ化するには、一意の**グループ**名を**wandb.init()**に渡します。
 
-## Use cases
+## ユースケース
 
-1. **Distributed training:** Use grouping if your experiments are split up into different pieces with separate training and evaluation scripts that should be viewed as parts of a larger whole.
-2. **Multiple processes**: Group multiple smaller processes together into an experiment.
-3. **K-fold cross-validation**: Group together runs with different random seeds to see a larger experiment. Here's [an example](https://github.com/wandb/examples/tree/master/examples/wandb-sweeps/sweeps-cross-validation) of k-fold cross-validation with sweeps and grouping.
+1. **分散トレーニング**: 実験が異なるトレーニングや評価スクリプトに分割されている場合、グループ化を使用してそれらを一つの大きな全体として見ることができます。
+2. **複数のプロセス**: 複数の小さなプロセスを一つの実験としてグループ化します。
+3. **K-分割交差検証**: 異なるランダムシードを持つrunをグループ化して、大きな実験を見ます。こちらがスイープとグループ化を使用した[K-分割交差検証の例です](https://github.com/wandb/examples/tree/master/examples/wandb-sweeps/sweeps-cross-validation)。
 
-There are three ways to set grouping:
+グループ化を設定する方法は3つあります:
 
-### 1. Set group in your script
+### 1. スクリプトでグループを設定する
 
-Pass an optional group and job_type to wandb.init(). This gives you a dedicated group page for each experiment, which contains the individual runs. For example:`wandb.init(group="experiment_1", job_type="eval")`
+オプションで `group` と `job_type` を wandb.init() に渡します。これにより、各実験に対して専用のグループページが作成され、個々のrunが含まれます。例: `wandb.init(group="experiment_1", job_type="eval")`
 
-### 2. Set a group environment variable
+### 2. グループ環境変数を設定する
 
-Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [**Environment Variables**]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})**. Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`
+`WANDB_RUN_GROUP` を使用して、runのグループを環境変数として指定します。詳細は[**Environment Variables**]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})をご覧ください。**Group**はプロジェクト内で一意である必要があり、グループ内のすべてのrunで共有されます。`wandb.util.generate_id()` を使用して、すべてのプロセスで使用するための一意の8文字の文字列を生成することができます。例: `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`
 
-### 3. Toggle grouping in the UI
+### 3. UIでグループ化を切り替える
 
-You can dynamically group by any config column. For example, if you use `wandb.config` to log batch size or learning rate, you can then group by those hyperparameters dynamically in the web app.
+任意の設定列で動的にグループ化できます。例として、`wandb.config` を使用してバッチサイズまたは学習率をログすると、それらのハイパーパラメーターでWebアプリ内で動的にグループ化できます。
 
-## Distributed training with grouping
+## グループ化を伴う分散トレーニング
 
-Suppose you set grouping in `wandb.init()`, we will group runs by default in the UI. You can toggle this on and off by clicking the **Group** button at the top of the table. Here's an [example project](https://wandb.ai/carey/group-demo?workspace=user-carey) generated from [sample code](http://wandb.me/grouping) where we set grouping. You can click on each "Group" row in the sidebar to get to a dedicated group page for that experiment.
+`wandb.init()`でグループ化を設定したと仮定すると、UIではデフォルトでrunがグループ化されます。テーブルの上部にある**Group**ボタンをクリックして、これをオン・オフすることができます。こちらはグループ化を設定した[サンプルコード](http://wandb.me/grouping)から生成された[例のプロジェクト](https://wandb.ai/carey/group-demo?workspace=user-carey)です。サイドバーの各「グループ」行をクリックすると、その実験の専用グループページにアクセスできます。
 
 {{< img src="/images/track/distributed_training_wgrouping_1.png" alt="" >}}
 
-From the project page above, you can click a **Group** in the left sidebar to get to a dedicated page like [this one](https://wandb.ai/carey/group-demo/groups/exp_5?workspace=user-carey):
+上記のプロジェクトページから、左サイドバーで**Group**をクリックすると、[このような専用ページ](https://wandb.ai/carey/group-demo/groups/exp_5?workspace=user-carey)にアクセスできます。
 
 {{< img src="/images/track/distributed_training_wgrouping_2.png" alt="" >}}
 
-## Grouping dynamically in the UI
+## UIでの動的なグループ化
 
-You can group runs by any column, for example by hyperparameter. Here's an example of what that looks like:
+任意の列でrunをグループ化できます。例として、ハイパーパラメーターでグループ化することができます。これがどのように見えるかの例です：
 
-* **Sidebar**: Runs are grouped by the number of epochs.
-* **Graphs**: Each line represents the group's mean, and the shading indicates the variance. This behavior can be changed in the graph settings.
+* **サイドバー**: runがエポック数でグループ化されています。
+* **グラフ**: 各線はグループの平均を表し、陰影は分散を示します。この振る舞いはグラフ設定で変更できます。
 
 {{< img src="/images/track/demo_grouping.png" alt="" >}}
 
-## Turn off grouping
+## グループ化をオフにする
 
-Click the grouping button and clear group fields at any time, which returns the table and graphs to their ungrouped state.
+グループ化ボタンをクリックし、グループフィールドをいつでもクリアすることで、テーブルとグラフをグループ化されていない状態に戻します。
 
 {{< img src="/images/track/demo_no_grouping.png" alt="" >}}
 
-## Grouping graph settings
+## グループ化グラフの設定
 
-Click the edit button in the upper right corner of a graph and select the **Advanced** tab to change the line and shading. You can select the mean, minimum, or maximum value for the line in each group. For the shading, you can turn off shading, and show the min and max, the standard deviation, and the standard error.
+グラフの右上にある編集ボタンをクリックし、**Advanced**タブを選択して線と陰影を変更します。各グループの線には平均、最小、最大値を選択できます。陰影については無効にしたり、最小と最大、標準偏差、標準誤差を表示することができます。
 
 {{< img src="/images/track/demo_grouping_options_for_line_plots.gif" alt="" >}}

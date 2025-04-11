@@ -1,21 +1,21 @@
 ---
-description: Collaborate and share W&B Reports with peers, co-workers, and your team.
+title: レポートを共同で作成する
+description: W&B Reports を同僚やチームメンバーと共有してコラボレーションしましょう。
 menu:
   default:
     identifier: ja-guides-core-reports-collaborate-on-reports
     parent: reports
-title: Collaborate on reports
 weight: 30
 ---
 
-Once you have saved a report, you can select the **Share** button to collaborate. A draft copy of the report is created when you select the **Edit** button. Draft reports auto-save. Select **Save to report** to publish your changes to the shared report.
+レポートを保存したら、**Share** ボタンを選択してコラボレーションできます。**Edit** ボタンを選択すると、レポートの下書きコピーが作成されます。下書きレポートは自動保存されます。変更を共有レポートに公開するには、**Save to report** を選択します。
 
-A warning notification will appear if an edit conflict occurs. This can occur if you and another collaborator edit the same report at the same time. The warning notification will guide you to resolve potential edit conflicts.
+編集の競合が発生すると警告通知が表示されます。これは、あなたと他のコラボレーターが同じレポートを同時に編集した場合に発生する可能性があります。警告通知は、編集の競合を解決するためのガイドとなります。
 
-{{< img src="/images/reports/share-report.gif" alt="Report sharing modal for a report in a 'Public' project" max-width="90%">}}
+{{< img src="/images/reports/share-report.gif" alt="『Public』プロジェクト内でのレポート共有モーダル" max-width="90%">}}
 
-## Comment on reports
+## レポートにコメントする
 
-Click the comment button on a panel in a report to add a comment directly to that panel.
+レポート内のパネルにあるコメントボタンをクリックして、そのパネルに直接コメントを追加します。
 
-{{< img src="/images/reports/demo_comment_on_panels_in_reports.gif" alt="Adding a comment to a panel" >}}
+{{< img src="/images/reports/demo_comment_on_panels_in_reports.gif" alt="パネルにコメントを追加する" >}}

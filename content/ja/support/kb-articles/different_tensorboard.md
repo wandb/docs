@@ -1,25 +1,25 @@
 ---
+title: W&B は TensorBoard とどう違いますか？
 menu:
   support:
     identifier: ja-support-kb-articles-different_tensorboard
 support:
 - tensorboard
-title: How is W&B different from TensorBoard?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-W&B integrates with TensorBoard and improves experiment tracking tools. The founders created W&B to address common frustrations faced by TensorBoard users. Key improvements include:
+W&B は TensorBoard と連携し、実験管理ツールを改善します。創業者は TensorBoard ユーザーが直面する一般的な課題を解決するために W&B を作成しました。主な改善点は以下の通りです：
 
-1. **Model Reproducibility**: W&B facilitates experimentation, exploration, and model reproduction. It captures metrics, hyperparameters, code versions, and saves model checkpoints to ensure reproducibility.
+1. **モデル再現性**: W&B は実験、探索、モデルの再現を促進します。メトリクス、ハイパーパラメーター、コードバージョンをキャプチャし、モデルのチェックポイントを保存して再現性を確保します。
 
-2. **Automatic Organization**: W&B streamlines project handoffs and vacations by providing an overview of all attempted models, which saves time by preventing the re-execution of old experiments.
+2. **自動化された組織化**: W&B は、すべての試行されたモデルの概要を提供することで、プロジェクト引き継ぎや休暇を効率化し、古い実験の再実行を防いで時間を節約します。
 
-3. **Quick Integration**: Integrate W&B into your project in five minutes. Install the free open-source Python package and add a few lines of code. Logged metrics and records appear with each model run.
+3. **迅速なインテグレーション**: 5 分で W&B をプロジェクトに統合します。無料のオープンソース Python パッケージをインストールし、いくつかのコード行を追加します。ログされたメトリクスと記録は、各モデル run と共に表示されます。
 
-4. **Centralized Dashboard**: Access a consistent dashboard regardless of where training occurs—locally, on lab clusters, or cloud spot instances. Eliminate the need to manage TensorBoard files across different machines.
+4. **一元化されたダッシュボード**: トレーニングがどこで行われていても、一貫したダッシュボードにアクセスできます（ローカル、ラボのクラスター、クラウドのスポットインスタンスなど）。異なるマシン間での TensorBoard ファイルの管理が不要です。
 
-5. **Robust Filtering Table**: Search, filter, sort, and group results from various models efficiently. Easily identify the best-performing models for different tasks, an area where TensorBoard often struggles with larger projects.
+5. **強力なフィルタリングテーブル**: 様々なモデルからの結果を効率的に検索、フィルタリング、並べ替え、グループ化します。異なるタスクに最適なモデルを簡単に特定でき、TensorBoard が大規模なプロジェクトでしばしば苦労する点で優れています。
 
-6. **Collaboration Tools**: W&B enhances collaboration for complex machine learning projects. Share project links and utilize private teams for result sharing. Create reports with interactive visualizations and markdown descriptions for work logs or presentations.
+6. **コラボレーションツール**: W&B は複雑な機械学習プロジェクトのためのコラボレーションを強化します。プロジェクトリンクを共有し、プライベートチームを利用して結果を共有します。インタラクティブな可視化とマークダウンの説明を使用してレポートを作成し、作業ログやプレゼンテーションに利用します。

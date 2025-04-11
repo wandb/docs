@@ -1,11 +1,11 @@
 ---
+title: Filestream のレート制限を超えたエラーをどのように解決できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-filestream_rate_limit_exceeded_error
 support:
-- connectivity
+- 接続性
 - outage
-title: How can I resolve the Filestream rate limit exceeded error?
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -13,12 +13,12 @@ url: /support/:filename
 
 To resolve the "Filestream rate limit exceeded" error in Weights & Biases (W&B), follow these steps:
 
-**Optimize logging**:
-  - Reduce logging frequency or batch logs to decrease API requests.
-  - Stagger experiment start times to avoid simultaneous API requests.
+**ログの最適化**:
+  - API リクエストを減らすために、ログの頻度を減らすか、バッチログを使用します。
+  - 実験の開始時間をずらして、API リクエストが同時に発生しないようにします。
 
-**Check for outages**:
-  - Verify that the issue does not arise from a temporary server-side problem by checking [W&B status updates](https://status.wandb.com).
+**障害の確認**:
+  - [W&B status updates](https://status.wandb.com) を確認し、一時的なサーバー側の問題でないことを確認します。
 
-**Contact support**:
-  - Reach out to W&B support (support@wandb.com) with details of the experimental setup to request an increase in rate limits.
+**サポートに連絡**:
+  - Rate limit の増加をリクエストするために、実験のセットアップの詳細を記載して、W&B サポート (support@wandb.com) に連絡します。

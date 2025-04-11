@@ -1,20 +1,19 @@
 ---
+title: インテグレーション
 cascade:
 - url: guides/integrations/:filename
 menu:
   default:
     identifier: ja-guides-integrations-_index
-title: Integrations
 url: guides/integrations
 weight: 9
 ---
 
-W&B integrations make it fast and easy to set up experiment tracking and data versioning inside existing projects. Check out integrations for ML frameworks such as [PyTorch]({{< relref path="pytorch.md" lang="ja" >}}), ML libraries such as [Hugging Face]({{< relref path="huggingface.md" lang="ja" >}}), or cloud services such as [Amazon SageMaker]({{< relref path="sagemaker.md" lang="ja" >}}).
-
+W&B のインテグレーションを使えば、既存のプロジェクトで実験管理やデータのバージョン管理をすばやく簡単にセットアップできます。[PyTorch]({{< relref path="pytorch.md" lang="ja" >}}) のような ML フレームワーク、[Hugging Face]({{< relref path="huggingface.md" lang="ja" >}}) のような ML ライブラリ、または [Amazon SageMaker]({{< relref path="sagemaker.md" lang="ja" >}}) のようなクラウドサービスのインテグレーションをご覧ください。
 
 <iframe width="668" height="376" src="https://www.youtube.com/embed/hmewPDNUNJs?list=PLD80i8An1OEGajeVo15ohAQYF1Ttle0lk" title="Log Your First Run With W&amp;B" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-## Related resources
+## 関連リソース
 
-* [Examples](https://github.com/wandb/examples): Try the code with notebook and script examples for each integration.
-* [Video Tutorials](https://www.youtube.com/playlist?list=PLD80i8An1OEGajeVo15ohAQYF1Ttle0lk): Learn to use W&B with YouTube video tutorials
+* [Examples](https://github.com/wandb/examples): それぞれのインテグレーションのノートブックやスクリプト例でコードを試してください。
+* [動画チュートリアル](https://www.youtube.com/playlist?list=PLD80i8An1OEGajeVo15ohAQYF1Ttle0lk): YouTube の動画チュートリアルで W&B の使い方を学びましょう。

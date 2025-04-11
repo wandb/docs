@@ -1,13 +1,13 @@
 ---
+title: QueuedRun
 menu:
   reference:
     identifier: ja-ref-python-public-api-queuedrun
-title: QueuedRun
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L214-L417 >}}
 
-A single queued run associated with an entity and project. Call `run = queued_run.wait_until_running()` or `run = queued_run.wait_until_finished()` to access the run.
+エンティティとプロジェクトに関連付けられた単一のキューに入った run。`run = queued_run.wait_until_running()` または `run = queued_run.wait_until_finished()` を呼び出して run に アクセスします。
 
 ```python
 QueuedRun(
@@ -16,14 +16,14 @@ QueuedRun(
 )
 ```
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L338-L387)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L338-L387)
 
 ```python
 delete(
@@ -31,11 +31,11 @@ delete(
 )
 ```
 
-Delete the given queued run from the wandb backend.
+指定されたキューに入った run を wandb のバックエンドから削除します。
 
 ### `wait_until_finished`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L328-L336)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L328-L336)
 
 ```python
 wait_until_finished()
@@ -43,7 +43,7 @@ wait_until_finished()
 
 ### `wait_until_running`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L389-L414)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/jobs.py#L389-L414)
 
 ```python
 wait_until_running()

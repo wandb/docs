@@ -1,34 +1,30 @@
 ---
+title: インポート＆エクスポート API
 menu:
   reference:
     identifier: ja-ref-python-public-api-_index
-title: Import & Export API
 ---
 
-<!-- Insert buttons and diff -->
+## クラス
 
+[`class Api`](./api.md): wandb サーバーをクエリするために使用されます。
 
+[`class File`](./file.md): File は wandb によって保存されたファイルに関連付けられているクラスです。
 
-## Classes
-
-[`class Api`](./api.md): Used for querying the wandb server.
-
-[`class File`](./file.md): File is a class associated with a file saved by wandb.
-
-[`class Files`](./files.md): An iterable collection of `File` objects.
+[`class Files`](./files.md): `File` オブジェクトの反復可能なコレクション。
 
 [`class Job`](./job.md)
 
-[`class Project`](./project.md): A project is a namespace for runs.
+[`class Project`](./project.md): プロジェクトは、run の名前空間です。
 
-[`class Projects`](./projects.md): An iterable collection of `Project` objects.
+[`class Projects`](./projects.md): `Project` オブジェクトの反復可能なコレクション。
 
-[`class QueuedRun`](./queuedrun.md): A single queued run associated with an entity and project. Call `run = queued_run.wait_until_running()` or `run = queued_run.wait_until_finished()` to access the run.
+[`class QueuedRun`](./queuedrun.md): entity と project に関連付けられた単一のキューされた run。`run = queued_run.wait_until_running()` または `run = queued_run.wait_until_finished()` を呼び出して run にアクセスします。
 
-[`class Run`](./run.md): A single run associated with an entity and project.
+[`class Run`](./run.md): entity と project に関連付けられた単一の run。
 
 [`class RunQueue`](./runqueue.md)
 
-[`class Runs`](./runs.md): An iterable collection of runs associated with a project and optional filter.
+[`class Runs`](./runs.md): プロジェクトとオプションのフィルタに関連付けられたいくつかの run の反復可能なコレクション。
 
-[`class Sweep`](./sweep.md): A set of runs associated with a sweep.
+[`class Sweep`](./sweep.md): sweep に関連付けられた一連の runs。

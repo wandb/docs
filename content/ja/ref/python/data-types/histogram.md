@@ -1,13 +1,13 @@
 ---
+title: ヒストグラム
 menu:
   reference:
     identifier: ja-ref-python-data-types-histogram
-title: Histogram
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/histogram.py#L18-L94 >}}
 
-wandb class for histograms.
+wandb のヒストグラム用クラス。
 
 ```python
 Histogram(
@@ -17,18 +17,18 @@ Histogram(
 ) -> None
 ```
 
-This object works just like numpy's histogram function
+このオブジェクトは numpy のヒストグラム関数と同様に動作します。
 https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
 
-#### Examples:
+#### 例:
 
-Generate histogram from a sequence
+シーケンスからヒストグラムを生成
 
 ```python
 wandb.Histogram([1, 2, 3])
 ```
 
-Efficiently initialize from np.histogram.
+np.histogram から効率的に初期化。
 
 ```python
 hist = np.histogram(data)
@@ -37,14 +37,14 @@ wandb.Histogram(np_histogram=hist)
 
 | Args |  |
 | :--- | :--- |
-|  `sequence` |  (array_like) input data for histogram |
-|  `np_histogram` |  (numpy histogram) alternative input of a precomputed histogram |
-|  `num_bins` |  (int) Number of bins for the histogram. The default number of bins is 64. The maximum number of bins is 512 |
+|  `sequence` |  (array_like) ヒストグラムの入力データ |
+|  `np_histogram` |  (numpy histogram) あらかじめ計算されたヒストグラムの代替入力 |
+|  `num_bins` |  (int) ヒストグラムのビンの数。デフォルトのビンの数は 64 です。ビンの最大数は 512 です |
 
 | Attributes |  |
 | :--- | :--- |
-|  `bins` |  ([float]) edges of bins |
-|  `histogram` |  ([int]) number of elements falling in each bin |
+|  `bins` |  ([float]) ビンの境界 |
+|  `histogram` |  ([int]) 各ビンに入る要素の数 |
 
 | Class Variables |  |
 | :--- | :--- |

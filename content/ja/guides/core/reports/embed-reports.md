@@ -1,38 +1,38 @@
 ---
-description: Embed W&B reports directly into Notion or with an HTML IFrame element.
+title: レポートを埋め込む
+description: W&B レポートを直接 Notion に埋め込むか、HTML IFrame 要素を使用します。
 menu:
   default:
     identifier: ja-guides-core-reports-embed-reports
     parent: reports
-title: Embed a report
 weight: 50
 ---
 
-## HTML iframe element
+## HTML iframe 要素
 
-Select the **Share** button on the upper right hand corner within a report. A modal window will appear. Within the modal window, select **Copy embed code**. The copied code will render within an Inline Frame (IFrame)  HTML element. Paste the copied code into an iframe HTML element of your choice.
+レポート内の右上にある **Share** ボタンを選択します。モーダルウィンドウが表示されます。このモーダルウィンドウ内で **Copy embed code** を選択します。コピーされたコードは、インラインフレーム (IFrame) HTML 要素内でレンダリングされます。コピーしたコードを任意の iframe HTML 要素に貼り付けます。
 
 {{% alert %}}
-Only **public** reports are viewable when embedded.
+埋め込まれた場合、**公開** レポートのみが表示可能です。
 {{% /alert %}}
 
 {{< img src="/images/reports/get_embed_url.gif" alt="" >}}
 
 ## Confluence
 
-The proceeding animation demonstrates how to insert the direct link to the report within an IFrame cell in Confluence.
+次のアニメーションは、Confluence の IFrame セル内でレポートへの直接リンクを挿入する方法を示しています。
 
 {{< img src="//images/reports/embed_iframe_confluence.gif" alt="" >}}
 
 ## Notion
 
-The proceeding animation demonstrates how to insert a report into a Notion document using an Embed block in Notion and the report's embedded code.
+次のアニメーションは、Notion ドキュメント内で Embed ブロックを使ってレポートを挿入し、そのレポートの埋め込みコードを使用する方法を示しています。
 
 {{< img src="//images/reports/embed_iframe_notion.gif" alt="" >}}
 
 ## Gradio
 
-You can use the `gr.HTML` element to embed W&B Reports within Gradio Apps and use them within Hugging Face Spaces.
+`gr.HTML` 要素を使用して、Gradio Apps 内で W&B Reports を埋め込み、Hugging Face Spaces で利用することができます。
 
 ```python
 import gradio as gr

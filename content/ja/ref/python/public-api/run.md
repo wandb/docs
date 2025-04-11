@@ -1,13 +1,13 @@
 ---
+title: Run
 menu:
   reference:
     identifier: ja-ref-python-public-api-run
-title: Run
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L276-L1007 >}}
 
-A single run associated with an entity and project.
+エンティティおよびプロジェクトに関連付けられた単一の run。
 
 ```python
 Run(
@@ -20,14 +20,14 @@ Run(
 )
 ```
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `create`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L377-L417)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L377-L417)
 
 ```python
 @classmethod
@@ -36,11 +36,11 @@ create(
 )
 ```
 
-Create a run for the given project.
+指定されたプロジェクトのために run を作成します。
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L540-L568)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L540-L568)
 
 ```python
 delete(
@@ -48,11 +48,11 @@ delete(
 )
 ```
 
-Delete the given run from the wandb backend.
+指定された run を wandb バックエンドから削除します。
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
 
 ```python
 display(
@@ -60,11 +60,11 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+このオブジェクトを Jupyter で表示します。
 
 ### `file`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L632-L642)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L632-L642)
 
 ```python
 file(
@@ -72,19 +72,19 @@ file(
 )
 ```
 
-Return the path of a file with a given name in the artifact.
+指定された名前のファイルのパスをアーティファクトで返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  name (str): name of requested file. |
+|  name (str): 要求されたファイルの名前。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `File` matching the name argument. |
+|  指定された name 引数と一致する `File`。 |
 
 ### `files`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L619-L630)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L619-L630)
 
 ```python
 files(
@@ -92,19 +92,19 @@ files(
 )
 ```
 
-Return a file path for each file named.
+指定された名前のすべてのファイルのファイルパスを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  names (list): names of the requested files, if empty returns all files per_page (int): number of results per page. |
+|  names (list): 要求されたファイルの名前、指定されていない場合はすべてのファイルを返す。 per_page (int): ページあたりの結果数。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Files` object, which is an iterator over `File` objects. |
+|  `Files` オブジェクトで、これは `File` オブジェクトのイテレータです。 |
 
 ### `history`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L668-L708)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L668-L708)
 
 ```python
 history(
@@ -112,25 +112,25 @@ history(
 )
 ```
 
-Return sampled history metrics for a run.
+run のサンプル化された履歴メトリクスを返します。
 
-This is simpler and faster if you are ok with the history records being sampled.
+履歴レコードがサンプリングされることを許容できる場合、こちらの方が簡単で高速です。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `samples` |  (int, optional) The number of samples to return |
-|  `pandas` |  (bool, optional) Return a pandas dataframe |
-|  `keys` |  (list, optional) Only return metrics for specific keys |
-|  `x_axis` |  (str, optional) Use this metric as the xAxis defaults to _step |
-|  `stream` |  (str, optional) "default" for metrics, "system" for machine metrics |
+|  `samples` |  (int, オプション) 返すサンプル数 |
+|  `pandas` |  (bool, オプション) パンダのデータフレームを返す |
+|  `keys` |  (list, オプション) 特定のキーのメトリクスのみを返す |
+|  `x_axis` |  (str, オプション) xAxis として使用するメトリクス、デフォルトは _step |
+|  `stream` |  (str, オプション) メトリクス用の "default"、マシンメトリクス用の "system" |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  `pandas.DataFrame` |  If pandas=True returns a `pandas.DataFrame` of history metrics. list of dicts: If pandas=False returns a list of dicts of history metrics. |
+|  `pandas.DataFrame` |  pandas=True の場合は歴史メトリクスの `pandas.DataFrame` を返します。 pandas=False の場合は歴史メトリクスの辞書のリストを返します。 |
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L419-L488)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L419-L488)
 
 ```python
 load(
@@ -140,7 +140,7 @@ load(
 
 ### `log_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L860-L905)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L860-L905)
 
 ```python
 log_artifact(
@@ -150,20 +150,20 @@ log_artifact(
 )
 ```
 
-Declare an artifact as output of a run.
+アーティファクトを run の出力として宣言します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)`. aliases (list, optional): Aliases to apply to this artifact. |
-|  `tags` |  (list, optional) Tags to apply to this artifact, if any. |
+|  artifact (`Artifact`): `wandb.Api().artifact(name)` から返されたアーティファクト。 aliases (list, オプション): このアーティファクトに適用するエイリアス。 |
+|  `tags` |  (list, オプション) このアーティファクトに適用するタグ。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
 ### `logged_artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L766-L798)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L766-L798)
 
 ```python
 logged_artifacts(
@@ -171,20 +171,19 @@ logged_artifacts(
 ) -> public.RunArtifacts
 ```
 
-Fetches all artifacts logged by this run.
+この run によってログされているすべてのアーティファクトを取得します。
 
-Retrieves all output artifacts that were logged during the run. Returns a
-paginated result that can be iterated over or collected into a single list.
+run 中にログされたすべての出力アーティファクトを取得します。取得した結果はページネーションされ、イテレートするか、単一のリストにまとめることができます。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `per_page` |  Number of artifacts to fetch per API request. |
+|  `per_page` |  API リクエストごとに取得するアーティファクトの数。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An iterable collection of all Artifact objects logged as outputs during this run. |
+|  この run 中に出力として記録されたすべての Artifact オブジェクトのイテレート可能なコレクション。 |
 
-#### Example:
+#### 例:
 
 ```
 >>> import wandb
@@ -192,7 +191,7 @@ paginated result that can be iterated over or collected into a single list.
 >>> with tempfile.NamedTemporaryFile(
 ...     mode="w", delete=False, suffix=".txt"
 ... ) as tmp:
-...     tmp.write("This is a test artifact")
+...     tmp.write("これはテストアーティファクトです")
 ...     tmp_path = tmp.name
 >>> run = wandb.init(project="artifact-example")
 >>> artifact = wandb.Artifact("test_artifact", type="dataset")
@@ -208,7 +207,7 @@ test_artifact
 
 ### `save`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L570-L571)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L570-L571)
 
 ```python
 save()
@@ -216,7 +215,7 @@ save()
 
 ### `scan_history`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L710-L764)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L710-L764)
 
 ```python
 scan_history(
@@ -224,11 +223,11 @@ scan_history(
 )
 ```
 
-Returns an iterable collection of all history records for a run.
+run のすべての履歴レコードをイテレート可能なコレクションで返します。
 
-#### Example:
+#### 例:
 
-Export all the loss values for an example run
+例として全ての損失値をエクスポート
 
 ```python
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
@@ -236,17 +235,17 @@ history = run.scan_history(keys=["Loss"])
 losses = [row["Loss"] for row in history]
 ```
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  keys ([str], optional): only fetch these keys, and only fetch rows that have all of keys defined. page_size (int, optional): size of pages to fetch from the api. min_step (int, optional): the minimum number of pages to scan at a time. max_step (int, optional): the maximum number of pages to scan at a time. |
+|  keys ([str], オプション): これらのキーのみをフェッチし、これらの定義されたすべてのキーを含む行のみをフェッチします。 page_size (int, オプション): API からフェッチするページのサイズ。 min_step (int, オプション): 一度にスキャンするページの最小数。 max_step (int, オプション): 一度にスキャンするページの最大数。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An iterable collection over history records (dict). |
+|  履歴レコード (辞書) のイテレート可能なコレクション。 |
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -256,7 +255,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L993-L1001)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L993-L1001)
 
 ```python
 to_html(
@@ -264,21 +263,21 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this run.
+この run を表示する iframe を含む HTML を生成します。
 
 ### `update`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L512-L538)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L512-L538)
 
 ```python
 update()
 ```
 
-Persist changes to the run object to the wandb backend.
+run オブジェクトに対する変更を wandb バックエンドに保存します。
 
 ### `upload_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L644-L666)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L644-L666)
 
 ```python
 upload_file(
@@ -286,19 +285,19 @@ upload_file(
 )
 ```
 
-Upload a file.
+ファイルをアップロードします。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  path (str): name of file to upload. root (str): the root path to save the file relative to. i.e. If you want to have the file saved in the run as "my_dir/file.txt" and you're currently in "my_dir" you would set root to "../". |
+|  path (str): アップロードするファイルの名前。 root (str): ファイルを保存するルートパス。例: ファイルを "my_dir/file.txt" として保存したい場合で、現在 "my_dir" にいる場合は、 root を "../" に設定します。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `File` matching the name argument. |
+|  指定された name 引数に一致する `File`。 |
 
 ### `use_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L827-L858)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L827-L858)
 
 ```python
 use_artifact(
@@ -306,19 +305,19 @@ use_artifact(
 )
 ```
 
-Declare an artifact as an input to a run.
+アーティファクトを run への入力として宣言します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)` use_as (string, optional): A string identifying how the artifact is used in the script. Used to easily differentiate artifacts used in a run, when using the beta wandb launch feature's artifact swapping functionality. |
+|  artifact (`Artifact`): `wandb.Api().artifact(name)` から返されたアーティファクト。 use_as (string, オプション): スクリプトでアーティファクトがどのように使用されるかを識別する文字列。 run で使用されるアーティファクトを簡単に識別するために、ベータ版の wandb launch 機能のアーティファクト交換機能を使用します。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
 ### `used_artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L800-L825)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L800-L825)
 
 ```python
 used_artifacts(
@@ -326,21 +325,19 @@ used_artifacts(
 ) -> public.RunArtifacts
 ```
 
-Fetches artifacts explicitly used by this run.
+この run で明示的に使用されているアーティファクトを取得します。
 
-Retrieves only the input artifacts that were explicitly declared as used
-during the run, typically via `run.use_artifact()`. Returns a paginated
-result that can be iterated over or collected into a single list.
+run 中に明示的に使用された入力アーティファクトのみを取得します。通常は `run.use_artifact()` を通じて宣言される。取得した結果はページネーションされ、イテレートするか、単一のリストにまとめることができます。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `per_page` |  Number of artifacts to fetch per API request. |
+|  `per_page` |  API リクエストごとに取得するアーティファクトの数。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An iterable collection of Artifact objects explicitly used as inputs in this run. |
+|  この run 中に入力として明示的に使用された Artifact オブジェクトのイテレート可能なコレクション。 |
 
-#### Example:
+#### 例:
 
 ```
 >>> import wandb
@@ -356,7 +353,7 @@ test_artifact
 
 ### `wait_until_finished`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L490-L510)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L490-L510)
 
 ```python
 wait_until_finished()

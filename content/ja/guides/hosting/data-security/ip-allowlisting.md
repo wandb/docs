@@ -1,18 +1,18 @@
 ---
+title: 専用クラウドのための IP 許可リストを設定する
 menu:
   default:
     identifier: ja-guides-hosting-data-security-ip-allowlisting
     parent: data-security
-title: Configure IP allowlisting for Dedicated Cloud
 weight: 3
 ---
 
-You can restrict access to your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) instance from only an authorized list of IP addresses. This applies to the access from your AI workloads to the W&B APIs and from your user browsers to the W&B app UI as well. Once IP allowlisting has been set up for your Dedicated Cloud instance, W&B denies any requests from other unauthorized locations. Reach out to your W&B team to configure IP allowlisting for your Dedicated Cloud instance.
+You can restrict access to your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) インスタンスを許可された IP アドレスのリストからのみとすることができます。これは、AI ワークロードから W&B API へのアクセスおよびユーザーのブラウザから W&B アプリの UI へのアクセスにも適用されます。Dedicated Cloud インスタンスに対して IP ホワイトリストが設定されると、W&B は他の許可されていない場所からの要求を拒否します。Dedicated Cloud インスタンスの IP ホワイトリスト設定については、W&B チームにお問い合わせください。
 
-IP allowlisting is available on Dedicated Cloud instances on AWS, GCP and Azure.
+IP ホワイトリストは、AWS、GCP、Azure 上の Dedicated Cloud インスタンスで利用可能です。
 
-You can use IP allowlisting with [secure private connectivity]({{< relref path="./private-connectivity.md" lang="ja" >}}). If you use IP allowlisting with secure private connectivity, W&B recommends using secure private connectivity for all traffic from your AI workloads and majority of the traffic from your user browsers if possible, while using IP allowlisting for instance administration from privileged locations.
+[セキュアなプライベート接続]({{< relref path="./private-connectivity.md" lang="ja" >}}) とともに IP ホワイトリストを使用できます。セキュアなプライベート接続とともに IP ホワイトリストを使用する場合、W&B は AI ワークロードからのすべてのトラフィックおよび可能であればユーザーのブラウザからのトラフィックの大部分にセキュアなプライベート接続を使用し、特権のある場所からのインスタンス管理には IP ホワイトリストを使用することを推奨します。
 
 {{% alert color="secondary" %}}
-W&B strongly recommends to use [CIDR blocks](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) assigned to your corporate or business egress gateways rather than individual `/32` IP addresses. Using individual IP addresses is not scalable and has strict limits per cloud.
+W&B は、個々の `/32` IP アドレスではなく、企業または事業 egress ゲートウェイに割り当てられた [CIDR ブロック](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) の使用を強く推奨します。個々の IP アドレスの使用は、スケーラブルではなく、クラウドごとに厳しい制限があります。
 {{% /alert %}}

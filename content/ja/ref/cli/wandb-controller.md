@@ -1,21 +1,20 @@
 ---
+title: wandb コントローラ
 menu:
   reference:
     identifier: ja-ref-cli-wandb-controller
-title: wandb controller
 ---
 
-**Usage**
+**使用法**
 
-`wandb controller [OPTIONS] SWEEP_ID`
+`wandb コントローラ [OPTIONS] SWEEP_ID`
 
-**Summary**
+**概要**
 
-Run the W&B local sweep controller
+W&B ローカル sweep コントローラを実行します
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `--verbose` | Display verbose output |
+| `--verbose` | 詳細な出力を表示する |

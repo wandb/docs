@@ -1,57 +1,53 @@
 ---
-description: How to integrate W&B with Meta AI's MMF.
+title: MMF
+description: W&B を Meta AI の MMF と統合する方法。
 menu:
   default:
     identifier: ja-guides-integrations-mmf
     parent: integrations
-title: MMF
 weight: 220
 ---
 
-The `WandbLogger` class in [Meta AI's MMF](https://github.com/facebookresearch/mmf) library will enable Weights & Biases to log the training/validation metrics, system (GPU and CPU) metrics, model checkpoints and configuration parameters.
+`WandbLogger` クラスは、[Meta AI の MMF](https://github.com/facebookresearch/mmf) ライブラリで Weights & Biases を使用して、トレーニング/検証メトリクス、システム (GPU および CPU) メトリクス、モデルチェックポイント、設定パラメータをログすることを可能にします。
 
-## Current features
+## 現行の機能
 
-The following features are currently supported by the `WandbLogger` in MMF:
+以下の機能は、MMF の `WandbLogger` によりサポートされています:
 
-* Training & Validation metrics
-* Learning Rate over time
-* Model Checkpoint saving to W&B Artifacts
-* GPU and CPU system metrics
-* Training configuration parameters
+* トレーニング & 検証メトリクス
+* 時間に応じた学習率
+* モデル チェックポイントを W&B Artifacts に保存
+* GPU および CPU システムメトリクス
+* トレーニング設定パラメータ
 
-## Config parameters
+## 設定パラメータ
 
-The following options are available in MMF config to enable and customize the wandb logging:
+wandb ロギングを有効にしカスタマイズするために MMF 設定で利用可能なオプションは次のとおりです:
 
-```
-training:
-    wandb:
-        enabled: true
-        
-        # An entity is a username or team name where you're sending runs.
-        # By default it will log the run to your user account.
-        entity: null
-        
-        # Project name to be used while logging the experiment with wandb
-        project: mmf
-        
-        # Experiment/ run name to be used while logging the experiment
-        # under the project with wandb. The default experiment name
-        # is: ${training.experiment_name}
-        name: ${training.experiment_name}
-        
-        # Turn on model checkpointing, saving checkpoints to W&B Artifacts
-        log_model_checkpoint: true
-        
-        # Additional argument values that you want to pass to wandb.init(). 
-        # Check out the documentation at /ref/python/init
-        # to see what arguments are available, such as:
-        # job_type: 'train'
-        # tags: ['tag1', 'tag2']
-        
-env:
-    # To change the path to the directory where wandb metadata would be 
-    # stored (Default: env.log_dir):
-    wandb_logdir: ${env:MMF_WANDB_LOGDIR,}
-```
+    training:
+        wandb:
+            enabled: true
+            
+            # エンティティは、run を送信するユーザー名またはチーム名です。
+            # デフォルトでは、run はユーザー アカウントにログされます。
+            entity: null
+            
+            # wandb で実験をログする際に使用するプロジェクト名
+            project: mmf
+            
+            # プロジェクト内で実験をログする際に使用する実験/ run 名。
+            # デフォルトの実験名は: ${training.experiment_name}
+            name: ${training.experiment_name}
+            
+            # モデル チェックポイントを有効にし、チェックポイントを W&B Artifacts に保存します
+            log_model_checkpoint: true
+            
+            # wandb.init() に渡したい追加の引数値。
+            # 使用可能な引数を確認するには、ドキュメント /ref/python/init をチェックしてください。
+            # 例えば:
+            # job_type: 'train'
+            # tags: ['tag1', 'tag2']
+            
+    env:
+        # wandb メタデータが保存されるディレクトリへのパスを変更するには（デフォルト: env.log_dir）:
+        wandb_logdir: ${env:MMF_WANDB_LOGDIR,}

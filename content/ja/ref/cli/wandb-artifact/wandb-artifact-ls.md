@@ -1,21 +1,20 @@
 ---
+title: wandb アーティファクト ls
 menu:
   reference:
     identifier: ja-ref-cli-wandb-artifact-wandb-artifact-ls
-title: wandb artifact ls
 ---
 
-**Usage**
+**使用方法**
 
 `wandb artifact ls [OPTIONS] PATH`
 
-**Summary**
+**概要**
 
-List all artifacts in a wandb project
+wandb プロジェクト内のすべてのアーティファクトを一覧表示します
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `-t, --type` | The type of artifacts to list |
+| `-t, --type` | 一覧表示するアーティファクトのタイプ |

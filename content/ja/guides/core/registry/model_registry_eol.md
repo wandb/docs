@@ -1,108 +1,105 @@
 ---
+title: レガシー モデルレジストリ から移行する
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry_eol
     parent: registry
-title: Migrate from legacy Model Registry
 weight: 8
 ---
 
-W&B will transition assets from the legacy [W&B Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}) to the new [W&B Registry]({{< relref path="./" lang="ja" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
+W&B は旧 [W&B モデルレジストリ]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}) から新しい [W&B レジストリ]({{< relref path="./" lang="ja" >}}) への資産の移行を行います。この移行は W&B が完全に管理し、ユーザーの介入を必要としません。このプロセスは、既存のワークフローに最小限の影響を与えるよう、できる限りシームレスに行うよう設計されています。
 
-The transition will take place once the new W&B Registry includes all the functionalities currently available in the Model Registry. W&B will attempt to preserve current workflows, codebases, and references.
+移行は、新しい W&B レジストリが現在のモデルレジストリで利用可能なすべての機能を含んだ時点で行われます。W&B は、現在のワークフロー、コードベース、参照を維持するよう努めます。
 
-This guide is a living document and will be updated regularly as more information becomes available. For any questions or support, contact support@wandb.com.
+このガイドは常に更新され、新しい情報が得られるたびに更新されます。質問やサポートが必要な場合は、support@wandb.com に問い合わせてください。
 
-## How W&B Registry differs from the legacy Model Registry
+## W&B レジストリが旧モデルレジストリと異なる点
 
-W&B Registry introduces a range of new features and enhancements designed to provide a more robust and flexible environment for managing models, datasets, and other artifacts.
+W&B レジストリは、モデル、データセット、およびその他のアーティファクトを管理するための、より強力で柔軟な環境を提供するよう設計された新機能と強化を導入します。
 
 {{% alert %}}
-To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
+旧モデルレジストリを表示するには、W&B アプリでモデルレジストリに移動します。ページの上部にバナーが表示され、旧モデルレジストリアプリの UI を使用できます。
 
 {{< img src="/images/registry/nav_to_old_model_reg.gif" >}}
 {{% /alert %}}
 
-### Organizational visibility
-Artifacts linked to the legacy Model Registry have team level visibility. This means that only members of your team can view your artifacts in the legacy W&B Model Registry. W&B Registry has organization level visibility. This means that members across an organization, with correct permissions, can view artifacts linked to a registry.
+### 組織の公開範囲
+旧モデルレジストリにリンクされたアーティファクトはチームレベルの公開範囲を持っています。つまり、チームのメンバーだけが旧 W&B モデルレジストリでアーティファクトを閲覧できます。W&B レジストリは組織レベルの公開範囲を持っています。つまり、適切な権限を持つ組織全体のメンバーがレジストリにリンクされたアーティファクトを閲覧できます。
 
+### レジストリへの公開範囲の制限
+カスタムレジストリの表示とアクセスを誰ができるかを制限します。カスタムレジストリの作成時または作成後に、レジストリへの公開範囲を制限できます。制限されたレジストリでは、選択したメンバーのみがコンテンツにアクセスでき、プライバシーとコントロールを維持します。レジストリの公開範囲の詳細については、[レジストリの公開範囲の種類]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}})を参照してください。
 
-### Restrict visibility to a registry
-Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. In a Restricted registry, only selected members can access the content, maintaining privacy and control. For more information about registry visibility, see [Registry visibility types]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}}).
-
-### Create custom registries
-Unlike the legacy Model Registry, W&B Registry is not limited to models or dataset registries. You can create custom registries tailored to specific workflows or project needs, capable of holding any arbitrary object type. This flexibility allows teams to organize and manage artifacts according to their unique requirements. For more information on how to create a custom registry, see [Create a custom registry]({{< relref path="./create_registry.md" lang="ja" >}}).  
+### カスタムレジストリの作成
+旧モデルレジストリとは異なり、W&B レジストリはモデルやデータセットレジストリに限定されません。特定のワークフローやプロジェクトニーズに合わせたカスタムレジストリを作成し、任意のオブジェクトタイプを保持できるようにします。この柔軟性により、チームは独自の要件に従ってアーティファクトを組織し、管理できるようになります。カスタムレジストリの作成方法について詳しくは、[カスタムレジストリの作成]({{< relref path="./create_registry.md" lang="ja" >}})を参照してください。
 
 {{< img src="/images/registry/mode_reg_eol.png" alt="" >}}
 
-### Custom access control
-Each registry supports detailed access control, where members can be assigned specific roles such as Admin, Member, or Viewer. Admins can manage registry settings, including adding or removing members, setting roles, and configuring visibility. This ensures that teams have the necessary control over who can view, manage, and interact with the artifacts in their registries.
+### カスタムアクセス制御
+各レジストリは詳細なアクセス制御をサポートし、メンバーには管理者、メンバー、ビューアーなどの特定の役割を割り当てることができます。管理者はレジストリの設定を管理し、メンバーの追加や削除、役割の設定、公開範囲の設定を行います。これにより、チームはレジストリ内のアーティファクトを誰が表示、管理、操作できるかを制御する必要があります。
 
 {{< img src="/images/registry/registry_access_control.png" alt="" >}}
 
-### Terminology update
-Registered models are now referred to as *collections*. 
+### 用語の更新
+登録されたモデルは現在、*コレクション* と呼ばれています。
 
+### 変更点の概要
 
-### Summary of changes
-
-|               | Legacy W&B Model Registry | W&B Registry |
+|               | 旧 W&B モデルレジストリ | W&B レジストリ |
 | -----         | ----- | ----- |
-| Artifact visibility| Only members of team can view or access artifacts | Members in your organization, with correct permissions, can view or access artifacts linked to a registry  |
-| Custom access control | Not available | Available |
-| Custom registry | Not available | Available |
-| Terminology update | A set of pointers (links) to model versions are called *registered models*. | A set of pointers (links) to artifact versions are called *collections*. | 
-| `wandb.init.link_model` | Model Registry specific API | Currently only compatible with legacy model registry |
+| アーティファクトの公開範囲| チームのメンバーのみがアーティファクトを閲覧またはアクセス可能 | 組織内のメンバーが、適切な権限を持ってレジストリにリンクされたアーティファクトを閲覧またはアクセス可能  |
+| カスタムアクセス制御 | 利用不可 | 利用可能 |
+| カスタムレジストリ | 利用不可 | 利用可能 |
+| 用語の更新 | モデルバージョンへのポインタ (リンク) のセットは *登録されたモデル* と呼ばれる。 | アーティファクトバージョンへのポインタ (リンク) のセットは *コレクション* と呼ばれる。 | 
+| `wandb.init.link_model` | モデルレジストリ固有のAPI | 現在は旧モデルレジストリでのみ互換性あり |
 
+## 移行の準備
 
-## Preparing for the migration
+W&B は登録されたモデル（現在はコレクションと呼ばれる）と関連するアーティファクトバージョンを旧モデルレジストリから W&B レジストリに移行します。このプロセスは自動的に行われ、ユーザーからのアクションは不要です。
 
-W&B will migrate registered models (now called collections) and associated artifact versions from the legacy Model Registry to the W&B Registry. This process will be conducted automatically, with no action required from users.
+### チーム公開範囲から組織公開範囲へ
 
-### Team visibility to organization visibility
+移行後、モデルレジストリは組織レベルの公開範囲を持つようになります。レジストリへのアクセスを制限するには、[役割の割り当て]({{< relref path="./configure_registry.md" lang="ja" >}}) を行うことができます。これにより、特定のメンバーのみが特定のレジストリにアクセスできるようにするのに役立ちます。
 
-After the migration, your model registry will have organization level visibility. You can restrict who has access to a registry by [assigning roles]({{< relref path="./configure_registry.md" lang="ja" >}}). This helps ensure that only specific members have access to specific registries.
+この移行は、旧 W&B モデルレジストリでの現在のチームレベルの登録モデル（まもなくコレクションと呼ばれる）の既存の許可境界を維持します。旧モデルレジストリで定義された権限は新しいレジストリでも維持されます。つまり、特定のチームメンバーに制限されているコレクションは、移行中および移行後も引き続き保護されます。
 
-The migration will preserve existing permission boundaries of your current team-level registered models (soon to be called collections) in the legacy W&B Model Registry. Permissions currently defined in the legacy Model Registry will be preserved in the new Registry. This means that collections currently restricted to specific team members will remain protected during and after the migration. 
+### アーティファクトのパスの連続性
 
-### Artifact path continuity
+現在、アクションは不要です。
 
-No action is currently required.
+## 移行中
 
-## During the migration
+W&B が移行プロセスを開始します。移行は W&B サービスへの影響を最小限に抑える時間枠で行われます。移行が開始されると、旧モデルレジストリは読み取り専用の状態に移行し、参照用にアクセス可能なままになります。
 
-W&B will initiate the migration process. The migration will occur during a time window that minimizes disruption to W&B services. The legacy Model Registry will transition to a read-only state once the migration begins and will remain accessible for reference.
+## 移行後
 
-## After the migration
+移行後、コレクション、アーティファクトバージョン、および関連する属性は、新しい W&B レジストリ内で完全にアクセス可能になります。現在のワークフローを維持することに重点を置いており、変更に対応するためのサポートも提供されています。
 
-Post-migration, collections, artifact versions, and associated attributes will be fully accessible within the new W&B Registry. The focus is on ensuring that current workflows remain intact, with ongoing support available to help navigate any changes.
+### 新しいレジストリの使用
 
-### Using the new registry
+ユーザーは W&B レジストリで利用可能な新機能と機能を探索することが奨励されています。レジストリは、現在依存している機能をサポートするだけでなく、カスタムレジストリ、改善された公開範囲、および柔軟なアクセス制御などの強化機能も導入しています。
 
-Users are encouraged to explore the new features and capabilities available in the W&B Registry. The Registry will not only support the functionalities currently relied upon but also introduces enhancements such as custom registries, improved visibility, and flexible access controls.
+W&B レジストリを早期に試してみたい方や、旧 W&B モデルレジストリではなくレジストリで始めたい新しいユーザーの方にはサポートが提供されています。サポート@wandb.comまたはセールス MLE に連絡して、この機能を有効にします。なお、早期移行は BETA バージョンへの移行となります。W&B レジストリの BETA バージョンには、旧モデルレジストリのすべての機能または機能が含まれていない場合があります。
 
-Support is available if you are interested in trying the W&B Registry early, or for new users that prefer to start with Registry and not the legacy W&B Model Registry. Contact support@wandb.com or your Sales MLE to enable this functionality. Note that any early migration will be into a BETA version. The BETA version of W&B Registry might not have all the functionality or features of the legacy Model Registry.
+詳細と W&B レジストリの完全な機能範囲について学ぶには、[W&B レジストリガイド]({{< relref path="./" lang="ja" >}})を訪れてください。
 
-For more details and to learn about the full range of features in the W&B Registry, visit the [W&B Registry Guide]({{< relref path="./" lang="ja" >}}).
+## FAQ
 
-## FAQs
+### なぜ W&B はモデルレジストリから W&B レジストリへの資産を移行するのですか？
 
-### Why is W&B migrating assets from Model Registry to W&B Registry?
+W&B は、新しいレジストリでより高度な機能と能力を提供するために、そのプラットフォームを進化させています。この移行は、モデル、データセット、およびその他のアーティファクトを管理するための、より統合された強力なツールセットを提供するための一歩です。
 
-W&B is evolving its platform to offer more advanced features and capabilities with the new Registry. This migration is a step towards providing a more integrated and powerful toolset for managing models, datasets, and other artifacts.
+### 移行前に何をすべきですか？
 
-### What needs to be done before the migration?
+移行前にユーザーからのアクションは必要ありません。W&B が移行を処理し、ワークフローと参照を維持することを保証します。
 
-No action is required from users before the migration. W&B will handle the transition, ensuring that workflows and references are preserved.
+### モデルアーティファクトへのアクセスは失われますか？
 
-### Will access to model artifacts be lost?
+いいえ、移行後もモデルアーティファクトへのアクセスは維持されます。旧モデルレジストリは読み取り専用の状態で維持され、すべての関連データは新しいレジストリに移行されます。
 
-No, access to model artifacts will be retained after the migration. The legacy Model Registry will remain in a read-only state, and all relevant data will be migrated to the new Registry.
+### アーティファクトに関連するメタデータは維持されますか？
 
-### Will metadata related to artifacts be preserved?
+はい、アーティファクトの作成、リネージ、その他の属性に関連する重要なメタデータは移行中に維持されます。ユーザーは、移行後もすべての関連するメタデータにアクセスできるため、アーティファクトの完全性と追跡可能性が維持されます。
 
-Yes, important metadata related to artifact creation, lineage, and other attributes will be preserved during the migration. Users will continue to have access to all relevant metadata after the migration, ensuring that the integrity and traceability of their artifacts remain intact.
+### 助けが必要な場合は誰に連絡すればよいですか？
 
-### Who do I contact if I need help?
-
-Support is available for any questions or concerns. Reach out to support@wandb.com for assistance.
+質問や懸念がある場合のサポートは利用可能です。support@wandb.com に問い合わせてサポートを受けてください。

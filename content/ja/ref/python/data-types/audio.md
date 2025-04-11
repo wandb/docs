@@ -1,13 +1,13 @@
 ---
+title: オーディオ
 menu:
   reference:
     identifier: ja-ref-python-data-types-audio
-title: Audio
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L13-L157 >}}
 
-Wandb class for audio clips.
+オーディオクリップ用の Wandb クラス。
 
 ```python
 Audio(
@@ -17,15 +17,15 @@ Audio(
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path` |  (string or numpy array) A path to an audio file or a numpy array of audio data. |
-|  `sample_rate` |  (int) Sample rate, required when passing in raw numpy array of audio data. |
-|  `caption` |  (string) Caption to display with audio. |
+|  `data_or_path` |  (string または numpy array) オーディオファイルへのパス、またはオーディオデータの numpy 配列。 |
+|  `sample_rate` |  (int) サンプルレート、生の numpy 配列のオーディオデータを渡す場合に必要。 |
+|  `caption` |  (string) オーディオと一緒に表示するキャプション。 |
 
-## Methods
+## メソッド
 
 ### `durations`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L115-L117)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L115-L117)
 
 ```python
 @classmethod
@@ -36,7 +36,7 @@ durations(
 
 ### `resolve_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L131-L143)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L131-L143)
 
 ```python
 resolve_ref()
@@ -44,7 +44,7 @@ resolve_ref()
 
 ### `sample_rates`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L119-L121)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L119-L121)
 
 ```python
 @classmethod

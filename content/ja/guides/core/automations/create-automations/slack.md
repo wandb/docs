@@ -1,9 +1,9 @@
 ---
+title: Slack 自動化の作成
 menu:
   default:
     identifier: ja-guides-core-automations-create-automations-slack
     parent: create-automations
-title: Create a Slack automation
 weight: 1
 ---
 
@@ -11,93 +11,92 @@ weight: 1
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-This page shows how to create a Slack [automation]({{< relref path="/guides/core/automations/" lang="ja" >}}> ). To create a webhook automation, refer to [Create a webhook automation]({{< relref path="/guides/core/automations/create-automations/webhook.md" lang="ja" >}}) instead.
+このページでは、Slack [オートメーション]({{< relref path="/guides/core/automations/" lang="ja" >}})を作成する方法を示します。ウェブフックオートメーションを作成するには、[ウェブフックオートメーションの作成]({{< relref path="/guides/core/automations/create-automations/webhook.md" lang="ja" >}})を参照してください。
 
-At a high level, to create a Slack automation, you take these steps:
-1. [Add a Slack integration]({{< relref path="#add-a-slack-channel" lang="ja" >}}), which authorizes W&B to post to the Slack instance and channel.
-1. [Create the Slack automation]({{< relref path="#create-slack-automation" lang="ja" >}}), which defines the [event]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}}) to watch for and the channel to post to.
+高レベルでは、Slackオートメーションを作成するには、以下の手順を行います:
+1. [Slackインテグレーションを追加]({{< relref path="#add-a-slack-channel" lang="ja" >}})し、W&BがSlackインスタンスとチャンネルに投稿できるように認証します。
+1. [Slackオートメーションを作成]({{< relref path="#create-slack-automation" lang="ja" >}})し、監視する[イベント]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}})と投稿するチャンネルを定義します。
 
-## Connect to Slack
-A team admin can add a Slack destination to the team.
+## Slackに接続
+チーム管理者は、チームにSlack宛先を追加できます。
 
-1. Log in to W&B and go to Team Settings page.
-1. In the **Slack channel integrations** section, click **Connect Slack** to add a new Slack instance. To add a channel for an existing Slack instance, click **New integration**.
+1. W&Bにログインし、チーム設定ページに移動します。
+1. **Slackチャンネルインテグレーション**セクションで、**Slackを接続**をクリックして新しいSlackインスタンスを追加します。既存のSlackインスタンスにチャンネルを追加するには、**新しいインテグレーション**をクリックします。
 
-    If necessary, sign in to Slack in your browser. When prompted, grant W&B permission to post to the Slack channel you select. Read the page, then click **Search for a channel** and begin typing the channel name. Select the channel from the list, then click **Allow**.
+    必要に応じて、ブラウザでSlackにサインインします。プロンプトが表示されたら、選択したSlackチャンネルにW&Bからの投稿を許可してください。ページを読み、**チャンネルを検索**をクリックしてチャンネル名を入力し始めます。リストからチャンネルを選択し、**許可**をクリックします。
 
-1. In Slack, go to the channel you selected. If you see a post like `[Your Slack handle] added an integration to this channel: Weights & Biases`, the integration is configured correctly.
+1. Slackで、選択したチャンネルに移動します。`[あなたのSlackハンドル]がこのチャンネルにインテグレーションを追加しました: Weights & Biases`という投稿が表示されれば、インテグレーションが正しく設定されています。
 
-Now you can [create an automation]({{< relref path="#create-a-slack-automation" lang="ja" >}}) that notifies the Slack channel you configured.
+これで、設定したSlackチャンネルに通知する[オートメーションを作成]({{< relref path="#create-a-slack-automation" lang="ja" >}})できます。
 
-## View and manage Slack connections
-A team admin can view and manage the team's Slack instances and channels.
+## Slack接続の表示と管理
+チーム管理者は、チームのSlackインスタンスとチャンネルを表示および管理できます。
 
-1. Log in to W&B and go to **Team Settings**.
-1. View each Slack destination in the **Slack channel integrations** section.
-1. Delete a destination by clicking its trash icon.
+1. W&Bにログインし、**チーム設定**に移動します。
+1. **Slackチャンネルインテグレーション**セクションで各Slack宛先を表示します。
+1. 宛先を削除するには、そのゴミ箱アイコンをクリックします。
 
-## Create an automation
-After you [connect your W&B team to Slack]({{< relref path="#connect-to-slack" lang="ja" >}}), select **Registry** or **Project**, then follow these steps to create an automation that notifies the Slack channel.
+## オートメーションを作成する
+W&Bチームを[Slackに接続した後]({{< relref path="#connect-to-slack" lang="ja" >}})、**Registry**または**Project**を選択し、Slackチャンネルに通知するオートメーションを作成する手順に従います。
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
-A Registry admin can create automations in that registry.
+Registry管理者は、そのregistry内でオートメーションを作成できます。
 
-1. Log in to W&B.
-1. Click the name of a registry to view its details, 
-1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
+1. W&Bにログインします。
+1. registryの名前をクリックして詳細を表示します。
+1. registryに関連付けられたオートメーションを作成するには、**Automations**タブをクリックし、**Create automation**をクリックします。registryに関連付けられたオートメーションは、自動的にそのすべてのコレクションに適用されます（将来作成されるものも含む）。
 
-    To create an automation scoped only to a specific collection in the registry, click the collection's action `...` menu, then click **Create automation**. Alternatively, while viewing a collection, create an automation for it using the **Create automation** button in the **Automations** section of the collection's details page.
-1. Choose the [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}}) to watch for.
+    registry内の特定のコレクションにのみ関連付けられたオートメーションを作成するには、コレクションのアクション`...`メニューをクリックし、**Create automation**をクリックします。あるいは、コレクションを閲覧しているときに、**Automations**セクションの詳細ページで**Create automation**ボタンを使用して、そのためのオートメーションを作成します。
+1. 監視する[**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}})を選択します。
 
-    Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+    イベントに応じた追加のフィールドが表示されるので、それを入力します。たとえば、**An artifact alias is added**を選択した場合は、**Alias regex**を指定する必要があります。
     
-    Click **Next step**.
-1. Select the team that owns the [Slack integration]({{< relref path="#add-a-slack-integration" lang="ja" >}}).
-1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
-1. Provide a name for the automation. Optionally, provide a description.
-1. Click **Create automation**.
+    **Next step**をクリックします。
+1. [Slackインテグレーション]({{< relref path="#add-a-slack-integration" lang="ja" >}})を所有するチームを選択します。
+1. **Action type**を**Slack notification**に設定します。Slackチャンネルを選択し、**Next step**をクリックします。
+1. オートメーションの名前を提供します。必要に応じて、説明を追加します。
+1. **Create automation**をクリックします。
 
 {{% /tab %}}
 {{% tab "Project" %}}
-A W&B admin can create automations in a project.
+W&B管理者は、プロジェクト内でオートメーションを作成できます。
 
-1. Log in to W&B.
-1. Go the project page and click the **Automations** tab.
-1. Click **Create automation**.
-1. Choose the [**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}}) to watch for.
+1. W&Bにログインします。
+1. プロジェクトページに移動し、**Automations**タブをクリックします。
+1. **Create automation**をクリックします。
+1. 監視する[**Event**]({{< relref path="/guides/core/automations/automation-events.md" lang="ja" >}})を選択します。
 
-    Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+    イベントに応じた追加のフィールドが表示されるので、それを入力します。たとえば、**An artifact alias is added**を選択した場合は、**Alias regex**を指定する必要があります。
     
-    Click **Next step**.
-1. Select the team that owns the [Slack integration]({{< relref path="#add-a-slack-integration" lang="ja" >}}).
-1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
-1. Provide a name for the automation. Optionally, provide a description.
-1. Click **Create automation**.
+    **Next step**をクリックします。
+1. [Slackインテグレーション]({{< relref path="#add-a-slack-integration" lang="ja" >}})を所有するチームを選択します。
+1. **Action type**を**Slack notification**に設定します。Slackチャンネルを選択し、**Next step**をクリックします。
+1. オートメーションの名前を提供します。必要に応じて、説明を追加します。
+1. **Create automation**をクリックします。
 
 {{% /tab %}}
 {{< /tabpane >}}
 
-## View and manage automations
+## オートメーションの表示と管理
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
 
-- Manage the registry's automations from the registry's **Automations** tab.
-- Mamage a collection's automations from the **Automations** section of the collection's details page.
+- registryの**Automations**タブから対象のオートメーションを管理します。
+- コレクションの詳細ページの**Automations**セクションからコレクションのオートメーションを管理します。
 
-From either of these pages, a Registry admin can manage existing automations:
-- To view an automation's details, click its name.
-- To edit an automation, click its action `...` menu, then click **Edit automation**.
-- To delete an automation, click its action `...` menu, then click **Delete automation**. Confiruation is required.
-
+これらのページのいずれからも、Registry管理者は既存のオートメーションを管理できます:
+- オートメーションの詳細を表示するには、その名前をクリックします。
+- オートメーションを編集するには、そのアクション`...`メニューをクリックし、**Edit automation**をクリックします。
+- オートメーションを削除するには、そのアクション`...`メニューをクリックし、**Delete automation**をクリックします。確認が必要です。
 
 {{% /tab %}}
 {{% tab "Project" %}}
-A W&B admin can view and manage a project's automations from the project's **Automations** tab.
+W&B管理者は、プロジェクトの**Automations**タブからプロジェクトのオートメーションを表示および管理できます。
 
-- To view an automation's details, click its name.
-- To edit an automation, click its action `...` menu, then click **Edit automation**.
-- To delete an automation, click its action `...` menu, then click **Delete automation**. Confiruation is required.
+- オートメーションの詳細を表示するには、その名前をクリックします。
+- オートメーションを編集するには、そのアクション`...`メニューをクリックし、**Edit automation**をクリックします。
+- オートメーションを削除するには、そのアクション`...`メニューをクリックし、**Delete automation**をクリックします。確認が必要です。
 {{% /tab %}}
 {{< /tabpane >}}

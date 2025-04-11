@@ -1,15 +1,15 @@
 ---
+title: wandb はどのようにしてログをストリームし、ディスクに書き込むのですか?
 menu:
   support:
     identifier: ja-support-kb-articles-stream_logs_writes_disk
 support:
-- environment variables
-title: How does wandb stream logs and writes to disk?
+- 環境変数
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-W&B queues events in memory and writes them to disk asynchronously to manage failures and support the `WANDB_MODE=offline` configuration, allowing synchronization after logging.
+W&B はメモリでイベントをキューに入れ、非同期にディスクに書き込みを行って、失敗を管理し、`WANDB_MODE=offline` の設定をサポートし、ログ後の同期を可能にします。
 
-In the terminal, observe the path to the local run directory. This directory includes a `.wandb` file, which serves as the datastore. For image logging, W&B stores images in the `media/images` subdirectory before uploading them to cloud storage.
+ターミナルで、ローカルな run ディレクトリーへのパスを確認します。このディレクトリーには、データストアとして機能する `.wandb` ファイルが含まれています。画像のログでは、W&B はクラウドストレージにアップロードする前に、`media/images` サブディレクトリーに画像を保存します。

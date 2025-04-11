@@ -1,126 +1,117 @@
 ---
+title: ワークスペース、セクション、パネル設定を管理する
 menu:
   default:
     identifier: ja-guides-models-app-features-cascade-settings
     parent: w-b-app-ui-reference
-title: Manage workspace, section, and panel settings
 url: guides/app/features/cascade-settings
 ---
 
-Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [Workspace settings]({{< relref path="#workspace-settings" lang="ja" >}}) apply to the entire workspace. [Section settings]({{< relref path="#section-settings" lang="ja" >}}) apply to all panels within a section. [Panel settings]({{< relref path="#panel-settings" lang="ja" >}}) apply to individual panels. 
+Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [ワークスペース設定]({{< relref path="#workspace-settings" lang="ja" >}}) は、ワークスペース全体に適用されます。[セクション設定]({{< relref path="#section-settings" lang="ja" >}}) は、セクション内のすべてのパネルに適用されます。[パネル設定]({{< relref path="#panel-settings" lang="ja" >}}) は、個々のパネルに適用されます。
 
+## ワークスペース設定
 
+ワークスペース設定は、すべてのセクションとそれらのセクション内のすべてのパネルに適用されます。編集できるワークスペース設定は次の2種類です: [**Workspace layout**]({{< relref path="#workspace-layout-options" lang="ja" >}}) と [**Line plots**]({{< relref path="#line-plots-options" lang="ja" >}})。**Workspace layouts** はワークスペースの構造を決定し、**Line plots** 設定はワークスペース内のラインプロットのデフォルト設定を制御します。
 
+このワークスペースの全体的な構造に適用される設定を編集するには:
 
-## Workspace settings
-
-Workspace settings apply to all sections and all panels within those sections. You can edit two types of workspace settings: [**Workspace layout**]({{< relref path="#workspace-layout-options" lang="ja" >}}) and [**Line plots**]({{< relref path="#line-plots-options" lang="ja" >}}). **Workspace layouts** determine the structure of the workspace, while **Line plots** settings control the default settings for line plots in the workspace.
-
-To edit settings that apply to the overall structure of this workspace:
-
-1. Navigate to your project workspace.
-2. Click the gear icon next to the **New report** button to view the workspace settings.
-3. Choose **Workspace layout** to change the workspace's layout, or choose **Line plots** to configure default settings for line plots in the workspace.
+1. プロジェクトワークスペースに移動します。
+2. **New report** ボタンの横にある歯車のアイコンをクリックして、ワークスペース設定を表示します。
+3. ワークスペースのレイアウトを変更するには **Workspace layout** を選択するか、ワークスペース内のラインプロットのデフォルト設定を設定するには **Line plots** を選択します。
 {{< img src="/images/app_ui/workspace_settings.png" alt="" >}}
 
-### Workspace layout options
+### ワークスペースレイアウトオプション
 
-Configure a workspaces layout to define the overall structure of the workspace. This includes sectioning logic and panel organization. 
+ワークスペースのレイアウトを設定して、ワークスペースの全体的な構造を定義します。これには、セクションのロジックとパネルの配置が含まれます。
 
 {{< img src="/images/app_ui/workspace_layout_settings.png" alt="" >}}
 
-The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels]({{< relref path="panels/" lang="ja" >}}).
+ワークスペースレイアウトオプションページでは、ワークスペースがパネルを自動か手動で生成するかが表示されます。ワークスペースのパネル生成モードを調整するには、[Panels]({{< relref path="panels/" lang="ja" >}}) を参照してください。
 
-This table describes each workspace layout option.
+この表は、各ワークスペースのレイアウトオプションについて説明しています。
 
-| Workspace setting | Description |
+| ワークスペース設定 | 説明 |
 | ----- | ----- |
-| **Hide empty sections during search** |  Hide sections that do not contain any panels when searching for a panel.|
-| **Sort panels alphabetically** | Sort panels in your workspaces alphabetically. |
-| **Section organization** | Remove all existing sections and panels and repopulate them with new section names. Groups the newly populated sections either by first or last prefix. |
+| **検索中に空のセクションを非表示** | パネルを検索するときにパネルを含まないセクションを非表示にします。 |
+| **パネルをアルファベット順に並べ替え** | ワークスペース内のパネルをアルファベット順に並べ替えます。 |
+| **セクションの組織化** | 既存のすべてのセクションとパネルを削除し、新しいセクション名で再配置します。また、新しく配置されたセクションを最初または最後のプレフィックスでグループ化します。 |
 
 {{% alert %}}
-W&B suggests that you organize sections by grouping the first prefix rather than grouping by the last prefix. Grouping by the first prefix can result in fewer sections and better performance.
+W&B は、最後のプレフィックスでグループ化するのではなく、最初のプレフィックスでセクションをグループ化することをお勧めします。最初のプレフィックスでグループ化することで、セクション数が少なくなり、パフォーマンスが向上します。
 {{% /alert %}}
 
-### Line plots options
-Set global defaults and custom rules for line plots in a workspace by modifying the **Line plots** workspace settings.
+### ラインプロットオプション
+
+ワークスペースの**Line plots**設定を変更して、ラインプロットのグローバルデフォルトとカスタムルールを設定します。
 
 {{< img src="/images/app_ui/workspace_settings_line_plots.png" alt="" >}}
 
-You can edit two main settings within **Line plots** settings: **Data** and **Display preferences**. The **Data** tab contains the following settings:
+**Line plots** 設定内で編集できる主要な設定は2つあります: **Data** と **Display preferences**。**Data** タブには次の設定が含まれています:
 
-
-| Line plot setting | Description |
+| ラインプロット設定 | 説明 |
 | ----- | ----- |
-| **X axis** |  The scale of the x-axis in line plots. The x-axis is set to **Step** by default. See the proceeding table for the list of x-axis options. |
-| **Range** |  Minimum and maximum settings to display for x axis. |
-| **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots]({{< relref path="/guides/models/app/features/panels/line-plot/smoothing.md" lang="ja" >}}). |
-| **Outliers** | Rescale to exclude outliers from the default plot min and max scale. |
-| **Point aggregation method** | Improve data visualization accuracy and performance. See [Point aggregation]({{< relref path="/guides/models/app/features/panels/line-plot/sampling.md" lang="ja" >}}) for more information. |
-| **Max number of runs or groups** | Limit the number of runs or groups displayed on the line plot. |
+| **X軸** | ラインプロットのx軸のスケール。x軸はデフォルトで **Step** に設定されています。x軸オプションのリストは次の表を参照してください。 |
+| **範囲** | x軸に表示する最小値と最大値の設定。 |
+| **平滑化** | ラインプロットの平滑化を変更します。平滑化の詳細については、[Smooth line plots]({{< relref path="/guides/models/app/features/panels/line-plot/smoothing.md" lang="ja" >}}) を参照してください。 |
+| **異常値** | 異常値を除外するためにプロットの最小スケールと最大スケールを再設定します。 |
+| **ポイント集計方法** | Data Visualization の精度とパフォーマンスを向上させます。詳細については、[Point aggregation]({{< relref path="/guides/models/app/features/panels/line-plot/sampling.md" lang="ja" >}}) を参照してください。 |
+| **最大の runs またはグループの数** | ラインプロットに表示する最大の runs またはグループ数を制限します。 |
 
-In addition to **Step**, there are other options for the x-axis:
+**Step** 以外にも、x軸には他のオプションがあります:
 
-| X axis option | Description |
+| X軸オプション | 説明 |
 | ------------- | ----------- |
-| **Relative Time (Wall)**| Timestamp since the process starts. For example, suppose start a run and resume that run the next day. If you then log something, the recorded point is 24 hours.|
-| **Relative Time (Process)** | Timestamp inside the running process. For example, suppose you start a run and let it continue for 10 seconds. The next day you resume that run. The point is recorded as 10 seconds. |
-| **Wall Time** | Minutes elapsed since the start of the first run on the graph. |
-| **Step** | Increments each time you call `wandb.log()`.|
-
-
+| **相対時間 (Wall)** | プロセスが開始してからのタイムスタンプ。例えば、run を開始して次の日にその run を再開したとします。その場合、記録されたポイントは24時間後です。|
+| **相対時間 (Process)** | 実行中のプロセス内のタイムスタンプ。例えば、run を開始して10秒間続け、その後次の日に再開したとします。その場合、記録されたポイントは10秒です。|
+| **ウォールタイム** | グラフで最初の run が開始してから経過した時間（分）。|
+| **Step** | `wandb.log()` を呼び出すたびに増加します。|
 
 {{% alert %}}
-For information on how to edit an individual line plot, see [Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ja" >}}) in Line plots. 
+個別のラインプロットを編集する方法については、ラインプロット内の[Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ja" >}})を参照してください。
 {{% /alert %}}
 
+**Display preferences** タブ内で、以下の設定を切り替えることができます:
 
-Within the **Display preferences** tab, you can toggle the proceeding settings:
-
-| Display preference | Description |
+| ディスプレイ設定 | 説明 |
 | ----- | ----- |
-| **Remove legends from all panels** | Remove the panel's legend |
-| **Display colored run names in tooltips** | Show the runs as colored text within the tooltip |
-| **Only show highlighted run in companion chart tooltip** | Display only highlighted runs in chart tooltip |
-| **Number of runs shown in tooltips** | Display the number of runs in the tooltip |
-| **Display full run names on the primary chart tooltip**| Display the full name of the run in the chart tooltip |
+| **すべてのパネルから凡例を削除** | パネルの凡例を削除します |
+| **ツールチップ内でカラード run 名を表示** | ツールチップ内で run をカラードテキストとして表示します |
+| **コンパニオンチャートツールチップで、ハイライトされた run のみを表示** | チャートツールチップ内でハイライトされた run のみを表示します |
+| **ツールチップ内に表示される run の数** | ツールチップ内で表示される run の数を表示します |
+| **プライマリチャートのツールチップにフル run 名を表示**| チャートツールチップで run のフルネームを表示します |
 
+## セクション設定
 
+セクション設定は、そのセクション内のすべてのパネルに適用されます。ワークスペースセクション内では、パネルをソートしたり、並べ替えたり、セクション名を変更したりできます。
 
-
-## Section settings
-
-Section settings apply to all panels within that section. Within a workspace section you can sort panels, rearrange panels, and rename the section name.
-
-Modify section settings by selecting the three horizontal dots (**...**) in the upper right corner of a section.
+セクション設定を変更するには、セクションの右上隅にある3つの水平ドット (**...**) を選択します。
 
 {{< img src="/images/app_ui/section_settings.png" alt="" >}}
 
-From the dropdown, you can edit the following settings that apply to the entire section:
+ドロップダウンから、セクション全体に適用される次の設定を編集できます:
 
-| Section setting | Description |
+| セクション設定 | 説明 |
 | ----- | ----- |
-| **Rename a section** | Rename the name of the section |
-| **Sort panels A-Z** | Sort panels within a section alphabetically |
-| **Rearrange panels** | Select and drag a panel within a section to manually order your panels |
+| **セクションの名前を変更** | セクションの名前を変更します |
+| **パネルを A-Z に並べ替え** | セクション内のパネルをアルファベット順に並べ替えます |
+| **パネルを並べ替え** | セクション内でパネルを手動で並べ替えるために、パネルを選択してドラッグします |
 
-The proceeding animation demonstrates how to rearrange panels within a section:
+以下のアニメーションは、セクション内でパネルを並べ替える方法を示しています:
 
 {{< img src="/images/app_ui/rearrange_panels.gif" alt="" >}}
 
 {{% alert %}}
-In addition to the settings described in the preceding table, you can also edit how sections appear in your workspaces such as **Add section below**, **Add section above**, **Delete section**, and **Add section to report**. 
+この表で説明されている設定に加えて、ワークスペースでのセクションの表示方法も編集できます。たとえば、**Add section below**、**Add section above**、**Delete section**、**Add section to report** などです。
 {{% /alert %}}
 
-## Panel settings
+## パネル設定
 
-Customize an individual panel's settings to compare multiple lines on the same plot, calculate custom axes, rename labels, and more. To edit a panel's settings:
+個々のパネルの設定をカスタマイズして、同じプロットで複数のラインを比較したり、カスタム軸を計算したり、ラベルを変更したりすることができます。パネルの設定を編集するには:
 
-1. Hover your mouse over the panel you want to edit. 
-2. Select the pencil icon that appears.
+1. 編集したいパネルにマウスを乗せます。
+2. 現れる鉛筆アイコンを選択します。
 {{< img src="/images/app_ui/panel_settings.png" alt="" >}}
-3. Within the modal that appears, you can edit settings related to the panel's data, display preferences, and more.
+3. 表示されたモーダル内で、パネルのデータ、ディスプレイの設定などに関連する設定を編集できます。
 {{< img src="/images/app_ui/panel_settings_modal.png" alt="" >}}
 
-For a complete list of settings you can apply to a panel, see [Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ja" >}}).
+パネルに適用できる設定の完全なリストについては、[Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ja" >}}) を参照してください。

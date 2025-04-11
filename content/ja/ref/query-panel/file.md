@@ -1,97 +1,96 @@
 ---
+title: 申し訳ありませんが、コンテンツを提供することはできません。代わりに翻訳を提供してください。
 menu:
   reference:
     identifier: ja-ref-query-panel-file
-title: file
 ---
 
 ## Chainable Ops
 <h3 id="file-contents"><code>file-contents</code></h3>
 
-Returns the contents of the _file_
+ファイルの内容を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `file` | A _file_ |
+| `file` | ファイル |
 
-#### Return Value
-The contents of the _file_
+#### 戻り値
+ファイルの内容
 
 <h3 id="file-digest"><code>file-digest</code></h3>
 
-Returns the digest of the _file_
+ファイルのダイジェストを返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `file` | A _file_ |
+| `file` | ファイル |
 
-#### Return Value
-The digest of the _file_
+#### 戻り値
+ファイルのダイジェスト
 
 <h3 id="file-size"><code>file-size</code></h3>
 
-Returns the size of the _file_
+ファイルのサイズを返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `file` | A _file_ |
+| `file` | ファイル |
 
-#### Return Value
-The size of the _file_
+#### 戻り値
+ファイルのサイズ
 
 <h3 id="file-table"><code>file-table</code></h3>
 
-Returns the contents of the _file_ as a _table_
+ファイルの内容をテーブルとして返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `file` | A _file_ |
+| `file` | ファイル |
 
-#### Return Value
-The contents of the _file_ as a _table_
-
+#### 戻り値
+ファイルの内容をテーブルとして
 
 ## List Ops
 <h3 id="file-contents"><code>file-contents</code></h3>
 
-Returns the contents of the _file_
+ファイルの内容を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `file` | A _file_ |
+| `file` | ファイル |
 
-#### Return Value
-The contents of the _file_
+#### 戻り値
+ファイルの内容
 
 <h3 id="file-digest"><code>file-digest</code></h3>
 
-Returns the digest of the _file_
+ファイルのダイジェストを返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `file` | A _file_ |
+| `file` | ファイル |
 
-#### Return Value
-The digest of the _file_
+#### 戻り値
+ファイルのダイジェスト
 
 <h3 id="file-size"><code>file-size</code></h3>
 
-Returns the size of the _file_
+ファイルのサイズを返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `file` | A _file_ |
+| `file` | ファイル |
 
-#### Return Value
-The size of the _file_
+#### 戻り値
+ファイルのサイズ
 
 <h3 id="file-table"><code>file-table</code></h3>
 
-Returns the contents of the _file_ as a _table_
+ファイルの内容をテーブルとして返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `file` | A _file_ |
+| `file` | ファイル |
 
-#### Return Value
-The contents of the _file_ as a _table_
+#### 戻り値
+ファイルの内容をテーブルとして

@@ -1,13 +1,13 @@
 ---
+title: Object3D
 menu:
   reference:
     identifier: ja-ref-python-data-types-object3d
-title: Object3D
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/object_3d.py#L186-L462 >}}
 
-Wandb class for 3D point clouds.
+3DポイントクラウドのためのWandbクラス。
 
 ```python
 Object3D(
@@ -16,23 +16,23 @@ Object3D(
 ) -> None
 ```
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) Object3D can be initialized from a file or a numpy array. You can pass a path to a file or an io object and a file_type which must be one of SUPPORTED_TYPES |
+| `data_or_path` |  (numpy array, string, io) Object3Dはファイルまたはnumpy配列から初期化できます。ファイルへのパスまたはio オブジェクトと `SUPPORTED_TYPES` のいずれかである必要がある `file_type` を渡すことができます。|
 
-The shape of the numpy array must be one of either:
+numpy 配列の形状は次のいずれかでなければなりません：
 
 ```
 [[x y z],       ...] nx3
-[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
-[[x y z r g b], ...] nx6 where is rgb is color
+[[x y z c],     ...] nx4 ここで c は[1, 14] の範囲内のカテゴリです
+[[x y z r g b], ...] nx6 ここで rgb は色です
 ```
 
-## Methods
+## メソッド
 
 ### `from_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/object_3d.py#L332-L349)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/object_3d.py#L332-L349)
 
 ```python
 @classmethod
@@ -42,15 +42,15 @@ from_file(
 ) -> "Object3D"
 ```
 
-Initializes Object3D from a file or stream.
+ファイルまたはストリームから Object3D を初期化します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  data_or_path (Union["TextIO", str]): A path to a file or a `TextIO` stream. file_type (str): Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension. |
+| data_or_path (Union["TextIO", str]): ファイルへのパスまたは `TextIO` ストリーム。file_type (str): `data_or_path` に渡されるデータ形式を指定します。 `data_or_path` が `TextIO` ストリームである場合は必須です。ファイルパスが提供されている場合はこのパラメータは無視されます。タイプはファイル拡張子から取得されます。|
 
 ### `from_numpy`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/object_3d.py#L351-L380)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/object_3d.py#L351-L380)
 
 ```python
 @classmethod
@@ -59,23 +59,23 @@ from_numpy(
 ) -> "Object3D"
 ```
 
-Initializes Object3D from a numpy array.
+numpy 配列から Object3D を初期化します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  data (numpy array): Each entry in the array will represent one point in the point cloud. |
+| data (numpy array): 配列の各エントリはポイントクラウドの1ポイントを表します。 |
 
-The shape of the numpy array must be one of either:
+numpy 配列の形状は次のいずれかでなければなりません：
 
 ```
 [[x y z],       ...]  # nx3.
-[[x y z c],     ...]  # nx4 where c is a category with supported range [1, 14].
-[[x y z r g b], ...]  # nx6 where is rgb is color.
+[[x y z c],     ...]  # nx4 ここで c は [1, 14] の範囲内のカテゴリです。
+[[x y z r g b], ...]  # nx6 ここで rgb は色です。
 ```
 
 ### `from_point_cloud`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/object_3d.py#L382-L416)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/object_3d.py#L382-L416)
 
 ```python
 @classmethod
@@ -87,13 +87,13 @@ from_point_cloud(
 ) -> "Object3D"
 ```
 
-Initializes Object3D from a python object.
+Python オブジェクトから Object3D を初期化します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  points (Sequence["Point"]): The points in the point cloud. boxes (Sequence["Box3D"]): 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations. vectors (Optional[Sequence["Vector3D"]]): Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None. point_cloud_type ("lidar/beta"): At this time, only the "lidar/beta" type is supported. Defaults to "lidar/beta". |
+| points (Sequence["Point"]): ポイントクラウドの点。boxes (Sequence["Box3D"]): ポイントクラウドのラベル付け用3Dバウンディングボックス。ボックスはポイントクラウドの可視化で表示されます。vectors (Optional[Sequence["Vector3D"]]): 各ベクトルはポイントクラウドの可視化で表示されます。バウンディングボックスの方向性を示すために使用できます。デフォルトは None です。point_cloud_type ("lidar/beta"): 現時点では「lidar/beta」タイプのみサポートしています。デフォルトは「lidar/beta」です。|
 
-| Class Variables |  |
+| クラス変数 |  |
 | :--- | :--- |
-|  `SUPPORTED_POINT_CLOUD_TYPES`<a id="SUPPORTED_POINT_CLOUD_TYPES"></a> |   |
-|  `SUPPORTED_TYPES`<a id="SUPPORTED_TYPES"></a> |   |
+| `SUPPORTED_POINT_CLOUD_TYPES`<a id="SUPPORTED_POINT_CLOUD_TYPES"></a> |   |
+| `SUPPORTED_TYPES`<a id="SUPPORTED_TYPES"></a> |   |

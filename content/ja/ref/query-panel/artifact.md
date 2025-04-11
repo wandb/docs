@@ -1,75 +1,75 @@
 ---
+title: アーティファクト
 menu:
   reference:
     identifier: ja-ref-query-panel-artifact
-title: artifact
 ---
 
 ## Chainable Ops
 <h3 id="artifact-link"><code>artifact-link</code></h3>
 
-Returns the url for an [artifact](artifact.md)
+[Artifact](artifact.md) の URL を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The url for an [artifact](artifact.md)
+#### 返される値
+[Artifact](artifact.md) の URL
 
 <h3 id="artifact-name"><code>artifact-name</code></h3>
 
-Returns the name of the [artifact](artifact.md)
+[Artifact](artifact.md) の名前を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The name of the [artifact](artifact.md)
+#### 返される値
+[Artifact](artifact.md) の名前
 
 <h3 id="artifact-versions"><code>artifact-versions</code></h3>
 
-Returns the versions of the [artifact](artifact.md)
+[Artifact](artifact.md) のバージョンを返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The versions of the [artifact](artifact.md)
+#### 返される値
+[Artifact](artifact.md) のバージョン
 
 
 ## List Ops
 <h3 id="artifact-link"><code>artifact-link</code></h3>
 
-Returns the url for an [artifact](artifact.md)
+[Artifact](artifact.md) の URL を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The url for an [artifact](artifact.md)
+#### 返される値
+[Artifact](artifact.md) の URL
 
 <h3 id="artifact-name"><code>artifact-name</code></h3>
 
-Returns the name of the [artifact](artifact.md)
+[Artifact](artifact.md) の名前を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The name of the [artifact](artifact.md)
+#### 返される値
+[Artifact](artifact.md) の名前
 
 <h3 id="artifact-versions"><code>artifact-versions</code></h3>
 
-Returns the versions of the [artifact](artifact.md)
+[Artifact](artifact.md) のバージョンを返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The versions of the [artifact](artifact.md)
+#### 返される値
+[Artifact](artifact.md) のバージョン

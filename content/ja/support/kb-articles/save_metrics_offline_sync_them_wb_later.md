@@ -1,52 +1,52 @@
 ---
+title: W&B にメトリクスをオフラインで保存し、後で同期することはできますか？
 menu:
   support:
     identifier: ja-support-kb-articles-save_metrics_offline_sync_them_wb_later
 support:
-- experiments
-- environment variables
-- metrics
-title: Is it possible to save metrics offline and sync them to W&B later?
+- 実験管理
+- 環境変数
+- メトリクス
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-By default, `wandb.init` starts a process that syncs metrics in real time to the cloud. For offline use, set two environment variables to enable offline mode and sync later.
+`wandb.init` はデフォルトでメトリクスをリアルタイムでクラウドに同期するプロセスを開始します。オフラインで使用する場合は、オフラインモードを有効にし、後で同期できるように2つの環境変数を設定してください。
 
-Set the following environment variables:
+次の環境変数を設定します:
 
-1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings).
-2. `WANDB_MODE="offline"`.
+1. `WANDB_API_KEY=$KEY`、ここで `$KEY` はあなたの [settings page](https://app.wandb.ai/settings) から取得した API キーです。
+2. `WANDB_MODE="offline"`。
 
-Here is an example of implementing this in a script:
+スクリプトでこれを実装する例を以下に示します:
 
 ```python
 import wandb
 import os
 
-os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"
-os.environ["WANDB_MODE"] = "offline"
+os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"  # あなたの API キーをここに
+os.environ["WANDB_MODE"] = "offline"  # オフラインモードを設定
 
 config = {
-    "dataset": "CIFAR10",
-    "machine": "offline cluster",
-    "model": "CNN",
-    "learning_rate": 0.01,
-    "batch_size": 128,
+    "dataset": "CIFAR10",  # データセットを指定
+    "machine": "offline cluster",  # オフライン クラスターを指定
+    "model": "CNN",  # モデルを指定
+    "learning_rate": 0.01,  # 学習率を指定
+    "batch_size": 128,  # バッチサイズを指定
 }
 
-wandb.init(project="offline-demo")
+wandb.init(project="offline-demo")  # W&B プロジェクトを初期化
 
 for i in range(100):
-    wandb.log({"accuracy": i})
+    wandb.log({"accuracy": i})  # メトリクスをログ
 ```
 
-Sample terminal output is shown below:
+サンプルのターミナル出力は以下の通りです:
 
 {{< img src="/images/experiments/sample_terminal_output.png" alt="" >}}
 
-After completing work, run the following command to sync data to the cloud:
+作業が完了した後、データをクラウドに同期するために以下のコマンドを実行します:
 
 ```shell
 wandb sync wandb/dryrun-folder-name

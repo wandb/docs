@@ -1,28 +1,27 @@
 ---
+title: wandb アーティファクト put
 menu:
   reference:
     identifier: ja-ref-cli-wandb-artifact-wandb-artifact-put
-title: wandb artifact put
 ---
 
-**Usage**
+**使用方法**
 
 `wandb artifact put [OPTIONS] PATH`
 
-**Summary**
+**概要**
 
-Upload an artifact to wandb
+アーティファクトを wandb にアップロードします
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `-n, --name` | The name of the artifact to push:   project/artifact_name |
-| `-d, --description` | A description of this artifact |
-| `-t, --type` | The type of the artifact |
-| `-a, --alias` | An alias to apply to this artifact |
-| `--id` | The run you want to upload to. |
-| `--resume` | Resume the last run from your current   directory. |
-| `--skip_cache` | Skip caching while uploading artifact files. |
-| `--policy [mutable\|immutable]` | Set the storage policy while uploading   artifact files. |
+| `-n, --name` | プッシュするアーティファクトの名前:   project/artifact_name |
+| `-d, --description` | このアーティファクトの説明 |
+| `-t, --type` | アーティファクトのタイプ |
+| `-a, --alias` | このアーティファクトに適用するエイリアス |
+| `--id` | アップロードしたい run を指定します。 |
+| `--resume` | 現在のディレクトリーから前回の run を再開します。 |
+| `--skip_cache` | アーティファクトファイルのアップロード中にキャッシュをスキップします。 |
+| `--policy [mutable\|immutable]` | アーティファクトファイルをアップロードする際のストレージポリシーを設定します。 |

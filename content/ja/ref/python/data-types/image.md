@@ -1,13 +1,13 @@
 ---
+title: イメージ
 menu:
   reference:
     identifier: ja-ref-python-data-types-image
-title: Image
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L65-L689 >}}
 
-Format images for logging to W&B.
+W&B に画像をログするためのフォーマット。
 
 ```python
 Image(
@@ -24,15 +24,15 @@ Image(
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) Accepts numpy array of image data, or a PIL image. The class attempts to infer the data format and converts it. |
-|  `mode` |  (string) The PIL mode for an image. Most common are "L", "RGB", "RGBA". Full explanation at https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes |
-|  `caption` |  (string) Label for display of image. |
+|  `data_or_path` |  (numpy array, string, io) 画像データの numpy 配列または PIL 画像を受け付けます。クラスはデータフォーマットを推測して変換します。|
+|  `mode` |  (string) 画像のための PIL モード。最も一般的なのは "L", "RGB", "RGBA" です。詳しくは https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes を参照してください。|
+|  `caption` |  (string) 画像表示用のラベル。|
 
-Note : When logging a `torch.Tensor` as a `wandb.Image`, images are normalized. If you do not want to normalize your images, please convert your tensors to a PIL Image.
+注意 : `wandb.Image` として `torch.Tensor` をログする際、画像は正規化されます。画像を正規化したくない場合は、テンソルを PIL Image に変換してください。
 
-#### Examples:
+#### 例:
 
-### Create a wandb.Image from a numpy array
+### numpy 配列から wandb.Image を作成
 
 ```python
 import numpy as np
@@ -47,7 +47,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### Create a wandb.Image from a PILImage
+### PILImage から wandb.Image を作成
 
 ```python
 import numpy as np
@@ -66,7 +66,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### log .jpg rather than .png (default)
+### .png (デフォルト) ではなく .jpg をログ
 
 ```python
 import numpy as np
@@ -84,7 +84,7 @@ with wandb.init() as run:
 | Attributes |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `all_boxes`
 
@@ -135,7 +135,7 @@ guess_mode(
 ) -> str
 ```
 
-Guess what type of image the np.array is representing.
+np.array が表している画像の種類を推測します。
 
 ### `to_uint8`
 
@@ -148,12 +148,11 @@ to_uint8(
 ) -> "np.ndarray"
 ```
 
-Convert image data to uint8.
+画像データを uint8 に変換します。
 
-Convert floating point image on the range [0,1] and integer images on the range
-[0,255] to uint8, clipping if necessary.
+範囲 [0,1] の浮動小数点画像と範囲 [0,255] の整数画像を必要に応じてクリッピングして uint8 に変換します。
 
-| Class Variables |  |
+| クラス変数 |  |
 | :--- | :--- |
 |  `MAX_DIMENSION`<a id="MAX_DIMENSION"></a> |  `65500` |
 |  `MAX_ITEMS`<a id="MAX_ITEMS"></a> |  `108` |

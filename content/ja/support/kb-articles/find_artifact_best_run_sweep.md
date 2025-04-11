@@ -1,16 +1,16 @@
 ---
+title: sweep で最良の run から Artifacts を見つけるにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-find_artifact_best_run_sweep
 support:
-- artifacts
-title: How do I find an artifact from the best run in a sweep?
+- アーティファクト
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To retrieve artifacts from the best performing run in a sweep, use the following code:
+アーティファクトを sweep の中で最も良いパフォーマンスを示した run から取得するには、次のコードを使用します。
 
 ```python
 api = wandb.Api()

@@ -1,48 +1,48 @@
 ---
+title: ユーザー、グループ、およびロールを SCIM で管理する
 menu:
   default:
     identifier: ja-guides-hosting-iam-scim
     parent: identity-and-access-management-iam
-title: Manage users, groups, and roles with SCIM
 weight: 4
 ---
 
 {{% alert %}}
-Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12 min)
+[SCIM を実際に使用するビデオを見る](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12分)
 {{% /alert %}}
 
-The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
+クロスドメイン・アイデンティティ管理システム (SCIM) API は、インスタンスまたは組織の管理者が W&B 組織内のユーザー、グループ、およびカスタムロールを管理できるようにします。SCIM グループは W&B のチームにマップされます。
 
-The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema. W&B adds the `/Roles` endpoints to support automated management of custom roles in W&B organizations.
+SCIM API は `<host-url>/scim/` でアクセス可能であり、[RC7643 プロトコル](https://www.rfc-editor.org/rfc/rfc7643)に見られるフィールドのサブセットを持つ `/Users` と `/Groups` エンドポイントをサポートしています。さらに、公式の SCIM スキーマの一部ではない `/Roles` エンドポイントを含んでいます。W&B は `/Roles` エンドポイントを追加して、W&B 組織でのカスタムロールの自動管理をサポートしています。
 
 {{% alert %}}
-If you are an admin of multiple Enterprise [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) organizations, you must configure the organization where SCIM API requests are sent. Click your profile image, then click **User Settings**. The setting is named **Default API organization**. This is required for all hosting options, including [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), [Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}), and [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}). In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization.
+複数の Enterprise [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織の管理者である場合、SCIM API リクエストが送信される組織を設定する必要があります。プロファイル画像をクリックし、**User Settings** をクリックします。設定名は **Default API organization** です。これは、[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}})、[Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}})、および [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) を含むすべてのホスティングオプションで必要です。SaaS Cloud では、組織の管理者は SCIM API リクエストが正しい組織に行くように、ユーザー設定でデフォルトの組織を設定する必要があります。
 
-The chosen hosting option determines the value for the `<host-url>` placeholder used in the examples in this page.
+選択したホスティングオプションに応じて、このページの例で使用される `<host-url>` プレースホルダーの値が決まります。
 
-In addition, examples use user IDs such as `abc` and `def`. Real requests and responses have hashed values for user IDs.
+さらに、例では `abc` や `def` のようなユーザー ID が使用されています。実際のリクエストとレスポンスでは、ユーザー ID はハッシュ化された値を持っています。
 {{% /alert %}}
 
-## Authentication
+## 認証
 
-An organization or instance admin can use basic authentication with their API key to access the SCIM API. Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
+組織またはインスタンスの管理者は、自分の API キーを使用した基本認証を利用して SCIM API にアクセスできます。HTTP リクエストの `Authorization` ヘッダーを文字列 `Basic` の後にスペースを置き、その後のベース64エンコードされた文字列を `username:API-KEY` 形式に設定します。つまり、ユーザー名と API キーを `:` 文字で区切った後、その結果をベース64エンコードします。例えば、`demo:p@55w0rd` として認証するには、ヘッダーは `Authorization: Basic ZGVtbzpwQDU1dzByZA==` であるべきです。
 
-## User resource
+## ユーザーリソース
 
-The SCIM user resource maps to W&B users.
+SCIM ユーザーリソースは W&B のユーザーにマップされます。
 
-### Get user
+### ユーザーの取得
 
-- **Endpoint:** **`<host-url>/scim/Users/{id}`**
-- **Method**: GET
-- **Description**: Retrieve the information for a specific user in your [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) organization or your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) instance by providing the user's unique ID.
-- **Request Example**:
+- **エンドポイント:** **`<host-url>/scim/Users/{id}`**
+- **メソッド**: GET
+- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織または [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンス内の特定のユーザーの情報を取得します。
+- **リクエスト例**:
 
 ```bash
 GET /scim/Users/abc
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 200)
@@ -72,18 +72,18 @@ GET /scim/Users/abc
 }
 ```
 
-### List users
+### ユーザーのリスト
 
-- **Endpoint:** **`<host-url>/scim/Users`**
-- **Method**: GET
-- **Description**: Retrieve the list of all users in your [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) organization or your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) instance.
-- **Request Example**:
+- **エンドポイント:** **`<host-url>/scim/Users`**
+- **メソッド**: GET
+- **説明**: [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織または [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンス内のすべてのユーザーのリストを取得します。
+- **リクエスト例**:
 
 ```bash
 GET /scim/Users
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 200)
@@ -123,18 +123,18 @@ GET /scim/Users
 }
 ```
 
-### Create user
+### ユーザーの作成
 
-- **Endpoint**: **`<host-url>/scim/Users`**
-- **Method**: POST
-- **Description**: Create a new user resource.
-- **Supported Fields**:
+- **エンドポイント**: **`<host-url>/scim/Users`**
+- **メソッド**: POST
+- **説明**: 新しいユーザーリソースを作成します。
+- **サポートされているフィールド**:
 
-| Field | Type | Required |
+| フィールド | 型 | 必要 |
 | --- | --- | --- |
-| emails | Multi-Valued Array | Yes (Make sure `primary` email is set) |
-| userName | String | Yes |
-- **Request Example**:
+| emails | Multi-Valued Array | Yes (必ず `primary` email を設定してください) |
+| userName | 文字列型 | Yes |
+- **リクエスト例**:
 
 ```bash
 POST /scim/Users
@@ -155,7 +155,7 @@ POST /scim/Users
 }
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 201)
@@ -184,44 +184,44 @@ POST /scim/Users
 }
 ```
 
-### Delete user
+### ユーザーの削除
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: DELETE
-- **Description**: Fully delete a user from your [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) organization or your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) instance by providing the user's unique ID. Use the [Create user]({{< relref path="#create-user" lang="ja" >}}) API to add the user again to the organization or instance if needed.
-- **Request Example**:
+- **エンドポイント**: **`<host-url>/scim/Users/{id}`**
+- **メソッド**: DELETE
+- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織または [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンスから完全にユーザーを削除します。必要に応じて [Create user]({{< relref path="#create-user" lang="ja" >}}) API を使用して組織またはインスタンスに再度ユーザーを追加してください。
+- **リクエスト例**:
 
 {{% alert %}}
-To temporarily deactivate the user, refer to [Deactivate user]({{< relref path="#deactivate-user" lang="ja" >}}) API which uses the `PATCH` endpoint.
+一時的にユーザーを無効化するには、`PATCH` エンドポイントを使用する [Deactivate user]({{< relref path="#deactivate-user" lang="ja" >}}) API を参照してください。
 {{% /alert %}}
 
 ```bash
 DELETE /scim/Users/abc
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```json
 (Status 204)
 ```
 
-### Deactivate user
+### ユーザーの無効化
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: PATCH
-- **Description**: Temporarily deactivate a user in your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) instance by providing the user's unique ID. Use the [Reactivate user]({{< relref path="#reactivate-user" lang="ja" >}}) API to reactivate the user when needed.
-- **Supported Fields**:
+- **エンドポイント**: **`<host-url>/scim/Users/{id}`**
+- **メソッド**: PATCH
+- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンス内で一時的にユーザーを無効化します。必要に応じて [Reactivate user]({{< relref path="#reactivate-user" lang="ja" >}}) API を使用してユーザーを再有効化します。
+- **サポートされているフィールド**:
 
-| Field | Type | Required |
+| フィールド | 型 | 必要 |
 | --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| value | Object | Object `{"active": false}` indicating that the user should be deactivated. |
+| op | 文字列型 | 操作のタイプ。許可される唯一の値は `replace` です。 |
+| value | オブジェクト型 | オブジェクト `{"active": false}` を示し、ユーザーが無効化されるべきことを示します。 |
 
 {{% alert %}}
-User deactivation and reactivation operations are not supported in [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}).
+[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、ユーザーの無効化および再有効化の操作はサポートされていません。
 {{% /alert %}}
 
-- **Request Example**:
+- **リクエスト例**:
 
 ```bash
 PATCH /scim/Users/abc
@@ -239,8 +239,8 @@ PATCH /scim/Users/abc
 }
 ```
 
-- **Response Example**:
-This returns the User object.
+- **レスポンス例**:
+この操作はユーザーオブジェクトを返します。
 
 ```bash
 (Status 200)
@@ -270,23 +270,23 @@ This returns the User object.
 }
 ```
 
-### Reactivate user
+### ユーザーの再有効化
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: PATCH
-- **Description**: Reactivate a deactivated user in your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) instance by providing the user's unique ID.
-- **Supported Fields**:
+- **エンドポイント**: **`<host-url>/scim/Users/{id}`**
+- **メソッド**: PATCH
+- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンス内で無効化されたユーザーを再有効化します。
+- **サポートされているフィールド**:
 
-| Field | Type | Required |
+| フィールド | 型 | 必要 |
 | --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| value | Object | Object `{"active": true}` indicating that the user should be reactivated. |
+| op | 文字列型 | 操作のタイプ。許可される唯一の値は `replace` です。 |
+| value | オブジェクト型 | オブジェクト `{"active": true}` を示し、ユーザーが再有効化されるべきことを示します。 |
 
 {{% alert %}}
-User deactivation and reactivation operations are not supported in [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}).
+[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、ユーザーの無効化および再有効化の操作はサポートされていません。
 {{% /alert %}}
 
-- **Request Example**:
+- **リクエスト例**:
 
 ```bash
 PATCH /scim/Users/abc
@@ -304,8 +304,8 @@ PATCH /scim/Users/abc
 }
 ```
 
-- **Response Example**:
-This returns the User object.
+- **レスポンス例**:
+この操作はユーザーオブジェクトを返します。
 
 ```bash
 (Status 200)
@@ -335,19 +335,19 @@ This returns the User object.
 }
 ```
 
-### Assign organization-level role to user
+### 組織レベルのロールをユーザーに割り当てる
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: PATCH
-- **Description**: Assign an organization-level role to a user. The role can be one of `admin`, `viewer` or `member` as described [here]({{< relref path="access-management/manage-organization.md#invite-a-user" lang="ja" >}}). For [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
-- **Supported Fields**:
+- **エンドポイント**: **`<host-url>/scim/Users/{id}`**
+- **メソッド**: PATCH
+- **説明**: 組織レベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer` または `member` のいずれかになります ([こちらを参照]({{< relref path="access-management/manage-organization.md#invite-a-user" lang="ja" >}}))。 [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
+- **サポートされているフィールド**:
 
-| Field | Type | Required |
+| フィールド | 型 | 必要 |
 | --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| path | String | The scope at which role assignment operation takes effect. The only allowed value is `organizationRole`. |
-| value | String | The predefined organization-level role to assign to the user. It can be one of `admin`, `viewer` or `member`. This field is case insensitive for predefined roles. |
-- **Request Example**:
+| op | 文字列型 | 操作のタイプ。許可される唯一の値は `replace` です。 |
+| path | 文字列型 | ロール割り当て操作が影響を及ぼすスコープ。許可される唯一の値は `organizationRole` です。 |
+| value | 文字列型 | ユーザーに割り当てる予定の定義済みの組織レベルのロール。それは `admin`、`viewer` または `member` のいずれかです。このフィールドは定義済みロールに対して大文字小文字を区別しません。 |
+- **リクエスト例**:
 
 ```bash
 PATCH /scim/Users/abc
@@ -360,14 +360,14 @@ PATCH /scim/Users/abc
         {
             "op": "replace",
             "path": "organizationRole",
-            "value": "admin" // will set the user's organization-scoped role to admin
+            "value": "admin" // ユーザーの組織スコープのロールを admin に設定
         }
     ]
 }
 ```
 
-- **Response Example**:
-This returns the User object.
+- **レスポンス例**:
+この操作はユーザーオブジェクトを返します。
 
 ```bash
 (Status 200)
@@ -394,29 +394,29 @@ This returns the User object.
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
     "userName": "dev-user1",
-    "teamRoles": [  // Returns the user's roles in all the teams that they are a part of
+    "teamRoles": [  // ユーザーが所属するすべてのチームでのロールを返します
         {
             "teamName": "team1",
             "roleName": "admin"
         }
     ],
-    "organizationRole": "admin" // Returns the user's role at the organization scope
+    "organizationRole": "admin" // 組織スコープでのユーザーのロールを返します
 }
 ```
 
-### Assign team-level role to user
+### チームレベルのロールをユーザーに割り当てる
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: PATCH
-- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here]({{< relref path="access-management/manage-organization.md#assign-or-update-a-team-members-role" lang="ja" >}}). For [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
-- **Supported Fields**:
+- **エンドポイント**: **`<host-url>/scim/Users/{id}`**
+- **メソッド**: PATCH
+- **説明**: チームレベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer`、`member` またはカスタムロールのいずれかになります ([こちらを参照]({{< relref path="access-management/manage-organization.md#assign-or-update-a-team-members-role" lang="ja" >}}))。 [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
+- **サポートされているフィールド**:
 
-| Field | Type | Required |
+| フィールド | 型 | 必要 |
 | --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| path | String | The scope at which role assignment operation takes effect. The only allowed value is `teamRoles`. |
-| value | Object array | A one-object array where the object consists of `teamName` and `roleName` attributes. The `teamName` is the name of the team where the user holds the role, and `roleName` can be one of `admin`, `viewer`, `member` or a custom role. This field is case insensitive for predefined roles and case sensitive for custom roles. |
-- **Request Example**:
+| op | 文字列型 | 操作のタイプ。許可される唯一の値は `replace` です。 |
+| path | 文字列型 | ロール割り当て操作が影響を及ぼすスコープ。許可される唯一の値は `teamRoles` です。 |
+| value | オブジェクト配列型 | 1つのオブジェクトを持つ配列で、そのオブジェクトは `teamName` と `roleName` 属性を持ちます。`teamName` はユーザーがそのロールを持つチームの名前であり、`roleName` は `admin`、`viewer`、`member` またはカスタムロールのいずれかです。このフィールドは定義済みロールに対して大文字小文字を区別しませんが、カスタムロールに対しては区別します。 |
+- **リクエスト例**:
 
 ```bash
 PATCH /scim/Users/abc
@@ -431,8 +431,8 @@ PATCH /scim/Users/abc
             "path": "teamRoles",
             "value": [
                 {
-                    "roleName": "admin", // role name is case insensitive for predefined roles and case sensitive for custom roles
-                    "teamName": "team1" // will set the user's role in the team team1 to admin
+                    "roleName": "admin", // 定義済みロールのロール名は大文字小文字を区別しませんが、カスタムロールでは区別します
+                    "teamName": "team1" // チームteam1でのユーザーのロールをadminに設定
                 }
             ]
         }
@@ -440,8 +440,8 @@ PATCH /scim/Users/abc
 }
 ```
 
-- **Response Example**:
-This returns the User object.
+- **レスポンス例**:
+この操作はユーザーオブジェクトを返します。
 
 ```bash
 (Status 200)
@@ -468,32 +468,32 @@ This returns the User object.
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
     "userName": "dev-user1",
-    "teamRoles": [  // Returns the user's roles in all the teams that they are a part of
+    "teamRoles": [  // ユーザーが所属するすべてのチームでのロールを返します
         {
             "teamName": "team1",
             "roleName": "admin"
         }
     ],
-    "organizationRole": "admin" // Returns the user's role at the organization scope
+    "organizationRole": "admin" // 組織スコープでのユーザーのロールを返します
 }
 ```
 
-## Group resource
+## グループリソース
 
-The SCIM group resource maps to W&B teams, that is, when you create a SCIM group in a W&B deployment, it creates a W&B team. Same applies to other group endpoints.
+SCIM グループリソースは W&B のチームにマップされます。つまり、W&B デプロイメントで SCIM グループを作成すると W&B チームが作成されます。その他のグループエンドポイントにも同様です。
 
-### Get team
+### チームの取得
 
-- **Endpoint**: **`<host-url>/scim/Groups/{id}`**
-- **Method**: GET
-- **Description**: Retrieve team information by providing the team’s unique ID.
-- **Request Example**:
+- **エンドポイント**: **`<host-url>/scim/Groups/{id}`**
+- **メソッド**: GET
+- **説明**: チームの一意の ID を提供してチーム情報を取得します。
+- **リクエスト例**:
 
 ```bash
 GET /scim/Groups/ghi
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 200)
@@ -523,18 +523,18 @@ GET /scim/Groups/ghi
 }
 ```
 
-### List teams
+### チームのリスト
 
-- **Endpoint**: **`<host-url>/scim/Groups`**
-- **Method**: GET
-- **Description**: Retrieve a list of teams.
-- **Request Example**:
+- **エンドポイント**: **`<host-url>/scim/Groups`**
+- **メソッド**: GET
+- **説明**: チームのリストを取得します。
+- **リクエスト例**:
 
 ```bash
 GET /scim/Groups
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 200)
@@ -574,20 +574,20 @@ GET /scim/Groups
 }
 ```
 
-### Create team
+### チームの作成
 
-- **Endpoint**: **`<host-url>/scim/Groups`**
-- **Method**: POST
-- **Description**: Create a new team resource.
-- **Supported Fields**:
+- **エンドポイント**: **`<host-url>/scim/Groups`**
+- **メソッド**: POST
+- **説明**: 新しいチームリソースを作成します。
+- **サポートされているフィールド**:
 
-| Field | Type | Required |
+| フィールド | 型 | 必要 |
 | --- | --- | --- |
-| displayName | String | Yes |
-| members | Multi-Valued Array | Yes (`value` sub-field is required and maps to a user ID) |
-- **Request Example**:
+| displayName | 文字列型 | Yes |
+| members | Multi-Valued Array | Yes (`value` サブフィールドが必要で、ユーザー ID にマップされます) |
+- **リクエスト例**:
 
-Creating a team called `wandb-support` with `dev-user2` as its member.
+`wandb-support` というチームを作成し、そのメンバーとして `dev-user2` を設定します。
 
 ```bash
 POST /scim/Groups
@@ -605,7 +605,7 @@ POST /scim/Groups
 }
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 201)
@@ -635,15 +635,15 @@ POST /scim/Groups
 }
 ```
 
-### Update team
+### チームの更新
 
-- **Endpoint**: **`<host-url>/scim/Groups/{id}`**
-- **Method**: PATCH
-- **Description**: Update an existing team's membership list.
-- **Supported Operations**: `add` member, `remove` member
-- **Request Example**:
+- **エンドポイント**: **`<host-url>/scim/Groups/{id}`**
+- **メソッド**: PATCH
+- **説明**: 既存のチームのメンバーシップリストを更新します。
+- **サポートされている操作**: メンバーの`追加`、メンバーの`削除`
+- **リクエスト例**:
 
-Adding `dev-user2` to `wandb-devs`
+`wandb-devs` に `dev-user2` を追加する
 
 ```bash
 PATCH /scim/Groups/ghi
@@ -666,7 +666,7 @@ PATCH /scim/Groups/ghi
 }
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 200)
@@ -702,26 +702,26 @@ PATCH /scim/Groups/ghi
 }
 ```
 
-### Delete team
+### チームの削除
 
-- Deleting teams is currently unsupported by the SCIM API since there is additional data linked to teams. Delete teams from the app to confirm you want everything deleted.
+- SCIM API では、チームには追加データがリンクされているため、現在チームの削除はサポートされていません。削除を確認するにはアプリからチームを削除してください。
 
-## Role resource
+## ロールリソース
 
-The SCIM role resource maps to W&B custom roles. As mentioned earlier, the `/Roles` endpoints are not part of the official SCIM schema, W&B adds `/Roles` endpoints to support automated management of custom roles in W&B organizations.
+SCIM ロールリソースは W&B のカスタムロールにマップされます。前述したように、`/Roles` エンドポイントは公式 SCIM スキーマの一部ではありません。W&B は `W&B` 組織内のカスタムロールの自動管理をサポートするために `/Roles` エンドポイントを追加しています。
 
-### Get custom role
+### カスタムロールの取得
 
-- **Endpoint:** **`<host-url>/scim/Roles/{id}`**
-- **Method**: GET
-- **Description**: Retrieve information for a custom role by providing the role's unique ID.
-- **Request Example**:
+- **エンドポイント:** **`<host-url>/scim/Roles/{id}`**
+- **メソッド**: GET
+- **説明**: ロールの一意の ID を提供し、カスタムロールの情報を取得します。
+- **リクエスト例**:
 
 ```bash
 GET /scim/Roles/abc
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 200)
@@ -731,7 +731,7 @@ GET /scim/Roles/abc
 {
     "description": "A sample custom role for example",
     "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
+    "inheritedFrom": "member", // 定義済みロールを示します
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
@@ -743,13 +743,13 @@ GET /scim/Roles/abc
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
+            "isInherited": true // member 定義済みロールから継承された
         },
         ...
         ...
         {
             "name": "project:update",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false // 管理者によって追加されたカスタム権限
         }
     ],
     "schemas": [
@@ -758,18 +758,18 @@ GET /scim/Roles/abc
 }
 ```
 
-### List custom roles
+### カスタムロールの一覧
 
-- **Endpoint:** **`<host-url>/scim/Roles`**
-- **Method**: GET
-- **Description**: Retrieve information for all custom roles in the W&B organization
-- **Request Example**:
+- **エンドポイント:** **`<host-url>/scim/Roles`**
+- **メソッド**: GET
+- **説明**: W&B 組織のすべてのカスタムロールの情報を取得します
+- **リクエスト例**:
 
 ```bash
 GET /scim/Roles
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 200)
@@ -781,7 +781,7 @@ GET /scim/Roles
         {
             "description": "A sample custom role for example",
             "id": "Um9sZTo3",
-            "inheritedFrom": "member", // indicates the predefined role that the custom role inherits from
+            "inheritedFrom": "member", // 定義済みロールからカスタムロールが継承されていることを示します
             "meta": {
                 "resourceType": "Role",
                 "created": "2023-11-20T23:10:14Z",
@@ -793,13 +793,13 @@ GET /scim/Roles
             "permissions": [
                 {
                     "name": "artifact:read",
-                    "isInherited": true // inherited from member predefined role
+                    "isInherited": true // member 定義済みロールから継承された
                 },
                 ...
                 ...
                 {
                     "name": "project:update",
-                    "isInherited": false // custom permission added by admin
+                    "isInherited": false // 管理者によって追加されたカスタム権限
                 }
             ],
             "schemas": [
@@ -809,7 +809,7 @@ GET /scim/Roles
         {
             "description": "Another sample custom role for example",
             "id": "Um9sZToxMg==",
-            "inheritedFrom": "viewer", // indicates the predefined role that the custom role inherits from
+            "inheritedFrom": "viewer", // 定義済みロールからカスタムロールが継承されていることを示します
             "meta": {
                 "resourceType": "Role",
                 "created": "2023-11-21T01:07:50Z",
@@ -820,13 +820,13 @@ GET /scim/Roles
             "permissions": [
                 {
                     "name": "launchagent:read",
-                    "isInherited": true // inherited from viewer predefined role
+                    "isInherited": true // viewer 定義済みロールから継承された
                 },
                 ...
                 ...
                 {
                     "name": "run:stop",
-                    "isInherited": false // custom permission added by admin
+                    "isInherited": false // 管理者によって追加されたカスタム権限
                 }
             ],
             "schemas": [
@@ -843,20 +843,20 @@ GET /scim/Roles
 }
 ```
 
-### Create custom role
+### カスタムロールの作成
 
-- **Endpoint**: **`<host-url>/scim/Roles`**
-- **Method**: POST
-- **Description**: Create a new custom role in the W&B organization.
-- **Supported Fields**:
+- **エンドポイント**: **`<host-url>/scim/Roles`**
+- **メソッド**: POST
+- **説明**: W&B 組織内で新しいカスタムロールを作成します。
+- **サポートされているフィールド**:
 
-| Field | Type | Required |
+| フィールド | 型 | 必要 |
 | --- | --- | --- |
-| name | String | Name of the custom role |
-| description | String | Description of the custom role |
-| permissions | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-| inheritedFrom | String | The predefined role which the custom role would inherit from. It can either be `member` or `viewer`. |
-- **Request Example**:
+| name | 文字列型 | カスタムロールの名前 |
+| description | 文字列型 | カスタムロールの説明 |
+| permissions | オブジェクト配列型 | 各オブジェクトが `name` 文字列フィールドを含む許可オブジェクトの配列で、そのフィールドは `w&bobject:operation` の形式を持ちます。例えば、W&B Run に対する削除操作の許可オブジェクトは `name` を `run:delete` として持ちます。 |
+| inheritedFrom | 文字列型 | カスタムロールが継承する定義済みロール。それは `member` または `viewer` のいずれかになります。 |
+- **リクエスト例**:
 
 ```bash
 POST /scim/Roles
@@ -876,7 +876,7 @@ POST /scim/Roles
 }
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 201)
@@ -886,7 +886,7 @@ POST /scim/Roles
 {
     "description": "A sample custom role for example",
     "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
+    "inheritedFrom": "member", // 定義済みロールを示します
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
@@ -898,13 +898,13 @@ POST /scim/Roles
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
+            "isInherited": true // member 定義済みロールから継承された
         },
         ...
         ...
         {
             "name": "project:update",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false // 管理者によって追加されたカスタム権限
         }
     ],
     "schemas": [
@@ -913,37 +913,37 @@ POST /scim/Roles
 }
 ```
 
-### Delete custom role
+### カスタムロールの削除
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: DELETE
-- **Description**: Delete a custom role in the W&B organization. **Use it with caution**. The predefined role from which the custom role inherited is now assigned to all users that were assigned the custom role before the operation.
-- **Request Example**:
+- **エンドポイント**: **`<host-url>/scim/Roles/{id}`**
+- **メソッド**: DELETE
+- **説明**: W&B 組織内のカスタムロールを削除します。**慎重に使用してください。** カスタムロールから継承される定義済みロールは、操作前にカスタムロールに割り当てられていたすべてのユーザーに再び割り当てられます。
+- **リクエスト例**:
 
 ```bash
 DELETE /scim/Roles/abc
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 204)
 ```
 
-### Update custom role permissions
+### カスタムロールの権限の更新
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PATCH
-- **Description**: Add or remove custom permissions in a custom role in the W&B organization.
-- **Supported Fields**:
+- **エンドポイント**: **`<host-url>/scim/Roles/{id}`**
+- **メソッド**: PATCH
+- **説明**: W&B 組織内のカスタムロールにカスタム権限を追加または削除します。
+- **サポートされているフィールド**:
 
-| Field | Type | Required |
+| フィールド | 型 | 必要 |
 | --- | --- | --- |
-| operations | Object array | Array of operation objects |
-| op | String | Type of operation within the operation object. It can either be `add` or `remove`. |
-| path | String | Static field in the operation object. Only value allowed is `permissions`. |
-| value | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-- **Request Example**:
+| operations | オブジェクト配列型 | 操作オブジェクトの配列 |
+| op | 文字列型 | 操作オブジェクト内の操作のタイプ。それは `add` または `remove` のいずれかになります。 |
+| path | 文字列型 | 操作オブジェクト内の静的フィールド。許可される唯一の値は `permissions` です。 |
+| value | オブジェクト配列型 | 各オブジェクトが `name` 文字列フィールドを含む許可オブジェクトの配列で、そのフィールドは `w&bobject:operation` の形式を持ちます。例えば、W&B Run に対する削除操作の許可オブジェクトは `name` を `run:delete` として持ちます。 |
+- **リクエスト例**:
 
 ```bash
 PATCH /scim/Roles/abc
@@ -954,7 +954,7 @@ PATCH /scim/Roles/abc
     "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
     "Operations": [
         {
-            "op": "add", // indicates the type of operation, other possible value being `remove`
+            "op": "add", // 操作のタイプを示し、他の可能な値は `remove`
             "path": "permissions",
             "value": [
                 {
@@ -966,7 +966,7 @@ PATCH /scim/Roles/abc
 }
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 200)
@@ -976,7 +976,7 @@ PATCH /scim/Roles/abc
 {
     "description": "A sample custom role for example",
     "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
+    "inheritedFrom": "member", // 定義済みロールを示します
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
@@ -988,17 +988,17 @@ PATCH /scim/Roles/abc
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
+            "isInherited": true // member 定義済みロールから継承された
         },
         ...
         ...
         {
             "name": "project:update",
-            "isInherited": false // existing custom permission added by admin before the update
+            "isInherited": false // 更新前に管理者によって追加された既存のカスタム権限
         },
         {
             "name": "project:delete",
-            "isInherited": false // new custom permission added by admin as part of the update
+            "isInherited": false // 更新の一部として管理者によって追加された新規のカスタム権限
         }
     ],
     "schemas": [
@@ -1007,19 +1007,19 @@ PATCH /scim/Roles/abc
 }
 ```
 
-### Update custom role metadata
+### カスタムロールメタデータの更新
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PUT
-- **Description**: Update the name, description or inherited role for a custom role in the W&B organization. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
-- **Supported Fields**:
+- **エンドポイント**: **`<host-url>/scim/Roles/{id}`**
+- **メソッド**: PUT
+- **説明**: W&B 組織内のカスタムロールの名前、説明、または継承ロールを更新します。この操作は、既存の、つまり非継承のカスタム権限には影響しません。
+- **サポートされているフィールド**:
 
-| Field | Type | Required |
+| フィールド | 型 | 必要 |
 | --- | --- | --- |
-| name | String | Name of the custom role |
-| description | String | Description of the custom role |
-| inheritedFrom | String | The predefined role which the custom role inherits from. It can either be `member` or `viewer`. |
-- **Request Example**:
+| name | 文字列型 | カスタムロールの名前 |
+| description | 文字列型 | カスタムロールの説明 |
+| inheritedFrom | 文字列型 | カスタムロールが継承する定義済みロール。それは `member` または `viewer` のいずれかになります。 |
+- **リクエスト例**:
 
 ```bash
 PUT /scim/Roles/abc
@@ -1034,7 +1034,7 @@ PUT /scim/Roles/abc
 }
 ```
 
-- **Response Example**:
+- **レスポンス例**:
 
 ```bash
 (Status 200)
@@ -1042,9 +1042,9 @@ PUT /scim/Roles/abc
 
 ```json
 {
-    "description": "A sample custom role for example but now based on viewer", // changed the descripton per the request
+    "description": "A sample custom role for example but now based on viewer", // リクエストに応じて説明を変更
     "id": "Um9sZTo3",
-    "inheritedFrom": "viewer", // indicates the predefined role which is changed per the request
+    "inheritedFrom": "viewer", // リクエストに応じて変更された定義済みロールを示します
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
@@ -1056,16 +1056,16 @@ PUT /scim/Roles/abc
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from viewer predefined role
+            "isInherited": true // viewer 定義済みロールから継承された
         },
-        ... // Any permissions that are in member predefined role but not in viewer will not be inherited post the update
+        ... // 更新後に member 定義済みロールにあるが viewer にはない権限は継承されません
         {
             "name": "project:update",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false // 管理者によって追加されたカスタム権限
         },
         {
             "name": "project:delete",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false // 管理者によって追加されたカスタム権限
         }
     ],
     "schemas": [

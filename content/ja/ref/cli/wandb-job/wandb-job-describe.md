@@ -1,21 +1,20 @@
 ---
+title: wandb job describe
 menu:
   reference:
     identifier: ja-ref-cli-wandb-job-wandb-job-describe
-title: wandb job describe
 ---
 
-**Usage**
+**使用方法**
 
 `wandb job describe [OPTIONS] JOB`
 
-**Summary**
+**概要**
 
-Describe a launch job. Provide the launch job in the form of:
+ローンンチ ジョブについて説明します。次の形式でローンンチ ジョブを指定してください。
 entity/project/job-name:alias-or-version
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
