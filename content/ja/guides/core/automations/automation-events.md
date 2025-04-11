@@ -1,9 +1,9 @@
 ---
+title: 自動化イベントと範囲
 menu:
   default:
     identifier: ja-guides-core-automations-automation-events
     parent: automations
-title: Automation events and scopes
 weight: 2
 ---
 
@@ -11,46 +11,46 @@ weight: 2
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-An automation can start when a specific event occurs within a project's or registrie's  scope. The *scope* of a project refers to [INSERT tech def of scope]. This page describes the events that can trigger an automation within each scope.
+あるオートメーションは、プロジェクトやレジストリのスコープ内で特定のイベントが発生したときに開始されます。プロジェクトの*スコープ*は[スコープの技術的定義を挿入]を参照してください。このページでは、それぞれのスコープ内でオートメーションをトリガーするイベントについて説明します。
 
-Learn more about automations in the [Automations overview]({{< relref path="/guides/core/automations/" lang="ja" >}}) or [Create an automation]({{< relref path="create-automations/" lang="ja" >}}).
+オートメーションの詳細は、[オートメーション概要]({{< relref path="/guides/core/automations/" lang="ja" >}})または[オートメーションの作成]({{< relref path="create-automations/" lang="ja" >}})を参照してください。
 
-## Registry
-This section describes the scopes and events for an automation in a [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}).
+## レジストリ
+このセクションでは、[レジストリ]({{< relref path="/guides/core/registry/" lang="ja" >}})でのオートメーションのスコープとイベントについて説明します。
 
-1. Navigate to the **Registry** App at https://wandb.ai/registry/.
-1. Click the name of a registry, then view and create automations in the **Automations** tab.
+1. レジストリアプリをhttps://wandb.ai/registry/で開きます。
+1. レジストリの名前をクリックし、**オートメーション**タブでオートメーションを表示および作成します。
 
-Learn more about [creating automations]({{< relref path="create-automations/" lang="ja" >}}).
+[オートメーションの作成]({{< relref path="create-automations/" lang="ja" >}})の詳細をご覧ください。
 
-### Scopes
-You can create a Registry automation at these scopes:
-- [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) level: The automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
-- Collection level: A single collection in a specific registry.
+### スコープ
+レジストリにおけるオートメーションは、これらのスコープで作成できます：
+- [レジストリ]({{< relref path="/guides/core/registry/" lang="ja" >}}) レベル：オートメーションは、特定のレジストリ内のすべてのコレクション（将来追加されるコレクションを含む）で発生するイベントを監視します。
+- コレクションレベル：特定のレジストリ内の単一のコレクション。
 
-### Events
-A Registry automation can watch for these events:
-- **Linking a new artifact to a collection**: Test and validate new models or datasets when they are added to a registry.
-- **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
+### イベント
+レジストリオートメーションは、これらのイベントを監視できます：
+- **新しいアーティファクトをコレクションにリンク**: 新しいモデルやデータセットがレジストリに追加されたときにテストと検証。
+- **アーティファクトのバージョンに新しいエイリアスを追加**: 新しいアーティファクトバージョンに特定のエイリアスが適用されたときに、ワークフローの特定のステップをトリガーします。たとえば、`production`エイリアスが適用されたときにモデルをデプロイする。
 
-## Project
-This section describes the scopes and events for an automation in a [project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}).
+## プロジェクト
+このセクションでは、[プロジェクト]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}})でのオートメーションのスコープとイベントについて説明します。
 
-1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
-1. View and create automations in the **Automations** tab.
+1. W&Bアプリの `https://wandb.ai/<team>/<project-name>` にあるW&Bプロジェクトに移動します。
+1. **オートメーション**タブでオートメーションを表示および作成します。
 
-Learn more about [creating automations]({{< relref path="create-automations/" lang="ja" >}}).
+[オートメーションの作成]({{< relref path="create-automations/" lang="ja" >}})の詳細をご覧ください。
 
-### Scopes
-You can create a project automation at these scopes:
-- Project level: The automation watches for the event taking place on any collection in the project.
-- Collection level: All collections in the project that match the filter you specify.
+### スコープ
+プロジェクト内でオートメーションを作成できるスコープ：
+- プロジェクトレベル：オートメーションは、プロジェクト内の任意のコレクションで発生するイベントを監視します。
+- コレクションレベル：指定したフィルタに一致するプロジェクト内のすべてのコレクション。
 
-### Events
-A project automation can watch for these events:
-- **A new version of an artifact is created in a collection**: Apply recurring actions to each version of an artifact. Specifying a collection is optional. For example, start a training job when a new dataset artifact version is created.
-- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
+### イベント
+プロジェクト内でオートメーションは、これらのイベントを監視できます：
+- **コレクションでアーティファクトの新しいバージョンが作成される**: アーティファクトの各バージョンに繰り返しの処理を適用します。コレクションの指定はオプションです。たとえば、新しいデータセットアーティファクトバージョンが作成されたときにトレーニングジョブを開始します。
+- **アーティファクトエイリアスが追加される**: プロジェクトやコレクション内の新しいアーティファクトバージョンに特定のエイリアスが適用されたときに、ワークフローの特定のステップをトリガーします。例えば、アーティファクトに `test-set-quality-check` エイリアスが適用されたときに一連の後処理ステップを実行します。
 
-## Next steps
-- [Create a Slack automation]({{< relref path="create-automations/slack.md" lang="ja" >}})
-- [Create a webhook automation]({{< relref path="create-automations/webhook.md" lang="ja" >}})
+## 次のステップ
+- [Slackオートメーションを作成]({{< relref path="create-automations/slack.md" lang="ja" >}})
+- [Webhookオートメーションを作成]({{< relref path="create-automations/webhook.md" lang="ja" >}})

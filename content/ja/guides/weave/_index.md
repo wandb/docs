@@ -1,29 +1,29 @@
 ---
+title: W&B Weave
 menu:
   default:
     identifier: ja-guides-weave-_index
-title: W&B Weave
 weight: 4
 ---
 
 {{< cta-button colabLink="http://wandb.me/weave_colab" >}}
 
-Weave is a lightweight toolkit for tracking and evaluating LLM applications. Use W&B Weave to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
+Weave は、LLM アプリケーションを追跡および評価するための軽量ツールキットです。W&B Weave を使って、LLM の実行フローを視覚化および検査し、LLM の入力と出力を分析し、中間結果を表示し、プロンプトと LLM チェーン設定を安全に保存および管理できます。
 
 {{< img src="/images/weave/weave-hero.png" alt="" >}}
 
-With W&B Weave, you can:
-* Log and debug language model inputs, outputs, and traces
-* Build rigorous, apples-to-apples evaluations for language model use cases
-* Organize all the information generated across the LLM workflow, from experimentation to evaluations to production
+W&B Weave を使用すると、次のことが可能です：
+* 言語モデルの入力、出力、およびトレースをログし、デバッグ
+* 言語モデルのユースケースに対する厳密な、比較可能な評価を構築
+* 実験から評価、プロダクションまでの LLM ワークフローで生成されたすべての情報を整理
 
 {{% alert %}}
-Looking for Weave docs? See the [W&B Weave Docs](https://weave-docs.wandb.ai/).
+Weave のドキュメントをお探しですか？[W&B Weave Docs](https://weave-docs.wandb.ai/) をご覧ください。
 {{% /alert %}}
 
-## How to get started 
-Depending on your use case, explore the following resources to get started with W&B Weave:
+## 開始方法
+ユースケースに応じて、W&B Weave を始めるために以下のリソースを探索してください：
 
-* [Quickstart: Track inputs and outputs of LLM calls](https://wandb.github.io/weave/quickstart)
-* [Build an Evaluation pipeline tutorial](https://wandb.github.io/weave/tutorial-eval)
-* [Model-Based Evaluation of RAG applications tutorial](https://wandb.github.io/weave/tutorial-rag)
+* [クイックスタート: LLM 呼び出しの入力と出力を追跡](https://wandb.github.io/weave/quickstart)
+* [評価パイプラインチュートリアルを構築](https://wandb.github.io/weave/tutorial-eval)
+* [RAG アプリケーションのモデルベースの評価チュートリアル](https://wandb.github.io/weave/tutorial-rag)

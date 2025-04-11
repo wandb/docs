@@ -1,222 +1,218 @@
 ---
+title: SSO を OIDC で設定
 menu:
   default:
     identifier: ja-guides-hosting-iam-authentication-sso
     parent: authentication
-title: Configure SSO with OIDC
 ---
 
-W&B Server's support for OpenID Connect (OIDC) compatible identity providers allows for management of user identities and group memberships through external identity providers like Okta, Keycloak, Auth0, Google, and Entra.
+W&B サーバーは、OpenID Connect (OIDC) 互換のアイデンティティ プロバイダーをサポートしており、Okta、Keycloak、Auth0、Google、および Entra などの外部アイデンティティ プロバイダーを通じてユーザー アイデンティティとグループ メンバーシップを管理できます。
 
 ## OpenID Connect (OIDC)
 
-W&B Server supports the following OIDC authentication flows for integrating with external Identity Providers (IdPs).
-1. Implicit Flow with Form Post 
-2. Authorization Code Flow with Proof Key for Code Exchange (PKCE)
+W&B サーバーは、外部アイデンティティプロバイダー (IdP) とのインテグレーションのために、次の OIDC 認証フローをサポートします。
+1. フォームポストを使用したインプリシットフロー
+2. コードエクスチェンジのための証明キーを使用した認可コードフロー (PKCE)
 
-These flows authenticate users and provide W&B Server with the necessary identity information (in the form of ID tokens) to manage access control.
+これらのフローはユーザーを認証し、必要なアイデンティティ情報 (ID トークンの形式) を W&B サーバーに提供してアクレス制御を管理します。
 
-The ID token is a JWT that contains the user's identity information, such as their name, username, email, and group memberships. W&B Server uses this token to authenticate the user and map them to appropriate roles or groups in the system.
+ID トークンは、ユーザーの名前、ユーザー名、メール、およびグループメンバーシップなど、ユーザーのアイデンティティ情報を含む JWT です。W&B サーバーはこのトークンを使用してユーザーを認証し、システム内で適切なロールやグループにマッピングします。
 
-In the context of W&B Server, access tokens authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
+W&B サーバーのコンテキストでは、アクセストークンはユーザーを代表して API へのリクエストを認可しますが、W&B サーバーの主な関心はユーザー認証とアイデンティティであるため、ID トークンのみが必要です。
 
-You can use environment variables to [configure IAM options]({{< relref path="../advanced_env_vars.md" lang="ja" >}}) for your [Dedicated cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) instance.
+環境変数を使用して、[Dedicated cloud](../advanced_env_vars.md) の [IAM オプションを設定]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}})するか、[Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンスを設定することができます。
 
-To assist with configuring Identity Providers for [Dedicated cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) W&B Server installations, follow these guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
+[Dedicated cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) W&B サーバーインストールのためにアイデンティティ プロバイダーを設定する際は、さまざまな IdP に関するこれらのガイドラインに従ってください。SaaS バージョンの W&B を使用している場合は、組織の Auth0 テナントを設定するための支援を求めるには [support@wandb.com](mailto:support@wandb.com) に連絡してください。
 
 {{< tabpane text=true >}}
 {{% tab header="Cognito" value="cognito" %}}
-Follow the procedure below to set up AWS Cognito for authorization: 
+AWS Cognito を認証に設定する手順は以下の通りです： 
 
-1. First, sign in to your AWS account and navigate to the [AWS Cognito](https://aws.amazon.com/cognito/) App.
+1. 最初に AWS アカウントにサインインし、[AWS Cognito](https://aws.amazon.com/cognito/) アプリに移動します。
 
-    {{< img src="/images/hosting/setup_aws_cognito.png" alt="When you use OIDC for authentication and not authorization, public clients simplify setup" >}}
+    {{< img src="/images/hosting/setup_aws_cognito.png" alt="認証に OIDC を使用し認可に使用しない場合、パブリッククライアントはセットアップを簡素化します" >}}
 
-2. Provide an allowed callback URL to configure the application in your IdP:
-     * Add `http(s)://YOUR-W&B-HOST/oidc/callback` as the callback URL. Replace `YOUR-W&B-HOST` with your W&B host path.
+2. IdP にアプリケーションを設定するための許可されたコールバック URL を入力します：
+     * `http(s)://YOUR-W&B-HOST/oidc/callback` をコールバック URL として追加します。 `YOUR-W&B-HOST` を W&B ホストパスに置き換えます。
 
-3. If your IdP supports universal logout, set the Logout URL to `http(s)://YOUR-W&B-HOST`. Replace `YOUR-W&B-HOST` with your W&B host path.
+3. IdP がユニバーサルログアウトをサポートしている場合は、ログアウト URL を `http(s)://YOUR-W&B-HOST` に設定します。 `YOUR-W&B-HOST` を W&B ホストパスに置き換えます。
 
-    For example, if your application was running at `https://wandb.mycompany.com`, you would replace `YOUR-W&B-HOST` with `wandb.mycompany.com`.
+    たとえば、アプリケーションが `https://wandb.mycompany.com` で実行されている場合、`YOUR-W&B-HOST` を `wandb.mycompany.com` に置き換えます。
 
-    The image below demonstrates how to provide allowed callback and sign-out URLs in AWS Cognito.
+    下の画像は、AWS Cognito で許可されたコールバックとサインアウト URL を提供する方法を示しています。
 
-    {{< img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="If your instance is accessible from multiple hosts, be sure to include all of them here." >}}
+    {{< img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="インスタンスが複数のホストからアクセス可能な場合は、ここにすべてを含めてください。" >}}
 
+    _wandb/local_ はデフォルトで [`implicit` grant with the `form_post` response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) を使用します。
 
-    _wandb/local_ uses the [`implicit` grant with the `form_post` response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. 
+    また、_wandb/local_ を設定して、[PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) フローを使用する `authorization_code` grant を実行することもできます。
 
-    You can also configure _wandb/local_ to perform an `authorization_code` grant that uses the [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) flow. 
-
-4. Select one or more OAuth grant types to configure how AWS Cognito delivers tokens to your app.
-5. W&B requires specific OpenID Connect (OIDC) scopes. Select the following from AWS Cognito App:
+4. アプリにトークンを届ける方法を AWS Cognito で設定するために、1 つ以上の OAuth グラントタイプを選択します。
+5. W&B は特定の OpenID Connect (OIDC) スコープを要求します。AWS Cognito App から以下を選択してください：
     * "openid" 
     * "profile"
     * "email"
 
-    For example, your AWS Cognito App UI should look similar to the following image:
+    たとえば、AWS Cognito アプリの UI は以下の画像のようになります：
 
-    {{< img src="/images/hosting/setup_aws_required_fields.png" alt="Required fields" >}}
+    {{< img src="/images/hosting/setup_aws_required_fields.png" alt="必須フィールド" >}}
 
-    Select the **Auth Method** in the settings page or set the OIDC_AUTH_METHOD environment variable to tell _wandb/local_ which grant to.
+    設定ページで **Auth Method** を選択するか、`OIDC_AUTH_METHOD` 環境変数を設定して、どのグラントが _wandb/local_ に適しているかを指定します。
 
-    You must set the Auth Method to `pkce`.
+    Auth Method を `pkce` に設定する必要があります。
 
-6. You need a Client ID and the URL of your OIDC issuer. The OpenID discovery document must be available at `$OIDC_ISSUER/.well-known/openid-configuration` 
+6. クライアント ID および OIDC 発行者の URL が必要です。OpenID ディスカバリドキュメントは `$OIDC_ISSUER/.well-known/openid-configuration` で利用可能でなければなりません。
 
-    For example, , you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
+    たとえば、ユーザープール ID を **User Pools** セクションの **App Integration** タブから、Cognito IdP URL に追加することで発行者 URL を生成できます：
 
-    {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="Screenshot of issuer URL in AWS Cognito" >}}
+    {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="AWS Cognito での発行者 URL のスクリーンショット" >}}
 
-    Do not use the "Cognito domain" for the IDP URL. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
+    IDP URL には「Cognito ドメイン」を使用しないでください。Cognito は `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID` でそのディスカバリドキュメントを提供します。
 
 {{% /tab %}}
 
 {{% tab header="Okta" value="okta"%}}
-Follow the procedure below to set up Okta for authorization: 
+Okta を認証に設定する手順は以下の通りです： 
 
-1. Login to the Okta Portal at https://login.okta.com/. 
+1. https://login.okta.com/ で Okta ポータルにログインします。
 
-2. On the left side, select **Applications** and then **Applications** again.
+2. 左側のサイドバーで **Applications**、そして再度 **Applications** を選択します。
     {{< img src="/images/hosting/okta_select_applications.png" alt="" >}}
 
-3. Click on "Create App integration."
+3. "Create App integration" をクリックします。
     {{< img src="/images/hosting/okta_create_new_app_integration.png" alt="" >}}
 
-4. On the screen named "Create a new app integration," select **OIDC - OpenID Connect** and **Single-Page Application**. Then click "Next."
+4. "Create a new app integration" 画面で **OIDC - OpenID Connect** と **Single-Page Application** を選択し、次に「Next」をクリックします。
     {{< img src="/images/hosting/okta_create_a_new_app_integration.png" alt="" >}}
 
-5. On the screen named "New Single-Page App Integration," fill out the values as follows and click **Save**:
-    - App integration name, for example "Weights & Biases"
-    - Grant type: Select both **Authorization Code** and **Implicit (hybrid)**
-    - Sign-in redirect URIs: https://YOUR_W_AND_B_URL/oidc/callback
-    - Sign-out redirect URIs: https://YOUR_W_AND_B_URL/logout
-    - Assignments: Select **Skip group assignment for now**
+5. "New Single-Page App Integration" 画面で、次の内容を入力し「Save」をクリックします：
+    - アプリ統合名、例として "Weights & Biases"
+    - グラントタイプ: **Authorization Code** と **Implicit (hybrid)** の両方を選択
+    - サインイン リダイレクト URI: https://YOUR_W_AND_B_URL/oidc/callback
+    - サインアウト リダイレクト URI: https://YOUR_W_AND_B_URL/logout
+    - 割り当て: **Skip group assignment for now** を選択
     {{< img src="/images/hosting/okta_new_single_page_app_integration.png" alt="" >}}
 
-6. On the overview screen of the Okta application that you just created, make note of the **Client ID** under **Client Credentials** under the **General** tab:
+6. 作成したばかりの Okta アプリケーションの概要画面で、**Client ID** を **Client Credentials** の **General** タブの下に記録します：
     {{< img src="/images/hosting/okta_make_note_of_client_id.png" alt="" >}}
 
-7. To identify the Okta OIDC Issuer URL, select **Settings** and then **Account** on the left side.
-    The Okta UI shows the company name under **Organization Contact**.
+7. Okta OIDC 発行者 URL を特定するには、左側のメニューで **Settings** そして **Account** を選択します。
+    Okta UI は **Organization Contact** の下に企業名を表示します。
     {{< img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="" >}}
 
-The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replace COMPANY with the corresponding value. Make note of it.
+OIDC 発行者 URL は `https://COMPANY.okta.com` の形式です。該当する値で COMPANY を置き換えて、注意してください。
 {{% /tab %}}
 
 {{% tab header="Entra" value="entra"%}}
-1. Login to the Azure Portal at https://portal.azure.com/.
+1. https://portal.azure.com/ で Azure ポータルにログインします。
 
-2. Select "Microsoft Entra ID" service.
+2. 「Microsoft Entra ID」サービスを選択します。
     {{< img src="/images/hosting/entra_select_entra_service.png" alt="" >}}
 
-3. On the left side, select "App registrations."
+3. 左側のサイドバーで「App registrations」を選択します。
     {{< img src="/images/hosting/entra_app_registrations.png" alt="" >}}
 
-4. On the top, click "New registration."
+4. 上部で「New registration」をクリックします。
     {{< img src="/images/hosting/entra_new_app_registration.png" alt="" >}}
 
-    On the screen named "Register an application," fill out the values as follows:
+    「アプリケーションの登録」画面で次の値を入力します：
     {{< img src="/images/hosting/entra_register_an_application.png" alt="" >}}
 
-    - Specify a name, for example "Weights and Biases application"
-    - By default the selected account type is: "Accounts in this organizational directory only (Default Directory only - Single tenant)." Modify if you need to.
-    - Configure Redirect URI as type **Web** with value: `https://YOUR_W_AND_B_URL/oidc/callback`
-    - Click "Register."
+    - 名前を指定します。例として「Weights and Biases application」
+    - デフォルトでは選択されたアカウントタイプは「この組織ディレクトリ内のアカウントのみ (デフォルトディレクトリのみ - シングルテナント)」です。必要に応じて修正してください。
+    - リダイレクト URI を **Web** タイプで設定し、値は `https://YOUR_W_AND_B_URL/oidc/callback`
+    - 「登録」をクリックします。
 
-    - Make a note of the "Application (client) ID" and "Directory (tenant) ID." 
+    - 「アプリケーション (client) ID」と「ディレクトリ (テナント) ID」をメモしておいてください。
 
       {{< img src="/images/hosting/entra_app_overview_make_note.png" alt="" >}}
 
-
-5. On the left side, click **Authentication**.
+5. 左側のサイドバーで、**Authentication** をクリックします。
     {{< img src="/images/hosting/entra_select_authentication.png" alt="" >}}
 
-    - Under **Front-channel logout URL**, specify: `https://YOUR_W_AND_B_URL/logout`
-    - Click "Save."
+    - **Front-channel logout URL** の下に次を指定します: `https://YOUR_W_AND_B_URL/logout`
+    - 「保存」をクリックします。
 
       {{< img src="/images/hosting/entra_logout_url.png" alt="" >}}
 
-
-6. On the left side, click "Certificates & secrets."
+6. 左側のサイドバーで「Certificates & secrets」をクリックします。
     {{< img src="/images/hosting/entra_select_certificates_secrets.png" alt="" >}}
 
-    - Click "Client secrets" and then click "New client secret."
+    - 「Client secrets」をクリックし、「New client secret」をクリックします。
       {{< img src="/images/hosting/entra_new_secret.png" alt="" >}}
 
-      On the screen named "Add a client secret," fill out the values as follows:
+    「クライアントシークレットの追加」画面で次の値を入力します：
       {{< img src="/images/hosting/entra_add_new_client_secret.png" alt="" >}}
 
-      - Enter a description, for example "wandb"
-      - Leave "Expires" as is or change if you have to.
-      - Click "Add."
+      - 説明を入力します。例として「wandb」
+      - 「有効期限」はそのままにしておくか、必要に応じて変更します。
+      - 「追加」をクリックします。
 
-
-    - Make a note of the "Value" of the secret. There is no need for the "Secret ID."
+    - シークレットの「値」をメモしておいてください。「シークレット ID」は不要です。
     {{< img src="/images/hosting/entra_make_note_of_secret_value.png" alt="" >}}
 
-You should now have made notes of three values:
-- OIDC Client ID
-- OIDC Client Secret
-- Tenant ID is needed for the OIDC Issuer URL
+これで次の 3 つの値をメモしておいてください：
+- OIDC クライアント ID
+- OIDC クライアントシークレット
+- OIDC 発行者 URL に必要なテナント ID
 
-The OIDC issuer URL has the following format: `https://login.microsoftonline.com/${TenantID}/v2.0`
+OIDC 発行者 URL は次の形式です：`https://login.microsoftonline.com/${TenantID}/v2.0`
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Set up SSO on the W&B Server
+## W&B サーバーでの SSO 設定
 
-To set up SSO, you need administrator privileges and the following information:
-- OIDC Client ID
-- OIDC Auth method (`implicit` or `pkce`)
-- OIDC Issuer URL
-- OIDC Client Secret (optional; depends on how you have setup your IdP) 
+SSO を設定するには、管理者権限と次の情報が必要です：
+- OIDC クライアント ID
+- OIDC 認証方法（`implicit` または `pkce`）
+- OIDC 発行者 URL
+- OIDC クライアントシークレット (オプション; IdP の設定方法に依存します)
 
 {{% alert %}}
-Should your IdP require a OIDC Client Secret, specify it with the environment variable `OIDC_CLIENT_SECRET`.
+IdP が OIDC クライアントシークレットを要求する場合、環境変数 `OIDC_CLIENT_SECRET` で指定してください。
 {{% /alert %}}
 
-You can configure SSO using either the W&B Server UI or by passing [environment variables]({{< relref path="/guides/hosting/env-vars.md" lang="ja" >}}) to the `wandb/local` pod. The environment variables take precedence over UI.
+SSO の設定は、W&B サーバー UI を使用するか、`wandb/local` pod に[環境変数]({{< relref path="/guides/hosting/env-vars.md" lang="ja" >}}) を渡して設定することができます。環境変数が UI よりも優先されます。
 
 {{% alert %}}
-If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and disables SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
+SSO を設定した後でインスタンスにログインできない場合、`LOCAL_RESTORE=true` 環境変数を設定してインスタンスを再起動できます。これにより、一時的なパスワードがコンテナのログに出力され、SSO が無効になります。SSO の問題を解決したら、環境変数を削除して SSO を再度有効化する必要があります。
 {{% /alert %}}
 
 {{< tabpane text=true >}}
 {{% tab header="System Console" value="console" %}}
-The System Console is the successor to the System Settings page. It is available with the [W&B Kubernetes Operator]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/" lang="ja" >}}) based deployment.
+System Console は System Settings ページの後継です。これは [W&B Kubernetes Operator]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/" lang="ja" >}}) ベースのデプロイメントで利用可能です。
 
-1. Refer to [Access the W&B Management Console]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#access-the-wb-management-console" lang="ja" >}}).
+1. [Access the W&B Management Console]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#access-the-wb-management-console" lang="ja" >}}) を参照してください。
 
-2. Navigate to **Settings**, then **Authentication**. Select **OIDC** in the **Type** dropdown.
+2. **Settings** に移動し、次に **Authentication** を選択します。**Type** ドロップダウンで **OIDC** を選択します。
     {{< img src="/images/hosting/sso_configure_via_console.png" alt="" >}}
 
-3. Enter the values.
+3. 値を入力します。
 
-4. Click on **Save**.
+4. **Save** をクリックします。
 
-5. Log out and then log back in, this time using the IdP login screen.
+5. ログアウトし、IdP ログイン画面を使用して再度ログインします。
 {{% /tab %}}
 {{% tab header="System settings" value="settings" %}}
-1. Sign in to your Weights&Biases instance. 
-2. Navigate to the W&B App. 
+1. Weights&Biases インスタンスにサインインします。 
+2. W&B アプリに移動します。 
 
     {{< img src="/images/hosting/system_settings.png" alt="" >}}
 
-3. From the dropdown, select **System Settings**:
+3. ドロップダウンから **System Settings** を選択します:
 
     {{< img src="/images/hosting/system_settings_select_settings.png" alt="" >}}
 
-4. Enter your Issuer, Client ID, and Authentication Method. 
-5. Select **Update settings**.
+4. 発行者、クライアント ID、および認証方法を入力します。
+5. **Update settings** を選択します。
 
 {{< img src="/images/hosting/system_settings_select_update.png" alt="" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 
 {{% alert %}}
-If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and turn off SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
+SSO を設定した後でインスタンスにログインできない場合、`LOCAL_RESTORE=true` 環境変数を設定してインスタンスを再起動できます。これにより、一時的なパスワードがコンテナのログに出力され、SSO がオフになります。SSO の問題を解決したら、環境変数を削除して SSO を再度有効化する必要があります。
 {{% /alert %}}
 
-## Security Assertion Markup Language (SAML)
-W&B Server does not support SAML.
+## セキュリティ・アサーション・マークアップ言語 (SAML)
+W&B サーバーは SAML をサポートしていません。

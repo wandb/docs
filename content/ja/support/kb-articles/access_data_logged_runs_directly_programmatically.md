@@ -1,16 +1,16 @@
 ---
+title: 自分の run にログされたデータに直接、またプログラム経由でアクセスするにはどうしたらよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-access_data_logged_runs_directly_programmatically
 support:
 - experiments
-title: How can I access the data logged to my runs directly and programmatically?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-The history object tracks metrics logged with `wandb.log`. Access the history object using the API:
+履歴オブジェクトは `wandb.log` でログされたメトリクスを追跡します。API を使用して履歴オブジェクトに アクセス します:
 
 ```python
 api = wandb.Api()

@@ -1,13 +1,13 @@
 ---
+title: WandbModelCheckpoint
 menu:
   reference:
     identifier: ja-ref-python-integrations-keras-wandbmodelcheckpoint
-title: WandbModelCheckpoint
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/integration/keras/callbacks/model_checkpoint.py#L20-L188 >}}
 
-A checkpoint that periodically saves a Keras model or model weights.
+定期的に Keras モデルまたはモデルの重みを保存するチェックポイント。
 
 ```python
 WandbModelCheckpoint(
@@ -23,39 +23,35 @@ WandbModelCheckpoint(
 ) -> None
 ```
 
-Saved weights are uploaded to W&B as a `wandb.Artifact`.
+保存された重みは `wandb.Artifact` として W&B にアップロードされます。
 
-Since this callback is subclassed from `tf.keras.callbacks.ModelCheckpoint`, the
-checkpointing logic is taken care of by the parent callback. You can learn more
-here: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint
+このコールバックは `tf.keras.callbacks.ModelCheckpoint` からサブクラス化されているため、チェックポイントのロジックは親コールバックによって処理されます。詳細はこちらで学べます: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint
 
-This callback is to be used in conjunction with training using `model.fit()` to save
-a model or weights (in a checkpoint file) at some interval. The model checkpoints
-will be logged as W&B Artifacts. You can learn more here:
+このコールバックは `model.fit()` を使用してトレーニングを行い、一定の間隔でモデルや重みを（チェックポイントファイルに）保存するために使用します。モデルのチェックポイントは W&B Artifacts としてログされます。詳細はこちらで学べます:
 https://docs.wandb.ai/guides/artifacts
 
-This callback provides the following features:
-- Save the model that has achieved "best performance" based on "monitor".
-- Save the model at the end of every epoch regardless of the performance.
-- Save the model at the end of epoch or after a fixed number of training batches.
-- Save only model weights, or save the whole model.
-- Save the model either in SavedModel format or in `.h5` format.
+このコールバックは次の機能を提供します:
+- 「モニター」に基づいて「最良のパフォーマンス」を達成したモデルを保存します。
+- パフォーマンスに関係なく、各エポックの終わりにモデルを保存します。
+- エポックの終わり、または一定数のトレーニングバッチ後にモデルを保存します。
+- モデルの重みのみを保存するか、全体のモデルを保存します。
+- モデルを SavedModel 形式か `.h5` 形式で保存します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `filepath` |  (Union[str, os.PathLike]) path to save the model file. `filepath` can contain named formatting options, which will be filled by the value of `epoch` and keys in `logs` (passed in `on_epoch_end`). For example: if `filepath` is `model-{epoch:02d}-{val_loss:.2f}`, then the model checkpoints will be saved with the epoch number and the validation loss in the filename. |
-|  `monitor` |  (str) The metric name to monitor. Default to "val_loss". |
-|  `verbose` |  (int) Verbosity mode, 0 or 1. Mode 0 is silent, and mode 1 displays messages when the callback takes an action. |
-|  `save_best_only` |  (bool) if `save_best_only=True`, it only saves when the model is considered the "best" and the latest best model according to the quantity monitored will not be overwritten. If `filepath` doesn't contain formatting options like `{epoch}` then `filepath` will be overwritten by each new better model locally. The model logged as an artifact will still be associated with the correct `monitor`. Artifacts will be uploaded continuously and versioned separately as a new best model is found. |
-|  `save_weights_only` |  (bool) if True, then only the model's weights will be saved. |
-|  `mode` |  (Mode) one of {'auto', 'min', 'max'}. For `val_acc`, this should be `max`, for `val_loss` this should be `min`, etc. |
-|  `save_freq` |  (Union[SaveStrategy, int]) `epoch` or integer. When using `'epoch'`, the callback saves the model after each epoch. When using an integer, the callback saves the model at end of this many batches. Note that when monitoring validation metrics such as `val_acc` or `val_loss`, save_freq must be set to "epoch" as those metrics are only available at the end of an epoch. |
-|  `initial_value_threshold` |  (Optional[float]) Floating point initial "best" value of the metric to be monitored. |
+|  `filepath` |  (Union[str, os.PathLike]) モデルファイルを保存するパス。`filepath` には名前付きのフォーマット オプションを含めることができ、これには `epoch` の値および `logs` のキー（`on_epoch_end` で渡される）が埋め込まれます。たとえば、`filepath` が `model-{epoch:02d}-{val_loss:.2f}` の場合、モデルのチェックポイントはエポック番号と検証損失とともにファイル名で保存されます。 |
+|  `monitor` |  (str) 監視するメトリクスの名前。デフォルトは "val_loss"。 |
+|  `verbose` |  (int) 冗長モード、0 または 1。モード 0 は静かで、モード 1 はコールバックがアクションを取るときにメッセージを表示します。 |
+|  `save_best_only` |  (bool) `save_best_only=True` の場合、モデルが「最良」と見なされたときのみ保存され、監視される量に基づいて最新の最良モデルは上書きされません。`filepath` に `{epoch}` などのフォーマット オプションが含まれていない場合、`filepath` はローカルで新しいより良いモデルによって上書きされます。アーティファクトとしてログされたモデルは、依然として正しい `monitor` と関連付けられます。アーティファクトは継続的にアップロードされ、新しい最良のモデルが見つかると個別にバージョン管理されます。 |
+|  `save_weights_only` |  (bool) True の場合、モデルの重みのみが保存されます。 |
+|  `mode` |  (Mode) {'auto', 'min', 'max'} のいずれか。`val_acc` に対しては `max`、`val_loss` に対しては `min` など。 |
+|  `save_freq` |  (Union[SaveStrategy, int]) `epoch` または整数。`'epoch'` を使用する場合、コールバックは各エポックの後にモデルを保存します。整数を使用する場合、コールバックはこのバッチ数の終わりにモデルを保存します。`val_acc` や `val_loss` などの検証メトリクスを監視する場合、save_freq は「epoch」に設定する必要があります。これらのメトリクスはエポックの終わりにのみ利用可能だからです。 |
+|  `initial_value_threshold` |  (Optional[float]) 監視されるメトリクスの浮動小数点数の初期「最良」値。 |
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `set_model`
 

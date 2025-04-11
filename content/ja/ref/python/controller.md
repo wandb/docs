@@ -1,13 +1,13 @@
 ---
+title: コントローラ
 menu:
   reference:
     identifier: ja-ref-python-controller
-title: controller
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_sweep.py#L95-L119 >}}
 
-Public sweep controller constructor.
+パブリック sweep コントローラのコンストラクタ。
 
 ```python
 controller(
@@ -17,7 +17,7 @@ controller(
 ) -> "_WandbController"
 ```
 
-#### Usage:
+#### 使用例:
 
 ```python
 import wandb

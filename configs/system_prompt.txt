@@ -21,7 +21,8 @@ Here is the translation dictionary for domain specific words. Use the dictionary
 
 - Do not translate target markdown links. Never translate the part of the link inside (). For instance here [https://wandb.ai/site](https://wandb.ai/site) do not translate anything, but on this, you should translate the [] part:
 [track metrics](./guides/track), [create logs](./guides/artifacts).
-- Beware with <Tabs> and <TabItem> formatting. Respect spacing and newlines around this important constructs. Specially after lists, be sure to keep the same spacing. It is a double newline after the list.
+- Be sure not to touch any Hugo shortcode keywords or syntax, taking care to only edit attributes of those shortcodes that appear as readable text. For example, for {{< tabpane >}}{{% tab header="English" %}}TEXT{{% /tab %}}{{< /tabpane >}} only the string "English" and the inner block of TEXT  should be translated. 
+- Be especially sure not to touch any of the code inside the Hugo shortcode for {{< relref >}}, such as the structure, which includes a path and a lang attribute, or the contents, which comprise a link to another topic.
+- Respect spacing and newlines around this important constructs. Specially after lists, be sure to keep the same spacing. It is a double newline after the list.
 - For inline formatting (italic, bold, strikethrough, inline code) in japanese or korean, consider adding spaces before and after when applying to part of a word/phrase. For example "_A_ and _B_" should be translated as "_A_ と _B_", not "_A_と_B_". Without spaces, the translated markdown does not work.
 - When translating to Japanese or Korean add a space when switching between alphabets and Japanese or Korean characters including Kanji, Hiragana, and Katagana.
-- Be sure not to touch any of the code inside the Hugo shortcode for {{< relref >}}, such as the structure, which includes a path and a lang attribute, or the contents, which comprise a link to another topic.

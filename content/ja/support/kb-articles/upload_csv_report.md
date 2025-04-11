@@ -1,13 +1,13 @@
 ---
+title: レポートに CSV をアップロードする
 menu:
   support:
     identifier: ja-support-kb-articles-upload_csv_report
 support:
 - reports
-title: Upload a CSV to a report
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To upload a CSV to a report, use the `wandb.Table` format. Load the CSV in your Python script and log it as a `wandb.Table` object. This action renders the data as a table in the report.
+レポートに CSV をアップロードするには、`wandb.Table` フォーマットを使用します。Python スクリプトで CSV を読み込み、`wandb.Table` オブジェクトとしてログします。この操作により、データがレポート内でテーブルとして表示されます。

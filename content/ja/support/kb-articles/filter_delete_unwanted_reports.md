@@ -1,15 +1,15 @@
 ---
+title: 不要なレポートのフィルタリングと削除
 menu:
   support:
     identifier: ja-support-kb-articles-filter_delete_unwanted_reports
 support:
 - reports
-title: Filter and delete unwanted reports
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Use the search bar to filter the reports list. Select an unwanted report to delete it individually, or select all reports and click 'Delete Reports' to remove them from the project.
+検索バーを使用してレポート一覧を絞り込みます。不必要なレポートを選択して個別に削除するか、すべてのレポートを選択して「Delete Reports」をクリックし、プロジェクトから削除します。
 
-{{< img src="/images/reports/delete_runs.gif" alt="Delete unwanted reports and drafts" >}}
+{{< img src="/images/reports/delete_runs.gif" alt="不要なレポートとドラフトを削除" >}}

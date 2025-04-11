@@ -1,13 +1,13 @@
 ---
+title: Launch で "permission denied" エラーを修正するにはどうすればよいですか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-launcherror_permission_denied
     parent: launch-faq
-title: How do I fix a "permission denied" error in Launch?
 ---
 
-If you encounter the error message `Launch Error: Permission denied`, it indicates insufficient permissions to log to the desired project. Possible causes include:
+エラーメッセージ `Launch Error: Permission denied` に遭遇した場合、これは、目的のプロジェクトにログを記録するための権限が不十分であることを示しています。考えられる原因は次のとおりです：
 
-1. You are not logged in on this machine. Run [`wandb login`]({{< relref path="/ref/cli/wandb-login.md" lang="ja" >}}) in the command line.
-2. The specified entity does not exist. The entity must be your username or an existing team's name. Create a team if necessary with the [Subscriptions page](https://app.wandb.ai/billing).
-3. You lack project permissions. Request the project creator to change the privacy setting to **Open** to allow logging runs to the project.
+1. このマシンにログインしていません。コマンドラインで [`wandb login`]({{< relref path="/ref/cli/wandb-login.md" lang="ja" >}}) を実行してください。
+2. 指定されたエンティティが存在しません。エンティティは、ユーザーのユーザー名または既存のチームの名前である必要があります。必要に応じて、[Subscriptions page](https://app.wandb.ai/billing) でチームを作成してください。
+3. プロジェクトの権限がありません。プロジェクトの作成者にプライバシー設定を **Open** に変更するよう依頼して、プロジェクトに run をログできるようにしてください。

@@ -1,31 +1,30 @@
 ---
+title: bokeh-file
 menu:
   reference:
     identifier: ja-ref-query-panel-bokeh-file
-title: bokeh-file
 ---
 
 ## Chainable Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの _file_ を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
-
+#### 戻り値
+アセットの _file_
 
 ## List Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの _file_ を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 戻り値
+アセットの _file_

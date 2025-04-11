@@ -1,47 +1,47 @@
 ---
+title: レジストリの種類
 menu:
   default:
     identifier: ja-guides-core-registry-registry_types
     parent: registry
-title: Registry types
 weight: 1
 ---
 
-W&B supports two types of registries: [Core registries]({{< relref path="#core-registry" lang="ja" >}}) and [Custom registries]({{< relref path="#custom-registry" lang="ja" >}}). 
+W&B は 2 種類のレジストリをサポートしています: [コア レジストリ]({{< relref path="#core-registry" lang="ja" >}}) と [カスタム レジストリ]({{< relref path="#custom-registry" lang="ja" >}})。
 
-## Core registry
-A core registry is a template for specific use cases: **Models** and **Datasets**.
+## コアレジストリ
 
-By default, the **Models** registry is configured to accept `"model"` artifact types and the **Dataset** registry is configured to accept `"dataset"` artifact types. An admin can add additional accepted artifact types. 
+コアレジストリは、特定のユースケース、つまり **Models** と **Datasets** のためのテンプレートです。
 
-<!-- For more information about artifact types, see [LINK]. -->
+デフォルトでは、**Models** レジストリは `"model"` アーティファクトタイプを受け入れるように設定されており、**Dataset** レジストリは `"dataset"` アーティファクトタイプを受け入れるように設定されています。管理者は、追加の受け入れ可能なアーティファクトタイプを追加することができます。
 
 {{< img src="/images/registry/core_registry_example.png" alt="" >}}
 
-The preceding image shows the **Models** and the **Dataset** core registry along with a custom registry called **Fine_Tuned_Models** in the W&B Registry App UI.
+上記の画像は、W&B レジストリ アプリ UI における **Models** と **Dataset** のコアレジストリと、**Fine_Tuned_Models** というカスタムレジストリを示しています。
 
-A core registry has [organization visibility]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}}). A registry admin can not change the visibility of a core registry. 
+コアレジストリには [組織の公開範囲]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}}) があります。レジストリの管理者はコアレジストリの公開範囲を変更することはできません。
 
-## Custom registry
-Custom registries are not restricted to `"model"` artifact types or `"dataset"` artifact types.
+## カスタムレジストリ
 
-You can create a custom registry for each step in your machine learning pipeline, from initial data collection to final model deployment.
+カスタムレジストリは、`"model"` アーティファクトタイプや `"dataset"` アーティファクトタイプに制限されません。
 
-For example, you might create a registry called "Benchmark_Datasets" for organizing curated datasets to evaluate the performance of trained models. Within this registry, you might have a collection called "User_Query_Insurance_Answer_Test_Data" that contains a set of user questions and corresponding expert-validated answers that the model has never seen during training. 
+機械学習パイプラインの各ステップのために、初期データ収集から最終モデルデプロイメントまでのカスタムレジストリを作成することができます。
+
+例えば、「Benchmark_Datasets」というレジストリを作成し、トレーニングされたモデルの性能評価のためにキュレーションされたデータセットを整理することができます。このレジストリ内には、トレーニング中にモデルが見たことのないユーザー質問と、それに対応する専門家によって検証された答えが含まれる「User_Query_Insurance_Answer_Test_Data」というコレクションを持つことができます。
 
 {{< img src="/images/registry/custom_registry_example.png" alt="" >}}
 
-A custom registry can have either [organization or restricted visibility]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}}). A registry admin can change the visibility of a custom registry from organization to restricted. However, the registry admin can not change a custom registry's visibility from restricted to organizational visibility.
+カスタムレジストリは、[組織または制限付きの公開範囲]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}}) のいずれかを持つことができます。レジストリの管理者は、組織の公開範囲を制限付きに変更することができます。ただし、レジストリ管理者はカスタムレジストリの公開範囲を制限付きから組織の公開範囲へ変更することはできません。
 
-For information on how to create a custom registry, see [Create a custom registry]({{< relref path="./create_collection.md" lang="ja" >}}).
+カスタムレジストリの作成方法については、[カスタムレジストリを作成する]({{< relref path="./create_collection.md" lang="ja" >}}) を参照してください。
 
+## まとめ
 
-## Summary
-The proceeding table summarizes the differences between core and custom registries:
+以下の表は、コアレジストリとカスタムレジストリの違いをまとめています:
 
-|                | Core  | Custom|
+|                | コア  | カスタム|
 | -------------- | ----- | ----- |
-| Visibility     | Organizational visibility only. Visibility can not be altered. | Either organization or restricted. Visibility can be altered from organization to restricted visibility.|
-| Metadata       | Preconfigured and not editable by users. | Users can edit.  |
-| Artifact types | Preconfigured and accepted artifact types cannot be removed. Users can add additional accepted artifact types. | Admin can define accepted types. |
-| Customization    | Can add additional types to the existing list.|  Edit registry name, description, visibility, and accepted artifact types.|
+| 公開範囲       | 組織の公開範囲のみ。公開範囲は変更できません。 | 組織または制限付きのいずれか。公開範囲は組織から制限付きに変更できます。|
+| メタデータ     | あらかじめ設定され、ユーザーによる編集は不可。 | ユーザーが編集可能。  |
+| アーティファクトタイプ | あらかじめ設定され、既存の受け入れられるアーティファクトタイプは削除できません。ユーザーは追加の受け入れ可能なアーティファクトタイプを追加可能。 | 管理者が受け入れられるタイプを定義できます。 |
+| カスタマイズ    | 既存のリストに追加のタイプを追加可能。 |  レジストリ名、説明、公開範囲、受け入れアーティファクトタイプを編集可能。|

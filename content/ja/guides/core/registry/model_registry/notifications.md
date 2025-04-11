@@ -1,33 +1,29 @@
 ---
-description: Get Slack notifications when a new model version is linked to the model
-  registry.
+title: アラートと通知を作成する
+description: 新しいモデルバージョンがモデルレジストリにリンクされた時に Slack 通知を受け取る。
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-notifications
     parent: model-registry
-title: Create alerts and notifications
 weight: 9
 ---
 
-<!-- # Notifications for new model versions -->
-Receive Slack notifications when a new model version is linked to the model registry. 
+新しいモデルバージョンがモデルレジストリにリンクされたときに、Slack 通知を受け取る。
 
-
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select the registered model you want to receive notifications from.
-3. Click on the **Connect Slack** button.
+1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model) で W&B Model Registry アプリを開きます。
+2. 通知を受け取りたい登録済みモデルを選択します。
+3. **Connect Slack** ボタンをクリックします。
     {{< img src="/images/models/connect_to_slack.png" alt="" >}}
-4. Follow the instructions to enable W&B in your Slack workspace that appear on the OAuth page.
+4. OAuth ページに表示される Slack ワークスペースで W&B を有効にするための指示に従います。
 
-
-Once you have configured Slack notifications for your team, you can pick and choose registered models to get notifications from. 
+チームのために Slack 通知を設定すると、通知を受け取る登録済みモデルを選択できます。
 
 {{% alert %}}
-A toggle that reads **New model version linked to...** appears instead of a **Connect Slack** button if you have Slack notifications configured for your team.
+チームのために Slack 通知を設定した場合、**Connect Slack** ボタンの代わりに **New model version linked to...** と書かれたトグルが表示されます。
 {{% /alert %}}
 
-The screenshot below shows a FMNIST classifier registered model that has Slack notifications. 
+下のスクリーンショットは Slack 通知が設定された FMNIST 分類器の登録済みモデルを示しています。
 
 {{< img src="/images/models/conect_to_slack_fmnist.png" alt="" >}}
 
-A message is automatically posted to the connected Slack channel each time a new model version is linked to the FMNIST classifier registered model.
+新しいモデルバージョンが FMNIST 分類器の登録済みモデルにリンクされるたびに、接続された Slack チャンネルにメッセージが自動的に投稿されます。

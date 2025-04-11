@@ -1,13 +1,13 @@
 ---
+title: sweep
 menu:
   reference:
     identifier: ja-ref-python-sweep
-title: sweep
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_sweep.py#L34-L92 >}}
 
-Initialize a hyperparameter sweep.
+ハイパーパラメーター探索を初期化します。
 
 ```python
 sweep(
@@ -18,19 +18,17 @@ sweep(
 ) -> str
 ```
 
-Search for hyperparameters that optimizes a cost function
-of a machine learning model by testing various combinations.
+機械学習モデルのコスト関数を最適化するハイパーパラメーターを見つけるために、さまざまな組み合わせをテストします。
 
-Make note the unique identifier, `sweep_id`, that is returned.
-At a later step provide the `sweep_id` to a sweep agent.
+返されるユニークな識別子 `sweep_id` をメモしてください。後のステップで `sweep_id` を sweep agent に提供します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `sweep` |  The configuration of a hyperparameter search. (or configuration generator). See [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) for information on how to define your sweep. If you provide a callable, ensure that the callable does not take arguments and that it returns a dictionary that conforms to the W&B sweep config spec. |
-|  `entity` |  The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username. |
-|  `project` |  The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled 'Uncategorized'. |
-|  `prior_runs` |  The run IDs of existing runs to add to this sweep. |
+|  `sweep` |  ハイパーパラメーター探索の設定です。（または設定ジェネレーター）。sweep を定義する方法については、[Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) を参照してください。コール可能なオブジェクトを提供する場合、引数を取らないことを確認し、W&B sweep config仕様に準拠した辞書を返すようにしてください。|
+|  `entity` |  スイープによって作成された W&B run を送信したいユーザー名またはチーム名です。指定した entity が既に存在することを確認してください。もし entity を指定しない場合、run は通常、ユーザー名であるデフォルトの entity に送信されます。 |
+|  `project` |  スイープから作成された W&B run が送信されるプロジェクトの名前です。プロジェクトが指定されない場合、run は「Uncategorized」とラベル付けされたプロジェクトに送信されます。 |
+|  `prior_runs` |  このスイープに追加する既存の run の ID です。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  `sweep_id` |  str. A unique identifier for the sweep. |
+|  `sweep_id` |  str. スイープのためのユニークな識別子です。|

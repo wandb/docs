@@ -1,10 +1,10 @@
 ---
+title: 完了後に run に割り当てられたグループを変更することは可能ですか？
 menu:
   support:
     identifier: ja-support-kb-articles-change_group_after_completion
 support:
 - runs
-title: Is it possible to change the group assigned to a run after completion?
 toc_hide: true
 type: docs
 url: /support/:filename
@@ -15,6 +15,7 @@ You can change the group assigned to a completed run using the API. This feature
 ```python
 import wandb
 
+# APIを使用して group を変更する
 api = wandb.Api()
 run = api.run("<ENTITY>/<PROJECT>/<RUN_ID>")
 run.group = "NEW-GROUP-NAME"

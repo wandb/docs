@@ -1,13 +1,13 @@
 ---
+title: テーブル
 menu:
   reference:
     identifier: ja-ref-python-data-types-table
-title: Table
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L183-L909 >}}
 
-The Table class used to display and analyze tabular data.
+Table クラスは表形式のデータを表示および分析するために使用されます。
 
 ```python
 Table(
@@ -16,27 +16,26 @@ Table(
 )
 ```
 
-Unlike traditional spreadsheets, Tables support numerous types of data:
-scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.Media`.
-This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
-directly in Tables, alongside other traditional scalar values.
+従来のスプレッドシートとは異なり、Tables は多くの種類のデータをサポートしています:
+スカラー値、文字列、numpy 配列、および `wandb.data_types.Media` のほとんどのサブクラス。
+これにより、`Images`、`Video`、`Audio`、および他の種類のリッチで注釈のあるメディアを
+従来のスカラー値と並べて Tables に直接埋め込むことができます。
 
-This class is the primary class used to generate the Table Visualizer
-in the UI: https://docs.wandb.ai/guides/data-vis/tables.
+このクラスは、UI の Table Visualizer を生成するために使用される主要なクラスです: https://docs.wandb.ai/guides/data-vis/tables.
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `columns` |  (List[str]) Names of the columns in the table. Defaults to ["Input", "Output", "Expected"]. |
-|  `data` |  (List[List[any]]) 2D row-oriented array of values. |
-|  `dataframe` |  (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
-|  `optional` |  (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |
-|  `allow_mixed_types` |  (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False |
+|  `columns` |  (List[str]) テーブル内の列の名前。デフォルトは["Input", "Output", "Expected"]です。 |
+|  `data` |  (List[List[any]]) 2D 行指向の配列。 |
+|  `dataframe` |  (pandas.DataFrame) テーブルの作成に使用される DataFrame オブジェクト。設定されている場合、`data` と `columns` 引数は無視されます。 |
+|  `optional` |  (Union[bool,List[bool]]) `None` の値を許可するかどうかを決定します。デフォルトは True です - 単一の bool 値が指定された場合、構築時に指定されたすべての列において任意性が確保されます - bool 値のリストである場合、各列に適用される任意性が適用されます - `columns` と同じ長さでなければなりません。bool 値のリストはそれぞれの列に適用されます。 |
+|  `allow_mixed_types` |  (bool) 列に混合タイプを許可するかどうかを決定します（タイプ検証を無効にします）。デフォルトは False です。 |
 
-## Methods
+## メソッド
 
 ### `add_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L797-L836)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L797-L836)
 
 ```python
 add_column(
@@ -44,17 +43,17 @@ add_column(
 )
 ```
 
-Adds a column of data to the table.
+テーブルにデータ列を追加します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) - the unique name of the column |
-|  `data` |  (list | np.array) - a column of homogeneous data |
-|  `optional` |  (bool) - if null-like values are permitted |
+|  `name` |  (str) - 列の一意の名前 |
+|  `data` |  (list | np.array) - 同種のデータの列 |
+|  `optional` |  (bool) - null 値が許可されるかどうか |
 
 ### `add_computed_columns`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L887-L909)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L887-L909)
 
 ```python
 add_computed_columns(
@@ -62,15 +61,15 @@ add_computed_columns(
 )
 ```
 
-Adds one or more computed columns based on existing data.
+既存のデータに基づいて1つ以上の計算列を追加します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `fn` |  A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. `row` is a dictionary keyed by existing columns |
+|  `fn` |  ndx（int）および row（dict）という1つまたは2つのパラメータを受け取り、新しい列のキーを新しい列名として指定した辞書を返す関数です。`ndx` は行のインデックスを示す整数です。`include_ndx` が `True` に設定されている場合にのみ含まれます。`row` は既存の列にキー付けされた辞書です。 |
 
 ### `add_data`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L423-L456)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L423-L456)
 
 ```python
 add_data(
@@ -78,13 +77,13 @@ add_data(
 )
 ```
 
-Adds a new row of data to the table. The maximum amount of rows in a table is determined by `wandb.Table.MAX_ARTIFACT_ROWS`.
+テーブルに新しいデータ行を追加します。テーブル内の最大行数は `wandb.Table.MAX_ARTIFACT_ROWS` によって決定されます。
 
-The length of the data should match the length of the table column.
+データの長さはテーブル列の長さと一致する必要があります。
 
 ### `add_row`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L418-L421)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L418-L421)
 
 ```python
 add_row(
@@ -92,11 +91,11 @@ add_row(
 )
 ```
 
-Deprecated; use add_data instead.
+非推奨; 代わりに add_data を使用してください。
 
 ### `cast`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L315-L371)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L315-L371)
 
 ```python
 cast(
@@ -104,20 +103,19 @@ cast(
 )
 ```
 
-Casts a column to a specific data type.
+列を特定のデータ型にキャストします。
 
-This can be one of the normal python classes, an internal W&B type, or an
-example object, like an instance of wandb.Image or wandb.Classes.
+これは通常の Python クラスの1つである場合もあれば、内部の W&B タイプの1つであり、例えば wandb.Image や wandb.Classes のインスタンスのようなサンプルオブジェクトである場合もあります。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `col_name` |  (str) - The name of the column to cast. |
-|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - The target dtype. |
-|  `optional` |  (bool) - If the column should allow Nones. |
+|  `col_name` |  (str) - キャストする列の名前。 |
+|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 目的の dtype。 |
+|  `optional` |  (bool) - 列に None を許可するかどうか。 |
 
 ### `get_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L838-L861)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L838-L861)
 
 ```python
 get_column(
@@ -125,36 +123,36 @@ get_column(
 )
 ```
 
-Retrieves a column from the table and optionally converts it to a NumPy object.
+テーブルから列を取得し、オプションで NumPy オブジェクトに変換します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) - the name of the column |
-|  `convert_to` |  (str, optional) - "numpy": will convert the underlying data to numpy object |
+|  `name` |  (str) - 列の名前 |
+|  `convert_to` |  (str, optional) - "numpy": 基礎となるデータを numpy オブジェクトに変換します |
 
 ### `get_dataframe`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L872-L878)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L872-L878)
 
 ```python
 get_dataframe()
 ```
 
-Returns a `pandas.DataFrame` of the table.
+テーブルの `pandas.DataFrame` を返します。
 
 ### `get_index`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L863-L870)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L863-L870)
 
 ```python
 get_index()
 ```
 
-Returns an array of row indexes for use in other tables to create links.
+リンクを作成するために他のテーブルで使用する行インデックスの配列を返します。
 
 ### `index_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L880-L885)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L880-L885)
 
 ```python
 index_ref(
@@ -162,32 +160,31 @@ index_ref(
 )
 ```
 
-Gets a reference of the index of a row in the table.
+テーブル内の行のインデックスの参照を取得します。
 
 ### `iterrows`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L674-L688)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L674-L688)
 
 ```python
 iterrows()
 ```
 
-Returns the table data by row, showing the index of the row and the relevant data.
+行ごとにテーブルデータを返し、行のインデックスと関連するデータを表示します。
 
 | Yields |  |
 | :--- | :--- |
 
 ***
 
-index : int
-The index of the row. Using this value in other W&B tables
-will automatically build a relationship between the tables
-row : List[any]
-The data of the row.
+index : int  
+行のインデックス。この値を他の W&B テーブルで使用することで、テーブル間の関係が自動的に構築されます  
+row : List[any]  
+行のデータ。
 
 ### `set_fk`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L695-L699)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L695-L699)
 
 ```python
 set_fk(
@@ -197,7 +194,7 @@ set_fk(
 
 ### `set_pk`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L690-L693)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L690-L693)
 
 ```python
 set_pk(
@@ -205,7 +202,7 @@ set_pk(
 )
 ```
 
-| Class Variables |  |
+| クラス変数 |  |
 | :--- | :--- |
 |  `MAX_ARTIFACT_ROWS`<a id="MAX_ARTIFACT_ROWS"></a> |  `200000` |
 |  `MAX_ROWS`<a id="MAX_ROWS"></a> |  `10000` |

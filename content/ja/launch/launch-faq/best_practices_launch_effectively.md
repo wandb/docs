@@ -1,13 +1,13 @@
 ---
+title: ローンチを効果的に使用するためのベストプラクティスはありますか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-best_practices_launch_effectively
     parent: launch-faq
-title: Are there best practices for using Launch effectively?
 ---
 
-1. Create the queue before starting the agent to enable easy configuration. Failure to do this results in errors that prevent the agent from functioning until a queue is added.
+1. エージェントを起動する前にキューを作成し、簡単に設定を可能にします。これを行わないと、キューが追加されるまでエージェントが正しく動作しないエラーが発生します。
 
-2. Create a W&B service account to initiate the agent, ensuring it is not linked to an individual user account.
+2. W&B のサービスアカウントを作成してエージェントを起動し、個別のユーザーアカウントにリンクされていないことを確認します。
 
-3. Use `wandb.config` to manage hyperparameters, allowing for overwriting during job re-runs. Refer to [this guide]({{< relref path="/guides/models/track/config/#set-the-configuration-with-argparse" lang="ja" >}}) for details on using argparse.
+3. `wandb.config` を使用してハイパーパラメーターを管理し、ジョブ再実行時に上書きできるようにします。argparse の使用方法については、[このガイド]({{< relref path="/guides/models/track/config/#set-the-configuration-with-argparse" lang="ja" >}})を参照してください。

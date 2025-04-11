@@ -1,86 +1,82 @@
 ---
+title: 実験を再現する
 menu:
   default:
     identifier: ja-guides-models-track-reproduce_experiments
     parent: track
-title: Reproduce experiments
 weight: 7
 ---
 
-Reproduce an experiment that a team member creates to verify and validate their results.
+実験を再現し、チームメンバーが作成した結果を検証して確認します。
 
-Before you reproduce an experiment, you need to make note of the:
+実験を再現する前に、以下の事項に注意する必要があります：
 
-* Name of the project the run was logged to
-* Name of the run you want to reproduce
+* run がログされたプロジェクトの名前
+* 再現したい run の名前
 
-To reproduce an experiment:
+実験を再現するには：
 
-1. Navigate to the project where the run is logged to.
-2. Select the **Workspace** tab in the left sidebar.
-3. From the list of runs, select the run that you want to reproduce.
-4. Click **Overview**.
+1. run がログされたプロジェクトに移動します。
+2. 左のサイドバーで **Workspace** タブを選択します。
+3. run のリストから再現したい run を選択します。
+4. **Overview** をクリックします。
 
-To continue, download the experiment's code at a given hash or clone the experiment's entire repository.
+続けるには、指定されたハッシュで実験のコードをダウンロードするか、実験のリポジトリ全体をクローンします。
 
 {{< tabpane text=true >}}
-{{% tab "Download Python script or notebook" %}}
+{{% tab "Python スクリプトまたはノートブックをダウンロード" %}}
 
-Download the experiment's Python script or notebook:
+実験の Python スクリプトまたはノートブックをダウンロードします：
 
-1. In the **Command** field, make a note of the name of the script that created the experiment.
-2. Select the **Code** tab in the left navigation bar.
-3. Click **Download** next to the file that corresponds to the script or notebook.
-
+1. **Command** フィールドで、実験を作成したスクリプトの名前をメモしておきます。
+2. 左のナビゲーションバーで **Code** タブを選択します。
+3. スクリプトまたはノートブックに対応するファイルの横にある **Download** をクリックします。
 
 {{% /tab %}}
 {{% tab "GitHub" %}}
 
-Clone the GitHub repository your teammate used when creating the experiment. To do this:
+チームメイトが実験を作成するときに使用した GitHub リポジトリをクローンします。以下の手順で行います：
 
-1. If necessary, gain access to the GitHub repository that your teammate used to create the experiment.
-2. Copy the **Git repository** field, which contains the GitHub repository URL.
-3. Clone the repository:
+1. 必要に応じて、チームメイトが実験を作成する際に使用した GitHub リポジトリへのアクセス権を取得します。
+2. GitHub リポジトリの URL を含む **Git repository** フィールドをコピーします。
+3. リポジトリをクローンします:
     ```bash
     git clone https://github.com/your-repo.git && cd your-repo
     ```
-4. Copy and paste the **Git state** field into your terminal. The Git state is a set of Git commands that checks out the exact commit that your teammate used to create the experiment. Replace values specified in the proceeding code snippet with your own:
+4. **Git state** フィールドをターミナルにコピー＆ペーストします。Git state は、チームメイトが実験を作成するときに使用した正確なコミットをチェックアウトする一連の Git コマンドです。以下のコードスニペットで指定されている値を自分の値に置き換えます：
     ```bash
     git checkout -b "<run-name>" 0123456789012345678901234567890123456789
     ```
 
-
-
 {{% /tab %}}
 {{< /tabpane >}}
 
-5. Select **Files** in the left navigation bar.
-6. Download the `requirements.txt` file and store it in your working directory. This directory should contain either the cloned GitHub repository or the downloaded Python script or notebook.
-7. (Recommended) Create a Python virtual environment.
-8. Install the requirements specified in the `requirements.txt` file.
+5. 左のナビゲーションバーで **Files** を選択します。
+6. `requirements.txt` ファイルをダウンロードし、作業ディレクトリーに保存します。このディレクトリーには、クローンした GitHub リポジトリまたはダウンロードした Python スクリプトまたはノートブックが含まれている必要があります。
+7. （推奨）Python 仮想環境を作成します。
+8. `requirements.txt` ファイルに指定された要件をインストールします。
     ```bash
     pip install -r requirements.txt
     ```
 
-9. Now that you have the code and dependencies, you can run the script or notebook to reproduce the experiment. If you cloned a repository, you might need to navigate to the directory where the script or notebook is located. Otherwise, you can run the script or notebook from your working directory.
+9. これでコードと依存関係が揃ったので、スクリプトまたはノートブックを実行して実験を再現できます。リポジトリをクローンした場合は、スクリプトまたはノートブックが置かれているディレクトリーに移動する必要があるかもしれません。そうでなければ、作業ディレクトリーからスクリプトまたはノートブックを実行できます。
 
 {{< tabpane text=true >}}
-{{% tab "Python notebook" %}}
+{{% tab "Python ノートブック" %}}
 
-If you downloaded a Python notebook, navigate to the directory where you downloaded the notebook and run the following command in your terminal:
+Python ノートブックをダウンロードした場合、ノートブックをダウンロードしたディレクトリーに移動して、以下のコマンドをターミナルで実行します:
 ```bash
 jupyter notebook
 ```
 
 {{% /tab %}}
-{{% tab "Python script" %}}
+{{% tab "Python スクリプト" %}}
 
-If you downloaded a Python script, navigate to the directory where you downloaded the script and run the following command in your terminal; Replace values enclosed in `<>` with your own:
+Python スクリプトをダウンロードした場合、スクリプトをダウンロードしたディレクトリーに移動して、ターミナルで以下のコマンドを実行してください。`<>`で囲まれた値を自分のものに置き換えます：
 
 ```bash
 python <your-script-name>.py
 ```
-
 
 {{% /tab %}}
 {{< /tabpane >}}

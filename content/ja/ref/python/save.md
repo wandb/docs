@@ -1,13 +1,13 @@
 ---
+title: 保存
 menu:
   reference:
     identifier: ja-ref-python-save
-title: save
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_run.py#L1875-L1979 >}}
 
-Sync one or more files to W&B.
+1 つ以上のファイルを W&B に同期します。
 
 ```python
 save(
@@ -17,44 +17,37 @@ save(
 ) -> (bool | list[str])
 ```
 
-Relative paths are relative to the current working directory.
+相対パスは現在の作業ディレクトリーに対するものです。
 
-A Unix glob, such as "myfiles/*", is expanded at the time `save` is
-called regardless of the `policy`. In particular, new files are not
-picked up automatically.
+Unix のグロブ（例: "myfiles/*"）は、`save` が呼び出された時点で展開され、`policy` に関係ありません。特に、新しいファイルは自動的に取得されません。
 
-A `base_path` may be provided to control the directory structure of
-uploaded files. It should be a prefix of `glob_str`, and the directory
-structure beneath it is preserved. It's best understood through
-examples:
+アップロードされたファイルのディレクトリー構造を制御するために `base_path` を指定することができます。これは `glob_str` のプレフィックスであり、その下のディレクトリー構造は保持されます。以下の例で理解すると良いでしょう。
 
 ```
 wandb.save("these/are/myfiles/*")
-# => Saves files in a "these/are/myfiles/" folder in the run.
+# => 保存されたファイルは run の "these/are/myfiles/" フォルダー内にあります。
 
 wandb.save("these/are/myfiles/*", base_path="these")
-# => Saves files in an "are/myfiles/" folder in the run.
+# => 保存されたファイルは run の "are/myfiles/" フォルダー内にあります。
 
 wandb.save("/User/username/Documents/run123/*.txt")
-# => Saves files in a "run123/" folder in the run. See note below.
+# => 保存されたファイルは run の "run123/" フォルダー内にあります。以下の注意点を参照してください。
 
 wandb.save("/User/username/Documents/run123/*.txt", base_path="/User")
-# => Saves files in a "username/Documents/run123/" folder in the run.
+# => 保存されたファイルは run の "username/Documents/run123/" フォルダー内にあります。
 
 wandb.save("files/*/saveme.txt")
-# => Saves each "saveme.txt" file in an appropriate subdirectory
-#    of "files/".
+# => 各 "saveme.txt" ファイルは "files/" の適切なサブディレクトリーに保存されます。
 ```
 
-Note: when given an absolute path or glob and no `base_path`, one
-directory level is preserved as in the example above.
+注意: 絶対パスやグロブが与えられ、`base_path` がない場合、例のように 1 つのディレクトリー レベルが保持されます。
 
 | Args |  |
 | :--- | :--- |
-|  `glob_str` |  A relative or absolute path or Unix glob. |
-|  `base_path` |  A path to use to infer a directory structure; see examples. |
-|  `policy` |  One of `live`, `now`, or `end`. * live: upload the file as it changes, overwriting the previous version * now: upload the file once now * end: upload file when the run ends |
+|  `glob_str` |  相対または絶対パス、または Unix グロブ。 |
+|  `base_path` |  ディレクトリー構造を推測するためのパス; 例を参照してください。 |
+|  `policy` |  `live`、`now`、または `end` のいずれか。 * live: ファイルが変更されるたびにアップロードし、以前のバージョンを上書きする * now: 現在一度だけファイルをアップロードする * end: run が終了したときにファイルをアップロードする |
 
 | Returns |  |
 | :--- | :--- |
-|  Paths to the symlinks created for the matched files. For historical reasons, this may return a boolean in legacy code. |
+|  一致したファイルに対して作成されたシンボリックリンクのパス。歴史的な理由により、レガシー コードではブール値を返すことがあります。 |

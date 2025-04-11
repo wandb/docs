@@ -1,13 +1,19 @@
 ---
+title: 'Api
+
+
+  API (Application Programming Interface) は、プログラム間でデータや機能をやり取りするためのインターフェースを提供します。W&B
+  API は、ユーザーがwandb を通じて**Projects**、**Entities**、**Runs**などのデータにアクセスし、管理することを可能にします。このAPIにより、**Experiments**の追跡や**Reports**の共有を自動化できます。W&B
+  APIはPythonを含むさまざまなプログラミング言語で利用可能です。これにより、カスタムスクリプトの作成や他のツールとの統合が簡単になります。APIの使用方法に関する詳細な情報は、[API
+  documentation](https://wandb.ai)を参照してください。'
 menu:
   reference:
     identifier: ja-ref-python-public-api-api
-title: Api
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L104-L1573 >}}
 
-Used for querying the wandb server.
+wandb サーバーをクエリするために使用されます。
 
 ```python
 Api(
@@ -17,26 +23,26 @@ Api(
 ) -> None
 ```
 
-#### Examples:
+#### 例:
 
-Most common way to initialize
+最も一般的な初期化方法
 
 ```
 >>> wandb.Api()
 ```
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `overrides` |  (dict) You can set `base_url` if you are using a wandb server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`. |
+|  `overrides` |  (dict) `https://api.wandb.ai` 以外の wandb サーバーを使用している場合に `base_url` を設定できます。また、`entity`、`project`、および `run` のデフォルト設定をすることができます。 |
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1299-L1321)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1299-L1321)
 
 ```python
 artifact(
@@ -45,29 +51,29 @@ artifact(
 )
 ```
 
-Return a single artifact by parsing path in the form `project/name` or `entity/project/name`.
+`project/name` または `entity/project/name` の形式でパスを解析することにより、単一のアーティファクトを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact name. May be prefixed with project/ or entity/project/. If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms: name:version name:alias |
-|  `type` |  (str, optional) The type of artifact to fetch. |
+|  `name` |  (str) アーティファクト名。project/ または entity/project/ で始まる場合があります。name に entity が指定されていない場合、Run または API 設定の entity が使用されます。有効な名前は次の形式になります: name:version name:alias |
+|  `type` |  (str, オプション) 取得するアーティファクトのタイプ。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` オブジェクト。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `ValueError` |  If the artifact name is not specified. |
-|  `ValueError` |  If the artifact type is specified but does not match the type of the fetched artifact. |
+|  `ValueError` |  アーティファクト名が指定されていない場合。 |
+|  `ValueError` |  アーティファクトタイプが指定されているが、取得したアーティファクトのタイプと一致しない場合。 |
 
-#### Note:
+#### 注意:
 
-This method is intended for external use only. Do not call `api.artifact()` within the wandb repository code.
+このメソッドは外部利用のみを目的としています。wandb リポジトリコード内で `api.artifact()` を呼び出さないでください。
 
 ### `artifact_collection`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1181-L1210)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1181-L1210)
 
 ```python
 artifact_collection(
@@ -76,20 +82,20 @@ artifact_collection(
 ) -> "public.ArtifactCollection"
 ```
 
-Return a single artifact collection by type and parsing path in the form `entity/project/name`.
+タイプと `entity/project/name` の形式でパスを解析することにより、単一のアーティファクトコレクションを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `type_name` |  (str) The type of artifact collection to fetch. |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. |
+|  `type_name` |  (str) 取得するアーティファクトコレクションのタイプ。 |
+|  `name` |  (str) アーティファクトコレクション名。entity/project で始まる場合があります。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `ArtifactCollection` object. |
+|  `ArtifactCollection` オブジェクト。 |
 
 ### `artifact_collection_exists`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1442-L1459)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1442-L1459)
 
 ```python
 artifact_collection_exists(
@@ -98,20 +104,20 @@ artifact_collection_exists(
 ) -> bool
 ```
 
-Return whether an artifact collection exists within a specified project and entity.
+指定されたプロジェクトとエンティティ内にアーティファクトコレクションが存在するかどうかを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to "uncategorized". |
-|  `type` |  (str) The type of artifact collection |
+|  `name` |  (str) アーティファクトコレクション名。entity/project で始まる場合があります。entity または project が指定されていない場合、オーバーライドパラメーターから推測されます。その他の場合、entity はユーザー設定から取得され、project は "uncategorized" にデフォルト設定されます。 |
+|  `type` |  (str) アーティファクトコレクションのタイプ |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  True if the artifact collection exists, False otherwise. |
+|  アーティファクトコレクションが存在する場合は True、そうでない場合は False。 |
 
 ### `artifact_collections`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1154-L1179)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1154-L1179)
 
 ```python
 artifact_collections(
@@ -121,21 +127,21 @@ artifact_collections(
 ) -> "public.ArtifactCollections"
 ```
 
-Return a collection of matching artifact collections.
+一致するアーティファクトコレクションのコレクションを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `project_name` |  (str) The name of the project to filter on. |
-|  `type_name` |  (str) The name of the artifact type to filter on. |
-|  `per_page` |  (int, optional) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+|  `project_name` |  (str) フィルタリングするプロジェクトの名前。 |
+|  `type_name` |  (str) フィルタリングするアーティファクトタイプの名前。 |
+|  `per_page` |  (int, オプション) クエリのページネーションのページサイズを設定します。None はデフォルトサイズを使用します。通常、これを変更する理由はありません。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An iterable `ArtifactCollections` object. |
+|  イテラブルな `ArtifactCollections` オブジェクト。 |
 
 ### `artifact_exists`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1420-L1440)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1420-L1440)
 
 ```python
 artifact_exists(
@@ -144,20 +150,20 @@ artifact_exists(
 ) -> bool
 ```
 
-Return whether an artifact version exists within a specified project and entity.
+指定されたプロジェクトとエンティティ内にアーティファクトバージョンが存在するかどうかを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to "uncategorized". Valid names can be in the following forms: name:version name:alias |
-|  `type` |  (str, optional) The type of artifact |
+|  `name` |  (str) アーティファクト名。entity/project で始まる場合があります。entity または project が指定されていない場合、オーバーライドパラメータから推測されます。その他の場合、entity はユーザー設定から取得され、project は "uncategorized" にデフォルト設定されます。有効な名前は次の形式になります: name:version name:alias |
+|  `type` |  (str, オプション) アーティファクトのタイプ |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  True if the artifact version exists, False otherwise. |
+|  アーティファクトバージョンが存在する場合は True、そうでない場合は False。 |
 
 ### `artifact_type`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1130-L1152)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1130-L1152)
 
 ```python
 artifact_type(
@@ -166,20 +172,20 @@ artifact_type(
 ) -> "public.ArtifactType"
 ```
 
-Return the matching `ArtifactType`.
+一致する `ArtifactType` を返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `type_name` |  (str) The name of the artifact type to retrieve. |
-|  `project` |  (str, optional) If given, a project name or path to filter on. |
+|  `type_name` |  (str) 取得するアーティファクトタイプの名前。 |
+|  `project` |  (str, オプション) 指定されている場合、フィルタリングするプロジェクト名またはパス。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An `ArtifactType` object. |
+|  `ArtifactType` オブジェクト。 |
 
 ### `artifact_types`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1109-L1128)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1109-L1128)
 
 ```python
 artifact_types(
@@ -187,19 +193,19 @@ artifact_types(
 ) -> "public.ArtifactTypes"
 ```
 
-Return a collection of matching artifact types.
+一致するアーティファクトタイプのコレクションを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `project` |  (str, optional) If given, a project name or path to filter on. |
+|  `project` |  (str, オプション) 指定されている場合、フィルタリングするプロジェクト名またはパス。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An iterable `ArtifactTypes` object. |
+|  イテラブルな `ArtifactTypes` オブジェクト。 |
 
 ### `artifact_versions`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1212-L1222)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1212-L1222)
 
 ```python
 artifact_versions(
@@ -207,11 +213,11 @@ artifact_versions(
 )
 ```
 
-Deprecated, use `artifacts(type_name, name)` instead.
+非推奨、代わりに `artifacts(type_name, name)` を使用してください。
 
 ### `artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1224-L1260)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1224-L1260)
 
 ```python
 artifacts(
@@ -222,22 +228,22 @@ artifacts(
 ) -> "public.Artifacts"
 ```
 
-Return an `Artifacts` collection from the given parameters.
+指定されたパラメータから `Artifacts` コレクションを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `type_name` |  (str) The type of artifacts to fetch. |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. |
-|  `per_page` |  (int, optional) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
-|  `tags` |  (list[str], optional) Only return artifacts with all of these tags. |
+|  `type_name` |  (str) 取得するアーティファクトのタイプ。 |
+|  `name` |  (str) アーティファクトコレクションの名前。entity/project で始まる場合があります。 |
+|  `per_page` |  (int, オプション) クエリのページネーションのページサイズを設定します。None はデフォルトサイズを使用します。通常、これを変更する理由はありません。 |
+|  `tags` |  (list[str], オプション) これらのタグがすべて含まれているアーティファクトのみを返します。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An iterable `Artifacts` object. |
+|  イテラブルな `Artifacts` オブジェクト。 |
 
 ### `create_project`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L294-L301)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L294-L301)
 
 ```python
 create_project(
@@ -246,16 +252,16 @@ create_project(
 ) -> None
 ```
 
-Create a new project.
+新しいプロジェクトを作成します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) The name of the new project. |
-|  `entity` |  (str) The entity of the new project. |
+|  `name` |  (str) 新しいプロジェクトの名前。 |
+|  `entity` |  (str) 新しいプロジェクトのエンティティ。 |
 
 ### `create_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L303-L323)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L303-L323)
 
 ```python
 create_run(
@@ -266,21 +272,21 @@ create_run(
 ) -> "public.Run"
 ```
 
-Create a new run.
+新しい run を作成します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `run_id` |  (str, optional) The ID to assign to the run, if given. The run ID is automatically generated by default, so in general, you do not need to specify this and should only do so at your own risk. |
-|  `project` |  (str, optional) If given, the project of the new run. |
-|  `entity` |  (str, optional) If given, the entity of the new run. |
+|  `run_id` |  (str, オプション) 指定された場合、run に割り当てられる ID。run ID はデフォルトで自動生成されますので、通常はこれを指定する必要はありません。指定する場合はリスクを負ってください。 |
+|  `project` |  (str, オプション) 指定された場合、新しい run のプロジェクト。 |
+|  `entity` |  (str, オプション) 指定された場合、新しい run のエンティティ。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The newly created `Run`. |
+|  新たに作成された `Run`。 |
 
 ### `create_run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L325-L435)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L325-L435)
 
 ```python
 create_run_queue(
@@ -293,28 +299,28 @@ create_run_queue(
 ) -> "public.RunQueue"
 ```
 
-Create a new run queue (launch).
+新しい run キュー (launch) を作成します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create |
-|  `type` |  (str) Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex". |
-|  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either "V0" or None |
-|  `config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
-|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
+|  `name` |  (str) 作成するキューの名前 |
+|  `type` |  (str) キューに使用されるリソースのタイプ。"local-container"、"local-process"、"kubernetes"、"sagemaker"、または "gcp-vertex" のいずれか。 |
+|  `entity` |  (str) キューを作成するエンティティのオプションの名前。None の場合、設定されたまたはデフォルトのエンティティが使用されます。 |
+|  `prioritization_mode` |  (str) オプションのプライオリティバージョン。"V0" または None |
+|  `config` |  (dict) キューに使用されるデフォルトのリソース設定のオプション。テンプレート変数を指定するにはハンドルバー（例：`{{var}}`）を使用します。 |
+|  `template_variables` |  (dict) 設定内で使用されるテンプレート変数のスキーマの辞書。期待される形式: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The newly created `RunQueue` |
+|  新しく作成された `RunQueue` |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  ValueError if any of the parameters are invalid wandb.Error on wandb API errors |
+|  ValueError: パラメーターのいずれかが無効な場合 wandb.Error: wandb API のエラー |
 
 ### `create_team`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L843-L853)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L843-L853)
 
 ```python
 create_team(
@@ -322,20 +328,20 @@ create_team(
 )
 ```
 
-Create a new team.
+新しいチームを作成します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `team` |  (str) The name of the team |
-|  `admin_username` |  (str) optional username of the admin user of the team, defaults to the current user. |
+|  `team` |  (str) チーム名 |
+|  `admin_username` |  (str) チームの管理ユーザーのオプションのユーザー名、デフォルトは現在のユーザーです。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Team` object |
+|  `Team` オブジェクト |
 
 ### `create_user`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L552-L562)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L552-L562)
 
 ```python
 create_user(
@@ -343,34 +349,32 @@ create_user(
 )
 ```
 
-Create a new user.
+新しいユーザーを作成します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `email` |  (str) The email address of the user |
-|  `admin` |  (bool) Whether this user should be a global instance admin |
+|  `email` |  (str) ユーザーのメールアドレス |
+|  `admin` |  (bool) このユーザーがグローバルインスタンス管理者であるかどうか |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `User` object |
+|  `User` オブジェクト |
 
 ### `flush`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L629-L636)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L629-L636)
 
 ```python
 flush()
 ```
 
-Flush the local cache.
+ローカルキャッシュをフラッシュします。
 
-The api object keeps a local cache of runs, so if the state of the run may
-change while executing your script you must clear the local cache with
-`api.flush()` to get the latest values associated with the run.
+API オブジェクトは run のローカルキャッシュを保持するため、スクリプトを実行中に run の状態が変更される可能性がある場合、`api.flush()` を使用してローカルキャッシュをクリアし、run に関連付けられた最新の値を取得します。
 
 ### `from_path`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L638-L692)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L638-L692)
 
 ```python
 from_path(
@@ -378,9 +382,9 @@ from_path(
 )
 ```
 
-Return a run, sweep, project or report from a path.
+パスから run、sweep、プロジェクト、またはレポートを返します。
 
-#### Examples:
+#### 例:
 
 ```
 project = api.from_path("my_project")
@@ -390,21 +394,21 @@ sweep = api.from_path("my_team/my_project/sweeps/id")
 report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 ```
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `path` |  (str) The path to the project, run, sweep or report |
+|  `path` |  (str) プロジェクト、run、sweep、またはレポートへのパス |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Project`, `Run`, `Sweep`, or `BetaReport` instance. |
+|  `Project`、`Run`、`Sweep`、または `BetaReport` インスタンス。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  wandb.Error if path is invalid or the object doesn't exist |
+|  wandb.Error: パスが無効、またはオブジェクトが存在しない場合 |
 
 ### `job`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1323-L1340)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1323-L1340)
 
 ```python
 job(
@@ -413,20 +417,20 @@ job(
 ) -> "public.Job"
 ```
 
-Return a `Job` from the given parameters.
+指定されたパラメーターから `Job` を返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) The job name. |
-|  `path` |  (str, optional) If given, the root path in which to download the job artifact. |
+|  `name` |  (str) ジョブの名前。 |
+|  `path` |  (str, オプション) 指定された場合、ジョブアーティファクトをダウンロードするルートパス。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Job` object. |
+|  `Job` オブジェクト。 |
 
 ### `list_jobs`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1342-L1418)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1342-L1418)
 
 ```python
 list_jobs(
@@ -435,20 +439,20 @@ list_jobs(
 ) -> List[Dict[str, Any]]
 ```
 
-Return a list of jobs, if any, for the given entity and project.
+指定されたエンティティとプロジェクトに対して、利用可能なジョブのリストを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `entity` |  (str) The entity for the listed job(s). |
-|  `project` |  (str) The project for the listed job(s). |
+|  `entity` |  (str) リストされたジョブのエンティティ。 |
+|  `project` |  (str) リストされたジョブのプロジェクト。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A list of matching jobs. |
+|  一致するジョブのリスト。 |
 
 ### `project`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L785-L808)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L785-L808)
 
 ```python
 project(
@@ -457,20 +461,20 @@ project(
 ) -> "public.Project"
 ```
 
-Return the `Project` with the given name (and entity, if given).
+指定された名前 (および指定された場合はエンティティ) の `Project` を返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) The project name. |
-|  `entity` |  (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
+|  `name` |  (str) プロジェクト名。 |
+|  `entity` |  (str) リクエストされたエンティティ名。None の場合、`Api` に渡されたデフォルトのエンティティにフォールバックします。デフォルトのエンティティがない場合は、`ValueError` をスローします。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Project` object. |
+|  `Project` オブジェクト。 |
 
 ### `projects`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L759-L783)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L759-L783)
 
 ```python
 projects(
@@ -479,20 +483,20 @@ projects(
 ) -> "public.Projects"
 ```
 
-Get projects for a given entity.
+指定されたエンティティのプロジェクトを取得します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `entity` |  (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+|  `entity` |  (str) リクエストされたエンティティ名。None の場合、`Api` に渡されたデフォルトのエンティティにフォールバックします。デフォルトのエンティティがない場合は、`ValueError` をスローします。 |
+|  `per_page` |  (int) クエリのページネーションのページサイズを設定します。None はデフォルトサイズを使用します。通常、これを変更する理由はありません。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Projects` object which is an iterable collection of `Project` objects. |
+|  `Projects` オブジェクトで、`Project` オブジェクトのイテラブルなコレクションです。 |
 
 ### `queued_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1054-L1075)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1054-L1075)
 
 ```python
 queued_run(
@@ -501,13 +505,13 @@ queued_run(
 )
 ```
 
-Return a single queued run based on the path.
+パスに基づいて単一のキューされた run を返します。
 
-Parses paths of the form entity/project/queue_id/run_queue_item_id.
+`entity/project/queue_id/run_queue_item_id` の形式のパスを解析します。
 
 ### `registries`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1461-L1524)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1461-L1524)
 
 ```python
 registries(
@@ -516,29 +520,28 @@ registries(
 ) -> Registries
 ```
 
-Returns a Registry iterator.
+レジストリのイテレータを返します。
 
-Use the iterator to search and filter registries, collections,
-or artifact versions across your organization's registry.
+イテレータを使用して、組織のレジストリ内のレジストリ、コレクション、またはアーティファクトバージョンを検索およびフィルタリングします。
 
-#### Examples:
+#### 例:
 
-Find all registries with the names that contain "model"
+"model" を含む名前のすべてのレジストリを見つけます。
 
 ```python
 import wandb
 
-api = wandb.Api()  # specify an org if your entity belongs to multiple orgs
+api = wandb.Api()  # エンティティが複数の組織に属する場合、組織を指定します。
 api.registries(filter={"name": {"$regex": "model"}})
 ```
 
-Find all collections in the registries with the name "my_collection" and the tag "my_tag"
+"my_collection" という名前と "my_tag" というタグのあるコレクションをレジストリで見つけます。
 
 ```python
 api.registries().collections(filter={"name": "my_collection", "tag": "my_tag"})
 ```
 
-Find all artifact versions in the registries with a collection name that contains "my_collection" and a version that has the alias "best"
+"my_collection" を含むコレクション名と "best" というエイリアスを持つバージョンのあるすべてのアーティファクトバージョンを見つけます。
 
 ```python
 api.registries().collections(
@@ -546,7 +549,7 @@ api.registries().collections(
 ).versions(filter={"alias": "best"})
 ```
 
-Find all artifact versions in the registries that contain "model" and have the tag "prod" or alias "best"
+"model" を含み、タグ "prod" またはエイリアス "best" を持つすべてのアーティファクトバージョンをレジストリで見つけます。
 
 ```python
 api.registries(filter={"name": {"$regex": "model"}}).versions(
@@ -554,18 +557,18 @@ api.registries(filter={"name": {"$regex": "model"}}).versions(
 )
 ```
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `organization` |  (str, optional) The organization of the registry to fetch. If not specified, use the organization specified in the user's settings. |
-|  `filter` |  (dict, optional) MongoDB-style filter to apply to each object in the registry iterator. Fields available to filter for collections are `name`, `description`, `created_at`, `updated_at`. Fields available to filter for collections are `name`, `tag`, `description`, `created_at`, `updated_at` Fields available to filter for versions are `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
+|  `organization` |  (str, オプション) 取得するレジストリの組織。指定されていない場合、ユーザー設定で指定された組織を使用します。 |
+|  `filter` |  (dict, オプション) レジストリイテレータ内の各オブジェクトに適用する MongoDB スタイルのフィルタ。コレクションをフィルタリングする際に利用可能なフィールド: `name`, `description`, `created_at`, `updated_at`。コレクションをフィルタリングする際に利用可能なフィールド: `name`, `tag`, `description`, `created_at`, `updated_at`。バージョンをフィルタリングする際に利用可能なフィールド: `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A registry iterator. |
+|  レジストリのイテレータ。 |
 
 ### `reports`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L810-L841)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L810-L841)
 
 ```python
 reports(
@@ -575,23 +578,23 @@ reports(
 ) -> "public.Reports"
 ```
 
-Get reports for a given project path.
+指定されたプロジェクトパスのレポートを取得します。
 
-WARNING: This api is in beta and will likely change in a future release
+警告: この API はベータ版であり、将来のリリースで変更される可能性があります。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `path` |  (str) path to project the report resides in, should be in the form: "entity/project" |
-|  `name` |  (str, optional) optional name of the report requested. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+|  `path` |  (str) レポートが存在するプロジェクトのパス、形式は: "entity/project" となります。 |
+|  `name` |  (str, オプション) リクエストされたレポートのオプションの名前。 |
+|  `per_page` |  (int) クエリのページネーションのページサイズを設定します。None はデフォルトサイズを使用します。通常、これを変更する理由はありません。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Reports` object which is an iterable collection of `BetaReport` objects. |
+|  `Reports` オブジェクトで、`BetaReport` オブジェクトのイテラブルなコレクションです。 |
 
 ### `run`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1037-L1052)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1037-L1052)
 
 ```python
 run(
@@ -599,19 +602,19 @@ run(
 )
 ```
 
-Return a single run by parsing path in the form entity/project/run_id.
+`entity/project/run_id` の形式でパスを解析することにより、単一の run を返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `path` |  (str) path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id. |
+|  `path` |  (str) `entity/project/run_id` 形式の run へのパス。`api.entity` が設定されている場合、この形式は `project/run_id` となり、`api.project` が設定されている場合、run_id のみです。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Run` object. |
+|  `Run` オブジェクト。 |
 
 ### `run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1077-L1090)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1077-L1090)
 
 ```python
 run_queue(
@@ -619,13 +622,13 @@ run_queue(
 )
 ```
 
-Return the named `RunQueue` for entity.
+エンティティの名前付き `RunQueue` を返します。
 
-To create a new `RunQueue`, use `wandb.Api().create_run_queue(...)`.
+新しい `RunQueue` を作成するには、`wandb.Api().create_run_queue(...)` を使用してください。
 
 ### `runs`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L904-L1035)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L904-L1035)
 
 ```python
 runs(
@@ -637,27 +640,24 @@ runs(
 )
 ```
 
-Return a set of runs from a project that match the filters provided.
+指定されたフィルターに一致するプロジェクトからの一連の run を返します。
 
-Fields you can filter by include:
+フィルターに使用できるフィールドには以下のものがあります:
 
-- `createdAt`: The timestamp when the run was created. (in ISO 8601 format, e.g. "2023-01-01T12:00:00Z")
-- `displayName`: The human-readable display name of the run. (e.g. "eager-fox-1")
-- `duration`: The total runtime of the run in seconds.
-- `group`: The group name used to organize related runs together.
-- `host`: The hostname where the run was executed.
-- `jobType`: The type of job or purpose of the run.
-- `name`: The unique identifier of the run. (e.g. "a1b2cdef")
-- `state`: The current state of the run.
-- `tags`: The tags associated with the run.
-- `username`: The username of the user who initiated the run
+- `createdAt`: run が作成されたタイムスタンプ。（ISO 8601 フォーマット、例: "2023-01-01T12:00:00Z"）
+- `displayName`: run の人間が読みやすい表示名。（例: "eager-fox-1"）
+- `duration`: run の合計実行時間（秒単位）。
+- `group`: 関連する run をまとめるために使用されるグループ名。
+- `host`: run が実行されたホスト名。
+- `jobType`: ジョブのタイプまたは run の目的。
+- `name`: run の一意の識別子。（例: "a1b2cdef"）
+- `state`: run の現在の状態。
+- `tags`: run に関連付けられたタグ。
+- `username`: run を開始したユーザーのユーザー名。
 
-Additionally, you can filter by items in the run config or summary metrics.
-Such as `config.experiment_name`, `summary_metrics.loss`, etc.
+さらに、run の設定や要約メトリクス内の項目によるフィルタリングが可能です。例: `config.experiment_name`, `summary_metrics.loss` など。
 
-For more complex filtering, you can use MongoDB query operators.
-For details, see: https://docs.mongodb.com/manual/reference/operator/query
-The following operations are supported:
+より複雑なフィルタリングには、MongoDB クエリオペレーターを使用できます。詳細は、以下を参照してください: https://docs.mongodb.com/manual/reference/operator/query サポートされている操作には以下のものがあります:
 
 - `$and`
 - `$or`
@@ -673,9 +673,9 @@ The following operations are supported:
 - `$exists`
 - `$regex`
 
-#### Examples:
+#### 例:
 
-Find runs in my_project where config.experiment_name has been set to "foo"
+設定されている foo という experiment_name を持つ my_project 内の run を見つけます
 
 ```
 api.runs(
@@ -684,7 +684,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where config.experiment_name has been set to "foo" or "bar"
+設定されている foo または bar という experiment_name を持つ my_project 内の run を見つけます
 
 ```
 api.runs(
@@ -698,7 +698,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where config.experiment_name matches a regex (anchors are not supported)
+experiment_name が正規表現に一致する my_project 内の run を見つけます（アンカーはサポートされていません）
 
 ```
 api.runs(
@@ -707,7 +707,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where the run name matches a regex (anchors are not supported)
+run の名前が正規表現に一致する my_project 内の run を見つけます（アンカーはサポートされていません）
 
 ```
 api.runs(
@@ -716,7 +716,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where config.experiment contains a nested field "category" with value "testing"
+実験に "category" というネストされたフィールドを持つ run を探します
 
 ```
 api.runs(
@@ -725,7 +725,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project with a loss value of 0.5 nested in a dictionary under model1 in the summary metrics
+要約メトリクスの model1 下に辞書としてネストされている損失値0.5を持つ run を探します
 
 ```
 api.runs(
@@ -734,27 +734,27 @@ api.runs(
 )
 ```
 
-Find runs in my_project sorted by ascending loss
+上昇損失に基づいて my_project 内の run を探します
 
 ```
 api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 ```
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `path` |  (str) path to project, should be in the form: "entity/project" |
-|  `filters` |  (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: `{"config.experiment_name": "foo"}` would find runs with a config entry of experiment name set to "foo" |
-|  `order` |  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from oldest to newest. |
-|  `per_page` |  (int) Sets the page size for query pagination. |
-|  `include_sweeps` |  (bool) Whether to include the sweep runs in the results. |
+|  `path` |  (str) プロジェクトへのパス。形式は: "entity/project" |
+|  `filters` |  (dict) MongoDB クエリ言語を使用して特定の run をクエリします。run のプロパティ（config.key、summary_metrics.key、state、entity、createdAt など）でフィルタリングできます。例: `{"config.experiment_name": "foo"}` は、実験名に foo が設定されている run を見つけます。 |
+|  `order` |  (str) 並び順は `created_at`、`heartbeat_at`、`config.*.value`、`summary_metrics.*` にできます。order の前に + を付けると昇順になります。order の前に - を付けると降順（デフォルト）になります。デフォルトの並び順は、run の created_at で、古い順から新しい順です。 |
+|  `per_page` |  (int) クエリのページネーションのページサイズを設定します。 |
+|  `include_sweeps` |  (bool) 結果に sweep run を含めるかどうか。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Runs` object, which is an iterable collection of `Run` objects. |
+|  `Runs` オブジェクトで、`Run` オブジェクトのイテラブルなコレクションです。 |
 
 ### `sweep`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1092-L1107)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L1092-L1107)
 
 ```python
 sweep(
@@ -762,19 +762,19 @@ sweep(
 )
 ```
 
-Return a sweep by parsing path in the form `entity/project/sweep_id`.
+`sweep_id` の形式でパスを解析することにより、sweep を返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `path` |  (str, optional) path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id. |
+|  `path` |  (str, オプション) エンティティまたはプロジェクトの設定がされていない場合、sweep に対するパスの形式は entity/project/sweep_id である必要があります。`api.entity` が設定されている場合、この形式は project/sweep_id になり、`api.project` が設定されている場合、sweep_id のみです。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Sweep` object. |
+|  `Sweep` オブジェクト。 |
 
 ### `sync_tensorboard`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L564-L586)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L564-L586)
 
 ```python
 sync_tensorboard(
@@ -782,11 +782,11 @@ sync_tensorboard(
 )
 ```
 
-Sync a local directory containing tfevent files to wandb.
+tfevent ファイルを含むローカルディレクトリを wandb に同期します。
 
 ### `team`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L855-L864)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L855-L864)
 
 ```python
 team(
@@ -794,19 +794,19 @@ team(
 ) -> "public.Team"
 ```
 
-Return the matching `Team` with the given name.
+指定された名前の `Team` を返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `team` |  (str) The name of the team. |
+|  `team` |  (str) チーム名。 |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `Team` object. |
+|  `Team` オブジェクト。 |
 
 ### `upsert_run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L437-L550)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L437-L550)
 
 ```python
 upsert_run_queue(
@@ -820,29 +820,29 @@ upsert_run_queue(
 )
 ```
 
-Upsert a run queue (launch).
+run キュー (launch) をアップサートします。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create |
-|  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
-|  `resource_config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
-|  `resource_type` |  (str) Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex". |
-|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
-|  `external_links` |  (dict) Optional dictionary of external links to be used with the queue. Expected format of: `{ "name": "url" }` |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either "V0" or None |
+|  `name` |  (str) 作成するキューの名前 |
+|  `entity` |  (str) 作成するキューのエンティティのオプションの名前。None の場合、設定されたまたはデフォルトのエンティティを使用します。 |
+|  `resource_config` |  (dict) キューに使用されるデフォルトのリソース設定のオプション。テンプレート変数を指定するにはハンドルバー（例：`{{var}}`）を使用します。 |
+|  `resource_type` |  (str) キューに使用されるリソースのタイプ。"local-container"、"local-process"、"kubernetes"、"sagemaker"、または "gcp-vertex" のいずれか。 |
+|  `template_variables` |  (dict) 設定内で使用されるテンプレート変数のスキーマの辞書。期待される形式: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] } } }` |
+|  `external_links` |  (dict) キューで使用される外部リンクのオプションの辞書。期待される形式: `{ "name": "url" }` |
+|  `prioritization_mode` |  (str) 使用するプライオリティのバージョン。 "V0" または None |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  The upserted `RunQueue`. |
+|  アップサートされた `RunQueue`。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  ValueError if any of the parameters are invalid wandb.Error on wandb API errors |
+|  ValueError: パラメーターのいずれかが無効な場合 wandb.Error: wandb API のエラー |
 
 ### `user`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L866-L886)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L866-L886)
 
 ```python
 user(
@@ -850,21 +850,21 @@ user(
 ) -> Optional['public.User']
 ```
 
-Return a user from a username or email address.
+ユーザー名またはメールアドレスからユーザーを返します。
 
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
+注意: この関数はローカル管理者のみ機能します。 自分のユーザーオブジェクトを取得しようとしている場合は `api.viewer` を使用してください。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) The username or email address of the user |
+|  `username_or_email` |  (str) ユーザーのユーザー名またはメールアドレス |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  A `User` object or None if a user couldn't be found |
+|  `User` オブジェクトまたはユーザーが見つからない場合は None |
 
 ### `users`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L888-L902)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/api.py#L888-L902)
 
 ```python
 users(
@@ -872,19 +872,19 @@ users(
 ) -> List['public.User']
 ```
 
-Return all users from a partial username or email address query.
+部分的なユーザー名またはメールアドレスクエリからすべてのユーザーを返します。
 
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
+注意: この関数はローカル管理者のみ機能します。 自分のユーザーオブジェクトを取得しようとしている場合は `api.viewer` を使用してください。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) The prefix or suffix of the user you want to find |
+|  `username_or_email` |  (str) 検索したいユーザーのプレフィックスまたはサフィックス |
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  An array of `User` objects |
+|  `User` オブジェクトの配列 |
 
-| Class Variables |  |
+| クラス変数 |  |
 | :--- | :--- |
 |  `CREATE_PROJECT`<a id="CREATE_PROJECT"></a> |   |
 |  `DEFAULT_ENTITY_QUERY`<a id="DEFAULT_ENTITY_QUERY"></a> |   |

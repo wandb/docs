@@ -1,13 +1,13 @@
 ---
+title: グラフ
 menu:
   reference:
     identifier: ja-ref-python-data-types-graph
-title: Graph
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L245-L405 >}}
 
-Wandb class for graphs.
+グラフ用の Wandb クラス。
 
 ```python
 Graph(
@@ -15,23 +15,21 @@ Graph(
 )
 ```
 
-This class is typically used for saving and displaying neural net models.  It
-represents the graph as an array of nodes and edges.  The nodes can have
-labels that can be visualized by wandb.
+このクラスは通常、ニューラルネットモデルを保存し表示するために使用されます。ツリーをノードとエッジの配列として表現します。ノードには、wandb で可視化できるラベルを持たせることができます。
 
-#### Examples:
+#### 例:
 
-Import a keras model:
+Keras モデルをインポート:
 
 ```
 Graph.from_keras(keras_model)
 ```
 
-## Methods
+## メソッド
 
 ### `add_edge`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L330-L334)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L330-L334)
 
 ```python
 add_edge(
@@ -41,7 +39,7 @@ add_edge(
 
 ### `add_node`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L318-L328)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L318-L328)
 
 ```python
 add_node(
@@ -51,7 +49,7 @@ add_node(
 
 ### `from_keras`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L336-L366)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L336-L366)
 
 ```python
 @classmethod
@@ -62,7 +60,7 @@ from_keras(
 
 ### `pprint`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L312-L316)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L312-L316)
 
 ```python
 pprint()
@@ -70,7 +68,7 @@ pprint()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L309-L310)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/graph.py#L309-L310)
 
 ```python
 __getitem__(

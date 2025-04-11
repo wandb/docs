@@ -1,77 +1,76 @@
 ---
-description: Search and stop algorithms locally instead of using the W&B cloud-hosted
-  service.
+title: アルゴリズムをローカルで管理する
+description: W&B のクラウドホスティッドサービスを使用せずに、ローカルで検索およびストップアルゴリズムを実行します。
 menu:
   default:
     identifier: ja-guides-models-sweeps-local-controller
     parent: sweeps
-title: Manage algorithms locally
 ---
 
-The hyper-parameter controller is hosted by Weights & Biased as a cloud service by default. W&B agents communicate with the controller to determine the next set of parameters to use for training. The controller is also responsible for running early stopping algorithms to determine which runs can be stopped.
+ハイパーパラメータコントローラは、デフォルトでウェイト＆バイアスによってクラウドサービスとしてホストされています。W&Bエージェントはコントローラと通信して、トレーニングに使用する次のパラメータセットを決定します。コントローラは、どのrunを停止するかを決定するための早期停止アルゴリズムの実行も担当しています。
 
-The local controller feature allows the user to commence search and stop algorithms locally. The local controller gives the user the ability to inspect and instrument the code in order to debug issues as well as develop new features which can be incorporated into the cloud service.
+ローカルコントローラ機能により、ユーザーはアルゴリズムをローカルで検索および停止することができます。ローカルコントローラは、ユーザーにコードを検査および操作する能力を与え、問題のデバッグやクラウドサービスに組み込むことができる新機能の開発を可能にします。
 
 {{% alert color="secondary" %}}
-This feature is offered to support faster development and debugging of new algorithms for the Sweeps tool. It is not intended for actual hyperparameter optimization workloads.
+この機能は、Sweepsツールの新しいアルゴリズムの迅速な開発とデバッグをサポートするために提供されています。本来のハイパーパラメータ最適化のワークロードを目的としていません。
 {{% /alert %}}
 
-Before you get start, you must install the W&B SDK(`wandb`). Type the following code snippet into your command line:
+始める前に、W&B SDK (`wandb`) をインストールする必要があります。次のコマンドをコマンドラインに入力してください：
 
 ```
 pip install wandb sweeps 
 ```
 
-The following examples assume you already have a configuration file and a training loop defined in a python script or Jupyter Notebook. For more information about how to define a configuration file, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}).
+以下の例では、既に設定ファイルとPythonスクリプトまたはJupyterノートブックで定義されたトレーニングループがあることを前提としています。設定ファイルの定義方法についての詳細は、[Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}) を参照してください。
 
-### Run the local controller from the command line
+### コマンドラインからローカルコントローラを実行する
 
-Initialize a sweep similarly to how you normally would when you use hyper-parameter controllers hosted by W&B as a cloud service. Specify the controller flag (`controller`) to indicate you want to use the local controller for W&B sweep jobs:
+通常、W&Bがホストするクラウドサービスのハイパーパラメータコントローラを使用する際と同様に、スイープを初期化します。ローカルコントローラをW&Bスイープジョブ用に使用することを示すために、コントローラフラグ (`controller`) を指定します：
 
 ```bash
 wandb sweep --controller config.yaml
 ```
 
-Alternatively, you can separate initializing a sweep and specifying that you want to use a local controller into two steps.
+または、スイープを初期化することと、ローカルコントローラを使用することを指定することを2つのステップに分けることもできます。
 
-To separate the steps, first add the following key-value to your sweep's YAML configuration file:
+ステップを分けるには、まず次のキーと値をスイープのYAML設定ファイルに追加します：
 
 ```yaml
 controller:
   type: local
 ```
 
-Next, initialize the sweep:
+次に、スイープを初期化します：
 
 ```bash
 wandb sweep config.yaml
 ```
 
-After you initialized the sweep, start a controller with [`wandb controller`]({{< relref path="/ref/python/controller.md" lang="ja" >}}):
+スイープを初期化した後、[`wandb controller`]({{< relref path="/ref/python/controller.md" lang="ja" >}}) を使用してコントローラを開始します：
 
 ```bash
-# wandb sweep command will print a sweep_id
+# wandb sweep コマンドが sweep_id を出力します
 wandb controller {user}/{entity}/{sweep_id}
 ```
 
-Once you have specified you want to use a local controller, start one or more Sweep agents to execute the sweep. Start a W&B Sweep similar to how you normally would. See [Start sweep agents]({{< relref path="/guides/models/sweeps/start-sweep-agents.md" lang="ja" >}}), for more information.
+ローカルコントローラを使用することを指定した後、スイープを実行するために1つ以上のSweepエージェントを開始します。通常のW&Bスイープを開始するのと同じようにしてください。[Start sweep agents]({{< relref path="/guides/models/sweeps/start-sweep-agents.md" lang="ja" >}}) を参照してください。
 
 ```bash
 wandb sweep sweep_ID
 ```
 
-### Run a local controller with W&B Python SDK
+### W&B Python SDKを使用してローカルコントローラを実行する
 
-The following code snippets demonstrate how to specify and use a local controller with the W&B Python SDK.
+以下のコードスニペットは、W&B Python SDKを使用してローカルコントローラを指定し、使用する方法を示しています。
 
-The simplest way to use a controller with the Python SDK is to pass the sweep ID to the [`wandb.controller`]({{< relref path="/ref/python/controller.md" lang="ja" >}}) method. Next, use the return objects `run` method to start the sweep job:
+Python SDKでコントローラを使用する最も簡単な方法は、[`wandb.controller`]({{< relref path="/ref/python/controller.md" lang="ja" >}}) メソッドにスイープIDを渡すことです。次に、戻りオブジェクトの `run` メソッドを使用してスイープジョブを開始します：
 
 ```python
 sweep = wandb.controller(sweep_id)
 sweep.run()
 ```
 
-If you want more control of the controller loop:
+コントローラループをより詳細に制御したい場合：
 
 ```python
 import wandb
@@ -83,7 +82,7 @@ while not sweep.done():
     time.sleep(5)
 ```
 
-Or even more control over the parameters served:
+パラメータの提供に関してさらに詳細なコントロールが必要な場合：
 
 ```python
 import wandb
@@ -95,7 +94,7 @@ while not sweep.done():
     sweep.print_status()
 ```
 
-If you want to specify your sweep entirely with code you can do something like this:
+コードですべてのスイープを指定したい場合は、次のように実装できます：
 
 ```python
 import wandb

@@ -1,57 +1,54 @@
 ---
+title: モデルをログする
 menu:
   default:
     identifier: ja-guides-models-track-log-log-models
     parent: log-objects-and-media
-title: Log models
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb" >}}
-# Log models
+# モデルをログする
 
-The following guide describes how to log models to a W&B run and interact with them. 
+以下のガイドでは、W&B run にモデルをログし、それと対話する方法を説明します。
 
 {{% alert %}}
-The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to log models to a run, and to access metrics, tables, media, and other objects.
+以下の API は、実験管理ワークフローの一環としてモデルを追跡するのに便利です。このページに記載されている API を使用して、run にモデルをログし、メトリクス、テーブル、メディア、その他のオブジェクトにアクセスします。
 
-W&B suggests that you use [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) if you want to:
-- Create and keep track of different versions of serialized data besides models, such as datasets, prompts, and more.
-- Explore [lineage graphs]({{< relref path="/guides/core/artifacts/explore-and-traverse-an-artifact-graph.md" lang="ja" >}}) of a model or any other objects tracked in W&B.
-- Interact with the model artifacts these methods created, such as [updating properties]({{< relref path="/guides/core/artifacts/update-an-artifact.md" lang="ja" >}}) (metadata, aliases, and descriptions) 
+モデル以外にも、データセットやプロンプトなど、シリアライズされたデータの異なるバージョンを作成し追跡したい場合は、[W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) を使用することをお勧めします。
+- モデルやその他のオブジェクトを W&B で追跡するための [リネージグラフ]({{< relref path="/guides/core/artifacts/explore-and-traverse-an-artifact-graph.md" lang="ja" >}})を探索します。
+- これらのメソッドで作成されたモデル アーティファクトとの対話（プロパティの更新、メタデータ、エイリアス、説明など）を行います。
 
-For more information on W&B Artifacts and advanced versioning use cases, see the [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) documentation.
+W&B Artifacts や高度なバージョン管理ユースケースの詳細については、[Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) ドキュメントをご覧ください。
 {{% /alert %}}
 
-## Log a model to a run
-Use the [`log_model`]({{< relref path="/ref/python/run.md#log_model" lang="ja" >}}) to log a model artifact that contains content within a directory you specify. The [`log_model`]({{< relref path="/ref/python/run.md#log_model" lang="ja" >}}) method also marks the resulting model artifact as an output of the W&B run. 
+## モデルを run にログする
+[`log_model`]({{< relref path="/ref/python/run.md#log_model" lang="ja" >}}) を使用して、指定したディレクトリ内にコンテンツを含むモデルアーティファクトをログします。 [`log_model`]({{< relref path="/ref/python/run.md#log_model" lang="ja" >}}) メソッドは、結果のモデルアーティファクトを W&B run の出力としてもマークします。
 
-You can track a model's dependencies and the model's associations if you mark the model as the input or output of a W&B run. View the lineage of the model within the W&B App UI. See the [Explore and traverse artifact graphs]({{< relref path="/guides/core/artifacts/explore-and-traverse-an-artifact-graph.md" lang="ja" >}}) page within the [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) chapter for more information.
+モデルを W&B run の入力または出力としてマークすると、モデルの依存関係とモデルの関連付けを追跡できます。W&B アプリ UI 内でモデルのリネージを確認します。詳細については、[Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) チャプターの [アーティファクトグラフを探索して移動する]({{< relref path="/guides/core/artifacts/explore-and-traverse-an-artifact-graph.md" lang="ja" >}}) ページを参照してください。
 
-Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI]({{< relref path="/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" lang="ja" >}}) to an external bucket such as `s3://bucket/path`. 
+モデルファイルが保存されているパスを `path` パラメータに指定します。パスには、ローカルファイル、ディレクトリ、または `s3://bucket/path` などの外部バケットへの [参照 URI]({{< relref path="/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" lang="ja" >}}) を指定できます。
 
-Ensure to replace values enclosed in `<>` with your own.
+`<>` 内に囲まれた値を自分のもので置き換えることを忘れないでください。
 
-```python
 import wandb
 
-# Initialize a W&B run
+# W&B run を初期化
 run = wandb.init(project="<your-project>", entity="<your-entity>")
 
-# Log the model
+# モデルをログする
 run.log_model(path="<path-to-model>", name="<name>")
-```
 
-Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B will use the basename of the input path prepended with the run ID as the name. 
+オプションで、`name` パラメータにモデルアーティファクトの名前を指定できます。`name` が指定されていない場合、W&B は入力パスのベース名に run ID をプレフィックスとして使用して名前を生成します。
 
 {{% alert %}}
-Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`use_model`]({{< relref path="/ref/python/run#use_model" lang="ja" >}}) method. 
+モデルに W&B が割り当てた `name` またはユーザーが指定した `name`を追跡してください。モデルのパスを取得するには、[`use_model`]({{< relref path="/ref/python/run#use_model" lang="ja" >}}) メソッドでモデルの名前が必要です。
 {{% /alert %}}
 
-See [`log_model`]({{< relref path="/ref/python/run.md#log_model" lang="ja" >}}) in the API Reference guide for more information on possible parameters.
+`log_model` の詳細については、API リファレンスガイドを参照してください。
 
 <details>
 
-<summary>Example: Log a model to a run</summary>
+<summary>例: モデルを run にログする</summary>
 
 ```python
 import os
@@ -61,17 +58,17 @@ from tensorflow.keras import layers
 
 config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
 
-# Initialize a W&B run
+# W&B run を初期化
 run = wandb.init(entity="charlie", project="mnist-experiments", config=config)
 
-# Hyperparameters
+# ハイパーパラメーター
 loss = run.config["loss"]
 optimizer = run.config["optimizer"]
 metrics = ["accuracy"]
 num_classes = 10
 input_shape = (28, 28, 1)
 
-# Training algorithm
+# トレーニング アルゴリズム
 model = keras.Sequential(
     [
         layers.Input(shape=input_shape),
@@ -85,21 +82,21 @@ model = keras.Sequential(
     ]
 )
 
-# Configure the model for training
+# トレーニング用のモデルを設定
 model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-# Save model
+# モデルを保存
 model_filename = "model.h5"
 local_filepath = "./"
 full_path = os.path.join(local_filepath, model_filename)
 model.save(filepath=full_path)
 
-# Log the model to the W&B run
+# モデルを W&B run にログする
 run.log_model(path=full_path, name="MNIST")
 run.finish()
 ```
 
-When the user called `log_model`, a model artifact named `MNIST` was created and the file `model.h5` was added to the model artifact. Your terminal or notebook will print information of where to find information about the run the model was logged to.
+ユーザーが `log_model` を呼び出したとき、`MNIST`という名前のモデルアーティファクトが作成され、ファイル `model.h5` がモデルアーティファクトに追加されました。あなたのターミナルまたはノートブックは、モデルがログされた run に関する情報を見つける場所についての情報を出力します。
 
 ```python
 View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
@@ -109,68 +106,67 @@ Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
 
 </details>
 
+## ログされたモデルをダウンロードして使用する
+以前に W&B run にログされたモデルファイルにアクセスしてダウンロードするには、[`use_model`]({{< relref path="/ref/python/run.md#use_model" lang="ja" >}}) 関数を使用します。
 
-## Download and use a logged model
-Use the [`use_model`]({{< relref path="/ref/python/run.md#use_model" lang="ja" >}}) function to access and download models files previously logged to a W&B run. 
+取得したいモデルファイルが保存されているモデルアーティファクトの名前を指定します。提供した名前は、既存のログされたモデルアーティファクトの名前と一致している必要があります。
 
-Provide the name of the model artifact where the model files you are want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
+最初に `log_model` でファイルをログした際に `name` を定義しなかった場合、割り当てられたデフォルト名は、入力パスのベース名にrun ID をプレフィックスとして付けたものになります。
 
-If you did not define `name` when originally logged the files with `log_model`, the default name assigned is the basename of the input path, prepended with the run ID.
+`<>` 内に囲まれた他の値を自分のもので置き換えることを忘れないでください。
 
-Ensure to replace other the values enclosed in `<>` with your own:
- 
 ```python
 import wandb
 
-# Initialize a run
+# run を初期化
 run = wandb.init(project="<your-project>", entity="<your-entity>")
 
-# Access and download model. Returns path to downloaded artifact
+# モデルにアクセスしてダウンロードする。ダウンロードされたアーティファクトのパスが返されます
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-The [use_model]({{< relref path="/ref/python/run.md#use_model" lang="ja" >}}) function returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
+[`use_model`]({{< relref path="/ref/python/run.md#use_model" lang="ja" >}}) 関数は、ダウンロードされたモデルファイルのパスを返します。このパスを追跡して、後でこのモデルにリンクしたい場合に備えてください。上記のコードスニペットでは、返されたパスが `downloaded_model_path` という変数に保存されています。
 
 <details>
 
-<summary>Example: Download and use a logged model</summary>
+<summary>例: ログされたモデルをダウンロードして使用する</summary>
 
-For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
+たとえば、以下のコードスニペットでは、ユーザーが `use_model` API を呼び出しています。彼らは取得したいモデルアーティファクトの名前を指定し、またバージョン/エイリアスも提供しています。そして、API から返されるパスを `downloaded_model_path` 変数に保存しました。
 
 ```python
 import wandb
 
 entity = "luka"
 project = "NLP_Experiments"
-alias = "latest"  # semantic nickname or identifier for the model version
+alias = "latest"  # モデルバージョンのセマンティックなニックネームまたは識別子
 model_artifact_name = "fine-tuned-model"
 
-# Initialize a run
+# run を初期化
 run = wandb.init(project=project, entity=entity)
-# Access and download model. Returns path to downloaded artifact
+# モデルにアクセスしてダウンロードする。ダウンロードされたアーティファクトのパスが返されます
 downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
 ```
 </details>
 
-See [`use_model`]({{< relref path="/ref/python/run.md#use_model" lang="ja" >}}) in the API Reference guide for more information on possible parameters and return type.
+[`use_model`]({{< relref path="/ref/python/run.md#use_model" lang="ja" >}}) API リファレンスガイドでは、利用可能なパラメータや返り値の型についての詳細情報が記載されています。
 
-## Log and link a model to the W&B Model Registry
+## モデルを W&B モデルレジストリにログしリンクする
 
 {{% alert %}}
-The [`link_model`]({{< relref path="/ref/python/run.md#link_model" lang="ja" >}}) method is currently only compatible with the legacy W&B Model Registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the Registry [docs]({{< relref path="/guides/core/registry/link_version.md" lang="ja" >}}). 
+[`link_model`]({{< relref path="/ref/python/run.md#link_model" lang="ja" >}}) メソッドは、現在のところレガシー W&B モデルレジストリとしか互換性がありませんが、これは間もなく廃止される予定です。モデルアーティファクトを新しいバージョンのモデルレジストリにリンクする方法については、レジストリの[ドキュメント]({{< relref path="/guides/core/registry/link_version.md" lang="ja" >}})をご覧ください。
 {{% /alert %}}
 
-Use the [`link_model`]({{< relref path="/ref/python/run.md#link_model" lang="ja" >}}) method to log model files to a W&B run and link it to the [W&B Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
+[`link_model`]({{< relref path="/ref/python/run.md#link_model" lang="ja" >}}) メソッドを使用して、モデルファイルを W&B run にログし、それを [W&B モデルレジストリ]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}) にリンクします。登録されたモデルが存在しない場合、W&B は `registered_model_name` パラメータにあなたが提供した名前で新しいものを作成します。
 
-Linking a model is analogous to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
+モデルをリンクすることは、他のチームメンバーが視聴および利用できる中央集権的なチームのリポジトリにモデルを「ブックマーク」または「公開」することに類似しています。
 
-When you link a model, that model is not duplicated in the [Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}) or moved out of the project and into the registry. A linked model is a pointer to the original model in your project.
+モデルをリンクすると、そのモデルは [Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}) に重複されることも、プロジェクトから移動してレジストリに入れられることもありません。リンクされたモデルは、プロジェクト内の元のモデルへのポインターです。
 
-Use the [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref path="/guides/core/automations/" lang="ja" >}}) downstream actions with webhooks or jobs.
+[Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) を使用して、タスクごとに最高のモデルを整理したり、モデルのライフサイクルを管理したり、MLライフサイクル全体での追跡や監査を容易にしたり、Webhooks やジョブでの下流アクションを[自動化]({{< relref path="/guides/core/automations/" lang="ja" >}}) することができます。
 
-A *Registered Model* is a collection or folder of linked model versions in the [Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}). Registered models typically represent candidate models for a single modeling use case or task. 
+*Registered Model* は、[Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}) にリンクされたモデルバージョンのコレクションまたはフォルダーです。登録されたモデルは通常、単一のモデリングユースケースまたはタスクの候補モデルを表します。
 
-The proceeding code snippet shows how to link a model with the [`link_model`]({{< relref path="/ref/python/run.md#link_model" lang="ja" >}}) API. Ensure to replace other the values enclosed in `<>` with your own:
+以下のコードスニペットは、`link_model` API を使用してモデルをリンクする方法を示しています。`<>` 内に囲まれた他の値を自分のもので置き換えることを忘れないでください。
 
 ```python
 import wandb
@@ -180,20 +176,19 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-See [`link_model`]({{< relref path="/ref/python/run.md#link_model" lang="ja" >}}) in the API Reference guide for more information on optional parameters.
+`link_model` API リファレンスガイドでは、オプションのパラメータに関する詳細情報が記載されています。
 
-If the `registered-model-name` matches the name of a registered model that already exists within the Model Registry, the model will be linked to that registered model. If no such registered model exists, a new one will be created and the model will be the first one linked. 
+`registered-model-name` が Model Registry 内に既に存在する登録済みのモデル名と一致する場合、そのモデルはその登録済みモデルにリンクされます。そのような登録済みモデルが存在しない場合、新しいものが作成され、そのモデルが最初にリンクされます。
 
-For example, suppose you have an existing registered model named "Fine-Tuned-Review-Autocompletion" in your Model Registry (see example [here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models)). And suppose that a few model versions are already linked to it: v0, v1, v2. If you call `link_model` with `registered-model-name="Fine-Tuned-Review-Autocompletion"`, the new model will be linked to this existing registered model as v3. If no registered model with this name exists, a new one will be created and the new model will be linked as v0. 
-
+例えば、既に Model Registry に "Fine-Tuned-Review-Autocompletion"という名前の登録済みモデルが存在し、いくつかのモデルバージョンが既にリンクされていると仮定します: v0, v1, v2。`link_model` を `registered-model-name="Fine-Tuned-Review-Autocompletion"`を使用して呼び出した場合、新しいモデルは既存の登録済みモデルに v3 としてリンクされます。この名前の登録済みモデルが存在しない場合、新しいものが作成され、新しいモデルが v0 としてリンクされます。
 
 <details>
 
-<summary>Example: Log and link a model to the W&B Model Registry</summary>
+<summary>例: モデルを W&B モデルレジストリにログしリンクする</summary>
 
-For example, the proceeding code snippet logs model files and links the model to a registered model name `"Fine-Tuned-Review-Autocompletion"`. 
+例えば、以下のコードスニペットでは、モデルファイルをログし、登録済みのモデル名 `"Fine-Tuned-Review-Autocompletion"`にモデルをリンクする方法を示しています。
 
-To do this, a user calls the `link_model` API. When they call the API, they provide a local filepath that points the content of the model (`path`) and they provide a name for the registered model to link it to (`registered_model_name`). 
+これを行うために、ユーザーは `link_model` API を呼び出します。API を呼び出す際に、モデルの内容を示すローカルファイルパス (`path`) と、リンクするための登録済みモデルの名前 (`registered_model_name`) を提供します。
 
 ```python
 import wandb
@@ -207,7 +202,7 @@ run.finish()
 ```
 
 {{% alert %}}
-Reminder: A registered model houses a collection of bookmarked model versions. 
+リマインダー: 登録済みモデルは、ブックマークされたモデルバージョンのコレクションを管理します。
 {{% /alert %}}
 
 </details>

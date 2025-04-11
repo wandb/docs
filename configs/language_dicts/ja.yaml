@@ -168,9 +168,7 @@ on-prem: オンプレミス
 orchestration: オーケストレーション
 overfitting: 過学習
 panel: パネル
-parallel coordinates plots: パラレル座標図
 parameter: パラメータ
-parameter importance: パラメータの重要性
 partition: パーティション
 person IOU: 人物IOU
 pipeline: パイプライン
@@ -240,3 +238,11 @@ visualization: 可視化
 wandb library: wandbライブラリ
 workflow: ワークフロー
 workspace: ワークスペース
+finetuning : ファインチューニング
+fine-tuning : ファインチューニング
+configure : 設定 (in the context of configure an experiment)
+parallel coordinates plots : パラレル座標プロット
+parameter importance: パラメータの重要度
+legacy Model Registry : 旧モデルレジストリ
+Registry visibility : レジストリの公開範囲
+visibility : “公開範囲” (in the context of registry)

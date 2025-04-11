@@ -1,4 +1,5 @@
 ---
+title: テーブルを挿入するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-insert_table
@@ -6,10 +7,9 @@ support:
 - reports
 - wysiwyg
 - tables
-title: How do I insert a table?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Tables remain the only feature from Markdown without a direct WYSIWYG equivalent. To add a table, insert a Markdown block and create the table inside it.
+Markdown からの直接的な WYSIWYG 相当の機能がない唯一のものがテーブルとして残っています。テーブルを追加するには、Markdown ブロックを挿入し、その中にテーブルを作成します。

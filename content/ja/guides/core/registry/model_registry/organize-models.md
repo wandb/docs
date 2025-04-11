@@ -1,21 +1,21 @@
 ---
+title: モデルを整理する
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-organize-models
     parent: model-registry
-title: Organize models
 weight: 6
 ---
 
-Use model tags to organize registered models into categories and to search over those categories. 
+モデルタグを使用して登録済みのモデルをカテゴリーに整理し、それらのカテゴリーを検索します。
 
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select **View details** next to the name of the registered model you want to add a model tag to. 
+1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model) で W&B モデルレジストリアプリに移動します。
+2. モデルタグを追加したい登録済みモデルの名前の横にある **View details** を選択します。
     {{< img src="/images/models/organize-models-model-reg-landing.png" alt="" >}}
-2. Scroll to the **Model card** section.
-3. Click the plus button (**+**) next to the **Tags** field.
+3. **Model card** セクションまでスクロールします。
+4. **Tags** フィールドの横にあるプラスボタン (**+**) をクリックします。
 {{< img src="/images/models/organize-models-seleticon.png" alt="" >}}
-4. Type in the name for your tag or search for a pre-existing model tag.
-    For example. the following image shows multiple model tags added to a registered model called **FineTuned-Review-Autocompletion**:
+5. タグの名前を入力するか、既存のモデルタグを検索します。
+    例えば、次の画像は **FineTuned-Review-Autocompletion** という登録済みモデルに複数のモデルタグが追加されている様子を示しています。
 
     {{< img src="/images/models/model-tags-modelregview.png" alt="" >}}

@@ -1,16 +1,14 @@
 ---
+title: wandb_ワークスペース
 menu:
   reference:
     identifier: ja-ref-python-wandb_workspaces-_index
-title: wandb_workspaces
 ---
-
-<!-- Insert buttons and diff -->
 
 {{< cta-button githubLink="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" >}}
 
-## Classes
+## クラス
 
-[`class reports`](./reports.md): Python library for programmatically working with W&B Reports API. 
+[`class reports`](./reports.md): W&B レポート API をプログラムで操作するための Python ライブラリ。
 
-[`class workspaces`](./workspaces.md): Python library for programmatically working with W&B Workspace API.
+[`class workspaces`](./workspaces.md): W&B ワークスペース API をプログラムで操作するための Python ライブラリ。

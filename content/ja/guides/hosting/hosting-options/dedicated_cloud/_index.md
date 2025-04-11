@@ -1,57 +1,57 @@
 ---
+title: 専用クラウド
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-dedicated_cloud-_index
     parent: deployment-options
-title: Dedicated Cloud
 url: guides/hosting/hosting-options/dedicated_cloud
 ---
 
-## Use dedicated cloud (Single-tenant SaaS)
+## 専用クラウドの利用 (シングルテナント SaaS)
 
-W&B Dedicated Cloud is a single-tenant, fully managed platform deployed in W&B's AWS, GCP or Azure cloud accounts. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances. Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. 
+W&B 専用クラウドは、シングルテナントで完全に管理されたプラットフォームであり、W&B の AWS、GCP または Azure クラウドアカウントにデプロイされます。各専用クラウドインスタンスは、他の W&B 専用クラウドインスタンスと隔離されたネットワーク、コンピュート、ストレージを持っています。W&B 固有のメタデータとデータは、隔離されたクラウドストレージに保存され、隔離されたクラウドコンピュートサービスを使って処理されます。
 
-W&B Dedicated Cloud is available in [multiple global regions for each cloud provider]({{< relref path="./dedicated_regions.md" lang="ja" >}})
+W&B 専用クラウドは[各クラウドプロバイダーにとって複数の世界各地域で利用可能です]({{< relref path="./dedicated_regions.md" lang="ja" >}})
 
-## Data security 
+## データセキュリティ
 
-You can bring your own bucket (BYOB) using the [secure storage connector]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) at the [instance and team levels]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md#configuration-options" lang="ja" >}}) to store your files such as models, datasets, and more.
+[セキュアストレージコネクタ]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}})を使用して、[インスタンスおよびチームレベル]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md#configuration-options" lang="ja" >}})で自分のバケット (BYOB) を持ち込むことで、モデル、データセットなどのファイルを保存できます。
 
-Similar to W&B Multi-tenant Cloud, you can configure a single bucket for multiple teams or you can use separate buckets for different teams. If you do not configure secure storage connector for a team, that data is stored in the instance level bucket.
+W&B マルチテナントクラウドと同様に、複数のチーム用に 1 つのバケットを設定するか、異なるチームに対して別々のバケットを使用することができます。チーム用にセキュアストレージコネクタを設定しない場合、そのデータはインスタンスレベルのバケットに保存されます。
 
 {{< img src="/images/hosting/dedicated_cloud_arch.png" alt="" >}}
 
-In addition to BYOB with secure storage connector, you can utilize [IP allowlisting]({{< relref path="/guides/hosting/data-security/ip-allowlisting.md" lang="ja" >}}) to restrict access to your Dedicated Cloud instance from only trusted network locations. 
+セキュアストレージコネクタを使用した BYOB に加えて、信頼できるネットワーク場所からのみ専用クラウドインスタンスにアクセスを制限するために [IP 許可リスト]({{< relref path="/guides/hosting/data-security/ip-allowlisting.md" lang="ja" >}})を利用できます。
 
-You can also privately connect to your Dedicated Cloud instance using [cloud provider's secure connectivity solution]({{< relref path="/guides/hosting/data-security/private-connectivity.md" lang="ja" >}}).
+また、[クラウドプロバイダーのセキュア接続ソリューション]({{< relref path="/guides/hosting/data-security/private-connectivity.md" lang="ja" >}})を使用して、専用クラウドインスタンスにプライベートに接続することもできます。
 
-## Identity and access management (IAM)
+## アイデンティティとアクセス管理 (IAM)
 
-Use the identity and access management capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Dedicated Cloud instances:
+W&B 組織での安全な認証と効果的な認可のためのアイデンティティおよびアクセス管理機能を利用してください。専用クラウドインスタンスの IAM には、次の機能があります:
 
-* Authenticate with [SSO using OpenID Connect (OIDC)]({{< relref path="/guides/hosting/iam/authentication/sso.md" lang="ja" >}}) or with [LDAP]({{< relref path="/guides/hosting/iam/authentication/ldap.md" lang="ja" >}}).
-* [Configure appropriate user roles]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" lang="ja" >}}) at the scope of the organization and within a team.
-* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}}).
-* Leverage JSON Web Tokens with [identity federation]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ja" >}}) to access W&B APIs.
+* [OpenID Connect (OIDC) を使用した SSO]({{< relref path="/guides/hosting/iam/authentication/sso.md" lang="ja" >}}) または [LDAP]({{< relref path="/guides/hosting/iam/authentication/ldap.md" lang="ja" >}}) で認証します。
+* 組織の範囲およびチーム内で[適切なユーザー役割を設定]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" lang="ja" >}})します。
+* [制限付きプロジェクト]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}})で、誰が W&B プロジェクトを閲覧、編集、または W&B runs に送信できるかの範囲を定義します。
+* JSON Web トークンを[アイデンティティフェデレーション]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ja" >}})と組み合わせて利用し、W&B API にアクセスします。
 
-## Monitor
+## 監視
 
-Use [Audit logs]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md" lang="ja" >}}) to track user activity within your teams and to conform to your enterprise governance requirements. Also, you can view organization usage in our Dedicated Cloud instance with [W&B Organization Dashboard]({{< relref path="/guides/hosting/monitoring-usage/org_dashboard.md" lang="ja" >}}).
+[監査ログ]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md" lang="ja" >}})を使用して、チーム内でのユーザー活動を追跡し、企業ガバナンス要件に準拠します。また、専用クラウドインスタンス内の W&B 組織ダッシュボードを使用して、組織の利用状況を確認できます。
 
-## Maintenance
+## メンテナンス
 
-Similar to W&B Multi-tenant Cloud, you do not incur the overhead and costs of provisioning and maintaining the W&B platform with Dedicated Cloud.
+W&B マルチテナントクラウドと同様に、専用クラウドを使用することで、W&B プラットフォームのプロビジョニングやメンテナンスに関するオーバーヘッドやコストを負担することはありません。
 
-To understand how W&B manages updates on Dedicated Cloud, refer to the [server release process]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}}).
+専用クラウドで W&B がどのようにアップデートを管理するかを理解するためには、[サーバーリリースプロセス]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}})を参照してください。
 
-## Compliance
+## コンプライアンス
 
-Security controls for W&B Dedicated Cloud are periodically audited internally and externally. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the security and compliance documents for your product assessment exercise.
+W&B 専用クラウドのセキュリティ管理は、定期的に内部および外部で監査されています。セキュリティ評価演習のためのセキュリティとコンプライアンス文書をリクエストするには、[W&B セキュリティポータル](https://security.wandb.ai/)を参照してください。
 
-## Migration options
+## 移行オプション
 
-Migration to Dedicated Cloud from a [Self-managed instance]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) or [Multi-tenant Cloud]({{< relref path="../saas_cloud.md" lang="ja" >}}) is supported.
+[セルフマネージドインスタンス]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}})または[マルチテナントクラウド]({{< relref path="../saas_cloud.md" lang="ja" >}})から専用クラウドへの移行がサポートされています。
 
-## Next steps
+## 次のステップ
 
-Submit [this form](https://wandb.ai/site/for-enterprise/dedicated-saas-trial) if you are interested in using Dedicated Cloud.
+専用クラウドの利用に興味がある場合は、[このフォーム](https://wandb.ai/site/for-enterprise/dedicated-saas-trial)を提出してください。
