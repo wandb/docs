@@ -7,9 +7,8 @@ menu:
     parent: release-notes
 title: Archived releases
 weight: 99
-url: /release-notes/releases/archived
 cascade:
-- url: /release-notes/archived/:title
+- url: /release-notes/archived/:title/
 - type: docs
 - weight: 1
 ---
