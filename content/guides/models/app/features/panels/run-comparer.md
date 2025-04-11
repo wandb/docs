@@ -25,5 +25,7 @@ Run Comparer shows the configuration and logged metrics for the 10 first visible
 - To copy any configuration or metric's value, hover your mouse over the value, then click the copy button. The entire value is copied, even if it is too long to display on the screen.
 
 {{% alert %}}
-Run Comparer does not differentiate runs with different values for [`job_type`]({{< relref "/ref/python/init.md" >}}). This means that it is possible to compare runs that are not really comparable, like comparing an image run to an audio run. Search, filter, group, or sort the list of runs to limit it to the runs you want to analyze. For example, filter or sort the list of runs by `job_type` to compare similar runs.
+By default, Run Comparer does not differentiate runs with different values for [`job_type`]({{< relref "/ref/python/init.md" >}}). This means that it is possible to compare runs that are not comparable within a project. For example, you could compare a training run to a model evaluation run. A training run could contain run logs, hyperparameters, training loss metrics, and the model itself. An evaluation run could use the model to check the model's performance on new training data.
+
+When you search, filter, group, or sort the list of runs in the Runs Table, the Run Comparer automatically updates to compare the first 10 runs. Filter or search within the Runs Table to compare similar runs, such as by filtering or sorting the list by `job_type`. Learn more about [filtering runs]({{< relref "/guides/runs/filter-runs.md" >}}).
 {{% /alert %}}
