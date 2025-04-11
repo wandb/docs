@@ -2,9 +2,10 @@
 title: Releases
 type: docs
 cascade:
-    type: docs
+- url: /release-notes/:title
+- type: docs
 menu:
-    main:
-        identifier: release-notes
-        weight: 5
+  main:
+    identifier: release-notes
+    weight: 5
 ---
