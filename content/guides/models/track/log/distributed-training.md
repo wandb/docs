@@ -128,7 +128,6 @@ Consider using an environment variable to set the run ID of the primary node tha
 
 The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
 
-
 ```python
 import wandb
 
@@ -163,13 +162,18 @@ run = wandb.init(
 See this report for an end-to-end example on how to [train a model on a multi-node multi-GPU Kubernetes cluster in GKE](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA). 
 {{% /alert %}}
 
-You can view console logs that your multi process creates in the project that contains your run.
+View console logs from multi node processes in the project that the run logs to:
 
 1. Navigate to the project that contains the run.
 2. Click on the **Runs** tab in the left sidebar.
 3. Click on the run you want to view.
 4. Click on the **Logs** tab in the left sidebar.
 
+System metrics within your project's workspace aggregate metrics from all nodes and display them in the W&B App UI. For example, the following image shows a sample dashboard with system metrics from multiple nodes. Each node possesses a unique label (`rank_0`, `rank_1`, `rank_2`) that you specified in the `x_label` parameter.
+
+{{< img src="/images/track/multi_node_system_metrics.png" alt="Line plot panel with numerous semi linear lines depicting system metrics logged by a multi node process." >}}
+
+See [Line plots]({{< relref "/guides/models/app/features/panels/line-plot/" >}}) for information on how to customize line plot panels. 
 
 ## Avoid common distributed training issues with W&B Service
 
