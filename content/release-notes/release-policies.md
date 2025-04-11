@@ -5,8 +5,7 @@ menu:
     identifier: server-release-process
     parent: w-b-platform
 title: Release policies and processes
-toc_start_level: 2
-toc_end_level: 2
+weight: -1
 ---
 This page gives details about W&B Server releases and W&B's release policies. This page relates to [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud/" >}}) and [Self-Managed]({{< relref "/guides/hosting/hosting-options/self-managed/" >}}) deployments. To learn more about an individual W&B Server release, refer to [W&B release notes]({{< relref "/release-notes/" >}}).
 
