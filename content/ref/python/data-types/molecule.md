@@ -8,7 +8,7 @@ Wandb class for 3D Molecular data.
 
 ```python
 Molecule(
-    data_or_path: Union[str, 'TextIO'],
+    data_or_path: Union[pathlib.Path, str, 'TextIO'],
     caption: Optional[str] = None,
     **kwargs
 ) -> None
@@ -16,7 +16,7 @@ Molecule(
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path` |  (string, io) Molecule can be initialized from a file name or an io object. |
+|  `data_or_path` |  (pathlib.Path, string, io) Molecule can be initialized from a file path or an io object. |
 |  `caption` |  (string) Caption associated with the molecule for display. |
 
 ## Methods

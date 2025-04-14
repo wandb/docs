@@ -8,7 +8,7 @@ Wandb class for 3D point clouds.
 
 ```python
 Object3D(
-    data_or_path: Union['np.ndarray', str, 'TextIO', dict],
+    data_or_path: Union['np.ndarray', pathlib.Path, str, 'TextIO', dict],
     caption: Optional[str] = None,
     **kwargs
 ) -> None
@@ -16,7 +16,7 @@ Object3D(
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) Object3D can be initialized from a file or a numpy array. You can pass a path to a file or an io object and a file_type which must be one of SUPPORTED_TYPES |
+|  `data_or_path` |  (numpy array, pathlib.Path, string, io) Object3D can be initialized from a file path or a numpy array. You can pass a path to a file or an io object and a file_type which must be one of SUPPORTED_TYPES |
 
 The shape of the numpy array must be one of either:
 

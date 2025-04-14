@@ -8,14 +8,14 @@ Wandb class for arbitrary html.
 
 ```python
 Html(
-    data: Union[str, 'TextIO'],
+    data: Union[pathlib.Path, str, 'TextIO'],
     inject: bool = (True)
 ) -> None
 ```
 
 | Args |  |
 | :--- | :--- |
-|  `data` |  (string or io object) HTML to display in wandb |
+|  `data` |  (pathlib.Path, string, or io object) The path to an HTML file, or the literal HTML to display in wandb |
 |  `inject` |  (boolean) Add a stylesheet to the HTML object. If set to False the HTML will pass through unchanged. |
 
 ## Methods
