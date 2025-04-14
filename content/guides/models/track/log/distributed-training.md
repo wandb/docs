@@ -95,8 +95,9 @@ The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see
 
 ### Track all processes to a single run
 
+
 {{% alert color="secondary"  %}}
-The option to track multiple processes to a single run is in public preview.
+Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a GitHub issue at [https://github.com/wandb/wandb](https://github.com/wandb/wandb) to provide feedback.
 {{% /alert %}}
 
 {{% alert %}}
@@ -112,7 +113,11 @@ Within the primary node, initialize a W&B run with [`wandb.init`]({{< relref "/r
    * A unique label for `x_label`. You use the value you specify for `x_label` to identify which process the data is coming from in logs and system metrics in the W&B App UI.
 2. Set the `x_primary` parameter to `True` to indicate that this is the primary node.
 
-Make note of the run ID of the primary node. Each worker node needs this run ID.
+Make note of the run ID of the primary node. Each worker node needs the run ID of the primary node.
+
+{{% alert %}}
+`x_primary=True` distinguishes a primary node from worker nodes. Primary nodes are the only nodes that upload files shared across nodes such as configuration files, telemetry and more. Worker nodes do not upload these files.
+{{% /alert %}}
 
 For each worker node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/init.md" >}}) and provide the following:
 1. A `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with:
