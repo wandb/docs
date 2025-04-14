@@ -87,12 +87,11 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
 If you import a panel into a report, run names are inherited from the project. In the report, you can optionally [rename a run]({{< relref "/guides/models/track/runs/#rename-a-run" >}}) to give the reader more context. The run is renamed only in the individual panel. If you clone the panel in the same report, the run is also renamed in the cloned panel.
 
 1. In the report, click the pencil icon to open the report editor.
-1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots, then select either:
+1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots. Select one of the following choices, then submit the form.
 
     - **Rename run for project**: rename the run across the entire project. To generate a new random name, leave the field blank.
     - **Rename run for panel grid** rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
 
-    Submit the form.
 1. Click **Publish report**.
 
 {{% /tab %}}
