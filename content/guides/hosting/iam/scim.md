@@ -186,6 +186,12 @@ POST /scim/Users
 
 ### Delete user
 
+{{% alert color="warning" title="Maintain admin access" %}}
+You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain W&B. If an organization uses SCIM or another automated process to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
+
+For assistance with developing operational procedures, or to restore admin access, contact [support](mailto:support@wandb.com).
+{{% /alert %}}
+
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: DELETE
 - **Description**: Fully delete a user from your [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organization or your [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance by providing the user's unique ID. Use the [Create user]({{< relref "#create-user" >}}) API to add the user again to the organization or instance if needed.
