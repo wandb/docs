@@ -1,0 +1,38 @@
+{{/* layouts/partials/footer.html */}}
+{{/* This overrides the theme's footer partial */}}
+<footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      {{ if $.Site.Params.ui.footer_links.user -}}
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        {{ partial "footer-links-block.html" (dict "page" . "section" "user") }}
+      </div>
+      {{ end -}}
+      {{ if $.Site.Params.ui.footer_links.developer -}}
+      <div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        {{ partial "footer-links-block.html" (dict "page" . "section" "developer") }}
+      </div>
+      {{ end -}}
+      <div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        {{ with $.Site.Copyright }}<span class="td-footer__copyright">{{ . | markdownify }}</span>{{ end }}
+        {{ if $.Site.Params.copyright -}}
+        <span class="td-footer__copyright">&copy;
+          {{ if $.Site.Params.copyright.from_year -}}
+            {{ $.Site.Params.copyright.from_year }}&ndash;{{ now.Format "2006" }}
+          {{ else -}}
+            {{ now.Format "2006" }}
+          {{ end -}}
+          {{ with $.Site.Params.copyright.authors }}<span class="td-footer__authors">{{ . | markdownify }}</span>{{ end }}
+        </span>
+        {{ end -}}
+        {{ if $.Site.Params.ui.footer_about_disable }} <span class="td-footer__separator"></span> {{ end }}
+        <span class="td-footer__all_rights_reserved">{{ T "footer_all_rights_reserved" }}</span>
+        {{ with $.Site.Params.privacy_policy }}<span class="ms-2"><a href="{{ . | relLangURL }}" target="_blank" rel="noopener">{{ T "footer_privacy_policy" }}</a></span>{{ end }}
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Chat Widget Injection -->
+<link rel="stylesheet" href="/chat-widget.css">
+<script src="/chat-widget.js" defer></script>
