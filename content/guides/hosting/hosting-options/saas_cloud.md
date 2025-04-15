@@ -17,6 +17,8 @@ For non enterprise plan users, all data is only stored in the shared cloud stora
 
 Enterprise plan users can [bring their own bucket (BYOB) using the secure storage connector]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) at the [team level]({{< relref "/guides/hosting/data-security/secure-storage-connector.md#configuration-options" >}}) to store their files such as models, datasets, and more. You can configure a single bucket for multiple teams or you can use separate buckets for different W&B Teams. If you do not configure secure storage connector for a team, that data is stored in the shared cloud storage.
 
+You are responsible for ensuring that your deployment complies with your organization's policies and [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
+
 ## Identity and access management (IAM)
 If you are on enterprise plan, you can use the identity and access managements capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Multi-tenant Cloud:
 

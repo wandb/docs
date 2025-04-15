@@ -38,12 +38,12 @@ Based on your use case, select one of the tabs below to create a new artifact ve
   {{% tab header="Inside a run" %}}
 Create an artifact version within a W&B run:
 
-1. Create a run with `wandb.init`. (Line 1)
-2. Create a new artifact or retrieve an existing one with `wandb.Artifact` . (Line 2)
-3. Add files to the artifact with `.add_file`. (Line 9)
-4. Log the artifact to the run with `.log_artifact`. (Line 10)
+1. Create a run with `wandb.init`.
+2. Create a new artifact or retrieve an existing one with `wandb.Artifact`.
+3. Add files to the artifact with `.add_file`.
+4. Log the artifact to the run with `.log_artifact`.
 
-```python showLineNumbers
+```python 
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
 
@@ -56,11 +56,11 @@ with wandb.init() as run:
   {{% tab header="Outside of a run" %}}
 Create an artifact version outside of a W&B run:
 
-1. Create a new artifact or retrieve an existing one with `wanb.Artifact`. (Line 1)
-2. Add files to the artifact with `.add_file`. (Line 4)
-3. Save the artifact with `.save`. (Line 5)
+1. Create a new artifact or retrieve an existing one with `wanb.Artifact`.
+2. Add files to the artifact with `.add_file`.
+3. Save the artifact with `.save`.
 
-```python showLineNumbers
+```python 
 artifact = wandb.Artifact("artifact_name", "artifact_type")
 # Add Files and Assets to the artifact using
 # `.add`, `.add_file`, `.add_dir`, and `.add_reference`

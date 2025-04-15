@@ -14,35 +14,26 @@ W&B Python SDK into your own code.
 
 ### Original training script
 
-Suppose you have the following code in a Jupyter Notebook cell or Python script.
-We define a function called `main` that mimics a typical training loop. For each
-epoch, the accuracy and loss is computed on the training and validation data
-sets. The values are randomly generated for the purpose of this example.
+Suppose you have the following code in a Python script. We define a function called `main` that mimics a typical training loop. For each epoch, the accuracy and loss is computed on the training and validation data sets. The values are randomly generated for the purpose of this example.
 
-We defined a dictionary called `config` where we store hyperparameters values
-(line 15). At the end of the cell, we call the `main` function to execute the
-mock training code.
+We defined a dictionary called `config` where we store hyperparameters values. At the end of the cell, we call the `main` function to execute the mock training code.
 
-```python showLineNumbers
-# train.py
+```python
 import random
 import numpy as np
-
 
 def train_one_epoch(epoch, lr, bs):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
     loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
     return acc, loss
 
-
 def evaluate_one_epoch(epoch):
     acc = 0.1 + ((epoch / 20) + (random.random() / 10))
     loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
     return acc, loss
 
-
+# config variable with hyperparameter values
 config = {"lr": 0.0001, "bs": 16, "epochs": 5}
-
 
 def main():
     # Note that we define values from `wandb.config`
@@ -57,11 +48,7 @@ def main():
 
         print("epoch: ", epoch)
         print("training accuracy:", train_acc, "training loss:", train_loss)
-        print("validation accuracy:", val_acc, "training loss:", val_loss)
-
-
-# Call the main function.
-main()
+        print("validation accuracy:", val_acc, "training loss:", val_loss)        
 ```
 
 ### Training script with W&B Python SDK
@@ -74,39 +61,16 @@ explore the Python SDK tab.
 {{< tabpane text=true >}} {{% tab header="Python script or notebook" %}} To
 create a W&B Sweep, we added the following to the code example:
 
-1. Line 1: Import the Weights & Biases Python SDK.
-2. Line 9 & 15: Define training and evaluation functions that take in
-   hyperparameter values from `wandb.config` and use them to train a model and
-   return performance metric values (here, accuracy and loss).
-3. Line 22: Create a dictionary object where the key-value pairs define the sweep
-   configuration. In the proceeding example, the batch size (`batch_size`),
-   epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied
-   during each sweep. For more information on how to create a sweep
-   configuration, see [Define sweep
-   configuration]({{< relref "./define-sweep-configuration.md" >}}).
-4. Line 36: Define the `main()` function that will use the hyperparameters from
-   the `sweep_configuration` dictionary to execute the training loop and log the
-   performance values to W&B.
-5. Line 43-45: (Optional) define values from `wandb.config` instead of defining
-   hard coded values.
-6. Line 51: Log the metric we want to optimize with [`wandb.log()`]({{< relref
-   "/ref/python/log.md" >}}). You must log the metric defined in your
-   configuration (`sweep_configuration`). here, we ask sweep to maximize the
-   `val_acc` value.
-7. Line 64: Pass the sweep configuration dictionary to
-   [`wandb.sweep()`]({{< relref "/ref/python/sweep.md" >}}). This initializes the
-   sweep and returns a sweep ID (`sweep_id`). For more information on how to
-   initialize sweeps, see [Initialize
-   sweeps]({{< relref "./initialize-sweeps.md" >}}).
-8. Line 67: Start the sweep with the [`wandb.agent()`]({{< relref
-   "/ref/python/agent.md" >}}) API call. Provide the sweep ID (line 19), the
-   name of the function the sweep will execute (`function=main`) in each run,
-   and the maximum number of runs (`count=4`). For more information on how to
-   start a W&B Sweep, see [Start sweep agents]({{< relref
-   "./start-sweep-agents.md"
-   >}}).
+1. Import the Weights & Biases Python SDK.
+2. Create a dictionary object where the key-value pairs define the sweep configuration. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep. For more information on how to create a sweep configuration, see [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}).
+3. Pass the sweep configuration dictionary to [`wandb.sweep`]({{< relref "/ref/python/sweep.md" >}}). This initializes the sweep. This returns a sweep ID (`sweep_id`). For more information on how to initialize sweeps, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
+4. Use the [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/run.md" >}}).
+5. (Optional) define values from `wandb.config` instead of defining hard coded values.
+6. Log the metric we want to optimize with [`wandb.log`]({{< relref "/ref/python/log.md" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
+7. Start the sweep with the [`wandb.agent`]({{< relref "/ref/python/agent.md" >}}) API call. Provide the sweep ID, the name of the function the sweep will execute (`function=main`), and set the maximum number of runs to try to four (`count=4`). For more information on how to start W&B Sweep, see [Start sweep agents]({{< relref "./start-sweep-agents.md" >}}).
 
-```python showLineNumbers
+
+```python
 import wandb
 import numpy as np
 import random
@@ -212,30 +176,21 @@ parameters:
     values: [5, 10, 15]
 ```
 
-For more information on how to create a W&B Sweep configuration, see [Define
-sweep configuration]({{< relref "./define-sweep-configuration.md" >}}).
+For more information on how to create a W&B Sweep configuration, see [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}).
 
 Note that you must provide the name of your Python script for the `program` key
 in your YAML file.
 
 Next, we add the following to the code example:
 
-1. Line 1-2: Import the Wieghts & Biases Python SDK (`wandb`) and PyYAML
-   (`yaml`). PyYAML is used to read in our YAML configuration file.
-2. Line 18: Read in the configuration file.
-3. Line 21: Use the [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) API
-   to generate a background process to sync and log data as a [W&B
-   Run]({{< relref "/ref/python/run.md" >}}). We pass the config object to the
-   config parameter.
-4. Line 25 - 27: Define hyperparameter values from `wandb.config` instead of
-   using hard coded values.
-5. Line 33-39: Log the metric we want to optimize with
-   [`wandb.log`]({{< relref "/ref/python/log.md" >}}). You must log the metric
-   defined in your configuration. Within the configuration dictionary
-   (`sweep_configuration` in this example) we defined the sweep to maximize the
-   `val_acc` value.
+1. Import the Wieghts & Biases Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
+2. Read in the configuration file.
+3. Use the [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/run.md" >}}). We pass the config object to the config parameter.
+4. Define hyperparameter values from `wandb.config` instead of using hard coded values.
+5. Log the metric we want to optimize with [`wandb.log`]({{< relref "/ref/python/log.md" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
 
-```python showLineNumbers
+
+```python
 import wandb
 import yaml
 import random
@@ -324,16 +279,12 @@ jobs]({{< relref "./start-sweep-agents.md" >}}).
 Ensure to log the metric you specify in your sweep configuration explicitly to
 W&B. Do not log metrics for your sweep inside of a sub-directory.
 
-For example, consider the proceeding psuedocode. A user wants to log the
-validation loss (`"val_loss": loss`). First they pass the values into a
-dictionary (line 16). However, the dictionary passed to `wandb.log` does not
-explicitly access the key-value pair in the dictionary:
+For example, consider the proceeding psuedocode. A user wants to log the validation loss (`"val_loss": loss`). First they pass the values into a dictionary. However, the dictionary passed to `wandb.log` does not explicitly access the key-value pair in the dictionary:
 
-```python title="train.py" showLineNumbers
+```python
 # Import the W&B Python Library and log into W&B
 import wandb
 import random
-
 
 def train():
     offset = random.random() / 5
@@ -347,6 +298,9 @@ def train():
 def main():
     wandb.init(entity="<entity>", project="my-first-sweep")
     val_metrics = train()
+    # Incorrect. You must explicitly access the
+    # key-value pair in the dictionary
+    # See next code block to see how to correctly log metrics
     wandb.log({"val_loss": val_metrics})
 
 
@@ -364,11 +318,9 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-Instead, explicitly access the key-value pair within the Python dictionary. For
-example, the proceeding code (line after you create a dictionary, specify the
-key-value pair when you pass the dictionary to the `wandb.log` method:
+Instead, explicitly access the key-value pair within the Python dictionary. For example, the proceeding code specifies the key-value pair when you pass the dictionary to the `wandb.log` method:
 
-```python title="train.py" showLineNumbers
+```python title="train.py"
 # Import the W&B Python Library and log into W&B
 import wandb
 import random
