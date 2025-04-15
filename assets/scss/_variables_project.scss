@@ -175,8 +175,15 @@ a {
 // hide "create child" and "create project issue" links
 .td-page-meta__child, .td-page-meta__project-issue { display: none !important; }
 
-// hide taxonomy cloud on right and top
-.taxonomy-terms-cloud, .taxonomy-terms-article { display: none; }
+// shrink the right nav a bit
+.td-page-meta {
+    display: none !important;
+    font-size: 16px !important;
+    a {
+        padding-bottom: 15px;
+        line-height: 22px;
+    }
+}
 
 // hide left nav label 
 .tree-root { display: none !important;}
@@ -1007,13 +1014,20 @@ img, iframe {
 }
 
 // Last modified date with feedback links - mobile styles
-div.td-page-meta {
+div.td-page-meta__lastmod {
     display: flex !important;
     flex-direction: column !important; // Stack elements vertically on mobile
     gap: 8px !important;
     color: $text-secondary !important;
     font-size: 14px !important;
     margin-top: 0 !important;
+
+    // Container for last modified text and commit link
+    &:first-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
 
     // Style the commit link
     a {

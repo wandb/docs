@@ -37,7 +37,7 @@ Log a table with a few lines of code:
   - `data`: Set the contents of the table.
 - [`run.log()`]({{< relref "/ref/python/log.md" >}}): Log the table to save it to W&B.
 
-```python showLineNumbers
+```python
 import wandb
 
 run = wandb.init(project="table-test")
