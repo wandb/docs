@@ -35,7 +35,7 @@
   width: 100%;
   background: linear-gradient(90deg, #FAC13C 0%, #10BFCC 20%, #8E949E 40%, #FAC13C 60%, #10BFCC 80%, #FAC13C 100%);
   background-size: 400% 100%;
-  animation: chat-widget-gradient-move 6s linear infinite;
+  animation: chat-widget-gradient-move 60s linear infinite;
   margin: 0;
   border: none;
   border-radius: 0 0 8px 8px;
@@ -292,6 +292,24 @@
   }
 }
 
+/* Code block appearance for dark/light mode */
+.chat-widget-pre-block {
+  background: #3A4256;
+  border-radius: 8px;
+  padding: 14px 16px 14px 16px;
+  margin: 8px 0;
+  overflow-x: auto;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(16,191,204,0.04);
+  transition: background 0.3s;
+}
+@media (prefers-color-scheme: light) {
+  .chat-widget-pre-block {
+    background: #f6f7fa;
+    box-shadow: 0 2px 8px rgba(250,193,60,0.04);
+  }
+}
+
 /* Markdown and code block styling */
 .chat-widget-bubble :is(h1, h2, h3, h4, h5, h6) {
   margin: 0.5em 0 0.3em 0;
@@ -315,14 +333,6 @@
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 0.96em;
-}
-.chat-widget-pre-block {
-  background: #23261F;
-  border-radius: 10px;
-  margin: 0.6em 0;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(23,26,31,0.07);
-  overflow: auto;
 }
 .chat-widget-pre-block pre {
   background: none;
@@ -384,9 +394,15 @@
 }
 
 /* Force all text in AI responses to use a visible light color (#FAFAFA) regardless of markdown or inherited styles */
-.chat-widget-ai-content-with-avatar,
-.chat-widget-ai-content,
-.chat-widget-ai-content * {
+#chat-widget-window.chat-widget-light .chat-widget-ai-content-with-avatar,
+#chat-widget-window.chat-widget-light .chat-widget-ai-content,
+#chat-widget-window.chat-widget-light .chat-widget-ai-content * {
+  color: #23261F !important;
+  background: transparent !important;
+}
+#chat-widget-window.chat-widget-dark .chat-widget-ai-content-with-avatar,
+#chat-widget-window.chat-widget-dark .chat-widget-ai-content,
+#chat-widget-window.chat-widget-dark .chat-widget-ai-content * {
   color: #FAFAFA !important;
   background: transparent !important;
 }
@@ -424,4 +440,67 @@
   40% { transform: translateY(2px) scale(0.98); opacity: 0.7; }
   60% { transform: translateY(-6px) scale(1.08); opacity: 0.9; }
   80% { transform: translateY(1px) scale(1.02); opacity: 0.8; }
+}
+
+.chat-widget-copy-all-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0 auto;
+  padding: 6px 20px 4px 20px;
+  background: linear-gradient(90deg, #FAC13C, #10BFCC);
+  color: #1A1D24;
+  border: none;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(16,191,204,0.07);
+  transition: background 0.2s, color 0.2s;
+  min-width: 120px;
+  min-height: 36px;
+}
+.chat-widget-copy-all-btn.copied {
+  background: #8E949E;
+  color: #FAFAFA;
+}
+
+/* Make AI content text visible in light mode */
+@media (prefers-color-scheme: light) {
+  .chat-widget-ai-content-with-avatar,
+  .chat-widget-ai-content,
+  .chat-widget-ai-content * {
+    color: #23261F !important;
+    background: transparent !important;
+  }
+}
+
+.chat-widget-feedback-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  margin: 18px 0 8px 0;
+}
+.chat-widget-feedback-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #FAC13C, #10BFCC);
+  color: #1A1D24;
+  box-shadow: 0 2px 8px rgba(16,191,204,0.07);
+  transition: background 0.2s, color 0.2s;
+  margin: 0 4px;
+}
+.chat-widget-feedback-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #8E949E;
+  color: #FAFAFA;
 }

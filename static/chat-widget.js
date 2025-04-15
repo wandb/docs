@@ -70,7 +70,7 @@
       <div class="chat-widget-gradient-bar"></div>
       <div id="chat-widget-messages" aria-live="polite"></div>
       <form id="chat-widget-form" autocomplete="off">
-        <textarea id="chat-widget-input" rows="1" placeholder="Type a message..." aria-label="Type a message" maxlength="1000"></textarea>
+        <textarea id="chat-widget-input" rows="1" placeholder="Type a message..." aria-label="Type a message" maxlength="1000000"></textarea>
         <button type="submit" aria-label="Send message">
           <svg class="chat-widget-send-icon" width="20" height="20" viewBox="0 0 24 24">
             <path d="M2 21l21-9-21-9v7l15 2-15 2z" fill="#1A1D24"/>
@@ -109,8 +109,72 @@
     const chatForm = chatWin.querySelector('#chat-widget-form');
     const chatInput = chatWin.querySelector('#chat-widget-input');
     const chatSendBtn = chatForm.querySelector('button[type="submit"]');
-    const MAXLEN = 1000;
+    const MAXLEN = 1000000;
     let isOverflow = false;
+
+    // --- Conversation History State ---
+    let chatHistory = [];
+
+    // --- Feedback/Support Buttons State ---
+    let feedbackGiven = false;
+    let supportGiven = false;
+
+    function renderFeedbackButtons() {
+      // Only add if not already present and after first AI response
+      if (document.querySelector('.chat-widget-feedback-row')) return;
+      const row = document.createElement('div');
+      row.className = 'chat-widget-feedback-row';
+      // Support button
+      const supportBtn = document.createElement('button');
+      supportBtn.className = 'chat-widget-feedback-btn';
+      supportBtn.innerHTML = '👋 Open support ticket';
+      supportBtn.disabled = supportGiven;
+      supportBtn.onclick = async function() {
+        if (supportGiven) return;
+        supportGiven = true;
+        supportBtn.disabled = true;
+        // Send support request as a message to the agent
+        appendMsg('user', 'USER REQUESTED TO OPEN A SUPPORT TICKET');
+        appendMsg('bot', animatedWaiting(), true);
+        setGradientBarFast(true);
+        scrollToBottom();
+        try {
+          const res = await fetch(BACKEND_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: 'USER REQUESTED TO OPEN A SUPPORT TICKET', input_items: chatHistory })
+          });
+          const data = await res.json();
+          replaceLoading(data.answer || '[No reply]');
+          if (Array.isArray(data.input_items)) chatHistory = data.input_items;
+        } catch (err) {
+          replaceLoading('<span class="chat-widget-error">[Error: Could not reach backend]</span>');
+        }
+        setGradientBarFast(false);
+        scrollToBottom();
+      };
+      // Thumbs up button
+      const happyBtn = document.createElement('button');
+      happyBtn.className = 'chat-widget-feedback-btn';
+      happyBtn.innerHTML = '👍 I\'m happy';
+      happyBtn.disabled = feedbackGiven;
+      happyBtn.onclick = async function() {
+        if (feedbackGiven) return;
+        feedbackGiven = true;
+        happyBtn.disabled = true;
+        // Send feedback as a separate field
+        try {
+          await fetch(BACKEND_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: '', input_items: chatHistory, feedback: 'good' })
+          });
+        } catch (err) {}
+      };
+      row.appendChild(supportBtn);
+      row.appendChild(happyBtn);
+      chatWin.appendChild(row);
+    }
 
     // Auto-grow textarea
     function autoGrowTextarea(e) {
@@ -202,10 +266,12 @@
         const res = await fetch(BACKEND_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: msg })
+          body: JSON.stringify({ message: msg, input_items: chatHistory })
         });
         const data = await res.json();
         replaceLoading(data.answer || '[No reply]');
+        // Update chat history from backend (ensures roles/ordering are correct)
+        if (Array.isArray(data.input_items)) chatHistory = data.input_items;
       } catch (err) {
         replaceLoading('<span class="chat-widget-error">[Error: Could not reach backend]</span>');
       }
@@ -246,6 +312,7 @@
           copyBtn.title = 'Copy code';
           copyBtn.onclick = function(e) {
             e.preventDefault();
+            e.stopPropagation();
             navigator.clipboard.writeText(code.innerText);
             copyBtn.classList.add('copied');
             copyBtn.innerText = 'Copied!';
@@ -258,6 +325,31 @@
           pre.appendChild(copyBtn);
         }
       });
+      // Add or update the Copy All Code button at the bottom if any code blocks exist
+      let allBtn = container.querySelector('.chat-widget-copy-all-btn');
+      if (codeBlocks.length > 0) {
+        if (!allBtn) {
+          allBtn = document.createElement('button');
+          allBtn.className = 'chat-widget-copy-all-btn';
+          allBtn.type = 'button';
+          allBtn.innerText = 'Copy all code';
+          allBtn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let allCode = Array.from(codeBlocks).map(cb => cb.innerText).join('\n\n');
+            navigator.clipboard.writeText(allCode);
+            allBtn.classList.add('copied');
+            allBtn.innerText = 'Copied!';
+            setTimeout(() => {
+              allBtn.classList.remove('copied');
+              allBtn.innerText = 'Copy all code';
+            }, 1200);
+          };
+          container.appendChild(allBtn);
+        }
+      } else if (allBtn) {
+        allBtn.remove();
+      }
     }
 
     function appendMsg(role, text, isHtml=false) {
@@ -297,6 +389,8 @@
         const parent = loading.parentElement;
         parent.innerHTML = `<div class="chat-widget-ai-content">${renderMarkdown(text)}</div>`;
         enhanceCodeBlocks(parent);
+        // Add feedback/support buttons after first AI response
+        if (!feedbackGiven && !supportGiven) renderFeedbackButtons();
       }
       setGradientBarFast(false); // Slow down when done
     }
