@@ -125,6 +125,10 @@ GET /scim/Users
 
 ### Create user
 
+The schema for creating a user is different for **Dedicated Cloud** and **Self-Hosted** than that for **Multi-tenant Cloud**.
+
+{{< tabpane text=true >}}
+{{% tab header="Dedicated Cloud or Self-managed" %}}
 - **Endpoint**: **`<host-url>/scim/Users`**
 - **Method**: POST
 - **Description**: Create a new user resource.
@@ -136,53 +140,121 @@ GET /scim/Users
 | userName | String | Yes |
 - **Request Example**:
 
-```bash
-POST /scim/Users
-```
-
-```json
-{
-  "schemas": [
-    "urn:ietf:params:scim:schemas:core:2.0:User"
-  ],
-  "emails": [
+    ```bash
+    POST /scim/Users
+    ```
+    ```json
     {
-      "primary": true,
-      "value": "admin-user2@test.com"
-    }
-  ],
-  "userName": "dev-user2"
-}
-```
-
-- **Response Example**:
-
-```bash
-(Status 201)
-```
-
-```json
-{
-    "active": true,
-    "displayName": "Dev User 2",
-    "emails": {
-        "Value": "dev-user2@test.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
-    "id": "def",
-    "meta": {
-        "resourceType": "User",
-        "created": "2023-10-01T00:00:00Z",
-        "location": "Users/def"
-    },
     "schemas": [
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
+    "emails": [
+        {
+        "primary": true,
+        "value": "admin-user2@test.com"
+        }
+    ],
     "userName": "dev-user2"
-}
-```
+    }
+    ```
+
+- **Response Example**:
+
+    ```bash
+    (Status 201)
+    ```
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 2",
+        "emails": {
+            "Value": "dev-user2@test.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "def",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "location": "Users/def"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user2"
+    }
+    ```
+{{% /tab %}}
+
+{{% tab header="Multi-tenant Cloud" %}}
+In **Multi-tenant Cloud**, a user can belong to more than one organization. To "create" a user in your organization, you add them to one or more teams.
+- **Endpoint**: **`<host-url>/scim/Users`**
+- **Method**: POST
+- **Description**: Create a new user resource.
+- **Supported Fields**:
+
+| Field | Type | Required |
+| --- | --- | --- |
+| emails | Multi-Valued Array | Yes (Make sure `primary` email is set) |
+| userName | String | Yes |
+| teams | Multi-Valued Array | Yes (the user must belong to at minimum one team) |
+
+- **Request Example**:
+
+    ```bash
+    POST /scim/Users
+    ```
+
+    ```json
+    {
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+    ],
+    "emails": [
+        {
+        "primary": true,
+        "value": "admin-user2@test.com"
+        }
+    ],
+    "userName": "dev-user2",
+    "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
+        "teams": ["my-team"]
+        }
+    }
+    ```
+- **Response Example**:
+    ```bash
+    (Status 201)
+    ```
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 2",
+        "emails": {
+            "Value": "dev-user2@test.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "def",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "location": "Users/def"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User",
+            "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+        ],
+        "userName": "dev-user2",
+        "teams": "my-team"
+    }
+    ```
+{{% /tab %}}
+{{< /tabpane >}}
+
 
 ### Delete user
 
