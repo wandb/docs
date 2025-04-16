@@ -151,7 +151,7 @@ The schema for creating a user is different for **Dedicated Cloud** and **Self-H
     "emails": [
         {
         "primary": true,
-        "value": "admin-user2@test.com"
+        "value": "dev-user2@test.com"
         }
     ],
     "userName": "dev-user2"
