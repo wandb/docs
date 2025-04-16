@@ -19,7 +19,7 @@
 
   // CC0 Bee SVG from SVG Repo: https://www.svgrepo.com/svg/228586/bees-bee
   function beeSVG(size=28) {
-    return `<svg width="${size}" height="${size}" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><ellipse cx="256" cy="320" rx="140" ry="112" fill="#FAC13C" stroke="#1A1D24" stroke-width="16"/><ellipse cx="176" cy="176" rx="56" ry="98" fill="#FAFAFA" stroke="#10BFCC" stroke-width="10"/><ellipse cx="336" cy="176" rx="56" ry="98" fill="#FAFAFA" stroke="#10BFCC" stroke-width="10"/><ellipse cx="256" cy="320" rx="140" ry="112" fill="none" stroke="#1A1D24" stroke-width="16"/><ellipse cx="256" cy="320" rx="49" ry="112" fill="none" stroke="#1A1D24" stroke-width="10"/><ellipse cx="256" cy="320" rx="98" ry="112" fill="none" stroke="#1A1D24" stroke-width="10"/><circle cx="200" cy="304" r="18" fill="#1A1D24"/><circle cx="312" cy="304" r="18" fill="#1A1D24"/><path d="M200 220 Q184 180 216 164" stroke="#1A1D24" stroke-width="6" fill="none"/><path d="M312 220 Q328 180 296 164" stroke="#1A1D24" stroke-width="6" fill="none"/><path d="M232 368 Q256 400 280 368" stroke="#1A1D24" stroke-width="8" fill="none"/></svg>`;
+    return aiOctagonSVG(size);
   }
 
   // Gradient Decahedron SVG for anonymous user
@@ -34,6 +34,50 @@
         </linearGradient>
       </defs>
       <polygon points="14,3 22,7 25,15 21,23 14,26 7,23 3,15 6,7" fill="url(#userDecaGrad)" stroke="#FAFAFA" stroke-width="1.5"/>
+    </svg>`;
+  }
+
+  // Large black octagon for AI avatar (gold border, gold W&B logo centered, scaled up)
+  function aiOctagonSVG(size=48) {
+    // Even smaller octagon, black fill, gold border, gold W&B logo centered
+    return `<svg width="${size}" height="${size}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="24,5.5 39,12 44.5,24 39,39 24,44.5 9,39 3.5,24 9,12" fill="#181818" stroke="#FAC13C" stroke-width="2.2"/>
+      <g transform="translate(16.5,18) scale(0.145)">
+        <path d="M0 32.3C0 38.0084 4.62746 42.6359 10.3358 42.6359C16.0441 42.6359 20.6716 38.0084 20.6716 32.3C20.6716 26.5917 16.0441 21.9642 10.3358 21.9642C4.62746 21.9642 0 26.5917 0 32.3Z" fill="#FAC13C"/>
+        <path d="M0 83.9792C0 89.6875 4.62746 94.3151 10.3358 94.3151C16.0441 94.3151 20.6716 89.6875 20.6716 83.9792C20.6716 78.2709 16.0441 73.6434 10.3358 73.6434C4.62746 73.6434 0 78.2709 0 83.9792Z" fill="#FAC13C"/>
+        <path d="M3.87589 58.1402C3.87589 61.7079 6.76813 64.6002 10.3359 64.6002C13.9037 64.6002 16.7959 61.7079 16.7959 58.1402C16.7959 54.5724 13.9037 51.6802 10.3359 51.6802C6.76813 51.6802 3.87589 54.5724 3.87589 58.1402Z" fill="#FAC13C"/>
+        <path d="M3.87589 6.46001C3.87589 10.0278 6.76813 12.92 10.3359 12.92C13.9037 12.92 16.7959 10.0278 16.7959 6.46001C16.7959 2.89224 13.9037 0 10.3359 0C6.76813 0 3.87589 2.89224 3.87589 6.46001Z" fill="#FAC13C"/>
+        <path d="M39.664 67.7001C39.664 73.4084 44.2915 78.0359 49.9998 78.0359C55.7082 78.0359 60.3357 73.4084 60.3357 67.7001C60.3357 61.9918 55.7082 57.3643 49.9998 57.3643C44.2915 57.3643 39.664 61.9918 39.664 67.7001Z" fill="#FAC13C"/>
+        <path d="M43.5399 93.5402C43.5399 97.108 46.4322 100 50 100C53.5677 100 56.46 97.108 56.46 93.5402C56.46 89.9724 53.5677 87.0802 50 87.0802C46.4322 87.0802 43.5399 89.9724 43.5399 93.5402Z" fill="#FAC13C"/>
+        <path d="M43.5399 41.8609C43.5399 45.4286 46.4322 48.3209 50 48.3209C53.5677 48.3209 56.46 45.4286 56.46 41.8609C56.46 38.2931 53.5677 35.4008 50 35.4008C46.4322 35.4008 43.5399 38.2931 43.5399 41.8609Z" fill="#FAC13C"/>
+        <path d="M43.5399 16.0208C43.5399 19.5886 46.4322 22.4808 50 22.4808C53.5677 22.4808 56.46 19.5886 56.46 16.0208C56.46 12.453 53.5677 9.56079 50 9.56079C46.4322 9.56079 43.5399 12.453 43.5399 16.0208Z" fill="#FAC13C"/>
+        <path d="M79.3283 32.3C79.3283 38.0084 83.9558 42.6359 89.6642 42.6359C95.3725 42.6359 100 38.0084 100 32.3C100 26.5917 95.3725 21.9642 89.6642 21.9642C83.9558 21.9642 79.3283 26.5917 79.3283 32.3Z" fill="#FAC13C"/>
+        <path d="M83.2043 6.46001C83.2043 10.0278 86.0965 12.92 89.6643 12.92C93.232 12.92 96.1243 10.0278 96.1243 6.46001C96.1243 2.89224 93.232 0 89.6643 0C86.0965 0 83.2043 2.89224 83.2043 6.46001Z" fill="#FAC13C"/>
+        <path d="M83.2043 58.1402C83.2043 61.7079 86.0965 64.6002 89.6643 64.6002C93.232 64.6002 96.1243 61.7079 96.1243 58.1402C96.1243 54.5724 93.232 51.6802 89.6643 51.6802C86.0965 51.6802 83.2043 54.5724 83.2043 58.1402Z" fill="#FAC13C"/>
+        <path d="M83.2043 83.9793C83.2043 87.5471 86.0965 90.4393 89.6643 90.4393C93.232 90.4393 96.1243 87.5471 96.1243 83.9793C96.1243 80.4115 93.232 77.5193 89.6643 77.5193C86.0965 77.5193 83.2043 80.4115 83.2043 83.9793Z" fill="#FAC13C"/>
+      </g>
+    </svg>`;
+  }
+
+  // Octagon with W&B logo for AI avatar
+  function wandbOctagonSVG(size=44) {
+    // Even larger octagon (44x44), W&B logo remains the same size and position
+    return `<svg width="${size}" height="${size}" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="22,5 36,11 41,22 36,36 22,41 8,36 3,22 8,11" fill="#181818" stroke="#FAFAFA" stroke-width="2.2"/>
+      <g transform="translate(6.5,6.5) scale(0.23)">
+        <path d="M0 32.3C0 38.0084 4.62746 42.6359 10.3358 42.6359C16.0441 42.6359 20.6716 38.0084 20.6716 32.3C20.6716 26.5917 16.0441 21.9642 10.3358 21.9642C4.62746 21.9642 0 26.5917 0 32.3Z" fill="#FFCC33"/>
+        <path d="M0 83.9792C0 89.6875 4.62746 94.3151 10.3358 94.3151C16.0441 94.3151 20.6716 89.6875 20.6716 83.9792C20.6716 78.2709 16.0441 73.6434 10.3358 73.6434C4.62746 73.6434 0 78.2709 0 83.9792Z" fill="#FFCC33"/>
+        <path d="M3.87589 58.1402C3.87589 61.7079 6.76813 64.6002 10.3359 64.6002C13.9037 64.6002 16.7959 61.7079 16.7959 58.1402C16.7959 54.5724 13.9037 51.6802 10.3359 51.6802C6.76813 51.6802 3.87589 54.5724 3.87589 58.1402Z" fill="#FFCC33"/>
+        <path d="M3.87589 6.46001C3.87589 10.0278 6.76813 12.92 10.3359 12.92C13.9037 12.92 16.7959 10.0278 16.7959 6.46001C16.7959 2.89224 13.9037 0 10.3359 0C6.76813 0 3.87589 2.89224 3.87589 6.46001Z" fill="#FFCC33"/>
+        <path d="M39.664 67.7001C39.664 73.4084 44.2915 78.0359 49.9998 78.0359C55.7082 78.0359 60.3357 73.4084 60.3357 67.7001C60.3357 61.9918 55.7082 57.3643 49.9998 57.3643C44.2915 57.3643 39.664 61.9918 39.664 67.7001Z" fill="#FFCC33"/>
+        <path d="M43.5399 93.5402C43.5399 97.108 46.4322 100 50 100C53.5677 100 56.46 97.108 56.46 93.5402C56.46 89.9724 53.5677 87.0802 50 87.0802C46.4322 87.0802 43.5399 89.9724 43.5399 93.5402Z" fill="#FFCC33"/>
+        <path d="M43.5399 41.8609C43.5399 45.4286 46.4322 48.3209 50 48.3209C53.5677 48.3209 56.46 45.4286 56.46 41.8609C56.46 38.2931 53.5677 35.4008 50 35.4008C46.4322 35.4008 43.5399 38.2931 43.5399 41.8609Z" fill="#FFCC33"/>
+        <path d="M43.5399 16.0208C43.5399 19.5886 46.4322 22.4808 50 22.4808C53.5677 22.4808 56.46 19.5886 56.46 16.0208C56.46 12.453 53.5677 9.56079 50 9.56079C46.4322 9.56079 43.5399 12.453 43.5399 16.0208Z" fill="#FFCC33"/>
+        <path d="M79.3283 32.3C79.3283 38.0084 83.9558 42.6359 89.6642 42.6359C95.3725 42.6359 100 38.0084 100 32.3C100 26.5917 95.3725 21.9642 89.6642 21.9642C83.9558 21.9642 79.3283 26.5917 79.3283 32.3Z" fill="#FFCC33"/>
+        <path d="M83.2043 6.46001C83.2043 10.0278 86.0965 12.92 89.6643 12.92C93.232 12.92 96.1243 10.0278 96.1243 6.46001C96.1243 2.89224 93.232 0 89.6643 0C86.0965 0 83.2043 2.89224 83.2043 6.46001Z" fill="#FFCC33"/>
+        <path d="M83.2043 58.1402C83.2043 61.7079 86.0965 64.6002 89.6643 64.6002C93.232 64.6002 96.1243 61.7079 96.1243 58.1402C96.1243 54.5724 93.232 51.6802 89.6643 51.6802C86.0965 51.6802 83.2043 54.5724 83.2043 58.1402Z" fill="#FFCC33"/>
+        <path d="M83.2043 83.9793C83.2043 87.5471 86.0965 90.4393 89.6643 90.4393C93.232 90.4393 96.1243 87.5471 96.1243 83.9793C96.1243 80.4115 93.232 77.5193 89.6643 77.5193C86.0965 77.5193 83.2043 80.4115 83.2043 83.9793Z" fill="#FFCC33"/>
+      </g>
     </svg>`;
   }
 
@@ -73,7 +117,7 @@
     const chatBtn = document.createElement('button');
     chatBtn.id = 'chat-widget-btn';
     chatBtn.setAttribute('aria-label', 'Open chat');
-    chatBtn.innerHTML = beeSVG(30);
+    chatBtn.innerHTML = aiOctagonSVG(30);
     document.body.appendChild(chatBtn);
 
     // Chat window
@@ -81,13 +125,13 @@
     chatWin.id = 'chat-widget-window';
     chatWin.innerHTML = `
       <div id="chat-widget-header">
-        <div class="chat-widget-header-title">${beeSVG(24)} W&B Docs Agent</div>
-        <button id="chat-widget-close" aria-label="Close chat">×</button>
+        <div class="chat-widget-header-title">${aiOctagonSVG(24)} W&B Agent</div>
       </div>
       <div class="chat-widget-gradient-bar"></div>
       <div id="chat-widget-messages" aria-live="polite"></div>
+      <div class="chat-widget-feedback-row-placeholder"></div>
       <form id="chat-widget-form" autocomplete="off">
-        <textarea id="chat-widget-input" rows="1" placeholder="Type a message..." aria-label="Type a message" maxlength="1000000"></textarea>
+        <textarea id="chat-widget-input" rows="1" placeholder="How do I log a experiment..." aria-label="Type a message" maxlength="1000000"></textarea>
         <button type="submit" aria-label="Send message">
           <svg class="chat-widget-send-icon" width="20" height="20" viewBox="0 0 24 24">
             <path d="M2 21l21-9-21-9v7l15 2-15 2z" fill="#1A1D24"/>
@@ -97,17 +141,53 @@
     `;
     document.body.appendChild(chatWin);
     chatWin.style.display = 'none';
+    chatWin.style.fontFamily = "'Source Sans Pro', Arial, sans-serif";
 
-    // Apply theme on load
+    // Chevron under chat window, aligned under send button
+    const getChatSendBtn = () => chatWin.querySelector('#chat-widget-form button[type="submit"]');
+    const chatChevron = document.createElement('button');
+    chatChevron.id = 'chat-widget-chevron';
+    chatChevron.setAttribute('aria-label', 'Minimize chat');
+    chatChevron.innerHTML = `<svg style="margin-left:4px;margin-top:3px;" width="32" height="20" viewBox="0 0 32 20"><path d="M4 6l12 8 12-8" stroke="#10BFCC" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    chatChevron.style.display = 'none';
+    document.body.appendChild(chatChevron);
+
+    function positionChevron() {
+      const sendBtn = getChatSendBtn();
+      if (!sendBtn) return;
+      const rect = sendBtn.getBoundingClientRect();
+      chatChevron.style.position = 'fixed';
+      chatChevron.style.left = `${rect.left + rect.width / 2 - 4}px`;
+      chatChevron.style.top = `${rect.bottom + 16}px`; // Move chevron/circle down 3px more
+    }
+
+    // --- Theme on load and observer ---
     applyChatTheme(chatWin);
-    // Listen for theme changes (MutationObserver)
     const observer = new MutationObserver(() => applyChatTheme(chatWin));
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-bs-theme'] });
     observer.observe(document.body, { attributes: true, attributeFilter: ['class', 'data-bs-theme'] });
 
     // --- UI Interactions ---
-    chatBtn.onclick = () => { chatWin.style.display = 'flex'; chatBtn.style.display = 'none'; setTimeout(() => focusInput(), 150); };
-    chatWin.querySelector('#chat-widget-close').onclick = () => { chatWin.style.display = 'none'; chatBtn.style.display = 'flex'; };
+    chatBtn.onclick = () => {
+      chatWin.style.display = 'flex';
+      chatChevron.style.display = 'block';
+      positionChevron();
+      chatBtn.style.display = 'none';
+      setTimeout(() => focusInput(), 150);
+    };
+    chatWin.querySelector('#chat-widget-header').onclick = () => {
+      chatWin.style.display = 'none';
+      chatChevron.style.display = 'none';
+      chatBtn.style.display = 'flex';
+    };
+    chatChevron.onclick = () => {
+      chatWin.style.display = 'none';
+      chatChevron.style.display = 'none';
+      chatBtn.style.display = 'flex';
+    };
+    window.addEventListener('resize', () => {
+      if (chatWin.style.display === 'flex') positionChevron();
+    });
     function focusInput() {
       const input = chatWin.querySelector('#chat-widget-input');
       if (input) input.focus();
@@ -147,17 +227,16 @@
           const copyBtn = document.createElement('button');
           copyBtn.className = 'chat-widget-copy-btn';
           copyBtn.type = 'button';
-          copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
+          copyBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
           copyBtn.title = 'Copy code';
           copyBtn.onclick = function(e) {
-            e.preventDefault();
             e.stopPropagation();
             navigator.clipboard.writeText(code.innerText);
             copyBtn.classList.add('copied');
             copyBtn.innerText = 'Copied!';
             setTimeout(() => {
               copyBtn.classList.remove('copied');
-              copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
+              copyBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
             }, 1200);
           };
           pre.style.position = 'relative';
@@ -171,7 +250,7 @@
           allBtn = document.createElement('button');
           allBtn.className = 'chat-widget-copy-all-btn';
           allBtn.type = 'button';
-          allBtn.innerText = 'Copy all code';
+          allBtn.innerHTML = 'Copy all code<span style="display:inline-block;width:6px;"></span><svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align: middle;"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
           allBtn.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -181,7 +260,7 @@
             allBtn.innerText = 'Copied!';
             setTimeout(() => {
               allBtn.classList.remove('copied');
-              allBtn.innerText = 'Copy all code';
+              allBtn.innerHTML = 'Copy all code<span style="display:inline-block;width:6px;"></span><svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align: middle;"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
             }, 1200);
           };
           container.appendChild(allBtn);
@@ -249,7 +328,7 @@
         // Show support widget to user
         appendMsg('support', 'Open support ticket requested');
       };
-      // Thumbs up button
+      // Feedback button
       const happyBtn = document.createElement('button');
       happyBtn.className = 'chat-widget-feedback-btn';
       happyBtn.innerHTML = '👍 I\'m happy';
@@ -269,7 +348,13 @@
       };
       row.appendChild(supportBtn);
       row.appendChild(happyBtn);
-      chatWin.appendChild(row);
+      // Place feedback row above the input box instead of at the bottom of chatWin
+      const form = chatWin.querySelector('#chat-widget-form');
+      if (form && form.parentNode) {
+        form.parentNode.insertBefore(row, form);
+      } else {
+        chatWin.appendChild(row);
+      }
     }
 
     function extractAnswerString(answer) {
@@ -309,14 +394,14 @@
           msgDiv.innerHTML = `
             <div class="chat-widget-ai-content-with-avatar">
               <div class="chat-widget-ai-content">${text}</div>
-              <div class="chat-widget-ai-avatar-row">${beeSVG(24)}</div>
+              <div class="chat-widget-ai-avatar-row">${aiOctagonSVG(28)}</div>
             </div>
           `;
         } else {
           msgDiv.innerHTML = `
             <div class="chat-widget-ai-content-with-avatar">
               <div class="chat-widget-ai-content">${renderMarkdown(text)}</div>
-              <div class="chat-widget-ai-avatar-row">${beeSVG(24)}</div>
+              <div class="chat-widget-ai-avatar-row">${aiOctagonSVG(28)}</div>
             </div>
           `;
         }
@@ -392,7 +477,7 @@
     // --- Animated Waiting Placeholder ---
     function animatedWaiting() {
       return `
-        <span class="chat-widget-loading-animated">
+        <span class="chat-widget-loading-animated chat-widget-loading-animated-small">
           <span class="cw-blob cw-blob1"></span>
           <span class="cw-blob cw-blob2"></span>
           <span class="cw-blob cw-blob3"></span>
@@ -466,6 +551,7 @@
     chatWin.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
         chatWin.style.display = 'none';
+        chatChevron.style.display = 'none';
         chatBtn.style.display = 'flex';
       }
     });
@@ -474,6 +560,7 @@
     window.addEventListener('click', function(e) {
       if (chatWin.style.display === 'flex' && !chatWin.contains(e.target) && e.target !== chatBtn) {
         chatWin.style.display = 'none';
+        chatChevron.style.display = 'none';
         chatBtn.style.display = 'flex';
       }
     });

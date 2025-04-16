@@ -1,6 +1,19 @@
+/*
+Weights & Biases Official Brand Colors::after
+
+Primary Colors:
+Name: Moon-900, Hex: 1A1D24, RGB: 23, 26, 31
+Name: Gold-450, Hex: FAC13C, RGB: 250, 193, 60
+Name: Moon-50, Hex: FAFAFA, RGB: 250, 250, 250
+
+Secondary Colors:
+Name: Teal-450, Hex:10BFCC, RGB: 16, 191, 204
+Name: Moon-450, Hex: 8E949E, RGB: 142, 191, 204
+*/
+
 /* ChatUI-inspired Beautiful Chat Widget Styles (MIT License) */
 #chat-widget-btn {
-  position: fixed; bottom: 28px; right: 28px;
+  position: fixed; bottom: 25px; right: 28px;
   background: #FAC13C; border: none; border-radius: 50%; width: 60px; height: 60px;
   box-shadow: 0 4px 24px rgba(23,26,31,0.18);
   display: flex; align-items: center; justify-content: center;
@@ -14,7 +27,7 @@
   box-shadow: 0 6px 32px rgba(23,26,31,0.25);
 }
 #chat-widget-window {
-  position: fixed; bottom: 30px; right: 30px; width: 800px; max-width: 99vw;
+  position: fixed; bottom: 85px; right: 30px; width: 800px; max-width: 99vw;
   height: 600px; max-height: 90vh; z-index: 9999;
   background: #1A1D24;
   color: #FAFAFA;
@@ -22,13 +35,16 @@
   box-shadow: 0 8px 32px rgba(26,29,36,0.32);
   display: flex; flex-direction: column;
   overflow: hidden;
-  font-family: inherit;
+  font-family: 'Source Sans Pro', 'Arial', 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 0.98em;
+  border: 1px solid #8E949E;
 }
 #chat-widget-header {
   background: #23261F; color: #FAC13C;
   padding: 12px 18px; border-radius: 18px 18px 0 0;
   display: flex; align-items: center; justify-content: space-between;
-  font-weight: 600; font-size: 1.1em;
+  font-weight: 600; font-size: 1em;
+  font-family: 'Source Sans Pro', 'Arial', 'Helvetica Neue', Arial, sans-serif !important;
 }
 .chat-widget-gradient-bar {
   height: 4px;
@@ -56,12 +72,42 @@
   background: transparent; border: none; color: #1A1D24; font-size: 1.5em; cursor: pointer;
   margin-left: 10px; line-height: 1;
 }
+#chat-widget-close-bottom {
+  margin-left: 10px;
+  background: transparent;
+  border: none;
+  color: #FAFAFA;
+  font-size: 1.4em;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0 10px;
+  transition: background 0.18s, color 0.18s;
+  align-self: center;
+}
+#chat-widget-window.chat-widget-light #chat-widget-close-bottom {
+  color: #1A1D24;
+}
+#chat-widget-close-bottom:hover, #chat-widget-close-bottom:focus {
+  background: #FAC13C;
+  color: #1A1D24;
+}
 #chat-widget-form {
   display: flex; border-top: 1px solid #8E949E; background: #1A1D24; padding: 10px 12px;
 }
+#chat-widget-window.chat-widget-light #chat-widget-form {
+  background: #8E949E !important; /* Moon-450 */
+  border-top: 1px solid #D9DCE1 !important;
+}
+#chat-widget-window.chat-widget-light #chat-widget-input {
+  background: #FFFFFF !important;
+  color: #1A1D24 !important;
+  border: 1px solid #10BFCC !important;
+}
 #chat-widget-input {
   flex: 1; border: 1px solid #10BFCC; border-radius: 10px; padding: 8px 12px;
-  font-size: 1em; outline: none; transition: border 0.2s, box-shadow 0.2s;
+  font-size: 0.97em;
+  font-family: 'Source Sans Pro', 'Arial', 'Helvetica Neue', Arial, sans-serif !important;
+  outline: none; transition: border 0.2s, box-shadow 0.2s;
   background: #23261F; color: #FAFAFA;
   resize: none;
   min-height: 36px;
@@ -127,16 +173,18 @@
   color: inherit;
   padding: 0;
   margin: 0;
+  font-family: 'Source Sans Pro', 'Arial', 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 0.97em !important;
 }
 .chat-widget-user-bubble {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1px;
   background: #10BFCC;
   color: #FAFAFA;
   border-radius: 18px;
   box-shadow: 0 2px 8px rgba(23,26,31,0.07);
-  padding: 4px 20px 4px 16px;
+  padding: 8px 16px 4px 2px;
   margin: 4px 0 4px 0;
   max-width: 80%;
   min-width: 48px;
@@ -144,11 +192,11 @@
 }
 .chat-widget-avatar-inside {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin: 0 8px 0 0;
+  width: 28px;
+  height: 28px;
+  margin: -5px 2px 0 0;
   background: none;
   border-radius: 50%;
   overflow: visible;
@@ -158,20 +206,24 @@
 .chat-widget-user-text {
   display: block;
   word-break: break-word;
-  font-size: 1em;
+  font-size: 0.97em !important;
+  font-family: 'Source Sans Pro', 'Arial', 'Helvetica Neue', Arial, sans-serif !important;
   padding: 0;
   margin: 0;
 }
 .chat-widget-ai-content-with-avatar {
   display: block;
   width: 100%;
+  font-family: 'Source Sans Pro', 'Arial', 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 0.97em !important;
 }
 .chat-widget-ai-content {
   width: 100%;
-  padding: 0 0 1px 8px;
+  padding: 0 0 1px 2px; /* Adjust left padding to 2px for fine alignment */
   background: none;
   color: #FAFAFA;
-  font-size: 1em;
+  font-size: 0.97em !important;
+  font-family: 'Source Sans Pro', 'Arial', 'Helvetica Neue', Arial, sans-serif !important;
   word-break: break-word;
   display: block;
 }
@@ -180,12 +232,12 @@
   margin-bottom: 4px;
   display: block;
   width: 100%;
-  height: 28px;
-  padding-left: 8px;
+  height: 36px;
+  padding-left: 1px; /* Move AI avatar icon right by 1px */
   text-align: left !important;
 }
 .chat-widget-ai-avatar-row svg {
-  width: 28px; height: 28px;
+  width: 36px; height: 36px;
   display: block;
   margin: 0;
 }
@@ -204,7 +256,7 @@
   padding: 18px 20px 18px 20px;
   margin: 12px 0 12px 54px;
   box-shadow: 0 2px 14px 0 rgba(160,44,125,0.07);
-  font-size: 1.07em;
+  font-size: 0.96em;
   max-width: 80%;
   position: relative;
   border: 1.5px solid #F2C3F1;
@@ -215,19 +267,17 @@
   min-height: 64px;
 }
 .chat-widget-support-label {
-  font-size: 0.92em;
+  font-size: 0.88em;
   font-weight: 700;
   color: #C73DD6;
   margin-bottom: 8px;
   letter-spacing: 0.02em;
 }
 .chat-widget-support-text {
+  font-size: 0.96em;
+  font-weight: 400;
   color: #A02C7D;
-  font-weight: 500;
-  width: 100%;
-  display: block;
-  text-align: left;
-  padding-bottom: 14px;
+  margin: 0 0 6px 0;
 }
 .chat-widget-user-text-left {
   margin-left: 2px;
@@ -286,6 +336,7 @@
   background: #FAFAFA !important;
   color: #1A1D24 !important;
   box-shadow: 0 8px 32px rgba(26,29,36,0.10);
+  border: 1px solid #D9DCE1 !important;
 }
 #chat-widget-window.chat-widget-light #chat-widget-header {
   background: #F5F5F5 !important;
@@ -461,9 +512,14 @@
   margin: 8px 0 4px 8px;
   height: 28px;
 }
+.chat-widget-loading-animated-small {
+  gap: 4px !important;
+  margin: 4px 0 2px 8px !important;
+  height: 16px !important;
+}
 .cw-blob {
-  width: 18px;
-  height: 18px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: linear-gradient(135deg, #FAC13C 0%, #10BFCC 60%, #8E949E 100%);
   opacity: 0.85;
@@ -519,15 +575,15 @@
   gap: 16px;
   justify-content: center;
   align-items: center;
-  margin: 18px 0 8px 0;
+  margin: 8px 0 8px 0;
 }
 .chat-widget-feedback-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1em;
+  font-size: 0.92em;
   font-weight: 600;
-  padding: 8px 18px;
+  padding: 6px 14px;
   border-radius: 7px;
   border: none;
   cursor: pointer;
@@ -542,4 +598,62 @@
   cursor: not-allowed;
   background: #E0E0E0;
   color: #8E949E;
+}
+
+#chat-widget-chevron {
+  position: fixed;
+  z-index: 10000;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  opacity: 0.85;
+  transition: opacity 0.2s, background 0.2s;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(16,191,204,0.08);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Move chevron/circle down 5px */
+  /* The JS positions it, so we add offset in JS */
+}
+#chat-widget-chevron:hover, #chat-widget-chevron:focus {
+  background: #FAC13C;
+  opacity: 0.65;
+  box-shadow: none;
+}
+#chat-widget-chevron svg {
+  display: block;
+}
+
+/* Import Source Sans Pro and JetBrains Mono from Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+#chat-widget-window, #chat-widget-btn, #chat-widget-header, #chat-widget-input, #chat-widget-form, #chat-widget-messages, .chat-widget-bubble, .chat-widget-user-text, .chat-widget-ai-content, .chat-widget-support-bubble {
+  font-family: 'Source Sans Pro', Arial, sans-serif !important;
+}
+
+/* Use JetBrains Mono for code blocks in markdown */
+.chat-widget-ai-content code, .chat-widget-ai-content pre, .chat-widget-bubble code, .chat-widget-bubble pre {
+  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'Monaco', 'Consolas', monospace !important;
+  font-size: 0.92em;
+  font-variant-ligatures: none;
+  letter-spacing: 0.01em;
+  background: #FAFAFA !important; /* Moon-50 */
+  color: #23261F !important;
+}
+
+/* Make sure code blocks are readable and friendly */
+.chat-widget-ai-content pre, .chat-widget-bubble pre {
+  background: #FAFAFA !important; /* Moon-50 */
+  color: #23261F !important;
+  border-radius: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  margin: 1em 0;
+  font-size: 0.92em;
 }
