@@ -230,26 +230,37 @@ In **Multi-tenant Cloud**, a user can belong to more than one organization. To "
     ```
     ```json
     {
-        "active": true,
-        "displayName": "Dev User 2",
-        "emails": {
-            "Value": "dev-user2@test.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
-        "id": "def",
-        "meta": {
-            "resourceType": "User",
-            "created": "2023-10-01T00:00:00Z",
-            "location": "Users/def"
-        },
-        "schemas": [
-            "urn:ietf:params:scim:schemas:core:2.0:User",
-            "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
-        ],
-        "userName": "dev-user2",
-        "teams": "my-team"
+    "active": true,
+    "displayName": "Dev User 2",
+    "emails": {
+        "Value": "dev-user2@test.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "def",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "location": "Users/def"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+    ],
+    "userName": "dev-user2",
+    "organizationRole": "member",
+    "teamRoles": [
+        {
+        "teamName": "my-team",
+        "roleName": "member"
+        }
+    ],
+    "groups": [
+        {
+        "value": "my-team-id"
+        }
+    ]
     }
     ```
 {{% /tab %}}
