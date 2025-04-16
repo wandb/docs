@@ -341,11 +341,11 @@ This returns the User object.
 - **Method**: PATCH
 - **Description**: Assign an organization-level role to a user. The role can be one of `admin` or `member` as described [here]({{< relref "access-management/manage-organization.md#invite-a-user" >}}).
 
-    {{% alert %}}
-    The `viewer` role is deprecated and can no longer be set in the UI. If you assign the `viewer` role via SCIM, the user is actually assigned the `member` role. If it is available, a Models seat is assigned to the user. Weave seats are not limited. If Weave is enabled, a Weave seat is assigned to the user.
-    {{% /alert %}}
+  {{% alert %}}
+  The `viewer` role is deprecated and can no longer be set in the UI. If you assign the `viewer` role via SCIM, the user is actually assigned the `member` role. If it is available, a Models seat is assigned to the user. Weave seats are not limited. If Weave is enabled, a Weave seat is assigned to the user.
+  {{% /alert %}}
     
-    For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
+  For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
 - **Supported Fields**:
 
 | Field | Type | Required |
