@@ -31,7 +31,7 @@ Access to the SCIM API can be authenticated in two ways:
 
 An organization or instance admin can use basic authentication with their API key to access the SCIM API. Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
 
-### 2. Service Account Authentication
+### Service accounts
 
 Organization service accounts can also access the SCIM API. For service account authentication, the username is left blank and only the API key is used. The API key for service accounts can be found in the service account tab in the organization dashboard.
 
