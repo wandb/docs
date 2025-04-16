@@ -1,5 +1,12 @@
 // ChatUI-inspired Beautiful Chat Widget (MIT License)
 (function () {
+  // --- HTML Escaping Helper ---
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]||c;
+    });
+  }
+
   // Load marked.js from CDN if not present
   if (!window.marked) {
     var script = document.createElement('script');
@@ -28,6 +35,16 @@
       </defs>
       <polygon points="14,3 22,7 25,15 21,23 14,26 7,23 3,15 6,7" fill="url(#userDecaGrad)" stroke="#FAFAFA" stroke-width="1.5"/>
     </svg>`;
+  }
+
+  // --- Support Widget Helper ---
+  function supportWidget(text) {
+    return `
+      <div class="chat-widget-support-bubble">
+        <span class="chat-widget-support-label">Support request</span>
+        <span class="chat-widget-support-text">${text}</span>
+      </div>
+    `;
   }
 
   function main() {
@@ -104,6 +121,94 @@
       else gradientBar.classList.remove('chat-widget-gradient-fast');
     }
 
+    // --- Markdown Rendering ---
+    function renderMarkdown(md) {
+      if (!window.marked) {
+        console.warn('marked.js not loaded, rendering as plain text.');
+        return escapeHtml(md);
+      }
+      try {
+        return window.marked.parse(md, { breaks: true });
+      } catch (e) {
+        console.error('Markdown parse error:', e);
+        return escapeHtml(md);
+      }
+    }
+
+    // --- Enhance Code Blocks ---
+    function enhanceCodeBlocks(container) {
+      const codeBlocks = container.querySelectorAll('pre code');
+      codeBlocks.forEach(code => {
+        // Wrap pre in a div for styling and button
+        const pre = code.parentElement;
+        if (!pre.classList.contains('chat-widget-pre-block')) {
+          pre.classList.add('chat-widget-pre-block');
+          // Add copy button
+          const copyBtn = document.createElement('button');
+          copyBtn.className = 'chat-widget-copy-btn';
+          copyBtn.type = 'button';
+          copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
+          copyBtn.title = 'Copy code';
+          copyBtn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navigator.clipboard.writeText(code.innerText);
+            copyBtn.classList.add('copied');
+            copyBtn.innerText = 'Copied!';
+            setTimeout(() => {
+              copyBtn.classList.remove('copied');
+              copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
+            }, 1200);
+          };
+          pre.style.position = 'relative';
+          pre.appendChild(copyBtn);
+        }
+      });
+      // Add or update the Copy All Code button at the bottom if any code blocks exist
+      let allBtn = container.querySelector('.chat-widget-copy-all-btn');
+      if (codeBlocks.length > 0) {
+        if (!allBtn) {
+          allBtn = document.createElement('button');
+          allBtn.className = 'chat-widget-copy-all-btn';
+          allBtn.type = 'button';
+          allBtn.innerText = 'Copy all code';
+          allBtn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let allCode = Array.from(codeBlocks).map(cb => cb.innerText).join('\n\n');
+            navigator.clipboard.writeText(allCode);
+            allBtn.classList.add('copied');
+            allBtn.innerText = 'Copied!';
+            setTimeout(() => {
+              allBtn.classList.remove('copied');
+              allBtn.innerText = 'Copy all code';
+            }, 1200);
+          };
+          container.appendChild(allBtn);
+        }
+      } else if (allBtn) {
+        allBtn.remove();
+      }
+    }
+
+    // --- Agent Tag Detection Anywhere in Text (revert to remove all occurrences) ---
+    function detectAgentAndCleanText(answerText) {
+      if (typeof answerText !== 'string') return { agent: null, text: answerText };
+      const agentTags = [
+        { tag: '<!<triage_agent>!>', agent: 'triage_agent' },
+        { tag: '<!<support_ticket_agent>!>', agent: 'support_ticket_agent' },
+      ];
+      for (const { tag, agent } of agentTags) {
+        const idx = answerText.indexOf(tag);
+        if (idx !== -1) {
+          // Remove all occurrences of the tag
+          const cleaned = answerText.split(tag).join('').trim();
+          return { agent, text: cleaned };
+        }
+      }
+      return { agent: null, text: answerText };
+    }
+
     // --- Messaging Logic ---
     const msgArea = chatWin.querySelector('#chat-widget-messages');
     const chatForm = chatWin.querySelector('#chat-widget-form');
@@ -133,25 +238,16 @@
         if (supportGiven) return;
         supportGiven = true;
         supportBtn.disabled = true;
-        // Send support request as a message to the agent
-        appendMsg('user', 'USER REQUESTED TO OPEN A SUPPORT TICKET');
-        appendMsg('bot', animatedWaiting(), true);
-        setGradientBarFast(true);
-        scrollToBottom();
+        // Send support request as a message to the agent (background)
         try {
-          const res = await fetch(BACKEND_URL, {
+          await fetch(BACKEND_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: 'USER REQUESTED TO OPEN A SUPPORT TICKET', input_items: chatHistory })
           });
-          const data = await res.json();
-          replaceLoading(data.answer || '[No reply]');
-          if (Array.isArray(data.input_items)) chatHistory = data.input_items;
-        } catch (err) {
-          replaceLoading('<span class="chat-widget-error">[Error: Could not reach backend]</span>');
-        }
-        setGradientBarFast(false);
-        scrollToBottom();
+        } catch (err) {}
+        // Show support widget to user
+        appendMsg('support', 'Open support ticket requested');
       };
       // Thumbs up button
       const happyBtn = document.createElement('button');
@@ -174,6 +270,60 @@
       row.appendChild(supportBtn);
       row.appendChild(happyBtn);
       chatWin.appendChild(row);
+    }
+
+    function extractAnswerString(answer) {
+      // If answer is a string, return as is
+      if (typeof answer === 'string') return answer;
+      // If answer is an object, return the first value (agent message)
+      if (typeof answer === 'object' && answer !== null) {
+        const keys = Object.keys(answer);
+        if (keys.length > 0) return answer[keys[0]];
+        return '[No reply]';
+      }
+      return '[No reply]';
+    }
+    function extractAgentKey(answer) {
+      if (typeof answer === 'object' && answer !== null) {
+        const keys = Object.keys(answer);
+        if (keys.length > 0) return keys[0];
+      }
+      return null;
+    }
+
+    // --- Modified appendMsg to support support widget and left-align user text ---
+    function appendMsg(role, text, isHtml=false, agentKey=null) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-widget-msg ' + role;
+      if (role === 'user') {
+        msgDiv.innerHTML = `
+          <div class="chat-widget-bubble chat-widget-user-bubble">
+            <span class="chat-widget-avatar-inside">${userDecahedronSVG(28)}</span>
+            <span class="chat-widget-user-text chat-widget-user-text-left">${escapeHtml(text).replace(/\n/g, '<br>')}</span>
+          </div>
+        `;
+      } else if (role === 'support') {
+        msgDiv.innerHTML = supportWidget(text);
+      } else {
+        if (isHtml) {
+          msgDiv.innerHTML = `
+            <div class="chat-widget-ai-content-with-avatar">
+              <div class="chat-widget-ai-content">${text}</div>
+              <div class="chat-widget-ai-avatar-row">${beeSVG(24)}</div>
+            </div>
+          `;
+        } else {
+          msgDiv.innerHTML = `
+            <div class="chat-widget-ai-content-with-avatar">
+              <div class="chat-widget-ai-content">${renderMarkdown(text)}</div>
+              <div class="chat-widget-ai-avatar-row">${beeSVG(24)}</div>
+            </div>
+          `;
+        }
+      }
+      msgArea.appendChild(msgDiv);
+      enhanceCodeBlocks(msgDiv);
+      scrollToBottom();
     }
 
     // Auto-grow textarea
@@ -263,13 +413,22 @@
       setGradientBarFast(true); // Speed up while waiting
       scrollToBottom();
       try {
+        const reqPayload = { message: msg, input_items: chatHistory };
+        console.log('[ChatWidget] Sending to docs-agent:', reqPayload);
         const res = await fetch(BACKEND_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: msg, input_items: chatHistory })
+          body: JSON.stringify(reqPayload)
         });
         const data = await res.json();
-        replaceLoading(data.answer || '[No reply]');
+        console.log('[ChatWidget] Received from docs-agent:', data);
+        let answerText = extractAnswerString(data.answer) || '[No reply]';
+        const { agent, text } = detectAgentAndCleanText(answerText);
+        if (agent === 'support_ticket_agent') {
+          replaceLoadingSupport(text);
+        } else {
+          replaceLoading(text);
+        }
         // Update chat history from backend (ensures roles/ordering are correct)
         if (Array.isArray(data.input_items)) chatHistory = data.input_items;
       } catch (err) {
@@ -279,110 +438,15 @@
       scrollToBottom();
     };
 
-    // --- Markdown Rendering ---
-    function renderMarkdown(md) {
-      if (!window.marked) {
-        console.warn('marked.js not loaded, rendering as plain text.');
-        return escapeHtml(md);
+    function replaceLoadingSupport(text) {
+      const loading = msgArea.querySelector('.chat-widget-loading-animated');
+      if (loading) {
+        const parent = loading.parentElement;
+        parent.innerHTML = supportWidget(text);
       }
-      try {
-        return window.marked.parse(md, { breaks: true });
-      } catch (e) {
-        console.error('Markdown parse error:', e);
-        return escapeHtml(md);
-      }
-    }
-    function escapeHtml(str) {
-      return str.replace(/[&<>"']/g, function (c) {
-        return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;','\'':'&#39;'}[c]||c;
-      });
-    }
-    function enhanceCodeBlocks(container) {
-      const codeBlocks = container.querySelectorAll('pre code');
-      codeBlocks.forEach(code => {
-        // Wrap pre in a div for styling and button
-        const pre = code.parentElement;
-        if (!pre.classList.contains('chat-widget-pre-block')) {
-          pre.classList.add('chat-widget-pre-block');
-          // Add copy button
-          const copyBtn = document.createElement('button');
-          copyBtn.className = 'chat-widget-copy-btn';
-          copyBtn.type = 'button';
-          copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
-          copyBtn.title = 'Copy code';
-          copyBtn.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            navigator.clipboard.writeText(code.innerText);
-            copyBtn.classList.add('copied');
-            copyBtn.innerText = 'Copied!';
-            setTimeout(() => {
-              copyBtn.classList.remove('copied');
-              copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
-            }, 1200);
-          };
-          pre.style.position = 'relative';
-          pre.appendChild(copyBtn);
-        }
-      });
-      // Add or update the Copy All Code button at the bottom if any code blocks exist
-      let allBtn = container.querySelector('.chat-widget-copy-all-btn');
-      if (codeBlocks.length > 0) {
-        if (!allBtn) {
-          allBtn = document.createElement('button');
-          allBtn.className = 'chat-widget-copy-all-btn';
-          allBtn.type = 'button';
-          allBtn.innerText = 'Copy all code';
-          allBtn.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let allCode = Array.from(codeBlocks).map(cb => cb.innerText).join('\n\n');
-            navigator.clipboard.writeText(allCode);
-            allBtn.classList.add('copied');
-            allBtn.innerText = 'Copied!';
-            setTimeout(() => {
-              allBtn.classList.remove('copied');
-              allBtn.innerText = 'Copy all code';
-            }, 1200);
-          };
-          container.appendChild(allBtn);
-        }
-      } else if (allBtn) {
-        allBtn.remove();
-      }
+      setGradientBarFast(false);
     }
 
-    function appendMsg(role, text, isHtml=false) {
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'chat-widget-msg ' + role;
-      if (role === 'user') {
-        msgDiv.innerHTML = `
-          <div class="chat-widget-bubble chat-widget-user-bubble">
-            <span class="chat-widget-avatar-inside">${userDecahedronSVG(28)}</span>
-            <span class="chat-widget-user-text">${escapeHtml(text).replace(/\n/g, '<br>')}</span>
-          </div>
-        `;
-      } else {
-        if (isHtml) {
-          msgDiv.innerHTML = `
-            <div class="chat-widget-ai-content-with-avatar">
-              <div class="chat-widget-ai-content">${text}</div>
-              <div class="chat-widget-ai-avatar-row">${beeSVG(24)}</div>
-            </div>
-          `;
-        } else {
-          msgDiv.innerHTML = `
-            <div class="chat-widget-ai-content-with-avatar">
-              <div class="chat-widget-ai-content">${renderMarkdown(text)}</div>
-              <div class="chat-widget-ai-avatar-row">${beeSVG(24)}</div>
-            </div>
-          `;
-        }
-      }
-      msgArea.appendChild(msgDiv);
-      enhanceCodeBlocks(msgDiv);
-      scrollToBottom();
-    }
     function replaceLoading(text) {
       const loading = msgArea.querySelector('.chat-widget-loading-animated');
       if (loading) {
