@@ -215,7 +215,7 @@ In **Multi-tenant Cloud**, a user can belong to more than one organization. To "
     "emails": [
         {
         "primary": true,
-        "value": "admin-user2@test.com"
+        "value": "dev-user2@test.com"
         }
     ],
     "userName": "dev-user2",
