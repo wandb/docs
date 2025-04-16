@@ -75,7 +75,7 @@ run.link_artifact(
 {{< /tabpane >}}
 
 ### Protected aliases
-Use one or more protected aliases to prevent future modification or deletion of an artifact version. Protected aliases are not shared across registries. Only registry admins can add, modify, or remove protected aliases from a registry. See [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}) for information on how to manage users and assign roles in a registry.
+Use one or more protected aliases to prevent future modification or deletion of an artifact version. Protected aliases are not shared across registries. Only [registry admins]({{< relref "/guides/core/registry/configure_registry/#registry-roles" >}}) can add, modify, or remove protected aliases from a registry. See [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}) for information on how to manage users and assign roles in a registry.
 
 Common protected alias names include:
 
