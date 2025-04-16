@@ -35,7 +35,7 @@ An organization or instance admin can use basic authentication with their API ke
 
 Organization service accounts can also access the SCIM API. For service account authentication, the username is left blank and only the API key is used. The API key for service accounts can be found in the service account tab in the organization dashboard.
 
-Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `:API-KEY` (notice the colon at the beginning with no username). For example, to authorize with only an API key such as `sa-p@55w0rd`, the header should be `Authorization: Basic OnNhLXBANTV3MHJk`.
+Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `:API-KEY` (notice the colon at the beginning with no username). For example, to authorize with only an API key such as `sa-p@55w0rd`, set the header to: `Authorization: Basic OnNhLXBANTV3MHJk`.
 
 ## User resource
 
