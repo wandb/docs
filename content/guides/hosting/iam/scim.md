@@ -339,14 +339,20 @@ This returns the User object.
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: PATCH
-- **Description**: Assign an organization-level role to a user. The role can be one of `admin`, `viewer` or `member` as described [here]({{< relref "access-management/manage-organization.md#invite-a-user" >}}). For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
+- **Description**: Assign an organization-level role to a user. The role can be one of `admin` or `member` as described [here]({{< relref "access-management/manage-organization.md#invite-a-user" >}}).
+
+    {{% alert %}}
+    The `viewer` role is deprecated and can no longer be set in the UI. If you assign the `viewer` role via SCIM, the user is actually assigned the `member` role. If it is available, a Models seat is assigned to the user. Weave seats are not limited. If Weave is enabled, a Weave seat is assigned to the user.
+    {{% /alert %}}
+    
+    For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
 - **Supported Fields**:
 
 | Field | Type | Required |
 | --- | --- | --- |
 | op | String | Type of operation. The only allowed value is `replace`. |
 | path | String | The scope at which role assignment operation takes effect. The only allowed value is `organizationRole`. |
-| value | String | The predefined organization-level role to assign to the user. It can be one of `admin`, `viewer` or `member`. This field is case insensitive for predefined roles. |
+| value | String | The predefined organization-level role to assign to the user. It can be one of `admin` or `member`. This field is case insensitive for predefined roles. |
 - **Request Example**:
 
 ```bash
