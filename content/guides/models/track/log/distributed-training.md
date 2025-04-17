@@ -7,10 +7,10 @@ menu:
 title: Log distributed training experiments
 ---
 
-During a distributed training experiment, you train a model using multiple machines or clients in parallel. W&B can help you track distributed training experiments. Based on your use case, use one of the following approaches to track distributed training experiments:
+During a distributed training experiment, you train a model using multiple machines or clients in parallel. W&B can help you track distributed training experiments. Based on your use case, track distributed training experiments using one of the following approaches:
 
-* **Single process**: Track a rank 0 process (also known as a "leader" or "coordinator") with W&B. This is a common solution for logging distributed training experiments with the [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class. 
-* **Multiple processes**: For multiple processes, you can either:
+* **Track a single process**: Track a rank 0 process (also known as a "leader" or "coordinator") with W&B. This is a common solution for logging distributed training experiments with the [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class. 
+* **Track multiple processes**: For multiple processes, you can either:
    * Track each process separately using one run per process. You can optionally group them together in the W&B App UI.
    * Track all processes to a single run.
 
@@ -24,15 +24,18 @@ Explore the code behind these examples in the W&B GitHub examples repository [he
 
 This section describes how to track values and metrics available to your rank 0 process. Within the rank 0 process, initialize a W&B run with [`wandb.init`]({{< relref "/ref//python/init.md" >}}) and log experiments ([`wandb.log`]({{< relref "/ref//python/log.md" >}})) to that run.
 
-W&B does not track metrics from other nodes or processes, such as loss values or inputs from training batches. W&B does track system metrics, such as usage and memory, for all GPUs since that information is available to all processes.
+W&B tracks system metrics, such as usage and memory, for all GPUs since that information is available to all processes. W&B does not track metrics from other nodes or processes, such as loss values or inputs, from training batches. 
 
 {{% alert %}}
-**Use this approach to only track metrics available from a single process**. Typical examples include GPU/CPU utilization, behavior on a shared validation set, gradients and parameters, and loss values on representative data examples.
+**Use this approach to track only metrics that are available from a single process**. Typical metrics include GPU/CPU utilization, behavior on a shared validation set, gradients and parameters, and loss values on representative data examples.
 {{% /alert %}}
 
-As an example, the following [sample Python script (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) demonstrates how to track metrics on two GPUs on a single machine using PyTorch DDP. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the implementation may differ.
+The following [sample Python script (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) demonstrates one way to track metrics on two GPUs on a single machine using PyTorch DDP. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the implementation may differ.
 
-The Python script first starts multiple processes with `torch.distributed.launch`. Next, it checks the rank with the `--local_rank` command line argument. If the rank is set to 0, set up `wandb` logging conditionally in the [`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24) function.
+The Python script:
+1. Starts multiple processes with `torch.distributed.launch`.
+1. Checks the rank with the `--local_rank` command line argument.
+1. If the rank is set to 0, sets up `wandb` logging conditionally in the [`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24) function.
 
 ```python
 if __name__ == "__main__":
@@ -51,7 +54,9 @@ if __name__ == "__main__":
         train(args)
 ```
 
-Explore this example dashboard in the W&B App UI to [view metrics tracked from a single process](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system). The dashboard displays system metrics for both GPUs, such as temperature and utilization.
+Explore an [example dashboard showing metrics tracked from a single process](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system).
+
+The dashboard displays system metrics for both GPUs, such as temperature and utilization.
 
 {{< img src="/images/track/distributed_training_method1.png" alt="Workspace that shows four line plot panels. From left to right the plots are: GPU Utilization (%), GPU Temp (C), GPU Time Spent Accessing Memory (%), and GPU Memory Allocated (%)" >}}
 
@@ -60,6 +65,10 @@ However, the loss values as a function epoch and batch size were only logged fro
 {{< img src="/images/experiments/loss_function_single_gpu.png" alt="Two line plot panels in an example workspace. The left plot shows the loss measured as a function of step. The right plot show the loss recorded at each batch." >}}
 
 ## Track multiple processes
+
+Track multiple processes with W&B with one of the following approaches:
+* [Tracking each process separately]({{< relref "distributed-training/#track-each-process-separately" >}}) by creating a run for each process.
+* [Tracking all processes to a single run]({{< relref "distributed-training/#track-all-processes-to-a-single-run" >}}).
 
 ### Track each process separately
 
@@ -95,13 +104,12 @@ The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see
 
 ### Track all processes to a single run
 
-
 {{% alert color="secondary"  %}}
 Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a GitHub issue at [https://github.com/wandb/wandb](https://github.com/wandb/wandb) to provide feedback.
 {{% /alert %}}
 
 {{% alert %}}
-To track multiple processes to a single run, you must have W&B Python SDK version `>=0.19.0`.
+To track multiple processes to a single run, you must have W&B Python SDK version `>=0.19.5`.
 {{% /alert  %}}
 
 In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
@@ -182,7 +190,55 @@ W&B aggregates system metrics from all nodes and displays them in the W&B App UI
 
 See [Line plots]({{< relref "/guides/models/app/features/panels/line-plot/" >}}) for information on how to customize line plot panels. 
 
-## Avoid common distributed training issues with W&B Service
+## Example use cases
+
+The following code snippets demonstrate common scenarios for advanced distributed use cases.
+
+### Spawn process
+
+Use the `wandb.setup()`method in your main function if you initiate a run in a spawned process:
+
+```python
+import multiprocessing as mp
+
+def do_work(n):
+    run = wandb.init(config=dict(n=n))
+    run.log(dict(this=n * n))
+
+def main():
+    wandb.setup()
+    pool = mp.Pool(processes=4)
+    pool.map(do_work, range(4))
+
+
+if __name__ == "__main__":
+    main()
+```
+
+### Share a run
+
+Pass a run object as an argument to share runs between processes:
+
+```python
+def do_work(run):
+    run.log(dict(this=1))
+
+def main():
+    run = wandb.init()
+    p = mp.Process(target=do_work, kwargs=dict(run=run))
+    p.start()
+    p.join()
+
+
+if __name__ == "__main__":
+    main()
+```
+
+{{% alert %}}
+Note that we can not guarantee the logging order. Synchronization should be done by the author of the script.
+{{% /alert %}}
+
+## Troubleshooting
 
 There are two common issues you might encounter when using W&B and distributed training:
 
@@ -218,55 +274,3 @@ For optimal experience we do recommend you upgrade to the latest version.
 **W&B SDK 0.12.4 and below**
 
 Set the `WANDB_START_METHOD` environment variable to `"thread"` to use multithreading instead if you use a W&B SDK version 0.12.4 and below.
-
-## Example use cases for multiprocessing
-
-The following code snippets demonstrate common scenarios for advanced distributed use cases.
-
-### Spawn process
-
-Use the `wandb.setup()`method in your main function if you initiate a W&B Run in a spawned process:
-
-```python
-import multiprocessing as mp
-
-
-def do_work(n):
-    run = wandb.init(config=dict(n=n))
-    run.log(dict(this=n * n))
-
-
-def main():
-    wandb.setup()
-    pool = mp.Pool(processes=4)
-    pool.map(do_work, range(4))
-
-
-if __name__ == "__main__":
-    main()
-```
-
-### Share a run
-
-Pass a W&B run object as an argument to share runs between processes:
-
-```python
-def do_work(run):
-    run.log(dict(this=1))
-
-
-def main():
-    run = wandb.init()
-    p = mp.Process(target=do_work, kwargs=dict(run=run))
-    p.start()
-    p.join()
-
-
-if __name__ == "__main__":
-    main()
-```
-
-
-{{% alert %}}
-Note that we can not guarantee the logging order. Synchronization should be done by the author of the script.
-{{% /alert %}}
