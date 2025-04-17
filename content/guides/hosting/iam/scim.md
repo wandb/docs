@@ -187,7 +187,7 @@ POST /scim/Users
 ### Delete user
 
 {{% alert color="warning" title="Maintain admin access" %}}
-You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain W&B. If an organization uses SCIM or another automated process to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
+You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain your organization's W&B account. If an organization uses SCIM or another automated process to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
 
 For assistance with developing operational procedures, or to restore admin access, contact [support](mailto:support@wandb.com).
 {{% /alert %}}
