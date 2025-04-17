@@ -18,24 +18,24 @@ This feature requires the [kubernetes operator deployment model](https://docs.wa
 
 Begin by navigating to the System Console by logging into the W&B application and clicking on the user Icon in the upper right screen then selecting `System Console`
 
-    {{< img src="/images/hosting/access_system_console_directly.png" alt="" >}}
+    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="Accessing System Console Via Main Application" >}}
 
 From the `System Console` navigate to `Settings`, `Advanced`, and then the `Other` tab. Scrolling down will reveal the section titled `Disable Auto Upgrades`. This will be in an untoggled state if the automatic application version upgrades are enabled and the version is not pinned.
 
-    {{< img src="/images/hosting/disable_automatic_updates_untoggled.png" alt="" >}}
+    {{< img src="/images/hosting/disable_automatic_updates_untoggled.png" alt="Disable Automatic Updates Untoggled" >}}
 
 To disable automatic application version updates, click the toggle and select the desired version to pin the application to.
 
-    {{< img src="/images/hosting/disable_automatic_updates_enabling.png" alt="" >}}
+    {{< img src="/images/hosting/disable_automatic_updates_enabling.png" alt="Disable Automatic Updates Enabling" >}}
 
 Once the desired application version has been selected, click the `Save` button to complete the process.
 
-    {{< img src="/images/hosting/disable_automatic_updates_unsaved.png" alt="" >}}
+    {{< img src="/images/hosting/disable_automatic_updates_unsaved.png" alt="Disable Automatic Updates Unsaved" >}}
 
 With the desired application version pinned and the `Save` button clicked, automatic application version upgrades will successfully be disabled on the W&B server.
 
-    {{< img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="" >}}
+    {{< img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="Disable Automatic Updates Saved" >}}
 
 This can be verified by going to the `Operator` tab and reviewing the reconciliation logs from the kubernetes operator that manages the W&B server installation.
 
-    {{< img src="/images/hosting/disable_automatic_updates_operator_logs.png" alt="" >}}
+    {{< img src="/images/hosting/disable_automatic_updates_operator_logs.png" alt="Disable Automatic Updates Operator Logs" >}}
