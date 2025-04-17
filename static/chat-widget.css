@@ -465,6 +465,11 @@ Name: Moon-450, Hex: 8E949E, RGB: 142, 191, 204
 #chat-widget-btn svg * {
   pointer-events: none;
 }
+#chat-widget-btn svg {
+  width: 88px;
+  height: 88px;
+  display: block;
+}
 
 /* Responsive */
 @media (max-width: 600px) {

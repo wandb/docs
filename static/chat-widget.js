@@ -38,11 +38,11 @@
   }
 
   // Large black octagon for AI avatar (gold border, gold W&B logo centered, scaled up)
-  function aiOctagonSVG(size=48) {
-    // Even smaller octagon, black fill, gold border, gold W&B logo centered
+  function aiOctagonSVG(size=72) {
+    // Larger octagon for chat-widget-btn
     return `<svg width="${size}" height="${size}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
       <polygon points="24,5.5 39,12 44.5,24 39,39 24,44.5 9,39 3.5,24 9,12" fill="#181818" stroke="#FAC13C" stroke-width="2.2"/>
-      <g transform="translate(16.5,18) scale(0.145)">
+      <g transform="translate(12.5,14) scale(0.21)">
         <path d="M0 32.3C0 38.0084 4.62746 42.6359 10.3358 42.6359C16.0441 42.6359 20.6716 38.0084 20.6716 32.3C20.6716 26.5917 16.0441 21.9642 10.3358 21.9642C4.62746 21.9642 0 26.5917 0 32.3Z" fill="#FAC13C"/>
         <path d="M0 83.9792C0 89.6875 4.62746 94.3151 10.3358 94.3151C16.0441 94.3151 20.6716 89.6875 20.6716 83.9792C20.6716 78.2709 16.0441 73.6434 10.3358 73.6434C4.62746 73.6434 0 78.2709 0 83.9792Z" fill="#FAC13C"/>
         <path d="M3.87589 58.1402C3.87589 61.7079 6.76813 64.6002 10.3359 64.6002C13.9037 64.6002 16.7959 61.7079 16.7959 58.1402C16.7959 54.5724 13.9037 51.6802 10.3359 51.6802C6.76813 51.6802 3.87589 54.5724 3.87589 58.1402Z" fill="#FAC13C"/>
@@ -117,7 +117,7 @@
     const chatBtn = document.createElement('button');
     chatBtn.id = 'chat-widget-btn';
     chatBtn.setAttribute('aria-label', 'Open chat');
-    chatBtn.innerHTML = aiOctagonSVG(30);
+    chatBtn.innerHTML = aiOctagonSVG(88);
     document.body.appendChild(chatBtn);
 
     // Chat window
