@@ -112,7 +112,6 @@ Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a 
 To track multiple processes to a single run, you must have W&B Python SDK version `>=0.19.5`.
 
 For W&B Server deployments, you must have W&B Server version `0.68`.
-{{% /alert %}}
 {{% /alert  %}}
 
 In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
