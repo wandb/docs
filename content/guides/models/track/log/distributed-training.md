@@ -110,6 +110,9 @@ Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a 
 
 {{% alert %}}
 To track multiple processes to a single run, you must have W&B Python SDK version `>=0.19.5`.
+
+For W&B Server deployments, you must have W&B Server version `0.68`.
+{{% /alert %}}
 {{% /alert  %}}
 
 In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
@@ -117,8 +120,8 @@ In this approach you use a primary node and one or more worker nodes. Within the
 Within the primary node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/init.md" >}}). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) wit with the following:
 
 1. The `mode` parameter set to `"shared"` to enable shared mode.
-2. A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
-3. Set the `x_primary` parameter to `True` to indicate that this is the primary node.
+2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/6cf0e1d5e1da665dd0ce4691ae77fba85a56c5c9/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
+3. Set the [`x_primary`](https://github.com/wandb/wandb/blob/6cf0e1d5e1da665dd0ce4691ae77fba85a56c5c9/wandb/sdk/wandb_settings.py#L660) parameter to `True` to indicate that this is the primary node.
 
 Make note of the run ID of the primary node. Each worker node needs the run ID of the primary node.
 
@@ -132,7 +135,7 @@ For each worker node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/
    * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
    * Set the `x_primary` parameter to `False` to indicate that this is a worker node.
 2. Pass the run ID used by the primary node to the `id` parameter.
-3. Optionally set `x_update_finish_state` to `False`. This prevents non-primary nodes from updating the [run's state]({{< relref "/guides/models/track/runs/#run-states" >}}) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
+3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/6cf0e1d5e1da665dd0ce4691ae77fba85a56c5c9/wandb/sdk/wandb_settings.py#L766) to `False`. This prevents non-primary nodes from updating the [run's state]({{< relref "/guides/models/track/runs/#run-states" >}}) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
 
 {{% alert %}}
 Consider using an environment variable to set the run ID of the primary node that you can then define in each worker node's machine.
@@ -162,7 +165,7 @@ run = wandb.init(
 
 # Initialize a run in a worker node using the run ID of the primary node
 run = wandb.init(
-	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=True),
+	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
 	id=run_id,
 )
 ```
