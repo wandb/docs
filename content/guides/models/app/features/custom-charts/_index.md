@@ -102,7 +102,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 
   You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (for example, each data point must have both).
 
-  {{< img src="/images/app_ui/line_plot_bar_chart.png" alt="" >}}
+{{< img src="/images/app_ui/demo_bar_plot.png" alt="Demo bar plot" >}}
 
   [See an example report](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk) or [try an example Google Colab notebook](https://tiny.cc/custom-charts).
 {{% /tab %}}

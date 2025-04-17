@@ -16,20 +16,29 @@ And then see W&B Alerts messages in Slack (or your email):
 
 {{< img src="/images/track/send_alerts_slack.png" alt="" >}}
 
-## How to create an alert
+{{% alert %}}
+W&B Alerts require you to add `run.alert()` to your code. Without modifying your code, [Automations]({{< relref "/guides/core/automations/" >}}) provide another way to notify Slack based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) artifact version is created or when a [run metric]({{< relref "/guides/models/track/runs.md" >}}) meets or changes by a threshold.
+
+For example, an automation can notify a Slack channel when a new version is created, run an automated testing webhook when the `production` alias is added to an artifact, or start a validation job only when a run's `loss` is within acceptable bounds.
+
+[Learn more about automations]({{< relref "/guides/core/automations/" >}}) or [create an automation]({{< relref "/guides/core/automations/create-automations/" >}}).
+{{% /alert %}}
+
+
+## Create an alert
 
 {{% alert %}}
 The following guide only applies to alerts in multi-tenant cloud.
 
-If you're using [W&B Server]({{< relref "/guides/hosting/" >}}) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation]({{< relref "/guides/hosting/monitoring-usage/slack-alerts.md" >}}) to setup Slack alerts.
+If you're using [W&B Server]({{< relref "/guides/hosting/" >}}) in your Private Cloud or on W&B Dedicated Cloud, refer to [Configure Slack alerts in W&B Server]({{< relref "/guides/hosting/monitoring-usage/slack-alerts.md" >}}) to set up Slack alerts.
 {{% /alert %}}
 
+To set up an alert, take these steps, which are detailed in the following sections:
 
-There are two main steps to set up an alert:
+1. Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings).
+2. Add `run.alert()` to your code.
+3. Test the configuration.
 
-1. Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings)
-2. Add `run.alert()` to your code
-3. Confirm alert is set up properly
 ### 1. Turn on alerts in your W&B User Settings
 
 In your [User Settings](https://wandb.ai/settings):
@@ -54,11 +63,11 @@ run = wandb.init()
 run.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
-### 3. Check your Slack or email
+### 3. Test the configuration
 
 Check your Slack or emails for the alert message. If you didn't receive any, make sure you've got emails or Slack turned on for **Scriptable Alerts** in your [User Settings](https://wandb.ai/settings)
 
-### Example
+## Example
 
 This simple alert sends a warning when accuracy falls below a threshold. In this example, it only sends alerts at least 5 minutes apart.
 
@@ -78,7 +87,7 @@ if acc < threshold:
 ```
 
 
-## How to tag or mention users
+## Tag or mention users
 
 Use the at sign `@` followed by the Slack user ID to tag yourself or your colleagues in either the title or the text of the alert. You can find a Slack user ID from their Slack profile page.
 
@@ -86,7 +95,7 @@ Use the at sign `@` followed by the Slack user ID to tag yourself or your collea
 run.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
 ```
 
-## Team alerts
+## Configure team alerts
 
 Team admins can set up alerts for the team on the team settings page: `wandb.ai/teams/your-team`. 
 
