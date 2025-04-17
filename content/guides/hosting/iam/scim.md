@@ -125,7 +125,7 @@ GET /scim/Users
 
 ### Create user
 
-The schema for creating a user is different for **Dedicated Cloud** and **Self-Hosted** than that for **Multi-tenant Cloud**.
+Select your deployment type to view an example of creating a user using SCIM. The request and response schemas differ between **Dedicated Cloud or Self-Managed** and **Multi-tenant Cloud**.
 
 {{< tabpane text=true >}}
 {{% tab header="Dedicated Cloud or Self-managed" %}}
