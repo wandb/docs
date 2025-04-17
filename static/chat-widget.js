@@ -174,6 +174,11 @@
       chatChevron.style.display = 'block';
       positionChevron();
       chatBtn.style.display = 'none';
+      // Remove any existing feedback row and reset flags
+      const oldRow = chatWin.querySelector('.chat-widget-feedback-row');
+      if (oldRow) oldRow.remove();
+      feedbackGiven = false;
+      supportGiven = false;
       setTimeout(() => focusInput(), 150);
     };
     chatWin.querySelector('#chat-widget-header').onclick = () => {
@@ -319,6 +324,11 @@
       e.stopPropagation();
       msgArea.innerHTML = '';
       chatHistory = [];
+      // Remove feedback buttons until AI responds
+      const oldRow2 = chatWin.querySelector('.chat-widget-feedback-row');
+      if (oldRow2) oldRow2.remove();
+      feedbackGiven = false;
+      supportGiven = false;
     };
 
     // --- Feedback/Support Buttons State ---
