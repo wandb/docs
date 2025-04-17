@@ -8,7 +8,7 @@ menu:
 weight: 99
 ---
 
-This page shows how to disable automatic version upgrades for W&B Server and pin its version. These instructions work for deployments managed by the [W&B Kubernetes Operator]({{< relref "/guides/hosting/operator/" >}}) only.
+This page shows how to disable automatic version upgrades for W&B Server and pin its version. These instructions work for deployments managed by the [W&B Kubernetes Operator]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/" >}}) only.
 
 {{% alert %}}
 W&B supports a major W&B Server release for 6 months from its initial release date. Customers with **Self-managed** instances are responsible for upgrading in time to maintain support. Avoid staying on an unsupported version. W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at minimum once per quarter to maintain support and receive the latest features, performance improvements, and fixes.
@@ -30,7 +30,7 @@ To verify that you meet these requirements, refer to the W&B Custom Resource or 
 6. Click **Save**.
 
     {{< img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="Disable Automatic Updates Saved" >}}
-    
+
     Automatic upgrades are turned off and W&B Server is pinned at the version you selected.
 1. Verify that automatic upgrades are turned off. Go to the **Operator** tab and search the reconciliation logs for the string `Version pinning is enabled`.
 
