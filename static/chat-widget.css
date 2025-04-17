@@ -226,6 +226,7 @@ Name: Moon-450, Hex: 8E949E, RGB: 142, 191, 204
   font-family: 'Source Sans Pro', 'Arial', 'Helvetica Neue', Arial, sans-serif !important;
   word-break: break-word;
   display: block;
+  margin-bottom: 12px;
 }
 .chat-widget-ai-avatar-row {
   margin-top: 4px;
@@ -510,18 +511,8 @@ Name: Moon-450, Hex: 8E949E, RGB: 142, 191, 204
 }
 
 /* Wildly beautiful animated waiting blobs for AI response */
-.chat-widget-loading-animated {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 8px 0 4px 8px;
-  height: 28px;
-}
-.chat-widget-loading-animated-small {
-  gap: 4px !important;
-  margin: 4px 0 2px 8px !important;
-  height: 16px !important;
-}
+/* Blob animation (wildly beautiful animated waiting blobs) commented out: replaced by spinning octagon */
+/*
 .cw-blob {
   width: 11px;
   height: 11px;
@@ -541,28 +532,34 @@ Name: Moon-450, Hex: 8E949E, RGB: 142, 191, 204
   60% { transform: translateY(-6px) scale(1.08); opacity: 0.9; }
   80% { transform: translateY(1px) scale(1.02); opacity: 0.8; }
 }
-
-.chat-widget-copy-all-btn {
+*/
+.chat-widget-loading-animated {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 0 auto 0 auto;
-  padding: 6px 20px 4px 20px;
-  background: linear-gradient(90deg, #FAC13C, #10BFCC);
-  color: #1A1D24;
-  border: none;
-  border-radius: 7px;
-  font-weight: 600;
-  font-size: 1em;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(16,191,204,0.07);
-  transition: background 0.2s, color 0.2s;
-  min-width: 120px;
-  min-height: 36px;
+  gap: 8px;
+  margin: 8px 0 4px 8px;
+  height: 28px;
 }
-.chat-widget-copy-all-btn.copied {
-  background: #8E949E;
-  color: #FAFAFA;
+.chat-widget-loading-animated-small {
+  display: flex;
+  justify-content: center;
+  gap: 4px !important;
+  margin: 4px 0 2px 0 !important;
+  height: 16px !important;
+}
+
+.chat-widget-copy-all-btn {
+  display: block;
+  width: max-content;
+  margin: 10px auto 2px;
+  padding: 2px 8px 20px;
+  background: transparent;
+  color: currentColor;
+  border: 1px solid #8E949E;
+  border-radius: 4px;
+  font: inherit;
+  box-shadow: none;
+  transition: background 0.2s;
 }
 
 /* Make AI content text visible in light mode */
@@ -634,6 +631,46 @@ Name: Moon-450, Hex: 8E949E, RGB: 142, 191, 204
   display: block;
 }
 
+/* Rolling logo animation across chat bubble */
+.chat-widget-avatar-roll {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 32px !important;
+  --svg-width: 32px; /* default svg width for bounce calculation */
+  animation: chat-widget-edge-glow calc(var(--roll-duration,8s) + 0.5s) linear infinite alternate;
+}
+.chat-widget-avatar-roll svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: center center;
+  /* Combined slide+spin: flips direction at edges */
+  animation: chat-widget-roll var(--roll-duration,8s) linear infinite alternate !important;
+}
+@keyframes chat-widget-roll {
+  0% {
+    left: 0;
+    transform: rotate(0deg) scaleX(0.8);
+  }
+  5% {
+    transform: rotate(calc(var(--spin-end) * 0.05)) scaleX(1);
+  }
+  95% {
+    transform: rotate(calc(var(--spin-end) * 0.95)) scaleX(1);
+  }
+  100% {
+    left: calc(100% - var(--svg-width));
+    transform: rotate(var(--spin-end,720deg)) scaleX(0.8);
+  }
+}
+
+@keyframes chat-widget-edge-glow {
+  0% { box-shadow: inset 8px 0 0px #10BFCC, inset 4px 0 0px #FAC13C; }
+  5%, 95% { box-shadow: none; }
+  100% { box-shadow: inset -8px 0 0px #10BFCC, inset -4px 0 0px #FAC13C; }
+}
+
 /* Import Source Sans Pro and JetBrains Mono from Google Fonts */
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
@@ -661,4 +698,38 @@ Name: Moon-450, Hex: 8E949E, RGB: 142, 191, 204
   overflow-x: auto;
   margin: 1em 0;
   font-size: 0.92em;
+}
+
+.chat-widget-avatar-spin svg {
+  animation: chat-widget-spin 1.2s linear infinite;
+  display: block;
+  margin: 0 auto;
+}
+@keyframes chat-widget-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Clear Chat button in header */
+#chat-widget-header .chat-widget-header-btn {
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  color: inherit;
+  padding: 2px 6px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85em;
+  font-weight: normal;
+}
+#chat-widget-header .chat-widget-header-btn:hover {
+  background: transparent;
+  color: inherit;
+}
+/* Per-theme hover overlays */
+#chat-widget-window.chat-widget-light #chat-widget-header .chat-widget-header-btn:hover {
+  background: rgba(0,0,0,0.05);
+}
+#chat-widget-window.chat-widget-dark #chat-widget-header .chat-widget-header-btn:hover {
+  background: rgba(255,255,255,0.1);
 }

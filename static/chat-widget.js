@@ -42,7 +42,7 @@
     // Larger octagon for chat-widget-btn
     return `<svg width="${size}" height="${size}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
       <polygon points="24,5.5 39,12 44.5,24 39,39 24,44.5 9,39 3.5,24 9,12" fill="#181818" stroke="#FAC13C" stroke-width="2.2"/>
-      <g transform="translate(12.5,14) scale(0.21)">
+      <g transform="translate(10.5,20) scale(0.21)">
         <path d="M0 32.3C0 38.0084 4.62746 42.6359 10.3358 42.6359C16.0441 42.6359 20.6716 38.0084 20.6716 32.3C20.6716 26.5917 16.0441 21.9642 10.3358 21.9642C4.62746 21.9642 0 26.5917 0 32.3Z" fill="#FAC13C"/>
         <path d="M0 83.9792C0 89.6875 4.62746 94.3151 10.3358 94.3151C16.0441 94.3151 20.6716 89.6875 20.6716 83.9792C20.6716 78.2709 16.0441 73.6434 10.3358 73.6434C4.62746 73.6434 0 78.2709 0 83.9792Z" fill="#FAC13C"/>
         <path d="M3.87589 58.1402C3.87589 61.7079 6.76813 64.6002 10.3359 64.6002C13.9037 64.6002 16.7959 61.7079 16.7959 58.1402C16.7959 54.5724 13.9037 51.6802 10.3359 51.6802C6.76813 51.6802 3.87589 54.5724 3.87589 58.1402Z" fill="#FAC13C"/>
@@ -60,11 +60,11 @@
   }
 
   // Octagon with W&B logo for AI avatar
-  function wandbOctagonSVG(size=44) {
+  function wandbLogoOctagonSVG(size=44) {
     // Even larger octagon (44x44), W&B logo remains the same size and position
     return `<svg width="${size}" height="${size}" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
       <polygon points="22,5 36,11 41,22 36,36 22,41 8,36 3,22 8,11" fill="#181818" stroke="#FAFAFA" stroke-width="2.2"/>
-      <g transform="translate(6.5,6.5) scale(0.23)">
+      <g transform="translate(12,13.5) scale(0.21)">
         <path d="M0 32.3C0 38.0084 4.62746 42.6359 10.3358 42.6359C16.0441 42.6359 20.6716 38.0084 20.6716 32.3C20.6716 26.5917 16.0441 21.9642 10.3358 21.9642C4.62746 21.9642 0 26.5917 0 32.3Z" fill="#FFCC33"/>
         <path d="M0 83.9792C0 89.6875 4.62746 94.3151 10.3358 94.3151C16.0441 94.3151 20.6716 89.6875 20.6716 83.9792C20.6716 78.2709 16.0441 73.6434 10.3358 73.6434C4.62746 73.6434 0 78.2709 0 83.9792Z" fill="#FFCC33"/>
         <path d="M3.87589 58.1402C3.87589 61.7079 6.76813 64.6002 10.3359 64.6002C13.9037 64.6002 16.7959 61.7079 16.7959 58.1402C16.7959 54.5724 13.9037 51.6802 10.3359 51.6802C6.76813 51.6802 3.87589 54.5724 3.87589 58.1402Z" fill="#FFCC33"/>
@@ -117,7 +117,7 @@
     const chatBtn = document.createElement('button');
     chatBtn.id = 'chat-widget-btn';
     chatBtn.setAttribute('aria-label', 'Open chat');
-    chatBtn.innerHTML = aiOctagonSVG(88);
+    chatBtn.innerHTML = wandbLogoOctagonSVG(88);
     document.body.appendChild(chatBtn);
 
     // Chat window
@@ -125,13 +125,14 @@
     chatWin.id = 'chat-widget-window';
     chatWin.innerHTML = `
       <div id="chat-widget-header">
-        <div class="chat-widget-header-title">${aiOctagonSVG(24)} W&B Agent</div>
+        <div class="chat-widget-header-title">${wandbLogoOctagonSVG(32)} W&B Agent</div>
+        <button id="chat-widget-clear" class="chat-widget-header-btn" aria-label="Clear chat">Clear</button>
       </div>
       <div class="chat-widget-gradient-bar"></div>
       <div id="chat-widget-messages" aria-live="polite"></div>
       <div class="chat-widget-feedback-row-placeholder"></div>
       <form id="chat-widget-form" autocomplete="off">
-        <textarea id="chat-widget-input" rows="1" placeholder="How do I log a experiment..." aria-label="Type a message" maxlength="1000000"></textarea>
+        <textarea id="chat-widget-input" rows="1" placeholder="How do I log an experiment..." aria-label="Type a message" maxlength="1000000"></textarea>
         <button type="submit" aria-label="Send message">
           <svg class="chat-widget-send-icon" width="20" height="20" viewBox="0 0 24 24">
             <path d="M2 21l21-9-21-9v7l15 2-15 2z" fill="#1A1D24"/>
@@ -187,6 +188,17 @@
     };
     window.addEventListener('resize', () => {
       if (chatWin.style.display === 'flex') positionChevron();
+    });
+    // --- Keyboard shortcut (Cmd/Ctrl+M) to toggle chat ---
+    document.addEventListener('keydown', function(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'm') {
+        const tag = document.activeElement.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+          if (chatWin.style.display === 'flex') chatChevron.click();
+          else chatBtn.click();
+          e.preventDefault();
+        }
+      }
     });
     function focusInput() {
       const input = chatWin.querySelector('#chat-widget-input');
@@ -263,7 +275,9 @@
               allBtn.innerHTML = 'Copy all code<span style="display:inline-block;width:6px;"></span><svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align: middle;"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
             }, 1200);
           };
-          container.appendChild(allBtn);
+          // append copy-all button under AI-generated content
+          const contentEl = container.querySelector('.chat-widget-ai-content') || container;
+          contentEl.appendChild(allBtn);
         }
       } else if (allBtn) {
         allBtn.remove();
@@ -298,6 +312,14 @@
 
     // --- Conversation History State ---
     let chatHistory = [];
+
+    // Clear chat button functionality
+    const clearBtn = chatWin.querySelector('#chat-widget-clear');
+    clearBtn.onclick = e => {
+      e.stopPropagation();
+      msgArea.innerHTML = '';
+      chatHistory = [];
+    };
 
     // --- Feedback/Support Buttons State ---
     let feedbackGiven = false;
@@ -389,19 +411,21 @@
         `;
       } else if (role === 'support') {
         msgDiv.innerHTML = supportWidget(text);
+      } else if (role === 'bot' && isHtml) {
+        msgDiv.innerHTML = text; // Insert spinner raw HTML for bot loading
       } else {
         if (isHtml) {
           msgDiv.innerHTML = `
             <div class="chat-widget-ai-content-with-avatar">
               <div class="chat-widget-ai-content">${text}</div>
-              <div class="chat-widget-ai-avatar-row">${aiOctagonSVG(28)}</div>
+              <div class="chat-widget-ai-avatar-row">${wandbLogoOctagonSVG(28)}</div>
             </div>
           `;
         } else {
           msgDiv.innerHTML = `
             <div class="chat-widget-ai-content-with-avatar">
               <div class="chat-widget-ai-content">${renderMarkdown(text)}</div>
-              <div class="chat-widget-ai-avatar-row">${aiOctagonSVG(28)}</div>
+              <div class="chat-widget-ai-avatar-row">${wandbLogoOctagonSVG(28)}</div>
             </div>
           `;
         }
@@ -477,10 +501,8 @@
     // --- Animated Waiting Placeholder ---
     function animatedWaiting() {
       return `
-        <span class="chat-widget-loading-animated chat-widget-loading-animated-small">
-          <span class="cw-blob cw-blob1"></span>
-          <span class="cw-blob cw-blob2"></span>
-          <span class="cw-blob cw-blob3"></span>
+        <span class="chat-widget-loading-animated chat-widget-loading-animated-small chat-widget-avatar-roll">
+          ${wandbLogoOctagonSVG(32)}
         </span>
       `;
     }
@@ -495,6 +517,13 @@
       autoGrowTextarea();
       updateSendBtn();
       appendMsg('bot', animatedWaiting(), true);
+      // Dynamic slide-duration and spin based on container width
+      const containerWidth = msgArea.clientWidth;
+      const svgEl = msgArea.querySelector('.chat-widget-avatar-roll svg');
+      const svgWidth = svgEl ? svgEl.getBoundingClientRect().width : 32;
+      const spins = (containerWidth + svgWidth) / svgWidth;
+      msgArea.querySelector('.chat-widget-avatar-roll').style.setProperty('--roll-duration', `${spins}s`);
+      msgArea.querySelector('.chat-widget-avatar-roll').style.setProperty('--spin-end', `${360 * spins}deg`);
       setGradientBarFast(true); // Speed up while waiting
       scrollToBottom();
       try {
