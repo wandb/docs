@@ -30,7 +30,7 @@ To verify that you meet these requirements, refer to the W&B Custom Resource or 
 6. Click **Save**.
 
     {{< img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="Disable Automatic Updates Saved" >}}
-    
+
     Automatic upgrades are turned off and W&B Server is pinned at the version you selected.
 1. Verify that automatic upgrades are turned off. Go to the **Operator** tab and search the reconciliation logs for the string `Version pinning is enabled`.
 
