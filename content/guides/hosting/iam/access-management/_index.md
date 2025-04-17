@@ -30,7 +30,7 @@ Once an organization administrator creates a team, the instance administrator or
 Both the organization administrator and the team administrator use team dashboards at `https://wandb.ai/<your-team-name>` to manage teams. For more information, and to configure a team's default privacy settings, see [Add and manage teams]({{< relref "./manage-organization.md#add-and-manage-teams" >}}).
 
 ## Maintain admin access
-You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain W&B.
+You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain your organization's W&B account.
 
 If users are managed interactively, admin access is required to delete a user, including another admin user. This helps to reduce the risk of the sole admin user being removed.
 
