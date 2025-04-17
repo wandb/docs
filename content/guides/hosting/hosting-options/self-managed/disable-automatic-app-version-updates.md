@@ -1,41 +1,45 @@
 ---
-title: Disable Automatic Application Version Updates
-description: Disable W&B Automatice Application Version Updates
+title: Disable automatic updates for W&B Server
+description: Learn how to disable automatic updates for W&B Server.
 menu:
   default:
     identifier: disable-automatic-app-version-updates
     parent: self-managed
-weight: 1
+weight: 99
 ---
 
-This page describes the proceess for how to disable the W&B server application version automatic updates and how to pin a specific version of the application.
+This page shows how to disable automatic version upgrades for W&B Server and pin its version. These instructions work for deployments managed by the [W&B Kubernetes Operator]({{< relref "/guides/hosting/operator/" >}}) only.
+
+{{% alert %}}
+W&B supports a major W&B Server release for 6 months from its initial release date. Customers with **Self-managed** instances are responsible for upgrading in time to maintain support. Avoid staying on an unsupported version. W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at minimum once per quarter to maintain support and receive the latest features, performance improvements, and fixes.
+{{% /alert %}}
 
 ## Requirements
 
-This feature requires the [kubernetes operator deployment model](https://docs.wandb.ai/guides/hosting/operator/) running at least `v1.13.0` of the operator and `v2.12.2` of the System Console.
+- W&B Kubernetes Operator `v1.13.0` or newer
+- System Console `v2.12.2` or newer
 
-## Disabling Automatic Updates
+To verify that you meet these requirements, refer to the W&B Custom Resource or Helm chart for your instance. Check the `version` values for the `operator-wandb` and `system-console` components.
 
-Begin by navigating to the System Console by logging into the W&B application and clicking on the user Icon in the upper right screen then selecting `System Console`
-
-    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="Accessing System Console Via Main Application" >}}
-
-From the `System Console` navigate to `Settings`, `Advanced`, and then the `Other` tab. Scrolling down will reveal the section titled `Disable Auto Upgrades`. This will be in an untoggled state if the automatic application version upgrades are enabled and the version is not pinned.
-
-    {{< img src="/images/hosting/disable_automatic_updates_untoggled.png" alt="Disable Automatic Updates Untoggled" >}}
-
-To disable automatic application version updates, click the toggle and select the desired version to pin the application to.
-
-    {{< img src="/images/hosting/disable_automatic_updates_enabling.png" alt="Disable Automatic Updates Enabling" >}}
-
-Once the desired application version has been selected, click the `Save` button to complete the process.
-
-    {{< img src="/images/hosting/disable_automatic_updates_unsaved.png" alt="Disable Automatic Updates Unsaved" >}}
-
-With the desired application version pinned and the `Save` button clicked, automatic application version upgrades will successfully be disabled on the W&B server.
+## Disable automatic updates
+1. Log in to the W&B App as a user with the `admin` role.
+2. Click the user icon at the top, then click **System Console**.
+3. Go to **Settings** > **Advanced**, then select the **Other** tab.
+4. In the **Disable Auto Upgrades** section, turn on **Pin specific version**.
+5. Click the **Select a version** drop-down, select a W&B Server version.
+6. Click **Save**.
 
     {{< img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="Disable Automatic Updates Saved" >}}
+    
+    Automatic upgrades are turned off and W&B Server is pinned at the version you selected.
+1. Verify that automatic upgrades are turned off. Go to the **Operator** tab and search the reconciliation logs for the string `Version pinning is enabled`.
 
-This can be verified by going to the `Operator` tab and reviewing the reconciliation logs from the kubernetes operator that manages the W&B server installation.
-
-    {{< img src="/images/hosting/disable_automatic_updates_operator_logs.png" alt="Disable Automatic Updates Operator Logs" >}}
+```
+│info 2025-04-17T17:24:16Z wandb default No changes found
+│info 2025-04-17T17:24:16Z wandb default Active spec found
+│info 2025-04-17T17:24:16Z wandb default Desired spec
+│info 2025-04-17T17:24:16Z wandb default License
+│info 2025-04-17T17:24:16Z wandb default Version Pinning is enabled
+│info 2025-04-17T17:24:16Z wandb default Found Weights & Biases instance, processing the spec...
+│info 2025-04-17T17:24:16Z wandb default === Reconciling Weights & Biases instance...
+```
