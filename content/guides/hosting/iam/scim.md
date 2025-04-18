@@ -25,7 +25,17 @@ In addition, examples use user IDs such as `abc` and `def`. Real requests and re
 
 ## Authentication
 
+Access to the SCIM API can be authenticated in two ways:
+
+### Users
+
 An organization or instance admin can use basic authentication with their API key to access the SCIM API. Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
+
+### Service accounts
+
+An organization service account with the `admin` role can access the SCIM API. The username is left blank and only the API key is used. Find the API key for service accounts in the **Service account** tab in the organization dashboard. Refer to [Organization-scoped service accounts]({{< relref "/guides/hosting/iam/authentication/service-accounts.md/#organization-scoped-service-accounts" >}}).
+
+Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `:API-KEY` (notice the colon at the beginning with no username). For example, to authorize with only an API key such as `sa-p@55w0rd`, set the header to: `Authorization: Basic OnNhLXBANTV3MHJk`.
 
 ## User resource
 
@@ -185,6 +195,12 @@ POST /scim/Users
 ```
 
 ### Delete user
+
+{{% alert color="warning" title="Maintain admin access" %}}
+You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain your organization's W&B account. If an organization uses SCIM or another automated process to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
+
+For assistance with developing operational procedures, or to restore admin access, contact [support](mailto:support@wandb.com).
+{{% /alert %}}
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: DELETE
