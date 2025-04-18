@@ -1,8 +1,5 @@
 ---
 title: Support
-menu:
-    main:
-        weight: 4
 ---
 
 {{< banner title="How can we help?" background="/images/support/support_banner.png" >}}

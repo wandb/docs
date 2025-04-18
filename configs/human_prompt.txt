@@ -1,0 +1,35 @@
+Regarding W&B specifics, we have a list of product names and technical words that are always associated to the product and *never* to be translated. Keep them in english.
+- Artifacts
+- Entities
+- Projects
+- Runs
+- Experiments
+- Datasets
+- Reports
+- Sweeps
+- Weave
+- Launch
+- Models
+- Projects
+- Teams
+- Users
+- Workspace
+- Registered Models
+and more...
+
+These words appear often on lists like this:
+
+1. [**word**](link/target.md): Something about wandb
+2. [**word2**](link/target2.md): Something about wandb again
+etc...
+
+Never translate them in this context.
+
+Here is a chunk of documentation in docusaurus Markdown format to translate. 
+
+```markdown
+{md_chunk}
+```
+
+Return the translation only in markdown format, without adding anything else. Do not add the ```markdown``` tags or any backticks.
+
