@@ -126,7 +126,7 @@ class UnslothLoRAChatModel(weave.Model):
 Now create a new model with a specific link from the registry:
 
 ```python
-ORG_ENTITY = "wandb32"  # replace this with your Org Name
+ORG_ENTITY = "wandb32"  # replace this with your organization name
 artifact_name = "Finetuned Llama-3.2" # replace this with your artifact name
 MODEL_REG_URL = f"wandb-artifact:///{ORG_ENTITY}/wandb-registry-RAG Chat Models/{artifact_name}:v3"
 
