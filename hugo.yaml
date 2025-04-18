@@ -79,6 +79,7 @@ services:
     id: GTM-5BL5RTH
 
 params:
+  docs_agent_backend_url: "http://localhost:8018/docs-agent"
   #search:
   #  algolia:
   #    appId: 2D210VB5MP

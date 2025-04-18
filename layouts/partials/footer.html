@@ -34,5 +34,8 @@
 </footer>
 
 <!-- Chat Widget Injection -->
+<script>
+  window.DOCS_AGENT_BACKEND_URL = "{{ .Site.Params.docs_agent_backend_url }}";
+</script>
 <link rel="stylesheet" href="/chat-widget.css">
 <script src="/chat-widget.js" defer></script>

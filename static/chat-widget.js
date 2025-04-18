@@ -92,7 +92,7 @@
   }
 
   function main() {
-    const BACKEND_URL = 'http://localhost:8000/docs-agent'; // Change to your backend endpoint
+    const BACKEND_URL = window.DOCS_AGENT_BACKEND_URL || 'http://localhost:8018/docs-agent'; // Change to your backend endpoint
 
     // --- Theme Detection & Sync with Site ---
     function getSiteTheme() {
