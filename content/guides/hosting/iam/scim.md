@@ -135,6 +135,10 @@ GET /scim/Users
 
 ### Create user
 
+Select your deployment type to view an example of creating a user using SCIM. The request and response schemas differ between **Dedicated Cloud or Self-Managed** and **Multi-tenant Cloud**.
+
+{{< tabpane text=true >}}
+{{% tab header="Dedicated Cloud or Self-managed" %}}
 - **Endpoint**: **`<host-url>/scim/Users`**
 - **Method**: POST
 - **Description**: Create a new user resource.
@@ -146,33 +150,96 @@ GET /scim/Users
 | userName | String | Yes |
 - **Request Example**:
 
-```bash
-POST /scim/Users
-```
-
-```json
-{
-  "schemas": [
-    "urn:ietf:params:scim:schemas:core:2.0:User"
-  ],
-  "emails": [
+    ```bash
+    POST /scim/Users
+    ```
+    ```json
     {
-      "primary": true,
-      "value": "admin-user2@test.com"
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "emails": [
+        {
+        "primary": true,
+        "value": "dev-user2@test.com"
+        }
+    ],
+    "userName": "dev-user2"
     }
-  ],
-  "userName": "dev-user2"
-}
-```
+    ```
 
 - **Response Example**:
 
-```bash
-(Status 201)
-```
+    ```bash
+    (Status 201)
+    ```
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 2",
+        "emails": {
+            "Value": "dev-user2@test.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "def",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "location": "Users/def"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user2"
+    }
+    ```
+{{% /tab %}}
 
-```json
-{
+{{% tab header="Multi-tenant Cloud" %}}
+In **Multi-tenant Cloud**, a user can belong to more than one organization. To "create" a user in your organization, you add them to one or more teams.
+- **Endpoint**: **`<host-url>/scim/Users`**
+- **Method**: POST
+- **Description**: Create a new user resource.
+- **Supported Fields**:
+
+| Field | Type | Required |
+| --- | --- | --- |
+| emails | Multi-Valued Array | Yes (Make sure `primary` email is set) |
+| userName | String | Yes |
+| teams | Multi-Valued Array | Yes (the user must belong to at minimum one team) |
+
+- **Request Example**:
+
+    ```bash
+    POST /scim/Users
+    ```
+
+    ```json
+    {
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+    ],
+    "emails": [
+        {
+        "primary": true,
+        "value": "dev-user2@test.com"
+        }
+    ],
+    "userName": "dev-user2",
+    "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
+        "teams": ["my-team"]
+        }
+    }
+    ```
+- **Response Example**:
+    ```bash
+    (Status 201)
+    ```
+    ```json
+    {
     "active": true,
     "displayName": "Dev User 2",
     "emails": {
@@ -188,13 +255,35 @@ POST /scim/Users
         "location": "Users/def"
     },
     "schemas": [
-        "urn:ietf:params:scim:schemas:core:2.0:User"
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
     ],
-    "userName": "dev-user2"
-}
-```
+    "userName": "dev-user2",
+    "organizationRole": "member",
+    "teamRoles": [
+        {
+        "teamName": "my-team",
+        "roleName": "member"
+        }
+    ],
+    "groups": [
+        {
+        "value": "my-team-id"
+        }
+    ]
+    }
+    ```
+{{% /tab %}}
+{{< /tabpane >}}
+
 
 ### Delete user
+
+{{% alert color="warning" title="Maintain admin access" %}}
+You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain your organization's W&B account. If an organization uses SCIM or another automated process to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
+
+For assistance with developing operational procedures, or to restore admin access, contact [support](mailto:support@wandb.com).
+{{% /alert %}}
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: DELETE
