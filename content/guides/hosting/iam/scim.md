@@ -441,7 +441,7 @@ This returns the User object.
 - **Description**: Assign an organization-level role to a user. The role can be one of `admin` or `member` as described [here]({{< relref "access-management/manage-organization.md#invite-a-user" >}}).
 
   {{% alert %}}
-  The `viewer` role is deprecated and can no longer be set in the UI. If you assign the `viewer` role via SCIM, the user is actually assigned the `member` role. If it is available, a Models seat is assigned to the user. Weave seats are not limited. If Weave is enabled, a Weave seat is assigned to the user.
+  The `viewer` role is deprecated and can no longer be set in the UI. If you assign the `viewer` role via SCIM, the user is actually assigned the `member` role. The user is automatically provisioned with Models and Weave seats if possible, and with no-access seats otherwise. For organizations that use **Registry**, the user is automatically assigned the `viewer` role in registries that are visible at the organization level.
   {{% /alert %}}
     
   For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
