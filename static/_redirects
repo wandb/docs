@@ -101,10 +101,9 @@
 /guides/artifacts/api /ref/python/public-api/api#artifact 301
 /guides/artifacts/artifacts-core-concepts /guides/artifacts 301
 /guides/artifacts/artifacts-faqs /support/index_artifacts 301
-/guides/artifacts/project-scoped-automations /guides/core/automations 301
 /guides/artifacts/dataset-versioning /guides/artifacts 301
 /guides/artifacts/model-versioning /guides/core/registry/ 301
-/guides/artifacts/project-scoped-automations /guides/core/automations/project-scoped-automations 301
+/guides/core/artifacts/project-scoped-automations /guides/core/automations/automation-events/#project 301
 /guides/artifacts/quickstart /guides/artifacts/artifacts-walkthrough 301
 /guides/artifacts/references /guides/artifacts 301
 /guides/artifacts/using-artifacts /guides/artifacts/download-and-use-an-artifact 301
