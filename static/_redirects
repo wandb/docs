@@ -101,10 +101,9 @@
 /guides/artifacts/api /ref/python/public-api/api#artifact 301
 /guides/artifacts/artifacts-core-concepts /guides/artifacts 301
 /guides/artifacts/artifacts-faqs /support/index_artifacts 301
-/guides/artifacts/project-scoped-automations /guides/core/automations 301
 /guides/artifacts/dataset-versioning /guides/artifacts 301
+/guides/artifacts/project-scoped-automations /guides/core/automations 301
 /guides/artifacts/model-versioning /guides/core/registry/ 301
-/guides/artifacts/project-scoped-automations /guides/core/automations/project-scoped-automations 301
 /guides/artifacts/quickstart /guides/artifacts/artifacts-walkthrough 301
 /guides/artifacts/references /guides/artifacts 301
 /guides/artifacts/using-artifacts /guides/artifacts/download-and-use-an-artifact 301
@@ -119,7 +118,6 @@
 /guides/data-vis/log-tables /guides/track/log/log-tables 301
 /guides/data-vis/tables /guides/models/tables 301
 /guides/data-vis/tables-quickstart /guides/models/tables/tables-walkthrough 301
-
 /guides/datasets-and-predictions / 301
 /guides/experiments/track /guides/track 301
 /guides/hosting/audit-logging /guides/hosting/monitoring-usage/audit-logging 301
