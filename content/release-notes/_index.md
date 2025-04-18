@@ -1,5 +1,6 @@
 ---
 title: Releases
+description: Release notes for supported releases.
 type: docs
 cascade:
 - url: /release-notes/:title/
@@ -10,4 +11,4 @@ menu:
     identifier: release-notes
     weight: 5
 ---
-This section includes release notes for supported W&B Server releases. For releases that have reached end of life and are no longer supported, refer to [Archived releases]({{< relref "releases/archived/" >}}).
+This section includes release notes for supported W&B Server releases.
