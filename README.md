@@ -40,6 +40,25 @@ To report a bug from https://github.com/wandb/docs:
 1. Click **New issue**. Optionally select a template, then click **Create**.
 1. Provide a title and a description. If applicable, include the URL of the page with the bug. Click **Create**.
 
+### Test a tooling change
+To test a tooling change, base your branch on `sandbox`, which is kept in sync with `main`:
+
+```shell
+git checkout -b my_working_branch origin/sandbox
+```
+
+The draft PR https://github.com/wandb/docs/pull/1247 represents the contents of the `sandbox` branch when compared with `main` and merging `main` into that PR keeps `sandbox` up to date. Do not merge the PR.
+
+When you create the pull request, base it on `sandbox` while testing. To do more validation, you can initially merge your PR to `sandbox`. When testing is complete, create a working branch against `main` and cherry-pick your change into it, specifying its SHA in `sandbox`:
+
+```shell
+git cherry-pick <SHA>
+```
+
+Push your branch, raise a PR against `main` and get final review before merging the PR.
+
+In the [`sandbox` PR](https://github.com/wandb/docs/pull/1247), merge `main` into the `sandbox` branch. If you have conflicts, resolve them in favor of `main`. Leave the PR open for future testing.
+
 ## Prerequisites
 
 A current version of NodeJS is required; ideally, something newer than version 20. If you still need to use an old version of node for other projects, we suggest using `nvm` and setting up version 20 using that, which you can swap into with the `use` command:
