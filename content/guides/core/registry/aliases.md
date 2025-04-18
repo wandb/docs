@@ -6,7 +6,7 @@ weight: 5
 
 Use aliases to reference a specific artifact version. [W&B automatically assigns aliases]({{< relref "aliases#default-aliases" >}}) to each artifact you link with the same name. You can also [create one or more custom aliases]({{< relref "aliases#custom-aliases" >}}) to reference a specific artifact version.
 
-Within the Registry UI aliases appear as rectangles with the name of that alias in the rectangle. If an [alias is protected]({{< relref "aliases#protected-aliases" >}}), it appears as a gray rectangle with a lock icon. Otherwise, the alias appears as an orange rectangle.
+Within the Registry UI aliases appear as rectangles with the name of that alias in the rectangle. If an [alias is protected]({{< relref "aliases#protected-aliases" >}}), it appears as a gray rectangle with a lock icon. Otherwise, the alias appears as an orange rectangle. Aliases are not shared across registries.
 
 {{% alert title="When to use a tag versus using an alias" %}}
 Use aliases to reference a specific artifact version. Each alias within a collection is unique. Only one artifact version can have a specific alias at a time.
@@ -98,7 +98,7 @@ Common protected aliases include:
 - **Production**: The artifact version is ready for production use.
 - **Staging**: The artifact version is ready for testing.
 
-#### Create protected aliases in a registry
+#### Create protected aliases
 
 The following steps describe how to create a protected alias in the W&B Registry UI:
 
