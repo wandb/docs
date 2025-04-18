@@ -22,13 +22,9 @@ Explore the code behind these examples in the W&B GitHub examples repository [he
 
 ## Track a single process
 
-This section describes how to track values and metrics available to your rank 0 process. Within the rank 0 process, initialize a W&B run with [`wandb.init`]({{< relref "/ref//python/init.md" >}}) and log experiments ([`wandb.log`]({{< relref "/ref//python/log.md" >}})) to that run.
+This section describes how to track values and metrics available to your rank 0 process. Use this approach to track only metrics that are available from a single process. Typical metrics include GPU/CPU utilization, behavior on a shared validation set, gradients and parameters, and loss values on representative data examples.
 
-W&B tracks system metrics, such as usage and memory, for all GPUs since that information is available to all processes. W&B does not track metrics from other nodes or processes, such as loss values or inputs, from training batches. 
-
-{{% alert %}}
-**Use this approach to track only metrics that are available from a single process**. Typical metrics include GPU/CPU utilization, behavior on a shared validation set, gradients and parameters, and loss values on representative data examples.
-{{% /alert %}}
+Within the rank 0 process, initialize a W&B run with [`wandb.init`]({{< relref "/ref//python/init.md" >}}) and log experiments ([`wandb.log`]({{< relref "/ref//python/log.md" >}})) to that run. 
 
 The following [sample Python script (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) demonstrates one way to track metrics on two GPUs on a single machine using PyTorch DDP. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the implementation may differ.
 
@@ -109,7 +105,7 @@ Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a 
 {{% /alert %}}
 
 {{% alert %}}
-To track multiple processes to a single run, you must have W&B Python SDK version `>=0.19.5`.
+To track multiple processes to a single run, you must have W&B Python SDK version `v0.19.5` or newer.
 {{% /alert  %}}
 
 In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
@@ -117,8 +113,8 @@ In this approach you use a primary node and one or more worker nodes. Within the
 Within the primary node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/init.md" >}}). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) wit with the following:
 
 1. The `mode` parameter set to `"shared"` to enable shared mode.
-2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/6cf0e1d5e1da665dd0ce4691ae77fba85a56c5c9/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
-3. Set the [`x_primary`](https://github.com/wandb/wandb/blob/6cf0e1d5e1da665dd0ce4691ae77fba85a56c5c9/wandb/sdk/wandb_settings.py#L660) parameter to `True` to indicate that this is the primary node.
+2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
+3. Set the [`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) parameter to `True` to indicate that this is the primary node.
 
 Make note of the run ID of the primary node. Each worker node needs the run ID of the primary node.
 
@@ -132,7 +128,7 @@ For each worker node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/
    * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
    * Set the `x_primary` parameter to `False` to indicate that this is a worker node.
 2. Pass the run ID used by the primary node to the `id` parameter.
-3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/6cf0e1d5e1da665dd0ce4691ae77fba85a56c5c9/wandb/sdk/wandb_settings.py#L766) to `False`. This prevents non-primary nodes from updating the [run's state]({{< relref "/guides/models/track/runs/#run-states" >}}) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
+3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state]({{< relref "/guides/models/track/runs/#run-states" >}}) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
 
 {{% alert %}}
 Consider using an environment variable to set the run ID of the primary node that you can then define in each worker node's machine.
@@ -234,9 +230,8 @@ if __name__ == "__main__":
     main()
 ```
 
-{{% alert %}}
-Note that we can not guarantee the logging order. Synchronization should be done by the author of the script.
-{{% /alert %}}
+W&B can not guarantee the logging order. Synchronization should be done by the author of the script.
+
 
 ## Troubleshooting
 
