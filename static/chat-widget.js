@@ -1,0 +1,607 @@
+// ChatUI-inspired Beautiful Chat Widget (MIT License)
+(function () {
+  // --- HTML Escaping Helper ---
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]||c;
+    });
+  }
+
+  // Load marked.js from CDN if not present
+  if (!window.marked) {
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+    script.onload = main;
+    document.head.appendChild(script);
+  } else {
+    main();
+  }
+
+  // CC0 Bee SVG from SVG Repo: https://www.svgrepo.com/svg/228586/bees-bee
+  function beeSVG(size=28) {
+    return aiOctagonSVG(size);
+  }
+
+  // Gradient Decahedron SVG for anonymous user
+  function userDecahedronSVG(size=28) {
+    // A decahedron (10-sided polygon) with a gradient fill
+    return `<svg width="${size}" height="${size}" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="userDecaGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#10BFCC"/>
+          <stop offset="60%" stop-color="#FAC13C"/>
+          <stop offset="100%" stop-color="#8E949E"/>
+        </linearGradient>
+      </defs>
+      <polygon points="14,3 22,7 25,15 21,23 14,26 7,23 3,15 6,7" fill="url(#userDecaGrad)" stroke="#FAFAFA" stroke-width="1.5"/>
+    </svg>`;
+  }
+
+  // Large black octagon for AI avatar (gold border, gold W&B logo centered, scaled up)
+  function aiOctagonSVG(size=72) {
+    // Larger octagon for chat-widget-btn
+    return `<svg width="${size}" height="${size}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="24,5.5 39,12 44.5,24 39,39 24,44.5 9,39 3.5,24 9,12" fill="#181818" stroke="#FAC13C" stroke-width="2.2"/>
+      <g transform="translate(10.5,20) scale(0.21)">
+        <path d="M0 32.3C0 38.0084 4.62746 42.6359 10.3358 42.6359C16.0441 42.6359 20.6716 38.0084 20.6716 32.3C20.6716 26.5917 16.0441 21.9642 10.3358 21.9642C4.62746 21.9642 0 26.5917 0 32.3Z" fill="#FAC13C"/>
+        <path d="M0 83.9792C0 89.6875 4.62746 94.3151 10.3358 94.3151C16.0441 94.3151 20.6716 89.6875 20.6716 83.9792C20.6716 78.2709 16.0441 73.6434 10.3358 73.6434C4.62746 73.6434 0 78.2709 0 83.9792Z" fill="#FAC13C"/>
+        <path d="M3.87589 58.1402C3.87589 61.7079 6.76813 64.6002 10.3359 64.6002C13.9037 64.6002 16.7959 61.7079 16.7959 58.1402C16.7959 54.5724 13.9037 51.6802 10.3359 51.6802C6.76813 51.6802 3.87589 54.5724 3.87589 58.1402Z" fill="#FAC13C"/>
+        <path d="M3.87589 6.46001C3.87589 10.0278 6.76813 12.92 10.3359 12.92C13.9037 12.92 16.7959 10.0278 16.7959 6.46001C16.7959 2.89224 13.9037 0 10.3359 0C6.76813 0 3.87589 2.89224 3.87589 6.46001Z" fill="#FAC13C"/>
+        <path d="M39.664 67.7001C39.664 73.4084 44.2915 78.0359 49.9998 78.0359C55.7082 78.0359 60.3357 73.4084 60.3357 67.7001C60.3357 61.9918 55.7082 57.3643 49.9998 57.3643C44.2915 57.3643 39.664 61.9918 39.664 67.7001Z" fill="#FAC13C"/>
+        <path d="M43.5399 93.5402C43.5399 97.108 46.4322 100 50 100C53.5677 100 56.46 97.108 56.46 93.5402C56.46 89.9724 53.5677 87.0802 50 87.0802C46.4322 87.0802 43.5399 89.9724 43.5399 93.5402Z" fill="#FAC13C"/>
+        <path d="M43.5399 41.8609C43.5399 45.4286 46.4322 48.3209 50 48.3209C53.5677 48.3209 56.46 45.4286 56.46 41.8609C56.46 38.2931 53.5677 35.4008 50 35.4008C46.4322 35.4008 43.5399 38.2931 43.5399 41.8609Z" fill="#FAC13C"/>
+        <path d="M43.5399 16.0208C43.5399 19.5886 46.4322 22.4808 50 22.4808C53.5677 22.4808 56.46 19.5886 56.46 16.0208C56.46 12.453 53.5677 9.56079 50 9.56079C46.4322 9.56079 43.5399 12.453 43.5399 16.0208Z" fill="#FAC13C"/>
+        <path d="M79.3283 32.3C79.3283 38.0084 83.9558 42.6359 89.6642 42.6359C95.3725 42.6359 100 38.0084 100 32.3C100 26.5917 95.3725 21.9642 89.6642 21.9642C83.9558 21.9642 79.3283 26.5917 79.3283 32.3Z" fill="#FAC13C"/>
+        <path d="M83.2043 6.46001C83.2043 10.0278 86.0965 12.92 89.6643 12.92C93.232 12.92 96.1243 10.0278 96.1243 6.46001C96.1243 2.89224 93.232 0 89.6643 0C86.0965 0 83.2043 2.89224 83.2043 6.46001Z" fill="#FAC13C"/>
+        <path d="M83.2043 58.1402C83.2043 61.7079 86.0965 64.6002 89.6643 64.6002C93.232 64.6002 96.1243 61.7079 96.1243 58.1402C96.1243 54.5724 93.232 51.6802 89.6643 51.6802C86.0965 51.6802 83.2043 54.5724 83.2043 58.1402Z" fill="#FAC13C"/>
+        <path d="M83.2043 83.9793C83.2043 87.5471 86.0965 90.4393 89.6643 90.4393C93.232 90.4393 96.1243 87.5471 96.1243 83.9793C96.1243 80.4115 93.232 77.5193 89.6643 77.5193C86.0965 77.5193 83.2043 80.4115 83.2043 83.9793Z" fill="#FAC13C"/>
+      </g>
+    </svg>`;
+  }
+
+  // Octagon with W&B logo for AI avatar
+  function wandbLogoOctagonSVG(size=44) {
+    // Even larger octagon (44x44), W&B logo remains the same size and position
+    return `<svg width="${size}" height="${size}" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="22,5 36,11 41,22 36,36 22,41 8,36 3,22 8,11" fill="#181818" stroke="#FAFAFA" stroke-width="2.2"/>
+      <g transform="translate(12,13.5) scale(0.21)">
+        <path d="M0 32.3C0 38.0084 4.62746 42.6359 10.3358 42.6359C16.0441 42.6359 20.6716 38.0084 20.6716 32.3C20.6716 26.5917 16.0441 21.9642 10.3358 21.9642C4.62746 21.9642 0 26.5917 0 32.3Z" fill="#FFCC33"/>
+        <path d="M0 83.9792C0 89.6875 4.62746 94.3151 10.3358 94.3151C16.0441 94.3151 20.6716 89.6875 20.6716 83.9792C20.6716 78.2709 16.0441 73.6434 10.3358 73.6434C4.62746 73.6434 0 78.2709 0 83.9792Z" fill="#FFCC33"/>
+        <path d="M3.87589 58.1402C3.87589 61.7079 6.76813 64.6002 10.3359 64.6002C13.9037 64.6002 16.7959 61.7079 16.7959 58.1402C16.7959 54.5724 13.9037 51.6802 10.3359 51.6802C6.76813 51.6802 3.87589 54.5724 3.87589 58.1402Z" fill="#FFCC33"/>
+        <path d="M3.87589 6.46001C3.87589 10.0278 6.76813 12.92 10.3359 12.92C13.9037 12.92 16.7959 10.0278 16.7959 6.46001C16.7959 2.89224 13.9037 0 10.3359 0C6.76813 0 3.87589 2.89224 3.87589 6.46001Z" fill="#FFCC33"/>
+        <path d="M39.664 67.7001C39.664 73.4084 44.2915 78.0359 49.9998 78.0359C55.7082 78.0359 60.3357 73.4084 60.3357 67.7001C60.3357 61.9918 55.7082 57.3643 49.9998 57.3643C44.2915 57.3643 39.664 61.9918 39.664 67.7001Z" fill="#FFCC33"/>
+        <path d="M43.5399 93.5402C43.5399 97.108 46.4322 100 50 100C53.5677 100 56.46 97.108 56.46 93.5402C56.46 89.9724 53.5677 87.0802 50 87.0802C46.4322 87.0802 43.5399 89.9724 43.5399 93.5402Z" fill="#FFCC33"/>
+        <path d="M43.5399 41.8609C43.5399 45.4286 46.4322 48.3209 50 48.3209C53.5677 48.3209 56.46 45.4286 56.46 41.8609C56.46 38.2931 53.5677 35.4008 50 35.4008C46.4322 35.4008 43.5399 38.2931 43.5399 41.8609Z" fill="#FFCC33"/>
+        <path d="M43.5399 16.0208C43.5399 19.5886 46.4322 22.4808 50 22.4808C53.5677 22.4808 56.46 19.5886 56.46 16.0208C56.46 12.453 53.5677 9.56079 50 9.56079C46.4322 9.56079 43.5399 12.453 43.5399 16.0208Z" fill="#FFCC33"/>
+        <path d="M79.3283 32.3C79.3283 38.0084 83.9558 42.6359 89.6642 42.6359C95.3725 42.6359 100 38.0084 100 32.3C100 26.5917 95.3725 21.9642 89.6642 21.9642C83.9558 21.9642 79.3283 26.5917 79.3283 32.3Z" fill="#FFCC33"/>
+        <path d="M83.2043 6.46001C83.2043 10.0278 86.0965 12.92 89.6643 12.92C93.232 12.92 96.1243 10.0278 96.1243 6.46001C96.1243 2.89224 93.232 0 89.6643 0C86.0965 0 83.2043 2.89224 83.2043 6.46001Z" fill="#FFCC33"/>
+        <path d="M83.2043 58.1402C83.2043 61.7079 86.0965 64.6002 89.6643 64.6002C93.232 64.6002 96.1243 61.7079 96.1243 58.1402C96.1243 54.5724 93.232 51.6802 89.6643 51.6802C86.0965 51.6802 83.2043 54.5724 83.2043 58.1402Z" fill="#FFCC33"/>
+        <path d="M83.2043 83.9793C83.2043 87.5471 86.0965 90.4393 89.6643 90.4393C93.232 90.4393 96.1243 87.5471 96.1243 83.9793C96.1243 80.4115 93.232 77.5193 89.6643 77.5193C86.0965 77.5193 83.2043 80.4115 83.2043 83.9793Z" fill="#FFCC33"/>
+      </g>
+    </svg>`;
+  }
+
+  // --- Support Widget Helper ---
+  function supportWidget(text) {
+    return `
+      <div class="chat-widget-support-bubble">
+        <span class="chat-widget-support-label">Support request</span>
+        <span class="chat-widget-support-text">${text}</span>
+      </div>
+    `;
+  }
+
+  function main() {
+    const BACKEND_URL = window.DOCS_AGENT_BACKEND_URL || 'http://localhost:8018/docs-agent'; // Change to your backend endpoint
+
+    // --- Theme Detection & Sync with Site ---
+    function getSiteTheme() {
+      const html = document.documentElement;
+      const body = document.body;
+      // Bootstrap 5.3+ uses data-bs-theme, older may use class 'dark'/'light'
+      const attrTheme = html.getAttribute('data-bs-theme') || body.getAttribute('data-bs-theme');
+      if (attrTheme === 'dark' || attrTheme === 'light') return attrTheme;
+      if (html.classList.contains('dark') || body.classList.contains('dark')) return 'dark';
+      if (html.classList.contains('light') || body.classList.contains('light')) return 'light';
+      return null; // fallback to system
+    }
+    function applyChatTheme(win) {
+      win.classList.remove('chat-widget-dark', 'chat-widget-light');
+      const theme = getSiteTheme();
+      if (theme === 'dark') win.classList.add('chat-widget-dark');
+      else if (theme === 'light') win.classList.add('chat-widget-light');
+    }
+
+    // --- DOM Creation ---
+    // Floating button
+    const chatBtn = document.createElement('button');
+    chatBtn.id = 'chat-widget-btn';
+    chatBtn.setAttribute('aria-label', 'Open chat');
+    chatBtn.innerHTML = wandbLogoOctagonSVG(88);
+    document.body.appendChild(chatBtn);
+
+    // Chat window
+    const chatWin = document.createElement('div');
+    chatWin.id = 'chat-widget-window';
+    chatWin.innerHTML = `
+      <div id="chat-widget-header">
+        <div class="chat-widget-header-title">${wandbLogoOctagonSVG(32)} W&B Agent</div>
+        <button id="chat-widget-clear" class="chat-widget-header-btn" aria-label="Clear chat">Clear</button>
+      </div>
+      <div class="chat-widget-gradient-bar"></div>
+      <div id="chat-widget-messages" aria-live="polite"></div>
+      <div class="chat-widget-feedback-row-placeholder"></div>
+      <form id="chat-widget-form" autocomplete="off">
+        <textarea id="chat-widget-input" rows="1" placeholder="How do I log an experiment..." aria-label="Type a message" maxlength="1000000"></textarea>
+        <button type="submit" aria-label="Send message">
+          <svg class="chat-widget-send-icon" width="20" height="20" viewBox="0 0 24 24">
+            <path d="M2 21l21-9-21-9v7l15 2-15 2z" fill="#1A1D24"/>
+          </svg>
+        </button>
+      </form>
+    `;
+    document.body.appendChild(chatWin);
+    chatWin.style.display = 'none';
+    chatWin.style.fontFamily = "'Source Sans Pro', Arial, sans-serif";
+
+    // Chevron under chat window, aligned under send button
+    const getChatSendBtn = () => chatWin.querySelector('#chat-widget-form button[type="submit"]');
+    const chatChevron = document.createElement('button');
+    chatChevron.id = 'chat-widget-chevron';
+    chatChevron.setAttribute('aria-label', 'Minimize chat');
+    chatChevron.innerHTML = `<svg style="margin-left:4px;margin-top:3px;" width="32" height="20" viewBox="0 0 32 20"><path d="M4 6l12 8 12-8" stroke="#10BFCC" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    chatChevron.style.display = 'none';
+    document.body.appendChild(chatChevron);
+
+    function positionChevron() {
+      const sendBtn = getChatSendBtn();
+      if (!sendBtn) return;
+      const rect = sendBtn.getBoundingClientRect();
+      chatChevron.style.position = 'fixed';
+      chatChevron.style.left = `${rect.left + rect.width / 2 - 4}px`;
+      chatChevron.style.top = `${rect.bottom + 16}px`; // Move chevron/circle down 3px more
+    }
+
+    // --- Theme on load and observer ---
+    applyChatTheme(chatWin);
+    const observer = new MutationObserver(() => applyChatTheme(chatWin));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-bs-theme'] });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class', 'data-bs-theme'] });
+
+    // --- UI Interactions ---
+    chatBtn.onclick = () => {
+      chatWin.style.display = 'flex';
+      chatChevron.style.display = 'block';
+      positionChevron();
+      chatBtn.style.display = 'none';
+      // Remove any existing feedback row and reset flags
+      const oldRow = chatWin.querySelector('.chat-widget-feedback-row');
+      if (oldRow) oldRow.remove();
+      feedbackGiven = false;
+      supportGiven = false;
+      setTimeout(() => focusInput(), 150);
+    };
+    chatWin.querySelector('#chat-widget-header').onclick = () => {
+      chatWin.style.display = 'none';
+      chatChevron.style.display = 'none';
+      chatBtn.style.display = 'flex';
+    };
+    chatChevron.onclick = () => {
+      chatWin.style.display = 'none';
+      chatChevron.style.display = 'none';
+      chatBtn.style.display = 'flex';
+    };
+    window.addEventListener('resize', () => {
+      if (chatWin.style.display === 'flex') positionChevron();
+    });
+    // --- Keyboard shortcut (Cmd/Ctrl+M) to toggle chat ---
+    document.addEventListener('keydown', function(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'm') {
+        const tag = document.activeElement.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+          if (chatWin.style.display === 'flex') chatChevron.click();
+          else chatBtn.click();
+          e.preventDefault();
+        }
+      }
+    });
+    function focusInput() {
+      const input = chatWin.querySelector('#chat-widget-input');
+      if (input) input.focus();
+    }
+
+    // --- Gradient bar animation control ---
+    const gradientBar = chatWin.querySelector('.chat-widget-gradient-bar');
+    function setGradientBarFast(isFast) {
+      if (!gradientBar) return;
+      if (isFast) gradientBar.classList.add('chat-widget-gradient-fast');
+      else gradientBar.classList.remove('chat-widget-gradient-fast');
+    }
+
+    // --- Markdown Rendering ---
+    function renderMarkdown(md) {
+      if (!window.marked) {
+        console.warn('marked.js not loaded, rendering as plain text.');
+        return escapeHtml(md);
+      }
+      try {
+        return window.marked.parse(md, { breaks: true });
+      } catch (e) {
+        console.error('Markdown parse error:', e);
+        return escapeHtml(md);
+      }
+    }
+
+    // --- Enhance Code Blocks ---
+    function enhanceCodeBlocks(container) {
+      const codeBlocks = container.querySelectorAll('pre code');
+      codeBlocks.forEach(code => {
+        // Wrap pre in a div for styling and button
+        const pre = code.parentElement;
+        if (!pre.classList.contains('chat-widget-pre-block')) {
+          pre.classList.add('chat-widget-pre-block');
+          // Add copy button
+          const copyBtn = document.createElement('button');
+          copyBtn.className = 'chat-widget-copy-btn';
+          copyBtn.type = 'button';
+          copyBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
+          copyBtn.title = 'Copy code';
+          copyBtn.onclick = function(e) {
+            e.stopPropagation();
+            navigator.clipboard.writeText(code.innerText);
+            copyBtn.classList.add('copied');
+            copyBtn.innerText = 'Copied!';
+            setTimeout(() => {
+              copyBtn.classList.remove('copied');
+              copyBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
+            }, 1200);
+          };
+          pre.style.position = 'relative';
+          pre.appendChild(copyBtn);
+        }
+      });
+      // Add or update the Copy All Code button at the bottom if any code blocks exist
+      let allBtn = container.querySelector('.chat-widget-copy-all-btn');
+      if (codeBlocks.length > 0) {
+        if (!allBtn) {
+          allBtn = document.createElement('button');
+          allBtn.className = 'chat-widget-copy-all-btn';
+          allBtn.type = 'button';
+          allBtn.innerHTML = 'Copy all code<span style="display:inline-block;width:6px;"></span><svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align: middle;"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
+          allBtn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let allCode = Array.from(codeBlocks).map(cb => cb.innerText).join('\n\n');
+            navigator.clipboard.writeText(allCode);
+            allBtn.classList.add('copied');
+            allBtn.innerText = 'Copied!';
+            setTimeout(() => {
+              allBtn.classList.remove('copied');
+              allBtn.innerHTML = 'Copy all code<span style="display:inline-block;width:6px;"></span><svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align: middle;"><rect x="9" y="9" width="13" height="13" rx="2" fill="#10BFCC"/><rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#8E949E" stroke-width="2"/></svg>';
+            }, 1200);
+          };
+          // append copy-all button under AI-generated content
+          const contentEl = container.querySelector('.chat-widget-ai-content') || container;
+          contentEl.appendChild(allBtn);
+        }
+      } else if (allBtn) {
+        allBtn.remove();
+      }
+    }
+
+    // --- Agent Tag Detection Anywhere in Text (revert to remove all occurrences) ---
+    function detectAgentAndCleanText(answerText) {
+      if (typeof answerText !== 'string') return { agent: null, text: answerText };
+      const agentTags = [
+        { tag: '<!<triage_agent>!>', agent: 'triage_agent' },
+        { tag: '<!<support_ticket_agent>!>', agent: 'support_ticket_agent' },
+      ];
+      for (const { tag, agent } of agentTags) {
+        const idx = answerText.indexOf(tag);
+        if (idx !== -1) {
+          // Remove all occurrences of the tag
+          const cleaned = answerText.split(tag).join('').trim();
+          return { agent, text: cleaned };
+        }
+      }
+      return { agent: null, text: answerText };
+    }
+
+    // --- Messaging Logic ---
+    const msgArea = chatWin.querySelector('#chat-widget-messages');
+    const chatForm = chatWin.querySelector('#chat-widget-form');
+    const chatInput = chatWin.querySelector('#chat-widget-input');
+    const chatSendBtn = chatForm.querySelector('button[type="submit"]');
+    const MAXLEN = 1000000;
+    let isOverflow = false;
+
+    // --- Conversation History State ---
+    let chatHistory = [];
+
+    // Clear chat button functionality
+    const clearBtn = chatWin.querySelector('#chat-widget-clear');
+    clearBtn.onclick = e => {
+      e.stopPropagation();
+      msgArea.innerHTML = '';
+      chatHistory = [];
+      // Remove feedback buttons until AI responds
+      const oldRow2 = chatWin.querySelector('.chat-widget-feedback-row');
+      if (oldRow2) oldRow2.remove();
+      feedbackGiven = false;
+      supportGiven = false;
+    };
+
+    // --- Feedback/Support Buttons State ---
+    let feedbackGiven = false;
+    let supportGiven = false;
+
+    function renderFeedbackButtons() {
+      // Only add if not already present and after first AI response
+      if (document.querySelector('.chat-widget-feedback-row')) return;
+      const row = document.createElement('div');
+      row.className = 'chat-widget-feedback-row';
+      // Support button
+      const supportBtn = document.createElement('button');
+      supportBtn.className = 'chat-widget-feedback-btn';
+      supportBtn.innerHTML = '👋 Open support ticket';
+      supportBtn.disabled = supportGiven;
+      supportBtn.onclick = async function() {
+        if (supportGiven) return;
+        supportGiven = true;
+        supportBtn.disabled = true;
+        // Send support request as a message to the agent (background)
+        try {
+          await fetch(BACKEND_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: 'USER REQUESTED TO OPEN A SUPPORT TICKET', input_items: chatHistory })
+          });
+        } catch (err) {}
+        // Show support widget to user
+        appendMsg('support', 'Open support ticket requested');
+      };
+      // Feedback button
+      const happyBtn = document.createElement('button');
+      happyBtn.className = 'chat-widget-feedback-btn';
+      happyBtn.innerHTML = '👍 I\'m happy';
+      happyBtn.disabled = feedbackGiven;
+      happyBtn.onclick = async function() {
+        if (feedbackGiven) return;
+        feedbackGiven = true;
+        happyBtn.disabled = true;
+        // Send feedback as a separate field
+        try {
+          await fetch(BACKEND_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: '', input_items: chatHistory, feedback: 'good' })
+          });
+        } catch (err) {}
+      };
+      row.appendChild(supportBtn);
+      row.appendChild(happyBtn);
+      // Place feedback row above the input box instead of at the bottom of chatWin
+      const form = chatWin.querySelector('#chat-widget-form');
+      if (form && form.parentNode) {
+        form.parentNode.insertBefore(row, form);
+      } else {
+        chatWin.appendChild(row);
+      }
+    }
+
+    function extractAnswerString(answer) {
+      // If answer is a string, return as is
+      if (typeof answer === 'string') return answer;
+      // If answer is an object, return the first value (agent message)
+      if (typeof answer === 'object' && answer !== null) {
+        const keys = Object.keys(answer);
+        if (keys.length > 0) return answer[keys[0]];
+        return '[No reply]';
+      }
+      return '[No reply]';
+    }
+    function extractAgentKey(answer) {
+      if (typeof answer === 'object' && answer !== null) {
+        const keys = Object.keys(answer);
+        if (keys.length > 0) return keys[0];
+      }
+      return null;
+    }
+
+    // --- Modified appendMsg to support support widget and left-align user text ---
+    function appendMsg(role, text, isHtml=false, agentKey=null) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-widget-msg ' + role;
+      if (role === 'user') {
+        msgDiv.innerHTML = `
+          <div class="chat-widget-bubble chat-widget-user-bubble">
+            <span class="chat-widget-avatar-inside">${userDecahedronSVG(28)}</span>
+            <span class="chat-widget-user-text chat-widget-user-text-left">${escapeHtml(text).replace(/\n/g, '<br>')}</span>
+          </div>
+        `;
+      } else if (role === 'support') {
+        msgDiv.innerHTML = supportWidget(text);
+      } else if (role === 'bot' && isHtml) {
+        msgDiv.innerHTML = text; // Insert spinner raw HTML for bot loading
+      } else {
+        if (isHtml) {
+          msgDiv.innerHTML = `
+            <div class="chat-widget-ai-content-with-avatar">
+              <div class="chat-widget-ai-content">${text}</div>
+              <div class="chat-widget-ai-avatar-row">${wandbLogoOctagonSVG(28)}</div>
+            </div>
+          `;
+        } else {
+          msgDiv.innerHTML = `
+            <div class="chat-widget-ai-content-with-avatar">
+              <div class="chat-widget-ai-content">${renderMarkdown(text)}</div>
+              <div class="chat-widget-ai-avatar-row">${wandbLogoOctagonSVG(28)}</div>
+            </div>
+          `;
+        }
+      }
+      msgArea.appendChild(msgDiv);
+      enhanceCodeBlocks(msgDiv);
+      scrollToBottom();
+    }
+
+    // Auto-grow textarea
+    function autoGrowTextarea(e) {
+      chatInput.style.height = 'auto';
+      chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+    }
+    chatInput.addEventListener('input', autoGrowTextarea);
+    chatInput.addEventListener('paste', function(e) {
+      setTimeout(autoGrowTextarea, 0);
+    });
+    // Initial grow
+    autoGrowTextarea();
+
+    // Disable send button if input is empty or whitespace
+    function updateSendBtn() {
+      chatSendBtn.disabled = !chatInput.value.trim() || isOverflow;
+    }
+    chatInput.addEventListener('input', updateSendBtn);
+    updateSendBtn();
+
+    // Visual feedback for overflow
+    chatInput.addEventListener('input', function() {
+      isOverflow = chatInput.value.length > MAXLEN;
+      if (isOverflow) {
+        chatInput.classList.add('chat-widget-input-overflow');
+        chatInput.value = chatInput.value.slice(0, MAXLEN);
+        // Shake animation
+        chatInput.classList.add('shake');
+        setTimeout(() => chatInput.classList.remove('shake'), 400);
+      } else {
+        chatInput.classList.remove('chat-widget-input-overflow');
+      }
+      updateSendBtn();
+    });
+
+    // Keyboard navigation: Tab/Shift+Tab, Ctrl+A, Home/End work by default in textarea
+    chatInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        if (e.shiftKey) {
+          // Insert newline (default behavior)
+          return;
+        } else {
+          // Submit form
+          e.preventDefault();
+          if (!chatSendBtn.disabled) chatForm.requestSubmit();
+        }
+      }
+      // Tab/Shift+Tab navigation
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          // Shift+Tab: move focus to send button
+          chatSendBtn.focus();
+          e.preventDefault();
+        }
+      }
+    });
+    chatSendBtn.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab' && !e.shiftKey) {
+        // Tab from button goes back to textarea
+        chatInput.focus();
+        e.preventDefault();
+      }
+    });
+
+    // --- Animated Waiting Placeholder ---
+    function animatedWaiting() {
+      return `
+        <span class="chat-widget-loading-animated chat-widget-loading-animated-small chat-widget-avatar-roll">
+          ${wandbLogoOctagonSVG(32)}
+        </span>
+      `;
+    }
+
+    chatForm.onsubmit = async function (e) {
+      e.preventDefault();
+      const input = chatWin.querySelector('#chat-widget-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+      appendMsg('user', msg);
+      input.value = '';
+      autoGrowTextarea();
+      updateSendBtn();
+      appendMsg('bot', animatedWaiting(), true);
+      // Dynamic slide-duration and spin based on container width
+      const containerWidth = msgArea.clientWidth;
+      const svgEl = msgArea.querySelector('.chat-widget-avatar-roll svg');
+      const svgWidth = svgEl ? svgEl.getBoundingClientRect().width : 32;
+      const spins = (containerWidth + svgWidth) / svgWidth;
+      msgArea.querySelector('.chat-widget-avatar-roll').style.setProperty('--roll-duration', `${spins}s`);
+      msgArea.querySelector('.chat-widget-avatar-roll').style.setProperty('--spin-end', `${360 * spins}deg`);
+      setGradientBarFast(true); // Speed up while waiting
+      scrollToBottom();
+      try {
+        const reqPayload = { message: msg, input_items: chatHistory };
+        console.log('[ChatWidget] Sending to docs-agent:', reqPayload);
+        const res = await fetch(BACKEND_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(reqPayload)
+        });
+        const data = await res.json();
+        console.log('[ChatWidget] Received from docs-agent:', data);
+        let answerText = extractAnswerString(data.answer) || '[No reply]';
+        const { agent, text } = detectAgentAndCleanText(answerText);
+        if (agent === 'support_ticket_agent') {
+          replaceLoadingSupport(text);
+        } else {
+          replaceLoading(text);
+        }
+        // Update chat history from backend (ensures roles/ordering are correct)
+        if (Array.isArray(data.input_items)) chatHistory = data.input_items;
+      } catch (err) {
+        replaceLoading('<span class="chat-widget-error">[Error: Could not reach backend]</span>');
+      }
+      setGradientBarFast(false); // Slow down when done
+      scrollToBottom();
+    };
+
+    function replaceLoadingSupport(text) {
+      const loading = msgArea.querySelector('.chat-widget-loading-animated');
+      if (loading) {
+        const parent = loading.parentElement;
+        parent.innerHTML = supportWidget(text);
+      }
+      setGradientBarFast(false);
+    }
+
+    function replaceLoading(text) {
+      const loading = msgArea.querySelector('.chat-widget-loading-animated');
+      if (loading) {
+        const parent = loading.parentElement;
+        parent.innerHTML = `<div class="chat-widget-ai-content">${renderMarkdown(text)}</div>`;
+        enhanceCodeBlocks(parent);
+        // Add feedback/support buttons after first AI response
+        if (!feedbackGiven && !supportGiven) renderFeedbackButtons();
+      }
+      setGradientBarFast(false); // Slow down when done
+    }
+    function scrollToBottom() {
+      msgArea.scrollTop = msgArea.scrollHeight;
+    }
+
+    // --- Accessibility: ESC closes chat, Enter submits ---
+    chatWin.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        chatWin.style.display = 'none';
+        chatChevron.style.display = 'none';
+        chatBtn.style.display = 'flex';
+      }
+    });
+
+    // --- Responsive: close on outside click (mobile) ---
+    window.addEventListener('click', function(e) {
+      if (chatWin.style.display === 'flex' && !chatWin.contains(e.target) && e.target !== chatBtn) {
+        chatWin.style.display = 'none';
+        chatChevron.style.display = 'none';
+        chatBtn.style.display = 'flex';
+      }
+    });
+  }
+})();
