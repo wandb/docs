@@ -8,9 +8,7 @@ title: Add W&B (wandb) to your code
 weight: 2
 ---
 
-There are numerous ways to add the W&B Python SDK to your script or Jupyter
-Notebook. Outlined below is a "best practice" example of how to integrate the
-W&B Python SDK into your own code.
+There are numerous ways to add the W&B Python SDK to your script or notebook. This section provides a "best practice" example that shows how to integrate the W&B Python SDK into your own code.
 
 ### Original training script
 
