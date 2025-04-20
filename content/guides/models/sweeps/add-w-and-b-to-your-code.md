@@ -270,8 +270,7 @@ For more information on how to start sweep jobs, see [Start sweep jobs]({{< relr
 
 ## Consideration when logging metrics
 
-Ensure to log the metric you specify in your sweep configuration explicitly to
-W&B. Do not log metrics for your sweep inside of a sub-directory.
+Be sure to log the sweep's metric to W&B explicitly. Do not log metrics for your sweep inside a subdirectory.
 
 For example, consider the proceeding psuedocode. A user wants to log the validation loss (`"val_loss": loss`). First they pass the values into a dictionary. However, the dictionary passed to `wandb.log` does not explicitly access the key-value pair in the dictionary:
 
