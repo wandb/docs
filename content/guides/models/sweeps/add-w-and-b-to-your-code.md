@@ -239,7 +239,7 @@ def main():
 main()
 ```
 
-Navigate to your CLI. Within your CLI, set a maximum number of runs the sweep
+In your CLI, set a maximum number of runs for the sweep
 agent to try. This is optional. This example we set the
 maximum number to five.
 
