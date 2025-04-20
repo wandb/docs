@@ -176,7 +176,7 @@ parameters:
 
 For more information on how to create a W&B Sweep configuration, see [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}).
 
-Note that you must provide the name of your Python script for the `program` key
+You must provide the name of your Python script for the `program` key
 in your YAML file.
 
 Next, we add the following to the code example:
