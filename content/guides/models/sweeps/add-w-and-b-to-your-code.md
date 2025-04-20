@@ -247,10 +247,7 @@ maximum number to 5.
 NUM=5
 ```
 
-Next, initialize the sweep with the [`wandb
-sweep`]({{< relref "/ref/cli/wandb-sweep.md" >}}) command. Provide the name of
-the YAML file. Optionally provide the name of the project for the project flag
-(`--project`):
+Next, initialize the sweep with the [`wandb sweep`]({{< relref "/ref/cli/wandb-sweep.md" >}}) command. Provide the name of the YAML file. Optionally provide the name of the project for the project flag (`--project`):
 
 ```bash
 wandb sweep --project sweep-demo-cli config.yaml
