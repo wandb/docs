@@ -241,7 +241,7 @@ main()
 
 In your CLI, set a maximum number of runs for the sweep
 agent to try. This is optional. This example we set the
-maximum number to five.
+maximum number to 5.
 
 ```bash
 NUM=5
