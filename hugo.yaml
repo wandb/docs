@@ -166,7 +166,7 @@ params:
       enable: true
       # The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
       'yes': >-
-        Glad to hear it! If you have further feedback, please <a href="https://github.com/wandb/docs/issues/new?template=praise.md">let us knowe</a>.
+        Glad to hear it! If you have further feedback, please <a href="https://github.com/wandb/docs/issues/new?template=praise.md">let us know</a>.
       'no': >-
         Sorry to hear that. Please <a href="https://github.com/wandb/docs/issues/new?template=feedback.md">tell us how we can improve</a>.
     # Adds a reading time to the top of each doc.
