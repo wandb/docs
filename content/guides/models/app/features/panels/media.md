@@ -30,7 +30,7 @@ This section shows how to customize a media panel, either when you are manually 
 
 1. When you a media panel manually, its configuration page opens after you select the type of media. To configure a panel after it is created, click its gear icon.
 1. In the **Basic** tab, give the panel a name, select the keys to visualize, and configure the maximum number of runs, number of columns, and number of items to show.
-1. Optionally configure additional settings in the **Advanced** tab. You can turn on or off **Grid mode** and configure the stride length and snapping behavior for each column.
+1. Optionally configure additional settings in the **Advanced** tab. You can configure smoothing for images, turn on or off **Grid mode** to overlay a configurable X-axis and Y-axis on the panel, adjust the stepper's metric and stride length, and optionally adjust the stepper's offset so that the panel always stops at the current step.
 1. Click **Apply**.
 
 ## Interact with a media panel
