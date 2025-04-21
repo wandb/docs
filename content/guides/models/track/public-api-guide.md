@@ -225,17 +225,6 @@ these are the different outputs for the above run object attributes
 {"n_epochs": 5}
 ```
 
-#### `run.history()`
-
-```shell
-   _step  val   loss  _runtime  _timestamp
-0      0  500  0.244         4  1644345412
-1      1   45  0.521         4  1644345412
-2      2  240  0.785         4  1644345412
-3      3   31  0.305         4  1644345412
-4      4  525  0.041         4  1644345412
-```
-
 #### `run.summary`
 
 ```python
