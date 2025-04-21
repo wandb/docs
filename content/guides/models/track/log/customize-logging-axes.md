@@ -49,11 +49,11 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-Within the W&B UI, you can see that the `validation_loss` is plotted against `custom_step`. Note how the x-axes is set to the square of the for loop index `i`.
+Within the W&B UI, you can see that the `validation_loss` is plotted against `custom_step`. Note how the x-axis is set to the square of the for loop index `i`.
 
-{{< img src="/images/experiments/custom_x_axes.png" alt="Line plot panel that uses custom x axes. Values are logged to W&B as the square of the loop number (i**2)." >}}
+{{< img src="/images/experiments/custom_x_axes.png" alt="Line plot panel that uses a custom x axis. Values are logged to W&B as the square of the loop number (i**2)." >}}
 
-You can set custom x-axis for multiple metrics using `globs` with string prefixes. As an example, the following code snippet plots logged metrics with the prefix `"train/*"` to the x-axis `"train/step"`:
+You can set a custom x-axis for multiple metrics using `globs` with string prefixes. As an example, the following code snippet plots logged metrics with the prefix `"train/*"` to the x-axis `"train/step"`:
 
 ```python
 import wandb
