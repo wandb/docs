@@ -25,7 +25,7 @@ with wandb.init() as run:
 
 The previous code snippet generates a line plot panel in the W&B UI that shows the `validation/loss` metric as a function of the step number. 
 
-{{< img src="/images/experiments/standard_axes.png" alt="" >}}
+{{< img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses default x-axis. Each step in monotonically increases by 1." >}}
 
 However, there are cases where you might want to log metrics against a different x-axis. In this case, use the [`define_metric`]({{< relref "ref/python/run/#define_metric" >}}) method to define a custom x-axis. 
 
