@@ -2,7 +2,7 @@
 title: agent
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/wandb_agent.py#L532-L576 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/wandb_agent.py#L532-L576 >}}
 
 Start one or more sweep agents.
 
