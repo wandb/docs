@@ -505,7 +505,7 @@ The **Artifacts** tab lists the input and output [artifacts]({{< relref "/guides
 
 {{< img src="/images/app_ui/artifacts_tab.png" alt="" >}}
 
-View [Example artifact graphs]({{< relref "/guides/artifacts/explore-and-traverse-an-artifact-graph.md" >}}).
+View [Example artifact graphs]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph.md" >}}).
 
 ## Delete runs
 
