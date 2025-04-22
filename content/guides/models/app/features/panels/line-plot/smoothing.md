@@ -8,22 +8,30 @@ title: Smooth line plots
 weight: 30
 ---
 
-W&B supports three types of smoothing:
+W&B supports three types of back-end smoothing applied by W&B Server:
 
-- [exponential moving average]({{< relref "smoothing.md#exponential-moving-average-default" >}}) (default)
-- [gaussian smoothing]({{< relref "smoothing.md#gaussian-smoothing" >}})
-- [running average]({{< relref "smoothing.md#running-average" >}})
-- [exponential moving average - Tensorboard]({{< relref "smoothing.md#exponential-moving-average-deprecated" >}}) (deprecated)
+- [Time weighted exponential moving average (default)]({{< relref "#time-weighted-exponential-moving-average-default" >}}) 
+- [gaussian smoothing]({{< relref "#gaussian-smoothing" >}})
+- [running average]({{< relref "#running-average" >}})
+- [Tensorboard's exponential moving average smoothing algorithm]({{< relref "smoothing.md#exponential-moving-average" >}})
 
 See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc).
 
 {{< img src="/images/app_ui/beamer_smoothing.gif" alt="" >}}
 
-## Exponential Moving Average (Default)
 
-Exponential smoothing is a technique for smoothing time series data by exponentially decaying the weight of previous points. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a de-bias term added so that early values in the time series are not biased towards zero.
 
-The EMA algorithm takes the density of points on the line (the number of `y` values per unit of range on x-axis) into account. This allows consistent smoothing when displaying multiple lines with different characteristics simultaneously.
+## Time Weighted Exponential Moving Average (Default)
+
+The Time Weighted Exponential Moving Average (TWEMA) smoothing algorithm is a technique for smoothing time series data by exponentially decaying the weight of previous points. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a de-bias term added so that early values in the time series are not biased towards zero.
+
+The TWEMA algorithm takes the density of points on the line (the number of `y` values per unit of range on x-axis) into account. This allows consistent smoothing when displaying multiple lines with different characteristics simultaneously.
+
+TWEMA smoothing is applied by W&B Server to a full scan of history, rather than sampling or bucketing first before smoothing. In general, it is more accurate than EMA smoothing. However, in the following situations, TWEMA smoothing is not supported and EMA smoothing is used instead:
+- Sampling
+- Grouping
+- non-monotonic x-axes
+
 
 Here is sample code for how this works under the hood:
 
@@ -47,7 +55,7 @@ return yValues.map((yPoint, index) => {
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
-{{< img src="/images/app_ui/weighted_exponential_moving_average.png" alt="" >}}
+{{< img src="/images/app_ui/weighted_exponential_moving_average.png" alt="Demo of TWEMA smoothing" >}}
 
 ## Gaussian Smoothing
 
@@ -57,7 +65,7 @@ Gaussian smoothing is a good standard choice for smoothing if you are not concer
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing):
 
-{{< img src="/images/app_ui/gaussian_smoothing.png" alt="" >}}
+{{< img src="/images/app_ui/gaussian_smoothing.png" alt="Demo of gaussian smoothing" >}}
 
 ## Running Average
 
@@ -67,14 +75,16 @@ Consider using Gaussian Smoothing if your points are spaced unevenly on the x-ax
 
 The following image demonstrates how a running app looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
 
-{{< img src="/images/app_ui/running_average.png" alt="" >}}
+{{< img src="/images/app_ui/running_average.png" alt="Demo of running average smoothing" >}}
 
-## Exponential Moving Average (Deprecated)
+## Exponential Moving Average
 
-> The TensorBoard EMA algorithm has been deprecated as it cannot accurately smooth multiple lines on the same chart that do not have a consistent point density (number of points plotted per unit of x-axis).
+The Exponential Moving Average (EMA) smoothing algorithm is implemented to match TensorBoard's smoothing algorithm. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. A debias term is added so that early values in the time series are not biases towards zero.
 
-Exponential moving average is implemented to match TensorBoard's smoothing algorithm. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a debias term added so that early values in the time series are not biases towards zero.
-
+EMA smoothing is applied by the W&B App after sampling and bucketing. In general, it is less accurate than [TWEMA smoothing]({{< relref "#time-weighted-exponential-moving-average-default" >}}). However, EMA is used instead of TWEMA in the following situations:
+- Sampling
+- Grouping
+- non-monotonic x-axes
 Here is sample code for how this works under the hood:
 
 ```javascript
@@ -88,11 +98,11 @@ Here is sample code for how this works under the hood:
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
-{{< img src="/images/app_ui/exponential_moving_average.png" alt="" >}}
+{{< img src="/images/app_ui/exponential_moving_average.png" alt="Demo of EMA smoothing" >}}
 
 ## Implementation Details
 
-All of the smoothing algorithms run on the sampled data, meaning that if you log more than 1500 points, the smoothing algorithm will run _after_ the points are downloaded from the server. The intention of the smoothing algorithms is to help find patterns in data quickly. If you need exact smoothed values on metrics with a large number of logged points, it may be better to download your metrics through the API and run your own smoothing methods.
+With the exception of TWEMA, all of the smoothing algorithms run on the sampled data. If you log more than 1500 points, the smoothing algorithm will run _after_ the points are downloaded from W&B Server. The intention of the smoothing algorithms is to help find patterns in data quickly. If you need exact smoothed values on metrics with a large number of logged points, it may be better to download your metrics through the API and run your own smoothing methods.
 
 ## Hide original data
 
