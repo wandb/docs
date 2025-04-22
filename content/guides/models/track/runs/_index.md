@@ -505,8 +505,7 @@ The **Artifacts** tab lists the input and output [artifacts]({{< relref "/guides
 
 {{< img src="/images/app_ui/artifacts_tab.png" alt="" >}}
 
-View an example artifacts tab [here](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts).
-
+View [Example artifact graphs]({{< relref "/guides/artifacts/explore-and-traverse-an-artifact-graph.md" >}}).
 
 ## Delete runs
 
