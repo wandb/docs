@@ -1,5 +1,14 @@
 // ChatUI-inspired Beautiful Chat Widget (MIT License)
 (function () {
+  // --- UUID v4 Generator ---
+  function uuidv4() {
+    // https://stackoverflow.com/a/2117523/438386
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
   // --- HTML Escaping Helper ---
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, function (c) {
@@ -314,9 +323,21 @@
     const chatSendBtn = chatForm.querySelector('button[type="submit"]');
     const MAXLEN = 1000000;
     let isOverflow = false;
+    let isWaiting = false;
 
     // --- Conversation History State ---
     let chatHistory = [];
+    let currentConversationId = null;
+    let justCleared = false;
+    let currentAbortController = null;
+
+    // Ensure a conversation ID is set on widget load
+    function ensureConversationId() {
+      if (!currentConversationId) {
+        currentConversationId = uuidv4();
+      }
+    }
+    ensureConversationId();
 
     // Clear chat button functionality
     const clearBtn = chatWin.querySelector('#chat-widget-clear');
@@ -324,6 +345,15 @@
       e.stopPropagation();
       msgArea.innerHTML = '';
       chatHistory = [];
+      currentConversationId = uuidv4(); // Generate new conversation id
+      justCleared = true;
+      // Abort any in-flight request
+      if (currentAbortController) {
+        currentAbortController.abort();
+        currentAbortController = null;
+      }
+      isWaiting = false;
+      updateSendBtn();
       // Remove feedback buttons until AI responds
       const oldRow2 = chatWin.querySelector('.chat-widget-feedback-row');
       if (oldRow2) oldRow2.remove();
@@ -457,9 +487,9 @@
     // Initial grow
     autoGrowTextarea();
 
-    // Disable send button if input is empty or whitespace
+    // Disable send button if input is empty or whitespace or waiting for AI
     function updateSendBtn() {
-      chatSendBtn.disabled = !chatInput.value.trim() || isOverflow;
+      chatSendBtn.disabled = !chatInput.value.trim() || isOverflow || isWaiting;
     }
     chatInput.addEventListener('input', updateSendBtn);
     updateSendBtn();
@@ -520,8 +550,12 @@
     chatForm.onsubmit = async function (e) {
       e.preventDefault();
       const input = chatWin.querySelector('#chat-widget-input');
+      const sendBtn = chatWin.querySelector('#chat-widget-form button[type="submit"]');
+      if (sendBtn.disabled || isWaiting) return; // Prevent double send
       const msg = input.value.trim();
       if (!msg) return;
+      isWaiting = true;
+      updateSendBtn();
       appendMsg('user', msg);
       input.value = '';
       autoGrowTextarea();
@@ -537,29 +571,68 @@
       setGradientBarFast(true); // Speed up while waiting
       scrollToBottom();
       try {
-        const reqPayload = { message: msg, input_items: chatHistory };
-        console.log('[ChatWidget] Sending to docs-agent:', reqPayload);
-        const res = await fetch(BACKEND_URL, {
+        // Abort any previous fetch
+        if (currentAbortController) {
+          console.log('[chat-widget] Aborting previous request');
+          currentAbortController.abort();
+        }
+        currentAbortController = new AbortController();
+        console.log('[chat-widget] Sending request:', { msg, conversation_id: currentConversationId });
+        const response = await fetch(BACKEND_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(reqPayload)
+          body: JSON.stringify({
+            message: msg,
+            input_items: chatHistory,
+            ...(currentConversationId ? { conversation_id: currentConversationId } : {})
+          }),
+          signal: currentAbortController.signal
         });
-        const data = await res.json();
-        console.log('[ChatWidget] Received from docs-agent:', data);
-        let answerText = extractAnswerString(data.answer) || '[No reply]';
-        const { agent, text } = detectAgentAndCleanText(answerText);
+        const data = await response.json();
+        console.log('[chat-widget] Received response:', data);
+        if (data.has_error) {
+          console.error('[chat-widget] Server error:', data.error_message, data);
+          replaceLoading(`<span class="chat-widget-error">An error occurred while processing your request. If this problem persists, please contact <a href=\"mailto:support@wandb.com\">support@wandb.com</a> for assistance with Weights & Biases.</span>`);
+          currentAbortController = null;
+          setGradientBarFast(false);
+          scrollToBottom();
+          isWaiting = false;
+          updateSendBtn();
+          input.focus();
+          return;
+        }
+        const answerText = extractAnswerString(data.answer);
+        // Conversation ID logic
+        if (data.conversation_id) {
+          // Only update if not just cleared
+          if (!justCleared) {
+            currentConversationId = data.conversation_id;
+          }
+        }
+        justCleared = false;
+        const { agent, text } = detectAgentAndCleanText(answerText); // agent detection
         if (agent === 'support_ticket_agent') {
           replaceLoadingSupport(text);
         } else {
+          if (!text || text === '[No reply]') {
+            console.warn('[chat-widget] Fallback: No text response from backend.', { answerText, data });
+          }
           replaceLoading(text);
         }
-        // Update chat history from backend (ensures roles/ordering are correct)
-        if (Array.isArray(data.input_items)) chatHistory = data.input_items;
+        currentAbortController = null;
       } catch (err) {
+        if (err.name === 'AbortError') {
+          console.log('[chat-widget] Request aborted (likely by clear). Ignoring response.');
+          return;
+        }
+        console.error('[chat-widget] Error during fetch:', err);
         replaceLoading('<span class="chat-widget-error">[Error: Could not reach backend]</span>');
       }
       setGradientBarFast(false); // Slow down when done
       scrollToBottom();
+      isWaiting = false;
+      updateSendBtn();
+      input.focus();
     };
 
     function replaceLoadingSupport(text) {

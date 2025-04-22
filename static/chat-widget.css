@@ -733,3 +733,13 @@ Name: Moon-450, Hex: 8E949E, RGB: 142, 191, 204
 #chat-widget-window.chat-widget-dark #chat-widget-header .chat-widget-header-btn:hover {
   background: rgba(255,255,255,0.1);
 }
+
+#chat-widget-header .chat-widget-header-title {
+  color: inherit;
+}
+#chat-widget-window.chat-widget-dark #chat-widget-header .chat-widget-header-title {
+  color: #FAFAFA !important;
+}
+#chat-widget-window.chat-widget-dark #chat-widget-header .chat-widget-header-btn {
+  color: #FAFAFA !important;
+}
