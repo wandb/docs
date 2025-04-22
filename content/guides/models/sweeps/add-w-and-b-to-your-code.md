@@ -264,7 +264,7 @@ command:
 wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
-For more information on how to start sweep jobs, see [Start sweep jobs]({{< relref "./start-sweep-agents.md" >}}).
+For more information, see [Start sweep jobs]({{< relref "./start-sweep-agents.md" >}}).
 
 {{% /tab %}} {{< /tabpane >}}
 
