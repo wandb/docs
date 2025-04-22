@@ -1,6 +1,5 @@
 ---
 title: Releases
-description: Release notes for supported releases.
 type: docs
 cascade:
 - url: /release-notes/:title/
@@ -11,4 +10,8 @@ menu:
     identifier: release-notes
     weight: 5
 ---
+
 This section includes release notes for supported W&B Server releases.
+
+<a href="/release-notes/releases/index.xml"><button class="btn btn-primary mb-4 feedback--answer"><i class="fa-sharp fa-regular fa-square-rss" alt="RSS icon"></i>&nbsp;RSS feed</button></a>
+
