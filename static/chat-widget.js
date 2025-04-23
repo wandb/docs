@@ -131,8 +131,9 @@
     const chatBtnIcon = chatBtn.querySelector('svg');
     if (chatBtnIcon) {
         chatBtnIcon.style.position = 'relative';
-        chatBtnIcon.style.left = '1px';
-    }
+        chatBtnIcon.style.left = '0.75px';
+        // chatBtnIcon.style.top = '0px';
+      }
 
     // Chat window
     const chatWin = document.createElement('div');
