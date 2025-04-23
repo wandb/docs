@@ -128,6 +128,11 @@
     chatBtn.setAttribute('aria-label', 'Open chat');
     chatBtn.innerHTML = wandbLogoOctagonSVG(88);
     document.body.appendChild(chatBtn);
+    const chatBtnIcon = chatBtn.querySelector('svg');
+    if (chatBtnIcon) {
+        chatBtnIcon.style.position = 'relative';
+        chatBtnIcon.style.left = '1px';
+    }
 
     // Chat window
     const chatWin = document.createElement('div');
