@@ -99,7 +99,7 @@ Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-exampl
 
 ## Implementation Details
 
-With the exception of back-end EMA smoothing, all of the smoothing algorithms run on the sampled data. If you log more than 1500 points, the smoothing algorithm will run _after_ the points are downloaded from W&B Server. The intention of the smoothing algorithms is to help find patterns in data quickly. If you need exact smoothed values on metrics with a large number of logged points, it may be better to download your metrics through the API and run your own smoothing methods.
+With the exception of back-end EMA smoothing, all of the smoothing algorithms run on the sampled or binned data (if full fidelity mode is enabled). If you log more than 1500 points, the smoothing algorithm will run _after_ the points are downloaded from W&B Server. The intention of the smoothing algorithms is to help find patterns in data quickly. If you need exact smoothed values on metrics with a large number of logged points, it may be better to download your metrics through the API and run your own smoothing methods.
 
 ## Hide original data
 
