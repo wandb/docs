@@ -11,8 +11,8 @@ weight: 30
 W&B supports several types of smoothing:
 
 - [Time weighted exponential moving average]({{< relref "#time-weighted-exponential-moving-average-default" >}}) 
-- [gaussian smoothing]({{< relref "#gaussian-smoothing" >}}) (default)
-- [running average]({{< relref "#running-average" >}})
+- [Gaussian smoothing]({{< relref "#gaussian-smoothing" >}}) (default)
+- [Running average]({{< relref "#running-average" >}})
 - [Tensorboard's exponential moving average smoothing algorithm]({{< relref "smoothing.md#exponential-moving-average" >}})
 
 See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc).
@@ -80,7 +80,7 @@ In the following situations, EMA smoothing is instead applied at the front end b
 - Grouping
 - Expressions
 - Non-monotonic x-axes
-- time-based x-axes
+- Time-based x-axes
 
 Here is sample code for how this works under the hood:
 
@@ -103,6 +103,6 @@ With the exception of back-end EMA smoothing, all of the smoothing algorithms ru
 
 ## Hide original data
 
-By default, the original, unsmoothed data displays in the plot as a faint line in the background. Click the **Show Original** toggle to turn this off.
+By default, the original unsmoothed data displays in the plot as a faint line in the background. Click **Show Original** to turn this off.
 
 {{< img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif" alt="Turn on or off original data" >}}
