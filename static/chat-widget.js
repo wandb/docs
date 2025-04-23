@@ -354,6 +354,7 @@
       justCleared = true;
       // Abort any in-flight request
       if (currentAbortController) {
+        console.log('[chat-widget] Aborting previous request');
         currentAbortController.abort();
         currentAbortController = null;
       }
@@ -384,16 +385,78 @@
         if (supportGiven) return;
         supportGiven = true;
         supportBtn.disabled = true;
-        // Send support request as a message to the agent (background)
+        // Show a temporary message
+        appendMsg('user', 'Requesting support ticket...'); 
+        appendMsg('bot', animatedWaiting(), true);
+        scrollToBottom();
+        requestAnimationFrame(() => {
+          const containerWidth = msgArea.clientWidth;
+          const svgEl = msgArea.querySelector('.chat-widget-avatar-roll svg');
+          const svgWidth = svgEl ? svgEl.getBoundingClientRect().width : 32;
+          const spins = (containerWidth + svgWidth) / svgWidth;
+          const avatarRoll = msgArea.querySelector('.chat-widget-avatar-roll');
+          if (avatarRoll) {
+            avatarRoll.style.setProperty('--roll-duration', `${spins}s`);
+            avatarRoll.style.setProperty('--spin-end', `${360 * spins}deg`);
+          }
+          setGradientBarFast(true); // Speed up while waiting
+        });
         try {
-          await fetch(BACKEND_URL, {
+          const fetchBody = {
+            message: 'USER REQUESTED TO OPEN A SUPPORT TICKET',
+            input_items: chatHistory
+          };
+          if (currentConversationId) {
+            fetchBody.conversation_id = currentConversationId;
+          }
+          const response = await fetch(BACKEND_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: 'USER REQUESTED TO OPEN A SUPPORT TICKET', input_items: chatHistory })
+            body: JSON.stringify(fetchBody)
           });
-        } catch (err) {}
-        // Show support widget to user
-        appendMsg('support', 'Open support ticket requested');
+          
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log('[chat-widget] Support ticket response:', data);
+
+          if (data.has_error) {
+            console.error('[chat-widget] Server error (support ticket):', data.error_message, data);
+            replaceLoading(`<span class="chat-widget-error">Error creating support ticket: ${escapeHtml(data.error_message || 'Unknown error')}</span>`);
+          } else {
+            const rawAnswerText = extractAnswerString(data.answer);
+            const { agent, text: cleanedAnswerText } = detectAgentAndCleanText(rawAnswerText);
+            // Log the detected agent for debugging if needed
+            if (agent) {
+                console.log('[chat-widget] Detected agent in support response:', agent);
+            }
+            let messageContentHtml;
+            if (agent === 'support_ticket_agent') {
+              messageContentHtml = supportWidget(cleanedAnswerText);
+            } else {
+              messageContentHtml = marked.parse(cleanedAnswerText); // Standard AI styling
+            }
+            replaceLoading(messageContentHtml); // Use the generated HTML and match main chat flow
+          }
+
+        } catch (err) {
+          console.error('[chat-widget] Fetch error (support ticket):', err);
+          replaceLoading('<span class="chat-widget-error">An error occurred while requesting the support ticket. Please try again later.</span>');
+        }
+        scrollToBottom();
+        // Set up rolling and spinning animation for the waiting icon (match main chat flow)
+        const containerWidth = msgArea.clientWidth;
+        const svgEl = msgArea.querySelector('.chat-widget-avatar-roll svg');
+        const svgWidth = svgEl ? svgEl.getBoundingClientRect().width : 32;
+        const spins = (containerWidth + svgWidth) / svgWidth;
+        const avatarRoll = msgArea.querySelector('.chat-widget-avatar-roll');
+        if (avatarRoll) {
+          avatarRoll.style.setProperty('--roll-duration', `${spins}s`);
+          avatarRoll.style.setProperty('--spin-end', `${360 * spins}deg`);
+        }
+        setGradientBarFast(true); // Speed up while waiting
       };
       // Feedback button
       const happyBtn = document.createElement('button');
@@ -616,14 +679,13 @@
         }
         justCleared = false;
         const { agent, text } = detectAgentAndCleanText(answerText); // agent detection
+        let messageContentHtml;
         if (agent === 'support_ticket_agent') {
-          replaceLoadingSupport(text);
+          messageContentHtml = supportWidget(text);
         } else {
-          if (!text || text === '[No reply]') {
-            console.warn('[chat-widget] Fallback: No text response from backend.', { answerText, data });
-          }
-          replaceLoading(text);
+          messageContentHtml = marked.parse(text); // Standard AI styling
         }
+        replaceLoading(messageContentHtml);
         currentAbortController = null;
       } catch (err) {
         if (err.name === 'AbortError') {
@@ -640,20 +702,11 @@
       input.focus();
     };
 
-    function replaceLoadingSupport(text) {
-      const loading = msgArea.querySelector('.chat-widget-loading-animated');
-      if (loading) {
-        const parent = loading.parentElement;
-        parent.innerHTML = supportWidget(text);
-      }
-      setGradientBarFast(false);
-    }
-
     function replaceLoading(text) {
       const loading = msgArea.querySelector('.chat-widget-loading-animated');
       if (loading) {
         const parent = loading.parentElement;
-        parent.innerHTML = `<div class="chat-widget-ai-content">${renderMarkdown(text)}</div>`;
+        parent.innerHTML = `<div class="chat-widget-ai-content">${text}</div>`;
         enhanceCodeBlocks(parent);
         // Add feedback/support buttons after first AI response
         if (!feedbackGiven && !supportGiven) renderFeedbackButtons();
