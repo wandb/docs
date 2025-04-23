@@ -69,7 +69,7 @@ In your Python script or notebook, initialize a W&B run object with [`wandb.init
 ```python
 run = wandb.init(
     project="my-awesome-project",  # Specify your project
-    config={  # Track hyperparameters and metadata
+    config={                        # Track hyperparameters and metadata
         "learning_rate": 0.01,
         "epochs": 10,
     },
@@ -93,8 +93,8 @@ epochs = 10
 lr = 0.01
 
 run = wandb.init(
-    project="my-awesome-project",  # Specify your project
-    config={  # Track hyperparameters and metadata
+    project="my-awesome-project",    # Specify your project
+    config={                         # Track hyperparameters and metadata
         "learning_rate": lr,
         "epochs": epochs,
     },
