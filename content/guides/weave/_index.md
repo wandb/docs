@@ -6,8 +6,6 @@ title: W&B Weave
 weight: 4
 ---
 
-# W&B Weave
-
 {{% alert %}}
 Are you looking for the official Weave documentation? Head over to [https://weave-docs.wandb.ai/](https://weave-docs.wandb.ai/).
 {{% /alert %}}
