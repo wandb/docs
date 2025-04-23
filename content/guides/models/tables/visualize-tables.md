@@ -72,9 +72,11 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 
 
 
-## Visualize how values change across your runs
+## Visualize how values change throughout your runs
 
-View how values you log to a table change across runs with a step slider. For example, you can view how the loss, accuracy, or other metrics change. 
+View how values you log to a table change throughout your runs with a step slider. Slide the step slider to view the values logged at different steps. For example, you can view how the loss, accuracy, or other metrics change after each run. 
+
+Each call to `wandb.log()` in your Python script creates a value known as a step (`_step`). By default, W&B uses `_step` values as the units, or key, of the slider. 
 
 The following procedure outlines how to create a step slider in a W&B Table:
 
@@ -86,54 +88,53 @@ The following procedure outlines how to create a step slider in a W&B Table:
 6. Click the dropdown next to the **Render As** field and select **Stepper**.
 7. Click the dropdown next to the **Stepper Key** field and select `_step` or any other key you want to use the unit of the step slider.
 
-Each call to `wandb.log()` in your Python script creates a value known as a step (`_step`). By default, W&B uses `_step` values as the units, or key, of the slider. 
+The following image shows a query panel with three W&B runs and the values they logged at step 295.
 
-You can use any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a different key, the step slider will map the values of that key to the `_step` key.
+{{< img src="/images/data_vis/stepper_key.png" alt="Query panel with three W&B runs and the values they logged at step 295 using the step slider feature.">}}
 
-For example, consider the following table. `serene-sponge`, `lively-frog`, and `vague-cloud` are three different runs that log a metric called `epoch` at different steps. The table shows the mapping of the `epoch` metric to the `_step` key for each run.
+Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run does not log values at every step. If a value is missing for a given step, W&B use the closest earlier slider key value that was logged.
 
-| `_step` | serene-sponge (`epoch`) | lively-frog(`epoch`) | vague-cloud (`epoch`) |
+### Custom step keys
+
+You can use any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a custom step key, W&B maps each value of that key to a step (`_step`) in the run.
+
+The table below shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, that were logged at those steps. Some `_step` values are omitted to save space.
+
+The first time `wandb.log` was called, none of the runs logged an `epoch` value, so the table shows empty values for `epoch`. 
+
+| `_step` | vague-cloud (`epoch`) | lively-frog(`epoch`) |  serene-sponge (`epoch`) |
 | ------- | ------------- | ----------- | ----------- |
-| 2 | 1 |  | | 
-| 4 | 2 |  1 | |
-| 5 | | |  1 |
-| 6 | 3 | | |
-| 8 | 4 | 2 | |
-| 10 | 5 | | |
-| 12 | 6 | 3 | |
-| 14 | 7 | | |
-| 15 | | | 3 |
-| 16 | 8 | 4 | | 
-| 18 | 9 | | |
-| 20 | 10 | 5 | 4 |
+| 1 | | |  |
+| 2  |   |   | 1  | 
+| 4  |   | 1 | 2  |
+| 5  | 1 |   |  |
+| 6  |  |   | 3  |
+| 8  |  | 2 | 4  |
+| 10 |  |   | 5  |
+| 12 |  | 3 | 6  |
+| 14 |  |   |  7 | 
+| 15 | 2  |   |  |
+| 16 |  | 4 | 8  | 
+| 18 |  |   | 9  |
+| 20 | 3 | 5 | 10 |
+
+This means that if the slider is set to `epoch = 1`, the following happens:
+
+* `vague-cloud` finds `epoch = 1` and returns `_step = 5`
+* `lively-frog` finds `epoch = 1` and returns `_step = 4`
+* `serene-sponge` finds `epoch = 1` and returns `_step = 2`
 
 If the slider is set to `epoch = 9`:
 
+* `vague-cloud` also doesn't log `epoch = 9`, so W&B uses the latest prior value `epoch = 3` and returns `_step = 20`
+* `lively-frog` doesn’t log `epoch = 9`, but the latest prior value is `epoch = 5` so it returns `_step = 20`
 * `serene-sponge` finds `epoch = 9` and return `_step = 18`
-* `lively-frog` finds `epoch = 5` and returns `_step = 20`
-* `vague-cloud` finds `epoch = 4` and returns `_step = 20`
-
-When you use a custom slider key (like epoch instead of `_step`), you might notice that the same value appears multiple times. This happens because several slider values can map to the same underlying step in a run.
-
-<!-- Each run logs values (like images or metrics) at certain steps, which are tracked using `_step`.  -->
-When you move the slider, W&B looks for a value that matches that slider key. If it doesn’t find an exact match, it uses the closest earlier slider key value that was logged. If multiple slider key values all map to the same `_step`, you’ll see the same value or image appear for step.
-
-Consider the `vague-cloud` run in the previous table and in the following image. 
-
-{{< img src="/images/data_vis/key_to_step_mapping.png" alt="The step slider shows the same image for multiple epochs because the run only logged an image at epoch 4."  >}}
-
-The slider key is set to `epoch`. Within the W&B App UI you can select `epoch` at 1, 3, 4, 6, 7, and 10. However, `vague-cloud` only has images logged at `epoch` 1, 3, and 4.
-
-This means that W&B reuses the last available `epoch` in the run for epoch 6, 7, and 10. In this case, the last epoch `vague-cloud` logged a value is `epoch = 4` which corresponds to `_step = 20`. This means that `epochs` 4, 6, 7, and 10 all show the same image (from `_step = 20`) for `vague-cloud`. That’s why the blue Everton logo appears four times in the image above.
-
-
 
 <!-- | | |
 | ---- | ---- |
 | Run History Tables Stepper | |
 | Run History Plots Stepper | |
 | Stepper | | -->
-
 
 ## Compare artifacts
 You can also [compare tables across time]({{< relref "#compare-tables-across-time" >}}) or [model variants]({{< relref "#compare-tables-across-model-variants" >}}). 
