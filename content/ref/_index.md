@@ -23,7 +23,7 @@ no_list: true
     <p className="card-content">Train, fine-tune, and manage models from experimentation to production.</p>
   {{< /card >}}
   {{< card >}}
-    <a href="./query-panel/">
+    <a href="./cli/">
       <h2 className="card-title">Command Line Interface</h2>
     </a>
     <p className="card-content">Log in, run jobs, execute sweeps, and more using shell commands.</p>

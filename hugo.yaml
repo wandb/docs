@@ -166,9 +166,9 @@ params:
       enable: true
       # The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
       'yes': >-
-        Glad to hear it! Please <a href="https://github.com/wandb/docs/issues/new">tell us how we can improve</a>.
+        Glad to hear it! If you have further feedback, please <a href="https://github.com/wandb/docs/issues/new?template=praise.md">let us know</a>.
       'no': >-
-        Sorry to hear that. Please <a href="https://github.com/wandb/docs/issues/new">tell us how we can improve</a>.
+        Sorry to hear that. Please <a href="https://github.com/wandb/docs/issues/new?template=feedback.md">tell us how we can improve</a>.
     # Adds a reading time to the top of each doc.
     # If you want this feature, but occasionally need to remove the Reading time from a single page,
     # add "hide_readingtime: true" to the page's front matter
