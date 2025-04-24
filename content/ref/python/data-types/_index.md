@@ -30,7 +30,7 @@ and upload them to the W&B server.
 
 [`class Histogram`](./histogram.md): wandb class for histograms.
 
-[`class Html`](./html.md): Wandb class for arbitrary html.
+[`class Html`](./html.md): A class for logging HTML content to W&B.
 
 [`class Image`](./image.md): Format images for logging to W&B.
 

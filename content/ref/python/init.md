@@ -2,7 +2,7 @@
 title: init
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.9/wandb/sdk/wandb_init.py#L1178-L1545 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/sdk/wandb_init.py#L1295-L1665 >}}
 
 Start a new run to track and log to W&B.
 
@@ -24,7 +24,8 @@ init(
     mode: (Literal['online', 'offline', 'disabled'] | None) = None,
     force: (bool | None) = None,
     anonymous: (Literal['never', 'allow', 'must'] | None) = None,
-    reinit: (bool | Literal[None, 'default', 'return_previous', 'finish_previous']) = None,
+    reinit: (bool | Literal[None, 'default', 'return_previous', 'finish_previous',
+        'create_new']) = None,
     resume: (bool | Literal['allow', 'never', 'must', 'auto'] | None) = None,
     resume_from: (str | None) = None,
     fork_from: (str | None) = None,
