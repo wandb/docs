@@ -12,7 +12,7 @@ title: Multiple Runs in One Process
 **Quick Reference**  
 - **`return_previous`**: Return the existing run; no new run is created. If there are already multiple runs, this returns the most recently created one that isn't finished.  
 - **`finish_previous`**: Finish all previous runs, then create a new one.
-- **`create_new`**: Create a new run without finishing the old one— great for parallel or interleaved runs, but watch out for integration compatibility.
+- **`create_new`**: Create a new run without finishing the old one— great for parallel or interleaved runs. Not supported for use with third-party integrations.
 
 ---
 
