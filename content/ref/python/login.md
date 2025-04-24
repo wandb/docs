@@ -2,7 +2,7 @@
 title: login
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_login.py#L40-L84 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/sdk/wandb_login.py#L40-L87 >}}
 
 Set up W&B login credentials.
 
@@ -14,7 +14,8 @@ login(
     host: Optional[str] = None,
     force: Optional[bool] = None,
     timeout: Optional[int] = None,
-    verify: bool = (False)
+    verify: bool = (False),
+    referrer: Optional[str] = None
 ) -> bool
 ```
 
@@ -31,6 +32,7 @@ verifying them with the W&B server. To verify credentials, pass
 |  `force` |  (bool, optional) If true, will force a relogin. |
 |  `timeout` |  (int, optional) Number of seconds to wait for user input. |
 |  `verify` |  (bool) Verify the credentials with the W&B server. |
+|  `referrer` |  (string, optional) The referrer to use in the URL login request. |
 
 | Returns |  |
 | :--- | :--- |

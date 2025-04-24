@@ -88,7 +88,7 @@ Log semantic segmentation masks and interact with them (altering opacity, viewin
 
 {{< img src="/images/track/semantic_segmentation.gif" alt="Interactive mask viewing in the W&B UI." >}}
 
-To log an overlay, you'll need to provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
+To log an overlay, provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
 
 * one of two keys representing the image mask:
   * `"mask_data"`: a 2D NumPy array containing an integer class label for each pixel
@@ -116,7 +116,11 @@ mask_img = wandb.Image(
         # ...
     },
 )
-```   
+```
+
+Segmentation masks for a key are defined at each step (each call to `wandb.log()`). 
+- If steps provide different values for the same mask key, only the most recent value for the key is applied to the image.
+- If steps provide different mask keys, all values for each key are shown, but only those defined in the step being viewed are applied to the image. Toggling the visibility of masks not defined in the step do not change the image.
    {{% /tab %}}
     {{% tab header="Bounding Boxes" %}}
 Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
