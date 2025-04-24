@@ -1,9 +1,18 @@
-# Multiple Active Runs in One Process (Reinit Behavior)
+---
+description: Learn to manage multiple runs in a single Python process using W&B’s reinit functionality
+menu:
+  default:
+    identifier: multiple-runs
+    parent: what-are-runs
+title: Multiple Runs in One Process
+---
+
+# Simultaneous runs using reinit="create_new"
 
 **Quick Reference**  
-- **`return_previous`**: Return the existing run; no new run is created.  
-- **`finish_previous`**: Finish (end) the old run, then create a new one.  
-- **`create_new`**: Create a new run without finishing the old one—great for parallel or interleaved runs, but watch out for integration compatibility.
+- **`return_previous`**: Return the existing run; no new run is created. If there are already multiple runs, this returns the most recently created one that isn't finished.  
+- **`finish_previous`**: Finish all previous runs, then create a new one.
+- **`create_new`**: Create a new run without finishing the old one— great for parallel or interleaved runs, but watch out for integration compatibility.
 
 ---
 
@@ -18,17 +27,20 @@ W&B provides a **`reinit`** setting to control how `wandb.init()` behaves when t
 ---
 
 ## Overview of `reinit` Options
+Set the reinit setting in any of the following ways:
+- Passing it as the reinit argument to wandb.init() or via the settings argument
+- Passing it via settings to wandb.setup() (applies to all wandb.init() calls)
+- Setting the `WANDB_REINIT` environment variable (applies to all wandb.init() calls)
 
-Use the `reinit` argument when calling `wandb.init()`, or set it via environment variable (e.g., `WANDB__INIT__REINIT`). The valid options:
 
 1. **`return_previous`**  
    - If another run is active, return *that same* run.  
-   - *No new run is created.* This is effectively a “no-op” and is the legacy default.
+   - *No new run is created.* This is effectively a no-op and is the legacy default when not running in a Jupyter/IPython notebook.
 
 2. **`finish_previous`**  
-   - *Finish* (calls `wandb.finish()`) on any active run(s) before creating a new one.  
+   - *Finish* (calls `run.finish()`) on any active run(s) before creating a new one.  
    - Handy if you want a clear break between sequential sub-runs.
-
+   - This is the default when running in a Jupyter/IPython notebook.
 3. **`create_new`**  
    - Always create a **completely new run**, even if one is already active.  
    - Does **not** automatically switch the global `wandb.run` to the new run. You must hold onto each run object yourself.  
@@ -56,8 +68,7 @@ Suppose you want to run a **primary task** (like model training) in “Run A,”
 import wandb
 
 def train(name: str) -> None:
-    """
-    Perform one training iteration in its own W&B run.
+    """Perform one training iteration in its own W&B run.
 
     Using a 'with wandb.init()' block with `reinit="create_new"` ensures that
     this training sub-run can be created even if another run (like our primary
@@ -73,8 +84,8 @@ def train(name: str) -> None:
         run.log({"train_loss": 0.42})  # Replace with your real metric(s)
 
 def evaluate_loss_accuracy() -> (float, float):
-    """
-    Returns the current model's loss and accuracy.
+    """Returns the current model's loss and accuracy.
+    
     Replace this placeholder with your real evaluation logic.
     """
     return 0.27, 0.91  # Example metric values
@@ -102,7 +113,7 @@ with wandb.init(
 ### Key Takeaways
 
 1. **`reinit="create_new"`**  
-   Forces a new run each time you call `wandb.init()`.
+   Creates a new run each time you call `wandb.init()`.
 
 2. **Keep references to each run**  
    Since `wandb.run` won’t automatically point to the newest run in `create_new` mode, store them in variables like `run_a`, `run_b1`, etc., and call `.log()` or `.finish()` on those objects.
@@ -110,9 +121,8 @@ with wandb.init(
 3. **Order of finishing**  
    You can finish sub-runs whenever you want while keeping the primary run open until the very end.
 
-4.  **Always Finish Your Runs**  
-    If you don’t explicitly call `run.finish()`, your script exit may be slower, or your data may not be fully uploaded.
-   
+4.  **Always finish your runs**  
+    If you don’t explicitly call `run.finish()`, your script exit may be slower, or your data may not be fully uploaded. 
 
 ---
 
