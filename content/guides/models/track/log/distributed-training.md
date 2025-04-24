@@ -105,7 +105,8 @@ Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a 
 {{% /alert %}}
 
 {{% alert title="Requirements" %}}
-To track multiple processes to a single run, you must have W&B Python SDK version `v0.19.9` or newer.
+To track multiple processes to a single run, you must have:
+- W&B Python SDK version `v0.19.9` or newer.
 
 W&B Server v0.68 or newer.
 {{% /alert  %}}
