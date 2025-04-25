@@ -51,9 +51,7 @@ Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-exampl
 
 ## Gaussian smoothing
 
-Gaussian smoothing (or gaussian kernel smoothing) computes a weighted average of the points, where the weights correspond to a gaussian distribution with the standard deviation specified as the smoothing parameter. The smoothed value is calculated for every input x value.
-
-Gaussian smoothing is a good standard choice for smoothing if your points or spaced unevenly on the x-axis, or if you are not concerned with matching a different smoothing behavior. Unlike with TWEMA or EMA, the point will be smoothed based on points occurring both before and after the value.
+Gaussian smoothing (or Gaussian kernel smoothing) computes a weighted average of the points, where the weights correspond to a gaussian distribution with the standard deviation specified as the smoothing parameter. The smoothed value is calculated for every input x value, based on the points occurring both before and after it.
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing):
 
@@ -73,9 +71,9 @@ Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-exampl
 
 The Exponential Moving Average (EMA) smoothing algorithm is a rule of thumb technique for smoothing time series data using the exponential window function. For details about the technique, see [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing). The range is 0 to 1. A debias term is added so that early values in the time series are not biases towards zero.
 
-On a best-effort basis, EMA smoothing is applied at the back end by W&B Server. In this situation, EMA smoothing is applied to a full scan of history, rather than bucketing first before smoothing. In general, this improves the accuracy of the smoothing operation.
+In many situations, EMA smoothing is applied to a full scan of history, rather than bucketing first before smoothing. This often produces more accurate smoothing.
 
-In the following situations, EMA smoothing is instead applied at the front end by the W&B App, after bucketing.
+In the following situations, EMA smoothing is after bucketing instead:
 - Sampling
 - Grouping
 - Expressions
@@ -96,10 +94,6 @@ Here is sample code for how this works under the hood:
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
 {{< img src="/images/app_ui/exponential_moving_average.png" alt="Demo of EMA smoothing" >}}
-
-## Implementation Details
-
-With the exception of back end EMA smoothing, all of the smoothing algorithms run on the sampled data. If you log more than 1500 points, the smoothing algorithm will run _after_ the points are downloaded from W&B Server. The intention of the smoothing algorithms is to help find patterns in data quickly. If you need exact smoothed values on metrics with a large number of logged points, it may be better to download your metrics through the API and run your own smoothing methods.
 
 ## Hide original data
 
