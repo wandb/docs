@@ -2,7 +2,7 @@
 title: watch
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_run.py#L2801-L2836 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/sdk/wandb_run.py#L2992-L3028 >}}
 
 Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.
 

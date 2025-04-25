@@ -2,7 +2,7 @@
 title: finish
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_run.py#L4109-L4130 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/sdk/wandb_run.py#L4313-L4334 >}}
 
 Finish a run and upload any remaining data.
 
