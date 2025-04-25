@@ -351,6 +351,8 @@ Before changing the instance level bucket storage, ensure that all data is synce
 For [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) if you are changing the original bucket that the instance was deployed with, reach out to W&B Support at support@wandb.com for assistance with migrating data to the new bucket.
 {{% /alert %}}
 
+To make changes to the instance level bucket storage for your W&B Server:
+
 1. Log in to the W&B Server as a user with the `admin` role.
 2. Click the user icon at the top, then click **System Console**.
 3. Go to **Settings** > **System Connections**.
