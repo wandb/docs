@@ -1,8 +1,9 @@
 ---
 title: Releases
 type: docs
+url: /release-notes/
 cascade:
-- url: /release-notes/:title/
+- url: /release-notes/:filename/
 - type: docs
 - weight: 1
 menu:

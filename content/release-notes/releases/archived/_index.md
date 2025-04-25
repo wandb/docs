@@ -5,10 +5,11 @@ menu:
   main:
     identifier: archived
     parent: release-notes
+url: /release-notes/archived/
 cascade:
 - type: docs
 - weight: 1
-- url: /release-notes/archived/:title
+- url: /release-notes/archived/:filename/
 
 weight: 99
 ---
