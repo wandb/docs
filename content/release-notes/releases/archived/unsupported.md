@@ -1,3 +1,3 @@
 This release is no longer supported. A major release and its patches are supported for six months from the initial release date.
 
-Customers using [Self-managed](/guides/hosting/hosting-options/self-managed/) are responsible to upgrade to a [supported release](/releases-notes/) in time to maintain support. For assistance or questions, contact [support](mailto:support@wandb.com).
+Customers using [Self-managed](/guides/hosting/hosting-options/self-managed/) are responsible to upgrade to a [supported release](/releases-notes/releases/) in time to maintain support. For assistance or questions, contact [support](mailto:support@wandb.com).
