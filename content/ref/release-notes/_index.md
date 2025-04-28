@@ -3,7 +3,7 @@ title: Release Notes
 type: docs
 url: /ref/release-notes/releases/
 cascade:
-- url: /ref/release-notes/:title/
+- url: /ref/release-notes/:filename/
 - type: docs
 - weight: 1
 menu:

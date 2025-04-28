@@ -6,7 +6,6 @@ cascade:
 - type: docs
 - weight: 1
 - url: /ref/release-notes/archived/:filename
-
 weight: 99
 ---
 Archived releases have reached end of life and are no longer supported. A major release and its patches are supported for six months from the initial release date. Release notes for archived releases are provided for historical purposes. For supported releases, refer to [Releases](/release-notes/releases/).
