@@ -5,7 +5,7 @@ url: /ref/release-notes/archived/
 cascade:
 - type: docs
 - weight: 1
-- url: /ref/release-notes/archived/:title
+- url: /ref/release-notes/archived/:filename
 
 weight: 99
 ---
