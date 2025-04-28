@@ -3,11 +3,14 @@ title: Archived Releases
 type: docs
 url: /ref/release-notes/archived/
 cascade:
+- url: /ref/release-notes/releases/archived/:title/
 - type: docs
 - weight: 1
-- url: /ref/release-notes/archived/:filename
-
-weight: 99
+menu:
+  default:
+    parent: release-notes
+    identifier: archived-release-notes
+    weight: 99
 ---
 Archived releases have reached end of life and are no longer supported. A major release and its patches are supported for six months from the initial release date. Release notes for archived releases are provided for historical purposes. For supported releases, refer to [Releases](/release-notes/releases/).
 

@@ -7,8 +7,9 @@ cascade:
 - type: docs
 - weight: 1
 menu:
-  reference:
+  default:
     parent: reference
+    identifier: release-notes
     weight: 5
 ---
 
