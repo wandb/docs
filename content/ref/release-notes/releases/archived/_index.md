@@ -1,15 +1,11 @@
 ---
-title: Archived
+title: Archived Releases
 type: docs
-menu:
-  main:
-    identifier: archived
-    parent: release-notes
-url: /release-notes/archived/
+url: /ref/release-notes/archived/
 cascade:
 - type: docs
 - weight: 1
-- url: /release-notes/archived/:title
+- url: /ref/release-notes/archived/:title
 
 weight: 99
 ---

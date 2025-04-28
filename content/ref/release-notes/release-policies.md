@@ -7,7 +7,7 @@ menu:
 title: Release policies and processes
 weight: -1
 ---
-This page gives details about W&B Server releases and W&B's release policies. This page relates to [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud/" >}}) and [Self-Managed]({{< relref "/guides/hosting/hosting-options/self-managed/" >}}) deployments. To learn more about an individual W&B Server release, refer to [W&B release notes]({{< relref "/release-notes/" >}}).
+This page gives details about W&B Server releases and W&B's release policies. This page relates to [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud/" >}}) and [Self-Managed]({{< relref "/guides/hosting/hosting-options/self-managed/" >}}) deployments. To learn more about an individual W&B Server release, refer to [W&B release notes]({{< relref "/ref/release-notes/" >}}).
 
 W&B fully manages [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) and the details in this page do not apply.
 
@@ -58,6 +58,6 @@ Any feature in a preview phase is subject to change. A preview feature is not gu
 
     The W&B team must enable a public preview feature before you can use it in your instance. Documentation may not be complete, interfaces and APIs may change, and the feature may not be fully implemented.
 
-To learn more about an individual W&B Server release, including any limitations, refer to [W&B Release notes]({{< relref "/release-notes/" >}}).
+To learn more about an individual W&B Server release, including any limitations, refer to [W&B Release notes]({{< relref "/ref/release-notes/" >}}).
 
 

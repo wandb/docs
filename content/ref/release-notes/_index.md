@@ -1,14 +1,14 @@
 ---
-title: Releases
+title: Release Notes
 type: docs
-url: /release-notes/releases/
+url: /ref/release-notes/releases/
 cascade:
-- url: /release-notes/:title/
+- url: /ref/release-notes/:title/
 - type: docs
 - weight: 1
 menu:
-  main:
-    identifier: release-notes
+  reference:
+    parent: reference
     weight: 5
 ---
 
