@@ -84,12 +84,12 @@ W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes 
 
 Follow those steps to install the W&B Kubernetes Operator with Helm CLI:
 
-1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository. Add the repo with the following commands:
+1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository:
     ```shell
     helm repo add wandb https://charts.wandb.ai
     helm repo update
     ```
-2. Install the Operator on a Kubernetes cluster. Copy and paste the following:
+2. Install the Operator on a Kubernetes cluster:
     ```shell
     helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
     ```
