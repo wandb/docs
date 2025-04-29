@@ -361,8 +361,6 @@ To make changes to the instance level bucket storage for your W&B Server:
 6. Enter the new **Bucket Name**.
 7. Optionally, enter the **Path** to use in the new bucket.
 8. Click **Save**
-
- {{< img src="/images/hosting/secure_storage_connector_bucket_storage.png" alt="Bucket Storage Settings" >}}
 {{% /tab %}}
 
 {{< /tabpane >}}
