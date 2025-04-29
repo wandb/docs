@@ -13,7 +13,20 @@ cascade:
 no_list: true
 ---
 
-
+{{< cardpane >}}
+  {{< card >}}
+    <a href="./release-notes/releases/">
+      <h2 className="card-title">Release notes</h2>
+    </a>
+    <p className="card-content">Learn about W&B releases, including new features, performance improvements, and bug fixes.</p>
+  {{< /card >}}
+    {{< card >}}
+    <a href="./release-notes/release-policies/">
+      <h2 className="card-title">Release policies and processes</h2>
+    </a>
+    <p className="card-content">Learn more about W&B releases, including frequency, support policies, and end of life.</p>
+  {{< /card >}}
+{{< /cardpane >}}
 
 {{< cardpane >}}
   {{< card >}}
