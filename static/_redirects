@@ -361,6 +361,8 @@
 /ref/python/README /ref/python 301
 /ref/python/wandb.ai/settings /ref/python 301
 /ref/README /ref 301
+/ref/release-notes/releases/index.xml /ref/release-notes/index.xml 301
+/ref/release-notes/releases/ /ref/release-notes/ 301
 /ref/run/summary /ref/python/run 301
 /ref/sweep/configurations /guides/sweeps/define-sweep-configuration 301
 /ref/weave/README /ref/weave 301
@@ -426,6 +428,8 @@
 /integrations/* /guides/integrations/:splat 301
 /library/frameworks/* /guides/integrations/:splat 301
 /library/integrations/* /guides/integrations/:splat 301
+/ref/release-notes/releases/* /ref/releases/:splat 301
+/ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
 
 
 
