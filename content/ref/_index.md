@@ -15,7 +15,7 @@ no_list: true
 
 {{< cardpane >}}
   {{< card >}}
-    <a href="./release-notes/releases/">
+    <a href="./release-notes/">
       <h2 className="card-title">Release notes</h2>
     </a>
     <p className="card-content">Learn about W&B releases, including new features, performance improvements, and bug fixes.</p>
