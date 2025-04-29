@@ -24,7 +24,7 @@ Most common way to initialize
 
 | Args |  |
 | :--- | :--- |
-|  `overrides` |  (dict) You can set `base_url` if you are using a wandb server other than https://api.wandb.ai. You can also set defaults for `entity`, `project`, and `run`. |
+|  `overrides` |  (dict) You can set `base_url` if you are using a wandb server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`. |
 
 | Attributes |  |
 | :--- | :--- |
@@ -980,7 +980,7 @@ api = wandb.Api()
 webhook_integrations = api.webhook_integrations(entity="my-team")
 ```
 
-Find only webhook integrations that post requests to "https://my-fake-url.com":
+Find only webhook integrations that post requests to `https://my-fake-url.com`:
 
 ```python
 webhook_integrations = api.webhook_integrations(entity="my-team")

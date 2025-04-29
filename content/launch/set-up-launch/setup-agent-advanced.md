@@ -162,7 +162,7 @@ artifactregistry.repositories.uploadArtifacts;
 {{% /tab %}}
 {{% tab "Azure" %}}
 
-Add the [`AcrPush` role](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush) if you use the Kaniko builder.
+Add the [`AcrPush` role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/containers#acrpush) if you use the Kaniko builder.
 {{% /tab %}}
 {{< /tabpane >}}
 
