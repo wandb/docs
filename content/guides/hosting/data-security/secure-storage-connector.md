@@ -348,7 +348,7 @@ An error or warning appears at the bottom of the page if there are issues access
 {{% alert %}}
 Before changing the instance level bucket storage, ensure that all data is synced over from the previous instance level bucket. This gives the W&B Server access to all data it had access to before the change.
 
-For [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) if you need to change the original bucket that the instance was deployed with, contact [support](mailto:support@wandb.com) for assistance with migrating data to the new bucket.
+For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) if you need to change the original bucket that the instance was deployed with, contact [support](mailto:support@wandb.com) for assistance with migrating data to the new bucket.
 {{% /alert %}}
 
 To make changes to the instance level bucket storage for your W&B Server:
