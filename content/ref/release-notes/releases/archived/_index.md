@@ -3,7 +3,7 @@ title: Archived Releases
 type: docs
 url: /ref/release-notes/archived/
 cascade:
-- url: /ref/release-notes/archived/:title/
+- url: /ref/release-notes/archived/:filename/
 - type: docs
 - weight: 1
 menu:
