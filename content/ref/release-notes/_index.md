@@ -6,6 +6,8 @@ cascade:
 - url: /ref/release-notes/:filename/
 - type: docs
 - weight: 1
+aliases:
+- /ref/release-notes/releases/
 menu:
   default:
     parent: reference
