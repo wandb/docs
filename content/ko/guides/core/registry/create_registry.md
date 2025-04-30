@@ -58,7 +58,7 @@ Restricted 가시성으로 사용자 정의 레지스트리를 생성하는 사�
 1. https://wandb.ai/registry/의 **Registry** 앱으로 이동합니다.
 2. 레지스트리를 선택합니다.
 3. 오른쪽 상단 모서리에 있는 톱니바퀴 아이콘을 클릭합니다.
-4. **Registry visibility** 드롭다운에서 원하는 레지스트리 가시성을 선택합니다.
+4. **Registry visibility** 드롭다운에서 원하는 레지스트리 visibility을 선택합니다.
 5. **Restricted visibility**를 선택한 경우:
    1. 이 레지스트리에 액세스할 수 있도록 하려는 조직 멤버를 추가합니다. **Registry members and roles** 섹션으로 스크롤하여 **Add member** 버튼을 클릭합니다.
    2. **Member** 필드 내에서 추가하려는 멤버의 이메일 또는 사용자 이름을 추가합니다.
