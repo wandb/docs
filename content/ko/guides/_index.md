@@ -19,7 +19,7 @@ Weights & Biases (W&B) 는 AI 개발자 플랫폼으로, 모델 트레이닝, �
 
 W&B 는 다음 세 가지 주요 구성 요소로 이루어져 있습니다: [Models]({{< relref path="/guides/models.md" lang="ko" >}}), [Weave](https://wandb.github.io/weave/), 그리고 [Core]({{< relref path="/guides/core/" lang="ko" >}}):
 
-**[W&B Models]({{< relref path="/guides/models/" lang="ko" >}})** 는 머신러닝 개발자가 모델을 트레이닝하고 미세 조정하는 데 사용하는 가볍고 상호 운용 가능한 툴 모음입니다.
+**[W&B Models]({{< relref path="/guides/models/" lang="ko" >}})** 는 머신러닝 개발자가 모델을 트레이닝하고 파인튜닝하는 데 사용하는 강력하지만 가벼운 툴킷입니다.
 - [Experiments]({{< relref path="/guides/models/track/" lang="ko" >}}): 머신러닝 실험 추적
 - [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ko" >}}): 하이퍼파라미터 튜닝 및 모델 최적화
 - [Registry]({{< relref path="/guides/core/registry/" lang="ko" >}}): ML 모델 및 데이터셋 게시 및 공유
