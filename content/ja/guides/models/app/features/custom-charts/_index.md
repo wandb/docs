@@ -101,8 +101,6 @@ W&Bにはスクリプトから直接ログできるいくつかの組み込み�
 
   任意のバーチャートをログするためにこれを使用することができます。list内のラベルと値の数は完全に一致している必要があります（例えば、各データポイントが両方を持つ必要があります）。
 
-  {{< img src="/images/app_ui/line_plot_bar_chart.png" alt="" >}}
-
   [例のレポートを確認](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)するか、[例のGoogle Colabノートブックを試す](https://tiny.cc/custom-charts)ことができます。
 {{% /tab %}}
 

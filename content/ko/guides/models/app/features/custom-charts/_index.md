@@ -101,8 +101,6 @@ W&B에는 스크립트에서 직접 기록할 수 있는 여러 내장 차트 �
 
   이를 사용하여 임의의 막대 차트를 기록할 수 있습니다. 목록의 레이블 및 값 수는 정확히 일치해야 합니다(예: 각 데이터 점에 둘 다 있어야 함).
 
-  {{< img src="/images/app_ui/line_plot_bar_chart.png" alt="" >}}
-
   [예제 리포트](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)를 보거나 [예제 Google Colab 노트북](https://tiny.cc/custom-charts)을 사용해 보세요.
 {{% /tab %}}
 

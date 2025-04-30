@@ -17,5 +17,3 @@ Run Comparer를 사용하여 여러 run에서 어떤 메트릭이 다른지 확�
 3. **Run Comparer**를 선택합니다.
 
 **Diff Only** 옵션을 켜서 여러 run에서 값이 동일한 행을 숨깁니다.
-
-{{< img src="/images/general/run-comparer-2.gif" alt="" >}}

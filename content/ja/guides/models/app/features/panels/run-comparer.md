@@ -17,5 +17,3 @@ Run Comparer を使用して、異なる run 間でメトリクスがどのよ�
 3. **Run comparer** を選択します。
 
 **diff only** オプションを切り替えて、 run 間で値が同じ行を非表示にします。
-
-{{< img src="/images/general/run-comparer-2.gif" alt="" >}}
