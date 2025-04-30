@@ -16,7 +16,7 @@ weight: 3
 W&B Registry는 현재 공개 미리보기 상태입니다. 배포 유형에 맞게 활성화하는 방법은 [이]({{< relref path="./#enable-wb-registry" lang="ko" >}}) 섹션을 참조하세요.
 {{% /alert %}}
 
-W&B Registry는 조직 내 [artifact]({{< relref path="/guides/core/artifacts/" lang="ko" >}}) 버전의 선별된 중앙 저장소입니다. 조직 내에서 [권한을 가진]({{< relref path="./configure_registry.md" lang="ko" >}}) 사용자는 사용자가 속한 팀에 관계없이 모든 artifact의 라이프사이클을 [다운로드]({{< relref path="./download_use_artifact.md" lang="ko" >}}), 공유 및 공동으로 관리할 수 있습니다.
+W&B Registry는 조직 내에서 [artifact]({{< relref path="/guides/core/artifacts/" lang="ko" >}}) 버전들을 체계적으로 관리할 수 있도록 구성된 중앙 저장소입니다. 조직 내에서 [권한을 가진]({{< relref path="./configure_registry.md" lang="ko" >}}) 사용자는 사용자가 속한 팀에 관계없이 모든 artifact의 라이프사이클을 [다운로드]({{< relref path="./download_use_artifact.md" lang="ko" >}}), 공유 및 공동으로 관리할 수 있습니다.
 
 Registry를 사용하여 [artifact 버전 추적]({{< relref path="./link_version.md" lang="ko" >}}), artifact 사용 및 변경 내역 감사, artifact의 거버넌스 및 규정 준수 보장, [모델 CI/CD와 같은 다운스트림 프로세스 자동화]({{< relref path="/guides/core/automations/" lang="ko" >}})를 할 수 있습니다.
 
