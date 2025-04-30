@@ -20,9 +20,9 @@ title: Weights & Biases Documentation
 
 [W&B Weave](https://weave-docs.wandb.ai/) 를 사용하여 코드에서 AI 모델을 관리하세요. 기능에는 추적, 출력 평가, 비용 추정, 다양한 대규모 언어 모델 (LLM) 및 설정을 비교하기 위한 플레이그라운드가 포함됩니다.
 
-- [도입](https://weave-docs.wandb.ai/)
-- [퀵스타트](https://weave-docs.wandb.ai/quickstart)
-- [YouTube 데모](https://www.youtube.com/watch?v=IQcGGNLN3zo)
+- [Introduction](https://weave-docs.wandb.ai/)
+- [Quickstart](https://weave-docs.wandb.ai/quickstart)
+- [YouTube Demo](https://www.youtube.com/watch?v=IQcGGNLN3zo)
 - [플레이그라운드 사용해 보기](https://wandb.ai/wandb/weave-playground/weave/playground) (무료 [가입](https://wandb.ai/signup) 필요)
 
 </div>{{% /card %}}
