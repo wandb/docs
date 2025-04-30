@@ -32,6 +32,10 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 - [Tables]({{< relref "/guides/models/tables/" >}}): Visualize and query tabular data
 - [Reports]({{< relref "/guides/core/reports/" >}}): Document and collaborate on your discoveries
 
+{{% alert %}}
+Learn about recent releases in the [W&B release notes]({{< relref "/ref/release-notes/" >}}).
+{{% /alert %}}
+
 ## How does W&B work?
 
 Read the following sections in this order if you are a first-time user of W&B and you are interested in training, tracking, and visualizing machine learning models and experiments:
