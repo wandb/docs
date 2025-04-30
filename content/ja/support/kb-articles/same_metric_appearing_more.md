@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 同じキーの下にさまざまなデータ型をログする場合、それらをデータベースで分割します。これにより、UIのドロップダウンに同じメトリクス名の複数のエントリが表示されます。グループ化されるデータ型は `number`、`string`、`bool`、`other`（主に配列）および `Histogram` や `Image` などの任意の `wandb` データ型です。この問題を防ぐために、キーごとに一種類のみ送信してください。

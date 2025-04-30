@@ -7,7 +7,7 @@ support:
 - 環境変数
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 2つの W&B アカウントを同じマシンから管理するには、両方の API キーをファイルに保存します。以下のコードをリポジトリで使用し、キーを安全に切り替えることで、秘密キーがソース管理にチェックインされるのを防ぎます。

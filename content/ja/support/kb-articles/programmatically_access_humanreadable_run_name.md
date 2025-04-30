@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `.name` 属性は、[`wandb.Run`]({{< relref path="/ref/python/run.md" lang="ja" >}}) から以下のようにアクセスできます:

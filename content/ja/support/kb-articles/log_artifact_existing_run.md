@@ -7,7 +7,7 @@ support:
 - アーティファクト
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 時々、以前にログを記録した run の出力としてアーティファクトをマークする必要があります。この場合、古い run を再初期化し、新しいアーティファクトを次のようにログします:

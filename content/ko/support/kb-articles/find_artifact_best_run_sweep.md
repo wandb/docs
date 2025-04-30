@@ -7,7 +7,7 @@ support:
 - artifacts
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 스윕에서 가장 성능이 좋은 run에서 아티팩트를 검색하려면 다음 코드를 사용하세요.

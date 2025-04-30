@@ -8,7 +8,7 @@ support:
 - environment variables
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 다음과 같이 노트북에서 로그 메시지를 표시하지 않으려면:

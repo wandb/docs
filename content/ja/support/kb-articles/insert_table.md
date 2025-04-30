@@ -12,7 +12,7 @@ support:
 - テーブル
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 Markdown からの直接的な WYSIWYG 相当の機能がない唯一のものがテーブルとして残っています。テーブルを追加するには、Markdown ブロックを挿入し、その中にテーブルを作成します。

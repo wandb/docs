@@ -9,7 +9,7 @@ support:
 - metrics
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 기본적으로 `wandb.init`는 메트릭을 클라우드에 실시간으로 동기화하는 프로세스를 시작합니다. 오프라인으로 사용하려면 두 개의 환경 변수를 설정하여 오프라인 모드를 활성화하고 나중에 동기화하세요.

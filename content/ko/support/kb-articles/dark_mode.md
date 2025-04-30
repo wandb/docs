@@ -7,7 +7,7 @@ support:
 - workspaces
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 다크 모드는 베타 버전이며 엑세스성을 위해 최적화되지 않았습니다. 다크 모드를 활성화하는 방법:

@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 run が明示的に名前を付けられていない場合、W&B はランダムな名前を割り当てて、プロジェクト内でそれを識別します。ランダムな名前の例としては、`pleasant-flower-4` や `misunderstood-glade-2` があります。

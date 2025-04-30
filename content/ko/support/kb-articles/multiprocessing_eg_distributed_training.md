@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 만약 트레이닝 프로그램이 여러 프로세스를 사용하는 경우, `wandb.init()` 없이 프로세스에서 wandb 메소드 호출을 하지 않도록 프로그램을 구성하세요.

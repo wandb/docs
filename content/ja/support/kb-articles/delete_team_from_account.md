@@ -8,7 +8,7 @@ support:
 - チーム管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 アカウントからチームを削除するには:

@@ -7,7 +7,7 @@ support:
 - reports
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 여러 명의 작성자를 추가하여 리포트에 모든 기여자를 정확하게 표시하세요.

@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 `/` 문자는 W&B UI에서 로그된 패널을 구분합니다. 기본적으로 `/` 이전의 로그된 항목 이름 세그먼트는 "패널 섹션"으로 알려진 패널 그룹을 정의합니다.

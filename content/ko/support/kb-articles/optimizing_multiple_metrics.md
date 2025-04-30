@@ -8,7 +8,7 @@ support:
 - metrics
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 단일 run에서 여러 메트릭을 최적화하려면 개별 메트릭의 가중치 합계를 사용하세요.

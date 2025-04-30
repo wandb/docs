@@ -8,7 +8,7 @@ support:
 - wysiwyg
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 상단에 있는 메시지를 통해 리포트 변환이 이루어진 경우, 빨간색 "Revert" 버튼을 클릭하여 이전 상태로 복원하십시오. 변환 후 이루어진 변경 사항은 모두 손실됩니다.

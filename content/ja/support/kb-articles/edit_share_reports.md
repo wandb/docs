@@ -7,7 +7,7 @@ support:
 - レポート
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 レポートが個人のプライベートプロジェクト内で作成された場合、そのプロジェクトはそのユーザーのみに表示されます。ユーザーはプロジェクトをチームや公開することができます。

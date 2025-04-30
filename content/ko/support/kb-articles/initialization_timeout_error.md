@@ -8,7 +8,7 @@ support:
 - crashing and hanging runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 run 초기화 시간 초과 오류를 해결하려면 다음 단계를 따르세요.

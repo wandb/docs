@@ -7,7 +7,7 @@ support:
 - sweep
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 ハイパーパラメーターの名前と値にアクセスするには、辞書のように振る舞う `wandb.config` を使って、sweep configuration から取得します。

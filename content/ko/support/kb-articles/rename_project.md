@@ -7,7 +7,7 @@ support:
 - projects
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 프로젝트 이름을 변경하려면 다음 단계를 따르세요.

@@ -7,7 +7,7 @@ support:
 - run のクラッシュとハングアップ
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 トレーニング run への干渉を避けることは非常に重要です。W&B は別のプロセスで動作するため、W&B がクラッシュしてもトレーニングは継続されます。インターネットの接続障害が発生した場合でも、W&B は継続的に [wandb.ai](https://wandb.ai) へのデータ送信を再試行します。

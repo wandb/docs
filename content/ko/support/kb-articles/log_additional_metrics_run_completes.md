@@ -8,7 +8,7 @@ support:
 - metrics
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 Experiments 를 관리하는 방법에는 여러 가지가 있습니다.

@@ -8,7 +8,7 @@ support:
 - user management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 계정에 더 많은 자리를 추가하려면 다음 단계를 따르세요.

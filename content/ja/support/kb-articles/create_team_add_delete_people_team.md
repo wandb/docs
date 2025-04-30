@@ -7,7 +7,7 @@ support:
 - チーム管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 リファレンスについては、役割と権限の詳細を参照してください: [Team Roles and Permissions]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ja" >}}).

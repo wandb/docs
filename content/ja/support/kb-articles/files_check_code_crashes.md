@@ -7,7 +7,7 @@ support:
 - ログ
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 実行中のコードのディレクトリー内にある、`wandb/run-<date>_<time>-<run-id>/logs` にある `debug.log` と `debug-internal.log` を確認してください。

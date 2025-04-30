@@ -8,7 +8,7 @@ support:
 - 利用できる WYSIWYG エディターを通じて、より直感的なインターフェースでコンテンツを作成しやすくなります。
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 レポート変換が上部のメッセージを通じて行われた場合、赤い「Revert」ボタンをクリックして、以前の状態に戻してください。変換後に行われた変更は失われることに注意してください。

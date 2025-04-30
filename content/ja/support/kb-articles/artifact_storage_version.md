@@ -8,7 +8,7 @@ support:
 - 記憶装置
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 2 つの Artifacts のバージョン間で変更されたファイルのみがストレージコストの対象となります。

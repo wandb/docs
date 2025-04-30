@@ -7,7 +7,7 @@ support:
 - チャート
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 要約は表に表示され、 ログには将来のプロットのためにすべての値が保存されます。

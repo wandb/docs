@@ -8,7 +8,7 @@ support:
 - 環境変数
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 デフォルトでは、Artifacts は `artifacts/` フォルダにダウンロードされます。場所を変更するには次のようにします。

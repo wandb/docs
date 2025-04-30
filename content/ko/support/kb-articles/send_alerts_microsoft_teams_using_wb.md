@@ -7,7 +7,7 @@ support:
 - alerts
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 Teams 에서 W&B 알림을 받으려면 다음 단계를 따르세요.

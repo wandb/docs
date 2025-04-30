@@ -8,7 +8,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 - `WANDB_DIR=<path>` 또는 `wandb.init(dir=<path>)`: 트레이닝 스크립트용으로 생성된 `wandb` 폴더의 위치를 제어합니다. 기본값은 `./wandb`입니다. 이 폴더에는 Run의 데이터와 로그가 저장됩니다.

@@ -8,7 +8,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 다음 예제는 [`wandb.log()`]({{< relref path="/ref/python/log/" lang="ko" >}})를 사용하여 여러 가지 방법으로 손실을 기록하는 방법을 보여줍니다.

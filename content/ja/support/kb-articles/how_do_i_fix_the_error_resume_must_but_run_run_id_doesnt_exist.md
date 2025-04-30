@@ -8,7 +8,7 @@ support:
 - 'run '
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `resume='must' but run (<run_id>) doesn't exist` というエラーが発生した場合、再開しようとしている run が Project または Entity 内に存在しません。正しいインスタンスにログインし、Project と Entity が設定されていることを確認してください。

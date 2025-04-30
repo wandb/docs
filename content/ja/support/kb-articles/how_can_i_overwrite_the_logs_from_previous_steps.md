@@ -8,7 +8,7 @@ support:
 - メトリクス
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 前のステップからのログを上書きするには、[フォーキング]({{< relref path="guides/models/track/runs/forking.md" lang="ja" >}})と[巻き戻し]({{< relref path="guides/models/track/runs/rewind.md" lang="ja" >}})を使用してください。

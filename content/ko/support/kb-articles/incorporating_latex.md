@@ -7,7 +7,7 @@ support:
 - reports
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 LaTeX는 **Reports**에 완벽하게 통합됩니다. LaTeX를 추가하려면 새 **리포트**를 만들고 서식 있는 텍스트 영역에 입력을 시작하여 메모를 작성하고 사용자 정의 **시각화** 및 테이블을 저장합니다.

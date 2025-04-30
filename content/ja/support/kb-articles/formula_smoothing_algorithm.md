@@ -7,7 +7,7 @@ support:
 - tensorboard
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 The exponential moving average formula は TensorBoard で使用されているものと一致します。

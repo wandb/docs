@@ -8,7 +8,7 @@ support:
 - user management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 Weights & Biases (W&B)의 API 키를 찾는 방법:

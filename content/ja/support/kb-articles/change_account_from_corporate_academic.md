@@ -9,7 +9,7 @@ support:
 - ユーザー管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 Weights & Biases でアカウントを企業用から学術用に変更するには、次の手順に従ってください。

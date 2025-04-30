@@ -7,7 +7,7 @@ support:
 - reports
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 새로운 줄에서 `/`를 누르고 이미지 옵션으로 스크롤한 다음 이미지를 리포트에 끌어다 놓습니다.

@@ -8,7 +8,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 エクスポート制限により、実行履歴全体をCSVとしてエクスポートしたり、`run.history` APIを使用したりすることができない場合があります。完全な実行履歴にアクセスするには、Parquet形式を使用して実行履歴アーティファクトをダウンロードしてください。

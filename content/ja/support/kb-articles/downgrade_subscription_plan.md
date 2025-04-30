@@ -8,7 +8,7 @@ support:
 - 管理者
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 サブスクリプションプランをダウングレードするには、current プランの詳細と希望プランを support@wandb.com のサポートチームにお問い合わせください。

@@ -7,7 +7,7 @@ support:
 - run
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 削除された run を復元するには、次の手順を完了してください：

@@ -7,7 +7,7 @@ support:
 - 実験
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 トレーニングスクリプトの最初に、実験名を指定して `wandb.init` を呼び出します。例: `wandb.init(name="my_awesome_run")`.

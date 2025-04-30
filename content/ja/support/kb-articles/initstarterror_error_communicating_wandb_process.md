@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 このエラーは、ライブラリがサーバーにデータを同期するプロセスの起動に問題があることを示しています。

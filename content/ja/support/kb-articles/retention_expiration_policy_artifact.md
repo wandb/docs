@@ -7,7 +7,7 @@ support:
 - アーティファクト
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 アーティファクトに機密データを含む場合やアーティファクトのバージョンの削除をスケジュールするには、TTL (time-to-live) ポリシーを設定します。詳しい手順は、[TTL ガイド]({{< relref path="/guides/core/artifacts/manage-data/ttl.md" lang="ja" >}}) を参照してください。

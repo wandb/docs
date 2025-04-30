@@ -8,7 +8,7 @@ support:
 - aws
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `W&B` sweep エージェントがアクセスできるようにするために、これらのエージェントが `sweep_id` を読み取り、実行するためのメソッドを実装します。

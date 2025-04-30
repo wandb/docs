@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 "로깅 함수는 지연(lazy) 방식으로 작동하나요? 로컬 작업을 실행하는 동안 결과 를 서버 로 전송하기 위해 네트워크에 의존하고 싶지 않습니다."

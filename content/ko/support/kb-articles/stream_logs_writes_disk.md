@@ -7,7 +7,7 @@ support:
 - environment variables
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B는 메모리에서 이벤트를 큐에 넣고 비동기적으로 디스크에 기록하여 오류를 관리하고 `WANDB_MODE=offline` 설정을 지원하여 로깅 후 동기화할 수 있도록 합니다.

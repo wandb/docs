@@ -7,7 +7,7 @@ support:
 - 匿名
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 もし、誰かがスクリプトを `anonymous="allow"` で実行した場合:

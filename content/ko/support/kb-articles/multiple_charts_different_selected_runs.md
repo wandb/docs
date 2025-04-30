@@ -7,7 +7,7 @@ support:
 - reports
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B Reports를 사용하여 다음 단계를 따르세요.

@@ -8,7 +8,7 @@ support:
 - 請求書発行
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 アドレスを変更するには、サポートチーム（support@wandb.com）に連絡してください。

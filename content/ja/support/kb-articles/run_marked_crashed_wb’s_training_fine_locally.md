@@ -7,7 +7,7 @@ support:
 - crashing and hanging runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 サーバーがインターネットアクセスを失い、データが W&B への同期を停止した場合、接続の問題を示します。短期間の再試行期間後、システムは run をクラッシュしたとマークします。

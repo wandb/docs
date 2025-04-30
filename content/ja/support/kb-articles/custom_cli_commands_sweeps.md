@@ -7,7 +7,7 @@ support:
 - sweep
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 W&B スイープは、トレーニング設定がコマンドライン引数を通過する場合、カスタム CLI コマンドと共に使用できます。

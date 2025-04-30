@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 オフラインマシンでトレーニングが行われる場合、以下の手順を使用して結果をサーバーにアップロードします:

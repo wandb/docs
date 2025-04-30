@@ -8,7 +8,7 @@ support:
 - 管理者
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 チームは、同じProjectに取り組むUsersのための共同作業用Workspaceとして機能します。組織は、請求やアカウント管理に関連して、複数のTeamsを含むことができる上位レベルのEntitiesとして機能します。

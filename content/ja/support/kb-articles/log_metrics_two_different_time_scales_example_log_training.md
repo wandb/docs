@@ -8,7 +8,7 @@ support:
 - メトリクス
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 バッチごとのトレーニング精度とエポックごとの検証精度をログに記録したい場合を考えてみましょう。

@@ -7,7 +7,7 @@ support:
 - ワークスペース
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 一部の機能は、チームの**Beta Features**セクション内のフィーチャーフラグの下に隠されています。

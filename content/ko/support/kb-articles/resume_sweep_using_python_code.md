@@ -8,7 +8,7 @@ support:
 - python
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 스윕을 재개하려면 `sweep_id`를 `wandb.agent()` 함수에 전달하세요.

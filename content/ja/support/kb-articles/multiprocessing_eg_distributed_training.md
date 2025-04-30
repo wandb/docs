@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 トレーニングプログラムが複数のプロセスを使用する場合、`wandb.init()` なしでプロセスから wandb メソッド呼び出しを行わないようにプログラムを構築してください。

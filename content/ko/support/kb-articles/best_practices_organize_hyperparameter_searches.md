@@ -9,7 +9,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 `wandb.init(tags='your_tag')` 로 고유 태그를 설정합니다. 이렇게 하면 프로젝트 페이지의 Runs Table에서 해당 태그를 선택하여 프로젝트 run을 효율적으로 필터링할 수 있습니다.

@@ -7,7 +7,7 @@ support:
 - sweep
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 W&B run のデータのログディレクトリーを設定するには、環境変数 `WANDB_DIR` を設定します。例えば：

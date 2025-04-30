@@ -7,7 +7,7 @@ support:
 - resuming
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B에서 `resume` 파라미터를 사용하려면 `wandb.init()`에서 `resume` 인수를 설정하고 `entity`, `project`, `id`를 지정하세요. `resume` 인수는 `"must"` 또는 `"allow"` 값을 허용합니다.

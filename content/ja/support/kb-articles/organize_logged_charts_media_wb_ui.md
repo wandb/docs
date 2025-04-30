@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `/` 文字は W&B UI でログされたパネルを区切ります。デフォルトでは、`/` の前のログされたアイテムの名前のセグメントが、「パネルセクション」として知られるパネルのグループを定義します。

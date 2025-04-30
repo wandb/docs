@@ -8,7 +8,7 @@ support:
 - メトリクス
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 実験管理にはいくつかの方法があります。

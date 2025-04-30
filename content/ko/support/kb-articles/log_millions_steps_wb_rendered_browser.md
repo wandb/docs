@@ -8,7 +8,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 전송된 포인트 수는 UI에서 그래프 로딩 시간에 영향을 미칩니다. 1,000포인트를 초과하는 라인의 경우, 백엔드는 데이터를 1,000포인트로 샘플링한 후 브라우저로 전송합니다. 이 샘플링은 비결정적이며 페이지를 새로 고침할 때마다 다른 샘플링된 포인트가 생성됩니다.

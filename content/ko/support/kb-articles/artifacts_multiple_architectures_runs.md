@@ -7,7 +7,7 @@ support:
 - artifacts
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 모델을 버전 관리하는 방법에는 여러 가지가 있습니다. Artifacts는 특정 요구 사항에 맞춘 모델 버전 관리를 위한 툴을 제공합니다. 여러 모델 아키텍처를 탐색하는 프로젝트의 일반적인 접근 방식은 Artifacts를 아키텍처별로 분리하는 것입니다. 다음 단계를 고려하십시오.

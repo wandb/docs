@@ -18,7 +18,7 @@ support:
   \  \n{% /tab %}  \n{< /tabpane >}  "
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `pip` または `conda` を使用してインストール可能な Anaconda パッケージがあります。`conda` の場合、[conda-forge](https://conda-forge.org) チャンネルからパッケージを取得してください。

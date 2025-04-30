@@ -7,7 +7,7 @@ support:
 - administrator
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 서비스 계정(Enterprise 전용 기능)은 특정 사용자에게 국한되지 않은 팀 및 프로젝트 전반에서 일반적인 작업을 자동화할 수 있는 비인간 또는 머신 사용자를 나타냅니다. 팀 내에서 서비스 계정을 생성하고 해당 API 키를 사용하여 해당 팀 내의 프로젝트에서 읽고 쓸 수 있습니다.

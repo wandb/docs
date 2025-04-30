@@ -9,7 +9,7 @@ support:
 - charts
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 Plotly 또는 Bokeh figure를 테이블에 직접 통합하는 것은 지원되지 않습니다. 대신, figure를 HTML로 내보내고 해당 HTML을 테이블에 포함하세요. 아래는 인터랙티브 Plotly 및 Bokeh 차트를 사용하여 이를 보여주는 예제입니다.

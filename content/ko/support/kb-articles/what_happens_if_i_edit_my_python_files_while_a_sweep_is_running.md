@@ -7,7 +7,7 @@ support:
 - sweeps
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 스윕이 실행되는 동안:

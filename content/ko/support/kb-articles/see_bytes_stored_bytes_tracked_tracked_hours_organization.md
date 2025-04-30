@@ -7,7 +7,7 @@ support:
 - administrator
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 조직 설정 내에서 조직에 저장된 바이트, 추적된 바이트 및 추적 시간을 확인하세요.

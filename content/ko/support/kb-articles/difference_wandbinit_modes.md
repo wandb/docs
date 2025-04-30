@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 다음 모드를 사용할 수 있습니다.

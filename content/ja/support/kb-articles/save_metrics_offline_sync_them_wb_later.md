@@ -9,7 +9,7 @@ support:
 - メトリクス
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `wandb.init` はデフォルトでメトリクスをリアルタイムでクラウドに同期するプロセスを開始します。オフラインで使用する場合は、オフラインモードを有効にし、後で同期できるように2つの環境変数を設定してください。

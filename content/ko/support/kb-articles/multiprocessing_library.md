@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 예, W&B는 `multiprocessing` 라이브러리를 사용합니다. 다음과 같은 오류 메시지는 가능한 문제를 나타냅니다.

@@ -7,7 +7,7 @@ support:
 - チーム管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 チームは、同じ Projects に取り組む Users のコラボレーションワークスペースとして機能します。エンティティは、ユーザー名またはチーム名を表します。W&B で run をログする際、`wandb.init(entity="example-team")` を使ってエンティティを個人またはチームアカウントに設定します。

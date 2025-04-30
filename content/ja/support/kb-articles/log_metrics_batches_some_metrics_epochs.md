@@ -8,7 +8,7 @@ support:
 - メトリクス
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 各バッチで特定のメトリクスをログし、プロットを標準化するために、希望する x 軸の値とメトリクスを一緒にログします。カスタムプロットで編集をクリックし、カスタム x 軸を選択してください。

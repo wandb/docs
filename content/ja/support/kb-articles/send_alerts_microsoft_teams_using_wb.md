@@ -7,7 +7,7 @@ support:
 - アラート
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 Teams で W&B アラートを受け取るには、以下の手順に従ってください。

@@ -7,7 +7,7 @@ support:
 - ログ
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `wandb offline` コマンドは、環境変数 `WANDB_MODE=offline` を設定し、データがリモート W&B サーバーと同期されないようにします。このアクションはすべての Projects に影響を与え、データの W&B サーバーへのログを停止します。

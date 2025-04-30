@@ -7,7 +7,7 @@ support:
 - 管理者
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 組織アカウントを削除するには、以下の手順に従い、サポートチーム（support@wandb.com）に連絡してください。

@@ -7,7 +7,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 다음 단계를 따라 한 프로젝트에서 다른 프로젝트로 run을 이동할 수 있습니다.

@@ -8,7 +8,7 @@ support:
 - outage
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 Weights & Biases (W&B)에서 "Filestream 속도 제한 초과" 오류를 해결하려면 다음 단계를 따르세요.

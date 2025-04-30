@@ -7,7 +7,7 @@ support:
 - 環境変数
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `wandb.init` に渡された引数は環境変数を上書きします。環境変数が設定されていないときにシステムデフォルト以外のデフォルトディレクトリを設定するには、`wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))` を使用します。

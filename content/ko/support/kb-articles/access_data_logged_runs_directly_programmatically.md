@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 history 오브젝트는 `wandb.log` 로 로그된 메트릭을 추적합니다. API를 사용하여 history 오브젝트에 엑세스하세요:

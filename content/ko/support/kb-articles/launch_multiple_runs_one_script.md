@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 `wandb.init` 과 `run.finish()` 를 사용하여 단일 스크립트 내에서 여러 개의 run을 로그로 기록하세요.

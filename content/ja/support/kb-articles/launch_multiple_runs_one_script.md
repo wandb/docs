@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `wandb.init` と `run.finish()` を使用して、単一のスクリプト内で複数の run をログする方法:

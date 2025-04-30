@@ -7,7 +7,7 @@ support:
 - チャート
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 “その他の設定” ページのカスタム チャート エディタでこのオプションを有効にします。`summaryTable` の代わりに `historyTable` を使用するようにクエリを変更すると、カスタム チャート エディタで「ステップ セレクタを表示」のオプションが提供されます。この機能には、ステップを選択するためのスライダーが含まれています。

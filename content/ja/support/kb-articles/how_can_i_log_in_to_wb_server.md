@@ -7,7 +7,7 @@ support:
 - ユーザー管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 ログイン URL は、次のいずれかの方法で設定します:

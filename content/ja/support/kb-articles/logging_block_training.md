@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 " ロギング機能は遅延するのでしょうか？ローカルの操作を実行しながら、結果を サーバー に送信する際にネットワークに依存したくありません。"

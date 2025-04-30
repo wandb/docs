@@ -8,7 +8,7 @@ support:
 - user management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B 조직에서 사용자 목록을 내보내려면 관리자는 다음 코드를 사용하여 SCIM API를 사용합니다.

@@ -7,7 +7,7 @@ support:
 - 環境変数
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 W&B はメモリでイベントをキューに入れ、非同期にディスクに書き込みを行って、失敗を管理し、`WANDB_MODE=offline` の設定をサポートし、ログ後の同期を可能にします。

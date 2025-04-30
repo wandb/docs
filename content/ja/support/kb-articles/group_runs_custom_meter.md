@@ -8,7 +8,7 @@ support:
 - ワークスペース
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 同じグループ内の個別の run の色を変更することはできません。同じグループのすべての run は共通の色を共有します。

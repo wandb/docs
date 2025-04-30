@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 파일 탭은 최대 10,000개의 파일을 보여줍니다. 모든 파일을 다운로드하려면 [public API]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}})를 사용하세요.

@@ -7,7 +7,7 @@ support:
 - Charts
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 요약은 테이블에 표시되고, 로그는 향후 플롯을 위해 모든 값을 저장합니다.

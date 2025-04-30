@@ -7,7 +7,7 @@ support:
 - 管理者
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `Debug Bundle` を確認してください。管理者は、右上の W&B アイコンを選択後、`Debug Bundle` を選ぶことで `/system-admin` ページから取得できます。

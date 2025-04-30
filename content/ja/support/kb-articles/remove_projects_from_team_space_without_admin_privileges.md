@@ -7,7 +7,7 @@ support:
 - 管理者
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 チームスペースからProjectsを管理者権限なしで削除するには、次のオプションを選択してください:

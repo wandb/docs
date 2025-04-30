@@ -8,7 +8,7 @@ support:
 - run のクラッシュとハングアップ
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 run の初期化タイムアウトエラーを解決するには、次の手順を実行してください。

@@ -8,7 +8,7 @@ support:
 - チーム管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 サービスアカウントは、W&B 内の複数の Teams に追加することはできません。各サービスアカウントは特定の Team に紐付けられています。

@@ -7,7 +7,7 @@ support:
 - user management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 다음 방법 중 하나를 사용하여 로그인 URL을 설정합니다.

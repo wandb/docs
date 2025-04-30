@@ -8,7 +8,7 @@ support:
 - aws
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 모든 W&B Sweep 에이전트가 엑세스할 수 있도록 `sweep_id`를 게시하려면, 이러한 에이전트가 `sweep_id`를 읽고 실행할 수 있는 메소드 를 구현하세요.

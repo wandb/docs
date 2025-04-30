@@ -7,7 +7,7 @@ support:
 - security
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B는 Auth0을 통해 멀티 테넌트 제품에 대한 Single Sign-On (SSO)을 지원합니다. SSO 인테그레이션은 Okta 또는 Azure AD와 같은 모든 OIDC 호환 ID 공급자와 호환됩니다. OIDC 공급자를 구성하려면 다음 단계를 따르세요.

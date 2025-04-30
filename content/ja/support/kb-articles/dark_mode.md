@@ -7,7 +7,7 @@ support:
 - ワークスペース
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 ダークモードはベータ版であり、アクセシビリティに最適化されていません。ダークモードを有効にするには:

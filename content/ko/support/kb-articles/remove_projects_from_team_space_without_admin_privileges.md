@@ -7,7 +7,7 @@ support:
 - administrator
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 관리자 권한 없이 팀 공간에서 프로젝트를 제거하려면 다음 옵션을 따르세요.

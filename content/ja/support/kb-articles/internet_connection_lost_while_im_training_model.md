@@ -7,7 +7,7 @@ support:
 - 環境変数
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 ライブラリがインターネットに接続できない場合、再試行ループに入り、ネットワークが復旧するまでメトリクスのストリームを試み続けます。この間、プログラムは実行を継続します。

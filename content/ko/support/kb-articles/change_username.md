@@ -8,7 +8,7 @@ support:
 - user management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 계정을 생성한 후 사용자 이름을 변경하는 것은 불가능합니다. 대신 원하는 사용자 이름으로 새 계정을 만드세요.

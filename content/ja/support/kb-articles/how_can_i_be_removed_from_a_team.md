@@ -8,7 +8,7 @@ support:
 - チーム管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 チームの 管理者は、チーム 設定の **Users** タブから [チームからあなたを削除する]({{< relref path="/guides/models/app/settings-page/teams.md" lang="ja" >}}) ことができます。

@@ -7,7 +7,7 @@ support:
 - アーティファクト
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 W&Bでアーティファクト参照がログされ、バケットでバージョン管理が有効になっている場合、バージョンIDがAmazon S3 UIに表示されます。これらのバージョンIDとETagsをW&Bで取得するには、アーティファクトを取得し、対応するマニフェストエントリにアクセスします。例えば:

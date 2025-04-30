@@ -8,7 +8,7 @@ support:
 - ユーザー管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 アカウント作成後、ユーザー名を変更することはできません。代わりに、希望のユーザー名で新しいアカウントを作成してください。

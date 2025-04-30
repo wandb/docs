@@ -7,7 +7,7 @@ support:
 - アーティファクト
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 Artifacts は、その親プロジェクトからアクセス権限を継承します:

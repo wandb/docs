@@ -7,7 +7,7 @@ support:
 - プロジェクト
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 プロジェクトをリネームするには:

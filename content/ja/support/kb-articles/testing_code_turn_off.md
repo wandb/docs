@@ -7,7 +7,7 @@ support:
 - アーティファクト
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定して、W&B をテスト目的で何もしない (NOOP) 状態に設定します。

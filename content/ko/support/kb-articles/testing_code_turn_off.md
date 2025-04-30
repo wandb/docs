@@ -7,7 +7,7 @@ support:
 - artifacts
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 테스트 목적으로 W&B를 작동하지 않는(NOOP) 상태로 구성하려면 `wandb.init(mode="disabled")`를 사용하거나 `WANDB_MODE=disabled`를 설정하세요.

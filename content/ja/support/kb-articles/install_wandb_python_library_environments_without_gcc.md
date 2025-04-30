@@ -16,7 +16,7 @@ support:
   # Artifacts をアップロードします\nwandb.log_artifact(artifact)\n```\n\nこのコードスニペットは、W&B システムにデータセットファイルを保存する基本的なワークフローを示しています。"
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `wandb` をインストールする際に以下のエラーが発生した場合:

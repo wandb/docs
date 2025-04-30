@@ -7,7 +7,7 @@ support:
 - team management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 Teams 에 대한 추가 정보는 [teams 섹션]({{< relref path="/guides/models/app/settings-page/teams.md" lang="ko" >}})을 참조하세요.

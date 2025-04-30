@@ -8,7 +8,7 @@ support:
 - プロジェクト
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 プロジェクトを公開にするには、次の手順を行います。

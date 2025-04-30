@@ -8,7 +8,7 @@ support:
 - メトリクス
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 メトリクスを `Step` 以外の X 軸に対して視覚化する場合、データポイントが少なくなることがあります。メトリクスは同じ `Step` でログする必要があり、同期を維持します。同じ `Step` でログされるメトリクスのみが、サンプル間の補間中にサンプリングされます。

@@ -7,7 +7,7 @@ support:
 - storage
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 - 처리 지연으로 인해 run을 삭제한 후 스토리지 측정기가 즉시 업데이트되지 않습니다.

@@ -8,7 +8,7 @@ support:
 - metrics
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 각 배치에서 특정 메트릭을 로그하고 플롯을 표준화하려면 원하는 x축 값과 함께 메트릭을 로그하세요. 사용자 정의 플롯에서 편집을 클릭하고 사용자 정의 x축을 선택합니다.

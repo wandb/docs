@@ -9,7 +9,7 @@ support:
 - メトリクス
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 デフォルトでは、W&B は Datasets の例をログしません。デフォルトで、W&B はコードとシステムメトリクスをログします。

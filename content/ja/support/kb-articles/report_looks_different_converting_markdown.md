@@ -9,7 +9,7 @@ support:
   Could you provide more details or content for translation?
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 WYSIWYG に移行した後も元の外観を維持することが目標ですが、変換プロセスは完全ではありません。もし重大な不一致が発生した場合は、それらを評価のためにReportsしてください。Usersは編集セッションが終了するまで以前の状態に戻すことができます。

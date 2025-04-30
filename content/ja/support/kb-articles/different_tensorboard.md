@@ -7,7 +7,7 @@ support:
 - tensorboard
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 W&B は TensorBoard と連携し、実験管理ツールを改善します。創業者は TensorBoard ユーザーが直面する一般的な課題を解決するために W&B を作成しました。主な改善点は以下の通りです：

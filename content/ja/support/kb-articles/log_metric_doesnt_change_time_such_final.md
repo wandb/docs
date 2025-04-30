@@ -7,7 +7,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `wandb.log({'final_accuracy': 0.9})` を使用すると、最終精度が正しく更新されます。デフォルトでは、`wandb.log({'final_accuracy': <値>})` は `wandb.settings['final_accuracy']` を更新し、これは実行テーブルの値を反映します。

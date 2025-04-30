@@ -7,7 +7,7 @@ support:
 - environment variables
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 환경 변수 [`WANDB_SILENT`]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}}) 를 `true` 로 설정하세요.

@@ -8,7 +8,7 @@ support:
 - メトリクス
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 複数のメトリクスを単一の run で最適化するには、個々のメトリクスの加重平均を使用します。

@@ -7,7 +7,7 @@ support:
 - 環境変数
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 環境変数 [`WANDB_SILENT`]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) を `true` に設定します。

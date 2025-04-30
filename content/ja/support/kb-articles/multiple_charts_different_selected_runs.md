@@ -7,7 +7,7 @@ support:
 - レポート
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 W&B Reports を使って、次のステップに従ってください:

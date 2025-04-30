@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 履歴オブジェクトは `wandb.log` でログされたメトリクスを追跡します。API を使用して履歴オブジェクトにアクセスします:

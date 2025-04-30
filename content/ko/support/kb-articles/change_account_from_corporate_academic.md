@@ -9,7 +9,7 @@ support:
 - user management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 Weights & Biases에서 기업 계정을 교육 계정으로 변경하려면 다음 단계를 따르세요.

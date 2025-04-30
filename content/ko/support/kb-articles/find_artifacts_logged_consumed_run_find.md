@@ -8,7 +8,7 @@ support:
 - artifacts
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B는 각 run에서 로그된 아티팩트와 각 run에서 사용하여 아티팩트 그래프를 구성하는 아티팩트를 추적합니다. 이 그래프는 run과 아티팩트를 나타내는 노드를 가진 이분 방향성 비순환 그래프입니다. 예제는 [여기](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph)에서 볼 수 있습니다("Explode"를 클릭하여 그래프를 확장).

@@ -7,7 +7,7 @@ support:
 - tensorboard
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 지수 이동 평균 공식은 TensorBoard에서 사용되는 공식과 일치합니다.

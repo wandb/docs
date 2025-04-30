@@ -7,7 +7,7 @@ support:
 - アーティファクト
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 アーティファクトを sweep の中で最も良いパフォーマンスを示した run から取得するには、次のコードを使用します。

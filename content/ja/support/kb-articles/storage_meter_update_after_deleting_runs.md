@@ -7,7 +7,7 @@ support:
 - storage
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 - After deleting a run, the storage meter is not updated immediately due to processing delays.

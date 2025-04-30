@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 오프라인 머신에서 트레이닝이 발생하는 경우, 다음 단계를 통해 결과를 서버에 업로드하세요:

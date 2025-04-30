@@ -8,7 +8,7 @@ support:
 - team management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B에서 서비스 계정은 여러 팀에 추가할 수 없습니다. 각 서비스 계정은 특정 팀에 연결됩니다.

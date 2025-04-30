@@ -7,7 +7,7 @@ support:
 - billing
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 결제 수단을 업데이트하려면 다음 단계를 따르세요.

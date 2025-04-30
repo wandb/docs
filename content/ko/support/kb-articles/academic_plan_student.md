@@ -9,7 +9,7 @@ support:
 - user management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 학생들은 다음 단계를 따라 학술 플랜을 신청할 수 있습니다:

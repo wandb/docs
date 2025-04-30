@@ -9,7 +9,7 @@ support:
 - チーム管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 Teams プランには月額サブスクリプションのオプションはありません。このサブスクリプションは年単位で請求されます。

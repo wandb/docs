@@ -8,7 +8,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 [システムメトリクス]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ja" >}})のログを無効にするには、`_disable_stats` を `True` に設定します:

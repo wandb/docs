@@ -7,7 +7,7 @@ support:
 - crashing and hanging runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 키보드에서 `Ctrl+D`를 눌러 W&B로 계측된 스크립트를 중지합니다.

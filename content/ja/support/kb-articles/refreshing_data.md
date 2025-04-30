@@ -8,7 +8,7 @@ support:
 - ワークスペース
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 ワークスペースは自動的に更新されたデータをロードします。自動リフレッシュはReportsには適用されません。Reportデータを更新するにはページをリロードしてください。

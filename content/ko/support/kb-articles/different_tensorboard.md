@@ -7,7 +7,7 @@ support:
 - tensorboard
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B는 TensorBoard와 통합되어 실험 트래킹 툴을 개선합니다. 창립자들은 TensorBoard 사용자들이 겪는 일반적인 불만을 해결하기 위해 W&B를 만들었습니다. 주요 개선 사항은 다음과 같습니다.

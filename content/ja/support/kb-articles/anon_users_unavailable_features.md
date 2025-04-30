@@ -7,7 +7,7 @@ support:
 - 匿名
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 * **永続的なデータはありません**: Runs は匿名アカウントで 7 日間保存されます。匿名 run データを正規のアカウントに保存することで取得できます。

@@ -7,7 +7,7 @@ support:
 - connectivity
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 SSL 또는 네트워크 오류가 발생하는 경우(예: `wandb: Network error (ConnectionError), entering retry loop`), 다음 해결 방법을 사용하세요.

@@ -7,7 +7,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 run をあるプロジェクトから別のプロジェクトに移動するには、次の手順に従います：

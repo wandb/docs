@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 W&B は、アップロードするファイルまたはデータの明示的な指定を許可することにより、スカラーのみをログする Projects をサポートしています。画像を使用せずにログを行う [PyTorch の例](http://wandb.me/pytorch-colab) を参照してください。

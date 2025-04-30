@@ -8,7 +8,7 @@ support:
 - サービス停止
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 W&B マルチテナントクラウドが停止しているかどうかは、W&B ステータスページ [https://status.wandb.com](https://status.wandb.com) を訪問して確認してください。

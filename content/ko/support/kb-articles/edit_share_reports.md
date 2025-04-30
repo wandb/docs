@@ -7,7 +7,7 @@ support:
 - reports
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 개인 프로젝트 내에서 생성된 Reports 는 해당 사용자에게만 보입니다. 사용자는 자신의 프로젝트를 팀 또는 공개적으로 공유할 수 있습니다.

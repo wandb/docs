@@ -8,7 +8,7 @@ support:
 - sweeps
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 `wandb.config`를 사용하여 스윕 구성에서 하이퍼파라미터 이름과 값에 엑세스하세요. `wandb.config`는 사전처럼 작동합니다.

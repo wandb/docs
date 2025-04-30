@@ -7,7 +7,7 @@ support:
 - artifacts
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 Artifacts는 상위 project로부터 엑세스 권한을 상속받습니다.

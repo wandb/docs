@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 はい。 run ID で run 名を上書きするには、次のコードスニペットを使用します:

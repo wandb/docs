@@ -7,7 +7,7 @@ support:
 - administrator
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 - 지원팀(support@wandb.com)에 문의하세요.

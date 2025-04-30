@@ -8,7 +8,7 @@ support:
 - user management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 비밀번호 재설정 이메일을 받을 수 없을 때 계정에 다시 엑세스하려면 다음 단계를 따르세요.

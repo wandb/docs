@@ -8,7 +8,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 [시스템 메트릭]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ko" >}})의 로깅을 비활성화하려면 `_disable_stats`를 `True`로 설정하세요:

@@ -7,7 +7,7 @@ support:
 - anonymous
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 `anonymous="allow"` 로 스크립트를 실행하는 경우:

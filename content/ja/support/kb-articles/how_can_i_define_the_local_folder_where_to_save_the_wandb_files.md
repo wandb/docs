@@ -8,7 +8,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 - `WANDB_DIR=<path>` または `wandb.init(dir=<path>)`: トレーニングスクリプトのために作成された `wandb` フォルダの場所を制御します。デフォルトは `./wandb` です。このフォルダには Run のデータとログが保存されます。

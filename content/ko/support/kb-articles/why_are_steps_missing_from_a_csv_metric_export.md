@@ -8,7 +8,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 내보내기 제한으로 인해 전체 run 이력은 CSV로 내보내거나 `run.history` API를 사용하여 내보낼 수 없습니다. 전체 run 이력에 엑세스하려면 Parquet 형식을 사용하여 run 이력 아티팩트를 다운로드하세요.

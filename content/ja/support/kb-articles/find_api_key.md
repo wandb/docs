@@ -8,7 +8,7 @@ support:
 - ユーザー管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 W&B（Weights and バイアス）の APIキーを見つけるには、次の手順に従います。

@@ -7,7 +7,7 @@ support:
 - workspaces
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 일부 기능은 팀 설정의 **베타 기능** 섹션에 있는 기능 플래그 아래에 숨겨져 있습니다.

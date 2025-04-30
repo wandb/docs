@@ -8,7 +8,7 @@ support:
 - security
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B 엔티티에 run을 기록할 때 발생하는 권한 오류를 해결하려면 다음 단계를 따르세요.

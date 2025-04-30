@@ -8,7 +8,7 @@ support:
 - metrics
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 예를 들어, 배치 당 트레이닝 정확도 와 에포크 당 검증 정확도 를 로그하고 싶다고 가정해 보겠습니다.

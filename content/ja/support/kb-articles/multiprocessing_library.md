@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 はい、W&B は `multiprocessing` ライブラリを使用しています。以下のようなエラーメッセージが表示される場合、問題がある可能性があります。

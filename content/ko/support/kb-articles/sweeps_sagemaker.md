@@ -8,7 +8,7 @@ support:
 - aws
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 W&B 인증을 받으려면 다음 단계를 완료하세요. 내장된 Amazon SageMaker estimator를 사용하는 경우 `requirements.txt` 파일을 만드세요. 인증 및 `requirements.txt` 파일 설정에 대한 자세한 내용은 [SageMaker integration]({{< relref path="/guides/integrations/sagemaker.md" lang="ko" >}}) 가이드를 참조하세요.

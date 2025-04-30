@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `wandb.run.save()` を呼び出して現在の run を保存します。`wandb.run.name` を使用して名前を取得します。

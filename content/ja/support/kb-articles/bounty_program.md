@@ -7,7 +7,7 @@ support:
 - セキュリティ
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 Weights and Biases にはバグバウンティプログラムがあります。詳細はセキュリティポータルをアクセスしてください: [https://security.wandb.ai/](https://security.wandb.ai/).

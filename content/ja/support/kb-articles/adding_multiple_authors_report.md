@@ -7,7 +7,7 @@ support:
 - レポート
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 レポートにすべての貢献者を正確に記載するには、複数の著者を追加します。

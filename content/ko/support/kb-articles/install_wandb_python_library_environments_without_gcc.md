@@ -7,7 +7,7 @@ support:
 - python
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 `wandb` 설치 시 다음과 같은 오류가 발생하는 경우:

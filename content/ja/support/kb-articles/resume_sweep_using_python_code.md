@@ -8,7 +8,7 @@ support:
 - 申し訳ありませんが、翻訳するための具体的なコンテンツを提供してください。そのコンテンツを翻訳します。
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 sweep を再開するには、`sweep_id` を `wandb.agent()` 関数に渡します。

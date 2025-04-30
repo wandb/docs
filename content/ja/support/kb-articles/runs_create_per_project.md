@@ -8,7 +8,7 @@ support:
 - run
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 各プロジェクトの run は約 10,000 に制限し、最適なパフォーマンスを維持してください。

@@ -8,7 +8,7 @@ support:
 - team management
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 계정에서 팀을 삭제하는 방법:

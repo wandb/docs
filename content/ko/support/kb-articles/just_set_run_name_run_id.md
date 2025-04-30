@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 예: run 이름을 run ID로 덮어쓰려면 다음 코드 조각을 사용하세요.

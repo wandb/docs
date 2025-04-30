@@ -7,7 +7,7 @@ support:
 - workspaces
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 이 오류를 해결하려면 URL 끝에 `?workspace=clear` 를 추가하고 Enter 키를 누르세요. 이 작업을 수행하면 프로젝트 페이지 **Workspace** 의 정리된 버전으로 이동합니다.

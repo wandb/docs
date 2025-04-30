@@ -7,7 +7,7 @@ support:
 - 管理者
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 有効期限が切れたライセンスを更新するには、更新プロセスのサポートや新しいライセンスキーを受け取るために、support@wandb.com のサポートチームに連絡してください。

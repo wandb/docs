@@ -9,7 +9,7 @@ support:
 - ユーザー管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 学生は次のステップに従って、アカデミックプランに申し込むことができます：

@@ -7,7 +7,7 @@ support:
 - run
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 完了した run に割り当てられたグループを API を使用して変更することができます。この機能は Web UI には表示されません。次のコードを使用してグループを更新してください：

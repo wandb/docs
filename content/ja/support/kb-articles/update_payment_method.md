@@ -7,7 +7,7 @@ support:
 - 課金
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 支払い方法を更新するには、次のステップに従ってください:

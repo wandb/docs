@@ -7,7 +7,7 @@ support:
 - experiments
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 [`wandb.Run`]({{< relref path="/ref/python/run.md" lang="ko" >}}) 의 `.name` 속성은 다음과 같이 액세스할 수 있습니다:

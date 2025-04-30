@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 `wandb.plot.line_series()` を使って複数行のカスタムチャートを作成します。 ラインチャートを表示するには、[プロジェクトページ]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}) に移動します。凡例を追加するには、`wandb.plot.line_series()` に `keys` 引数を含めます。例えば：

@@ -7,7 +7,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 삭제된 run을 복구하려면 다음 단계를 완료하세요.

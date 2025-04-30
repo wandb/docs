@@ -8,7 +8,7 @@ support:
 - storage
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 두 아티팩트 버전 간에 변경된 파일만 스토리지 비용이 발생합니다.

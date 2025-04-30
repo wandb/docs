@@ -7,7 +7,7 @@ support:
 - sweeps
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 만약 트레이닝 설정이 코맨드 라인 인수를 전달한다면, 사용자 정의 CLI 코맨드와 함께 W&B Sweeps를 사용할 수 있습니다.

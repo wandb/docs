@@ -8,7 +8,7 @@ support:
 - environment variables
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ko/support/:filename
 ---
 
 기본적으로 아티팩트는 `artifacts/` 폴더에 다운로드됩니다. 위치를 변경하려면 다음을 수행하세요.

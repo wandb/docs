@@ -7,7 +7,7 @@ support:
 - レポート
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 新しい行で「/」キーを押し、Image オプションまでスクロールして、画像を レポート にドラッグ＆ドロップします。

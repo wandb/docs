@@ -7,7 +7,7 @@ support:
 - ワークスペース
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 このエラーを解決するには、URL の末尾に `?workspace=clear` を追加して Enter キーを押します。この操作により、プロジェクトページ ワークスペースのクリアされたバージョンに移動します。

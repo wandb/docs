@@ -7,7 +7,7 @@ support:
 - sweep
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 スイープが実行中の場合:

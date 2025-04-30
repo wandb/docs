@@ -7,7 +7,7 @@ support:
 - 実験管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 画像パネルを展開し、ステップスライダーを使用して異なるステップからの画像をナビゲートします。このプロセスは、トレーニング中の Models の出力変化を比較するのを助けます。

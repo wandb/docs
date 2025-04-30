@@ -8,7 +8,7 @@ support:
 - runs
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 [public API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) を使用して、単一の操作で複数の run を削除します。

@@ -7,7 +7,7 @@ support:
 - チーム管理
 toc_hide: true
 type: docs
-url: /support/:filename
+url: /ja/support/:filename
 ---
 
 チームに関する追加情報は、[teams section]({{< relref path="/guides/models/app/settings-page/teams.md" lang="ja" >}})をご覧ください。
