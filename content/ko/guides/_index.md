@@ -39,7 +39,7 @@ W&B 를 처음 사용하는 사용자이고 머신러닝 모델 및 실험을 �
 2. [Experiments]({{< relref path="/guides/models/track/" lang="ko" >}})로 머신러닝 실험을 생성하고 추적하세요.
 3. [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}})로 데이터셋 및 모델 버전 관리를 위한 W&B 의 유연하고 가벼운 빌딩 블록을 찾아보세요.
 4. [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ko" >}})로 하이퍼파라미터 검색을 자동화하고 가능한 모델 공간을 탐색하세요.
-5. [Registry]({{< relref path="/guides/core/registry/" lang="ko" >}})로 트레이닝에서 프로덕션까지 모델 수명 주기를 관리하세요.
+5. [Registry]({{< relref path="/guides/core/registry/" lang="ko" >}})로 트레이닝에서 프로덕션까지 모델 라이프사이클을 관리하세요.
 6. [Data Visualization]({{< relref path="/guides/models/tables/" lang="ko" >}}) 가이드로 모델 버전 간 예측값을 시각화하세요.
 7. [Reports]({{< relref path="/guides/core/reports/" lang="ko" >}})로 runs를 구성하고, 시각화를 포함 및 자동화하고, 발견한 내용을 설명하고, 협업자와 업데이트를 공유하세요.
 
