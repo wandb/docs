@@ -1,14 +1,13 @@
 ---
+title: sweep に追加の値を加える方法はありますか、それとも新しい sweep を始める必要がありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-add_extra_values_sweep_start_new_one
 support:
-- sweeps
-title: Is there a way to add extra values to a sweep, or do I need to start a new
-  one?
+- sweep
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Once a W&B Sweep starts, you cannot change the Sweep configuration. However, you can navigate to any table view, select runs using the checkboxes, and then choose the **Create sweep** menu option to generate a new Sweep configuration based on previous runs.
+W&B Sweep が開始すると、Sweep configuration を変更することはできません。ただし、任意のテーブルビューに移動し、チェックボックスを使用して runs を選択してから、**Create sweep** メニューオプションを選択して、以前の runs に基づいた新しい Sweep configuration を生成することができます。

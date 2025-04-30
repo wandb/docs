@@ -1,61 +1,59 @@
 ---
+title: ローンンチ ジョブを表示する
 menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-launch-view-jobs
     parent: create-and-deploy-jobs
-title: View launch jobs
 url: guides/launch/launch-view-jobs
 ---
 
-The following page describes how to view information about launch jobs added to queues.
+以下のページでは、キューに追加されたローンンチジョブの情報を表示する方法を説明します。
 
-## View jobs
+## ジョブの表示
 
-View jobs added to a queue with the W&B App.
+W&B アプリケーションを使用してキューに追加されたジョブを表示します。
 
-1. Navigate to the W&B App at https://wandb.ai/home.
-2. Select **Launch** within the **Applications** section of the left sidebar.
-3. Select the **All entities** dropdown and select the entity the launch job belongs to.
-4. Expand the collapsible UI from the Launch Application page to view a list of jobs added to that specific queue.
+1. https://wandb.ai/home にある W&B アプリケーションにアクセスします。
+2. 左側のサイドバーにある **Applications** セクション内の **Launch** を選択します。
+3. **All entities** ドロップダウンを選択し、ローンンチジョブが所属するエンティティを選択します。
+4. Launch Application ページから折りたたみ可能なUIを展開し、その特定のキューに追加されたジョブのリストを表示します。
 
 {{% alert %}}
-A run is created when the launch agent executes a launch job. In other words, each run listed corresponds to a specific job that was added to that queue.
+ローンンチエージェントがローンンチジョブを実行すると、run が作成されます。つまり、リストされている各runは、そのキューに追加された特定のジョブに対応しています。
 {{% /alert %}}
 
-For example, the following image shows two runs that were created from a job called `job-source-launch_demo-canonical`. The job was added to a queue called `Start queue`. The first run listed in the queue called `resilient-snowball` and the second run listed is called `earthy-energy-165`.
-
+例えば、次の画像は、`job-source-launch_demo-canonical`というジョブから作成された2つのrunを示しています。このジョブは `Start queue` というキューに追加されました。キューにリストされている最初のrunは `resilient-snowball` と呼ばれ、2番目のrunは `earthy-energy-165` と呼ばれます。
 
 {{< img src="/images/launch/launch_jobs_status.png" alt="" >}}
 
-Within the W&B App UI you can find additional information about runs created from launch jobs such as the:
-   - **Run**: The name of the W&B run assigned to that job.
-   - **Job ID**: The name of the job. 
-   - **Project**: The name of the project the run belongs to.
-   - **Status**: The status of the queued run. 
-   - **Author**: The W&B entity that created the run.
-   - **Creation date**: The timestamp when the queue was created.
-   - **Start time**: The timestamp when the job started.
-   - **Duration**: Time, in seconds, it took to complete the job’s run.
+W&B アプリケーションUI内で、ローンンチジョブから作成されたrunに関する次のような追加情報を見つけることができます：
+   - **Run**: そのジョブに割り当てられた W&B run の名前。
+   - **Job ID**: ジョブの名前。
+   - **Project**: runが所属するプロジェクトの名前。
+   - **Status**: キューに入れられたrunのステータス。
+   - **Author**: run を作成した W&B エンティティ。
+   - **Creation date**: キューが作成されたタイムスタンプ。
+   - **Start time**: ジョブが開始されたタイムスタンプ。
+   - **Duration**: ジョブのrunを完了するのにかかった時間（秒単位）。
 
-## List jobs 
-View a list of jobs that exist within a project with the W&B CLI. Use the W&B job list command and provide the name of the project and entity the launch job belongs to the `--project` and `--entity` flags, respectively. 
+## ジョブのリスト 
+プロジェクト内に存在するジョブのリストを W&B CLI を使用して表示します。W&B job list コマンドを使用し、`--project` および `--entity` フラグにローンンチジョブが所属するプロジェクト名とエンティティ名を指定します。
 
 ```bash
- wandb job list --entity your-entity --project project-name
+wandb job list --entity your-entity --project project-name
 ```
 
-## Check the status of a job
+## ジョブのステータスを確認する
 
-The following table defines the status a queued run can have:
+次の表は、キューに入れられたrunが持つ可能性のあるステータスを定義しています：
 
-
-| Status | Description |
+| ステータス | 説明 |
 | --- | --- |
-| **Idle** | The run is in a queue with no active agents. |
-| **Queued** | The run is in a queue waiting for an agent to process it. |
-| **Pending** | The run has been picked up by an agent but has not yet started. This could be due to resources being unavailable on the cluster. |
-| **Running** | The run is currently executing. |
-| **Killed** | The job was killed by the user. |
-| **Crashed** | The run stopped sending data or did not successfully start. |
-| **Failed** | The run ended with a non-zero exit code or the run failed to start. |
-| **Finished** | The job completed successfully. |
+| **Idle** | runはアクティブなエージェントのないキューにあります。 |
+| **Queued** | runはエージェントが処理するのを待っているキューにあります。 |
+| **Pending** | run はエージェントによって取得されましたが、まだ開始されていません。これはクラスターでリソースが利用できないことが原因である可能性があります。 |
+| **Running** | run は現在実行中です。 |
+| **Killed** | ジョブはユーザーによって終了されました。 |
+| **Crashed** | run はデータの送信を停止したか、正常に開始しませんでした。 |
+| **Failed** | run は非ゼロの終了コードで終了したか、run の開始に失敗しました。 |
+| **Finished** | ジョブは正常に完了しました。 |

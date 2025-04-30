@@ -1,26 +1,26 @@
 ---
+title: 参照
+description: Weights & Biases API に関する生成されたドキュメント
 cascade:
   type: docs
-description: Generated documentation for Weights & Biases APIs
 menu:
   reference:
     identifier: ja-ref-_index
 no_list: true
-title: Reference
 type: docs
 ---
 
 {{< cardpane >}}
   {{< card >}}
     <a href="./python/">
-      <h2 className="card-title">Python Library</h2>
-      <p className="card-content">Train, fine-tune, and manage models from experimentation to production.</p>
+      <h2 className="card-title">Python ライブラリ</h2>
+      <p className="card-content">モデルを訓練し、ファインチューンし、実験からプロダクションまで管理します。</p>
     </a>
   {{< /card >}}
   {{< card >}}
     <a href="./query-panel/">
-      <h2 className="card-title">Command Line Interface</h2>
-      <p className="card-content">Log in, run jobs, execute sweeps, and more using shell commands.</p>
+      <h2 className="card-title">コマンドラインインターフェース</h2>
+      <p className="card-content">ログインし、ジョブを実行し、sweep を実行するなど、シェルコマンドを使用します。</p>
     </a>
   {{< /card >}}
 {{< /cardpane >}}
@@ -28,18 +28,18 @@ type: docs
 {{< cardpane >}}
   {{< card >}}
     <a href="./js/">
-      <h2 className="card-title">Javascript Library</h2>
-      <p className="card-content">A beta JavaScript/TypeScript client to track metrics from your Node server.</p>
+      <h2 className="card-title">Javascript ライブラリ</h2>
+      <p className="card-content">Node サーバーからメトリクスをトラッキングするベータ版の JavaScript/TypeScript クライアント。</p>
     </a>
   {{< /card >}}
   {{< card >}}
     <a href="./query-panel/">
-      <h2 className="card-title">Query Panels</h2>
-      <p className="card-content"> A beta query language to select and aggregate data.</p>
+      <h2 className="card-title">クエリパネル</h2>
+      <p className="card-content"> データを選択および集約するためのベータクエリ言語。</p>
     </a>
   {{< /card >}}
 {{< /cardpane >}}
 
 {{% alert %}}
-Looking for Weave API? See the [W&B Weave Docs](https://weave-docs.wandb.ai/).
+Weave API をお探しですか？ [W&B Weave Docs](https://weave-docs.wandb.ai/)を参照してください。
 {{% /alert %}}

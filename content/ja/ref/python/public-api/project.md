@@ -1,13 +1,13 @@
 ---
+title: プロジェクト
 menu:
   reference:
     identifier: ja-ref-python-public-api-project
-title: Project
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L79-L154 >}}
 
-A project is a namespace for runs.
+プロジェクトは、run のための名前空間です。
 
 ```python
 Project(
@@ -15,14 +15,14 @@ Project(
 )
 ```
 
-| Attributes |  |
+| 属性 |  |
 | :--- | :--- |
 
-## Methods
+## メソッド
 
 ### `artifacts_types`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L112-L114)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L112-L114)
 
 ```python
 artifacts_types(
@@ -32,7 +32,7 @@ artifacts_types(
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
 
 ```python
 display(
@@ -40,11 +40,11 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+jupyter でこのオブジェクトを表示します。
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -54,7 +54,7 @@ snake_to_camel(
 
 ### `sweeps`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L116-L154)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L116-L154)
 
 ```python
 sweeps()
@@ -62,7 +62,7 @@ sweeps()
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L96-L104)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L96-L104)
 
 ```python
 to_html(
@@ -70,4 +70,4 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this project.
+このプロジェクトを表示する iframe を含む HTML を生成します。

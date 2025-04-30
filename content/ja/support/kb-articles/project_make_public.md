@@ -1,25 +1,25 @@
 ---
+title: プロジェクトを公開にするにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-project_make_public
 support:
-- privacy
-- projects
-title: How can I make my project public?
+- プライバシー
+- プロジェクト
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To make a project public, follow these steps:
+プロジェクトを公開にするには、次の手順を行います。
 
-1. Access the project page in the Weights & Biases web app.
-2. Click the lock icon in the navigation bar to open privacy settings.
-3. Choose "Public" to allow visibility for anyone.
-4. Save the changes.
+1. Weights & Biases のウェブアプリでプロジェクトページにアクセスします。
+2. ナビゲーションバーのロックアイコンをクリックしてプライバシー設定を開きます。
+3. 「公開」を選択し、誰でも公開範囲を許可します。
+4. 変更を保存します。
 
-If the "Public" option is not available due to restrictions, consider the following options:
+制限により「公開」オプションが利用できない場合は、次のオプションを検討してください。
 
-- Share a view-only link via a report.
-- Contact the organization's admin for assistance.
-- Check account settings to confirm permission for public projects.
+- Reports を介して閲覧専用リンクを共有する。
+- 組織の管理者にアシスタンスを求める。
+- アカウント設定を確認し、公開 Projects の許可を確認する。

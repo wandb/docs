@@ -1,43 +1,41 @@
 ---
+title: サポート
 menu:
   support:
     identifier: ja-support-_index
-title: Support
 ---
 
-{{< banner title="How can we help?" background="/images/support/support_banner.png" >}}
-Search for help from support articles, product documentation,<br>
-and the W&B community. 
+{{< banner title="どのようにお手伝いできますか?" background="/images/support/support_banner.png" >}}
+サポート記事、製品ドキュメント、<br>
+そして W&B コミュニティからのヘルプを検索してください。
 {{< /banner >}}
 
-## Featured articles
+## 注目の記事
 
-Here are the most commonly asked questions across all categories.
+以下は全てのカテゴリーで最もよくある質問です。
 
-* [What does `wandb.init` do to my training process?]({{< relref path="/support/kb-articles/wandbinit_training_process.md" lang="ja" >}})
-* [How do I use custom CLI commands with sweeps?]({{< relref path="/support/kb-articles/custom_cli_commands_sweeps.md" lang="ja" >}})
-* [Is it possible to save metrics offline and sync them to W&B later?]({{< relref path="/support/kb-articles/same_metric_appearing_more.md" lang="ja" >}})
-* [How can I configure the name of the run in my training code?]({{< relref path="/support/kb-articles/configure_name_run_training_code.md" lang="ja" >}})
+* [`wandb.init` をトレーニング プロセスにどう影響させますか？]({{< relref path="/support/kb-articles/wandbinit_training_process.md" lang="ja" >}})
+* [スイープでカスタム CLI コマンドを使用するにはどうすればよいですか？]({{< relref path="/support/kb-articles/custom_cli_commands_sweeps.md" lang="ja" >}})
+* [メトリクスをオフラインで保存して、後で W&B に同期することは可能ですか？]({{< relref path="/support/kb-articles/same_metric_appearing_more.md" lang="ja" >}})
+* [トレーニング コードで run の名前を設定するにはどうすればよいですか？]({{< relref path="/support/kb-articles/configure_name_run_training_code.md" lang="ja" >}})
 
+探しているものが見つからない場合は、以下の[人気のカテゴリー]({{< relref path="#popular-categories" lang="ja" >}})を参照するか、カテゴリーに基づいて記事を検索してください。
 
-If you can't find what you are looking for, browse through the [popular categories]({{< relref path="#popular-categories" lang="ja" >}}) below or search through articles based on categories.
+## 人気のカテゴリー
 
-
-## Popular categories
-
-Browse articles by category.
+カテゴリー別に記事を参照してください。
 
 {{< cardpane >}}
   {{< card >}}
     <a href="/support/experiments">
       <h2 className="card-title">Experiments</h2>
-      <p className="card-content">Track, visualize, and compare machine learning experiments</p>
+      <p className="card-content">機械学習の実験を追跡、視覚化、比較します</p>
     </a>
   {{< /card >}}
   {{< card >}}
     <a href="/support/artifacts">
       <h2 className="card-title">Artifacts</h2>
-      <p className="card-content">Version and track datasets, models, and other machine learning artifacts</p>
+      <p className="card-content">データセット、モデル、その他の機械学習アーティファクトをバージョン管理して追跡します</p>
     </a>
   {{< /card >}}
 {{< /cardpane >}}
@@ -45,24 +43,23 @@ Browse articles by category.
   {{< card >}}
     <a href="/support/reports">
       <h2 className="card-title">Reports</h2>
-      <p className="card-content">Create interactive, collaborative reports to share your work</p>
+      <p className="card-content">インタラクティブでコラボレーション可能なレポートを作成して作業を共有します</p>
     </a>
   {{< /card >}}
   {{< card >}}
     <a href="/support/sweeps">
       <h2 className="card-title">Sweeps</h2>
-      <p className="card-content">Automate hyperparameter search</p>
+      <p className="card-content">ハイパーパラメーター検索を自動化します</p>
     </a>
   {{< /card >}}
 {{< /cardpane >}}
-
 
 {{< card >}}
   <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
     {{< img src="/images/support/callout-icon.svg" alt="Callout Icon" width="32" height="32" >}}
   </div>
-  <h2>Still can't find what you are looking for?</h2>
+  <h2>それでも探しているものが見つからないですか？</h2>
   <a href="mailto:support@wandb.com" className="contact-us-button">
-    Contact support
+    サポートに連絡
   </a>
  {{< /card >}}

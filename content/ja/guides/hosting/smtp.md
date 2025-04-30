@@ -1,18 +1,18 @@
 ---
+title: SMTP を設定
 menu:
   default:
     identifier: ja-guides-hosting-smtp
     parent: w-b-platform
-title: Configure SMTP
 weight: 6
 ---
 
-In W&B server, adding users to the instance or team will trigger an email invite. To send these email invites, W&B uses a third-party mail server. In some cases, organizations might have strict policies on traffic leaving the corporate network and hence causing these email invites to never be sent to the end user. W&B server offers an option to configure sending these invite emails via an internal SMTP server.
+W&B server では、 インスタンスやチームにユーザーを追加すると、メール招待がトリガーされます。これらのメール招待を送信するために、 W&B はサードパーティのメールサーバーを使用します。場合によっては、企業ネットワークからのトラフィックを厳しく制限するポリシーがあり、その結果としてこれらのメール招待がエンドユーザーに送信されないことがあります。W&B server は、内部 SMTP サーバーを通じてこれらの招待メールを送信するオプションを提供しています。
 
-To configure, follow the steps below:
+設定手順は次の通りです：
 
-- Set the `GORILLA_EMAIL_SINK` environment variable in the docker container or the kubernetes deployment to `smtp://<user:password>@smtp.host.com:<port>`
-- `username` and `password` are optional
-- If you’re using an SMTP server that’s designed to be unauthenticated you would just set the value for the environment variable like `GORILLA_EMAIL_SINK=smtp://smtp.host.com:<port>`
-- Commonly used port numbers for SMTP are ports 587, 465 and 25. Note that this might differ based on the type of the mail server you're using.
-- To configure the default sender email address for SMTP, which is initially set to `noreply@wandb.com`, you can update it to an email address of your choice. This can be done by setting the `GORILLA_EMAIL_FROM_ADDRESS` environment variable on the server to your desired sender email address.
+- dockerコンテナまたは kubernetes デプロイメント内で `GORILLA_EMAIL_SINK` 環境変数を `smtp://<user:password>@smtp.host.com:<port>` に設定します
+- `username` と `password` はオプションです
+- 認証不要な SMTP サーバーを使用している場合は、環境変数の値を `GORILLA_EMAIL_SINK=smtp://smtp.host.com:<port>` として設定します
+- SMTPで一般的に使用されるポート番号は 587, 465, 25 です。お使いのメールサーバーの種類に応じて異なる場合がありますので注意してください。
+- SMTP のデフォルト送信元メールアドレスを設定するには、 `GORILLA_EMAIL_FROM_ADDRESS` 環境変数を サーバー上であなたの望む送信元メールアドレスに設定することができます。初期設定は `noreply@wandb.com` になっていますが、これを変更することが可能です。

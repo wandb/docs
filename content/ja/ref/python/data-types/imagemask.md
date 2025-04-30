@@ -1,13 +1,13 @@
 ---
+title: ImageMask
 menu:
   reference:
     identifier: ja-ref-python-data-types-imagemask
-title: ImageMask
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/helper_types/image_mask.py#L18-L247 >}}
 
-Format image masks or overlays for logging to W&B.
+画像マスクまたはオーバーレイを W&B にログとして記録するためにフォーマットします。
 
 ```python
 ImageMask(
@@ -18,12 +18,12 @@ ImageMask(
 
 | Args |  |
 | :--- | :--- |
-|  `val` |  (dictionary) One of these two keys to represent the image: mask_data : (2D numpy array) The mask containing an integer class label for each pixel in the image path : (string) The path to a saved image file of the mask class_labels : (dictionary of integers to strings, optional) A mapping of the integer class labels in the mask to readable class names. These will default to class_0, class_1, class_2, etc. |
-|  `key` |  (string) The readable name or id for this mask type (e.g. predictions, ground_truth) |
+| `val` | (辞書) 画像を表すための以下の2つのキーのうちの1つを指定: mask_data : (2D numpy 配列) 画像内の各ピクセルに対する整数クラスラベルが含まれるマスク path : (文字列) マスクの保存された画像ファイルのパス class_labels : (整数から文字列への辞書, オプション) マスク内の整数クラスラベルを人間が読めるクラス名にマッピングします。デフォルトでは class_0, class_1, class_2 などになります。 |
+| `key` | (文字列) このマスクの種類に対する読みやすい名前または ID (例: predictions, ground_truth) |
 
-#### Examples:
+#### 例:
 
-### Logging a single masked image
+### 単一のマスクされた画像をログに記録
 
 ```python
 import numpy as np
@@ -62,7 +62,7 @@ masked_image = wandb.Image(
 run.log({"img_with_masks": masked_image})
 ```
 
-### Log a masked image inside a Table
+### テーブル内にマスクされた画像をログに記録する
 
 ```python
 import numpy as np
@@ -114,11 +114,11 @@ table.add_data(masked_image)
 run.log({"random_field": table})
 ```
 
-## Methods
+## メソッド
 
 ### `type_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/helper_types/image_mask.py#L219-L221)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/helper_types/image_mask.py#L219-L221)
 
 ```python
 @classmethod
@@ -127,7 +127,7 @@ type_name() -> str
 
 ### `validate`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/helper_types/image_mask.py#L223-L247)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/helper_types/image_mask.py#L223-L247)
 
 ```python
 validate(

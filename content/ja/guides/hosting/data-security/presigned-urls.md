@@ -1,34 +1,34 @@
 ---
+title: BYOB に事前署名済みの URL を使用してアクセスする
 menu:
   default:
     identifier: ja-guides-hosting-data-security-presigned-urls
     parent: data-security
-title: Access BYOB using pre-signed URLs
 weight: 2
 ---
 
-W&B uses pre-signed URLs to simplify access to blob storage from your AI workloads or user browsers. For basic information on pre-signed URLs, refer to [Pre-signed URLs for AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html), [Signed URLs for Google Cloud Storage](https://cloud.google.com/storage/docs/access-control/signed-urls) and [Shared Access Signature for Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview).
+W&B は事前署名付き URL を使用して、AI ワークロードやユーザー ブラウザからの blob ストレージへのアクセスを簡素化します。事前署名付き URL の基本情報については、[AWS S3 の事前署名付き URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)、[Google Cloud Storage の署名付き URL](https://cloud.google.com/storage/docs/access-control/signed-urls)、[Azure Blob Storage の共有アクセス署名](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview) を参照してください。
 
-When needed, AI workloads or user browser clients within your network request pre-signed URLs from the W&B Platform. W&B Platform then access the relevant blob storage to generate the pre-signed URL with required permissions, and returns it back to the client. The client then uses the pre-signed URL to access the blob storage for object upload or retrieval operations. URL expiry time for object downloads is 1 hour, and it is 24 hours for object uploads as some large objects may need more time to upload in chunks.
+必要に応じて、ネットワーク内の AI ワークロードまたはユーザー ブラウザー クライアントが W&B プラットフォームから事前署名付き URL を要求します。その後、W&B プラットフォームは関連する blob ストレージにアクセスして、必要な権限で事前署名付き URL を生成し、クライアントに返します。クライアントは、事前署名付き URL を使用して blob ストレージにアクセスし、オブジェクトのアップロードまたは取得操作を行います。オブジェクトのダウンロードの URL は 1 時間で期限切れになり、巨大なオブジェクトをチャンクでアップロードするのに時間がかかる可能性があるため、オブジェクトのアップロードについては 24 時間有効です。
 
-## Team-level access control
+## チームレベルのアクセス制御
 
-Each pre-signed URL is restricted to specific buckets based on [team level access control]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) in the W&B platform. If a user is part of a team which is mapped to a blob storage bucket using [secure storage connector]({{< relref path="./secure-storage-connector.md" lang="ja" >}}), and if that user is part of only that team, then the pre-signed URLs generated for their requests would not have permissions to access blob storage buckets mapped to other teams. 
+各事前署名付き URL は、W&B プラットフォームの[チームレベルのアクセス制御]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) に基づいて特定のバケットに限定されます。ユーザーが[セキュア ストレージ コネクタ]({{< relref path="./secure-storage-connector.md" lang="ja" >}})を使用して blob ストレージ バケットにマッピングされているチームの一員であり、そのユーザーがそのチームにのみ属している場合、彼らの要求に対して生成された事前署名付き URL には、他のチームにマッピングされている blob ストレージ バケットにアクセスする権限がありません。
 
 {{% alert %}}
-W&B recommends adding users to only the teams that they are supposed to be a part of.
+W&B は、ユーザーを所属すべきチームのみに追加することを推奨します。
 {{% /alert %}}
 
-## Network restriction
+## ネットワーク制限
 
-W&B recommends restricting the networks that can use pre-signed URLs to access the blob storage, by using IAM policy based restrictions on the buckets. 
+W&B は、IAM ポリシーに基づくバケットの制限を使用して、事前署名付き URL を使用して blob ストレージにアクセスできるネットワークを制限することを推奨します。
 
-In case of AWS, one can use [VPC or IP address based network restriction](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities). It ensures that your W&B specific buckets are accessed only from networks where your AI workloads are running, or from gateway IP addresses that map to your user machines if your users access artifacts using the W&B UI.
+AWS の場合、[VPC または IP アドレスに基づくネットワーク制限](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities)を使用できます。これにより、あなたの AI ワークロードが稼働しているネットワークから、または W&B UI を使用してアーティファクトにアクセスする場合にユーザーマシンにマッピングされるゲートウェイの IP アドレスから、のみ W&B に特化したバケットにアクセスできることが保証されます。
 
-## Audit logs
+## 監査ログ
 
-W&B also recommends to use [W&B audit logs]({{< relref path="../monitoring-usage/audit-logging.md" lang="ja" >}}) in addition to blob storage specific audit logs. For latter, refer to [AWS S3 access logs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html),[Google Cloud Storage audit logs](https://cloud.google.com/storage/docs/audit-logging) and [Monitor Azure blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/monitor-blob-storage). Admin and security teams can use audit logs to keep track of which user is doing what in the W&B product and take necessary action if they determine that some operations need to be limited for certain users.
+W&B は、blob ストレージ固有の監査ログに加えて、[W&B 監査ログ]({{< relref path="../monitoring-usage/audit-logging.md" lang="ja" >}})を使用することを推奨します。後者については、[AWS S3 のアクセスログ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)、[Google Cloud Storage の監査ログ](https://cloud.google.com/storage/docs/audit-logging)、[Azure blob storage の監視](https://learn.microsoft.com/en-us/azure/storage/blobs/monitor-blob-storage)を参照してください。管理者とセキュリティ チームは、W&B 製品でどのユーザーが何をしているかを追跡し、特定のユーザーに対していくつかの操作を制限する必要があると判断した場合に必要な対策を講じるために監査ログを使用できます。
 
 {{% alert %}}
-Pre-signed URLs are the only supported blob storage access mechanism in W&B. W&B recommends configuring some or all of the above list of security controls depending on your risk appetite.
+事前署名付き URL は、W&B でサポートされている唯一の blob ストレージ アクセス メカニズムです。W&B は、リスク許容度に応じて、セキュリティ制御の上記リストの一部またはすべてを設定することを推奨します。
 {{% /alert %}}

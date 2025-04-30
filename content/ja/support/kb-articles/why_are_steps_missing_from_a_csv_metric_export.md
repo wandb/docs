@@ -1,17 +1,17 @@
 ---
+title: CSV メトリックエクスポートにステップが欠落しているのはなぜですか？
 menu:
   support:
     identifier: ja-support-kb-articles-why_are_steps_missing_from_a_csv_metric_export
 support:
-- experiments
+- 実験管理
 - runs
-title: Why are steps missing from a CSV metric export?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Export limits can prevent the entire run history from being exported as a CSV or using the `run.history` API. To access the complete run history, download the run history artifact using Parquet format:
+エクスポート制限により、実行履歴全体をCSVとしてエクスポートしたり、`run.history` APIを使用したりすることができない場合があります。完全な実行履歴にアクセスするには、Parquet形式を使用して実行履歴アーティファクトをダウンロードしてください。
 
 ```python
 import wandb

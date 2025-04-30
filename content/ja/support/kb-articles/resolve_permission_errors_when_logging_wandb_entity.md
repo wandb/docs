@@ -1,21 +1,22 @@
 ---
+title: run の権限エラーをログで解決するにはどうすればいいですか?
 menu:
   support:
     identifier: ja-support-kb-articles-resolve_permission_errors_when_logging_wandb_entity
 support:
-- runs
-- security
-title: How do I resolve permission errors when logging a run?
+- run
+- セキュリティ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To resolve permission errors when logging a run to a W&B entity, follow these steps:
+W&B エンティティへの run ログ中に権限エラーが発生した場合は、次の手順を実行します:
 
-- **Verify entity and project names**: Ensure correct spelling and case sensitivity of the W&B entity and project names in your code.
-- **Confirm permissions**: Ensure necessary permissions have been granted by the administrator.
-- **Check log-in credentials**: Confirm log-in to the correct W&B account. Test by creating a run with the following code:
+- **エンティティとプロジェクト名の確認**: コード内の W&B エンティティとプロジェクト名のスペルと大文字小文字を確認します。
+- **権限の確認**: 管理者によって必要な権限が付与されていることを確認します。
+- **ログイン資格情報の確認**: 正しい W&B アカウントにログインしていることを確認します。次のコードを使用して run を作成してテストします:
+  
   ```python
   import wandb
 
@@ -23,11 +24,15 @@ To resolve permission errors when logging a run to a W&B entity, follow these st
   run.log({'example_metric': 1})
   run.finish()
   ```
-- **Set API key**: Use the `WANDB_API_KEY` environment variable:
+  
+- **API キーの設定**: `WANDB_API_KEY` 環境変数を使用します:
+  
   ```bash
   export WANDB_API_KEY='your_api_key'
   ```
-- **Confirm host information**: For custom deployments, set the host URL:
+  
+- **ホスト情報の確認**: カスタムデプロイメントの場合、ホスト URL を設定します:
+  
   ```bash
   wandb login --relogin --host=<host-url>
   export WANDB_BASE_URL=<host-url>

@@ -1,24 +1,23 @@
 ---
+title: wandb init
 menu:
   reference:
     identifier: ja-ref-cli-wandb-init
-title: wandb init
 ---
 
-**Usage**
+**使用法**
 
 `wandb init [OPTIONS]`
 
-**Summary**
+**概要**
 
-Configure a directory with Weights & Biases
+Weights & Biases でディレクトリーを設定
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `-p, --project` | The project to use. |
-| `-e, --entity` | The entity to scope the project to. |
-| `--reset` | Reset settings |
-| `-m, --mode` | Can be "online", "offline" or "disabled". Defaults to   online. |
+| `-p, --project` | 使用するプロジェクト。 |
+| `-e, --entity` | プロジェクトを範囲指定するためのエンティティ。 |
+| `--reset` | 設定をリセット |
+| `-m, --mode` | "online"、"offline" または "disabled" を指定可能。デフォルトは online。 |
