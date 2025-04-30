@@ -3,6 +3,8 @@ description: Get started using Weights & Biases with interactive tutorials.
 menu:
     tutorials:
         identifier: tutorials
+    main:
+        weight: 3
 type: docs
 cascade:
     type: docs
