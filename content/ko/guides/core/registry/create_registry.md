@@ -34,7 +34,7 @@ weight: 2
 
 {{< img src="/images/registry/create_registry.gif" alt="" >}}
 
-## 가시성 유형
+## Visibility Types
 
 레지스트리의 *가시성*은 해당 레지스트리에 액세스할 수 있는 사용자를 결정합니다. 사용자 정의 레지스트리의 가시성을 제한하면 지정된 멤버만 해당 레지스트리에 액세스할 수 있습니다.
 
