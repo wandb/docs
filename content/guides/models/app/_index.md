@@ -20,8 +20,8 @@ Access the W&B App in a web browser.
 Learn more:
 
 - [Track experiments]({{< relref "/guides/models/track/" >}}) using runs or sweeps.
-- [Configure deployment settings]({{< relref "settings-page/" >}}) and [defaults]({{< relref "cascade-settings.md" >}}).
-- [Add panels]({{< relref "panels/" >}}) to visualize your experiments, such as line plots, bar plots, media panels, query panels, and tables.
-- [Add custom charts]({{< relref "custom-charts/" >}}).
+- [Configure deployment settings]({{< relref "settings-page/" >}}) and [defaults]({{< relref "features/cascade-settings.md" >}}).
+- [Add panels]({{< relref "/guides/models/app/features/panels/" >}}) to visualize your experiments, such as line plots, bar plots, media panels, query panels, and tables.
+- [Add custom charts]({{< relref "/guides/models/app/features/custom-charts/" >}}).
 - [Create and share reports]({{< relref "/guides/core/reports/" >}}).
 

@@ -48,6 +48,8 @@ The `controller-manager` installs [charts/operator-wandb](https://github.com/wan
 
 Refer to the [configuration specification hierarchy]({{< relref "#configuration-specification-hierarchy" >}}) and [configuration reference]({{< relref "#configuration-reference-for-wb-operator" >}}) for configuration options.
 
+The deployment consists of multiple pods, one per service. Each pod's name is prefixed with `wandb-`.
+
 ### Configuration specification hierarchy
 Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here’s how it works:
 
@@ -72,93 +74,45 @@ Depending on the installation method, you might need to meet the following requi
 See the [Deploy W&B in airgapped environment with Kubernetes]({{< relref "operator-airgapped.md" >}}) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
 
 ## Deploy W&B Server application
-This section describes different ways to deploy the W&B Kubernetes operator. 
+This section describes different ways to deploy the W&B Kubernetes operator.
 {{% alert %}}
-The W&B Operator is the default and recommended installation method for W&B Server
+The W&B Operator is the default and recommended installation method for W&B Server.
 {{% /alert %}}
-
-**Choose one of the following:**
-- If you have provisioned all required external services and want to deploy W&B onto Kubernetes with Helm CLI, continue [here]({{< relref "#deploy-wb-with-helm-cli" >}}).
-- If you prefer managing infrastructure and the W&B Server with Terraform, continue [here]({{< relref "#deploy-wb-with-helm-terraform-module" >}}).
-- If you want to utilize the W&B Cloud Terraform Modules, continue [here]({{< relref "#deploy-wb-with-wb-cloud-terraform-modules" >}}).
 
 ### Deploy W&B with Helm CLI
 W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
 
 Follow those steps to install the W&B Kubernetes Operator with Helm CLI:
 
-1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository. Add the repo with the following commands:
-```shell
-helm repo add wandb https://charts.wandb.ai
-helm repo update
-```
-2. Install the Operator on a Kubernetes cluster. Copy and paste the following:
-```shell
-helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
-```
-3. Configure the W&B operator custom resource to trigger the W&B Server installation. Copy this example configuration to a file named `operator.yaml`, so that you can customioze your W&B deployment. Refer to [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}).
-
-   ```yaml
-   apiVersion: apps.wandb.com/v1
-   kind: WeightsAndBiases
-   metadata:
-     labels:
-       app.kubernetes.io/instance: wandb
-       app.kubernetes.io/name: weightsandbiases
-     name: wandb
-     namespace: default
-
-   spec:
-     chart:
-       url: http://charts.yourdomain.com
-       name: operator-wandb
-       version: 0.18.0
-
-     values:
-       global:
-         host: https://wandb.yourdomain.com
-         license: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-         bucket:
-           accessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-           secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-           name: s3.yourdomain.com:port #Ex.: s3.yourdomain.com:9000
-           path: bucket_name
-           provider: s3
-           region: us-east-1
-         mysql:
-           database: wandb
-           host: mysql.home.lab
-           password: password
-           port: 3306
-           user: wandb
-         extraEnv:
-           ENABLE_REGISTRY_UI: 'true'
-
-       # Ensure it's set to use your own MySQL
-       mysql:
-         install: false
-
-       app:
-         image:
-           repository: registry.yourdomain.com/local
-           tag: 0.59.2
-
-       console:
-         image:
-           repository: registry.yourdomain.com/console
-           tag: 2.12.2
-
-       ingress:
-         annotations:
-           nginx.ingress.kubernetes.io/proxy-body-size: 64m
-         class: nginx
-   ```
-
-    Start the Operator with your custom configuration so that it can install and configure the W&B Server application.
-
+1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository:
     ```shell
-    kubectl apply -f operator.yaml
+    helm repo add wandb https://charts.wandb.ai
+    helm repo update
     ```
+2. Install the Operator on a Kubernetes cluster:
+    ```shell
+    helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
+    ```
+3. Configure the W&B operator custom resource to trigger the W&B Server installation, either by overriding the default configuration with a Helm `values.yaml` file or by fully customizing the custom resource definition (CRD) directly.
+
+    - **`values.yaml` override** (recommended): Create a new file named `values.yaml` that includes _only_ the keys from the [full `values.yaml` specification](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) that you want to override. For example, to configure MySQL:
+
+      {{< prism file="/operator/values_mysql.yaml" title="values.yaml">}}{{< /prism >}}
+    - **Full CRD**: Copy this [example configuration](https://github.com/wandb/helm-charts/blob/main/charts/operator/crds/wandb.yaml) to a new file named `operator.yaml`. Make the required changes to the file. Refer to [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}).
+
+      {{< prism file="/operator/wandb.yaml" title="operator.yaml">}}{{< /prism >}}
+
+4. Start the Operator with your custom configuration so that it can install, configure, and manage the W&B Server application.
+
+    - To start the Operator with a `values.yaml` override:
+
+        ```shell
+        kubectl apply -f values.yaml
+        ```
+    - To start the operator with a fully customized CRD:
+      ```shell
+      kubectl apply -f operator.yaml
+      ```
 
     Wait until the deployment completes. This takes a few minutes.
 
