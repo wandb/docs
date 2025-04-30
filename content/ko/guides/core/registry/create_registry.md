@@ -21,7 +21,7 @@ weight: 2
 2. **Custom registry** 내에서 **Create registry** 버튼을 클릭합니다.
 3. **Name** 필드에 레지스트리 이름을 입력합니다.
 4. 필요에 따라 레지스트리에 대한 설명을 제공합니다.
-5. **Registry visibility** 드롭다운에서 레지스트리를 볼 수 있는 사용자를 선택합니다. 레지스트리 가시성 옵션에 대한 자세한 내용은 [레지스트리 가시성 유형]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ko" >}})을 참조하세요.
+5. **Registry visibility** 드롭다운에서 레지스트리를 볼 수 있는 사용자를 선택합니다. 레지스트리 visibility 옵션에 대한 자세한 내용은 [레지스트리 visibility types]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ko" >}})을 참조하세요.
 6. **Accepted artifacts type** 드롭다운에서 **All types** 또는 **Specify types**를 선택합니다.
 7. (**Specify types**를 선택한 경우) 레지스트리가 허용하는 아티팩트 유형을 하나 이상 추가합니다.
 8. **Create registry** 버튼을 클릭합니다.
