@@ -4,9 +4,6 @@ description: Generated documentation for Weights & Biases APIs
 menu: 
   reference:
     identifier: reference
-menu:
-  main:
-    weight: 2
 type: docs
 cascade:
   type: docs
