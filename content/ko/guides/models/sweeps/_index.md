@@ -33,7 +33,7 @@ wandb agent <sweep-ID>
 ```
 
 {{% alert %}}
-위의 코드 조각과 이 페이지에 링크된 colab은 W&B CLI로 스윕을 초기화하고 생성하는 방법을 보여줍니다. 스윕 구성을 정의하고 스윕을 초기화하고 스윕을 시작하는 데 사용할 W&B Python SDK 명령에 대한 단계별 개요는 Sweeps [워크스루]({{< relref path="./walkthrough.md" lang="ko" >}})를 참조하세요.
+위의 코드 조각과 이 페이지에 링크된 colab은 W&B CLI로 스윕을 초기화하고 생성하는 방법을 보여줍니다. 스윕 구성을 정의하고 스윕을 초기화하고 스윕을 시작하는 데 사용할 W&B Python SDK 명령에 대한 단계별 개요는 Sweeps [WalkThrough]({{< relref path="./walkthrough.md" lang="ko" >}})를 참조하세요.
 {{% /alert %}}
 
 ### 시작 방법
