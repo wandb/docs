@@ -6,7 +6,7 @@ menu:
 support:
 - sweep
 - ハイパーパラメーター
-- runs
+- run
 toc_hide: true
 type: docs
 url: /ja/support/:filename

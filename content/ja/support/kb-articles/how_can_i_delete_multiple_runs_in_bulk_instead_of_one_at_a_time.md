@@ -5,7 +5,7 @@ menu:
     identifier: ja-support-kb-articles-how_can_i_delete_multiple_runs_in_bulk_instead_of_one_at_a_time
 support:
 - プロジェクト
-- runs
+- run
 toc_hide: true
 type: docs
 url: /ja/support/:filename

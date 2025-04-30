@@ -5,7 +5,6 @@ menu:
     identifier: ja-support-kb-articles-delete_panel_grid
 support:
 - レポート
-- 申し訳ありませんが、ドキュメントを提供いただけていないようです。翻訳が必要な部分を提供いただければ、すぐにお手伝いさせていただきます。
 toc_hide: true
 type: docs
 url: /ja/support/:filename

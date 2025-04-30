@@ -5,7 +5,7 @@ menu:
     identifier: ja-support-kb-articles-how_can_i_disable_logging_of_system_metrics_to_wb
 support:
 - メトリクス
-- runs
+- run
 toc_hide: true
 type: docs
 url: /ja/support/:filename

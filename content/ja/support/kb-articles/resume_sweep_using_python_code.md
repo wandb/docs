@@ -5,7 +5,8 @@ menu:
     identifier: ja-support-kb-articles-resume_sweep_using_python_code
 support:
 - スイープ
-- 申し訳ありませんが、翻訳するための具体的なコンテンツを提供してください。そのコンテンツを翻訳します。
+- python
+- sweep
 toc_hide: true
 type: docs
 url: /ja/support/:filename

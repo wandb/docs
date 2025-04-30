@@ -5,7 +5,7 @@ menu:
     identifier: ja-support-kb-articles-how_do_i_fix_the_error_resume_must_but_run_run_id_doesnt_exist
 support:
 - 再開
-- 'run '
+- run
 toc_hide: true
 type: docs
 url: /ja/support/:filename

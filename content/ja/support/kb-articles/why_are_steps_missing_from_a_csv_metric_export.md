@@ -5,7 +5,7 @@ menu:
     identifier: ja-support-kb-articles-why_are_steps_missing_from_a_csv_metric_export
 support:
 - 実験管理
-- runs
+- run
 toc_hide: true
 type: docs
 url: /ja/support/:filename

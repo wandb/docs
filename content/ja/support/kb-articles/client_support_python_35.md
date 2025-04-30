@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-client_support_python_35
 support:
-- 私に提供されたドキュメントの一部がありませんでした。構文を指定して再度送信してください。
+- python
 toc_hide: true
 type: docs
 url: /ja/support/:filename

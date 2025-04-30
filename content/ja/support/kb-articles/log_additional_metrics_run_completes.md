@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-log_additional_metrics_run_completes
 support:
-- runs
+- run
 - メトリクス
 toc_hide: true
 type: docs

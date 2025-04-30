@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-run_marked_crashed_wb’s_training_fine_locally
 support:
-- crashing and hanging runs
+- Run のクラッシュとハングアップ
 toc_hide: true
 type: docs
 url: /ja/support/:filename

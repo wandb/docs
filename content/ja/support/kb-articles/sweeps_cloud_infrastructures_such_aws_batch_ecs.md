@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-sweeps_cloud_infrastructures_such_aws_batch_ecs
 support:
-- sweeps
+- sweep
 - aws
 toc_hide: true
 type: docs

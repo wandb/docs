@@ -5,7 +5,7 @@ menu:
     identifier: ja-support-kb-articles-how_can_i_reduce_how_frequently_to_log_system_metrics
 support:
 - メトリクス
-- runs
+- run
 toc_hide: true
 type: docs
 url: /ja/support/:filename

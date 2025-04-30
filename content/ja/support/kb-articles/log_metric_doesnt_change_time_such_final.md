@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-log_metric_doesnt_change_time_such_final
 support:
-- runs
+- run
 toc_hide: true
 type: docs
 url: /ja/support/:filename

@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-optimizing_multiple_metrics
 support:
-- sweeps
+- sweep
 - メトリクス
 toc_hide: true
 type: docs

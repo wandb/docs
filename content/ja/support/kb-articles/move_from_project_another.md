@@ -4,7 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-move_from_project_another
 support:
-- runs
+- run
 toc_hide: true
 type: docs
 url: /ja/support/:filename

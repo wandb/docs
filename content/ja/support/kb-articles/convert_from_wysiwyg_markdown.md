@@ -5,7 +5,7 @@ menu:
     identifier: ja-support-kb-articles-convert_from_wysiwyg_markdown
 support:
 - レポート
-- 利用できる WYSIWYG エディターを通じて、より直感的なインターフェースでコンテンツを作成しやすくなります。
+- wysiwyg
 toc_hide: true
 type: docs
 url: /ja/support/:filename

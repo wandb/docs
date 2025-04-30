@@ -4,34 +4,7 @@ menu:
   support:
     identifier: ja-support-kb-articles-client_support_python_2
 support:
-- '{< tabpane >} {% tab header="Python" %}
-
-
-  ```python
-
-  # この例では、wandb をインポートし、それを使用してログインします。
-
-  import wandb
-
-
-  # 新しい Run を作成します
-
-  run = wandb.init(project="my-first-project")
-
-
-  # メトリクスをログ
-
-  wandb.log({"accuracy": 0.9})
-
-
-  # Run を完了します
-
-  run.finish()
-
-  ```
-
-
-  {% /tab %} {< /tabpane >}'
+- python
 toc_hide: true
 type: docs
 url: /ja/support/:filename
