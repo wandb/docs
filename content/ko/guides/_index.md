@@ -24,7 +24,7 @@ W&B 는 다음 세 가지 주요 구성 요소로 이루어져 있습니다: [Mo
 - [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ko" >}}): 하이퍼파라미터 튜닝 및 모델 최적화
 - [Registry]({{< relref path="/guides/core/registry/" lang="ko" >}}): ML 모델 및 데이터셋 게시 및 공유
 
-**[W&B Weave]({{< relref path="/guides/weave/" lang="ko" >}})** 는 LLM 애플리케이션을 추적하고 평가하기 위한 가벼운 툴킷입니다.
+**[W&B Weave]({{< relref path="/guides/weave/" lang="ko" >}})** 는 LLM 애플리케이션을 추적하고 평가하기 위한 가볍지만 강력한 툴킷입니다.
 
 **[W&B Core]({{< relref path="/guides/core/" lang="ko" >}})** 는 데이터 및 모델을 추적하고 시각화하며 결과를 전달하기 위한 강력한 빌딩 블록 세트입니다.
 - [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}}): 에셋 버전 관리 및 계보 추적
