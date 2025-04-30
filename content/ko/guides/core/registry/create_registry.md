@@ -66,4 +66,4 @@ Restricted 가시성으로 사용자 정의 레지스트리를 생성하는 사�
 
 {{< img src="/images/registry/change_registry_visibility.gif" alt="" >}}
 
-팀 관리자가 사용자 정의 레지스트리를 만들 때 가시성을 할당하는 방법에 대한 자세한 내용은 [사용자 정의 레지스트리 만들기]({{< relref path="./create_registry.md#create-a-custom-registry" lang="ko" >}})를 참조하세요.
+팀 관리자가 사용자 정의 레지스트리를 만들 때 visibility를 할당하는 방법에 대한 자세한 내용은 [사용자 정의 레지스트리 만들기]({{< relref path="./create_registry.md#create-a-custom-registry" lang="ko" >}})를 참조하세요.
