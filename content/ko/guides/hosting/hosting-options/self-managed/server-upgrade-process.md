@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ko-guides-hosting-hosting-options-self-managed-server-upgrade-process
     parent: self-managed
-url: guides/hosting/server-upgrade-process
+url: /ko/guides//hosting/server-upgrade-process
 weight: 6
 ---
 

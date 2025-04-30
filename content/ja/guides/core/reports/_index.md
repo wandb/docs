@@ -2,12 +2,12 @@
 title: レポート
 description: 機械学習プロジェクトのためのプロジェクト管理とコラボレーションツール
 cascade:
-- url: guides/reports/:filename
+- url: /ja/guides/reports/:filename
 menu:
   default:
     identifier: ja-guides-core-reports-_index
     parent: core
-url: guides/reports
+url: /ja/guides/reports
 weight: 3
 ---
 

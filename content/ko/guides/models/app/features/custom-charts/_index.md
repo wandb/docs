@@ -1,12 +1,12 @@
 ---
 title: Custom charts
 cascade:
-- url: guides/app/features/custom-charts/:filename
+- url: /ko/guides//app/features/custom-charts/:filename
 menu:
   default:
     identifier: ko-guides-models-app-features-custom-charts-_index
     parent: w-b-app-ui-reference
-url: guides/app/features/custom-charts
+url: /ko/guides//app/features/custom-charts
 weight: 2
 ---
 

@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ja-guides-hosting-hosting-options-dedicated_cloud-export-data-from-dedicated-cloud
     parent: dedicated-cloud
-url: guides/hosting/export-data-from-dedicated-cloud
+url: /ja/guides/hosting/export-data-from-dedicated-cloud
 ---
 
 もし専用クラウドインスタンスで管理されているすべてのデータをエクスポートしたい場合、W&B SDK APIを使用して、[インポートおよびエクスポートAPI]({{< relref path="/ref/python/public-api/" lang="ja" >}})を利用して runs、メトリクス、Artifacts などを抽出できます。以下の表は、いくつかの主要なエクスポートユースケースについて説明しています。

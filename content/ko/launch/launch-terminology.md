@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-launch-terminology
     parent: launch
-url: guides/launch/launch-terminology
+url: /ko/guides//launch/launch-terminology
 weight: 2
 ---
 

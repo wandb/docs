@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-launch-docker
     parent: set-up-launch
-url: guides/launch/setup-launch-docker
+url: /ja/guides/launch/setup-launch-docker
 ---
 
 以下のガイドでは、ローカルマシンでドッカーを使用してW&B Launchを設定し、ローンンチエージェントの環境とキューの対象リソースとして使用する方法を説明します。

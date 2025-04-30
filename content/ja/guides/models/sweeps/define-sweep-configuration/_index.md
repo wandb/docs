@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ja-guides-models-sweeps-define-sweep-configuration-_index
     parent: sweeps
-url: guides/sweeps/define-sweep-configuration
+url: /ja/guides/sweeps/define-sweep-configuration
 weight: 3
 ---
 

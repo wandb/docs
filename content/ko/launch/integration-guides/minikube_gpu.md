@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-integration-guides-minikube_gpu
     parent: launch-integration-guides
-url: tutorials/minikube_gpu
+url: /ko/tutorials//minikube_gpu
 ---
 
 GPU 워크로드를 예약하고 실행할 수 있는 Minikube 클러스터에 W&B Launch를 설정합니다.

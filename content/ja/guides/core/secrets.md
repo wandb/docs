@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ja-guides-core-secrets
     parent: core
-url: guides/secrets
+url: /ja/guides/secrets
 weight: 1
 ---
 

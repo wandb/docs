@@ -1,7 +1,7 @@
 ---
 title: fastai
 cascade:
-- url: guides/integrations/fastai/:filename
+- url: /ja/guides/integrations/fastai/:filename
 menu:
   default:
     identifier: ja-guides-integrations-fastai-_index

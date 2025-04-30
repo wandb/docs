@@ -1,12 +1,12 @@
 ---
 title: レジストリ
 cascade:
-- url: guides/core/registry/:filename
+- url: /ja/guides/core/registry/:filename
 menu:
   default:
     identifier: ja-guides-core-registry-_index
     parent: core
-url: guides/core/registry
+url: /ja/guides/core/registry
 weight: 3
 ---
 

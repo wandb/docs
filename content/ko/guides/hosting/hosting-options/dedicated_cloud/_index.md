@@ -4,7 +4,7 @@ menu:
   default:
     identifier: ko-guides-hosting-hosting-options-dedicated_cloud-_index
     parent: deployment-options
-url: guides/hosting/hosting-options/dedicated_cloud
+url: /ko/guides//hosting/hosting-options/dedicated_cloud
 ---
 
 ## 전용 클라우드 (싱글 테넌트 SaaS) 사용

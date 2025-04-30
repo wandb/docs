@@ -2,12 +2,12 @@
 title: Artifacts
 description: W&B アーティファクトの概要、仕組み、および開始方法。
 cascade:
-- url: guides/artifacts/:filename
+- url: /ja/guides/artifacts/:filename
 menu:
   default:
     identifier: ja-guides-core-artifacts-_index
     parent: core
-url: guides/artifacts
+url: /ja/guides/artifacts
 weight: 1
 ---
 

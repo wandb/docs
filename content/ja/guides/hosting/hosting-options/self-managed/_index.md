@@ -2,12 +2,12 @@
 title: 自己管理
 description: W&B をプロダクション環境に展開する
 cascade:
-- url: guides/hosting/self-managed/:filename
+- url: /ja/guides/hosting/self-managed/:filename
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-_index
     parent: deployment-options
-url: guides/hosting/hosting-options/self-managed
+url: /ja/guides/hosting/hosting-options/self-managed
 ---
 
 ## セルフ管理クラウドまたはオンプレインフラストラクチャーを使用
