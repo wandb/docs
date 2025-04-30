@@ -13,7 +13,7 @@ type: docs
 
 ## W&B 란 무엇인가요?
 
-Weights & Biases (W&B) 는 AI 개발자 플랫폼으로, 모델 트레이닝, 모델 미세 조정 및 파운데이션 모델 활용을 위한 툴을 제공합니다.
+Weights & Biases (W&B) 는 AI 개발자 플랫폼으로, 모델 트레이닝, 모델 파인튜닝 및 파운데이션 모델 활용을 위한 툴을 제공합니다.
 
 {{< img src="/images/general/architecture.png" alt="" >}}
 
