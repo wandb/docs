@@ -345,6 +345,22 @@ An error or warning appears at the bottom of the page if there are issues access
 {{% /tab %}}
 
 {{% tab header="Instance level" value="instance"%}}
-Reach out to W&B Support at support@wandb.com to configure instance level BYOB for your Dedicated cloud or Self-managed instance.
+{{% alert %}}
+Before changing the instance level bucket storage, ensure that all data is synced over from the previous instance level bucket. This gives the W&B Server access to all data it had access to before the change.
+
+For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) if you need to change the original bucket that the instance was deployed with, contact [support](mailto:support@wandb.com) for assistance with migrating data to the new bucket.
+{{% /alert %}}
+
+To make changes to the instance level bucket storage for your W&B Server:
+
+1. Log in to W&B as a user with the `admin` role.
+2. Click the user icon at the top, then click **System Console**.
+3. Go to **Settings** > **System Connections**.
+4. In the **Bucket Storage** section, ensure the identity in the **Identity** field is granted access to the new bucket.
+5. Select the **Provider**.
+6. Enter the new **Bucket Name**.
+7. Optionally, enter the **Path** to use in the new bucket.
+8. Click **Save**
 {{% /tab %}}
+
 {{< /tabpane >}}
