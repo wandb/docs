@@ -21,14 +21,14 @@ The following tutorials take you through the fundamentals of W&B for machine lea
   {{< card >}}
     <a href="/tutorials/experiments/">
       <h2 className="card-title">Track experiments</h2>
-      <p className="card-content">Use W&B for machine learning experiment tracking, model checkpointing, collaboration with your team and more.</p>
     </a>
+    <p className="card-content">Use W&B for machine learning experiment tracking, model checkpointing, collaboration with your team and more.</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/tables/">
       <h2 className="card-title">Visualize predictions</h2>
-      <p className="card-content">Track, visualize, and compare model predictions over the course of training, using PyTorch on MNIST data.</p>
     </a>
+    <p className="card-content">Track, visualize, and compare model predictions over the course of training, using PyTorch on MNIST data.</p>
   {{< /card >}}
 {{< /cardpane >}}
 
@@ -36,14 +36,14 @@ The following tutorials take you through the fundamentals of W&B for machine lea
   {{< card >}}
     <a href="/tutorials/sweeps/">
       <h2 className="card-title">Tune hyperparameters</h2>
-      <p className="card-content">Use W&B Sweeps to create an organized way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, and more.</p>
     </a>
+    <p className="card-content">Use W&B Sweeps to create an organized way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, and more.</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/artifacts/">
       <h2 className="card-title">Track models and datasets</h2>
-      <p className="card-content">Track your ML experiment pipelines using W&B Artifacts.</p>
     </a>
+    <p className="card-content">Track your ML experiment pipelines using W&B Artifacts.</p>
   {{< /card >}}
 {{< /cardpane >}}
 
@@ -55,14 +55,14 @@ See the following tutorials for step by step information on how to use popular M
   {{< card >}}
     <a href="/tutorials/pytorch">
       <h2 className="card-title">PyTorch</h2>
-      <p className="card-content">Integrate W&B with your PyTorch code to add experiment tracking to your pipeline.</p>
     </a>
+    <p className="card-content">Integrate W&B with your PyTorch code to add experiment tracking to your pipeline.</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/huggingface">
       <h2 className="card-title">HuggingFace Transformers</h2>
-      <p className="card-content">Visualize your Hugging Face model’s performance quickly with the W&B integration.</p>
     </a>
+    <p className="card-content">Visualize your Hugging Face model’s performance quickly with the W&B integration.</p>
   {{< /card >}}
 {{< /cardpane >}}
 
@@ -70,18 +70,16 @@ See the following tutorials for step by step information on how to use popular M
   {{< card >}}
     <a href="/tutorials/tensorflow">
       <h2 className="card-title">Keras</h2>
-      <p className="card-content">Use W&B and Keras for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
     </a>
+    <p className="card-content">Use W&B and Keras for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/xgboost_sweeps/">
       <h2 className="card-title">XGBoost</h2>
-      <p className="card-content">Use W&B and XGBoost for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
     </a>
+    <p className="card-content">Use W&B and XGBoost for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
   {{< /card >}}
 {{< /cardpane >}}
-
-
 
 ## Other resources
 

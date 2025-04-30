@@ -102,8 +102,11 @@ best_checkpt_table = wandb.Table(
     columns=["col1", "col2", "col3"], data=best_checkpt_table.data
 )
 
+# Initialize the Run
+run = wandb.init()
+
 # Log the updated table to Weights & Biases
-wandb.log({table_name: best_checkpt_table})
+run.log({table_name: best_checkpt_table})
 ```
 
 ## Retrieve data
@@ -119,7 +122,7 @@ After you generate a table of data in your script, for example a table of model 
 
 ### Log a table to a run
 
-Use `wandb.log()` to save your table to the run, like so:
+Use `run.log()` to save your table to the run, like so:
 
 ```python
 run = wandb.init()
