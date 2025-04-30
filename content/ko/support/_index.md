@@ -27,13 +27,13 @@ menu:
 
 {{< cardpane >}}
   {{< card >}}
-    <a href="/support/experiments">
+    <a href="/ko/support/experiments">
       <h2 className="card-title">Experiments</h2>
       <p className="card-content">기계 학습 experiments를 추적, 시각화 및 비교합니다.</p>
     </a>
   {{< /card >}}
   {{< card >}}
-    <a href="/support/artifacts">
+    <a href="/ko/support/artifacts">
       <h2 className="card-title">Artifacts</h2>
       <p className="card-content">데이터셋, 모델 및 기타 기계 학습 Artifacts를 버전 관리하고 추적합니다.</p>
     </a>
@@ -41,13 +41,13 @@ menu:
 {{< /cardpane >}}
 {{< cardpane >}}
   {{< card >}}
-    <a href="/support/reports">
+    <a href="/ko/support/reports">
       <h2 className="card-title">Reports</h2>
       <p className="card-content">대화형 협업 Reports를 만들어 작업을 공유합니다.</p>
     </a>
   {{< /card >}}
   {{< card >}}
-    <a href="/support/sweeps">
+    <a href="/ko/support/sweeps">
       <h2 className="card-title">Sweeps</h2>
       <p className="card-content">하이퍼파라미터 검색을 자동화합니다.</p>
     </a>
