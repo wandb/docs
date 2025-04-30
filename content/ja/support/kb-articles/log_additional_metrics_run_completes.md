@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-log_additional_metrics_run_completes
 support:
-- run
-- メトリクス
+  - runs
+  - metrics
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 実験管理にはいくつかの方法があります。
 
 複雑なワークフローの場合、複数の run を使用し、[`wandb.init`]({{< relref path="/guides/models/track/launch.md" lang="ja" >}}) でグループパラメータを設定し、すべてのプロセスに対して一意の値を持たせます。これにより、[**Runs** タブ]({{< relref path="/guides/models/track/project-page.md#runs-tab" lang="ja" >}}) はテーブルをグループ ID でまとめ、可視化を正しく機能させます。このアプローチでは、結果を 1 か所にログしながら、同時に実験とトレーニング run を行うことができます。

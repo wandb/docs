@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-export_list_users_account
 support:
-- 管理者
-- ユーザー管理
+  - administrator
+  - user management
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 W&B 組織からユーザーのリストをエクスポートするには、管理者が以下のコードで SCIM API を使用します。
 
 ```python

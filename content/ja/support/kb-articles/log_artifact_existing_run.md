@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-log_artifact_existing_run
 support:
-- アーティファクト
+  - artifacts
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 時々、以前にログを記録した run の出力としてアーティファクトをマークする必要があります。この場合、古い run を再初期化し、新しいアーティファクトを次のようにログします:
 
 ```python

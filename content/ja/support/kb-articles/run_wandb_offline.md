@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-run_wandb_offline
 support:
-- 実験管理
+  - experiments
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 オフラインマシンでトレーニングが行われる場合、以下の手順を使用して結果をサーバーにアップロードします:
 
 1. 環境変数 `WANDB_MODE=offline` を設定し、インターネット接続なしでメトリクスをローカルに保存します。

@@ -4,14 +4,13 @@ menu:
   support:
     identifier: ja-support-kb-articles-change_account_from_corporate_academic
 support:
-- 管理者
-- 学術的
-- ユーザー管理
+  - administrator
+  - academic
+  - user management
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 Weights & Biases でアカウントを企業用から学術用に変更するには、次の手順に従ってください。
 
 1. **学術用メールをリンクする**:

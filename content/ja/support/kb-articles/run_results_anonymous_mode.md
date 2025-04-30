@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-run_results_anonymous_mode
 support:
-- 匿名
+  - anonymous
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 もし、誰かがスクリプトを `anonymous="allow"` で実行した場合:
 
 1. **一時アカウントの自動作成**: W&B はサインイン済みのアカウントを確認します。アカウントが存在しない場合、W&B は新しい匿名アカウントを作成し、そのセッションのために APIキー を保存します。

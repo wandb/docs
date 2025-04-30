@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-difference_log_summary
 support:
-- チャート
+  - Charts
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 要約は表に表示され、 ログには将来のプロットのためにすべての値が保存されます。
 
 例えば、精度が変わるたびに `wandb.log` を呼び出します。デフォルトでは、そのメトリクスに対するサマリーの値を手動で設定しない限り、`wandb.log()` がサマリー値を更新します。

@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-edit_share_reports
 support:
-- レポート
+  - reports
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 レポートが個人のプライベートプロジェクト内で作成された場合、そのプロジェクトはそのユーザーのみに表示されます。ユーザーはプロジェクトをチームや公開することができます。
 
 チームプロジェクトでは、管理者またはレポートを作成したメンバーが他のチームメンバーに対する編集アクセスと表示アクセスの権限を切り替えることができます。チームメンバーはレポートを共有できます。

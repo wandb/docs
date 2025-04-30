@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-silence_info_messages
 support:
-- ノートブック
-- 環境変数
+  - notebooks
+  - environment variables
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 ノートブックで次のようなログメッセージを抑制するには:
 
 ```

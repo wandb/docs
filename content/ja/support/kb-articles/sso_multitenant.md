@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-sso_multitenant
 support:
-- セキュリティ
+  - security
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 W&B は、Auth0 を通じたマルチテナント提供のためにシングルサインオン (SSO) をサポートしています。SSO インテグレーションは、Okta や Azure AD など、OIDC 準拠の任意のアイデンティティプロバイダーと互換性があります。OIDC プロバイダーを設定するには、次の手順に従います:
 
 * アイデンティティプロバイダーでシングルページアプリケーション (SPA) を作成します。

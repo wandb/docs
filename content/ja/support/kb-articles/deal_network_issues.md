@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-deal_network_issues
 support:
-- 接続性
+  - connectivity
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 SSL またはネットワークエラーが発生した場合、例えば `wandb: Network error (ConnectionError), entering retry loop` というエラーが表示される場合、次の解決策を試してください。
 
 1. SSL 証明書をアップグレードします。Ubuntu サーバーでは、`update-ca-certificates` を実行します。有効な SSL 証明書は、トレーニングログを同期してセキュリティリスクを軽減するために不可欠です。

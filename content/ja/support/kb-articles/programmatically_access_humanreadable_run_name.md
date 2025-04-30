@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-programmatically_access_humanreadable_run_name
 support:
-- 実験管理
+  - experiments
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 `.name` 属性は、[`wandb.Run`]({{< relref path="/ref/python/run.md" lang="ja" >}}) から以下のようにアクセスできます:
 
 ```python

@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-artifacts_multiple_architectures_runs
 support:
-- アーティファクト
+  - artifacts
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 様々なモデルのバージョン管理方法があります。Artifacts は特定のニーズに合わせたモデルバージョン管理のためのツールを提供します。複数のモデル アーキテクチャーを探索するプロジェクトに共通のアプローチは、アーキテクチャーごとにアーティファクトを分けることです。次のステップを考慮してください。
 
 1. 各異なるモデル アーキテクチャーに新しいアーティファクトを作成します。アーティファクトの `metadata` 属性を使用して、アーキテクチャーの詳細な説明を提供します。これは run の `config` の使用と似ています。

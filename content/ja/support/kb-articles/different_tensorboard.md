@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-different_tensorboard
 support:
-- tensorboard
+  - tensorboard
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 W&B は TensorBoard と連携し、実験管理ツールを改善します。創業者は TensorBoard ユーザーが直面する一般的な課題を解決するために W&B を作成しました。主な改善点は以下の通りです：
 
 1. **モデル再現性**: W&B は実験、探索、モデルの再現を促進します。メトリクス、ハイパーパラメーター、コードバージョンをキャプチャし、モデルのチェックポイントを保存して再現性を確保します。

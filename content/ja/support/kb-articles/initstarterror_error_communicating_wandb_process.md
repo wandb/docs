@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-initstarterror_error_communicating_wandb_process
 support:
-- 実験管理
+  - experiments
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 このエラーは、ライブラリがサーバーにデータを同期するプロセスの起動に問題があることを示しています。
 
 以下の回避策は、特定の環境で問題を解決します。

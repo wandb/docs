@@ -2,14 +2,14 @@
 title: アカウントのパスワード再設定メールを受信できない場合、アカウントへのアクセスをどうすれば再取得できますか？
 menu:
   support:
-    identifier: ja-support-kb-articles-regain_access_account_cannot_receive_password_reset_email
+    identifier: >-
+      ja-support-kb-articles-regain_access_account_cannot_receive_password_reset_email
 support:
-- ユーザー管理
+  - user management
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 アカウントへのアクセスを再取得するためには、パスワードリセットのメールを受け取れない場合:
 
 1. **スパムまたは迷惑メールフォルダを確認:** メールがそこにフィルターされていないか確認してください。

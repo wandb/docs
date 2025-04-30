@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-change_group_after_completion
 support:
-- run
+  - runs
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 完了した run に割り当てられたグループを API を使用して変更することができます。この機能は Web UI には表示されません。次のコードを使用してグループを更新してください：
 
 ```python

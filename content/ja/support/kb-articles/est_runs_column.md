@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-est_runs_column
 support:
-- sweep
-- ハイパーパラメーター
+  - sweeps
+  - hyperparameter
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 W&B は、離散的な探索空間を持つ W&B Sweep を作成する際に生成される Run の推定数を提供します。この合計値は、探索空間のデカルト積を反映しています。
 
 たとえば、次の探索空間を考えてみましょう：

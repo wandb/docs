@@ -4,10 +4,9 @@ menu:
   support:
     identifier: ja-support-kb-articles-create_team_add_delete_people_team
 support:
-- チーム管理
+  - team management
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 リファレンスについては、役割と権限の詳細を参照してください: [Team Roles and Permissions]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ja" >}}).

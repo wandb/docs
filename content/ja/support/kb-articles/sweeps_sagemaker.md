@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-sweeps_sagemaker
 support:
-- スイープ
-- aws
+  - sweeps
+  - aws
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 W&B を認証するには、以下の手順を完了してください。Amazon SageMaker の組み込み推定器を使用する場合、`requirements.txt` ファイルを作成します。認証および `requirements.txt` ファイルの設定に関する詳細は、[SageMaker インテグレーション]({{< relref path="/guides/integrations/sagemaker.md" lang="ja" >}}) ガイドを参照してください。
 
 {{% alert %}}

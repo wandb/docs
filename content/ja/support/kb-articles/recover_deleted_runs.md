@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-recover_deleted_runs
 support:
-- run
+  - runs
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 削除された run を復元するには、次の手順を完了してください：
 
 - プロジェクトの概要ページに移動します。

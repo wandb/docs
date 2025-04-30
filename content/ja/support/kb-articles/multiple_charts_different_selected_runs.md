@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-multiple_charts_different_selected_runs
 support:
-- レポート
+  - reports
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 W&B Reports を使って、次のステップに従ってください:
 
 1. 複数のパネルグリッドを作成します。

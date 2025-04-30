@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-update_payment_method
 support:
-- 課金
+  - billing
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 支払い方法を更新するには、次のステップに従ってください:
 
 1. **プロフィールページに移動する**: まず、あなたのユーザープロフィールページに移動します。

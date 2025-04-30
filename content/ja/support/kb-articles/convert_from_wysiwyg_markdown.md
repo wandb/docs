@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-convert_from_wysiwyg_markdown
 support:
-- レポート
-- wysiwyg
+  - reports
+  - wysiwyg
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 レポート変換が上部のメッセージを通じて行われた場合、赤い「Revert」ボタンをクリックして、以前の状態に戻してください。変換後に行われた変更は失われることに注意してください。
 
 単一の Markdown ブロックが変換された場合、`cmd+z` を使用して元に戻します。

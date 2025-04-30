@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-query_notebook_failed
 support:
-- ノートブック
-- 環境変数
+  - notebooks
+  - environment variables
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` というエラーメッセージが表示された場合は、環境変数を設定することで解決できます。これを達成するための複数のメソッドがあります:
 
 {{< tabpane text=true >}}

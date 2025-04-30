@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-testing_code_turn_off
 support:
-- アーティファクト
+  - artifacts
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 `wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定して、W&B をテスト目的で何もしない (NOOP) 状態に設定します。
 
 {{% alert %}}

@@ -2,14 +2,14 @@
 title: gcc が環境にない場合、wandb Python ライブラリをインストールする方法は？
 menu:
   support:
-    identifier: ja-support-kb-articles-install_wandb_python_library_environments_without_gcc
+    identifier: >-
+      ja-support-kb-articles-install_wandb_python_library_environments_without_gcc
 support:
-- python
+  - python
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 `wandb` をインストールする際に以下のエラーが発生した場合:
 
 ```

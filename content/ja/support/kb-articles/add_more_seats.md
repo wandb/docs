@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-add_more_seats
 support:
-- 管理者
-- ユーザー管理
+  - administrator
+  - user management
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 アカウントに席を追加するには、次の手順に従ってください:
 
 - サポートが必要な場合は、アカウントエグゼクティブまたはサポートチーム（support@wandb.com）に連絡してください。

@@ -2,14 +2,14 @@
 title: 私の組織における保存されたバイト数、追跡されたバイト数、および追跡時間を確認するにはどうすればいいですか？
 menu:
   support:
-    identifier: ja-support-kb-articles-see_bytes_stored_bytes_tracked_tracked_hours_organization
+    identifier: >-
+      ja-support-kb-articles-see_bytes_stored_bytes_tracked_tracked_hours_organization
 support:
-- 管理者
+  - administrator
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 組織の設定内で、保存されたバイト数、追跡されたバイト数、および追跡時間を表示します：
 
 1. `https://wandb.ai/account-settings/<organization-name>/settings` で組織の設定に移動します。

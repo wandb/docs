@@ -4,14 +4,13 @@ menu:
   support:
     identifier: ja-support-kb-articles-add_plotlybokeh_charts_tables
 support:
-- 実験管理
-- テーブル
-- charts
+  - experiments
+  - tables
+  - charts
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 Plotly または Bokeh の図をテーブルに直接統合することはサポートされていません。代わりに、図を HTML にエクスポートし、HTML をテーブルに含めてください。以下に、対話型の Plotly と Bokeh グラフを使用した例を示します。
 
 {{< tabpane text=true >}}

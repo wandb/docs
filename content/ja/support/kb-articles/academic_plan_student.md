@@ -4,14 +4,13 @@ menu:
   support:
     identifier: ja-support-kb-articles-academic_plan_student
 support:
-- 管理者
-- 学術
-- ユーザー管理
+  - administrator
+  - academic
+  - user management
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 学生は次のステップに従って、アカデミックプランに申し込むことができます：
 
 - [wandb.com の Pricing ページ](https://wandb.ai/site/pricing) を訪問します。

@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-artifact_storage_version
 support:
-- アーティファクト
-- 記憶装置
+  - artifacts
+  - storage
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 2 つの Artifacts のバージョン間で変更されたファイルのみがストレージコストの対象となります。
 
 {{< img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifacts 'dataset' の v1 では、異なる画像は 5 枚中 2 枚のみで、そのため占有率は 40% にとどまります。" >}}

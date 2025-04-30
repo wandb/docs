@@ -27,13 +27,13 @@ menu:
 
 {{< cardpane >}}
   {{< card >}}
-    <a href="/ja/support/実験管理/">
+    <a href="/ja/support/experiments/">
       <h2 className="card-title">実験管理</h2>
       <p className="card-content">機械学習の実験を追跡、視覚化、比較します</p>
     </a>
   {{< /card >}}
   {{< card >}}
-    <a href="/ja/support/アーティファクト/">
+    <a href="/ja/support/artifacts/">
       <h2 className="card-title">アーティファクト</h2>
       <p className="card-content">データセット、モデル、その他の機械学習アーティファクトをバージョン管理して追跡します</p>
     </a>
@@ -41,13 +41,13 @@ menu:
 {{< /cardpane >}}
 {{< cardpane >}}
   {{< card >}}
-    <a href="/ja/support/レポート/">
+    <a href="/ja/support/reports/">
       <h2 className="card-title">レポート</h2>
       <p className="card-content">インタラクティブでコラボレーション可能なレポートを作成して作業を共有します</p>
     </a>
   {{< /card >}}
   {{< card >}}
-    <a href="/ja/support/sweep">
+    <a href="/ja/support/sweeps">
       <h2 className="card-title">Sweeps</h2>
       <p className="card-content">ハイパーパラメーター検索を自動化します</p>
     </a>

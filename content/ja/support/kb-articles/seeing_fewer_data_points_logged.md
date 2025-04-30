@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-seeing_fewer_data_points_logged
 support:
-- 実験管理
-- メトリクス
+  - experiments
+  - metrics
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 メトリクスを `Step` 以外の X 軸に対して視覚化する場合、データポイントが少なくなることがあります。メトリクスは同じ `Step` でログする必要があり、同期を維持します。同じ `Step` でログされるメトリクスのみが、サンプル間の補間中にサンプリングされます。
 
 **ガイドライン**

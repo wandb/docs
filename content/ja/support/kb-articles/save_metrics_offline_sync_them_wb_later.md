@@ -4,14 +4,13 @@ menu:
   support:
     identifier: ja-support-kb-articles-save_metrics_offline_sync_them_wb_later
 support:
-- 実験管理
-- 環境変数
-- メトリクス
+  - experiments
+  - environment variables
+  - metrics
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 `wandb.init` はデフォルトでメトリクスをリアルタイムでクラウドに同期するプロセスを開始します。オフラインで使用する場合は、オフラインモードを有効にし、後で同期できるように2つの環境変数を設定してください。
 
 次の環境変数を設定します:

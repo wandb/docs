@@ -2,14 +2,14 @@
 title: すべてのハイパーパラメーターの値を W&B Sweep の一部として提供する必要がありますか。デフォルト値を設定できますか？
 menu:
   support:
-    identifier: ja-support-kb-articles-need_provide_values_all_hyperparameters_part_wb_sweep_set
+    identifier: >-
+      ja-support-kb-articles-need_provide_values_all_hyperparameters_part_wb_sweep_set
 support:
-- sweep
+  - sweeps
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 ハイパーパラメーターの名前と値にアクセスするには、辞書のように振る舞う `wandb.config` を使って、sweep configuration から取得します。
 
 sweep の外で run を行う場合、`wandb.config` の値を設定するには、辞書を `wandb.init` の `config` 引数に渡します。sweep では、`wandb.init` に提供される任意の設定がデフォルト値として機能し、sweep がそれを上書きできます。

@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-multiprocessing_eg_distributed_training
 support:
-- 実験管理
+  - experiments
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 トレーニングプログラムが複数のプロセスを使用する場合、`wandb.init()` なしでプロセスから wandb メソッド呼び出しを行わないようにプログラムを構築してください。
 
 マルチプロセスのトレーニングを管理するには、以下のアプローチを使用します。

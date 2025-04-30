@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-send_alerts_microsoft_teams_using_wb
 support:
-- アラート
+  - alerts
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 Teams で W&B アラートを受け取るには、以下の手順に従ってください。
 
 - **Teams チャンネルのためのメール アドレスを設定します。** アラートを受信したい Teams チャンネル用のメール アドレスを作成します。

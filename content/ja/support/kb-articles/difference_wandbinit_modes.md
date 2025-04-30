@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-difference_wandbinit_modes
 support:
-- 実験管理
+  - experiments
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 これらのモードが利用可能です:
 
 * `online` (デフォルト): クライアントはデータをwandb サーバーに送信します。

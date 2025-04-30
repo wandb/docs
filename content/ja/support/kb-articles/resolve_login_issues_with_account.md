@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-resolve_login_issues_with_account
 support:
-- ユーザー管理
+  - user management
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 ログイン問題を解決するために、以下の手順を実行してください:
 
 - **アクセス確認**: 正しいメールアドレスまたはユーザー名を使用していることを確認し、関連する Teams または Projects に所属しているか確認してください。

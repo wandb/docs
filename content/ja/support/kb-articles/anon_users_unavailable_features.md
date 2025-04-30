@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-anon_users_unavailable_features
 support:
-- 匿名
+  - anonymous
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 * **永続的なデータはありません**: Runs は匿名アカウントで 7 日間保存されます。匿名 run データを正規のアカウントに保存することで取得できます。
 
 {{< img src="/images/app_ui/anon_mode_no_data.png" alt="" >}}

@@ -4,10 +4,9 @@ menu:
   support:
     identifier: ja-support-kb-articles-kill_job_wandb
 support:
-- ランがクラッシュまたはハングする場合
+  - crashing and hanging runs
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 キーボードで `Ctrl+D` を押して、W&B を使用したスクリプトを停止します。

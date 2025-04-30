@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-custom_cli_commands_sweeps
 support:
-- sweep
+  - sweeps
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 W&B スイープは、トレーニング設定がコマンドライン引数を通過する場合、カスタム CLI コマンドと共に使用できます。
 
 以下の例では、コードスニペットが bash ターミナルを示しており、ユーザーが `train.py` という名前の Python スクリプトをトレーニングし、スクリプトが解析する値を提供しています。

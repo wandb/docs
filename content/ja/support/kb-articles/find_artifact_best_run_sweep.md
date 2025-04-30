@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-find_artifact_best_run_sweep
 support:
-- アーティファクト
+  - artifacts
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 アーティファクトを sweep の中で最も良いパフォーマンスを示した run から取得するには、次のコードを使用します。
 
 ```python

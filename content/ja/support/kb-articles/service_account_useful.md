@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-service_account_useful
 support:
-- 管理者
+  - administrator
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 サービスアカウント (エンタープライズ専用機能) は、人間ではないユーザーまたはマシンがチームや Projects 全体で一般的なタスクを自動化するためのもので、特定の人間ユーザーに特化しないタスクに使用されます。チーム内でサービスアカウントを作成し、その APIキー を使用してチーム内の Projects を読み書きすることができます。
 
 他にも、サービスアカウントは、wandb にログを記録する自動化されたジョブ、例えば定期的な再トレーニングやナイトリービルドなどを追跡するのに便利です。必要に応じて、これらの機械がローンチした Runs に `WANDB_USERNAME` や `WANDB_USER_EMAIL` などの [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) を関連付けることができます。

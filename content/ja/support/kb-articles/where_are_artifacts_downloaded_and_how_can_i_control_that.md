@@ -2,15 +2,15 @@
 title: アーティファクトはどこにダウンロードされ、どうやってそれを制御できますか？
 menu:
   support:
-    identifier: ja-support-kb-articles-where_are_artifacts_downloaded_and_how_can_i_control_that
+    identifier: >-
+      ja-support-kb-articles-where_are_artifacts_downloaded_and_how_can_i_control_that
 support:
-- アーティファクト
-- 環境変数
+  - artifacts
+  - environment variables
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 デフォルトでは、Artifacts は `artifacts/` フォルダにダウンロードされます。場所を変更するには次のようにします。
 
 - [`wandb.Artifact().download`]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) に渡します:

@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-initialization_timeout_error
 support:
-- 接続性
-- run のクラッシュとハングアップ
+  - connectivity
+  - crashing and hanging runs
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 run の初期化タイムアウトエラーを解決するには、次の手順を実行してください。
 
 - **初期化を再試行する**: run を再起動してみてください。

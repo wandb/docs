@@ -4,14 +4,13 @@ menu:
   support:
     identifier: ja-support-kb-articles-just_log_metrics_no_code_dataset_examples
 support:
-- 管理者
-- チーム管理
-- メトリクス
+  - administrator
+  - team management
+  - metrics
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 デフォルトでは、W&B は Datasets の例をログしません。デフォルトで、W&B はコードとシステムメトリクスをログします。
 
 環境変数でコードログをオフにする方法が2つあります：

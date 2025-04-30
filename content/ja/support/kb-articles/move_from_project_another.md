@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-move_from_project_another
 support:
-- run
+  - runs
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 run をあるプロジェクトから別のプロジェクトに移動するには、次の手順に従います：
 
 - 移動する run があるプロジェクトページに移動します。

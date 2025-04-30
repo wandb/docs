@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-project_make_public
 support:
-- プライバシー
-- プロジェクト
+  - privacy
+  - projects
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 プロジェクトを公開にするには、次の手順を行います。
 
 1. Weights & Biases のウェブアプリでプロジェクトページにアクセスします。

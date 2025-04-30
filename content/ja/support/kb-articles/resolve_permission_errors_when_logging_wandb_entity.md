@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-resolve_permission_errors_when_logging_wandb_entity
 support:
-- run
-- セキュリティ
+  - runs
+  - security
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 W&B エンティティへの run ログ中に権限エラーが発生した場合は、次の手順を実行します:
 
 - **エンティティとプロジェクト名の確認**: コード内の W&B エンティティとプロジェクト名のスペルと大文字小文字を確認します。

@@ -4,12 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-access_artifacts
 support:
-- アーティファクト
+  - artifacts
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 Artifacts は、その親プロジェクトからアクセス権限を継承します:
 
 * プライベートプロジェクトでは、Artifacts にアクセスできるのはチームメンバーのみです。

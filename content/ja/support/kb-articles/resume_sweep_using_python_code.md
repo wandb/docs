@@ -4,14 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-resume_sweep_using_python_code
 support:
-- スイープ
-- python
-- sweep
+  - sweeps
+  - python
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 sweep を再開するには、`sweep_id` を `wandb.agent()` 関数に渡します。
 
 ```python

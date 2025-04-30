@@ -1,16 +1,16 @@
 ---
-title: run によってログされた、または使用された Artifacts をどのように見つけることができますか？Artifacts を生成または使用した run
+title: >-
+  run によってログされた、または使用された Artifacts をどのように見つけることができますか？Artifacts を生成または使用した run
   をどのように見つけられますか？
 menu:
   support:
     identifier: ja-support-kb-articles-find_artifacts_logged_consumed_run_find
 support:
-- アーティファクト
+  - artifacts
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 W&B は、各 run によってログされた Artifacts と、artifact graph を構築するために各 run で使用された Artifacts を追跡します。このグラフは、run と Artifacts を表すノードを持つ二部グラフで、有向非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deebdd5/graph) で見ることができます（グラフを展開するには「Explode」をクリックしてください）。
 
 Public API を使用して、Artifacts または run からプログラム的にグラフをナビゲートします。

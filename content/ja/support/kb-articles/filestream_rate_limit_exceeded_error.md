@@ -4,13 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-filestream_rate_limit_exceeded_error
 support:
-- 接続性
-- outage
+  - connectivity
+  - outage
 toc_hide: true
 type: docs
 url: /ja/support/:filename
 ---
-
 To resolve the "Filestream rate limit exceeded" error in Weights & Biases (W&B), follow these steps:
 
 **ログの最適化**:
