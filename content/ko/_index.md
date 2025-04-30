@@ -37,10 +37,10 @@ title: Weights & Biases Documentation
 
 [W&B Models]({{< relref path="/guides/" lang="ko" >}}) 를 사용하여 AI 모델 개발을 관리하세요. 기능에는 트레이닝, 파인튜닝, 리포트 작성, 하이퍼파라미터 탐색 자동화, 버전 관리 및 재현성을 위한 모델 레지스트리 활용이 포함됩니다.
 
-- [도입]({{< relref path="/guides/" lang="ko" >}})
-- [퀵스타트]({{< relref path="/guides/quickstart/" lang="ko" >}})
-- [YouTube 튜토리얼](https://www.youtube.com/watch?v=tHAFujRhZLA)
-- [온라인 코스](https://wandb.ai/site/courses/101/)
+- [Introduction]({{< relref path="/guides/" lang="ko" >}})
+- [Quickstart]({{< relref path="/guides/quickstart/" lang="ko" >}})
+- [YouTube Tutorial](https://www.youtube.com/watch?v=tHAFujRhZLA)
+- [Online Course](https://wandb.ai/site/courses/101/)
 
 </div>{{% /card %}}
 {{< /cardpane >}}
