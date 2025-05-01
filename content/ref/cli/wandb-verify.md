@@ -15,7 +15,7 @@ Verify your local instance
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --host | Test a specific instance of W&B |
+| `--host` | Test a specific instance of W&B |
 
 
 

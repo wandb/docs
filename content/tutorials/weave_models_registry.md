@@ -21,7 +21,7 @@ The workflow covers the following steps:
 
 1. Instrument the RAG app code with W&B Weave
 2. Fine-tune an LLM (such as Llama 3.2, but you can replace it with any other LLM) and track it with W&B Models
-3. Log the fine-tuned model to the [W&B Registry](https://docs.wandb.ai/guides/registry)
+3. Log the fine-tuned model to the [W&B Registry](https://docs.wandb.ai/guides/core/registry)
 4. Implement the RAG app with the new fine-tuned model and evaluate the app with W&B Weave
 5. Once satisfied with the results, save a reference to the updated Rag app in the W&B Registry
 
@@ -84,9 +84,9 @@ class UnslothLoRAChatModel(weave.Model):
     _tokenizer: Any = PrivateAttr()
 
     def model_post_init(self, __context):
-        # paste this from the "Use" tab from the registry
         run = wandb.init(project=PROJECT, job_type="model_download")
-        artifact = run.use_artifact(f"{self.chat_model}")
+        artifact_ref = self.chat_model.replace("wandb-artifact:///", "")
+        artifact = run.use_artifact(artifact_ref)
         model_path = artifact.download()
 
         # unsloth version (enable native 2x faster inference)
@@ -126,7 +126,9 @@ class UnslothLoRAChatModel(weave.Model):
 Now create a new model with a specific link from the registry:
 
 ```python
-MODEL_REG_URL = "wandb32/wandb-registry-RAG Chat Models/Finetuned Llama-3.2:v3"
+ORG_ENTITY = "wandb32"  # replace this with your organization name
+artifact_name = "Finetuned Llama-3.2" # replace this with your artifact name
+MODEL_REG_URL = f"wandb-artifact:///{ORG_ENTITY}/wandb-registry-RAG Chat Models/{artifact_name}:v3"
 
 max_seq_length = 2048
 dtype = None

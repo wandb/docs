@@ -7,9 +7,20 @@ title: Access BYOB using pre-signed URLs
 weight: 2
 ---
 
-W&B uses pre-signed URLs to simplify access to blob storage from your AI workloads or user browsers. For basic information on pre-signed URLs, refer to [Pre-signed URLs for AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html), [Signed URLs for Google Cloud Storage](https://cloud.google.com/storage/docs/access-control/signed-urls) and [Shared Access Signature for Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview).
+W&B uses pre-signed URLs to simplify access to blob storage from your AI workloads or user browsers. For basic information on pre-signed URLs, refer to the cloud provider's documentation:
+- [Pre-signed URLs for AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)
+- [Signed URLs for Google Cloud Storage](https://cloud.google.com/storage/docs/access-control/signed-urls)
+- [Shared Access Signature for Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview)
 
-When needed, AI workloads or user browser clients within your network request pre-signed URLs from the W&B Platform. W&B Platform then access the relevant blob storage to generate the pre-signed URL with required permissions, and returns it back to the client. The client then uses the pre-signed URL to access the blob storage for object upload or retrieval operations. URL expiry time for object downloads is 1 hour, and it is 24 hours for object uploads as some large objects may need more time to upload in chunks.
+How it works:
+1. When needed, AI workloads or user browser clients within your network request pre-signed URLs from W&B.
+1. W&B responds to the request by accessing the blob storage to generate the pre-signed URL with the required permissions.
+1. W&B returns the pre-signed URL to the client.
+1. The client uses the pre-signed URL to read or write to the blob storage.
+
+A pre-signed URL expires after:
+- **Reading**: 1 hour
+- **Writing**: 24 hours, to allow more time to upload large objects in chunks.
 
 ## Team-level access control
 
@@ -27,8 +38,16 @@ In case of AWS, one can use [VPC or IP address based network restriction](https:
 
 ## Audit logs
 
-W&B also recommends to use [W&B audit logs]({{< relref "../monitoring-usage/audit-logging.md" >}}) in addition to blob storage specific audit logs. For latter, refer to [AWS S3 access logs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html),[Google Cloud Storage audit logs](https://cloud.google.com/storage/docs/audit-logging) and [Monitor Azure blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/monitor-blob-storage). Admin and security teams can use audit logs to keep track of which user is doing what in the W&B product and take necessary action if they determine that some operations need to be limited for certain users.
+W&B recommends using [W&B audit logs]({{< relref "../monitoring-usage/audit-logging.md" >}}) together with blob storage specific audit logs. For blob storage audit logs, refer to the documentation for each cloud provider:
+- [AWS S3 access logs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)
+- [Google Cloud Storage audit logs](https://cloud.google.com/storage/docs/audit-logging)
+- [Monitor Azure blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/monitor-blob-storage).
+
+Admin and security teams can use audit logs to keep track of which user is doing what in the W&B product and take necessary action if they determine that some operations need to be limited for certain users.
 
 {{% alert %}}
 Pre-signed URLs are the only supported blob storage access mechanism in W&B. W&B recommends configuring some or all of the above list of security controls depending on your risk appetite.
 {{% /alert %}}
+
+### Determine the user that requested a pre-signed URL
+When W&B returns a pre-signed URL for AWS or GCP blob storage, the `X-User` header contains the requester's username. The header is not set for Azure blob storage.

@@ -9,15 +9,15 @@ title: Configure experiments
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb" >}}
 
-Use the `wandb.config` object to save your training configuration such as: 
+Use the `config` property of a run to save your training configuration: 
 - hyperparameter
 - input settings such as the dataset name or model type
 - any other independent variables for your experiments. 
 
-The `wandb.config` attribute makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the settings of different W&B Runs and view how different training configurations affect the output. A Run's `config` attribute is a dictionary-like object, and it can be built from lots of dictionary-like objects.
+The `run.config` property makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the configurations of different W&B runs, and evaluate how each training configuration affects the output. The `config` property is a dictionary-like object that can be composed from multiple dictionary-like objects.
 
 {{% alert %}}
-Dependent variables (like loss and accuracy) or output metrics should be saved with `wandb.log`instead.
+To save output metrics or dependent variables like loss and accuracy, use `run.log` instead of `run.config`.
 {{% /alert %}}
 
 
@@ -25,10 +25,9 @@ Dependent variables (like loss and accuracy) or output metrics should be saved w
 ## Set up an experiment configuration
 Configurations are typically defined in the beginning of a training script. Machine learning workflows may vary, however, so you are not required to define a configuration at the beginning of your training script.
 
-{{% alert color="secondary" %}}
-We recommend that you avoid using dots in your config variable names. Instead, use a dash or underscore instead. Use the dictionary access syntax `["key"]["foo"]` instead of the attribute access syntax `config.key.foo` if your script accesses `wandb.config` keys below the root.
-{{% /alert %}}
-
+Use dashes (`-`) or underscores (`_`) instead of periods (`.`) in your config variable names.
+	
+Use the dictionary access syntax `["key"]["value"]` instead of the attribute access syntax `config.key.value` if your script accesses `run.config` keys below the root.
 
 The following sections outline different common scenarios of how to define your experiments configuration.
 
@@ -51,25 +50,24 @@ config = {
 }
 
 # Pass the config dictionary when you initialize W&B
-run = wandb.init(project="config_example", config=config)
+with wandb.init(project="config_example", config=config) as run:
+    ...
 ```
 
-{{% alert %}}
-You can pass a nested dictionary to `wandb.config()`. W&B will flatten the names using dots in the W&B backend.
-{{% /alert %}}
+If you pass a nested dictionary as the `config`, W&B flattens the names using dots.
 
 Access the values from the dictionary similarly to how you access other dictionaries in Python:
 
 ```python
 # Access values with the key as the index value
-hidden_layer_sizes = wandb.config["hidden_layer_sizes"]
-kernel_sizes = wandb.config["kernel_sizes"]
-activation = wandb.config["activation"]
+hidden_layer_sizes = run.config["hidden_layer_sizes"]
+kernel_sizes = run.config["kernel_sizes"]
+activation = run.config["activation"]
 
 # Python dictionary get() method
-hidden_layer_sizes = wandb.config.get("hidden_layer_sizes")
-kernel_sizes = wandb.config.get("kernel_sizes")
-activation = wandb.config.get("activation")
+hidden_layer_sizes = run.config.get("hidden_layer_sizes")
+kernel_sizes = run.config.get("kernel_sizes")
+activation = run.config.get("activation")
 ```
 
 {{% alert %}}
@@ -85,10 +83,11 @@ The proceeding Python script demonstrates how to define a parser object to defin
 
 ```python
 # config_experiment.py
-import wandb
 import argparse
-import numpy as np
 import random
+
+import numpy as np
+import wandb
 
 
 # Training and evaluation demo code
@@ -106,28 +105,27 @@ def evaluate_one_epoch(epoch):
 
 def main(args):
     # Start a W&B Run
-    run = wandb.init(project="config_example", config=args)
+    with wandb.init(project="config_example", config=args) as run:
+        # Access values from config dictionary and store them
+        # into variables for readability
+        lr = run.config["learning_rate"]
+        bs = run.config["batch_size"]
+        epochs = run.config["epochs"]
 
-    # Access values from config dictionary and store them
-    # into variables for readability
-    lr = wandb.config["learning_rate"]
-    bs = wandb.config["batch_size"]
-    epochs = wandb.config["epochs"]
+        # Simulate training and logging values to W&B
+        for epoch in np.arange(1, epochs):
+            train_acc, train_loss = train_one_epoch(epoch, lr, bs)
+            val_acc, val_loss = evaluate_one_epoch(epoch)
 
-    # Simulate training and logging values to W&B
-    for epoch in np.arange(1, epochs):
-        train_acc, train_loss = train_one_epoch(epoch, lr, bs)
-        val_acc, val_loss = evaluate_one_epoch(epoch)
-
-        wandb.log(
-            {
-                "epoch": epoch,
-                "train_acc": train_acc,
-                "train_loss": train_loss,
-                "val_acc": val_acc,
-                "val_loss": val_loss,
-            }
-        )
+            run.log(
+                {
+                    "epoch": epoch,
+                    "train_acc": train_acc,
+                    "train_loss": train_loss,
+                    "val_acc": val_acc,
+                    "val_loss": val_loss,
+                }
+            )
 
 
 if __name__ == "__main__":
@@ -163,38 +161,39 @@ config = {
 }
 
 # Pass the config dictionary when you initialize W&B
-run = wandb.init(project="config_example", config=config)
-
-# Update config after you initialize W&B
-wandb.config["dropout"] = 0.2
-wandb.config.epochs = 4
-wandb.config["batch_size"] = 32
+with wandb.init(project="config_example", config=config) as run:
+    # Update config after you initialize W&B
+    run.config["dropout"] = 0.2
+    run.config.epochs = 4
+    run.config["batch_size"] = 32
 ```
+
 You can update multiple values at a time:
 
 ```python
-wandb.init(config={"epochs": 4, "batch_size": 32})
-# later
-wandb.config.update({"lr": 0.1, "channels": 16})
+run.config.update({"lr": 0.1, "channels": 16})
 ```
 
 ### Set the configuration after your Run has finished
-Use the [W&B Public API]({{< relref "/ref/python/public-api/" >}}) to update your config (or anything else about from a complete Run) after your Run. This is particularly useful if you forgot to log a value during a Run. 
+Use the [W&B Public API]({{< relref "/ref/python/public-api/" >}}) to update a completed run's config. 
 
-Provide your `entity`, `project name`, and the `Run ID` to update your configuration after a Run has finished. Find these values directly from the Run object itself `wandb.run` or from the [W&B App UI]({{< relref "/guides/models/track/workspaces.md" >}}):
+You must provide the API with your entity, project name and the run's ID. You can find these details in the Run object or in the [W&B App UI]({{< relref "/guides/models/track/workspaces.md" >}}):
 
 ```python
+with wandb.init() as run:
+    ...
+
+# Find the following values from the Run object if it was initiated from the
+# current script or notebook, or you can copy them from the W&B App UI.
+username = run.entity
+project = run.project
+run_id = run.id
+
+# Note that api.run() returns a different type of object than wandb.init().
 api = wandb.Api()
-
-# Access attributes directly from the run object
-# or from the W&B App
-username = wandb.run.entity
-project = wandb.run.project
-run_id = wandb.run.id
-
-run = api.run(f"{username}/{project}/{run_id}")
-run.config["bar"] = 32
-run.update()
+api_run = api.run(f"{username}/{project}/{run_id}")
+api_run.config["bar"] = 32
+api_run.update()
 ```
 
 
@@ -208,11 +207,11 @@ You can also pass in [`absl` flags](https://abseil.io/docs/python/guides/flags).
 ```python
 flags.DEFINE_string("model", None, "model to run")  # name, default, help
 
-wandb.config.update(flags.FLAGS)  # adds absl flags to config
+run.config.update(flags.FLAGS)  # adds absl flags to config
 ```
 
 ## File-Based Configs
-If you place a file named `config-defaults.yaml` in the same directory as your run script, the run automatically picks up the key-value pairs defined in the file and passes them to `wandb.config`. 
+If you place a file named `config-defaults.yaml` in the same directory as your run script, the run automatically picks up the key-value pairs defined in the file and passes them to `run.config`. 
 
 The following code snippet shows a sample `config-defaults.yaml` YAML file:
 
@@ -226,8 +225,10 @@ You can override the default values automatically loaded from `config-defaults.y
 
 ```python
 import wandb
+
 # Override config-defaults.yaml by passing custom values
-wandb.init(config={"epochs": 200, "batch_size": 64})
+with wandb.init(config={"epochs": 200, "batch_size": 64}) as run:
+    ...
 ```
 
 To load a configuration file other than `config-defaults.yaml`, use the `--configs command-line` argument and specify the path to the file:
@@ -251,7 +252,8 @@ config_dictionary = dict(
     params=hyperparameter_defaults,
 )
 
-wandb.init(config=config_dictionary)
+with wandb.init(config=config_dictionary) as run:
+    ...
 ```
 
 ## TensorFlow v1 flags
@@ -259,35 +261,11 @@ wandb.init(config=config_dictionary)
 You can pass TensorFlow flags into the `wandb.config` object directly.
 
 ```python
-wandb.init()
-wandb.config.epochs = 4
+with wandb.init() as run:
+    run.config.epochs = 4
 
-flags = tf.app.flags
-flags.DEFINE_string("data_dir", "/tmp/data")
-flags.DEFINE_integer("batch_size", 128, "Batch size.")
-wandb.config.update(flags.FLAGS)  # add tensorflow flags as config
+    flags = tf.app.flags
+    flags.DEFINE_string("data_dir", "/tmp/data")
+    flags.DEFINE_integer("batch_size", 128, "Batch size.")
+    run.config.update(flags.FLAGS)  # add tensorflow flags as config
 ```
-
-<!-- ## Dataset Identifier
-
-You can add a unique identifier (like a hash or other identifier) in your run's configuration for your dataset by tracking it as input to your experiment using `wandb.config`
-
-```yaml
-wandb.config.update({"dataset": "ab131"})
-``` -->
-
-<!-- ## Update Config Files
-
-You can use the public API to add values your `config` file, even after the run has finished.
-
-```python
-import wandb
-api = wandb.Api()
-run = api.run("username/project/run_id")
-run.config["foo"] = 32
-run.update()
-``` -->
-
-<!-- ## Key-Value Pairs
-
-You can log any key-value pairs into `wandb.config`. They can be different for every type of model you are training, e.g.`wandb.config.update({"my_param": 10, "learning_rate": 0.3, "model_architecture": "B"})`. -->

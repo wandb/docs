@@ -39,10 +39,10 @@ The compute environment that a Launch queue is configured to execute jobs on is 
 
 W&B Launch supports the following target resources:
 
-- [Docker]({{< relref "./set-up-launch/setup-launch-docker.md" >}})
-- [Kubernetes]({{< relref "./set-up-launch/setup-launch-kubernetes.md" >}})
-- [AWS SageMaker]({{< relref "./set-up-launch/setup-launch-sagemaker.md" >}})
-- [GCP Vertex]({{< relref "./set-up-launch/setup-vertex.md" >}})
+- [Docker]({{< relref "/launch/set-up-launch/setup-launch-docker.md" >}})
+- [Kubernetes]({{< relref "/launch/set-up-launch/setup-launch-kubernetes.md" >}})
+- [AWS SageMaker]({{< relref "/launch/set-up-launch/setup-launch-sagemaker.md" >}})
+- [GCP Vertex]({{< relref "/launch/set-up-launch/setup-vertex.md" >}})
 
 Each target resource accepts a different set of configuration parameters called *resource configurations*. Resource configurations take on default values defined by each Launch queue, but can be overridden independently by each job. See the documentation for each target resource for more details.
 

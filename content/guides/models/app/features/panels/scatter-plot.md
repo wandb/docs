@@ -7,15 +7,34 @@ title: Scatter plots
 weight: 40
 ---
 
-Use the scatter plot to compare multiple runs and visualize how your experiments are performing. We've added some customizable features:
+This page shows how to use scatter plots in W&B.
 
-1. Plot a line along the min, max, and average
-2. Custom metadata tooltips
-3. Control point colors 
-4. Set axes ranges
-5. Switch axes to log scale
+## Use case 
 
-Here’s an example of validation accuracy of different models over a couple of weeks of experimentation. The tooltip is customized to include the batch size and dropout as well as the values on the axes. There’s also a line plotting the running average of validation accuracy.  
+Use scatter plots to compare multiple runs and visualize the performance of an experiment:
+
+- Plot lines for minimum, maximum, and average values.
+- Customize metadata tooltips.
+- Control point colors.
+- Adjust axis ranges.
+- Use a log scale for the axes.
+
+## Example
+
+The following example shows a scatter plot displaying validation accuracy for different models over several weeks of experimentation. The tooltip includes batch size, dropout, and axis values. A line also shows the running average of validation accuracy. 
+
 [See a live example →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
 
-{{< img src="/images/general/scatter-plots-1.png" alt="" >}}
+{{< img src="/images/general/scatter-plots-1.png" alt="Example of validation accuracy of different models over a couple of weeks of experimentation" >}}
+
+## Create a scatter plot
+
+To create a scatter plot in the W&B UI:
+
+1. Navigate to the **Workspaces** tab.
+2. In the **Charts** panel, click the action menu `...`.
+3. From the pop-up menu, select **Add panels**.
+4. In the **Add panels** menu, select **Scatter plot**.
+5. Set the `x` and `y` axes to plot the data you want to view. Optionally, set maximum and minimum ranges for your axes or add a `z` axis.
+6. Click **Apply** to create the scatter plot.
+7. View the new scatter plot in the Charts panel.

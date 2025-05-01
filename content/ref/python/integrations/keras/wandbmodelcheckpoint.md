@@ -2,7 +2,7 @@
 title: WandbModelCheckpoint
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/integration/keras/callbacks/model_checkpoint.py#L20-L188 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/integration/keras/callbacks/model_checkpoint.py#L20-L188 >}}
 
 A checkpoint that periodically saves a Keras model or model weights.
 

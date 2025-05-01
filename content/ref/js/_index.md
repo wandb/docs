@@ -17,7 +17,7 @@ You can find the source code for the JavaScript client in the [Github repository
 Our JavaScript integration is still in Beta, if you run into issues please let us know.
 {{% /alert %}}
 
-### Installation
+## Installation
 
 ```shell
 npm install @wandb/sdk
@@ -25,9 +25,9 @@ npm install @wandb/sdk
 yarn add @wandb/sdk
 ```
 
-### Usage
+## Usage
 
-TypeScript/ESM:
+### TypeScript/ESM:
 
 ```typescript
 import wandb from '@wandb/sdk'
@@ -46,29 +46,27 @@ await track()
 We spawn a separate MessageChannel to process all api calls async. This will cause your script to hang if you don't call `await wandb.finish()`.
 {{% /alert %}}
 
-Node/CommonJS:
+### Node/CommonJS:
 
 ```javascript
 const wandb = require('@wandb/sdk').default;
 ```
 
-We're currently missing a lot of the functionality found in our Python SDK, but basic logging functionality is available. We'll be adding additional features like [Tables]({{< relref "/guides/core/tables?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme" >}}) soon.
+We're currently missing a lot of the functionality found in our Python SDK, but basic logging functionality is available. We'll be adding additional features like [Tables]({{< relref "/guides/models/tables/?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme" >}}) soon.
 
-### Authentication and Settings
+## Authentication and Settings
 
 In node environments we look for `process.env.WANDB_API_KEY` and prompt for it's input if we have a TTY. In non-node environments we look for `sessionStorage.getItem("WANDB_API_KEY")`. Additional settings can be [found here](https://github.com/wandb/wandb-js/blob/main/src/sdk/lib/config.ts).
 
-# Integrations
+## Integrations
 
 Our [Python integrations]({{< relref "/guides/integrations/" >}}) are widely used by our community, and we hope to build out more JavaScript integrations to help LLM app builders leverage whatever tool they want. 
 
 If you have any requests for additional integrations, we'd love you to open an issue with details about the request.
 
-## LangChain.js
+## LangChain.js
 
 This library integrates with the popular library for building LLM applications, [LangChain.js](https://github.com/hwchase17/langchainjs) version >= 0.0.75.
-
-### Usage
 
 ```typescript
 import {WandbTracer} from '@wandb/sdk/integrations/langchain';

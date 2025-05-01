@@ -104,7 +104,7 @@ Nested parameters defined in sweep configuration overwrite keys specified in a W
 For example, suppose you initialize a W&B run with the following configuration in a `train.py` Python script (see Lines 1-2). Next, you define a sweep configuration in a dictionary called `sweep_configuration` (see Lines 4-13). You then pass the sweep config dictionary to `wandb.sweep` to initialize a sweep config (see Line 16).
 
 
-```python title="train.py" showLineNumbers
+```python title="train.py" 
 def main():
     run = wandb.init(config={"nested_param": {"manual_key": 1}})
 
@@ -123,7 +123,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 # Start sweep job.
 wandb.agent(sweep_id, function=main, count=4)
 ```
-The `nested_param.manual_key` that is passed when the W&B run is initialized (line 2) is not accessible. The `run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary (lines 4-13).
+The `nested_param.manual_key` that is passed when the W&B run is initialized is not accessible. The `run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary.
 {{% /alert %}}
 
 
@@ -259,8 +259,10 @@ early_terminate:
 
 The proceeding tabs show how to specify either a minimum or maximum number of iterations for `early_terminate`:
 
-{{% tabpane text=true %}}
-  {{% tab header="Maximum number of iterations specified" %}}
+{{< tabpane  text=true >}}
+  {{% tab header="Maximum number of iterations" %}}
+
+The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.  
 
 ```yaml
 early_terminate:
@@ -268,9 +270,10 @@ early_terminate:
   min_iter: 3
 ```
 
-The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.  
   {{% /tab %}}
-  {{% tab header="Minimum number of iterations specified" %}}
+  {{% tab header="Minimum number of iterations" %}}
+
+The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`. 
 
 ```yaml
 early_terminate:
@@ -279,11 +282,8 @@ early_terminate:
   s: 2
 ```
 
-The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`. 
-
   {{% /tab %}}
-{{% /tabpane %}}
-
+{{< /tabpane >}}
 
 
 ### Command example

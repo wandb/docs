@@ -15,7 +15,7 @@ Run the W&B local sweep controller
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --verbose | Display verbose output |
+| `--verbose` | Display verbose output |
 
 
 

@@ -17,7 +17,7 @@ Choose the product for which you need documentation.
 
 ##### Use AI models in your app
 
-Use [W&B Weave](https://weave-docs.wandb.ai/) to manage all aspects of integrating AI models into your code, including tracing, output evaluation, cost estimates, and using our LLM playground to help compare the various LLM models and their configuration paramaters.
+Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a playground for comparing different large language models (LLMs) and settings.
 
 - [Introduction](https://weave-docs.wandb.ai/)
 - [Quickstart](https://weave-docs.wandb.ai/quickstart)
@@ -32,9 +32,9 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage all aspects of integrati
 </div>
 <h2>W&B Models</h2>
 
-##### Build AI models
+##### Develop AI models
 
-Use [W&B Models]({{< relref "/guides/" >}}) to manage all aspects of building your own AI models, including training, fine-tuning, reporting, automating hyperparameter sweeps, and using our model registry to assist with versioning and reproducibility.
+Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
 
 - [Introduction]({{< relref "/guides/" >}})
 - [Quickstart]({{< relref "/guides/quickstart/" >}})

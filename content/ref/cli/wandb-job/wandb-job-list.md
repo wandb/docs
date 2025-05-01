@@ -15,8 +15,8 @@ List jobs in a project
 
 | **Option** | **Description** |
 | :--- | :--- |
-| -p, --project | The project you want to list jobs from. |
-| -e, --entity | The entity the jobs belong to |
+| `-p, --project` | The project you want to list jobs from. |
+| `-e, --entity` | The entity the jobs belong to |
 
 
 

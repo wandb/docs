@@ -15,7 +15,7 @@ List all artifacts in a wandb project
 
 | **Option** | **Description** |
 | :--- | :--- |
-| -t, --type | The type of artifacts to list |
+| `-t, --type` | The type of artifacts to list |
 
 
 

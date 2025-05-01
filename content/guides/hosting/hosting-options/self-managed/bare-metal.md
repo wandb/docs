@@ -130,7 +130,7 @@ mc mb --region=us-east1 local/local-files
 
 ## Deploy W&B Server application to Kubernetes
 
-The recommended installation method is with the official W&B Helm chart. Follow [this section]({{< relref "./kubernetes-operator/#deploy-wb-with-helm-cli" >}}) to deploy the W&B Server application.
+The recommended installation method is with the official W&B Helm chart. Follow [this section]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#deploy-wb-with-helm-cli" >}}) to deploy the W&B Server application.
 
 ### OpenShift
 

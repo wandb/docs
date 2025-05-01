@@ -15,7 +15,7 @@ Show configuration settings
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --settings / --no-settings | Show the current settings |
+| `--settings / --no-settings` | Show the current settings |
 
 
 

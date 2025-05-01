@@ -59,6 +59,7 @@ The steps on this topic are common for any deployment option covered by this doc
    zone_id                    = "xxxxxxxxxxxxxxxx"
    allowed_inbound_cidr       = ["0.0.0.0/0"]
    allowed_inbound_ipv6_cidr  = ["::/0"]
+   eks_cluster_version        = "1.29"
    ```
 
    Ensure to define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
@@ -132,6 +133,12 @@ The steps on this topic are common for any deployment option covered by this doc
     nullable    = false
     type        = list(string)
    }
+
+   variable "eks_cluster_version" {
+    description = "EKS cluster kubernetes version"
+    nullable    = false
+    type        = string
+   }
    ```
 
 ## Recommended deployment option
@@ -145,7 +152,7 @@ This is the most straightforward deployment option configuration that creates al
    ```
    module "wandb_infra" {
      source  = "wandb/wandb/aws"
-     version = "~>2.0"
+     version = "~>7.0"
 
      namespace   = var.namespace
      domain_name = var.domain_name
@@ -159,45 +166,39 @@ This is the most straightforward deployment option configuration that creates al
      external_dns                   = true
      kubernetes_public_access       = true
      kubernetes_public_access_cidrs = ["0.0.0.0/0"]
+     eks_cluster_version            = var.eks_cluster_version
    }
 
-   data "aws_eks_cluster" "app_cluster" {
-     name = module.wandb_infra.cluster_id
-   }
+    data "aws_eks_cluster" "eks_cluster_id" {
+      name = module.wandb_infra.cluster_name
+    }
 
-   data "aws_eks_cluster_auth" "app_cluster" {
-     name = module.wandb_infra.cluster_id
-   }
+    data "aws_eks_cluster_auth" "eks_cluster_auth" {
+      name = module.wandb_infra.cluster_name
+    }
 
-   provider "kubernetes" {
-     host                   = data.aws_eks_cluster.app_cluster.endpoint
-     cluster_ca_certificate = base64decode(data.aws_eks_cluster.app_cluster.certificate_authority.0.data)
-     token                  = data.aws_eks_cluster_auth.app_cluster.token
-   }
+    provider "kubernetes" {
+      host                   = data.aws_eks_cluster.eks_cluster_id.endpoint
+      cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_id.certificate_authority.0.data)
+      token                  = data.aws_eks_cluster_auth.eks_cluster_auth.token
+    }
 
-   module "wandb_app" {
-     source  = "wandb/wandb/kubernetes"
-     version = "~>1.0"
 
-     license                    = var.license
-     host                       = module.wandb_infra.url
-     bucket                     = "s3://${module.wandb_infra.bucket_name}"
-     bucket_aws_region          = module.wandb_infra.bucket_region
-     bucket_queue               = "internal://"
-     database_connection_string = "mysql://${module.wandb_infra.database_connection_string}"
+    provider "helm" {
+      kubernetes {
+        host                   = data.aws_eks_cluster.eks_cluster_id.endpoint
+        cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_id.certificate_authority.0.data)
+        token                  = data.aws_eks_cluster_auth.eks_cluster_auth.token
+      }
+    }
 
-     # TF attempts to deploy while the work group is
-     # still spinning up if you do not wait
-     depends_on = [module.wandb_infra]
-   }
+    output "url" {
+      value = module.wandb_infra.url
+    }
 
-   output "bucket_name" {
-     value = module.wandb_infra.bucket_name
-   }
-
-   output "url" {
-     value = module.wandb_infra.url
-   }
+    output "bucket" {
+      value = module.wandb_infra.bucket_name
+    }
    ```
 
 2. Deploy W&B
@@ -218,7 +219,7 @@ You need to add the option `create_elasticache_subnet = true` to the same `main.
 ```
 module "wandb_infra" {
   source  = "wandb/wandb/aws"
-  version = "~>2.0"
+  version = "~>7.0"
 
   namespace   = var.namespace
   domain_name = var.domain_name
@@ -238,7 +239,7 @@ The AWS resource that provides the message broker is the `SQS`, and to enable it
 ```
 module "wandb_infra" {
   source  = "wandb/wandb/aws"
-  version = "~>2.0"
+  version = "~>7.0"
 
   namespace   = var.namespace
   domain_name = var.domain_name
@@ -389,7 +390,7 @@ Follow the steps outlined here to update W&B:
 This section details the steps required to upgrade from _pre-operator_ to  _post-operator_ environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
 
 {{% alert %}}
-The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See [this section]({{< relref "../kubernetes-operator/#reasons-for-the-architecture-shift" >}}) for a detailed explanation for the architecture shift.
+The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See [this section]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#reasons-for-the-architecture-shift" >}}) for a detailed explanation for the architecture shift.
 {{% /alert %}}
 
 

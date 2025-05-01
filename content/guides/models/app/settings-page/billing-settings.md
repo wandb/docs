@@ -11,7 +11,7 @@ Navigate to your user profile page and select your user icon on the top right co
 
 ## Plan details
 
-The **Plan details** section  summarizes your organization's current plan, charges, limits, and usage.
+The **Plan details** section summarizes your organization's current plan, charges, limits, and usage.
 
 - For details and a list of users, click **Manage users**.
 - For details about usage, click **View usage**.
@@ -22,11 +22,26 @@ From here, you can compare plans or talk to Sales.
 ## Plan usage
 This section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
 
+### Usage alerts
+
+{{% alert %}}
+Usage alerts are not available on the [Enterprise plan](https://wandb.ai/site/pricing/).
+{{% /alert %}}
+
+For organizations on paid plans, admins receive alerts via email **once per billing period** when certain thresholds are met, along with details about how to increase your organization's limits if you are a [billing admin]({{< relref "#billing-admin" >}}) and how to contact a billing admin otherwise. On the [Pro plan](https://wandb.ai/site/pricing/), only the billing admin receives usage alerts.
+
+These alerts are not configurable, and are sent when:
+
+- Your organization is approaching a monthly limit of a category of usage (85% of hours used) and when it reaches 100% of the limit, according to your plan.
+- Your organization's accumulated average charges for a billing period exceed these thresholds: $200, $450, $700, and $1000. These overage charges are incurred when your organization accumulates more usage than your plan includes for tracked hours, storage, or Weave data ingestion.
+
+For questions about usage or billing, contact your account team or Support.
+
 ## Payment methods
 This section shows the payment methods on file for your organization. If you have not added a payment method, you will be prompted to do so when you upgrade your plan or add paid storage.
 
 ## Billing admin
-This section shows the current billing admin. The billing admin receives all billing-related emails, has organization admin role, and can view and manage payment methods.
+This section shows the current billing admin. The billing admin is an organization admin, receives all billing-related emails, and can view and manage payment methods.
 
 {{% alert %}}
 In W&B Dedicated Cloud, multiple users can be billing admins. In W&B Multi-tenant Cloud, only one user at a time can be the billing admin.

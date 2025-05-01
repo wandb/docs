@@ -12,7 +12,7 @@ title: Command Line Interface
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --version | Show the version and exit. |
+| `--version` | Show the version and exit. |
 
 
 **Commands**

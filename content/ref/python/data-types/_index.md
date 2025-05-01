@@ -14,7 +14,7 @@ flexible containers for information, like tables and HTML, and more.
 For more on logging media, see [our guide](https://docs.wandb.com/guides/track/log/media)
 
 For more on logging structured data for interactive dataset and model analysis,
-see [our guide to W&B Tables](https://docs.wandb.com/guides/tables/).
+see [our guide to W&B Tables](https://docs.wandb.com/guides/models/tables/).
 
 All of these special data types are subclasses of WBValue. All the data types
 serialize to JSON, since that is what wandb uses to save the objects locally
@@ -30,7 +30,7 @@ and upload them to the W&B server.
 
 [`class Histogram`](./histogram.md): wandb class for histograms.
 
-[`class Html`](./html.md): Wandb class for arbitrary html.
+[`class Html`](./html.md): A class for logging HTML content to W&B.
 
 [`class Image`](./image.md): Format images for logging to W&B.
 

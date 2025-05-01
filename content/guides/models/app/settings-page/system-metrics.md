@@ -1,5 +1,5 @@
 ---
-description: Metrics automatically logged by wandb
+description: Metrics automatically logged by W&B.
 menu:
   default:
     identifier: system-metrics
@@ -11,7 +11,7 @@ weight: 70
 This page provides detailed information about the system metrics that are tracked by the W&B SDK.
 
 {{% alert %}}
-`wandb` automatically logs system metrics every 10 seconds.
+`wandb` automatically logs system metrics every 15 seconds.
 {{% /alert %}}
 
 ## CPU
@@ -20,11 +20,6 @@ This page provides detailed information about the system metrics that are tracke
 Percentage of CPU usage by the process, normalized by the number of available CPUs.
 
 W&B assigns a `cpu` tag to this metric.
-
-### CPU Percent
-CPU usage of the system on a per-core basis.
-
-W&B assigns a `cpu.{i}.cpu_percent` tag to this metric.
 
 ### Process CPU Threads 
 The number of threads utilized by the process.
@@ -40,7 +35,7 @@ By default, the usage metrics are collected for the `/` path. To configure the p
 ```python
 run = wandb.init(
     settings=wandb.Settings(
-        _stats_disk_paths=("/System/Volumes/Data", "/home", "/mnt/data"),
+        x_stats_disk_paths=("/System/Volumes/Data", "/home", "/mnt/data"),
     ),
 )
 ```
@@ -48,13 +43,13 @@ run = wandb.init(
 ### Disk Usage Percent
 Represents the total system disk usage in percentage for specified paths.
 
-W&B assigns a `disk.{path}.usagePercen` tag to this metric.
+W&B assigns a `disk.{path}.usagePercent` tag to this metric.
 
 ### Disk Usage
 Represents the total system disk usage in gigabytes (GB) for specified paths.
 The paths that are accessible are sampled, and the disk usage (in GB) for each path is appended to the samples.
 
-W&B assigns a `disk.{path}.usageGB)` tag to this metric.
+W&B assigns a `disk.{path}.usageGB` tag to this metric.
 
 ### Disk In
 Indicates the total system disk read in megabytes (MB). 
@@ -85,7 +80,7 @@ W&B assigns a `proc.memory.percent` tag to this metric.
 ### Memory Percent
 Represents the total system memory usage as a percentage of the total available memory.
 
-W&B assigns a `memory` tag to this metric.
+W&B assigns a `memory_percent` tag to this metric.
 
 ### Memory Available
 Indicates the total available system memory in megabytes (MB).
@@ -111,7 +106,7 @@ W&B assigns a `network.recv` tag to this metric.
 <!-- New section -->
 ## NVIDIA GPU
 
-In addition to the metrics described below, if the process and/or its children use a particular GPU, W&B captures the corresponding metrics as `gpu.process.{gpu_index}...`
+In addition to the metrics described below, if the process and/or its descendants use a particular GPU, W&B captures the corresponding metrics as `gpu.process.{gpu_index}.{metric_name}`
 
 ### GPU Memory Utilization
 Represents the GPU memory utilization in percent for each GPU.
@@ -185,6 +180,8 @@ W&B assigns a `gpu.{gpu_index}.encoderUtilization` tag to this metric.
 <!-- New section -->
 ## AMD GPU
 W&B extracts metrics from the output of the `rocm-smi` tool supplied by AMD (`rocm-smi -a --json`).
+
+ROCm [6.x (latest)](https://rocm.docs.amd.com/en/latest/) and [5.x](https://rocm.docs.amd.com/en/docs-5.6.0/) formats are supported. Learn more about ROCm formats in the [AMD ROCm documentation](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html). The newer format includes more details.
 
 ### AMD GPU Utilization
 Represents the GPU utilization in percent for each AMD GPU device.

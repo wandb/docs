@@ -15,7 +15,7 @@ Enable W&B.
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --service | Enable W&B service  [default: True] |
+| `--service` | Enable W&B service  [default: True] |
 
 
 
