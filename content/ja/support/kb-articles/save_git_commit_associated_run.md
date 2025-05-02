@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: save_git_commit_associated_run
 ---
 `wandb.init` が呼び出されると、システムはリモートリポジトリのリンクや最新のコミットの SHA を含む git 情報を自動的に収集します。この情報は [runs ページ]({{< relref path="/guides/models/track/runs/#view-logged-runs" lang="ja" >}}) に表示されます。スクリプトを実行する際は、作業しているディレクトリーが git 管理フォルダー内であることを確認して、この情報を表示します。
 

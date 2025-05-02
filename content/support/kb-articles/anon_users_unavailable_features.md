@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - anonymous
+translationKey: anon_users_unavailable_features
 ---
 * **No persistent data**: Runs save for 7 days in an anonymous account. Claim anonymous run data by saving it to a real account.
 

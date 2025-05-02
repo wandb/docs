@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: enable_code_logging_sweeps
 ---
 スイープのためのコード ログを有効にするには、W&B Run を初期化した後に `wandb.log_code()` を追加します。この操作は、W&B のプロファイル設定でコード ログが有効になっている場合でも必要です。詳細なコード ログについては、[こちらの `wandb.log_code()` ドキュメント]({{< relref path="/ref/python/run.md#log_code" lang="ja" >}})を参照してください。

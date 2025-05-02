@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: anon_users_unavailable_features
 ---
-
 * **지속적인 데이터 없음**: Run은 익명 계정에서 7일 동안 저장됩니다. 실제 계정에 저장하여 익명 Run 데이터를 클레임하세요.
 
 {{< img src="/images/app_ui/anon_mode_no_data.png" alt="" >}}

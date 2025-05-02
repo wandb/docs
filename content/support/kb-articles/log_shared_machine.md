@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - logs
+translationKey: log_shared_machine
 ---
 When using a shared machine, ensure that runs log to the correct WandB account by setting the `WANDB_API_KEY` environment variable for authentication. If sourced in the environment, this variable provides the correct credentials upon login. Alternatively, set the environment variable directly in the script.
 

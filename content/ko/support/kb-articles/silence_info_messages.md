@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: silence_info_messages
 ---
-
 다음과 같이 노트북에서 로그 메시지를 표시하지 않으려면:
 
 ```

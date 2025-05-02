@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: integrate_wb_project_dont_upload_any_images_media
 ---
 W&B は、アップロードするファイルまたはデータの明示的な指定を許可することにより、スカラーのみをログする Projects をサポートしています。画像を使用せずにログを行う [PyTorch の例](http://wandb.me/pytorch-colab) を参照してください。

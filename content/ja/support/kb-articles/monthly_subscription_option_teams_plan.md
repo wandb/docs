@@ -10,5 +10,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: monthly_subscription_option_teams_plan
 ---
 Teams プランには月額サブスクリプションのオプションはありません。このサブスクリプションは年単位で請求されます。

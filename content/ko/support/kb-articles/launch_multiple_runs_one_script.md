@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: launch_multiple_runs_one_script
 ---
-
 `wandb.init` 과 `run.finish()` 를 사용하여 단일 스크립트 내에서 여러 개의 run을 로그로 기록하세요.
 
 1. `run = wandb.init(reinit=True)` 를 사용하여 run의 재초기화를 허용합니다.

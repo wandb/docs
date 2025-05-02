@@ -5,5 +5,6 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: configure_name_run_training_code
 ---
 At the beginning of the training script, call `wandb.init` with an experiment name. For example: `wandb.init(name="my_awesome_run")`.

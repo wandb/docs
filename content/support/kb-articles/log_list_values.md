@@ -6,6 +6,7 @@ type: docs
 support:
   - logs
   - experiments
+translationKey: log_list_values
 ---
 These examples show logging losses a couple of different ways using [`wandb.log()`]({{< relref "/ref/python/log/" >}}).
 

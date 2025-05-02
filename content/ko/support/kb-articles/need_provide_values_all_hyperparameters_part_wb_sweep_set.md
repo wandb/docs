@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: need_provide_values_all_hyperparameters_part_wb_sweep_set
 ---
-
 `wandb.config`를 사용하여 스윕 구성에서 하이퍼파라미터 이름과 값에 엑세스하세요. `wandb.config`는 사전처럼 작동합니다.
 
 스윕 외부의 run의 경우, `wandb.init`에서 `config` 인수에 사전을 전달하여 `wandb.config` 값을 설정합니다. 스윕에서 `wandb.init`에 제공된 모든 설정은 스윕이 재정의할 수 있는 기본값으로 사용됩니다.

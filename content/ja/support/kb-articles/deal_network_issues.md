@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: deal_network_issues
 ---
 SSL またはネットワークエラーが発生した場合、例えば `wandb: Network error (ConnectionError), entering retry loop` というエラーが表示される場合、次の解決策を試してください。
 

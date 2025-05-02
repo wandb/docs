@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: difference_log_summary
 ---
 要約は表に表示され、 ログには将来のプロットのためにすべての値が保存されます。
 

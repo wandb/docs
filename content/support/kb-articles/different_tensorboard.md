@@ -5,8 +5,8 @@ toc_hide: true
 type: docs
 support:
    - tensorboard
+translationKey: different_tensorboard
 ---
-
 W&B integrates with TensorBoard and improves experiment tracking tools. The founders created W&B to address common frustrations faced by TensorBoard users. Key improvements include:
 
 1. **Model Reproducibility**: W&B facilitates experimentation, exploration, and model reproduction. It captures metrics, hyperparameters, code versions, and saves model checkpoints to ensure reproducibility.

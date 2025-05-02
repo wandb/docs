@@ -5,8 +5,8 @@ toc_hide: true
 type: docs
 support:
    - administrator
+translationKey: see_bytes_stored_bytes_tracked_tracked_hours_organization
 ---
-
 View the bytes stored, bytes tracked, and tracked hours for your organization within organization settings:
 
 1. Navigate to your organization's settings at `https://wandb.ai/account-settings/<organization-name>/settings`.

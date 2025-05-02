@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - anonymous
+translationKey: run_results_anonymous_mode
 ---
 If someone runs the script with `anonymous="allow"`:
 

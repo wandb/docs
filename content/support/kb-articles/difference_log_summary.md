@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - Charts
+translationKey: difference_log_summary
 ---
 The summary displays in the table, while the log saves all values for future plotting.
 

@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - user management
+translationKey: regain_access_account_cannot_receive_password_reset_email
 ---
 To regain access to an account when unable to receive a password reset email:
 

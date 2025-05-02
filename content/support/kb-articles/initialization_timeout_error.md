@@ -6,6 +6,7 @@ type: docs
 support:
 - connectivity
 - crashing and hanging runs
+translationKey: initialization_timeout_error
 ---
 To resolve a run initialization timeout error, follow these steps:
 

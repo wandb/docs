@@ -6,6 +6,7 @@ type: docs
 support:
 - artifacts
 - storage
+translationKey: artifact_storage_version
 ---
 Only files that change between two artifact versions incur storage costs.
 

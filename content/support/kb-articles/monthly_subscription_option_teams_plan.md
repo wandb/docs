@@ -7,5 +7,6 @@ support:
 - administrator
 - billing
 - team management
+translationKey: monthly_subscription_option_teams_plan
 ---
 The Teams plan does not offer a monthly subscription option. This subscription is billed annually.

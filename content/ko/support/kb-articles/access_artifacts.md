@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: access_artifacts
 ---
-
 Artifacts는 상위 project로부터 엑세스 권한을 상속받습니다.
 
 * 비공개 project에서는 팀 멤버만 Artifacts에 엑세스할 수 있습니다.

@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: project_make_public
 ---
-
 프로젝트를 공개하려면 다음 단계를 따르세요.
 
 1. Weights & Biases 웹 앱에서 해당 프로젝트 페이지에 엑세스합니다.

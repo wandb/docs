@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: run_results_anonymous_mode
 ---
 もし、誰かがスクリプトを `anonymous="allow"` で実行した場合:
 

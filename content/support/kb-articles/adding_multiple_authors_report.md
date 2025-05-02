@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - reports
+translationKey: adding_multiple_authors_report
 ---
 Accurately credit all contributors in your report by adding multiple authors.
 

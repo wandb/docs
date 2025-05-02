@@ -6,6 +6,7 @@ type: docs
 support:
 - administrator
 - user management
+translationKey: export_list_users_account
 ---
 To export a list of users from a W&B organization, an admin uses the SCIM API with the following code:
 

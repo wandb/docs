@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: plot_multiple_lines_plot_legend
 ---
-
 `wandb.plot.line_series()`를 사용하여 여러 줄로 된 사용자 정의 차트를 만드세요. 라인 차트를 보려면 [프로젝트 페이지]({{< relref path="/guides/models/track/project-page.md" lang="ko" >}})로 이동하세요. 범례를 추가하려면 `wandb.plot.line_series()`에 `keys` 인수를 포함하세요. 예:
 
 ```python

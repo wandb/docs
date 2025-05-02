@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - artifacts
+translationKey: testing_code_turn_off
 ---
 Use `wandb.init(mode="disabled")` or set `WANDB_MODE=disabled` to configure W&B as a no-operation (NOOP) for testing purposes.
 

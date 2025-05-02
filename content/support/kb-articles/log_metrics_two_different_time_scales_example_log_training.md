@@ -6,6 +6,7 @@ type: docs
 support:
    - experiments
    - metrics
+translationKey: log_metrics_two_different_time_scales_example_log_training
 ---
 For example, I want to log training accuracy per batch and validation accuracy per epoch.
 

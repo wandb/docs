@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: how_can_i_see_files_that_do_not_appear_in_the_files_tab
 ---
 Files タブは最大 10,000 個のファイルを表示します。すべてのファイルをダウンロードするには、[パブリック API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) を使用します。
 

@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: custom_cli_commands_sweeps
 ---
-
 만약 트레이닝 설정이 코맨드 라인 인수를 전달한다면, 사용자 정의 CLI 코맨드와 함께 W&B Sweeps를 사용할 수 있습니다.
 
 아래 예제에서, 코드조각은 사용자가 `train.py`라는 Python 스크립트를 트레이닝하고 스크립트가 파싱하는 값을 제공하는 bash 터미널을 보여줍니다:

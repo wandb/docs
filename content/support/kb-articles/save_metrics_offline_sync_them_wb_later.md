@@ -7,6 +7,7 @@ support:
    - experiments
    - environment variables
    - metrics
+translationKey: save_metrics_offline_sync_them_wb_later
 ---
 By default, `wandb.init` starts a process that syncs metrics in real time to the cloud. For offline use, set two environment variables to enable offline mode and sync later.
 

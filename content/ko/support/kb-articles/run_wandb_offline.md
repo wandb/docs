@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: run_wandb_offline
 ---
-
 오프라인 머신에서 트레이닝이 발생하는 경우, 다음 단계를 통해 결과를 서버에 업로드하세요:
 
 1. 인터넷 연결 없이 로컬에 메트릭을 저장하려면 환경 변수 `WANDB_MODE=offline`을 설정합니다.

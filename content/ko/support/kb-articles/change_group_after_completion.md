@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: change_group_after_completion
 ---
-
 API를 사용하여 완료된 run에 할당된 그룹을 변경할 수 있습니다. 이 기능은 웹 UI에 표시되지 않습니다. 다음 코드를 사용하여 그룹을 업데이트하세요.
 
 ```python

@@ -6,6 +6,7 @@ type: docs
 support:
    - sweeps
    - aws
+translationKey: sweeps_sagemaker
 ---
 To authenticate W&B, complete the following steps: create a `requirements.txt` file if using a built-in Amazon SageMaker estimator. For details on authentication and setting up the `requirements.txt` file, refer to the [SageMaker integration]({{< relref "/guides/integrations/sagemaker.md" >}}) guide.
 

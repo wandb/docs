@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - runs 
+translationKey: recover_deleted_runs
 ---
 To recover deleted runs, complete the following steps:
 

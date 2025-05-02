@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: change_directory_sweep_logs_locally
 ---
 W&B run のデータのログディレクトリーを設定するには、環境変数 `WANDB_DIR` を設定します。例えば：
 

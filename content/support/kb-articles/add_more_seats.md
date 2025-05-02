@@ -6,6 +6,7 @@ type: docs
 support:
 - administrator
 - user management
+translationKey: add_more_seats
 ---
 To add more seats to an account, follow these steps:
 

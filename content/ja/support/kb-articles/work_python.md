@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: work_python
 ---
 ライブラリは Python 2.7 以降、および Python 3.6 以降をサポートしています。アーキテクチャーは他のプログラミング言語とのインテグレーションを容易にします。他の言語をモニタリングするには、[contact@wandb.com](mailto:contact@wandb.com) にお問い合わせください。

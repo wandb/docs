@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: move_from_project_another
 ---
-
 다음 단계를 따라 한 프로젝트에서 다른 프로젝트로 run을 이동할 수 있습니다.
 
 - 이동할 run이 있는 프로젝트 페이지로 이동합니다.

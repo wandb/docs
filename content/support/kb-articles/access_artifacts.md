@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - artifacts
+translationKey: access_artifacts
 ---
 Artifacts inherit access permissions from their parent project:
 

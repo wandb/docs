@@ -10,8 +10,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: academic_plan_student
 ---
-
 학생들은 다음 단계를 따라 학술 플랜을 신청할 수 있습니다:
 
 - wandb.com의 [가격 책정 페이지](https://wandb.ai/site/pricing)를 방문합니다.

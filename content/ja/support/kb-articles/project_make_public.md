@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: project_make_public
 ---
 プロジェクトを公開にするには、次の手順を行います。
 

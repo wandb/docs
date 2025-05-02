@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: rotate_revoke_access
 ---
 個人およびサービスアカウントのキーは、ローテーションまたは取り消すことができます。新しい API キーまたはサービスアカウント ユーザーを作成し、新しいキーを使用するようにスクリプトを再設定してください。再設定後、プロフィールまたはチームから古い API キーを削除してください。

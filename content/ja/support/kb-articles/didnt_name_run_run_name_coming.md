@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: didnt_name_run_run_name_coming
 ---
 run が明示的に名前を付けられていない場合、W&B はランダムな名前を割り当てて、プロジェクト内でそれを識別します。ランダムな名前の例としては、`pleasant-flower-4` や `misunderstood-glade-2` があります。

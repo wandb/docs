@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: resolve_permission_errors_when_logging_wandb_entity
 ---
-
 W&B 엔티티에 run을 기록할 때 발생하는 권한 오류를 해결하려면 다음 단계를 따르세요.
 
 - **엔티티 및 프로젝트 이름 확인**: 코드에서 W&B 엔티티 및 프로젝트 이름의 철자와 대소문자가 올바른지 확인합니다.

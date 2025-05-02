@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - artifacts
+translationKey: artifacts_multiple_architectures_runs
 ---
 There are various methods to version a model. Artifacts provide a tool for model versioning tailored to specific needs. A common approach for projects that explore multiple model architectures involves separating artifacts by architecture. Consider the following steps:
 

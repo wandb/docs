@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: configure_name_run_training_code
 ---
 トレーニングスクリプトの最初に、実験名を指定して `wandb.init` を呼び出します。例: `wandb.init(name="my_awesome_run")`.

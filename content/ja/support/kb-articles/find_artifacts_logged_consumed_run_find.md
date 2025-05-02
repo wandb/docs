@@ -10,6 +10,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: find_artifacts_logged_consumed_run_find
 ---
 W&B は、各 run によってログされた Artifacts と、artifact graph を構築するために各 run で使用された Artifacts を追跡します。このグラフは、run と Artifacts を表すノードを持つ二部グラフで、有向非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deebdd5/graph) で見ることができます（グラフを展開するには「Explode」をクリックしてください）。
 

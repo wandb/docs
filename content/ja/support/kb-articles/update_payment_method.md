@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: update_payment_method
 ---
 支払い方法を更新するには、次のステップに従ってください:
 

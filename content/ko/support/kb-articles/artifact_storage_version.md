@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: artifact_storage_version
 ---
-
 두 아티팩트 버전 간에 변경된 파일만 스토리지 비용이 발생합니다.
 
 {{< img src="/images/artifacts/artifacts-dedupe.PNG" alt="아티팩트 'dataset'의 v1에는 5개의 이미지 중 2개만 다르므로 공간의 40%만 차지합니다." >}}

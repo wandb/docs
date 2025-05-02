@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: regain_access_account_cannot_receive_password_reset_email
 ---
-
 비밀번호 재설정 이메일을 받을 수 없을 때 계정에 다시 엑세스하려면 다음 단계를 따르세요.
 
 1. **스팸 또는 정크 폴더 확인:** 이메일이 해당 폴더로 필터링되지 않았는지 확인하세요.

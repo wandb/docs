@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: how_can_i_be_removed_from_a_team
 ---
 チームの 管理者は、チーム 設定の **Users** タブから [チームからあなたを削除する]({{< relref path="/guides/models/app/settings-page/teams.md" lang="ja" >}}) ことができます。

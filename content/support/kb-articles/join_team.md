@@ -6,6 +6,7 @@ type: docs
 support:
 - administrator
 - team management
+translationKey: join_team
 ---
 To join a team, follow these steps:
 

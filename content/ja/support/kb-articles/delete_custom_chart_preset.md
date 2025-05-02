@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: delete_custom_chart_preset
 ---
 カスタムチャートエディタにアクセスします。現在選択されているチャートタイプをクリックすると、すべてのプリセットを表示するメニューが開きます。削除したいプリセットの上にマウスを置き、ゴミ箱アイコンをクリックします。
 

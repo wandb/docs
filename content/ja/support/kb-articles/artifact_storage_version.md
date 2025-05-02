@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: artifact_storage_version
 ---
 2 つの Artifacts のバージョン間で変更されたファイルのみがストレージコストの対象となります。
 

@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: filestream_rate_limit_exceeded_error
 ---
 To resolve the "Filestream rate limit exceeded" error in Weights & Biases (W&B), follow these steps:
 

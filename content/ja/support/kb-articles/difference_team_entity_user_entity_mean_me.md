@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: difference_team_entity_user_entity_mean_me
 ---
 チームは、同じ Projects に取り組む Users のコラボレーションワークスペースとして機能します。エンティティは、ユーザー名またはチーム名を表します。W&B で run をログする際、`wandb.init(entity="example-team")` を使ってエンティティを個人またはチームアカウントに設定します。

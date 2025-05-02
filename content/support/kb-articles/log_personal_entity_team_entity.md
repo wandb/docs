@@ -5,5 +5,6 @@ toc_hide: true
 type: docs
 support:
    - team management
+translationKey: log_personal_entity_team_entity
 ---
 Personal Entities are unavailable for accounts created after May 21, 2024. W&B encourages all users to log new projects to a Team to enable sharing of results.

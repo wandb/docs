@@ -6,6 +6,7 @@ type: docs
 support:
    - experiments
    - metrics
+translationKey: seeing_fewer_data_points_logged
 ---
 When visualizing metrics against an X-axis other than `Step`, expect to see fewer data points. Metrics must log at the same `Step` to remain synchronized. Only metrics logged at the same `Step` are sampled while interpolating between samples.
 

@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: save_git_commit_associated_run
 ---
 When `wandb.init` is invoked, the system automatically collects git information, including the remote repository link and the SHA of the latest commit. This information appears on the [run page]({{< relref "/guides/models/track/runs/#view-logged-runs" >}}). Ensure the current working directory when executing the script is within a git-managed folder to view this information.
 

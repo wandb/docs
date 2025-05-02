@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - administrator
+translationKey: local_instance_files_check_issues
 ---
 Check the `Debug Bundle`. An admin can retrieve it from the `/system-admin` page by selecting the W&B icon in the top right corner and then choosing `Debug Bundle`.
 

@@ -6,6 +6,7 @@ type: docs
 support:
 - runs
 - security
+translationKey: resolve_permission_errors_when_logging_wandb_entity
 ---
 To resolve permission errors when logging a run to a W&B entity, follow these steps:
 

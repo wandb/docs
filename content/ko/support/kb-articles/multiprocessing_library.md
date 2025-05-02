@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: multiprocessing_library
 ---
-
 예, W&B는 `multiprocessing` 라이브러리를 사용합니다. 다음과 같은 오류 메시지는 가능한 문제를 나타냅니다.
 
 ```

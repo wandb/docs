@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: stream_logs_writes_disk
 ---
 W&B はメモリでイベントをキューに入れ、非同期にディスクに書き込みを行って、失敗を管理し、`WANDB_MODE=offline` の設定をサポートし、ログ後の同期を可能にします。
 

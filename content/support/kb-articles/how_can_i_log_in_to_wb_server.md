@@ -5,8 +5,8 @@ toc_hide: true
 type: docs
 support:
   - user management
+translationKey: how_can_i_log_in_to_wb_server
 ---
-
 Set the login URL by either of these methods:
 
 - Set the [environment variable]({{< relref "guides/models/track/environment-variables.md" >}}) `WANDB_BASE_URL` to the Server URL.

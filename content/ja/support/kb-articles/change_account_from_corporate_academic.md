@@ -10,6 +10,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: change_account_from_corporate_academic
 ---
 Weights & Biases でアカウントを企業用から学術用に変更するには、次の手順に従ってください。
 

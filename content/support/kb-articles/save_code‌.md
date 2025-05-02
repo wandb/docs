@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - artifacts
+translationKey: save_code‌
 ---
 Use `save_code=True` in `wandb.init` to save the main script or notebook that launches the run. To save all code for a run, version the code with Artifacts. The following example demonstrates this process:
 

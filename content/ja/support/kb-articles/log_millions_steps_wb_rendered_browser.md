@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: log_millions_steps_wb_rendered_browser
 ---
 グラフに送信されるポイントの数は、UI の読み込み時間に影響を与えます。1,000 ポイントを超えるラインでは、バックエンドがデータを 1,000 ポイントにサンプリングしてからブラウザに送信します。このサンプリングは非決定論的であり、ページを更新するたびに異なるサンプルポイントとなります。
 

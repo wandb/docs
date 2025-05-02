@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: multiprocessing_library
 ---
 Yes, W&B uses the `multiprocessing` library. An error message like the following indicates a possible issue:
 

@@ -5,8 +5,8 @@ toc_hide: true
 type: docs
 support:
   - experiments
+translationKey: how_can_i_see_files_that_do_not_appear_in_the_files_tab
 ---
-
 The Files tab shows a maximum of 10,000 files. To download all files, use the [public API]({{< relref "/ref/python/public-api/api.md" >}}):
 
 ```python

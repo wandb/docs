@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - python
+translationKey: install_wandb_python_library_environments_without_gcc
 ---
 If an error occurs when installing `wandb` that states:
 

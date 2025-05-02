@@ -9,6 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: wandb_status
 ---
-
 wandb.ai에 있는 W&B 멀티 테넌트 클라우드 에 장애가 발생했는지 확인하려면 https://status.wandb.com에 있는 W&B 상태 페이지를 방문하세요.

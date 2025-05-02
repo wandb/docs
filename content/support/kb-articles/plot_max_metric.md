@@ -5,5 +5,6 @@ toc_hide: true
 type: docs
 support:
 - metrics
+translationKey: plot_max_metric
 ---
 Create a scatter plot of the metric. Open the **Edit** menu and select **Annotations**. From there, plot the running maximum of the values.

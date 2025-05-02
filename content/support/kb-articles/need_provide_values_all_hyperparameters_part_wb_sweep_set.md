@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - sweeps
+translationKey: need_provide_values_all_hyperparameters_part_wb_sweep_set
 ---
 Access hyperparameter names and values from the sweep configuration using `wandb.config`, which acts like a dictionary.
 

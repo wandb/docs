@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: wandb_status
 ---
 W&B マルチテナントクラウドが停止しているかどうかは、W&B ステータスページ [https://status.wandb.com](https://status.wandb.com) を訪問して確認してください。

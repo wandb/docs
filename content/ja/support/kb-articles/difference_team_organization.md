@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: difference_team_organization
 ---
 チームは、同じProjectに取り組むUsersのための共同作業用Workspaceとして機能します。組織は、請求やアカウント管理に関連して、複数のTeamsを含むことができる上位レベルのEntitiesとして機能します。

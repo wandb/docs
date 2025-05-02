@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: multiple_charts_different_selected_runs
 ---
-
 W&B Reports를 사용하여 다음 단계를 따르세요.
 
 1. 여러 패널 그리드를 만듭니다.

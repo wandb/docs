@@ -6,6 +6,7 @@ type: docs
 support:
 - connectivity
 - outage
+translationKey: filestream_rate_limit_exceeded_error
 ---
 To resolve the "Filestream rate limit exceeded" error in Weights & Biases (W&B), follow these steps:
 

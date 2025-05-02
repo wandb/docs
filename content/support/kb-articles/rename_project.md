@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - projects
+translationKey: rename_project
 ---
 To rename a project:
 

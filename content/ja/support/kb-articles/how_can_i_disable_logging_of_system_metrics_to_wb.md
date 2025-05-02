@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: how_can_i_disable_logging_of_system_metrics_to_wb
 ---
 [システムメトリクス]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ja" >}})のログを無効にするには、`_disable_stats` を `True` に設定します:
 

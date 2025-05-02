@@ -5,5 +5,6 @@ toc_hide: true
 type: docs
 support:
    - crashing and hanging runs
+translationKey: crashes_crash_training_run
 ---
 It is critical to avoid interference with training runs. W&B operates in a separate process, ensuring that training continues even if W&B experiences a crash. In the event of an internet outage, W&B continually retries sending data to [wandb.ai](https://wandb.ai).

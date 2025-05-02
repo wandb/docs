@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: regain_access_account_cannot_receive_password_reset_email
 ---
 アカウントへのアクセスを再取得するためには、パスワードリセットのメールを受け取れない場合:
 

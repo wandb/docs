@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: resume_sweep_using_python_code
 ---
 sweep を再開するには、`sweep_id` を `wandb.agent()` 関数に渡します。
 

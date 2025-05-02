@@ -5,5 +5,6 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: runs_state_crashed_ui_running_machine_get_data
 ---
 You likely lost connection to your machine during training. Recover data by running [`wandb sync [PATH_TO_RUN]`]({{< relref "/ref/cli/wandb-sync.md" >}}). The path to your run is a folder in your `wandb` directory that matches the Run ID of the ongoing run.

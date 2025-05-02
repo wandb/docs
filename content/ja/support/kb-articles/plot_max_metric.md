@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: plot_max_metric
 ---
 メトリックの散布図を作成します。 **Edit** メニューを開き、 **Annotations** を選択します。そこから、値のランニング最大値をプロットします。

@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: logging_block_training
 ---
 "Is the logging function lazy? I don't want to depend on the network to send results to your servers while executing local operations."
 

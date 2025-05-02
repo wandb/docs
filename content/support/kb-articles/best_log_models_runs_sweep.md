@@ -6,6 +6,7 @@ type: docs
 support:
    - artifacts
    - sweeps
+translationKey: best_log_models_runs_sweep
 ---
 One effective approach for logging models in a [sweep]({{< relref "/guides/models/sweeps/" >}}) involves creating a model artifact for the sweep. Each version represents a different run from the sweep. Implement it as follows:
 

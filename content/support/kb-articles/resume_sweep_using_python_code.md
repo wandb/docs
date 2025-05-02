@@ -6,6 +6,7 @@ type: docs
 support:
 - sweeps
 - python
+translationKey: resume_sweep_using_python_code
 ---
 To resume a sweep, pass the `sweep_id` to the `wandb.agent()` function. 
 

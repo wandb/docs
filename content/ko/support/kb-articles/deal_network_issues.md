@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: deal_network_issues
 ---
-
 SSL 또는 네트워크 오류가 발생하는 경우(예: `wandb: Network error (ConnectionError), entering retry loop`), 다음 해결 방법을 사용하세요.
 
 1. SSL 인증서를 업그레이드하세요. Ubuntu 서버에서 `update-ca-certificates`를 실행합니다. 유효한 SSL 인증서는 보안 위험을 완화하기 위해 트레이닝 로그를 동기화하는 데 필수적입니다.

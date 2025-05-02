@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - reports
+translationKey: incorporating_latex
 ---
 LaTeX integrates seamlessly into reports. To add LaTeX, create a new report and begin typing in the rich text area to write notes and save custom visualizations and tables.
 

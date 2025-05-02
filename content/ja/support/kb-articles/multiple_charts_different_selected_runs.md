@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: multiple_charts_different_selected_runs
 ---
 W&B Reports を使って、次のステップに従ってください:
 

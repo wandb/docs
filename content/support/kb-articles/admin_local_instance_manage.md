@@ -5,5 +5,6 @@ toc_hide: true
 type: docs
 support:
    - administrator
+translationKey: admin_local_instance_manage
 ---
 If you are the admin for your instance, review the [User Management]({{< relref "/guides/hosting/iam/access-management/manage-organization.md" >}}) section for instructions on adding users and creating teams.

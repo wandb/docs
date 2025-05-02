@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: just_set_run_name_run_id
 ---
 はい。 run ID で run 名を上書きするには、次のコードスニペットを使用します:
 

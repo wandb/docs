@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: join_team
 ---
 チームに参加するには、以下の手順に従ってください：
 

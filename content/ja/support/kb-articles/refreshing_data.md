@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: refreshing_data
 ---
 ワークスペースは自動的に更新されたデータをロードします。自動リフレッシュはReportsには適用されません。Reportデータを更新するにはページをリロードしてください。

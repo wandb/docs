@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: resume_parameter
 ---
 W&B で `resume` パラメータを使用するには、`entity`、`project`、および `id` を指定して、`resume` 引数を `wandb.init()` に設定します。`resume` 引数は `"must"` または `"allow"` の値を受け付けます。
 

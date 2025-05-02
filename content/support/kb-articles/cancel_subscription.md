@@ -5,7 +5,7 @@ toc_hide: true
 type: docs
 support:
 - administrator
+translationKey: cancel_subscription
 ---
-
 - Contact the support team (support@wandb.com).
 - Provide the organization name, email associated with the account, and username.

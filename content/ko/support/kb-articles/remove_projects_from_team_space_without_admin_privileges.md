@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: remove_projects_from_team_space_without_admin_privileges
 ---
-
 관리자 권한 없이 팀 공간에서 프로젝트를 제거하려면 다음 옵션을 따르세요.
 
 - 현재 관리자에게 프로젝트 제거를 요청합니다.

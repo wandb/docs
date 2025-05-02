@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: recover_deleted_runs
 ---
-
 삭제된 run을 복구하려면 다음 단계를 완료하세요.
 
 - Project 개요 페이지로 이동합니다.

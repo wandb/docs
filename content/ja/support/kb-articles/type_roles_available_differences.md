@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: type_roles_available_differences
 ---
 [こちらの]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ja" >}})ページで利用可能な役割と権限の概要をご覧ください。

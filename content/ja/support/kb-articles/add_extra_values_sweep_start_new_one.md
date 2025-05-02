@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: add_extra_values_sweep_start_new_one
 ---
 W&B Sweep が開始すると、Sweep configuration を変更することはできません。ただし、任意のテーブルビューに移動し、チェックボックスを使用して runs を選択してから、**Create sweep** メニューオプションを選択して、以前の runs に基づいた新しい Sweep configuration を生成することができます。

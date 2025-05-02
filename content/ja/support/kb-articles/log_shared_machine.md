@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: log_shared_machine
 ---
 共有マシンを使用する場合、`WANDB_API_KEY` 環境変数を設定して認証を行うことで、正しい WandB アカウントに run がログを生成するようにしてください。環境でソースされている場合、この変数はログイン時に正しい認証情報を提供します。あるいは、スクリプト内で直接環境変数を設定することもできます。
 

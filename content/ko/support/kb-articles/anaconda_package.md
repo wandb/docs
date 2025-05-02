@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: anaconda_package
 ---
-
 `pip` 또는 `conda`를 사용하여 설치할 수 있는 Anaconda 패키지가 있습니다. `conda`의 경우 [conda-forge](https://conda-forge.org) 채널에서 패키지를 받으세요.
 
 {{< tabpane text=true >}}

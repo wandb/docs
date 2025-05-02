@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - artifacts
+translationKey: find_artifact_best_run_sweep
 ---
 To retrieve artifacts from the best performing run in a sweep, use the following code:
 

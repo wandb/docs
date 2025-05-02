@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: service_account_useful
 ---
-
 서비스 계정(Enterprise 전용 기능)은 특정 사용자에게 국한되지 않은 팀 및 프로젝트 전반에서 일반적인 작업을 자동화할 수 있는 비인간 또는 머신 사용자를 나타냅니다. 팀 내에서 서비스 계정을 생성하고 해당 API 키를 사용하여 해당 팀 내의 프로젝트에서 읽고 쓸 수 있습니다.
 
 무엇보다도 서비스 계정은 주기적인 재 트레이닝, 야간 빌드 등과 같이 wandb 에 기록된 자동화된 작업을 추적하는 데 유용합니다. 원하는 경우 [환경 변수]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}}) `WANDB_USERNAME` 또는 `WANDB_USER_EMAIL`을 사용하여 이러한 머신에서 실행된 run 과 사용자 이름을 연결할 수 있습니다.

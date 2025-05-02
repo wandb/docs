@@ -5,5 +5,6 @@ toc_hide: true
 type: docs
 support:
    - team management
+translationKey: team_find_more_information
 ---
 For additional information about teams, visit the [teams section]({{< relref "/guides/models/app/settings-page/teams.md" >}}).

@@ -6,8 +6,8 @@ type: docs
 support:
   - resuming
   - runs
+translationKey: how_do_i_fix_the_error_resume_must_but_run_run_id_doesnt_exist
 ---
-
 If you encounter the error `resume='must' but run (<run_id>) doesn't exist`, the run you are attempting to resume does not exist within the project or entity. Ensure that you are logged in to the correct instance and that the project and entity are set:
 
 ```python

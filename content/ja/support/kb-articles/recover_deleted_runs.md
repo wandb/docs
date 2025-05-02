@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: recover_deleted_runs
 ---
 削除された run を復元するには、次の手順を完了してください：
 

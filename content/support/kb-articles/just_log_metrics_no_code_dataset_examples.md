@@ -7,8 +7,8 @@ support:
    - administrator
    - team management
    - metrics
+translationKey: just_log_metrics_no_code_dataset_examples
 ---
-
 By default, W&B does not log dataset examples. By default, W&B logs code and system metrics.
 
 Two methods exist to turn off code logging with environment variables:

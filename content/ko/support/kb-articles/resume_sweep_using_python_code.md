@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: resume_sweep_using_python_code
 ---
-
 스윕을 재개하려면 `sweep_id`를 `wandb.agent()` 함수에 전달하세요.
 
 ```python

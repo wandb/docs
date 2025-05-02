@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: artifacts_multiple_architectures_runs
 ---
-
 모델을 버전 관리하는 방법에는 여러 가지가 있습니다. Artifacts는 특정 요구 사항에 맞춘 모델 버전 관리를 위한 툴을 제공합니다. 여러 모델 아키텍처를 탐색하는 프로젝트의 일반적인 접근 방식은 Artifacts를 아키텍처별로 분리하는 것입니다. 다음 단계를 고려하십시오.
 
 1. 각기 다른 모델 아키텍처에 대해 새 아티팩트를 생성합니다. Artifacts의 `metadata` 속성을 사용하여 run의 `config` 사용과 유사하게 아키텍처에 대한 자세한 설명을 제공합니다.

@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: resolve_login_issues_with_account
 ---
 ログイン問題を解決するために、以下の手順を実行してください:
 

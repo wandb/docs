@@ -6,5 +6,6 @@ type: docs
 support:
 - billing
 - administrator
+translationKey: downgrade_subscription_plan
 ---
 To downgrade a subscription plan, contact the support team at support@wandb.com with your current plan details and the desired plan. 

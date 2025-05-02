@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: random_run_name_script
 ---
 `wandb.run.save()` を呼び出して現在の run を保存します。`wandb.run.name` を使用して名前を取得します。

@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: programmatically_access_humanreadable_run_name
 ---
 The `.name` attribute of a [`wandb.Run`]({{< relref "/ref/python/run.md" >}}) is accessible as follows:
 

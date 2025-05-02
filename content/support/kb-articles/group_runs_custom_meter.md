@@ -6,6 +6,7 @@ type: docs
 support:
 - runs
 - workspaces
+translationKey: group_runs_custom_meter
 ---
 Changing the colors of individual runs within a group is not possible. All runs in the same group share a common color.
 

@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: overflows_maximum_values_error
 ---
 このエラーを解決するには、URL の末尾に `?workspace=clear` を追加して Enter キーを押します。この操作により、プロジェクトページ ワークスペースのクリアされたバージョンに移動します。

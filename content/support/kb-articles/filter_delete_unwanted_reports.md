@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - reports
+translationKey: filter_delete_unwanted_reports
 ---
 Use the search bar to filter the reports list. Select an unwanted report to delete it individually, or select all reports and click 'Delete Reports' to remove them from the project.
 

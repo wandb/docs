@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: upload_image_report
 ---
 新しい行で「/」キーを押し、Image オプションまでスクロールして、画像を レポート にドラッグ＆ドロップします。
 

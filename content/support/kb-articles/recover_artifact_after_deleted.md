@@ -5,5 +5,6 @@ toc_hide: true
 type: docs
 support:
 - artifacts
+translationKey: recover_artifact_after_deleted
 ---
 When deleting a run, a prompt asks whether to delete the associated artifacts. Choosing this option permanently removes the artifacts, making recovery impossible, even if the run itself is restored later.

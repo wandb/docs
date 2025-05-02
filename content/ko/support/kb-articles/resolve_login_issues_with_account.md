@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: resolve_login_issues_with_account
 ---
-
 로그인 문제를 해결하려면 다음 단계를 따르세요.
 
 - **엑세스 확인**: 올바른 이메일 또는 사용자 이름을 사용하고 있는지, 관련 팀 또는 Projects의 멤버십을 확인하세요.

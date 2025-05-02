@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - reports
+translationKey: multiple_charts_different_selected_runs
 ---
 With W&B Reports, follow these steps:
 

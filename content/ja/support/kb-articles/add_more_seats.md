@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: add_more_seats
 ---
 アカウントに席を追加するには、次の手順に従ってください:
 

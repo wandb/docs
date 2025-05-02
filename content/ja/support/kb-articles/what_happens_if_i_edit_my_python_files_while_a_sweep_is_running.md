@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: what_happens_if_i_edit_my_python_files_while_a_sweep_is_running
 ---
 スイープが実行中の場合:
 - スイープが使用する `train.py` スクリプトが変更された場合、スイープは元の `train.py` を使用し続けます。

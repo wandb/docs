@@ -5,8 +5,8 @@ toc_hide: true
 type: docs
 support:
 - billing
+translationKey: update_payment_method
 ---
-
 To update your payment method, follow these steps:
 
 1. **Go to your profile page**: First, navigate to your user profile page.
