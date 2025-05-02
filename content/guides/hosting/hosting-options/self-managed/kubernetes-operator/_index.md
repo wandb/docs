@@ -48,6 +48,8 @@ The `controller-manager` installs [charts/operator-wandb](https://github.com/wan
 
 Refer to the [configuration specification hierarchy]({{< relref "#configuration-specification-hierarchy" >}}) and [configuration reference]({{< relref "#configuration-reference-for-wb-operator" >}}) for configuration options.
 
+The deployment consists of multiple pods, one per service. Each pod's name is prefixed with `wandb-`.
+
 ### Configuration specification hierarchy
 Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here’s how it works:
 
@@ -69,44 +71,52 @@ Depending on the installation method, you might need to meet the following requi
 * Helm is installed.
 
 ### Air-gapped installations
-See the [Deploy W&B in airgapped environment with Kubernetes]({{< relref "./operator-airgapped" >}}) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
+See the [Deploy W&B in airgapped environment with Kubernetes]({{< relref "operator-airgapped.md" >}}) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
 
 ## Deploy W&B Server application
-This section describes different ways to deploy the W&B Kubernetes operator. 
+This section describes different ways to deploy the W&B Kubernetes operator.
 {{% alert %}}
-The W&B Operator is the default and recommended installation method for W&B Server
+The W&B Operator is the default and recommended installation method for W&B Server.
 {{% /alert %}}
-
-**Choose one of the following:**
-- If you have provisioned all required external services and want to deploy W&B onto Kubernetes with Helm CLI, continue [here]({{< relref "#deploy-wb-with-helm-cli" >}}).
-- If you prefer managing infrastructure and the W&B Server with Terraform, continue [here]({{< relref "#deploy-wb-with-helm-terraform-module" >}}).
-- If you want to utilize the W&B Cloud Terraform Modules, continue [here]({{< relref "#deploy-wb-with-wb-cloud-terraform-modules" >}}).
 
 ### Deploy W&B with Helm CLI
 W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
 
 Follow those steps to install the W&B Kubernetes Operator with Helm CLI:
 
-1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository. Add the repo with the following commands:
-```shell
-helm repo add wandb https://charts.wandb.ai
-helm repo update
-```
-2. Install the Operator on a Kubernetes cluster. Copy and paste the following:
-```shell
-helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
-```
-3. Configure the W&B operator custom resource to trigger the W&B Server installation. Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}) for details.
-
-    Once you have the specification YAML created and filled with your values, run the following and the operator applies the configuration and install the W&B Server application based on your configuration.
-
+1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository:
     ```shell
-    kubectl apply -f operator.yaml
+    helm repo add wandb https://charts.wandb.ai
+    helm repo update
     ```
+2. Install the Operator on a Kubernetes cluster:
+    ```shell
+    helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
+    ```
+3. Configure the W&B operator custom resource to trigger the W&B Server installation, either by overriding the default configuration with a Helm `values.yaml` file or by fully customizing the custom resource definition (CRD) directly.
+
+    - **`values.yaml` override** (recommended): Create a new file named `values.yaml` that includes _only_ the keys from the [full `values.yaml` specification](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) that you want to override. For example, to configure MySQL:
+
+      {{< prism file="/operator/values_mysql.yaml" title="values.yaml">}}{{< /prism >}}
+    - **Full CRD**: Copy this [example configuration](https://github.com/wandb/helm-charts/blob/main/charts/operator/crds/wandb.yaml) to a new file named `operator.yaml`. Make the required changes to the file. Refer to [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}).
+
+      {{< prism file="/operator/wandb.yaml" title="operator.yaml">}}{{< /prism >}}
+
+4. Start the Operator with your custom configuration so that it can install, configure, and manage the W&B Server application.
+
+    - To start the Operator with a `values.yaml` override:
+
+        ```shell
+        kubectl apply -f values.yaml
+        ```
+    - To start the operator with a fully customized CRD:
+      ```shell
+      kubectl apply -f operator.yaml
+      ```
 
     Wait until the deployment completes. This takes a few minutes.
 
-4. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
+5. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
 
 
 ### Deploy W&B with Helm Terraform Module
@@ -412,13 +422,12 @@ spec:
         kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
 ```
 
-
 ### Host
 ```yaml
  # Provide the FQDN with protocol
 global:
-  # example host name,  replace with your own
-  host: https://abc-wandb.sandbox-gcp.wandb.ml
+  # example host name, replace with your own
+  host: https://wandb.example.com
 ```
 
 ### Object storage (bucket)
@@ -456,6 +465,7 @@ For other S3 compatible providers, set the bucket configuration as follows:
 ```yaml
 global:
   bucket:
+    # Example values, replace with your own
     provider: s3
     name: storage.example.com
     kmsKey: null
@@ -465,26 +475,65 @@ global:
     secretKey: HDKYe4Q...JAp1YyjysnX
 ```
 
+For S3-compatible storage hosted outside of AWS, `kmsKey` must be `null`.
+
+To reference `accessKey` and `secretKey` from a secret:
+```yaml
+global:
+  bucket:
+    # Example values, replace with your own
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    secret:
+      secretName: bucket-secret
+      accessKeyName: ACCESS_KEY
+      secretKeyName: SECRET_KEY
+```
+
 ### MySQL
 
 ```yaml
 global:
    mysql:
      # Example values, replace with your own
-     database: wandb_local
-     host: 10.218.0.2
-     name: wandb_local
-     password: 8wtX6cJH...ZcUarK4zZGjpV
+     host: db.example.com
      port: 3306
+     database: wandb_local
      user: wandb
+     password: 8wtX6cJH...ZcUarK4zZGjpV 
+```
+
+To reference the `password` from a secret:
+```yaml
+global:
+   mysql:
+     # Example values, replace with your own
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     passwordSecret:
+       name: database-secret
+       passwordKey: MYSQL_WANDB_PASSWORD
 ```
 
 ### License
 
 ```yaml
 global:
-  # Example license,  replace with your own
+  # Example license, replace with your own
   license: eyJhbGnUzaHgyQjQy...VFnPS_KETXg1hi
+```
+
+To reference the `license` from a secret:
+```yaml
+global:
+  licenseSecret:
+    name: license-secret
+    key: CUSTOMER_WANDB_LICENSE
 ```
 
 ### Ingress
@@ -620,7 +669,7 @@ global:
     caCert: ""
 ```
 
-Alternatively with redis password in a Kubernetes secret:
+To reference the `password` from a secret:
 
 ```console
 kubectl create secret generic redis-secret --from-literal=redis-password=supersecret
@@ -709,9 +758,12 @@ global:
     oidc:
       clientId: ""
       secret: ""
+      # Only include if your IdP requires it.
       authMethod: ""
       issuer: ""
 ```
+
+`authMethod` is optional. 
 
 ### SMTP
 
@@ -756,6 +808,33 @@ global:
     -----END CERTIFICATE-----
 ```
 
+CA certificates can also be stored in a ConfigMap:
+```yaml
+global:
+  caCertsConfigMap: custom-ca-certs
+```
+
+The ConfigMap must look like this:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+{{% alert %}}
+If using a ConfigMap, each key in the ConfigMap must end with `.crt` (for example, `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
+{{% /alert %}}
+
 ### Custom security context
 
 Each W&B component supports custom security context configurations of the following form:
@@ -784,7 +863,7 @@ The only valid value for `runAsGroup:` is `0`. Any other value is an error.
 {{% /alert %}}
 
 
-To configure the application pod, add a section `app` to your configuration:
+For example, to configure the application pod, add a section `app` to your configuration:
 
 ```yaml
 global:
@@ -807,7 +886,8 @@ app:
       readOnlyRootFilesystem: false
       allowPrivilegeEscalation: false 
 ```
-The same concept applies to `console`, `weave`, `otel`, `weave-trace`, `flat-run-fields-updater` and `parquet`.
+
+The same concept applies to `console`, `weave`, `weave-trace` and `parquet`.
 
 ## Configuration Reference for W&B Operator
 
@@ -840,7 +920,42 @@ customCACerts:
   -----END CERTIFICATE-----
 ```
 
+CA certificates can also be stored in a ConfigMap:
+```yaml
+caCertsConfigMap: custom-ca-certs
+```
+
+The ConfigMap must look like this:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+{{% alert %}}
+Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
+{{% /alert %}}
+
 ## FAQ
+
+### What is the purpose/role of each individual pod?
+* **`wandb-app`**: the core of W&B, including the GraphQL API and frontend application. It powers most of our platform’s functionality.
+* **`wandb-console`**: the administration console, accessed via `/console`. 
+* **`wandb-otel`**: the OpenTelemetry agent, which collects metrics and logs from resources at the Kubernetes layer for display in the administration console.
+* **`wandb-prometheus`**: the Prometheus server, which captures metrics from various components for display in the administration console.
+* **`wandb-parquet`**: a backend microservice separate from the `wandb-app` pod that exports database data to object storage in Parquet format.
+* **`wandb-weave`**: another backend microservice that loads query tables in the UI and supports various core app features.
+* **`wandb-weave-trace`**: a framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications. The framework is accessed via the `wandb-app` pod.
 
 ### How to get the  W&B Operator Console password
 See [Accessing the W&B Kubernetes Operator Management Console]({{< relref "#access-the-wb-management-console" >}}).

@@ -4,27 +4,59 @@ description: Generated documentation for Weights & Biases APIs
 menu: 
   reference:
     identifier: reference
-menu:
-  main:
-    weight: 2
 type: docs
 cascade:
   type: docs
 no_list: true
 ---
 
+{{< cardpane >}}
+  {{< card >}}
+    <a href="./release-notes/">
+      <h2 className="card-title">Release notes</h2>
+    </a>
+    <p className="card-content">Learn about W&B releases, including new features, performance improvements, and bug fixes.</p>
+  {{< /card >}}
+    {{< card >}}
+    <a href="./release-notes/release-policies/">
+      <h2 className="card-title">Release policies and processes</h2>
+    </a>
+    <p className="card-content">Learn more about W&B releases, including frequency, support policies, and end of life.</p>
+  {{< /card >}}
+{{< /cardpane >}}
 
-These docs are automatically generated from the [`wandb` library](https://github.com/wandb/wandb).
+{{< cardpane >}}
+  {{< card >}}
+    <a href="./python/">
+      <h2 className="card-title">Python Library</h2>
+    </a>
+    <p className="card-content">Train, fine-tune, and manage models from experimentation to production.</p>
+  {{< /card >}}
+  {{< card >}}
+    <a href="./cli/">
+      <h2 className="card-title">Command Line Interface</h2>
+    </a>
+    <p className="card-content">Log in, run jobs, execute sweeps, and more using shell commands.</p>
+  {{< /card >}}
+{{< /cardpane >}}
 
-### Reference sections
+{{< cardpane >}}
+  {{< card >}}
+    <a href="./js/">
+      <h2 className="card-title">Javascript Library</h2>
+    </a>
+    <p className="card-content">A beta JavaScript/TypeScript client to track metrics from your Node server.</p>
+  {{< /card >}}
+  {{< card >}}
+    <a href="./query-panel/">
+      <h2 className="card-title">Query Panels</h2>
+    </a>
+    <p className="card-content"> A beta query language to select and aggregate data.</p>
+  {{< /card >}}
+{{< /cardpane >}}
 
-1. [Python Library]({{< relref "./python/" >}}): Add `wandb` to your script to capture metrics and save artifacts
-2. [Command Line Interface]({{< relref "./cli/" >}}): Log in, run jobs, execute sweeps, and more using shell commands
-3. [JavaScript Library]({{< relref "./js/" >}}): A beta JavaScript/TypeScript client to track metrics from your Node server
-4. [Query panels]({{< relref "./query-panel/" >}}): A beta query language to select and aggregate data
+{{% alert %}}
+Looking for Weave API? See the [W&B Weave Docs](https://weave-docs.wandb.ai/).
+{{% /alert %}}
 
-### Examples and guides
-
-[Our examples repo](https://github.com/wandb/examples) has scripts and colabs to try W&B features, and see integrations with various libraries.
-
-[Our developer guide]({{< relref "/guides/" >}}) has guides, tutorials, and FAQs for the various W&B products.
+ 

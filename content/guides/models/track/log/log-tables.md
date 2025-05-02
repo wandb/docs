@@ -102,8 +102,11 @@ best_checkpt_table = wandb.Table(
     columns=["col1", "col2", "col3"], data=best_checkpt_table.data
 )
 
+# Initialize the Run
+run = wandb.init()
+
 # Log the updated table to Weights & Biases
-wandb.log({table_name: best_checkpt_table})
+run.log({table_name: best_checkpt_table})
 ```
 
 ## Retrieve data
@@ -119,7 +122,7 @@ After you generate a table of data in your script, for example a table of model 
 
 ### Log a table to a run
 
-Use `wandb.log()` to save your table to the run, like so:
+Use `run.log()` to save your table to the run, like so:
 
 ```python
 run = wandb.init()
@@ -150,7 +153,7 @@ For more information on Artifacts, see the [Artifacts Chapter]({{< relref "/guid
 
 ### Visualize tables
 
-Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables]({{< relref "/guides/core/tables/visualize-tables.md" >}}).
+Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables]({{< relref "/guides/models/tables//visualize-tables.md" >}}).
 
 
 ## Artifact tables

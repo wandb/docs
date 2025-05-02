@@ -19,17 +19,24 @@ W&B recommends to have more than one instance admin in an organization. It is a 
 
 A *team administrator* is a user in organization that has administrative permissions within a team. 
 
+Organization administrators can access and use an organization's account settings at `https://wandb.ai/account-settings/` to invite users, assign or update a user's role, create teams, remove users from your organization, assign the billing administrator, and more. See [Add and manage users]({{< relref "./manage-organization.md#add-and-manage-users" >}}) for more information. 
 
-The organization administrator can access and use an organization's account settings at `https://wandb.ai/account-settings/` to invite users, assign or update a user's role, create teams, remove users from your organization, assign the billing administrator, and more. See [Add and manage users]({{< relref "./manage-organization.md#add-and-manage-users" >}}) for more information. 
+Once an organization administrator creates a team, the instance administrator or a team administrator can:
 
-Once an organization administrator creates a team, the instance administrator or ateam administrator can:
-
-- Invite users to that team or remove users from the team.
+- By default, only an admin can invite users to that team or remove users from the team. To change this behavior, refer to [Team settings]({{< relref "/guides/models/app/settings-page/team-settings.md#privacy" >}}).
 - Assign or update a team member's role.
 - Automatically add new users to a team when they join your organization.
 
-Both the organization administrator and the team administrator use team dashboards at `https://wandb.ai/<your-team-name>` to manage teams. For more information on what organization administrators and team administrators can do, see [Add and manage teams]({{< relref "./manage-organization.md#add-and-manage-teams" >}}).
+Both the organization administrator and the team administrator use team dashboards at `https://wandb.ai/<your-team-name>` to manage teams. For more information, and to configure a team's default privacy settings, see [Add and manage teams]({{< relref "./manage-organization.md#add-and-manage-teams" >}}).
 
+## Maintain admin access
+You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain your organization's W&B account.
+
+If users are managed interactively, admin access is required to delete a user, including another admin user. This helps to reduce the risk of the sole admin user being removed.
+
+However, if an organization uses automated processes to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
+
+For assistance with developing operational procedures, or to restore admin access, contact [support](mailto:support@wandb.com).
 
 ## Limit visibility to specific projects
 

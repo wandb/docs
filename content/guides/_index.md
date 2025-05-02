@@ -5,8 +5,6 @@ menu:
   default:
     identifier: guides
     weight: 1
-  main:
-    weight: 1
 type: docs
 cascade:
   type: docs
@@ -25,14 +23,18 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 **[W&B Models]({{< relref "/guides/models/" >}})** is a set of lightweight, interoperable tools for machine learning practitioners training and fine-tuning models.
 - [Experiments]({{< relref "/guides/models/track/" >}}): Machine learning experiment tracking
 - [Sweeps]({{< relref "/guides/models/sweeps/" >}}): Hyperparameter tuning and model optimization
-- [Registry]({{< relref "/guides/models/registry/" >}}): Publish and share your ML models and datasets
+- [Registry]({{< relref "/guides/core/registry/" >}}): Publish and share your ML models and datasets
 
 **[W&B Weave]({{< relref "/guides/weave/" >}})** is a lightweight toolkit for tracking and evaluating LLM applications.
 
 **[W&B Core]({{< relref "/guides/core/" >}})** is set of powerful building blocks for tracking and visualizing data and models, and communicating results.
 - [Artifacts]({{< relref "/guides/core/artifacts/" >}}): Version assets and track lineage
-- [Tables]({{< relref "/guides/core/tables/" >}}): Visualize and query tabular data
+- [Tables]({{< relref "/guides/models/tables/" >}}): Visualize and query tabular data
 - [Reports]({{< relref "/guides/core/reports/" >}}): Document and collaborate on your discoveries
+
+{{% alert %}}
+Learn about recent releases in the [W&B release notes]({{< relref "/ref/release-notes/" >}}).
+{{% /alert %}}
 
 ## How does W&B work?
 
@@ -42,8 +44,8 @@ Read the following sections in this order if you are a first-time user of W&B an
 2. Create and track machine learning experiments with [Experiments]({{< relref "/guides/models/track/" >}}).
 3. Discover W&B's flexible and lightweight building block for dataset and model versioning with [Artifacts]({{< relref "/guides/core/artifacts/" >}}).
 4. Automate hyperparameter search and explore the space of possible models with [Sweeps]({{< relref "/guides/models/sweeps/" >}}).
-5. Manage the model lifecycle from training to production with [Registry]({{< relref "/guides/models/registry/" >}}).
-6. Visualize predictions across model versions with our [Data Visualization]({{< relref "/guides/core/tables/" >}}) guide.
+5. Manage the model lifecycle from training to production with [Registry]({{< relref "/guides/core/registry/" >}}).
+6. Visualize predictions across model versions with our [Data Visualization]({{< relref "/guides/models/tables/" >}}) guide.
 7. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [Reports]({{< relref "/guides/core/reports/" >}}).
 
 <iframe width="100%" height="330" src="https://www.youtube.com/embed/tHAFujRhZLA" title="Weights &amp; Biases End-to-End Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>

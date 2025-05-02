@@ -2,7 +2,7 @@
 title: Projects
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/public/projects.py#L20-L76 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/projects.py#L23-L80 >}}
 
 An iterable collection of `Project` objects.
 
@@ -14,57 +14,57 @@ Projects(
 
 | Attributes |  |
 | :--- | :--- |
+|  `cursor` |  The start cursor to use for the next fetched page. |
+|  `more` |  Whether there are more pages to be fetched. |
 
 ## Methods
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/public/projects.py#L69-L73)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/projects.py#L73-L77)
 
 ```python
 convert_objects()
 ```
 
+Convert the last fetched response data into the iterated objects.
+
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L72-L79)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/paginator.py#L100-L107)
 
 ```python
-next()
+next() -> T
 ```
+
+Return the next item from the iterator. When exhausted, raise StopIteration
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L52-L53)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/paginator.py#L69-L71)
 
 ```python
-update_variables()
+update_variables() -> None
 ```
+
+Update the query variables for the next page fetch.
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L65-L70)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/paginator.py#L93-L98)
 
 ```python
 __getitem__(
-    index
-)
+    index: (int | slice)
+) -> (T | list[T])
 ```
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L26-L28)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/paginator.py#L48-L50)
 
 ```python
-__iter__()
-```
-
-### `__len__`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.5/wandb/apis/paginator.py#L30-L35)
-
-```python
-__len__()
+__iter__() -> Iterator[T]
 ```
 
 | Class Variables |  |

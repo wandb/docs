@@ -53,29 +53,56 @@ fabric.log_dict({"important_metric": important_metric})
 
 {{< img src="/images/integrations/n6P7K4M.gif" alt="Interactive dashboards accessible anywhere, and more!" >}}
 
-## Sign up and Log in to wandb
+### Sign up and create an API key
 
-1. [**Sign up**](https://wandb.ai/site) for a free account.
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-2.  Run example commands to:
-    1. Use `pip` to install the `wandb` library.
-    2. Signs in to you account at www.wandb.ai in your browser.
+{{% alert %}}
+For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+{{% /alert %}}
 
-3. In your browser, find your API key on the [Authorize page](https://wandb.ai/authorize).
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
-4. If you are using Weights and Biases for the first time you might want to check out our [**quickstart**]({{< relref "/guides/quickstart.md" >}})
+### Install the `wandb` library and log in
+
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref "/guides/models/track/environment-variables.md" >}}) to your API key.
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. Install the `wandb` library and log in.
+
+
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+
+{{% /tab %}}
+
+{{% tab header="Python" value="python" %}}
+
 ```bash
 pip install wandb
-
-wandb login
+```
+```python
+import wandb
+wandb.login()
 ```
 
 {{% /tab %}}
-{{% tab header="Notebook" value="notebook" %}}
+
+{{% tab header="Python notebook" value="notebook" %}}
 
 ```notebook
 !pip install wandb
@@ -418,7 +445,7 @@ The model checkpoints you log are viewable through the [W&B Artifacts]({{< relre
 
 To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry]({{< relref "/guides/models" >}}).
 
-Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/models/automations/project-scoped-automations/#create-a-webhook-automation" >}}) downstream actions with webhooks or jobs. 
+Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate]({{< relref "/guides/core/automations/" >}}) downstream actions with webhooks or jobs. 
 
 ## Log images, text, and more
 
