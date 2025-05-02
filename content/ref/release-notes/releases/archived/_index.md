@@ -6,11 +6,9 @@ cascade:
 - url: /ref/release-notes/archived/:filename/
 - type: docs
 - weight: 1
-menu:
-  default:
-    parent: release-notes
-    identifier: archived-release-notes
-    weight: 99
+parent: release-notes
+identifier: archived-release-notes
+weight: 9
 ---
 Archived releases have reached end of life and are no longer supported. A major release and its patches are supported for six months from the initial release date. Release notes for archived releases are provided for historical purposes. For supported releases, refer to [Releases](/ref/release-notes/).
 

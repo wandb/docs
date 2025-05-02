@@ -16,6 +16,18 @@ enableRobotsTXT: true
 # Will give values to .Lastmod etc.
 enableGitInfo: true
 
+# Override default date priority to give more
+# control over RSS feeds.
+# - If you set `date` it overrides the item's date as gleaned from Git info
+# - Otherwise, Git info is used.
+# To update `date` for a given page twice in one day, use a fully
+#   qualified date with offset from GMT, like 2025-05-02T09:45:00-07:00
+frontmatter:
+  date:
+  - date
+  - publishdate
+  - :git
+
 taxonomies:
     support: support
 
@@ -134,6 +146,8 @@ outputs:
 services:
   googleAnalytics:
     id: GTM-5BL5RTH
+  RSS:
+    Limit: 20
 
 params:
   #search:
