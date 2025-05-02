@@ -18,21 +18,12 @@ enableGitInfo: true
 
 # Override default date priority to give more
 # control over RSS feeds.
-# - If you set `date` it overrides the page's generic date.
-# - `publishdate` is for hiding future-dated pages, but W&B
-#    is configured to publish future-dated pages, so it is
-#    less useful.
-# - If you set `lastmod` it overrides the default, which comes
-#   from Git. To update `lastmod` twice in one day, use a fully
+# - If you set `date` it overrides the item's date as gleaned from Git info
+# - Otherwise, Git info is used.
+# To update `date` for a given page twice in one day, use a fully
 #   qualified date with offset from GMT, like 2025-05-02T09:45:00-07:00
 frontmatter:
   date:
-  - date
-  - lastmod
-  - publishdate
-  - :git
-  lastmod:
-  - lastmod
   - date
   - publishdate
   - :git
