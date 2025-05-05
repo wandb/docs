@@ -225,6 +225,8 @@ W&B SaaS Cloud API implements a rate limit to maintain system integrity and ensu
 Rate limits are subject to change.
 {{% /alert %}}
 
+If you encounter a rate limit, you receive a HTTP `429` `Rate limit exceeded` error and the response includes [rate limit HTTP headers]({{< relref "#rate-limit-http-headers" >}}).
+
 ### Rate limit HTTP headers
 
 The preceding table describes rate limit HTTP headers:
@@ -241,7 +243,7 @@ The `wandb.log` calls in your script utilize a metrics logging API to log your t
 
 W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) have higher rate limits than those on the Free plan.
 
-When you hit the rate limit while using the metrics logging API, you see a relevant message indicating the error in the standard output.
+If you encounter a rate limit, you receive a HTTP `429` `Rate limit exceeded` error and the response includes [rate limit HTTP headers]({{< relref "#rate-limit-http-headers" >}}).
 
 ### Suggestions for staying under the metrics logging API rate limit
 
@@ -265,9 +267,11 @@ The W&B Models UI and SDK’s [public API](https://docs.wandb.ai/ref/python/publ
 Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
 When you hit the rate limit while using the W&B Models SDK's public API, you see a relevant message indicating the error in the standard output.
 
-### Suggestions for staying under the GraphQL API rate limit
+If you encounter a rate limit, you receive a HTTP `429` `Rate limit exceeded` error and the response includes [rate limit HTTP headers]({{< relref "#rate-limit-http-headers" >}}).
 
-If you are fetching a large volume of data using the W&B Models SDK's [public API](https://docs.wandb.ai/ref/python/public-api/api), consider waiting at least one second between requests. If you receive a `429` status code or see `RateLimit-Remaining=0` in the response headers, wait for the number of seconds specified in `RateLimit-Reset` before retrying.
+#### Suggestions for staying under the GraphQL API rate limit
+
+If you are fetching a large volume of data using the W&B Models SDK's [public API](https://docs.wandb.ai/ref/python/public-api/api), consider waiting at least one second between requests. If you receive a HTTP `429` `Rate limit exceeded` error or see `RateLimit-Remaining=0` in the response headers, wait for the number of seconds specified in `RateLimit-Reset` before retrying.
 
 ## Browser considerations
 
