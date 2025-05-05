@@ -10,6 +10,10 @@ weight: 2
 ---
 Install W&B to track, visualize, and manage machine learning experiments of any size.
 
+{{% alert %}}
+Are you looking for information on W&B Weave? See the [Weave Python SDK quickstart](https://weave-docs.wandb.ai/quickstart) or [Weave TypeScript SDK quickstart](https://weave-docs.wandb.ai/reference/generated_typescript_docs/intro-notebook).
+{{% /alert %}}
+
 ## Sign up and create an API key
 
 To authenticate your machine with W&B, generate an API key from your user profile or at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
@@ -41,6 +45,7 @@ pip install wandb
 ```
 ```python
 import wandb
+
 wandb.login()
 ```
 
@@ -122,3 +127,4 @@ Explore more features of the W&B ecosystem:
 4. Automate hyperparameter searches and optimize models with [W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}).
 5. Analyze runs, visualize model predictions, and share insights on a [central dashboard]({{< relref "/guides/models/tables/" >}}).
 6. Visit [W&B AI Academy](https://wandb.ai/site/courses/) to learn about LLMs, MLOps, and W&B Models through hands-on courses.
+7. Visit the [official W&B Weave documentation](https://weave-docs.wandb.ai/) to learn how to track track, experiment with, evaluate, deploy, and improve your LLM-based applications using Weave. 

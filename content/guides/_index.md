@@ -5,8 +5,6 @@ menu:
   default:
     identifier: guides
     weight: 1
-  main:
-    weight: 1
 type: docs
 cascade:
   type: docs
@@ -33,6 +31,10 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 - [Artifacts]({{< relref "/guides/core/artifacts/" >}}): Version assets and track lineage
 - [Tables]({{< relref "/guides/models/tables/" >}}): Visualize and query tabular data
 - [Reports]({{< relref "/guides/core/reports/" >}}): Document and collaborate on your discoveries
+
+{{% alert %}}
+Learn about recent releases in the [W&B release notes]({{< relref "/ref/release-notes/" >}}).
+{{% /alert %}}
 
 ## How does W&B work?
 
