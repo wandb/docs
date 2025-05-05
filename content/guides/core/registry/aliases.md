@@ -161,6 +161,6 @@ run.link_artifact(
     )
 ```
 
-1. First, you create an artifact object (`wandb.Artifact`) and add two PyTorch files to it with `wandb.Artifact.add_file()`. 
-2. Next, link the artifact version to the `Model` collection in the `Zoo_Classifier_Models` registry. 
-3. Finally, you add two custom aliases to the artifact version: `production-us` and `production-eu`
+1. First, you create an artifact object (`wandb.Artifact()`).
+2. Next, you add two dataset PyTorch tensors to the artifact object with `wandb.Artifact.add_file()`. 
+3. Lastly, you link the artifact version to the `Model` collection in the `Zoo_Classifier_Models` registry with `link_artifact()`. You also add two custom aliases to the artifact version by passing  `production-us` and `production-eu` as arguments to the `aliases` parameter.
