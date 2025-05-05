@@ -26,7 +26,7 @@ W&B Tables posses the following behaviors:
 For information on how to save your current W&B Table view, see [Save your view]({{< relref "#save-your-view" >}}).
 {{% /alert %}}
 
-## How to view two tables
+## Compare two tables
 Compare two tables with a [merged view]({{< relref "#merged-view" >}}) or a [side-by-side view]({{< relref "#side-by-side-view" >}}). For example, the image below demonstrates a table comparison of MNIST data.
 
 {{< img src="/images/data_vis/table_comparison.png" alt="Left: mistakes after 1 training epochs, Right: mistakes after 5 epochs" max-width="90%" >}}
@@ -70,6 +70,71 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 * **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
 * **explore two tables independently**: scroll through and focus on the side/rows of interest
 
+
+
+## Visualize how values change throughout your runs
+
+View how values you log to a table change throughout your runs with a step slider. Slide the step slider to view the values logged at different steps. For example, you can view how the loss, accuracy, or other metrics change after each run. 
+
+he slider uses a key to determine the step value. The default key for the slider is `_step`, a special key that W&B automatically logs for you. The `_step` key is an integer that increments by 1 each time you call `wandb.log()` in your code.
+
+To add a step slider to a W&B Table:
+
+1. Navigate to your project's workspace.
+2. Click **Add panel** in the top right corner of the workspace.
+3. Select **Query panel**.
+4. Within the query expression editor, select `runs` and press **Enter** on your keyboard.
+5. Click the gear icon to view the settings for the panel.
+6. Set **Render As** selector to **Stepper**.
+7. Set **Stepper Key** to `_step` or the [key to use as the unit]({{< relref "#custom-step-keys" >}}) for the step slider.
+
+The following image shows a query panel with three W&B runs and the values they logged at step 295.
+
+{{< img src="/images/data_vis/stepper_key.png" alt="Query panel with three W&B runs and the values they logged at step 295 using the step slider feature.">}}
+
+Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run does not log values at every step. If a value is missing for a given step, W&B uses the last value that was logged as the slider key.
+
+### Custom step key
+
+The step key can be any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a custom step key, W&B maps each value of that key to a step (`_step`) in the run.
+
+This table shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, that were logged at those steps. Some `_step` values are omitted to save space.
+
+The first time `wandb.log` was called, none of the runs logged an `epoch` value, so the table shows empty values for `epoch`. 
+
+| `_step` | vague-cloud (`epoch`) | lively-frog(`epoch`) |  serene-sponge (`epoch`) |
+| ------- | ------------- | ----------- | ----------- |
+| 1 | | |  |
+| 2  |   |   | 1  | 
+| 4  |   | 1 | 2  |
+| 5  | 1 |   |  |
+| 6  |  |   | 3  |
+| 8  |  | 2 | 4  |
+| 10 |  |   | 5  |
+| 12 |  | 3 | 6  |
+| 14 |  |   |  7 | 
+| 15 | 2  |   |  |
+| 16 |  | 4 | 8  | 
+| 18 |  |   | 9  |
+| 20 | 3 | 5 | 10 |
+
+Now, if the slider is set to `epoch = 1`, the following happens:
+
+* `vague-cloud` finds `epoch = 1` and returns the value logged at `_step = 5`
+* `lively-frog` finds `epoch = 1` and returns the value logged at `_step = 4`
+* `serene-sponge` finds `epoch = 1` and returns the value logged at `_step = 2`
+
+If the slider is set to `epoch = 9`:
+
+* `vague-cloud` also doesn't log `epoch = 9`, so W&B uses the latest prior value `epoch = 3` and returns the value logged at `_step = 20`
+* `lively-frog` doesn’t log `epoch = 9`, but the latest prior value is `epoch = 5` so it returns the value logged at `_step = 20`
+* `serene-sponge` finds `epoch = 9` and return the value logged at `_step = 18`
+
+<!-- | | |
+| ---- | ---- |
+| Run History Tables Stepper | |
+| Run History Plots Stepper | |
+| Stepper | | -->
 
 ## Compare artifacts
 You can also [compare tables across time]({{< relref "#compare-tables-across-time" >}}) or [model variants]({{< relref "#compare-tables-across-model-variants" >}}). 
