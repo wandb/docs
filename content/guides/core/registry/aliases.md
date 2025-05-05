@@ -122,3 +122,45 @@ You can find existing aliases with the [global search bar in the W&B Registry]({
 2. Specify the search term in the search bar at the top of the page. Press Enter to search.
 
 Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
+
+## Example
+
+{{% alert %}}
+The following code example is a continuation of [the W&B Registry Tutorial](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb). To use the following code, you must first [retrieve and process the Zoo dataset as described in the notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb#scrollTo=87fecd29-8146-41e2-86fb-0bb4e3e3350a). Once you have the Zoo dataset, you can create an artifact version and add custom aliases to it.
+{{% /alert %}}
+
+The following code snippet shows how to create an artifact version and add custom aliases to it. The example uses the Zoo dataset from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/111/zoo) and the `Model` collection in the `Zoo_Classifier_Models` registry. 
+
+```python
+import wandb
+
+# Initialize a run
+run = wandb.init(entity = "smle-reg-team-2", project = "zoo_experiment")
+
+# Create an artifact object
+# The type parameter specifies both the type of the 
+# artifact object and the collection type
+artifact = wandb.Artifact(name = "zoo_dataset", type = "dataset")
+
+# Add the file to the artifact object. 
+# Specify the path to the file on your local machine.
+artifact.add_file(local_path="zoo_dataset.pt", name="zoo_dataset")
+artifact.add_file(local_path="zoo_labels.pt", name="zoo_labels")
+
+# Specify the collection and registry to link the artifact to
+REGISTRY_NAME = "Model"
+COLLECTION_NAME = "Zoo_Classifier_Models"
+target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+# Link the artifact version to the collection
+# Add one or more aliases to this artifact version
+run.link_artifact(
+    artifact = artifact,
+    target_path = target_path,
+    aliases = ["production-us", "production-eu"]
+    )
+```
+
+1. First, you create an artifact object (`wandb.Artifact`) and add two PyTorch files to it with `wandb.Artifact.add_file()`. 
+2. Next, link the artifact version to the `Model` collection in the `Zoo_Classifier_Models` registry. 
+3. Finally, you add two custom aliases to the artifact version: `production-us` and `production-eu`
