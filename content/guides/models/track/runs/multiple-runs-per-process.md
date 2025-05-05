@@ -30,7 +30,7 @@ Use the `reinit` parameter to configure how W&B handles multiple calls to `wandb
 | `return_previous` |  Return the most recent, unfinished run. Default behavior for notebook environments. | No | |
 
 {{% alert  %}}
-W&B does not support `create_new` mode for [W&B Integrations]({{< relref "/guides/integrations/_index.md" >}}) that assume a single global run, such as Hugging Face Trainer, Keras callbacks, and PyTorch Lightning. If you use these integrations, you should run each sub-experiment in a separate process.
+W&B does not support `create_new` mode for [W&B Integrations]({{< relref "/guides/integrations/" >}}) that assume a single global run, such as Hugging Face Trainer, Keras callbacks, and PyTorch Lightning. If you use these integrations, you should run each sub-experiment in a separate process.
 {{% /alert %}}
 
 ## Specifying `reinit`
@@ -85,7 +85,7 @@ with wandb.init() as experiment_results_run:
 
 ## Example: Concurrent processes
 
-Suppose you want to create a primary process that remains open for the script's entire lifespan, while periodically spawning short-lived secondary processes without finishing the primary process. This may occur if you want to keep a primary run active, such as training a model, while computing evaluations or other tasks in separate runs.
+Suppose you want to create a primary process that remains open for the script's entire lifespan, while periodically spawning short-lived secondary processes without finishing the primary process. For example, this pattern can be useful if you want to train a model in the primary run, but compute evaluations or do other work in separate runs.
 
 To achieve this, use `reinit="create_new"` and initialize multiple runs. For this example, suppose "Run A" is the primary process that remains open throughout the script, while "Run B1", "Run B2", are short-lived secondary runs for tasks like evaluation. 
 
