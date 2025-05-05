@@ -54,10 +54,7 @@
       <guid>{{ .Permalink }}</guid>
       <description>
         {{- printf "<![CDATA[" | safeHTML }}
-          {{- printf "%s" .Summary | safeHTML }}
-          {{ if .Truncated }}
-            {{- printf "<a title=\"Read more...\" href=\"%s\">&hellip;</a>" .Permalink | transform.XMLEscape | safeHTML }}
-          {{ end }}
+          {{- printf "%s" .Summary | safeHTML }}{{ if .Truncated }}{{- printf "[Read more](%s)" .Permalink | markdownify | safeHTML }}.{{ end }}
         {{- printf "]]>" | safeHTML }}
       </description>
     </item>
