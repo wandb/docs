@@ -15,6 +15,10 @@ Manage multiple runs in a single Python process. This is useful for workflows wh
 
 By default, W&B assumes each Python process has only one active run at a time when you call `wandb.init()`. If you call `wandb.init()` again, W&B will either return the same run or finish the old run before starting a new one, depending on the configuration. The content in this guide explains how to use `reinit` to modify the `wandb.init()` behavior to enable multiple runs in a single Python process.
 
+{{% alert title="Requirements" %}}
+To manage multiple runs in a single Python process, you must have W&B Python SDK version `v0.19.10` or newer.
+{{% /alert  %}}
+
 ## `reinit` options
 
 Use the `reinit` parameter to configure how W&B handles multiple calls to `wandb.init()`. The following table describes valid arguments and their effects:
