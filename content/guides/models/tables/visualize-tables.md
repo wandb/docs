@@ -76,9 +76,9 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 
 View how values you log to a table change throughout your runs with a step slider. Slide the step slider to view the values logged at different steps. For example, you can view how the loss, accuracy, or other metrics change after each run. 
 
-The slider uses a key to determine the step value. By default, the step slider uses the `_step` key, which is a special key that W&B automatically logs for you. The `_step` key is a numeric value that increments by 1 each time you call `wandb.log()` in your code.
+he slider uses a key to determine the step value. The default key for the slider is `_step`, a special key that W&B automatically logs for you. The `_step` key is an integer that increments by 1 each time you call `wandb.log()` in your code.
 
-The following procedure outlines how to add a step slider to a W&B Table:
+To add a step slider to a W&B Table:
 
 1. Navigate to your project's workspace.
 2. Click **Add panel** in the top right corner of the workspace.
@@ -92,9 +92,9 @@ The following image shows a query panel with three W&B runs and the values they 
 
 {{< img src="/images/data_vis/stepper_key.png" alt="Query panel with three W&B runs and the values they logged at step 295 using the step slider feature.">}}
 
-Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run does not log values at every step. If a value is missing for a given step, W&B use the closest earlier slider key value that was logged.
+Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run does not log values at every step. If a value is missing for a given step, W&B uses the last value that was logged as the slider key.
 
-### Custom step keys
+### Custom step key
 
 The step key can be any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a custom step key, W&B maps each value of that key to a step (`_step`) in the run.
 
