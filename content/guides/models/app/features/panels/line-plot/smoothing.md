@@ -8,22 +8,22 @@ title: Smooth line plots
 weight: 30
 ---
 
-W&B supports three types of smoothing:
+W&B supports several types of smoothing:
 
-- [exponential moving average]({{< relref "smoothing.md#exponential-moving-average-default" >}}) (default)
-- [gaussian smoothing]({{< relref "smoothing.md#gaussian-smoothing" >}})
-- [running average]({{< relref "smoothing.md#running-average" >}})
-- [exponential moving average - Tensorboard]({{< relref "smoothing.md#exponential-moving-average-deprecated" >}}) (deprecated)
+- [Time weighted exponential moving average (TWEMA) smoothing]({{< relref "#time-weighted-exponential-moving-average-twema-smoothing-default" >}}) 
+- [Gaussian smoothing]({{< relref "#gaussian-smoothing" >}})
+- [Running average]({{< relref "#running-average-smoothing" >}})
+- [Exponential moving average (EMA) smoothing]({{< relref "#exponential-moving-average-ema-smoothing" >}})
 
 See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc).
 
-{{< img src="/images/app_ui/beamer_smoothing.gif" alt="" >}}
+{{< img src="/images/app_ui/beamer_smoothing.gif" alt="Demo of various smoothing algorithms" >}}
 
-## Exponential Moving Average (Default)
+## Time Weighted Exponential Moving Average (TWEMA) smoothing (Default)
 
-Exponential smoothing is a technique for smoothing time series data by exponentially decaying the weight of previous points. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a de-bias term added so that early values in the time series are not biased towards zero.
+The Time Weighted Exponential Moving Average (TWEMA) smoothing algorithm is a technique for smoothing time series data by exponentially decaying the weight of previous points. For details about the technique, see [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing). The range is 0 to 1. There is a de-bias term added so that early values in the time series are not biased towards zero.
 
-The EMA algorithm takes the density of points on the line (the number of `y` values per unit of range on x-axis) into account. This allows consistent smoothing when displaying multiple lines with different characteristics simultaneously.
+The TWEMA algorithm takes the density of points on the line (the number of `y` values per unit of range on x-axis) into account. This allows consistent smoothing when displaying multiple lines with different characteristics simultaneously.
 
 Here is sample code for how this works under the hood:
 
@@ -47,33 +47,38 @@ return yValues.map((yPoint, index) => {
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
-{{< img src="/images/app_ui/weighted_exponential_moving_average.png" alt="" >}}
+{{< img src="/images/app_ui/weighted_exponential_moving_average.png" alt="Demo of TWEMA smoothing" >}}
 
-## Gaussian Smoothing
+## Gaussian smoothing
 
-Gaussian smoothing (or gaussian kernel smoothing) computes a weighted average of the points, where the weights correspond to a gaussian distribution with the standard deviation specified as the smoothing parameter. See . The smoothed value is calculated for every input x value.
-
-Gaussian smoothing is a good standard choice for smoothing if you are not concerned with matching TensorBoard's behavior. Unlike an exponential moving average the point will be smoothed based on points occurring both before and after the value.
+Gaussian smoothing (or Gaussian kernel smoothing) computes a weighted average of the points, where the weights correspond to a gaussian distribution with the standard deviation specified as the smoothing parameter. The smoothed value is calculated for every input x value, based on the points occurring both before and after it.
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing):
 
-{{< img src="/images/app_ui/gaussian_smoothing.png" alt="" >}}
+{{< img src="/images/app_ui/gaussian_smoothing.png" alt="Demo of gaussian smoothing" >}}
 
-## Running Average
+## Running average smoothing
 
 Running average is a smoothing algorithm that replaces a point with the average of points in a window before and after the given x value. See "Boxcar Filter" at [https://en.wikipedia.org/wiki/Moving_average](https://en.wikipedia.org/wiki/Moving_average). The selected parameter for running average tells Weights and Biases the number of points to consider in the moving average.
 
-Consider using Gaussian Smoothing if your points are spaced unevenly on the x-axis.
+Consider using Gaussian Smoothing instead if your points are spaced unevenly on the x-axis.
 
-The following image demonstrates how a running app looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
+Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
 
-{{< img src="/images/app_ui/running_average.png" alt="" >}}
+{{< img src="/images/app_ui/running_average.png" alt="Demo of running average smoothing" >}}
 
-## Exponential Moving Average (Deprecated)
+## Exponential Moving Average (EMA) smoothing
 
-> The TensorBoard EMA algorithm has been deprecated as it cannot accurately smooth multiple lines on the same chart that do not have a consistent point density (number of points plotted per unit of x-axis).
+The Exponential Moving Average (EMA) smoothing algorithm is a rule of thumb technique for smoothing time series data using the exponential window function. For details about the technique, see [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing). The range is 0 to 1. A debias term is added so that early values in the time series are not biases towards zero.
 
-Exponential moving average is implemented to match TensorBoard's smoothing algorithm. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a debias term added so that early values in the time series are not biases towards zero.
+In many situations, EMA smoothing is applied to a full scan of history, rather than bucketing first before smoothing. This often produces more accurate smoothing.
+
+In the following situations, EMA smoothing is after bucketing instead:
+- Sampling
+- Grouping
+- Expressions
+- Non-monotonic x-axes
+- Time-based x-axes
 
 Here is sample code for how this works under the hood:
 
@@ -88,14 +93,10 @@ Here is sample code for how this works under the hood:
 
 Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
-{{< img src="/images/app_ui/exponential_moving_average.png" alt="" >}}
-
-## Implementation Details
-
-All of the smoothing algorithms run on the sampled data, meaning that if you log more than 1500 points, the smoothing algorithm will run _after_ the points are downloaded from the server. The intention of the smoothing algorithms is to help find patterns in data quickly. If you need exact smoothed values on metrics with a large number of logged points, it may be better to download your metrics through the API and run your own smoothing methods.
+{{< img src="/images/app_ui/exponential_moving_average.png" alt="Demo of EMA smoothing" >}}
 
 ## Hide original data
 
-By default we show the original, unsmoothed data as a faint line in the background. Click the **Show Original** toggle to turn this off.
+By default, the original unsmoothed data displays in the plot as a faint line in the background. Click **Show Original** to turn this off.
 
-{{< img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif" alt="" >}}
+{{< img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif" alt="Turn on or off original data" >}}

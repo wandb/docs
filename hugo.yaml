@@ -1,6 +1,7 @@
 baseURL: https://docs.wandb.ai
 title: Weights & Biases Documentation
 
+buildFuture: true
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
 
 # Language settings
@@ -14,6 +15,18 @@ enableRobotsTXT: true
 
 # Will give values to .Lastmod etc.
 enableGitInfo: true
+
+# Override default date priority to give more
+# control over RSS feeds.
+# - If you set `date` it overrides the item's date as gleaned from Git info
+# - Otherwise, Git info is used.
+# To update `date` for a given page twice in one day, use a fully
+#   qualified date with offset from GMT, like 2025-05-02T09:45:00-07:00
+frontmatter:
+  date:
+  - date
+  - publishdate
+  - :git
 
 taxonomies:
     support: support
@@ -29,7 +42,7 @@ pygmentsStyle: monokai
 
 # Configure how URLs look like per section.
 permalinks:
-  blog: /:section/:year/:month/:day/:slug/
+  release-notes: /release-notes/:year/:month/:day/:slug/
 
 # Image processing configuration.
 imaging:
@@ -44,10 +57,66 @@ languages:
     title: Weights & Biases Documentation
     params:
       description: Weights & Biases Documentation Site
+    menus:
+      main:
+      - name: Guides
+        pageRef: /guides
+        weight: 1
+        identifier: guides-en
+      - name: Tutorials
+        pageRef: /tutorials
+        weight: 2
+        identifier: tutorials-en
+      - name: Reference
+        pageRef: /ref
+        weight: 3
+        identifier: reference-en
+      - name: Support
+        pageRef: /support
+        weight: 4
+        identifier: support-en
   ja:
     languageName: Japanese
+    contentDir: content/ja
+    menus:
+      main:
+      - name: Guides
+        pageRef: /guides
+        weight: 1
+        identifier: guides-ja
+      - name: Tutorials
+        pageRef: /tutorials
+        weight: 2
+        identifier: tutorials-ja
+      - name: Reference
+        pageRef: /ref
+        weight: 3
+        identifier: reference-ja
+      - name: Support
+        pageRef: /support
+        weight: 4
+        identifier: support-ja
   ko:
     languageName: Korean
+    contentDir: content/ko
+    menus:
+      main:
+      - name: Guides
+        pageRef: /guides
+        weight: 1
+        identifier: guides-ko
+      - name: Tutorials
+        pageRef: /tutorials
+        weight: 2
+        identifier: tutorials-ko
+      - name: Reference
+        pageRef: /ref
+        weight: 3
+        identifier: reference-ko
+      - name: Support
+        pageRef: /support
+        weight: 4
+        identifier: support-ko
 
 markup:
   tableOfContents:
@@ -77,6 +146,8 @@ outputs:
 services:
   googleAnalytics:
     id: GTM-5BL5RTH
+  RSS:
+    Limit: 20
 
 params:
   #search:
