@@ -76,17 +76,17 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 
 View how values you log to a table change throughout your runs with a step slider. Slide the step slider to view the values logged at different steps. For example, you can view how the loss, accuracy, or other metrics change after each run. 
 
-Each call to `wandb.log()` in your Python script creates a value known as a step (`_step`). By default, W&B uses `_step` values as the units, or key, of the slider. 
+The slider uses a key to determine the step value. By default, the step slider uses the `_step` key, which is a special key that W&B automatically logs for you. The `_step` key is a numeric value that increments by 1 each time you call `wandb.log()` in your code.
 
-The following procedure outlines how to create a step slider in a W&B Table:
+The following procedure outlines how to add a step slider to a W&B Table:
 
 1. Navigate to your project's workspace.
-2. Click on the **Add panel** button in the top right corner of the workspace.
+2. Click **Add panel** in the top right corner of the workspace.
 3. Select **Query panel**.
 4. Within the query expression editor, select `runs` and press **Enter** on your keyboard.
-5. Click on the gear icon to view the **Query Panel Settings**.
-6. Click the dropdown next to the **Render As** field and select **Stepper**.
-7. Click the dropdown next to the **Stepper Key** field and select `_step` or any other key you want to use the unit of the step slider.
+5. Click the gear icon to view the settings for the panel.
+6. Set **Render As** selector to **Stepper**.
+7. Set **Stepper Key** to `_step` or the [key to use as the unit]({{< relref "#custom-step-keys" >}}) for the step slider.
 
 The following image shows a query panel with three W&B runs and the values they logged at step 295.
 
@@ -96,9 +96,9 @@ Within the W&B App UI you may notice duplicate values for multiple steps. This d
 
 ### Custom step keys
 
-You can use any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a custom step key, W&B maps each value of that key to a step (`_step`) in the run.
+The step key can be any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a custom step key, W&B maps each value of that key to a step (`_step`) in the run.
 
-The table below shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, that were logged at those steps. Some `_step` values are omitted to save space.
+This table shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, that were logged at those steps. Some `_step` values are omitted to save space.
 
 The first time `wandb.log` was called, none of the runs logged an `epoch` value, so the table shows empty values for `epoch`. 
 
@@ -118,17 +118,17 @@ The first time `wandb.log` was called, none of the runs logged an `epoch` value,
 | 18 |  |   | 9  |
 | 20 | 3 | 5 | 10 |
 
-This means that if the slider is set to `epoch = 1`, the following happens:
+Now, if the slider is set to `epoch = 1`, the following happens:
 
-* `vague-cloud` finds `epoch = 1` and returns `_step = 5`
-* `lively-frog` finds `epoch = 1` and returns `_step = 4`
-* `serene-sponge` finds `epoch = 1` and returns `_step = 2`
+* `vague-cloud` finds `epoch = 1` and returns the value logged at `_step = 5`
+* `lively-frog` finds `epoch = 1` and returns the value logged at `_step = 4`
+* `serene-sponge` finds `epoch = 1` and returns the value logged at `_step = 2`
 
 If the slider is set to `epoch = 9`:
 
-* `vague-cloud` also doesn't log `epoch = 9`, so W&B uses the latest prior value `epoch = 3` and returns `_step = 20`
-* `lively-frog` doesn’t log `epoch = 9`, but the latest prior value is `epoch = 5` so it returns `_step = 20`
-* `serene-sponge` finds `epoch = 9` and return `_step = 18`
+* `vague-cloud` also doesn't log `epoch = 9`, so W&B uses the latest prior value `epoch = 3` and returns the value logged at `_step = 20`
+* `lively-frog` doesn’t log `epoch = 9`, but the latest prior value is `epoch = 5` so it returns the value logged at `_step = 20`
+* `serene-sponge` finds `epoch = 9` and return the value logged at `_step = 18`
 
 <!-- | | |
 | ---- | ---- |
