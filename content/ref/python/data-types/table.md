@@ -28,7 +28,7 @@ in the UI: https://docs.wandb.ai/guides/data-vis/tables.
 |  `dataframe` |  (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
 |  `optional` |  (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |
 |  `allow_mixed_types` |  (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False |
-|  `log_mode` | (Optional[Literal["IMMUTABLE", "MUTABLE"]]) Controls how the Table is logged when mutations occur Defaults to "IMMUTABLE". <br> - `"IMMUTABLE"`: Once an `"IMMUTABLE"` Table is logged, even after adding data, subseqeuent logs result in a no-op. <br> - `"MUTABLE"`: A `"MUTABLE"` Table can be logged after it is mutated through Table methods. A new artifact version is created for the mutated Table. |
+|  `log_mode` | (Optional[Literal["IMMUTABLE", "MUTABLE"]]) Controls how subsequent calls to log the Table are handled. Defaults to "IMMUTABLE". <br> - `"IMMUTABLE"`: Once an `"IMMUTABLE"` After the initial log, subsequent log attempts will have no effect, even if the table has been modified. <br> - `"MUTABLE"`: If the table has been modified since the last log, logging it again will create a new artifact version. If unmodified, logging is a no-op. |
 
 
 ## Methods
