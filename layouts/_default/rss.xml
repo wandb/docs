@@ -33,9 +33,9 @@
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ if eq .Title .Site.Title }}{{ .Site.Title | transform.XMLEscape }}{{ else }}{{ .Title | transform.XMLEscape }} on {{ .Site.Title | transform.XMLEscape }}{{ end }}</title>
+    <title>{{ if eq .Title .Site.Title }}{{ .Site.Title | transform.XMLEscape | safeHTML }}{{ else }}{{ .Title | transform.XMLEscape | safeHTML }} on {{ .Site.Title | transform.XMLEscape | safeHTML }}{{ end }}</title>
     <link>{{ .Permalink }}</link>
-    <description>Recent content {{ if eq .Title .Site.Title }}on {{ .Site.Title | transform.XMLEscape }}{{ else }}in {{ .Title | transform.XMLEscape }} on {{ .Site.Title | transform.XMLEscape }}{{ end }}</description>
+    <description>Recent content {{ if eq .Title .Site.Title }}on {{ .Site.Title | transform.XMLEscape | safeHTML }}{{ else }}in {{ .Title | transform.XMLEscape | safeHTML }} on {{ .Site.Title | transform.XMLEscape | safeHTML }}{{ end }}</description>
     <generator>Hugo</generator>
     <language>{{ site.Language.LanguageCode }}</language>{{ with $authorEmail }}
     <managingEditor>{{.}}{{ with $authorName }} ({{ . }}){{ end }}</managingEditor>{{ end }}{{ with $authorEmail }}
@@ -47,14 +47,14 @@
     {{- end }}
     {{- range $pages }}
     <item>
-      <title>{{ .Title | transform.XMLEscape }}</title>
+      <title>{{ .Title | transform.XMLEscape | plainify }}</title>
       <link>{{ .Permalink }}</link>
       <pubDate>{{ .PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
       {{- with $authorEmail }}<author>{{ . }}{{ with $authorName }} ({{ . }}){{ end }}</author>{{ end }}
       <guid>{{ .Permalink }}</guid>
       <description>
         {{- printf "<![CDATA[" | safeHTML }}
-          {{- printf "%s" .Summary | safeHTML }}{{ if .Truncated }}{{- printf "[Read more](%s)" .Permalink | markdownify | safeHTML }}.{{ end }}
+          {{- printf "%s" .Summary|  safeHTML }}{{ if .Truncated }}{{- printf "[Read more](%s)" .Permalink | markdownify | safeHTML }}.{{ end }}
         {{- printf "]]>" | safeHTML }}
       </description>
     </item>
