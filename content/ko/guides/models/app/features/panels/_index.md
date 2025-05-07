@@ -1,12 +1,12 @@
 ---
 title: Panels
 cascade:
-- url: guides/app/features/panels/:filename
+- url: /ko/guides//app/features/panels/:filename
 menu:
   default:
     identifier: ko-guides-models-app-features-panels-_index
     parent: w-b-app-ui-reference
-url: guides/app/features/panels
+url: /ko/guides//app/features/panels
 weight: 1
 ---
 

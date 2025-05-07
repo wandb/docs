@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-set-up-launch-setup-launch-kubernetes
     parent: set-up-launch
-url: guides/launch/setup-launch-kubernetes
+url: /ko/guides//launch/setup-launch-kubernetes
 ---
 
 W&B Launch 를 사용하여 ML 워크로드를 Kubernetes 클러스터로 푸시할 수 있습니다. 이를 통해 ML 엔지니어는 Kubernetes로 이미 관리하고 있는 리소스를 사용할 수 있는 간단한 인터페이스를 W&B 내에서 바로 이용할 수 있습니다.

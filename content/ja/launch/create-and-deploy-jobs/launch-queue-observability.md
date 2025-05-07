@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-launch-queue-observability
     parent: create-and-deploy-jobs
-url: guides/launch/launch-queue-observability
+url: /ja/guides/launch/launch-queue-observability
 ---
 
 Use the interactive **キュー監視ダッシュボード** を使用して、launch キューが混雑しているかアイドル状態かを表示し、実行中のワークロードを視覚化し、非効率なジョブを見つけます。launch キューのダッシュボードは、計算ハードウェアやクラウドリソースを効果的に使用しているかどうかを判断するのに特に役立ちます。

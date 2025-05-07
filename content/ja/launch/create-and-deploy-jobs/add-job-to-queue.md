@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-add-job-to-queue
     parent: create-and-deploy-jobs
-url: guides/launch/add-job-to-queue
+url: /ja/guides/launch/add-job-to-queue
 ---
 
 次のページでは、ローンチキューにローンチジョブを追加する方法について説明しています。

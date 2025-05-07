@@ -2,12 +2,12 @@
 title: ログ オブジェクト と メディア
 description: メトリクス、ビデオ、カスタムプロットなどを追跡する
 cascade:
-- url: guides/track/log/:filename
+- url: /ja/guides/track/log/:filename
 menu:
   default:
     identifier: ja-guides-models-track-log-_index
     parent: experiments
-url: guides/track/log
+url: /ja/guides/track/log
 weight: 6
 ---
 

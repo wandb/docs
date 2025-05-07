@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-launch-view-jobs
     parent: create-and-deploy-jobs
-url: guides/launch/launch-view-jobs
+url: /ja/guides/launch/launch-view-jobs
 ---
 
 以下のページでは、キューに追加されたローンンチジョブの情報を表示する方法を説明します。

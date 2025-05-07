@@ -1,12 +1,12 @@
 ---
 title: Integration tutorials
 cascade:
-- url: tutorials/:filename
+- url: /ko/tutorials//:filename
 menu:
   tutorials:
     identifier: ko-tutorials-integration-tutorials-_index
     parent: tutorials
 type: docs
-url: tutorials/integration-tutorials
+url: /ko/tutorials//integration-tutorials
 ---
 

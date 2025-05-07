@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-set-up-launch-setup-agent-advanced
     parent: set-up-launch
-url: guides/launch/setup-agent-advanced
+url: /ko/guides//launch/setup-agent-advanced
 ---
 
 # 고급 에이전트 설정

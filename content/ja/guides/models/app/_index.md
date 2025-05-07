@@ -6,6 +6,6 @@ menu:
   default:
     identifier: ja-guides-models-app-_index
     parent: models
-url: guides/app
+url: /ja/guides/app
 ---
 

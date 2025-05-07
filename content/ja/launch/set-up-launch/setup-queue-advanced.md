@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-queue-advanced
     parent: set-up-launch
-url: guides/launch/setup-queue-advanced
+url: /ja/guides/launch/setup-queue-advanced
 ---
 
 以下のページでは、ローンチキューオプションの設定方法について説明します。

@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-create-launch-job
     parent: create-and-deploy-jobs
-url: guides/launch/create-launch-job
+url: /ja/guides/launch/create-launch-job
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" >}}

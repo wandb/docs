@@ -2,12 +2,12 @@
 title: Line plots
 description: 메트릭 을 시각화하고, 축을 사용자 정의하고, 플롯에서 여러 라인을 비교합니다.
 cascade:
-- url: guides/app/features/panels/line-plot/:filename
+- url: /ko/guides//app/features/panels/line-plot/:filename
 menu:
   default:
     identifier: ko-guides-models-app-features-panels-line-plot-_index
     parent: panels
-url: guides/app/features/panels/line-plot
+url: /ko/guides//app/features/panels/line-plot
 weight: 10
 ---
 
