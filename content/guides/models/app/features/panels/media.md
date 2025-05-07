@@ -49,9 +49,8 @@ Customize the panel's overall appearance and behavior.
 ### Layout
 Customize the display of the panel's individual items.
 - Turn on or off **Grid mode**.
-  - When it is turned on, you can choose a custom X and Y axis to plot on top of each item, and you limit how many rows to show.
-  - When it is turned off, you can customize the number of columns to use for the panel's content.
-- Configure the panel's content, which defaults to **Run**.
+  - When it is turned on, you can choose a custom X and Y axis to plot on top of each item. More than one item displays in each row, and you limit how many rows to show.
+  - When it is turned off, you can customize the number of columns to use for the panel's content, and you can configure the panel's content, which defaults to **Run**.
 - Optionally limit the number of runs to include.
 - Optionally limit the number of media items to include per run.
 - **Images and videos**: Turn on or off display of full-size media.
