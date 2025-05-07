@@ -241,15 +241,17 @@ run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
 
 ### Rename a run
 
-After you initialize a run, you can rename that run from your workspace or its **Runs** page.
+After you initialize a run, you can rename it from your workspace or its **Runs** page.
 
 1. Navigate to your W&B project.
 1. Select the **Workspace** or **Runs** tab from the project sidebar.
 1. Search or scroll to the run you want to rename.
 
-    Hover over the run name, click the three vertical dots, then click **Rename run**.
+    Hover over the run name, click the three vertical dots, then select the scope:
+    - **Rename run for project**: The run is renamed across the project.
+    - **Rename run for workspace**: The run is renamed only in this workspace.
 1. Type a new name for the run. To generate a new random name, leave the field blank.
-1. Submit the form. The run's new name displays.
+1. Submit the form. The run's new name displays. An information icon appears next to a run that has a custom name in the workspace. Hover over it for more details.
 
 You can also rename a run from a run set in a [report]({{< relref "/guides/core/reports/edit-a-report.md" >}}):
 
@@ -261,7 +263,6 @@ You can also rename a run from a run set in a [report]({{< relref "/guides/core/
 
   Submit the form.
 1. Click **Publish report**.
-
 
 ## Add a note to a run
 Notes that you add to a specific run appear on the run page in the **Overview** tab and in the table of runs on the project page.
