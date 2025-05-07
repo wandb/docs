@@ -49,13 +49,13 @@ Customize the panel's overall appearance and behavior.
 ### Layout
 Customize the display of the panel's individual items.
 - Turn on or off **Grid mode**.
-  - When it is turned on, you can choose a custom X and Axis to plot on top of each item.
-  - When it is turned off, you can customize the number of columns of media to show.
+  - When it is turned on, you can choose a custom X and Y axis to plot on top of each item, and you limit how many rows to show.
+  - When it is turned off, you can customize the number of columns to use for the panel's content.
 - Configure the panel's content, which defaults to **Run**.
 - Optionally limit the number of runs to include.
 - Optionally limit the number of media items to include per run.
 - **Images and videos**: Turn on or off display of full-size media.
-- **Images**: Configure fit and alignment.
+- **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
 
 ## Interact with a media panel
 - Click a media panel to view it in full screen mode.
