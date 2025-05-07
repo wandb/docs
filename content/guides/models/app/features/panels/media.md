@@ -28,10 +28,28 @@ You can add a media panel globally or to a specific section:
 ## Configure a media panel
 This section shows how to customize a media panel, either when you are manually adding it or afterward. Panels for all media types have the same options.
 
-1. You configure a media panel during the process of adding it. To update its configuration later, click its gear icon.
-1. In the **Basic** tab, give the panel a name, select the keys to visualize, and configure the maximum number of runs, number of columns, and number of items to show.
-1. Optionally configure additional settings in the **Advanced** tab. You can configure smoothing for images, turn on or off **Grid mode** to overlay a configurable X-axis and Y-axis on the panel, adjust the stepper's metric and stride length, and optionally adjust the stepper's offset so that the panel always stops at the current step.
-1. Click **Apply**.
+When you add a media panel manually, its configuration page opens after you select the type of media. To configure a panel after it is created, click its gear icon. This section describes the settings available in each tab.
+
+### Overlays
+This tab appears for images logged with segmentation masks, and for images and point clouds logged with bounding boxes.
+- Search and filter overlays by name.
+- Override the names of the overlays in this panel only.
+
+### Display
+Customize the panel's overall appearance and behavior.
+- Configure the panel's title.
+- Select the media keys to visualize.
+- For a point cloud, customize the point color.
+- Customize the panel's slider and playback behavior.
+  - Configure the slider key, which defaults to **Step**.
+  - Set **Stride length** to the number of steps to advance for each click of the slider.
+  - Turn on or off **Snap to existing step**. If it is turned on, the stepper always stops on the current step, and the stride length is applied in either direction from it. If the stride length is `1` or if this step is a multiple of the stride length, this setting has no visible impact.
+
+### Layout
+Customize the appearance of individual media items in the panel.
+- Turn on **Grid mode** to display media in columns, configure the number of columns, and custmize the column content, which defaults to **Run**.
+- Optionally limit the number of runs to include.
+- Optionally limit the number of media items to include per run.
 
 ## Interact with a media panel
 - Click a media panel to view it in full screen mode.
