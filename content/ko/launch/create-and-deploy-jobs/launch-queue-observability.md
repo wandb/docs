@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-create-and-deploy-jobs-launch-queue-observability
     parent: create-and-deploy-jobs
-url: guides/launch/launch-queue-observability
+url: /ko/guides//launch/launch-queue-observability
 ---
 
 대화형 **Queue monitoring dashboard** 를 사용하여 Launch 대기열의 사용량이 많은지 유휴 상태인지 확인하고, 실행 중인 워크로드를 시각화하고, 비효율적인 작업을 찾아보세요. Launch 대기열 대시보드는 컴퓨팅 하드웨어나 클라우드 리소스를 효과적으로 사용하고 있는지 여부를 결정하는 데 특히 유용합니다.

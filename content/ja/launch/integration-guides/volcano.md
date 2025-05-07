@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-integration-guides-volcano
     parent: launch-integration-guides
-url: tutorials/volcano
+url: /ja/tutorials/volcano
 ---
 
 このチュートリアルでは、Kubernetes上でW&BとVolcanoを使用してマルチノードトレーニングのジョブをローンチするプロセスを説明します。

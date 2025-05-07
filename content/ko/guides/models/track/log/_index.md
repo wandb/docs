@@ -2,12 +2,12 @@
 title: Log objects and media
 description: 메트릭, 비디오, 사용자 정의 플롯 등을 추적하세요.
 cascade:
-- url: guides/track/log/:filename
+- url: /ko/guides//track/log/:filename
 menu:
   default:
     identifier: ko-guides-models-track-log-_index
     parent: experiments
-url: guides/track/log
+url: /ko/guides//track/log
 weight: 6
 ---
 

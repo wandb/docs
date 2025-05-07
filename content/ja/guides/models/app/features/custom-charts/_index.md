@@ -1,12 +1,12 @@
 ---
 title: カスタムチャート
 cascade:
-- url: guides/app/features/custom-charts/:filename
+- url: /ja/guides/app/features/custom-charts/:filename
 menu:
   default:
     identifier: ja-guides-models-app-features-custom-charts-_index
     parent: w-b-app-ui-reference
-url: guides/app/features/custom-charts
+url: /ja/guides/app/features/custom-charts
 weight: 2
 ---
 

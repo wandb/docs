@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-set-up-launch-setup-vertex
     parent: set-up-launch
-url: guides/launch/setup-vertex
+url: /ko/guides//launch/setup-vertex
 ---
 
 W&B Launch 를 사용하여 Vertex AI 트레이닝 작업으로 실행하기 위한 작업을 제출할 수 있습니다. Vertex AI 트레이닝 작업을 통해 Vertex AI 플랫폼에서 제공되거나 사용자 정의된 알고리즘을 사용하여 기계학습 모델을 트레이닝할 수 있습니다. Launch 작업이 시작되면 Vertex AI는 기본 인프라, 확장 및 오케스트레이션을 관리합니다.

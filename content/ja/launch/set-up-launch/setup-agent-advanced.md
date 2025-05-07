@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-agent-advanced
     parent: set-up-launch
-url: guides/launch/setup-agent-advanced
+url: /ja/guides/launch/setup-agent-advanced
 ---
 
 # 高度なエージェント設定

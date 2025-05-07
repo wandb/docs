@@ -2,12 +2,12 @@
 title: Artifacts
 description: W&B Artifacts 에 대한 개요, 작동 방식, Artifacts 사용 시작 방법
 cascade:
-- url: guides/artifacts/:filename
+- url: /ko/guides//artifacts/:filename
 menu:
   default:
     identifier: ko-guides-core-artifacts-_index
     parent: core
-url: guides/artifacts
+url: /ko/guides//artifacts
 weight: 1
 ---
 

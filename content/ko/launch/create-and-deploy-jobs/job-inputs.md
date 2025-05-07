@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-create-and-deploy-jobs-job-inputs
     parent: create-and-deploy-jobs
-url: guides/launch/job-inputs
+url: /ko/guides//launch/job-inputs
 ---
 
 Launch의 핵심 경험은 하이퍼파라미터 및 데이터셋과 같은 다양한 작업 입력을 쉽게 실험하고 이러한 작업을 적절한 하드웨어로 라우팅하는 것입니다. 작업이 생성되면 원래 작성자 이외의 사용자도 W&B GUI 또는 CLI를 통해 이러한 입력을 조정할 수 있습니다. CLI 또는 UI에서 Launch할 때 작업 입력을 설정하는 방법에 대한 자세한 내용은 [작업 대기열에 추가]({{< relref path="./add-job-to-queue.md" lang="ko" >}}) 가이드를 참조하세요.

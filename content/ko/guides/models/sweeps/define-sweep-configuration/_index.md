@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ko-guides-models-sweeps-define-sweep-configuration-_index
     parent: sweeps
-url: guides/sweeps/define-sweep-configuration
+url: /ko/guides//sweeps/define-sweep-configuration
 weight: 3
 ---
 

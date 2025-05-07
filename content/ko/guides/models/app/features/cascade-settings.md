@@ -4,7 +4,7 @@ menu:
   default:
     identifier: ko-guides-models-app-features-cascade-settings
     parent: w-b-app-ui-reference
-url: guides/app/features/cascade-settings
+url: /ko/guides//app/features/cascade-settings
 ---
 
 특정 워크스페이스 페이지 내에는 워크스페이스, 섹션 및 패널의 세 가지 설정 수준이 있습니다. [워크스페이스 설정]({{< relref path="#workspace-settings" lang="ko" >}})은 전체 워크스페이스에 적용됩니다. [섹션 설정]({{< relref path="#section-settings" lang="ko" >}})은 섹션 내의 모든 패널에 적용됩니다. [패널 설정]({{< relref path="#panel-settings" lang="ko" >}})은 개별 패널에 적용됩니다.

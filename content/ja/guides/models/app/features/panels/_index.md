@@ -1,12 +1,12 @@
 ---
 title: パネル
 cascade:
-- url: guides/app/features/panels/:filename
+- url: /ja/guides/app/features/panels/:filename
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-_index
     parent: w-b-app-ui-reference
-url: guides/app/features/panels
+url: /ja/guides/app/features/panels
 weight: 1
 ---
 

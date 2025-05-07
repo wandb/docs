@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-vertex
     parent: set-up-launch
-url: guides/launch/setup-vertex
+url: /ja/guides/launch/setup-vertex
 ---
 
 W&B Launch を使用して、Vertex AI トレーニングジョブとしてジョブを実行するために送信することができます。Vertex AI トレーニングジョブでは、Vertex AI プラットフォーム上の提供されたアルゴリズムまたはカスタムアルゴリズムを使用して機械学習モデルをトレーニングすることができます。ローンチジョブが開始されると、Vertex AI が基盤となるインフラストラクチャー、スケーリング、およびオーケストレーションを管理します。

@@ -2,12 +2,12 @@
 title: テーブル
 description: データセットを繰り返し、モデルの予測を理解する
 cascade:
-- url: guides/models/tables/:filename
+- url: /ja/guides/models/tables/:filename
 menu:
   default:
     identifier: ja-guides-models-tables-_index
     parent: models
-url: guides/models/tables
+url: /ja/guides/models/tables
 weight: 2
 ---
 

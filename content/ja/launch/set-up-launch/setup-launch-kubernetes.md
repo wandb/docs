@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-launch-kubernetes
     parent: set-up-launch
-url: guides/launch/setup-launch-kubernetes
+url: /ja/guides/launch/setup-launch-kubernetes
 ---
 
 W&B Launch を使用して、ML エンジニアが Kubernetes ですでに管理しているリソースを簡単に利用できるようにし、Kubernetes クラスターに ML ワークロードをプッシュできます。

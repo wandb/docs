@@ -10,6 +10,6 @@ menu:
   launch:
     identifier: ja-launch-_index
 type: docs
-url: guides/launch
+url: /ja/guides/launch
 ---
 

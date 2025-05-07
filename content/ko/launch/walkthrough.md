@@ -5,7 +5,7 @@ menu:
   launch:
     identifier: ko-launch-walkthrough
     parent: launch
-url: guides/launch/walkthrough
+url: /ko/guides//launch/walkthrough
 weight: 1
 ---
 

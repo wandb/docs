@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-integration-guides-nim
     parent: launch-integration-guides
-url: guides/integrations/nim
+url: /ja/guides/integrations/nim
 ---
 
 モデルアーティファクトを W&B から NVIDIA NeMo Inference Microservice にデプロイします。これを行うには、W&B Launch を使用します。W&B Launch はモデルアーティファクトを NVIDIA NeMo Model に変換し、稼働中の NIM/Triton サーバーにデプロイします。

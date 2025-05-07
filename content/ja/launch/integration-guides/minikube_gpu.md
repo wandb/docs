@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-integration-guides-minikube_gpu
     parent: launch-integration-guides
-url: tutorials/minikube_gpu
+url: /ja/tutorials/minikube_gpu
 ---
 
 W&B LaunchをMinikubeクラスターにセットアップし、GPU のワークロードをスケジュールして実行できるようにします。

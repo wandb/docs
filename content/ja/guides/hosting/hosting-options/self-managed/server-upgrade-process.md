@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-server-upgrade-process
     parent: self-managed
-url: guides/hosting/server-upgrade-process
+url: /ja/guides/hosting/server-upgrade-process
 weight: 6
 ---
 
