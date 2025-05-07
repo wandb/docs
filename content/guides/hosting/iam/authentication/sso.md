@@ -172,7 +172,9 @@ To set up SSO, you need administrator privileges and the following information:
 - OIDC Issuer URL
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
-If your IdP requires a OIDC Client Secret, specify it using the UI or by passing the [environment variables]({{< relref "/guides/hosting/env-vars.md" >}}) `OIDC_CLIENT_SECRET`. If both are configured, the environment variable takes precedence. In Helm, add the environment variable to `values.global.extraEnv`. For example:
+If your IdP requires a OIDC Client Secret, specify it by passing the [environment variables]({{< relref "/guides/hosting/env-vars.md" >}}) `OIDC_CLIENT_SECRET`.
+- In the UI, go to **System Console** > **Settings** > **Advanced** > **User Spec** and add `OIDC_CLIENT_SECRET` to the `extraENV` section as shown below.
+- In Helm, configure `values.global.extraEnv` as shown below.
 
 ```yaml
 values:
