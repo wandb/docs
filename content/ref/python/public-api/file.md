@@ -2,7 +2,7 @@
 title: File
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/files.py#L110-L263 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/files.py#L110-L263 >}}
 
 File is a class associated with a file saved by wandb.
 
@@ -20,7 +20,7 @@ File(
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/files.py#L193-L223)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/files.py#L193-L223)
 
 ```python
 delete()
@@ -28,7 +28,7 @@ delete()
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/attrs.py#L16-L37)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/attrs.py#L16-L37)
 
 ```python
 display(
@@ -40,7 +40,7 @@ Display this object in jupyter.
 
 ### `download`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/files.py#L152-L191)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/files.py#L152-L191)
 
 ```python
 download(
@@ -63,7 +63,7 @@ Downloads a file previously saved by a run from the wandb server.
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/attrs.py#L12-L14)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -73,7 +73,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/attrs.py#L39-L40)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/attrs.py#L39-L40)
 
 ```python
 to_html(

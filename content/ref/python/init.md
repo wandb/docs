@@ -2,7 +2,7 @@
 title: init
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/sdk/wandb_init.py#L1295-L1665 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/wandb_init.py#L1322-L1692 >}}
 
 Start a new run to track and log to W&B.
 
