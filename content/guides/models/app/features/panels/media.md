@@ -31,25 +31,31 @@ This section shows how to customize a media panel, either when you are manually 
 When you add a media panel manually, its configuration page opens after you select the type of media. To configure a panel after it is created, click its gear icon. This section describes the settings available in each tab.
 
 ### Overlays
-This tab appears for images logged with segmentation masks, and for images and point clouds logged with bounding boxes.
+This tab appears for images and point clouds logged with segmentation masks or bounding boxes.
 - Search and filter overlays by name.
-- Override the names of the overlays in this panel only.
+- Customize overlay colors.
 
 ### Display
 Customize the panel's overall appearance and behavior.
 - Configure the panel's title.
 - Select the media keys to visualize.
-- For a point cloud, customize the point color.
 - Customize the panel's slider and playback behavior.
   - Configure the slider key, which defaults to **Step**.
   - Set **Stride length** to the number of steps to advance for each click of the slider.
-  - Turn on or off **Snap to existing step**. If it is turned on, the stepper always stops on the current step, and the stride length is applied in either direction from it. If the stride length is `1` or if this step is a multiple of the stride length, this setting has no visible impact.
+  - Turn on or off **Snap to existing step**. If it is turned on, the stepper advances to the next existing step after **Stride length**. Otherwise, it advances by **Stride length** even if that does not align with an existing step.
+- **Images**: Turn on or off smoothing.
+- **3d objects**: Configure the background color and point color.
 
 ### Layout
-Customize the appearance of individual media items in the panel.
-- Turn on **Grid mode** to display media in columns, configure the number of columns, and custmize the column content, which defaults to **Run**.
+Customize the display of the panel's individual items.
+- Turn on or off **Grid mode**.
+  - When it is turned on, you can choose a custom X and Axis to plot on top of each item.
+  - When it is turned off, you can customize the number of columns of media to show.
+- Configure the panel's content, which defaults to **Run**.
 - Optionally limit the number of runs to include.
 - Optionally limit the number of media items to include per run.
+- **Images and videos**: Turn on or off display of full-size media.
+- **Images**: Configure fit and alignment.
 
 ## Interact with a media panel
 - Click a media panel to view it in full screen mode.
