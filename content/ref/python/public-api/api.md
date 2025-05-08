@@ -2,7 +2,7 @@
 title: Api
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L107-L1631 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L133-L2199 >}}
 
 Used for querying the wandb server.
 
@@ -24,7 +24,7 @@ Most common way to initialize
 
 | Args |  |
 | :--- | :--- |
-|  `overrides` |  (dict) You can set `base_url` if you are using a wandb server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`. |
+|  `overrides` |  (dict) You can set `base_url` if you are using a wandb server other than https://api.wandb.ai. You can also set defaults for `entity`, `project`, and `run`. |
 
 | Attributes |  |
 | :--- | :--- |
@@ -33,7 +33,7 @@ Most common way to initialize
 
 ### `artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1298-L1320)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1328-L1350)
 
 ```python
 artifact(
@@ -64,7 +64,7 @@ This method is intended for external use only. Do not call `api.artifact()` with
 
 ### `artifact_collection`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1181-L1210)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1207-L1236)
 
 ```python
 artifact_collection(
@@ -86,7 +86,7 @@ Return a single artifact collection by type and parsing path in the form `entity
 
 ### `artifact_collection_exists`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1441-L1458)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1471-L1488)
 
 ```python
 artifact_collection_exists(
@@ -108,7 +108,7 @@ Return whether an artifact collection exists within a specified project and enti
 
 ### `artifact_collections`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1155-L1179)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1181-L1205)
 
 ```python
 artifact_collections(
@@ -132,7 +132,7 @@ Return a collection of matching artifact collections.
 
 ### `artifact_exists`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1419-L1439)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1449-L1469)
 
 ```python
 artifact_exists(
@@ -154,7 +154,7 @@ Return whether an artifact version exists within a specified project and entity.
 
 ### `artifact_type`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1131-L1153)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1157-L1179)
 
 ```python
 artifact_type(
@@ -176,7 +176,7 @@ Return the matching `ArtifactType`.
 
 ### `artifact_types`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1110-L1129)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1136-L1155)
 
 ```python
 artifact_types(
@@ -196,7 +196,7 @@ Return a collection of matching artifact types.
 
 ### `artifact_versions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1212-L1222)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1238-L1248)
 
 ```python
 artifact_versions(
@@ -208,7 +208,7 @@ Deprecated, use `artifacts(type_name, name)` instead.
 
 ### `artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1224-L1259)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1250-L1285)
 
 ```python
 artifacts(
@@ -232,9 +232,142 @@ Return an `Artifacts` collection from the given parameters.
 | :--- | :--- |
 |  An iterable `Artifacts` object. |
 
+### `automation`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1848-L1883)
+
+```python
+automation(
+    name: str,
+    *,
+    entity: Optional[str] = None
+) -> "Automation"
+```
+
+Returns the only Automation matching the parameters.
+
+| Args |  |
+| :--- | :--- |
+|  `name` |  The name of the automation to fetch. |
+|  `entity` |  The entity to fetch the automation for. |
+
+| Raises |  |
+| :--- | :--- |
+|  `ValueError` |  If zero or multiple Automations match the search criteria. |
+
+#### Examples:
+
+Get an existing automation named "my-automation":
+
+```python
+import wandb
+
+api = wandb.Api()
+automation = api.automation(name="my-automation")
+```
+
+Get an existing automation named "other-automation", from the entity "my-team":
+
+```python
+automation = api.automation(name="other-automation", entity="my-team")
+```
+
+### `automations`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1885-L1939)
+
+```python
+automations(
+    entity: Optional[str] = None,
+    *,
+    name: Optional[str] = None,
+    per_page: int = 50
+) -> Iterator['Automation']
+```
+
+Returns an iterator over all Automations that match the given parameters.
+
+If no parameters are provided, the returned iterator will contain all
+Automations that the user has access to.
+
+| Args |  |
+| :--- | :--- |
+|  `entity` |  The entity to fetch the automations for. |
+|  `name` |  The name of the automation to fetch. |
+|  `per_page` |  The number of automations to fetch per page. Defaults to 50. Usually there is no reason to change this. |
+
+| Returns |  |
+| :--- | :--- |
+|  A list of automations. |
+
+#### Examples:
+
+Fetch all existing automations for the entity "my-team":
+
+```python
+import wandb
+
+api = wandb.Api()
+automations = api.automations(entity="my-team")
+```
+
+### `create_automation`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1941-L2045)
+
+```python
+create_automation(
+    obj: "NewAutomation",
+    *,
+    fetch_existing: bool = (False),
+    **kwargs
+) -> "Automation"
+```
+
+Create a new Automation.
+
+| Args |  |
+| :--- | :--- |
+|  `obj` |  The automation to create. |
+|  `fetch_existing` |  If True, and a conflicting automation already exists, attempt to fetch the existing automation instead of raising an error. |
+|  `**kwargs` |  Any additional values to assign to the automation before creating it. If given, these will override any values that may already be set on the automation: - `name`: The name of the automation. - `description`: The description of the automation. - `enabled`: Whether the automation is enabled. - `scope`: The scope of the automation. - `event`: The event that triggers the automation. - `action`: The action that is triggered by the automation. |
+
+| Returns |  |
+| :--- | :--- |
+|  The saved Automation. |
+
+#### Examples:
+
+Create a new automation named "my-automation" that sends a Slack notification
+when a run within a specific project logs a metric exceeding a custom threshold:
+
+```python
+import wandb
+from wandb.automations import OnRunMetric, RunEvent, SendNotification
+
+api = wandb.Api()
+
+project = api.project("my-project", entity="my-team")
+
+# Use the first Slack integration for the team
+slack_hook = next(api.slack_integrations(entity="my-team"))
+
+event = OnRunMetric(
+    scope=project,
+    filter=RunEvent.metric("custom-metric") > 10,
+)
+action = SendNotification.from_integration(slack_hook)
+
+automation = api.create_automation(
+    event >> action,
+    name="my-automation",
+    description="Send a Slack message whenever 'custom-metric' exceeds 10.",
+)
+```
+
 ### `create_project`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L297-L304)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L323-L330)
 
 ```python
 create_project(
@@ -250,9 +383,52 @@ Create a new project.
 |  `name` |  (str) The name of the new project. |
 |  `entity` |  (str) The entity of the new project. |
 
+### `create_registry`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1595-L1667)
+
+```python
+create_registry(
+    name: str,
+    visibility: Literal['organization', 'restricted'],
+    organization: Optional[str] = None,
+    description: Optional[str] = None,
+    artifact_types: Optional[List[str]] = None
+) -> Registry
+```
+
+Create a new registry.
+
+| Args |  |
+| :--- | :--- |
+|  `name` |  The name of the registry. Name must be unique within the organization. |
+|  `visibility` |  The visibility of the registry. organization: Anyone in the organization can view this registry. You can edit their roles later from the settings in the UI. restricted: Only invited members via the UI can access this registry. Public sharing is disabled. |
+|  `organization` |  The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization. |
+|  `description` |  The description of the registry. |
+|  `artifact_types` |  The accepted artifact types of the registry. A type is no more than 128 characters and do not include characters `/` or `:`. If not specified, all types are accepted. Allowed types added to the registry cannot be removed later. |
+
+| Returns |  |
+| :--- | :--- |
+|  A registry object. |
+
+#### Examples:
+
+```python
+import wandb
+
+api = wandb.Api()
+registry = api.create_registry(
+    name="my-registry",
+    visibility="restricted",
+    organization="my-org",
+    description="This is a test registry",
+    artifact_types=["model"],
+)
+```
+
 ### `create_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L306-L326)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L332-L352)
 
 ```python
 create_run(
@@ -277,7 +453,7 @@ Create a new run.
 
 ### `create_run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L328-L438)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L354-L464)
 
 ```python
 create_run_queue(
@@ -311,7 +487,7 @@ Create a new run queue (launch).
 
 ### `create_team`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L844-L854)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L870-L880)
 
 ```python
 create_team(
@@ -332,7 +508,7 @@ Create a new team.
 
 ### `create_user`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L555-L565)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L581-L591)
 
 ```python
 create_user(
@@ -351,9 +527,29 @@ Create a new user.
 | :--- | :--- |
 |  A `User` object |
 
+### `delete_automation`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L2168-L2199)
+
+```python
+delete_automation(
+    obj: Union['Automation', str]
+) -> Literal[True]
+```
+
+Delete an automation.
+
+| Args |  |
+| :--- | :--- |
+|  `obj` |  The automation to delete, or its ID. |
+
+| Returns |  |
+| :--- | :--- |
+|  True if the automation was deleted successfully. |
+
 ### `flush`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L632-L639)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L658-L665)
 
 ```python
 flush()
@@ -367,7 +563,7 @@ change while executing your script you must clear the local cache with
 
 ### `from_path`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L641-L695)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L667-L721)
 
 ```python
 from_path(
@@ -401,7 +597,7 @@ report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 
 ### `integrations`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1525-L1547)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1669-L1690)
 
 ```python
 integrations(
@@ -415,7 +611,8 @@ Return an iterator of all integrations for an entity.
 
 | Args |  |
 | :--- | :--- |
-|  entity (str, optional): The entity (e.g. team name) for which to fetch integrations. If not provided, the user's default entity will be used. per_page (int, optional): Number of integrations to fetch per page. Defaults to 50. |
+|  `entity` |  The entity (e.g. team name) for which to fetch integrations. If not provided, the user's default entity will be used. |
+|  `per_page` |  Number of integrations to fetch per page. Defaults to 50. Usually there is no reason to change this. |
 
 | Yields |  |
 | :--- | :--- |
@@ -423,7 +620,7 @@ Return an iterator of all integrations for an entity.
 
 ### `job`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1322-L1339)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1352-L1369)
 
 ```python
 job(
@@ -445,7 +642,7 @@ Return a `Job` from the given parameters.
 
 ### `list_jobs`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1341-L1417)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1371-L1447)
 
 ```python
 list_jobs(
@@ -467,7 +664,7 @@ Return a list of jobs, if any, for the given entity and project.
 
 ### `project`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L787-L810)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L813-L836)
 
 ```python
 project(
@@ -489,7 +686,7 @@ Return the `Project` with the given name (and entity, if given).
 
 ### `projects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L762-L785)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L788-L811)
 
 ```python
 projects(
@@ -511,7 +708,7 @@ Get projects for a given entity.
 
 ### `queued_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1055-L1076)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1081-L1102)
 
 ```python
 queued_run(
@@ -526,7 +723,7 @@ Parses paths of the form entity/project/queue_id/run_queue_item_id.
 
 ### `registries`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1460-L1523)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1490-L1553)
 
 ```python
 registries(
@@ -582,9 +779,44 @@ api.registries(filter={"name": {"$regex": "model"}}).versions(
 | :--- | :--- |
 |  A registry iterator. |
 
+### `registry`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1555-L1593)
+
+```python
+registry(
+    name: str,
+    organization: Optional[str] = None
+) -> Registry
+```
+
+Return a registry given a registry name.
+
+| Args |  |
+| :--- | :--- |
+|  `name` |  The name of the registry. This is without the `wandb-registry-` prefix. |
+|  `organization` |  The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization. |
+
+| Returns |  |
+| :--- | :--- |
+|  A registry object. |
+
+#### Examples:
+
+Fetch and update a registry
+
+```python
+import wandb
+
+api = wandb.Api()
+registry = api.registry(name="my-registry", organization="my-org")
+registry.description = "This is an updated description"
+registry.save()
+```
+
 ### `reports`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L812-L842)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L838-L868)
 
 ```python
 reports(
@@ -610,7 +842,7 @@ WARNING: This api is in beta and will likely change in a future release
 
 ### `run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1038-L1053)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1064-L1079)
 
 ```python
 run(
@@ -630,7 +862,7 @@ Return a single run by parsing path in the form entity/project/run_id.
 
 ### `run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1078-L1091)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1104-L1117)
 
 ```python
 run_queue(
@@ -644,7 +876,7 @@ To create a new `RunQueue`, use `wandb.Api().create_run_queue(...)`.
 
 ### `runs`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L905-L1036)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L931-L1062)
 
 ```python
 runs(
@@ -773,21 +1005,22 @@ api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 
 ### `slack_integrations`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1591-L1631)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1733-L1772)
 
 ```python
 slack_integrations(
-    entity: Optional[str] = None,
     *,
+    entity: Optional[str] = None,
     per_page: int = 50
 ) -> Iterator['SlackIntegration']
 ```
 
-Return an iterator of Slack integrations for an entity.
+Returns an iterator of Slack integrations for an entity.
 
 | Args |  |
 | :--- | :--- |
-|  entity (str, optional): The entity (e.g. team name) for which to fetch integrations. If not provided, the user's default entity will be used. per_page (int, optional): Number of integrations to fetch per page. Defaults to 50. |
+|  `entity` |  The entity (e.g. team name) for which to fetch integrations. If not provided, the user's default entity will be used. |
+|  `per_page` |  Number of integrations to fetch per page. Defaults to 50. Usually there is no reason to change this. |
 
 | Yields |  |
 | :--- | :--- |
@@ -817,7 +1050,7 @@ team_alert_integrations = [
 
 ### `sweep`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1093-L1108)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1119-L1134)
 
 ```python
 sweep(
@@ -837,7 +1070,7 @@ Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
 ### `sync_tensorboard`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L567-L589)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L593-L615)
 
 ```python
 sync_tensorboard(
@@ -849,7 +1082,7 @@ Sync a local directory containing tfevent files to wandb.
 
 ### `team`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L856-L865)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L882-L891)
 
 ```python
 team(
@@ -867,9 +1100,65 @@ Return the matching `Team` with the given name.
 | :--- | :--- |
 |  A `Team` object. |
 
+### `update_automation`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L2047-L2166)
+
+```python
+update_automation(
+    obj: "Automation",
+    *,
+    create_missing: bool = (False),
+    **kwargs
+) -> "Automation"
+```
+
+Update an existing automation.
+
+| Args |  |
+| :--- | :--- |
+|  `obj` |  The automation to update. Must be an existing automation. create_missing (bool): If True, and the automation does not exist, create it. |
+|  `**kwargs` |  Any additional values to assign to the automation before updating it. If given, these will override any values that may already be set on the automation: - `name`: The name of the automation. - `description`: The description of the automation. - `enabled`: Whether the automation is enabled. - `scope`: The scope of the automation. - `event`: The event that triggers the automation. - `action`: The action that is triggered by the automation. |
+
+| Returns |  |
+| :--- | :--- |
+|  The updated automation. |
+
+#### Examples:
+
+Disable and edit the description of an existing automation ("my-automation"):
+
+```python
+import wandb
+
+api = wandb.Api()
+
+automation = api.automation(name="my-automation")
+automation.enabled = False
+automation.description = "Kept for reference, but no longer used."
+
+updated_automation = api.update_automation(automation)
+```
+
+* <b>`OR`</b>: ```python
+  import wandb
+
+api = wandb.Api()
+
+automation = api.automation(name="my-automation")
+
+updated_automation = api.update_automation(
+automation,
+enabled=False,
+description="Kept for reference, but no longer used.",
+)
+
+```
+
+
 ### `upsert_run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L440-L553)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L466-L579)
 
 ```python
 upsert_run_queue(
@@ -905,7 +1194,7 @@ Upsert a run queue (launch).
 
 ### `user`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L867-L887)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L893-L913)
 
 ```python
 user(
@@ -927,7 +1216,7 @@ Note: This function only works for Local Admins, if you are trying to get your o
 
 ### `users`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L889-L903)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L915-L929)
 
 ```python
 users(
@@ -949,7 +1238,7 @@ Note: This function only works for Local Admins, if you are trying to get your o
 
 ### `webhook_integrations`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.10/wandb/apis/public/api.py#L1549-L1589)
+[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/api.py#L1692-L1731)
 
 ```python
 webhook_integrations(
@@ -959,11 +1248,12 @@ webhook_integrations(
 ) -> Iterator['WebhookIntegration']
 ```
 
-Return an iterator of webhook integrations for an entity.
+Returns an iterator of webhook integrations for an entity.
 
 | Args |  |
 | :--- | :--- |
-|  entity (str, optional): The entity (e.g. team name) for which to fetch integrations. If not provided, the user's default entity will be used. per_page (int, optional): Number of integrations to fetch per page. Defaults to 50. |
+|  `entity` |  The entity (e.g. team name) for which to fetch integrations. If not provided, the user's default entity will be used. |
+|  `per_page` |  Number of integrations to fetch per page. Defaults to 50. Usually there is no reason to change this. |
 
 | Yields |  |
 | :--- | :--- |
@@ -980,7 +1270,7 @@ api = wandb.Api()
 webhook_integrations = api.webhook_integrations(entity="my-team")
 ```
 
-Find only webhook integrations that post requests to `https://my-fake-url.com`:
+Find only webhook integrations that post requests to "https://my-fake-url.com":
 
 ```python
 webhook_integrations = api.webhook_integrations(entity="my-team")
