@@ -2,12 +2,12 @@
 title: Sweeps
 description: W&B Sweeps를 사용한 하이퍼파라미터 검색 및 모델 최적화
 cascade:
-- url: guides/sweeps/:filename
+- url: /ko/guides//sweeps/:filename
 menu:
   default:
     identifier: ko-guides-models-sweeps-_index
     parent: w-b-models
-url: guides/sweeps
+url: /ko/guides//sweeps
 weight: 2
 ---
 

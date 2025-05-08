@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ja-guides-quickstart
     parent: guides
-url: quickstart
+url: /ja/quickstart
 weight: 2
 ---
 

@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-job-inputs
     parent: create-and-deploy-jobs
-url: guides/launch/job-inputs
+url: /ja/guides/launch/job-inputs
 ---
 
 Launch のコア体験は、ハイパーパラメーターやデータセットのような異なるジョブの入力を簡単に実験し、それらのジョブを適切なハードウェアにルーティングすることです。一度ジョブが作成されると、元の作成者以外のユーザーも W&B GUI または CLI を介してこれらの入力を調整できます。CLI または UI からジョブ入力を設定する方法については、[Enqueue jobs]({{< relref path="./add-job-to-queue.md" lang="ja" >}}) ガイドを参照してください。

@@ -1,12 +1,12 @@
 ---
 title: アクセス管理
 cascade:
-- url: guides/hosting/iam/access-management/:filename
+- url: /ja/guides/hosting/iam/access-management/:filename
 menu:
   default:
     identifier: ja-guides-hosting-iam-access-management-_index
     parent: identity-and-access-management-iam
-url: guides/hosting/iam/access-management-intro
+url: /ja/guides/hosting/iam/access-management-intro
 weight: 2
 ---
 

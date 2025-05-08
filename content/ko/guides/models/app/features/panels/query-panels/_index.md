@@ -3,12 +3,12 @@ title: Query panels
 description: 이 페이지의 일부 기능은 베타 버전이며 기능 플래그 뒤에 숨겨져 있습니다. 프로필 페이지의 자기 소개에 `weave-plot`을
   추가하여 관련된 모든 기능을 잠금 해제하세요.
 cascade:
-- url: guides/app/features/panels/query-panels/:filename
+- url: /ko/guides//app/features/panels/query-panels/:filename
 menu:
   default:
     identifier: ko-guides-models-app-features-panels-query-panels-_index
     parent: panels
-url: guides/app/features/panels/query-panels
+url: /ko/guides//app/features/panels/query-panels
 ---
 
 {{% alert %}}

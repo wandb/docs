@@ -10,6 +10,6 @@ menu:
   launch:
     identifier: ko-launch-_index
 type: docs
-url: guides/launch
+url: /ko/guides//launch
 ---
 

@@ -5,7 +5,7 @@ menu:
   launch:
     identifier: ko-launch-integration-guides-dagster
     parent: launch-integration-guides
-url: guides/integrations/dagster
+url: /ko/guides//integrations/dagster
 ---
 
 Dagster 와 W&B (Weights & Biases) 를 사용하여 MLOps 파이프라인을 조정하고 ML 자산을 유지 관리합니다. W&B 와의 통합으로 Dagster 내에서 다음을 쉽게 수행할 수 있습니다.

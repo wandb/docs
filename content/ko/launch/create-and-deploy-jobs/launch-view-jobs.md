@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-create-and-deploy-jobs-launch-view-jobs
     parent: create-and-deploy-jobs
-url: guides/launch/launch-view-jobs
+url: /ko/guides//launch/launch-view-jobs
 ---
 
 다음 페이지에서는 대기열에 추가된 Launch 작업에 대한 정보를 보는 방법을 설명합니다.

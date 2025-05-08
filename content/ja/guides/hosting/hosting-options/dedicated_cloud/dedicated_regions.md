@@ -4,7 +4,7 @@ menu:
   default:
     identifier: ja-guides-hosting-hosting-options-dedicated_cloud-dedicated_regions
     parent: dedicated-cloud
-url: guides/hosting/hosting-options/dedicated_regions
+url: /ja/guides/hosting/hosting-options/dedicated_regions
 weight: 1
 ---
 

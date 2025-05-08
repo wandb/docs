@@ -2,12 +2,12 @@
 title: 折れ線グラフ
 description: メトリクスを可視化し、軸をカスタマイズし、プロット上で複数のラインを比較します
 cascade:
-- url: guides/app/features/panels/line-plot/:filename
+- url: /ja/guides/app/features/panels/line-plot/:filename
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-line-plot-_index
     parent: panels
-url: guides/app/features/panels/line-plot
+url: /ja/guides/app/features/panels/line-plot
 weight: 10
 ---
 

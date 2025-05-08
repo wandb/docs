@@ -1,12 +1,12 @@
 ---
 title: Identity and access management (IAM)
 cascade:
-- url: guides/hosting/iam/:filename
+- url: /ko/guides//hosting/iam/:filename
 menu:
   default:
     identifier: ko-guides-hosting-iam-_index
     parent: w-b-platform
-url: guides/hosting/iam/org_team_struct
+url: /ko/guides//hosting/iam/org_team_struct
 weight: 2
 ---
 

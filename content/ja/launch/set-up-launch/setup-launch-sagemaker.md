@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-launch-sagemaker
     parent: set-up-launch
-url: guides/launch/setup-launch-sagemaker
+url: /ja/guides/launch/setup-launch-sagemaker
 ---
 
 W&B Launch を使用して、提供されたアルゴリズムやカスタムアルゴリズムを使用して SageMaker プラットフォーム上で機械学習モデルをトレーニングするための ラーンンチ ジョブを Amazon SageMaker に送信できます。SageMaker はコンピュート リソースの立ち上げとリリースを担当するため、EKS クラスターを持たないチームには良い選択肢となります。

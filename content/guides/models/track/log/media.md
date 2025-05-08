@@ -277,34 +277,6 @@ If you want more control, call `np.histogram` and pass the returned tuple to the
 np_hist_grads = np.histogram(grads, density=True, range=(0.0, 1.0))
 wandb.log({"gradients": wandb.Histogram(np_hist_grads)})
 ```
-  </TabItem>
-  <TabItem value="histogram_summary">
-
-```python
-wandb.run.summary.update(  # if only in summary, only visible on overview tab
-    {"final_logits": wandb.Histogram(logits)}
-)
-```   
-   {{% /tab %}}
-   {{% tab header="Histograms in Summary" %}}
-
-Log files in the formats `'obj', 'gltf', 'glb', 'babylon', 'stl', 'pts.json'`, and we will render them in the UI when your run finishes.
-
-```python
-wandb.log(
-    {
-        "generated_samples": [
-            wandb.Object3D(open("sample.obj")),
-            wandb.Object3D(open("sample.gltf")),
-            wandb.Object3D(open("sample.glb")),
-        ]
-    }
-)
-```
-
-{{< img src="/images/track/ground_truth_prediction_of_3d_point_clouds.png" alt="Ground truth and prediction of a headphones point cloud" >}}
-
-[See a live example](https://app.wandb.ai/nbaryd/SparseConvNet-examples_3d_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)   
    {{% /tab %}}
 {{< /tabpane >}}
 
@@ -314,10 +286,6 @@ If histograms are in your summary they will appear on the Overview tab of the [R
 
 ## 3D visualizations
 
-
-  </TabItem>
-  <TabItem value="point_clouds">
-
 Log 3D point clouds and Lidar scenes with bounding boxes. Pass in a NumPy array containing coordinates and colors for the points to render. 
 
 ```python
@@ -326,9 +294,9 @@ point_cloud = np.array([[0, 0, 0, COLOR]])
 wandb.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
-:::info
+{{% alert %}}
 The W&B UI truncates the data at 300,000 points.
-:::
+{{% /alert %}}
 
 #### NumPy array formats
 

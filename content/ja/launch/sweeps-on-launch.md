@@ -5,7 +5,7 @@ menu:
   launch:
     identifier: ja-launch-sweeps-on-launch
     parent: launch
-url: guides/launch/sweeps-on-launch
+url: /ja/guides/launch/sweeps-on-launch
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7" >}}

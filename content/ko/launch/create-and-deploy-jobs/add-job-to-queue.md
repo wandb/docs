@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-create-and-deploy-jobs-add-job-to-queue
     parent: create-and-deploy-jobs
-url: guides/launch/add-job-to-queue
+url: /ko/guides//launch/add-job-to-queue
 ---
 
 다음 페이지에서는 launch queue에 launch job을 추가하는 방법을 설명합니다.

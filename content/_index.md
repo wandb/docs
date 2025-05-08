@@ -22,7 +22,7 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. 
 - [Introduction](https://weave-docs.wandb.ai/)
 - [Quickstart](https://weave-docs.wandb.ai/quickstart)
 - [YouTube Demo](https://www.youtube.com/watch?v=IQcGGNLN3zo)
-- [Try the Playground](https://wandb.ai/wandb/weave-playground/weave/playground) (Free [sign up](https://wandb.ai/signup) required)
+- [Try the Playground](https://weave-docs.wandb.ai/guides/tools/playground/)
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">

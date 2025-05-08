@@ -2,12 +2,12 @@
 title: Self-managed
 description: 프로덕션 환경에 W&B 배포
 cascade:
-- url: guides/hosting/self-managed/:filename
+- url: /ko/guides//hosting/self-managed/:filename
 menu:
   default:
     identifier: ko-guides-hosting-hosting-options-self-managed-_index
     parent: deployment-options
-url: guides/hosting/hosting-options/self-managed
+url: /ko/guides//hosting/hosting-options/self-managed
 ---
 
 ## 자체 관리형 클라우드 또는 온-프레미스 인프라 사용

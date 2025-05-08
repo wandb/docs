@@ -1,12 +1,12 @@
 ---
 title: Registry
 cascade:
-- url: guides/core/registry/:filename
+- url: /ko/guides//core/registry/:filename
 menu:
   default:
     identifier: ko-guides-core-registry-_index
     parent: core
-url: guides/core/registry
+url: /ko/guides//core/registry
 weight: 3
 ---
 

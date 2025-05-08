@@ -5,7 +5,7 @@ menu:
   launch:
     identifier: ja-launch-walkthrough
     parent: launch
-url: guides/launch/walkthrough
+url: /ja/guides/launch/walkthrough
 weight: 1
 ---
 

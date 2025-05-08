@@ -2,12 +2,12 @@
 title: 実験管理
 description: W&B で機械学習実験を追跡する。
 cascade:
-- url: guides/track/:filename
+- url: /ja/guides/track/:filename
 menu:
   default:
     identifier: ja-guides-models-track-_index
     parent: w-b-models
-url: guides/track
+url: /ja/guides/track
 weight: 1
 ---
 

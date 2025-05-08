@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-launch-terminology
     parent: launch
-url: guides/launch/launch-terminology
+url: /ja/guides/launch/launch-terminology
 weight: 2
 ---
 

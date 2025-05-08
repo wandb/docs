@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-set-up-launch-setup-launch-docker
     parent: set-up-launch
-url: guides/launch/setup-launch-docker
+url: /ko/guides//launch/setup-launch-docker
 ---
 
 다음 가이드는 로컬 장치에서 Docker를 사용하도록 W&B Launch를 구성하여 Launch 에이전트 환경과 대기열의 대상 리소스 모두에 대해 설명합니다.

@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-integration-guides-volcano
     parent: launch-integration-guides
-url: tutorials/volcano
+url: /ko/tutorials//volcano
 ---
 
 이 튜토리얼에서는 Kubernetes에서 W&B와 Volcano를 사용하여 멀티 노드 트레이닝 작업을 시작하는 과정을 안내합니다.

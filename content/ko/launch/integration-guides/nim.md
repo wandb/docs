@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-integration-guides-nim
     parent: launch-integration-guides
-url: guides/integrations/nim
+url: /ko/guides//integrations/nim
 ---
 
 W&B의 모델 아티팩트를 NVIDIA NeMo Inference Microservice에 배포합니다. 이를 위해 W&B Launch를 사용합니다. W&B Launch는 모델 아티팩트를 NVIDIA NeMo Model로 변환하고 실행 중인 NIM/Triton 서버에 배포합니다.

@@ -2,12 +2,12 @@
 title: スイープ
 description: W&B スイープによるハイパーパラメーター探索とモデル最適化
 cascade:
-- url: guides/sweeps/:filename
+- url: /ja/guides/sweeps/:filename
 menu:
   default:
     identifier: ja-guides-models-sweeps-_index
     parent: w-b-models
-url: guides/sweeps
+url: /ja/guides/sweeps
 weight: 2
 ---
 

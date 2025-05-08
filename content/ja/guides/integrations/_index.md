@@ -1,11 +1,11 @@
 ---
 title: インテグレーション
 cascade:
-- url: guides/integrations/:filename
+- url: /ja/guides/integrations/:filename
 menu:
   default:
     identifier: ja-guides-integrations-_index
-url: guides/integrations
+url: /ja/guides/integrations
 weight: 9
 ---
 

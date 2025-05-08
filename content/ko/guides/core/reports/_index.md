@@ -2,12 +2,12 @@
 title: Reports
 description: 기계 학습 프로젝트를 위한 프로젝트 관리 및 협업 툴
 cascade:
-- url: guides/reports/:filename
+- url: /ko/guides//reports/:filename
 menu:
   default:
     identifier: ko-guides-core-reports-_index
     parent: core
-url: guides/reports
+url: /ko/guides//reports
 weight: 3
 ---
 

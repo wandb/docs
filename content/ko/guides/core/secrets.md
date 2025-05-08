@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ko-guides-core-secrets
     parent: core
-url: guides/secrets
+url: /ko/guides//secrets
 weight: 1
 ---
 

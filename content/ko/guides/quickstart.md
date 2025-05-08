@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ko-guides-quickstart
     parent: guides
-url: quickstart
+url: /ko/quickstart
 weight: 2
 ---
 

@@ -3,12 +3,12 @@ title: クエリパネル
 description: このページの一部の機能はベータ版であり、機能フラグの後ろに隠れています。関連するすべての機能をアンロックするには、プロフィールページの自己紹介に
   `weave-plot` を追加してください。
 cascade:
-- url: guides/app/features/panels/query-panels/:filename
+- url: /ja/guides/app/features/panels/query-panels/:filename
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-query-panels-_index
     parent: panels
-url: guides/app/features/panels/query-panels
+url: /ja/guides/app/features/panels/query-panels
 ---
 
 {{% alert %}}

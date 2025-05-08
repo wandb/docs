@@ -2,12 +2,12 @@
 title: モデルレジストリ
 description: モデルレジストリでトレーニングからプロダクションまでのモデルライフサイクルを管理する
 cascade:
-- url: guides/core/registry/model_registry/:filename
+- url: /ja/guides/core/registry/model_registry/:filename
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-_index
     parent: registry
-url: guides/core/registry/model_registry
+url: /ja/guides/core/registry/model_registry
 weight: 9
 ---
 

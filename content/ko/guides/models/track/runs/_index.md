@@ -2,12 +2,12 @@
 title: What are runs?
 description: W&B의 기본 구성 요소인 Runs에 대해 알아보세요.
 cascade:
-- url: guides/runs/:filename
+- url: /ko/guides//runs/:filename
 menu:
   default:
     identifier: ko-guides-models-track-runs-_index
     parent: experiments
-url: guides/runs
+url: /ko/guides//runs
 weight: 5
 ---
 

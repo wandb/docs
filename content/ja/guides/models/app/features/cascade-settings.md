@@ -4,7 +4,7 @@ menu:
   default:
     identifier: ja-guides-models-app-features-cascade-settings
     parent: w-b-app-ui-reference
-url: guides/app/features/cascade-settings
+url: /ja/guides/app/features/cascade-settings
 ---
 
 Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [ワークスペース設定]({{< relref path="#workspace-settings" lang="ja" >}}) は、ワークスペース全体に適用されます。[セクション設定]({{< relref path="#section-settings" lang="ja" >}}) は、セクション内のすべてのパネルに適用されます。[パネル設定]({{< relref path="#panel-settings" lang="ja" >}}) は、個々のパネルに適用されます。

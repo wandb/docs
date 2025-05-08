@@ -1,12 +1,12 @@
 ---
 title: Access management
 cascade:
-- url: guides/hosting/iam/access-management/:filename
+- url: /ko/guides//hosting/iam/access-management/:filename
 menu:
   default:
     identifier: ko-guides-hosting-iam-access-management-_index
     parent: identity-and-access-management-iam
-url: guides/hosting/iam/access-management-intro
+url: /ko/guides//hosting/iam/access-management-intro
 weight: 2
 ---
 

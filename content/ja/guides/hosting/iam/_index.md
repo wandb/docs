@@ -1,12 +1,12 @@
 ---
 title: アイデンティティとアクセス管理 (IAM)
 cascade:
-- url: guides/hosting/iam/:filename
+- url: /ja/guides/hosting/iam/:filename
 menu:
   default:
     identifier: ja-guides-hosting-iam-_index
     parent: w-b-platform
-url: guides/hosting/iam/org_team_struct
+url: /ja/guides/hosting/iam/org_team_struct
 weight: 2
 ---
 

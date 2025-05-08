@@ -2,12 +2,12 @@
 title: runs とは何ですか？
 description: W&B の基本的な構成要素である Run について学びましょう。
 cascade:
-- url: guides/runs/:filename
+- url: /ja/guides/runs/:filename
 menu:
   default:
     identifier: ja-guides-models-track-runs-_index
     parent: experiments
-url: guides/runs
+url: /ja/guides/runs
 weight: 5
 ---
 

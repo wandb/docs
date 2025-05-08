@@ -2,12 +2,12 @@
 title: Model registry
 description: 트레이닝부터 프로덕션까지 모델 생명주기를 관리하는 모델 레지스트리
 cascade:
-- url: guides/core/registry/model_registry/:filename
+- url: /ko/guides//core/registry/model_registry/:filename
 menu:
   default:
     identifier: ko-guides-core-registry-model_registry-_index
     parent: registry
-url: guides/core/registry/model_registry
+url: /ko/guides//core/registry/model_registry
 weight: 9
 ---
 

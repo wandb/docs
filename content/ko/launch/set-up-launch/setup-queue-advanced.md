@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-set-up-launch-setup-queue-advanced
     parent: set-up-launch
-url: guides/launch/setup-queue-advanced
+url: /ko/guides//launch/setup-queue-advanced
 ---
 
 다음 페이지에서는 Launch Queue 옵션을 구성하는 방법을 설명합니다.

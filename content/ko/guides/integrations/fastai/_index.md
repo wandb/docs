@@ -1,7 +1,7 @@
 ---
 title: fastai
 cascade:
-- url: guides/integrations/fastai/:filename
+- url: /ko/guides//integrations/fastai/:filename
 menu:
   default:
     identifier: ko-guides-integrations-fastai-_index

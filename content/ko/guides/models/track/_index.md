@@ -2,12 +2,12 @@
 title: Experiments
 description: W&B로 기계 학습 실험을 추적하세요.
 cascade:
-- url: guides/track/:filename
+- url: /ko/guides//track/:filename
 menu:
   default:
     identifier: ko-guides-models-track-_index
     parent: w-b-models
-url: guides/track
+url: /ko/guides//track
 weight: 1
 ---
 

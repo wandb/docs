@@ -1,11 +1,11 @@
 ---
 title: Integrations
 cascade:
-- url: guides/integrations/:filename
+- url: /ko/guides//integrations/:filename
 menu:
   default:
     identifier: ko-guides-integrations-_index
-url: guides/integrations
+url: /ko/guides//integrations
 weight: 9
 ---
 

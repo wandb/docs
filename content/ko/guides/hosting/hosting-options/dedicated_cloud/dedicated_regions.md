@@ -4,7 +4,6 @@ menu:
   default:
     identifier: ko-guides-hosting-hosting-options-dedicated_cloud-dedicated_regions
     parent: dedicated-cloud
-url: guides/hosting/hosting-options/dedicated_regions
 weight: 1
 ---
 

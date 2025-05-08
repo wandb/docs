@@ -5,7 +5,7 @@ menu:
   launch:
     identifier: ja-launch-integration-guides-dagster
     parent: launch-integration-guides
-url: guides/integrations/dagster
+url: /ja/guides/integrations/dagster
 ---
 
 Dagster と W&B (W&B) を使用して MLOps パイプラインを調整し、ML アセットを維持します。W&B とのインテグレーションにより、Dagster 内で以下が簡単になります：

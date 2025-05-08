@@ -2,12 +2,12 @@
 title: Tables
 description: 데이터셋을 반복하고 모델 예측값을 이해합니다
 cascade:
-- url: guides/models/tables/:filename
+- url: /ko/guides//models/tables/:filename
 menu:
   default:
     identifier: ko-guides-models-tables-_index
     parent: models
-url: guides/models/tables
+url: /ko/guides//models/tables
 weight: 2
 ---
 

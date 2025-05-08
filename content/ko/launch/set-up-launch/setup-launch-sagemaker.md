@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ko-launch-set-up-launch-setup-launch-sagemaker
     parent: set-up-launch
-url: guides/launch/setup-launch-sagemaker
+url: /ko/guides//launch/setup-launch-sagemaker
 ---
 
 W&B Launch 를 사용하여 제공된 또는 사용자 지정 알고리즘을 사용하여 Amazon SageMaker 에 launch 작업을 제출하여 SageMaker 플랫폼에서 기계 학습 모델을 트레이닝할 수 있습니다. SageMaker 는 컴퓨팅 리소스를 가동 및 해제하는 작업을 처리하므로 EKS 클러스터가 없는 팀에게 적합한 선택이 될 수 있습니다.

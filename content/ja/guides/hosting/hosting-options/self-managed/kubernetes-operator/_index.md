@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-kubernetes-operator-_index
     parent: self-managed
-url: guides/hosting/operator
+url: /ja/guides/hosting/operator
 weight: 2
 ---
 

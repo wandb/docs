@@ -4,7 +4,7 @@ menu:
   default:
     identifier: ja-guides-hosting-hosting-options-dedicated_cloud-_index
     parent: deployment-options
-url: guides/hosting/hosting-options/dedicated_cloud
+url: /ja/guides/hosting/hosting-options/dedicated_cloud
 ---
 
 ## 専用クラウドの利用 (シングルテナント SaaS)
