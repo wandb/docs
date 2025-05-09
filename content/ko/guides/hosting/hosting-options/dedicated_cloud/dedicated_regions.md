@@ -62,7 +62,7 @@ AWS 리전을 선택할 때 고려해야 할 요소에 대한 개요는 [작업�
 GCP 리전에 대한 자세한 내용은 GCP 설명서의 [리전 및 영역](https://cloud.google.com/compute/docs/regions-zones)을 참조하십시오.
 
 ## 지원되는 Azure 리전
-다음 표는 W&B가 현재 전용 클라우드 인스턴스에 대해 지원하는 [Azure 리전](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#geographies)을 나열합니다.
+다음 표는 W&B가 현재 전용 클라우드 인스턴스에 대해 지원하는 [Azure 리전](https://azure.microsoft.com/explore/global-infrastructure/geographies/#geographies)을 나열합니다.
 
 | 리전 위치 | 리전 이름 |
 |-------------|--------|
@@ -76,4 +76,4 @@ GCP 리전에 대한 자세한 내용은 GCP 설명서의 [리전 및 영역](ht
 |도쿄, 사이타마|japaneast|
 |서울|koreacentral|
 
-Azure 리전에 대한 자세한 내용은 Azure 설명서의 [Azure 지역](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview)을 참조하십시오.
+Azure 리전에 대한 자세한 내용은 Azure 설명서의 [Azure 지역](https://azure.microsoft.com/explore/global-infrastructure/geographies/#overview)을 참조하십시오.
