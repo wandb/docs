@@ -475,16 +475,6 @@ The **Group by** feature is distinct from a [run's run group]({{< relref "groupi
    {{% /tab %}}
 {{< /tabpane >}}
 
-### System tab
-The **System tab** shows system metrics tracked for a specific run such as CPU utilization, system memory, disk I/O, network traffic, GPU utilization and more.
-
-For a full list of system metrics W&B tracks, see [System metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}).
-
-{{< img src="/images/app_ui/wandb_system_utilization.png" alt="" >}}
-
-View an example system tab [here](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey).
-
-
 ### Logs tab
 The **Log tab** shows output printed on the command line such as the standard output (`stdout`) and standard error (`stderr`). 
 
