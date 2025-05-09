@@ -250,7 +250,16 @@ The action history audit tab shows all of the alias actions and membership chang
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
 
+## Create a project
+Create a project from the **Projects** page.
 
+1. In the W&B App, click the icon in the upper left. In the sidebar's **Projects** section, click **View all**. 
+1. Click **Create new project**.
+1. Set **Team** to the name of the team that will own the project.
+1. Set **Name** to a name for the project.
+1. Set **Project visibility**, which defaults to **Team**.
+1. Optionally, provide a **Description**.
+1. Click **Create project**.
 
 ## Star a project
 
