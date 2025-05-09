@@ -172,11 +172,16 @@ To set up SSO, you need administrator privileges and the following information:
 - OIDC Issuer URL
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
-{{% alert %}}
-Should your IdP require a OIDC Client Secret, specify it with the environment variable `OIDC_CLIENT_SECRET`.
-{{% /alert %}}
+If your IdP requires a OIDC Client Secret, specify it by passing the [environment variables]({{< relref "/guides/hosting/env-vars.md" >}}) `OIDC_CLIENT_SECRET`.
+- In the UI, go to **System Console** > **Settings** > **Advanced** > **User Spec** and add `OIDC_CLIENT_SECRET` to the `extraENV` section as shown below.
+- In Helm, configure `values.global.extraEnv` as shown below.
 
-You can configure SSO using either the W&B Server UI or by passing [environment variables]({{< relref "/guides/hosting/env-vars.md" >}}) to the `wandb/local` pod. The environment variables take precedence over UI.
+```yaml
+values:
+  global:
+    extraEnv:
+      OIDC_CLIENT_SECRET="<your_secret>"
+```
 
 {{% alert %}}
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and disables SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
