@@ -654,7 +654,7 @@ runs(
 예: `config.experiment_name`, `summary_metrics.loss` 등.
 
 더 복잡한 필터링을 위해 MongoDB 쿼리 연산자를 사용할 수 있습니다.
-자세한 내용은 https://docs.mongodb.com/manual/reference/operator/query를 참조하세요.
+자세한 내용은 https://docs.mongodb.com/manual/reference/operator/query/ 를 참조하세요.
 다음 작업이 지원됩니다.
 
 - `$and`
