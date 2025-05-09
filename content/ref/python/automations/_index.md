@@ -29,7 +29,3 @@ title: automations
 [`class SendNotification`](./sendnotification.md): Defines an automation action that sends a (Slack) notification.
 
 [`class SendWebhook`](./sendwebhook.md): Defines an automation action that sends a webhook request.
-
-[`class SlackIntegration`](./slackintegration.md): !!! abstract "Usage Documentation"
-
-[`class WebhookIntegration`](./webhookintegration.md): !!! abstract "Usage Documentation"
