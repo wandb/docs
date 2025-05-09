@@ -46,4 +46,4 @@ After fine-tuning, use [W&B Weave](https://weave-docs.wandb.ai) to:
 
 ## Additional resources
 - [Azure OpenAI W&B Integration Guide](https://wandb.me/aoai-wb-int)
-- [Azure OpenAI Fine-tuning Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
+- [Azure OpenAI Fine-tuning Documentation](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
