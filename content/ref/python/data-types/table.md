@@ -28,7 +28,11 @@ in the UI: https://docs.wandb.ai/guides/data-vis/tables.
 |  `dataframe` |  (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
 |  `optional` |  (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |
 |  `allow_mixed_types` |  (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False |
+<<<<<<< HEAD
 |  `log_mode` | (Optional[Literal["IMMUTABLE", "MUTABLE", "INCREMENTAL"]]) Controls how subsequent calls to log the Table are handled. Defaults to "IMMUTABLE". <br><br> - `"IMMUTABLE"`: After the initial log, subsequent log attempts will have no effect, even if the table has been modified. <br> - `"MUTABLE"`: If the table has been modified since the last log, logging it again will create a new artifact version. If unmodified, logging is a no-op. <br> - `"INCREMENTAL"`: The table can be logged again when new data is added, creating a new artifact version for each increment. |
+=======
+|  `log_mode` | (Optional[Literal["IMMUTABLE", "MUTABLE"]]) Controls how subsequent calls to log the Table are handled. Defaults to "IMMUTABLE". <br> - `"IMMUTABLE"`: After the table is logged, subsequent log attempts will have no effect. <br> - `"MUTABLE"`: If the table has been modified since it was previously logged, it can be logged again as a new artifact version.  |
+>>>>>>> 89c96a44 (chore: update methods)
 
 
 ## Methods
@@ -43,7 +47,7 @@ add_column(
 )
 ```
 
-Adds a column of data to the table.
+Adds a column of data to the table. With log_mode="MUTABLE", this method allows the table to be logged again.
 
 | Args |  |
 | :--- | :--- |
@@ -61,7 +65,7 @@ add_computed_columns(
 )
 ```
 
-Adds one or more computed columns based on existing data.
+Adds one or more computed columns based on existing data. With log_mode="MUTABLE", this method allows the table to be logged again.
 
 | Args |  |
 | :--- | :--- |
@@ -77,7 +81,7 @@ add_data(
 )
 ```
 
-Adds a new row of data to the table. The maximum amount of rows in a table is determined by `wandb.Table.MAX_ARTIFACT_ROWS`.
+Adds a new row of data to the table. With log_mode="MUTABLE", this method allows the table to be logged again. The maximum amount of rows in a table is determined by `wandb.Table.MAX_ARTIFACT_ROWS`.
 
 The length of the data should match the length of the table column.
 
@@ -91,7 +95,7 @@ add_row(
 )
 ```
 
-Deprecated; use add_data instead.
+Deprecated; use add_data instead. With log_mode="MUTABLE", this method allows the table to be logged again.
 
 ### `cast`
 
@@ -103,7 +107,7 @@ cast(
 )
 ```
 
-Casts a column to a specific data type.
+Casts a column to a specific data type. With log_mode="MUTABLE", this method allows the table to be logged again.
 
 This can be one of the normal python classes, an internal W&B type, or an
 example object, like an instance of wandb.Image or wandb.Classes.
