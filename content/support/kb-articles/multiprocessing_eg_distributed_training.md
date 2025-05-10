@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: multiprocessing_eg_distributed_training
 ---
 If a training program uses multiple processes, structure the program to avoid making wandb method calls from processes without `wandb.init()`. 
 

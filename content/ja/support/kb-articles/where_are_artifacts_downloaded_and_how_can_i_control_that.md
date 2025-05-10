@@ -10,6 +10,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: where_are_artifacts_downloaded_and_how_can_i_control_that
 ---
 デフォルトでは、Artifacts は `artifacts/` フォルダにダウンロードされます。場所を変更するには次のようにします。
 

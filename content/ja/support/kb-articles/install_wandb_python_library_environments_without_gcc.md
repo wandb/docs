@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: install_wandb_python_library_environments_without_gcc
 ---
 `wandb` をインストールする際に以下のエラーが発生した場合:
 

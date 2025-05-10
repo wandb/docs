@@ -9,6 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: log_metric_doesnt_change_time_such_final
 ---
-
 `wandb.log({'final_accuracy': 0.9})`를 사용하면 최종 정확도가 올바르게 업데이트됩니다. 기본적으로 `wandb.log({'final_accuracy': <값>})`는 `wandb.settings['final_accuracy']`를 업데이트하며, 이는 runs table의 값을 반영합니다.

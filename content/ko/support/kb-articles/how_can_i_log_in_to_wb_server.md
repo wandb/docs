@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: how_can_i_log_in_to_wb_server
 ---
-
 다음 방법 중 하나를 사용하여 로그인 URL을 설정합니다.
 
 - [환경 변수]({{< relref path="guides/models/track/environment-variables.md" lang="ko" >}}) `WANDB_BASE_URL`을 Server URL로 설정합니다.

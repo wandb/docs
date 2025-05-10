@@ -7,6 +7,7 @@ support:
    - hyperparameter
    - sweeps
    - runs
+translationKey: best_practices_organize_hyperparameter_searches
 ---
 Set unique tags with `wandb.init(tags='your_tag')`. This allows efficient filtering of project runs by selecting the corresponding tag in a Project Page's Runs Table. 
 

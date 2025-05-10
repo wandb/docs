@@ -10,6 +10,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: academic_plan_student
 ---
 学生は次のステップに従って、アカデミックプランに申し込むことができます：
 

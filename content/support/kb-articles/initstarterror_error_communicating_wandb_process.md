@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: initstarterror_error_communicating_wandb_process
 ---
 This error indicates that the library encounters an issue launching the process that synchronizes data to the server.
 

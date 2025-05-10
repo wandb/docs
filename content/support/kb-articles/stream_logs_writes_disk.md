@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - environment variables
+translationKey: stream_logs_writes_disk
 ---
 W&B queues events in memory and writes them to disk asynchronously to manage failures and support the `WANDB_MODE=offline` configuration, allowing synchronization after logging.
 

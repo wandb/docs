@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: find_artifact_best_run_sweep
 ---
-
 스윕에서 가장 성능이 좋은 run에서 아티팩트를 검색하려면 다음 코드를 사용하세요.
 
 ```python

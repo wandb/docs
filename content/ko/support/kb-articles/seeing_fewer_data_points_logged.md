@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: seeing_fewer_data_points_logged
 ---
-
 `Step` 이외의 X축에 대해 메트릭을 시각화할 때는 표시되는 데이터 포인트 수가 더 적을 것으로 예상됩니다. 메트릭은 동기화를 유지하기 위해 동일한 `Step` 에 로그되어야 합니다. 동일한 `Step` 에 로그된 메트릭만 샘플 간 보간 중에 샘플링됩니다.
 
 **가이드라인**

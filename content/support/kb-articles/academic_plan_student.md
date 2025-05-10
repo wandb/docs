@@ -7,6 +7,7 @@ support:
 - administrator
 - academic
 - user management
+translationKey: academic_plan_student
 ---
 Students can apply for an academic plan by following these steps:
 

@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: initialization_timeout_error
 ---
 run の初期化タイムアウトエラーを解決するには、次の手順を実行してください。
 

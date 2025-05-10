@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - reports
+translationKey: upload_image_report
 ---
 Press `/` on a new line, scroll to the Image option, and drag and drop an image into the report.
 

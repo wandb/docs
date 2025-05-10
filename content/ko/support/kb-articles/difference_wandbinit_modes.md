@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: difference_wandbinit_modes
 ---
-
 다음 모드를 사용할 수 있습니다.
 
 * `online` (기본값): 클라이언트가 데이터를 wandb 서버로 보냅니다.

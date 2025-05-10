@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: organize_logged_charts_media_wb_ui
 ---
 `/` 文字は W&B UI でログされたパネルを区切ります。デフォルトでは、`/` の前のログされたアイテムの名前のセグメントが、「パネルセクション」として知られるパネルのグループを定義します。
 

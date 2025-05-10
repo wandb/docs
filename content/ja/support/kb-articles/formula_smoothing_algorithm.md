@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: formula_smoothing_algorithm
 ---
 The exponential moving average formula は TensorBoard で使用されているものと一致します。
 

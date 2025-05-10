@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: log_millions_steps_wb_rendered_browser
 ---
 The number of points sent affects the loading time of graphs in the UI. For lines exceeding 1,000 points, the backend samples the data down to 1,000 points before sending it to the browser. This sampling is nondeterministic, resulting in different sampled points upon page refresh.
 

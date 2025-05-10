@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: run_wandb_offline
 ---
 オフラインマシンでトレーニングが行われる場合、以下の手順を使用して結果をサーバーにアップロードします:
 

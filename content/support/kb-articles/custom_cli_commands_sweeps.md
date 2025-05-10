@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - sweeps
+translationKey: custom_cli_commands_sweeps
 ---
 You can use W&B Sweeps with custom CLI commands if training configuration passes command-line arguments.
 

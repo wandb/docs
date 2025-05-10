@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - python
+translationKey: anaconda_package
 ---
 There is an anaconda package that is installable using either `pip` or `conda`. For `conda`, obtain the package from the [conda-forge](https://conda-forge.org) channel.
 

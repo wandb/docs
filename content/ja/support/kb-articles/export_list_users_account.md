@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: export_list_users_account
 ---
 W&B 組織からユーザーのリストをエクスポートするには、管理者が以下のコードで SCIM API を使用します。
 

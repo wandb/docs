@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: team_find_more_information
 ---
 チームに関する追加情報は、[teams section]({{< relref path="/guides/models/app/settings-page/teams.md" lang="ja" >}})をご覧ください。

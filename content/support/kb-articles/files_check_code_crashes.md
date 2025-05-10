@@ -5,5 +5,6 @@ toc_hide: true
 type: docs
 support:
    - logs
+translationKey: files_check_code_crashes
 ---
 For the affected run, check `debug.log` and `debug-internal.log` in `wandb/run-<date>_<time>-<run-id>/logs` in the directory where your code is running.

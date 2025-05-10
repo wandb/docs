@@ -6,8 +6,8 @@ type: docs
 support:
    - reports
    - wysiwyg
+translationKey: convert_from_wysiwyg_markdown
 ---
-
 If the report conversion occurred through the message at the top, click the red "Revert" button to restore the prior state. Note that any changes made after conversion will be lost.
 
 If a single Markdown block was converted, use `cmd+z` to undo.

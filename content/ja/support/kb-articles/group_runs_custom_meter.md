@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: group_runs_custom_meter
 ---
 同じグループ内の個別の run の色を変更することはできません。同じグループのすべての run は共通の色を共有します。

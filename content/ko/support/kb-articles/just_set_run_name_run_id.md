@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: just_set_run_name_run_id
 ---
-
 예: run 이름을 run ID로 덮어쓰려면 다음 코드 조각을 사용하세요.
 
 ```python

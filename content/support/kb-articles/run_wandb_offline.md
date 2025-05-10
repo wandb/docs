@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: run_wandb_offline
 ---
 If training occurs on an offline machine, use the following steps to upload results to the servers:
 

@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: delete_team_from_account
 ---
 アカウントからチームを削除するには:
 

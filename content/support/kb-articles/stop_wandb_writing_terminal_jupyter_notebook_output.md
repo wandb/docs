@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - environment variables
+translationKey: stop_wandb_writing_terminal_jupyter_notebook_output
 ---
 Set the environment variable [`WANDB_SILENT`]({{< relref "/guides/models/track/environment-variables.md" >}}) to `true`.
 

@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: multiprocessing_eg_distributed_training
 ---
-
 만약 트레이닝 프로그램이 여러 프로세스를 사용하는 경우, `wandb.init()` 없이 프로세스에서 wandb 메소드 호출을 하지 않도록 프로그램을 구성하세요.
 
 다음과 같은 방법으로 멀티프로세스 트레이닝을 관리합니다:

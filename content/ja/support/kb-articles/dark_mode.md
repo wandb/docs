@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: dark_mode
 ---
 ダークモードはベータ版であり、アクセシビリティに最適化されていません。ダークモードを有効にするには:
 

@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - connectivity
+translationKey: deal_network_issues
 ---
 If you encounter SSL or network errors, such as `wandb: Network error (ConnectionError), entering retry loop`, use the following solutions:
 

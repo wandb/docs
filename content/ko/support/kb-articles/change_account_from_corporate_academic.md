@@ -10,8 +10,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: change_account_from_corporate_academic
 ---
-
 Weights & Biases에서 기업 계정을 교육 계정으로 변경하려면 다음 단계를 따르세요.
 
 1. **교육 이메일 연결**:

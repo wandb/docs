@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: logging_block_training
 ---
 " ロギング機能は遅延するのでしょうか？ローカルの操作を実行しながら、結果を サーバー に送信する際にネットワークに依存したくありません。"
 

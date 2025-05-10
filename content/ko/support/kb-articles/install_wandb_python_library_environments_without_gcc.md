@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: install_wandb_python_library_environments_without_gcc
 ---
-
 `wandb` 설치 시 다음과 같은 오류가 발생하는 경우:
 
 ```

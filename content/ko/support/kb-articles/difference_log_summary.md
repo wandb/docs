@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: difference_log_summary
 ---
-
 요약은 테이블에 표시되고, 로그는 향후 플롯을 위해 모든 값을 저장합니다.
 
 예를 들어 정확도가 변경될 때마다 `wandb.log`를 호출합니다. 기본적으로 `wandb.log()`는 해당 메트릭에 대해 수동으로 설정하지 않는 한 요약 값을 업데이트합니다.

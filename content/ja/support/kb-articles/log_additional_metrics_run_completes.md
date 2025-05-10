@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: log_additional_metrics_run_completes
 ---
 実験管理にはいくつかの方法があります。
 

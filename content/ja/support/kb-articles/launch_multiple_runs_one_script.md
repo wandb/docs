@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: launch_multiple_runs_one_script
 ---
 `wandb.init` と `run.finish()` を使用して、単一のスクリプト内で複数の run をログする方法:
 

@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: change_directory_sweep_logs_locally
 ---
-
 `WANDB_DIR` 환경 변수를 구성하여 W&B run 데이터의 로깅 디렉토리를 설정합니다. 예를 들면 다음과 같습니다:
 
 ```python

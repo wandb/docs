@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: organize_logged_charts_media_wb_ui
 ---
 The `/` character separates logged panels in the W&B UI. By default, the segment of the logged item's name before the `/` defines a group of panels known as a "Panel Section."
 

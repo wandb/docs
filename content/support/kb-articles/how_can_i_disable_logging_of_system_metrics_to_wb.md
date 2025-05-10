@@ -6,8 +6,8 @@ type: docs
 support:
   - metrics
   - runs
+translationKey: how_can_i_disable_logging_of_system_metrics_to_wb
 ---
-
 To disable logging of [system metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}), set `_disable_stats` to `True`:
 
 ```python

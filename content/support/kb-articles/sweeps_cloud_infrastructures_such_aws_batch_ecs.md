@@ -6,6 +6,7 @@ type: docs
 support:
    - sweeps
    - aws
+translationKey: sweeps_cloud_infrastructures_such_aws_batch_ecs
 ---
 To publish the `sweep_id` so that any W&B Sweep agent can access it, implement a method for these agents to read and execute the `sweep_id`.
 

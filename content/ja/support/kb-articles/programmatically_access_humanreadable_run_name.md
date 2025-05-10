@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: programmatically_access_humanreadable_run_name
 ---
 `.name` 属性は、[`wandb.Run`]({{< relref path="/ref/python/run.md" lang="ja" >}}) から以下のようにアクセスできます:
 

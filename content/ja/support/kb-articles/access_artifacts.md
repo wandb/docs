@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: access_artifacts
 ---
 Artifacts は、その親プロジェクトからアクセス権限を継承します:
 

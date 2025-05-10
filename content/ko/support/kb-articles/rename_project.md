@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: rename_project
 ---
-
 프로젝트 이름을 변경하려면 다음 단계를 따르세요.
 
 - 프로젝트 개요로 이동합니다.

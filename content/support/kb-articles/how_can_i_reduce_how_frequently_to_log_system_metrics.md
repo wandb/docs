@@ -6,8 +6,8 @@ type: docs
 support:
   - metrics
   - runs
+translationKey: how_can_i_reduce_how_frequently_to_log_system_metrics
 ---
-
 To configure the frequency to log [system metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}), set `_stats_sampling_interval` to a number of seconds, expressed as a float. Default: `10.0`.
 
 ```python

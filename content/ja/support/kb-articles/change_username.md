@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: change_username
 ---
 アカウント作成後、ユーザー名を変更することはできません。代わりに、希望のユーザー名で新しいアカウントを作成してください。

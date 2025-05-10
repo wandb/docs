@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - runs
+translationKey: move_from_project_another
 ---
 You can move a run from one project to another by following these steps:
 

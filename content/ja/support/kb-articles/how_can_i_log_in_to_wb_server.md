@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: how_can_i_log_in_to_wb_server
 ---
 ログイン URL は、次のいずれかの方法で設定します:
 

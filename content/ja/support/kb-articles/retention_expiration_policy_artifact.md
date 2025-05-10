@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: retention_expiration_policy_artifact
 ---
 アーティファクトに機密データを含む場合やアーティファクトのバージョンの削除をスケジュールするには、TTL (time-to-live) ポリシーを設定します。詳しい手順は、[TTL ガイド]({{< relref path="/guides/core/artifacts/manage-data/ttl.md" lang="ja" >}}) を参照してください。

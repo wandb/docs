@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: request_complete_deletion_account
 ---
 W&B アカウントを削除するには、**設定** ページに移動し、下までスクロールして **アカウント削除** ボタンをクリックします。

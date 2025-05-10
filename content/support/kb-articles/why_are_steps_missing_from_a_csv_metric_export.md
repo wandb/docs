@@ -6,8 +6,8 @@ type: docs
 support:
   - experiments
   - runs
+translationKey: why_are_steps_missing_from_a_csv_metric_export
 ---
-
 Export limits can prevent the entire run history from being exported as a CSV or using the `run.history` API. To access the complete run history, download the run history artifact using Parquet format:
 
 ```python

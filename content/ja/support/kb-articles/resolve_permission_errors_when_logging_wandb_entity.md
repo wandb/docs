@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: resolve_permission_errors_when_logging_wandb_entity
 ---
 W&B エンティティへの run ログ中に権限エラーが発生した場合は、次の手順を実行します:
 

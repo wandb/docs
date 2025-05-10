@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: run_results_anonymous_mode
 ---
-
 `anonymous="allow"` 로 스크립트를 실행하는 경우:
 
 1. **임시 계정 자동 생성**: W&B 는 로그인된 계정이 있는지 확인합니다. 없는 경우, W&B 는 새로운 익명 계정을 생성하고 해당 세션에 대한 API 키 를 저장합니다.

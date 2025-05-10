@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: change_billing_address
 ---
 アドレスを変更するには、サポートチーム（support@wandb.com）に連絡してください。

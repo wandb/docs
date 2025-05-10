@@ -6,6 +6,7 @@ type: docs
 support:
 - security
 - user management
+translationKey: find_api_key
 ---
 To find your API key for Weights and Biases (W&B):
 

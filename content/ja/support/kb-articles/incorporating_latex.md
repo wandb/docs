@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: incorporating_latex
 ---
 レポートに LaTeX をシームレスに統合できます。LaTeX を追加するには、新しいレポートを作成し、リッチテキストエリアにコメントを書き始め、カスタム可視化とテーブルを保存します。
 

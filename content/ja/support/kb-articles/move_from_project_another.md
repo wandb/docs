@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: move_from_project_another
 ---
 run をあるプロジェクトから別のプロジェクトに移動するには、次の手順に従います：
 

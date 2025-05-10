@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - alerts
+translationKey: send_alerts_microsoft_teams_using_wb
 ---
 To receive W&B alerts in Teams, follow these steps:
 

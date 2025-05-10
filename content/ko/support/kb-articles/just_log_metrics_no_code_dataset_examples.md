@@ -10,8 +10,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: just_log_metrics_no_code_dataset_examples
 ---
-
 기본적으로 W&B는 데이터셋 예제를 기록하지 않습니다. 기본적으로 W&B는 코드 및 시스템 메트릭을 기록합니다.
 
 환경 변수를 사용하여 코드 로깅을 끄는 두 가지 방법이 있습니다.

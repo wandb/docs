@@ -6,8 +6,8 @@ type: docs
 support:
   - artifacts
   - environment variables
+translationKey: where_are_artifacts_downloaded_and_how_can_i_control_that
 ---
-
 By default, artifacts download to the `artifacts/` folder. To change the location:
 
 - Pass it to [`wandb.Artifact().download`]({{< relref "/ref/python/public-api/api.md" >}}):

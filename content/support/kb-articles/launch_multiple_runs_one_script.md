@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: launch_multiple_runs_one_script
 ---
 Use `wandb.init` and `run.finish()` to log multiple runs within a single script:
 

@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: rename_project
 ---
 プロジェクトをリネームするには:
 

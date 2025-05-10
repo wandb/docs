@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: how_can_i_delete_multiple_runs_in_bulk_instead_of_one_at_a_time
 ---
-
 [public API]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}})를 사용하여 단일 작업에서 여러 개의 runs을 삭제합니다.
 
 ```python

@@ -6,6 +6,7 @@ type: docs
 support:
    - sweeps
    - metrics
+translationKey: optimizing_multiple_metrics
 ---
 To optimize multiple metrics in a single run, use a weighted sum of the individual metrics.
 

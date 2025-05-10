@@ -7,6 +7,7 @@ support:
 - administrator
 - academic
 - user management
+translationKey: change_account_from_corporate_academic
 ---
 To change an account from corporate to academic in Weights & Biases, follow these steps:
 

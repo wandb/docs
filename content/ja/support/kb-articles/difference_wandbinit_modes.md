@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: difference_wandbinit_modes
 ---
 これらのモードが利用可能です:
 

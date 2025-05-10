@@ -6,6 +6,7 @@ type: docs
 support:
    - sweeps
    - hyperparameter
+translationKey: est_runs_column
 ---
 W&B provides an estimated number of Runs generated when creating a W&B Sweep with a discrete search space. This total reflects the cartesian product of the search space.
 

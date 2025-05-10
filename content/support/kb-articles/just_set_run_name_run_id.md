@@ -5,8 +5,8 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: just_set_run_name_run_id
 ---
-
 Yes. To overwrite the run name with the run ID, use the following code snippet:
 
 ```python

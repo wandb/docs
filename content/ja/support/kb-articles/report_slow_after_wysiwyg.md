@@ -9,5 +9,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: report_slow_after_wysiwyg
 ---
 古いハードウェアや非常に大きなレポートでは、パフォーマンスの問題が発生する可能性があります。これを緩和するために、現在使用していないレポートのセクションを折りたたんでください。

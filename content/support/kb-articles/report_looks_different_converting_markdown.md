@@ -6,6 +6,6 @@ type: docs
 support:
    - reports
    - wysiwyg
+translationKey: report_looks_different_converting_markdown
 ---
-
 The goal is to maintain the original appearance after transitioning to WYSIWYG, but the conversion process is not flawless. If significant discrepancies arise, report them for evaluation. Users can revert to the previous state until the editing session concludes.

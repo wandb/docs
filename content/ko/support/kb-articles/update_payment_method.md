@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: update_payment_method
 ---
-
 결제 수단을 업데이트하려면 다음 단계를 따르세요.
 
 1. **프로필 페이지로 이동**: 먼저 사용자 프로필 페이지로 이동합니다.

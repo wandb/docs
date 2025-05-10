@@ -6,6 +6,7 @@ type: docs
 support:
    - experiments
    - metrics
+translationKey: log_metrics_batches_some_metrics_epochs
 ---
 To log specific metrics in each batch and standardize plots, log the desired x-axis values alongside the metrics. In the custom plots, click edit and select a custom x-axis.
 

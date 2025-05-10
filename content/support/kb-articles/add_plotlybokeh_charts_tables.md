@@ -7,6 +7,7 @@ support:
    - experiments
    - tables
    - charts
+translationKey: add_plotlybokeh_charts_tables
 ---
 Direct integration of Plotly or Bokeh figures into tables is not supported. Instead, export the figures to HTML and include the HTML in the table. Below are examples demonstrating this with interactive Plotly and Bokeh charts.
 

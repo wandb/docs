@@ -6,6 +6,7 @@ type: docs
 support:
 - administrator
 - team management
+translationKey: delete_team_from_account
 ---
 To delete a team from an account:
 

@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: renew_expired_license
 ---
 有効期限が切れたライセンスを更新するには、更新プロセスのサポートや新しいライセンスキーを受け取るために、support@wandb.com のサポートチームに連絡してください。

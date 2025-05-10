@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - user management
+translationKey: resolve_login_issues_with_account
 ---
 To resolve login issues, follow these steps:
 

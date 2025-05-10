@@ -10,6 +10,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: log_metrics_two_different_time_scales_example_log_training
 ---
 バッチごとのトレーニング精度とエポックごとの検証精度をログに記録したい場合を考えてみましょう。
 

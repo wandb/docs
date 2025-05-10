@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: find_api_key
 ---
-
 Weights & Biases (W&B)의 API 키를 찾는 방법:
 
 - [https://wandb.ai/authorize](https://wandb.ai/authorize)에서 W&B에 로그인합니다.

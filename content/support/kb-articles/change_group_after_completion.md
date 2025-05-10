@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - runs 
+translationKey: change_group_after_completion
 ---
 You can change the group assigned to a completed run using the API. This feature does not appear in the web UI. Use the following code to update the group:
 

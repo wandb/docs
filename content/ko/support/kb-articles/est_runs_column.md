@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: est_runs_column
 ---
-
 W&B는 분리된 검색 공간으로 W&B 스윕을 생성할 때 생성되는 예상 Run 수를 제공합니다. 이 총계는 검색 공간의 데카르트 곱을 반영합니다.
 
 예를 들어 다음 검색 공간을 고려하십시오.

@@ -6,5 +6,6 @@ type: docs
 support:
 - administrator
 - billing
+translationKey: change_billing_address
 ---
 To change the billing address, contact the support team (support@wandb.com).

@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: adding_multiple_authors_report
 ---
 レポートにすべての貢献者を正確に記載するには、複数の著者を追加します。
 

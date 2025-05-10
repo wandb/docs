@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: find_api_key
 ---
 W&B（Weights and バイアス）の APIキーを見つけるには、次の手順に従います。
 

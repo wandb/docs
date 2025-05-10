@@ -10,6 +10,6 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: monthly_subscription_option_teams_plan
 ---
-
 Teams 플랜은 월별 구독 옵션을 제공하지 않습니다. 이 구독은 연간 청구됩니다.

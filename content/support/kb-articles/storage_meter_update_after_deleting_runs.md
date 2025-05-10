@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - storage
+translationKey: storage_meter_update_after_deleting_runs
 ---
 - The storage meter does not update immediately after deleting runs due to processing delays. 
 - The backend system requires time to synchronize and reflect changes in usage accurately. 

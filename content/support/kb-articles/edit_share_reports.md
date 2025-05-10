@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - reports
+translationKey: edit_share_reports
 ---
 Reports created within an individual's private project remain visible only to that user. The user can share their project with a team or the public.
 

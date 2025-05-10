@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - experiments
+translationKey: difference_wandbinit_modes
 ---
 These modes are available:
 

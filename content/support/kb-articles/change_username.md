@@ -6,5 +6,6 @@ type: docs
 support:
 - administrator
 - user management
+translationKey: change_username
 ---
 Changing the username after account creation is not possible. Create a new account with the desired username instead.

@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - artifacts
+translationKey: fetch_version_ids_etags_wb
 ---
 If an artifact reference is logged with W&B and versioning is enabled on the buckets, the version IDs appear in the Amazon S3 UI. To retrieve these version IDs and ETags in W&B, fetch the artifact and access the corresponding manifest entries. For example:
 

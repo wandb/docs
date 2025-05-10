@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: where_are_artifacts_downloaded_and_how_can_i_control_that
 ---
-
 기본적으로 아티팩트는 `artifacts/` 폴더에 다운로드됩니다. 위치를 변경하려면 다음을 수행하세요.
 
 - [`wandb.Artifact().download`]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}}) 에 전달합니다.

@@ -6,6 +6,7 @@ type: docs
 support:
    - runs
    - metrics
+translationKey: log_additional_metrics_run_completes
 ---
 There are several ways to manage experiments.
 

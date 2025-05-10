@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: how_can_i_reduce_how_frequently_to_log_system_metrics
 ---
-
 [시스템 메트릭]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ko" >}})을 로깅하는 빈도를 설정하려면 `_stats_sampling_interval`을 초 단위로 나타낸 부동 소수점 숫자로 설정하세요. 기본값: `10.0`.
 
 ```python

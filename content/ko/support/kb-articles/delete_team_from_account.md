@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: delete_team_from_account
 ---
-
 계정에서 팀을 삭제하는 방법:
 
 - 관리자 권한으로 팀 설정에 엑세스합니다.

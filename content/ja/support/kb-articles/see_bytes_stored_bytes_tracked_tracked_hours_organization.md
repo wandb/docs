@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: see_bytes_stored_bytes_tracked_tracked_hours_organization
 ---
 組織の設定内で、保存されたバイト数、追跡されたバイト数、および追跡時間を表示します：
 

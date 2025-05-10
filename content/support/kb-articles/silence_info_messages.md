@@ -6,6 +6,7 @@ type: docs
 support:
 - notebooks
 - environment variables
+translationKey: silence_info_messages
 ---
 To suppress log messages in your notebook such as this:
 

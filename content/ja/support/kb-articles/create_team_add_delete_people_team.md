@@ -8,5 +8,6 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: create_team_add_delete_people_team
 ---
 リファレンスについては、役割と権限の詳細を参照してください: [Team Roles and Permissions]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ja" >}}).

@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: initialization_timeout_error
 ---
-
 run 초기화 시간 초과 오류를 해결하려면 다음 단계를 따르세요.
 
 - **초기화 재시도**: run 재시도를 시도합니다.

@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - sweeps
+translationKey: change_directory_sweep_logs_locally
 ---
 Set the logging directory for W&B run data by configuring the environment variable `WANDB_DIR`. For example:
 

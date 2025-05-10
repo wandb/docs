@@ -9,6 +9,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: silence_info_messages
 ---
 ノートブックで次のようなログメッセージを抑制するには:
 

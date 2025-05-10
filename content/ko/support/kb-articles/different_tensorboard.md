@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: different_tensorboard
 ---
-
 W&B는 TensorBoard와 통합되어 실험 트래킹 툴을 개선합니다. 창립자들은 TensorBoard 사용자들이 겪는 일반적인 불만을 해결하기 위해 W&B를 만들었습니다. 주요 개선 사항은 다음과 같습니다.
 
 1. **Model Reproducibility**: W&B는 실험, 탐색 및 모델 재현을 용이하게 합니다. 메트릭, 하이퍼파라미터, 코드 버전을 캡처하고 모델 체크포인트를 저장하여 재현성을 보장합니다.

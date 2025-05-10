@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: initstarterror_error_communicating_wandb_process
 ---
 このエラーは、ライブラリがサーバーにデータを同期するプロセスの起動に問題があることを示しています。
 

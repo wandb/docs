@@ -6,6 +6,7 @@ type: docs
 support:
 - privacy
 - projects
+translationKey: project_make_public
 ---
 To make a project public, follow these steps:
 

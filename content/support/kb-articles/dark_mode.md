@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - workspaces
+translationKey: dark_mode
 ---
 Dark mode is in beta and not optimized for accessibility. To enable dark mode:
 

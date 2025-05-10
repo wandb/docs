@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: functionalities_hidden_find
 ---
 一部の機能は、チームの**Beta Features**セクション内のフィーチャーフラグの下に隠されています。
 

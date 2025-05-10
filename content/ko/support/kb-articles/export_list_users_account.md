@@ -9,8 +9,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: export_list_users_account
 ---
-
 W&B 조직에서 사용자 목록을 내보내려면 관리자는 다음 코드를 사용하여 SCIM API를 사용합니다.
 
 ```python

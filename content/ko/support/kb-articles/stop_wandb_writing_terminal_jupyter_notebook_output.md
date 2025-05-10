@@ -8,8 +8,8 @@ support:
 toc_hide: true
 type: docs
 url: /ko/support/:filename
+translationKey: stop_wandb_writing_terminal_jupyter_notebook_output
 ---
-
 환경 변수 [`WANDB_SILENT`]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}}) 를 `true` 로 설정하세요.
 
 {{< tabpane text=true langEqualsHeader=true >}}

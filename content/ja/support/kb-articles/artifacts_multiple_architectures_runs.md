@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: artifacts_multiple_architectures_runs
 ---
 様々なモデルのバージョン管理方法があります。Artifacts は特定のニーズに合わせたモデルバージョン管理のためのツールを提供します。複数のモデル アーキテクチャーを探索するプロジェクトに共通のアプローチは、アーキテクチャーごとにアーティファクトを分けることです。次のステップを考慮してください。
 

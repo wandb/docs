@@ -8,6 +8,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: send_alerts_microsoft_teams_using_wb
 ---
 Teams で W&B アラートを受け取るには、以下の手順に従ってください。
 

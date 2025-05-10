@@ -10,6 +10,7 @@ support:
 toc_hide: true
 type: docs
 url: /ja/support/:filename
+translationKey: best_practices_organize_hyperparameter_searches
 ---
 ユニークなタグを `wandb.init(tags='your_tag')` で設定します。これにより、プロジェクトページの Runs Table で対応するタグを選択することで、プロジェクト run を効率的にフィルタリングできます。
 

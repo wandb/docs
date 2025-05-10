@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - tensorboard
+translationKey: formula_smoothing_algorithm
 ---
 The exponential moving average formula aligns with the one used in TensorBoard. 
 

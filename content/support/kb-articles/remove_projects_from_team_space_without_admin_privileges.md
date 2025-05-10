@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
 - administrator
+translationKey: remove_projects_from_team_space_without_admin_privileges
 ---
 To remove projects from a team space without admin privileges, follow these options:
 
