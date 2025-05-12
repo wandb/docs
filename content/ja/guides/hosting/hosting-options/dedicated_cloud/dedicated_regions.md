@@ -65,7 +65,7 @@ GCP 地域についての詳細は、GCP ドキュメントの [Regions and zone
 
 ## サポートされている Azure 地域
 
-以下の表は、W&B が現在 Dedicated Cloud インスタンスについてサポートしている [Azure 地域](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#geographies) の一覧です。
+以下の表は、W&B が現在 Dedicated Cloud インスタンスについてサポートしている [Azure 地域](https://azure.microsoft.com/explore/global-infrastructure/geographies/#geographies) の一覧です。
 
 | 地域の場所 | 地域名 |
 |-------------|--------|
@@ -79,4 +79,4 @@ GCP 地域についての詳細は、GCP ドキュメントの [Regions and zone
 |Tokyo, Saitama|japaneast|
 |Seoul|koreacentral|
 
-Azure 地域についての詳細は、Azure ドキュメントの [Azure geographies](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview) を参照してください。
+Azure 地域についての詳細は、Azure ドキュメントの [Azure geographies](https://azure.microsoft.com/explore/global-infrastructure/geographies/#overview) を参照してください。
