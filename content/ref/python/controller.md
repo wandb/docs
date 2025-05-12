@@ -2,7 +2,7 @@
 title: controller
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/wandb_sweep.py#L95-L119 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/e35e545afd28aab70ee9e2a9dcc5ec7cfb95b1a1/wandb/sdk/wandb_sweep.py#L95-L119 >}}
 
 Public sweep controller constructor.
 

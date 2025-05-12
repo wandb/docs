@@ -2,7 +2,7 @@
 title: launch
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/launch/_launch.py#L249-L331 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/e35e545afd28aab70ee9e2a9dcc5ec7cfb95b1a1/wandb/sdk/launch/_launch.py#L249-L331 >}}
 
 Launch a W&B launch experiment.
 

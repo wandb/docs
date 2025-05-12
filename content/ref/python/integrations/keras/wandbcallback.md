@@ -2,7 +2,7 @@
 title: WandbCallback
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/integration/keras/keras.py#L292-L1092 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/e35e545afd28aab70ee9e2a9dcc5ec7cfb95b1a1/wandb/integration/keras/keras.py#L292-L1092 >}}
 
 `WandbCallback` automatically integrates keras with wandb.
 
@@ -75,7 +75,7 @@ associated with the best `epoch`.
 
 ### `get_flops`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/integration/keras/keras.py#L1046-L1092)
+[View source](https://www.github.com/wandb/wandb/tree/e35e545afd28aab70ee9e2a9dcc5ec7cfb95b1a1/wandb/integration/keras/keras.py#L1046-L1092)
 
 ```python
 get_flops() -> float
@@ -87,7 +87,7 @@ It uses tf.compat.v1.profiler under the hood.
 
 ### `set_model`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/integration/keras/keras.py#L568-L577)
+[View source](https://www.github.com/wandb/wandb/tree/e35e545afd28aab70ee9e2a9dcc5ec7cfb95b1a1/wandb/integration/keras/keras.py#L568-L577)
 
 ```python
 set_model(
@@ -97,7 +97,7 @@ set_model(
 
 ### `set_params`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/integration/keras/keras.py#L565-L566)
+[View source](https://www.github.com/wandb/wandb/tree/e35e545afd28aab70ee9e2a9dcc5ec7cfb95b1a1/wandb/integration/keras/keras.py#L565-L566)
 
 ```python
 set_params(
