@@ -96,7 +96,7 @@ Audit logs API に アクセスするために基本認証を API キーで使�
 
 PII を除外するには、URL パラメータ `anonymize=true` を渡します。例えば、W&B インスタンスの URL が `https://mycompany.wandb.io` で、過去 1 週間のユーザー活動の監査ログを取得し、PII を除外したい場合、以下のような API エンドポイントを使用します：
 
-https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true.
+`https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true`.
 
 ## アクション
 この表は、W&B によって記録される可能性のあるアクションをアルファベット順で説明しています。

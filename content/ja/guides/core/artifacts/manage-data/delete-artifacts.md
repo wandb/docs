@@ -114,7 +114,7 @@ collection.delete()
 W&B の共有クラウドを使用している場合、ガベージコレクションはデフォルトで有効です。W&B をホストする方法に基づいて、ガベージコレクションを有効にするために追加の手順が必要な場合があります。これには以下が含まれます:
 
 * `GORILLA_ARTIFACT_GC_ENABLED` 環境変数を true に設定: `GORILLA_ARTIFACT_GC_ENABLED=true`
-* [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html)、[GCP](https://cloud.google.com/storage/docs/object-versioning) または [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning) などのストレージプロバイダーを使用している場合は、バケットバージョン管理を有効にします。Azure を使用している場合は、[ソフト削除を有効](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview)にします。
+* [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html)、[GCP](https://cloud.google.com/storage/docs/object-versioning) または [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning) などのストレージプロバイダーを使用している場合は、バケットバージョン管理を有効にします。Azure を使用している場合は、[ソフト削除を有効](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview)にします。
   {{% alert %}}
   Azure のソフト削除は、他のストレージプロバイダーでのバケットバージョン管理に相当します。
   {{% /alert %}}
