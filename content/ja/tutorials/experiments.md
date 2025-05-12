@@ -90,7 +90,7 @@ W&B を疑似的な機械学習トレーニングループに統合する方法�
 
 以下のコードセルは、簡単な MNIST クラス分類器を定義しトレーニングします。トレーニング中は、W&B が URL を表示します。プロジェクトページリンクをクリックして、W&B プロジェクトでリアルタイムに結果を確認してください。
 
-W&B run では自動で [メトリクス]({{< relref path="/guides/models/track/runs/#workspace-tab" lang="ja" >}})、[システム情報]({{< relref path="/guides/models/track/runs/#system-tab" lang="ja" >}})、[ハイパーパラメーター]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}})、[ターミナル出力]({{< relref path="/guides/models/track/runs/#logs-tab" lang="ja" >}}) をログし、モデルの入力と出力を含む [インタラクティブテーブル]({{< relref path="/guides/models/tables/" lang="ja" >}}) が表示されます。
+W&B run では自動で [メトリクス]({{< relref path="/guides/models/track/runs/#workspace-tab" lang="ja" >}})、システム情報、[ハイパーパラメーター]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}})、[ターミナル出力]({{< relref path="/guides/models/track/runs/#logs-tab" lang="ja" >}}) をログし、モデルの入力と出力を含む [インタラクティブテーブル]({{< relref path="/guides/models/tables/" lang="ja" >}}) が表示されます。
 
 ### PyTorch Dataloader をセットアップする
 次のセルでは、機械学習モデルをトレーニングするために必要な便利な関数を定義します。これらの関数は W&B に特化したものではないため、ここでは詳しくは説明しません。詳細については、[forward および backward training loop](https://pytorch.org/tutorials/beginner/nn_tutorial.html) の定義方法、トレーニングデータをロードするための [PyTorch DataLoaders](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html) の使用方法、および [`torch.nn.Sequential` クラス](https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html) を使用して PyTorch モデルを定義する方法について、PyTorch のドキュメントを参照してください。
