@@ -91,7 +91,7 @@ W&B 프로젝트에서 기계 학습이 어떻게 수행되었는지 확인합�
 다음 코드 셀은 간단한 MNIST 분류기를 정의하고 트레이닝합니다. 트레이닝하는 동안 W&B가 URL을 출력하는 것을 볼 수 있습니다. 프로젝트 페이지 링크를 클릭하여 결과가 W&B 프로젝트로 실시간 스트리밍되는 것을 확인하세요.
 
 W&B run은 자동으로 [메트릭]({{< relref path="/guides/models/track/runs/#workspace-tab" lang="ko" >}}),
-[시스템 정보]({{< relref path="/guides/models/track/runs/#system-tab" lang="ko" >}}),
+시스템 정보,
 [하이퍼파라미터]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ko" >}}),
 [터미널 출력]({{< relref path="/guides/models/track/runs/#logs-tab" lang="ko" >}})을 기록하고
 모델 입력 및 출력이 있는 [대화형 테이블]({{< relref path="/guides/models/tables/" lang="ko" >}})이 표시됩니다.

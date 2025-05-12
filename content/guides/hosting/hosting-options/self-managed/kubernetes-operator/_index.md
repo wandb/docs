@@ -222,7 +222,7 @@ Checking artifact save and download workflows...........................✅
 ``` 
 
 ## Access the W&B Management Console
-The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example `https://wandb.company-name.com/` console.
+The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example `https://wandb.company-name.com/console`.
 
 There are two ways to log in to the management console:
 
