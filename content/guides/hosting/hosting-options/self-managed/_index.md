@@ -35,7 +35,7 @@ See specific cloud provider documentation for more information on how to set up 
 
 ## Deploy W&B Server in on-prem infrastructure
 
-You need to configure several infrastructure components in order to set up W&B Server in your on-prem infrastructure. Some of those components include include, but are not limited to: 
+You need to configure several infrastructure components in order to set up W&B Server in your on-prem infrastructure. Some of those components include, but are not limited to: 
 
 - (Strongly recommended) Kubernetes cluster
 - MySQL 8 database cluster
