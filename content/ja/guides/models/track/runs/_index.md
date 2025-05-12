@@ -410,15 +410,6 @@ Table のある列の値で全行を並べ替えます。
    {{% /tab %}}
 {{< /tabpane >}}
 
-### System タブ
-**System tab** には、CPU 使用率、システムメモリ、ディスク I/O、ネットワークトラフィック、GPU 使用率など、特定の run に対して追跡されるシステムメトリクスが表示されます。
-
-W&B が追跡するシステムメトリクスの完全なリストについては、[System metrics]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ja" >}}) を参照してください。
-
-{{< img src="/images/app_ui/wandb_system_utilization.png" alt="" >}}
-
-システムタブの例はこちらから見ることができます [here](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey)。
-
 ### Logs タブ
 **Log tab** には、標準出力 (`stdout`) や標準エラー (`stderr`) などのコマンドラインに出力されたものが表示されます。
 

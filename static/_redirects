@@ -132,12 +132,12 @@
 /guides/hosting/how-to-guides/basic-setup /guides/hosting/self-managed/basic-setup 301
 /guides/hosting/how-to-guides/gcp-tf /guides/hosting/self-managed/gcp-tf 301
 /guides/hosting/how-to-guides/operator /guides/hosting/operator 301
-/guides/hosting/iam/manage-users /guides/hosting/iam/manage-organization 301
+/guides/hosting/iam/manage-users /guides/hosting/iam/access-management/manage-organization 301
 /guides/hosting/intro /guides/hosting 301
 /guides/hosting/ip-allowlisting /guides/hosting/data-security/ip-allowlisting 301
 /guides/hosting/ldap /guides/hosting/iam/ldap 301
 /guides/hosting/local /guides/hosting 301
-/guides/hosting/manage-users /guides/hosting/iam/manage-organization 301
+/guides/hosting/manage-users /guides/hosting/iam/access-management/manage-organization 301
 /guides/hosting/org_dashboard /guides/hosting/monitoring-usage/org_dashboard 301
 /guides/hosting/presigned-urls /guides/hosting/data-security/presigned-urls 301
 /guides/hosting/private-connectivity /guides/hosting/data-security/private-connectivity 301
