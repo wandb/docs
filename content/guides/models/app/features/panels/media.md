@@ -26,7 +26,7 @@ You can add a media panel globally or to a specific section:
 1. Select the type of media the panel visualizes, 3d objects, images, video, or audio. The panel configuration screen displays. Configure the panel, then click **Apply**. Refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
 
 ## Configure a media panel
-This section shows how to customize a media panel, either when you are manually adding it or afterward. Panels for all media types have the same options.
+Panels for all media types have the same options.
 
 When you add a media panel manually, its configuration page opens after you select the type of media. To configure a panel after it is created, click its gear icon. This section describes the settings available in each tab.
 
