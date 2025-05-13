@@ -10,7 +10,7 @@ weight: 2
 W&B uses pre-signed URLs to simplify access to blob storage from your AI workloads or user browsers. For basic information on pre-signed URLs, refer to the cloud provider's documentation:
 - [Pre-signed URLs for AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)
 - [Signed URLs for Google Cloud Storage](https://cloud.google.com/storage/docs/access-control/signed-urls)
-- [Shared Access Signature for Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview)
+- [Shared Access Signature for Azure Blob Storage](https://learn.microsoft.com/azure/storage/common/storage-sas-overview)
 
 How it works:
 1. When needed, AI workloads or user browser clients within your network request pre-signed URLs from W&B.
@@ -41,7 +41,7 @@ In case of AWS, one can use [VPC or IP address based network restriction](https:
 W&B recommends using [W&B audit logs]({{< relref "../monitoring-usage/audit-logging.md" >}}) together with blob storage specific audit logs. For blob storage audit logs, refer to the documentation for each cloud provider:
 - [AWS S3 access logs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)
 - [Google Cloud Storage audit logs](https://cloud.google.com/storage/docs/audit-logging)
-- [Monitor Azure blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/monitor-blob-storage).
+- [Monitor Azure blob storage](https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage).
 
 Admin and security teams can use audit logs to keep track of which user is doing what in the W&B product and take necessary action if they determine that some operations need to be limited for certain users.
 
