@@ -18,7 +18,7 @@ W&B 감사 로그를 사용하여 조직 내 사용자 활동을 추적하고 �
 | W&B 관리 스토리지 (BYOB 없음)가 있는 [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) | [API]({{< relref path="#fetch-audit-logs-using-api" lang="ko" >}})를 통해서만 사용할 수 있습니다. |
 | [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) | Enterprise 요금제에서만 사용할 수 있습니다. [API]({{< relref path="#fetch-audit-logs-using-api" lang="ko" >}})를 통해서만 사용할 수 있습니다.
 
-감사 로그를 가져온 후에는 [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery) 또는 [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric)과 같은 툴을 사용하여 분석할 수 있습니다. 일부 감사 로그 분석 툴은 JSON을 지원하지 않습니다. 분석 전에 JSON 형식의 감사 로그를 변환하기 위한 지침 및 요구 사항은 분석 툴 설명서를 참조하십시오.
+감사 로그를 가져온 후에는 [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery) 또는 [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric)과 같은 툴을 사용하여 분석할 수 있습니다. 일부 감사 로그 분석 툴은 JSON을 지원하지 않습니다. 분석 전에 JSON 형식의 감사 로그를 변환하기 위한 지침 및 요구 사항은 분석 툴 설명서를 참조하십시오.
 
 {{% alert title="감사 로그 보존" %}}
 특정 기간 동안 감사 로그를 보존해야 하는 경우 W&B는 스토리지 버킷 또는 감사 로깅 API를 사용하여 장기 스토리지로 로그를 주기적으로 전송하는 것이 좋습니다.

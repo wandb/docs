@@ -102,7 +102,7 @@ builder:
   build-context-store: https://<storage-account-name>.blob.core.windows.net/<container-name>
 ```
 
-기본 Azure 자격 증명을 구성하는 방법에 대한 자세한 내용은 [`azure-identity` 설명서](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python)를 참조하세요.
+기본 Azure 자격 증명을 구성하는 방법에 대한 자세한 내용은 [`azure-identity` 설명서](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python)를 참조하세요.
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -157,7 +157,7 @@ artifactregistry.repositories.uploadArtifacts;
 {{% /tab %}}
 {{% tab "Azure" %}}
 
-Kaniko 빌더를 사용하는 경우 [`AcrPush` 역할](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush)을 추가합니다.
+Kaniko 빌더를 사용하는 경우 [`AcrPush` 역할](https://learn.microsoft.com/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush)을 추가합니다.
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -202,7 +202,7 @@ storage.objects.get;
 {{% /tab %}}
 {{% tab "Azure" %}}
 
-에이전트가 빌드 컨텍스트를 Azure Blob Storage에 업로드하려면 [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) 역할이 필요합니다.
+에이전트가 빌드 컨텍스트를 Azure Blob Storage에 업로드하려면 [Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) 역할이 필요합니다.
 {{% /tab %}}
 {{< /tabpane >}}
 
