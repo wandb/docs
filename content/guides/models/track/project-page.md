@@ -278,8 +278,14 @@ From a team's landing page:
 1. Click **Create project**.
 
    {{% /tab %}}
-   {{% tab header="wandb.init()" %}}
-To create a project programmatically, specify a `project` when calling `wandb.init()`. If the project does not yet exist, it is created automatically. Refer to the [`wandb.init()` API reference]({{< relref "/ref/python/init/#examples" >}}).
+   {{% tab header="Python SDK" %}}
+To create a project programmatically, specify a `project` when calling `wandb.init()`. If the project does not yet exist, it is created automatically, and is owned by the specified entity. For example:
+
+```python
+import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+```
+
+Refer to the [`wandb.init()` API reference]({{< relref "/ref/python/init/#examples" >}}).
    {{% /tab %}}  
 {{< /tabpane >}}
 
