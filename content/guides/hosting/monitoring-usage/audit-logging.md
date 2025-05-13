@@ -18,7 +18,7 @@ How to access audit logs depends on your W&B platform deployment type:
 | [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) with W&B managed storage (without BYOB) | Available only by using [the API]({{< relref "#fetch-audit-logs-using-api" >}}). |
 | [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) | Available for Enterprise plans only. Available only by using [the API]({{< relref "#fetch-audit-logs-using-api" >}}).
 
-After fetching audit logs, you can analyze them using tools like [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), or [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric). Some audit log analysis tools do not support JSON; refer to the documentation for your analysis tool for guidelines and requirements for transforming the JSON-formatted audit logs before analysis.
+After fetching audit logs, you can analyze them using tools like [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), or [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric). Some audit log analysis tools do not support JSON; refer to the documentation for your analysis tool for guidelines and requirements for transforming the JSON-formatted audit logs before analysis.
 
 {{% alert title="Audit log retention" %}}
 If you require audit logs to be retained for a specific period of time, W&B recommends periodically transferring logs to long-term storage, either using storage buckets or the Audit Logging API.

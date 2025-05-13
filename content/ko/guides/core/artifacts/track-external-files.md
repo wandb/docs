@@ -70,7 +70,7 @@ W&B는 기본 메커니즘을 사용하여 사용하는 클라우드 공급자�
 | -------------- | ------------------------- |
 | AWS | [Boto3 문서](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
 | GCP | [Google Cloud 문서](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
-| Azure | [Azure 문서](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
+| Azure | [Azure 문서](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
 
 AWS의 경우 버킷이 구성된 사용자의 기본 리전에 있지 않으면 `AWS_REGION` 환경 변수를 버킷 리전과 일치하도록 설정해야 합니다.
 
@@ -97,7 +97,7 @@ W&B는 아티팩트가 기록될 때 기록된 메타데이터를 사용하여 r
 {{% alert %}}
 워크플로우의 일부로 파일을 덮어쓰는 경우 스토리지 버킷에서 '오브젝트 버전 관리'를 활성화하는 것이 좋습니다. 버킷에서 버전 관리를 활성화하면 덮어쓴 파일에 대한 참조가 있는 아티팩트가 이전 오브젝트 버전이 유지되므로 여전히 손상되지 않습니다.
 
-유스 케이스에 따라 오브젝트 버전 관리를 활성화하는 방법에 대한 지침을 읽으십시오. [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-enable).
+유스 케이스에 따라 오브젝트 버전 관리를 활성화하는 방법에 대한 지침을 읽으십시오. [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/azure/storage/blobs/versioning-enable).
 {{% /alert %}}
 
 ### 함께 묶기

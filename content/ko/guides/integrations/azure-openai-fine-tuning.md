@@ -46,4 +46,4 @@ W&B를 사용하여 Microsoft Azure에서 GPT-3.5 또는 GPT-4 모델을 미세 
 
 ## 추가 자료
 - [Azure OpenAI W&B Integration 가이드](https://wandb.me/aoai-wb-int)
-- [Azure OpenAI 미세 조정 설명서](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
+- [Azure OpenAI 미세 조정 설명서](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
