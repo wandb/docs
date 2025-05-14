@@ -34,7 +34,7 @@ When using BYOB functionality, certain types of data will be stored in the W&B c
 - Media files
 - Run files
 - Console logs
-- Exported data in Parquet format
+- Exported history metrics and system events in Parquet format
 
 ## Configuration options
 There are two scopes you can configure your storage bucket to: at the *Instance level* or at a *Team level*. 
