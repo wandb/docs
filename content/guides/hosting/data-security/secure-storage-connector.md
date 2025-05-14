@@ -25,6 +25,7 @@ When using BYOB functionality, certain types of data will be stored in the W&B c
 - Reports
 - Experiment logs
 - System metrics
+- Console logs
 
 ### Buckets
 
