@@ -7,7 +7,7 @@ menu:
 weight: 2
 ---
 
-W&B は事前署名付き URL を使用して、AI ワークロードやユーザー ブラウザからの blob ストレージへのアクセスを簡素化します。事前署名付き URL の基本情報については、[AWS S3 の事前署名付き URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)、[Google Cloud Storage の署名付き URL](https://cloud.google.com/storage/docs/access-control/signed-urls)、[Azure Blob Storage の共有アクセス署名](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview) を参照してください。
+W&B は事前署名付き URL を使用して、AI ワークロードやユーザー ブラウザからの blob ストレージへのアクセスを簡素化します。事前署名付き URL の基本情報については、[AWS S3 の事前署名付き URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)、[Google Cloud Storage の署名付き URL](https://cloud.google.com/storage/docs/access-control/signed-urls)、[Azure Blob Storage の共有アクセス署名](https://learn.microsoft.com/azure/storage/common/storage-sas-overview) を参照してください。
 
 必要に応じて、ネットワーク内の AI ワークロードまたはユーザー ブラウザー クライアントが W&B プラットフォームから事前署名付き URL を要求します。その後、W&B プラットフォームは関連する blob ストレージにアクセスして、必要な権限で事前署名付き URL を生成し、クライアントに返します。クライアントは、事前署名付き URL を使用して blob ストレージにアクセスし、オブジェクトのアップロードまたは取得操作を行います。オブジェクトのダウンロードの URL は 1 時間で期限切れになり、巨大なオブジェクトをチャンクでアップロードするのに時間がかかる可能性があるため、オブジェクトのアップロードについては 24 時間有効です。
 
@@ -27,7 +27,7 @@ AWS の場合、[VPC または IP アドレスに基づくネットワーク制�
 
 ## 監査ログ
 
-W&B は、blob ストレージ固有の監査ログに加えて、[W&B 監査ログ]({{< relref path="../monitoring-usage/audit-logging.md" lang="ja" >}})を使用することを推奨します。後者については、[AWS S3 のアクセスログ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)、[Google Cloud Storage の監査ログ](https://cloud.google.com/storage/docs/audit-logging)、[Azure blob storage の監視](https://learn.microsoft.com/en-us/azure/storage/blobs/monitor-blob-storage)を参照してください。管理者とセキュリティ チームは、W&B 製品でどのユーザーが何をしているかを追跡し、特定のユーザーに対していくつかの操作を制限する必要があると判断した場合に必要な対策を講じるために監査ログを使用できます。
+W&B は、blob ストレージ固有の監査ログに加えて、[W&B 監査ログ]({{< relref path="../monitoring-usage/audit-logging.md" lang="ja" >}})を使用することを推奨します。後者については、[AWS S3 のアクセスログ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)、[Google Cloud Storage の監査ログ](https://cloud.google.com/storage/docs/audit-logging)、[Azure blob storage の監視](https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage)を参照してください。管理者とセキュリティ チームは、W&B 製品でどのユーザーが何をしているかを追跡し、特定のユーザーに対していくつかの操作を制限する必要があると判断した場合に必要な対策を講じるために監査ログを使用できます。
 
 {{% alert %}}
 事前署名付き URL は、W&B でサポートされている唯一の blob ストレージ アクセス メカニズムです。W&B は、リスク許容度に応じて、セキュリティ制御の上記リストの一部またはすべてを設定することを推奨します。

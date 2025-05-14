@@ -120,6 +120,7 @@ This section describes the variables you can use to construct your webhook's pay
 | `${entity_name}`              | The name of the entity or team that owns the mutation that triggered the action.
 | `${event_type}`               | The type of event that triggered the action. |
 | `${event_author}`             | The user that triggered the action. |
+| `${alias}`                    | If an automation is triggered by the **Adding a new alias to a version of an artifact** event, this variable contains the alias. For other automations, this variable is blank. |
 | `${artifact_collection_name}` | The name of the artifact collection that the artifact version is linked to. |
 | `${artifact_metadata.<KEY>}`  | The value of an arbitrary top-level metadata key from the artifact version that triggered the action. Replace `<KEY>` with the name of a top-level metadata key. Only top-level metadata keys are available in the webhook's payload. |
 | `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref "/ref/python/artifact/" >}}) representation of the artifact version that triggered the action. |

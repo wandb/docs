@@ -107,7 +107,7 @@ builder:
   build-context-store: https://<storage-account-name>.blob.core.windows.net/<container-name>
 ```
 
-See the [`azure-identity` documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
+See the [`azure-identity` documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -162,7 +162,7 @@ artifactregistry.repositories.uploadArtifacts;
 {{% /tab %}}
 {{% tab "Azure" %}}
 
-Add the [`AcrPush` role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/containers#acrpush) if you use the Kaniko builder.
+Add the [`AcrPush` role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/containers#acrpush) if you use the Kaniko builder.
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -207,7 +207,7 @@ storage.objects.get;
 {{% /tab %}}
 {{% tab "Azure" %}}
 
-The [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) role is required in order for the agent to upload build contexts to Azure Blob Storage.
+The [Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) role is required in order for the agent to upload build contexts to Azure Blob Storage.
 {{% /tab %}}
 {{< /tabpane >}}
 

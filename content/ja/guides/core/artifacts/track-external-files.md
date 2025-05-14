@@ -71,7 +71,7 @@ W&B は、使用するクラウドプロバイダーに基づいてクレデン�
 | -------------- | ------------------------- |
 | AWS            | [Boto3 ドキュメント](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
 | GCP            | [Google Cloud ドキュメント](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
-| Azure          | [Azure ドキュメント](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
+| Azure          | [Azure ドキュメント](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
 
 AWS では、バケットが設定されたユーザーのデフォルトリージョンに位置していない場合、`AWS_REGION` 環境変数をバケットリージョンに一致させる必要があります。
 
@@ -98,7 +98,7 @@ W&B は、リファレンスアーティファクトをダウンロードする�
 {{% alert %}}
 ワークフローの一環としてファイルを上書きする場合は、W&B はストレージバケットの「オブジェクトバージョン管理」を有効にすることを推奨します。バケットにバージョン管理が有効になっている場合、上書きされたファイルへのリファレンスを持つアーティファクトも依然として無傷であることになります。なぜなら、古いバージョンのオブジェクトが保持されるからです。
 
-ユースケースに基づいて、オブジェクトバージョン管理を有効にする手順をお読みください。[AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html)、[GCP](https://cloud.google.com/storage/docs/using-object-versioning#set)、[Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-enable)。
+ユースケースに基づいて、オブジェクトバージョン管理を有効にする手順をお読みください。[AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html)、[GCP](https://cloud.google.com/storage/docs/using-object-versioning#set)、[Azure](https://learn.microsoft.com/azure/storage/blobs/versioning-enable)。
 {{% /alert %}}
 
 ### すべてを結び付ける

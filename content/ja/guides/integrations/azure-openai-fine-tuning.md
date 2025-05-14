@@ -46,4 +46,4 @@ Microsoft Azureを使用してGPT-3.5やGPT-4モデルをファインチュー�
 
 ## 追加リソース
 - [Azure OpenAI W&B Integration Guide](https://wandb.me/aoai-wb-int)
-- [Azure OpenAI ファインチューニングドキュメント](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
+- [Azure OpenAI ファインチューニングドキュメント](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)

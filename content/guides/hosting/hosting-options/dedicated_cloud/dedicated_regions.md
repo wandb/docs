@@ -63,7 +63,7 @@ The following table lists [GCP Regions](https://cloud.google.com/compute/docs/re
 For more information about GCP Regions, see [Regions and zones](https://cloud.google.com/compute/docs/regions-zones) in the GCP Documentation.
 
 ## Supported Azure Region
-The following table lists [Azure regions](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#geographies) that W&B currently supports for Dedicated Cloud instances.
+The following table lists [Azure regions](https://azure.microsoft.com/explore/global-infrastructure/geographies/#geographies) that W&B currently supports for Dedicated Cloud instances.
 
 | Region location | Region name |
 |-------------|--------|
@@ -77,4 +77,4 @@ The following table lists [Azure regions](https://azure.microsoft.com/en-us/expl
 |Tokyo, Saitama|japaneast|
 |Seoul|koreacentral|
 
-For more information about Azure regions, see [Azure geographies](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview) in the Azure Documentation.
+For more information about Azure regions, see [Azure geographies](https://azure.microsoft.com/explore/global-infrastructure/geographies/#overview) in the Azure Documentation.

@@ -116,7 +116,7 @@ collection.delete()
 W&B의 공유 클라우드를 사용하는 경우 가비지 수집은 기본적으로 활성화됩니다. W&B를 호스팅하는 방식에 따라 가비지 수집을 활성화하기 위해 추가 단계를 수행해야 할 수 있습니다.
 
 * `GORILLA_ARTIFACT_GC_ENABLED` 환경 변수를 true로 설정합니다. `GORILLA_ARTIFACT_GC_ENABLED=true`
-* [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/object-versioning) 또는 [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning)와 같은 다른 스토리지 공급자를 사용하는 경우 버킷 버전 관리를 활성화합니다. Azure를 사용하는 경우 [소프트 삭제를 활성화](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview)합니다.
+* [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/object-versioning) 또는 [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning)와 같은 다른 스토리지 공급자를 사용하는 경우 버킷 버전 관리를 활성화합니다. Azure를 사용하는 경우 [소프트 삭제를 활성화](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview)합니다.
   {{% alert %}}
   Azure의 소프트 삭제는 다른 스토리지 공급자의 버킷 버전 관리와 동일합니다.
   {{% /alert %}}
