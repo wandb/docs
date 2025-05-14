@@ -26,12 +26,14 @@ When using BYOB functionality, certain types of data will be stored in the W&B c
 - Experiment logs
 - System metrics
 
-## Buckets
+### Buckets
 
 - Experiment files and metrics
 - Artifact files
 - Media files
 - Run files
+- Console logs
+- Exported data in Parquet format
 
 ## Configuration options
 There are two scopes you can configure your storage bucket to: at the *Instance level* or at a *Team level*. 
@@ -57,7 +59,7 @@ The following table shows the availability of BYOB across different W&B Server d
 | Self-managed | X | X | Instance level BYOB is the default since the instance is fully managed by you. If your self-managed instance is in cloud, you can connect to a cloud-native storage bucket in the same or another cloud for the team-level BYOB. You can also use S3-compatible secure storage like [MinIO](https://github.com/minio/minio) for either of instance or team-level BYOB. |
 
 {{% alert color="secondary" %}}
-Once you configure a instance or team level storage bucket for your Dedicated cloud or Self-managed instance, or a team level storage bucket for your SaaS Cloud account, you can not change or reconfigure the storage bucket for any of those scopes. That includes the inability to migrate data to another bucket and remap relevant references in the main product storage. W&B recommends to plan your storage bucket layout carefully before configuring for either of the instance or team level scopes. Reach out to your W&B team for any questions.
+Plan your storage bucket layout carefully. After you configure a storage bucket for W&B, you cannot reconfigure it or change its scope, nor can you migrate its data to another bucket and remap relevant references in the main product storage. This applies to storage for Dedicated Cloud and Self-Managed, as well as team-level storage for SaaS Cloud. For questions, contact [support](mailto:support@wandb.com).
 {{% /alert %}}
 
 ## Cross-cloud or S3-compatible storage for team-level BYOB
@@ -96,13 +98,11 @@ From W&B instance in AWS or Azure to a bucket in GCP:
 gs://<serviceAccountEmail>:<urlEncodedPrivateKey>@<bucketName>
 ```
 
+{{% alert %}}
+Because it is hosted in GCP, [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) does not support connectivity to S3-compatible storage for team-level storage, including cross-cloud connectivity. SaaS Cloud does not have access to the access keys and environment variables used to configure [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) and [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instances.
+{{% /alert %}}
 </details>
 
-{{% alert %}}
-Connectivity to S3-compatible storage for team-level BYOB is not available in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}). Also, connectivity to an AWS bucket for team-level BYOB is cross-cloud in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), as that instance resides in GCP. That cross-cloud connectivity doesn't use the access key and environment variable based mechanism as outlined previously for [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) and [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instances.
-{{% /alert %}}
-
-Reach out to W&B Support at support@wandb.com for more information.
 
 ## Cloud storage in same cloud as W&B platform
 
@@ -159,38 +159,37 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
 
     This policy grants your AWS account full access to the key and also assigns the required permissions to the AWS account hosting the W&B Platform. Keep a record of the KMS Key ARN.
 
-2. Provision the S3 Bucket
+1. Provision the S3 Bucket
 
     Follow these steps to provision the S3 bucket in your AWS account:
 
     1. Create the S3 bucket with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
-    2. Enable bucket versioning.
-    3. Enable server side encryption, using the KMS key from the previous step.
-    4. Configure CORS with the following policy:
+    1. Enable server side encryption, using the KMS key from the previous step.
+    1. Configure CORS with the following policy:
 
         ```json
         [
-            {
-                "AllowedHeaders": [
-                    "*"
-                ],
-                "AllowedMethods": [
-                    "GET",
-                    "HEAD",
-                    "PUT"
-                ],
-                "AllowedOrigins": [
-                    "*"
-                ],
-                "ExposeHeaders": [
-                    "ETag"
-                ],
-                "MaxAgeSeconds": 3600
-            }
+          {
+              "AllowedHeaders": [
+                  "*"
+              ],
+              "AllowedMethods": [
+                  "GET",
+                  "HEAD",
+                  "PUT"
+              ],
+              "AllowedOrigins": [
+                  "*"
+              ],
+              "ExposeHeaders": [
+                  "ETag"
+              ],
+              "MaxAgeSeconds": 3000
+          }
         ]
         ```
-
-    5. Grant the required S3 permissions to the AWS account hosting the W&B Platform, which requires these permissions to generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket.
+        {{% alert %}}If data in your bucket expires due to its policy, you can no longer read the history of your runs.{{% /alert %}}
+    1. Grant the required S3 permissions to the AWS account hosting the W&B Platform, which requires these permissions to generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket.
 
         ```json
         {
@@ -230,7 +229,7 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
         * For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `arn:aws:iam::725579432336:role/WandbIntegration`
         * For [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `arn:aws:iam::830241207209:root`
   
-  For more details, see the [AWS self-managed hosting guide]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" >}}).
+For more details, see the [AWS self-managed hosting guide]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" >}}).
 {{% /tab %}}
 
 {{% tab header="GCP" value="gcp"%}}
@@ -239,39 +238,39 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
     Follow these steps to provision the GCS bucket in your GCP project:
 
     1. Create the GCS bucket with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
-    2. Enable soft deletion.
-    3. Enable object versioning.
-    4. Set encryption type to `Google-managed`.
-    5. Set the CORS policy with `gsutil`. This is not possible in the UI.
+    1. Set encryption type to `Google-managed`.
+    1. Set the CORS policy with `gsutil`. This is not possible in the UI.
 
-      1. Create a file called `cors-policy.json` locally.
-      2. Copy the following CORS policy into the file and save it.
+       1. Create a file called `cors-policy.json` locally.
+       1. Copy the following CORS policy into the file and save it.
 
-          ```json
-          [
-          {
-            "origin": ["*"],
-            "responseHeader": ["Content-Type"],
-            "exposeHeaders": ["ETag"],
-            "method": ["GET", "HEAD", "PUT"],
-            "maxAgeSeconds": 3600
-          }
-          ]
-          ```
+           ```json
+           [
+             {
+               "origin": ["*"],
+               "responseHeader": ["Content-Type"],
+               "exposeHeaders": ["ETag"],
+               "method": ["GET", "HEAD", "PUT"],
+               "maxAgeSeconds": 3000
+             }
+           ]
+           ```
 
-      3. Replace `<bucket_name>` with the correct bucket name and run `gsutil`.
+          {{% alert %}}If data in your bucket expires due to its policy, you can no longer read the history of your runs.{{% /alert %}}
+
+      1. Replace `<bucket_name>` with the correct bucket name and run `gsutil`.
 
           ```bash
           gsutil cors set cors-policy.json gs://<bucket_name>
           ```
 
-      4. Verify the bucket's policy. Replace `<bucket_name>` with the correct bucket name.
+      1. Verify the bucket's policy. Replace `<bucket_name>` with the correct bucket name.
         
           ```bash
           gsutil cors get gs://<bucket_name>
           ```
 
-2. If you are using [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), grant the `Storage Admin` role to the GCP service account linked to the W&B Platform:
+1. If you are using [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), grant the `storage.admin` role to the GCP service account linked to the W&B Platform. W&B requires this role to check the bucket's CORS configuration and attributes, such as whether object versioning is enabled. If the service account does not have the `storage.admin` role, these checks result in a HTTP 403 error.
 
     * For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), the account is: `wandb-integration@wandb-production.iam.gserviceaccount.com`
     * For [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) the account is: `deploy@wandb-production.iam.gserviceaccount.com`
@@ -284,22 +283,21 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
 
     For the instance level BYOB, if you're not using [this Terraform module](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob), follow the steps below to provision a Azure Blob Storage bucket in your Azure subscription:
 
-    * Create a bucket with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
-    * Enable blob and container soft deletion.
-    * Enable versioning.
-    * Configure the CORS policy on the bucket
+    1. Create a bucket with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
+    1. Configure the CORS policy on the bucket
 
-      To set the CORS policy through the UI go to the blob storage, scroll down to `Settings/Resource Sharing (CORS)` and then set the following:
+        To set the CORS policy through the UI go to the blob storage, scroll down to `Settings/Resource Sharing (CORS)` and then set the following:
 
-      | Parameter | Value |
-      | --- | --- |
-      | Allowed Origins | `*`  |
-      | Allowed Methods | `GET`, `HEAD`, `PUT` |
-      | Allowed Headers | `*` |
-      | Exposed Headers | `*` |
-      | Max Age | `3600` |
+        | Parameter | Value |
+        | --- | --- |
+        | Allowed Origins | `*`  |
+        | Allowed Methods | `GET`, `HEAD`, `PUT` |
+        | Allowed Headers | `*` |
+        | Exposed Headers | `*` |
+        | Max Age | `3000` |
 
-2. Generate a storage account access key, and keep a record of that along with the storage account name. If you are using [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), share the storage account name and access key with your W&B team using a secure sharing mechanism.
+        {{% alert %}}If data in your bucket expires due to its policy, you can no longer read the history of your runs.{{% /alert %}}
+1. Generate a storage account access key, and keep a record of that along with the storage account name. If you are using [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), share the storage account name and access key with your W&B team using a secure sharing mechanism.
 
     For the team level BYOB, W&B recommends that you use [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision the Azure Blob Storage bucket along with the necessary access mechanism and permissions. If you use [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), provide the OIDC issuer URL for your instance. Make a note of details that you need to [configure the bucket while creating the team]({{< relref "#configure-byob-in-wb" >}}):
 
@@ -315,9 +313,7 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
 {{< tabpane text=true >}}
 
 {{% tab header="Team level" value="team" %}}
-{{% alert %}}
 If you're connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance, refer to [Cross-cloud or S3-compatible storage for team-level BYOB]({{< relref "#cross-cloud-or-s3-compatible-storage-for-team-level-byob" >}}). In such cases, you must specify the storage bucket using the `GORILLA_SUPPORTED_FILE_STORES` environment variable for your W&B instance, before you configure it for a team using the instructions below.
-{{% /alert %}}
 
 {{% alert %}}
 Watch a [video demonstrating the secure storage connector in action](https://www.youtube.com/watch?v=uda6jIx6n5o) (9 min).
@@ -326,18 +322,18 @@ Watch a [video demonstrating the secure storage connector in action](https://www
 To configure a storage bucket at the team level when you create a W&B Team:
 
 1. Provide a name for your team in the **Team Name** field. 
-2. Select **External storage** for the **Storage type** option. 
-3. Choose either **New bucket** from the dropdown or select an existing bucket.
+1. Select **External storage** for the **Storage type** option. 
+1. Choose either **New bucket** from the dropdown or select an existing bucket.
 
     Multiple W&B Teams can use the same cloud storage bucket. To enable this, select an existing cloud storage bucket from the dropdown.
 
-4. From the **Cloud provider** dropdown, select your cloud provider.
-5. Provide the name of your storage bucket for the **Name** field. If you have a [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance on Azure, provide the values for **Account name** and **Container name** fields.
-6. (Optional) Provide the bucket sub-path in the optional **Path** field. Do this if you would not like W&B to store any files in a folder at the root of the bucket.
-7. (Optional if using AWS bucket) Provide the ARN of your KMS encryption key for the **KMS key ARN** field.
-8. (Optional if using Azure bucket) Provide the values for the **Tenant ID** and the **Managed Identity Client ID** fields.
-9. (Optional on [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}})) Optionally invite team members when creating the team.
-10. Press the **Create Team** button.
+1. From the **Cloud provider** dropdown, select your cloud provider.
+1. Provide the name of your storage bucket for the **Name** field. If you have a [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance on Azure, provide the values for **Account name** and **Container name** fields.
+1. (Optional) Provide the bucket sub-path in the optional **Path** field. Do this if you would not like W&B to store any files in a folder at the root of the bucket.
+1. (Optional if using AWS bucket) Provide the ARN of your KMS encryption key for the **KMS key ARN** field.
+1. (Optional if using Azure bucket) Provide the values for the **Tenant ID** and the **Managed Identity Client ID** fields.
+1. (Optional on [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}})) Optionally invite team members when creating the team.
+1. Press the **Create Team** button.
 
 {{< img src="/images/hosting/prod_setup_secure_storage.png" alt="" >}}
 
@@ -354,13 +350,12 @@ For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_clou
 To make changes to the instance level bucket storage for your W&B Server:
 
 1. Log in to W&B as a user with the `admin` role.
-2. Click the user icon at the top, then click **System Console**.
-3. Go to **Settings** > **System Connections**.
-4. In the **Bucket Storage** section, ensure the identity in the **Identity** field is granted access to the new bucket.
-5. Select the **Provider**.
-6. Enter the new **Bucket Name**.
-7. Optionally, enter the **Path** to use in the new bucket.
-8. Click **Save**
+1. Click the user icon at the top, then click **System Console**.
+1. Go to **Settings** > **System Connections**.
+1. In the **Bucket Storage** section, ensure the identity in the **Identity** field is granted access to the new bucket.
+1. Select the **Provider**.
+1. Enter the new **Bucket Name**.
+1. Optionally, enter the **Path** to use in the new bucket.
+1. Click **Save**
 {{% /tab %}}
-
 {{< /tabpane >}}
