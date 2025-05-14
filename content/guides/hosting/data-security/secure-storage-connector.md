@@ -60,7 +60,7 @@ The following table shows the availability of BYOB across different W&B Server d
 | Self-managed | X | X | Instance level BYOB is the default since the instance is fully managed by you. If your self-managed instance is in cloud, you can connect to a cloud-native storage bucket in the same or another cloud for the team-level BYOB. You can also use S3-compatible secure storage like [MinIO](https://github.com/minio/minio) for either of instance or team-level BYOB. |
 
 {{% alert color="secondary" %}}
-Plan your storage bucket layout carefully. After you configure a storage bucket for W&B, you cannot reconfigure it or change its scope, nor can you migrate its data to another bucket and remap relevant references in the main product storage. This applies to storage for Dedicated Cloud and Self-Managed, as well as team-level storage for SaaS Cloud. For questions, contact [support](mailto:support@wandb.com).
+Plan your storage bucket layout carefully. After you configure a storage bucket for W&B, migrating its data to another bucket is complex and requires the assistance of W&B. This applies to storage for Dedicated Cloud and Self-Managed, as well as team-level storage for SaaS Cloud. For questions, contact [support](mailto:support@wandb.com).
 {{% /alert %}}
 
 ## Cross-cloud or S3-compatible storage for team-level BYOB
