@@ -33,7 +33,6 @@ When using BYOB functionality, certain types of data will be stored in the W&B c
 - Artifact files
 - Media files
 - Run files
-- Console logs
 - Exported history metrics and system events in Parquet format
 
 ## Configuration options
