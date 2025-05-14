@@ -77,7 +77,7 @@ After you configure a workspace template, you can't delete it or stop using it. 
 | Group aggregation  | Mean |
 
 ### Create a workspace template
-1. Open or create a workspace that has the [line plot settings]({{< relref "https://docs.wandb.ai/guides/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}) you want to templatize.
+1. Open or create a workspace that has the [line plot settings]({{< relref "/guides/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}) you want to templatize.
 1. Save the settings as a workspace template.
 
   1. Click the workspace's `...` action menu at the top of the page near the **Undo** and **Redo** arrow icons.
