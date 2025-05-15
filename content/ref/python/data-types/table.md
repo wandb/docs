@@ -46,7 +46,7 @@ add_column(
 Adds a column of data to the table.
 
 With `log_mode="MUTABLE"`, this method allows the table to be logged again.
-With `log_mode="INCREMENTAL"`, this method is a no-op.
+With `log_mode="INCREMENTAL"`, this method cannot be used and will raise an exception.
 
 | Args |  |
 | :--- | :--- |
@@ -67,7 +67,7 @@ add_computed_columns(
 Adds one or more computed columns based on existing data.
 
 With `log_mode="MUTABLE"`, this method allows the table to be logged again.
-With `log_mode="INCREMENTAL"`, this method is a no-op.
+With `log_mode="INCREMENTAL"`, this method cannot be used and will raise an exception.
 
 | Args |  |
 | :--- | :--- |
