@@ -143,12 +143,18 @@ outputs:
     - RSS
     - print
   home:
-    - TXT
+    - HTML
+    - llms
+    - llms-full
 
 outputFormats:
-  TXT:
+  llms:
     mediaType: "text/plain"
     baseName: "llms"
+    isPlainText: true
+  llms-full:
+    mediaType: "text/plain"
+    baseName: "llms-full"
     isPlainText: true
 
 services:
