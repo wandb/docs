@@ -239,7 +239,7 @@ params:
       'yes': >-
         Glad to hear it! If you have more to say, please <a href="https://github.com/wandb/docs/issues/new?template=praise.md?&title=Praise:%20{{ .Title }}&body=Page:%20[{{ .Title }}]({{ .Permalink }})%0D%0AWhat+would+you+like+to+tell+us?%0D%0A">let us know</a>.
       'no': >-
-        Sorry to hear that. Please <a href="https://github.com/wandb/docs/issues/new?template=feedback.md?&title=Feedback:%20{{ .Title }}&body=Page:%20[{{ .Title }}]({{ .Permalink }})%0D%0AWhat+would+you+like+to+tell+us?%0D%0A">tell us how we can improve</a>.
+        Sorry to hear that. Please <a href="https://github.com/wandb/docs/issues/new?template=feedback.md&title=Feedback:%20{{ .Title }}&body=Link:%20{{ .RelPermalink }}%0AFeedback:%20">tell us how we can improve</a>.
     # Adds a reading time to the top of each doc.
     # If you want this feature, but occasionally need to remove the Reading time from a single page,
     # add "hide_readingtime: true" to the page's front matter
