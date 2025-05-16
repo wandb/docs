@@ -147,6 +147,7 @@
 /guides/hosting/scim /guides/hosting/iam/scim 301
 /guides/hosting/secure-storage-connector /guides/hosting/data-security/secure-storage-connector 301
 /guides/hosting/server-release-process /release-notes/release-policies 301
+/guides/hosting/server-release-process/ /release-notes/release-policies 301
 /guides/hosting/setup/configuration /guides/hosting 301
 /guides/hosting/setup/intro /guides/hosting 301
 /guides/hosting/setup /guides/hosting 301
@@ -342,6 +343,11 @@
 /ref/app/pages/workspaces /guides/track/workspaces 301
 /ref/app/pages /guides/app/pages 301
 /ref/app /guides/app 301
+/ref/release-notes/archived/0.61.0/ /ref/release-notes/0.61.0/ 301
+/ref/release-notes/archived/0.60.0/ /ref/release-notes/0.60.0/ 301
+/ref/release-notes/archived/0.58.1/ /ref/release-notes/0.58.1/ 301
+/ref/release-notes/archived/0.57.2/ /ref/release-notes/0.57.2/ 301
+/ref/release-notes/archived/0.56.0/ /ref/release-notes/0.56.0/ 301
 /ref/cli/wandb-server-start /ref/cli/wandb-server 301
 /ref/data_types /ref/python/data-types 301
 /ref/export-api/examples /ref/python/public-api 301
