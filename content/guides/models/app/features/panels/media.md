@@ -28,7 +28,7 @@ You can add a media panel globally or to a specific section:
 ## Configure a media panel
 Panels for all media types have the same options.
 
-When you add a media panel manually, its configuration page opens after you select the type of media. To configure a panel after it is created, click its gear icon. This section describes the settings available in each tab.
+When you add a media panel manually, its configuration page opens after you select the type of media. To update the configuration for an existing panel, hover over the panel, then click the gear icon that appears at the top right. This section describes the settings available in each tab.
 
 ### Overlays
 This tab appears for images and point clouds logged with segmentation masks or bounding boxes.
@@ -51,8 +51,8 @@ Customize the display of the panel's individual items.
 - Turn on or off **Grid mode**.
   - When it is turned on, you can choose a custom X and Y axis to plot on top of each item. More than one item displays in each row, and you limit how many rows to show.
   - When it is turned off, you can customize the number of columns to use for the panel's content, and you can configure the panel's content, which defaults to **Run**.
-- Optionally limit the number of runs to include.
-- Optionally limit the number of media items to include per run.
+- Optionally limit the **Max runs to include** in the panel.
+- Optionally specify a **Media display limit** to limit the number of media items to include per run.
 - **Images and videos**: Turn on or off display of full-size media.
 - **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
 - **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than plotting points left to right.
