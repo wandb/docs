@@ -55,7 +55,7 @@ Customize the display of the panel's individual items.
 - Optionally specify a **Media display limit** to limit the number of media items to include per run.
 - **Images and videos**: Turn on or off display of full-size media.
 - **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
-- **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than plotting points left to right.
+- **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
 
 ## Interact with a media panel
 - Click a media panel to view it in full screen mode.
