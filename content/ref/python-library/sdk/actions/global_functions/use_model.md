@@ -1,6 +1,7 @@
 ---
-title: use_model
+title: use_model()
 object_type: python_sdk_actions
+data_type_classification: function
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/lib/preinit.py >}}

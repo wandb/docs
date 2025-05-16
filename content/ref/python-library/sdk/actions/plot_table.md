@@ -1,6 +1,7 @@
 ---
-title: plot_table
+title: plot_table()
 object_type: python_sdk_actions
+data_type_classification: function
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/plot/custom_chart.py >}}

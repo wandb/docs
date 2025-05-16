@@ -1,6 +1,7 @@
 ---
-title: Video
+title: Class Video
 object_type: python_sdk_data_type
+data_type_classification: class
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/data_types/video.py >}}

@@ -1,6 +1,7 @@
 ---
 title: teams
 object_type: public_apis_namespace
+data_type_classification: module
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/apis/public/teams.py >}}

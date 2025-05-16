@@ -1,6 +1,7 @@
 ---
-title: sweep
+title: sweep()
 object_type: python_sdk_actions
+data_type_classification: function
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/wandb_sweep.py >}}

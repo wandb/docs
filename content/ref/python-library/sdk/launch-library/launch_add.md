@@ -1,6 +1,7 @@
 ---
-title: launch_add
+title: launch_add()
 object_type: launch_apis_namespace
+data_type_classification: function
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/launch/_launch_add.py >}}

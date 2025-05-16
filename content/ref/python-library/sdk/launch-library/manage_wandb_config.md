@@ -1,6 +1,7 @@
 ---
-title: manage_wandb_config
+title: manage_wandb_config()
 object_type: launch_apis_namespace
+data_type_classification: function
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/launch/inputs/manage.py >}}

@@ -1,6 +1,7 @@
 ---
 title: plot
 object_type: python_sdk_actions
+data_type_classification: module
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/plot/__init__.py >}}
