@@ -13,7 +13,7 @@ This page gives details about W&B Server releases and W&B's release policies. Th
 W&B fully manages [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) and the details in this page do not apply.
 
 ## Release support and end of life policy
-A W&B Server release is supported for one year from its initial release date. v0.68.x and below are supporterd for 6 monrhs.
+A W&B Server release is supported for one year from its initial release date.
 
 - **Dedicated Cloud** instances are automatically updated to maintain support.
 - Customers with **Self-managed** instances are responsible for upgrading in time to maintain support. Avoid staying on an unsupported version.
@@ -24,7 +24,7 @@ A W&B Server release is supported for one year from its initial release date. v0
 
 ## Release types and frequencies
 - **Major releases** are produced monthly, and may include new features, enhancements, performance improvements, medium and low severity bug fixes, and deprecations. An example of a major release is `0.68.0`.
-- **Patch releases** within a major version are produced as needed, and include critical and high severity bug fixes. An example of a patch release is `0.67.1`. Patch releases do not extend a major version's support period, which is determined based on the major release's initial release date.
+- **Patch releases** within a major version are produced as needed, and include critical and high severity bug fixes. An example of a patch release is `0.67.1`.
 
 ## Release rollout
 1. After testing and validation are complete, a release is first rolled out to all **Dedicated Cloud** instances to keep them fully updated.
