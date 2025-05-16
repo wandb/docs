@@ -8,7 +8,7 @@ title: Customize log axes
 
 Set a custom x-axis when you log metrics to W&B. By default, W&B logs metrics as *steps*. Each step corresponds to a `wandb.log()` API call. 
 
-For example, suppose you have a `for` loop that loops 10 times (see the following code block). In each `for` loop, you log a metric called `validation_loss` with `wandb.log()`. W&B increments the step number by 1 each time you log that metric. 
+For example, the following script has a `for` loop that iterates 10 times. In each iteration, the script logs a metric called `validation_loss` and increments the step number by 1.
 
 ```python
 import wandb
@@ -22,25 +22,25 @@ with wandb.init() as run:
     run.log(log_dict)
 ```
 
-If you navigate to your project's workspace, you can see that the `validation_loss` metric is plotted against the step x-axis. Each step in the for loop monotonically increases by 1, so the x-axis shows the step numbers 0, 1, 2, ..., 9. (The Python `range()` function creates a sequence of numbers from 0 to 9.)
+In the project's workspace, the `validation_loss` metric is plotted against the `step` x-axis, which increments by 1 each time `run.log()` is called. From the previous code, the x-axis shows the step numbers 0, 1, 2, ..., 9.
 
-{{< img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses default x-axis. Each step in monotonically increases by 1." >}}
+{{< img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses `step` as the x-axis." >}}
 
-In certain situations, it makes more sense to log metrics against a different x-axis. For example, you may want a logarithmic x-axis. Use the [`define_metric()`]({{< relref "ref/python/run/#define_metric" >}}) method to define a custom x-axis based on a metric you log.
+In certain situations, it makes more sense to log metrics against a different x-axis such as a logarithmic x-axis. Use the [`define_metric()`]({{< relref "ref/python/run/#define_metric" >}}) method to use any metric you log  as a custom x-axis.
 
-Specify the metric that you want to appear as the y-axis with the `name` parameter. The `step_metric` parameter specifies the metric you want to use as the x-axis. When you log a metric, specify a value for both the x-axis and the y-axis as key-value pairs in a dictionary. 
+Specify the metric that you want to appear as the y-axis with the `name` parameter. The `step_metric` parameter specifies the metric you want to use as the x-axis. When you log a custom metric, specify a value for both the x-axis and the y-axis as key-value pairs in a dictionary. 
 
 Copy and paste the following code snippet to set a custom x-axis metric. Replace the values within `<>` with your own values:
 
 ```python
 import wandb
 
-custom_step = "<custom_step>"  # custom x-axis
-metric_name = "<metric>"  # metric to log against custom x-axis
+custom_step = "<custom_step>"  # Name of custom x-axis
+metric_name = "<metric>"  # Name of y-axis metric
 
 with wandb.init() as run:
-    # define step metric (x-axis) and the metric to log against it (y-axis)
-    run.define_metric(name = metric_name, step_metric = custom_step)
+    # Specify the step metric (x-axis) and the metric to log against it (y-axis)
+    run.define_metric(step_metric = custom_step, name = metric_name)
 
     for i in range(10):
         log_dict = {
@@ -50,19 +50,19 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-As an example, the following code snippet demonstrates how to create a custom x-axis using a metric called `x_axis_squared` and a y-axis called `validation_loss`. The value of the custom x-axis is the square of the for loop index `i` (`i**2`). The `validation_loss` metric is logged as `1 / (i + 1)`.
+As an example, the following code snippet creates a custom x-axis called `x_axis_squared`. The value of the custom x-axis is the square of the for loop index `i` (`i**2`). The y-axis consists of mock values for validation loss (`"validation_loss"`) using Python's built-in `random` module: 
 
 ```python
 import wandb
+import random
 
 with wandb.init() as run:
-    # define which metrics will be plotted against it
-    run.define_metric(name = "validation_loss", step_metric = "x_axis_squared")
+    run.define_metric(step_metric = "x_axis_squared", name = "validation_loss")
 
     for i in range(10):
         log_dict = {
             "x_axis_squared": i**2,
-            "validation_loss": 1 / (i + 1),
+            "validation_loss": random.random(),
         }
         run.log(log_dict)
 ```
