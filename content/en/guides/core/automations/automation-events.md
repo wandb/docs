@@ -62,6 +62,9 @@ From the project's **Automations** tab or directly from a line plot panel, you c
 The notification can trigger a workflow when these events occur:
 - **Run metrics threshold met**: When the average, minimum, or maximum logged value for a given metric meets the threshold you specify.
 - **Run metrics change threshold met**: When the average, minimum, or maximum logged value for a given metric changes by the threshold you specify.
+- **Run status change**: Trigger a workflow when a run changes its status to one or more of **Running**, **Failed**, or **Finished**.
+
+Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
 
 To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
