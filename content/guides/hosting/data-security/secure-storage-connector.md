@@ -188,7 +188,7 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
           }
         ]
         ```
-        {{% alert %}}If data in your bucket expires due to a lifecycle policy, you may lose the ability to read the history of some runs.{{% /alert %}}
+        {{% alert %}}If data in your bucket expires due to an [object lifecycle management policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html), you may lose the ability to read the history of some runs.{{% /alert %}}
     1. Grant the required S3 permissions to the AWS account hosting the W&B Platform, which requires these permissions to generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket.
 
         ```json
@@ -256,7 +256,7 @@ For more details, see the [AWS self-managed hosting guide]({{< relref "/guides/h
            ]
            ```
 
-          {{% alert %}}If data in your bucket expires due to a lifecycle policy, you may lose the ability to read the history of some runs.{{% /alert %}}
+          {{% alert %}}If data in your bucket expires due to an [object lifecycle management policy](https://cloud.google.com/storage/docs/lifecycle), you may lose the ability to read the history of some runs.{{% /alert %}}
 
       1. Replace `<bucket_name>` with the correct bucket name and run `gsutil`.
 
@@ -296,7 +296,7 @@ For more details, see the [AWS self-managed hosting guide]({{< relref "/guides/h
         | Exposed Headers | `*` |
         | Max Age | `3000` |
 
-        {{% alert %}}If data in your bucket expires due to a lifecycle policy, you may lose the ability to read the history of some runs.{{% /alert %}}
+        {{% alert %}}If data in your bucket expires due to an [object lifecycle management policy](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure?tabs=azure-portal), you may lose the ability to read the history of some runs.{{% /alert %}}
 1. Generate a storage account access key, and keep a record of that along with the storage account name. If you are using [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), share the storage account name and access key with your W&B team using a secure sharing mechanism.
 
     For the team level BYOB, W&B recommends that you use [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision the Azure Blob Storage bucket along with the necessary access mechanism and permissions. If you use [Dedicated cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), provide the OIDC issuer URL for your instance. Make a note of details that you need to [configure the bucket while creating the team]({{< relref "#configure-byob-in-wb" >}}):
