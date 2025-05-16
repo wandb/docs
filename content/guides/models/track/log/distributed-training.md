@@ -118,7 +118,7 @@ Within the primary node, initialize a W&B run with [`wandb.init`]({{< relref "/r
 1. The `mode` parameter set to `"shared"` to enable shared mode.
 2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
 3. Set the [`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) parameter to `True` to indicate that this is the primary node.
-4. Optionally provide a list of GPU indices ([0,1,2]) to `x_stats_gpu_device_ids` to specify which GPUs W&B tracks metrics for. If you do not provide a list, W&B tracks metrics for all GPUs on the machine.
+4. Optionally provide a list of GPU indexes ([0,1,2]) to `x_stats_gpu_device_ids` to specify which GPUs W&B tracks metrics for. If you do not provide a list, W&B tracks metrics for all GPUs on the machine.
 
 Make note of the run ID of the primary node. Each worker node needs the run ID of the primary node.
 
