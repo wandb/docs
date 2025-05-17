@@ -81,6 +81,31 @@ for img_id, img in enumerate(mnist_test_data):
     )  # Add row data to the table
 ```
 
+In the example above, the table can only be logged once via `run.log()`. Tables can be logged incrementally by initializing the table with `log_mode="INCREMENTAL"`. It is recommended to log a maximum of 100 increments as the UI will display the latest 100 increments.
+
+```python
+# Define the columns for the table, including confidence scores for each label
+columns = ["id", "image", "guess", "truth", "model"]
+for digit in range(10):  # Add confidence score columns for each digit (0-9)
+    columns.append(f"score_{digit}")
+
+# Initialize the table with the defined columns
+test_table = wandb.Table(columns=columns, log_mode="INCREMENTAL")
+
+# Iterate through the test dataset and add data to the table row by row
+# Each row includes the image ID, image, predicted label, true label, and confidence scores
+for my_model in models:
+    for img_id, img in enumerate(mnist_test_data):
+        true_label = mnist_test_data_labels[img_id]  # Ground truth label
+        guess_label = my_model.predict(img)  # Predicted label
+        test_table.add_data(
+            img_id, wandb.Image(img), guess_label, true_label, my_model.name
+        )  # Add row data to the table
+    # log an increment for each model
+    run.log({"table": test_table})
+```
+
+
 #### Adding data to resumed runs
 
 You can incrementally update a W&B table in resumed runs by loading an existing table from an artifact, retrieving the last row of data, and adding the updated metrics. Then, reinitialize the table for compatibility and log the updated version back to W&B.
