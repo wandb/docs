@@ -142,6 +142,20 @@ outputs:
     - HTML
     - RSS
     - print
+  home:
+    - HTML
+    - llms
+    - llms-full
+
+outputFormats:
+  llms:
+    mediaType: "text/plain"
+    baseName: "llms"
+    isPlainText: true
+  llms-full:
+    mediaType: "text/plain"
+    baseName: "llms-full"
+    isPlainText: true
 
 services:
   googleAnalytics:
