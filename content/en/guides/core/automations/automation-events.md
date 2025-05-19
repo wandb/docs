@@ -55,24 +55,32 @@ This section describes the events related to an artifact that can trigger an aut
 - **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
 
 ### Run events
-From the project's **Automations** tab or directly from a line plot panel, you can create a run metric automation triggered by:
-- A metric in a run's history.
-- A [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
+An automation can be triggered by a change in a [run's status]({{< relref "/guides/models/track/runs/#run-states" >}}) or a [metric]({{< relref "/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" >}}).
 
-The notification can trigger a workflow when these events occur:
-- **Run metrics threshold met**: When the average, minimum, or maximum logged value for a given metric meets the threshold you specify.
-- **Run metrics change threshold met**: When the average, minimum, or maximum logged value for a given metric changes by the threshold you specify.
-- **Run status change**: Trigger a workflow when a run changes its status to one or more of **Running**, **Failed**, or **Finished**.
+#### Run status change
+{{% alert %}}
+- Currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
+- A run with **Killed** status cannot trigger an automation. This status indicates that the run was stopped forcibly by an admin user.
+{{% /alert %}}
 
-Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+Trigger a workflow when a run changes its status to one or more of **Running**, **Finished**, or **Failed**. **Finished** indicates a run that completed successfully. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+
+Because run status is a property of the entire run, you can create a run status automation only from the the **Automations** page, not from a workspace.
+
+#### Run metrics change
+{{% alert %}}
+Currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
+{{% /alert %}}
+
+Trigger a workflow based on a logged value for a metric, either a metric in a run's history or a [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
+
+You can create a run metrics automation from the project's **Automations** tab or directly from a line plot panel in a workspace.
 
 To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
-{{% alert %}}
-Run metric automations are currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
-{{% /alert %}}
+Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
 
-#### Threshold
+##### Threshold
 For **Run metrics threshold met** events, you configure:
 1. The window of most recently logged values to consider (defaults to 5).
 1. Whether to evaluate the **Average**, **Min**, or **Max** value within the window.
@@ -86,7 +94,7 @@ For **Run metrics threshold met** events, you configure:
 
 For example, trigger an automation when average `accuracy` is above `.6`.
 
-#### Change threshold
+##### Change threshold
 For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
 
 - The _current window_ of recently logged values to consider (defaults to 10).
@@ -102,13 +110,13 @@ To create the automation, you configure:
       - Increases by at least
       - Decreases by at least
       - Increases or decreases by at least
-      
+
       For example, trigger an automation when `loss` decreases by at least `.25`.
 
 #### Run filters
 This section describes how the automation selects runs to evaluate.
 
-- By default, any run in the project triggers the animation when the event occurs. To consider only specific runs, specify a run filter.
+- By default, any run in the project triggers the automation when the event occurs. To consider only specific runs, specify a run filter.
 - Each run is considered individually and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
 - In a 24 hour period, a particular automation can fire at most once per run.
