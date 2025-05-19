@@ -26,12 +26,36 @@ You can add a media panel globally or to a specific section:
 1. Select the type of media the panel visualizes, 3d objects, images, video, or audio. The panel configuration screen displays. Configure the panel, then click **Apply**. Refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
 
 ## Configure a media panel
-This section shows how to customize a media panel, either when you are manually adding it or afterward. Panels for all media types have the same options.
+Panels for all media types have the same options.
 
-1. You configure a media panel during the process of adding it. To update its configuration later, click its gear icon.
-1. In the **Basic** tab, give the panel a name, select the keys to visualize, and configure the maximum number of runs, number of columns, and number of items to show.
-1. Optionally configure additional settings in the **Advanced** tab. You can configure smoothing for images, turn on or off **Grid mode** to overlay a configurable X-axis and Y-axis on the panel, adjust the stepper's metric and stride length, and optionally adjust the stepper's offset so that the panel always stops at the current step.
-1. Click **Apply**.
+When you add a media panel manually, its configuration page opens after you select the type of media. To update the configuration for an existing panel, hover over the panel, then click the gear icon that appears at the top right. This section describes the settings available in each tab.
+
+### Overlays
+This tab appears for images and point clouds logged with segmentation masks or bounding boxes.
+- Search and filter overlays by name.
+- Customize overlay colors.
+
+### Display
+Customize the panel's overall appearance and behavior.
+- Configure the panel's title.
+- Select the media keys to visualize.
+- Customize the panel's slider and playback behavior.
+  - Configure the slider key, which defaults to **Step**.
+  - Set **Stride length** to the number of steps to advance for each click of the slider.
+  - Turn on or off **Snap to existing step**. If it is turned on, the stepper advances to the next existing step after **Stride length**. Otherwise, it advances by **Stride length** even if that does not align with an existing step.
+- **Images**: Turn on or off smoothing.
+- **3d objects**: Configure the background color and point color.
+
+### Layout
+Customize the display of the panel's individual items.
+- Turn on or off **Grid mode**.
+  - When it is turned on, you can choose a custom X and Y axis to plot on top of each item. More than one item displays in each row, and you limit how many rows to show.
+  - When it is turned off, you can customize the number of columns to use for the panel's content, and you can configure the panel's content, which defaults to **Run**.
+- Optionally limit the **Max runs to include** in the panel.
+- Optionally specify a **Media display limit** to limit the number of media items to include per run.
+- **Images and videos**: Turn on or off display of full-size media.
+- **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
+- **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
 
 ## Interact with a media panel
 - Click a media panel to view it in full screen mode.
