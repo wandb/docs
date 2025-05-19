@@ -386,7 +386,7 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **System hardware**: The hardware W&B uses to compute the run.
 * **Tags**: A list of strings. Tags are useful for organizing related runs together or applying temporary labels like `baseline` or `production`.
 * **W&B CLI version**: The W&B CLI version installed on the machine that hosted the run command.
-<!-- * **Git state**: -->
+* **Git state**: The most recent git commit SHA of a repository or working directory where the run is initialized. This field is empty if you do not enable Git when you create the run or if the git information is not available.
 
 W&B stores the proceeding information below the overview section:
 
