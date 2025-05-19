@@ -146,6 +146,11 @@ outputs:
     - HTML
     - llms
     - llms-full
+  page:
+    - HTML
+    - markdown
+    - plain
+    - print
 
 outputFormats:
   llms:
@@ -156,6 +161,18 @@ outputFormats:
     mediaType: "text/plain"
     baseName: "llms-full"
     isPlainText: true
+  markdown:
+    path: "_markdown"
+    isPlainText: true
+    mediaType: text/markdown
+    suffixes:
+      - md
+  plain:
+    path: "_plain"
+    isPlainText: true
+    mediaType: text/plain
+    suffixes:
+      - txt
 
 services:
   googleAnalytics:
