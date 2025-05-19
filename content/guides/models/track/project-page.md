@@ -250,7 +250,44 @@ The action history audit tab shows all of the alias actions and membership chang
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
 
+## Create a project
+You can create a project in the W&B App or programmatically by specifying a project in a call to `wandb.init()`.
 
+{{< tabpane text=true >}}
+   {{% tab header="W&B App" %}}
+In the W&B App, you can create a project from the **Projects** page or from a team's landing page.
+
+From the **Projects** page:
+1. Click the global navigation icon in the upper left. The navigation sidebar opens.
+1. In the **Projects** section of the navigation, click **View all** to open the project overview page.
+1. Click **Create new project**.
+1. Set **Team** to the name of the team that will own the project.
+1. Specify a name for your project using the **Name** field. 
+1. Set **Project visibility**, which defaults to **Team**.
+1. Optionally, provide a **Description**.
+1. Click **Create project**.
+
+From a team's landing page:
+1. Click the global navigation icon in the upper left. The navigation sidebar opens.
+1. In the **Teams** section of the navigation, click the name of a team to open its landing page.
+1. In the landing page, click **Create new project**.
+1. **Team** is automatically set to the team that owns the landing page you were viewing. If necessary, change the team.
+1. Specify a name for your project using the **Name** field. 
+1. Set **Project visibility**, which defaults to **Team**.
+1. Optionally, provide a **Description**.
+1. Click **Create project**.
+
+   {{% /tab %}}
+   {{% tab header="Python SDK" %}}
+To create a project programmatically, specify a `project` when calling `wandb.init()`. If the project does not yet exist, it is created automatically, and is owned by the specified entity. For example:
+
+```python
+import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+```
+
+Refer to the [`wandb.init()` API reference]({{< relref "/ref/python/init/#examples" >}}).
+   {{% /tab %}}  
+{{< /tabpane >}}
 
 ## Star a project
 
