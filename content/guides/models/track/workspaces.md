@@ -62,10 +62,10 @@ Remove saved views that are no longer needed.
 Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
 
 ## Workspace templates
-Use _workspace templates_ to quickly create new workspaces using an existing workspace's settings to new workspaces. Currently, a workspace template can include line plot settings.
+Use _workspace templates_ to quickly create workspaces using the same settings as an existing workspace instead of the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}). Currently, a workspace template can define custom [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}).
 
 ### Default workspace settings
-After you configure a workspace template, you can't delete it or stop using it. Instead, you can update it to use the default settings:
+By default, new workspaces use these default settings for line plots:
 
 | Setting | Default |
 |-------|----------
@@ -76,29 +76,34 @@ After you configure a workspace template, you can't delete it or stop using it. 
 | Grouping in charts | on |
 | Group aggregation  | Mean |
 
-### Create a workspace template
-1. Open or create a workspace that has the [line plot settings]({{< relref "https://docs.wandb.ai/guides/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}) you want to templatize.
-1. Save the settings as a workspace template.
+### Configure your workspace template
+1. Open any workspace or create a new one.
+1. Configure the workspace's [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}) according to your preferences.
+1. Save the settings to your workspace template:
+    1. Click the workspace's `...` action menu at the top of the page near the **Undo** and **Redo** arrow icons.
+    1. Click **Save personal workspace template**.
+    1. Review the line plot settings for the template, then click **Save**.
 
-  1. Click the workspace's `...` action menu at the top of the page near the **Undo** and **Redo** arrow icons.
-  1. Click **Save personal workspace template**.
-  1. Review the line plot settings that the template will use, then click **Save**.
+New workspaces will use these settings instead of the defaults.
 
-### Update a workspace template
-After you create a workspace template, follow these steps to update it:
+{{% alert %}}
+To stop using a customized workspace template, you can [update your workspace template]({{< relref "#update-a-workspace-template" >}}) back to the [default setting]({{< relref "#default-workspace-settings" >}}).
+{{% /alert %}}
 
-1. Open any workspace that uses the existing template.
+### Update your workspace template
+Follow these steps to update your workspace template:
+
+1. Open any workspace.
 1. Modify the workspace's line plot settings. For example, set the number of runs to include to `11`.
 1. To save the changes to the template, click the workspace's `...` action menu at the top of the page near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
     {{% alert %}}
-    If you see **Save personal workspace template**, no workspace template has been created yet. Refer to [Create a workspace template]({{< relref "#create-a-workspace-template" >}}).
+    If you see **Save personal workspace template**, no workspace template has been created yet. Refer to [Configure your workspace template]({{< relref "#configure-your-workspace-template" >}}).
     {{% /alert %}}
-1. Verify the new line plot settings, then click **Update**. The template is updated and reapplied to all workspaces that use it.
+1. Verify the new line plot settings, then click **Update**. The template is updated, and reapplied to all workspaces that use it.
 
 {{% alert %}}
-After you configure a workspace template, you can't delete it or stop using it. Instead, you can update it to use the [default settings]({{< relref "#default-workspace-settings" >}}).
+If you decide to stop using a customized workspace template, you can [update it]({{< relref "#update-your-workspace-template" >}}) to use the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}).
 {{% /alert %}}
-
 
 ## Programmatically creating workspaces
 

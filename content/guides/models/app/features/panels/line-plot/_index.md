@@ -1,12 +1,12 @@
 ---
 description: Visualize metrics, customize axes, and compare multiple lines on a plot
-url: guides/app/features/panels/line-plot
+url: /guides/app/features/panels/line-plot
 menu:
   default:
     identifier: intro_line_plot
     parent: panels
 cascade:
-- url: guides/app/features/panels/line-plot/:filename
+- url: /guides/app/features/panels/line-plot/:filename
 title: Line plots
 weight: 10
 ---
