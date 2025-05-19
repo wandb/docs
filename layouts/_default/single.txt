@@ -1,0 +1,4 @@
+# {{ .Title }}
+
+{{ .Plain | replaceRE "(.*img src=.*)" "" | replaceRE "(\n)" "\n\n" }}
+
