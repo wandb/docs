@@ -1,4 +1,4 @@
-# {{ .Title }}
+# {{ .Title | transform.HTMLUnescape | safeHTML }}
 
-{{ .Plain | replaceRE "(.*img src=.*)" "" | replaceRE "(\n)" "\n\n" }}
+{{ .Plain | transform.HTMLUnescape | safeHTML }}
 
