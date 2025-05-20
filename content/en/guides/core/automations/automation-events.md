@@ -60,7 +60,7 @@ From the project's **Automations** tab or directly from a line plot panel, you c
 - A [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
 
 The notification can watch the metric for these events:
-- **Run metrics threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged values meets the threshold you specify.
+- **Run metrics threshold met**: Trigger a workflow when a single logged value for a metric, the average logged values for the metric over a number of runs, or the min or max value for the metric over a number of runs, meets the threshold you specify.
 - **Run metrics change threshold met**: Trigger a workflow when the average logged values of a run change by the absolute or relative threshold you specify.
 
 To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
