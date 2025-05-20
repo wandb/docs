@@ -9,8 +9,7 @@ weight: 8
 
 Team or Registry admins can delete a custom registry. A team admin can delete any custom registry in the organization, while a registry admin can only delete the custom registry they created.
 
-You cannot delete a core registry. Deleting a registry also deletes collections that belong to that registry. The registry's artifacts are not deleted, but the artifacts are no longer associated with the registry.
-
+You cannot delete a core registry. Deleting a registry also deletes collections that belong to that registry. Artifacts linked to a registry are not deleted when the registry is deleted. The artifact still exist in the original project that the artifact was logged to.
 
 {{< tabpane text=true >}}
 {{% tab header="Python SDK" value="python" %}}
