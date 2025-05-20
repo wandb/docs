@@ -1,5 +1,5 @@
 ---
-title: Class ArtifactTTL
+title: ArtifactTTL
 object_type: python_sdk_actions
 data_type_classification: class
 ---

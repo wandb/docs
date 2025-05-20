@@ -1,5 +1,5 @@
 ---
-title: Class OnLinkArtifact
+title: OnLinkArtifact
 object_type: automations_namespace
 data_type_classification: class
 ---

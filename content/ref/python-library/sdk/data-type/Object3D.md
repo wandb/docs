@@ -1,5 +1,5 @@
 ---
-title: Class Object3D
+title: Object3D
 object_type: python_sdk_data_type
 data_type_classification: class
 ---

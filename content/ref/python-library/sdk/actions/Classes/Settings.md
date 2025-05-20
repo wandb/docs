@@ -1,5 +1,5 @@
 ---
-title: Class Settings
+title: Settings
 object_type: python_sdk_actions
 data_type_classification: class
 ---

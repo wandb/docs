@@ -1,5 +1,5 @@
 ---
-title: Class ArtifactEvent
+title: ArtifactEvent
 object_type: automations_namespace
 data_type_classification: class
 ---

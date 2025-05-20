@@ -1,5 +1,5 @@
 ---
-title: Class LaunchAgent
+title: LaunchAgent
 object_type: launch_apis_namespace
 data_type_classification: class
 ---

@@ -1,5 +1,5 @@
 ---
-title: Class Automation
+title: Automation
 object_type: automations_namespace
 data_type_classification: class
 ---

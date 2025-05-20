@@ -1,5 +1,5 @@
 ---
-title: Class SlackIntegration
+title: SlackIntegration
 object_type: automations_namespace
 data_type_classification: class
 ---

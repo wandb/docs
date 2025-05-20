@@ -1,5 +1,5 @@
 ---
-title: Class Audio
+title: Audio
 object_type: python_sdk_data_type
 data_type_classification: class
 ---

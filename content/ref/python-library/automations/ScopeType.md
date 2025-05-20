@@ -1,5 +1,5 @@
 ---
-title: Class ScopeType
+title: ScopeType
 object_type: automations_namespace
 data_type_classification: class
 ---

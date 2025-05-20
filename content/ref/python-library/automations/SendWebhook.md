@@ -1,5 +1,5 @@
 ---
-title: Class SendWebhook
+title: SendWebhook
 object_type: automations_namespace
 data_type_classification: class
 ---

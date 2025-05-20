@@ -1,5 +1,5 @@
 ---
-title: Class WebhookIntegration
+title: WebhookIntegration
 object_type: automations_namespace
 data_type_classification: class
 ---

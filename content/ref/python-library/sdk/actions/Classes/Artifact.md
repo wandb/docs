@@ -1,5 +1,5 @@
 ---
-title: Class Artifact
+title: Artifact
 object_type: python_sdk_actions
 data_type_classification: class
 ---
