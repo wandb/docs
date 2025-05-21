@@ -62,6 +62,12 @@ Remove saved views that are no longer needed.
 Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
 
 ## Workspace templates
+
+<!-- Tracked in https://wandb.atlassian.net/browse/DOCS-1543 -->
+{{% alert %}}
+{{< readfile file="/_includes/private-preview-feature.md" >}}
+{{% /alert %}}
+
 Use _workspace templates_ to quickly create workspaces using the same settings as an existing workspace instead of the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}). Currently, a workspace template can define custom [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}).
 
 ### Default workspace settings
