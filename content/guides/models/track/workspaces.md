@@ -65,8 +65,7 @@ Share your customized workspace with your team by sharing the workspace URL dire
 
 <!-- Tracked in https://wandb.atlassian.net/browse/DOCS-1543 -->
 {{% alert %}}
-{{< readfile file="/_includes/private-preview-feature.md" >}}
-This feature requires an [Enterprise](https://wandb.ai/site/pricing/) license.
+{{< readfile file="/_includes/workspace-templates-private-preview-feature.md" >}}
 {{% /alert %}}
 
 Use _workspace templates_ to quickly create workspaces using the same settings as an existing workspace instead of the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}). Currently, a workspace template can define custom [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}).
