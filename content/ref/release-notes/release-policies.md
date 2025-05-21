@@ -13,7 +13,7 @@ This page gives details about W&B Server releases and W&B's release policies. Th
 W&B fully manages [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) and the details in this page do not apply.
 
 ## Release support and end of life policy
-A W&B Server release is supported for one year from its initial release date.
+A W&B Server release is supported for 12 months from its initial release date.
 
 - **Dedicated Cloud** instances are automatically updated to maintain support.
 - Customers with **Self-managed** instances are responsible for upgrading in time to maintain support. Avoid staying on an unsupported version.
