@@ -87,7 +87,7 @@ By default, new workspaces use these default settings for line plots:
 1. Open any workspace or create a new one.
 1. Configure the workspace's [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}) according to your preferences.
 1. Save the settings to your workspace template:
-    1. Click the workspace's `...` action menu at the top of the page near the **Undo** and **Redo** arrow icons.
+    1. At the top of the workspace, click the action menu `...` near the **Undo** and **Redo** arrow icons.
     1. Click **Save personal workspace template**.
     1. Review the line plot settings for the template, then click **Save**.
 
@@ -98,7 +98,7 @@ Follow these steps to update your workspace template:
 
 1. Open any workspace.
 1. Modify the workspace's line plot settings. For example, set the number of runs to include to `11`.
-1. To save the changes to the template, click the workspace's `...` action menu at the top of the page near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
+1. To save the changes to the template, click the action menu `...` near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
 1. Verify the new line plot settings, then click **Update**. The template is updated, and reapplied to all workspaces that use it.
 
 {{% alert %}}
