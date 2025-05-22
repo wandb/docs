@@ -82,7 +82,7 @@ To specify a numeric threshold, you configure:
 1. How to compare the values with the threshold.
 For example, trigger an automation when `accuracy` exceeds `.6`.
 
-To trigger the automation when a value is the minimum or maximum value, you configure:
+To trigger the automation when a value is the minimum or maximum value over a defined number of runs, you configure:
 1. Either **Min** or **Max**.
 1. The number of logged values to consider.
 
