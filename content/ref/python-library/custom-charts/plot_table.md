@@ -1,6 +1,6 @@
 ---
 title: plot_table()
-object_type: python_sdk_actions
+object_type: python_sdk_custom_charts
 data_type_classification: function
 ---
 
