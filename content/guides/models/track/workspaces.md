@@ -68,10 +68,13 @@ Share your customized workspace with your team by sharing the workspace URL dire
 {{< readfile file="/_includes/workspace-templates-private-preview-feature.md" >}}
 {{% /alert %}}
 
-Use _workspace templates_ to quickly create workspaces using the same settings as an existing workspace instead of the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}). Currently, a workspace template can define custom [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}).
+Use _workspace templates_ to automatically apply custom settings from an existing workspace to new workspaces without updating each [default setting]({{< relref "#default-workspace-settings" >}}) individually. Currently, a workspace template can define custom [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}).
 
 ### Default workspace settings
-By default, new workspaces use these default settings for line plots:
+By default, new workspaces use these default settings:
+
+#### Line plots
+
 
 | Setting | Default |
 |-------|----------
