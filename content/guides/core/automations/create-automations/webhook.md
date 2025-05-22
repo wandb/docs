@@ -66,7 +66,7 @@ A W&B admin can create automations in a project.
 1. Log in to W&B and go to the project page.
 1. In the sidebar, click **Automations**, then click **Create automation**. From here you can create an automation for a run metric or a run status change.
 
-    From a line plot in a workspace, you can quickly create an automation for a [run metric]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
+    From a line plot in a workspace, you can quickly create an automation for a [run metric]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel. From here, you can configure a Slack automation by selecting the destination channel. To configure a webhook automation, click **Advanced configuration**.
     {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
 
     You can create a run status automation only from the **Automations** page, not from a workspace. Run status is a property of the entire run, not a single metric. To learn more, refer to [Run events]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}).
