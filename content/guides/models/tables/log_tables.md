@@ -53,14 +53,14 @@ The following table describes the differences between the three modes and common
 | Mode  | Use Cases  | Benefits  |
 | ----- | ---------- | ----------|
 | `IMMUTABLE`   | - Storing tabular data generated at the end of a run for further analysis                              | - Minimal overhead when logged at the end of a run<br>- All rows rendered in UI |
-| `MUTABLE`     | - Adding columns to existing tables<br>- Enriching results with new information                        | - Capture Table mutations<br>- All rows rendered in UI                          |
-| `INCREMENTAL` | - Long-running training jobs<br>- Processing large datasets in batches<br>- Monitoring ongoing results | - View updates on UI during training<br>- Ability to step through increments    |
+| `MUTABLE`     | - Adding columns or rows to existing tables<br>- Enriching results with new information                        | - Capture Table mutations<br>- All rows rendered in UI                          |
+| `INCREMENTAL` | - Adding rows to tables in batches<br> - Long-running training jobs<br>- Processing large datasets in batches<br>- Monitoring ongoing results | - View updates on UI during training<br>- Ability to step through increments    |
 
 The next sections show example code snippets for each mode along with considerations for when to use each mode.
 
 ### MUTABLE mode
 
-`MUTABLE` mode updates an existing table by replacing the existing table with a new one. `MUTABLE` mode is useful when you want to add new columns and rows to an existing table in a non iterative process. If you want to add new rows incrementally like in a training loop, consider using [`INCREMENTAL` mode]({{< relref "#INCREMENTAL-mode" >}}) instead.
+`MUTABLE` mode updates an existing table by replacing the existing table with a new one. `MUTABLE` mode is useful when you want to add new columns and rows to an existing table in a non iterative process. If you want to add new batches of rows incrementally like in a training loop, consider using [`INCREMENTAL` mode]({{< relref "#INCREMENTAL-mode" >}}) instead.
 
 The following example shows how to create a table in `MUTABLE` mode, log it, and then add new columns to it.
 
@@ -104,13 +104,15 @@ run.finish()
 In the previous example, the table is logged three times: once with the initial data, once with the confidence scores, and once with the final predictions.
 
 {{% alert %}}
-Internally, the table is replaced each time you log the table. Overwriting a table with a new one is computationally expensive and can be slow for large tables. If you are logging a large number of rows, consider using `INCREMENTAL` mode instead.
+Internally, the table is replaced each time you log the table. Overwriting a table with a new one is computationally expensive and can be slow for large tables.
 {{% /alert %}}
 
 ### INCREMENTAL mode
 
 In incremental mode, you log batches of rows to a table throughout the machine learning experiment. This
-is ideal for monitoring long-running jobs or when working with large datasets that would be inefficient to log all at once.
+is ideal for monitoring long-running jobs or when working with large tables that would be inefficient to log during the run for updates.
+
+You can not add new columns to a table in `INCREMENTAL` mode. If you need to add new columns to a table that you already logged, consider using `MUTABLE` mode instead.
 
 The following example shows how to create a table in `INCREMENTAL` mode, log it, and then add new rows to it.
 
@@ -150,7 +152,7 @@ run.finish()
 
 In the previous code example, the table is logged once per training step (`step`).
 
-Incremental logging is generally more computationally efficient than logging a new table each time (`log_mode=MUTABLE`). However, it is important to note that the W&B App may not render all rows in the table if you log a large number of increments. In this case, consider combining `INCREMENTAL` and `IMMUTABLE` logging modes to reduce the number of increments shown in the W&B App.
+Incremental logging is generally more computationally efficient than logging a new table each time (`log_mode=MUTABLE`). However, it is important to note that the W&B App may not render all rows in the table if you log a large number of increments. If your goal is to update and view your table data while your run is ongoing and to have all the data available for analysis, consider using both `INCREMENTAL` and `IMMUTABLE` logging modes.
 
 {{% alert %}}
 Run workspaces in the W&B App have a limit of 100 increments. If you log more than 100 increments, only the most recent 100 are shown in the run workspace.
