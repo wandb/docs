@@ -98,3 +98,11 @@ If you use PyTorch's TensorBoard integration, you may need to manually upload th
 ```python
 wandb.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
 ```
+
+### Can I sync tfevents files stored in the cloud?
+
+wandb versions 0.20.0 and up support syncing `tfevents` files stored in S3, GCS or Azure.
+
+- S3 uses the default credentials configured by `aws configure`. The logging directory must be in the format `s3://bucket/path/to/logs`.
+- GCS uses the application default credentials configured by `gcloud auth application-default login`. The logging directory must be in the format `gs://bucket/path/to/logs`.
+- Azure uses the credentials set by `az login` and requires the `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_KEY` environment variables to be set. The logging directory must be in the format `az://account/container/path/to/logs`.
