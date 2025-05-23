@@ -5,38 +5,48 @@ weight: 1
 
 Visualize and log tabular data with W&B Tables. A table is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a W&B [run]({{< relref "/guides/models/track/runs/" >}}). Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
 
-<!-- Tables are a specialized [data type]({{< relref "/ref/python/data-types/" >}}) in W&B that are logged internally in W&B as an [artifact]({{< relref "/guides/core/artifacts/" >}}) objects. -->
+Tables are a specialized [data type]({{< relref "/ref/python/data-types/" >}}) in W&B that are logged internally in W&B as [artifact]({{< relref "/guides/core/artifacts/" >}}) objects.
 
-You [create and log tables]({{< relref "#create-and-log-a-new-table" >}}) using the W&B Python SDK. You can make a table [immutable, mutable, or incremental]({{< relref "#table-logging-modes" >}}). The mode you set determines how if and how you can modify the table after it is created.
+You [create and log tables]({{< relref "#create-and-log-a-new-table" >}}) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode]({{< relref "#table-logging-modes" >}}). The mode determines how the table is logged and updated during your ML experiments.
 
-## Create a table
 
-Log a table to W&B using the `wandb.Table` class. 
+## Create and log a table
+
 
 1. First, create a new run with `wandb.init()`. 
-2. Next, create a table object with `wandb.Table`. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. 
-3. Finally, log the table to W&B with `run.log()`.
+2. Next, create a table object with the [`wandb.Table`]({{< relref "/ref/python/data-types/table" >}}) Class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. Though optional, it is recommended to set the `log_mode` parameter to one of the three modes: `IMMUTABLE`, `MUTABLE`, or `INCREMENTAL`. The default mode is `IMMUTABLE`. See [Table Logging Modes]({{< relref "#table-logging-modes" >}}) in the next section for more information.
+3. Lastly, log the table to W&B with `run.log()`.
 
 The following example shows how to create and log a table with two columns, `a` and `b`, and two rows of data, `["a1", "b1"]` and `["a2", "b2"]`:
 
 ```python
 import wandb
 
-with wandb.init(project="table-test") as run:
-    my_table = wandb.Table(
-        columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]],
-        log_mode="IMMUTABLE"
+# Start a new run
+run = wandb.init(project="table-demo")
+
+# Create a table object with two columns and two rows of data
+my_table = wandb.Table(
+    columns=["a", "b"],
+    data=[["a1", "b1"], ["a2", "b2"]],
+    log_mode="IMMUTABLE"
     )
-    run.log({"Table Name": my_table})
+
+# Log the table to W&B
+run.log({"Table Name": my_table})
+
+# Finish the run
+run.finish()
 ```
 
 ## Logging modes
 
-There are three table modes. The mode you set when you create a table determines how if and how you can modify the table after it is created. The three modes are:
+The `log_mode` parameter of the [`wandb.Table`]({{< relref "/ref/python/data-types/table" >}}) class determines how the table is logged and updated during your ML experiments. The `log_mode` parameter accepts three values: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how the table is logged, how it can be modified, and how it is rendered in the W&B App.
 
-- `IMMUTABLE` mode (default): Once a table is logged, it cannot be modified.
-- `MUTABLE` mode: Update an existing table by replacing the existing table with a new one.
-- `INCREMENTAL` mode: Add batches of new rows to a table iteratively.
+The modes are:
+- `IMMUTABLE`: Once a table is logged to W&B, you can not modify it.
+- `MUTABLE`: After you log the table to W&B, you can overwrite the existing table by replacing that table with a new one.
+- `INCREMENTAL`: Add batches of new rows to a table throughout the machine learning experiment.
 
 The following table describes the differences between the three modes and common use cases for each:
 
@@ -60,6 +70,7 @@ The following example uses a placeholder function `load_eval_data()` to load dat
 
 ```python
 import wandb
+import numpy as np
 
 run = wandb.init(project="mutable-table-demo")
 
@@ -77,28 +88,29 @@ for inp, label, pred in zip(inputs, labels, raw_preds):
 # Step 1: Log initial data 
 wandb.log({"eval_table": table})  # Log initial table
 
-# Step 2: Add confidence scores
-confidences = compute_confidences(raw_preds)
+# Step 2: Add confidence scores (e.g. max softmax)
+confidences = np.max(raw_preds, axis=1)
 table.add_column("confidence", confidences)
-wandb.log({"eval_table": table})  # Updates the table with new column
+run.log({"eval_table": table})  # Add confidence info
 
 # Step 3: Add post-processed predictions
-post_preds = postprocess_predictions(raw_preds, confidences)
+# (e.g., thresholded or smoothed outputs)
+post_preds = (confidences > 0.7).astype(int)
 table.add_column("final_prediction", post_preds)
 wandb.log({"eval_table": table})  # Final update with another column
 
 run.finish()
 ```
+In the previous example, the table is logged three times: once with the initial data, once with the confidence scores, and once with the final predictions.
 
-Each call to `wandb.log()` replaces the existing table with a new one. In the previous example, the table is logged three times: once with the initial data, once with the confidence scores, and once with the final predictions.
-
+{{% alert %}}
+Internally, the table is replaced each time you log the table. Overwriting a table with a new one is computationally expensive and can be slow for large tables. If you are logging a large number of rows, consider using `INCREMENTAL` mode instead.
+{{% /alert %}}
 
 ### INCREMENTAL mode
 
-Incremental logging is generally more computationally efficient than logging a new table each time (`log_mode=MUTABLE`). It is especially useful for long-running training jobs or when processing large datasets in batches.
-
-<!-- - **For many small increments**: Consider using `wandb.log()` with history
-  instead of tables -->
+In incremental mode, you log batches of rows to a table throughout the machine learning experiment. This
+is ideal for monitoring long-running jobs or when working with large datasets that would be inefficient to log all at once.
 
 The following example shows how to create a table in `INCREMENTAL` mode, log it, and then add new rows to it.
 
@@ -136,13 +148,13 @@ for step in range(get_num_batches()): # Placeholder function
 run.finish()
 ```
 
-Each call to `wandb.log()` appends new rows to an existing table. In the previous code example, the table is logged once per training step. The `step` parameter is used to specify the training step for each log call. The table is updated with new rows for each batch of data processed in the training loop. 
+In the previous code example, the table is logged once per training step (`step`).
+
+Incremental logging is generally more computationally efficient than logging a new table each time (`log_mode=MUTABLE`). However, it is important to note that the W&B App may not render all rows in the table if you log a large number of increments. In this case, consider combining `INCREMENTAL` and `IMMUTABLE` logging modes to reduce the number of increments shown in the W&B App.
 
 {{% alert %}}
-Run workspaces in the W&B App have a limit of 100 increments for tables. If you log more than 100 increments, only the most recent 100 are shown in the run workspace. You can use the step slider to view through the increments to see how the table changes over time. 
+Run workspaces in the W&B App have a limit of 100 increments. If you log more than 100 increments, only the most recent 100 are shown in the run workspace.
 {{% /alert %}}
-
-In some cases, the efficiency of rendering a table in the W&B App may be impacted by the number of increments you log. In this case, consider combining `INCREMENTAL` and `IMMUTABLE` logging modes to reduce the number of increments shown in the W&B App.
 
 As an example, consider the follow code snippet that combines `INCREMENTAL` and `IMMUTABLE` logging modes:
 
@@ -176,15 +188,17 @@ run.log({"table": final_table})
 run.finish()
 ```
 
-In the previous example, the `incr_table` is logged incrementally (with `log_mode="INCREMENTAL"`) during training. Each time a new batch is processed, the table is updated with new rows. This allows you to monitor the training process in real-time and visualize the incremental updates in the W&B App.
+In the previous example, the `incr_table` is logged incrementally (with `log_mode="INCREMENTAL"`) during training. This allows you to log and view updates to the table as new data is processed. At the end of training, an immutable table (`final_table`) is created with all data from the incremental table. The immutable table is logged to preserve the complete dataset for further analysis and it enables you to view all rows in the W&B App. 
 
-At the end of training, a complete immutable table is created with all data from the incremental table. This allows you to preserve the complete dataset while still benefiting from the efficiency of incremental logging during training.
 
 ## Examples 
 
 ### Enriching evaluation results with MUTABLE
 
 ```python
+import wandb
+import numpy as np
+
 run = wandb.init(project="mutable-logging")
 
 # Step 1: Log initial predictions
@@ -198,13 +212,13 @@ for inp, label, pred in zip(inputs, labels, raw_preds):
 run.log({"eval_table": table})  # Log raw predictions
 
 # Step 2: Add confidence scores (e.g. max softmax)
-confidences = compute_confidences(raw_preds)
+confidences = np.max(raw_preds, axis=1)
 table.add_column("confidence", confidences)
 run.log({"eval_table": table})  # Add confidence info
 
 # Step 3: Add post-processed predictions
 # (e.g., thresholded or smoothed outputs)
-post_preds = postprocess_predictions(raw_preds, confidences)
+post_preds = (confidences > 0.7).astype(int)
 table.add_column("final_prediction", post_preds)
 run.log({"eval_table": table})  # Final
 
