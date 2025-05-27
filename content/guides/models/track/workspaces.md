@@ -79,7 +79,7 @@ By default, new workspaces use these default settings:
 | Setting | Default |
 |-------|----------
 | X axis             | Step |
-| Smoothing type     | Time weight EMA |
+| Smoothing type     | Time weight exponential moving average (EMA) |
 | Smoothing weight   | 0 |
 | Max runs           | 10 |
 | Grouping in charts | on |
@@ -95,6 +95,8 @@ By default, new workspaces use these default settings:
 
 New workspaces will use these settings instead of the defaults.
 
+If you decide to stop using a customized workspace template, you can [update it]({{< relref "#update-your-workspace-template" >}}) to use the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}).
+
 ### Update your workspace template
 Follow these steps to update your workspace template:
 
@@ -103,9 +105,7 @@ Follow these steps to update your workspace template:
 1. To save the changes to the template, click the action menu `...` near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
 1. Verify the new line plot settings, then click **Update**. The template is updated, and reapplied to all workspaces that use it.
 
-{{% alert %}}
 If you decide to stop using a customized workspace template, you can [update it]({{< relref "#update-your-workspace-template" >}}) to use the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}).
-{{% /alert %}}
 
 ## Programmatically creating workspaces
 
