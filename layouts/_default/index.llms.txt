@@ -1,46 +1,57 @@
-{{ with .Site.Title -}}
-    # {{ . }}
-{{- end }}
+{{- with .Site.Title }}
+# {{ . }}
+{{ end -}}
 
-{{ with .Site.Params.Description -}}
+{{- with .Site.Params.Description }}
 > {{ . }}
-{{- end }}
-
-{{ range (where (sort ((.Site.GetPage "/").Pages) "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) -}}
-    - [{{ .Title }}]({{ .Permalink }}): {{ .Description }}
 {{ end -}}
 
-{{/* Sections */}}
-{{ range (where (sort ((.Site.GetPage "/").Sections) "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) -}}
-{{ with .Title -}}
-    ## {{ . }}
+{{- range (where (sort ((.Site.GetPage "/").Pages) "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
+{{- if (not (or (in .RelPermalink "/ja/") (in .RelPermalink "/ko/"))) }}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Description }}
+{{ end -}}
 {{- end }}
 
-{{ with .Description -}}
-    > {{ . }}
+{{/* Define a partial template for recursive section processing */}}
+{{- define "processSection" }}
+{{- $section := .section }}
+{{- $level := .level }}
+{{- if (not (or (in $section.RelPermalink "/ja/") (in $section.RelPermalink "/ko/"))) }}
+{{- $hasEnglishPages := false }}
+{{- range (where (sort $section.Pages "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
+{{- if (and .Title (not (or (in .RelPermalink "/ja/") (in .RelPermalink "/ko/")))) }}
+{{- $hasEnglishPages = true }}
 {{- end }}
-
-{{ range (where (sort .Pages "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) -}}
-    {{ if .Title -}}
-        - [{{ .Title }}]({{ .Permalink }}){{ with .Description }}: {{ . }}{{ end }}
-    {{- end }}
+{{- end }}
+{{- $hasEnglishSubsections := false }}
+{{- range (where (sort $section.Sections "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
+{{- if (not (or (in .RelPermalink "/ja/") (in .RelPermalink "/ko/"))) }}
+{{- $hasEnglishSubsections = true }}
+{{- end }}
+{{- end }}
+{{- if (or $hasEnglishPages $hasEnglishSubsections) }}
+{{- with $section.Title }}
+{{ strings.Repeat $level "#" }} {{ . }}
 {{ end -}}
 
-{{/* Sub-Sections */}}
-{{ range (where (sort .Sections "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) -}}
-{{ with .Title -}}
-    ### {{ . }}
-{{- end }}
-
-{{ with .Description -}}
-    > {{ . }}
-{{- end }}
-
-{{ range (where (sort .Pages "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) -}}
-    {{ if .Title -}}
-        - [{{ .Title }}]({{ .Permalink }}){{ with .Description }}: {{ . }}{{ end }}
-    {{- end }}
-{{ end }}
+{{- with $section.Description }}
+> {{ . }}
 {{ end -}}
 
+{{- range (where (sort $section.Pages "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
+{{- if (and .Title (not (or (in .RelPermalink "/ja/") (in .RelPermalink "/ko/")))) }}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Description }}: {{ . }}{{ end }}
 {{ end -}}
+{{- end }}
+
+{{- range (where (sort $section.Sections "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
+{{- template "processSection" (dict "section" . "level" (add $level 1)) }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/* Process all top-level sections recursively */}}
+{{- range (where (sort ((.Site.GetPage "/").Sections) "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
+{{- template "processSection" (dict "section" . "level" 2) }}
+{{- end }}
