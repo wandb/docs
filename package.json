@@ -34,7 +34,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
-    "hugo-extended": "0.140.2",
+    "hugo-extended": "0.147.5",
     "postcss-cli": "^11.0.0",
     "rtlcss": "^4.3.0"
   },
@@ -45,5 +45,8 @@
   "prettier": {
     "proseWrap": "always",
     "singleQuote": true
+  },
+  "dependencies": {
+    "prod": "^1.0.0"
   }
 }

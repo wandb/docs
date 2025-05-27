@@ -20,7 +20,7 @@ If you are using [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-option
 
 If you are using [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or a [Self-managed instance]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}), it corresponds to one organization. Your company may have more than one of Dedicated Cloud or Self-managed instances to map to different business units or departments, though that is strictly an optional way to manage AI practioners across your businesses or departments.
 
-For more information, see [Manage orrganizations]({{< relref "./access-management/manage-organization.md" >}}).
+For more information, see [Manage organizations]({{< relref "./access-management/manage-organization.md" >}}).
 
 ## Team
 
