@@ -64,7 +64,6 @@ A Registry admin can create automations in that registry. Registry automations a
 A W&B admin can create automations in a project.
 
 1. Log in to W&B and go to the project page.
-<<<<<<< HEAD
 1. In the sidebar, click **Automations**, then click **Create automation**.
     {{% alert %}}
     From a line plot in a workspace, you can quickly create an automation for a run metric for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
