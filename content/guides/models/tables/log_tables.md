@@ -3,11 +3,11 @@ title: Log tables
 weight: 1
 ---
 
-Visualize and log tabular data with W&B Tables. A table is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a W&B [run]({{< relref "/guides/models/track/runs/" >}}). Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
+Visualize and log tabular data with W&B Tables. A W&B Table is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a W&B [run]({{< relref "/guides/models/track/runs/" >}}). W&B Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
 
-Tables are a specialized [data type]({{< relref "/ref/python/data-types/" >}}) in W&B that are logged internally in W&B as [artifact]({{< relref "/guides/core/artifacts/" >}}) objects.
+W&B Tables are a specialized [data type]({{< relref "/ref/python/data-types/" >}}) in W&B that are logged internally in W&B as [artifacts]({{< relref "/guides/core/artifacts/" >}}) objects.
 
-You [create and log tables]({{< relref "#create-and-log-a-new-table" >}}) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode]({{< relref "#table-logging-modes" >}}). The mode determines how the table is logged and updated during your ML experiments.
+You [create and log table objects]({{< relref "#create-and-log-a-new-table" >}}) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode]({{< relref "#table-logging-modes" >}}). The mode determines how the table is logged and updated during your ML experiments.
 
 
 ## Create and log a table
@@ -41,14 +41,14 @@ run.finish()
 
 ## Logging modes
 
-The `log_mode` parameter of the [`wandb.Table`]({{< relref "/ref/python/data-types/table" >}}) class determines how the table is logged and updated during your ML experiments. The `log_mode` parameter accepts three values: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how the table is logged, how it can be modified, and how it is rendered in the W&B App.
+The [`wandb.Table`]({{< relref "/ref/python/data-types/table" >}}) `log_mode` parameter determines how a table is logged and updated during your ML experiments. The `log_mode` parameter accepts one of three arguments: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how a table is logged, how it can be modified, and how it is rendered in the W&B App.
 
 The modes are:
 - `IMMUTABLE`: Once a table is logged to W&B, you can not modify it.
-- `MUTABLE`: After you log the table to W&B, you can overwrite the existing table by replacing that table with a new one.
+- `MUTABLE`: After you log a table to W&B, you can overwrite the existing table by replacing that table with a new one.
 - `INCREMENTAL`: Add batches of new rows to a table throughout the machine learning experiment.
 
-The following table describes the differences between the three modes and common use cases for each:
+The following describes the differences between the three modes and common use cases for each:
 
 | Mode  | Use Cases  | Benefits  |
 | ----- | ---------- | ----------|
@@ -101,10 +101,11 @@ wandb.log({"eval_table": table})  # Final update with another column
 
 run.finish()
 ```
-In the previous example, the table is logged three times: once with the initial data, once with the confidence scores, and once with the final predictions.
+
+In the previous example, the table object is logged three times: once with the initial data, once with the confidence scores, and once with the final predictions.
 
 {{% alert %}}
-Internally, the table is replaced each time you log the table. Overwriting a table with a new one is computationally expensive and can be slow for large tables.
+Internally, the table object is replaced each time you log the table. Overwriting a table with a new one is computationally expensive and can be slow for large tables.
 {{% /alert %}}
 
 ### INCREMENTAL mode
