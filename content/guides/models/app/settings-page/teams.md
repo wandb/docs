@@ -112,14 +112,12 @@ The proceeding table lists permissions that apply to all artifacts across a give
 | Permissions      | View-Only | Team Member | Team Admin | 
 | ---------------- | --------- | ----------- | ---------- |
 | View artifacts   | X         | X           | X          |
+| Download artifacts | X        | X           | X          |
 | Create artifacts |           | X           | X          |
 | Delete artifacts |           | X           | X          |
 | Edit metadata    |           | X           | X          |
 | Edit aliases     |           | X           | X          |
 | Delete aliases   |           | X           | X          |
-| Download artifacts | X        | X           | X          |
-
-View-Only members can only download artifacts that they have permission to.
 
 ### System settings (W&B Server only)
 Use system permissions to create and manage teams and their members and to adjust system settings. These privileges enable you to effectively administer and maintain the W&B instance.
