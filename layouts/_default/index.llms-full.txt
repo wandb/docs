@@ -1,1 +1,77 @@
-test
+{{ with .Site.Title }}
+# {{ . }}
+{{ end }}
+
+{{ with .Site.Params.Description }}
+> {{ . }}
+{{ end }}
+
+{{/* Top-level pages in English */}}
+{{ range (where ((.Site.GetPage "/").Pages) "Params.sitemap_exclude" "ne" true) }}
+  {{ $page := . }}
+  {{ if (not (or (in $page.RelPermalink "/ja/") (in $page.RelPermalink "/ko/"))) }}
+# {{ $page.Title }}
+{{ with $page.Description }}
+> {{ . }}
+{{ end }}
+{{ $page.RawContent }}
+
+  {{ end }}
+{{ end }}
+
+{{/* Sections in English */}}
+{{ range (where ((.Site.GetPage "/").Sections) "Params.sitemap_exclude" "ne" true) }}
+  {{ $section := . }}
+  {{ if (not (or (in $section.RelPermalink "/ja/") (in $section.RelPermalink "/ko/"))) }}
+{{ with $section.Title }}
+# {{ . }}
+{{ end }}
+
+{{ with $section.Description }}
+> {{ . }}
+{{ end }}
+
+{{ $section.RawContent }}
+
+    {{/* Pages inside section */}}
+    {{ range (where $section.Pages "Params.sitemap_exclude" "ne" true) }}
+      {{ $page := . }}
+      {{ if (not (or (in $page.RelPermalink "/ja/") (in $page.RelPermalink "/ko/"))) }}
+# {{ $page.Title }}
+{{ with $page.Description }}
+> {{ . }}
+{{ end }}
+{{ $page.RawContent }}
+
+      {{ end }}
+    {{ end }}
+
+    {{/* Sub-sections inside section */}}
+    {{ range (where $section.Sections "Params.sitemap_exclude" "ne" true) }}
+      {{ $subsection := . }}
+      {{ if (not (or (in $subsection.RelPermalink "/ja/") (in $subsection.RelPermalink "/ko/"))) }}
+{{ with $subsection.Title }}
+# {{ . }}
+{{ end }}
+
+{{ with $subsection.Description }}
+> {{ . }}
+{{ end }}
+
+{{ $subsection.RawContent }}
+
+        {{ range (where $subsection.Pages "Params.sitemap_exclude" "ne" true) }}
+          {{ $page := . }}
+          {{ if (not (or (in $page.RelPermalink "/ja/") (in $page.RelPermalink "/ko/"))) }}
+# {{ $page.Title }}
+{{ with $page.Description }}
+> {{ . }}
+{{ end }}
+{{ $page.RawContent }}
+
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
