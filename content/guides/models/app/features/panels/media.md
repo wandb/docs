@@ -57,7 +57,7 @@ Customize the display of the panel's individual items.
 - **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
 - **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
 
-### Configure all media panels in a workspace 
+## Configure all media panels in a workspace 
 To customize the default settings for all media panels in a workspace:
 1. Click the workspace's settings, which has a gear with the label **Settings**.
 1. Click **Media settings**.
