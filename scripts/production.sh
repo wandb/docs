@@ -26,7 +26,7 @@ if [ -n "$CF_PAGES" ] && [ -n "$CF_PAGES_URL" ]; then
         hugo -b $CF_PAGES_URL
     fi
 else
-    echo "Building locally with Hugo" $(cat .hugo-version)
+    echo "Building locally with Hugo" $(cat ".hugo-version")
     hugo
 fi
 
