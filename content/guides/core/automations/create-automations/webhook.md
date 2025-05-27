@@ -64,12 +64,13 @@ A Registry admin can create automations in that registry. Registry automations a
 A W&B admin can create automations in a project.
 
 1. Log in to W&B and go to the project page.
-1. In the sidebar, click **Automations**, then click **Create automation**. From here you can create an automation for a run metric or a run status change.
-
-    From a line plot in a workspace, you can quickly create an automation for a [run metric]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
+1. In the sidebar, click **Automations**, then click **Create automation**.
+    {{% alert %}}
+    From a line plot in a workspace, you can quickly create an automation for a run metric for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
     {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
-
-    You can create a run status automation only from the **Automations** page, not from a workspace. Run status is a property of the entire run, not a single metric. To learn more, refer to [Run events]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}).
+    Because run status is a property of the entire run, you can create a run status automation from the **Automations** page, not from a workspace.
+    {{% /alert %}}
+    To learn more, refer to [Run events]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}).
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
