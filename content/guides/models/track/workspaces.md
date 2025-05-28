@@ -61,6 +61,52 @@ Remove saved views that are no longer needed.
 ### Share a workspace view
 Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
 
+## Workspace templates
+
+<!-- Tracked in https://wandb.atlassian.net/browse/DOCS-1543 -->
+{{% alert %}}
+{{< readfile file="/_includes/workspace-templates-private-preview-feature.md" >}}
+{{% /alert %}}
+
+Use _workspace templates_ to automatically apply custom settings from an existing workspace to new workspaces without updating each [default setting]({{< relref "#default-workspace-settings" >}}) individually. Currently, a workspace template can define custom [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}).
+
+### Default workspace settings
+By default, new workspaces use these default settings:
+
+#### Line plots
+
+
+| Setting | Default |
+|-------|----------
+| X axis             | Step |
+| Smoothing type     | Time weight exponential moving average (EMA) |
+| Smoothing weight   | 0 |
+| Max runs           | 10 |
+| Grouping in charts | on |
+| Group aggregation  | Mean |
+
+### Configure your workspace template
+1. Open any workspace or create a new one.
+1. Configure the workspace's [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}) according to your preferences.
+1. Save the settings to your workspace template:
+    1. At the top of the workspace, click the action menu `...` near the **Undo** and **Redo** arrow icons.
+    1. Click **Save personal workspace template**.
+    1. Review the line plot settings for the template, then click **Save**.
+
+New workspaces will use these settings instead of the defaults.
+
+If you decide to stop using a customized workspace template, you can [update it]({{< relref "#update-your-workspace-template" >}}) to use the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}).
+
+### Update your workspace template
+Follow these steps to update your workspace template:
+
+1. Open any workspace.
+1. Modify the workspace's line plot settings. For example, set the number of runs to include to `11`.
+1. To save the changes to the template, click the action menu `...` near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
+1. Verify the new line plot settings, then click **Update**. The template is updated, and reapplied to all workspaces that use it.
+
+If you decide to stop using a customized workspace template, you can [update it]({{< relref "#update-your-workspace-template" >}}) to use the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}).
+
 ## Programmatically creating workspaces
 
 [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [W&B](https://wandb.ai/) workspaces and reports.
