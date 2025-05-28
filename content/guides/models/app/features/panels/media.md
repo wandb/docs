@@ -58,18 +58,18 @@ Customize the display of the panel's individual items.
 - **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
 
 ### All media panels in a section
-To customize the default settings for all media panels in a section, overriding workspace settings for media panels:
+This section shows how to customize a section's media panels. Section-level settings override [workspace-level settings]({{< relref "#all-media-panels-in-a-workspace" >}}).
 1. Click the section's gear icon to open its settings.
 1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. If media in the section is logged with overlays, click **Overlays** to configure their settings for the section. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the section's current media panels.
+1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. If media in the section is logged with overlays, click **Overlays** to configure their settings for the section. You can configure settings for images, videos, audio, and 3D objects. The settings that appear depend on the section's current media panels.
 
 For details about each setting, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
 
 ### All media panels in a workspace 
-To customize the default settings for all media panels in a workspace:
+This section shows how to customize a workspace's media panel's settings. [Section-level settings]({{< relref "#all-media-panels-in-a-section" >}}) override workspace-level settings.
 1. Click the workspace's settings, which has a gear with the label **Settings**.
 1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. If media in the section is logged with overlays, click **Overlays** to configure their settings for the section. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the workspace's current media panels.
+1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. If media in the section is logged with overlays, click **Overlays** to configure their settings for the section. You can configure settings for images, videos, audio, and 3D objects. The settings that appear depend on the workspace's current media panels.
 
 For details about each setting, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
 
