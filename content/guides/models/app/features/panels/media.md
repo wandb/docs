@@ -57,15 +57,21 @@ Customize the display of the panel's individual items.
 - **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
 - **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
 
-### Configure all media panels in a workspace 
+### All media panels in a section
+To customize the default settings for all media panels in a section, overriding workspace settings for media panels:
+1. Click the section's gear icon to open its settings.
+1. Click **Media settings**.
+1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the section's current media panels.
+
+For details about each setting, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
+
+### All media panels in a workspace 
 To customize the default settings for all media panels in a workspace:
 1. Click the workspace's settings, which has a gear with the label **Settings**.
 1. Click **Media settings**.
-1. Within the modal that appears, click the **Display** or **Layout** tab to configure the default settings for the workspace.
-    - **Display**: Override the panel's title, the slider key, and the behavior of the slider.
-    - **Layout**: Override the layout of media within the panel. Adjust the number of columns, toggle grid mode, and limit the number of runs and items to include.
+1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the workspace's current media panels.
 
-    For details about each setting, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
+For details about each setting, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
 
 ## Interact with a media panel
 - Click a media panel to view it in full screen mode.
