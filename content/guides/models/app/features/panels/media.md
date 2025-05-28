@@ -61,7 +61,7 @@ Customize the display of the panel's individual items.
 To customize the default settings for all media panels in a section, overriding workspace settings for media panels:
 1. Click the section's gear icon to open its settings.
 1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the section's current media panels.
+1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. If media in the section is logged with overlays, click **Overlays** to configure their settings for the section. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the section's current media panels.
 
 For details about each setting, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
 
@@ -69,7 +69,7 @@ For details about each setting, refer to [Configure a media panel]({{< relref "#
 To customize the default settings for all media panels in a workspace:
 1. Click the workspace's settings, which has a gear with the label **Settings**.
 1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the workspace's current media panels.
+1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. If media in the section is logged with overlays, click **Overlays** to configure their settings for the section. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the workspace's current media panels.
 
 For details about each setting, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
 
