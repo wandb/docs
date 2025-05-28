@@ -139,7 +139,7 @@ params:
   search:
     algolia:
       appId: 6HH47A49YJ
-      apiKey: 7483a2cca0a18153ed622f3abc305c9a
+      apiKey: 0da7cc190b89e8fc19c3cd846a3e17fc
       indexName: wandbdocs
 
   privacy_policy: https://wandb.ai/site/privacy/
