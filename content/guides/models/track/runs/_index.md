@@ -241,15 +241,17 @@ run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
 
 ### Rename a run
 
-After you initialize a run, you can rename that run from your workspace or its **Runs** page.
+After you initialize a run, you can rename it from your workspace or its **Runs** page.
 
 1. Navigate to your W&B project.
 1. Select the **Workspace** or **Runs** tab from the project sidebar.
 1. Search or scroll to the run you want to rename.
 
-    Hover over the run name, click the three vertical dots, then click **Rename run**.
+    Hover over the run name, click the three vertical dots, then select the scope:
+    - **Rename run for project**: The run is renamed across the project.
+    - **Rename run for workspace**: The run is renamed only in this workspace.
 1. Type a new name for the run. To generate a new random name, leave the field blank.
-1. Submit the form. The run's new name displays.
+1. Submit the form. The run's new name displays. An information icon appears next to a run that has a custom name in the workspace. Hover over it for more details.
 
 You can also rename a run from a run set in a [report]({{< relref "/guides/core/reports/edit-a-report.md" >}}):
 
@@ -261,7 +263,6 @@ You can also rename a run from a run set in a [report]({{< relref "/guides/core/
 
   Submit the form.
 1. Click **Publish report**.
-
 
 ## Add a note to a run
 Notes that you add to a specific run appear on the run page in the **Overview** tab and in the table of runs on the project page.
@@ -385,7 +386,7 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **System hardware**: The hardware W&B uses to compute the run.
 * **Tags**: A list of strings. Tags are useful for organizing related runs together or applying temporary labels like `baseline` or `production`.
 * **W&B CLI version**: The W&B CLI version installed on the machine that hosted the run command.
-<!-- * **Git state**: -->
+* **Git state**: The most recent git commit SHA of a repository or working directory where the run is initialized. This field is empty if you do not enable Git when you create the run or if the git information is not available.
 
 W&B stores the proceeding information below the overview section:
 
@@ -473,16 +474,6 @@ The **Group by** feature is distinct from a [run's run group]({{< relref "groupi
 
    {{% /tab %}}
 {{< /tabpane >}}
-
-### System tab
-The **System tab** shows system metrics tracked for a specific run such as CPU utilization, system memory, disk I/O, network traffic, GPU utilization and more.
-
-For a full list of system metrics W&B tracks, see [System metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}).
-
-{{< img src="/images/app_ui/wandb_system_utilization.png" alt="" >}}
-
-View an example system tab [here](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey).
-
 
 ### Logs tab
 The **Log tab** shows output printed on the command line such as the standard output (`stdout`) and standard error (`stderr`). 

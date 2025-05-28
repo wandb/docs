@@ -581,7 +581,7 @@ for epoch in epoch_progress_bar:
 artifact.wait()
 ```
 
-Instrumenting the code with `wandb.log` not only enables tracking all metrics associated with the training and validation process, but also the all system metrics (our CPU and GPU in this case) on the W&B dashboard.
+Instrumenting the code with `wandb.log` not only enables tracking all metrics associated with the training and validation process, but also logs all system metrics (our CPU and GPU in this case) on the W&B dashboard.
 
 | {{< img src="/images/tutorials/monai/viz-3.gif" alt="An example of training and validation process tracking on W&B." >}} | 
 |:--:| 

@@ -102,7 +102,7 @@ builder:
   build-context-store: https://<storage-account-name>.blob.core.windows.net/<container-name>
 ```
 
-デフォルトの Azure 資格情報の設定方法については、[`azure-identity` ドキュメント](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) を参照してください。
+デフォルトの Azure 資格情報の設定方法については、[`azure-identity` ドキュメント](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) を参照してください。
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -157,7 +157,7 @@ artifactregistry.repositories.uploadArtifacts;
 {{% /tab %}}
 {{% tab "Azure" %}}
 
-Kaniko ビルダーを使用する場合は、[`AcrPush` ロール](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush)を追加してください。
+Kaniko ビルダーを使用する場合は、[`AcrPush` ロール](https://learn.microsoft.com/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush)を追加してください。
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -202,7 +202,7 @@ storage.objects.get;
 {{% /tab %}}
 {{% tab "Azure" %}}
 
-Azure Blob Storage にビルドコンテキストをアップロードするためには、[Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) ロールが必要です。
+Azure Blob Storage にビルドコンテキストをアップロードするためには、[Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) ロールが必要です。
 {{% /tab %}}
 {{< /tabpane >}}
 
