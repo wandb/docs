@@ -7,7 +7,7 @@
 {{ end -}}
 
 {{- range (where (sort ((.Site.GetPage "/").Pages) "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
-{{- if (not (or (in .RelPermalink "/ja/") (in .RelPermalink "/ko/"))) }}
+{{- if (not (or (in .RelPermalink "/_includes/") (in .RelPermalink "/ja/") (in .RelPermalink "/ko/"))) }}
 - [{{ .Title }}]({{ .Permalink }}): {{ .Description }}
 {{ end -}}
 {{- end }}
@@ -16,16 +16,16 @@
 {{- define "processSection" }}
 {{- $section := .section }}
 {{- $level := .level }}
-{{- if (not (or (in $section.RelPermalink "/ja/") (in $section.RelPermalink "/ko/"))) }}
+{{- if (not (or (in .RelPermalink "/_includes/") (in $section.RelPermalink "/ja/") (in $section.RelPermalink "/ko/"))) }}
 {{- $hasEnglishPages := false }}
 {{- range (where (sort $section.Pages "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
-{{- if (and .Title (not (or (in .RelPermalink "/ja/") (in .RelPermalink "/ko/")))) }}
+{{- if (and .Title (not (or (in .RelPermalink "/_includes/") (in .RelPermalink "/ja/") (in .RelPermalink "/ko/")))) }}
 {{- $hasEnglishPages = true }}
 {{- end }}
 {{- end }}
 {{- $hasEnglishSubsections := false }}
 {{- range (where (sort $section.Sections "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
-{{- if (not (or (in .RelPermalink "/ja/") (in .RelPermalink "/ko/"))) }}
+{{- if (not (or (in .RelPermalink "/_includes/") (in .RelPermalink "/ja/") (in .RelPermalink "/ko/"))) }}
 {{- $hasEnglishSubsections = true }}
 {{- end }}
 {{- end }}
@@ -39,7 +39,7 @@
 {{ end -}}
 
 {{- range (where (sort $section.Pages "Weight" "asc" "Date" "desc" "Lastmod" "desc") "Params.sitemap_exclude" "ne" true) }}
-{{- if (and .Title (not (or (in .RelPermalink "/ja/") (in .RelPermalink "/ko/")))) }}
+{{- if (and .Title (not (or (in .RelPermalink "/_includes/") (in .RelPermalink "/ja/") (in .RelPermalink "/ko/")))) }}
 - [{{ .Title }}]({{ .Permalink }}){{ with .Description }}: {{ . }}{{ end }}
 {{ end -}}
 {{- end }}
