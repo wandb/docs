@@ -171,7 +171,7 @@ Tables you interact with in the artifact context remains stateless.
 {{% /alert %}}
 
 To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to report:
-1. Select the kebob icon (three vertical dots) in the top right corner of your workspace visualization panel.
+1. Select the kebab icon (three vertical dots) in the top right corner of your workspace visualization panel.
 2. Select either **Share panel** or **Add to report**.
 
 {{< img src="/images/data_vis/share_your_view.png" alt="Share panel creates a new report, Add to report lets you append to an existing report." max-width="90%">}}
