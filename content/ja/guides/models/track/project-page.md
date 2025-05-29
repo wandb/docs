@@ -131,7 +131,7 @@ Runs タブをカスタマイズすると、そのカスタマイズは[Workspac
 2. ケバブメニュー（三つの垂直ドット）を選択します。
 3. **Sort Asc** または **Sort Desc** を選択して、行を昇順または降順にソートします。
 
-{{< img src="/images/data_vis/data_vis_sort_kebab.png" alt="See the digits for which the model most confidently guessed '0'." >}}
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
 
 上の画像は、`val_acc` というテーブル列のソートオプションを表示する方法を示しています。
    {{% /tab %}}

@@ -377,7 +377,7 @@ Runs 탭을 사용자 지정하면 사용자 지정이 [Workspace 탭]({{< relre
 2. 케밥 메뉴(세 개의 세로 점)를 선택합니다.
 3. **Sort Asc** 또는 **Sort Desc**를 선택하여 행을 각각 오름차순 또는 내림차순으로 정렬합니다.
 
-{{< img src="/images/data_vis/data_vis_sort_kebab.png" alt="모델이 '0'이라고 가장 확신을 가지고 추측한 숫자를 확인하십시오." >}}
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="모델이 '0'이라고 가장 확신을 가지고 추측한 숫자를 확인하십시오." >}}
 
 위의 이미지는 `val_acc`라는 테이블 열에 대한 정렬 옵션을 보는 방법을 보여줍니다.
    {{% /tab %}}

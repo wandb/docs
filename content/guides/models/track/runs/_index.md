@@ -440,7 +440,7 @@ Sort all rows in a Table by the value in a given column.
 2. Select on the kebab menu (three vertical dots).
 3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
 
-{{< img src="/images/data_vis/data_vis_sort_kebab.png" alt="See the digits for which the model most confidently guessed '0'." >}}
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
 
 The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
    {{% /tab %}}
