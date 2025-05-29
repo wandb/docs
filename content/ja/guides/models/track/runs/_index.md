@@ -380,7 +380,7 @@ Table のある列の値で全行を並べ替えます。
 2. ケバブメニュー（3つの垂直な点）を選択します。
 3. 並べ替え指定を選択して、降順または昇順で行を並べ替える。
 
-{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
+{{< img src="/images/data_vis/data_vis_sort_kebab.png" alt="See the digits for which the model most confidently guessed '0'." >}}
 
 上記の画像は、`val_acc` と呼ばれる Table 列の並べ替えオプションを表示する方法を示しています。   
    {{% /tab %}}
