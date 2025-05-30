@@ -11,7 +11,7 @@ weight: 99
 This page shows how to disable automatic version upgrades for W&B Server and pin its version. These instructions work for deployments managed by the [W&B Kubernetes Operator]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/" >}}) only.
 
 {{% alert %}}
-W&B supports a major W&B Server release for 6 months from its initial release date. Customers with **Self-managed** instances are responsible for upgrading in time to maintain support. Avoid staying on an unsupported version. W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at minimum once per quarter to maintain support and receive the latest features, performance improvements, and fixes.
+W&B supports a major W&B Server release for 12 months from its initial release date. Customers with **Self-managed** instances are responsible for upgrading in time to maintain support. Avoid staying on an unsupported version. W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at minimum once per quarter to maintain support and receive the latest features, performance improvements, and fixes.
 {{% /alert %}}
 
 ## Requirements
