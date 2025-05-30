@@ -46,7 +46,7 @@ Sort the runs table by the minimum or maximum value of a logged metric. This is 
 The following steps describe how to sort the run table by a specific metric based on the minimum or maximum recorded value:
 
 1. Hover your mouse over the column with the metric you want to sort with.
-2. Select the kebob menu (three vertical lines).
+2. Select the kebab menu (three vertical lines).
 3. From the dropdown, select either **Show min** or **Show max**.
 4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
 

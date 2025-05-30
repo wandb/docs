@@ -247,7 +247,11 @@ Yes, you can configure your ingress class by modifying the ingress settings in `
 You must split the certificates into multiple entries in the `customCACerts` section of `values.yaml`.
 
 ### How do you prevent the Kubernetes operator from applying unattended updates. Is that possible?
-You can turn off auto-updates from the W&B console. Reach out to your W&B team for any questions on the supported versions. Also, note that W&B supports platform versions released in last 6 months. W&B recommends performing periodic upgrades. 
+You can turn off auto-updates from the W&B console. Reach out to your W&B team for any questions on the supported versions. W&B supports a major W&B Server release for 12 months from its initial release date. Customers with **Self-managed** instances are responsible for upgrading in time to maintain support. Avoid staying on an unsupported version. Refer to [Release policies and processes]({{< relref "/ref/release-notes/release-policies.md" >}}).
+
+{{% alert %}}
+W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at minimum once per quarter to maintain support and receive the latest features, performance improvements, and fixes.
+{{% /alert %}}
 
 ### Does the deployment work if the environment has no connection to public repositories?
 If your configuration sets `airgapped` to `true`, the Kubernetes operator uses only your internal resources and does not attempt to connect to public repositories. 
