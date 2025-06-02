@@ -13,7 +13,7 @@ data_type_classification: function
 
 ```python
 wandb.save(
-    glob_str: 'str | os.PathLike | None' = None,
+    glob_str: 'str | os.PathLike',
     base_path: 'str | os.PathLike | None' = None,
     policy: 'PolicyName' = 'live'
 ) → bool | list[str]

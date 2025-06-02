@@ -15,8 +15,7 @@ data_type_classification: function
 wandb.log(
     data: 'dict[str, Any]',
     step: 'int | None' = None,
-    commit: 'bool | None' = None,
-    sync: 'bool | None' = None
+    commit: 'bool | None' = None
 ) → None
 ```
 

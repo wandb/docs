@@ -112,12 +112,6 @@ Name of the job type associated with the run.
 
 ---
 
-### <kbd>property</kbd> Run.mode
-
-Compatible with W&B Python SDK version `0.9.x` and earlier. 
-
----
-
 ### <kbd>property</kbd> Run.name
 
 Display name of the run. 
@@ -395,16 +389,6 @@ URL of the W&B run, if there is one. Offline runs do not have a URL.
 
 ---
 
-### <kbd>method</kbd> `Run.join`
-
-```python
-join(exit_code: 'int | None' = None) → None
-```
-
-This method is deprecated. Use `wandb.run.finish()` instead. 
-
----
-
 ### <kbd>method</kbd> `Run.link_artifact`
 
 ```python
@@ -517,8 +501,7 @@ run.link_model(
 log(
     data: 'dict[str, Any]',
     step: 'int | None' = None,
-    commit: 'bool | None' = None,
-    sync: 'bool | None' = None
+    commit: 'bool | None' = None
 ) → None
 ```
 
@@ -899,8 +882,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x103b3e290>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1072f2f80>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x101b8a290>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1039e3760>
 ) → Artifact | None
 ```
 
@@ -1077,7 +1060,7 @@ File is placed into the current directory or run directory. By default, will onl
 
 ```python
 save(
-    glob_str: 'str | os.PathLike | None' = None,
+    glob_str: 'str | os.PathLike',
     base_path: 'str | os.PathLike | None' = None,
     policy: 'PolicyName' = 'live'
 ) → bool | list[str]
@@ -1282,7 +1265,7 @@ Download the files logged in a model artifact `name`.
 
 **Args:**
  
- - `name`:  A model artifact name. 'name' must match the name of an  existing logged model artifact. May be prefixed with  `entity/project/`. Valid names can be in the following forms 
+ - `name`:  A model artifact name. 'name' must match the name of an existing logged  model artifact. May be prefixed with `entity/project/`. Valid names  can be in the following forms 
     - model_artifact_name:version 
     - model_artifact_name:alias 
 
@@ -1290,13 +1273,38 @@ Download the files logged in a model artifact `name`.
 
 **Raises:**
  
- - `AssertionError`:  If model artifact 'name' is of a type that does not contain the substring 'model'. 
+ - `AssertionError`:  if model artifact `name` is of a type  that does not contain the substring 'model'. 
 
 
 
 **Returns:**
  
- - `path` (str):  Path to downloaded model artifact file(s). 
+ - `path`:  path to downloaded model artifact file(s). 
+
+
+
+**Examples:**
+ ```python
+run.use_model(
+    name="my_model_artifact:latest",
+)
+
+run.use_model(
+    name="my_project/my_model_artifact:v0",
+)
+
+run.use_model(
+    name="my_entity/my_project/my_model_artifact:<digest>",
+)
+``` 
+
+Invalid usage 
+
+```python
+run.use_model(
+    name="my_entity/my_project/my_model_artifact",
+)
+``` 
 
 ---
 

@@ -10,7 +10,7 @@ data_type_classification: class
 
 
 ## <kbd>class</kbd> `Image`
-A class for logging images to W&B.. 
+A class for logging images to W&B. 
 
 See https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes for more information on modes. 
 

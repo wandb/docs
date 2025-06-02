@@ -19,7 +19,7 @@ This module provides classes for interacting with W&B artifacts and their collec
 ```python
 server_supports_artifact_collections_gql_edges(
     client: 'RetryingClient',
-    warn: bool = False
+    warn: 'bool' = False
 ) → bool
 ```
 
@@ -38,12 +38,7 @@ Check if W&B server supports GraphQL edges for artifact collections.
 ### <kbd>method</kbd> `ArtifactTypes.__init__`
 
 ```python
-__init__(
-    client: wandb_gql.client.Client,
-    entity: str,
-    project: str,
-    per_page: int = 50
-)
+__init__(client: 'Client', entity: 'str', project: 'str', per_page: 'int' = 50)
 ```
 
 
@@ -76,7 +71,7 @@ Returns whether there are more artifact types to fetch.
 ### <kbd>method</kbd> `ArtifactTypes.convert_objects`
 
 ```python
-convert_objects() → List[ForwardRef('ArtifactType')]
+convert_objects() → list[ArtifactType]
 ```
 
 Convert the raw response data into a list of ArtifactType objects. 
@@ -111,11 +106,11 @@ An artifact object that satisfies query based on the specified type.
 
 ```python
 __init__(
-    client: wandb_gql.client.Client,
-    entity: str,
-    project: str,
-    type_name: str,
-    attrs: Optional[Mapping[str, Any]] = None
+    client: 'Client',
+    entity: 'str',
+    project: 'str',
+    type_name: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
 )
 ```
 
@@ -143,7 +138,7 @@ The name of the artifact type.
 ### <kbd>method</kbd> `ArtifactType.collection`
 
 ```python
-collection(name)
+collection(name: 'str') → ArtifactCollection
 ```
 
 Get a specific artifact collection by name. 
@@ -159,7 +154,7 @@ Get a specific artifact collection by name.
 ### <kbd>method</kbd> `ArtifactType.collections`
 
 ```python
-collections(per_page=50)
+collections(per_page: 'int' = 50) → ArtifactCollections
 ```
 
 Get all artifact collections associated with this artifact type. 
@@ -175,7 +170,7 @@ Get all artifact collections associated with this artifact type.
 ### <kbd>method</kbd> `ArtifactType.load`
 
 ```python
-load()
+load() → Mapping[str, Any]
 ```
 
 Load the artifact type attributes from W&B. 
@@ -200,11 +195,11 @@ Artifact collections of a specific type in a project.
 
 ```python
 __init__(
-    client: wandb_gql.client.Client,
-    entity: str,
-    project: str,
-    type_name: str,
-    per_page: int = 50
+    client: 'Client',
+    entity: 'str',
+    project: 'str',
+    type_name: 'str',
+    per_page: 'int' = 50
 )
 ```
 
@@ -240,7 +235,7 @@ Returns whether there are more artifacts to fetch.
 ### <kbd>method</kbd> `ArtifactCollections.convert_objects`
 
 ```python
-convert_objects() → List[ForwardRef('ArtifactCollection')]
+convert_objects() → list[ArtifactCollection]
 ```
 
 Convert the raw response data into a list of ArtifactCollection objects. 
@@ -277,14 +272,14 @@ An artifact collection that represents a group of related artifacts.
 
 ```python
 __init__(
-    client: wandb_gql.client.Client,
-    entity: str,
-    project: str,
-    name: str,
-    type: str,
-    organization: Optional[str] = None,
-    attrs: Optional[Mapping[str, Any]] = None,
-    is_sequence: Optional[bool] = None
+    client: 'Client',
+    entity: 'str',
+    project: 'str',
+    name: 'str',
+    type: 'str',
+    organization: 'str | None' = None,
+    attrs: 'Mapping[str, Any] | None' = None,
+    is_sequence: 'bool | None' = None
 )
 ```
 
@@ -342,7 +337,7 @@ Returns the type of the artifact collection.
 ### <kbd>method</kbd> `ArtifactCollection.artifacts`
 
 ```python
-artifacts(per_page: int = 50) → Artifacts
+artifacts(per_page: 'int' = 50) → Artifacts
 ```
 
 Get all artifacts in the collection. 
@@ -352,7 +347,7 @@ Get all artifacts in the collection.
 ### <kbd>method</kbd> `ArtifactCollection.change_type`
 
 ```python
-change_type(new_type: str) → None
+change_type(new_type: 'str') → None
 ```
 
 Deprecated, change type directly with `save` instead. 
@@ -423,15 +418,15 @@ Optionally pass in filters to narrow down the results based on specific criteria
 
 ```python
 __init__(
-    client: wandb_gql.client.Client,
-    entity: str,
-    project: str,
-    collection_name: str,
-    type: str,
-    filters: Optional[Mapping[str, Any]] = None,
-    order: Optional[str] = None,
-    per_page: int = 50,
-    tags: Optional[str, List[str]] = None
+    client: 'Client',
+    entity: 'str',
+    project: 'str',
+    collection_name: 'str',
+    type: 'str',
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50,
+    tags: 'str | list[str] | None' = None
 )
 ```
 
@@ -465,7 +460,7 @@ Returns whether there are more files to fetch.
 ### <kbd>method</kbd> `Artifacts.convert_objects`
 
 ```python
-convert_objects() → List[ForwardRef('wandb.Artifact')]
+convert_objects() → list[Artifact]
 ```
 
 Convert the raw response data into a list of wandb.Artifact objects. 
@@ -482,10 +477,10 @@ Convert the raw response data into a list of wandb.Artifact objects.
 
 ```python
 __init__(
-    client: wandb_gql.client.Client,
+    client: 'Client',
     run: 'Run',
-    mode: Literal['logged', 'used'] = 'logged',
-    per_page: int = 50
+    mode: "Literal['logged', 'used']" = 'logged',
+    per_page: 'int' = 50
 )
 ```
 
@@ -519,7 +514,7 @@ Returns whether there are more artifacts to fetch.
 ### <kbd>method</kbd> `RunArtifacts.convert_objects`
 
 ```python
-convert_objects() → List[ForwardRef('wandb.Artifact')]
+convert_objects() → list[Artifact]
 ```
 
 Convert the raw response data into a list of wandb.Artifact objects. 
@@ -536,10 +531,10 @@ Convert the raw response data into a list of wandb.Artifact objects.
 
 ```python
 __init__(
-    client: wandb_gql.client.Client,
-    artifact: 'wandb.Artifact',
-    names: Optional[Sequence[str]] = None,
-    per_page: int = 50
+    client: 'Client',
+    artifact: 'Artifact',
+    names: 'Sequence[str] | None' = None,
+    per_page: 'int' = 50
 )
 ```
 
@@ -579,7 +574,7 @@ Returns the path of the artifact.
 ### <kbd>method</kbd> `ArtifactFiles.convert_objects`
 
 ```python
-convert_objects() → List[ForwardRef('public.File')]
+convert_objects() → list[public.File]
 ```
 
 Convert the raw response data into a list of public.File objects. 
