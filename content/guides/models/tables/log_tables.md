@@ -236,6 +236,11 @@ for step in range(resume_step, final_step):
 resumed_run.finish()
 ```
 
+{{% alert %}}
+Increments are logged to a new table if you turn off summaries on a key used for the incremental table using `wandb.define_metric("<table_key>", summary="none")` or `wandb.define_metric("*", summary="none")`.
+{{% /alert %}}
+
+
 ### Training with INCREMENTAL batch training
 
 ```python
