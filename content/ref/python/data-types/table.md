@@ -2,14 +2,20 @@
 title: Table
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L183-L914 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L198-L1036 >}}
 
 The Table class used to display and analyze tabular data.
 
 ```python
 Table(
-    columns=None, data=None, rows=None, dataframe=None, dtype=None, optional=(True),
-    allow_mixed_types=(False)
+    columns=None,
+    data=None,
+    rows=None,
+    dataframe=None,
+    dtype=None,
+    optional=(True),
+    allow_mixed_types=(False),
+    log_mode: Optional[Literal['IMMUTABLE', 'MUTABLE', 'INCREMENTAL']] = "IMMUTABLE"
 )
 ```
 
@@ -28,12 +34,13 @@ in the UI: https://docs.wandb.ai/guides/data-vis/tables.
 |  `dataframe` |  (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
 |  `optional` |  (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |
 |  `allow_mixed_types` |  (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False |
+|  `log_mode` |  Optional[str] Controls how the Table is logged when mutations occur. Options: - "IMMUTABLE" (default): Table can only be logged once; subsequent logging attempts after the table has been mutated will be no-ops. - "MUTABLE": Table can be re-logged after mutations, creating a new artifact version each time it's logged. - "INCREMENTAL": Table data is logged incrementally, with each log creating a new artifact entry containing the new data since the last log. |
 
 ## Methods
 
 ### `add_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L802-L841)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L920-L961)
 
 ```python
 add_column(
@@ -51,7 +58,7 @@ Adds a column of data to the table.
 
 ### `add_computed_columns`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L892-L914)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L1012-L1036)
 
 ```python
 add_computed_columns(
@@ -67,7 +74,7 @@ Adds one or more computed columns based on existing data.
 
 ### `add_data`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L423-L456)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L506-L539)
 
 ```python
 add_data(
@@ -81,7 +88,7 @@ The length of the data should match the length of the table column.
 
 ### `add_row`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L418-L421)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L500-L504)
 
 ```python
 add_row(
@@ -93,7 +100,7 @@ Deprecated; use add_data instead.
 
 ### `cast`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L315-L371)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L409-L460)
 
 ```python
 cast(
@@ -114,7 +121,7 @@ example object, like an instance of wandb.Image or wandb.Classes.
 
 ### `get_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L843-L866)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L963-L986)
 
 ```python
 get_column(
@@ -131,7 +138,7 @@ Retrieves a column from the table and optionally converts it to a NumPy object.
 
 ### `get_dataframe`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L877-L883)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L997-L1003)
 
 ```python
 get_dataframe()
@@ -141,7 +148,7 @@ Returns a `pandas.DataFrame` of the table.
 
 ### `get_index`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L868-L875)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L988-L995)
 
 ```python
 get_index()
@@ -151,7 +158,7 @@ Returns an array of row indexes for use in other tables to create links.
 
 ### `index_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L885-L890)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L1005-L1010)
 
 ```python
 index_ref(
@@ -163,7 +170,7 @@ Gets a reference of the index of a row in the table.
 
 ### `iterrows`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L679-L693)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L797-L811)
 
 ```python
 iterrows()
@@ -184,7 +191,7 @@ The data of the row.
 
 ### `set_fk`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L700-L704)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L819-L824)
 
 ```python
 set_fk(
@@ -194,7 +201,7 @@ set_fk(
 
 ### `set_pk`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/table.py#L695-L698)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/table.py#L813-L817)
 
 ```python
 set_pk(

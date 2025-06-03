@@ -2,13 +2,13 @@
 title: Object3D
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/object_3d.py#L186-L463 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/object_3d.py#L187-L468 >}}
 
 Wandb class for 3D point clouds.
 
 ```python
 Object3D(
-    data_or_path: Union['np.ndarray', str, 'TextIO', dict],
+    data_or_path: Union['np.ndarray', str, pathlib.Path, 'TextIO', dict],
     caption: Optional[str] = None,
     **kwargs
 ) -> None
@@ -16,7 +16,7 @@ Object3D(
 
 | Args |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) Object3D can be initialized from a file or a numpy array. You can pass a path to a file or an io object and a file_type which must be one of SUPPORTED_TYPES |
+|  `data_or_path` |  (numpy array, pathlib.Path, string, io) Object3D can be initialized from a file or a numpy array. You can pass a path to a file or an io object and a file_type which must be one of SUPPORTED_TYPES |
 
 The shape of the numpy array must be one of either:
 
@@ -30,7 +30,7 @@ The shape of the numpy array must be one of either:
 
 ### `from_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/object_3d.py#L333-L350)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/object_3d.py#L338-L355)
 
 ```python
 @classmethod
@@ -48,7 +48,7 @@ Initializes Object3D from a file or stream.
 
 ### `from_numpy`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/object_3d.py#L352-L381)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/object_3d.py#L357-L386)
 
 ```python
 @classmethod
@@ -73,7 +73,7 @@ The shape of the numpy array must be one of either:
 
 ### `from_point_cloud`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/object_3d.py#L383-L417)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/object_3d.py#L388-L422)
 
 ```python
 @classmethod

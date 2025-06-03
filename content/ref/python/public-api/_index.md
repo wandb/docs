@@ -22,6 +22,8 @@ title: Import & Export API
 
 [`class QueuedRun`](./queuedrun.md): A single queued run associated with an entity and project. Call `run = queued_run.wait_until_running()` or `run = queued_run.wait_until_finished()` to access the run.
 
+[`class Registry`](./registry.md): A single registry in the Registry.
+
 [`class Run`](./run.md): A single run associated with an entity and project.
 
 [`class RunQueue`](./runqueue.md)

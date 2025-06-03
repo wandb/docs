@@ -2,7 +2,7 @@
 title: Projects
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/projects.py#L23-L80 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/public/projects.py#L23-L80 >}}
 
 An iterable collection of `Project` objects.
 
@@ -21,7 +21,7 @@ Projects(
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/projects.py#L73-L77)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/public/projects.py#L73-L77)
 
 ```python
 convert_objects()
@@ -31,7 +31,7 @@ Convert the last fetched response data into the iterated objects.
 
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/paginator.py#L100-L107)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/paginator.py#L100-L107)
 
 ```python
 next() -> T
@@ -41,7 +41,7 @@ Return the next item from the iterator. When exhausted, raise StopIteration
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/paginator.py#L69-L71)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/paginator.py#L69-L71)
 
 ```python
 update_variables() -> None
@@ -51,7 +51,7 @@ Update the query variables for the next page fetch.
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/paginator.py#L93-L98)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/paginator.py#L93-L98)
 
 ```python
 __getitem__(
@@ -61,7 +61,7 @@ __getitem__(
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/paginator.py#L48-L50)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/paginator.py#L48-L50)
 
 ```python
 __iter__() -> Iterator[T]

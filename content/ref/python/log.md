@@ -2,7 +2,7 @@
 title: log
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/wandb_run.py#L1809-L2071 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/wandb_run.py#L1731-L1982 >}}
 
 Upload run data.
 
@@ -10,8 +10,7 @@ Upload run data.
 log(
     data: dict[str, Any],
     step: (int | None) = None,
-    commit: (bool | None) = None,
-    sync: (bool | None) = None
+    commit: (bool | None) = None
 ) -> None
 ```
 
@@ -108,7 +107,6 @@ run.log({"accuracy": 0.9}, step=current_step)
 |  `data` |  A `dict` with `str` keys and values that are serializable Python objects including: `int`, `float` and `string`; any of the `wandb.data_types`; lists, tuples and NumPy arrays of serializable Python objects; other `dict`s of this structure. |
 |  `step` |  The step number to log. If `None`, then an implicit auto-incrementing step is used. See the notes in the description. |
 |  `commit` |  If true, finalize and upload the step. If false, then accumulate data for the step. See the notes in the description. If `step` is `None`, then the default is `commit=True`; otherwise, the default is `commit=False`. |
-|  `sync` |  This argument is deprecated and does nothing. |
 
 #### Examples:
 
