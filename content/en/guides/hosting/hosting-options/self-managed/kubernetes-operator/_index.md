@@ -74,52 +74,57 @@ Depending on the installation method, you might need to meet the following requi
 See the [Deploy W&B in airgapped environment with Kubernetes]({{< relref "operator-airgapped.md" >}}) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
 
 ## Deploy W&B Server application
-This section describes different ways to deploy the W&B Kubernetes operator.
+This section describes different ways to use the W&B Kubernets Operator to deploy W&B.
 {{% alert %}}
 The W&B Operator is the default and recommended installation method for W&B Server.
 {{% /alert %}}
 
-### Deploy W&B with Helm CLI
+### Use Helm
 W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
 
-Follow those steps to install the W&B Kubernetes Operator with Helm CLI:
+Follow those steps to install the W&B Kubernetes Operator and deploy W&B with Helm.
+
+#### Install the Operator with Helm
+Follow these steps to install and start the Kubernetes Operator with Helm.
 
 1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository:
     ```shell
     helm repo add wandb https://charts.wandb.ai
     helm repo update
     ```
-2. Install the Operator on a Kubernetes cluster:
-    ```shell
-    helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
-    ```
-3. Configure the W&B operator custom resource to trigger the W&B Server installation, either by overriding the default configuration with a Helm `values.yaml` file or by fully customizing the custom resource definition (CRD) directly.
+1. Install and start the Operator on a Kubernetes cluster.
 
-    - **`values.yaml` override** (recommended): Create a new file named `values.yaml` that includes _only_ the keys from the [full `values.yaml` specification](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) that you want to override. For example, to configure MySQL:
+    - To start the Operator with the default configuration:
 
-      {{< prism file="/operator/values_mysql.yaml" title="values.yaml">}}{{< /prism >}}
-    - **Full CRD**: Copy this [example configuration](https://github.com/wandb/helm-charts/blob/main/charts/operator/crds/wandb.yaml) to a new file named `operator.yaml`. Make the required changes to the file. Refer to [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}).
-
-      {{< prism file="/operator/wandb.yaml" title="operator.yaml">}}{{< /prism >}}
-
-4. Start the Operator with your custom configuration so that it can install, configure, and manage the W&B Server application.
+        ```shell
+        helm upgrade --install install operator wandb/operator
+        ```
 
     - To start the Operator with a `values.yaml` override:
 
         ```shell
-        kubectl apply -f values.yaml
+        helm upgrade --install operator wandb/operator -f values.yaml 
         ```
-    - To start the operator with a fully customized CRD:
-      ```shell
-      kubectl apply -f operator.yaml
-      ```
+
+        Refer to the [example `values.yaml`]({{< relref "https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml" >}}).
 
     Wait until the deployment completes. This takes a few minutes.
 
-5. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
+You can now use the Operator to [deploy W&B]({{< relref "#deploy-wb-helm" >}}).
 
+#### Deploy W&B Server with Helm
+After [installing and starting the Kubernetes Operator]({{< relref "#install-the-operator-with-helm" >}}), follow these steps to deploy W&B with Helm.
 
-### Deploy W&B with Helm Terraform Module
+1. To configure your deployment, create `WeightsAndBiases` custom resource (CR) specification in a file named `operator.yaml`, based on the [W&B config reference]({{< relref "/guides/hosting/operator/#configuration-reference-for-wb-server" >}}).
+1. Deploy the CR using `kubectl apply`:
+    ```shell
+    kubectl apply -f operator.yaml
+    ```
+1. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
+
+### Use Terraform
+
+This section shows how to use Terraform to deploy W&B to your own infrastructure, such as a datacenter, using Terraform. To deploy to your own AWS, Azure, or GCP tenant instead, refer to [Deploy W&B with W&B Cloud Terraform modules]({{< relref "#deploy-wb-with-wb-cloud-terraform-modules" >}}).
 
 This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module is located [here](https://registry.terraform.io/modules/wandb/wandb/helm/latest). 
 
@@ -163,6 +168,7 @@ To see how W&B&Biases themselves use the Helm Terraform module to deploy “Dedi
 - [GCP](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
 
 ### Deploy W&B with W&B Cloud Terraform modules
+This section shows how to use Terraform to deploy W&B in your own AWS, Azure, or GCP tenant. To deploy W&B Self-Hosted on your own infrastructure, such as in a datacenter, refer to [Deploy W&B with W&B Cloud Terraform modules]({{< relref "#deploy-wb-with-wb-cloud-terraform-modules" >}}) instead.
 
 W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules deploy entire infrastructures including Kubernetes clusters, load balancers, MySQL databases and so on as well as the W&B Server application. The W&B Kubernetes Operator is already pre-baked with those official W&B cloud-specific Terraform Modules with the following versions:
 
