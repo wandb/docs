@@ -2,7 +2,7 @@
 title: Project
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/projects.py#L83-L184 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/public/projects.py#L83-L184 >}}
 
 A project is a namespace for runs.
 
@@ -19,7 +19,7 @@ Project(
 
 ### `artifacts_types`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/projects.py#L116-L118)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/public/projects.py#L116-L118)
 
 ```python
 artifacts_types(
@@ -29,7 +29,7 @@ artifacts_types(
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/attrs.py#L16-L37)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/attrs.py#L16-L36)
 
 ```python
 display(
@@ -41,7 +41,7 @@ Display this object in jupyter.
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/attrs.py#L12-L14)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -51,7 +51,7 @@ snake_to_camel(
 
 ### `sweeps`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/projects.py#L120-L158)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/public/projects.py#L120-L158)
 
 ```python
 sweeps()
@@ -59,7 +59,7 @@ sweeps()
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/apis/public/projects.py#L100-L108)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/public/projects.py#L100-L108)
 
 ```python
 to_html(

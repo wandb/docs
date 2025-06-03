@@ -2,13 +2,13 @@
 title: save
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/wandb_run.py#L2073-L2179 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/wandb_run.py#L1984-L2078 >}}
 
 Sync one or more files to W&B.
 
 ```python
 save(
-    glob_str: (str | os.PathLike | None) = None,
+    glob_str: (str | os.PathLike),
     base_path: (str | os.PathLike | None) = None,
     policy: PolicyName = "live"
 ) -> (bool | list[str])
