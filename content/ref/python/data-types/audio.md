@@ -2,13 +2,15 @@
 title: Audio
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/audio.py#L13-L155 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/audio.py#L17-L172 >}}
 
 Wandb class for audio clips.
 
 ```python
 Audio(
-    data_or_path, sample_rate=None, caption=None
+    data_or_path: Union[str, pathlib.Path, list, 'np.ndarray'],
+    sample_rate: Optional[int] = None,
+    caption: Optional[str] = None
 )
 ```
 
@@ -22,7 +24,7 @@ Audio(
 
 ### `durations`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/audio.py#L113-L115)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/audio.py#L130-L132)
 
 ```python
 @classmethod
@@ -33,7 +35,7 @@ durations(
 
 ### `resolve_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/audio.py#L129-L141)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/audio.py#L146-L158)
 
 ```python
 resolve_ref()
@@ -41,7 +43,7 @@ resolve_ref()
 
 ### `sample_rates`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/sdk/data_types/audio.py#L117-L119)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/audio.py#L134-L136)
 
 ```python
 @classmethod

@@ -189,7 +189,7 @@ If you find you have too many sections and performance is slow, consider the wor
 
 ### Metric count
 
-When logging between 5000 and 100,000 metrics per run, W&B recommends using a [manual workspace[{{ relref "/guides/models/app/features/panels/#workspace-modes" >}}). In Manual mode, you can easily add and remove panels in bulk as you choose to explore different sets of metrics. With a more focused set of plots, the workspace loads faster. Metrics that are not plotted are still collected and stored as usual.
+When logging between 5000 and 100,000 metrics per run, W&B recommends using a [manual workspace[{{< relref "/guides/models/app/features/panels/#workspace-modes" >}}). In Manual mode, you can easily add and remove panels in bulk as you choose to explore different sets of metrics. With a more focused set of plots, the workspace loads faster. Metrics that are not plotted are still collected and stored as usual.
 
 To reset a workspace to manual mode, click the workspace's action `...` menu, then click **Reset workspace**. Resetting a workspace has no impact on stored metrics for runs. [Learn more about managing workspaces]({{< relref "/guides/models/app/features/panels/" >}}).
 
