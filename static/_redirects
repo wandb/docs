@@ -63,7 +63,6 @@
 /company/getting-help/ / 301
 /company https://wandb.ai/site/company/ 301
 /data-vis/log-tables/ /guides/track/log/log-tables/ 301
-/data-vis/ /guides/models/tables/ 301
 /datasets-and-predictions/ /guides/integrations/mmdetection#visualize-dataset-and-model-prediction/ 301
 /define-sweep-configuration/ /guides/sweeps/define-sweep-configuration/ 301
 /deployment/ /guides/hosting/ 301
@@ -425,9 +424,11 @@
 # Splats are supported on both source (*) and destination (:splat)
 # If both are used, :splat resolves to exactly what * matches
 # If one side doesn't have a splat, it needs a trailing /.
+/data-vis/* /guides/models/tables/ 301
 /guides/core/tables/* /guides/models/tables/:splat 301
 /guides/integrations/other/* /guides/integrations/:splat 301
 /guides/integrations/prompts/* /guides/ 301
+/guides/models/automation/* /guides/core/automations/:splat 301
 /guides/models/automations/* /guides/core/automations/:splat 301
 /guides/models/registry/* /guides/core/registry/:splat 301
 /guides/model_registry/* /guides/core/registry/model_registry/:splat 301

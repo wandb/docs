@@ -74,7 +74,7 @@ AWS Cognito を認証に設定する手順は以下の通りです：
 {{% tab header="Okta" value="okta"%}}
 Okta を認証に設定する手順は以下の通りです： 
 
-1. https://login.okta.com/ で Okta ポータルにログインします。
+1. [https://login.okta.com/](https://login.okta.com/) で Okta ポータルにログインします。
 
 2. 左側のサイドバーで **Applications**、そして再度 **Applications** を選択します。
     {{< img src="/images/hosting/okta_select_applications.png" alt="" >}}
@@ -104,7 +104,7 @@ OIDC 発行者 URL は `https://COMPANY.okta.com` の形式です。該当する
 {{% /tab %}}
 
 {{% tab header="Entra" value="entra"%}}
-1. https://portal.azure.com/ で Azure ポータルにログインします。
+1. [https://portal.azure.com/](https://portal.azure.com/) で Azure ポータルにログインします。
 
 2. 「Microsoft Entra ID」サービスを選択します。
     {{< img src="/images/hosting/entra_select_entra_service.png" alt="" >}}
