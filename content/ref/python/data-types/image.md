@@ -2,7 +2,7 @@
 title: Image
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/image.py#L117-L769 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L131-L783 >}}
 
 A class for logging images to W&B.
 
@@ -39,7 +39,7 @@ Image(
 
 ### `all_boxes`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/image.py#L690-L711)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L704-L725)
 
 ```python
 @classmethod
@@ -53,7 +53,7 @@ all_boxes(
 
 ### `all_captions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/image.py#L713-L717)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L727-L731)
 
 ```python
 @classmethod
@@ -64,7 +64,7 @@ all_captions(
 
 ### `all_masks`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/image.py#L667-L688)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L681-L702)
 
 ```python
 @classmethod
@@ -78,7 +78,7 @@ all_masks(
 
 ### `guess_mode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/image.py#L560-L591)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L574-L605)
 
 ```python
 guess_mode(

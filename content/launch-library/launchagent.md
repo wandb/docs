@@ -3,7 +3,7 @@ title: LaunchAgent
 url: guides/launch-library/launchagent
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L164-L924 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L164-L924 >}}
 
 Launch agent class which polls run given run queues and launches runs for wandb launch.
 
@@ -29,7 +29,7 @@ LaunchAgent(
 
 ### `check_sweep_state`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L786-L803)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L786-L803)
 
 ```python
 check_sweep_state(
@@ -41,7 +41,7 @@ Check the state of a sweep before launching a run for the sweep.
 
 ### `fail_run_queue_item`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L295-L304)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L295-L304)
 
 ```python
 fail_run_queue_item(
@@ -51,7 +51,7 @@ fail_run_queue_item(
 
 ### `finish_thread_id`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L416-L509)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L416-L509)
 
 ```python
 finish_thread_id(
@@ -63,7 +63,7 @@ Removes the job from our list for now.
 
 ### `get_job_and_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L908-L915)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L908-L915)
 
 ```python
 get_job_and_queue()
@@ -71,7 +71,7 @@ get_job_and_queue()
 
 ### `initialized`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L190-L193)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L190-L193)
 
 ```python
 @classmethod
@@ -82,7 +82,7 @@ Return whether the agent is initialized.
 
 ### `loop`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L572-L653)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L572-L653)
 
 ```python
 loop()
@@ -96,7 +96,7 @@ Loop infinitely to poll for jobs and run them.
 
 ### `name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L180-L188)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L180-L188)
 
 ```python
 @classmethod
@@ -107,7 +107,7 @@ Return the name of the agent.
 
 ### `pop_from_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L340-L363)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L340-L363)
 
 ```python
 pop_from_queue(
@@ -131,7 +131,7 @@ Pops an item off the runqueue to run as a job.
 
 ### `print_status`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L365-L381)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L365-L381)
 
 ```python
 print_status() -> None
@@ -141,7 +141,7 @@ Prints the current status of the agent.
 
 ### `run_job`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L511-L541)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L511-L541)
 
 ```python
 run_job(
@@ -157,7 +157,7 @@ Set up project and run the job.
 
 ### `task_run_job`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L656-L688)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L656-L688)
 
 ```python
 task_run_job(
@@ -167,7 +167,7 @@ task_run_job(
 
 ### `update_status`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L383-L394)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L383-L394)
 
 ```python
 update_status(

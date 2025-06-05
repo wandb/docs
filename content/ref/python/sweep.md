@@ -2,7 +2,7 @@
 title: sweep
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/wandb_sweep.py#L34-L92 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/wandb_sweep.py#L34-L92 >}}
 
 Initialize a hyperparameter sweep.
 
