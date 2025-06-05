@@ -183,10 +183,6 @@
 /guides/launch/run-agent/ /guides/launch/setup-agent-advanced/ 301
 /guides/launch/sagemaker/ /guides/launch/setup-launch-sagemaker/ 301
 /guides/launch/vertex/ /guides/launch/setup-vertex/ 301
-/ref/python/launch-library/ /launch-library/ 301
-/ref/python/launch-library/launch/ /launch-library/launch/ 301
-/ref/python/launch-library/launch_add/ /launch-library/launch_add/ 301
-/ref/python/launch-library/launchagent/ /launch-library/launchagent/ 301
 /guides/manage-runs/ /guides/runs/manage-runs/ 301
 /guides/models/access_controls/ /guides/core/registry/model_registry/access_controls/ 301
 /guides/models/automation/ /guides/core/registry/ 301
@@ -442,5 +438,6 @@
 /library/frameworks/* /guides/integrations/:splat 301
 /library/integrations/* /guides/integrations/:splat 301
 /ref/app/features/panels/line-plot/* /guides/app/features/panels/line-plot/:splat 301
+/ref/python/launch-library/* /launch-library/:splat 301
 /ref/release-notes/releases/* /ref/releases/:splat 301
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
