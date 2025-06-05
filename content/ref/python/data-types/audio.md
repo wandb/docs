@@ -2,7 +2,7 @@
 title: Audio
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/audio.py#L17-L172 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/audio.py#L17-L172 >}}
 
 Wandb class for audio clips.
 
@@ -24,7 +24,7 @@ Audio(
 
 ### `durations`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/audio.py#L130-L132)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/audio.py#L130-L132)
 
 ```python
 @classmethod
@@ -35,7 +35,7 @@ durations(
 
 ### `resolve_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/audio.py#L146-L158)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/audio.py#L146-L158)
 
 ```python
 resolve_ref()
@@ -43,7 +43,7 @@ resolve_ref()
 
 ### `sample_rates`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/audio.py#L134-L136)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/audio.py#L134-L136)
 
 ```python
 @classmethod

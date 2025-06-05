@@ -2,7 +2,7 @@
 title: Video
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/video.py#L65-L268 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/video.py#L65-L268 >}}
 
 A class for logging videos to W&B.
 
@@ -26,7 +26,7 @@ Video(
 
 ### `encode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/video.py#L176-L198)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/video.py#L176-L198)
 
 ```python
 encode(
