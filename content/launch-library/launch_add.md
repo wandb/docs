@@ -1,6 +1,5 @@
 ---
 title: launch_add
-url: launch-library/launch_add
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch_add.py#L34-L131 >}}
