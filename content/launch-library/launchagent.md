@@ -1,5 +1,6 @@
 ---
 title: LaunchAgent
+url: guides/launch-library/launchagent
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/agent/agent.py#L164-L924 >}}

@@ -1,5 +1,6 @@
 ---
-title: launch
+title: launch api
+url: guides/launch-library/launch
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/launch/_launch.py#L249-L331 >}}
