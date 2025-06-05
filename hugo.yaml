@@ -5,7 +5,6 @@ buildFuture: true
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
 
 # Language settings
-contentDir: content
 defaultContentLanguage: en
 defaultContentLanguageInSubdir: false
 # Useful when translating.
@@ -53,6 +52,7 @@ imaging:
 # Language configuration
 languages:
   en:
+    contentDir: content/en
     languageName: English
     title: Weights & Biases Documentation
     params:
