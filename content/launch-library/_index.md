@@ -9,6 +9,7 @@ cascade:
   menu:
     launch-library:
       parent: launch-library
+url: launch-library/
 ---
 
 <!-- Insert buttons and diff -->
