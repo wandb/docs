@@ -75,7 +75,7 @@ W&B 서버의 맥락에서 엑세스 토큰은 사용자를 대신하여 API에 
 {{% tab header="Okta" value="okta"%}}
 인증을 위해 Okta를 설정하려면 아래 절차를 따르세요.
 
-1. https://login.okta.com/에서 Okta 포털에 로그인합니다.
+1. [https://login.okta.com/](https://login.okta.com/) 에서 Okta 포털에 로그인합니다.
 
 2. 왼쪽에서 **애플리케이션**을 선택한 다음 **애플리케이션**을 다시 선택합니다.
     {{< img src="/images/hosting/okta_select_applications.png" alt="" >}}
@@ -105,7 +105,7 @@ OIDC 발급자 URL의 형식은 `https://COMPANY.okta.com`입니다. COMPANY를 
 {{% /tab %}}
 
 {{% tab header="Entra" value="entra"%}}
-1. https://portal.azure.com/에서 Azure Portal에 로그인합니다.
+1. [https://portal.azure.com/](https://portal.azure.com/) 에서 Azure Portal에 로그인합니다.
 
 2. "Microsoft Entra ID" 서비스를 선택합니다.
     {{< img src="/images/hosting/entra_select_entra_service.png" alt="" >}}

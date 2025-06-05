@@ -2,7 +2,7 @@
 title: RunQueue
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/public/jobs.py#L428-L654 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/jobs.py#L428-L654 >}}
 
 ```python
 RunQueue(
@@ -24,7 +24,7 @@ RunQueue(
 
 ### `create`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/public/jobs.py#L641-L654)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/jobs.py#L641-L654)
 
 ```python
 @classmethod
@@ -40,7 +40,7 @@ create(
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/apis/public/jobs.py#L515-L537)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/jobs.py#L515-L537)
 
 ```python
 delete()

@@ -2,7 +2,7 @@
 title: log
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/wandb_run.py#L1731-L1982 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/wandb_run.py#L1731-L1982 >}}
 
 Upload run data.
 
