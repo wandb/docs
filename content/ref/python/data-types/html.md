@@ -2,7 +2,7 @@
 title: Html
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/html.py#L19-L134 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/html.py#L19-L134 >}}
 
 A class for logging HTML content to W&B.
 
@@ -24,7 +24,7 @@ Html(
 
 ### `inject_head`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.0/wandb/sdk/data_types/html.py#L86-L101)
+[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/html.py#L86-L101)
 
 ```python
 inject_head() -> None
