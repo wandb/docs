@@ -21,7 +21,7 @@ Table(
 これにより、`Images`、`Video`、`Audio`、および他の種類のリッチで注釈のあるメディアを
 従来のスカラー値と並べて Tables に直接埋め込むことができます。
 
-このクラスは、UI の Table Visualizer を生成するために使用される主要なクラスです: https://docs.wandb.ai/guides/data-vis/tables.
+このクラスは、UI の Table Visualizer を生成するために使用される主要なクラスです: [https://docs.wandb.ai/guides/models/tables/]({{< relref "/guides/models/tables/" >}}).
 
 | 引数 |  |
 | :--- | :--- |
