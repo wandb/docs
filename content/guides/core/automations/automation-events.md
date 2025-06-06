@@ -59,9 +59,14 @@ From the project's **Automations** tab or directly from a line plot panel, you c
 - A metric in a run's history.
 - A [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
 
-The notification can watch the metric for these events:
-- **Run metrics threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged values meets the threshold you specify.
-- **Run metrics change threshold met**: Trigger a workflow when the average logged values of a run change by the absolute or relative threshold you specify.
+The notification can trigger a workflow when your criteria are met. Options include:
+
+- **Run metrics threshold met**:
+  - Trigger the automation when a logged metric's value meets a defined [threshold]({{< relref "#threshold" >}}), optionally averaged over a defined number of logged values. For example, trigger the automation when `accuracy` exceeds `.6`.
+  - Trigger the automation when a single logged value is the minimum or maximum value over a defined number of recently logged values.
+- **Run metrics change threshold met**:
+  - Trigger the automation when a metric's logged value changes by a defined absolute or relative [change threshold]({{< relref "#change-threshold">}}), optionally averaged over a defined number of logged values. For example, trigger the automation when `accuracy` changes by at least `.2`.
+  - Trigger the automation when a metric's logged value exhibits the minimum or maximum amount of change over a defined number of recently logged values.
 
 To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
@@ -70,14 +75,23 @@ Run metric automations are currently available only in [W&B Multi-tenant Cloud](
 {{% /alert %}}
 
 #### Threshold
-For **Run metrics threshold met** events, you configure:
+A **Run metrics threshold met** event can be triggered either when a metric's value meets a defined numeric value or when the value is the minimium or maximum value over a defined number of values.
+
+To specify a numeric threshold, you configure:
 1. The number of logged values to average across (defaults to 5).
 1. How to compare the values with the threshold.
-
 For example, trigger an automation when `accuracy` exceeds `.6`.
 
+To trigger the automation when a value is the minimum or maximum value over a defined number of runs, you configure:
+1. Either **Min** or **Max**.
+1. The number of logged values to consider.
+
+For example, trigger an automation when `loss` is the lowest value of the last 10 logged values.
+
 #### Change threshold
-For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
+A **Run metrics change threshold met** event can be triggered either when a metric's value changes by a defined numeric amount or when the value changes by the minimium or maximum amount over a defined number of values.
+
+The automation uses two "windows" of values to check whether to start:
 
 - The _current window_ averages the 10 most recent values by default.
 - The _prior window_ averages the 50 most recent logged values prior to the current window.
@@ -87,11 +101,14 @@ The windows are consecutive and do not overlap.
 To create the automation, you configure:
 1. The current window (defaults to 10).
 1. The prior window (defaults to 50).
-1. Whether to evaluate the values as relative or absolute (defaults to **Relative**).
-1. How to compare the values with the threshold:
-      - Increases by at least
-      - Decreases by at least
-      - Increases or decreases by at least
+1. The change threshold, one of the following:
+   - For a numeric threshold, you define:
+      1. Whether to evaluate the values as relative or absolute (defaults to **Relative**).
+      1. How to compare the values with the threshold:
+          - Increases by at least
+          - Decreases by at least
+          - Increases or decreases by at least
+    - For a **Min** or **Max** threshold, you define whether to check for the **Min** or **Max** value.
 
 #### Run filters
 This section describes how the automation selects runs to evaluate.
