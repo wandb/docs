@@ -1,5 +1,14 @@
 ---
 title: launch-library
+menu:
+  launch:
+    identifier: launch-library
+type: docs
+cascade:
+  type: docs
+  menu:
+    launch-library:
+      parent: launch-library
 ---
 
 <!-- Insert buttons and diff -->

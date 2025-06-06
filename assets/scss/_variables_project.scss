@@ -496,10 +496,11 @@ h6, .td-content h6 {
   }
 }
 
-ol.breadcrumb:before {
-    content: "🏠︎" !important;
-    color: grey; filter: grayscale(100%);
-    margin-right: 10px;
+ol.breadcrumb li {
+    font-size: 13px;
+}
+ol.breadcrumb li:not(:first-child):before {
+    content: ">" !important;
 }
 
 .td-sidebar-nav__section.nav-item.dropdown {
