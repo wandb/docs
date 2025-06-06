@@ -117,6 +117,15 @@ body {
         background-color: $dark-bg-primary;
     }
 }
+p, td, div
+{
+    font-family: "Source Sans Pro", sans-serif;
+}
+.td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
+{
+    font-size: 16px; 
+    font-weight: $font-weight-bold;
+}
 
 // Headings
 h1, h2, h3, h4, h5, h6 {
@@ -542,27 +551,20 @@ ol.breadcrumb li:not(:first-child):before {
 }
 
 // Table of Contents Component
-#TableOfContents { 
-    margin-top: 15px;
-    font-size: 16px !important;
+#TableOfContents {
+    font-size: 13px !important;
     padding-left: 10px !important;
-
-    // Add "On this page" header
-    &:before { 
-        content: "On this page";
-        color: $text-primary;
-
-        [data-bs-theme=dark] & {
-            color: $dark-text-primary;
-        }
+    font-family: "Source Sans Pro", sans-serif;
+    a{
+        margin: 0px !important;
+        padding: 8px !important;
     }
-
     // List styles
     ul { 
-        padding-top: 10px !important;
+        padding: 0px !important;
         li {
-            padding-bottom: 10px;
-            line-height: 22px;
+            padding: 0px !important; 
+            line-height: 14px;
         }
     }
 
