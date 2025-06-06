@@ -67,8 +67,8 @@ Refer to the [reference architecture]({{< relref "../ref-arch.md#infrastructure-
 See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
 
 Depending on the installation method, you might need to meet the following requirements:
-* Kubectl installed and configured with the correct Kubernetes cluster context.
-* Helm is installed.
+* Install `kubectl` and configure it with the correct Kubernetes cluster context.
+* Install Helm.
 
 ### Air-gapped installations
 See the [Deploy W&B in airgapped environment with Kubernetes]({{< relref "operator-airgapped.md" >}}) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
@@ -79,13 +79,18 @@ This section describes different ways to use the W&B Kubernets Operator to deplo
 The W&B Operator is the default and recommended installation method for W&B Server.
 {{% /alert %}}
 
-### Use Helm
 W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
 
-Follow those steps to install the W&B Kubernetes Operator and deploy W&B with Helm.
+To deploy W&B Server, you can use Terraform to deploy the Helm chart, or you can use Helm directly. Select a tab to continue.
 
-#### Install the Operator with Helm
-Follow these steps to install and start the Kubernetes Operator with Helm.
+{{< tabpane text=true >}}
+  {{% tab header="Deploy with Terraform" value="deploy-with-terraform" %}}
+
+  {{% /tab %}}
+  {{% tab header="Deploy with Helm" value="deploy-with-helm" %}}
+Follow these seteps to install the W&B Operator with Helm and then use the Operator to deploy W&B Server.
+### Install the W&B Operator {#install-wb-operator-helm}
+To install and start the Kubernetes Operator with Helm:
 
 1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository:
     ```shell
@@ -106,21 +111,33 @@ Follow these steps to install and start the Kubernetes Operator with Helm.
         helm upgrade --install operator wandb/operator -f values.yaml 
         ```
 
-        Refer to the [example `values.yaml`]({{< relref "https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml" >}}).
+        Refer to the [example `values.yaml`](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
     Wait until the deployment completes. This takes a few minutes.
+### Deploy W&B Server with Helm  {#deploy-wb-helm}
 
-You can now use the Operator to [deploy W&B]({{< relref "#deploy-wb-helm" >}}).
+After [installing and starting the Kubernetes Operator]({{< relref "#install-the-operator-with-helm" >}}), follow these steps to deploy W&B:
 
-#### Deploy W&B Server with Helm
-After [installing and starting the Kubernetes Operator]({{< relref "#install-the-operator-with-helm" >}}), follow these steps to deploy W&B with Helm.
-
-1. To configure your deployment, create `WeightsAndBiases` custom resource (CR) specification in a file named `operator.yaml`, based on the [W&B config reference]({{< relref "/guides/hosting/operator/#configuration-reference-for-wb-server" >}}).
+1. To configure your deployment, create the `WeightsAndBiases` spec in a file named `operator.yaml`, based on the [W&B config reference]({{< relref "/guides/hosting/operator/#configuration-reference-for-wb-server" >}}).
 1. Deploy the CR using `kubectl apply`:
     ```shell
     kubectl apply -f operator.yaml
     ```
 1. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
+  {{% /tab %}}
+{{< /tabpane >}}
+### Use Helm
+W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
+
+Follow those steps to install the W&B Kubernetes Operator and deploy W&B with Helm.
+
+#### Install the Operator with Helm
+
+
+You can now use the Operator to [deploy W&B]({{< relref "#deploy-wb-server" >}}).
+
+#### Deploy W&B Server with Helm
+
 
 ### Use Terraform
 

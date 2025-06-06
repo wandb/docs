@@ -10,18 +10,16 @@ url: guides/hosting/server-upgrade-process
 weight: 6
 ---
 
-This page explains how to update your W&B Server version and license using the same method you used to install W&B Server.
+This page explains how to update your W&B Server version and license.
 
-## Supported deployment mechanisms
-The following table lists how to update your license and version based on your deploymenth method.
-
+## Requirements
 <a id="supported-deployment-types"></a>
-| Release Type    | Description         |
-| ---------------- | ------------------ |
-| [Terraform]({{< relref "#update-with-terraform" >}}) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [Helm]({{< relref "#update-with-helm" >}})              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.  |
+<a id="supported-deployment-mechanisms"></a>
+
+Upgrade W&B Server using the same method you used to [deploy W&B Server](/guides/hosting/operator/).
 
 {{% readfile "/_includes/server-kubernetes-requirements.md" %}}
+- If necessary, install Terraform or Helm. 
 
 For details, refer to [Reference Architecture]({{< relref "ref-arch.md" >}}).
 
@@ -29,7 +27,7 @@ For details, refer to [Reference Architecture]({{< relref "ref-arch.md" >}}).
 Select your deployment method to continue.
 
 {{< tabpane text=true >}}
-  {{% tab header="Update with Terraform" value="update-with-terraform" %}}
+  {{% tab header="Update with Terraform" %}}  {#update-with-terraform}
 
 1. Select your cloud provider to obtain the appropriate Terraform module.
 
@@ -64,8 +62,7 @@ Select your deployment method to continue.
       ```
 
   {{% /tab %}}
-  {{% tab header="Update with Helm" value="update-with-helm" %}}
-
+  {{% tab header="Update with Helm" %}}  {#update-with-helm}
 This section shows how to update W&B Server with Helm using one of these methods:
 - [Update the W&B spec]({{< relref "#update-wb-with-spec" >}})
 - [Update using environment variables]({{< relref "#update-license-and-version-directly" >}})
@@ -73,7 +70,7 @@ This section shows how to update W&B Server with Helm using one of these methods
 For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/blob/main/upgrade.md) in the public repository.
 
 ### Update the W&B spec {#update-wb-with-spec}
-1. Specify a new version by modifying the `image.tag` and/or `license` values in your Helm chart `*.yaml` configuration file:
+1. Specify the new version by modifying the `image.tag` and/or `license` values in your Helm chart `*.yaml` configuration file:
     ```yaml
     license: 'new_license'
     image:
