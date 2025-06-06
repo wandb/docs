@@ -746,28 +746,38 @@ POST /scim/Groups
 - **Method**: PATCH
 - **Description**: Update an existing team's membership list.
 - **Supported Operations**: `add` member, `remove` member
-- **Request Example**:
 
-Adding `dev-user2` to `wandb-devs`
+{{% alert %}}
+The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `members[value eq "{user_id}"]` to remove a specific user, or `members` to remove all users from the team.
+{{% /alert %}}
+- **Request Examples**:
+
+{{% alert color="info" %}}
+Replace `{team_id}` with the actual team ID and `{user_id}` with the actual user ID in your requests.
+{{% /alert %}}
+
+**Adding a user to a team**
+
+Adding `dev-user2` to `wandb-devs`:
 
 ```bash
-PATCH /scim/Groups/ghi
+PATCH /scim/Groups/{team_id}
 ```
 
 ```json
 {
-	"schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-	"Operations": [
-		{
-			"op": "add",
-			"path": "members",
-			"value": [
-	      {
-					"value": "def",
-				}
-	    ]
-		}
-	]
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "add",
+            "path": "members",
+            "value": [
+                {
+                    "value": "{user_id}"
+                }
+            ]
+        }
+    ]
 }
 ```
 
@@ -795,6 +805,99 @@ PATCH /scim/Groups/ghi
             "Display": "dev-user2"
         }
     ],
+    "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:Group"
+    ]
+}
+```
+
+**Removing a specific user from a team**
+
+Removing `dev-user2` from `wandb-devs`:
+
+```bash
+PATCH /scim/Groups/{team_id}
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "remove",
+            "path": "members[value eq \"{user_id}\"]"
+        }
+    ]
+}
+```
+
+- **Response Example**:
+
+```bash
+(Status 200)
+```
+
+```json
+{
+    "displayName": "wandb-devs",
+    "id": "ghi",
+    "members": [
+        {
+            "Value": "abc",
+            "Ref": "",
+            "Type": "",
+            "Display": "dev-user1"
+        }
+    ],
+    "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:Group"
+    ]
+}
+```
+
+**Removing all users from a team**
+
+Removing all users from `wandb-devs`:
+
+```bash
+PATCH /scim/Groups/{team_id}
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "remove",
+            "path": "members"
+        }
+    ]
+}
+```
+
+- **Response Example**:
+
+```bash
+(Status 200)
+```
+
+```json
+{
+    "displayName": "wandb-devs",
+    "id": "ghi",
+    "members": null,
     "meta": {
         "resourceType": "Group",
         "created": "2023-10-01T00:00:00Z",
