@@ -55,7 +55,7 @@ This section describes the events related to an artifact that can trigger an aut
 - **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
 
 ### Run events
-An automation be trigered by the following events related to runs.
+An automation can be triggered by a change in a [run's status]({{< relref "/guides/models/track/runs/#run-states" >}}) or a [metric]({{< relref "/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" >}}).
 
 #### Run status change
 Trigger a workflow when a run changes its status to one or more of **Running**, **Finished**, or **Failed**. **Finished** indicates a run that completed successfully. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
@@ -97,7 +97,7 @@ To set up a run metric automation, you configure how to compare the metric's val
 Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
 
 {{% alert %}}
-From a line plot in a workspace, you can quickly create an automation from a line plot in the workspace that shows the metric. Hover over the panel, then click the bell icon at the top of the panel. 
+From a line plot in a workspace, you can create an automation from a line plot in the workspace that shows the metric. Hover over the panel, then click the bell icon at the top of the panel. 
 {{% /alert %}}
 
 
