@@ -42,9 +42,7 @@ The storage layer consists of a MySQL database and object storage. The MySQL dat
 ## Infrastructure requirements
 
 ### Kubernetes
-The W&B Server application is deployed as a [Kubernetes Operator]({{< relref "kubernetes-operator/" >}}) that deploys multiple pods. For this reason, W&B requires a Kubernetes cluster with:
-- A fully configured and functioning Ingress controller.
-- The capability to provision Persistent Volumes.
+{{% readfile "/_includes/server-kubernetes-requirements.md" %}}
 
 ### MySQL
 W&B stores metadata in a MySQL database. The database's performance and storage requirements depend on the shapes of the model parameters and related metadata. For example, the database grows in size as you track more training runs, and load on the database increases based on queries in run tables, user workspaces, and reports.
