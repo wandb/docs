@@ -32,7 +32,7 @@ and upload them to the W&B server.
 
 [`class Html`](./html.md): A class for logging HTML content to W&B.
 
-[`class Image`](./image.md): Format images for logging to W&B.
+[`class Image`](./image.md): A class for logging images to W&B.
 
 [`class ImageMask`](./imagemask.md): Format image masks or overlays for logging to W&B.
 

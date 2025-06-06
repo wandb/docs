@@ -75,7 +75,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
 {{% tab header="Okta" value="okta"%}}
 Follow the procedure below to set up Okta for authorization: 
 
-1. Login to the Okta Portal at https://login.okta.com/. 
+1. Log in to the [Okta Portal](https://login.okta.com/). 
 
 2. On the left side, select **Applications** and then **Applications** again.
     {{< img src="/images/hosting/okta_select_applications.png" alt="" >}}
@@ -105,7 +105,7 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 {{% /tab %}}
 
 {{% tab header="Entra" value="entra"%}}
-1. Login to the Azure Portal at https://portal.azure.com/.
+1. Log in to the [Azure Portal](https://portal.azure.com/).
 
 2. Select "Microsoft Entra ID" service.
     {{< img src="/images/hosting/entra_select_entra_service.png" alt="" >}}
