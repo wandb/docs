@@ -101,7 +101,7 @@ The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see
 ### Track all processes to a single run
 
 {{% alert color="secondary"  %}}
-Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a GitHub issue at [https://github.com/wandb/wandb](https://github.com/wandb/wandb) to provide feedback.
+The new run settings and parameters defined below (mode="shared", x_label, x_primary, etc.) are in public preview. Create a GitHub issue at [https://github.com/wandb/wandb](https://github.com/wandb/wandb) to provide feedback.
 {{% /alert %}}
 
 {{% alert title="Requirements" %}}
