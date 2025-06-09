@@ -26,7 +26,7 @@ In a [project]({{< relref "/guides/models/track/project-page.md" >}}), an automa
 - When an alias is added to an artifact version. For example, trigger a PII redaction workflow when the alias "redaction" is added to a dataset artifact.
 - When a metric for a run meets or exceeds a configured threshold. Optionally filter runs by user or run name.
 - When a metric for a run changes by a configured threshold. Optionally filter runs by user or run name.
-- When a run's status changes to **Running**, **Failed**, or **Finished**. Optionally filter runs by user or run name.
+- When a run's status changes to **Running**, **Failed** (including jobs that were interactively killed), or **Finished**. Optionally filter runs by user or run name.
 
 This diagram shows the relationship between automation events and actions.
 
