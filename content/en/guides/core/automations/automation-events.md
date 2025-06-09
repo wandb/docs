@@ -58,7 +58,7 @@ This section describes the events related to an artifact that can trigger an aut
 An automation can be triggered by a change in a [run's status]({{< relref "/guides/models/track/runs/#run-states" >}}) or a [metric]({{< relref "/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" >}}).
 
 #### Run status change
-Trigger a workflow when a run changes its status to one or more of **Running**, **Finished**, or **Failed**. **Finished** indicates a run that completed successfully. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+Trigger a workflow when a [run's status]({{< relref "/guides/runs/#run-states" >}}) changes. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
 
 Because run status is a property of the entire run, you can create a run status automation only from the the **Automations** page, not from a workspace.
 
