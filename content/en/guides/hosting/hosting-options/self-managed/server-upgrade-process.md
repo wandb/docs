@@ -16,12 +16,11 @@ This page explains how to update your W&B Server version and license.
 <a id="supported-deployment-types"></a>
 <a id="supported-deployment-mechanisms"></a>
 
-Upgrade W&B Server using the same method you used to [deploy W&B Server](/guides/hosting/operator/).
+Upgrade W&B Server using the same method you used to [deploy W&B Server]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/" >}}).
 
 {{% readfile "/_includes/server-kubernetes-requirements.md" %}}
-- If necessary, install Terraform or Helm. 
 
-For details, refer to [Reference Architecture]({{< relref "ref-arch.md" >}}).
+For details, refer to [Reference Architecture]({{< relref "/guides/hosting/hosting-options/self-managed/ref-arch.md" >}}).
 
 ## Update license and version
 Select your deployment method to continue.
