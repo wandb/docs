@@ -794,6 +794,14 @@ img, iframe {
   display: block;
 }
 
+.section-index {
+    max-width: 80%;
+}
+
+.section-index .entry p {
+    margin-top: 5px;
+}
+
 @media (min-width: $breakpoint-lg) {
     img, iframe {
         max-width: 80% !important;
