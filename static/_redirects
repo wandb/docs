@@ -438,5 +438,6 @@
 /library/frameworks/* /guides/integrations/:splat 301
 /library/integrations/* /guides/integrations/:splat 301
 /ref/app/features/panels/line-plot/* /guides/app/features/panels/line-plot/:splat 301
+/ref/python/launch-library/* /launch-library/:splat 301
 /ref/release-notes/releases/* /ref/releases/:splat 301
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
