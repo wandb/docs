@@ -117,6 +117,15 @@ body {
         background-color: $dark-bg-primary;
     }
 }
+p, td, div
+{
+    font-family: "Source Sans Pro", sans-serif;
+}
+.td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
+{
+    font-size: 16px; 
+    font-weight: $font-weight-bold;
+}
 
 // Headings
 h1, h2, h3, h4, h5, h6 {
@@ -453,47 +462,9 @@ h1, h2, h3, h4, h5, h6 {
     font-family: "Source Serif 4", sans-serif;
     color: $text-primary;
 }
-h1, .td-content h1 {
-    font-size: 32px !important;
-}
-h2, .td-content h2 {
-    font-size: 24px !important;
-}
-h3, .td-content h3 {
-    font-size: 20px !important;
-}
-h4, .td-content h4 {
-    font-size: 16px !important;
-}
-h5, .td-content h5 {
-    font-size: 14px !important;
-}
-h6, .td-content h6 {
-    font-size: 12px !important;
-}
+
 .td-sidebar-nav-active-item {
     text-decoration: none;
-}
-
-#m-guideshostingiamorg_team_struct-li
-
-.td-sidebar-nav, .td-navbar .nav-link  {
-  font-family: "Source Sans Pro", sans-serif;
-  a {
-    color: $text-secondary !important;
-    font-weight: $font-weight-regular;
-    text-decoration: none !important;
-    &:hover {
-      color: $link-primary !important;
-      text-decoration: none !important;
-    }
-
-    .td-sidebar-nav-active-item {
-      color: $link-primary !important;
-      text-decoration: none !important;
-      font-weight: $font-weight-medium !important;
-    }
-  }
 }
 
 ol.breadcrumb li {
@@ -503,37 +474,11 @@ ol.breadcrumb li:not(:first-child):before {
     content: ">" !important;
 }
 
-.td-sidebar-nav__section.nav-item.dropdown {
-    font-size: 14px !important;
-    color: $text-secondary !important;
-}
-
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
   margin-bottom: 10px !important;
-  margin-top: 5px !important;
-
   .nav-link.dropdown-toggle {
-    margin-left: 10px !important;
-    font-size: 14px !important;
-
-    &::after {
-      display: none !important;
-    }
+    margin-left: -5px !important;
   }
-}
-
-.td-sidebar-nav__section-title {
-    display: block;
-    font-weight: $font-weight-regular !important;
-    line-height: 19px;
-    .active {
-        font-weight: $font-weight-regular !important;
-    }
-    
-    a {
-        color: var(--bs-secondary-color);
-        font-weight: $font-weight-regular !important;
-    }
 }
 
 .td-content .lead {
@@ -542,27 +487,21 @@ ol.breadcrumb li:not(:first-child):before {
 }
 
 // Table of Contents Component
-#TableOfContents { 
-    margin-top: 15px;
-    font-size: 16px !important;
-    padding-left: 10px !important;
-
-    // Add "On this page" header
-    &:before { 
-        content: "On this page";
-        color: $text-primary;
-
-        [data-bs-theme=dark] & {
-            color: $dark-text-primary;
-        }
+#TableOfContents {
+    
+    font-size: 13px !important;
+    font-family: "Source Sans Pro", sans-serif;
+    a{
+        margin: 0px !important;
+        padding: 8px !important;
+        font-weight: 500 !important;
     }
-
     // List styles
     ul { 
-        padding-top: 10px !important;
+        padding: 0px !important;
         li {
-            padding-bottom: 10px;
-            line-height: 22px;
+            padding: 0px !important; 
+            line-height: 14px;
         }
     }
 
@@ -855,6 +794,14 @@ img, iframe {
   display: block;
 }
 
+.section-index {
+    max-width: 80%;
+}
+
+.section-index .entry p {
+    margin-top: 5px;
+}
+
 @media (min-width: $breakpoint-lg) {
     img, iframe {
         max-width: 80% !important;
@@ -877,7 +824,7 @@ img, iframe {
     // Update sidebar nav colors for dark mode
     .td-sidebar-nav {
         a {
-            color: $dark-text-secondary !important;
+            color: $dark-text-primary !important;
             &:hover {
                 color: $dark-link-primary !important;
             }
