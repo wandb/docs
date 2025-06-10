@@ -343,9 +343,6 @@ for artifact_version in tagged_artifact_versions:
 5. Click **View** next to an artifact version
 6. Within the **Version** tab, hover your mouse over the name of the tag
 7. Click on the cancel button (**X** icon)
-
-
-
 ## Troubleshooting 
 
 Below are some common things to double check if you are not able to link an artifact. 
