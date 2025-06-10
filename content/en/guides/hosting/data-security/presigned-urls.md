@@ -50,10 +50,11 @@ Pre-signed URLs are the only supported blob storage access mechanism in W&B. W&B
 {{% /alert %}}
 
 ### Determine the user that requested a pre-signed URL
-When W&B returns a pre-signed URL, the response includes the requester's username:
+### Determine the user that requested a pre-signed URL
+When W&B returns a pre-signed URL, a query parameter in the URL contains the requester's username:
 
-| Storage provider   | Response field  |
+| Storage provider   | Signed URL query parameter  |
 |--------------------|-----------------|
-| AWS bucket         | `X-User` header |
-| GCP bucket         | `X-User` header |
-| Azure blob storage | `scid` query parameter |
+| AWS S3  storage           | `X-User`  |
+| Google Cloud storage   | `X-User` |
+| Azure  blob storage       | `scid`      |
