@@ -758,7 +758,6 @@ ul {
     align-items: flex-start;
     gap: 24px;
     border-radius: $border-radius-large;
-    margin-bottom: 30px;
 
     h1, h2, p, div {
         filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
@@ -774,6 +773,9 @@ ul {
     min-height: 200px;
     color: $moon-white;
     overflow: hidden;
+    [data-bs-theme=dark] & {
+        border: 1px solid;
+    }
 }
 
 // Help Banner
