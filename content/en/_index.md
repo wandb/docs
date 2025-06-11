@@ -1,11 +1,13 @@
 ---
 title: Weights & Biases Documentation
+type: docs
+toc_hide: true
+hide_readingtime: true
+hide_feedback: true
+hide_section: true
+no_list: true
 ---
-<div style="padding-top:50px;">&nbsp;</div>
-<div style="max-width:1200px; margin: 0 auto">
-{{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
-Choose the product for which you need documentation.
-{{< /banner >}}
+<div style="max-width:1200px;">
 
 {{< cardpane >}}
 {{% card %}}<div onclick="window.location.href='https://weave-docs.wandb.ai'" style="cursor: pointer;">
@@ -15,7 +17,7 @@ Choose the product for which you need documentation.
 </div>
 <h2>W&B Weave</h2>
 
-##### Use AI models in your app
+#### Build agentic AI applications
 
 Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a playground for comparing different large language models (LLMs) and settings.
 
@@ -32,7 +34,7 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. 
 </div>
 <h2>W&B Models</h2>
 
-##### Develop AI models
+#### Build AI models
 
 Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
 
@@ -48,7 +50,6 @@ Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Feat
 </div>
 <!-- HTML override just for landing page -->
 <style>
-.td-card-group { margin: 0 auto }
 p { overflow: hidden; display: block; }
 ul { margin-left: 50px; }
 </style>
