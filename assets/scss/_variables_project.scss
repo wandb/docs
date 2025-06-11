@@ -121,14 +121,19 @@ body {
     display: none; 
 }
 
+.card div.taxonomy {
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
 div.taxo-support {
     padding-bottom: 16px;
     min-height: none;
 }
 
-p, td, div, li
+p, td, div, li, .lead
 {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-weight: 200 !important;
     font-size: 14px;
     [data-bs-theme=dark] & {
@@ -143,28 +148,46 @@ p, td, div, li
 
 // Headings
 h1, h2, h3, h4, h5, h6 {
-    font-weight: $font-weight-regular !important;
-    font-family: "Source Serif 4", sans-serif;
     color: $text-primary;
-
     [data-bs-theme=dark] & {
         color: white !important;
     }
 }
 
 p code {
+    padding: 3px !important;
+    margin: 0px !important;
+    background-color: $bg-tertiary !important;
     [data-bs-theme=dark] & {
         background-color: $dark-bg-secondary !important;
     }
 }
 
 // Heading sizes
-h1, .td-content h1 { font-size: 32px !important; }
-h2, .td-content h2 { font-size: 24px !important; }
-h3, .td-content h3 { font-size: 20px !important; }
-h4, .td-content h4 { font-size: 16px !important; }
-h5, .td-content h5 { font-size: 14px !important; }
-h6, .td-content h6 { font-size: 12px !important; }
+h1, .td-content h1 { 
+    font-size: 32px !important;
+    font-weight: 700 !important;
+}
+h2, .td-content h2 { 
+    font-size: 24px !important;
+    font-weight: 700 !important;
+}
+h3, .td-content h3 { 
+    font-size: 20px !important;
+    font-weight: 700 !important;
+}
+h4, .td-content h4 { 
+    font-size: 16px !important;
+    font-weight: 700 !important;
+}
+h5, .td-content h5 {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+}
+h6, .td-content h6 {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
 
 // Lead paragraph
 .td-content .lead {
@@ -485,7 +508,6 @@ $breakpoint-xl: 1200px;   // Large desktop
 // headings use WandB serif font
 h1, h2, h3, h4, h5, h6 {
     font-weight: $font-weight-regular !important;
-    font-family: "Source Serif 4", sans-serif;
     color: $text-primary;
 }
 
@@ -546,6 +568,13 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: $font-weight-regular !important;
 }
 
+aside div.td-toc #TableOfContents ul {
+    border-left-width: 2px !important;
+    border-left-color: $text-tertiary !important;
+    [data-bs-theme=dark] & {
+        border-left-color: $dark-text-secondary !important;
+    }
+}
 // Table of Contents Component
 #TableOfContents {
     
@@ -561,14 +590,14 @@ h1, h2, h3, h4, h5, h6 {
         padding: 0px !important;
         li {
             padding: 0px !important; 
-            line-height: 16px;
+            line-height: 15px;
         }
     }
 
     // Link styles
     a {
         display: block;
-        color: $text-secondary;
+        color: $text-secondary !important;
         
         &:hover {
             color: $link-primary !important;
@@ -621,7 +650,6 @@ ul {
     > .tab-pane {
         border-radius: 0 $border-radius-medium $border-radius-medium $border-radius-medium !important;
         border: 1px solid $border-default !important;
-
         // Add dark mode styles
         [data-bs-theme=dark] & {
             border-color: $dark-border-default !important;
@@ -767,7 +795,6 @@ ul {
         color: $moon-50;
         font-size: 40px;
         font-weight: $font-weight-semibold;
-        font-family: "Source Sans Pro";
         line-height: 140%;
     }
 
@@ -775,7 +802,6 @@ ul {
         color: $moon-250;
         font-size: 20px;
         font-weight: $font-weight-regular;
-        font-family: "Source Sans Pro";
         line-height: 140%;
     }
 }
@@ -899,6 +925,11 @@ img, iframe {
         color: $dark-text-secondary;
     }
 
+    .td-sidebar-toc
+    {
+        border-left-width: 0px !important;
+    }
+
     // Update table of contents color
     #TableOfContents {
         color: $dark-text-primary;
@@ -986,7 +1017,6 @@ img, iframe {
 
 // Feedback Component
 .td-content > .d-print-none {  // Target only the feedback section at bottom of content
-    margin-top: 4rem;
     display: flex;
     align-items: center; // Change back to center for vertical alignment
     flex-wrap: wrap; // Allow wrapping on smaller screens
@@ -1138,7 +1168,6 @@ div.td-page-meta__lastmod {
 
 // Update the sidebar navigation styles
 .td-sidebar-nav {
-    font-family: "Source Sans Pro", sans-serif;
     padding-left: 15px !important;
     // Base link styles
     a {
@@ -1167,7 +1196,7 @@ div.td-page-meta__lastmod {
     &__section-title {
         display: block;
         font-weight: $font-weight-regular !important;
-        line-height: 19px;
+        line-height: 17px;
         margin-bottom: 10px !important;
         margin-top: 5px !important;
 
@@ -1230,10 +1259,12 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
       right: 0px;
       top: 35%;
       transform: translateY(-50%);
+      margin-top: 2px;
   }
   
   // Change chevron for expanded items
   nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
+      margin-top: 2px;
       content: "\f107" !important; // fa-angle-down (thinner chevron)
   }
   
@@ -1272,7 +1303,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
   }
 }
 
-
 // Add consistent padding for main content
 .td-main {
     main {
@@ -1289,14 +1319,37 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
     }
 }
 
+//mobile fixes
+form.td-sidebar__search {
+    padding: 0px;
+}
+ul.navbar-nav {
+    @media (max-width: $breakpoint-md) {
+        overflow-x: hidden !important;
+    }
+}
+li.nav-item a.nav-link span {
+    @media (max-width: $breakpoint-md) {
+        font-size: 14px !important;
+    }
+}
+.nav-link {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+main {    
+    @media (max-width: $breakpoint-md) {
+        padding-top: 0px !important;
+    }
+}
+
+
 // Google Search style overrides
 .gsc-control-cse, .gsc-webResult.gsc-result, .gsc-cursor-page, .gsc-refinementHeader, .gs-no-results-result div {
     background-color: transparent !important;
     border: 0px !important;
 }
-.gs-title {
-    font-family: "Source Serif 4", sans-serif !important;
-}
+
 .gs-title b, .gs-title a, .gsc-cursor-page, .gsc-above-wrapper-area, .gcsc-find-more-on-google-query, .gcsc-find-more-on-google-magnifier {
     color: $link-primary !important;
     text-decoration: none !important;
@@ -1317,7 +1370,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
      background-color: $bg-secondary !important;
 }
 .gsc-result-info, .gs-per-result-labels {
-    font-family: "Source Sans Pro", sans-serif !important;
     font-size: 14px !important;
     color: $text-secondary !important;
     [data-bs-theme=dark] & {
@@ -1329,7 +1381,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
     margin-right: 10px !important;
 }
 .gs-visibleUrl-breadcrumb {
-    font-family: "Source Sans Pro", sans-serif !important;
     font-size: 14px !important;
     color: $text-tertiary !important;
     [data-bs-theme=dark] & {
@@ -1338,7 +1389,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
 }
 
 .gs-snippet, .gsc-refinementHeader {
-    font-family: "Source Sans Pro", sans-serif !important;
     font-size: 16px !important;
     color: $text-primary !important;
     [data-bs-theme=dark] & {
@@ -1384,7 +1434,6 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
 .DocSearch {
     // Button styles
     &-Button {
-        font-family: "Source Sans Pro", sans-serif;
         font-size: 16px;
         background: transparent !important;
         border: 1px solid $border-default !important;
@@ -1441,7 +1490,6 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
 
 // DocSearch Container with CSS Variables
 .DocSearch-Container {
-    font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
 
     // Light mode variables

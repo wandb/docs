@@ -131,7 +131,7 @@ class TOCScrollSync {
 
     // Find the current active heading
     let activeHeading = null;
-    const offset = 100; // Offset from top to account for fixed headers, etc.
+    const offset = 500; // Offset from top to account for fixed headers, etc.
 
     // Check headings from top to bottom
     for (let i = 0; i < this.headings.length; i++) {
@@ -192,22 +192,6 @@ class TOCScrollSync {
     }
   }
 
-  // Optional: Smooth scroll to heading when TOC link is clicked
-  enableSmoothScrolling() {
-    this.tocLinks.forEach(item => {
-      item.link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetHeading = item.heading;
-        const targetPosition = targetHeading.offsetTop - 80; // Account for fixed headers
-        
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
-      });
-    });
-  }
-
   // Public method to destroy the instance
   destroy() {
     // Remove event listeners if needed
@@ -219,9 +203,6 @@ class TOCScrollSync {
 // Initialize the TOC scroll synchronization when the DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   const tocSync = new TOCScrollSync();
-  
-  // Optional: Enable smooth scrolling for TOC links
-  tocSync.enableSmoothScrolling();
   
   // Make it globally accessible if needed
   window.tocSync = tocSync;
