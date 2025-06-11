@@ -106,7 +106,6 @@ $font-weight-bold: 700;
 // Typography Component
 // Base body styles
 body {
-    font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     font-weight: $font-weight-regular;
     color: $text-primary;
@@ -117,13 +116,28 @@ body {
         background-color: $dark-bg-primary;
     }
 }
-p, td, div
+
+.card ol.breadcrumb {
+    display: none; 
+}
+
+div.taxo-support {
+    padding-bottom: 16px;
+    min-height: none;
+}
+
+p, td, div, li
 {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell;
+    font-weight: 200 !important;
+    font-size: 14px;
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary;
+    }
 }
 .td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
 {
-    font-size: 16px; 
+    font-size: 13px; 
     font-weight: $font-weight-bold;
 }
 
@@ -134,7 +148,13 @@ h1, h2, h3, h4, h5, h6 {
     color: $text-primary;
 
     [data-bs-theme=dark] & {
-        color: $dark-text-primary;
+        color: white !important;
+    }
+}
+
+p code {
+    [data-bs-theme=dark] & {
+        background-color: $dark-bg-secondary !important;
     }
 }
 
@@ -156,7 +176,7 @@ h6, .td-content h6 { font-size: 12px !important; }
 .reading-time {
     font-size: 14px;
     color: $text-secondary;
-
+    line-height: 0;
     [data-bs-theme=dark] & {
         color: $dark-text-secondary;
     }
@@ -178,6 +198,12 @@ a {
         &:hover {
             color: $dark-link-hover !important;
         }
+    }
+}
+#TableOfContents ul li a.active {
+    color: $link-primary !important;
+    [data-bs-theme=dark] & {
+        color: $dark-link-primary !important;
     }
 }
 
@@ -467,12 +493,46 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-ol.breadcrumb li {
-    font-size: 13px;
+.breadcrumb-item {
+    font-size: 12px;
+    font-weight: 400 !important;
 }
-ol.breadcrumb li:not(:first-child):before {
-    content: ">" !important;
+
+/* Your existing breadcrumb separator */
+.breadcrumb-item:not(:first-child)::before {
+  content: ">" !important;
+  color: #888;
+  margin: 0 0.5em;
 }
+
+/* Create a pill background using inset box-shadow */
+.breadcrumb-item.active {
+  position: relative;
+  color: white;
+}
+
+/* Use ::after to create the pill background positioned after the separator */
+.breadcrumb-item.active::after {
+  content: "";
+  position: absolute;
+  background-color: $bg-tertiary;
+  border-radius: 15px;
+  top: -0.2em;
+  bottom: -0.2em;
+  /* Position to start after the separator with some spacing */
+  left: calc(1.9em + 0.5em); /* ">" + margins + small gap */
+  right: -0.1em;
+  z-index: -1;
+  [data-bs-theme=dark] & {
+      background-color: $dark-bg-secondary;
+  }
+}
+
+/* Add padding to the text area for proper spacing */
+.breadcrumb-item.active {
+  padding-right: 0.5em;
+}
+
 
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
   margin-bottom: 10px !important;
@@ -489,26 +549,26 @@ ol.breadcrumb li:not(:first-child):before {
 // Table of Contents Component
 #TableOfContents {
     
-    font-size: 13px !important;
-    font-family: "Source Sans Pro", sans-serif;
     a{
         margin: 0px !important;
         padding: 8px !important;
-        font-weight: 500 !important;
+        font-weight: 400 !important;
+        font-size: 13px !important;
     }
     // List styles
     ul { 
+        margin: 0px !important;
         padding: 0px !important;
         li {
             padding: 0px !important; 
-            line-height: 14px;
+            line-height: 16px;
         }
     }
 
     // Link styles
     a {
         display: block;
-        color: $text-secondary !important;
+        color: $text-secondary;
         
         &:hover {
             color: $link-primary !important;
@@ -522,11 +582,6 @@ ol.breadcrumb li:not(:first-child):before {
                 color: $dark-link-primary !important;
             }
         }
-    }
-
-    // Dark mode
-    [data-bs-theme=dark] & {
-        color: $dark-text-primary;
     }
 }
 
@@ -1085,7 +1140,6 @@ div.td-page-meta__lastmod {
 .td-sidebar-nav {
     font-family: "Source Sans Pro", sans-serif;
     padding-left: 15px !important;
-
     // Base link styles
     a {
         color: $text-secondary !important;
@@ -1490,4 +1544,14 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
             border-radius: $border-radius-large !important;
         }
     }
+}
+
+// fix text crowding around code blocks
+pre {
+    margin-bottom: 16px !important;
+}
+
+// fix oversize tab headers
+button.nav-link {
+    font-size: 14px !important; 
 }
