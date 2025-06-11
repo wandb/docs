@@ -1,13 +1,17 @@
 ---
-title: Weights & Biases Documentation
 type: docs
 toc_hide: true
 hide_readingtime: true
 hide_feedback: true
-hide_section: true
+hide_summary: true
 no_list: true
 ---
-<div style="max-width:1200px;">
+<div id="cardHolders" style="max-width:1200px;">
+
+{{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
+W&B is the AI developer platform to build AI agents, applications,
+and models with confidence.
+{{< /banner >}}
 
 {{< cardpane >}}
 {{% card %}}<div onclick="window.location.href='https://weave-docs.wandb.ai'" style="cursor: pointer;">
@@ -50,6 +54,9 @@ Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Feat
 </div>
 <!-- HTML override just for landing page -->
 <style>
+#cardHolders div.card { min-width: 47% !important; max-width: 380px !important; margin-bottom: 25px }
+#cardHolders div.banner { min-width: 47%; max-width: 900px; }
 p { overflow: hidden; display: block; }
 ul { margin-left: 50px; }
+aside.td-sidebar { display: none; }
 </style>
