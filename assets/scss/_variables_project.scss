@@ -6,6 +6,7 @@ Add styles or override variables from the theme here.
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
 
+$base-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 // First define the base color tokens
 // Moon (Grayscale)
 $moon-white: #ffffff;
@@ -133,8 +134,8 @@ div.taxo-support {
 
 p, td, div, li, .lead
 {
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-weight: 200 !important;
+    font-family: $base-font;
+    font-weight: $font-weight-regular !important;
     font-size: 14px;
     [data-bs-theme=dark] & {
         color: $dark-text-primary;
@@ -166,27 +167,27 @@ p code {
 // Heading sizes
 h1, .td-content h1 { 
     font-size: 32px !important;
-    font-weight: 700 !important;
+    font-weight: $font-weight-bold !important;
 }
 h2, .td-content h2 { 
     font-size: 24px !important;
-    font-weight: 700 !important;
+    font-weight: $font-weight-bold !important;
 }
 h3, .td-content h3 { 
     font-size: 20px !important;
-    font-weight: 700 !important;
+    font-weight: $font-weight-bold !important;
 }
 h4, .td-content h4 { 
     font-size: 16px !important;
-    font-weight: 700 !important;
+    font-weight: $font-weight-bold !important;
 }
 h5, .td-content h5 {
     font-size: 14px !important;
-    font-weight: 700 !important;
+    font-weight: $font-weight-bold !important;
 }
 h6, .td-content h6 {
     font-size: 12px !important;
-    font-weight: 700 !important;
+    font-weight: $font-weight-bold !important;
 }
 
 // Lead paragraph
@@ -646,6 +647,13 @@ ul {
     }
 }
 
+div.dropdown {
+    padding-left: 25px;
+    a.nav-link {
+        font-size: 13px;
+    }
+}
+
 .tab-content {
     > .tab-pane {
         border-radius: 0 $border-radius-medium $border-radius-medium $border-radius-medium !important;
@@ -759,9 +767,11 @@ ul {
     gap: 24px;
     border-radius: $border-radius-large;
     margin-bottom: 30px;
-
+    opacity: 1;
     h1, h2, p, div {
-        filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+        -webkit-text-stroke: 0.1px black; /* stroke width and color */
+        color: white;
     }
 }
 
@@ -777,6 +787,10 @@ ul {
     [data-bs-theme=dark] & {
         border: 1px solid;
     }
+}
+
+div.banner div {
+    font-weight: $font-weight-bold !important;
 }
 
 // Help Banner

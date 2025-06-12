@@ -1,6 +1,7 @@
 ---
 title: Reference
 description: Generated documentation for Weights & Biases APIs
+hide_readingtime: true
 menu: 
   reference:
     identifier: reference

@@ -1,12 +1,7 @@
 ---
-type: docs
-toc_hide: true
-hide_readingtime: true
-hide_feedback: true
-hide_summary: true
-no_list: true
+title: Weights & Biases Documentation
 ---
-<div id="cardHolders" style="max-width:1200px;">
+<div id="cardHolders" style="max-width:1200px; padding-top: 80px !important; padding-left: 5px;">
 
 {{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
 W&B is the AI developer platform to build AI agents, applications,
@@ -55,8 +50,9 @@ Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Feat
 <!-- HTML override just for landing page -->
 <style>
 #cardHolders div.card { min-width: 47% !important; max-width: 380px !important; margin-bottom: 25px }
-#cardHolders div.banner { min-width: 47%; max-width: 900px; }
+#cardHolders div.banner { min-width: 47%; max-width: 930px; }
 p { overflow: hidden; display: block; }
 ul { margin-left: 50px; }
 aside.td-sidebar { display: none; }
+h2, h3, h4, h5, h6 { font-weight: 700 !important; }
 </style>
