@@ -1038,7 +1038,7 @@ img, iframe {
     align-items: center; // Change back to center for vertical alignment
     flex-wrap: wrap; // Allow wrapping on smaller screens
     gap: 8px; // Consistent spacing between elements
-
+    padding-top: 25px; 
     // Hide feedback title
     .feedback--title {
         display: none;
