@@ -69,7 +69,7 @@ torch.onnx.export(model, demo_input, "model.onnx")
 wandb.save("model.onnx")
 ```
 
-All metrics, gradients, and parameters that `wandb.log()` and `wandb.watch()` log appear in real-time on your [W&B dashboard](http://wandb.ai).
+All metrics, gradients, and parameters that `wandb.log()` and `wandb.watch()` log appear in real-time on your [W&B Dashboard](http://wandb.ai).
 
 # Detailed integration steps
 Read on for comprehensive steps to integrate W&B with your PyTorch code. Follow along with the [video tutorial](http://wandb.me/pytorch-video) too.
@@ -290,7 +290,7 @@ class ConvNet(nn.Module):
         return out
 ```
 
-Experiment with different architectures, layer configurations, and activation functions. You can compare the performance of each variation at [wandb.ai](https://wandb.ai) once you integrate W&B into your pipline.
+Experiment with different architectures, layer configurations, and activation functions. You can compare the performance of each variation at [wandb.ai](https://wandb.ai) once you integrate W&B into your pipeline.
 
 ## Integrate W&B into your pipeline
 To integrate W&B into your training pipeline, you'll use two key functions: 
@@ -345,7 +345,7 @@ With `wandb.log`:
 * The **values** are the metrics you want to track  
 * The optional **`step` parameter** logs your training progression
 
-The logging call in the following example creates visualizations in the W&B dashboard that show the relationship between training progress and the epoch number and loss values.  
+The logging call in the following example creates visualizations in the W&B Dashboard that show the relationship between training progress and the epoch number and loss values.  
 
 ```python
 def train_log(loss, example_ct, epoch):
@@ -402,7 +402,7 @@ When you make the call:
 
 * W&B starts a new experiment, logging hyperparameters and metadata through `wandb.init()`.
 * Your model begins training, and `wandb.log()` captures metrics like loss and accuracy in real time.  
-* Throughout training, `wandb.watch()` tracks gradients and parameters (see the live data on the W&B Dashboard). 
+* Throughout training, `wandb.watch()` tracks gradients and parameters (see the live data on the [W&B Dashboard](https://wandb.ai/)). 
 * When training completes, your model exports to ONNX format and saves to W&B.  
 * W&B then displays a summary of your experiment results.
 
