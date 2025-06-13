@@ -113,6 +113,7 @@
 /guides/comparing-runs/ /guides/runs/ 301
 /guides/config/ /guides/sweeps/define-sweep-configuration/ 301
 /guides/configurations/ /guides/track/config/ 301
+/guides/core/registry/model_registry/model-registry-automations/ /guides/core/automations/ 301
 /guides/data-and-model-versioning/dataset-versioning/ /guides/artifacts/ 301
 /guides/data-and-model-versioning/intro/ / 301
 /guides/data-and-model-versioning/model-versioning/ /guides/core/registry/ 301
