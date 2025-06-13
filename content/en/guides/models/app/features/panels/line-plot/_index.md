@@ -80,31 +80,32 @@ To customize the default settings for all line plots in a workspace:
 
 ## Visualize infrastructure issues
 
-{{< alert title="CoreWeave" >}}
-Infrastructure observability is in Preview. Contact W&B to opt in and to try this feature.
+{{< alert>}}
+W&B only surfaces issues that are monitored by CoreWeave clusters. Contact W&B to opt in and to try this feature.
 {{< /alert >}}
 
-Use W&B and CoreWeave to differentiate hardware infrastructure issues from problems with model algorithms. Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B.
+Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B. During a [W&B run]({{< relref "/guides/models/track/runs/_index" >}}), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure. If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run’s plots in your project’s workspace. You can view both cluster node issues and SLURM job issues. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run’s page.
 
-{{< alert title="Note" >}}
-W&B only surfaces issues that are monitored by CoreWeave clusters and CoreWeave’s Mission Control.
-{{< /alert >}}
+<!-- Use W&B and CoreWeave to differentiate hardware infrastructure issues from problems with model algorithms.  -->
 
 ### Find infrastructure issues in a run
-During a W&B run, CoreWeave Mission Control monitors your compute infrastructure. If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run’s plots in your project’s workspace.
 
-To view infrastructure errors in a run:
+View infrastructure errors in a run:
+
 1. Navigate to your project on the W&B App. 
 2. Select the **Workspace** tab to view your project’s workspace.
 3. Search and select the name of the run that contains an infrastructure issue. This redirects you to a dedicated page about that run called the Run’s page.
 4. One or more red vertical lines with an exclamation mark overlay plots indicating an infrastructure issue. Select an issue on a plot or select the **Issues** button in the top right of the page.
 5. A modal appears that lists each issue reported by CoreWeave. For further analysis of the issue, click on the **Grafana** icon next to the timestamp.
 
-{{< alert title="CoreWeave" >}}
-Pin the **Issues** column to your W&B Workspace to view runs that logged an issue at a glance. For more information about how to pin a column, see [LINK].
+{{< alert title="Tip" >}}
+Pin the **Issues** column to your W&B Workspace to view runs that logged an issue at a glance. For more information about how to pin a column, see the [Run states]({{< relref "/guides/models/track/runs/_index/#run-states" >}}) table.
 {{< /alert >}}
 
-Both GPU cluster node issues and SLURM job issues are shown on the W&B App. The **Issue** summary section displays the root error that the SLURM reports to CoreWeave Mission Control. Any attempts to automatically resolve the error made by CoreWeave are shown.
+The **Issue** summary describes the root error that the SLURM job reports to CoreWeave Mission Control. The summary section also describes any attempts to automatically resolve the error made by CoreWeave.
+
+Expand the **All Issues** dropdown to view all issues that occurred during the run. Each issue is listed in chronological order, with the most recent issue at the top.
+
 
 Each issue alert describes:
 * The type of issue
