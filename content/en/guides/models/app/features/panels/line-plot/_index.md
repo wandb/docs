@@ -128,7 +128,7 @@ The following table lists the categories of infrastructure issues and example al
 | SUNK | Slurm node issues | |
 | KNS  | Connectivity update time issues | | -->
 
-For detailed information on error types, see the CoreWeave Docs [LINK].
+For detailed information on error types, see the [SLURM Job Metrics on the CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/slurm-job-metrics#job-info-alerts).
 
 ### Debug infrastructure issues
 Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job’s Grafana dashboard or discover more information about a single node. The link within the **Overview** section of the Issues modal links to the SLURM job Grafana dashboard. 
