@@ -747,9 +747,10 @@ POST /scim/Groups
 - **Description**: Update an existing team's membership list.
 - **Supported Operations**: `add` member, `remove` member
 
+{{% alert %}}
 The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `members[value eq "{user_id}"]` to remove a specific user, or `members` to remove all users from the team.
-
-**Request Example**:
+{{% /alert %}}
+- **Request Examples**:
 
 {{% alert color="info" %}}
 Replace `{team_id}` with the actual team ID and `{user_id}` with the actual user ID in your requests.
