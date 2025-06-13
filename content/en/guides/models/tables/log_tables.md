@@ -9,9 +9,11 @@ W&B Tables are a specialized [data type]({{< relref "/ref/python/data-types/" >}
 
 You [create and log table objects]({{< relref "#create-and-log-a-new-table" >}}) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode]({{< relref "#table-logging-modes" >}}). The mode determines how the table is logged and updated during your ML experiments.
 
+{{% alert %}}
+`INCREMENTAL` mode is not yet supported on W&B Server.
+{{% /alert %}}
 
 ## Create and log a table
-
 
 1. Initialize a new run with `wandb.init()`. 
 2. Create a table object with the [`wandb.Table`]({{< relref "/ref/python/data-types/table" >}}) Class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. Though optional, it is recommended to set the `log_mode` parameter to one of the three modes: `IMMUTABLE`, `MUTABLE`, or `INCREMENTAL`. The default mode is `IMMUTABLE`. See [Table Logging Modes]({{< relref "#table-logging-modes" >}}) in the next section for more information.
