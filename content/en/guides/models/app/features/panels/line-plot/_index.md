@@ -171,8 +171,6 @@ From a line plot, you can quickly create a [run metrics notification]({{< relref
 
 Learn more about [Automations]({{< relref "/guides/core/automations" >}}).
 
-<!-- START -->
-
 ## Visualize CoreWeave infrastructure alerts
 
 {{< alert>}}
@@ -220,5 +218,3 @@ Expand the **All Issues** dropdown to both view and node issues and their respec
 {{< alert title="Note" >}}
 The Grafana dashboard is only available for W&B users with a CoreWeave account. Contact W&B to configure Grafana with your W&B organization.
 {{< /alert >}}
-
-<!-- END -->
