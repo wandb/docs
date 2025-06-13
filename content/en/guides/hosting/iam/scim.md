@@ -59,12 +59,12 @@ Retrieves information for a specific user in your organization.
 #### Example
 
 {{< tabpane text=true >}}
-{{% tab header="Request" %}}
+{{% tab header="Get User Request" %}}
 ```bash
 GET /scim/Users/abc
 ```
 {{% /tab %}}
-{{% tab header="Response" %}}
+{{% tab header="Get User Response" %}}
 ```bash
 (Status 200)
 ```
@@ -106,12 +106,12 @@ Retrieves a list of all users in your organization.
 #### Example
 
 {{< tabpane text=true >}}
-{{% tab header="Request" %}}
+{{% tab header="List Users Request" %}}
 ```bash
 GET /scim/Users
 ```
 {{% /tab %}}
-{{% tab header="Response" %}}
+{{% tab header="List Users Response" %}}
 ```bash
 (Status 200)
 ```
@@ -169,7 +169,7 @@ Creates a new user in your organization.
 #### Example
 
 {{< tabpane text=true >}}
-{{% tab header="Dedicated Cloud or Self-managed" %}}
+{{% tab header="Create User Request (Dedicated/Self-managed)" %}}
 ```bash
 POST /scim/Users
 ```
@@ -189,7 +189,7 @@ POST /scim/Users
 }
 ```
 {{% /tab %}}
-{{% tab header="Multi-tenant Cloud" %}}
+{{% tab header="Create User Request (Multi-tenant)" %}}
 ```bash
 POST /scim/Users
 ```
@@ -218,7 +218,7 @@ POST /scim/Users
 #### Response
 
 {{< tabpane text=true >}}
-{{% tab header="Dedicated Cloud or Self-managed" %}}
+{{% tab header="Create User Response (Dedicated/Self-managed)" %}}
 ```bash
 (Status 201)
 ```
@@ -246,7 +246,7 @@ POST /scim/Users
 }
 ```
 {{% /tab %}}
-{{% tab header="Multi-tenant Cloud" %}}
+{{% tab header="Create User Response (Multi-tenant)" %}}
 ```bash
 (Status 201)
 ```
@@ -311,12 +311,12 @@ Fully deletes a user from your organization.
 #### Example
 
 {{< tabpane text=true >}}
-{{% tab header="Request" %}}
+{{% tab header="Delete User Request" %}}
 ```bash
 DELETE /scim/Users/abc
 ```
 {{% /tab %}}
-{{% tab header="Response" %}}
+{{% tab header="Delete User Response" %}}
 ```bash
 (Status 204)
 ```
@@ -349,7 +349,7 @@ User deactivation and reactivation operations are not supported in [SaaS Cloud](
 #### Example
 
 {{< tabpane text=true >}}
-{{% tab header="Request" %}}
+{{% tab header="Deactivate User Request" %}}
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -366,7 +366,7 @@ PATCH /scim/Users/abc
 }
 ```
 {{% /tab %}}
-{{% tab header="Response" %}}
+{{% tab header="Deactivate User Response" %}}
 ```bash
 (Status 200)
 ```
@@ -419,7 +419,7 @@ User deactivation and reactivation operations are not supported in [SaaS Cloud](
 #### Example
 
 {{< tabpane text=true >}}
-{{% tab header="Request" %}}
+{{% tab header="Reactivate User Request" %}}
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -436,7 +436,7 @@ PATCH /scim/Users/abc
 }
 ```
 {{% /tab %}}
-{{% tab header="Response" %}}
+{{% tab header="Reactivate User Response" %}}
 ```bash
 (Status 200)
 ```
@@ -490,7 +490,7 @@ The `viewer` role is deprecated and can no longer be set in the UI. W&B assigns 
 #### Example
 
 {{< tabpane text=true >}}
-{{% tab header="Request" %}}
+{{% tab header="Assign Org Role Request" %}}
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -508,7 +508,7 @@ PATCH /scim/Users/abc
 }
 ```
 {{% /tab %}}
-{{% tab header="Response" %}}
+{{% tab header="Assign Org Role Response" %}}
 ```bash
 (Status 200)
 ```
@@ -565,7 +565,7 @@ Assigns a team-level role to a user.
 #### Example
 
 {{< tabpane text=true >}}
-{{% tab header="Request" %}}
+{{% tab header="Assign Team Role Request" %}}
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -588,7 +588,7 @@ PATCH /scim/Users/abc
 }
 ```
 {{% /tab %}}
-{{% tab header="Response" %}}
+{{% tab header="Assign Team Role Response" %}}
 ```bash
 (Status 200)
 ```
