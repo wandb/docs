@@ -516,46 +516,47 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-.breadcrumb-item {
-    font-size: 12px;
-    font-weight: 400 !important;
-}
+.breadcrumb-item { 
+  font-size: 12px; 
+} 
 
-/* Your existing breadcrumb separator */
-.breadcrumb-item:not(:first-child)::before {
-  content: ">" !important;
-  color: #888;
-  margin: 0 0.5em;
-}
+/* Your existing breadcrumb separator */ 
+.breadcrumb-item:not(:first-child)::before { 
+  content: ">" !important; 
+  margin: 0 0.5em; 
+} 
 
-/* Create a pill background using inset box-shadow */
-.breadcrumb-item.active {
+/* Simple pill styling for active breadcrumb */
+.breadcrumb-item.active { 
   position: relative;
-  color: white;
+  /* Set max width and handle overflow with ellipsis */
+  max-width: 800px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  padding-right: 6px;
 }
 
-/* Use ::after to create the pill background positioned after the separator */
-.breadcrumb-item.active::after {
-  content: "";
-  position: absolute;
-  background-color: $bg-tertiary;
+/* Create pill background using ::after */
+.breadcrumb-item.active::after { 
+  content: ""; 
+  position: absolute; 
+  background-color: $bg-tertiary; 
   border-radius: 15px;
-  top: -0.2em;
-  bottom: -0.2em;
-  /* Position to start after the separator with some spacing */
-  left: calc(1.9em + 0.5em); /* ">" + margins + small gap */
-  right: -0.1em;
-  z-index: -1;
-  [data-bs-theme=dark] & {
-      background-color: $dark-bg-secondary;
-  }
+  /* Much tighter positioning */
+  top: 0em;
+  bottom: 0em;
+  left: 2.5em; /* Much closer to separator */
+  right: 0em; /* Preserve border radius */
+  z-index: -1; 
+  
+  [data-bs-theme=dark] & { 
+    background-color: $dark-bg-secondary; 
+  } 
 }
 
-/* Add padding to the text area for proper spacing */
-.breadcrumb-item.active {
-  padding-right: 0.5em;
-}
-
+/* Remove mobile media query since we're handling overflow with ellipsis */
 
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
   margin-bottom: 10px !important;
