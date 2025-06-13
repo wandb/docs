@@ -9,7 +9,7 @@ W&B offers the following APIs:
 
 * W&B Python SDK (`wandb.sdk`): Log and monitor experiments during training.
 * W&B Public API (`wandb.apis.public`): Query and analyze logged experiment data.
-* W&B Reports API (`wandb.wandb-workspaces`): Create reports to summarize findings.
+* W&B Reports and Workspaces API (`wandb.wandb-workspaces`): Create reports to summarize findings.
 
 ## Sign up and create an API key
 To authenticate your machine with W&B, you must first generate an API key at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
@@ -151,7 +151,11 @@ Depending on your machine learning framework, you may need to recreate the model
 
 ## Share your finds with a report
 
-Create and share a [report]({{< relref path="/guides/core/reports/" >}}) to summarize your work. To create a report programmatically, use the [W&B Reports API]({{< relref path="./wandb_workspaces/reports.md" >}}).
+{{% alert %}}
+W&B Report and Workspaces API is in Public Preview.
+{{% /alert %}}
+
+Create and share a [report]({{< relref path="/guides/core/reports/" >}}) to summarize your work. To create a report programmatically, use the [W&B Reports and Workspace API]({{< relref path="./wandb_workspaces/reports.md" >}}).
 
 First, install the W&B Reports API:
 
