@@ -591,7 +591,7 @@ The SCIM group resource maps to W&B teams, that is, when you create a SCIM group
 
 - **Endpoint**: **`<host-url>/scim/Groups/{id}`**
 - **Method**: GET
-- **Description**: Retrieve team information by providing the team’s unique ID.
+- **Description**: Retrieve team information by providing the team's unique ID.
 - **Request Example**:
 
 ```bash
@@ -750,7 +750,8 @@ POST /scim/Groups
 {{% alert %}}
 The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `members[value eq "{user_id}"]` to remove a specific user, or `members` to remove all users from the team.
 {{% /alert %}}
-- **Request Examples**:
+
+**Request Examples**:
 
 {{% alert color="info" %}}
 Replace `{team_id}` with the actual team ID and `{user_id}` with the actual user ID in your requests.
@@ -760,6 +761,8 @@ Replace `{team_id}` with the actual team ID and `{user_id}` with the actual user
 
 Adding `dev-user2` to `wandb-devs`:
 
+{{< tabpane text=true >}}
+{{% tab header="Request" %}}
 ```bash
 PATCH /scim/Groups/{team_id}
 ```
@@ -780,9 +783,8 @@ PATCH /scim/Groups/{team_id}
     ]
 }
 ```
-
-**Response Example**:
-
+{{% /tab %}}
+{{% tab header="Response" %}}
 ```bash
 (Status 200)
 ```
@@ -816,11 +818,15 @@ PATCH /scim/Groups/{team_id}
     ]
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
 **Removing a specific user from a team**
 
 Removing `dev-user2` from `wandb-devs`:
 
+{{< tabpane text=true >}}
+{{% tab header="Request" %}}
 ```bash
 PATCH /scim/Groups/{team_id}
 ```
@@ -836,9 +842,8 @@ PATCH /scim/Groups/{team_id}
     ]
 }
 ```
-
-- **Response Example**:
-
+{{% /tab %}}
+{{% tab header="Response" %}}
 ```bash
 (Status 200)
 ```
@@ -866,11 +871,15 @@ PATCH /scim/Groups/{team_id}
     ]
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
 **Removing all users from a team**
 
 Removing all users from `wandb-devs`:
 
+{{< tabpane text=true >}}
+{{% tab header="Request" %}}
 ```bash
 PATCH /scim/Groups/{team_id}
 ```
@@ -886,9 +895,8 @@ PATCH /scim/Groups/{team_id}
     ]
 }
 ```
-
-- **Response Example**:
-
+{{% /tab %}}
+{{% tab header="Response" %}}
 ```bash
 (Status 200)
 ```
@@ -909,6 +917,8 @@ PATCH /scim/Groups/{team_id}
     ]
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### Delete team
 
