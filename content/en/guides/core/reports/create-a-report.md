@@ -1,5 +1,5 @@
 ---
-description: Create a W&B Report with the App UI or programmatically with the Weights & Biases SDK.
+description: Create a W&B Report with the W&B App or programmatically.
 menu:
   default:
     identifier: create-a-report
@@ -8,14 +8,18 @@ title: Create a report
 weight: 10
 ---
 
-Create a report interactively with the W&B App UI or programmatically with the W&B Python SDK.
+{{% alert %}}
+W&B Report and Workspaces API is in Public Preview.
+{{% /alert %}}
+
+Select a tab below to learn how to create a report in the W&B App or programmatically with the W&B Report and Workspaces API.
 
 {{% alert %}}
-See this [Google Colab for an example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
+See this [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) for an example on how to programmatically create a report.
 {{% /alert %}}
 
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
+{{% tab header="W&B App" value="app" %}}
 1. Navigate to your project workspace in the W&B App.
 2. Click **Create report** in the upper right corner of your workspace.
 
@@ -36,10 +40,10 @@ See this [Google Colab for an example](https://colab.research.google.com/github/
    {{< img src="/images/reports/create_report_button.png" alt="" >}}
 {{% /tab %}}
 
-{{% tab header="W&B Python SDK" value="sdk"%}}
-Create a report programmatically with the `wandb` library. 
+{{% tab header="Report and Workspaces API" value="python_wr_api"%}}
+Create a report programmatically:
 
-1. Install W&B SDK and Workspaces API:
+1. Install W&B SDK (`wandb`) and Report and Workspaces API (`wandb-workspaces`):
     ```bash
     pip install wandb wandb-workspaces
     ```
