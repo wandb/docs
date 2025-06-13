@@ -530,7 +530,7 @@ h1, h2, h3, h4, h5, h6 {
 .breadcrumb-item.active { 
   position: relative;
   /* Set max width and handle overflow with ellipsis */
-  max-width: 800px;
+  max-width: 500px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
