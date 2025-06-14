@@ -6,6 +6,7 @@ Add styles or override variables from the theme here.
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
 
+$base-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 // First define the base color tokens
 // Moon (Grayscale)
 $moon-white: #ffffff;
@@ -106,7 +107,6 @@ $font-weight-bold: 700;
 // Typography Component
 // Base body styles
 body {
-    font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     font-weight: $font-weight-regular;
     color: $text-primary;
@@ -117,34 +117,87 @@ body {
         background-color: $dark-bg-primary;
     }
 }
-p, td, div
+
+ul.foldable, .card {
+    transition: all 0.2s ease-in-out !important;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    filter: drop-shadow(3px, 3px, 3px);
+}
+
+.card ol.breadcrumb {
+    display: none; 
+}
+
+.card div.taxonomy {
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+div.taxo-support {
+    padding-bottom: 16px;
+    min-height: none;
+}
+
+p, td, div, li, .lead
 {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: $base-font;
+    font-weight: $font-weight-regular !important;
+    font-size: 14px;
+    [data-bs-theme=dark] & {
+        color: $dark-text-primary;
+    }
 }
 .td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
 {
-    font-size: 16px; 
+    font-size: 13px; 
     font-weight: $font-weight-bold;
 }
 
 // Headings
 h1, h2, h3, h4, h5, h6 {
-    font-weight: $font-weight-regular !important;
-    font-family: "Source Serif 4", sans-serif;
     color: $text-primary;
-
     [data-bs-theme=dark] & {
-        color: $dark-text-primary;
+        color: white !important;
+    }
+}
+
+p code {
+    padding: 3px !important;
+    margin: 0px !important;
+    background-color: $bg-tertiary !important;
+    [data-bs-theme=dark] & {
+        background-color: $dark-bg-secondary !important;
     }
 }
 
 // Heading sizes
-h1, .td-content h1 { font-size: 32px !important; }
-h2, .td-content h2 { font-size: 24px !important; }
-h3, .td-content h3 { font-size: 20px !important; }
-h4, .td-content h4 { font-size: 16px !important; }
-h5, .td-content h5 { font-size: 14px !important; }
-h6, .td-content h6 { font-size: 12px !important; }
+h1, .td-content h1 { 
+    font-size: 32px !important;
+    font-weight: $font-weight-bold !important;
+}
+h2, .td-content h2 { 
+    font-size: 24px !important;
+    font-weight: $font-weight-bold !important;
+}
+h3, .td-content h3 { 
+    font-size: 20px !important;
+    font-weight: $font-weight-bold !important;
+}
+h4, .td-content h4 { 
+    font-size: 16px !important;
+    font-weight: $font-weight-bold !important;
+}
+h5, .td-content h5 {
+    font-size: 14px !important;
+    font-weight: $font-weight-bold !important;
+}
+h6, .td-content h6 {
+    font-size: 12px !important;
+    font-weight: $font-weight-bold !important;
+}
 
 // Lead paragraph
 .td-content .lead {
@@ -156,7 +209,7 @@ h6, .td-content h6 { font-size: 12px !important; }
 .reading-time {
     font-size: 14px;
     color: $text-secondary;
-
+    line-height: 0;
     [data-bs-theme=dark] & {
         color: $dark-text-secondary;
     }
@@ -178,6 +231,16 @@ a {
         &:hover {
             color: $dark-link-hover !important;
         }
+    }
+}
+#TableOfContents ul li a {
+    transition: all .2s ease-in;
+}
+#TableOfContents ul li a.active {
+    border-left: 2px solid;
+    color: $link-primary !important;
+    [data-bs-theme=dark] & {
+        color: $dark-link-primary !important;
     }
 }
 
@@ -245,10 +308,10 @@ $breakpoint-xl: 1200px;   // Large desktop
                         border-radius: $border-radius-medium !important;
                         padding: 8px 10px !important;
                         font-size: 16px !important;
-
                         &:hover {
                             text-decoration: none !important;
                             background-color: rgba($moon-300, 0.2) !important;
+                            transform: translateY(-2px);
                         }
 
                         &.active {
@@ -459,7 +522,6 @@ $breakpoint-xl: 1200px;   // Large desktop
 // headings use WandB serif font
 h1, h2, h3, h4, h5, h6 {
     font-weight: $font-weight-regular !important;
-    font-family: "Source Serif 4", sans-serif;
     color: $text-primary;
 }
 
@@ -467,12 +529,47 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-ol.breadcrumb li {
-    font-size: 13px;
+.breadcrumb-item { 
+  font-size: 12px; 
+} 
+
+/* Your existing breadcrumb separator */ 
+.breadcrumb-item:not(:first-child)::before { 
+  content: ">" !important; 
+  margin: 0 0.5em; 
+} 
+
+/* Simple pill styling for active breadcrumb */
+.breadcrumb-item.active { 
+  position: relative;
+  /* Set max width and handle overflow with ellipsis */
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  padding-right: 6px;
 }
-ol.breadcrumb li:not(:first-child):before {
-    content: ">" !important;
+
+/* Create pill background using ::after */
+.breadcrumb-item.active::after { 
+  content: ""; 
+  position: absolute; 
+  background-color: $bg-tertiary; 
+  border-radius: 15px;
+  /* Much tighter positioning */
+  top: 0em;
+  bottom: 0em;
+  left: 2.5em; /* Much closer to separator */
+  right: 0em; /* Preserve border radius */
+  z-index: -1; 
+  
+  [data-bs-theme=dark] & { 
+    background-color: $dark-bg-secondary; 
+  } 
 }
+
+/* Remove mobile media query since we're handling overflow with ellipsis */
 
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
   margin-bottom: 10px !important;
@@ -486,22 +583,28 @@ ol.breadcrumb li:not(:first-child):before {
     font-weight: $font-weight-regular !important;
 }
 
+aside div.td-toc #TableOfContents ul {
+    border-left-color: $text-tertiary !important;
+    [data-bs-theme=dark] & {
+        border-left-color: $dark-text-secondary !important;
+    }
+}
 // Table of Contents Component
 #TableOfContents {
     
-    font-size: 13px !important;
-    font-family: "Source Sans Pro", sans-serif;
     a{
         margin: 0px !important;
         padding: 8px !important;
-        font-weight: 500 !important;
+        font-weight: 400 !important;
+        font-size: 13px !important;
     }
     // List styles
     ul { 
+        margin: 0px !important;
         padding: 0px !important;
         li {
             padding: 0px !important; 
-            line-height: 14px;
+            line-height: 15px;
         }
     }
 
@@ -522,11 +625,6 @@ ol.breadcrumb li:not(:first-child):before {
                 color: $dark-link-primary !important;
             }
         }
-    }
-
-    // Dark mode
-    [data-bs-theme=dark] & {
-        color: $dark-text-primary;
     }
 }
 
@@ -562,11 +660,17 @@ ul {
     }
 }
 
+div.dropdown {
+    padding-left: 25px;
+    a.nav-link {
+        font-size: 13px;
+    }
+}
+
 .tab-content {
     > .tab-pane {
         border-radius: 0 $border-radius-medium $border-radius-medium $border-radius-medium !important;
         border: 1px solid $border-default !important;
-
         // Add dark mode styles
         [data-bs-theme=dark] & {
             border-color: $dark-border-default !important;
@@ -676,9 +780,11 @@ ul {
     gap: 24px;
     border-radius: $border-radius-large;
     margin-bottom: 30px;
-
+    opacity: 1;
     h1, h2, p, div {
-        filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+        -webkit-text-stroke: 0.1px black; /* stroke width and color */
+        color: white;
     }
 }
 
@@ -691,6 +797,13 @@ ul {
     min-height: 200px;
     color: $moon-white;
     overflow: hidden;
+    [data-bs-theme=dark] & {
+        border: 1px solid;
+    }
+}
+
+div.banner div {
+    font-weight: $font-weight-bold !important;
 }
 
 // Help Banner
@@ -712,7 +825,6 @@ ul {
         color: $moon-50;
         font-size: 40px;
         font-weight: $font-weight-semibold;
-        font-family: "Source Sans Pro";
         line-height: 140%;
     }
 
@@ -720,7 +832,6 @@ ul {
         color: $moon-250;
         font-size: 20px;
         font-weight: $font-weight-regular;
-        font-family: "Source Sans Pro";
         line-height: 140%;
     }
 }
@@ -814,6 +925,11 @@ img, iframe {
   font-weight: $font-weight-regular !important;
 }
 
+div.td-main aside.td-sidebar-toc
+{
+    border-left: 0px !important;
+}
+
 // Add dark mode styles using data-bs-theme attribute
 [data-bs-theme=dark] {
     body {
@@ -824,8 +940,10 @@ img, iframe {
     // Update sidebar nav colors for dark mode
     .td-sidebar-nav {
         a {
+            transition: all 0.2s ease-in-out !important;
             color: $dark-text-primary !important;
             &:hover {
+                transform: translateX(2px);
                 color: $dark-link-primary !important;
             }
             .td-sidebar-nav-active-item {
@@ -931,12 +1049,11 @@ img, iframe {
 
 // Feedback Component
 .td-content > .d-print-none {  // Target only the feedback section at bottom of content
-    margin-top: 4rem;
     display: flex;
     align-items: center; // Change back to center for vertical alignment
     flex-wrap: wrap; // Allow wrapping on smaller screens
     gap: 8px; // Consistent spacing between elements
-
+    padding-top: 25px; 
     // Hide feedback title
     .feedback--title {
         display: none;
@@ -1083,9 +1200,7 @@ div.td-page-meta__lastmod {
 
 // Update the sidebar navigation styles
 .td-sidebar-nav {
-    font-family: "Source Sans Pro", sans-serif;
     padding-left: 15px !important;
-
     // Base link styles
     a {
         color: $text-secondary !important;
@@ -1113,7 +1228,7 @@ div.td-page-meta__lastmod {
     &__section-title {
         display: block;
         font-weight: $font-weight-regular !important;
-        line-height: 19px;
+        line-height: 17px;
         margin-bottom: 10px !important;
         margin-top: 5px !important;
 
@@ -1176,10 +1291,12 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
       right: 0px;
       top: 35%;
       transform: translateY(-50%);
+      margin-top: 2px;
   }
   
   // Change chevron for expanded items
   nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
+      margin-top: 2px;
       content: "\f107" !important; // fa-angle-down (thinner chevron)
   }
   
@@ -1218,7 +1335,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
   }
 }
 
-
 // Add consistent padding for main content
 .td-main {
     main {
@@ -1235,14 +1351,37 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
     }
 }
 
+//mobile fixes
+form.td-sidebar__search {
+    padding: 0px;
+}
+ul.navbar-nav {
+    @media (max-width: $breakpoint-md) {
+        overflow-x: hidden !important;
+    }
+}
+li.nav-item a.nav-link span {
+    @media (max-width: $breakpoint-md) {
+        font-size: 14px !important;
+    }
+}
+.nav-link {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+main {    
+    @media (max-width: $breakpoint-md) {
+        padding-top: 0px !important;
+    }
+}
+
+
 // Google Search style overrides
 .gsc-control-cse, .gsc-webResult.gsc-result, .gsc-cursor-page, .gsc-refinementHeader, .gs-no-results-result div {
     background-color: transparent !important;
     border: 0px !important;
 }
-.gs-title {
-    font-family: "Source Serif 4", sans-serif !important;
-}
+
 .gs-title b, .gs-title a, .gsc-cursor-page, .gsc-above-wrapper-area, .gcsc-find-more-on-google-query, .gcsc-find-more-on-google-magnifier {
     color: $link-primary !important;
     text-decoration: none !important;
@@ -1263,7 +1402,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
      background-color: $bg-secondary !important;
 }
 .gsc-result-info, .gs-per-result-labels {
-    font-family: "Source Sans Pro", sans-serif !important;
     font-size: 14px !important;
     color: $text-secondary !important;
     [data-bs-theme=dark] & {
@@ -1275,7 +1413,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
     margin-right: 10px !important;
 }
 .gs-visibleUrl-breadcrumb {
-    font-family: "Source Sans Pro", sans-serif !important;
     font-size: 14px !important;
     color: $text-tertiary !important;
     [data-bs-theme=dark] & {
@@ -1284,7 +1421,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
 }
 
 .gs-snippet, .gsc-refinementHeader {
-    font-family: "Source Sans Pro", sans-serif !important;
     font-size: 16px !important;
     color: $text-primary !important;
     [data-bs-theme=dark] & {
@@ -1330,7 +1466,6 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
 .DocSearch {
     // Button styles
     &-Button {
-        font-family: "Source Sans Pro", sans-serif;
         font-size: 16px;
         background: transparent !important;
         border: 1px solid $border-default !important;
@@ -1387,7 +1522,6 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
 
 // DocSearch Container with CSS Variables
 .DocSearch-Container {
-    font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
 
     // Light mode variables
@@ -1491,3 +1625,14 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
         }
     }
 }
+
+// fix text crowding around code blocks
+pre {
+    margin-bottom: 16px !important;
+}
+
+// fix oversize tab headers
+button.nav-link {
+    font-size: 14px !important; 
+}
+

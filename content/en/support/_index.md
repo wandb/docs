@@ -1,5 +1,6 @@
 ---
 title: Support
+hide_readingtime: true
 ---
 
 {{< banner title="How can we help?" background="/images/support/support_banner.png" >}}

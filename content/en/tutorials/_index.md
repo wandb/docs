@@ -11,6 +11,7 @@ cascade:
             parent: tutorials
 title: Tutorials
 no_list: true
+hide_readingtime: true
 ---
 
 ## Fundamentals

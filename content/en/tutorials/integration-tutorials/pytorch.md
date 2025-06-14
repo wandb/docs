@@ -430,7 +430,9 @@ a number of hyperparameters.
 
 You can use Weights & Biases Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies.
 
-## [Check out Hyperparameter Optimization in PyTorch using W&B Sweeps](http://wandb.me/sweeps-colab)
+## Check out Hyperparameter Optimization in PyTorch using W&B Sweeps
+
+{{< cta-button colabLink="http://wandb.me/sweeps-colab" >}}
 
 Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
 

@@ -11,4 +11,5 @@ cascade:
       parent: launch
 title: Launch
 url: guides/launch
+hide_readingtime: true
 ---
