@@ -118,6 +118,15 @@ body {
     }
 }
 
+ul.foldable, .card {
+    transition: all 0.2s ease-in-out !important;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    filter: drop-shadow(3px, 3px, 3px);
+}
+
 .card ol.breadcrumb {
     display: none; 
 }
@@ -224,7 +233,11 @@ a {
         }
     }
 }
+#TableOfContents ul li a {
+    transition: all .2s ease-in;
+}
 #TableOfContents ul li a.active {
+    border-left: 2px solid;
     color: $link-primary !important;
     [data-bs-theme=dark] & {
         color: $dark-link-primary !important;
@@ -295,10 +308,10 @@ $breakpoint-xl: 1200px;   // Large desktop
                         border-radius: $border-radius-medium !important;
                         padding: 8px 10px !important;
                         font-size: 16px !important;
-
                         &:hover {
                             text-decoration: none !important;
                             background-color: rgba($moon-300, 0.2) !important;
+                            transform: translateY(-2px);
                         }
 
                         &.active {
@@ -571,7 +584,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 aside div.td-toc #TableOfContents ul {
-    border-left-width: 2px !important;
     border-left-color: $text-tertiary !important;
     [data-bs-theme=dark] & {
         border-left-color: $dark-text-secondary !important;
@@ -913,6 +925,11 @@ img, iframe {
   font-weight: $font-weight-regular !important;
 }
 
+div.td-main aside.td-sidebar-toc
+{
+    border-left: 0px !important;
+}
+
 // Add dark mode styles using data-bs-theme attribute
 [data-bs-theme=dark] {
     body {
@@ -923,8 +940,10 @@ img, iframe {
     // Update sidebar nav colors for dark mode
     .td-sidebar-nav {
         a {
+            transition: all 0.2s ease-in-out !important;
             color: $dark-text-primary !important;
             &:hover {
+                transform: translateX(2px);
                 color: $dark-link-primary !important;
             }
             .td-sidebar-nav-active-item {
@@ -941,11 +960,6 @@ img, iframe {
     // Update reading time color for dark mode
     .reading-time {
         color: $dark-text-secondary;
-    }
-
-    .td-sidebar-toc
-    {
-        border-left-width: 0px !important;
     }
 
     // Update table of contents color
@@ -1621,3 +1635,4 @@ pre {
 button.nav-link {
     font-size: 14px !important; 
 }
+
