@@ -7,9 +7,9 @@ title: Dedicated Cloud
 url: guides/hosting/hosting-options/dedicated_cloud
 ---
 
-## Use dedicated cloud (Single-tenant SaaS)
+## Use W&B Dedicated Cloud for single-tenant SaaS
 
-W&B Dedicated Cloud is a single-tenant, fully managed platform deployed in W&B's AWS, GCP or Azure cloud accounts. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances. Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. 
+W&B Dedicated Cloud is a single-tenant, fully managed platform deployed in W&B's AWS, GCP, or Azure cloud accounts. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances. Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. 
 
 W&B Dedicated Cloud is available in [multiple global regions for each cloud provider]({{< relref "./dedicated_regions.md" >}})
 
@@ -52,7 +52,7 @@ Security controls for W&B Dedicated Cloud are periodically audited internally an
 
 ## Migration options
 
-Migration to Dedicated Cloud from a [Self-managed instance]({{< relref "/guides/hosting/hosting-options/self-managed/" >}}) or [Multi-tenant Cloud]({{< relref "../saas_cloud.md" >}}) is supported, subject to specific limits and migration-related constraints
+Migration to Dedicated Cloud from a [Self-Managed instance]({{< relref "/guides/hosting/hosting-options/self-managed/" >}}) or [Multi-tenant Cloud]({{< relref "../saas_cloud.md" >}}) is supported, subject to specific limits and migration-related constraints
 
 ## Next steps
 

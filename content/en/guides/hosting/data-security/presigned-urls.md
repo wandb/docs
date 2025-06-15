@@ -8,6 +8,8 @@ weight: 2
 ---
 
 W&B uses pre-signed URLs to simplify access to blob storage from your AI workloads or user browsers. For basic information on pre-signed URLs, refer to the cloud provider's documentation:
+
+<!--- [Pre-signed URLs for CoreWeave AI Object Storage]()-->
 - [Pre-signed URLs for AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)
 - [Signed URLs for Google Cloud Storage](https://cloud.google.com/storage/docs/access-control/signed-urls)
 - [Shared Access Signature for Azure Blob Storage](https://learn.microsoft.com/azure/storage/common/storage-sas-overview)
@@ -57,3 +59,4 @@ When W&B returns a pre-signed URL, a query parameter in the URL contains the req
 | AWS S3  storage           | `X-User`  |
 | Google Cloud storage   | `X-User` |
 | Azure  blob storage       | `scid`      |
+<!-- | CoreWeave AI Object Storage | TODO | -->
