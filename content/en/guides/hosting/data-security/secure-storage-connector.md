@@ -102,10 +102,78 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
       }
     ]
     ```
+    CoreWeave storage is S3-compatible. For details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
+1. Grant the required permissions to the AWS account hosting the W&B Platform (TODO update), which requires these permissions to generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation.
+
+        ```json
+        {
+          "Version": "2012-10-17",
+          "Id": "WandBAccess",
+          "Statement": [
+            {
+              "Sid": "WAndBAccountAccess",
+              "Effect": "Allow",
+              "Principal": { "AWS": "<aws_principal_and_role_arn>" },
+                "Action" : [
+                  "s3:GetObject*",
+                  "s3:GetEncryptionConfiguration",
+                  "s3:ListBucket",
+                  "s3:ListBucketMultipartUploads",
+                  "s3:ListBucketVersions",
+                  "s3:AbortMultipartUpload",
+                  "s3:DeleteObject",
+                  "s3:PutObject",
+                  "s3:GetBucketCORS",
+                  "s3:GetBucketLocation",
+                  "s3:GetBucketVersioning"
+                ],
+              "Resource": [
+                "arn:aws:s3:::<wandb_bucket>",
+                "arn:aws:s3:::<wandb_bucket>/*"
+              ]
+            }
+          ]
+        }
+        ```
+
+        Replace `<wandb_bucket>` accordingly and keep a record of the bucket name. If you are using [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), share the bucket name with your W&B team in case of instance level BYOB. In case of team level BYOB on any deployment type, [configure the bucket while creating the team]({{< relref "#configure-byob-in-wb" >}}).
+
+        If you are using [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), replace `<aws_principal_and_role_arn>` with the corresponding value.
+
+        * For [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `arn:aws:iam::725579432336:role/WandbIntegration` TODO update
+        * For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `arn:aws:iam::830241207209:root`
 1. Generate API access tokens with appropriate permissions for these bucket operations: `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. See [Create an API access token](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/create-access-tokens) in the CoreWeave documentation.
-1. Configure bucket permissions to allow W&B to generate pre-signed URLs for secure access. (TODO HOW) 
 
 Keep a record of the bucket name and access credentials. If you are using Dedicated Cloud, share the bucket details with your W&B team in case of instance level BYOB. In case of team level BYOB on any deployment type, configure the bucket while creating the team.
+
+<details>
+<summary>Troubleshoot CoreWeave storage connection errors</summary>
+
+- **Connection errors**
+  - CoreWeave uses virtual-hosted style paths, where the bucket name is a subdomain at the beginning of the path. For example: `cw://bucket-name.cwobject.com` is correct, while `cw://cwobject.com/bucket-name/` is not.
+  - Bucket names must not contain underscores (`_`) or other characters incompatible with DNS rules.
+  - Bucket names must be globally unique among CoreWeave locations.
+  - Bucket names must not begin with `cw-` or `vip-`, which are reserved prefixes.
+- **CORS validation failures**
+  - A CORS policy is required. CoreWeave is S3-compatible; for details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
+  - `AllowedMethods` must include methods `GET`, `PUT`, and `HEAD`.
+  - `ExposeHeaders` must include `ETag.
+  - W&B front-end domains must be included in the CORS policy's `AllowedOrigins`. The example CORS policies provided on this page include all domains using `*`.
+- **LOTA endpoint issues**
+  - LOTA endpoints use HTTP rather than HTTPS. Omit the `tls` parameter from the bucket's address, and use the `cw://` protocol specifier if possible.
+  - Your W&B instance must be able to connect to `.cwlota.com`.
+  - Use LOTA only when your workloads are running on CoreWeave GPU compute. LOTA is optimized for large file transfers within CoreWeave infrastructure.
+- **Region errors**
+  - CoreWeave uses availability zones for AI Object Storage.
+    - In the bucket address, set `region` to the name of the CoreWeave availability zone that matches the CoreWeave bucket's location.
+    - CoreWeave AI Object Storage is not available in all regions. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `S-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
+- **Access key and permission errors**
+  - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys) in the CoreWeave documentation.
+  - Verify that your CoreWeave API Access Key is not expired.
+  - Verify that your W&B instance can connect to CoreWeave network endpoints.
+
+</details>
+
 {{% /tab %}}
 {{% tab header="AWS" value="aws" %}}
 For details, see [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) in the AWS documentation.
@@ -320,7 +388,7 @@ Select a tab for detailed instructions.
 ```text
 cw://<accessKey>:<secretAccessKey>@<coreweaveEndpoint>/<bucketName>?region=<region>&tls=true
 ```
-- In the address, the `region` parameter is mandatory. CoreWeave uses availability zones. The `region` parameter is mandatory and must be set to the CoreWeave availability zone.
+- CoreWeave uses availability zones for AI Object Storage. In the bucket address, the `region` parameter is mandatory and must be set to the name of the CoreWeave availability zone that matches the CoreWeave bucket's location. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `S-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
 - Replace `<coreweaveEndpoint>` with one of:
   - `cwobject.com`: Primary HTTPS endpoint, TLS 1.3 required.
   - `cwlota.com`: CoreWeave's [Local Object Transfer Accelerator (LOTA)](https://docs.coreweave.com/docs/products/storage/object-storage/concepts/lota) HTTP (not HTTPS) endpoint. LOTA is an intelligent proxy installed on every GPU Node in a CKS cluster to accelerate data transfer by providing an efficient local gateway to CoreWeave AI Object Storage on each node in the cluster for faster data transfer rates and decreased latency. Omit the `tls=true` parameter. 
