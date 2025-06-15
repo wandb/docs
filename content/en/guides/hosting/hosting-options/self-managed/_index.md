@@ -4,13 +4,13 @@ menu:
   default:
     identifier: self-managed
     parent: deployment-options
-title: Self-managed
+title: Self-Managed
 url: guides/hosting/hosting-options/self-managed
 cascade:
 - url: guides/hosting/self-managed/:filename
 ---
 
-## Use self-managed cloud or on-prem infrastructure
+## Use W&B Self-Managed on cloud or on-prem infrastructure
 
 {{% alert %}}
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref "../saas_cloud.md" >}}) or [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud/" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
@@ -22,27 +22,27 @@ Your IT/DevOps/MLOps team is responsible for:
 - Provisioning your deployment.
 - Securing your infrastructure in accordance with your organization's policies and [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
 - Managing upgrades and applying patches.
-- Continuously maintaining your self managed W&B Server instance.
+- Continuously maintaining your self-Managed W&B Server instance.
 
 
 <!-- Check [Obtain your W&B Server license]({{< relref "#obtain-your-wb-server-license" >}}) to complete the setup. -->
 
-## Deploy W&B Server within self managed cloud accounts
+## Deploy W&B Server within self-managed cloud accounts
 
 W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into your AWS, GCP, or Azure cloud account.
 
-See specific cloud provider documentation for more information on how to set up W&B Server in [AWS]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" >}}), [GCP]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/gcp-tf.md" >}}) or [Azure]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/azure-tf.md" >}}).
+See specific cloud provider documentation for more information on how to set up W&B Server in [AWS]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" >}}), [GCP]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/gcp-tf.md" >}}), or [Azure]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/azure-tf.md" >}}).
 
 ## Deploy W&B Server in on-prem infrastructure
 
-You need to configure several infrastructure components in order to set up W&B Server in your on-prem infrastructure. Some of those components include, but are not limited to: 
+To set up W&B Server in your on-premises infrastructure, you need to configure several infrastructure components. Some of those components include, but are not limited to: 
 
 - (Strongly recommended) Kubernetes cluster
 - MySQL 8 database cluster
 - Amazon S3-compatible object storage
 - Redis cache cluster
 
-See [Install on on-prem infrastructure]({{< relref "/guides/hosting/hosting-options/self-managed/bare-metal.md" >}}) for more information on how to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
+See [Install on on-prem infrastructure]({{< relref "/guides/hosting/hosting-options/self-managed/bare-metal.md" >}}) for detailed instructions to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
 
 ## Deploy W&B Server on a custom cloud platform
 
