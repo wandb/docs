@@ -149,6 +149,8 @@
 /guides/hosting/quickstart/ /guides/hosting/ 301
 /guides/hosting/restricted-projects/ /guides/hosting/iam/restricted-projects/ 301
 /guides/hosting/scim/ /guides/hosting/iam/scim/ 301
+/guides/hosting/data-security/secure-storage-connector/#
+/guides/hosting/data-security/secure-storage-connector/#
 /guides/hosting/secure-storage-connector/ /guides/hosting/data-security/secure-storage-connector/ 301
 /guides/hosting/server-release-process/ /release-notes/release-policies/ 301
 /guides/hosting/setup/configuration/ /guides/hosting/ 301
@@ -157,6 +159,9 @@
 /guides/hosting/slack-alerts/ /guides/hosting/monitoring-usage/slack-alerts/ 301
 /guides/hosting/sso/ /guides/hosting/iam/sso/ 301
 /guides/hosting/system-admin/ /guides/hosting/ 301
+/guides/hosting/hosting-options/dedicated_cloud/#use-dedicated-cloud-single-tenant-saas /guides/hosting/hosting-options/dedicated_cloud/#use-wb-dedicated-cloud-for-single-tenant-saas 301
+/guides/hosting/hosting-options/self-managed/#use-self-managed-cloud-or-on-prem-infrastructure /guides/hosting/hosting-options/self-managed/#use-wb-self-managed-on-cloud-or-on-prem-infrastructure 301
+/guides/hosting/hosting-options/self-managed/#deploy-wb-server-within-self-managed-cloud-accounts /guides/hosting/hosting-options/self-managed/#deploy-wb-server-within-self-managed-cloud-accounts 301
 /guides/integrations/boosting/ /guides/integrations/ 301
 /guides/integrations/fastai/v2/ /guides/integrations/fastai/ 301
 /guides/integrations/jax/ /guides/integrations/ 301
