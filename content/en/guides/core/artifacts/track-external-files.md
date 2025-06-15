@@ -25,17 +25,18 @@ Artifacts abstract away the underlying cloud storage vendor (such CoreWeave, AWS
 W&B Artifacts support any Amazon S3 compatible interface, including MinIO. The scripts below work as-is, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your MinIO server.
 {{% /alert %}}
 
-Suppose you have a bucket with the following structure:
+Suppose you have a bucket with the following structure in your S3 bucket:
 
 ```bash
 s3://my-bucket
-+-- datasets/
-|		+-- mnist/
-+-- models/
-		+-- cnn/
+
+| datasets/
+  |-- mnist/
+| models/
+  |-- cnn/
 ```
 
-Within `mnist/` is a collection of images. You can track the dataset with an artifact:
+Within `mnist/` is a collection of images. You can track the your images dataset with an artifact with the W&B Python SDK:
 
 ```python
 import wandb
@@ -50,7 +51,9 @@ run.finish()
 By default, W&B imposes a 10,000 object limit when adding an object prefix. You can adjust this limit by specifying `max_objects=` in calls to `add_reference`.
 {{% /alert %}}
 
-This creates a reference artifact `mnist:latest` that looks and behaves similarly to a regular artifact. The only difference is that the artifact only consists of metadata about the CW/S3/GCS/Azure object such as its ETag, size, and version ID (if object versioning is enabled on the bucket).
+This creates a reference artifact `mnist:latest` that looks and behaves similarly to a regular artifact. Unlike a regular artifact, the reference artifacts only log metadata about the CW/S3/GCS/Azure object such as its ETag, size, and version ID (if object versioning is enabled on the bucket).
+
+Interact with this artifact similarly to a normal artifact. In the App UI, you can look through the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact.
 
 ## Storage credentials
 
@@ -64,8 +67,6 @@ W&B uses the default mechanism to look for credentials based on the cloud provid
 | Azure          | [Azure documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
 
 For AWS, if the bucket is not located in the configured user's default region, you must set the `AWS_REGION` environment variable to match the bucket region.
-
-Interact with this artifact similarly to a normal artifact. In the App UI, you can look through the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact.
 
 {{% alert color="secondary" %}}
 Rich media such as images, audio, video, and point clouds may fail to render in the App UI depending on the CORS configuration of your bucket. Allow listing **app.wandb.ai** in your bucket's CORS settings will allow the App UI to properly render such rich media.
@@ -83,7 +84,7 @@ artifact = run.use_artifact("mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
-W&B will use the metadata recorded when the artifact was logged to retrieve the files from the underlying bucket when it downloads a reference artifact. If your bucket has object versioning enabled, W&B will retrieve the object version corresponding to the state of the file at the time an artifact was logged. This means that as you evolve the contents of your bucket, you can still point to the exact iteration of your data a given model was trained on since the artifact serves as a snapshot of your bucket at the time of training.
+W&B uses the metadata recorded when the artifact was logged to retrieve the files from the underlying bucket when it downloads a reference artifact. If your bucket has object versioning enabled, W&B will retrieve the object version corresponding to the state of the file at the time an artifact was logged. This means that as you evolve the contents of your bucket, you can still point to the exact iteration of your data a given model was trained on since the artifact serves as a snapshot of your bucket at the time of training.
 
 {{% alert %}}
 W&B recommends that you enable 'Object Versioning' on your storage buckets if you overwrite files as part of your workflow. With versioning enabled on your buckets, artifacts with references to files that have been overwritten will still be intact because the older object versions are retained. 
@@ -93,7 +94,7 @@ Based on your use case, read the instructions to enable object versioning: [AWS]
 
 ## Tying it together
 
-The following code example demonstrates a simple workflow you can use to track a dataset in Amazon S3, GCS, or Azure that feeds into a training job:
+The following code snippet shows how to track a dataset in an S3 bucket that is used in a training job:
 
 ```python
 import wandb
@@ -132,7 +133,7 @@ run.log_artifact(model_artifact)
 ```
 
 {{% alert %}}
-Read through the following reports for an end-to-end walkthrough of how to track artifacts by reference for GCP or Azure:
+See the following reports for an end-to-end walkthrough on how to track artifacts by reference for GCP or Azure:
 
 * [Guide to Tracking Artifacts by Reference](https://wandb.ai/stacey/artifacts/reports/Tracking-Artifacts-by-Reference--Vmlldzo1NDMwOTE)
 * [Working with Reference Artifacts in Microsoft Azure](https://wandb.ai/andrea0/azure-2023/reports/Efficiently-Harnessing-Microsoft-Azure-Blob-Storage-with-Weights-Biases--Vmlldzo0NDA2NDgw)
@@ -152,7 +153,7 @@ mount
 		+-- cnn/
 ```
 
-Within `mnist/` is a dataset, a collection of images. Let's track it with an artifact:
+Within `mnist/` is a dataset, a collection of images. You can track it with an artifact:
 
 ```python
 import wandb
@@ -162,8 +163,9 @@ artifact = wandb.Artifact("mnist", type="dataset")
 artifact.add_reference("file:///mount/datasets/mnist/")
 run.log_artifact(artifact)
 ```
-
+{{% alert color="secondary" %}}
 By default, W&B imposes a 10,000 file limit when adding a reference to a directory. You can adjust this limit by specifying `max_objects=` in calls to `add_reference`.
+{{% /alert %}}
 
 Note the triple slash in the URL. The first component is the `file://` prefix that denotes the use of filesystem references. The second is the path to the dataset, `/mount/datasets/mnist/`.
 
