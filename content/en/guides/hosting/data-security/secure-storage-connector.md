@@ -103,7 +103,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     ]
     ```
     CoreWeave storage is S3-compatible. For details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
-1. Grant the required permissions to the AWS account hosting the W&B Platform (TODO update), which requires these permissions to generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation.
+1. Grant the required permissions to the AWS account hosting the W&B Platform <!--(TODO update)-->, which requires these permissions to generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation.
 
         ```json
         {
@@ -140,7 +140,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
 
         If you are using [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), replace `<aws_principal_and_role_arn>` with the corresponding value.
 
-        * For [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `arn:aws:iam::725579432336:role/WandbIntegration` TODO update
+        * For [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `arn:aws:iam::725579432336:role/WandbIntegration` <!--TODO update -->
         * For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `arn:aws:iam::830241207209:root`
 1. Generate API access tokens with appropriate permissions for these bucket operations: `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. See [Create an API access token](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/create-access-tokens) in the CoreWeave documentation.
 
@@ -484,7 +484,7 @@ After a team is created, its storage cannot be updated.
     1. Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
     1. Provide a **Name** for the bucket.
         - For **CoreWeave**, provide only the bucket name.
-        - For Azure on W&B Dedicated or Self-Managed, provide Account name and Container name (TODO verify UI)
+        - For Azure on W&B Dedicated or Self-Managed, provide Account name and Container name. <!--(TODO verify UI)-->
     1. Provide the bucket path you [determined earlier](#determine-the-storage-address).
     1. (Optional) Set **Path** to the bucket sub-path.
     1. (Optional on AWS) Set **KMS key ARN** to the ARN of your KMS encryption key.
