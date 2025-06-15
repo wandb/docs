@@ -149,8 +149,6 @@
 /guides/hosting/quickstart/ /guides/hosting/ 301
 /guides/hosting/restricted-projects/ /guides/hosting/iam/restricted-projects/ 301
 /guides/hosting/scim/ /guides/hosting/iam/scim/ 301
-/guides/hosting/data-security/secure-storage-connector/#
-/guides/hosting/data-security/secure-storage-connector/#
 /guides/hosting/secure-storage-connector/ /guides/hosting/data-security/secure-storage-connector/ 301
 /guides/hosting/server-release-process/ /release-notes/release-policies/ 301
 /guides/hosting/setup/configuration/ /guides/hosting/ 301
