@@ -21,9 +21,9 @@ Similar to W&B Multi-tenant Cloud, you can configure a single bucket for multipl
 
 {{< img src="/images/hosting/dedicated_cloud_arch.png" alt="" >}}
 
-In addition to BYOB with secure storage connector, you can utilize [IP allowlisting]({{< relref "/guides/hosting/data-security/ip-allowlisting.md" >}}) to restrict access to your Dedicated Cloud instance from only trusted network locations. 
+In addition to BYOB with secure storage connector, you can use [IP allowlisting]({{< relref "/guides/hosting/data-security/ip-allowlisting.md" >}}) to restrict access to your Dedicated Cloud instance from only trusted network locations. 
 
-You can also privately connect to your Dedicated Cloud instance using [cloud provider's secure connectivity solution]({{< relref "/guides/hosting/data-security/private-connectivity.md" >}}).
+You can connect privately to your Dedicated Cloud instance using [cloud provider's secure connectivity solution]({{< relref "/guides/hosting/data-security/private-connectivity.md" >}}).
 
 You are responsible for ensuring that your deployment complies with your organization's policies and [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
 

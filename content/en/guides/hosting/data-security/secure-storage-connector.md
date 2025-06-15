@@ -323,7 +323,7 @@ cw://<accessKey>:<secretAccessKey>@<coreweaveEndpoint>/<bucketName>?region=<regi
 - In the address, the `region` parameter is mandatory. CoreWeave uses availability zones. The `region` parameter is mandatory and must be set to the CoreWeave availability zone.
 - Replace `<coreweaveEndpoint>` with one of:
   - `cwobject.com`: Primary HTTPS endpoint, TLS 1.3 required.
-  - `cwlota.com`: LOTA HTTP (not HTTPS) endpoint. Omit the `tls=true` parameter.
+  - `cwlota.com`: CoreWeave's [Local Object Transfer Accelerator (LOTA)](https://docs.coreweave.com/docs/products/storage/object-storage/concepts/lota) HTTP (not HTTPS) endpoint. LOTA is an intelligent proxy installed on every GPU Node in a CKS cluster to accelerate data transfer by providing an efficient local gateway to CoreWeave AI Object Storage on each node in the cluster for faster data transfer rates and decreased latency. Omit the `tls=true` parameter. 
   See the [CoreWeave documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/get-started-caios#3-create-a-bucket) for details.
 - The `cw://` protocol specifier is preferred. However, CoreWeave buckets offer an optional S3-compatible mode when you use the `s3://` protocol specifier instead.
 {{% /tab %}}
