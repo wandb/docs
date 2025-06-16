@@ -20,7 +20,7 @@ This notebook shows you how to integrate Weights & Biases (W&B) with your PyTorc
 ## Background
 [PyTorch](https://pytorch.org/) is an open-source machine learning framework built for Python that provides high performance and scalability for production deployment, making it  popular for research and rapid prototyping. When you use W&B with your PyTorch projects, you can track your experiments, visualize results, and collaborate with your team in real time. Log metrics, hyperparameters, and model checkpoints to W&B as you train. Then view your results on the W&B Dashboard at [wandb.ai](http://wandb.ai).
 
-W&B helps you track everything for your PyTorch projects - model architectures, datasets, and results. With W&B, you can share discoveries with your team and stay organized when testing different models and fine tuning hyperparameters.
+W&B helps you track everything for your PyTorch projects - model architectures, datasets, and results. With W&B, you can share discoveries with your team and stay organized when you test different models and fine tune hyperparameters.
 
 ## TL;DR
 
@@ -140,7 +140,7 @@ wandb.login()
 
 3. When prompted, choose to log in with an existing account or create a new account for free. Follow the instructions to log in or complete your registration and obtain your API key.  W&B saves your credentials locally so you won't need to log in again on the same machine.
 
-If you have trouble authenticating, see the support article [How can I resolve login issues with my account?](https://docs.wandb.ai/support/resolve_login_issues_with_account/)
+If you have trouble with the authentication step, see the support article [How can I resolve login issues with my account?](https://docs.wandb.ai/support/resolve_login_issues_with_account/)
 
 ## Define your experiment and pipeline
 As a best practice, structure your machine learning experiments into clear, trackable pipelines. The experiment pipeline that we recommend comprises two phases:
@@ -148,7 +148,7 @@ As a best practice, structure your machine learning experiments into clear, trac
 1. [Set up hyperparameters and metadata](#set-up-hyperparameters-and-metadata)  
 2. [Implement the model pipeline](#implement-the-model-pipeline)
 
-This structured approach helps you maintain reproducible experiments, compare different versions and iterations of your models, and efficiently scale and debug your training workflows. You can also benefit by standardizing the experimentation process across your team, making it easier to understand what works and what doesn't in your model development process.
+This structured approach helps you maintain reproducible experiments, compare different versions and iterations of your models, and efficiently scale and debug your training workflows. You can also standardize the experimentation process across your team so it's easier to understand what works and what doesn't in your model development process.
 
 ### Set up hyperparameters and metadata
 Hyperparameters and metadata help you organize and filter your experiments later, especially when you work with different architectures or datasets within the same project. Define the hyperparameters and metadata that describe your model. You can store these settings in a configuration dictionary that you'll access throughout your training process. 
@@ -183,14 +183,14 @@ def model_pipeline(hyperparameters):
     return model
 ```
 
-When you start the experiment, W&B creates and shares the link to your new project so you can start watching the magic right away.
+When you start the experiment, W&B creates and shares the link to your new project so you can watch the magic right away.
  
 ```
 wandb: ⭐️ View project at https://wandb.ai/joemama/pytorch-demo
 wandb: 🚀 View run at https://wandb.ai/joemama/pytorch-demo/runs/abc123yz
 ```
 
-For accurate logging, get your parameters from `wandb.config`. Your model pipeline already uses `wandb.config` as `config`, so you're ready to implement this function to create your components.
+For the most accurate logging, get your parameters from `wandb.config`. Your model pipeline already uses `wandb.config` as `config`, so you're ready to implement this function to create your components.
 
 ```python
 def make(config):
@@ -209,7 +209,7 @@ def make(config):
     return model, train_loader, test_loader, criterion, optimizer
 ```
 
-The `make()` function handles several key setup tasks. It prepares the training and test datasets using `get_data()` and `make_loader()`. It also initializes the PyTorch ConvNet model and moves it to the appropriate device, and sets up the loss function (Cross-Entropy Loss) and optimizer (Adam) for model training.
+The `make()` function handles several key setup tasks. It prepares the training and test datasets with `get_data()` and `make_loader()`. It also initializes the PyTorch ConvNet model and moves it to the appropriate device, and sets up the loss function (Cross-Entropy Loss) and optimizer (Adam) for model training.
 
 **Note:** For increased resilience, W&B runs your tracking code in separate processes. If you ever lose connection, use the `wandb sync` command once you're back online to upload any missing data.
 
@@ -341,8 +341,8 @@ def train_batch(images, labels, model, optimizer, criterion):
 To log your training metrics, use `wandb.log`. The main difference between this option and and standard training loops is that, when you use `wandb.log`, you log metrics to W&B for visualization and analysis instead of printing them to your terminal. 
 
 With `wandb.log`:
-* The **keys** are strings that identify what you're logging  
-* The **values** are the metrics you want to track  
+* The **keys** are strings that identify what you want to log  
+* The **values** are the metrics that you want to track  
 * The optional **`step` parameter** logs your training progression
 
 The logging call in the following example creates visualizations in the W&B Dashboard that show the relationship between training progress and the epoch number and loss values.  
@@ -358,9 +358,9 @@ With `example_ct` (example count) as the step value, the call uses the number of
 ## Save and test your model
 Once you've trained your model, test it to find out how well it performs on data it hasn't seen before. Run your model against a fresh validation dataset or test it with examples that match your production scenarios.
 
-After testing, save your model's architecture and final parameters. To ensure compatibility across different platforms, export your model in the ONNX format. When you store your model on the W&B servers with `wandb.save()`, you can track which model files correspond to specific training runs. 
+Then save your model's architecture and final parameters. To ensure compatibility across different platforms, export your model in the ONNX format. When you store your model on the W&B servers with `wandb.save()`, you can track which model files correspond to specific training runs. 
 
-Here's how to implement testing and save your model:
+Here's how to test and save your model:
 
 ```python
 def test(model, test_loader):
@@ -400,8 +400,8 @@ model = model_pipeline(config)
 
 When you make the call:
 
-* W&B starts a new experiment, logging hyperparameters and metadata through `wandb.init()`.
-* Your model begins training, and `wandb.log()` captures metrics like loss and accuracy in real time.  
+* W&B starts a new experiment and logs hyperparameters and metadata through `wandb.init()`.
+* Your model begins to train, and `wandb.log()` captures metrics like loss and accuracy in real time.  
 * Throughout training, `wandb.watch()` tracks gradients and parameters (see the live data on the [W&B Dashboard](https://wandb.ai/)). 
 * When training completes, your model exports to ONNX format and saves to W&B.  
 * W&B then displays a summary of your experiment results.
@@ -412,7 +412,7 @@ Navigate to [wandb.ai](http://wandb.ai) to analyze the results for your model co
 Now that you've integrated Weights & Biases into your PyTorch model training pipeline, explore these additional W&B resources to further optimize your machine learning projects.
 
 ### Optimize your model with Sweeps
-While running a single experiment is useful, you'll want to try different hyperparameter combinations. [W&B Sweeps](https://docs.wandb.ai/guides/sweeps/) is a lightweight tuning tool that automates the exploration of different hyperparameter configurations. Sweeps can systematically explore various model configurations and track the results in your W&B Dashboard. This makes it easy to find the optimal hyperparameters for your PyTorch model. To learn more about running a hyperparameter sweep with Weights & Biases, see the [Organizing Hyperparameter Sweeps in PyTorch with W&B](http://wandb.me/sweeps-colab) Colab notebook.
+Now that you've run a single experiment, you'll want to try different hyperparameter combinations. [W&B Sweeps](https://docs.wandb.ai/guides/sweeps/) is a lightweight tuning tool that automates the exploration of different hyperparameter configurations. Sweeps can systematically explore various model configurations and track the results in your W&B Dashboard. This makes it easy to find the optimal hyperparameters for your PyTorch model. To learn more about how to run a hyperparameter sweep with Weights & Biases, see the [Organizing Hyperparameter Sweeps in PyTorch with W&B](http://wandb.me/sweeps-colab) Colab notebook.
 
 ### Explore advanced W&B configurations
 Weights & Biases offers advanced setup options to fit specific needs:
@@ -425,4 +425,4 @@ Explore these and other advanced features in the [W&B platform documentation](ht
 ### Browse example reports and related content
 For examples of how teams use W&B to track and visualize their machine learning projects, search the [Fully Connected blog](https://www.wandb.com/blog) for posts that showcase different W&B visualizations and use cases. 
 
-For a look at how to leverage W&B with PyTorch for debugging your models through gradient tracking and visualizations, check out the [Debugging Neural Networks with PyTorch and W&B Using Gradients and Visualizations](https://wandb.ai/wandb_fc/articles/reports/Debugging-Neural-Networks-with-PyTorch-and-W-B-Using-Gradients-and-Visualizations--Vmlldzo1NDQxNTA5?galleryTag=reinforcement-learning) article.
+For a look at how to leverage W&B with PyTorch to debug your models through gradient tracking and visualizations, check out the [Debugging Neural Networks with PyTorch and W&B Using Gradients and Visualizations](https://wandb.ai/wandb_fc/articles/reports/Debugging-Neural-Networks-with-PyTorch-and-W-B-Using-Gradients-and-Visualizations--Vmlldzo1NDQxNTA5?galleryTag=reinforcement-learning) article.
