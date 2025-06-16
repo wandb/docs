@@ -40,7 +40,7 @@ See this [Google Colab](https://colab.research.google.com/github/wandb/examples/
    {{< img src="/images/reports/create_report_button.png" alt="" >}}
 {{% /tab %}}
 
-{{% tab header="Report and Workspaces API" value="python_wr_api"%}}
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
 Create a report programmatically:
 
 1. Install W&B SDK (`wandb`) and Report and Workspaces API (`wandb-workspaces`):

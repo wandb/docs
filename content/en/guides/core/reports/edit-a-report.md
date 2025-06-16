@@ -25,7 +25,7 @@ Check out the [Programmatic workspaces tutorial]({{< relref "/tutorials/workspac
 {{% /alert %}}
 
 {{% alert %}}
-Verify that you have the Reports and Workspaces API `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
+Verify that you have the W&B Report and Workspace API `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
 
 ```pip
 pip install wandb wandb-workspaces
@@ -44,7 +44,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
 {{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
 {{% /tab %}}
 
-{{% tab header="Reports and Workspaces API" value="python_wr_api"%}}
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
 Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
 
 
@@ -100,7 +100,7 @@ If you import a panel into a report, run names are inherited from the project. I
 
 {{% /tab %}}
 
-{{% tab header="Reports Workspaces API" value="python_wr_api"%}}
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
 
 Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
 
@@ -213,7 +213,7 @@ Select the name of the programming language on the right hand of the code block.
 
 {{% /tab %}}
 
-{{% tab header="Reports and Workspaces API" value="python_wr_api" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
 Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
 
@@ -277,7 +277,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
 
 {{% /tab %}}
 
-{{% tab header="Reports and Workspaces API" value="python_wr_api" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
 Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block programmatically. Pass a string to the `text` parameter:
 
@@ -312,7 +312,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
 
 {{% /tab %}}
 
-{{% tab header="Reports and Workspaces API" value="python_wr_api" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
 Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to create an H1, H2, and an unordered list:
 
@@ -369,7 +369,7 @@ Copy and paste a SoundCloud link to embed an audio file into a report.
 
 {{% /tab %}}
 
-{{% tab header="Reports and Workspaces API" value="python_wr_api" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
 Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to embed video and Twitter media into a report:
 

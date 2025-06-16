@@ -27,7 +27,7 @@ Within your report, select the kebab icon to expand the dropdown menu. Choose th
 Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
 {{% /tab %}}
 
-{{% tab header="Reports and Workspaces API" value="python_wr_api"%}}
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
 
 Load a Report from a URL to use it as a template.
 
