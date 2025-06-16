@@ -215,10 +215,13 @@ The following table shows example alerts for each category of infrastructure iss
 For detailed information on error types, see the [SLURM Job Metrics on the CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/slurm-job-metrics#job-info-alerts).
 
 ### Debug infrastructure issues
-Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job’s Grafana dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. 
 
-Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards.
+Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job’s [Grafana](https://grafana.com/) dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards. 
 
 {{< alert title="Note" >}}
 The Grafana dashboard is only available for W&B users with a CoreWeave account. Contact W&B to configure Grafana with your W&B organization.
 {{< /alert >}}
+
+Depending on the issue, you may need to adjust the SLURM job configuration, investigate the node's status, restart the job, or take other actions as needed.
+
+For more information about CoreWeave SLURM jobs in Grafana, see Slurm/Job Metrics on the [CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/slurm-job-metrics). See [Job info: alerts](https://docs.coreweave.com/docs/observability/managed-grafana/slurm-job-metrics#job-info-alerts) for detailed information about job alerts.
