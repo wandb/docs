@@ -17,17 +17,16 @@ Use [Weights & Biases](https://wandb.com) for machine learning experiment tracki
 
 PyTorch is an open-source Python framework used to build and train deep learning models. Using W&B's Python library, you can log various metrics from your PyTorch model training runs to your W&B account. This allows you to review visual representations of your training data and track your model's performance more easily over subsequent runs.
 
+This tutorial guides you through how to import the W&B's Python library into a basic PyTorch training pipeline script that trains a model on the [MNIST dataset](https://en.wikipedia.org/wiki/MNIST_database) (a database of handwritten digits). By the end of the tutorial, you will be able to review metrics from the model's training in your W&B dashboard.
 
 {{< img src="/images/tutorials/pytorch.png" alt="" >}}
-
-This tutorial guides you through how to import the W&B's Python library into a basic PyTorch training pipeline script that trains a model on the [MNIST dataset](https://en.wikipedia.org/wiki/MNIST_database) (a database of handwritten digits). By the end of the tutorial, you will be able to review metrics from the model's training in your W&B account.
 
 ## Prerequisites
 
 Before starting this tutorial, you need:
 
 * [A W&B account](https://wandb.ai/site/).
-* [A W&B API key]({{< relref "/support/find_api_key" >}}). This gives the script access to your W&B account so that it can log the training's metrics.
+* [A W&B API key](https://docs.wandb.ai/support/find_api_key). This gives the script access to your W&B account so that it can log the training's metrics.
 * Familiarity with and access to a notebook interface, such as [Jupyter](https://realpython.com/jupyter-notebook-introduction) or [Google Colab](https://colab.research.google.com/notebooks/welcome.ipynb#scrollTo=GJBs_flRovLc). Each code example in this tutorial is a new code cell in a notebook.
 
 ## Step 1: Install the W&B library
@@ -47,10 +46,10 @@ This example PyTorch training pipeline requires several additional libraries to 
 * `os`: to interact with the operating system.
 * `random`: to generate random numbers.
 * [`torch`](https://docs.pytorch.org/docs/stable/index.html): the core PyTorch library for building and training models.
-* `[onnx](https://onnx.ai/onnx/intro/concepts.html)`: to export the trained model to the [ONNX format].
-* `[numpy](https://numpy.org/doc)`: for numerical operations.
-* `[torchvision](https://docs.pytorch.org/vision/stable/index.html)`: to handle MNIST image dataset and transformations.
-* `[tqdm](https://tqdm.github.io)`: a library for displaying progress bars in loops.
+* [`onnx`](https://onnx.ai/onnx/intro/concepts.html): to export the trained model to the [ONNX format].
+* [`numpy`](https://numpy.org/doc): for numerical operations.
+* [`torchvision`](https://docs.pytorch.org/vision/stable/index.html): to handle MNIST image dataset and transformations.
+* [`tqdm`](https://tqdm.github.io): a library for displaying progress bars in loops.
 
 Install these libraries in your notebook environment:
 
@@ -152,7 +151,7 @@ def model_pipeline(hyperparameters):
 ```
 
 Specifically, the `model_pipeline()` function does the following:
-1. Initializes W&B using `[wandb.init()]({{< relref "/ref/python/init" >}})`, and creates or updates the `pytorch-demo` project with the specified configuration parameters.
+1. Initializes W&B using [`wandb.init()`]({{< relref "/ref/python/init" >}}), and creates or updates the `pytorch-demo` project with the specified configuration parameters.
 2. Retrieves the configuration parameters from the W&B run using `wandb.config()` to ensure that the model is trained with the correct hyperparameters.
 3. Calls the `make` function to create the model, data loaders, loss function, and optimizer objects.
 4. Trains the model using the `train` function, which tracks gradients and logs training metrics to W&B.
@@ -242,7 +241,7 @@ You can experiment with changing the model architecture by changing the number o
 
 Next, specify the training logic in the `train()` function to track the gradients and parameters, and log your training metrics to W&B. 
 
-The training function uses two important `wandb` methods: `[wandb.watch()]({{< relref "/ref/python/watch" >}})` and `[wandb.log()]({{< relref "/ref/python/log" >}})`. The `wandb.watch()` method tracks the model's gradients and weights, while the `wandb.log()` method logs the training metrics to W&B.
+The training function uses two important `wandb` methods: [`wandb.watch()`]({{< relref "/ref/python/watch" >}}) and [`wandb.log()`]({{< relref "/ref/python/log" >}}). The `wandb.watch()` method tracks the model's gradients and weights, while the `wandb.log()` method logs the training metrics to W&B.
 
 ```python
 def train(model, loader, criterion, optimizer, config):
@@ -316,7 +315,7 @@ def test(model, test_loader):
     wandb.save("model.onnx")
 ```
 
-You can access the saved model file in from the[ **Files** section]({{< relref "/guides/track/project-page/#artifacts-tab" >}}) of your W&B project. This allows you to download the model and use it in other applications.
+You can access the saved model file in from the[ **Files** section](https://docs.wandb.ai/guides/track/project-page/#artifacts-tab) of your W&B project. This allows you to download the model and use it in other applications.
 
 ## Step 7: Run the model pipeline
 
@@ -340,7 +339,7 @@ Hyperparameter sweeps allow you to define a range of hyperparameters and automat
 
 To do this, define a range of hyperparameters in a sweep configuration file, and then pass the file to the [`wandb.sweep()` method]({{< relref "/ref/python/sweep" >}}). 
 
-````python
+```python
 sweep_id = wandb.sweep(sweep_config)
 ```
 
