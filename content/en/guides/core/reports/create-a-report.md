@@ -14,9 +14,8 @@ W&B Report and Workspace API is in Public Preview.
 
 Select a tab below to learn how to create a report in the W&B App or programmatically with the W&B Report and Workspace API.
 
-{{% alert %}}
 See this [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) for an example on how to programmatically create a report.
-{{% /alert %}}
+
 
 {{< tabpane text=true >}}
 {{% tab header="W&B App" value="app" %}}
