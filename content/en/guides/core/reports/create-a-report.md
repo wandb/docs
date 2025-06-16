@@ -12,7 +12,7 @@ weight: 10
 W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
-Select a tab below to learn how to create a report in the W&B App or programmatically with the W&B Report and Workspaces API.
+Select a tab below to learn how to create a report in the W&B App or programmatically with the W&B Report and Workspace API.
 
 {{% alert %}}
 See this [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) for an example on how to programmatically create a report.
@@ -43,7 +43,7 @@ See this [Google Colab](https://colab.research.google.com/github/wandb/examples/
 {{% tab header="Report and Workspace API" value="python_wr_api"%}}
 Create a report programmatically:
 
-1. Install W&B SDK (`wandb`) and Report and Workspaces API (`wandb-workspaces`):
+1. Install W&B SDK (`wandb`) and Report and Workspace API (`wandb-workspaces`):
     ```bash
     pip install wandb wandb-workspaces
     ```
