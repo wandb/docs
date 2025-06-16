@@ -155,7 +155,7 @@ Depending on your machine learning framework, you may need to recreate the model
 W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
-Create and share a [report]({{< relref path="/guides/core/reports/" >}}) to summarize your work. To create a report programmatically, use the [W&B Reports and Workspace API]({{< relref path="./wandb_workspaces/reports.md" >}}).
+Create and share a [report]({{< relref path="/guides/core/reports/" >}}) to summarize your work. To create a report programmatically, use the [W&B Report and Workspace API]({{< relref path="./wandb_workspaces/reports.md" >}}).
 
 First, install the W&B Reports API:
 
