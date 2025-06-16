@@ -9,7 +9,7 @@ weight: 10
 ---
 
 {{% alert %}}
-W&B Report and Workspaces API is in Public Preview.
+W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
 Select a tab below to learn how to create a report in the W&B App or programmatically with the W&B Report and Workspaces API.

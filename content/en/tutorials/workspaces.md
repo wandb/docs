@@ -8,7 +8,7 @@ weight: 5
 ---
 
 {{% alert %}}
-W&B Report and Workspaces API is in Public Preview.
+W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" >}}

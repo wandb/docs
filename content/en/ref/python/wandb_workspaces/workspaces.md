@@ -6,7 +6,7 @@ title: Workspaces
 <!-- markdownlint-turnedoff -->
 
 {{% alert %}}
-W&B Report and Workspaces API is in Public Preview.
+W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
 
