@@ -8,7 +8,7 @@ title: Track external files
 weight: 7
 ---
 
-Use **reference artifacts** to track and use files saved outside of W&B servers, for example in CoreWeave AI Object Storage, an Amazon S3 bucket, GCS bucket, Azure blob, HTTP file server, or an NFS share.
+Use **reference artifacts** to track and use files saved outside of W&B servers, for example in CoreWeave AI Object Storage (CAIOS), an Amazon Simple Storage Service (S3) bucket, GCS bucket, Azure blob, HTTP file server, or an NFS share.
 
 W&B logs metadata about the CAIOS/S3/GCS/Azure object such as its ETag, size, and version ID (if object versioning is enabled on the bucket). Reference artifact metadata does not leave your system. 
 
@@ -22,14 +22,26 @@ The following describes how to construct reference artifacts and how to incorpor
 
 ## Track an artifact in an external bucket
 
-Use the W&B Python SDK to track references to files in your CAIOS/S3/GCS/Azure bucket. First, initialize a run, next create an artifact object, add a reference to the bucket path with `wandb.Artifact.add_reference()`. Finally, log the artifact with `run.log_artifact()`.
+Use the W&B Python SDK to track references to files in your CAIOS/S3/GCS/Azure bucket. 
+
+1. Initialize a run with `wandb.init()`.
+2. Create an artifact object with `wandb.Artifact()`.
+3. Specify the reference to the bucket path with the artifact object's `add_reference()` method.
+4. Log the artifact's metadata with `run.log_artifact()`.
 
 ```python
 import wandb
 
+# Initialize a W&B run
 run = wandb.init()
+
+# Create an artifact object
 artifact = wandb.Artifact(name="name", type="type")
+
+# Add a reference to the bucket path
 artifact.add_reference(uri = "uri/to/your/bucket/path")
+
+# Log the artifact's metadata
 run.log_artifact(artifact)
 run.finish()
 ```
