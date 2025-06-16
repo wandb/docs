@@ -131,7 +131,7 @@ W&B uses the default mechanism to look for credentials based on the cloud provid
 
 | Cloud provider | Credentials Documentation |
 | -------------- | ------------------------- |
-| CoreWeave AI Object Storage (CAIOS)| [CAIOS documentation](https://docs.coreweave.com/docs/products/storage/object-storage/concepts/policies) |
+| CoreWeave AI Object Storage (CAIOS)| [CAIOS documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys) |
 | AWS            | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
 | GCP            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
 | Azure          | [Azure documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
