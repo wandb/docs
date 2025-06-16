@@ -27,7 +27,7 @@ If you'd like to use a custom x-axis, make sure it's logged in the same call to 
 A line plot's individual settings override the line plot settings for the section or the workspace. To customize a line plot:
 
 1. Hover your mouse over the panel, then click the gear icon.
-1. Within the modal that appears, select a tab to edit its [settings]({{< relref "#line-plot-settings" >}}).
+1. Within the drawer that appears, select a tab to edit its [settings]({{< relref "#line-plot-settings" >}}).
 1. Click **Apply**.
 
 #### Line plot settings
@@ -65,13 +65,13 @@ You can configure these settings for a line plot:
 
 To customize the default settings for all line plots in a section, overriding workspace settings for line plots:
 1. Click the section's gear icon to open its settings.
-1. Within the modal that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the section. For details about each **Data** setting, refer to the preceding section, [Individual line plot]({{< relref "#line-plot-settings" >}}). For details about each display preference, refer to [Configure section layout]({{< relref "../#configure-section-layout" >}}).
+1. Within the drawer that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the section. For details about each **Data** setting, refer to the preceding section, [Individual line plot]({{< relref "#line-plot-settings" >}}). For details about each display preference, refer to [Configure section layout]({{< relref "../#configure-section-layout" >}}).
 
 ### All line plots in a workspace 
 To customize the default settings for all line plots in a workspace:
 1. Click the workspace's settings, which has a gear with the label **Settings**.
 1. Click **Line plots**.
-1. Within the modal that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the workspace.
+1. Within the drawer that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the workspace.
     - For details about each **Data** setting, refer to the preceding section, [Individual line plot]({{< relref "#line-plot-settings" >}}).
 
     - For details about each **Display preferences** section, refer to [Workspace display preferences]({{< relref "../#configure-workspace-layout" >}}). At the workspace level, you can configure the default **Zooming** behavior for line plots. This setting controls whether to synchronize zooming across line plots with a matching x-axis key. Disabled by default.
@@ -173,11 +173,13 @@ Learn more about [Automations]({{< relref "/guides/core/automations" >}}).
 
 ## Visualize CoreWeave infrastructure alerts
 
+Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B.During a [W&B run]({{< relref "/guides/models/track/runs/_index" >}}), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure.
+
 {{< alert>}}
 This feature is in Preview and only available when training on a CoreWeave cluster. Contact your W&B representative for access.
 {{< /alert >}}
 
-Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B. During a [W&B run]({{< relref "/guides/models/track/runs/_index" >}}), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure. If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run’s plots in your project’s workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run’s page.
+If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run’s plots in your project’s workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run’s page.
 
 ### Find infrastructure issues in a run
 
@@ -185,18 +187,20 @@ W&B surfaces both SLURM job issues and cluster node issues. View infrastructure 
 
 1. Navigate to your project on the W&B App. 
 2. Select the **Workspace** tab to view your project’s workspace.
-3. Search and select the name of the run that contains an infrastructure issue. One or more red vertical lines with an exclamation mark overlay plots indicating an infrastructure issue. 
-4. Select an issue on a plot or select the **Issues** button in the top right of the page. A modal appears that lists each issue reported by CoreWeave. 
+3. Search and select the name of the run that contains an infrastructure issue. If CoreWeave detected an infrastructure issue, one or more red vertical lines with an exclamation mark overlay the run's plots. 
+4. Select an issue on a plot or select the **Issues** button in the top right of the page. A drawer appears that lists each issue reported by CoreWeave. 
 
 {{< alert title="Tip" >}}
-Pin the **Issues** column to your W&B Workspace to view runs that logged an issue at a glance. For more information about how to pin a column, see [Customize how runs are displayed]({{< relref "/guides/models/track/runs/#customize-how-runs-are-displayed" >}}).
+To views runs with infrastructure issues at a glance, pin the **Issues** column to your W&B Workspace to view runs that logged an issue at a glance. For more information about how to pin a column, see [Customize how runs are displayed]({{< relref "/guides/models/track/runs/#customize-how-runs-are-displayed" >}}).
 {{< /alert >}}
 
-The **Overall Grafana view** at the top of the modal redirects you to the SLURM job's Grafana dashboard, which contains system-level details about the run. The **Issue** summary describes the root error that the SLURM job reported to CoreWeave Mission Control. The summary section also describes any attempts to automatically resolve the error made by CoreWeave.
+The **Overall Grafana view** at the top of the drawer redirects you to the SLURM job's Grafana dashboard, which contains system-level details about the run. The **Issues summary** describes the root error that the SLURM job reported to CoreWeave Mission Control. The summary section also describes any attempts to automatically resolve the error made by CoreWeave.
+
+{{< img src="/images/app_ui/cw_wb_observability.png" >}}
 
 The **All Issues** list all issues that occurs during the run in chronological order, with the most recent issue at the top. The list contains the job issue and node issue alerts. Within each issue alert is the name of the issue, the timestamp when the issue occurred, a link to the Grafana dashboard for that issue, and a brief summary that describes the issue.
 
-The following table lists the categories of infrastructure issues and example alerts:
+The following table shows example alerts for each category of infrastructure issues:
 
 | Category | Example alerts |
 | -------- | ------------- |
@@ -211,9 +215,9 @@ The following table lists the categories of infrastructure issues and example al
 For detailed information on error types, see the [SLURM Job Metrics on the CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/slurm-job-metrics#job-info-alerts).
 
 ### Debug infrastructure issues
-Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job’s Grafana dashboard or discover more information about a single node. The link within the **Overview** section of the Issues modal links to the SLURM job Grafana dashboard. 
+Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job’s Grafana dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. 
 
-Expand the **All Issues** dropdown to both view and node issues and their respective Grafana dashboards.
+Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards.
 
 {{< alert title="Note" >}}
 The Grafana dashboard is only available for W&B users with a CoreWeave account. Contact W&B to configure Grafana with your W&B organization.
