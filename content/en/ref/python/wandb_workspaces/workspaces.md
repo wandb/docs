@@ -5,6 +5,9 @@ title: Workspaces
 
 <!-- markdownlint-turnedoff -->
 
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
 
 
 # <kbd>module</kbd> `wandb_workspaces.workspaces`
