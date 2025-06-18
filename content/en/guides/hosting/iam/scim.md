@@ -794,7 +794,6 @@ POST /scim/Groups
 The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `members[value eq "{user_id}"]` to remove a specific user, or `members` to remove all users from the team.
 {{% /alert %}}
 
-**Request Examples**:
 
 {{% alert color="info" %}}
 Replace `{team_id}` with the actual team ID and `{user_id}` with the actual user ID in your requests.
