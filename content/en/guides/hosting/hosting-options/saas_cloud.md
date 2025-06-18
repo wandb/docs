@@ -22,7 +22,7 @@ Users on an Enterprise plan can [bring their own bucket (BYOB) using the secure 
 You are responsible for ensuring that your deployment complies with your organization's policies and [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
 
 ## Identity and access management (IAM)
-If you are on an Enterprise plan, you can use the identity and access managements capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Multi-tenant Cloud:
+If you are on an Enterprise plan, you can use identity and access managements capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Multi-tenant Cloud:
 
 * SSO authentication with OIDC or SAML. Reach out to your W&B team or support if you would like to configure SSO for your organization.
 * [Configure appropriate user roles]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" >}}) at the scope of the organization and within a team.
@@ -38,4 +38,4 @@ W&B Multi-tenant Cloud is a multi-tenant, fully managed platform. Since W&B Mult
 Security controls for Multi-tenant Cloud are periodically audited internally and externally. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the SOC2 report and other security and compliance documents.
 
 ## Next steps
-Access [Multi-tenant Cloud directly](https://wandb.ai) to get started with Free or Pro. To start with the Enterprise plan, submit [this form](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial).
+Access [Multi-tenant Cloud directly](https://wandb.ai) to get started with most features for free. To try out enhanced data security and IAM features, [request an Enterprise trial](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial).
