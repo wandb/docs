@@ -24,7 +24,7 @@ scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.M
 This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
 directly in Tables, alongside other traditional scalar values.
 
-This class is the primary class used to generate the Table Visualizer
+This class is the primary class used to generate the
 in the UI https://docs.wandb.ai/guides/models/tables/.
 
 | Args |  |
