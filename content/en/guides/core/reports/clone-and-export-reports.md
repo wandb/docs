@@ -8,6 +8,10 @@ title: Clone and export reports
 weight: 40
 ---
 
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
+
 ## Export reports
 
 Export a report as a PDF or LaTeX. Within your report, select the kebab icon to expand the dropdown menu. Choose **Download and** select either PDF or LaTeX output format.
@@ -15,7 +19,7 @@ Export a report as a PDF or LaTeX. Within your report, select the kebab icon to 
 ## Cloning reports
 
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
+{{% tab header="W&B App" value="app" %}}
 Within your report, select the kebab icon to expand the dropdown menu. Choose the **Clone this report** button. Pick a destination for your cloned report in the modal. Choose **Clone report**.
 
 {{< img src="/images/reports/clone_reports.gif" alt="" >}}
@@ -23,11 +27,7 @@ Within your report, select the kebab icon to expand the dropdown menu. Choose th
 Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
 {{% /tab %}}
 
-{{% tab header="Python SDK" value="python"%}}
-
-<!--
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" >}}
--->
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
 
 Load a Report from a URL to use it as a template.
 
