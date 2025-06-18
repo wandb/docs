@@ -59,9 +59,9 @@ From the project's **Automations** tab or directly from a line plot panel, you c
 - A metric in a run's history.
 - A [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
 
-The notification can watch the metric for these events:
-- **Run metrics threshold met**: Trigger a workflow when the average, minimum, or maximum value for a given metric meets the threshold you specify.
-- **Run metrics change threshold met**: Trigger a workflow when the average logged value for a given metric changes by the threshold you specify.
+The notification can trigger a workflow when these events occur:
+- **Run metrics threshold met**: When the average, minimum, or maximum logged value for a given metric meets the threshold you specify.
+- **Run metrics change threshold met**: When the average, minimum, or maximum logged value for a given metric changes by the threshold you specify.
 
 To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
@@ -86,10 +86,10 @@ For example, trigger an automation when average `accuracy` exceeds `.6`.
 #### Change threshold
 For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
 
-- The _current window_ averages the 10 most recently logged values by default.
-- The _prior window_ averages the 50 most recently logged values prior to the current window.
+- The _current window_ of recently logged values to consider (defaults to 10).
+- The _prior window_ of recently logged values to consider (defaults to 50).
 
-The windows are consecutive and do not overlap.
+The current and prior windows are consecutive and do not overlap.
 
 To create the automation, you configure:
 1. The current window of logged values (defaults to 10).
