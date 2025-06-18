@@ -81,7 +81,7 @@ For **Run metrics threshold met** events, you configure:
       - Not equal to
       - Equal to
 
-For example, trigger an automation when average `accuracy` exceeds `.6`.
+For example, trigger an automation when average `accuracy` is above `.6`.
 
 #### Change threshold
 For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
@@ -99,6 +99,8 @@ To create the automation, you configure:
       - Increases by at least
       - Decreases by at least
       - Increases or decreases by at least
+      
+      For example, trigger an automation when `loss` decreases by at least `.25`.
 
 #### Run filters
 This section describes how the automation selects runs to evaluate.
