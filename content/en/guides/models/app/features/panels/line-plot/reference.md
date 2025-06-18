@@ -33,6 +33,10 @@ Y range default is from the smallest value of your metrics and zero to the large
 
 By default you will only plot 10 runs or groups of runs. The runs will be taken from the top of your runs table or run set, so if you sort your runs table or run set you can change the runs that are shown.
 
+{{% alert %}}
+A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
+{{% /alert %}}
+
 ## Legend
 
 You can control the legend of your chart to show for any run any config value that you logged and meta data from the runs such as the created at time or the user who created the run.
