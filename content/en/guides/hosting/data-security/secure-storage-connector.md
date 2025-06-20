@@ -447,6 +447,15 @@ Create your S3-compatible bucket. Make a note of:
 - Folder path, if applicable.
 - Region
 {{% /tab %}}
+{{% tab header="S3-compatible" value="s3-compatible" %}}
+Create your S3-compatible bucket. Make a note of:
+- Access key
+- Secret access key
+- URL endpoint
+- Bucket name
+- Folder path, if applicable.
+- Region
+{{% /tab %}}
 {{< /tabpane >}}
 
 ### 2. Determine the storage address  {#determine-the-storage-address}
