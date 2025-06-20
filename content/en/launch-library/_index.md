@@ -4,8 +4,10 @@ menu:
   launch:
     identifier: launch-library
 type: docs
+hidden: true
 cascade:
   type: docs
+  hidden: true
   menu:
     launch-library:
       parent: launch-library
