@@ -73,7 +73,8 @@ After [verifying availability]({{< relref "#availability-matrix" >}}), you are r
 
 {{< tabpane text=true >}}
 {{% tab header="CoreWeave" value="coreweave" %}}
-**Requirements**
+<a id="coreweave-requirements"></a>**Requirements**:
+
 - A CoreWeave account is required with AI Object Storage enabled and with permission to create buckets, API access keys, and secret keys.
 - Ensure that your W&B instance can reach CoreWeave network endpoints.
 
@@ -103,48 +104,104 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     ]
     ```
     CoreWeave storage is S3-compatible. For details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
-1. Grant the required permissions to the AWS account hosting the W&B Platform <!--(TODO update)-->, which requires these permissions to generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation.
+1. Grant the required permissions to the W&B CoreWeave account hosting the W&B Platform , which requires these permissions to generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation. Select **Dedicated Cloud / Self-Hosted bucket policy** or **Multi-tenant Cloud bucket policy** for details.
 
-        ```json
+    <details>
+      <summary><b>Dedicated Cloud</b> / <b>Self-Hosted</b> bucket policy</summary>
+
+    Replace:
+    - In `Resource`, each instance of `<cw_bucket>` with the CoreWeave bucket name.
+    - In `Principal`, each instance of `<cw_principal_and_role_arn>` with the CoreWeave principal and role ARN in the format `"arn:aws:iam:::user/<CW_ORG>:<CW_USER>"`. To apply the policy to to all principals, replace the entire ARN with `*`. To apply the policy to all principals in your CoreWeave organization, replace `<CW_USER>` with `*`.
+    ```json
+    {
+      "Version": "2012-10-17",
+      "Id": "WandBAccess",
+      "Statement": [
         {
-          "Version": "2012-10-17",
-          "Id": "WandBAccess",
-          "Statement": [
-            {
-              "Sid": "WAndBAccountAccess",
-              "Effect": "Allow",
-              "Principal": { "AWS": "<aws_principal_and_role_arn>" },
-                "Action" : [
-                  "s3:GetObject*",
-                  "s3:GetEncryptionConfiguration",
-                  "s3:ListBucket",
-                  "s3:ListBucketMultipartUploads",
-                  "s3:ListBucketVersions",
-                  "s3:AbortMultipartUpload",
-                  "s3:DeleteObject",
-                  "s3:PutObject",
-                  "s3:GetBucketCORS",
-                  "s3:GetBucketLocation",
-                  "s3:GetBucketVersioning"
-                ],
-              "Resource": [
-                "arn:aws:s3:::<wandb_bucket>",
-                "arn:aws:s3:::<wandb_bucket>/*"
-              ]
-            }
+          "Sid": "WAndBAccountAccess",
+          "Effect": "Allow",
+          "Principal": { "CW": "<cw_principal_and_role_arn>" },
+            "Action" : [
+              "s3:GetObject*",
+              "s3:GetEncryptionConfiguration",
+              "s3:ListBucket",
+              "s3:ListBucketMultipartUploads",
+              "s3:ListBucketVersions",
+              "s3:AbortMultipartUpload",
+              "s3:DeleteObject",
+              "s3:PutObject",
+              "s3:GetBucketCORS",
+              "s3:GetBucketLocation",
+              "s3:GetBucketVersioning"
+            ],
+          "Resource": [
+            "arn:aws:s3:::<cw_bucket>",
+            "arn:aws:s3:::<cw_bucket>/*"
           ]
         }
-        ```
+      ]
+    }
+    ```
 
-        Replace `<wandb_bucket>` accordingly and keep a record of the bucket name. If you are using [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), share the bucket name with your W&B team in case of instance level BYOB. In case of team level BYOB on any deployment type, [configure the bucket while creating the team]({{< relref "#configure-byob-in-wb" >}}).
+    </details>
 
-        If you are using [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), replace `<aws_principal_and_role_arn>` with the corresponding value.
+    <details>
+      <summary><b>Multi-tenant Cloud</b> bucket policy</summary>
 
-        * For [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `arn:aws:iam::725579432336:role/WandbIntegration` <!--TODO update -->
-        * For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `arn:aws:iam::830241207209:root`
-1. Generate API access tokens with appropriate permissions for these bucket operations: `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. See [Create an API access token](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/create-access-tokens) in the CoreWeave documentation.
+    **Multi-tenant Cloud only**:
+    For team level storage in Multi-tenant Cloud, obtain your W&B organization ID, which is required in your bucket policy for team level storage:
+      1. Log in to W&B as a user with the `admin` role.
+      1. Click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
+      1. Click **External storage**, then set **Cloud Provider** to **CoreWeave**.
+      1. Near the bottom of the dialog, make a note of the **W&B organization ID**.
+      1. Keep this page open. Later, you will use it to create the new team.
+    
+    This policy allows your W&B Team to access your CoreWeave bucket.
+    - In `Resource`, each instance of `<cw_bucket>` with the CoreWeave bucket name.
+    - In `Principal` and `Condition`, replace each instance of `<wb-org-id>` with your W&B organization ID.
 
-Keep a record of the bucket name and access credentials. If you are using Dedicated Cloud, share the bucket details with your W&B team in case of instance level BYOB. In case of team level BYOB on any deployment type, configure the bucket while creating the team.
+      ```json
+    {
+      "Version": "2012-10-17",
+      "Id": "WandBAccess",
+      "Statement": [
+        {
+          "Sid": "WAndBAccountAccess",
+          "Effect": "Allow",
+          "Principal": { "CW": "arn:aws:iam::<wb-org-id>:*" },
+            "Action" : [
+              "s3:GetObject*",
+              "s3:GetEncryptionConfiguration",
+              "s3:ListBucket",
+              "s3:ListBucketMultipartUploads",
+              "s3:ListBucketVersions",
+              "s3:AbortMultipartUpload",
+              "s3:DeleteObject",
+              "s3:PutObject",
+              "s3:GetBucketCORS",
+              "s3:GetBucketLocation",
+              "s3:GetBucketVersioning"
+            ],
+            "Resource": [
+              "arn:aws:s3:::<cw_bucket>",
+              "arn:aws:s3:::<cw_bucket>/*"
+            ],
+            "Condition": {
+			        "StringLike": {
+				        "wandb:OrgID": [
+					       "<wb-org-id>"
+				        ]
+			        }
+		        }
+        }
+      ]
+    }
+    ```
+
+    </details>
+
+
+Keep a record of the bucket name and access credentials. Next, [configure W&B](#configure-byob).
 
 <details>
 <summary>Troubleshoot CoreWeave storage connection errors</summary>
@@ -281,7 +338,7 @@ For details, see [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/late
         }
         ```
 
-        Replace `<wandb_bucket>` accordingly and keep a record of the bucket name. If you are using [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), share the bucket name with your W&B team in case of instance level BYOB. In case of team level BYOB on any deployment type, [configure the bucket while creating the team]({{< relref "#configure-byob-in-wb" >}}).
+        Replace `<wandb_bucket>` accordingly and keep a record of the bucket name. Next, [configure W&B]({{< relref "#configure-byob" >}}).
 
         If you are using [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), replace `<aws_principal_and_role_arn>` with the corresponding value.
 
@@ -289,6 +346,8 @@ For details, see [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/late
         * For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `arn:aws:iam::830241207209:root`
   
 For more details, see the [AWS self-managed hosting guide]({{< relref "/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" >}}).
+
+Next, [configure W&B for BYOB]({{< relref "#configure-byob" >}}).
 {{% /tab %}}
 {{% tab header="GCP" value="gcp"%}}
 For details, see [Create a bucket](https://cloud.google.com/storage/docs/creating-buckets) in the GCP documentation.
@@ -334,7 +393,7 @@ For details, see [Create a bucket](https://cloud.google.com/storage/docs/creatin
     * For [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), the account is: `wandb-integration@wandb-production.iam.gserviceaccount.com`
     * For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) the account is: `deploy@wandb-production.iam.gserviceaccount.com`
 
-    Keep a record of the bucket name. If you are using [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), share the bucket name with your W&B team in case of instance level BYOB. In case of team level BYOB on any deployment type, [configure the bucket while creating the team]({{< relref "#configure-byob-in-wb" >}}).
+    Keep a record of the bucket name. Next, [configure W&B for BYOB]({{< relref "#configure-byob" >}}).
 {{% /tab %}}
 
 {{% tab header="Azure" value="azure" %}}
@@ -359,12 +418,25 @@ For details, see [Create a blob storage container](https://learn.microsoft.com/e
         {{% alert %}}If data in your bucket expires due to an [object lifecycle management policy](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure?tabs=azure-portal), you may lose the ability to read the history of some runs.{{% /alert %}}
 1. Generate a storage account access key and make a note of its name and the storage account name. If you are using [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), share the storage account name and access key with your W&B team using a secure sharing mechanism.
 
-    For team level BYOB, W&B recommends that you use [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision the Azure Blob Storage bucket along with the necessary access mechanism and permissions. If you use [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), provide the OIDC issuer URL for your instance. Make a note of details that you need to [configure the bucket while creating the team]({{< relref "#configure-byob-in-wb" >}}):
+    For team level BYOB, W&B recommends that you use [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision the Azure Blob Storage bucket along with the necessary access mechanism and permissions. If you use [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), provide the OIDC issuer URL for your instance. Make a note of the following details:
 
     * Storage account name
     * Storage container name
     * Managed identity client id
     * Azure tenant id
+
+Next, [configure W&B for BYOB]({{< relref "#configure-byob" >}}).
+{{% /tab %}}
+{{% tab header="S3-compatible" value="s3-compatible" %}}
+Create your S3-compatible bucket. Make a note of:
+- Access key
+- Secret access key
+- URL endpoint
+- Bucket name
+- Folder path, if applicable.
+- Region
+
+Next, [configure W&B for BYOB]({{< relref "#configure-byob" >}}).
 {{% /tab %}}
 {{% tab header="S3-compatible" value="s3-compatible" %}}
 Create your S3-compatible bucket. Make a note of:
@@ -439,7 +511,13 @@ Plan your storage bucket layout carefully. After you configure a storage bucket 
 {{% /alert %}}
 
 #### Instance level BYOB
-You can configure instance level BYOB for Dedicated Cloud or Self-Hosted using the W&B App or the `GORILLA_SUPPORTED_FILE_STORES` environment variable. Select a tab to continue.
+{{% alert %}}
+For Team Level BYOB, refer to [Team level BYOB]({{< relref "#team-level-byob" >}}) instead.
+{{% /alert %}}
+
+For **Dedicated Cloud**: Share the bucket details with your W&B team, who will configure your Dedicated Cloud instance.
+
+For **Self-Hosted**, you can configure instance level BYOB for Dedicated Cloud or Self-Hosted using the W&B App or the `GORILLA_SUPPORTED_FILE_STORES` environment variable. Select a tab to continue.
 
 {{< tabpane text=true >}}
 {{% tab header="W&B App" %}}
@@ -472,12 +550,14 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
 After you [determine the storage location](#determine-the-storage-location) for your bucket, you can use the W&B App to configure team level BYOB while creating the team.
 
 {{% alert %}}
-After a team is created, its storage cannot be updated.
+- After a team is created, its storage cannot be updated.
+- For Instance level BYOB, refer to [Instance level BYOB]({{< relref "#instance-level-byob" >}}) instead.
 {{% /alert %}}
 
-1. Log in to W&B as a user with the `admin` role.
-1. Click the icon at the top left to open the left navigation, then click **Create a team to collaborate**..
-1. Provide a name fore the team.
+1. If you are configuring CoreWeave storage for Multi-tenant Cloud deployment, switch to the W&B browser window you used to find the the W&B organization ID previously.
+
+   Otherwise, log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
+1. Provide a name for the team.
 1. Set **Storage Type** to **External storage**.
 1. Click **Bucket location**. Select an existing bucket or click **Add bucket** at the bottom to create a new bucket.
     To add a new bucket:
@@ -486,10 +566,14 @@ After a team is created, its storage cannot be updated.
         - For **CoreWeave**, provide only the bucket name.
         - For Azure on W&B Dedicated or Self-Managed, provide Account name and Container name. <!--(TODO verify UI)-->
     1. Provide the bucket path you [determined earlier](#determine-the-storage-address).
-    1. (Optional) Set **Path** to the bucket sub-path.
-    1. (Optional on AWS) Set **KMS key ARN** to the ARN of your KMS encryption key.
-    1. (Optional on Azure) Set **Tenant ID** and **Managed Identity Client ID** fields to the appropriate values.
-1. Optionally on Multi-tenant Cloud, invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses.
+    1. Optional configuration:
+        - If applicable, set **Path** to the bucket sub-path.
+        - **CoreWeave**: Set **KMS key ARN** to the CoreWeave ARN.
+        - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
+        - **Azure**: Set **Tenant ID** and **Managed Identity Client ID** fields to the appropriate values.
+        - **Multi-tenant Cloud**: Optionally invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses. Otherwise, you can invite members to the team after it is created.
+
+          For **Dedicated Cloud** or **Self-Hosted**, you can invite members to the team _only_ after it is created. 
 1. Click **Create team**.
 
 If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
