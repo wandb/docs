@@ -59,9 +59,9 @@ From the project's **Automations** tab or directly from a line plot panel, you c
 - A metric in a run's history.
 - A [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
 
-The notification can watch the metric for these events:
-- **Run metrics threshold met**: Trigger a workflow when for a given metric, a single logged value or the average logged values meets the threshold you specify.
-- **Run metrics change threshold met**: Trigger a workflow when the average logged values of a run change by the absolute or relative threshold you specify.
+The notification can trigger a workflow when these events occur:
+- **Run metrics threshold met**: When the average, minimum, or maximum logged value for a given metric meets the threshold you specify.
+- **Run metrics change threshold met**: When the average, minimum, or maximum logged value for a given metric changes by the threshold you specify.
 
 To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
@@ -71,27 +71,36 @@ Run metric automations are currently available only in [W&B Multi-tenant Cloud](
 
 #### Threshold
 For **Run metrics threshold met** events, you configure:
-1. The number of logged values to average across (defaults to 5).
-1. How to compare the values with the threshold.
+1. The window of most recently logged values to consider (defaults to 5).
+1. Whether to evaluate the **Average**, **Min**, or **Max** value within the window.
+1. The comparison to make:
+      - Above
+      - Above or equal to
+      - Below
+      - Below or equal to
+      - Not equal to
+      - Equal to
 
-For example, trigger an automation when `accuracy` exceeds `.6`.
+For example, trigger an automation when average `accuracy` is above `.6`.
 
 #### Change threshold
 For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
 
-- The _current window_ averages the 10 most recent values by default.
-- The _prior window_ averages the 50 most recent logged values prior to the current window.
+- The _current window_ of recently logged values to consider (defaults to 10).
+- The _prior window_ of recently logged values to consider (defaults to 50).
 
-The windows are consecutive and do not overlap.
+The current and prior windows are consecutive and do not overlap.
 
 To create the automation, you configure:
-1. The current window (defaults to 10).
-1. The prior window (defaults to 50).
+1. The current window of logged values (defaults to 10).
+1. The prior window of logged values (defaults to 50).
 1. Whether to evaluate the values as relative or absolute (defaults to **Relative**).
-1. How to compare the values with the threshold:
+1. The comparison to make:
       - Increases by at least
       - Decreases by at least
       - Increases or decreases by at least
+      
+      For example, trigger an automation when `loss` decreases by at least `.25`.
 
 #### Run filters
 This section describes how the automation selects runs to evaluate.
