@@ -104,18 +104,6 @@ Use the search box in the workspace to filter down the panels. This search match
 
 {{< img src="/images/app_ui/search_in_the_workspace.png" alt="" >}}
 
-<!-- ## Table Tab
-
-Use the table to filter, group, and sort your results.
-
-[View a live example](https://app.wandb.ai/example-team/sweep-demo/table?workspace=user-carey) -->
-
-
-
-
-<!-- start -->
-
-
 ## Runs tab
 <!-- Keep this in sync with /guide/models/track/runs/_index.md -->
 Use the Runs tab to filter, group, and sort your runs.
@@ -181,7 +169,7 @@ By default, this turns other numeric columns into histograms showing the distrib
 <!-- ## Automations tab -->
 
 ## Automations tab
-Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job.
+Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job. For more information, see [Automations]({{< relref "/guides/core/automations/" >}}).
 
 {{< img src="/images/app_ui/automations_tab.png" alt="Automation tab that depicts two automations: a model CI/CD webhook and a hello-world launch job" >}}
 
