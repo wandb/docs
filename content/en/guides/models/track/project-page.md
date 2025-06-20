@@ -15,12 +15,12 @@ A *project* is a central location where you visualize results, compare experimen
 Each project has a visibility setting that determines who can access it. For more information about who can access a project, see [Project visibility]({{< relref "/guides/hosting/iam/access-management/restricted-projects.md" >}}).
 {{% /alert %}}
 
-Each project contains the proceeding which you can access from the sidebar:
+Each project contains the following tabs:
 
 * [**Overview**]({{< relref "project-page.md#overview-tab" >}}): snapshot of your project
 * [**Workspace**]({{< relref "project-page.md#workspace-tab" >}}): personal visualization sandbox
 * [**Runs**]({{< relref "#runs-tab" >}}): A table that lists all the runs in your project
-* **Automations**: Automations configured in your project
+* [**Automations**]({{< relref "#automations-tab">}}): Automations configured in your project
 * [**Sweeps**]({{< relref "project-page.md#sweeps-tab" >}}): automated exploration and optimization
 * [**Reports**]({{< relref "project-page.md#reports-tab" >}}): saved snapshots of notes, runs, and graphs
 * [**Artifacts**]({{< relref "#artifacts-tab" >}}): Contains all runs and the artifacts associated with that run
@@ -104,26 +104,11 @@ Use the search box in the workspace to filter down the panels. This search match
 
 {{< img src="/images/app_ui/search_in_the_workspace.png" alt="" >}}
 
-<!-- ## Table Tab
-
-Use the table to filter, group, and sort your results.
-
-[View a live example](https://app.wandb.ai/example-team/sweep-demo/table?workspace=user-carey) -->
-
-
-
-
-<!-- start -->
-
-
 ## Runs tab
 <!-- Keep this in sync with /guide/models/track/runs/_index.md -->
 Use the Runs tab to filter, group, and sort your runs.
 
 {{< img src="/images/runs/run-table-example.png" alt="" >}}
-
-<!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
-
 
 The proceeding tabs demonstrate some common actions you can take in the Runs tab.
 
@@ -183,6 +168,10 @@ By default, this turns other numeric columns into histograms showing the distrib
 
 <!-- ## Automations tab -->
 
+## Automations tab
+Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job. For more information, see [Automations]({{< relref "/guides/core/automations/" >}}).
+
+{{< img src="/images/app_ui/automations_tab.png" alt="Automation tab that depicts two automations: a model CI/CD webhook and a hello-world launch job" >}}
 
 ## Reports tab
 

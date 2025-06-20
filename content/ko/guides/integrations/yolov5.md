@@ -9,7 +9,7 @@ weight: 470
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/yolo/Train_and_Debug_YOLOv5_Models_with_Weights_%26_Biases_.ipynb" >}}
 
-[Ultralytics' YOLOv5](https://ultralytics.com/yolov5) ("You Only Look Once") 모델 제품군은 고통스러운 과정 없이 컨볼루션 신경망을 통해 실시간 오브젝트 검출을 가능하게 합니다.
+[Ultralytics' YOLOv5](https://ultralytics.com/yolo) ("You Only Look Once") 모델 제품군은 고통스러운 과정 없이 컨볼루션 신경망을 통해 실시간 오브젝트 검출을 가능하게 합니다.
 
 [Weights & Biases](http://wandb.com)는 YOLOv5에 직접 통합되어 실험 메트릭 추적, 모델 및 데이터셋 버전 관리, 풍부한 모델 예측 시각화 등을 제공합니다. **YOLO 실험을 실행하기 전에 간단히 `pip install` 한 번만 실행하면 됩니다.**
 

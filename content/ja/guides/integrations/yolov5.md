@@ -9,7 +9,7 @@ weight: 470
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/yolo/Train_and_Debug_YOLOv5_Models_with_Weights_%26_Biases_.ipynb" >}}
 
-[Ultralytics' YOLOv5](https://ultralytics.com/yolov5) ("You Only Look Once") モデルファミリーは、畳み込みニューラルネットワークを使用したリアルタイムのオブジェクト検出を、苦痛なく実現します。
+[Ultralytics' YOLOv5](https://ultralytics.com/yolo) ("You Only Look Once") モデルファミリーは、畳み込みニューラルネットワークを使用したリアルタイムのオブジェクト検出を、苦痛なく実現します。
 
 [Weights & Biases](http://wandb.com) は YOLOv5 に直接インテグレーションされており、実験のメトリクス追跡、モデルとデータセットのバージョン管理、リッチなモデル予測の可視化などを提供します。**YOLO の実験を実行する前に `pip install` 一行を実行するだけで始められます。**
 
