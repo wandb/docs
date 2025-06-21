@@ -421,6 +421,21 @@
 /weave/prod-mon/ /guides/core/ 301
 /zh/ / 301
 
+<!-- lazydocs migration -->
+/ref/python/data-types/graph/ /ref/python/data-types/ 301
+/ref/python/agent/ /ref/python/sdk/actions/functions/agent/ 301
+/ref/python/artifact/ /ref/python/sdk/actions/classes/Artifact/ 301
+/ref/python/controller/ /ref/python/sdk/actions/functions/controller/ 301
+/ref/python/finish/ /ref/python/sdk/actions/functions/finish/ 301
+/ref/python/init/ /ref/python/sdk/actions/functions/init/ 301
+/ref/python/log/ /ref/python/sdk/actions/legacy_functions/log/ 301
+/ref/python/login/ /ref/python/sdk/actions/functions/login/ 301
+/ref/python/run/ /ref/python/sdk/actions/classes/run/ 301
+/ref/python/save/ /ref/python/sdk/actions/legacy_functions/save/ 301
+/ref/python/sweep/ /ref/python/sdk/actions/functions/sweep/ 301
+/ref/python/watch/ /ref/python/sdk/actions/legacy_functions/watch/ 301
+<!-- END lazydocs migration -->
+
 ## Splat rules
 # Splats are supported on both source (*) and destination (:splat)
 # If both are used, :splat resolves to exactly what * matches
