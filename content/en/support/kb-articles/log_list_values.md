@@ -7,7 +7,7 @@ support:
   - logs
   - experiments
 ---
-These examples show logging losses a couple of different ways using [`wandb.log()`]({{< relref "/ref/python/log/" >}}).
+These examples show logging losses a couple of different ways using [`wandb.log()`]({{< relref "/ref/python/sdk/actions/legacy_functions/log/" >}}).
 
 {{< tabpane text=true >}}
 {{% tab "Using a dictionary" %}}

@@ -5,7 +5,7 @@ weight: 2
 
 Visualize and log tabular data with W&B Tables. A W&B Table is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a W&B [run]({{< relref "/guides/models/track/runs/" >}}). W&B Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
 
-W&B Tables are a specialized [data type]({{< relref "/ref/python/data-types/" >}}) in W&B that are logged internally in W&B as [artifacts]({{< relref "/guides/core/artifacts/" >}}) objects.
+W&B Tables are a specialized [data type]({{< relref "/ref/python/sdk/data-types/" >}}) in W&B that are logged internally in W&B as [artifacts]({{< relref "/guides/core/artifacts/" >}}) objects.
 
 You [create and log table objects]({{< relref "#create-and-log-a-new-table" >}}) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode]({{< relref "#table-logging-modes" >}}). The mode determines how the table is logged and updated during your ML experiments.
 
@@ -16,7 +16,7 @@ You [create and log table objects]({{< relref "#create-and-log-a-new-table" >}})
 ## Create and log a table
 
 1. Initialize a new run with `wandb.init()`. 
-2. Create a table object with the [`wandb.Table`]({{< relref "/ref/python/data-types/table" >}}) Class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. Though optional, it is recommended to set the `log_mode` parameter to one of the three modes: `IMMUTABLE`, `MUTABLE`, or `INCREMENTAL`. The default mode is `IMMUTABLE`. See [Table Logging Modes]({{< relref "#table-logging-modes" >}}) in the next section for more information.
+2. Create a table object with the [`wandb.Table`]({{< relref "/ref/python/sdk/data-types/table" >}}) Class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. Though optional, it is recommended to set the `log_mode` parameter to one of the three modes: `IMMUTABLE`, `MUTABLE`, or `INCREMENTAL`. The default mode is `IMMUTABLE`. See [Table Logging Modes]({{< relref "#table-logging-modes" >}}) in the next section for more information.
 3. Log the table to W&B with `run.log()`.
 
 The following example shows how to create and log a table with two columns, `a` and `b`, and two rows of data, `["a1", "b1"]` and `["a2", "b2"]`:
@@ -43,7 +43,7 @@ run.finish()
 
 ## Logging modes
 
-The [`wandb.Table`]({{< relref "/ref/python/data-types/table" >}}) `log_mode` parameter determines how a table is logged and updated during your ML experiments. The `log_mode` parameter accepts one of three arguments: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how a table is logged, how it can be modified, and how it is rendered in the W&B App.
+The [`wandb.Table`]({{< relref "/ref/python/sdk/data-types/table" >}}) `log_mode` parameter determines how a table is logged and updated during your ML experiments. The `log_mode` parameter accepts one of three arguments: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how a table is logged, how it can be modified, and how it is rendered in the W&B App.
 
 The following describes the three logging modes, the high-level differences, and common use case for each mode:
 

@@ -117,7 +117,7 @@ for step in range(1000000):
         )  # Commit batched, per-step metrics together
 ```
 
-<!-- Enable batching in calls to `wandb.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs]({{< relref "/ref/python/log.md" >}}) for `wandb.log` for more details. -->
+<!-- Enable batching in calls to `wandb.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}) for `wandb.log` for more details. -->
 
 {{% alert %}}
 W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines.

@@ -13,7 +13,7 @@ If you would like to export all the data managed in your Dedicated cloud instanc
 | Purpose | Documentation |
 |---------|---------------|
 | Export project metadata | [Projects API]({{< relref "/ref/python/public-api/projects/" >}}) |
-| Export runs in a project | [Runs API]({{< relref "/ref/python/public-api/runs/" >}}) |
+| Export runs in a project | [Runs API]({{< relref "/ref/python/public-api/runs" >}}) |
 | Export reports | [Report and Workspace API]({{< relref "/guides/core/reports/clone-and-export-reports/" >}}) |
 | Export artifacts | [Explore artifact graphs]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph" >}}), [Download and use artifacts]({{< relref "/guides/core/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb" >}}) |
 

@@ -19,7 +19,7 @@ W&B currently does not support:
 
 {{% alert %}}
 * To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
-* You must use monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`]({{< relref "/ref/python/run#define_metric" >}}) because it disrupts the required chronological order of run history and system metrics.
+* You must use monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`]({{< relref "/ref/python/sdk/actions/classes/run#define_metric" >}}) because it disrupts the required chronological order of run history and system metrics.
 {{% /alert %}}
 
 Rewind a run to correct or modify the history of a run without losing the original data. In addition, when you 
@@ -48,7 +48,7 @@ When you  rewind a run, W&B lets you correct or modify the run history itself.
 
 ## Rewind a run
 
-Use `resume_from` with [`wandb.init()`]({{< relref "/ref/python/init" >}}) to "rewind" a run’s history to a specific step. Specify the name of the run and the step you want to rewind from:
+Use `resume_from` with [`wandb.init()`]({{< relref "/ref/python/sdk/actions/functions/init" >}}) to "rewind" a run’s history to a specific step. Specify the name of the run and the step you want to rewind from:
 
 ```python
 import wandb

@@ -46,7 +46,7 @@ You can create a custom alias with the W&B Registry or the Python SDK. Based on 
 {{% /tab %}}
 
 {{% tab header="Python SDK" value="python" %}}
-When you link an artifact version to a collection with the Python SDK you can optionally provide a list of one or more aliases as an argument to the `alias` parameter in [`link_artifact()`]({{< relref "/ref/python/run/#link_artifact" >}}). W&B creates an alias ([non protected alias]({{< relref "#custom-aliases" >}})) for you if the alias you provide does not already exist.
+When you link an artifact version to a collection with the Python SDK you can optionally provide a list of one or more aliases as an argument to the `alias` parameter in [`link_artifact()`]({{< relref "/ref/python/sdk/actions/classes/run/#link_artifact" >}}). W&B creates an alias ([non protected alias]({{< relref "#custom-aliases" >}})) for you if the alias you provide does not already exist.
 
 The following code snippet demonstrates how to link an artifact version to a collection and add aliases to that artifact version with the Python SDK. Replace values within `<>` with your own:
 

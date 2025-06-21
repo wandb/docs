@@ -45,7 +45,7 @@ training:
         log_model_checkpoint: true
         
         # Additional argument values that you want to pass to wandb.init(). 
-        # Check out the documentation at /ref/python/init
+        # Check out the documentation at /ref/python/sdk/actions/functions/init
         # to see what arguments are available, such as:
         # job_type: 'train'
         # tags: ['tag1', 'tag2']

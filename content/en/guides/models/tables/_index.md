@@ -31,11 +31,11 @@ A Table is a two-dimensional grid of data where each column has a single type of
 
 Log a table with a few lines of code:
 
-- [`wandb.init()`]({{< relref "/ref/python/init.md" >}}): Create a [run]({{< relref "/guides/models/track/runs/" >}}) to track results.
-- [`wandb.Table()`]({{< relref "/ref/python/data-types/table.md" >}}): Create a new table object.
+- [`wandb.init()`]({{< relref "/ref/python/sdk/actions/functions/init.md" >}}): Create a [run]({{< relref "/guides/models/track/runs/" >}}) to track results.
+- [`wandb.Table()`]({{< relref "/ref/python/sdk/data-types/table.md" >}}): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of the table.
-- [`run.log()`]({{< relref "/ref/python/log.md" >}}): Log the table to save it to W&B.
+- [`run.log()`]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}): Log the table to save it to W&B.
 
 ```python
 import wandb
