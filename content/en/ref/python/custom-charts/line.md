@@ -4,7 +4,7 @@ object_type: python_sdk_custom_charts
 data_type_classification: function
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/plot/line.py >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/line.py >}}
 
 
 

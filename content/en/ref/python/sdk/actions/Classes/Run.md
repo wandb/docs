@@ -4,7 +4,7 @@ object_type: python_sdk_actions
 data_type_classification: class
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/wandb_run.py >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py >}}
 
 
 
@@ -851,8 +851,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x103081f30>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x103c97520>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x106dddf30>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1079f3520>
 ) → Artifact | None
 ```
 

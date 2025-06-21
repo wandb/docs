@@ -4,7 +4,7 @@ object_type: python_sdk_custom_charts
 data_type_classification: module
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/plot/__init__.py >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/__init__.py >}}
 
 
 

@@ -4,7 +4,7 @@ object_type: python_sdk_data_type
 data_type_classification: function
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/sdk/data_types/object_3d.py >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py >}}
 
 
 

@@ -4,7 +4,7 @@ object_type: python_sdk_actions
 data_type_classification: function
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/wandb_agent.py >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py >}}
 
 
 

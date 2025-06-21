@@ -4,7 +4,7 @@ object_type: automations_namespace
 data_type_classification: class
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/automations/_filters/run_metrics.py >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py >}}
 
 
 
