@@ -362,6 +362,9 @@
 /ref/python/join/ /ref/python/ 301
 /ref/python/README/ /ref/python/ 301
 /ref/python/wandb.ai/settings/ /ref/python/ 301
+/ref/python/wandb_workspaces/ /ref/wandb_workspaces/ 301
+/ref/python/wandb_workspaces/reports/ /ref/wandb_workspaces/reports/ 301
+/ref/python/wandb_workspaces/workspaces/ /ref/wandb_workspaces/workspaces/ 301
 /ref/README/ /ref/ 301
 /ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
 /ref/release-notes/releases/ /ref/release-notes/ 301
