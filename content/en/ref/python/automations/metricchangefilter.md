@@ -1,18 +1,24 @@
 ---
 title: MetricChangeFilter
+object_type: automations_namespace
+data_type_classification: class
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/automations/_filters/run_metrics.py#L144-L190 >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/wandb/automations/_filters/run_metrics.py >}}
+
+
 
 Defines a filter that compares a change in a run metric against a user-defined threshold.
 
 The change is calculated over "tumbling" windows, i.e. the difference
 between the current window and the non-overlapping prior window.
 
-| Attributes |  |
-| :--- | :--- |
-|  `prior_window` |  Size of the prior window over which the metric is aggregated (ignored if `agg is None`). If omitted, defaults to the size of the current window. |
-|  `name` |  Name of the observed metric. |
-|  `agg` |  Aggregate operation, if any, to apply over the window size. |
-|  `window` |  Size of the window over which the metric is aggregated (ignored if `agg is None`). |
-|  `threshold` |  Threshold value to compare against. |
+Attributes:
+- agg (Optional): Aggregate operation, if any, to apply over the window size.
+- change_dir (ChangeDir): No description provided.
+- change_type (ChangeType): No description provided.
+- name (str): Name of the observed metric.
+- prior_window (int): Size of the prior window over which the metric is aggregated (ignored if `agg is None`).
+    If omitted, defaults to the size of the current window.
+- threshold (Union): Threshold value to compare against.
+- window (int): Size of the window over which the metric is aggregated (ignored if `agg is None`).
