@@ -12,11 +12,11 @@ data_type_classification: class
 ## <kbd>class</kbd> `Run`
 A unit of computation logged by W&B. Typically, this is an ML experiment. 
 
-Call [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) to create a new run. `wandb.init()` starts a new run and returns a `wandb.Run` object. Each run is associated with a unique ID (run ID). There is only ever at most one active `wandb.Run` in any process. 
+Call [`wandb.init()`](https://docs.wandb.ai/ref/python/sdk/actions/functions/init/) to create a new run. `wandb.init()` starts a new run and returns a `wandb.Run` object. Each run is associated with a unique ID (run ID). There is only ever at most one active `wandb.Run` in any process. 
 
 For distributed training experiments, you can either track each process separately using one run per process or track all processes to a single run. See [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) for more information. 
 
-You can log data to a run with `wandb.log()`. Anything you log using `wandb.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/launch) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
+You can log data to a run with `wandb.log()`. Anything you log using `wandb.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/launch) or [`wandb.init`](https://docs.wandb.ai/ref/python/sdk/actions/functions/init/) API reference page or more information. 
 
 There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
 
@@ -492,7 +492,7 @@ The previous code snippet saves the loss and accuracy to the run's history and u
 
 Visualize logged data in a workspace at [wandb.ai](https://wandb.ai), or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting) of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with the [Public API](https://docs.wandb.ai/guides/track/public-api-guide). 
 
-Logged values don't have to be scalars. You can log any [W&B supported Data Type](https://docs.wandb.ai/ref/python/data-types/) such as images, audio, video, and more. For example, you can use `wandb.Table` to log structured data. See [Log tables, visualize and query data](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) tutorial for more details. 
+Logged values don't have to be scalars. You can log any [W&B supported Data Type](https://docs.wandb.ai/ref/python/sdk/data-types/) such as images, audio, video, and more. For example, you can use `wandb.Table` to log structured data. See [Log tables, visualize and query data](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) tutorial for more details. 
 
 W&B organizes metrics with a forward slash (`/`) in their name into sections named using the text before the final slash. For example, the following results in two sections named "train" and "validate": 
 

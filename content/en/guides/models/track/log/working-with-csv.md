@@ -157,7 +157,7 @@ for i, row in loaded_experiment_df.iterrows():
 ```
 
 
-2. Next,  start a new W&B Run to track and log to W&B with [`wandb.init()`]({{< relref "/ref/python/init.md" >}}):
+2. Next,  start a new W&B Run to track and log to W&B with [`wandb.init()`]({{< relref "/ref/python/sdk/actions/functions/init.md" >}}):
 
 ```python
 run = wandb.init(
@@ -165,13 +165,13 @@ run = wandb.init(
 )
 ```
 
-As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`]({{< relref "/ref/python/log.md" >}}) command to accomplish this:
+As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}) command to accomplish this:
 
 ```python
 run.log({key: val})
 ```
 
-You can optionally log a final summary metric to define the outcome of the run. Use the W&B  [`define_metric`]({{< relref "/ref/python/run.md#define_metric" >}}) API to accomplish this. In this example case, we will add the summary metrics to our run with `run.summary.update()`:
+You can optionally log a final summary metric to define the outcome of the run. Use the W&B  [`define_metric`]({{< relref "/ref/python/sdk/actions/classes/run#define_metric" >}}) API to accomplish this. In this example case, we will add the summary metrics to our run with `run.summary.update()`:
 
 ```python
 run.summary.update(summaries)

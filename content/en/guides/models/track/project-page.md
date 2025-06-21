@@ -274,7 +274,7 @@ To create a project programmatically, specify a `project` when calling `wandb.in
 import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
 ```
 
-Refer to the [`wandb.init()` API reference]({{< relref "/ref/python/init/#examples" >}}).
+Refer to the [`wandb.init()` API reference]({{< relref "/ref/python/sdk/actions/functions/init/#examples" >}}).
    {{% /tab %}}  
 {{< /tabpane >}}
 

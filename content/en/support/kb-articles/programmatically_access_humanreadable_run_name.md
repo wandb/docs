@@ -6,7 +6,7 @@ type: docs
 support:
    - experiments
 ---
-The `.name` attribute of a [`wandb.Run`]({{< relref "/ref/python/run.md" >}}) is accessible as follows:
+The `.name` attribute of a [`wandb.Run`]({{< relref "/ref/python/sdk/actions/classes/run" >}}) is accessible as follows:
 
 ```python
 import wandb
