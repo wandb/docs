@@ -63,7 +63,7 @@ An automation can be triggered by a change in a [run's status]({{< relref "/guid
 - A run with **Killed** status cannot trigger an automation. This status indicates that the run was stopped forcibly by an admin user.
 {{% /alert %}}
 
-Trigger a workflow when a run changes its [status]({{< relref "/guides/runs/_index.md#run-states" >}}) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+Trigger a workflow when a run changes its [status]({{< relref "/guides/models/track/runs/_index.md#run-states" >}}) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
 
 Because run status is a property of the entire run, you can create a run status automation only from the the **Automations** page, not from a workspace.
 
