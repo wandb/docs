@@ -7,24 +7,23 @@ menu:
 title: Color code runs
 ---
 
-Color code runs to visually distinguish them based on metrics you log to W&B. Identify trends and patterns based highest, lowest, or latest values of a metric across your training and evaluation runs. The metric, y value, and the number of buckets you select determine how the runs are grouped and colored in a plot. 
+Color code runs to visually distinguish them based on metrics you log to W&B. Identify trends and patterns based highest, lowest, or latest values of a metric across your training and evaluation runs. The metric, y value, and the number of buckets you select determine how the runs are bucketed and colored in a plot. 
 
 Navigate to your workspace's settings page to configure the metric-based colors for runs:
 
 1. Navigate to your W&B project.
 2. Select the **Workspace** tab from the project sidebar.
-3. Click on the **Settings** icon (⚙️) in the top right corner of the workspace.
-4. From the drawer, select **Runs**.
-5. Select **Metric-based colors**.
-6. From the **Metric** dropdown, select the metric you want to use for color coding.
-7. From the **Y value** dropdown, select the y value you want to use for color coding.
-8. Select the number of buckets. Minimum is 2, maximum is 8.
+3. Click on the **Settings** icon (⚙️) in the top right corner.
+4. From the drawer, select **Runs** then select **Metric-based colors**.
+    - From the **Metric** dropdown, select the metric you want to use for color coding.
+    - From the **Y value** dropdown, select the y value you want to use for color coding.
+    - Select the number of buckets. Minimum is 2, maximum is 8.
 
 The following sections describe how to set the metric and y value, as well as how to customize the buckets used for color coding.
 
 ## Configure a metric
 
-The options in your **Metric** dropdown are derived from the key-value pairs [you log to W&B]({{< relref "guides/models/track/runs/color-code-runs/#custom-metrics" >}}) and [default metrics]({{< relref "guides/models/track/runs/color-code-runs/#default-metrics" >}}) provided by W&B.
+The options in your **Metric** dropdown are derived from the key-value pairs [you log to W&B]({{< relref "guides/models/track/runs/color-code-runs/#custom-metrics" >}}) and [default metrics]({{< relref "guides/models/track/runs/color-code-runs/#default-metrics" >}}) defined by W&B.
 
 ### Default metrics
 
@@ -58,7 +57,7 @@ with wandb.init(project="basic-intro") as run:
 
 Within the **Metric** dropdown, both `"acc"` and `"loss"` are available options.
 
-## Configure a Y value
+## Configure a y value
 
 You can choose from the following options:
 
