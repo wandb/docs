@@ -14,7 +14,7 @@ If you would like to export all the data managed in your Dedicated cloud instanc
 |---------|---------------|
 | Export project metadata | [Projects API]({{< relref "/ref/python/public-api/projects/" >}}) |
 | Export runs in a project | [Runs API]({{< relref "/ref/python/public-api/runs/" >}}) |
-| Export reports | [Reports API]({{< relref "/guides/core/reports/clone-and-export-reports/" >}}) |
+| Export reports | [Report and Workspace API]({{< relref "/guides/core/reports/clone-and-export-reports/" >}}) |
 | Export artifacts | [Explore artifact graphs]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph" >}}), [Download and use artifacts]({{< relref "/guides/core/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb" >}}) |
 
 If you manage artifacts stored in the Dedicated cloud with [Secure Storage Connector]({{< relref "/guides/models/app/settings-page/teams/#secure-storage-connector" >}}), you may not need to export the artifacts using the W&B SDK API.

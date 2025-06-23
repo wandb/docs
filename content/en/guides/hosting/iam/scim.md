@@ -11,6 +11,8 @@ weight: 4
 Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12 min)
 {{% /alert %}}
 
+## Overview
+
 The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
 
 The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema. W&B adds the `/Roles` endpoints to support automated management of custom roles in W&B organizations.
@@ -37,23 +39,32 @@ An organization service account with the `admin` role can access the SCIM API. T
 
 Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `:API-KEY` (notice the colon at the beginning with no username). For example, to authorize with only an API key such as `sa-p@55w0rd`, set the header to: `Authorization: Basic OnNhLXBANTV3MHJk`.
 
-## User resource
+## User Management
 
-The SCIM user resource maps to W&B users.
+The SCIM user resource maps to W&B users. Use these endpoints to manage users in your organization.
 
-### Get user
+### Get User
 
-- **Endpoint:** **`<host-url>/scim/Users/{id}`**
+Retrieves information for a specific user in your organization.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
 - **Method**: GET
-- **Description**: Retrieve the information for a specific user in your [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organization or your [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance by providing the user's unique ID.
-- **Request Example**:
 
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | string | Yes | The unique ID of the user |
+
+#### Example
+
+{{< tabpane text=true >}}
+{{% tab header="Get User Request" %}}
 ```bash
 GET /scim/Users/abc
 ```
-
-- **Response Example**:
-
+{{% /tab %}}
+{{% tab header="Get User Response" %}}
 ```bash
 (Status 200)
 ```
@@ -81,20 +92,26 @@ GET /scim/Users/abc
     "userName": "dev-user1"
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
-### List users
+### List Users
 
-- **Endpoint:** **`<host-url>/scim/Users`**
+Retrieves a list of all users in your organization.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users`
 - **Method**: GET
-- **Description**: Retrieve the list of all users in your [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organization or your [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance.
-- **Request Example**:
 
+#### Example
+
+{{< tabpane text=true >}}
+{{% tab header="List Users Request" %}}
 ```bash
 GET /scim/Users
 ```
-
-- **Response Example**:
-
+{{% /tab %}}
+{{% tab header="List Users Response" %}}
 ```bash
 (Status 200)
 ```
@@ -132,114 +149,110 @@ GET /scim/Users
     "totalResults": 1
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
-### Create user
+### Create User
 
-Select your deployment type to view an example of creating a user using SCIM. The request and response schemas differ between **Dedicated Cloud or Self-Managed** and **Multi-tenant Cloud**.
+Creates a new user in your organization.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users`
+- **Method**: POST
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| emails | array | Yes | Array of email objects. Must include a primary email |
+| userName | string | Yes | The username for the new user |
+
+#### Example
 
 {{< tabpane text=true >}}
-{{% tab header="Dedicated Cloud or Self-managed" %}}
-- **Endpoint**: **`<host-url>/scim/Users`**
-- **Method**: POST
-- **Description**: Create a new user resource.
-- **Supported Fields**:
+{{% tab header="Create User Request (Dedicated/Self-managed)" %}}
+```bash
+POST /scim/Users
+```
 
-| Field | Type | Required |
-| --- | --- | --- |
-| emails | Multi-Valued Array | Yes (Make sure `primary` email is set) |
-| userName | String | Yes |
-- **Request Example**:
-
-    ```bash
-    POST /scim/Users
-    ```
-    ```json
-    {
+```json
+{
     "schemas": [
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
     "emails": [
         {
-        "primary": true,
-        "value": "dev-user2@test.com"
+            "primary": true,
+            "value": "dev-user2@test.com"
         }
     ],
     "userName": "dev-user2"
-    }
-    ```
-
-- **Response Example**:
-
-    ```bash
-    (Status 201)
-    ```
-    ```json
-    {
-        "active": true,
-        "displayName": "Dev User 2",
-        "emails": {
-            "Value": "dev-user2@test.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
-        "id": "def",
-        "meta": {
-            "resourceType": "User",
-            "created": "2023-10-01T00:00:00Z",
-            "location": "Users/def"
-        },
-        "schemas": [
-            "urn:ietf:params:scim:schemas:core:2.0:User"
-        ],
-        "userName": "dev-user2"
-    }
-    ```
+}
+```
 {{% /tab %}}
+{{% tab header="Create User Request (Multi-tenant)" %}}
+```bash
+POST /scim/Users
+```
 
-{{% tab header="Multi-tenant Cloud" %}}
-In **Multi-tenant Cloud**, a user can belong to more than one organization. To "create" a user in your organization, you add them to one or more teams.
-- **Endpoint**: **`<host-url>/scim/Users`**
-- **Method**: POST
-- **Description**: Create a new user resource.
-- **Supported Fields**:
-
-| Field | Type | Required |
-| --- | --- | --- |
-| emails | Multi-Valued Array | Yes (Make sure `primary` email is set) |
-| userName | String | Yes |
-| teams | Multi-Valued Array | Yes (the user must belong to at minimum one team) |
-
-- **Request Example**:
-
-    ```bash
-    POST /scim/Users
-    ```
-
-    ```json
-    {
+```json
+{
     "schemas": [
         "urn:ietf:params:scim:schemas:core:2.0:User",
         "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
     ],
     "emails": [
         {
-        "primary": true,
-        "value": "dev-user2@test.com"
+            "primary": true,
+            "value": "dev-user2@test.com"
         }
     ],
     "userName": "dev-user2",
     "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
         "teams": ["my-team"]
-        }
     }
-    ```
-- **Response Example**:
-    ```bash
-    (Status 201)
-    ```
-    ```json
-    {
+}
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+#### Response
+
+{{< tabpane text=true >}}
+{{% tab header="Create User Response (Dedicated/Self-managed)" %}}
+```bash
+(Status 201)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 2",
+    "emails": {
+        "Value": "dev-user2@test.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "def",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "location": "Users/def"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user2"
+}
+```
+{{% /tab %}}
+{{% tab header="Create User Response (Multi-tenant)" %}}
+```bash
+(Status 201)
+```
+
+```json
+{
     "active": true,
     "displayName": "Dev User 2",
     "emails": {
@@ -262,22 +275,21 @@ In **Multi-tenant Cloud**, a user can belong to more than one organization. To "
     "organizationRole": "member",
     "teamRoles": [
         {
-        "teamName": "my-team",
-        "roleName": "member"
+            "teamName": "my-team",
+            "roleName": "member"
         }
     ],
     "groups": [
         {
-        "value": "my-team-id"
+            "value": "my-team-id"
         }
     ]
-    }
-    ```
+}
+```
 {{% /tab %}}
 {{< /tabpane >}}
 
-
-### Delete user
+### Delete User
 
 {{% alert color="warning" title="Maintain admin access" %}}
 You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain your organization's W&B account. If an organization uses SCIM or another automated process to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
@@ -285,43 +297,59 @@ You must ensure that at least one admin user exists in your instance or organiza
 For assistance with developing operational procedures, or to restore admin access, contact [support](mailto:support@wandb.com).
 {{% /alert %}}
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
+Fully deletes a user from your organization.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
 - **Method**: DELETE
-- **Description**: Fully delete a user from your [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organization or your [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance by providing the user's unique ID. Use the [Create user]({{< relref "#create-user" >}}) API to add the user again to the organization or instance if needed.
-- **Request Example**:
 
-{{% alert %}}
-To temporarily deactivate the user, refer to [Deactivate user]({{< relref "#deactivate-user" >}}) API which uses the `PATCH` endpoint.
-{{% /alert %}}
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | string | Yes | The unique ID of the user to delete |
 
+#### Example
+
+{{< tabpane text=true >}}
+{{% tab header="Delete User Request" %}}
 ```bash
 DELETE /scim/Users/abc
 ```
-
-- **Response Example**:
-
-```json
+{{% /tab %}}
+{{% tab header="Delete User Response" %}}
+```bash
 (Status 204)
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
-### Deactivate user
+{{% alert %}}
+To temporarily deactivate the user, refer to [Deactivate user](#deactivate-user) API which uses the `PATCH` endpoint.
+{{% /alert %}}
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
+### Deactivate User
+
+Temporarily deactivates a user in your organization.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
 - **Method**: PATCH
-- **Description**: Temporarily deactivate a user in your [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance by providing the user's unique ID. Use the [Reactivate user]({{< relref "#reactivate-user" >}}) API to reactivate the user when needed.
-- **Supported Fields**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| value | Object | Object `{"active": false}` indicating that the user should be deactivated. |
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | string | Yes | The unique ID of the user to deactivate |
+| op | string | Yes | Must be "replace" |
+| value | object | Yes | Object with `{"active": false}` |
 
 {{% alert %}}
 User deactivation and reactivation operations are not supported in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
 {{% /alert %}}
 
-- **Request Example**:
+#### Example
 
+{{< tabpane text=true >}}
+{{% tab header="Deactivate User Request" %}}
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -337,10 +365,8 @@ PATCH /scim/Users/abc
     ]
 }
 ```
-
-- **Response Example**:
-This returns the User object.
-
+{{% /tab %}}
+{{% tab header="Deactivate User Response" %}}
 ```bash
 (Status 200)
 ```
@@ -368,25 +394,32 @@ This returns the User object.
     "userName": "dev-user1"
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
-### Reactivate user
+### Reactivate User
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
+Reactivates a previously deactivated user in your organization.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
 - **Method**: PATCH
-- **Description**: Reactivate a deactivated user in your [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) or [Self-managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) instance by providing the user's unique ID.
-- **Supported Fields**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| value | Object | Object `{"active": true}` indicating that the user should be reactivated. |
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | string | Yes | The unique ID of the user to reactivate |
+| op | string | Yes | Must be "replace" |
+| value | object | Yes | Object with `{"active": true}` |
 
 {{% alert %}}
 User deactivation and reactivation operations are not supported in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
 {{% /alert %}}
 
-- **Request Example**:
+#### Example
 
+{{< tabpane text=true >}}
+{{% tab header="Reactivate User Request" %}}
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -402,10 +435,8 @@ PATCH /scim/Users/abc
     ]
 }
 ```
-
-- **Response Example**:
-This returns the User object.
-
+{{% /tab %}}
+{{% tab header="Reactivate User Response" %}}
 ```bash
 (Status 200)
 ```
@@ -433,27 +464,33 @@ This returns the User object.
     "userName": "dev-user1"
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
-### Assign organization-level role to user
+### Assign Organization Role
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
+Assigns an organization-level role to a user.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
 - **Method**: PATCH
-- **Description**: Assign an organization-level role to a user. The role can be one of `admin` or `member` as described [here]({{< relref "access-management/manage-organization.md#invite-a-user" >}}).
 
-  {{% alert %}}
-  The `viewer` role is deprecated and can no longer be set in the UI. W&B assigns the `member` role to a user if you attempt to assign the `viewer` role using SCIM. The user is automatically provisioned with Models and Weave seats if possible. Otherwise, a `Seat limit reached` error is logged. For organizations that use **Registry**, the user is automatically assigned the `viewer` role in registries that are visible at the organization level.
-  {{% /alert %}}
-    
-  For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
-- **Supported Fields**:
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | string | Yes | The unique ID of the user |
+| op | string | Yes | Must be "replace" |
+| path | string | Yes | Must be "organizationRole" |
+| value | string | Yes | Role name ("admin" or "member") |
 
-| Field | Type | Required |
-| --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| path | String | The scope at which role assignment operation takes effect. The only allowed value is `organizationRole`. |
-| value | String | The predefined organization-level role to assign to the user. It can be one of `admin` or `member`. This field is case insensitive for predefined roles. |
-- **Request Example**:
+{{% alert %}}
+The `viewer` role is deprecated and can no longer be set in the UI. W&B assigns the `member` role to a user if you attempt to assign the `viewer` role using SCIM. The user is automatically provisioned with Models and Weave seats if possible. Otherwise, a `Seat limit reached` error is logged. For organizations that use **Registry**, the user is automatically assigned the `viewer` role in registries that are visible at the organization level.
+{{% /alert %}}
 
+#### Example
+
+{{< tabpane text=true >}}
+{{% tab header="Assign Org Role Request" %}}
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -465,15 +502,13 @@ PATCH /scim/Users/abc
         {
             "op": "replace",
             "path": "organizationRole",
-            "value": "admin" // will set the user's organization-scoped role to admin
+            "value": "admin"
         }
     ]
 }
 ```
-
-- **Response Example**:
-This returns the User object.
-
+{{% /tab %}}
+{{% tab header="Assign Org Role Response" %}}
 ```bash
 (Status 200)
 ```
@@ -499,30 +534,38 @@ This returns the User object.
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
     "userName": "dev-user1",
-    "teamRoles": [  // Returns the user's roles in all the teams that they are a part of
+    "teamRoles": [
         {
             "teamName": "team1",
             "roleName": "admin"
         }
     ],
-    "organizationRole": "admin" // Returns the user's role at the organization scope
+    "organizationRole": "admin"
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
-### Assign team-level role to user
+### Assign Team Role
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
+Assigns a team-level role to a user.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
 - **Method**: PATCH
-- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here]({{< relref "access-management/manage-organization.md#assign-or-update-a-team-members-role" >}}). For [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), ensure that you have configured the correct organization for SCIM API in user settings.
-- **Supported Fields**:
 
-| Field | Type | Required |
-| --- | --- | --- |
-| op | String | Type of operation. The only allowed value is `replace`. |
-| path | String | The scope at which role assignment operation takes effect. The only allowed value is `teamRoles`. |
-| value | Object array | A one-object array where the object consists of `teamName` and `roleName` attributes. The `teamName` is the name of the team where the user holds the role, and `roleName` can be one of `admin`, `viewer`, `member` or a custom role. This field is case insensitive for predefined roles and case sensitive for custom roles. |
-- **Request Example**:
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | string | Yes | The unique ID of the user |
+| op | string | Yes | Must be "replace" |
+| path | string | Yes | Must be "teamRoles" |
+| value | array | Yes | Array of objects with `teamName` and `roleName` |
 
+#### Example
+
+{{< tabpane text=true >}}
+{{% tab header="Assign Team Role Request" %}}
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -536,18 +579,16 @@ PATCH /scim/Users/abc
             "path": "teamRoles",
             "value": [
                 {
-                    "roleName": "admin", // role name is case insensitive for predefined roles and case sensitive for custom roles
-                    "teamName": "team1" // will set the user's role in the team team1 to admin
+                    "roleName": "admin",
+                    "teamName": "team1"
                 }
             ]
         }
     ]
 }
 ```
-
-- **Response Example**:
-This returns the User object.
-
+{{% /tab %}}
+{{% tab header="Assign Team Role Response" %}}
 ```bash
 (Status 200)
 ```
@@ -573,15 +614,17 @@ This returns the User object.
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
     "userName": "dev-user1",
-    "teamRoles": [  // Returns the user's roles in all the teams that they are a part of
+    "teamRoles": [
         {
             "teamName": "team1",
             "roleName": "admin"
         }
     ],
-    "organizationRole": "admin" // Returns the user's role at the organization scope
+    "organizationRole": "admin"
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Group resource
 
@@ -591,7 +634,7 @@ The SCIM group resource maps to W&B teams, that is, when you create a SCIM group
 
 - **Endpoint**: **`<host-url>/scim/Groups/{id}`**
 - **Method**: GET
-- **Description**: Retrieve team information by providing the team’s unique ID.
+- **Description**: Retrieve team information by providing the team's unique ID.
 - **Request Example**:
 
 ```bash
@@ -746,33 +789,44 @@ POST /scim/Groups
 - **Method**: PATCH
 - **Description**: Update an existing team's membership list.
 - **Supported Operations**: `add` member, `remove` member
-- **Request Example**:
 
-Adding `dev-user2` to `wandb-devs`
+{{% alert %}}
+The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `members[value eq "{user_id}"]` to remove a specific user, or `members` to remove all users from the team.
+{{% /alert %}}
 
+
+{{% alert color="info" %}}
+Replace `{team_id}` with the actual team ID and `{user_id}` with the actual user ID in your requests.
+{{% /alert %}}
+
+**Adding a user to a team**
+
+Adding `dev-user2` to `wandb-devs`:
+
+{{< tabpane text=true >}}
+{{% tab header="Request" %}}
 ```bash
-PATCH /scim/Groups/ghi
+PATCH /scim/Groups/{team_id}
 ```
 
 ```json
 {
-	"schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-	"Operations": [
-		{
-			"op": "add",
-			"path": "members",
-			"value": [
-	      {
-					"value": "def",
-				}
-	    ]
-		}
-	]
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "add",
+            "path": "members",
+            "value": [
+                {
+                    "value": "{user_id}"
+                }
+            ]
+        }
+    ]
 }
 ```
-
-- **Response Example**:
-
+{{% /tab %}}
+{{% tab header="Response" %}}
 ```bash
 (Status 200)
 ```
@@ -806,6 +860,107 @@ PATCH /scim/Groups/ghi
     ]
 }
 ```
+{{% /tab %}}
+{{< /tabpane >}}
+
+**Removing a specific user from a team**
+
+Removing `dev-user2` from `wandb-devs`:
+
+{{< tabpane text=true >}}
+{{% tab header="Request" %}}
+```bash
+PATCH /scim/Groups/{team_id}
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "remove",
+            "path": "members[value eq \"{user_id}\"]"
+        }
+    ]
+}
+```
+{{% /tab %}}
+{{% tab header="Response" %}}
+```bash
+(Status 200)
+```
+
+```json
+{
+    "displayName": "wandb-devs",
+    "id": "ghi",
+    "members": [
+        {
+            "Value": "abc",
+            "Ref": "",
+            "Type": "",
+            "Display": "dev-user1"
+        }
+    ],
+    "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:Group"
+    ]
+}
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+**Removing all users from a team**
+
+Removing all users from `wandb-devs`:
+
+{{< tabpane text=true >}}
+{{% tab header="Request" %}}
+```bash
+PATCH /scim/Groups/{team_id}
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "remove",
+            "path": "members"
+        }
+    ]
+}
+```
+{{% /tab %}}
+{{% tab header="Response" %}}
+```bash
+(Status 200)
+```
+
+```json
+{
+    "displayName": "wandb-devs",
+    "id": "ghi",
+    "members": null,
+    "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:Group"
+    ]
+}
+```
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### Delete team
 
@@ -1027,154 +1182,4 @@ POST /scim/Roles
 
 ```bash
 DELETE /scim/Roles/abc
-```
-
-- **Response Example**:
-
-```bash
-(Status 204)
-```
-
-### Update custom role permissions
-
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PATCH
-- **Description**: Add or remove custom permissions in a custom role in the W&B organization.
-- **Supported Fields**:
-
-| Field | Type | Required |
-| --- | --- | --- |
-| operations | Object array | Array of operation objects |
-| op | String | Type of operation within the operation object. It can either be `add` or `remove`. |
-| path | String | Static field in the operation object. Only value allowed is `permissions`. |
-| value | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-- **Request Example**:
-
-```bash
-PATCH /scim/Roles/abc
-```
-
-```json
-{
-    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-    "Operations": [
-        {
-            "op": "add", // indicates the type of operation, other possible value being `remove`
-            "path": "permissions",
-            "value": [
-                {
-                    "name": "project:delete"
-                }
-            ]
-        }
-    ]
-}
-```
-
-- **Response Example**:
-
-```bash
-(Status 200)
-```
-
-```json
-{
-    "description": "A sample custom role for example",
-    "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
-    "meta": {
-        "resourceType": "Role",
-        "created": "2023-11-20T23:10:14Z",
-        "lastModified": "2023-11-20T23:31:23Z",
-        "location": "Roles/Um9sZTo3"
-    },
-    "name": "Sample custom role",
-    "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
-    "permissions": [
-        {
-            "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
-        },
-        ...
-        ...
-        {
-            "name": "project:update",
-            "isInherited": false // existing custom permission added by admin before the update
-        },
-        {
-            "name": "project:delete",
-            "isInherited": false // new custom permission added by admin as part of the update
-        }
-    ],
-    "schemas": [
-        ""
-    ]
-}
-```
-
-### Update custom role metadata
-
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PUT
-- **Description**: Update the name, description or inherited role for a custom role in the W&B organization. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
-- **Supported Fields**:
-
-| Field | Type | Required |
-| --- | --- | --- |
-| name | String | Name of the custom role |
-| description | String | Description of the custom role |
-| inheritedFrom | String | The predefined role which the custom role inherits from. It can either be `member` or `viewer`. |
-- **Request Example**:
-
-```bash
-PUT /scim/Roles/abc
-```
-
-```json
-{
-    "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Role"],
-    "name": "Sample custom role",
-    "description": "A sample custom role for example but now based on viewer",
-    "inheritedFrom": "viewer"
-}
-```
-
-- **Response Example**:
-
-```bash
-(Status 200)
-```
-
-```json
-{
-    "description": "A sample custom role for example but now based on viewer", // changed the descripton per the request
-    "id": "Um9sZTo3",
-    "inheritedFrom": "viewer", // indicates the predefined role which is changed per the request
-    "meta": {
-        "resourceType": "Role",
-        "created": "2023-11-20T23:10:14Z",
-        "lastModified": "2023-11-20T23:31:23Z",
-        "location": "Roles/Um9sZTo3"
-    },
-    "name": "Sample custom role",
-    "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
-    "permissions": [
-        {
-            "name": "artifact:read",
-            "isInherited": true // inherited from viewer predefined role
-        },
-        ... // Any permissions that are in member predefined role but not in viewer will not be inherited post the update
-        {
-            "name": "project:update",
-            "isInherited": false // custom permission added by admin
-        },
-        {
-            "name": "project:delete",
-            "isInherited": false // custom permission added by admin
-        }
-    ],
-    "schemas": [
-        ""
-    ]
-}
 ```
