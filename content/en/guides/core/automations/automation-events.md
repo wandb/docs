@@ -55,7 +55,7 @@ This section describes the events related to an artifact that can trigger an aut
 - **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
 
 ### Run events
-An automation can be triggered by a change in a [run's status]({{< relref "/guides/models/track/runs/#run-states" >}}) or a [metric]({{< relref "/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" >}}).
+An automation can be triggered by a change in a [run's status]({{< relref "/guides/models/track/runs/#run-states" >}}) or a change in a [metric value]({{< relref "/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" >}}).
 
 #### Run status change
 {{% alert %}}
