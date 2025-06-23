@@ -62,7 +62,7 @@ A Registry admin can create automations in that registry.
 A W&B admin can create automations in a project.
 
 1. Log in to W&B and go to the project page.
-1. In the sidebar, click **Automations**, then click **Create automation**. For a metric, you can instead create an automation from a line plot that shows the metric. Hover over the panel, then click the bell icon at the top of the panel.
+1. In the sidebar, click **Automations**, then click **Create automation**. For a [run metrics change]({{< relref "/guides/core/automations/automation-events.md#run-metrics-change" >}}), you can instead create an automation from a line plot that shows the metric. Hover over the panel, then click the bell icon at the top of the panel.
     {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
 
