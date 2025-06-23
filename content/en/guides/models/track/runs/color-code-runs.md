@@ -1,5 +1,5 @@
 ---
-description: Group training and evaluation runs into larger experiments
+description: Color code runs based on metrics 
 menu:
   default:
     identifier: color-code-runs
@@ -7,13 +7,9 @@ menu:
 title: Color code runs
 ---
 
-Color code runs to visually distinguish them based on metrics you log to W&B. The metric, y value, and the number of buckets you select determine how the runs are grouped and colored in a plot. 
+Color code runs to visually distinguish them based on metrics you log to W&B. Identify trends and patterns based highest, lowest, or latest values of a metric across your training and evaluation runs. The metric, y value, and the number of buckets you select determine how the runs are grouped and colored in a plot. 
 
-<!-- This is useful for quickly identifying runs that meet certain criteria, such as the latest, highest, or lowest values of a metric. -->
-
-To color code runs by a metric, you can set the metric-based colors in your W&B workspace settings.
-
-To set metric-based colors for runs in your W&B project:
+Navigate to your workspace's settings page to configure the metric-based colors for runs:
 
 1. Navigate to your W&B project.
 2. Select the **Workspace** tab from the project sidebar.
@@ -24,11 +20,11 @@ To set metric-based colors for runs in your W&B project:
 7. From the **Y value** dropdown, select the y value you want to use for color coding.
 8. Select the number of buckets. Minimum is 2, maximum is 8.
 
-The following sections describe how to set the metric and y value for color coding runs, as well as how to customize the buckets used for color coding.
+The following sections describe how to set the metric and y value, as well as how to customize the buckets used for color coding.
 
-## Configure metric
+## Configure a metric
 
-The options in your **Metric** dropdown are derived from the key-value pairs you log to W&B and default metrics provided by W&B.
+The options in your **Metric** dropdown are derived from the key-value pairs [you log to W&B]({{< relref "guides/models/track/runs/color-code-runs/#custom-metrics" >}}) and [default metrics]({{< relref "guides/models/track/runs/color-code-runs/#default-metrics" >}}) provided by W&B.
 
 ### Default metrics
 
@@ -39,7 +35,7 @@ The options in your **Metric** dropdown are derived from the key-value pairs you
 
 ### Custom metrics
 
-You can also use custom metrics that you log to W&B in your training or evaluation scripts. These metrics are logged as key-value pairs, where the key is the name of the metric and the value is the metric value.
+Use custom metrics that you log to W&B in your training or evaluation scripts to color code runs. Custom metrics are logged as key-value pairs, where the key is the name of the metric and the value is the metric value.
 
 For example, the following code snippet logs accuracy (`"acc"` key) and loss (`"loss"` key) during a training loop:
 
@@ -62,7 +58,7 @@ with wandb.init(project="basic-intro") as run:
 
 Within the **Metric** dropdown, both `"acc"` and `"loss"` are available options.
 
-## Configure Y value
+## Configure a Y value
 
 You can choose from the following options:
 
@@ -72,7 +68,7 @@ You can choose from the following options:
 
 ## Customize buckets
 
-Buckets are ranges of values that determine the color of a run. Runs that fall within that bucket's range are displayed in that color. Each bucket is assigned a unique color, and the buckets are evenly distributed across the range of values for the specified metric.
+Buckets are ranges of values that W&B uses to categorize runs based on the metric you select. Buckets are evenly distributed across the range of values for the specified metric and each bucket is assigned a unique color. Runs that fall within that bucket's range are displayed in that color. 
 
 Consider the following configuration:
 
