@@ -343,6 +343,11 @@ Where values enclosed in angle brackets (`< >`) are placeholders for the actual 
 ### Customize how runs are displayed
 You can customize how runs are displayed in your project from the **Workspace** or **Runs** tabs. Both tabs use the same display configuration.
 
+{{% alert %}}
+A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
+{{% /alert %}}
+
+
 To customize which columns are visible:
 1. Above the list of runs, click **Columns**.
 1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
