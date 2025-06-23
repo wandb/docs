@@ -7,7 +7,7 @@ menu:
 title: Semantic run plot legends
 ---
 
-Create meaningful legends for run line plots to visually distinguish them based on metrics you log to W&B. Identify trends and patterns based highest, lowest, or latest values of a metric across your training and evaluation runs. The metric, y value, and the number of buckets you select determine how the runs are bucketed and colored in a plot. 
+Create meaningful legends for run line plots to visually distinguish them based on metrics you log to W&B. Identify trends and patterns based on the highest, lowest, or latest values of a metric across your training and evaluation runs. Runs are bucketed and colored in plots based on the plot's configured metric, Y value, and number of buckets. 
 
 Navigate to your workspace's settings page to configure the metric-based colors for runs:
 
@@ -17,9 +17,9 @@ Navigate to your workspace's settings page to configure the metric-based colors 
 4. From the drawer, select **Runs** then select **Metric-based colors**.
     - From the **Metric** dropdown, select the metric you want to use for assigning colors to runs.
     - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs.
-    - Select the number of buckets. Minimum is 2, maximum is 8.
+    - Set the the number of buckets to a value from 2 to 8.
 
-The following sections describe how to set the metric and y value, as well as how to customize the buckets used for assigning colors to runs.
+The following sections describe how to set the metric and y value and as how to customize the buckets used for assigning colors to runs.
 
 ## Configure a metric
 
@@ -34,7 +34,7 @@ The options in your **Metric** dropdown are derived from the key-value pairs [yo
 
 ### Custom metrics
 
-Use custom metrics that you log to W&B in your training or evaluation scripts to color code runs and create meaningful plot legends. Custom metrics are logged as key-value pairs, where the key is the name of the metric and the value is the metric value.
+Color runs and create meaningful plot legends based on custom metrics logged by your training or evaluation scripts. Custom metrics are logged as key-value pairs, where the key is the name of the metric and the value is the metric value.
 
 For example, the following code snippet logs accuracy (`"acc"` key) and loss (`"loss"` key) during a training loop:
 
@@ -73,7 +73,10 @@ Consider the following configuration:
 
 {{< img src="/images/track/color-coding-runs.png" alt="" >}}
 
-**Metric** is set to `"Accuracy"` (abbreviated as `"acc"`). **Y value** is set to `"Max"`, meaning the maximum value of the accuracy metric is used to determine the color of a run.
+- **Metric** is set to `"Accuracy"` (abbreviated as `"acc"`).
+- **Y value** is set to `"Max"`
+
+With this configuration, W&B colors run based on their accuracy values, using the maximum accuracy value logged for each run. 
 
 Six buckets are defined for the metric, with each bucket representing a range of accuracy values. Within the **Buckets** section, the following range of buckets are defined:
 
