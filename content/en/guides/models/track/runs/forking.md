@@ -11,19 +11,19 @@ title: Fork a run
 The ability to fork a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 {{% /alert %}}
 
-Use `fork_from` when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
+Use `fork_from` when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/sdk/actions/functions/init" >}}) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
 
 Forking a run enables you to explore different parameters or models from a specific point in an experiment without impacting the original run.
 
 {{% alert %}}
 * Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
-* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`]({{< relref "/ref/python/run#define_metric" >}}) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`]({{< relref "/ref/python/sdk/actions/classes/run#define_metric" >}}) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
 {{% /alert %}}
 
 
 ## Start a forked run
 
-To fork a run, use the `fork_from` argument in [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) and specify the source `run ID` and the `step` from the source run to fork from:
+To fork a run, use the `fork_from` argument in [`wandb.init()`]({{< relref "/ref/python/sdk/actions/functions/init" >}}) and specify the source `run ID` and the `step` from the source run to fork from:
 
 ```python
 import wandb
