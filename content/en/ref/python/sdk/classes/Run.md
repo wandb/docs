@@ -12,11 +12,11 @@ data_type_classification: class
 ## <kbd>class</kbd> `Run`
 A unit of computation logged by W&B. Typically, this is an ML experiment. 
 
-Call [`wandb.init()`](https://docs.wandb.ai/ref/python/sdk/functions/init/) to create a new run. `wandb.init()` starts a new run and returns a `wandb.Run` object. Each run is associated with a unique ID (run ID). There is only ever at most one active `wandb.Run` in any process. 
+Call [`wandb.init()`](https://docs.wandb.ai/ref/python/sdk/actions/functions/init/) to create a new run. `wandb.init()` starts a new run and returns a `wandb.Run` object. Each run is associated with a unique ID (run ID). There is only ever at most one active `wandb.Run` in any process. 
 
 For distributed training experiments, you can either track each process separately using one run per process or track all processes to a single run. See [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) for more information. 
 
-You can log data to a run with `wandb.log()`. Anything you log using `wandb.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/launch) or [`wandb.init`](https://docs.wandb.ai/ref/python/sdk/functions/init/) API reference page or more information. 
+You can log data to a run with `wandb.log()`. Anything you log using `wandb.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/launch) or [`wandb.init`](https://docs.wandb.ai/ref/python/sdk/actions/functions/init/) API reference page or more information. 
 
 There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
 
@@ -704,8 +704,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x1045fdf30>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x105d23520>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x104ffdf30>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1076230a0>
 ) → Artifact | None
 ```
 
