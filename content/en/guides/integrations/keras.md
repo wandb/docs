@@ -232,7 +232,7 @@ You can override the `on_train_begin` or `on_epoch_end` methods to have more fin
 
 ## `WandbCallback` [legacy]
 
-Use the W&B library [`WandbCallback`]({{< relref "/ref/python/integrations/keras/wandbcallback" >}}) Class to automatically save all the metrics and the loss values tracked in `model.fit`.
+Use the W&B library `WandbCallback` Class to automatically save all the metrics and the loss values tracked in `model.fit`.
 
 ```python
 import wandb
@@ -258,7 +258,7 @@ See our [example repo](https://github.com/wandb/examples) for scripts, including
 
 The `WandbCallback` class supports a wide variety of logging configuration options: specifying a metric to monitor, tracking of weights and gradients, logging of predictions on training_data and validation_data, and more.
 
-Check out [the reference documentation for the `keras.WandbCallback`]({{< relref "/ref/python/integrations/keras/wandbcallback.md" >}}) for full details.
+Check out the reference documentation for the `keras.WandbCallback` for full details.
 
 The `WandbCallback` 
 
