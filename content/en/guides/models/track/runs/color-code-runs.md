@@ -7,23 +7,23 @@ menu:
 title: Semantic run plot legends
 ---
 
-Create meaningful legends for run line plots to visually distinguish them based on metrics you log to W&B. Identify trends and patterns based on the highest, lowest, or latest values of a metric across your training and evaluation runs. Runs are bucketed and colored in plots based on the plot's configured metric, Y value, and number of buckets. 
+Create meaningful legends for line plots to visually distinguish them based on a metric or run configuration you log to W&B. Identify trends and patterns based on the highest, lowest, or latest values of a metric key-value or run configuration's key-value pairs across your training and evaluation runs. Runs are bucketed and colored based on the plot's defined metric key-value or run configuration key-value pair, Y value, and number of buckets. 
 
-Navigate to your workspace's settings page to configure the metric-based colors for runs:
+Navigate to your workspace's settings page to configure metric or configuration-based colors for runs:
 
 1. Navigate to your W&B project.
 2. Select the **Workspace** tab from the project sidebar.
 3. Click on the **Settings** icon (⚙️) in the top right corner.
-4. From the drawer, select **Runs** then select **Metric-based colors**.
-    - From the **Metric** dropdown, select the metric you want to use for assigning colors to runs.
+4. From the drawer, select **Runs** then select **Key-based colors**.
+    - From the **Key** dropdown, select the metric you want to use for assigning colors to runs.
     - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs.
     - Set the the number of buckets to a value from 2 to 8.
 
 The following sections describe how to set the metric and y value and as how to customize the buckets used for assigning colors to runs.
 
-## Configure a metric
+## Set a metric
 
-The options in your **Metric** dropdown are derived from the key-value pairs [you log to W&B]({{< relref "guides/models/track/runs/color-code-runs/#custom-metrics" >}}) and [default metrics]({{< relref "guides/models/track/runs/color-code-runs/#default-metrics" >}}) defined by W&B.
+The metric options in your **Key** dropdown are derived from the key-value pairs [you log to W&B]({{< relref "guides/models/track/runs/color-code-runs/#custom-metrics" >}}) and [default metrics]({{< relref "guides/models/track/runs/color-code-runs/#default-metrics" >}}) defined by W&B.
 
 ### Default metrics
 
@@ -55,9 +55,29 @@ with wandb.init(project="basic-intro") as run:
       run.log({"acc": acc, "loss": loss})
 ```
 
-Within the **Metric** dropdown, both `"acc"` and `"loss"` are available options.
+Within the **Key** dropdown, both `"acc"` and `"loss"` are available options.
 
-## Configure a y value
+## Set a configuration key
+
+The configuration options in your **Key** dropdown are derived from the key-value pairs you pass to the `config` parameter when you initialize a W&B run. Configuration keys are typically used to log hyperparameters or other settings used in your training or evaluation scripts.
+
+```python
+import wandb
+
+config = {
+  "learning_rate": 0.01,
+  "batch_size": 32,
+  "optimizer": "adam"
+}
+
+with wandb.init(project="basic-intro", config=config) as run:
+  # Your training code here
+  pass
+```
+
+Within the **Key** dropdown, `"learning_rate"`, `"batch_size"`, and `"optimizer"` are available options.
+
+## Set a y value
 
 You can choose from the following options:
 
@@ -67,26 +87,26 @@ You can choose from the following options:
 
 ## Customize buckets
 
-Buckets are ranges of values that W&B uses to categorize runs based on the metric you select. Buckets are evenly distributed across the range of values for the specified metric and each bucket is assigned a unique color. Runs that fall within that bucket's range are displayed in that color. 
+Buckets are ranges of values that W&B uses to categorize runs based on the metric or configuration key you select. Buckets are evenly distributed across the range of values for the specified metric or configuration key and each bucket is assigned a unique color. Runs that fall within that bucket's range are displayed in that color. 
 
-Consider the following configuration:
+Consider the following:
 
 {{< img src="/images/track/color-coding-runs.png" alt="" >}}
 
-- **Metric** is set to `"Accuracy"` (abbreviated as `"acc"`).
+- **Key** is set to `"Accuracy"` (abbreviated as `"acc"`).
 - **Y value** is set to `"Max"`
 
-With this configuration, W&B colors run based on their accuracy values, using the maximum accuracy value logged for each run. 
+With this set up, W&B colors run based on their accuracy values, using the maximum accuracy value logged for each run. 
 
 Six buckets are defined for the metric, with each bucket representing a range of accuracy values. Within the **Buckets** section, the following range of buckets are defined:
 
-- Bucket 1: (Min - 0.5798)
-- Bucket 2: (0.5798 - 0.6629)
-- Bucket 3: (0.6629 - 0.7460)
-- Bucket 4: (0.7460 - 0.8292)
-- Bucket 5: (0.8292 - 0.9123)
-- Bucket 6: (0.9123 - Max)
+- Bucket 1: (Min - 0.7629)
+- Bucket 2: (0.7629 - 0.7824)
+- Bucket 3: (0.7824 - 0.8019)
+- Bucket 4: (0.8019 - 0.8214)
+- Bucket 5: (0.8214 - 0.8409)
+- Bucket 6: (0.8409 - Max)
 
-In the line plot below, the run with the highest accuracy (0.957) is colored in a deep purple (Bucket 6), while the run with the lowest accuracy (0.7993) is colored in a lighter purple (Bucket 4). The other runs are colored based on their accuracy values, with the color gradient indicating their relative performance. 
+In the line plot below, the run with the highest accuracy (0.8232) is colored in a deep purple (Bucket 5), while the run with the lowest accuracy (0.7684) is colored in a light orange (Bucket 2). The other runs are colored based on their accuracy values, with the color gradient indicating their relative performance. 
 
 {{< img src="/images/track/color-code-runs-plot.png" alt="Line plot with color coded runs based on a specific metric" >}}
