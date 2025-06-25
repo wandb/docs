@@ -98,7 +98,7 @@ Now that you have a search method specified in your sweep configuration, specify
 
 To do this, specify one or more hyperparameter names to the `parameter` key and specify one or more hyperparameter values for the `value` key.
 
-The values you search through for a given hyperparamter depend on the type of hyperparameter you are investigating.  
+The values you search through for a given hyperparameter depend on the type of hyperparameter you are investigating.  
 
 For example, if you choose a machine learning optimizer, you must specify one or more finite optimizer names such as the Adam optimizer and stochastic gradient dissent.
 
@@ -210,7 +210,7 @@ wandb sweep config.yaml
 For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough]({{< relref "/guides/models/sweeps/walkthrough" >}}).
 
 
-## Step 3:  Define your machine learning code
+## Step 3: Define your machine learning code
 
 Before you execute the sweep,
 define the training procedure that uses the hyperparameter values you want to try. The key to integrating W&B Sweeps into your training code is to ensure that, for each training experiment, that your training logic can access the hyperparameter values you defined in your sweep configuration.

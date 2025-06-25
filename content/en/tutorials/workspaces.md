@@ -222,7 +222,7 @@ Note that you are now viewing a different saved view called "An example workspac
 ## Customize runs
 The following code cells show you how to filter, change the color, group, and sort runs programmatically. 
 
-In each example, the general workflow is to specify the desired customization as an argument to the appropiate parameter in `ws.RunsetSettings`.
+In each example, the general workflow is to specify the desired customization as an argument to the appropriate parameter in `ws.RunsetSettings`.
 
 ### Filter runs
 You can create filters with python expressions and metrics you log with `wandb.log` or that are logged automatically as part of the run such as **Created Timestamp**.  You can also reference filters by how they appear in the W&B App UI such as the **Name**, **Tags**, or **ID**.
@@ -374,7 +374,7 @@ def sorting_example(entity: str, project: str) -> None:
 sorting_example(entity, project)
 ```
 
-## 4. Putting it all together: comprehenive example
+## 4. Putting it all together: comprehensive example
 
 This example demonstrates how to create a comprehensive workspace, configure its settings, and add panels to sections:
 
