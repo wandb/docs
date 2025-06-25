@@ -10,7 +10,7 @@ weight: 4
 
 Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the W&B servers. You can update an artifact during a W&B Run or outside of a Run.
 
-Use the W&B Public API ([`wandb.Api`]({{< relref "/ref/python/public-api/api.md" >}})) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`]({{< relref "/ref/python/sdk/actions/classes/artifact" >}})) to update an artifact during a run.
+Use the W&B Public API ([`wandb.Api`]({{< relref "/ref/python/public-api/api.md" >}})) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact" >}})) to update an artifact during a run.
 
 {{% alert color="secondary" %}}
 You can not update the alias of artifact linked to a model in Model Registry.
@@ -19,7 +19,7 @@ You can not update the alias of artifact linked to a model in Model Registry.
 {{< tabpane text=true >}}
   {{% tab header="During a run" %}}
 
-The proceeding code example demonstrates how to update the description of an artifact using the [`wandb.Artifact`]({{< relref "/ref/python/sdk/actions/classes/artifact" >}}) API:
+The proceeding code example demonstrates how to update the description of an artifact using the [`wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact" >}}) API:
 
 ```python
 import wandb
@@ -62,7 +62,7 @@ artifact.aliases = ["replaced"]
 artifact.save()
 ```
 
-For more information, see the Weights and Biases [Artifact API]({{< relref "/ref/python/sdk/actions/classes/artifact" >}}).  
+For more information, see the Weights and Biases [Artifact API]({{< relref "/ref/python/sdk/classes/artifact" >}}).  
   {{% /tab %}}
   {{% tab header="With collections" %}}
 You can also update an Artifact collection in the same way as a singular artifact:

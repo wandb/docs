@@ -73,7 +73,7 @@ wandb.login()
 
 ## Log metrics
 
-Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init`]({{< relref "/ref/python/sdk/actions/functions/init" >}}) expects; prepend each argument with `wandb-`.
+Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) expects; prepend each argument with `wandb-`.
 
 `num_eval_imges` controls the number of validation set images and predictions that are  logged to W&B tables for model evaluation.
 

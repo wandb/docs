@@ -99,7 +99,7 @@ downloaded_path = fetched_artifact.download()
 
 
 
-See [`use_artifact`]({{< relref "/ref/python/sdk/actions/classes/run#use_artifact" >}}) and [`Artifact.download()`]({{< relref "/ref/python/sdk/actions/classes/artifact#download" >}}) in the API Reference guide for more information on possible parameters and return type.
+See [`use_artifact`]({{< relref "/ref/python/sdk/classes/run#use_artifact" >}}) and [`Artifact.download()`]({{< relref "/ref/python/sdk/classes/artifact#download" >}}) in the API Reference guide for more information on possible parameters and return type.
 
 {{% alert title="Users with a personal entity that belong to multiple organizations" %}} 
 Users with a personal entity that belong to multiple organizations must also specify either the name of their organization or use a team entity when accessing artifacts linked to a registry.

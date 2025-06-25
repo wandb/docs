@@ -246,7 +246,7 @@ def train(config=None):
 ```
 
 Within the `train` function, you will notice the following W&B Python SDK methods:
-* [`wandb.init()`]({{< relref "/ref/python/sdk/actions/functions/init" >}}): Initialize a new W&B run. Each run is a single execution of the training function.
+* [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}): Initialize a new W&B run. Each run is a single execution of the training function.
 * [`wandb.config`]({{< relref "/guides/models/track/config" >}}): Pass sweep configuration with the hyperparameters you want to experiment with.
 * [`wandb.log()`]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}): Log the training loss for each epoch.
 

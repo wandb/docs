@@ -71,7 +71,7 @@ with wandb.init() as run:
     run.log_artifact(artifact)
 ```
 
-Use the artifact object's [`logged_by`]({{< relref "/ref/python/sdk/actions/classes/artifact#logged_by" >}}) and [`used_by`]({{< relref "/ref/python/sdk/actions/classes/artifact#used_by" >}}) methods to walk the graph from the artifact:
+Use the artifact object's [`logged_by`]({{< relref "/ref/python/sdk/classes/artifact#logged_by" >}}) and [`used_by`]({{< relref "/ref/python/sdk/classes/artifact#used_by" >}}) methods to walk the graph from the artifact:
 
 ```python
 # Walk up and down the graph from an artifact:

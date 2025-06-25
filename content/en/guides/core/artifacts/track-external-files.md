@@ -9,7 +9,7 @@ title: Track external files
 weight: 7
 ---
 
-Use **reference artifacts** to track files saved outside the W&B system, for example in an Amazon S3 bucket, GCS bucket, Azure blob, HTTP file server, or even an NFS share. Log artifacts outside of a [W&B Run]({{< relref "/ref/python/sdk/actions/classes/run" >}}) with the W&B [CLI]({{< relref "/ref/cli" >}}).
+Use **reference artifacts** to track files saved outside the W&B system, for example in an Amazon S3 bucket, GCS bucket, Azure blob, HTTP file server, or even an NFS share. Log artifacts outside of a [W&B Run]({{< relref "/ref/python/sdk/classes/run" >}}) with the W&B [CLI]({{< relref "/ref/cli" >}}).
 
 ### Log artifacts outside of runs
 

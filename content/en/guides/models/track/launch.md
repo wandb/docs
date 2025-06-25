@@ -22,7 +22,7 @@ Create a W&B Experiment in four steps:
 4. [Log an artifact to W&B]({{< relref "#log-an-artifact-to-wb" >}})
 
 ### Initialize a W&B run
-Use [`wandb.init()`]({{< relref "/ref/python/sdk/actions/functions/init" >}}) to create a W&B Run.
+Use [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) to create a W&B Run.
 
 The following snippet creates a run in a W&B project named `“cat-classification”` with the description `“My first experiment”` to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
 
@@ -37,7 +37,7 @@ with wandb.init(
     ...
 ```
 
-`wandb.init()` returns a [Run]({{< relref "/ref/python/sdk/actions/classes/run" >}}) object.
+`wandb.init()` returns a [Run]({{< relref "/ref/python/sdk/classes/run" >}}) object.
 
 {{% alert %}}
 Note: Runs are added to pre-existing projects if that project already exists when you call `wandb.init()`. For example, if you already have a project called `“cat-classification”`, that project will continue to exist and not be deleted. Instead, a new run is added to that project.
@@ -155,4 +155,4 @@ with wandb.init(
     ...
 ```
 
-For more information about available parameters when defining a W&B Experiment, see the [`wandb.init`]({{< relref "/ref/python/sdk/actions/functions/init" >}}) API docs in the [API Reference Guide]({{< relref "/ref/python/" >}}).
+For more information about available parameters when defining a W&B Experiment, see the [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) API docs in the [API Reference Guide]({{< relref "/ref/python/" >}}).

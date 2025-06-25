@@ -21,7 +21,7 @@ Download and use an artifact stored in W&B either inside or outside of a W&B Run
 
 {{< tabpane text=true >}}
   {{% tab header="During a run" %}}
-First, import the W&B Python SDK. Next, create a W&B [Run]({{< relref "/ref/python/sdk/actions/classes/run" >}}):
+First, import the W&B Python SDK. Next, create a W&B [Run]({{< relref "/ref/python/sdk/classes/run" >}}):
 
 ```python
 import wandb
@@ -29,7 +29,7 @@ import wandb
 run = wandb.init(project="<example>", job_type="<job-type>")
 ```
 
-Indicate the artifact you want to use with the [`use_artifact`]({{< relref "/ref/python/sdk/actions/classes/run#use_artifact" >}}) method. This returns a run object. In the proceeding code snippet specifies an artifact called `'bike-dataset'` with the alias `'latest'`:
+Indicate the artifact you want to use with the [`use_artifact`]({{< relref "/ref/python/sdk/classes/run#use_artifact" >}}) method. This returns a run object. In the proceeding code snippet specifies an artifact called `'bike-dataset'` with the alias `'latest'`:
 
 ```python
 artifact = run.use_artifact("bike-dataset:latest")
@@ -41,9 +41,9 @@ Use the object returned to download all the contents of the artifact:
 datadir = artifact.download()
 ```
 
-You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide]({{< relref "/ref/python/sdk/actions/classes/artifact#download" >}}).
+You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide]({{< relref "/ref/python/sdk/classes/artifact#download" >}}).
 
-Use the [`get_path`]({{< relref "/ref/python/sdk/actions/classes/artifact#get_path" >}}) method to download only subset of files:
+Use the [`get_path`]({{< relref "/ref/python/sdk/classes/artifact#get_path" >}}) method to download only subset of files:
 
 ```python
 path = artifact.get_path(name)
@@ -72,7 +72,7 @@ Use the object returned to download the contents of the artifact:
 artifact.download()
 ```
 
-You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide]({{< relref "/ref/python/sdk/actions/classes/artifact#download" >}}).  
+You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide]({{< relref "/ref/python/sdk/classes/artifact#download" >}}).  
   {{% /tab %}}
   {{% tab header="W&B CLI" %}}
 Use the `wandb artifact get` command to download an artifact from the W&B server.
@@ -120,7 +120,7 @@ artifact = run.use_artifact("my-entity/my-project/artifact:alias")
 
 ### Construct and use an artifact simultaneously
 
-Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`use_artifact`]({{< relref "/ref/python/sdk/actions/classes/run#use_artifact" >}}) API is idempotent, so you can call it as many times as you like.
+Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`use_artifact`]({{< relref "/ref/python/sdk/classes/run#use_artifact" >}}) API is idempotent, so you can call it as many times as you like.
 
 ```python
 import wandb

@@ -47,7 +47,7 @@ Next, initialize the sweep:
 wandb sweep config.yaml
 ```
 
-After you initialized the sweep, start a controller with [`wandb controller`]({{< relref "/ref/python/sdk/actions/functions/controller" >}}):
+After you initialized the sweep, start a controller with [`wandb controller`]({{< relref "/ref/python/sdk/functions/controller" >}}):
 
 ```bash
 # wandb sweep command will print a sweep_id
@@ -64,7 +64,7 @@ wandb sweep sweep_ID
 
 The following code snippets demonstrate how to specify and use a local controller with the W&B Python SDK.
 
-The simplest way to use a controller with the Python SDK is to pass the sweep ID to the [`wandb.controller`]({{< relref "/ref/python/sdk/actions/functions/controller" >}}) method. Next, use the return objects `run` method to start the sweep job:
+The simplest way to use a controller with the Python SDK is to pass the sweep ID to the [`wandb.controller`]({{< relref "/ref/python/sdk/functions/controller" >}}) method. Next, use the return objects `run` method to start the sweep job:
 
 ```python
 sweep = wandb.controller(sweep_id)

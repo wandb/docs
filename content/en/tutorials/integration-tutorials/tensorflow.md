@@ -175,7 +175,7 @@ def train(
 This lets us know you're launching an experiment,
 so we can give it a unique ID and a dashboard.
 
-[Check out the official documentation]({{< relref "/ref/python/sdk/actions/functions/init" >}})
+[Check out the official documentation]({{< relref "/ref/python/sdk/functions/init" >}})
 
 ```python
 # initialize wandb with your project name and optionally with configuration.

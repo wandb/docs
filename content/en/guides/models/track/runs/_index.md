@@ -119,7 +119,7 @@ As another example, during a [sweep]({{< relref "/guides/models/sweeps/" >}}), W
 
 ## Initialize a run
 
-Initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/sdk/actions/functions/init" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
+Initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
 
@@ -205,7 +205,7 @@ For example, in the proceeding image, the unique run ID is `9mxi1arc`:
 
 
 ### Custom run IDs
-You can specify your own run ID by passing the `id` parameter to the [`wandb.init`]({{< relref "/ref/python/sdk/actions/functions/init" >}}) method. 
+You can specify your own run ID by passing the `id` parameter to the [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
 
 ```python 
 import wandb
@@ -230,7 +230,7 @@ By default, W&B generates a random run name when you initialize a new run. The n
 Use run names as a way to quickly identify a run in your project workspace.
 {{% /alert %}}
 
-You can specify a name for your run by passing the `name` parameter to the [`wandb.init`]({{< relref "/ref/python/sdk/actions/functions/init" >}}) method. 
+You can specify a name for your run by passing the `name` parameter to the [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
 
 
 ```python 

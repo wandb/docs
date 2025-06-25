@@ -1,5 +1,5 @@
 ---
-title: SDK v(0.19.11)
+title: SDK
 module: 
 weight: 0
 no_list: true
