@@ -25,7 +25,7 @@ Hyperparameter importance panel untangles the complicated interactions between h
 ## Creating a hyperparameter importance panel
 
 1. Navigate to your W&B project.
-2. Select **Add panels** buton.
+2. Select **Add panels** button.
 3. Expand the **CHARTS** dropdown, choose **Parallel coordinates** from the dropdown.
 
 

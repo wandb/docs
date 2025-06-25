@@ -241,7 +241,7 @@ Visualing your model outputs during training or evaluation is often essential to
 
 By using the callbacks system in the Transformers Trainer, you can log additional helpful data to W&B such as your models' text generation outputs or other predictions to W&B Tables. 
 
-See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-evaluation-samples-during-training" >}})** below for a full guide on how to log evaluation outupts while training to log to a W&B Table like this:
+See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-evaluation-samples-during-training" >}})** below for a full guide on how to log evaluation outputs while training to log to a W&B Table like this:
 
 
 {{< img src="/images/integrations/huggingface_eval_tables.png" alt="Shows a W&B Table with evaluation outputs" >}}
