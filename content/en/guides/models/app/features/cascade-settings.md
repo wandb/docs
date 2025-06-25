@@ -21,7 +21,7 @@ To edit settings that apply to the overall structure of this workspace:
 {{< img src="/images/app_ui/workspace_settings.png" alt="" >}}
 
 {{% alert %}}
-After customizing your workspace, you can use _workspace templates_ to quickly create new workspaces with the same settings. Refer to [Workspace templates]({{< relref "content/en/guides/models/track/workspaces.md#workspace-templates" >}}).
+After customizing your workspace, you can use _workspace templates_ to quickly create new workspaces with the same settings. Refer to [Workspace templates]({{< relref "/guides/models/track/workspaces.md#workspace-templates" >}}).
 {{% /alert %}}
 
 ### Workspace layout options
