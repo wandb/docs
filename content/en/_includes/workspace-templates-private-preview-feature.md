@@ -1,0 +1,1 @@
+This feature requires an [Enterprise](https://wandb.ai/site/pricing/) license. For **Dedicated Cloud** and **Self-Hosted**, this feature is in **private preview**, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
