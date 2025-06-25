@@ -116,6 +116,10 @@ The proceeding tabs demonstrate some common actions you can take in the Runs tab
    {{% tab header="Customize columns" %}}
 The Runs tab shows details about runs in the project. It shows a large number of columns by default.
 
+{{% alert %}}
+When you customize the Runs tab, the customization is also reflected in the **Runs** selector of the [Workspace tab]({{< relref "#workspace-tab" >}}).
+{{% /alert %}}
+
 - To view all visible columns, scroll the page horizontally.
 - To change the order of the columns, drag a column to the left or right.
 - To pin a column, hover over the column name, click the action menu `...`. that appears, then click **Pin column**. Pinned columns appear near the left of the page, after the **Name** column. To unpin a pinned column, choose **Unpin column**
@@ -125,7 +129,6 @@ The Runs tab shows details about runs in the project. It shows a large number of
   - Click the name of a visible column to hide it.
   - Click the pin icon next to a visible column to pin it.
 
-When you customize the Runs tab, the customization is also reflected in the **Runs** selector of the [Workspace tab]({{< relref "#workspace-tab" >}}).
    {{% /tab %}}
 
    {{% tab header="Sort" %}}

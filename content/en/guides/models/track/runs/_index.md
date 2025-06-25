@@ -341,7 +341,7 @@ https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
 
 ### Customize how runs are displayed
-You can customize how runs are displayed in your project from the **Workspace** or **Runs** tabs. Both tabs use the same display configuration.
+This section shows how to customize how runs are displayed in your project's **Workspace** and **Runs** tab, which share the same display configuration.
 
 {{% alert %}}
 A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
@@ -349,6 +349,7 @@ A workspace is limited to displaying a maximum of 1000 runs, regardless of its c
 
 
 To customize which columns are visible:
+1. In the project sidebar, navigate to the **Runs** tab.
 1. Above the list of runs, click **Columns**.
 1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
   
@@ -360,9 +361,16 @@ To sort the list of runs by any visible column:
 1. Hover over the column name, then click its action `...` menu.
 1. Click **Sort ascending** or **Sort descending**.
 
-Pinned columns are shown on the right-hand side. To pin or unpin a column:
+Pinned columns are shown on the right-hand side. Unpinned columns are shown on the left-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
+
+To pin a column:
+1. In the project sidebar, navigate to the **Runs** tab.
+1. Click **Pin column**.
+
+To unpin a column:
+1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
 1. Hover over the column name, then click its action `...` menu.
-1. Click **Pin column** or **Unpin column**.
+1. Click **Unpin column**.
 
 By default, long run names are truncated in the middle for readability. To customize the truncation of run names:
 

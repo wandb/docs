@@ -24,7 +24,7 @@ Create a sweep with two [W&B CLI]({{< relref "/ref/cli/" >}}) commands:
 1. Initialize a sweep
 
 ```bash
-wandb sweep --project <propject-name> <path-to-config file>
+wandb sweep --project <project-name> <path-to-config file>
 ```
 
 2. Start the sweep agent
