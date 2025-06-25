@@ -1,6 +1,6 @@
 ---
 title: Data Types
 module: wandb.sdk.data_types
-weight: 2
+weight: 70
 ---
 Defines Data Types for logging interactive visualizations to W&B.

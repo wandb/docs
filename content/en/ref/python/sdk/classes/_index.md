@@ -1,6 +1,6 @@
 ---
 title: Classes
 module: 
-weight: 0
+weight: 30
 ---
 

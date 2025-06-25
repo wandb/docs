@@ -1,6 +1,6 @@
 ---
 title: Analytics and Query API
 module: wandb.apis.public
-weight: 3
+weight: 90
 ---
 Query and analyze data logged to W&B.

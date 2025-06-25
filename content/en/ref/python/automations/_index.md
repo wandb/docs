@@ -1,6 +1,6 @@
 ---
 title: Automations
 module: wandb.automations
-weight: 0
+weight: 100
 ---
 Automate your W&B workflows.
