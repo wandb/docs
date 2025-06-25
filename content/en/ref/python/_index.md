@@ -1,5 +1,5 @@
 ---
-title: Python SDK v(0.19.11)
+title: Python v(0.19.11)
 ---
 {{< cardpane >}}
     {{< card >}}
@@ -10,7 +10,7 @@ title: Python SDK v(0.19.11)
         {{< /card >}}
     {{< card >}}
             <a href="/ref/python/public-api">
-            <h2 className="card-title">Analytics and Query API</h2></a>
+            <h2 className="card-title">Query API</h2></a>
             <p className="card-content">Query and analyze data logged to W&B.</p>
         
         {{< /card >}}
