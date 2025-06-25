@@ -69,7 +69,7 @@
 /docs/config.html /ref/weave/run#run-config/ 301
 /docs/configs.html /guides/track/config/ 301
 /docs/frameworks/fastai.html /guides/integrations/fastai/ 301
-/docs/init.html /ref/python/sdk/actions/functions/init/ 301
+/docs/init.html /ref/python/sdk/functions/init/ 301
 /docs/integrations/api.html /ref/python/public-api/api/ 301
 /docs/integrations/docker.html /guides/integrations/docker/ 301
 /docs/integrations/sagemaker.html /guides/integrations/sagemaker/ 301
@@ -270,7 +270,7 @@
 /library/advanced/grouping/ /guides/runs/grouping/ 301
 /library/advanced/limits/ /guides/track/limits/ 301
 /library/advanced/resuming/ /guides/runs/resuming/ 301
-/library/agents/ /ref/python/sdk/actions/functions/agent/ 301
+/library/agents/ /ref/python/sdk/functions/agent/ 301
 /library/api/examples/ /ref/python/public-api/api/ 301
 /library/api/ /ref/python/public-api/api/ 301
 /library/cli/ /ref/cli/ 301
@@ -282,28 +282,28 @@
 /library/graphs/graph-edit-axes/ / 301
 /library/grouping/ /guides/runs/grouping/ 301
 /library/hyperparameter-sweeps/ /guides/sweeps/ 301
-/library/init/ /ref/python/sdk/actions/functions/init/ 301
+/library/init/ /ref/python/sdk/functions/init/ 301
 /library/integrations/cpp/ /guides/integrations/ 301
 /library/integrations/pytorch-lightning/ /guides/integrations/lightning/ 301
-/library/log/ /ref/python/sdk/actions/legacy_functions/log/ 301
+/library/log/ /ref/python/sdk/log/ 301
 /library/plots/heatmap/ /guides/track/log/media/ 301
 /library/plots/ /guides/app/ 301
 /library/public-api-guide/ /ref/python/public-api/api/ 301
 /library/python/config/ /ref/python/ 301
-/library/python/log/ /ref/python/sdk/actions/legacy_functions/log/ 301
+/library/python/log/ /ref/python/sdk/log/ 301
 /library/reference/data_types/ /ref/python/data-types/ 301
 /library/restore/ /ref/python/ 301
 /library/resuming/ /guides/runs/resuming/ 301
 /library/save/ /ref/python/public-api/run#save/ 301
 /library/security https://security.wandb.ai/ 301
-/library/sweeps/configuration/ /ref/python/sdk/actions/functions/sweep/ 301
+/library/sweeps/configuration/ /ref/python/sdk/functions/sweep/ 301
 /library/sweeps/local-controller/ /guides/sweeps/local-controller/ 301
 /library/sweeps/python-api/ /ref/python/public-api/sweep/ 301
-/library/sweeps/ /ref/python/sdk/actions/functions/sweep 301
+/library/sweeps/ /ref/python/sdk/functions/sweep 301
 /library/tables/ /ref/python/data-types/table/ 301
 /library/technical-faq/ /guides/hosting/faq/ 301
 /library/wandb.alert/ /ref/python/ 301
-/library/wandb.init/ /ref/python/sdk/actions/functions/init/ 301
+/library/wandb.init/ /ref/python/sdk/functions/init/ 301
 /library/wandb.save/ /ref/python/ 301
 /library/ /ref/python/ 301
 /python/ /ref/python/ 301
@@ -348,7 +348,7 @@
 /ref/data_types/ /ref/python/data-types/ 301
 /ref/export-api/examples/ /ref/python/public-api/ 301
 /ref/history/ / 301
-/ref/init-1 /ref/python/sdk/actions/functions/init/ 301
+/ref/init-1 /ref/python/sdk/functions/init/ 301
 /ref/java/wandbrun/ /ref/ 301
 /ref/java/wandbrun-builder/ /ref/ 301
 /ref/java/ /ref/ 301
@@ -356,8 +356,8 @@
 /ref/python/config/ /ref/python/ 301
 /ref/python/data_types/ /ref/python/data-types/ 301
 /ref/python/errors/ /ref/python/ 301
-/ref/python/ini/ /ref/python/sdk/actions/functions/init/ 301
-/ref/python/inittorch.view_as_real/ /ref/python/sdk/actions/functions/init/ 301
+/ref/python/ini/ /ref/python/sdk/functions/init/ 301
+/ref/python/inittorch.view_as_real/ /ref/python/sdk/functions/init/ 301
 /ref/python/integrations/sklearn/ /guides/integrations/scikit/ 301
 /ref/python/join/ /ref/python/ 301
 /ref/python/README/ /ref/python/ 301
@@ -371,7 +371,7 @@
 /ref/release-notes/archived/0.58.1/ /ref/release-notes/releases/0.58.1/ 301
 /ref/release-notes/archived/0.60.0/ /ref/release-notes/releases/0.60.0/ 301
 /ref/release-notes/archived/0.61.0/ /ref/release-notes/releases/0.61.0/ 301
-/ref/run/summary/ /ref/python/sdk/actions/classes/run/ 301
+/ref/run/summary/ /ref/python/sdk/classes/run/ 301
 /ref/sweep/configurations/ /guides/sweeps/define-sweep-configuration/ 301
 /ref/weave/README/ /ref/weave/ 301
 /reports/ /guides/reports/create-a-report/ 301
@@ -412,9 +412,9 @@
 /tutorials/Workspace_tutorial/ /tutorials/workspaces/ 301
 /tutorials/xgboost/ /tutorials/ 301
 /v/ / 301
-/wandb/config/ /ref/python/sdk/actions/functions/init/ 301
-/wandb/init/ /ref/python/sdk/actions/functions/init/ 301
-/wandb/log/ /ref/python/sdk/actions/legacy_functions/log/ 301
+/wandb/config/ /ref/python/sdk/functions/init/ 301
+/wandb/init/ /ref/python/sdk/functions/init/ 301
+/wandb/log/ /ref/python/sdk/log/ 301
 /weave/boards/ /guides/app/features/panels/query-panels/ 301
 /weave/streamtable/ /guides/app/features/panels/query-panels/ 301
 /weave/ /guides/app/features/panels/query-panels/ 301
@@ -423,17 +423,17 @@
 
 <!-- lazydocs migration -->
 /ref/python/data-types/graph/ /ref/python/data-types/ 301
-/ref/python/agent/ /ref/python/sdk/actions/functions/agent/ 301
-/ref/python/artifact/ /ref/python/sdk/actions/classes/Artifact/ 301
-/ref/python/controller/ /ref/python/sdk/actions/functions/controller/ 301
-/ref/python/finish/ /ref/python/sdk/actions/functions/finish/ 301
-/ref/python/init/ /ref/python/sdk/actions/functions/init/ 301
-/ref/python/log/ /ref/python/sdk/actions/legacy_functions/log/ 301
-/ref/python/login/ /ref/python/sdk/actions/functions/login/ 301
-/ref/python/run/ /ref/python/sdk/actions/classes/run/ 301
-/ref/python/save/ /ref/python/sdk/actions/legacy_functions/save/ 301
-/ref/python/sweep/ /ref/python/sdk/actions/functions/sweep/ 301
-/ref/python/watch/ /ref/python/sdk/actions/legacy_functions/watch/ 301
+/ref/python/agent/ /ref/python/sdk/functions/agent/ 301
+/ref/python/artifact/ /ref/python/sdk/classes/Artifact/ 301
+/ref/python/controller/ /ref/python/sdk/functions/controller/ 301
+/ref/python/finish/ /ref/python/sdk/functions/finish/ 301
+/ref/python/init/ /ref/python/sdk/functions/init/ 301
+/ref/python/log/ /ref/python/sdk/ 301
+/ref/python/login/ /ref/python/sdk/functions/login/ 301
+/ref/python/run/ /ref/python/sdk/classes/run/ 301
+/ref/python/save/ /ref/python/sdk/ 301
+/ref/python/sweep/ /ref/python/sdk/functions/sweep/ 301
+/ref/python/watch/ /ref/python/sdk/ 301
 <!-- END lazydocs migration -->
 
 ## Splat rules
@@ -457,3 +457,4 @@
 /ref/python/launch-library/* /launch-library/:splat 301
 /ref/release-notes/releases/* /ref/releases/:splat 301
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
+/ref/python/integrations/keras/*  /ref/python/:splat 301
