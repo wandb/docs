@@ -22,7 +22,7 @@ To construct and log a new Table, you will use:
 - [`wandb.Table()`]({{< relref "/ref/python/sdk/data-types/table.md" >}}): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of each row.
-- [`run.log()`]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}): Log the table to save it to W&B.
+- [`run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}): Log the table to save it to W&B.
 
 Here's an example:
 ```python
@@ -46,7 +46,7 @@ df = pd.read_csv("my_data.csv")
 
 run = wandb.init(project="df-table")
 my_table = wandb.Table(dataframe=df)
-wandb.log({"Table Name": my_table})
+run.log({"Table Name": my_table})
 ```
 
 For more information on supported data types, see the [`wandb.Table`]({{< relref "/ref/python/sdk/data-types/table.md" >}}) in the W&B API Reference Guide.

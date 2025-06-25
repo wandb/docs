@@ -16,19 +16,19 @@ Try our integration out in a Colab notebook.
 
 You can also see our [example repo](https://github.com/wandb/examples) for scripts, including one on hyperparameter optimization using [Hyperband](https://arxiv.org/abs/1603.06560) on [Fashion MNIST](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion), plus the [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) it generates.
 
-## Log gradients with `wandb.watch`
+## Log gradients with `run.watch`
 
-To automatically log gradients, you can call [`wandb.watch`]({{< relref "/ref/python/sdk/actions/legacy_functions/watch" >}}) and pass in your PyTorch model.
+To automatically log gradients, you can call [`run.watch`]({{< relref "/ref/python/sdk/classes/run/#method-runwatch" >}}) and pass in your PyTorch model.
 
 ```python
 import wandb
 
-wandb.init(config=args)
+run = wandb.init(config=args)
 
 model = ...  # set up your model
 
 # Magic
-wandb.watch(model, log_freq=100)
+run.watch(model, log_freq=100)
 
 model.train()
 for batch_idx, (data, target) in enumerate(train_loader):
@@ -37,13 +37,13 @@ for batch_idx, (data, target) in enumerate(train_loader):
     loss.backward()
     optimizer.step()
     if batch_idx % args.log_interval == 0:
-        wandb.log({"loss": loss})
+        run.log({"loss": loss})
 ```
 
-If you need to track multiple models in the same script, you can call `wandb.watch` on each model separately. Reference documentation for this function is [here]({{< relref "/ref/python/sdk/actions/legacy_functions/watch" >}}).
+If you need to track multiple models in the same script, you can call `run.watch` on each model separately.
 
 {{% alert color="secondary" %}}
-Gradients, metrics, and the graph won't be logged until `wandb.log` is called after a forward _and_ backward pass.
+Gradients, metrics, and the graph won't be logged until `run.log` is called after a forward _and_ backward pass.
 {{% /alert %}}
 
 ## Log images and media
@@ -52,7 +52,7 @@ You can pass PyTorch `Tensors` with image data into [`wandb.Image`]({{< relref "
 
 ```python
 images_t = ...  # generate or load images as PyTorch Tensors
-wandb.log({"examples": [wandb.Image(im) for im in images_t]})
+run.log({"examples": [wandb.Image(im) for im in images_t]})
 ```
 
 For more on logging rich media to W&B in PyTorch and other frameworks, check out our [media logging guide]({{< relref "/guides/models/track/log/media.md" >}}).
@@ -67,7 +67,7 @@ my_table.add_column("label", labels)
 my_table.add_column("class_prediction", predictions_t)
 
 # Log your Table to W&B
-wandb.log({"mnist_predictions": my_table})
+run.log({"mnist_predictions": my_table})
 ```
 
 {{< img src="/images/integrations/pytorch_example_table.png" alt="The code above generates a table like this one. This model's looking good!" >}}

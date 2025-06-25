@@ -64,7 +64,7 @@ create a W&B Sweep, we added the following to the code example:
 3. Pass the sweep configuration dictionary to [`wandb.sweep`]({{< relref "/ref/python/sdk/functions/sweep" >}}). This initializes the sweep. This returns a sweep ID (`sweep_id`). For more information on how to initialize sweeps, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
 4. Use the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/sdk/classes/run" >}}).
 5. (Optional) define values from `wandb.config` instead of defining hard coded values.
-6. Log the metric we want to optimize with [`wandb.log`]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
+6. Log the metric we want to optimize with [`run.log`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
 7. Start the sweep with the [`wandb.agent`]({{< relref "/ref/python/sdk/functions/agent" >}}) API call. Provide the sweep ID, the name of the function the sweep will execute (`function=main`), and set the maximum number of runs to try to four (`count=4`). For more information on how to start W&B Sweep, see [Start sweep agents]({{< relref "./start-sweep-agents.md" >}}).
 
 
@@ -185,7 +185,7 @@ Next, we add the following to the code example:
 2. Read in the configuration file.
 3. Use the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/sdk/classes/run" >}}). We pass the config object to the config parameter.
 4. Define hyperparameter values from `wandb.config` instead of using hard coded values.
-5. Log the metric we want to optimize with [`wandb.log`]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
+5. Log the metric we want to optimize with [`wandb.log`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
 
 
 ```python

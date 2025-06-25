@@ -57,7 +57,7 @@ with wandb.init(
 For more information on how to configure an experiment, see [Configure Experiments]({{< relref "./config.md" >}}).
 
 ### Log metrics inside your training loop
-Call [`run.log()`]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}) to log metrics about each training step such as accuracy and loss.
+Call [`run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}) to log metrics about each training step such as accuracy and loss.
 
 ```python
 model, dataloader = get_model(), get_data()

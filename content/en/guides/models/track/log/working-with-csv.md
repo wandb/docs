@@ -165,7 +165,7 @@ run = wandb.init(
 )
 ```
 
-As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}) command to accomplish this:
+As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}) command to accomplish this:
 
 ```python
 run.log({key: val})

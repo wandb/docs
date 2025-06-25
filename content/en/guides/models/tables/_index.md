@@ -35,7 +35,7 @@ Log a table with a few lines of code:
 - [`wandb.Table()`]({{< relref "/ref/python/sdk/data-types/table.md" >}}): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of the table.
-- [`run.log()`]({{< relref "/ref/python/sdk/actions/legacy_functions/log" >}}): Log the table to save it to W&B.
+- [`run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}): Log the table to save it to W&B.
 
 ```python
 import wandb
