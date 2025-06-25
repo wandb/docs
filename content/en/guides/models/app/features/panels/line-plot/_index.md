@@ -173,7 +173,7 @@ Learn more about [Automations]({{< relref "/guides/core/automations" >}}).
 
 ## Visualize CoreWeave infrastructure alerts
 
-Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B.During a [W&B run]({{< relref "/guides/models/track/runs/_index" >}}), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure.
+Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B. During a [W&B run]({{< relref "/guides/models/track/runs/_index" >}}), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure.
 
 {{< alert>}}
 This feature is in Preview and only available when training on a CoreWeave cluster. Contact your W&B representative for access.
