@@ -225,7 +225,7 @@ You can continue logging to an incremental table when resuming a run:
 # Start or resume a run
 resumed_run = wandb.init(project="resume-incremental", id="your-run-id", resume="must")
 
-# Create the incremental table; no need to populate with data from preivously logged table
+# Create the incremental table; no need to populate with data from previously logged table
 # Increments will be continue to be added to the Table artifact.
 table = wandb.Table(columns=["step", "metric"], log_mode="INCREMENTAL")
 
