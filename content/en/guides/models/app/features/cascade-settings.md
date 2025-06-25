@@ -9,9 +9,6 @@ url: guides/app/features/cascade-settings
 
 Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [Workspace settings]({{< relref "#workspace-settings" >}}) apply to the entire workspace. [Section settings]({{< relref "#section-settings" >}}) apply to all panels within a section. [Panel settings]({{< relref "#panel-settings" >}}) apply to individual panels. 
 
-
-
-
 ## Workspace settings
 
 Workspace settings apply to all sections and all panels within those sections. You can edit two types of workspace settings: [**Workspace layout**]({{< relref "#workspace-layout-options" >}}) and [**Line plots**]({{< relref "#line-plots-options" >}}). **Workspace layouts** determine the structure of the workspace, while **Line plots** settings control the default settings for line plots in the workspace.
@@ -22,6 +19,10 @@ To edit settings that apply to the overall structure of this workspace:
 2. Click the gear icon next to the **New report** button to view the workspace settings.
 3. Choose **Workspace layout** to change the workspace's layout, or choose **Line plots** to configure default settings for line plots in the workspace.
 {{< img src="/images/app_ui/workspace_settings.png" alt="" >}}
+
+{{% alert %}}
+After customizing your workspace, you can use _workspace templates_ to quickly create new workspaces with the same settings. Refer to [Workspace templates]({{< relref "/guides/models/track/workspaces.md#workspace-templates" >}}).
+{{% /alert %}}
 
 ### Workspace layout options
 
