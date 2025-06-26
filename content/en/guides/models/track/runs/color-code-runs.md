@@ -7,7 +7,7 @@ menu:
 title: Semantic run plot legends
 ---
 
-Create meaningful legends for line plots to visually distinguish them based on a metric or run configuration you log to W&B. Identify trends and patterns based on the highest, lowest, or latest values of a metric key-value or run configuration's key-value pairs across your training and evaluation runs. Runs are bucketed and colored based on the plot's defined metric key-value or run configuration key-value pair, Y value, and number of buckets. 
+Create visually meaningful line plots and plot legends by color-coding your W&B runs based on metrics or configuration parameters. Identify patterns and trends across experiments by coloring runs according to their performance metrics (highest, lowest, or latest values). W&B automatically groups your runs into color-coded buckets based on the values of your selected parameter.
 
 Navigate to your workspace's settings page to configure metric or configuration-based colors for runs:
 
@@ -96,7 +96,7 @@ Consider the following:
 - **Key** is set to `"Accuracy"` (abbreviated as `"acc"`).
 - **Y value** is set to `"Max"`
 
-With this set up, W&B colors run based on their accuracy values, using the maximum accuracy value logged for each run. 
+With this configuration, W&B colors each run based on their accuracy values. The colors vary from a light yellow color to a deep color. Lighter colors represent lower accuracy values, while deeper colors represent higher accuracy values.
 
 Six buckets are defined for the metric, with each bucket representing a range of accuracy values. Within the **Buckets** section, the following range of buckets are defined:
 
