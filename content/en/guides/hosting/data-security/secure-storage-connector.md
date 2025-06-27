@@ -536,21 +536,23 @@ After you [determine the storage location](#determine-the-storage-location) for 
 
     {{% alert %}}To use the instance level storage for team storage (regardless of whether it is internal or external), leave **Storage Type** set to **Internal**, even if the instance level bucket is configured for BYOB. To use separate external storage for the team, set **Storage Type** for the team to **External** and configure the bucket details in the next step.{{% /alert %}}
 
-1. Click **Bucket location**. Select an existing bucket or click **Add bucket** at the bottom to create a new bucket.
-    To add a new bucket:
-    1. Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud.
-    1. Provide a **Name** for the bucket.
-        - For **CoreWeave**, provide only the bucket name.
-        - For Azure on W&B Dedicated or Self-Managed, provide Account name and Container name. <!--(TODO verify UI)-->
-    1. Provide the bucket path you [determined earlier](#determine-the-storage-address).
-    1. Optional configuration:
-        - If applicable, set **Path** to the bucket sub-path.
-        - **CoreWeave**: Set **KMS key ARN** to the CoreWeave ARN.
-        - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
-        - **Azure**: Set the **Account name** to the Azure account and **Container name** to the Azure blob storage container. If applicable, specify values for **Tenant ID** and **Managed Identity Client ID**. <!-- TODO: Is this supported on MT? Cross-cloud for DC? Asked in https://weightsandbiases.slack.com/archives/C04EUEA3P5Z/p1751061972096839 -->
-        - **Multi-tenant Cloud**: Optionally invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses. Otherwise, you can invite members to the team after it is created.
+1. Click **Bucket location**.
+1. To use an existing bucket, select it from the list. To add a new bucket, click **Add bucket** at the bottom, then provide the bucket's details.
 
-          For **Dedicated Cloud** or **Self-Managed**, you can invite members to the team after it is created. 
+    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud.
+    -  Provide a **Name** for the bucket.
+    
+        For **CoreWeave**, provide only the bucket name. For Azure on W&B Dedicated or Self-Managed, provide Account name and Container name.
+    - Provide the bucket path you [determined earlier](#determine-the-storage-address).
+    - For **Azure**, set the **Account name** to the Azure account and **Container name** to the Azure blob storage container.
+    - Optionally:
+      - If applicable, set **Path** to the bucket sub-path.
+      - **CoreWeave**: Set **KMS key ARN** to the CoreWeave ARN.
+      - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
+      -  **Azure**: If applicable, specify values for **Tenant ID** and **Managed Identity Client ID**.
+1. For **Multi-tenant Cloud**, optionally invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses. Otherwise, you can invite members to the team after it is created.
+
+    For **Dedicated Cloud** or **Self-Managed**, you can invite members to the team after it is created. 
 1. Click **Create team**.
 
     If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
