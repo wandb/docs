@@ -1,0 +1,43 @@
+---
+title: Molecule
+object_type: python_sdk_data_type
+data_type_classification: class
+---
+
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py >}}
+
+
+
+
+## <kbd>class</kbd> `Molecule`
+W&B class for 3D Molecular data. 
+
+
+
+**Args:**
+ 
+ - `data_or_path`:  (pathlib.Path, string, io)  Molecule can be initialized from a file name or an io object. 
+ - `caption`:  (string)  Caption associated with the molecule for display. 
+
+### <kbd>method</kbd> `Molecule.__init__`
+
+```python
+__init__(
+    data_or_path: Union[str, pathlib.Path, ForwardRef('TextIO')],
+    caption: Optional[str] = None,
+    **kwargs: str
+) → None
+```
+
+
+
+
+
+
+
+
+---
+
+
+
+
