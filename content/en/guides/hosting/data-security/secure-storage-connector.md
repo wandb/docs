@@ -410,7 +410,7 @@ Create your S3-compatible bucket. Make a note of:
 {{% /tab %}}
 {{< /tabpane >}}
 
-Next, [determine the storage address]({{< relref ""#determine-the-storage-address>}}).
+Next, [determine the storage address]({{< relref "#determine-the-storage-address" >}}).
 
 ### 2. Determine the storage address  {#determine-the-storage-address}
 This section explains the syntax to use to connect W&B to a BYOB storage bucket. In the examples, replace placeholder values between angle brackets (`<>`) with your bucket's details.
