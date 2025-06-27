@@ -8,21 +8,21 @@ title: Track external files
 weight: 7
 ---
 
-Use **reference artifacts** to track and use files saved outside of W&B servers, for example in CoreWeave AI Object Storage (CAIOS), an Amazon Simple Storage Service (S3) bucket, GCS bucket, Azure blob, HTTP file server, or an NFS share.
+Use **reference artifacts** to track and use files saved outside of W&B servers, for example in CoreWeave AI Object Storage, an Amazon Simple Storage Service (S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
 
-W&B logs metadata about the CAIOS/S3/GCS/Azure object such as its ETag, size, and version ID (if object versioning is enabled on the bucket). Reference artifact metadata does not leave your system. 
+W&B logs metadata about the externally stored object, such as its ETag, size, and version ID if object versioning is enabled on the bucket. Reference artifact metadata does not leave your system.
 
 {{% alert %}}
-Non reference artifacts save artifacts (such as the model and metadata associated for that model) to W&B Servers, and are the default behavior when you log artifacts with the W&B Python SDK.
+W&B saves an artifact's files to W&B servers when you log an artifact that does not track external files. This is the default behavior when you log artifacts with the W&B Python SDK.
 
-See the [Quick start]({{< relref "/guides/core/artifacts/artifacts-walkthrough" >}}) for information on how to save files and directories to W&B servers instead.
+See the [Artifacts start]({{< relref "/guides/core/artifacts/artifacts-walkthrough" >}}) for information on how to save files and directories to W&B servers instead.
 {{% /alert %}}
 
-The following describes how to construct reference artifacts and how to incorporate them into your workflows.
+The following describes how to construct reference artifacts.
 
 ## Track an artifact in an external bucket
 
-Use the W&B Python SDK to track references to files in your CAIOS/S3/GCS/Azure bucket. 
+Use the W&B Python SDK to track references to files in your CoreWeave AI Object Storage/S3/GCS/Azure bucket. 
 
 1. Initialize a run with `wandb.init()`.
 2. Create an artifact object with `wandb.Artifact()`.
@@ -46,9 +46,9 @@ run.log_artifact(artifact)
 run.finish()
 ```
 
-Suppose you have a bucket with the following directory structure in your Amazon S3 bucket:
+Suppose your bucket has the following directory structure:
 
-```bash
+```text
 s3://my-bucket
 
 |datasets/
@@ -57,7 +57,7 @@ s3://my-bucket
   |---- cnn/
 ```
 
-Within `mnist/` is a collection of images. Track the your images dataset with `wandb.Artifact.add_reference()`:
+The `datasets/mnist/` directory contains a collection of images. Track the directory as a dataset with `wandb.Artifact.add_reference()`. The following code sample creates a reference artifact `mnist:latest` using the artifact object's `add_reference()` method.
 
 ```python
 import wandb
@@ -69,7 +69,7 @@ run.log_artifact(artifact)
 run.finish()
 ```
 
-The previous code sample creates a reference artifact `mnist:latest`. Within the W&B App, you can look through the contents of the reference artifact using the file browser, [explore the full dependency graph]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph" >}}), and scan through the versioned history of your artifact. The W&B App does not render rich media such as images, audio, and so forth because the data itself is not contained within the artifact.
+Within the W&B App, you can look through the contents of the reference artifact using the file browser, [explore the full dependency graph]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph" >}}), and scan through the versioned history of your artifact. The W&B App does not render rich media such as images, audio, and so forth because the data itself is not contained within the artifact.
 
 {{% alert %}}
 W&B Artifacts support any Amazon S3 compatible interface, including MinIO. The scripts described below work as-is with MinIO, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your MinIO server.
@@ -81,9 +81,9 @@ By default, W&B imposes a 10,000 object limit when adding an object prefix. You 
 
 ## Download an artifact from an external bucket
 
-W&B uses the metadata recorded when the artifact was logged to retrieve the files from the underlying bucket when it downloads a reference artifact. If your bucket has object versioning enabled, W&B will retrieve the object version corresponding to the state of the file at the time an artifact was logged. This means that as you evolve the contents of your bucket, you can still point to the exact iteration of your data a given model was trained on since the artifact serves as a snapshot of your bucket at the time of training.
+W&B  retrieves the files from the underlying bucket when it downloads a reference artifact using the metadata recorded when the artifact is logged. If your bucket has object versioning enabled, W&B retrieves the object version that corresponds to the state of the file at the time an artifact was logged. As you evolve the contents of your bucket, you can always point to the exact version of your data a given model was trained on,  because the artifact serves as a snapshot of your bucket during the training run.
 
-The following code sample shows how to download a reference artifact. Note that the the APIs for downloading artifacts are the same for both reference and non-reference artifacts:
+The following code sample shows how to download a reference artifact. The the APIs for downloading artifacts are the same for both reference and non-reference artifacts:
 
 ```python
 import wandb
@@ -101,7 +101,7 @@ Based on your use case, read the instructions to enable object versioning: [AWS]
 
 ### Add and download an external reference example
 
-The following code snippet shows how to upload a dataset to an Amazon S3 bucket, track it with a reference artifact, and how to download the artifact:
+The following code sample uploads a dataset to an Amazon S3 bucket, tracks it with a reference artifact, then downloads it:
 
 ```python
 import boto3
@@ -133,7 +133,7 @@ datadir = artifact.download()
 {{% alert %}}
 See the following reports for an end-to-end walkthrough on how to track artifacts by reference for GCP or Azure:
 
-* [Guide to Tracking Artifacts by Reference](https://wandb.ai/stacey/artifacts/reports/Tracking-Artifacts-by-Reference--Vmlldzo1NDMwOTE)
+* [Guide to Tracking Artifacts by Reference with GCP](https://wandb.ai/stacey/artifacts/reports/Tracking-Artifacts-by-Reference--Vmlldzo1NDMwOTE)
 * [Working with Reference Artifacts in Microsoft Azure](https://wandb.ai/andrea0/azure-2023/reports/Efficiently-Harnessing-Microsoft-Azure-Blob-Storage-with-Weights-Biases--Vmlldzo0NDA2NDgw)
 {{% /alert %}}
 
@@ -143,7 +143,7 @@ W&B uses the default mechanism to look for credentials based on the cloud provid
 
 | Cloud provider | Credentials Documentation |
 | -------------- | ------------------------- |
-| CoreWeave AI Object Storage (CAIOS)| [CAIOS documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys) |
+| CoreWeave AI Object Storage (CoreWeave AI Object Storage)| [CoreWeave AI Object Storage documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys/cloud-console-tokens) |
 | AWS            | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
 | GCP            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
 | Azure          | [Azure documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
@@ -153,7 +153,7 @@ For AWS, if the bucket is not located in the configured user's default region, y
 {{% alert color="secondary" %}}
 Rich media such as images, audio, video, and point clouds may fail to render in the App UI depending on the CORS configuration of your bucket. Allow listing **app.wandb.ai** in your bucket's CORS settings will allow the App UI to properly render such rich media.
 
-Panels might fail to render in the App UI for private buckets. If your company has a VPN, you could update your bucket's access policy to whitelist IPs within your VPN.
+If rich media such as images, audio, video, and point clouds does not render in the App UI, you may need to allowlist `app.wandb.ai` in your bucket's CORS policy.
 {{% /alert %}}
 
 ## Track an artifact in a filesystem
@@ -184,11 +184,11 @@ run.log_artifact(artifact)
 By default, W&B imposes a 10,000 file limit when adding a reference to a directory. You can adjust this limit by specifying `max_objects=` when you call `add_reference()`.
 {{% /alert %}}
 
-Note the triple slash in the URL. The first component is the `file://` prefix that denotes the use of filesystem references. The second is the path to the dataset, `/mount/datasets/mnist/`.
+Note the triple slash in the URL. The first component is the `file://` prefix that denotes the use of filesystem references. The second begins the path to the dataset, `/mount/datasets/mnist/`.
 
 The resulting artifact `mnist:latest` looks and acts like a regular artifact. The only difference is that the artifact only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
 
-You can interact with this artifact just as you would a normal artifact. In the UI, you can browse the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact. However, the UI will not be able to render rich media such as images, audio, etc. as the data itself is not contained within the artifact.
+You can interact with this artifact just as you would a normal artifact. In the UI, you can browse the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact. However, the UI cannot render rich media such as images, audio, because the data itself is not contained within the artifact.
 
 Downloading a reference artifact:
 
@@ -200,7 +200,7 @@ artifact = run.use_artifact("entity/project/mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
-For filesystem references, a `download()` operation copies the files from the referenced paths to construct the artifact directory. In the above example, the contents of `/mount/datasets/mnist` is copied into the directory `artifacts/mnist:v0/`. If an artifact contains a reference to a file that was overwritten, then `download()` will throw an error as the artifact can no longer be reconstructed.
+For a filesystem reference, a `download()` operation copies the files from the referenced paths to construct the artifact directory. In the above example, the contents of `/mount/datasets/mnist` is copied into the directory `artifacts/mnist:v0/`. If an artifact contains a reference to a file that was overwritten, then `download()` will throw an error because the artifact can no longer be reconstructed.
 
 Putting it all together, you can use the following code to track a dataset under a mounted filesystem that feeds into a training job:
 
@@ -223,7 +223,7 @@ artifact_dir = artifact.download()
 # Perform training here...
 ```
 
-To track models, log the model artifact after the training script writes the model files to the mount point:
+To track a model, log the model artifact after the training script writes the model files to the mount point:
 
 ```python
 import wandb
