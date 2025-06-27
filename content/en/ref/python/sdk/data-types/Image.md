@@ -108,57 +108,63 @@ Initialize a wandb.Image object.
  - `boxes`:  A dictionary containing bounding box information for the image. 
  - `see`:  https://docs.wandb.ai/ref/python/data-types/boundingboxes2d/ 
  - `masks`:  A dictionary containing mask information for the image. 
- - `see`:  https://docs.wandb.ai/ref/python/sdk/data-types/imagemask/ 
+ - `see`:  https://docs.wandb.ai/ref/python/data-types/imagemask/ 
  - `file_type`:  The file type to save the image as.  This parameter has no effect if data_or_path is a path to an image file. 
  - `normalize`:  If True, normalize the image pixel values to fall within the range of [0, 255].  Normalize is only applied if data_or_path is a numpy array or pytorch tensor. 
 
 
 
 **Examples:**
- ### Create a wandb.Image from a numpy array ```python
-    import numpy as np
-    import wandb
+ Create a wandb.Image from a numpy array 
 
-    with wandb.init() as run:
-         examples = []
-         for i in range(3):
-             pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-             image = wandb.Image(pixels, caption=f"random field {i}")
-             examples.append(image)
-         run.log({"examples": examples})
-    ``` 
+```python
+import numpy as np
+import wandb
 
-### Create a wandb.Image from a PILImage ```python
-    import numpy as np
-    from PIL import Image as PILImage
-    import wandb
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(pixels, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+``` 
 
-    with wandb.init() as run:
-         examples = []
-         for i in range(3):
-             pixels = np.random.randint(
-                 low=0, high=256, size=(100, 100, 3), dtype=np.uint8
-             )
-             pil_image = PILImage.fromarray(pixels, mode="RGB")
-             image = wandb.Image(pil_image, caption=f"random field {i}")
-             examples.append(image)
-         run.log({"examples": examples})
-    ``` 
+Create a wandb.Image from a PILImage 
 
-### log .jpg rather than .png (default) ```python
-    import numpy as np
-    import wandb
+```python
+import numpy as np
+from PIL import Image as PILImage
+import wandb
 
-    with wandb.init() as run:
-         examples = []
-         for i in range(3):
-             pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-             image = wandb.Image(
-                 pixels, caption=f"random field {i}", file_type="jpg"
-             )
-             examples.append(image)
-         run.log({"examples": examples})
-    ``` 
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(
+             low=0, high=256, size=(100, 100, 3), dtype=np.uint8
+         )
+         pil_image = PILImage.fromarray(pixels, mode="RGB")
+         image = wandb.Image(pil_image, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+``` 
+
+Log .jpg rather than .png (default) 
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(
+             pixels, caption=f"random field {i}", file_type="jpg"
+         )
+         examples.append(image)
+    run.log({"examples": examples})
+``` 
 
 
 ---
@@ -173,95 +179,8 @@ Initialize a wandb.Image object.
 
 ---
 
-### <kbd>classmethod</kbd> `Image.all_boxes`
-
-```python
-all_boxes(
-    images: Sequence[ForwardRef('Image')],
-    run: 'LocalRun',
-    run_key: str,
-    step: Union[int, str]
-) → Union[List[Optional[dict]], bool]
-```
-
-Collect all boxes from a list of images. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
-
-### <kbd>classmethod</kbd> `Image.all_captions`
-
-```python
-all_captions(
-    images: Sequence[ForwardRef('Media')]
-) → Union[bool, Sequence[Optional[str]]]
-```
-
-Get captions from a list of images. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
-
-### <kbd>classmethod</kbd> `Image.all_masks`
-
-```python
-all_masks(
-    images: Sequence[ForwardRef('Image')],
-    run: 'LocalRun',
-    run_key: str,
-    step: Union[int, str]
-) → Union[List[Optional[dict]], bool]
-```
-
-Collect all masks from a list of images. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
 
 
-### <kbd>classmethod</kbd> `Image.from_json`
 
-```python
-from_json(json_obj: dict, source_artifact: 'Artifact') → Image
-```
-
-Factory method to create an Audio object from a JSON object. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
-
-### <kbd>classmethod</kbd> `Image.get_media_subdir`
-
-```python
-get_media_subdir() → str
-```
-
-Get media subdirectory. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
-
-
-### <kbd>classmethod</kbd> `Image.seq_to_json`
-
-```python
-seq_to_json(
-    seq: Sequence[ForwardRef('BatchableMedia')],
-    run: 'LocalRun',
-    key: str,
-    step: Union[int, str]
-) → dict
-```
-
-Convert a sequence of Image objects to a JSON representation. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
 
 

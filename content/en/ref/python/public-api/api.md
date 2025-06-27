@@ -402,17 +402,17 @@ Returns the only Automation matching the parameters.
  Get an existing automation named "my-automation": 
 
 ```python
-    import wandb
+import wandb
 
-    api = wandb.Api()
-    automation = api.automation(name="my-automation")
-    ``` 
+api = wandb.Api()
+automation = api.automation(name="my-automation")
+``` 
 
 Get an existing automation named "other-automation", from the entity "my-team": 
 
 ```python
-    automation = api.automation(name="other-automation", entity="my-team")
-    ``` 
+automation = api.automation(name="other-automation", entity="my-team")
+``` 
 
 ---
 
@@ -449,11 +449,11 @@ If no parameters are provided, the returned iterator will contain all Automation
  Fetch all existing automations for the entity "my-team": 
 
 ```python
-    import wandb
+import wandb
 
-    api = wandb.Api()
-    automations = api.automations(entity="my-team")
-    ``` 
+api = wandb.Api()
+automations = api.automations(entity="my-team")
+``` 
 
 ---
 
@@ -488,31 +488,31 @@ Create a new Automation.
 
 
 **Examples:**
-  Create a new automation named "my-automation" that sends a Slack notification  when a run within a specific project logs a metric exceeding a custom threshold: 
+ Create a new automation named "my-automation" that sends a Slack notification when a run within a specific project logs a metric exceeding a custom threshold: 
 
 ```python
-     import wandb
-     from wandb.automations import OnRunMetric, RunEvent, SendNotification
+import wandb
+from wandb.automations import OnRunMetric, RunEvent, SendNotification
 
-     api = wandb.Api()
+api = wandb.Api()
 
-     project = api.project("my-project", entity="my-team")
+project = api.project("my-project", entity="my-team")
 
-     # Use the first Slack integration for the team
-     slack_hook = next(api.slack_integrations(entity="my-team"))
+# Use the first Slack integration for the team
+slack_hook = next(api.slack_integrations(entity="my-team"))
 
-     event = OnRunMetric(
-         scope=project,
-         filter=RunEvent.metric("custom-metric") > 10,
-     )
-     action = SendNotification.from_integration(slack_hook)
+event = OnRunMetric(
+     scope=project,
+     filter=RunEvent.metric("custom-metric") > 10,
+)
+action = SendNotification.from_integration(slack_hook)
 
-     automation = api.create_automation(
-         event >> action,
-         name="my-automation",
-         description="Send a Slack message whenever 'custom-metric' exceeds 10.",
-     )
-    ``` 
+automation = api.create_automation(
+     event >> action,
+     name="my-automation",
+     description="Send a Slack message whenever 'custom-metric' exceeds 10.",
+)
+``` 
 
 ---
 
@@ -569,17 +569,17 @@ Create a new registry.
 
 **Examples:**
  ```python
-    import wandb
+import wandb
 
-    api = wandb.Api()
-    registry = api.create_registry(
-        name="my-registry",
-        visibility="restricted",
-        organization="my-org",
-        description="This is a test registry",
-        artifact_types=["model"],
-    )
-    ``` 
+api = wandb.Api()
+registry = api.create_registry(
+    name="my-registry",
+    visibility="restricted",
+    organization="my-org",
+    description="This is a test registry",
+    artifact_types=["model"],
+)
+``` 
 
 ---
 
@@ -916,34 +916,6 @@ Use the iterator to search and filter registries, collections, or artifact versi
 
 
 
-**Examples:**
-  Find all registries with the names that contain "model" ```python
-     import wandb
-
-     api = wandb.Api()  # specify an org if your entity belongs to multiple orgs
-     api.registries(filter={"name": {"$regex": "model"}})
-    ``` 
-
- Find all collections in the registries with the name "my_collection" and the tag "my_tag" ```python
-     api.registries().collections(
-         filter={"name": "my_collection", "tag": "my_tag"}
-     )
-    ``` 
-
- Find all artifact versions in the registries with a collection name that contains "my_collection" and a version that has the alias "best" ```python
-     api.registries().collections(
-         filter={"name": {"$regex": "my_collection"}}
-     ).versions(filter={"alias": "best"})
-    ``` 
-
- Find all artifact versions in the registries that contain "model" and have the tag "prod" or alias "best" ```python
-     api.registries(filter={"name": {"$regex": "model"}}).versions(
-         filter={"$or": [{"tag": "prod"}, {"alias": "best"}]}
-     )
-    ``` 
-
-
-
 **Args:**
  
  - `organization`:  (str, optional) The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
@@ -953,6 +925,40 @@ Use the iterator to search and filter registries, collections, or artifact versi
 
 **Returns:**
  A registry iterator. 
+
+
+
+**Examples:**
+ Find all registries with the names that contain "model" 
+
+```python
+import wandb
+
+api = wandb.Api()  # specify an org if your entity belongs to multiple orgs
+api.registries(filter={"name": {"$regex": "model"}})
+``` 
+
+Find all collections in the registries with the name "my_collection" and the tag "my_tag" 
+
+```python
+api.registries().collections(filter={"name": "my_collection", "tag": "my_tag"})
+``` 
+
+Find all artifact versions in the registries with a collection name that contains "my_collection" and a version that has the alias "best" 
+
+```python
+api.registries().collections(
+    filter={"name": {"$regex": "my_collection"}}
+).versions(filter={"alias": "best"})
+``` 
+
+Find all artifact versions in the registries that contain "model" and have the tag "prod" or alias "best" 
+
+```python
+api.registries(filter={"name": {"$regex": "model"}}).versions(
+    filter={"$or": [{"tag": "prod"}, {"alias": "best"}]}
+)
+``` 
 
 ---
 
@@ -979,14 +985,16 @@ Return a registry given a registry name.
 
 
 **Examples:**
- Fetch and update a registry ```python
-    import wandb
+ Fetch and update a registry 
 
-    api = wandb.Api()
-    registry = api.registry(name="my-registry", organization="my-org")
-    registry.description = "This is an updated description"
-    registry.save()
-    ``` 
+```python
+import wandb
+
+api = wandb.Api()
+registry = api.registry(name="my-registry", organization="my-org")
+registry.description = "This is an updated description"
+registry.save()
+``` 
 
 ---
 
@@ -1196,21 +1204,25 @@ Returns an iterator of Slack integrations for an entity.
 
 
 **Examples:**
- Get all registered Slack integrations for the team "my-team": ```python
-    import wandb
+ Get all registered Slack integrations for the team "my-team": 
 
-    api = wandb.Api()
-    slack_integrations = api.slack_integrations(entity="my-team")
-    ``` 
+```python
+import wandb
 
-Find only Slack integrations that post to channel names starting with "team-alerts-": ```python
-    slack_integrations = api.slack_integrations(entity="my-team")
-    team_alert_integrations = [
-         ig
-         for ig in slack_integrations
-         if ig.channel_name.startswith("team-alerts-")
-    ]
-    ``` 
+api = wandb.Api()
+slack_integrations = api.slack_integrations(entity="my-team")
+``` 
+
+Find only Slack integrations that post to channel names starting with "team-alerts-": 
+
+```python
+slack_integrations = api.slack_integrations(entity="my-team")
+team_alert_integrations = [
+    ig
+    for ig in slack_integrations
+    if ig.channel_name.startswith("team-alerts-")
+]
+``` 
 
 ---
 
@@ -1301,32 +1313,32 @@ Update an existing automation.
  Disable and edit the description of an existing automation ("my-automation"): 
 
 ```python
-    import wandb
+import wandb
 
-    api = wandb.Api()
+api = wandb.Api()
 
-    automation = api.automation(name="my-automation")
-    automation.enabled = False
-    automation.description = "Kept for reference, but no longer used."
+automation = api.automation(name="my-automation")
+automation.enabled = False
+automation.description = "Kept for reference, but no longer used."
 
-    updated_automation = api.update_automation(automation)
-    ``` 
+updated_automation = api.update_automation(automation)
+``` 
 
-OR: 
+OR 
 
 ```python
-    import wandb
+import wandb
 
-    api = wandb.Api()
+api = wandb.Api()
 
-    automation = api.automation(name="my-automation")
+automation = api.automation(name="my-automation")
 
-    updated_automation = api.update_automation(
-         automation,
-         enabled=False,
-         description="Kept for reference, but no longer used.",
-    )
-    ``` 
+updated_automation = api.update_automation(
+    automation,
+    enabled=False,
+    description="Kept for reference, but no longer used.",
+)
+``` 
 
 ---
 
@@ -1443,20 +1455,24 @@ Returns an iterator of webhook integrations for an entity.
 
 
 **Examples:**
- Get all registered webhook integrations for the team "my-team": ```python
-    import wandb
+ Get all registered webhook integrations for the team "my-team": 
 
-    api = wandb.Api()
-    webhook_integrations = api.webhook_integrations(entity="my-team")
-    ``` 
+```python
+import wandb
 
-Find only webhook integrations that post requests to "https://my-fake-url.com": ```python
-    webhook_integrations = api.webhook_integrations(entity="my-team")
-    my_webhooks = [
-         ig
-         for ig in webhook_integrations
-         if ig.url_endpoint.startswith("https://my-fake-url.com")
-    ]
-    ``` 
+api = wandb.Api()
+webhook_integrations = api.webhook_integrations(entity="my-team")
+``` 
+
+Find only webhook integrations that post requests to "https://my-fake-url.com": 
+
+```python
+webhook_integrations = api.webhook_integrations(entity="my-team")
+my_webhooks = [
+    ig
+    for ig in webhook_integrations
+    if ig.url_endpoint.startswith("https://my-fake-url.com")
+]
+``` 
 
 

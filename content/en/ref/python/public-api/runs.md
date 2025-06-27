@@ -418,15 +418,9 @@ This is simpler and faster if you are ok with the history records being sampled.
 load(force=False)
 ```
 
-Fetch and update run data from GraphQL database. 
-
-Ensures run data is up to date. 
 
 
 
-**Args:**
- 
- - `force` (bool):  Whether to force a refresh of the run data. 
 
 ---
 

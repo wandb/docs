@@ -38,17 +38,6 @@ Accept a path to an audio file or a numpy array of audio data.
 ---
 
 
-### <kbd>classmethod</kbd> `Audio.captions`
-
-```python
-captions(audio_list)
-```
-
-Get the captions of the audio files. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
 
 ### <kbd>classmethod</kbd> `Audio.durations`
 
@@ -58,33 +47,8 @@ durations(audio_list)
 
 Calculate the duration of the audio files. 
 
-<!-- lazydoc-ignore: internal --> 
-
 ---
 
-### <kbd>classmethod</kbd> `Audio.from_json`
-
-```python
-from_json(json_obj, source_artifact)
-```
-
-Deserialize JSON object into it's class representation. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
-
-### <kbd>classmethod</kbd> `Audio.get_media_subdir`
-
-```python
-get_media_subdir()
-```
-
-Get media subdirectory. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
 
 
 ### <kbd>classmethod</kbd> `Audio.sample_rates`
@@ -94,20 +58,6 @@ sample_rates(audio_list)
 ```
 
 Get sample rates of the audio files. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
-
-### <kbd>classmethod</kbd> `Audio.seq_to_json`
-
-```python
-seq_to_json(seq, run, key, step)
-```
-
-Convert a sequence of Audio objects to a JSON representation. 
-
-<!-- lazydoc-ignore: internal --> 
 
 ---
 

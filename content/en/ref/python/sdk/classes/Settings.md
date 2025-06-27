@@ -158,8 +158,6 @@ Attributes:
 - x_cli_only_mode (bool): Flag to indicate that the SDK is running in CLI-only mode.
 - x_disable_machine_info (bool): Flag to disable automatic machine info collection.
 - x_disable_meta (bool): Flag to disable the collection of system metadata.
-- x_disable_setproctitle (bool): Flag to disable using setproctitle for the internal process in the legacy service.
-    This is deprecated and will be removed in future versions.
 - x_disable_stats (bool): Flag to disable the collection of system metrics.
 - x_disable_viewer (bool): Flag to disable the early viewer query.
 - x_executable (Optional): Path to the Python executable.
@@ -206,7 +204,6 @@ Attributes:
 - x_proxies (Optional): Custom proxy servers for requests to W&B.
     This is deprecated and will be removed in future versions.
     Please use `http_proxy` and `https_proxy` instead.
-- x_require_legacy_service (bool): Force the use of legacy wandb service.
 - x_runqueue_item_id (Optional): ID of the Launch run queue item being processed.
 - x_save_requirements (bool): Flag to save the requirements file.
 - x_server_side_derived_summary (bool): Flag to delegate automatic computation of summary from history to the server.
@@ -244,7 +241,9 @@ Attributes:
 - x_stats_disk_paths (Optional): System paths to monitor for disk usage.
 - x_stats_gpu_count (Optional): GPU device count.
     If set, overrides the auto-detected value in the run metadata.
-- x_stats_gpu_device_ids (Optional): No description provided.
+- x_stats_gpu_device_ids (Optional): GPU device indices to monitor.
+    If not set, the system monitor captures metrics for all GPUs.
+    Assumes 0-based indexing matching CUDA/ROCm device enumeration.
 - x_stats_gpu_type (Optional): GPU device type.
     If set, overrides the auto-detected value in the run metadata.
 - x_stats_neuron_monitor_config_path (Optional): Path to the default config file for the neuron-monitor tool.
@@ -257,6 +256,10 @@ Attributes:
 - x_stats_open_metrics_http_headers (Optional): HTTP headers to add to OpenMetrics requests.
 - x_stats_pid (int): PID of the process that started the wandb-core process to collect system stats for.
 - x_stats_sampling_interval (float): Sampling interval for the system monitor in seconds.
+- x_stats_track_process_tree (bool): Monitor the entire process tree for resource usage, starting from `x_stats_pid`.
+    When `True`, the system monitor aggregates the RSS, CPU%, and thread count
+    from the process with PID `x_stats_pid` and all of its descendants.
+    This can have a performance overhead and is disabled by default.
 - x_sync (bool): Flag to indicate whether we are syncing a run from the transaction log.
 - x_update_finish_state (bool): Flag to indicate whether this process can update the run's final state on the server.
     Set to False in distributed training when only the main process should determine the final state.

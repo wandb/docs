@@ -12,7 +12,7 @@ data_type_classification: class
 ## <kbd>class</kbd> `Artifact`
 Flexible and lightweight building block for dataset and model versioning. 
 
-Construct an empty W&B Artifact. Populate an artifacts contents with methods that begin with `add`. Once the artifact has all the desired files, you can call `wandb.log_artifact()` to log it. 
+Construct an empty W&B Artifact. Populate an artifacts contents with methods that begin with `add`. Once the artifact has all the desired files, you can call `run.log_artifact()` to log it. 
 
 
 
@@ -118,14 +118,14 @@ The nearest step at which history metrics were logged for the source run of the 
 
 **Examples:**
  ```python
-     run = artifact.logged_by()
-     if run and (artifact.history_step is not None):
-         history = run.sample_history(
-             min_step=artifact.history_step,
-             max_step=artifact.history_step + 1,
-             keys=["my_metric"],
-         )
-    ``` 
+run = artifact.logged_by()
+if run and (artifact.history_step is not None):
+     history = run.sample_history(
+         min_step=artifact.history_step,
+         max_step=artifact.history_step + 1,
+         keys=["my_metric"],
+     )
+``` 
 
 ---
 
@@ -652,7 +652,7 @@ Get the WBValue object located at the artifact relative `name`.
 
 
 **Returns:**
- W&B object that can be logged with `wandb.log()` and visualized in the W&B UI. 
+ W&B object that can be logged with `run.log()` and visualized in the W&B UI. 
 
 
 

@@ -57,45 +57,5 @@ with wandb.init() as run:
 
 ---
 
-### <kbd>classmethod</kbd> `Html.from_json`
 
-```python
-from_json(json_obj: dict, source_artifact: 'Artifact') → Html
-```
-
-Deserialize a JSON object into it's class representation. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
-
-### <kbd>classmethod</kbd> `Html.get_media_subdir`
-
-```python
-get_media_subdir() → str
-```
-
-Get media subdirectory. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
-
-
-### <kbd>classmethod</kbd> `Html.seq_to_json`
-
-```python
-seq_to_json(
-    seq: Sequence[ForwardRef('BatchableMedia')],
-    run: 'LocalRun',
-    key: str,
-    step: Union[int, str]
-) → dict
-```
-
-Convert a sequence of HTML objects to a JSON representation. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
 

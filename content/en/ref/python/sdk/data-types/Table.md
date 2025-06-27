@@ -98,11 +98,9 @@ Adds one or more computed columns based on existing data.
 
 **Args:**
  
- - `fn`:  A function which accepts one or two parameters, ndx (int) and row (dict),  which is expected to return a dict representing new columns for that row, keyed  by the new column names. 
-
- `ndx` is an integer representing the index of the row. Only included if `include_ndx`  is set to `True`. 
-
- `row` is a dictionary keyed by existing columns 
+ - `fn`:  A function which accepts one or two parameters, ndx (int) and  row (dict), which is expected to return a dict representing  new columns for that row, keyed by the new column names. 
+    - `ndx` is an integer representing the index of the row. Only included if `include_ndx`  is set to `True`. 
+    - `row` is a dictionary keyed by existing columns 
 
 ---
 
@@ -126,7 +124,7 @@ The length of the data should match the length of the table column.
 add_row(*row)
 ```
 
-Deprecated; use add_data instead. 
+Deprecated. Use `Table.add_data` method instead. 
 
 ---
 
@@ -151,17 +149,6 @@ This can be one of the normal python classes, an internal W&B type, or an exampl
 
 ---
 
-### <kbd>classmethod</kbd> `Table.from_json`
-
-```python
-from_json(json_obj, source_artifact: 'artifact.Artifact')
-```
-
-Deserialize JSON object into it's class representation. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
 
 ### <kbd>method</kbd> `Table.get_column`
 
@@ -200,20 +187,4 @@ get_index()
 Returns an array of row indexes for use in other tables to create links. 
 
 ---
-
-### <kbd>classmethod</kbd> `Table.get_media_subdir`
-
-```python
-get_media_subdir()
-```
-
-Get media subdirectory. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
-
-
-
-
 
