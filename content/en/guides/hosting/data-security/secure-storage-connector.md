@@ -144,7 +144,8 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     }
     ```
 
-    <!-- </details>
+    <!-- 
+    </details>
 
     <details>
       <a id="coreweave-multi-tenant-cloud-bucket-policy"></a><summary><b>Multi-tenant Cloud</b> bucket policy</summary>
@@ -199,7 +200,8 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     }
     ```
 
-    </details>-->
+    </details>
+    -->
 
 
 Keep a record of the bucket name and access credentials.
@@ -527,12 +529,13 @@ After you [determine the storage location](#determine-the-storage-location) for 
 - If you plan to configure CoreWeave storage for the team, contact [support](mailto:support@wandb.com) to verify that your bucket is configured correctly in CoreWeave and to validate your team's configuration, since the storage details cannot be changed after the team is created.
 {{% /alert %}}
 
-1. <!--If you are configuring CoreWeave storage for Multi-tenant Cloud, switch to the browser window where you previously began to create the new team to find the W&B organization ID previously. Otherwise, l-->Log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
+<!-- (Commented out until MT is supported) 1. If you are configuring CoreWeave storage for Multi-tenant Cloud, switch to the browser window where you previously began to create the new team to find the W&B organization ID previously. Otherwise, l -->
+1. Log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
 1. Provide a name for the team.
 1. Set **Storage Type** to **External storage**.
-    {{% alert %}}
-    To use the instance level storage for team storage (regardless of whether it is internal or external), set **Storage Type** for the team to **Internal**. To use a different external storage location than the instance, set **Storage Type** to **External** and configure the bucket details in the next step.
-    {{% /alert %}}
+
+    {{% alert %}}To use the instance level storage for team storage (regardless of whether it is internal or external), leave **Storage Type** set to **Internal**, even if the instance level bucket is configured for BYOB. To use separate external storage for the team, set **Storage Type** for the team to **External** and configure the bucket details in the next step.{{% /alert %}}
+
 1. Click **Bucket location**. Select an existing bucket or click **Add bucket** at the bottom to create a new bucket.
     To add a new bucket:
     1. Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud.
@@ -544,7 +547,7 @@ After you [determine the storage location](#determine-the-storage-location) for 
         - If applicable, set **Path** to the bucket sub-path.
         - **CoreWeave**: Set **KMS key ARN** to the CoreWeave ARN.
         - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
-        - **Azure**: Set **Tenant ID** and **Managed Identity Client ID** fields to the appropriate values.
+        - **Azure**: Set the **Account name** to the Azure account and **Container name** to the Azure blob storage container. If applicable, specify values for **Tenant ID** and **Managed Identity Client ID**. <!-- TODO: Is this supported on MT? Cross-cloud for DC? Asked in https://weightsandbiases.slack.com/archives/C04EUEA3P5Z/p1751061972096839 -->
         - **Multi-tenant Cloud**: Optionally invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses. Otherwise, you can invite members to the team after it is created.
 
           For **Dedicated Cloud** or **Self-Managed**, you can invite members to the team after it is created. 
