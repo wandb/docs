@@ -362,6 +362,7 @@ cw://<accessKey>:<secretAccessKey>@cwobject.com/<bucketName>?tls=true
 ```
 
 - CoreWeave uses availability zones for AI Object Storage. In the bucket address, the `region` parameter is mandatory and must be set to the name of the CoreWeave availability zone that matches the CoreWeave bucket's location. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `US-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
+
   The `cwobject.com` HTTPS endpoint is supported. TLS 1.3 is required. Contact [support](mailto:support@wandb.com) to express interest in other CoreWeave endpoints.
   See the [CoreWeave documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/get-started-caios#3-create-a-bucket) for details.
 - The `cw://` protocol specifier is preferred.
@@ -493,12 +494,10 @@ After you [determine the storage location](#determine-the-storage-address) for y
   - `ExposeHeaders` must include `ETag.
   - W&B front-end domains must be included in the CORS policy's `AllowedOrigins`. The example CORS policies provided on this page include all domains using `*`.
 - **LOTA endpoint issues**
-  - LOTA endpoints use HTTP rather than HTTPS. Omit the `tls` parameter from the bucket's address, and use the `cw://` protocol specifier if possible.
-  - Your W&B instance must be able to connect to `.cwlota.com`.
-  - Use LOTA only when your workloads are running on CoreWeave GPU compute. LOTA is optimized for large file transfers within CoreWeave infrastructure.
+  - Connecting to LOTA endpoints from W&B is not yet supported.  To express interest, [contact support](mailto:support@wandb.com).
 - **Region errors**
   - CoreWeave uses availability zones for AI Object Storage.
-    - In the bucket address, set `region` to the name of the CoreWeave availability zone that matches the CoreWeave bucket's location.
+    - In the bucket address, you can optionally set `region` to the name of the CoreWeave availability zone that matches the CoreWeave bucket's location. Because CoreWeave bucket names are globally unique, `region` is not required in the bucket address.
     - CoreWeave AI Object Storage is not available in all regions. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `S-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
 - **Access key and permission errors**
   - Verify that your CoreWeave API Access Key is not expired.
