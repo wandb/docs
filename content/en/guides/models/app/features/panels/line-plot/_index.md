@@ -34,13 +34,12 @@ A line plot's individual settings override the line plot settings for the sectio
 You can configure these settings for a line plot:
 
 **Date**: Configure the plot's data-display details.
-* **X**: Select the value to use for the X axis (defaults to  **Step**). You can change the x-axis to **Relative Time** or select a custom axis based on values you log with W&B.
+* **X axis**: Select the value to use for the X axis (defaults to  **Step**). You can change the x-axis to **Relative Time** or select a custom axis based on values you log with W&B. You can also configure the X axis scale and range.
   * **Relative Time (Wall)** is clock time since the process started, so if you started a run and resumed it a day later and logged something that would be plotted a 24hrs.
   * **Relative Time (Process)** is time inside the running process, so if you started a run and ran for 10 seconds and resumed a day later that point would be plotted at 10s.
   * **Wall Time** is minutes elapsed since the start of the first run on the graph.
   * **Step** increments by default each time `wandb.log()` is called, and is supposed to reflect the number of training steps you've logged from your model.
-* **Y**: Select one or more y-axes from the logged values, including metrics and hyperparameters that change over time.
-* **X Axis** and **Y Axis** minimum and maximum values (optional).
+* **Y axis**: Select one or more y-axes from the logged values, including metrics and hyperparameters that change over time. You can also configure the X axis scale and range.
 * **Point aggregation method**. Either **Random sampling** (the default) or **Full fidelity**. Refer to [Sampling]({{< relref "sampling.md" >}}).
 * **Smoothing**: Change the smoothing on the line plot. Defaults to **Time weighted EMA**. Other values include **No smoothing**, **Running average**, and **Gaussian**.
 * **Outliers**: Rescale to exclude outliers from the default plot min and max scale.
