@@ -25,13 +25,16 @@ Common patterns for initiating a run include, but are not limited to:
 
 W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App UI. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/public-api/run.md" >}}) object.
 
-Anything you log with `run.log` is recorded in that run. Consider the proceeding code snippet.
+Anything you log with `run.log` is recorded in that run.
 
 ```python
 import wandb
 
-run = wandb.init(entity="nico", project="awesome-project")
-run.log({"accuracy": 0.9, "loss": 0.1})
+entity = "nico"  # Replace with your W&B entity
+project = "awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+    run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
 The first line imports the W&B Python SDK. The second line initializes a run in the project `awesome-project` under the entity `nico`. The third line logs the accuracy and loss of the model to that run.
@@ -65,22 +68,26 @@ The URL W&B returns in the terminal to redirects you to the run's workspace in t
 Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
 
 ```python
-epochs = 10
-lr = 0.01
+import wandb
+import random
+
+config = {
+    "epochs": 10,
+    "learning_rate": 0.01,
+}
 
 run = wandb.init(
     entity="nico",
     project="awesome-project",
-    config={
-        "learning_rate": lr,
-        "epochs": epochs,
-    },
+    config=config,
 )
 
-offset = random.random() / 5
-
-# simulating a training run
-for epoch in range(epochs):
+with wandb.init(project="awesome-project", config=config) as run:
+  print(f"lr: {config['learning_rate']}")
+    
+  # Simulating a training run
+  for epoch in range(config['epochs']):
+    offset = random.random() / 5
     acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
     loss = 2**-epoch + random.random() / (epoch + 1) + offset
     print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
@@ -110,7 +117,7 @@ wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 
 The training script calls `run.log` 10 times. Each time the script calls `run.log`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
 
-Note that W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init` method only once. 
+W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init` method only once. 
 
 {{< img src="/images/runs/run_log_example_2.png" alt="" >}}
 
@@ -404,8 +411,8 @@ Use the **Overview** tab to learn about specific run information in a project, s
 W&B stores the proceeding information below the overview section:
 
 * **Artifact Outputs**: Artifact outputs produced by the run.
-* **Config**: List of config parameters saved with [`wandb.config`]({{< relref "/guides/models/track/config.md" >}}).
-* **Summary**: List of summary parameters saved with [`wandb.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged. 
+* **Config**: List of config parameters saved with [`run.config`]({{< relref "/guides/models/track/config.md" >}}).
+* **Summary**: List of summary parameters saved with [`run.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged. 
 
 {{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab" >}}
 

@@ -63,7 +63,6 @@ You can use this to log scatter points on any two dimensions. If you're plotting
 [Run the code](https://tiny.cc/custom-charts)    
     {{% /tab %}}
     {{% tab header="Bar" %}}
-`wandb.plot.bar()`
 
 Log a custom bar chart—a list of labeled values as bars—natively in a few lines:
 
@@ -91,7 +90,6 @@ You can use this to log arbitrary bar charts. The number of labels and values in
 [Run the code](https://tiny.cc/custom-charts)    
     {{% /tab %}}
     {{% tab header="Histogram" %}}
-`wandb.plot.histogram()`
 
 Log a custom histogram—sort a list of values into bins by count/frequency of occurrence—natively in a few lines. Let's say I have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
 
@@ -113,7 +111,6 @@ You can use this to log arbitrary histograms. Note that `data` is a list of list
 [Run the code](https://tiny.cc/custom-charts)    
     {{% /tab %}}
     {{% tab header="Multi-line" %}}
-`wandb.plot.line_series()`
 
 Plot multiple lines, or multiple different lists of x-y coordinate pairs, on one shared set of x-y axes:
 
