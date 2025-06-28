@@ -258,7 +258,7 @@ with wandb.init(config=config_dictionary) as run:
 
 ## TensorFlow v1 flags
 
-You can pass TensorFlow flags into the `wandb.config` object directly.
+You can pass TensorFlow flags into the `run.config` object directly.
 
 ```python
 with wandb.init() as run:

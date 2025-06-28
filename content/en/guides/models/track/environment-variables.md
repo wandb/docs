@@ -43,7 +43,7 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB_BASE_URL** | If you're using [wandb/local]({{< relref "/guides/hosting/" >}}) you should set this environment variable to `http://YOUR_IP:YOUR_PORT` |
 | **WANDB_CACHE_DIR** | This defaults to \~/.cache/wandb, you can override this location with this environment variable |
 | **WANDB_CONFIG_DIR** | This defaults to \~/.config/wandb, you can override this location with this environment variable |
-| **WANDB_CONFIG_PATHS** | Comma separated list of yaml files to load into wandb.config. See [config]({{< relref "./config.md#file-based-configs" >}}). |
+| **WANDB_CONFIG_PATHS** | Comma separated list of yaml files to load into `run.config()`. See [config]({{< relref "./config.md#file-based-configs" >}}). |
 | **WANDB_CONSOLE** | Set this to "off" to disable stdout / stderr logging. This defaults to "on" in environments that support it. |
 | **WANDB_DATA_DIR** | Where to upload staging artifacts. The default location depends on your platform, because it uses the value of `user_data_dir` from the `platformdirs` Python package. Make sure this directory exists and the running user has permission to write to it. |
 | **WANDB_DIR** | Where to store all generated files. If unset, defaults to the `wandb` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This does not control the location of downloaded artifacts, which you can set using the `WANDB_ARTIFACT_DIR` environment variable. |
