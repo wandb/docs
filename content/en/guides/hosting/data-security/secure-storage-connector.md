@@ -440,7 +440,7 @@ For Self-Hosted, W&B recommends using the Terraform module managed by W&B to pro
 {{% /alert %}}
 
 #### Team level BYOB
-After you [determine the storage location](#determine-the-storage-location) for your bucket, you can use the W&B App or the `` environment variable to configure team level BYOB while creating a team.
+After you [determine the storage location](#determine-the-storage-address) for your bucket, you can use the W&B App to configure team level BYOB while creating a team.
 
 {{% alert %}}
 - After a team is created, its storage cannot be changed.
