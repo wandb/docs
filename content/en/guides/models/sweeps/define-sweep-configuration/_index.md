@@ -363,7 +363,7 @@ command:
   {{% /tab %}}
   {{% tab header="Omit arguments" %}}
 
-If your program does not use argument parsing you can avoid passing arguments all together and take advantage of `wandb.init` picking up sweep parameters into `wandb.config` automatically:
+If your program does not use argument parsing you can avoid passing arguments all together and take advantage of `wandb.init` picking up sweep parameters into `run.config` automatically:
 
 ```yaml
 command:
