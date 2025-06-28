@@ -32,10 +32,9 @@ config = {
     "batch_size": 128,
 }
 
-wandb.init(project="offline-demo")
-
-for i in range(100):
-    wandb.log({"accuracy": i})
+with wandb.init(project="offline-demo") as run:
+    for i in range(100):
+        run.log({"accuracy": i})
 ```
 
 Sample terminal output is shown below:

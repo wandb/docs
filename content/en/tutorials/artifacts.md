@@ -126,7 +126,7 @@ This is good practice.
 
 In order to log these datasets as Artifacts,
 we just need to
-1. create a `Run` with `wandb.init`, (L4)
+1. create a `Run` with `wandb.init()`, (L4)
 2. create an `Artifact` for the dataset (L10), and
 3. save and log the associated `file`s (L20, L23).
 
@@ -443,7 +443,7 @@ class ConvNet(nn.Module):
 ```
 
 Here, we're using W&B to track the run,
-and so using the [`wandb.config`](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-config/Configs_in_W%26B.ipynb)
+and so using the [`run.config`](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-config/Configs_in_W%26B.ipynb)
 object to store all of the hyperparameters.
 
 The `dict`ionary version of that `config` object is a really useful piece of `metadata`, so make sure to include it.
@@ -452,7 +452,7 @@ The `dict`ionary version of that `config` object is a really useful piece of `me
 ```python
 def build_model_and_log(config):
     with wandb.init(project="artifacts-example", job_type="initialize", config=config) as run:
-        config = wandb.config
+        config = run.config
         
         model = ConvNet(**config)
 
@@ -465,7 +465,7 @@ def build_model_and_log(config):
         # ➕ another way to add a file to an Artifact
         model_artifact.add_file("initialized_model.pth")
 
-        wandb.save("initialized_model.pth")
+        run.save("initialized_model.pth")
 
         run.log_artifact(model_artifact)
 
@@ -503,6 +503,7 @@ For more details, check out our Colab on
 
 
 ```python
+import wandb
 import torch.nn.functional as F
 
 def train(model, train_loader, valid_loader, config):
@@ -555,8 +556,9 @@ def train_log(loss, example_ct, epoch):
     loss = float(loss)
 
     # where the magic happens
-    wandb.log({"epoch": epoch, "train/loss": loss}, step=example_ct)
-    print(f"Loss after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}")
+    with wandb.init(project="artifacts-example", job_type="train") as run:
+        run.log({"epoch": epoch, "train/loss": loss}, step=example_ct)
+        print(f"Loss after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}")
     
 
 def test_log(loss, accuracy, example_ct, epoch):
@@ -564,8 +566,9 @@ def test_log(loss, accuracy, example_ct, epoch):
     accuracy = float(accuracy)
 
     # where the magic happens
-    wandb.log({"epoch": epoch, "validation/loss": loss, "validation/accuracy": accuracy}, step=example_ct)
-    print(f"Loss/accuracy after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}/{accuracy:.3f}")
+    with wandb.init() as run:
+        run.log({"epoch": epoch, "validation/loss": loss, "validation/accuracy": accuracy}, step=example_ct)
+        print(f"Loss/accuracy after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}/{accuracy:.3f}")
 ```
 
 We'll run two separate `Artifact`-producing `Run`s this time.
@@ -635,7 +638,7 @@ from torch.utils.data import DataLoader
 def train_and_log(config):
 
     with wandb.init(project="artifacts-example", job_type="train", config=config) as run:
-        config = wandb.config
+        config = run.config
 
         data = run.use_artifact('mnist-preprocess:latest')
         data_dir = data.download()
@@ -665,7 +668,7 @@ def train_and_log(config):
 
         torch.save(model.state_dict(), "trained_model.pth")
         model_artifact.add_file("trained_model.pth")
-        wandb.save("trained_model.pth")
+        run.save("trained_model.pth")
 
         run.log_artifact(model_artifact)
 
@@ -694,7 +697,7 @@ def evaluate_and_log(config=None):
 
         run.summary.update({"loss": loss, "accuracy": accuracy})
 
-        wandb.log({"high-loss-examples":
+        run.log({"high-loss-examples":
             [wandb.Image(hard_example, caption=str(int(pred)) + "," +  str(int(label)))
              for hard_example, pred, label in zip(hardest_examples, preds, true_labels)]})
 ```
