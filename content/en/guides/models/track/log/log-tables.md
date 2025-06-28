@@ -86,8 +86,13 @@ for img_id, img in enumerate(mnist_test_data):
 You can incrementally update a W&B table in resumed runs by loading an existing table from an artifact, retrieving the last row of data, and adding the updated metrics. Then, reinitialize the table for compatibility and log the updated version back to W&B.
 
 ```python
+import wandb
+
+# Initialize a run 
+run = wandb.init(project="my_project")
+
 # Load the existing table from the artifact
-best_checkpt_table = wandb.use_artifact(table_tag).get(table_name)
+best_checkpt_table = run.use_artifact(table_tag).get(table_name)
 
 # Get the last row of data from the table for resuming
 best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
