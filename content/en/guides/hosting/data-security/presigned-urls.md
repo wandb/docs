@@ -34,10 +34,8 @@ W&B recommends adding users to only the teams that they are supposed to be a par
 ## Network restriction
 W&B recommends using IAM policies to restrict the networks that can use pre-signed URLs to access external storage using pre-signed URLs. This helps to ensure that your W&B specific buckets are accessed only from networks where your AI workloads are running, or from gateway IP addresses that map to your user machines. 
 
-In CoreWeave, AWS S3, or S3-compatible storage, you can define network restrictions at the VPC or IP address level. Refer to:
-- [CoreWeave documentation](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy#condition)
-- [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities).
-- The documentation for S3-compatible storage [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises.
+- For CoreWeave AI Object Storage, refer to [Bucket policy reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy#condition) in the CoreWeave documentation.
+- For AWS S3 or S3-compatible storage like MiniIO hosted on your premises, refer to the [S3 userguide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities), the [MinIO documentation](https://github.com/minio/minio), or the documentation for your S3-compatible storage provider.
 
 ## Audit logs
 
