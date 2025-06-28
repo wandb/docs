@@ -68,7 +68,7 @@ Track multiple processes with W&B with one of the following approaches:
 
 ### Track each process separately
 
-This section describes how to track each process separately by creating a run for each process. Within each run you log metrics, artifacts, and forth to their respective run. Call `wandb.finish()` at the end of training, to mark that the run has completed so that all processes exit properly.
+This section describes how to track each process separately by creating a run for each process. Within each run you log metrics, artifacts, and forth to their respective run. Call `run.finish()` at the end of training, to mark that the run has completed so that all processes exit properly.
 
 You might find it difficult to keep track of runs across multiple experiments. To mitigate this, provide a value to the `group` parameter when you initialize W&B (`wandb.init(group='group-name')`) to keep track of which run belongs to a given experiment. For more information about how to keep track of training and evaluation W&B Runs in experiments, see [Group Runs]({{< relref "/guides/models/track/runs/grouping.md" >}}).
 
@@ -90,6 +90,8 @@ if __name__ == "__main__":
     )
     # Train model with DDP
     train(args, run)
+
+    run.finish()  # mark the run as finished
 ```
 
 Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna) of metrics tracked from multiple processes. Note that there are two W&B Runs grouped together in the left sidebar. Click on a group to view the dedicated group page for the experiment. The dedicated group page displays metrics from each process separately.
@@ -247,9 +249,8 @@ W&B can not guarantee the logging order. Synchronization should be done by the a
 There are two common issues you might encounter when using W&B and distributed training:
 
 1. **Hanging at the beginning of training** - A `wandb` process can hang if the `wandb` multiprocessing interferes with the multiprocessing from distributed training.
-2. **Hanging at the end of training** - A training job might hang if the `wandb` process does not know when it needs to exit. Call the `wandb.finish()` API at the end of your Python script to tell W&B that the Run finished. The wandb.finish() API will finish uploading data and will cause W&B to exit.
-
-We recommend using the `wandb service` to improve the reliability of your distributed jobs. Both of the preceding training issues are commonly found in versions of the W&B SDK where wandb service is unavailable.
+2. **Hanging at the end of training** - A training job might hang if the `wandb` process does not know when it needs to exit. Call the `run.finish()` API at the end of your Python script to tell W&B that the run finished. The `run.finish()` API will finish uploading data and will cause W&B to exit.
+W&B recommends using `wandb service` command to improve the reliability of your distributed jobs. Both of the preceding training issues are commonly found in versions of the W&B SDK where wandb service is unavailable.
 
 ### Enable W&B Service
 
