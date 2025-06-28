@@ -361,10 +361,9 @@ Select a tab for detailed instructions.
 cw://<accessKey>:<secretAccessKey>@cwobject.com/<bucketName>?tls=true
 ```
 
-- CoreWeave uses availability zones for AI Object Storage. In the bucket address, the `region` parameter is mandatory and must be set to the name of the CoreWeave availability zone that matches the CoreWeave bucket's location. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `US-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
+- CoreWeave uses availability zones for AI Object Storage. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation for details. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `US-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
 
   The `cwobject.com` HTTPS endpoint is supported. TLS 1.3 is required. Contact [support](mailto:support@wandb.com) to express interest in other CoreWeave endpoints.
-  See the [CoreWeave documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/get-started-caios#3-create-a-bucket) for details.
 - The `cw://` protocol specifier is preferred.
 {{% /tab %}}
 {{% tab header="AWS" value="aws" %}}
