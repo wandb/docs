@@ -71,7 +71,7 @@ sort_buffer_size = 67108864
 
 ## オブジェクトストレージ
 
-オブジェクトストアは、[Minio クラスター](https://docs.min.io/minio/k8s/) または署名付き URL をサポートする Amazon S3 互換のオブジェクトストアでホストできます。[次のスクリプト](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) を実行して、オブジェクトストアが署名付き URL をサポートしているか確認してください。
+オブジェクトストアは、[Minio クラスター](https://min.io/docs/minio/kubernetes/upstream/index.html) または署名付き URL をサポートする Amazon S3 互換のオブジェクトストアでホストできます。[次のスクリプト](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) を実行して、オブジェクトストアが署名付き URL をサポートしているか確認してください。
 
 さらに、次の CORS ポリシーをオブジェクトストアに適用する必要があります。
 
@@ -109,7 +109,7 @@ s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 独自のオブジェクトストアを運用する際に考慮すべき最も重要なことは次のとおりです:
 
 1. **ストレージ容量とパフォーマンス**。磁気ディスクを使用しても構いませんが、これらのディスクの容量を監視している必要があります。平均的な W&B の使用量は 10 ギガバイトから 100 ギガバイトに達します。大量使用はペタバイトのストレージ消費を引き起こす可能性があります。
-2. **フォールトトレランス**。最低限、オブジェクトを保存する物理ディスクは RAID アレイにあるべきです。minio を使用する場合は、[分散モード](https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html#deploy-minio-distributed) での実行を検討してください。
+2. **フォールトトレランス**。最低限、オブジェクトを保存する物理ディスクは RAID アレイにあるべきです。minio を使用する場合は、[分散モード](https://min.io/docs/minio/kubernetes/upstream/operations/concepts/availability-and-resiliency.html#distributed-minio-deployments) での実行を検討してください。
 3. **可用性**。ストレージが利用可能であることを確認するために監視を設定する必要があります。
 
 独自のオブジェクトストレージサービスを運用するためのエンタープライズ代替策は多数存在します:
