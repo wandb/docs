@@ -8,21 +8,21 @@ title: Track external files
 weight: 7
 ---
 
-Use **reference artifacts** to track and use files saved outside of W&B servers, for example in CoreWeave AI Object Storage, an Amazon Simple Storage Service (S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
+Use **reference artifacts** to track and use files saved outside of W&B servers, for example in CoreWeave AI Object Storage, an Amazon Simple Storage Service (Amazon S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
 
-W&B logs metadata about the externally stored object, such as its ETag, size, and version ID if object versioning is enabled on the bucket. Reference artifact metadata does not leave your system.
+W&B logs metadata about the the object, such as the object's ETag and size. If object versioning is enabled on the bucket, the version ID is also logged.
 
 {{% alert %}}
-W&B saves an artifact's files to W&B servers when you log an artifact that does not track external files. This is the default behavior when you log artifacts with the W&B Python SDK.
+If you log an artifact that does not track external files, W&B saves the artifact's files to W&B servers. This is the default behavior when you log artifacts with the W&B Python SDK.
 
-See the [Artifacts start]({{< relref "/guides/core/artifacts/artifacts-walkthrough" >}}) for information on how to save files and directories to W&B servers instead.
+See the [Artifacts quickstart]({{< relref "/guides/core/artifacts/artifacts-walkthrough" >}}) for information on how to save files and directories to W&B servers instead.
 {{% /alert %}}
 
 The following describes how to construct reference artifacts.
 
 ## Track an artifact in an external bucket
 
-Use the W&B Python SDK to track references to files in your CoreWeave AI Object Storage/S3/GCS/Azure bucket. 
+Use the W&B Python SDK to track references to files stored outside of W&B.
 
 1. Initialize a run with `wandb.init()`.
 2. Create an artifact object with `wandb.Artifact()`.
@@ -143,7 +143,7 @@ W&B uses the default mechanism to look for credentials based on the cloud provid
 
 | Cloud provider | Credentials Documentation |
 | -------------- | ------------------------- |
-| CoreWeave AI Object Storage (CoreWeave AI Object Storage)| [CoreWeave AI Object Storage documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys/cloud-console-tokens) |
+| CoreWeave AI Object Storage | [CoreWeave AI Object Storage documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys/cloud-console-tokens) |
 | AWS            | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
 | GCP            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
 | Azure          | [Azure documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
@@ -153,7 +153,7 @@ For AWS, if the bucket is not located in the configured user's default region, y
 {{% alert color="secondary" %}}
 Rich media such as images, audio, video, and point clouds may fail to render in the App UI depending on the CORS configuration of your bucket. Allow listing **app.wandb.ai** in your bucket's CORS settings will allow the App UI to properly render such rich media.
 
-If rich media such as images, audio, video, and point clouds does not render in the App UI, you may need to allowlist `app.wandb.ai` in your bucket's CORS policy.
+If rich media such as images, audio, video, and point clouds does not render in the App UI, ensure that `app.wandb.ai` is allowlisted in your bucket's CORS policy.
 {{% /alert %}}
 
 ## Track an artifact in a filesystem
@@ -184,7 +184,7 @@ run.log_artifact(artifact)
 By default, W&B imposes a 10,000 file limit when adding a reference to a directory. You can adjust this limit by specifying `max_objects=` when you call `add_reference()`.
 {{% /alert %}}
 
-Note the triple slash in the URL. The first component is the `file://` prefix that denotes the use of filesystem references. The second begins the path to the dataset, `/mount/datasets/mnist/`.
+Note the triple slash in the URL. The first component is the `file://` prefix that denotes the use of filesystem references. The second component begins the path to the dataset, `/mount/datasets/mnist/`.
 
 The resulting artifact `mnist:latest` looks and acts like a regular artifact. The only difference is that the artifact only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
 
@@ -200,7 +200,7 @@ artifact = run.use_artifact("entity/project/mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
-For a filesystem reference, a `download()` operation copies the files from the referenced paths to construct the artifact directory. In the above example, the contents of `/mount/datasets/mnist` is copied into the directory `artifacts/mnist:v0/`. If an artifact contains a reference to a file that was overwritten, then `download()` will throw an error because the artifact can no longer be reconstructed.
+For a filesystem reference, a `download()` operation copies the files from the referenced paths to construct the artifact directory. In the above example, the contents of `/mount/datasets/mnist` are copied into the directory `artifacts/mnist:v0/`. If an artifact contains a reference to a file that was overwritten, then `download()` will throw an error because the artifact can no longer be reconstructed.
 
 Putting it all together, you can use the following code to track a dataset under a mounted filesystem that feeds into a training job:
 
