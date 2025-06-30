@@ -18,7 +18,7 @@ W&B provides a lightweight wrapper for logging your ML experiments. But you don'
 ```python
 from composer import Trainer
 from composer.loggers import WandBLogger
-﻿
+
 trainer = Trainer(..., logger=WandBLogger())
 ```
 
@@ -87,7 +87,7 @@ class LogPredictions(Callback):
                 self.data += data
             
     def eval_end(self, state: State, logger: Logger):
-        run = wandb.init() as run:
+        with wandb.init() as run:
             "Create a wandb.Table and logs it"
             columns = ['image', 'ground truth', 'prediction']
             table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
