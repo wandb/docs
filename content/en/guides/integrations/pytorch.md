@@ -16,34 +16,34 @@ Try our integration out in a Colab notebook.
 
 You can also see our [example repo](https://github.com/wandb/examples) for scripts, including one on hyperparameter optimization using [Hyperband](https://arxiv.org/abs/1603.06560) on [Fashion MNIST](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion), plus the [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) it generates.
 
-## Log gradients with `run.watch()`
+## Log gradients with `wandb.watch`
 
-To automatically log gradients, you can call `run.watch()` and pass in your PyTorch model.
+To automatically log gradients, you can call [`wandb.watch`]({{< relref "/ref/python/watch.md" >}}) and pass in your PyTorch model.
 
 ```python
 import wandb
 
-with wandb.init(config=args) as run:
+wandb.init(config=args)
 
-    model = ...  # set up your model
+model = ...  # set up your model
 
-    # Magic
-    run.watch(model, log_freq=100)
+# Magic
+wandb.watch(model, log_freq=100)
 
-    model.train()
-    for batch_idx, (data, target) in enumerate(train_loader):
-        output = model(data)
-        loss = F.nll_loss(output, target)
-        loss.backward()
-        optimizer.step()
-        if batch_idx % args.log_interval == 0:
-            run.log({"loss": loss})
+model.train()
+for batch_idx, (data, target) in enumerate(train_loader):
+    output = model(data)
+    loss = F.nll_loss(output, target)
+    loss.backward()
+    optimizer.step()
+    if batch_idx % args.log_interval == 0:
+        wandb.log({"loss": loss})
 ```
 
-If you need to track multiple models in the same script, you can call `run.watch()` on each model separately. Reference documentation for this function is [here]({{< relref "/ref/python/watch.md" >}}).
+If you need to track multiple models in the same script, you can call `wandb.watch` on each model separately. Reference documentation for this function is [here]({{< relref "/ref/python/watch.md" >}}).
 
 {{% alert color="secondary" %}}
-Gradients, metrics, and the graph won't be logged until `run.log()` is called after a forward _and_ backward pass.
+Gradients, metrics, and the graph won't be logged until `wandb.log` is called after a forward _and_ backward pass.
 {{% /alert %}}
 
 ## Log images and media
@@ -52,7 +52,7 @@ You can pass PyTorch `Tensors` with image data into [`wandb.Image`]({{< relref "
 
 ```python
 images_t = ...  # generate or load images as PyTorch Tensors
-run.log({"examples": [wandb.Image(im) for im in images_t]})
+wandb.log({"examples": [wandb.Image(im) for im in images_t]})
 ```
 
 For more on logging rich media to W&B in PyTorch and other frameworks, check out our [media logging guide]({{< relref "/guides/models/track/log/media.md" >}}).
@@ -60,19 +60,14 @@ For more on logging rich media to W&B in PyTorch and other frameworks, check out
 If you also want to include information alongside media, like your model's predictions or derived metrics, use a `wandb.Table`.
 
 ```python
-with wandb.init
-    with wandb.init() as run:
-        images_t = ...  # generate or load images as PyTorch Tensors
-        labels = ...  # ground truth labels
-        predictions_t = ...  # model predictions as PyTorch Tensors
-        my_table = wandb.Table()
+my_table = wandb.Table()
 
-        my_table.add_column("image", images_t)
-        my_table.add_column("label", labels)
-        my_table.add_column("class_prediction", predictions_t)
+my_table.add_column("image", images_t)
+my_table.add_column("label", labels)
+my_table.add_column("class_prediction", predictions_t)
 
-        # Log your Table to W&B
-        run.log({"mnist_predictions": my_table})
+# Log your Table to W&B
+wandb.log({"mnist_predictions": my_table})
 ```
 
 {{< img src="/images/integrations/pytorch_example_table.png" alt="The code above generates a table like this one. This model's looking good!" >}}

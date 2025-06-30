@@ -76,16 +76,16 @@ wandb.login()
 ```python
 import wandb
 
-with wandb.init(project="visualize-sklearn") as run:
+wandb.init(project="visualize-sklearn")
 
-  y_pred = clf.predict(X_test)
-  accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
+y_pred = clf.predict(X_test)
+accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
 
-  # If logging metrics over time, then use run.log()
-  run.log({"accuracy": accuracy})
+# If logging metrics over time, then use wandb.log
+wandb.log({"accuracy": accuracy})
 
-  # OR to log a final metric at the end of training you can also use run.summary()
-  run.summary["accuracy"] = accuracy
+# OR to log a final metric at the end of training you can also use wandb.summary
+wandb.summary["accuracy"] = accuracy
 ```
 
 ### Make plots
@@ -151,13 +151,13 @@ Finally, the plots can be logged on W&B's dashboard as follows:
 import matplotlib.pyplot as plt
 import wandb
 
-with wandb.init(project="visualize-sklearn") as run:
+wandb.init(project="visualize-sklearn")
 
-  # do all the plt.plot(), plt.scatter(), etc. here.
-  # ...
+# do all the plt.plot(), plt.scatter(), etc. here.
+# ...
 
-  # instead of doing plt.show() do:
-  run.log({"plot": plt})
+# instead of doing plt.show() do:
+wandb.log({"plot": plt})
 ```
 
 ## Supported plots

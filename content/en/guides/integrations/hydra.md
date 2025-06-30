@@ -14,7 +14,7 @@ You can continue to use Hydra for configuration management while taking advantag
 
 ## Track metrics
 
-Track your metrics as normal with `wandb.init()` and `run.log()` . Here, `run.entity` and `run.project` are defined within a hydra configuration file.
+Track your metrics as normal with `wandb.init` and `wandb.log` . Here, `wandb.entity` and `wandb.project` are defined within a hydra configuration file.
 
 ```python
 import wandb
@@ -22,32 +22,31 @@ import wandb
 
 @hydra.main(config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
-    with wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project) as run:
-        run.log({"loss": loss})
+    run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
+    wandb.log({"loss": loss})
 ```
 
 ## Track Hyperparameters
 
-Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default way to interface with configuration dictionaries. `OmegaConf`'s dictionary are not a subclass of primitive dictionaries so directly passing Hydra's `Config` to `run.config` leads to unexpected results on the dashboard. It's necessary to convert `omegaconf.DictConfig` to the primitive `dict` type before passing to `run.config`.
+Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default way to interface with configuration dictionaries. `OmegaConf`'s dictionary are not a subclass of primitive dictionaries so directly passing Hydra's `Config` to `wandb.config` leads to unexpected results on the dashboard. It's necessary to convert `omegaconf.DictConfig` to the primitive `dict` type before passing to `wandb.config`.
 
 ```python
 @hydra.main(config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
-    run.config = omegaconf.OmegaConf.to_container(
+    wandb.config = omegaconf.OmegaConf.to_container(
         cfg, resolve=True, throw_on_missing=True
     )
-    with wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project) as run:
-        run.log({"loss": loss})
-        model = Model(**run.config.model.configs)
+    wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
+    wandb.log({"loss": loss})
+    model = Model(**wandb.config.model.configs)
 ```
 
 ## Troubleshoot multiprocessing
 
-If your process hangs when started, this may be caused by [this known issue]({{< relref "/guides/models/track/log/distributed-training.md" >}}). To solve this, try to changing W&B's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
+If your process hangs when started, this may be caused by [this known issue]({{< relref "/guides/models/track/log/distributed-training.md" >}}). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
 
 ```python
-with wandb.init(settings=wandb.Settings(start_method="thread")) as run:
-    run.log({"loss": loss})
+wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
 
 or by setting a global environment variable from your shell:

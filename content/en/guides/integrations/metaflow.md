@@ -171,9 +171,9 @@ You can access the information we've captured in three ways: inside the original
 
 | Data                                            | Client library                            | UI                    |
 | ----------------------------------------------- | ----------------------------------------- | --------------------- |
-| `Parameter(...)`                                | `run.config`                            | Overview tab, Config  |
-| `datasets`, `models`, `others`                  | `run.use_artifact("{var_name}:latest")` | Artifacts tab         |
-| Base Python types (`dict`, `list`, `str`, etc.) | `run.summary`                           | Overview tab, Summary |
+| `Parameter(...)`                                | `wandb.config`                            | Overview tab, Config  |
+| `datasets`, `models`, `others`                  | `wandb.use_artifact("{var_name}:latest")` | Artifacts tab         |
+| Base Python types (`dict`, `list`, `str`, etc.) | `wandb.summary`                           | Overview tab, Summary |
 
 ### `wandb_log` kwargs
 

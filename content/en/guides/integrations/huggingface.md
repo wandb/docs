@@ -250,14 +250,14 @@ See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-eval
 
 If your training is encapsulated in a Python script, the W&B run will end when your script finishes.
 
-If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `run.finish()`.
+If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `wandb.finish()`.
 
 ```python
 trainer.train()  # start training and logging to W&B
 
 # post-training analysis, testing, other logged code
 
-run.finish()
+wandb.finish()
 ```
 
 ### Visualize your results
@@ -359,7 +359,7 @@ Here, we wrote a `decode_predictions` function to decode the predictions and lab
 
 Then, we create a pandas DataFrame from the predictions and labels and add an `epoch` column to the DataFrame.
 
-Finally, we create a `wandb.Table` from the DataFrame and log it to W&B.
+Finally, we create a `wandb.Table` from the DataFrame and log it to wandb.
 Additionally, we can control the frequency of logging by logging the predictions every `freq` epochs.
 
 **Note**: Unlike the regular `WandbCallback` this custom callback needs to be added to the trainer **after** the `Trainer` is instantiated and not during initialization of the `Trainer`.
@@ -489,11 +489,11 @@ WANDB_SILENT=true
 {{< /tabpane >}}
 
 
-### How do I customize `wandb.init()`?
+### How do I customize `wandb.init`?
 
-The `WandbCallback` that `Trainer` uses will call `wandb.init()` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init()` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
+The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
 
-An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init()`, [check out the reference documentation]({{< relref "/ref/python/init.md" >}}).
+An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation]({{< relref "/ref/python/init.md" >}}).
 
 ```python
 wandb.init(

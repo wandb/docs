@@ -137,10 +137,8 @@ Fine-tuned model ID is logged to W&B as artifacts (`model_metadata.json`) as wel
 ```python
 import wandb
 
-with wandb.init() as run:
-    # Download the artifact
-    artifact = run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
-    artifact_dir = artifact.download()
+ft_artifact = wandb.run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
+artifact_dir = artifact.download()
 ```
 
 where `VERSION` is either:

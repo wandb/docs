@@ -81,24 +81,25 @@ The following snippet shows how you could do that with PyVis and HTML.
 
 ```python
 from pyvis.network import Network
-import wandb
+Import wandb
 
-with wandb.init(project='graph_vis') as run:
-    net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
+wandb.init(project=’graph_vis’)
+net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
 
-    # Add the edges from the PyG graph to the PyVis network
-    for e in tqdm(g.edge_index.T):
-        src = e[0].item()
-        dst = e[1].item()
+# Add the edges from the PyG graph to the PyVis network
+for e in tqdm(g.edge_index.T):
+    src = e[0].item()
+    dst = e[1].item()
 
-        net.add_node(dst)
-        net.add_node(src)
-        
-        net.add_edge(src, dst, value=0.1)
+    net.add_node(dst)
+    net.add_node(src)
+    
+    net.add_edge(src, dst, value=0.1)
 
-    # Save the PyVis visualisation to a HTML file
-    net.show("graph.html")
-    run.log({"eda/graph": wandb.Html("graph.html")})
+# Save the PyVis visualisation to a HTML file
+net.show("graph.html")
+wandb.log({"eda/graph": wandb.Html("graph.html")})
+wandb.finish()
 ```
 
 {{< img src="/images/integrations/pyg_graph_wandb.png" alt="This image shows the input graph as an interactive HTML visualization." >}}
@@ -150,8 +151,9 @@ def create_vis(graph):
     return fig
 
 
-with wandb.init(project=’visualize_graph’) as run:
-    run.log({‘graph’: wandb.Plotly(create_vis(graph))})
+wandb.init(project=’visualize_graph’)
+wandb.log({‘graph’: wandb.Plotly(create_vis(graph))})
+wandb.finish()
 ```
 
 {{< img src="/images/integrations/pyg_graph_plotly.png" alt="A visualization created using the example function and logged inside a W&B Table." >}}
@@ -161,7 +163,7 @@ with wandb.init(project=’visualize_graph’) as run:
 You can use W&B to track your experiments and related metrics, such as loss functions, accuracy, and more. Add the following line to your training loop:
 
 ```python
-run.log({
+wandb.log({
 	‘train/loss’: training_loss,
 	‘train/acc’: training_acc,
 	‘val/loss’: validation_loss,

@@ -189,22 +189,22 @@ class WandbClfEvalCallback(WandbEvalCallback):
 # ...
 
 # Initialize a new W&B run
-with wandb.init(config={"hyper": "parameter"}) as run:
+wandb.init(config={"hyper": "parameter"})
 
-    # Add the Callbacks to Model.fit
-    model.fit(
-        X_train,
-        y_train,
-        validation_data=(X_test, y_test),
-        callbacks=[
-            WandbMetricsLogger(),
-            WandbClfEvalCallback(
-                validation_data=(X_test, y_test),
-                data_table_columns=["idx", "image", "label"],
-                pred_table_columns=["epoch", "idx", "image", "label", "pred"],
-            ),
-        ],
-    )
+# Add the Callbacks to Model.fit
+model.fit(
+    X_train,
+    y_train,
+    validation_data=(X_test, y_test),
+    callbacks=[
+        WandbMetricsLogger(),
+        WandbClfEvalCallback(
+            validation_data=(X_test, y_test),
+            data_table_columns=["idx", "image", "label"],
+            pred_table_columns=["epoch", "idx", "image", "label", "pred"],
+        ),
+    ],
+)
 ```
 
 {{% alert %}}
@@ -238,14 +238,14 @@ Use the W&B library `WandbCallback` Class to automatically save all the metrics 
 import wandb
 from wandb.integration.keras import WandbCallback
 
-with wandb.init(config={"hyper": "parameter"}) as run:
+wandb.init(config={"hyper": "parameter"})
 
-    ...  # code to set up your model in Keras
+...  # code to set up your model in Keras
 
-    # Pass the callback to model.fit
-    model.fit(
-        X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
-        )
+# Pass the callback to model.fit
+model.fit(
+    X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
+)
 ```
 
 You can watch the short video [Get Started with Keras and Weights & Biases in Less Than a Minute](https://www.youtube.com/watch?ab_channel=Weights&Biases&v=4FjDIJ-vO_M).

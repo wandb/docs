@@ -48,9 +48,8 @@ import wandb
 api_key = dbutils.secrets.get("wandb", "api_key")
 wandb.login(key=api_key)
 
-with wandb.init() as run:
-    # Log some data
-    run.log({"foo": 1})
+wandb.init()
+wandb.log({"foo": 1})
 ```
 
 ### Sweeps
