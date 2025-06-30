@@ -243,9 +243,6 @@ with wandb.init(project="table-quickstart") as run:
 
         # W&B: Log predictions table to wandb
         run.log({"test_predictions" : test_table})
-
-# W&B: Mark the run as complete (useful for multi-cell notebook)
-run.finish()
 ```
 
 ## What's next?

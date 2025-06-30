@@ -162,7 +162,7 @@ def load_and_log():
 load_and_log()
 ```
 
-#### `wandb.init`
+#### `wandb.init()`
 
 
 When we make the `Run` that's going to produce the `Artifact`s,
@@ -327,7 +327,7 @@ steps = {"normalize": True,
 preprocess_and_log(steps)
 ```
 
-#### `run.use_artifact`
+#### `run.use_artifact()`
 
 These steps are simpler. The consumer just needs to know the `name` of the `Artifact`, plus a bit more.
 
@@ -479,7 +479,7 @@ model_config = {"hidden_layer_sizes": [32, 64],
 build_model_and_log(model_config)
 ```
 
-#### `artifact.add_file`
+#### `artifact.add_file()`
 
 
 Instead of simultaneously writing a `new_file` and adding it to the `Artifact`,
