@@ -24,17 +24,17 @@ W&B allows you to log embeddings using the `wandb.Table` class. Consider the fol
 ```python
 import wandb
 
-wandb.init(project="embedding_tutorial")
-embeddings = [
-    # D1   D2   D3   D4   D5
-    [0.2, 0.4, 0.1, 0.7, 0.5],  # embedding 1
-    [0.3, 0.1, 0.9, 0.2, 0.7],  # embedding 2
-    [0.4, 0.5, 0.2, 0.2, 0.1],  # embedding 3
-]
-wandb.log(
-    {"embeddings": wandb.Table(columns=["D1", "D2", "D3", "D4", "D5"], data=embeddings)}
-)
-wandb.finish()
+with wandb.init(project="embedding_tutorial") as run:
+  embeddings = [
+      # D1   D2   D3   D4   D5
+      [0.2, 0.4, 0.1, 0.7, 0.5],  # embedding 1
+      [0.3, 0.1, 0.9, 0.2, 0.7],  # embedding 2
+      [0.4, 0.5, 0.2, 0.2, 0.1],  # embedding 3
+  ]
+  run.log(
+      {"embeddings": wandb.Table(columns=["D1", "D2", "D3", "D4", "D5"], data=embeddings)}
+  )
+  run.finish()
 ```
 
 After running the above code, the W&B dashboard will have a new Table containing your data. You can select `2D Projection` from the upper right panel selector to plot the embeddings in 2 dimensions. Smart default will be automatically selected, which can be easily overridden in the configuration menu accessed by clicking the gear icon. In this example, we automatically use all 5 available numeric dimensions.
@@ -49,26 +49,25 @@ While the above example shows the basic mechanics of logging embeddings, typical
 import wandb
 from sklearn.datasets import load_digits
 
-wandb.init(project="embedding_tutorial")
+with wandb.init(project="embedding_tutorial") as run:
 
-# Load the dataset
-ds = load_digits(as_frame=True)
-df = ds.data
+  # Load the dataset
+  ds = load_digits(as_frame=True)
+  df = ds.data
 
-# Create a "target" column
-df["target"] = ds.target.astype(str)
-cols = df.columns.tolist()
-df = df[cols[-1:] + cols[:-1]]
+  # Create a "target" column
+  df["target"] = ds.target.astype(str)
+  cols = df.columns.tolist()
+  df = df[cols[-1:] + cols[:-1]]
 
-# Create an "image" column
-df["image"] = df.apply(
-    lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1
-)
-cols = df.columns.tolist()
-df = df[cols[-1:] + cols[:-1]]
+  # Create an "image" column
+  df["image"] = df.apply(
+      lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1
+  )
+  cols = df.columns.tolist()
+  df = df[cols[-1:] + cols[:-1]]
 
-wandb.log({"digits": df})
-wandb.finish()
+  run.log({"digits": df})
 ```
 
 After running the above code, again we are presented with a Table in the UI. By selecting `2D Projection` we can configure the definition of the embedding, coloring, algorithm (PCA, UMAP, t-SNE), algorithm parameters, and even overlay (in this case we show the image when hovering over a point). In this particular case, these are all "smart defaults" and you should see something very similar with a single click on `2D Projection`. ([Click here to interact](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney) with this example).
