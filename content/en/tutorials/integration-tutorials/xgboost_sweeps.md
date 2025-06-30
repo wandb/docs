@@ -119,8 +119,8 @@ the function that takes in hyperparameter values and spits out metrics.
 We'll also need `wandb` to be integrated into our script.
 There's three main components:
 *   `wandb.init()`: Initialize a new W&B run. Each run is single execution of the training script.
-*   `wandb.config`: Save all your hyperparameters in a config object. This lets you use [our app](https://wandb.ai) to sort and compare your runs by hyperparameter values.
-*   `wandb.log()`: Logs metrics and custom objects, such as images, videos, audio files, HTML, plots, or point clouds.
+*   `run.config`: Save all your hyperparameters in a config object. This lets you use [our app](https://wandb.ai) to sort and compare your runs by hyperparameter values.
+*   `run.log()`: Logs metrics and custom objects, such as images, videos, audio files, HTML, plots, or point clouds.
 
 We also need to download the data:
 
@@ -148,31 +148,31 @@ def train():
     "test_size": 0.33,
   }
 
-  wandb.init(config=config_defaults)  # defaults are over-ridden during the sweep
-  config = wandb.config
+  with wandb.init(config=config_defaults)  as run: # defaults are over-ridden during the sweep
+    config = run.config
 
-  # load data and split into predictors and targets
-  dataset = loadtxt("pima-indians-diabetes.data.csv", delimiter=",")
-  X, Y = dataset[:, :8], dataset[:, 8]
+    # load data and split into predictors and targets
+    dataset = loadtxt("pima-indians-diabetes.data.csv", delimiter=",")
+    X, Y = dataset[:, :8], dataset[:, 8]
 
-  # split data into train and test sets
-  X_train, X_test, y_train, y_test = train_test_split(X, Y,
-                                                      test_size=config.test_size,
-                                                      random_state=config.seed)
+    # split data into train and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, Y,
+                                                        test_size=config.test_size,
+                                                        random_state=config.seed)
 
-  # fit model on train
-  model = XGBClassifier(booster=config.booster, max_depth=config.max_depth,
-                        learning_rate=config.learning_rate, subsample=config.subsample)
-  model.fit(X_train, y_train)
+    # fit model on train
+    model = XGBClassifier(booster=config.booster, max_depth=config.max_depth,
+                          learning_rate=config.learning_rate, subsample=config.subsample)
+    model.fit(X_train, y_train)
 
-  # make predictions on test
-  y_pred = model.predict(X_test)
-  predictions = [round(value) for value in y_pred]
+    # make predictions on test
+    y_pred = model.predict(X_test)
+    predictions = [round(value) for value in y_pred]
 
-  # evaluate predictions
-  accuracy = accuracy_score(y_test, predictions)
-  print(f"Accuracy: {accuracy:.0%}")
-  wandb.log({"accuracy": accuracy})
+    # evaluate predictions
+    accuracy = accuracy_score(y_test, predictions)
+    print(f"Accuracy: {accuracy:.0%}")
+    run.log({"accuracy": accuracy})
 ```
 
 ## 3. Run the Sweep with an agent
