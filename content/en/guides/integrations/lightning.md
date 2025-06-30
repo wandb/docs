@@ -24,12 +24,13 @@ trainer = Trainer(logger=wandb_logger)
 ```
 
 {{% alert %}}
-**Using wandb.log():** The `WandbLogger` logs to W&B using the Trainer's `global_step`. If you make additional calls to `wandb.log` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
+**Using run.log():** The `WandbLogger` logs to W&B using the Trainer's `global_step`. If you make additional calls to `run.log()` directly in your code, **do not** use the `step` argument in `run.log()`. 
 
 Instead, log the Trainer's `global_step` like your other metrics:
 
 ```python
-wandb.log({"accuracy":0.99, "trainer/global_step": step})
+with wandb.init() as run:
+    run.log({"accuracy":0.99, "trainer/global_step": step})
 ```
 {{% /alert %}}
 
@@ -340,7 +341,9 @@ class My_LitModule(LightningModule):
 
     def validation_step(self, batch, batch_idx):
         if trainer.global_step == 0:
-            wandb.define_metric("val_accuracy", summary="max")
+            with wandb.init() as run:
+                # Define the metric to track the max validation accuracy
+                run.define_metric("val_accuracy", summary="max")
 
         preds, loss, acc = self._get_preds_loss_accuracy(batch)
 
@@ -354,10 +357,12 @@ class My_LitModule(LightningModule):
 {{% tab header="Fabric Logger" value="fabric" %}}
 
 ```python
-wandb.define_metric("val_accuracy", summary="max")
-fabric = L.Fabric(loggers=[wandb_logger])
-fabric.launch()
-fabric.log_dict({"val_accuracy": val_accuracy})
+with wandb.init() as run:
+    # Define the metric to track the max validation accuracy
+    run.define_metric("val_accuracy", summary="max")
+    fabric = L.Fabric(loggers=[wandb_logger])
+    fabric.launch()
+    fabric.log_dict({"val_accuracy": val_accuracy})
 ```
 
 {{% /tab %}}

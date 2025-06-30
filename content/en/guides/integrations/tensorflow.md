@@ -16,17 +16,19 @@ If you're already using TensorBoard, it's easy to integrate with wandb.
 ```python
 import tensorflow as tf
 import wandb
-wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
+with wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True) as run:
+    # Your training code using TensorBoard
+    ...
 ```
 
 ## Log custom metrics
 
-If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.log` in your code `wandb.log({"custom": 0.8}) `
+If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.log` in your code `run.log({"custom": 0.8}) `
 
 Setting the step argument in `wandb.log` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
 
 ``` python
-wandb.log({"custom": 0.8, "global_step":global_step}, step=global_step)
+run.log({"custom": 0.8, "global_step":global_step}, step=global_step)
 ```
 
 ## TensorFlow estimators hook
@@ -37,9 +39,8 @@ If you want more control over what gets logged, wandb also provides a hook for T
 import tensorflow as tf
 import wandb
 
-wandb.init(config=tf.FLAGS)
-
-estimator.train(hooks=[wandb.tensorflow.WandbHook(steps_per_log=1000)])
+with wandb.init(config=tf.FLAGS) as run:
+    estimator.train(hooks=[wandb.tensorflow.WandbHook(steps_per_log=1000)])
 ```
 
 ## Log manually
@@ -63,12 +64,13 @@ With TensorFlow 2, the recommended way of training a model with a custom loop is
         # Calculate the loss
         loss = loss_func(labels, predictions)
 
-    # Log your metrics
-    wandb.log("loss": loss.numpy())
-    # Get the gradients
-    gradients = tape.gradient(loss, model.trainable_variables)
-    # Update the weights
-    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+    with wandb.init() as run:
+        # Log the loss
+        run.log({"loss": loss.numpy()})
+        # Get the gradients
+        gradients = tape.gradient(loss, model.trainable_variables)
+        # Update the weights
+        optimizer.apply_gradients(zip(gradients, model.trainable_variables))
 ```
 
 A full example is available [here](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2).

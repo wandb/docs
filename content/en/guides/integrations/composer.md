@@ -90,7 +90,9 @@ class LogPredictions(Callback):
         "Create a wandb.Table and logs it"
         columns = ['image', 'ground truth', 'prediction']
         table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
-        wandb.log({'sample_table':table}, step=int(state.timer.batch))         
+        with wandb.init() as run:
+            # Log the table to W&B
+            run.log({'sample_table': table}, step=int(state.timer.batch))
 ...
 
 trainer = Trainer(

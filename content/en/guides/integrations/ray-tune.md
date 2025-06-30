@@ -11,7 +11,7 @@ weight: 360
 W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.
 
 - The`WandbLoggerCallback` function automatically logs metrics reported to Tune to the Wandb API.
-- The `setup_wandb()` function, which can be used with the function API,  automatically initializes the Wandb API with Tune's training information. You can use the Wandb API as usual. such as by using `wandb.log()` to log your training process.
+- The `setup_wandb()` function, which can be used with the function API,  automatically initializes the Wandb API with Tune's training information. You can use the Wandb API as usual. such as by using `run.log()` to log your training process.
 
 ## Configure the integration
 
@@ -83,10 +83,11 @@ def train_fn(config):
     # Initialize wandb
     wandb = setup_wandb(config)
 
-    for i in range(10):
-        loss = config["a"] + config["b"]
-        wandb.log({"loss": loss})
-        tune.report(loss=loss)
+        with wandb.init() as run:
+        for i in range(10):
+            loss = config["a"] + config["b"]
+            run.log({"loss": loss})
+            tune.report(loss=loss)
 
 
 tuner = tune.Tuner(

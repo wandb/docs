@@ -169,19 +169,35 @@ def train_model(
     test_dataloader_path: components.InputPath("dataloader"),
     model_path: components.OutputPath("pytorch_model"),
 ):
-    ...
-    for epoch in epochs:
-        for batch_idx, (data, target) in enumerate(train_dataloader):
+    with wandb.init() as run:
+        train_dataloader = components.load_component_from_file(train_dataloader_path)
+        test_dataloader = components.load_component_from_file(test_dataloader_path)
+
+        model = ...  # Load or define your model
+        optimizer = ...  # Define your optimizer
+        epochs = range(10)  # Example epochs
+        log_interval = 10  # Log every 10 batches
+
+        model_artifact = wandb.Artifact("model", type="model")
+        model_artifact.add_file(model_path)
+
+        for epoch in epochs:
+            for batch_idx, (data, target) in enumerate(train_dataloader):
+                ...
+                loss = ...  # Calculate loss
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+
+                if batch_idx % log_interval == 0:
+                    run.log(
+                        {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
+                    )
             ...
-            if batch_idx % log_interval == 0:
-                wandb.log(
-                    {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
-                )
-        ...
-        wandb.log_artifact(model_artifact)
+            run.log_artifact(model_artifact)
 ```
 
-### With implicit wandb integrations
+### With implicit W&B integrations
 
 If you're using a [framework integration we support]({{< relref "/guides/integrations/" >}}), you can also pass in the callback directly:
 

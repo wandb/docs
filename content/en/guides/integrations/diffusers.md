@@ -126,9 +126,6 @@ images = pipeline(
     num_images_per_prompt=2,
     generator=generator,
 )
-
-# Finish the experiment
-wandb.finish()
 ```
 {{% /tab %}}
 {{< /tabpane >}}
@@ -147,7 +144,7 @@ wandb.finish()
     {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
 
 {{% alert %}}
-You need to explicitly call [`wandb.finish()`]({{< relref "/ref/python/finish" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
+You need to explicitly call [`run.finish()`]({{< relref "/ref/python/finish" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 {{% /alert %}}
 
 ### Tracking multi-pipeline workflows
@@ -278,9 +275,6 @@ image = refiner_pipeline(
     image=image[None, :],
     generator=generator_refiner,
 ).images[0]
-
-# Finish the experiment
-wandb.finish()
 ```
 
 {{% /tab %}}
