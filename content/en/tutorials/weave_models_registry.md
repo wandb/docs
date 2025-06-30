@@ -180,7 +180,7 @@ await RagModel.predict("When was the first conference on climate change?")
 Finally, evaluate the new `RagModel` on the existing `weave.Evaluation`. To make the integration as easy as possible, include the following changes. 
 
 From a Models perspective:
-- Getting the model from the registry creates a new `wandb.run` which is part of the E2E lineage of the chat model
+- Getting the model from the registry creates a new `run` object which is part of the E2E lineage of the chat model
 - Add the Trace ID (with current eval ID) to the run config so that the model team can click the link to go to the corresponding Weave page
 
 From a Weave perspective:
@@ -192,7 +192,9 @@ From a Weave perspective:
 WEAVE_EVAL = "weave:///wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
 climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 
-with weave.attributes({"wandb-run-id": wandb.run.id}):
+run = wandb.init()
+
+with weave.attributes({"wandb-run-id": run.id}):
     # use .call attribute to retrieve both the result and the call in order to save eval trace to Models
     summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, ` RagModel `)
 ```

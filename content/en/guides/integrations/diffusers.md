@@ -106,6 +106,8 @@ import wandb
 # import the autolog function
 from wandb.integration.diffusers import autolog
 
+run = wandb.init()
+
 # call the autolog before calling the pipeline
 autolog(init=dict(project="diffusers_logging"))
 
@@ -128,7 +130,7 @@ images = pipeline(
 )
 
 # Finish the experiment
-wandb.finish()
+run.finish()
 ```
 {{% /tab %}}
 {{< /tabpane >}}
@@ -147,7 +149,7 @@ wandb.finish()
     {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
 
 {{% alert %}}
-You need to explicitly call [`wandb.finish()`]({{< relref "/ref/python/finish" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
+You need to explicitly call [`run.finish()`]({{< relref "/ref/python/finish" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 {{% /alert %}}
 
 ### Tracking multi-pipeline workflows
@@ -228,6 +230,8 @@ from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipelin
 import wandb
 from wandb.integration.diffusers import autolog
 
+run = wandb.init()
+
 # initialize the SDXL base pipeline
 base_pipeline = StableDiffusionXLPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-base-1.0",
@@ -280,7 +284,7 @@ image = refiner_pipeline(
 ).images[0]
 
 # Finish the experiment
-wandb.finish()
+run.finish()
 ```
 
 {{% /tab %}}

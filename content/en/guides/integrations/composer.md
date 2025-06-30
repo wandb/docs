@@ -87,10 +87,11 @@ class LogPredictions(Callback):
                 self.data += data
             
     def eval_end(self, state: State, logger: Logger):
-        "Create a wandb.Table and logs it"
-        columns = ['image', 'ground truth', 'prediction']
-        table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
-        wandb.log({'sample_table':table}, step=int(state.timer.batch))         
+        run = wandb.init() as run:
+            "Create a wandb.Table and logs it"
+            columns = ['image', 'ground truth', 'prediction']
+            table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
+            run.log({'sample_table':table}, step=int(state.timer.batch))         
 ...
 
 trainer = Trainer(

@@ -23,22 +23,25 @@ import wandb
 @hydra.main(config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
     run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-    wandb.log({"loss": loss})
+    run.log({"loss": loss})
+    run.finish()
 ```
 
 ## Track Hyperparameters
 
-Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default way to interface with configuration dictionaries. `OmegaConf`'s dictionary are not a subclass of primitive dictionaries so directly passing Hydra's `Config` to `wandb.config` leads to unexpected results on the dashboard. It's necessary to convert `omegaconf.DictConfig` to the primitive `dict` type before passing to `wandb.config`.
+Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default way to interface with configuration dictionaries. `OmegaConf`'s dictionary are not a subclass of primitive dictionaries so directly passing Hydra's `Config` to `run.config` leads to unexpected results on the dashboard. It's necessary to convert `omegaconf.DictConfig` to the primitive `dict` type before passing to `run.config`.
 
 ```python
 @hydra.main(config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
-    wandb.config = omegaconf.OmegaConf.to_container(
-        cfg, resolve=True, throw_on_missing=True
-    )
-    wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-    wandb.log({"loss": loss})
-    model = Model(**wandb.config.model.configs)
+  run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
+  run.config = omegaconf.OmegaConf.to_container(
+      cfg, resolve=True, throw_on_missing=True
+  )
+  run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
+  run.log({"loss": loss})
+  model = Model(**run.config.model.configs)
+  run.finish()
 ```
 
 ## Troubleshoot multiprocessing

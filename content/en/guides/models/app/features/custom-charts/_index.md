@@ -43,15 +43,16 @@ W&B has a number of builtin chart presets that you can log directly from your sc
   Log a custom line plot—a list of connected and ordered points (x,y) on arbitrary axes x and y.
 
   ```python
-  data = [[x, y] for (x, y) in zip(x_values, y_values)]
-  table = wandb.Table(data=data, columns=["x", "y"])
-  wandb.log(
-      {
-          "my_custom_plot_id": wandb.plot.line(
-              table, "x", "y", title="Custom Y vs X Line Plot"
-          )
-      }
-  )
+  with wandb.init() as run:
+    data = [[x, y] for (x, y) in zip(x_values, y_values)]
+    table = wandb.Table(data=data, columns=["x", "y"])
+    run.log(
+        {
+            "my_custom_plot_id": wandb.plot.line(
+                table, "x", "y", title="Custom Y vs X Line Plot"
+            )
+        }
+    )
   ```
 
   A line plot logs curves on any two dimensions. If you plot two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
@@ -69,9 +70,10 @@ W&B has a number of builtin chart presets that you can log directly from your sc
   Log a custom scatter plot—a list of points (x, y) on a pair of arbitrary axes x and y.
 
   ```python
-  data = [[x, y] for (x, y) in zip(class_x_prediction_scores, class_y_prediction_scores)]
-  table = wandb.Table(data=data, columns=["class_x", "class_y"])
-  wandb.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
+  with wandb.init() as run:
+    data = [[x, y] for (x, y) in zip(class_x_prediction_scores, class_y_prediction_scores)]
+    table = wandb.Table(data=data, columns=["class_x", "class_y"])
+    run.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
   ```
 
   You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
@@ -89,15 +91,16 @@ W&B has a number of builtin chart presets that you can log directly from your sc
   Log a custom bar chart—a list of labeled values as bars—natively in a few lines:
 
   ```python
-  data = [[label, val] for (label, val) in zip(labels, values)]
-  table = wandb.Table(data=data, columns=["label", "value"])
-  wandb.log(
-      {
-          "my_bar_chart_id": wandb.plot.bar(
-              table, "label", "value", title="Custom Bar Chart"
-          )
-      }
-  )
+  with wandb.init() as run:
+    data = [[label, val] for (label, val) in zip(labels, values)]
+    table = wandb.Table(data=data, columns=["label", "value"])
+    run.log(
+        {
+            "my_bar_chart_id": wandb.plot.bar(
+                table, "label", "value", title="Custom Bar Chart"
+            )
+        }
+    )
   ```
 
   You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (for example, each data point must have both).
@@ -114,9 +117,10 @@ W&B has a number of builtin chart presets that you can log directly from your sc
   Log a custom histogram—sort list of values into bins by count/frequency of occurrence—natively in a few lines. Let's say I have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
 
   ```python
-  data = [[s] for s in scores]
-  table = wandb.Table(data=data, columns=["scores"])
-  wandb.log({"my_histogram": wandb.plot.histogram(table, "scores", title=None)})
+  with wandb.init() as run:
+    data = [[s] for s in scores]
+    table = wandb.Table(data=data, columns=["scores"])
+    run.log({"my_histogram": wandb.plot.histogram(table, "scores", title=None)})
   ```
 
   You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
@@ -134,9 +138,10 @@ W&B has a number of builtin chart presets that you can log directly from your sc
   Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) in one line:
 
   ```python
-  plot = wandb.plot.pr_curve(ground_truth, predictions, labels=None, classes_to_plot=None)
+  with wandb.init() as run:
+    plot = wandb.plot.pr_curve(ground_truth, predictions, labels=None, classes_to_plot=None)
 
-  wandb.log({"pr": plot})
+    run.log({"pr": plot})
   ```
 
   You can log this whenever your code has access to:
@@ -160,11 +165,18 @@ W&B has a number of builtin chart presets that you can log directly from your sc
   Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) in one line:
 
   ```python
-  plot = wandb.plot.roc_curve(
-      ground_truth, predictions, labels=None, classes_to_plot=None
-  )
+  with wandb.init() as run:
+    # ground_truth is a list of true labels, predictions is a list of predicted scores
+    ground_truth = [0, 1, 0, 1, 0, 1]
+    predictions = [0.1, 0.4, 0.35, 0.8, 0.7, 0.9]
 
-  wandb.log({"roc": plot})
+    # Create the ROC curve plot
+    # labels is an optional list of class names, classes_to_plot is an optional subset of those labels to visualize
+    plot = wandb.plot.roc_curve(
+        ground_truth, predictions, labels=None, classes_to_plot=None
+    )
+
+    run.log({"roc": plot})
   ```
 
   You can log this whenever your code has access to:
@@ -209,24 +221,25 @@ my_custom_chart = wandb.plot_table(
 
 You can log the following data types from your script and use them in a custom chart:
 
-* **Config**: Initial settings of your experiment (your independent variables). This includes any named fields you've logged as keys to `wandb.config` at the start of your training. For example: `wandb.config.learning_rate = 0.0001`
-* **Summary**: Single values logged during training (your results or dependent variables). For example, `wandb.log({"val_acc" : 0.8})`. If you write to this key multiple times during training via `wandb.log()`, the summary is set to the final value of that key.
+* **Config**: Initial settings of your experiment (your independent variables). This includes any named fields you've logged as keys to `run.config` at the start of your training. For example: `run.config.learning_rate = 0.0001`
+* **Summary**: Single values logged during training (your results or dependent variables). For example, `run.log({"val_acc" : 0.8})`. If you write to this key multiple times during training via `run.log()`, the summary is set to the final value of that key.
 * **History**: The full time series of the logged scalar is available to the query via the `history` field
 * **summaryTable**: If you need to log a list of multiple values, use a `wandb.Table()` to save that data, then query it in your custom panel.
 * **historyTable**: If you need to see the history data, then query `historyTable` in your custom chart panel. Each time you call `wandb.Table()` or log a custom chart, you're creating a new table in history for that step.
 
 ### How to log a custom table
 
-Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`(`custom_data_table` below), and the individual fields will be accessible via the column names (`x`, `y`, and `z`). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows. [Try an example a Google Colab](https://tiny.cc/custom-charts).
+Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `run.log()`(`custom_data_table` below), and the individual fields will be accessible via the column names (`x`, `y`, and `z`). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows. [Try an example a Google Colab](https://tiny.cc/custom-charts).
 
 
 
 ```python
-# Logging a custom table of data
-my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
-wandb.log(
-    {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
-)
+with wandb.init() as run:
+  # Logging a custom table of data
+  my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
+  run.log(
+      {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
+  )
 ```
 
 ## Customize the chart

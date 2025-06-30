@@ -21,12 +21,14 @@ wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
 
 ## Log custom metrics
 
-If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.log` in your code `wandb.log({"custom": 0.8}) `
+If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `run.log()` in your code `run.log({"custom": 0.8}) `
 
-Setting the step argument in `wandb.log` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
+Setting the step argument in `run.log()` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
 
 ``` python
-wandb.log({"custom": 0.8, "global_step":global_step}, step=global_step)
+run = wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
+run.log({"custom": 0.8, "global_step":global_step}, step=global_step)
+run.finish()
 ```
 
 ## TensorFlow estimators hook
@@ -37,9 +39,10 @@ If you want more control over what gets logged, wandb also provides a hook for T
 import tensorflow as tf
 import wandb
 
-wandb.init(config=tf.FLAGS)
+run = wandb.init(config=tf.FLAGS)
 
 estimator.train(hooks=[wandb.tensorflow.WandbHook(steps_per_log=1000)])
+run.finish()
 ```
 
 ## Log manually

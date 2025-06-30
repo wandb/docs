@@ -137,7 +137,8 @@ Fine-tuned model ID is logged to W&B as artifacts (`model_metadata.json`) as wel
 ```python
 import wandb
 
-ft_artifact = wandb.run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
+run = wandb.init(project="OpenAI-Fine-Tune", entity="YOUR_TEAM_NAME")
+ft_artifact = run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
 artifact_dir = artifact.download()
 ```
 
