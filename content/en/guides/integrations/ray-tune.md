@@ -82,11 +82,16 @@ from ray.air.integrations.wandb import setup_wandb
 def train_fn(config):
     # Initialize wandb
     wandb = setup_wandb(config)
+    run = wandb.init(
+        project=config["wandb"]["project"],
+        api_key_file=config["wandb"]["api_key_file"],
+    )
 
     for i in range(10):
         loss = config["a"] + config["b"]
         run.log({"loss": loss})
         tune.report(loss=loss)
+    run.finish()
 
 
 tuner = tune.Tuner(

@@ -16,7 +16,6 @@ If you're already using TensorBoard, it's easy to integrate with wandb.
 ```python
 import tensorflow as tf
 import wandb
-wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
 ```
 
 ## Log custom metrics
@@ -26,9 +25,8 @@ If you need to log additional custom metrics that aren't being logged to TensorB
 Setting the step argument in `run.log()` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
 
 ``` python
-run = wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
-run.log({"custom": 0.8, "global_step":global_step}, step=global_step)
-run.finish()
+with wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True) as run:
+    run.log({"custom": 0.8, "global_step":global_step}, step=global_step)
 ```
 
 ## TensorFlow estimators hook
@@ -51,7 +49,7 @@ The simplest way to log metrics in TensorFlow is by logging `tf.summary` with th
 
 ```python
 import wandb
-
+run = wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
 with tf.Session() as sess:
     # ...
     wandb.tensorflow.log(tf.summary.merge_all())
@@ -67,7 +65,7 @@ With TensorFlow 2, the recommended way of training a model with a custom loop is
         loss = loss_func(labels, predictions)
 
     # Log your metrics
-    wandb.log("loss": loss.numpy())
+    run.log("loss": loss.numpy())
     # Get the gradients
     gradients = tape.gradient(loss, model.trainable_variables)
     # Update the weights

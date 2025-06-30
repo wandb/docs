@@ -99,7 +99,6 @@ with wandb.init(project=’graph_vis’) as run:
     # Save the PyVis visualisation to a HTML file
     net.show("graph.html")
     run.log({"eda/graph": wandb.Html("graph.html")})
-    run.finish()
 ```
 
 {{< img src="/images/integrations/pyg_graph_wandb.png" alt="This image shows the input graph as an interactive HTML visualization." >}}
@@ -153,7 +152,6 @@ def create_vis(graph):
 
 with wandb.init(project=’visualize_graph’) as run:
     run.log({‘graph’: wandb.Plotly(create_vis(graph))})
-    run.finish()
 ```
 
 {{< img src="/images/integrations/pyg_graph_plotly.png" alt="A visualization created using the example function and logged inside a W&B Table." >}}

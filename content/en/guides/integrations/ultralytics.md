@@ -110,35 +110,27 @@ Download a few images to test the integration on. You can use still images, vide
 !wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img5.png
 ```
 
-Next, initialize a W&B [run]({{< relref "/guides/models/track/runs/" >}}) using `wandb.init`.
+Initialize a W&B [run]({{< relref "/guides/models/track/runs/" >}}) using `wandb.init()`. Next, Initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, it automatically logs the images overlaid with your [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) along with additional insights in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
 
 ```python
 # Initialize W&B run
 with wandb.init(project="ultralytics", job_type="inference") as run:
-```
+    # Initialize YOLO Model
+    model = YOLO("yolov8n.pt")
 
-Next, initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, it automatically logs the images overlaid with your [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) along with additional insights in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
+    # Add W&B callback for Ultralytics
+    add_wandb_callback(model, enable_model_checkpointing=True)
 
-```python
-# Initialize YOLO Model
-model = YOLO("yolov8n.pt")
-
-# Add W&B callback for Ultralytics
-add_wandb_callback(model, enable_model_checkpointing=True)
-
-# Perform prediction which automatically logs to a W&B Table
-# with interactive overlays for bounding boxes, segmentation masks
-model(
-    [
-        "./assets/img1.jpeg",
-        "./assets/img3.png",
-        "./assets/img4.jpeg",
-        "./assets/img5.jpeg",
-    ]
-)
-
-# Finish the W&B run
-run.finish()
+    # Perform prediction which automatically logs to a W&B Table
+    # with interactive overlays for bounding boxes, segmentation masks
+    model(
+        [
+            "./assets/img1.jpeg",
+            "./assets/img3.png",
+            "./assets/img4.jpeg",
+            "./assets/img5.jpeg",
+        ]
+    )
 ```
 
 You do not need to explicitly initialize a run using `wandb.init()` in case of a training or fine-tuning workflow. However, if the code involves only prediction, you must explicitly create a run.

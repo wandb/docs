@@ -95,7 +95,7 @@ wandb.init(project="visualize-sklearn") as run:
 ```python
 import wandb
 
-wandb.init(project="visualize-sklearn")
+run = wandb.init(project="visualize-sklearn")
 ```
 
 #### Step 2: Visualize plots
@@ -135,6 +135,8 @@ wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="
 wandb.sklearn.plot_clusterer(
     kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
 )
+
+run.finish()
 ```
 
 #### Existing Matplotlib plots
