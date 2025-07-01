@@ -238,7 +238,7 @@ The action history audit tab shows all of the alias actions and membership chang
 
 ### Versions tab
 
-{{< img src="/images/app_ui/versions_tab.png" alt="" >}}
+{{< img src="/images/app_ui/versions_tab.png" alt="Artifact versions tab" >}}
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
 
@@ -287,7 +287,7 @@ Add a star to a project to mark that project as important. Projects that you and
 
 
 For example, the proceeding image shows two projects that are marked as important, the `zoo_experiment` and `registry_demo`. Both projects appear within the top of the organization's home page within the **Starred projects** section.
-{{< img src="/images/track/star-projects.png" alt="" >}}
+{{< img src="/images/track/star-projects.png" alt="Starred projects section" >}}
 
 
 There are two ways to mark a project as important: within a project's overview tab or within your team's profile page.
@@ -298,7 +298,7 @@ There are two ways to mark a project as important: within a project's overview t
 2. Select the **Overview** tab from the project sidebar.
 3. Choose the star icon in the upper right corner next to the **Edit** button.
 
-{{< img src="/images/track/star-project-overview-tab.png" alt="" >}}    
+{{< img src="/images/track/star-project-overview-tab.png" alt="Star project from overview" >}}    
     {{% /tab %}}
     {{% tab header="Team profile" %}}
 1. Navigate to your team's profile page at `https://wandb.ai/<team>/projects`.
@@ -306,7 +306,7 @@ There are two ways to mark a project as important: within a project's overview t
 3. Hover your mouse next to the project you want to star. Click on star icon that appears.
 
 For example, the proceeding image shows the star icon next to the "Compare_Zoo_Models" project.
-{{< img src="/images/track/star-project-team-profile-page.png" alt="" >}}    
+{{< img src="/images/track/star-project-team-profile-page.png" alt="Star project from team page" >}}    
     {{% /tab %}}
 {{< /tabpane >}}
 
@@ -321,11 +321,11 @@ Confirm that your project appears on the landing page of your organization by cl
 
 You can delete your project by clicking the three dots on the right of the overview tab.
 
-{{< img src="/images/app_ui/howto_delete_project.gif" alt="" >}}
+{{< img src="/images/app_ui/howto_delete_project.gif" alt="Delete project workflow" >}}
 
 If the project is empty, you can delete it by clicking the dropdown menu in the top-right and selecting **Delete project**.
 
-{{< img src="/images/app_ui/howto_delete_project_2.png" alt="" >}}
+{{< img src="/images/app_ui/howto_delete_project_2.png" alt="Delete empty project" >}}
 
 
 

@@ -37,7 +37,7 @@ For example, see this table that compares [two models on the same test images](h
 
 Zoom in to visualize a specific prediction at a specific step. Zoom out to see the aggregate statistics, identify patterns of errors, and understand opportunities for improvement. This tool works for comparing steps from a single model training, or results across different model versions.
 
-{{< img src="/images/data_vis/track_details.png" alt="" >}}
+{{< img src="/images/data_vis/track_details.png" alt="Tracking experiment details" >}}
 
 For example, see this example table that analyzes results [after one and then after five epochs on the MNIST dataset](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 ## Example Projects with W&B Tables

@@ -24,7 +24,7 @@ Create custom charts in your W&B project. Log arbitrary tables of data and visua
 2. **Customize the chart**: Pull in logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a powerful visualization grammar.
 3. **Log the chart**: Call your own preset from your script with `wandb.plot_table()`.
 
-{{< img src="/images/app_ui/pr_roc.png" alt="" >}}
+{{< img src="/images/app_ui/pr_roc.png" alt="PR and ROC curves" >}}
 
 If you do not see the expected data, the column you are looking for might not be logged in the selected runs. Save your chart, go back out to the runs table, and verify selected runs using the **eye** icon.
 
@@ -56,7 +56,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 
   A line plot logs curves on any two dimensions. If you plot two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
 
-  {{< img src="/images/app_ui/line_plot.png" alt="" >}}
+  {{< img src="/images/app_ui/line_plot.png" alt="Custom line plot" >}}
 
   [See an example report](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA) or [try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
@@ -76,7 +76,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 
   You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (for example, each point must have an x and a y).
 
-  {{< img src="/images/app_ui/demo_scatter_plot.png" alt="" >}}
+  {{< img src="/images/app_ui/demo_scatter_plot.png" alt="Scatter plot" >}}
 
   [See an example report](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ) or [try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
@@ -121,7 +121,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 
   You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
 
-  {{< img src="/images/app_ui/demo_custom_chart_histogram.png" alt="" >}}
+  {{< img src="/images/app_ui/demo_custom_chart_histogram.png" alt="Custom histogram" >}}
 
   [See an example report](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM) or [try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
@@ -146,7 +146,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
   * (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
   * (optionally) a subset (still in list format) of the labels to visualize in the plot
 
-  {{< img src="/images/app_ui/demo_average_precision_lines.png" alt="" >}}
+  {{< img src="/images/app_ui/demo_average_precision_lines.png" alt="Precision-recall curves" >}}
 
 
   [See an example report](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY) or [try an example Google Colab notebook](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing).
@@ -174,7 +174,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
   * (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
   * (optionally) a subset (still in list format) of these labels to visualize on the plot
 
-  {{< img src="/images/app_ui/demo_custom_chart_roc_curve.png" alt="" >}}
+  {{< img src="/images/app_ui/demo_custom_chart_roc_curve.png" alt="ROC curve" >}}
 
   [See an example report](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE) or [try an example Google Colab notebook](https://colab.research.google.com/drive/1_RMppCqsA8XInV_jhJz32NCZG6Z5t1RO?usp=sharing).
 
@@ -203,7 +203,7 @@ my_custom_chart = wandb.plot_table(
 
 
 
-{{< img src="/images/app_ui/custom_presets.png" alt="" max-width="90%" >}}
+{{< img src="/images/app_ui/custom_presets.png" alt="Custom chart presets" max-width="90%" >}}
 
 ## Log data
 
