@@ -163,4 +163,4 @@ The following steps describe how to create a collection within a registry using 
 11. From the **Version** dropdown, select the artifact version you want to link to your collection.
 12. Click on the **Create collection** button.
 
-{{< img src="/images/registry/create_collection.gif" alt="Interactive walkthrough of creating a new collection within a registry with metadata configuration" >}}
+{{< img src="/images/registry/create_collection.gif" alt="Create a new collection" >}}

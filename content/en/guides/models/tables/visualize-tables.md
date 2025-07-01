@@ -90,7 +90,7 @@ To add a step slider to a W&B Table:
 
 The following image shows a query panel with three W&B runs and the values they logged at step 295.
 
-{{< img src="/images/data_vis/stepper_key.png" alt="Query panel with three W&B runs and the values they logged at step 295 using the step slider feature.">}}
+{{< img src="/images/data_vis/stepper_key.png" alt="Step slider feature">}}
 
 Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run does not log values at every step. If a value is missing for a given step, W&B uses the last value that was logged as the slider key.
 

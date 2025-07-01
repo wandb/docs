@@ -202,7 +202,7 @@ There are two ways to confirm the path of a registry with the UI: create an empt
 5. Within the code snippet that appears, identify the `target_path` field within `.link_artifact()`.
 6. (Optional) Delete the collection.
 
-{{< img src="/images/registry/check_empty_collection.gif" alt="Checking empty collection status and viewing available linking options for artifact versions" >}}
+{{< img src="/images/registry/check_empty_collection.gif" alt="Create an empty collection" >}}
 
 For example, after completing the steps outlined, you find the code block with the `target_path` parameter:
 
