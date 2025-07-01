@@ -87,7 +87,7 @@ You can explore the W&B dashboard to see the logged metrics. By default W&B logs
 
 W&B captures the resolved config on the **Overview** tab. W&B also stores the config in YAML format on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
 
-{{< img src="/images/integrations/torchtune_config.png" alt="TorchTune configuration interface" >}}
+{{< img src="/images/integrations/torchtune_config.png" alt="TorchTune configuration" >}}
 
 ### Logged Metrics
 

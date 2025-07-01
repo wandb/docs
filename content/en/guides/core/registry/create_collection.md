@@ -71,7 +71,7 @@ For both methods, first navigate to your W&B Registry App.
 
 Within the homepage of the Registry App, you can view the accepted artifact types by scrolling to the registry card of that registry. The gray horizontal ovals within the registry card lists the artifact types that registry accepts.
 
-{{< img src="/images/registry/artifact_types_model_card.png" alt="Artifact types selection interface" >}}
+{{< img src="/images/registry/artifact_types_model_card.png" alt="Artifact types selection" >}}
 
 For example, the preceding image shows multiple registry cards on the Registry App homepage. Within the **Model** registry card, you can see two artifact types: **model** and **model-new**. 
 

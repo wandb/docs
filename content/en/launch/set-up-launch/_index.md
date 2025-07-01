@@ -21,7 +21,7 @@ When an agent receives a job from a queue, it also receives the queue configurat
 1. Navigate to Launch App at [wandb.ai/launch](https://wandb.ai/launch). 
 2. Click the **create queue** button on the top right of the screen. 
 
-{{< img src="/images/launch/create-queue.gif" alt="Interactive walkthrough showing how to create and configure a Launch queue for job execution" >}}
+{{< img src="/images/launch/create-queue.gif" alt="Creating a Launch queue" >}}
 
 3. From the **Entity** dropdown menu, select the entity the queue will belong to. 
 4. Provide a name for your queue in the **Queue** field. 

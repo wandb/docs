@@ -155,7 +155,7 @@ Launch is designed to help teams build workflows around shared compute. In the e
 
 After clicking the button, the browser will redirect to the **Agents** tab of the queue view. The queue remains in the **Not active** state until an agent starts polling.
 
-{{< img src="/images/launch/create_docker_queue.gif" alt="Step-by-step demonstration of creating a Docker queue configuration in W&B Launch" >}}
+{{< img src="/images/launch/create_docker_queue.gif" alt="Docker queue creation" >}}
 
 For advanced queue configuration options, see the [advanced queue setup page]({{< relref "/launch/set-up-launch/setup-queue-advanced.md" >}}).
 

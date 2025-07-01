@@ -32,7 +32,7 @@ An artifact type cannot be removed from a registry once it is saved in the regis
 
 For example, the proceeding image shows a custom registry called `Fine_Tuned_Models` that a user is about to create. The registry is **Restricted** to only members that are manually added to the registry.
 
-{{< img src="/images/registry/create_registry.gif" alt="Step-by-step demonstration of creating a new registry with configuration options and team permissions" >}}
+{{< img src="/images/registry/create_registry.gif" alt="Creating a new registry" >}}
 
 ## Visibility types
 

@@ -22,7 +22,7 @@ See this [Google Colab](https://colab.research.google.com/github/wandb/examples/
 1. Navigate to your project workspace in the W&B App.
 2. Click **Create report** in the upper right corner of your workspace.
 
-   {{< img src="/images/reports/create_a_report_button.png" alt="Create a report button in W&B workspace showing report generation options" >}}
+   {{< img src="/images/reports/create_a_report_button.png" alt="Create report button" >}}
 
 3. A modal will appear. Select the charts you would like to start with. You can add or delete charts later from the report interface.
 

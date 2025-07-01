@@ -16,7 +16,7 @@ By default, the **Models** registry is configured to accept `"model"` artifact t
 
 <!-- For more information about artifact types, see [LINK]. -->
 
-{{< img src="/images/registry/core_registry_example.png" alt="Core registry interface" >}}
+{{< img src="/images/registry/core_registry_example.png" alt="Core registry" >}}
 
 The preceding image shows the **Models** and the **Dataset** core registry along with a custom registry called **Fine_Tuned_Models** in the W&B Registry App UI.
 

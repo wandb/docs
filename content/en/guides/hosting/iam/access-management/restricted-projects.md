@@ -47,7 +47,7 @@ Set a project's visibility scope when you create a project or when editing it la
 1. Navigate to your W&B organization on SaaS Cloud, Dedicated Cloud, or Self-managed instance.
 2. Click the **Create a new project** button in the left hand sidebar's **My projects** section. Alternatively, navigate to the **Projects** tab of your team and click the **Create new project** button in the upper right hand corner.
 3. After selecting the parent team and entering the name of the project, select the desired scope from the **Project Visibility** dropdown.
-{{< img src="/images/hosting/restricted_project_add_new.gif" alt="Demonstration of creating a new restricted project with access control and permission settings" >}}
+{{< img src="/images/hosting/restricted_project_add_new.gif" alt="Creating restricted project" >}}
 
 Complete the following step if you select **Restricted** visibility. 
 
@@ -64,7 +64,7 @@ You can add or remove members in a restricted project later, from its **Users** 
 2. Select the **Overview** tab on the left column.
 3. Click the **Edit Project Details** button on the upper right corner.  
 4. From the **Project Visibility** dropdown, select the desired scope.
-{{< img src="/images/hosting/restricted_project_edit.gif" alt="Editing restricted project settings showing how to modify member access and visibility permissions" >}}
+{{< img src="/images/hosting/restricted_project_edit.gif" alt="Editing restricted project settings" >}}
 
 Complete the following step if you select **Restricted** visibility. 
 

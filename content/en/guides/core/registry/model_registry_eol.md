@@ -33,12 +33,12 @@ Restrict who can view and access a custom registry. You can restrict visibility 
 ### Create custom registries
 Unlike the legacy Model Registry, W&B Registry is not limited to models or dataset registries. You can create custom registries tailored to specific workflows or project needs, capable of holding any arbitrary object type. This flexibility allows teams to organize and manage artifacts according to their unique requirements. For more information on how to create a custom registry, see [Create a custom registry]({{< relref "./create_registry.md" >}}).  
 
-{{< img src="/images/registry/mode_reg_eol.png" alt="Model Registry end-of-life notification showing deprecation timeline and migration instructions" >}}
+{{< img src="/images/registry/mode_reg_eol.png" alt="Model Registry end-of-life notification" >}}
 
 ### Custom access control
 Each registry supports detailed access control, where members can be assigned specific roles such as Admin, Member, or Viewer. Admins can manage registry settings, including adding or removing members, setting roles, and configuring visibility. This ensures that teams have the necessary control over who can view, manage, and interact with the artifacts in their registries.
 
-{{< img src="/images/registry/registry_access_control.png" alt="Registry access control interface showing user permissions and team-based security settings" >}}
+{{< img src="/images/registry/registry_access_control.png" alt="Registry access control interface" >}}
 
 ### Terminology update
 Registered models are now referred to as *collections*. 
