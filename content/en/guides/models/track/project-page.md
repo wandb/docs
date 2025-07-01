@@ -222,7 +222,7 @@ The files panel lists the files and folders associated with the artifact. W&B up
 
 ### Lineage panel
 
-{{< img src="/images/app_ui/lineage_panel.png" alt="Artifact lineage visualization" >}}
+{{< img src="/images/app_ui/lineage_panel.png" alt="Artifact lineage" >}}
 
 The lineage panel provides a view of all of the artifacts associated with a project and the runs that connect them to each other. It shows run types as blocks and artifacts as circles, with arrows to indicate when a run of a given type consumes or produces an artifact of a given type. The type of the particular artifact selected in the left-hand column is highlighted.
 

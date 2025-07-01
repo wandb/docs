@@ -27,7 +27,7 @@ W&B will create a new artifact and assign it a `v0` alias if you pass a name to 
 
 W&B will retrieve an existing artifact if you pass a name and artifact type to the `wandb.Artifact` API that matches an existing artifact in your project. The retrieved artifact will have a version greater than 1. 
 
-{{< img src="/images/artifacts/single_distributed_artifacts.png" alt="Single vs distributed artifact workflows" >}}
+{{< img src="/images/artifacts/single_distributed_artifacts.png" alt="Artifact workflow comparison" >}}
 
 ### Single run
 Log a new version of an Artifact with a single run that produces all the files in the artifact. This case occurs when a single run produces all the files in the artifact. 

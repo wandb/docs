@@ -29,7 +29,7 @@ For information on how to save your current W&B Table view, see [Save your view]
 ## Compare two tables
 Compare two tables with a [merged view]({{< relref "#merged-view" >}}) or a [side-by-side view]({{< relref "#side-by-side-view" >}}). For example, the image below demonstrates a table comparison of MNIST data.
 
-{{< img src="/images/data_vis/table_comparison.png" alt="Left: mistakes after 1 training epochs, Right: mistakes after 5 epochs" max-width="90%" >}}
+{{< img src="/images/data_vis/table_comparison.png" alt="Training epoch comparison" max-width="90%" >}}
 
 Follow these steps to compare two tables:
 
@@ -155,10 +155,10 @@ For example, compare predictions between a `baseline` and a new model variant, `
 
 {{< tabpane text=true >}}
 {{% tab header="1 training epoch" value="one_epoch" %}}
-{{< img src="/images/data_vis/compare_across_variants.png" alt="After 1 epoch, performance is mixed: precision improves for some classes and worsens for others." >}}
+{{< img src="/images/data_vis/compare_across_variants.png" alt="Performance comparison" >}}
 {{% /tab %}}
 {{% tab header="5 training epochs" value="five_epochs" %}}
-{{< img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="After 5 epochs, the 'double' variant is catching up to the baseline." >}}
+{{< img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="Variant performance comparison" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 

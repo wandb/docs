@@ -183,7 +183,7 @@ This code generates these visualizations::
 
 {{< img src="/images/integrations/pytorch-ignite-1.png" alt="PyTorch Ignite training dashboard" >}}
 
-{{< img src="/images/integrations/pytorch-ignite-2.png" alt="PyTorch Ignite model performance visualization" >}}
+{{< img src="/images/integrations/pytorch-ignite-2.png" alt="PyTorch Ignite performance" >}}
 
 {{< img src="/images/integrations/pytorch-ignite-3.png" alt="PyTorch Ignite hyperparameter tuning results" >}}
 

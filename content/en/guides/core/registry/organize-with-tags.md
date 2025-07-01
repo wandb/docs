@@ -33,7 +33,7 @@ Use the W&B App UI to add a tag to a collection:
 4. Within the collection card, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
 5. Press **Enter** on your keyboard
 
-{{< img src="/images/registry/add_tag_collection.gif" alt="Adding tags to registry collection for improved organization and searchability" >}}
+{{< img src="/images/registry/add_tag_collection.gif" alt="Adding tags to a Registry collection" >}}
 
 {{% /tab %}}
 {{% tab header="Python SDK" %}}

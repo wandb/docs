@@ -19,7 +19,7 @@ Lineage graphs can show the specific run that logs an artifact. In addition, lin
 
 For example, the proceeding image shows artifacts created and used throughout an ML experiment:
 
-{{< img src="/images/registry/registry_lineage.png" alt="Registry lineage visualization" >}}
+{{< img src="/images/registry/registry_lineage.png" alt="Registry lineage" >}}
 
 From left to right, the image shows:
 1. Multiple runs log the `split_zoo_dataset:v4` artifact.

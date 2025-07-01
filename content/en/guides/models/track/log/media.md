@@ -32,7 +32,7 @@ pip install wandb[media]
 
 Log images to track inputs, outputs, filter weights, activations, and more.
 
-{{< img src="/images/track/log_images.png" alt="Inputs and outputs of an autoencoder network performing in-painting." >}}
+{{< img src="/images/track/log_images.png" alt="Autoencoder inputs and outputs" >}}
 
 Images can be logged directly from NumPy arrays, as PIL images, or from the filesystem. 
 
@@ -268,7 +268,7 @@ In the UI, histograms are plotted with the training step on the x-axis, the metr
 wandb.log({"gradients": wandb.Histogram(grads)})
 ```
 
-{{< img src="/images/track/histograms.png" alt="Gradients for the discriminator in a GAN." >}}   
+{{< img src="/images/track/histograms.png" alt="GAN discriminator gradients" >}}   
    {{% /tab %}}
    {{% tab header="Flexible Histogram Logging" %}}
 If you want more control, call `np.histogram` and pass the returned tuple to the `np_histogram` keyword argument.
@@ -533,7 +533,7 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 [See a live example using AlphaFold](http://wandb.me/alphafold-workspace)
 
-{{< img src="/images/track/docs-molecule.png" alt="Molecule visualization" >}}
+{{< img src="/images/track/docs-molecule.png" alt="Molecule structure" >}}
   </TabItem>
 </Tabs>
 

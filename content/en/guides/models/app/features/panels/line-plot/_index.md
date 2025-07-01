@@ -98,7 +98,7 @@ You can also plot `NaN` values including PyTorch tensors on a line plot with `wa
 wandb.log({"test": [..., float("nan"), ...]})
 ```
 
-{{< img src="/images/app_ui/visualize_nan.png" alt="NaN value visualization" >}}
+{{< img src="/images/app_ui/visualize_nan.png" alt="NaN value handling" >}}
 
 ## Compare two metrics on one chart
 
@@ -179,14 +179,14 @@ Observe infrastructure alerts such as GPU failures, thermal violations, and more
 This feature is in Preview and only available when training on a CoreWeave cluster. Contact your W&B representative for access.
 {{< /alert >}}
 
-If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run’s plots in your project’s workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run’s page.
+If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run's plots in your project's workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run's page.
 
 ### Find infrastructure issues in a run
 
 W&B surfaces both SLURM job issues and cluster node issues. View infrastructure errors in a run:
 
 1. Navigate to your project on the W&B App. 
-2. Select the **Workspace** tab to view your project’s workspace.
+2. Select the **Workspace** tab to view your project's workspace.
 3. Search and select the name of the run that contains an infrastructure issue. If CoreWeave detected an infrastructure issue, one or more red vertical lines with an exclamation mark overlay the run's plots. 
 4. Select an issue on a plot or select the **Issues** button in the top right of the page. A drawer appears that lists each issue reported by CoreWeave. 
 
@@ -216,7 +216,7 @@ For detailed information on error types, see the [SLURM Job Metrics on the CoreW
 
 ### Debug infrastructure issues
 
-Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job’s [Grafana](https://grafana.com/) dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards. 
+Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job's [Grafana](https://grafana.com/) dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards. 
 
 {{< alert title="Note" >}}
 The Grafana dashboard is only available for W&B users with a CoreWeave account. Contact W&B to configure Grafana with your W&B organization.

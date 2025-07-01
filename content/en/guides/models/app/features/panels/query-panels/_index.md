@@ -18,7 +18,7 @@ Looking for W&B Weave? W&B's suite of tools for Generative AI application buildi
 
 Use query panels to query and interactively visualize your data.
 
-{{< img src="/images/weave/pretty_panel.png" alt="Query panel visualization" >}}
+{{< img src="/images/weave/pretty_panel.png" alt="Query panel" >}}
 
 <!-- {{% alert %}}
 See [this report](http://wandb.me/keras-xla-benchmark) to see how this team used Weave Panels to visualize their benchmarks.
