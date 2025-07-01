@@ -241,7 +241,7 @@ Select a **Chart** in the upper right corner to start with a default preset. Nex
 
 The following image shows an example on how to select a metric then mapping that into the bar chart fields below.
 
-{{< img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Creating a custom bar chart showing accuracy across runs in a project" max-width="90%" >}}
+{{< img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Creating a custom bar chart" max-width="90%" >}}
 
 ### How to edit Vega
 

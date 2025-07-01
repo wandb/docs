@@ -48,7 +48,7 @@ Create a sweep interactively with the W&B App.
 10. Click **Save**
 11. Select **Launch Sweep**.
 
-{{< img src="/images/launch/create_sweep_with_launch.png" alt="Launch sweep configuration interface showing hyperparameter optimization setup with queue selection" >}}
+{{< img src="/images/launch/create_sweep_with_launch.png" alt="Launch sweep configuration" >}}
 
 {{% /tab %}}
 {{% tab "CLI" %}}

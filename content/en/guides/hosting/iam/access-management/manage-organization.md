@@ -284,7 +284,7 @@ Invite users to a team in your organization. Use the team's dashboard to invite 
 
 1. Navigate to `https://wandb.ai/<team-name>`.
 2. Select **Team settings** in the global navigation on the left side of the dashboard.
-{{< img src="/images/hosting/team_settings.png" alt="Team settings page displaying member roles, permissions, and administrative configuration options" >}}
+{{< img src="/images/hosting/team_settings.png" alt="Team settings page" >}}
 3. Select the **Users** tab.
 4. Choose on **Invite a new user**.
 5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles]({{< relref "#assign-or-update-a-team-members-role" >}}).

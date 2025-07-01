@@ -231,7 +231,7 @@ There are two ways to log in to the management console:
 1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
 2. Access the console. Click on the icon in the top right corner and then click **System console**. Only users with admin privileges can see the **System console** entry.
 
-    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="System console access method showing navigation from main application to administrative settings" >}}
+    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="System console access" >}}
 {{% /tab %}}
 
 {{% tab header="Option 2" value="option2"%}}
@@ -240,7 +240,7 @@ W&B recommends you access the console using the following steps only if Option 1
 {{% /alert %}}
 
 1. Open console application in browser. Open the above described URL, which redirects you to the login screen:
-    {{< img src="/images/hosting/access_system_console_directly.png" alt="Direct system console access interface for Kubernetes operator configuration and management" >}}
+    {{< img src="/images/hosting/access_system_console_directly.png" alt="Direct system console access" >}}
 2. Retrieve the password from the Kubernetes secret that the installation generates:
     ```shell
     kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d

@@ -9,7 +9,7 @@ no_list: true
 
 W&B Models is the system of record for ML Practitioners who want to organize their models, boost productivity and collaboration, and deliver production ML at scale. 
 
-{{< img src="/images/general/architecture.png" alt="W&B Models system architecture showing experiment tracking, hyperparameter sweeps, and model registry components" >}}
+{{< img src="/images/general/architecture.png" alt="W&B Models architecture diagram" >}}
 
 With W&B Models, you can: 
 

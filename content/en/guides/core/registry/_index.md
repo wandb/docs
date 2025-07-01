@@ -25,7 +25,7 @@ In summary, use W&B Registry to:
 
 <!-- - Quickly find or reference important artifacts with a unique identifier known as aliases.-->
 
-{{< img src="/images/registry/registry_landing_page.png" alt="W&B Registry landing page showing model collections, datasets, and team collaboration features" >}}
+{{< img src="/images/registry/registry_landing_page.png" alt="W&B Registry landing page" >}}
 
 The preceding image shows the Registry App with "Model" and "Dataset" core registries along with custom registries.
 

@@ -29,7 +29,7 @@ You can create a custom registry for each step in your machine learning pipeline
 
 For example, you might create a registry called "Benchmark_Datasets" for organizing curated datasets to evaluate the performance of trained models. Within this registry, you might have a collection called "User_Query_Insurance_Answer_Test_Data" that contains a set of user questions and corresponding expert-validated answers that the model has never seen during training. 
 
-{{< img src="/images/registry/custom_registry_example.png" alt="Custom registry example displaying user-defined collections with specialized artifact types and workflows" >}}
+{{< img src="/images/registry/custom_registry_example.png" alt="Custom registry example" >}}
 
 A custom registry can have either [organization or restricted visibility]({{< relref "./configure_registry.md#registry-visibility-types" >}}). A registry admin can change the visibility of a custom registry from organization to restricted. However, the registry admin can not change a custom registry's visibility from restricted to organizational visibility.
 

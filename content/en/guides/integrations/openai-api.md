@@ -21,7 +21,7 @@ Log your API inputs and outputs you can quickly evaluate the performance of diff
 
 
 
-{{< img src="/images/integrations/open_ai_autolog.png" alt="OpenAI API integration with W&B automatic logging showing model calls, tokens, and cost tracking" >}}
+{{< img src="/images/integrations/open_ai_autolog.png" alt="OpenAI API automatic logging" >}}
 
 
 ## Install OpenAI Python API library

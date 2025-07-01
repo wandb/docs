@@ -6,7 +6,7 @@ menu:
 title: Hugging Face
 weight: 3
 ---
-{{< img src="/images/tutorials/huggingface.png" alt="Hugging Face and Weights & Biases logos showcasing the integration between the two platforms" >}}
+{{< img src="/images/tutorials/huggingface.png" alt="Hugging Face and W&B integration" >}}
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb" >}}
 Visualize your [Hugging Face](https://github.com/huggingface/transformers) model's performance quickly with a seamless [W&B](https://wandb.ai/site) integration.
@@ -107,7 +107,7 @@ It's easy to look across dozens of experiments, zoom in on interesting findings,
 **Compare Architectures**
 Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU). It's easy to see how different architectures effect the evaluation accuracy throughout training with automatic line plot visualizations.
 
-{{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="Comparison between BERT and DistilBERT architectures showing evaluation accuracy trends during training" >}}
+{{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="BERT vs DistilBERT comparison" >}}
 
 ## Track key information effortlessly by default
 Weights & Biases saves a new run for each experiment. Here's the information that gets saved by default:

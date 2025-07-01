@@ -164,7 +164,7 @@ wandb.log({"plot": plt})
 
 ### Learning curve
 
-{{< img src="/images/integrations/scikit_learning_curve.png" alt="Scikit-learn learning curve visualization showing model performance vs training set size" >}}
+{{< img src="/images/integrations/scikit_learning_curve.png" alt="Scikit-learn learning curve" >}}
 
 Trains model on datasets of varying lengths and generates a plot of cross validated scores vs dataset size, for both training and test sets.
 
@@ -176,7 +176,7 @@ Trains model on datasets of varying lengths and generates a plot of cross valida
 
 ### ROC
 
-{{< img src="/images/integrations/scikit_roc.png" alt="Scikit-learn ROC curve visualization showing classifier performance with area under curve metrics" >}}
+{{< img src="/images/integrations/scikit_roc.png" alt="Scikit-learn ROC curve" >}}
 
 ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The ideal score is a TPR = 1 and FPR = 0, which is the point on the top left. Typically we calculate the area under the ROC curve (AUC-ROC), and the greater the AUC-ROC the better.
 
@@ -188,7 +188,7 @@ ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The
 
 ### Class proportions
 
-{{< img src="/images/integrations/scikic_class_props.png" alt="Scikit-learn classification properties visualization showing class distribution and model performance metrics" >}}
+{{< img src="/images/integrations/scikic_class_props.png" alt="Scikit-learn classification properties" >}}
 
 Plots the distribution of target classes in training and test sets. Useful for detecting imbalanced classes and ensuring that one class doesn't have a disproportionate influence on the model.
 
@@ -200,7 +200,7 @@ Plots the distribution of target classes in training and test sets. Useful for d
 
 ### Precision recall curve
 
-{{< img src="/images/integrations/scikit_precision_recall.png" alt="Scikit-learn precision-recall curve showing model classification performance across different thresholds" >}}
+{{< img src="/images/integrations/scikit_precision_recall.png" alt="Scikit-learn precision-recall curve" >}}
 
 Computes the tradeoff between precision and recall for different thresholds. A high area under the curve represents both high recall and high precision, where high precision relates to a low false positive rate, and high recall relates to a low false negative rate.
 
@@ -214,7 +214,7 @@ High scores for both show that the classifier is returning accurate results (hig
 
 ### Feature importances
 
-{{< img src="/images/integrations/scikit_feature_importances.png" alt="Scikit-learn feature importance chart showing which features most impact model predictions" >}}
+{{< img src="/images/integrations/scikit_feature_importances.png" alt="Scikit-learn feature importance chart" >}}
 
 Evaluates and plots the importance of each feature for the classification task. Only works with classifiers that have a `feature_importances_` attribute, like trees.
 

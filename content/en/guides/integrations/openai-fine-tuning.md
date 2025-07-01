@@ -47,7 +47,7 @@ from wandb.integration.openai.fine_tuning import WandbLogger
 WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 ```
 
-{{< img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI fine-tuning auto-scan feature showing automatic detection and tracking of model training metrics" >}}
+{{< img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI auto-scan feature" >}}
 
 ### Sync your fine-tunes
 
@@ -100,7 +100,7 @@ The training and validation data that you upload to OpenAI for fine-tuning are a
 
 The datasets are visualized as W&B Tables, which allows you to explore, search, and interact with the dataset. Check out the training samples visualized using W&B Tables below.
 
-{{< img src="/images/integrations/openai_data_visualization.png" alt="Interactive data visualization showing OpenAI model training examples and prediction comparisons" >}}
+{{< img src="/images/integrations/openai_data_visualization.png" alt="OpenAI data visualization" >}}
 
 
 ## The fine-tuned model and model versioning
@@ -109,7 +109,7 @@ OpenAI gives you an id of the fine-tuned model. Since we don't have access to th
 
 This model (metadata) artifact can further be linked to a model in the [W&B Registry]({{< relref "/guides/core/registry/" >}}).
 
-{{< img src="/images/integrations/openai_model_metadata.png" alt="OpenAI fine-tuned model metadata display showing hyperparameters, metrics, and training configuration details" >}}
+{{< img src="/images/integrations/openai_model_metadata.png" alt="OpenAI model metadata" >}}
 
 
 ## Frequently Asked Questions
@@ -166,7 +166,7 @@ The training and validation data are logged automatically to W&B as artifacts. T
 
 You can always control the pipeline using low level wandb APIs like `wandb.Artifact`, `wandb.log`, etc. This will allow complete traceability of your data and models.
 
-{{< img src="/images/integrations/open_ai_faq_can_track.png" alt="FAQ section explaining what OpenAI metrics and data can be tracked through W&B integration" >}}
+{{< img src="/images/integrations/open_ai_faq_can_track.png" alt="OpenAI tracking FAQ" >}}
 
 ## Resources
 

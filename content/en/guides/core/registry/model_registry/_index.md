@@ -29,7 +29,7 @@ With W&B Model Registry, you can:
 * Move model versions through its ML lifecycle; from staging to production.
 * Track a model's lineage and audit the history of changes to production models.
 
-{{< img src="/images/models/models_landing_page.png" alt="Models overview page displaying project models with status, metrics, and collaboration tools" >}}
+{{< img src="/images/models/models_landing_page.png" alt="Models overview page" >}}
 
 ## How it works
 Track and manage your staged models with a few simple steps.
