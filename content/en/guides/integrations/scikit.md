@@ -164,7 +164,7 @@ wandb.log({"plot": plt})
 
 ### Learning curve
 
-{{< img src="/images/integrations/scikit_learning_curve.png" alt="" >}}
+{{< img src="/images/integrations/scikit_learning_curve.png" alt="Scikit-learn learning curve visualization showing model performance vs training set size" >}}
 
 Trains model on datasets of varying lengths and generates a plot of cross validated scores vs dataset size, for both training and test sets.
 

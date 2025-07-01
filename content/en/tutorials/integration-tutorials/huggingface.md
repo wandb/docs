@@ -6,7 +6,7 @@ menu:
 title: Hugging Face
 weight: 3
 ---
-{{< img src="/images/tutorials/huggingface.png" alt="" >}}
+{{< img src="/images/tutorials/huggingface.png" alt="Hugging Face and Weights & Biases logos showcasing the integration between the two platforms" >}}
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb" >}}
 Visualize your [Hugging Face](https://github.com/huggingface/transformers) model's performance quickly with a seamless [W&B](https://wandb.ai/site) integration.
@@ -16,7 +16,7 @@ Compare hyperparameters, output metrics, and system stats like GPU utilization a
 ## Why should I use W&B?
 {.skipvale}
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B: unified dashboard, lightweight integration, accessibility, security, and industry trust" >}}
 
 - **Unified dashboard**: Central repository for all your model metrics and predictions
 - **Lightweight**: No code changes required to integrate with Hugging Face
@@ -102,12 +102,12 @@ Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to s
 **Visualize Model Performance**
 It's easy to look across dozens of experiments, zoom in on interesting findings, and visualize highly dimensional data.
 
-{{< img src="/images/tutorials/huggingface-visualize.gif" alt="" >}}
+{{< img src="/images/tutorials/huggingface-visualize.gif" alt="Interactive W&B dashboard showing model performance visualization with metrics, hyperparameters, and system stats" >}}
 
 **Compare Architectures**
 Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU). It's easy to see how different architectures effect the evaluation accuracy throughout training with automatic line plot visualizations.
 
-{{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="" >}}
+{{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="Comparison between BERT and DistilBERT architectures showing evaluation accuracy trends during training" >}}
 
 ## Track key information effortlessly by default
 Weights & Biases saves a new run for each experiment. Here's the information that gets saved by default:

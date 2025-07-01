@@ -47,7 +47,7 @@ from wandb.integration.openai.fine_tuning import WandbLogger
 WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 ```
 
-{{< img src="/images/integrations/open_ai_auto_scan.png" alt="" >}}
+{{< img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI fine-tuning auto-scan feature showing automatic detection and tracking of model training metrics" >}}
 
 ### Sync your fine-tunes
 
@@ -94,13 +94,13 @@ WandbLogger.sync(
 
 The training and validation data that you upload to OpenAI for fine-tuning are automatically logged as W&B Artifacts for easier version control. Below is an view of the training file in Artifacts. Here you can see the W&B run that logged this file, when it was logged, what version of the dataset this is, the metadata, and DAG lineage from the training data to the trained model.
 
-{{< img src="/images/integrations/openai_data_artifacts.png" alt="" >}}
+{{< img src="/images/integrations/openai_data_artifacts.png" alt="W&B Artifacts showing OpenAI training and validation datasets with metadata and version tracking" >}}
 
 ### Visualization
 
 The datasets are visualized as W&B Tables, which allows you to explore, search, and interact with the dataset. Check out the training samples visualized using W&B Tables below.
 
-{{< img src="/images/integrations/openai_data_visualization.png" alt="" >}}
+{{< img src="/images/integrations/openai_data_visualization.png" alt="Interactive data visualization showing OpenAI model training examples and prediction comparisons" >}}
 
 
 ## The fine-tuned model and model versioning
@@ -109,7 +109,7 @@ OpenAI gives you an id of the fine-tuned model. Since we don't have access to th
 
 This model (metadata) artifact can further be linked to a model in the [W&B Registry]({{< relref "/guides/core/registry/" >}}).
 
-{{< img src="/images/integrations/openai_model_metadata.png" alt="" >}}
+{{< img src="/images/integrations/openai_model_metadata.png" alt="OpenAI fine-tuned model metadata display showing hyperparameters, metrics, and training configuration details" >}}
 
 
 ## Frequently Asked Questions
@@ -166,7 +166,7 @@ The training and validation data are logged automatically to W&B as artifacts. T
 
 You can always control the pipeline using low level wandb APIs like `wandb.Artifact`, `wandb.log`, etc. This will allow complete traceability of your data and models.
 
-{{< img src="/images/integrations/open_ai_faq_can_track.png" alt="" >}}
+{{< img src="/images/integrations/open_ai_faq_can_track.png" alt="FAQ section explaining what OpenAI metrics and data can be tracked through W&B integration" >}}
 
 ## Resources
 

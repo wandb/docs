@@ -48,7 +48,7 @@ To add Cohere fine-tuning logging to your W&B workspace:
 
 3. View your model's fine-tuning training and validation metrics and hyperparameters in the W&B project that you created.
 
-    {{< img src="/images/integrations/cohere_ft.png" alt="" >}}
+    {{< img src="/images/integrations/cohere_ft.png" alt="Cohere model fine-tuning dashboard showing training progress, loss curves, and model performance metrics" >}}
 
 
 ## Organize runs

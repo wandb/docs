@@ -26,7 +26,7 @@ from wandb.integration.sb3 import WandbCallback
 model.learn(..., callback=WandbCallback())
 ```
 
-{{< img src="/images/integrations/stable_baselines_demo.gif" alt="" >}}
+{{< img src="/images/integrations/stable_baselines_demo.gif" alt="Stable Baselines 3 reinforcement learning training with W&B tracking showing agent performance and reward metrics" >}}
 
 ## WandbCallback Arguments
 
