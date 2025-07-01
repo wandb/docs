@@ -40,7 +40,7 @@ Each project contains the following tabs:
 
 [View a live example](https://app.wandb.ai/example-team/sweep-demo/overview)
 
-{{< img src="/images/track/overview_tab_image.png" alt="" >}}
+{{< img src="/images/track/overview_tab_image.png" alt="Project overview tab" >}}
 
 
 ## Workspace tab
@@ -66,7 +66,7 @@ If you pin, hide, or change the order of columns in the [Runs tab](#runs-tab), t
 
 [View a live example](https://app.wandb.ai/example-team/sweep-demo)
 
-{{< img src="/images/app_ui/workspace_tab_example.png" alt="" >}}
+{{< img src="/images/app_ui/workspace_tab_example.png" alt="Project workspace with panels" >}}
 
 
 ### Add a section of panels
@@ -83,32 +83,32 @@ Each section has options in the upper right corner:
 * **Delete section**: Remove the whole section and all the charts. This can be undone with the undo button at the bottom of the page in the workspace bar.
 * **Add panel**: Click the plus button to add a panel to the section.
 
-{{< img src="/images/app_ui/add-section.gif" alt="" >}}
+{{< img src="/images/app_ui/add-section.gif" alt="Adding workspace section" >}}
 
 ### Move panels between sections
 
 Drag and drop panels to reorder and organize into sections. You can also click the "Move" button in the upper right corner of a panel to select a section to move the panel to.
 
-{{< img src="/images/app_ui/move-panel.gif" alt="" >}}
+{{< img src="/images/app_ui/move-panel.gif" alt="Moving panels between sections" >}}
 
 ### Resize panels
 
 * **Standard layout**: All panels maintain the same size, and there are pages of panels. You can resize the panels by clicking and dragging the lower right corner. Resize the section by clicking and dragging the lower right corner of the section.
 * **Custom layout**: All panels are sized individually, and there are no pages.
 
-{{< img src="/images/app_ui/resize-panel.gif" alt="" >}}
+{{< img src="/images/app_ui/resize-panel.gif" alt="Resizing panels" >}}
 
 ### Search for metrics
 
 Use the search box in the workspace to filter down the panels. This search matches the panel titles, which are by default the name of the metrics visualized.
 
-{{< img src="/images/app_ui/search_in_the_workspace.png" alt="" >}}
+{{< img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace search" >}}
 
 ## Runs tab
 <!-- Keep this in sync with /guide/models/track/runs/_index.md -->
 Use the Runs tab to filter, group, and sort your runs.
 
-{{< img src="/images/runs/run-table-example.png" alt="" >}}
+{{< img src="/images/runs/run-table-example.png" alt="Runs table" >}}
 
 The proceeding tabs demonstrate some common actions you can take in the Runs tab.
 
@@ -156,7 +156,7 @@ Select **Add filter** to add one or more filters to your rows. Three dropdown me
 
 The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
 
-{{< img src="/images/data_vis/filter_example.png" alt="" >}}
+{{< img src="/images/data_vis/filter_example.png" alt="Filtering runs by validation loss" >}}
 The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.   
    {{% /tab %}}
    {{% tab header="Group" %}}
@@ -180,13 +180,13 @@ Automate downstream actions for versioning artifacts. To create an automation, d
 
 See all the snapshots of results in one place, and share findings with your team.
 
-{{< img src="/images/app_ui/reports-tab.png" alt="" >}}
+{{< img src="/images/app_ui/reports-tab.png" alt="Reports tab" >}}
 
 ## Sweeps tab
 
 Start a new [sweep]({{< relref "/guides/models/sweeps/" >}}) from your project.
 
-{{< img src="/images/app_ui/sweeps-tab.png" alt="" >}}
+{{< img src="/images/app_ui/sweeps-tab.png" alt="Sweeps tab" >}}
 
 ## Artifacts tab
 
@@ -194,35 +194,35 @@ View all [artifacts]({{< relref "/guides/core/artifacts/" >}}) associated with a
 
 ### Overview panel
 
-{{< img src="/images/app_ui/overview_panel.png" alt="" >}}
+{{< img src="/images/app_ui/overview_panel.png" alt="Artifact overview panel" >}}
 
 On the overview panel, you'll find a variety of high-level information about the artifact, including its name and version, the hash digest used to detect changes and prevent duplication, the creation date, and any aliases. You can add or remove aliases here, take notes on both the version as well as the artifact as a whole.
 
 ### Metadata panel
 
-{{< img src="/images/app_ui/metadata_panel.png" alt="" >}}
+{{< img src="/images/app_ui/metadata_panel.png" alt="Artifact metadata panel" >}}
 
 The metadata panel provides access to the artifact's metadata, which is provided when the artifact is constructed. This metadata might include configuration arguments required to reconstruct the artifact, URLs where more information can be found, or metrics produced during the run which logged the artifact. Additionally, you can see the configuration for the run which produced the artifact as well as the history metrics at the time of logging the artifact.
 
 ### Usage panel
 
-{{< img src="/images/app_ui/usage_panel.png" alt="" >}}
+{{< img src="/images/app_ui/usage_panel.png" alt="Artifact usage panel" >}}
 
 The Usage panel provides a code snippet for downloading the artifact for use outside of the web app, for example on a local machine. This section also indicates and links to the run which output the artifact and any runs which use the artifact as an input.
 
 ### Files panel
 
-{{< img src="/images/app_ui/files_panel.png" alt="" >}}
+{{< img src="/images/app_ui/files_panel.png" alt="Artifact files panel" >}}
 
 The files panel lists the files and folders associated with the artifact. W&B uploads certain files for a run automatically. For example, `requirements.txt` shows the versions of each library the run used, and `wandb-metadata.json`, and `wandb-summary.json` include information about the run. Other files may be uploaded, such as artifacts or media, depending on the run's configuration. You can navigate through this file tree and view the contents directly in the W&B web app.
 
 [Tables]({{< relref "/guides/models/tables//tables-walkthrough.md" >}}) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here]({{< relref "/guides/models/tables//visualize-tables.md" >}}).
 
-{{< img src="/images/app_ui/files_panel_table.png" alt="" >}}
+{{< img src="/images/app_ui/files_panel_table.png" alt="Artifact table view" >}}
 
 ### Lineage panel
 
-{{< img src="/images/app_ui/lineage_panel.png" alt="" >}}
+{{< img src="/images/app_ui/lineage_panel.png" alt="Artifact lineage visualization" >}}
 
 The lineage panel provides a view of all of the artifacts associated with a project and the runs that connect them to each other. It shows run types as blocks and artifacts as circles, with arrows to indicate when a run of a given type consumes or produces an artifact of a given type. The type of the particular artifact selected in the left-hand column is highlighted.
 
@@ -230,9 +230,9 @@ Click the Explode toggle to view all of the individual artifact versions and the
 
 ### Action History Audit tab
 
-{{< img src="/images/app_ui/action_history_audit_tab_1.png" alt="" >}}
+{{< img src="/images/app_ui/action_history_audit_tab_1.png" alt="Action history audit" >}}
 
-{{< img src="/images/app_ui/action_history_audit_tab_2.png" alt="" >}}
+{{< img src="/images/app_ui/action_history_audit_tab_2.png" alt="Detailed action history" >}}
 
 The action history audit tab shows all of the alias actions and membership changes for a Collection so you can audit the entire evolution of the resource.
 
