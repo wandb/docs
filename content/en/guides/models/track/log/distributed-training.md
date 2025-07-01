@@ -58,7 +58,7 @@ The dashboard displays system metrics for both GPUs, such as temperature and uti
 
 However, the loss values as a function epoch and batch size were only logged from a single GPU.
 
-{{< img src="/images/experiments/loss_function_single_gpu.png" alt="Two line plot panels in an example workspace. The left plot shows the loss measured as a function of step. The right plot show the loss recorded at each batch." >}}
+{{< img src="/images/experiments/loss_function_single_gpu.png" alt="Loss function plots" >}}
 
 ## Track multiple processes
 

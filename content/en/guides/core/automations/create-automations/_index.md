@@ -35,7 +35,7 @@ Or, from a line plot in the workspace, you can quickly create a [run metric auto
 
 1. Hover over the panel, then click the bell icon at the top of the panel.
 
-    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
+    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location" >}}
 1. Configure the automation using the basic or advanced configuration controls. For example, apply a run filter to limit the scope of the automation, or configure an absolute threshold.
 
 For details, refer to:

@@ -444,7 +444,7 @@ Running a hyperparameter sweep with Weights & Biases is very easy. There are jus
 
 That's all there is to running a hyperparameter sweep.
 
-{{< img src="/images/tutorials/pytorch-2.png" alt="W&B dashboard with PyTorch training metrics" >}}
+{{< img src="/images/tutorials/pytorch-2.png" alt="PyTorch training dashboard" >}}
 
 
 ## Example Gallery

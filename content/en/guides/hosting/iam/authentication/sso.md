@@ -66,7 +66,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
     For example, , you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
 
-    {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="Screenshot of issuer URL in AWS Cognito" >}}
+    {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="AWS Cognito issuer URL" >}}
 
     Do not use the "Cognito domain" for the IDP URL. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
 

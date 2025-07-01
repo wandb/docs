@@ -129,7 +129,7 @@ Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 * Find details about inputs and outputs in the `Input/Output` and `ML Metadata` tabs.
 * View the W&B web app from the `Visualizations` tab.
 
-{{< img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="Get a view of W&B in the Kubeflow UI" >}}
+{{< img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="W&B in Kubeflow UI" >}}
 
 ### Via the web app UI
 

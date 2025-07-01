@@ -13,7 +13,7 @@ The following sections highlight some of the ways you can use tables:
 
 Log metrics and rich media during model training or evaluation, then visualize results in a persistent database synced to the cloud, or to your [hosting instance]({{< relref "/guides/hosting" >}}). 
 
-{{< img src="/images/data_vis/tables_see_data.png" alt="Browse examples and verify the counts and distribution of your data" max-width="90%" >}}
+{{< img src="/images/data_vis/tables_see_data.png" alt="Data browsing table" max-width="90%" >}}
 
 For example, check out this table that shows a [balanced split of a photos dataset](https://wandb.ai/stacey/mendeleev/artifacts/balanced_data/inat_80-10-10_5K/ab79f01e007113280018/files/data_split.table.json).
 

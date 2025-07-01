@@ -20,7 +20,7 @@ W&B Registry introduces a range of new features and enhancements designed to pro
 {{% alert %}}
 To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
 
-{{< img src="/images/registry/nav_to_old_model_reg.gif" alt="Navigation to legacy Model Registry interface with end-of-life banner and migration guidance" >}}
+{{< img src="/images/registry/nav_to_old_model_reg.gif" alt="Legacy Model Registry navigation" >}}
 {{% /alert %}}
 
 ### Organizational visibility

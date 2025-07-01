@@ -84,7 +84,7 @@ View summary values in a run's **Overview** page or the project's runs table.
 4. Select the **Overview** tab.
 5. View the summary values in the **Summary** section.
 
-{{< img src="/images/track/customize_summary.png" alt="Run overview with summary metrics" >}}
+{{< img src="/images/track/customize_summary.png" alt="Run overview" >}}
 
 {{% /tab %}}
 {{% tab header="Run Table" value="run table" %}}

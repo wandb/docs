@@ -65,7 +65,7 @@ From the merged view, you can
 
 To view the two tables side-by-side, change the first dropdown from "Merge Tables: Table" to "List of: Table" and then update the "Page size" respectively. Here the first Table selected is on the left and the second one is on the right. Also, you can compare these tables vertically as well by clicking on the "Vertical" checkbox.
 
-{{< img src="/images/data_vis/side_by_side.png" alt="In the side-by-side view, Table rows are independent of each other." max-width="90%" >}}
+{{< img src="/images/data_vis/side_by_side.png" alt="Side-by-side table view" max-width="90%" >}}
 
 * **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
 * **explore two tables independently**: scroll through and focus on the side/rows of interest

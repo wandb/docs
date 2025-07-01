@@ -76,7 +76,7 @@ For more on logging and visualizing datasets and models, check out our [guide to
 
 ## Profile PyTorch code
 
-{{< img src="/images/integrations/pytorch_example_dashboard.png" alt="View detailed traces of PyTorch code execution inside W&B dashboards." >}}
+{{< img src="/images/integrations/pytorch_example_dashboard.png" alt="PyTorch execution traces" >}}
 
 W&B integrates directly with [PyTorch Kineto](https://github.com/pytorch/kineto)'s [Tensorboard plugin](https://github.com/pytorch/kineto/blob/master/tb_plugin/README.md) to provide tools for profiling PyTorch code, inspecting the details of CPU and GPU communication, and identifying bottlenecks and optimizations.
 
