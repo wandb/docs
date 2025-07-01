@@ -35,7 +35,7 @@ Each organization initially contains two registries that you can use to organize
 
 Each [registry]({{< relref "./configure_registry.md" >}}) consists of one or more [collections]({{< relref "./create_collection.md" >}}). Each collection represents a distinct task or use case.
 
-{{< img src="/images/registry/homepage_registry.png" alt="W&B Registry homepage interface displaying available registries with search and filter options" >}}
+{{< img src="/images/registry/homepage_registry.png" alt="W&B Registry homepage" >}}
 
 To add an artifact to a registry, you first log a [specific artifact version to W&B]({{< relref "/guides/core/artifacts/create-a-new-artifact-version.md" >}}). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
 

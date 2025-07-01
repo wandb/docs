@@ -22,7 +22,7 @@ A [*launch job*]({{< relref "./launch-terminology.md#launch-job" >}}) is a bluep
 
 As jobs are added to the queue, [*launch agents*]({{< relref "./launch-terminology.md#launch-agent" >}}) poll that queue and execute the job on the system targeted by the queue.
 
-{{< img src="/images/launch/launch_overview.png" alt="W&B Launch overview diagram showing job queue, agents, and compute resource management" >}}
+{{< img src="/images/launch/launch_overview.png" alt="W&B Launch overview diagram" >}}
 
 Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target]({{< relref "./launch-terminology.md#target-resources" >}}) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
 

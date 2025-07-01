@@ -20,7 +20,7 @@ W&B will migrate existing model artifacts linked to the legacy Model Registry to
 
 The W&B Model Registry houses a team's trained models where ML Practitioners can publish candidates for production to be consumed by downstream teams and stakeholders. It is used to house staged/candidate models and manage workflows associated with staging.
 
-{{< img src="/images/models/model_reg_landing_page.png" alt="Model Registry landing page showing registered models, versions, and lifecycle management features" >}}
+{{< img src="/images/models/model_reg_landing_page.png" alt="Model Registry landing page" >}}
 
 With W&B Model Registry, you can:
 

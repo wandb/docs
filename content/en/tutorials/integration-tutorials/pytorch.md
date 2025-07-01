@@ -10,13 +10,13 @@ weight: 1
 
 Use [Weights & Biases](https://wandb.com) for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B: unified dashboard, lightweight integration, accessibility, security, and industry trust" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
 
 ## What this notebook covers
 
 We show you how to integrate Weights & Biases with your PyTorch code to add experiment tracking to your pipeline.
 
-{{< img src="/images/tutorials/pytorch.png" alt="PyTorch and W&B integration diagram showing experiment tracking and model management workflow" >}}
+{{< img src="/images/tutorials/pytorch.png" alt="PyTorch and W&B integration diagram" >}}
 
 ```python
 # import the library
@@ -444,7 +444,7 @@ Running a hyperparameter sweep with Weights & Biases is very easy. There are jus
 
 That's all there is to running a hyperparameter sweep.
 
-{{< img src="/images/tutorials/pytorch-2.png" alt="W&B dashboard displaying PyTorch model training metrics including loss curves and accuracy plots" >}}
+{{< img src="/images/tutorials/pytorch-2.png" alt="W&B dashboard with PyTorch training metrics" >}}
 
 
 ## Example Gallery

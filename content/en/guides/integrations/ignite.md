@@ -181,12 +181,12 @@ if __name__ == "__main__":
 
 This code generates these visualizations::
 
-{{< img src="/images/integrations/pytorch-ignite-1.png" alt="PyTorch Ignite training dashboard showing engine metrics, validation scores, and learning rate schedules" >}}
+{{< img src="/images/integrations/pytorch-ignite-1.png" alt="PyTorch Ignite training dashboard" >}}
 
-{{< img src="/images/integrations/pytorch-ignite-2.png" alt="PyTorch Ignite model performance visualization with training loss, accuracy curves, and system monitoring" >}}
+{{< img src="/images/integrations/pytorch-ignite-2.png" alt="PyTorch Ignite model performance visualization" >}}
 
-{{< img src="/images/integrations/pytorch-ignite-3.png" alt="PyTorch Ignite hyperparameter tuning results showing optimization progress and best model configurations" >}}
+{{< img src="/images/integrations/pytorch-ignite-3.png" alt="PyTorch Ignite hyperparameter tuning results" >}}
 
-{{< img src="/images/integrations/pytorch-ignite-4.png" alt="PyTorch Ignite model comparison dashboard displaying multiple experiments with performance metrics and visualizations" >}}
+{{< img src="/images/integrations/pytorch-ignite-4.png" alt="PyTorch Ignite model comparison dashboard" >}}
 
 Refer  to the [Ignite Docs](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) for more details.

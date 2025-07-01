@@ -269,7 +269,7 @@ Use your organization's dashboard to create a team:
 
 1. Navigate to https://wandb.ai/home.
 2. Select **Create a team to collaborate** on the left navigation panel underneath **Teams**.
-{{< img src="/images/hosting/create_new_team.png" alt="Create new team interface showing team configuration options and member management settings" >}}
+{{< img src="/images/hosting/create_new_team.png" alt="Create new team interface" >}}
 3. Provide a name for your team in the **Team name** field in the modal that appears. 
 4. Choose a storage type. 
 5. Select the **Create team** button.

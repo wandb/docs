@@ -24,7 +24,7 @@ Use W&B Reports to:
 
 The following image shows a section of a report created from metrics that were logged to W&B over the course of training. 
 
-{{< img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="W&B report showing benchmark results with collaborative comments and interactive visualizations" max-width="90%" >}}
+{{< img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="W&B report with benchmark results" max-width="90%" >}}
 
 View the report where the above image was taken from [here](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM).
 

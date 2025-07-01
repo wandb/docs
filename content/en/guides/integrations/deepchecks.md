@@ -54,6 +54,6 @@ suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-su
 
 ``[**This Report**](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) shows off the power of using DeepChecks and Weights & Biases
 
-{{< img src="/images/integrations/deepchecks_example.png" alt="Deepchecks data validation results integrated with W&B showing model performance checks and data quality metrics" >}}
+{{< img src="/images/integrations/deepchecks_example.png" alt="Deepchecks data validation results" >}}
 
 Any questions or issues about this Weights & Biases integration? Open an issue in the [DeepChecks github repository](https://github.com/deepchecks/deepchecks) and we'll catch it and get you an answer :)

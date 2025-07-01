@@ -94,7 +94,7 @@ WandbLogger.sync(
 
 The training and validation data that you upload to OpenAI for fine-tuning are automatically logged as W&B Artifacts for easier version control. Below is an view of the training file in Artifacts. Here you can see the W&B run that logged this file, when it was logged, what version of the dataset this is, the metadata, and DAG lineage from the training data to the trained model.
 
-{{< img src="/images/integrations/openai_data_artifacts.png" alt="W&B Artifacts showing OpenAI training and validation datasets with metadata and version tracking" >}}
+{{< img src="/images/integrations/openai_data_artifacts.png" alt="W&B Artifacts with training datasets" >}}
 
 ### Visualization
 

@@ -9,11 +9,11 @@ weight: 5
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb" >}}
 Use W&B for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B: unified dashboard, lightweight integration, accessibility, security, and industry trust" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
 
 Use W&B Sweeps to automate hyperparameter optimization and explore model possibilities with interactive dashboards:
 
-{{< img src="/images/tutorials/tensorflow/sweeps.png" alt="TensorFlow hyperparameter sweep results showing optimal model configurations and performance comparisons" >}}
+{{< img src="/images/tutorials/tensorflow/sweeps.png" alt="TensorFlow hyperparameter sweep results" >}}
 
 ## Why use sweeps
 

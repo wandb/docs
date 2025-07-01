@@ -105,7 +105,7 @@ Tags added to a collection also appear next to the name of that collection.
 
 For example, in the proceeding image, a tag called "tag1" was added to the "zoo-dataset-tensors" collection.
 
-{{< img src="/images/registry/tag_collection.png" alt="Tag management interface displaying available tags and collection organization options" >}}
+{{< img src="/images/registry/tag_collection.png" alt="Tag management interface" >}}
 
 
 ## Remove a tag from a collection
@@ -228,7 +228,7 @@ View tags that belong to an artifact version that is linked to a registry with t
 
 If an artifact version has one or more tags, you can view those tags within the **Tags** column.
 
-{{< img src="/images/registry/tag_artifact_version.png" alt="Artifact version page showing tag management interface and metadata organization features" >}}
+{{< img src="/images/registry/tag_artifact_version.png" alt="Artifact version page with tags" >}}
 
 {{% /tab %}}
 {{% tab header="Python SDK" %}}

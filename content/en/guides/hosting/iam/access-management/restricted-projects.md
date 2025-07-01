@@ -52,7 +52,7 @@ Set a project's visibility scope when you create a project or when editing it la
 Complete the following step if you select **Restricted** visibility. 
 
 4. Provide names of one or more W&B team members in the **Invite team members** field. Add only those members who are essential to collaborate on the project.
-{{< img src="/images/hosting/restricted_project_2.png" alt="Restricted project configuration interface showing privacy settings and member access controls" >}}
+{{< img src="/images/hosting/restricted_project_2.png" alt="Restricted project configuration" >}}
 
 {{% alert %}}
 You can add or remove members in a restricted project later, from its **Users** tab.

@@ -16,7 +16,7 @@ Compare hyperparameters, output metrics, and system stats like GPU utilization a
 ## Why should I use W&B?
 {.skipvale}
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B: unified dashboard, lightweight integration, accessibility, security, and industry trust" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
 
 - **Unified dashboard**: Central repository for all your model metrics and predictions
 - **Lightweight**: No code changes required to integrate with Hugging Face
@@ -102,7 +102,7 @@ Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to s
 **Visualize Model Performance**
 It's easy to look across dozens of experiments, zoom in on interesting findings, and visualize highly dimensional data.
 
-{{< img src="/images/tutorials/huggingface-visualize.gif" alt="Interactive W&B dashboard showing model performance visualization with metrics, hyperparameters, and system stats" >}}
+{{< img src="/images/tutorials/huggingface-visualize.gif" alt="W&B dashboard with model metrics" >}}
 
 **Compare Architectures**
 Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU). It's easy to see how different architectures effect the evaluation accuracy throughout training with automatic line plot visualizations.

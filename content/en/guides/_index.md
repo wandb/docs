@@ -16,7 +16,7 @@ no_list: true
 
 Weights & Biases (W&B) is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models. 
 
-{{< img src="/images/general/architecture.png" alt="W&B platform architecture diagram showing Models, Weave, and Core components for AI development" >}}
+{{< img src="/images/general/architecture.png" alt="W&B platform architecture diagram" >}}
 
 W&B consists of three major components: [Models]({{< relref "/guides/models.md" >}}), [Weave](https://wandb.github.io/weave/), and [Core]({{< relref "/guides/core/" >}}):
 

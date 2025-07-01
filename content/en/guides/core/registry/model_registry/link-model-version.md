@@ -72,7 +72,7 @@ A pointer connects a specific model version in the model registry to the source 
 {{< tabpane text=true >}}
   {{% tab header="Model Registry" %}}
 1. Navigate to your model registry at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-{{< img src="/images/models/create_registered_model_1.png" alt="Create registered model interface showing model metadata configuration and registry selection options" >}}
+{{< img src="/images/models/create_registered_model_1.png" alt="Create registered model interface" >}}
 2. Select **View details** next the name of your registered model.
 3. Within the **Versions** section, select **View** next to the model version you want to investigate.
 4. Click on the **Version** tab within the right panel.

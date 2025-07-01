@@ -102,9 +102,9 @@ python tools/train.py -c config.yml
 
 Once you run your `train.py` file with Weights & Biases turned on, a link will be generated to bring you to your W&B dashboard:
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="PaddleOCR training dashboard showing text detection and recognition model performance metrics and visualizations" >}}
+{{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="PaddleOCR training dashboard" >}}
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="PaddleOCR validation results dashboard displaying model accuracy, loss curves, and sample predictions" >}}
+{{< img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="PaddleOCR validation dashboard" >}}
 
 {{< img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="W&B Dashboard for the Text Detection Model" >}}
 

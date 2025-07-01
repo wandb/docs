@@ -26,7 +26,7 @@ See this [Google Colab](https://colab.research.google.com/github/wandb/examples/
 
 3. A modal will appear. Select the charts you would like to start with. You can add or delete charts later from the report interface.
 
-    {{< img src="/images/reports/create_a_report_modal.png" alt="Create report modal dialog showing template options and report configuration settings" >}}
+    {{< img src="/images/reports/create_a_report_modal.png" alt="Create report modal" >}}
 
 4. Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
 {{% /tab %}}
@@ -36,7 +36,7 @@ See this [Google Colab](https://colab.research.google.com/github/wandb/examples/
 2. Select to the **Reports** tab (clipboard image) in your project.
 3. Select the **Create Report** button on the report page. 
 
-   {{< img src="/images/reports/create_report_button.png" alt="Create report button interface showing available chart options for report creation" >}}
+   {{< img src="/images/reports/create_report_button.png" alt="Create report button" >}}
 {{% /tab %}}
 
 {{% tab header="Report and Workspace API" value="python_wr_api"%}}
