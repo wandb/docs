@@ -54,7 +54,7 @@ Explore an [example dashboard showing metrics tracked from a single process](htt
 
 The dashboard displays system metrics for both GPUs, such as temperature and utilization.
 
-{{< img src="/images/track/distributed_training_method1.png" alt="Workspace that shows four line plot panels. From left to right the plots are: GPU Utilization (%), GPU Temp (C), GPU Time Spent Accessing Memory (%), and GPU Memory Allocated (%)" >}}
+{{< img src="/images/track/distributed_training_method1.png" alt="GPU metrics dashboard" >}}
 
 However, the loss values as a function epoch and batch size were only logged from a single GPU.
 

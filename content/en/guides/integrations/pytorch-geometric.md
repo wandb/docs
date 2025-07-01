@@ -102,7 +102,7 @@ wandb.log({"eda/graph": wandb.Html("graph.html")})
 wandb.finish()
 ```
 
-{{< img src="/images/integrations/pyg_graph_wandb.png" alt="This image shows the input graph as an interactive HTML visualization." >}}
+{{< img src="/images/integrations/pyg_graph_wandb.png" alt="Interactive graph visualization" >}}
 
 ### Use Plotly
 

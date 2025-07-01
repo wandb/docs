@@ -30,7 +30,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
 1. First, sign in to your AWS account and navigate to the [AWS Cognito](https://aws.amazon.com/cognito/) App.
 
-    {{< img src="/images/hosting/setup_aws_cognito.png" alt="When you use OIDC for authentication and not authorization, public clients simplify setup" >}}
+    {{< img src="/images/hosting/setup_aws_cognito.png" alt="AWS Cognito setup" >}}
 
 2. Provide an allowed callback URL to configure the application in your IdP:
      * Add `http(s)://YOUR-W&B-HOST/oidc/callback` as the callback URL. Replace `YOUR-W&B-HOST` with your W&B host path.

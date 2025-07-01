@@ -135,9 +135,9 @@ Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 
 The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space. Learn [more about the web app UI here]({{< relref "/guides/models/app" >}}).
 
-{{< img src="/images/integrations/kubeflow_pipelines.png" alt="View details about a particular run (and link back to the Kubeflow UI)" >}}
+{{< img src="/images/integrations/kubeflow_pipelines.png" alt="Run details" >}}
 
-{{< img src="/images/integrations/kubeflow_via_app.png" alt="See the full DAG of inputs and outputs at each stage of your pipeline" >}}
+{{< img src="/images/integrations/kubeflow_via_app.png" alt="Pipeline DAG" >}}
 
 ### Via the Public API (for programmatic access)
 

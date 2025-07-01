@@ -21,7 +21,7 @@ For example, check out this table that shows a [balanced split of a photos datas
 
 View, sort, filter, group, join, and query tables to understand your data and model performance—no need to browse static files or rerun analysis scripts. 
 
-{{< img src="/images/data_vis/explore_data.png" alt="Listen to original songs and their synthesized versions (with timbre transfer)" max-width="90%">}}
+{{< img src="/images/data_vis/explore_data.png" alt="Audio comparison" max-width="90%">}}
 
 For example, see this report on [style-transferred audio](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM).
 

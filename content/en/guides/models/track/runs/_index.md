@@ -453,14 +453,14 @@ Sort all rows in a Table by the value in a given column.
 2. Select on the kebab menu (three vertical dots).
 3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
 
-{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="Confident predictions" >}}
 
 The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
    {{% /tab %}}
    {{% tab header="Filter" %}}
 Filter all rows by an expression with the **Filter** button above the dashboard. 
 
-{{< img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong." >}}
+{{< img src="/images/data_vis/filter.png" alt="Incorrect predictions filter" >}}
 
 Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
 
@@ -477,7 +477,7 @@ The preceding image shows a filter that is based on the `val_loss` column. The f
    {{% tab header="Group" %}}
 Group all rows by the value in a particular column with the **Group by** button above the dashboard. 
 
-{{< img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s." >}}
+{{< img src="/images/data_vis/group.png" alt="Error distribution analysis" >}}
 
 By default, this turns other numeric columns into histograms that each show the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data. 
 

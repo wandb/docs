@@ -66,7 +66,7 @@ If you pin, hide, or change the order of columns in the [Runs tab](#runs-tab), t
 
 [View a live example](https://app.wandb.ai/example-team/sweep-demo)
 
-{{< img src="/images/app_ui/workspace_tab_example.png" alt="Project workspace with panels" >}}
+{{< img src="/images/app_ui/workspace_tab_example.png" alt="Project workspace" >}}
 
 
 ### Add a section of panels
@@ -138,14 +138,14 @@ Sort all rows in a Table by the value in a given column.
 2. Select on the kebab menu (three vertical dots).
 3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
 
-{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="Confident predictions" >}}
 
 The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
    {{% /tab %}}
    {{% tab header="Filter" %}}
 Filter all rows by an expression with the **Filter** button on the top left of the dashboard. 
 
-{{< img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong." >}}
+{{< img src="/images/data_vis/filter.png" alt="Incorrect predictions filter" >}}
 
 Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
 
@@ -162,7 +162,7 @@ The preceding image shows a filter that is based on the `val_loss` column. The f
    {{% tab header="Group" %}}
 Group all rows by the value in a particular column with the **Group by** button in a column header. 
 
-{{< img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s." >}}
+{{< img src="/images/data_vis/group.png" alt="Error distribution analysis" >}}
 
 By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.   
    {{% /tab %}}
@@ -232,7 +232,7 @@ Click the Explode toggle to view all of the individual artifact versions and the
 
 {{< img src="/images/app_ui/action_history_audit_tab_1.png" alt="Action history audit" >}}
 
-{{< img src="/images/app_ui/action_history_audit_tab_2.png" alt="Detailed action history" >}}
+{{< img src="/images/app_ui/action_history_audit_tab_2.png" alt="Action history" >}}
 
 The action history audit tab shows all of the alias actions and membership changes for a Collection so you can audit the entire evolution of the resource.
 

@@ -22,7 +22,7 @@ The scatter plot(left) compares the W&B Runs that were generated during the Swee
 
 The parameter importance plot(right) lists the hyperparameters that were the best predictors of, and highly correlated to desirable values of your metrics. For more information parameter importance plots, see [Parameter Importance]({{< relref "/guides/models/app/features/panels/parameter-importance.md" >}}).
 
-{{< img src="/images/sweeps/scatter_and_parameter_importance.png" alt="Example scatter plot (left) and parameter importance plot (right)." >}}
+{{< img src="/images/sweeps/scatter_and_parameter_importance.png" alt="Scatter plot and parameter importance" >}}
 
 
 You can alter the dependent and independent values (x and y axis) that are automatically used. Within each panel there is a pencil icon called **Edit panel**. Choose **Edit panel**. A model will appear. Within the modal, you can alter the behavior of the graph.
