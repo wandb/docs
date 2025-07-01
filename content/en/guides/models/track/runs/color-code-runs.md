@@ -91,7 +91,7 @@ Buckets are ranges of values that W&B uses to categorize runs based on the metri
 
 Consider the following:
 
-{{< img src="/images/track/color-coding-runs.png" alt="" >}}
+{{< img src="/images/track/color-coding-runs.png" alt="Color coded runs" >}}
 
 - **Key** is set to `"Accuracy"` (abbreviated as `"acc"`).
 - **Y value** is set to `"Max"`

@@ -53,7 +53,7 @@ Read [this report](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-
 
 Interact with audio tables in [this report](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) on timbre transfer. You can compare a recorded whale song with a synthesized rendition of the same melody on an instrument like violin or trumpet. You can also record your own songs and explore their synthesized versions in W&B with [this colab](http://wandb.me/audio-transfer).
 
-{{< img src="/images/data_vis/audio.png" alt="" max-width="90%">}}
+{{< img src="/images/data_vis/audio.png" alt="Audio table example" max-width="90%">}}
 
 ### Text
 
