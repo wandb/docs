@@ -11,7 +11,7 @@ Choose the product for which you need documentation.
 {{% card %}}<div onclick="window.location.href='https://weave-docs.wandb.ai'" style="cursor: pointer;">
 
 <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-<img src="/img/weave-logo.svg" alt="W&B Weave logo" width="50" height="50"/>
+{{< img src="/img/weave-logo.svg" alt="W&B Weave logo" width="50" height="50" >}}
 </div>
 <h2>W&B Weave</h2>
 
@@ -28,7 +28,7 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. 
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
 
 <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-<img src="/img/wandb-gold.svg" alt="W&B Models logo" width="40" height="40"/>
+{{< img src="/img/wandb-gold.svg" alt="W&B Models logo" width="40" height="40" >}}
 </div>
 <h2>W&B Models</h2>
 
