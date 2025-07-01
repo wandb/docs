@@ -60,7 +60,7 @@ wandb: Find logs at: ./wandb/run-20241105_111006-1jx1ud12/logs
 
 The URL W&B returns in the terminal to redirects you to the run's workspace in the W&B App UI. Note that the panels generated in the workspace corresponds to the single point.
 
-{{< img src="/images/runs/single-run-call.png" alt="" >}}
+{{< img src="/images/runs/single-run-call.png" alt="Single run workspace" >}}
 
 Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
 
@@ -112,7 +112,7 @@ The training script calls `run.log` 10 times. Each time the script calls `run.lo
 
 Note that W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init` method only once. 
 
-{{< img src="/images/runs/run_log_example_2.png" alt="" >}}
+{{< img src="/images/runs/run_log_example_2.png" alt="Training run with logged metrics" >}}
 
 As another example, during a [sweep]({{< relref "/guides/models/sweeps/" >}}), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
 
@@ -201,7 +201,7 @@ W&B displays the unique run ID in the **Run path** field. The run path consists 
 
 For example, in the proceeding image, the unique run ID is `9mxi1arc`:
 
-{{< img src="/images/runs/unique-run-id.png" alt="" >}}
+{{< img src="/images/runs/unique-run-id.png" alt="Run ID location" >}}
 
 
 ### Custom run IDs
