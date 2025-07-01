@@ -25,7 +25,7 @@ In summary, use W&B Registry to:
 
 <!-- - Quickly find or reference important artifacts with a unique identifier known as aliases.-->
 
-{{< img src="/images/registry/registry_landing_page.png" alt="" >}}
+{{< img src="/images/registry/registry_landing_page.png" alt="W&B Registry landing page showing model collections, datasets, and team collaboration features" >}}
 
 The preceding image shows the Registry App with "Model" and "Dataset" core registries along with custom registries.
 
@@ -35,7 +35,7 @@ Each organization initially contains two registries that you can use to organize
 
 Each [registry]({{< relref "./configure_registry.md" >}}) consists of one or more [collections]({{< relref "./create_collection.md" >}}). Each collection represents a distinct task or use case.
 
-{{< img src="/images/registry/homepage_registry.png" >}}
+{{< img src="/images/registry/homepage_registry.png" alt="W&B Registry homepage interface displaying available registries with search and filter options" >}}
 
 To add an artifact to a registry, you first log a [specific artifact version to W&B]({{< relref "/guides/core/artifacts/create-a-new-artifact-version.md" >}}). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
 
@@ -134,7 +134,7 @@ Until the migration occurs, W&B supports both the legacy Model Registry and the 
 {{% alert %}}
 To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
 
-{{< img src="/images/registry/nav_to_old_model_reg.gif" alt="" >}}
+{{< img src="/images/registry/nav_to_old_model_reg.gif" alt="Navigation demonstration showing how to access the legacy model registry interface" >}}
 {{% /alert %}}
 
 

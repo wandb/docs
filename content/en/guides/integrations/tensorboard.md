@@ -14,7 +14,7 @@ W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
 
 Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
-{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="" >}}
+{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="TensorBoard integration code example showing one-line setup to sync logs with W&B" >}}
 
 ## Get started
 

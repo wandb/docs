@@ -360,7 +360,7 @@ Finally, configure your W&B Server.
 * **File Storage Region (AWS only)**: `<region>`
 * **Notification Subscription**: `sqs://<queue-name>`
 
-{{< img src="/images/hosting/configure_file_store.png" alt="" >}}
+{{< img src="/images/hosting/configure_file_store.png" alt="AWS file storage configuration interface showing S3 bucket settings and access permissions" >}}
 
 4. Select **Update settings** to apply the new settings.
 
