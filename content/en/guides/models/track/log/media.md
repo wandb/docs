@@ -125,7 +125,7 @@ Segmentation masks for a key are defined at each step (each call to `wandb.log()
     {{% tab header="Bounding Boxes" %}}
 Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
 
-{{< img src="/images/track/bb-docs.jpeg" alt="" >}}
+{{< img src="/images/track/bb-docs.jpeg" alt="Bounding box example" >}}
 
 [See a live example](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
@@ -533,7 +533,7 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 [See a live example using AlphaFold](http://wandb.me/alphafold-workspace)
 
-{{< img src="/images/track/docs-molecule.png" alt="" >}}
+{{< img src="/images/track/docs-molecule.png" alt="Molecule visualization" >}}
   </TabItem>
 </Tabs>
 

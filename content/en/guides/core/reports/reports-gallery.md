@@ -16,11 +16,11 @@ Jot down some text and pull in relevant charts to illustrate your insight.
 
 See the [What To Do When Inception-ResNet-V2 Is Too Slow](https://wandb.ai/stacey/estuary/reports/When-Inception-ResNet-V2-is-too-slow--Vmlldzo3MDcxMA) W&B Report for an example of how you can share comparisons of training time.
 
-{{< img src="/images/reports/notes_add_quick_summary.png" alt="" max-width="90%">}}
+{{< img src="/images/reports/notes_add_quick_summary.png" alt="Quick summary notes" max-width="90%">}}
 
 Save the best examples from a complex code base for easy reference and future interaction. See the [LIDAR point clouds](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg) W&B Report for an example of how to visualize LIDAR point clouds from the Lyft dataset and annotate with 3D bounding boxes.
 
-{{< img src="/images/reports/notes_add_quick_summary_save_best_examples.png" alt="" max-width="90%" >}}
+{{< img src="/images/reports/notes_add_quick_summary_save_best_examples.png" alt="Save best examples" max-width="90%" >}}
 
 ## Collaboration: Share findings with your colleagues
 

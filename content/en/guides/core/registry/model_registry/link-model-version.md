@@ -80,7 +80,7 @@ A pointer connects a specific model version in the model registry to the source 
 
 For example, the following image shows a `v0` model version called `mnist_model` (see **Source version** field `mnist_model:v0`), linked to a registered model called `MNIST-dev`.
 
-{{< img src="/images/models/view_linked_model_registry.png" alt="" >}}  
+{{< img src="/images/models/view_linked_model_registry.png" alt="Linked model in registry" >}}  
   {{% /tab %}}
   {{% tab header="Artifact browser" %}}
 1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
@@ -93,6 +93,6 @@ For example, the following image shows a `v0` model version called `mnist_model`
 For example, in the following image, there is a registered model called `MNIST-dev` (see the **Linked To** field). A model version called `mnist_model` with a version `v0`(`mnist_model:v0`) points to the `MNIST-dev` registered model.
 
 
-{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="" >}}  
+{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="Model artifacts browser" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
