@@ -174,7 +174,7 @@ By default, this turns other numeric columns into histograms showing the distrib
 ## Automations tab
 Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job. For more information, see [Automations]({{< relref "/guides/core/automations/" >}}).
 
-{{< img src="/images/app_ui/automations_tab.png" alt="Automation tab that depicts two automations: a model CI/CD webhook and a hello-world launch job" >}}
+{{< img src="/images/app_ui/automations_tab.png" alt="Automation tab" >}}
 
 ## Reports tab
 

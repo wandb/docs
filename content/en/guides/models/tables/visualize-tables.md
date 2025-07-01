@@ -50,7 +50,7 @@ In the following image we demonstrate a model's predictions on MNIST validation 
 <!-- To do, add steps -->
 Initially you see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
-{{< img src="/images/data_vis/merged_view.png" alt="In the merged view, numerical columns appears as histograms by default" max-width="90%">}}
+{{< img src="/images/data_vis/merged_view.png" alt="Merged view" max-width="90%">}}
 
 From the merged view, you can
 
@@ -174,7 +174,7 @@ To save a table from a workspace in a particular state, export it to a W&B Repor
 1. Select the kebab icon (three vertical dots) in the top right corner of your workspace visualization panel.
 2. Select either **Share panel** or **Add to report**.
 
-{{< img src="/images/data_vis/share_your_view.png" alt="Share panel creates a new report, Add to report lets you append to an existing report." max-width="90%">}}
+{{< img src="/images/data_vis/share_your_view.png" alt="Report sharing options" max-width="90%">}}
 
 
 ## Examples

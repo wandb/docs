@@ -233,7 +233,7 @@ wandb.log(
 
 Add a new custom chart to get started, then edit the query to select data from your visible runs. The query uses [GraphQL](https://graphql.org) to fetch data from the config, summary, and history fields in your runs.
 
-{{< img src="/images/app_ui/customize_chart.gif" alt="Add a new custom chart, then edit the query" max=width="90%" >}}
+{{< img src="/images/app_ui/customize_chart.gif" alt="Custom chart creation" max=width="90%" >}}
 
 ### Custom visualizations
 

@@ -86,7 +86,7 @@ wandb.log({"example": wandb.Image("myimage.jpg")})
    {{% tab header="Segmentation Masks" %}}
 Log semantic segmentation masks and interact with them (altering opacity, viewing changes over time, and more) via the W&B UI.
 
-{{< img src="/images/track/semantic_segmentation.gif" alt="Interactive mask viewing in the W&B UI." >}}
+{{< img src="/images/track/semantic_segmentation.gif" alt="Interactive mask viewing" >}}
 
 To log an overlay, provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
 

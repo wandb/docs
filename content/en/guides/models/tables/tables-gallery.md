@@ -29,7 +29,7 @@ For example, see this report on [style-transferred audio](https://wandb.ai/stace
 
 Quickly compare results across different training epochs, datasets, hyperparameter choices, model architectures etc. 
 
-{{< img src="/images/data_vis/compare_model_versions.png" alt="See granular differences: the left model detects some red sidewalk, the right does not." max-width="90%">}}
+{{< img src="/images/data_vis/compare_model_versions.png" alt="Model comparison" max-width="90%">}}
 
 For example, see this table that compares [two models on the same test images](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#b6dae62d4f00d31eeebf$eval_Bob).
 
@@ -71,7 +71,7 @@ Browse and aggregate over videos logged during training to understand your model
 
 View a report on how to [split and pre-process tabular data](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1) with version control and de-duplication.
 
-{{< img src="/images/data_vis/tabs.png" alt="Tables and Artifacts work together to version control, label, and de-duplicate your dataset iterations" max-width="90%">}}
+{{< img src="/images/data_vis/tabs.png" alt="Tables and Artifacts workflow" max-width="90%">}}
 
 ### Comparing model variants (semantic segmentation)
 

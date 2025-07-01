@@ -41,7 +41,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
     The image below demonstrates how to provide allowed callback and sign-out URLs in AWS Cognito.
 
-    {{< img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="If your instance is accessible from multiple hosts, be sure to include all of them here." >}}
+    {{< img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="Host configuration" >}}
 
 
     _wandb/local_ uses the [`implicit` grant with the `form_post` response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. 

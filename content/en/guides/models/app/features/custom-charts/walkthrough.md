@@ -28,7 +28,7 @@ wandb.log(
 
 Once you've logged data to visualize, go to your project page and click the **`+`** button to add a new panel, then select **Custom Chart**. You can follow along in [this workspace](https://app.wandb.ai/demo-team/custom-charts).
 
-{{< img src="/images/app_ui/create_a_query.png" alt="A new, blank custom chart ready to be configured" >}}
+{{< img src="/images/app_ui/create_a_query.png" alt="Blank custom chart" >}}
 
 ### Add a query
 
