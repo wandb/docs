@@ -21,7 +21,7 @@ To search for a registry item:
 
 Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
 
-{{< img src="/images/registry/search_registry.gif" alt=".gif of user typing text into registry search bar to filter registry items" >}}
+{{< img src="/images/registry/search_registry.gif" alt="User typing text into registry search bar to filter and discover registry items by keywords" >}}
 
 ## Query registry items with MongoDB-style queries
 
