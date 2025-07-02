@@ -634,7 +634,7 @@ def main():
 
 ## Examples
 
-You can follow along in a video tutorial with a Colab [here](https://wandb.me/lit-colab).
+You can follow along in a [video tutorial with a Colab notebook](https://wandb.me/lit-colab).
 
 ## Frequently Asked Questions
 
