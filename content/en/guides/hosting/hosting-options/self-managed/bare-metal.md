@@ -27,9 +27,9 @@ W&B does not recommend using MySQL 5.7. If you are using MySQL 5.7, migrate to M
 
 There are a number of enterprise services that make operating a scalable MySQL database simpler. W&B recommends looking into one of the following solutions:
 
-[https://www.percona.com/software/mysql-database/percona-server](https://www.percona.com/software/mysql-database/percona-server)
+[Percona Server for MySQL](https://www.percona.com/software/mysql-database/percona-server)
 
-[https://github.com/mysql/mysql-operator](https://github.com/mysql/mysql-operator)
+[MySQL Operator for Kubernetes](https://github.com/mysql/mysql-operator)
 
 Satisfy the conditions below if you run W&B Server MySQL 8.0 or when you upgrade from MySQL 5.7 to 8.0:
 
@@ -116,8 +116,8 @@ The most important things to consider when running your own object store are:
 
 There are many enterprise alternatives to running your own object storage service such as:
 
-1. [https://aws.amazon.com/s3/outposts/](https://aws.amazon.com/s3/outposts/)
-2. [https://www.netapp.com/data-storage/storagegrid/](https://www.netapp.com/data-storage/storagegrid/)
+1. [Amazon S3 on Outposts](https://aws.amazon.com/s3/outposts/)
+2. [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)
 
 ### MinIO set up
 
