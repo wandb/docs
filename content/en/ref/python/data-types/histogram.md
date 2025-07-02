@@ -2,17 +2,9 @@
 title: Histogram
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/histogram.py#L18-L94 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/histogram.py#L18-L94 >}}
 
 wandb class for histograms.
-
-```python
-Histogram(
-    sequence: Optional[Sequence] = None,
-    np_histogram: Optional['NumpyHistogram'] = None,
-    num_bins: int = 64
-) -> None
-```
 
 This object works just like numpy's histogram function
 https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
