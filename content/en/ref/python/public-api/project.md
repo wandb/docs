@@ -2,15 +2,9 @@
 title: Project
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/projects.py#L83-L184 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/projects.py#L96-L225 >}}
 
 A project is a namespace for runs.
-
-```python
-Project(
-    client, entity, project, attrs
-)
-```
 
 | Attributes |  |
 | :--- | :--- |
@@ -19,7 +13,7 @@ Project(
 
 ### `artifacts_types`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/projects.py#L116-L118)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/projects.py#L153-L155)
 
 ```python
 artifacts_types(
@@ -29,7 +23,7 @@ artifacts_types(
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/attrs.py#L16-L36)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/attrs.py#L16-L36)
 
 ```python
 display(
@@ -41,7 +35,7 @@ Display this object in jupyter.
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/attrs.py#L12-L14)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -51,7 +45,7 @@ snake_to_camel(
 
 ### `sweeps`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/projects.py#L120-L158)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/projects.py#L157-L195)
 
 ```python
 sweeps()
@@ -59,7 +53,7 @@ sweeps()
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/projects.py#L100-L108)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/projects.py#L137-L145)
 
 ```python
 to_html(
@@ -68,3 +62,7 @@ to_html(
 ```
 
 Generate HTML containing an iframe displaying this project.
+
+| Class Variables |  |
+| :--- | :--- |
+|  `QUERY`<a id="QUERY"></a> |   |

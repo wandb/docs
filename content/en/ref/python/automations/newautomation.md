@@ -2,7 +2,7 @@
 title: NewAutomation
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/automations/automations.py#L53-L81 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/automations/automations.py#L51-L79 >}}
 
 A new automation to be created.
 
