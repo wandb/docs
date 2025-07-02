@@ -518,7 +518,7 @@ Below are 6 Transformers and W&B related articles you might enjoy
 * We use a standard uncased BERT model from Hugging Face transformers, and we want to fine-tune on the RTE dataset from the SuperGLUE benchmark
 * Results show that Population Based Training is the most effective approach to hyperparameter optimization of our Hugging Face transformer model.
 
-Read the full report [here](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI).
+Read the [Hyperparameter Optimization for Hugging Face Transformers report](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI).
 </details>
 
 <details>

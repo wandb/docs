@@ -64,7 +64,7 @@ Satisfy the following requirements to deploy W&B with the W&B Kubernetes operato
 
 Refer to the [reference architecture]({{< relref "../ref-arch.md#infrastructure-requirements" >}}). In addition, [obtain a valid W&B Server license]({{< relref "../#obtain-your-wb-server-license" >}}).
 
-See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See the [bare-metal installation guide]({{< relref "../bare-metal.md" >}}) for a detailed explanation on how to set up and configure a self-managed installation.
 
 Depending on the installation method, you might need to meet the following requirements:
 * Kubectl installed and configured with the correct Kubernetes cluster context.
