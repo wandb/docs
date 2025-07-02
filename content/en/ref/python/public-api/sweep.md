@@ -2,15 +2,9 @@
 title: Sweep
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/sweeps.py#L30-L240 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/sweeps.py#L30-L240 >}}
 
 A set of runs associated with a sweep.
-
-```python
-Sweep(
-    client, entity, project, sweep_id, attrs=None
-)
-```
 
 #### Examples:
 
@@ -34,7 +28,7 @@ sweep = api.sweep(path / to / sweep)
 
 ### `best_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/sweeps.py#L125-L148)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/sweeps.py#L125-L148)
 
 ```python
 best_run(
@@ -46,7 +40,7 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/attrs.py#L16-L36)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/attrs.py#L16-L36)
 
 ```python
 display(
@@ -58,7 +52,7 @@ Display this object in jupyter.
 
 ### `get`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/sweeps.py#L173-L222)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/sweeps.py#L173-L222)
 
 ```python
 @classmethod
@@ -71,7 +65,7 @@ Execute a query against the cloud backend.
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/sweeps.py#L106-L114)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/sweeps.py#L106-L114)
 
 ```python
 load(
@@ -81,7 +75,7 @@ load(
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/attrs.py#L12-L14)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/attrs.py#L12-L14)
 
 ```python
 snake_to_camel(
@@ -91,7 +85,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/sweeps.py#L224-L232)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/sweeps.py#L224-L232)
 
 ```python
 to_html(

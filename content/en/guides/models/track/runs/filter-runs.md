@@ -11,26 +11,32 @@ Use your project page to gain insights from runs logged to W&B. You can filter a
 
 ## Filter runs
 
-Filter runs based on their status, tags, or other properties with the filter button.
+Filter runs based on their status, [tags]({{< relref "#filter-runs-with-tags" >}}), [regular expressions (RegEx)]({{< relref "#filter-runs-with-regular-expressions-regex"  >}}) or other properties with the filter button.
 
+See Customize run colors for more information on how to [edit, randomize, and reset run colors]({{< relref "guides/models/track/runs/run-colors" >}}).
 
 ### Filter runs with tags
 
 Filter runs based on their tags with the filter button.
 
-{{< img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" >}}
-
+1. Click on the **Runs** tab from the project sidebar.
+2. Select the **Filter** button, which looks like a funnel, at the top of the runs table.
+3. From left to right, select `"Tags"` from the dropdown menu, select a logic operator, and select a filter search value.
 
 ### Filter runs with regex
 
 If regex doesn't provide you the desired results, you can make use of [tags]({{< relref "tags.md" >}}) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
 
-{{< img src="/images/app_ui/tags.gif" alt="Tag filtering" >}}
+{{< img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" >}}
 
+1. Click on the **Runs** tab from the project sidebar.
+2. Click on the search box at the top of the runs table.
+3. Ensure that the **RegEx** toggle (.*) is enabled (the toggle should be blue).
+4. Enter your regular expression in the search box.
 
 ## Search runs
 
-Use [regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) to find runs with the regex you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
+Use [regular expressions (RegEx)](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) to find runs with the regular expression you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
 
 ## Group runs
 
@@ -58,29 +64,17 @@ We provide a column named `End Time` that logs that last heartbeat from the clie
 
 {{< img src="/images/app_ui/search_run_endtime.png" alt="End Time column" >}}
 
-
-
-
-
 ## Export runs table to CSV
 
 Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
 
-{{< img src="/images/app_ui/export_to_csv.gif" alt="Export runs to CSV" >}}
-
-
+{{< img src="/images/app_ui/export_to_csv.gif" alt="Modal with preview of export to CSV" >}}
 <!-- ## Edit run colors
 
 When a new run is created, it is assigned a default color. You can edit the color for a given run by clicking the color preview.
 
-Colors are locally scoped. On the project page, custom colors only apply to your own workspace. In reports, custom colors for runs only apply at the section level. You can visualize the same run in different sections, and it can have a different custom color in each section.
 
-1. Select the Run you want to visualize
-2. Click the colored dot 
-3. Select a color for the graphs of your run
-## See active runs
-
-Look for a green dot next to the name of runs— this indicates they're active in the table and on the graph legends. -->
+<!-- Look for a green dot next to the name of runs— this indicates they're active in the table and on the graph legends. -->
 
 <!-- ## Bulk select runs
 
