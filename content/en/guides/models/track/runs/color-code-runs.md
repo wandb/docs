@@ -91,7 +91,7 @@ Buckets are ranges of values that W&B uses to categorize runs based on the metri
 
 Consider the following:
 
-{{< img src="/images/track/color-coding-runs.png" alt="" >}}
+{{< img src="/images/track/color-coding-runs.png" alt="Color coded runs" >}}
 
 - **Key** is set to `"Accuracy"` (abbreviated as `"acc"`).
 - **Y value** is set to `"Max"`
@@ -109,4 +109,4 @@ Six buckets are defined for the metric, with each bucket representing a range of
 
 In the line plot below, the run with the highest accuracy (0.8232) is colored in a deep purple (Bucket 5), while the run with the lowest accuracy (0.7684) is colored in a light orange (Bucket 2). The other runs are colored based on their accuracy values, with the color gradient indicating their relative performance. 
 
-{{< img src="/images/track/color-code-runs-plot.png" alt="Line plot with color coded runs based on a specific metric" >}}
+{{< img src="/images/track/color-code-runs-plot.png" alt="Color coded runs plot" >}}

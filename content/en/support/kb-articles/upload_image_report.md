@@ -8,4 +8,4 @@ support:
 ---
 Press `/` on a new line, scroll to the Image option, and drag and drop an image into the report.
 
-{{< img src="/images/reports/add_an_image.gif" alt="" >}}
+{{< img src="/images/reports/add_an_image.gif" alt="Adding image to report" >}}

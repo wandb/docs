@@ -9,7 +9,7 @@ support:
 ---
 Only files that change between two artifact versions incur storage costs.
 
-{{< img src="/images/artifacts/artifacts-dedupe.PNG" alt="v1 of the artifact 'dataset' has only 2 out of 5 images that differ, so it occupies only 40% of the space." >}}
+{{< img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifact deduplication" >}}
 
 Consider an image artifact named `animals` that contains two image files, `cat.png` and `dog.png`:
 

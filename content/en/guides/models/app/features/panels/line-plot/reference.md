@@ -86,12 +86,12 @@ Select a style for your line plot.
 
 **Line plot:**
 
-{{< img src="/images/app_ui/plot_style_line_plot.png" alt="" >}}
+{{< img src="/images/app_ui/plot_style_line_plot.png" alt="Line plot style" >}}
 
 **Area plot:**
 
-{{< img src="/images/app_ui/plot_style_area_plot.png" alt="" >}}
+{{< img src="/images/app_ui/plot_style_area_plot.png" alt="Area plot style" >}}
 
 **Percentage area plot:**
 
-{{< img src="/images/app_ui/plot_style_percentage_plot.png" alt="" >}}
+{{< img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage plot style" >}}

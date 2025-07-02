@@ -313,7 +313,7 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 2. Select the provider `Google Cloud Storage (gcs)`, 
 3. Provide the name of the GCS bucket
 
-{{< img src="/images/hosting/configure_file_store_gcp.png" alt="" >}}
+{{< img src="/images/hosting/configure_file_store_gcp.png" alt="GCP file storage configuration" >}}
 
 4. Press **Update settings** to apply the new settings.
 

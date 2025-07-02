@@ -23,9 +23,11 @@ Filter runs based on their tags with the filter button.
 2. Select the **Filter** button, which looks like a funnel, at the top of the runs table.
 3. From left to right, select `"Tags"` from the dropdown menu, select a logic operator, and select a filter search value.
 
-{{< img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" >}}
+### Filter runs with regex
 
-### Filter runs with regular expressions (RegEx)
+If regex doesn't provide you the desired results, you can make use of [tags]({{< relref "tags.md" >}}) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
+
+{{< img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" >}}
 
 1. Click on the **Runs** tab from the project sidebar.
 2. Click on the search box at the top of the runs table.
@@ -54,20 +56,22 @@ The following steps describe how to sort the run table by a specific metric base
 3. From the dropdown, select either **Show min** or **Show max**.
 4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
 
-{{< img src="/images/app_ui/runs_min_max.gif" alt="Sort run values in a column by max value." >}}
+{{< img src="/images/app_ui/runs_min_max.gif" alt="Sort by min/max values" >}}
 
 ## Search End Time for runs
 
 We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
 
-{{< img src="/images/app_ui/search_run_endtime.png" alt="Column with end times for each run." >}}
+{{< img src="/images/app_ui/search_run_endtime.png" alt="End Time column" >}}
 
 ## Export runs table to CSV
 
 Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
 
 {{< img src="/images/app_ui/export_to_csv.gif" alt="Modal with preview of export to CSV" >}}
+<!-- ## Edit run colors
 
+When a new run is created, it is assigned a default color. You can edit the color for a given run by clicking the color preview.
 
 
 <!-- Look for a green dot next to the name of runs— this indicates they're active in the table and on the graph legends. -->

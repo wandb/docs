@@ -20,4 +20,4 @@ Our gym integration is very light. We simply [look at the name of the video file
 
 The [OpenRL Benchmark](http://wandb.me/openrl-benchmark-report) by[ CleanRL](https://github.com/vwxyzjn/cleanrl) uses this integration for its OpenAI Gym examples. You can find source code (including [the specific code used for specific runs](https://wandb.ai/cleanrl/cleanrl.benchmark/runs/2jrqfugg/code?workspace=user-costa-huang)) that demonstrates how to use gym with
 
-{{< img src="/images/integrations/open_ai_report_example.png" alt="Learn more here: http://wandb.me/openrl-benchmark-report" >}}
+{{< img src="/images/integrations/open_ai_report_example.png" alt="OpenAI Gym dashboard" >}}
