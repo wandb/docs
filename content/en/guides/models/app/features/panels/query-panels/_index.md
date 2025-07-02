@@ -21,7 +21,7 @@ Use query panels to query and interactively visualize your data.
 {{< img src="/images/weave/pretty_panel.png" alt="Query panel" >}}
 
 <!-- {{% alert %}}
-See [this report](https://wandb.me/keras-xla-benchmark) to see how this team used Weave Panels to visualize their benchmarks.
+See the [Keras XLA benchmark report](http://wandb.me/keras-xla-benchmark) to see how this team used auery panels to visualize their benchmarks.
 {{% /alert %}} -->
 
 ## Create a query panel
