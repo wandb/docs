@@ -7,7 +7,7 @@ weight: 4
 ---
 
 {{% alert %}}
-Are you looking for the official Weave documentation? Head over to [https://weave-docs.wandb.ai/](https://weave-docs.wandb.ai/).
+Are you looking for the official Weave documentation? Head over to the [official Weave documentation site](https://weave-docs.wandb.ai/).
 {{% /alert %}}
 
 W&B Weave is a framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications. Designed for flexibility and scalability, Weave supports every stage of your LLM application development workflow:
