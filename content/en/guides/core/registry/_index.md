@@ -11,7 +11,7 @@ cascade:
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
 
-W&B Registry is a curated central repository of [artifact]({{< relref "/guides/core/artifacts/" >}}) versions within your organization. Users who [have permission]({{< relref "./configure_registry.md" >}}) within your organization can [download]({{< relref "./download_use_artifact.md" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
+W&B Registry is a curated central repository of [artifact]({{< relref "/guides/core/artifacts/" >}}) versions within your organization. Users who [have permission]({{< relref "./configure_registry.md" >}}) within your organization can [download and use artifacts]({{< relref "./download_use_artifact.md" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
 
 You can use the Registry to [track artifact versions]({{< relref "./link_version.md" >}}), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD]({{< relref "/guides/core/automations/" >}}).
 
