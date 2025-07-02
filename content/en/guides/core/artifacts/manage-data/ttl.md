@@ -225,7 +225,7 @@ print(artifact.ttl)
   {{% tab  header="W&B App" %}}
 View a TTL policy for an artifact with the W&B App UI.
 
-1. Navigate to the W&B App at [https://wandb.ai](https://wandb.ai).
+1. Navigate to the [W&B App](https://wandb.ai).
 2. Go to your W&B Project.
 3. Within your project, select the Artifacts tab in the left sidebar.
 4. Click on a collection.

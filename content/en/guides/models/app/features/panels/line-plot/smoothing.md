@@ -59,7 +59,7 @@ Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-exampl
 
 ## Running average smoothing
 
-Running average is a smoothing algorithm that replaces a point with the average of points in a window before and after the given x value. See "Boxcar Filter" at [https://en.wikipedia.org/wiki/Moving_average](https://en.wikipedia.org/wiki/Moving_average). The selected parameter for running average tells Weights and Biases the number of points to consider in the moving average.
+Running average is a smoothing algorithm that replaces a point with the average of points in a window before and after the given x value. See ["Boxcar Filter" on Wikipedia](https://en.wikipedia.org/wiki/Moving_average). The selected parameter for running average tells Weights and Biases the number of points to consider in the moving average.
 
 Consider using Gaussian Smoothing instead if your points are spaced unevenly on the x-axis.
 
