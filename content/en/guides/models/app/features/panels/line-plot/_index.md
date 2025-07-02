@@ -153,13 +153,13 @@ In the line plot settings, in the advanced tab, click on different plot styles t
 
 Click and drag a rectangle to zoom vertically and horizontally at the same time. This changes the x-axis and y-axis zoom.
 
-{{< img src="/images/app_ui/line_plots_zoom.gif" alt="Plot zoom functionality" >}}
+{{< img src="/images/app_ui/line_plots_zoom.gif" >}}
 
 ## Hide chart legend
 
 Turn off the legend in the line plot with this simple toggle:
 
-{{< img src="/images/app_ui/demo_hide_legend.gif" alt="Hide legend toggle" >}}
+{{< img src="/images/app_ui/demo_hide_legend.gif" alt="" >}}
 
 ## Create a run metrics notification
 Use [Automations]({{< relref "/guides/core/automations" >}}) to notify your team when a run metric meets a condition you specify. An automation can post to a Slack channel or run a webhook.
