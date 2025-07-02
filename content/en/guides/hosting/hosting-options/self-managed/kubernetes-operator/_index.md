@@ -174,7 +174,7 @@ W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules de
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 
-For a detailed description on how to use these modules, refer to this [section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) to self-managed installations section in the docs.
+For a detailed description on how to use these modules, refer to the [self-managed installations section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) in the docs.
 
 ### Verify the installation
 
