@@ -15,5 +15,5 @@ To change an account from corporate to academic in Weights & Biases, follow thes
    - Add and set the academic email as the primary email.
 
 2. **Apply for an academic plan**:
-   - Visit the academic application page at [https://wandb.ai/academic_application](https://wandb.ai/academic_application).
+   - Visit the [W&B academic application page](https://wandb.ai/academic_application).
    - Submit the application for review.
