@@ -21,7 +21,7 @@ W&B Alerts require you to add `run.alert()` to your code. Without modifying your
 
 For example, an automation can notify a Slack channel when a new version is created, run an automated testing webhook when the `production` alias is added to an artifact, or start a validation job only when a run's `loss` is within acceptable bounds.
 
-[Learn more about automations]({{< relref "/guides/core/automations/" >}}) or [create an automation]({{< relref "/guides/core/automations/create-automations/" >}}).
+See [automations]({{< relref "/guides/core/automations/" >}}) or [create an automation]({{< relref "/guides/core/automations/create-automations/" >}}).
 {{% /alert %}}
 
 

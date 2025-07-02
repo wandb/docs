@@ -302,7 +302,7 @@ run.log(metrics)
 
 {{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="W&B Workspace" >}}
 
-[Learn more about `run.log`]({{< relref "/guides/models/track/log" >}}).
+See the [`run.log` documentation]({{< relref "/guides/models/track/log" >}}).
 
 #### Prevent x-axis misalignments
 
@@ -343,7 +343,7 @@ Some considerations when logging data include:
   * For images, you can log sample predictions, segmentation masks, etc., to see the evolution over time.
   * For text, you can log tables of sample predictions for later exploration.
 
-[Learn more about logging]({{< relref "/guides/models/track/log" >}}) media, objects, plots, and more.
+See the [logging documentation]({{< relref "/guides/models/track/log" >}}) for media, objects, plots, and more.
 
 ### Distributed training
 
