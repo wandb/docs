@@ -104,7 +104,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     ]
     ```
     CoreWeave storage is S3-compatible. For details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
-1. Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation. 
+<!--1. Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation. 
 
     In `Resource`, replace each instance of `<cw_bucket>` with the CoreWeave bucket name.
 
@@ -138,8 +138,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
       ]
     }
     ```
-
-Keep a record of the bucket name and access credentials.
+-->
 
 {{% /tab %}}
 {{% tab header="AWS" value="aws" %}}
@@ -356,12 +355,14 @@ Select a tab for detailed instructions.
 
 {{< tabpane text=true >}}
 {{% tab header="CoreWeave" value="coreweave" %}}
+To configure CoreWeave for instance-level BYOB, you specify the bucket name rather than the full bucket path. You are ready to [configure instance level BYOB]({{< relref "#configure-instance-level-byob" >}}).
+
+For team level BYOB, determine the full bucket path using this format. Replace placeholders between angle brackets (`<>`) with the bucket's values.
+
 **Bucket format**:
 ```text
 cw://<accessKey>:<secretAccessKey>@cwobject.com/<bucketName>?tls=true
 ```
-
-- CoreWeave uses availability zones for AI Object Storage. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation for details. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `US-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
 
   The `cwobject.com` HTTPS endpoint is supported. TLS 1.3 is required. Contact [support](mailto:support@wandb.com) to express interest in other CoreWeave endpoints.
 - The `cw://` protocol specifier is preferred.
@@ -430,7 +431,7 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 1. Click **Save**
 
 {{% alert %}}
-For Self-Hosted, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
+For Self-Managed, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
 
 * [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector)
 * [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector)
@@ -448,7 +449,7 @@ After you [determine the storage location](#determine-the-storage-address) for y
 
 <!-- (Commented out until MT is supported) 1. If you are configuring CoreWeave storage for Multi-tenant Cloud, switch to the browser window where you previously began to create the new team to find the W&B organization ID previously. Otherwise, l -->
 
-1. If you’re connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like MinIO for team-level BYOB in your Dedicated cloud or Self-managed instance, you **must** specify the storage bucket using the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B, before following the rest of these steps to use the storage bucket for a team.
+1. If you’re connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like MinIO for team-level BYOB in your Dedicated cloud or Self-managed instance, you **must** add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B, before following the rest of these steps to use the storage bucket for a team.
 1. Log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
 1. Provide a name for the team.
 1. Set **Storage Type** to **External storage**.
@@ -458,12 +459,12 @@ After you [determine the storage location](#determine-the-storage-address) for y
 1. Click **Bucket location**.
 1. To use an existing bucket, select it from the list. To add a new bucket, click **Add bucket** at the bottom, then provide the bucket's details.
 
-    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud.
-    -  Provide a **Name** for the bucket.
+    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud. If the cloud provider is not listed, ensure that you followed step 1 to add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable. If no buckets from that provider are include in the environment variable, that provider is not listed.
+    -  Specify the bucket.
     
-        For **CoreWeave**, provide only the bucket name. For Azure on W&B Dedicated or Self-Managed, provide Account name and Container name.
-    - Provide the bucket path you [determined earlier](#determine-the-storage-address).
-    - For **Azure**, set the **Account name** to the Azure account and **Container name** to the Azure blob storage container.
+        - For **CoreWeave**, provide only the bucket name.
+        - For AWS, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
+        - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
     - Optionally:
       - If applicable, set **Path** to the bucket sub-path.
       - **CoreWeave**: Set **KMS key ARN** to the CoreWeave ARN.
@@ -495,9 +496,7 @@ After you [determine the storage location](#determine-the-storage-address) for y
 - **LOTA endpoint issues**
   - Connecting to LOTA endpoints from W&B is not yet supported.  To express interest, [contact support](mailto:support@wandb.com).
 - **Region errors**
-  - CoreWeave uses availability zones for AI Object Storage.
-    - In the bucket address, you can optionally set `region` to the name of the CoreWeave availability zone that matches the CoreWeave bucket's location. Because CoreWeave bucket names are globally unique, `region` is not required in the bucket address.
-    - CoreWeave AI Object Storage is not available in all regions. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `S-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
+    - CoreWeave AI Object Storage is not available in all regions. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `US-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
 - **Access key and permission errors**
   - Verify that your CoreWeave API Access Key is not expired.
   - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys) in the CoreWeave documentation.
