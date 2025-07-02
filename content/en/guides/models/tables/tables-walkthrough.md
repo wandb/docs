@@ -46,7 +46,7 @@ df = pd.read_csv("my_data.csv")
 
 run = wandb.init(project="df-table")
 my_table = wandb.Table(dataframe=df)
-wandb.log({"Table Name": my_table})
+run.log({"Table Name": my_table})
 ```
 
 For more information on supported data types, see the [`wandb.Table`]({{< relref "/ref/python/data-types/table.md" >}}) in the W&B API Reference Guide.

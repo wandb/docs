@@ -123,7 +123,17 @@ def train(
     log_step=200,
     val_log_step=50,
 ):
-
+    run = wandb.init(
+        project="sweeps-tensorflow",
+        job_type="train",
+        config={
+            "epochs": epochs,
+            "log_step": log_step,
+            "val_log_step": val_log_step,
+            "architecture_name": "MLP",
+            "dataset_name": "MNIST",
+        },
+    )
     for epoch in range(epochs):
         print("\nStart of epoch %d" % (epoch,))
 
@@ -162,8 +172,8 @@ def train(
         train_acc_metric.reset_states()
         val_acc_metric.reset_states()
 
-        # 3️⃣ log metrics using wandb.log
-        wandb.log(
+        # 3. Log metrics using run.log()
+        run.log(
             {
                 "epochs": epoch,
                 "loss": np.mean(train_loss),
@@ -172,6 +182,7 @@ def train(
                 "val_acc": float(val_acc),
             }
         )
+    run.finish()
 ```
 
 ## Configure the sweep
@@ -199,32 +210,32 @@ sweep_config = {
 ## Wrap the training loop
 
 Create a function, like `sweep_train`,
-which uses `wandb.config` to set hyperparameters before calling `train`.
+which uses `run.config()` to set hyperparameters before calling `train`.
 
 ```python
 def sweep_train(config_defaults=None):
     # Set default values
     config_defaults = {"batch_size": 64, "learning_rate": 0.01}
     # Initialize wandb with a sample project name
-    wandb.init(config=config_defaults)  # this gets over-written in the Sweep
+    run = wandb.init(config=config_defaults)  # this gets over-written in the Sweep
 
     # Specify the other hyperparameters to the configuration, if any
-    wandb.config.epochs = 2
-    wandb.config.log_step = 20
-    wandb.config.val_log_step = 50
-    wandb.config.architecture_name = "MLP"
-    wandb.config.dataset_name = "MNIST"
+    run.config.epochs = 2
+    run.config.log_step = 20
+    run.config.val_log_step = 50
+    run.config.architecture_name = "MLP"
+    run.config.dataset_name = "MNIST"
 
     # build input pipeline using tf.data
     train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
     train_dataset = (
         train_dataset.shuffle(buffer_size=1024)
-        .batch(wandb.config.batch_size)
+        .batch(run.config.batch_size)
         .prefetch(buffer_size=tf.data.AUTOTUNE)
     )
 
     val_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
-    val_dataset = val_dataset.batch(wandb.config.batch_size).prefetch(
+    val_dataset = val_dataset.batch(run.config.batch_size).prefetch(
         buffer_size=tf.data.AUTOTUNE
     )
 
@@ -232,7 +243,7 @@ def sweep_train(config_defaults=None):
     model = Model()
 
     # Instantiate an optimizer to train the model.
-    optimizer = keras.optimizers.SGD(learning_rate=wandb.config.learning_rate)
+    optimizer = keras.optimizers.SGD(learning_rate=run.config.learning_rate)
     # Instantiate a loss function.
     loss_fn = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 
@@ -248,10 +259,11 @@ def sweep_train(config_defaults=None):
         loss_fn,
         train_acc_metric,
         val_acc_metric,
-        epochs=wandb.config.epochs,
-        log_step=wandb.config.log_step,
-        val_log_step=wandb.config.val_log_step,
+        epochs=run.config.epochs,
+        log_step=run.config.log_step,
+        val_log_step=run.config.val_log_step,
     )
+    run.finish()
 ```
 
 ## Initialize sweep and run personal digital assistant

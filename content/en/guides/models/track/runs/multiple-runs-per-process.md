@@ -70,7 +70,8 @@ import wandb
 wandb.setup(wandb.Settings(reinit="create_new"))
 
 with wandb.init() as experiment_results_run:
-   for ...:
+    # This run will be used to log the results of each experiment.
+    # You can think of this as a parent run that collects results
       with wandb.init() as run:
          # The do_experiment() function logs fine-grained metrics
          # to the given run and returns result metrics that

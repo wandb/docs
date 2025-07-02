@@ -65,7 +65,7 @@ def create_project_and_log_data():
     # Initialize a run to log some sample data
     with wandb.init(project=project, name="sample_run") as run:
         for step in range(100):
-            wandb.log({
+            run.log({
                 "Step": step,
                 "val_loss": 1.0 / (step + 1),
                 "val_accuracy": step / 100.0,

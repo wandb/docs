@@ -17,27 +17,27 @@ import wandb
 import plotly.express as px
 
 # Initialize a new run
-run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
+with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
-# Create a table
-table = wandb.Table(columns=["plotly_figure"])
+    # Create a table
+    table = wandb.Table(columns=["plotly_figure"])
 
-# Define path for Plotly figure
-path_to_plotly_html = "./plotly_figure.html"
+    # Define path for Plotly figure
+    path_to_plotly_html = "./plotly_figure.html"
 
-# Create a Plotly figure
-fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
+    # Create a Plotly figure
+    fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-# Export Plotly figure to HTML
-# Setting auto_play to False prevents animated Plotly charts from playing automatically
-fig.write_html(path_to_plotly_html, auto_play=False)
+    # Export Plotly figure to HTML
+    # Setting auto_play to False prevents animated Plotly charts from playing automatically
+    fig.write_html(path_to_plotly_html, auto_play=False)
 
-# Add Plotly figure as HTML file to the table
-table.add_data(wandb.Html(path_to_plotly_html))
+    # Add Plotly figure as HTML file to the table
+    table.add_data(wandb.Html(path_to_plotly_html))
 
-# Log Table
-run.log({"test_table": table})
-wandb.finish()
+    # Log Table
+    run.log({"test_table": table})
+
 ```
 {{% /tab %}}
 {{% tab "Using Bokeh" %}}
@@ -71,10 +71,9 @@ audio_path = "hello.wav"
 save_audio_with_bokeh_plot_to_html(audio_path, html_file_name)
 
 wandb_html = wandb.Html(html_file_name)
-run = wandb.init(project="audio_test")
-my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
-run.log({"audio_table": my_table})
-run.finish()
+with wandb.init(project="audio_test") as run:
+    my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
+    run.log({"audio_table": my_table})
 ```
 {{% /tab %}}
 {{% /tabpane %}}

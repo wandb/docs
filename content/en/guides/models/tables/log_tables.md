@@ -87,7 +87,7 @@ for inp, label, pred in zip(inputs, labels, raw_preds):
     table.add_data(inp, label, pred)
 
 # Step 1: Log initial data 
-wandb.log({"eval_table": table})  # Log initial table
+run.log({"eval_table": table})  # Log initial table
 
 # Step 2: Add confidence scores (e.g. max softmax)
 confidences = np.max(raw_preds, axis=1)
@@ -98,7 +98,7 @@ run.log({"eval_table": table})  # Add confidence info
 # (e.g., thresholded or smoothed outputs)
 post_preds = (confidences > 0.7).astype(int)
 table.add_column("final_prediction", post_preds)
-wandb.log({"eval_table": table})  # Final update with another column
+run.log({"eval_table": table})  # Final update with another column
 
 run.finish()
 ```
@@ -142,7 +142,7 @@ for step in range(get_num_batches()): # Placeholder function
         table.add_data(step, input_item, label, prediction)
 
     # Log the table incrementally
-    wandb.log({"training_table": table}, step=step)
+    run.log({"training_table": table}, step=step)
 
 run.finish()
 ```
@@ -239,7 +239,7 @@ resumed_run.finish()
 ```
 
 {{% alert %}}
-Increments are logged to a new table if you turn off summaries on a key used for the incremental table using `wandb.define_metric("<table_key>", summary="none")` or `wandb.define_metric("*", summary="none")`.
+Increments are logged to a new table if you turn off summaries on a key used for the incremental table using `run.define_metric("<table_key>", summary="none")` or `run.define_metric("*", summary="none")`.
 {{% /alert %}}
 
 

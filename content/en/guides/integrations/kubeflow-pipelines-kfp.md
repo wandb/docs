@@ -169,16 +169,17 @@ def train_model(
     test_dataloader_path: components.InputPath("dataloader"),
     model_path: components.OutputPath("pytorch_model"),
 ):
-    ...
-    for epoch in epochs:
-        for batch_idx, (data, target) in enumerate(train_dataloader):
-            ...
-            if batch_idx % log_interval == 0:
-                wandb.log(
-                    {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
-                )
+    with wandb.init() as run:
         ...
-        wandb.log_artifact(model_artifact)
+        for epoch in epochs:
+            for batch_idx, (data, target) in enumerate(train_dataloader):
+                ...
+                if batch_idx % log_interval == 0:
+                    run.log(
+                        {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
+                    )
+            ...
+            run.log_artifact(model_artifact)
 ```
 
 ### With implicit wandb integrations

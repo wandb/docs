@@ -10,16 +10,19 @@ In addition to values that change over time during training, it is often importa
 
  The last value logged with `wandb.log` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
 
-The proceeding code snippet demonstrates how to provide a custom summary metric to W&B:
-```python
-wandb.init(config=args)
+The following code snippet demonstrates how to provide a custom summary metric to W&B:
 
-best_accuracy = 0
-for epoch in range(1, args.epochs + 1):
-    test_loss, test_accuracy = test()
-    if test_accuracy > best_accuracy:
-        wandb.summary["best_accuracy"] = test_accuracy
-        best_accuracy = test_accuracy
+```python
+import wandb
+import argparse
+
+with wandb.init(config=args) as run:
+  best_accuracy = 0
+  for epoch in range(1, args.epochs + 1):
+      test_loss, test_accuracy = test()
+      if test_accuracy > best_accuracy:
+          run.summary["best_accuracy"] = test_accuracy
+          best_accuracy = test_accuracy
 ```
 
 You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API]({{< relref "/ref/python/public-api/" >}}) to update the summary attribute:
@@ -33,7 +36,7 @@ run.summary.update()
 
 ## Customize summary metrics
 
-Custom summary metrics are useful for capturing model performance at the best step of training in your `wandb.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
+Custom summary metrics are useful for capturing model performance at the best step of training in your `run.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
 
 By default, the summary uses the final value from history. To customize summary metrics, pass the `summary` argument in `define_metric`. It accepts the following values:
 
@@ -53,22 +56,24 @@ import wandb
 import random
 
 random.seed(1)
-wandb.init()
+run = wandb.init()
 
 # Min and max summary values for loss
-wandb.define_metric("loss", summary="min")
-wandb.define_metric("loss", summary="max")
+run.define_metric("loss", summary="min")
+run.define_metric("loss", summary="max")
 
 # Min and max summary values for accuracy
-wandb.define_metric("acc", summary="min")
-wandb.define_metric("acc", summary="max")
+run.define_metric("acc", summary="min")
+run.define_metric("acc", summary="max")
 
 for i in range(10):
     log_dict = {
         "loss": random.uniform(0, 1 / (i + 1)),
         "acc": random.uniform(1 / (i + 1), 1),
     }
-    wandb.log(log_dict)
+    run.log(log_dict)
+
+run.finish()
 ```
 
 ## View summary metrics

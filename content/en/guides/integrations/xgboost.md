@@ -45,7 +45,7 @@ Passing `WandbCallback` to a XGBoost model will:
 - log the best score and the best iteration
 - save and upload your trained model to Weights & Biases Artifacts (when `log_model = True`)
 - log feature importance plot when `log_feature_importance=True` (default).
-- Capture the best eval metric in `wandb.summary` when `define_metric=True` (default).
+- Capture the best eval metric in `run.summary` when `define_metric=True` (default).
 
 ### Arguments
 - `log_model`: (boolean) if True save and upload the model to Weights & Biases Artifacts
@@ -54,7 +54,7 @@ Passing `WandbCallback` to a XGBoost model will:
 
 - `importance_type`: (str) one of `{weight, gain, cover, total_gain, total_cover}` for tree model. weight for linear model.
 
-- `define_metric`: (boolean) if True (default) capture model performance at the best step, instead of the last step, of training in your `wandb.summary`.
+- `define_metric`: (boolean) if True (default) capture model performance at the best step, instead of the last step, of training in your `run.summary`.
 
 
 You can review the [source code for WandbCallback](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py).

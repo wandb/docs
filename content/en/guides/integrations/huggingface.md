@@ -250,14 +250,15 @@ See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-eval
 
 If your training is encapsulated in a Python script, the W&B run will end when your script finishes.
 
-If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `wandb.finish()`.
+If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `run.finish()`.
 
 ```python
+run = wandb.init()
 trainer.train()  # start training and logging to W&B
 
 # post-training analysis, testing, other logged code
 
-wandb.finish()
+run.finish()
 ```
 
 ### Visualize your results

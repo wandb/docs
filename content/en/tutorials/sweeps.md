@@ -231,10 +231,10 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def train(config=None):
     # Initialize a new wandb run
-    with wandb.init(config=config):
+    with wandb.init(config=config) as run:
         # If called by wandb.agent, as below,
         # this config will be set by Sweep Controller
-        config = wandb.config
+        config = run.config
 
         loader = build_dataset(config.batch_size)
         network = build_network(config.fc_layer_size, config.dropout)
@@ -242,13 +242,13 @@ def train(config=None):
 
         for epoch in range(config.epochs):
             avg_loss = train_epoch(network, loader, optimizer)
-            wandb.log({"loss": avg_loss, "epoch": epoch})           
+            run.log({"loss": avg_loss, "epoch": epoch})           
 ```
 
 Within the `train` function, you will notice the following W&B Python SDK methods:
 * [`wandb.init()`]({{< relref "/ref/python/init" >}}): Initialize a new W&B run. Each run is a single execution of the training function.
-* [`wandb.config`]({{< relref "/guides/models/track/config" >}}): Pass sweep configuration with the hyperparameters you want to experiment with.
-* [`wandb.log()`]({{< relref "/ref/python/log" >}}): Log the training loss for each epoch.
+* [`run.config`]({{< relref "/guides/models/track/config" >}}): Pass sweep configuration with the hyperparameters you want to experiment with.
+* [`run.log()`]({{< relref "/ref/python/log" >}}): Log the training loss for each epoch.
 
 
 The proceeding cell defines four functions:
@@ -296,19 +296,21 @@ def build_optimizer(network, optimizer, learning_rate):
 
 def train_epoch(network, loader, optimizer):
     cumu_loss = 0
-    for _, (data, target) in enumerate(loader):
-        data, target = data.to(device), target.to(device)
-        optimizer.zero_grad()
 
-        # ➡ Forward pass
-        loss = F.nll_loss(network(data), target)
-        cumu_loss += loss.item()
+    with wandb.init() as run:
+        for _, (data, target) in enumerate(loader):
+            data, target = data.to(device), target.to(device)
+            optimizer.zero_grad()
 
-        # ⬅ Backward pass + weight update
-        loss.backward()
-        optimizer.step()
+            # ➡ Forward pass
+            loss = F.nll_loss(network(data), target)
+            cumu_loss += loss.item()
 
-        wandb.log({"batch loss": loss.item()})
+            # ⬅ Backward pass + weight update
+            loss.backward()
+            optimizer.step()
+
+            run.log({"batch loss": loss.item()})
 
     return cumu_loss / len(loader)
 ```

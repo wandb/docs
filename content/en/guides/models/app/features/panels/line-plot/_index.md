@@ -11,7 +11,7 @@ title: Line plots
 weight: 10
 ---
 
-Line plots show up by default when you plot metrics over time with **wandb.log()**. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
+Line plots show up by default when you plot metrics over time with **run.log()**. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
 
 {{< img src="/images/app_ui/line_plot_example.png" alt="" >}}
 
@@ -20,7 +20,7 @@ Line plots show up by default when you plot metrics over time with **wandb.log()
 This section shows how to edit the settings for an individual line plot panel, all line plot panels in a section, or all line plot panels in a workspace.
 
 {{% alert %}}
-If you'd like to use a custom x-axis, make sure it's logged in the same call to `wandb.log()` that you use to log the y-axis.
+If you'd like to use a custom x-axis, make sure it's logged in the same call to `run.log()` that you use to log the y-axis.
 {{% /alert %}} 
 
 ### Individual line plot
@@ -38,7 +38,7 @@ You can configure these settings for a line plot:
   * **Relative Time (Wall)** is clock time since the process started, so if you started a run and resumed it a day later and logged something that would be plotted a 24hrs.
   * **Relative Time (Process)** is time inside the running process, so if you started a run and ran for 10 seconds and resumed a day later that point would be plotted at 10s.
   * **Wall Time** is minutes elapsed since the start of the first run on the graph.
-  * **Step** increments by default each time `wandb.log()` is called, and is supposed to reflect the number of training steps you've logged from your model.
+  * **Step** increments by default each time `run.log()` is called, and is supposed to reflect the number of training steps you've logged from your model.
 * **Y**: Select one or more y-axes from the logged values, including metrics and hyperparameters that change over time.
 * **X Axis** and **Y Axis** minimum and maximum values (optional).
 * **Point aggregation method**. Either **Random sampling** (the default) or **Full fidelity**. Refer to [Sampling]({{< relref "sampling.md" >}}).
@@ -95,7 +95,7 @@ The proceeding image shows a graph that represents average values across runs us
 You can also plot `NaN` values including PyTorch tensors on a line plot with `wandb.log`. For example:
 
 ```python
-wandb.log({"test": [..., float("nan"), ...]})
+run.log({"test": [..., float("nan"), ...]})
 ```
 
 {{< img src="/images/app_ui/visualize_nan.png" alt="" >}}
