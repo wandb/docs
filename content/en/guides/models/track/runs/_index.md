@@ -19,7 +19,7 @@ Common patterns for initiating a run include, but are not limited to:
 * Training a model
 * Changing a hyperparameter and conducting a new experiment
 * Conducting a new machine learning experiment with a different model
-* Logging data or a model as an [artifact]({{< relref "/guides/core/artifacts/" >}})
+* Logging data or a model as a [W&B Artifact]({{< relref "/guides/core/artifacts/" >}})
 * [Downloading an artifact]({{< relref "/guides/core/artifacts/download-and-use-an-artifact.md" >}})
 
 
@@ -117,7 +117,7 @@ Note that W&B captures the simulated training loop within a single run called `j
 As another example, during a [sweep]({{< relref "/guides/models/sweeps/" >}}), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
 
 
-## Initialize a run
+## Initialize a W&B run
 
 Initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
 
