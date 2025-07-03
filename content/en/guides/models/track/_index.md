@@ -14,7 +14,7 @@ cascade:
 
 Track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard]({{< relref "/guides/models/track/workspaces.md" >}}) or export your data to Python for programmatic access using our [Public API]({{< relref "/ref/python/public-api/index.md" >}}). 
 
-Utilize W&B Integrations if you use popular frameworks such as [PyTorch]({{< relref "/guides/integrations/pytorch.md" >}}), [Keras]({{< relref "/guides/integrations/keras.md" >}}), or [Scikit]({{< relref "/guides/integrations/scikit.md" >}}). See our [Integration guides]({{< relref "/guides/integrations/" >}}) for a for a full list of integrations and information on how to add W&B to your code.
+Utilize W&B Integrations if you use popular frameworks such as [PyTorch]({{< relref "/guides/integrations/pytorch.md" >}}), [Keras]({{< relref "/guides/integrations/keras.md" >}}), or [Scikit]({{< relref "/guides/integrations/scikit.md" >}}). See our [Integration guides]({{< relref "/guides/integrations/" >}}) for a full list of integrations and information on how to add W&B to your code.
 
 {{< img src="/images/experiments/experiments_landing_page.png" alt="Experiments dashboard" >}}
 

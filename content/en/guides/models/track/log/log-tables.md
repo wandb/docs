@@ -186,7 +186,7 @@ You can join tables you have locally constructed or tables you have retrieved fr
 
 To join two Tables you have logged previously in an artifact context, fetch them from the artifact and join the result into a new Table. 
 
-For example, demonstrates how to read one Table of original songs called `'original_songs'` and another Table of synthesized versions of the same songs called `'synth_songs'`. The proceeding code example joins the two tables on `"song_id"`, and uploads the resulting table as a new W&B Table:
+For example, the proceeding code example demonstrates how to read one Table of original songs called `'original_songs'` and another Table of synthesized versions of the same songs called `'synth_songs'`. The code joins the two tables on `"song_id"`, and uploads the resulting table as a new W&B Table:
 
 ```python
 import wandb

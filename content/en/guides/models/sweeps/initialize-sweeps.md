@@ -13,7 +13,7 @@ W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally 
 The following code snippets demonstrate how to initialize sweeps with the CLI and within a Jupyter Notebook or Python script.
 
 {{% alert color="secondary" %}}
-1. Before you initialize a sweep, make sure you have a sweep configuration defined either in a YAML file or a nested Python dictionary object in your script. For more information see, [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration.md" >}}).
+1. Before you initialize a sweep, make sure you have a sweep configuration defined either in a YAML file or a nested Python dictionary object in your script. For more information, see [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration.md" >}}).
 2. Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize W&B ([`wandb.init`]({{< relref "/ref/python/sdk/functions/init.md" >}})) must match the name of the project you provide when you initialize a W&B Sweep ([`wandb.sweep`]({{< relref "/ref/python/sdk/functions/sweep.md" >}})).
 {{% /alert %}}
 

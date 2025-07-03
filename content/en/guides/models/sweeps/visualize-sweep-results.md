@@ -20,7 +20,7 @@ Parallel coordinates charts summarize the relationship between large numbers of 
 
 The scatter plot(left) compares the W&B Runs that were generated during the Sweep. For more information about scatter plots, see [Scatter Plots]({{< relref "/guides/models/app/features/panels/scatter-plot.md" >}}).
 
-The parameter importance plot(right) lists the hyperparameters that were the best predictors of, and highly correlated to desirable values of your metrics. For more information parameter importance plots, see [Parameter Importance]({{< relref "/guides/models/app/features/panels/parameter-importance.md" >}}).
+The parameter importance plot(right) lists the hyperparameters that were the best predictors of, and highly correlated to desirable values of your metrics. For more information on parameter importance plots, see [Parameter Importance]({{< relref "/guides/models/app/features/panels/parameter-importance.md" >}}).
 
 {{< img src="/images/sweeps/scatter_and_parameter_importance.png" alt="Scatter plot and parameter importance" >}}
 
