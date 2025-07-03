@@ -355,9 +355,9 @@ Select a tab for detailed instructions.
 
 {{< tabpane text=true >}}
 {{% tab header="CoreWeave" value="coreweave" %}}
-To configure CoreWeave for instance-level BYOB, you specify the bucket name rather than the full bucket path. You are ready to [configure instance level BYOB]({{< relref "#configure-instance-level-byob" >}}).
+To configure CoreWeave for instance-level BYOB, specify the bucket name rather than the full bucket path. 
 
-For team level BYOB, determine the full bucket path using this format. Replace placeholders between angle brackets (`<>`) with the bucket's values.
+For team level BYOB, determine the full bucket path using the following format. Replace placeholders between angle brackets (`<>`) with the bucket's values.
 
 **Bucket format**:
 ```none
@@ -463,7 +463,7 @@ After you [determine the storage location](#determine-the-storage-address) for y
     -  Specify the bucket.
     
         - For **CoreWeave**, provide only the bucket name.
-        - For AWS, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
+        - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
         - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
     - Optionally:
       - If applicable, set **Path** to the bucket sub-path.
