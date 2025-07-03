@@ -360,7 +360,7 @@ To configure CoreWeave for instance-level BYOB, you specify the bucket name rath
 For team level BYOB, determine the full bucket path using this format. Replace placeholders between angle brackets (`<>`) with the bucket's values.
 
 **Bucket format**:
-```text
+```none
 cw://<accessKey>:<secretAccessKey>@cwobject.com/<bucketName>?tls=true
 ```
 
