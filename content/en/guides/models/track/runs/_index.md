@@ -377,7 +377,7 @@ By default, long run names are truncated in the middle for readability. To custo
 1. Click the action `...` menu at the top of the list of runs.
 1. Set **Run name cropping** to crop the end, middle, or beginning.
 
-See the [**Runs** tab documentation]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
+See the [**Runs** tab]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
 
 ### Overview tab
 Use the **Overview** tab to learn about specific run information in a project, such as:
