@@ -17,7 +17,7 @@ For details, see the [Data types reference]({{< relref "/ref/python/sdk/data-typ
 {{% /alert %}}
 
 {{% alert %}}
-You can [see what the results look like on wandb.ai](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA), and see the [video tutorial](https://www.youtube.com/watch?v=96MxRvx15Ts).
+For more details, check out a [demo report about visualize model predictions](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA) or watch a [video walkthrough](https://www.youtube.com/watch?v=96MxRvx15Ts).
 {{% /alert %}}
 
 ## Pre-requisites

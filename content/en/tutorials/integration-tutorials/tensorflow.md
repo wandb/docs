@@ -240,7 +240,7 @@ Check out a [Colab notebook demonstrating hyperparameter optimization using W&B 
 
 ## Example Gallery
 
-See examples of projects tracked and visualized with W&B in our gallery of examples, [Fully Connected →](https://wandb.me/fc)
+Explore examples of projects tracked and visualized with W&B in our gallery of examples, [Fully Connected →](https://wandb.me/fc)
 
 ## Best Practices
 1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`
