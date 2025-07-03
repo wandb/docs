@@ -180,7 +180,7 @@ You can confirm the name of your team by:
     ```python
     artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
     ```
-    For logging artifacts, see [Construct artifacts]({{< relref "/guides/core/artifacts/construct-an-artifact.md" >}}).
+    To log artifacts, see [Construct artifacts]({{< relref "/guides/core/artifacts/construct-an-artifact.md" >}}).
 3. If an artifact is logged to your personal entity, you will need to re-log it to an entity within your organization.
 
 ### Confirm the path of a registry in the W&B App UI
