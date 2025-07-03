@@ -9,7 +9,7 @@ weight: 460
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" >}}
 
-The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a **[live Weights & Biases dashboard](https://wandb.ai/morg/credit_scorecard)** with outputs from the XGBoost `WandbCallback`.
+The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a [live Weights & Biases dashboard](https://wandb.ai/morg/credit_scorecard) with outputs from the XGBoost `WandbCallback`.
 
 {{< img src="/images/integrations/xgb_dashboard.png" alt="Weights & Biases dashboard using XGBoost" >}}
 
@@ -33,7 +33,7 @@ bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
 run.finish()
 ```
 
-You can open **[this notebook](https://wandb.me/xgboost)** for a comprehensive look at logging with XGBoost and Weights & Biases
+You can open [this notebook](https://wandb.me/xgboost) for a comprehensive look at logging with XGBoost and Weights & Biases
 
 ## `WandbCallback` reference
 
