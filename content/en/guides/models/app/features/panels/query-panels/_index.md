@@ -21,7 +21,7 @@ Use query panels to query and interactively visualize your data.
 {{< img src="/images/weave/pretty_panel.png" alt="Query panel" >}}
 
 <!-- {{% alert %}}
-See the [Keras XLA benchmark report](http://wandb.me/keras-xla-benchmark) to see how this team used auery panels to visualize their benchmarks.
+See the [Keras XLA benchmark report](http://wandb.me/keras-xla-benchmark) to see how this team used query panels to visualize their benchmarks.
 {{% /alert %}} -->
 
 ## Create a query panel
@@ -79,7 +79,7 @@ Breaking this down:
 * `summary` is an op which returns the Summary object for a Run. Ops are _mapped_, meaning this op is applied to each Run in the list, resulting in a list of Summary objects.
 * `["cifar10_sample_table"]` is a Pick op (denoted with brackets), with a parameter of `predictions`. Since Summary objects act like dictionaries or maps, this operation picks the `predictions` field off of each Summary object.
 
-To learn how to write your own queries interactively, see [Weave queries](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
+To learn how to write your own queries interactively, see the [Query panel demo](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
 ### Configurations
 
