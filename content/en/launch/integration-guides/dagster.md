@@ -9,7 +9,7 @@ url: guides/integrations/dagster
 ---
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
-* Use and create [W&B Artifacts]({{< relref "/guides/core/artifacts/" >}}).
+* Use and create [artifacts]({{< relref "/guides/core/artifacts/" >}}).
 * Use and create Registered Models in [W&B Registry]({{< relref "/guides/core/registry/" >}}).
 * Run training jobs on dedicated compute using [W&B Launch]({{< relref "/launch/" >}}).
 * Use the [wandb]({{< relref "/ref/python/" >}}) client in ops and assets.
@@ -25,7 +25,7 @@ The following guide demonstrates how to satisfy prerequisites to use W&B in Dags
 You will need the following resources to use Dagster within Weights and Biases:
 1. **W&B API Key**.
 2. **W&B entity (user or team)**: An entity is a username or team name where you send W&B Runs and Artifacts. Make sure to create your account or team entity in the W&B App UI before you log runs. If you do not specify ain entity, the run will be sent to your default entity, which is usually your username. Change your default entity in your settings under **Project Defaults**.
-3. **W&B project**: The name of the project where [W&B Runs]({{< relref "/guides/models/track/runs/" >}}) are stored.
+3. **W&B project**: The name of the project where [runs]({{< relref "/guides/models/track/runs/" >}}) are stored.
 
 Find your W&B entity by checking the profile page for that user or team in the W&B App. You can use a pre-existing W&B project or create a new one. New projects can be created on the W&B App homepage or on user/team profile page. If a project does not exist it will be automatically created when you first use it. The proceeding instructions demonstrate how to get an API key: 
 

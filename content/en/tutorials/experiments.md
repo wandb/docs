@@ -43,7 +43,7 @@ wandb.login()
 
 Create, track, and visualize a machine learning experiment. To do this:
 
-1. Initialize a [W&B run]({{< relref "/guides/models/track/runs/" >}}) and pass in the hyperparameters you want to track.
+1. Initialize a [run]({{< relref "/guides/models/track/runs/" >}}) and pass in the hyperparameters you want to track.
 2. Within your training loop, log metrics such as the accuracy and loss.
 
 
