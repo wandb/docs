@@ -467,7 +467,6 @@ After you [determine the storage location](#determine-the-storage-address) for y
         - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
     - Optionally:
       - If applicable, set **Path** to the bucket sub-path.
-      - **CoreWeave**: Set **KMS key ARN** to the CoreWeave ARN.
       - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
       -  **Azure**: If applicable, specify values for **Tenant ID** and **Managed Identity Client ID**.
 1. For **Multi-tenant Cloud**, optionally invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses. Otherwise, you can invite members to the team after it is created.
@@ -484,7 +483,7 @@ After you [determine the storage location](#determine-the-storage-address) for y
 
 - **Connection errors**
   - Verify that your W&B instance can connect to CoreWeave network endpoints.
-  - CoreWeave uses virtual-hosted style paths, where the bucket name is a subdomain at the beginning of the path. For example: `cw://bucket-name.cwobject.com` is correct, while `cw://cwobject.com/bucket-name/` is not.
+  - CoreWeave uses virtual-hosted style paths, where the bucket name is a subdomain at the beginning of the path. For example: `cw://bucket-name.cwobject.com` is correct, while ~`cw://cwobject.com/bucket-name/`~ is not.
   - Bucket names must not contain underscores (`_`) or other characters incompatible with DNS rules.
   - Bucket names must be globally unique among CoreWeave locations.
   - Bucket names must not begin with `cw-` or `vip-`, which are reserved prefixes.
@@ -495,8 +494,6 @@ After you [determine the storage location](#determine-the-storage-address) for y
   - W&B front-end domains must be included in the CORS policy's `AllowedOrigins`. The example CORS policies provided on this page include all domains using `*`.
 - **LOTA endpoint issues**
   - Connecting to LOTA endpoints from W&B is not yet supported.  To express interest, [contact support](mailto:support@wandb.com).
-- **Region errors**
-    - CoreWeave AI Object Storage is not available in all regions. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `US-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
 - **Access key and permission errors**
   - Verify that your CoreWeave API Access Key is not expired.
   - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys) in the CoreWeave documentation.
