@@ -334,7 +334,7 @@ for training_step in range(1000):
 wandb.finish()
 ```
 
-You can find the full docs for [W&B Alerts here]({{< relref "/guides/models/track/runs/alert" >}}).
+For more details, see the [W&B Alerts documentation]({{< relref "/guides/models/track/runs/alert" >}}).
 
 ## Next steps
 The next tutorial you will learn how to do hyperparameter optimization using W&B Sweeps:
