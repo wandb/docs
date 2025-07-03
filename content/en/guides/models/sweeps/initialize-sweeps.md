@@ -14,7 +14,7 @@ The following code snippets demonstrate how to initialize sweeps with the CLI an
 
 {{% alert color="secondary" %}}
 1. Before you initialize a sweep, make sure you have a sweep configuration defined either in a YAML file or a nested Python dictionary object in your script. For more information, see [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration.md" >}}).
-2. Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize W&B ([`wandb.init`]({{< relref "/ref/python/init.md" >}})) must match the name of the project you provide when you initialize a W&B Sweep ([`wandb.sweep`]({{< relref "/ref/python/sweep.md" >}})).
+2. Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B ([`wandb.init`]({{< relref "/ref/python/init.md" >}})) must match the name of the project you provide when you initialize a sweep ([`wandb.sweep`]({{< relref "/ref/python/sweep.md" >}})).
 {{% /alert %}}
 
 

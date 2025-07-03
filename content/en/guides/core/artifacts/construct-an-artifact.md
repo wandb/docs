@@ -9,13 +9,13 @@ title: Create an artifact
 weight: 2
 ---
 
-Use the W&B Python SDK to construct artifacts from [W&B Runs]({{< relref "/ref/python/run.md" >}}). You can add [files, directories, URIs, and files from parallel runs to artifacts]({{< relref "#add-files-to-an-artifact" >}}). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}).
+Use the W&B Python SDK to construct artifacts from [runs]({{< relref "/ref/python/run.md" >}}). You can add [files, directories, URIs, and files from parallel runs to artifacts]({{< relref "#add-files-to-an-artifact" >}}). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}).
 
 For information on how to track external files, such as files stored in Amazon S3, see the [Track external files]({{< relref "./track-external-files.md" >}}) page.
 
 ## How to construct an artifact
 
-Construct a [W&B Artifact]({{< relref "/ref/python/artifact.md" >}}) in three steps:
+Construct an [artifact]({{< relref "/ref/python/artifact.md" >}}) in three steps:
 
 ### 1. Create an artifact Python object with `wandb.Artifact()`
 
