@@ -145,7 +145,7 @@ Here's how the interactive bbox overlay looks:
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs"  ><a href="//imgur.com/a/UTSiufs">WandB Image Overlay</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
-You can find more information in the [W&B image overlays guide]({{< relref "/guides/models/track/log/media.md#image-overlays" >}}).
+For more details, see the [W&B image overlays guide]({{< relref "/guides/models/track/log/media.md#image-overlays" >}}).
 
 ## More resources
 
