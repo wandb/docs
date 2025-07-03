@@ -192,7 +192,7 @@ Run IDs are unique identifiers for runs. By default, [W&B generates a random and
 
 If you do not specify a run ID when you initialize a run, W&B generates a random run ID for you. You can find the unique ID of a run in the W&B App UI.
 
-1. Navigate to the [W&B App UI homepage](https://wandb.ai/home).
+1. Navigate to the [W&B App](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within your project's workspace, select the **Runs** tab.
 4. Select the **Overview** tab.
