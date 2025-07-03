@@ -327,7 +327,7 @@ View a information about a specific run such as the state of the run, artifacts 
 
 To view a specific run:
 
-1. Navigate to the [W&B App UI homepage](https://wandb.ai/home).
+1. Navigate to the [W&B App](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within the project sidebar, select the **Workspace** tab.
 4. Within the run selector, click the run you want to view, or enter a partial run name to filter for matching runs.
