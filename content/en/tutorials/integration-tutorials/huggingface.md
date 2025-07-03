@@ -117,6 +117,6 @@ Weights & Biases saves a new run for each experiment. Here's the information tha
 - **System Metrics**: GPU and CPU utilization, memory, temperature etc.
 
 ## Learn more
-- [Hugging Face integration guide]({{< relref "/guides/integrations/huggingface" >}}): comprehensive documentation on the Weights & Biases and Hugging Face integration
+- [Hugging Face integration guide]({{< relref "/guides/integrations/huggingface" >}})
 - [Videos](http://wandb.me/youtube): tutorials, interviews with practitioners, and more on our YouTube channel
 - Contact: Message us at contact@wandb.com with questions
