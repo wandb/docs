@@ -56,7 +56,7 @@ Add files, directories, external URI references (such as Amazon S3) and more wit
 artifact.add_file(local_path="hello_world.txt", name="optional-name")
 ```
 
-You can also add multiple files with the [`add_dir`]({{< relref "/ref/python/artifact.md#add_dir" >}}) method. For adding files, see [Update an artifact]({{< relref "./update-an-artifact.md" >}}).
+You can also add multiple files with the [`add_dir`]({{< relref "/ref/python/artifact.md#add_dir" >}}) method. To add files, see [Update an artifact]({{< relref "./update-an-artifact.md" >}}).
 
 ### 3. Save your artifact to the W&B server
 
