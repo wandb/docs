@@ -849,7 +849,7 @@ The integration provides an importable `@op` called `run_launch_agent`. It start
 
 Agents are processes that poll launch queues and execute the jobs (or dispatch them to external services to be executed) in order.
 
-Refer to the [reference documentation]({{< relref "/launch/" >}}) for configuration
+Refer to the [reference]({{< relref "/launch/" >}}) for configuration
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -897,7 +897,7 @@ The integration provides an importable `@op` called `run_launch_job`. It execute
 
 A Launch job is assigned to a queue in order to be executed. You can create a queue or use the default one. Make sure you have an active agent listening to that queue. You can run an agent inside your Dagster instance but can also consider using a deployable agent in Kubernetes.
 
-Refer to the [reference documentation]({{< relref "/launch/" >}}) for configuration.
+Refer to the [reference]({{< relref "/launch/" >}}) for configuration.
 
 You can also view useful descriptions for all properties in Launchpad.
 
