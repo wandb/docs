@@ -20,7 +20,7 @@ Use W&B Tables to visualize and query tabular data. For example:
 * Look at sample model predictions visually
 * Query to find commonly misclassified examples
 
-{{< img src="/images/data_vis/tables_sample_predictions.png" alt="" >}}
+{{< img src="/images/data_vis/tables_sample_predictions.png" alt="Semantic segmentation predictions table" >}}
 The above image shows a table with semantic segmentation and custom metrics. View this table here in this [sample project from the W&B ML Course](https://wandb.ai/av-team/mlops-course-001).
 
 ## How it works

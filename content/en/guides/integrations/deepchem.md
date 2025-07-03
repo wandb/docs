@@ -17,7 +17,7 @@ model = TorchModel(…, wandb_logger=logger)
 model.fit(…)
 ```
 
-{{< img src="/images/integrations/cd.png" alt="" >}}
+{{< img src="/images/integrations/cd.png" alt="DeepChem molecular analysis" >}}
 
 ## Report and Google Colab
 

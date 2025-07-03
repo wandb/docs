@@ -7,9 +7,9 @@ title: Dedicated Cloud
 url: guides/hosting/hosting-options/dedicated_cloud
 ---
 
-## Use dedicated cloud (Single-tenant SaaS)
+## Use W&B Dedicated Cloud for single-tenant SaaS
 
-W&B Dedicated Cloud is a single-tenant, fully managed platform deployed in W&B's AWS, GCP or Azure cloud accounts. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances. Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. 
+W&B Dedicated Cloud is a single-tenant, fully managed platform deployed in W&B's AWS, GCP, or Azure cloud accounts. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances. Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. 
 
 W&B Dedicated Cloud is available in [multiple global regions for each cloud provider]({{< relref "./dedicated_regions.md" >}})
 
@@ -19,11 +19,11 @@ You can bring your own bucket (BYOB) using the [secure storage connector]({{< re
 
 Similar to W&B Multi-tenant Cloud, you can configure a single bucket for multiple teams or you can use separate buckets for different teams. If you do not configure secure storage connector for a team, that data is stored in the instance level bucket.
 
-{{< img src="/images/hosting/dedicated_cloud_arch.png" alt="" >}}
+{{< img src="/images/hosting/dedicated_cloud_arch.png" alt="Dedicated Cloud architecture diagram" >}}
 
-In addition to BYOB with secure storage connector, you can utilize [IP allowlisting]({{< relref "/guides/hosting/data-security/ip-allowlisting.md" >}}) to restrict access to your Dedicated Cloud instance from only trusted network locations. 
+In addition to BYOB with secure storage connector, you can use [IP allowlisting]({{< relref "/guides/hosting/data-security/ip-allowlisting.md" >}}) to restrict access to your Dedicated Cloud instance from only trusted network locations. 
 
-You can also privately connect to your Dedicated Cloud instance using [cloud provider's secure connectivity solution]({{< relref "/guides/hosting/data-security/private-connectivity.md" >}}).
+You can connect privately to your Dedicated Cloud instance using [cloud provider's secure connectivity solution]({{< relref "/guides/hosting/data-security/private-connectivity.md" >}}).
 
 You are responsible for ensuring that your deployment complies with your organization's policies and [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
 
@@ -52,7 +52,7 @@ Security controls for W&B Dedicated Cloud are periodically audited internally an
 
 ## Migration options
 
-Migration to Dedicated Cloud from a [Self-managed instance]({{< relref "/guides/hosting/hosting-options/self-managed/" >}}) or [Multi-tenant Cloud]({{< relref "../saas_cloud.md" >}}) is supported, subject to specific limits and migration-related constraints
+Migration to Dedicated Cloud from a [Self-Managed instance]({{< relref "/guides/hosting/hosting-options/self-managed/" >}}) or [Multi-tenant Cloud]({{< relref "../saas_cloud.md" >}}) is supported, subject to specific limits and migration-related constraints
 
 ## Next steps
 

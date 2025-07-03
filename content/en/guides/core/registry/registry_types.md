@@ -16,7 +16,7 @@ By default, the **Models** registry is configured to accept `"model"` artifact t
 
 <!-- For more information about artifact types, see [LINK]. -->
 
-{{< img src="/images/registry/core_registry_example.png" alt="" >}}
+{{< img src="/images/registry/core_registry_example.png" alt="Core registry" >}}
 
 The preceding image shows the **Models** and the **Dataset** core registry along with a custom registry called **Fine_Tuned_Models** in the W&B Registry App UI.
 
@@ -29,7 +29,7 @@ You can create a custom registry for each step in your machine learning pipeline
 
 For example, you might create a registry called "Benchmark_Datasets" for organizing curated datasets to evaluate the performance of trained models. Within this registry, you might have a collection called "User_Query_Insurance_Answer_Test_Data" that contains a set of user questions and corresponding expert-validated answers that the model has never seen during training. 
 
-{{< img src="/images/registry/custom_registry_example.png" alt="" >}}
+{{< img src="/images/registry/custom_registry_example.png" alt="Custom registry example" >}}
 
 A custom registry can have either [organization or restricted visibility]({{< relref "./configure_registry.md#registry-visibility-types" >}}). A registry admin can change the visibility of a custom registry from organization to restricted. However, the registry admin can not change a custom registry's visibility from restricted to organizational visibility.
 

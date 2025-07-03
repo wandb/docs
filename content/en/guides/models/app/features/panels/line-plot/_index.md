@@ -13,7 +13,7 @@ weight: 10
 
 Line plots show up by default when you plot metrics over time with **wandb.log()**. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
 
-{{< img src="/images/app_ui/line_plot_example.png" alt="" >}}
+{{< img src="/images/app_ui/line_plot_example.png" alt="Line plot example" >}}
 
 ## Edit line plot settings
 
@@ -84,11 +84,11 @@ If you have several different experiments and you'd like to see the average of t
 
 Here is what the graph looks like before averaging:
 
-{{< img src="/images/app_ui/demo_precision_lines.png" alt="" >}}
+{{< img src="/images/app_ui/demo_precision_lines.png" alt="Individual precision lines" >}}
 
 The proceeding image shows a graph that represents average values across runs using grouped lines.
 
-{{< img src="/images/app_ui/demo_average_precision_lines.png" alt="" >}}
+{{< img src="/images/app_ui/demo_average_precision_lines.png" alt="Averaged precision lines" >}}
 
 ## Visualize NaN value on a plot
 
@@ -98,11 +98,11 @@ You can also plot `NaN` values including PyTorch tensors on a line plot with `wa
 wandb.log({"test": [..., float("nan"), ...]})
 ```
 
-{{< img src="/images/app_ui/visualize_nan.png" alt="" >}}
+{{< img src="/images/app_ui/visualize_nan.png" alt="NaN value handling" >}}
 
 ## Compare two metrics on one chart
 
-{{< img src="/images/app_ui/visualization_add.gif" alt="" >}}
+{{< img src="/images/app_ui/visualization_add.gif" alt="Adding visualization panels" >}}
 
 1. Select the **Add panels** button in the top right corner of the page.
 2. From the left panel that appears, expand the Evaluation dropdown.
@@ -132,7 +132,7 @@ Sometimes the default color of runs is not helpful for comparison. To help overc
 2. Select the pencil icon that appears.
 3. Choose the **Legend** tab.
 
-{{< img src="/images/app_ui/plot_style_line_plot_legend.png" alt="" >}}
+{{< img src="/images/app_ui/plot_style_line_plot_legend.png" alt="Line plot legend settings" >}}
 
 {{% /tab %}}
 {{< /tabpane >}}
@@ -141,25 +141,25 @@ Sometimes the default color of runs is not helpful for comparison. To help overc
 
 If you'd like to see the absolute time that an experiment has taken, or see what day an experiment ran, you can switch the x axis. Here's an example of switching from steps to relative time and then to wall time.
 
-{{< img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="" >}}
+{{< img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="X-axis time options" >}}
 
 ## Area plots
 
 In the line plot settings, in the advanced tab, click on different plot styles to get an area plot or a percentage area plot.
 
-{{< img src="/images/app_ui/line_plots_area_plots.gif" alt="" >}}
+{{< img src="/images/app_ui/line_plots_area_plots.gif" alt="Area plot styles" >}}
 
 ## Zoom
 
 Click and drag a rectangle to zoom vertically and horizontally at the same time. This changes the x-axis and y-axis zoom.
 
-{{< img src="/images/app_ui/line_plots_zoom.gif" alt="" >}}
+{{< img src="/images/app_ui/line_plots_zoom.gif" alt="Plot zoom functionality" >}}
 
 ## Hide chart legend
 
 Turn off the legend in the line plot with this simple toggle:
 
-{{< img src="/images/app_ui/demo_hide_legend.gif" alt="" >}}
+{{< img src="/images/app_ui/demo_hide_legend.gif" alt="Hide legend toggle" >}}
 
 ## Create a run metrics notification
 Use [Automations]({{< relref "/guides/core/automations" >}}) to notify your team when a run metric meets a condition you specify. An automation can post to a Slack channel or run a webhook.
@@ -173,20 +173,20 @@ Learn more about [Automations]({{< relref "/guides/core/automations" >}}).
 
 ## Visualize CoreWeave infrastructure alerts
 
-Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B.During a [W&B run]({{< relref "/guides/models/track/runs/_index" >}}), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure.
+Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B. During a [W&B run]({{< relref "/guides/models/track/runs/_index" >}}), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure.
 
 {{< alert>}}
 This feature is in Preview and only available when training on a CoreWeave cluster. Contact your W&B representative for access.
 {{< /alert >}}
 
-If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run’s plots in your project’s workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run’s page.
+If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run's plots in your project's workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run's page.
 
 ### Find infrastructure issues in a run
 
 W&B surfaces both SLURM job issues and cluster node issues. View infrastructure errors in a run:
 
 1. Navigate to your project on the W&B App. 
-2. Select the **Workspace** tab to view your project’s workspace.
+2. Select the **Workspace** tab to view your project's workspace.
 3. Search and select the name of the run that contains an infrastructure issue. If CoreWeave detected an infrastructure issue, one or more red vertical lines with an exclamation mark overlay the run's plots. 
 4. Select an issue on a plot or select the **Issues** button in the top right of the page. A drawer appears that lists each issue reported by CoreWeave. 
 
@@ -216,7 +216,7 @@ For detailed information on error types, see the [SLURM Job Metrics on the CoreW
 
 ### Debug infrastructure issues
 
-Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job’s [Grafana](https://grafana.com/) dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards. 
+Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job's [Grafana](https://grafana.com/) dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards. 
 
 {{< alert title="Note" >}}
 The Grafana dashboard is only available for W&B users with a CoreWeave account. Contact W&B to configure Grafana with your W&B organization.

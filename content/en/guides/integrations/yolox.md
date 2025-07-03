@@ -96,6 +96,6 @@ python tools/train.py .... --logger wandb \
 
 [Example dashboard with YOLOX training and validation metrics ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
 
-{{< img src="/images/integrations/yolox_example_dashboard.png" alt="" >}}
+{{< img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX training dashboard" >}}
 
 Any questions or issues about this W&B integration? Open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).

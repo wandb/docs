@@ -40,7 +40,7 @@ for i in range(100):
 
 Sample terminal output is shown below:
 
-{{< img src="/images/experiments/sample_terminal_output.png" alt="" >}}
+{{< img src="/images/experiments/sample_terminal_output.png" alt="Offline mode terminal output" >}}
 
 After completing work, run the following command to sync data to the cloud:
 
@@ -48,4 +48,4 @@ After completing work, run the following command to sync data to the cloud:
 wandb sync wandb/dryrun-folder-name
 ```
 
-{{< img src="/images/experiments/sample_terminal_output_cloud.png" alt="" >}}
+{{< img src="/images/experiments/sample_terminal_output_cloud.png" alt="Cloud sync terminal output" >}}

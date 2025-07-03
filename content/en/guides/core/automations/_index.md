@@ -29,7 +29,7 @@ For an artifact in a [project]({{< relref "/guides/models/track/project-page.md"
 
 This diagram shows the relationship between automation events and actions.
 
-{{< img src="/images/automations/automation_events_actions.png" alt="Diagram showing the relationship between automation events and actions" >}}
+{{< img src="/images/automations/automation_events_actions.png" alt="Automation events and actions" >}}
 
 For more details, refer to [Automation events and scopes]({{< relref "automation-events.md" >}}).
 

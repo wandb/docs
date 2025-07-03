@@ -2,7 +2,7 @@
 title: OnLinkArtifact
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/automations/events.py#L185-L188 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/automations/events.py#L183-L186 >}}
 
 A new artifact is linked to a collection.
 
@@ -15,7 +15,7 @@ A new artifact is linked to a collection.
 
 ### `then`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/automations/events.py#L154-L161)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/automations/events.py#L152-L159)
 
 ```python
 then(

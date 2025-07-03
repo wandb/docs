@@ -152,7 +152,7 @@ training script, respectively.
 {{% /tab %}} {{% tab header="CLI" %}}
 
 To create a W&B Sweep, we first create a YAML configuration file. The
-configuration file contains he hyperparameters we want the sweep to explore. In
+configuration file contains the hyperparameters we want the sweep to explore. In
 the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and
 the learning rate (`lr`) hyperparameters are varied during each sweep.
 
@@ -181,7 +181,7 @@ in your YAML file.
 
 Next, we add the following to the code example:
 
-1. Import the Wieghts & Biases Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
+1. Import the Weights & Biases Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
 2. Read in the configuration file.
 3. Use the [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/run.md" >}}). We pass the config object to the config parameter.
 4. Define hyperparameter values from `wandb.config` instead of using hard coded values.
@@ -272,7 +272,7 @@ For more information, see [Start sweep jobs]({{< relref "./start-sweep-agents.md
 
 Be sure to log the sweep's metric to W&B explicitly. Do not log metrics for your sweep inside a subdirectory.
 
-For example, consider the proceeding psuedocode. A user wants to log the validation loss (`"val_loss": loss`). First they pass the values into a dictionary. However, the dictionary passed to `wandb.log` does not explicitly access the key-value pair in the dictionary:
+For example, consider the proceeding pseudocode. A user wants to log the validation loss (`"val_loss": loss`). First they pass the values into a dictionary. However, the dictionary passed to `wandb.log` does not explicitly access the key-value pair in the dictionary:
 
 ```python
 # Import the W&B Python Library and log into W&B

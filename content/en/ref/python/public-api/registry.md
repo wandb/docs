@@ -2,19 +2,9 @@
 title: Registry
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/registries/registry.py#L31-L357 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/registries/registry.py#L32-L358 >}}
 
 A single registry in the Registry.
-
-```python
-Registry(
-    client: "Client",
-    organization: str,
-    entity: str,
-    name: str,
-    attrs: Optional[Dict[str, Any]] = None
-)
-```
 
 | Attributes |  |
 | :--- | :--- |
@@ -33,7 +23,7 @@ Registry(
 
 ### `collections`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/registries/registry.py#L179-L184)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/registries/registry.py#L180-L185)
 
 ```python
 collections(
@@ -45,7 +35,7 @@ Returns the collections belonging to the registry.
 
 ### `create`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/registries/registry.py#L193-L256)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/registries/registry.py#L194-L257)
 
 ```python
 @classmethod
@@ -83,7 +73,7 @@ This function should be called using `api.create_registry()`
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/registries/registry.py#L258-L272)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/registries/registry.py#L259-L273)
 
 ```python
 delete() -> None
@@ -93,7 +83,7 @@ Delete the registry. This is irreversible.
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/registries/registry.py#L274-L295)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/registries/registry.py#L275-L296)
 
 ```python
 load() -> None
@@ -103,7 +93,7 @@ Load the registry attributes from the backend to reflect the latest saved state.
 
 ### `save`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/registries/registry.py#L297-L353)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/registries/registry.py#L298-L354)
 
 ```python
 save() -> None
@@ -113,7 +103,7 @@ Save registry attributes to the backend.
 
 ### `versions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/registries/registry.py#L186-L191)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/registries/registry.py#L187-L192)
 
 ```python
 versions(

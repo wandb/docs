@@ -424,6 +424,7 @@
 /weave/prod-mon/ /guides/core/ 301
 /zh/ / 301
 
+
 ## Splat rules
 # Splats are supported on both source (*) and destination (:splat)
 # If both are used, :splat resolves to exactly what * matches
@@ -445,3 +446,4 @@
 /ref/python/launch-library/* /launch-library/:splat 301
 /ref/release-notes/releases/* /ref/releases/:splat 301
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
+/ref/python/integrations/keras/*  /ref/python/:splat 301

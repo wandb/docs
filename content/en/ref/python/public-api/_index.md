@@ -10,6 +10,8 @@ title: Import & Export API
 
 [`class Api`](./api.md): Used for querying the wandb server.
 
+[`class BetaReport`](./betareport.md): BetaReport is a class associated with reports created in wandb.
+
 [`class File`](./file.md): File is a class associated with a file saved by wandb.
 
 [`class Files`](./files.md): An iterable collection of `File` objects.
@@ -19,6 +21,8 @@ title: Import & Export API
 [`class Projects`](./projects.md): An iterable collection of `Project` objects.
 
 [`class Registry`](./registry.md): A single registry in the Registry.
+
+[`class Reports`](./reports.md): Reports is an iterable collection of `BetaReport` objects.
 
 [`class Run`](./run.md): A single run associated with an entity and project.
 
