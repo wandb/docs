@@ -18,7 +18,7 @@ See [W&B Multi-tenant Cloud]({{< relref "saas_cloud.md" >}}) or [get started for
 
 Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. [Bring your own bucket (BYOB)]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) optionally allows you to store W&B artifacts and other related sensitive data in your own cloud or on-premises infrastructure. 
 
-W&B Dedicated Cloud includes an [enterprise license]({{< relref "self-managed/server-upgrade-process.md" >}}), which includes support for important security and other enterprise-friendly capabilities.
+W&B Dedicated Cloud includes an [enterprise license]({{< relref "self-managed/server-upgrade-process.md" >}}) with support for important security and other enterprise-friendly capabilities.
 
 For organizations with advanced security or compliance requirements, features such as HIPAA compliance, Single Sign On, or Customer Managed Encryption Keys (CMEK) are available with **Enterprise** support. [Request more information](https://wandb.ai/site/contact).
 
