@@ -449,7 +449,7 @@ That's all there is to running a hyperparameter sweep.
 
 ## Example Gallery
 
-See examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery)
+Explore examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery)
 
 ## Advanced Setup
 1. [Environment variables]({{< relref "/guides/hosting/env-vars/" >}}): Set API keys in environment variables so you can run training on a managed cluster.
