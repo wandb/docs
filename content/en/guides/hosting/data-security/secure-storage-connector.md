@@ -74,7 +74,7 @@ After [verifying availability]({{< relref "#availability-matrix" >}}), you are r
 {{< tabpane text=true >}}
 {{% tab header="CoreWeave" value="coreweave" %}}
 <a id="coreweave-requirements"></a>**Requirements**:
-- **Dedicated Cloud** or **Self-Hosted** v0.70.0 or newer. Not yet available for Multi-tenant Cloud.
+- **Dedicated Cloud** or **Self-Managed** v0.70.0 or newer. Not yet available for Multi-tenant Cloud.
 - A CoreWeave account with AI Object Storage enabled and with permission to create buckets, API access keys, and secret keys.
 - Your W&B instance must be able to connect to CoreWeave network endpoints.
 
