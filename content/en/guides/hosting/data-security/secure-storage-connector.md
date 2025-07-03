@@ -74,7 +74,7 @@ After [verifying availability]({{< relref "#availability-matrix" >}}), you are r
 {{< tabpane text=true >}}
 {{% tab header="CoreWeave" value="coreweave" %}}
 <a id="coreweave-requirements"></a>**Requirements**:
-- **Dedicated Cloud** or **Self-Hosted** v0.70.0 or newer. Not yet available for Multi-tenant Cloud.
+- **Dedicated Cloud** or **Self-Managed** v0.70.0 or newer. Not yet available for Multi-tenant Cloud.
 - A CoreWeave account with AI Object Storage enabled and with permission to create buckets, API access keys, and secret keys.
 - Your W&B instance must be able to connect to CoreWeave network endpoints.
 
@@ -430,7 +430,7 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 1. Click **Save**
 
 {{% alert %}}
-For Self-Hosted, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
+For Self-Managed, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
 
 * [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector)
 * [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector)
