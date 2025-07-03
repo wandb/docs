@@ -16,12 +16,12 @@ This guide describes how to use W&B building blocks to create a W&B Experiment.
 
 Create a W&B Experiment in four steps:
 
-1. [Initialize a W&B run]({{< relref "#initialize-a-wb-run" >}})
+1. [Initialize a W&B Run]({{< relref "#initialize-a-wb-run" >}})
 2. [Capture a dictionary of hyperparameters]({{< relref "#capture-a-dictionary-of-hyperparameters" >}})
 3. [Log metrics inside your training loop]({{< relref "#log-metrics-inside-your-training-loop" >}})
 4. [Log an artifact to W&B]({{< relref "#log-an-artifact-to-wb" >}})
 
-### Initialize a W&B run
+### Initialize a W&B Run
 Use [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) to create a W&B Run.
 
 The following snippet creates a run in a W&B project named `“cat-classification”` with the description `“My first experiment”` to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
