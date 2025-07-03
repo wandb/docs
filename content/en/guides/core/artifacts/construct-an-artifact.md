@@ -36,7 +36,7 @@ See the [Explore and traverse artifact graphs]({{< relref "./explore-and-travers
 Artifacts can not have the same name, even if you specify a different type for the types parameter. In other words, you can not create an artifact named `cats` of type `dataset` and another artifact with the same name of type `model`.
 {{% /alert %}}
 
-You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see [`wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md" >}}) Class definition in the Python SDK Reference Guide.
+You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see the [`wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md" >}}) Class definition in the Python SDK Reference Guide.
 
 The proceeding example demonstrates how to create a dataset artifact:
 
