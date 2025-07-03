@@ -222,7 +222,7 @@ run.finish()
 
 W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
-See [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) in the API Reference guide for more information on optional parameters.
+See [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) in the API Reference for optional parameters.
 ## Evaluate the performance of a model
 It is common practice to evaluate the performance of a one or more models. 
 

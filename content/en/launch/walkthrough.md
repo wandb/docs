@@ -26,7 +26,7 @@ As jobs are added to the queue, [*launch agents*]({{< relref "./launch-terminolo
 
 Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target]({{< relref "./launch-terminology.md#target-resources" >}}) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
 
-See the [Terms and concepts]({{< relref "./launch-terminology.md" >}}) page for more information on launch jobs, how queues work, launch agents, and additional information on how W&B Launch works.
+See the [Terms and concepts]({{< relref "./launch-terminology.md" >}}) page for launch jobs, queues, agents, and how W&B Launch works.
 
 ## How to get started
 
