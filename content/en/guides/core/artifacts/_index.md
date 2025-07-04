@@ -14,7 +14,7 @@ weight: 1
 
 {{< cta-button productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifact_fundamentals.ipynb" >}}
 
-Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs]({{< relref "/guides/models/track/runs/" >}}). For example, a model training run might take in a dataset as input and produce a trained model as output. You can log hyperparameters, metadata, and metrics to a run, and you can use an artifact to log, track, and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as output.
+Use W&B Artifacts to track and version data as the inputs and outputs of your [runs]({{< relref "/guides/models/track/runs/" >}}). For example, a model training run might take in a dataset as input and produce a trained model as output. You can log hyperparameters, metadata, and metrics to a run, and you can use an artifact to log, track, and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as output.
 
 ## Use cases
 You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs]({{< relref "/guides/models/track/runs/" >}}). You can use datasets, models, or even other artifacts as inputs for processing.
@@ -36,7 +36,7 @@ The proceeding code snippets are meant to be run in order.
 ## Create an artifact
 
 Create an artifact with four lines of code:
-1. Create a [W&B run]({{< relref "/guides/models/track/runs/" >}}).
+1. Create a [run]({{< relref "/guides/models/track/runs/" >}}).
 2. Create an artifact object with the [`wandb.Artifact`]({{< relref "/ref/python/artifact.md" >}}) API.
 3. Add one or more files, such as a model file or dataset, to your artifact object.
 4. Log your artifact to W&B.

@@ -21,7 +21,7 @@ Add a description to the model card of your registered model to document aspects
 
 ## Add a description to the model card
 
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the [W&B Model Registry app](https://wandb.ai/registry/model).
 2. Select **View details** next to the name of the registered model you want to create a model card for.
 2. Go to the **Model card** section.
 {{< img src="/images/models/model_card_example.png" alt="Model card example" >}}

@@ -38,7 +38,7 @@ Interactively or programmatically add a description to a collection with the W&B
 
 {{< tabpane text=true >}}
   {{% tab header="W&B Registry UI" %}}
-1. Navigate to W&B Registry at [https://wandb.ai/registry/](https://wandb.ai/registry/).
+1. Navigate to [W&B Registry](https://wandb.ai/registry/).
 2. Click on a collection.
 3. Select **View details** next to the name of the collection.
 4. Within the **Description** field, provide information about your collection. Format text within with [Markdown markup language](https://www.markdownguide.org/).

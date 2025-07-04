@@ -9,13 +9,13 @@ title: Create an artifact
 weight: 2
 ---
 
-Use the W&B Python SDK to construct artifacts from [W&B Runs]({{< relref "/ref/python/run.md" >}}). You can add [files, directories, URIs, and files from parallel runs to artifacts]({{< relref "#add-files-to-an-artifact" >}}). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}).
+Use the W&B Python SDK to construct artifacts from [runs]({{< relref "/ref/python/run.md" >}}). You can add [files, directories, URIs, and files from parallel runs to artifacts]({{< relref "#add-files-to-an-artifact" >}}). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}).
 
 For information on how to track external files, such as files stored in Amazon S3, see the [Track external files]({{< relref "./track-external-files.md" >}}) page.
 
 ## How to construct an artifact
 
-Construct a [W&B Artifact]({{< relref "/ref/python/artifact.md" >}}) in three steps:
+Construct an [artifact]({{< relref "/ref/python/artifact.md" >}}) in three steps:
 
 ### 1. Create an artifact Python object with `wandb.Artifact()`
 
@@ -36,7 +36,7 @@ See the [Explore and traverse artifact graphs]({{< relref "./explore-and-travers
 Artifacts can not have the same name, even if you specify a different type for the types parameter. In other words, you can not create an artifact named `cats` of type `dataset` and another artifact with the same name of type `model`.
 {{% /alert %}}
 
-You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see [`wandb.Artifact`]({{< relref "/ref/python/artifact.md" >}}) Class definition in the Python SDK Reference Guide.
+You can optionally provide a description and metadata when you initialize an artifact object. For available attributes and parameters, see [`wandb.Artifact`]({{< relref "/ref/python/artifact.md" >}}) Class definition in the Python SDK Reference Guide.
 
 The proceeding example demonstrates how to create a dataset artifact:
 
@@ -56,7 +56,7 @@ Add files, directories, external URI references (such as Amazon S3) and more wit
 artifact.add_file(local_path="hello_world.txt", name="optional-name")
 ```
 
-You can also add multiple files with the [`add_dir`]({{< relref "/ref/python/artifact.md#add_dir" >}}) method. For more information on how to add files, see [Update an artifact]({{< relref "./update-an-artifact.md" >}}).
+You can also add multiple files with the [`add_dir`]({{< relref "/ref/python/artifact.md#add_dir" >}}) method. To add files, see [Update an artifact]({{< relref "./update-an-artifact.md" >}}).
 
 ### 3. Save your artifact to the W&B server
 

@@ -13,11 +13,11 @@ title: Log media and objects
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
 {{% alert %}}
-Looking for reference docs for our media types? You want [this page]({{< relref "/ref/python/data-types/" >}}).
+Looking for reference docs for our media types? See [Media types]({{< relref "/ref/python/data-types/" >}}).
 {{% /alert %}}
 
 {{% alert %}}
-You can [see what the results look like on wandb.ai](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA), and [follow along with a video tutorial](https://www.youtube.com/watch?v=96MxRvx15Ts).
+For more details, check out a [demo report about visualize model predictions](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA) or watch a [video walkthrough](https://www.youtube.com/watch?v=96MxRvx15Ts).
 {{% /alert %}}
 
 ## Pre-requisites
