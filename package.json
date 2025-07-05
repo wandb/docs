@@ -1,7 +1,7 @@
 {
   "name": "wandb-docs",
-  "version": "0.11.0",
-  "version.next": "0.11.1-dev.0-unreleased",
+  "version": "0.12.0",
+  "version.next": "0.12.1-dev-unreleased",
   "repository": "github:wandb/docs",
   "homepage": "https://docs.wandb.ai",
   "license": "Apache-2.0",
@@ -34,8 +34,8 @@
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
-    "hugo-extended": "0.147.5",
-    "postcss-cli": "^11.0.0",
+    "hugo-extended": "0.147.8",
+    "postcss-cli": "^11.0.1",
     "rtlcss": "^4.3.0"
   },
   "optionalDependencies": {

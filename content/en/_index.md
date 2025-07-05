@@ -1,10 +1,11 @@
 ---
 title: Weights & Biases Documentation
 ---
-<div style="padding-top:50px;">&nbsp;</div>
-<div style="max-width:1200px; margin: 0 auto">
+<div id="cardHolders" style="max-width:1200px; padding-top: 80px !important; padding-left: 5px;">
+
 {{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
-Choose the product for which you need documentation.
+W&B is the AI developer platform to build AI agents, applications,
+and models with confidence.
 {{< /banner >}}
 
 {{< cardpane >}}
@@ -15,7 +16,7 @@ Choose the product for which you need documentation.
 </div>
 <h2>W&B Weave</h2>
 
-##### Use AI models in your app
+#### Build agentic AI applications
 
 Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a playground for comparing different large language models (LLMs) and settings.
 
@@ -32,7 +33,7 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. 
 </div>
 <h2>W&B Models</h2>
 
-##### Develop AI models
+#### Build AI models
 
 Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
 
@@ -48,7 +49,10 @@ Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Feat
 </div>
 <!-- HTML override just for landing page -->
 <style>
-.td-card-group { margin: 0 auto }
+#cardHolders div.card { min-width: 47% !important; max-width: 380px !important; margin-bottom: 25px }
+#cardHolders div.banner { min-width: 47%; max-width: 930px; }
 p { overflow: hidden; display: block; }
 ul { margin-left: 50px; }
+aside.td-sidebar { display: none; }
+h2, h3, h4, h5, h6 { font-weight: 700 !important; }
 </style>
