@@ -2,7 +2,7 @@
 title: init
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/wandb_init.py#L1250-L1624 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/wandb_init.py#L1247-L1620 >}}
 
 Start a new run to track and log to W&B.
 
@@ -93,7 +93,7 @@ call `wandb.finish()` at the end of the block.
 |  `id` |  A unique identifier for this run, used for resuming. It must be unique within the project and cannot be reused once a run is deleted. The identifier must not contain any of the following special characters: `/ \ # ? % :`. For a short descriptive name, use the `name` field, or for saving hyperparameters to compare across runs, use `config`. |
 |  `name` |  A short display name for this run, which appears in the UI to help you identify it. By default, we generate a random two-word name allowing easy cross-reference runs from table to charts. Keeping these run names brief enhances readability in chart legends and tables. For saving hyperparameters, we recommend using the `config` field. |
 |  `notes` |  A detailed description of the run, similar to a commit message in Git. Use this argument to capture any context or details that may help you recall the purpose or setup of this run in the future. |
-|  `tags` |  A list of tags to label this run in the UI. Tags are helpful for organizing runs or adding temporary identifiers like "baseline" or "production." You can easily add, remove tags, or filter by tags in the UI. If resuming a run, the tags provided here will replace any existing tags. To add tags to a resumed run without overwriting the current tags, use `run.tags += ["new_tag"]` after calling `run = wandb.init()`. |
+|  `tags` |  A list of tags to label this run in the UI. Tags are helpful for organizing runs or adding temporary identifiers like "baseline" or "production." You can easily add, remove tags, or filter by tags in the UI. If resuming a run, the tags provided here will replace any existing tags. To add tags to a resumed run without overwriting the current tags, use `run.tags += ("new_tag",)` after calling `run = wandb.init()`. |
 |  `config` |  Sets `wandb.config`, a dictionary-like object for storing input parameters to your run, such as model hyperparameters or data preprocessing settings. The config appears in the UI in an overview page, allowing you to group, filter, and sort runs based on these parameters. Keys should not contain periods (`.`), and values should be smaller than 10 MB. If a dictionary, `argparse.Namespace`, or `absl.flags.FLAGS` is provided, the key-value pairs will be loaded directly into `wandb.config`. If a string is provided, it is interpreted as a path to a YAML file, from which configuration values will be loaded into `wandb.config`. |
 |  `config_exclude_keys` |  A list of specific keys to exclude from `wandb.config`. |
 |  `config_include_keys` |  A list of specific keys to include in `wandb.config`. |

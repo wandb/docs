@@ -1,10 +1,10 @@
 ---
-title: Files
+title: Reports
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/files.py#L44-L107 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/reports.py#L17-L108 >}}
 
-An iterable collection of `File` objects.
+Reports is an iterable collection of `BetaReport` objects.
 
 | Attributes |  |
 | :--- | :--- |
@@ -15,7 +15,7 @@ An iterable collection of `File` objects.
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/files.py#L100-L104)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/reports.py#L92-L105)
 
 ```python
 convert_objects()
@@ -35,7 +35,7 @@ Return the next item from the iterator. When exhausted, raise StopIteration
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/files.py#L97-L98)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/reports.py#L87-L90)
 
 ```python
 update_variables()

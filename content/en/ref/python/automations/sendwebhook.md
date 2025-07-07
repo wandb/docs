@@ -2,7 +2,7 @@
 title: SendWebhook
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/automations/actions.py#L167-L189 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/automations/actions.py#L165-L187 >}}
 
 Defines an automation action that sends a webhook request.
 
@@ -15,7 +15,7 @@ Defines an automation action that sends a webhook request.
 
 ### `from_integration`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/automations/actions.py#L181-L189)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/automations/actions.py#L179-L187)
 
 ```python
 @classmethod

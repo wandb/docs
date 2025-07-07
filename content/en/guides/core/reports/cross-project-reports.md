@@ -26,7 +26,7 @@ If you need to compare runs from two projects and the columns are not working, a
 
 Share a view-only link to a report that is in a private project or team project.
 
-{{< img src="/images/reports/magic-links.gif" alt="" >}}
+{{< img src="/images/reports/magic-links.gif" alt="View-only report links" >}}
 
 View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. Anyone can use the magic link to view the report without logging in first. For customers on [W&B Local]({{< relref "/guides/hosting/" >}}) private cloud installations, these links remain behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link can view the report.
 

@@ -19,7 +19,7 @@ You can bring your own bucket (BYOB) using the [secure storage connector]({{< re
 
 Similar to W&B Multi-tenant Cloud, you can configure a single bucket for multiple teams or you can use separate buckets for different teams. If you do not configure secure storage connector for a team, that data is stored in the instance level bucket.
 
-{{< img src="/images/hosting/dedicated_cloud_arch.png" alt="" >}}
+{{< img src="/images/hosting/dedicated_cloud_arch.png" alt="Dedicated Cloud architecture diagram" >}}
 
 In addition to BYOB with secure storage connector, you can use [IP allowlisting]({{< relref "/guides/hosting/data-security/ip-allowlisting.md" >}}) to restrict access to your Dedicated Cloud instance from only trusted network locations. 
 

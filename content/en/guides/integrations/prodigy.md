@@ -24,7 +24,7 @@ with wandb.init(project="prodigy"):
 
 and get visual, interactive, shareable tables like this one:
 
-{{< img src="/images/integrations/prodigy_interactive_visual.png" alt="" >}}
+{{< img src="/images/integrations/prodigy_interactive_visual.png" alt="Prodigy annotation table" >}}
 
 ## Quickstart
 

@@ -2,21 +2,9 @@
 title: Runs
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/runs.py#L88-L298 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/runs.py#L88-L297 >}}
 
 An iterable collection of runs associated with a project and optional filter.
-
-```python
-Runs(
-    client: "RetryingClient",
-    entity: str,
-    project: str,
-    filters: Optional[Dict[str, Any]] = None,
-    order: Optional[str] = None,
-    per_page: int = 50,
-    include_sweeps: bool = (True)
-)
-```
 
 This is generally used indirectly via the `Api`.runs method.
 
@@ -29,7 +17,7 @@ This is generally used indirectly via the `Api`.runs method.
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/runs.py#L166-L198)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/runs.py#L165-L197)
 
 ```python
 convert_objects()
@@ -39,7 +27,7 @@ Convert the last fetched response data into the iterated objects.
 
 ### `histories`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/runs.py#L200-L295)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/runs.py#L199-L294)
 
 ```python
 histories(
@@ -68,7 +56,7 @@ Return sampled history metrics for all runs that fit the filters conditions.
 
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/paginator.py#L100-L107)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L102-L109)
 
 ```python
 next() -> T
@@ -78,7 +66,7 @@ Return the next item from the iterator. When exhausted, raise StopIteration
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/paginator.py#L69-L71)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L71-L73)
 
 ```python
 update_variables() -> None
@@ -88,7 +76,7 @@ Update the query variables for the next page fetch.
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/paginator.py#L93-L98)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L95-L100)
 
 ```python
 __getitem__(
@@ -98,7 +86,7 @@ __getitem__(
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/paginator.py#L48-L50)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L50-L52)
 
 ```python
 __iter__() -> Iterator[T]
@@ -106,7 +94,7 @@ __iter__() -> Iterator[T]
 
 ### `__len__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/paginator.py#L115-L120)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L128-L133)
 
 ```python
 __len__() -> int

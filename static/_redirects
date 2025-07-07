@@ -360,6 +360,9 @@
 /ref/python/inittorch.view_as_real/ /ref/python/init/ 301
 /ref/python/integrations/sklearn/ /guides/integrations/scikit/ 301
 /ref/python/join/ /ref/python/ 301
+/ref/python/public-api/queuedrun/ /ref/python/init/ 301
+/ref/python/public-api/runqueue/ /ref/python/init/ 301
+/ref/python/public-api/job/ /ref/python/init/ 301
 /ref/python/README/ /ref/python/ 301
 /ref/python/wandb.ai/settings/ /ref/python/ 301
 /ref/README/ /ref/ 301
