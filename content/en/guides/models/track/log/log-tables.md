@@ -89,29 +89,29 @@ You can incrementally update a W&B table in resumed runs by loading an existing 
 import wandb
 
 # Initialize a run 
-run = wandb.init(project="my_project")
+with wandb.init(project="my_project") as run:
 
-# Load the existing table from the artifact
-best_checkpt_table = run.use_artifact(table_tag).get(table_name)
+    # Load the existing table from the artifact
+    best_checkpt_table = run.use_artifact(table_tag).get(table_name)
 
-# Get the last row of data from the table for resuming
-best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
+    # Get the last row of data from the table for resuming
+    best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
 
-# Update the best metrics as needed
+    # Update the best metrics as needed
 
-# Add the updated data to the table
-best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
+    # Add the updated data to the table
+    best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
 
-# Reinitialize the table with its updated data to ensure compatibility
-best_checkpt_table = wandb.Table(
-    columns=["col1", "col2", "col3"], data=best_checkpt_table.data
-)
+    # Reinitialize the table with its updated data to ensure compatibility
+    best_checkpt_table = wandb.Table(
+        columns=["col1", "col2", "col3"], data=best_checkpt_table.data
+    )
 
-# Initialize the Run
-run = wandb.init()
+    # Initialize the Run
+    run = wandb.init()
 
-# Log the updated table to Weights & Biases
-run.log({table_name: best_checkpt_table})
+    # Log the updated table to Weights & Biases
+    run.log({table_name: best_checkpt_table})
 ```
 
 ## Retrieve data
@@ -127,12 +127,12 @@ After you generate a table of data in your script, for example a table of model 
 
 ### Log a table to a run
 
-Use `run.log()` to save your table to the run, like so:
+Use `wandb.Run.log()` to save your table to the run, like so:
 
 ```python
-run = wandb.init()
-my_table = wandb.Table(columns=["a", "b"], data=[["1a", "1b"], ["2a", "2b"]])
-run.log({"table_key": my_table})
+with wandb.init() as run:
+    my_table = wandb.Table(columns=["a", "b"], data=[["1a", "1b"], ["2a", "2b"]])
+    run.log({"table_key": my_table})
 ```
 
 Each time a table is logged to the same key, a new version of the table is created and stored in the backend. This means you can log the same table across multiple training steps to see how model predictions improve over time, or compare tables across different runs, as long as they're logged to the same key. You can log up to 200,000 rows.
@@ -166,14 +166,14 @@ Any table logged this way will show up in your Workspace on both the Run Page an
 Use `artifact.add()` to log tables to the Artifacts section of your run instead of the workspace. This could be useful if you have a dataset that you want to log once and then reference for future runs. 
 
 ```python
-run = wandb.init(project="my_project")
-# create a wandb Artifact for each meaningful step
-test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
+with wandb.init(project="my_project") as run:
+    # create a wandb Artifact for each meaningful step
+    test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
 
-# [build up your predictions data as above]
-test_table = wandb.Table(data=data, columns=columns)
-test_predictions.add(test_table, "my_test_key")
-run.log_artifact(test_predictions)
+    # [build up your predictions data as above]
+    test_table = wandb.Table(data=data, columns=columns)
+    test_predictions.add(test_table, "my_test_key")
+    run.log_artifact(test_predictions)
 ```
 
 Refer to this Colab for a [detailed example of artifact.add() with image data](http://wandb.me/dsviz-nature-colab) and this Report for an example of how to use Artifacts and Tables to [version control and deduplicate tabular data](http://wandb.me/TBV-Dedup).
@@ -196,23 +196,23 @@ For example, demonstrates how to read one Table of original songs called `'origi
 ```python
 import wandb
 
-run = wandb.init(project="my_project")
+with wandb.init(project="my_project") as run:
 
-# fetch original songs table
-orig_songs = run.use_artifact("original_songs:latest")
-orig_table = orig_songs.get("original_samples")
+    # fetch original songs table
+    orig_songs = run.use_artifact("original_songs:latest")
+    orig_table = orig_songs.get("original_samples")
 
-# fetch synthesized songs table
-synth_songs = run.use_artifact("synth_songs:latest")
-synth_table = synth_songs.get("synth_samples")
+    # fetch synthesized songs table
+    synth_songs = run.use_artifact("synth_songs:latest")
+    synth_table = synth_songs.get("synth_samples")
 
-# join tables on "song_id"
-join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
-join_at = wandb.Artifact("synth_summary", "analysis")
+    # join tables on "song_id"
+    join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
+    join_at = wandb.Artifact("synth_summary", "analysis")
 
-# add table to artifact and log to W&B
-join_at.add(join_table, "synth_explore")
-run.log_artifact(join_at)
+    # add table to artifact and log to W&B
+    join_at.add(join_table, "synth_explore")
+    run.log_artifact(join_at)
 ```
 
 [Read this tutorial](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) for an example on how to combine two previously stored tables stored in different Artifact objects.

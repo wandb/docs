@@ -7,7 +7,7 @@ menu:
 title: Create and track plots from experiments
 ---
 
-Using the methods in `wandb.plot`, you can track charts with `run.log`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide]({{< relref "/guides/models/app/features/custom-charts/walkthrough.md" >}}).
+Using the methods in `wandb.plot()`, you can track charts with `wandb.Run.log()`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide]({{< relref "/guides/models/app/features/custom-charts/walkthrough.md" >}}).
 
 ### Basic charts
 
@@ -142,7 +142,7 @@ Note that the number of x and y points must match exactly. You can supply one li
 
 ### Model evaluation charts
 
-These preset charts have built-in `wandb.plot` methods that make it quick and easy to log charts directly from your script and see the exact information you're looking for in the UI.
+These preset charts have built-in `wandb.plot()` methods that make it quick and easy to log charts directly from your script and see the exact information you're looking for in the UI.
 
 {{< tabpane text=true >}}
     {{% tab header="Precision-recall curves" %}}
@@ -261,7 +261,7 @@ with wandb.init() as run:
 
 ### Matplotlib and Plotly plots
 
-Instead of using W&B [Custom Charts]({{< relref "/guides/models/app/features/custom-charts/walkthrough.md" >}}) with `wandb.plot`, you can log charts generated with [matplotlib](https://matplotlib.org/) and [Plotly](https://plotly.com/).
+Instead of using W&B [Custom Charts]({{< relref "/guides/models/app/features/custom-charts/walkthrough.md" >}}) with `wandb.plot()`, you can log charts generated with [matplotlib](https://matplotlib.org/) and [Plotly](https://plotly.com/).
 
 ```python
 import wandb
@@ -277,7 +277,7 @@ with wandb.init() as run:
     run.log({"chart": plt})
 ```
 
-Just pass a `matplotlib` plot or figure object to `run.log()`. By default we'll convert the plot into a [Plotly](https://plot.ly/) plot. If you'd rather log the plot as an image, you can pass the plot into `wandb.Image`. We also accept Plotly charts directly.
+Just pass a `matplotlib` plot or figure object to `wandb.Run.log()`. By default we'll convert the plot into a [Plotly](https://plot.ly/) plot. If you'd rather log the plot as an image, you can pass the plot into `wandb.Image`. We also accept Plotly charts directly.
 
 {{% alert %}}
 If you’re getting an error “You attempted to log an empty plot” then you can store the figure separately from the plot with `fig = plt.figure()` and then log `fig` in your call to `run.log()`.

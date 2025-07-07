@@ -69,7 +69,7 @@ You can also display any existing dashboards, sweeps, or reports directly in you
 %wandb USERNAME/PROJECT -h 2048
 ```
 
-As an alternative to the `%%wandb` or `%wandb` magics, after running `wandb.init()` you can end any cell with `run.finish()` to show in-line graphs, or call `ipython.display(...)` on any report, sweep, or run object returned from our apis.
+As an alternative to the `%%wandb` or `%wandb` magics, after running `wandb.init()` you can end any cell with `wandb.Run.finish()` to show in-line graphs, or call `ipython.display(...)` on any report, sweep, or run object returned from our apis.
 
 ```python
 import wandb

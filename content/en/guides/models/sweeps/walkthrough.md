@@ -29,9 +29,9 @@ def objective(config):
     return score
 
 def main():
-    run = wandb.init(project="my-first-sweep")
-    score = objective(run.config)
-    run.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 
 # 2: Define the search space
 sweep_configuration = {
@@ -53,9 +53,9 @@ The following sections break down and explains each step in the code sample.
 
 
 ## Set up your training code
-Define a training function that takes in hyperparameter values from `run.config` and uses them to train a model and return metrics.
+Define a training function that takes in hyperparameter values from `wandb.Run.config` and uses them to train a model and return metrics.
 
-Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`]({{< relref "/ref/python/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
+Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init()`]({{< relref "/ref/python/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
 
 {{% alert %}}
 Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
@@ -69,9 +69,9 @@ def objective(config):
 
 
 def main():
-    run = wandb.init(project="my-first-sweep")
-    score = objective(run.config)
-    run.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 ```
 
 ## Define the search space with a sweep configuration

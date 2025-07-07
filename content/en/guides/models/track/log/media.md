@@ -204,9 +204,8 @@ img = wandb.Image(
     },
 )
 
-run = wandb.init(project="my_project")
-run.log({"driving_scene": img})
-run.finish()
+with wandb.init(project="my_project") as run:
+    run.log({"driving_scene": img})
 ```    
     {{% /tab %}}
 {{< /tabpane >}}
@@ -237,8 +236,8 @@ for id, img, label in zip(ids, images, labels):
 
     table.add_data(id, img)
 
-run = wandb.init(project="my_project")
-run.log({"Table": table})
+with wandb.init(project="my_project") as run:
+    run.log({"Table": table})
 ```   
    {{% /tab %}}
    {{% tab header="Bounding Boxes" %}}

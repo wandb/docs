@@ -23,14 +23,10 @@ import xgboost as XGBClassifier
 
 ...
 # Start a wandb run
-run = wandb.init()
-
-# Pass WandbCallback to the model
-bst = XGBClassifier()
-bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
-
-# Close your wandb run
-run.finish()
+with wandb.init() as run:
+  # Pass WandbCallback to the model
+  bst = XGBClassifier()
+  bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
 ```
 
 You can open **[this notebook](https://wandb.me/xgboost)** for a comprehensive look at logging with XGBoost and Weights & Biases
@@ -45,7 +41,7 @@ Passing `WandbCallback` to a XGBoost model will:
 - log the best score and the best iteration
 - save and upload your trained model to Weights & Biases Artifacts (when `log_model = True`)
 - log feature importance plot when `log_feature_importance=True` (default).
-- Capture the best eval metric in `run.summary` when `define_metric=True` (default).
+- Capture the best eval metric in `wandb.Run.summary` when `define_metric=True` (default).
 
 ### Arguments
 - `log_model`: (boolean) if True save and upload the model to Weights & Biases Artifacts

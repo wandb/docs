@@ -8,7 +8,7 @@ title: Log summary metrics
 
 In addition to values that change over time during training, it is often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B Run's `summary` dictionary. A Run's summary dictionary can handle numpy arrays, PyTorch tensors or TensorFlow tensors. When a value is one of these types we persist the entire tensor in a binary file and store high level metrics in the summary object, such as min, mean, variance, percentiles, and more.
 
- The last value logged with `wandb.log` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
+ The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
 
 The following code snippet demonstrates how to provide a custom summary metric to W&B:
 
@@ -56,24 +56,22 @@ import wandb
 import random
 
 random.seed(1)
-run = wandb.init()
+with wandb.init() as run:
 
-# Min and max summary values for loss
-run.define_metric("loss", summary="min")
-run.define_metric("loss", summary="max")
+  # Min and max summary values for loss
+  run.define_metric("loss", summary="min")
+  run.define_metric("loss", summary="max")
 
-# Min and max summary values for accuracy
-run.define_metric("acc", summary="min")
-run.define_metric("acc", summary="max")
+  # Min and max summary values for accuracy
+  run.define_metric("acc", summary="min")
+  run.define_metric("acc", summary="max")
 
-for i in range(10):
-    log_dict = {
-        "loss": random.uniform(0, 1 / (i + 1)),
-        "acc": random.uniform(1 / (i + 1), 1),
-    }
-    run.log(log_dict)
-
-run.finish()
+  for i in range(10):
+      log_dict = {
+          "loss": random.uniform(0, 1 / (i + 1)),
+          "acc": random.uniform(1 / (i + 1), 1),
+      }
+      run.log(log_dict)
 ```
 
 ## View summary metrics

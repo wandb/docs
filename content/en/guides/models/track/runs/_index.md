@@ -25,7 +25,7 @@ Common patterns for initiating a run include, but are not limited to:
 
 W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App UI. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/public-api/run.md" >}}) object.
 
-Anything you log with `run.log` is recorded in that run.
+Anything you log with `wandb.Run.log()` is recorded in that run.
 
 ```python
 import wandb
@@ -76,12 +76,6 @@ config = {
     "learning_rate": 0.01,
 }
 
-run = wandb.init(
-    entity="nico",
-    project="awesome-project",
-    config=config,
-)
-
 with wandb.init(project="awesome-project", config=config) as run:
   print(f"lr: {config['learning_rate']}")
     
@@ -115,9 +109,9 @@ wandb: 🚀 View run jolly-haze-4 at: https://wandb.ai/nico/awesome-project/runs
 wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 ```
 
-The training script calls `run.log` 10 times. Each time the script calls `run.log`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
+The training script calls `wandb.Run.log()` 10 times. Each time the script calls `wandb.Run.log()`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
 
-W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init` method only once. 
+W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init()` method only once. 
 
 {{< img src="/images/runs/run_log_example_2.png" alt="" >}}
 
@@ -133,7 +127,8 @@ Ensure to replace values enclosed in angle brackets (`< >`) with your own values
 ```python
 import wandb
 
-run = wandb.init(entity="<entity>", project="<project>")
+with wandb.init(entity="<entity>", project="<project>") as run:
+  # Your code here
 ```
 
 When you initialize a run, W&B logs your run to the project you specify for the project field (`wandb.init(project="<project>"`). W&B creates a new project if the project does not already exist. If the project already exists, W&B stores the run in that project.
@@ -243,7 +238,8 @@ You can specify a name for your run by passing the `name` parameter to the [`wan
 ```python 
 import wandb
 
-run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
+with wandb.init(entity="<project>", project="<project>", name="<run-name>") as run:
+  # Your code here
 ```
 
 ### Rename a run

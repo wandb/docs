@@ -26,8 +26,6 @@ wandb.init(project="my-project", sync_tensorboard=True) as run:
   # Your training code using TensorBoard
   ...
 
-# [Optional]Finish the wandb run to upload the tensorboard logs to W&B (if running in Notebook)
-run.finish()
 ```
 
 Review an [example](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
@@ -42,7 +40,7 @@ W&B supports TensorBoard with all versions of TensorFlow. W&B also supports Tens
 
 ### How can I log metrics to W&B that aren't logged to TensorBoard?
 
-If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `run.log()` in your code `run.log({"custom": 0.8})`
+If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.Run.log()` in your code `run.log({"custom": 0.8})`
 
 Setting the step argument in `run.log()` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
 
@@ -77,7 +75,7 @@ run.finish()
 ```
 
 {{% alert color="secondary" %}}
-You must call either `wandb.init` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
+You must call either `wandb.init()` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
 {{% /alert %}}
 
 ### How do I sync historical TensorBoard runs?
@@ -86,7 +84,7 @@ If you have existing `tfevents` files stored locally and you would like to impor
 
 ### How do I use Google Colab or Jupyter with TensorBoard?
 
-If running your code in a Jupyter or Colab notebook, make sure to call `run.finish()` and the end of your training. This will finish the wandb run and upload the tensorboard logs to W&B so they can be visualized. This is not necessary when running a `.py` script as wandb finishes automatically when a script finishes.
+If running your code in a Jupyter or Colab notebook, make sure to call `wandb.Run.finish()` and the end of your training. This will finish the wandb run and upload the tensorboard logs to W&B so they can be visualized. This is not necessary when running a `.py` script as wandb finishes automatically when a script finishes.
 
 To run shell commands in a notebook environment, you must prepend a `!`, as in `!wandb sync directoryname`.
 
@@ -95,7 +93,6 @@ To run shell commands in a notebook environment, you must prepend a `!`, as in `
 If you use PyTorch's TensorBoard integration, you may need to manually upload the PyTorch Profiler JSON file.
 
 ```python
-run = wandb.init(project="my-project", sync_tensorboard=True)
-run.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
-run.finish()
+with wandb.init(project="my-project", sync_tensorboard=True) as run:
+    run.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
 ```

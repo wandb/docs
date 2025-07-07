@@ -12,7 +12,7 @@ Use custom charts to control the data you're loading in to a panel and its visua
 
 ## 1. Log data to W&B
 
-First, log data in your script. Use [run.config]({{< relref "/guides/models/track/config.md" >}}) for single points set at the beginning of training, like hyperparameters. Use [run.log()]({{< relref "/guides/models/track/log/" >}}) for multiple points over time, and log custom 2D arrays with `wandb.Table()`. We recommend logging up to 10,000 data points per logged key.
+First, log data in your script. Use [wandb.Run.config]({{< relref "/guides/models/track/config.md" >}}) for single points set at the beginning of training, like hyperparameters. Use [wandb.Run.log()]({{< relref "/guides/models/track/log/" >}}) for multiple points over time, and log custom 2D arrays with `wandb.Table()`. We recommend logging up to 10,000 data points per logged key.
 
 ```python
 with wandb.init() as run: 

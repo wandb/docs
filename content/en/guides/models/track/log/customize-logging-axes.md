@@ -6,7 +6,7 @@ menu:
 title: Customize log axes
 ---
 
-Set a custom x-axis when you log metrics to W&B. By default, W&B logs metrics as *steps*. Each step corresponds to a `run.log()` API call. 
+Set a custom x-axis when you log metrics to W&B. By default, W&B logs metrics as *steps*. Each step corresponds to a `wandb.Run.log()` API call. 
 
 For example, the following script has a `for` loop that iterates 10 times. In each iteration, the script logs a metric called `validation_loss` and increments the step number by 1.
 
@@ -22,7 +22,7 @@ with wandb.init() as run:
     run.log(log_dict)
 ```
 
-In the project's workspace, the `validation_loss` metric is plotted against the `step` x-axis, which increments by 1 each time `run.log()` is called. From the previous code, the x-axis shows the step numbers 0, 1, 2, ..., 9.
+In the project's workspace, the `validation_loss` metric is plotted against the `step` x-axis, which increments by 1 each time `wandb.Run.log()` is called. From the previous code, the x-axis shows the step numbers 0, 1, 2, ..., 9.
 
 {{< img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses `step` as the x-axis." >}}
 

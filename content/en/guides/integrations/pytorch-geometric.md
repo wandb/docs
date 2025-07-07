@@ -161,14 +161,13 @@ with wandb.init(project=’visualize_graph’) as run:
 You can use W&B to track your experiments and related metrics, such as loss functions, accuracy, and more. Add the following line to your training loop:
 
 ```python
-run = wandb.init(project="my_project", entity="my_entity")
-run.log({
-	‘train/loss’: training_loss,
-	‘train/acc’: training_acc,
-	‘val/loss’: validation_loss,
-	‘val/acc’: validation_acc
-})
-run.finish()
+with wandb.init(project="my_project", entity="my_entity") as run:
+    run.log({
+        'train/loss': training_loss,
+        'train/acc': training_acc,
+        'val/loss': validation_loss,
+        'val/acc': validation_acc
+        })
 ```
 
 {{< img src="/images/integrations/pyg_metrics.png" alt="Plots from W&B showing how the hits@K metric changes over epochs for different values of K." >}}

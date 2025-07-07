@@ -56,22 +56,19 @@ from ultralytics import YOLO
 Initialize the `YOLO` model of your choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This ensures that when you perform training, fine-tuning, validation, or inference, it automatically saves the experiment logs and the images, overlaid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) on W&B along with additional insights in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
 
 ```python
-run = wandb.init(project="ultralytics", job_type="train")
+with wandb.init(project="ultralytics", job_type="train") as run:
 
-# Initialize YOLO Model
-model = YOLO("yolov8n.pt")
+    # Initialize YOLO Model
+    model = YOLO("yolov8n.pt")
 
-# Add W&B callback for Ultralytics
-add_wandb_callback(model, enable_model_checkpointing=True)
+    # Add W&B callback for Ultralytics
+    add_wandb_callback(model, enable_model_checkpointing=True)
 
-# Train/fine-tune your model
-# At the end of each epoch, predictions on validation batches are logged
-# to a W&B table with insightful and interactive overlays for
-# computer vision tasks
-model.train(project="ultralytics", data="coco128.yaml", epochs=5, imgsz=640)
-
-# Finish the W&B run
-run.finish()
+    # Train/fine-tune your model
+    # At the end of each epoch, predictions on validation batches are logged
+    # to a W&B table with insightful and interactive overlays for
+    # computer vision tasks
+    model.train(project="ultralytics", data="coco128.yaml", epochs=5, imgsz=640)
 ```
 
 Here's how experiments tracked using W&B for an Ultralytics training or fine-tuning workflow looks like:

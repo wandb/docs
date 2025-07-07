@@ -14,7 +14,7 @@ You can continue to use Hydra for configuration management while taking advantag
 
 ## Track metrics
 
-Track your metrics as normal with `wandb.init` and `wandb.log` . Here, `wandb.entity` and `wandb.project` are defined within a hydra configuration file.
+Track your metrics as normal with `wandb.init()` and `wandb.Run.log()` . Here, `wandb.entity` and `wandb.project` are defined within a hydra configuration file.
 
 ```python
 import wandb
@@ -22,9 +22,9 @@ import wandb
 
 @hydra.main(config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
-    run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-    run.log({"loss": loss})
-    run.finish()
+
+    with wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project) as run:
+      run.log({"loss": loss})
 ```
 
 ## Track Hyperparameters
@@ -34,19 +34,18 @@ Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the d
 ```python
 @hydra.main(config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
-  run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-  run.config = omegaconf.OmegaConf.to_container(
-      cfg, resolve=True, throw_on_missing=True
-  )
-  run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-  run.log({"loss": loss})
-  model = Model(**run.config.model.configs)
-  run.finish()
+  with wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project) as run:
+    run.config = omegaconf.OmegaConf.to_container(
+        cfg, resolve=True, throw_on_missing=True
+    )
+    run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
+    run.log({"loss": loss})
+    model = Model(**run.config.model.configs)
 ```
 
 ## Troubleshoot multiprocessing
 
-If your process hangs when started, this may be caused by [this known issue]({{< relref "/guides/models/track/log/distributed-training.md" >}}). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
+If your process hangs when started, this may be caused by [this known issue]({{< relref "/guides/models/track/log/distributed-training.md" >}}). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to `wandb.init()` as:
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))

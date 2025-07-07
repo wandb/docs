@@ -171,14 +171,14 @@ You can access the information we've captured in three ways: inside the original
 
 | Data                                            | Client library                            | UI                    |
 | ----------------------------------------------- | ----------------------------------------- | --------------------- |
-| `Parameter(...)`                                | `run.config`                            | Overview tab, Config  |
-| `datasets`, `models`, `others`                  | `run.use_artifact("{var_name}:latest")` | Artifacts tab         |
-| Base Python types (`dict`, `list`, `str`, etc.) | `run.summary`                           | Overview tab, Summary |
+| `Parameter(...)`                                | `wandb.Run.config`                            | Overview tab, Config  |
+| `datasets`, `models`, `others`                  | `wandb.Run.use_artifact("{var_name}:latest")` | Artifacts tab         |
+| Base Python types (`dict`, `list`, `str`, etc.) | `wandb.Run.summary`                           | Overview tab, Summary |
 
 ### `wandb_log` kwargs
 
-| kwarg      | Options                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| kwarg      | Options                                                                         |
+| ---------- | ------------------------------------------------------------------------------- |
 | `datasets` | <ul><li><code>True</code>: Log instance variables that are a dataset</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                         |
 | `models`   | <ul><li><code>True</code>: Log instance variables that are a model</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                           |
 | `others`   | <ul><li><code>True</code>: Log anything else that is serializable as a pickle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                |
