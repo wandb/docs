@@ -7,7 +7,7 @@ title: Migrate from legacy Model Registry
 weight: 9
 ---
 
-W&B is upgrading from the legacy **Model Registry** to the enhanced **W&B Registry**. This transition is designed to be seamless, fully managed by W&B, and will preserve your workflows while unlocking powerful new features. For any questions or support, contact [support@wandb.com](mailto:support@wandb.com).
+W&B is migrating from the legacy **Model Registry** to the enhanced **W&B Registry**. This transition is designed to be seamless, fully managed by W&B, and will preserve your workflows while unlocking powerful new features. For any questions or support, contact [support@wandb.com](mailto:support@wandb.com).
 
 ## Reasons for the migration
 
@@ -133,7 +133,7 @@ You will receive advance notice with an in-app banner or direct communication fr
 
 ### Will there be downtime?
 
-Write operations to the legacy Model Registry and the new W&B Registry will be paused for a short period during the migration. All other W&B services will remain available.
+Write operations to the legacy Model Registry and the new W&B Registry will be paused for a approximately one hour during the migration. All other W&B services will remain available.
 
 ### Will this break my code?
 
