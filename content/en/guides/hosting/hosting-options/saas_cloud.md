@@ -3,13 +3,13 @@ menu:
   default:
     identifier: saas_cloud
     parent: deployment-options
-title: Use W&B Multi-tenant SaaS
+title: Use W&B Multi-tenant Cloud
 weight: 1
 ---
 
 W&B Multi-tenant Cloud is a fully managed platform deployed in W&B's Google Cloud Platform (GCP) account in [GPC's North America regions](https://cloud.google.com/compute/docs/regions-zones). W&B Multi-tenant Cloud utilizes autoscaling in GCP to ensure that the platform scales appropriately based on increases or decreases in traffic. 
 
-{{< img src="/images/hosting/saas_cloud_arch.png" alt="SaaS Cloud architecture diagram" >}}
+{{< img src="/images/hosting/saas_cloud_arch.png" alt="Multi-tenant Cloud architecture diagram" >}}
 
 W&B Multi-tenant Cloud scales to meet your organization's needs, and supports logging up to 250,000 metrics per project with up to 1 million data points per metric. For larger deployments, contact [support](mailto:support@wandb.com).
 
