@@ -12,12 +12,6 @@ data_type_classification: class
 ## <kbd>class</kbd> `Plotly`
 W&B class for Plotly plots. 
 
-
-
-**Args:**
- 
- - `val`:  Matplotlib or Plotly figure. 
-
 ### <kbd>method</kbd> `Plotly.__init__`
 
 ```python
@@ -26,9 +20,13 @@ __init__(
 )
 ```
 
+Initialize a Plotly object. 
 
 
 
+**Args:**
+ 
+ - `val`:  Matplotlib or Plotly figure. 
 
 
 

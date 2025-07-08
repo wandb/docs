@@ -20,11 +20,8 @@ This module provides classes for interacting with W&B runs and their associated 
  ```python
 from wandb.apis.public import Api
 
-# Initialize API
-api = Api()
-
 # Get runs matching filters
-runs = api.runs(
+runs = Api().runs(
      path="entity/project", filters={"state": "finished", "config.batch_size": 32}
 )
 
@@ -72,13 +69,10 @@ This is generally used indirectly using the `Api.runs` namespace.
 from wandb.apis.public.runs import Runs
 from wandb.apis.public import Api
 
-# Initialize the API client
-api = Api()
-
 # Get all runs from a project that satisfy the filters
 filters = {"state": "finished", "config.optimizer": "adam"}
 
-runs = Runs(
+runs = Api().runs(
     client=api.client,
     entity="entity",
     project="project_name",
@@ -129,20 +123,13 @@ __init__(
 
 ### <kbd>property</kbd> Runs.length
 
-Returns the total number of runs. 
+
+
+
 
 ---
 
 
-### <kbd>method</kbd> `Runs.convert_objects`
-
-```python
-convert_objects()
-```
-
-Converts GraphQL edges to Runs objects. 
-
----
 
 ### <kbd>method</kbd> `Runs.histories`
 

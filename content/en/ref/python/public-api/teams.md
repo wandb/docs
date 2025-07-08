@@ -162,16 +162,7 @@ Invite a user to a team.
 
 
 **Returns:**
- True on success, `False` if user was already invited or didn't exist. 
+ `True` on success, `False` if user was already invited or didn't exist. 
 
 ---
-
-### <kbd>method</kbd> `Team.load`
-
-```python
-load(force=False)
-```
-
-Return members that belong to a team. 
-
 

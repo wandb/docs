@@ -20,11 +20,8 @@ This module provides classes for interacting with W&B hyperparameter optimizatio
  ```python
 from wandb.apis.public import Api
 
-# Initialize API
-api = Api()
-
 # Get a specific sweep
-sweep = api.sweep("entity/project/sweep_id")
+sweep = Api().sweep("entity/project/sweep_id")
 
 # Access sweep properties
 print(f"Sweep: {sweep.name}")
@@ -154,15 +151,6 @@ Execute a query against the cloud backend.
 
 ---
 
-### <kbd>method</kbd> `Sweep.load`
-
-```python
-load(force: bool = False)
-```
-
-Fetch and update sweep data logged to the run from GraphQL database. 
-
----
 
 ### <kbd>method</kbd> `Sweep.to_html`
 

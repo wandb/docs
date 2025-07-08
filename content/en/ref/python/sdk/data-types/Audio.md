@@ -12,14 +12,6 @@ data_type_classification: class
 ## <kbd>class</kbd> `Audio`
 W&B class for audio clips. 
 
-
-
-**Attributes:**
- 
- - `data_or_path` (string or numpy array):  A path to an audio file  or a numpy array of audio data. 
- - `sample_rate` (int):  Sample rate, required when passing in raw  numpy array of audio data. 
- - `caption` (string):  Caption to display with audio. 
-
 ### <kbd>method</kbd> `Audio.__init__`
 
 ```python
@@ -31,6 +23,14 @@ __init__(
 ```
 
 Accept a path to an audio file or a numpy array of audio data. 
+
+
+
+**Args:**
+ 
+ - `data_or_path`:  A path to an audio file or a NumPy array of audio data. 
+ - `sample_rate`:  Sample rate, required when passing in raw NumPy array of audio data. 
+ - `caption`:  Caption to display with audio. 
 
 
 

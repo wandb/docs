@@ -94,6 +94,17 @@ Artifact collections of a specific type in a project.
  - `per_page`:  The number of artifact collections to fetch per page. Default is 50. 
 
 
+### <kbd>property</kbd> ArtifactCollections.length
+
+
+
+
+
+---
+
+
+
+
 ## <kbd>class</kbd> `ArtifactCollection`
 An artifact collection that represents a group of related artifacts. 
 
@@ -226,12 +237,41 @@ Optionally pass in filters to narrow down the results based on specific criteria
  - `tags`:  Optional string or list of strings to filter artifacts by tags. 
 
 
+### <kbd>property</kbd> Artifacts.length
+
+
+
+
+
+---
+
+
+
 ## <kbd>class</kbd> `RunArtifacts`
 An iterable collection of artifacts associated with a specific run. 
 
 
+### <kbd>property</kbd> RunArtifacts.length
+
+
+
+
+
+---
+
+
+
 ## <kbd>class</kbd> `ArtifactFiles`
 A paginator for files in an artifact. 
+
+
+### <kbd>property</kbd> ArtifactFiles.length
+
+
+
+
+
+---
 
 
 ### <kbd>property</kbd> ArtifactFiles.path

@@ -20,11 +20,8 @@ This module provides classes for interacting with W&B projects and their associa
  ```python
 from wandb.apis.public import Api
 
-# Initialize API
-api = Api()
-
 # Get all projects for an entity
-projects = api.projects("entity")
+projects = Api().projects("entity")
 
 # Access project data
 for project in projects:
@@ -66,11 +63,8 @@ An iterable interface to access projects created and saved by the entity.
  ```python
 from wandb.apis.public.api import Api
 
-# Initialize the API client
-api = Api()
-
 # Find projects that belong to this entity
-projects = api.projects(entity="entity")
+projects = Api().projects(entity="entity")
 
 # Iterate over files
 for project in projects:
@@ -104,25 +98,8 @@ An iterable collection of `Project` objects.
 ---
 
 
-### <kbd>property</kbd> Projects.length
-
-Returns the total number of projects. 
-
-Note: This property is not available for projects. 
-
----
 
 
-### <kbd>method</kbd> `Projects.convert_objects`
-
-```python
-convert_objects()
-```
-
-Converts GraphQL edges to File objects. 
-
-
----
 
 ## <kbd>class</kbd> `Project`
 A project is a namespace for runs. 

@@ -12,11 +12,24 @@ data_type_classification: class
 ## <kbd>class</kbd> `Object3D`
 W&B class for 3D point clouds. 
 
+### <kbd>method</kbd> `Object3D.__init__`
+
+```python
+__init__(
+    data_or_path: Union[ForwardRef('np.ndarray'), str, pathlib.Path, ForwardRef('TextIO'), dict],
+    caption: Optional[str] = None,
+    **kwargs: Optional[str, ForwardRef('FileFormat3D')]
+) → None
+```
+
+Creates a W&B Object3D object. 
+
 
 
 **Args:**
  
- - `data_or_path`:  (numpy array, pathlib.Path, string, io)  Object3D can be initialized from a file or a numpy array. 
+ - `data_or_path`:  Object3D can be initialized from a file or a numpy array. 
+ - `caption`:  Caption associated with the object for display. 
 
 
 
@@ -28,20 +41,6 @@ W&B class for 3D point clouds.
 [[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
 [[x y z r g b], ...] nx6 where is rgb is color
 ``` 
-
-### <kbd>method</kbd> `Object3D.__init__`
-
-```python
-__init__(
-    data_or_path: Union[ForwardRef('np.ndarray'), str, pathlib.Path, ForwardRef('TextIO'), dict],
-    caption: Optional[str] = None,
-    **kwargs: Optional[str, ForwardRef('FileFormat3D')]
-) → None
-```
-
-
-
-
 
 
 
