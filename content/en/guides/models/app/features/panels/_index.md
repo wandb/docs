@@ -62,7 +62,7 @@ To view a panel in full-screen mode:
 
 1. Hover over the panel.
 1. Click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder or an outline showing the four corners of a square.
-    {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
+    {{< img src="/images/app_ui/panel_fullscreen.png" alt="Full-screen panel" >}}
 1. When you [share the panel]({{< relref "#share-a-panel" >}}) while viewing it in full-screen mode, the resulting link opens in full-screen mode automatically.
 
 To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.

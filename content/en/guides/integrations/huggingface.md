@@ -21,7 +21,7 @@ from transformers import TrainingArguments, Trainer
 args = TrainingArguments(..., report_to="wandb")  # turn on W&B logging
 trainer = Trainer(..., args=args)
 ```
-{{< img src="/images/integrations/huggingface_gif.gif" alt="Explore your experiment results in the W&B interactive dashboard" >}}
+{{< img src="/images/integrations/huggingface_gif.gif" alt="HuggingFace dashboard" >}}
 
 {{% alert %}}
 If you'd rather dive straight into working code, check out this [Google Colab](https://wandb.me/hf).

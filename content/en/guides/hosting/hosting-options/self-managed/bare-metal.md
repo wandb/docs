@@ -73,7 +73,7 @@ sort_buffer_size = 67108864
 ```
 
 ## Object storage
-The object store can be externally hosted on a [Minio cluster](https://docs.min.io/minio/k8s/), or any Amazon S3 compatible object store that has support for signed URLs. Run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) to check if your object store supports signed URLs.
+The object store can be externally hosted on a [Minio cluster](https://min.io/docs/minio/kubernetes/upstream/index.html), or any Amazon S3 compatible object store that has support for signed URLs. Run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) to check if your object store supports signed URLs.
 
 Additionally, the following CORS policy needs to be applied to the object store.
 
@@ -111,7 +111,7 @@ Set `BUCKET_QUEUE` to `internal://` if you use third-party object stores. This t
 The most important things to consider when running your own object store are:
 
 1. **Storage capacity and performance**. It's fine to use magnetic disks, but you should be monitoring the capacity of these disks. Average W&B usage results in 10's to 100's of Gigabytes. Heavy usage could result in Petabytes of storage consumption.
-2. **Fault tolerance.** At a minimum, the physical disk storing the objects should be on a RAID array. If you use minio, consider running it in [distributed mode](https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html#deploy-minio-distributed).
+2. **Fault tolerance.** At a minimum, the physical disk storing the objects should be on a RAID array. If you use minio, consider running it in [distributed mode](https://min.io/docs/minio/kubernetes/upstream/operations/concepts/availability-and-resiliency.html#distributed-minio-deployments).
 3. **Availability.** Monitoring should be configured to ensure the storage is available.
 
 There are many enterprise alternatives to running your own object storage service such as:

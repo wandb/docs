@@ -25,7 +25,7 @@ The following example shows a scatter plot displaying validation accuracy for di
 
 [See a live example →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
 
-{{< img src="/images/general/scatter-plots-1.png" alt="Example of validation accuracy of different models over a couple of weeks of experimentation" >}}
+{{< img src="/images/general/scatter-plots-1.png" alt="Validation accuracy scatter plot" >}}
 
 ## Create a scatter plot
 

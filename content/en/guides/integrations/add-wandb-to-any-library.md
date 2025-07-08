@@ -300,7 +300,7 @@ metrics = {
 run.log(metrics)
 ```
 
-{{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="A W&B Workspace with 2 separate sections" >}}
+{{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="W&B Workspace" >}}
 
 [Learn more about `run.log`]({{< relref "/guides/models/track/log" >}}).
 

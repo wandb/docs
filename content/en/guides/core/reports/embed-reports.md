@@ -16,19 +16,19 @@ Select the **Share** button on the upper right hand corner within a report. A mo
 Only **public** reports are viewable when embedded.
 {{% /alert %}}
 
-{{< img src="/images/reports/get_embed_url.gif" alt="" >}}
+{{< img src="/images/reports/get_embed_url.gif" alt="Getting embed code" >}}
 
 ## Confluence
 
 The proceeding animation demonstrates how to insert the direct link to the report within an IFrame cell in Confluence.
 
-{{< img src="//images/reports/embed_iframe_confluence.gif" alt="" >}}
+{{< img src="//images/reports/embed_iframe_confluence.gif" alt="Embedding in Confluence" >}}
 
 ## Notion
 
 The proceeding animation demonstrates how to insert a report into a Notion document using an Embed block in Notion and the report's embedded code.
 
-{{< img src="//images/reports/embed_iframe_notion.gif" alt="" >}}
+{{< img src="//images/reports/embed_iframe_notion.gif" alt="Embedding in Notion" >}}
 
 ## Gradio
 

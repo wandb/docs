@@ -11,7 +11,7 @@ weight: 40
 
 Add, delete, manage email types and primary email addresses in your W&B Profile Settings page. Select your profile icon in the upper right corner of the W&B dashboard. From the dropdown, select **Settings**. Within the Settings page, scroll down to the Emails dashboard:
 
-{{< img src="/images/app_ui/manage_emails.png" alt="" >}}
+{{< img src="/images/app_ui/manage_emails.png" alt="Email management dashboard" >}}
 
 ## Manage primary email
 
@@ -23,7 +23,7 @@ Select the kebab dropdown to change the primary email associated with your Weigh
 Only verified emails can be set as primary
 {{% /alert %}}
 
-{{< img src="/images/app_ui/primary_email.png" alt="" >}}
+{{< img src="/images/app_ui/primary_email.png" alt="Primary email dropdown" >}}
 
 ## Add emails
 

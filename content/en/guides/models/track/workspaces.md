@@ -13,7 +13,7 @@ W&B workspace is your personal sandbox to customize charts and explore model res
 * **Tables**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
 * **Panel sections**: A section that contains one or more [panels]({{< relref "/guides/models/app/features/panels/" >}}). Create new panels, organize them, and export to reports to save snapshots of your workspace.
 
-{{< img src="/images/app_ui/workspace_table_and_panels.png" alt="" >}}
+{{< img src="/images/app_ui/workspace_table_and_panels.png" alt="Workspace table and panels" >}}
 
 ## Workspace types
 There are two main workspace categories: **Personal workspaces** and **Saved views**. 
@@ -22,7 +22,7 @@ There are two main workspace categories: **Personal workspaces** and **Saved vie
 * **Saved views:** Saved views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. Use saved workspace views for reviewing and discussing experiments, runs, and more.
 
 The proceeding image shows multiple personal workspaces created by Cécile-parker's teammates. In this project, there are no saved views:
-{{< img src="/images/app_ui/Menu_No_views.jpg" alt="" >}}
+{{< img src="/images/app_ui/Menu_No_views.jpg" alt="No saved views" >}}
 
 ## Saved workspace views
 Improve team collaboration with tailored workspace views. Create Saved Views to organize your preferred setup of charts and data. 
@@ -35,7 +35,7 @@ Improve team collaboration with tailored workspace views. Create Saved Views to 
 
 New saved views appear in the workspace navigation menu.
 
-{{< img src="/images/app_ui/Menu_Views.jpg" alt="" >}}
+{{< img src="/images/app_ui/Menu_Views.jpg" alt="Saved views menu" >}}
 
 
 
@@ -62,11 +62,7 @@ Remove saved views that are no longer needed.
 Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
 
 ## Workspace templates
-
-<!-- Tracked in https://wandb.atlassian.net/browse/DOCS-1543 -->
-{{% alert %}}
-{{< readfile file="/_includes/workspace-templates-private-preview-feature.md" >}}
-{{% /alert %}}
+{{% alert %}}This feature requires an [Enterprise](https://wandb.ai/site/pricing/) license.{{% /alert %}}
 
 Use _workspace templates_ to quickly create workspaces using the same settings as an existing workspace instead of the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}). Currently, a workspace template can define custom [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}).
 

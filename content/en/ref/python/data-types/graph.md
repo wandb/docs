@@ -2,15 +2,9 @@
 title: Graph
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/graph.py#L245-L405 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/graph.py#L245-L405 >}}
 
 Wandb class for graphs.
-
-```python
-Graph(
-    format="keras"
-)
-```
 
 This class is typically used for saving and displaying neural net models.  It
 represents the graph as an array of nodes and edges.  The nodes can have
@@ -28,7 +22,7 @@ Graph.from_keras(keras_model)
 
 ### `add_edge`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/graph.py#L330-L334)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/graph.py#L330-L334)
 
 ```python
 add_edge(
@@ -38,7 +32,7 @@ add_edge(
 
 ### `add_node`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/graph.py#L318-L328)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/graph.py#L318-L328)
 
 ```python
 add_node(
@@ -48,7 +42,7 @@ add_node(
 
 ### `from_keras`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/graph.py#L336-L366)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/graph.py#L336-L366)
 
 ```python
 @classmethod
@@ -59,7 +53,7 @@ from_keras(
 
 ### `pprint`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/graph.py#L312-L316)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/graph.py#L312-L316)
 
 ```python
 pprint()
@@ -67,7 +61,7 @@ pprint()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/graph.py#L309-L310)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/graph.py#L309-L310)
 
 ```python
 __getitem__(
