@@ -52,7 +52,7 @@ suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-su
 
 ## Example
 
-[This Report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) shows off the power of using DeepChecks and Weights & Biases
+[This Report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) shows off the power of using DeepChecks and Weights & Biases.
 
 {{< img src="/images/integrations/deepchecks_example.png" alt="Deepchecks data validation results" >}}
 
