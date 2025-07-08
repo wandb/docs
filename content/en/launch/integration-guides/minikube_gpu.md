@@ -275,7 +275,7 @@ Create the resources in your cluster with:
 kubectl apply -f nfs-persistent-volume.yaml
 ```
 
-In order for our runs to make use of this cache, we will need to add `volumes` and `volumeMounts` to our launch queue config. To edit the launch config, head back to [wandb.ai/launch](https://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server), find your queue, click to the queue page, and then click the **Edit config** tab. The original config can be modified to:
+In order for our runs to make use of this cache, we will need to add `volumes` and `volumeMounts` to our launch queue config. To edit the launch config, head back to [wandb.ai/launch](https://wandb.ai/launch) (or `<your-wandb-url>/launch` for users on wandb server), find your queue, click to the queue page, and then click the **Edit config** tab. The original config can be modified to:
 
 {{< tabpane text=true >}}
 {{% tab "YAML" %}}
