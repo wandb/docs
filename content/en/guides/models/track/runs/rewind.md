@@ -84,7 +84,7 @@ run2.finish()
 
 After you rewind a run, you can explore archived run with the W&B App UI. Follow these steps to view archived runs:
 
-1. **Access the Overview Tab:** Navigate to the [Overview tab]({{< relref "./#overview-tab" >}}) on the run's page. This tab provides a comprehensive view of the run's details and history.
+1. **Access the Overview Tab:** Navigate to the [**Overview** tab]({{< relref "./#overview-tab" >}}) on the run's page. This tab provides a comprehensive view of the run's details and history.
 2. **Locate the Forked From field:** Within the **Overview** tab, find the `Forked From` field. This field captures the history of the resumptions. The **Forked From** field includes a link to the source run, allowing you to trace back to the original run and understand the entire rewind history.
 
 By using the `Forked From` field, you can effortlessly navigate the tree of archived resumptions and gain insights into the sequence and origin of each rewind. 
