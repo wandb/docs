@@ -102,7 +102,7 @@ wandb.init(project="visualize-sklearn")
 
 #### Individual plots
 
-After training a model and making predictions you can then generate plots in wandb to analyze your predictions. See the **Supported Plots** section below for a full list of supported charts
+After training a model and making predictions you can then generate plots in wandb to analyze your predictions. See the **Supported Plots** section below for a full list of supported charts.
 
 ```python
 # Visualize single plot
@@ -324,4 +324,4 @@ Generally, the residuals of a well-fit model should be randomly distributed beca
 
 ## Example
 
-* [Run in colab](https://wandb.me/scikit-colab): A simple notebook to get you started
+* [Run in colab](https://wandb.me/scikit-colab): A simple notebook to get you started.
