@@ -80,7 +80,7 @@ After the migration completes:
     - [Organization-level access]({{< relref "/guides/core/registry/create_registry/#visibility-types" >}})
     - [Role-based access control]({{< relref "/guides/core/registry/configure_registry/" >}})
     - [Registry-level lineage tracking]({{< relref "/guides/core/registry/lineage/" >}})
-    - Automations
+    - [Automations]({{< relref "/guides/core/automations/" >}})
 
 ### Code will continue to work
 
