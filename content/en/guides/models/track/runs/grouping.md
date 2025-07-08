@@ -79,7 +79,7 @@ By default, long run names are truncated in the middle for readability. To custo
 
 ## Distributed training with grouping
 
-Suppose you set grouping in `wandb.init()`, we will group runs by default in the UI. You can toggle this on and off by clicking the **Group** button at the top of the table. Here's an [example project](https://wandb.ai/carey/group-demo?workspace=user-carey) generated from [sample code](http://wandb.me/grouping) where we set grouping. You can click on each "Group" row in the sidebar to get to a dedicated group page for that experiment.
+Suppose you set grouping in `wandb.init()`, we will group runs by default in the UI. You can toggle this on and off by clicking the **Group** button at the top of the table. Here's an [example project](https://wandb.ai/carey/group-demo?workspace=user-carey) generated from [sample code](https://wandb.me/grouping) where we set grouping. You can click on each "Group" row in the sidebar to get to a dedicated group page for that experiment.
 
 {{< img src="/images/track/distributed_training_wgrouping_1.png" alt="Grouped runs view" >}}
 

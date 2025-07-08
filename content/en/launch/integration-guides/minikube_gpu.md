@@ -275,7 +275,7 @@ Create the resources in your cluster with:
 kubectl apply -f nfs-persistent-volume.yaml
 ```
 
-In order for our runs to make use of this cache, we will need to add `volumes` and `volumeMounts` to our launch queue config. To edit the launch config, head back to [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server), find your queue, click to the queue page, and then click the **Edit config** tab. The original config can be modified to:
+In order for our runs to make use of this cache, we will need to add `volumes` and `volumeMounts` to our launch queue config. To edit the launch config, head back to [wandb.ai/launch](https://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server), find your queue, click to the queue page, and then click the **Edit config** tab. The original config can be modified to:
 
 {{< tabpane text=true >}}
 {{% tab "YAML" %}}
@@ -358,7 +358,7 @@ wandb launch -d wandb/job_stable_diffusion_inference:main -p <target-wandb-proje
 The command above will submit the container image `wandb/job_stable_diffusion_inference:main` to your queue.
 Once your agent picks up the job and schedules it for execution on your cluster,
 it may take a while for the image to be pulled, depending on your connection.
-You can follow the status of the job on the queue page on [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server).
+You can follow the status of the job on the queue page on [wandb.ai/launch](https://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server).
 
 Once the run has finished, you should have a job artifact in the project you specified.
 You can check your project's job page (`<project-url>/jobs`) to find the job artifact. Its default name should

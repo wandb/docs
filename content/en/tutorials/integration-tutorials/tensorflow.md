@@ -228,7 +228,7 @@ Click on the [**run page**]({{< relref "/guides/models/track/runs/#view-logged-r
 
 Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models.
 
-## [Check out Hyperparameter Optimization in TensorFlow using W&B Sweeps](http://wandb.me/tf-sweeps-colab)
+Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/tf-sweeps-colab)
 
 ### Benefits of using W&B Sweeps
 

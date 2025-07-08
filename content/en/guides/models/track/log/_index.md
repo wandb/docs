@@ -49,7 +49,7 @@ W&B automatically logs the following information during a W&B Experiment:
 * **System metrics**: CPU and GPU utilization, network, etc. For the GPU, these are fetched with [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface).
 * **Command line**: The stdout and stderr are picked up and show in the logs tab on the [run page.]({{< relref "/guides/models/track/runs/" >}})
 
-Turn on [Code Saving](http://wandb.me/code-save-colab) in your account's [Settings page](https://wandb.ai/settings) to log:
+Turn on [Code Saving](https://wandb.me/code-save-colab) in your account's [Settings page](https://wandb.ai/settings) to log:
 
 * **Git commit**: Pick up the latest git commit and see it on the overview tab of the run page, as well as a `diff.patch` file if there are any uncommitted changes.
 * **Dependencies**: The `requirements.txt` file will be uploaded and shown on the files tab of the run page, along with any files you save to the `wandb` directory for the run.

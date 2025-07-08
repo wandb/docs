@@ -531,7 +531,7 @@ wandb.log(
 
 When your run finishes, you'll be able to interact with 3D visualizations of your molecules in the UI.
 
-[See a live example using AlphaFold](http://wandb.me/alphafold-workspace)
+[See a live example using AlphaFold](https://wandb.me/alphafold-workspace)
 
 {{< img src="/images/track/docs-molecule.png" alt="Molecule structure" >}}
   </TabItem>

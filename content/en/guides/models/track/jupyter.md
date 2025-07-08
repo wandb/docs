@@ -48,7 +48,7 @@ After running `wandb.init()` , start a new cell with `%%wandb` to see live graph
 # Your training loop here
 ```
 
-Try it for yourself in this [example notebook](http://wandb.me/jupyter-interact-colab).
+Try it for yourself in this [example notebook](https://wandb.me/jupyter-interact-colab).
 
 {{< img src="/images/track/jupyter_widget.png" alt="Jupyter W&B widget" >}}
 

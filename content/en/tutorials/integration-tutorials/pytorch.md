@@ -44,7 +44,7 @@ model.to_onnx()
 wandb.save("model.onnx")
 ```
 
-Follow along with a [video tutorial](http://wandb.me/pytorch-video).
+Follow along with a [video tutorial](https://wandb.me/pytorch-video).
 
 **Note**: Sections starting with _Step_ are all you need to integrate W&B in an existing pipeline. The rest just loads data and defines a model.
 
@@ -430,7 +430,7 @@ a number of hyperparameters.
 
 You can use Weights & Biases Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies.
 
-## [Check out Hyperparameter Optimization in PyTorch using W&B Sweeps](http://wandb.me/sweeps-colab)
+Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/sweeps-colab).
 
 Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
 
