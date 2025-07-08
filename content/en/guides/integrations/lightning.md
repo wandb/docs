@@ -51,7 +51,7 @@ fabric.log_dict({"important_metric": important_metric})
 
 {{< /tabpane >}}
 
-{{< img src="/images/integrations/n6P7K4M.gif" alt="Interactive dashboards accessible anywhere, and more!" >}}
+{{< img src="/images/integrations/n6P7K4M.gif" alt="Interactive dashboards" >}}
 
 ### Sign up and create an API key
 

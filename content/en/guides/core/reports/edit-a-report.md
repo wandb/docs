@@ -198,7 +198,7 @@ A report automatically updates run sets to show the latest data from the project
 
 To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
 
-{{< img src="/images/reports/freeze_runset.png" alt="" >}}
+{{< img src="/images/reports/freeze_runset.png" alt="Freeze runset button" >}}
 
 ## Add code blocks
 
@@ -294,7 +294,7 @@ report.blocks = [
 
 This will render a markdown block similar to:
 
-{{< img src="/images/reports/markdown.png" alt="" >}}
+{{< img src="/images/reports/markdown.png" alt="Rendered markdown block" >}}
 
 {{% /tab %}}
 
@@ -334,7 +334,7 @@ report.save()
 This will render a HTML elements  to the following:
 
 
-{{< img src="/images/reports/render_html.png" alt="" >}}
+{{< img src="/images/reports/render_html.png" alt="Rendered HTML elements" >}}
 
 {{% /tab %}}
 
@@ -353,19 +353,19 @@ Copy and past URLs into reports to embed rich media within the report. The follo
 
 Copy and paste a Tweet link URL into a report to view the Tweet within the report.
 
-{{< img src="/images/reports/twitter.gif" alt="" >}}
+{{< img src="/images/reports/twitter.gif" alt="Embedding Twitter content" >}}
 
 ### Youtube
 
 Copy and paste a YouTube video URL link to embed a video in the report.
 
-{{< img src="/images/reports/youtube.gif" alt="" >}}
+{{< img src="/images/reports/youtube.gif" alt="Embedding YouTube videos" >}}
 
 ### SoundCloud
 
 Copy and paste a SoundCloud link to embed an audio file into a report.
 
-{{< img src="/images/reports/soundcloud.gif" alt="" >}}
+{{< img src="/images/reports/soundcloud.gif" alt="Embedding SoundCloud audio" >}}
 
 {{% /tab %}}
 
@@ -398,11 +398,11 @@ If you have a layout that you would like to reuse, you can select a panel grid a
 
 Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
 
-{{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="" >}}
+{{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="Copying panel grids" >}}
 
 Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
-{{< img src="/images/reports/delete_panel_grid.gif" alt="" >}}
+{{< img src="/images/reports/delete_panel_grid.gif" alt="Deleting panel grids" >}}
 
 ## Collapse headers to organize Reports
 

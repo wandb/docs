@@ -30,7 +30,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
 1. First, sign in to your AWS account and navigate to the [AWS Cognito](https://aws.amazon.com/cognito/) App.
 
-    {{< img src="/images/hosting/setup_aws_cognito.png" alt="When you use OIDC for authentication and not authorization, public clients simplify setup" >}}
+    {{< img src="/images/hosting/setup_aws_cognito.png" alt="AWS Cognito setup" >}}
 
 2. Provide an allowed callback URL to configure the application in your IdP:
      * Add `http(s)://YOUR-W&B-HOST/oidc/callback` as the callback URL. Replace `YOUR-W&B-HOST` with your W&B host path.
@@ -41,7 +41,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
     The image below demonstrates how to provide allowed callback and sign-out URLs in AWS Cognito.
 
-    {{< img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="If your instance is accessible from multiple hosts, be sure to include all of them here." >}}
+    {{< img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="Host configuration" >}}
 
 
     _wandb/local_ uses the [`implicit` grant with the `form_post` response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. 
@@ -66,7 +66,7 @@ Follow the procedure below to set up AWS Cognito for authorization:
 
     For example, , you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
 
-    {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="Screenshot of issuer URL in AWS Cognito" >}}
+    {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="AWS Cognito issuer URL" >}}
 
     Do not use the "Cognito domain" for the IDP URL. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
 
@@ -78,13 +78,13 @@ Follow the procedure below to set up Okta for authorization:
 1. Log in to the [Okta Portal](https://login.okta.com/). 
 
 2. On the left side, select **Applications** and then **Applications** again.
-    {{< img src="/images/hosting/okta_select_applications.png" alt="" >}}
+    {{< img src="/images/hosting/okta_select_applications.png" alt="Okta Applications menu" >}}
 
 3. Click on "Create App integration."
-    {{< img src="/images/hosting/okta_create_new_app_integration.png" alt="" >}}
+    {{< img src="/images/hosting/okta_create_new_app_integration.png" alt="Create App integration button" >}}
 
 4. On the screen named "Create a new app integration," select **OIDC - OpenID Connect** and **Single-Page Application**. Then click "Next."
-    {{< img src="/images/hosting/okta_create_a_new_app_integration.png" alt="" >}}
+    {{< img src="/images/hosting/okta_create_a_new_app_integration.png" alt="OIDC Single-Page Application selection" >}}
 
 5. On the screen named "New Single-Page App Integration," fill out the values as follows and click **Save**:
     - App integration name, for example "Weights & Biases"
@@ -92,14 +92,14 @@ Follow the procedure below to set up Okta for authorization:
     - Sign-in redirect URIs: https://YOUR_W_AND_B_URL/oidc/callback
     - Sign-out redirect URIs: https://YOUR_W_AND_B_URL/logout
     - Assignments: Select **Skip group assignment for now**
-    {{< img src="/images/hosting/okta_new_single_page_app_integration.png" alt="" >}}
+    {{< img src="/images/hosting/okta_new_single_page_app_integration.png" alt="Single-Page App configuration" >}}
 
 6. On the overview screen of the Okta application that you just created, make note of the **Client ID** under **Client Credentials** under the **General** tab:
-    {{< img src="/images/hosting/okta_make_note_of_client_id.png" alt="" >}}
+    {{< img src="/images/hosting/okta_make_note_of_client_id.png" alt="Okta Client ID location" >}}
 
 7. To identify the Okta OIDC Issuer URL, select **Settings** and then **Account** on the left side.
     The Okta UI shows the company name under **Organization Contact**.
-    {{< img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="" >}}
+    {{< img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="Okta organization settings" >}}
 
 The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replace COMPANY with the corresponding value. Make note of it.
 {{% /tab %}}
@@ -108,16 +108,16 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 1. Log in to the [Azure Portal](https://portal.azure.com/).
 
 2. Select "Microsoft Entra ID" service.
-    {{< img src="/images/hosting/entra_select_entra_service.png" alt="" >}}
+    {{< img src="/images/hosting/entra_select_entra_service.png" alt="Microsoft Entra ID service" >}}
 
 3. On the left side, select "App registrations."
-    {{< img src="/images/hosting/entra_app_registrations.png" alt="" >}}
+    {{< img src="/images/hosting/entra_app_registrations.png" alt="App registrations menu" >}}
 
 4. On the top, click "New registration."
-    {{< img src="/images/hosting/entra_new_app_registration.png" alt="" >}}
+    {{< img src="/images/hosting/entra_new_app_registration.png" alt="New registration button" >}}
 
     On the screen named "Register an application," fill out the values as follows:
-    {{< img src="/images/hosting/entra_register_an_application.png" alt="" >}}
+    {{< img src="/images/hosting/entra_register_an_application.png" alt="Application registration form" >}}
 
     - Specify a name, for example "Weights and Biases application"
     - By default the selected account type is: "Accounts in this organizational directory only (Default Directory only - Single tenant)." Modify if you need to.
@@ -126,26 +126,26 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 
     - Make a note of the "Application (client) ID" and "Directory (tenant) ID." 
 
-      {{< img src="/images/hosting/entra_app_overview_make_note.png" alt="" >}}
+      {{< img src="/images/hosting/entra_app_overview_make_note.png" alt="Application and Directory IDs" >}}
 
 
 5. On the left side, click **Authentication**.
-    {{< img src="/images/hosting/entra_select_authentication.png" alt="" >}}
+    {{< img src="/images/hosting/entra_select_authentication.png" alt="Authentication menu" >}}
 
     - Under **Front-channel logout URL**, specify: `https://YOUR_W_AND_B_URL/logout`
     - Click "Save."
 
-      {{< img src="/images/hosting/entra_logout_url.png" alt="" >}}
+      {{< img src="/images/hosting/entra_logout_url.png" alt="Front-channel logout URL" >}}
 
 
 6. On the left side, click "Certificates & secrets."
-    {{< img src="/images/hosting/entra_select_certificates_secrets.png" alt="" >}}
+    {{< img src="/images/hosting/entra_select_certificates_secrets.png" alt="Certificates & secrets menu" >}}
 
     - Click "Client secrets" and then click "New client secret."
-      {{< img src="/images/hosting/entra_new_secret.png" alt="" >}}
+      {{< img src="/images/hosting/entra_new_secret.png" alt="New client secret button" >}}
 
       On the screen named "Add a client secret," fill out the values as follows:
-      {{< img src="/images/hosting/entra_add_new_client_secret.png" alt="" >}}
+      {{< img src="/images/hosting/entra_add_new_client_secret.png" alt="Client secret configuration" >}}
 
       - Enter a description, for example "wandb"
       - Leave "Expires" as is or change if you have to.
@@ -153,7 +153,7 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 
 
     - Make a note of the "Value" of the secret. There is no need for the "Secret ID."
-    {{< img src="/images/hosting/entra_make_note_of_secret_value.png" alt="" >}}
+    {{< img src="/images/hosting/entra_make_note_of_secret_value.png" alt="Client secret value" >}}
 
 You should now have made notes of three values:
 - OIDC Client ID
@@ -194,7 +194,7 @@ The System Console is the successor to the System Settings page. It is available
 1. Refer to [Access the W&B Management Console]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#access-the-wb-management-console" >}}).
 
 2. Navigate to **Settings**, then **Authentication**. Select **OIDC** in the **Type** dropdown.
-    {{< img src="/images/hosting/sso_configure_via_console.png" alt="" >}}
+    {{< img src="/images/hosting/sso_configure_via_console.png" alt="System Console OIDC configuration" >}}
 
 3. Enter the values.
 
@@ -206,16 +206,16 @@ The System Console is the successor to the System Settings page. It is available
 1. Sign in to your Weights&Biases instance. 
 2. Navigate to the W&B App. 
 
-    {{< img src="/images/hosting/system_settings.png" alt="" >}}
+    {{< img src="/images/hosting/system_settings.png" alt="W&B App navigation" >}}
 
 3. From the dropdown, select **System Settings**:
 
-    {{< img src="/images/hosting/system_settings_select_settings.png" alt="" >}}
+    {{< img src="/images/hosting/system_settings_select_settings.png" alt="System Settings dropdown" >}}
 
 4. Enter your Issuer, Client ID, and Authentication Method. 
 5. Select **Update settings**.
 
-{{< img src="/images/hosting/system_settings_select_update.png" alt="" >}}
+{{< img src="/images/hosting/system_settings_select_update.png" alt="Update settings button" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 

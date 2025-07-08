@@ -159,7 +159,7 @@ YAML 파일의 `program` 키에 Python 스크립트의 이름을 제공해야 �
 
 다음으로 코드 예제에 다음을 추가합니다.
 
-1. Wieghts & Biases Python SDK(`wandb`) 및 PyYAML(`yaml`)을 가져옵니다. PyYAML은 YAML 구성 파일을 읽어오는 데 사용됩니다.
+1. Weights & Biases Python SDK(`wandb`) 및 PyYAML(`yaml`)을 가져옵니다. PyYAML은 YAML 구성 파일을 읽어오는 데 사용됩니다.
 2. 구성 파일을 읽어옵니다.
 3. [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ko" >}}) API를 사용하여 데이터를 동기화하고 [W&B Run]({{< relref path="/ref/python/run.md" lang="ko" >}})으로 기록하는 백그라운드 프로세스를 생성합니다. config 오브젝트를 config 파라미터에 전달합니다.
 4. 하드 코딩된 값을 사용하는 대신 `wandb.config`에서 하이퍼파라미터 값을 정의합니다.

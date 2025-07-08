@@ -15,7 +15,7 @@ cascade:
 
 Use W&B Sweeps to automate hyperparameter search and visualize rich, interactive experiment tracking. Pick from popular search methods such as Bayesian, grid search, and random to search the hyperparameter space. Scale and parallelize sweep across one or more machines.
 
-{{< img src="/images/sweeps/intro_what_it_is.png" alt="Draw insights from large hyperparameter tuning experiments with interactive dashboards." >}}
+{{< img src="/images/sweeps/intro_what_it_is.png" alt="Hyperparameter tuning insights" >}}
 
 ### How it works
 Create a sweep with two [W&B CLI]({{< relref "/ref/cli/" >}}) commands:
@@ -24,7 +24,7 @@ Create a sweep with two [W&B CLI]({{< relref "/ref/cli/" >}}) commands:
 1. Initialize a sweep
 
 ```bash
-wandb sweep --project <propject-name> <path-to-config file>
+wandb sweep --project <project-name> <path-to-config file>
 ```
 
 2. Start the sweep agent

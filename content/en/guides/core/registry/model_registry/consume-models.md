@@ -89,7 +89,7 @@ See [`use_model`]({{< relref "/ref/python/sdk/classes/run#use_model" >}}) in the
 3. Within the Versions section, select the View button next to the model version you want to download.
 4. Select the **Files** tab. 
 5. Click on the download button next to the model file you want to download. 
-{{< img src="/images/models/download_model_ui.gif" alt="" >}}  
+{{< img src="/images/models/download_model_ui.gif" alt="Download model from UI" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
 

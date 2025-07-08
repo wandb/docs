@@ -680,8 +680,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x102a01f30>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1037ac040>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x102da5f30>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x103b4c5e0>
 ) → Artifact | None
 ```
 
