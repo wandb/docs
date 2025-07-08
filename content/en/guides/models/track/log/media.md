@@ -212,7 +212,7 @@ for id, img, label in zip(ids, images, labels):
         },
     )
 
-    table.add_data(id, img)
+    table.add_data(id, mask_img)
 
 wandb.log({"Table": table})
 ```   
