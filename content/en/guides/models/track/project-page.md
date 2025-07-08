@@ -17,13 +17,13 @@ Each project has a visibility setting that determines who can access it. For mor
 
 Each project contains the following tabs:
 
-* [**Overview**]({{< relref "project-page.md#overview-tab" >}}): snapshot of your project
-* [**Workspace**]({{< relref "project-page.md#workspace-tab" >}}): personal visualization sandbox
-* [**Runs**]({{< relref "#runs-tab" >}}): A table that lists all the runs in your project
-* [**Automations**]({{< relref "#automations-tab">}}): Automations configured in your project
-* [**Sweeps**]({{< relref "project-page.md#sweeps-tab" >}}): automated exploration and optimization
-* [**Reports**]({{< relref "project-page.md#reports-tab" >}}): saved snapshots of notes, runs, and graphs
-* [**Artifacts**]({{< relref "#artifacts-tab" >}}): Contains all runs and the artifacts associated with that run
+* [Overview]({{< relref "project-page.md#overview-tab" >}}): snapshot of your project
+* [Workspace]({{< relref "project-page.md#workspace-tab" >}}): personal visualization sandbox
+* [Runs]({{< relref "#runs-tab" >}}): A table that lists all the runs in your project
+* [Automations]({{< relref "#automations-tab">}}): Automations configured in your project
+* [Sweeps]({{< relref "project-page.md#sweeps-tab" >}}): automated exploration and optimization
+* [Reports]({{< relref "project-page.md#reports-tab" >}}): saved snapshots of notes, runs, and graphs
+* [Artifacts]({{< relref "#artifacts-tab" >}}): Contains all runs and the artifacts associated with that run
 
 ## Overview tab
 

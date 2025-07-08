@@ -6,7 +6,7 @@ menu:
 title: Scikit-Learn
 weight: 380
 ---
-You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [**Try an example →**](https://wandb.me/scikit-colab)
+You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [Try an example →](https://wandb.me/scikit-colab)
 
 ## Get started
 
