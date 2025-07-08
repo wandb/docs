@@ -22,7 +22,7 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-To turn off log output completely, set the `WANDB_SILENT` environment variable. This must occur in a notebook cell before running `wandb.login`:
+To significantly reduce log output, set `WANDB_QUIET` environment variable to `True`. To turn off log output completely, set the `WANDB_SILENT` environment variable to `True`. In a notebook, set `WANDB_QUIET` or `WANDB_SILENT` before running `wandb.login`:
 
 {{< tabpane text=true langEqualsHeader=true >}}
 {{% tab "Notebook" %}}

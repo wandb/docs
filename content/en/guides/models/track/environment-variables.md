@@ -65,7 +65,8 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB_RESUME** | By default this is set to _never_. If set to _auto_ wandb will automatically resume failed runs. If set to _must_ forces the run to exist on startup. If you want to always generate your own unique ids, set this to _allow_ and always set **WANDB_RUN_ID**. |
 | **WANDB_RUN_GROUP** | Specify the experiment name to automatically group runs together. See [grouping]({{< relref "/guides/models/track/runs/grouping.md" >}}) for more info. |
 | **WANDB_RUN_ID** | Set this to a globally unique string (per project) corresponding to a single run of your script. It must be no longer than 64 characters. All non-word characters will be converted to dashes. This can be used to resume an existing run in cases of failure. |
-| **WANDB_SILENT** | Set this to **true** to silence wandb log statements. If this is set all logs will be written to **WANDB_DIR**/debug.log |
+| **WANDB_QUIET** | Set this to **true** to limit statements logged to standard output to critical statements only. If this is set all logs will be written to **WANDB_DIR**/debug.log. |
+| **WANDB_SILENT** | Set this to **true** to silence wandb log statements. This is useful for scripted commands. If this is set all logs will be written to **WANDB_DIR**/debug.log. |
 | **WANDB_SHOW_RUN** | Set this to **true** to automatically open a browser with the run url if your operating system supports it. |
 | **WANDB_SWEEP_ID** | Add sweep ID tracking to `Run` objects and related classes, and display in the UI. |
 | **WANDB_TAGS** | A comma separated list of tags to be applied to the run. |
