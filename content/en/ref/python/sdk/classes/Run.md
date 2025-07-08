@@ -12,21 +12,20 @@ data_type_classification: class
 ## <kbd>class</kbd> `Run`
 A unit of computation logged by W&B. Typically, this is an ML experiment. 
 
-Call [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) to create a new run. `wandb.init()` starts a new run and returns a `wandb.Run` object. Each run is associated with a unique ID (run ID). There is only ever at most one active `wandb.Run` in any process. 
+Call [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) to create a new run. `wandb.init()` starts a new run and returns a `wandb.Run` object. Each run is associated with a unique ID (run ID). W&B recommends using a context (`with` statement) manager to automatically finish the run. 
 
 For distributed training experiments, you can either track each process separately using one run per process or track all processes to a single run. See [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) for more information. 
 
-You can log data to a run with `run.log()`. Anything you log using `run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/launch) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
+You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/launch) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
 
 There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
-
-Finish active runs before starting new runs. Use a context manager (`with` statement) to automatically finish the run or use `wandb.finish()` to finish a run manually. W&B recommends using a context manager to automatically finish the run. 
 
 
 
 **Attributes:**
  
- - `summary`:  (Summary) Single values set for each `run.log()` key. By  default, summary is set to the last value logged. You can manually  set summary to the best value, like max accuracy, instead of the  final value. 
+ - `summary`:  (Summary) A summary of the run, which is a dictionary-like  object. For more information, see 
+ - `[Log summary metrics](https`: //docs.wandb.ai/guides/track/log/log-summary/). 
 
 
 
@@ -77,9 +76,11 @@ Entity can be a username or the name of a team or organization.
 
 ### <kbd>property</kbd> Run.group
 
-Name of the group associated with the run. 
+Returns the name of the group associated with this run. 
 
-Setting a group helps the W&B UI organize runs. If you are doing a distributed training you should give all of the runs in the training the same group. If you are doing cross-validation you should give all the cross-validation folds the same group. 
+Grouping runs together allows related experiments to be organized and visualized collectively in the W&B UI. This is especially useful for scenarios such as distributed training or cross-validation, where multiple runs should be viewed and managed as a unified experiment. 
+
+In shared mode, where all processes share the same run object, setting a group is usually unnecessary, since there is only one run and no grouping is required. 
 
 ---
 
@@ -92,6 +93,10 @@ Identifier for this run.
 ### <kbd>property</kbd> Run.job_type
 
 Name of the job type associated with the run. 
+
+View a run's job type in the run's Overview page in the W&B App. 
+
+You can use this to categorize runs by their job type, such as "training", "evaluation", or "inference". This is useful for organizing and filtering runs in the W&B UI, especially when you have multiple runs with different job types in the same project. For more information, see [Organize runs](https://docs.wandb.ai/guides/runs/#organize-runs). 
 
 ---
 
@@ -227,7 +232,7 @@ define_metric(
 ) → wandb_metric.Metric
 ```
 
-Customize metrics logged with `run.log()`. 
+Customize metrics logged with `wandb.Run.log()`. 
 
 
 
@@ -235,7 +240,7 @@ Customize metrics logged with `run.log()`.
  
  - `name`:  The name of the metric to customize. 
  - `step_metric`:  The name of another metric to serve as the X-axis  for this metric in automatically generated charts. 
- - `step_sync`:  Automatically insert the last value of step_metric into  `run.log()` if it is not provided explicitly. Defaults to True  if step_metric is specified. 
+ - `step_sync`:  Automatically insert the last value of step_metric into  `wandb.Run.log()` if it is not provided explicitly. Defaults to True  if step_metric is specified. 
  - `hidden`:  Hide this metric from automatic plots. 
  - `summary`:  Specify aggregate metrics added to summary.  Supported aggregations include "min", "max", "mean", "last",  "best", "copy" and "none". "best" is used together with the  goal parameter. "none" prevents a summary from being generated.  "copy" is deprecated and should not be used. 
  - `goal`:  Specify how to interpret the "best" summary type.  Supported options are "minimize" and "maximize". 
@@ -323,41 +328,8 @@ Subsequent "upserts" with the same distributed ID will result in a new version.
 
 ---
 
-### <kbd>method</kbd> `Run.get_project_url`
 
-```python
-get_project_url() → str | None
-```
 
-This method is deprecated and will be removed in a future release. Use `run.project_url` instead. 
-
-URL of the W&B project associated with the run, if there is one. Offline runs do not have a project URL. 
-
----
-
-### <kbd>method</kbd> `Run.get_sweep_url`
-
-```python
-get_sweep_url() → str | None
-```
-
-This method is deprecated and will be removed in a future release. Use `run.sweep_url` instead. 
-
-The URL of the sweep associated with the run, if there is one. Offline runs do not have a sweep URL. 
-
----
-
-### <kbd>method</kbd> `Run.get_url`
-
-```python
-get_url() → str | None
-```
-
-This method is deprecated and will be removed in a future release. Use `run.url` instead. 
-
-URL of the W&B run, if there is one. Offline runs do not have a URL. 
-
----
 
 ### <kbd>method</kbd> `Run.link_artifact`
 
@@ -431,7 +403,7 @@ This method will:
 
 
 **Returns:**
- The linked artifact if linking was successful, otherwise None. 
+ The linked artifact if linking was successful, otherwise `None`. 
 
 ---
 
@@ -467,48 +439,52 @@ Logged values don't have to be scalars. You can log any [W&B supported Data Type
 W&B organizes metrics with a forward slash (`/`) in their name into sections named using the text before the final slash. For example, the following results in two sections named "train" and "validate": 
 
 ```python
-run.log(
-     {
-         "train/accuracy": 0.9,
-         "train/loss": 30,
-         "validate/accuracy": 0.8,
-         "validate/loss": 20,
-     }
-)
+with wandb.init() as run:
+     # Log metrics in the "train" section.
+     run.log(
+         {
+             "train/accuracy": 0.9,
+             "train/loss": 30,
+             "validate/accuracy": 0.8,
+             "validate/loss": 20,
+         }
+     )
 ``` 
 
 Only one level of nesting is supported; `run.log({"a/b/c": 1})` produces a section named "a/b". 
 
-`run.log` is not intended to be called more than a few times per second. For optimal performance, limit your logging to once every N iterations, or collect data over multiple iterations and log it in a single step. 
+`run.log()` is not intended to be called more than a few times per second. For optimal performance, limit your logging to once every N iterations, or collect data over multiple iterations and log it in a single step. 
 
 By default, each call to `log` creates a new "step". The step must always increase, and it is not possible to log to a previous step. You can use any metric as the X axis in charts. See [Custom log axes](https://docs.wandb.ai/guides/track/log/customize-logging-axes/) for more details. 
 
 In many cases, it is better to treat the W&B step like you'd treat a timestamp rather than a training step. 
 
 ```python
-# Example: log an "epoch" metric for use as an X axis.
-run.log({"epoch": 40, "train-loss": 0.5})
+with wandb.init() as run:
+     # Example: log an "epoch" metric for use as an X axis.
+     run.log({"epoch": 40, "train-loss": 0.5})
 ``` 
 
-It is possible to use multiple `log` invocations to log to the same step with the `step` and `commit` parameters. The following are all equivalent: 
+It is possible to use multiple `wandb.Run.log()` invocations to log to the same step with the `step` and `commit` parameters. The following are all equivalent: 
 
 ```python
-# Normal usage:
-run.log({"train-loss": 0.5, "accuracy": 0.8})
-run.log({"train-loss": 0.4, "accuracy": 0.9})
+with wandb.init() as run:
+     # Normal usage:
+     run.log({"train-loss": 0.5, "accuracy": 0.8})
+     run.log({"train-loss": 0.4, "accuracy": 0.9})
 
-# Implicit step without auto-incrementing:
-run.log({"train-loss": 0.5}, commit=False)
-run.log({"accuracy": 0.8})
-run.log({"train-loss": 0.4}, commit=False)
-run.log({"accuracy": 0.9})
+     # Implicit step without auto-incrementing:
+     run.log({"train-loss": 0.5}, commit=False)
+     run.log({"accuracy": 0.8})
+     run.log({"train-loss": 0.4}, commit=False)
+     run.log({"accuracy": 0.9})
 
-# Explicit step:
-run.log({"train-loss": 0.5}, step=current_step)
-run.log({"accuracy": 0.8}, step=current_step)
-current_step += 1
-run.log({"train-loss": 0.4}, step=current_step)
-run.log({"accuracy": 0.9}, step=current_step)
+     # Explicit step:
+     run.log({"train-loss": 0.5}, step=current_step)
+     run.log({"accuracy": 0.8}, step=current_step)
+     current_step += 1
+     run.log({"train-loss": 0.4}, step=current_step)
+     run.log({"accuracy": 0.9}, step=current_step)
 ``` 
 
 
@@ -530,8 +506,8 @@ Basic usage
 ```python
 import wandb
 
-run = wandb.init()
-run.log({"accuracy": 0.9, "epoch": 5})
+with wandb.init() as run:
+    run.log({"train-loss": 0.5, "accuracy": 0.9
 ``` 
 
 Incremental logging 
@@ -539,10 +515,10 @@ Incremental logging
 ```python
 import wandb
 
-run = wandb.init()
-run.log({"loss": 0.2}, commit=False)
-# Somewhere else when I'm ready to report this step:
-run.log({"accuracy": 0.8})
+with wandb.init() as run:
+    run.log({"loss": 0.2}, commit=False)
+    # Somewhere else when I'm ready to report this step:
+    run.log({"accuracy": 0.8})
 ``` 
 
 Histogram 
@@ -553,8 +529,8 @@ import wandb
 
 # sample gradients at random from normal distribution
 gradients = np.random.randn(100, 100)
-run = wandb.init()
-run.log({"gradients": wandb.Histogram(gradients)})
+with wandb.init() as run:
+    run.log({"gradients": wandb.Histogram(gradients)})
 ``` 
 
 Image from NumPy 
@@ -563,13 +539,13 @@ Image from NumPy
 import numpy as np
 import wandb
 
-run = wandb.init()
-examples = []
-for i in range(3):
-    pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-    image = wandb.Image(pixels, caption=f"random field {i}")
-    examples.append(image)
-run.log({"examples": examples})
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(pixels, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
 ``` 
 
 Image from PIL 
@@ -579,19 +555,19 @@ import numpy as np
 from PIL import Image as PILImage
 import wandb
 
-run = wandb.init()
-examples = []
-for i in range(3):
-    pixels = np.random.randint(
-         low=0,
-         high=256,
-         size=(100, 100, 3),
-         dtype=np.uint8,
-    )
-    pil_image = PILImage.fromarray(pixels, mode="RGB")
-    image = wandb.Image(pil_image, caption=f"random field {i}")
-    examples.append(image)
-run.log({"examples": examples})
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(
+             low=0,
+             high=256,
+             size=(100, 100, 3),
+             dtype=np.uint8,
+         )
+         pil_image = PILImage.fromarray(pixels, mode="RGB")
+         image = wandb.Image(pil_image, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
 ``` 
 
 Video from NumPy 
@@ -600,15 +576,15 @@ Video from NumPy
 import numpy as np
 import wandb
 
-run = wandb.init()
-# axes are (time, channel, height, width)
-frames = np.random.randint(
-    low=0,
-    high=256,
-    size=(10, 3, 100, 100),
-    dtype=np.uint8,
-)
-run.log({"video": wandb.Video(frames, fps=4)})
+with wandb.init() as run:
+    # axes are (time, channel, height, width)
+    frames = np.random.randint(
+         low=0,
+         high=256,
+         size=(10, 3, 100, 100),
+         dtype=np.uint8,
+    )
+    run.log({"video": wandb.Video(frames, fps=4)})
 ``` 
 
 Matplotlib plot 
@@ -618,12 +594,12 @@ from matplotlib import pyplot as plt
 import numpy as np
 import wandb
 
-run = wandb.init()
-fig, ax = plt.subplots()
-x = np.linspace(0, 10)
-y = x * x
-ax.plot(x, y)  # plot y = x^2
-run.log({"chart": fig})
+with wandb.init() as run:
+    fig, ax = plt.subplots()
+    x = np.linspace(0, 10)
+    y = x * x
+    ax.plot(x, y)  # plot y = x^2
+    run.log({"chart": fig})
 ``` 
 
 PR Curve 
@@ -631,8 +607,8 @@ PR Curve
 ```python
 import wandb
 
-run = wandb.init()
-run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
+with wandb.init() as run:
+    run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
 ``` 
 
 3D Object 
@@ -640,24 +616,24 @@ run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
 ```python
 import wandb
 
-run = wandb.init()
-run.log(
-    {
-         "generated_samples": [
-             wandb.Object3D(open("sample.obj")),
-             wandb.Object3D(open("sample.gltf")),
-             wandb.Object3D(open("sample.glb")),
-         ]
-    }
-)
+with wandb.init() as run:
+    run.log(
+         {
+             "generated_samples": [
+                 wandb.Object3D(open("sample.obj")),
+                 wandb.Object3D(open("sample.gltf")),
+                 wandb.Object3D(open("sample.glb")),
+             ]
+         }
+    )
 ``` 
 
 
 
 **Raises:**
  
- - `wandb.Error`:  if called before `wandb.init` 
- - `ValueError`:  if invalid data is passed 
+ - `wandb.Error`:  If called before `wandb.init()`. 
+ - `ValueError`:  If invalid data is passed. 
 
 ---
 
@@ -704,8 +680,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x104d0df30>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x105ac0160>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x102a01f30>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1037ac040>
 ) → Artifact | None
 ```
 
@@ -807,17 +783,6 @@ Also tells the internal process to immediately report this to server.
 
 ---
 
-### <kbd>method</kbd> `Run.project_name`
-
-```python
-project_name() → str
-```
-
-This method is deprecated and will be removed in a future release. Use `run.project` instead. 
-
-Name of the W&B project associated with the run. 
-
----
 
 ### <kbd>method</kbd> `Run.restore`
 
@@ -852,7 +817,7 @@ File is placed into the current directory or run directory. By default, will onl
 
 **Raises:**
  
- - `wandb.CommError`:  If W&B can't connect to the W&B backend. 
+ - `CommError`:  If W&B can't connect to the W&B backend. 
  - `ValueError`:  If the file is not found or can't find run_path. 
 
 ---
@@ -898,23 +863,26 @@ For historical reasons, this may return a boolean in legacy code.
 ```python
 import wandb
 
-wandb.init()
+run = wandb.init()
 
-wandb.save("these/are/myfiles/*")
+run.save("these/are/myfiles/*")
 # => Saves files in a "these/are/myfiles/" folder in the run.
 
-wandb.save("these/are/myfiles/*", base_path="these")
+run.save("these/are/myfiles/*", base_path="these")
 # => Saves files in an "are/myfiles/" folder in the run.
 
-wandb.save("/User/username/Documents/run123/*.txt")
+run.save("/User/username/Documents/run123/*.txt")
 # => Saves files in a "run123/" folder in the run. See note below.
 
-wandb.save("/User/username/Documents/run123/*.txt", base_path="/User")
+run.save("/User/username/Documents/run123/*.txt", base_path="/User")
 # => Saves files in a "username/Documents/run123/" folder in the run.
 
-wandb.save("files/*/saveme.txt")
+run.save("files/*/saveme.txt")
 # => Saves each "saveme.txt" file in an appropriate subdirectory
 #    of "files/".
+
+# Explicitly finish the run since a context manager is not used.
+run.finish()
 ``` 
 
 ---
@@ -1041,6 +1009,9 @@ artifact_c = run.use_artifact(
 artifact_d = run.use_artifact(
     artifact_or_name="<entity>/<project>/<name>:v<version>"
 )
+
+# Explicitly finish the run since a context manager is not used.
+run.finish()
 ``` 
 
 ---
@@ -1063,15 +1034,15 @@ Download the files logged in a model artifact 'name'.
 
 
 
-**Raises:**
- 
- - `AssertionError`:  If model artifact 'name' is of a type that does not contain the substring 'model'. 
-
-
-
 **Returns:**
  
  - `path` (str):  Path to downloaded model artifact file(s). 
+
+
+
+**Raises:**
+ 
+ - `AssertionError`:  If model artifact 'name' is of a type that does  not contain the substring 'model'. 
 
 ---
 
@@ -1106,5 +1077,5 @@ This function can track parameters, gradients, or both during training.
 
 
 **Raises:**
- ValueError:  If `wandb.init` has not been called or if any of the models are not instances  of `torch.nn.Module`. 
+ ValueError:  If `wandb.init()` has not been called or if any of the models are not instances  of `torch.nn.Module`. 
 

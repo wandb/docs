@@ -42,5 +42,5 @@ File is placed into the current directory or run directory. By default, will onl
 
 **Raises:**
  
- - `wandb.CommError`:  If W&B can't connect to the W&B backend. 
+ - `CommError`:  If W&B can't connect to the W&B backend. 
  - `ValueError`:  If the file is not found or can't find run_path. 

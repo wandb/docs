@@ -96,11 +96,11 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
 
 **Raises:**
  
- - `Error`:  if some unknown or internal error happened during the run  initialization. 
- - `AuthenticationError`:  if the user failed to provide valid credentials. 
- - `CommError`:  if there was a problem communicating with the WandB server. 
- - `UsageError`:  if the user provided invalid arguments. 
- - `KeyboardInterrupt`:  if user interrupts the run. 
+ - `Error`:  If some unknown or internal error happened during the run  initialization. 
+ - `AuthenticationError`:  If the user failed to provide valid credentials. 
+ - `CommError`:  If there was a problem communicating with the WandB server. 
+ - `UsageError`:  If the user provided invalid arguments. 
+ - `KeyboardInterrupt`:  If user interrupts the run. 
 
 
 
@@ -112,14 +112,15 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
 
 
 **Examples:**
- `wandb.init()` returns a run object, and you can also access the run object with `wandb.run`: 
+ `wandb.init()` returns a `Run` object. Use the run object to log data, save artifacts, and manage the run lifecycle. 
 
 ```python
 import wandb
 
 config = {"lr": 0.01, "batch_size": 32}
 with wandb.init(config=config) as run:
-    run.config.update({"architecture": "resnet", "depth": 34})
-
-    # ... your training code here ...
+    # Log accuracy and loss to the run
+    acc = 0.95  # Example accuracy
+    loss = 0.05  # Example loss
+    run.log({"accuracy": acc, "loss": loss})
 ``` 

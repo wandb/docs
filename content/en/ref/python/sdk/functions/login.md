@@ -47,7 +47,7 @@ By default, this will only store credentials locally without verifying them with
 
 **Returns:**
  
- - `bool`:  If `key` is configured 
+ - `bool`:  If `key` is configured. 
 
 
 

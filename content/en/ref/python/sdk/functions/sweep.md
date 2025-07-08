@@ -41,4 +41,4 @@ See [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-s
 
 **Returns:**
  
- - `sweep_id`:  str. A unique identifier for the sweep. 
+ - `sweep_id`:  (str) A unique identifier for the sweep. 

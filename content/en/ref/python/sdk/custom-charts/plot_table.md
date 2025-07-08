@@ -23,7 +23,7 @@ plot_table(
 
 Creates a custom charts using a Vega-Lite specification and a `wandb.Table`. 
 
-This function creates a custom chart based on a Vega-Lite specification and a data table represented by a `wandb.Table` object. The specification needs to be predefined and stored in the W&B backend. The function returns a custom chart object that can be logged to W&B using `wandb.log()`. 
+This function creates a custom chart based on a Vega-Lite specification and a data table represented by a `wandb.Table` object. The specification needs to be predefined and stored in the W&B backend. The function returns a custom chart object that can be logged to W&B using `wandb.Run.log()`. 
 
 
 
@@ -39,7 +39,7 @@ This function creates a custom chart based on a Vega-Lite specification and a da
 
 **Returns:**
  
- - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass it to `wandb.log()`. 
+ - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass the chart object as argument to `wandb.Run.log()`. 
 
 
 
