@@ -456,7 +456,7 @@ For a more detailed example please refer to this [colab](https://colab.research.
 
 ### What additional W&B settings are available?
 
-Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here]({{< relref "/guides/hosting/env-vars/" >}}).
+Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here]({{< relref "/guides/hosting/env-vars.md" >}}).
 
 | Environment Variable | Usage                                                                                                                                                                                                                                                                                                    |
 | -------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -493,7 +493,7 @@ WANDB_SILENT=true
 
 The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
 
-An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation]({{< relref "/ref/python/sdk/functions/init" >}}).
+An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation]({{< relref "/ref/python/sdk/functions/init.md" >}}).
 
 ```python
 wandb.init(

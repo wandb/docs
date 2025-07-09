@@ -18,7 +18,7 @@ You can also see our [example repo](https://github.com/wandb/examples) for scrip
 
 ## Log gradients with `run.watch`
 
-To automatically log gradients, you can call [`run.watch`]({{< relref "/ref/python/sdk/classes/run/#method-runwatch" >}}) and pass in your PyTorch model.
+To automatically log gradients, you can call [`run.watch`]({{< relref "/ref/python/sdk/classes/run.md/#method-runwatch" >}}) and pass in your PyTorch model.
 
 ```python
 import wandb

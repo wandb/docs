@@ -47,7 +47,7 @@ artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
 
 ## Track the output of a run
 
-Use ([`wandb.init.log_artifact`]({{< relref "/ref/python/sdk/classes/run#log_artifact" >}})) to declare an artifact as an output of a run.
+Use ([`wandb.init.log_artifact`]({{< relref "/ref/python/sdk/classes/run.md#log_artifact" >}})) to declare an artifact as an output of a run.
 
 The proceeding code snippet shows how to use the `wandb.init.log_artifact` API. Ensure to replace values enclosed in angle brackets (`< >`) with your values:
 

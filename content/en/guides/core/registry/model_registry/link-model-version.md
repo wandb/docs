@@ -14,7 +14,7 @@ Link a model version to a registered model with the W&B App or programmatically 
 
 ## Programmatically link a model
 
-Use the [`link_model`]({{< relref "/ref/python/sdk/classes/run#link_model" >}}) method to programmatically log model files to a W&B run and link it to the [W&B Model Registry]({{< relref "./" >}}). 
+Use the [`link_model`]({{< relref "/ref/python/sdk/classes/run.md#link_model" >}}) method to programmatically log model files to a W&B run and link it to the [W&B Model Registry]({{< relref "./" >}}). 
 
 Ensure to replace other the values enclosed in `<>` with your own:
 
