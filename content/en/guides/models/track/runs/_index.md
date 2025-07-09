@@ -20,7 +20,7 @@ Common patterns for initiating a run include, but are not limited to:
 * Changing a hyperparameter and conducting a new experiment
 * Conducting a new machine learning experiment with a different model
 * Logging data or a model as a [W&B Artifact]({{< relref "/guides/core/artifacts/" >}})
-* [Downloading an artifact]({{< relref "/guides/core/artifacts/download-and-use-an-artifact.md" >}})
+* [Downloading a W&B Artifact]({{< relref "/guides/core/artifacts/download-and-use-an-artifact.md" >}})
 
 
 W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/public-api/run.md" >}}) object.

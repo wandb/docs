@@ -25,7 +25,7 @@ Use the `reinit` parameter to configure how W&B handles multiple calls to `wandb
 
 | | Description | Creates a run? | Example use case |
 |----------------|----------------|----------------| -----------------|
-| `create_new` |Create a new run with `wandb.init()` without finishing existing, active runs. W&B does not automatically switch the global `wandb.run` to new runs. You must hold onto each run object yourself. See the [multiple runs in one process example]({{< relref "multiple-runs-per-process/#example-multiple-runs-in-one-process" >}}) below for details.  | Yes |  Ideal for creating and managing concurrent processes. For example, a “primary” run that remains active while you start or end “secondary” runs.|
+| `create_new` |Create a new run with `wandb.init()` without finishing existing, active runs. W&B does not automatically switch the global `wandb.Run` to new runs. You must hold onto each run object yourself. See the [multiple runs in one process example]({{< relref "multiple-runs-per-process/#example-multiple-runs-in-one-process" >}}) below for details.  | Yes |  Ideal for creating and managing concurrent processes. For example, a “primary” run that remains active while you start or end “secondary” runs.|
 | `finish_previous` | Finish all active runs with `run.finish()` before creating a new one run with `wandb.init()`. Default behavior for non notebook environments. | Yes | Ideal when you want to break sequential sub-processes into separate individual runs. |
 | `return_previous` |  Return the most recent, unfinished run. Default behavior for notebook environments. | No | |
 

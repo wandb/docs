@@ -9,14 +9,14 @@ weight: 1
 This section describes the different ways can you can deploy W&B.
 
 ## W&B Multi-tenant Cloud
-[W&B Multi-tenant Cloud]({{< relref "saas_cloud.md" >}}) is fully managed by W&B, including upgrades, maintenance, platform security, and capacity planning. Multi-tenant Cloud is deployed in W&B's Google Cloud Platform (GCP) account in [GPC's North America regions](https://cloud.google.com/compute/docs/regions-zones). [Bring your own bucket (BYOB)]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) optionally allows you to store W&B artifacts and other related sensitive data in your own cloud or on-prem infrastructure.
+[W&B Multi-tenant Cloud]({{< relref "saas_cloud.md" >}}) is fully managed by W&B, including upgrades, maintenance, platform security, and capacity planning. Multi-tenant Cloud is deployed in W&B's Google Cloud Platform (GCP) account in [GPC's North America regions](https://cloud.google.com/compute/docs/regions-zones). [Bring your own bucket (BYOB)]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) optionally allows you to store W&B Artifacts and other related sensitive data in your own cloud or on-premises infrastructure.
 
 See [W&B Multi-tenant Cloud]({{< relref "saas_cloud.md" >}}) or [get started for free](https://app.wandb.ai/login?signup=true).
 
 ## W&B Dedicated Cloud
 [W&B Dedicated Cloud]({{< relref "dedicated_cloud/" >}}) is a single-tenant, fully managed platform designed with enterprise organizations in mind. W&B Dedicated Cloud is deployed in W&B's AWS, GCP or Azure account. Dedicated Cloud provides more flexibility than Multi-tenant Cloud, but less complexity than W&B Self-Managed. Upgrades, maintenance, platform security, and capacity planning are managed by W&B. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances.
 
-Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. [Bring your own bucket (BYOB)]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) optionally allows you to store W&B artifacts and other related sensitive data in your own cloud or on-premises infrastructure. 
+Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. [Bring your own bucket (BYOB)]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) optionally allows you to store artifacts and other related sensitive data in your own cloud or on-premises infrastructure. 
 
 W&B Dedicated Cloud includes an [enterprise license]({{< relref "self-managed/server-upgrade-process.md" >}}) with support for important security and other enterprise-friendly capabilities.
 

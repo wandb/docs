@@ -9,7 +9,7 @@ url: guides/integrations/dagster
 ---
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
-* Use and create [artifacts]({{< relref "/guides/core/artifacts/" >}}).
+* Create and use a [W&B Artifact]({{< relref "/guides/core/artifacts/" >}}).
 * Use and create Registered Models in [W&B Registry]({{< relref "/guides/core/registry/" >}}).
 * Run training jobs on dedicated compute using [W&B Launch]({{< relref "/launch/" >}}).
 * Use the [wandb]({{< relref "/ref/python/" >}}) client in ops and assets.
