@@ -10,7 +10,7 @@ weight: 130
 
 [Weights & Biases](http://wandb.com/) is directly integrated into Hugging Face AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments
 
-{{< img src="/images/integrations/hf-autotrain-1.png" alt="An example of logging the metrics of an experiment" >}}
+{{< img src="/images/integrations/hf-autotrain-1.png" alt="Experiment metrics logging" >}}
 
 ## Install prerequisites
 
@@ -134,7 +134,7 @@ logging_steps = 10
 {{< /tabpane >}}
 
 
-{{< img src="/images/integrations/hf-autotrain-2.gif" alt="An example of saving the configs of your experiment." >}}
+{{< img src="/images/integrations/hf-autotrain-2.gif" alt="Experiment config saving" >}}
 
 ## More Resources
 

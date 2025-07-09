@@ -15,7 +15,7 @@ Use W&B Sweeps to create an organized and efficient way to automatically search 
 
 In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](http://wandb.me/sweeps-video).
 
-{{< img src="/images/tutorials/sweeps-1.png" alt="" >}}
+{{< img src="/images/tutorials/sweeps-1.png" alt="Hyperparameter sweep results" >}}
 
 ## Sweeps: An Overview
 
@@ -98,7 +98,7 @@ Now that you have a search method specified in your sweep configuration, specify
 
 To do this, specify one or more hyperparameter names to the `parameter` key and specify one or more hyperparameter values for the `value` key.
 
-The values you search through for a given hyperparamter depend on the type of hyperparameter you are investigating.  
+The values you search through for a given hyperparameter depend on the type of hyperparameter you are investigating.  
 
 For example, if you choose a machine learning optimizer, you must specify one or more finite optimizer names such as the Adam optimizer and stochastic gradient dissent.
 
@@ -210,7 +210,7 @@ wandb sweep config.yaml
 For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough]({{< relref "/guides/models/sweeps/walkthrough" >}}).
 
 
-## Step 3:  Define your machine learning code
+## Step 3: Define your machine learning code
 
 Before you execute the sweep,
 define the training procedure that uses the hyperparameter values you want to try. The key to integrating W&B Sweeps into your training code is to ensure that, for each training experiment, that your training logic can access the hyperparameter values you defined in your sweep configuration.
@@ -349,14 +349,14 @@ For more information on how to create W&B Sweeps in a terminal, see the [W&B Swe
 ### Parallel Coordinates Plot
 This plot maps hyperparameter values to model metrics. It’s useful for honing in on combinations of hyperparameters that led to the best model performance.
 
-{{< img src="/images/tutorials/sweeps-2.png" alt="" >}}
+{{< img src="/images/tutorials/sweeps-2.png" alt="Sweep agent execution results" >}}
 
 
 ### Hyperparameter Importance Plot
 The hyperparameter importance plot surfaces which hyperparameters were the best predictors of your metrics.
 We report feature importance (from a random forest model) and correlation (implicitly a linear model).
 
-{{< img src="/images/tutorials/sweeps-3.png" alt="" >}}
+{{< img src="/images/tutorials/sweeps-3.png" alt="W&B sweep dashboard" >}}
 
 These visualizations can help you save both time and resources running expensive hyperparameter optimizations by honing in on the parameters (and value ranges) that are the most important, and thereby worthy of further exploration.
 

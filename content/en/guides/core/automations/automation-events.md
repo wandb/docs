@@ -12,7 +12,7 @@ weight: 2
 
 An automation can start when a specific event occurs within a project or registry. This diagram shows the relationship between automation events and actions.
 
-{{< img src="/images/automations/automation_events_actions.png" alt="Diagram showing the relationship between automation events and actions" >}}
+{{< img src="/images/automations/automation_events_actions.png" alt="Automation events and actions" >}}
 
 This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview]({{< relref "/guides/core/automations/" >}}) or [Create an automation]({{< relref "create-automations/" >}}).
 

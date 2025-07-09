@@ -75,4 +75,4 @@ collection.save()
 
 For example, the proceeding image shows a collection that documents a model's architecture, intended use, performance information and more.
 
-{{< img src="/images/registry/registry_card.png" alt="Collection card with information about the model architecture, intended use, performance information and more." >}}  
+{{< img src="/images/registry/registry_card.png" alt="Collection card" >}}  

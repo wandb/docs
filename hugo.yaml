@@ -159,7 +159,7 @@ outputFormats:
 
 services:
   googleAnalytics:
-    id: GTM-5BL5RTH
+    id: G-5JYCHZZP7K
   RSS:
     Limit: 20
 

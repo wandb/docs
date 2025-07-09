@@ -62,9 +62,9 @@ Every W&B account comes with 100 GB of free storage for datasets and models.
 
 Here's what that looks like.
 
-{{< img src="/images/integrations/yolov5_model_versioning.png" alt="Model Versioning: the latest and the best versions of the model are identified." >}}
+{{< img src="/images/integrations/yolov5_model_versioning.png" alt="Model versioning" >}}
 
-{{< img src="/images/integrations/yolov5_data_visualization.png" alt="Data Visualization: compare the input image to the model's outputs and example-wise metrics." >}}
+{{< img src="/images/integrations/yolov5_data_visualization.png" alt="Data visualization" >}}
 
 {{% alert %}}
 With data and model versioning, you can resume paused or crashed experiments from any device, no setup necessary. Check out [the Colab ](https://wandb.me/yolo-colab) for details.

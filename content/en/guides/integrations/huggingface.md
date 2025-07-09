@@ -21,7 +21,7 @@ from transformers import TrainingArguments, Trainer
 args = TrainingArguments(..., report_to="wandb")  # turn on W&B logging
 trainer = Trainer(..., args=args)
 ```
-{{< img src="/images/integrations/huggingface_gif.gif" alt="Explore your experiment results in the W&B interactive dashboard" >}}
+{{< img src="/images/integrations/huggingface_gif.gif" alt="HuggingFace dashboard" >}}
 
 {{% alert %}}
 If you'd rather dive straight into working code, check out this [Google Colab](https://wandb.me/hf).
@@ -241,7 +241,7 @@ Visualing your model outputs during training or evaluation is often essential to
 
 By using the callbacks system in the Transformers Trainer, you can log additional helpful data to W&B such as your models' text generation outputs or other predictions to W&B Tables. 
 
-See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-evaluation-samples-during-training" >}})** below for a full guide on how to log evaluation outupts while training to log to a W&B Table like this:
+See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-evaluation-samples-during-training" >}})** below for a full guide on how to log evaluation outputs while training to log to a W&B Table like this:
 
 
 {{< img src="/images/integrations/huggingface_eval_tables.png" alt="Shows a W&B Table with evaluation outputs" >}}
@@ -463,7 +463,8 @@ Further configuration of what is logged with `Trainer` is possible by setting en
 | `WANDB_PROJECT`      | Give your project a name (`huggingface` by default)                                                                                                                                                                                                                                                      |
 | `WANDB_LOG_MODEL`    | <p>Log the model checkpoint as a W&B Artifact (`false` by default) </p><ul><li><code>false</code> (default): No model checkpointing </li><li><code>checkpoint</code>: A checkpoint will be uploaded every args.save_steps (set in the Trainer's TrainingArguments). </li><li><code>end</code>: The final model checkpoint will be uploaded at the end of training.</li></ul>                                                                                                                                                                                                                                   |
 | `WANDB_WATCH`        | <p>Set whether you'd like to log your models gradients, parameters or neither</p><ul><li><code>false</code> (default): No gradient or parameter logging </li><li><code>gradients</code>: Log histograms of the gradients </li><li><code>all</code>: Log histograms of gradients and parameters</li></ul> |
-| `WANDB_DISABLED`     | Set to `true` to turn off logging entirely (`false` by default)                                                                                                                                                                                                                                           |
+| `WANDB_DISABLED`     | Set to `true` to turn off logging entirely (`false` by default) |
+| `WANDB_QUIET`.       | Set to `true` to limit statements logged to standard output to critical statements only (`false` by default)                                                                                                                                                                                                                                     |
 | `WANDB_SILENT`       | Set to `true` to silence the output printed by wandb (`false` by default)                                                                                                                                                                                                                                |
 
 {{< tabpane text=true >}}

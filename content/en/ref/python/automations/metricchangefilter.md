@@ -2,7 +2,7 @@
 title: MetricChangeFilter
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/automations/_filters/run_metrics.py#L144-L190 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/automations/_filters/run_metrics.py#L142-L188 >}}
 
 Defines a filter that compares a change in a run metric against a user-defined threshold.
 
