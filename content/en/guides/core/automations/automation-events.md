@@ -22,6 +22,8 @@ This section describes the scopes and events for an automation in a [Registry]({
 1. Navigate to the **Registry** App at https://wandb.ai/registry/.
 1. Click the name of a registry, then view and create automations in the **Automations** tab.
 
+![Screenshot of the Registry Automations tab with an automation](/images/automations/registry_automations_tab.png)
+
 Learn more about [creating automations]({{< relref "create-automations/" >}}).
 
 ### Scopes
@@ -39,6 +41,8 @@ This section describes the scopes and events for an automation in a [project]({{
 
 1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
 1. View and create automations in the **Automations** tab.
+
+![Screenshot of the Project Automations tab with an automation](/images/automations/project_automations_tab.png)
 
 Learn more about [creating automations]({{< relref "create-automations/" >}}).
 
@@ -64,6 +68,8 @@ An automation can be triggered by a change in a [run's status]({{< relref "/guid
 {{% /alert %}}
 
 Trigger a workflow when a run changes its [status]({{< relref "/guides/models/track/runs/_index.md#run-states" >}}) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+
+![Screenshot showing a run status change automation](/images/automations/run-status-change.png)
 
 Because run status is a property of the entire run, you can create a run status automation only from the the **Automations** page, not from a workspace.
 
@@ -94,6 +100,8 @@ For **Run metrics threshold met** events, you configure:
 
 For example, trigger an automation when average `accuracy` is above `.6`.
 
+![Screenshot showing a run metrics threshold automation](/images/automations/run_metrics_threshold_automation.png)
+
 ##### Change threshold
 For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
 
@@ -111,7 +119,9 @@ To create the automation, you configure:
       - Decreases by at least
       - Increases or decreases by at least
 
-      For example, trigger an automation when `loss` decreases by at least `.25`.
+For example, trigger an automation when average `loss` decreases by at least `.25`.
+
+![Screenshot showing a run metrics change threshold automation](/images/automations/run_metrics_change_threshold_automation.png)
 
 #### Run filters
 This section describes how the automation selects runs to evaluate.
