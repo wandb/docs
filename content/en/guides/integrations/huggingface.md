@@ -90,7 +90,7 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-If you are using W&B for the first time you might want to check out our [**quickstart**]({{< relref "/guides/quickstart.md" >}})
+If you are using W&B for the first time you might want to check out our [quickstart]({{< relref "/guides/quickstart.md" >}})
 
 
 ### Name the project
@@ -231,7 +231,7 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 {{% /alert %}}
 
 #### W&B Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team with **[Registry]({{< relref "/guides/core/registry/" >}})**. Using Registry, you can organize your best models by task, manage the lifecycles of models, track and audit the entire ML lifecyle, and [automate]({{< relref "/guides/core/automations/" >}}) downstream actions.
+Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team with [Registry]({{< relref "/guides/core/registry/" >}}). Using Registry, you can organize your best models by task, manage the lifecycles of models, track and audit the entire ML lifecyle, and [automate]({{< relref "/guides/core/automations/" >}}) downstream actions.
 
 To link a model Artifact, refer to [Registry]({{< relref "/guides/core/registry/" >}}).
  
@@ -241,7 +241,7 @@ Visualing your model outputs during training or evaluation is often essential to
 
 By using the callbacks system in the Transformers Trainer, you can log additional helpful data to W&B such as your models' text generation outputs or other predictions to W&B Tables. 
 
-See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-evaluation-samples-during-training" >}})** below for a full guide on how to log evaluation outputs while training to log to a W&B Table like this:
+See the [Custom logging section]({{< relref "#custom-logging-log-and-view-evaluation-samples-during-training" >}}) below for a full guide on how to log evaluation outputs while training to log to a W&B Table like this:
 
 
 {{< img src="/images/integrations/huggingface_eval_tables.png" alt="Shows a W&B Table with evaluation outputs" >}}
