@@ -100,7 +100,7 @@ profile_art.add_file(glob.glob(profile_dir + ".pt.trace.json"))
 profile_art.save()
 ```
 
-See and run working example code in [this Colab](http://wandb.me/trace-colab).
+See and run working example code in [this Colab](https://wandb.me/trace-colab).
 
 {{% alert color="secondary" %}}
 The interactive trace viewing tool is based on the Chrome Trace Viewer, which works best with the Chrome browser.

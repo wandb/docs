@@ -9,7 +9,7 @@ weight: 4
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb" >}}
 In this notebook, we'll show you how to track your ML experiment pipelines using W&B Artifacts.
 
-Follow along with a [video tutorial](http://tiny.cc/wb-artifacts-video).
+Follow along with a [video tutorial](https://tiny.cc/wb-artifacts-video).
 
 ## About artifacts
 
@@ -57,7 +57,7 @@ First, let's define some Artifacts.
 
 This example is based off of this PyTorch
 ["Basic MNIST Example"](https://github.com/pytorch/examples/tree/master/mnist/),
-but could just as easily have been done in [TensorFlow](http://wandb.me/artifacts-colab), in any other framework,
+but could just as easily have been done in [TensorFlow](https://wandb.me/artifacts-colab), in any other framework,
 or in pure Python.
 
 We start with the `Dataset`s:
@@ -499,7 +499,7 @@ to use it in another `Run`.
 This time, let's `train` the `model`.
 
 For more details, check out our Colab on
-[instrumenting W&B with PyTorch](http://wandb.me/pytorch-colab).
+[instrumenting W&B with PyTorch](https://wandb.me/pytorch-colab).
 
 
 ```python

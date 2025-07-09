@@ -7,7 +7,7 @@ menu:
 title: OpenAI Fine-Tuning
 weight: 250
 ---
-{{< cta-button colabLink="http://wandb.me/openai-colab" >}}
+{{< cta-button colabLink="https://wandb.me/openai-colab" >}}
 
 Log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to W&B. Utilize the W&B ecosystem to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
 
@@ -171,5 +171,5 @@ You can always control the pipeline using low level wandb APIs like `wandb.Artif
 ## Resources
 
 * [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/) is very thorough and contains many useful tips
-* [Demo Colab](http://wandb.me/openai-colab)
-* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&B](http://wandb.me/openai-report) report
+* [Demo Colab](https://wandb.me/openai-colab)
+* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&B](https://wandb.me/openai-report) report
