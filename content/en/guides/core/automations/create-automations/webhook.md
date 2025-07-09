@@ -38,6 +38,8 @@ If the webhook requires a Bearer token or its payload requires a sensitive strin
 
     If the test does not succeed, verify the webhook's configuration and try again. If necessary, refer to [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}).
 
+![Screenshot showing two webhooks in a Team](/images/automations/webhooks.png)
+
 Now you can [create an automation]({{< relref "#create-a-webhook-automation" >}}) that uses the webhook.
 
 ## Create an automation
@@ -84,7 +86,6 @@ A W&B admin can create automations in a project.
 {{% /tab %}}
 {{< /tabpane >}}
 
-
 ## View and manage automations
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
@@ -96,7 +97,6 @@ From either of these pages, a Registry admin can manage existing automations:
 - To view an automation's details, click its name.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
 - To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
-
 
 {{% /tab %}}
 {{% tab "Project" %}}
