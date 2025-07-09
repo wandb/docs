@@ -69,7 +69,7 @@ An automation can be triggered by a change in a [run's status]({{< relref "/guid
 
 Trigger a workflow when a run changes its [status]({{< relref "/guides/models/track/runs/_index.md#run-states" >}}) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
 
-![Screenshot showing a run status change automation](/images/automations/run-status-change.png)
+![Screenshot showing a run status change automation](/images/automations/run_status_change.png)
 
 Because run status is a property of the entire run, you can create a run status automation only from the the **Automations** page, not from a workspace.
 
