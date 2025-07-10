@@ -837,7 +837,7 @@ Interested in Launch? Reach out to your account team to talk about joining the c
 Pilot customers need to use AWS EKS or SageMaker to qualify for the beta program. We ultimately plan to support additional platforms.
 {{% /alert %}}
 
-Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider reading the [Guide on Launch]({{< relref "/guides/launch/" >}}).
+Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider reading the [Guide on Launch]({{< relref "/launch/" >}}).
 
 The Dagster integration helps with:
 * Running one or multiple Launch agents in your Dagster instance.
