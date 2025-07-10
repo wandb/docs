@@ -6,6 +6,10 @@ title: wandb_workspaces
 
 {{< cta-button githubLink="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" >}}
 
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
+
 ## Classes
 
 [`class reports`](./reports.md): Python library for programmatically working with W&B Reports API. 
