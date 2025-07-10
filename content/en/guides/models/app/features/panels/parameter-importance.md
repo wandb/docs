@@ -18,7 +18,7 @@ Discover which of your hyperparameters were the best predictors of, and highly c
 
 Therefore W&B also calculates an **importance** metric. W&B trains a random forest with the hyperparameters as inputs and the metric as the target output and report the feature importance values for the random forest.
 
-The idea for this technique was inspired by a conversation with [Jeremy Howard](https://twitter.com/jeremyphoward) who has pioneered the use of random forest feature importances to explore hyperparameter spaces at [Fast.ai](http://fast.ai). W&B highly recommends you check out this [lecture](http://course18.fast.ai/lessonsml1/lesson4.html) (and these [notes](https://forums.fast.ai/t/wiki-lesson-thread-lesson-4/7540)) to learn more about the motivation behind this analysis.
+The idea for this technique was inspired by a conversation with [Jeremy Howard](https://twitter.com/jeremyphoward) who has pioneered the use of random forest feature importances to explore hyperparameter spaces at [Fast.ai](https://fast.ai). W&B highly recommends you check out this [lecture](https://course18.fast.ai/lessonsml1/lesson4.html) (and these [notes](https://forums.fast.ai/t/wiki-lesson-thread-lesson-4/7540)) to learn more about the motivation behind this analysis.
 
 Hyperparameter importance panel untangles the complicated interactions between highly correlated hyperparameters. In doing so, it helps you fine tune your hyperparameter searches by showing you which of your hyperparameters matter the most in terms of predicting model performance.
 
