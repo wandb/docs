@@ -22,8 +22,8 @@ A team admin can add a Slack integration to the team.
 1. Log in to W&B and go to **Team Settings**.
 1. In the **Slack channel integrations** section, click **Connect Slack** to add a new Slack instance. To add a channel for an existing Slack instance, click **New integration**.
 
-    If necessary, sign in to Slack in your browser. When prompted, grant W&B permission to post to the Slack channel you select. Read the page, then click **Search for a channel** and begin typing the channel name. Select the channel from the list, then click **Allow**.
-
+    ![Screenshot showing two Slack integrations in a Team](/images/automations/slack_integrations.png)
+1. If necessary, sign in to Slack in your browser. When prompted, grant W&B permission to post to the Slack channel you select. Read the page, then click **Search for a channel** and begin typing the channel name. Select the channel from the list, then click **Allow**.
 1. In Slack, go to the channel you selected. If you see a post like `[Your Slack handle] added an integration to this channel: Weights & Biases`, the integration is configured correctly.
 
 Now you can [create an automation]({{< relref "#create-an-automation" >}}) that notifies the Slack channel you configured.
