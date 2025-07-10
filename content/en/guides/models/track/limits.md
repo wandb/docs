@@ -211,7 +211,7 @@ There are a few ways that the performance of your python script is reduced:
 
 1. The size of your data is too large. Large data sizes could introduce a >1 ms overhead to the training loop.
 2. The speed of your network and how the W&B backend is configured
-3. Calling `run.log` more than a few times per second. This is due to a small latency added to the training loop every time `run.log` is called.
+3. If you call `wandb.Run.log()` more than a few times per second. This is due to a small latency added to the training loop every time `wandb.Run.log()` is called.
 
 {{% alert %}}
 Is frequent logging slowing your training runs down? Check out [this Colab](http://wandb.me/log-hf-colab) for methods to get better performance by changing your logging strategy.

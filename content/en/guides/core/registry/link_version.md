@@ -164,7 +164,8 @@ You can confirm the name of your team by:
 2. Copy the site's URL. It has the form of `https://wandb.ai/<team>`. Where `<team>` is the both the name of your team and the team's entity.
 
 #### Log from a team entity
-1. Specify the team as the entity when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity. 
+1. Specify the team as the entity when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity.
+
   ```python 
   import wandb   
 
@@ -173,7 +174,8 @@ You can confirm the name of your team by:
     project='<project_name>'
     )
   ```
-2. Log the artifact to the run either with run.log_artifact or by creating an Artifact object and then adding files to it with  :
+
+2. Log the artifact to the run either with run.log_artifact or by creating an Artifact object and then adding files to it with:
 
     ```python
     artifact = wandb.Artifact(name="<artifact_name>", type="<type>")

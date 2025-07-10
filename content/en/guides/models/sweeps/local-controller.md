@@ -47,10 +47,9 @@ Next, initialize the sweep:
 wandb sweep config.yaml
 ```
 
-After you initialized the sweep, start a controller with [`wandb controller`]({{< relref "/ref/python/sdk/functions/controller.md" >}}):
+`wandb sweep` generates a sweep ID. After you initialized the sweep, start a controller with [`wandb controller`]({{< relref "/ref/python/sdk/functions/controller.md" >}}):
 
 ```bash
-# wandb sweep command will print a sweep_id
 wandb controller {user}/{entity}/{sweep_id}
 ```
 
