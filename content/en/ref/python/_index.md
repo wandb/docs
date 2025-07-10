@@ -3,9 +3,9 @@ title: Python Library v(0.21.0)
 ---
 {{< cardpane >}}
     {{< card >}}
-            <a href="/ref/python/custom-charts">
-            <h2 className="card-title">Custom Charts</h2></a>
-            <p className="card-content">Create custom charts and visualizations.</p>
+            <a href="/ref/python/python_api_walkthrough">
+            <h2 className="card-title">API Walkthrough</h2></a>
+            <p className="card-content">Learn when and how to use different W&B APIs in your machine learning workflows.</p>
         
         {{< /card >}}
     {{< card >}}
