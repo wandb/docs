@@ -14,10 +14,10 @@ Use the `config` property of a run to save your training configuration:
 - input settings such as the dataset name or model type
 - any other independent variables for your experiments. 
 
-The `run.config` property makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the configurations of different W&B runs, and evaluate how each training configuration affects the output. The `config` property is a dictionary-like object that can be composed from multiple dictionary-like objects.
+The `wandb.Run.config` property makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the configurations of different W&B runs, and evaluate how each training configuration affects the output. The `config` property is a dictionary-like object that can be composed from multiple dictionary-like objects.
 
 {{% alert %}}
-To save output metrics or dependent variables like loss and accuracy, use `run.log` instead of `run.config`.
+To save output metrics or dependent variables like loss and accuracy, use `wandb.Run.log()` instead of `wandb.Run.config`.
 {{% /alert %}}
 
 
@@ -27,7 +27,7 @@ Configurations are typically defined in the beginning of a training script. Mach
 
 Use dashes (`-`) or underscores (`_`) instead of periods (`.`) in your config variable names.
 	
-Use the dictionary access syntax `["key"]["value"]` instead of the attribute access syntax `config.key.value` if your script accesses `run.config` keys below the root.
+Use the dictionary access syntax `["key"]["value"]` instead of the attribute access syntax `config.key.value` if your script accesses `wandb.Run.config` keys below the root.
 
 The following sections outline different common scenarios of how to define your experiments configuration.
 
@@ -211,7 +211,7 @@ run.config.update(flags.FLAGS)  # adds absl flags to config
 ```
 
 ## File-Based Configs
-If you place a file named `config-defaults.yaml` in the same directory as your run script, the run automatically picks up the key-value pairs defined in the file and passes them to `run.config`. 
+If you place a file named `config-defaults.yaml` in the same directory as your run script, the run automatically picks up the key-value pairs defined in the file and passes them to `wandb.Run.config`. 
 
 The following code snippet shows a sample `config-defaults.yaml` YAML file:
 
@@ -258,7 +258,7 @@ with wandb.init(config=config_dictionary) as run:
 
 ## TensorFlow v1 flags
 
-You can pass TensorFlow flags into the `wandb.config` object directly.
+You can pass TensorFlow flags into the `wandb.Run.config` object directly.
 
 ```python
 with wandb.init() as run:

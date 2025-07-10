@@ -68,7 +68,7 @@ In addition to **Step**, there are other options for the x-axis:
 | **Relative Time (Wall)**| Timestamp since the process starts. For example, suppose start a run and resume that run the next day. If you then log something, the recorded point is 24 hours.|
 | **Relative Time (Process)** | Timestamp inside the running process. For example, suppose you start a run and let it continue for 10 seconds. The next day you resume that run. The point is recorded as 10 seconds. |
 | **Wall Time** | Minutes elapsed since the start of the first run on the graph. |
-| **Step** | Increments each time you call `wandb.log()`.|
+| **Step** | Increments each time you call `wandb.Run.log()`.|
 
 
 

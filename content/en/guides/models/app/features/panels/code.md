@@ -15,16 +15,16 @@ Starting with `wandb` version 0.8.28, W&B can save the code from your main train
 
 When you enable code saving, W&B saves the code from the file that called `wandb.init()`. To save additional library code, you have three options:
 
-### Call `wandb.run.log_code(".")` after calling `wandb.init()`
+### Call `wandb.Run.log_code(".")` after calling `wandb.init()`
 
 ```python
 import wandb
 
-wandb.init()
-wandb.run.log_code(".")
+with wandb.init() as run:
+  run.log_code(".")
 ```
 
-### Pass a settings object to `wandb.init` with `code_dir` set
+### Pass a settings object to `wandb.init()` with `code_dir` set
 
 ```python
 import wandb

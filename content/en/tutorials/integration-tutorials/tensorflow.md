@@ -120,6 +120,16 @@ def train(
     log_step=200,
     val_log_step=50,
 ):
+    run = wandb.init(
+        project="my-tf-integration",
+        config={
+            "epochs": epochs,
+            "log_step": log_step,
+            "val_log_step": val_log_step,
+            "architecture": "MLP",
+            "dataset": "MNIST",
+        },
+    )
     for epoch in range(epochs):
         print("\nStart of epoch %d" % (epoch,))
 
@@ -156,8 +166,8 @@ def train(
         train_acc_metric.reset_states()
         val_acc_metric.reset_states()
 
-        # ⭐: log metrics using wandb.log
-        wandb.log(
+        # Log metrics using run.log()
+        run.log(
             {
                 "epochs": epoch,
                 "loss": np.mean(train_loss),
@@ -166,11 +176,12 @@ def train(
                 "val_acc": float(val_acc),
             }
         )
+    run.finish()
 ```
 
 ## Run Training
 
-### Call `wandb.init` to start a run
+### Call `wandb.init()` to start a run
 
 This lets us know you're launching an experiment,
 so we can give it a unique ID and a dashboard.

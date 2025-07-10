@@ -296,7 +296,7 @@ trainer.fit(model, dm)
 trainer.test(dataloaders=dm.test_dataloader())
 
 # Close wandb run
-wandb.finish()
+run.finish()
 ```
 
 ## Final Thoughts

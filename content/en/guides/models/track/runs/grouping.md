@@ -19,7 +19,7 @@ There are several ways to set grouping:
 
 ### 1. Set group in your script
 
-Pass an optional group and job_type to wandb.init(). This gives you a dedicated group page for each experiment, which contains the individual runs. For example:`wandb.init(group="experiment_1", job_type="eval")`
+Pass an optional group and `job_type` to `wandb.init()`. This gives you a dedicated group page for each experiment, which contains the individual runs. For example:`wandb.init(group="experiment_1", job_type="eval")`
 
 ### 2. Set a group environment variable
 
@@ -40,7 +40,7 @@ After a run is initialized, you can move it to a new group from your workspace o
 
 ### 4. Toggle grouping by columns in the UI
 
-You can dynamically group by any column, including a column that is hidden. For example, if you use `wandb.config` to log batch size or learning rate, you can then group by those hyperparameters dynamically in the web app. The **Group by** feature is distinct from a [run's run group]({{< relref "grouping.md" >}}). You can group runs by run group. To move a run to a different run group, refer to [Set a group in the UI]({{< relref "#set-a-group-in-the-ui" >}}).
+You can dynamically group by any column, including a column that is hidden. For example, if you use `wandb.Run.config` to log batch size or learning rate, you can then group by those hyperparameters dynamically in the web app. The **Group by** feature is distinct from a [run's run group]({{< relref "grouping.md" >}}). You can group runs by run group. To move a run to a different run group, refer to [Set a group in the UI]({{< relref "#set-a-group-in-the-ui" >}}).
 
 {{% alert %}}
 In the list of runs, the **Group** column is hidden by default.
