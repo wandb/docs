@@ -60,6 +60,6 @@ with wandb.init(reinit="create_new") as tracking_run:
             tracking_run.log({"x": x})
 ```
 
-[Multiple runs per process]({{< relref "guides/models/track/runs/multiple-runs-per-process.md" >}})
+See [Multiple runs per process]({{< relref "guides/models/track/runs/multiple-runs-per-process.md" >}})
 for more information about `reinit="create_new"`, including caveats about W&B
 integrations.

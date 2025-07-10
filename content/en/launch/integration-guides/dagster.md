@@ -25,7 +25,7 @@ The following guide demonstrates how to satisfy prerequisites to use W&B in Dags
 You will need the following resources to use Dagster within Weights and Biases:
 1. **W&B API Key**.
 2. **W&B entity (user or team)**: An entity is a username or team name where you send W&B Runs and Artifacts. Make sure to create your account or team entity in the W&B App UI before you log runs. If you do not specify ain entity, the run will be sent to your default entity, which is usually your username. Change your default entity in your settings under **Project Defaults**.
-3. **W&B project**: The name of the project where [runs]({{< relref "/guides/models/track/runs/" >}}) are stored.
+3. **W&B project**: The name of the project where [W&B Runs]({{< relref "/guides/models/track/runs/" >}}) are stored.
 
 Find your W&B entity by checking the profile page for that user or team in the W&B App. You can use a pre-existing W&B project or create a new one. New projects can be created on the W&B App homepage or on user/team profile page. If a project does not exist it will be automatically created when you first use it. The proceeding instructions demonstrate how to get an API key: 
 
@@ -837,7 +837,7 @@ Interested in Launch? Reach out to your account team to talk about joining the c
 Pilot customers need to use AWS EKS or SageMaker to qualify for the beta program. We ultimately plan to support additional platforms.
 {{% /alert %}}
 
-Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider reading the Guide on Launch: /guides/launch.
+Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider reading the [Guide on Launch]({{< relref "/guides/launch/" >}}).
 
 The Dagster integration helps with:
 * Running one or multiple Launch agents in your Dagster instance.
@@ -849,7 +849,7 @@ The integration provides an importable `@op` called `run_launch_agent`. It start
 
 Agents are processes that poll launch queues and execute the jobs (or dispatch them to external services to be executed) in order.
 
-Refer to the [reference]({{< relref "/launch/" >}}) for configuration
+Refer to the [Launch page]({{< relref "/launch/" >}}).
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -897,7 +897,7 @@ The integration provides an importable `@op` called `run_launch_job`. It execute
 
 A Launch job is assigned to a queue in order to be executed. You can create a queue or use the default one. Make sure you have an active agent listening to that queue. You can run an agent inside your Dagster instance but can also consider using a deployable agent in Kubernetes.
 
-Refer to the [reference]({{< relref "/launch/" >}}) for configuration.
+Refer to the [Launch page]({{< relref "/launch/" >}}).
 
 You can also view useful descriptions for all properties in Launchpad.
 
