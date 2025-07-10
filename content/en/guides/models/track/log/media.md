@@ -13,7 +13,7 @@ title: Log media and objects
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
 {{% alert %}}
-Looking for reference docs for our media types? You want [this page]({{< relref "/ref/python/sdk/data-types/" >}}).
+For details, see the [Data types reference]({{< relref "/ref/python/sdk/data-types/" >}}).
 {{% /alert %}}
 
 {{% alert %}}
@@ -308,7 +308,7 @@ Three different formats of NumPy arrays are supported for flexible color schemes
 
 #### Python object
 
-Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method]({{< relref "/ref/python/sdk/data-types/Object3D/#from_point_cloud" >}}) as shown below.
+Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method]({{< relref "/ref/python/sdk/data-types/Object3D/#from_point_cloud" >}}).
 
 * `points`is a NumPy array containing coordinates and colors for the points to render using [the same formats as the simple point cloud renderer shown above]({{< relref "#python-object" >}}).
 * `boxes` is a NumPy array of python dictionaries with three attributes:

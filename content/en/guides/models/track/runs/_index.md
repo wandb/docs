@@ -23,7 +23,7 @@ Common patterns for initiating a run include, but are not limited to:
 * [Downloading a W&B Artifact]({{< relref "/guides/core/artifacts/download-and-use-an-artifact.md" >}})
 
 
-W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App UI. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/public-api/runs" >}}) object.
+W&B stores runs that you create in [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace in the W&B App. You can access run properties programmatically with the [`wandb.Api.Run`]({{< relref "/ref/python/public-api/runs" >}}) object.
 
 Anything you log with `run.log` is recorded in that run. Consider the proceeding code snippet.
 

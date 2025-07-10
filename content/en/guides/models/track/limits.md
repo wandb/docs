@@ -15,7 +15,7 @@ Keep your pages in W&B faster and more responsive by logging within the followin
 
 ## Logging considerations
 
-Use `run.log` to track experiment metrics. Once logged, these metrics generate charts and show up in tables. Too much logged data can make the app slow.
+Use `wandb.Run.log()` to track experiment metrics.
 
 ### Distinct metric count
 
@@ -77,7 +77,7 @@ Data is saved and tracked even if you log values wider than the recommended amou
 
 ### Metric frequency
 
-Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, the wider the metric the less frequently you should log it. W&B recommends:
+Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, log wider values less frequently than narrower values. W&B recommends:
 
 - Scalars: <100,000 logged points per metric
 - Media: <50,000 logged points per metric
@@ -241,7 +241,7 @@ The preceding table describes rate limit HTTP headers:
 
 ### Rate limits on metric logging API
 
-The `run.log` calls in your script utilize a metrics logging API to log your training data to W&B. This API is engaged through either online or [offline syncing]({{< relref "/ref/cli/wandb-sync.md" >}}). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration.
+`wandb.Run.log()` logs your training data to W&B. This API is engaged through either online or [offline syncing]({{< relref "/ref/cli/wandb-sync.md" >}}). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration.
 
 W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Paid plans](https://wandb.ai/site/pricing) have higher rate limits than Free plans.
 

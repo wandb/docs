@@ -44,9 +44,7 @@ training:
         # Turn on model checkpointing, saving checkpoints to W&B Artifacts
         log_model_checkpoint: true
         
-        # Additional argument values that you want to pass to wandb.init(). 
-        # Check out the documentation at /ref/python/sdk/functions/init
-        # to see what arguments are available, such as:
+        # Additional argument values that you want to pass to wandb.init() such as:
         # job_type: 'train'
         # tags: ['tag1', 'tag2']
         
