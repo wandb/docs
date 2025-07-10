@@ -101,7 +101,7 @@ with wandb.init(project=’graph_vis’) as run:
     run.log({"eda/graph": wandb.Html("graph.html")})
 ```
 
-{{< img src="/images/integrations/pyg_graph_wandb.png" alt="This image shows the input graph as an interactive HTML visualization." >}}
+{{< img src="/images/integrations/pyg_graph_wandb.png" alt="Interactive graph visualization" >}}
 
 ### Use Plotly
 
@@ -170,7 +170,7 @@ with wandb.init(project="my_project", entity="my_entity") as run:
         })
 ```
 
-{{< img src="/images/integrations/pyg_metrics.png" alt="Plots from W&B showing how the hits@K metric changes over epochs for different values of K." >}}
+{{< img src="/images/integrations/pyg_metrics.png" alt="hits@K metrics over epochs" >}}
 
 ## More resources
 

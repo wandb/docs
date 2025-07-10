@@ -92,4 +92,4 @@ with wandb.init() as run:
 ```
 
 
-<!-- [Try `define_metric` in Google Colab](http://wandb.me/define-metric-colab). -->
+<!-- [Try `define_metric` in Google Colab](https://wandb.me/define-metric-colab). -->

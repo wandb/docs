@@ -38,6 +38,8 @@ If the webhook requires a Bearer token or its payload requires a sensitive strin
 
     If the test does not succeed, verify the webhook's configuration and try again. If necessary, refer to [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}).
 
+![Screenshot showing two webhooks in a Team](/images/automations/webhooks.png)
+
 Now you can [create an automation]({{< relref "#create-a-webhook-automation" >}}) that uses the webhook.
 
 ## Create an automation
@@ -67,7 +69,7 @@ A W&B admin can create automations in a project.
 1. In the sidebar, click **Automations**, then click **Create automation**.
 
     Or, from a line plot in the workspace, you can quickly create a [run metric automation]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
-    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
+    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location" >}}
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
@@ -84,7 +86,6 @@ A W&B admin can create automations in a project.
 {{% /tab %}}
 {{< /tabpane >}}
 
-
 ## View and manage automations
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
@@ -96,7 +97,6 @@ From either of these pages, a Registry admin can manage existing automations:
 - To view an automation's details, click its name.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
 - To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
-
 
 {{% /tab %}}
 {{% tab "Project" %}}

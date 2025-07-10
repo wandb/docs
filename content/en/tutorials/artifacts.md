@@ -9,7 +9,7 @@ weight: 4
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb" >}}
 In this notebook, we'll show you how to track your ML experiment pipelines using W&B Artifacts.
 
-Follow along with a [video tutorial](http://tiny.cc/wb-artifacts-video).
+Follow along with a [video tutorial](https://tiny.cc/wb-artifacts-video).
 
 ## About artifacts
 
@@ -25,7 +25,7 @@ After all, those who don't track training are doomed to repeat it.
 Using our Artifacts API, you can log `Artifact`s as outputs of W&B `Run`s or use `Artifact`s as input to `Run`s, as in this diagram,
 where a training run takes in a dataset and produces a model.
  
- {{< img src="/images/tutorials/artifacts-diagram.png" alt="" >}}
+ {{< img src="/images/tutorials/artifacts-diagram.png" alt="Artifacts workflow diagram" >}}
 
 Since one run can use another run's output as an input, `Artifact`s and `Run`s together form a directed graph (a bipartite [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph), with nodes for `Artifact`s and `Run`s
 and arrows that connect a `Run` to the `Artifact`s it consumes or produces.
@@ -57,7 +57,7 @@ First, let's define some Artifacts.
 
 This example is based off of this PyTorch
 ["Basic MNIST Example"](https://github.com/pytorch/examples/tree/master/mnist/),
-but could just as easily have been done in [TensorFlow](http://wandb.me/artifacts-colab), in any other framework,
+but could just as easily have been done in [TensorFlow](https://wandb.me/artifacts-colab), in any other framework,
 or in pure Python.
 
 We start with the `Dataset`s:
@@ -499,7 +499,7 @@ to use it in another `Run`.
 This time, let's `train` the `model`.
 
 For more details, check out our Colab on
-[instrumenting W&B with PyTorch](http://wandb.me/pytorch-colab).
+[instrumenting W&B with PyTorch](https://wandb.me/pytorch-colab).
 
 
 ```python

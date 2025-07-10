@@ -17,11 +17,11 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 * **Catch regressions** and immediately get alerted when performance drops.
 * **Benchmark model performance** and compare model versions.
 
-{{< img src="/images/app_ui/teams_overview.webp" alt="" >}}
+{{< img src="/images/app_ui/teams_overview.webp" alt="Teams workspace overview" >}}
 
 ## Create a collaborative team
 
-1. [**Sign up or log in**](https://app.wandb.ai/login?signup=true) to your free W&B account.
+1. [Sign up or log in](https://app.wandb.ai/login?signup=true) to your free W&B account.
 2. Click **Invite Team** in the navigation bar.
 3. Create your team and invite collaborators.
 4. To configure your team, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).

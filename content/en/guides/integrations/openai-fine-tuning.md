@@ -7,7 +7,7 @@ menu:
 title: OpenAI Fine-Tuning
 weight: 250
 ---
-{{< cta-button colabLink="http://wandb.me/openai-colab" >}}
+{{< cta-button colabLink="https://wandb.me/openai-colab" >}}
 
 Log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to W&B. Utilize the W&B ecosystem to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
 
@@ -47,7 +47,7 @@ from wandb.integration.openai.fine_tuning import WandbLogger
 WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 ```
 
-{{< img src="/images/integrations/open_ai_auto_scan.png" alt="" >}}
+{{< img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI auto-scan feature" >}}
 
 ### Sync your fine-tunes
 
@@ -94,13 +94,13 @@ WandbLogger.sync(
 
 The training and validation data that you upload to OpenAI for fine-tuning are automatically logged as W&B Artifacts for easier version control. Below is an view of the training file in Artifacts. Here you can see the W&B run that logged this file, when it was logged, what version of the dataset this is, the metadata, and DAG lineage from the training data to the trained model.
 
-{{< img src="/images/integrations/openai_data_artifacts.png" alt="" >}}
+{{< img src="/images/integrations/openai_data_artifacts.png" alt="W&B Artifacts with training datasets" >}}
 
 ### Visualization
 
 The datasets are visualized as W&B Tables, which allows you to explore, search, and interact with the dataset. Check out the training samples visualized using W&B Tables below.
 
-{{< img src="/images/integrations/openai_data_visualization.png" alt="" >}}
+{{< img src="/images/integrations/openai_data_visualization.png" alt="OpenAI data" >}}
 
 
 ## The fine-tuned model and model versioning
@@ -109,7 +109,7 @@ OpenAI gives you an id of the fine-tuned model. Since we don't have access to th
 
 This model (metadata) artifact can further be linked to a model in the [W&B Registry]({{< relref "/guides/core/registry/" >}}).
 
-{{< img src="/images/integrations/openai_model_metadata.png" alt="" >}}
+{{< img src="/images/integrations/openai_model_metadata.png" alt="OpenAI model metadata" >}}
 
 
 ## Frequently Asked Questions
@@ -167,10 +167,10 @@ The training and validation data are logged automatically to W&B as artifacts. T
 
 You can always control the pipeline using low level wandb APIs like `wandb.Artifact`, `wandb.Run.log`, etc. This will allow complete traceability of your data and models.
 
-{{< img src="/images/integrations/open_ai_faq_can_track.png" alt="" >}}
+{{< img src="/images/integrations/open_ai_faq_can_track.png" alt="OpenAI tracking FAQ" >}}
 
 ## Resources
 
 * [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/) is very thorough and contains many useful tips
-* [Demo Colab](http://wandb.me/openai-colab)
-* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&B](http://wandb.me/openai-report) report
+* [Demo Colab](https://wandb.me/openai-colab)
+* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&B](https://wandb.me/openai-report) report

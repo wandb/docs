@@ -228,7 +228,7 @@ There are a few ways that the performance of your python script is reduced:
 3. Calling `wandb.Run.log()` more than a few times per second. This is due to a small latency added to the training loop every time `wandb.Run.log()` is called.
 
 {{% alert %}}
-Is frequent logging slowing your training runs down? Check out [this Colab](http://wandb.me/log-hf-colab) for methods to get better performance by changing your logging strategy.
+Is frequent logging slowing your training runs down? Check out [this Colab](https://wandb.me/log-hf-colab) for methods to get better performance by changing your logging strategy.
 {{% /alert %}}
 
 W&B does not assert any limits beyond rate limiting. The W&B Python SDK automatically completes an exponential "backoff" and "retry" requests that exceed limits. W&B Python SDK responds with a “Network failure” on the command line. For unpaid accounts, W&B may reach out in extreme cases where usage exceeds reasonable thresholds.

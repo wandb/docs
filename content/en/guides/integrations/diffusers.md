@@ -22,7 +22,7 @@ from wandb.integration.diffusers import autolog
 autolog(init=dict(project="diffusers_logging"))
 ```
 
-| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="An example of how the results of your experiment are logged" >}} | 
+| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="Experiment results logging" >}} | 
 |:--:| 
 | **An example of how the results of your experiment are logged.** |
 
@@ -138,15 +138,15 @@ run.finish()
 
 - The results of a single experiment:
 
-    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}}
+    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="Experiment results logging" >}}
 
 - The results of multiple experiments:
 
-    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged" >}}
+    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="Experiment results logging" >}}
 
 - The config of an experiment:
 
-    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
+    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="Experiment config logging" >}}
 
 {{% alert %}}
 You need to explicitly call [`run.finish()`]({{< relref "/ref/python/finish" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
@@ -292,7 +292,7 @@ run.finish()
 {{< /tabpane >}}
 
 - Example of a Stable Diffisuion XL + Refiner experiment:
-    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}}
+    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="Stable Diffusion XL experiment tracking" >}}
 
 ## More resources
 

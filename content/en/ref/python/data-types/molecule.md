@@ -2,17 +2,9 @@
 title: Molecule
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/molecule.py#L25-L237 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/molecule.py#L25-L237 >}}
 
 Wandb class for 3D Molecular data.
-
-```python
-Molecule(
-    data_or_path: Union[str, pathlib.Path, 'TextIO'],
-    caption: Optional[str] = None,
-    **kwargs
-) -> None
-```
 
 | Args |  |
 | :--- | :--- |
@@ -23,7 +15,7 @@ Molecule(
 
 ### `from_rdkit`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/molecule.py#L99-L161)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/molecule.py#L99-L161)
 
 ```python
 @classmethod
@@ -46,7 +38,7 @@ Convert RDKit-supported file/object types to wandb.Molecule.
 
 ### `from_smiles`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/molecule.py#L163-L200)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/molecule.py#L163-L200)
 
 ```python
 @classmethod

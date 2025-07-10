@@ -176,7 +176,7 @@ with wandb.init(project="my_project") as run:
     run.log_artifact(test_predictions)
 ```
 
-Refer to this Colab for a [detailed example of artifact.add() with image data](http://wandb.me/dsviz-nature-colab) and this Report for an example of how to use Artifacts and Tables to [version control and deduplicate tabular data](http://wandb.me/TBV-Dedup).
+Refer to this Colab for a [detailed example of artifact.add() with image data](https://wandb.me/dsviz-nature-colab) and this Report for an example of how to use Artifacts and Tables to [version control and deduplicate tabular data](https://wandb.me/TBV-Dedup).
 
 ### Join Artifact tables
 

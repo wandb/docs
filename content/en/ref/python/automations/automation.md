@@ -2,7 +2,7 @@
 title: Automation
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.19.11/wandb/automations/automations.py#L21-L50 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/automations/automations.py#L19-L48 >}}
 
 A local instance of a saved W&B automation.
 

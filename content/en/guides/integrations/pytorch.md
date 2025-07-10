@@ -72,13 +72,13 @@ with wandb.init() as run:
     run.log({"mnist_predictions": my_table})
 ```
 
-{{< img src="/images/integrations/pytorch_example_table.png" alt="The code above generates a table like this one. This model's looking good!" >}}
+{{< img src="/images/integrations/pytorch_example_table.png" alt="PyTorch model results" >}}
 
 For more on logging and visualizing datasets and models, check out our [guide to W&B Tables]({{< relref "/guides/models/tables/" >}}).
 
 ## Profile PyTorch code
 
-{{< img src="/images/integrations/pytorch_example_dashboard.png" alt="View detailed traces of PyTorch code execution inside W&B dashboards." >}}
+{{< img src="/images/integrations/pytorch_example_dashboard.png" alt="PyTorch execution traces" >}}
 
 W&B integrates directly with [PyTorch Kineto](https://github.com/pytorch/kineto)'s [Tensorboard plugin](https://github.com/pytorch/kineto/blob/master/tb_plugin/README.md) to provide tools for profiling PyTorch code, inspecting the details of CPU and GPU communication, and identifying bottlenecks and optimizations.
 
@@ -102,7 +102,7 @@ profile_art.add_file(glob.glob(profile_dir + ".pt.trace.json"))
 profile_art.save()
 ```
 
-See and run working example code in [this Colab](http://wandb.me/trace-colab).
+See and run working example code in [this Colab](https://wandb.me/trace-colab).
 
 {{% alert color="secondary" %}}
 The interactive trace viewing tool is based on the Chrome Trace Viewer, which works best with the Chrome browser.

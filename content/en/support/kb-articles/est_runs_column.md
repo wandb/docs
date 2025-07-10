@@ -11,11 +11,11 @@ W&B provides an estimated number of Runs generated when creating a W&B Sweep wit
 
 For instance, consider the following search space:
 
-{{< img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="" >}}
+{{< img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="Estimated runs column" >}}
 
 In this case, the Cartesian product equals 9. W&B displays this value in the App UI as the estimated run count (**Est. Runs**):
 
-{{< img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="" >}}
+{{< img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="Sweep run estimation" >}}
 
 To retrieve the estimated Run count programmatically, use the `expected_run_count` attribute of the Sweep object within the W&B SDK:
 

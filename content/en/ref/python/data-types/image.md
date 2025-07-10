@@ -2,35 +2,9 @@
 title: Image
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L131-L783 >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/image.py#L131-L783 >}}
 
 A class for logging images to W&B.
-
-```python
-Image(
-    data_or_path: "ImageDataOrPathType",
-    mode: Optional[str] = None,
-    caption: Optional[str] = None,
-    grouping: Optional[int] = None,
-    classes: Optional[Union['Classes', Sequence[dict]]] = None,
-    boxes: Optional[Union[Dict[str, 'BoundingBoxes2D'], Dict[str, dict]]] = None,
-    masks: Optional[Union[Dict[str, 'ImageMask'], Dict[str, dict]]] = None,
-    file_type: Optional[str] = None,
-    normalize: bool = (True)
-) -> None
-```
-
-| Args |  |
-| :--- | :--- |
-|  `data_or_path` |  Accepts numpy array/pytorch tensor of image data, a PIL image object, or a path to an image file. If a numpy array or pytorch tensor is provided, the image data will be saved to the given file type. If the values are not in the range [0, 255] or all values are in the range [0, 1], the image pixel values will be normalized to the range [0, 255] unless `normalize` is set to False. - pytorch tensor should be in the format (channel, height, width) - numpy array should be in the format (height, width, channel) |
-|  `mode` |  The PIL mode for an image. Most common are "L", "RGB", "RGBA". Full explanation at https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes |
-|  `caption` |  Label for display of image. |
-|  `grouping` |  The grouping number for the image. |
-|  `classes` |  A list of class information for the image, used for labeling bounding boxes, and image masks. |
-|  `boxes` |  A dictionary containing bounding box information for the image. see: https://docs.wandb.ai/ref/python/data-types/boundingboxes2d/ |
-|  `masks` |  A dictionary containing mask information for the image. see: https://docs.wandb.ai/ref/python/data-types/imagemask/ |
-|  `file_type` |  The file type to save the image as. This parameter has no effect if data_or_path is a path to an image file. |
-|  `normalize` |  If True, normalize the image pixel values to fall within the range of [0, 255]. Normalize is only applied if data_or_path is a numpy array or pytorch tensor. |
 
 | Attributes |  |
 | :--- | :--- |
@@ -39,7 +13,7 @@ Image(
 
 ### `all_boxes`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L704-L725)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/image.py#L704-L725)
 
 ```python
 @classmethod
@@ -53,7 +27,7 @@ all_boxes(
 
 ### `all_captions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L727-L731)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/image.py#L727-L731)
 
 ```python
 @classmethod
@@ -64,7 +38,7 @@ all_captions(
 
 ### `all_masks`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L681-L702)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/image.py#L681-L702)
 
 ```python
 @classmethod
@@ -78,7 +52,7 @@ all_masks(
 
 ### `guess_mode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/data_types/image.py#L574-L605)
+[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/sdk/data_types/image.py#L574-L605)
 
 ```python
 guess_mode(

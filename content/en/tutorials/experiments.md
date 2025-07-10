@@ -77,7 +77,7 @@ View how your machine learning performed in your W&B project. Copy and paste the
 
 The following image shows what a dashboard can look like:
 
-{{< img src="/images/tutorials/experiments-1.png" alt="" >}}
+{{< img src="/images/tutorials/experiments-1.png" alt="W&B experiment tracking dashboard" >}}
 
 Now that we know how to integrate W&B into a pseudo machine learning training loop, let's track a machine learning experiment using a basic PyTorch neural network. The following code will also upload model checkpoints to W&B that you can then share with other teams in your organization.
 

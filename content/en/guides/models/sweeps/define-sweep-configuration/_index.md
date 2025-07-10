@@ -166,6 +166,8 @@ command:
 - ${Command macro}      
 ```
 
+To express a numeric value using scientific notation, add the YAML `!!float` operator, which casts the value to a floating point number. For example, `min: !!float 1e-5`. See [Command example]({{< relref "#command-example" >}}).
+
 ## Sweep configuration examples
 
 {{< tabpane text=true >}}
@@ -287,6 +289,10 @@ early_terminate:
 
 
 ### Command example
+
+{{% alert %}}
+This example defines `parameters.optimizer.config.learning_rate` using scientific notation, and uses the `!!float ` operator to convert it to a floating point number. 
+{{% /alert %}}
 
 ```yaml
 program: main.py

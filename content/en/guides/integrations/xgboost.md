@@ -65,4 +65,4 @@ Attaining the maximum performance out of models requires tuning hyperparameters,
 
 You can also try this [XGBoost & Sweeps Python script](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py).
 
-{{< img src="/images/integrations/xgboost_sweeps_example.png" alt="Summary: trees outperform linear learners on this classification dataset." >}}
+{{< img src="/images/integrations/xgboost_sweeps_example.png" alt="XGBoost performance comparison" >}}
