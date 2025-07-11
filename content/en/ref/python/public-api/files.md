@@ -1,74 +1,104 @@
 ---
-title: Files
+title: files
+object_type: public_apis_namespace
+data_type_classification: module
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/files.py#L44-L107 >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py >}}
 
-An iterable collection of `File` objects.
 
-| Attributes |  |
-| :--- | :--- |
-|  `cursor` |  The start cursor to use for the next fetched page. |
-|  `more` |  Whether there are more pages to be fetched. |
 
-## Methods
 
-### `convert_objects`
+# <kbd>module</kbd> `wandb.apis.public`
+W&B Public API for File objects. 
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/files.py#L100-L104)
+This module provides classes for interacting with files stored in W&B. 
+
+
+
+**Example:**
+ ```python
+from wandb.apis.public import Api
+
+# Get files from a specific run
+run = Api().run("entity/project/run_id")
+files = run.files()
+
+# Work with files
+for file in files:
+     print(f"File: {file.name}")
+     print(f"Size: {file.size} bytes")
+     print(f"Type: {file.mimetype}")
+
+     # Download file
+     if file.size < 1000000:  # Less than 1MB
+         file.download(root="./downloads")
+
+     # Get S3 URI for large files
+     if file.size >= 1000000:
+         print(f"S3 URI: {file.path_uri}")
+``` 
+
+
+
+**Note:**
+
+> This module is part of the W&B Public API and provides methods to access, download, and manage files stored in W&B. Files are typically associated with specific runs and can include model weights, datasets, visualizations, and other artifacts. 
+
+## <kbd>class</kbd> `Files`
+An iterable collection of `File` objects. 
+
+Access and manage files uploaded to W&B during a run. Handles pagination automatically when iterating through large collections of files. 
+
+
+
+**Example:**
+ ```python
+from wandb.apis.public.files import Files
+from wandb.apis.public.api import Api
+
+# Example run object
+run = Api().run("entity/project/run-id")
+
+# Create a Files object to iterate over files in the run
+files = Files(api.client, run)
+
+# Iterate over files
+for file in files:
+     print(file.name)
+     print(file.url)
+     print(file.size)
+
+     # Download the file
+     file.download(root="download_directory", replace=True)
+``` 
+
+### <kbd>method</kbd> `Files.__init__`
 
 ```python
-convert_objects()
+__init__(client, run, names=None, per_page=50, upload=False)
 ```
 
-Convert the last fetched response data into the iterated objects.
+An iterable collection of `File` objects for a specific run. 
 
-### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L102-L109)
 
-```python
-next() -> T
-```
+**Args:**
+ client: The run object that contains the files run: The run object that contains the files names (list, optional): A list of file names to filter the files per_page (int, optional): The number of files to fetch per page upload (bool, optional): If `True`, fetch the upload URL for each file 
 
-Return the next item from the iterator. When exhausted, raise StopIteration
 
-### `update_variables`
+---
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/files.py#L97-L98)
 
-```python
-update_variables()
-```
+### <kbd>property</kbd> Files.length
 
-Update the query variables for the next page fetch.
 
-### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L95-L100)
 
-```python
-__getitem__(
-    index: (int | slice)
-) -> (T | list[T])
-```
 
-### `__iter__`
+---
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L50-L52)
 
-```python
-__iter__() -> Iterator[T]
-```
 
-### `__len__`
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L128-L133)
 
-```python
-__len__() -> int
-```
-
-| Class Variables |  |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |

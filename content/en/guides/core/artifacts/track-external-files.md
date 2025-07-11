@@ -240,8 +240,6 @@ run.log_artifact(model_artifact)
 ```
 
 
-<!-- Log artifacts outside of a [W&B Run]({{< relref "/ref/python/run" >}}) with the W&B [CLI]({{< relref "/ref/cli" >}}). -->
-
 <!-- ### Log artifacts outside of runs
 
 W&B creates a run when you log an artifact outside of a run. Each artifact belongs to a run, which in turn belongs to a project. An artifact (version) also belongs to a collection, and has a type.

@@ -6,7 +6,7 @@ menu:
 title: Scikit-Learn
 weight: 380
 ---
-You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [**Try an example →**](http://wandb.me/scikit-colab)
+You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [Try an example →](https://wandb.me/scikit-colab)
 
 ## Get started
 
@@ -102,7 +102,7 @@ wandb.init(project="visualize-sklearn")
 
 #### Individual plots
 
-After training a model and making predictions you can then generate plots in wandb to analyze your predictions. See the **Supported Plots** section below for a full list of supported charts
+After training a model and making predictions you can then generate plots in wandb to analyze your predictions. See the **Supported Plots** section below for a full list of supported charts.
 
 ```python
 # Visualize single plot
@@ -320,8 +320,8 @@ Generally, the residuals of a well-fit model should be randomly distributed beca
 * X (arr): Training set features.
 *   y (arr): Training set labels.
 
-    If you have any questions, we'd love to answer them in our [slack community](http://wandb.me/slack).
+    If you have any questions, we'd love to answer them in our [slack community](https://wandb.me/slack).
 
 ## Example
 
-* [Run in colab](http://wandb.me/scikit-colab): A simple notebook to get you started
+* [Run in colab](https://wandb.me/scikit-colab): A simple notebook to get you started.

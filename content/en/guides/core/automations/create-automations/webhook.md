@@ -38,6 +38,8 @@ If the webhook requires a Bearer token or its payload requires a sensitive strin
 
     If the test does not succeed, verify the webhook's configuration and try again. If necessary, refer to [Troubleshoot your webhook]({{< relref "#troubleshoot-your-webhook" >}}).
 
+![Screenshot showing two webhooks in a Team](/images/automations/webhooks.png)
+
 Now you can [create an automation]({{< relref "#create-a-webhook-automation" >}}) that uses the webhook.
 
 ## Create an automation
@@ -84,7 +86,6 @@ A W&B admin can create automations in a project.
 {{% /tab %}}
 {{< /tabpane >}}
 
-
 ## View and manage automations
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
@@ -96,7 +97,6 @@ From either of these pages, a Registry admin can manage existing automations:
 - To view an automation's details, click its name.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
 - To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
-
 
 {{% /tab %}}
 {{% tab "Project" %}}
@@ -123,7 +123,7 @@ This section describes the variables you can use to construct your webhook's pay
 | `${alias}`                    | Contains an artifact's alias if the automation is triggered by the **Adding a new alias to a version of an artifact** event. For other automations, this variable is blank. |
 | `${artifact_collection_name}` | The name of the artifact collection that the artifact version is linked to. |
 | `${artifact_metadata.<KEY>}`  | The value of an arbitrary top-level metadata key from the artifact version that triggered the action. Replace `<KEY>` with the name of a top-level metadata key. Only top-level metadata keys are available in the webhook's payload. |
-| `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref "/ref/python/artifact/" >}}) representation of the artifact version that triggered the action. |
+| `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md/" >}}) representation of the artifact version that triggered the action. |
 | `${artifact_version_string}` | The `string` representation of the artifact version that triggered the action. |
 | `${ACCESS_TOKEN}` | The value of the access token configured in the [webhook]({{< relref "#create-a-webhook" >}}), if an access token is configured. The access token is automatically passed in the `Authorization: Bearer` HTTP header. |
 | `${SECRET_NAME}` | If configured, the value of a secret configured in the [webhook]({{< relref "#create-a-webhook" >}}). Replace `SECRET_NAME` with the name of the secret. |

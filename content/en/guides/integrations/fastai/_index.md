@@ -274,5 +274,5 @@ notebook_launcher(train, num_processes=2)
 
 ## Examples
 
-* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): A thoroughly documented walkthrough
-* [Image Segmentation on CamVid](http://bit.ly/fastai-wandb): A sample use case of the integration
+* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): A thoroughly documented walkthrough.
+* [Image Segmentation on CamVid](https://bit.ly/fastai-wandb): A sample use case of the integration.

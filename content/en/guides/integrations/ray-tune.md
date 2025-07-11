@@ -106,5 +106,5 @@ results = tuner.fit()
 
 We've created a few examples for you to see how the integration works:
 
-* [Colab](http://wandb.me/raytune-colab): A simple demo to try the integration.
+* [Colab](https://wandb.me/raytune-colab): A simple demo to try the integration.
 * [Dashboard](https://wandb.ai/anmolmann/ray_tune): View dashboard generated from the example.

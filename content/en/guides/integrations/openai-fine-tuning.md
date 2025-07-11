@@ -7,7 +7,7 @@ menu:
 title: OpenAI Fine-Tuning
 weight: 250
 ---
-{{< cta-button colabLink="http://wandb.me/openai-colab" >}}
+{{< cta-button colabLink="https://wandb.me/openai-colab" >}}
 
 Log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to W&B. Utilize the W&B ecosystem to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
 
@@ -86,7 +86,7 @@ WandbLogger.sync(
 | wait_for_job_success     | Once an OpenAI fine-tuning job is started it usually takes a bit of time. To ensure that your metrics are logged to W&B as soon as the fine-tune job is finished, this setting will check every 60 seconds for the status of the fine-tune job to change to `succeeded`. Once the fine-tune job is detected as being successful, the metrics will be synced automatically to W&B. Set to True by default.                                                    |
 | model_artifact_name      | The name of the model artifact that is logged. Defaults to `"model-metadata"`.                    |
 | model_artifact_type      | The type of the model artifact that is logged. Defaults to `"model"`.                    |
-| \*\*kwargs_wandb_init  | Aany additional argument passed directly to [`wandb.init()`]({{< relref "/ref/python/init.md" >}})                    |
+| \*\*kwargs_wandb_init  | Aany additional argument passed directly to [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}})                    |
 
 ## Dataset Versioning and Visualization
 
@@ -171,5 +171,5 @@ You can always control the pipeline using low level wandb APIs like `wandb.Artif
 ## Resources
 
 * [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/) is very thorough and contains many useful tips
-* [Demo Colab](http://wandb.me/openai-colab)
-* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&B](http://wandb.me/openai-report) report
+* [Demo Colab](https://wandb.me/openai-colab)
+* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&B](https://wandb.me/openai-report) report
