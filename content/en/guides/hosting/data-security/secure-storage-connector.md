@@ -473,7 +473,7 @@ After you [determine the storage location](#determine-the-storage-address) for y
 Select your deployment type to continue.
 
 {{< tabpane text=true >}}
-{{< tab header="Dedicated Cloud / Self-Hosted" value="dedicated" >}}
+{{% tab header="Dedicated Cloud / Self-Hosted" value="dedicated" %}}
 
 1. If you’re connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like MinIO for team-level BYOB in your Dedicated cloud or Self-managed instance, you **must** add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B, before following the rest of these steps to use the storage bucket for a team.
 1. Log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
@@ -497,9 +497,9 @@ Select your deployment type to continue.
       -  **Azure**: If applicable, specify values for **Tenant ID** and **Managed Identity Client ID**.
 1. Click **Create team**.
 
-    If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
+If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
 
-{{< /tab >}}
+{{% /tab %}}
 {{% tab header="Multi-tenant Cloud" value="multi-tenant" %}}
 
 1. Switch to the browser window where you previously began to create the new team to find the W&B organization ID previously. Otherwise, log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
@@ -508,20 +508,19 @@ Select your deployment type to continue.
 1. Click **Bucket location**.
 1. To use an existing bucket, select it from the list. To add a new bucket, click **Add bucket** at the bottom, then provide the bucket's details.
 
-    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud. If the cloud provider is not listed, ensure that you followed step 1 to add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable. If no buckets from that provider are include in the environment variable, that provider is not listed.
+    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud.
     -  Specify the bucket.
-    
         - For **CoreWeave**, provide only the bucket name.
         - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
         - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
     - Optionally:
       - If applicable, set **Path** to the bucket sub-path.
       - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
-      -  **Azure**: If applicable, specify values for **Tenant ID** and **Managed Identity Client ID**.
+      - **Azure**: If applicable, specify values for **Tenant ID** and **Managed Identity Client ID**.
      - Invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses. Otherwise, you can invite members to the team after it is created.
 1. Click **Create team**.
 
-    If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
+If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
 
 {{% /tab %}}
 {{< /tabpane >}}
