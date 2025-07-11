@@ -24,6 +24,7 @@ In a [Registry]({{< relref "/guides/core/registry/">}}), an automation can start
 In a [project]({{< relref "/guides/models/track/project-page.md" >}}), an automation can start:
 - When a new version is added to an artifact. For example, start a training job when a new version of a dataset artifact is added to a given collection.
 - When an alias is added to an artifact version. For example, trigger a PII redaction workflow when the alias "redaction" is added to a dataset artifact.
+- When a tag is added to an artifact version. For example, trigger a geo-specific workflow when the tag "europe" is added to an artifact version.
 - When a metric for a run meets or exceeds a configured threshold.
 - When a metric for a run changes by a configured threshold.
 - When a run's status changes to **Running**, **Failed**, or **Finished**.

@@ -54,9 +54,9 @@ You can create a project automation at these scopes:
 ### Artifact events
 This section describes the events related to an artifact that can trigger an automation.
 
-- **Linking a new artifact**: Test and validate new models or datasets automatically.
-- **Creating a new version of an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
-- **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
+- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
+- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version gains the `latest` alias. Only one artifact version can have a given alias at a point in time.
+- **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project or collection has a specific tag applied. For example, trigger a geo-specific workflow when the tag "europe" is added to an artifact version. Artifact tags are used for grouping and filtering, and a given tag can be assigned to multiple artifact versions simultaneously.
 
 ### Run events
 An automation can be triggered by a change in a [run's status]({{< relref "/guides/models/track/runs/#run-states" >}}) or a change in a [metric value]({{< relref "/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" >}}).
