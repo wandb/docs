@@ -137,7 +137,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
           "arn:aws:s3:::<cw-bucket>"
         ],
         "Principal": {
-          "CW": "arn:aws:iam::wandb:static/wandb-artifacts"
+          "CW": "arn:aws:iam::wandb:static/wandb-integration"
         },
         "Condition": {
           "StringLike": {
@@ -162,6 +162,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     }
     ```
 
+The clause beginning with `"Sid": "AllowUsersInOrg"` grants users in your W&B organization direct access to the bucket. If you don't need this ability, you can omit the clause from your policy.
 
 {{% /tab %}}
 {{% tab header="AWS" value="aws" %}}
