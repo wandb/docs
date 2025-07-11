@@ -425,9 +425,11 @@
 /zh/ / 301
 
 <!-- lazydocs migration -->
+/ref/python/data-types/boundingboxes2d/ /ref/python/data-types/ 301
+/ref/python/data-types/imagemask/ /ref/python/data-types/ 301
 /ref/python/data-types/graph/ /ref/python/data-types/ 301
 /ref/python/agent/ /ref/python/sdk/functions/agent/ 301
-/ref/python/artifact/ /ref/python/sdk/classes/Artifact/ 301
+/ref/python/artifact/ /ref/python/sdk/classes/artifact/ 301
 /ref/python/controller/ /ref/python/sdk/functions/controller/ 301
 /ref/python/finish/ /ref/python/sdk/functions/finish/ 301
 /ref/python/init/ /ref/python/sdk/functions/init/ 301
