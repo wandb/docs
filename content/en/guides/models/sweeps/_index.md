@@ -54,4 +54,4 @@ Depending on your use case, explore the following resources to get started with 
 
 For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases).
 
-<!-- {% embed url="http://wandb.me/sweeps-video" %} -->
+<!-- {% embed url="https://wandb.me/sweeps-video" %} -->

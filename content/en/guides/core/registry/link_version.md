@@ -14,7 +14,7 @@ When you link an artifact to a registry, this "publishes" that artifact to that 
 In other words, linking an artifact to a registry collection brings that artifact version from a private, project-level scope, to a shared organization level scope.
 
 {{% alert %}}
-The term "type" refers to the artifact object's type. When you create an artifact object ([`wandb.Artifact`]({{< relref "/ref/python/artifact.md" >}})), or log an artifact ([`wandb.init.log_artifact`]({{< relref "/ref/python/run.md#log_artifact" >}})), you specify a type for the `type` parameter. 
+The term "type" refers to the artifact object's type. When you create an artifact object ([`wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md" >}})), or log an artifact ([`wandb.init.log_artifact`]({{< relref "/ref/python/sdk/classes/run.md#log_artifact" >}})), you specify a type for the `type` parameter. 
 <!-- If you are familiar with Python, you can think of artifact types in W&B as having similar functions as Python data types.  -->
 {{% /alert %}}
 
@@ -38,7 +38,7 @@ If an artifact version logs metrics (such as by using `run.log_artifact()`), you
 Watch a [video demonstrating linking a version](https://www.youtube.com/watch?v=2i_n1ExgO0A) (8 min).
 {{% /alert %}}
 
-Programmatically link an artifact version to a collection with [`wandb.init.Run.link_artifact()`]({{< relref "/ref/python/run.md#link_artifact" >}}).
+Programmatically link an artifact version to a collection with [`wandb.init.Run.link_artifact()`]({{< relref "/ref/python/sdk/classes/run.md#link_artifact" >}}).
 
 {{% alert %}}
 Before you link an artifact to a collection, ensure that the registry that the collection belongs to already exists. To check that the registry exists, navigate to the Registry app on the W&B App UI and search for the name of the registry.
@@ -164,7 +164,8 @@ You can confirm the name of your team by:
 2. Copy the site's URL. It has the form of `https://wandb.ai/<team>`. Where `<team>` is the both the name of your team and the team's entity.
 
 #### Log from a team entity
-1. Specify the team as the entity when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/init" >}}). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity. 
+1. Specify the team as the entity when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity.
+
   ```python 
   import wandb   
 
@@ -173,7 +174,8 @@ You can confirm the name of your team by:
     project='<project_name>'
     )
   ```
-2. Log the artifact to the run either with run.log_artifact or by creating an Artifact object and then adding files to it with  :
+
+2. Log the artifact to the run either with run.log_artifact or by creating an Artifact object and then adding files to it with:
 
     ```python
     artifact = wandb.Artifact(name="<artifact_name>", type="<type>")

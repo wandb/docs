@@ -90,7 +90,7 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-If you are using W&B for the first time you might want to check out our [**quickstart**]({{< relref "/guides/quickstart.md" >}})
+If you are using W&B for the first time you might want to check out our [quickstart]({{< relref "/guides/quickstart.md" >}})
 
 
 ### Name the project
@@ -231,7 +231,7 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 {{% /alert %}}
 
 #### W&B Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team with **[Registry]({{< relref "/guides/core/registry/" >}})**. Using Registry, you can organize your best models by task, manage the lifecycles of models, track and audit the entire ML lifecyle, and [automate]({{< relref "/guides/core/automations/" >}}) downstream actions.
+Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team with [Registry]({{< relref "/guides/core/registry/" >}}). Using Registry, you can organize your best models by task, manage the lifecycles of models, track and audit the entire ML lifecyle, and [automate]({{< relref "/guides/core/automations/" >}}) downstream actions.
 
 To link a model Artifact, refer to [Registry]({{< relref "/guides/core/registry/" >}}).
  
@@ -241,7 +241,7 @@ Visualing your model outputs during training or evaluation is often essential to
 
 By using the callbacks system in the Transformers Trainer, you can log additional helpful data to W&B such as your models' text generation outputs or other predictions to W&B Tables. 
 
-See the **[Custom logging section]({{< relref "#custom-logging-log-and-view-evaluation-samples-during-training" >}})** below for a full guide on how to log evaluation outputs while training to log to a W&B Table like this:
+See the [Custom logging section]({{< relref "#custom-logging-log-and-view-evaluation-samples-during-training" >}}) below for a full guide on how to log evaluation outputs while training to log to a W&B Table like this:
 
 
 {{< img src="/images/integrations/huggingface_eval_tables.png" alt="Shows a W&B Table with evaluation outputs" >}}
@@ -456,7 +456,7 @@ For a more detailed example please refer to this [colab](https://colab.research.
 
 ### What additional W&B settings are available?
 
-Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here]({{< relref "/guides/hosting/env-vars/" >}}).
+Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here]({{< relref "/guides/hosting/env-vars.md" >}}).
 
 | Environment Variable | Usage                                                                                                                                                                                                                                                                                                    |
 | -------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -494,7 +494,7 @@ WANDB_SILENT=true
 
 The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
 
-An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation]({{< relref "/ref/python/init.md" >}}).
+An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation]({{< relref "/ref/python/sdk/functions/init.md" >}}).
 
 ```python
 wandb.init(

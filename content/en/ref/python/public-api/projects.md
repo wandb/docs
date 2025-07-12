@@ -1,66 +1,181 @@
 ---
-title: Projects
+title: projects
+object_type: public_apis_namespace
+data_type_classification: module
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/projects.py#L24-L93 >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py >}}
 
-An iterable collection of `Project` objects.
 
-| Attributes |  |
-| :--- | :--- |
-|  `cursor` |  The start cursor to use for the next fetched page. |
-|  `more` |  Whether there are more pages to be fetched. |
 
-## Methods
 
-### `convert_objects`
+# <kbd>module</kbd> `wandb.apis.public`
+W&B Public API for Project objects. 
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/public/projects.py#L86-L90)
+This module provides classes for interacting with W&B projects and their associated data. 
+
+
+
+**Example:**
+ ```python
+from wandb.apis.public import Api
+
+# Get all projects for an entity
+projects = Api().projects("entity")
+
+# Access project data
+for project in projects:
+     print(f"Project: {project.name}")
+     print(f"URL: {project.url}")
+
+     # Get artifact types
+     for artifact_type in project.artifacts_types():
+         print(f"Artifact Type: {artifact_type.name}")
+
+     # Get sweeps
+     for sweep in project.sweeps():
+         print(f"Sweep ID: {sweep.id}")
+         print(f"State: {sweep.state}")
+``` 
+
+
+
+**Note:**
+
+> This module is part of the W&B Public API and provides methods to access and manage projects. For creating new projects, use wandb.init() with a new project name. 
+
+## <kbd>class</kbd> `Projects`
+An iterable collection of `Project` objects. 
+
+An iterable interface to access projects created and saved by the entity. 
+
+
+
+**Args:**
+ 
+ - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
+ - `entity` (str):  The entity name (username or team) to fetch projects for. 
+ - `per_page` (int):  Number of projects to fetch per request (default is 50). 
+
+
+
+**Example:**
+ ```python
+from wandb.apis.public.api import Api
+
+# Find projects that belong to this entity
+projects = Api().projects(entity="entity")
+
+# Iterate over files
+for project in projects:
+    print(f"Project: {project.name}")
+    print(f"- URL: {project.url}")
+    print(f"- Created at: {project.created_at}")
+    print(f"- Is benchmark: {project.is_benchmark}")
+``` 
+
+### <kbd>method</kbd> `Projects.__init__`
 
 ```python
-convert_objects()
+__init__(
+    client: wandb.apis.public.api.RetryingClient,
+    entity: str,
+    per_page: int = 50
+) → Projects
 ```
 
-Convert the last fetched response data into the iterated objects.
+An iterable collection of `Project` objects. 
 
-### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L102-L109)
+
+**Args:**
+ 
+ - `client`:  The API client used to query W&B. 
+ - `entity`:  The entity which owns the projects. 
+ - `per_page`:  The number of projects to fetch per request to the API. 
+
+
+---
+
+
+
+
+
+## <kbd>class</kbd> `Project`
+A project is a namespace for runs. 
+
+
+
+**Args:**
+ 
+ - `client`:  W&B API client instance. 
+ - `name` (str):  The name of the project. 
+ - `entity` (str):  The entity name that owns the project. 
+
+### <kbd>method</kbd> `Project.__init__`
 
 ```python
-next() -> T
+__init__(
+    client: wandb.apis.public.api.RetryingClient,
+    entity: str,
+    project: str,
+    attrs: dict
+) → Project
 ```
 
-Return the next item from the iterator. When exhausted, raise StopIteration
+A single project associated with an entity. 
 
-### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L71-L73)
+
+**Args:**
+ 
+ - `client`:  The API client used to query W&B. 
+ - `entity`:  The entity which owns the project. 
+ - `project`:  The name of the project to query. 
+ - `attrs`:  The attributes of the project. 
+
+
+---
+
+### <kbd>property</kbd> Project.id
+
+
+
+
+
+---
+
+### <kbd>property</kbd> Project.path
+
+Returns the path of the project. The path is a list containing the entity and project name. 
+
+---
+
+### <kbd>property</kbd> Project.url
+
+Returns the URL of the project. 
+
+
+
+---
+
+### <kbd>method</kbd> `Project.artifacts_types`
 
 ```python
-update_variables() -> None
+artifacts_types(per_page=50)
 ```
 
-Update the query variables for the next page fetch.
+Returns all artifact types associated with this project. 
 
-### `__getitem__`
+---
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L95-L100)
+### <kbd>method</kbd> `Project.sweeps`
 
 ```python
-__getitem__(
-    index: (int | slice)
-) -> (T | list[T])
+sweeps()
 ```
 
-### `__iter__`
+Fetches all sweeps associated with the project. 
 
-[View source](https://www.github.com/wandb/wandb/tree/f1e324a66f6d9fd4ab7b43b66d9e832fa5e49b15/wandb/apis/paginator.py#L50-L52)
+---
 
-```python
-__iter__() -> Iterator[T]
-```
-
-| Class Variables |  |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |

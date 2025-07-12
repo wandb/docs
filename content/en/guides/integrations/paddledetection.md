@@ -16,7 +16,7 @@ PaddleDetection now includes a built-in W&B integration which logs all your trai
 
 The PaddleDetection `WandbLogger` logs your training and evaluation metrics to Weights & Biases as well as your model checkpoints while training.
 
-[**Read a W&B blog post**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) which illustrates how to integrate a YOLOX model with PaddleDetection on a subset of the `COCO2017` dataset.
+[Read a W&B blog post](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) which illustrates how to integrate a YOLOX model with PaddleDetection on a subset of the `COCO2017` dataset.
 
 ## Sign up and create an API key
 
@@ -87,7 +87,7 @@ To use wandb via arguments to `train.py` in [PaddleDetection](https://github.com
 
 * Add the `--use_wandb` flag
 * The first wandb arguments must be preceded by `-o` (you only need to pass this once)
-* Each individual wandb argument must contain the prefix `wandb-` . For example any argument to be passed to [`wandb.init`]({{< relref "/ref/python/init" >}}) would get the `wandb-` prefix
+* Each individual argument must contain the prefix `"wandb-"` . For example any argument to be passed to [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) would get the `wandb-` prefix
 
 ```shell
 python tools/train.py 

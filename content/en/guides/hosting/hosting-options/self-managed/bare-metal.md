@@ -169,7 +169,7 @@ Common load balancers include:
 3. [Caddy](https://caddyserver.com)
 4. [Cloudflare](https://www.cloudflare.com/load-balancing/)
 5. [Apache](https://www.apache.org)
-6. [HAProxy](http://www.haproxy.org)
+6. [HAProxy](https://www.haproxy.org)
 
 Ensure that all machines used to execute machine learning payloads, and the devices used to access the service through web browsers, can communicate to this endpoint. 
 
