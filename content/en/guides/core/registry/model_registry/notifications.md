@@ -13,7 +13,7 @@ weight: 9
 Receive Slack notifications when a new model version is linked to the model registry. 
 
 
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the [W&B Model Registry app](https://wandb.ai/registry/model).
 2. Select the registered model you want to receive notifications from.
 3. Click on the **Connect Slack** button.
     {{< img src="/images/models/connect_to_slack.png" alt="Connect to Slack" >}}

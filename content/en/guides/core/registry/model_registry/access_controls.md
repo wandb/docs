@@ -21,7 +21,7 @@ For example, suppose you set `staging` and `production` as protected aliases. An
 ## Set up access control
 The following steps describe how to set up access controls for your team’s model registry.
 
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the [W&B Model Registry app](https://wandb.ai/registry/model).
 2. Select the gear button on the top right of the page.
 {{< img src="/images/models/rbac_gear_button.png" alt="Registry settings gear" >}}
 3. Select the **Manage registry admins** button. 
@@ -30,7 +30,7 @@ The following steps describe how to set up access controls for your team’s mod
 
 
 ## Add protected aliases
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the [W&B Model Registry app](https://wandb.ai/registry/model).
 2. Select the gear button on the top right of the page.
 {{< img src="/images/models/rbac_gear_button.png" alt="Registry settings gear button" >}}
 3. Scroll down to the **Protected Aliases** section.
