@@ -51,6 +51,7 @@ View and manage automations from a project or registry's **Automations** tab.
 - To delete an automation, click its action `...` menu, then click **Delete automation**.
 
 ## Next steps
+- Learn more about [automation events and scopes]({{< relref "/guides/core/automations/automation-events.md" >}})
 - [Create a Slack automation]({{< relref "slack.md" >}}).
 - [Create a webhook automation]({{< relref "webhook.md" >}}).
 - [Create a secret]({{< relref "/guides/core/secrets.md" >}}).
