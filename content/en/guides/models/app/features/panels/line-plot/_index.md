@@ -211,7 +211,7 @@ The following table shows example alerts for each category of infrastructure iss
 | DPU & NVSwitch | `DPUNcoreVersionBelowDesired`, `NVSwitchFaultHGX` |
 | Miscellaneous | `NodePCISpeedRootGBT`, `NodePCIWidthRootSMC` |
 
-For detailed information on error types, see the [SLURM Job Metrics on the CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/slurm-job-metrics#job-info-alerts).
+For detailed information on error types, see the [SLURM Job Metrics on the CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/sunk/slurm-job-metrics#job-info-alerts#job-info-alerts).
 
 ### Debug infrastructure issues
 
@@ -223,4 +223,4 @@ The Grafana dashboard is only available for W&B users with a CoreWeave account. 
 
 Depending on the issue, you may need to adjust the SLURM job configuration, investigate the node's status, restart the job, or take other actions as needed.
 
-For more information about CoreWeave SLURM jobs in Grafana, see Slurm/Job Metrics on the [CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/slurm-job-metrics). See [Job info: alerts](https://docs.coreweave.com/docs/observability/managed-grafana/slurm-job-metrics#job-info-alerts) for detailed information about job alerts.
+For more information about CoreWeave SLURM jobs in Grafana, see Slurm/Job Metrics on the [CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/sunk/slurm-job-metrics#job-info-alerts). See [Job info: alerts](https://docs.coreweave.com/docs/observability/managed-grafana/sunk/slurm-job-metrics#job-info-alerts#job-info-alerts) for detailed information about job alerts.
