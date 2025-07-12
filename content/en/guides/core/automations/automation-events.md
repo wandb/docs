@@ -33,8 +33,8 @@ You can create a Registry automation at these scopes:
 
 ### Events
 A Registry automation can watch for these events:
-- **Linking a new artifact to a collection**: Test and validate new models or datasets when they are added to a registry.
-- **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
+- **A new version is linked to a collection**: Test and validate new models or datasets when they are added to a registry.
+- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
 
 ## Project
 This section describes the scopes and events for an automation in a [project]({{< relref "/guides/models/track/project-page.md" >}}).
