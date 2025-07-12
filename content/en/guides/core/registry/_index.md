@@ -11,12 +11,6 @@ cascade:
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
 
-
-{{% alert %}}
-W&B Registry is now in public preview. Visit [this]({{< relref "./#enable-wb-registry" >}}) section to learn how to enable it for your deployment type.
-{{% /alert %}}
-
-
 W&B Registry is a curated central repository of [artifact]({{< relref "/guides/core/artifacts/" >}}) versions within your organization. Users who [have permission]({{< relref "./configure_registry.md" >}}) within your organization can [download]({{< relref "./download_use_artifact.md" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
 
 You can use the Registry to [track artifact versions]({{< relref "./link_version.md" >}}), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD]({{< relref "/guides/core/automations/" >}}).
@@ -31,7 +25,7 @@ In summary, use W&B Registry to:
 
 <!-- - Quickly find or reference important artifacts with a unique identifier known as aliases.-->
 
-{{< img src="/images/registry/registry_landing_page.png" alt="" >}}
+{{< img src="/images/registry/registry_landing_page.png" alt="W&B Registry" >}}
 
 The preceding image shows the Registry App with "Model" and "Dataset" core registries along with custom registries.
 
@@ -41,7 +35,7 @@ Each organization initially contains two registries that you can use to organize
 
 Each [registry]({{< relref "./configure_registry.md" >}}) consists of one or more [collections]({{< relref "./create_collection.md" >}}). Each collection represents a distinct task or use case.
 
-{{< img src="/images/registry/homepage_registry.png" >}}
+{{< img src="/images/registry/homepage_registry.png" alt="W&B Registry" >}}
 
 To add an artifact to a registry, you first log a [specific artifact version to W&B]({{< relref "/guides/core/artifacts/create-a-new-artifact-version.md" >}}). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
 
@@ -111,8 +105,8 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 | Deployment type | How to enable |
 | ----- | ----- |
 | Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App. |
-| Dedicated Cloud | Contact your account team. The Solutions Architect (SA) Team enables W&B Registry within your instance's operator console. Ensure your instance is on server release version 0.59.2 or newer.|
-| Self-Managed   | Enable the environment variable called `ENABLE_REGISTRY_UI`. To learn more about enabling environment variables in server, visit [these docs]({{< relref "/guides/hosting/env-vars/" >}}). In self-managed instances, your infrastructure administrator should enable this environment variable and set it to `true`. Ensure your instance is on server release version 0.59.2 or newer.|
+| Dedicated Cloud | Contact your account team to enable W&B Registry for your deployment. |
+| Self-Managed | Set the environment variable `ENABLE_REGISTRY_UI` to `true`. Refer to [Configure environment variables]({{< relref "/guides/hosting/env-vars.md" >}}). Requires Server v0.59.2 or newer. |
 
 
 ## Resources to get started
@@ -140,7 +134,7 @@ Until the migration occurs, W&B supports both the legacy Model Registry and the 
 {{% alert %}}
 To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
 
-{{< img src="/images/registry/nav_to_old_model_reg.gif" alt="" >}}
+{{< img src="/images/registry/nav_to_old_model_reg.gif" alt="Legacy Model Registry UI" >}}
 {{% /alert %}}
 
 

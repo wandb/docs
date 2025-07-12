@@ -49,7 +49,7 @@ W&B automatically logs the following information during a W&B Experiment:
 * **System metrics**: CPU and GPU utilization, network, etc. For the GPU, these are fetched with [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface).
 * **Command line**: The stdout and stderr are picked up and show in the logs tab on the [run page.]({{< relref "/guides/models/track/runs/" >}})
 
-Turn on [Code Saving](http://wandb.me/code-save-colab) in your account's [Settings page](https://wandb.ai/settings) to log:
+Turn on [Code Saving](https://wandb.me/code-save-colab) in your account's [Settings page](https://wandb.ai/settings) to log:
 
 * **Git commit**: Pick up the latest git commit and see it on the overview tab of the run page, as well as a `diff.patch` file if there are any uncommitted changes.
 * **Dependencies**: The `requirements.txt` file will be uploaded and shown on the files tab of the run page, along with any files you save to the `wandb` directory for the run.
@@ -80,7 +80,7 @@ wandb.log({"loss": 0.314, "epoch": 5,
 
 1. **Compare the best accuracy**: To compare the best value of a metric across runs, set the summary value for that metric. By default, summary is set to the last value you logged for each key. This is useful in the table in the UI, where you can sort and filter runs based on their summary metrics, to help compare runs in a table or bar chart based on their _best_ accuracy, instead of final accuracy. For example: `wandb.run.summary["best_accuracy"] = best_accuracy`
 2. **View multiple metrics on one chart**: Log multiple metrics in the same call to `wandb.log`, like this: `wandb.log({"acc'": 0.9, "loss": 0.1})` and they will both be available to plot against in the UI
-3. **Customize the x-axis**: Add a custom x-axis to the same log call to visualize your metrics against a different axis in the W&B dashboard. For example: `wandb.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`. To set the default x-axis for a given metric use [Run.define_metric()]({{< relref "/ref/python/run.md#define_metric" >}})
+3. **Customize the x-axis**: Add a custom x-axis to the same log call to visualize your metrics against a different axis in the W&B dashboard. For example: `wandb.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`. To set the default x-axis for a given metric use [Run.define_metric()]({{< relref "/ref/python/sdk/classes/run.md#define_metric" >}})
 4. **Log rich media and charts**: `wandb.log` supports the logging of a wide variety of data types, from [media like images and videos]({{< relref "./media.md" >}}) to [tables]({{< relref "./log-tables.md" >}}) and [charts]({{< relref "/guides/models/app/features/custom-charts/" >}}).
 
 ## Best practices and tips 

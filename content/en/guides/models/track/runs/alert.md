@@ -7,14 +7,14 @@ menu:
 title: Send an alert
 ---
 
-{{< cta-button colabLink="http://wandb.me/alerts-colab" >}}
+{{< cta-button colabLink="https://wandb.me/alerts-colab" >}}
 
 Create alerts with Slack or email if your run crashes or with a custom trigger. For example, you can create an alert if the gradient of your training loop starts to blow up (reports NaN) or a step in your ML pipeline completes. Alerts apply to all projects where you initialize runs, including both personal and team projects.
 
 
 And then see W&B Alerts messages in Slack (or your email):
 
-{{< img src="/images/track/send_alerts_slack.png" alt="" >}}
+{{< img src="/images/track/send_alerts_slack.png" alt="Slack alert setup" >}}
 
 {{% alert %}}
 W&B Alerts require you to add `run.alert()` to your code. Without modifying your code, [Automations]({{< relref "/guides/core/automations/" >}}) provide another way to notify Slack based on an event in W&B, such as when an [artifact]({{< relref "/guides/core/artifacts" >}}) artifact version is created or when a [run metric]({{< relref "/guides/models/track/runs.md" >}}) meets or changes by a threshold.

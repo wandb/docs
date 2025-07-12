@@ -11,19 +11,19 @@ title: Fork a run
 The ability to fork a run is available **only** for new projects in Multi-tenant SaaS Cloud. To enable it for an existing project, or to express interest in the feature for self-hosted or Dedicated Cloud, contact [W&B Support](mailto:support@wandb.com).
 {{% /alert %}}
 
-Use `fork_from` when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
+Use `fork_from` when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
 
 Forking a run enables you to explore different parameters or models from a specific point in an experiment without impacting the original run.
 
 {{% alert %}}
 * Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
-* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`]({{< relref "/ref/python/run#define_metric" >}}) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`]({{< relref "/ref/python/sdk/classes/run#define_metric" >}}) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
 {{% /alert %}}
 
 
 ## Start a forked run
 
-To fork a run, use the `fork_from` argument in [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) and specify the source `run ID` and the `step` from the source run to fork from:
+To fork a run, use the `fork_from` argument in [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) and specify the source `run ID` and the `step` from the source run to fork from:
 
 ```python
 import wandb
@@ -45,7 +45,7 @@ forked_run = wandb.init(
 
 Use an immutable run ID to ensure you have a consistent and unchanging reference to a specific run. Follow these steps to obtain the immutable run ID from the user interface:
 
-1. **Access the Overview Tab:** Navigate to the [**Overview tab**]({{< relref "./#overview-tab" >}}) on the source run's page.
+1. **Access the Overview Tab:** Navigate to the [**Overview** tab]({{< relref "./#overview-tab" >}}) on the source run's page.
 
 2. **Copy the Immutable Run ID:** Click on the `...` menu (three dots) located in the top-right corner of the **Overview** tab. Select the `Copy Immutable Run ID` option from the dropdown menu.
 

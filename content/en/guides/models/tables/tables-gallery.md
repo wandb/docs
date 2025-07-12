@@ -13,7 +13,7 @@ The following sections highlight some of the ways you can use tables:
 
 Log metrics and rich media during model training or evaluation, then visualize results in a persistent database synced to the cloud, or to your [hosting instance]({{< relref "/guides/hosting" >}}). 
 
-{{< img src="/images/data_vis/tables_see_data.png" alt="Browse examples and verify the counts and distribution of your data" max-width="90%" >}}
+{{< img src="/images/data_vis/tables_see_data.png" alt="Data browsing table" max-width="90%" >}}
 
 For example, check out this table that shows a [balanced split of a photos dataset](https://wandb.ai/stacey/mendeleev/artifacts/balanced_data/inat_80-10-10_5K/ab79f01e007113280018/files/data_split.table.json).
 
@@ -21,7 +21,7 @@ For example, check out this table that shows a [balanced split of a photos datas
 
 View, sort, filter, group, join, and query tables to understand your data and model performance—no need to browse static files or rerun analysis scripts. 
 
-{{< img src="/images/data_vis/explore_data.png" alt="Listen to original songs and their synthesized versions (with timbre transfer)" max-width="90%">}}
+{{< img src="/images/data_vis/explore_data.png" alt="Audio comparison" max-width="90%">}}
 
 For example, see this report on [style-transferred audio](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM).
 
@@ -29,7 +29,7 @@ For example, see this report on [style-transferred audio](https://wandb.ai/stace
 
 Quickly compare results across different training epochs, datasets, hyperparameter choices, model architectures etc. 
 
-{{< img src="/images/data_vis/compare_model_versions.png" alt="See granular differences: the left model detects some red sidewalk, the right does not." max-width="90%">}}
+{{< img src="/images/data_vis/compare_model_versions.png" alt="Model comparison" max-width="90%">}}
 
 For example, see this table that compares [two models on the same test images](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#b6dae62d4f00d31eeebf$eval_Bob).
 
@@ -37,7 +37,7 @@ For example, see this table that compares [two models on the same test images](h
 
 Zoom in to visualize a specific prediction at a specific step. Zoom out to see the aggregate statistics, identify patterns of errors, and understand opportunities for improvement. This tool works for comparing steps from a single model training, or results across different model versions.
 
-{{< img src="/images/data_vis/track_details.png" alt="" >}}
+{{< img src="/images/data_vis/track_details.png" alt="Tracking experiment details" >}}
 
 For example, see this example table that analyzes results [after one and then after five epochs on the MNIST dataset](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 ## Example Projects with W&B Tables
@@ -51,9 +51,9 @@ Read [this report](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-
 
 ### Audio
 
-Interact with audio tables in [this report](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) on timbre transfer. You can compare a recorded whale song with a synthesized rendition of the same melody on an instrument like violin or trumpet. You can also record your own songs and explore their synthesized versions in W&B with [this colab](http://wandb.me/audio-transfer).
+Interact with audio tables in [this report](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) on timbre transfer. You can compare a recorded whale song with a synthesized rendition of the same melody on an instrument like violin or trumpet. You can also record your own songs and explore their synthesized versions in W&B with [this colab](https://wandb.me/audio-transfer).
 
-{{< img src="/images/data_vis/audio.png" alt="" max-width="90%">}}
+{{< img src="/images/data_vis/audio.png" alt="Audio table example" max-width="90%">}}
 
 ### Text
 
@@ -71,7 +71,7 @@ Browse and aggregate over videos logged during training to understand your model
 
 View a report on how to [split and pre-process tabular data](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1) with version control and de-duplication.
 
-{{< img src="/images/data_vis/tabs.png" alt="Tables and Artifacts work together to version control, label, and de-duplicate your dataset iterations" max-width="90%">}}
+{{< img src="/images/data_vis/tabs.png" alt="Tables and Artifacts workflow" max-width="90%">}}
 
 ### Comparing model variants (semantic segmentation)
 

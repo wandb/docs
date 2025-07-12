@@ -44,7 +44,7 @@ wandb.login()
 Create, track, and visualize a machine learning experiment. To do this:
 
 1. Initialize a [W&B run]({{< relref "/guides/models/track/runs/" >}}) and pass in the hyperparameters you want to track.
-2. Within your training loop, log metrics such as the accuruacy and loss.
+2. Within your training loop, log metrics such as the accuracy and loss.
 
 
 ```
@@ -82,15 +82,15 @@ for run in range(total_runs):
   wandb.finish()
 ```
 
-View how your machine learning peformed in your W&B project. Copy and paste the URL link that is printed from the previous cell. The URL will redirect you to a W&B project that contains a dashboard showing graphs the show how 
+View how your machine learning performed in your W&B project. Copy and paste the URL link that is printed from the previous cell. The URL will redirect you to a W&B project that contains a dashboard showing graphs the show how 
 
 The following image shows what a dashboard can look like:
 
-{{< img src="/images/tutorials/experiments-1.png" alt="" >}}
+{{< img src="/images/tutorials/experiments-1.png" alt="W&B experiment tracking dashboard" >}}
 
-Now that we know how to integrate W&B into a psuedo machine learning training loop, let's track a machine learning experiment using a basic PyTorch neural network. The following code will also upload model checkpoints to W&B that you can then share with other teams in your organization.
+Now that we know how to integrate W&B into a pseudo machine learning training loop, let's track a machine learning experiment using a basic PyTorch neural network. The following code will also upload model checkpoints to W&B that you can then share with other teams in your organization.
 
-## Track a machine learning experiment using Pytorch
+## Track a machine learning experiment using PyTorch
 
 The following code cell defines and trains a simple MNIST classifier. During training, you will see W&B prints out URLs. Click on the project page link to see your results stream in live to a W&B project.
 
@@ -173,13 +173,13 @@ def validate_model(model, valid_dl, loss_func, log_images=False, batch_idx=0):
     return val_loss / len(valid_dl.dataset), correct / len(valid_dl.dataset)
 ```
 
-### Create a teble to compare the predicted values versus the true value
+### Create a table to compare the predicted values versus the true value
 
 The following cell is unique to W&B, so let's go over it.
 
 In the cell we define a function called `log_image_table`. Though technically, optional, this function creates a W&B Table object. We will use the table object to create a table that shows what the model predicted for each image. 
 
-More specifically, each row will conists of the image fed to the model, along with predicted value and the actual value (label). 
+More specifically, each row will consists of the image fed to the model, along with predicted value and the actual value (label). 
 
 
 ```python
@@ -325,7 +325,7 @@ for training_step in range(1000):
         # Send the wandb Alert
         wandb.alert(
             title="Low Accuracy",
-            text=f"Accuracy {accuracy} at step {training_step} is below the acceptable theshold, {acc_threshold}",
+            text=f"Accuracy {accuracy} at step {training_step} is below the acceptable threshold, {acc_threshold}",
         )
         print("Alert triggered")
         break

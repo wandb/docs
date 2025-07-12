@@ -57,7 +57,7 @@ Only team admins can define who can set or edit a TTL policy.
 5. Click on **Review and save settings**. 
 6. Confirm the changes and select **Save settings**. 
 
-{{< img src="/images/artifacts/define_who_sets_ttl.gif" alt="" >}}
+{{< img src="/images/artifacts/define_who_sets_ttl.gif" alt="Setting TTL permissions" >}}
 
 ## Create a TTL policy
 Set a TTL policy for an artifact either when you create the artifact or retroactively after the artifact is created.
@@ -105,7 +105,7 @@ When you modify an artifact's TTL, the time the artifact takes to expire is stil
   {{% tab header="Python SDK" %}}
 1. [Fetch your artifact]({{< relref "../download-and-use-an-artifact.md" >}}).
 2. Pass in a time delta to the artifact's `ttl` attribute. 
-3. Update the artifact with the [`save`]({{< relref "/ref/python/run.md#save" >}}) method.
+3. Update the artifact with the [`save`]({{< relref "/ref/python/sdk/classes/run.md#save" >}}) method.
 
 
 The following code snippet shows how to set a TTL policy for an artifact:
@@ -131,7 +131,7 @@ The preceding code example sets the TTL policy to two years.
 8. Within the **TTL duration** field, set the TTL policy in units of days.
 9. Select the **Update TTL** button to save your changes.
 
-{{< img src="/images/artifacts/edit_ttl_ui.gif" alt="" >}}  
+{{< img src="/images/artifacts/edit_ttl_ui.gif" alt="Editing TTL policy" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
 
@@ -153,7 +153,7 @@ Set a default TTL policy for your team. Default TTL policies apply to all existi
 6. Click on **Review and save settings**.
 7/ Confirm the changes and then select **Save settings**. 
 
-{{< img src="/images/artifacts/set_default_ttl.gif" alt="" >}}
+{{< img src="/images/artifacts/set_default_ttl.gif" alt="Setting default TTL policy" >}}
 
 ### Set a TTL policy outside of a run
 
@@ -182,7 +182,7 @@ Artifacts with TTL turned off will not inherit an artifact collection's TTL. Ref
   {{% tab header="Python SDK" %}}
 1. [Fetch your artifact]({{< relref "../download-and-use-an-artifact.md" >}}).
 2. Set the artifact's `ttl` attribute to `None`.
-3. Update the artifact with the [`save`]({{< relref "/ref/python/run.md#save" >}}) method.
+3. Update the artifact with the [`save`]({{< relref "/ref/python/sdk/classes/run.md#save" >}}) method.
 
 
 The following code snippet shows how to turn off a TTL policy for an artifact:
@@ -203,7 +203,7 @@ artifact.save()
 8. Within the modal that appears, select **Deactivate** from the TTL policy dropdown.
 9. Select the **Update TTL** button to save your changes.
 
-{{< img src="/images/artifacts/remove_ttl_polilcy.gif" alt="" >}}  
+{{< img src="/images/artifacts/remove_ttl_polilcy.gif" alt="Removing TTL policy" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
 
@@ -232,7 +232,7 @@ View a TTL policy for an artifact with the W&B App UI.
 
 Within the collection view you can see all of the artifacts in the selected collection. Within the `Time to Live` column you will see the TTL policy assigned to that artifact. 
 
-{{< img src="/images/artifacts/ttl_collection_panel_ui.png" alt="" >}}  
+{{< img src="/images/artifacts/ttl_collection_panel_ui.png" alt="TTL collection view" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
 

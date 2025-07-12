@@ -70,7 +70,7 @@ sort_buffer_size = 67108864
 ```
 
 ## 오브젝트 스토리지
-오브젝트 스토리지는 [Minio cluster](https://docs.min.io/minio/k8s/) 또는 서명된 URL을 지원하는 Amazon S3 호환 오브젝트 스토리지에서 외부적으로 호스팅할 수 있습니다. [다음 스크립트](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b)를 실행하여 오브젝트 스토리지가 서명된 URL을 지원하는지 확인하십시오.
+오브젝트 스토리지는 [Minio cluster](https://min.io/docs/minio/kubernetes/upstream/index.html) 또는 서명된 URL을 지원하는 Amazon S3 호환 오브젝트 스토리지에서 외부적으로 호스팅할 수 있습니다. [다음 스크립트](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b)를 실행하여 오브젝트 스토리지가 서명된 URL을 지원하는지 확인하십시오.
 
 또한 다음 CORS 정책을 오브젝트 스토리지에 적용해야 합니다.
 
@@ -108,7 +108,7 @@ s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 자체 오브젝트 스토리지를 실행할 때 고려해야 할 가장 중요한 사항은 다음과 같습니다.
 
 1. **저장 용량 및 성능**. 자기 디스크를 사용해도 괜찮지만 이러한 디스크의 용량을 모니터링해야 합니다. 평균적인 W&B 사용량은 10~100GB입니다. 사용량이 많으면 페타바이트의 스토리지 소비가 발생할 수 있습니다.
-2. **결함 허용 오차**. 최소한 오브젝트를 저장하는 물리적 디스크는 RAID 어레이에 있어야 합니다. minio를 사용하는 경우 [분산 모드](https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html#deploy-minio-distributed)로 실행하는 것을 고려하십시오.
+2. **결함 허용 오차**. 최소한 오브젝트를 저장하는 물리적 디스크는 RAID 어레이에 있어야 합니다. minio를 사용하는 경우 [분산 모드](https://min.io/docs/minio/kubernetes/upstream/operations/concepts/availability-and-resiliency.html#distributed-minio-deployments) 로 실행하는 것을 고려하십시오.
 3. **가용성**. 스토리지를 사용할 수 있는지 확인하기 위해 모니터링을 구성해야 합니다.
 
 자체 오브젝트 스토리지 서비스를 실행하는 대신 다음과 같은 여러 엔터프라이즈 대안이 있습니다.

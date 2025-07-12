@@ -300,7 +300,7 @@ metrics = {
 run.log(metrics)
 ```
 
-{{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="A W&B Workspace with 2 separate sections" >}}
+{{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="W&B Workspace" >}}
 
 [Learn more about `run.log`]({{< relref "/guides/models/track/log" >}}).
 
@@ -409,7 +409,7 @@ local_path = artifact.download("./tmp")
 
 Artifacts can be found in the Artifacts section of W&B and can be referenced with aliases generated automatically (`latest`, `v2`, `v3`) or manually when logging (`best_accuracy`, etc.).
 
-To download an Artifact without creating a `wandb` run (through `wandb.init`), for example in distributed environments or for simple inference, you can instead reference the artifact with the [wandb API]({{< relref "/ref/python/public-api" >}}):
+To download an Artifact without creating a `wandb` run (through `wandb.init`), for example in distributed environments or for simple inference, you can instead reference the artifact with the [wandb API]({{< relref "/ref/python/public-api/index.md" >}}):
 
 ```python
 artifact = wandb.Api().artifact("user/project/artifact:latest")

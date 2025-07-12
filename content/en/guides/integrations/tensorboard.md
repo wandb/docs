@@ -14,7 +14,7 @@ W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
 
 Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
-{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="" >}}
+{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="TensorBoard integration code" >}}
 
 ## Get started
 
@@ -98,3 +98,15 @@ If you use PyTorch's TensorBoard integration, you may need to manually upload th
 ```python
 wandb.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
 ```
+
+### Can I sync tfevents files stored in the cloud?
+
+`wandb` 0.20.0 and above supports syncing `tfevents` files stored in S3, GCS or Azure. `wandb` uses the default credentials for each cloud provider, corresponding to the commands in the following table:
+
+| Cloud provider | Credentials                             | Logging directory format              |
+| -------------- | --------------------------------------- | ------------------------------------- |
+| S3             | `aws configure`                         | `s3://bucket/path/to/logs`            |
+| GCS            | `gcloud auth application-default login` | `gs://bucket/path/to/logs`            |
+| Azure          | `az login`[^1]                          | `az://account/container/path/to/logs` |
+
+[^1]: You must also set the `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_KEY` environment variables.
