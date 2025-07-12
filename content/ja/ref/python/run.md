@@ -389,7 +389,7 @@ runデータをアップロードします。
 
 ログした値はスカラーである必要はありません。任意のwandbオブジェクトのログがサポートされています。
 例えば、`run.log({"example": wandb.Image("myimage.jpg")})`は、W&B UIにうまく表示される例の画像のログを記録します。
-さまざまにサポートされているタイプについては、[参照ドキュメント](https://docs.wandb.com/ref/python/data-types)を参照するか、[logging ガイド](https://docs.wandb.ai/guides/track/log)で、3D分子構造やセグメンテーションマスク、PR曲線、ヒストグラムの例を確認してください。
+さまざまにサポートされているタイプについては、[参照ドキュメント](https://docs.wandb.ai/ref/python/sdk/data-types/)を参照するか、[logging ガイド](https://docs.wandb.ai/guides/track/log)で、3D分子構造やセグメンテーションマスク、PR曲線、ヒストグラムの例を確認してください。
 `wandb.Table`を使用して構造化データをログできます。詳細については、[テーブルログのガイド](https://docs.wandb.ai/guides/models/tables/tables-walkthrough)をご覧ください。
 
 W&B UIは、メトリクスを名前に含むスラッシュ（`/`）を含むセクションに整理し、名前の最後のスラッシュ前のテキストでセクション名を使用します。例えば、次の例では、「train」と「validate」という2つのセクションがあります：
@@ -422,7 +422,7 @@ run.log(
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-[define_metric](https://docs.wandb.ai/ref/python/run#define_metric)も参照してください。
+[define_metric](https://docs.wandb.ai/ref/python/sdk/classes/run/#method-rundefine_metric)も参照してください。
 
 `step`および`commit`パラメータを使用して、同じステップにログを記録するために複数の`log`呼び出しを使用することができます。
 以下はすべて同等です：
