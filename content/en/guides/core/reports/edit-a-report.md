@@ -9,6 +9,10 @@ title: Edit a report
 weight: 20
 ---
 
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
+
 Edit a report interactively with the App UI or programmatically with the W&B SDK.
 
 Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
@@ -21,7 +25,7 @@ Check out the [Programmatic workspaces tutorial]({{< relref "/tutorials/workspac
 {{% /alert %}}
 
 {{% alert %}}
-Ensure that you have `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
+Verify that you have the W&B Report and Workspace API `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
 
 ```pip
 pip install wandb wandb-workspaces
@@ -33,14 +37,14 @@ pip install wandb wandb-workspaces
 Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data shows up on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
 
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
+{{% tab header="W&B App" value="app" %}}
 
 Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B, including a line plot, scatter plot or parallel coordinates chart.
 
 {{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk"%}}
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
 Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
 
 
@@ -80,7 +84,7 @@ For more information about available plots and charts you can add to a report pr
 Add run sets from projects interactively with the App UI or the W&B SDK.
 
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
+{{% tab header="W&B App" value="app" %}}
 
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Panel Grid**. This will automatically import the run set from the project the report was created from.
 
@@ -96,7 +100,7 @@ If you import a panel into a report, run names are inherited from the project. I
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk"%}}
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
 
 Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
 
@@ -194,7 +198,7 @@ A report automatically updates run sets to show the latest data from the project
 
 To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
 
-{{< img src="/images/reports/freeze_runset.png" alt="" >}}
+{{< img src="/images/reports/freeze_runset.png" alt="Freeze runset button" >}}
 
 ## Add code blocks
 
@@ -209,7 +213,7 @@ Select the name of the programming language on the right hand of the code block.
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
 Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
 
@@ -273,7 +277,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
 Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block programmatically. Pass a string to the `text` parameter:
 
@@ -290,7 +294,7 @@ report.blocks = [
 
 This will render a markdown block similar to:
 
-{{< img src="/images/reports/markdown.png" alt="" >}}
+{{< img src="/images/reports/markdown.png" alt="Rendered markdown block" >}}
 
 {{% /tab %}}
 
@@ -308,7 +312,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
 Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to create an H1, H2, and an unordered list:
 
@@ -330,7 +334,7 @@ report.save()
 This will render a HTML elements  to the following:
 
 
-{{< img src="/images/reports/render_html.png" alt="" >}}
+{{< img src="/images/reports/render_html.png" alt="Rendered HTML elements" >}}
 
 {{% /tab %}}
 
@@ -349,23 +353,23 @@ Copy and past URLs into reports to embed rich media within the report. The follo
 
 Copy and paste a Tweet link URL into a report to view the Tweet within the report.
 
-{{< img src="/images/reports/twitter.gif" alt="" >}}
+{{< img src="/images/reports/twitter.gif" alt="Embedding Twitter content" >}}
 
 ### Youtube
 
 Copy and paste a YouTube video URL link to embed a video in the report.
 
-{{< img src="/images/reports/youtube.gif" alt="" >}}
+{{< img src="/images/reports/youtube.gif" alt="Embedding YouTube videos" >}}
 
 ### SoundCloud
 
 Copy and paste a SoundCloud link to embed an audio file into a report.
 
-{{< img src="/images/reports/soundcloud.gif" alt="" >}}
+{{< img src="/images/reports/soundcloud.gif" alt="Embedding SoundCloud audio" >}}
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
 Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to embed video and Twitter media into a report:
 
@@ -394,11 +398,11 @@ If you have a layout that you would like to reuse, you can select a panel grid a
 
 Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
 
-{{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="" >}}
+{{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="Copying panel grids" >}}
 
 Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
-{{< img src="/images/reports/delete_panel_grid.gif" alt="" >}}
+{{< img src="/images/reports/delete_panel_grid.gif" alt="Deleting panel grids" >}}
 
 ## Collapse headers to organize Reports
 

@@ -73,7 +73,7 @@ wandb.login()
 
 ## Log metrics
 
-Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init`]({{< relref "/ref/python/init" >}}) expects; prepend each argument with `wandb-`.
+Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init`]({{< relref "/ref/python/sdk/functions/init.md" >}}) expects; prepend each argument with `wandb-`.
 
 `num_eval_imges` controls the number of validation set images and predictions that are  logged to W&B tables for model evaluation.
 
@@ -96,6 +96,6 @@ python tools/train.py .... --logger wandb \
 
 [Example dashboard with YOLOX training and validation metrics ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
 
-{{< img src="/images/integrations/yolox_example_dashboard.png" alt="" >}}
+{{< img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX training dashboard" >}}
 
 Any questions or issues about this W&B integration? Open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).

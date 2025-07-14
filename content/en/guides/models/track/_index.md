@@ -12,11 +12,11 @@ cascade:
 ---
 {{< cta-button productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" >}}
 
-Track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard]({{< relref "/guides/models/track/workspaces.md" >}}) or export your data to Python for programmatic access using our [Public API]({{< relref "/ref/python/public-api/" >}}). 
+Track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard]({{< relref "/guides/models/track/workspaces.md" >}}) or export your data to Python for programmatic access using our [Public API]({{< relref "/ref/python/public-api/index.md" >}}). 
 
 Utilize W&B Integrations if you use popular frameworks such as [PyTorch]({{< relref "/guides/integrations/pytorch.md" >}}), [Keras]({{< relref "/guides/integrations/keras.md" >}}), or [Scikit]({{< relref "/guides/integrations/scikit.md" >}}). See our [Integration guides]({{< relref "/guides/integrations/" >}}) for a for a full list of integrations and information on how to add W&B to your code.
 
-{{< img src="/images/experiments/experiments_landing_page.png" alt="" >}}
+{{< img src="/images/experiments/experiments_landing_page.png" alt="Experiments dashboard" >}}
 
 The image above shows an example dashboard where you can view and compare metrics across multiple [runs]({{< relref "/guides/models/track/runs/" >}}).
 
@@ -60,7 +60,7 @@ Depending on your use case, explore the following resources to get started with 
   * Configure experiments
   * Log data from experiments
   * View results from experiments
-* Explore the [W&B Python Library]({{< relref "/ref/python/" >}}) within the [W&B API Reference Guide]({{< relref "/ref/" >}}).
+* Explore the [W&B Python Library]({{< relref "/ref/python/index.md" >}}) within the [W&B API Reference Guide]({{< relref "/ref/" >}}).
 
 ## Best practices and tips 
 

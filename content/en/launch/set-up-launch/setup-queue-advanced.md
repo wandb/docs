@@ -62,7 +62,7 @@ Next, you click on **Parse configuration**. A new tile labeled `aws-instance` wi
 
 From there, you select String as the datatype from the **Type** dropdown. This will populate fields where you can specify values a user can choose from. For example, in the following image the admin of the team configured two different AWS instance types that users can choose from (`ml.m4.xlarge` and `ml.p3.xlarge`):
 
-{{< img src="/images/launch/aws_template_example.png" alt="" >}}
+{{< img src="/images/launch/aws_template_example.png" alt="AWS CloudFormation template" >}}
 
 
 

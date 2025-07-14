@@ -5,7 +5,9 @@ title: Reports
 
 <!-- markdownlint-turnedoff -->
 
-
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
 
 # <kbd>module</kbd> `wandb_workspaces.reports.v2`
 Python library for programmatically working with W&B Reports API. 

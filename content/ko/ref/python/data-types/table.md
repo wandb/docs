@@ -19,7 +19,7 @@ Table(
 기존 스프레드시트와 달리 Tables는 다양한 유형의 데이터를 지원합니다. 스칼라 값, 문자열, numpy 배열 및 `wandb.data_types.Media`의 대부분의 서브클래스가 해당됩니다.
 즉, 다른 기존 스칼라 값과 함께 `Images`, `Video`, `Audio` 및 기타 종류의 풍부하고 주석이 달린 미디어를 Tables에 직접 포함할 수 있습니다.
 
-이 클래스는 UI에서 Table Visualizer를 생성하는 데 사용되는 기본 클래스입니다. https://docs.wandb.ai/guides/data-vis/tables/ 를 참조하세요.
+이 클래스는 UI에서 Table Visualizer를 생성하는 데 사용되는 기본 클래스입니다. [https://docs.wandb.ai/guides/models/tables/]({{< relref "/guides/models/tables/" >}}) 를 참조하세요.
 
 | 인수 |  |
 | :--- | :--- |
