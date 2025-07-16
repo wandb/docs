@@ -6,6 +6,7 @@ level: suggestion
 action:
   name: replace
 swap:
+  "sufficient number(?: of)?": enough
   (?:extract|take away|eliminate): remove
   (?:in order to|as a means to): to
   (?:inform|let me know): tell
@@ -16,9 +17,9 @@ swap:
   a myriad of: myriad
   adversely impact: hurt
   all across: across
-  all of (?!a sudden|these): all
   all of a sudden: suddenly
   all of these: these
+  all of(?! a sudden| these): all
   all-time record: record
   almost all: most
   almost never: seldom
@@ -111,7 +112,6 @@ swap:
   span across: span
   subsequent to: after
   successfully complete: complete
-  sufficient number (?:of)?: enough
   take action: act
   take into account: consider
   the question as to whether: whether
