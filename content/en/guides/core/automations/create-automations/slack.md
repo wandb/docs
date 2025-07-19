@@ -50,7 +50,7 @@ A Registry admin can create automations in that registry.
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
 
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
-    
+
     Click **Next step**.
 1. Select the team that owns the [Slack integration]({{< relref "#add-a-slack-integration" >}}).
 1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
@@ -69,7 +69,7 @@ A W&B admin can create automations in a project.
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
 
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
-    
+
     Click **Next step**.
 1. Select the team that owns the [Slack integration]({{< relref "#add-a-slack-integration" >}}).
 1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
