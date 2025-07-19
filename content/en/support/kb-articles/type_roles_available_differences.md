@@ -7,4 +7,4 @@ support:
    - user management
    - team management
 ---
-Visit [this]({{< relref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}) page for an overview of the available roles and permissions.
+Visit the [Team roles and permissions]({{< relref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}) page for an overview of the available roles and permissions.

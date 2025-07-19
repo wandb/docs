@@ -9,7 +9,7 @@ url: guides/integrations/dagster
 ---
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
-* Use and create [W&B Artifacts]({{< relref "/guides/core/artifacts/" >}}).
+* Create and use a [W&B Artifact]({{< relref "/guides/core/artifacts/" >}}).
 * Use and create Registered Models in [W&B Registry]({{< relref "/guides/core/registry/" >}}).
 * Run training jobs on dedicated compute using [W&B Launch]({{< relref "/launch/" >}}).
 * Use the [wandb]({{< relref "/ref/python/" >}}) client in ops and assets.
@@ -837,7 +837,7 @@ Interested in Launch? Reach out to your account team to talk about joining the c
 Pilot customers need to use AWS EKS or SageMaker to qualify for the beta program. We ultimately plan to support additional platforms.
 {{% /alert %}}
 
-Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider, reading the Guide on Launch: /guides/launch.
+Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider reading the [Guide on Launch]({{< relref "/launch/" >}}).
 
 The Dagster integration helps with:
 * Running one or multiple Launch agents in your Dagster instance.
@@ -849,7 +849,7 @@ The integration provides an importable `@op` called `run_launch_agent`. It start
 
 Agents are processes that poll launch queues and execute the jobs (or dispatch them to external services to be executed) in order.
 
-Refer to the [reference documentation]({{< relref "/launch/" >}}) for configuration
+Refer to the [Launch page]({{< relref "/launch/" >}}).
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -897,7 +897,7 @@ The integration provides an importable `@op` called `run_launch_job`. It execute
 
 A Launch job is assigned to a queue in order to be executed. You can create a queue or use the default one. Make sure you have an active agent listening to that queue. You can run an agent inside your Dagster instance but can also consider using a deployable agent in Kubernetes.
 
-Refer to the [reference documentation]({{< relref "/launch/" >}}) for configuration.
+Refer to the [Launch page]({{< relref "/launch/" >}}).
 
 You can also view useful descriptions for all properties in Launchpad.
 

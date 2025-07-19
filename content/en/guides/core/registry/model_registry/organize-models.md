@@ -9,7 +9,7 @@ weight: 6
 
 Use model tags to organize registered models into categories and to search over those categories. 
 
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the [W&B Model Registry app](https://wandb.ai/registry/model).
 2. Select **View details** next to the name of the registered model you want to add a model tag to. 
     {{< img src="/images/models/organize-models-model-reg-landing.png" alt="Model Registry view details" >}}
 2. Scroll to the **Model card** section.

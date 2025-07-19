@@ -10,9 +10,9 @@ title: Manage artifact data retention
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" >}}
 
-Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts]({{< relref "./delete-artifacts.md" >}}) page.
+Schedule when artifacts are deleted from W&B with a W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts]({{< relref "./delete-artifacts.md" >}}) page.
 
-Check out [this](https://www.youtube.com/watch?v=hQ9J6BoVmnc) video tutorial to learn how to manage data retention with Artifacts TTL in the W&B App.
+Watch a [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) video tutorial to learn how to manage data retention with Artifacts TTL in the W&B App.
 
 {{% alert %}}
 W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that linked models do not accidentally expire if used in production workflows.
@@ -225,7 +225,7 @@ print(artifact.ttl)
   {{% tab  header="W&B App" %}}
 View a TTL policy for an artifact with the W&B App UI.
 
-1. Navigate to the W&B App at [https://wandb.ai](https://wandb.ai).
+1. Navigate to the [W&B App](https://wandb.ai).
 2. Go to your W&B Project.
 3. Within your project, select the Artifacts tab in the left sidebar.
 4. Click on a collection.

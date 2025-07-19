@@ -5,7 +5,7 @@ description: >-
 displayed_sidebar: default
 title: "Tutorial: Create, track, and use a dataset artifact"
 ---
-This walkthrough demonstrates how to create, track, and use a dataset artifact from [W&B Runs]({{< relref "/guides/models/track/runs/" >}}).
+This walkthrough demonstrates how to create, track, and use a dataset artifact from [runs]({{< relref "/guides/models/track/runs/" >}}).
 
 ## 1. Log into W&B
 

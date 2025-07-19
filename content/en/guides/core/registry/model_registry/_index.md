@@ -74,7 +74,7 @@ Depending on your use case, explore the following resources to get started with 
    * [Protected models and access control]({{< relref "./access_controls.md" >}}).
    * [How to connect Registry to CI/CD processes]({{< relref "/guides/core/automations/" >}}).
    * Set up [Slack notifications]({{< relref "./notifications.md" >}}) when a new model version is linked to a registered model.
-* Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
+* Review [What is an ML Model Registry?](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) to learn how to integrate Model Registry into your ML workflow. 
 * Take the W&B [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
   * Use the W&B Model Registry to manage and version your models, track lineage, and promote models through different lifecycle stages
   * Automate your model management workflows using webhooks.

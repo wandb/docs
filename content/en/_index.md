@@ -17,7 +17,7 @@ Choose the product for which you need documentation.
 
 ##### Use AI models in your app
 
-Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a playground for comparing different large language models (LLMs) and settings.
+Use W&B Weave to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a playground for comparing different large language models (LLMs) and settings. Full documentation at [weave-docs.wandb.ai](https://weave-docs.wandb.ai/).
 
 - [Introduction](https://weave-docs.wandb.ai/)
 - [Quickstart](https://weave-docs.wandb.ai/quickstart)
