@@ -91,7 +91,7 @@ Use the plots in the **Organization Dashboard** to get an aggregate view of how 
 - The **Weekly active users** plot charts how many users have been active in the last week.
 - The **Most active user** leaderboard ranks the top ten most active users by how many days they were active over a period of time (defaults to 3 months), as well as when they were most recently active.
 
-To adjust the span of time the plots show, click the date picker in the top right. You can choose 7, 30, or 90 days, or select a custom range. All of the plots share the same time range and update automatically.
+To adjust the span of time the plots show, click the date picker in the top right. You can choose 7, 30, or 90 days. The default date range is 30 days. All of the plots share the same time range and update automatically.
 
 {{% /tab %}}
 {{< /tabpane >}}
