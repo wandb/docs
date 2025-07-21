@@ -88,8 +88,8 @@ To change the period of time for a plot, use the drop-down. You can select:
 Use the plots in the **Organization Dashboard** to get an aggregate view of how many users have been active over time:
 
 - The **Active user count** badge shows how many unique users have been active in a period of time (defaults to 3 months). A user is _active_ if they perform any auditable action scoped to the organization. For a full list, refer to [Actions]({{< relref "/guides/hosting/monitoring-usage/audit-logging.md#actions" >}}) in the Audit Logging page.
-- The **Weekly active users** plot charts how many users have been active in the last week.
-- The **Most active user** leaderboard ranks the top ten most active users by how many days they were active over a period of time (defaults to 3 months), as well as when they were most recently active.
+- The **Weekly active users** plot charts how many users have been active over the period of time.
+- The **Most active user** leaderboard ranks the top ten most active users by how many days they were active over the period of time, as well as when they were most recently active.
 
 To adjust the span of time the plots show, click the date picker in the top right. You can choose 7, 30, or 90 days. The default date range is 30 days. All of the plots share the same time range and update automatically.
 
