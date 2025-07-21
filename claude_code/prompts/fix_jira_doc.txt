@@ -11,20 +11,3 @@ In summary, you will:
 1. Use the information in `jira_ticket_info.json` to understand the issue.
 2. Get the latest context from the product using the `wandb` MCP Server.
 3. Write or update the documentation in a markdown file.
-4. After making your changes, create a GitHub pull request using the `create_jira_pr.sh` script:
-
-```bash
-./claude_code/scripts/create_jira_pr.sh <jira_ticket_number> <issue_summary> <changes_description>
-```
-
-Example:
-```bash
-./claude_code/scripts/create_jira_pr.sh "DOCS-1503" "Artifacts code snippet incorrect" "Fixed variable name from 'artifact' to 'draft_artifact' in run.log_artifact() call"
-```
-
-The script will:
-- Validate inputs and check git status
-- Push the branch if needed
-- Create a PR with a properly formatted description
-- Include a link to the Jira ticket
-- Return the PR URL upon success
