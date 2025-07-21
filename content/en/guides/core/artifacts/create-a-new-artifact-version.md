@@ -251,7 +251,7 @@ with wandb.init(job_type="modify dataset") as run:
     draft_artifact.add_file("file_to_add.txt")
     draft_artifact.remove("dir_to_remove/")
     run.log_artifact(
-        artifact
+        draft_artifact
     )  # log your changes to create a new version and mark it as output to your run
 ```  
   {{% /tab %}}
