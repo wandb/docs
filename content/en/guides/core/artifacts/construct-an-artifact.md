@@ -173,6 +173,10 @@ Add an external URI reference to an artifact with the [`add_reference`]({{< relr
 artifact.add_reference(uri="uri", name="optional-name")
 ```
 
+{{% alert color="warning" %}}
+**Important**: If you set `checksum=False` when adding a reference, the artifact cannot be downloaded later. Only use `checksum=False` when you need to track reference URIs without downloading capability. For downloadable artifacts, always use `checksum=True` (the default).
+{{% /alert %}}
+
 Artifacts currently support the following URI schemes:
 
 * `http(s)://`: A path to a file accessible over HTTP. The artifact will track checksums in the form of etags and size metadata if the HTTP server supports the `ETag` and `Content-Length` response headers.
