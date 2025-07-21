@@ -157,7 +157,7 @@ The Launch agent needs permission to create Amazon SageMaker training jobs. Foll
 5. Select **Create role**.
 6. Note the ARN for the role. You will specify the ARN when you set up the launch agent.
 
-For creating IAM roles, see the [AWS Identity and Access Management Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html).
+To create IAM roles, see the [AWS Identity and Access Management Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html).
 
 {{% alert %}}
 * If you want the launch agent to build images, see the [Advanced agent set up]({{< relref "./setup-agent-advanced.md" >}}) for additional permissions required.
