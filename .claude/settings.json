@@ -1,0 +1,27 @@
+{
+    "permissions": {
+        "allow": [
+            "Read(**/*)",
+            "Write(**/*)",
+            "Edit(**/*)",
+            "List(**/*)",
+            "MultiEdit(**/*)",
+            "Bash(ls:**/*)",
+            "Bash(cat **/*)",
+            "Bash(vale **/*)",
+            "Bash(pwd)",
+            "Bash(find **/* -name '*.md')",
+            "Bash(grep -r)",
+            "Bash(env | grep -i mcp)",
+            "WebFetch(domain:docs.wandb.ai)",
+            "Glob(**/*)",
+            "Grep(**/*)",
+            "Bash(gh:**/*)",
+            "Bash(git:**/*)"
+        ],
+        "additionalDirectories": [
+            "../content/en/",
+            "../"
+        ]
+    }
+}

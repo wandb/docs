@@ -1,0 +1,21 @@
+{
+  "servers": {
+    "wandb": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/wandb/wandb-mcp-server",
+        "wandb_mcp_server"
+      ],
+      "env": {
+        "WANDB_API_KEY": "9b08f64a7b5974a6e4e9a437a973510b93154609"
+      }
+    },
+    "wb-21fd5541": {
+      "command": "node",
+      "args": [
+        "/Users/noahluna/.mcp/wb-21fd5541/src/index.js"
+      ]
+    }
+  }
+}

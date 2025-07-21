@@ -1,0 +1,296 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "48103",
+  "self": "https://wandb.atlassian.net/rest/api/3/issue/48103",
+  "key": "DOCS-1018",
+  "fields": {
+    "statuscategorychangedate": "2024-10-10T14:09:25.819-0700",
+    "issuetype": {
+      "self": "https://wandb.atlassian.net/rest/api/3/issuetype/10047",
+      "id": "10047",
+      "description": "Tasks track small, distinct pieces of work.",
+      "iconUrl": "https://wandb.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+      "name": "Task",
+      "subtask": false,
+      "avatarId": 10318,
+      "entityId": "67d1cec9-fd03-4547-a974-5c7e9313acbd",
+      "hierarchyLevel": 0
+    },
+    "timespent": null,
+    "project": {
+      "self": "https://wandb.atlassian.net/rest/api/3/project/10026",
+      "id": "10026",
+      "key": "DOCS",
+      "name": "Docs",
+      "projectTypeKey": "software",
+      "simplified": true,
+      "avatarUrls": {
+        "48x48": "https://wandb.atlassian.net/rest/api/3/universal_avatar/view/type/project/avatar/10414",
+        "24x24": "https://wandb.atlassian.net/rest/api/3/universal_avatar/view/type/project/avatar/10414?size=small",
+        "16x16": "https://wandb.atlassian.net/rest/api/3/universal_avatar/view/type/project/avatar/10414?size=xsmall",
+        "32x32": "https://wandb.atlassian.net/rest/api/3/universal_avatar/view/type/project/avatar/10414?size=medium"
+      }
+    },
+    "fixVersions": [],
+    "aggregatetimespent": null,
+    "statusCategory": {
+      "self": "https://wandb.atlassian.net/rest/api/3/statuscategory/2",
+      "id": 2,
+      "key": "new",
+      "colorName": "blue-gray",
+      "name": "To Do"
+    },
+    "resolution": null,
+    "resolutiondate": null,
+    "workratio": -1,
+    "issuerestriction": {
+      "issuerestrictions": {},
+      "shouldDisplay": true
+    },
+    "watches": {
+      "self": "https://wandb.atlassian.net/rest/api/3/issue/DOCS-1018/watchers",
+      "watchCount": 1,
+      "isWatching": false
+    },
+    "lastViewed": "2025-07-19T14:49:24.629-0700",
+    "created": "2024-10-10T14:09:25.476-0700",
+    "customfield_10183": null,
+    "customfield_10020": null,
+    "customfield_10021": null,
+    "priority": {
+      "self": "https://wandb.atlassian.net/rest/api/3/priority/3",
+      "iconUrl": "https://wandb.atlassian.net/images/icons/priorities/medium.svg",
+      "name": "P2",
+      "id": "3"
+    },
+    "labels": [
+      "docstrings"
+    ],
+    "customfield_10016": null,
+    "customfield_10019": "1|i03afp:",
+    "timeestimate": null,
+    "aggregatetimeoriginalestimate": null,
+    "versions": [],
+    "issuelinks": [],
+    "assignee": {
+      "self": "https://wandb.atlassian.net/rest/api/3/user?accountId=629643cd2eafc9006eebd3ea",
+      "accountId": "629643cd2eafc9006eebd3ea",
+      "emailAddress": "noah.luna@wandb.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/629643cd2eafc9006eebd3ea/699d3f75-b7f0-4d94-90ac-e638d95405a3/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/629643cd2eafc9006eebd3ea/699d3f75-b7f0-4d94-90ac-e638d95405a3/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/629643cd2eafc9006eebd3ea/699d3f75-b7f0-4d94-90ac-e638d95405a3/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/629643cd2eafc9006eebd3ea/699d3f75-b7f0-4d94-90ac-e638d95405a3/32"
+      },
+      "displayName": "Noah Luna",
+      "active": true,
+      "timeZone": "America/Los_Angeles",
+      "accountType": "atlassian"
+    },
+    "updated": "2024-12-04T11:21:33.416-0800",
+    "status": {
+      "self": "https://wandb.atlassian.net/rest/api/3/status/10076",
+      "description": "",
+      "iconUrl": "https://wandb.atlassian.net/",
+      "name": "Backlog",
+      "id": "10076",
+      "statusCategory": {
+        "self": "https://wandb.atlassian.net/rest/api/3/statuscategory/2",
+        "id": 2,
+        "key": "new",
+        "colorName": "blue-gray",
+        "name": "To Do"
+      }
+    },
+    "components": [],
+    "timeoriginalestimate": null,
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "@Jorge another detail, they should set "
+            },
+            {
+              "type": "text",
+              "text": "job_type",
+              "marks": [
+                {
+                  "type": "code"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " so they can distinguish between the metric reporting node and the worker nodes.  i.e.\n\nMain: "
+            },
+            {
+              "type": "text",
+              "text": "wandb.init(group_id=\"xxxxx\", job_type=\"main\")",
+              "marks": [
+                {
+                  "type": "code"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "\nWorker: "
+            },
+            {
+              "type": "text",
+              "text": "wandb.init(group_id=\"xxxxx\", job_type=\"worker\")",
+              "marks": [
+                {
+                  "type": "code"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "\n\nThen in their workspace they could filter out "
+            },
+            {
+              "type": "text",
+              "text": "job_type=\"worker\"",
+              "marks": [
+                {
+                  "type": "code"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " nodes by default and create a separate view for debugging crashed that filters by "
+            },
+            {
+              "type": "text",
+              "text": "job_type=\"worker\" && state NOT IN [\"running\", \"finished\"]",
+              "marks": [
+                {
+                  "type": "code"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " to reduce the noise.  They don't really need to use the \"group\" filter in that case as we're not really aggregating anything and they'll still have clean workspaces that emulate a single run."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Issue created in Slack from a",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " "
+            },
+            {
+              "type": "text",
+              "text": "message",
+              "marks": [
+                {
+                  "type": "em"
+                },
+                {
+                  "type": "link",
+                  "attrs": {
+                    "href": "https://weightsandbiases.slack.com/archives/C07R6ABKBLN/p1728593717194229"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "timetracking": {},
+    "security": null,
+    "attachment": [],
+    "aggregatetimeestimate": null,
+    "summary": "Advise users on using job_type",
+    "creator": {
+      "self": "https://wandb.atlassian.net/rest/api/3/user?accountId=712020%3A95781838-a317-488c-9bfb-c87490deb2b3",
+      "accountId": "712020:95781838-a317-488c-9bfb-c87490deb2b3",
+      "emailAddress": "john.mulhausen@wandb.com",
+      "avatarUrls": {
+        "48x48": "https://secure.gravatar.com/avatar/bede2f54c8f48da2150e0b76d4819b77?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJM-0.png",
+        "24x24": "https://secure.gravatar.com/avatar/bede2f54c8f48da2150e0b76d4819b77?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJM-0.png",
+        "16x16": "https://secure.gravatar.com/avatar/bede2f54c8f48da2150e0b76d4819b77?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJM-0.png",
+        "32x32": "https://secure.gravatar.com/avatar/bede2f54c8f48da2150e0b76d4819b77?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJM-0.png"
+      },
+      "displayName": "John Mulhausen",
+      "active": true,
+      "timeZone": "America/Los_Angeles",
+      "accountType": "atlassian"
+    },
+    "subtasks": [],
+    "reporter": {
+      "self": "https://wandb.atlassian.net/rest/api/3/user?accountId=712020%3A95781838-a317-488c-9bfb-c87490deb2b3",
+      "accountId": "712020:95781838-a317-488c-9bfb-c87490deb2b3",
+      "emailAddress": "john.mulhausen@wandb.com",
+      "avatarUrls": {
+        "48x48": "https://secure.gravatar.com/avatar/bede2f54c8f48da2150e0b76d4819b77?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJM-0.png",
+        "24x24": "https://secure.gravatar.com/avatar/bede2f54c8f48da2150e0b76d4819b77?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJM-0.png",
+        "16x16": "https://secure.gravatar.com/avatar/bede2f54c8f48da2150e0b76d4819b77?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJM-0.png",
+        "32x32": "https://secure.gravatar.com/avatar/bede2f54c8f48da2150e0b76d4819b77?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJM-0.png"
+      },
+      "displayName": "John Mulhausen",
+      "active": true,
+      "timeZone": "America/Los_Angeles",
+      "accountType": "atlassian"
+    },
+    "customfield_10087": null,
+    "aggregateprogress": {
+      "progress": 0,
+      "total": 0
+    },
+    "customfield_10000": "{}",
+    "environment": null,
+    "duedate": null,
+    "progress": {
+      "progress": 0,
+      "total": 0
+    },
+    "votes": {
+      "self": "https://wandb.atlassian.net/rest/api/3/issue/DOCS-1018/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "comment": {
+      "comments": [],
+      "self": "https://wandb.atlassian.net/rest/api/3/issue/48103/comment",
+      "maxResults": 0,
+      "total": 0,
+      "startAt": 0
+    },
+    "worklog": {
+      "startAt": 0,
+      "maxResults": 20,
+      "total": 0,
+      "worklogs": []
+    }
+  }
+}
