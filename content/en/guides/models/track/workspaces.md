@@ -37,8 +37,6 @@ New saved views appear in the workspace navigation menu.
 
 {{< img src="/images/app_ui/Menu_Views.jpg" alt="Saved views menu" >}}
 
-
-
 ### Update a saved workspace view 
 Saved changes overwrite the previous state of the saved view. Unsaved changes are not retained. To update a saved workspace view in W&B:
 
@@ -88,19 +86,27 @@ By default, new workspaces use these default settings for line plots:
 
 New workspaces will use these settings instead of the defaults.
 
+### View your workspace templates
+To view your workspace template's current configuration:
+1. From any page, select your user icon on the top right corner. From the dropdown, choose **Settings**.
+1. Navigate to the **Personal workspace template** section. If you are using a workspace template, its configuration displays. Otherwise, the section includes no details.
+
 ### Update your workspace template
-Follow these steps to update your workspace template:
+To update your workspace template:
 
 1. Open any workspace.
-1. Modify the workspace's line plot settings. For example, set the number of runs to include to `11`.
+1. Modify the workspace's settings. For example, set the number of runs to include to `11`.
 1. To save the changes to the template, click the action menu `...` near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
 1. Verify the new line plot settings, then click **Update**. The template is updated, and reapplied to all workspaces that use it.
 
-{{% alert %}}
-If you decide to stop using a customized workspace template, you can [update it]({{< relref "#update-your-workspace-template" >}}) to use the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}).
-{{% /alert %}}
+### Delete your workspace template
+To delete your workspace template and go back to the default settings:
 
-## Programmatically creating workspaces
+1. From any page, select your user icon on the top right corner. From the dropdown, choose **Settings**.
+1. Navigate to the **Personal workspace template** section. Your workspace template's configuration displays.
+1. Click the trash icon next to **Settings**. 
+
+## Programmatically create workspaces
 
 [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [W&B](https://wandb.ai/) workspaces and reports.
 
