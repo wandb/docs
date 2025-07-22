@@ -12,30 +12,30 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 
 ## Workspace Management
 
-| Shortcut | Action | Description |
-|----------|--------|-------------|
-| **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo workspace changes | Undo a change you've made in the UI, such as a modification to the workspace or a panel. |
+| Shortcut | Description |
+|----------|-------------|
+| **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo a change you've made in the UI, such as a modification to the workspace or a panel. |
 
 ## Navigation
 
-| Shortcut | Action | Description |
-|----------|--------|-------------|
-| **Left/Right arrows** | Navigate between panels | Step through panels in full-screen mode without clicking the step slider. |
-| **Command+Left/Right** (macOS) / **Ctrl+Left/Right** (Windows/Linux) | Move step slider | Navigate through different steps or time periods in full-screen mode. |
+| Shortcut | Description |
+|----------|-------------|
+| **Left/Right arrows** | Step through panels in full-screen mode without clicking the step slider. |
+| **Command+Left/Right** (macOS) / **Ctrl+Left/Right** (Windows/Linux) | Navigate through different steps or time periods in full-screen mode. |
 
 ## Content Management
 
-| Shortcut | Action | Description |
-|----------|--------|-------------|
-| **Delete** or **Backspace** | Delete panel grids | Remove a selected panel grid in reports (click the drag handle in the top-right corner to select). |
-| **Enter** | Insert Markdown block | Create a Markdown block for rich text editing in reports (after typing "/mark"). |
+| Shortcut | Description |
+|----------|-------------|
+| **Delete** or **Backspace** | Remove a selected panel grid in reports (click the drag handle in the top-right corner to select). |
+| **Enter** | Create a Markdown block for rich text editing in reports (after typing "/mark"). |
 
 ## Standard Navigation
 
-| Shortcut | Action | Description |
-|----------|--------|-------------|
-| **Tab** | Navigate between elements | Move focus between UI elements using standard web accessibility patterns. |
-| **Enter** | Submit searches/forms | Submit searches in query panels and search fields. |
+| Shortcut | Description |
+|----------|-------------|
+| **Tab** | Move focus between UI elements using standard web accessibility patterns. |
+| **Enter** | Submit searches in query panels and search fields. |
 
 ## Tips for Efficient Use
 
