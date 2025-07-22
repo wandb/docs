@@ -1,5 +1,5 @@
 ---
-description: Reference guide for keyboard shortcuts available in the W&B App UI
+description: Reference guide for keyboard shortcuts available in the W&B App
 menu:
   default:
     identifier: keyboard-shortcuts
@@ -8,54 +8,40 @@ title: Keyboard shortcuts
 weight: 60
 ---
 
-The W&B App UI supports keyboard shortcuts to help you navigate and interact with experiments, workspaces, and data more efficiently. This reference guide covers all available keyboard shortcuts organized by functional area.
+The W&B App supports keyboard shortcuts to help you navigate and interact with experiments, workspaces, and data more efficiently. This reference guide covers all available keyboard shortcuts organized by functional area.
 
 ## Workspace Management
 
-| Shortcut | Action | Context |
-|----------|--------|---------|
-| **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo workspace changes | Workspace panels |
-
-Use this shortcut to quickly undo changes you've made to your workspace layout, panel configurations, or other workspace modifications.
+| Shortcut | Action | Description |
+|----------|--------|-------------|
+| **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo workspace changes | Undo a change you've made in the UI, such as a modification to the workspace or a panel |
 
 ## Run Management
 
-| Shortcut | Action | Context |
-|----------|--------|---------|
-| **Ctrl+D** | Stop/kill running scripts | Terminal (all platforms) |
-
-Press `Ctrl+D` in your terminal or command line interface to stop a script that's instrumented with W&B. This shortcut works consistently across macOS, Windows, and Linux.
+| Shortcut | Action | Description |
+|----------|--------|-------------|
+| **Ctrl+D** | Stop/kill running scripts | Stop a script instrumented with W&B in your terminal or command line interface (works on all platforms) |
 
 ## Navigation
 
-| Shortcut | Action | Context |
-|----------|--------|---------|
-| **Left/Right arrows** | Navigate between panels | Full-screen mode |
-| **Command+Left/Right** (macOS) / **Ctrl+Left/Right** (Windows/Linux) | Move step slider | Full-screen mode |
-
-When viewing a panel in full-screen mode, use these shortcuts to efficiently navigate through your data:
-- **Arrow keys** let you step through panels without first clicking on the step slider
-- **Command/Ctrl + arrows** move the step slider to navigate through different steps or time periods in your data
+| Shortcut | Action | Description |
+|----------|--------|-------------|
+| **Left/Right arrows** | Navigate between panels | Step through panels in full-screen mode without clicking the step slider |
+| **Command+Left/Right** (macOS) / **Ctrl+Left/Right** (Windows/Linux) | Move step slider | Navigate through different steps or time periods in full-screen mode |
 
 ## Content Management
 
-| Shortcut | Action | Context |
-|----------|--------|---------|
-| **Delete** or **Backspace** | Delete panel grids | Reports |
-| **Enter** | Insert Markdown block | Reports (after typing "/mark") |
-
-### Reports and Documentation
-- **Delete/Backspace**: Select a panel grid by clicking its drag handle in the top-right corner, then press Delete or Backspace to remove it
-- **Markdown blocks**: Type "/mark" anywhere in a report document and press Enter to insert a Markdown block for rich text editing
+| Shortcut | Action | Description |
+|----------|--------|-------------|
+| **Delete** or **Backspace** | Delete panel grids | Remove a selected panel grid in reports (click the drag handle in the top-right corner to select) |
+| **Enter** | Insert Markdown block | Create a Markdown block for rich text editing in reports (after typing "/mark") |
 
 ## Standard Navigation
 
-| Shortcut | Action | Context |
-|----------|--------|---------|
-| **Tab** | Navigate between elements | Standard accessibility navigation |
-| **Enter** | Submit searches/forms | Query panels, search fields |
-
-These shortcuts follow standard web accessibility patterns and work throughout the W&B App UI for consistent navigation.
+| Shortcut | Action | Description |
+|----------|--------|-------------|
+| **Tab** | Navigate between elements | Move focus between UI elements using standard web accessibility patterns |
+| **Enter** | Submit searches/forms | Submit searches in query panels and search fields |
 
 ## Tips for Efficient Use
 
@@ -65,4 +51,4 @@ These shortcuts follow standard web accessibility patterns and work throughout t
 
 ## Browser Compatibility
 
-These keyboard shortcuts work in all modern web browsers that support the W&B App UI. Some shortcuts may interact with browser-specific features, so if you experience conflicts, check your browser's keyboard shortcut settings. 
+These keyboard shortcuts work in all modern web browsers that support the W&B App. Some shortcuts may interact with browser-specific features, so if you experience conflicts, check your browser's keyboard shortcut settings. 
