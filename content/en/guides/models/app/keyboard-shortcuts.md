@@ -14,34 +14,34 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
-| **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo workspace changes | Undo a change you've made in the UI, such as a modification to the workspace or a panel |
+| **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo workspace changes | Undo a change you've made in the UI, such as a modification to the workspace or a panel. |
 
 ## Run Management
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
-| **Ctrl+D** | Stop/kill running scripts | Stop a script instrumented with W&B in your terminal or command line interface (works on all platforms) |
+| **Ctrl+D** | Stop/kill running scripts | Stop a script instrumented with W&B in your terminal or command line interface (works on all platforms). |
 
 ## Navigation
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
-| **Left/Right arrows** | Navigate between panels | Step through panels in full-screen mode without clicking the step slider |
-| **Command+Left/Right** (macOS) / **Ctrl+Left/Right** (Windows/Linux) | Move step slider | Navigate through different steps or time periods in full-screen mode |
+| **Left/Right arrows** | Navigate between panels | Step through panels in full-screen mode without clicking the step slider. |
+| **Command+Left/Right** (macOS) / **Ctrl+Left/Right** (Windows/Linux) | Move step slider | Navigate through different steps or time periods in full-screen mode. |
 
 ## Content Management
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
-| **Delete** or **Backspace** | Delete panel grids | Remove a selected panel grid in reports (click the drag handle in the top-right corner to select) |
-| **Enter** | Insert Markdown block | Create a Markdown block for rich text editing in reports (after typing "/mark") |
+| **Delete** or **Backspace** | Delete panel grids | Remove a selected panel grid in reports (click the drag handle in the top-right corner to select). |
+| **Enter** | Insert Markdown block | Create a Markdown block for rich text editing in reports (after typing "/mark"). |
 
 ## Standard Navigation
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
-| **Tab** | Navigate between elements | Move focus between UI elements using standard web accessibility patterns |
-| **Enter** | Submit searches/forms | Submit searches in query panels and search fields |
+| **Tab** | Navigate between elements | Move focus between UI elements using standard web accessibility patterns. |
+| **Enter** | Submit searches/forms | Submit searches in query panels and search fields. |
 
 ## Tips for Efficient Use
 
