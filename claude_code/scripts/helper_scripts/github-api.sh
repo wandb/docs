@@ -2,8 +2,12 @@
 
 # GitHub API Configuration
 GITHUB_API_URL="https://api.github.com"
-# Set your GitHub personal access token here or export as environment variable
-GITHUB_TOKEN="INSERT_YOUR_GITHUB_TOKEN"
+# Source .zshenv to get GITHUB_TOKEN if not already set
+if [ -z "$GITHUB_TOKEN" ]; then
+    if [ -f "$HOME/.zshenv" ]; then
+        source "$HOME/.zshenv"
+    fi
+fi
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -15,8 +19,8 @@ NC='\033[0m' # No Color
 # Check if token is set
 check_token() {
     if [ -z "$GITHUB_TOKEN" ]; then
-        echo -e "${RED}Error: GitHub token not set${NC}"
-        echo "Please set GITHUB_TOKEN environment variable or edit this script"
+        echo -e "${RED}Error: GITHUB_TOKEN not found in environment${NC}"
+        echo "Please export GITHUB_TOKEN in your .zshenv file"
         echo "Get a token from: https://github.com/settings/tokens"
         exit 1
     fi

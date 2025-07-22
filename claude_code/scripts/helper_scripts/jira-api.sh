@@ -3,7 +3,19 @@
 # JIRA API Configuration
 JIRA_HOST="https://wandb.atlassian.net"
 JIRA_USERNAME="noah.luna@wandb.com"
-JIRA_API_TOKEN="INSERT_YOUR_JIRA_API_TOKEN"
+# Source .zshenv to get JIRA_API_TOKEN if not already set
+if [ -z "$JIRA_API_TOKEN" ]; then
+    if [ -f "$HOME/.zshenv" ]; then
+        source "$HOME/.zshenv"
+    fi
+fi
+
+# Check if JIRA_API_TOKEN is set
+if [ -z "$JIRA_API_TOKEN" ]; then
+    echo "Error: JIRA_API_TOKEN not found in environment"
+    echo "Please export JIRA_API_TOKEN in your .zshenv file"
+    exit 1
+fi
 
 # Base64 encode credentials for Basic Auth
 AUTH_HEADER=$(echo -n "$JIRA_USERNAME:$JIRA_API_TOKEN" | base64)
