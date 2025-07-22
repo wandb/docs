@@ -84,7 +84,7 @@ run.link_artifact(
 ### Protected aliases
 Use a [protected alias]({{< relref "aliases/#protected-aliases" >}}) to both label and identify artifact versions that should not be modified or deleted. For example, consider using a `production` protected alias to label and identify artifact versions that are in used in your organization's machine learning production pipeline.
 
-[Registry admins]({{< relref "/guides/core/registry/configure_registry/#registry-roles" >}}) and [service accounts]({{< relref "/support/kb-articles/service_account_useful" >}}) with admin permissions can create protected aliases and add or remove protected aliases from an artifact version. Members and Viewers cannot unlink a protected version or delete a collection that contains a protected . See [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}) for details.
+[Registry admins]({{< relref "/guides/core/registry/configure_registry/#registry-roles" >}}) and [service accounts]({{< relref "/support/kb-articles/service_account_useful" >}}) with the Admin role can create protected aliases and add or remove protected aliases from an artifact version. Members and Viewers cannot unlink a protected version or delete a collection that contains a protected . See [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}) for details.
 
 Common protected aliases include:
 
