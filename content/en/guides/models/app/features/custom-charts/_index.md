@@ -4,7 +4,7 @@ menu:
     identifier: intro
     parent: w-b-app-ui-reference
 title: Custom charts
-weight: 2
+weight: 3
 url: guides/app/features/custom-charts
 cascade:
 - url: guides/app/features/custom-charts/:filename

@@ -5,7 +5,7 @@ menu:
     identifier: keyboard-shortcuts
     parent: app
 title: Keyboard shortcuts
-weight: 60
+weight: 1
 ---
 
 The W&B App supports keyboard shortcuts to help you navigate and interact with experiments, workspaces, and data more efficiently. This reference guide covers all available keyboard shortcuts organized by functional area.
