@@ -107,7 +107,7 @@ To delete your workspace template and go back to the default settings:
 1. Click the trash icon next to **Settings**. 
 
 {{% alert %}}
-For Dedicated Cloud and Self-Hosted, deleting your workspace template is supported on v0.70 and above. On older Server versions, update your workspace template to use the [default settings]({{< relref "#default-workspace-settings" >}}) instead.
+For Dedicated Cloud and Self-Managed, deleting your workspace template is supported on v0.70 and above. On older Server versions, update your workspace template to use the [default settings]({{< relref "#default-workspace-settings" >}}) instead.
 {{% /alert %}}
 
 ## Programmatically create workspaces
