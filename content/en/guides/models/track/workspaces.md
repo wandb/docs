@@ -106,6 +106,10 @@ To delete your workspace template and go back to the default settings:
 1. Navigate to the **Personal workspace template** section. Your workspace template's configuration displays.
 1. Click the trash icon next to **Settings**. 
 
+{{% alert %}}
+For Dedicated Cloud and Self-Hosted, deleting your workspace template is supported on v0.70 and above. On older Server versions, update your workspace template to use the [default settings]({{< relref "#default-workspace-settings" >}}) instead.
+{{% /alert %}}
+
 ## Programmatically create workspaces
 
 [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [W&B](https://wandb.ai/) workspaces and reports.
