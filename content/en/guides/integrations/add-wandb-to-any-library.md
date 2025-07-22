@@ -302,7 +302,7 @@ run.log(metrics)
 
 {{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="W&B Workspace" >}}
 
-See the [`run.log` reference]({{< relref "/guides/models/track/log" >}}).
+See the [`wandb.Run.log()` reference]({{< relref "/guides/models/track/log" >}}).
 
 #### Prevent x-axis misalignments
 

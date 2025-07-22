@@ -55,7 +55,7 @@ autolog(init=dict(project="diffusers_logging"))
     - The generated media for each pipeline call are also logged in [media panels]({{< relref "/guides/models/track/log/media" >}}) in the run.
 
     {{% alert %}}
-    You can find a [list of supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on the [W&B GitHub issues page](https://github.com/wandb/wandb/issues).
+    You can find a [list of supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, open an issue on the [W&B GitHub issues page](https://github.com/wandb/wandb/issues).
     {{% /alert %}}
 
 ## Examples

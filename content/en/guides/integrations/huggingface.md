@@ -494,7 +494,7 @@ WANDB_SILENT=true
 
 The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
 
-An example of what you might want to pass to `init` is below. For `wandb.init` details, see the [`wandb.init` reference]({{< relref "/ref/python/sdk/functions/init.md" >}}).
+An example of what you might want to pass to `init` is below. For `wandb.init()` details, see the [`wandb.init()` reference]({{< relref "/ref/python/sdk/functions/init.md" >}}).
 
 ```python
 wandb.init(
