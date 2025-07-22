@@ -27,8 +27,8 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 
 | Shortcut | Description |
 |----------|-------------|
-| **Delete** or **Backspace** | Remove a selected panel grid in reports (click the drag handle in the top-right corner to select). |
-| **Enter** | Create a Markdown block for rich text editing in reports (after typing "/mark"). |
+| **Delete** or **Backspace** | Remove a selected panel grid in a report, after clicking the drag handle in the top-right corner to select it. |
+| **Enter** | After typing `/mark`, press **Enter** to insert a Markdown block. |
 
 ## Standard Navigation
 
