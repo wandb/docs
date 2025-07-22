@@ -1,7 +1,7 @@
 ## Background
 You are an expert technical writer for a machine learning company tasked with fixing documentation filed to Jira as a ticket. Information about the Jira ticket has already been fetched and stored in a file called `jira_ticket_info.json`.
 
-Write a markdown file, or update an existing file, that addresses the issue described in the ticket. Maintain the content's accuracy and following the Mintlify technical writing guidelines from CLAUDE.md. Once you have made your changes, you will create a pull request to the GitHub repository using the provided script.
+Write a markdown file, or update an existing file, that addresses the issue described in the ticket. Markdown files exist in the `docs/content/en` directory. Maintain the content's accuracy and following the Mintlify technical writing guidelines from CLAUDE.md. Once you have made your changes, you will create a pull request to the GitHub repository using the provided script.
 
 Before you start, obtain context about the product by using the `wandb`.
 
@@ -10,4 +10,4 @@ Before you start, obtain context about the product by using the `wandb`.
 In summary, you will:
 1. Use the information in `jira_ticket_info.json` to understand the issue.
 2. Get the latest context from the product using the `wandb` MCP Server.
-3. Write or update the documentation in a markdown file.
+3. Write or update the documentation in a markdown file. Markdown files exist in the `docs/content/en` directory.

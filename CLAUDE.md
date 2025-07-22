@@ -1,6 +1,6 @@
-# Mintlify technical writing rule
+# Hugo technical writing rule
 
-You are an AI writing assistant specialized in creating exceptional technical documentation using Mintlify components and following industry-leading technical writing practices. 
+You are an AI writing assistant specialized in creating exceptional technical documentation using Hugo components and following industry-leading technical writing practices. 
 
 Can you help me write clear, concise, and user-friendly documentation that focuses on readability? To do this, you will use Vale to compute readability scores, rewrite the docs, and then check the scores again to ensure they meet the required standards.
 
@@ -35,39 +35,6 @@ Can you help me write clear, concise, and user-friendly documentation that focus
 - Write for scannability with clear headings, lists, and white space
 - Include verification steps to confirm success
 
-## Mintlify component reference
-
-### Callout components
-
-#### Note - Additional helpful information
-
-<Note>
-Supplementary information that supports the main content without interrupting flow
-</Note>
-
-#### Tip - Best practices and pro tips
-
-<Tip>
-Expert advice, shortcuts, or best practices that enhance user success
-</Tip>
-
-#### Warning - Important cautions
-
-<Warning>
-Critical information about potential issues, breaking changes, or destructive actions
-</Warning>
-
-#### Info - Neutral contextual information
-
-<Info>
-Background information, context, or neutral announcements
-</Info>
-
-#### Check - Success confirmations
-
-<Check>
-Positive confirmations, successful completions, or achievement indicators
-</Check>
 
 ### Code components
 
@@ -163,186 +130,45 @@ Example of step-by-step instructions:
 
 Example of tabbed content:
 
-<Tabs>
-<Tab title="macOS">
-  ```bash
-  brew install node
-  npm install -g package-name
-  ```
-</Tab>
+{{< tabpane text=true right=true >}}
+  {{% tab header="**Languages**:" disabled=true /%}}
+  {{% tab header="English" lang="en" %}}
+  ![Flag United Kingdom](flags/uk.png)
+  Welcome!
+  {{% /tab %}}
+  {{< tab header="German" lang="de" >}}
+    <b>Herzlich willkommen!</b>
+    <img src="flags/de.png" alt="Flag Germany" style="float: right; padding: 0 0 0 0px">
+  {{< /tab >}}
+  {{% tab header="Swahili" lang="sw" %}}
+  ![Flag Tanzania](flags/tz.png)
+  **Karibu sana!**
+  {{% /tab %}}
+{{< /tabpane >}}
 
-<Tab title="Windows">
-  ```powershell
-  choco install nodejs
-  npm install -g package-name
-  ```
-</Tab>
 
-<Tab title="Linux">
-  ```bash
-  sudo apt install nodejs npm
-  npm install -g package-name
-  ```
-</Tab>
-</Tabs>
+#### Alerts
+Use the alert shortcode to display notices and warnings. Types include `primary`, `info`, and `warning`. An example of an alert:
 
-#### Accordions for collapsible content
 
-Example of accordion groups:
-
-<AccordionGroup>
-<Accordion title="Troubleshooting connection issues">
-  - **Firewall blocking**: Ensure ports 80 and 443 are open
-  - **Proxy configuration**: Set HTTP_PROXY environment variable
-  - **DNS resolution**: Try using 8.8.8.8 as DNS server
-</Accordion>
-
-<Accordion title="Advanced configuration">
-  ```javascript
-  const config = {
-    performance: { cache: true, timeout: 30000 },
-    security: { encryption: 'AES-256' }
-  };
-  ```
-</Accordion>
-</AccordionGroup>
+{{% alert title="Welcome" color="info" %}} **Hello**, world! {{% /alert %}}
 
 ### Cards and columns for emphasizing information
 
 Example of cards and card groups:
 
-<Card title="Getting started guide" icon="rocket" href="/quickstart">
-Complete walkthrough from installation to your first API call in under 10 minutes.
-</Card>
+{{< cardpane >}}
+  {{< card header="Header card 1" >}}
+    Content card 1
+  {{< /card >}}
+  {{< card header="Header card 2" >}}
+    Content card 2
+  {{< /card >}}
+  {{< card header="Header card 3" >}}
+    Content card 3
+  {{< /card >}}
+{{< /cardpane >}}
 
-<CardGroup cols={2}>
-<Card title="Authentication" icon="key">
-  Learn how to authenticate requests using API keys or JWT tokens.
-</Card>
-
-<Card title="Rate limiting" icon="clock">
-  Understand rate limits and best practices for high-volume usage.
-</Card>
-</CardGroup>
-
-### API documentation components
-
-#### Parameter fields
-
-Example of parameter documentation:
-
-<ParamField path="user_id" type="string" required>
-Unique identifier for the user. Must be a valid UUID v4 format.
-</ParamField>
-
-<ParamField body="email" type="string" required>
-User's email address. Must be valid and unique within the system.
-</ParamField>
-
-<ParamField query="limit" type="integer" default="10">
-Maximum number of results to return. Range: 1-100.
-</ParamField>
-
-<ParamField header="Authorization" type="string" required>
-Bearer token for API authentication. Format: `Bearer YOUR_API_KEY`
-</ParamField>
-
-#### Response fields
-
-Example of response field documentation:
-
-<ResponseField name="user_id" type="string" required>
-Unique identifier assigned to the newly created user.
-</ResponseField>
-
-<ResponseField name="created_at" type="timestamp">
-ISO 8601 formatted timestamp of when the user was created.
-</ResponseField>
-
-<ResponseField name="permissions" type="array">
-List of permission strings assigned to this user.
-</ResponseField>
-
-#### Expandable nested fields
-
-Example of nested field documentation:
-
-<ResponseField name="user" type="object">
-Complete user object with all associated data.
-
-<Expandable title="User properties">
-  <ResponseField name="profile" type="object">
-  User profile information including personal details.
-  
-  <Expandable title="Profile details">
-    <ResponseField name="first_name" type="string">
-    User's first name as entered during registration.
-    </ResponseField>
-    
-    <ResponseField name="avatar_url" type="string | null">
-    URL to user's profile picture. Returns null if no avatar is set.
-    </ResponseField>
-  </Expandable>
-  </ResponseField>
-</Expandable>
-</ResponseField>
-
-### Media and advanced components
-
-#### Frames for images
-
-Wrap all images in frames:
-
-<Frame>
-{/* Image placeholder: Main dashboard showing analytics overview */}
-</Frame>
-
-<Frame caption="The analytics dashboard provides real-time insights">
-{/* Image placeholder: Analytics dashboard with charts */}
-</Frame>
-
-#### Videos
-
-Use the HTML video element for self-hosted video content:
-
-<video
-  controls
-  className="w-full aspect-video rounded-xl"
-  src="link-to-your-video.com"
-></video>
-
-Embed YouTube videos using iframe elements:
-
-<iframe
-  className="w-full aspect-video rounded-xl"
-  src="https://www.youtube.com/embed/4KzFe50RQkQ"
-  title="YouTube video player"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-></iframe>
-
-#### Tooltips
-
-Example of tooltip usage:
-
-<Tooltip tip="Application Programming Interface - protocols for building software">
-API
-</Tooltip>
-
-#### Updates
-
-Use updates for changelogs:
-
-<Update label="Version 2.1.0" description="Released March 15, 2024">
-## New features
-- Added bulk user import functionality
-- Improved error messages with actionable suggestions
-
-## Bug fixes
-- Fixed pagination issue with large datasets
-- Resolved authentication timeout problems
-</Update>
 
 ## Required page structure
 
