@@ -1,5 +1,5 @@
 ---
-description: Reference guide for keyboard shortcuts available in the W&B App
+description: Learn about the keyboard shortcuts available in the W&B App.
 menu:
   default:
     identifier: keyboard-shortcuts
@@ -39,9 +39,8 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 
 ## Tips for Efficient Use
 
-- **Full-screen mode shortcuts**: The Left/Right arrow and Command/Ctrl+Left/Right shortcuts are particularly useful when analyzing media panels, time series data, or stepping through experimental results
-- **Workspace organization**: Use Cmd/Ctrl+Z frequently when experimenting with different workspace layouts to quickly revert unwanted changes
-- **Cross-platform consistency**: Most shortcuts work identically across platforms, with the main difference being Cmd (macOS) vs Ctrl (Windows/Linux) for modifier keys
+- **Full-screen mode shortcuts**: The Left/Right arrow and Command/Ctrl+Left/Right shortcuts are particularly useful when analyzing media panels or time series data, or to step through experimental results.
+- **Workspace organization**: Use **Cmd/Ctrl+Z** when to revert changes when experimenting with different workspace layouts.
 
 ## Browser Compatibility
 
