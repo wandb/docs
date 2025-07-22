@@ -37,11 +37,7 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 | **Tab** | Move focus between UI elements using standard web accessibility patterns. |
 | **Enter** | Submit searches in query panels and search fields. |
 
-## Tips for Efficient Use
-
+## Tips
 - **Full-screen mode shortcuts**: The Left/Right arrow and Command/Ctrl+Left/Right shortcuts are particularly useful when analyzing media panels or time series data, or to step through experimental results.
 - **Workspace organization**: Use **Cmd/Ctrl+Z** when to revert changes when experimenting with different workspace layouts.
-
-## Browser Compatibility
-
-These keyboard shortcuts work in all modern web browsers that support the W&B App. Some shortcuts may interact with browser-specific features, so if you experience conflicts, check your browser's keyboard shortcut settings. 
+- **Browser compatibility**: These keyboard shortcuts work in all modern web browsers that support the W&B App. Some shortcuts may interact with browser-specific features, so if you experience conflicts, check your browser's keyboard shortcut settings. 
