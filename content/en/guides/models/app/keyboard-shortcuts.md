@@ -16,12 +16,6 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 |----------|--------|-------------|
 | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo workspace changes | Undo a change you've made in the UI, such as a modification to the workspace or a panel. |
 
-## Run Management
-
-| Shortcut | Action | Description |
-|----------|--------|-------------|
-| **Ctrl+D** | Stop/kill running scripts | Stop a script instrumented with W&B in your terminal or command line interface (works on all platforms). |
-
 ## Navigation
 
 | Shortcut | Action | Description |
