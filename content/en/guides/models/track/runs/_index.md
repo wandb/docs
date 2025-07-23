@@ -404,8 +404,8 @@ Use the **Overview** tab to learn about specific run information in a project, s
 W&B stores the proceeding information below the overview section:
 
 * **Artifact Outputs**: Artifact outputs produced by the run.
-* **Config**: List of config parameters saved with [`wandb.config`]({{< relref "/guides/models/track/config.md" >}}).
-* **Summary**: List of summary parameters saved with [`wandb.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged. 
+* **Config**: List of config parameters saved with [`wandb.Run.config`]({{< relref "/guides/models/track/config.md" >}}).
+* **Summary**: List of summary parameters saved with [`wandb.Run.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged.
 
 {{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab" >}}
 
