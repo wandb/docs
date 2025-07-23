@@ -43,7 +43,7 @@ wandb.login()
 
 Create, track, and visualize a machine learning experiment. To do this:
 
-1. Initialize a [W&B run]({{< relref "/guides/models/track/runs/" >}}) and pass in the hyperparameters you want to track.
+1. Initialize a [run]({{< relref "/guides/models/track/runs/" >}}) and pass in the hyperparameters you want to track.
 2. Within your training loop, log metrics such as the accuracy and loss.
 
 
@@ -334,7 +334,7 @@ for training_step in range(1000):
 wandb.finish()
 ```
 
-You can find the full docs for [W&B Alerts here]({{< relref "/guides/models/track/runs/alert" >}}).
+For more details, see the [W&B Alerts overview]({{< relref "/guides/models/track/runs/alert" >}}).
 
 ## Next steps
 The next tutorial you will learn how to do hyperparameter optimization using W&B Sweeps:

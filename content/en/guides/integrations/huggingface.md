@@ -34,7 +34,7 @@ If you'd rather dive straight into working code, check out this [Google Colab](h
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -494,7 +494,7 @@ WANDB_SILENT=true
 
 The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
 
-An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation]({{< relref "/ref/python/sdk/functions/init.md" >}}).
+An example of what you might want to pass to `init` is below. For `wandb.init()` details, see the [`wandb.init()` reference]({{< relref "/ref/python/sdk/functions/init.md" >}}).
 
 ```python
 wandb.init(
@@ -518,7 +518,7 @@ Below are 6 Transformers and W&B related articles you might enjoy
 * We use a standard uncased BERT model from Hugging Face transformers, and we want to fine-tune on the RTE dataset from the SuperGLUE benchmark
 * Results show that Population Based Training is the most effective approach to hyperparameter optimization of our Hugging Face transformer model.
 
-Read the full report [here](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI).
+Read the [Hyperparameter Optimization for Hugging Face Transformers report](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI).
 </details>
 
 <details>
