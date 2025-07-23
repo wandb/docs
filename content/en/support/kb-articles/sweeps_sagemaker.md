@@ -11,5 +11,5 @@ To authenticate W&B, complete the following steps: create a `requirements.txt` f
 
 {{% alert %}}
 Find a complete example on [GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker) and additional insights on our [blog](https://wandb.ai/site/articles/running-sweeps-with-sagemaker).\
-Access the [tutorial](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE) for deploying a sentiment analyzer using SageMaker and W&B.
+Access the [Deploy Sentiment Analyzer Using SageMaker and W&B tutorial](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE) for deploying a sentiment analyzer using SageMaker and W&B.
 {{% /alert %}}

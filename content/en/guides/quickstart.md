@@ -127,4 +127,4 @@ Explore more features of the W&B ecosystem:
 4. Automate hyperparameter searches and optimize models with [W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}).
 5. Analyze runs, visualize model predictions, and share insights on a [central dashboard]({{< relref "/guides/models/tables/" >}}).
 6. Visit [W&B AI Academy](https://wandb.ai/site/courses/) to learn about LLMs, MLOps, and W&B Models through hands-on courses.
-7. Visit the [official W&B Weave documentation](https://weave-docs.wandb.ai/) to learn how to track track, experiment with, evaluate, deploy, and improve your LLM-based applications using Weave. 
+7. Visit [weave-docs.wandb.ai](https://weave-docs.wandb.ai/) to learn how to track track, experiment with, evaluate, deploy, and improve your LLM-based applications using Weave. 

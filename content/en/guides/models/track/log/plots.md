@@ -7,7 +7,7 @@ menu:
 title: Create and track plots from experiments
 ---
 
-Using the methods in `wandb.plot`, you can track charts with `wandb.log`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide]({{< relref "/guides/models/app/features/custom-charts/walkthrough.md" >}}).
+Using the methods in `wandb.plot`, you can track charts with `wandb.log`, including charts that change over time during training. To learn more about our custom charting framework, check out the [custom charts walkthrough]({{< relref "/guides/models/app/features/custom-charts/walkthrough.md" >}}).
 
 ### Basic charts
 
