@@ -81,7 +81,7 @@ dev = [
 An API key authenticates a client or machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -302,7 +302,7 @@ run.log(metrics)
 
 {{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="W&B Workspace" >}}
 
-[Learn more about `run.log`]({{< relref "/guides/models/track/log" >}}).
+See the [`wandb.Run.log()` reference]({{< relref "/guides/models/track/log" >}}).
 
 #### Prevent x-axis misalignments
 
@@ -343,7 +343,7 @@ Some considerations when logging data include:
   * For images, you can log sample predictions, segmentation masks, etc., to see the evolution over time.
   * For text, you can log tables of sample predictions for later exploration.
 
-[Learn more about logging]({{< relref "/guides/models/track/log" >}}) media, objects, plots, and more.
+See the [logging guide]({{< relref "/guides/models/track/log" >}}) for media, objects, plots, and more.
 
 ### Distributed training
 

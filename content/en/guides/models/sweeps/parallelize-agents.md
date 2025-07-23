@@ -18,7 +18,7 @@ Depending on your use case, explore the proceeding tabs to learn how to parallel
 
 {{< tabpane text=true >}}
   {{% tab header="CLI" %}}
-Use the [`wandb agent`]({{< relref "/ref/cli/wandb-agent.md" >}}) command to parallelize your W&B Sweep agent across multiple CPUs with the terminal. Provide the sweep ID that was returned when you [initialized the sweep]({{< relref "./initialize-sweeps.md" >}}). 
+Use the [`wandb agent`]({{< relref "/ref/cli/wandb-agent.md" >}}) command to parallelize your sweep agent across multiple CPUs with the terminal. Provide the sweep ID that was returned when you [initialized the sweep]({{< relref "./initialize-sweeps.md" >}}). 
 
 1. Open more than one terminal window on your local machine.
 2. Copy and paste the code snippet below and replace `sweep_id` with your sweep ID:

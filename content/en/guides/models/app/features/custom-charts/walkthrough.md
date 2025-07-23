@@ -26,7 +26,7 @@ wandb.log(
 
 ## 2. Create a query
 
-Once you've logged data to visualize, go to your project page and click the **`+`** button to add a new panel, then select **Custom Chart**. You can follow along in [this workspace](https://app.wandb.ai/demo-team/custom-charts).
+Once you've logged data to visualize, go to your project page and click the **`+`** button to add a new panel, then select **Custom Chart**. You can follow along in the [custom charts demo workspace](https://app.wandb.ai/demo-team/custom-charts).
 
 {{< img src="/images/app_ui/create_a_query.png" alt="Blank custom chart" >}}
 
@@ -47,7 +47,7 @@ Now that the query is loading in these columns, they're available as options to 
 
 ## 3. Customize the chart
 
-Now that looks pretty good, but I'd like to switch from a scatter plot to a line plot. Click **Edit** to change the Vega spec for this built in chart. Follow along in [this workspace](https://app.wandb.ai/demo-team/custom-charts).
+Now that looks pretty good, but I'd like to switch from a scatter plot to a line plot. Click **Edit** to change the Vega spec for this built in chart. Follow along in the [custom charts demo workspace](https://app.wandb.ai/demo-team/custom-charts).
 
 {{< img src="/images/general/custom-charts-1.png" alt="Custom chart selection" >}}
 

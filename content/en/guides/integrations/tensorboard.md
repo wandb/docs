@@ -31,7 +31,7 @@ wandb.init(project="my-project", sync_tensorboard=True)
 wandb.finish()
 ```
 
-Review an [example](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
+Review an [example TensorBoard integration run](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
 
 Once your run finishes, you can access your TensorBoard event files in W&B and you can visualize your metrics in native W&B charts, together with additional useful information like the system's CPU or GPU utilization, the `git` state, the terminal command the run used, and more.
 
