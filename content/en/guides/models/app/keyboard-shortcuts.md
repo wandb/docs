@@ -15,29 +15,42 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 | Shortcut | Description |
 |----------|-------------|
 | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo a change you've made in the UI, such as a modification to the workspace or a panel. |
+| **Cmd+Y** (macOS) / **Ctrl+Y** (Windows/Linux) | Redo a change you previously undid in the workspace. |
 
 ## Navigation
 
 | Shortcut | Description |
 |----------|-------------|
-| **Left/Right arrows** | Step through panels in full-screen mode without clicking the step slider. |
-| **Command+Left/Right** (macOS) / **Ctrl+Left/Right** (Windows/Linux) | Navigate through different steps or time periods in full-screen mode. |
+| **Tab** | Navigate between interactive elements. |
+| **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux) | Switch between the Workspaces and Runs tabs in the sidebar. |
+| **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | Open the quick search dialog to search across projects, runs, and other resources. |
+| **Cmd+[** (macOS) | Exit full-screen panel view and return to the workspace. |
 
-## Content Management
-
-| Shortcut | Description |
-|----------|-------------|
-| **Delete** or **Backspace** | Remove a selected panel grid in a report, after clicking the drag handle in the top-right corner to select it. |
-| **Enter** | After typing `/mark`, press **Enter** to insert a Markdown block. |
-
-## Standard Navigation
+## Panel Navigation
 
 | Shortcut | Description |
 |----------|-------------|
-| **Tab** | Move focus between UI elements using standard web accessibility patterns. |
-| **Enter** | Submit searches in query panels and search fields. |
+| **Left Arrow / Right Arrow** | Step through panels in a section when in full screen mode. |
+| **Cmd+Left Arrow / Cmd+Right Arrow** (macOS)<br>**Ctrl+Left Arrow / Ctrl+Right Arrow** (Windows/Linux) | When viewing a media panel in full screen mode,move the step slider. |
 
-## Tips
-- **Full-screen mode shortcuts**: The Left/Right arrow and Command/Ctrl+Left/Right shortcuts are particularly useful when analyzing media panels or stepping through experimental results.
-- **Workspace organization**: Use **Cmd/Ctrl+Z** when to revert changes when experimenting with different workspace layouts.
-- **Browser compatibility**: These keyboard shortcuts work in all modern web browsers that support the W&B App. Some shortcuts may interact with browser-specific features, so if you experience conflicts, check your browser's keyboard shortcut settings. 
+## Search and Selection
+
+| Shortcut | Description |
+|----------|-------------|
+| **Escape** | Close the quick search dialog or exit search mode. |
+| **Up Arrow / Down Arrow** | Navigate through search results in the quick search dialog. |
+| **Enter** | Select the highlighted search result or submit a search query. |
+
+## Reports
+
+| Shortcut | Description |
+|----------|-------------|
+| **Delete / Backspace** | Remove the selected panel grid from the report. |
+| **Enter** | Insert a Markdown block after typing "/mark" in a report. |
+| **Tab** | Navigate between interactive elements in a report. |
+
+## Notes
+
+- Most keyboard shortcuts use **Cmd** on macOS and **Ctrl** on Windows/Linux
+- The W&B App implements custom handling for some browser default shortcuts.
+- Some shortcuts are context-sensitive and only work in specific areas of the application 
