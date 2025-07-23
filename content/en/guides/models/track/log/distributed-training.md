@@ -24,7 +24,7 @@ Explore the code behind these examples in the W&B GitHub examples repository [he
 
 This section describes how to track values and metrics available to your rank 0 process. Use this approach to track only metrics that are available from a single process. Typical metrics include GPU/CPU utilization, behavior on a shared validation set, gradients and parameters, and loss values on representative data examples.
 
-Within the rank 0 process, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) and log experiments ([`wandb.log`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}})) to that run. 
+Within the rank 0 process, initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) and log experiments ([`wandb.log`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}})) to that run.
 
 The following [sample Python script (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) demonstrates one way to track metrics on two GPUs on a single machine using PyTorch DDP. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the implementation may differ.
 
@@ -101,7 +101,7 @@ The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see
 ### Track all processes to a single run
 
 {{% alert color="secondary"  %}}
-Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a GitHub issue at [https://github.com/wandb/wandb](https://github.com/wandb/wandb) to provide feedback.
+Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a [GitHub issue in the W&B repository](https://github.com/wandb/wandb) to provide feedback.
 {{% /alert %}}
 
 {{% alert title="Requirements" %}}
@@ -113,7 +113,7 @@ To track multiple processes to a single run, you must have:
 
 In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
 
-Within the primary node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with the following:
+Within the primary node, initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with the following:
 
 1. The `mode` parameter set to `"shared"` to enable shared mode.
 2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
@@ -126,7 +126,7 @@ Make note of the run ID of the primary node. Each worker node needs the run ID o
 `x_primary=True` distinguishes a primary node from worker nodes. Primary nodes are the only nodes that upload files shared across nodes such as configuration files, telemetry and more. Worker nodes do not upload these files.
 {{% /alert %}}
 
-For each worker node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) and provide the following:
+For each worker node, initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) and provide the following:
 1. A `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with:
    * The `mode` parameter set to `"shared"` to enable shared mode.
    * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.

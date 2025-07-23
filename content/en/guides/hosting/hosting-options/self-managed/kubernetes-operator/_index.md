@@ -64,7 +64,7 @@ Satisfy the following requirements to deploy W&B with the W&B Kubernetes operato
 
 Refer to the [reference architecture]({{< relref "../ref-arch.md#infrastructure-requirements" >}}). In addition, [obtain a valid W&B Server license]({{< relref "../#obtain-your-wb-server-license" >}}).
 
-See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See the [bare-metal installation guide]({{< relref "../bare-metal.md" >}}) for a detailed explanation on how to set up and configure a self-managed installation.
 
 Depending on the installation method, you might need to meet the following requirements:
 * Kubectl installed and configured with the correct Kubernetes cluster context.
@@ -174,7 +174,7 @@ W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules de
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 
-For a detailed description on how to use these modules, refer to this [section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) to self-managed installations section in the docs.
+For a detailed description on how to use these modules, refer to the [self-managed installations section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) in the docs.
 
 ### Verify the installation
 
