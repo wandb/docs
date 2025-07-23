@@ -17,7 +17,7 @@ After you configure a queue with config templates, members of your team can alte
 ### Configure queue template
 You can configure a queue template on an existing queue or create a new queue.  
 
-1. Navigate to the Launch App at [https://wandb.ai/launch](https://wandb.ai/launch).
+1. Navigate to the [W&B Launch App](https://wandb.ai/launch).
 2. Select **View queue** next to the name of the queue you want to add a template to.
 3. Select the **Config** tab. This will show information about your queue such as when the queue was created, the queue config, and existing launch-time overrides.
 4. Navigate to the **Queue config** section.

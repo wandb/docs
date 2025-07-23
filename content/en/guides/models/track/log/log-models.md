@@ -47,7 +47,7 @@ Optionally provide a name for the model artifact for the `name` parameter. If `n
 Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`use_model`]({{< relref "/ref/python/sdk/classes/run.md#use_model" >}}) method. 
 {{% /alert %}}
 
-See [`log_model`]({{< relref "/ref/python/sdk/classes/run.md#log_model" >}}) in the API Reference guide for more information on possible parameters.
+See [`log_model`]({{< relref "/ref/python/sdk/classes/run.md#log_model" >}}) in the API Reference for parameters.
 
 <details>
 
@@ -152,15 +152,15 @@ downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}")
 ```
 </details>
 
-See [`use_model`]({{< relref "/ref/python/sdk/classes/run.md#use_model" >}}) in the API Reference guide for more information on possible parameters and return type.
+See [`use_model`]({{< relref "/ref/python/sdk/classes/run.md#use_model" >}}) in the API Reference for parameters and return type.
 
 ## Log and link a model to the W&B Model Registry
 
 {{% alert %}}
-The [`link_model`]({{< relref "/ref/python/sdk/classes/run.md#link_model" >}}) method is currently only compatible with the legacy W&B Model Registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the Registry [docs]({{< relref "/guides/core/registry/link_version.md" >}}). 
+The [`link_model`]({{< relref "/ref/python/sdk/classes/run.md#link_model" >}}) method is currently only compatible with the legacy W&B Model Registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the [Registry linking guide]({{< relref "/guides/core/registry/link_version.md" >}}). 
 {{% /alert %}}
 
-Use the [`link_model`]({{< relref "/ref/python/sdk/classes/run.md#link_model" >}}) method to log model files to a W&B run and link it to the [W&B Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
+Use the [`link_model`]({{< relref "/ref/python/sdk/classes/run.md#link_model" >}}) method to log model files to a W&B Run and link it to the [W&B Model Registry]({{< relref "/guides/core/registry/model_registry/" >}}). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
 
 Linking a model is analogous to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
 
@@ -180,7 +180,7 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-See [`link_model`]({{< relref "/ref/python/sdk/classes/run.md#link_model" >}}) in the API Reference guide for more information on optional parameters.
+See [`link_model`]({{< relref "/ref/python/sdk/classes/run.md#link_model" >}}) in the API Reference guide for optional parameters.
 
 If the `registered-model-name` matches the name of a registered model that already exists within the Model Registry, the model will be linked to that registered model. If no such registered model exists, a new one will be created and the model will be the first one linked. 
 

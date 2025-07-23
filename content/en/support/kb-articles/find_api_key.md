@@ -9,7 +9,7 @@ support:
 ---
 To find your API key for Weights and Biases (W&B):
 
-- Log in to W&B at [https://wandb.ai/authorize](https://wandb.ai/authorize).
+- Navigate to the [W&B authorization page](https://wandb.ai/authorize). Log in if necessary.
 - Alternatively, access your profile:
   1. Click your user profile in the upper right corner.
   2. Select "User Settings."

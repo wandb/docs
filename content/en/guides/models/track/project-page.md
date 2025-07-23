@@ -283,10 +283,10 @@ Refer to the [`wandb.init()` API reference]({{< relref "/ref/python/sdk/function
 
 ## Star a project
 
-Add a star to a project to mark that project as important. Projects that you and your team mark as important with stars appear at the top of your organization's home page.
+Add a star to a project to mark that project as important. Projects that you and your team mark as important with stars appear at the top of your organization's homepage.
 
 
-For example, the proceeding image shows two projects that are marked as important, the `zoo_experiment` and `registry_demo`. Both projects appear within the top of the organization's home page within the **Starred projects** section.
+For example, the proceeding image shows two projects that are marked as important, the `zoo_experiment` and `registry_demo`. Both projects appear within the top of the organization's homepage within the **Starred projects** section.
 {{< img src="/images/track/star-projects.png" alt="Starred projects section" >}}
 
 

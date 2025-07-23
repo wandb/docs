@@ -7,7 +7,7 @@ menu:
 title: 'Tutorial: Create sweep job from project'
 ---
 
-This tutorial explains how to create sweep jobs from a pre-existing W&B project. We will use the [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) to train a PyTorch convolutional neural network how to classify images. The required code an dataset is located in the W&B repo: [https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
+This tutorial explains how to create sweep jobs from a pre-existing W&B project. We will use the [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) to train a PyTorch convolutional neural network how to classify images. The required code an dataset is located in the [W&B examples repository (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
 
 Explore the results in this [W&B Dashboard](https://app.wandb.ai/carey/pytorch-cnn-fashion).
 
