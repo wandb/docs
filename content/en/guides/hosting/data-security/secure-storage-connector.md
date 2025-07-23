@@ -66,7 +66,7 @@ The following table shows the availability of BYOB at each scope for each W&B de
 
 The following sections guide you through the process of setting up BYOB.
 
-## 1. Provision your bucket {#provision-your-bucket}
+## Provision your bucket {#provision-your-bucket}
 
 After [verifying availability]({{< relref "#availability-matrix" >}}), you are ready to provision your storage bucket, including its access policy and CORS. Select a tab to continue.
 
@@ -372,16 +372,15 @@ Create your S3-compatible bucket. Make a note of:
 
 Next, [determine the storage address]({{< relref "#determine-the-storage-address" >}}).
 
-## 2. Determine the storage address  {#determine-the-storage-address}
-This section explains the syntax to use to connect W&B to a BYOB storage bucket. In the examples, replace placeholder values between angle brackets (`<>`) with your bucket's details.
-
+## Determine the storage address  {#determine-the-storage-address}
+This section explains the syntax to use to connect a W&B Team to a BYOB storage bucket. In the examples, replace placeholder values between angle brackets (`<>`) with your bucket's details.
 Select a tab for detailed instructions.
 
 {{< tabpane text=true >}}
 {{% tab header="CoreWeave" value="coreweave" %}}
-To configure CoreWeave for instance-level BYOB, specify the bucket name rather than the full bucket path. 
+This section is relevant only for team level BYOB on **Dedicated Cloud** or **Self-Managed**. For instance level BYOB or for Multi-tenant Cloud, you are ready to [Configure W&B]({{< relref "#configure-byob" >}}).
 
-For team level BYOB, determine the full bucket path using the following format. Replace placeholders between angle brackets (`<>`) with the bucket's values.
+Determine the full bucket path using the following format. Replace placeholders between angle brackets (`<>`) with the bucket's values.
 
 **Bucket format**:
 ```none
@@ -389,7 +388,6 @@ cw://<accessKey>:<secretAccessKey>@cwobject.com/<bucketName>?tls=true
 ```
 
   The `cwobject.com` HTTPS endpoint is supported. TLS 1.3 is required. Contact [support](mailto:support@wandb.com) to express interest in other CoreWeave endpoints.
-- The `cw://` protocol specifier is preferred.
 {{% /tab %}}
 {{% tab header="AWS" value="aws" %}}
 **Bucket format**:
@@ -425,9 +423,9 @@ For Cloud-native storage buckets with an optional S3-compatible mode, use the Cl
 {{% /tab %}}
 {{< /tabpane >}}
 
-After determining the storage address, you are ready to [configure instance level BYOB]({{< relref "#configure-instance-level-byob" >}}) or [configure team level BYOB]({{< relref "#configure-team-level-byob" >}}).
+After determining the storage address, you are ready to [configure team level BYOB]({{< relref "#configure-team-level-byob" >}}).
 
-## 3. Configure W&B  {#configure-byob}
+## Configure W&B  {#configure-byob}
 After you [provision your bucket]({{< relref "#provision-your-bucket" >}}) and [determine its address](#determine-the-storage-address), you are ready to configure BYOB at the [instance level]({{< relref "#instance-level-byob" >}}) or [team level]({{< relref "#team-level-byob" >}}).
 
 {{% alert color="secondary" %}}
@@ -448,7 +446,7 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 1. Go to **Settings** > **System Connections**.
 1. In the **Bucket Storage** section, ensure the identity in the **Identity** field is granted access to the new bucket.
 1. Select the **Provider**.
-1. Enter the new **Bucket Name**.
+1. Enter the **Bucket Name**.
 1. Optionally, enter the **Path** to use in the new bucket.
 1. Click **Save**
 
@@ -475,7 +473,7 @@ Select your deployment type to continue.
 {{< tabpane text=true >}}
 {{% tab header="Dedicated Cloud / Self-Hosted" value="dedicated" %}}
 
-1. If you’re connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like MinIO for team-level BYOB in your Dedicated cloud or Self-managed instance, you **must** add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B, before following the rest of these steps to use the storage bucket for a team.
+1. If you’re connecting a W&B Team on **Dedicated Cloud** or **Self-Managed** to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like MinIO, you **must** add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B before following the rest of these steps to use the storage bucket for a team.
 1. Log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
 1. Provide a name for the team.
 1. Set **Storage Type** to **External storage**.
@@ -485,12 +483,13 @@ Select your deployment type to continue.
 1. Click **Bucket location**.
 1. To use an existing bucket, select it from the list. To add a new bucket, click **Add bucket** at the bottom, then provide the bucket's details.
 
-    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud. If the cloud provider is not listed, ensure that you followed step 1 to add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable. If no buckets from that provider are include in the environment variable, that provider is not listed.
-    -  Specify the bucket.
+    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
     
-        - For **CoreWeave**, provide only the bucket name.
-        - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
-        - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
+    On **Self-Managed**, if the cloud provider is not listed, ensure that you followed step 1 to add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable. If no buckets from that provider are included in the environment variable, that provider is not listed.
+1. Specify the bucket details.
+    - For **CoreWeave**, provide only the bucket name.
+    - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
+    - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
     - Optionally:
       - If applicable, set **Path** to the bucket sub-path.
       - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
@@ -508,11 +507,11 @@ If W&B encounters errors accessing the bucket or detects invalid settings, an er
 1. Click **Bucket location**.
 1. To use an existing bucket, select it from the list. To add a new bucket, click **Add bucket** at the bottom, then provide the bucket's details.
 
-    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud.
-    -  Specify the bucket.
-        - For **CoreWeave**, provide only the bucket name.
-        - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
-        - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
+    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
+1. Specify the bucket details.
+    - For **CoreWeave**, provide only the bucket name.
+    - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
+    - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
     - Optionally:
       - If applicable, set **Path** to the bucket sub-path.
       - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
