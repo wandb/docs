@@ -384,8 +384,9 @@ Use the **Overview** tab to learn about specific run information in a project, s
 
 * **Author**: The W&B entity that creates the run.
 * **Command**: The command that initializes the run.
-* **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App or programmatically with the Python SDK.
-* **Duration**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting.
+* **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App UI or programmatically with the Python SDK.
+* **Tracked Hours**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting periods. This metric helps you understand the actual computational time spent on your run.
+* **Runtime**: Measures the total time from the start to the end of the run. It's the wall-clock time for the run, including any time where the run is paused or waiting for resources. This metric provides the complete elapsed time for your run.
 * **Git repository**: The git repository associated with the run. You must [enable git]({{< relref "/guides/models/app/settings-page/user-settings.md#personal-github-integration" >}}) to view this field.
 * **Host name**: Where W&B computes the run. W&B displays the name of your machine if you initialize the run locally on your machine.
 * **Name**: The name of the run.
@@ -393,7 +394,6 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **Python executable**: The command that starts the run.
 * **Python version**: Specifies the Python version that creates the run.
 * **Run path**: Identifies the unique run identifier in the form `entity/project/run-ID`.
-* **Runtime**: Measures the total time from the start to the end of the run. It’s the wall-clock time for the run. Runtime includes any time where the run is paused or waiting for resources, while duration does not.
 * **Start time**: The timestamp when you initialize the run.
 * **State**: The [state of the run]({{< relref "#run-states" >}}).
 * **System hardware**: The hardware W&B uses to compute the run.
@@ -404,8 +404,8 @@ Use the **Overview** tab to learn about specific run information in a project, s
 W&B stores the proceeding information below the overview section:
 
 * **Artifact Outputs**: Artifact outputs produced by the run.
-* **Config**: List of config parameters saved with [`wandb.config`]({{< relref "/guides/models/track/config.md" >}}).
-* **Summary**: List of summary parameters saved with [`wandb.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged. 
+* **Config**: List of config parameters saved with [`wandb.Run.config`]({{< relref "/guides/models/track/config.md" >}}).
+* **Summary**: List of summary parameters saved with [`wandb.Run.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged.
 
 {{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab" >}}
 
