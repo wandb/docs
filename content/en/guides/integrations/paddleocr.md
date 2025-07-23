@@ -83,7 +83,7 @@ Global:
     use_wandb: True
 ```
 
-Any additional, optional arguments that you might like to pass to [`wandb.init`]({{< relref "/ref/python/sdk/functions/init.md" >}}) can also be added under the `wandb` header in the yaml file:
+Any additional, optional arguments that you might like to pass to [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) can also be added under the `wandb` header in the yaml file:
 
 ```
 wandb:  
@@ -110,4 +110,4 @@ Once you run your `train.py` file with Weights & Biases turned on, a link will b
 
 ## Feedback or issues
 
-If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.
+If you have any feedback or issues about the Weights & Biases integration, open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

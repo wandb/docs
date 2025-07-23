@@ -117,4 +117,4 @@ When you run your `train.py` file, it generates a link to your W&B dashboard.
 
 ## Feedback or issues
 
-If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.
+If you have any feedback or issues about the Weights & Biases integration, open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

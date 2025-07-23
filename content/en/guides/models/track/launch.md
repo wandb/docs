@@ -155,4 +155,4 @@ with wandb.init(
     ...
 ```
 
-For more information about available parameters when defining a W&B Experiment, see the [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) API docs in the [API Reference Guide]({{< relref "/ref/python/" >}}).
+For more information about available parameters when defining a W&B Experiment, see the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) API docs in the [API Reference Guide]({{< relref "/ref/python/" >}}).

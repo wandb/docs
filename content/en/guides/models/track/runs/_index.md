@@ -205,7 +205,7 @@ For example, in the proceeding image, the unique run ID is `9mxi1arc`:
 
 
 ### Custom run IDs
-You can specify your own run ID by passing the `id` parameter to the [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
+You can specify your own run ID by passing the `id` parameter to the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
 
 ```python 
 import wandb
@@ -230,7 +230,7 @@ By default, W&B generates a random run name when you initialize a new run. The n
 Use run names as a way to quickly identify a run in your project workspace.
 {{% /alert %}}
 
-You can specify a name for your run by passing the `name` parameter to the [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
+You can specify a name for your run by passing the `name` parameter to the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
 
 
 ```python 

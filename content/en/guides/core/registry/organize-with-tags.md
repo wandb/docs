@@ -27,7 +27,7 @@ Use the W&B App UI or Python SDK to add a tag to a collection:
 
 Use the W&B App UI to add a tag to a collection:
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the W&B Registry App at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of a collection
 4. Within the collection card, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
@@ -93,7 +93,7 @@ collection.tags.clear()
 
 Use the W&B App UI to view tags added to a collection:
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the W&B Registry App at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of a collection
 
@@ -112,7 +112,7 @@ For example, in the proceeding image, a tag called "tag1" was added to the "zoo-
 
 Use the W&B App UI to remove a tag from a collection:
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the W&B Registry App at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of a collection
 4. Within the collection card, hover your mouse over the name of the tag you want to remove
@@ -221,7 +221,7 @@ View tags that belong to an artifact version that is linked to a registry with t
 {{< tabpane text=true >}}
 {{% tab header="W&B App" %}}
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the W&B Registry App at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of the collection you want to add a tag to
 4. Scroll down to **Versions** section
@@ -282,7 +282,7 @@ print(artifact.tags)
 
 ## Remove a tag from an artifact version
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the W&B Registry App at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of the collection you want to add a tag to
 4. Scroll down to **Versions**
@@ -294,7 +294,7 @@ print(artifact.tags)
 
 Use the W&B App UI to search existing tags in collections and artifact versions:
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the W&B Registry App at https://wandb.ai/registry
 2. Click on a registry card
 3. Within the search bar, type in the name of a tag
 

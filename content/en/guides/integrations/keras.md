@@ -227,7 +227,7 @@ We log the `data_table` to W&B when the `on_train_begin` method is invoked. Once
 You can override the `on_train_begin` or `on_epoch_end` methods to have more fine-grained control. If you want to log the samples after `N` batches, you can implement `on_train_batch_end` method.
 
 {{% alert %}}
-💡 If you are implementing a callback for model prediction visualization by inheriting `WandbEvalCallback` and something needs to be clarified or fixed, please let us know by opening an [issue](https://github.com/wandb/wandb/issues).
+💡 If you are implementing a callback for model prediction visualization by inheriting `WandbEvalCallback` and something needs to be clarified or fixed, let us know by opening an [issue](https://github.com/wandb/wandb/issues).
 {{% /alert %}}
 
 ## `WandbCallback` [legacy]

@@ -57,7 +57,7 @@ The following sections break down and explains each step in the code sample.
 ## Set up your training code
 Define a training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metrics.
 
-Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`]({{< relref "/ref/python/sdk/functions/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
+Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
 
 {{% alert %}}
 Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
