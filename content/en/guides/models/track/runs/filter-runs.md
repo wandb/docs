@@ -36,7 +36,7 @@ If regex doesn't provide you the desired results, you can make use of [tags]({{<
 
 ## Search runs
 
-Use [regular expressions (RegEx)](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) to find runs with the regular expression you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
+Use regular expressions (RegEx) to find runs with the regular expression you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
 
 ## Group runs
 

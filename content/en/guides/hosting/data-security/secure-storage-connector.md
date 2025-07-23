@@ -536,7 +536,7 @@ If W&B encounters errors accessing the bucket or detects invalid settings, an er
   - Bucket names must be globally unique among CoreWeave locations.
   - Bucket names must not begin with `cw-` or `vip-`, which are reserved prefixes.
 - **CORS validation failures**
-  - A CORS policy is required. CoreWeave is S3-compatible; for details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
+  - A CORS policy is required. CoreWeave is S3-compatible; for details about CORS, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
   - `AllowedMethods` must include methods `GET`, `PUT`, and `HEAD`.
   - `ExposeHeaders` must include `ETag.
   - W&B front-end domains must be included in the CORS policy's `AllowedOrigins`. The example CORS policies provided on this page include all domains using `*`.

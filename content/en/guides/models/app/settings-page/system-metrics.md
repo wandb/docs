@@ -319,4 +319,4 @@ Detailed memory usage information for each NeuronCore:
 ## OpenMetrics
 Capture and log metrics from external endpoints that expose OpenMetrics / Prometheus-compatible data with support for custom regex-based metric filters to be applied to the consumed endpoints.
 
-Refer to [this report](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1) for a detailed example of how to use this feature in a particular case of monitoring GPU cluster performance with the [NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html).
+Refer to [Monitoring GPU cluster performance in W&B](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1) for a detailed example of how to use this feature in a particular case of monitoring GPU cluster performance with the [NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html).

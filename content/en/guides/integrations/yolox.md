@@ -15,7 +15,7 @@ weight: 490
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -73,7 +73,7 @@ wandb.login()
 
 ## Log metrics
 
-Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init`]({{< relref "/ref/python/sdk/functions/init.md" >}}) expects; prepend each argument with `wandb-`.
+Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) expects; prepend each argument with `wandb-`.
 
 `num_eval_imges` controls the number of validation set images and predictions that are  logged to W&B tables for model evaluation.
 

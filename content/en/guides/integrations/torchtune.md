@@ -48,7 +48,7 @@ log_every_n_steps: 5
 
 Enable W&B logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
 
-You can also pass any other `kwargs` as you would to the [wandb.init]({{< relref "/ref/python/sdk/functions/init.md" >}}) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
+You can also pass any other `kwargs` as you would to the [wandb.init()]({{< relref "/ref/python/sdk/functions/init.md" >}}) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
 
 {{< tabpane text=true >}}
 {{% tab header="Recipe's Config" value="config" %}}
