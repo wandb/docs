@@ -60,9 +60,9 @@ The following table shows the availability of BYOB at each scope for each W&B de
 
 | W&B deployment type        | Instance level   | Team level | Additional information |
 |----------------------------|------------------|------------|------------------------|
-| Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, AWS S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-prem infrastructure. |
-| Multi-tenant Cloud         | Not Applicable   | &check;    | Team level BYOB is supported for CoreWeave AI Object Storage, AWS S3, and GCP Storage. W&B fully manages the default and only storage bucket for Microsoft Azure. |
-| Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, AWS S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
+| Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-premises infrastructure. |
+| Multi-tenant Cloud         | Not Applicable   | &check;    | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, and GCP Storage. W&B fully manages the default and only storage bucket for Microsoft Azure. |
+| Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
 
 The following sections guide you through the process of setting up BYOB.
 
@@ -80,9 +80,9 @@ After [verifying availability]({{< relref "#availability-matrix" >}}), you are r
 For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/create-bucket) in the CoreWeave documentation.
 
 1. **Multi-tenant Cloud**: Obtain your organization ID, which is required for your bucket policy.
-    1. Log in to [wandb.ai/](https://wandb.ai/).
+    1. Log in to the [W&B App](https://wandb.ai/).
     1. In the left navigation, click **Create a new team**.
-    1. In the drawer that opens, copy the W&B organization ID, which is just above **Invite team members**.
+    1. In the drawer that opens, copy the W&B organization ID, which is located above **Invite team members**.
     1. Leave this page open. You will use it to [configure W&B](#configure-wb).
 1. In CoreWeave, create the bucket with a name of your choice in your preferred CoreWeave availability zone. Optionally create a folder for W&B to use as a sub-path for all W&B files. Make a note of the bucket name, availability zone, API access key, secret key, and sub-path.
 1. Set the following Cross-origin resource sharing (CORS) policy for the bucket:
@@ -473,7 +473,8 @@ Select your deployment type to continue.
 {{< tabpane text=true >}}
 {{% tab header="Dedicated Cloud / Self-Hosted" value="dedicated" %}}
 
-1. If you’re connecting a W&B Team on **Dedicated Cloud** or **Self-Managed** to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like MinIO, you **must** add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B before following the rest of these steps to use the storage bucket for a team.
+1. **Dedicated Cloud**: You **must** provide the bucket path to your account team so that they can add it to your instance's supported file stores before following the rest of these steps to use the storage bucket for a team.
+1. **Self-Managed**: You **must** add the bucket path to your the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B before following the rest of these steps to use the storage bucket for a team.
 1. Log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
 1. Provide a name for the team.
 1. Set **Storage Type** to **External storage**.
@@ -485,7 +486,7 @@ Select your deployment type to continue.
 
     Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
     
-    On **Self-Managed**, if the cloud provider is not listed, ensure that you followed step 1 to add the bucket path to the `GORILLA_SUPPORTED_FILE_STORES` environment variable. If no buckets from that provider are included in the environment variable, that provider is not listed.
+    If the cloud provider is not listed, ensure that you have followed step 1 to add the bucket path to the supported file stores for your instance. If the storage provider is still not listed, [contact support](mailto:support@wandb.ai) for assistance.
 1. Specify the bucket details.
     - For **CoreWeave**, provide only the bucket name.
     - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
