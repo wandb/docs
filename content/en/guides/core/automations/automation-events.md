@@ -10,11 +10,7 @@ weight: 2
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-An automation can start when a specific event occurs within a project or registry. This diagram shows the relationship between automation events and actions.
-
-{{< img src="/images/automations/automation_events_actions.png" alt="Automation events and actions" >}}
-
-This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview]({{< relref "/guides/core/automations/" >}}) or [Create an automation]({{< relref "create-automations/" >}}).
+An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview]({{< relref "/guides/core/automations/" >}}) or [Create an automation]({{< relref "create-automations/" >}}).
 
 ## Registry
 This section describes the scopes and events for an automation in a [Registry]({{< relref "/guides/core/registry/">}}).
