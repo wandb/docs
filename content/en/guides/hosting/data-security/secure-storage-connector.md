@@ -83,7 +83,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     1. Log in to the [W&B App](https://wandb.ai/).
     1. In the left navigation, click **Create a new team**.
     1. In the drawer that opens, copy the W&B organization ID, which is located above **Invite team members**.
-    1. Leave this page open. You will use it to [configure W&B](#configure-wb).
+    1. Leave this page open. You will use it to [configure W&B]({{< relref "#configure-byob" >}}).
 1. In CoreWeave, create the bucket with a name of your choice in your preferred CoreWeave availability zone. Optionally create a folder for W&B to use as a sub-path for all W&B files. Make a note of the bucket name, availability zone, API access key, secret key, and sub-path.
 1. Set the following Cross-origin resource sharing (CORS) policy for the bucket:
     ```json
