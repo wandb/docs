@@ -156,9 +156,9 @@ Here's a mapping of Kubeflow Pipelines concepts to W&B
 
 ## Fine-grain logging
 
-If you want finer control of logging, you can sprinkle in `wandb.log` and `wandb.log_artifact` calls in the component.
+If you want finer control of logging, you can sprinkle in `run.log` and `run.log_artifact` calls in the component.
 
-### With explicit `wandb.log_artifacts` calls
+### With explicit `run.log_artifacts` calls
 
 In this example below, we are training a model. The `@wandb_log` decorator will automatically track the relevant inputs and outputs. If you want to log the training process, you can explicitly add that logging like so:
 
@@ -169,16 +169,17 @@ def train_model(
     test_dataloader_path: components.InputPath("dataloader"),
     model_path: components.OutputPath("pytorch_model"),
 ):
+    run = wandb.init(...)
     ...
     for epoch in epochs:
         for batch_idx, (data, target) in enumerate(train_dataloader):
             ...
             if batch_idx % log_interval == 0:
-                wandb.log(
+                run.log(
                     {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
                 )
         ...
-        wandb.log_artifact(model_artifact)
+        run.log_artifact(model_artifact)
 ```
 
 ### With implicit wandb integrations
