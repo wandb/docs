@@ -10,7 +10,7 @@ A W&B Table is a specialized [data type]({{< relref "/ref/python/sdk/data-types/
 You [create and log table objects]({{< relref "#create-and-log-a-new-table" >}}) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode]({{< relref "#table-logging-modes" >}}). The mode determines how the table is logged and updated during your ML experiments.
 
 {{% alert %}}
-`INCREMENTAL` mode is not yet supported on W&B Server.
+`INCREMENTAL` mode is supported on W&B Server v0.70.0 and above.
 {{% /alert %}}
 
 ## Create and log a table
