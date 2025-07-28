@@ -15,7 +15,7 @@ When viewing a report, click **Share**, then:
 - To share a link to the report with an email address or a username, click **Invite**. Enter an email address or username, select **Can view** or **Can edit**, then click **Invite**. If you share by email, the email address does not need to be a member of your organization or team.
 - To generate a sharing link instead, click **Share**. Adjust the permissions for the link, then click **Copy report link**. Share the link with the member.
 
-When viewing the report, click a panel to open it in full screen mode. If you copy the URL from the browser and share it with another user, when they access the link the panel will open directly in full screen mode.
+When viewing the report, click a panel to open it in full-screen mode. If you copy the URL from the browser and share it with another user, when they access the link the panel will open directly in full-screen mode.
 
 ## Edit a report
 When any team member clicks the **Edit** button to begin editing the report, a draft is automatically saved. Select **Save to report** to publish your changes.
