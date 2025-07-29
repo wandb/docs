@@ -78,8 +78,84 @@ Rescale the plot to exclude outliers from the default plot min and max scale. Th
 
 ## Expression
 
-Expression lets you plot values derived from metrics like 1-accuracy. It currently only works if you are plotting a single metric. You can do simple arithmetic expressions, +, -, \*, / and % as well as \*\* for powers.
+Expressions allow you to create derived metrics by performing mathematical operations on your logged values. This is useful for calculating error rates, ratios, percentages, and other custom metrics directly in your charts.
 
+### Basic Usage
+
+Expressions currently work only when plotting a single metric. You can use the following operators:
+
+- **Arithmetic**: \`+\`, \`-\`, \`*\`, \`/\`, \`%\` (modulo)
+- **Exponentiation**: \`**\` (power)
+
+### Common Expression Examples
+
+#### 1. Error Rate from Accuracy
+Transform accuracy into error rate:
+\`\`\`
+1 - accuracy
+\`\`\`
+This converts a 0.95 accuracy into a 0.05 error rate.
+
+#### 2. Percentage Conversion
+Convert decimal values to percentages:
+\`\`\`
+accuracy * 100
+\`\`\`
+This displays 0.95 as 95%.
+
+#### 3. Loss Ratio
+Compare training and validation losses:
+\`\`\`
+loss / val_loss
+\`\`\`
+Values > 1 indicate overfitting.
+
+#### 4. Learning Rate Schedule
+Visualize decay over steps:
+\`\`\`
+learning_rate * 1000
+\`\`\`
+Scales small values for better visibility.
+
+#### 5. Memory Usage Percentage
+Convert bytes to percentage:
+\`\`\`
+memory_used / memory_total * 100
+\`\`\`
+
+### Advanced Examples
+
+#### Training Efficiency
+\`\`\`
+accuracy / epoch
+\`\`\`
+Shows accuracy gained per epoch.
+
+#### F1 Score Approximation
+If logging precision and recall:
+\`\`\`
+2 * (precision * recall) / (precision + recall)
+\`\`\`
+
+#### Log-scale Transformations
+For metrics with wide ranges:
+\`\`\`
+loss * 10000
+\`\`\`
+
+### Important Notes
+
+- **Single Metric Limitation**: Expressions only work when plotting one metric at a time
+- **Direct References Only**: Use exact metric names as logged (e.g., \`accuracy\`, not \`run.accuracy\`)
+- **No Functions**: Currently doesn't support functions like \`log()\`, \`sqrt()\`, etc.
+- **Real-time Calculation**: Expressions are computed on-the-fly in the browser
+
+### Tips for Using Expressions
+
+1. **Debugging**: Start with simple expressions like \`metric * 2\` to verify the feature works
+2. **Metric Names**: Check the exact metric name in your logs - expressions are case-sensitive
+3. **Units**: Consider scaling factors to make values more readable
+4. **Documentation**: Document your expressions in run notes or panel descriptions
 ## Plot style
 
 Select a style for your line plot.
