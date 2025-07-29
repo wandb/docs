@@ -171,3 +171,7 @@ Select a style for your line plot.
 **Percentage area plot:**
 
 {{< img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage plot style" >}}
+
+### Interactive Tutorial
+
+For a hands-on tutorial with runnable examples, check out our [W&B Expressions Demo Colab notebook](https://colab.research.google.com/github/wandb/docs/blob/main/wandb_expressions_demo.ipynb) that demonstrates various expression use cases with real code you can run and modify.
