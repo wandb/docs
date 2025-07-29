@@ -16,7 +16,7 @@ You [create and log table objects]({{< relref "#create-and-log-a-new-table" >}})
 ## Create and log a table
 
 1. Initialize a new run with `wandb.init()`. 
-2. Create a Table object with the [`wandb.Table`]({{< relref "/ref/python/sdk/data-types/table" >}}) Class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. It is recommended to set the optional `log_mode` parameter to one of the three modes: `IMMUTABLE` (the default), `MUTABLE`, or `INCREMENTAL`. See [Table Logging Modes]({{< relref "#table-logging-modes" >}}) in the next section for more information.
+2. Create a Table object with the [`wandb.Table`]({{< relref "/ref/python/sdk/data-types/table" >}}) Class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. It is recommended to set the optional `log_mode` parameter to one of the three modes: `IMMUTABLE` (the default), `MUTABLE`, or `INCREMENTAL`. See [Table Logging Modes]({{< relref "#logging-modes" >}}) in the next section for more information.
 3. Log the table to W&B with `run.log()`.
 
 The following example shows how to create and log a table with two columns, `a` and `b`, and two rows of data, `["a1", "b1"]` and `["a2", "b2"]`:

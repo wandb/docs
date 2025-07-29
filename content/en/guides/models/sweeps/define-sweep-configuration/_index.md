@@ -15,7 +15,7 @@ A W&B Sweep combines a strategy for exploring hyperparameter values with the cod
 Define a sweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
 
 {{% alert %}}
-Define your sweep configuration in a YAML file if you want to initialize a sweep and start a sweep agent from the command line. Define your sweep in a Python dictionary if you initialize a sweep and start a sweep entirely within a Python script or Jupyter notebook.
+Define your sweep configuration in a YAML file if you want to initialize a sweep and start a sweep agent from the command line. Define your sweep in a Python dictionary if you initialize a sweep and start a sweep entirely within a Python script or notebook.
 {{% /alert %}}
 
 The following guide describes how to format your sweep configuration. See [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}) for a comprehensive list of top-level sweep configuration keys.
@@ -53,8 +53,8 @@ parameters:
     values: ["adam", "sgd"]
 ```
   {{% /tab %}}
-  {{% tab header="Python script or Jupyter notebook" %}}
-Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or Jupyter notebook. 
+  {{% tab header="Python script or notebook" %}}
+Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or notebook. 
 
 The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
 
@@ -200,7 +200,7 @@ parameters:
 ```
 
   {{% /tab %}}
-  {{% tab header="Python script or Jupyter notebook" %}}
+  {{% tab header="Python script or notebook" %}}
 
 ```python title="train.py" 
 sweep_config = {
@@ -288,109 +288,82 @@ early_terminate:
 {{< /tabpane >}}
 
 
-### Command example
 
-{{% alert %}}
-This example defines `parameters.optimizer.config.learning_rate` using scientific notation, and uses the `!!float ` operator to convert it to a floating point number. 
-{{% /alert %}}
+### Macro and custom command arguments example
 
-```yaml
-program: main.py
+For more complex command line arguments, you can use macros to pass environment variables, the Python interpreter, and additional arguments. [W&B supports pre defined macros]({{< relref "./sweep-config-keys.md#command-macros" >}}) and custom command line arguments that you can specify in your sweep configuration.
+
+For example, the following sweep configuration (`sweep.yaml`) defines a command that runs a Python script (`run.py`) with the `${env}`, `${interpreter}`, and `${program}` macros replaced with the appropriate values when the sweep runs.
+
+The `--batch_size=${batch_size}`, `--test=True`, and `--optimizer=${optimizer}` arguments use custom macros to pass the values of the `batch_size`, `test`, and `optimizer` parameters defined in the sweep configuration.
+
+```yaml title="sweep.yaml"
+program: run.py
+method: random
 metric:
-  name: val_loss
-  goal: minimize
-
-method: bayes
+  name: validation_loss
 parameters:
-  optimizer.config.learning_rate:
-    min: !!float 1e-5
+  learning_rate:
+    min: 0.0001
     max: 0.1
-  experiment:
-    values: [expt001, expt002]
-  optimizer:
-    values: [sgd, adagrad, adam]
-
-command:
-- ${env}
-- ${interpreter}
-- ${program}
-- ${args_no_hyphens}
-```
-
-
-{{< tabpane text=true >}}
-  {{% tab header="Unix" %}}
-
-```bash
-/usr/bin/env python train.py --param1=value1 --param2=value2
-```  
-
-  {{% /tab %}}
-  {{% tab header="Windows" %}}
-
-```bash
-python train.py --param1=value1 --param2=value2
-
-```  
-  {{% /tab %}}
-{{< /tabpane >}}
-
-
-The proceeding tabs show how to specify common command macros:
-
-{{< tabpane text=true >}}
-  {{% tab header="Set Python interpreter" %}}
-
-Remove the `{$interpreter}` macro and provide a value explicitly to hardcode the python interpreter. For example, the following code snippet demonstrates how to do this:
-
-```yaml
-command:
-  - ${env}
-  - python3
-  - ${program}
-  - ${args}
-```
-
-  {{% /tab %}}
-  {{% tab header="Add extra parameters" %}}
-
-The following shows how to add extra command line arguments not specified by sweep configuration parameters:
-
-```yaml
 command:
   - ${env}
   - ${interpreter}
   - ${program}
-  - "--config"
-  - "your-training-config.json"
-  - ${args}
+  - "--batch_size=${batch_size}"
+  - "--optimizer=${optimizer}"
+  - "--test=True"
+```
+The associated Python script (`run.py`) can then parse these command line arguments using the `argparse` module. 
+
+```python title="run.py"
+# run.py  
+import wandb
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--batch_size', type=int)
+parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=True)
+parser.add_argument('--test', type=str2bool, default=False)
+args = parser.parse_args()
+
+# Initialize a W&B Run
+with wandb.init('test-project') as run:
+    run.log({'validation_loss':1})
 ```
 
-  {{% /tab %}}
-  {{% tab header="Omit arguments" %}}
+See the [Command macros]({{< relref "./sweep-config-keys.md#command-macros" >}}) section in [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}) for a list of pre-defined macros you can use in your sweep configuration. 
 
-If your program does not use argument parsing you can avoid passing arguments all together and take advantage of `wandb.init` picking up sweep parameters into `wandb.config` automatically:
+#### Boolean arguments
 
-```yaml
-command:
-  - ${env}
-  - ${interpreter}
-  - ${program}
-```  
+The `argparse` module does not support boolean arguments by default. To define a boolean argument, you can use the [`action`](https://docs.python.org/3/library/argparse.html#action) parameter or use a custom function to convert the string representation of the boolean value to a boolean type.
 
-  {{% /tab %}}
-  {{% tab header="Hydra" %}}
+As an example, you can use the following code snippet to define a boolean argument. Pass `store_true` or `store_false` as an argument to `ArgumentParser`. 
 
-You can change the command to pass arguments the way tools like [Hydra](https://hydra.cc) expect. See [Hydra with W&B]({{< relref "/guides/integrations/hydra.md" >}}) for more information.
+```python
+import wandb
+import argparse
 
-```yaml
-command:
-  - ${env}
-  - ${interpreter}
-  - ${program}
-  - ${args_no_hyphens}
+parser = argparse.ArgumentParser()
+parser.add_argument('--test', action='store_true')
+args = parser.parse_args()
+
+args.test  # This will be True if --test is passed, otherwise False
 ```
 
-  {{% /tab %}}
-{{< /tabpane >}}
+You can also define a custom function to convert the string representation of the boolean value to a boolean type. For example, the following code snippet defines the `str2bool` function, which converts a string to a boolean value. 
+
+```python
+def str2bool(v: str) -> bool:
+  """Convert a string to a boolean. This is required because
+  argparse does not support boolean arguments by default.
+  """
+  if isinstance(v, bool):
+      return v
+  return v.lower() in ('yes', 'true', 't', '1')
+```
+
+
+
+
 
