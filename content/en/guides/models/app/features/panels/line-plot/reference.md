@@ -78,84 +78,93 @@ Rescale the plot to exclude outliers from the default plot min and max scale. Th
 
 ## Expression
 
-Expressions allow you to create derived metrics by performing mathematical operations on your logged values. This is useful for calculating error rates, ratios, percentages, and other custom metrics directly in your charts.
+Use expressions in charts to create derived metrics by performing mathematical operations on your logged values. For example, you could calculate error rates, ratios, percentages, and other custom metrics directly in your charts. Expressions are computed on-the-fly in the W&B App.
 
-### Basic Usage
+### Supported operators
+Expressions support the following operators:
 
-Expressions currently work only when plotting a single metric. You can use the following operators:
+- Basic arithmetic: `+`, `-`, `*`, `/`
+- Modulo (remainder): `%`
+- Exponent (power): `**`
 
-- **Arithmetic**: \`+\`, \`-\`, \`*\`, \`/\`, \`%\` (modulo)
-- **Exponentiation**: \`**\` (power)
+### Limitations
+- Expressions currently work only when plotting a single metric.
+- Expressions must use the exact metric name that was logged. For example, `accuracy` rather than `run.accuracy`.
+- Expressions do not support functions like `log()` or`sqrt()`.
 
-### Common Expression Examples
+### Examples
+These examples illustrate some ways to use expressions in charts. For even more examples, refer to a [Colab notebook demo of chart expressions](https://raw.githubusercontent.com/wandb/examples/0151359bdede604088074b9817788fb87607f636/colabs/chart_expressions/chart_expressions_demo.ipynb). <!-- Temporarily points to the raw file inside the upstream PR -->
 
-#### 1. Error Rate from Accuracy
-Transform accuracy into error rate:
-\`\`\`
+#### Error rate from accuracy
+Convert a 0.95 accuracy into a 0.05 error rate:
+
+```math
 1 - accuracy
-\`\`\`
-This converts a 0.95 accuracy into a 0.05 error rate.
+```
 
-#### 2. Percentage Conversion
-Convert decimal values to percentages:
-\`\`\`
+![Example chart showing an expression to derive error rate from accuracy](/images/app_ui/expressions_accuracy_error_rate.png)
+
+#### Percentage from decimal value
+Convert the decimal value `0.95` to `95%`:
+
+```math
 accuracy * 100
-\`\`\`
-This displays 0.95 as 95%.
+```
 
-#### 3. Loss Ratio
-Compare training and validation losses:
-\`\`\`
+![Example chart showing an expression to derive a percentage from a decinal value](/images/app_ui/expressions_accuracy_percentage.png)
+
+#### Calculate ratios of logged values
+Detect overfitting by comparing training and validation losses:
+
+```math
 loss / val_loss
-\`\`\`
-Values > 1 indicate overfitting.
+```
 
-#### 4. Learning Rate Schedule
-Visualize decay over steps:
-\`\`\`
+In this expression, a value greater than `1` indicates overfitting.
+
+![Example chart showing an expression to calculate the ratio of two logged values](/images/app_ui/expressions_loss_overfitting.png)
+
+#### Visualize small values more easily
+Use an expression to scale a small value:
+
+```math
 learning_rate * 1000
-\`\`\`
-Scales small values for better visibility.
+```
 
-#### 5. Memory Usage Percentage
-Convert bytes to percentage:
-\`\`\`
-memory_used / memory_total * 100
-\`\`\`
-
-### Advanced Examples
-
-#### Training Efficiency
-\`\`\`
-accuracy / epoch
-\`\`\`
-Shows accuracy gained per epoch.
-
-#### F1 Score Approximation
-If logging precision and recall:
-\`\`\`
-2 * (precision * recall) / (precision + recall)
-\`\`\`
-
-#### Log-scale Transformations
-For metrics with wide ranges:
-\`\`\`
+Or a metric with a wide range of values:
+```math
 loss * 10000
-\`\`\`
+```
 
-### Important Notes
+![Example chart showing an expression that scales a small value](/images/app_ui/expressions_learning_rate_scaled.png)
 
-- **Single Metric Limitation**: Expressions only work when plotting one metric at a time
-- **Direct References Only**: Use exact metric names as logged (e.g., \`accuracy\`, not \`run.accuracy\`)
-- **No Functions**: Currently doesn't support functions like \`log()\`, \`sqrt()\`, etc.
-- **Real-time Calculation**: Expressions are computed on-the-fly in the browser
+#### Convert from one unit to another
+Convert memory bytes used to a percentage of total memory:
 
-### Tips for Using Expressions
+```math
+memory_used / memory_total * 100
+```
 
-1. **Debugging**: Start with simple expressions like \`metric * 2\` to verify the feature works
-2. **Metric Names**: Check the exact metric name in your logs - expressions are case-sensitive
-3. **Units**: Consider scaling factors to make values more readable
-4. **Documentation**: Document your expressions in run notes or panel descriptions
+![Example chart showing an expression that scales a small value](/images/app_ui/expressions_memory_usage.png)
+
+#### Visualize training efficiency
+Plot accuracy gained per epoch:
+
+```math
+accuracy / epoch
+```
+
+![Example chart that visualizes accuracy per epoch](/images/app_ui/expressions_accuracy_per_epoch.png).
+
+#### Approximate F1 score
+F1 score is a machine learning evaluation metric that combines precision and recall scores. Use an expression to approximate the F1 score:
+
+```math
+2 * (precision * recall) / (precision + recall)
+```
+
+![Example chart that calculates the approximate F1 score, given precision and recall](/images/app_ui/expressions_f1_approximation.png).
+
 ## Plot style
 
 Select a style for your line plot.
