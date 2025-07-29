@@ -327,7 +327,7 @@ parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=T
 parser.add_argument('--test', type=str2bool, default=False)
 args = parser.parse_args()
 
-# Initialize a W&B run
+# Initialize a W&B Run
 with wandb.init('test-project') as run:
     run.log({'validation_loss':1})
 ```
