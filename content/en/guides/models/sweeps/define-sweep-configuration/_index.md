@@ -351,7 +351,7 @@ args = parser.parse_args()
 args.test  # This will be True if --test is passed, otherwise False
 ```
 
-You can also define a custom function to convert the string representation of the boolean value to a boolean type. For example, the following code snippet defines a `str2bool` function that converts a string to a boolean value. 
+You can also define a custom function to convert the string representation of the boolean value to a boolean type. For example, the following code snippet defines the `str2bool` function, which converts a string to a boolean value. 
 
 ```python
 def str2bool(v: str) -> bool:
