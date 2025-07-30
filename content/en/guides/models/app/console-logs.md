@@ -57,6 +57,7 @@ Within your code, you can configure how W&B handles console logs by passing the 
 - `show_errors`: If set to `True`, error messages are displayed in the W&B App. If set to `False`, error messages are not shown.
 - `silent`: If set to `True`, all W&B console output will be suppressed. This is useful for production environments where you want to minimize console noise.
 - `show_warnings`: If set to `True`, warning messages are displayed in the W&B App. If set to `False`, warning messages are not shown.
+- `show_info`: If set to `True`, informational messages are displayed in the W&B App. If set to `False`, informational messages are not shown.
 
 The following example shows how to configure these settings:
 
