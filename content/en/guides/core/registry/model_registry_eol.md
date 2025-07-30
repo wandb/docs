@@ -96,8 +96,8 @@ Existing API calls in your code that refer to the legacy Model Registry will aut
 W&B will automatically redirect legacy Model Registry paths to the new W&B Registry format. This means you can continue using your existing code without needing to refactor paths immediately. Note that automatic redirection only applies to collections that were created in the legacy Model Registry before migration.
 
 For example:
-- If the legacy Model Registry had collection "my-model" already present, the link action will redirect successfully
-- If the legacy Model Registry did not have collection "my-model", it will not redirect and will lead to an error
+- If the legacy Model Registry had collection `"my-model"` already present, the link action will redirect successfully
+- If the legacy Model Registry did not have collection `"my-model"`, it will not redirect and will lead to an error
 
 ```python
 # This will redirect successfully if "my-model" existed in legacy Model Registry
