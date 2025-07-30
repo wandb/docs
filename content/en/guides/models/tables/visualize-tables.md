@@ -29,7 +29,7 @@ For information on how to save your current W&B Table view, see [Save your view]
 ## Compare two tables
 Compare two tables with a [merged view]({{< relref "#merged-view" >}}) or a [side-by-side view]({{< relref "#side-by-side-view" >}}). For example, the image below demonstrates a table comparison of MNIST data.
 
-{{< img src="/images/data_vis/table_comparison.png" alt="Left: mistakes after 1 training epochs, Right: mistakes after 5 epochs" max-width="90%" >}}
+{{< img src="/images/data_vis/table_comparison.png" alt="Training epoch comparison" max-width="90%" >}}
 
 Follow these steps to compare two tables:
 
@@ -44,13 +44,13 @@ In the following image we demonstrate a model's predictions on MNIST validation 
 
 3. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
 
-{{< img src="/images/data_vis/preds_2.png" alt="Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)" max-width="90%" >}}
+{{< img src="/images/data_vis/preds_2.png" alt="Model prediction comparison" max-width="90%" >}}
 
 ### Merged view
 <!-- To do, add steps -->
 Initially you see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
-{{< img src="/images/data_vis/merged_view.png" alt="In the merged view, numerical columns appears as histograms by default" max-width="90%">}}
+{{< img src="/images/data_vis/merged_view.png" alt="Merged view" max-width="90%">}}
 
 From the merged view, you can
 
@@ -65,7 +65,7 @@ From the merged view, you can
 
 To view the two tables side-by-side, change the first dropdown from "Merge Tables: Table" to "List of: Table" and then update the "Page size" respectively. Here the first Table selected is on the left and the second one is on the right. Also, you can compare these tables vertically as well by clicking on the "Vertical" checkbox.
 
-{{< img src="/images/data_vis/side_by_side.png" alt="In the side-by-side view, Table rows are independent of each other." max-width="90%" >}}
+{{< img src="/images/data_vis/side_by_side.png" alt="Side-by-side table view" max-width="90%" >}}
 
 * **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
 * **explore two tables independently**: scroll through and focus on the side/rows of interest
@@ -90,7 +90,7 @@ To add a step slider to a W&B Table:
 
 The following image shows a query panel with three W&B runs and the values they logged at step 295.
 
-{{< img src="/images/data_vis/stepper_key.png" alt="Query panel with three W&B runs and the values they logged at step 295 using the step slider feature.">}}
+{{< img src="/images/data_vis/stepper_key.png" alt="Step slider feature">}}
 
 Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run does not log values at every step. If a value is missing for a given step, W&B uses the last value that was logged as the slider key.
 
@@ -143,9 +143,9 @@ You can also [compare tables across time]({{< relref "#compare-tables-across-tim
 ### Compare tables across time
 Log a table in an artifact for each meaningful step of training to analyze model performance over training time. For example, you could log a table at the end of every validation step, after every 50 epochs of training, or any frequency that makes sense for your pipeline. Use the side-by-side view to visualize changes in model predictions.
 
-{{< img src="/images/data_vis/compare_across_time.png" alt="For each label, the model makes fewer mistakes after 5 training epochs (R) than after 1 (L)" max-width="90%" >}}
+{{< img src="/images/data_vis/compare_across_time.png" alt="Training progress comparison" max-width="90%" >}}
 
-For a more detailed walkthrough of visualizing predictions across training time, [see this report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..).
+For a more detailed walkthrough of visualizing predictions across training time, see the [predictions over time report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..).
 
 ### Compare tables across model variants
 
@@ -155,10 +155,10 @@ For example, compare predictions between a `baseline` and a new model variant, `
 
 {{< tabpane text=true >}}
 {{% tab header="1 training epoch" value="one_epoch" %}}
-{{< img src="/images/data_vis/compare_across_variants.png" alt="After 1 epoch, performance is mixed: precision improves for some classes and worsens for others." >}}
+{{< img src="/images/data_vis/compare_across_variants.png" alt="Performance comparison" >}}
 {{% /tab %}}
 {{% tab header="5 training epochs" value="five_epochs" %}}
-{{< img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="After 5 epochs, the 'double' variant is catching up to the baseline." >}}
+{{< img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="Variant performance comparison" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -174,7 +174,7 @@ To save a table from a workspace in a particular state, export it to a W&B Repor
 1. Select the kebab icon (three vertical dots) in the top right corner of your workspace visualization panel.
 2. Select either **Share panel** or **Add to report**.
 
-{{< img src="/images/data_vis/share_your_view.png" alt="Share panel creates a new report, Add to report lets you append to an existing report." max-width="90%">}}
+{{< img src="/images/data_vis/share_your_view.png" alt="Report sharing options" max-width="90%">}}
 
 
 ## Examples

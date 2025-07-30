@@ -9,7 +9,7 @@ url: guides/integrations/dagster
 ---
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
-* Use and create [W&B Artifacts]({{< relref "/guides/core/artifacts/" >}}).
+* Create and use a [W&B Artifact]({{< relref "/guides/core/artifacts/" >}}).
 * Use and create Registered Models in [W&B Registry]({{< relref "/guides/core/registry/" >}}).
 * Run training jobs on dedicated compute using [W&B Launch]({{< relref "/launch/" >}}).
 * Use the [wandb]({{< relref "/ref/python/" >}}) client in ops and assets.
@@ -186,7 +186,7 @@ def create_dataset():
 W&B supports multiple Pickle-based serialization modules ([pickle](https://docs.python.org/3/library/pickle.html), [dill](https://github.com/uqfoundation/dill), [cloudpickle](https://github.com/cloudpipe/cloudpickle), [joblib](https://github.com/joblib/joblib)). You can also use more advanced serialization like [ONNX](https://onnx.ai/) or [PMML](https://en.wikipedia.org/wiki/Predictive_Model_Markup_Language). Please refer to the [Serialization]({{< relref "#serialization-configuration" >}}) section for more information.
 {{% /tab %}}
 {{% tab "W&B Object" %}}
-Any native W&B object (e.g [Table]({{< relref "/ref/python/data-types/table.md" >}}), [Image]({{< relref "/ref/python/data-types/image.md" >}}), or [Graph]({{< relref "/ref/python/data-types/graph.md" >}})) is added to an Artifact created by the integration. Here’s an example using a Table.
+Any W&B object, such as a [Table]({{< relref "/ref/python/sdk/data-types/table.md" >}}) or [Image]({{< relref "/ref/python/sdk/data-types/image.md" >}}), is added to an Artifact created by the integration. This example adds a Table to an Artifact:
 
 ```python
 import wandb
@@ -317,9 +317,9 @@ Supported properties:
 * `type`: (str) The type of the artifact, which is used to organize and differentiate artifacts. Common types include dataset or model, but you can use any string containing letters, numbers, underscores, hyphens, and dots. Required when the output is not already an Artifact.
 * `description`: (str) Free text that offers a description of the artifact. The description is markdown rendered in the UI, so this is a good place to place tables, links, etc.
 * `aliases`: (list[str]) An array containing one or more aliases you want to apply on the Artifact. The integration will also add the “latest” tag to that list whether it’s set or not. This is an effective way for you to manage versioning of models and datasets.
-* [`add_dirs`]({{< relref "/ref/python/artifact.md#add_dir" >}}): (list[dict[str, Any]]): An array containing configuration for each local directory to include in the Artifact. It supports the same arguments as the homonymous method in the SDK.
-* [`add_files`]({{< relref "/ref/python/artifact.md#add_file" >}}): (list[dict[str, Any]]): An array containing configuration for each local file to include in the Artifact. It supports the same arguments as the homonymous method in the SDK.
-* [`add_references`]({{< relref "/ref/python/artifact.md#add_reference" >}}): (list[dict[str, Any]]): An array containing configuration for each external reference to include in the Artifact. It supports the same arguments as the homonymous method in the SDK.
+* [`add_dirs`]({{< relref "/ref/python/sdk/classes/artifact#add_dir" >}}): (list[dict[str, Any]]): An array containing configuration for each local directory to include in the Artifact. 
+* [`add_files`]({{< relref "/ref/python/sdk/classes/artifact#add_file" >}}): (list[dict[str, Any]]): An array containing configuration for each local file to include in the Artifact. 
+* [`add_references`]({{< relref "/ref/python/sdk/classes/artifact#add_reference" >}}): (list[dict[str, Any]]): An array containing configuration for each external reference to include in the Artifact. 
 * `serialization_module`: (dict) Configuration of the serialization module to be used. Refer to the Serialization section for more information.
     * `name`: (str) Name of the serialization module. Accepted values: `pickle`, `dill`, `cloudpickle`, `joblib`. The module needs to be available locally.
     * `parameters`: (dict[str, Any]) Optional arguments passed to the serialization function. It accepts the same parameters as the dump method for that module. For example, `{"compress": 3, "protocol": 4}`.
@@ -837,7 +837,7 @@ Interested in Launch? Reach out to your account team to talk about joining the c
 Pilot customers need to use AWS EKS or SageMaker to qualify for the beta program. We ultimately plan to support additional platforms.
 {{% /alert %}}
 
-Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider, reading the Guide on Launch: /guides/launch.
+Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider reading the [Guide on Launch]({{< relref "/launch/" >}}).
 
 The Dagster integration helps with:
 * Running one or multiple Launch agents in your Dagster instance.
@@ -849,7 +849,7 @@ The integration provides an importable `@op` called `run_launch_agent`. It start
 
 Agents are processes that poll launch queues and execute the jobs (or dispatch them to external services to be executed) in order.
 
-Refer to the [reference documentation]({{< relref "/launch/" >}}) for configuration
+Refer to the [Launch page]({{< relref "/launch/" >}}).
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -897,7 +897,7 @@ The integration provides an importable `@op` called `run_launch_job`. It execute
 
 A Launch job is assigned to a queue in order to be executed. You can create a queue or use the default one. Make sure you have an active agent listening to that queue. You can run an agent inside your Dagster instance but can also consider using a deployable agent in Kubernetes.
 
-Refer to the [reference documentation]({{< relref "/launch/" >}}) for configuration.
+Refer to the [Launch page]({{< relref "/launch/" >}}).
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -947,7 +947,7 @@ def run_launch_job_example():
 ## Best practices
 
 1. Use the IO Manager to read and write Artifacts. 
-You should never need to use [`Artifact.download()`]({{< relref "/ref/python/artifact.md#download" >}}) or [`Run.log_artifact()`]({{< relref "/ref/python/run.md#log_artifact" >}}) directly. Those methods are handled by integration. Simply return the data you wish to store in Artifact and let the integration do the rest. This will provide better lineage for the Artifact in W&B.
+Avoid using [`Artifact.download()`]({{< relref "/ref/python/sdk/classes/artifact#download" >}}) or [`Run.log_artifact()`]({{< relref "/ref/python/sdk/classes/run#log_artifact" >}}) directly. Those methods are handled by integration. Instead, return the data you want to store in the Artifact and let the integration do the rest. This approach provides better lineage for the Artifact.
 
 2. Only build an Artifact object yourself for complex use cases.
 Python objects and W&B objects should be returned from your ops/assets. The integration handles bundling the Artifact.

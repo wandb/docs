@@ -22,7 +22,7 @@ Create a W&B Experiment in four steps:
 4. [Log an artifact to W&B]({{< relref "#log-an-artifact-to-wb" >}})
 
 ### Initialize a W&B run
-Use [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) to create a W&B Run.
+Use [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) to create a W&B Run.
 
 The following snippet creates a run in a W&B project named `“cat-classification”` with the description `“My first experiment”` to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
 
@@ -37,7 +37,7 @@ with wandb.init(
     ...
 ```
 
-`wandb.init()` returns a [Run]({{< relref "/ref/python/run.md" >}}) object.
+`wandb.init()` returns a [Run]({{< relref "/ref/python/sdk/classes/run" >}}) object.
 
 {{% alert %}}
 Note: Runs are added to pre-existing projects if that project already exists when you call `wandb.init()`. For example, if you already have a project called `“cat-classification”`, that project will continue to exist and not be deleted. Instead, a new run is added to that project.
@@ -57,7 +57,7 @@ with wandb.init(
 For more information on how to configure an experiment, see [Configure Experiments]({{< relref "./config.md" >}}).
 
 ### Log metrics inside your training loop
-Call [`run.log()`]({{< relref "/ref/python/log.md" >}}) to log metrics about each training step such as accuracy and loss.
+Call [`run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}) to log metrics about each training step such as accuracy and loss.
 
 ```python
 model, dataloader = get_model(), get_data()
@@ -108,7 +108,7 @@ with wandb.init(
 ```
 
 ## Next steps: Visualize your experiment 
-Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref "/guides/models/app/features/panels/parallel-coordinates.md" >}}),[ parameter importance analyzes]({{< relref "/guides/models/app/features/panels/parameter-importance.md" >}}), and [more]({{< relref "/guides/models/app/features/panels/" >}}).
+Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref "/guides/models/app/features/panels/parallel-coordinates.md" >}}),[ parameter importance analyzes]({{< relref "/guides/models/app/features/panels/parameter-importance.md" >}}), and [additional chart types]({{< relref "/guides/models/app/features/panels/" >}}).
 
 {{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example" >}}
 
@@ -155,4 +155,4 @@ with wandb.init(
     ...
 ```
 
-For more information about available parameters when defining a W&B Experiment, see the [`wandb.init`]({{< relref "/ref/python/init.md" >}}) API docs in the [API Reference Guide]({{< relref "/ref/python/" >}}).
+For more information about available parameters when defining a W&B Experiment, see the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) API docs in the [API Reference Guide]({{< relref "/ref/python/" >}}).

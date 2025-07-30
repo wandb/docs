@@ -9,7 +9,7 @@ weight: 460
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" >}}
 
-The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a **[live Weights & Biases dashboard](https://wandb.ai/morg/credit_scorecard)** with outputs from the XGBoost `WandbCallback`.
+The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a [live Weights & Biases dashboard](https://wandb.ai/morg/credit_scorecard) with outputs from the XGBoost `WandbCallback`.
 
 {{< img src="/images/integrations/xgb_dashboard.png" alt="Weights & Biases dashboard using XGBoost" >}}
 
@@ -29,7 +29,7 @@ with wandb.init() as run:
   bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
 ```
 
-You can open **[this notebook](https://wandb.me/xgboost)** for a comprehensive look at logging with XGBoost and Weights & Biases
+You can open [this notebook](https://wandb.me/xgboost) for a comprehensive look at logging with XGBoost and Weights & Biases
 
 ## `WandbCallback` reference
 
@@ -65,4 +65,4 @@ Attaining the maximum performance out of models requires tuning hyperparameters,
 
 You can also try this [XGBoost & Sweeps Python script](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py).
 
-{{< img src="/images/integrations/xgboost_sweeps_example.png" alt="Summary: trees outperform linear learners on this classification dataset." >}}
+{{< img src="/images/integrations/xgboost_sweeps_example.png" alt="XGBoost performance comparison" >}}

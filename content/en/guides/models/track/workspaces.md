@@ -13,7 +13,7 @@ W&B workspace is your personal sandbox to customize charts and explore model res
 * **Tables**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
 * **Panel sections**: A section that contains one or more [panels]({{< relref "/guides/models/app/features/panels/" >}}). Create new panels, organize them, and export to reports to save snapshots of your workspace.
 
-{{< img src="/images/app_ui/workspace_table_and_panels.png" alt="" >}}
+{{< img src="/images/app_ui/workspace_table_and_panels.png" alt="Workspace table and panels" >}}
 
 ## Workspace types
 There are two main workspace categories: **Personal workspaces** and **Saved views**. 
@@ -22,7 +22,7 @@ There are two main workspace categories: **Personal workspaces** and **Saved vie
 * **Saved views:** Saved views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. Use saved workspace views for reviewing and discussing experiments, runs, and more.
 
 The proceeding image shows multiple personal workspaces created by Cécile-parker's teammates. In this project, there are no saved views:
-{{< img src="/images/app_ui/Menu_No_views.jpg" alt="" >}}
+{{< img src="/images/app_ui/Menu_No_views.jpg" alt="No saved views" >}}
 
 ## Saved workspace views
 Improve team collaboration with tailored workspace views. Create Saved Views to organize your preferred setup of charts and data. 
@@ -35,9 +35,7 @@ Improve team collaboration with tailored workspace views. Create Saved Views to 
 
 New saved views appear in the workspace navigation menu.
 
-{{< img src="/images/app_ui/Menu_Views.jpg" alt="" >}}
-
-
+{{< img src="/images/app_ui/Menu_Views.jpg" alt="Saved views menu" >}}
 
 ### Update a saved workspace view 
 Saved changes overwrite the previous state of the saved view. Unsaved changes are not retained. To update a saved workspace view in W&B:
@@ -88,19 +86,31 @@ By default, new workspaces use these default settings for line plots:
 
 New workspaces will use these settings instead of the defaults.
 
+### View your workspace template
+To view your workspace template's current configuration:
+1. From any page, select your user icon on the top right corner. From the dropdown, choose **Settings**.
+1. Navigate to the **Personal workspace template** section. If you are using a workspace template, its configuration displays. Otherwise, the section includes no details.
+
 ### Update your workspace template
-Follow these steps to update your workspace template:
+To update your workspace template:
 
 1. Open any workspace.
-1. Modify the workspace's line plot settings. For example, set the number of runs to include to `11`.
+1. Modify the workspace's settings. For example, set the number of runs to include to `11`.
 1. To save the changes to the template, click the action menu `...` near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
-1. Verify the new line plot settings, then click **Update**. The template is updated, and reapplied to all workspaces that use it.
+1. Verify the settings, then click **Update**. The template is updated, and reapplied to all workspaces that use it.
+
+### Delete your workspace template
+To delete your workspace template and go back to the default settings:
+
+1. From any page, select your user icon on the top right corner. From the dropdown, choose **Settings**.
+1. Navigate to the **Personal workspace template** section. Your workspace template's configuration displays.
+1. Click the trash icon next to **Settings**. 
 
 {{% alert %}}
-If you decide to stop using a customized workspace template, you can [update it]({{< relref "#update-your-workspace-template" >}}) to use the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}).
+For Dedicated Cloud and Self-Managed, deleting your workspace template is supported on v0.70 and above. On older Server versions, update your workspace template to use the [default settings]({{< relref "#default-workspace-settings" >}}) instead.
 {{% /alert %}}
 
-## Programmatically creating workspaces
+## Programmatically create workspaces
 
 [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [W&B](https://wandb.ai/) workspaces and reports.
 

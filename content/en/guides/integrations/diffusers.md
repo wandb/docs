@@ -22,7 +22,7 @@ from wandb.integration.diffusers import autolog
 autolog(init=dict(project="diffusers_logging"))
 ```
 
-| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="An example of how the results of your experiment are logged" >}} | 
+| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="Experiment results logging" >}} | 
 |:--:| 
 | **An example of how the results of your experiment are logged.** |
 
@@ -45,7 +45,7 @@ autolog(init=dict(project="diffusers_logging"))
 
 2. Use `autolog` to initialize a Weights & Biases run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`]({{< relref "/ref/python/init" >}}).
+    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}).
 
     When you call `autolog()`, it initializes a Weights & Biases run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
@@ -55,7 +55,7 @@ autolog(init=dict(project="diffusers_logging"))
     - The generated media for each pipeline call are also logged in [media panels]({{< relref "/guides/models/track/log/media" >}}) in the run.
 
     {{% alert %}}
-    You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
+    You can find a [list of supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, open an issue on the [W&B GitHub issues page](https://github.com/wandb/wandb/issues).
     {{% /alert %}}
 
 ## Examples
@@ -138,18 +138,18 @@ run.finish()
 
 - The results of a single experiment:
 
-    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}}
+    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="Experiment results logging" >}}
 
 - The results of multiple experiments:
 
-    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged" >}}
+    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="Experiment results logging" >}}
 
 - The config of an experiment:
 
-    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
+    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="Experiment config logging" >}}
 
 {{% alert %}}
-You need to explicitly call [`run.finish()`]({{< relref "/ref/python/finish" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
+You need to explicitly call [`wandb.Run.finish()`]({{< relref "/ref/python/sdk/functions/finish.md" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 {{% /alert %}}
 
 ### Tracking multi-pipeline workflows
@@ -292,7 +292,7 @@ run.finish()
 {{< /tabpane >}}
 
 - Example of a Stable Diffisuion XL + Refiner experiment:
-    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}}
+    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="Stable Diffusion XL experiment tracking" >}}
 
 ## More resources
 

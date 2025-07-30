@@ -48,7 +48,7 @@ To add Cohere fine-tuning logging to your W&B workspace:
 
 3. View your model's fine-tuning training and validation metrics and hyperparameters in the W&B project that you created.
 
-    {{< img src="/images/integrations/cohere_ft.png" alt="" >}}
+    {{< img src="/images/integrations/cohere_ft.png" alt="Cohere fine-tuning dashboard" >}}
 
 
 ## Organize runs
@@ -60,4 +60,4 @@ In addition, you can rename your runs, add notes or create tags to group them.
 
 ## Resources
 
-* **[Cohere Fine-tuning Example](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)**
+* [Cohere Fine-tuning Example](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)

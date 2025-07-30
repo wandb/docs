@@ -37,7 +37,7 @@ The proceeding code snippets are meant to be run in order.
 
 Create an artifact with four lines of code:
 1. Create a [W&B run]({{< relref "/guides/models/track/runs/" >}}).
-2. Create an artifact object with the [`wandb.Artifact`]({{< relref "/ref/python/artifact.md" >}}) API.
+2. Create an artifact object with the [`wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md" >}}) API.
 3. Add one or more files, such as a model file or dataset, to your artifact object.
 4. Log your artifact to W&B.
 
@@ -62,7 +62,7 @@ See the [track external files]({{< relref "./track-external-files.md" >}}) page 
 {{% /alert %}}
 
 ## Download an artifact
-Indicate the artifact you want to mark as input to your run with the [`use_artifact`]({{< relref "/ref/python/run.md#use_artifact" >}}) method.
+Indicate the artifact you want to mark as input to your run with the [`use_artifact`]({{< relref "/ref/python/sdk/classes/run.md#use_artifact" >}}) method.
 
 Following the preceding code snippet, this next code block shows how to use the `training_dataset` artifact: 
 
@@ -82,7 +82,7 @@ datadir = (
 ```
 
 {{% alert %}}
-You can pass a custom path into the `root` [parameter]({{< relref "/ref/python/artifact.md" >}}) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts]({{< relref "./download-and-use-an-artifact.md" >}}).
+You can pass a custom path into the `root` [parameter]({{< relref "/ref/python/sdk/classes/artifact.md" >}}) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts]({{< relref "./download-and-use-an-artifact.md" >}}).
 {{% /alert %}}
 
 
@@ -90,4 +90,4 @@ You can pass a custom path into the `root` [parameter]({{< relref "/ref/python/a
 * Learn how to [version]({{< relref "./create-a-new-artifact-version.md" >}}) and [update]({{< relref "./update-an-artifact.md" >}}) artifacts.
 * Learn how to trigger downstream workflows or notify a Slack channel in response to changes to your artifacts with [automations]({{< relref "/guides/core/automations/" >}}).
 * Learn about the [registry]({{< relref "/guides/core/registry/" >}}), a space that houses trained models.
-* Explore the [Python SDK]({{< relref "/ref/python/artifact.md" >}}) and [CLI]({{< relref "/ref/cli/wandb-artifact/" >}}) reference guides.
+* Explore the [Python SDK]({{< relref "/ref/python/sdk/classes/artifact.md" >}}) and [CLI]({{< relref "/ref/cli/wandb-artifact/" >}}) reference guides.

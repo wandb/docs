@@ -22,8 +22,8 @@ A team admin can add a Slack integration to the team.
 1. Log in to W&B and go to **Team Settings**.
 1. In the **Slack channel integrations** section, click **Connect Slack** to add a new Slack instance. To add a channel for an existing Slack instance, click **New integration**.
 
-    If necessary, sign in to Slack in your browser. When prompted, grant W&B permission to post to the Slack channel you select. Read the page, then click **Search for a channel** and begin typing the channel name. Select the channel from the list, then click **Allow**.
-
+    ![Screenshot showing two Slack integrations in a Team](/images/automations/slack_integrations.png)
+1. If necessary, sign in to Slack in your browser. When prompted, grant W&B permission to post to the Slack channel you select. Read the page, then click **Search for a channel** and begin typing the channel name. Select the channel from the list, then click **Allow**.
 1. In Slack, go to the channel you selected. If you see a post like `[Your Slack handle] added an integration to this channel: Weights & Biases`, the integration is configured correctly.
 
 Now you can [create an automation]({{< relref "#create-an-automation" >}}) that notifies the Slack channel you configured.
@@ -50,7 +50,7 @@ A Registry admin can create automations in that registry.
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
 
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
-    
+
     Click **Next step**.
 1. Select the team that owns the [Slack integration]({{< relref "#add-a-slack-integration" >}}).
 1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
@@ -65,11 +65,11 @@ A W&B admin can create automations in a project.
 1. Go the project page and click the **Automations** tab, then click **Create automation**.
 
     Or, from a line plot in the workspace, you can quickly create a [run metric automation]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
-    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
+    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location" >}}
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
 
     Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
-    
+
     Click **Next step**.
 1. Select the team that owns the [Slack integration]({{< relref "#add-a-slack-integration" >}}).
 1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.

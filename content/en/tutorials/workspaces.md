@@ -24,7 +24,7 @@ In this tutorial you will see how to use `wandb-workspaces` to create and custom
 
 
 {{% alert %}}
-Programmatic interaction with workspaces is currently supported for [**Saved workspaces views**]({{< relref "/guides/models/track/workspaces#saved-workspace-views" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
+Programmatic interaction with workspaces is currently supported for [Saved workspaces views]({{< relref "/guides/models/track/workspaces#saved-workspace-views" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
 {{% /alert %}}
 
 ## 1. Install and import dependencies

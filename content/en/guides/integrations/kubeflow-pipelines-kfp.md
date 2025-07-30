@@ -20,7 +20,7 @@ This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -129,19 +129,19 @@ Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 * Find details about inputs and outputs in the `Input/Output` and `ML Metadata` tabs.
 * View the W&B web app from the `Visualizations` tab.
 
-{{< img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="Get a view of W&B in the Kubeflow UI" >}}
+{{< img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="W&B in Kubeflow UI" >}}
 
 ### Via the web app UI
 
 The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space. Learn [more about the web app UI here]({{< relref "/guides/models/app" >}}).
 
-{{< img src="/images/integrations/kubeflow_pipelines.png" alt="View details about a particular run (and link back to the Kubeflow UI)" >}}
+{{< img src="/images/integrations/kubeflow_pipelines.png" alt="Run details" >}}
 
-{{< img src="/images/integrations/kubeflow_via_app.png" alt="See the full DAG of inputs and outputs at each stage of your pipeline" >}}
+{{< img src="/images/integrations/kubeflow_via_app.png" alt="Pipeline DAG" >}}
 
 ### Via the Public API (for programmatic access)
 
-* For programmatic access, [see our Public API]({{< relref "/ref/python/public-api" >}}).
+* For programmatic access, [see our Public API]({{< relref "/ref/python/public-api/index.md" >}}).
 
 ### Concept mapping from Kubeflow Pipelines to W&B
 

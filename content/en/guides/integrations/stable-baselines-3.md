@@ -16,7 +16,7 @@ weight: 420
 * Logs the model's hyperparameters.
 * Logs the model gradient histograms.
 
-Review an [example](https://wandb.ai/wandb/sb3/runs/1jyr6z10) of a SB3 training run with W&B.
+Review an [example SB3 training run](https://wandb.ai/wandb/sb3/runs/1jyr6z10).
 
 ## Log your SB3 experiments
 
@@ -26,7 +26,7 @@ from wandb.integration.sb3 import WandbCallback
 model.learn(..., callback=WandbCallback())
 ```
 
-{{< img src="/images/integrations/stable_baselines_demo.gif" alt="" >}}
+{{< img src="/images/integrations/stable_baselines_demo.gif" alt="Stable Baselines 3 training with W&B" >}}
 
 ## WandbCallback Arguments
 

@@ -93,8 +93,8 @@ wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"
 ## Automatic job creation
 
 W&B will automatically create and track a job for any run with tracked source code, even if that run was not created with Launch. Runs are considered to have tracked source code if any of the three following conditions are met:
-- The run has an associated git remote and commit hash
-- The run logged a code artifact (see [`Run.log_code`]({{< relref "/ref/python/run.md#log_code" >}}) for more information)
+- The run has an associated git remote and commit hash.
+- The run logged a code artifact. See [`Run.log_code`]({{< relref "/ref/python/sdk/classes/run#log_code" >}}).
 - The run was executed in a Docker container with the `WANDB_DOCKER` environment variable set to an image tag
 
 The Git remote URL is inferred from the local git repository if your Launch job is created automatically by a W&B run. 

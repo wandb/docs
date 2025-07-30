@@ -7,7 +7,7 @@ menu:
 title: Create and track plots from experiments
 ---
 
-Using the methods in `wandb.plot()`, you can track charts with `wandb.Run.log()`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide]({{< relref "/guides/models/app/features/custom-charts/walkthrough.md" >}}).
+Using the methods in `wandb.plot`, you can track charts with `wandb.Run.log()`, including charts that change over time during training. To learn more about our custom charting framework, check out the [custom charts walkthrough]({{< relref "/guides/models/app/features/custom-charts/walkthrough.md" >}}).
 
 ### Basic charts
 
@@ -35,7 +35,7 @@ with wandb.init() as run:
 
 You can use this to log curves on any two dimensions. If you're plotting two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
 
-{{< img src="/images/track/line_plot.png" alt="" >}}
+{{< img src="/images/track/line_plot.png" alt="Custom line plot" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
@@ -56,7 +56,7 @@ with wandb.init() as run:
 
 You can use this to log scatter points on any two dimensions. If you're plotting two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
 
-{{< img src="/images/track/demo_scatter_plot.png" alt="" >}}
+{{< img src="/images/track/demo_scatter_plot.png" alt="Custom scatter plot" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
@@ -83,7 +83,7 @@ with wandb.init() as run:
 
 You can use this to log arbitrary bar charts. The number of labels and values in the lists must match exactly. Each data point must have both.
 
-{{< img src="/images/track/basic_charts_bar.png" alt="" >}}
+{{< img src="/images/track/basic_charts_bar.png" alt="Custom bar chart" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
@@ -104,7 +104,7 @@ with wandb.init() as run:
 
 You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
 
-{{< img src="/images/track/demo_custom_chart_histogram.png" alt="" >}}
+{{< img src="/images/track/demo_custom_chart_histogram.png" alt="Custom histogram" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
@@ -132,7 +132,7 @@ with wandb.init() as run:
 
 Note that the number of x and y points must match exactly. You can supply one list of x values to match multiple lists of y values, or a separate list of x values for each list of y values.
 
-{{< img src="/images/track/basic_charts_histogram.png" alt="" >}}
+{{< img src="/images/track/basic_charts_histogram.png" alt="Multi-line plot" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)    
     {{% /tab %}}
@@ -166,7 +166,7 @@ You can log this whenever your code has access to:
 * (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
 * (optionally) a subset (still in list format) of the labels to visualize in the plot
 
-{{< img src="/images/track/model_eval_charts_precision_recall.png" alt="" >}}
+{{< img src="/images/track/model_eval_charts_precision_recall.png" alt="Precision-recall curve" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
@@ -194,7 +194,7 @@ You can log this whenever your code has access to:
 * (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
 * (optionally) a subset (still in list format) of these labels to visualize on the plot
 
-{{< img src="/images/track/demo_custom_chart_roc_curve.png" alt="" >}}
+{{< img src="/images/track/demo_custom_chart_roc_curve.png" alt="ROC curve" >}}
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
@@ -221,7 +221,7 @@ You can log this wherever your code has access to:
 * the corresponding ground truth labels for those examples (`y_true`)
 * a full list of the labels/class names as strings of `class_names`. Examples: `class_names=["cat", "dog", "bird"]` if index 0 is `cat`, 1 is `dog`, 2 is `bird`.
 
-{{< img src="/images/experiments/confusion_matrix.png" alt="" >}}
+{{< img src="/images/experiments/confusion_matrix.png" alt="Confusion matrix" >}}
 
 ​[See in the app](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
 

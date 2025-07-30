@@ -10,7 +10,7 @@ weight: 320
 
 [torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). Additionally, torchtune has built-in support for [logging with W&B](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes.
 
-{{< img src="/images/integrations/torchtune_dashboard.png" alt="" >}}
+{{< img src="/images/integrations/torchtune_dashboard.png" alt="TorchTune training dashboard" >}}
 
 Check the W&B blog post on [Fine-tuning Mistral 7B using torchtune](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0).
 
@@ -48,7 +48,7 @@ log_every_n_steps: 5
 
 Enable W&B logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
 
-You can also pass any other `kwargs` as you would to the [wandb.init]({{< relref "/ref/python/init.md" >}}) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
+You can also pass any other `kwargs` as you would to the [wandb.init()]({{< relref "/ref/python/sdk/functions/init.md" >}}) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
 
 {{< tabpane text=true >}}
 {{% tab header="Recipe's Config" value="config" %}}
@@ -87,7 +87,7 @@ You can explore the W&B dashboard to see the logged metrics. By default W&B logs
 
 W&B captures the resolved config on the **Overview** tab. W&B also stores the config in YAML format on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
 
-{{< img src="/images/integrations/torchtune_config.png" alt="" >}}
+{{< img src="/images/integrations/torchtune_config.png" alt="TorchTune configuration" >}}
 
 ### Logged Metrics
 

@@ -87,7 +87,7 @@ View summary values in a run's **Overview** page or the project's runs table.
 4. Select the **Overview** tab.
 5. View the summary values in the **Summary** section.
 
-{{< img src="/images/track/customize_summary.png" alt="Overview page of a run logged to W&B. Bottom right corner of UI shows the min and max of the machine learning models accuracy and loss within the Summary metrics section." >}}
+{{< img src="/images/track/customize_summary.png" alt="Run overview" >}}
 
 {{% /tab %}}
 {{% tab header="Run Table" value="run table" %}}

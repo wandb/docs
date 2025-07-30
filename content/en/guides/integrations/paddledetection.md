@@ -16,14 +16,14 @@ PaddleDetection now includes a built-in W&B integration which logs all your trai
 
 The PaddleDetection `WandbLogger` logs your training and evaluation metrics to Weights & Biases as well as your model checkpoints while training.
 
-[**Read a W&B blog post**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) which illustrates how to integrate a YOLOX model with PaddleDetection on a subset of the `COCO2017` dataset.
+[Read a W&B blog post](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) which illustrates how to integrate a YOLOX model with PaddleDetection on a subset of the `COCO2017` dataset.
 
 ## Sign up and create an API key
 
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -87,7 +87,7 @@ To use wandb via arguments to `train.py` in [PaddleDetection](https://github.com
 
 * Add the `--use_wandb` flag
 * The first wandb arguments must be preceded by `-o` (you only need to pass this once)
-* Each individual wandb argument must contain the prefix `wandb-` . For example any argument to be passed to [`wandb.init`]({{< relref "/ref/python/init" >}}) would get the `wandb-` prefix
+* Each individual argument must contain the prefix `"wandb-"` . For example any argument to be passed to [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) would get the `wandb-` prefix
 
 ```shell
 python tools/train.py 
@@ -117,4 +117,4 @@ When you run your `train.py` file, it generates a link to your W&B dashboard.
 
 ## Feedback or issues
 
-If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.
+If you have any feedback or issues about the Weights & Biases integration, open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

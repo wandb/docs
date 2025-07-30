@@ -15,7 +15,7 @@ Keep your pages in W&B faster and more responsive by logging within the followin
 
 ## Logging considerations
 
-Use `wandb.Run.log()` to track experiment metrics. Once logged, these metrics generate charts and show up in tables. Too much logged data can make the app slow.
+Use `wandb.Run.log()` to track experiment metrics.
 
 ### Distinct metric count
 
@@ -82,11 +82,11 @@ Data is saved and tracked even if you log values wider than the recommended amou
 
 ### Metric frequency
 
-Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, the wider the metric the less frequently you should log it. W&B recommends:
+Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, log wider values less frequently than narrower values. W&B recommends:
 
-- Scalars: \<100,000 logged points per metric
-- Media: \<50,000 logged points per metric
-- Histograms: \<10,000 logged points per metric
+- Scalars: <100,000 logged points per metric
+- Media: <50,000 logged points per metric
+- Histograms: <10,000 logged points per metric
 
 ```python
 import wandb
@@ -207,7 +207,7 @@ If you find you have too many sections and performance is slow, consider the wor
 
 When logging between 5000 and 100,000 metrics per run, W&B recommends using a [manual workspace]({{< relref "/guides/models/app/features/panels/#workspace-modes" >}}). In Manual mode, you can easily add and remove panels in bulk as you choose to explore different sets of metrics. With a more focused set of plots, the workspace loads faster. Metrics that are not plotted are still collected and stored as usual.
 
-To reset a workspace to manual mode, click the workspace's action `...` menu, then click **Reset workspace**. Resetting a workspace has no impact on stored metrics for runs. [Learn more about managing workspaces]({{< relref "/guides/models/app/features/panels/" >}}).
+To reset a workspace to manual mode, click the workspace's action `...` menu, then click **Reset workspace**. Resetting a workspace has no impact on stored metrics for runs. See [workspace panel management]({{< relref "/guides/models/app/features/panels/" >}}).
 
 ### File count
 
@@ -225,10 +225,10 @@ There are a few ways that the performance of your python script is reduced:
 
 1. The size of your data is too large. Large data sizes could introduce a >1 ms overhead to the training loop.
 2. The speed of your network and how the W&B backend is configured
-3. Calling `wandb.Run.log()` more than a few times per second. This is due to a small latency added to the training loop every time `wandb.Run.log()` is called.
+3. If you call `wandb.Run.log()` more than a few times per second. This is due to a small latency added to the training loop every time `wandb.Run.log()` is called.
 
 {{% alert %}}
-Is frequent logging slowing your training runs down? Check out [this Colab](http://wandb.me/log-hf-colab) for methods to get better performance by changing your logging strategy.
+Is frequent logging slowing your training runs down? Check out [this Colab](https://wandb.me/log-hf-colab) for methods to get better performance by changing your logging strategy.
 {{% /alert %}}
 
 W&B does not assert any limits beyond rate limiting. The W&B Python SDK automatically completes an exponential "backoff" and "retry" requests that exceed limits. W&B Python SDK responds with a “Network failure” on the command line. For unpaid accounts, W&B may reach out in extreme cases where usage exceeds reasonable thresholds.
@@ -255,7 +255,7 @@ The preceding table describes rate limit HTTP headers:
 
 ### Rate limits on metric logging API
 
-The `wandb.Run.log()` calls in your script utilize a metrics logging API to log your training data to W&B. This API is engaged through either online or [offline syncing]({{< relref "/ref/cli/wandb-sync.md" >}}). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration.
+`wandb.Run.log()` logs your training data to W&B. This API is engaged through either online or [offline syncing]({{< relref "/ref/cli/wandb-sync.md" >}}). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration.
 
 W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Paid plans](https://wandb.ai/site/pricing) have higher rate limits than Free plans.
 
@@ -288,7 +288,7 @@ with wandb.init(project="basic-intro") as run:
 
 ### Rate limits on GraphQL API
 
-The W&B Models UI and SDK’s [public API](https://docs.wandb.ai/ref/python/public-api/api) make GraphQL requests to the server for querying and modifying data. For all GraphQL requests in SaaS Cloud, W&B applies rate limits per IP address for unauthorized requests and per user for authorized requests. The limit is based on request rate (request per second) within a fixed time window, where your pricing plan determines the default limits. For relevant SDK requests that specify a project path (for example, reports, runs, artifacts), W&B applies rate limits per project, measured by database query time.
+The W&B Models UI and SDK’s [public API]({{< relref "/ref/python/public-api/api.md" >}}) make GraphQL requests to the server for querying and modifying data. For all GraphQL requests in SaaS Cloud, W&B applies rate limits per IP address for unauthorized requests and per user for authorized requests. The limit is based on request rate (request per second) within a fixed time window, where your pricing plan determines the default limits. For relevant SDK requests that specify a project path (for example, reports, runs, artifacts), W&B applies rate limits per project, measured by database query time.
 
 Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
 When you hit the rate limit while using the W&B Models SDK's public API, you see a relevant message indicating the error in the standard output.
@@ -297,7 +297,7 @@ If you encounter a rate limit, you receive a HTTP `429` `Rate limit exceeded` er
 
 #### Suggestions for staying under the GraphQL API rate limit
 
-If you are fetching a large volume of data using the W&B Models SDK's [public API](https://docs.wandb.ai/ref/python/public-api/api), consider waiting at least one second between requests. If you receive a HTTP `429` `Rate limit exceeded` error or see `RateLimit-Remaining=0` in the response headers, wait for the number of seconds specified in `RateLimit-Reset` before retrying.
+If you are fetching a large volume of data using the W&B Models SDK's [public API]({{< relref "/ref/python/public-api/api.md" >}}), consider waiting at least one second between requests. If you receive a HTTP `429` `Rate limit exceeded` error or see `RateLimit-Remaining=0` in the response headers, wait for the number of seconds specified in `RateLimit-Reset` before retrying.
 
 ## Browser considerations
 

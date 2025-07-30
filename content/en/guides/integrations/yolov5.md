@@ -11,7 +11,7 @@ weight: 470
 
 [Ultralytics' YOLOv5](https://ultralytics.com/yolo) ("You Only Look Once") model family enables real-time object detection with convolutional neural networks without all the agonizing pain.
 
-[Weights & Biases](http://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **It's as easy as running a single `pip install` before you run your YOLO experiments.**
+[Weights & Biases](https://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **It's as easy as running a single `pip install` before you run your YOLO experiments.**
 
 {{% alert %}}
 All W&B logging features are compatible with data-parallel multi-GPU training, such as with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
@@ -62,9 +62,9 @@ Every W&B account comes with 100 GB of free storage for datasets and models.
 
 Here's what that looks like.
 
-{{< img src="/images/integrations/yolov5_model_versioning.png" alt="Model Versioning: the latest and the best versions of the model are identified." >}}
+{{< img src="/images/integrations/yolov5_model_versioning.png" alt="Model versioning" >}}
 
-{{< img src="/images/integrations/yolov5_data_visualization.png" alt="Data Visualization: compare the input image to the model's outputs and example-wise metrics." >}}
+{{< img src="/images/integrations/yolov5_data_visualization.png" alt="Data visualization" >}}
 
 {{% alert %}}
 With data and model versioning, you can resume paused or crashed experiments from any device, no setup necessary. Check out [the Colab ](https://wandb.me/yolo-colab) for details.

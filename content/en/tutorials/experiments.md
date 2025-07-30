@@ -43,7 +43,7 @@ wandb.login()
 
 Create, track, and visualize a machine learning experiment. To do this:
 
-1. Initialize a [W&B run]({{< relref "/guides/models/track/runs/" >}}) and pass in the hyperparameters you want to track.
+1. Initialize a [run]({{< relref "/guides/models/track/runs/" >}}) and pass in the hyperparameters you want to track.
 2. Within your training loop, log metrics such as the accuracy and loss.
 
 
@@ -77,7 +77,7 @@ View how your machine learning performed in your W&B project. Copy and paste the
 
 The following image shows what a dashboard can look like:
 
-{{< img src="/images/tutorials/experiments-1.png" alt="" >}}
+{{< img src="/images/tutorials/experiments-1.png" alt="W&B experiment tracking dashboard" >}}
 
 Now that we know how to integrate W&B into a pseudo machine learning training loop, let's track a machine learning experiment using a basic PyTorch neural network. The following code will also upload model checkpoints to W&B that you can then share with other teams in your organization.
 
@@ -324,7 +324,7 @@ with wandb.init(project="pytorch-intro") as run:
             break
 ```
 
-You can find the full docs for [W&B Alerts here]({{< relref "/guides/models/track/runs/alert" >}}).
+For more details, see the [W&B Alerts overview]({{< relref "/guides/models/track/runs/alert" >}}).
 
 ## Next steps
 The next tutorial you will learn how to do hyperparameter optimization using W&B Sweeps:

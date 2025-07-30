@@ -64,7 +64,7 @@ Satisfy the following requirements to deploy W&B with the W&B Kubernetes operato
 
 Refer to the [reference architecture]({{< relref "../ref-arch.md#infrastructure-requirements" >}}). In addition, [obtain a valid W&B Server license]({{< relref "../#obtain-your-wb-server-license" >}}).
 
-See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See the [bare-metal installation guide]({{< relref "../bare-metal.md" >}}) for a detailed explanation on how to set up and configure a self-managed installation.
 
 Depending on the installation method, you might need to meet the following requirements:
 * Kubectl installed and configured with the correct Kubernetes cluster context.
@@ -174,7 +174,7 @@ W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules de
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 
-For a detailed description on how to use these modules, refer to this [section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) to self-managed installations section in the docs.
+For a detailed description on how to use these modules, refer to the [self-managed installations section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) in the docs.
 
 ### Verify the installation
 
@@ -231,7 +231,7 @@ There are two ways to log in to the management console:
 1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
 2. Access the console. Click on the icon in the top right corner and then click **System console**. Only users with admin privileges can see the **System console** entry.
 
-    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="" >}}
+    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="System console access" >}}
 {{% /tab %}}
 
 {{% tab header="Option 2" value="option2"%}}
@@ -240,7 +240,7 @@ W&B recommends you access the console using the following steps only if Option 1
 {{% /alert %}}
 
 1. Open console application in browser. Open the above described URL, which redirects you to the login screen:
-    {{< img src="/images/hosting/access_system_console_directly.png" alt="" >}}
+    {{< img src="/images/hosting/access_system_console_directly.png" alt="Direct system console access" >}}
 2. Retrieve the password from the Kubernetes secret that the installation generates:
     ```shell
     kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d

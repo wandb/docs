@@ -55,7 +55,7 @@ with tf.Session() as sess:
     wandb.tensorflow.log(tf.summary.merge_all())
 ```
 
-With TensorFlow 2, the recommended way of training a model with a custom loop is via using `tf.GradientTape`. You can read more about it [here](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough). If you want to incorporate `wandb` to log metrics in your custom TensorFlow training loops you can follow this snippet:
+With TensorFlow 2, the recommended way of training a model with a custom loop is via using `tf.GradientTape`. You can read more in the [TensorFlow custom training walkthrough](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough). If you want to incorporate `wandb` to log metrics in your custom TensorFlow training loops you can follow this snippet:
 
 ```python
     with tf.GradientTape() as tape:
@@ -72,7 +72,7 @@ With TensorFlow 2, the recommended way of training a model with a custom loop is
     optimizer.apply_gradients(zip(gradients, model.trainable_variables))
 ```
 
-A full example is available [here](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2).
+A [full example of customizing training loops in TensorFlow 2](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) is available.
 
 ## How is W&B different from TensorBoard?
 

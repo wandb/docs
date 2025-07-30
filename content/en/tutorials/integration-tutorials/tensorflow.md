@@ -186,7 +186,7 @@ def train(
 This lets us know you're launching an experiment,
 so we can give it a unique ID and a dashboard.
 
-[Check out the official documentation]({{< relref "/ref/python/init" >}})
+[Check out the official documentation]({{< relref "/ref/python/sdk/functions/init" >}})
 
 ```python
 # initialize wandb with your project name and optionally with configuration.
@@ -233,13 +233,13 @@ run.finish()  # In Jupyter/Colab, let us know you're finished!
 
 ### Visualize Results
 
-Click on the [**run page**]({{< relref "/guides/models/track/runs/#view-logged-runs" >}}) link above to see your live results.
+Click on the [run page]({{< relref "/guides/models/track/runs/#view-logged-runs" >}}) link above to see your live results.
 
 ## Sweep 101
 
 Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models.
 
-## [Check out Hyperparameter Optimization in TensorFlow using W&B Sweeps](http://wandb.me/tf-sweeps-colab)
+Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/tf-sweeps-colab)
 
 ### Benefits of using W&B Sweeps
 
@@ -251,7 +251,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 
 ## Example Gallery
 
-See examples of projects tracked and visualized with W&B in our gallery of examples, [Fully Connected →](https://wandb.me/fc)
+Explore examples of projects tracked and visualized with W&B in our gallery of examples, [Fully Connected →](https://wandb.me/fc).
 
 ## Best Practices
 1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`

@@ -10,7 +10,7 @@ weight: 140
 
 Hugging Face Accelerate is a library that enables the same PyTorch code to run across any distributed configuration, to simplify model training and inference at scale.
 
-Accelerate includes a Weights & Biases Tracker which we show how to use below. You can also read more about Accelerate Trackers in **[their docs here](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking)**
+Accelerate includes a Weights & Biases Tracker which we show how to use below. You can also read more about [Accelerate Trackers in Hugging Face](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking).
 
 ## Start logging with Accelerate
 
@@ -43,7 +43,7 @@ Explaining more, you need to:
 1. Pass `log_with="wandb"` when initialising the Accelerator class
 2. Call the [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) method and pass it:
 - a project name via `project_name`
-- any parameters you want to pass to [`wandb.init`]({{< relref "/ref/python/init" >}}) via a nested dict to `init_kwargs`
+- any parameters you want to pass to [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) via a nested dict to `init_kwargs`
 - any other experiment config information you want to log to your wandb run, via `config`
 3. Use the `.log` method to log to Weigths & Biases; the `step` argument is optional
 4. Call `.end_training` when finished training
@@ -83,6 +83,6 @@ Below is an Accelerate article you may enjoy
 
 * In this article, we'll look at what HuggingFace Accelerate has to offer and how simple it is to perform distributed training and evaluation, while logging results to Weights & Biases
 
-Read the full report [here](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs&utm_medium=docs&utm_campaign=accelerate-docs).
+Read the [Hugging Face Accelerate Super Charged with Weights & Biases report](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs&utm_medium=docs&utm_campaign=accelerate-docs).
 </details>
 <br /><br />

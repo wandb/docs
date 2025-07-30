@@ -58,29 +58,33 @@ W&B can connect to the following storage providers:
 
 The following table shows the availability of BYOB at each scope for each W&B deployment type.
 
-| W&B deployment type | Instance level                         | Team level | Additional information |
-|----------------------------|----------------------------------------|------------|------------------------|
-| Dedicated Cloud            | &check;<sup><a href="footnote_1">1</a></sup> | &check;          | Instance and team level BYOB are supported for CoreWeave AI Object Storage, AWS S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-prem infrastructure. |
-| Multi-tenant Cloud                 | Not Applicable                         | &check;<sup><a href="footnote_1">1</a></sup> | Team level BYOB is supported for AWS S3, and GCP Storage. W&B fully manages the default and only storage bucket for Microsoft Azure. Team level BYOB for CoreWeave AI Object Storage is coming soon. |
-| Self-Managed               | &check;<sup><a href="footnote_1">1</a></sup> | &check;          | Instance and team level BYOB are supported for CoreWeave AI Object Storage, AWS S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
+| W&B deployment type        | Instance level   | Team level | Additional information |
+|----------------------------|------------------|------------|------------------------|
+| Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-premises infrastructure. |
+| Multi-tenant Cloud         | Not Applicable   | &check;    | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, and GCP Storage. W&B fully manages the default and only storage bucket for Microsoft Azure. |
+| Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
 
-<sup><a id="footnote_1">1</a>.</sup> CoreWeave AI Object Storage is currently supported only for instance or team level BYOB on Dedicated Cloud and Self-Managed. Team level BYOB on Multi-tenant Cloud is coming soon.
+The following sections guide you through the process of setting up BYOB.
 
-## Set up BYOB
-### 1. Provision your bucket {#provision-your-bucket}
+## Provision your bucket {#provision-your-bucket}
 
 After [verifying availability]({{< relref "#availability-matrix" >}}), you are ready to provision your storage bucket, including its access policy and CORS. Select a tab to continue.
 
 {{< tabpane text=true >}}
 {{% tab header="CoreWeave" value="coreweave" %}}
 <a id="coreweave-requirements"></a>**Requirements**:
-- **Dedicated Cloud** or **Self-Hosted** v0.70.0 or newer. Not yet available for Multi-tenant Cloud.
+- **Dedicated Cloud** or **Self-Hosted** v0.70.0 or newer, or **Multi-tenant Cloud**.
 - A CoreWeave account with AI Object Storage enabled and with permission to create buckets, API access keys, and secret keys.
 - Your W&B instance must be able to connect to CoreWeave network endpoints.
 
 For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/create-bucket) in the CoreWeave documentation.
 
-1. Create the bucket with a name of your choice in your preferred CoreWeave availability zone. Optionally create a folder for W&B to use as a sub-path for all W&B files. Make a note of the bucket name, availability zone, API access key, secret key, and sub-path.
+1. **Multi-tenant Cloud**: Obtain your organization ID, which is required for your bucket policy.
+    1. Log in to the [W&B App](https://wandb.ai/).
+    1. In the left navigation, click **Create a new team**.
+    1. In the drawer that opens, copy the W&B organization ID, which is located above **Invite team members**.
+    1. Leave this page open. You will use it to [configure W&B]({{< relref "#configure-byob" >}}).
+1. In CoreWeave, create the bucket with a name of your choice in your preferred CoreWeave availability zone. Optionally create a folder for W&B to use as a sub-path for all W&B files. Make a note of the bucket name, availability zone, API access key, secret key, and sub-path.
 1. Set the following Cross-origin resource sharing (CORS) policy for the bucket:
     ```json
     [
@@ -104,42 +108,61 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     ]
     ```
     CoreWeave storage is S3-compatible. For details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
-1. Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation. 
+1. **Multi-tenant Cloud**: Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation. 
 
-    In `Resource`, replace each instance of `<cw_bucket>` with the CoreWeave bucket name.
+    Replace `<cw-bucket>` with the CoreWeave bucket name and replace `<wb-org-id>` with the W&B organization ID you obtained in step 1.
 
     ```json
     {
       "Version": "2012-10-17",
-      "Id": "WandBAccess",
       "Statement": [
-        {
-          "Sid": "WAndBAccountAccess",
-          "Effect": "Allow",
-          "Principal": { "CW": "arn:aws:iam::wandb:static/wandb-integration" },
-            "Action" : [
-              "s3:GetObject*",
-              "s3:GetEncryptionConfiguration",
-              "s3:ListBucket",
-              "s3:ListBucketMultipartUploads",
-              "s3:ListBucketVersions",
-              "s3:AbortMultipartUpload",
-              "s3:DeleteObject",
-              "s3:PutObject",
-              "s3:GetBucketCORS",
-              "s3:GetBucketLocation",
-              "s3:GetBucketVersioning"
-            ],
-          "Resource": [
-            "arn:aws:s3:::<cw_bucket>",
-            "arn:aws:s3:::<cw_bucket>/*"
-          ]
+      {
+        "Sid": "AllowWandbUser",
+        "Action": [
+          "s3:GetObject*",
+          "s3:GetEncryptionConfiguration",
+          "s3:ListBucket",
+          "s3:ListBucketMultipartUploads",
+          "s3:ListBucketVersions",
+          "s3:AbortMultipartUpload",
+          "s3:DeleteObject",
+          "s3:PutObject",
+          "s3:GetBucketCORS",
+          "s3:GetBucketLocation",
+          "s3:GetBucketVersioning"
+        ],
+        "Effect": "Allow",
+        "Resource": [
+          "arn:aws:s3:::<cw-bucket>/*",
+          "arn:aws:s3:::<cw-bucket>"
+        ],
+        "Principal": {
+          "CW": "arn:aws:iam::wandb:static/wandb-integration"
+        },
+        "Condition": {
+          "StringLike": {
+            "wandb:OrgID": [
+              "<wb-org-id>"
+            ]
+          }
         }
-      ]
+      },
+      {
+        "Sid": "AllowUsersInOrg",
+        "Action": "s3:*",
+        "Effect": "Allow",
+        "Resource": [
+          "arn:aws:s3:::<cw-bucket>",
+          "arn:aws:s3:::<cw-bucket>/*"
+        ],
+        "Principal": {
+          "CW": "arn:aws:iam::<cw-storage-org-id>:*"
+        }
+      }]
     }
     ```
 
-Keep a record of the bucket name and access credentials.
+The clause beginning with `"Sid": "AllowUsersInOrg"` grants users in your W&B organization direct access to the bucket. If you don't need this ability, you can omit the clause from your policy.
 
 {{% /tab %}}
 {{% tab header="AWS" value="aws" %}}
@@ -349,22 +372,22 @@ Create your S3-compatible bucket. Make a note of:
 
 Next, [determine the storage address]({{< relref "#determine-the-storage-address" >}}).
 
-### 2. Determine the storage address  {#determine-the-storage-address}
-This section explains the syntax to use to connect W&B to a BYOB storage bucket. In the examples, replace placeholder values between angle brackets (`<>`) with your bucket's details.
-
+## Determine the storage address  {#determine-the-storage-address}
+This section explains the syntax to use to connect a W&B Team to a BYOB storage bucket. In the examples, replace placeholder values between angle brackets (`<>`) with your bucket's details.
 Select a tab for detailed instructions.
 
 {{< tabpane text=true >}}
 {{% tab header="CoreWeave" value="coreweave" %}}
+This section is relevant only for team level BYOB on **Dedicated Cloud** or **Self-Managed**. For instance level BYOB or for Multi-tenant Cloud, you are ready to [Configure W&B]({{< relref "#configure-byob" >}}).
+
+Determine the full bucket path using the following format. Replace placeholders between angle brackets (`<>`) with the bucket's values.
+
 **Bucket format**:
-```text
+```none
 cw://<accessKey>:<secretAccessKey>@cwobject.com/<bucketName>?tls=true
 ```
 
-- CoreWeave uses availability zones for AI Object Storage. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation for details. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `US-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
-
   The `cwobject.com` HTTPS endpoint is supported. TLS 1.3 is required. Contact [support](mailto:support@wandb.com) to express interest in other CoreWeave endpoints.
-- The `cw://` protocol specifier is preferred.
 {{% /tab %}}
 {{% tab header="AWS" value="aws" %}}
 **Bucket format**:
@@ -400,18 +423,16 @@ For Cloud-native storage buckets with an optional S3-compatible mode, use the Cl
 {{% /tab %}}
 {{< /tabpane >}}
 
-After determining the storage address, you are ready to [configure instance level BYOB]({{< relref "#configure-instance-level-byob" >}}) or [configure team level BYOB]({{< relref "#configure-team-level-byob" >}}).
+After determining the storage address, you are ready to [configure team level BYOB]({{< relref "#configure-team-level-byob" >}}).
 
-### 3. Configure W&B  {#configure-byob}
+## Configure W&B  {#configure-byob}
 After you [provision your bucket]({{< relref "#provision-your-bucket" >}}) and [determine its address](#determine-the-storage-address), you are ready to configure BYOB at the [instance level]({{< relref "#instance-level-byob" >}}) or [team level]({{< relref "#team-level-byob" >}}).
 
 {{% alert color="secondary" %}}
 Plan your storage bucket layout carefully. After you configure a storage bucket for W&B, migrating its data to another bucket is complex and requires the assistance of W&B. This applies to storage for Dedicated Cloud and Self-Managed, as well as team-level storage for Multi-tenant Cloud. For questions, contact [support](mailto:support@wandb.com).
 {{% /alert %}}
 
-#### Instance level BYOB
-
-This section shows how to configure W&B for instance level BYOB. For Team Level BYOB, refer to [Team level BYOB]({{< relref "#team-level-byob" >}}) instead.
+### Instance level BYOB
 
 {{% alert %}}
 For CoreWeave AI Object Storage at the instance level, contact [W&B support](mailto:support@wandb.com) instead of following these instructions. Self-service configuration is not yet supported.
@@ -425,19 +446,20 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 1. Go to **Settings** > **System Connections**.
 1. In the **Bucket Storage** section, ensure the identity in the **Identity** field is granted access to the new bucket.
 1. Select the **Provider**.
-1. Enter the new **Bucket Name**.
+1. Enter the **Bucket Name**.
 1. Optionally, enter the **Path** to use in the new bucket.
 1. Click **Save**
 
 {{% alert %}}
-For Self-Hosted, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
+For Self-Managed, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
 
 * [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector)
 * [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector)
 * Azure - [Instance level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob) or [Team level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector)
 {{% /alert %}}
 
-#### Team level BYOB
+### Team level BYOB
+
 After you [determine the storage location](#determine-the-storage-address) for your bucket, you can use the W&B App to configure team level BYOB while creating a team.
 
 {{% alert %}}
@@ -446,9 +468,13 @@ After you [determine the storage location](#determine-the-storage-address) for y
 - If you plan to configure CoreWeave storage for the team, contact [support](mailto:support@wandb.com) to verify that your bucket is configured correctly in CoreWeave and to validate your team's configuration, since the storage details cannot be changed after the team is created.
 {{% /alert %}}
 
-<!-- (Commented out until MT is supported) 1. If you are configuring CoreWeave storage for Multi-tenant Cloud, switch to the browser window where you previously began to create the new team to find the W&B organization ID previously. Otherwise, l -->
+Select your deployment type to continue.
 
-1. If you’re connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like MinIO for team-level BYOB in your Dedicated cloud or Self-managed instance, you **must** specify the storage bucket using the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B, before following the rest of these steps to use the storage bucket for a team.
+{{< tabpane text=true >}}
+{{% tab header="Dedicated Cloud / Self-Hosted" value="dedicated" %}}
+
+1. **Dedicated Cloud**: You **must** provide the bucket path to your account team so that they can add it to your instance's supported file stores before following the rest of these steps to use the storage bucket for a team.
+1. **Self-Managed**: You **must** add the bucket path to your the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B before following the rest of these steps to use the storage bucket for a team.
 1. Log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
 1. Provide a name for the team.
 1. Set **Storage Type** to **External storage**.
@@ -458,24 +484,46 @@ After you [determine the storage location](#determine-the-storage-address) for y
 1. Click **Bucket location**.
 1. To use an existing bucket, select it from the list. To add a new bucket, click **Add bucket** at the bottom, then provide the bucket's details.
 
-    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**. CoreWeave is not yet available for teams on Multi-tenant Cloud.
-    -  Provide a **Name** for the bucket.
+    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
     
-        For **CoreWeave**, provide only the bucket name. For Azure on W&B Dedicated or Self-Managed, provide Account name and Container name.
-    - Provide the bucket path you [determined earlier](#determine-the-storage-address).
-    - For **Azure**, set the **Account name** to the Azure account and **Container name** to the Azure blob storage container.
+    If the cloud provider is not listed, ensure that you have followed step 1 to add the bucket path to the supported file stores for your instance. If the storage provider is still not listed, [contact support](mailto:support@wandb.ai) for assistance.
+1. Specify the bucket details.
+    - For **CoreWeave**, provide only the bucket name.
+    - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
+    - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
     - Optionally:
       - If applicable, set **Path** to the bucket sub-path.
-      - **CoreWeave**: Set **KMS key ARN** to the CoreWeave ARN.
       - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
       -  **Azure**: If applicable, specify values for **Tenant ID** and **Managed Identity Client ID**.
-1. For **Multi-tenant Cloud**, optionally invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses. Otherwise, you can invite members to the team after it is created.
-
-    For **Dedicated Cloud** or **Self-Managed**, you can invite members to the team after it is created. 
 1. Click **Create team**.
 
-    If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
+If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
 
+{{% /tab %}}
+{{% tab header="Multi-tenant Cloud" value="multi-tenant" %}}
+
+1. Switch to the browser window where you previously began to create the new team to find the W&B organization ID previously. Otherwise, log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
+1. Provide a name for the team.
+1. Set **Storage Type** to **External storage**.
+1. Click **Bucket location**.
+1. To use an existing bucket, select it from the list. To add a new bucket, click **Add bucket** at the bottom, then provide the bucket's details.
+
+    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
+1. Specify the bucket details.
+    - For **CoreWeave**, provide only the bucket name.
+    - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
+    - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
+    - Optionally:
+      - If applicable, set **Path** to the bucket sub-path.
+      - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
+      - **Azure**: If applicable, specify values for **Tenant ID** and **Managed Identity Client ID**.
+     - Invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses. Otherwise, you can invite members to the team after it is created.
+1. Click **Create team**.
+
+If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
+
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Troubleshooting
 <details open>
@@ -483,21 +531,17 @@ After you [determine the storage location](#determine-the-storage-address) for y
 
 - **Connection errors**
   - Verify that your W&B instance can connect to CoreWeave network endpoints.
-  - CoreWeave uses virtual-hosted style paths, where the bucket name is a subdomain at the beginning of the path. For example: `cw://bucket-name.cwobject.com` is correct, while `cw://cwobject.com/bucket-name/` is not.
+  - CoreWeave uses virtual-hosted style paths, where the bucket name is a subdomain at the beginning of the path. For example: `cw://bucket-name.cwobject.com` is correct, while ~`cw://cwobject.com/bucket-name/`~ is not.
   - Bucket names must not contain underscores (`_`) or other characters incompatible with DNS rules.
   - Bucket names must be globally unique among CoreWeave locations.
   - Bucket names must not begin with `cw-` or `vip-`, which are reserved prefixes.
 - **CORS validation failures**
-  - A CORS policy is required. CoreWeave is S3-compatible; for details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
+  - A CORS policy is required. CoreWeave is S3-compatible; for details about CORS, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
   - `AllowedMethods` must include methods `GET`, `PUT`, and `HEAD`.
   - `ExposeHeaders` must include `ETag.
   - W&B front-end domains must be included in the CORS policy's `AllowedOrigins`. The example CORS policies provided on this page include all domains using `*`.
 - **LOTA endpoint issues**
   - Connecting to LOTA endpoints from W&B is not yet supported.  To express interest, [contact support](mailto:support@wandb.com).
-- **Region errors**
-  - CoreWeave uses availability zones for AI Object Storage.
-    - In the bucket address, you can optionally set `region` to the name of the CoreWeave availability zone that matches the CoreWeave bucket's location. Because CoreWeave bucket names are globally unique, `region` is not required in the bucket address.
-    - CoreWeave AI Object Storage is not available in all regions. Refer to [Regions and Availability Zones](https://docs.coreweave.com/docs/platform/regions) in the CoreWeave documentation. Click the **AI Object Storage** link for the region to verify the ability zone to use. For example, in region `S-EAST-01`, AI Object Storage is available in `US-EAST-01A`. 
 - **Access key and permission errors**
   - Verify that your CoreWeave API Access Key is not expired.
   - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys) in the CoreWeave documentation.

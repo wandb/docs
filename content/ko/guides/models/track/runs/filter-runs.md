@@ -27,7 +27,7 @@ W&B에 기록된 run으로부터 얻은 통찰력을 프로젝트 페이지에�
 
 ## Run 검색
 
-[regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html)를 사용하여 지정한 정규식으로 run을 찾습니다. 검색 상자에 쿼리를 입력하면 Workspace의 그래프에서 보이는 run과 테이블의 행이 필터링됩니다.
+ regex 를 사용하여 지정한 정규식으로 run을 찾습니다. 검색 상자에 쿼리를 입력하면 Workspace의 그래프에서 보이는 run과 테이블의 행이 필터링됩니다.
 
 ## Run 그룹화
 

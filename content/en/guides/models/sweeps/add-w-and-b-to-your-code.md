@@ -60,12 +60,12 @@ explore the Python SDK tab.
 create a W&B Sweep, we added the following to the code example:
 
 1. Import the Weights & Biases Python SDK.
-2. Create a dictionary object where the key-value pairs define the sweep configuration. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep. For more information on how to create a sweep configuration, see [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}).
-3. Pass the sweep configuration dictionary to [`wandb.sweep`]({{< relref "/ref/python/sweep.md" >}}). This initializes the sweep. This returns a sweep ID (`sweep_id`). For more information on how to initialize sweeps, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
-4. Use the [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/run.md" >}}).
-5. (Optional) define values from `wandb.Run.config` instead of defining hard coded values.
-6. Log the metric we want to optimize with `wandb.Run.log()`. You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
-7. Start the sweep with the [`wandb.agent`]({{< relref "/ref/python/agent.md" >}}) API call. Provide the sweep ID, the name of the function the sweep will execute (`function=main`), and set the maximum number of runs to try to four (`count=4`). For more information on how to start W&B Sweep, see [Start sweep agents]({{< relref "./start-sweep-agents.md" >}}).
+2. Create a dictionary object where the key-value pairs define the sweep configuration. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep. For more information, see [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}).
+3. Pass the sweep configuration dictionary to [`wandb.sweep()`]({{< relref "/ref/python/sdk/functions/sweep.md" >}}). This initializes the sweep. This returns a sweep ID (`sweep_id`). For more information, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
+4. Use the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/sdk/classes/run.md" >}}).
+5. (Optional) define values from `wandb.config` instead of defining hard coded values.
+6. Log the metric you want to optimize with [`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runlog" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example), you define the sweep to maximize the `val_acc` value.
+7. Start the sweep with the [`wandb.agent`]({{< relref "/ref/python/sdk/functions/agent.md" >}}) API call. Provide the sweep ID and the name of the function the sweep will execute (`function=main`), and specify the maximum number of runs to try to four (`count=4`). For more informationp, see [Start sweep agents]({{< relref "./start-sweep-agents.md" >}}).
 
 
 ```python
@@ -141,9 +141,9 @@ if __name__ == "__main__":
 ```
 
 {{% alert %}} The preceding code snippet shows how to initialize a
-[`wandb.init()`]({{< relref "/ref/python/init.md" >}}) API within a `with`
+[`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) API within a `with`
 context manager statement to generate a background process to sync and log data
-as a [W&B Run]({{< relref "/ref/python/run.md" >}}). This ensures the run is
+as a [W&B Run]({{< relref "/ref/python/sdk/classes/run.md" >}}). This ensures the run is
 properly terminated after uploading the logged values. An alternative approach
 is to call `wandb.init()` and `wandb.Run.finish()` at the beginning and end of the
 training script, respectively.
@@ -183,9 +183,9 @@ Next, we add the following to the code example:
 
 1. Import the Weights & Biases Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
 2. Read in the configuration file.
-3. Use the [`wandb.init()`]({{< relref "/ref/python/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/run.md" >}}). We pass the config object to the config parameter.
+3. Use the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/sdk/classes/run.md" >}}). We pass the config object to the config parameter.
 4. Define hyperparameter values from `wandb.Run.config` instead of using hard coded values.
-5. Log the metric we want to optimize with `wandb.Run.log`. You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
+5. Log the metric we want to optimize with [`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runlog" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
 
 
 ```python

@@ -10,13 +10,13 @@ weight: 1
 
 Use [Weights & Biases](https://wandb.com) for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
 
 ## What this notebook covers
 
 We show you how to integrate Weights & Biases with your PyTorch code to add experiment tracking to your pipeline.
 
-{{< img src="/images/tutorials/pytorch.png" alt="" >}}
+{{< img src="/images/tutorials/pytorch.png" alt="PyTorch and W&B integration diagram" >}}
 
 ```python
 # import the library
@@ -44,7 +44,7 @@ with wandb.init(project="new-sota-model") as run:
     run.save("model.onnx")
 ```
 
-Follow along with a [video tutorial](http://wandb.me/pytorch-video).
+Follow along with a [video tutorial](https://wandb.me/pytorch-video).
 
 **Note**: Sections starting with _Step_ are all you need to integrate W&B in an existing pipeline. The rest just loads data and defines a model.
 
@@ -434,7 +434,7 @@ a number of hyperparameters.
 
 You can use Weights & Biases Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies.
 
-## [Check out Hyperparameter Optimization in PyTorch using W&B Sweeps](http://wandb.me/sweeps-colab)
+Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/sweeps-colab).
 
 Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
 
@@ -448,12 +448,12 @@ Running a hyperparameter sweep with Weights & Biases is very easy. There are jus
 
 That's all there is to running a hyperparameter sweep.
 
-{{< img src="/images/tutorials/pytorch-2.png" alt="" >}}
+{{< img src="/images/tutorials/pytorch-2.png" alt="PyTorch training dashboard" >}}
 
 
 ## Example Gallery
 
-See examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery)
+Explore examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery).
 
 ## Advanced Setup
 1. [Environment variables]({{< relref "/guides/hosting/env-vars/" >}}): Set API keys in environment variables so you can run training on a managed cluster.

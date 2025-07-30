@@ -85,7 +85,7 @@ Here's how epoch-wise validation results are visualized using a [W&B Table]({{< 
 
 This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for inference and visualizing the results using [W&B](https://wandb.ai/site).
 
-You can try out the code in Google Colab: [Open in Colab](http://wandb.me/ultralytics-inference).
+You can try out the code in Google Colab: [Open in Colab](https://wandb.me/ultralytics-inference).
 
 You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 
@@ -136,7 +136,7 @@ Here's how the interactive bbox overlay looks:
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs"  ><a href="//imgur.com/a/UTSiufs">WandB Image Overlay</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
-You can fine more information on the W&B image overlays [here]({{< relref "/guides/models/track/log/media.md#image-overlays" >}}).
+For more details, see the [W&B image overlays guide]({{< relref "/guides/models/track/log/media.md#image-overlays" >}}).
 
 ## More resources
 

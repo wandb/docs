@@ -22,17 +22,17 @@ A [*launch job*]({{< relref "./launch-terminology.md#launch-job" >}}) is a bluep
 
 As jobs are added to the queue, [*launch agents*]({{< relref "./launch-terminology.md#launch-agent" >}}) poll that queue and execute the job on the system targeted by the queue.
 
-{{< img src="/images/launch/launch_overview.png" alt="" >}}
+{{< img src="/images/launch/launch_overview.png" alt="W&B Launch overview diagram" >}}
 
 Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target]({{< relref "./launch-terminology.md#target-resources" >}}) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
 
-See the [Terms and concepts]({{< relref "./launch-terminology.md" >}}) page for more information on launch jobs, how queues work, launch agents, and additional information on how W&B Launch works.
+See the [Terms and concepts]({{< relref "./launch-terminology.md" >}}) page for more information about Launch.
 
 ## How to get started
 
 Depending on your use case, explore the following resources to get started with W&B Launch:
 
-* If this is your first time using W&B Launch, we recommend you go through the [Walkthrough]({{< relref "#walkthrough" >}}) guide.
+* If this is your first time using W&B Launch, we recommend you go through the [Launch walkthrough]({{< relref "#walkthrough" >}}) guide.
 * Learn how to set up [W&B Launch]({{< relref "/launch/set-up-launch/" >}}).
 * Create a [launch job]({{< relref "./create-and-deploy-jobs/create-launch-job.md" >}}).
 * Check out the W&B Launch [public jobs GitHub repository](https://github.com/wandb/launch-jobs) for templates of common tasks like [deploying to Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), [evaluating an LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals), or more.
@@ -155,7 +155,7 @@ Launch is designed to help teams build workflows around shared compute. In the e
 
 After clicking the button, the browser will redirect to the **Agents** tab of the queue view. The queue remains in the **Not active** state until an agent starts polling.
 
-{{< img src="/images/launch/create_docker_queue.gif" alt="" >}}
+{{< img src="/images/launch/create_docker_queue.gif" alt="Docker queue creation" >}}
 
 For advanced queue configuration options, see the [advanced queue setup page]({{< relref "/launch/set-up-launch/setup-queue-advanced.md" >}}).
 
