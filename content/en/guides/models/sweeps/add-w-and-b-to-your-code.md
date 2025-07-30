@@ -34,7 +34,7 @@ def evaluate_one_epoch(epoch):
 config = {"lr": 0.0001, "bs": 16, "epochs": 5}
 
 def main():
-    # Note that we define values from `run.config`
+    # Note that we define values from `wandb.Run.config`
     # instead of defining hard values
     lr = config["lr"]
     bs = config["bs"]
@@ -75,7 +75,7 @@ import random
 
 
 # Define training function that takes in hyperparameter
-# values from `run.config` and uses them to train a
+# values from `wandb.Run.config` and uses them to train a
 # model and return the metrics
 def train_one_epoch(epoch, lr, bs):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
@@ -109,7 +109,7 @@ def main():
     # This is equivalent to using `run.finish()` at the end of each run
     with wandb.init(project=project) as run:
 
-        # This code fetches the hyperparameter values from `run.config`
+        # This code fetches the hyperparameter values from `wandb.Run.config`
         # instead of defining them explicitly
         lr = run.config["lr"]
         bs = run.config["batch_size"]
