@@ -334,7 +334,7 @@ with wandb.init('test-project') as run:
 
 See the [Command macros]({{< relref "./sweep-config-keys.md#command-macros" >}}) section in [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}) for a list of pre-defined macros you can use in your sweep configuration. 
 
-If your program does not use argument parsing you can avoid passing arguments all together and take advantage of `wandb.init()` picking up sweep parameters into `run.config` automatically:
+#### Boolean arguments
 
 The `argparse` module does not support boolean arguments by default. To define a boolean argument, you can use the [`action`](https://docs.python.org/3/library/argparse.html#action) parameter or use a custom function to convert the string representation of the boolean value to a boolean type.
 
