@@ -56,22 +56,22 @@ import wandb
 import random
 
 random.seed(1)
+
 with wandb.init() as run:
+    # Min and max summary values for loss
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
 
-  # Min and max summary values for loss
-  run.define_metric("loss", summary="min")
-  run.define_metric("loss", summary="max")
+    # Min and max summary values for accuracy
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
 
-  # Min and max summary values for accuracy
-  run.define_metric("acc", summary="min")
-  run.define_metric("acc", summary="max")
-
-  for i in range(10):
-      log_dict = {
-          "loss": random.uniform(0, 1 / (i + 1)),
-          "acc": random.uniform(1 / (i + 1), 1),
-      }
-      run.log(log_dict)
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
 ```
 
 ## View summary metrics
@@ -115,27 +115,27 @@ run_name = "<your-run-name>" # Name of run with summary values
 all_runs = []
 
 for run in api.runs(f"{entity}/{project_name}"):
-  print("Fetching details for run: ", run.id, run.name)
-  run_data = {
-            "id": run.id,
-            "name": run.name,
-            "url": run.url,
-            "state": run.state,
-            "tags": run.tags,
-            "config": run.config,
-            "created_at": run.created_at,
-            "system_metrics": run.system_metrics,
-            "summary": run.summary,
-            "project": run.project,
-            "entity": run.entity,
-            "user": run.user,
-            "path": run.path,
-            "notes": run.notes,
-            "read_only": run.read_only,
-            "history_keys": run.history_keys,
-            "metadata": run.metadata,
-        }
-  all_runs.append(run_data)
+    print("Fetching details for run: ", run.id, run.name)
+    run_data = {
+              "id": run.id,
+              "name": run.name,
+              "url": run.url,
+              "state": run.state,
+              "tags": run.tags,
+              "config": run.config,
+              "created_at": run.created_at,
+              "system_metrics": run.system_metrics,
+              "summary": run.summary,
+              "project": run.project,
+              "entity": run.entity,
+              "user": run.user,
+              "path": run.path,
+              "notes": run.notes,
+              "read_only": run.read_only,
+              "history_keys": run.history_keys,
+              "metadata": run.metadata,
+          }
+    all_runs.append(run_data)
   
 # Convert to DataFrame  
 df = pd.DataFrame(all_runs)

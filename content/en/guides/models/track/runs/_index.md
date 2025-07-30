@@ -77,15 +77,15 @@ config = {
 }
 
 with wandb.init(project="awesome-project", config=config) as run:
-  print(f"lr: {config['learning_rate']}")
-    
-  # Simulating a training run
-  for epoch in range(config['epochs']):
-    offset = random.random() / 5
-    acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
-    loss = 2**-epoch + random.random() / (epoch + 1) + offset
-    print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
-    run.log({"accuracy": acc, "loss": loss})
+    print(f"lr: {config['learning_rate']}")
+      
+    # Simulating a training run
+    for epoch in range(config['epochs']):
+      offset = random.random() / 5
+      acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
+      loss = 2**-epoch + random.random() / (epoch + 1) + offset
+      print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
+      run.log({"accuracy": acc, "loss": loss})
 ```
 
 This returns the following output:
@@ -128,7 +128,7 @@ Ensure to replace values enclosed in angle brackets (`< >`) with your own values
 import wandb
 
 with wandb.init(entity="<entity>", project="<project>") as run:
-  # Your code here
+    # Your code here
 ```
 
 When you initialize a run, W&B logs your run to the project you specify for the project field (`wandb.init(project="<project>"`). W&B creates a new project if the project does not already exist. If the project already exists, W&B stores the run in that project.
@@ -141,14 +141,14 @@ Each run in W&B has a [unique identifier known as a *run ID*]({{< relref "#uniqu
 
 Each run also has a human-readable, non-unique [run name]({{< relref "#name-your-run" >}}). You can specify a name for your run or let W&B randomly generate one for you. You can rename a run after initializing it.
 
-For example, consider the proceeding code snippet: 
+For example, consider the following code snippet:
 
 ```python title="basic.py"
 import wandb
 
 run = wandb.init(entity="wandbee", project="awesome-project")
 ```
-The code snippet produces the proceeding output:
+The code snippet produces the following output:
 
 ```bash
 🚀 View run exalted-darkness-6 at: 
@@ -181,7 +181,7 @@ The proceeding table describes the possible states a run can be in:
 | ----- | ----- |
 | `Crashed` | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. | 
 | `Failed` | Run ended with a non-zero exit status. | 
-| `Finished`| Run ended and fully synced data, or called `Run.finish()`. |
+| `Finished`| Run ended and fully synced data, or called `wandb.Run.finish()`. |
 | `Killed` | Run was forcibly stopped before it could finish. |
 | `Running` | Run is still running and has recently sent a heartbeat.  |
 
@@ -239,7 +239,7 @@ You can specify a name for your run by passing the `name` parameter to the [`wan
 import wandb
 
 with wandb.init(entity="<project>", project="<project>", name="<run-name>") as run:
-  # Your code here
+    # Your code here
 ```
 
 ### Rename a run

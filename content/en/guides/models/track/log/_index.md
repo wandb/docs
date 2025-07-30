@@ -60,7 +60,7 @@ Turn on [Code Saving](https://wandb.me/code-save-colab) in your account's [Setti
 With W&B, you can decide exactly what you want to log. The following lists some commonly logged objects:
 
 * **Datasets**: You have to specifically log images or other dataset samples for them to stream to W&B.
-* **Plots**: Use `wandb.plot` with `wandb.Run.log()` to track charts. See [Log Plots]({{< relref "./plots.md" >}}) for more information. 
+* **Plots**: Use `wandb.plot()` with `wandb.Run.log()` to track charts. See [Log Plots]({{< relref "./plots.md" >}}) for more information. 
 * **Tables**: Use `wandb.Table` to log data to visualize and query with W&B. See [Log Tables]({{< relref "./log-tables.md" >}}) for more information.
 * **PyTorch gradients**: Add `wandb.Run.watch(model)` to see gradients of the weights as histograms in the UI.
 * **Configuration information**: Log hyperparameters, a link to your dataset, or the name of the architecture you're using as config parameters, passed in like this: `wandb.init(config=your_config_dictionary)`. See the [PyTorch Integrations]({{< relref "/guides/integrations/pytorch.md" >}}) page for more information. 
