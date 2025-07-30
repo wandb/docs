@@ -39,7 +39,7 @@ Toggle the switch next to the event type you want to receive alerts from. Weight
 * **Runs finished**: whether a Weights and Biases run successfully finished.
 * **Run crashed**: if a run has failed to finish.
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert]({{< relref "/guides/models/track/runs/alert.md" >}}).
+For more information about how to set up and manage alerts, see [Send alerts with `wandb.Run.alert()`]({{< relref "/guides/models/track/runs/alert.md" >}}).
 
 ## Slack notifications
 Configure Slack destinations where your team's [automations]({{< relref "/guides/core/automations/" >}}) can send notifications when an event occurs in a Registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}).

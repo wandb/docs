@@ -22,13 +22,10 @@ Upload your TensorBoard logs to the cloud, quickly share your results among coll
 import wandb
 
 # Start a wandb run with `sync_tensorboard=True`
-wandb.init(project="my-project", sync_tensorboard=True)
+wandb.init(project="my-project", sync_tensorboard=True) as run:
+  # Your training code using TensorBoard
+  ...
 
-# Your training code using TensorBoard
-...
-
-# [Optional]Finish the wandb run to upload the tensorboard logs to W&B (if running in Notebook)
-wandb.finish()
 ```
 
 Review an [example TensorBoard integration run](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
@@ -43,11 +40,11 @@ W&B supports TensorBoard with all versions of TensorFlow. W&B also supports Tens
 
 ### How can I log metrics to W&B that aren't logged to TensorBoard?
 
-If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.log` in your code `wandb.log({"custom": 0.8})`
+If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.Run.log()` in your code `run.log({"custom": 0.8})`
 
-Setting the step argument in `wandb.log` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
+Setting the step argument in `run.log()` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
 
-`wandb.log({"custom": 0.8, "global_step": global_step})`
+`run.log({"custom": 0.8, "global_step": global_step})`
 
 ### How do I configure Tensorboard when I'm using it with `wandb`?
 
@@ -57,10 +54,10 @@ If you want more control over how TensorBoard is patched you can call `wandb.ten
 import wandb
 
 wandb.tensorboard.patch(root_logdir="<logging_directory>")
-wandb.init()
+run = wandb.init()
 
 # Finish the wandb run to upload the tensorboard logs to W&B (if running in Notebook)
-wandb.finish()
+run.finish()
 ```
 
 You can pass `tensorboard_x=False` to this method to ensure vanilla TensorBoard is patched, if you're using TensorBoard > 1.14 with PyTorch you can pass `pytorch=True` to ensure it's patched. Both of these options have smart defaults depending on what versions of these libraries have been imported.
@@ -70,15 +67,15 @@ By default, we also sync the `tfevents` files and any `.pbtxt` files. This enabl
 ```python
 import wandb
 
-wandb.init()
+run = wandb.init()
 wandb.tensorboard.patch(save=False, tensorboard_x=True)
 
 # If running in a notebook, finish the wandb run to upload the tensorboard logs to W&B
-wandb.finish()
+run.finish()
 ```
 
 {{% alert color="secondary" %}}
-You must call either `wandb.init` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
+You must call either `wandb.init()` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
 {{% /alert %}}
 
 ### How do I sync historical TensorBoard runs?
@@ -87,7 +84,7 @@ If you have existing `tfevents` files stored locally and you would like to impor
 
 ### How do I use Google Colab or Jupyter with TensorBoard?
 
-If running your code in a Jupyter or Colab notebook, make sure to call `wandb.finish()` and the end of your training. This will finish the wandb run and upload the tensorboard logs to W&B so they can be visualized. This is not necessary when running a `.py` script as wandb finishes automatically when a script finishes.
+If running your code in a Jupyter or Colab notebook, make sure to call `wandb.Run.finish()` and the end of your training. This will finish the wandb run and upload the tensorboard logs to W&B so they can be visualized. This is not necessary when running a `.py` script as wandb finishes automatically when a script finishes.
 
 To run shell commands in a notebook environment, you must prepend a `!`, as in `!wandb sync directoryname`.
 
@@ -96,7 +93,8 @@ To run shell commands in a notebook environment, you must prepend a `!`, as in `
 If you use PyTorch's TensorBoard integration, you may need to manually upload the PyTorch Profiler JSON file.
 
 ```python
-wandb.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
+with wandb.init(project="my-project", sync_tensorboard=True) as run:
+    run.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
 ```
 
 ### Can I sync tfevents files stored in the cloud?
