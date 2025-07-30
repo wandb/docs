@@ -112,6 +112,7 @@ W&B will automatically redirect these paths to the new W&B Registry format, whic
 f"{org-name}/wandb-registry-{team-name}/{collection-name}:{version}"
 ```
 
+
 {{% alert title="Python SDK warnings" %}}
 
 A warning error may appear if you continue to use legacy Model Registry paths in your code. The warning will not break your code, but it indicates that you should update your paths to the new W&B Registry format. 
