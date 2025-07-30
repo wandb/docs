@@ -98,6 +98,23 @@ Finally, the query result panel renders the result of the query expression, usin
 
 ## Basic operations
 The following common operations you can make within your query panels.
+
+### Available query operations reference
+
+| Operation | Description | Example |
+|-----------|-------------|---------|
+| `.concat` | Concatenate multiple arrays/tables into one | `table1.rows.concat` |
+| `.groupby(fn)` | Group data by a function result | `.groupby((row) => row["category"])` |
+| `.map(fn)` | Transform each element | `.map((item) => item * 2)` |
+| `.filter(fn)` | Filter elements by condition | `.filter((row) => row["value"] > 10)` |
+| `.sort(fn)` | Sort elements | `.sort((a, b) => a["timestamp"] - b["timestamp"])` |
+| `.groupkey` | Access the key of a group (after groupby) | `group.groupkey` |
+| `.avg` | Calculate average of numeric values | `group["metric"].avg` |
+| `.min` | Find minimum value | `group["metric"].min` |
+| `.max` | Find maximum value | `group["metric"].max` |
+| `.sum` | Sum all values | `group["metric"].sum` |
+| `.count` | Count number of items | `group["metric"].count` |
+| `.join()` | Join two tables | See Join section below |
 ### Sort
 Sort from the column options:
 {{< img src="/images/weave/weave_sort.png" alt="Column sort options" >}}
@@ -116,6 +133,117 @@ Map operations iterate over lists and apply a function to each element in the da
 You can groupby using a query or from the column options.
 {{< img src="/images/weave/weave_groupby.png" alt="Group by query" >}}
 {{< img src="/images/weave/weave_groupby.gif" alt="Group by column options" >}}
+
+#### Groupby with aggregations
+After grouping data, you can apply aggregation functions to compute metrics for each group. Common aggregation operations include:
+
+- `.avg` - Calculate the average of numeric values
+- `.min` - Find the minimum value
+- `.max` - Find the maximum value  
+- `.sum` - Sum all values
+- `.count` - Count the number of items
+
+##### Example: Group runs by model and calculate average metrics
+
+```javascript
+// Group runs by model type and calculate average loss and accuracy
+runs.summary["results_table"].table.rows.concat
+  .groupby((row) => row["model"])
+  .map((row, index) => ({
+    model: row.groupkey,
+    loss_mean: row["loss"].avg,
+    accuracy_mean: row["accuracy"].avg,
+    run_count: row["loss"].count
+  }))
+```
+
+This example:
+1. Concatenates all rows from the `results_table` 
+2. Groups rows by the `model` field
+3. For each group, creates a new object with:
+   - `model`: The group key (using `.groupkey`)
+   - `loss_mean`: Average loss for that model
+   - `accuracy_mean`: Average accuracy for that model
+   - `run_count`: Number of runs for that model
+
+#### Example: Working with summary tables (customer use case)
+If you've logged a summary table with multiple metrics per run, you can aggregate across all runs:
+
+```javascript
+// Original customer example - group by model and calculate averages
+runs.summary["summary_table"].table.rows.concat
+  .groupby((row) => row["model"])
+  .map((row, index) => ({
+    model: row.groupkey,
+    loss_mean: row["loss"].avg,
+    accuracy_mean: row["accuracy"].avg
+  }))
+```
+
+This pattern is useful when you've logged evaluation results as a table and want to compute aggregate statistics across different model configurations or experiments.
+
+##### Example: Find best performing configuration
+
+```javascript
+// Group by hyperparameter configuration and find best accuracy
+runs.config.groupby((config) => config["optimizer"])
+  .map((group) => ({
+    optimizer: group.groupkey,
+    best_accuracy: group.summary["accuracy"].max,
+    worst_accuracy: group.summary["accuracy"].min,
+    avg_accuracy: group.summary["accuracy"].avg
+  }))
+```
+
+### Advanced query examples
+
+#### Example: Aggregate metrics across multiple runs
+```javascript
+// Get average, min, and max accuracy across all runs
+runs.map((run) => ({
+  name: run.name,
+  accuracy: run.summary["accuracy"],
+  loss: run.summary["loss"]
+}))
+.concat
+.map((allRuns) => ({
+  avg_accuracy: allRuns["accuracy"].avg,
+  min_accuracy: allRuns["accuracy"].min,
+  max_accuracy: allRuns["accuracy"].max,
+  avg_loss: allRuns["loss"].avg
+}))
+```
+
+#### Example: Compare model performance by dataset
+```javascript
+// Group runs by dataset and model, then compare performance
+runs.summary["eval_results"].table.rows.concat
+  .groupby((row) => row["dataset"] + "_" + row["model"])
+  .map((group) => {
+    const [dataset, model] = group.groupkey.split("_");
+    return {
+      dataset: dataset,
+      model: model,
+      avg_f1_score: group["f1_score"].avg,
+      avg_precision: group["precision"].avg,
+      avg_recall: group["recall"].avg,
+      sample_count: group["f1_score"].count
+    };
+  })
+  .sort((a, b) => b["avg_f1_score"] - a["avg_f1_score"])
+```
+
+#### Example: Calculate custom metrics from logged data
+```javascript
+// Calculate error rate and other derived metrics
+runs.history()
+  .map((history) => ({
+    step: history["_step"],
+    error_rate: 1 - history["accuracy"],
+    loss_accuracy_ratio: history["loss"] / history["accuracy"],
+    is_improving: history["accuracy"] > 0.9
+  }))
+```
 
 ### Concat
 The concat operation allows you to concatenate 2 tables and concatenate or join from the panel settings
@@ -153,6 +281,22 @@ Use query panels to access the `runs` object. Run objects store records of your 
 * `history`: A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.Run.log()` appends to this object.
 * `config`: A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs"
 {{< img src="/images/weave/weave_runs_object.png" alt="Runs object structure" >}}
+
+## Troubleshooting
+
+### Autocomplete not showing all operations
+If autocomplete doesn't show certain operations like `.groupkey` or `.avg`, you can still use them - they are valid operations. Common operations that might not appear in autocomplete but are available:
+
+- After `groupby()`: `.groupkey` to access the group identifier
+- On numeric arrays: `.avg`, `.min`, `.max`, `.sum`, `.count`
+- On tables: `.rows`, `.concat`
+- On runs: `.summary`, `.history()`, `.config`
+
+### Type conversion
+Some operations require specific data types:
+- Aggregation functions (`.avg`, `.sum`) only work on numeric values
+- String operations won't work on numbers without conversion
+- Use `.map()` to convert types if needed
 
 ## Access Artifacts
 
