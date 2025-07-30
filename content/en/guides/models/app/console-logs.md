@@ -133,3 +133,22 @@ run = wandb.init(
         )
 )
 ```
+
+## Download console logs
+
+Download console logs for a run in the W&B App:
+
+1. Navigate to your project in the W&B App.
+2. Select a run within the **Runs** table.
+3. Click the **Logs** tab in the project sidebar.
+4. Click the download button in the top right corner of the console logs page.
+
+
+## Copy console logs
+
+Copy console logs for a run in the W&B App:
+
+1. Navigate to your project in the W&B App.
+2. Select a run within the **Runs** table.
+3. Click the **Logs** tab in the project sidebar.
+4. Click the copy button in the top right corner of the console logs page.
