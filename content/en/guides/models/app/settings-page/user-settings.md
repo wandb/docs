@@ -51,12 +51,12 @@ Within the **Beta Features** section you can optionally enable fun add-ons and s
 
 ## Alerts
 
-Get notified when your runs crash, finish, or set custom alerts with [wandb.alert()]({{< relref "/guides/models/track/runs/alert.md" >}}). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
+Get notified when your runs crash, finish, or set custom alerts with [wandb.Run.alert()]({{< relref "/guides/models/track/runs/alert.md" >}}). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
 
 * **Runs finished**: whether a Weights and Biases run successfully finished.
 * **Run crashed**: notification if a run has failed to finish.
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert]({{< relref "/guides/models/track/runs/alert.md" >}}).
+For more information about how to set up and manage alerts, see [Send alerts with wandb.Run.alert()]({{< relref "/guides/models/track/runs/alert.md" >}}).
 
 ## Personal GitHub integration
 
