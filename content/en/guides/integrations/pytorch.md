@@ -40,10 +40,10 @@ with wandb.init(config=args) as run:
             run.log({"loss": loss})
 ```
 
-If you need to track multiple models in the same script, you can call `run.watch` on each model separately. Reference documentation for this function is [here]({{< relref "/ref/python/watch.md" >}}).
+If you need to track multiple models in the same script, you can call [`wandb.Run.watch()`]({{< relref "/ref/python/sdk/classes/run/#method-runwatch" >}}) on each model separately.
 
 {{% alert color="secondary" %}}
-Gradients, metrics, and the graph won't be logged until `run.log` is called after a forward _and_ backward pass.
+Gradients, metrics, and the graph won't be logged until `wandb.Run.log()` is called after a forward _and_ backward pass.
 {{% /alert %}}
 
 ## Log images and media
