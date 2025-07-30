@@ -66,14 +66,6 @@ With W&B, you can decide exactly what you want to log. The following lists some 
 * **Configuration information**: Log hyperparameters, a link to your dataset, or the name of the architecture you're using as config parameters, passed in like this: `wandb.init(config=your_config_dictionary)`. See the [PyTorch Integrations]({{< relref "/guides/integrations/pytorch.md" >}}) page for more information. 
 * **Metrics**: Use `wandb.Run.log()` to see metrics from your model. If you log metrics like accuracy and loss from inside your training loop, you'll get live updating graphs in the UI.
 
-<!-- ### Example Usage
-
-```python
-run.log({"loss": 0.314, "epoch": 5,
-           "inputs": wandb.Image(inputs),
-           "logits": wandb.Histogram(outputs),
-           "captions": wandb.Html(captions)})
-``` -->
 
 
 ## Common workflows
