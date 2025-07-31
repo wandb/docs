@@ -93,13 +93,25 @@ Existing API calls in your code that refer to the legacy Model Registry will aut
 
 ### Legacy paths will redirect to new W&B Registry paths
 
-W&B will automatically redirect legacy Model Registry paths to the new W&B Registry format. This means you can continue using your existing code without needing to refactor paths immediately.
+W&B will automatically redirect legacy Model Registry paths to the new W&B Registry format. This means you can continue using your existing code without needing to refactor paths immediately. Note that automatic redirection only applies to collections that were created in the legacy Model Registry before migration.
+
+For example:
+- If the legacy Model Registry had collection `"my-model"` already present, the link action will redirect successfully
+- If the legacy Model Registry did not have collection `"my-model"`, it will not redirect and will lead to an error
+
+```python
+# This will redirect successfully if "my-model" existed in legacy Model Registry
+run.link_artifact(artifact, "team-name/model-registry/my-model")
+
+# This will fail if "new-model" did not exist in legacy Model Registry
+run.link_artifact(artifact, "team-name/model-registry/new-model")
+```
 
 <!-- - Existing training and deployment workflows remain intact.
 - CI/CD pipelines built on model promotion or artifact linking will not break.
 - Teams can adopt the new W&B Registry gradually, without needing to refactor old codebases immediately. -->
 
-In the legacy Model Registry, paths consisted of a team name, a `"model-registry"` string, collection name, and version:
+To fetch versions from the legacy Model Registry, paths consisted of a team name, a `"model-registry"` string, collection name, and version:
 
 ```python
 f"{team-name}/model-registry/{collection-name}:{version}"

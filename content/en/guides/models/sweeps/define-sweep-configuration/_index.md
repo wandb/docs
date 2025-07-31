@@ -123,7 +123,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 # Start sweep job.
 wandb.agent(sweep_id, function=main, count=4)
 ```
-The `nested_param.manual_key` that is passed when the W&B run is initialized is not accessible. The `run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary.
+The `nested_param.manual_key` that is passed when the W&B run is initialized is not accessible. The `wandb.Run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary.
 {{% /alert %}}
 
 
