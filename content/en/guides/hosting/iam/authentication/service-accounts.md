@@ -33,9 +33,7 @@ Service accounts are available on [Dedicated Cloud]({{< relref "/guides/hosting/
 
 ## Licensing and billing
 
-{{% alert color="info" %}}
 Service accounts do not consume W&B licenses or user seats. They are provided at no additional cost as part of your enterprise subscription.
-{{% /alert %}}
 
 ## Organization-scoped service accounts
 
