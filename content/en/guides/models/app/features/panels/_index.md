@@ -198,7 +198,9 @@ To add a new section before or after an existing section, you can instead click 
 Sections with a large number of panels are paginated by default. The default number of panels on a page depend on the panel's configuration and on the sizes of the panels in the section.
 
 {{% alert %}}
-The **Custom grid** layout will soon be removed. For that reason, you can no longer update a workspace to use it, but you can manually update a workspace that uses **Custom grid** to **Standard grid**. When the **Custom grid** layout is removed, workspaces will be updated to use the default layout.
+The **Custom grid** layout will soon be removed. W&B suggests that you no longer use Custom grid layouts. Consider updating your workspace from **Custom grid** to **Standard grid**.
+
+When the **Custom grid** layout is removed, workspaces will be updated to use the **Standard grid** layout, which will no longer be configurable.
 {{% /alert %}}
 
 1. To check which layout a section uses, click the section's action `...` menu. To change a section's layout, select **Standard grid** or **Custom grid** in the **Layout grid** section.
