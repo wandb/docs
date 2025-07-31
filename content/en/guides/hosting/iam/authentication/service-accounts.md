@@ -4,17 +4,33 @@ displayed_sidebar: default
 title: Use service accounts to automate workflows
 ---
 
-A service account represents a non-human or machine user that can automatically perform common tasks across projects within a team or across teams. 
+A service account represents a non-human or machine user that can automatically perform common tasks across projects within a team or across teams. Service accounts are ideal for CI/CD pipelines, automated training jobs, and other machine-to-machine workflows.
 
-- An org admin can create a service account at the scope of the organization.
-- A team admin can create a service account at the scope of that team.
+## Key benefits
+
+- **No license consumption**: Service accounts do not consume user seats or licenses
+- **Dedicated API keys**: Secure, non-expiring credentials for automated workflows
+- **Flexible scoping**: Available at both organization and team levels
+- **User attribution**: Optionally attribute automated runs to human users
+- **Enterprise-ready**: Built for production automation at scale
+
+## Overview
+
+Service accounts provide a secure way to automate W&B workflows without using personal user credentials. They can be created at two scopes:
+
+- **Organization-scoped**: Created by org admins, with access across all teams
+- **Team-scoped**: Created by team admins, with access limited to a specific team
 	
-A service account's API key allows the caller to read from or write to projects within the service account's scope.
-
-Service accounts allow for centralized management of workflows by multiple users or teams, to automate experiment tracking for W&B Models or to log traces for W&B Weave. You have the option to associate a human user's identity with a workflow managed by a service account, by using either of the [environment variables]({{< relref "/guides/models/track/environment-variables.md" >}}) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
+A service account's API key allows the caller to read from or write to projects within the service account's scope. This enables centralized management of automated workflows for experiment tracking in W&B Models or logging traces in W&B Weave.
 
 {{% alert %}}
 Service accounts are available on [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), [Self-managed instances]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) with an enterprise license, and enterprise accounts in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
+{{% /alert %}}
+
+## Licensing and billing
+
+{{% alert color="info" %}}
+**Important**: Service accounts do not consume W&B licenses or user seats. They are provided at no additional cost as part of your enterprise subscription to enable automation workflows.
 {{% /alert %}}
 
 ## Organization-scoped service accounts
@@ -60,3 +76,67 @@ A team-scoped service account cannot log runs to a [team or restricted-scoped pr
 ### External service accounts
 
 In addition to **Built-in** service accounts, W&B also supports team-scoped **External service accounts** with the W&B SDK and CLI using [Identity federation]({{< relref "./identity_federation.md#external-service-accounts" >}}) with identity providers (IdPs) that can issue JSON Web Tokens (JWTs).
+
+## Best practices
+
+Follow these recommendations to ensure secure and efficient use of service accounts in your organization.
+
+### Security best practices
+
+1. **Use a secrets manager**: Store service account API keys in a secure secrets management system (e.g., AWS Secrets Manager, HashiCorp Vault, Azure Key Vault) rather than in plain text configuration files.
+
+2. **Principle of least privilege**: Create team-scoped service accounts when possible, rather than organization-scoped accounts, to limit access to only necessary projects.
+
+3. **Unique service accounts per use case**: Create separate service accounts for different automation workflows (e.g., one for CI/CD, another for scheduled retraining) to improve auditability and enable granular access control.
+
+4. **Regular audits**: Periodically review active service accounts and remove those no longer in use. Check the audit logs to monitor service account activity.
+
+5. **Secure API key handling**: 
+   - Never commit API keys to version control
+   - Use environment variables to pass keys to applications
+   - Rotate keys if they are accidentally exposed
+
+### Operational best practices
+
+1. **Naming conventions**: Use descriptive names that indicate the service account's purpose:
+   - Good: `ci-model-training`, `nightly-eval-pipeline`, `prod-inference-monitor`
+   - Avoid: `service-account-1`, `test-sa`, `temp`
+
+2. **User attribution**: When multiple team members use the same automation workflow, set `WANDB_USERNAME` or `WANDB_USER_EMAIL` to track who triggered each run:
+   ```bash
+   export WANDB_API_KEY="<service_account_key>"
+   export WANDB_USERNAME="john.doe@company.com"
+   ```
+
+3. **Environment configuration**: For team-scoped service accounts, always set the `WANDB_ENTITY` to ensure runs log to the correct team:
+   ```bash
+   export WANDB_ENTITY="ml-team"
+   export WANDB_PROJECT="production-models"
+   ```
+
+4. **Error handling**: Implement proper error handling and alerts for failed authentication to quickly identify issues with service account credentials.
+
+5. **Documentation**: Maintain documentation of:
+   - Which service accounts exist and their purposes
+   - Which systems/workflows use each service account
+   - Contact information for the team responsible for each account
+
+### Common use cases
+
+Service accounts are particularly useful for:
+
+- **CI/CD pipelines**: Automatically log model training runs from GitHub Actions, GitLab CI, or Jenkins
+- **Scheduled jobs**: Nightly model retraining, periodic evaluation runs, or data validation workflows
+- **Production monitoring**: Log inference metrics and model performance from production systems
+- **Jupyter notebooks**: Shared notebooks in JupyterHub or Google Colab environments
+- **Kubernetes jobs**: Automated workflows running in K8s clusters
+- **Airflow/Prefect/Dagster**: ML pipeline orchestration tools
+
+### Troubleshooting
+
+Common issues and solutions:
+
+1. **"Unauthorized" errors**: Verify the API key is correctly set and the service account has access to the target project
+2. **Runs not appearing**: Check that `WANDB_ENTITY` is set to the correct team name
+3. **User attribution not working**: Ensure the user specified in `WANDB_USERNAME` is a member of the team
+4. **Access denied to restricted projects**: Explicitly add the service account to the restricted project's access list
