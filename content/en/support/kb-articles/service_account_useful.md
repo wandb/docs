@@ -8,13 +8,9 @@ support:
 ---
 
 
-A service account (Enterprise-only feature) represents a non-human or machine user, which can automate common tasks across teams and projects or ones that are not specific to a particular human user. Service accounts are ideal for CI/CD pipelines, automated training jobs, and other machine-to-machine workflows.
+A **service account** (Enterprise-only feature) represents a non-human or machine user, which can automate common tasks across teams and projects or ones that are not specific to a particular human user. Service accounts are ideal for CI/CD pipelines, automated training jobs, and other machine-to-machine workflows.
 
-Key benefits of service accounts:
-- **No license consumption**: Service accounts do not consume user seats or licenses
-- **Dedicated API keys**: Secure, non-expiring credentials for automated workflows
-- **Flexible scoping**: Available at both organization and team levels
-- **User attribution**: Optionally attribute automated runs to human users
+{{< readfile file="/content/en/_includes/service-account-benefits.md" >}}
 
 Among other things, service accounts are useful for tracking automated jobs logged to wandb, like periodic retraining, nightly builds, and so on. If you'd like, you can associate a username with one of these machine-launched runs with the [environment variables]({{< relref "/guides/models/track/environment-variables.md" >}}) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
 

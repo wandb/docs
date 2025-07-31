@@ -8,20 +8,27 @@ A service account represents a non-human or machine user that can automatically 
 
 ## Key benefits
 
-- **No license consumption**: Service accounts do not consume user seats or licenses
-- **Dedicated API keys**: Secure, non-expiring credentials for automated workflows
-- **Flexible scoping**: Available at both organization and team levels
-- **User attribution**: Optionally attribute automated runs to human users
+{{< readfile file="/content/en/_includes/service-account-benefits.md" >}}
 - **Enterprise-ready**: Built for production automation at scale
+- **Limited permissions**: Service accounts can be created with a restricted set of permissions compared to the human user that owns them
+- **Delegated operations**: Service accounts operate on behalf of the user or organization that creates them
 
 ## Overview
 
-Service accounts provide a secure way to automate W&B workflows without using personal user credentials. They can be created at two scopes:
+Service accounts provide a secure way to automate W&B workflows without using personal user credentials or hard-coded credentials. They can be created at two scopes:
 
-- **Organization-scoped**: Created by org admins, with access across all teams
+- **Organization-scoped**: Created by org admins, with access across all teams (not available in W&B Multi-tenant Cloud)
 - **Team-scoped**: Created by team admins, with access limited to a specific team
 	
 A service account's API key allows the caller to read from or write to projects within the service account's scope. This enables centralized management of automated workflows for experiment tracking in W&B Models or logging traces in W&B Weave.
+
+Service accounts are particularly useful for:
+- **CI/CD pipelines**: Automatically log model training runs from GitHub Actions, GitLab CI, or Jenkins
+- **Scheduled jobs**: Nightly model retraining, periodic evaluation runs, or data validation workflows
+- **Production monitoring**: Log inference metrics and model performance from production systems
+- **Jupyter notebooks**: Shared notebooks in JupyterHub or Google Colab environments
+- **Kubernetes jobs**: Automated workflows running in K8s clusters
+- **Airflow/Prefect/Dagster**: ML pipeline orchestration tools
 
 {{% alert %}}
 Service accounts are available on [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), [Self-managed instances]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) with an enterprise license, and enterprise accounts in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
@@ -30,7 +37,7 @@ Service accounts are available on [Dedicated Cloud]({{< relref "/guides/hosting/
 ## Licensing and billing
 
 {{% alert color="info" %}}
-**Important**: Service accounts do not consume W&B licenses or user seats. They are provided at no additional cost as part of your enterprise subscription to enable automation workflows.
+Service accounts do not consume W&B licenses or user seats. They are provided at no additional cost as part of your enterprise subscription.
 {{% /alert %}}
 
 ## Organization-scoped service accounts
@@ -75,13 +82,11 @@ A team-scoped service account cannot log runs to a [team or restricted-scoped pr
 
 ### External service accounts
 
-In addition to **Built-in** service accounts, W&B also supports team-scoped **External service accounts** with the W&B SDK and CLI using [Identity federation]({{< relref "./identity_federation.md#external-service-accounts" >}}) with identity providers (IdPs) that can issue JSON Web Tokens (JWTs).
+In addition to built-in service accounts, W&B also supports team-scoped external service accounts with the W&B SDK and CLI using [Identity federation]({{< relref "./identity_federation.md#external-service-accounts" >}}) with identity providers (IdPs) that can issue JSON Web Tokens (JWTs).
 
 ## Best practices
 
-Follow these recommendations to ensure secure and efficient use of service accounts in your organization.
-
-### Security best practices
+Follow these recommendations to ensure secure and efficient use of service accounts in your organization:
 
 1. **Use a secrets manager**: Store service account API keys in a secure secrets management system (e.g., AWS Secrets Manager, HashiCorp Vault, Azure Key Vault) rather than in plain text configuration files.
 
@@ -96,43 +101,30 @@ Follow these recommendations to ensure secure and efficient use of service accou
    - Use environment variables to pass keys to applications
    - Rotate keys if they are accidentally exposed
 
-### Operational best practices
-
-1. **Naming conventions**: Use descriptive names that indicate the service account's purpose:
+6. **Naming conventions**: Use descriptive names that indicate the service account's purpose:
    - Good: `ci-model-training`, `nightly-eval-pipeline`, `prod-inference-monitor`
    - Avoid: `service-account-1`, `test-sa`, `temp`
 
-2. **User attribution**: When multiple team members use the same automation workflow, set `WANDB_USERNAME` or `WANDB_USER_EMAIL` to track who triggered each run:
+7. **User attribution**: When multiple team members use the same automation workflow, set `WANDB_USERNAME` or `WANDB_USER_EMAIL` to track who triggered each run:
    ```bash
    export WANDB_API_KEY="<service_account_key>"
    export WANDB_USERNAME="john.doe@company.com"
    ```
 
-3. **Environment configuration**: For team-scoped service accounts, always set the `WANDB_ENTITY` to ensure runs log to the correct team:
+8. **Environment configuration**: For team-scoped service accounts, always set the `WANDB_ENTITY` to ensure runs log to the correct team:
    ```bash
    export WANDB_ENTITY="ml-team"
    export WANDB_PROJECT="production-models"
    ```
 
-4. **Error handling**: Implement proper error handling and alerts for failed authentication to quickly identify issues with service account credentials.
+9. **Error handling**: Implement proper error handling and alerts for failed authentication to quickly identify issues with service account credentials.
 
-5. **Documentation**: Maintain documentation of:
-   - Which service accounts exist and their purposes
-   - Which systems/workflows use each service account
-   - Contact information for the team responsible for each account
+10. **Documentation**: Maintain documentation of:
+    - Which service accounts exist and their purposes
+    - Which systems/workflows use each service account
+    - Contact information for the team responsible for each account
 
-### Common use cases
-
-Service accounts are particularly useful for:
-
-- **CI/CD pipelines**: Automatically log model training runs from GitHub Actions, GitLab CI, or Jenkins
-- **Scheduled jobs**: Nightly model retraining, periodic evaluation runs, or data validation workflows
-- **Production monitoring**: Log inference metrics and model performance from production systems
-- **Jupyter notebooks**: Shared notebooks in JupyterHub or Google Colab environments
-- **Kubernetes jobs**: Automated workflows running in K8s clusters
-- **Airflow/Prefect/Dagster**: ML pipeline orchestration tools
-
-### Troubleshooting
+## Troubleshooting
 
 Common issues and solutions:
 
