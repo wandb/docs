@@ -77,35 +77,31 @@ wandb.login()
 
 ## Initialize a W&B Run
 
-Start a new W&B run to start tracking the experiment.
+Start a new W&B run to start tracking the experiment. Use of proper config system is a recommended best practice for reproducible machine learning. You can track the hyperparameters for every experiment using W&B.
 
 ```python
-wandb.init(project="monai-brain-tumor-segmentation")
-```
+with wandb.init(project="monai-brain-tumor-segmentation") as run:
 
-Use of proper config system is a recommended best practice for reproducible machine learning. You can track the hyperparameters for every experiment using W&B.
-
-```python
-config = wandb.config
-config.seed = 0
-config.roi_size = [224, 224, 144]
-config.batch_size = 1
-config.num_workers = 4
-config.max_train_images_visualized = 20
-config.max_val_images_visualized = 20
-config.dice_loss_smoothen_numerator = 0
-config.dice_loss_smoothen_denominator = 1e-5
-config.dice_loss_squared_prediction = True
-config.dice_loss_target_onehot = False
-config.dice_loss_apply_sigmoid = True
-config.initial_learning_rate = 1e-4
-config.weight_decay = 1e-5
-config.max_train_epochs = 50
-config.validation_intervals = 1
-config.dataset_dir = "./dataset/"
-config.checkpoint_dir = "./checkpoints"
-config.inference_roi_size = (128, 128, 64)
-config.max_prediction_images_visualized = 20
+    config = run.config
+    config.seed = 0
+    config.roi_size = [224, 224, 144]
+    config.batch_size = 1
+    config.num_workers = 4
+    config.max_train_images_visualized = 20
+    config.max_val_images_visualized = 20
+    config.dice_loss_smoothen_numerator = 0
+    config.dice_loss_smoothen_denominator = 1e-5
+    config.dice_loss_squared_prediction = True
+    config.dice_loss_target_onehot = False
+    config.dice_loss_apply_sigmoid = True
+    config.initial_learning_rate = 1e-4
+    config.weight_decay = 1e-5
+    config.max_train_epochs = 50
+    config.validation_intervals = 1
+    config.dataset_dir = "./dataset/"
+    config.checkpoint_dir = "./checkpoints"
+    config.inference_roi_size = (128, 128, 64)
+    config.max_prediction_images_visualized = 20
 ```
 
 You also need to set the random seed for modules to enable or turn off deterministic training.
@@ -249,7 +245,7 @@ for id, img, label in zip(ids, images, labels):
 
     table.add_data(id, img)
 
-wandb.log({"Table": table})
+run.log({"Table": table})
 ```
 
 Now write a simple utility function that takes a sample image, label, `wandb.Table` object and some associated metadata and populate the rows of a table that would be logged to the Weights & Biases dashboard.
@@ -356,7 +352,7 @@ for data_idx, sample in progress_bar:
     )
 
 # Log the table to your dashboard
-wandb.log({"Tumor-Segmentation-Data": table})
+run.log({"Tumor-Segmentation-Data": table})
 ```
 
 The data appears on the W&B dashboard in an interactive tabular format. We can see each channel of a particular slice from a data volume overlaid with the respective segmentation mask in each row. You can write [Weave queries]({{< relref "/guides/weave" >}}) to filter the data on the table and focus on one particular row.
@@ -469,15 +465,15 @@ def inference(model, input):
 
 ## Training and Validation
 
-Before training, define the metric properties which will later be logged with `wandb.log()` for tracking the training and validation experiments.
+Before training, define the metric properties which will later be logged with `run.log()` for tracking the training and validation experiments.
 
 ```python
-wandb.define_metric("epoch/epoch_step")
-wandb.define_metric("epoch/*", step_metric="epoch/epoch_step")
-wandb.define_metric("batch/batch_step")
-wandb.define_metric("batch/*", step_metric="batch/batch_step")
-wandb.define_metric("validation/validation_step")
-wandb.define_metric("validation/*", step_metric="validation/validation_step")
+run.define_metric("epoch/epoch_step")
+run.define_metric("epoch/*", step_metric="epoch/epoch_step")
+run.define_metric("batch/batch_step")
+run.define_metric("batch/*", step_metric="batch/batch_step")
+run.define_metric("validation/validation_step")
+run.define_metric("validation/*", step_metric="validation/validation_step")
 
 batch_step = 0
 validation_step = 0
@@ -490,95 +486,102 @@ metric_values_enhanced_tumor = []
 ### Execute Standard PyTorch Training Loop
 
 ```python
-# Define a W&B Artifact object
-artifact = wandb.Artifact(
-    name=f"{wandb.run.id}-checkpoint", type="model"
-)
+with wandb.init(
+    project="monai-brain-tumor-segmentation",
+    config=config,
+    job_type="train",
+    reinit=True,
+) as run:
 
-epoch_progress_bar = tqdm(range(config.max_train_epochs), desc="Training:")
-
-for epoch in epoch_progress_bar:
-    model.train()
-    epoch_loss = 0
-
-    total_batch_steps = len(train_dataset) // train_loader.batch_size
-    batch_progress_bar = tqdm(train_loader, total=total_batch_steps, leave=False)
-    
-    # Training Step
-    for batch_data in batch_progress_bar:
-        inputs, labels = (
-            batch_data["image"].to(device),
-            batch_data["label"].to(device),
-        )
-        optimizer.zero_grad()
-        with torch.cuda.amp.autocast():
-            outputs = model(inputs)
-            loss = loss_function(outputs, labels)
-        scaler.scale(loss).backward()
-        scaler.step(optimizer)
-        scaler.update()
-        epoch_loss += loss.item()
-        batch_progress_bar.set_description(f"train_loss: {loss.item():.4f}:")
-        ## Log batch-wise training loss to W&B
-        wandb.log({"batch/batch_step": batch_step, "batch/train_loss": loss.item()})
-        batch_step += 1
-
-    lr_scheduler.step()
-    epoch_loss /= total_batch_steps
-    ## Log batch-wise training loss and learning rate to W&B
-    wandb.log(
-        {
-            "epoch/epoch_step": epoch,
-            "epoch/mean_train_loss": epoch_loss,
-            "epoch/learning_rate": lr_scheduler.get_last_lr()[0],
-        }
+    # Define a W&B Artifact object
+    artifact = wandb.Artifact(
+        name=f"{run.id}-checkpoint", type="model"
     )
-    epoch_progress_bar.set_description(f"Training: train_loss: {epoch_loss:.4f}:")
 
-    # Validation and model checkpointing step
-    if (epoch + 1) % config.validation_intervals == 0:
-        model.eval()
-        with torch.no_grad():
-            for val_data in val_loader:
-                val_inputs, val_labels = (
-                    val_data["image"].to(device),
-                    val_data["label"].to(device),
-                )
-                val_outputs = inference(model, val_inputs)
-                val_outputs = [post_trans(i) for i in decollate_batch(val_outputs)]
-                dice_metric(y_pred=val_outputs, y=val_labels)
-                dice_metric_batch(y_pred=val_outputs, y=val_labels)
+    epoch_progress_bar = tqdm(range(config.max_train_epochs), desc="Training:")
 
-            metric_values.append(dice_metric.aggregate().item())
-            metric_batch = dice_metric_batch.aggregate()
-            metric_values_tumor_core.append(metric_batch[0].item())
-            metric_values_whole_tumor.append(metric_batch[1].item())
-            metric_values_enhanced_tumor.append(metric_batch[2].item())
-            dice_metric.reset()
-            dice_metric_batch.reset()
+    for epoch in epoch_progress_bar:
+        model.train()
+        epoch_loss = 0
 
-            checkpoint_path = os.path.join(config.checkpoint_dir, "model.pth")
-            torch.save(model.state_dict(), checkpoint_path)
-            
-            # Log and versison model checkpoints using W&B artifacts.
-            artifact.add_file(local_path=checkpoint_path)
-            wandb.log_artifact(artifact, aliases=[f"epoch_{epoch}"])
-
-            # Log validation metrics to W&B dashboard.
-            wandb.log(
-                {
-                    "validation/validation_step": validation_step,
-                    "validation/mean_dice": metric_values[-1],
-                    "validation/mean_dice_tumor_core": metric_values_tumor_core[-1],
-                    "validation/mean_dice_whole_tumor": metric_values_whole_tumor[-1],
-                    "validation/mean_dice_enhanced_tumor": metric_values_enhanced_tumor[-1],
-                }
+        total_batch_steps = len(train_dataset) // train_loader.batch_size
+        batch_progress_bar = tqdm(train_loader, total=total_batch_steps, leave=False)
+        
+        # Training Step
+        for batch_data in batch_progress_bar:
+            inputs, labels = (
+                batch_data["image"].to(device),
+                batch_data["label"].to(device),
             )
-            validation_step += 1
+            optimizer.zero_grad()
+            with torch.cuda.amp.autocast():
+                outputs = model(inputs)
+                loss = loss_function(outputs, labels)
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+            epoch_loss += loss.item()
+            batch_progress_bar.set_description(f"train_loss: {loss.item():.4f}:")
+            ## Log batch-wise training loss to W&B
+            run.log({"batch/batch_step": batch_step, "batch/train_loss": loss.item()})
+            batch_step += 1
+
+        lr_scheduler.step()
+        epoch_loss /= total_batch_steps
+        ## Log batch-wise training loss and learning rate to W&B
+        run.log(
+            {
+                "epoch/epoch_step": epoch,
+                "epoch/mean_train_loss": epoch_loss,
+                "epoch/learning_rate": lr_scheduler.get_last_lr()[0],
+            }
+        )
+        epoch_progress_bar.set_description(f"Training: train_loss: {epoch_loss:.4f}:")
+
+        # Validation and model checkpointing step
+        if (epoch + 1) % config.validation_intervals == 0:
+            model.eval()
+            with torch.no_grad():
+                for val_data in val_loader:
+                    val_inputs, val_labels = (
+                        val_data["image"].to(device),
+                        val_data["label"].to(device),
+                    )
+                    val_outputs = inference(model, val_inputs)
+                    val_outputs = [post_trans(i) for i in decollate_batch(val_outputs)]
+                    dice_metric(y_pred=val_outputs, y=val_labels)
+                    dice_metric_batch(y_pred=val_outputs, y=val_labels)
+
+                metric_values.append(dice_metric.aggregate().item())
+                metric_batch = dice_metric_batch.aggregate()
+                metric_values_tumor_core.append(metric_batch[0].item())
+                metric_values_whole_tumor.append(metric_batch[1].item())
+                metric_values_enhanced_tumor.append(metric_batch[2].item())
+                dice_metric.reset()
+                dice_metric_batch.reset()
+
+                checkpoint_path = os.path.join(config.checkpoint_dir, "model.pth")
+                torch.save(model.state_dict(), checkpoint_path)
+                
+                # Log and versison model checkpoints using W&B artifacts.
+                artifact.add_file(local_path=checkpoint_path)
+                run.log_artifact(artifact, aliases=[f"epoch_{epoch}"])
+
+                # Log validation metrics to W&B dashboard.
+                run.log(
+                    {
+                        "validation/validation_step": validation_step,
+                        "validation/mean_dice": metric_values[-1],
+                        "validation/mean_dice_tumor_core": metric_values_tumor_core[-1],
+                        "validation/mean_dice_whole_tumor": metric_values_whole_tumor[-1],
+                        "validation/mean_dice_enhanced_tumor": metric_values_enhanced_tumor[-1],
+                    }
+                )
+                validation_step += 1
 
 
-# Wait for this artifact to finish logging
-artifact.wait()
+    # Wait for this artifact to finish logging
+    artifact.wait()
 ```
 
 Instrumenting the code with `wandb.log` not only enables tracking all metrics associated with the training and validation process, but also logs all system metrics (our CPU and GPU in this case) on the W&B dashboard.
@@ -604,7 +607,12 @@ Using the artifacts interface, you can select which version of the artifact is t
 Fetch the version of the model artifact with the best epoch-wise mean training loss and load the checkpoint state dictionary to the model.
 
 ```python
-model_artifact = wandb.use_artifact(
+run = wandb.init(
+    project="monai-brain-tumor-segmentation",
+    job_type="inference",
+    reinit=True,
+)
+model_artifact = run.use_artifact(
     "geekyrakshit/monai-brain-tumor-segmentation/d5ex6n4a-checkpoint:v49",
     type="model",
 )
@@ -680,6 +688,11 @@ def log_predictions_into_tables(
 Log the prediction results to the prediction table.
 
 ```python
+run = wandb.init(
+    project="monai-brain-tumor-segmentation",
+    job_type="inference",
+    reinit=True,
+)
 # create the prediction table
 prediction_table = wandb.Table(
     columns=[
@@ -727,11 +740,11 @@ with torch.no_grad():
             table=prediction_table,
         )
 
-    wandb.log({"Predictions/Tumor-Segmentation-Data": prediction_table})
+    run.log({"Predictions/Tumor-Segmentation-Data": prediction_table})
 
 
 # End the experiment
-wandb.finish()
+run.finish()
 ```
 
 Use the interactive segmentation mask overlay to analyze and compare the predicted segmentation masks and the ground-truth labels for each class.

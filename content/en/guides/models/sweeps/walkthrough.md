@@ -23,17 +23,15 @@ Copy and paste the following code into a Jupyter Notebook or Python script:
 # Import the W&B Python Library and log into W&B
 import wandb
 
-wandb.login()
-
 # 1: Define objective/training function
 def objective(config):
     score = config.x**3 + config.y
     return score
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 
 # 2: Define the search space
 sweep_configuration = {
@@ -55,7 +53,7 @@ The following sections break down and explains each step in the code sample.
 
 
 ## Set up your training code
-Define a training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metrics.
+Define a training function that takes in hyperparameter values from `wandb.Run.config` and uses them to train a model and return metrics.
 
 Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
 
@@ -71,9 +69,9 @@ def objective(config):
 
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 ```
 
 ## Define the search space with a sweep configuration

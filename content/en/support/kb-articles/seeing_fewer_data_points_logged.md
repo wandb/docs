@@ -14,23 +14,28 @@ When visualizing metrics against an X-axis other than `Step`, expect to see fewe
 Bundle metrics into a single `log()` call. For example, instead of:
 
 ```python
-wandb.log({"Precision": precision})
-...
-wandb.log({"Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
 ```
 
 Use:
 
 ```python
-wandb.log({"Precision": precision, "Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
 ```
 
 For manual control over the step parameter, synchronize metrics in the code as follows:
 
 ```python
-wandb.log({"Precision": precision}, step=step)
-...
-wandb.log({"Recall": recall}, step=step)
+with wandb.init() as run:
+    step = 100  # Example step value
+    # Log Precision and Recall at the same step
+    run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
 Ensure the `step` value remains the same in both `log()` calls for the metrics to log under the same step and sample together. The `step` value must increase monotonically in each call. Otherwise, the `step` value is ignored.
