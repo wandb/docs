@@ -156,7 +156,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
           "arn:aws:s3:::<cw-bucket>/*"
         ],
         "Principal": {
-          "CW": "arn:aws:iam::b13ad0:*"
+          "CW": "arn:aws:iam::<cw-storage-org-id>:*"
         }
       }]
     }

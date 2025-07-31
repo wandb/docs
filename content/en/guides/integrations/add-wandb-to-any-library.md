@@ -265,7 +265,7 @@ wandb.init(..., config=config)
 ```
 
 #### Update the run config
-Use `run.config.update` to update the config. Updating your configuration dictionary is useful when parameters are obtained after the dictionary was defined. For example, you might want to add a model’s parameters after the model is instantiated.
+Use `wandb.Run.config.update` to update the config. Updating your configuration dictionary is useful when parameters are obtained after the dictionary was defined. For example, you might want to add a model’s parameters after the model is instantiated.
 
 ```python
 run.config.update({"model_parameters": 3500})

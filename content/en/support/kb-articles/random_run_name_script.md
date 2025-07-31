@@ -6,4 +6,4 @@ type: docs
 support:
    - experiments
 ---
-Call `wandb.run.save()` to save the current run. Retrieve the name using `wandb.run.name`.
+Call a run object's `.save()` method to save the current run. Retrieve the name using the run object's `name` attribute.

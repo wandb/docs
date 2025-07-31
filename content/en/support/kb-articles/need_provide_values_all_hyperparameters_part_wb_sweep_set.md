@@ -6,11 +6,11 @@ type: docs
 support:
    - sweeps
 ---
-Access hyperparameter names and values from the sweep configuration using `wandb.config`, which acts like a dictionary.
+Access hyperparameter names and values from the sweep configuration using `(run.config())`, which acts like a dictionary.
 
-For runs outside a sweep, set `wandb.config` values by passing a dictionary to the `config` argument in `wandb.init`. In a sweep, any configuration supplied to `wandb.init` serves as a default value, which the sweep can override.
+For runs outside a sweep, set `wandb.Run.config()` values by passing a dictionary to the `config` argument in `wandb.init()`. In a sweep, any configuration supplied to `wandb.init()` serves as a default value, which the sweep can override.
 
-Use `config.setdefaults` for explicit behavior. The following code snippets illustrate both methods:
+Use `rwandb.Run.config.setdefaults()` for explicit behavior. The following code snippets illustrate both methods:
 
 {{< tabpane text=true >}}
 {{% tab "wandb.init()" %}}
