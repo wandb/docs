@@ -29,7 +29,7 @@ This page shows various ways to view activity within your W&B organization.
     - interact with the W&B Server in any way.
 {{% /tab %}}
 
-{{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
+{{% tab header="Multi-tenant Cloud" value="saas" %}}
 1. Navigate to the [**Members** page](https://wandb.ai/account-settings/wandb/members/). This page lists all users, along with data about each user.
 1. To sort the list by user status, click the **Last Active** column label. Each user's status is one of the following:
 
@@ -53,7 +53,7 @@ From the **Users** tab, you can export details about how your organization uses 
 1. Click **Export as CSV**. The downloaded CSV file lists details about each user of an organization, such as their user name and email address, the time they were last active, their roles, and more.
 {{% /tab %}}
 
-{{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
+{{% tab header="Multi-tenant Cloud" value="saas" %}}
 Exporting users is not available for Multi-tenant Cloud.
 {{% /tab %}}
 {{< /tabpane >}}
@@ -79,7 +79,7 @@ To change the period of time for a plot, use the drop-down. You can select:
 - All time
 
 {{% /tab %}}
-{{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
+{{% tab header="Multi-tenant Cloud" value="saas" %}}
 
 Use the plots in the **Activity Dashboard** to get an aggregate view of activity over time:
 
