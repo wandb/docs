@@ -1,38 +1,26 @@
 ---
 url: /support/:filename
-title: "Why can't I sort or filter metrics with special characters?"
+title: "Why can't I sort or filter metrics with certain characters?"
 toc_hide: true
 type: docs
 support:
    - experiments
 ---
-Due to GraphQL limitations, metrics containing special characters (such as commas, hyphens, spaces, or symbols) may not be sortable or filterable in the W&B UI.
+Metric names in W&B must follow GraphQL naming conventions to ensure they can be properly sorted and filtered in the UI.
 
 ## Valid metric names
 
-Metric names must follow these rules:
-- **Allowed characters**: Letters (A-Z, a-z), digits (0-9), and underscores (_)
-- **Starting character**: Must start with a letter or underscore
-- **Pattern**: Should match `/^[_a-zA-Z][_a-zA-Z0-9]*$/`
+{{< readfile file="/_includes/metric-naming-rules.md" >}}
+
+Metrics that don't follow these rules may not be sortable or filterable in the W&B UI.
 
 ## Examples
 
-**Valid metric names:**
-```python
-wandb.log({"accuracy": 0.9, "val_loss": 0.1})
-wandb.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
-```
-
-**Invalid metric names that may cause sorting issues:**
-```python
-wandb.log({"acc,val": 0.9})  # Contains comma
-wandb.log({"loss-train": 0.1})  # Contains hyphen
-wandb.log({"test acc": 0.95})  # Contains space
-```
+{{< readfile file="/_includes/metric-naming-examples.md" >}}
 
 ## Recommended solution
 
-Replace special characters with underscores when naming metrics:
+Replace invalid characters with valid characters such as underscores:
 - Instead of `"test acc"`, use `"test_acc"`
 - Instead of `"loss-train"`, use `"loss_train"`
 - Instead of `"acc,val"`, use `"acc_val"`

@@ -72,26 +72,13 @@ With W&B, you can decide exactly what you want to log. The following lists some 
 
 Due to GraphQL limitations, metric names in W&B must follow specific naming rules:
 
-* **Allowed characters**: Letters (A-Z, a-z), digits (0-9), and underscores (_)
-* **Starting character**: Names must start with a letter or underscore
-* **Pattern**: Metric names should match `/^[_a-zA-Z][_a-zA-Z0-9]*$/`
+{{< readfile file="/_includes/metric-naming-rules.md" >}}
 
 {{% alert color="warning" %}}
 Metrics with invalid characters (such as commas, spaces, or special symbols) may not be sortable or queryable in the W&B UI. Consider using underscores instead of spaces or other special characters.
 {{% /alert %}}
 
-**Examples**:
-```python
-# Valid metric names
-wandb.log({"accuracy": 0.9, "val_loss": 0.1, "epoch_5": 5})
-wandb.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
-
-# Invalid metric names (avoid these)
-wandb.log({"acc,val": 0.9})  # Contains comma
-wandb.log({"loss-train": 0.1})  # Contains hyphen
-wandb.log({"test acc": 0.95})  # Contains space
-wandb.log({"5_fold_cv": 0.8})  # Starts with number
-```
+{{< readfile file="/_includes/metric-naming-examples.md" >}}
 
 ## Common workflows
 
