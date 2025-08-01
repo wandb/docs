@@ -52,6 +52,10 @@ From the **Users** tab, you can export details about how your organization uses 
 1. Click the action `...` menu next to the **Invite new user user** button.
 1. Click **Export as CSV**. The downloaded CSV file lists details about each user of an organization, such as their user name and email address, the time they were last active, their roles, and more.
 {{% /tab %}}
+
+{{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
+This feature is not available for Multi-tenant Cloud.
+{{% /tab %}}
 {{< /tabpane >}}
 
 ## View activity over time
