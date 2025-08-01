@@ -75,7 +75,7 @@ Due to GraphQL limitations, metric names in W&B must follow specific naming rule
 {{< readfile file="/_includes/metric-naming-rules.md" >}}
 
 {{% alert color="warning" %}}
-Metrics with invalid characters (such as commas, spaces, or special symbols) may not be sortable or queryable in the W&B UI. Consider using underscores instead of spaces or other special characters.
+Avoid naming metrics with invalid characters (such as commas, spaces, or special symbols), which may cause problems with sorting, querying, or display in the W&B UI.
 {{% /alert %}}
 
 {{< readfile file="/_includes/metric-naming-examples.md" >}}

@@ -40,7 +40,7 @@ with wandb.init() as run:
 W&B automatically flattens nested values. This means that if you pass a dictionary, W&B turns it into a dot-separated name. For config values, W&B supports 3 dots in the name. For summary values, W&B supports 4 dots.
 {{% /alert %}}
 
-Note that metric names must follow certain naming constraints to ensure they can be sorted and filtered in the UI. See [Metric naming constraints]({{< relref "/guides/models/track/log/#metric-naming-constraints" >}}) for details.
+Metric names must follow certain naming constraints imposed by GraphQL. See [Metric naming constraints]({{< relref "/guides/models/track/log/#metric-naming-constraints" >}}) for details.
 
 <!-- ### Log media with same metric name
 Log related media to the same metric name:
