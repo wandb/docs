@@ -54,7 +54,7 @@ From the **Users** tab, you can export details about how your organization uses 
 {{% /tab %}}
 
 {{% tab header="Multi-tenant SaaS Cloud" value="saas" %}}
-This feature is not available for Multi-tenant Cloud.
+Exporting users is not available for Multi-tenant Cloud.
 {{% /tab %}}
 {{< /tabpane >}}
 
