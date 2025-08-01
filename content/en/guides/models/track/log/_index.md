@@ -68,10 +68,35 @@ With W&B, you can decide exactly what you want to log. The following lists some 
 
 
 
+## Metric naming constraints
+
+Due to GraphQL limitations, metric names in W&B must follow specific naming rules:
+
+* **Allowed characters**: Letters (A-Z, a-z), digits (0-9), and underscores (_)
+* **Starting character**: Names must start with a letter or underscore
+* **Pattern**: Metric names should match `/^[_a-zA-Z][_a-zA-Z0-9]*$/`
+
+{{% alert color="warning" %}}
+Metrics with invalid characters (such as commas, spaces, or special symbols) may not be sortable or queryable in the W&B UI. Consider using underscores instead of spaces or other special characters.
+{{% /alert %}}
+
+**Examples**:
+```python
+# Valid metric names
+wandb.log({"accuracy": 0.9, "val_loss": 0.1, "epoch_5": 5})
+wandb.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
+
+# Invalid metric names (avoid these)
+wandb.log({"acc,val": 0.9})  # Contains comma
+wandb.log({"loss-train": 0.1})  # Contains hyphen
+wandb.log({"test acc": 0.95})  # Contains space
+wandb.log({"5_fold_cv": 0.8})  # Starts with number
+```
+
 ## Common workflows
 
 1. **Compare the best accuracy**: To compare the best value of a metric across runs, set the summary value for that metric. By default, summary is set to the last value you logged for each key. This is useful in the table in the UI, where you can sort and filter runs based on their summary metrics, to help compare runs in a table or bar chart based on their _best_ accuracy, instead of final accuracy. For example: `wandb.run.summary["best_accuracy"] = best_accuracy`
-2. **View multiple metrics on one chart**: Log multiple metrics in the same call to `wandb.Run.log()`, like this: `wandb.log({"acc'": 0.9, "loss": 0.1})` and they will both be available to plot against in the UI
+2. **View multiple metrics on one chart**: Log multiple metrics in the same call to `wandb.Run.log()`, like this: `wandb.log({"acc": 0.9, "loss": 0.1})` and they will both be available to plot against in the UI
 3. **Customize the x-axis**: Add a custom x-axis to the same log call to visualize your metrics against a different axis in the W&B dashboard. For example: `wandb.Run.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`. To set the default x-axis for a given metric use [Run.define_metric()]({{< relref "/ref/python/sdk/classes/run.md#define_metric" >}})
 4. **Log rich media and charts**: `wandb.Run.log()` supports the logging of a wide variety of data types, from [media like images and videos]({{< relref "./media.md" >}}) to [tables]({{< relref "./log-tables.md" >}}) and [charts]({{< relref "/guides/models/app/features/custom-charts/" >}}).
 
