@@ -37,7 +37,7 @@ This page shows various ways to view activity within your W&B organization.
     * **Active**: User has accepted the invite and created an account.
     * `-`: A hyphen indicates that the user has not yet been active within the organization.
 
-    A user is _active_ if they perform any auditable action scoped to the organization. For a full list, refer to [Actions]({{< relref "/guides/hosting/monitoring-usage/audit-logging.md#actions" >}}) in the Audit Logging page.
+    A user is _active_ if they perform any auditable action scoped to the organization _after May 8, 2025_. For a full list, refer to [Actions]({{< relref "/guides/hosting/monitoring-usage/audit-logging.md#actions" >}}) in the Audit Logging page.
 
 {{% /tab %}}
 {{< /tabpane >}}
