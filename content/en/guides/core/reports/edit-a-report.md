@@ -104,8 +104,8 @@ If you import a panel into a report, run names are inherited from the project. I
 
 Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
 
-1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the runsets for the project parameter and the entity that owns the project for the entity parameter.
-2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `runsets` parameter.
+1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the run sets for the project parameter and the entity that owns the project for the entity parameter.
+2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `run sets` parameter.
 3. Store one or more `wr.PanelGrid()` object instances in a list.
 4. Update the report instance blocks attribute with the list of panel grid instances.
 
@@ -199,6 +199,183 @@ A report automatically updates run sets to show the latest data from the project
 To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
 
 {{< img src="/images/reports/freeze_runset.png" alt="Freeze runset button" >}}
+
+## Filter a runset programmatically
+
+Programmatically filter run sets and add them to a report with the [Workspace and Reports API]({{< relref "/ref/python/wandb_workspaces/reports" >}}).
+
+The general syntax for a filter expression is:
+
+```text
+Filter('key') operation <value>
+```
+
+Where `key` is the name of the filter, `operation` is a comparison operator (e.g., `>`, `<`, `==`, `in`, `not in`, `or`, and `and`), and `<value>` is the value to compare against. `Filter` is a placeholder for the type of filter you want to apply. The following table lists the available filters and their descriptions:
+
+| Filter | Description | Available keys |
+| ---|---| --- |
+|`Config('key')` | Filter by config values | Values specified in `config` parameter in `wandb.init(config=)`. |
+|`SummaryMetric('key')` | Filter by summary metrics | Values you log to a run with `wandb.Run.log()`. |
+|`Tags('key')` | Filter by tags | Tag values that you add to your run (programmatically or with the W&B App). |
+|`Metric('key')` | Filter by run properties | `tags`, `state`, `displayName`, `jobType` |
+
+Once you have defined your filters, you can create a report and pass the filtered run sets to `wr.PanelGrid(runsets=)`. See the **Report and Workspace API** tabs throughout this page for more information on how to add various elements to a report programmatically.
+
+The following examples demonstrate how to filter run sets in a report.
+
+### Config filters
+
+Filter a runset by one or more config values. Config values are parameters you specify in your run configuration (`wandb.init(config=)`).
+
+For example, the following code snippet first initializes a run with a config value for `learning_rate` and `batch_size`, then filters runs in a report based on the `learning_rate` config value.
+
+```python
+import wandb
+
+config = {
+    "learning_rate": 0.01,
+    "batch_size": 32,
+}
+
+with wandb.init(project="<project>", entity="<entity>", config=config) as run:
+    # Your training code here
+    pass
+```
+
+Within your Python script or notebook, you can then programmatically filter runs that have a learning rate greater than `0.01`.
+
+```python
+import wandb_workspaces.reports.v2 as wr
+
+runset = wr.Runset(
+  entity="your_entity",
+  project="your_project",
+  filters="Config('learning_rate') > 0.01"
+)
+```
+
+You can also filter by multiple config values with the `and` operator:
+ 
+```python
+runset = wr.Runset(
+  entity="your_entity",
+  project="your_project",
+  filters="Config('learning_rate') > 0.01 and Config('batch_size') == 32"
+)
+```
+
+Continuing from the previous example, you can create a report with the filtered runset as follows:
+
+```python
+report = wr.Report(
+  entity="your_entity",
+  project="your_project",
+  title="My Report"
+)
+
+report.blocks = [
+  wr.PanelGrid(
+      runsets=[runset],
+      panels=[
+          wr.LinePlot(
+              x="Step",
+              y=["accuracy"],
+          )
+      ]
+  )
+]
+
+report.save()
+```
+
+### Metric filters
+
+Filter run sets based on a run's: tag (`tags`), run state (`state`), run name (`displayName`), or job type (`jobType`).
+
+{{% alert %}}
+`Metric` filters posses a different syntax. Pass a list of values as a list.
+
+```text
+Metric('key') operation [<value>]
+```
+{{% /alert %}}
+
+For example, consider the following Python snippet that creates three runs and assigns each of them a name:
+
+```python
+import wandb
+
+with wandb.init(project="<project>", entity="<entity>") as run:
+    for i in range(3):
+        run.name = f"run{i+1}"
+        # Your training code here
+        pass
+```
+
+When you create your report, you can filter runs by their display name. For example, to filter runs with names `run1`, `run2`, and `run3`, you can use the following code:
+
+```python
+runset = wr.Runset(
+  entity="your_entity",
+  project="your_project",
+  filters="Metric('displayName') in ['run1', 'run2', 'run3']"
+)
+```
+
+{{% alert %}}
+You can find the name of the run in the **Overview** page of a run in the W&B App or programmatically with `Api.runs().run.name`.
+{{% /alert %}}
+
+The following examples demonstrate how to filter a runset by the run's state (`finished`, `crashed`, or `running`):
+
+```python
+runset = wr.Runset(
+  entity="your_entity",
+  project="your_project",
+  filters="Metric('state') in ['finished']"
+)
+```
+
+```python
+runset = wr.Runset(
+  entity="your_entity",
+  project="your_project",
+  filters="Metric('state') not in ['crashed']"
+)
+```
+
+
+### SummaryMetric filters
+
+The following examples demonstrate how to filter a run set by summary metrics. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in the W&B App under the **Summary** section of a run's **Overview** page.
+
+```python
+runset = wr.Runset(
+  entity="your_entity",
+  project="your_project",
+  filters="SummaryMetric('accuracy') > 0.9"
+)
+```
+
+```python
+runset = wr.Runset(
+  entity="your_entity",
+  project="your_project",
+  filters="Metric('state') in ['finished'] and SummaryMetric('train/train_loss') < 0.5"
+)
+```
+
+### Tags filters
+
+The following code snippet shows how to filter a runs set by its tags. Tags are values you add to a run (programmatically or with the W&B App).
+
+```python
+runset = wr.Runset(
+  entity="your_entity",
+  project="your_project",
+  filters="Tags('training') == 'training'"
+)
+```
 
 ## Add code blocks
 
@@ -416,3 +593,4 @@ To effectively visualize relationships across multiple dimensions, use a color g
 
 1. Choose a variable to represent with a color gradient (e.g., penalty scores, learning rates, etc.). This allows for a clearer understanding of how penalty (color) interacts with reward/side effects (y-axis) over training time (x-axis).
 2. Highlight key trends. Hovering over a specific group of runs highlights them in the visualization.
+
