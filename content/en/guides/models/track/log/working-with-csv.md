@@ -99,7 +99,7 @@ run.finish()
 ## Import and log your CSV of Experiments
 
 <!-- {% embed url="https://drive.google.com/file/d/1PL4RSdopHEptDR5Gi0DEzECXuoW_5B0f/view?usp=sharing" %}
-The below table becomes this Weights & Biases Dashboard after conversion
+The below table becomes this W&B Dashboard after conversion
 {% endembed %} -->
 
 In some cases, you might have your experiment details in a CSV file. Common details found in such CSV files include:

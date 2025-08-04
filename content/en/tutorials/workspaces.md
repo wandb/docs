@@ -55,7 +55,7 @@ Note: You can load an existing workspace using its unique `Saved view` URL. See 
 
 
 ```python
-# Initialize Weights & Biases and Login
+# Initialize W&B and Login
 wandb.login()
 
 # Function to create a new project and log sample data

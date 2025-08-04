@@ -10,11 +10,11 @@ weight: 140
 
 Hugging Face Accelerate is a library that enables the same PyTorch code to run across any distributed configuration, to simplify model training and inference at scale.
 
-Accelerate includes a Weights & Biases Tracker which we show how to use below. You can also read more about [Accelerate Trackers in Hugging Face](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking).
+Accelerate includes a W&B Tracker which we show how to use below. You can also read more about [Accelerate Trackers in Hugging Face](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking).
 
 ## Start logging with Accelerate
 
-To get started with Accelerate and Weights & Biases you can follow the pseudocode below:
+To get started with Accelerate and W&B you can follow the pseudocode below:
 
 ```python
 from accelerate import Accelerator
@@ -79,10 +79,10 @@ Below is an Accelerate article you may enjoy
 
 <details>
 
-<summary>HuggingFace Accelerate Super Charged With Weights & Biases</summary>
+<summary>HuggingFace Accelerate Super Charged With W&B</summary>
 
-* In this article, we'll look at what HuggingFace Accelerate has to offer and how simple it is to perform distributed training and evaluation, while logging results to Weights & Biases
+* In this article, we'll look at what HuggingFace Accelerate has to offer and how simple it is to perform distributed training and evaluation, while logging results to W&B.
 
-Read the [Hugging Face Accelerate Super Charged with Weights & Biases report](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs&utm_medium=docs&utm_campaign=accelerate-docs).
+Read the [Hugging Face Accelerate Super Charged with W&B report](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs&utm_medium=docs&utm_campaign=accelerate-docs).
 </details>
 <br /><br />
