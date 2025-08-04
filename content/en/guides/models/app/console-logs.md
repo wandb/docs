@@ -24,7 +24,7 @@ Within the W&B App you can modify the fields shown in the console logs table.  -
 
 ## Types of console logs
 
-There are several types of console logs that W&B captures: informational messages, warnings, and errors. Each type has a different prefix to help you identify its severity.
+W&B captures several types of console logs: informational messages, warnings, and errors, with a prefix to indicate the log's severity.
 
 ### Informational messages
 Informational messages provide updates about the run's progress and status. They are typically prefixed with `wandb:`.
