@@ -11,6 +11,7 @@ The `.name` attribute of a [`wandb.Run`]({{< relref "/ref/python/sdk/classes/run
 ```python
 import wandb
 
-wandb.init()
-run_name = wandb.run.name
+with wandb.init() as run:
+   run_name = run.name
+   print(f"The human-readable run name is: {run_name}")
 ```
