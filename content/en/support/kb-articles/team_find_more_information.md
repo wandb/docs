@@ -6,4 +6,4 @@ type: docs
 support:
    - team management
 ---
-For additional information about teams, visit [Teams]({{< relref "/guides/models/app/features/teams.md" >}}).
+For additional information about teams, visit [Teams]({{< relref "/guides/models/app/settings-page/teams.md" >}}).

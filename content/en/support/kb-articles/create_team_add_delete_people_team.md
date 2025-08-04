@@ -6,4 +6,4 @@ type: docs
 support:
    - team management
 ---
-Refer to [Team Roles and Permissions]({{< relref "/guides/models/app/features/teams.md#team-roles-and-permissions" >}}).
+Refer to [Team Roles and Permissions]({{< relref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}).
