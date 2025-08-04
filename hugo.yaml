@@ -1,10 +1,10 @@
 baseURL: https://docs.wandb.ai
 title: Weights & Biases Documentation
 
+buildFuture: true
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
 
 # Language settings
-contentDir: content
 defaultContentLanguage: en
 defaultContentLanguageInSubdir: false
 # Useful when translating.
@@ -15,17 +15,20 @@ enableRobotsTXT: true
 # Will give values to .Lastmod etc.
 enableGitInfo: true
 
-# Comment out to enable taxonomies in Docsy
-# disableKinds: [taxonomy, taxonomyTerm]
+# Override default date priority to give more
+# control over RSS feeds.
+# - If you set `date` it overrides the item's date as gleaned from Git info
+# - Otherwise, Git info is used.
+# To update `date` for a given page twice in one day, use a fully
+#   qualified date with offset from GMT, like 2025-05-02T09:45:00-07:00
+frontmatter:
+  date:
+  - date
+  - publishdate
+  - :git
 
-# You can add your own taxonomies
-#taxonomies:
-#  tag: tags
-
-# [ml] Disable taxonomies for now
-disableKinds:
-- taxonomy
-- term
+taxonomies:
+    support: support
 
 # Highlighting config
 pygmentsCodeFences: true
@@ -38,7 +41,7 @@ pygmentsStyle: monokai
 
 # Configure how URLs look like per section.
 permalinks:
-  blog: /:section/:year/:month/:day/:slug/
+  release-notes: /release-notes/:year/:month/:day/:slug/
 
 # Image processing configuration.
 imaging:
@@ -49,14 +52,71 @@ imaging:
 # Language configuration
 languages:
   en:
+    contentDir: content/en
     languageName: English
     title: Weights & Biases Documentation
     params:
       description: Weights & Biases Documentation Site
+    menus:
+      main:
+      - name: Guides
+        pageRef: /guides
+        weight: 1
+        identifier: guides-en
+      - name: Tutorials
+        pageRef: /tutorials
+        weight: 2
+        identifier: tutorials-en
+      - name: Reference
+        pageRef: /ref
+        weight: 3
+        identifier: reference-en
+      - name: Support
+        pageRef: /support
+        weight: 4
+        identifier: support-en
   ja:
     languageName: Japanese
+    contentDir: content/ja
+    menus:
+      main:
+      - name: Guides
+        pageRef: /guides
+        weight: 1
+        identifier: guides-ja
+      - name: Tutorials
+        pageRef: /tutorials
+        weight: 2
+        identifier: tutorials-ja
+      - name: Reference
+        pageRef: /ref
+        weight: 3
+        identifier: reference-ja
+      - name: Support
+        pageRef: /support
+        weight: 4
+        identifier: support-ja
   ko:
     languageName: Korean
+    contentDir: content/ko
+    menus:
+      main:
+      - name: Guides
+        pageRef: /guides
+        weight: 1
+        identifier: guides-ko
+      - name: Tutorials
+        pageRef: /tutorials
+        weight: 2
+        identifier: tutorials-ko
+      - name: Reference
+        pageRef: /ref
+        weight: 3
+        identifier: reference-ko
+      - name: Support
+        pageRef: /support
+        weight: 4
+        identifier: support-ko
 
 markup:
   tableOfContents:
@@ -82,10 +142,26 @@ outputs:
     - HTML
     - RSS
     - print
+  home:
+    - HTML
+    - llms
+    - llms-full
+
+outputFormats:
+  llms:
+    mediaType: "text/plain"
+    baseName: "llms"
+    isPlainText: true
+  llms-full:
+    mediaType: "text/plain"
+    baseName: "llms-full"
+    isPlainText: true
 
 services:
   googleAnalytics:
-    id: GTM-5BL5RTH
+    id: G-5JYCHZZP7K
+  RSS:
+    Limit: 20
 
 params:
   #search:
@@ -93,17 +169,14 @@ params:
   #    appId: 2D210VB5MP
   #    apiKey: 730cfa02025b8ba2e95d4c33b1e38cc7
   #    indexName: docodile
-  taxonomy:
-    # set taxonomyCloud = [] to hide taxonomy clouds
-    taxonomyCloud: []
-
-    # If used, must have same length as taxonomyCloud
-    taxonomyCloudTitle: []
-
-    # set taxonomyPageHeader = [] to hide taxonomies on the page headers
-    taxonomyPageHeader: []
 
   privacy_policy: https://wandb.ai/site/privacy/
+
+  taxonomy:
+    taxonomyCloud:
+      - none
+    taxonomyPageHeader:
+      - support
 
   # First one is picked as the Twitter card image if not set on page.
   # images: [images/project-illustration.png]
@@ -157,7 +230,8 @@ params:
   # User interface configuration
   ui:
     # Set to true to disable breadcrumb navigation.
-    breadcrumb_disable: true
+    breadcrumb_disable: false
+    taxonomy_breadcrumb_disable: false
     # Set to false if you don't want to display a logo (/assets/icons/logo.svg) in the top navbar
     navbar_logo: true
     # Set to true if you don't want the top navbar to be translucent when over a `block/cover`, like on the homepage.
@@ -177,9 +251,9 @@ params:
       enable: true
       # The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
       'yes': >-
-        Glad to hear it! Please <a href="https://github.com/wandb/docs/issues/new">tell us how we can improve</a>.
+        Glad to hear it! If you have more to say, please <a href="javascript:location.href='https://github.com/wandb/docs/issues/new?template=praise.md&title=Praise:%20' + encodeURIComponent(document.title.replace('| Weights & Biases Documentation','')) + '&body=Page:%20' + encodeURIComponent(location.href) + encodeURIComponent('\nFeedback: ')">let us know</a>.
       'no': >-
-        Sorry to hear that. Please <a href="https://github.com/wandb/docs/issues/new">tell us how we can improve</a>.
+        Sorry to hear that. Please <a href="javascript:location.href='https://github.com/wandb/docs/issues/new?template=feedback.md&title=Feedback:%20' + encodeURIComponent(document.title.replace('| Weights & Biases Documentation','')) + '&body=Link:%20' + encodeURIComponent(location.href) + encodeURIComponent('\nFeedback: ')">tell us how we can improve</a>.
     # Adds a reading time to the top of each doc.
     # If you want this feature, but occasionally need to remove the Reading time from a single page,
     # add "hide_readingtime: true" to the page's front matter
@@ -222,7 +296,7 @@ module:
   # workspace: docsy.work
   hugoVersion:
     extended: true
-    min: 0.110.0
+    min: 0.147.5
   imports:
     - path: github.com/google/docsy
       disable: false
