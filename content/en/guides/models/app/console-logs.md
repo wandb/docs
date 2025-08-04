@@ -77,7 +77,7 @@ with wandb.init(settings=settings) as run:
 
 ## Custom logging
 
-W&B captures console logs from your application, but it does not interfere with your own logging setup. You can continue to use Python's built-in `print()` function or the `logging` module to log messages as usual.
+W&B captures console logs from your application, but it does not interfere with your own logging setup. You can use Python's built-in `print()` function or the `logging` module to log messages.
 
 ```python
 import wandb
