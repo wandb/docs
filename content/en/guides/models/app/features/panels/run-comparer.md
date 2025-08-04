@@ -19,7 +19,7 @@ Use the Run Comparer to see differences and similarities across runs in your pro
 Run Comparer shows the configuration and logged metrics for the 10 first visible runs in the project, one column per run.
 
 - To change the runs to compare, you can search, filter, group, or sort the list of runs on the left-hand side. The Run Comparer updates automatically.
-- To filter or search for a configuration key or a metadata key such as the Python version, or the run's creation time, use the search field at the top of the Run Comparer.
+- Use the search field at the top of the Run Comparer to filter or search for a configuration key or a metadata key such as the Python version or the run's creation time.
 - To quickly see differences and hide identical values, toggle **Diff only** at the top of the panel.
 - To adjust the column width or row height, use the formatting buttons at the top of the panel.
 - To copy any configuration or metric's value, hover your mouse over the value, then click the copy button. The entire value is copied, even if it is too long to display on the screen.
