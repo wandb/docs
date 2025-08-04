@@ -200,7 +200,7 @@ To freeze a run set when viewing a report, click the snowflake icon in its panel
 
 {{< img src="/images/reports/freeze_runset.png" alt="Freeze runset button" >}}
 
-## Filter a runset programmatically
+## Filter a run set programmatically
 
 Programmatically filter run sets and add them to a report with the [Workspace and Reports API]({{< relref "/ref/python/wandb_workspaces/reports" >}}).
 
