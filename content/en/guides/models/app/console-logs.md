@@ -4,7 +4,7 @@ url: guides/app/console-logs
 ---
 
 
-When you run an experiment, you may notice various messages printed to your console. W&B captures console logs and displays them in the W&B App. Use these messages to debug and monitor the behavior of your application.
+When you run an experiment, you may notice various messages printed to your console. W&B captures console logs and displays them in the W&B App. Use these messages to debug and monitor the behavior of your experiment.
 
 ## View console logs
 
@@ -52,7 +52,7 @@ ERROR Failed to save notebook.
 
 ## Console log settings
 
-Within your code, you can configure how W&B handles console logs by passing the `wandb.Settings` object to `wandb.init()`. Within `wandb.Settings`, you can set the following parameters to control console log behavior:
+Within your code, pass the `wandb.Settings` object to `wandb.init()` to configure how W&B handles console logs. Within `wandb.Settings`, you can set the following parameters to control console log behavior:
 
 - `show_errors`: If set to `True`, error messages are displayed in the W&B App. If set to `False`, error messages are not shown.
 - `silent`: If set to `True`, all W&B console output will be suppressed. This is useful for production environments where you want to minimize console noise.
@@ -103,18 +103,17 @@ The console logs will look similar to the following:
 9 epoch:  900 loss: 0.28154927492141724
 ```
 
+## Time stamps
 
-## Filter console logs
+Time stamps are automatically added to each console log entry. This allows you to track when each log message was generated.
 
-### Time stamps
+You can toggle the time stamps in the console logs on or off. Within the console page select the **Timestamp visible** dropdown in the top left corner. You can choose to show or hide the time stamps.
 
-Toggle the time stamps in the console logs on or off. Within the console page select the **Timestamp visible** dropdown in the top left corner. You can choose to show or hide the time stamps.
-
-### Search console logs
+## Search console logs
 
 Use the search bar at the top of the console logs page to filter logs by keywords. You can search for specific terms, labels, or error messages.
 
-### Custom labels
+## Filter with custom labels
 
 {{% alert color="secondary"  %}}
 Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a [GitHub issue in the W&B repository](https://github.com/wandb/wandb) to provide feedback.
