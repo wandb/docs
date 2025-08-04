@@ -26,7 +26,7 @@ trainer = Trainer(..., logger=WandBLogger())
 
 ## Use Composer's `WandBLogger`
 
-The Composer library uses [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) class in the `Trainer` to log metrics to Weights and Biases. It is a simple as instantiating the logger and passing it to the `Trainer`
+The Composer library uses [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) class in the `Trainer` to log metrics to W&B. It is as simple as instantiating the logger and passing it to the `Trainer`.
 
 ```python
 wandb_logger = WandBLogger(project="gpt-5", log_artifacts=True)
@@ -35,13 +35,13 @@ trainer = Trainer(logger=wandb_logger)
 
 ## Logger arguments
 
-Below the parameters for WandbLogger, see the [Composer documentation](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html) for a full list and description
+Below the parameters for `WandbLogger`, see the [Composer documentation](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html) for a full list and description.
 
 | Parameter                       | Description                                                                                                                                                                                                                                                                                                                                                              |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `project`                 | W&B project name (str, optional)
+| `project`                 | W&B Project name (str, optional)
 | `group`                   | W&B group name (str, optional)
-| `name`                   |  W&B run name. If not specified, the State.run_name is used (str, optional)
+| `name`                   |  W&B Run name. If not specified, the State.run_name is used (str, optional)
 | `entity`                   | W&B entity name, such as your username or W&B Team name (str, optional)
 | `tags`                   | W&B tags (List[str], optional)
 | `log_artifacts`                 | Whether to log checkpoints to wandb, default: `false` (bool, optional)|
@@ -62,7 +62,7 @@ wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
 
 ## Log prediction samples
 
-You can use [Composer's Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) system to control when you log to Weights & Biases via the WandBLogger, in this example a sample of the validation images and predictions is logged:
+You can use [Composer's Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) system to control when you log to W&B via the `WandBLogger`, in this example a sample of the validation images and predictions is logged:
 
 ```python
 import wandb

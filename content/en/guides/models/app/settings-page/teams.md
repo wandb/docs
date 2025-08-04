@@ -1,6 +1,5 @@
 ---
-description: Collaborate with your colleagues, share results, and track all the experiments
-  across your team
+description: Collaborate with your colleagues, share results, and track all the experiments across your team.
 menu:
   default:
     identifier: teams
