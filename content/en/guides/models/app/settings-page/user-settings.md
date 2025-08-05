@@ -45,7 +45,7 @@ Next to **Default location to create new projects in**, click thew drop-down, th
 {{% tab header="Dedicated Cloud / Self-Managed" %}}
 1. Next to **Default location to create new projects in**, click thew drop-down, then select your default team or your personal entity.
 1. (**Optional**) If an admin has turned on public projects in in **Account** > **Settings** > **Privacy**, configure the default visibility for your new projects. Click the button next to **Default project privacy in your personal account**, then select **Private** (the default) or **Public**.
-1. (**Optional**) If an admin has turned on [default saving and diffing code]({{< relref "/guides/app/features/panels/code/" >}}) in **Account** > **Settings** > **Privacy**, to turn it on for your runs, click **Enable code saving in your personal account**.
+1. (**Optional**) If an admin has turned on [default saving and diffing code]({{< relref "/guides/models/app/features/panels/code.md" >}}) in **Account** > **Settings** > **Privacy**, to turn it on for your runs, click **Enable code saving in your personal account**.
 {{% /tab %}}
 {{< /tabpane >}}
 
