@@ -12,7 +12,7 @@ Complete these steps before using the W&B Inference service through the API or U
 Before starting, review the [usage information and limits]({{< relref "usage-limits" >}}) to understand costs and restrictions.
 {{< /alert >}}
 
-## General requirements
+## Set up your W&B account and project
 
 You need these items to access W&B Inference:
 
@@ -25,7 +25,7 @@ You need these items to access W&B Inference:
 3. **A W&B project**  
    Create a project in your W&B account to track usage
 
-## Python setup
+## Set up your environment (Python)
 
 To use the Inference API with Python, you also need to:
 

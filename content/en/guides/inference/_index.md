@@ -12,27 +12,7 @@ W&B Inference gives you access to leading open-source foundation models through 
 
 With Weave, you can trace, evaluate, monitor, and improve your W&B Inference-powered applications.
 
-{{< alert title="Important" color="warning" >}}
-W&B Inference credits come with Free, Pro, and Academic plans for a limited time. Availability may vary for Enterprise accounts. When credits run out:
-
-- **Free users** must upgrade to a paid plan to continue using Inference.  
-  👉 [Upgrade to Pro or Enterprise](https://wandb.ai/subscriptions)
-- **Pro users** are billed monthly for usage beyond free credits, up to a default cap of $6,000/month. See [Account tiers and default usage caps]({{< relref "usage-limits#account-tiers-and-default-usage-caps" >}})
-- **Enterprise usage** is capped at $700,000/year. Your account executive handles billing and limit increases. See [Account tiers and default usage caps]({{< relref "usage-limits#account-tiers-and-default-usage-caps" >}})
-
-To learn more, visit the [pricing page](https://wandb.ai/site/pricing/) or see [model-specific costs](https://wandb.ai/site/pricing/inference).
-{{< /alert >}}
-
-## Get started
-
-To get started with the Inference service:
-
-1. Review the [available models]({{< relref "models" >}}) and [usage information and limits]({{< relref "usage-limits" >}})
-2. Complete the [prerequisites]({{< relref "prerequisites" >}})
-3. Use the service through the [API]({{< relref "api-reference" >}}) or [UI]({{< relref "ui-guide" >}})
-4. Try the [usage examples]({{< relref "examples" >}})
-
-## Quick example
+## Quickstart
 
 Here's a simple example using Python:
 
@@ -63,7 +43,20 @@ print(response.choices[0].message.content)
 
 ## Next steps
 
-- Browse [available models]({{< relref "models" >}}) to find the right one for your use case
-- Review [usage limits and pricing]({{< relref "usage-limits" >}}) to understand costs
-- Follow the [prerequisites]({{< relref "prerequisites" >}}) to set up your environment
-- See [usage examples]({{< relref "examples" >}}) for more advanced use cases 
+1. Review the [available models]({{< relref "models" >}}) and [usage information and limits]({{< relref "usage-limits" >}})
+2. Set up your account using the [prerequisites]({{< relref "prerequisites" >}})
+3. Use the service through the [API]({{< relref "api-reference" >}}) or [UI]({{< relref "ui-guide" >}})
+4. Try the [usage examples]({{< relref "examples" >}})
+
+## Usage details
+
+{{< alert title="Important" color="warning" >}}
+W&B Inference credits come with Free, Pro, and Academic plans for a limited time. Availability may vary for Enterprise accounts. When credits run out:
+
+- **Free users** must upgrade to a paid plan to continue using Inference.  
+  👉 [Upgrade to Pro or Enterprise](https://wandb.ai/subscriptions)
+- **Pro users** are billed monthly for usage beyond free credits, up to a default cap of $6,000/month. See [Account tiers and default usage caps]({{< relref "usage-limits#account-tiers-and-default-usage-caps" >}})
+- **Enterprise usage** is capped at $700,000/year. Your account executive handles billing and limit increases. See [Account tiers and default usage caps]({{< relref "usage-limits#account-tiers-and-default-usage-caps" >}})
+
+To learn more, visit the [pricing page](https://wandb.ai/site/pricing/) or see [model-specific costs](https://wandb.ai/site/pricing/inference).
+{{< /alert >}}
