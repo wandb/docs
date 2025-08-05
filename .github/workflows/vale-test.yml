@@ -35,7 +35,7 @@ jobs:
       - name: Run Vale on content directory
         run: |
           echo "Running Vale on content directory..."
-          vale content/ --output=line || echo "Vale found issues but continuing to show results"
+          vale content/ --output=line
           
       - name: Test smart quotes specifically
         run: |
@@ -48,7 +48,7 @@ jobs:
           "
           
           echo "Running Vale on test file with smart quotes:"
-          vale /tmp/test-quotes.md || echo "Vale correctly caught smart quotes!"
+          vale /tmp/test-quotes.md
           
           echo ""
           echo "JSON output with replacement suggestions:"
