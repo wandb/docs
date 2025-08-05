@@ -1,0 +1,14 @@
+extends: substitution
+message: "Use straight quotes instead of smart/typographic quotes for better accessibility."
+link: "https://github.com/wandb/docs/issues/DOCS-1122"
+level: error
+nonword: true
+action:
+  name: replace
+swap:
+  # Double quotes - left and right smart quotes to straight quotes
+  "“": '"'
+  "”": '"'
+  # Single quotes / apostrophes - left and right smart quotes to straight quotes  
+  "‘": "'"
+  "’": "'"
