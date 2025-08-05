@@ -33,16 +33,35 @@ To add a follow badge for the `@weights_biases` account on X, you could add a Ma
 ```
 In an `<img>` tag, you can specify `width`, `height`, or both. If you specify only one of them, the image's proportions are maintained.
 
-## Teams
+## Default team
+If you are a member of more than one team, the **Default team** section allows you to configure the default team to use when a run or a Weave trace does not specify a team. If you are a member of only one team, that team is the default and this section does not appear.
 
-Create a new team in the **Team** section. To create a new team, select the **New team** button and provide the following:
+Select a tab to continue.
 
-* **Team name** - the name of your team. The team mane must be unique. Team names can not be changed.
-* **Team type** - Select either the **Work** or **Academic** button.
-* **Company/Organization** - Provide the name of the team’s company or organization. Choose the dropdown menu to select a company or organization. You can optionally provide a new organization.
+{{< tabpane >}}
+{{% tab header="Multi-tenant Cloud" %}}
+Next to **Default location to create new projects in**, click thew drop-down, then select your default team.
+{{% /tab %}}
+{{% tab header="Dedicated Cloud / Self-Managed" %}}
+1. Next to **Default location to create new projects in**, click thew drop-down, then select your default team or your personal entity.
+1. (**Optional**) If an admin has turned on public projects in in **Account** > **Settings** > **Privacy**, configure the default visibility for your new projects. Click the button next to **Default project privacy in your personal account**, then select **Private** (the default) or **Public**.
+1. (**Optional**) If an admin has turned on [default saving and diffing code]({{< relref "/guides/app/features/panels/code/" >}}) in **Account** > **Settings** > **Privacy**, to turn it on for your runs, click **Enable code saving in your personal account**.
+{{% /tab %}}
+{{< /tabpane >}}
 
 {{% alert %}}
-Only administrative accounts can create a team.
+To specify the default team when you’re running a script in an automated environment, you can specify the default location using the `WANDB_ENTITY` [environment variable]({{< relref "https://docs.wandb.ai/guides/models/track/environment-variables.md" >}}).
+{{% /alert %}}
+
+## Teams
+The **Teams** section lists all of your teams.
+
+1. Click a team name to go to the team page.
+1. If you have permission to join additional teams, click **View teams** next to **We found teams for you to join**.
+1. Optionally, turn on **Hide teams in public profile**.
+
+{{% alert %}}
+To create or manage a team, see [Manage teams]({{< relref "/guides/models/app/settings-page/teams/" >}}).
 {{% /alert %}}
 
 ## Beta features
