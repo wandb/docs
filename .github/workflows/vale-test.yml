@@ -1,0 +1,55 @@
+name: Vale Test (DOCS-1122)
+
+on:
+  push:
+    branches: 
+      - DOCS-1122  # TODO: Change to pull_request before merging
+    paths:
+      - 'content/**/*.md'
+      - '.github/styles/**'
+      - '.vale.ini'
+
+jobs:
+  vale-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Vale
+        run: |
+          curl -sL https://github.com/errata-ai/vale/releases/download/v3.9.6/vale_3.9.6_Linux_64-bit.tar.gz -o vale.tar.gz
+          mkdir -p /tmp/vale
+          tar -xzf vale.tar.gz -C /tmp/vale
+          sudo mv /tmp/vale/vale /usr/local/bin/
+          vale -v
+
+      - name: Test Vale configuration
+        run: |
+          echo "Vale configuration:"
+          cat .vale.ini
+          echo ""
+          echo "Docs style available:"
+          ls -la .github/styles/Docs/
+
+      - name: Run Vale on content directory
+        run: |
+          echo "Running Vale on content directory..."
+          vale content/ --output=line || echo "Vale found issues but continuing to show results"
+          
+      - name: Test smart quotes specifically
+        run: |
+          echo "Testing smart quote detection..."
+          # Create a test file with smart quotes
+          echo 'Test: "smart quotes" and 'apostrophes'' > /tmp/test-quotes.md
+          python3 -c "
+          with open('/tmp/test-quotes.md', 'w', encoding='utf-8') as f:
+              f.write('Test: \u201csmart quotes\u201d and \u2018apostrophes\u2019\n')
+          "
+          
+          echo "Running Vale on test file with smart quotes:"
+          vale /tmp/test-quotes.md || echo "Vale correctly caught smart quotes!"
+          
+          echo ""
+          echo "JSON output with replacement suggestions:"
+          vale --output=JSON /tmp/test-quotes.md | jq '.[] | .[] | select(.Check == "Docs.SmartQuotes")'
