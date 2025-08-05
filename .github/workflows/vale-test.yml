@@ -8,6 +8,7 @@ on:
       - 'content/**/*.md'
       - '.github/styles/**'
       - '.vale.ini'
+      - '.github/workflows/vale-test.yml'  # Allow workflow changes to trigger for testing
 
 jobs:
   vale-lint:
