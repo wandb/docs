@@ -191,6 +191,8 @@ You can filter console logs based on the labels you provide for `x_label` in the
 
 {{< img src="/images/track/multi_node_console_logs.png" alt="Multi-node console logs" >}}
 
+See [Console logs]({{< relref "/guides/models/app/console-logs/" >}}) for more information.
+
 W&B aggregates system metrics from all nodes and displays them in the W&B App UI. For example, the following image shows a sample dashboard with system metrics from multiple nodes. Each node possesses a unique label (`rank_0`, `rank_1`, `rank_2`) that you specify in the `x_label` parameter.
 
 {{< img src="/images/track/multi_node_system_metrics.png" alt="Multi-node system metrics" >}}
