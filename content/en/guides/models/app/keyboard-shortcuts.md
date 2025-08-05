@@ -24,13 +24,14 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 | **Tab** | Navigate between interactive elements. |
 | **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux) | Switch between the Workspaces and Runs tabs in the sidebar. |
 | **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | Open the quick search dialog to search across projects, runs, and other resources. |
-| **Cmd+[** (macOS) | Exit full-screen panel view and return to the workspace. |
+| **Escape** | Throughout the W&B App, exit full-screen panel views, close settings drawers, dismiss the quick search dialog, close an editor, or dismiss other overlays. |
 
 ## Panel Navigation
 
 | Shortcut | Description |
 |----------|-------------|
 | **Left Arrow / Right Arrow** | Step through panels in a section when in full screen mode. |
+| **Cmd+[** (macOS) | Similar to **Esc**, exit full-screen panel view and return to the workspace. |
 | **Cmd+Left Arrow / Cmd+Right Arrow** (macOS)<br>**Ctrl+Left Arrow / Ctrl+Right Arrow** (Windows/Linux) | When viewing a media panel in full screen mode,move the step slider. |
 
 ## Search and Selection
@@ -47,6 +48,7 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 |----------|-------------|
 | **Delete / Backspace** | Remove the selected panel grid from the report. |
 | **Enter** | Insert a Markdown block after typing "/mark" in a report. |
+| **Escape** | Exit the report editor. |
 | **Tab** | Navigate between interactive elements in a report. |
 
 ## Notes
