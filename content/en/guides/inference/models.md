@@ -24,28 +24,6 @@ W&B Inference provides access to several open-source foundation models. Each mod
 | Meta Llama 4 Scout | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | Text, Vision | 64K | 17B-109B (Active-Total) | Multi-modal model integrating text and image understanding, ideal for visual tasks and combined analysis |
 | Microsoft Phi 4 Mini 3.8B | `microsoft/Phi-4-mini-instruct` | Text | 128K | 3.8B (Active-Total) | Compact, efficient model ideal for fast responses in resource-constrained environments |
 
-## Model selection guide
-
-Choose a model based on your specific needs:
-
-### For general conversation and chat
-- **Meta Llama 3.1 8B**: Fast and efficient for basic chat applications
-- **Meta Llama 3.3 70B**: More capable for complex conversations
-
-### For coding and development
-- **Qwen3 Coder 480B A35B**: Specialized for coding tasks
-- **DeepSeek V3-0324**: Strong at complex coding problems
-
-### For reasoning and analysis
-- **Qwen3 235B A22B Thinking-2507**: Excellent for structured reasoning
-- **DeepSeek R1-0528**: Precise reasoning for math and logic
-
-### For multi-modal tasks
-- **Meta Llama 4 Scout**: Handles both text and images
-
-### For resource-limited environments
-- **Microsoft Phi 4 Mini 3.8B**: Small but capable model
-
 ## Using model IDs
 
 When using the API, specify the model using its ID from the table above. For example:
