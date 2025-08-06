@@ -36,9 +36,6 @@ client = openai.OpenAI(
 
     # Get your API key from https://wandb.ai/authorize
     api_key="<your-api-key>",
-
-    # Required for W&B inference usage tracking
-    project="wandb/inference-demo",
 )
 
 # Trace the model call in Weave
@@ -64,9 +61,12 @@ After running the code, view the trace in Weave by:
 
 ## Advanced example: Use Weave Evaluations and Leaderboards
 
-Besides tracing model calls, you can also evaluate performance and publish leaderboards. This example compares two models on a question-answer dataset.
+Besides tracing model calls, you can also evaluate performance and publish leaderboards. 
+This example compares two models on a question-answer dataset, and sets a custom project
+name in the client initialization, specifying where to send logs. 
 
 Before running this example, complete the [prerequisites]({{< relref "prerequisites" >}}).
+
 
 ```python
 import os
@@ -97,8 +97,8 @@ class WBInferenceModel(weave.Model):
             base_url="https://api.inference.wandb.ai/v1",
             # Get your API key from https://wandb.ai/authorize
             api_key="<your-api-key>",
-            # Required for W&B inference usage tracking
-            project="<your-team>/<your-project>",
+            # Optional: Customizes the logs destination
+            project="<your-team>/<your-project>"
         )
         resp = client.chat.completions.create(
             model=self.model,

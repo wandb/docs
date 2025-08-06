@@ -72,10 +72,7 @@ client = openai.OpenAI(
 
     # Get your API key from https://wandb.ai/authorize
     # Consider setting it in the environment as OPENAI_API_KEY instead for safety
-    api_key="<your-api-key>",
-
-    # Team and project are required for usage tracking
-    project="<your-team>/<your-project>",
+    api_key="<your-api-key>"
 )
 
 # Replace <model-id> with any model ID from the available models list
@@ -115,8 +112,7 @@ import openai
 
 client = openai.OpenAI(
     base_url="https://api.inference.wandb.ai/v1",
-    api_key="<your-api-key>",
-    project="<your-team>/<your-project>"
+    api_key="<your-api-key>"
 )
 
 response = client.models.list()
