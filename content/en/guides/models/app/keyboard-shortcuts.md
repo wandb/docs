@@ -31,7 +31,7 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 | Shortcut | Description |
 |----------|-------------|
 | **Left Arrow / Right Arrow** | Step through panels in a section when in full screen mode. |
-| **Cmd+[** (macOS) | Similar to **Esc**, exit full-screen panel view and return to the workspace. |
+| **Esc** | Exit full-screen panel view and return to the workspace. |
 | **Cmd+Left Arrow / Cmd+Right Arrow** (macOS)<br>**Ctrl+Left Arrow / Ctrl+Right Arrow** (Windows/Linux) | When viewing a media panel in full screen mode,move the step slider. |
 
 ## Search and Selection
