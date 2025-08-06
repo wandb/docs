@@ -36,9 +36,6 @@ client = openai.OpenAI(
 
     # Get your API key from https://wandb.ai/authorize
     api_key="<your-api-key>",
-
-    # Required for W&B inference usage tracking
-    project="wandb/inference-demo",
 )
 
 # Trace the model call in Weave
@@ -97,8 +94,6 @@ class WBInferenceModel(weave.Model):
             base_url="https://api.inference.wandb.ai/v1",
             # Get your API key from https://wandb.ai/authorize
             api_key="<your-api-key>",
-            # Required for W&B inference usage tracking
-            project="<your-team>/<your-project>",
         )
         resp = client.chat.completions.create(
             model=self.model,
