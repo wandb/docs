@@ -8,9 +8,9 @@ weight: 10
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/monai/3d_brain_tumor_segmentation.ipynb" >}}
 
-This tutorial demonstrates how to construct a training workflow of multi-labels 3D brain tumor segmentation task using [MONAI](https://github.com/Project-MONAI/MONAI) and use experiment tracking and data visualization features of [Weights & Biases](https://wandb.ai/site). The tutorial contains the following features:
+This tutorial demonstrates how to construct a training workflow of multi-labels 3D brain tumor segmentation task using [MONAI](https://github.com/Project-MONAI/MONAI) and use experiment tracking and data visualization features of [W&B](https://wandb.ai/site). The tutorial contains the following features:
 
-1. Initialize a Weights & Biases run and synchronize all configs associated with the run for reproducibility.
+1. Initialize a W&B Run and synchronize all configs associated with the run for reproducibility.
 2. MONAI transform API:
     1. MONAI Transforms for dictionary format data.
     2. How to define a new transform according to MONAI `transforms` API.
@@ -18,17 +18,17 @@ This tutorial demonstrates how to construct a training workflow of multi-labels 
 3. Data Loading and Visualization:
     1. Load `Nifti` image with metadata, load a list of images and stack them.
     2. Cache IO and transforms to accelerate training and validation.
-    3. Visualize the data using `wandb.Table` and interactive segmentation overlay on Weights & Biases.
+    3. Visualize the data using `wandb.Table` and interactive segmentation overlay on W&B.
 4. Training a 3D `SegResNet` model
     1. Using the `networks`, `losses`, and `metrics` APIs from MONAI.
     2. Training the 3D `SegResNet` model using a PyTorch training loop.
-    3. Track the training experiment using Weights & Biases.
-    4. Log and version model checkpoints as model artifacts on Weights & Biases.
-5. Visualize and compare the predictions on the validation dataset using `wandb.Table` and interactive segmentation overlay on Weights & Biases.
+    3. Track the training experiment using W&B.
+    4. Log and version model checkpoints as model artifacts on W&B.
+5. Visualize and compare the predictions on the validation dataset using `wandb.Table` and interactive segmentation overlay on W&B.
 
 ## Setup and Installation
 
-First, install the latest version of both MONAI and Weights and Biases.
+First, install the latest version of both MONAI and W&B.
 
 ```python
 !python -c "import monai" || pip install -q -U "monai[nibabel, tqdm]"
@@ -77,7 +77,7 @@ wandb.login()
 
 ## Initialize a W&B Run
 
-Start a new W&B run to start tracking the experiment. Use of proper config system is a recommended best practice for reproducible machine learning. You can track the hyperparameters for every experiment using W&B.
+Start a new W&B Run to start tracking the experiment. Use of proper config system is a recommended best practice for reproducible machine learning. You can track the hyperparameters for every experiment using W&B.
 
 ```python
 with wandb.init(project="monai-brain-tumor-segmentation") as run:
@@ -227,7 +227,7 @@ val_dataset = DecathlonDataset(
 
 ### Visualizing the Dataset
 
-Weights & Biases supports images, video, audio, and more. You can log rich media to explore your results and visually compare our runs, models, and datasets. Use the [segmentation mask overlay system]({{< relref "/guides/models/track/log/media/#image-overlays-in-tables" >}}) to visualize our data volumes. To log segmentation masks in [tables]({{< relref "/guides/models/tables/" >}}), you must provide a `wandb.Image` object for each row in the table.
+W&B supports images, video, audio, and more. You can log rich media to explore your results and visually compare our runs, models, and datasets. Use the [segmentation mask overlay system]({{< relref "/guides/models/track/log/media/#image-overlays-in-tables" >}}) to visualize our data volumes. To log segmentation masks in [tables]({{< relref "/guides/models/tables/" >}}), you must provide a `wandb.Image` object for each row in the table.
 
 An example is provided in the pseudocode below:
 
@@ -248,7 +248,7 @@ for id, img, label in zip(ids, images, labels):
 run.log({"Table": table})
 ```
 
-Now write a simple utility function that takes a sample image, label, `wandb.Table` object and some associated metadata and populate the rows of a table that would be logged to the Weights & Biases dashboard.
+Now write a simple utility function that takes a sample image, label, `wandb.Table` object and some associated metadata and populate the rows of a table that would be logged to the W&B dashboard.
 
 ```python
 def log_data_samples_into_tables(

@@ -22,7 +22,7 @@ The W&B Dagster integration provides a W&B-specific Dagster resource and IO Mana
 The following guide demonstrates how to satisfy prerequisites to use W&B in Dagster, how to create and use W&B Artifacts in ops and assets, how to use W&B Launch and recommended best practices.
 
 ## Before you get started
-You will need the following resources to use Dagster within Weights and Biases:
+You will need the following resources to use Dagster within W&B:
 1. **W&B API Key**.
 2. **W&B entity (user or team)**: An entity is a username or team name where you send W&B Runs and Artifacts. Make sure to create your account or team entity in the W&B App UI before you log runs. If you do not specify ain entity, the run will be sent to your default entity, which is usually your username. Change your default entity in your settings under **Project Defaults**.
 3. **W&B project**: The name of the project where [W&B Runs]({{< relref "/guides/models/track/runs/" >}}) are stored.
@@ -756,7 +756,7 @@ def read_specific_partitions(context, my_daily_partitioned_asset):
 {{% /tab %}}
 {{< /tabpane >}}
 
-The configuration object, `metadata`, is used to configure how Weights & Biases (wandb) interacts with different artifact partitions in your project.
+The configuration object, `metadata`, configures how W&B interacts with different artifact partitions in your project.
 
 The object `metadata` contains a key named `wandb_artifact_configuration` which further contains a nested object `partitions`.
 
