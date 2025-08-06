@@ -462,4 +462,4 @@
 /ref/python/launch-library/* /launch-library/:splat 301
 /ref/release-notes/releases/* /ref/releases/:splat 301
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
-/ref/python/integrations/keras/*  /ref/python/:splat 301
+/ref/python/integrations/*  /ref/python/:splat 301
