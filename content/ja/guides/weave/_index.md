@@ -2,28 +2,33 @@
 title: W&B Weave
 menu:
   default:
-    identifier: ja-guides-weave-_index
+    identifier: weave
 weight: 4
 ---
 
-{{< cta-button colabLink="http://wandb.me/weave_colab" >}}
-
-Weave は、LLM アプリケーションを追跡および評価するための軽量ツールキットです。W&B Weave を使って、LLM の実行フローを視覚化および検査し、LLM の入力と出力を分析し、中間結果を表示し、プロンプトと LLM チェーン設定を安全に保存および管理できます。
-
-{{< img src="/images/weave/weave-hero.png" alt="" >}}
-
-W&B Weave を使用すると、次のことが可能です：
-* 言語モデルの入力、出力、およびトレースをログし、デバッグ
-* 言語モデルのユースケースに対する厳密な、比較可能な評価を構築
-* 実験から評価、プロダクションまでの LLM ワークフローで生成されたすべての情報を整理
-
 {{% alert %}}
-Weave のドキュメントをお探しですか？[W&B Weave Docs](https://weave-docs.wandb.ai/) をご覧ください。
+公式な Weave のドキュメントをお探しですか？ [weave-docs.wandb.ai](https://weave-docs.wandb.ai/) をご覧ください。
 {{% /alert %}}
 
-## 開始方法
-ユースケースに応じて、W&B Weave を始めるために以下のリソースを探索してください：
+W&B Weave は、LLM ベースのアプリケーションのトラッキング・実験・評価・デプロイ・改善のためのフレームワークです。柔軟かつスケーラブルな設計で、LLM アプリケーション開発ワークフローのあらゆる段階をサポートします。
 
-* [クイックスタート: LLM 呼び出しの入力と出力を追跡](https://wandb.github.io/weave/quickstart)
-* [評価パイプラインチュートリアルを構築](https://wandb.github.io/weave/tutorial-eval)
-* [RAG アプリケーションのモデルベースの評価チュートリアル](https://wandb.github.io/weave/tutorial-rag)
+- **トレーシング & モニタリング**: LLM の呼び出しやアプリケーションロジックを追跡し、プロダクションシステムのデバッグや分析を行います。
+- **体系的な反復**: プロンプト、Datasets、Models を洗練させたり、繰り返し改善します。
+- **実験**: LLM Playground でさまざまな Models やプロンプトを使い実験できます。
+- **評価**: 独自またはあらかじめ用意された評価スコアラーや、比較ツールを活用し、アプリケーションの性能を体系的に評価・向上させます。
+- **ガードレール**: コンテンツモデレーション、プロンプトの安全性など、アプリケーションを守るためのセーフガードを提供します。
+
+## Weave を始めよう
+
+Weave を初めて使う方は、[Python クイックスタート](https://weave-docs.wandb.ai/quickstart) または [TypeScript クイックスタート](https://weave-docs.wandb.ai/reference/generated_typescript_docs/intro-notebook) をご覧いただき、セットアップと利用を始めてみましょう。
+
+## 上級ガイド
+
+さらに詳しいトピックについて学びましょう：
+
+- [Integrations](https://weave-docs.wandb.ai/guides/integrations/): Weave を主要な LLM プロバイダー、ローカル Models、フレームワーク、サードパーティサービスと連携して利用します。
+- [Cookbooks](https://weave-docs.wandb.ai/reference/gen_notebooks/intro_notebook): Python や TypeScript を使った Weave 活用方法。チュートリアルはインタラクティブなノートブック形式で利用できます。
+- [W&B AI Academy](https://www.wandb.courses/pages/w-b-courses): 高度な RAG システム構築、LLM プロンプティングの改善、LLM のファインチューンなどを学べます。
+- [Weave Python SDK](https://weave-docs.wandb.ai/reference/python-sdk/weave/)
+- [Weave TypeScript SDK](https://weave-docs.wandb.ai/reference/typescript-sdk/weave/)
+- [Weave Service API](https://weave-docs.wandb.ai/reference/service-api/call-start-call-start-post)

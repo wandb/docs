@@ -2,7 +2,7 @@
 title: オートメーション
 menu:
   default:
-    identifier: ja-guides-core-automations-_index
+    identifier: automations
     parent: core
 weight: 4
 ---
@@ -11,32 +11,41 @@ weight: 4
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-このページでは、W&B の _オートメーション_ について説明します。ワークフローステップをトリガーする [オートメーションの作成]({{< relref path="create-automations/" lang="ja" >}}) は、W&B 内のイベント（例えば、アーティファクトバージョンが作成されたとき）に基づいて、自動モデルテストやデプロイメントなどを行います。
+このページでは、W&B の _automations_ について説明します。[Automation を作成]({{< relref "create-automations/" >}}) すると、W&B 内のイベント（例: [artifact]({{< relref "/guides/core/artifacts" >}}) のアーティファクトバージョン作成や [run metric]({{< relref "/guides/models/track/runs.md" >}}) のしきい値変化時）をトリガーに、ワークフローステップ（モデルの自動テストやデプロイメントなど）を実行できます。
 
-例えば、新しいバージョンが作成されたときに Slack のチャンネルに投稿したり、アーティファクトに `production` エイリアスが追加されたときに自動テストをトリガーするためにウェブフックを実行することができます。
+たとえば、新しいバージョンが作成された際に Slack チャンネルへ通知したり、`production` エイリアスがアーティファクトに追加されたときに自動テストの webhook を実行したり、run の `loss` が許容範囲内のときのみバリデーションジョブを開始したりできます。
 
 ## 概要
-オートメーションは、レジストリやプロジェクトで特定の[イベント]({{< relref path="automation-events.md" lang="ja" >}})が発生したときに実行できます。
+automation は、レジストリやプロジェクト内で特定の [イベント]({{< relref "automation-events.md" >}}) が発生した際に実行できます。
 
-[レジストリ]({{< relref path="/guides/core/registry/" lang="ja" >}})内のアーティファクトの場合、オートメーションを設定して次の場合に実行することができます：
-- 新しいアーティファクトバージョンがコレクションにリンクされたとき。例えば、新しい候補モデルに対するテストおよび検証ワークフローをトリガーします。
-- アーティファクトバージョンにエイリアスが追加されたとき。例えば、モデルバージョンにエイリアスが追加されたときにデプロイメントワークフローをトリガーします。
+[Registry]({{< relref "/guides/core/registry/">}}) の場合、automation は以下のタイミングで開始できます:
+- 新しいアーティファクトバージョンがコレクションにリンクされたとき。例: 新規モデル候補に対してテストやバリデーションワークフローをトリガー。
+- エイリアスがアーティファクトバージョンに追加されたとき。例: モデルバージョンにエイリアスが追加された場合にデプロイメントワークフローを実行。
 
-[プロジェクト]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}})内のアーティファクトの場合、オートメーションを設定して次の場合に実行することができます：
-- 新しいバージョンがアーティファクトに追加されたとき。例えば、指定されたコレクションにデータセットアーティファクトの新しいバージョンが追加されたときにトレーニングジョブを開始します。
-- アーティファクトバージョンにエイリアスが追加されたとき。例えば、データセットアーティファクトにエイリアス「redaction」が追加されたときに PII 編集ワークフローをトリガーします。
+[project]({{< relref "/guides/models/track/project-page.md" >}}) の場合、automation は以下のタイミングで開始できます:
+- アーティファクトに新しいバージョンが追加されたとき。例: 特定のコレクションにデータセットアーティファクトの新バージョンが追加された際にトレーニングジョブを実行。
+- エイリアスがアーティファクトバージョンに追加されたとき。例: データセットアーティファクトに「redaction」というエイリアスが付与されたときに PII マスキングワークフローをトリガー。
+- タグがアーティファクトバージョンに追加されたとき。例: アーティファクトバージョンに「europe」タグが追加された際に、地域別ワークフローを起動。
+- run のメトリクスが設定したしきい値を満たす、または超えたとき。
+- run のメトリクスが設定したしきい値分変化したとき。
+- run のステータスが **Running**、**Failed**、**Finished** に変化したとき。
 
-詳細については、[オートメーションイベントとスコープ]({{< relref path="automation-events.md" lang="ja" >}})を参照してください。
+さらに、ユーザーや run 名で対象の run をフィルタすることもできます。
 
-[オートメーションを作成するには]({{< relref path="create-automations/" lang="ja" >}})、以下を行います：
+詳細については [Automation events and scopes]({{< relref "automation-events.md" >}}) をご覧ください。
 
-1. 必要に応じて、自動化に必要なアクセス トークン、パスワード、またはセンシティブな設定の詳細などの機密文字列のために、[シークレット]({{< relref path="/guides/core/secrets.md" lang="ja" >}})を設定します。シークレットは **Team Settings** で定義されます。シークレットは、資格情報やトークンをプレーン テキストで公開することなく、Webhook のペイロードにハードコードすることなく、安全に外部サービスに渡すために Webhook オートメーションで最も一般的に使用されます。
-1. Webhook または Slack 通知を設定して、Slack に投稿したり、ユーザーに代わって Webhook を実行するように W&B を承認します。単一のオートメーションアクション（Webhookまたは Slack 通知）は、複数のオートメーションで使用できます。これらのアクションは、**Team Settings** で定義されます。
-1. プロジェクトまたはレジストリでオートメーションを作成します：
-    1. 新しいアーティファクトバージョンが追加されたときなど、監視する[イベント]({{< relref path="#automation-events" lang="ja" >}})を定義します。
-    1. イベントが発生したときに取るアクション（Slack チャンネルへの投稿またはウェブフックの実行）を定義します。ウェブフックの場合、必要に応じてペイロードと共に送信するアクセス トークンやシークレットを使用するためのシークレットを指定します。
+[automation を作成する]({{< relref "create-automations/" >}})には、以下の手順を踏みます。
+
+1. 必要であれば、automation で利用する機密文字列（アクセストークンやパスワード、機密設定など）のために [secrets]({{< relref "/guides/core/secrets.md" >}}) を設定します。Secrets は **Team Settings** で管理できます。Secrets は、webhook automation で外部サービスへ安全に認証情報やトークンを渡す場合などによく利用されます（平文やコード内に含めずに安全に連携可能）。
+1. Webhook や Slack 通知アクションを設定し、W&B が代理で Slack への投稿や webhook の実行を行えるようにします。Webhook や Slack 通知のアクションは複数の automation で共用できます。これらのアクションも **Team Settings** で管理します。
+1. プロジェクトまたはレジストリで automation を作成します:
+    1. 監視したい [イベント]({{< relref "#automation-events" >}}) を定義します（例: アーティファクトの新規バージョン追加時など）。
+    1. イベント発生時のアクション（Slack への投稿や webhook の実行）を定義します。Webhook の場合、アクセストークン用の secret や、必要に応じてペイロードに含める secret を指定します。
+
+## 制限事項
+[Run metric automations]({{< relref "automation-events.md#run-metrics-events">}}) は現在 [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}) のみでサポートされています。
 
 ## 次のステップ
-- [オートメーションを作成する]({{< relref path="create-automations/" lang="ja" >}})。
-- [オートメーションのイベントとスコープ]({{< relref path="automation-events.md" lang="ja" >}})について学ぶ。
-- [シークレットを作成する]({{< relref path="/guides/core/secrets.md" lang="ja" >}})。
+- [Automation を作成]({{< relref "create-automations/" >}})
+- [Automation events and scopes]({{< relref "automation-events.md" >}}) を詳しく知る
+- [Secret を作成]({{< relref "/guides/core/secrets.md" >}})

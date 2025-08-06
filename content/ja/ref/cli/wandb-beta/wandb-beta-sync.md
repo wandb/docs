@@ -1,11 +1,8 @@
 ---
-title: wandb ベータ 同期
-menu:
-  reference:
-    identifier: ja-ref-cli-wandb-beta-wandb-beta-sync
+title: wandb beta sync
 ---
 
-**使用法**
+**使い方**
 
 `wandb beta sync [OPTIONS] WANDB_DIR`
 
@@ -17,13 +14,13 @@ menu:
 
 | **オプション** | **説明** |
 | :--- | :--- |
-| `--id` | アップロードしたい run です。 |
-| `-p, --project` | アップロードしたい project です。 |
-| `-e, --entity` | スコープにする entity です。 |
+| `--id` | アップロードしたい run の ID。 |
+| `-p, --project` | アップロード先の Project。 |
+| `-e, --entity` | 対象とする Entity。 |
 | `--skip-console` | コンソールログをスキップします |
 | `--append` | run を追加します |
-| `-i, --include` | 含めるためのグロブ。複数回使用可能です。 |
-| `-e, --exclude` | 除外するためのグロブ。複数回使用可能です。 |
+| `-i, --include` | 含めるファイルのグロブパターン。複数回指定可能。 |
+| `-e, --exclude` | 除外するファイルのグロブパターン。複数回指定可能。 |
 | `--mark-synced / --no-mark-synced` | run を同期済みとしてマークします |
 | `--skip-synced / --no-skip-synced` | 同期済みの run をスキップします |
-| `--dry-run` | 何もアップロードせずにドライ run を実行します。 |
+| `--dry-run` | アップロードせずにドライランを実行します。 |

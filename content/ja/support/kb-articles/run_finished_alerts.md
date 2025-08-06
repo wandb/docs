@@ -1,15 +1,13 @@
 ---
-title: ノートブックで "Run Finished" アラートは機能しますか?
-menu:
-  support:
-    identifier: ja-support-kb-articles-run_finished_alerts
-support:
-  - alerts
-  - notebooks
+title: ノートブックで「Run Finished」アラートは機能しますか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- アラート
+- ノートブック
 ---
-No. **Run Finished** アラート (**Run Finished** 設定をユーザー設定で有効にする) は Python スクリプトでのみ機能し、各セルの実行に対する通知を避けるために Jupyter ノートブック 環境では無効になっています。
 
-ノートブック 環境では `wandb.alert()` を使用してください。
+いいえ。**Run Finished** アラート（ユーザー設定内の **Run Finished** 設定で有効化）は Python スクリプトでのみ動作し、Jupyter ノートブック環境では各セル実行ごとに通知が来るのを防ぐため自動的にオフになります。
+
+ノートブック環境では代わりに `run.alert()` を使用してください。

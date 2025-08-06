@@ -2,42 +2,41 @@
 title: YOLOv5
 menu:
   default:
-    identifier: ja-guides-integrations-yolov5
+    identifier: yolov5
     parent: integrations
 weight: 470
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/yolo/Train_and_Debug_YOLOv5_Models_with_Weights_%26_Biases_.ipynb" >}}
 
-[Ultralytics' YOLOv5](https://ultralytics.com/yolo) ("You Only Look Once") モデルファミリーは、畳み込みニューラルネットワークを使用したリアルタイムのオブジェクト検出を、苦痛なく実現します。
+[Ultralytics の YOLOv5](https://ultralytics.com/yolo)（"You Only Look Once"）モデルファミリーは、畳み込みニューラルネットワークを使ってリアルタイムのオブジェクト検出を手軽に実現します。
 
-[Weights & Biases](http://wandb.com) は YOLOv5 に直接インテグレーションされており、実験のメトリクス追跡、モデルとデータセットのバージョン管理、リッチなモデル予測の可視化などを提供します。**YOLO の実験を実行する前に `pip install` 一行を実行するだけで始められます。**
+[W&B](https://wandb.com) は YOLOv5 に直接インテグレーションされており、実験メトリクスのトラッキング、モデルやデータセットのバージョン管理、リッチなモデル予測の可視化などが簡単に利用できます。**YOLO 実験を実行する前に `pip install` を一回実行するだけで始められます。**
 
 {{% alert %}}
-すべての W&B ログ機能は、[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) などのデータ並列マルチGPUトレーニングと互換性があります。
+すべての W&B ロギング機能は、[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) などのデータ並列型マルチ GPU トレーニングにも対応しています。
 {{% /alert %}}
 
-## コア実験の追跡
-
-`wandb` をインストールするだけで、システムメトリクス、モデルメトリクス、インタラクティブな[ダッシュボード]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}})にログされるメディアといった、ビルトインの W&B [ログ機能]({{< relref path="/guides/models/track/log/" lang="ja" >}})が有効になります。
+## コア実験をトラッキングする
+`wandb` をインストールするだけで、W&B の [ロギング機能]({{< relref "/guides/models/track/log/" >}})（システムメトリクス、モデルメトリクス、インタラクティブな [ダッシュボード]({{< relref "/guides/models/track/workspaces.md" >}}) へのメディア保存）が有効になります。
 
 ```python
 pip install wandb
 git clone https://github.com/ultralytics/yolov5.git
-python yolov5/train.py  # 小さなデータセットで小さなネットワークをトレーニングします
+python yolov5/train.py  # 小規模ネットワークを小さなデータセットでトレーニング
 ```
 
-wandb によって標準出力に表示されるリンクをただフォローするだけです。
+wandb によって標準出力に表示されるリンクをクリックするだけです。
 
-{{< img src="/images/integrations/yolov5_experiment_tracking.png" alt="これらのチャートおよびそれ以上。" >}}
+{{< img src="/images/integrations/yolov5_experiment_tracking.png" alt="これらのチャート以外にも、多くの情報を確認できます。" >}}
 
-## インテグレーションのカスタマイズ
+## インテグレーションをカスタマイズする
 
-YOLO にいくつかの簡単なコマンドライン引数を渡すことで、さらに多くの W&B 機能を活用できます。
+YOLO にいくつかの簡単なコマンドライン引数を追加するだけで、さらに多くの W&B 機能を活用できます。
 
-* `--save_period` に数値を渡すと、W&B は各 `save_period` エポックの終わりに[モデルバージョン]({{< relref path="/guides/core/registry/" lang="ja" >}})を保存します。モデルバージョンにはモデルの重みが含まれ、検証セットで最もパフォーマンスの良いモデルにタグ付けされます。
-* `--upload_dataset` フラグをオンにすると、データセットがデータバージョン管理のためにアップロードされます。
-* `--bbox_interval` に数値を渡すと、[データ可視化]({{< relref path="../" lang="ja" >}})が有効になります。各 `bbox_interval` エポックの終わりに、モデルの出力が検証セットに対して W&B にアップロードされます。
+* `--save_period` に数値を指定すると、W&B は毎回 `save_period` エポック終了時に [モデルバージョン]({{< relref "/guides/core/registry/" >}}) を保存します。モデルバージョンにはモデル重みが含まれ、検証セットで最も良い結果を出したモデルもタグ付けされます。
+* `--upload_dataset` フラグを有効にすると、データセットもアップロードされ、データのバージョン管理が行われます。
+* `--bbox_interval` に数値を指定すると、[データ可視化]({{< relref "../" >}}) が有効になります。すべての `bbox_interval` エポック終了時に、検証セットでのモデルの出力が W&B にアップロードされます。
 
 {{< tabpane text=true >}}
 {{% tab header="Model Versioning Only" value="modelversioning" %}}
@@ -58,15 +57,15 @@ python yolov5/train.py --epochs 20 --save_period 1 \
 {{< /tabpane >}}
 
 {{% alert %}}
-すべての W&B アカウントには、データセットとモデル用に 100 GB の無料ストレージが付属しています。
+W&B アカウントにはデータセットやモデルのための 100 GB の無料ストレージが付いてきます。
 {{% /alert %}}
 
-これがどのように見えるかを示します。
+このようなイメージになります。
 
-{{< img src="/images/integrations/yolov5_model_versioning.png" alt="モデルバージョン管理: 最新かつベストなモデルバージョンが識別されます。" >}}
+{{< img src="/images/integrations/yolov5_model_versioning.png" alt="モデルのバージョン管理" >}}
 
-{{< img src="/images/integrations/yolov5_data_visualization.png" alt="データ可視化: 入力画像とモデルの出力および例ごとのメトリクスを比較します。" >}}
+{{< img src="/images/integrations/yolov5_data_visualization.png" alt="データ可視化" >}}
 
 {{% alert %}}
-データとモデルのバージョン管理により、セットアップ不要で任意のデバイスから一時停止またはクラッシュした実験を再開できます。[詳細は Colab を確認してください](https://wandb.me/yolo-colab)。
+データとモデルのバージョン管理によって、一時停止やクラッシュした実験もどのデバイスからでも再開できます。詳しくは [Colab ](https://wandb.me/yolo-colab) をご覧ください。
 {{% /alert %}}

@@ -1,21 +1,21 @@
 ---
-title: W&B モデル
+title: W&B Models
 menu:
   default:
-    identifier: ja-guides-models-_index
-no_list: true
+    identifier: models
 weight: 3
+no_list: true
 ---
 
-W&B Models は、モデルを整理し、生産性とコラボレーションを向上させ、プロダクション規模での機械学習を提供したい機械学習エンジニアのための SoR です。
+W&B Models は、モデルの整理、生産性やコラボレーションの向上、そして大規模なプロダクション級機械学習の実現を目指す ML エンジニア向けのシステム・オブ・レコードです。
 
-{{< img src="/images/general/architecture.png" alt="" >}}
+{{< img src="/images/general/architecture.png" alt="W&B Models アーキテクチャ図" >}}
 
-W&B Models を使用すると、次のことが可能です:
+W&B Models でできること:
 
-- 全ての[ML 実験]({{< relref path="/guides/models/track/" lang="ja" >}})をトラッキングして視覚化します。
-- [ハイパーパラメーター探索]({{< relref path="/guides/models/sweeps/" lang="ja" >}})で、モデルをスケールに合わせて最適化し、ファインチューンします。
-- devops とデプロイメントへのシームレスな引き渡しポイントを持つすべてのモデルの[集中ハブを維持する]({{< relref path="/guides/core/registry/" lang="ja" >}})。
-- [モデル CI/CD]({{< relref path="/guides/core/automations/" lang="ja" >}})のためのキーワークフローをトリガするカスタムオートメーションを設定します。
+- すべての [ML experiments]({{< relref "/guides/models/track/" >}}) をトラッキングし、可視化できます。
+- [hyperparameter sweeps]({{< relref "/guides/models/sweeps/" >}}) を使って、モデルを大規模に最適化・ファインチューンできます。
+- [すべてのモデルを集中管理するハブを維持]({{< relref "/guides/core/registry/" >}}) でき、devops やデプロイメントへのシームレスな引き渡しが可能です。
+- [model CI/CD]({{< relref "/guides/core/automations/" >}}) 用の主要なワークフローを自動でトリガーするカスタムオートメーションを設定できます。
 
-機械学習エンジニアは、実験をトラッキングして視覚化し、モデルのバージョンとリネージを管理し、ハイパーパラメーターを最適化するための ML SoR として W&B Models に依存しています。
+機械学習エンジニアは、W&B Models を ML のシステム・オブ・レコードとして活用し、実験のトラッキングと可視化、モデルのバージョンやリネージの管理、ハイパーパラメーターの最適化を行っています。

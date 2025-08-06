@@ -1,17 +1,17 @@
 ---
-title: クエリ式言語
+title: クエリー式言語
+menu:
+  reference:
+    identifier: qel
+    parent: reference
 cascade:
   menu:
     reference:
       parent: qel
-menu:
-  reference:
-    identifier: ja-ref-query-panel-_index
-    parent: reference
 ---
 
-クエリエクスプレッションを使用して、Runs と Projects にまたがるデータを選択および集計します。
-[クエリパネル]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ja" >}})についてさらに学びましょう。
+クエリエクスプレッションを使って、複数の Run や Project を横断してデータを選択・集計できます。
+[クエリパネル]({{< relref "/guides/models/app/features/panels/query-panels/" >}})について詳しくはこちらをご覧ください。
 
 ## データ型
 

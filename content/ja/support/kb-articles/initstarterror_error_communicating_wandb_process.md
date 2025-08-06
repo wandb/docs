@@ -1,20 +1,18 @@
 ---
 title: 'InitStartError: wandb プロセスとの通信エラー'
-menu:
-  support:
-    identifier: ja-support-kb-articles-initstarterror_error_communicating_wandb_process
-support:
-  - experiments
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 実験
 ---
-このエラーは、ライブラリがサーバーにデータを同期するプロセスの起動に問題があることを示しています。
 
-以下の回避策は、特定の環境で問題を解決します。
+このエラーは、ライブラリがサーバーへデータを同期するプロセスの起動時に問題が発生したことを示しています。
+
+以下の回避策は、特定の環境でこの問題を解決します。
 
 {{< tabpane text=true >}}
-{{% tab "Linux and OS X" %}}
+{{% tab "LinuxとOS X" %}}
 ```python
 wandb.init(settings=wandb.Settings(start_method="fork"))
 ```
@@ -22,7 +20,7 @@ wandb.init(settings=wandb.Settings(start_method="fork"))
 {{% /tab %}}
 {{% tab "Google Colab" %}}
 
-バージョン `0.13.0` より前のものには、次を使用してください：
+`0.13.0` より前のバージョンの場合は、次の設定を使用してください。
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))

@@ -1,8 +1,8 @@
 ---
-title: 監視と利用状況
+title: モニタリングと使用状況
 menu:
   default:
-    identifier: ja-guides-hosting-monitoring-usage-_index
+    identifier: monitoring-and-usage
     parent: w-b-platform
 weight: 5
 ---

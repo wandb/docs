@@ -1,31 +1,28 @@
 ---
-title: video-file
-menu:
-  reference:
-    identifier: ja-ref-query-panel-video-file
+title: 動画ファイル
 ---
 
-## Chainable Ops
+## チェイン可能な Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-アセットの _file_ を返します
+アセットの _ファイル_ を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `asset` | アセット |
 
 #### 戻り値
-アセットの _file_
+アセットの _ファイル_
 
 
-## List Ops
+## リスト Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-アセットの _file_ を返します
+アセットの _ファイル_ を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `asset` | アセット |
 
 #### 戻り値
-アセットの _file_
+アセットの _ファイル_

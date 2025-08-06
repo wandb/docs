@@ -1,13 +1,11 @@
 ---
-title: W&B に障害がありますか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-wandb_status
-support:
-  - connectivity
-  - outage
+title: W&B で障害が発生していますか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 接続性
+- 障害
 ---
-W&B マルチテナントクラウドが停止しているかどうかは、W&B ステータスページ [https://status.wandb.com](https://status.wandb.com) を訪問して確認してください。
+
+wandb.ai の W&B マルチテナントクラウドで障害が発生していないかを確認するには、W&B ステータスページ（https://status.wandb.com）をご覧ください。

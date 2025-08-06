@@ -1,9 +1,10 @@
 ---
-title: データを管理する
+title: データを管理
 menu:
   default:
-    identifier: ja-guides-core-artifacts-manage-data-_index
+    identifier: manage-data
     parent: artifacts
 weight: 8
+url: guides/artifacts/manage-data
 ---
 

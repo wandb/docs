@@ -1,16 +1,16 @@
 ---
 title: 匿名モード
-description: データをログし、W&B アカウントなしで可視化する
+description: W&B アカウントなしでデータをログし可視化する
 menu:
   default:
-    identifier: ja-guides-models-app-settings-page-anon
+    identifier: anon
     parent: settings
 weight: 80
 ---
 
-コードを誰でも簡単に実行できるように公開していますか？ 匿名モードを使用して、誰かがあなたのコードを実行し、W&B ダッシュボードを見て、W&B アカウントを作成することなく結果を視覚化できるようにします。
+公開したいコードを誰でも簡単に実行できるようにしたい場合は、anonymous モードを利用しましょう。anonymous モードを使えば、誰でも W&B アカウントを作成せずにあなたのコードを実行し、W&B ダッシュボードを見て、結果を可視化できます。
 
-結果が匿名モードでログに記録されるようにするには、次のようにします：
+anonymous モードで結果をログに記録するには、次のようにします：
 
 ```python
 import wandb
@@ -18,7 +18,7 @@ import wandb
 wandb.init(anonymous="allow")
 ```
 
-例えば、次のコードスニペットは、W&B でアーティファクトを作成し、ログに記録する方法を示しています：
+例えば、下記のコードスニペットは、W&B で Artifact を作成しログに記録する方法を示しています：
 
 ```python
 import wandb
@@ -32,4 +32,4 @@ run.log_artifact(artifact)
 run.finish()
 ```
 
-[例のノートブックを試してみて](https://colab.research.google.com/drive/1nQ3n8GD6pO-ySdLlQXgbz4wA3yXoSI7i)、匿名モードがどのように機能するかを確認してください。
+[サンプルノートブックを試して](https://colab.research.google.com/drive/1nQ3n8GD6pO-ySdLlQXgbz4wA3yXoSI7i)、anonymous モードがどのように動作するか確認してみましょう。

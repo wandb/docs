@@ -1,8 +1,5 @@
 ---
-title: wandb ローンンチ-sweep
-menu:
-  reference:
-    identifier: ja-ref-cli-wandb-launch-sweep
+title: wandb launch-sweep
 ---
 
 **使用方法**
@@ -11,14 +8,14 @@ menu:
 
 **概要**
 
-W&B Launch Sweep を実行します (実験的機能)。
+W&B の Launch sweep を実行します（実験的機能）。
 
 **オプション**
 
 | **オプション** | **説明** |
 | :--- | :--- |
-| `-q, --queue` | sweep をプッシュするキューの名前 |
-| `-p, --project` | エージェントが監視するプロジェクトの名前。指定した場合、設定ファイルで渡されたプロジェクトの値を上書きします |
-| `-e, --entity` | 使用するエンティティ。デフォルトは現在ログインしているユーザーです |
-| `-r, --resume_id` | 8文字のsweep IDを渡してlaunch sweep を再開します。キューが必要です |
-| `--prior_run` | このsweep に追加する既存のrun のID |
+| `-q, --queue` | sweep をプッシュするキュー名 |
+| `-p, --project` | エージェントが監視する Project 名。指定した場合、config ファイルで設定した project の値を上書きします |
+| `-e, --entity` | 使用する Entity。デフォルトは現在ログイン中の User です |
+| `-r, --resume_id` | 8文字の sweep ID を指定して Launch sweep を再開します。キューの指定が必要です |
+| `--prior_run` | この sweep に追加する既存の Run の ID |

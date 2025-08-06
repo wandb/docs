@@ -1,12 +1,10 @@
 ---
-title: run と一緒に削除された後に Artifacts を復元することは可能ですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-recover_artifact_after_deleted
-support:
-  - artifacts
+title: run と一緒に削除された artifact を復元することは可能ですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- アーティファクト
 ---
-run を削除する際に、関連する Artifacts を削除するかどうかのプロンプトが表示されます。このオプションを選択すると、Artifacts は完全に削除され、run 自体が後で復元されても、回復することは不可能になります。
+
+run を削除する際、関連する Artifacts も削除するかどうかを確認するプロンプトが表示されます。このオプションを選択すると、Artifacts は完全に削除され、たとえ後で run を復元しても Artifacts を元に戻すことはできません。

@@ -1,52 +1,52 @@
 ---
-title: Simple Transformers
-description: Hugging Face の Transformers ライブラリと W&B を統合する方法。
+title: シンプルトランスフォーマー
+description: Hugging Face の Transformers ライブラリと W&B を統合する方法をご紹介します。
 menu:
   default:
-    identifier: ja-guides-integrations-simpletransformers
+    identifier: simpletransformers
     parent: integrations
 weight: 390
 ---
 
-このライブラリは、Hugging Face の Transformers ライブラリに基づいています。Simple Transformers を使用すると、Transformer モデルを迅速にトレーニングおよび評価できます。モデルの初期化、モデルのトレーニング、およびモデルの評価には、わずか 3 行のコードで済みます。Sequence Classification、Token Classification \(NER\)、Question Answering、Language Model Fine-Tuning、Language Model Training、Language Generation、T5 Model、Seq2Seq Tasks、Multi-Modal Classification、Conversational AI をサポートしています。
+このライブラリは、Hugging Face の Transformers ライブラリをベースにしています。Simple Transformers を使うと、Transformer モデルのトレーニングや評価が素早く行えます。モデルの初期化、トレーニング、評価まで、たった３行のコードで完結します。対応タスクは、シーケンス分類、トークン分類（NER）、質問応答、言語モデルのファインチューニング、言語モデルのトレーニング、言語生成、T5 モデル、Seq2Seq タスク、マルチモーダル分類、会話型 AI など幅広いです。
 
-モデル トレーニング の可視化に Weights & Biases を使用するには、`args` 辞書の `wandb_project` 属性に W&B のプロジェクト名を設定します。これにより、すべてのハイパーパラメーター 値、トレーニング ロス、および評価メトリクスが指定されたプロジェクトにログされます。
+W&B を使って モデルトレーニング を可視化するには、`args` 辞書の `wandb_project` 属性で W&B のプロジェクト名を指定します。これによって、すべてのハイパーパラメーターの値、トレーニング損失、評価メトリクスが指定した Project に記録されます。
 
 ```python
 model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
 ```
 
-`wandb.init` に渡す追加の引数は、`wandb_kwargs` として渡すことができます。
+`wandb.init` の追加引数は `wandb_kwargs` として渡すことができます。
 
-## 構造
+## 構成
 
-このライブラリは、すべての NLP タスクに対して個別のクラスを持つように設計されています。類似の機能を提供するクラスは、グループ化されています。
+このライブラリは、NLP の各タスクごとに専用クラスを持つ設計です。類似機能を持つクラスはグループ化されています。
 
-* `simpletransformers.classification` - すべての Classification モデルを含みます。
+* `simpletransformers.classification` - すべての分類モデルを含みます。
   * `ClassificationModel`
   * `MultiLabelClassificationModel`
-* `simpletransformers.ner` - すべての Named Entity Recognition モデルを含みます。
+* `simpletransformers.ner` - すべての固有表現抽出（Named Entity Recognition）モデルを含みます。
   * `NERModel`
-* `simpletransformers.question_answering` - すべての Question Answering モデルを含みます。
+* `simpletransformers.question_answering` - すべての質問応答モデルを含みます。
   * `QuestionAnsweringModel`
 
-以下は、いくつかの最小限の例です。
+以下は簡単な使い方の例です。
 
-## MultiLabel Classification
+## マルチラベル分類
 
 ```text
   model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
-    args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs": epochs, 'learning_rate': learning_rate,
+    args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs":epochs,'learning_rate':learning_rate,
                 'wandb_project': "simpletransformers"},
   )
-   # モデルをトレーニングする
+   # モデルのトレーニング
   model.train_model(train_df)
 
-  # モデルを評価する
+  # モデルの評価
   result, model_outputs, wrong_predictions = model.eval_model(eval_df)
 ```
 
-## Question Answering
+## 質問応答
 
 ```text
   train_args = {
@@ -65,7 +65,7 @@ model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train
 model.train_model(train_data)
 ```
 
-SimpleTransformers は、すべての一般的な自然言語タスクのためのクラスとトレーニングスクリプトを提供します。ここでは、ライブラリでサポートされているグローバル引数の完全なリストと、そのデフォルト引数を示します。
+SimpleTransformers では、代表的な自然言語処理タスクすべてに対してクラスとトレーニングスクリプトを提供しています。下記は、ライブラリでサポートされているグローバル引数とそのデフォルト値の一覧です。
 
 ```text
 global_args = {
@@ -122,6 +122,6 @@ global_args = {
 }
 ```
 
-詳細なドキュメントについては、[github の simpletransformers](https://github.com/ThilinaRajapakse/simpletransformers) を参照してください。
+より詳しいドキュメントは [simpletransformers on github](https://github.com/ThilinaRajapakse/simpletransformers) をご覧ください。
 
-最も人気のある GLUE ベンチマークデータセットでのトランスフォーマーのトレーニングをカバーしている [こちらの Weights & Biases レポート](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) をご覧ください。 [ぜひ自分で colab で試してみてください](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing)。
+また、もっとも一般的な GLUE ベンチマークのデータセットで Transformer のトレーニングを行った様子をカバーした [この W&B レポート](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) もチェックしてみてください。[Colab で自分で動かしてみる](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing) ことも可能です。

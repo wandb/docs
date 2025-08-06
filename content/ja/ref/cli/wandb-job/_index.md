@@ -1,29 +1,24 @@
 ---
-title: wandb ジョブ
-menu:
-  reference:
-    identifier: ja-ref-cli-wandb-job-_index
+title: wandb job
 ---
 
-**使用法**
+**使い方**
 
 `wandb job [OPTIONS] COMMAND [ARGS]...`
 
 **概要**
 
-W&B ジョブを管理および表示するためのコマンド
-
+W&B ジョブの管理および閲覧コマンド
 
 **オプション**
 
 | **オプション** | **説明** |
 | :--- | :--- |
 
-
 **コマンド**
 
 | **コマンド** | **説明** |
 | :--- | :--- |
-| create | wandb run なしでソースからジョブを作成します。 |
-| describe | ローンンチジョブについて説明します。 |
+| create | wandb run を使わずに、ソースからジョブを作成します。 |
+| describe | Launch ジョブの詳細を表示します。 |
 | list | プロジェクト内のジョブを一覧表示します。 |

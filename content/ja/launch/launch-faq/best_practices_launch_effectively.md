@@ -1,13 +1,13 @@
 ---
-title: ローンチを効果的に使用するためのベストプラクティスはありますか？
+title: Launch を効果的に活用するためのベストプラクティスはありますか？
 menu:
   launch:
-    identifier: ja-launch-launch-faq-best_practices_launch_effectively
+    identifier: best_practices_launch_effectively
     parent: launch-faq
 ---
 
-1. エージェントを起動する前にキューを作成し、簡単に設定を可能にします。これを行わないと、キューが追加されるまでエージェントが正しく動作しないエラーが発生します。
+1. エージェントを開始する前にキューを作成すると、設定が簡単になります。これを行わない場合、キューが追加されるまでエージェントが動作しないエラーが発生します。
 
-2. W&B のサービスアカウントを作成してエージェントを起動し、個別のユーザーアカウントにリンクされていないことを確認します。
+2. エージェントを起動するために W&B サービスアカウントを作成してください。個人のユーザーアカウントと紐付けないように注意してください。
 
-3. `wandb.config` を使用してハイパーパラメーターを管理し、ジョブ再実行時に上書きできるようにします。argparse の使用方法については、[このガイド]({{< relref path="/guides/models/track/config/#set-the-configuration-with-argparse" lang="ja" >}})を参照してください。
+3. `wandb.Run.config` を使ってハイパーパラメーターを管理できます。ジョブの再実行時に上書き可能です。argparse を使う方法については [argparse での設定ガイド]({{< relref "/guides/models/track/config/#set-the-configuration-with-argparse" >}}) を参照してください。

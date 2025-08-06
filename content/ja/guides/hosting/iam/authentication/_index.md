@@ -1,12 +1,12 @@
 ---
 title: 認証
-cascade:
-- url: /ja/guides/hosting/iam/:filename
 menu:
   default:
-    identifier: ja-guides-hosting-iam-authentication-_index
+    identifier: authentication
     parent: identity-and-access-management-iam
-url: /ja/guides/hosting/iam/authentication
+url: guides/hosting/iam/authentication
+cascade:
+- url: guides/hosting/iam/:filename
 weight: 1
 ---
 

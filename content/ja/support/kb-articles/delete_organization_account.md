@@ -1,12 +1,10 @@
 ---
 title: 組織アカウントを削除するにはどうすればよいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-delete_organization_account
-support:
-  - administrator
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 管理者
 ---
-組織アカウントを削除するには、以下の手順に従い、サポートチーム（support@wandb.com）に連絡してください。
+
+組織アカウントを削除するには、以下の手順に従い、サポートチーム（support@wandb.com）までご連絡ください。

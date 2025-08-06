@@ -1,8 +1,8 @@
 ---
-title: データセキュリティ
+title: データのセキュリティ
 menu:
   default:
-    identifier: ja-guides-hosting-data-security-_index
+    identifier: data-security
     parent: w-b-platform
 weight: 3
 ---

@@ -1,18 +1,15 @@
 ---
-title: '`wandb` ファイルのローカル場所をどのように定義できますか?'
-menu:
-  support:
-    identifier: >-
-      ja-support-kb-articles-how_can_i_define_the_local_folder_where_to_save_the_wandb_files
-support:
-  - environment variables
-  - experiments
+title: '`wandb` ファイルのローカル保存先はどのように指定できますか？'
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 環境変数
+- 実験
 ---
-- `WANDB_DIR=<path>` または `wandb.init(dir=<path>)`: トレーニングスクリプトのために作成された `wandb` フォルダの場所を制御します。デフォルトは `./wandb` です。このフォルダには Run のデータとログが保存されます。
-- `WANDB_ARTIFACT_DIR=<path>` または `wandb.Artifact().download(root="<path>")`: アーティファクトがダウンロードされる場所を制御します。デフォルトは `./artifacts` です。
-- `WANDB_CACHE_DIR=<path>`: これは `wandb.Artifact` を呼び出した際にアーティファクトが作成・保存される場所です。デフォルトは `~/.cache/wandb` です。
-- `WANDB_CONFIG_DIR=<path>`: 設定ファイルが保存される場所です。デフォルトは `~/.config/wandb` です。
-- `WANDB_DATA_DIR=<PATH>`: アップロード中のアーティファクトのステージングに使用される場所を制御します。デフォルトは `~/.cache/wandb-data/` です。
+
+- `WANDB_DIR=<path>` または `wandb.init(dir=<path>)`: トレーニングスクリプト用に作成される `wandb` フォルダの保存先を指定します。デフォルトは `./wandb` です。このフォルダには Run のデータやログが保存されます。
+- `WANDB_ARTIFACT_DIR=<path>` または `wandb.Artifact().download(root="<path>")`: Artifacts のダウンロード先を指定します。デフォルトは `./artifacts` です。
+- `WANDB_CACHE_DIR=<path>`: `wandb.Artifact` を呼び出した時に Artifacts が作成・保存される場所です。デフォルトは `~/.cache/wandb` です。
+- `WANDB_CONFIG_DIR=<path>`: 設定ファイルの保存先です。デフォルトは `~/.config/wandb` です。
+- `WANDB_DATA_DIR=<PATH>`: アップロード時に Artifacts の一時保存に使われる場所を指定します。デフォルトは `~/.cache/wandb-data/` です。

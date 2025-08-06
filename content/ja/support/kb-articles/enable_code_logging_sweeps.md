@@ -1,12 +1,10 @@
 ---
-title: スイープでコードログを有効にするにはどうすれば良いですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-enable_code_logging_sweeps
-support:
-  - sweeps
+title: スイープでコードのログを有効にするにはどうすればよいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- スイープ
 ---
-スイープのためのコード ログを有効にするには、W&B Run を初期化した後に `wandb.log_code()` を追加します。この操作は、W&B のプロファイル設定でコード ログが有効になっている場合でも必要です。詳細なコード ログについては、[こちらの `wandb.log_code()` ドキュメント]({{< relref path="/ref/python/run.md#log_code" lang="ja" >}})を参照してください。
+
+スイープでコードのログを有効にするには、W&B Run の初期化後に `wandb.log_code()` を追加してください。W&B のプロファイル設定でコードのログが有効になっている場合でも、この操作は必要です。より高度なコードのログについては、[こちらの `wandb.log_code()` のドキュメント]({{< relref "/ref/python/sdk/classes/run#log_code" >}})をご参照ください。

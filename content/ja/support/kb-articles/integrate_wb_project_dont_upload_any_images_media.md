@@ -1,12 +1,10 @@
 ---
-title: プロジェクトに W&B を統合したいが、画像やメディアをアップロードしたくない場合はどうすればいいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-integrate_wb_project_dont_upload_any_images_media
-support:
-  - experiments
+title: W&B を自分のプロジェクトに統合したいけれど、画像やメディアは一切アップロードしたくない場合はどうすればいいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 実験
 ---
-W&B は、アップロードするファイルまたはデータの明示的な指定を許可することにより、スカラーのみをログする Projects をサポートしています。画像を使用せずにログを行う [PyTorch の例](http://wandb.me/pytorch-colab) を参照してください。
+
+W&B では、スカラーのみをログする Projects に対して、アップロードするファイルやデータを明示的に指定することができます。画像を使用せずにログする方法については、この [PyTorch の例](https://wandb.me/pytorch-colab) をご参照ください。

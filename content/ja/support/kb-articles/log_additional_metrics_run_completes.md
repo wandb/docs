@@ -1,17 +1,15 @@
 ---
-title: run が完了した後に追加のメトリクスをログするにはどうすればいいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-log_additional_metrics_run_completes
-support:
-  - runs
-  - metrics
+title: run 完了後に追加のメトリクスをログするにはどうすればよいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- run
+- メトリクス
 ---
-実験管理にはいくつかの方法があります。
 
-複雑なワークフローの場合、複数の run を使用し、[`wandb.init`]({{< relref path="/guides/models/track/launch.md" lang="ja" >}}) でグループパラメータを設定し、すべてのプロセスに対して一意の値を持たせます。これにより、[**Runs** タブ]({{< relref path="/guides/models/track/project-page.md#runs-tab" lang="ja" >}}) はテーブルをグループ ID でまとめ、可視化を正しく機能させます。このアプローチでは、結果を 1 か所にログしながら、同時に実験とトレーニング run を行うことができます。
+実験管理にはいくつか方法があります。
 
-よりシンプルなワークフローの場合、`wandb.init` を `resume=True` および `id=UNIQUE_ID` とともに呼び出し、同じ `id=UNIQUE_ID` でもう一度 `wandb.init` を呼び出します。通常通り [`wandb.log`]({{< relref path="/guides/models/track/log/" lang="ja" >}}) または `wandb.summary` でログを記録し、run の値はそれに応じて更新されます。
+複雑なワークフローの場合は、複数の run を使い、[`wandb.init()`]({{< relref "/guides/models/track/launch.md" >}}) 内の group パラメータに単一の実験内ですべてのプロセスに共通のユニークな値を設定してください。[**Runs** タブ]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}) では、group ID ごとにテーブルがグループ化され、可視化が正しく機能します。この方法を使うと、複数の実験やトレーニング run を同時に実行しながら、1 つの場所に結果をログできます。
+
+よりシンプルなワークフローの場合は、`wandb.init()` を `resume=True` と `id=UNIQUE_ID` にして呼び出し、再度同じ `id=UNIQUE_ID` で `wandb.init()` を呼び出してください。[`run.log()`]({{< relref "/guides/models/track/log/" >}}) や `run.summary()` を使って通常通りログを記録すると、その run の値が自動的に最新のものへ更新されます。

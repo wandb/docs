@@ -1,12 +1,10 @@
 ---
-title: チームと Entities の違いは何ですか？ユーザーとして、Entities は私にとって何を意味しますか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-difference_team_entity_user_entity_mean_me
-support:
-  - team management
+title: チームと Entity の違いは何ですか？ユーザーとして、Entity は自分にとって何を意味しますか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- チーム管理
 ---
-チームは、同じ Projects に取り組む Users のコラボレーションワークスペースとして機能します。エンティティは、ユーザー名またはチーム名を表します。W&B で run をログする際、`wandb.init(entity="example-team")` を使ってエンティティを個人またはチームアカウントに設定します。
+
+チームは、同じ Projects に取り組む Users のための共同 Workspace です。Entity は、ユーザー名またはチーム名のどちらかを表します。W&B で Runs をログする際には、`wandb.init(entity="example-team")` のようにして、Entity を個人アカウントまたはチームアカウントに設定します。

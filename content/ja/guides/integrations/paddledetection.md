@@ -1,43 +1,44 @@
 ---
 title: PaddleDetection
-description: W&B を PaddleDetection と統合する方法。
+description: W&B を PaddleDetection と連携する方法
 menu:
   default:
-    identifier: ja-guides-integrations-paddledetection
+    identifier: paddledetection
     parent: integrations
 weight: 270
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing" >}}
 
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) は、[PaddlePaddle](https://github.com/PaddlePaddle/Paddle) に基づくエンドツーエンドの物体検出開発キットです。ネットワークコンポーネント、データ拡張、損失などの設定可能なモジュールを使用して、さまざまな主流オブジェクトを検出し、インスタンスをセグメント化し、キーポイントを追跡および検出します。
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) は [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) をベースにした、エンドツーエンドの物体検出開発キットです。各種主流の物体を検出し、インスタンスのセグメンテーションやキーポイントの検出・追跡などが可能です。ネットワークコンポーネントやデータ拡張、ロスなどのモジュールを設定して使用できます。
 
-PaddleDetection には、トレーニングと検証のメトリクス、モデルチェックポイント、およびそれに対応するメタデータをログするための W&B インテグレーションが組み込まれています。
+PaddleDetection には W&B とのインテグレーションが標準搭載されており、トレーニングやバリデーションのメトリクス、モデルのチェックポイント、そのメタデータも自動でログされます。
 
-PaddleDetection `WandbLogger` は、トレーニングと評価のメトリクスを Weights & Biases にログし、トレーニング中にモデルチェックポイントも記録します。
+PaddleDetection の `WandbLogger` を使うと、トレーニングや評価時のメトリクス、さらにトレーニング中のモデルチェックポイントがすべて W&B に記録されます。
 
-[**W&B ブログ記事を読む**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) では、YOLOX モデルを `COCO2017` データセットのサブセットで PaddleDetectionと統合する方法を示しています。
+[W&B のブログ記事を読む](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0)  
+この記事では、YOLOX モデルを PaddleDetection と組み合わせて `COCO2017` データセットの一部サブセット上で使う例を紹介しています。
 
-## サインアップして API キーを作成する
+## サインアップして APIキー を作成
 
-APIキーは、あなたのマシンをW&Bに認証します。APIキーはユーザープロフィールから生成できます。
+APIキーはあなたのマシンを W&B に認証するためのものです。APIキーはユーザープロフィールから発行できます。
 
 {{% alert %}}
-より簡略化された方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize) に直接アクセスして API キーを生成できます。表示された API キーをコピーして、パスワードマネージャーのような安全な場所に保存してください。
+より簡単な方法として、[W&B 認証ページ](https://wandb.ai/authorize) へ直接アクセスして APIキー を生成することも可能です。表示された APIキー をコピーして、パスワードマネージャー等の安全な場所に保存してください。
 {{% /alert %}}
 
 1. 画面右上のユーザープロフィールアイコンをクリックします。
-2. **ユーザー設定** を選び、**API キー** セクションまでスクロールします。
-3. **表示** をクリックし、表示された API キーをコピーします。API キーを非表示にするには、ページをリロードします。
+1. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+1. **Reveal** をクリック。表示された APIキー をコピーしてください。APIキー を隠すにはページをリロードしてください。
 
-## `wandb` ライブラリをインストールしログインする
+## `wandb` ライブラリのインストールとログイン
 
-`wandb` ライブラリをローカルにインストールしてログインする方法:
+ローカル環境に `wandb` ライブラリをインストールしてログインする方法です：
 
 {{< tabpane text=true >}}
 {{% tab header="コマンドライン" value="cli" %}}
 
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をあなたのAPIキーに設定します。
+1. `WANDB_API_KEY` [環境変数]({{< relref "/guides/models/track/environment-variables.md" >}}) に取得した APIキー を設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -65,7 +66,7 @@ wandb.login()
 
 {{% /tab %}}
 
-{{% tab header="Pythonノートブック" value="python" %}}
+{{% tab header="Python ノートブック" value="python" %}}
 
 ```notebook
 !pip install wandb
@@ -77,15 +78,15 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## トレーニングスクリプトで `WandbLogger` を有効にする
+## トレーニングスクリプトで `WandbLogger` を有効化
 
 {{< tabpane text=true >}}
 {{% tab header="コマンドライン" value="cli" %}}
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/) の `train.py` に引数を渡して wandb を使用するには:
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/) の `train.py` に引数を渡して wandb を利用する場合：
 
-* `--use_wandb` フラグを追加します
-* 最初の wandb 引数の前に `-o` を付けます（これは一度だけで結構です）
-* 個々の wandb 引数にはすべて `wandb-` プレフィックスを含める必要があります。例えば、[`wandb.init`]({{< relref path="/ref/python/init" lang="ja" >}}) に渡す引数には `wandb-` プレフィックスが追加されます
+* `--use_wandb` フラグを付けます
+* 最初の wandb 引数の前に `-o` を付けます（1回だけでOKです）
+* 各 wandb 用引数には `"wandb-"` プレフィックスを付与します。たとえば [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) 用の引数には `wandb-` を頭に付けてください
 
 ```shell
 python tools/train.py 
@@ -98,7 +99,7 @@ python tools/train.py
 ```
 {{% /tab %}}
 {{% tab header="`config.yml`" value="config" %}}
-`config.yml` ファイルの `wandb` キーの下に wandb 引数を追加します:
+wandb の各種引数を config.yml ファイル内の `wandb` キー以下に追加してください:
 
 ```
 wandb:
@@ -107,12 +108,12 @@ wandb:
   save_dir: ./logs
 ```
 
-`train.py` ファイルを実行すると、W&B ダッシュボードへのリンクが生成されます。
+`train.py` を実行すると、W&B ダッシュボードへのリンクが生成されます。
 
-{{< img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A Weights & Biases Dashboard" >}}
+{{< img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A W&B Dashboard" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 
-## フィードバックや問題
+## フィードバックや不具合について
 
-Weights & Biases インテグレーションに関するフィードバックや問題がある場合は、[PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) に issue を作成するか、<a href="mailto:support@wandb.com">support@wandb.com</a> にメールしてください。
+W&B インテグレーションに関するご意見や不具合は、[PaddleDetection の GitHub](https://github.com/PaddlePaddle/PaddleDetection) に Issue を投稿するか、<a href="mailto:support@wandb.com">support@wandb.com</a> までご連絡ください。

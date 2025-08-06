@@ -1,12 +1,10 @@
 ---
-title: ランをタグでグループ化できますか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-group_runs_tags
-support:
-  - runs
+title: run をタグでグループ化できますか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- run
 ---
-run は複数のタグを持つことができるため、タグによるグループ化はサポートされていません。これらの run に対して [`config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) オブジェクトに値を追加し、この config 値でグループ化してください。これは [API]({{< relref path="/guides/models/track/config.md#set-the-configuration-after-your-run-has-finished" lang="ja" >}}) を使用して達成できます。
+
+run には複数のタグを設定できますが、タグでのグループ化はサポートされていません。これらの run には [`config`]({{< relref "/guides/models/track/config.md" >}}) オブジェクトに値を追加し、この config の値でグループ化してください。この処理は [API]({{< relref "/guides/models/track/config.md#set-the-configuration-after-your-run-has-finished" >}}) を使って実現できます。

@@ -1,31 +1,31 @@
 ---
-title: 機械学習モデルを文書化する
-description: モデル カードに説明を追加して、モデルをドキュメント化する
+title: 機械学習モデルをドキュメント化する
+description: モデルカードに説明を追加して、あなたのモデルをドキュメント化しましょう
 menu:
   default:
-    identifier: ja-guides-core-registry-model_registry-create-model-cards
+    identifier: create-model-cards
     parent: model-registry
 weight: 8
 ---
 
-モデルレジストリに登録されたモデルのモデルカードに説明を追加して、機械学習モデルの側面を文書化します。文書化する価値があるトピックには以下のものがあります：
+モデルレジストリで登録したモデルのモデルカードに説明を追加することで、あなたの機械学習モデルの各種側面をドキュメント化できます。記載する価値のあるテーマ例は以下の通りです。
 
-* **Summary**: モデルの概要。モデルの目的。モデルが使用する機械学習フレームワークなど。
-* **Training data**: 使用したトレーニングデータについて、トレーニングデータセットで行ったプロセッシング、そのデータがどこに保存されているかなどを説明します。
-* **Architecture**: モデルのアーキテクチャー、レイヤー、および特定の設計選択に関する情報。
-* **Deserialize the model**: チームの誰かがモデルをメモリにロードする方法についての情報を提供します。
-* **Task**: 機械学習モデルが実行するよう設計された特定のタスクや問題のタイプ。モデルの意図された能力の分類です。
-* **License**: 機械学習モデルの使用に関連する法的条件と許可。モデルユーザーが法的な枠組みのもとでモデルを利用できることを理解するのに役立ちます。
-* **References**: 関連する研究論文、データセット、または外部リソースへの引用や参照。
-* **Deployment**: モデルがどのように、そしてどこにデプロイメントされているのか、他の企業システムにどのように統合されているかに関するガイダンスを含む詳細。
+* **Summary**: モデルが何か、その目的、使用している機械学習フレームワークなどの概要。
+* **Training data**: 使用したトレーニングデータ、そのデータセットに対して行われたプロセッシング、そのデータがどこに保存されているか、などについて記述します。
+* **Architecture**: モデルのアーキテクチャー、レイヤー構成、特有の設計判断についての情報。
+* **Deserialize the model**: チームメンバーがどのようにモデルをメモリにロードできるか、その手順について書きます。
+* **Task**: この機械学習モデルがどのようなタスクや課題を解決するために設計されているのか。モデルの想定される能力を分類するものです。
+* **License**: モデルの利用に関する法的な条件や許可。モデルユーザーがどのような法的枠組みでモデルを活用できるかを理解する助けとなります。
+* **References**: 関連する研究論文、データセット、外部リソースへの引用や参照情報。
+* **Deployment**: モデルがどこで、どのようにデプロイされているかの詳細、他のエンタープライズシステムやワークフローオーケストレーションプラットフォームへどのように統合されているかのガイダンス。
 
 ## モデルカードに説明を追加する
 
-1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model) で W&B モデルレジストリ アプリに移動します。
-2. モデルカードを作成したい登録済みモデル名の横にある **View details** を選択します。
+1. [W&B Model Registry アプリ](https://wandb.ai/registry/model)にアクセスします。
+2. モデルカードを作成したい Registered Model の横にある **View details** を選択します。
 3. **Model card** セクションに移動します。
-{{< img src="/images/models/model_card_example.png" alt="" >}}
-4. **Description** フィールド内に、機械学習モデルに関する情報を入力します。モデルカード内のテキストは [Markdown マークアップ言語](https://www.markdownguide.org/) でフォーマットします。
+{{< img src="/images/models/model_card_example.png" alt="モデルカード例" >}}
+4. **Description** 欄に、あなたの機械学習モデルに関する情報を入力します。モデルカードのテキストは [Markdownマークアップ言語](https://www.markdownguide.org/) で整形できます。
 
-例えば、次の画像は **Credit-card Default Prediction** という登録済みモデルのモデルカードを示しています。
-{{< img src="/images/models/model_card_credit_example.png" alt="" >}}
+例えば、下記の画像は **Credit-card Default Prediction** Registered Model のモデルカードの例です。
+{{< img src="/images/models/model_card_credit_example.png" alt="モデルカード クレジットスコアリング" >}}

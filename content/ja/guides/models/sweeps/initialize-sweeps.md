@@ -1,31 +1,32 @@
 ---
 title: sweep を初期化する
-description: W&B で Sweep を初期化する
+description: W&B Sweep を初期化する
 menu:
   default:
-    identifier: ja-guides-models-sweeps-initialize-sweeps
+    identifier: initialize-sweeps
     parent: sweeps
 weight: 4
 ---
 
-W&B は、_Sweep Controller_ を使用して、クラウド (標準)、ローカル (ローカル) の 1 台以上のマシンで スイープを管理します。run が完了すると、sweep controller は新しい run を実行するための新しい指示を発行します。これらの指示は、実際に run を実行する _agents_ によって受け取られます。典型的な W&B Sweep では、controller は W&B サーバー上に存在し、agents は_あなたの_マシン上に存在します。
+W&B では、_Sweep Controller_ を使用して、クラウド（standard）やローカル（local）の複数マシン上で sweeps を管理します。run が完了すると、sweep controller は新たな run を実行するための指示を出します。これらの指示は、実際に run を実行する _agent_ によって受け取られます。一般的な W&B Sweep では、controller は W&B サーバー上に存在し、agent は _あなた_ のマシン上で動作します。
 
-以下のコードスニペットは、CLI、および Jupyter Notebook や Python スクリプト内でスイープを初期化する方法を示しています。
+以下のコードスニペットは、CLI や Jupyter Notebook、Python スクリプトで sweep を初期化する方法を示しています。
 
 {{% alert color="secondary" %}}
-1. スイープを初期化する前に、スイープ設定が YAML ファイルまたはスクリプト内のネストされた Python 辞書オブジェクトで定義されていることを確認してください。詳細については、[sweep configuration を定義する]({{< relref path="/guides/models/sweeps/define-sweep-configuration.md" lang="ja" >}}) を参照してください。
-2. W&B Sweep と W&B Run は同じ Project 内にある必要があります。そのため、W&B を初期化するときに指定する名前 ([`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}})) は、W&B Sweep を初期化するときに提供する Project 名 ([`wandb.sweep`]({{< relref path="/ref/python/sweep.md" lang="ja" >}})) と一致している必要があります。
+1. sweep を初期化する前に、YAML ファイルまたはスクリプト内のネストされた Python 辞書オブジェクトのいずれかで sweep configuration が定義されていることを確認してください。詳細は [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration.md" >}}) をご覧ください。
+2. W&B Sweep と W&B Run は必ず同じ Project 内で実行してください。そのため、W&B を初期化する際に指定する名前（[`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}})）は、W&B Sweep を初期化する際に指定する Project 名（[`wandb.sweep()`]({{< relref "/ref/python/sdk/functions/sweep.md" >}})）と一致させる必要があります。
 {{% /alert %}}
 
-{{< tabpane text=true >}}
-{{% tab header="Python script or notebook" %}}
 
-W&B SDK を使用してスイープを初期化します。スイープ設定辞書を `sweep` パラメータに渡します。オプションで、W&B Run の出力を保存したい Project の名前を Project パラメータ (`project`) に指定することができます。Project が指定されていない場合は、run は「Uncategorized」Project に置かれます。
+{{< tabpane text=true >}}
+{{% tab header="Python スクリプトまたはノートブック" %}}
+
+W&B SDK を使って sweep を初期化します。sweep configuration の辞書を `sweep` パラメータに渡してください。オプションで Project の名前を `project` パラメータとして指定できます。Project を指定しない場合、run は「Uncategorized」プロジェクトに保存されます。
 
 ```python
 import wandb
 
-# スイープ設定の例
+# sweep 設定例
 sweep_configuration = {
     "method": "random",
     "name": "sweep",
@@ -40,20 +41,20 @@ sweep_configuration = {
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
 ```
 
-[`wandb.sweep`]({{< relref path="/ref/python/sweep" lang="ja" >}}) 関数はスイープ ID を返します。スイープ ID には entity 名と Project 名が含まれます。スイープ ID をメモしておいてください。
+[`wandb.sweep()`]({{< relref "/ref/python/sdk/functions/sweep.md" >}}) 関数は sweep ID を返します。sweep ID には entity 名と project 名が含まれます。sweep ID をメモしておいてください。
 
 {{% /tab %}}
 {{% tab header="CLI" %}}
 
-W&B CLI を使用してスイープを初期化します。設定ファイルの名前を指定します。オプションで、`project` フラグに Project の名前を指定することができます。Project が指定されていない場合、W&B Run は「Uncategorized」Project に配置されます。
+W&B CLI を使用して sweep を初期化します。設定ファイル名を指定し、オプションで Project の名前を `project` フラグで指定可能です。Project を指定しない場合、W&B Run は「Uncategorized」プロジェクトに保存されます。
 
-[`wandb sweep`]({{< relref path="/ref/cli/wandb-sweep.md" lang="ja" >}}) コマンドを使用してスイープを初期化します。次のコード例は、`sweeps_demo` Project のスイープを初期化し、`config.yaml` ファイルを設定に使用しています。
+[`wandb sweep`]({{< relref "/ref/cli/wandb-sweep.md" >}}) コマンドを使って sweep を初期化します。以下のコード例では、`sweeps_demo` プロジェクトで `config.yaml` ファイルを使用して sweep を初期化しています。
 
 ```bash
 wandb sweep --project sweeps_demo config.yaml
 ```
 
-このコマンドはスイープ ID を出力します。スイープ ID には entity 名と Project 名が含まれます。スイープ ID をメモしておいてください。
+このコマンドを実行すると、sweep ID が出力されます。sweep ID には entity 名と project 名が含まれます。sweep ID を必ずメモしてください。
 
 {{% /tab %}}
 {{< /tabpane >}}

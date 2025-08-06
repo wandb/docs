@@ -1,18 +1,15 @@
 ---
-title: チームスペースからProjectsを管理者権限なしで削除するにはどうすればいいですか？
-menu:
-  support:
-    identifier: >-
-      ja-support-kb-articles-remove_projects_from_team_space_without_admin_privileges
-support:
-  - administrator
+title: 管理者権限がなくても Team スペースから Projects を削除するにはどうすればいいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 管理者
 ---
-チームスペースからProjectsを管理者権限なしで削除するには、次のオプションを選択してください:
 
-- 現在の管理者にProjectsを削除するように依頼します。
-- 管理者に一時的にProjects管理のアクセス権を付与するように依頼します。
+管理者権限なしでチームスペースから Projects を削除したい場合は、以下の方法をお試しください。
 
-管理者に連絡できない場合は、請求管理者または組織内の他の権限を持つユーザーに支援を求めてください。
+- 現在の管理者に Projects の削除を依頼する。
+- 管理者にプロジェクト管理の一時的なアクセス権を付与してもらうよう依頼する。
+
+管理者に連絡が取れない場合は、組織内の請求管理者や他の権限を持つユーザーにサポートを依頼してください。

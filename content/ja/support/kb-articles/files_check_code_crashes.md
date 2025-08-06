@@ -1,12 +1,10 @@
 ---
-title: どのファイルを確認すれば、コードがクラッシュしたときの原因がわかりますか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-files_check_code_crashes
-support:
-  - logs
+title: コードがクラッシュしたとき、どのファイルを確認すればよいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- ログ
 ---
-実行中のコードのディレクトリー内にある、`wandb/run-<date>_<time>-<run-id>/logs` にある `debug.log` と `debug-internal.log` を確認してください。
+
+影響を受けた run については、コードが実行されているディレクトリー内の `wandb/run-<date>_<time>-<run-id>/logs` にある `debug.log` と `debug-internal.log` を確認してください。

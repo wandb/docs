@@ -1,12 +1,10 @@
 ---
 title: wandb がクラッシュした場合、トレーニング run もクラッシュする可能性がありますか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-crashes_crash_training_run
-support:
-  - crashing and hanging runs
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- クラッシュやハングしている run
 ---
-トレーニング run への干渉を避けることは非常に重要です。W&B は別のプロセスで動作するため、W&B がクラッシュしてもトレーニングは継続されます。インターネットの接続障害が発生した場合でも、W&B は継続的に [wandb.ai](https://wandb.ai) へのデータ送信を再試行します。
+
+トレーニング run への影響を避けることは非常に重要です。W&B は別プロセスで動作しているため、W&B がクラッシュしてもトレーニングは継続されます。インターネット接続が切れた場合でも、W&B は [wandb.ai](https://wandb.ai) へのデータ送信を継続的にリトライします。

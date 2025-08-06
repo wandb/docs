@@ -1,8 +1,8 @@
 ---
-title: 自動化の作成
+title: 自動化を作成する
 menu:
   default:
-    identifier: ja-guides-core-automations-create-automations-_index
+    identifier: create-automations
     parent: automations
 weight: 1
 ---
@@ -11,40 +11,48 @@ weight: 1
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-このページでは、W&B の [オートメーション]({{< relref path="/guides/core/automations/" lang="ja" >}}) を作成および管理する概要を示します。詳細な手順については [Slack オートメーションを作成する]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ja" >}}) または [Webhook オートメーションを作成する]({{< relref path="/guides/core/automations/create-automations/webhook.md" lang="ja" >}}) を参照してください。
+このページでは、W&B の [オートメーション]({{< relref "/guides/core/automations/">}}) を作成および管理するための概要を説明します。より詳細な手順については、[Slack オートメーションの作成]({{< relref "/guides/core/automations/create-automations/slack.md" >}}) または [Webhook オートメーションの作成]({{< relref "/guides/core/automations/create-automations/webhook.md" >}}) をご覧ください。
 
 {{% alert %}}
 オートメーションに関するチュートリアルをお探しですか？
-- [モデルの評価とデプロイメントのための Github アクションを自動的にトリガーする方法を学ぶ](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)。
-- [モデルを Sagemaker エンドポイントに自動的にデプロイするデモ動画を見る](https://www.youtube.com/watch?v=s5CMj_w3DaQ)。
-- [オートメーションを紹介する動画シリーズを見る](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared)。
+- [Github Action を自動でトリガーしてモデルの評価やデプロイを行う方法を学ぶ](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)
+- [モデルを Sagemaker エンドポイントに自動デプロイするデモ動画を視聴する](https://www.youtube.com/watch?v=s5CMj_w3DaQ)
+- [オートメーションのイントロ動画シリーズを視聴する](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared)
 {{% /alert %}}
 
-## 要件
-- チーム管理者は、チームの Projects やオートメーションのコンポーネント（Webhook、秘密情報、Slack 接続など）のオートメーションを作成および管理できます。[チーム設定]({{< relref path="/guides/models/app/settings-page/team-settings/" lang="ja" >}})を参照してください。
-- レジストリオートメーションを作成するには、レジストリへのアクセスが必要です。[レジストリアクセスの設定]({{< relref path="/guides/core/registry/configure_registry.md#registry-roles" lang="ja" >}})を参照してください。
-- Slack オートメーションを作成するには、選択した Slack インスタンスとチャンネルに投稿する権限が必要です。
+## 必要条件
+- チームの管理者は、チームの Projects のためのオートメーションや、その構成要素（Webhook、Secret、Slack インテグレーションなど）を作成・管理できます。詳細は [Team settings]({{< relref "/guides/models/app/settings-page/team-settings/" >}}) をご覧ください。
+- Registry オートメーションを作成するには、その Registry へのアクセス権が必要です。[Configure Registry access]({{< relref "/guides/core/registry/configure_registry.md#registry-roles" >}}) を参照してください。
+- Slack オートメーションを作成するには、選択した Slack インスタンスやチャンネルへ投稿する権限が必要です。
 
-## オートメーションを作成する
-プロジェクトまたはレジストリの **Automations** タブからオートメーションを作成します。オートメーションを作成するには、以下のステップに従います：
+## オートメーションの作成
+Project または Registry の **Automations** タブからオートメーションを作成します。大まかな流れは以下の通りです。
 
-1. 必要に応じて、オートメーションに必要な各機密文字列（アクセストークン、パスワード、SSH キーなど）のために [W&B の秘密情報を作成する]({{< relref path="/guides/core/secrets.md" lang="ja" >}})。秘密情報は **Team Settings** で定義されます。秘密情報は主に Webhook オートメーションで使用されます。
-1. Webhook または Slack 通知を設定して、W&B が Slack に投稿するか、代わりに Webhook を実行できるようにします。単一のオートメーションアクション（Webhook または Slack 通知）は、複数のオートメーションによって使用できます。これらのアクションは **Team Settings** で定義されます。
-1. プロジェクトまたはレジストリで、監視するイベントと実行するアクション（Slack への投稿や Webhook の実行など）を指定するオートメーションを作成します。Webhook オートメーションを作成するときは、送信するペイロードを設定します。
+1. オートメーションに必要なアクセストークン、パスワード、SSH キーなどの機密文字列ごとに、必要に応じて [W&B Secret を作成]({{< relref "/guides/core/secrets.md" >}}) します。Secret は **Team Settings** で定義します。Secret は主に Webhook オートメーションで使われます。
+1. Webhook または Slack インテグレーションを設定し、W&B が Slack への投稿や Webhook の実行を代行できるようにします。1つの Webhook または Slack インテグレーションを複数のオートメーションで利用できます。これらの操作も **Team Settings** で設定します。
+1. Project または Registry でオートメーションを作成し、監視するイベントや実行するアクション（Slack への投稿や Webhook の実行など）を指定します。Webhook オートメーションを作成する場合は、送信するペイロードも設定します。
 
-詳細については、以下を参照してください：
+または、Workspace のラインプロット上から該当メトリクス用の [run Metric オートメーション]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) を素早く作成できます。
 
-- [Slack オートメーションを作成する]({{< relref path="slack.md" lang="ja" >}})
-- [Webhook オートメーションを作成する]({{< relref path="webhook.md" lang="ja" >}})
+1. パネルにカーソルを合わせて、パネル上部のベルアイコンをクリックします。
 
-## オートメーションを表示および管理する
-プロジェクトまたはレジストリの **Automations** タブからオートメーションを表示および管理します。
+    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location" >}}
+1. 基本設定または詳細設定コントロールを使ってオートメーションを設定します。例えば、run フィルタを適用してオートメーションの範囲を絞ったり、絶対値の閾値を設定したりできます。
 
-- オートメーションの詳細を表示するには、その名前をクリックします。
-- オートメーションを編集するには、そのアクションの `…` メニューをクリックし、**Edit automation** をクリックします。
-- オートメーションを削除するには、そのアクションの `…` メニューをクリックし、**Delete automation** をクリックします。
+詳しくは、以下を参照してください。
+
+- [Slack オートメーションの作成]({{< relref "slack.md" >}})
+- [Webhook オートメーションの作成]({{< relref "webhook.md" >}})
+
+## オートメーションの確認と管理
+Project もしくは Registry の **Automations** タブから、オートメーションの確認・管理ができます。
+
+- オートメーションの詳細を確認するには、その名前をクリックします。
+- オートメーションを編集するには、アクションの `...` メニューから **Edit automation** をクリックします。
+- オートメーションを削除するには、アクションの `...` メニューから **Delete automation** をクリックします。
 
 ## 次のステップ
-- [Slack オートメーションを作成する]({{< relref path="slack.md" lang="ja" >}})。
-- [Webhook オートメーションを作成する]({{< relref path="webhook.md" lang="ja" >}})。
-- [秘密情報を作成する]({{< relref path="/guides/core/secrets.md" lang="ja" >}})。
+- [オートメーションのイベントとスコープ]({{< relref "/guides/core/automations/automation-events.md" >}}) について詳しく学ぶ
+- [Slack オートメーションの作成]({{< relref "slack.md" >}})
+- [Webhook オートメーションの作成]({{< relref "webhook.md" >}})
+- [Secret の作成]({{< relref "/guides/core/secrets.md" >}})

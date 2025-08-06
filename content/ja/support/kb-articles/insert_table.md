@@ -1,14 +1,12 @@
 ---
-title: テーブルを挿入するにはどうすればよいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-insert_table
-support:
-  - reports
-  - wysiwyg
-  - tables
+title: テーブルを挿入するにはどうすればいいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- レポート
+- WYSIWYG
+- テーブル
 ---
-Markdown からの直接的な WYSIWYG 相当の機能がない唯一のものがテーブルとして残っています。テーブルを追加するには、Markdown ブロックを挿入し、その中にテーブルを作成します。
+
+テーブルは、Markdown の機能の中で唯一 WYSIWYG で直接対応する機能がありません。テーブルを追加する場合は、Markdown ブロックを挿入し、その中にテーブルを作成してください。

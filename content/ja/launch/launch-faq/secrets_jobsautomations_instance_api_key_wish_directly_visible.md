@@ -1,14 +1,14 @@
 ---
-title: ジョブやオートメーションのためのシークレットを指定することはできますか？例えば、ユーザーに直接見せたくないAPIキーのようなものですか？
+title: ジョブやオートメーションでシークレットを指定できますか？例えば、ユーザーに直接見せたくない APIキー などです。
 menu:
   launch:
-    identifier: ja-launch-launch-faq-secrets_jobsautomations_instance_api_key_wish_directly_visible
+    identifier: secrets_jobsautomations_instance_api_key_wish_directly_visible
     parent: launch-faq
 ---
 
-はい。次の手順に従ってください：
+はい。以下の手順に従ってください。
 
-1. run 用の指定された名前空間に Kubernetes のシークレットを作成します。コマンドは以下の通りです：
+1. 次のコマンドを使って、run 用に指定した namespace に Kubernetes シークレットを作成します。  
    `kubectl create secret -n <namespace> generic <secret_name> <secret_value>`
 
-2. シークレットを作成したら、run が開始する際にシークレットを注入するようにキューを設定します。クラスター管理者だけがシークレットを見ることができ、エンドユーザーはそれを確認できません。
+2. シークレットを作成した後、run 開始時にシークレットを注入できるようにキューを設定してください。シークレットはクラスター管理者のみが確認可能で、エンドユーザーには表示されません。

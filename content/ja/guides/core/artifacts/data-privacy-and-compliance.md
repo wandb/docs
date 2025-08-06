@@ -1,23 +1,23 @@
 ---
-title: アーティファクトのデータプライバシーとコンプライアンス
-description: デフォルトで W&B ファイルが保存される場所を学びましょう。機密情報の保存方法について探索します。
+title: アーティファクト データのプライバシーとコンプライアンス
+description: W&B ファイルがデフォルトでどこに保存されるかを確認できます。機密情報の保存方法についても解説します。
 menu:
   default:
-    identifier: ja-guides-core-artifacts-data-privacy-and-compliance
+    identifier: data-privacy-and-compliance
     parent: artifacts
 ---
 
-ファイルは、Artifacts をログするときに W&B が管理する Google Cloud バケットにアップロードされます。バケットの内容は、保存中および転送中の両方で暗号化されます。Artifact ファイルは、対応するプロジェクトへのアクセス権を持つユーザーにのみ表示されます。
+ファイルは、Artifacts をログする際に W&B が管理する Google Cloud のバケットにアップロードされます。バケット内のコンテンツは、保存時と転送時の両方で暗号化されます。Artifact ファイルは、対応する Project へのアクセス権を持つ Users だけが閲覧できます。
 
-{{< img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B クライアントサーバー図" >}}
+{{< img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B Client Server diagram" >}}
 
-アーティファクトのバージョンを削除すると、そのバージョンはデータベースでソフト削除としてマークされ、ストレージコストからも除外されます。アーティファクト全体を削除すると、それは完全削除のためにキューに入れられ、その内容はすべて W&B バケットから削除されます。ファイル削除に関する特定のニーズがある場合は、[Customer Support](mailto:support@wandb.com) にお問い合わせください。
+Artifact のバージョンを削除すると、その情報はデータベース上でソフト削除としてマークされ、ストレージコストから除外されます。Artifact 全体を削除した場合は、完全削除用のキューに入れられ、その内容が W&B バケットからすべて削除されます。ファイル削除に関して特別なご要望がある場合は、[Customer Support](mailto:support@wandb.com) までご連絡ください。
 
-マルチテナント環境に存在できない機密データセットには、クラウドバケットに接続されたプライベート W&B サーバーまたは _reference artifacts_ を使用することができます。Reference artifacts は、ファイル内容を W&B に送信せずに、プライベートバケットへの参照を追跡します。Reference artifacts は、バケットやサーバー上のファイルへのリンクを維持します。つまり、W&B はファイルそのものではなく、ファイルに関連するメタデータのみを追跡します。
+マルチテナント環境では管理できない機密性の高い Datasets については、クラウドバケットと接続したプライベートな W&B server や _reference artifacts_ を利用できます。Reference artifacts は、W&B にファイル内容を送信せずにプライベートバケットの参照だけを追跡します。Reference artifacts は、バケットやサーバー上のファイルへのリンクのみを保持します。つまり、W&B はファイル自体ではなく、ファイルに関連付けられたメタデータのみを管理します。
 
-{{< img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B クライアントサーバークラウド図" >}}
+{{< img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B Client Server Cloud diagram" >}}
 
-リファレンスアーティファクトは、通常のアーティファクトを作成する方法と似ています。
+Reference artifact は通常の artifact とほぼ同じ手順で作成します。
 
 ```python
 import wandb
@@ -27,4 +27,4 @@ artifact = wandb.Artifact("animals", type="dataset")
 artifact.add_reference("s3://my-bucket/animals")
 ```
 
-代替案については、[contact@wandb.com](mailto:contact@wandb.com) にお問い合わせいただき、プライベートクラウドおよびオンプレミスのインストールについてご相談ください。
+他の選択肢については、プライベートクラウドやオンプレミス環境の導入を含め、[contact@wandb.com](mailto:contact@wandb.com) までご相談ください。

@@ -1,12 +1,10 @@
 ---
-title: 自分のローカルインスタンスの管理者である場合、どのように管理すればよいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-admin_local_instance_manage
-support:
-  - administrator
+title: ローカルインスタンスの管理者の場合、どのように管理すればよいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 管理者
 ---
-自分がインスタンスの管理者である場合は、ユーザーの追加やチームの作成についての手順を確認するために、[ユーザー管理]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md" lang="ja" >}}) セクションをレビューしてください。
+
+あなたのインスタンスの管理者であれば、ユーザーの追加や Teams の作成方法については [ユーザー管理]({{< relref "/guides/hosting/iam/access-management/manage-organization.md" >}}) セクションをご確認ください。

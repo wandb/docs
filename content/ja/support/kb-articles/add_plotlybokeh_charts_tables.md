@@ -1,49 +1,47 @@
 ---
-title: Tables に Plotly または Bokeh チャートを追加するにはどうすればよいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-add_plotlybokeh_charts_tables
-support:
-  - experiments
-  - tables
-  - charts
+title: Plotly や Bokeh のチャートを Tables に追加する方法は？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 実験
+- テーブル
+- チャート
 ---
-Plotly または Bokeh の図をテーブルに直接統合することはサポートされていません。代わりに、図を HTML にエクスポートし、HTML をテーブルに含めてください。以下に、対話型の Plotly と Bokeh グラフを使用した例を示します。
+
+Plotly や Bokeh の図をテーブルへ直接インテグレーションすることはサポートされていません。代わりに、図を HTML としてエクスポートし、その HTML をテーブルに含めてください。以下の例では、インタラクティブな Plotly および Bokeh チャートを使った方法を紹介しています。
 
 {{< tabpane text=true >}}
-{{% tab "Using Plotly" %}}
+{{% tab "Plotly を使う場合" %}}
 ```python
 import wandb
 import plotly.express as px
 
-# 新しい run の初期化
-run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
+# 新しい run を初期化
+with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
-# テーブルの作成
-table = wandb.Table(columns=["plotly_figure"])
+    # テーブルを作成
+    table = wandb.Table(columns=["plotly_figure"])
 
-# Plotly 図のパスを定義
-path_to_plotly_html = "./plotly_figure.html"
+    # Plotly 図のパスを指定
+    path_to_plotly_html = "./plotly_figure.html"
 
-# Plotly 図の作成
-fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
+    # Plotly 図を作成
+    fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-# Plotly 図を HTML にエクスポート
-# auto_play を False に設定すると、アニメーションされた Plotly グラフの自動再生が防止されます
-fig.write_html(path_to_plotly_html, auto_play=False)
+    # Plotly 図を HTML へエクスポート
+    # auto_play=False にすることで、アニメーション付きの Plotly チャートが自動再生されません
+    fig.write_html(path_to_plotly_html, auto_play=False)
 
-# Plotly 図を HTML ファイルとしてテーブルに追加
-table.add_data(wandb.Html(path_to_plotly_html))
+    # Plotly の HTML ファイルをテーブルに追加
+    table.add_data(wandb.Html(path_to_plotly_html))
 
-# テーブルのログ
-run.log({"test_table": table})
-wandb.finish()
+    # テーブルをログ
+    run.log({"test_table": table})
+
 ```
 {{% /tab %}}
-{{% tab "Using Bokeh" %}}
+{{% tab "Bokeh を使う場合" %}}
 ```python
 from scipy.signal import spectrogram
 import holoviews as hv
@@ -74,10 +72,9 @@ audio_path = "hello.wav"
 save_audio_with_bokeh_plot_to_html(audio_path, html_file_name)
 
 wandb_html = wandb.Html(html_file_name)
-run = wandb.init(project="audio_test")
-my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
-run.log({"audio_table": my_table})
-run.finish()
+with wandb.init(project="audio_test") as run:
+    my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
+    run.log({"audio_table": my_table})
 ```
 {{% /tab %}}
 {{% /tabpane %}}

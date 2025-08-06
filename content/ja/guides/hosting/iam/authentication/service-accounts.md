@@ -1,30 +1,27 @@
 ---
-title: ワークフローを自動化するためにサービスアカウントを使用する
-description: 組織およびチームスコープのサービスアカウントを使用して、自動または非対話型のワークフローを管理する
+title: サービスアカウントを使用してワークフローを自動化する
+description: 組織やチーム単位のサービスアカウントを使って、自動化または非対話型のワークフローを管理する
 displayed_sidebar: default
-menu:
-  default:
-    identifier: ja-guides-hosting-iam-authentication-service-accounts
 ---
 
-サービスアカウントは、チーム内のプロジェクト全体または複数チームにわたって、一般的なタスクを自動で実行できる人間でない（または機械の）ユーザーを表します。
+サービスアカウントは、チーム内やチーム間でプロジェクトを自動的に操作できる非人間または機械ユーザーを表します。
 
-- 組織の管理者は、組織のスコープでサービスアカウントを作成することができます。
-- チームの管理者は、そのチームのスコープでサービスアカウントを作成することができます。
+- 組織管理者は、組織スコープでサービスアカウントを作成できます。
+- チーム管理者は、そのチームのスコープでサービスアカウントを作成できます。
+	
+サービスアカウントの APIキー を使用すると、そのサービスアカウントのスコープ内のプロジェクトに対して読み書きできます。
 
-サービスアカウントの APIキー により、呼び出し元はサービスアカウントのスコープ内のプロジェクトを読み書きできます。
-
-サービスアカウントは、W&B Modelsの実験管理を自動化したり、W&B Weaveのトレースをログ記録したりするために、複数のユーザーやチームによるワークフローを集中管理することを可能にします。また、`WANDB_USERNAME`または`WANDB_USER_EMAIL`の[環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})を使用することにより、サービスアカウントで管理されているワークフローに人間ユーザーのアイデンティティを関連付けるオプションもあります。
+サービスアカウントを利用することで、複数ユーザーやチームによるワークフローを一元的に管理し、 W&B Models の実験管理や W&B Weave のトレースログを自動化できます。さらに、 [環境変数]({{< relref "/guides/models/track/environment-variables.md" >}}) `WANDB_USERNAME` または `WANDB_USER_EMAIL` を利用して、サービスアカウントが管理するワークフローに人間ユーザーの識別情報を関連付けることも可能です。
 
 {{% alert %}}
-サービスアカウントは [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}})、エンタープライズライセンスのある [セルフマネージド・インスタンス]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}})、および [SaaSクラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) のエンタープライズアカウントで利用可能です。
+サービスアカウントは [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}})、エンタープライズライセンスを持つ [Self-managed instances]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}})、および [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) のエンタープライズアカウントでご利用いただけます。
 {{% /alert %}}
 
 ## 組織スコープのサービスアカウント
 
-組織スコープのサービスアカウントは、チームに関係なく、組織内のすべてのプロジェクトを読み書きする権限を持ちます。ただし、[制限付きプロジェクト]({{< relref path="../access-management/restricted-projects.md#visibility-scopes" lang="ja" >}})は例外です。制限付きプロジェクトにアクセスする前に、そのプロジェクトの管理者は明示的にサービスアカウントをプロジェクトに追加する必要があります。
+組織スコープのサービスアカウントは、チームに関係なく組織内のすべてのプロジェクトで読み書きできます（[制限付きプロジェクト]({{< relref "../access-management/restricted-projects.md#visibility-scopes" >}}) を除く）。組織スコープのサービスアカウントが制限付きプロジェクトにアクセスするには、そのプロジェクトの管理者が明示的にサービスアカウントをプロジェクトに追加する必要があります。
 
-組織管理者は、組織またはアカウントダッシュボードの **Service Accounts** タブから組織スコープのサービスアカウントの APIキー を取得できます。
+組織管理者は、組織またはアカウントの ダッシュボード の **Service Accounts** タブから、組織スコープのサービスアカウントの APIキー を取得できます。
 
 新しい組織スコープのサービスアカウントを作成するには：
 
@@ -33,33 +30,33 @@ menu:
 * サービスアカウントのデフォルトチームを選択します。
 * **Create** をクリックします。
 * 新しく作成されたサービスアカウントの横で **Copy API key** をクリックします。
-* コピーした APIキー を秘密管理マネージャーまたは他の安全でアクセス可能な場所に保存します。
+* コピーした APIキー をシークレットマネージャやその他の安全かつアクセス可能な場所に保管してください。
 
 {{% alert %}}
-組織スコープのサービスアカウントはデフォルトのチームが必要ですが、それでも組織内のすべてのチームが所有する非制限プロジェクトにアクセスできます。これは、 `WANDB_ENTITY` 変数が モデルトレーニング や生成AIアプリの環境に設定されていない場合に、ワークロードが失敗するのを防ぐのに役立ちます。異なるチームのプロジェクトに組織スコープのサービスアカウントを使用するには、そのチームに `WANDB_ENTITY` 環境変数を設定する必要があります。
+組織スコープのサービスアカウントは、組織内のすべてのチームが所有する非制限プロジェクトにアクセスできる一方で、デフォルトチームの設定が必須です。これは、モデルトレーニングや生成系 AI アプリの環境で `WANDB_ENTITY` 変数が設定されていない場合に、ワークロードが失敗するのを防ぐためです。別のチームのプロジェクトで組織スコープのサービスアカウントを利用したい場合は、`WANDB_ENTITY` 環境変数にそのチームを指定してください。
 {{% /alert %}}
 
 ## チームスコープのサービスアカウント
 
-チームスコープのサービスアカウントは、そのチーム内のすべてのプロジェクトを読み書きできますが、そのチーム内の[制限付きプロジェクト]({{< relref path="../access-management/restricted-projects.md#visibility-scopes" lang="ja" >}})は除きます。制限付きプロジェクトにアクセスする前に、そのプロジェクトの管理者は明示的にサービスアカウントをプロジェクトに追加する必要があります。
+チームスコープのサービスアカウントは、そのチーム内のすべてのプロジェクトに対して読み書きが可能です（ただし、そのチームの [制限付きプロジェクト]({{< relref "../access-management/restricted-projects.md#visibility-scopes" >}}) にはアクセスできません）。チームスコープのサービスアカウントが制限付きプロジェクトへアクセスする場合は、そのプロジェクトの管理者が明示的にサービスアカウントを追加する必要があります。
 
-チームの管理者として、 `<WANDB_HOST_URL>/<your-team-name>/service-accounts` でチームスコープのサービスアカウントの APIキー を取得できます。あるいは、チームの **Team settings** で **Service Accounts** タブを参照してください。
+チーム管理者は、 `<WANDB_HOST_URL>/<your-team-name>/service-accounts` でチームスコープのサービスアカウントの APIキー を取得できます。もしくは、チームの **Team settings** から **Service Accounts** タブを参照してください。
 
-チーム用の新しいチームスコープのサービスアカウントを作成するには：
+新しくチームスコープのサービスアカウントを作成するには：
 
 * チームの **Service Accounts** タブで **New service account** ボタンをクリックします。
 * **Name** を入力します。
-* 認証メソッドとして **Generate API key (Built-in)** を選択します。
+* 認証方式として **Generate API key (Built-in)** を選択します。
 * **Create** をクリックします。
 * 新しく作成されたサービスアカウントの横で **Copy API key** をクリックします。
-* コピーした APIキー を秘密管理マネージャーまたは他の安全でアクセス可能な場所に保存します。
+* コピーした APIキー をシークレットマネージャや安全な場所に保管してください。
 
-チームスコープのサービスアカウントを使用する モデルトレーニング や生成AIアプリの環境でチームを設定しないと、モデルのrunやweaveトレースがサービスアカウントの親チーム内の指定されたプロジェクトにログ記録されます。このようなシナリオでは、参照されているユーザーがサービスアカウントの親チームの一部でない限り、`WANDB_USERNAME` または `WANDB_USER_EMAIL` 変数を使用したユーザー帰属は _機能しません_。
+チームスコープのサービスアカウントを使うモデルのトレーニングや生成系 AI アプリの環境でチームが設定されていない場合、Run や Weaveトレースはそのサービスアカウントの親チームに属するプロジェクトにログされます。この場合、`WANDB_USERNAME` や `WANDB_USER_EMAIL` の変数によるユーザー帰属は、参照されるユーザーがサービスアカウントの親チームのメンバーで _ない限り、機能しません_。
 
 {{% alert color="warning" %}}
-チームスコープのサービスアカウントは、親チームとは異なるチーム内の [チームスコープか制限スコープのプロジェクト]({{< relref path="../access-management/restricted-projects.md#visibility-scopes" lang="ja" >}}) に runをログ記録することはできませんが、他のチーム内の公開範囲プロジェクトには runをログ記録できます。
+チームスコープのサービスアカウントは、自身の親チームと異なる [チームまたは制限付きスコープのプロジェクト]({{< relref "../access-management/restricted-projects.md#visibility-scopes" >}}) に run をログすることはできませんが、他チームの “公開範囲” プロジェクトには run をログすることができます。
 {{% /alert %}}
 
 ### 外部サービスアカウント
 
-**Built-in** サービスアカウントに加えて、W&B は [アイデンティティのフェデレーション]({{< relref path="./identity_federation.md#external-service-accounts" lang="ja" >}}) を使用して、JSON Web Tokens (JWTs) を発行できるアイデンティティプロバイダー (IdPs) とともに、W&B SDK と CLI を用いたチームスコープの **外部サービスアカウント** もサポートしています。
+**Built-in** サービスアカウントに加えて、W&B では [アイデンティティ連携]({{< relref "./identity_federation.md#external-service-accounts" >}}) されたIDプロバイダー（IdP）から発行される JSON Web Token (JWT) を活用することで、W&B SDK や CLI でチームスコープの **External service accounts** もサポートしています。

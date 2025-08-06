@@ -1,8 +1,5 @@
 ---
 title: wandb restore
-menu:
-  reference:
-    identifier: ja-ref-cli-wandb-restore
 ---
 
 **使い方**
@@ -11,13 +8,13 @@ menu:
 
 **概要**
 
-run のコード、config、docker 状態を復元します
+run のコード、config、docker の状態を復元します
 
 **オプション**
 
 | **オプション** | **説明** |
 | :--- | :--- |
-| `--no-git` | git 状態を復元しない |
-| `--branch / --no-branch` | ブランチを作成するか、デタッチされた状態にチェックアウトするか |
-| `-p, --project` | アップロードしたいプロジェクト。 |
-| `-e, --entity` | リストを特定のエンティティに絞り込むためのエンティティ。 |
+| `--no-git` | git の状態を復元しません |
+| `--branch / --no-branch` | ブランチを作成するか、デタッチされた状態でチェックアウトするか |
+| `-p, --project` | アップロード先の Project を指定します。 |
+| `-e, --entity` | リストの範囲を Entity で絞り込みます。 |

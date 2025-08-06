@@ -1,29 +1,39 @@
 ---
-title: 値のリストをログするにはどうすればよいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-log_list_values
-support:
-  - logs
-  - experiments
+title: リスト形式の値をどのようにログできますか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- ログ
+- 実験
 ---
-これらの例は、異なる方法で損失をログとして記録する [`wandb.log()`]({{< relref path="/ref/python/log/" lang="ja" >}}) の使い方を示しています。
+
+これらの例では、[`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog/" >}}) を使って損失値をログするいくつかの方法を紹介します。
+
 {{< tabpane text=true >}}
-{{% tab "辞書を使う" %}}
+{{% tab "辞書を使う場合" %}}
 ```python
-wandb.log({f"losses/loss-{ii}": loss for ii, 
-  loss in enumerate(losses)})
+import wandb
+
+# 新しい run を初期化
+with wandb.init(project="log-list-values", name="log-dict") as run:
+    # 損失値を辞書でログ
+    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+    run.log({"losses": losses})
+    run.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
 ```
 {{% /tab %}}
 {{% tab "ヒストグラムとして" %}}
 ```python
-# 損失をヒストグラムに変換します
-wandb.log({"losses": wandb.Histogram(losses)})  
+import wandb
+
+# 新しい run を初期化
+with wandb.init(project="log-list-values", name="log-hist") as run:
+    # 損失値をヒストグラムとしてログ
+    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+    run.log({"losses": wandb.Histogram(losses)})
 ```
 {{% /tab %}}
 {{< /tabpane >}}
 
-詳細は [ログのドキュメント]({{< relref path="/guides/models/track/log/" lang="ja" >}}) を参照してください。
+詳細は[ログのドキュメント]({{< relref "/guides/models/track/log/" >}}) を参照してください。

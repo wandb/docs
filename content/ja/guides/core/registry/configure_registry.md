@@ -1,123 +1,122 @@
 ---
-title: レジストリアクセスを設定する
+title: レジストリへのアクセスを設定
 menu:
   default:
-    identifier: ja-guides-core-registry-configure_registry
+    identifier: configure_registry
     parent: registry
 weight: 3
 ---
 
-レジストリ管理者は、レジストリの設定を設定することで、[レジストリロールを設定]({{< relref path="configure_registry.md#configure-registry-roles" lang="ja" >}})、[ユーザーを追加]({{< relref path="configure_registry.md#add-a-user-or-a-team-to-a-registry" lang="ja" >}})、または[ユーザーを削除]({{< relref path="configure_registry.md#remove-a-user-or-team-from-a-registry" lang="ja" >}})することができます。
+レジストリの管理者は、レジストリの設定を変更することで、[レジストリのロールを設定]({{< relref "configure_registry.md#configure-registry-roles" >}})したり、[ユーザーを追加]({{< relref "configure_registry.md#add-a-user-or-a-team-to-a-registry" >}})・[ユーザーを削除]({{< relref "configure_registry.md#remove-a-user-or-team-from-a-registry" >}})したりできます。
 
-## ユーザー管理
+## ユーザーの管理
 
 ### ユーザーまたはチームの追加
 
-レジストリ管理者は、個々のユーザーまたは全チームをレジストリに追加できます。ユーザーまたはチームをレジストリに追加するには、次の手順を実行します。
+レジストリ管理者は、個別のユーザーやチーム全体をレジストリに追加できます。ユーザーやチームをレジストリに追加する手順は以下の通りです。
 
-1. https://wandb.ai/registry/ に移動します。
-2. ユーザーまたはチームを追加したいレジストリを選択します。
-3. 右上隅のギアアイコンをクリックして、レジストリの設定にアクセスします。
-4. **Registry access** セクションで **Add access** をクリックします。
-5. **Include users and teams** フィールドに、追加したいユーザー名、メールアドレス、またはチーム名を指定します。
-6. **Add access** をクリックします。
+1. https://wandb.ai/registry/ にアクセスします。
+2. ユーザーやチームを追加したいレジストリを選択します。
+3. 画面右上の歯車アイコンをクリックし、レジストリの設定にアクセスします。
+4. **Registry access（レジストリアクセス）** セクションで **Add access（アクセスの追加）** をクリックします。
+5. **Include users and teams（ユーザー・チームを含める）** フィールドに、追加したいユーザー名・メールアドレス・チーム名を入力します。
+6. **Add access（アクセスの追加）** をクリックします。
 
-{{< img src="/images/registry/add_team_registry.gif" alt="UI を使用して個々のユーザーやチームをレジストリに追加するアニメーション" >}}
+{{< img src="/images/registry/add_team_registry.gif" alt="Adding teams to registry" >}}
 
-[レジストリでのユーザーロール設定]({{< relref path="configure_registry.md#configure-registry-roles" lang="ja" >}})や[レジストリロールの権限]({{< relref path="configure_registry.md#registry-role-permissions" lang="ja" >}})についての詳細をご覧ください。
+[レジストリ内のユーザーロールの設定方法]({{< relref "configure_registry.md#configure-registry-roles" >}})や、[Registryロールの権限]({{< relref "configure_registry.md#registry-role-permissions" >}})についてもご覧ください。
 
-### ユーザーまたはチームの削除
+### ユーザーやチームの削除
 
-レジストリ管理者は、個々のユーザーまたはチーム全体をレジストリから削除できます。ユーザーまたはチームをレジストリから削除するには、次の手順を実行します。
+レジストリ管理者は、個人のユーザーやチーム全体をレジストリから削除することができます。削除手順は以下の通りです。
 
-1. https://wandb.ai/registry/ に移動します。
+1. https://wandb.ai/registry/ にアクセスします。
 2. ユーザーを削除したいレジストリを選択します。
-3. 右上隅のギアアイコンをクリックして、レジストリの設定にアクセスします。
-4. **Registry access** セクションに移動し、削除したいユーザー名、メールアドレス、またはチームを入力します。
+3. 画面右上の歯車アイコンをクリックしてレジストリ設定に入ります。
+4. **Registry access** セクションで、削除したいユーザー名・メールアドレス・チーム名を入力します。
 5. **Delete** ボタンをクリックします。
 
 {{% alert %}}
-チームからユーザーを削除すると、そのユーザーのレジストリへのアクセスも削除されます。
+チームからユーザーを削除すると、そのユーザーのレジストリアクセスも削除されます。
 {{% /alert %}}
 
-## レジストリロール
+## Registry ロール
 
-レジストリ内の各ユーザーには *レジストリロール* があり、そのレジストリで何をできるかが決まります。
+レジストリ内の各ユーザーには *registry ロール* が割り当てられ、そのレジストリでどのような操作ができるかが決まります。
 
-W&B は、レジストリにユーザーやチームが追加されると、自動的にデフォルトのレジストリロールを割り当てます。
+W&B は、ユーザーやチームがレジストリに追加された際に、自動的にデフォルトの registry ロールを割り当てます。
 
-| Entity | Default registry role |
-| ----- | ----- |
+| Entity | デフォルト registry ロール |
+| ------ | -------------------- |
 | Team | Viewer |
-| User (non admin) | Viewer |
+| User（管理者以外） | Viewer |
 | Org admin | Admin |
 
-レジストリ管理者は、レジストリ内のユーザーやチームのロールを割り当てまたは変更することができます。詳細は [レジストリでのユーザーロールの設定]({{< relref path="configure_registry.md#configure-registry-roles" lang="ja" >}}) を参照してください。
+レジストリの管理者は、レジストリ内のユーザーやチームに対してロールの割り当てや変更ができます。 詳しくは [レジストリ内のユーザーロールの設定方法]({{< relref "configure_registry.md#configure-registry-roles" >}}) をご覧ください。
 
-{{% alert title="W&Bロールタイプ" %}}
-W&B には、[チームロール]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}})と[レジストリロール]({{< relref path="configure_registry.md#configure-registry-roles" lang="ja" >}})の2種類のロールがあります。
+{{% alert title="W&Bのロール種別" %}}
+W&B には [Team ロール]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) と [Registry ロール]({{< relref "configure_registry.md#configure-registry-roles" >}}) の2種類があります。
 
-チームにおけるあなたのロールは、いかなるレジストリにおけるあなたのロールにも影響や関連を持ちません。
+チームでのロールと、各レジストリにおけるロールは相互に影響しません。
 {{% /alert %}}
 
-以下の表は、ユーザーが持つことのできる異なるロールとその権限を示しています：
+以下の表は、各ロールが持つ権限の違いをまとめたものです。
 
-| Permission                                                     | Permission Group | Viewer | Member | Admin | 
-|--------------------------------------------------------------- |------------------|--------|--------|-------|
-| コレクションの詳細を表示する                                    | Read             |   X    |   X    |   X   |
-| リンクされたアーティファクトの詳細を表示する                   | Read             |   X    |   X    |   X   |
-| 使用: レジストリ内で use_artifact を使用してアーティファクトを使用 | Read             |   X    |   X    |   X   |
-| リンクされたアーティファクトをダウンロードする                 | Read             |   X    |   X    |   X   |
-| アーティファクトのファイルビューワーからファイルをダウンロードする | Read             |   X    |   X    |   X   |
-| レジストリを検索する                                           | Read             |   X    |   X    |   X   |
-| レジストリの設定とユーザーリストを表示する                     | Read             |   X    |   X    |   X   |
-| コレクションの新しい自動化を作成する                           | Create           |        |   X    |   X   |
-| 新しいバージョンが追加されたときの Slack 通知をオンにする      | Create           |        |   X    |   X   |
-| 新しいコレクションを作成する                                   | Create           |        |   X    |   X   |
-| 新しいカスタムレジストリを作成する                             | Create           |        |   X    |   X   |
-| コレクションカード (説明) を編集する                           | Update           |        |   X    |   X   |
-| リンクされたアーティファクトの説明を編集する                   | Update           |        |   X    |   X   |
-| コレクションのタグを追加または削除する                         | Update           |        |   X    |   X   |
-| リンクされたアーティファクトからエイリアスを追加または削除する | Update           |        |   X    |   X   |
-| 新しいアーティファクトをリンクする                             | Update           |        |   X    |   X   |
-| レジストリ用の許可されたタイプ一覧を編集する                   | Update           |        |   X    |   X   |
-| カスタムレジストリ名を編集する                                 | Update           |        |   X    |   X   |
-| コレクションを削除する                                         | Delete           |        |   X    |   X   |
-| 自動化を削除する                                               | Delete           |        |   X    |   X   |
-| レジストリからアーティファクトのリンクを解除する               | Delete           |        |   X    |   X   |
-| レジストリ用の承認されたアーティファクトタイプを編集する       | Admin            |        |        |   X   |
-| レジストリの公開範囲を変更する（組織または制限付き）           | Admin            |        |        |   X   |
-| ユーザーをレジストリに追加する                                 | Admin            |        |        |   X   |
-| レジストリ内のユーザーのロールを割り当てるまたは変更する       | Admin            |        |        |   X   |
+| 権限                                                     | パーミッショングループ | Viewer | Member | Admin |
+|---------------------------------------------------------|-----------------------|--------|--------|-------|
+| コレクションの詳細を閲覧                                 | Read                  |   X    |   X    |   X   |
+| リンク済み Artifacts の詳細を閲覧                        | Read                  |   X    |   X    |   X   |
+| use_artifact でレジストリ内の Artifact を利用            | Read                  |   X    |   X    |   X   |
+| リンク済み Artifact のダウンロード                       | Read                  |   X    |   X    |   X   |
+| Artifact ファイルビューアからのファイルダウンロード       | Read                  |   X    |   X    |   X   |
+| レジストリの検索                                         | Read                  |   X    |   X    |   X   |
+| レジストリの設定やユーザーリストの閲覧                   | Read                  |   X    |   X    |   X   |
+| コレクション用の新しい自動化設定を作成                   | Create                |        |   X    |   X   |
+| 新バージョン追加時の Slack 通知のON/OFF                  | Create                |        |   X    |   X   |
+| 新規コレクションの作成                                   | Create                |        |   X    |   X   |
+| カスタムレジストリの新規作成                             | Create                |        |   X    |   X   |
+| コレクションカード（説明）の編集                         | Update                |        |   X    |   X   |
+| リンク済み Artifact の説明編集                           | Update                |        |   X    |   X   |
+| コレクションのタグ追加・削除                             | Update                |        |   X    |   X   |
+| リンク済み Artifact のエイリアス追加・削除               | Update                |        |   X    |   X   |
+| 新しい Artifact のリンク                                 | Update                |        |   X    |   X   |
+| レジストリの許可タイプリスト編集                         | Update                |        |   X    |   X   |
+| カスタムレジストリ名の編集                               | Update                |        |   X    |   X   |
+| コレクションの削除                                       | Delete                |        |   X    |   X   |
+| 自動化設定の削除                                         | Delete                |        |   X    |   X   |
+| レジストリから Artifact のリンク解除                     | Delete                |        |   X    |   X   |
+| レジストリで許可する Artifact タイプの編集               | Admin                 |        |        |   X   |
+| レジストリの公開範囲変更（Organization または Restricted）| Admin                 |        |        |   X   |
+| レジストリへのユーザー追加                                | Admin                 |        |        |   X   |
+| レジストリ内のユーザーのロール割り当て・変更              | Admin                 |        |        |   X   |
 
-### 継承された権限
+### 権限の継承
 
-レジストリ内のユーザーの権限は、そのユーザーに個別に、またはチームメンバーシップによって割り当てられた特権の最高レベルに依存します。
+ユーザーのレジストリ内の権限は、そのユーザー個人またはチームメンバーとして与えられた権限のうち、より高い方が適用されます。
 
-例えば、レジストリ管理者が Nico というユーザーをレジストリ A に追加し、**Viewer** レジストリロールを割り当てたとします。次に、レジストリ管理者が Foundation Model Team というチームをレジストリ A に追加し、Foundation Model Team に **Member** レジストリロールを割り当てたとします。
+例えば、Nico さんというユーザーを **Viewer** として Registry A に追加した後、Foundation Model Team というチームを Registry A に **Member** として追加したとします。
 
-Nico は Foundation Model Team のメンバーであり、このチームは Registry の **Member** です。**Member** の権限は **Viewer** よりも高いため、W&B は Nico に **Member** ロールを付与します。
+Nico さんが Foundation Model Team のメンバーなら、そのチームが **Member** 権限を持つため、Nico さんにも **Member** 権限が付与されます（**Member** の方が **Viewer** より強い権限です）。
 
-以下の表は、ユーザーの個別レジストリロールと、彼らが所属するチームのレジストリロールの間で矛盾が生じた場合の最高レベルの権限を示しています：
+以下の表は、個人とチームで異なるロールが割り当てられている場合の、「より高い権限に引き上げられる」仕組みを示したものです。
 
-| Team registry role | Individual registry role | Inherited registry role |
-| ------ | ------ | ------ | 
-| Viewer | Viewer | Viewer |
-| Member | Viewer | Member |
-| Admin  | Viewer | Admin  | 
+| チームの Registry ロール | 個人の Registry ロール | 継承される Registry ロール |
+| --------- | ---------------- | ------------------- |
+| Viewer    | Viewer           | Viewer              |
+| Member    | Viewer           | Member              |
+| Admin     | Viewer           | Admin               |
 
-矛盾がある場合、W&B はユーザー名の横に最高レベルの権限を表示します。
+このように競合があった場合、W&B の画面上では「実際に適用される一番強い権限」がユーザー名の横に表示されます。
 
-例えば、以下の画像では、Alex は `smle-reg-team-1` チームのメンバーであるため、**Member** ロールの特権を継承しています。
+例えば以下の画像のように、Alex さんは `smle-reg-team-1` チームのメンバーなので **Member** ロールの権限を継承しています。
 
-{{< img src="/images/registry/role_conflict.png" alt="チームの一部であるため、メンバーのロールを継承するユーザー。" >}}
+{{< img src="/images/registry/role_conflict.png" alt="Registry role conflict resolution" >}}
 
 ## レジストリロールの設定
-
-1. https://wandb.ai/registry/ に移動します。
-2. 設定したいレジストリを選択します。
-3. 右上隅のギアアイコンをクリックします。
+1. https://wandb.ai/registry/ にアクセスします。
+2. 設定を変更したいレジストリを選択します。
+3. 画面右上の歯車アイコンをクリックします。
 4. **Registry members and roles** セクションまでスクロールします。
-5. **Member** フィールド内で、権限を編集したいユーザーまたはチームを検索します。
-6. **Registry role** 列でユーザーのロールをクリックします。
-7. ドロップダウンから、ユーザーに割り当てたいロールを選択します。
+5. **Member** の欄で、権限を編集したいユーザーやチームを検索します。
+6. **Registry role** カラムで、該当ユーザーの現在のロールをクリックします。
+7. ドロップダウンから、割り当てたいロールを選択します。

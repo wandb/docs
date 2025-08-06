@@ -1,18 +1,16 @@
 ---
-title: wandb をオフラインで実行することはできますか?
-menu:
-  support:
-    identifier: ja-support-kb-articles-run_wandb_offline
-support:
-  - experiments
+title: Wandb をオフラインで実行できますか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 実験
 ---
-オフラインマシンでトレーニングが行われる場合、以下の手順を使用して結果をサーバーにアップロードします:
 
-1. 環境変数 `WANDB_MODE=offline` を設定し、インターネット接続なしでメトリクスをローカルに保存します。
-2. アップロードの準備ができたら、ディレクトリーで `wandb init` を実行してプロジェクト名を設定します。
-3. `wandb sync YOUR_RUN_DIRECTORY` を使用してメトリクスをクラウドサービスに転送し、ホストされたウェブアプリで結果にアクセスします。
+オフラインマシンでトレーニングを行う場合、結果をサーバーにアップロードするには次の手順を実行してください。
 
-Run がオフラインであることを確認するには、`wandb.init()` を実行した後に `run.settings._offline` または `run.settings.mode` を確認してください。
+1. 環境変数 `WANDB_MODE=offline` を設定して、インターネット接続なしでメトリクスをローカルに保存します。
+2. アップロードの準備ができたら、ディレクトリー内で `wandb init` を実行し、Project 名を設定します。
+3. `wandb sync YOUR_RUN_DIRECTORY` を使ってメトリクスをクラウドサービスに転送し、ホストされたウェブアプリで結果にアクセスします。
+
+run がオフラインモードであることを確認するには、`wandb.init()` 実行後に `run.settings._offline` または `run.settings.mode` をチェックしてください。

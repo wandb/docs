@@ -1,14 +1,15 @@
 ---
-title: wandb_ワークスペース
-menu:
-  reference:
-    identifier: ja-ref-python-wandb_workspaces-_index
+title: wandb_workspaces
 ---
 
 {{< cta-button githubLink="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" >}}
 
+{{% alert %}}
+W&B Report および Workspace API はパブリックプレビュー中です。
+{{% /alert %}}
+
 ## クラス
 
-[`class reports`](./reports.md): W&B レポート API をプログラムで操作するための Python ライブラリ。
+[`class reports`](./reports.md): W&B Reports API をプログラムから操作するための Python ライブラリです。
 
-[`class workspaces`](./workspaces.md): W&B ワークスペース API をプログラムで操作するための Python ライブラリ。
+[`class workspaces`](./workspaces.md): W&B Workspace API をプログラムから操作するための Python ライブラリです。

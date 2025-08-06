@@ -1,12 +1,10 @@
 ---
-title: チームとは何か、またそれに関する詳細情報はどこで見つけられますか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-team_find_more_information
-support:
-  - team management
+title: Team とは何か、またその詳細についてはどこで確認できますか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- チーム管理
 ---
-チームに関する追加情報は、[teams section]({{< relref path="/guides/models/app/settings-page/teams.md" lang="ja" >}})をご覧ください。
+
+追加情報については、[Teams セクション]({{< relref "/guides/models/app/settings-page/teams.md" >}})をご覧ください。

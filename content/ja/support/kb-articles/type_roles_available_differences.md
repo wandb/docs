@@ -1,13 +1,11 @@
 ---
-title: どのような種類の役割があり、それぞれどのような違いがありますか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-type_roles_available_differences
-support:
-  - user management
-  - team management
+title: 利用可能なロールの種類と、それぞれの違いは何ですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- ユーザー管理
+- チーム管理
 ---
-[こちらの]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ja" >}})ページで利用可能な役割と権限の概要をご覧ください。
+
+[Team のロールと権限]({{< relref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}) ページでは、利用可能なロールと権限の概要を確認できます。

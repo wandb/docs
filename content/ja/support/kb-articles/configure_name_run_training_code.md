@@ -1,12 +1,10 @@
 ---
-title: トレーニングコードで run の名前をどのように設定できますか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-configure_name_run_training_code
-support:
-  - experiments
+title: トレーニング コードで run の名前を設定するにはどうすればよいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 実験
 ---
-トレーニングスクリプトの最初に、実験名を指定して `wandb.init` を呼び出します。例: `wandb.init(name="my_awesome_run")`.
+
+トレーニングスクリプトの冒頭で、実験名を指定して `wandb.init` を呼び出します。例えば: `wandb.init(name="my_awesome_run")`。

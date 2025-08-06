@@ -2,41 +2,41 @@
 title: Scikit-Learn
 menu:
   default:
-    identifier: ja-guides-integrations-scikit
+    identifier: scikit
     parent: integrations
 weight: 380
 ---
 
-wandbを使って、scikit-learn モデルの性能を数行のコードで視覚化し比較することができます。 [**例を試す →**](http://wandb.me/scikit-colab)
+wandb を使えば、わずか数行のコードで scikit-learn モデルのパフォーマンスを可視化し、比較できます。[サンプルを試す →](https://wandb.me/scikit-colab)
 
-## 始めに
+## はじめに
 
-### サインアップしてAPIキーを作成
+### サインアップと APIキー の作成
 
-APIキーは、あなたのマシンをW&Bに認証するためのものです。ユーザーのプロフィールからAPIキーを生成できます。
+APIキー は、あなたのマシンを W&B に認証するために使われます。APIキー はユーザープロフィールから生成できます。
 
 {{% alert %}}
-よりスムーズな方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize)に直接アクセスしてAPIキーを生成することができます。表示されたAPIキーをコピーし、パスワードマネージャーなどの安全な場所に保存してください。
+より簡単な方法として、[W&B の認証ページ](https://wandb.ai/authorize)から直接 APIキー を生成できます。表示された APIキー をコピーして、パスワードマネージャーなどの安全な場所に保存してください。
 {{% /alert %}}
 
-1. 右上のユーザープロフィールアイコンをクリック。
-2. **User Settings** を選択し、**API Keys** セクションまでスクロール。
-3. **Reveal** をクリック。表示されたAPIキーをコピーします。APIキーを非表示にするには、ページを再読み込みしてください。
+1. 右上にあるご自身のユーザーアイコンをクリックします。
+1. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+1. **Reveal** をクリックします。表示された APIキー をコピーしてください。APIキー を非表示にするには、ページを再読み込みします。
 
 ### `wandb` ライブラリをインストールしてログイン
 
-ローカルで`wandb` ライブラリをインストールし、ログインするには:
+ローカルに `wandb` ライブラリをインストールし、ログインします:
 
 {{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
+{{% tab header="コマンドライン" value="cli" %}}
 
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をあなたのAPIキーに設定します。
+1. `WANDB_API_KEY` [環境変数]({{< relref "/guides/models/track/environment-variables.md" >}}) に APIキー を設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. `wandb` ライブラリをインストールし、ログインします。
+1. `wandb` ライブラリをインストールしてログインします。
 
     ```shell
     pip install wandb
@@ -70,38 +70,38 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-### メトリクスをログする
+### メトリクスのログ
 
 ```python
 import wandb
 
-wandb.init(project="visualize-sklearn")
+wandb.init(project="visualize-sklearn") as run:
 
-y_pred = clf.predict(X_test)
-accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
+  y_pred = clf.predict(X_test)
+  accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
 
-# メトリクスを時間でログする場合、wandb.logを使用
-wandb.log({"accuracy": accuracy})
+  # メトリクスを時系列で記録する場合は run.log を使います
+  run.log({"accuracy": accuracy})
 
-# またはトレーニングの最後にメトリクスをログするには、wandb.summaryを使用することもできます
-wandb.summary["accuracy"] = accuracy
+  # または、トレーニングが終了した後に最終的なメトリクスだけを記録したい場合は run.summary も使えます
+  run.summary["accuracy"] = accuracy
 ```
 
-### プロットを作成する
+### グラフの作成
 
-#### ステップ1: wandbをインポートして新しいrunを初期化
+#### ステップ 1: wandb をインポートし、新しい run を初期化
 
 ```python
 import wandb
 
-wandb.init(project="visualize-sklearn")
+run = wandb.init(project="visualize-sklearn")
 ```
 
-#### ステップ2: プロットを可視化する
+#### ステップ 2: グラフを可視化
 
-#### 個別のプロット
+#### 個別プロット
 
-モデルをトレーニングし、予測を行った後、wandbでプロットを生成して予測を分析することができます。サポートされているチャートの完全なリストについては、以下の**Supported Plots**セクションを参照してください。
+モデルをトレーニングし、予測した後に、wandb でグラフを生成し予測を分析できます。サポートされているチャートの一覧は下記の **Supported Plots** セクションをご覧ください。
 
 ```python
 # 単一のプロットを可視化
@@ -110,10 +110,10 @@ wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
 
 #### すべてのプロット
 
-W&B には `plot_classifier` などの関数があり、関連する複数のプロットを描画します。
+W&B には `plot_classifier` など、関連する複数のグラフを一度に作成する関数があります:
 
 ```python
-# すべての分類器プロットを可視化
+# すべての分類プロットを可視化
 wandb.sklearn.plot_classifier(
     clf,
     X_train,
@@ -127,200 +127,202 @@ wandb.sklearn.plot_classifier(
     feature_names=None,
 )
 
-# すべての回帰プロット
+# 回帰のグラフすべて
 wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="Ridge")
 
-# すべてのクラスタリングプロット
+# クラスタリングのグラフすべて
 wandb.sklearn.plot_clusterer(
     kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
 )
+
+run.finish()
 ```
 
-#### 既存のMatplotlibプロット
+#### 既存の Matplotlib グラフ
 
-Matplotlibで作成されたプロットも、W&B ダッシュボードにログすることができます。そのためには、最初に `plotly` をインストールする必要があります。
+Matplotlib で作成したグラフも W&B のダッシュボードにログできます。まず最初に、`plotly` のインストールが必要です。
 
 ```bash
 pip install plotly
 ```
 
-最後に、以下のようにW&Bのダッシュボードにプロットをログすることができます。
+最後に、次のように W&B のダッシュボードにグラフを記録できます:
 
 ```python
 import matplotlib.pyplot as plt
 import wandb
 
-wandb.init(project="visualize-sklearn")
+with wandb.init(project="visualize-sklearn") as run:
 
-# plt.plot(), plt.scatter() などをここで行います。
-# ...
+  # ここで plt.plot(), plt.scatter() などを実行
+  # ...
 
-# plt.show()の代わりに:
-wandb.log({"plot": plt})
+  # plt.show() の代わりに以下を実行
+  run.log({"plot": plt})
 ```
 
 ## サポートされているプロット
 
 ### 学習曲線
 
-{{< img src="/images/integrations/scikit_learning_curve.png" alt="" >}}
+{{< img src="/images/integrations/scikit_learning_curve.png" alt="Scikit-learn learning curve" >}}
 
-モデルを様々な長さのデータセットでトレーニングし、交差検証スコアとデータセットサイズのプロットを生成します。トレーニングセットとテストセット両方に対して。
+さまざまな長さのデータセットでモデルを学習し、交差検証スコアとデータセットサイズのプロットを作成します（トレーニングセット・テストセット両方）。
 
 `wandb.sklearn.plot_learning_curve(model, X, y)`
 
-* model (clf or reg): 学習済みの回帰器または分類器を受け取ります。
-* X (arr): データセットの特徴。
-* y (arr): データセットのラベル。
+* model (clf または reg): 学習済み回帰器または分類器
+* X (arr): データセットの特徴量
+* y (arr): データセットのラベル
 
 ### ROC
 
-{{< img src="/images/integrations/scikit_roc.png" alt="" >}}
+{{< img src="/images/integrations/scikit_roc.png" alt="Scikit-learn ROC curve" >}}
 
-ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットします。理想的なスコアは、TPR = 1 かつ FPR = 0で、グラフの左上の点です。通常、ROC曲線の下面積 (AUC-ROC) を計算し、AUC-ROC が大きいほど良いです。
+ROC曲線は、真陽性率（y軸）と偽陽性率（x軸）をプロットします。理想的なスコアは TPR=1, FPR=0、グラフの左上です。通常、ROC曲線下面積（AUC-ROC）を計算し、AUCが大きいほど性能が良いとされます。
 
 `wandb.sklearn.plot_roc(y_true, y_probas, labels)`
 
-* y_true (arr): テストセットのラベル。
-* y_probas (arr): テストセットの予測確率。
-* labels (list): 目標変数 (y) の名前付きラベル。
+* y_true (arr): テストセットのラベル
+* y_probas (arr): テストセットの推定確率
+* labels (list): 目的変数 (y) の名前付きラベル
 
-### クラスの割合
+### クラス分布
 
-{{< img src="/images/integrations/scikic_class_props.png" alt="" >}}
+{{< img src="/images/integrations/scikic_class_props.png" alt="Scikit-learn classification properties" >}}
 
-トレーニングセットとテストセット内のターゲットクラスの分布をプロットします。非バランスなクラスを検出し、1つのクラスがモデルに過度の影響を与えないようにするために役立ちます。
+トレーニングセットおよびテストセット内の各クラスの分布をプロットします。クラスの不均衡や、特定のクラスがモデルへの影響で過大になっていないかの確認に有用です。
 
 `wandb.sklearn.plot_class_proportions(y_train, y_test, ['dog', 'cat', 'owl'])`
 
-* y_train (arr): トレーニングセットのラベル。
-* y_test (arr): テストセットのラベル。
-* labels (list): 目標変数 (y) の名前付きラベル。
+* y_train (arr): トレーニングセットのラベル
+* y_test (arr): テストセットのラベル
+* labels (list): 目的変数 (y) の名前付きラベル
 
-### 精度-再現率曲線
+### Precision-Recall カーブ
 
-{{< img src="/images/integrations/scikit_precision_recall.png" alt="" >}}
+{{< img src="/images/integrations/scikit_precision_recall.png" alt="Scikit-learn precision-recall curve" >}}
 
-異なる閾値に対する精度と再現率のトレードオフを計算します。曲線下面積が高いということは、再現率も精度も高いことを表しており、高精度は低誤報率に、高再現率は低漏れ率に関連しています。
+異なる閾値での Precision と Recall のトレードオフを計算します。曲線下面積が大きいほど、Precision も Recall も高く、誤認率・取りこぼし率の両方が低いことを示します。
 
-精度と再現率の両方が高いことは、分類器が正確な結果（高精度）を返していること、さらに全ての陽性結果の大半を返していること（高再現率）を示しています。クラスが非常に不均衡な時に、PR曲線は役立ちます。
+どちらも高い場合、分類器が正確な結果（高い Precision）を返すと同時に、大部分の正例も検出できている（高い Recall）ことになります。PR曲線は、クラスが大きく不均衡な場合に有用です。
 
 `wandb.sklearn.plot_precision_recall(y_true, y_probas, labels)`
 
-* y_true (arr): テストセットのラベル。
-* y_probas (arr): テストセットの予測確率。
-* labels (list): 目標変数 (y) の名前付きラベル。
+* y_true (arr): テストセットのラベル
+* y_probas (arr): テストセットの推定確率
+* labels (list): 目的変数 (y) の名前付きラベル
 
-### 特徴の重要度
+### 特徴量重要度
 
-{{< img src="/images/integrations/scikit_feature_importances.png" alt="" >}}
+{{< img src="/images/integrations/scikit_feature_importances.png" alt="Scikit-learn feature importance chart" >}}
 
-分類タスクにおける各特徴の重要度を評価しプロットします。ツリーのような `feature_importances_` 属性を持つ分類器でのみ動作します。
+各特徴量の分類タスクへの寄与度を評価・プロットします。`feature_importances_` 属性を持つ分類器（ツリー系など）で利用できます。
 
 `wandb.sklearn.plot_feature_importances(model, ['width', 'height', 'length'])`
 
-* model (clf): 学習済みの分類器を受け取ります。
-* feature_names (list): 特徴の名前。プロット中の特徴のインデックスを対応する名前で置き換えることで読みやすくします。
+* model (clf): 学習済み分類器
+* feature_names (list): 特徴量の名前。インデックスの代わりに分かりやすい名前が表示され、グラフの可読性向上に役立ちます。
 
-### キャリブレーション曲線
+### キャリブレーションカーブ
 
-{{< img src="/images/integrations/scikit_calibration_curve.png" alt="" >}}
+{{< img src="/images/integrations/scikit_calibration_curve.png" alt="Scikit-learn calibration curve" >}}
 
-分類器の予測確率がどれだけキャリブレーションされているか、そしてどのように未キャリブレーションの分類器をキャリブレーションするかをプロットします。ロジスティック回帰ベースラインモデル、引数として渡されたモデル、およびそのアイソトニックキャリブレーションとシグモイドキャリブレーションによって、推定された予測確率を比較します。
+分類器が出力した確率のキャリブレーション状況や、非キャリブレーション分類器の調整方法を可視化します。ベースラインロジスティック回帰、引数で渡したモデル、およびそのアイソトニックキャリブレーション・シグモイドキャリブレーションを比較します。
 
-キャリブレーション曲線が対角線に近いほど良好です。転写されたシグモイド型の曲線は過適合した分類器を表し、シグモイド型の曲線は学習不足の分類器を表します。モデルのアイソトニックおよびシグモイドキャリブレーションをトレーニングし、その曲線を比較することで、モデルがオーバーフィットかアンダーフィットしているかを判断し、どのキャリブレーション（シグモイドまたはアイソトニック）が問題を修正するのに役立つかを理解できます。
+キャリブレーションカーブが対角線に近いほどよいです。シグモイド型が反転した曲線はモデルの過学習、通常のシグモイド型は学習不足を示します。アイソトニックとシグモイドの調整結果を比較することで、モデルが過学習か学習不足かを推測し、必要に応じて適切なキャリブレーションを検討できます。
 
-詳細については、[sklearnのドキュメント](https://scikit-learn.org/stable/auto_examples/calibration/plot_calibration_curve.html)を参照してください。
+詳細は [sklearn のドキュメント](https://scikit-learn.org/stable/auto_examples/calibration/plot_calibration_curve.html) をご参照ください。
 
 `wandb.sklearn.plot_calibration_curve(clf, X, y, 'RandomForestClassifier')`
 
-* model (clf): 学習済みの分類器を受け取ります。
-* X (arr): トレーニングセットの特徴。
-* y (arr): トレーニングセットのラベル。
-* model_name (str): モデル名。デフォルトは'Classifier'です。
+* model (clf): 学習済み分類器
+* X (arr): トレーニングセット特徴量
+* y (arr): トレーニングセットラベル
+* model_name (str): モデル名（デフォルトは 'Classifier'）
 
 ### 混同行列
 
-{{< img src="/images/integrations/scikit_confusion_matrix.png" alt="" >}}
+{{< img src="/images/integrations/scikit_confusion_matrix.png" alt="Scikit-learn confusion matrix" >}}
 
-分類の精度を評価するために混同行列を計算します。モデルの予測の質を評価し、モデルが間違ってしまう予測のパターンを見つけるのに役立ちます。対角線は、実際のラベルと予測ラベルが一致する正しい予測を表します。
+分類の正確性を評価するために混同行列を計算します。モデルの予測精度や、誤分類が発生しやすいパターンの把握に役立ちます。対角要素は、実際のラベルと予測ラベルが一致した数を示しています。
 
 `wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)`
 
-* y_true (arr): テストセットのラベル。
-* y_pred (arr): テストセットの予測ラベル。
-* labels (list): 目標変数 (y) の名前付きラベル。
+* y_true (arr): テストセットのラベル
+* y_pred (arr): テストセットの予測ラベル
+* labels (list): 目的変数 (y) の名前付きラベル
 
 ### サマリーメトリクス
 
-{{< img src="/images/integrations/scikit_summary_metrics.png" alt="" >}}
+{{< img src="/images/integrations/scikit_summary_metrics.png" alt="Scikit-learn summary metrics" >}}
 
-- `mse`、`mae`、`r2`スコアなどの分類のサマリーメトリクスを計算します。
-- `f1`、精度、再現率などの回帰のサマリーメトリクスを計算します。
+- 分類では `mse`、`mae`、`r2` スコアなどのサマリーメトリクスを計算します。
+- 回帰では `f1`、accuracy、precision、recall などのサマリーメトリクスを計算します。
 
 `wandb.sklearn.plot_summary_metrics(model, X_train, y_train, X_test, y_test)`
 
-* model (clf or reg): 学習済みの回帰器または分類器を受け取ります。
-* X (arr): トレーニングセットの特徴。
-* y (arr): トレーニングセットのラベル。
-  * X_test (arr): テストセットの特徴。
-* y_test (arr): テストセットのラベル。
+* model (clf または reg): 学習済み回帰器または分類器
+* X (arr): トレーニングセット特徴量
+* y (arr): トレーニングセットラベル
+  * X_test (arr): テストセット特徴量
+* y_test (arr): テストセットラベル
 
 ### エルボープロット
 
-{{< img src="/images/integrations/scikit_elbow_plot.png" alt="" >}}
+{{< img src="/images/integrations/scikit_elbow_plot.png" alt="Scikit-learn elbow plot" >}}
 
-クラスターの数に対する分散の説明率をトレーニング時間とともに測定しプロットします。クラスター数の最適値を選ぶのに役立ちます。
+クラスタ数に対する分散説明率とトレーニング時間をプロットします。最適なクラスタ数選択の参考になります。
 
 `wandb.sklearn.plot_elbow_curve(model, X_train)`
 
-* model (clusterer): 学習済みのクラスタリングアルゴリズムを受け取ります。
-* X (arr): トレーニングセットの特徴。
+* model (clusterer): 学習済みクラスタラー
+* X (arr): トレーニングセット特徴量
 
 ### シルエットプロット
 
-{{< img src="/images/integrations/scikit_silhouette_plot.png" alt="" >}}
+{{< img src="/images/integrations/scikit_silhouette_plot.png" alt="Scikit-learn silhouette plot" >}}
 
-1つのクラスター内の各ポイントが、隣接するクラスターポイントにどれだけ近いかを測定しプロットします。クラスターの厚みはクラスターサイズに対応します。垂直線は全ポイントの平均シルエットスコアを示します。
+各クラスタにあるデータ点が隣接クラスタの点からどれだけ離れているかをプロットします。クラスターの厚みはサイズに対応し、縦の線はクラスター全体の平均シルエットスコアを示します。
 
-+1に近いシルエット係数は、サンプルが隣接クラスターから遠いことを示します。0の値は、サンプルが隣接クラスター間の意思決定境界にあることを示しています。負の値は、これらのサンプルが誤ってクラスターに割り当てられた可能性があることを示します。
+シルエット係数が+1に近いほど、サンプルが他のクラスタから十分離れていることを意味します。値が0は2つのクラスタの境界上、負の値は誤ったクラスター割り当ての可能性を示します。
 
-一般的に私たちは、すべてのシルエットクラスター スコアが、平均以上（赤線を超えたところ）そして1にできるだけ近いことを望みます。また、データ中の基礎パターンを反映したクラスターサイズを好みます。
+全体的に、すべてのシルエットスコアが平均以上（赤線より右）で、1に近いことが望ましいです。また、クラスターのサイズはデータに内在するパターンを反映している方が良いです。
 
 `wandb.sklearn.plot_silhouette(model, X_train, ['spam', 'not spam'])`
 
-* model (clusterer): 学習済みのクラスタリングアルゴリズムを受け取ります。
-* X (arr): トレーニングセットの特徴。
-  * cluster_labels (list): クラスターラベルの名前。プロット中のクラスターインデックスを対応する名前で置き換え、読みやすくします。
+* model (clusterer): 学習済みクラスタラー
+* X (arr): トレーニングセット特徴量
+  * cluster_labels (list): クラスターラベルの名前。インデックスではなく分かりやすい名前が表示され、グラフの可読性向上に役立ちます。
 
 ### 外れ値候補プロット
 
-{{< img src="/images/integrations/scikit_outlier_plot.png" alt="" >}}
+{{< img src="/images/integrations/scikit_outlier_plot.png" alt="Scikit-learn outlier plot" >}}
 
-Cookの距離を使用して、回帰モデルの各データポイントの影響を評価します。大きく偏った影響を持つインスタンスは外れ値である可能性があります。外れ値検出に役立ちます。
+回帰モデルに対する各データ点のクック距離を計算し、グラフ化します。影響の大きく偏ったインスタンスは外れ値の可能性があります。外れ値検出に有用です。
 
 `wandb.sklearn.plot_outlier_candidates(model, X, y)`
 
-* model (regressor): 学習済みの分類器を受け取ります。
-* X (arr): トレーニングセットの特徴。
-* y (arr): トレーニングセットのラベル。
+* model (regressor): 学習済み回帰器
+* X (arr): トレーニングセット特徴量
+* y (arr): トレーニングセットラベル
 
 ### 残差プロット
 
-{{< img src="/images/integrations/scikit_residuals_plot.png" alt="" >}}
+{{< img src="/images/integrations/scikit_residuals_plot.png" alt="Scikit-learn residuals plot" >}}
 
-予測された目標値 (y軸) 対 実際の目標値と予測された目標値の差 (x軸) 、さらに残差誤差の分布を測定しプロットします。
+予測値（y軸）と実際値と予測値の差分（x軸）、および残差誤差の分布をプロットします。
 
-一般的に、適切にフィットされたモデルの残差はランダムに分布しているべきです。というのも、良いモデルは、データセット中のほとんどの現象を説明するからです。ランダムな誤差を除いて。
+良いモデルであれば残差はランダムに分布するはずです。これは、データセット内のあらゆる現象をモデルが十分捉え、誤差はランダムのみとなっているためです。
 
 `wandb.sklearn.plot_residuals(model, X, y)`
 
-* model (regressor): 学習済みの分類器を受け取ります。
-* X (arr): トレーニングセットの特徴。
-* y (arr): トレーニングセットのラベル。
+* model (regressor): 学習済み回帰器
+* X (arr): トレーニングセット特徴量
+*   y (arr): トレーニングセットラベル
 
-ご質問がある場合は、私たちの[slackコミュニティ](http://wandb.me/slack)でお答えしますので、お気軽にどうぞ。
+何か質問があれば、[slack コミュニティ](https://wandb.me/slack) でお気軽にどうぞ。
 
-## 例
+## サンプル
 
-* [コラボで実行](http://wandb.me/scikit-colab): 始めるためのシンプルなノートブック
+* [colab で実行](https://wandb.me/scikit-colab): すぐに始められるシンプルなノートブックです。

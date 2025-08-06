@@ -1,12 +1,10 @@
 ---
-title: カスタムチャートで「ステップスライダー」を表示するにはどうすればよいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-show_step_slider_custom_chart
-support:
-  - charts
+title: カスタムチャートで「ステップスライダー」を表示するにはどうすればいいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- チャート
 ---
-“その他の設定” ページのカスタム チャート エディタでこのオプションを有効にします。`summaryTable` の代わりに `historyTable` を使用するようにクエリを変更すると、カスタム チャート エディタで「ステップ セレクタを表示」のオプションが提供されます。この機能には、ステップを選択するためのスライダーが含まれています。
+
+カスタムチャートエディタの「その他の設定」ページでこのオプションを有効にしてください。クエリで `summaryTable` の代わりに `historyTable` を使うよう変更すると、カスタムチャートエディタで「ステップセレクターを表示」オプションが利用できるようになります。この機能では、ステップを選択するためのスライダーが表示されます。

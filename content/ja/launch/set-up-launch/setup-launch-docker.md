@@ -1,36 +1,36 @@
 ---
-title: 'チュートリアル: Docker を使用して W&B ローンンチを設定する'
+title: 'チュートリアル: Docker で W&B Launch をセットアップする'
 menu:
   launch:
-    identifier: ja-launch-set-up-launch-setup-launch-docker
+    identifier: setup-launch-docker
     parent: set-up-launch
-url: /ja/guides/launch/setup-launch-docker
+url: guides/launch/setup-launch-docker
 ---
 
-以下のガイドでは、ローカルマシンでドッカーを使用してW&B Launchを設定し、ローンンチエージェントの環境とキューの対象リソースとして使用する方法を説明します。
+以下のガイドは、W&B Launch でローカルマシン上で Docker を launch agent の環境とキューのターゲットリソースの両方に使用する方法を説明します。
 
-ドッカーを使用してジョブを実行し、同じローカルマシン上でローンンチエージェントの環境として使用することは、クラスター管理システム（Kubernetesなど）がインストールされていないマシンにコンピュートがある場合に特に役立ちます。
+同じローカルマシンでジョブの実行と launch agent の環境の両方に Docker を使うのは、Kubernetes などのクラスター管理システムがインストールされていないマシンで計算処理を行う場合に特に便利です。
 
-また、強力なワークステーションでのワークロードを実行するためにドッキューを使用することもできます。
+また、Docker キューを使って、高性能なワークステーション上でワークロードを実行することもできます。
 
 {{% alert %}}
-このセットアップは、実験をローカルマシンで行うユーザーや、SSHでアクセスしてローンンチジョブを提出するリモートマシンを持っているユーザーにとって一般的です。
+このセットアップは、ローカルマシンで実験を行うユーザーや、リモートマシンに SSH 接続して launch ジョブを送信するユーザーによく使われます。
 {{% /alert %}}
 
-ドッカーをW&B Launchと一緒に使用する場合、W&Bはまずイメージをビルドし、そのイメージからコンテナをビルドして実行します。イメージはDockerの `docker run <image-uri>` コマンドでビルドされます。キュー設定は、`docker run` コマンドに渡される追加の引数として解釈されます。
+W&B Launch で Docker を使う場合、W&B はまずイメージをビルドし、そのイメージからコンテナをビルドして実行します。イメージは Docker の `docker run <image-uri>` コマンドで実行されます。キューの設定は、`docker run` コマンドに追加される引数として解釈されます。
 
-## Dockerキューの設定
+## Docker キューを設定する
 
-Dockerの対象リソースのためのローンンチキュー設定は、[`docker run`]({{< relref path="/ref/cli/wandb-docker-run.md" lang="ja" >}}) CLIコマンドで定義された同じオプションを受け入れます。
+Launch キューの設定（Docker をターゲットリソースとする場合）は、[`docker run`]({{< relref "/ref/cli/wandb-docker-run.md" >}}) CLI コマンドで定義されるオプションと同じものを受け付けます。
 
-エージェントはキュー設定で定義されたオプションを受け取り、その後、受け取ったオプションをローンンチジョブの設定からのオーバーライドとマージし、対象リソース（この場合はローカルマシン）で実行される最終的な `docker run` コマンドを生成します。
+エージェントは、キュー設定で定義されたオプションを受け取ります。エージェントはその後、受け取ったオプションと launch ジョブの設定からの上書き内容をマージして、最終的な `docker run` コマンドを生成し、ターゲットリソース（ここではローカルマシン）で実行します。
 
-次の2つの構文変換が行われます：
+2つのシンタックス変換が行われます：
 
-1. 繰り返しオプションは、キュー設定でリストとして定義されます。
-2. フラグオプションは、キュー設定で `true` の値を持つブール値として定義されます。
+1. 繰り返し指定するオプションは、キュー設定ではリストとして記載します。
+2. フラグオプションは、キュー設定で値を `true` とした Boolean で記載します。
 
-例えば、以下のキュー設定：
+例えば、次のようなキュー設定を考えてみましょう：
 
 ```json
 {
@@ -41,7 +41,7 @@ Dockerの対象リソースのためのローンンチキュー設定は、[`doc
 }
 ```
 
-結果として以下の `docker run` コマンドになります：
+これにより、以下のような `docker run` コマンドが生成されます：
 
 ```bash
 docker run \
@@ -52,16 +52,16 @@ docker run \
   --gpus all
 ```
 
-ボリュームは文字列のリストまたは単一の文字列として指定できます。複数のボリュームを指定する場合はリストを使用してください。
+ボリュームは、文字列のリストか、単一の文字列で指定できます。複数のボリュームを指定する場合はリストを使いましょう。
 
-ドッカーは値が割り当てられていない環境変数をローンンチエージェントの環境から自動的に渡します。これは、ローンンチエージェントが環境変数 `MY_EXISTING_ENV_VAR` を持っている場合、その環境変数がコンテナ内で利用可能であることを意味します。これは、キュー設定で公開せずに他の設定キーを使用したい場合に便利です。
+Docker は、値を割り当てていない環境変数も自動的に launch agent の環境から引き継ぎます。つまり、launch agent に `MY_EXISTING_ENV_VAR` という環境変数があれば、その環境変数はコンテナ内でも使えます。これにより、他の config キーをキュー設定で公開せずに利用したい場合に便利です。
 
-`docker run` コマンドの `--gpus` フラグを使って、ドッカーコンテナで利用可能なGPUを指定できます。`gpus` フラグの使用方法について詳しくは、[Dockerのドキュメント](https://docs.docker.com/config/containers/resource_constraints/#gpu)をご覧ください。
+`docker run` コマンドの `--gpus` フラグを使うと、Docker コンテナで利用可能な GPU を指定できます。`gpus` フラグの詳細な使い方については [Docker のドキュメント](https://docs.docker.com/config/containers/resource_constraints/#gpu) を参照してください。
 
 {{% alert %}}
-* Dockerコンテナ内でGPUを使用するには、[NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) をインストールしてください。
-* コードやアーティファクトをソースとするジョブからイメージをビルドする場合、NVIDIA Container Toolkitを含めるために[エージェント]({{< relref path="#configure-a-launch-agent-on-a-local-machine" lang="ja" >}})でベースイメージをオーバーライドできます。
-  例えば、キュー内でベースイメージを `tensorflow/tensorflow:latest-gpu` にオーバーライドできます：
+* Docker コンテナ内で GPU を利用するには、[NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) をインストールしてください。
+* コードや Artifact をソースとするジョブからイメージをビルドする際、[agent]({{< relref "#configure-a-launch-agent-on-a-local-machine" >}}) で使用するベースイメージを NVIDIA Container Toolkit を含むものに上書きできます。
+  例えば、launch キュー設定内でベースイメージを `tensorflow/tensorflow:latest-gpu` に変更することができます：
 
   ```json
   {
@@ -74,29 +74,29 @@ docker run \
   ```
 {{% /alert %}}
 
-## キューの作成
+## キューを作成する
 
-W&B CLIを使用して、ドッカーをコンピュートリソースとして使用するキューを作成します：
+W&B CLI で計算リソースとして Docker を使うキューを作成する手順です：
 
-1. [Launchページ](https://wandb.ai/launch)に移動します。
+1. [Launch ページ](https://wandb.ai/launch) にアクセスします。
 2. **Create Queue** ボタンをクリックします。
 3. キューを作成したい **Entity** を選択します。
-4. **Name** フィールドにキューの名前を入力します。
+4. **Name** 欄にキューの名前を入力します。
 5. **Resource** として **Docker** を選択します。
-6. **Configuration** フィールドにドッカーキューの設定を定義します。
+6. **Configuration** 欄に Docker キューの設定を記入します。
 7. **Create Queue** ボタンをクリックしてキューを作成します。
 
-## ローカルマシンでローンンチエージェントを設定する
+## ローカルマシンで launch agent を設定する
 
-ローンンチエージェントを `launch-config.yaml` という名前の YAML 設定ファイルで設定します。デフォルトでは、W&B は `~/.config/wandb/launch-config.yaml` で設定ファイルをチェックします。ローンンチエージェントをアクティベートするときに異なるディレクトリをオプションとして指定できます。
+`launch-config.yaml` という名前の YAML 設定ファイルで launch agent を設定します。デフォルトでは、W&B は `~/.config/wandb/launch-config.yaml` の設定ファイルをチェックします。エージェントを起動するときに、別のディレクトリーを指定することもできます。
 
 {{% alert %}}
-ローンンチエージェントのために、W&B CLIを使用して、最大ジョブ数、W&Bエンティティ、およびローンンチキューの主要な設定可能なオプションを指定できます（config YAMLファイルではなく）。[`wandb launch-agent`]({{< relref path="/ref/cli/wandb-launch-agent.md" lang="ja" >}}) コマンドを参照してください。
+W&B CLI を使って launch agent のコア設定オプション（YAML ファイルの代わりに）：最大ジョブ数、W&B Entity、launch キューを指定することもできます。詳しくは [`wandb launch-agent`]({{< relref "/ref/cli/wandb-launch-agent.md" >}}) コマンドを参照してください。
 {{% /alert %}}
 
 ## コアエージェント設定オプション
 
-以下のタブは、W&B CLIとYAML設定ファイルを使用して、コアエージェント設定オプションを指定する方法を示しています：
+以下のタブで、W&B CLI と YAML 設定ファイルの両方でコアエージェント設定オプションを指定する方法を紹介します：
 
 {{< tabpane text=true >}}
 {{% tab "W&B CLI" %}}
@@ -113,16 +113,16 @@ queues:
 {{% /tab %}}
 {{< /tabpane >}}
 
-## ドッカーイメージビルダー
+## Docker イメージビルダー
 
-マシン上のローンンチエージェントは、ドッカーイメージをビルドするように設定できます。デフォルトでは、これらのイメージはマシンのローカルイメージリポジトリに保存されます。ローンンチエージェントがドッカーイメージをビルドできるようにするには、ローンンチエージェント設定で `builder` キーを `docker` に設定します：
+あなたのマシン上の launch agent は、Docker イメージをビルドできるように設定できます。デフォルトで、これらのイメージはマシンのローカルイメージリポジトリに保存されます。エージェントで Docker イメージビルドを有効化するには、launch agent 設定で `builder` キーを `docker` に設定します：
 
 ```yaml title="launch-config.yaml"
 builder:
 	type: docker
 ```
 
-エージェントがドッカーイメージをビルドせず、代わりにレジストリからの事前ビルドイメージを使用したい場合は、ローンンチエージェント設定で `builder` キーを `noop` に設定します：
+エージェントに Docker イメージのビルドをさせず、レジストリからの事前ビルド済みイメージを利用したい場合は、launch agent 設定の `builder` キーを `noop` に設定します
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -131,7 +131,7 @@ builder:
 
 ## コンテナレジストリ
 
-Launch は Dockerhub、Google Container Registry、Azure Container Registry、Amazon ECR などの外部コンテナレジストリを使用します。
-異なる環境でジョブを実行したい場合は、コンテナレジストリから引き出せるようにエージェントを設定してください。
+Launch では Dockerhub、Google Container Registry、Azure Container Registry、Amazon ECR など、外部のコンテナレジストリを利用します。  
+ビルドした環境と異なる環境でジョブを実行したい場合は、エージェントがコンテナレジストリからイメージを取得できるように設定してください。
 
-ローンンチエージェントをクラウドレジストリと接続する方法について詳しくは、[Advanced agent setup]({{< relref path="./setup-agent-advanced.md#agent-configuration" lang="ja" >}}) ページを参照してください。
+launch agent とクラウドレジストリの連携方法について詳しくは、[Advanced agent setup]({{< relref "./setup-agent-advanced.md#agent-configuration" >}}) のページをご覧ください。

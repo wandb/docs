@@ -1,23 +1,31 @@
 ---
 title: 複数のメトリクスの最適化
-menu:
-  support:
-    identifier: ja-support-kb-articles-optimizing_multiple_metrics
-support:
-  - sweeps
-  - metrics
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- スイープ
+- メトリクス
 ---
-複数のメトリクスを単一の run で最適化するには、個々のメトリクスの加重平均を使用します。
+
+複数のメトリクスを 1 つの run で最適化するには、個々のメトリクスの加重和を使用します。
 
 ```python
-metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
-wandb.log({"metric_combined": metric_combined})
+with wandb.init() as run:
+  # 個々のメトリクスをログする
+  metric_a = run.summary.get("metric_a", 0.5)
+  metric_b = run.summary.get("metric_b", 0.7)
+  # 必要に応じて他のメトリクスもログ
+  metric_n = run.summary.get("metric_n", 0.9)
+
+  # メトリクスを重み付きで合成する
+  # 最適化の目的に応じて重みを調整してください
+  # たとえば、metric_a と metric_n により重要性を持たせたい場合:
+  metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
+  run.log({"metric_combined": metric_combined})
 ```
 
-新しい組み合わせメトリクスをログし、それを最適化の目標として設定します:
+新しい合成メトリクスをログし、最適化目標として設定します:
 
 ```yaml
 metric:

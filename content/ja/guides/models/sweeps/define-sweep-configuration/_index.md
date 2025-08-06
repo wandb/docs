@@ -1,35 +1,35 @@
 ---
 title: sweep configuration を定義する
-description: スイープの設定ファイルを作成する方法を学びましょう。
+description: スイープの設定ファイルを作成する方法について学びましょう。
 menu:
   default:
-    identifier: ja-guides-models-sweeps-define-sweep-configuration-_index
+    identifier: define-sweep-configuration
     parent: sweeps
-url: /ja/guides/sweeps/define-sweep-configuration
+url: guides/sweeps/define-sweep-configuration
 weight: 3
 ---
 
-A W&B Sweep は、ハイパーパラメータの値を探索するための戦略と、それを評価するコードを組み合わせたものです。この戦略はすべてのオプションを試すというシンプルなものから、ベイズ最適化やハイパーバンド（[BOHB](https://arxiv.org/abs/1807.01774)）のように複雑なものまであります。
+W&B Sweep は、ハイパーパラメータ値を探索するための戦略と、それらを評価するコードを組み合わせたものです。戦略は、すべてのオプションを試すシンプルなものから、ベイズ最適化や Hyperband（[BOHB](https://arxiv.org/abs/1807.01774)）のような複雑なものまで選択できます。
 
-Sweep configuration を [Python 辞書](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) または [YAML](https://yaml.org/) ファイルで定義します。Sweep configuration をどのように定義するかは、あなたが sweep をどのように管理したいかによって異なります。
+Sweep の設定は [Python 辞書](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) または [YAML](https://yaml.org/) ファイルのいずれかで定義します。どちらで定義するかは、Sweep の運用方法に依存します。
 
 {{% alert %}}
-スイープを初期化し、コマンドラインからスイープエージェントを開始したい場合は、YAMLファイルでスイープ設定を定義します。スイープを初期化し、完全にPythonスクリプトまたはJupyterノートブック内でスイープを開始する場合は、Python辞書でスイープを定義します。
+コマンドラインから Sweep を初期化し、sweep agent を開始したい場合は YAML ファイルで設定を定義してください。Python スクリプトやノートブック内で Sweep の初期化から開始まですべて完結させたい場合は Python 辞書で Sweep を定義してください。
 {{% /alert %}}
 
-以下のガイドでは、sweep configuration のフォーマット方法について説明します。[Sweep configuration options]({{< relref path="./sweep-config-keys.md" lang="ja" >}}) で、トップレベルの sweep configuration キーの包括的なリストをご覧ください。
+以下のガイドでは Sweep 設定ファイルのフォーマット方法について説明します。トップレベルの Sweep 設定キーの詳細は [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}) を参照してください。
 
 ## 基本構造
 
-両方のスイープ設定フォーマットオプション (YAML および Python 辞書) は、キーと値のペアおよびネストされた構造を利用します。
+YAML・Python 辞書どちらの Sweep 設定フォーマットも、キーと値のペア、そしてネスト構造を利用します。
 
-スイープ設定内でトップレベルキーを使用して、sweep 検索の特性を定義します。たとえば、スイープの名前（[`name`]({{< relref path="./sweep-config-keys.md" lang="ja" >}}) キー）、検索するパラメータ（[`parameters`]({{< relref path="./sweep-config-keys.md#parameters" lang="ja" >}}) キー）、パラメータ空間を検索する方法（[`method`]({{< relref path="./sweep-config-keys.md#method" lang="ja" >}}) キー）、その他があります。
+Sweep 設定のトップレベルキーを使って、Sweep 検索の名前（[`name`]({{< relref "./sweep-config-keys.md" >}}) キー）、検索対象パラメータ（[`parameters`]({{< relref "./sweep-config-keys.md#parameters" >}}) キー）、ハイパーパラメータサーチの手法（[`method`]({{< relref "./sweep-config-keys.md#method" >}}) キー）などを明示します。
 
-例えば、以下のコードスニペットは、YAML ファイルと Python 辞書の両方で定義された同じスイープ設定を示しています。スイープ設定内には、`program`、`name`、`method`、`metric`、および `parameters` という5つのトップレベルキーが指定されています。
+例えば、次のコードスニペットは同じ Sweep 設定を YAML ファイルと Python 辞書の両方で定義したものです。Sweep 設定には `program`、`name`、`method`、`metric`、`parameters` の５つのトップレベルキーが指定されています。
 
-{{< tabpane text=true >}}
+{{< tabpane  text=true >}}
   {{% tab header="CLI" %}}
-スイープをコマンドライン (CLI) からインタラクティブに管理したい場合、YAML ファイルでスイープ設定を定義します。
+Sweep をコマンドライン（CLI）から対話的に管理したい場合は YAML ファイルで設定しましょう。
 
 ```yaml title="config.yaml"
 program: train.py
@@ -50,10 +50,10 @@ parameters:
     values: ["adam", "sgd"]
 ```
   {{% /tab %}}
-  {{% tab header="Python スクリプトまたは Jupyter ノートブック" %}}
-Python スクリプトまたは Jupyter ノートブックでトレーニングアルゴリズムを定義する場合は、Python 辞書データ構造でスイープを定義します。
+  {{% tab header="Python script or notebook" %}}
+トレーニングアルゴリズムを Python スクリプトやノートブックで定義する場合は、Sweep を Python 辞書データ構造で定義します。
 
-以下のコードスニペットは、`sweep_configuration` という変数名でスイープ設定を格納します：
+次のコードスニペットでは、Sweep 設定を `sweep_configuration` という変数に格納しています。
 
 ```python title="train.py"
 sweep_configuration = {
@@ -67,31 +67,32 @@ sweep_configuration = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```  
+```
   {{% /tab %}}
 {{< /tabpane >}}
 
-トップレベルの `parameters` キーの中に、以下のキーがネストされています：`learning_rate`、`batch_size`、`epoch`、および `optimizer`。指定したネストされたキーごとに、1つ以上の値、分布、確率などを提供できます。詳細については、[Sweep configuration options]({{< relref path="./sweep-config-keys.md" lang="ja" >}}) の [parameters]({{< relref path="./sweep-config-keys.md#parameters" lang="ja" >}}) セクションを参照してください。
+トップレベルの `parameters` キーの中に、`learning_rate`、`batch_size`、`epoch`、`optimizer` というネストされたキーが含まれます。それぞれのネストされたキーごとに、値や分布、確率などを指定できます。詳細は [parameters]({{< relref "./sweep-config-keys.md#parameters" >}})の項や [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}) をご覧ください。
 
 ## 二重ネストパラメータ
 
-Sweep configurations はネストされたパラメータをサポートします。ネストされたパラメータを区切るには、トップレベルのパラメータ名の下に追加の `parameters` キーを使用します。スイープ設定は多層ネストをサポートします。
+Sweep 設定では、ネストされたパラメータ（入れ子パラメータ）もサポートしています。ネストさせたい場合は、トップレベルのパラメータ名称の下に追加で `parameters` キーを設けます。Sweep の設定は多階層のネストも可能です。
 
-ベイズまたはランダムなハイパーパラメータ検索を使用する場合、確率分布を指定します。各ハイパーパラメータについて：
+ベイズ・ランダムサーチを利用する場合は、乱数変数の確率分布も設定できます。各ハイパーパラメータの設定手順は次の通りです：
 
-1. スイープ設定でトップレベル `parameters` キーを作成します。
-2. `parameters` キーの中に次のものをネストします：
-   1. 最適化したいハイパーパラメータの名前を指定します。
-   2. `distribution` キーのために使用したい分布を指定します。ハイパーパラメータ名の下に `distribution` キーと値のペアをネストします。
-   3. 探索する1つ以上の値を指定します。その値（または値のリスト）は分布キーと整合している必要があります。
-      1. (オプション) トップレベルのパラメータ名の下に追加のパラメータキーを使用して、ネストされたパラメータを区切ります。
+1. Sweep 設定のトップレベルに `parameters` キーを作成します。
+2. `parameters` キー内で次をネストします：
+   1. 最適化したいハイパーパラメータ名を指定します。
+   2. `distribution` キーでは使用する分布を指定し、ハイパーパラメータ名の下にネストします。
+   3. 探索したい値を1つまたは複数指定します。値は distribution キーと同じ階層で書きます。
+      1. （オプション）さらに、トップレベルパラメータ名の下に追加の parameters キーを設けて、ネストパラメータを表現することもできます。
 
 {{% alert color="secondary" %}}
-スイープ設定で定義されたネストされたパラメータは、W&B run 設定で指定されたキーを上書きします。
+Sweep 設定内で定義されたネストパラメータは、W&B run 設定で指定したキーを上書きします。
 
-例として、次の設定で `train.py` Python スクリプト（行1-2で確認可能）で W&B run を初期化するとします。次に、`sweep_configuration`（行4-13）の辞書でスイープ設定を定義します。その後、スイープ設定辞書を `wandb.sweep` に渡してスイープ設定を初期化します（行16を確認）。
+例えば、`train.py` Python スクリプト内（1-2行目）で以下のような設定で W&B run を初期化したとします。そして次に `sweep_configuration` という辞書で Sweep 設定を定義し（4-13行目）、最後にその設定辞書を `wandb.sweep` に渡して Sweep を初期化します（16行目）。
 
-```python title="train.py" 
+
+```python title="train.py"
 def main():
     run = wandb.init(config={"nested_param": {"manual_key": 1}})
 
@@ -104,18 +105,19 @@ sweep_configuration = {
     },
 }
 
-# Initialize sweep by passing in config.
+# Sweep を初期化し、設定を渡します。
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 
-# Start sweep job.
+# Sweep ジョブの開始
 wandb.agent(sweep_id, function=main, count=4)
 ```
-W&B run が初期化されたときに渡された `nested_param.manual_key` はアクセスできません。`run.config` は、スイープ設定辞書で定義されたキーと値のペアのみを持っています。
+W&B run 初期化時に渡した `nested_param.manual_key` はアクセスできません。`wandb.Run.config` には Sweep 設定辞書で定義されたキーと値のみが保持されます。
 {{% /alert %}}
 
-## Sweep configuration テンプレート
 
-次のテンプレートには、パラメータを構成し、検索制約を指定する方法を示しています。`hyperparameter_name` をあなたのハイパーパラメータの名前と、`<>` 内の任意の値で置き換えます。
+## Sweep 設定テンプレート
+
+以下のテンプレートは、パラメータ設定や探索制約条件の指定方法を示しています。`hyperparameter_name` は任意のハイパーパラメータ名、`<>` で囲まれた部分は任意の値に置き換えてください。
 
 ```yaml title="config.yaml"
 program: <insert>
@@ -148,15 +150,17 @@ command:
 - ${Command macro}
 - ${Command macro}
 - ${Command macro}
-- ${Command macro}      
+- ${Command macro}
 ```
 
-## Sweep configuration の例
+科学的記法で数値を表したい場合は、YAML の `!!float` 演算子（値を浮動小数点値にキャスト）を追加してください。例：`min: !!float 1e-5`。詳細は [Command example]({{< relref "#command-example" >}}) を参照してください。
+
+## Sweep 設定例
 
 {{< tabpane text=true >}}
   {{% tab header="CLI" %}}
 
-```yaml title="config.yaml" 
+```yaml title="config.yaml"
 program: train.py
 method: random
 metric:
@@ -183,9 +187,9 @@ parameters:
 ```
 
   {{% /tab %}}
-  {{% tab header="Python スクリプトまたは Jupyter ノートブック" %}}
+  {{% tab header="Python script or notebook" %}}
 
-```python title="train.py" 
+```python title="train.py"
 sweep_config = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "loss"},
@@ -203,12 +207,12 @@ sweep_config = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```  
+```
 
   {{% /tab %}}
 {{< /tabpane >}}
 
-### ベイズハイパーバンドの例
+### Bayes hyperband の例
 
 ```yaml
 program: train.py
@@ -240,12 +244,12 @@ early_terminate:
   max_iter: 27
 ```
 
-以下のタブで `early_terminate` の最小または最大のイテレーション回数を指定する方法を示します：
+以下のタブでは、`early_terminate` の反復回数（最大・最小回数）の指定方法を示します。
 
-{{< tabpane text=true >}}
-  {{% tab header="最大のイテレーション回数" %}}
+{{< tabpane  text=true >}}
+  {{% tab header="Maximum number of iterations" %}}
 
-この例のブラケットは `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]` で、結果として `[3, 9, 27, 81]` になります。
+この例ではブラケットは `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`、すなわち `[3, 9, 27, 81]` です。
 
 ```yaml
 early_terminate:
@@ -254,9 +258,9 @@ early_terminate:
 ```
 
   {{% /tab %}}
-  {{% tab header="最小のイテレーション回数" %}}
+  {{% tab header="Minimum number of iterations" %}}
 
-この例のブラケットは `[27/eta, 27/eta/eta]` で、`[9, 3]` になります。
+この例ではブラケットは `[27/eta, 27/eta/eta]`、つまり `[9, 3]` です。
 
 ```yaml
 early_terminate:
@@ -268,102 +272,76 @@ early_terminate:
   {{% /tab %}}
 {{< /tabpane >}}
 
-### コマンドの例
+### マクロとカスタムコマンド引数の例
 
-```yaml
-program: main.py
+コマンドライン引数が複雑になる場合は、Environment 変数や Python インタプリタ、追加の引数を渡すためにマクロを利用できます。[W&B ではあらかじめ用意されたマクロ]({{< relref "./sweep-config-keys.md#command-macros" >}}) と、Sweep 設定で自由に指定できるカスタムコマンドライン引数の両方をサポートしています。
+
+以下の Sweep 設定（`sweep.yaml`）では、コマンド実行時に Python スクリプト（`run.py`）と `${env}` `${interpreter}` `${program}` マクロが、それぞれ実行時の適切な値に置換されます。
+
+また、`--batch_size=${batch_size}`、`--test=True`、`--optimizer=${optimizer}` などの引数では、パラメータの値をマクロ展開した値で渡しています。
+
+```yaml title="sweep.yaml"
+program: run.py
+method: random
 metric:
-  name: val_loss
-  goal: minimize
-
-method: bayes
+  name: validation_loss
 parameters:
-  optimizer.config.learning_rate:
-    min: !!float 1e-5
+  learning_rate:
+    min: 0.0001
     max: 0.1
-  experiment:
-    values: [expt001, expt002]
-  optimizer:
-    values: [sgd, adagrad, adam]
-
-command:
-- ${env}
-- ${interpreter}
-- ${program}
-- ${args_no_hyphens}
-```
-
-{{< tabpane text=true >}}
-  {{% tab header="Unix" %}}
-
-```bash
-/usr/bin/env python train.py --param1=value1 --param2=value2
-```  
-
-  {{% /tab %}}
-  {{% tab header="Windows" %}}
-
-```bash
-python train.py --param1=value1 --param2=value2
-
-```  
-  {{% /tab %}}
-{{< /tabpane >}}
-
-以下のタブで一般的なコマンドマクロを指定する方法を示します：
-
-{{< tabpane text=true >}}
-  {{% tab header="Python インタープリタの設定" %}}
-
-`{$interpreter}` マクロを削除し、値を明示的に提供して Python インタプリタをハードコードします。例えば、以下のコードスニペットはその方法を示しています：
-
-```yaml
-command:
-  - ${env}
-  - python3
-  - ${program}
-  - ${args}
-```
-
-  {{% /tab %}}
-  {{% tab header="追加のパラメータを追加" %}}
-
-次の例では、sweep configuration のパラメータで指定されていないコマンドライン引数を追加する方法を示します：
-
-```yaml
 command:
   - ${env}
   - ${interpreter}
   - ${program}
-  - "--config"
-  - "your-training-config.json"
-  - ${args}
+  - "--batch_size=${batch_size}"
+  - "--optimizer=${optimizer}"
+  - "--test=True"
 ```
-  
-  {{% /tab %}}
-  {{% tab header="引数を省略" %}}
+対応する Python スクリプト（`run.py`）では、`argparse` モジュールを使ってコマンドライン引数を受け取れます。
 
-あなたのプログラムが引数パースを使用しない場合、すべての引数を渡すのを避け、`wandb.init` がスイープパラメータを自動的に `wandb.config` に取り込むことを利用できます：
+```python title="run.py"
+# run.py
+import wandb
+import argparse
 
-```yaml
-command:
-  - ${env}
-  - ${interpreter}
-  - ${program}
-```  
+parser = argparse.ArgumentParser()
+parser.add_argument('--batch_size', type=int)
+parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=True)
+parser.add_argument('--test', type=str2bool, default=False)
+args = parser.parse_args()
 
-  {{% /tab %}}
-  {{% tab header="Hydra" %}}
-
-ツールのように引数を渡すコマンドを変更できます [Hydra](https://hydra.cc) が期待する方法です。詳細については、[Hydra with W&B]({{< relref path="/guides/integrations/hydra.md" lang="ja" >}}) を参照してください。
-
-```yaml
-command:
-  - ${env}
-  - ${interpreter}
-  - ${program}
-  - ${args_no_hyphens}
+# W&B Run の初期化
+with wandb.init('test-project') as run:
+    run.log({'validation_loss':1})
 ```
 
-  {{% /tab %}}
-{{< /tabpane >}}
+Sweep 設定ファイルで使えるマクロの一覧は [Command macros]({{< relref "./sweep-config-keys.md#command-macros" >}})、[Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}) のセクションを参照ください。
+
+#### ブーリアン（真偽値）引数
+
+`argparse` モジュールはデフォルトでブーリアン引数をサポートしていません。ブーリアン引数を定義する方法としては、[`action`](https://docs.python.org/3/library/argparse.html#action) パラメータを指定するか、文字列をブーリアン型に変換するカスタム関数を作成します。
+
+例えば、以下のコードスニペットのように、`ArgumentParser` に `store_true` または `store_false` を渡すことでブーリアン引数を定義できます。
+
+```python
+import wandb
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--test', action='store_true')
+args = parser.parse_args()
+
+args.test  # --test が渡された場合は True、それ以外は False になります
+```
+
+また、ブーリアン値の文字列表現をブーリアン型に変換するカスタム関数を定義することもできます。例えば、次のコードスニペットでは、`str2bool` 関数によって文字列がブーリアン型に変換されます。
+
+```python
+def str2bool(v: str) -> bool:
+  """文字列をブーリアン値に変換する関数です。
+  argparse はデフォルトでブーリアン引数をサポートしていないため、この関数を使います。
+  """
+  if isinstance(v, bool):
+      return v
+  return v.lower() in ('yes', 'true', 't', '1')
+```

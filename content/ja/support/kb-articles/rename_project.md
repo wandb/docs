@@ -1,19 +1,17 @@
 ---
-title: プロジェクトの名前を変更するにはどうすればいいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-rename_project
-support:
-  - projects
+title: プロジェクト名を変更するにはどうすればよいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- プロジェクト
 ---
-プロジェクトをリネームするには:
 
-- プロジェクトの概要に移動します。
+プロジェクト名を変更するには、次の手順に従ってください。
+
+- Project の概要ページに移動します。
 - **Edit Project** をクリックします。
 
-注:
+注意:
 
-- `model-registry` のようにプロジェクト名が保護されている場合、名前を変更することはできません。保護された名前についてはサポートにお問い合わせください。
+- `model-registry` のようにプロジェクト名が保護されている場合、名前の変更はできません。保護された名前についてはサポートにお問い合わせください。

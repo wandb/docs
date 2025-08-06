@@ -1,20 +1,19 @@
 ---
-title: ラン名を run ID に設定するだけでいいのですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-just_set_run_name_run_id
-support:
-  - experiments
+title: run 名を run ID に設定するだけでもいいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 実験
 ---
-はい。 run ID で run 名を上書きするには、次のコードスニペットを使用します:
+
+はい。run 名を run ID で上書きするには、次のコードスニペットを使用してください。
 
 ```python
 import wandb
 
-wandb.init()
-wandb.run.name = wandb.run.id
-wandb.run.save()
+with wandb.init() as run:
+   # run 名を run ID で上書き
+   run.name = run.id
+   run.save()
 ```

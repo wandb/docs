@@ -1,53 +1,53 @@
 ---
-title: 例のレポート
+title: レポートの例
 description: レポートギャラリー
 menu:
   default:
-    identifier: ja-guides-core-reports-reports-gallery
+    identifier: reports-gallery
     parent: reports
 weight: 70
 ---
 
-## ノート: 簡単なサマリーで可視化を追加
+## メモ: 素早くまとめの可視化を追加する
 
-重要な観察結果や将来の作業に関するアイデア、プロジェクトの開発におけるマイルストーンを捉えましょう。レポート内のすべての実験の run は、そのパラメータ、メトリクス、ログ、コードにリンクされるため、作業の全体的な文脈を保存できます。
+プロジェクトの進捗中に重要な気づき、今後のアイデア、または達成したマイルストーンをメモしておきましょう。レポート内のすべての experiment run には、パラメータ、メトリクス、ログ、コードへのリンクがついているので、作業の全体像を保存できます。
 
-テキストを書き留め、関連するチャートを引き入れてインサイトを示しましょう。
+テキストでメモを書いて、インサイトを示す関連グラフを取り込みましょう。
 
-トレーニング時間の比較を共有する方法については、[What To Do When Inception-ResNet-V2 Is Too Slow](https://wandb.ai/stacey/estuary/reports/When-Inception-ResNet-V2-is-too-slow--Vmlldzo3MDcxMA) W&B Report をご覧ください。
+トレーニング時間の比較を共有する例は、[What To Do When Inception-ResNet-V2 Is Too Slow](https://wandb.ai/stacey/estuary/reports/When-Inception-ResNet-V2-is-too-slow--Vmlldzo3MDcxMA) の W&B Report をご覧ください。
 
-{{< img src="/images/reports/notes_add_quick_summary.png" alt="" max-width="90%">}}
+{{< img src="/images/reports/notes_add_quick_summary.png" alt="Quick summary notes" max-width="90%">}}
 
-複雑なコードベースからの最高の例を保存し、簡単に参照したり、将来の対話のために保存します。Lyft のデータセットから LIDAR ポイントクラウドを可視化し、3D バウンディングボックスで注釈を付ける方法については、[LIDAR point clouds](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg) W&B Report をご覧ください。
+複雑なコードベースからベストな事例を簡単に参照・再利用できるように保存できます。Lyft データセットから LIDAR 点群を可視化し、3D バウンディングボックスで注釈を付ける例は、[LIDAR point clouds](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg) の W&B Report をご覧ください。
 
-{{< img src="/images/reports/notes_add_quick_summary_save_best_examples.png" alt="" max-width="90%" >}}
+{{< img src="/images/reports/notes_add_quick_summary_save_best_examples.png" alt="Save best examples" max-width="90%" >}}
 
-## コラボレーション: 同僚と学びを共有する
+## コラボレーション: 学びを同僚と共有する
 
-プロジェクトの開始方法を説明し、これまでに観察したことを共有し、最新の学びを統合します。同僚は、任意のパネルやレポートの最後にコメントを記入して、詳細を提案したり議論したりすることができます。
+プロジェクトの開始方法を伝えたり、これまでの観察結果を共有したり、最新の学びをまとめてみましょう。同僚はパネルやレポート末尾のコメント機能を使って提案やディスカッションができます。
 
-同僚が自分で探索し、追加のインサイトを得て、次のステップをよりよく計画できるように、動的な設定を含めます。この例では、3 種類の実験を独立して可視化したり、比較したり、平均化したりできます。
+動的な設定を含めることで、同僚自身が探索し、さらなる洞察を得て、次のステップをより良く計画できます。以下の例では、3種類の experiment が個別に可視化、比較、平均化できます。
 
-初めての run とベンチマークの観察を共有する方法については、[SafeLife benchmark experiments](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM) W&B Report をご覧ください。
+ベンチマークの初回 run と観察を共有する方法の例は、[SafeLife benchmark experiments](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM) の W&B Report をご参照ください。
 
-{{< img src="/images/reports/intro_collaborate1.png" alt="" >}}
+{{< img src="/images/reports/intro_collaborate1.png" alt="SafeLife benchmark report" >}}
 
-{{< img src="/images/reports/intro_collaborate2.png" alt="" >}}
+{{< img src="/images/reports/intro_collaborate2.png" alt="Experiment comparison view" >}}
 
-スライダーや設定可能なメディアパネルを使用して、モデルの結果やトレーニングの進捗を示します。スライダーを使用した W&B Report の例については、[Cute Animals and Post-Modern Style Transfer: StarGAN v2 for Multi-Domain Image Synthesis](https://wandb.ai/stacey/stargan/reports/Cute-Animals-and-Post-Modern-Style-Transfer-StarGAN-v2-for-Multi-Domain-Image-Synthesis---VmlldzoxNzcwODQ) レポートをご覧ください。
+スライダーや設定可能なメディアパネルを使って、モデルの結果やトレーニングの進捗を魅力的に紹介してみましょう。[Cute Animals and Post-Modern Style Transfer: StarGAN v2 for Multi-Domain Image Synthesis](https://wandb.ai/stacey/stargan/reports/Cute-Animals-and-Post-Modern-Style-Transfer-StarGAN-v2-for-Multi-Domain-Image-Synthesis---VmlldzoxNzcwODQ) では、スライダー付きの W&B Report の例をご覧いただけます。
 
-{{< img src="/images/reports/intro_collaborate3.png" alt="" >}}
+{{< img src="/images/reports/intro_collaborate3.png" alt="StarGAN report with sliders" >}}
 
-{{< img src="/images/reports/intro_collaborate4.png" alt="" >}}
+{{< img src="/images/reports/intro_collaborate4.png" alt="Interactive media panels" >}}
 
-## 作業ログ: 試したことを記録し、次のステップを計画する
+## 作業ログ: 試した内容や次のステップを記録する
 
-実験に関する考えや学び、注意点、次のステップをプロジェクトを進めながら書き留め、一箇所に整理しておきましょう。これにより、スクリプトを超えた重要な部分をすべて"文書化"することができます。学びをレポートする方法についての例としては、[Who Is Them? Text Disambiguation With Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc) W&B Report をご覧ください。
+experiment での考察や学び、注意点、次にやることを随時記録し、すべてを一箇所に整理しましょう。スクリプト以外の大切な部分も「ドキュメント化」できます。[Who Is Them? Text Disambiguation With Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc) の W&B Report では、学びをどうレポートできるかの例をご覧いただけます。
 
-{{< img src="/images/reports/intro_work_log_1.png" alt="" >}}
+{{< img src="/images/reports/intro_work_log_1.png" alt="Text disambiguation report" >}}
 
-プロジェクトのストーリーを語り、後からモデルがどのように、そしてなぜ開発されたのかを理解するために参照することができます。[The View from the Driver's Seat](https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ) W&B Report では、学びをレポートする方法をご覧いただけます。
+プロジェクトのストーリーを記録することで、後から自分や他の人が、どのように・なぜそのモデルが開発されたかを理解できるようになります。[The View from the Driver's Seat](https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ) の W&B Report をご参照ください。
 
-{{< img src="/images/reports/intro_work_log_2.png" alt="" >}}
+{{< img src="/images/reports/intro_work_log_2.png" alt="Driver's seat project report" >}}
 
-OpenAI Robotics チームが W&B Reports を使用して大規模な機械学習プロジェクトを実行した方法を探るために、W&B Reports がどのように使用されたかの例については、[Learning Dexterity End-to-End Using W&B Reports](https://bit.ly/wandb-learning-dexterity) をご覧ください。
+[Learning Dexterity End-to-End Using W&B Reports](https://bit.ly/wandb-learning-dexterity) では、OpenAI Robotics チームが W&B Reports を活用して大規模な機械学習プロジェクトをどう進めたのかを探索した事例を紹介しています。

@@ -1,42 +1,44 @@
 ---
 title: fastai
-cascade:
-- url: /ja/guides/integrations/fastai/:filename
 menu:
   default:
-    identifier: ja-guides-integrations-fastai-_index
+    identifier: README
     parent: integrations
+cascade:
+- url: guides/integrations/fastai/:filename
 weight: 100
 ---
 
-もしあなたが **fastai** を使ってモデルを訓練しているなら、W&B には `WandbCallback` を使用した簡単なインテグレーションがあります。[インタラクティブなドキュメントと例についてはこちらをご覧ください →](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
+もし **fastai** を使ってモデルのトレーニングを行っている場合、W&B には `WandbCallback` を利用した簡単なインテグレーションがあります。詳しくは[インタラクティブなドキュメントとサンプルはこちら →](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
 
-## 登録と APIキー の作成
+## サインアップと API キーの作成
 
-APIキー は、あなたのマシンを W&B に認証します。APIキー は、ユーザープロフィールから生成できます。
+APIキーは、あなたのマシンを W&B に認証するためのものです。APIキーはユーザープロファイルから発行できます。
 
 {{% alert %}}
-よりスムーズな方法として、直接 [https://wandb.ai/authorize](https://wandb.ai/authorize) にアクセスして APIキー を生成することができます。表示された APIキー をコピーし、パスワードマネージャーなどの安全な場所に保存してください。
+もっと手軽な方法としては、[W&B 認証ページ](https://wandb.ai/authorize) から直接 APIキーを発行できます。表示された API キーをコピーして、パスワードマネージャーなどの安全な場所に保存してください。
 {{% /alert %}}
 
-1. 右上のユーザープロフィールアイコンをクリックします。
-1. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
-1. **Reveal** をクリックします。表示された APIキー をコピーします。APIキー を非表示にするには、ページを再読み込みしてください。
+1. 画面右上のユーザープロファイルアイコンをクリックします。
+1. **User Settings** を選び、**API Keys** セクションまでスクロールします。
+1. **Reveal** をクリックし、表示された API キーをコピーします。APIキーを再度非表示にするにはページをリロードしてください。
 
 ## `wandb` ライブラリのインストールとログイン
 
-`wandb` ライブラリをローカルにインストールしログインするには:
+ローカルで `wandb` ライブラリをインストールし、ログインします：
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をあなたの APIキー に設定します。
+1. `WANDB_API_KEY` [環境変数]({{< relref "/guides/models/track/environment-variables.md" >}}) に、あなたの API キーを設定してください。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. `wandb` ライブラリをインストールしログインします。
+1. `wandb` ライブラリをインストールし、ログインします。
+
+
 
     ```shell
     pip install wandb
@@ -70,55 +72,55 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## `learner` または `fit` メソッドに `WandbCallback` を追加する
+## `WandbCallback` を `learner` もしくは `fit` メソッドに追加
 
 ```python
 import wandb
 from fastai.callback.wandb import *
 
-# wandb run を開始してログをとる
+# wandb run の ログを開始
 wandb.init(project="my_project")
 
-# トレーニングフェーズの一部のみログする場合
+# 1つのトレーニングフェーズのみログを記録する場合
 learn.fit(..., cbs=WandbCallback())
 
-# すべてのトレーニングフェーズで継続的にログをとる場合
+# すべてのトレーニングフェーズで継続的にログを記録する場合
 learn = learner(..., cbs=WandbCallback())
 ```
 
 {{% alert %}}
-Fastai のバージョン1を使用している場合は、[Fastai v1 ドキュメント]({{< relref path="v1.md" lang="ja" >}}) を参照してください。
+Fastai のバージョン 1 を利用している場合は、[Fastai v1 のドキュメント]({{< relref "v1.md" >}}) を参照してください。
 {{% /alert %}}
 
-## WandbCallback 引数
+## WandbCallback の引数
 
-`WandbCallback` は以下の引数を受け入れます:
+`WandbCallback` は次の引数を受け取ります：
 
-| Args                     | 説明                                                                                                                                                                                                                                                        |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| log                      | モデルをログするかどうか: `gradients` 、`parameters`, `all` 、または `None` (デフォルト)。損失とメトリクスは常にログされます。                                                                                                                                  |
-| log_preds               | 予測サンプルをログしたいかどうか (デフォルトは `True`)。                                                                                                                                                                                                     |
-| log_preds_every_epoch | 予測をエポックごとにログするか、最後にログするか (デフォルトは `False`)                                                                                                                                                                                      |
-| log_model               | モデルをログしたいかどうか (デフォルトは False)。これには `SaveModelCallback` も必要です。                                                                                                                                                                |
-| model_name              | 保存する `file` の名前、`SaveModelCallback` をオーバーライドします。                                                                                                                                                                                         |
-| log_dataset             | <ul><li><code>False</code> (デフォルト)</li><li><code>True</code> は learn.dls.path が参照するフォルダをログします。</li><li>ログするフォルダを参照するパスを明示的に定義できます。</li></ul><p><em>注: サブフォルダ "models" は常に無視されます。</em></p> |
-| dataset_name            | ログされたデータセットの名前 (デフォルトは `フォルダ名`)。                                                                                                                                                                                                   |
-| valid_dl                | 予測サンプルに使用する `DataLoaders` (デフォルトは `learn.dls.valid` からランダムなアイテム)                                                                                                                                                             |
-| n_preds                 | ログする予測の数 (デフォルトは 36)。                                                                                                                                                                                                                        |
-| seed                     | ランダムサンプルを定義するために使用します。                                                                                                                                                                                                               |
+| 引数                     | 説明                                                                                                                                                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| log                      | モデルの `gradients`、`parameters`、`all`、または `None`（デフォルト）をログに記録するかどうか。損失値とメトリクスは常にログに記録されます。                                                                                                   |
+| log_preds               | 予測サンプルをログに記録するかどうか（デフォルトは `True`）。                                                                                                                                                                                             |
+| log_preds_every_epoch | 毎エポックごと、または最後だけ 予測結果をログに記録するか（デフォルトは `False`）                                                                                                                                                                          |
+| log_model               | モデルをログに記録するかどうか（デフォルトはFalse）。`SaveModelCallback` も必要です。                                                                                                                                                                  |
+| model_name              | 保存するファイル名。`SaveModelCallback` の設定を上書きします。                                                                                                                                                                                             |
+| log_dataset             | <ul><li><code>False</code>（デフォルト）</li><li><code>True</code> で learn.dls.path が指すフォルダをログします。</li><li>または明示的なパスが指定できます。</li></ul><p><em>※「models」サブフォルダは必ず無視されます。</em></p>               |
+| dataset_name            | ログに記録するデータセットの名前（デフォルトはフォルダ名）                                                                                                                                                                                                 |
+| valid_dl                | 予測サンプルで使用する `DataLoaders`（デフォルトは `learn.dls.valid` からランダムに選ばれたアイテム）                                                                                                                                                    |
+| n_preds                 | ログに記録する予測の数（デフォルトは36）。                                                                                                                                                                                                              |
+| seed                    | ランダムサンプルを定義する際に利用されます。                                                                                                                                                                                                            |
 
-カスタムワークフローのために、データセットとモデルを手動でログすることができます:
+カスタムワークフローの場合は、次のようにデータセットやモデルを手動でログできます：
 
 * `log_dataset(path, name=None, metadata={})`
 * `log_model(path, name=None, metadata={})`
 
-_注: サブフォルダ "models" は無視されます。_
+_※「models」サブフォルダは必ず無視されます。_
 
 ## 分散トレーニング
 
-`fastai` はコンテキストマネージャー `distrib_ctx` を使用して分散トレーニングをサポートしています。W&B はこれを自動的にサポートし、マルチGPU実験をすぐにトラッキングできるようにします。
+`fastai` は `distrib_ctx` コンテキストマネージャ経由で分散トレーニングをサポートします。W&B 側も自動でサポートしており、複数 GPU での実験もそのまま追跡できます。
 
-この簡単な例を確認してください:
+以下のミニマルなサンプルもご参照ください：
 
 {{< tabpane text=true >}}
 {{% tab header="Script" value="script" %}}
@@ -150,18 +152,18 @@ if __name__ == "__main__":
     train()
 ```
 
-そして、ターミナルで以下を実行します:
+ターミナルで以下のように実行します：
 
 ```shell
 $ torchrun --nproc_per_node 2 train.py
 ```
 
-この場合、マシンには 2 つの GPU があります。
+この例では、マシンに GPU が2枚ある場合となっています。
 
 {{% /tab %}}
 {{% tab header="Python notebook" value="notebook" %}}
 
-ノートブック内で直接分散トレーニングを実行することができます。
+ノートブック環境でも分散トレーニングが可能です。
 
 ```python
 import wandb
@@ -194,9 +196,9 @@ notebook_launcher(train, num_processes=2)
 {{% /tab %}}
 {{< /tabpane >}}
 
-### メインプロセスのみでログを取る
+### メインプロセスのみログに記録したい場合
 
-上記の例では、`wandb` はプロセスごとに1 つの run を起動します。トレーニングの終了時には、2 つの run ができます。これが混乱を招くこともあり、メインプロセスだけでログを取りたい場合があります。そのためには、手動でどのプロセスにいるかを検出し、他のプロセスでは run (すなわち `wandb.init` の呼び出し) を作成しないようにする必要があります。
+上記のサンプルでは `wandb` がプロセスごとに1つずつ run を作成します。そのため、トレーニング終了時には 2つの run ができます。これが紛らわしい場合、メインプロセスのみログしたい場合は、どのプロセスで実行しているかを手動で判定し、他のプロセスでは run（`wandb.init`）を作成しないようにしてください。
 
 {{< tabpane text=true >}}
 {{% tab header="Script" value="script" %}}
@@ -229,7 +231,7 @@ def train():
 if __name__ == "__main__":
     train()
 ```
-ターミナルで以下を実行します:
+ターミナルで次のように実行します：
 
 ```
 $ torchrun --nproc_per_node 2 train.py
@@ -271,7 +273,7 @@ notebook_launcher(train, num_processes=2)
 {{% /tab %}}
 {{< /tabpane >}}
 
-## 例
+## 事例紹介
 
-* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): 十分に文書化された手順
-* [Image Segmentation on CamVid](http://bit.ly/fastai-wandb): インテグレーションのサンプルユースケース
+* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): とても詳しく説明されたチュートリアル
+* [Image Segmentation on CamVid](https://bit.ly/fastai-wandb): インテグレーションのユースケース例

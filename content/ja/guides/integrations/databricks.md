@@ -1,45 +1,45 @@
 ---
 title: Databricks
-description: W&B を Databricks と統合する方法。
+description: W&B を Databricks と統合する方法
 menu:
   default:
-    identifier: ja-guides-integrations-databricks
+    identifier: databricks
     parent: integrations
 weight: 50
 ---
 
-W&B は、Databricks 環境での W&B Jupyter ノートブック体験をカスタマイズすることにより、[Databricks](https://www.databricks.com/) と統合します。
+W&B は、Databricks 環境内の W&B Jupyter ノートブック体験をカスタマイズすることで [Databricks](https://www.databricks.com/) と統合します。
 
 ## Databricks の設定
 
-1. クラスターに wandb をインストール
+1. クラスターに wandb をインストールする
 
-    クラスター設定に移動し、クラスターを選択し、**Libraries** をクリックします。**Install New** をクリックし、**PyPI** を選択してパッケージ `wandb` を追加します。
+    クラスターの設定画面に移動し、クラスターを選択して **Libraries** をクリックします。**Install New** をクリックし、**PyPI** を選択、パッケージに `wandb` を追加してください。
 
-2. 認証の設定
+2. 認証を設定する
 
-    あなたの W&B アカウントを認証するために、ノートブックが照会できる Databricks シークレットを追加することができます。
+    W&B アカウントを認証するには Databricks のシークレットを追加し、ノートブックでその値を参照できるようにします。
 
     ```bash
     # databricks cli をインストール
     pip install databricks-cli
 
-    # databricks UIからトークンを生成
+    # databricks の UI からトークンを生成
     databricks configure --token
 
-    # 2つのコマンドのいずれかでスコープを作成します（databricksでセキュリティ機能が有効かどうかによります）：
-    # セキュリティ追加機能あり
+    # （セキュリティ機能の有無によって）どちらかのコマンドでスコープを作成
+    # セキュリティアドオンがある場合
     databricks secrets create-scope --scope wandb
-    # セキュリティ追加機能なし
+    # セキュリティアドオンがない場合
     databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-    # こちらから api_key を追加します: https://app.wandb.ai/authorize
+    # api_key を https://app.wandb.ai/authorize から取得し追加
     databricks secrets put --scope wandb --key api_key
     ```
 
 ## 例
 
-### 簡単な例
+### シンプルな例
 
 ```python
 import os
@@ -48,18 +48,18 @@ import wandb
 api_key = dbutils.secrets.get("wandb", "api_key")
 wandb.login(key=api_key)
 
-wandb.init()
-wandb.log({"foo": 1})
+with wandb.init() as run:
+    run.log({"foo": 1})
 ```
 
 ### Sweeps
 
-ノートブックが wandb.sweep() または wandb.agent() を使用しようとする際に必要な設定（暫定的）です。
+notebook で wandb.sweep() や wandb.agent() を使用する場合の（一時的な）セットアップ：
 
 ```python
 import os
 
-# これらは将来的には不要になります
+# 今後不要になる予定
 os.environ["WANDB_ENTITY"] = "my-entity"
 os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```

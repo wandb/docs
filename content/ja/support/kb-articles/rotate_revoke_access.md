@@ -1,13 +1,11 @@
 ---
-title: アクセスを変更または無効にするにはどうすればよいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-rotate_revoke_access
-support:
-  - administrator
-  - security
+title: アクセス権をローテートまたは取り消すにはどうすればよいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 管理者
+- セキュリティ
 ---
-個人およびサービスアカウントのキーは、ローテーションまたは取り消すことができます。新しい API キーまたはサービスアカウント ユーザーを作成し、新しいキーを使用するようにスクリプトを再設定してください。再設定後、プロフィールまたはチームから古い API キーを削除してください。
+
+個人またはサービスアカウントのキーはローテーションや無効化が可能です。新しい APIキー またはサービスアカウントユーザーを作成し、スクリプトの設定 を新しいキーに変更してください。設定が完了したら、プロフィールやチームから古い APIキー を削除しましょう。

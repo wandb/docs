@@ -1,42 +1,43 @@
 ---
-title: 'チュートリアル: テーブルをログして、データを視覚化し、クエリする方法'
-description: W&B Tables を 5 分で始めるクイックスタートで使い方を確認しましょう。
+title: チュートリアル：テーブルをログし、データを可視化・クエリする
+description: 5分でできるクイックスタートで W&B テーブルの使い方を学びましょう。
 menu:
   default:
-    identifier: ja-guides-models-tables-tables-walkthrough
+    identifier: tables-walkthrough
     parent: tables
 weight: 1
 ---
 
-The following クイックスタート では、データ テーブルをログし、データを視覚化し、データをクエリする方法を示します。
+以下のクイックスタートでは、データ テーブルのログ、データの可視化、データのクエリ方法を説明します。
 
-以下のボタンを選択して、PyTorch クイックスタートの MNIST データの例のプロジェクト を試してください。
+下のボタンから、MNIST データを使った PyTorch クイックスタートのサンプルプロジェクトをお試しください。
 
-## 1. テーブルをログする
-W&B を使用してテーブルをログします。新しいテーブルを作成するか、Pandas の Dataframe を渡すことができます。
+## 1. テーブルのログ
+W&B にテーブルをログします。新しいテーブルを作成することも、Pandas の DataFrame を渡すこともできます。
 
 {{< tabpane text=true >}}
-{{% tab header="テーブルを作成する" value="construct" %}}
-新しい Table を作成してログするには、次を使用します:
-- [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}): [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) を作成して結果を追跡します。
-- [`wandb.Table()`]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}): 新しいテーブル オブジェクトを作成します。
-  - `columns`: カラム名を設定します。
+{{% tab header="テーブルを作成" value="construct" %}}
+新しい Table を作成してログするには、次のものを使用します:
+- [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}): 結果を追跡する [run]({{< relref "/guides/models/track/runs/" >}}) を作成します。
+- [`wandb.Table()`]({{< relref "/ref/python/sdk/data-types/table.md" >}}): 新しいテーブルオブジェクトを作成します。
+  - `columns`: 列名を設定します。
   - `data`: 各行の内容を設定します。
-- [`run.log()`]({{< relref path="/ref/python/log.md" lang="ja" >}}): テーブルをログし、W&B に保存します。
+- [`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runlog" >}}): テーブルをログして W&B に保存します。
 
-例はこちらです:
+例:
+
 ```python
 import wandb
 
-run = wandb.init(project="table-test")
-# 新しいテーブルを作成してログします。
-my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
-run.log({"Table Name": my_table})
+with wandb.init(project="table-test") as run:
+    # 新しいテーブルを作成してログします。
+    my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
+    run.log({"Table Name": my_table})
 ```
 {{% /tab %}}
 
-{{% tab header="Pandas Dataframe" value="pandas"%}}
-Pandas Dataframe を `wandb.Table()` に渡して、新しいテーブルを作成します。
+{{% tab header="Pandas DataFrame" value="pandas"%}}
+Pandas の DataFrame を `wandb.Table()` に渡して新しいテーブルを作成します。
 
 ```python
 import wandb
@@ -44,32 +45,35 @@ import pandas as pd
 
 df = pd.read_csv("my_data.csv")
 
-run = wandb.init(project="df-table")
-my_table = wandb.Table(dataframe=df)
-wandb.log({"Table Name": my_table})
+with wandb.init(project="df-table") as run:
+    # DataFrame から新しいテーブルを作成
+    # して、それを W&B にログします。
+  my_table = wandb.Table(dataframe=df)
+  run.log({"Table Name": my_table})
 ```
 
-サポートされているデータ型の詳細については、W&B API リファレンス ガイドの [`wandb.Table`]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}) を参照してください。
+サポートされているデータ型の詳細は、W&B API リファレンスガイドの [`wandb.Table`]({{< relref "/ref/python/sdk/data-types/table.md" >}}) をご覧ください。
 {{% /tab %}}
 {{< /tabpane >}}
 
-## 2. プロジェクトワークスペースでテーブルを視覚化する
 
-ワークスペースで結果のテーブルを表示します。
+## 2. プロジェクト ワークスペースでテーブルを可視化
 
-1. W&B アプリでプロジェクトに移動します。
-2. プロジェクト ワークスペースで run の名前を選択します。それぞれのユニークなテーブル キーに対して新しいパネルが追加されます。
+run の結果として作成されたテーブルを workspace で表示します。
 
-{{< img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="" >}}
+1. W&B アプリで自分のプロジェクトに移動します。
+2. プロジェクトワークスペースで run の名前を選択します。各テーブルキーごとに新しいパネルが追加されます。
 
-この例では、`my_table` がキー `"Table Name"` の下にログされています。
+{{< img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="Sample table logged" >}}
 
-## 3. モデル バージョン を比較する
+この例では、`my_table` は `"Table Name"` というキーでログされています。
 
-複数の W&B Runs のサンプル テーブルをログし、プロジェクト ワークスペースで結果を比較します。この [例のワークスペース](https://wandb.ai/carey/table-test?workspace=user-carey) では、複数の異なるバージョンから同じテーブルに行を結合する方法を示しています。
+## 3. モデルの複数バージョンを比較
 
-{{< img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="" >}}
+複数の W&B Run からサンプルテーブルをログし、プロジェクトワークスペースでその結果を比較できます。この [サンプル ワークスペース](https://wandb.ai/carey/table-test?workspace=user-carey) では、異なるバージョンの行を同じテーブルにまとめて表示しています。
 
-モデルの結果を探索し評価するためにテーブルのフィルタ、ソート、グループ化の機能を使用してください。
+{{< img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="Cross-run table comparison" >}}
 
-{{< img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="" >}}
+テーブルのフィルターやソート、グループ化機能を使って、モデルの結果を探索・評価しましょう。
+
+{{< img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="Table filtering" >}}

@@ -1,62 +1,62 @@
 ---
-title: Slack アラートの設定
+title: Slack アラートを設定
 menu:
   default:
-    identifier: ja-guides-hosting-monitoring-usage-slack-alerts
+    identifier: slack-alerts
     parent: monitoring-and-usage
 ---
 
-Integrate W&B Server with [Slack](https://slack.com/).
+W&B サーバーを [Slack](https://slack.com/) と連携しましょう。
 {{% alert %}}
-W&B 専用クラウドデプロイメントでの Slack アラートの設定を示した[ビデオを見る](https://www.youtube.com/watch?v=JmvKb-7u-oU) (6 分)。
+[W&B 専用クラウド デプロイメントで Slack アラートを設定するデモ動画](https://www.youtube.com/watch?v=JmvKb-7u-oU)（約6分）をご覧ください。
 {{% /alert %}}
 
-## Slack アプリケーションを作成する
+## Slack アプリケーションの作成
 
-以下の手順に従って Slack アプリケーションを作成してください。
+以下の手順で Slack アプリケーションを作成します。
 
 1. https://api.slack.com/apps にアクセスし、**Create an App** を選択します。
 
-    {{< img src="/images/hosting/create_an_app.png" alt="" >}}
+    {{< img src="/images/hosting/create_an_app.png" alt="Create an App ボタン" >}}
 
-2. **App Name** フィールドにアプリの名前を入力します。
-3. アプリを開発したい Slack ワークスペースを選択します。アラートに使用する予定のワークスペースと同じワークスペースを使用していることを確認してください。
+2. **App Name** のフィールドにアプリの名前を入力します。
+3. 開発するアプリの Slack ワークスペースを選択します。アラートに使用したいワークスペースと同じものを選ぶようにしてください。
 
-    {{< img src="/images/hosting/name_app_workspace.png" alt="" >}}
+    {{< img src="/images/hosting/name_app_workspace.png" alt="アプリの名前とワークスペースの選択" >}}
 
-## Slack アプリケーションを設定する
+## Slack アプリケーションの設定
 
-1. 左側のサイドバーで **OAth & Permissions** を選択します。
+1. 左サイドバーから **OAuth & Permissions** を選択します。
 
-    {{< img src="/images/hosting/add_an_oath.png" alt="" >}}
+    {{< img src="/images/hosting/add_an_oath.png" alt="OAuth & Permissions メニュー" >}}
 
-2. Scopes セクションで、ボットに **incoming_webhook** スコープを追加します。スコープは、アプリに開発ワークスペースでのアクションを実行する権限を与えます。
+2. Scopes セクションで、Bot に **incoming_webhook** scope を追加します。Scope は、開発用ワークスペース内でアプリがアクションを実行する権限を与えます。
 
-    Bot の OAuth スコープについての詳細は、Slack API ドキュメントの「Understanding OAuth scopes for Bots」チュートリアルを参照してください。
+    Bot 用 OAuth スコープの詳細は、Slack API ドキュメントの「Understanding OAuth scopes for Bots」チュートリアルをご覧ください。
 
-    {{< img src="/images/hosting/save_urls.png" alt="" >}}
+    {{< img src="/images/hosting/save_urls.png" alt="Bot トークンスコープ" >}}
 
-3. W&B インストールを指すようにリダイレクト URL を設定します。ローカルシステム設定で指定されたホスト URL と同じ URL を使用してください。インスタンスへの異なる DNS マッピングを持つ場合は、複数の URL を指定できます。
+3. Redirect URL を W&B インストール先の URL に設定します。ローカルシステム設定で指定したホスト URL と同じ URL を使います。インスタンスへの DNS マッピングが複数ある場合は、複数の URL を指定できます。
 
-    {{< img src="/images/hosting/redirect_urls.png" alt="" >}}
+    {{< img src="/images/hosting/redirect_urls.png" alt="Redirect URLs 設定" >}}
 
-4. **Save URLs** を選択します。
-5. **Restrict API Token Usage** で、オプションとして W&B インスタンスの IP または IP 範囲を許可リストに指定できます。許可された IP アドレスの制限は、Slack アプリケーションのセキュリティをより強化します。
+4. **Save URLs** をクリックします。
+5. 必要であれば、**Restrict API Token Usage** にて IP レンジを指定し、W&B インスタンスの IP や IP レンジを許可リストに加えることもできます。許可する IP アドレスを制限することで、Slack アプリケーションのセキュリティをさらに高めることができます。
 
 ## Slack アプリケーションを W&B に登録する
 
-1. W&B インスタンスの **System Settings** または **System Console** ページに移動します。デプロイメントに応じて異なります。
+1. お使いの W&B インスタンスの **System Settings** または **System Console** ページに移動します（デプロイメントによります）
 
-2. 使用している System ページに応じて、以下のオプションのいずれかを実行します：
+2. システムページに応じて、次のいずれかの操作を行います：
 
-    - **System Console** にいる場合: **Settings** から **Notifications** に進みます。
+    - **System Console** の場合：**Settings** に進み **Notifications** を選択します。
 
-      {{< img src="/images/hosting/register_slack_app_console.png" alt="" >}}
+      {{< img src="/images/hosting/register_slack_app_console.png" alt="System Console notifications" >}}
 
-    - **System Settings** にいる場合: カスタム Slack アプリケーションを有効にするために **Enable a custom Slack application to dispatch alerts** をトグルします。
+    - **System Settings** の場合：**Enable a custom Slack application to dispatch alerts** を切り替え、カスタム Slack アプリケーションを有効にします。
 
-      {{< img src="/images/hosting/register_slack_app.png" alt="" >}}
+      {{< img src="/images/hosting/register_slack_app.png" alt="Slack アプリケーション有効化トグル" >}}
 
-3. **Slack client ID** と **Slack secret** を入力し、**Save** をクリックします。設定の基本情報でアプリケーションのクライアント ID とシークレットを見つけることができます。
+3. **Slack client ID** と **Slack secret** を入力し、**Save** をクリックします。アプリのクライアント ID やシークレットは Settings の Basic Information から確認できます。
 
-4. W&B アプリケーションで Slack インテグレーションを設定して、すべてが正常に動作していることを確認します。
+4. W&B アプリで Slack インテグレーションを設定し、すべて正しく動作しているか確認してください。

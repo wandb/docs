@@ -1,13 +1,11 @@
 ---
-title: 請求先住所を変更するにはどうすればよいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-change_billing_address
-support:
-  - administrator
-  - billing
+title: 請求先アドレスを変更するにはどうすればよいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 管理者
+- 請求
 ---
-アドレスを変更するには、サポートチーム（support@wandb.com）に連絡してください。
+
+請求先アドレスを変更するには、サポートチーム（support@wandb.com）までご連絡ください。

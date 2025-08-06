@@ -1,139 +1,143 @@
 ---
-title: ユーザーのアクティビティを監査ログで追跡する
+title: 監査ログでユーザーのアクティビティを追跡する
 menu:
   default:
-    identifier: ja-guides-hosting-monitoring-usage-audit-logging
+    identifier: audit-logging
     parent: monitoring-and-usage
 weight: 1
 ---
 
-W&B の監査ログを使用して、組織内のユーザー活動を追跡し、企業のガバナンス要件に準拠します。監査ログは JSON フォーマットで利用可能です。[監査ログスキーマ]({{< relref path="#audit-log-schema" lang="ja" >}}) を参照してください。
+W&B の監査ログを活用することで、組織内のユーザーアクティビティを追跡したり、エンタープライズのガバナンス要件への準拠を実現できます。監査ログは JSON 形式で提供されます。[監査ログスキーマ]({{< relref "#audit-log-schema" >}})もご参照ください。
 
-監査ログへのアクセス方法は、W&B プラットフォームのデプロイメントタイプによって異なります:
+監査ログへのアクセス方法は、ご利用中の W&B プラットフォームのデプロイメントタイプによって異なります。
 
-| W&B プラットフォームデプロイメントタイプ | 監査ログアクセス機構 |
+| W&B プラットフォームデプロイメントタイプ | 監査ログへのアクセス方法 |
 |----------------------------|--------------------------------|
-| [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) | 10 分ごとにインスタンスレベルのバケットに同期されます。また、[API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}}) を使用しても利用可能です。 |
-| [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) with [secure storage connector (BYOB)]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) | インスタンスレベルのバケット (BYOB) に 10 分ごとに同期されます。また、[API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}}) を使用しても利用可能です。 |
-| [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) with W&B managed storage (without BYOB) | [API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}}) を使用してのみ利用可能です。 |
-| [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) | エンタープライズプランのみで利用可能です。[API]({{< relref path="#fetch-audit-logs-using-api" lang="ja" >}}) を使用してのみ利用可能です。
+| [Self-Managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) | インスタンスレベルのバケットに10分ごとに同期されます。[API]({{< relref "#fetch-audit-logs-using-api" >}})でも取得可能です。 |
+| [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) ＋ [セキュアストレージコネクタ（BYOB）]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) | インスタンスレベルのバケット（BYOB）に10分ごとに同期されます。[API]({{< relref "#fetch-audit-logs-using-api" >}})でも取得可能です。 |
+| [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) ＋ W&B 管理ストレージ（BYOBなし） | [API]({{< relref "#fetch-audit-logs-using-api" >}})でのみ取得可能です。|
+| [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) | エンタープライズプランのみ利用可能です。[API]({{< relref "#fetch-audit-logs-using-api" >}})でのみ取得可能です。|
 
-監査ログを取得した後、[Pandas](https://pandas.pydata.org/docs/index.html)、[Amazon Redshift](https://aws.amazon.com/redshift/)、[Google BigQuery](https://cloud.google.com/bigquery)、[Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric) などのツールを使用して分析できます。監査ログの分析ツールによっては JSON をサポートしていないものもあります。分析ツールのドキュメントを参照して、分析前に JSON 形式の監査ログを変換するためのガイドラインと要件をご確認ください。
+監査ログ取得後は、[Pandas](https://pandas.pydata.org/docs/index.html)、[Amazon Redshift](https://aws.amazon.com/redshift/)、[Google BigQuery](https://cloud.google.com/bigquery)、[Microsoft Fabric](https://www.microsoft.com/microsoft-fabric) などのツールを用いて分析できます。一部の監査ログ分析ツールは JSON 非対応のため、分析前にログを変換する方法と要件についてはご利用中の分析ツールのドキュメントをご確認ください。
 
-{{% alert title="監査ログの保存" %}}
-特定の期間に渡って監査ログを保存する必要がある場合、W&B はログを長期保存場所に定期的に転送することを推奨しています。ストレージバケットや監査ログ API を使用できます。
+{{% alert title="監査ログの保管期間" %}}
+一定期間監査ログの保持が必要な場合、ストレージバケットや Audit Logging API を利用して定期的にログを長期保管先に移動することをおすすめします。
 
-[Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html) に準拠する必要がある場合、監査ログは最低 6 年間保存され、保存期間が終了するまで内部または外部のいずれのアクターによっても削除または変更できない環境に保存されなければなりません。HIPAA に準拠した [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) インスタンスには、長期保存ストレージを含むマネージドストレージのためのガードレールを設定する必要があります。
+[医療保険の携行性と責任に関する法律 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html) の適用を受ける場合、監査ログは、強制保管期間終了前に社内・外部のいかなる人物によっても削除・変更ができない環境で、最低6年間保管する必要があります。HIPAA準拠の [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) インスタンス（[BYOB]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) 利用時）では、長期保管先を含めてマネージドストレージのガードレール設定が必要です。
 {{% /alert %}}
 
 ## 監査ログスキーマ
-この表は、監査ログエントリに現れる可能性のあるすべてのキーをアルファベット順に示しています。アクションと状況によって、特定のログエントリには、可能なフィールドのサブセットのみが含まれる場合があります。
+この表は、監査ログエントリに含まれる可能性のある全てのキーをアルファベット順に示しています。アクションや状況によって、実際のエントリには一部のみ表示されます。
 
 | キー | 定義 |
 |---------| -------|
-|`action`                  | イベントの[アクション]({{< relref path="#actions" lang="ja" >}})。
-|`actor_email`             | アクションを開始したユーザーのメールアドレス（該当する場合）。
-|`actor_ip`                | アクションを開始したユーザーの IP アドレス。
-|`actor_user_id`           | アクションを実施したログインユーザーの ID（該当する場合）。
-|`artifact_asset`          | アクションに関連するアーティファクト ID（該当する場合）。
-|`artifact_digest`         | アクションに関連するアーティファクトダイジェスト（該当する場合）。
-|`artifact_qualified_name` | アクションに関連するアーティファクトの完全名（該当する場合）。
-|`artifact_sequence_asset` | アクションに関連するアーティファクトシーケンス ID（該当する場合）。
-|`cli_version`             | アクションを開始した Python SDK のバージョン（該当する場合）。
-|`entity_asset`            | アクションに関連するエンティティまたはチーム ID（該当する場合）。
-|`entity_name`             | アクションに関連するエンティティまたはチーム名（該当する場合）。
-|`project_asset`           | アクションに関連するプロジェクト（該当する場合）。
-|`project_name`            | アクションに関連するプロジェクトの名前（該当する場合）。
-|`report_asset`            | アクションに関連するレポート ID（該当する場合）。
-|`report_name`             | アクションに関連するレポートの名前（該当する場合）。
+|`action`                  | イベントの [アクション]({{< relref "#actions" >}})。
+|`actor_email`             | アクションを実行したユーザーのメールアドレス（該当する場合）。
+|`actor_ip`                | アクションを実行したユーザーの IP アドレス。
+|`actor_user_id`           | アクションを実行したログインユーザーの ID（該当する場合）。
+|`artifact_asset`          | アクションに関連する Artifact の ID（該当する場合）。
+|`artifact_digest`         | アクションに関連する Artifact のダイジェスト（該当する場合）。
+|`artifact_qualified_name` | アクションに関連する Artifact のフルネーム（該当する場合）。
+|`artifact_sequence_asset` | アクションに関連する Artifact シーケンスの ID（該当する場合）。
+|`cli_version`             | アクションを発生させた Python SDK のバージョン（該当する場合）。
+|`entity_asset`            | アクションに関連する Entity または Team の ID（該当する場合）。
+|`entity_name`             | アクションに関連する Entity または Team の名前（該当する場合）。
+|`project_asset`           | アクションに関連する Project（該当する場合）。
+|`project_name`            | アクションに関連する Project の名前（該当する場合）。
+|`report_asset`            | アクションに関連する Report の ID（該当する場合）。
+|`report_name`             | アクションに関連する Report の名前（該当する場合）。
 |`response_code`           | アクションの HTTP レスポンスコード（該当する場合）。
-|`timestamp`               | イベントの時間を [RFC3339 形式](https://www.rfc-editor.org/rfc/rfc3339) で示します。例えば、`2023-01-23T12:34:56Z` は 2023 年 1 月 23 日 12 時 34 分 56 秒 UTC を示します。
-|`user_asset`              | アクションが影響を与えるユーザーアセット（アクションを実行するユーザーではなく）（該当する場合）。
-|`user_email`              | アクションが影響を与えるユーザーのメールアドレス（アクションを実行するユーザーのメールアドレスではなく）（該当する場合）。
+|`timestamp`               | イベント時刻 ([RFC3339 形式](https://www.rfc-editor.org/rfc/rfc3339))。例: `2023-01-23T12:34:56Z` は 2023年1月23日12:34:56 UTC を表します。
+|`user_asset`              | アクションが影響を与えるユーザーアセット（アクションを実行するユーザーではなく）、該当する場合。
+|`user_email`              | アクションが影響を与えるユーザーのメールアドレス（アクションを実行するユーザーのアドレスではなく）、該当する場合。
 
-### 個人を特定できる情報 (PII)
+### 個人を特定できる情報（PII）について
 
-個人を特定できる情報 (PII) は API エンドポイントオプションを使用することによってのみ利用可能です。
-- [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) および
-  [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) では、組織の管理者は監査ログを取得する際に [PII を除外]({{< relref path="#exclude-pii" lang="ja" >}}) できます。
-- [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、監査ログの関連フィールドを常に API エンドポイントが返します。PII を含むこれらのフィールドは設定変更できません。
+メールアドレスや Project・Team・Report の名前などの個人を特定できる情報（PII）は、API エンドポイントオプションを利用する場合のみ取得可能です。
+- [Self-Managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) および 
+  [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) では、監査ログ取得時に [PII を除外]({{< relref "#exclude-pii" >}}) できます（組織管理者のみ）。
+- [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) では、API エンドポイントは監査ログ用に常に該当フィールド（PII含む）を返します。この設定は変更できません。
 
 ## 監査ログの取得
-W&B インスタンスの監査ログは、Audit Logging API を使用して、組織またはインスタンス管理者が取得できます。そのエンドポイントは `audit_logs/` です。
+W&B インスタンスの組織管理者やインスタンス管理者は、Audit Logging API の `audit_logs/` エンドポイントを使って監査ログを取得できます。
 
 {{% alert %}}
-- 管理者以外のユーザーが監査ログを取得しようとすると、HTTP `403` エラーが発生し、アクセスが拒否されたことが示されます。
+- 一般ユーザー（管理者以外）が監査ログを取得しようとすると、HTTP `403` エラーでアクセス拒否されます。
 
-- 複数のエンタープライズ [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織の管理者である場合、監査ログ API リクエストが送信される組織を設定する必要があります。プロフィール画像をクリックし、**ユーザー設定** をクリックしてください。その設定は **デフォルト API 組織** と呼ばれます。
+- 複数エンタープライズ [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) 組織の管理者の場合、Audit Logging API リクエストを送信する組織を設定する必要があります。プロフィール画像をクリックし、**User Settings** を選択してください。設定名は **Default API organization** です。
 {{% /alert %}}
 
-1. インスタンスに対する正しい API エンドポイントを決定します：
+1. ご自身のインスタンスに合った API エンドポイントを確認します:
 
-    - [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}): `<wandb-platform-url>/admin/audit_logs`
-    - [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}): `<wandb-platform-url>/admin/audit_logs`
-    - [SaaS Cloud (エンタープライズ 必須)]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}): `https://api.wandb.ai/audit_logs`
+    - [Self-Managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}): `<wandb-platform-url>/admin/audit_logs`
+    - [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `<wandb-platform-url>/admin/audit_logs`
+    - [Multi-tenant Cloud（エンタープライズ必須）]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `https://api.wandb.ai/audit_logs`
 
-    次のステップで、`<API-endpoint>` を実際の API エンドポイントで置き換えてください。
-1. 基本エンドポイントから完全な API エンドポイントを構築し、必要に応じて URL パラメータを含めます：
-    - `anonymize`: `true` に設定すると、PII を削除します。デフォルトは `false` です。[監査ログ取得時の PII を除外]({{< relref path="#exclude-pii" lang="ja" >}}) を参照してください。SaaS Cloud ではサポートされていません。
-    - `numDays`: `today - numdays` から最新のログまで取得されます。デフォルトは `0` で、今日のログのみを返します。SaaS Cloud では過去最大 7 日分の監査ログを取得できます。
-    - `startDate`: オプションの日付、`YYYY-MM-DD` 形式で指定します。 [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) でのみサポートされています。
+    続く手順では `<API-endpoint>` をご自身の API エンドポイントに置き換えてください。
+1. ベースエンドポイントに URL パラメータを必要に応じて追加して、完全な API エンドポイントを作成します:
+    - `anonymize`: `true` に設定すると PII 情報を除外（デフォルトは `false`）。[PII 除外について]({{< relref "#exclude-pii" >}}) 参照。Multi-tenant Cloud では非対応です。
+    - `numDays`: `today - numdays` から直近までのログを取得（デフォルトは `0` で当日のみ）。Multi-tenant Cloud では 7 日前までが取得可能です。
+    - `startDate`: `YYYY-MM-DD` 形式の日付。Multi-tenant Cloud のみ対応。
 
-      `startDate` と `numDays` の相互作用：
-        - `startDate` と `numDays` の両方を設定すると、`startDate` から `startDate` + `numDays` の範囲でログが返されます。
-        - `startDate` を省略して `numDays` を含めると、`today` から `numDays` までの範囲でログが返されます。
-        - `startDate` と `numDays` のどちらも設定しないと、今日のログのみが返されます。
+      `startDate` と `numDays` の関係は以下の通りです：
+        - 両方指定した場合：`startDate` から `startDate + numDays` までのログを取得
+        - `startDate` なし/`numDays` あり：`today` から `numDays` 分のログ
+        - どちらも未指定：`today` のみ取得
 
-1. Web ブラウザーや [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールを使用して、構築した完全修飾 API エンドポイントに対して HTTP `GET` リクエストを実行します。
+1. 作成した API エンドポイントに対して、Web ブラウザや [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールで HTTP `GET` リクエストを実行します。
 
-API レスポンスには、新しい行で区切られた JSON オブジェクトが含まれます。監査ログがインスタンスレベルのバケットに同期される場合と同じように、そのオブジェクトには [スキーマ]({{< relref path="#audit-log-schema" lang="ja" >}}) に記載されたフィールドが含まれます。その場合、監査ログはバケット内の `/wandb-audit-logs` ディレクトリー内に配置されます。
+API レスポンスは改行区切りの JSON オブジェクトになります。オブジェクト内のフィールドは [スキーマ]({{< relref "#audit-log-schemag" >}})と同様です。インスタンスレベルのバケットに同期される場合、監査ログはバケット内の `/wandb-audit-logs` ディレクトリーに保存されます。
 
-### 基本認証を使用する
-Audit logs API に アクセスするために基本認証を API キーで使用するには、HTTP リクエストの `Authorization` ヘッダーを `Basic` という文字列の後にスペースを置き、 その後にフォーマット `username:API-KEY` で base-64 エンコードされた文字列を設定します。すなわち、ユーザー名と API キーを `:` 文字で区切って、その結果を base-64 エンコードします。例えば、`demo:p@55w0rd` として認証するには、ヘッダーは `Authorization: Basic ZGVtbzpwQDU1dzByZA==` となります。
+### ベーシック認証の利用方法
+API キーで監査ログ API にベーシック認証を使うには、HTTP リクエストの `Authorization` ヘッダーに `Basic` と半角スペース、続けて `username:API-KEY` を base64 エンコードした文字列を指定します。つまり、ユーザー名と API キーを「:」で区切って結合し、それを base64 でエンコードしてください。  
+例：`demo:p@55w0rd` で認証する場合は、`Authorization: Basic ZGVtbzpwQDU1dzByZA==` となります。
 
-### 監査ログ取得時の PII を除外する {#exclude-pii}
-[Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) および [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) では、W&B の組織やインスタンス管理者が監査ログを取得する際に PII を除外できます。[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、監査ログの関連フィールドを常に API エンドポイントが返します。この設定は変更できません。
+### 監査ログ取得時にPIIを除外する {#exclude-pii}
+[Self-Managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}})、[Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}) では、W&B 組織管理者またはインスタンス管理者が監査ログ取得時にPIIを除外できます。[Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) では、API エンドポイントが常にPIIを含む関連フィールドを返すため、設定変更はできません。
 
-PII を除外するには、URL パラメータ `anonymize=true` を渡します。例えば、W&B インスタンスの URL が `https://mycompany.wandb.io` で、過去 1 週間のユーザー活動の監査ログを取得し、PII を除外したい場合、以下のような API エンドポイントを使用します：
+PII を除外するには、URL パラメータとして `anonymize=true` を渡します。  
+たとえば W&B インスタンスの URL が `https://mycompany.wandb.io` で、過去1週間のユーザーアクティビティ監査ログを取得し、PII を除外したい場合、下記のような API エンドポイントになります。
 
-`https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true`.
+```text
+https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true.
+```
 
-## アクション
-この表は、W&B によって記録される可能性のあるアクションをアルファベット順で説明しています。
+## アクション一覧
+W&B で記録される可能性があるアクションをアルファベット順に示します。
 
-| アクション | 定義 |
+|アクション | 説明 |
 |-----|-----|
-| `artifact:create`             | アーティファクトが作成されます。
-| `artifact:delete   `          | アーティファクトが削除されます。
-| `artifact:read`               | アーティファクトが読み取られます。
-| `project:delete`              | プロジェクトが削除されます。
-| `project:read`                | プロジェクトが読み取られます。
-| `report:read`                 | レポートが読み取られます。 <sup><a href="#1">1</a></sup>
-| `run:delete_many`             | 複数の run が削除されます。
-| `run:delete`                  | run が削除されます。
-| `run:stop`                    | run が停止されます。
-| `run:undelete_many`           | 複数の run がゴミ箱から復元されます。
-| `run:update_many`             | 複数の run が更新されます。
-| `run:update`                  | run が更新されます。
-| `sweep:create_agent`          | sweep agent が作成されます。
-| `team:create_service_account` | チーム用のサービスアカウントが作成されます。
-| `team:create`                 | チームが作成されます。
-| `team:delete`                 | チームが削除されます。
-| `team:invite_user`            | ユーザーがチームに招待されます。
-| `team:uninvite`               | ユーザーまたはサービスアカウントがチームから招待取り消されます。
-| `user:create_api_key`         | ユーザーの API キーが作成されます。<sup><a href="#1">1</a></sup>
-| `user:create`                 | ユーザーが作成されます。 <sup><a href="#1">1</a></sup>
-| `user:deactivate`             | ユーザーが無効化されます。<sup><a href="#1">1</a></sup>
-| `user:delete_api_key`         | ユーザーの API キーが削除されます。<sup><a href="#1">1</a></sup>
-| `user:initiate_login`         | ユーザーがログインを開始します。<sup><a href="#1">1</a></sup>
-| `user:login`                  | ユーザーがログインします。<sup><a href="#1">1</a></sup>
-| `user:logout`                 | ユーザーがログアウトします。<sup><a href="#1">1</a></sup>
-| `user:permanently_delete`     | ユーザーが完全に削除されます。<sup><a href="#1">1</a></sup>
-| `user:reactivate`             | ユーザーが再活性化されます。<sup><a href="#1">1</a></sup>
-| `user:read`                   | ユーザーのプロフィールが読み取られます。<sup><a href="#1">1</a></sup>
-| `user:update`                 | ユーザーが更新されます。<sup><a href="#1">1</a></sup>
+| `artifact:create`             | Artifact の作成。
+| `artifact:delete   `          | Artifact の削除。
+| `artifact:read`               | Artifact の参照。
+| `project:delete`              | Project の削除。
+| `project:read`                | Project の参照。
+| `report:read`                 | Report の参照。<sup><a href="#1">1</a></sup>
+| `run:delete_many`             | 複数の Run の削除。
+| `run:delete`                  | Run の削除。
+| `run:stop`                    | Run の停止。
+| `run:undelete_many`           | 複数の Run をゴミ箱から復元。
+| `run:update_many`             | 複数の Run を更新。
+| `run:update`                  | Run を更新。
+| `sweep:create_agent`          | Sweep agent の作成。
+| `team:create_service_account` | Team 用のサービスアカウント作成。
+| `team:create`                 | Team の作成。
+| `team:delete`                 | Team の削除。
+| `team:invite_user`            | Team へのユーザー招待。
+| `team:uninvite`               | Team からユーザーまたはサービスアカウントを招待解除。
+| `user:create_api_key`         | ユーザーの APIキー作成。<sup><a href="#1">1</a></sup>
+| `user:create`                 | ユーザーの作成。<sup><a href="#1">1</a></sup>
+| `user:deactivate`             | ユーザーの無効化。<sup><a href="#1">1</a></sup>
+| `user:delete_api_key`         | ユーザーの APIキー削除。<sup><a href="#1">1</a></sup>
+| `user:initiate_login`         | ユーザーがログイン操作を開始。<sup><a href="#1">1</a></sup>
+| `user:login`                  | ユーザーがログイン。<sup><a href="#1">1</a></sup>
+| `user:logout`                 | ユーザーがログアウト。<sup><a href="#1">1</a></sup>
+| `user:permanently_delete`     | ユーザーを完全に削除。<sup><a href="#1">1</a></sup>
+| `user:reactivate`             | ユーザーの再有効化。<sup><a href="#1">1</a></sup>
+| `user:read`                   | ユーザープロファイルの参照。<sup><a href="#1">1</a></sup>
+| `user:update`                 | ユーザー情報の更新。<sup><a href="#1">1</a></sup>
 
-<a id="1">1</a>: [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、監査ログは次の項目で収集されません:
-- オープンまたはパブリックプロジェクトの場合。
-- `report:read` のアクション。
-- 特定の組織に関連付けられていない `User` のアクション。
+<a id="1">1</a>: [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) では、以下の監査ログは収集されません:
+- Open または Public な Project
+- `report:read` アクション
+- 特定の組織に紐づかない `User` アクション

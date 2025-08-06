@@ -1,41 +1,41 @@
 ---
 title: YOLOX
-description: W&B を YOLOX と統合する方法。
+description: W&B を YOLOX と統合する方法
 menu:
   default:
-    identifier: ja-guides-integrations-yolox
+    identifier: yolox
     parent: integrations
 weight: 490
 ---
 
-[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) は、オブジェクト検出において優れたパフォーマンスを持つ、アンカーフリー版のYOLOです。YOLOX W&Bインテグレーションを使用すると、トレーニング、検証、およびシステムに関連するメトリクスのログをオンにすることができ、単一のコマンドライン引数で予測をインタラクティブに検証することができます。
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) は、強力なオブジェクト検出性能を持つアンカー不要型の YOLO バージョンです。YOLOX の W&B インテグレーションを利用すると、トレーニングや検証、システムに関するメトリクスのログを有効化でき、コマンドライン引数ひとつでインタラクティブに予測結果の検証も行えます。
 
-## サインアップしてAPIキーを作成する
+## サインアップして APIキー を作成
 
-APIキーは、W&Bに対してマシンを認証します。APIキーはユーザープロファイルから生成できます。
+APIキー は、あなたのマシンを W&B に認証するためのものです。ユーザープロフィールから APIキー を発行できます。
 
 {{% alert %}}
-よりスムーズなアプローチとして、[https://wandb.ai/authorize](https://wandb.ai/authorize) に直接アクセスしてAPIキーを生成することができます。表示されたAPIキーをコピーして、パスワードマネージャーなどの安全な場所に保存してください。
+より簡単な方法として、[W&B 認証ページ](https://wandb.ai/authorize)に直接アクセスして APIキー を発行できます。表示された APIキー をコピーし、パスワードマネージャーなど安全な場所に保存してください。
 {{% /alert %}}
 
-1. 右上のユーザープロファイルアイコンをクリックします。
+1. 画面右上のユーザープロフィールアイコンをクリックします。
 1. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
-1. **Reveal** をクリックします。表示されたAPIキーをコピーします。APIキーを非表示にするには、ページをリロードしてください。
+1. **Reveal** をクリック。表示された APIキー をコピーしてください。APIキー を非表示にするにはページを再読み込みします。
 
-## `wandb` ライブラリをインストールしてログインする
+## `wandb` ライブラリをインストールしてログイン
 
-ローカルに `wandb` ライブラリをインストールしてログインする方法:
+`wandb` ライブラリをローカルにインストールしてログインするには：
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をAPIキーに設定します。
+1. `WANDB_API_KEY` [環境変数]({{< relref "/guides/models/track/environment-variables.md" >}}) に APIキー を設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. `wandb` ライブラリをインストールしてログインします。
+1. `wandb` ライブラリをインストールし、ログインします。
 
     ```shell
     pip install wandb
@@ -69,17 +69,17 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## メトリクスをログする
+## メトリクスのログ
 
-`--logger wandb` コマンドライン引数を使用して、wandbでのロギングを有効にします。また、[`wandb.init`]({{< relref path="/ref/python/init" lang="ja" >}}) が期待するすべての引数を渡すこともできます。それぞれの引数には `wandb-` を前置します。
+コマンドラインで `--logger wandb` 引数を指定すると、wandb でのログ記録が有効になります。必要に応じて、[`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) で指定できるすべての引数も渡せます。各引数の前に `wandb-` を付けてください。
 
-`num_eval_imges` は、モデルの評価のためにW&Bテーブルにログされる検証セット画像と予測の数を制御します。
+`num_eval_imges` は、検証セット画像と予測結果が W&B テーブルにモデルの評価用としてログされる数を制御します。
 
 ```shell
 # wandb にログイン
 wandb login
 
-# `wandb` ロガー引数を使って yolox のトレーニングスクリプトを呼び出します
+# `wandb` ロガー引数付きで yolox トレーニングスクリプトを実行
 python tools/train.py .... --logger wandb \
                 wandb-project <project-name> \
                 wandb-entity <entity>
@@ -92,8 +92,8 @@ python tools/train.py .... --logger wandb \
 
 ## 例
 
-[YOLOX のトレーニングと検証メトリクスを含むダッシュボードの例 ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
+[YOLOX のトレーニング・検証メトリクスを可視化したダッシュボード例はこちら →](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
 
-{{< img src="/images/integrations/yolox_example_dashboard.png" alt="" >}}
+{{< img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX training dashboard" >}}
 
-このW&Bインテグレーションに関する質問や問題がありますか？ [YOLOXリポジトリ](https://github.com/Megvii-BaseDetection/YOLOX)でissueを開いてください。
+この W&B インテグレーションについて質問や問題があれば、[YOLOX リポジトリ](https://github.com/Megvii-BaseDetection/YOLOX) で issue をオープンしてください。

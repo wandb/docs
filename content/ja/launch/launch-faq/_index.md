@@ -1,11 +1,11 @@
 ---
-title: Launch FAQ
-cascade:
-  toc_hide: true
+title: ローンチ よくある質問（FAQ）
 menu:
   launch:
-    identifier: ja-launch-launch-faq-_index
+    identifier: launch-faq
     parent: launch
 toc_hide: false
+cascade:
+  toc_hide: true
 ---
 

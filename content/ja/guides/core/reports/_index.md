@@ -1,58 +1,54 @@
 ---
 title: レポート
-description: 機械学習プロジェクトのためのプロジェクト管理とコラボレーションツール
-cascade:
-- url: /ja/guides/reports/:filename
+description: 機械学習プロジェクトのためのプロジェクト管理およびコラボレーションツール
 menu:
   default:
-    identifier: ja-guides-core-reports-_index
+    identifier: reports
     parent: core
-url: /ja/guides/reports
 weight: 3
+url: guides/reports
+cascade:
+- url: guides/reports/:filename
 ---
 
 {{< cta-button productLink="https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ?utm_source=fully_connected&utm_medium=blog&utm_campaign=view+from+the+drivers+seat" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" >}}
 
-W&B Reportsを使って：
-- Runsを整理する。
-- 可視化を埋め込み、自動化する。
-- 学びを説明する。
-- LaTeXのzipファイルやPDFとして、共同作業者と更新を共有する。
+W&B Reports を使うことで以下が可能です：
+- Runs の整理
+- 可視化の埋め込みと自動化
+- 学びの記述
+- コラボレーターとアップデートを共有（LaTeX の zip ファイルや PDF でも共有可能）
 
+次の画像は、トレーニング中に W&B に記録されたメトリクスから作成されたレポートの一部です。
 
+{{< img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="W&B report with benchmark results" max-width="90%" >}}
 
-次の画像は、トレーニング中にW&Bにログされたメトリクスから作成されたレポートの一部を示しています。
-
-{{< img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="" max-width="90%" >}}
-
-上記の画像が撮影されたレポートは[こちら](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM)からご覧いただけます。
+上記画像が使われているレポートは[こちら](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM)からご覧いただけます。
 
 ## 仕組み
+数回のクリックで共同編集可能なレポートを作成できます。
 
-簡単なクリック操作で共同レポートを作成することができます。
+1. W&B アプリ内の該当 Project Workspace にアクセスします。
+2. ワークスペース右上の **Create report** ボタンをクリックします。
 
-1. W&B App内のW&Bプロジェクトワークスペースに移動します。
-2. ワークスペースの右上にある**Create report**ボタンをクリックします。
+{{< img src="/images/reports/create_a_report_button.png" alt="Create report button" max-width="90%">}}
 
-{{< img src="/images/reports/create_a_report_button.png" alt="" max-width="90%">}}
+3. **Create Report** というタイトルのモーダルが表示されます。レポートに追加したいチャートやパネルを選択します（後で追加・削除も可能です）。
+4. **Create report** をクリックします。
+5. お好みの状態になるまでレポートを編集します。
+6. **Publish to project** をクリックします。
+7. **Share** ボタンからコラボレーターとレポートを共有できます。
 
-3. **Create Report**と題したモーダルが表示されます。レポートに追加したいチャートとパネルを選択してください。（後でチャートとパネルを追加または削除することができます）。
-4. **Create report**をクリックします。
-5. レポートを希望の状態に編集します。
-6. **Publish to project**をクリックします。
-7. **Share**ボタンをクリックし、共同作業者とレポートを共有します。
-
-W&B Python SDKを使用して、インタラクティブにまたプログラム的にReportsを作成する方法については、[Create a report]({{< relref path="./create-a-report.md" lang="ja" >}})ページをご覧ください。
+レポートのインタラクティブな作成方法や W&B Python SDK を使ったプログラムによる作成方法は、[Create a report]({{< relref "./create-a-report.md" >}}) のページをご覧ください。
 
 ## 開始方法
+用途に合わせて、W&B Reports の利用を始めるためのリソースをご活用ください：
 
-ユースケースに応じて、W&B Reportsを開始するための以下のリソースを探索してください：
+* W&B Reports の概要は [動画デモ](https://www.youtube.com/watch?v=2xeJIv_K_eI) をご覧ください。
+* ライブレポートの例は [Reports gallery]({{< relref "./reports-gallery.md" >}}) をご覧ください。
+* [Programmatic Workspaces]({{< relref "/tutorials/workspaces.md" >}}) チュートリアルで Workspace の作成方法やカスタマイズ方法を学べます。
+* 厳選されたレポートは [W&B Fully Connected](https://wandb.me/fc) でご覧ください。
 
-* W&B Reportsの概要をつかむために、[ビデオデモンストレーション](https://www.youtube.com/watch?v=2xeJIv_K_eI)をご覧ください。
-* ライブレポートの例を見たい方は、[Reports gallery]({{< relref path="./reports-gallery.md" lang="ja" >}})を探索してください。
-* ワークスペースの作成とカスタマイズ方法を学ぶためには、[Programmatic Workspaces]({{< relref path="/tutorials/workspaces.md" lang="ja" >}})チュートリアルを試してください。
-* [W&B Fully Connected](http://wandb.me/fc)でキュレーションされたReportsをお読みください。
+## ベストプラクティス・TIPS
 
-## ベストプラクティスとヒント
-
-Experimentsとログに関するベストプラクティスとヒントについては、[Best Practices: Reports](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#reports)をご覧ください。
+Experiments やログに関するベストプラクティスやヒントについては、[Best Practices: Reports](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#reports) をご確認ください。

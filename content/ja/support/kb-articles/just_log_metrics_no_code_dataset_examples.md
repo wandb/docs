@@ -1,25 +1,23 @@
 ---
-title: メトリクスをログするだけで、コードやDatasetsの例は必要ありませんか?
-menu:
-  support:
-    identifier: ja-support-kb-articles-just_log_metrics_no_code_dataset_examples
-support:
-  - administrator
-  - team management
-  - metrics
+title: メトリクスだけをログすることはできますか？コードやデータセットの例は必要ありませんか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 管理者
+- チーム管理
+- メトリクス
 ---
-デフォルトでは、W&B は Datasets の例をログしません。デフォルトで、W&B はコードとシステムメトリクスをログします。
 
-環境変数でコードログをオフにする方法が2つあります：
+デフォルトでは、W&B はデータセットの例をログしません。デフォルトで、W&B はコードとシステムメトリクスをログします。
 
-1. `WANDB_DISABLE_CODE` を `true` に設定して、すべてのコード追跡をオフにします。この操作により、git SHA と差分パッチの取得が防止されます。
-2. `WANDB_IGNORE_GLOBS` を `*.patch` に設定して、アプリケーションを使用して `wandb restore` でローカルに保存し続ける一方で、サーバーへの差分パッチの同期を停止します。
+環境変数を使ってコードのログ記録をオフにする方法は 2 つあります：
 
-管理者として、Teams の設定でコード保存をオフにすることもできます：
+1. `WANDB_DISABLE_CODE` を `true` に設定すると、すべてのコードトラッキングをオフにできます。この操作により、git SHA や diff パッチの取得が行われなくなります。
+2. `WANDB_IGNORE_GLOBS` に `*.patch` を設定すると、diff パッチのサーバーへの同期が停止されますが、`wandb restore` で使用できるようローカルには保持されます。
 
-1. `https://wandb.ai/<team>/settings` にある Teams の設定に移動します。`<team>` はチームの名前です。
-2. プライバシーセクションまでスクロールします。
+管理者の場合は、チームの settings からコード保存をオフにすることもできます：
+
+1. `https://wandb.ai/<team>/settings` にアクセスし、チームの settings を開きます。`<team>` にはチーム名が入ります。
+2. Privacy セクションまでスクロールします。
 3. **Enable code saving by default** を切り替えます。

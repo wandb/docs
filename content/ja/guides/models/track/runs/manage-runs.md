@@ -2,38 +2,40 @@
 title: run を移動する
 menu:
   default:
-    identifier: ja-guides-models-track-runs-manage-runs
+    identifier: manage-runs
     parent: what-are-runs
 ---
 
-このページでは、run を別のプロジェクト間で、またはチーム内外、またはあるチームから別のチームへの移動方法を示します。現在の場所と新しい場所の両方で run へのアクセス権が必要です。
+このページでは、run をある Project から別の Project へ、Team への追加や移動、あるいは Team 間で移動する方法をご紹介します。現在の場所および新しい場所の両方で run へのアクセス権が必要です。
 
 {{% alert %}}
-run を移動する際、関連する履歴アーティファクトは移動されません。アーティファクトを手動で移動するには、[`wandb artifact get`]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-get/" lang="ja" >}}) SDK コマンドや [`Api.artifact` API]({{< relref path="/ref/python/public-api/api/#artifact" lang="ja" >}}) を使用してアーティファクトをダウンロードしてから、[wandb artifact put]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-put/" lang="ja" >}}) や `Api.artifact` API を使用して、run の新しい場所にアップロードします。
+run を移動しても、それに関連付けられている過去の Artifacts は自動的には移動されません。Artifacts を手動で移動する場合は、[`wandb artifact get`]({{< relref "/ref/cli/wandb-artifact/wandb-artifact-get/" >}}) SDK コマンドや [`Api.artifact` API]({{< relref "/ref/python/public-api/api/#artifact" >}}) でアーティファクトをダウンロードし、[`wandb artifact put`]({{< relref "/ref/cli/wandb-artifact/wandb-artifact-put/" >}}) または `Api.artifact` API を使って新しい場所にアップロードしてください。
 {{% /alert %}}
 
-**Runs** タブをカスタマイズするには、[Project page]({{< relref path="/guides/models/track/project-page.md#runs-tab" lang="ja" >}}) を参照してください。
+**Runs** タブのカスタマイズについては、[Project page]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}) を参照してください。
 
-## プロジェクト間で run を移動する
+run を Experiments ごとにまとめている場合は、[Set a group in the UI]({{< relref "grouping.md#set-a-group-in-the-ui" >}}) を参照してください。
 
-run をあるプロジェクトから別のプロジェクトに移動するには:
+## Project 間で run を移動する
 
-1. 移動したい run を含むプロジェクトに移動します。
-2. プロジェクトのサイドバーから **Runs** タブを選択します。
+run をある Project から別の Project へ移動する手順:
+
+1. 移動したい run が含まれている Project に移動します。
+2. Project サイドバーから **Runs** タブを選択します。
 3. 移動したい run の横にあるチェックボックスを選択します。
-4. テーブルの上にある **Move** ボタンを選択します。
-5. ドロップダウンから移動先のプロジェクトを選択します。
+4. テーブル上部の **Move** ボタンをクリックします。
+5. プルダウンから移動先の Project を選択します。
 
-{{< img src="/images/app_ui/howto_move_runs.gif" alt="" >}}
+{{< img src="/images/app_ui/howto_move_runs.gif" alt="Demo of moving a run between projects" >}}
 
-## チームに run を移動する
+## run を Team に移動する
 
-あなたがメンバーであるチームに run を移動するには:
+自分がメンバーになっている Team へ run を移動するには次の通りです。
 
-1. 移動したい run を含むプロジェクトに移動します。
-2. プロジェクトのサイドバーから **Runs** タブを選択します。
+1. 移動したい run が含まれている Project に移動します。
+2. Project サイドバーから **Runs** タブを選択します。
 3. 移動したい run の横にあるチェックボックスを選択します。
-4. テーブルの上にある **Move** ボタンを選択します。
-5. ドロップダウンから移動先のチームとプロジェクトを選択します。
+4. テーブル上部の **Move** ボタンをクリックします。
+5. プルダウンから移動先の Team と Project を選択します。
 
-{{< img src="/images/app_ui/demo_move_runs.gif" alt="" >}}
+{{< img src="/images/app_ui/demo_move_runs.gif" alt="Demo of moving a run to a team" >}}

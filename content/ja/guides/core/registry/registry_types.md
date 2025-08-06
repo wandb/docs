@@ -2,46 +2,43 @@
 title: レジストリの種類
 menu:
   default:
-    identifier: ja-guides-core-registry-registry_types
+    identifier: registry_types
     parent: registry
 weight: 1
 ---
 
-W&B は 2 種類のレジストリをサポートしています: [コア レジストリ]({{< relref path="#core-registry" lang="ja" >}}) と [カスタム レジストリ]({{< relref path="#custom-registry" lang="ja" >}})。
+W&B では 2 種類のレジストリがサポートされています: [Core registries]({{< relref "#core-registry" >}}) と [Custom registries]({{< relref "#custom-registry" >}}) です。
 
-## コアレジストリ
+## Core registry
+Core registry は特定のユースケースのためのテンプレートで、**Models** と **Datasets** があります。
 
-コアレジストリは、特定のユースケース、つまり **Models** と **Datasets** のためのテンプレートです。
+デフォルトでは、**Models** レジストリは `"model"` アーティファクトタイプを受け付け、**Dataset** レジストリは `"dataset"` アーティファクトタイプを受け付けるように設定されています。管理者は受け入れ可能なアーティファクトタイプを追加できます。
 
-デフォルトでは、**Models** レジストリは `"model"` アーティファクトタイプを受け入れるように設定されており、**Dataset** レジストリは `"dataset"` アーティファクトタイプを受け入れるように設定されています。管理者は、追加の受け入れ可能なアーティファクトタイプを追加することができます。
+{{< img src="/images/registry/core_registry_example.png" alt="Core registry" >}}
 
-{{< img src="/images/registry/core_registry_example.png" alt="" >}}
+上の画像は、W&B Registry App UI での **Models** と **Dataset** のコアレジストリ、およびカスタムレジストリ **Fine_Tuned_Models** の例を示しています。
 
-上記の画像は、W&B レジストリ アプリ UI における **Models** と **Dataset** のコアレジストリと、**Fine_Tuned_Models** というカスタムレジストリを示しています。
+Core registry は [組織の公開範囲]({{< relref "./configure_registry.md#registry-visibility-types" >}}) となっています。レジストリ管理者はコアレジストリの公開範囲は変更できません。
 
-コアレジストリには [組織の公開範囲]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}}) があります。レジストリの管理者はコアレジストリの公開範囲を変更することはできません。
+## Custom registry
+Custom registries は `"model"` や `"dataset"` のアーティファクトタイプに制限されません。
 
-## カスタムレジストリ
+機械学習パイプラインの各ステップごとにカスタムレジストリを作成できます。たとえば、最初のデータ収集から最終的なモデルのデプロイメントまで柔軟に対応できます。
 
-カスタムレジストリは、`"model"` アーティファクトタイプや `"dataset"` アーティファクトタイプに制限されません。
+例として、トレーニング済みモデルの性能評価のためにキュレーション済みのデータセットを管理する "Benchmark_Datasets" というレジストリを作成できます。このレジストリ内に "User_Query_Insurance_Answer_Test_Data" というコレクションを作成し、そこにモデルがトレーニング中に見たことのないユーザーの質問と専門家が検証した回答セットを格納することができます。
 
-機械学習パイプラインの各ステップのために、初期データ収集から最終モデルデプロイメントまでのカスタムレジストリを作成することができます。
+{{< img src="/images/registry/custom_registry_example.png" alt="Custom registry example" >}}
 
-例えば、「Benchmark_Datasets」というレジストリを作成し、トレーニングされたモデルの性能評価のためにキュレーションされたデータセットを整理することができます。このレジストリ内には、トレーニング中にモデルが見たことのないユーザー質問と、それに対応する専門家によって検証された答えが含まれる「User_Query_Insurance_Answer_Test_Data」というコレクションを持つことができます。
+Custom registry には [組織 または 制限付きの公開範囲]({{< relref "./configure_registry.md#registry-visibility-types" >}}) を設定できます。レジストリ管理者はカスタムレジストリの公開範囲を「組織」から「制限付き」へ変更することができます。ただし、「制限付き」から「組織」への変更はできません。
 
-{{< img src="/images/registry/custom_registry_example.png" alt="" >}}
-
-カスタムレジストリは、[組織または制限付きの公開範囲]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}}) のいずれかを持つことができます。レジストリの管理者は、組織の公開範囲を制限付きに変更することができます。ただし、レジストリ管理者はカスタムレジストリの公開範囲を制限付きから組織の公開範囲へ変更することはできません。
-
-カスタムレジストリの作成方法については、[カスタムレジストリを作成する]({{< relref path="./create_collection.md" lang="ja" >}}) を参照してください。
+カスタムレジストリの作成方法については、[Create a custom registry]({{< relref "./create_collection.md" >}}) を参照してください。
 
 ## まとめ
+以下の表は、Core registry と Custom registry の違いをまとめたものです。
 
-以下の表は、コアレジストリとカスタムレジストリの違いをまとめています:
-
-|                | コア  | カスタム|
+|                | Core  | Custom|
 | -------------- | ----- | ----- |
-| 公開範囲       | 組織の公開範囲のみ。公開範囲は変更できません。 | 組織または制限付きのいずれか。公開範囲は組織から制限付きに変更できます。|
-| メタデータ     | あらかじめ設定され、ユーザーによる編集は不可。 | ユーザーが編集可能。  |
-| アーティファクトタイプ | あらかじめ設定され、既存の受け入れられるアーティファクトタイプは削除できません。ユーザーは追加の受け入れ可能なアーティファクトタイプを追加可能。 | 管理者が受け入れられるタイプを定義できます。 |
-| カスタマイズ    | 既存のリストに追加のタイプを追加可能。 |  レジストリ名、説明、公開範囲、受け入れアーティファクトタイプを編集可能。|
+| 公開範囲       | 組織の公開範囲のみ。公開範囲は変更できません。 | 組織または制限付き。組織から制限付きには変更可能です。|
+| メタデータ       | 事前設定されており、ユーザーによる編集はできません。 | ユーザーが編集可能。  |
+| アーティファクトタイプ | 事前設定済みで、受け入れ可能なタイプは削除できません。追加することは可能です。 | 管理者が受け入れタイプを定義できます。|
+| カスタマイズ    | 既存のリストにタイプを追加できます。| レジストリ名、説明、公開範囲、受け入れアーティファクトタイプを編集可能。|

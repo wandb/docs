@@ -1,19 +1,23 @@
 ---
-title: W&B UI でログしたチャートやメディアをどのように整理できますか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-organize_logged_charts_media_wb_ui
-support:
-  - experiments
+title: W&B の UI でログしたチャートやメディアを整理するにはどうすればいいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 実験
 ---
-`/` 文字は W&B UI でログされたパネルを区切ります。デフォルトでは、`/` の前のログされたアイテムの名前のセグメントが、「パネルセクション」として知られるパネルのグループを定義します。
+
+「/」文字は、W&B UI でログされたパネルを区切ります。デフォルトでは、ログ項目の名前の「/」の前のセグメントが、「パネルセクション」と呼ばれるパネルのグループを定義します。
 
 ```python
-wandb.log({"val/loss": 1.1, "val/acc": 0.3})
-wandb.log({"train/loss": 0.1, "train/acc": 0.94})
+import wandb
+
+with wandb.init() as run:
+
+   # 検証の損失と精度をログ
+   run.log({"val/loss": 1.1, "val/acc": 0.3})
+   # 学習の損失と精度をログ
+   run.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-[Workspace]({{< relref path="/guides/models/track/project-page.md#workspace-tab" lang="ja" >}}) 設定で、`/` で区切られた最初のセグメントまたはすべてのセグメントに基づいてパネルのグループ化を調整します。
+[Workspace]({{< relref "/guides/models/track/project-page.md#workspace-tab" >}}) の設定で、パネルのグループ分けを「/」で区切られた最初のセグメント、またはすべてのセグメントに基づいて調整できます。

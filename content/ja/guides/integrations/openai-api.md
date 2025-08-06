@@ -1,38 +1,38 @@
 ---
 title: OpenAI API
-description: OpenAI API で W&B を使用する方法
+description: W&B を OpenAI API と一緒に使う方法
 menu:
   default:
-    identifier: ja-guides-integrations-openai-api
+    identifier: openai-api
     parent: integrations
 weight: 240
 ---
 
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb" >}}
 
-W&B OpenAI API インテグレーションを使用して、リクエスト、レスポンス、トークンカウント、モデルメタデータをすべての OpenAI Models、ファインチューニングされた Models を含めてログします。
+W&B の OpenAI API インテグレーションを使うことで、すべての OpenAI モデル（ファインチューン済みモデルも含む）のリクエスト、レスポンス、トークン数、モデルメタデータを自動でログできます。
 
 {{% alert %}}
-[OpenAI ファインチューニング インテグレーション]({{< relref path="./openai-fine-tuning.md" lang="ja" >}}) を参照して、W&B を使用してファインチューニング実験、Models、および Datasets を追跡し、同僚と結果を共有する方法を学んでください。
+[OpenAI ファインチューニングインテグレーション]({{< relref "./openai-fine-tuning.md" >}}) では、W&B でファインチューニングの Experiments、Models、Datasets をトラッキングし、同僚と結果を共有する方法をご紹介しています。
 {{% /alert %}}
 
-API 入出力をログに記録することで、異なるプロンプトの性能を迅速に評価し、異なるモデル設定（例えば温度）を比較し、トークン使用量などの他の使用メトリクスを追跡することができます。
+API の入力と出力をログすることで、異なるプロンプトやモデル設定（たとえば temperature など）ごとのパフォーマンス評価がすばやくでき、トークン使用量などのメトリクスのトラッキングも簡単に行えます。
 
-{{< img src="/images/integrations/open_ai_autolog.png" alt="" >}}
+{{< img src="/images/integrations/open_ai_autolog.png" alt="OpenAI API 自動ログ機能" >}}
 
 ## OpenAI Python API ライブラリをインストール
 
-W&B オートログ インテグレーションは OpenAI version 0.28.1 以下で動作します。
+W&B の autolog インテグレーションは OpenAI バージョン 0.28.1 までに対応しています。
 
-OpenAI Python API version 0.28.1 をインストールするには、次を実行します：
+OpenAI Python API バージョン 0.28.1 をインストールするには、以下を実行します:
 ```python
 pip install openai==0.28.1
 ```
 
-## OpenAI Python API を使用
+## OpenAI Python API を使う
 
-### 1. autolog をインポートし、初期化
-最初に、`wandb.integration.openai` から `autolog` をインポートし、初期化します。
+### 1. autolog のインポートと初期化
+まず、`wandb.integration.openai` から `autolog` をインポートし、初期化します。
 
 ```python
 import os
@@ -42,10 +42,10 @@ from wandb.integration.openai import autolog
 autolog({"project": "gpt5"})
 ```
 
-オプションで、`wandb.init()` が受け入れる引数の辞書を `autolog` に渡すことができます。これにはプロジェクト名、チーム名、エンティティなどが含まれます。[`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}}) についての詳細は、API リファレンスガイドを参照してください。
+`autolog` にはオプションで、`wandb.init()` で受け付ける引数（プロジェクト名、チーム名、entity など）を辞書形式で渡せます。 [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) の詳しい説明は API リファレンスガイドをご参照ください。
 
 ### 2. OpenAI API を呼び出す
-OpenAI API への各呼び出しは、W&B に自動的にログされます。
+OpenAI API へのリクエストは、すべて自動的に W&B へログされます。
 
 ```python
 os.environ["OPENAI_API_KEY"] = "XXX"
@@ -62,17 +62,17 @@ chat_request_kwargs = dict(
 response = openai.ChatCompletion.create(**chat_request_kwargs)
 ```
 
-### 3. OpenAI API 入力とレスポンスを確認
+### 3. OpenAI API の入力とレスポンスを確認する
 
-**ステップ 1** で `autolog` により生成された W&B [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) リンクをクリックしてください。これにより、W&B App のプロジェクトワークスペースにリダイレクトされます。
+**ステップ 1** で `autolog` によって生成された W&B の [run]({{< relref "/guides/models/track/runs/" >}}) リンクをクリックしてください。W&B アプリのプロジェクト Workspace にアクセスできます。
 
-作成した run を選択すると、トレーステーブル、トレースタイムライン、使用した OpenAI LLM のモデルアーキテクチャーを確認することができます。
+作成した run を選択すると、トレーステーブル、トレースタイムライン、利用した OpenAI LLM のモデルアーキテクチャーが表示されます。
 
-## オートログをオフにする
-W&B は、OpenAI API の使用を終了した際に、`disable()` を呼び出してすべての W&B プロセスを閉じることを推奨します。
+## autolog を無効にする
+OpenAI API の利用が終わったら、`disable()` を呼び出して W&B のすべてのプロセスを終了することをおすすめします。
 
 ```python
 autolog.disable()
 ```
 
-これで入力と補完が W&B にログされ、分析や同僚との共有の準備が整います。
+これで、入力や補完結果が W&B にログされ、分析や同僚との共有に活用できます。

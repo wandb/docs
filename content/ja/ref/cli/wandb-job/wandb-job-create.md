@@ -1,34 +1,33 @@
 ---
 title: wandb job create
-menu:
-  reference:
-    identifier: ja-ref-cli-wandb-job-wandb-job-create
 ---
 
-**使用方法**
+**使い方**
 
 `wandb job create [OPTIONS] {git|code|image} PATH`
 
 **概要**
 
-wandb run を使用せずにソースからジョブを作成します。
+wandb run を作成せずに、ソースからジョブを作成します。
 
-ジョブには、git、code、または image の3種類があります。
+ジョブの種類は、git、code、image の 3 種類があります。
 
-git: パス内またはメインの Python 実行可能ファイルを指すエントリポイントを明示的に指定した git ソースです。code: requirements.txt ファイルを含むコードパスです。image: Docker イメージです。
+- git: エントリーポイントがパスに含まれているか、明示的に指定された git ソース。これはメインの Python 実行ファイルを指します。
+- code: requirements.txt ファイルを含むコードパス。
+- image: Docker イメージ。
 
 **オプション**
 
 | **オプション** | **説明** |
 | :--- | :--- |
-| `-p, --project` | ジョブをリストするプロジェクトを指定します。 |
-| `-e, --entity` | ジョブが属するエンティティ |
-| `-n, --name` | ジョブの名前 |
-| `-d, --description` | ジョブの説明 |
-| `-a, --alias` | ジョブのエイリアス |
-| `--entry-point` | スクリプトのエントリポイントで、実行可能ファイルとエントリポイントファイルを含みます。code または repo ジョブでは必須です。--build-context が提供されている場合、エントリポイントコマンド内のパスはビルドコンテキストに対して相対的なものになります。 |
-| `-g, --git-hash` | git ジョブのソースとして使用するコミット参照 |
-| `-r, --runtime` | ジョブを実行する Python ランタイム |
-| `-b, --build-context` | ジョブのソースコードのルートからビルドコンテキストへのパスです。提供されている場合、これが Dockerfile とエントリポイントのベースパスとして使用されます。 |
-| `--base-image` | ジョブに使用するベースイメージ。image ジョブとは互換性がありません。 |
-| `--dockerfile` | ジョブの Dockerfile へのパス。--build-context が提供されている場合、Dockerfile のパスはビルドコンテキストに対して相対的になります。 |
+| `-p, --project` | ジョブを一覧表示したい Project を指定します。 |
+| `-e, --entity` | ジョブが属する Entity を指定します。 |
+| `-n, --name` | ジョブの名前を指定します。 |
+| `-d, --description` | ジョブの説明を記述します。 |
+| `-a, --alias` | ジョブのエイリアスを指定します。 |
+| `--entry-point` | 実行ファイルおよびエントリーポイントファイルを含むスクリプトのエントリーポイント。code または repo ジョブの場合は必須です。--build-context が指定された場合、エントリーポイント コマンド内のパスはビルドコンテキストからの相対パスになります。 |
+| `-g, --git-hash` | git ジョブのソースとして使用するコミット参照を指定します。 |
+| `-r, --runtime` | ジョブの実行に使用する Python ランタイムを指定します。 |
+| `-b, --build-context` | ジョブのソースコードのルートからビルドコンテキストへのパス。指定した場合、このパスが Dockerfile やエントリーポイントの基準パスとなります。 |
+| `--base-image` | ジョブで使用するベースイメージを指定します。image ジョブとの併用はできません。 |
+| `--dockerfile` | ジョブ用の Dockerfile のパス。--build-context が指定されている場合、Dockerfile のパスはビルドコンテキストからの相対パスとなります。 |

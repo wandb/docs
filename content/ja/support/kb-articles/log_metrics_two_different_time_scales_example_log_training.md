@@ -1,26 +1,28 @@
 ---
-title: メトリクスを異なる時間スケールでログすることはできますか？
-menu:
-  support:
-    identifier: >-
-      ja-support-kb-articles-log_metrics_two_different_time_scales_example_log_training
-support:
-  - experiments
-  - metrics
+title: 2 つの異なる時間スケールでメトリクスをログできますか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 実験
+- メトリクス
 ---
-バッチごとのトレーニング精度とエポックごとの検証精度をログに記録したい場合を考えてみましょう。
 
-はい、`batch` や `epoch` のようなインデックスをメトリクスと一緒にログに記録できます。`wandb.log({'train_accuracy': 0.9, 'batch': 200})` を使って、一つのステップで記録し、`wandb.log({'val_accuracy': 0.8, 'epoch': 4})` を別のステップで使用します。 UI では、各チャートの x 軸として目的の値を設定します。特定のインデックスに対してデフォルトの x 軸を設定するには、[Run.define_metric()]({{< relref path="/ref/python/run.md#define_metric" lang="ja" >}}) を使用します。提供された例に対しては、以下のコードを使用します。
+例えば、各バッチごとにトレーニング精度を、各エポックごとに検証精度をログしたい場合。
+
+はい、`batch` や `epoch` のようなログインデックスをメトリクスと一緒に記録できます。1 回のステップで `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})`、別のステップで `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` のように使います。UI では、各チャートごとに希望の値を x 軸に設定できます。特定のインデックスをデフォルトの x 軸にしたい場合は、[Run.define_metric()]({{< relref "/ref/python/sdk/classes/run#define_metric" >}}) を利用してください。今回の例の場合、次のコードを使用します。
 
 ```python
-wandb.init()
+import wandb
 
-wandb.define_metric("batch")
-wandb.define_metric("epoch")
+with wandb.init() as run:
+   # バッチごとのメトリクスを定義
+   run.define_metric("batch")
+   # エポックごとのメトリクスを定義
+   run.define_metric("epoch")
 
-wandb.define_metric("train_accuracy", step_metric="batch")
-wandb.define_metric("val_accuracy", step_metric="epoch")
+   # トレーニング精度は batch を x 軸（step metric）に
+   run.define_metric("train_accuracy", step_metric="batch")
+   # 検証精度は epoch を x 軸（step metric）に
+   run.define_metric("val_accuracy", step_metric="epoch")
 ```

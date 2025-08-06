@@ -1,13 +1,11 @@
 ---
 title: データの更新
-menu:
-  support:
-    identifier: ja-support-kb-articles-refreshing_data
-support:
-  - reports
-  - workspaces
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- レポート
+- ワークスペース
 ---
-ワークスペースは自動的に更新されたデータをロードします。自動リフレッシュはReportsには適用されません。Reportデータを更新するにはページをリロードしてください。
+
+ワークスペースは自動的に最新のデータを読み込みます。自動更新は Reports には適用されません。レポートのデータを更新するにはページを再読み込みしてください。

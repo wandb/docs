@@ -1,8 +1,5 @@
 ---
-title: wandb disabled
-menu:
-  reference:
-    identifier: ja-ref-cli-wandb-disabled
+title: wandb 無効
 ---
 
 **使用方法**

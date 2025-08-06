@@ -1,9 +1,9 @@
 ---
-title: Kubernetes でエージェントにはどのような権限が必要ですか？
+title: Kubernetes でエージェントに必要な権限は何ですか？
 menu:
   launch:
-    identifier: ja-launch-launch-faq-permissions_agent_require_kubernetes
+    identifier: permissions_agent_require_kubernetes
     parent: launch-faq
 ---
 
-Kubernetesマニフェストは、`wandb` ネームスペースで `wandb-launch-agent` という名前のロールを作成します。このロールは、エージェントが `wandb` ネームスペースでポッド、configmaps、secretsを作成し、ポッドのログに アクセス することを可能にします。`wandb-cluster-role` は、エージェントがポッドを作成し、ポッドのログに アクセス し、secrets、ジョブを作成し、指定されたネームスペース全体でジョブのステータスを確認できるようにします。
+以下の Kubernetes マニフェストは、`wandb` ネームスペース内に `wandb-launch-agent` というロールを作成します。このロールはエージェントに、`wandb` ネームスペースで Pod、ConfigMap、Secret の作成や Pod のログへのアクセスを許可します。また、`wandb-cluster-role` により、エージェントは指定された任意のネームスペースで Pod の作成、Pod のログへのアクセス、Secret や Job の作成、さらに Job のステータス確認ができるようになります。

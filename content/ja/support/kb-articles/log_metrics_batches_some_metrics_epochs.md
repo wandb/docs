@@ -1,18 +1,21 @@
 ---
-title: エポックごとだけメトリクスをログし、バッチごとのメトリクスのログを避けたい場合はどうすればよいですか？
-menu:
-  support:
-    identifier: ja-support-kb-articles-log_metrics_batches_some_metrics_epochs
-support:
-  - experiments
-  - metrics
+title: バッチごとに記録したいメトリクスと、エポックごとにのみ記録したいメトリクスがある場合はどうすればいいですか？
+url: /support/:filename
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+support:
+- 実験
+- メトリクス
 ---
-各バッチで特定のメトリクスをログし、プロットを標準化するために、希望する x 軸の値とメトリクスを一緒にログします。カスタムプロットで編集をクリックし、カスタム x 軸を選択してください。
+
+特定のメトリクスを各バッチごとにログし、プロットを標準化するには、メトリクスと一緒に目的の x 軸の値もログしてください。カスタムプロットで「編集」をクリックし、カスタム x 軸を選択できます。
 
 ```python
-wandb.log({"batch": batch_idx, "loss": 0.3})
-wandb.log({"epoch": epoch, "val_acc": 0.94})
+import wandb
+
+with wandb.init() as run:
+    # バッチごとの値とメトリクスをログ
+    run.log({"batch": batch_idx, "loss": 0.3})
+    # エポックごとの値とメトリクスをログ
+    run.log({"epoch": epoch, "val_acc": 0.94})
 ```
