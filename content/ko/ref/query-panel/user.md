@@ -1,30 +1,31 @@
 ---
-title: user
 menu:
   reference:
     identifier: ko-ref-query-panel-user
+title: user
 ---
 
-## 연결 가능한 Ops
+## Chainable Ops
 <h3 id="user-username"><code>user-username</code></h3>
 
-[user](user.md) 의 사용자 이름을 반환합니다.
+Returns the username of the [user](user.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `user` | [user](user.md) |
+| `user` | A [user](user.md) |
 
-#### 반환 값
-[user](user.md) 의 사용자 이름
+#### Return Value
+The username of the [user](user.md)
 
-## 목록 Ops
+
+## List Ops
 <h3 id="user-username"><code>user-username</code></h3>
 
-[user](user.md) 의 사용자 이름을 반환합니다.
+Returns the username of the [user](user.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `user` | [user](user.md) |
+| `user` | A [user](user.md) |
 
-#### 반환 값
-[user](user.md) 의 사용자 이름
+#### Return Value
+The username of the [user](user.md)

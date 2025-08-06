@@ -1,45 +1,45 @@
 ---
-title: Databricks
-description: W&B를 Databricks와 통합하는 방법.
+description: How to integrate W&B with Databricks.
 menu:
   default:
     identifier: ko-guides-integrations-databricks
     parent: integrations
+title: Databricks
 weight: 50
 ---
 
-W&B는 Databricks 환경에서 W&B Jupyter 노트북 경험을 사용자 정의하여 [Databricks](https://www.databricks.com/)와 통합됩니다.
+W&B integrates with [Databricks](https://www.databricks.com/) by customizing the W&B Jupyter notebook experience in the Databricks environment.
 
-## Databricks 설정
+## Configure Databricks
 
-1. 클러스터에 wandb 설치
+1. Install wandb in the cluster
 
-    클러스터 설정으로 이동하여 클러스터를 선택하고 **Libraries**를 클릭합니다. **Install New**를 클릭하고 **PyPI**를 선택한 다음 `wandb` 패키지를 추가합니다.
+    Navigate to your cluster configuration, choose your cluster, click **Libraries**. Click **Install New**, choose **PyPI**, and add the package `wandb`.
 
-2. 인증 설정
+2. Set up authentication
 
-    W&B 계정을 인증하려면 노트북이 쿼리할 수 있는 Databricks secret을 추가하면 됩니다.
+    To authenticate your W&B account you can add a Databricks secret which your notebooks can query.
 
     ```bash
-    # databricks cli 설치
+    # install databricks cli
     pip install databricks-cli
 
-    # databricks UI에서 토큰 생성
+    # Generate a token from databricks UI
     databricks configure --token
 
-    # 다음 두 코맨드 중 하나를 사용하여 스코프를 생성합니다 (databricks에서 보안 기능 활성화 여부에 따라 다름).
-    # 보안 추가 기능 사용
+    # Create a scope with one of the two commands (depending if you have security features enabled on databricks):
+    # with security add-on
     databricks secrets create-scope --scope wandb
-    # 보안 추가 기능 미사용
+    # without security add-on
     databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-    # 다음 위치에서 api_key를 추가합니다: https://app.wandb.ai/authorize
+    # Add your api_key from: https://app.wandb.ai/authorize
     databricks secrets put --scope wandb --key api_key
     ```
 
-## 예시
+## Examples
 
-### 간단한 예시
+### Simple example
 
 ```python
 import os
@@ -48,18 +48,18 @@ import wandb
 api_key = dbutils.secrets.get("wandb", "api_key")
 wandb.login(key=api_key)
 
-wandb.init()
-wandb.log({"foo": 1})
+with wandb.init() as run:
+    run.log({"foo": 1})
 ```
 
 ### Sweeps
 
-wandb.sweep() 또는 wandb.agent()를 사용하려는 노트북에 필요한 설정(임시):
+Setup required (temporary) for notebooks attempting to use wandb.sweep() or wandb.agent():
 
 ```python
 import os
 
-# 다음은 향후에는 필요하지 않습니다.
+# These will not be necessary in the future
 os.environ["WANDB_ENTITY"] = "my-entity"
 os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```

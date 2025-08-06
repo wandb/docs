@@ -1,19 +1,20 @@
 ---
-title: Reports
 menu:
   reference:
     identifier: ko-ref-python-wandb_workspaces-reports
+title: Reports
 ---
 
 {{< cta-button githubLink="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py" >}}
 
+<!-- markdownlint-turnedoff -->
 
-
-
-
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
 
 # <kbd>module</kbd> `wandb_workspaces.reports.v2`
-W&B Reports API를 프로그래밍 방식으로 사용하기 위한 Python 라이브러리입니다.
+Python library for programmatically working with W&B Reports API. 
 
 ```python
 import wandb_workspaces.reports.v2 as wr
@@ -43,104 +44,191 @@ report.save()
 
 
 ## <kbd>class</kbd> `BarPlot`
-2D 막대 그래프를 표시하는 패널 오브젝트입니다.
+A panel object that shows a 2D bar plot. 
+
+
 
 **Attributes:**
  
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `metrics` (LList[MetricType]): orientation Literal["v", "h"]: 막대 그래프의 방향입니다. 수직("v") 또는 수평("h")으로 설정합니다. 기본값은 수평("h")입니다.
- - `range_x` (Tuple[float | None, float | None]): x축의 범위를 지정하는 튜플입니다.
- - `title_x` (Optional[str]): x축의 레이블입니다.
- - `title_y` (Optional[str]): y축의 레이블입니다.
- - `groupby` (Optional[str]): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭을 기반으로 run을 그룹화합니다.
- - `groupby_aggfunc` (Optional[GroupAgg]): 지정된 함수로 run을 집계합니다. 옵션에는 `mean`, `min`, `max`, `median`, `sum`, `samples` 또는 `None`이 있습니다.
- - `groupby_rangefunc` (Optional[GroupArea]): 범위를 기준으로 run을 그룹화합니다. 옵션에는 `minmax`, `stddev`, `stderr`, `none`, =`samples` 또는 `None`이 있습니다.
- - `max_runs_to_show` (Optional[int]): 플롯에 표시할 최대 run 수입니다.
- - `max_bars_to_show` (Optional[int]): 막대 그래프에 표시할 최대 막대 수입니다.
- - `custom_expressions` (Optional[LList[str]]): 막대 그래프에 사용할 사용자 정의 표현식 목록입니다.
- - `legend_template` (Optional[str]): 범례 템플릿입니다.
- - `font_size` ( Optional[FontSize]): 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
- - `line_titles` (Optional[dict]): 선 제목입니다. 키는 선 이름이고 값은 제목입니다.
- - `line_colors` (Optional[dict]): 선 색상입니다. 키는 선 이름이고 값은 색상입니다.
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `metrics` (LList[MetricType]): orientation Literal["v", "h"]: The orientation of the bar plot. Set to either vertical ("v") or horizontal ("h"). Defaults to horizontal ("h"). 
+ - `range_x` (Tuple[float | None, float | None]): Tuple that specifies the range of the x-axis. 
+ - `title_x` (Optional[str]): The label of the x-axis. 
+ - `title_y` (Optional[str]): The label of the y-axis. 
+ - `groupby` (Optional[str]): Group runs based on a metric logged to your W&B project that the report pulls information from. 
+ - `groupby_aggfunc` (Optional[GroupAgg]): Aggregate runs with specified function. Options include `mean`, `min`, `max`, `median`, `sum`, `samples`, or `None`. 
+ - `groupby_rangefunc` (Optional[GroupArea]): Group runs based on a range. Options include `minmax`, `stddev`, `stderr`, `none`, =`samples`, or `None`. 
+ - `max_runs_to_show` (Optional[int]): The maximum number of runs to show on the plot. 
+ - `max_bars_to_show` (Optional[int]): The maximum number of bars to show on the bar plot. 
+ - `custom_expressions` (Optional[LList[str]]): A list of custom expressions to be used in the bar plot. 
+ - `legend_template` (Optional[str]): The template for the legend. 
+ - `font_size` ( Optional[FontSize]): The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
+ - `line_titles` (Optional[dict]): The titles of the lines. The keys are the line names and the values are the titles. 
+ - `line_colors` (Optional[dict]): The colors of the lines. The keys are the line names and the values are the colors. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `BlockQuote`
-인용된 텍스트 블록입니다.
+A block of quoted text. 
+
+
 
 **Attributes:**
  
- - `text` (str): 인용 블록의 텍스트입니다.
+ - `text` (str): The text of the block quote. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CalloutBlock`
-콜아웃 텍스트 블록입니다.
+A block of callout text. 
+
+
 
 **Attributes:**
  
- - `text` (str): 콜아웃 텍스트입니다.
+ - `text` (str): The callout text. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CheckedList`
-확인란이 있는 항목 목록입니다. `CheckedList` 내에 하나 이상의 `CheckedListItem`을 추가합니다.
+A list of items with checkboxes. Add one or more `CheckedListItem` within `CheckedList`. 
+
+
 
 **Attributes:**
  
- - `items` (LList[CheckedListItem]): 하나 이상의 `CheckedListItem` 오브젝트 목록입니다.
+ - `items` (LList[CheckedListItem]): A list of one or more `CheckedListItem` objects. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CheckedListItem`
-확인란이 있는 목록 항목입니다. `CheckedList` 내에 하나 이상의 `CheckedListItem`을 추가합니다.
+A list item with a checkbox. Add one or more `CheckedListItem` within `CheckedList`. 
+
+
 
 **Attributes:**
  
- - `text` (str): 목록 항목의 텍스트입니다.
- - `checked` (bool): 확인란이 선택되었는지 여부입니다. 기본적으로 `False`로 설정됩니다.
+ - `text` (str): The text of the list item. 
+ - `checked` (bool): Whether the checkbox is checked. By default, set to `False`. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CodeBlock`
-코드 블록입니다.
+A block of code. 
+
+
 
 **Attributes:**
  
- - `code` (str): 블록의 코드입니다.
- - `language` (Optional[Language]): 코드의 언어입니다. 지정된 언어는 구문 강조 표시에 사용됩니다. 기본적으로 `python`으로 설정됩니다. 옵션에는 `javascript`, `python`, `css`, `json`, `html`, `markdown`, `yaml`이 있습니다.
+ - `code` (str): The code in the block. 
+ - `language` (Optional[Language]): The language of the code. Language specified is used for syntax highlighting. By default, set to `python`. Options include `javascript`, `python`, `css`, `json`, `html`, `markdown`, `yaml`. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CodeComparer`
-두 개의 다른 run 간의 코드를 비교하는 패널 오브젝트입니다.
+A panel object that compares the code between two different runs. 
+
+
 
 **Attributes:**
  
- - `diff` `(Literal['split', 'unified'])`: 코드 차이점을 표시하는 방법입니다. 옵션에는 `split` 및 `unified`가 있습니다.
+ - `diff` `(Literal['split', 'unified'])`: How to display code differences. Options include `split` and `unified`. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Config`
-run의 config 오브젝트에 기록된 메트릭입니다. Config 오브젝트는 일반적으로 `run.config[name] = ...`을 사용하거나 키-값 쌍의 사전으로 config를 전달하여 기록됩니다. 여기서 키는 메트릭 이름이고 값은 해당 메트릭 값입니다.
+Metrics logged to a run's config object. Config objects are commonly logged using `wandb.Run.config[name] = ...` or passing a config as a dictionary of key-value pairs, where the key is the name of the metric and the value is the value of that metric. 
+
+
 
 **Attributes:**
  
- - `name` (str): 메트릭 이름입니다.
+ - `name` (str): The name of the metric. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CustomChart`
-사용자 정의 차트를 표시하는 패널입니다. 차트는 Weave 쿼리로 정의됩니다.
+A panel that shows a custom chart. The chart is defined by a weave query. 
+
+
 
 **Attributes:**
  
- - `query` (dict): 사용자 정의 차트를 정의하는 쿼리입니다. 키는 필드 이름이고 값은 쿼리입니다.
- - `chart_name` (str): 사용자 정의 차트 제목입니다.
- - `chart_fields` (dict): 플롯의 축을 정의하는 키-값 쌍입니다. 여기서 키는 레이블이고 값은 메트릭입니다.
- - `chart_strings` (dict): 차트의 문자열을 정의하는 키-값 쌍입니다.
+ - `query` (dict): The query that defines the custom chart. The key is the name of the field, and the value is the query. 
+ - `chart_name` (str): The title of the custom chart. 
+ - `chart_fields` (dict): Key-value pairs that define the axis of the plot. Where the key is the label, and the value is the metric. 
+ - `chart_strings` (dict): Key-value pairs that define the strings in the chart. 
+
+
+
 
 ---
+
+
 
 ### <kbd>classmethod</kbd> `from_table`
 
@@ -152,336 +240,641 @@ from_table(
 )
 ```
 
-테이블에서 사용자 정의 차트를 만듭니다.
+Create a custom chart from a table. 
+
+
 
 **Arguments:**
  
- - `table_name` (str): 테이블 이름입니다.
- - `chart_fields` (dict): 차트에 표시할 필드입니다.
- - `chart_strings` (dict): 차트에 표시할 문자열입니다.
+ - `table_name` (str): The name of the table. 
+ - `chart_fields` (dict): The fields to display in the chart. 
+ - `chart_strings` (dict): The strings to display in the chart. 
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Gallery`
-Reports 및 URL 갤러리를 렌더링하는 블록입니다.
+A block that renders a gallery of reports and URLs. 
+
+
 
 **Attributes:**
  
- - `items` (List[Union[`GalleryReport`, `GalleryURL`]]): `GalleryReport` 및 `GalleryURL` 오브젝트 목록입니다.
+ - `items` (List[Union[`GalleryReport`, `GalleryURL`]]): A list of `GalleryReport` and `GalleryURL` objects. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `GalleryReport`
-갤러리의 리포트에 대한 참조입니다.
+A reference to a report in the gallery. 
+
+
 
 **Attributes:**
  
- - `report_id` (str): 리포트 ID입니다.
+ - `report_id` (str): The ID of the report. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `GalleryURL`
-외부 리소스에 대한 URL입니다.
+A URL to an external resource. 
+
+
 
 **Attributes:**
  
- - `url` (str): 리소스의 URL입니다.
- - `title` (Optional[str]): 리소스 제목입니다.
- - `description` (Optional[str]): 리소스 설명입니다.
- - `image_url` (Optional[str]): 표시할 이미지 URL입니다.
+ - `url` (str): The URL of the resource. 
+ - `title` (Optional[str]): The title of the resource. 
+ - `description` (Optional[str]): The description of the resource. 
+ - `image_url` (Optional[str]): The URL of an image to display. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `GradientPoint`
-그레이디언트의 점입니다.
+A point in a gradient. 
+
+
 
 **Attributes:**
  
- - `color`: 점의 색상입니다.
- - `offset`: 그레이디언트에서 점의 위치입니다. 값은 0에서 100 사이여야 합니다.
+ - `color`: The color of the point. 
+ - `offset`: The position of the point in the gradient. The value should be between 0 and 100. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `H1`
-지정된 텍스트가 있는 H1 제목입니다.
+An H1 heading with the text specified. 
+
+
 
 **Attributes:**
  
- - `text` (str): 제목의 텍스트입니다.
- - `collapsed_blocks` (Optional[LList["BlockTypes"]]): 제목이 축소될 때 표시할 블록입니다.
+ - `text` (str): The text of the heading. 
+ - `collapsed_blocks` (Optional[LList["BlockTypes"]]): The blocks to show when the heading is collapsed. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `H2`
-지정된 텍스트가 있는 H2 제목입니다.
+An H2 heading with the text specified. 
+
+
 
 **Attributes:**
  
- - `text` (str): 제목의 텍스트입니다.
- - `collapsed_blocks` (Optional[LList["BlockTypes"]]): 제목이 축소될 때 표시할 하나 이상의 블록입니다.
+ - `text` (str): The text of the heading. 
+ - `collapsed_blocks` (Optional[LList["BlockTypes"]]): One or more blocks to show when the heading is collapsed. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `H3`
-지정된 텍스트가 있는 H3 제목입니다.
+An H3 heading with the text specified. 
+
+
 
 **Attributes:**
  
- - `text` (str): 제목의 텍스트입니다.
- - `collapsed_blocks` (Optional[LList["BlockTypes"]]): 제목이 축소될 때 표시할 하나 이상의 블록입니다.
+ - `text` (str): The text of the heading. 
+ - `collapsed_blocks` (Optional[LList["BlockTypes"]]): One or more blocks to show when the heading is collapsed. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Heading`
 
+
+
+
+
+
+
+
+
+
 ---
+
+
 
 ## <kbd>class</kbd> `HorizontalRule`
-HTML 수평선입니다.
+HTML horizontal line. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Image`
-이미지를 렌더링하는 블록입니다.
+A block that renders an image. 
+
+
 
 **Attributes:**
  
- - `url` (str): 이미지 URL입니다.
- - `caption` (str): 이미지 캡션입니다. 캡션은 이미지 아래에 나타납니다.
+ - `url` (str): The URL of the image. 
+ - `caption` (str): The caption of the image. Caption appears underneath the image. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `InlineCode`
-인라인 코드입니다. 코드 뒤에 줄 바꿈 문자를 추가하지 않습니다.
+Inline code. Does not add newline character after code. 
+
+
 
 **Attributes:**
  
- - `text` (str): 리포트에 표시할 코드입니다.
+ - `text` (str): The code you want to appear in the report. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `InlineLatex`
-인라인 LaTeX 마크다운입니다. LaTeX 마크다운 뒤에 줄 바꿈 문자를 추가하지 않습니다.
+Inline LaTeX markdown. Does not add newline character after the LaTeX markdown. 
+
+
 
 **Attributes:**
  
- - `text` (str): 리포트에 표시할 LaTeX 마크다운입니다.
+ - `text` (str): LaTeX markdown you want to appear in the report. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `LatexBlock`
-LaTeX 텍스트 블록입니다.
+A block of LaTeX text. 
+
+
 
 **Attributes:**
  
- - `text` (str): LaTeX 텍스트입니다.
+ - `text` (str): The LaTeX text. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Layout`
-리포트의 패널 레이아웃입니다. 패널의 크기와 위치를 조정합니다.
+The layout of a panel in a report. Adjusts the size and position of the panel. 
+
+
 
 **Attributes:**
  
- - `x` (int): 패널의 x 위치입니다.
- - `y` (int): 패널의 y 위치입니다.
- - `w` (int): 패널의 너비입니다.
- - `h` (int): 패널의 높이입니다.
+ - `x` (int): The x position of the panel. 
+ - `y` (int): The y position of the panel. 
+ - `w` (int): The width of the panel. 
+ - `h` (int): The height of the panel. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `LinePlot`
-2D 선 플롯이 있는 패널 오브젝트입니다.
+A panel object with 2D line plots. 
+
+
 
 **Attributes:**
  
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `x` (Optional[MetricType]): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭 이름입니다. 지정된 메트릭은 x축에 사용됩니다.
- - `y` (LList[MetricType]): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 하나 이상의 메트릭입니다. 지정된 메트릭은 y축에 사용됩니다.
- - `range_x` (Tuple[float | `None`, float | `None`]): x축의 범위를 지정하는 튜플입니다.
- - `range_y` (Tuple[float | `None`, float | `None`]): y축의 범위를 지정하는 튜플입니다.
- - `log_x` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 x좌표를 플로팅합니다.
- - `log_y` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 y좌표를 플로팅합니다.
- - `title_x` (Optional[str]): x축 레이블입니다.
- - `title_y` (Optional[str]): y축 레이블입니다.
- - `ignore_outliers` (Optional[bool]): `True`로 설정되면 이상값을 플로팅하지 않습니다.
- - `groupby` (Optional[str]): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭을 기반으로 run을 그룹화합니다.
- - `groupby_aggfunc` (Optional[GroupAgg]): 지정된 함수로 run을 집계합니다. 옵션에는 `mean`, `min`, `max`, `median`, `sum`, `samples` 또는 `None`이 있습니다.
- - `groupby_rangefunc` (Optional[GroupArea]): 범위를 기준으로 run을 그룹화합니다. 옵션에는 `minmax`, `stddev`, `stderr`, `none`, `samples` 또는 `None`이 있습니다.
- - `smoothing_factor` (Optional[float]): 스무딩 유형에 적용할 스무딩 계수입니다. 허용되는 값의 범위는 0에서 1 사이입니다.
- - `smoothing_type Optional[SmoothingType]`: 지정된 분포를 기반으로 필터를 적용합니다. 옵션에는 `exponentialTimeWeighted`, `exponential`, `gaussian`, `average` 또는 `none`이 있습니다.
- - `smoothing_show_original` (Optional[bool]): `True`로 설정되면 원본 데이터를 표시합니다.
- - `max_runs_to_show` (Optional[int]): 선 플롯에 표시할 최대 run 수입니다.
- - `custom_expressions` (Optional[LList[str]]): 데이터에 적용할 사용자 정의 표현식입니다.
- - `plot_type Optional[LinePlotStyle]`: 생성할 선 플롯 유형입니다. 옵션에는 `line`, `stacked-area` 또는 `pct-area`가 있습니다.
- - `font_size Optional[FontSize]`: 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
- - `legend_position Optional[LegendPosition]`: 범례를 배치할 위치입니다. 옵션에는 `north`, `south`, `east`, `west` 또는 `None`이 있습니다.
- - `legend_template` (Optional[str]): 범례 템플릿입니다.
- - `aggregate` (Optional[bool]): `True`로 설정되면 데이터를 집계합니다.
- - `xaxis_expression` (Optional[str]): x축 표현식입니다.
- - `legend_fields` (Optional[LList[str]]): 범례에 포함할 필드입니다.
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `x` (Optional[MetricType]): The name of a metric logged to your W&B project that the report pulls information from. The metric specified is used for the x-axis. 
+ - `y` (LList[MetricType]): One or more metrics logged to your W&B project that the report pulls information from. The metric specified is used for the y-axis. 
+ - `range_x` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the x-axis. 
+ - `range_y` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the y-axis. 
+ - `log_x` (Optional[bool]): Plots the x-coordinates using a base-10 logarithmic scale. 
+ - `log_y` (Optional[bool]): Plots the y-coordinates using a base-10 logarithmic scale. 
+ - `title_x` (Optional[str]): The label of the x-axis. 
+ - `title_y` (Optional[str]): The label of the y-axis. 
+ - `ignore_outliers` (Optional[bool]): If set to `True`, do not plot outliers. 
+ - `groupby` (Optional[str]): Group runs based on a metric logged to your W&B project that the report pulls information from. 
+ - `groupby_aggfunc` (Optional[GroupAgg]): Aggregate runs with specified function. Options include `mean`, `min`, `max`, `median`, `sum`, `samples`, or `None`. 
+ - `groupby_rangefunc` (Optional[GroupArea]): Group runs based on a range. Options include `minmax`, `stddev`, `stderr`, `none`, `samples`, or `None`. 
+ - `smoothing_factor` (Optional[float]): The smoothing factor to apply to the smoothing type. Accepted values range between 0 and 1. 
+ - `smoothing_type Optional[SmoothingType]`: Apply a filter based on the specified distribution. Options include `exponentialTimeWeighted`, `exponential`, `gaussian`, `average`, or `none`. 
+ - `smoothing_show_original` (Optional[bool]): If set to `True`, show the original data. 
+ - `max_runs_to_show` (Optional[int]): The maximum number of runs to show on the line plot. 
+ - `custom_expressions` (Optional[LList[str]]): Custom expressions to apply to the data. 
+ - `plot_type Optional[LinePlotStyle]`: The type of line plot to generate. Options include `line`, `stacked-area`, or `pct-area`. 
+ - `font_size Optional[FontSize]`: The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
+ - `legend_position Optional[LegendPosition]`: Where to place the legend. Options include `north`, `south`, `east`, `west`, or `None`. 
+ - `legend_template` (Optional[str]): The template for the legend. 
+ - `aggregate` (Optional[bool]): If set to `True`, aggregate the data. 
+ - `xaxis_expression` (Optional[str]): The expression for the x-axis. 
+ - `legend_fields` (Optional[LList[str]]): The fields to include in the legend. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Link`
-URL에 대한 링크입니다.
+A link to a URL. 
+
+
 
 **Attributes:**
  
- - `text` (Union[str, TextWithInlineComments]): 링크 텍스트입니다.
- - `url` (str): 링크가 가리키는 URL입니다.
+ - `text` (Union[str, TextWithInlineComments]): The text of the link. 
+ - `url` (str): The URL the link points to. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `MarkdownBlock`
-마크다운 텍스트 블록입니다. 일반적인 마크다운 구문을 사용하는 텍스트를 작성하려는 경우에 유용합니다.
+A block of markdown text. Useful if you want to write text that uses common markdown syntax. 
+
+
 
 **Attributes:**
  
- - `text` (str): 마크다운 텍스트입니다.
+ - `text` (str): The markdown text. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `MarkdownPanel`
-마크다운을 렌더링하는 패널입니다.
+A panel that renders markdown. 
+
+
 
 **Attributes:**
  
- - `markdown` (str): 마크다운 패널에 표시할 텍스트입니다.
+ - `markdown` (str): The text you want to appear in the markdown panel. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `MediaBrowser`
-미디어 파일을 그리드 레이아웃으로 표시하는 패널입니다.
+A panel that displays media files in a grid layout. 
+
+
 
 **Attributes:**
  
- - `num_columns` (Optional[int]): 그리드의 열 수입니다.
- - `media_keys` (LList[str]): 미디어 파일에 해당하는 미디어 키 목록입니다.
+ - `num_columns` (Optional[int]): The number of columns in the grid. 
+ - `media_keys` (LList[str]): A list of media keys that correspond to the media files. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Metric`
-프로젝트에 기록된 리포트에 표시할 메트릭입니다.
+A metric to display in a report that is logged in your project. 
+
+
 
 **Attributes:**
  
- - `name` (str): 메트릭 이름입니다.
+ - `name` (str): The name of the metric. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `OrderBy`
-정렬할 메트릭입니다.
+A metric to order by. 
+
+
 
 **Attributes:**
  
- - `name` (str): 메트릭 이름입니다.
- - `ascending` (bool): 오름차순으로 정렬할지 여부입니다. 기본적으로 `False`로 설정됩니다.
+ - `name` (str): The name of the metric. 
+ - `ascending` (bool): Whether to sort in ascending order. By default set to `False`. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `OrderedList`
-번호 매겨진 목록의 항목 목록입니다.
+A list of items in a numbered list. 
+
+
 
 **Attributes:**
  
- - `items` (LList[str]): 하나 이상의 `OrderedListItem` 오브젝트 목록입니다.
+ - `items` (LList[str]): A list of one or more `OrderedListItem` objects. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `OrderedListItem`
-순서가 지정된 목록의 목록 항목입니다.
+A list item in an ordered list. 
+
+
 
 **Attributes:**
  
- - `text` (str): 목록 항목의 텍스트입니다.
+ - `text` (str): The text of the list item. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `P`
-텍스트 단락입니다.
+A paragraph of text. 
+
+
 
 **Attributes:**
  
- - `text` (str): 단락 텍스트입니다.
+ - `text` (str): The text of the paragraph. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Panel`
-패널 그리드에 시각화를 표시하는 패널입니다.
+A panel that displays a visualization in a panel grid. 
+
+
 
 **Attributes:**
  
- - `layout` (Layout): `Layout` 오브젝트입니다.
+ - `layout` (Layout): A `Layout` object. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `PanelGrid`
-runset 및 패널로 구성된 그리드입니다. `Runset` 및 `Panel` 오브젝트를 사용하여 각각 runset 및 패널을 추가합니다.
+A grid that consists of runsets and panels. Add runsets and panels with `Runset` and `Panel` objects, respectively. 
 
-사용 가능한 패널은 다음과 같습니다. `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `CodeComparer`, `ParallelCoordinatesPlot`, `ParameterImportancePlot`, `RunComparer`, `MediaBrowser`, `MarkdownPanel`, `CustomChart`, `WeavePanel`, `WeavePanelSummaryTable`, `WeavePanelArtifactVersionedFile`.
+Available panels include: `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `CodeComparer`, `ParallelCoordinatesPlot`, `ParameterImportancePlot`, `RunComparer`, `MediaBrowser`, `MarkdownPanel`, `CustomChart`, `WeavePanel`, `WeavePanelSummaryTable`, `WeavePanelArtifactVersionedFile`. 
+
+
+
+
 
 **Attributes:**
  
- - `runsets` (LList["Runset"]): 하나 이상의 `Runset` 오브젝트 목록입니다.
- - `panels` (LList["PanelTypes"]): 하나 이상의 `Panel` 오브젝트 목록입니다.
- - `active_runset` (int): runset 내에 표시할 run 수입니다. 기본적으로 0으로 설정됩니다.
- - `custom_run_colors` (dict): 키가 run 이름이고 값이 16진수 값으로 지정된 색상인 키-값 쌍입니다.
+ - `runsets` (LList["Runset"]): A list of one or more `Runset` objects. 
+ - `panels` (LList["PanelTypes"]): A list of one or more `Panel` objects. 
+ - `active_runset` (int): The number of runs you want to display within a runset. By default, it is set to 0. 
+ - `custom_run_colors` (dict): Key-value pairs where the key is the name of a run and the value is a color specified by a hexadecimal value. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlot`
-평행 좌표 플롯을 표시하는 패널 오브젝트입니다.
+A panel object that shows a parallel coordinates plot. 
+
+
 
 **Attributes:**
  
- - `columns` (LList[ParallelCoordinatesPlotColumn]): 하나 이상의 `ParallelCoordinatesPlotColumn` 오브젝트 목록입니다.
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `gradient` (Optional[LList[GradientPoint]]): 그레이디언트 점 목록입니다.
- - `font_size` (Optional[FontSize]): 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
+ - `columns` (LList[ParallelCoordinatesPlotColumn]): A list of one or more `ParallelCoordinatesPlotColumn` objects. 
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `gradient` (Optional[LList[GradientPoint]]): A list of gradient points. 
+ - `font_size` (Optional[FontSize]): The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlotColumn`
-평행 좌표 플롯 내의 열입니다. 지정된 `metric` 순서에 따라 평행 좌표 플롯에서 평행축(x축)의 순서가 결정됩니다.
+A column within a parallel coordinates plot. The order of `metric`s specified determine the order of the parallel axis (x-axis) in the parallel coordinates plot. 
+
+
 
 **Attributes:**
  
- - `metric` (str | Config | SummaryMetric): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭 이름입니다.
- - `display_name` (Optional[str]): 메트릭 이름입니다.
- - `inverted` (Optional[bool]): 메트릭을 반전할지 여부입니다.
- - `log` (Optional[bool]): 메트릭에 로그 변환을 적용할지 여부입니다.
+ - `metric` (str | Config | SummaryMetric): The name of the metric logged to your W&B project that the report pulls information from. 
+ - `display_name` (Optional[str]): The name of the metric 
+ - `inverted` (Optional[bool]): Whether to invert the metric. 
+ - `log` (Optional[bool]): Whether to apply a log transformation to the metric. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `ParameterImportancePlot`
-선택한 메트릭을 예측하는 데 각 하이퍼파라미터가 얼마나 중요한지 보여주는 패널입니다.
+A panel that shows how important each hyperparameter is in predicting the chosen metric. 
+
+
 
 **Attributes:**
  
- - `with_respect_to` (str): 파라미터 중요도를 비교할 메트릭입니다. 일반적인 메트릭에는 손실, 정확도 등이 있습니다. 지정하는 메트릭은 리포트가 정보를 가져오는 프로젝트 내에 기록되어야 합니다.
+ - `with_respect_to` (str): The metric you want to compare the parameter importance against. Common metrics might include the loss, accuracy, and so forth. The metric you specify must be logged within the project that the report pulls information from. 
+
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `Report`
-W&B Report를 나타내는 오브젝트입니다. 리포트를 사용자 정의하려면 반환된 오브젝트의 `blocks` 속성을 사용하세요. Report 오브젝트는 자동으로 저장되지 않습니다. 변경 사항을 유지하려면 `save()` 메소드를 사용하세요.
+An object that represents a W&B Report. Use the returned object's `blocks` attribute to customize your report. Report objects do not automatically save. Use the `save()` method to persists changes. 
+
+
 
 **Attributes:**
  
- - `project` (str): 로드할 W&B 프로젝트 이름입니다. 지정된 프로젝트는 리포트 URL에 나타납니다.
- - `entity` (str): 리포트를 소유한 W&B entity입니다. entity는 리포트 URL에 나타납니다.
- - `title` (str): 리포트 제목입니다. 제목은 리포트 상단에 H1 제목으로 나타납니다.
- - `description` (str): 리포트 설명입니다. 설명은 리포트 제목 아래에 나타납니다.
- - `blocks` (LList[BlockTypes]): 하나 이상의 HTML 태그, 플롯, 그리드, runset 등의 목록입니다.
- - `width` (Literal['readable', 'fixed', 'fluid']): 리포트 너비입니다. 옵션에는 'readable', 'fixed', 'fluid'가 있습니다.
+ - `project` (str): The name of the W&B project you want to load in. The project specified appears in the report's URL. 
+ - `entity` (str): The W&B entity that owns the report. The entity appears in the report's URL. 
+ - `title` (str): The title of the report. The title appears at the top of the report as an H1 heading. 
+ - `description` (str): A description of the report. The description appears underneath the report's title. 
+ - `blocks` (LList[BlockTypes]): A list of one or more HTML tags, plots, grids, runsets, and more. 
+ - `width` (Literal['readable', 'fixed', 'fluid']): The width of the report. Options include 'readable', 'fixed', 'fluid'. 
+
 
 ---
 
 #### <kbd>property</kbd> url
 
-리포트가 호스팅되는 URL입니다. 리포트 URL은 `https://wandb.ai/{entity}/{project_name}/reports/`로 구성됩니다. 여기서 `{entity}` 및 `{project_name}`은 리포트가 속한 entity와 프로젝트 이름으로 구성됩니다.
+The URL where the report is hosted. The report URL consists of `https://wandb.ai/{entity}/{project_name}/reports/`. Where `{entity}` and `{project_name}` consists of the entity that the report belongs to and the name of the project, respectively. 
+
+
 
 ---
+
+
 
 ### <kbd>classmethod</kbd> `from_url`
 
@@ -489,14 +882,18 @@ W&B Report를 나타내는 오브젝트입니다. 리포트를 사용자 정의�
 from_url(url: str, as_model: bool = False)
 ```
 
-리포트를 현재 환경으로 로드합니다. 리포트가 호스팅되는 URL을 전달합니다.
+Load in the report into current environment. Pass in the URL where the report is hosted. 
+
+
 
 **Arguments:**
  
- - `url` (str): 리포트가 호스팅되는 URL입니다.
- - `as_model` (bool): True이면 Report 오브젝트 대신 model 오브젝트를 반환합니다. 기본적으로 `False`로 설정됩니다.
+ - `url` (str): The URL where the report is hosted. 
+ - `as_model` (bool): If True, return the model object instead of the Report object. By default, set to `False`. 
 
 ---
+
+
 
 ### <kbd>method</kbd> `save`
 
@@ -504,9 +901,11 @@ from_url(url: str, as_model: bool = False)
 save(draft: bool = False, clone: bool = False)
 ```
 
-리포트 오브젝트에 대한 변경 사항을 유지합니다.
+Persists changes made to a report object. 
 
 ---
+
+
 
 ### <kbd>method</kbd> `to_html`
 
@@ -514,275 +913,487 @@ save(draft: bool = False, clone: bool = False)
 to_html(height: int = 1024, hidden: bool = False) → str
 ```
 
-이 리포트를 표시하는 iframe이 포함된 HTML을 생성합니다. 일반적으로 Python 노트북 내에서 사용됩니다.
+Generate HTML containing an iframe displaying this report. Commonly used to within a Python notebook. 
+
+
 
 **Arguments:**
  
- - `height` (int): iframe 높이입니다.
- - `hidden` (bool): True이면 iframe을 숨깁니다. 기본적으로 `False`로 설정됩니다.
+ - `height` (int): Height of the iframe. 
+ - `hidden` (bool): If True, hide the iframe. Default set to `False`.
 
 ---
+
+
 
 ## <kbd>class</kbd> `RunComparer`
-리포트가 정보를 가져오는 프로젝트의 서로 다른 run에서 메트릭을 비교하는 패널입니다.
+A panel that compares metrics across different runs from the project the report pulls information from. 
+
+
 
 **Attributes:**
  
- - `diff_only` `(Optional[Literal["split", True]])`: 프로젝트의 run 간 차이만 표시합니다. W&B Report UI에서 이 기능을 켜고 끌 수 있습니다.
+ - `diff_only` `(Optional[Literal["split", True]])`: Display only the difference across runs in a project. You can toggle this feature on and off in the W&B Report UI. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Runset`
-패널 그리드에 표시할 run 집합입니다.
+A set of runs to display in a panel grid. 
+
+
 
 **Attributes:**
  
- - `entity` (str): run이 저장된 프로젝트를 소유하거나 올바른 권한을 가진 entity입니다.
- - `project` (str): run이 저장된 프로젝트 이름입니다.
- - `name` (str): run set 이름입니다. 기본적으로 `Run set`으로 설정됩니다.
- - `query` (str): run을 필터링하는 쿼리 문자열입니다.
- - `filters` (Optional[str]): run을 필터링하는 필터 문자열입니다.
- - `groupby` (LList[str]): 그룹화할 메트릭 이름 목록입니다.
- - `order` (LList[OrderBy]): 정렬할 `OrderBy` 오브젝트 목록입니다.
- - `custom_run_colors` (LList[OrderBy]): run ID를 색상에 매핑하는 사전입니다.
+ - `entity` (str): An entity that owns or has the correct permissions to the project where the runs are stored. 
+ - `project` (str): The name of the project were the runs are stored. 
+ - `name` (str): The name of the run set. Set to `Run set` by default. 
+ - `query` (str): A query string to filter runs. 
+ - `filters` (Optional[str]): A filter string to filter runs. 
+ - `groupby` (LList[str]): A list of metric names to group by. 
+ - `order` (LList[OrderBy]): A list of `OrderBy` objects to order by. 
+ - `custom_run_colors` (LList[OrderBy]): A dictionary mapping run IDs to colors. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `RunsetGroup`
-runset 그룹을 표시하는 UI 요소입니다.
+UI element that shows a group of runsets. 
+
+
 
 **Attributes:**
  
- - `runset_name` (str): runset 이름입니다.
- - `keys` (Tuple[RunsetGroupKey, ...]): 그룹화할 키입니다. 그룹화할 하나 이상의 `RunsetGroupKey` 오브젝트를 전달합니다.
+ - `runset_name` (str): The name of the runset. 
+ - `keys` (Tuple[RunsetGroupKey, ...]): The keys to group by. Pass in one or more `RunsetGroupKey` objects to group by. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `RunsetGroupKey`
-메트릭 유형 및 값으로 runset을 그룹화합니다. `RunsetGroup`의 일부입니다. 그룹화할 메트릭 유형 및 값을 키-값 쌍으로 지정합니다.
+Groups runsets by a metric type and value. Part of a `RunsetGroup`. Specify the metric type and value to group by as key-value pairs. 
+
+
 
 **Attributes:**
  
- - `key` (Type[str] | Type[Config] | Type[SummaryMetric] | Type[Metric]): 그룹화할 메트릭 유형입니다.
- - `value` (str): 그룹화할 메트릭 값입니다.
+ - `key` (Type[str] | Type[Config] | Type[SummaryMetric] | Type[Metric]): The metric type to group by. 
+ - `value` (str): The value of the metric to group by. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `ScalarChart`
-스칼라 차트를 표시하는 패널 오브젝트입니다.
+A panel object that shows a scalar chart. 
+
+
 
 **Attributes:**
  
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `metric` (MetricType): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭 이름입니다.
- - `groupby_aggfunc` (Optional[GroupAgg]): 지정된 함수로 run을 집계합니다. 옵션에는 `mean`, `min`, `max`, `median`, `sum`, `samples` 또는 `None`이 있습니다.
- - `groupby_rangefunc` (Optional[GroupArea]): 범위를 기준으로 run을 그룹화합니다. 옵션에는 `minmax`, `stddev`, `stderr`, `none`, `samples` 또는 `None`이 있습니다.
- - `custom_expressions` (Optional[LList[str]]): 스칼라 차트에 사용할 사용자 정의 표현식 목록입니다.
- - `legend_template` (Optional[str]): 범례 템플릿입니다.
- - `font_size Optional[FontSize]`: 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `metric` (MetricType): The name of a metric logged to your W&B project that the report pulls information from. 
+ - `groupby_aggfunc` (Optional[GroupAgg]): Aggregate runs with specified function. Options include `mean`, `min`, `max`, `median`, `sum`, `samples`, or `None`. 
+ - `groupby_rangefunc` (Optional[GroupArea]): Group runs based on a range. Options include `minmax`, `stddev`, `stderr`, `none`, `samples`, or `None`. 
+ - `custom_expressions` (Optional[LList[str]]): A list of custom expressions to be used in the scalar chart. 
+ - `legend_template` (Optional[str]): The template for the legend. 
+ - `font_size Optional[FontSize]`: The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
+
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `ScatterPlot`
-2D 또는 3D 산점도를 표시하는 패널 오브젝트입니다.
+A panel object that shows a 2D or 3D scatter plot. 
+
+
 
 **Arguments:**
  
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `x Optional[SummaryOrConfigOnlyMetric]`: 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭 이름입니다. 지정된 메트릭은 x축에 사용됩니다.
- - `y Optional[SummaryOrConfigOnlyMetric]`: 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 하나 이상의 메트릭입니다. 지정된 메트릭은 y축 내에 플로팅됩니다. z Optional[SummaryOrConfigOnlyMetric]:
- - `range_x` (Tuple[float | `None`, float | `None`]): x축의 범위를 지정하는 튜플입니다.
- - `range_y` (Tuple[float | `None`, float | `None`]): y축의 범위를 지정하는 튜플입니다.
- - `range_z` (Tuple[float | `None`, float | `None`]): z축의 범위를 지정하는 튜플입니다.
- - `log_x` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 x좌표를 플로팅합니다.
- - `log_y` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 y좌표를 플로팅합니다.
- - `log_z` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 z좌표를 플로팅합니다.
- - `running_ymin` (Optional[bool]): 이동 평균 또는 롤링 평균을 적용합니다.
- - `running_ymax` (Optional[bool]): 이동 평균 또는 롤링 평균을 적용합니다.
- - `running_ymean` (Optional[bool]): 이동 평균 또는 롤링 평균을 적용합니다.
- - `legend_template` (Optional[str]): 범례 형식을 지정하는 문자열입니다.
- - `gradient` (Optional[LList[GradientPoint]]): 플롯의 색상 그레이디언트를 지정하는 그레이디언트 점 목록입니다.
- - `font_size` (Optional[FontSize]): 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
- - `regression` (Optional[bool]): `True`이면 산점도에 회귀선이 플로팅됩니다.
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `x Optional[SummaryOrConfigOnlyMetric]`: The name of a metric logged to your W&B project that the report pulls information from. The metric specified is used for the x-axis. 
+ - `y Optional[SummaryOrConfigOnlyMetric]`: One or more metrics logged to your W&B project that the report pulls information from. Metrics specified are plotted within the y-axis. z Optional[SummaryOrConfigOnlyMetric]: 
+ - `range_x` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the x-axis. 
+ - `range_y` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the y-axis. 
+ - `range_z` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the z-axis. 
+ - `log_x` (Optional[bool]): Plots the x-coordinates using a base-10 logarithmic scale. 
+ - `log_y` (Optional[bool]): Plots the y-coordinates using a base-10 logarithmic scale. 
+ - `log_z` (Optional[bool]): Plots the z-coordinates using a base-10 logarithmic scale. 
+ - `running_ymin` (Optional[bool]): Apply a moving average or rolling mean. 
+ - `running_ymax` (Optional[bool]): Apply a moving average or rolling mean. 
+ - `running_ymean` (Optional[bool]): Apply a moving average or rolling mean. 
+ - `legend_template` (Optional[str]): A string that specifies the format of the legend. 
+ - `gradient` (Optional[LList[GradientPoint]]): A list of gradient points that specify the color gradient of the plot. 
+ - `font_size` (Optional[FontSize]): The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
+ - `regression` (Optional[bool]): If `True`, a regression line is plotted on the scatter plot. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `SoundCloud`
-SoundCloud 플레이어를 렌더링하는 블록입니다.
+A block that renders a SoundCloud player. 
+
+
 
 **Attributes:**
  
- - `html` (str): SoundCloud 플레이어를 포함할 HTML 코드입니다.
+ - `html` (str): The HTML code to embed the SoundCloud player. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Spotify`
-Spotify 플레이어를 렌더링하는 블록입니다.
+A block that renders a Spotify player. 
+
+
 
 **Attributes:**
  
- - `spotify_id` (str): 트랙 또는 재생 목록의 Spotify ID입니다.
+ - `spotify_id` (str): The Spotify ID of the track or playlist. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `SummaryMetric`
-리포트에 표시할 요약 메트릭입니다.
+A summary metric to display in a report. 
+
+
 
 **Attributes:**
  
- - `name` (str): 메트릭 이름입니다.
+ - `name` (str): The name of the metric. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `TableOfContents`
-리포트에 지정된 H1, H2 및 H3 HTML 블록을 사용하여 섹션 및 하위 섹션 목록을 포함하는 블록입니다.
+A block that contains a list of sections and subsections using H1, H2, and H3 HTML blocks specified in a report. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `TextWithInlineComments`
-인라인 주석이 있는 텍스트 블록입니다.
+A block of text with inline comments. 
+
+
 
 **Attributes:**
  
- - `text` (str): 블록 텍스트입니다.
+ - `text` (str): The text of the block. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Twitter`
-Twitter 피드를 표시하는 블록입니다.
+A block that displays a Twitter feed. 
+
+
 
 **Attributes:**
  
- - `html` (str): Twitter 피드를 표시할 HTML 코드입니다.
+ - `html` (str): The HTML code to display the Twitter feed. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `UnorderedList`
-글머리 기호 목록의 항목 목록입니다.
+A list of items in a bulleted list. 
+
+
 
 **Attributes:**
  
- - `items` (LList[str]): 하나 이상의 `UnorderedListItem` 오브젝트 목록입니다.
+ - `items` (LList[str]): A list of one or more `UnorderedListItem` objects. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `UnorderedListItem`
-순서가 지정되지 않은 목록의 목록 항목입니다.
+A list item in an unordered list. 
+
+
 
 **Attributes:**
  
- - `text` (str): 목록 항목의 텍스트입니다.
+ - `text` (str): The text of the list item. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Video`
-비디오를 렌더링하는 블록입니다.
+A block that renders a video. 
+
+
 
 **Attributes:**
  
- - `url` (str): 비디오 URL입니다.
+ - `url` (str): The URL of the video. 
+
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeaveBlockArtifact`
-W&B에 기록된 아티팩트를 표시하는 블록입니다. 쿼리는 다음과 같은 형식을 취합니다.
+A block that shows an artifact logged to W&B. The query takes the form of 
 
 ```python
 project('entity', 'project').artifact('artifact-name')
-```
+``` 
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
  
- - `entity` (str): 아티팩트가 저장된 프로젝트를 소유하거나 적절한 권한을 가진 entity입니다.
- - `project` (str): 아티팩트가 저장된 프로젝트입니다.
- - `artifact` (str): 검색할 아티팩트 이름입니다.
- - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: 아티팩트 패널에 표시할 탭입니다.
+ - `entity` (str): The entity that owns or has the appropriate permissions to the project where the artifact is stored. 
+ - `project` (str): The project where the artifact is stored. 
+ - `artifact` (str): The name of the artifact to retrieve. 
+ - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: The tab to display in the artifact panel. 
+
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeaveBlockArtifactVersionedFile`
-W&B 아티팩트에 기록된 버전 관리 파일을 표시하는 블록입니다. 쿼리는 다음과 같은 형식을 취합니다.
+A block that shows a versioned file logged to a W&B artifact. The query takes the form of 
 
 ```python
 project('entity', 'project').artifactVersion('name', 'version').file('file-name')
-```
+``` 
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
  
- - `entity` (str): 아티팩트가 저장된 프로젝트를 소유하거나 적절한 권한을 가진 entity입니다.
- - `project` (str): 아티팩트가 저장된 프로젝트입니다.
- - `artifact` (str): 검색할 아티팩트 이름입니다.
- - `version` (str): 검색할 아티팩트 버전입니다.
- - `file` (str): 검색할 아티팩트에 저장된 파일 이름입니다.
+ - `entity` (str): The entity that owns or has the appropriate permissions to the project where the artifact is stored. 
+ - `project` (str): The project where the artifact is stored. 
+ - `artifact` (str): The name of the artifact to retrieve. 
+ - `version` (str): The version of the artifact to retrieve. 
+ - `file` (str): The name of the file stored in the artifact to retrieve. 
+
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeaveBlockSummaryTable`
-W&B에 기록된 W&B Table, pandas DataFrame, 플롯 또는 기타 값을 표시하는 블록입니다. 쿼리는 다음과 같은 형식을 취합니다.
+A block that shows a W&B Table, pandas DataFrame, plot, or other value logged to W&B. The query takes the form of 
 
 ```python
 project('entity', 'project').runs.summary['value']
-```
+``` 
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
  
- - `entity` (str): 값이 기록된 프로젝트를 소유하거나 적절한 권한을 가진 entity입니다.
- - `project` (str): 값이 기록된 프로젝트입니다.
- - `table_name` (str): 테이블, DataFrame, 플롯 또는 값의 이름입니다.
+ - `entity` (str): The entity that owns or has the appropriate permissions to the project where the values are logged. 
+ - `project` (str): The project where the value is logged in. 
+ - `table_name` (str): The name of the table, DataFrame, plot, or value. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `WeavePanel`
-쿼리를 사용하여 사용자 정의 콘텐츠를 표시하는 데 사용할 수 있는 빈 쿼리 패널입니다.
+An empty query panel that can be used to display custom content using queries. 
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
+
+
+
+
 
 ---
 
-## <kbd>class</kbd> `WeavePanelArtifact`
-W&B에 기록된 아티팩트를 표시하는 패널입니다.
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+
+## <kbd>class</kbd> `WeavePanelArtifact`
+A panel that shows an artifact logged to W&B. 
+
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
  
- - `artifact` (str): 검색할 아티팩트 이름입니다.
- - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: 아티팩트 패널에 표시할 탭입니다.
+ - `artifact` (str): The name of the artifact to retrieve. 
+ - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: The tab to display in the artifact panel. 
+
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeavePanelArtifactVersionedFile`
-W&B 아티팩트에 기록된 버전 관리 파일을 표시하는 패널입니다.
+A panel that shows a versioned file logged to a W&B artifact. 
 
 ```python
 project('entity', 'project').artifactVersion('name', 'version').file('file-name')
-```
+``` 
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
  
- - `artifact` (str): 검색할 아티팩트 이름입니다.
- - `version` (str): 검색할 아티팩트 버전입니다.
- - `file` (str): 검색할 아티팩트에 저장된 파일 이름입니다.
+ - `artifact` (str): The name of the artifact to retrieve. 
+ - `version` (str): The version of the artifact to retrieve. 
+ - `file` (str): The name of the file stored in the artifact to retrieve. 
+
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeavePanelSummaryTable`
-W&B에 기록된 W&B Table, pandas DataFrame, 플롯 또는 기타 값을 표시하는 패널입니다. 쿼리는 다음과 같은 형식을 취합니다.
+A panel that shows a W&B Table, pandas DataFrame, plot, or other value logged to W&B. The query takes the form of 
 
 ```python
 runs.summary['value']
-```
+``` 
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
  
- - `table_name` (str): 테이블, DataFrame, 플롯 또는 값의 이름입니다.
+ - `table_name` (str): The name of the table, DataFrame, plot, or value.

@@ -1,231 +1,231 @@
 ---
-title: artifactVersion
 menu:
   reference:
     identifier: ko-ref-query-panel-artifact-version
+title: artifactVersion
 ---
 
-## 체인형 연산
+## Chainable Ops
 <h3 id="artifactVersion-aliases"><code>artifactVersion-aliases</code></h3>
 
-[artifactVersion](artifact-version.md) 에일리어스를 반환합니다.
+Returns the aliases for an [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md) 에일리어스
+#### Return Value
+The aliases for an [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-createdAt"><code>artifactVersion-createdAt</code></h3>
 
-[artifactVersion](artifact-version.md)이 생성된 날짜와 시간을 반환합니다.
+Returns the datetime at which the [artifactVersion](artifact-version.md) was created
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)이 생성된 날짜와 시간
+#### Return Value
+The datetime at which the [artifactVersion](artifact-version.md) was created
 
 <h3 id="artifactVersion-file"><code>artifactVersion-file</code></h3>
 
-주어진 경로에 대한 [artifactVersion](artifact-version.md)의 _파일_ 을 반환합니다.
+Returns the _file_ of the [artifactVersion](artifact-version.md) for the given path
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
-| `path` | _파일_ 의 경로 |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
+| `path` | The path of the _file_ |
 
-#### 반환 값
-주어진 경로에 대한 [artifactVersion](artifact-version.md)의 _파일_
+#### Return Value
+The _file_ of the [artifactVersion](artifact-version.md) for the given path
 
 <h3 id="artifactVersion-files"><code>artifactVersion-files</code></h3>
 
-[artifactVersion](artifact-version.md)의 _파일_ _목록_ 을 반환합니다.
+Returns the _list_ of _files_ of the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 _파일_ _목록_
+#### Return Value
+The _list_ of _files_ of the [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-link"><code>artifactVersion-link</code></h3>
 
-[artifactVersion](artifact-version.md)의 URL을 반환합니다.
+Returns the url for an [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 URL
+#### Return Value
+The url for an [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-metadata"><code>artifactVersion-metadata</code></h3>
 
-[artifactVersion](artifact-version.md) 메타데이터 사전을 반환합니다.
+Returns the [artifactVersion](artifact-version.md) metadata dictionary
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md) 메타데이터 사전
+#### Return Value
+The [artifactVersion](artifact-version.md) metadata dictionary
 
 <h3 id="artifactVersion-name"><code>artifactVersion-name</code></h3>
 
-[artifactVersion](artifact-version.md)의 이름을 반환합니다.
+Returns the name of the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 이름
+#### Return Value
+The name of the [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-size"><code>artifactVersion-size</code></h3>
 
-[artifactVersion](artifact-version.md)의 크기를 반환합니다.
+Returns the size of the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 크기
+#### Return Value
+The size of the [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-usedBy"><code>artifactVersion-usedBy</code></h3>
 
-[artifactVersion](artifact-version.md)을 사용하는 [runs](run.md)을 반환합니다.
+Returns the [runs](run.md) that use the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)을 사용하는 [runs](run.md)
+#### Return Value
+The [runs](run.md) that use the [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-versionId"><code>artifactVersion-versionId</code></h3>
 
-[artifactVersion](artifact-version.md)의 versionId를 반환합니다.
+Returns the versionId of the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 versionId
+#### Return Value
+The versionId of the [artifactVersion](artifact-version.md)
 
 
-## 목록형 연산
+## List Ops
 <h3 id="artifactVersion-aliases"><code>artifactVersion-aliases</code></h3>
 
-[artifactVersion](artifact-version.md) 에일리어스를 반환합니다.
+Returns the aliases for an [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md) 에일리어스
+#### Return Value
+The aliases for an [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-createdAt"><code>artifactVersion-createdAt</code></h3>
 
-[artifactVersion](artifact-version.md)이 생성된 날짜와 시간을 반환합니다.
+Returns the datetime at which the [artifactVersion](artifact-version.md) was created
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)이 생성된 날짜와 시간
+#### Return Value
+The datetime at which the [artifactVersion](artifact-version.md) was created
 
 <h3 id="artifactVersion-file"><code>artifactVersion-file</code></h3>
 
-주어진 경로에 대한 [artifactVersion](artifact-version.md)의 _파일_ 을 반환합니다.
+Returns the _file_ of the [artifactVersion](artifact-version.md) for the given path
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
-| `path` | _파일_ 의 경로 |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
+| `path` | The path of the _file_ |
 
-#### 반환 값
-주어진 경로에 대한 [artifactVersion](artifact-version.md)의 _파일_
+#### Return Value
+The _file_ of the [artifactVersion](artifact-version.md) for the given path
 
 <h3 id="artifactVersion-files"><code>artifactVersion-files</code></h3>
 
-[artifactVersion](artifact-version.md)의 _파일_ _목록_ 을 반환합니다.
+Returns the _list_ of _files_ of the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 _파일_ _목록_
+#### Return Value
+The _list_ of _files_ of the [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-link"><code>artifactVersion-link</code></h3>
 
-[artifactVersion](artifact-version.md)의 URL을 반환합니다.
+Returns the url for an [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 URL
+#### Return Value
+The url for an [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-metadata"><code>artifactVersion-metadata</code></h3>
 
-[artifactVersion](artifact-version.md) 메타데이터 사전을 반환합니다.
+Returns the [artifactVersion](artifact-version.md) metadata dictionary
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md) 메타데이터 사전
+#### Return Value
+The [artifactVersion](artifact-version.md) metadata dictionary
 
 <h3 id="artifactVersion-name"><code>artifactVersion-name</code></h3>
 
-[artifactVersion](artifact-version.md)의 이름을 반환합니다.
+Returns the name of the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 이름
+#### Return Value
+The name of the [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-size"><code>artifactVersion-size</code></h3>
 
-[artifactVersion](artifact-version.md)의 크기를 반환합니다.
+Returns the size of the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 크기
+#### Return Value
+The size of the [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-usedBy"><code>artifactVersion-usedBy</code></h3>
 
-[artifactVersion](artifact-version.md)을 사용하는 [runs](run.md)을 반환합니다.
+Returns the [runs](run.md) that use the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)을 사용하는 [runs](run.md)
+#### Return Value
+The [runs](run.md) that use the [artifactVersion](artifact-version.md)
 
 <h3 id="artifactVersion-versionId"><code>artifactVersion-versionId</code></h3>
 
-[artifactVersion](artifact-version.md)의 versionId를 반환합니다.
+Returns the versionId of the [artifactVersion](artifact-version.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](artifact-version.md) |
+| `artifactVersion` | An [artifactVersion](artifact-version.md) |
 
-#### 반환 값
-[artifactVersion](artifact-version.md)의 versionId
+#### Return Value
+The versionId of the [artifactVersion](artifact-version.md)

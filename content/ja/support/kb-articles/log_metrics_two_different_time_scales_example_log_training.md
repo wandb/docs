@@ -1,26 +1,27 @@
 ---
-title: メトリクスを異なる時間スケールでログすることはできますか？
 menu:
   support:
-    identifier: >-
-      ja-support-kb-articles-log_metrics_two_different_time_scales_example_log_training
+    identifier: ja-support-kb-articles-log_metrics_two_different_time_scales_example_log_training
 support:
-  - experiments
-  - metrics
+- experiments
+- metrics
+title: Can I log metrics on two different time scales?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-バッチごとのトレーニング精度とエポックごとの検証精度をログに記録したい場合を考えてみましょう。
 
-はい、`batch` や `epoch` のようなインデックスをメトリクスと一緒にログに記録できます。`wandb.log({'train_accuracy': 0.9, 'batch': 200})` を使って、一つのステップで記録し、`wandb.log({'val_accuracy': 0.8, 'epoch': 4})` を別のステップで使用します。 UI では、各チャートの x 軸として目的の値を設定します。特定のインデックスに対してデフォルトの x 軸を設定するには、[Run.define_metric()]({{< relref path="/ref/python/run.md#define_metric" lang="ja" >}}) を使用します。提供された例に対しては、以下のコードを使用します。
+For example, I want to log training accuracy per batch and validation accuracy per epoch.
+
+Yes, log indices like `batch` and `epoch` alongside your metrics. Use `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` in one step and `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` in another. In the UI, set the desired value as the x-axis for each chart. To set a default x-axis for a specific index, use [Run.define_metric()]({{< relref path="/ref/python/sdk/classes/run#define_metric" lang="ja" >}}). For the example provided, use the following code:
 
 ```python
-wandb.init()
+import wandb
 
-wandb.define_metric("batch")
-wandb.define_metric("epoch")
+with wandb.init() as run:
+   run.define_metric("batch")
+   run.define_metric("epoch")
 
-wandb.define_metric("train_accuracy", step_metric="batch")
-wandb.define_metric("val_accuracy", step_metric="epoch")
+   run.define_metric("train_accuracy", step_metric="batch")
+   run.define_metric("val_accuracy", step_metric="epoch")
 ```

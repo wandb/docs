@@ -1,30 +1,31 @@
 ---
-title: pytorch-model-file
 menu:
   reference:
     identifier: ko-ref-query-panel-pytorch-model-file
+title: pytorch-model-file
 ---
 
-## 연결 가능한 Op
+## Chainable Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-에셋의 _파일_ 을 반환합니다.
+Returns the _file_ of the asset
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `asset` | 에셋 |
+| `asset` | The asset |
 
-#### 반환 값
-에셋의 _파일_
+#### Return Value
+The _file_ of the asset
 
-## 목록 Op
+
+## List Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-에셋의 _파일_ 을 반환합니다.
+Returns the _file_ of the asset
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `asset` | 에셋 |
+| `asset` | The asset |
 
-#### 반환 값
-에셋의 _파일_
+#### Return Value
+The _file_ of the asset

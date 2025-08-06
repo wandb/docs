@@ -1,19 +1,20 @@
 ---
-title: Create a registered model
-description: 모델링 작업을 위한 모든 후보 모델을 담을 등록된 모델 을 만드세요.
+description: Create a registered model to hold all the candidate models for your modeling
+  tasks.
 menu:
   default:
     identifier: ko-guides-core-registry-model_registry-create-registered-model
     parent: model-registry
+title: Create a registered model
 weight: 4
 ---
 
-[등록된 모델]({{< relref path="./model-management-concepts.md#registered-model" lang="ko" >}})을 생성하여 모델링 작업을 위한 모든 후보 모델을 보관하세요. Model Registry 내에서 대화식으로 또는 Python SDK를 사용하여 프로그래밍 방식으로 등록된 모델을 생성할 수 있습니다.
+Create a [registered model]({{< relref path="./model-management-concepts.md#registered-model" lang="ko" >}}) to hold all the candidate models for your modeling tasks. You can create a registered model interactively within the Model Registry or programmatically with the Python SDK.
 
-## 프로그래밍 방식으로 등록된 모델 생성
-W&B Python SDK로 모델을 프로그래밍 방식으로 등록하세요. 등록된 모델이 존재하지 않으면 W&B가 자동으로 등록된 모델을 생성합니다.
+## Programmatically create registered a model
+Programmatically register a model with the W&B Python SDK. W&B automatically creates a registered model for you if the registered model doesn't exist.
 
-`<>`로 묶인 다른 값들을 사용자의 값으로 바꾸세요:
+Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 import wandb
@@ -23,25 +24,26 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-`registered_model_name`에 제공하는 이름은 [Model Registry App](https://wandb.ai/registry/model)에 나타나는 이름입니다.
+The name you provide for `registered_model_name` is the name that appears in the [Model Registry App](https://wandb.ai/registry/model).
 
-## 대화식으로 등록된 모델 생성
-[Model Registry App](https://wandb.ai/registry/model) 내에서 대화식으로 등록된 모델을 생성하세요.
+## Interactively create a registered model
+Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model).
 
-1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model)에서 Model Registry App으로 이동합니다.
-{{< img src="/images/models/create_registered_model_1.png" alt="" >}}
-2. Model Registry 페이지의 오른쪽 상단에 있는 **New registered model** 버튼을 클릭합니다.
-{{< img src="/images/models/create_registered_model_model_reg_app.png" alt="" >}}
-3. 나타나는 패널에서 등록된 모델이 속할 엔터티를 **Owning Entity** 드롭다운에서 선택합니다.
-{{< img src="/images/models/create_registered_model_3.png" alt="" >}}
-4. **Name** 필드에 모델 이름을 입력합니다.
-5. **Type** 드롭다운에서 등록된 모델에 연결할 아티팩트의 유형을 선택합니다.
-6. (선택 사항) **Description** 필드에 모델에 대한 설명을 추가합니다.
-7. (선택 사항) **Tags** 필드 내에서 하나 이상의 태그를 추가합니다.
-8. **Register model**을 클릭합니다.
+1. Navigate to the [Model Registry App](https://wandb.ai/registry/model).
+{{< img src="/images/models/create_registered_model_1.png" alt="Model Registry landing page" >}}
+2. Click the **New registered model** button located in the top right of the Model Registry page.
+{{< img src="/images/models/create_registered_model_model_reg_app.png" alt="New registered model button" >}}
+3. From the panel that appears, select the entity you want the registered model to belong to from the **Owning Entity** dropdown.
+{{< img src="/images/models/create_registered_model_3.png" alt="Model creation form" >}}
+4. Provide a name for your model in the **Name** field. 
+5. From the **Type** dropdown, select the type of artifacts to link to the registered model.
+6. (Optional) Add a description about your model in the **Description** field. 
+7. (Optional) Within the **Tags** field, add one or more tags. 
+8. Click **Register model**.
+
 
 {{% alert %}}
-모델을 Model Registry에 수동으로 연결하는 것은 일회성 모델에 유용합니다. 그러나 [모델 버전을 Model Registry에 프로그래밍 방식으로 연결]({{< relref path="link-model-version#programmatically-link-a-model" lang="ko" >}})하는 것이 유용한 경우가 많습니다.
+Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry]({{< relref path="link-model-version#programmatically-link-a-model" lang="ko" >}}).
 
-예를 들어 야간 작업이 있다고 가정해 봅시다. 매일 밤 생성된 모델을 수동으로 연결하는 것은 지루합니다. 대신 모델을 평가하고 모델 성능이 향상되면 W&B Python SDK를 사용하여 해당 모델을 Model Registry에 연결하는 스크립트를 만들 수 있습니다.
+For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluates the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
 {{% /alert %}}

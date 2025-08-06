@@ -1,28 +1,28 @@
 ---
-title: 専用クラウドへのプライベート接続を設定します
 menu:
   default:
     identifier: ja-guides-hosting-data-security-private-connectivity
     parent: data-security
+title: Configure private connectivity to Dedicated Cloud
 weight: 4
 ---
 
-クラウドプロバイダーの安全なプライベートネットワークを介して、[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) インスタンスに接続できます。これは、AI ワークロードから W&B API へのアクセス、およびオプションでユーザーのブラウザから W&B アプリ UI へのアクセスにも適用されます。プライベート接続を使用する場合、関連するリクエストとレスポンスはパブリックネットワークやインターネットを経由しません。
+You can connect to your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) instance over the cloud provider's secure private network. This applies to the access from your AI workloads to the W&B APIs and optionally from your user browsers to the W&B app UI as well. When using private connectivity, the relevant requests and responses do not transit through the public network or internet.
 
 {{% alert %}}
-安全なプライベート接続は、専用クラウドの高度なセキュリティオプションとして間もなく利用可能になります。
+Secure private connectivity is coming soon as an advanced security option with Dedicated Cloud.
 {{% /alert %}}
 
-安全なプライベート接続は、AWS、GCP、および Azure 上の専用クラウドインスタンスで利用可能です：
+Secure private connectivity is available on Dedicated Cloud instances on AWS, GCP and Azure:
 
-* AWS で [AWS Privatelink](https://aws.amazon.com/privatelink/) を使用
-* GCP で [GCP Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) を使用
-* Azure で [Azure Private Link](https://azure.microsoft.com/products/private-link) を使用
+* Using [AWS Privatelink](https://aws.amazon.com/privatelink/) on AWS
+* Using [GCP Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) on GCP
+* Using [Azure Private Link](https://azure.microsoft.com/products/private-link) on Azure
 
-一度有効にすると、W&B はインスタンス用のプライベートエンドポイントサービスを作成し、接続するための関連する DNS URI を提供します。それにより、クラウドアカウント内にプライベートエンドポイントを作成し、関連するトラフィックをプライベートエンドポイントサービスにルーティングできます。プライベートエンドポイントは、クラウド VPC または VNet 内で動作する AI トレーニングワークロードに対して、設定が容易です。ユーザーブラウザから W&B アプリ UI へのトラフィックに対しても同じメカニズムを使用するには、企業ネットワークからクラウドアカウント内のプライベートエンドポイントへの適切な DNS ベースのルーティングを設定する必要があります。
+Once enabled, W&B creates a private endpoint service for your instance and provides you the relevant DNS URI to connect to. With that, you can create private endpoints in your cloud accounts that can route the relevant traffic to the private endpoint service. Private endpoints are easier to setup for your AI training workloads running within your cloud VPC or VNet. To use the same mechanism for traffic from your user browsers to the W&B app UI, you must configure appropriate DNS based routing from your corporate network to the private endpoints in your cloud accounts.
 
 {{% alert %}}
-この機能を使用したい場合は、W&B チームにご連絡ください。
+If you would like to use this feature, contact your W&B team.
 {{% /alert %}}
 
-[IP allowlisting]({{< relref path="./ip-allowlisting.md" lang="ja" >}}) とともに安全なプライベート接続を使用できます。IP allowlisting のために安全なプライベート接続を使用する場合、W&B は可能であれば、IP allowlisting を特権的な場所からのインスタンス管理のために使用しつつ、AI ワークロードからのすべてのトラフィックと、ユーザーブラウザからのトラフィックの大部分に対して安全なプライベート接続を確保することをお勧めします。
+You can use secure private connectivity with [IP allowlisting]({{< relref path="./ip-allowlisting.md" lang="ja" >}}). If you use secure private connectivity for IP allowlisting, W&B recommends that you secure private connectivity for all traffic from your AI workloads and majority of the traffic from your user browsers if possible, while using IP allowlisting for instance administration from privileged locations.

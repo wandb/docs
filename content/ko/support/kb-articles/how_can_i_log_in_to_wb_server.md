@@ -1,16 +1,16 @@
 ---
-title: How can I log in to W&B Server?
 menu:
   support:
     identifier: ko-support-kb-articles-how_can_i_log_in_to_wb_server
 support:
 - user management
+title: How can I log in to W&B Server?
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-다음 방법 중 하나를 사용하여 로그인 URL을 설정합니다.
+Set the login URL by either of these methods:
 
-- [환경 변수]({{< relref path="guides/models/track/environment-variables.md" lang="ko" >}}) `WANDB_BASE_URL`을 Server URL로 설정합니다.
-- [`wandb login`]({{< relref path="/ref/cli/wandb-login.md" lang="ko" >}})의 `--host` 플래그를 Server URL로 설정합니다.
+- Set the [environment variable]({{< relref path="guides/models/track/environment-variables.md" lang="ko" >}}) `WANDB_BASE_URL` to the Server URL.
+- Set the `--host` flag of [`wandb login`]({{< relref path="/ref/cli/wandb-login.md" lang="ko" >}}) to the Server URL.

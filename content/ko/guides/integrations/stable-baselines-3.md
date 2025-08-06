@@ -1,24 +1,24 @@
 ---
-title: Stable Baselines 3
-description: W&B를 Stable Baseline 3와 통합하는 방법.
+description: How to integrate W&B with Stable Baseline 3.
 menu:
   default:
     identifier: ko-guides-integrations-stable-baselines-3
     parent: integrations
+title: Stable Baselines 3
 weight: 420
 ---
 
-[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) (SB3)는 PyTorch에서 강화학습 알고리즘을 안정적으로 구현한 것입니다. W&B의 SB3 인테그레이션은 다음과 같습니다:
+[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) is a set of reliable implementations of reinforcement learning algorithms in PyTorch. W&B's SB3 integration: 
 
-* 손실 및 에피소드별 반환과 같은 메트릭을 기록합니다.
-* 에이전트가 게임을 플레이하는 비디오를 업로드합니다.
-* 트레이닝된 모델을 저장합니다.
-* 모델의 하이퍼파라미터를 기록합니다.
-* 모델 그래디언트 히스토그램을 기록합니다.
+* Records metrics such as losses and episodic returns.
+* Uploads videos of agents playing the games.
+* Saves the trained model.
+* Logs the model's hyperparameters.
+* Logs the model gradient histograms.
 
-W&B를 사용한 SB3 트레이닝 run의 [예시](https://wandb.ai/wandb/sb3/runs/1jyr6z10)를 검토하세요.
+Review an [example SB3 training run](https://wandb.ai/wandb/sb3/runs/1jyr6z10).
 
-## SB3 Experiments 기록
+## Log your SB3 experiments
 
 ```python
 from wandb.integration.sb3 import WandbCallback
@@ -26,20 +26,20 @@ from wandb.integration.sb3 import WandbCallback
 model.learn(..., callback=WandbCallback())
 ```
 
-{{< img src="/images/integrations/stable_baselines_demo.gif" alt="" >}}
+{{< img src="/images/integrations/stable_baselines_demo.gif" alt="Stable Baselines 3 training with W&B" >}}
 
-## WandbCallback 인수
+## WandbCallback Arguments
 
-| 인수 | 사용법 |
+| Argument | Usage |
 | :--- | :--- |
-| `verbose` | sb3 출력의 상세 정도 |
-| `model_save_path` | 모델이 저장될 폴더 경로. 기본값은 \`None\`이며, 모델은 기록되지 않습니다 |
-| `model_save_freq` | 모델 저장 빈도 |
-| `gradient_save_freq` | 그래디언트를 기록하는 빈도. 기본값은 0이며, 그래디언트는 기록되지 않습니다 |
+| `verbose` | The verbosity of sb3 output |
+| `model_save_path` | Path to the folder where the model will be saved, The default value is \`None\` so the model is not logged |
+| `model_save_freq` | Frequency to save the model |
+| `gradient_save_freq` | Frequency to log gradient. The default value is 0 so the gradients are not logged |
 
-## 기본 예제
+## Basic Example
 
-W&B SB3 인테그레이션은 TensorBoard에서 출력된 로그를 사용하여 메트릭을 기록합니다.
+The W&B SB3 integration uses the logs output from TensorBoard to log your metrics 
 
 ```python
 import gym

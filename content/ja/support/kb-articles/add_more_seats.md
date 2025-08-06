@@ -1,16 +1,17 @@
 ---
-title: 追加の席を増やす方法はありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-add_more_seats
 support:
-  - administrator
-  - user management
+- administrator
+- user management
+title: Is there a way to add more seats?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-アカウントに席を追加するには、次の手順に従ってください:
 
-- サポートが必要な場合は、アカウントエグゼクティブまたはサポートチーム（support@wandb.com）に連絡してください。
-- 組織名と希望する席の数を提供してください。
+To add more seats to an account, follow these steps:
+
+- Contact the Account Executive or support team (support@wandb.com) for assistance.
+- Provide the organization name and the desired number of seats.

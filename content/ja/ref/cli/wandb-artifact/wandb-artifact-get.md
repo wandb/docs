@@ -1,21 +1,22 @@
 ---
-title: wandb アーティファクト get
 menu:
   reference:
     identifier: ja-ref-cli-wandb-artifact-wandb-artifact-get
+title: wandb artifact get
 ---
 
-**使用方法**
+**Usage**
 
 `wandb artifact get [OPTIONS] PATH`
 
-**概要**
+**Summary**
 
-wandb からアーティファクトをダウンロードします
+Download an artifact from wandb
 
-**オプション**
 
-| **オプション** | **説明** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |
-| `--root` | アーティファクトをダウンロードしたいディレクトリー |
-| `--type` | ダウンロードするアーティファクトのタイプ |
+| `--root` | The directory you want to download the artifact to |
+| `--type` | The type of artifact you are downloading |

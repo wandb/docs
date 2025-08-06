@@ -1,5 +1,4 @@
 ---
-title: How do I add Plotly or Bokeh Charts into Tables?
 menu:
   support:
     identifier: ko-support-kb-articles-add_plotlybokeh_charts_tables
@@ -7,12 +6,13 @@ support:
 - experiments
 - tables
 - charts
+title: How do I add Plotly or Bokeh Charts into Tables?
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-Plotly 또는 Bokeh figure를 테이블에 직접 통합하는 것은 지원되지 않습니다. 대신, figure를 HTML로 내보내고 해당 HTML을 테이블에 포함하세요. 아래는 인터랙티브 Plotly 및 Bokeh 차트를 사용하여 이를 보여주는 예제입니다.
+Direct integration of Plotly or Bokeh figures into tables is not supported. Instead, export the figures to HTML and include the HTML in the table. Below are examples demonstrating this with interactive Plotly and Bokeh charts.
 
 {{< tabpane text=true >}}
 {{% tab "Using Plotly" %}}
@@ -20,28 +20,28 @@ Plotly 또는 Bokeh figure를 테이블에 직접 통합하는 것은 지원되�
 import wandb
 import plotly.express as px
 
-# 새로운 run 초기화
-run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
+# Initialize a new run
+with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
-# 테이블 생성
-table = wandb.Table(columns=["plotly_figure"])
+    # Create a table
+    table = wandb.Table(columns=["plotly_figure"])
 
-# Plotly figure의 경로 정의
-path_to_plotly_html = "./plotly_figure.html"
+    # Define path for Plotly figure
+    path_to_plotly_html = "./plotly_figure.html"
 
-# Plotly figure 생성
-fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
+    # Create a Plotly figure
+    fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-# Plotly figure를 HTML로 내보내기
-# auto_play를 False로 설정하면 애니메이션 Plotly 차트가 자동으로 재생되는 것을 방지합니다.
-fig.write_html(path_to_plotly_html, auto_play=False)
+    # Export Plotly figure to HTML
+    # Setting auto_play to False prevents animated Plotly charts from playing automatically
+    fig.write_html(path_to_plotly_html, auto_play=False)
 
-# Plotly figure를 HTML 파일로 테이블에 추가
-table.add_data(wandb.Html(path_to_plotly_html))
+    # Add Plotly figure as HTML file to the table
+    table.add_data(wandb.Html(path_to_plotly_html))
 
-# 테이블 로그
-run.log({"test_table": table})
-wandb.finish()
+    # Log Table
+    run.log({"test_table": table})
+
 ```
 {{% /tab %}}
 {{% tab "Using Bokeh" %}}
@@ -75,10 +75,9 @@ audio_path = "hello.wav"
 save_audio_with_bokeh_plot_to_html(audio_path, html_file_name)
 
 wandb_html = wandb.Html(html_file_name)
-run = wandb.init(project="audio_test")
-my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
-run.log({"audio_table": my_table})
-run.finish()
+with wandb.init(project="audio_test") as run:
+    my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
+    run.log({"audio_table": my_table})
 ```
 {{% /tab %}}
 {{% /tabpane %}}

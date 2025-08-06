@@ -1,75 +1,75 @@
 ---
-title: artifactType
 menu:
   reference:
     identifier: ko-ref-query-panel-artifact-type
+title: artifactType
 ---
 
 ## Chainable Ops
 <h3 id="artifactType-artifactVersions"><code>artifactType-artifactVersions</code></h3>
 
-[artifactType]( artifact-type.md) 의 모든 [artifacts]( artifact.md) 의 [artifactVersions]( artifact-version.md) 를 반환합니다.
+Returns the [artifactVersions]( artifact-version.md) of all [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
 | Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType]( artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-[artifactType]( artifact-type.md) 의 모든 [artifacts]( artifact.md) 의 [artifactVersions](artifact-version.md)
+The [artifactVersions](artifact-version.md) of all [artifacts](artifact.md) of the [artifactType](artifact-type.md)
 
 <h3 id="artifactType-artifacts"><code>artifactType-artifacts</code></h3>
 
-[artifactType](artifact-type.md) 의 [artifacts]( artifact.md) 를 반환합니다.
+Returns the [artifacts]( artifact.md) of the [artifactType](artifact-type.md)
 
 | Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType](artifact-type.md) |
+| `artifactType` | An [artifactType](artifact-type.md) |
 
 #### Return Value
-[artifactType]( artifact-type.md) 의 [artifacts]( artifact.md)
+The [artifacts]( artifact.md) of the [artifactType](artifact-type.md)
 
 <h3 id="artifactType-name"><code>artifactType-name</code></h3>
 
-[artifactType](artifact-type.md) 의 이름을 반환합니다.
+Returns the name of the [artifactType](artifact-type.md)
 
 | Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType]( artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-[artifactType]( artifact-type.md) 의 이름
+The name of the [artifactType]( artifact-type.md)
 
 
 ## List Ops
 <h3 id="artifactType-artifactVersions"><code>artifactType-artifactVersions</code></h3>
 
-[artifactType]( artifact-type.md) 의 모든 [artifacts]( artifact.md) 의 [artifactVersions]( artifact-version.md) 를 반환합니다.
+Returns the [artifactVersions]( artifact-version.md) of all [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
 | Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType]( artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-[artifactType]( artifact-type.md) 의 모든 [artifacts]( artifact.md) 의 [artifactVersions]( artifact-version.md)
+The [artifactVersions]( artifact-version.md) of all [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
 <h3 id="artifactType-artifacts"><code>artifactType-artifacts</code></h3>
 
-[artifactType](artifact-type.md) 의 [artifacts]( artifact.md) 를 반환합니다.
+Returns the [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
 | Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType]( artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-[artifactType]( artifact-type.md) 의 [artifacts]( artifact.md)
+The [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
 <h3 id="artifactType-name"><code>artifactType-name</code></h3>
 
-[artifactType]( artifact-type.md) 의 이름을 반환합니다.
+Returns the name of the [artifactType]( artifact-type.md)
 
 | Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType]( artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-[artifactType]( artifact-type.md) 의 이름
+The name of the [artifactType]( artifact-type.md)

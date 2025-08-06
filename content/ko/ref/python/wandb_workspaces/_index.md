@@ -1,16 +1,20 @@
 ---
-title: wandb_workspaces
 menu:
   reference:
     identifier: ko-ref-python-wandb_workspaces-_index
+title: wandb_workspaces
 ---
 
-```markdown
+<!-- Insert buttons and diff -->
+
 {{< cta-button githubLink="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" >}}
 
-## 클래스
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
 
-[`class reports`](./reports.md): W&B Reports API를 프로그래밍 방식으로 사용하기 위한 Python 라이브러리입니다.
+## Classes
 
-[`class workspaces`](./workspaces.md): W&B Workspace API를 프로그래밍 방식으로 사용하기 위한 Python 라이브러리입니다.
-```
+[`class reports`](./reports.md): Python library for programmatically working with W&B Reports API. 
+
+[`class workspaces`](./workspaces.md): Python library for programmatically working with W&B Workspace API.

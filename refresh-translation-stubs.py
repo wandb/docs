@@ -120,12 +120,15 @@ def copy_and_process_directory(src, dest, subdirectory):
 def process_language(subdirectory):
     """Process all content for a specific language subdirectory."""
     items_to_copy = [
-        'content/guides',
-        'content/launch',
-        'content/ref',
-        'content/support',
-        'content/tutorials',
-        'content/_index.md'
+        'content/en/_includes',
+        'content/en/guides',
+        'content/en/launch',
+        'content/en/launch-library',
+        'content/en/ref',
+        'content/en/support',
+        'content/en/tutorials',
+        'content/en/_index.md',
+        'content/en/search.md'
     ]
     
     # Clean and create target directory
@@ -134,8 +137,8 @@ def process_language(subdirectory):
     # Process each item in the list
     for item in items_to_copy:
         src_path = item
-        # Remove 'content/' from the source path when constructing destination
-        dest_path = os.path.join(subdirectory, item.replace('content/', '', 1))
+        # Remove 'content/en/' from the source path when constructing destination
+        dest_path = os.path.join(subdirectory, item.replace('content/en/', '', 1))
         
         if os.path.isdir(src_path):
             copy_and_process_directory(src_path, dest_path, subdirectory)

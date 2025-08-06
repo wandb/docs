@@ -1,47 +1,47 @@
 ---
-title: Create a collection
 menu:
   default:
     identifier: ko-guides-core-registry-create_collection
     parent: registry
+title: Create a collection
 weight: 4
 ---
 
-*컬렉션* 은 레지스트리 내에서 연결된 아티팩트 버전들의 집합입니다. 각 컬렉션은 고유한 작업 또는 유스 케이스를 나타냅니다.
+A *collection* is a set of linked artifact versions within a registry. Each collection represents a distinct task or use case. 
 
-예를 들어, 코어 데이터셋 레지스트리 내에 여러 개의 컬렉션을 가질 수 있습니다. 각 컬렉션은 MNIST, CIFAR-10 또는 ImageNet과 같은 서로 다른 데이터셋을 포함합니다.
+For example, within the core Dataset registry you might have multiple collections. Each collection contains a different dataset such as MNIST, CIFAR-10, or ImageNet.
 
-또 다른 예로, "chatbot"이라는 레지스트리가 있을 수 있으며, 여기에는 모델 Artifacts에 대한 컬렉션, 데이터셋 Artifacts에 대한 또 다른 컬렉션, 그리고 파인튜닝된 모델 Artifacts에 대한 또 다른 컬렉션이 포함될 수 있습니다.
+As another example, you might have a registry called "chatbot" that contains a collection for model artifacts, another collection for dataset artifacts, and another collection for fine-tuned model artifacts.
 
-레지스트리와 컬렉션을 구성하는 방법은 사용자에게 달려 있습니다.
+How you organize a registry and their collections is up to you.
 
 {{% alert %}}
-W&B 모델 레지스트리에 익숙하신 분은 등록된 모델에 대해 알고 계실 것입니다. 모델 레지스트리의 등록된 모델은 이제 W&B 레지스트리에서 컬렉션이라고 합니다.
+If you are familiar with W&B Model Registry, you might aware of registered models. Registered models in the Model Registry are now referred to as collections in the W&B Registry.
 {{% /alert %}}
 
-## 컬렉션 유형
+## Collection types
 
-각 컬렉션은 오직 하나의 아티팩트 *유형* 만을 허용합니다. 지정하는 유형은 사용자와 조직의 다른 구성원이 해당 컬렉션에 연결할 수 있는 Artifacts의 종류를 제한합니다.
+Each collection accepts one, and only one, *type* of artifact. The type you specify restricts what sort of artifacts you, and other members of your organization, can link to that collection.
 
 {{% alert %}}
-아티팩트 유형을 Python과 같은 프로그래밍 언어의 데이터 유형과 유사하게 생각할 수 있습니다. 이 비유에서 컬렉션은 문자열, 정수 또는 부동 소수점을 저장할 수 있지만 이러한 데이터 유형을 혼합하여 저장할 수는 없습니다.
+You can think of artifact types similar to data types in programming languages such as Python. In this analogy, a collection can store strings, integers, or floats but not a mix of these data types.
 {{% /alert %}}
 
-예를 들어, "데이터셋" 아티팩트 유형을 허용하는 컬렉션을 생성한다고 가정합니다. 이는 "데이터셋" 유형을 가진 미래의 Artifacts 버전만 이 컬렉션에 연결할 수 있음을 의미합니다. 마찬가지로, "모델" 아티팩트 유형만 허용하는 컬렉션에는 "모델" 유형의 Artifacts만 연결할 수 있습니다.
+For example, suppose you create a collection that accepts "dataset" artifact types. This means that you can only link future artifact versions that have the type "dataset" to this collection. Similarly, you can only link artifacts of type "model" to a collection that accepts only model artifact types.
 
 {{% alert %}}
-아티팩트 오브젝트를 생성할 때 아티팩트의 유형을 지정합니다. `wandb.Artifact()`의 `type` 필드를 참고하십시오.
+You specify an artifact's type when you create that artifact object. Note the `type` field in `wandb.Artifact()`:
 
 ```python
 import wandb
 
-# run 초기화
+# Initialize a run
 run = wandb.init(
   entity = "<team_entity>",
   project = "<project>"
   )
 
-# 아티팩트 오브젝트 생성
+# Create an artifact object
 artifact = wandb.Artifact(
     name="<artifact_name>", 
     type="<artifact_type>"
@@ -50,38 +50,39 @@ artifact = wandb.Artifact(
 {{% /alert %}}
  
 
-컬렉션을 생성할 때 미리 정의된 아티팩트 유형 목록에서 선택할 수 있습니다. 사용할 수 있는 아티팩트 유형은 컬렉션이 속한 레지스트리에 따라 다릅니다.
+When you create a collection, you can select from a list of predefined artifact types. The artifact types available to you depend on the registry that the collection belongs to. .
 
-Artifacts를 컬렉션에 연결하거나 새 컬렉션을 만들기 전에 [컬렉션이 허용하는 Artifacts 유형을 조사하십시오]({{< relref path="#check-the-types-of-artifact-that-a-collection-accepts" lang="ko" >}}).
+Before you link an artifact to a collection or create a new collection, [investigate the types of artifacts that collection accepts]({{< relref path="#check-the-types-of-artifact-that-a-collection-accepts" lang="ko" >}}).
 
-### 컬렉션이 허용하는 Artifacts 유형 확인
+### Check the types of artifact that a collection accepts
 
-컬렉션에 연결하기 전에 컬렉션이 허용하는 아티팩트 유형을 검사하십시오. W&B Python SDK를 사용하여 프로그래밍 방식으로 또는 W&B App을 사용하여 대화식으로 컬렉션이 허용하는 아티팩트 유형을 검사할 수 있습니다.
+Before you link to a collection, inspect the artifact type that the collection accepts. You can inspect the artifact types that collection accepts programmatically with the W&B Python SDK or interactively with the W&B App
 
 {{% alert %}}
-해당 아티팩트 유형을 허용하지 않는 컬렉션에 Artifacts를 연결하려고 하면 오류 메시지가 나타납니다.
+An error message appears if you try to create link an artifact to a collection that does not accept that artifact type.
 {{% /alert %}}
 
 {{< tabpane text=true >}}
   {{% tab header="W&B App" %}}
-홈페이지의 레지스트리 카드 또는 레지스트리의 설정 페이지에서 허용되는 아티팩트 유형을 찾을 수 있습니다.
+You can find the accepted artifact types on the registry card on the homepage or within a registry's settings page.
 
-두 방법 모두 먼저 W&B 레지스트리 App으로 이동합니다.
+For both methods, first navigate to your W&B Registry App.
 
-레지스트리 App의 홈페이지 내에서 해당 레지스트리의 레지스트리 카드로 스크롤하여 허용되는 아티팩트 유형을 볼 수 있습니다. 레지스트리 카드 내의 회색 가로 타원은 해당 레지스트리가 허용하는 아티팩트 유형을 나열합니다.
+Within the homepage of the Registry App, you can view the accepted artifact types by scrolling to the registry card of that registry. The gray horizontal ovals within the registry card lists the artifact types that registry accepts.
 
-{{< img src="/images/registry/artifact_types_model_card.png" alt="" >}}
+{{< img src="/images/registry/artifact_types_model_card.png" alt="Artifact types selection" >}}
 
-예를 들어, 위의 이미지는 레지스트리 App 홈페이지에 있는 여러 레지스트리 카드를 보여줍니다. **모델** 레지스트리 카드 내에서 **model** 및 **model-new**의 두 가지 아티팩트 유형을 볼 수 있습니다.
+For example, the preceding image shows multiple registry cards on the Registry App homepage. Within the **Model** registry card, you can see two artifact types: **model** and **model-new**. 
 
-레지스트리의 설정 페이지 내에서 허용되는 아티팩트 유형을 보려면:
 
-1. 설정을 보려는 레지스트리 카드를 클릭합니다.
-2. 오른쪽 상단 모서리에 있는 기어 아이콘을 클릭합니다.
-3. **허용되는 아티팩트 유형** 필드로 스크롤합니다.
+To view accepted artifact types within a registry's settings page:
+
+1. Click on the registry card you want to view the settings for.
+2. Click on the gear icon in the upper right corner.
+3. Scroll to the **Accepted artifact types** field.   
   {{% /tab %}}
   {{% tab header="Python SDK (Beta)" %}}
-W&B Python SDK를 사용하여 프로그래밍 방식으로 레지스트리가 허용하는 아티팩트 유형을 봅니다.
+Programmatically view the artifact types that a registry accepts with the W&B Python SDK:
 
 ```python
 import wandb
@@ -92,40 +93,43 @@ print(artifact_type.name for artifact_type in artifact_types)
 ```
 
 {{% alert %}}
-위의 코드 조각에서는 run을 초기화하지 않습니다. 실험, Artifacts 등을 추적하지 않고 W&B API를 쿼리하기만 하는 경우 run을 생성할 필요가 없기 때문입니다.
+Note that you do not initialize a run with the proceeding code snippet. This is because it is unnecessary to create a run if you are only querying the W&B API and not tracking an experiment, artifact and so on.
 {{% /alert %}}  
   {{% /tab %}}
 {{< /tabpane >}}
 
-컬렉션이 허용하는 아티팩트 유형을 알게 되면 [컬렉션을 생성]({{< relref path="#create-a-collection" lang="ko" >}})할 수 있습니다.
 
-## 컬렉션 생성
 
-레지스트리 내에서 대화식으로 또는 프로그래밍 방식으로 컬렉션을 생성합니다. 컬렉션을 생성한 후에는 컬렉션이 허용하는 아티팩트 유형을 변경할 수 없습니다.
+Once you know what type of artifact a collection accepts, you can [create a collection]({{< relref path="#create-a-collection" lang="ko" >}}).
 
-### 프로그래밍 방식으로 컬렉션 생성
 
-`wandb.init.link_artifact()` 메서드를 사용하여 Artifacts를 컬렉션에 연결합니다. `target_path` 필드에 컬렉션과 레지스트리를 모두 지정합니다. 경로는 다음과 같은 형식을 취합니다.
+## Create a collection
+
+Interactively or programmatically create a collection within a registry. You can not change the type of artifact that a collection accepts after you create it.
+
+### Programmatically create a collection
+
+Use the `wandb.init.link_artifact()` method to link an artifact to a collection. Specify both the collection and the registry to the `target_path` field as a path that takes the form of:
 
 ```python
 f"wandb-registry-{registry_name}/{collection_name}"
 ```
 
-여기서 `registry_name`은 레지스트리의 이름이고 `collection_name`은 컬렉션의 이름입니다. 레지스트리 이름에 접두사 `wandb-registry-`를 추가해야 합니다.
+Where `registry_name` is the name of the registry and `collection_name` is the name of the collection. Ensure to append the prefix `wandb-registry-` to the registry name.
 
 {{% alert %}}
-Artifacts를 존재하지 않는 컬렉션에 연결하려고 하면 W&B가 자동으로 컬렉션을 생성합니다. 존재하는 컬렉션을 지정하면 W&B는 Artifacts를 기존 컬렉션에 연결합니다.
+W&B automatically creates a collection for you if you try to link an artifact to a collection that does not exist. If you specify a collection that does exists, W&B links the artifact to the existing collection.
 {{% /alert %}}
 
-다음 코드 조각은 프로그래밍 방식으로 컬렉션을 생성하는 방법을 보여줍니다. `<>`로 묶인 다른 값들을 자신의 값으로 바꾸십시오.
+The proceeding code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 import wandb
 
-# run 초기화
+# Initialize a run
 run = wandb.init(entity = "<team_entity>", project = "<project>")
 
-# 아티팩트 오브젝트 생성
+# Create an artifact object
 artifact = wandb.Artifact(
   name = "<artifact_name>",
   type = "<artifact_type>"
@@ -135,27 +139,27 @@ registry_name = "<registry_name>"
 collection_name = "<collection_name>"
 target_path = f"wandb-registry-{registry_name}/{collection_name}"
 
-# Artifacts를 컬렉션에 연결
+# Link the artifact to a collection
 run.link_artifact(artifact = artifact, target_path = target_path)
 
 run.finish()
 ```
 
-### 대화식으로 컬렉션 생성
+### Interactively create a collection
 
-다음 단계는 W&B 레지스트리 App UI를 사용하여 레지스트리 내에서 컬렉션을 생성하는 방법을 설명합니다.
+The following steps describe how to create a collection within a registry using the W&B Registry App UI:
 
-1. W&B App UI에서 **레지스트리** App으로 이동합니다.
-2. 레지스트리를 선택합니다.
-3. 오른쪽 상단 모서리에 있는 **컬렉션 생성** 버튼을 클릭합니다.
-4. **이름** 필드에 컬렉션 이름을 입력합니다.
-5. **유형** 드롭다운에서 유형을 선택합니다. 또는 레지스트리에서 사용자 정의 아티팩트 유형을 활성화한 경우 이 컬렉션이 허용하는 하나 이상의 아티팩트 유형을 제공합니다.
-6. 선택적으로 **설명** 필드에 컬렉션에 대한 설명을 제공합니다.
-7. 선택적으로 **태그** 필드에 하나 이상의 태그를 추가합니다.
-8. **버전 연결**을 클릭합니다.
-9. **프로젝트** 드롭다운에서 Artifacts가 저장된 프로젝트를 선택합니다.
-10. **Artifacts** 컬렉션 드롭다운에서 Artifacts를 선택합니다.
-11. **버전** 드롭다운에서 컬렉션에 연결하려는 Artifacts 버전을 선택합니다.
-12. **컬렉션 생성** 버튼을 클릭합니다.
+1. Navigate to the **Registry** App in the W&B App UI.
+2. Select a registry.
+3. Click on the **Create collection** button in the upper right hand corner.
+4. Provide a name for your collection in the **Name** field. 
+5. Select a type from the **Type** dropdown. Or, if the registry enables custom artifact types, provide one or more artifact types that this collection accepts.
+6. Optionally provide a description of your collection in the **Description** field.
+7. Optionally add one or more tags in the **Tags** field. 
+8. Click **Link version**.
+9. From the **Project** dropdown, select the project where your artifact is stored.
+10. From the **Artifact** collection dropdown, select your artifact.
+11. From the **Version** dropdown, select the artifact version you want to link to your collection.
+12. Click on the **Create collection** button.
 
-{{< img src="/images/registry/create_collection.gif" alt="" >}}
+{{< img src="/images/registry/create_collection.gif" alt="Create a new collection" >}}

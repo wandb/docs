@@ -1,63 +1,96 @@
 ---
-title: run をフィルタリングし検索する
-description: プロジェクトページのサイドバーとテーブルの使い方
+description: How to use the sidebar and table on the project page
 menu:
   default:
     identifier: ja-guides-models-track-runs-filter-runs
     parent: what-are-runs
+title: Filter and search runs
 ---
 
-プロジェクトページを使用して、W&B にログされた run からインサイトを得ることができます。**Workspace** ページと **Runs** ページの両方で、run をフィルタリングおよび検索できます。
+Use your project page to gain insights from runs logged to W&B. You can filter and search runs from both the **Workspace** page and the **Runs** page.
 
-## run をフィルタリングする
+## Filter runs
 
-ステータス、タグ、またはその他のプロパティに基づいて、フィルター ボタンを使用して run をフィルタリングします。
+Filter runs based on their status, [tags]({{< relref path="#filter-runs-with-tags" lang="ja" >}}), [regular expressions (RegEx)]({{< relref path="#filter-runs-with-regular-expressions-regex" lang="ja" >}}) or other properties with the filter button.
 
-### タグで run をフィルタリングする
+See Customize run colors for more information on how to [edit, randomize, and reset run colors]({{< relref path="guides/models/track/runs/run-colors" lang="ja" >}}).
 
-フィルター ボタンを使用して、タグに基づいて run をフィルタリングします。
+### Filter runs with tags
 
-{{< img src="/images/app_ui/filter_runs.gif" alt="" >}}
+Filter runs based on their tags with the filter button.
 
-### 正規表現で run をフィルタリングする
+1. Click on the **Runs** tab from the project sidebar.
+2. Select the **Filter** button, which looks like a funnel, at the top of the runs table.
+3. From left to right, select `"Tags"` from the dropdown menu, select a logic operator, and select a filter search value.
 
-正規表現で望む結果が得られない場合は、[タグ]({{< relref path="tags.md" lang="ja" >}})を使用して Runs Table で run をフィルタリングすることができます。タグは run 作成時、または完了後に追加できます。一旦タグが run に追加されると、以下の gif に示されているように、タグ フィルターを追加できます。
+### Filter runs with regex
 
-{{< img src="/images/app_ui/tags.gif" alt="If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table" >}}
+If regex doesn't provide you the desired results, you can make use of [tags]({{< relref path="tags.md" lang="ja" >}}) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
 
-## run を検索する
+{{< img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" >}}
 
-指定した正規表現を使用して run を見つけるには、regex を使用します。検索ボックスにクエリを入力すると、ワークスペースのグラフで表示される run がフィルタリングされ、テーブルの行もフィルタリングされます。
+1. Click on the **Runs** tab from the project sidebar.
+2. Click on the search box at the top of the runs table.
+3. Ensure that the **RegEx** toggle (.*) is enabled (the toggle should be blue).
+4. Enter your regular expression in the search box.
 
-## run をグループ化する
+## Search runs
 
-1 つまたは複数の列（隠し列を含む）で run をグループ化するには:
+Use regular expressions (RegEx) to find runs with the regular expression you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
 
-1. 検索ボックスの下にある、罫線のついた紙のように見える **Group** ボタンをクリックします。
-2. 結果をグループ化する 1 つ以上の列を選択します。
-3. グループ化された各 run セットはデフォルトで折りたたまれています。展開するには、グループ名の横にある矢印をクリックします。
+## Group runs
 
-## 最小値と最大値で run を並べ替える
+To group runs by one or more columns (including hidden columns):
 
-ログされたメトリクスの最小値または最大値で run テーブルを並べ替えます。これは、記録された最良または最悪の値を表示したい場合に特に便利です。
+1. Below the search box, click the **Group** button, which looks like a lined sheet of paper.
+1. Select one or more columns to group results by.
+1. Each set of grouped runs is collapsed by default. To expand it, click the arrow next to the group name.
 
-次の手順は、記録された最小値または最大値に基づいて特定のメトリクスで run テーブルを並べ替える方法を説明します：
+## Sort runs by minimum and maximum values
+Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
 
-1. 並べ替えたいメトリクスを含む列にマウスを合わせます。
-2. ケバブ メニュー（三本の縦線）を選択します。
-3. ドロップダウンから、**Show min** または **Show max** を選択します。
-4. 同じドロップダウンから、**Sort by asc** または **Sort by desc** を選択して、それぞれ昇順または降順で並べ替えます。
+The following steps describe how to sort the run table by a specific metric based on the minimum or maximum recorded value:
 
-{{< img src="/images/app_ui/runs_min_max.gif" alt="" >}}
+1. Hover your mouse over the column with the metric you want to sort with.
+2. Select the kebab menu (three vertical lines).
+3. From the dropdown, select either **Show min** or **Show max**.
+4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
 
-## run の終了時間を検索する
+{{< img src="/images/app_ui/runs_min_max.gif" alt="Sort by min/max values" >}}
 
-クライアントプロセスからの最後のハートビートをログする `End Time` という名前の列を提供します。このフィールドはデフォルトでは非表示になっています。
+## Search End Time for runs
 
-{{< img src="/images/app_ui/search_run_endtime.png" alt="" >}}
+We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
 
-## run テーブルを CSV にエクスポートする
+{{< img src="/images/app_ui/search_run_endtime.png" alt="End Time column" >}}
 
-すべての run、ハイパーパラメーター、およびサマリーメトリクスのテーブルを、ダウンロード ボタンを使用して CSV にエクスポートします。
+## Export runs table to CSV
 
-{{< img src="/images/app_ui/export_to_csv.gif" alt="" >}}
+Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
+
+{{< img src="/images/app_ui/export_to_csv.gif" alt="Modal with preview of export to CSV" >}}
+<!-- ## Edit run colors
+
+When a new run is created, it is assigned a default color. You can edit the color for a given run by clicking the color preview.
+
+
+<!-- Look for a green dot next to the name of runs— this indicates they're active in the table and on the graph legends. -->
+
+<!-- ## Bulk select runs
+
+Delete multiple runs at once, or tag a group of runs— bulk selection makes it easier to keep the runs table organized.
+
+{{< img src="/images/app_ui/howto_bulk_select.gif" alt="" >}} -->
+
+<!-- ## Select all runs in table
+
+Click the checkbox in the upper left corner of the table, and click "Select all runs" to select every run that matches the current set of filters.
+
+{{< img src="/images/app_ui/all_runs_select.gif" alt="" >}} -->
+
+<!-- 
+## Search columns in the table
+
+Search for the columns in the table UI guide with the **Columns** button.
+
+{{< img src="/images/app_ui/search_columns.gif" alt="" >}} -->

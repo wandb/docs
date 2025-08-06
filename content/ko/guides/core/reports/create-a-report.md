@@ -1,63 +1,66 @@
 ---
-title: Create a report
-description: W&B App UI를 사용하거나 Weights & Biases SDK를 사용하여 프로그래밍 방식으로 W&B 리포트 를 만드세요.
+description: Create a W&B Report with the W&B App or programmatically.
 menu:
   default:
     identifier: ko-guides-core-reports-create-a-report
     parent: reports
+title: Create a report
 weight: 10
 ---
 
-W&B App UI 또는 W&B Python SDK를 사용하여 프로그래밍 방식으로 리포트를 대화식으로 생성합니다.
-
 {{% alert %}}
-예제는 [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)을 참조하십시오.
+W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
+Select a tab below to learn how to create a report in the W&B App or programmatically with the W&B Report and Workspace API.
+
+See this [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) for an example on how to programmatically create a report.
+
+
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
-1. W&B App에서 프로젝트 워크스페이스로 이동합니다.
-2. 워크스페이스의 오른쪽 상단에서 **Create report**(리포트 생성)를 클릭합니다.
+{{% tab header="W&B App" value="app" %}}
+1. Navigate to your project workspace in the W&B App.
+2. Click **Create report** in the upper right corner of your workspace.
 
-   {{< img src="/images/reports/create_a_report_button.png" alt="" >}}
+   {{< img src="/images/reports/create_a_report_button.png" alt="Create report button" >}}
 
-3. 모달이 나타납니다. 먼저 시작할 차트를 선택합니다. 리포트 인터페이스에서 나중에 차트를 추가하거나 삭제할 수 있습니다.
+3. A modal will appear. Select the charts you would like to start with. You can add or delete charts later from the report interface.
 
-    {{< img src="/images/reports/create_a_report_modal.png" alt="" >}}
+    {{< img src="/images/reports/create_a_report_modal.png" alt="Create report modal" >}}
 
-4. **Filter run sets**(run 세트 필터링) 옵션을 선택하여 새 run이 리포트에 추가되는 것을 방지합니다. 이 옵션을 켜거나 끌 수 있습니다. **Create report**(리포트 생성)를 클릭하면 리포트 탭에서 계속 작업할 수 있는 임시 리포트가 제공됩니다.
+4. Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
 {{% /tab %}}
 
 {{% tab header="Report tab" value="reporttab"%}}
-1. W&B App에서 프로젝트 워크스페이스로 이동합니다.
-2. 프로젝트에서 **Reports**(리포트) 탭(클립보드 이미지)을 선택합니다.
-3. 리포트 페이지에서 **Create Report**(리포트 생성) 버튼을 선택합니다.
+1. Navigate to your project workspace in the W&B App.
+2. Select to the **Reports** tab (clipboard image) in your project.
+3. Select the **Create Report** button on the report page. 
 
-   {{< img src="/images/reports/create_report_button.png" alt="" >}}
+   {{< img src="/images/reports/create_report_button.png" alt="Create report button" >}}
 {{% /tab %}}
 
-{{% tab header="W&B Python SDK" value="sdk"%}}
-`wandb` 라이브러리를 사용하여 프로그래밍 방식으로 리포트를 생성합니다.
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
+Create a report programmatically:
 
-1. W&B SDK 및 Workspaces API를 설치합니다:
+1. Install W&B SDK (`wandb`) and Report and Workspace API (`wandb-workspaces`):
     ```bash
     pip install wandb wandb-workspaces
     ```
-2. 다음으로 워크스페이스를 가져옵니다.
+2. Next, import workspaces
     ```python
     import wandb
     import wandb_workspaces.reports.v2 as wr
     ```       
-3. `wandb_workspaces.reports.v2.Report`로 리포트를 생성합니다. Report Class Public API([`wandb.apis.reports`]({{< relref path="/ref/python/public-api/api#reports" lang="ko" >}}))로 리포트 인스턴스를 생성합니다. 프로젝트 이름을 지정합니다.
+3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`]({{< relref path="/ref/python/public-api/api.md#reports" lang="ko" >}})). Specify a name for the project.   
     ```python
     report = wr.Report(project="report_standard")
-    ```
+    ```  
 
-4. 리포트를 저장합니다. `.save()` 메소드를 호출할 때까지 리포트가 W&B 서버에 업로드되지 않습니다.
+4. Save the report. Reports are not uploaded to the W&B server until you call the .`save()` method:
     ```python
     report.save()
     ```
 
-App UI 또는 프로그래밍 방식으로 리포트를 대화식으로 편집하는 방법에 대한 자세한 내용은 [리포트 편집]({{< relref path="/guides/core/reports/edit-a-report" lang="ko" >}})을 참조하십시오.
+For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report]({{< relref path="/guides/core/reports/edit-a-report" lang="ko" >}}).
 {{% /tab %}}
 {{< /tabpane >}}

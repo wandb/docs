@@ -1,21 +1,22 @@
 ---
-title: wandb job list
 menu:
   reference:
     identifier: ja-ref-cli-wandb-job-wandb-job-list
+title: wandb job list
 ---
 
-**使用法**
+**Usage**
 
 `wandb job list [OPTIONS]`
 
-**概要**
+**Summary**
 
-プロジェクト内のジョブを一覧表示
+List jobs in a project
 
-**オプション**
 
-| **オプション** | **説明** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |
-| `-p, --project` | ジョブを一覧表示したいプロジェクト。 |
-| `-e, --entity` | ジョブが所属するエンティティ |
+| `-p, --project` | The project you want to list jobs from. |
+| `-e, --entity` | The entity the jobs belong to |

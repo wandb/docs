@@ -1,15 +1,15 @@
 ---
-title: Python ファイルを編集すると、sweep 実行中に何が起こりますか？
 menu:
   support:
-    identifier: >-
-      ja-support-kb-articles-what_happens_if_i_edit_my_python_files_while_a_sweep_is_running
+    identifier: ja-support-kb-articles-what_happens_if_i_edit_my_python_files_while_a_sweep_is_running
 support:
-  - sweeps
+- sweeps
+title: What happens if I edit my Python files while a sweep is running?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-スイープが実行中の場合:
-- スイープが使用する `train.py` スクリプトが変更された場合、スイープは元の `train.py` を使用し続けます。
-- スイープが参照する `train.py` スクリプト内のファイルが変更された場合、例えば `helper.py` スクリプト内の補助関数など、スイープは更新された `helper.py` を使用し始めます。
+
+While a sweep is running:
+- If the `train.py` script which the sweep uses changes, the sweep continues to use the original `train.py`
+- If files that the `train.py` script references change, such as helper functions in the `helper.py` script, the sweep begins to use the updated `helper.py`.

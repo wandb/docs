@@ -1,36 +1,37 @@
 ---
-title: アーティファクトを削除する
-description: アプリ UI を使って対話的に、または W&B SDK を使用してプログラムでアーティファクトを削除します。
+description: Delete artifacts interactively with the App UI or programmatically with
+  the W&B SDK/
 menu:
   default:
     identifier: ja-guides-core-artifacts-manage-data-delete-artifacts
     parent: manage-data
+title: Delete an artifact
 ---
 
-アーティファクトは、App UI でインタラクティブに削除するか、W&B SDK でプログラム的に削除できます。アーティファクトを削除すると、W&B はそのアーティファクトを*ソフト削除*としてマークします。つまり、そのアーティファクトは削除予定としてマークされますが、ファイルはすぐにはストレージから削除されません。
+Delete artifacts interactively with the App UI or programmatically with the W&B SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
 
-アーティファクトの内容は、定期的に実行されるガベージコレクション プロセスが削除対象としてマークされたすべてのアーティファクトをレビューするまで、ソフト削除または削除保留状態のままです。ガベージコレクションプロセスは、アーティファクトおよびその関連ファイルが以前または後のアーティファクトバージョンで使用されていない場合、関連ファイルをストレージから削除します。
+The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
 
-このページのセクションでは、特定のアーティファクトバージョンの削除方法、アーティファクトコレクションの削除方法、エイリアスを持つアーティファクトの削除方法、エイリアスがないアーティファクトの削除方法などについて説明します。アーティファクトが W&B から削除される時間を TTL ポリシーでスケジュールできます。詳細については、[Artifact TTL ポリシーによるデータ保持の管理]({{< relref path="./ttl.md" lang="ja" >}})を参照してください。
+The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy]({{< relref path="./ttl.md" lang="ja" >}}).
 
 {{% alert %}}
-TTL ポリシーで削除予定のアーティファクト、W&B SDK で削除されたアーティファクト、または W&B App UI で削除されたアーティファクトは、最初にソフト削除されます。ソフト削除されたアーティファクトは、最終的にハード削除される前にガベージコレクションを受けます。
+Artifacts that are scheduled for deletion with a TTL policy, deleted with the W&B SDK, or deleted with the W&B App UI are first soft-deleted. Artifacts that are soft deleted undergo garbage collection before they are hard-deleted.
 {{% /alert %}}
 
-### アーティファクトバージョンの削除
+### Delete an artifact version
 
-アーティファクトバージョンを削除するには:
+To delete an artifact version:
 
-1. アーティファクトの名前を選択します。これにより、アーティファクトビューが拡張され、そのアーティファクトに関連付けられたすべてのアーティファクトバージョンが一覧表示されます。
-2. アーティファクトのリストから、削除したいアーティファクトバージョンを選択します。
-3. ワークスペースの右側にあるケバブドロップダウンを選択します。
-4. 「Delete」を選択します。
+1. Select the name of the artifact. This will expand the artifact view and list all the artifact versions associated with that artifact.
+2. From the list of artifacts, select the artifact version you want to delete.
+3. On the right hand side of the workspace, select the kebab dropdown.
+4. Choose Delete.
 
-アーティファクトバージョンは、[delete()]({{< relref path="/ref/python/artifact#delete" lang="ja" >}}) メソッドを使用してプログラム的にも削除できます。以下の例を参照してください。
+An artifact version can also be deleted programatically via the [delete()]({{< relref path="/ref/python/sdk/classes/artifact.md#delete" lang="ja" >}}) method. See the examples below. 
 
-### エイリアスを持つ複数のアーティファクトバージョンの削除
+### Delete multiple artifact versions with aliases
 
-次のコード例は、エイリアスを持つアーティファクトを削除する方法を示しています。アーティファクトを作成したエンティティ、プロジェクト名、および run ID を指定してください。
+The following code example demonstrates how to delete artifacts that have aliases associated with them. Provide the entity, project name, and run ID that created the artifacts.
 
 ```python
 import wandb
@@ -41,7 +42,7 @@ for artifact in run.logged_artifacts():
     artifact.delete()
 ```
 
-アーティファクトに 1 つ以上のエイリアスがある場合、`delete_aliases` パラメータをブール値 `True` に設定してエイリアスを削除します。
+Set the `delete_aliases` parameter to the boolean value, `True` to delete aliases if the artifact has one or more aliases.
 
 ```python
 import wandb
@@ -49,59 +50,61 @@ import wandb
 run = api.run("entity/project/run_id")
 
 for artifact in run.logged_artifacts():
-    # delete_aliases=True を設定して、
-    # エイリアスを 1 つ以上持つアーティファクトを削除します
+    # Set delete_aliases=True in order to delete
+    # artifacts with one more aliases
     artifact.delete(delete_aliases=True)
 ```
 
-### 特定のエイリアスを持つ複数のアーティファクトバージョンを削除
+### Delete multiple artifact versions with a specific alias
 
-以下のコードは、特定のエイリアスを持つ複数のアーティファクトバージョンを削除する方法を示しています。アーティファクトを作成したエンティティ、プロジェクト名、および run ID を指定します。削除ロジックは独自のものに置き換えてください:
+The proceeding code demonstrates how to delete multiple artifact versions that have a specific alias. Provide the entity, project name, and run ID that created the artifacts. Replace the deletion logic with your own:
 
 ```python
 import wandb
 
 runs = api.run("entity/project_name/run_id")
 
-# 'v3' および 'v4' のエイリアスを持つアーティファクトを削除
+# Delete artifact ith alias 'v3' and 'v4
 for artifact_version in runs.logged_artifacts():
-    # 独自の削除ロジックに置き換えます。
+    # Replace with your own deletion logic.
     if artifact_version.name[-2:] == "v3" or artifact_version.name[-2:] == "v4":
         artifact.delete(delete_aliases=True)
 ```
 
-### エイリアスを持たないアーティファクトのすべてのバージョンを削除
+### Delete all versions of an artifact that do not have an alias
 
-次のコードスニペットは、エイリアスを持たないアーティファクトのすべてのバージョンを削除する方法を示しています。`wandb.Api` の `project` および `entity` キーにプロジェクト名とエンティティの名前をそれぞれ指定してください。`<>` をアーティファクトの名前に置き換えてください:
+The following code snippet demonstrates how to delete all versions of an artifact that do not have an alias. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively. Replace the `<>` with the name of your artifact:
 
 ```python
 import wandb
 
-# wandb.Api メソッドを使用する際に、エンティティとプロジェクト名を指定してください。
+# Provide your entity and a project name when you
+# use wandb.Api methods.
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
 
-artifact_type, artifact_name = "<>"  # タイプと名前を指定
+artifact_type, artifact_name = "<>"  # provide type and name
 for v in api.artifact_versions(artifact_type, artifact_name):
-    # 'latest' などのエイリアスを持たないバージョンをクリーンアップします。
-    # 注意: ここには任意の削除ロジックを置くことができます。
+    # Clean up versions that don't have an alias such as 'latest'.
+    # NOTE: You can put whatever deletion logic you want here.
     if len(v.aliases) == 0:
         v.delete()
 ```
 
-### アーティファクトコレクションの削除
+### Delete an artifact collection
 
-アーティファクトコレクションを削除するには:
+To delete an artifact collection:
 
-1. 削除したいアーティファクトコレクションに移動し、その上にカーソルを合わせます。
-2. アーティファクトコレクション名の横にあるケバブドロップダウンを選択します。
-4. 「Delete」を選択します。
+1. Navigate to the artifact collection you want to delete and hover over it.
+3. Select the kebab dropdown next to the artifact collection name.
+4. Choose Delete.
 
-アーティファクトコレクションは、[delete()]({{< relref path="/ref/python/artifact.md#delete" lang="ja" >}}) メソッドを使用してプログラムで削除することもできます。`wandb.Api` の `project` および `entity` キーにプロジェクト名とエンティティの名前を指定してください:
+You can also delete artifact collection programmatically with the [delete()]({{< relref path="/ref/python/sdk/classes/artifact.md#delete" lang="ja" >}}) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
 
 ```python
 import wandb
 
-# wandb.Api メソッドを使用する際に、エンティティとプロジェクト名を指定してください。
+# Provide your entity and a project name when you
+# use wandb.Api methods.
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
 collection = api.artifact_collection(
     "<artifact_type>", "entity/project/artifact_collection_name"
@@ -109,29 +112,31 @@ collection = api.artifact_collection(
 collection.delete()
 ```
 
-## W&B がホストされている方法に基づいたガベージコレクションの有効化方法
+## How to enable garbage collection based on how W&B is hosted
+Garbage collection is enabled by default if you use W&B's shared cloud. Based on how you host W&B, you might need to take additional steps to enable garbage collection, this includes:
 
-W&B の共有クラウドを使用している場合、ガベージコレクションはデフォルトで有効です。W&B をホストする方法に基づいて、ガベージコレクションを有効にするために追加の手順が必要な場合があります。これには以下が含まれます:
 
-* `GORILLA_ARTIFACT_GC_ENABLED` 環境変数を true に設定: `GORILLA_ARTIFACT_GC_ENABLED=true`
-* [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html)、[GCP](https://cloud.google.com/storage/docs/object-versioning) または [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning) などのストレージプロバイダーを使用している場合は、バケットバージョン管理を有効にします。Azure を使用している場合は、[ソフト削除を有効](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview)にします。
+* Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
+* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/object-versioning) or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview).
   {{% alert %}}
-  Azure のソフト削除は、他のストレージプロバイダーでのバケットバージョン管理に相当します。
+  Soft deletion in Azure is equivalent to bucket versioning in other storage providers.
   {{% /alert %}}
 
-以下の表は、デプロイメントタイプに基づいてガベージコレクションを有効にするための要件を満たす方法を説明しています。
+The following table describes how to satisfy requirements to enable garbage collection based on your deployment type. 
 
-`X` は要件を満たす必要があることを示します:
+The `X` indicates you must satisfy the requirement:
 
-|                                                | 環境変数                 | バージョン管理の有効化 | 
+|                                                | Environment variable    | Enable versioning | 
 | -----------------------------------------------| ------------------------| ----------------- | 
-| 共有クラウド                                   |                         |                   | 
-| [セキュアストレージコネクタ]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) を使用した共有クラウド |                         | X                 | 
-| 専用クラウド                                |                         |                   | 
-| [セキュアストレージコネクタ]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) を使用した専用クラウド |                         | X                 | 
-| カスタマーマネージドクラウド                         | X                       | X                 | 
-| カスタマーマネージドオンプレミス                       | X                       | X                 |
+| Shared cloud                                   |                         |                   | 
+| Shared cloud with [secure storage connector]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}})|                         | X                 | 
+| Dedicated cloud                                |                         |                   | 
+| Dedicated cloud with [secure storage connector]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}})|                         | X                 | 
+| Customer-managed cloud                         | X                       | X                 | 
+| Customer managed on-prem                       | X                       | X                 |
+ 
 
-{{% alert %}}注意
-セキュアストレージコネクタは現在、Google Cloud Platform および Amazon Web Services のみで利用可能です。
+
+{{% alert %}}note
+Secure storage connector is currently only available for Google Cloud Platform and Amazon Web Services.
 {{% /alert %}}

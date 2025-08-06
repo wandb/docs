@@ -1,170 +1,171 @@
 ---
-title: project
 menu:
   reference:
     identifier: ko-ref-query-panel-project
+title: project
 ---
 
 ## Chainable Ops
 <h3 id="project-artifact"><code>project-artifact</code></h3>
 
-[project](project.md) 내에서 지정된 이름의 [artifact](artifact.md)를 반환합니다.
+Returns the [artifact](artifact.md) for a given name within a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
-| `artifactName` | [artifact](artifact.md)의 이름 |
+| `project` | A [project](project.md) |
+| `artifactName` | The name of the [artifact](artifact.md) |
 
 #### Return Value
-[project](project.md) 내에서 지정된 이름의 [artifact](artifact.md)
+The [artifact](artifact.md) for a given name within a [project](project.md)
 
 <h3 id="project-artifactType"><code>project-artifactType</code></h3>
 
-[project](project.md) 내에서 지정된 이름의 [artifactType](artifact-type.md)을 반환합니다.
+Returns the [artifactType](artifact-type.md for a given name within a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
-| `artifactType` | [artifactType](artifact-type.md)의 이름 |
+| `project` | A [project](project.md) |
+| `artifactType` | The name of the [artifactType](artifact-type.md |
 
 #### Return Value
-[project](project.md) 내에서 지정된 이름의 [artifactType](artifact-type.md)
+The [artifactType](artifact-type.md for a given name within a [project](project.md)
 
 <h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
 
-[project](project.md)에 대한 [artifactTypes](artifact-type.md)를 반환합니다.
+Returns the [artifactTypes](artifact-type.md for a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
+| `project` | A [project](project.md) |
 
 #### Return Value
-[project](project.md)에 대한 [artifactTypes](artifact-type.md)
+The [artifactTypes](artifact-type.md for a [project](project.md)
 
 <h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
 
-[project](project.md) 내에서 지정된 이름 및 버전에 대한 [artifactVersion](artifact-version.md)을 반환합니다.
+Returns the [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
-| `artifactName` | [artifactVersion](artifact-version.md)의 이름 |
-| `artifactVersionAlias` | [artifactVersion](artifact-version.md)의 버전 에일리어스 |
+| `project` | A [project](project.md) |
+| `artifactName` | The name of the [artifactVersion](artifact-version.md |
+| `artifactVersionAlias` | The version alias of the [artifactVersion](artifact-version.md |
 
 #### Return Value
-[project](project.md) 내에서 지정된 이름 및 버전에 대한 [artifactVersion](artifact-version.md)
+The [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
 
 <h3 id="project-createdAt"><code>project-createdAt</code></h3>
 
-[project](project.md)의 생성 시간을 반환합니다.
+Returns the creation time of the [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
+| `project` | A [project](project.md) |
 
 #### Return Value
-[project](project.md)의 생성 시간
+The creation time of the [project](project.md)
 
 <h3 id="project-name"><code>project-name</code></h3>
 
-[project](project.md)의 이름을 반환합니다.
+Returns the name of the [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
+| `project` | A [project](project.md) |
 
 #### Return Value
-[project](project.md)의 이름
+The name of the [project](project.md)
 
 <h3 id="project-runs"><code>project-runs</code></h3>
 
-[project](project.md)에서 [runs](run.md)를 반환합니다.
+Returns the [runs](run.md) from a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
+| `project` | A [project](project.md) |
 
 #### Return Value
-[project](project.md)에서 [runs](run.md)
+The [runs](run.md) from a [project](project.md)
+
 
 ## List Ops
 <h3 id="project-artifact"><code>project-artifact</code></h3>
 
-[project](project.md) 내에서 지정된 이름의 [artifact](artifact.md)를 반환합니다.
+Returns the [artifact](artifact.md) for a given name within a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
-| `artifactName` | [artifact](artifact.md)의 이름 |
+| `project` | A [project](project.md) |
+| `artifactName` | The name of the [artifact](artifact.md) |
 
 #### Return Value
-[project](project.md) 내에서 지정된 이름의 [artifact](artifact.md)
+The [artifact](artifact.md) for a given name within a [project](project.md)
 
 <h3 id="project-artifactType"><code>project-artifactType</code></h3>
 
-[project](project.md) 내에서 지정된 이름의 [artifactType](artifact-type.md)을 반환합니다.
+Returns the [artifactType](artifact-type.md for a given name within a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
-| `artifactType` | [artifactType](artifact-type.md)의 이름 |
+| `project` | A [project](project.md) |
+| `artifactType` | The name of the [artifactType](artifact-type.md |
 
 #### Return Value
-[project](project.md) 내에서 지정된 이름의 [artifactType](artifact-type.md)
+The [artifactType](artifact-type.md for a given name within a [project](project.md)
 
 <h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
 
-[project](project.md)에 대한 [artifactTypes](artifact-type.md)를 반환합니다.
+Returns the [artifactTypes](artifact-type.md for a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
+| `project` | A [project](project.md) |
 
 #### Return Value
-[project](project.md)에 대한 [artifactTypes](artifact-type.md)
+The [artifactTypes](artifact-type.md for a [project](project.md)
 
 <h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
 
-[project](project.md) 내에서 지정된 이름 및 버전에 대한 [artifactVersion](artifact-version.md)을 반환합니다.
+Returns the [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
-| `artifactName` | [artifactVersion](artifact-version.md)의 이름 |
-| `artifactVersionAlias` | [artifactVersion](artifact-version.md)의 버전 에일리어스 |
+| `project` | A [project](project.md) |
+| `artifactName` | The name of the [artifactVersion](artifact-version.md |
+| `artifactVersionAlias` | The version alias of the [artifactVersion](artifact-version.md |
 
 #### Return Value
-[project](project.md) 내에서 지정된 이름 및 버전에 대한 [artifactVersion](artifact-version.md)
+The [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
 
 <h3 id="project-createdAt"><code>project-createdAt</code></h3>
 
-[project](project.md)의 생성 시간을 반환합니다.
+Returns the creation time of the [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
+| `project` | A [project](project.md) |
 
 #### Return Value
-[project](project.md)의 생성 시간
+The creation time of the [project](project.md)
 
 <h3 id="project-name"><code>project-name</code></h3>
 
-[project](project.md)의 이름을 반환합니다.
+Returns the name of the [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
+| `project` | A [project](project.md) |
 
 #### Return Value
-[project](project.md)의 이름
+The name of the [project](project.md)
 
 <h3 id="project-runs"><code>project-runs</code></h3>
 
-[project](project.md)에서 [runs](run.md)를 반환합니다.
+Returns the [runs](run.md) from a [project](project.md)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | [project](project.md) |
+| `project` | A [project](project.md) |
 
 #### Return Value
-[project](project.md)에서 [runs](run.md)
+The [runs](run.md) from a [project](project.md)

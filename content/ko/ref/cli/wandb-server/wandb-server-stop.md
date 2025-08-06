@@ -1,19 +1,20 @@
 ---
-title: wandb server stop
 menu:
   reference:
     identifier: ko-ref-cli-wandb-server-wandb-server-stop
+title: wandb server stop
 ---
 
-**사용법**
+**Usage**
 
 `wandb server stop [OPTIONS]`
 
-**요약**
+**Summary**
 
-로컬 W&B 서버를 중지합니다.
+Stop a local W&B server
 
-**옵션**
 
-| **옵션** | **설명** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |

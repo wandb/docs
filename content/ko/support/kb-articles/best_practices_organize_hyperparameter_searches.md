@@ -1,5 +1,4 @@
 ---
-title: Best practices to organize hyperparameter searches
 menu:
   support:
     identifier: ko-support-kb-articles-best_practices_organize_hyperparameter_searches
@@ -7,11 +6,13 @@ support:
 - hyperparameter
 - sweeps
 - runs
+title: Best practices to organize hyperparameter searches
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-`wandb.init(tags='your_tag')` 로 고유 태그를 설정합니다. 이렇게 하면 프로젝트 페이지의 Runs Table에서 해당 태그를 선택하여 프로젝트 run을 효율적으로 필터링할 수 있습니다.
+Set unique tags with `wandb.init(tags='your_tag')`. This allows efficient filtering of project runs by selecting the corresponding tag in a Project Page's Runs Table. 
 
-wandb.int에 대한 자세한 내용은 [documentation]({{< relref path="/ref/python/init.md" lang="ko" >}})을 참조하세요.
+
+For more information on `wandb.init()`, see the [`wandb.init()` reference]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}}).

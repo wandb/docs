@@ -1,41 +1,43 @@
 ---
-title: YOLOX
-description: W&B와 YOLOX를 통합하는 방법
+description: How to integrate W&B with YOLOX.
 menu:
   default:
     identifier: ko-guides-integrations-yolox
     parent: integrations
+title: YOLOX
 weight: 490
 ---
 
-[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) 는 오브젝트 검출을 위한 강력한 성능을 가진 앵커 프리 버전의 YOLO입니다. YOLOX W&B 인테그레이션을 사용하면 트레이닝, 검증, 시스템 관련 메트릭의 로깅을 켤 수 있으며, 단일 커맨드라인 인수로 예측값을 대화형으로 검증할 수 있습니다.
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. You can use the YOLOX W&B integration to turn on logging of metrics related to training, validation, and the system, and you can interactively validate predictions with a single command-line argument.
 
-## 가입하고 API 키 만들기
+## Sign up and create an API key
 
-API 키는 사용자의 머신을 W&B에 인증합니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-보다 간소화된 접근 방식을 원하시면 [https://wandb.ai/authorize](https://wandb.ai/authorize) 로 직접 이동하여 API 키를 생성할 수 있습니다. 표시된 API 키를 복사하여 비밀번호 관리자와 같은 안전한 위치에 저장하세요.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
-1. 오른쪽 상단 모서리에 있는 사용자 프로필 아이콘을 클릭합니다.
-2. **User Settings** 를 선택한 다음 **API Keys** 섹션으로 스크롤합니다.
-3. **Reveal** 을 클릭합니다. 표시된 API 키를 복사합니다. API 키를 숨기려면 페이지를 새로 고침하십시오.
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
-## `wandb` 라이브러리 설치 및 로그인
+## Install the `wandb` library and log in
 
-`wandb` 라이브러리를 로컬에 설치하고 로그인하려면 다음을 수행합니다.
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. `WANDB_API_KEY` [환경 변수]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}}) 를 API 키로 설정합니다.
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}}) to your API key.
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-2. `wandb` 라이브러리를 설치하고 로그인합니다.
+1. Install the `wandb` library and log in.
+
+
 
     ```shell
     pip install wandb
@@ -69,17 +71,17 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## 메트릭 로그
+## Log metrics
 
-`--logger wandb` 커맨드 라인 인수를 사용하여 wandb로 로깅을 켭니다. 선택적으로 [`wandb.init`]({{< relref path="/ref/python/init" lang="ko" >}}) 가 예상하는 모든 인수를 전달할 수도 있습니다. 각 인수 앞에 `wandb-` 를 붙입니다.
+Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}}) expects; prepend each argument with `wandb-`.
 
-`num_eval_imges` 는 모델 평가를 위해 W&B 테이블에 기록되는 검증 세트 이미지 및 예측값의 수를 제어합니다.
+`num_eval_imges` controls the number of validation set images and predictions that are  logged to W&B tables for model evaluation.
 
 ```shell
-# wandb에 로그인
+# login to wandb
 wandb login
 
-# `wandb` 로거 인수로 yolox 트레이닝 스크립트를 호출합니다.
+# call your yolox training script with the `wandb` logger argument
 python tools/train.py .... --logger wandb \
                 wandb-project <project-name> \
                 wandb-entity <entity>
@@ -90,10 +92,10 @@ python tools/train.py .... --logger wandb \
                 wandb-log_checkpoints <bool>
 ```
 
-## 예시
+## Example
 
-[YOLOX 트레이닝 및 검증 메트릭이 포함된 예시 대시보드 ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
+[Example dashboard with YOLOX training and validation metrics ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
 
-{{< img src="/images/integrations/yolox_example_dashboard.png" alt="" >}}
+{{< img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX training dashboard" >}}
 
-이 W&B 인테그레이션에 대한 질문이나 문제가 있으십니까? [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX) 에 이슈를 여세요.
+Any questions or issues about this W&B integration? Open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).

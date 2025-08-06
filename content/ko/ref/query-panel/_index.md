@@ -1,5 +1,4 @@
 ---
-title: Query Expression Language
 cascade:
   menu:
     reference:
@@ -8,12 +7,13 @@ menu:
   reference:
     identifier: ko-ref-query-panel-_index
     parent: reference
+title: Query Expression Language
 ---
 
-쿼리 표현식을 사용하여 run 및 project 전반에서 데이터를 선택하고 집계합니다.
-[쿼리 패널]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ko" >}})에 대해 자세히 알아보세요.
+Use the query expressions to select and aggregate data across runs and projects. 
+Learn more about [query panels]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ko" >}}).
 
-## 데이터 유형
+## Data Types
 
 * [artifact](./artifact.md)
 * [artifactType](./artifact-type.md)

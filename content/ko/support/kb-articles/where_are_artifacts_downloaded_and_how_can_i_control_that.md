@@ -1,25 +1,25 @@
 ---
-title: Where are artifacts downloaded, and how can I control that?
 menu:
   support:
     identifier: ko-support-kb-articles-where_are_artifacts_downloaded_and_how_can_i_control_that
 support:
 - artifacts
 - environment variables
+title: Where are artifacts downloaded, and how can I control that?
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-기본적으로 아티팩트는 `artifacts/` 폴더에 다운로드됩니다. 위치를 변경하려면 다음을 수행하세요.
+By default, artifacts download to the `artifacts/` folder. To change the location:
 
-- [`wandb.Artifact().download`]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}}) 에 전달합니다.
+- Pass it to [`wandb.Artifact().download`]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}}):
 
     ```python
     wandb.Artifact().download(root="<path_to_download>")
     ```
 
-- `WANDB_ARTIFACT_DIR` [환경 변수]({{< relref path="guides/models/track/environment-variables.md" lang="ko" >}}) 를 설정합니다.
+- Set the `WANDB_ARTIFACT_DIR` [environment variable]({{< relref path="guides/models/track/environment-variables.md" lang="ko" >}}):
 
     ```python
     import os

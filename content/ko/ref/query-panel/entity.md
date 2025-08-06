@@ -1,53 +1,53 @@
 ---
-title: entity
 menu:
   reference:
     identifier: ko-ref-query-panel-entity
+title: entity
 ---
 
-## 연결 가능한 Ops
+## Chainable Ops
 <h3 id="entity-link"><code>entity-link</code></h3>
 
-[Entities](entity.md) 링크를 반환합니다.
+Returns the link of the [entity](entity.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `entity` | [Entities](entity.md) |
+| `entity` | A [entity](entity.md) |
 
-#### 반환 값
-[Entities](entity.md) 링크
+#### Return Value
+The link of the [entity](entity.md)
 
 <h3 id="entity-name"><code>entity-name</code></h3>
 
-[Entities](entity.md) 이름을 반환합니다.
+Returns the name of the [entity](entity.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `entity` | [Entities](entity.md) |
+| `entity` | A [entity](entity.md) |
 
-#### 반환 값
-[Entities](entity.md) 이름
+#### Return Value
+The name of the [entity](entity.md)
 
 
-## 목록 Ops
+## List Ops
 <h3 id="entity-link"><code>entity-link</code></h3>
 
-[Entities](entity.md) 링크를 반환합니다.
+Returns the link of the [entity](entity.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `entity` | [Entities](entity.md) |
+| `entity` | A [entity](entity.md) |
 
-#### 반환 값
-[Entities](entity.md) 링크
+#### Return Value
+The link of the [entity](entity.md)
 
 <h3 id="entity-name"><code>entity-name</code></h3>
 
-[Entities](entity.md) 이름을 반환합니다.
+Returns the name of the [entity](entity.md)
 
-| 인수 |  |
+| Argument |  |
 | :--- | :--- |
-| `entity` | [Entities](entity.md) |
+| `entity` | A [entity](entity.md) |
 
-#### 반환 값
-[Entities](entity.md) 이름
+#### Return Value
+The name of the [entity](entity.md)

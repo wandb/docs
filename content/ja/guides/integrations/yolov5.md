@@ -1,43 +1,42 @@
 ---
-title: YOLOv5
 menu:
   default:
     identifier: ja-guides-integrations-yolov5
     parent: integrations
+title: YOLOv5
 weight: 470
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/yolo/Train_and_Debug_YOLOv5_Models_with_Weights_%26_Biases_.ipynb" >}}
 
-[Ultralytics' YOLOv5](https://ultralytics.com/yolo) ("You Only Look Once") モデルファミリーは、畳み込みニューラルネットワークを使用したリアルタイムのオブジェクト検出を、苦痛なく実現します。
+[Ultralytics' YOLOv5](https://ultralytics.com/yolo) ("You Only Look Once") model family enables real-time object detection with convolutional neural networks without all the agonizing pain.
 
-[Weights & Biases](http://wandb.com) は YOLOv5 に直接インテグレーションされており、実験のメトリクス追跡、モデルとデータセットのバージョン管理、リッチなモデル予測の可視化などを提供します。**YOLO の実験を実行する前に `pip install` 一行を実行するだけで始められます。**
+[W&B](https://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **It's as easy as running a single `pip install` before you run your YOLO experiments.**
 
 {{% alert %}}
-すべての W&B ログ機能は、[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) などのデータ並列マルチGPUトレーニングと互換性があります。
+All W&B logging features are compatible with data-parallel multi-GPU training, such as with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
 {{% /alert %}}
 
-## コア実験の追跡
-
-`wandb` をインストールするだけで、システムメトリクス、モデルメトリクス、インタラクティブな[ダッシュボード]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}})にログされるメディアといった、ビルトインの W&B [ログ機能]({{< relref path="/guides/models/track/log/" lang="ja" >}})が有効になります。
+## Track core experiments
+Simply by installing `wandb`, you'll activate the built-in W&B [logging features]({{< relref path="/guides/models/track/log/" lang="ja" >}}): system metrics, model metrics, and media logged to interactive [Dashboards]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}).
 
 ```python
 pip install wandb
 git clone https://github.com/ultralytics/yolov5.git
-python yolov5/train.py  # 小さなデータセットで小さなネットワークをトレーニングします
+python yolov5/train.py  # train a small network on a small dataset
 ```
 
-wandb によって標準出力に表示されるリンクをただフォローするだけです。
+Just follow the links printed to the standard out by wandb.
 
-{{< img src="/images/integrations/yolov5_experiment_tracking.png" alt="これらのチャートおよびそれ以上。" >}}
+{{< img src="/images/integrations/yolov5_experiment_tracking.png" alt="All these charts and more." >}}
 
-## インテグレーションのカスタマイズ
+## Customize the integration
 
-YOLO にいくつかの簡単なコマンドライン引数を渡すことで、さらに多くの W&B 機能を活用できます。
+By passing a few simple command line arguments to YOLO, you can take advantage of even more W&B features.
 
-* `--save_period` に数値を渡すと、W&B は各 `save_period` エポックの終わりに[モデルバージョン]({{< relref path="/guides/core/registry/" lang="ja" >}})を保存します。モデルバージョンにはモデルの重みが含まれ、検証セットで最もパフォーマンスの良いモデルにタグ付けされます。
-* `--upload_dataset` フラグをオンにすると、データセットがデータバージョン管理のためにアップロードされます。
-* `--bbox_interval` に数値を渡すと、[データ可視化]({{< relref path="../" lang="ja" >}})が有効になります。各 `bbox_interval` エポックの終わりに、モデルの出力が検証セットに対して W&B にアップロードされます。
+* If you pass a number to `--save_period`, W&B saves a [model version]({{< relref path="/guides/core/registry/" lang="ja" >}}) at the end of every `save_period` epochs. The model version includes the model weights and tags the best-performing model in the validation set.
+* Turning on the `--upload_dataset` flag will also upload the dataset for data versioning.
+* Passing a number to `--bbox_interval` will turn on [data visualization]({{< relref path="../" lang="ja" >}}). At the end of every `bbox_interval` epochs, the outputs of the model on the validation set will be uploaded to W&B.
 
 {{< tabpane text=true >}}
 {{% tab header="Model Versioning Only" value="modelversioning" %}}
@@ -58,15 +57,15 @@ python yolov5/train.py --epochs 20 --save_period 1 \
 {{< /tabpane >}}
 
 {{% alert %}}
-すべての W&B アカウントには、データセットとモデル用に 100 GB の無料ストレージが付属しています。
+Every W&B account comes with 100 GB of free storage for datasets and models.
 {{% /alert %}}
 
-これがどのように見えるかを示します。
+Here's what that looks like.
 
-{{< img src="/images/integrations/yolov5_model_versioning.png" alt="モデルバージョン管理: 最新かつベストなモデルバージョンが識別されます。" >}}
+{{< img src="/images/integrations/yolov5_model_versioning.png" alt="Model versioning" >}}
 
-{{< img src="/images/integrations/yolov5_data_visualization.png" alt="データ可視化: 入力画像とモデルの出力および例ごとのメトリクスを比較します。" >}}
+{{< img src="/images/integrations/yolov5_data_visualization.png" alt="Data visualization" >}}
 
 {{% alert %}}
-データとモデルのバージョン管理により、セットアップ不要で任意のデバイスから一時停止またはクラッシュした実験を再開できます。[詳細は Colab を確認してください](https://wandb.me/yolo-colab)。
+With data and model versioning, you can resume paused or crashed experiments from any device, no setup necessary. Check out [the Colab ](https://wandb.me/yolo-colab) for details.
 {{% /alert %}}

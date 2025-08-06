@@ -1,49 +1,51 @@
 ---
-title: PaddleDetection
-description: W&B を PaddleDetection と統合する方法。
+description: How to integrate W&B with PaddleDetection.
 menu:
   default:
     identifier: ja-guides-integrations-paddledetection
     parent: integrations
+title: PaddleDetection
 weight: 270
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing" >}}
 
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) は、[PaddlePaddle](https://github.com/PaddlePaddle/Paddle) に基づくエンドツーエンドの物体検出開発キットです。ネットワークコンポーネント、データ拡張、損失などの設定可能なモジュールを使用して、さまざまな主流オブジェクトを検出し、インスタンスをセグメント化し、キーポイントを追跡および検出します。
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) is an end-to-end object-detection development kit based on [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). It detects various mainstream objects, segments instances, and tracks and detects keypoints using configurable modules such as network components, data augmentations, and losses.
 
-PaddleDetection には、トレーニングと検証のメトリクス、モデルチェックポイント、およびそれに対応するメタデータをログするための W&B インテグレーションが組み込まれています。
+PaddleDetection now includes a built-in W&B integration which logs all your training and validation metrics, as well as your model checkpoints and their corresponding metadata.
 
-PaddleDetection `WandbLogger` は、トレーニングと評価のメトリクスを Weights & Biases にログし、トレーニング中にモデルチェックポイントも記録します。
+The PaddleDetection `WandbLogger` logs your training and evaluation metrics to W&B as well as your model checkpoints while training.
 
-[**W&B ブログ記事を読む**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) では、YOLOX モデルを `COCO2017` データセットのサブセットで PaddleDetectionと統合する方法を示しています。
+[Read a W&B blog post](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) which illustrates how to integrate a YOLOX model with PaddleDetection on a subset of the `COCO2017` dataset.
 
-## サインアップして API キーを作成する
+## Sign up and create an API key
 
-APIキーは、あなたのマシンをW&Bに認証します。APIキーはユーザープロフィールから生成できます。
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-より簡略化された方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize) に直接アクセスして API キーを生成できます。表示された API キーをコピーして、パスワードマネージャーのような安全な場所に保存してください。
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
-1. 画面右上のユーザープロフィールアイコンをクリックします。
-2. **ユーザー設定** を選び、**API キー** セクションまでスクロールします。
-3. **表示** をクリックし、表示された API キーをコピーします。API キーを非表示にするには、ページをリロードします。
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
-## `wandb` ライブラリをインストールしログインする
+## Install the `wandb` library and log in
 
-`wandb` ライブラリをローカルにインストールしてログインする方法:
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
-{{% tab header="コマンドライン" value="cli" %}}
+{{% tab header="Command Line" value="cli" %}}
 
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をあなたのAPIキーに設定します。
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to your API key.
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. `wandb` ライブラリをインストールしてログインします。
+1. Install the `wandb` library and log in.
+
+
 
     ```shell
     pip install wandb
@@ -65,7 +67,7 @@ wandb.login()
 
 {{% /tab %}}
 
-{{% tab header="Pythonノートブック" value="python" %}}
+{{% tab header="Python notebook" value="python" %}}
 
 ```notebook
 !pip install wandb
@@ -77,15 +79,15 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## トレーニングスクリプトで `WandbLogger` を有効にする
+## Activate the `WandbLogger` in your training script
 
 {{< tabpane text=true >}}
-{{% tab header="コマンドライン" value="cli" %}}
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/) の `train.py` に引数を渡して wandb を使用するには:
+{{% tab header="Command Line" value="cli" %}}
+To use wandb via arguments to `train.py` in [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/):
 
-* `--use_wandb` フラグを追加します
-* 最初の wandb 引数の前に `-o` を付けます（これは一度だけで結構です）
-* 個々の wandb 引数にはすべて `wandb-` プレフィックスを含める必要があります。例えば、[`wandb.init`]({{< relref path="/ref/python/init" lang="ja" >}}) に渡す引数には `wandb-` プレフィックスが追加されます
+* Add the `--use_wandb` flag
+* The first wandb arguments must be preceded by `-o` (you only need to pass this once)
+* Each individual argument must contain the prefix `"wandb-"` . For example any argument to be passed to [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) would get the `wandb-` prefix
 
 ```shell
 python tools/train.py 
@@ -98,7 +100,7 @@ python tools/train.py
 ```
 {{% /tab %}}
 {{% tab header="`config.yml`" value="config" %}}
-`config.yml` ファイルの `wandb` キーの下に wandb 引数を追加します:
+Add the wandb arguments to the config.yml file under the `wandb` key:
 
 ```
 wandb:
@@ -107,12 +109,12 @@ wandb:
   save_dir: ./logs
 ```
 
-`train.py` ファイルを実行すると、W&B ダッシュボードへのリンクが生成されます。
+When you run your `train.py` file, it generates a link to your W&B Dashboard.
 
-{{< img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A Weights & Biases Dashboard" >}}
+{{< img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A W&B Dashboard" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 
-## フィードバックや問題
+## Feedback or issues
 
-Weights & Biases インテグレーションに関するフィードバックや問題がある場合は、[PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) に issue を作成するか、<a href="mailto:support@wandb.com">support@wandb.com</a> にメールしてください。
+If you have any feedback or issues about the W&B integration, open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

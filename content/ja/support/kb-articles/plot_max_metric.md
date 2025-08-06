@@ -1,12 +1,13 @@
 ---
-title: メトリックの最大値をプロットすることは可能ですか、それともステップごとにプロットする必要がありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-plot_max_metric
 support:
-  - metrics
+- metrics
+title: Is it possible to plot the max of a metric rather than plot step by step?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-メトリックの散布図を作成します。 **Edit** メニューを開き、 **Annotations** を選択します。そこから、値のランニング最大値をプロットします。
+
+Create a scatter plot of the metric. Open the **Edit** menu and select **Annotations**. From there, plot the running maximum of the values.

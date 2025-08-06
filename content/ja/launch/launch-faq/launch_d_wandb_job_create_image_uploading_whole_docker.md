@@ -1,17 +1,18 @@
 ---
-title: '`wandb launch -d` または `wandb job create image` が、レジストリからプルせずに全体のDockerアーティファクトをアップロードしていますか？'
 menu:
   launch:
     identifier: ja-launch-launch-faq-launch_d_wandb_job_create_image_uploading_whole_docker
     parent: launch-faq
+title: Is `wandb launch -d` or `wandb job create image` uploading a whole docker artifact
+  and not pulling from a registry?
 ---
 
-`wandb launch -d` コマンドは、イメージをレジストリにアップロードしません。イメージは別途レジストリにアップロードしてください。以下の手順に従ってください。
+No, the `wandb launch -d` command does not upload images to a registry. Upload images to a registry separately. Follow these steps:
 
-1. イメージをビルドします。
-2. イメージをレジストリにプッシュします。
+1. Build an image.
+2. Push the image to a registry.
 
-ワークフローは以下の通りです：
+The workflow is as follows:
 
 ```bash
 docker build -t <repo-url>:<tag> .
@@ -19,6 +20,6 @@ docker push <repo-url>:<tag>
 wandb launch -d <repo-url>:<tag>
 ```
 
-ローンチエージェントは、指定されたコンテナを指すジョブを立ち上げます。コンテナレジストリからイメージを取得するエージェントアクセスの設定例については、[Advanced agent setup]({{< relref path="/launch/set-up-launch/setup-agent-advanced.md#agent-configuration" lang="ja" >}})を参照してください。
+The launch agent then spins up a job pointing to the specified container. See [Advanced agent setup]({{< relref path="/launch/set-up-launch/setup-agent-advanced.md#agent-configuration" lang="ja" >}}) for examples on configuring agent access to pull images from a container registry.
 
-Kubernetes を使用する場合は、Kubernetes クラスターのポッドが、イメージがプッシュされたレジストリにアクセスできることを確認してください。
+For Kubernetes, ensure that the Kubernetes cluster pods have access to the registry where the image is pushed.

@@ -1,77 +1,75 @@
 ---
-title: 'artifactType
-
-
-  アーティファクトの種類'
 menu:
   reference:
     identifier: ja-ref-query-panel-artifact-type
+title: artifactType
 ---
 
 ## Chainable Ops
 <h3 id="artifactType-artifactVersions"><code>artifactType-artifactVersions</code></h3>
 
-すべての[artifacts](artifact.md)の[artifactVersions](artifact-version.md)を[artifactType](artifact-type.md)から返します。
+Returns the [artifactVersions]( artifact-version.md) of all [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType](artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-すべての[artifacts](artifact.md)の[artifactVersions](artifact-version.md)を[artifactType](artifact-type.md)から返します。
+The [artifactVersions](artifact-version.md) of all [artifacts](artifact.md) of the [artifactType](artifact-type.md)
 
 <h3 id="artifactType-artifacts"><code>artifactType-artifacts</code></h3>
 
-[artifactType](artifact-type.md)の[artifacts](artifact.md)を返します。
+Returns the [artifacts]( artifact.md) of the [artifactType](artifact-type.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType](artifact-type.md) |
+| `artifactType` | An [artifactType](artifact-type.md) |
 
 #### Return Value
-[artifactType](artifact-type.md)の[artifacts](artifact.md)を返します。
+The [artifacts]( artifact.md) of the [artifactType](artifact-type.md)
 
 <h3 id="artifactType-name"><code>artifactType-name</code></h3>
 
-[artifactType](artifact-type.md)の名前を返します。
+Returns the name of the [artifactType](artifact-type.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType](artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-[artifactType](artifact-type.md)の名前を返します。
+The name of the [artifactType]( artifact-type.md)
+
 
 ## List Ops
 <h3 id="artifactType-artifactVersions"><code>artifactType-artifactVersions</code></h3>
 
-すべての[artifacts](artifact.md)の[artifactVersions](artifact-version.md)を[artifactType](artifact-type.md)から返します。
+Returns the [artifactVersions]( artifact-version.md) of all [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType](artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-すべての[artifacts](artifact.md)の[artifactVersions](artifact-version.md)を[artifactType](artifact-type.md)から返します。
+The [artifactVersions]( artifact-version.md) of all [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
 <h3 id="artifactType-artifacts"><code>artifactType-artifacts</code></h3>
 
-[artifactType](artifact-type.md)の[artifacts](artifact.md)を返します。
+Returns the [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType](artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-[artifactType](artifact-type.md)の[artifacts](artifact.md)を返します。
+The [artifacts]( artifact.md) of the [artifactType]( artifact-type.md)
 
 <h3 id="artifactType-name"><code>artifactType-name</code></h3>
 
-[artifactType](artifact-type.md)の名前を返します。
+Returns the name of the [artifactType]( artifact-type.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `artifactType` | [artifactType](artifact-type.md) |
+| `artifactType` | A [artifactType]( artifact-type.md) |
 
 #### Return Value
-[artifactType](artifact-type.md)の名前を返します。
+The name of the [artifactType]( artifact-type.md)

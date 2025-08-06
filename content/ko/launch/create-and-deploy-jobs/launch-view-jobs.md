@@ -1,60 +1,61 @@
 ---
-title: View launch jobs
 menu:
   launch:
     identifier: ko-launch-create-and-deploy-jobs-launch-view-jobs
     parent: create-and-deploy-jobs
-url: /ko/guides//launch/launch-view-jobs
+title: View launch jobs
+url: guides/launch/launch-view-jobs
 ---
 
-다음 페이지에서는 대기열에 추가된 Launch 작업에 대한 정보를 보는 방법을 설명합니다.
+The following page describes how to view information about launch jobs added to queues.
 
-## 작업 보기
+## View jobs
 
-W&B 앱으로 대기열에 추가된 작업을 봅니다.
+View jobs added to a queue with the W&B App.
 
-1. https://wandb.ai/home에서 W&B 앱으로 이동합니다.
-2. 왼쪽 사이드바의 **Applications** 섹션에서 **Launch**를 선택합니다.
-3. **All entities** 드롭다운을 선택하고 Launch 작업이 속한 entity를 선택합니다.
-4. Launch Application 페이지에서 축소 가능한 UI를 확장하여 해당 특정 대기열에 추가된 작업 목록을 봅니다.
+1. Navigate to the W&B App at https://wandb.ai/home.
+2. Select **Launch** within the **Applications** section of the left sidebar.
+3. Select the **All entities** dropdown and select the entity the launch job belongs to.
+4. Expand the collapsible UI from the Launch Application page to view a list of jobs added to that specific queue.
 
 {{% alert %}}
-Launch 에이전트가 Launch 작업을 실행하면 run이 생성됩니다. 즉, 나열된 각 run은 해당 대기열에 추가된 특정 작업에 해당합니다.
+A run is created when the launch agent executes a launch job. In other words, each run listed corresponds to a specific job that was added to that queue.
 {{% /alert %}}
 
-예를 들어 다음 이미지는 `job-source-launch_demo-canonical`이라는 작업에서 생성된 두 개의 run을 보여줍니다. 이 작업은 `Start queue`라는 대기열에 추가되었습니다. 대기열에 나열된 첫 번째 run은 `resilient-snowball`이라고 하고 두 번째 run은 `earthy-energy-165`라고 합니다.
+For example, the following image shows two runs that were created from a job called `job-source-launch_demo-canonical`. The job was added to a queue called `Start queue`. The first run listed in the queue called `resilient-snowball` and the second run listed is called `earthy-energy-165`.
 
-{{< img src="/images/launch/launch_jobs_status.png" alt="" >}}
 
-W&B 앱 UI 내에서 Launch 작업에서 생성된 run에 대한 다음과 같은 추가 정보를 찾을 수 있습니다.
-   - **Run**: 해당 작업에 할당된 W&B run의 이름입니다.
-   - **Job ID**: 작업의 이름입니다.
-   - **Project**: run이 속한 project의 이름입니다.
-   - **Status**: 대기열에 있는 run의 상태입니다.
-   - **Author**: run을 생성한 W&B entity입니다.
-   - **Creation date**: 대기열이 생성된 타임스탬프입니다.
-   - **Start time**: 작업이 시작된 타임스탬프입니다.
-   - **Duration**: 작업을 완료하는 데 걸린 시간(초)입니다.
+{{< img src="/images/launch/launch_jobs_status.png" alt="Launch jobs status view" >}}
 
-## 작업 나열
+Within the W&B App UI you can find additional information about runs created from launch jobs such as the:
+   - **Run**: The name of the W&B run assigned to that job.
+   - **Job ID**: The name of the job. 
+   - **Project**: The name of the project the run belongs to.
+   - **Status**: The status of the queued run. 
+   - **Author**: The W&B entity that created the run.
+   - **Creation date**: The timestamp when the queue was created.
+   - **Start time**: The timestamp when the job started.
+   - **Duration**: Time, in seconds, it took to complete the job’s run.
 
-W&B CLI를 사용하여 project 내에 존재하는 작업 목록을 봅니다. W&B 작업 목록 코맨드를 사용하고 Launch 작업이 속한 project 및 entity의 이름을 각각 `--project` 및 `--entity` 플래그와 함께 제공합니다.
+## List jobs 
+View a list of jobs that exist within a project with the W&B CLI. Use the W&B job list command and provide the name of the project and entity the launch job belongs to the `--project` and `--entity` flags, respectively. 
 
 ```bash
  wandb job list --entity your-entity --project project-name
 ```
 
-## 작업 상태 확인
+## Check the status of a job
 
-다음 표는 대기열에 있는 run이 가질 수 있는 상태를 정의합니다.
+The following table defines the status a queued run can have:
 
-| 상태 | 설명 |
+
+| Status | Description |
 | --- | --- |
-| **Idle** | run이 활성 에이전트가 없는 대기열에 있습니다. |
-| **Queued** | run이 에이전트가 처리하기를 기다리는 대기열에 있습니다. |
-| **Pending** | run이 에이전트에 의해 선택되었지만 아직 시작되지 않았습니다. 이는 클러스터에서 리소스를 사용할 수 없기 때문일 수 있습니다. |
-| **Running** | run이 현재 실행 중입니다. |
-| **Killed** | 사용자가 작업을 중단했습니다. |
-| **Crashed** | run이 데이터 전송을 중단했거나 성공적으로 시작되지 않았습니다. |
-| **Failed** | run이 0이 아닌 종료 코드로 종료되었거나 run을 시작하지 못했습니다. |
-| **Finished** | 작업이 성공적으로 완료되었습니다. |
+| **Idle** | The run is in a queue with no active agents. |
+| **Queued** | The run is in a queue waiting for an agent to process it. |
+| **Pending** | The run has been picked up by an agent but has not yet started. This could be due to resources being unavailable on the cluster. |
+| **Running** | The run is currently executing. |
+| **Killed** | The job was killed by the user. |
+| **Crashed** | The run stopped sending data or did not successfully start. |
+| **Failed** | The run ended with a non-zero exit code or the run failed to start. |
+| **Finished** | The job completed successfully. |

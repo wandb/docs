@@ -1,28 +1,31 @@
 ---
-title: ログサマリーメトリクス
 menu:
   default:
     identifier: ja-guides-models-track-log-log-summary
     parent: log-objects-and-media
+title: Log summary metrics
 ---
 
-時間とともに変化する値に加えて、モデルや前処理ステップを要約する単一の値を追跡することも重要です。この情報を W&B Run の `summary` 辞書にログします。Run の summary 辞書は numpy 配列、PyTorch テンソル、TensorFlow テンソルを扱うことができます。値がこれらのタイプのいずれかの場合、バイナリファイルにテンソル全体を保存し、メトリクスを summary オブジェクトに保存します。たとえば最小値、平均、分散、パーセンタイルなどです。
+In addition to values that change over time during training, it is often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B Run's `summary` dictionary. A Run's summary dictionary can handle numpy arrays, PyTorch tensors or TensorFlow tensors. When a value is one of these types we persist the entire tensor in a binary file and store high level metrics in the summary object, such as min, mean, variance, percentiles, and more.
 
-最後に `wandb.log` でログされた値は、自動的に W&B Run の summary 辞書に設定されます。summary メトリクス辞書が変更されると、以前の値は失われます。
+The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
 
-次のコードスニペットは、W&B にカスタムの summary メトリクスを提供する方法を示しています。
+The following code snippet demonstrates how to provide a custom summary metric to W&B:
+
 ```python
-wandb.init(config=args)
+import wandb
+import argparse
 
-best_accuracy = 0
-for epoch in range(1, args.epochs + 1):
-    test_loss, test_accuracy = test()
-    if test_accuracy > best_accuracy:
-        wandb.summary["best_accuracy"] = test_accuracy
-        best_accuracy = test_accuracy
+with wandb.init(config=args) as run:
+  best_accuracy = 0
+  for epoch in range(1, args.epochs + 1):
+      test_loss, test_accuracy = test()
+      if test_accuracy > best_accuracy:
+          run.summary["best_accuracy"] = test_accuracy
+          best_accuracy = test_accuracy
 ```
 
-トレーニングが完了した後、既存の W&B Run の summary 属性を更新することができます。[W&B Public API]({{< relref path="/ref/python/public-api/" lang="ja" >}}) を使用して、summary 属性を更新してください。
+You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API]({{< relref path="/ref/python/public-api/" lang="ja" >}}) to update the summary attribute:
 
 ```python
 api = wandb.Api()
@@ -31,11 +34,11 @@ run.summary["tensor"] = np.random.random(1000)
 run.summary.update()
 ```
 
-## summary メトリクスをカスタマイズする
+## Customize summary metrics
 
-カスタム summary メトリクスは、トレーニングにおける最良のステップでのモデルのパフォーマンスを `wandb.summary` にキャプチャするのに便利です。たとえば、最終的な値の代わりに、最大精度や最小損失値をキャプチャしたいかもしれません。
+Custom summary metrics are useful for capturing model performance at the best step of training in your `run.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
 
-デフォルトでは、summary は履歴からの最終的な値を使用します。summary メトリクスをカスタマイズするには、`define_metric` の中に `summary` 引数を渡します。以下の値を受け付けます。
+By default, the summary uses the final value from history. To customize summary metrics, pass the `summary` argument in `define_metric`. It accepts the following values:
 
 * `"min"`
 * `"max"`
@@ -44,62 +47,62 @@ run.summary.update()
 * `"last"`
 * `"none"`
 
-`"best"` を使用するには、任意の `objective` 引数を `"minimize"` または `"maximize"` に設定する必要があります。
+You can use `"best"` only when you also set the optional `objective` argument to `"minimize"` or `"maximize"`. 
 
-次の例は、損失と精度の最小値と最大値を summary に追加する方法を示しています。
+The following example adds the min and max values of loss and accuracy to the summary:
 
 ```python
 import wandb
 import random
 
 random.seed(1)
-wandb.init()
 
-# 損失の最小値および最大値を summary に追加
-wandb.define_metric("loss", summary="min")
-wandb.define_metric("loss", summary="max")
+with wandb.init() as run:
+    # Min and max summary values for loss
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
 
-# 精度の最小値および最大値を summary に追加
-wandb.define_metric("acc", summary="min")
-wandb.define_metric("acc", summary="max")
+    # Min and max summary values for accuracy
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
 
-for i in range(10):
-    log_dict = {
-        "loss": random.uniform(0, 1 / (i + 1)),
-        "acc": random.uniform(1 / (i + 1), 1),
-    }
-    wandb.log(log_dict)
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
 ```
 
-## summary メトリクスを閲覧する
+## View summary metrics
 
-Run の **Overview** ページまたはプロジェクトの runs テーブルで summary 値を表示することができます。
+View summary values in a run's **Overview** page or the project's runs table.
 
 {{< tabpane text=true >}}
 {{% tab header="Run Overview" value="overview" %}}
 
-1. W&B アプリに移動します。
-2. **Workspace** タブを選択します。
-3. runs のリストから、summary 値をログした run の名前をクリックします。
-4. **Overview** タブを選択します。
-5. **Summary** セクションで summary 値を表示します。
+1. Navigate to the W&B App.
+2. Select the **Workspace** tab.
+3. From the list of runs, click the name of the run that logged the summary values.
+4. Select the **Overview** tab.
+5. View the summary values in the **Summary** section.
 
-{{< img src="/images/track/customize_summary.png" alt="W&Bにログされた run の概要ページ。UIの右下隅には summary メトリクスセクション内の機械学習モデルの精度と損失の最小値と最大値が表示されています。" >}}
+{{< img src="/images/track/customize_summary.png" alt="Run overview" >}}
 
 {{% /tab %}}
 {{% tab header="Run Table" value="run table" %}}
 
-1. W&B アプリに移動します。
-2. **Runs** タブを選択します。
-3. runs テーブル内で、summary 値の名前に基づいて列内の summary 値を表示することができます。
+1. Navigate to the W&B App.
+2. Select the **Runs** tab.
+3. Within the runs table, you can view the summary values within the columns based on the name of the summary value.
 
 {{% /tab %}}
 
 {{% tab header="W&B Public API" value="api" %}}
 
-W&B Public API を使用して、run の summary 値を取得することができます。
+You can use the W&B Public API to fetch the summary values of a run. 
 
-次のコード例は、W&B Public API と pandas を使用して特定の run にログされた summary 値を取得する方法の一例を示しています。
+The following code example demonstrates one way to retrieve the summary values logged to a specific run using the W&B Public API and pandas:
 
 ```python
 import wandb
@@ -107,37 +110,37 @@ import pandas
 
 entity = "<your-entity>"
 project = "<your-project>"
-run_name = "<your-run-name>" # summary 値を持つ run の名前
+run_name = "<your-run-name>" # Name of run with summary values
 
 all_runs = []
 
 for run in api.runs(f"{entity}/{project_name}"):
-  print("Fetching details for run: ", run.id, run.name)
-  run_data = {
-            "id": run.id,
-            "name": run.name,
-            "url": run.url,
-            "state": run.state,
-            "tags": run.tags,
-            "config": run.config,
-            "created_at": run.created_at,
-            "system_metrics": run.system_metrics,
-            "summary": run.summary,
-            "project": run.project,
-            "entity": run.entity,
-            "user": run.user,
-            "path": run.path,
-            "notes": run.notes,
-            "read_only": run.read_only,
-            "history_keys": run.history_keys,
-            "metadata": run.metadata,
-        }
-  all_runs.append(run_data)
+    print("Fetching details for run: ", run.id, run.name)
+    run_data = {
+              "id": run.id,
+              "name": run.name,
+              "url": run.url,
+              "state": run.state,
+              "tags": run.tags,
+              "config": run.config,
+              "created_at": run.created_at,
+              "system_metrics": run.system_metrics,
+              "summary": run.summary,
+              "project": run.project,
+              "entity": run.entity,
+              "user": run.user,
+              "path": run.path,
+              "notes": run.notes,
+              "read_only": run.read_only,
+              "history_keys": run.history_keys,
+              "metadata": run.metadata,
+          }
+    all_runs.append(run_data)
   
-# DataFrame に変換  
+# Convert to DataFrame  
 df = pd.DataFrame(all_runs)
 
-# 列名（run）に基づいて行を取得し、辞書に変換
+# Get row based on the column name (run) and convert to dictionary
 df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
 ```
 

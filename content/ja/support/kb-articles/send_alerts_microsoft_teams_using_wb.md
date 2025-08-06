@@ -1,15 +1,16 @@
 ---
-title: Microsoft Teams に run アラートを送るにはどうすれば良いですか？
 menu:
   support:
     identifier: ja-support-kb-articles-send_alerts_microsoft_teams_using_wb
 support:
-  - alerts
+- alerts
+title: How can I send run alerts to Microsoft Teams?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-Teams で W&B アラートを受け取るには、以下の手順に従ってください。
 
-- **Teams チャンネルのためのメール アドレスを設定します。** アラートを受信したい Teams チャンネル用のメール アドレスを作成します。
-- **W&B アラートメールを Teams チャンネルのメール アドレスに転送します。** W&B を設定してメールでアラートを送信し、これらのメールを Teams チャンネルのメールに転送してください。
+To receive W&B alerts in Teams, follow these steps:
+
+- **Set up an email address for your Teams channel.** Create an email address for the Teams channel where you want to receive alerts.
+- **Forward W&B alert emails to the Teams channel's email address.** Configure W&B to send alerts via email, then forward these emails to your Teams channel's email.

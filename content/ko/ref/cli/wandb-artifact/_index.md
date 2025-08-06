@@ -1,30 +1,30 @@
 ---
-title: wandb artifact
 menu:
   reference:
     identifier: ko-ref-cli-wandb-artifact-_index
+title: wandb artifact
 ---
 
-**사용법**
+**Usage**
 
 `wandb artifact [OPTIONS] COMMAND [ARGS]...`
 
-**요약**
+**Summary**
 
-아티팩트와 상호 작용하기 위한 코맨드
+Commands for interacting with artifacts
 
 
-**옵션**
+**Options**
 
-| **옵션** | **설명** |
+| **Option** | **Description** |
 | :--- | :--- |
 
 
-**코맨드**
+**Commands**
 
-| **코맨드** | **설명** |
+| **Command** | **Description** |
 | :--- | :--- |
-| cache | 아티팩트 캐시와 상호 작용하기 위한 코맨드 |
-| get | wandb에서 아티팩트를 다운로드합니다 |
-| ls | wandb 프로젝트의 모든 아티팩트를 나열합니다 |
-| put | wandb에 아티팩트를 업로드합니다 |
+| cache | Commands for interacting with the artifact cache |
+| get | Download an artifact from wandb |
+| ls | List all artifacts in a wandb project |
+| put | Upload an artifact to wandb |

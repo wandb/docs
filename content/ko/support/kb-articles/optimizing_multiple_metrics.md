@@ -1,24 +1,34 @@
 ---
-title: Optimizing multiple metrics
 menu:
   support:
     identifier: ko-support-kb-articles-optimizing_multiple_metrics
 support:
 - sweeps
 - metrics
+title: Optimizing multiple metrics
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-단일 run에서 여러 메트릭을 최적화하려면 개별 메트릭의 가중치 합계를 사용하세요.
+To optimize multiple metrics in a single run, use a weighted sum of the individual metrics.
 
 ```python
-metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
-wandb.log({"metric_combined": metric_combined})
+with wandb.init() as run:
+  # Log individual metrics
+  metric_a = run.summary.get("metric_a", 0.5)
+  metric_b = run.summary.get("metric_b", 0.7)
+  # ... log other metrics as needed
+  metric_n = run.summary.get("metric_n", 0.9)
+
+  # Combine metrics with weights
+  # Adjust weights according to your optimization goals
+  # For example, if you want to give more importance to metric_a and metric_n:  
+  metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
+  run.log({"metric_combined": metric_combined})
 ```
 
-새로운 결합된 메트릭을 로그하고 최적화 목표로 설정하세요.
+Log the new combined metric and set it as the optimization objective:
 
 ```yaml
 metric:

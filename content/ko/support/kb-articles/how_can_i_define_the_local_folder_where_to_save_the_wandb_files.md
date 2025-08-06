@@ -1,18 +1,18 @@
 ---
-title: How can I define the local location for `wandb` files?
 menu:
   support:
     identifier: ko-support-kb-articles-how_can_i_define_the_local_folder_where_to_save_the_wandb_files
 support:
 - environment variables
 - experiments
+title: How can I define the local location for `wandb` files?
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-- `WANDB_DIR=<path>` 또는 `wandb.init(dir=<path>)`: 트레이닝 스크립트용으로 생성된 `wandb` 폴더의 위치를 제어합니다. 기본값은 `./wandb`입니다. 이 폴더에는 Run의 데이터와 로그가 저장됩니다.
-- `WANDB_ARTIFACT_DIR=<path>` 또는 `wandb.Artifact().download(root="<path>")`: 아티팩트가 다운로드되는 위치를 제어합니다. 기본값은 `./artifacts`입니다.
-- `WANDB_CACHE_DIR=<path>`: `wandb.Artifact`를 호출할 때 아티팩트가 생성되고 저장되는 위치입니다. 기본값은 `~/.cache/wandb`입니다.
-- `WANDB_CONFIG_DIR=<path>`: 구성 파일이 저장되는 위치입니다. 기본값은 `~/.config/wandb`입니다.
-- `WANDB_DATA_DIR=<PATH>`: 업로드하는 동안 아티팩트 스테이징에 사용되는 위치를 제어합니다. 기본값은 `~/.cache/wandb-data/`입니다.
+- `WANDB_DIR=<path>` or `wandb.init(dir=<path>)`: Controls the location of the `wandb` folder created for your training script. Defaults to `./wandb`. This folder stores Run's data and logs
+- `WANDB_ARTIFACT_DIR=<path>` or `wandb.Artifact().download(root="<path>")`: Controls the location where artifacts are downloaded. Defaults to `./artifacts`
+- `WANDB_CACHE_DIR=<path>`: This is the location where artifacts are created and stored when you call `wandb.Artifact`. Defaults to `~/.cache/wandb`
+- `WANDB_CONFIG_DIR=<path>`: Where config files are stored. Defaults to `~/.config/wandb`
+- `WANDB_DATA_DIR=<PATH>`: Controls the location used for staging artifacts during upload. Defaults to `~/.cache/wandb-data/`.

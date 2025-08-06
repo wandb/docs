@@ -1,20 +1,21 @@
 ---
-title: wandb disabled
 menu:
   reference:
     identifier: ko-ref-cli-wandb-disabled
+title: wandb disabled
 ---
 
-**사용법**
+**Usage**
 
 `wandb disabled [OPTIONS]`
 
-**요약**
+**Summary**
 
-W&B를 비활성화합니다.
+Disable W&B.
 
-**옵션**
 
-| **옵션** | **설명** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |
-| `--service` | W&B 서비스를 비활성화합니다 [기본값: True] |
+| `--service` | Disable W&B service  [default: True] |

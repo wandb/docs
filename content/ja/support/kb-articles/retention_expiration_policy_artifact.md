@@ -1,12 +1,13 @@
 ---
-title: アーティファクトに保持ポリシーや有効期限を設定するにはどうすれば良いですか？
 menu:
   support:
     identifier: ja-support-kb-articles-retention_expiration_policy_artifact
 support:
-  - artifacts
+- artifacts
+title: How do I set a retention or expiration policy on my artifact?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-アーティファクトに機密データを含む場合やアーティファクトのバージョンの削除をスケジュールするには、TTL (time-to-live) ポリシーを設定します。詳しい手順は、[TTL ガイド]({{< relref path="/guides/core/artifacts/manage-data/ttl.md" lang="ja" >}}) を参照してください。
+
+To manage artifacts that contain sensitive data or to schedule the deletion of artifact versions, set a TTL (time-to-live) policy. For detailed instructions, refer to the [TTL guide]({{< relref path="/guides/core/artifacts/manage-data/ttl.md" lang="ja" >}}).

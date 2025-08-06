@@ -1,116 +1,127 @@
 ---
-title: Manage workspace, section, and panel settings
 menu:
   default:
     identifier: ko-guides-models-app-features-cascade-settings
     parent: w-b-app-ui-reference
-url: /ko/guides//app/features/cascade-settings
+title: Manage workspace, section, and panel settings
+url: guides/app/features/cascade-settings
 ---
 
-특정 워크스페이스 페이지 내에는 워크스페이스, 섹션 및 패널의 세 가지 설정 수준이 있습니다. [워크스페이스 설정]({{< relref path="#workspace-settings" lang="ko" >}})은 전체 워크스페이스에 적용됩니다. [섹션 설정]({{< relref path="#section-settings" lang="ko" >}})은 섹션 내의 모든 패널에 적용됩니다. [패널 설정]({{< relref path="#panel-settings" lang="ko" >}})은 개별 패널에 적용됩니다.
+Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [Workspace settings]({{< relref path="#workspace-settings" lang="ko" >}}) apply to the entire workspace. [Section settings]({{< relref path="#section-settings" lang="ko" >}}) apply to all panels within a section. [Panel settings]({{< relref path="#panel-settings" lang="ko" >}}) apply to individual panels. 
 
-## 워크스페이스 설정
+## Workspace settings
 
-워크스페이스 설정은 모든 섹션과 해당 섹션 내의 모든 패널에 적용됩니다. 편집할 수 있는 워크스페이스 설정에는 [**워크스페이스 레이아웃**]({{< relref path="#workspace-layout-options" lang="ko" >}})과 [**라인 플롯**]({{< relref path="#line-plots-options" lang="ko" >}})의 두 가지 유형이 있습니다. **워크스페이스 레이아웃**은 워크스페이스의 구조를 결정하는 반면, **라인 플롯** 설정은 워크스페이스에서 라인 플롯의 기본 설정을 제어합니다.
+Workspace settings apply to all sections and all panels within those sections. You can edit two types of workspace settings: [Workspace layout]({{< relref path="#workspace-layout-options" lang="ko" >}}) and [Line plots]({{< relref path="#line-plots-options" lang="ko" >}}). **Workspace layouts** determine the structure of the workspace, while **Line plots** settings control the default settings for line plots in the workspace.ne plots** settings control the default settings for line plots in the workspace.
 
-이 워크스페이스의 전체 구조에 적용되는 설정을 편집하려면 다음을 수행하세요.
+To edit settings that apply to the overall structure of this workspace:
 
-1. 프로젝트 워크스페이스로 이동합니다.
-2. **새 리포트** 버튼 옆에 있는 톱니바퀴 아이콘을 클릭하여 워크스페이스 설정을 확인합니다.
-3. 워크스페이스 레이아웃을 변경하려면 **워크스페이스 레이아웃**을 선택하고, 워크스페이스에서 라인 플롯의 기본 설정을 구성하려면 **라인 플롯**을 선택합니다.
-{{< img src="/images/app_ui/workspace_settings.png" alt="" >}}
-
-### 워크스페이스 레이아웃 옵션
-
-워크스페이스의 전체 구조를 정의하도록 워크스페이스 레이아웃을 구성합니다. 여기에는 섹션 나누기 로직과 패널 구성이 포함됩니다.
-
-{{< img src="/images/app_ui/workspace_layout_settings.png" alt="" >}}
-
-워크스페이스 레이아웃 옵션 페이지에는 워크스페이스에서 패널을 자동으로 생성하는지 또는 수동으로 생성하는지가 표시됩니다. 워크스페이스의 패널 생성 모드를 조정하려면 [패널]({{< relref path="panels/" lang="ko" >}})을 참조하세요.
-
-다음 표는 각 워크스페이스 레이아웃 옵션에 대해 설명합니다.
-
-| 워크스페이스 설정 | 설명 |
-| ----- | ----- |
-| **검색 중 빈 섹션 숨기기** | 패널을 검색할 때 패널이 없는 섹션을 숨깁니다. |
-| **패널을 알파벳순으로 정렬** | 워크스페이스의 패널을 알파벳순으로 정렬합니다. |
-| **섹션 구성** | 기존의 모든 섹션과 패널을 제거하고 새 섹션 이름으로 다시 채웁니다. 새로 채워진 섹션을 첫 번째 또는 마지막 접두사로 그룹화합니다. |
+1. Navigate to your project workspace.
+2. Click the gear icon next to the **New report** button to view the workspace settings.
+3. Choose **Workspace layout** to change the workspace's layout, or choose **Line plots** to configure default settings for line plots in the workspace.
+{{< img src="/images/app_ui/workspace_settings.png" alt="Workspace settings gear icon" >}}
 
 {{% alert %}}
-W&B에서는 마지막 접두사로 그룹화하는 대신 첫 번째 접두사를 그룹화하여 섹션을 구성하는 것이 좋습니다. 첫 번째 접두사로 그룹화하면 섹션 수가 줄어들고 성능이 향상될 수 있습니다.
+After customizing your workspace, you can use _workspace templates_ to quickly create new workspaces with the same settings. Refer to [Workspace templates]({{< relref path="/guides/models/track/workspaces.md#workspace-templates" lang="ko" >}}).
 {{% /alert %}}
 
-### 라인 플롯 옵션
-**라인 플롯** 워크스페이스 설정을 수정하여 워크스페이스에서 라인 플롯의 글로벌 기본값과 사용자 지정 규칙을 설정합니다.
+### Workspace layout options
 
-{{< img src="/images/app_ui/workspace_settings_line_plots.png" alt="" >}}
+Configure a workspaces layout to define the overall structure of the workspace. This includes sectioning logic and panel organization. 
 
-**라인 플롯** 설정 내에서 **데이터**와 **표시 기본 설정**의 두 가지 주요 설정을 편집할 수 있습니다. **데이터** 탭에는 다음 설정이 포함되어 있습니다.
+{{< img src="/images/app_ui/workspace_layout_settings.png" alt="Workspace layout options" >}}
 
-| 라인 플롯 설정 | 설명 |
+The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels]({{< relref path="panels/" lang="ko" >}}).
+
+This table describes each workspace layout option.
+
+| Workspace setting | Description |
 | ----- | ----- |
-| **X축** | 라인 플롯에서 x축의 스케일입니다. x축은 기본적으로 **단계**로 설정됩니다. x축 옵션 목록은 다음 표를 참조하세요. |
-| **범위** | x축에 표시할 최소 및 최대 설정입니다. |
-| **평활화** | 라인 플롯에서 평활화를 변경합니다. 평활화에 대한 자세한 내용은 [라인 플롯 평활화]({{< relref path="/guides/models/app/features/panels/line-plot/smoothing.md" lang="ko" >}})를 참조하세요. |
-| **이상값** | 기본 플롯 최소 및 최대 스케일에서 이상값을 제외하도록 스케일을 다시 조정합니다. |
-| **포인트 집계 메소드** | 데이터 시각화 정확도와 성능을 향상시킵니다. 자세한 내용은 [포인트 집계]({{< relref path="/guides/models/app/features/panels/line-plot/sampling.md" lang="ko" >}})를 참조하세요. |
-| **최대 run 또는 그룹 수** | 라인 플롯에 표시되는 run 또는 그룹 수를 제한합니다. |
+| **Hide empty sections during search** |  Hide sections that do not contain any panels when searching for a panel.|
+| **Sort panels alphabetically** | Sort panels in your workspaces alphabetically. |
+| **Section organization** | Remove all existing sections and panels and repopulate them with new section names. Groups the newly populated sections either by first or last prefix. |
 
-**단계** 외에도 x축에 대한 다른 옵션이 있습니다.
+{{% alert %}}
+W&B suggests that you organize sections by grouping the first prefix rather than grouping by the last prefix. Grouping by the first prefix can result in fewer sections and better performance.
+{{% /alert %}}
 
-| X축 옵션 | 설명 |
+### Line plots options
+Set global defaults and custom rules for line plots in a workspace by modifying the **Line plots** workspace settings.
+
+{{< img src="/images/app_ui/workspace_settings_line_plots.png" alt="Line plot settings" >}}
+
+You can edit two main settings within **Line plots** settings: **Data** and **Display preferences**. The **Data** tab contains the following settings:
+
+
+| Line plot setting | Description |
+| ----- | ----- |
+| **X axis** |  The scale of the x-axis in line plots. The x-axis is set to **Step** by default. See the proceeding table for the list of x-axis options. |
+| **Range** |  Minimum and maximum settings to display for x axis. |
+| **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots]({{< relref path="/guides/models/app/features/panels/line-plot/smoothing.md" lang="ko" >}}). |
+| **Outliers** | Rescale to exclude outliers from the default plot min and max scale. |
+| **Point aggregation method** | Improve data visualization accuracy and performance. See [Point aggregation]({{< relref path="/guides/models/app/features/panels/line-plot/sampling.md" lang="ko" >}}) for more information. |
+| **Max number of runs or groups** | Limit the number of runs or groups displayed on the line plot. |
+
+In addition to **Step**, there are other options for the x-axis:
+
+| X axis option | Description |
 | ------------- | ----------- |
-| **상대 시간 (벽시계)** | 프로세스가 시작된 이후의 타임스탬프입니다. 예를 들어, run을 시작하고 다음 날 해당 run을 재개한다고 가정합니다. 그런 다음 무언가를 로깅하면 기록된 포인트는 24시간입니다. |
-| **상대 시간 (프로세스)** | 실행 중인 프로세스 내부의 타임스탬프입니다. 예를 들어, run을 시작하고 10초 동안 계속 실행한다고 가정합니다. 다음 날 해당 run을 재개합니다. 포인트는 10초로 기록됩니다. |
-| **벽시계 시간** | 그래프에서 첫 번째 run이 시작된 이후 경과된 시간 (분)입니다. |
-| **단계** | `wandb.log()`를 호출할 때마다 증가합니다. |
+| **Relative Time (Wall)**| Timestamp since the process starts. For example, suppose start a run and resume that run the next day. If you then log something, the recorded point is 24 hours.|
+| **Relative Time (Process)** | Timestamp inside the running process. For example, suppose you start a run and let it continue for 10 seconds. The next day you resume that run. The point is recorded as 10 seconds. |
+| **Wall Time** | Minutes elapsed since the start of the first run on the graph. |
+| **Step** | Increments each time you call `wandb.Run.log()`.|
+
+
 
 {{% alert %}}
-개별 라인 플롯을 편집하는 방법에 대한 자세한 내용은 라인 플롯의 [라인 패널 설정 편집]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ko" >}})을 참조하세요.
+For information on how to edit an individual line plot, see [Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ko" >}}) in Line plots. 
 {{% /alert %}}
 
-**표시 기본 설정** 탭 내에서 다음 설정을 전환할 수 있습니다.
 
-| 표시 기본 설정 | 설명 |
+Within the **Display preferences** tab, you can toggle the proceeding settings:
+
+| Display preference | Description |
 | ----- | ----- |
-| **모든 패널에서 범례 제거** | 패널의 범례를 제거합니다. |
-| **툴팁에 색상이 지정된 run 이름 표시** | 툴팁 내에 run을 색상이 지정된 텍스트로 표시합니다. |
-| **컴패니언 차트 툴팁에 강조 표시된 run만 표시** | 차트 툴팁에 강조 표시된 run만 표시합니다. |
-| **툴팁에 표시되는 run 수** | 툴팁에 run 수를 표시합니다. |
-| **기본 차트 툴팁에 전체 run 이름 표시** | 차트 툴팁에 run의 전체 이름을 표시합니다. |
+| **Remove legends from all panels** | Remove the panel's legend |
+| **Display colored run names in tooltips** | Show the runs as colored text within the tooltip |
+| **Only show highlighted run in companion chart tooltip** | Display only highlighted runs in chart tooltip |
+| **Number of runs shown in tooltips** | Display the number of runs in the tooltip |
+| **Display full run names on the primary chart tooltip**| Display the full name of the run in the chart tooltip |
 
-## 섹션 설정
 
-섹션 설정은 해당 섹션 내의 모든 패널에 적용됩니다. 워크스페이스 섹션 내에서 패널을 정렬하고, 패널을 재정렬하고, 섹션 이름을 바꿀 수 있습니다.
 
-섹션의 오른쪽 상단 모서리에 있는 세 개의 가로 점 (**...**)을 선택하여 섹션 설정을 수정합니다.
 
-{{< img src="/images/app_ui/section_settings.png" alt="" >}}
+## Section settings
 
-드롭다운에서 전체 섹션에 적용되는 다음 설정을 편집할 수 있습니다.
+Section settings apply to all panels within that section. Within a workspace section you can sort panels, rearrange panels, and rename the section name.
 
-| 섹션 설정 | 설명 |
+Modify section settings by selecting the three horizontal dots (**...**) in the upper right corner of a section.
+
+{{< img src="/images/app_ui/section_settings.png" alt="Section settings menu" >}}
+
+From the dropdown, you can edit the following settings that apply to the entire section:
+
+| Section setting | Description |
 | ----- | ----- |
-| **섹션 이름 바꾸기** | 섹션 이름을 바꿉니다. |
-| **패널 A-Z 정렬** | 섹션 내의 패널을 알파벳순으로 정렬합니다. |
-| **패널 재정렬** | 섹션 내에서 패널을 선택하고 끌어 패널을 수동으로 정렬합니다. |
+| **Rename a section** | Rename the name of the section |
+| **Sort panels A-Z** | Sort panels within a section alphabetically |
+| **Rearrange panels** | Select and drag a panel within a section to manually order your panels |
 
-다음 애니메이션은 섹션 내에서 패널을 재정렬하는 방법을 보여줍니다.
+The proceeding animation demonstrates how to rearrange panels within a section:
 
-{{< img src="/images/app_ui/rearrange_panels.gif" alt="" >}}
+{{< img src="/images/app_ui/rearrange_panels.gif" alt="Rearranging panels" >}}
 
 {{% alert %}}
-위의 표에 설명된 설정 외에도 **아래에 섹션 추가**, **위에 섹션 추가**, **섹션 삭제** 및 **리포트에 섹션 추가**와 같이 워크스페이스에 섹션이 표시되는 방식을 편집할 수도 있습니다.
+In addition to the settings described in the preceding table, you can also edit how sections appear in your workspaces such as **Add section below**, **Add section above**, **Delete section**, and **Add section to report**. 
 {{% /alert %}}
 
-## 패널 설정
+## Panel settings
 
-개별 패널의 설정을 사용자 지정하여 동일한 플롯에서 여러 라인을 비교하고, 사용자 지정 축을 계산하고, 레이블 이름을 변경할 수 있습니다. 패널 설정을 편집하려면 다음을 수행하세요.
+Customize an individual panel's settings to compare multiple lines on the same plot, calculate custom axes, rename labels, and more. To edit a panel's settings:
 
-1. 편집할 패널 위로 마우스를 가져갑니다.
-2. 나타나는 연필 아이콘을 선택합니다.
-{{< img src="/images/app_ui/panel_settings.png" alt="" >}}
-3. 나타나는 모달 내에서 패널의 데이터, 표시 기본 설정 등에 관련된 설정을 편집할 수 있습니다.
-{{< img src="/images/app_ui/panel_settings_modal.png" alt="" >}}
+1. Hover your mouse over the panel you want to edit. 
+2. Select the pencil icon that appears.
+{{< img src="/images/app_ui/panel_settings.png" alt="Panel edit icon" >}}
+3. Within the modal that appears, you can edit settings related to the panel's data, display preferences, and more.
+{{< img src="/images/app_ui/panel_settings_modal.png" alt="Panel settings modal" >}}
 
-패널에 적용할 수 있는 설정의 전체 목록은 [라인 패널 설정 편집]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ko" >}})을 참조하세요.
+For a complete list of settings you can apply to a panel, see [Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ko" >}}).

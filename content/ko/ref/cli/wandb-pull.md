@@ -1,21 +1,22 @@
 ---
-title: wandb pull
 menu:
   reference:
     identifier: ko-ref-cli-wandb-pull
+title: wandb pull
 ---
 
-**사용법**
+**Usage**
 
 `wandb pull [OPTIONS] RUN`
 
-**요약**
+**Summary**
 
-Weights & Biases에서 파일 가져오기
+Pull files from Weights & Biases
 
-**옵션**
 
-| **옵션** | **설명** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |
-| `-p, --project` | 다운로드하려는 project입니다. |
-| `-e, --entity` | 목록의 범위를 지정할 entity입니다. |
+| `-p, --project` | The project you want to download. |
+| `-e, --entity` | The entity to scope the listing to. |

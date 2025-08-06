@@ -1,20 +1,21 @@
 ---
-title: wandb enabled
 menu:
   reference:
     identifier: ko-ref-cli-wandb-enabled
+title: wandb enabled
 ---
 
-**사용법**
+**Usage**
 
 `wandb enabled [OPTIONS]`
 
-**요약**
+**Summary**
 
-W&B를 활성화합니다.
+Enable W&B.
 
-**옵션**
 
-| **옵션** | **설명** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |
-| `--service` | W&B 서비스 활성화 [기본값: True] |
+| `--service` | Enable W&B service  [default: True] |

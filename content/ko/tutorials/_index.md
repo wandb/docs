@@ -1,68 +1,68 @@
 ---
-title: Tutorials
-description: 대화형 튜토리얼을 통해 Weights & Biases 사용을 시작하세요.
 cascade:
   menu:
     tutorials:
       parent: tutorials
   type: docs
+description: Get started using W&B with interactive tutorials.
 menu:
   tutorials:
     identifier: ko-tutorials-_index
 no_list: true
+title: Tutorials
 type: docs
 ---
 
-## 기본 사항
+## Fundamentals
 
-다음 튜토리얼에서는 기계 학습 실험 추적, 모델 평가, 하이퍼파라미터 튜닝, 모델 및 데이터셋 버전 관리 등을 위한 W&B의 기본 사항을 안내합니다.
+The following tutorials take you through the fundamentals of W&B for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
 
 {{< cardpane >}}
   {{< card >}}
     <a href="/tutorials/experiments/">
-      <h2 className="card-title">Experiments 추적</h2>
-      <p className="card-content">기계 학습 실험 추적, 모델 체크포인트, 팀과의 협업 등을 위해 W&B를 사용하세요.</p>
+      <h2 className="card-title">Track experiments</h2>
     </a>
+    <p className="card-content">Use W&B for machine learning experiment tracking, model checkpointing, collaboration with your team and more.</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/tables/">
-      <h2 className="card-title">예측값 시각화</h2>
-      <p className="card-content">MNIST 데이터에 대한 PyTorch를 사용하여 트레이닝 과정에서 모델 예측값을 추적, 시각화 및 비교합니다.</p>
+      <h2 className="card-title">Visualize predictions</h2>
     </a>
+    <p className="card-content">Track, visualize, and compare model predictions over the course of training, using PyTorch on MNIST data.</p>
   {{< /card >}}
 {{< /cardpane >}}
 
 {{< cardpane >}}
   {{< card >}}
     <a href="/tutorials/sweeps/">
-      <h2 className="card-title">하이퍼파라미터 튜닝</h2>
-      <p className="card-content">W&B Sweeps를 사용하여 학습률, 배치 크기, 숨겨진 레이어 수 등과 같은 하이퍼파라미터 값의 조합을 자동으로 검색할 수 있는 체계적인 방법을 만드세요.</p>
+      <h2 className="card-title">Tune hyperparameters</h2>
     </a>
+    <p className="card-content">Use W&B Sweeps to create an organized way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, and more.</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/artifacts/">
-      <h2 className="card-title">모델 및 데이터셋 추적</h2>
-      <p className="card-content">W&B Artifacts를 사용하여 ML experiment 파이프라인을 추적하세요.</p>
+      <h2 className="card-title">Track models and datasets</h2>
     </a>
+    <p className="card-content">Track your ML experiment pipelines using W&B Artifacts.</p>
   {{< /card >}}
 {{< /cardpane >}}
 
 
-## 인기 있는 ML 프레임워크 튜토리얼
-다음 튜토리얼에서 W&B와 함께 인기 있는 ML 프레임워크 및 라이브러리를 사용하는 방법에 대한 단계별 정보를 참조하세요.
+## Popular ML framework tutorials
+See the following tutorials for step by step information on how to use popular ML frameworks and libraries with W&B:
 
 {{< cardpane >}}
   {{< card >}}
     <a href="/tutorials/pytorch">
       <h2 className="card-title">PyTorch</h2>
-      <p className="card-content">W&B를 PyTorch 코드와 통합하여 파이프라인에 experiment 추적을 추가하세요.</p>
     </a>
+    <p className="card-content">Integrate W&B with your PyTorch code to add experiment tracking to your pipeline.</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/huggingface">
       <h2 className="card-title">HuggingFace Transformers</h2>
-      <p className="card-content">W&B integration을 통해 Hugging Face 모델의 성능을 빠르게 시각화하세요.</p>
     </a>
+    <p className="card-content">Visualize your Hugging Face model’s performance quickly with the W&B integration.</p>
   {{< /card >}}
 {{< /cardpane >}}
 
@@ -70,22 +70,20 @@ type: docs
   {{< card >}}
     <a href="/tutorials/tensorflow">
       <h2 className="card-title">Keras</h2>
-      <p className="card-content">기계 학습 experiment 추적, 데이터셋 버전 관리 및 프로젝트 협업을 위해 W&B와 Keras를 사용하세요.</p>
     </a>
+    <p className="card-content">Use W&B and Keras for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/xgboost_sweeps/">
       <h2 className="card-title">XGBoost</h2>
-      <p className="card-content">기계 학습 experiment 추적, 데이터셋 버전 관리 및 프로젝트 협업을 위해 W&B와 XGBoost를 사용하세요.</p>
     </a>
+    <p className="card-content">Use W&B and XGBoost for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
   {{< /card >}}
 {{< /cardpane >}}
 
+## Other resources
 
-
-## 기타 자료
-
-W&B AI Academy를 방문하여 애플리케이션에서 LLM을 트레이닝, 파인튜닝 및 사용하는 방법을 알아보세요. MLOps 및 LLMOps 솔루션을 구현합니다. W&B 코스로 실제 ML 문제에 도전하세요.
+Visit the W&B AI Academy to learn how to train, fine-tune and use LLMs in your applications. Implement MLOps and LLMOps solutions. Tackle real-world ML challenges with W&B courses.
 
 - Large Language Models (LLMs)
     - [LLM Engineering: Structured Outputs](https://www.wandb.courses/courses/steering-language-models?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
@@ -97,6 +95,6 @@ W&B AI Academy를 방문하여 애플리케이션에서 LLM을 트레이닝, 파
     - [CI/CD for Machine Learning (GitOps)](https://www.wandb.courses/courses/ci-cd-for-machine-learning?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Data Validation in Production ML Pipelines](https://www.wandb.courses/courses/data-validation-for-machine-learning?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Machine Learning for Business Decision Optimization](https://www.wandb.courses/courses/decision-optimization?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
-- W&B Models 
+- W&B Models
     - [W&B 101](https://wandb.ai/site/courses/101/?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [W&B 201: Model Registry](https://www.wandb.courses/courses/201-model-registry?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)

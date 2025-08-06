@@ -1,25 +1,25 @@
 ---
-title: MMEngine
 menu:
   default:
     identifier: ko-guides-integrations-mmengine
     parent: integrations
+title: MMEngine
 weight: 210
 ---
 
-MMEngine은 [OpenMMLab](https://github.com/open-mmlab)에서 만든 PyTorch 기반 딥러닝 모델 트레이닝을 위한 기본 라이브러리입니다. MMEngine은 OpenMMLab 알고리즘 라이브러리를 위한 차세대 트레이닝 아키텍처를 구현하여 OpenMMLab 내의 30개 이상의 알고리즘 라이브러리에 통합된 실행 기반을 제공합니다. 핵심 구성 요소로는 트레이닝 엔진, 평가 엔진 및 모듈 관리가 있습니다.
+MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library for training deep learning models based on PyTorch. MMEngine implements a next-generation training architecture for the OpenMMLab algorithm library, providing a unified execution foundation for over 30 algorithm libraries within OpenMMLab. Its core components include the training engine, evaluation engine, and module management.
 
-[Weights and Biases](https://wandb.ai/site)는 전용 [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend)를 통해 MMEngine에 직접 통합되어 다음 작업을 수행할 수 있습니다.
-- 트레이닝 및 평가 메트릭 기록.
-- experiment configs 기록 및 관리.
-- 그래프, 이미지, 스칼라 등과 같은 추가 레코드 기록.
+[W&B](https://wandb.ai/site) is directly integrated into MMEngine through a dedicated [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) that can be used to
+- log training and evaluation metrics.
+- log and manage experiment configs.
+- log additional records such as graph, images, scalars, etc.
 
-## 시작하기
+## Get started
 
-`openmim` 및 `wandb`를 설치합니다.
+Install `openmim` and `wandb`.
 
 {{< tabpane text=true >}}
-{{% tab header="커맨드라인" value="script" %}}
+{{% tab header="Command Line" value="script" %}}
 
 ``` bash
 pip install -q -U openmim wandb
@@ -27,7 +27,7 @@ pip install -q -U openmim wandb
 
 {{% /tab %}}
 
-{{% tab header="노트북" value="notebook" %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 ``` bash
 !pip install -q -U openmim wandb
@@ -36,10 +36,10 @@ pip install -q -U openmim wandb
 {{% /tab %}}
 {{< /tabpane >}}
 
-다음으로, `mim`을 사용하여 `mmengine` 및 `mmcv`를 설치합니다.
+Next, install `mmengine` and `mmcv` using `mim`.
 
 {{< tabpane text=true >}}
-{{% tab header="커맨드라인" value="script" %}}
+{{% tab header="Command Line" value="script" %}}
 
 ``` bash
 mim install -q mmengine mmcv
@@ -47,7 +47,7 @@ mim install -q mmengine mmcv
 
 {{% /tab %}}
 
-{{% tab header="노트북" value="notebook" %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 ``` bash
 !mim install -q mmengine mmcv
@@ -56,11 +56,11 @@ mim install -q mmengine mmcv
 {{% /tab %}}
 {{< /tabpane >}}
 
-## MMEngine Runner와 함께 `WandbVisBackend` 사용
+## Use the `WandbVisBackend` with MMEngine Runner
 
-이 섹션에서는 [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner)를 사용하여 `WandbVisBackend`를 사용하는 일반적인 워크플로우를 보여줍니다.
+This section demonstrates a typical workflow using `WandbVisBackend` using [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner).
 
-1. 시각화 config에서 `visualizer`를 정의합니다.
+1. Define a `visualizer` from a visualization config.
 
     ```python
     from mmengine.visualization import Visualizer
@@ -82,10 +82,10 @@ mim install -q mmengine mmcv
     ```
 
     {{% alert %}}
-    [W&B run 초기화]({{< relref path="/ref/python/init" lang="ko" >}}) 입력 파라미터에 대한 인수의 사전을 `init_kwargs`에 전달합니다.
+    You pass a dictionary of arguments for [W&B run initialization]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}}) input parameters to `init_kwargs`.
     {{% /alert %}}
 
-2. `visualizer`로 `runner`를 초기화하고 `runner.train()`을 호출합니다.
+2. Initialize a `runner` with the `visualizer`, and call `runner.train()`.
 
     ```python
     from mmengine.runner import Runner
@@ -104,9 +104,9 @@ mim install -q mmengine mmcv
     runner.train()
     ```
 
-## OpenMMLab 컴퓨터 비전 라이브러리와 함께 `WandbVisBackend` 사용
+## Use the `WandbVisBackend` with OpenMMLab computer vision libraries
 
-`WandbVisBackend`를 사용하여 [MMDetection](https://mmdetection.readthedocs.io/)과 같은 OpenMMLab 컴퓨터 비전 라이브러리로 Experiments를 쉽게 추적할 수도 있습니다.
+The `WandbVisBackend` can also be used easily to track experiments with OpenMMLab computer vision libraries such as [MMDetection](https://mmdetection.readthedocs.io/).
 
 ```python
 # inherit base configs from the default runtime configs

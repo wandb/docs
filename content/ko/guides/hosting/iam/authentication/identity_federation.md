@@ -1,71 +1,71 @@
 ---
-title: Use federated identities with SDK
 menu:
   default:
     identifier: ko-guides-hosting-iam-authentication-identity_federation
     parent: authentication
+title: Use federated identities with SDK
 ---
 
-W&B SDK를 통해 조직의 자격 증명을 사용하여 로그인하려면 아이덴티티 연동을 사용하세요. W&B 조직 관리자가 조직에 대해 SSO를 구성한 경우, 이미 조직의 자격 증명을 사용하여 W&B 앱 UI에 로그인하고 있을 것입니다. 이러한 의미에서 아이덴티티 연동은 W&B SDK에 대한 SSO와 유사하지만 JSON Web Tokens (JWTs)를 직접 사용한다는 차이점이 있습니다. API 키 대신 아이덴티티 연동을 사용할 수 있습니다.
+Use identity federation to sign in using your organizational credentials through W&B SDK. If your W&B organization admin has configured SSO for your organization, then you already use your organizational credentials to sign-in to the W&B app UI. In that sense, identity federation is like SSO for W&B SDK, but by using JSON Web Tokens (JWTs) directly. You can use identity federation as an alternative to API keys.
 
-[RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523)은 SDK와의 아이덴티티 연동의 기본 토대를 형성합니다.
+[RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523) forms the underlying basis for identity federation with SDK.
 
 {{% alert %}}
-아이덴티티 연동은 모든 플랫폼 유형 (SaaS Cloud, 전용 클라우드, 자체 관리 인스턴스)의 `Enterprise` 플랜에서 `Preview`로 사용할 수 있습니다. 질문이 있으시면 W&B 팀에 문의하세요.
+Identity federation is available in `Preview` for `Enterprise` plans on all platform types - SaaS Cloud, Dedicated Cloud, and Self-managed instances. Reach out to your W&B team for any questions.
 {{% /alert %}}
 
 {{% alert %}}
-이 문서의 목적을 위해 `아이덴티티 공급자`와 `JWT 발급자`라는 용어는 상호 교환적으로 사용됩니다. 둘 다 이 기능의 맥락에서 동일한 대상을 지칭합니다.
+For the purpose of this document, the terms `identity provider` and `JWT issuer` are used interchangeably. Both refer to one and the same thing in the context of this capability.
 {{% /alert %}}
 
-## JWT 발급자 설정
+## JWT issuer setup
 
-첫 번째 단계로 조직 관리자는 W&B 조직과 공개적으로 엑세스 가능한 JWT 발급자 간의 연동을 설정해야 합니다.
+As a first step, an organization admin must set up a federation between your W&B organization and a publicly accessible JWT issuer.
 
-* 조직 대시보드에서 **설정** 탭으로 이동합니다.
-* **인증** 옵션에서 `JWT 발급자 설정`을 누릅니다.
-* 텍스트 상자에 JWT 발급자 URL을 추가하고 `만들기`를 누릅니다.
+* Go to the **Settings** tab in your organization dashboard
+* In the **Authentication** option, press `Set up JWT Issuer`
+* Add the JWT issuer URL in the text box and press `Create`
 
-W&B는 자동으로 `${ISSUER_URL}/.well-known/oidc-configuration` 경로에서 OIDC 검색 문서를 찾고 검색 문서의 관련 URL에서 JSON Web Key Set (JWKS)을 찾으려고 시도합니다. JWKS는 JWT가 관련 아이덴티티 공급자에 의해 발급되었는지 확인하기 위해 JWT의 실시간 유효성 검사에 사용됩니다.
+W&B will automatically look for a OIDC discovery document at the path `${ISSUER_URL}/.well-known/oidc-configuration`, and try to find the JSON Web Key Set (JWKS) at a relevant URL in the discovery document. The JWKS is used for real-time validation of the JWTs to ensure that those have been issued by the relevant identity provider.
 
-## JWT를 사용하여 W&B에 엑세스
+## Using the JWT to access W&B
 
-W&B 조직에 대해 JWT 발급자가 설정되면 사용자는 해당 아이덴티티 공급자가 발급한 JWT를 사용하여 관련 W&B 프로젝트에 엑세스할 수 있습니다. JWT를 사용하는 메커니즘은 다음과 같습니다.
+Once a JWT issuer has been setup for your W&B organization, users can start accessing the relevant W&B projects using JWTs issued by that identity provider. The mechanism for using JWTs is as follows:
 
-* 조직에서 사용할 수 있는 메커니즘 중 하나를 사용하여 아이덴티티 공급자에 로그인해야 합니다. 일부 공급자는 API 또는 SDK를 사용하여 자동화된 방식으로 엑세스할 수 있지만 일부는 관련 UI를 사용해야만 엑세스할 수 있습니다. 자세한 내용은 W&B 조직 관리자 또는 JWT 발급자 소유자에게 문의하세요.
-* 아이덴티티 공급자에 로그인한 후 JWT를 검색했으면 안전한 위치의 파일에 저장하고 환경 변수 `WANDB_IDENTITY_TOKEN_FILE`에 절대 파일 경로를 구성합니다.
-* W&B SDK 또는 CLI를 사용하여 W&B 프로젝트에 엑세스합니다. SDK 또는 CLI는 JWT를 자동으로 감지하고 JWT가 성공적으로 유효성 검사된 후 W&B 엑세스 토큰으로 교환해야 합니다. W&B 엑세스 토큰은 AI 워크플로우를 활성화하기 위한 관련 API에 엑세스하는 데 사용됩니다. 즉, run, 메트릭, Artifacts 등을 로그합니다. 엑세스 토큰은 기본적으로 `~/.config/wandb/credentials.json` 경로에 저장됩니다. 환경 변수 `WANDB_CREDENTIALS_FILE`을 지정하여 해당 경로를 변경할 수 있습니다.
+* You must sign-in to the identity provider using one of the mechanisms available in your organization. Some providers can be accessed in an automated manner using an API or SDK, while some can only be accessed using a relevant UI. Reach out to your W&B organization admin or the owner of the JWT issuer for details.
+* Once you've retrieved the JWT after signing in to your identity provider, store it in a file at a secure location and configure the absolute file path in an environment variable `WANDB_IDENTITY_TOKEN_FILE`.
+* Access your W&B project using the W&B SDK or CLI. The SDK or CLI should automatically detect the JWT and exchange it for a W&B access token after the JWT has been successfully validated. The W&B access token is used to access the relevant APIs for enabling your AI workflows, that is, to log runs, metrics, artifacts and so forth. The access token is by default stored at the path `~/.config/wandb/credentials.json`. You can change that path by specifying the environment variable `WANDB_CREDENTIALS_FILE`.
 
 {{% alert %}}
-JWT는 API 키, 비밀번호 등과 같은 오래 지속되는 자격 증명의 단점을 해결하기 위한 짧은 수명의 자격 증명입니다. 아이덴티티 공급자에 구성된 JWT 만료 시간에 따라 JWT를 계속 갱신하고 환경 변수 `WANDB_IDENTITY_TOKEN_FILE`에서 참조하는 파일에 저장해야 합니다.
+JWTs are meant to be short-lived credentials to address the shortcomings of long-lived credentials like API keys, passwords and so forth. Depending on the JWT expiry time configured in your identity provider, you must continuously refresh the JWT and ensure that it's stored in the file referenced by the environment variable `WANDB_IDENTITY_TOKEN_FILE`.
 
-W&B 엑세스 토큰에도 기본 만료 기간이 있으며, 그 후 SDK 또는 CLI는 JWT를 사용하여 자동으로 갱신하려고 시도합니다. 해당 시간까지 사용자 JWT도 만료되고 갱신되지 않으면 인증 실패가 발생할 수 있습니다. 가능하다면 JWT 검색 및 만료 후 갱신 메커니즘은 W&B SDK 또는 CLI를 사용하는 AI 워크로드의 일부로 구현해야 합니다.
+W&B access token also has a default expiry duration, after which the SDK or the CLI automatically try to refresh that using your JWT. If the user JWT has also expired by that time and is not refreshed, that could result in an authentication failure. If possible, the JWT retrieval and post-expiry refresh mechanism should be implemented as part of the AI workload that uses the W&B SDK or CLI.
 {{% /alert %}}
 
-### JWT 유효성 검사
+### JWT validation
 
-JWT를 W&B 엑세스 토큰으로 교환한 다음 프로젝트에 엑세스하는 워크플로우의 일부로 JWT는 다음 유효성 검사를 거칩니다.
+As part of the workflow to exchange the JWT for a W&B access token and then access a project, the JWT undergoes following validations:
 
-* JWT 서명은 W&B 조직 수준에서 JWKS를 사용하여 확인됩니다. 이것이 첫 번째 방어선이며, 실패하면 JWKS 또는 JWT 서명 방식에 문제가 있음을 의미합니다.
-* JWT의 `iss` 클레임은 조직 수준에서 구성된 발급자 URL과 같아야 합니다.
-* JWT의 `sub` 클레임은 W&B 조직에 구성된 사용자의 이메일 주소와 같아야 합니다.
-* JWT의 `aud` 클레임은 AI 워크플로우의 일부로 엑세스하는 프로젝트를 수용하는 W&B 조직의 이름과 같아야 합니다. [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 또는 [자체 관리]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) 인스턴스의 경우 인스턴스 수준 환경 변수 `SKIP_AUDIENCE_VALIDATION`을 `true`로 구성하여 대상 클레임의 유효성 검사를 건너뛰거나 `wandb`를 대상으로 사용할 수 있습니다.
-* JWT의 `exp` 클레임은 토큰이 유효한지 또는 만료되었는지 확인하기 위해 검사되며 갱신해야 합니다.
+* The JWT signature is verified using the JWKS at the W&B organization level. This is the first line of defense, and if this fails, that means there's a problem with your JWKS or how your JWT is signed.
+* The `iss` claim in the JWT should be equal to the issuer URL configured at the organization level.
+* The `sub` claim in the JWT should be equal to the user's email address as configured in the W&B organization.
+* The `aud` claim in the JWT should be equal to the name of the W&B organization which houses the project that you are accessing as part of your AI workflow. In case of [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) instances, you could configure an instance-level environment variable `SKIP_AUDIENCE_VALIDATION` to `true` to skip validation of the audience claim, or use `wandb` as the audience.
+* The `exp` claim in the JWT is checked to see if the token is valid or has expired and needs to be refreshed.
 
-## 외부 서비스 계정
+## External service accounts
 
-W&B는 오랫동안 오래 지속되는 API 키가 있는 기본 제공 서비스 계정을 지원해 왔습니다. SDK 및 CLI에 대한 아이덴티티 연동 기능을 사용하면 조직 수준에서 구성된 동일한 발급자가 발급한 경우 JWT를 인증에 사용할 수 있는 외부 서비스 계정을 가져올 수도 있습니다. 팀 관리자는 기본 제공 서비스 계정과 마찬가지로 팀 범위 내에서 외부 서비스 계정을 구성할 수 있습니다.
+W&B has supported built-in service accounts with long-lived API keys for long. With the identity federation capability for SDK and CLI, you can also bring external service accounts that could use JWTs for authentication, though as long as those are issued by the same issuer which is configured at the organization level. A team admin can configure external service accounts within the scope of a team, like the built-in service accounts.
 
-외부 서비스 계정을 구성하려면:
+To configure an external service account:
 
-* 팀의 **서비스 계정** 탭으로 이동합니다.
-* `새 서비스 계정`을 누릅니다.
-* 서비스 계정 이름을 제공하고 `인증 방법`으로 `Federated Identity`를 선택하고 `Subject`를 제공하고 `만들기`를 누릅니다.
+* Go to the **Service Accounts** tab for your team
+* Press `New service account`
+* Provide a name for the service account, select `Federated Identity` as the `Authentication Method`, provide a `Subject`, and press `Create`
 
-외부 서비스 계정의 `sub` 클레임은 팀 관리자가 팀 수준 **서비스 계정** 탭에서 해당 제목으로 구성한 것과 동일해야 합니다. 해당 클레임은 [JWT 유효성 검사]({{< relref path="#jwt-validation" lang="ko" >}})의 일부로 확인됩니다. `aud` 클레임 요구 사항은 인간 사용자 JWT의 요구 사항과 유사합니다.
+The `sub` claim in the external service account's JWT should be same as what the team admin configures as its subject in the team-level **Service Accounts** tab. That claim is verified as part of [JWT validation]({{< relref path="#jwt-validation" lang="ko" >}}). The `aud` claim requirement is similar to that for human user JWTs.
 
-[외부 서비스 계정의 JWT를 사용하여 W&B에 엑세스]({{< relref path="#using-the-jwt-to-access-wb" lang="ko" >}})할 때 초기 JWT를 생성하고 지속적으로 갱신하는 워크플로우를 자동화하는 것이 일반적으로 더 쉽습니다. 외부 서비스 계정을 사용하여 기록된 run을 인간 사용자에게 귀속시키려면 기본 제공 서비스 계정에 대해 수행되는 방식과 유사하게 AI 워크플로우에 대해 환경 변수 `WANDB_USERNAME` 또는 `WANDB_USER_EMAIL`을 구성할 수 있습니다.
+When [using an external service account's JWT to access W&B]({{< relref path="#using-the-jwt-to-access-wb" lang="ko" >}}), it's typically easier to automate the workflow to generate the initial JWT and continuously refresh it. If you would like to attribute the runs logged using an external service account to a human user, you can configure the environment variables `WANDB_USERNAME` or `WANDB_USER_EMAIL` for your AI workflow, similar to how it's done for the built-in service accounts.
 
 {{% alert %}}
-W&B는 유연성과 단순성 사이의 균형을 맞추기 위해 다양한 수준의 데이터 민감도를 가진 AI 워크로드에서 기본 제공 및 외부 서비스 계정의 조합을 사용하는 것이 좋습니다.
+W&B recommends to use a mix of built-in and external service accounts across your AI workloads with different levels of data sensitivity, in order to strike a balance between flexibility and simplicity.
 {{% /alert %}}

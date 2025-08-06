@@ -1,78 +1,79 @@
 ---
-title: Manage user settings
-description: 사용자 설정 에서 프로필 정보, 계정 기본값, 알림, 베타 제품 참여, GitHub 인테그레이션 , 저장소 사용량, 계정 활성화를
-  관리하고 팀 을 만드세요.
+description: Manage your profile information, account defaults, alerts, participation
+  in beta products, GitHub integration, storage usage, account activation, and create
+  teams in your user settings.
 menu:
   default:
     identifier: ko-guides-models-app-settings-page-user-settings
     parent: settings
+title: Manage user settings
 weight: 10
 ---
 
-사용자 프로필 페이지로 이동하여 오른쪽 상단 모서리에 있는 사용자 아이콘을 선택하세요. 드롭다운 메뉴에서 **설정**을 선택합니다.
+Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
 
-## 프로필
+## Profile
 
-**프로필** 섹션에서는 계정 이름과 소속 기관을 관리하고 수정할 수 있습니다. 선택적으로 자기소개, 위치, 개인 또는 소속 기관 웹사이트 링크를 추가하고 프로필 이미지를 업로드할 수 있습니다.
+Within the **Profile** section you can manage and modify your account name and institution. You can optionally add a biography, location, link to a personal or your institution’s website, and upload a profile image.
 
-## 자기 소개 편집
+## Edit your intro
 
-자기 소개를 편집하려면 프로필 상단의 **편집**을 클릭합니다. 열리는 WYSIWYG 편집기는 Markdown을 지원합니다.
-1. 줄을 편집하려면 해당 줄을 클릭합니다. 시간을 절약하기 위해 `/`를 입력하고 목록에서 Markdown을 선택할 수 있습니다.
-1. 항목의 드래그 핸들을 사용하여 이동합니다.
-1. 블록을 삭제하려면 드래그 핸들을 클릭한 다음 **삭제**를 클릭합니다.
-1. 변경 사항을 저장하려면 **저장**을 클릭합니다.
+To edit your intro, click **Edit** at the top of your profile. The WYSIWYG editor that opens supports Markdown.
+1. To edit a line, click it. To save time, you can type `/` and choose Markdown from the list.
+1. Use an item's drag handles to move it.
+1. To delete a block, click the drag handle, then click **Delete**.
+1. To save your changes, click **Save**.
 
-### 소셜 배지 추가
+### Add social badges
 
-X에서 `@weights_biases` 계정에 대한 팔로우 배지를 추가하려면 배지 이미지를 가리키는 HTML `<img>` 태그가 있는 Markdown 스타일 링크를 추가할 수 있습니다.
+To add a follow badge for the `@weights_biases` account on X, you could add a Markdown-style link with an HTML `<img>` tag that points to the badge image:
 
 ```markdown
-[<img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="X: @weights_biases" >](https://x.com/intent/follow?screen_name=weights_biases)
+[![X: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://x.com/intent/follow?screen_name=weights_biases)
 ```
-`<img>` 태그에서 `width`, `height` 또는 둘 다 지정할 수 있습니다. 둘 중 하나만 지정하면 이미지 비율이 유지됩니다.
+In an `<img>` tag, you can specify `width`, `height`, or both. If you specify only one of them, the image's proportions are maintained.
 
-## 팀
+## Teams
 
-**팀** 섹션에서 새 팀을 만듭니다. 새 팀을 만들려면 **새 팀** 버튼을 선택하고 다음을 제공합니다.
+Create a new team in the **Team** section. To create a new team, select the **New team** button and provide the following:
 
-* **팀 이름** - 팀의 이름입니다. 팀 이름은 고유해야 합니다. 팀 이름은 변경할 수 없습니다.
-* **팀 유형** - **업무** 또는 **학술** 버튼을 선택합니다.
-* **회사/조직** - 팀의 회사 또는 조직 이름을 제공합니다. 드롭다운 메뉴를 선택하여 회사 또는 조직을 선택합니다. 선택적으로 새 조직을 제공할 수 있습니다.
+* **Team name** - the name of your team. The team mane must be unique. Team names can not be changed.
+* **Team type** - Select either the **Work** or **Academic** button.
+* **Company/Organization** - Provide the name of the team’s company or organization. Choose the dropdown menu to select a company or organization. You can optionally provide a new organization.
 
 {{% alert %}}
-관리 계정만 팀을 만들 수 있습니다.
+Only administrative accounts can create a team.
 {{% /alert %}}
 
-## 베타 기능
+## Beta features
 
-**베타 기능** 섹션에서는 선택적으로 재미있는 추가 기능과 개발 중인 새 제품의 미리 보기를 활성화할 수 있습니다. 활성화하려는 베타 기능 옆에 있는 토글 스위치를 선택합니다.
+Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable.
 
-## 알림
+## Alerts
 
-[wandb.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ko" >}})을 사용하여 run이 충돌하거나 완료될 때 알림을 받고 사용자 정의 알림을 설정합니다. 이메일 또는 Slack을 통해 알림을 받습니다. 알림을 받을 이벤트 유형 옆에 있는 스위치를 토글합니다.
+Get notified when your runs crash, finish, or set custom alerts with [wandb.Run.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ko" >}}). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
 
-* **Runs finished**: Weights & Biases run이 성공적으로 완료되었는지 여부.
-* **Run crashed**: run이 완료되지 못한 경우 알림.
+* **Runs finished**: whether a Weights and Biases run successfully finished.
+* **Run crashed**: notification if a run has failed to finish.
 
-알림을 설정하고 관리하는 방법에 대한 자세한 내용은 [wandb.alert로 알림 보내기]({{< relref path="/guides/models/track/runs/alert.md" lang="ko" >}})를 참조하세요.
+For more information about how to set up and manage alerts, see [Send alerts with wandb.Run.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ko" >}}).
 
-## 개인 GitHub 인테그레이션
+## Personal GitHub integration
 
-개인 Github 계정을 연결합니다. Github 계정을 연결하려면:
+Connect a personal Github account. To connect a Github account:
 
-1. **Github 연결** 버튼을 선택합니다. 그러면 OAuth (Open Authorization) 페이지로 리디렉션됩니다.
-2. **조직 엑세스** 섹션에서 엑세스 권한을 부여할 조직을 선택합니다.
-3. **wandb**를 **승인**합니다.
+1. Select the **Connect Github** button. This will redirect you to an open authorization (OAuth) page.
+2. Select the organization to grant access in the **Organization access** section.
+3. Select **Authorize** **wandb**.
 
-## 계정 삭제
+## Delete your account
 
-**계정 삭제** 버튼을 선택하여 계정을 삭제합니다.
+Select the **Delete Account** button to delete your account.
 
 {{% alert color="secondary" %}}
-계정 삭제는 되돌릴 수 없습니다.
+Account deletion can not be reversed.
 {{% /alert %}}
 
-## 저장 공간
+## Storage
 
-**저장 공간** 섹션에서는 계정이 Weights & Biases 서버에서 사용한 총 메모리 사용량을 설명합니다. 기본 저장 공간 플랜은 100GB입니다. 저장 공간 및 가격 책정에 대한 자세한 내용은 [가격](https://wandb.ai/site/pricing) 페이지를 참조하세요.
+The **Storage** section describes the total memory usage the your account has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.

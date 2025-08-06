@@ -1,264 +1,264 @@
 ---
-title: run
 menu:
   reference:
     identifier: ja-ref-query-panel-run
+title: run
 ---
 
 ## Chainable Ops
 <h3 id="run-config"><code>run-config</code></h3>
 
-[run](run.md) の config _typedDict_ を返します。
+Returns the config _typedDict_ of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の config _typedDict_
+#### Return Value
+The config _typedDict_ of the [run](run.md)
 
 <h3 id="run-createdAt"><code>run-createdAt</code></h3>
 
-[run](run.md) の作成日時を返します。
+Returns the created at datetime of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の作成日時
+#### Return Value
+The created at datetime of the [run](run.md)
 
 <h3 id="run-heartbeatAt"><code>run-heartbeatAt</code></h3>
 
-[run](run.md) の最後のハートビート日時を返します。
+Returns the last heartbeat datetime of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の最後のハートビート日時
+#### Return Value
+The last heartbeat datetime of the [run](run.md)
 
 <h3 id="run-history"><code>run-history</code></h3>
 
-[run](run.md) のログ履歴を返します。
+Returns the log history of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) のログ履歴
+#### Return Value
+The log history of the [run](run.md)
 
 <h3 id="run-jobType"><code>run-jobType</code></h3>
 
-[run](run.md) のジョブタイプを返します。
+Returns the job type of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) のジョブタイプ
+#### Return Value
+The job type of the [run](run.md)
 
 <h3 id="run-loggedArtifactVersion"><code>run-loggedArtifactVersion</code></h3>
 
-指定された名前とエイリアスに対して [run](run.md) によってログに記録された [artifactVersion](artifact-version.md) を返します。
+Returns the [artifactVersion](artifact-version.md) logged by the [run](run.md) for a given name and alias
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
-| `artifactVersionName` | [artifactVersion](artifact-version.md) の名前:エイリアス |
+| `run` | A [run](run.md) |
+| `artifactVersionName` | The name:alias of the [artifactVersion](artifact-version.md) |
 
-#### 戻り値
-指定された名前とエイリアスに対して[run](run.md) によってログに記録された [artifactVersion](artifact-version.md)
+#### Return Value
+The [artifactVersion](artifact-version.md) logged by the [run](run.md) for a given name and alias
 
 <h3 id="run-loggedArtifactVersions"><code>run-loggedArtifactVersions</code></h3>
 
-[run](run.md) によってログに記録された全ての [artifactVersions](artifact-version.md) を返します。
+Returns all of the [artifactVersions](artifact-version.md) logged by the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) によってログに記録された [artifactVersions](artifact-version.md)
+#### Return Value
+The [artifactVersions](artifact-version.md) logged by the [run](run.md)
 
 <h3 id="run-name"><code>run-name</code></h3>
 
-[run](run.md) の名前を返します。
+Returns the name of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の名前
+#### Return Value
+The name of the [run](run.md)
 
 <h3 id="run-runtime"><code>run-runtime</code></h3>
 
-[run](run.md) の実行時間を秒単位で返します。
+Returns the runtime in seconds of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の実行時間（秒単位）
+#### Return Value
+The runtime in seconds of the [run](run.md)
 
 <h3 id="run-summary"><code>run-summary</code></h3>
 
-[run](run.md) のサマリー _typedDict_ を返します。
+Returns the summary _typedDict_ of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) のサマリー _typedDict_
+#### Return Value
+The summary _typedDict_ of the [run](run.md)
 
 <h3 id="run-usedArtifactVersions"><code>run-usedArtifactVersions</code></h3>
 
-[run](run.md) によって使用された全ての [artifactVersions](artifact-version.md) を返します。
+Returns all of the [artifactVersions](artifact-version.md) used by the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) によって使用された [artifactVersions](artifact-version.md)
+#### Return Value
+The [artifactVersions](artifact-version.md) used by the [run](run.md)
 
 <h3 id="run-user"><code>run-user</code></h3>
 
-[run](run.md) の [user](user.md) を返します。
+Returns the [user](user.md) of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の [user](user.md)
+#### Return Value
+The [user](user.md) of the [run](run.md)
 
 
 ## List Ops
 <h3 id="run-config"><code>run-config</code></h3>
 
-[run](run.md) の config _typedDict_ を返します。
+Returns the config _typedDict_ of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の config _typedDict_
+#### Return Value
+The config _typedDict_ of the [run](run.md)
 
 <h3 id="run-createdAt"><code>run-createdAt</code></h3>
 
-[run](run.md) の作成日時を返します。
+Returns the created at datetime of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の作成日時
+#### Return Value
+The created at datetime of the [run](run.md)
 
 <h3 id="run-heartbeatAt"><code>run-heartbeatAt</code></h3>
 
-[run](run.md) の最後のハートビート日時を返します。
+Returns the last heartbeat datetime of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の最後のハートビート日時
+#### Return Value
+The last heartbeat datetime of the [run](run.md)
 
 <h3 id="run-history"><code>run-history</code></h3>
 
-[run](run.md) のログ履歴を返します。
+Returns the log history of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) のログ履歴
+#### Return Value
+The log history of the [run](run.md)
 
 <h3 id="run-jobType"><code>run-jobType</code></h3>
 
-[run](run.md) のジョブタイプを返します。
+Returns the job type of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) のジョブタイプ
+#### Return Value
+The job type of the [run](run.md)
 
 <h3 id="run-loggedArtifactVersion"><code>run-loggedArtifactVersion</code></h3>
 
-指定された名前とエイリアスに対して [run](run.md) によってログに記録された [artifactVersion](artifact-version.md) を返します。
+Returns the [artifactVersion](artifact-version.md) logged by the [run](run.md) for a given name and alias
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
-| `artifactVersionName` | [artifactVersion](artifact-version.md) の名前:エイリアス |
+| `run` | A [run](run.md) |
+| `artifactVersionName` | The name:alias of the [artifactVersion](artifact-version.md) |
 
-#### 戻り値
-指定された名前とエイリアスに対して [run](run.md) によってログに記録された [artifactVersion](artifact-version.md)
+#### Return Value
+The [artifactVersion](artifact-version.md) logged by the [run](run.md) for a given name and alias
 
 <h3 id="run-loggedArtifactVersions"><code>run-loggedArtifactVersions</code></h3>
 
-[run](run.md) によってログに記録された全ての [artifactVersions](artifact-version.md) を返します。
+Returns all of the [artifactVersions](artifact-version.md) logged by the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) によってログに記録された [artifactVersions](artifact-version.md)
+#### Return Value
+The [artifactVersions](artifact-version.md) logged by the [run](run.md)
 
 <h3 id="run-name"><code>run-name</code></h3>
 
-[run](run.md) の名前を返します。
+Returns the name of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の名前
+#### Return Value
+The name of the [run](run.md)
 
 <h3 id="run-runtime"><code>run-runtime</code></h3>
 
-[run](run.md) の実行時間を秒単位で返します。
+Returns the runtime in seconds of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) の実行時間（秒単位）
+#### Return Value
+The runtime in seconds of the [run](run.md)
 
 <h3 id="run-summary"><code>run-summary</code></h3>
 
-[run](run.md) のサマリー _typedDict_ を返します。
+Returns the summary _typedDict_ of the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) のサマリー _typedDict_
+#### Return Value
+The summary _typedDict_ of the [run](run.md)
 
 <h3 id="run-usedArtifactVersions"><code>run-usedArtifactVersions</code></h3>
 
-[run](run.md) によって使用された全ての [artifactVersions](artifact-version.md) を返します。
+Returns all of the [artifactVersions](artifact-version.md) used by the [run](run.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `run` | [run](run.md) |
+| `run` | A [run](run.md) |
 
-#### 戻り値
-[run](run.md) によって使用された [artifactVersions](artifact-version.md)
+#### Return Value
+The [artifactVersions](artifact-version.md) used by the [run](run.md)

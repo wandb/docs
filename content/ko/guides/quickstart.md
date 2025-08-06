@@ -1,32 +1,36 @@
 ---
-title: W&B Quickstart
-description: W&B 퀵스타트
+description: W&B Quickstart
 menu:
   default:
     identifier: ko-guides-quickstart
     parent: guides
-url: /ko/quickstart
+title: W&B Quickstart
+url: quickstart
 weight: 2
 ---
 
-W&B를 설치하여 모든 규모의 기계 학습 Experiments를 추적, 시각화 및 관리하세요.
+Install W&B to track, visualize, and manage machine learning experiments of any size.
 
-## 가입하고 API 키 생성하기
+{{% alert %}}
+Are you looking for information on W&B Weave? See the [Weave Python SDK quickstart](https://weave-docs.wandb.ai/quickstart) or [Weave TypeScript SDK quickstart](https://weave-docs.wandb.ai/reference/generated_typescript_docs/intro-notebook).
+{{% /alert %}}
 
-W&B로 사용자의 머신을 인증하려면 사용자 프로필 또는 [wandb.ai/authorize](https://wandb.ai/authorize)에서 API 키를 생성하세요. API 키를 복사하여 안전하게 보관하세요.
+## Sign up and create an API key
 
-## `wandb` 라이브러리 설치 및 로그인
+To authenticate your machine with W&B, generate an API key from your user profile or at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
+
+## Install the `wandb` library and log in
 
 {{< tabpane text=true >}}
-{{% tab header="커맨드라인" value="cli" %}}
+{{% tab header="Command Line" value="cli" %}}
 
-1. `WANDB_API_KEY` [환경 변수]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}})를 설정합니다.
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}}).
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-2. `wandb` 라이브러리를 설치하고 로그인합니다.
+2. Install the `wandb` library and log in.
 
     ```shell
     pip install wandb
@@ -42,12 +46,13 @@ pip install wandb
 ```
 ```python
 import wandb
+
 wandb.login()
 ```
 
 {{% /tab %}}
 
-{{% tab header="Python 노트북" value="notebook" %}}
+{{% tab header="Python notebook" value="notebook" %}}
 
 ```notebook
 !pip install wandb
@@ -58,68 +63,65 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## run 시작 및 하이퍼파라미터 추적
+## Start a run and track hyperparameters
 
-Python 스크립트 또는 노트북에서 [`wandb.init()`]({{< relref path="/ref/python/run.md" lang="ko" >}})으로 W&B run 오브젝트를 초기화합니다. `config` 파라미터에 사전을 사용하여 하이퍼파라미터 이름과 값을 지정합니다.
+In your Python script or notebook, initialize a W&B run object with [`wandb.init()`]({{< relref path="/ref/python/sdk/classes/run.md" lang="ko" >}}). Use a dictionary for the `config` parameter to specify hyperparameter names and values.
 
 ```python
 run = wandb.init(
-    project="my-awesome-project",  # 프로젝트 지정
-    config={                        # 하이퍼파라미터 및 메타데이터 추적
+    project="my-awesome-project",  # Specify your project
+    config={                        # Track hyperparameters and metadata
         "learning_rate": 0.01,
         "epochs": 10,
     },
 )
 ```
 
-[Run]({{< relref path="/guides/models/track/runs/" lang="ko" >}})은 W&B의 핵심 요소로, [메트릭 추적]({{< relref path="/guides/models/track/" lang="ko" >}}), [로그 생성]({{< relref path="/guides/models/track/log/" lang="ko" >}}) 등에 사용됩니다.
+A [run]({{< relref path="/guides/models/track/runs/" lang="ko" >}}) serves as the core element of W&B, used to [track metrics]({{< relref path="/guides/models/track/" lang="ko" >}}), [create logs]({{< relref path="/guides/models/track/log/" lang="ko" >}}), and more.
 
-## 컴포넌트 조립
+## Assemble the components
 
-이 모의 트레이닝 스크립트는 시뮬레이션된 정확도 및 손실 메트릭을 W&B에 기록합니다.
+This mock training script logs simulated accuracy and loss metrics to W&B:
 
 ```python
-# train.py
 import wandb
 import random
 
 wandb.login()
 
-epochs = 10
-lr = 0.01
+# Project that the run is recorded to
+project = "my-awesome-project"
 
-run = wandb.init(
-    project="my-awesome-project",    # 프로젝트 지정
-    config={                         # 하이퍼파라미터 및 메타데이터 추적
-        "learning_rate": lr,
-        "epochs": epochs,
-    },
-)
+# Dictionary with hyperparameters
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
 
-offset = random.random() / 5
-print(f"lr: {lr}")
-
-# 트레이닝 run 시뮬레이션
-for epoch in range(2, epochs):
-    acc = 1 - 2**-epoch - random.random() / epoch - offset
-    loss = 2**-epoch + random.random() / epoch + offset
-    print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
-    wandb.log({"accuracy": acc, "loss": loss})
-
-# run.log_code()
+with wandb.init(project=project, config=config) as run:
+    offset = random.random() / 5
+    print(f"lr: {config['lr']}")
+    
+    # Simulate a training run
+    for epoch in range(2, config['epochs']):
+        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+        run.log({"accuracy": acc, "loss": loss})
 ```
 
-[wandb.ai/home](https://wandb.ai/home)을 방문하여 정확도 및 손실과 같이 기록된 메트릭과 각 트레이닝 단계에서 어떻게 변경되었는지 확인하세요. 다음 이미지는 각 run에서 추적된 손실 및 정확도를 보여줍니다. 각 run 오브젝트는 생성된 이름과 함께 **Runs** 열에 나타납니다.
+Visit [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss and how they changed during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
 {{< img src="/images/quickstart/quickstart_image.png" alt="Shows loss and accuracy tracked from each run." >}}
 
-## 다음 단계
+## Next steps
 
-W&B ecosystem의 더 많은 기능을 탐색해 보세요.
+Explore more features of the W&B ecosystem:
 
-1. PyTorch와 같은 프레임워크, Hugging Face와 같은 라이브러리, SageMaker와 같은 서비스와 W&B를 결합하는 [W&B Integration 튜토리얼]({{< relref path="guides/integrations/" lang="ko" >}})을 읽어보세요.
-2. [W&B Reports]({{< relref path="/guides/core/reports/" lang="ko" >}})를 사용하여 runs을 구성하고, 시각화를 자동화하고, 발견한 내용을 요약하고, 협업자와 업데이트를 공유합니다.
-3. [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}})를 생성하여 기계 학습 파이프라인 전체에서 데이터셋, Models, 종속성 및 결과를 추적합니다.
-4. [W&B Sweeps]({{< relref path="/guides/models/sweeps/" lang="ko" >}})로 하이퍼파라미터 검색을 자동화하고 Models을 최적화합니다.
-5. [중앙 대시보드]({{< relref path="/guides/models/tables/" lang="ko" >}})에서 runs을 분석하고, 모델 예측값을 시각화하고, 인사이트를 공유합니다.
-6. 핸즈온 코스를 통해 LLM, MLOps 및 W&B Models에 대해 배우려면 [W&B AI Academy](https://wandb.ai/site/courses/)를 방문하세요.
+1. Read the [W&B Integration tutorials]({{< relref path="guides/integrations/" lang="ko" >}}) that combine W&B with frameworks like PyTorch, libraries like Hugging Face, and services like SageMaker.
+2. Organize runs, automate visualizations, summarize findings, and share updates with collaborators using [W&B Reports]({{< relref path="/guides/core/reports/" lang="ko" >}}).
+3. Create [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}}) to track datasets, models, dependencies, and results throughout your machine learning pipeline.
+4. Automate hyperparameter searches and optimize models with [W&B Sweeps]({{< relref path="/guides/models/sweeps/" lang="ko" >}}).
+5. Analyze runs, visualize model predictions, and share insights on a [central dashboard]({{< relref path="/guides/models/tables/" lang="ko" >}}).
+6. Visit [W&B AI Academy](https://wandb.ai/site/courses/) to learn about LLMs, MLOps, and W&B Models through hands-on courses.
+7. Visit [weave-docs.wandb.ai](https://weave-docs.wandb.ai/) to learn how to track track, experiment with, evaluate, deploy, and improve your LLM-based applications using Weave.

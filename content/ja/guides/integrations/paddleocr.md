@@ -1,45 +1,47 @@
 ---
-title: PaddleOCR
-description: PaddleOCR と W&B を統合する方法。
+description: How to integrate W&B with PaddleOCR.
 menu:
   default:
     identifier: ja-guides-integrations-paddleocr
     parent: integrations
+title: PaddleOCR
 weight: 280
 ---
 
-[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) は、多言語対応で素晴らしく、実用的でユーザーがより良いモデルをトレーニングし、PaddlePaddleで実践的に適用できるOCRツールの作成を目指しています。PaddleOCRはOCRに関連するさまざまな最先端のアルゴリズムをサポートし、産業用ソリューションを開発しました。PaddleOCRにはWeights & Biasesのインテグレーションがあり、トレーニングと評価メトリクスをログに記録し、対応するメタデータとともにモデルのチェックポイントを保存できます。
+[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) aims to create multilingual, awesome, leading, and practical OCR tools that help users train better models and apply them into practice implemented in PaddlePaddle. PaddleOCR support a variety of cutting-edge algorithms related to OCR, and developed industrial solution. PaddleOCR now comes with a W&B integration for logging training and evaluation metrics along with model checkpoints with corresponding metadata.
 
-## 例: ブログ & Colab
+## Example Blog & Colab
 
-PaddleOCRでICDAR2015データセットを使ってモデルをトレーニングする方法を知るには、[**こちらをお読みください**](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw)。さらに[**Google Colab**](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing)も提供されており、対応するライブW&Bダッシュボードは[**こちら**](https://wandb.ai/manan-goel/text_detection)で利用できます。このブログの中国語バージョンもこちらで利用できます: [**W&B对您的OCR模型进行训练和调试**](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)
+[Read here](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw) to see how to train a model with PaddleOCR on the ICDAR2015 dataset. This also comes with a [Google Colab](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing) and the corresponding live W&B dashboard is available [here](https://wandb.ai/manan-goel/text_detection). There is also a Chinese version of this blog here: [W&B对您的OCR模型进行训练和调试](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)
 
-## サインアップしてAPIキーを作成する
+## Sign up and create an API key
 
-APIキーは、W&Bへの認証に使われます。APIキーはユーザーのプロファイルから生成できます。
+An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-よりスムーズな方法として、直接[https://wandb.ai/authorize](https://wandb.ai/authorize)にアクセスしてAPIキーを生成することができます。表示されたAPIキーをコピーし、パスワードマネージャーなどの安全な場所に保存してください。
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
-1. 右上のユーザープロファイルアイコンをクリックします。
-2. **User Settings**を選択し、**API Keys**セクションまでスクロールします。
-3. **Reveal**をクリックします。表示されたAPIキーをコピーします。APIキーを非表示にするには、ページを再読み込みします。
+1. Click your user profile icon in the upper right corner.
+1. Select **User Settings**, then scroll to the **API Keys** section.
+1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
-## `wandb`ライブラリをインストールしてログインする
+## Install the `wandb` library and log in
 
-`wandb`ライブラリをローカルにインストールしてログインするには:
+To install the `wandb` library locally and log in:
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})を自分のAPIキーに設定します。
+1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to your API key.
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. `wandb`ライブラリをインストールしてログインします。
+1. Install the `wandb` library and log in.
+
+
 
     ```shell
     pip install wandb
@@ -73,40 +75,40 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## `config.yml`ファイルにwandbを追加する
+## Add wandb to your `config.yml` file
 
-PaddleOCRでは設定変数をyamlファイルで提供する必要があります。設定yamlファイルの最後に次のスニペットを追加することで、すべてのトレーニングおよびバリデーションメトリクスをW&Bダッシュボードに自動的にログ記録するとともに、モデルのチェックポイントも保存されます:
+PaddleOCR requires configuration variables to be provided using a yaml file. Adding the following snippet at the end of the configuration yaml file will automatically log all training and validation metrics to a W&B dashboard along with model checkpoints:
 
 ```python
 Global:
     use_wandb: True
 ```
 
-[`wandb.init`]({{< relref path="/ref/python/init" lang="ja" >}})に渡したい追加の任意の引数は、yamlファイルの`wandb`ヘッダーの下に追加することもできます:
+Any additional, optional arguments that you might like to pass to [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) can also be added under the `wandb` header in the yaml file:
 
 ```
 wandb:  
-    project: CoolOCR  # (optional) これはwandbプロジェクト名です
-    entity: my_team   # (optional) wandbチームを使っている場合、ここでチーム名を渡すことができます
-    name: MyOCRModel  # (optional) これはwandb runの名前です
+    project: CoolOCR  # (optional) this is the wandb project name 
+    entity: my_team   # (optional) if you're using a wandb team, you can pass the team name here
+    name: MyOCRModel  # (optional) this is the name of the wandb run
 ```
 
-## `config.yml`ファイルを`train.py`に渡す
+## Pass the `config.yml` file to `train.py`
 
-yamlファイルは、PaddleOCRリポジトリ内で利用可能な[トレーニングスクリプト](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/tools/train.py)への引数として提供されます。
+The yaml file is then provided as an argument to the [training script](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/tools/train.py) available in the PaddleOCR repository.
 
 ```bash
 python tools/train.py -c config.yml
 ```
 
-Weights & Biasesをオンにして`train.py`ファイルを実行するとき、W&Bダッシュボードへのリンクが生成されます:
+Once you run your `train.py` file with W&B turned on, a link will be generated to bring you to your W&B dashboard:
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="" >}}
+{{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="PaddleOCR training dashboard" >}}
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="" >}}
+{{< img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="PaddleOCR validation dashboard" >}}
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="W&B Dashboard for the Text Detection Model" >}}
+{{< img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="Text Detection Model dashboard" >}}
 
-## フィードバックや問題点
+## Feedback or issues
 
-Weights & Biasesのインテグレーションに関するフィードバックや問題がある場合は、[PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR)で問題を報告するか、<a href="mailto:support@wandb.com">support@wandb.com</a>にメールしてください。
+If you have any feedback or issues about the W&B integration, open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

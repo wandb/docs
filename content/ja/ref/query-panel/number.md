@@ -1,462 +1,462 @@
 ---
-title: 数字
 menu:
   reference:
     identifier: ja-ref-query-panel-number
+title: number
 ---
 
 ## Chainable Ops
 <h3 id="number-notEqual"><code>number-notEqual</code></h3>
 
-2つの値が等しくないかどうかを判断します。
+Determines inequality of two values.
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する最初の値。 |
-| `rhs` | 比較する2番目の値。 |
+| `lhs` | The first value to compare. |
+| `rhs` | The second value to compare. |
 
-#### 戻り値
-2つの値が等しくないかどうか。
+#### Return Value
+Whether the two values are not equal.
 
 <h3 id="number-modulo"><code>number-modulo</code></h3>
 
-1つの [number](number.md) を別のもので割り、余りを返します
+Divide a [number](number.md) by another and return remainder
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 割られる[number](number.md) |
-| `rhs` | 割るための[number](number.md) |
+| `lhs` | [number](number.md) to divide |
+| `rhs` | [number](number.md) to divide by |
 
-#### 戻り値
-2つの[numbers](number.md)の剰余
+#### Return Value
+Modulo of two [numbers](number.md)
 
 <h3 id="number-mult"><code>number-mult</code></h3>
 
-2つの[numbers](number.md) を掛けます
+Multiply two [numbers](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 最初の[number](number.md) |
-| `rhs` | 2番目の[number](number.md) |
+| `lhs` | First [number](number.md) |
+| `rhs` | Second [number](number.md) |
 
-#### 戻り値
-2つの[numbers](number.md)の積
+#### Return Value
+Product of two [numbers](number.md)
 
 <h3 id="number-powBinary"><code>number-powBinary</code></h3>
 
-1つの[number](number.md)を指数に上げます
+Raise a [number](number.md) to an exponent
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | ベース[number](number.md) |
-| `rhs` | 指数[number](number.md) |
+| `lhs` | Base [number](number.md) |
+| `rhs` | Exponent [number](number.md) |
 
-#### 戻り値
-ベースの[numbers](number.md)がn乗されます
+#### Return Value
+The base [numbers](number.md) raised to nth power
 
 <h3 id="number-add"><code>number-add</code></h3>
 
-2つの[numbers](number.md)を加えます
+Add two [numbers](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 最初の[number](number.md) |
-| `rhs` | 2番目の[number](number.md) |
+| `lhs` | First [number](number.md) |
+| `rhs` | Second [number](number.md) |
 
-#### 戻り値
-2つの[numbers](number.md)の合計
+#### Return Value
+Sum of two [numbers](number.md)
 
 <h3 id="number-sub"><code>number-sub</code></h3>
 
-1つの[number](number.md)を別のものから引きます
+Subtract a [number](number.md) from another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 引かれる[number](number.md) |
-| `rhs` | 引くための[number](number.md) |
+| `lhs` | [number](number.md) to subtract from |
+| `rhs` | [number](number.md) to subtract |
 
-#### 戻り値
-2つの[numbers](number.md)の差
+#### Return Value
+Difference of two [numbers](number.md)
 
 <h3 id="number-div"><code>number-div</code></h3>
 
-1つの[number](number.md)を別のもので割ります
+Divide a [number](number.md) by another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 割られる[number](number.md) |
-| `rhs` | 割るための[number](number.md) |
+| `lhs` | [number](number.md) to divide |
+| `rhs` | [number](number.md) to divide by |
 
-#### 戻り値
-2つの[numbers](number.md)の商
+#### Return Value
+Quotient of two [numbers](number.md)
 
 <h3 id="number-less"><code>number-less</code></h3>
 
-1つの[number](number.md)が別のものより小さいかどうかを確認します
+Check if a [number](number.md) is less than another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する[number](number.md) |
-| `rhs` | 比較対象の[number](number.md) |
+| `lhs` | [number](number.md) to compare |
+| `rhs` | [number](number.md) to compare to |
 
-#### 戻り値
-最初の[number](number.md)が2番目より小さいかどうか
+#### Return Value
+Whether the first [number](number.md) is less than the second
 
 <h3 id="number-lessEqual"><code>number-lessEqual</code></h3>
 
-1つの[number](number.md)が別のものと等しいかまたは小さいかどうかを確認します
+Check if a [number](number.md) is less than or equal to another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する[number](number.md) |
-| `rhs` | 比較対象の[number](number.md) |
+| `lhs` | [number](number.md) to compare |
+| `rhs` | [number](number.md) to compare to |
 
-#### 戻り値
-最初の[number](number.md)が2番目と等しいかまたは小さいかどうか
+#### Return Value
+Whether the first [number](number.md) is less than or equal to the second
 
 <h3 id="number-equal"><code>number-equal</code></h3>
 
-2つの値が等しいかどうかを判断します。
+Determines equality of two values.
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する最初の値。 |
-| `rhs` | 比較する2番目の値。 |
+| `lhs` | The first value to compare. |
+| `rhs` | The second value to compare. |
 
-#### 戻り値
-2つの値が等しいかどうか。
+#### Return Value
+Whether the two values are equal.
 
 <h3 id="number-greater"><code>number-greater</code></h3>
 
-1つの[number](number.md)が別のものより大きいかどうかを確認します
+Check if a [number](number.md) is greater than another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する[number](number.md) |
-| `rhs` | 比較対象の[number](number.md) |
+| `lhs` | [number](number.md) to compare |
+| `rhs` | [number](number.md) to compare to |
 
-#### 戻り値
-最初の[number](number.md)が2番目より大きいかどうか
+#### Return Value
+Whether the first [number](number.md) is greater than the second
 
 <h3 id="number-greaterEqual"><code>number-greaterEqual</code></h3>
 
-1つの[number](number.md)が別のものと等しいかまたは大きいかどうかを確認します
+Check if a [number](number.md) is greater than or equal to another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する[number](number.md) |
-| `rhs` | 比較対象の[number](number.md) |
+| `lhs` | [number](number.md) to compare |
+| `rhs` | [number](number.md) to compare to |
 
-#### 戻り値
-最初の[number](number.md)が2番目と等しいかまたは大きいかどうか
+#### Return Value
+Whether the first [number](number.md) is greater than or equal to the second
 
 <h3 id="number-negate"><code>number-negate</code></h3>
 
-[number](number.md)を否定します
+Negate a [number](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `val` | 否定する番号 |
+| `val` | Number to negate |
 
-#### 戻り値
-[number](number.md)
+#### Return Value
+A [number](number.md)
 
 <h3 id="number-toString"><code>number-toString</code></h3>
 
-[number](number.md)を文字列に変換します
+Convert a [number](number.md) to a string
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `in` | 変換する数 |
+| `in` | Number to convert |
 
-#### 戻り値
-[number](number.md)の文字列表現
+#### Return Value
+String representation of the [number](number.md)
 
 <h3 id="number-toTimestamp"><code>number-toTimestamp</code></h3>
 
-[number](number.md)を _timestamp_ に変換します。31536000000未満の値は秒に、31536000000000未満の値はミリ秒に、31536000000000000未満の値はマイクロ秒に、31536000000000000000未満の値はナノ秒に変換されます。
+Converts a [number](number.md) to a _timestamp_. Values less than 31536000000 will be converted to seconds, values less than 31536000000000 will be converted to milliseconds, values less than 31536000000000000 will be converted to microseconds, and values less than 31536000000000000000 will be converted to nanoseconds.
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `val` | タイムスタンプに変換する数 |
+| `val` | Number to convert to a timestamp |
 
-#### 戻り値
-タイムスタンプ
+#### Return Value
+Timestamp
 
 <h3 id="number-abs"><code>number-abs</code></h3>
 
-[number](number.md)の絶対値を計算します
+Calculates the absolute value of a [number](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
 | `n` | A [number](number.md) |
 
-#### 戻り値
-その[number](number.md)の絶対値
+#### Return Value
+The absolute value of the [number](number.md)
 
 
 ## List Ops
 <h3 id="number-notEqual"><code>number-notEqual</code></h3>
 
-2つの値が等しくないかどうかを判断します。
+Determines inequality of two values.
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する最初の値。 |
-| `rhs` | 比較する2番目の値。 |
+| `lhs` | The first value to compare. |
+| `rhs` | The second value to compare. |
 
-#### 戻り値
-2つの値が等しくないかどうか。
+#### Return Value
+Whether the two values are not equal.
 
 <h3 id="number-modulo"><code>number-modulo</code></h3>
 
-1つの[number](number.md)を別のもので割り、余りを返します
+Divide a [number](number.md) by another and return remainder
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 割られる[number](number.md) |
-| `rhs` | 割るための[number](number.md) |
+| `lhs` | [number](number.md) to divide |
+| `rhs` | [number](number.md) to divide by |
 
-#### 戻り値
-2つの[numbers](number.md)の剰余
+#### Return Value
+Modulo of two [numbers](number.md)
 
 <h3 id="number-mult"><code>number-mult</code></h3>
 
-2つの[numbers](number.md)を掛けます
+Multiply two [numbers](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 最初の[number](number.md) |
-| `rhs` | 2番目の[number](number.md) |
+| `lhs` | First [number](number.md) |
+| `rhs` | Second [number](number.md) |
 
-#### 戻り値
-2つの[numbers](number.md)の積
+#### Return Value
+Product of two [numbers](number.md)
 
 <h3 id="number-powBinary"><code>number-powBinary</code></h3>
 
-1つの[number](number.md)を指数に上げます
+Raise a [number](number.md) to an exponent
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | ベース[number](number.md) |
-| `rhs` | 指数[number](number.md) |
+| `lhs` | Base [number](number.md) |
+| `rhs` | Exponent [number](number.md) |
 
-#### 戻り値
-ベースの[numbers](number.md)がn乗されます
+#### Return Value
+The base [numbers](number.md) raised to nth power
 
 <h3 id="number-add"><code>number-add</code></h3>
 
-2つの[numbers](number.md)を加えます
+Add two [numbers](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 最初の[number](number.md) |
-| `rhs` | 2番目の[number](number.md) |
+| `lhs` | First [number](number.md) |
+| `rhs` | Second [number](number.md) |
 
-#### 戻り値
-2つの[numbers](number.md)の合計
+#### Return Value
+Sum of two [numbers](number.md)
 
 <h3 id="number-sub"><code>number-sub</code></h3>
 
-1つの[number](number.md)を別のものから引きます
+Subtract a [number](number.md) from another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 引かれる[number](number.md) |
-| `rhs` | 引くための[number](number.md) |
+| `lhs` | [number](number.md) to subtract from |
+| `rhs` | [number](number.md) to subtract |
 
-#### 戻り値
-2つの[numbers](number.md)の差
+#### Return Value
+Difference of two [numbers](number.md)
 
 <h3 id="number-div"><code>number-div</code></h3>
 
-1つの[number](number.md)を別のもので割ります
+Divide a [number](number.md) by another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 割られる[number](number.md) |
-| `rhs` | 割るための[number](number.md) |
+| `lhs` | [number](number.md) to divide |
+| `rhs` | [number](number.md) to divide by |
 
-#### 戻り値
-2つの[numbers](number.md)の商
+#### Return Value
+Quotient of two [numbers](number.md)
 
 <h3 id="number-less"><code>number-less</code></h3>
 
-1つの[number](number.md)が別のものより小さいかどうかを確認します
+Check if a [number](number.md) is less than another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する[number](number.md) |
-| `rhs` | 比較対象の[number](number.md) |
+| `lhs` | [number](number.md) to compare |
+| `rhs` | [number](number.md) to compare to |
 
-#### 戻り値
-最初の[number](number.md)が2番目より小さいかどうか
+#### Return Value
+Whether the first [number](number.md) is less than the second
 
 <h3 id="number-lessEqual"><code>number-lessEqual</code></h3>
 
-1つの[number](number.md)が別のものと等しいかまたは小さいかどうかを確認します
+Check if a [number](number.md) is less than or equal to another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する[number](number.md) |
-| `rhs` | 比較対象の[number](number.md) |
+| `lhs` | [number](number.md) to compare |
+| `rhs` | [number](number.md) to compare to |
 
-#### 戻り値
-最初の[number](number.md)が2番目と等しいかまたは小さいかどうか
+#### Return Value
+Whether the first [number](number.md) is less than or equal to the second
 
 <h3 id="number-equal"><code>number-equal</code></h3>
 
-2つの値が等しいかどうかを判断します。
+Determines equality of two values.
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する最初の値。 |
-| `rhs` | 比較する2番目の値。 |
+| `lhs` | The first value to compare. |
+| `rhs` | The second value to compare. |
 
-#### 戻り値
-2つの値が等しいかどうか。
+#### Return Value
+Whether the two values are equal.
 
 <h3 id="number-greater"><code>number-greater</code></h3>
 
-1つの[number](number.md)が別のものより大きいかどうかを確認します
+Check if a [number](number.md) is greater than another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する[number](number.md) |
-| `rhs` | 比較対象の[number](number.md) |
+| `lhs` | [number](number.md) to compare |
+| `rhs` | [number](number.md) to compare to |
 
-#### 戻り値
-最初の[number](number.md)が2番目より大きいかどうか
+#### Return Value
+Whether the first [number](number.md) is greater than the second
 
 <h3 id="number-greaterEqual"><code>number-greaterEqual</code></h3>
 
-1つの[number](number.md)が別のものと等しいかまたは大きいかどうかを確認します
+Check if a [number](number.md) is greater than or equal to another
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `lhs` | 比較する[number](number.md) |
-| `rhs` | 比較対象の[number](number.md) |
+| `lhs` | [number](number.md) to compare |
+| `rhs` | [number](number.md) to compare to |
 
-#### 戻り値
-最初の[number](number.md)が2番目と等しいかまたは大きいかどうか
+#### Return Value
+Whether the first [number](number.md) is greater than or equal to the second
 
 <h3 id="number-negate"><code>number-negate</code></h3>
 
-[number](number.md)を否定します
+Negate a [number](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `val` | 否定する数 |
+| `val` | Number to negate |
 
-#### 戻り値
-[number](number.md)
+#### Return Value
+A [number](number.md)
 
 <h3 id="numbers-argmax"><code>numbers-argmax</code></h3>
 
-最大の[number](number.md)のインデックスを見つけます
+Finds the index of maximum [number](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `numbers` | 最大の[number](number.md)のインデックスを見つけるための[numbers](number.md)のリスト |
+| `numbers` | _list_ of [numbers](number.md) to find the index of maximum [number](number.md) |
 
-#### 戻り値
-最大の[number](number.md)のインデックス
+#### Return Value
+Index of maximum [number](number.md)
 
 <h3 id="numbers-argmin"><code>numbers-argmin</code></h3>
 
-最小の[number](number.md)のインデックスを見つけます
+Finds the index of minimum [number](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `numbers` | 最小の[number](number.md)のインデックスを見つけるための[numbers](number.md)のリスト |
+| `numbers` | _list_ of [numbers](number.md) to find the index of minimum [number](number.md) |
 
-#### 戻り値
-最小の[number](number.md)のインデックス
+#### Return Value
+Index of minimum [number](number.md)
 
 <h3 id="numbers-avg"><code>numbers-avg</code></h3>
 
-[numbers](number.md)の平均
+Average of [numbers](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `numbers` | 平均を取る[numbers](number.md)のリスト |
+| `numbers` | _list_ of [numbers](number.md) to average |
 
-#### 戻り値
-[numbers](number.md)の平均
+#### Return Value
+Average of [numbers](number.md)
 
 <h3 id="numbers-max"><code>numbers-max</code></h3>
 
-最大値
+Maximum number
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `numbers` | 最大の[number](number.md)を見つけるための[numbers](number.md)のリスト |
+| `numbers` | _list_ of [numbers](number.md) to find the maximum [number](number.md) |
 
-#### 戻り値
-最大の[number](number.md)
+#### Return Value
+Maximum [number](number.md)
 
 <h3 id="numbers-min"><code>numbers-min</code></h3>
 
-最小値
+Minimum number
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `numbers` | 最小の[number](number.md)を見つけるための[numbers](number.md)のリスト |
+| `numbers` | _list_ of [numbers](number.md) to find the minimum [number](number.md) |
 
-#### 戻り値
-最小の[number](number.md)
+#### Return Value
+Minimum [number](number.md)
 
 <h3 id="numbers-stddev"><code>numbers-stddev</code></h3>
 
-[numbers](number.md)の標準偏差
+Standard deviation of [numbers](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `numbers` | 標準偏差を計算するための[numbers](number.md)のリスト |
+| `numbers` | _list_ of [numbers](number.md) to calculate the standard deviation |
 
-#### 戻り値
-[numbers](number.md)の標準偏差
+#### Return Value
+Standard deviation of [numbers](number.md)
 
 <h3 id="numbers-sum"><code>numbers-sum</code></h3>
 
-[numbers](number.md)の合計
+Sum of [numbers](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `numbers` | 合計を求める[numbers](number.md)のリスト |
+| `numbers` | _list_ of [numbers](number.md) to sum |
 
-#### 戻り値
-[numbers](number.md)の合計
+#### Return Value
+Sum of [numbers](number.md)
 
 <h3 id="number-toString"><code>number-toString</code></h3>
 
-[number](number.md)を文字列に変換します
+Convert a [number](number.md) to a string
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `in` | 変換する数 |
+| `in` | Number to convert |
 
-#### 戻り値
-[number](number.md)の文字列表現
+#### Return Value
+String representation of the [number](number.md)
 
 <h3 id="number-toTimestamp"><code>number-toTimestamp</code></h3>
 
-[number](number.md)を _timestamp_ に変換します。31536000000未満の値は秒に、31536000000000未満の値はミリ秒に、31536000000000000未満の値はマイクロ秒に、31536000000000000000未満の値はナノ秒に変換されます。
+Converts a [number](number.md) to a _timestamp_. Values less than 31536000000 will be converted to seconds, values less than 31536000000000 will be converted to milliseconds, values less than 31536000000000000 will be converted to microseconds, and values less than 31536000000000000000 will be converted to nanoseconds.
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `val` | タイムスタンプに変換する数 |
+| `val` | Number to convert to a timestamp |
 
-#### 戻り値
-タイムスタンプ
+#### Return Value
+Timestamp
 
 <h3 id="number-abs"><code>number-abs</code></h3>
 
-[number](number.md)の絶対値を計算します
+Calculates the absolute value of a [number](number.md)
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
 | `n` | A [number](number.md) |
 
-#### 戻り値
-その[number](number.md)の絶対値
+#### Return Value
+The absolute value of the [number](number.md)

@@ -1,161 +1,228 @@
 ---
-title: 折れ線グラフ
-description: メトリクスを可視化し、軸をカスタマイズし、プロット上で複数のラインを比較します
 cascade:
-- url: /ja/guides/app/features/panels/line-plot/:filename
+- url: guides/app/features/panels/line-plot/:filename
+description: Visualize metrics, customize axes, and compare multiple lines on a plot
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-line-plot-_index
     parent: panels
-url: /ja/guides/app/features/panels/line-plot
+title: Line plots
+url: guides/app/features/panels/line-plot
 weight: 10
 ---
 
-ラインプロットは、**wandb.log()** でメトリクスを時間経過とともにプロットするとデフォルトで表示されます。複数のラインを同じプロットで比較したり、カスタム軸を計算したり、ラベルをリネームしたりするために、チャート設定をカスタマイズできます。
+Line plots show up by default when you plot metrics over time with `wandb.Run.log()`. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
 
-{{< img src="/images/app_ui/line_plot_example.png" alt="" >}}
+{{< img src="/images/app_ui/line_plot_example.png" alt="Line plot example" >}}
 
-## ラインプロット設定を編集する
+## Edit line plot settings
 
-このセクションでは、個々のラインプロットパネル、セクション内のすべてのラインプロットパネル、またはワークスペース内のすべてのラインプロットパネルの設定を編集する方法を紹介します。
+This section shows how to edit the settings for an individual line plot panel, all line plot panels in a section, or all line plot panels in a workspace.
 
 {{% alert %}}
-カスタムの x 軸を使用したい場合は、同じ `wandb.log()` の呼び出しで y 軸と一緒にログを取るようにしてください。
-{{% /alert %}}
+If you'd like to use a custom x-axis, make sure it's logged in the same call to `wandb.Run.log()` that you use to log the y-axis.
+{{% /alert %}} 
 
-### 個別のラインプロット
+### Individual line plot
+A line plot's individual settings override the line plot settings for the section or the workspace. To customize a line plot:
 
-個々のラインプロットの設定は、セクションまたはワークスペースのラインプロット設定を上書きします。ラインプロットをカスタマイズするには:
+1. Hover your mouse over the panel, then click the gear icon.
+1. Within the drawer that appears, select a tab to edit its [settings]({{< relref path="#line-plot-settings" lang="ja" >}}).
+1. Click **Apply**.
 
-1. パネルの上にマウスをホバーさせ、ギアアイコンをクリックします。
-2. 表示されるモーダル内で、[設定]({{< relref path="#line-plot-settings" lang="ja" >}}) を編集するタブを選択します。
-3. **適用** をクリックします。
+#### Line plot settings
+You can configure these settings for a line plot:
 
-#### ラインプロット設定
+**Date**: Configure the plot's data-display details.
+* **X axis**: Select the value to use for the X axis (defaults to  **Step**). You can change the x-axis to **Relative Time** or select a custom axis based on values you log with W&B. You can also configure the X axis scale and range.
+  * **Relative Time (Wall)** is clock time since the process started, so if you started a run and resumed it a day later and logged something that would be plotted a 24hrs.
+  * **Relative Time (Process)** is time inside the running process, so if you started a run and ran for 10 seconds and resumed a day later that point would be plotted at 10s.
+  * **Wall Time** is minutes elapsed since the start of the first run on the graph.
+  * **Step** increments by default each time `wandb.Run.log()` is called, and is supposed to reflect the number of training steps you've logged from your model.
+* **Y axis**: Select one or more y-axes from the logged values, including metrics and hyperparameters that change over time. You can also configure the X axis scale and range.
+* **Point aggregation method**. Either **Random sampling** (the default) or **Full fidelity**. Refer to [Sampling]({{< relref path="sampling.md" lang="ja" >}}).
+* **Smoothing**: Change the smoothing on the line plot. Defaults to **Time weighted EMA**. Other values include **No smoothing**, **Running average**, and **Gaussian**.
+* **Outliers**: Rescale to exclude outliers from the default plot min and max scale.
+* **Max number of runs or groups**: Show more lines on the line plot at once by increasing this number, which defaults to 10 runs. You'll see the message "Showing first 10 runs" on the top of the chart if there are more than 10 runs available but the chart is constraining the number visible.
+* **Chart type**: Change between a line plot, an area plot, and a percentage area plot.
 
-次の設定をラインプロットに設定できます:
+**Grouping**: Configure whether and how to group and aggregate runs in the plot.
+* **Group by**: Select a column, and all the runs with the same value in that column will be grouped together.
+* **Agg**: Aggregation— the value of the line on the graph. The options are mean, median, min, and max of the group.
 
-**データ**: プロットのデータ表示の詳細を設定します。
-* **X**: X 軸に使用する値を選択します (デフォルトは **Step** です)。X 軸を **相対時間** に変更したり、W&B でログを取った値に基づいてカスタム軸を選択したりできます。
-  * **相対時間 (Wall)** はプロセス開始以降の時計時間で、もし 1 日後に run を再開して何かをログした場合、それは 24 時間にプロットされます。
-  * **相対時間 (プロセス)** は実行中のプロセス内の時間で、もし 10 秒間 run を実行し、1 日後に再開した場合、そのポイントは 10 秒にプロットされます。
-  * **ウォール時間** はグラフ上の最初の run 開始からの経過時間を示します。
-  * **Step** はデフォルトで `wandb.log()` が呼び出されるたびに増加し、モデルからログされたトレーニングステップの数を反映することになっています。
-* **Y**: メトリクスや時間経過とともに変化するハイパーパラメーターなど、ログに取られた値から1つ以上の y 軸を選択します。
-* **X軸** および **Y軸** の最小値と最大値 (オプション)。
-* **ポイント集計メソッド**. **ランダムサンプリング** (デフォルト) または **フルフェデリティ**。詳細は [サンプリング]({{< relref path="sampling.md" lang="ja" >}}) を参照。
-* **スムージング**: ラインプロットのスムージングを変更します。デフォルトは **時間加重EMA** です。その他の値には **スムージングなし**, **ランニング平均**, および **ガウシアン** があります。
-* **外れ値**: 外れ値を除外して、デフォルトのプロット最小値および最大値スケールを再設定します。
-* **最大 run またはグループ数**: この数値を増やすことで、ラインプロットに一度により多くのラインを表示します。デフォルトは 10 run です。チャートの一番上に "最初の 10 run を表示中" というメッセージが表示され、利用可能な run が 10 個を超える場合、チャートが表示できる数を制約していることが分かります。
-* **チャートタイプ**: ラインプロット、エリアプロット、および パーセンテージエリアプロットの中で切り替えます。
+**Chart**: Specify titles for the panel, the X axis, and the Y axis, and the -axis, hide or show the legend, and configure its position.
 
-**グルーピング**: プロット内で run をどのようにグループ化し集計するかを設定します。
-* **グループ化基準**: 列を選択し、その列に同じ値を持つすべての run がグループ化されます。
-* **Agg**: 集計— グラフ上のラインの値です。オプションはグループの平均、中央値、最小、最大です。
+**Legend**: Customize the appearance of the panel's legend, if it is enabled.
+* **Legend**: The field in the legend for each line in the plot in the legend of the plot for each line.
+* **Legend template**: Define a fully customizable template for the legend, specifying exactly what text and variables you want to show up in the template at the top of the line plot as well as the legend that appears when you hover your mouse over the plot.
 
-**チャート**: パネル、X軸、Y軸のタイトルを指定し、凡例を表示または非表示に設定し、その位置を設定します。
+**Expressions**: Add custom calculated expressions to the panel.
+* **Y Axis Expressions**: Add calculated metrics to your graph. You can use any of the logged metrics as well as configuration values like hyperparameters to calculate custom lines.
+* **X Axis Expressions**: Rescale the x-axis to use calculated values using custom expressions. Useful variables include\*\*_step\*\* for the default x-axis, and the syntax for referencing summary values is `${summary:value}`
 
-**凡例**: パネルの凡例の外観をカスタマイズします、もし有効化されている場合。
-* **凡例**: プロットの各ラインに対する凡例のフィールド、それぞれのラインのプロット内の凡例。
-* **凡例テンプレート**: テンプレートの上部に表示される凡例およびマウスオーバー時にプロットに表示される伝説で, 表示したい具体的なテキストおよび変数を定義します。
+### All line plots in a section
 
-**式**: パネルにカスタム計算式を追加します。
-* **Y軸式**: グラフに計算されたメトリクスを追加。ログされたメトリクスやハイパーパラメーターのような設定値を使用してカスタムラインを計算することができます。
-* **X軸式**: 計算された値を使用して x 軸を再スケーリングします。有用な変数には、デフォルトの x 軸の **_step_** などが含まれ、サマリー値を参照するための構文は `${summary:value}` です。
+To customize the default settings for all line plots in a section, overriding workspace settings for line plots:
+1. Click the section's gear icon to open its settings.
+1. Within the drawer that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the section. For details about each **Data** setting, refer to the preceding section, [Individual line plot]({{< relref path="#line-plot-settings" lang="ja" >}}). For details about each display preference, refer to [Configure section layout]({{< relref path="../#configure-section-layout" lang="ja" >}}).
 
-### セクション内のすべてのラインプロット
+### All line plots in a workspace 
+To customize the default settings for all line plots in a workspace:
+1. Click the workspace's settings, which has a gear with the label **Settings**.
+1. Click **Line plots**.
+1. Within the drawer that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the workspace.
+    - For details about each **Data** setting, refer to the preceding section, [Individual line plot]({{< relref path="#line-plot-settings" lang="ja" >}}).
 
-ワークスペースの設定を上書きして、セクション内のすべてのラインプロットのデフォルトの設定をカスタマイズするには:
-1. セクションのギアアイコンをクリックして設定を開きます。
-2. 表示されるモーダル内で、**データ** または **表示設定** タブを選択して、セクションのデフォルトの設定を構成します。各 **データ** 設定の詳細については、前述のセクション [個別のラインプロット]({{< relref path="#line-plot-settings" lang="ja" >}}) を参照してください。各表示設定の詳細については、[セクションレイアウトの構成]({{< relref path="../#configure-section-layout" lang="ja" >}}) を参照してください。
+    - For details about each **Display preferences** section, refer to [Workspace display preferences]({{< relref path="../#configure-workspace-layout" lang="ja" >}}). At the workspace level, you can configure the default **Zooming** behavior for line plots. This setting controls whether to synchronize zooming across line plots with a matching x-axis key. Disabled by default.
 
-### ワークスペース内のすべてのラインプロット
-ワークスペース内のすべてのラインプロットのデフォルト設定をカスタマイズするには:
-1. **設定** というラベルの付いたギアがあるワークスペースの設定をクリックします。
-2. **ラインプロット** をクリックします。
-3. 表示されるモーダル内で、**データ** または **表示設定** タブを選択して、ワークスペースのデフォルト設定を構成します。
-    - 各 **データ** 設定の詳細については、前述のセクション [個別のラインプロット]({{< relref path="#line-plot-settings" lang="ja" >}}) を参照してください。
 
-    - 各 **表示設定** セクションの詳細については、[ワークスペース表示設定]({{< relref path="../#configure-workspace-layout" lang="ja" >}}) を参照してください。ワークスペースレベルで、ラインプロットのデフォルト **ズーム** 振る舞いを構成できます。この設定は、x 軸キーが一致するラインプロット間でズームの同期を制御します。デフォルトでは無効です。
 
-## プロット上で平均値を可視化する
+## Visualize average values on a plot
 
-複数の異なる実験があり、その値の平均をプロットで見たい場合は、テーブルのグルーピング機能を使用できます。runテーブルの上部で "グループ化" をクリックし、"すべて" を選択してグラフに平均値を表示します。
+If you have several different experiments and you'd like to see the average of their values on a plot, you can use the Grouping feature in the table. Click "Group" above the run table and select "All" to show averaged values in your graphs.
 
-以下は平均化する前のグラフの例です:
+Here is what the graph looks like before averaging:
 
-{{< img src="/images/app_ui/demo_precision_lines.png" alt="" >}}
+{{< img src="/images/app_ui/demo_precision_lines.png" alt="Individual precision lines" >}}
 
-次の画像は、グループ化されたラインを使用して run における平均値を示すグラフです。
+The proceeding image shows a graph that represents average values across runs using grouped lines.
 
-{{< img src="/images/app_ui/demo_average_precision_lines.png" alt="" >}}
+{{< img src="/images/app_ui/demo_average_precision_lines.png" alt="Averaged precision lines" >}}
 
-## プロット上で NaN 値を可視化する
+## Visualize NaN value on a plot
 
-`wandb.log` を使用して、PyTorch テンソルを含む `NaN` 値をラインプロットでプロットすることもできます。例えば:
+You can also plot `NaN` values including PyTorch tensors on a line plot with `wandb.Run.log()`. For example:
 
 ```python
-wandb.log({"test": [..., float("nan"), ...]})
+with wandb.init() as run:
+    # Log a NaN value
+    run.log({"test": float("nan")})
 ```
 
-{{< img src="/images/app_ui/visualize_nan.png" alt="" >}}
+{{< img src="/images/app_ui/visualize_nan.png" alt="NaN value handling" >}}
 
-## 2 つのメトリクスを 1 つのチャートで比較する
+## Compare two metrics on one chart
 
-{{< img src="/images/app_ui/visualization_add.gif" alt="" >}}
+{{< img src="/images/app_ui/visualization_add.gif" alt="Adding visualization panels" >}}
 
-1. ページの右上隅にある **パネルを追加** ボタンを選択します。
-2. 表示される左側のパネルで評価のドロップダウンを展開します。
-3. **Run comparer** を選択します。
+1. Select the **Add panels** button in the top right corner of the page.
+2. From the left panel that appears, expand the Evaluation dropdown.
+3. Select **Run comparer**
 
-## ラインプロットの色を変更する
 
-時々、run のデフォルトの色が比較には適していないことがあります。この問題を解決するために、wandb は手動で色を変更できる2つの方法を提供しています。
+## Change the color of the line plots
+
+Sometimes the default color of runs is not helpful for comparison. To help overcome this, wandb provides two instances with which one can manually change the colors.
 
 {{< tabpane text=true >}}
-{{% tab header="runテーブルから" value="run_table" %}}
+{{% tab header="From the run table" value="run_table" %}}
 
-  各 run は初期化時にデフォルトでランダムな色が割り当てられます。
+  Each run is given a random color by default upon initialization.
 
   {{< img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Random colors given to runs" >}}
 
-  どの色をクリックすると、手動で選択できるカラーパレットが表示されます。
+  Upon clicking any of the colors, a color palette appears from which we can manually choose the color we want.
 
   {{< img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="The color palette" >}}
 
 {{% /tab %}}
 
-{{% tab header="チャート凡例設定から" value="legend_settings" %}}
+{{% tab header="From the chart legend settings" value="legend_settings" %}}
 
-1. 設定を編集したいパネルにマウスをホバーさせます。
-2. 表示される鉛筆アイコンを選択します。
-3. **凡例** タブを選択します。
+1. Hover your mouse over the panel you want to edit its settings for.
+2. Select the pencil icon that appears.
+3. Choose the **Legend** tab.
 
-{{< img src="/images/app_ui/plot_style_line_plot_legend.png" alt="" >}}
+{{< img src="/images/app_ui/plot_style_line_plot_legend.png" alt="Line plot legend settings" >}}
 
 {{% /tab %}}
 {{< /tabpane >}}
 
-## 異なる x 軸で可視化する
+## Visualize on different x axes
 
-実験がかかった絶対時間を見たい場合や、実験が実行された日を見たい場合は、x 軸を切り替えることができます。ここでは、ステップから相対時間、そして壁時間に切り替える例を示します。
+If you'd like to see the absolute time that an experiment has taken, or see what day an experiment ran, you can switch the x axis. Here's an example of switching from steps to relative time and then to wall time.
 
-{{< img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="" >}}
+{{< img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="X-axis time options" >}}
 
-## エリアプロット
+## Area plots
 
-詳細設定タブでさまざまなプロットスタイルをクリックすると、エリアプロットまたはパーセンテージエリアプロットを取得できます。
+In the line plot settings, in the advanced tab, click on different plot styles to get an area plot or a percentage area plot.
 
-{{< img src="/images/app_ui/line_plots_area_plots.gif" alt="" >}}
+{{< img src="/images/app_ui/line_plots_area_plots.gif" alt="Area plot styles" >}}
 
-## ズーム
+## Zoom
 
-直線をクリックしてドラッグすると垂直および水平方向に同時にズームします。これにより、x軸とy軸のズームが変更されます。
+Click and drag a rectangle to zoom vertically and horizontally at the same time. This changes the x-axis and y-axis zoom.
 
-{{< img src="/images/app_ui/line_plots_zoom.gif" alt="" >}}
+{{< img src="/images/app_ui/line_plots_zoom.gif" alt="Plot zoom functionality" >}}
 
-## チャートの凡例の非表示
+## Hide chart legend
 
-この簡単なトグルでラインプロットの凡例をオフにできます:
+Turn off the legend in the line plot with this simple toggle:
 
-{{< img src="/images/app_ui/demo_hide_legend.gif" alt="" >}}
+{{< img src="/images/app_ui/demo_hide_legend.gif" alt="Hide legend toggle" >}}
+
+## Create a run metrics notification
+Use [Automations]({{< relref path="/guides/core/automations" lang="ja" >}}) to notify your team when a run metric meets a condition you specify. An automation can post to a Slack channel or run a webhook.
+
+From a line plot, you can quickly create a [run metrics notification]({{< relref path="/guides/core/automations/automation-events.md#run-events" lang="ja" >}}) for the metric it shows:
+
+1. Hover over the panel, then click the bell icon.
+1. Configure the automation using the basic or advanced configuration controls. For example, apply a run filter to limit the scope of the automation, or configure an absolute threshold.
+
+Learn more about [Automations]({{< relref path="/guides/core/automations" lang="ja" >}}).
+
+## Visualize CoreWeave infrastructure alerts
+
+Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B. During a [W&B run]({{< relref path="/guides/models/track/runs/_index" lang="ja" >}}), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure.
+
+{{< alert>}}
+This feature is in Preview and only available when training on a CoreWeave cluster. Contact your W&B representative for access.
+{{< /alert >}}
+
+If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run's plots in your project's workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run's page.
+
+### Find infrastructure issues in a run
+
+W&B surfaces both SLURM job issues and cluster node issues. View infrastructure errors in a run:
+
+1. Navigate to your project on the W&B App. 
+2. Select the **Workspace** tab to view your project's workspace.
+3. Search and select the name of the run that contains an infrastructure issue. If CoreWeave detected an infrastructure issue, one or more red vertical lines with an exclamation mark overlay the run's plots. 
+4. Select an issue on a plot or select the **Issues** button in the top right of the page. A drawer appears that lists each issue reported by CoreWeave. 
+
+{{< alert title="Tip" >}}
+To views runs with infrastructure issues at a glance, pin the **Issues** column to your W&B Workspace to view runs that logged an issue at a glance. For more information about how to pin a column, see [Customize how runs are displayed]({{< relref path="/guides/models/track/runs/#customize-how-runs-are-displayed" lang="ja" >}}).
+{{< /alert >}}
+
+The **Overall Grafana view** at the top of the drawer redirects you to the SLURM job's Grafana dashboard, which contains system-level details about the run. The **Issues summary** describes the root error that the SLURM job reported to CoreWeave Mission Control. The summary section also describes any attempts to automatically resolve the error made by CoreWeave.
+
+{{< img src="/images/app_ui/cw_wb_observability.png" >}}
+
+The **All Issues** list all issues that occurs during the run in chronological order, with the most recent issue at the top. The list contains the job issue and node issue alerts. Within each issue alert is the name of the issue, the timestamp when the issue occurred, a link to the Grafana dashboard for that issue, and a brief summary that describes the issue.
+
+The following table shows example alerts for each category of infrastructure issues:
+
+| Category | Example alerts |
+| -------- | ------------- |
+| Node Availability & Readiness | `KubeNodeNotReadyHGX`, `NodeExtendedDownTime` |
+| GPU/Accelerator Errors | `GPUFallenOffBusHGX`, `GPUFaultHGX`, `NodeTooFewGPUs` |
+| Hardware Errors | `HardwareErrorFatal`, `NodeRAIDMemberDegraded` |
+| Networking & DNS | `NodeDNSFailureHGX`, `NodeEthFlappingLegacyNonGPU` |
+| Power, Cooling, and Management | `NodeCPUHZThrottle`, `RedfishDown` |
+| DPU & NVSwitch | `DPUNcoreVersionBelowDesired`, `NVSwitchFaultHGX` |
+| Miscellaneous | `NodePCISpeedRootGBT`, `NodePCIWidthRootSMC` |
+
+For detailed information on error types, see the [SLURM Job Metrics on the CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/sunk/slurm-job-metrics#job-info-alerts#job-info-alerts).
+
+### Debug infrastructure issues
+
+Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job's [Grafana](https://grafana.com/) dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards. 
+
+{{< alert title="Note" >}}
+The Grafana dashboard is only available for W&B users with a CoreWeave account. Contact W&B to configure Grafana with your W&B organization.
+{{< /alert >}}
+
+Depending on the issue, you may need to adjust the SLURM job configuration, investigate the node's status, restart the job, or take other actions as needed.
+
+For more information about CoreWeave SLURM jobs in Grafana, see Slurm/Job Metrics on the [CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/sunk/slurm-job-metrics#job-info-alerts). See [Job info: alerts](https://docs.coreweave.com/docs/observability/managed-grafana/sunk/slurm-job-metrics#job-info-alerts#job-info-alerts) for detailed information about job alerts.

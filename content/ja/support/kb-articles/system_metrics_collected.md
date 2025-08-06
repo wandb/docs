@@ -1,12 +1,13 @@
 ---
-title: システムメトリクスはどのくらいの頻度で収集されますか？
 menu:
   support:
     identifier: ja-support-kb-articles-system_metrics_collected
 support:
-  - metrics
+- metrics
+title: How often are system metrics collected?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-メトリクスはデフォルトで 10 秒ごとに収集されます。より高解像度のメトリクスが必要な場合は、contact@wandb.com にメールしてください。
+
+Metrics collect by default every 10 seconds. For higher resolution metrics, email contact@wandb.com.

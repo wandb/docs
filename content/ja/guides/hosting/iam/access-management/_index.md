@@ -1,39 +1,47 @@
 ---
-title: アクセス管理
 cascade:
-- url: /ja/guides/hosting/iam/access-management/:filename
+- url: guides/hosting/iam/access-management/:filename
 menu:
   default:
     identifier: ja-guides-hosting-iam-access-management-_index
     parent: identity-and-access-management-iam
-url: /ja/guides/hosting/iam/access-management-intro
+title: Access management
+url: guides/hosting/iam/access-management-intro
 weight: 2
 ---
 
-## 組織内でのユーザーとチームの管理
-
-ユニークな組織ドメインで W&B に初めてサインアップしたユーザーは、その組織の*インスタンス管理者ロール*に割り当てられます。組織管理者は特定のユーザーにチーム管理者ロールを割り当てます。
+## Manage users and teams within an organization
+The first user to sign up to W&B with a unique organization domain is assigned as that organization's *instance administrator role*. The organization administrator assigns specific users team administrator roles.
 
 {{% alert %}}
-W&B は、組織に複数のインスタンス管理者を持つことを推奨しています。これは、主な管理者が不在の場合にも管理業務を継続できるようにするためのベストプラクティスです。
+W&B recommends to have more than one instance admin in an organization. It is a best practice to ensure that admin operations can continue when the primary admin is not available. 
 {{% /alert %}}
 
-*チーム管理者*は、チーム内で管理権限を持つ組織内のユーザーです。
+A *team administrator* is a user in organization that has administrative permissions within a team. 
 
-組織管理者は、`https://wandb.ai/account-settings/` の組織アカウント設定にアクセスして、ユーザーを招待したり、ユーザーの役割を割り当てたり更新したり、チームを作成したり、組織からユーザーを削除したり、請求管理者を割り当てたりすることができます。詳細については、[ユーザーの追加と管理]({{< relref path="./manage-organization.md#add-and-manage-users" lang="ja" >}})を参照してください。
+Organization administrators can access and use an organization's account settings at `https://wandb.ai/account-settings/` to invite users, assign or update a user's role, create teams, remove users from your organization, assign the billing administrator, and more. See [Add and manage users]({{< relref path="./manage-organization.md#add-and-manage-users" lang="ja" >}}) for more information. 
 
-組織管理者がチームを作成すると、インスタンス管理者またはチーム管理者は次のことができます：
+Once an organization administrator creates a team, the instance administrator or a team administrator can:
 
-- デフォルトでは、管理者のみがそのチームにユーザーを招待したり、チームからユーザーを削除したりできます。この振る舞いを変更するには、[チーム設定]({{< relref path="/guides/models/app/settings-page/team-settings.md#privacy" lang="ja" >}})を参照してください。
-- チームメンバーの役割を割り当てたり更新したりします。
-- 組織に参加した際に自動的に新しいユーザーをチームに追加します。
+- By default, only an admin can invite users to that team or remove users from the team. To change this behavior, refer to [Team settings]({{< relref path="/guides/models/app/settings-page/team-settings.md#privacy" lang="ja" >}}).
+- Assign or update a team member's role.
+- Automatically add new users to a team when they join your organization.
 
-組織管理者とチーム管理者は、`https://wandb.ai/<your-team-name>` のチームダッシュボードを使用してチームを管理します。詳細とチームのデフォルトの公開範囲を設定するには、[チームの追加と管理]({{< relref path="./manage-organization.md#add-and-manage-teams" lang="ja" >}})を参照してください。
+Both the organization administrator and the team administrator use team dashboards at `https://wandb.ai/<your-team-name>` to manage teams. For more information, and to configure a team's default privacy settings, see [Add and manage teams]({{< relref path="./manage-organization.md#add-and-manage-teams" lang="ja" >}}).
 
-## 特定のプロジェクトへの公開範囲の制限
+## Maintain admin access
+You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain your organization's W&B account.
 
-W&B プロジェクトの範囲を定義して、誰がそのプロジェクトを閲覧、編集、そして W&B の run をサブミットできるかを制限します。プロジェクトを閲覧できる人を制限することは、特にチームが機密または秘密のデータを扱う場合に役立ちます。
+If users are managed interactively, admin access is required to delete a user, including another admin user. This helps to reduce the risk of the sole admin user being removed.
 
-組織管理者、チーム管理者、またはプロジェクトの所有者は、プロジェクトの公開範囲を設定および編集することができます。
+However, if an organization uses automated processes to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
 
-詳細については、[プロジェクトの公開範囲]({{< relref path="./restricted-projects.md" lang="ja" >}})を参照してください。
+For assistance with developing operational procedures, or to restore admin access, contact [support](mailto:support@wandb.com).
+
+## Limit visibility to specific projects
+
+Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. Limiting who can view a project is particularly useful if a team works with sensitive or confidential data.
+
+An organization admin, team admin, or the owner of a project can both set and edit a project's visibility. 
+
+For more information, see [Project visibility]({{< relref path="./restricted-projects.md" lang="ja" >}}).

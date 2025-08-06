@@ -1,30 +1,30 @@
 ---
-title: Create an experiment
-description: W&B 실험 만들기.
+description: Create a W&B Experiment.
 menu:
   default:
     identifier: ko-guides-models-track-launch
     parent: experiments
+title: Create an experiment
 weight: 1
 ---
 
-W&B Python SDK를 사용하여 기계 학습 Experiments를 추적합니다. 그런 다음 인터랙티브 대시보드에서 결과를 검토하거나 [W&B Public API]({{< relref path="/ref/python/public-api/" lang="ko" >}})를 사용하여 프로그래밍 방식으로 Python으로 데이터를 내보낼 수 있습니다.
+Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API]({{< relref path="/ref/python/public-api/" lang="ko" >}}).
 
-이 가이드에서는 W&B 빌딩 블록을 사용하여 W&B Experiment를 만드는 방법을 설명합니다.
+This guide describes how to use W&B building blocks to create a W&B Experiment. 
 
-## W&B Experiment를 만드는 방법
+## How to create a W&B Experiment
 
-W&B Experiment를 만드는 4단계:
+Create a W&B Experiment in four steps:
 
-1. [W&B Run 초기화]({{< relref path="#initialize-a-wb-run" lang="ko" >}})
-2. [하이퍼파라미터 dictionary 캡처]({{< relref path="#capture-a-dictionary-of-hyperparameters" lang="ko" >}})
-3. [트레이닝 루프 내에서 메트릭 기록]({{< relref path="#log-metrics-inside-your-training-loop" lang="ko" >}})
-4. [W&B에 아티팩트 기록]({{< relref path="#log-an-artifact-to-wb" lang="ko" >}})
+1. [Initialize a W&B Run]({{< relref path="#initialize-a-wb-run" lang="ko" >}})
+2. [Capture a dictionary of hyperparameters]({{< relref path="#capture-a-dictionary-of-hyperparameters" lang="ko" >}})
+3. [Log metrics inside your training loop]({{< relref path="#log-metrics-inside-your-training-loop" lang="ko" >}})
+4. [Log an artifact to W&B]({{< relref path="#log-an-artifact-to-wb" lang="ko" >}})
 
-### W&B run 초기화
-[`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ko" >}})를 사용하여 W&B Run을 만듭니다.
+### Initialize a W&B run
+Use [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init" lang="ko" >}}) to create a W&B Run.
 
-다음 코드 조각은 이 run을 식별하는 데 도움이 되도록 설명이 `“My first experiment”` 인 `“cat-classification”`이라는 W&B project에서 run을 만듭니다. 태그 `“baseline”` 및 `“paper1”`은 이 run이 향후 논문 출판을 위한 베이스라인 experiment임을 알려줍니다.
+The following snippet creates a run in a W&B project named `“cat-classification”` with the description `“My first experiment”` to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
 
 ```python
 import wandb
@@ -37,14 +37,14 @@ with wandb.init(
     ...
 ```
 
-`wandb.init()`는 [Run]({{< relref path="/ref/python/run.md" lang="ko" >}}) 오브젝트를 반환합니다.
+`wandb.init()` returns a [Run]({{< relref path="/ref/python/sdk/classes/run" lang="ko" >}}) object.
 
 {{% alert %}}
-참고: `wandb.init()`를 호출할 때 해당 project가 이미 존재하는 경우 Run은 기존 project에 추가됩니다. 예를 들어 `“cat-classification”`이라는 project가 이미 있는 경우 해당 project는 계속 존재하며 삭제되지 않습니다. 대신 새 run이 해당 project에 추가됩니다.
+Note: Runs are added to pre-existing projects if that project already exists when you call `wandb.init()`. For example, if you already have a project called `“cat-classification”`, that project will continue to exist and not be deleted. Instead, a new run is added to that project.
 {{% /alert %}}
 
-### 하이퍼파라미터 dictionary 캡처
-학습률 또는 모델 유형과 같은 하이퍼파라미터 dictionary를 저장합니다. config에서 캡처하는 모델 설정은 나중에 결과를 구성하고 쿼리하는 데 유용합니다.
+### Capture a dictionary of hyperparameters
+Save a dictionary of hyperparameters such as learning rate or model type. The model settings you capture in config are useful later to organize and query your results.
 
 ```python
 with wandb.init(
@@ -54,10 +54,10 @@ with wandb.init(
     ...
 ```
 
-experiment를 구성하는 방법에 대한 자세한 내용은 [Experiments 구성]({{< relref path="./config.md" lang="ko" >}})을 참조하십시오.
+For more information on how to configure an experiment, see [Configure Experiments]({{< relref path="./config.md" lang="ko" >}}).
 
-### 트레이닝 루프 내에서 메트릭 기록
-[`run.log()`]({{< relref path="/ref/python/log.md" lang="ko" >}})를 호출하여 정확도 및 손실과 같은 각 트레이닝 단계에 대한 메트릭을 기록합니다.
+### Log metrics inside your training loop
+Call [`run.log()`]({{< relref path="/ref/python/sdk/classes/run/#method-runlog" lang="ko" >}}) to log metrics about each training step such as accuracy and loss.
 
 ```python
 model, dataloader = get_model(), get_data()
@@ -68,20 +68,21 @@ for epoch in range(run.config.epochs):
         run.log({"accuracy": accuracy, "loss": loss})
 ```
 
-W&B로 기록할 수 있는 다양한 데이터 유형에 대한 자세한 내용은 [Experiments 중 데이터 기록]({{< relref path="/guides/models/track/log/" lang="ko" >}})을 참조하십시오.
+For more information on different data types you can log with W&B, see [Log Data During Experiments]({{< relref path="/guides/models/track/log/" lang="ko" >}}).
 
-### W&B에 아티팩트 기록
-선택적으로 W&B Artifact를 기록합니다. Artifact를 사용하면 데이터셋과 Models를 쉽게 버전 관리할 수 있습니다.
+### Log an artifact to W&B 
+Optionally log a W&B Artifact. Artifacts make it easy to version datasets and models. 
 ```python
-# 모든 파일 또는 디렉토리를 저장할 수 있습니다. 이 예에서는 모델에 ONNX 파일을 출력하는
-# save() 메소드가 있다고 가정합니다.
+# You can save any file or even a directory. In this example, we pretend
+# the model has a save() method that outputs an ONNX file.
 model.save("path_to_model.onnx")
 run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ```
-[Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}}) 또는 [Registry]({{< relref path="/guides/core/registry/" lang="ko" >}})에서 Models 버전 관리에 대해 자세히 알아보십시오.
+Learn more about [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}}) or about versioning models in [Registry]({{< relref path="/guides/core/registry/" lang="ko" >}}).
 
-### 모두 함께 놓기
-이전 코드 조각이 포함된 전체 스크립트는 아래에서 찾을 수 있습니다.
+
+### Putting it all together
+The full script with the preceding code snippets is found below:
 ```python
 import wandb
 
@@ -89,50 +90,51 @@ with wandb.init(
     project="cat-classification",
     notes="",
     tags=["baseline", "paper1"],
-    # run의 하이퍼파라미터를 기록합니다.
+    # Record the run's hyperparameters.
     config={"epochs": 100, "learning_rate": 0.001, "batch_size": 128},
 ) as run:
-    # 모델 및 데이터를 설정합니다.
+    # Set up model and data.
     model, dataloader = get_model(), get_data()
 
-    # 모델 성능을 시각화하기 위해 메트릭을 기록하면서 트레이닝을 실행합니다.
+    # Run your training while logging metrics to visualize model performance.
     for epoch in range(run.config["epochs"]):
         for batch in dataloader:
             loss, accuracy = model.training_step()
             run.log({"accuracy": accuracy, "loss": loss})
 
-    # 트레이닝된 모델을 아티팩트로 업로드합니다.
+    # Upload the trained model as an artifact.
     model.save("path_to_model.onnx")
     run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ```
 
-## 다음 단계: experiment 시각화
-W&B Dashboard를 기계 학습 모델의 결과를 구성하고 시각화하는 중앙 장소로 사용하십시오. 몇 번의 클릭만으로 [평행 좌표 플롯]({{< relref path="/guides/models/app/features/panels/parallel-coordinates.md" lang="ko" >}}), [파라미터 중요도 분석]({{< relref path="/guides/models/app/features/panels/parameter-importance.md" lang="ko" >}}) 및 [기타]({{< relref path="/guides/models/app/features/panels/" lang="ko" >}})와 같은 풍부한 인터랙티브 차트를 구성합니다.
+## Next steps: Visualize your experiment 
+Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref path="/guides/models/app/features/panels/parallel-coordinates.md" lang="ko" >}}),[ parameter importance analyzes]({{< relref path="/guides/models/app/features/panels/parameter-importance.md" lang="ko" >}}), and [additional chart types]({{< relref path="/guides/models/app/features/panels/" lang="ko" >}}).
 
 {{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example" >}}
 
-Experiments 및 특정 runs를 보는 방법에 대한 자세한 내용은 [Experiments 결과 시각화]({{< relref path="/guides/models/track/workspaces.md" lang="ko" >}})를 참조하십시오.
+For more information on how to view experiments and specific runs, see [Visualize results from experiments]({{< relref path="/guides/models/track/workspaces.md" lang="ko" >}}).
 
-## 모범 사례
-다음은 Experiments를 만들 때 고려해야 할 몇 가지 제안된 지침입니다.
 
-1. **Runs 완료**: 코드가 완료되거나 예외가 발생하면 자동으로 run을 완료된 것으로 표시하려면 `with` 문에서 `wandb.init()`를 사용합니다.
-    * Jupyter 노트북에서는 Run 오브젝트를 직접 관리하는 것이 더 편리할 수 있습니다. 이 경우 Run 오브젝트에서 `finish()`를 명시적으로 호출하여 완료된 것으로 표시할 수 있습니다.
+## Best practices
+The following are some suggested guidelines to consider when you create experiments:
+
+1. **Finish your runs**: Use `wandb.init()` in a `with` statement to automatically mark the run as finished when the code completes or raises an exception.
+    * In Jupyter notebooks, it may be more convenient to manage the Run object yourself. In this case, you can explicitly call `finish()` on the Run object to mark it complete:
 
         ```python
-        # 노트북 셀에서:
+        # In a notebook cell:
         run = wandb.init()
 
-        # 다른 셀에서:
+        # In a different cell:
         run.finish()
         ```
-2. **Config**: 하이퍼파라미터, 아키텍처, 데이터셋 및 모델을 재현하는 데 사용하려는 모든 항목을 추적합니다. 이러한 항목은 열에 표시됩니다. config 열을 사용하여 앱에서 runs를 동적으로 그룹화, 정렬 및 필터링합니다.
-3. **Project**: project는 함께 비교할 수 있는 experiment 집합입니다. 각 project에는 전용 대시보드 페이지가 제공되며, 다양한 모델 버전을 비교하기 위해 다양한 run 그룹을 쉽게 켜거나 끌 수 있습니다.
-4. **Notes**: 스크립트에서 직접 빠른 커밋 메시지를 설정합니다. W&B App에서 run의 개요 섹션에서 노트를 편집하고 엑세스합니다.
-5. **Tags**: 베이스라인 runs 및 즐겨찾는 runs를 식별합니다. 태그를 사용하여 runs를 필터링할 수 있습니다. W&B App의 project 대시보드의 개요 섹션에서 나중에 태그를 편집할 수 있습니다.
-6. **Experiments를 비교하기 위해 여러 run 집합 만들기**: Experiments를 비교할 때 메트릭을 쉽게 비교할 수 있도록 여러 run 집합을 만듭니다. 동일한 차트 또는 차트 그룹에서 run 집합을 켜거나 끌 수 있습니다.
+2. **Config**: Track hyperparameters, architecture, dataset, and anything else you'd like to use to reproduce your model. These will show up in columns— use config columns to group, sort, and filter runs dynamically in the app.
+3. **Project**: A project is a set of experiments you can compare together. Each project gets a dedicated dashboard page, and you can easily turn on and off different groups of runs to compare different model versions.
+4. **Notes**: Set a quick commit message directly from your script. Edit and access notes in the Overview section of a run in the W&B App.
+5. **Tags**: Identify baseline runs and favorite runs. You can filter runs using tags. You can edit tags at a later time on the Overview section of your project's dashboard on the W&B App.
+6. **Create multiple run sets to compare experiments**: When comparing experiments, create multiple run sets to make metrics easy to compare. You can toggle run sets on or off on the same chart or group of charts.
 
-다음 코드 조각은 위에 나열된 모범 사례를 사용하여 W&B Experiment를 정의하는 방법을 보여줍니다.
+The following code snippet demonstrates how to define a W&B Experiment using the best practices listed above:
 
 ```python
 import wandb
@@ -153,4 +155,4 @@ with wandb.init(
     ...
 ```
 
-W&B Experiment를 정의할 때 사용할 수 있는 파라미터에 대한 자세한 내용은 [API Reference Guide]({{< relref path="/ref/python/" lang="ko" >}})의 [`wandb.init`]({{< relref path="/ref/python/init.md" lang="ko" >}}) API 문서를 참조하십시오.
+For more information about available parameters when defining a W&B Experiment, see the [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init" lang="ko" >}}) API docs in the [API Reference Guide]({{< relref path="/ref/python/" lang="ko" >}}).

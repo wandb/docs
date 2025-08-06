@@ -1,25 +1,25 @@
 ---
-title: Hugging Face AutoTrain
 menu:
   default:
     identifier: ko-guides-integrations-autotrain
     parent: integrations
+title: Hugging Face AutoTrain
 weight: 130
 ---
 
-[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index)은 자연어 처리 (NLP) 작업, 컴퓨터 비전 (CV) 작업, 음성 작업 및 테이블 형식 작업을 위한 최첨단 모델을 트레이닝하는 노코드 툴입니다.
+[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
 
-[Weights & Biases](http://wandb.com/)는 Hugging Face AutoTrain에 직접 통합되어 experiment 추적 및 config 관리를 제공합니다. 실험을 위해 CLI 코맨드에서 단일 파라미터를 사용하는 것만큼 쉽습니다.
+[W&B](https://wandb.com/) is directly integrated into Hugging Face AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments.
 
-{{< img src="/images/integrations/hf-autotrain-1.png" alt="An example of logging the metrics of an experiment" >}}
+{{< img src="/images/integrations/hf-autotrain-1.png" alt="Experiment metrics logging" >}}
 
-## 필수 조건 설치
+## Install prerequisites
 
-`autotrain-advanced` 및 `wandb`를 설치합니다.
+Install `autotrain-advanced` and `wandb`.
 
 {{< tabpane text=true >}}
 
-{{% tab header="커맨드라인" value="script" %}}
+{{% tab header="Command Line" value="script" %}}
 
 ```shell
 pip install --upgrade autotrain-advanced wandb
@@ -27,7 +27,7 @@ pip install --upgrade autotrain-advanced wandb
 
 {{% /tab %}}
 
-{{% tab header="노트북" value="notebook" %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
 !pip install --upgrade autotrain-advanced wandb
@@ -37,23 +37,23 @@ pip install --upgrade autotrain-advanced wandb
 
 {{< /tabpane >}}
 
-이러한 변경 사항을 보여주기 위해 이 페이지에서는 수학 데이터셋에서 LLM을 fine-tune하여 [GSM8k Benchmarks](https://github.com/openai/grade-school-math)에서 `pass@1`로 SoTA 결과를 달성합니다.
+To demonstrate these changes, this page fine-tines an LLM on a math dataset to achieve SoTA result in `pass@1` on the [GSM8k Benchmarks](https://github.com/openai/grade-school-math).
 
-## 데이터셋 준비
+## Prepare the dataset
 
-Hugging Face AutoTrain은 제대로 작동하기 위해 CSV 커스텀 데이터셋에 특정 형식이 필요합니다.
+Hugging Face AutoTrain expects your CSV custom dataset to have a specific format to work properly.
 
-- 트레이닝 파일에는 트레이닝에 사용되는 `text` 열이 있어야 합니다. 최상의 결과를 얻으려면 `text` 열의 데이터가 `### Human: Question?### Assistant: Answer.` 형식을 준수해야 합니다. [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco)에서 훌륭한 예를 검토하십시오.
+- Your training file must contain a `text` column, which the training uses. For best results, the `text` column's data must conform to the `### Human: Question?### Assistant: Answer.` format. Review a great example in [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco).
 
-    그러나 [MetaMathQA 데이터셋](https://huggingface.co/datasets/meta-math/MetaMathQA)에는 `query`, `response` 및 `type` 열이 포함되어 있습니다. 먼저 이 데이터셋을 전처리합니다. `type` 열을 제거하고 `query` 및 `response` 열의 내용을 `### Human: Query?### Assistant: Response.` 형식의 새 `text` 열로 결합합니다. 트레이닝은 결과 데이터셋인 [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath)를 사용합니다.
+    However, the [MetaMathQA dataset](https://huggingface.co/datasets/meta-math/MetaMathQA) includes the columns `query`, `response`, and `type`. First, pre-process this dataset. Remove  the `type` column and combine the content of the `query` and `response` columns into a new `text` column in the `### Human: Query?### Assistant: Response.` format. Training uses the resulting dataset, [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath).
 
-## `autotrain`을 사용하여 트레이닝
+## Train using `autotrain`
 
-커맨드 라인 또는 노트북에서 `autotrain` advanced를 사용하여 트레이닝을 시작할 수 있습니다. `--log` 인수를 사용하거나 `--log wandb`를 사용하여 결과를 [W&B run]({{< relref path="/guides/models/track/runs/" lang="ko" >}})에 기록합니다.
+You can start training using the `autotrain` advanced from the command line or a notebook. Use the `--log` argument, or use `--log wandb` to log your results to a [W&B Run]({{< relref path="/guides/models/track/runs/" lang="ko" >}}). 
 
 {{< tabpane text=true >}}
 
-{{% tab header="커맨드라인" value="script" %}}
+{{% tab header="Command Line" value="script" %}}
 
 ```shell
 autotrain llm \
@@ -85,10 +85,10 @@ autotrain llm \
 
 {{% /tab %}}
 
-{{% tab header="노트북" value="notebook" %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 ```notebook
-# 하이퍼파라미터 설정
+# Set hyperparameters
 learning_rate = 2e-5
 num_epochs = 3
 batch_size = 4
@@ -102,7 +102,7 @@ lora_alpha = 32
 lora_dropout = 0.05
 logging_steps = 10
 
-# 트레이닝 실행
+# Run training
 !autotrain llm \
     --train \
     --model "HuggingFaceH4/zephyr-7b-alpha" \
@@ -135,9 +135,9 @@ logging_steps = 10
 {{< /tabpane >}}
 
 
-{{< img src="/images/integrations/hf-autotrain-2.gif" alt="An example of saving the configs of your experiment." >}}
+{{< img src="/images/integrations/hf-autotrain-2.gif" alt="Experiment config saving" >}}
 
-## 추가 자료
+## More Resources
 
 * [AutoTrain Advanced now supports Experiment Tracking](https://huggingface.co/blog/rishiraj/log-autotrain) by [Rishiraj Acharya](https://huggingface.co/rishiraj).
 * [Hugging Face AutoTrain Docs](https://huggingface.co/docs/autotrain/index)

@@ -1,125 +1,134 @@
 ---
-title: Point aggregation
 menu:
   default:
     identifier: ko-guides-models-app-features-panels-line-plot-sampling
     parent: line-plot
+title: Point aggregation
 weight: 20
 ---
 
-Data Visualization 정확도와 성능을 향상시키려면 라인 플롯 내에서 포인트 집계 방법을 사용하세요. 포인트 집계 모드에는 [전체 충실도]({{< relref path="#full-fidelity" lang="ko" >}})와 [임의 샘플링]({{< relref path="#random-sampling" lang="ko" >}})의 두 가지 유형이 있습니다. W&B는 기본적으로 전체 충실도 모드를 사용합니다.
+Use point aggregation methods within your line plots for improved data visualization accuracy and performance. There are two types of point aggregation modes: [full fidelity]({{< relref path="#full-fidelity" lang="ko" >}}) and [random sampling]({{< relref path="#random-sampling" lang="ko" >}}). W&B uses full fidelity mode by default.
 
-## 전체 충실도
+## Full fidelity
 
-전체 충실도 모드를 사용하면 W&B는 데이터 포인트 수를 기반으로 x축을 동적 버킷으로 나눕니다. 그런 다음 라인 플롯에 대한 포인트 집계를 렌더링하는 동안 각 버킷 내의 최소값, 최대값 및 평균값을 계산합니다.
+When you use full fidelity mode, W&B breaks the x-axis into dynamic buckets based on the number of data points. It then calculates the minimum, maximum, and average values within each bucket while rendering a point aggregation for the line plot. 
 
-포인트 집계에 전체 충실도 모드를 사용하면 다음과 같은 세 가지 주요 이점이 있습니다.
+There are three main advantages to using full fidelity mode for point aggregation:
 
-* 극단값 및 스파이크 보존: 데이터에서 극단값 및 스파이크를 유지합니다.
-* 최소 및 최대 포인트 렌더링 방법 구성: W&B 앱을 사용하여 극단(최소/최대) 값을 음영 영역으로 표시할지 여부를 대화식으로 결정합니다.
-* 데이터 정확도를 잃지 않고 데이터 탐색: 특정 데이터 포인트를 확대하면 W&B가 x축 버킷 크기를 다시 계산합니다. 이는 정확도를 잃지 않고 데이터를 탐색하는 데 도움이 됩니다. 캐싱은 이전에 계산된 집계를 저장하여 로딩 시간을 줄이는 데 사용되며, 이는 대규모 데이터셋을 탐색할 때 특히 유용합니다.
+* Preserve extreme values and spikes: retain extreme values and spikes in your data 
+* Configure how minimum and maximum points render: use the W&B App to interactively decide whether you want to show extreme (min/max) values as a shaded area.
+* Explore your data without losing data fidelity: W&B recalculates x-axis bucket sizes when you zoom into specific data points. This helps ensure that you can explore your data without losing accuracy. Caching is used to store previously computed aggregations to help reduce loading times which is particularly useful if you are navigating through large datasets.
 
-### 최소 및 최대 포인트 렌더링 방법 구성
+### Configure how minimum and maximum points render
 
-라인 플롯 주위에 음영 영역을 사용하여 최소값과 최대값을 표시하거나 숨깁니다.
+Show or hide minimum and maximum values with shaded areas around your line plots.
 
-다음 이미지는 파란색 라인 플롯을 보여줍니다. 밝은 파란색 음영 영역은 각 버킷의 최소값과 최대값을 나타냅니다.
+The proceeding image shows a blue line plot. The light blue shaded area represents the minimum and maximum values for each bucket.
 
-{{< img src="/images/app_ui/shaded-areas.png" alt="" >}}
+{{< img src="/images/app_ui/shaded-areas.png" alt="Shaded confidence areas" >}}
 
-라인 플롯에서 최소값과 최대값을 렌더링하는 세 가지 방법이 있습니다.
+There are three ways to render minimum and maximum values in your line plots:
 
-* **없음**: 최소/최대값은 음영 영역으로 표시되지 않습니다. x축 버킷에서 집계된 라인만 표시합니다.
-* **호버 시**: 차트 위로 마우스를 가져가면 최소/최대값에 대한 음영 영역이 동적으로 나타납니다. 이 옵션은 뷰를 깔끔하게 유지하면서 범위를 대화식으로 검사할 수 있도록 합니다.
-* **항상**: 최소/최대 음영 영역이 차트의 모든 버킷에 대해 일관되게 표시되어 항상 전체 값 범위를 시각화할 수 있습니다. 차트에 시각화된 Runs가 많은 경우 시각적 노이즈가 발생할 수 있습니다.
+* **Never**: The min/max values are not displayed as a shaded area. Only show the aggregated line across the x-axis bucket.
+* **On hover**: The shaded area for min/max values appears dynamically when you hover over the chart. This option keeps the view uncluttered while allowing you to inspect ranges interactively.
+* **Always**: The min/max shaded area is consistently displayed for every bucket in the chart, helping you visualize the full range of values at all times. This can introduce visual noise if there are many runs visualized in the chart.
 
-기본적으로 최소값과 최대값은 음영 영역으로 표시되지 않습니다. 음영 영역 옵션 중 하나를 보려면 다음 단계를 따르세요.
+By default, the minimum and maximum values are not displayed as shaded areas. To view one of the shaded area options, follow these steps:
 
 {{< tabpane text=true >}}
-{{% tab header="워크스페이스의 모든 차트" value="all_charts" %}}
-1. W&B 프로젝트로 이동합니다.
-2. 왼쪽 탭에서 **Workspace** 아이콘을 선택합니다.
-3. 화면 오른쪽 상단에서 **패널 추가** 버튼 바로 왼쪽에 있는 기어 아이콘을 선택합니다.
-4. 나타나는 UI 슬라이더에서 **라인 플롯**을 선택합니다.
-5. **포인트 집계** 섹션 내에서 **최소/최대값을 음영 영역으로 표시** 드롭다운 메뉴에서 **호버 시** 또는 **항상**을 선택합니다.
+{{% tab header="All charts in a workspace" value="all_charts" %}}
+1. Navigate to your W&B project
+2. Select on the **Workspace** icon on the left tab
+3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
+4. From the UI slider that appears, select **Line plots**
+5. Within the **Point aggregation** section, choose **On over** or **Always** from the **Show min/max values as a shaded area** dropdown menu.
 {{% /tab %}}
 
-{{% tab header="워크스페이스의 개별 차트" value="single_chart"%}}
-1. W&B 프로젝트로 이동합니다.
-2. 왼쪽 탭에서 **Workspace** 아이콘을 선택합니다.
-3. 전체 충실도 모드를 활성화할 라인 플롯 패널을 선택합니다.
-4. 나타나는 모달 내에서 **최소/최대값을 음영 영역으로 표시** 드롭다운 메뉴에서 **호버 시** 또는 **항상**을 선택합니다.
+{{% tab header="Individual chart in a workspace" value="single_chart"%}}
+1. Navigate to your W&B project
+2. Select on the **Workspace** icon on the left tab
+3. Select the line plot panel you want to enable full fidelity mode for
+4. Within the modal that appears, select **On hover** or **Always** from the **Show min/max values as a shaded area** dropdown menu.
 {{% /tab %}}
 {{< /tabpane >}}
 
-### 데이터 정확도를 잃지 않고 데이터 탐색
 
-극단값 또는 스파이크와 같은 중요한 포인트를 놓치지 않고 데이터셋의 특정 영역을 분석합니다. 라인 플롯을 확대하면 W&B는 각 버킷 내에서 최소값, 최대값 및 평균값을 계산하는 데 사용되는 버킷 크기를 조정합니다.
+### Explore your data without losing data fidelity
 
-{{< img src="/images/app_ui/zoom_in.gif" alt="" >}}
+Analyze specific regions of the dataset without missing critical points like extreme values or spikes. When you zoom in on a line plot, W&B adjusts the buckets sizes used to calculate the minimum, maximum, and average values within each bucket. 
 
-W&B는 x축을 기본적으로 1000개의 버킷으로 동적으로 나눕니다. 각 버킷에 대해 W&B는 다음 값을 계산합니다.
 
-- **최소값**: 해당 버킷의 가장 낮은 값입니다.
-- **최대값**: 해당 버킷의 가장 높은 값입니다.
-- **평균값**: 해당 버킷의 모든 포인트의 평균값입니다.
+{{< img src="/images/app_ui/zoom_in.gif" alt="Plot zoom functionality" >}}
 
-W&B는 전체 데이터 표현을 보존하고 모든 플롯에 극단값을 포함하는 방식으로 버킷의 값을 플롯합니다. 1,000포인트 이하로 확대하면 전체 충실도 모드는 추가 집계 없이 모든 데이터 포인트를 렌더링합니다.
 
-라인 플롯을 확대하려면 다음 단계를 따르세요.
+W&B divides the x-axis is dynamically into 1000 buckets by default. For each bucket, W&B calculates the following values:
 
-1. W&B 프로젝트로 이동합니다.
-2. 왼쪽 탭에서 **Workspace** 아이콘을 선택합니다.
-3. 필요에 따라 워크스페이스에 라인 플롯 패널을 추가하거나 기존 라인 플롯 패널로 이동합니다.
-4. 클릭하고 드래그하여 확대할 특정 영역을 선택합니다.
+- **Minimum**: The lowest value in that bucket.
+- **Maximum**: The highest value in that bucket.
+- **Average**: The mean value of all points in that bucket.
 
-{{% alert title="라인 플롯 그룹화 및 표현식" %}}
-라인 플롯 그룹화를 사용하면 W&B는 선택한 모드를 기반으로 다음을 적용합니다.
+W&B plots values in buckets in a way that preserves full data representation and includes extreme values in every plot. When zoomed in to 1,000 points or fewer, full fidelity mode renders every data point without additional aggregation.
 
-- **비 윈도우 샘플링(그룹화)**: x축에서 Runs 간에 포인트를 정렬합니다. 여러 포인트가 동일한 x-값을 공유하는 경우 평균이 취해집니다. 그렇지 않으면 개별 포인트로 나타납니다.
-- **윈도우 샘플링(그룹화 및 표현식)**: x축을 250개의 버킷 또는 가장 긴 라인의 포인트 수(더 작은 쪽)로 나눕니다. W&B는 각 버킷 내의 포인트 평균을 구합니다.
-- **전체 충실도(그룹화 및 표현식)**: 비 윈도우 샘플링과 유사하지만 성능과 세부 정보의 균형을 맞추기 위해 Run당 최대 500개의 포인트를 가져옵니다.
+
+To zoom in on a line plot, follow these steps:
+
+1. Navigate to your W&B project
+2. Select on the **Workspace** icon on the left tab
+3. Optionally add a line plot panel to your workspace or navigate to an existing line plot panel.
+4. Click and drag to select a specific region to zoom in on.
+
+{{% alert title="Line plot grouping and expressions" %}}
+When you use Line Plot Grouping, W&B applies the following based on the mode selected:
+
+- **Non-windowed sampling (grouping)**: Aligns points across runs on the x-axis. The average is taken if multiple points share the same x-value; otherwise, they appear as discrete points.
+- **Windowed sampling (grouping and expressions)**: Divides the x-axis either into 250 buckets or the number of points in the longest line (whichever is smaller). W&B takes an average of points within each bucket.
+- **Full fidelity (grouping and expressions)**: Similar to non-windowed sampling, but fetches up to 500 points per run to balance performance and detail.
 {{% /alert %}}
 
-## 임의 샘플링
+ 
+## Random sampling
 
-임의 샘플링은 1500개의 임의로 샘플링된 포인트를 사용하여 라인 플롯을 렌더링합니다. 임의 샘플링은 데이터 포인트 수가 많은 경우 성능상의 이유로 유용합니다.
+Random sampling uses 1500 randomly sampled points to render line plots. Random sampling is useful for performance reasons when you have a large number of data points. 
 
 {{% alert color="warning" %}}
-임의 샘플링은 비 결정적으로 샘플링합니다. 즉, 임의 샘플링은 때때로 데이터에서 중요한 이상값 또는 스파이크를 제외하므로 데이터 정확도가 감소합니다.
+Random sampling samples non-deterministically. This means that random sampling sometimes excludes important outliers or spikes in the data and therefore reduces data accuracy.
 {{% /alert %}}
 
-### 임의 샘플링 활성화
-기본적으로 W&B는 전체 충실도 모드를 사용합니다. 임의 샘플링을 활성화하려면 다음 단계를 따르세요.
+
+### Enable random sampling
+By default, W&B uses full fidelity mode. To enable random sampling, follow these steps:
 
 {{< tabpane text=true >}}
-{{% tab header="워크스페이스의 모든 차트" value="all_charts" %}}
-1. W&B 프로젝트로 이동합니다.
-2. 왼쪽 탭에서 **Workspace** 아이콘을 선택합니다.
-3. 화면 오른쪽 상단에서 **패널 추가** 버튼 바로 왼쪽에 있는 기어 아이콘을 선택합니다.
-4. 나타나는 UI 슬라이더에서 **라인 플롯**을 선택합니다.
-5. **포인트 집계** 섹션에서 **임의 샘플링**을 선택합니다.
+{{% tab header="All charts in a workspace" value="all_charts" %}}
+1. Navigate to your W&B project
+2. Select on the **Workspace** icon on the left tab
+3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
+4. From the UI slider that appears, select **Line plots**
+5. Choose **Random sampling** from the **Point aggregation** section
 {{% /tab %}}
 
-{{% tab header="워크스페이스의 개별 차트" value="single_chart"%}}
-1. W&B 프로젝트로 이동합니다.
-2. 왼쪽 탭에서 **Workspace** 아이콘을 선택합니다.
-3. 임의 샘플링을 활성화할 라인 플롯 패널을 선택합니다.
-4. 나타나는 모달 내에서 **포인트 집계 방법** 섹션에서 **임의 샘플링**을 선택합니다.
+{{% tab header="Individual chart in a workspace" value="single_chart"%}}
+1. Navigate to your W&B project
+2. Select on the **Workspace** icon on the left tab
+3. Select the line plot panel you want to enable random sampling for
+4. Within the modal that appears, select **Random sampling** from the **Point aggregation method** section
 {{% /tab %}}
 {{< /tabpane >}}
 
-### 샘플링되지 않은 데이터에 엑세스
 
-[W&B Run API]({{< relref path="/ref/python/public-api/run.md" lang="ko" >}})를 사용하여 Run 중에 기록된 메트릭의 전체 기록에 엑세스할 수 있습니다. 다음 예제에서는 특정 Run에서 손실 값을 검색하고 처리하는 방법을 보여줍니다.
+
+### Access non sampled data
+
+You can access the complete history of metrics logged during a run using the [W&B Run API]({{< relref path="/ref/python/public-api/runs.md" lang="ko" >}}). The following example demonstrates how to retrieve and process the loss values from a specific run:
+
 
 ```python
-# W&B API 초기화
+# Initialize the W&B API
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
 
-# 'Loss' 메트릭의 기록 검색
+# Retrieve the history of the 'Loss' metric
 history = run.scan_history(keys=["Loss"])
 
-# 기록에서 손실 값 추출
+# Extract the loss values from the history
 losses = [row["Loss"] for row in history]
 ```

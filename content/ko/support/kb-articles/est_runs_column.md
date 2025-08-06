@@ -1,27 +1,27 @@
 ---
-title: What is the `Est. Runs` column?
 menu:
   support:
     identifier: ko-support-kb-articles-est_runs_column
 support:
 - sweeps
 - hyperparameter
+title: What is the `Est. Runs` column?
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-W&B는 분리된 검색 공간으로 W&B 스윕을 생성할 때 생성되는 예상 Run 수를 제공합니다. 이 총계는 검색 공간의 데카르트 곱을 반영합니다.
+W&B provides an estimated number of Runs generated when creating a W&B Sweep with a discrete search space. This total reflects the cartesian product of the search space.
 
-예를 들어 다음 검색 공간을 고려하십시오.
+For instance, consider the following search space:
 
-{{< img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="" >}}
+{{< img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="Estimated runs column" >}}
 
-이 경우 데카르트 곱은 9와 같습니다. W&B는 이 값을 App UI에 예상 Run 수 (**Est. Runs**)로 표시합니다.
+In this case, the Cartesian product equals 9. W&B displays this value in the App UI as the estimated run count (**Est. Runs**):
 
-{{< img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="" >}}
+{{< img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="Sweep run estimation" >}}
 
-예상 Run 수를 프로그래밍 방식으로 검색하려면 W&B SDK 내에서 스윕 오브젝트의 `expected_run_count` 속성을 사용하십시오.
+To retrieve the estimated Run count programmatically, use the `expected_run_count` attribute of the Sweep object within the W&B SDK:
 
 ```python
 sweep_id = wandb.sweep(

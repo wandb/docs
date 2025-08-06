@@ -1,20 +1,21 @@
 ---
-title: How do I programmatically access the human-readable run name?
 menu:
   support:
     identifier: ko-support-kb-articles-programmatically_access_humanreadable_run_name
 support:
 - experiments
+title: How do I programmatically access the human-readable run name?
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-[`wandb.Run`]({{< relref path="/ref/python/run.md" lang="ko" >}}) 의 `.name` 속성은 다음과 같이 액세스할 수 있습니다:
+The `.name` attribute of a [`wandb.Run`]({{< relref path="/ref/python/sdk/classes/run" lang="ko" >}}) is accessible as follows:
 
 ```python
 import wandb
 
-wandb.init()
-run_name = wandb.run.name
+with wandb.init() as run:
+   run_name = run.name
+   print(f"The human-readable run name is: {run_name}")
 ```

@@ -1,20 +1,21 @@
 ---
-title: wandb controller
 menu:
   reference:
     identifier: ko-ref-cli-wandb-controller
+title: wandb controller
 ---
 
-**사용법**
+**Usage**
 
 `wandb controller [OPTIONS] SWEEP_ID`
 
-**요약**
+**Summary**
 
-W&B 로컬 스윕 컨트롤러를 실행합니다.
+Run the W&B local sweep controller
 
-**옵션**
 
-| **옵션** | **설명** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |
-| `--verbose` | 상세한 출력 표시 |
+| `--verbose` | Display verbose output |

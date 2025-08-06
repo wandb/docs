@@ -1,63 +1,71 @@
 ---
-title: ワークスペースのプログラム管理
 menu:
   tutorials:
     identifier: ja-tutorials-workspaces
     parent: null
+title: Programmatic Workspaces
 weight: 5
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" >}}
-プログラムでワークスペースを作成、管理、カスタマイズすることにより、機械学習実験をより効果的に整理し、可視化できます。[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B ライブラリを使用して設定を定義し、パネルのレイアウトを設定し、セクションを整理できます。URLでワークスペースを読み込み、変更したり、runをフィルタリングしてグループ化するための式を使用したり、runの外観をカスタマイズすることも可能です。
-
-`wandb-workspaces` は、W&Bの [Workspaces]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}}) と [Reports]({{< relref path="/guides/core/reports/" lang="ja" >}}) をプログラムで作成しカスタマイズするためのPythonライブラリです。
-
-このチュートリアルでは、`wandb-workspaces` を使って設定を定義し、パネルレイアウトを設定し、セクションを整理することでワークスペースを作成しカスタマイズする方法を学びます。
-
-## このノートブックの使い方
-* 各セルを一度に1つずつ実行してください。
-* セルの実行後に表示されるURLをコピーして貼り付けることで、ワークスペースへの変更を確認できます。
-
 {{% alert %}}
-プログラムによるワークスペースとの対話は、現在[**Saved workspaces views**]({{< relref path="/guides/models/track/workspaces#saved-workspace-views" lang="ja" >}})でサポートされています。Saved workspaces viewsは、ワークスペースの協働スナップショットです。同じチームのメンバーであれば、誰でも保存されたワークスペースビューを表示、編集、保存できます。
+W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
-## 1. 依存関係のインストールとインポート
+{{< cta-button colabLink="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" >}}
+Organize and visualize your machine learning experiments more effectively by programmatically creating, managing, and customizing workspaces. You can define configurations, set panel layouts, and organize sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. You can load and modify workspaces by URL, use expressions to filter and group runs, and customize the appearances of runs.
+
+`wandb-workspaces` is a Python library for programmatically creating and customizing W&B [Workspaces]({{< relref path="/guides/models/track/workspaces/" lang="ja" >}}) and [Reports]({{< relref path="/guides/core/reports/" lang="ja" >}}).
+
+In this tutorial you will see how to use `wandb-workspaces` to create and customize workspaces by defining configurations, set panel layouts, and organize sections.
+
+## How to use this notebook
+* Run each cell one at a time. 
+* Copy and paste the URL that is printed after you run a cell to view the changes made to the workspace.
+
+
+{{% alert %}}
+Programmatic interaction with workspaces is currently supported for [Saved workspaces views]({{< relref path="/guides/models/track/workspaces#saved-workspace-views" lang="ja" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
+{{% /alert %}}
+
+## 1. Install and import dependencies
+
 
 ```python
-# 依存関係のインストール
+# Install dependencies
 !pip install wandb wandb-workspaces rich
 ```
 
+
 ```python
-# 依存関係のインポート
+# Import dependencies
 import os
 import wandb
 import wandb_workspaces.workspaces as ws
-import wandb_workspaces.reports.v2 as wr # パネルを追加するためのReports APIを使用します
+import wandb_workspaces.reports.v2 as wr # We use the Reports API for adding panels
 
-# 出力フォーマットを改善
+# Improve output formatting
 %load_ext rich
 ```
 
-## 2. 新しいプロジェクトとワークスペースの作成
+## 2. Create a new project and workspace
 
-このチュートリアルでは、新しいプロジェクトを作成し、`wandb_workspaces` APIを使用して実験を行います。
+For this tutorial we will create a new project so that we can experiment with the `wandb_workspaces` API:
 
-注：ユニークな `Saved view` URLを使用して既存のワークスペースを読み込むことができます。この方法は次のコードブロックで説明しています。
+Note: You can load an existing workspace using its unique `Saved view` URL. See the next code block to see how to do this.
+
 
 ```python
-# Weights & Biases を初期化してログイン
+# Initialize W&B and Login
 wandb.login()
 
-# 新しいプロジェクトとサンプルデータをログに記録するための関数
+# Function to create a new project and log sample data
 def create_project_and_log_data():
-    project = "workspace-api-example"  # デフォルトのプロジェクト名
+    project = "workspace-api-example"  # Default project name
 
-    # サンプルデータをログに記録するためにrunを初期化
+    # Initialize a run to log some sample data
     with wandb.init(project=project, name="sample_run") as run:
         for step in range(100):
-            wandb.log({
+            run.log({
                 "Step": step,
                 "val_loss": 1.0 / (step + 1),
                 "val_accuracy": step / 100.0,
@@ -68,16 +76,15 @@ def create_project_and_log_data():
             })
     return project
 
-# 新しいプロジェクトを作成してデータをログ
+# Create a new project and log data
 project = create_project_and_log_data()
 entity = wandb.Api().default_entity
 ```
 
-### （オプション）既存のプロジェクトとワークスペースを読み込む
+### (Optional) Load an existing project and workspace
+Instead of creating a new project, you can load one of your own existing project and workspace. To do this, find the unique workspace URL and pass it to `ws.Workspace.from_url` as a string. The URL has the form `https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc`. 
 
-新しいプロジェクトを作成する代わりに、既存のプロジェクトとワークスペースを読み込むことができます。そのためには、ユニークなワークスペースURLを見つけて、それを文字列として `ws.Workspace.from_url` に渡します。URLの形式は `https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc` です。
-
-例：
+For example:
 
 ```python
 wandb.login()
@@ -91,19 +98,19 @@ workspace = ws.Workspace(
 )
 ```
 
-## 3. プログラムによるワークスペースの例
+## 3. Programmatic workspace examples
+Below are examples for using programmatic workspace features:
 
-以下に、プログラムによるワークスペースの特徴を使用するための例を示します：
 
 ```python
-# ワークスペース、セクション、およびパネルに利用可能なすべての設定を確認します。
+# See all available settings for workspaces, sections, and panels.
 all_settings_objects = [x for x in dir(ws) if isinstance(getattr(ws, x), type)]
 all_settings_objects
 ```
 
-### `saved view` を使ってワークスペースを作成
+### Create a workspace with `saved view`
+This example demonstrates how to create a new workspace and populate it with sections and panels. Workspaces can be edited like regular Python objects, providing flexibility and ease of use.
 
-この例では、新しいワークスペースを作成し、それにセクションとパネルを配置する方法を示します。ワークスペースは通常のPythonオブジェクトのように編集できますので、柔軟性と使いやすさを提供します。
 
 ```python
 def sample_workspace_saved_example(entity: str, project: str) -> str:
@@ -130,9 +137,9 @@ def sample_workspace_saved_example(entity: str, project: str) -> str:
 workspace_url: str = sample_workspace_saved_example(entity, project)
 ```
 
-### URLからワークスペースを読み込む
+### Load a workspace from a URL
+Duplicate and customize workspaces without affecting the original setup. To do this, load an existing workspace and save it as a new view:
 
-元のセットアップに影響を与えずにワークスペースを複製してカスタマイズします。これを行うためには、既存のワークスペースを読み込み、新しいビューとして保存します。
 
 ```python
 def save_new_workspace_view_example(url: str) -> None:
@@ -146,14 +153,14 @@ def save_new_workspace_view_example(url: str) -> None:
 save_new_workspace_view_example(workspace_url)
 ```
 
-今、あなたのワークスペースの名前は "Updated Workspace Name" です。
+Note that your workspace is now named "Updated Workspace Name".
 
-### 基本設定
+### Basic settings
+The following code shows how to create a workspace, add sections with panels, and configure settings for the workspace, individual sections, and panels:
 
-次のコードは、ワークスペースを作成し、パネルを追加して、ワークスペース、個々のセクション、およびパネルの設定を構成する方法を示します。
 
 ```python
-# カスタム設定でワークスペースを作成して構成するための関数
+# Function to create and configure a workspace with custom settings
 def custom_settings_example(entity: str, project: str) -> None:
     workspace: ws.Workspace = ws.Workspace(name="An example workspace", entity=entity, project=project)
     workspace.sections = [
@@ -206,30 +213,29 @@ def custom_settings_example(entity: str, project: str) -> None:
     workspace.save()
     print("Workspace with custom settings saved.")
 
-# ワークスペースを作成して設定する関数を実行
+# Run the function to create and configure the workspace
 custom_settings_example(entity, project)
 ```
 
-今、あなたは "An example workspace" という名前の別の保存済みビューを見ています。
+Note that you are now viewing a different saved view called "An example workspace".
 
-## Run のカスタマイズ
+## Customize runs
+The following code cells show you how to filter, change the color, group, and sort runs programmatically. 
 
-次のコードセルでは、runをフィルタリングし、色を変え、グループ化し、プログラムで並べ替える方法を示します。
+In each example, the general workflow is to specify the desired customization as an argument to the appropriate parameter in `ws.RunsetSettings`.
 
-各例では、一般的なワークフローとして、適切なパラメータに引数として指定されたカスタマイズ情報を `ws.RunsetSettings` に渡します。
+### Filter runs
+You can create filters with python expressions and metrics you log with `wandb.log` or that are logged automatically as part of the run such as **Created Timestamp**.  You can also reference filters by how they appear in the W&B App UI such as the **Name**, **Tags**, or **ID**.
 
-### Run のフィルタリング
+The following example shows how to filter runs based on the validation loss summary, validation accuracy summary, and the regex specified:
 
-Pythonの式と `wandb.log` でログしたメトリクス、または **Created Timestamp** のようにrunの一部として自動的にログされるメトリクスを使って、フィルターを作成できます。また、W&B App UI での表示方法、たとえば **Name**、**Tags**、または **ID** に基づいてフィルターを参照することもできます。
-
-次の例では、検証損失のサマリ、検証精度のサマリ、および指定された正規表現に基づいてrunをフィルタリングする方法を示します。
 
 ```python
 def advanced_filter_example(entity: str, project: str) -> None:
-    # プロジェクト内のすべてのrunを取得
+    # Get all runs in the project
     runs: list = wandb.Api().runs(f"{entity}/{project}")
 
-    # 複数のフィルターを適用：val_loss < 0.1、val_accuracy > 0.8、およびrun名が正規表現に一致
+    # Apply multiple filters: val_loss < 0.1, val_accuracy > 0.8, and run name matches regex pattern
     workspace: ws.Workspace = ws.Workspace(
         name="Advanced Filtered Workspace with Regex",
         entity=entity,
@@ -246,15 +252,15 @@ def advanced_filter_example(entity: str, project: str) -> None:
         ],
         runset_settings=ws.RunsetSettings(
             filters=[
-                (ws.Summary("val_loss") < 0.1),  # 'val_loss' のサマリでrunをフィルタ
-                (ws.Summary("val_accuracy") > 0.8),  # 'val_accuracy' のサマリでrunをフィルタ
+                (ws.Summary("val_loss") < 0.1),  # Filter runs by the 'val_loss' summary
+                (ws.Summary("val_accuracy") > 0.8),  # Filter runs by the 'val_accuracy' summary
                 (ws.Metric("ID").isin([run.id for run in wandb.Api().runs(f"{entity}/{project}")])),
             ],
             regex_query=True,
         )
     )
 
-    # run名が 's' で始まるものと一致するように正規表現検索を追加します
+    # Add regex search to match run names starting with 's'
     workspace.runset_settings.query = "^s"
     workspace.runset_settings.regex_query = True
 
@@ -264,18 +270,18 @@ def advanced_filter_example(entity: str, project: str) -> None:
 advanced_filter_example(entity, project)
 ```
 
-フィルター式のリストを渡すと、ブールの「AND」論理が適用されることに注意してください。
+Note that passing in a list of filter expressions applies the boolean "AND" logic.
 
-### Run の色を変更
+### Change the colors of runs
+This example demonstrates how to change the colors of the runs in a workspace:
 
-この例では、ワークスペース内のrunの色を変更する方法を示します。
 
 ```python
 def run_color_example(entity: str, project: str) -> None:
-    # プロジェクト内のすべてのrunを取得
+    # Get all runs in the project
     runs: list = wandb.Api().runs(f"{entity}/{project}")
 
-    # Runの色を動的に割り当てる
+    # Dynamically assign colors to the runs
     run_colors: list = ['purple', 'orange', 'teal', 'magenta']
     run_settings: dict = {}
     for i, run in enumerate(runs):
@@ -306,9 +312,11 @@ def run_color_example(entity: str, project: str) -> None:
 run_color_example(entity, project)
 ```
 
-### Run のグループ化
+### Group runs
 
-この例では、特定のメトリクスでrunをグループ化する方法を示します。
+This example demonstrates how to group runs by specific metrics.
+
+
 
 ```python
 def grouping_example(entity: str, project: str) -> None:
@@ -336,9 +344,9 @@ def grouping_example(entity: str, project: str) -> None:
 grouping_example(entity, project)
 ```
 
-### Run をソート
+### Sort runs
+This example demonstrates how to sort runs based on the validation loss summary:
 
-この例では、検証損失のサマリに基づいてrunをソートする方法を示します。
 
 ```python
 def sorting_example(entity: str, project: str) -> None:
@@ -357,7 +365,7 @@ def sorting_example(entity: str, project: str) -> None:
             ),
         ],
         runset_settings=ws.RunsetSettings(
-            order=[ws.Ordering(ws.Summary("val_loss"))] #val_lossサマリを使用して注文
+            order=[ws.Ordering(ws.Summary("val_loss"))] #Order using val_loss summary
         )
     )
     workspace.save()
@@ -366,16 +374,17 @@ def sorting_example(entity: str, project: str) -> None:
 sorting_example(entity, project)
 ```
 
-## 4. まとめ: 包括的な例
+## 4. Putting it all together: comprehensive example
 
-この例では、包括的なワークスペースを作成し、その設定を構成し、セクションにパネルを追加する方法を示します。
+This example demonstrates how to create a comprehensive workspace, configure its settings, and add panels to sections:
+
 
 ```python
 def full_end_to_end_example(entity: str, project: str) -> None:
-    # プロジェクト内のすべてのrunを取得
+    # Get all runs in the project
     runs: list = wandb.Api().runs(f"{entity}/{project}")
 
-    # Runの色を動的に割り当ててrunの設定を作成する
+    # Dynamically assign colors to the runs and create run settings
     run_colors: list = ['red', 'blue', 'green', 'orange', 'purple', 'teal', 'magenta', '#FAC13C']
     run_settings: dict = {}
     for i, run in enumerate(runs):

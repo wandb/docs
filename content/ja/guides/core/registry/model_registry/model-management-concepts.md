@@ -1,31 +1,33 @@
 ---
-title: モデルレジストリの用語と概念
-description: モデルレジストリの用語と概念
+description: Model Registry terms and concepts
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-model-management-concepts
     parent: model-registry
+title: Model Registry Terms and Concepts
 weight: 2
 ---
 
-以下の用語は、W&B モデルレジストリの主要な構成要素を説明します: [*model version*]({{< relref path="#model-version" lang="ja" >}})、[*model artifact*]({{< relref path="#model-artifact" lang="ja" >}})、および [*registered model*]({{< relref path="#registered-model" lang="ja" >}})。
+The following terms describe key components of the W&B Model Registry: [*model version*]({{< relref path="#model-version" lang="ja" >}}), [*model artifact*]({{< relref path="#model-artifact" lang="ja" >}}), and [*registered model*]({{< relref path="#registered-model" lang="ja" >}}).
 
 ## Model version
-モデルバージョンは、単一のモデルチェックポイントを表します。モデルバージョンは、実験内のモデルとそのファイルのある時点でのスナップショットです。
+A model version represents a single model checkpoint. Model versions are a snapshot at a point in time of a model and its files within an experiment. 
 
-モデルバージョンは、訓練されたモデルを記述するデータとメタデータの不変なディレクトリーです。W&B は、後でモデルのアーキテクチャーと学習されたパラメータを保存（および復元）できるように、ファイルをモデルバージョンに追加することを推奨しています。
+A model version is an immutable directory of data and metadata that describes a trained model. W&B suggests that you add files to your model version that let you store (and restore) your model architecture and learned parameters at a later date. 
 
-モデルバージョンは、1つだけの [model artifact]({{< relref path="#model-artifact" lang="ja" >}}) に属します。モデルバージョンは、ゼロまたは複数の [registered models]({{< relref path="#registered-model" lang="ja" >}}) に属する場合があります。モデルバージョンは、model artifact にログされる順序で格納されます。同じ model artifact にログされたモデルの内容が以前のモデルバージョンと異なる場合、W&B は自動的に新しいモデルバージョンを作成します。
+A model version belongs to one, and only one, [model artifact]({{< relref path="#model-artifact" lang="ja" >}}). A model version can belong to zero or more, [registered models]({{< relref path="#registered-model" lang="ja" >}}). Model versions are stored in a model artifact in the order they are logged to the model artifact. W&B automatically creates a new model version if it detects that a model you log (to the same model artifact) has different contents than a previous model version.
 
-モデリングライブラリによって提供されるシリアライズプロセスから生成されたファイルをモデルバージョン内に保存します（例：[PyTorch](https://pytorch.org/tutorials/beginner/saving_loading_models.html) と [Keras](https://www.tensorflow.org/guide/keras/save_and_serialize)）。
+Store files within model versions that are produced from the serialization process provided by your modeling library (for example, [PyTorch](https://pytorch.org/tutorials/beginner/saving_loading_models.html) and [Keras](https://www.tensorflow.org/guide/keras/save_and_serialize)).
+
+<!-- [INSERT IMAGE] -->
 
 ## Model alias
 
-モデルエイリアスは、登録されたモデル内でモデルバージョンを一意に識別または参照するための可変文字列です。登録されたモデルのバージョンにだけエイリアスを割り当てることができます。これは、エイリアスがプログラム的に使用されたとき、一意のバージョンを指す必要があるためです。エイリアスは、モデルの状態（チャンピオン、候補、プロダクション）をキャプチャするためにも使用されます。
+Model aliases are mutable strings that allow you to uniquely identify or reference a model version in your registered model with a semantically related identifier. You can only assign an alias to one version of a registered model. This is because an alias should refer to a unique version when used programmatically. It also allows aliases to be used to capture a model's state (champion, candidate, production).
 
-"best"、"latest"、"production"、"staging" のようなエイリアスを使用して、特定の目的を持つモデルバージョンにマークを付けることは一般的です。
+It is common practice to use aliases such as  `"best"`, `"latest"`, `"production"`, or `"staging"` to mark model versions with special purposes.
 
-たとえば、モデルを作成し、それに "best" エイリアスを割り当てたとします。その特定のモデルを `run.use_model` で参照できます。
+For example, suppose you create a model and assign it a `"best"` alias. You can refer to that specific model with `run.use_model` 
 
 ```python
 import wandb
@@ -35,30 +37,35 @@ run.use_model(name=name)
 ```
 
 ## Model tags
-モデルタグは、1つ以上の登録されたモデルに属するキーワードまたはラベルです。
+Model tags are keywords or labels that belong to one or more registered models.
 
-モデルタグを使用して、登録されたモデルをカテゴリに整理し、モデルレジストリの検索バーでそれらのカテゴリを検索します。モデルタグは Registered Model Card の上部に表示されます。ML タスク、所有チーム、または優先順位に基づいて登録モデルをグループ化するために使用することもできます。同じモデルタグを複数の登録されたモデルに追加してグループ化を可能にします。
+Use model tags to organize registered models into categories and to search over those categories in the Model Registry's search bar. Model tags appear at the top of the Registered Model Card. You might choose to use them to group your registered models by ML task, owning team, or priority. The same model tag can be added to multiple registered models to allow for grouping. 
 
 {{% alert %}}
-登録されたモデルに適用されるラベルで、グループ化と発見性のために使用されるモデルタグは、[model aliases]({{< relref path="#model-alias" lang="ja" >}}) とは異なります。モデルエイリアスは、一意の識別子またはニックネームで、プログラム的にモデルバージョンを取得するために使用します。モデルレジストリでタスクを整理するためのタグの使用について詳しくは、[Organize models]({{< relref path="./organize-models.md" lang="ja" >}}) を参照してください。
+Model tags, which are labels applied to registered models for grouping and discoverability, are different from [model aliases]({{< relref path="#model-alias" lang="ja" >}}). Model aliases are unique identifiers or nicknames that you use to fetch a model version programatically. To learn more about using tags to organize the tasks in your Model Registry, see [Organize models]({{< relref path="./organize-models.md" lang="ja" >}}).
 {{% /alert %}}
 
+
 ## Model artifact
-モデルアーティファクトは、ログされた [model versions]({{< relref path="#model-version" lang="ja" >}}) のコレクションです。モデルバージョンは、model artifact にログされた順序で保存されます。
+A model artifact is a collection of logged [model versions]({{< relref path="#model-version" lang="ja" >}}). Model versions are stored in a model artifact in the order they are logged to the model artifact. 
 
-モデルアーティファクトには1つ以上のモデルバージョンが含まれる場合があります。モデルバージョンがログされていない場合、モデルアーティファクトは空です。
+A model artifact can contain one or more model versions. A model artifact can be empty if no model versions are logged to it. 
 
-たとえば、モデルアーティファクトを作成するとします。モデルのトレーニング中に、定期的にチェックポイントでモデルを保存します。各チェックポイントはその独自の [model version]({{< relref path="#model-version" lang="ja" >}}) に対応しています。トレーニングスクリプトの開始時に作成した同じモデルアーティファクトに、モデルトレーニング中とチェックポイント保存中に作成されたすべてのモデルバージョンが保存されます。
+For example, suppose you create a model artifact. During model training, you periodically save your model during checkpoints. Each checkpoint corresponds to its own [model version]({{< relref path="#model-version" lang="ja" >}}). All of the model versions created during your model training and checkpoint saving are stored in the same model artifact you created at the beginning of your training script.
 
-以下の画像は、3つのモデルバージョン v0、v1、v2 を含むモデルアーティファクトを示しています。
+<!-- and will be assigned a version number depending on the sequence in which they were logged. A new version is automatically created when the contents of the latest version that was logged has changed.  -->
 
-{{< img src="/images/models/mr1c.png" alt="" >}}
 
-[モデルアーティファクトの例はこちら](https://wandb.ai/timssweeney/model_management_docs_official_v0/artifacts/model/mnist-zws7gt0n)をご覧ください。
+The proceeding image shows a model artifact that contains three model versions: v0, v1, and v2.
+
+{{< img src="/images/models/mr1c.png" alt="Model registry concepts" >}}
+
+View an [example model artifact here](https://wandb.ai/timssweeney/model_management_docs_official_v0/artifacts/model/mnist-zws7gt0n).
 
 ## Registered model
-登録モデルは、モデルバージョンへのポインタ（リンク）のコレクションです。登録モデルを、同じ ML タスク用の候補モデルの「ブックマーク」フォルダーとして考えることができます。登録モデルの各「ブックマーク」は、[model artifact]({{< relref path="#model-artifact" lang="ja" >}}) に属する [model version]({{< relref path="#model-version" lang="ja" >}}) へのポインタです。[model tags]({{< relref path="#model-tags" lang="ja" >}}) を使用して登録モデルをグループ化することができます。
+A registered model is a collection of pointers (links) to model versions. You can think of a registered model as a folder of "bookmarks" of candidate models for the same ML task. Each "bookmark" of a registered model is a pointer to a [model version]({{< relref path="#model-version" lang="ja" >}}) that belongs to a [model artifact]({{< relref path="#model-artifact" lang="ja" >}}). You can use [model tags]({{< relref path="#model-tags" lang="ja" >}}) to group your registered models. 
 
-登録モデルは、単一のモデリングユースケースやタスクに対する候補モデルを表すことがよくあります。たとえば、使用するモデルに基づいて異なる画像分類タスクの登録モデルを作成するかもしれません：`ImageClassifier-ResNet50`、`ImageClassifier-VGG16`、`DogBreedClassifier-MobileNetV2` など。モデルバージョンは、登録モデルにリンクされた順にバージョン番号が割り当てられます。
+Registered models often represent candidate models for a single modeling use case or task. For example, you might create registered model for different image classification task based on the model you use: `ImageClassifier-ResNet50`, `ImageClassifier-VGG16`, `DogBreedClassifier-MobileNetV2` and so on. Model versions are assigned version numbers in the order in which they were linked to the registered model.
 
-[登録モデルの例はこちら](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=versions)をご覧ください。
+
+View an [example Registered Model here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=versions).

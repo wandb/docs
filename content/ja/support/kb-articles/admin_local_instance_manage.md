@@ -1,12 +1,13 @@
 ---
-title: 自分のローカルインスタンスの管理者である場合、どのように管理すればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-admin_local_instance_manage
 support:
-  - administrator
+- administrator
+title: If I am the admin of my local instance, how should I manage it?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-自分がインスタンスの管理者である場合は、ユーザーの追加やチームの作成についての手順を確認するために、[ユーザー管理]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md" lang="ja" >}}) セクションをレビューしてください。
+
+If you are the admin for your instance, review the [User Management]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md" lang="ja" >}}) section for instructions on adding users and creating teams.

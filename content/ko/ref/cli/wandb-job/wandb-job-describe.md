@@ -1,19 +1,21 @@
 ---
-title: wandb job describe
 menu:
   reference:
     identifier: ko-ref-cli-wandb-job-wandb-job-describe
+title: wandb job describe
 ---
 
-**사용법**
+**Usage**
 
 `wandb job describe [OPTIONS] JOB`
 
-**요약**
+**Summary**
 
-Launch job에 대해 설명합니다. entity/project/job-name:alias-or-version 형식으로 Launch job을 제공하세요.
+Describe a launch job. Provide the launch job in the form of:
+entity/project/job-name:alias-or-version
 
-**옵션**
 
-| **옵션** | **설명** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |

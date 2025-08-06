@@ -1,21 +1,22 @@
 ---
-title: wandb job list
 menu:
   reference:
     identifier: ko-ref-cli-wandb-job-wandb-job-list
+title: wandb job list
 ---
 
-**사용법**
+**Usage**
 
 `wandb job list [OPTIONS]`
 
-**요약**
+**Summary**
 
-프로젝트의 jobs 목록을 표시합니다.
+List jobs in a project
 
-**옵션**
 
-| **옵션** | **설명** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |
-| `-p, --project` | jobs 목록을 표시할 프로젝트입니다. |
-| `-e, --entity` | jobs이 속한 엔티티입니다. |
+| `-p, --project` | The project you want to list jobs from. |
+| `-e, --entity` | The entity the jobs belong to |

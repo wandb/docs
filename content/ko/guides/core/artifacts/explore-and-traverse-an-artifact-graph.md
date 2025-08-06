@@ -1,65 +1,65 @@
 ---
-title: Explore artifact graphs
-description: 자동으로 생성된 직접 비순환 W&B Artifact 그래프를 트래버스합니다.
+description: Traverse automatically created direct acyclic W&B Artifact graphs.
 menu:
   default:
     identifier: ko-guides-core-artifacts-explore-and-traverse-an-artifact-graph
     parent: artifacts
+title: Explore artifact graphs
 weight: 9
 ---
 
-W&B는 주어진 run이 기록한 Artifacts와 주어진 run이 사용하는 Artifacts를 자동으로 추적합니다. 이러한 Artifacts에는 데이터셋, 모델, 평가 결과 등이 포함될 수 있습니다. Artifact의 계보를 탐색하여 기계 학습 라이프사이클 전반에 걸쳐 생성된 다양한 Artifacts를 추적하고 관리할 수 있습니다.
+W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run uses. These artifacts can include datasets, models, evaluation results, or more. You can explore an artifact's lineage to track and manage the various artifacts produced throughout the machine learning lifecycle.
 
-## 계보
-Artifact의 계보를 추적하면 다음과 같은 주요 이점이 있습니다.
+## Lineage
+Tracking an artifact's lineage has several key benefits:
 
-- 재현성: 모든 Artifacts의 계보를 추적함으로써 팀은 실험, 모델 및 결과를 재현할 수 있습니다. 이는 디버깅, 실험 및 기계 학습 모델 검증에 필수적입니다.
+- Reproducibility: By tracking the lineage of all artifacts, teams can reproduce experiments, models, and results, which is essential for debugging, experimentation, and validating machine learning models.
 
-- 버전 관리: Artifact 계보는 Artifacts의 버전 관리와 시간 경과에 따른 변경 사항 추적을 포함합니다. 이를 통해 팀은 필요한 경우 이전 버전의 데이터 또는 모델로 롤백할 수 있습니다.
+- Version Control: Artifact lineage involves versioning artifacts and tracking their changes over time. This allows teams to roll back to previous versions of data or models if needed.
 
-- 감사: Artifacts 및 해당 변환에 대한 자세한 기록을 통해 조직은 규제 및 거버넌스 요구 사항을 준수할 수 있습니다.
+- Auditing: Having a detailed history of the artifacts and their transformations enables organizations to comply with regulatory and governance requirements.
 
-- 협업 및 지식 공유: Artifact 계보는 시도에 대한 명확한 기록과 무엇이 작동했고 무엇이 작동하지 않았는지 제공함으로써 팀 멤버 간의 더 나은 협업을 촉진합니다. 이는 노력의 중복을 피하고 개발 프로세스를 가속화하는 데 도움이 됩니다.
+- Collaboration and Knowledge Sharing: Artifact lineage facilitates better collaboration among team members by providing a clear record of attempts as well as what worked, and what didn’t. This helps in avoiding duplication of efforts and accelerates the development process.
 
-### Artifact의 계보 찾기
-**Artifacts** 탭에서 Artifact를 선택하면 해당 Artifact의 계보를 볼 수 있습니다. 이 그래프 보기는 파이프라인의 일반적인 개요를 보여줍니다.
+### Finding an artifact's lineage
+When selecting an artifact in the **Artifacts** tab, you can see your artifact's lineage. This graph view shows a general overview of your pipeline. 
 
-Artifact 그래프를 보려면:
+To view an artifact graph:
 
-1. W&B App UI에서 프로젝트로 이동합니다.
-2. 왼쪽 패널에서 Artifact 아이콘을 선택합니다.
-3. **Lineage**를 선택합니다.
+1. Navigate to your project in the W&B App UI
+2. Choose the artifact icon on the left panel.
+3. Select **Lineage**.
 
 {{< img src="/images/artifacts/lineage1.gif" alt="Getting to the Lineage tab" >}}
 
-### 계보 그래프 탐색
+### Navigating the lineage graph
 
-제공하는 Artifact 또는 job 유형은 이름 앞에 표시되며, Artifacts는 파란색 아이콘으로, runs는 녹색 아이콘으로 표시됩니다. 화살표는 그래프에서 run 또는 Artifact의 입력 및 출력을 자세히 설명합니다.
+The artifact or job type you provide appears in front of its name, with artifacts represented by blue icons and runs represented by green icons. Arrows detail the input and output of a run or artifact on the graph. 
 
 {{< img src="/images/artifacts/lineage2.png" alt="Run and artifact nodes" >}}
 
 {{% alert %}}
-왼쪽 사이드바와 **Lineage** 탭에서 Artifact의 유형과 이름을 모두 볼 수 있습니다.
+You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab. 
 {{% /alert %}}
 
 {{< img src="/images/artifacts/lineage2a.gif" alt="Inputs and outputs" >}}
 
-더 자세한 보기를 보려면 개별 Artifact 또는 run을 클릭하여 특정 오브젝트에 대한 자세한 정보를 얻으십시오.
+For a more detailed view, click any individual artifact or run to get more information on a particular object.
 
 {{< img src="/images/artifacts/lineage3a.gif" alt="Previewing a run" >}}
 
-### Artifact 클러스터
+### Artifact clusters
 
-그래프 수준에 5개 이상의 runs 또는 Artifacts가 있는 경우 클러스터가 생성됩니다. 클러스터에는 특정 버전의 runs 또는 Artifacts를 찾기 위한 검색 창이 있으며 클러스터 내부의 노드 계보를 계속 조사하기 위해 클러스터에서 개별 노드를 가져옵니다.
+When a level of the graph has five or more runs or artifacts, it creates a cluster. A cluster has a search bar to find specific versions of runs or artifacts and pulls an individual node from a cluster to continue investigating the lineage of a node inside a cluster. 
 
-노드를 클릭하면 노드에 대한 개요가 있는 미리보기가 열립니다. 화살표를 클릭하면 개별 run 또는 Artifact가 추출되어 추출된 노드의 계보를 검사할 수 있습니다.
+Clicking on a node opens a preview with an overview of the node. Clicking on the arrow extracts the individual run or artifact so you can examine the lineage of the extracted node.
 
 {{< img src="/images/artifacts/lineage3b.gif" alt="Searching a run cluster" >}}
 
-## API를 사용하여 계보 추적
-[W&B API]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}})를 사용하여 그래프를 탐색할 수도 있습니다.
+## Use the API to track lineage
+You can also navigate a graph using the [W&B API]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}}). 
 
-Artifact를 만듭니다. 먼저 `wandb.init`으로 run을 만듭니다. 그런 다음 `wandb.Artifact`로 새 Artifact를 만들거나 기존 Artifact를 검색합니다. 다음으로 `.add_file`로 Artifact에 파일을 추가합니다. 마지막으로 `.log_artifact`로 Artifact를 run에 기록합니다. 완성된 코드는 다음과 같습니다.
+Create an artifact. First, create a run with `wandb.init`. Then,create a new artifact or retrieve an existing one with `wandb.Artifact`. Next, add files to the artifact with `.add_file`. Finally, log the artifact to the run with `.log_artifact`. The finished code looks something like this:
 
 ```python
 with wandb.init() as run:
@@ -71,14 +71,14 @@ with wandb.init() as run:
     run.log_artifact(artifact)
 ```
 
-Artifact 오브젝트의 [`logged_by`]({{< relref path="/ref/python/artifact.md#logged_by" lang="ko" >}}) 및 [`used_by`]({{< relref path="/ref/python/artifact.md#used_by" lang="ko" >}}) 메서드를 사용하여 Artifact에서 그래프를 탐색합니다.
+Use the artifact object's [`logged_by`]({{< relref path="/ref/python/sdk/classes/artifact.md#logged_by" lang="ko" >}}) and [`used_by`]({{< relref path="/ref/python/sdk/classes/artifact.md#used_by" lang="ko" >}}) methods to walk the graph from the artifact:
 
 ```python
 # Walk up and down the graph from an artifact:
 producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 ```
-## 다음 단계
-- [Artifacts를 더 자세히 살펴보기]({{< relref path="/guides/core/artifacts/artifacts-walkthrough.md" lang="ko" >}})
-- [Artifact 스토리지 관리]({{< relref path="/guides/core/artifacts/manage-data/delete-artifacts.md" lang="ko" >}})
-- [Artifacts 프로젝트 살펴보기](https://wandb.ai/wandb-smle/artifact_workflow/artifacts/raw_dataset/raw_data/v0/lineage)
+## Next steps
+- [Explore artifacts in more detail]({{< relref path="/guides/core/artifacts/artifacts-walkthrough.md" lang="ko" >}})
+- [Manage artifact storage]({{< relref path="/guides/core/artifacts/manage-data/delete-artifacts.md" lang="ko" >}})
+- [Explore an artifacts project](https://wandb.ai/wandb-smle/artifact_workflow/artifacts/raw_dataset/raw_data/v0/lineage)

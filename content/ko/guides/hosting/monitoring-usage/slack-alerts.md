@@ -1,63 +1,62 @@
 ---
-title: Configure Slack alerts
 menu:
   default:
     identifier: ko-guides-hosting-monitoring-usage-slack-alerts
     parent: monitoring-and-usage
+title: Configure Slack alerts
 ---
 
-W&B 서버를 [Slack](https://slack.com/) 과 통합합니다.
-
+Integrate W&B Server with [Slack](https://slack.com/).
 {{% alert %}}
-[W&B 전용 클라우드 배포에서 Slack 알림을 설정하는 방법을 보여주는 비디오](https://www.youtube.com/watch?v=JmvKb-7u-oU) (6분)를 시청하세요.
+Watch a [video demonstrating setting up Slack alerts on W&B Dedicated Cloud deployment](https://www.youtube.com/watch?v=JmvKb-7u-oU) (6 min).
 {{% /alert %}}
 
-## Slack 애플리케이션 만들기
+## Create the Slack application
 
-아래 절차에 따라 Slack 애플리케이션을 만드세요.
+Follow the procedure below to create a Slack application.
 
-1. https://api.slack.com/apps 를 방문하여 **Create an App** 을 선택합니다.
+1. Visit https://api.slack.com/apps and select **Create an App**.
 
-    {{< img src="/images/hosting/create_an_app.png" alt="" >}}
+    {{< img src="/images/hosting/create_an_app.png" alt="Create an App button" >}}
 
-2. **App Name** 필드에 앱 이름을 입력합니다.
-3. 앱을 개발할 Slack 워크스페이스를 선택합니다. 사용하는 Slack 워크스페이스가 알림에 사용하려는 워크스페이스와 동일한지 확인하세요.
+2. Provide a name for your app in the **App Name** field.
+3. Select a Slack workspace where you want to develop your app in. Ensure that the Slack workspace you use is the same workspace you intend to use for alerts.
 
-    {{< img src="/images/hosting/name_app_workspace.png" alt="" >}}
+    {{< img src="/images/hosting/name_app_workspace.png" alt="App name and workspace selection" >}}
 
-## Slack 애플리케이션 구성
+## Configure the Slack application
 
-1. 왼쪽 사이드바에서 **OAth & Permissions** 를 선택합니다.
+1. On the left sidebar, select **OAth & Permissions**.
 
-    {{< img src="/images/hosting/add_an_oath.png" alt="" >}}
+    {{< img src="/images/hosting/add_an_oath.png" alt="OAuth & Permissions menu" >}}
 
-2. Scopes 섹션에서 봇에 **incoming_webhook** 스코프를 제공합니다. 스코프는 앱에 개발 워크스페이스에서 작업을 수행할 수 있는 권한을 부여합니다.
+2. Within the Scopes section, provide the bot with the **incoming_webhook** scope. Scopes give your app permission to perform actions in your development workspace.
 
-    봇에 대한 OAuth 스코프에 대한 자세한 내용은 Slack API 설명서의 봇에 대한 OAuth 스코프 이해 튜토리얼을 참조하세요.
+    For more information about OAuth scopes for Bots, see the Understanding OAuth scopes for Bots tutorial in the Slack API documentation.
 
-    {{< img src="/images/hosting/save_urls.png" alt="" >}}
+    {{< img src="/images/hosting/save_urls.png" alt="Bot token scopes" >}}
 
-3. 리디렉션 URL이 W&B 설치를 가리키도록 구성합니다. 로컬 시스템 설정에서 호스트 URL이 설정된 URL과 동일한 URL을 사용합니다. 인스턴스에 대한 DNS 매핑이 다른 경우 여러 URL을 지정할 수 있습니다.
+3. Configure the Redirect URL to point to your W&B installation. Use the same URL that your host URL is set to in your local system settings. You can specify multiple URLs if you have different DNS mappings to your instance.
 
-    {{< img src="/images/hosting/redirect_urls.png" alt="" >}}
+    {{< img src="/images/hosting/redirect_urls.png" alt="Redirect URLs configuration" >}}
 
-4. **Save URLs** 를 선택합니다.
-5. 선택적으로 **Restrict API Token Usage** 아래에 IP 범위를 지정하여 W&B 인스턴스의 IP 또는 IP 범위를 허용 목록에 추가할 수 있습니다. 허용된 IP 어드레스를 제한하면 Slack 애플리케이션을 더욱 안전하게 보호할 수 있습니다.
+4. Select **Save URLs**.
+5. You can optionally specify an IP range under **Restrict API Token Usage**, allow-list the IP or IP range of your W&B instances. Limiting the allowed IP address helps further secure your Slack application.
 
-## W&B에 Slack 애플리케이션 등록
+## Register your Slack application with W&B
 
-1. 배포에 따라 W&B 인스턴스의 **System Settings** 또는 **System Console** 페이지로 이동합니다.
+1. Navigate to the **System Settings** or **System Console** page of your W&B instance, depending on your deployment
 
-2. 현재 있는 시스템 페이지에 따라 아래 옵션 중 하나를 따르세요.
+2. Depending on the System page you are on follow one of the below options:
 
-    - **System Console** 에 있는 경우 **Settings** 로 이동한 다음 **Notifications** 로 이동합니다.
+    - If you are in the **System Console**: go to **Settings** then to **Notifications**
 
-      {{< img src="/images/hosting/register_slack_app_console.png" alt="" >}}
+      {{< img src="/images/hosting/register_slack_app_console.png" alt="System Console notifications" >}}
 
-    - **System Settings** 에 있는 경우 **Enable a custom Slack application to dispatch alerts** 를 전환하여 사용자 지정 Slack 애플리케이션을 활성화합니다.
+    - If you are in the **System Settings**: toggle the **Enable a custom Slack application to dispatch alerts** to enable a custom Slack application
 
-      {{< img src="/images/hosting/register_slack_app.png" alt="" >}}
+      {{< img src="/images/hosting/register_slack_app.png" alt="Enable Slack application toggle" >}}
 
-3. **Slack client ID** 와 **Slack secret** 을 제공한 다음 **Save** 를 클릭합니다. Settings 의 Basic Information 으로 이동하여 애플리케이션의 클라이언트 ID와 secret 을 찾습니다.
+3. Supply your **Slack client ID** and **Slack secret** then click **Save**. Navigate to Basic Information in Settings to find your application’s client ID and secret.
 
-4. W&B 앱에서 Slack 인테그레이션을 설정하여 모든 것이 작동하는지 확인합니다.
+4. Verify that everything is working by setting up a Slack integration in the W&B app.

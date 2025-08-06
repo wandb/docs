@@ -1,53 +1,53 @@
 ---
-title: partitioned-table
 menu:
   reference:
     identifier: ko-ref-query-panel-partitioned-table
+title: partitioned-table
 ---
 
-## 연결 가능한 Ops
+## Chainable Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-에셋의 _file_ 을 반환합니다.
+Returns the _file_ of the asset
 
 | Argument |  |
 | :--- | :--- |
-| `asset` | 에셋 |
+| `asset` | The asset |
 
-#### 반환 값
-에셋의 _file_
+#### Return Value
+The _file_ of the asset
 
 <h3 id="partitionedtable-file"><code>partitionedtable-file</code></h3>
 
-_partitioned-table_ 의 _file_ 을 반환합니다.
+Returns the _file_ of a _partitioned-table_
 
 | Argument |  |
 | :--- | :--- |
-| `partitionedTable` | _partitioned-table_ |
+| `partitionedTable` | The _partitioned-table_ |
 
-#### 반환 값
-_partitioned-table_ 의 _file_
+#### Return Value
+_file_ of the _partitioned-table_
 
 <h3 id="partitionedtable-rows"><code>partitionedtable-rows</code></h3>
 
-_partitioned-table_ 의 행을 반환합니다.
+Returns the rows of a _partitioned-table_
 
 | Argument |  |
 | :--- | :--- |
-| `partitionedTable` | 행을 가져올 _partitioned-table_ |
+| `partitionedTable` | The _partitioned-table_ to get rows from |
 
-#### 반환 값
-_partitioned-table_ 의 행
+#### Return Value
+Rows of the _partitioned-table_
 
 
-## 목록 Ops
+## List Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-에셋의 _file_ 을 반환합니다.
+Returns the _file_ of the asset
 
 | Argument |  |
 | :--- | :--- |
-| `asset` | 에셋 |
+| `asset` | The asset |
 
-#### 반환 값
-에셋의 _file_
+#### Return Value
+The _file_ of the asset

@@ -1,38 +1,39 @@
 ---
-title: Cohere fine-tuning
-description: W&B를 사용하여 Cohere 모델을 파인튜닝하는 방법.
+description: How to Fine-Tune Cohere models using W&B.
 menu:
   default:
     identifier: ko-guides-integrations-cohere-fine-tuning
     parent: integrations
+title: Cohere fine-tuning
 weight: 40
 ---
 
-Weights & Biases를 사용하면 Cohere 모델의 미세 조정 메트릭 및 설정을 기록하여 모델의 성능을 분석하고 이해하며 동료와 결과를 공유할 수 있습니다.
+With W&B you can log your Cohere model's fine-tuning metrics and configuration to analyze and understand the performance of your models and share the results with your colleagues.
 
-이 [Cohere 가이드](https://docs.cohere.com/page/convfinqa-finetuning-wandb)에는 미세 조정 run을 시작하는 방법에 대한 전체 예제가 있으며, [Cohere API 문서](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)는 여기에서 찾을 수 있습니다.
+This [guide from Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb) has a full example of how to kick off a fine-tuning run and you can find the [Cohere API docs here](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)
 
-## Cohere 미세 조정 결과 기록
+## Log your Cohere fine-tuning results
 
-Cohere 미세 조정 로깅을 W&B workspace에 추가하려면 다음을 수행하십시오.
+To add Cohere fine-tuning logging to your W&B workspace:
 
-1. W&B API 키, W&B `entity` 및 `project` 이름으로 `WandbConfig`를 생성합니다. W&B API 키는 https://wandb.ai/authorize 에서 찾을 수 있습니다.
+1. Create a `WandbConfig` with your W&B API key, W&B `entity` and `project` name. You can find your W&B API key at https://wandb.ai/authorize
 
-2. 모델 이름, 데이터셋 및 하이퍼파라미터와 함께 이 설정을 `FinetunedModel` 오브젝트에 전달하여 미세 조정 run을 시작합니다.
+2. Pass this config to the `FinetunedModel` object along with your model name, dataset and hyperparameters to kick off your fine-tuning run.
+
 
     ```python
     from cohere.finetuning import WandbConfig, FinetunedModel
 
-    # W&B 세부 정보로 config를 생성합니다.
+    # create a config with your W&B details
     wandb_ft_config = WandbConfig(
         api_key="<wandb_api_key>",
-        entity="my-entity", # 제공된 API 키와 연결된 유효한 entity여야 합니다.
+        entity="my-entity", # must be a valid enitity associated with the provided API key
         project="cohere-ft",
     )
 
-    ...  # 데이터셋 및 하이퍼파라미터를 설정합니다.
+    ...  # set up your datasets and hyperparameters
 
-    # cohere에서 미세 조정 run을 시작합니다.
+    # start a fine-tuning run on cohere
     cmd_r_finetune = co.finetuning.create_finetuned_model(
       request=FinetunedModel(
         name="command-r-ft",
@@ -40,22 +41,24 @@ Cohere 미세 조정 로깅을 W&B workspace에 추가하려면 다음을 수행
           base_model=...
           dataset_id=...
           hyperparameters=...
-          wandb=wandb_ft_config  # 여기에 W&B config를 전달합니다.
+          wandb=wandb_ft_config  # pass your W&B config here
         ),
       ),
     )
     ```
 
-3. 모델의 미세 조정 트레이닝 및 유효성 검사 메트릭과 하이퍼파라미터를 생성한 W&B project에서 확인합니다.
+3. View your model's fine-tuning training and validation metrics and hyperparameters in the W&B project that you created.
 
-    {{< img src="/images/integrations/cohere_ft.png" alt="" >}}
+    {{< img src="/images/integrations/cohere_ft.png" alt="Cohere fine-tuning dashboard" >}}
 
-## Runs 구성
 
-W&B runs는 자동으로 구성되며 job 유형, base model, 학습 속도 및 기타 하이퍼파라미터와 같은 모든 configuration 파라미터를 기준으로 필터링/정렬할 수 있습니다.
+## Organize runs
 
-또한 runs의 이름을 바꾸거나, 노트를 추가하거나, 태그를 생성하여 그룹화할 수 있습니다.
+Your W&B runs are automatically organized and can be filtered/sorted based on any configuration parameter such as job type, base model, learning rate and any other hyper-parameter.
 
-## 참고 자료
+In addition, you can rename your runs, add notes or create tags to group them.
 
-* **[Cohere Fine-tuning Example](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)**
+
+## Resources
+
+* [Cohere Fine-tuning Example](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)

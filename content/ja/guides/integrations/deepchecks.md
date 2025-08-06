@@ -1,60 +1,60 @@
 ---
-title: DeepChecks
-description: W&B を DeepChecks と統合する方法。
+description: How to integrate W&B with DeepChecks.
 menu:
   default:
     identifier: ja-guides-integrations-deepchecks
     parent: integrations
+title: DeepChecks
 weight: 60
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb" >}}
 
-DeepChecks は、データの整合性の検証、分布の確認、データ分割の検証、モデルの評価、および異なるモデル間の比較など、機械学習モデルとデータの検証を最小限の労力で行うことができます。
+DeepChecks helps you validate your machine learning models and data, such as verifying your data’s integrity, inspecting its distributions, validating data splits, evaluating your model and comparing between different models, all with minimal effort.
 
-[DeepChecks と wandb のインテグレーションについて詳しく読む ->](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
+[Read more about DeepChecks and the wandb integration ->](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
 
-## はじめに
+## Getting Started
 
-DeepChecks を Weights & Biases と共に使用するには、まず [こちら](https://wandb.ai/site) で Weights & Biases のアカウントにサインアップする必要があります。DeepChecks における Weights & Biases のインテグレーションにより、以下のように素早く始めることができます。
+To use DeepChecks with W&B you will first need to sign up for a [W&B account](https://wandb.ai/site). With the W&B integration in DeepChecks you can quickly get started like so:
 
 ```python
 import wandb
 
 wandb.login()
 
-# deepchecks からチェックをインポート
+# import your check from deepchecks
 from deepchecks.checks import ModelErrorAnalysis
 
-# チェックを実行
+# run your check
 result = ModelErrorAnalysis()
 
-# 結果を wandb にプッシュ
+# push that result to wandb
 result.to_wandb()
 ```
 
-また、Weights & Biases に DeepChecks のテストスイート全体をログすることもできます。
+You can also log an entire DeepChecks test suite to W&B.
 
 ```python
 import wandb
 
 wandb.login()
 
-# deepchecks から full_suite テストをインポート
+# import your full_suite tests from deepchecks
 from deepchecks.suites import full_suite
 
-# DeepChecks テストスイートを作成して実行
+# create and run a DeepChecks test suite
 suite_result = full_suite().run(...)
 
-# 結果を wandb にプッシュ
-# ここで必要な wandb.init の設定や引数を渡すことができます
+# push thes results to wandb
+# here you can pass any wandb.init configs and arguments you need
 suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-suite"})
 ```
 
-## 例
+## Example
 
-``[**このレポート**](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) は、DeepChecks と Weights & Biases を使用することの強力さを示しています
+[This Report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) shows off the power of using DeepChecks and W&B.
 
-{{< img src="/images/integrations/deepchecks_example.png" alt="" >}}
+{{< img src="/images/integrations/deepchecks_example.png" alt="Deepchecks data validation results" >}}
 
-この Weights & Biases インテグレーションに関して質問や問題がある場合は、[DeepChecks github リポジトリ](https://github.com/deepchecks/deepchecks)にイシューを開いてください。対応し、ご回答いたします :)
+Any questions or issues about this W&B integration? Open an issue in the [DeepChecks github repository](https://github.com/deepchecks/deepchecks) and we'll catch it and get you an answer.

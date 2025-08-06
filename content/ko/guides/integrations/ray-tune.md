@@ -1,43 +1,43 @@
 ---
-title: Ray Tune
-description: Ray Tune과 W&B를 통합하는 방법
+description: How to integrate W&B with Ray Tune.
 menu:
   default:
     identifier: ko-guides-integrations-ray-tune
     parent: integrations
+title: Ray Tune
 weight: 360
 ---
 
-W&B는 두 가지 경량 인테그레이션을 제공하여 [Ray](https://github.com/ray-project/ray)와 통합됩니다.
+W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.
 
-- `WandbLoggerCallback` 함수는 Tune에 보고된 메트릭을 Wandb API에 자동으로 로그합니다.
-- 함수 API와 함께 사용할 수 있는 `setup_wandb()` 함수는 Tune의 트레이닝 정보로 Wandb API를 자동으로 초기화합니다. `wandb.log()`를 사용하여 트레이닝 프로세스를 기록하는 등, 평소와 같이 Wandb API를 사용할 수 있습니다.
+- The`WandbLoggerCallback` function automatically logs metrics reported to Tune to the Wandb API.
+- The `setup_wandb()` function, which can be used with the function API,  automatically initializes the Wandb API with Tune's training information. You can use the Wandb API as usual. such as by using `run.log()` to log your training process.
 
-## 인테그레이션 설정
+## Configure the integration
 
 ```python
 from ray.air.integrations.wandb import WandbLoggerCallback
 ```
 
-Wandb 설정은 `tune.run()`의 config 파라미터에 wandb 키를 전달하여 수행됩니다 (아래 예제 참조).
+Wandb configuration is done by passing a wandb key to the config parameter of `tune.run()` (see example below).
 
-wandb config 항목의 내용은 `wandb.init()`에 키워드 인수로 전달됩니다. 예외는 `WandbLoggerCallback` 자체를 구성하는 데 사용되는 다음 설정입니다.
+The content of the wandb config entry is passed to `wandb.init()` as keyword arguments. The exception are the following settings, which are used to configure the `WandbLoggerCallback` itself:
 
-### 파라미터
+### Parameters
 
-`project (str)`: Wandb 프로젝트 이름. 필수 항목입니다.
+`project (str)`: Name of the Wandb project. Mandatory.
 
-`api_key_file (str)`: Wandb API 키가 포함된 파일의 경로입니다.
+`api_key_file (str)`: Path to file containing the Wandb API KEY.
 
-`api_key (str)`: Wandb API 키. `api_key_file` 설정의 대안입니다.
+`api_key (str)`: Wandb API Key. Alternative to setting `api_key_file`.
 
-`excludes (list)`: 로그에서 제외할 메트릭 목록입니다.
+`excludes (list)`: List of metrics to exclude from the log.
 
-`log_config (bool)`: results 사전의 config 파라미터를 기록할지 여부입니다. 기본값은 False입니다.
+`log_config (bool)`: Whether to log the config parameter of the results dictionary. Defaults to False.
 
-`upload_checkpoints (bool)`: True이면 모델 체크포인트가 Artifacts로 업로드됩니다. 기본값은 False입니다.
+`upload_checkpoints (bool)`:  If True, model checkpoints are uploaded as artifacts. Defaults to False.
 
-### 예제
+### Example
 
 ```python
 from ray import tune, train
@@ -73,7 +73,7 @@ results = tuner.fit()
 from ray.air.integrations.wandb import setup_wandb
 ```
 
-이 유틸리티 함수는 Ray Tune과 함께 사용하기 위해 Wandb를 초기화하는 데 도움이 됩니다. 기본 사용법은 트레이닝 함수에서 `setup_wandb()`를 호출하는 것입니다.
+This utility function helps initialize Wandb for use with Ray Tune. For basic usage, call `setup_wandb()` in your training function:
 
 ```python
 from ray.air.integrations.wandb import setup_wandb
@@ -82,11 +82,16 @@ from ray.air.integrations.wandb import setup_wandb
 def train_fn(config):
     # Initialize wandb
     wandb = setup_wandb(config)
+    run = wandb.init(
+        project=config["wandb"]["project"],
+        api_key_file=config["wandb"]["api_key_file"],
+    )
 
     for i in range(10):
         loss = config["a"] + config["b"]
-        wandb.log({"loss": loss})
+        run.log({"loss": loss})
         tune.report(loss=loss)
+    run.finish()
 
 
 tuner = tune.Tuner(
@@ -102,9 +107,9 @@ tuner = tune.Tuner(
 results = tuner.fit()
 ```
 
-## 예제 코드
+## Example Code
 
-인테그레이션 작동 방식을 보여주는 몇 가지 예제를 만들었습니다.
+We've created a few examples for you to see how the integration works:
 
-* [Colab](http://wandb.me/raytune-colab): 인테그레이션을 시도해 볼 수 있는 간단한 데모입니다.
-* [Dashboard](https://wandb.ai/anmolmann/ray_tune): 예제에서 생성된 대시보드를 봅니다.
+* [Colab](https://wandb.me/raytune-colab): A simple demo to try the integration.
+* [Dashboard](https://wandb.ai/anmolmann/ray_tune): View dashboard generated from the example.

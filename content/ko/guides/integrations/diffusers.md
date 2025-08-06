@@ -1,19 +1,19 @@
 ---
-title: Hugging Face Diffusers
 menu:
   default:
     identifier: ko-guides-integrations-diffusers
     parent: integrations
+title: Hugging Face Diffusers
 weight: 120
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" >}}
 
-[Hugging Face Diffusers](https://huggingface.co/docs/diffusers)는 이미지, 오디오, 심지어 분자의 3D 구조를 생성하기 위한 최첨단 사전학습된 diffusion model을 위한 라이브러리입니다. Weights & Biases 인테그레이션은 사용 편의성을 유지하면서도 대화형 중앙 집중식 대시보드에 풍부하고 유연한 실험 추적, 미디어 시각화, 파이프라인 아키텍처 및 설정 관리를 추가합니다.
+[Hugging Face Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pre-trained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization, pipeline architecture, and configuration management to interactive centralized dashboards without compromising that ease of use.
 
-## 단 두 줄로 차원이 다른 로깅을 경험하세요
+## Next-level logging in just two lines
 
-단 2줄의 코드를 추가하는 것만으로도 실험과 관련된 모든 프롬프트, 부정적 프롬프트, 생성된 미디어 및 설정을 기록할 수 있습니다. 다음은 로깅을 시작하기 위한 2줄의 코드입니다.
+Log all the prompts, negative prompts, generated media, and configs associated with your experiment by simply including 2 lines of code. Here are the 2 lines of code to begin logging:
 
 ```python
 # import the autolog function
@@ -23,50 +23,50 @@ from wandb.integration.diffusers import autolog
 autolog(init=dict(project="diffusers_logging"))
 ```
 
-| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="An example of how the results of your experiment are logged" >}} | 
+| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="Experiment results logging" >}} | 
 |:--:| 
-| **실험 결과가 기록되는 방식의 예시입니다.** |
+| **An example of how the results of your experiment are logged.** |
 
-## 시작하기
+## Get started
 
-1. `diffusers`, `transformers`, `accelerate` 및 `wandb`를 설치합니다.
+1. Install `diffusers`, `transformers`, `accelerate`, and `wandb`.
 
-    - 커맨드라인:
+    - Command line:
 
         ```shell
         pip install --upgrade diffusers transformers accelerate wandb
         ```
 
-    - 노트북:
+    - Notebook:
 
         ```bash
         !pip install --upgrade diffusers transformers accelerate wandb
         ```
 
 
-2. `autolog`를 사용하여 Weights & Biases run을 초기화하고 [지원되는 모든 파이프라인 호출](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)에서 입력 및 출력을 자동으로 추적합니다.
+2. Use `autolog` to initialize a W&B Run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-    [`wandb.init()`]({{< relref path="/ref/python/init" lang="ko" >}})에 필요한 파라미터의 dictionary를 받는 `init` 파라미터로 `autolog()` 함수를 호출할 수 있습니다.
+    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}}).
 
-    `autolog()`를 호출하면 Weights & Biases run이 초기화되고 [지원되는 모든 파이프라인 호출](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)에서 입력과 출력을 자동으로 추적합니다.
+    When you call `autolog()`, it initializes a W&B Run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-    - 각 파이프라인 호출은 워크스페이스의 자체 [테이블]({{< relref path="/guides/models/tables/" lang="ko" >}})로 추적되며, 파이프라인 호출과 관련된 설정은 해당 run의 설정에서 워크플로우 목록에 추가됩니다.
-    - 프롬프트, 부정적 프롬프트 및 생성된 미디어는 [`wandb.Table`]({{< relref path="/guides/models/tables/" lang="ko" >}})에 기록됩니다.
-    - 시드 및 파이프라인 아키텍처를 포함하여 실험과 관련된 다른 모든 설정은 run의 설정 섹션에 저장됩니다.
-    - 각 파이프라인 호출에 대해 생성된 미디어도 run의 [미디어 패널]({{< relref path="/guides/models/track/log/media" lang="ko" >}})에 기록됩니다.
+    - Each pipeline call is tracked into its own [table]({{< relref path="/guides/models/tables/" lang="ko" >}}) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
+    - The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`]({{< relref path="/guides/models/tables/" lang="ko" >}}).
+    - All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
+    - The generated media for each pipeline call are also logged in [media panels]({{< relref path="/guides/models/track/log/media" lang="ko" >}}) in the run.
 
     {{% alert %}}
-    지원되는 파이프라인 호출 목록은 [여기](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)에서 확인할 수 있습니다. 이 인테그레이션의 새로운 기능을 요청하거나 관련 버그를 보고하려면 [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues)에 이슈를 여십시오.
+    You can find a [list of supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, open an issue on the [W&B GitHub issues page](https://github.com/wandb/wandb/issues).
     {{% /alert %}}
 
-## 예시
+## Examples
 
 ### Autologging
 
-다음은 autolog의 간단한 엔드투엔드 예시입니다.
+Here is a brief end-to-end example of the autolog in action:
 
 {{< tabpane text=true >}}
-{{% tab header="스크립트" value="script" %}}
+{{% tab header="Script" value="script" %}}
 ```python
 import torch
 from diffusers import DiffusionPipeline
@@ -97,7 +97,7 @@ images = pipeline(
 ```
 {{% /tab %}}
 
-{{% tab header="노트북" value="notebook"%}}
+{{% tab header="Notebook" value="notebook"%}}
 ```python
 import torch
 from diffusers import DiffusionPipeline
@@ -106,6 +106,8 @@ import wandb
 
 # import the autolog function
 from wandb.integration.diffusers import autolog
+
+run = wandb.init()
 
 # call the autolog before calling the pipeline
 autolog(init=dict(project="diffusers_logging"))
@@ -129,37 +131,37 @@ images = pipeline(
 )
 
 # Finish the experiment
-wandb.finish()
+run.finish()
 ```
 {{% /tab %}}
 {{< /tabpane >}}
 
 
-- 단일 실험의 결과:
+- The results of a single experiment:
 
-    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}}
+    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="Experiment results logging" >}}
 
-- 여러 실험의 결과:
+- The results of multiple experiments:
 
-    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged" >}}
+    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="Experiment results logging" >}}
 
-- 실험의 설정:
+- The config of an experiment:
 
-    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
+    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="Experiment config logging" >}}
 
 {{% alert %}}
-파이프라인을 호출한 후 IPython 노트북 환경에서 코드를 실행할 때는 [`wandb.finish()`]({{< relref path="/ref/python/finish" lang="ko" >}})를 명시적으로 호출해야 합니다. Python 스크립트를 실행할 때는 필요하지 않습니다.
+You need to explicitly call [`wandb.Run.finish()`]({{< relref path="/ref/python/sdk/functions/finish.md" lang="ko" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 {{% /alert %}}
 
-### 다중 파이프라인 워크플로우 추적
+### Tracking multi-pipeline workflows
 
-이 섹션에서는 [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl)에서 생성된 잠재 변수가 해당 리파이너에 의해 개선되는 일반적인 [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) 워크플로우에서 autolog를 시연합니다.
+This section demonstrates the autolog with a typical [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) workflow, in which the latents generated by the [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) is refined by the corresponding refiner.
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/sdxl-diffusers.ipynb" >}}
 
 {{< tabpane text=true >}}
 
-{{% tab header="Python 스크립트" value="script" %}}
+{{% tab header="Python Script" value="script" %}}
 
 ```python
 import torch
@@ -197,7 +199,7 @@ generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
 
 # Call WandB Autolog for Diffusers. This would automatically log
 # the prompts, generated images, pipeline architecture and all
-# associated experiment configs to Weights & Biases, thus making your
+# associated experiment configs to W&B, thus making your
 # image generation experiments easy to reproduce, share and analyze.
 autolog(init=dict(project="sdxl"))
 
@@ -220,7 +222,7 @@ image = refiner_pipeline(
 
 {{% /tab %}}
 
-{{% tab header="노트북" value="notebook" %}}
+{{% tab header="Notebook" value="notebook" %}}
 
 ```python
 import torch
@@ -228,6 +230,8 @@ from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipelin
 
 import wandb
 from wandb.integration.diffusers import autolog
+
+run = wandb.init()
 
 # initialize the SDXL base pipeline
 base_pipeline = StableDiffusionXLPipeline.from_pretrained(
@@ -260,7 +264,7 @@ generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
 
 # Call WandB Autolog for Diffusers. This would automatically log
 # the prompts, generated images, pipeline architecture and all
-# associated experiment configs to Weights & Biases, thus making your
+# associated experiment configs to W&B, thus making your
 # image generation experiments easy to reproduce, share and analyze.
 autolog(init=dict(project="sdxl"))
 
@@ -281,17 +285,17 @@ image = refiner_pipeline(
 ).images[0]
 
 # Finish the experiment
-wandb.finish()
+run.finish()
 ```
 
 {{% /tab %}}
 
 {{< /tabpane >}}
 
-- Stable Diffisuion XL + Refiner 실험의 예:
-    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}}
+- Example of a Stable Diffisuion XL + Refiner experiment:
+    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="Stable Diffusion XL experiment tracking" >}}
 
-## 추가 자료
+## More resources
 
-* [Stable Diffusion을 위한 프롬프트 엔지니어링 가이드](https://wandb.ai/geekyrakshit/diffusers-prompt-engineering/reports/A-Guide-to-Prompt-Engineering-for-Stable-Diffusion--Vmlldzo1NzY4NzQ3)
-* [PIXART-α: 텍스트-이미지 생성을 위한 Diffusion Transformer 모델](https://wandb.ai/geekyrakshit/pixart-alpha/reports/PIXART-A-Diffusion-Transformer-Model-for-Text-to-Image-Generation--Vmlldzo2MTE1NzM3)
+* [A Guide to Prompt Engineering for Stable Diffusion](https://wandb.ai/geekyrakshit/diffusers-prompt-engineering/reports/A-Guide-to-Prompt-Engineering-for-Stable-Diffusion--Vmlldzo1NzY4NzQ3)
+* [PIXART-α: A Diffusion Transformer Model for Text-to-Image Generation](https://wandb.ai/geekyrakshit/pixart-alpha/reports/PIXART-A-Diffusion-Transformer-Model-for-Text-to-Image-Generation--Vmlldzo2MTE1NzM3)

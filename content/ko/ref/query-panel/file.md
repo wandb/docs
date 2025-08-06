@@ -1,97 +1,97 @@
 ---
-title: file
 menu:
   reference:
     identifier: ko-ref-query-panel-file
+title: file
 ---
 
 ## Chainable Ops
 <h3 id="file-contents"><code>file-contents</code></h3>
 
-_file_ 의 내용을 반환합니다.
+Returns the contents of the _file_
 
 | Argument |  |
 | :--- | :--- |
-| `file` | _file_ |
+| `file` | A _file_ |
 
 #### Return Value
-_file_ 의 내용
+The contents of the _file_
 
 <h3 id="file-digest"><code>file-digest</code></h3>
 
-_file_ 의 다이제스트를 반환합니다.
+Returns the digest of the _file_
 
 | Argument |  |
 | :--- | :--- |
-| `file` | _file_ |
+| `file` | A _file_ |
 
 #### Return Value
-_file_ 의 다이제스트
+The digest of the _file_
 
 <h3 id="file-size"><code>file-size</code></h3>
 
-_file_ 의 크기를 반환합니다.
+Returns the size of the _file_
 
 | Argument |  |
 | :--- | :--- |
-| `file` | _file_ |
+| `file` | A _file_ |
 
 #### Return Value
-_file_ 의 크기
+The size of the _file_
 
 <h3 id="file-table"><code>file-table</code></h3>
 
-_file_ 의 내용을 _table_ 로 반환합니다.
+Returns the contents of the _file_ as a _table_
 
 | Argument |  |
 | :--- | :--- |
-| `file` | _file_ |
+| `file` | A _file_ |
 
 #### Return Value
-_file_ 의 내용을 _table_ 로 반환합니다.
+The contents of the _file_ as a _table_
 
 
 ## List Ops
 <h3 id="file-contents"><code>file-contents</code></h3>
 
-_file_ 의 내용을 반환합니다.
+Returns the contents of the _file_
 
 | Argument |  |
 | :--- | :--- |
-| `file` | _file_ |
+| `file` | A _file_ |
 
 #### Return Value
-_file_ 의 내용
+The contents of the _file_
 
 <h3 id="file-digest"><code>file-digest</code></h3>
 
-_file_ 의 다이제스트를 반환합니다.
+Returns the digest of the _file_
 
 | Argument |  |
 | :--- | :--- |
-| `file` | _file_ |
+| `file` | A _file_ |
 
 #### Return Value
-_file_ 의 다이제스트
+The digest of the _file_
 
 <h3 id="file-size"><code>file-size</code></h3>
 
-_file_ 의 크기를 반환합니다.
+Returns the size of the _file_
 
 | Argument |  |
 | :--- | :--- |
-| `file` | _file_ |
+| `file` | A _file_ |
 
 #### Return Value
-_file_ 의 크기
+The size of the _file_
 
 <h3 id="file-table"><code>file-table</code></h3>
 
-_file_ 의 내용을 _table_ 로 반환합니다.
+Returns the contents of the _file_ as a _table_
 
 | Argument |  |
 | :--- | :--- |
-| `file` | _file_ |
+| `file` | A _file_ |
 
 #### Return Value
-_file_ 의 내용을 _table_ 로 반환합니다.
+The contents of the _file_ as a _table_

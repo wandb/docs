@@ -1,55 +1,55 @@
 ---
-title: How can I find the artifacts logged or consumed by a run? How can I find the
-  runs that produced or consumed an artifact?
 menu:
   support:
     identifier: ko-support-kb-articles-find_artifacts_logged_consumed_run_find
 support:
 - artifacts
+title: How can I find the artifacts logged or consumed by a run? How can I find the
+  runs that produced or consumed an artifact?
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-W&B는 각 run에서 로그된 아티팩트와 각 run에서 사용하여 아티팩트 그래프를 구성하는 아티팩트를 추적합니다. 이 그래프는 run과 아티팩트를 나타내는 노드를 가진 이분 방향성 비순환 그래프입니다. 예제는 [여기](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph)에서 볼 수 있습니다("Explode"를 클릭하여 그래프를 확장).
+W&B tracks artifacts logged by each run and those used by each run to construct an artifact graph. This graph is a bipartite, directed, acyclic graph with nodes representing runs and artifacts. An example can be viewed [here](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (click "Explode" to expand the graph).
 
-Public API를 사용하여 아티팩트 또는 run에서 시작하여 프로그래밍 방식으로 그래프를 탐색합니다.
+Use the Public API to navigate the graph programmatically, starting from either an artifact or a run.
 
 {{< tabpane text=true >}}
-{{% tab "아티팩트에서" %}}
+{{% tab "From an Artifact" %}}
 
 ```python
 api = wandb.Api()
 
 artifact = api.artifact("project/artifact:alias")
 
-# 아티팩트에서 그래프 위로 이동:
+# Walk up the graph from an artifact:
 producer_run = artifact.logged_by()
-# 아티팩트에서 그래프 아래로 이동:
+# Walk down the graph from an artifact:
 consumer_runs = artifact.used_by()
 
-# run에서 그래프 아래로 이동:
+# Walk down the graph from a run:
 next_artifacts = consumer_runs[0].logged_artifacts()
-# run에서 그래프 위로 이동:
+# Walk up the graph from a run:
 previous_artifacts = producer_run.used_artifacts()
 ```
 
 {{% /tab %}}
-{{% tab "Run에서" %}}
+{{% tab "From a Run" %}}
 
 ```python
 api = wandb.Api()
 
 run = api.run("entity/project/run_id")
 
-# run에서 그래프 아래로 이동:
+# Walk down the graph from a run:
 produced_artifacts = run.logged_artifacts()
-# run에서 그래프 위로 이동:
+# Walk up the graph from a run:
 consumed_artifacts = run.used_artifacts()
 
-# 아티팩트에서 그래프 위로 이동:
+# Walk up the graph from an artifact:
 earlier_run = consumed_artifacts[0].logged_by()
-# 아티팩트에서 그래프 아래로 이동:
+# Walk down the graph from an artifact:
 consumer_runs = produced_artifacts[0].used_by()
 ```
 

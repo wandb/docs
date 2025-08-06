@@ -1,29 +1,42 @@
 ---
-title: 値のリストをログするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-log_list_values
 support:
-  - logs
-  - experiments
+- logs
+- experiments
+title: How do I log a list of values?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-これらの例は、異なる方法で損失をログとして記録する [`wandb.log()`]({{< relref path="/ref/python/log/" lang="ja" >}}) の使い方を示しています。
+
+These examples show logging losses a couple of different ways using [`wandb.Run.log()`]({{< relref path="/ref/python/sdk/classes/run/#method-runlog/" lang="ja" >}}).
+
 {{< tabpane text=true >}}
-{{% tab "辞書を使う" %}}
+{{% tab "Using a dictionary" %}}
 ```python
-wandb.log({f"losses/loss-{ii}": loss for ii, 
-  loss in enumerate(losses)})
+import wandb
+
+# Initialize a new run
+with wandb.init(project="log-list-values", name="log-dict") as run:
+    # Log losses as a dictionary
+    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+    run.log({"losses": losses})
+    run.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
 ```
 {{% /tab %}}
-{{% tab "ヒストグラムとして" %}}
+{{% tab "As a histogram" %}}
 ```python
-# 損失をヒストグラムに変換します
-wandb.log({"losses": wandb.Histogram(losses)})  
+import wandb
+
+# Initialize a new run
+with wandb.init(project="log-list-values", name="log-hist") as run:
+    # Log losses as a histogram
+    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+    run.log({"losses": wandb.Histogram(losses)})
 ```
 {{% /tab %}}
 {{< /tabpane >}}
 
-詳細は [ログのドキュメント]({{< relref path="/guides/models/track/log/" lang="ja" >}}) を参照してください。
+For more, see [the documentation on logging]({{< relref path="/guides/models/track/log/" lang="ja" >}}).

@@ -1,38 +1,38 @@
 ---
-title: Can I specify a Dockerfile and let W&B build a Docker image for me?
 menu:
   launch:
     identifier: ko-launch-launch-faq-dockerfile_let_wb_build_docker_image_me
     parent: launch-faq
+title: Can I specify a Dockerfile and let W&B build a Docker image for me?
 ---
 
-이 기능은 요구 사항은 안정적이지만 코드 베이스가 자주 변경되는 프로젝트에 적합합니다.
+This feature suits projects with stable requirements but frequently changing codebases.
 
 {{% alert color="secondary" %}}
-마운트를 사용하도록 Dockerfile 의 형식을 지정하세요. 자세한 내용은 [Docker Docs 웹사이트의 마운트 관련 문서](https://docs.docker.com/build/guide/mounts/)를 참조하세요.
+Format your Dockerfile to use mounts. For further details, visit the [Mounts documentation on the Docker Docs website](https://docs.docker.com/build/guide/mounts/).
 {{% /alert %}}
 
-Dockerfile을 구성한 후에는 다음 세 가지 방법 중 하나로 W&B에 지정합니다.
+After configuring the Dockerfile, specify it in one of three ways to W&B:
 
-* Dockerfile.wandb 사용
-* W&B CLI 사용
-* W&B App 사용
+* Use Dockerfile.wandb
+* Use W&B CLI
+* Use W&B App
 
 {{< tabpane text=true >}}
 {{% tab "Dockerfile.wandb" %}}
-W&B run 의 진입점과 동일한 디렉토리에 `Dockerfile.wandb` 파일을 포함합니다. W&B는 내장된 Dockerfile 대신 이 파일을 사용합니다.
+Include a `Dockerfile.wandb` file in the same directory as the W&B run's entrypoint. W&B utilizes this file instead of the built-in Dockerfile. 
 {{% /tab %}}
 {{% tab "W&B CLI" %}}
-`wandb launch` 코맨드와 함께 `--dockerfile` 플래그를 사용하여 작업을 대기열에 추가합니다.
+Use the `--dockerfile` flag with the `wandb launch` command to queue a job:
 
 ```bash
 wandb launch --dockerfile path/to/Dockerfile
 ```
 {{% /tab %}}
 {{% tab "W&B app" %}}
-W&B App에서 대기열에 작업을 추가할 때 **Overrides** 섹션에서 Dockerfile 경로를 제공합니다. `"dockerfile"` 을 키 로, Dockerfile의 경로를 값 으로 하여 키-값 쌍으로 입력합니다.
+When adding a job to a queue in the W&B App, provide the Dockerfile path in the **Overrides** section. Enter it as a key-value pair with `"dockerfile"` as the key and the path to the Dockerfile as the value.
 
-다음 JSON은 로컬 디렉토리에 Dockerfile을 포함하는 방법을 보여줍니다.
+The following JSON demonstrates how to include a Dockerfile in a local directory:
 
 ```json title="Launch job W&B App"
 {

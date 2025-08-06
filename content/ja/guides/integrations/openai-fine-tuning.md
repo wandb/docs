@@ -1,62 +1,67 @@
 ---
-title: OpenAI Fine-Tuning
-description: OpenAI モデルを W&B でファインチューンする方法
+description: How to Fine-Tune OpenAI models using W&B.
 menu:
   default:
     identifier: ja-guides-integrations-openai-fine-tuning
     parent: integrations
+title: OpenAI Fine-Tuning
 weight: 250
 ---
 
-{{< cta-button colabLink="http://wandb.me/openai-colab" >}}
+{{< cta-button colabLink="https://wandb.me/openai-colab" >}}
 
-OpenAI GPT-3.5 や GPT-4 モデルのファインチューニングのメトリクスと設定を W&B にログします。 W&B エコシステムを活用してファインチューニング 実験、Models、Datasets を追跡し、結果を同僚と共有できます。
+Log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to W&B. Utilize the W&B ecosystem to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
 
 {{% alert %}}
-ファインチューニングできるモデルの一覧については、[OpenAI ドキュメント](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned) を参照してください。
+See the [OpenAI documentation](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned) for a list of models that you can fine tune.
 {{% /alert %}}
 
-ファインチューニングのために W&B と OpenAI を統合する方法についての追加情報は、OpenAI ドキュメントの [Weights and Biases Integration](https://platform.openai.com/docs/guides/fine-tuning/weights-and-biases-integration) セクションを参照してください。
+See the [W&B Integration](https://platform.openai.com/docs/guides/fine-tuning/weights-and-biases-integration) section in the OpenAI documentation for supplemental information on how to integrate W&B with OpenAI for fine-tuning.
 
-## OpenAI Python API のインストールまたは更新
 
-W&B の OpenAI ファインチューニング インテグレーションは、OpenAI バージョン 1.0 以上で動作します。 最新バージョンの [OpenAI Python API](https://pypi.org/project/openai/) ライブラリに関する情報は、PyPI ドキュメントを参照してください。
+## Install or update OpenAI Python API
 
-OpenAI Python API をインストールするには、次のコマンドを実行してください:
+The W&B OpenAI fine-tuning integration works with OpenAI version 1.0 and above. See the PyPI documentation for the latest version of the [OpenAI Python API](https://pypi.org/project/openai/) library.
+
+
+To install OpenAI Python API, run:
 ```python
 pip install openai
 ```
 
-既に OpenAI Python API をインストールしている場合は、次のコマンドで更新できます:
+If you already have OpenAI Python API installed, you can update it with:
 ```python
 pip install -U openai
 ```
 
-## OpenAI ファインチューニング結果を同期する
 
-W&B を OpenAI のファインチューニング API と統合して、ファインチューニングのメトリクスと設定を W&B にログします。これには、`wandb.integration.openai.fine_tuning` モジュールの `WandbLogger` クラスを使用します。
+## Sync your OpenAI fine-tuning results
+
+Integrate W&B with OpenAI's fine-tuning API to log your fine-tuning metrics and configuration to W&B. To do this, use the `WandbLogger` class from the `wandb.integration.openai.fine_tuning` module.
+
 
 ```python
 from wandb.integration.openai.fine_tuning import WandbLogger
 
-# ファインチューニングのロジック
+# Finetuning logic
 
 WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 ```
 
-{{< img src="/images/integrations/open_ai_auto_scan.png" alt="" >}}
+{{< img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI auto-scan feature" >}}
 
-### ファインチューニングを同期する
+### Sync your fine-tunes
 
-スクリプトからの結果を同期
+Sync your results from your script 
+
 
 ```python
 from wandb.integration.openai.fine_tuning import WandbLogger
 
-# ワンラインコマンド
+# one line command
 WandbLogger.sync()
 
-# オプションパラメータを渡す
+# passing optional parameters
 WandbLogger.sync(
     fine_tune_job_id=None,
     num_fine_tunes=None,
@@ -69,83 +74,86 @@ WandbLogger.sync(
 )
 ```
 
-### リファレンス
+### Reference
 
-| 引数                      | 説明                                                                                                        |
-| ------------------------ | --------------------------------------------------------------------------------------------------------- |
-| fine_tune_job_id         | `client.fine_tuning.jobs.create` を使用してファインチューンジョブを作成すると取得する OpenAI ファインチューン ID です。 この引数が None（デフォルト）の場合、まだ同期されていないすべての OpenAI ファインチューン ジョブが W&B に同期されます。                                                                                     |
-| openai_client            | 初期化された OpenAI クライアントを `sync` に渡します。クライアントが提供されない場合、ログは自動的にクライアントを初期化します。 デフォルトでは None です。         |
-| num_fine_tunes           | ID が提供されない場合、未同期のファインチューンはすべて W&B にログされます。この引数を使用して、同期する最新のファインチューンの数を選択できます。num_fine_tunes が 5 の場合、最新のファインチューン 5 つを選択します。                                                                                                               |
-| project                  | ファインチューニングのメトリクス、Models、Data などがログされる Weights and Biases プロジェクト名。 デフォルトでは、プロジェクト名は "OpenAI-Fine-Tune" です。                    |
-| entity                   | W&B ユーザー名またはチーム名。実行結果を送信するエンティティです。 デフォルトでは、通常はユーザー名であるデフォルトエンティティが使用されます。 |
-| overwrite                | ロギングを強制し、同一ファインチューンジョブの既存の wandb run を上書きします。デフォルトでは False です。                                                |
-| wait_for_job_success     | OpenAI ファインチューニングジョブが開始されると、通常少し時間がかかります。ファインチューニングジョブが終了すると、メトリクスが W&B にすぐにログされるように、この設定は 60 秒ごとにファインチューニングジョブのステータスが `succeeded` に変わるかどうかを確認します。ファインチューニングジョブが成功したと検出されると、自動的にメトリクスが W&B に同期されます。 デフォルトで True に設定されています。                                           |
-| model_artifact_name      | ログされるモデル アーティファクトの名前。デフォルトは `"model-metadata"` です。|
-| model_artifact_type      | ログされるモデル アーティファクトのタイプ。デフォルトは `"model"` です。|
-| \*\*kwargs_wandb_init  | 直接 [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}) に渡される追加の引数                                     |
+| Argument                 | Description                                                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| fine_tune_job_id         | This is the OpenAI Fine-Tune ID which you get when you create your fine-tune job using `client.fine_tuning.jobs.create`. If this argument is None (default), all the OpenAI fine-tune jobs that haven't already been synced will be synced to W&B.                                                                                        |
+| openai_client            | Pass an initialized OpenAI client to `sync`. If no client is provided, one is initialized by the logger itself. By default it is None.                |
+| num_fine_tunes           | If no ID is provided, then all the unsynced fine-tunes will be logged to W&B. This argument allows you to select the number of recent fine-tunes to sync. If num_fine_tunes is 5, it selects the 5 most recent fine-tunes.                                                  |
+| project                  | W&B project name where your fine-tune metrics, models, data, etc. will be logged. By default, the project name is "OpenAI-Fine-Tune." |
+| entity                   | W&B Username or team name where you're sending runs. By default, your default entity is used, which is usually your username. |
+| overwrite                | Forces logging and overwrite existing wandb run of the same fine-tune job. By default this is False.                                                |
+| wait_for_job_success     | Once an OpenAI fine-tuning job is started it usually takes a bit of time. To ensure that your metrics are logged to W&B as soon as the fine-tune job is finished, this setting will check every 60 seconds for the status of the fine-tune job to change to `succeeded`. Once the fine-tune job is detected as being successful, the metrics will be synced automatically to W&B. Set to True by default.                                                    |
+| model_artifact_name      | The name of the model artifact that is logged. Defaults to `"model-metadata"`.                    |
+| model_artifact_type      | The type of the model artifact that is logged. Defaults to `"model"`.                    |
+| \*\*kwargs_wandb_init  | Aany additional argument passed directly to [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}})                    |
 
-## データセットのバージョン管理と可視化
+## Dataset Versioning and Visualization
 
-### バージョン管理
+### Versioning
 
-ファインチューニングのために OpenAI にアップロードしたトレーニングおよび検証データは、バージョン管理を容易にするために自動的に W&B Artifacts としてログされます。 以下に、この アーティファクト 内のトレーニングファイルのビューを示します。ここでは、このファイルをログした W&B run、ログされた時期、このデータセットのバージョン、メタデータ、およびトレーニングデータから学習済みモデルまでの DAG リネージを確認できます。
+The training and validation data that you upload to OpenAI for fine-tuning are automatically logged as W&B Artifacts for easier version control. Below is an view of the training file in Artifacts. Here you can see the W&B run that logged this file, when it was logged, what version of the dataset this is, the metadata, and DAG lineage from the training data to the trained model.
 
-{{< img src="/images/integrations/openai_data_artifacts.png" alt="" >}}
+{{< img src="/images/integrations/openai_data_artifacts.png" alt="W&B Artifacts with training datasets" >}}
 
-### 可視化
+### Visualization
 
-データセットは W&B Tables として可視化され、データセットを探索、検索、および対話することができます。以下に、 W&B Tables を使用して可視化されたトレーニングサンプルをチェックしてください。
+The datasets are visualized as W&B Tables, which allows you to explore, search, and interact with the dataset. Check out the training samples visualized using W&B Tables below.
 
-{{< img src="/images/integrations/openai_data_visualization.png" alt="" >}}
+{{< img src="/images/integrations/openai_data_visualization.png" alt="OpenAI data" >}}
 
-## ファインチューニング済みモデルとモデルのバージョン管理
 
-OpenAI はファインチューニングされたモデルの ID を提供します。モデルの重みにはアアクセスできないため、`WandbLogger` はモデルのすべての詳細（ハイパーパラメーター、データファイルの ID など）と `fine_tuned_model` ID を含む `model_metadata.json` ファイルを作成し、 W&B アーティファクトとしてログします。
+## The fine-tuned model and model versioning
 
-このモデル（メタデータ）アーティファクトは、[W&B Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) のモデルにさらにリンクすることができます。
+OpenAI gives you an id of the fine-tuned model. Since we don't have access to the model weights, the `WandbLogger` creates a `model_metadata.json` file with all the details (hyperparameters, data file ids, etc.) of the model along with the `fine_tuned_model`` id and is logged as a W&B Artifact. 
 
-{{< img src="/images/integrations/openai_model_metadata.png" alt="" >}}
+This model (metadata) artifact can further be linked to a model in the [W&B Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}).
 
-## よくある質問
+{{< img src="/images/integrations/openai_model_metadata.png" alt="OpenAI model metadata" >}}
 
-### チームとファインチューン結果を W&B で共有するにはどうすればよいですか？
 
-以下を使用してファインチューンジョブをチームアカウントにログします:
+## Frequently Asked Questions
+
+### How do I share my fine-tune results with my team in W&B?
+
+Log your fine-tune jobs to your team account with:
 
 ```python
 WandbLogger.sync(entity="YOUR_TEAM_NAME")
 ```
 
-### 自分の runs をどのように整理できますか？
+### How can I organize my runs?
 
-あなたの W&B runs は自動的に整理され、ジョブ タイプ、ベースモデル、学習率、トレーニングファイル名、その他のハイパーパラメーターなど、任意の設定パラメーターに基づいてフィルタリングやソートができます。
+Your W&B runs are automatically organized and can be filtered/sorted based on any configuration parameter such as job type, base model, learning rate, training filename and any other hyper-parameter.
 
-さらに、run の名前を変更したり、メモを追加したり、タグを作成してグループ化することができます。
+In addition, you can rename your runs, add notes or create tags to group them.
 
-満足したら、ワークスペースを保存し、run および保存されたアーティファクト（トレーニング/検証ファイル）からデータをインポートしてレポートを作成できます。
+Once you’re satisfied, you can save your workspace and use it to create report, importing data from your runs and saved artifacts (training/validation files).
 
-### ファインチューンされたモデルにアクセスするにはどうすればよいですか？
+### How can I access my fine-tuned model?
 
-ファインチューンされたモデル ID は、アーティファクト (`model_metadata.json`) として W&B にログされます。
+Fine-tuned model ID is logged to W&B as artifacts (`model_metadata.json`) as well config.
 
 ```python
 import wandb
-
-ft_artifact = wandb.run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
-artifact_dir = artifact.download()
+    
+with wandb.init(project="OpenAI-Fine-Tune", entity="YOUR_TEAM_NAME") as run:
+    ft_artifact = run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
+    artifact_dir = ft_artifact.download()
 ```
 
-ここで `VERSION` は次のいずれかです:
+where `VERSION` is either:
 
-* `v2` などのバージョン番号
-* `ft-xxxxxxxxx` などのファインチューン ID
-* 自動的または手動で追加されたエイリアス、例えば `latest` 
+* a version number such as `v2`
+* the fine-tune id such as `ft-xxxxxxxxx`
+* an alias added automatically such as `latest` or manually
 
-ダウンロードした `model_metadata.json` ファイルを読み取ることで `fine_tuned_model` ID にアクセスできます。
+You can then access `fine_tuned_model` id by reading the downloaded `model_metadata.json` file.
 
-### ファインチューンが正常に同期されなかった場合はどうすればよいですか？
+### What if a fine-tune was not synced successfully?
 
-ファインチューンが W&B に正常にログされなかった場合は、`overwrite=True` を使用し、ファインチューン ジョブ ID を渡すことができます:
+If a fine-tune was not logged to W&B successfully, you can use the `overwrite=True` and pass the fine-tune job id:
 
 ```python
 WandbLogger.sync(
@@ -154,16 +162,16 @@ WandbLogger.sync(
 )
 ```
 
-### W&B で自分の Datasets と Models を追跡できますか？
+### Can I track my datasets and models with W&B?
 
-トレーニングと検証データは自動的に アーティファクト として W&B にログされます。ファインチューンされたモデルの ID を含むメタデータも アーティファクト としてログされます。
+The training and validation data are logged automatically to W&B as artifacts. The metadata including the ID for the fine-tuned model is also logged as artifacts.
 
-`wandb.Artifact`、`wandb.log` などの低レベルの wandb API を使用してパイプラインを常に制御できます。これにより、データとモデルの完全なトレーサビリティが可能になります。
+You can always control the pipeline using low level wandb APIs like `wandb.Artifact`, `wandb.Run.log`, etc. This will allow complete traceability of your data and models.
 
-{{< img src="/images/integrations/open_ai_faq_can_track.png" alt="" >}}
+{{< img src="/images/integrations/open_ai_faq_can_track.png" alt="OpenAI tracking FAQ" >}}
 
-## リソース
+## Resources
 
-* [OpenAI ファインチューニング ドキュメント](https://platform.openai.com/docs/guides/fine-tuning/) は非常に詳細で多くの有用なヒントが含まれています
-* [デモ Colab](http://wandb.me/openai-colab)
-* [W&B で OpenAI GPT-3.5 および GPT-4 モデルをファインチューニングする方法](http://wandb.me/openai-report) レポート
+* [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/) is very thorough and contains many useful tips
+* [Demo Colab](https://wandb.me/openai-colab)
+* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&B](https://wandb.me/openai-report) report

@@ -1,39 +1,40 @@
 ---
-title: Prometheus モニタリングを使用する
 menu:
   default:
     identifier: ja-guides-hosting-monitoring-usage-prometheus-logging
     parent: monitoring-and-usage
+title: Use Prometheus monitoring
 weight: 2
 ---
 
-[Prometheus](https://prometheus.io/docs/introduction/overview/) を W&B サーバーと一緒に使用します。Prometheus のインストールは [Kubernetes ClusterIP サービス](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225) として公開されます。
+Use [Prometheus](https://prometheus.io/docs/introduction/overview/) with W&B Server. Prometheus installs are exposed as a [kubernetes ClusterIP service](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225).
 
 {{% alert color="secondary" %}}
-Prometheus モニタリングは [セルフマネージドインスタンス]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) でのみ利用可能です。
+Prometheus monitoring is only available with [Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}).
 {{% /alert %}}
 
-以下の手順に従って、Prometheus メトリクスエンドポイント (`/metrics`) にアクセスします：
 
-1. Kubernetes CLI ツールキットの [kubectl](https://kubernetes.io/docs/reference/kubectl/) を使用してクラスターに接続します。詳細については、Kubernetes の [クラスターへのアクセス](https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/) ドキュメントを参照してください。
-2. クラスターの内部アドレスを見つけます：
+Follow the procedure below to access your Prometheus metrics endpoint (`/metrics`):
+
+1. Connect to the cluster with Kubernetes CLI toolkit, [kubectl](https://kubernetes.io/docs/reference/kubectl/). See kubernetes' [Accessing Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/) documentation for more information.
+2. Find the internal address of the cluster with:
 
     ```bash
     kubectl describe svc prometheus
     ```
 
-3. Kubernetes クラスターで実行中のコンテナ内でシェルセッションを開始し、[`kubectl exec`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands) を使用して、`<internal address>/metrics` エンドポイントにアクセスします。
+3. Start a shell session inside your container running in your Kubernetes cluster with [`kubectl exec`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands). Hit the endpoint at `<internal address>/metrics`.
 
-   以下のコマンドをコピーしてターミナルで実行し、`<internal address>` を内部アドレスに置き換えます：
+   Copy the command below and execute it in your terminal and replace `<internal address>` with your internal address:
 
    ```bash
    kubectl exec <internal address>/metrics
    ```
 
-テストポッドが開始され、ネットワーク内の何かにアクセスするためだけに exec することができます：
+A test pod starts, which you can exec into just to access anything in the network:
 
 ```bash
 kubectl run -it testpod --image=alpine bin/ash --restart=Never --rm
 ```
 
-そこから、ネットワークへのアクセスを内部に保つか、kubernetes nodeport サービスで自分で公開するかを選択できます。
+From there you can choose to keep access internal to the network or expose it yourself with a kubernetes nodeport service.

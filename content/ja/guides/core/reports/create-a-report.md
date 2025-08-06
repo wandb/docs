@@ -1,63 +1,66 @@
 ---
-title: レポートを作成する
-description: W&B レポートは、App UI を使用するか Weights & Biases SDK を使ってプログラムで作成します。
+description: Create a W&B Report with the W&B App or programmatically.
 menu:
   default:
     identifier: ja-guides-core-reports-create-a-report
     parent: reports
+title: Create a report
 weight: 10
 ---
 
-レポートを作成するには、W&B App UI をインタラクティブに使用するか、W&B Python SDK を使用してプログラムで行います。
-
 {{% alert %}}
-この[Google Colab の例](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)を参照してください。
+W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
+Select a tab below to learn how to create a report in the W&B App or programmatically with the W&B Report and Workspace API.
+
+See this [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) for an example on how to programmatically create a report.
+
+
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
-1. W&B App でプロジェクトワークスペースに移動します。
-2. ワークスペースの右上隅にある **Create report** をクリックします。
+{{% tab header="W&B App" value="app" %}}
+1. Navigate to your project workspace in the W&B App.
+2. Click **Create report** in the upper right corner of your workspace.
 
-   {{< img src="/images/reports/create_a_report_button.png" alt="" >}}
+   {{< img src="/images/reports/create_a_report_button.png" alt="Create report button" >}}
 
-3. モーダルが表示されます。最初に使用したいチャートを選択します。レポートのインターフェースから後でチャートを追加または削除することができます。
+3. A modal will appear. Select the charts you would like to start with. You can add or delete charts later from the report interface.
 
-    {{< img src="/images/reports/create_a_report_modal.png" alt="" >}}
+    {{< img src="/images/reports/create_a_report_modal.png" alt="Create report modal" >}}
 
-4. **Filter run sets** オプションを選択すると、新しい run がレポートに追加されるのを防げます。このオプションをオンまたはオフに切り替えることができます。**Create report** をクリックすると、レポートタブにドラフトレポートが表示され、作業を続けることができます。
+4. Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
 {{% /tab %}}
 
 {{% tab header="Report tab" value="reporttab"%}}
-1. W&B App でプロジェクトワークスペースに移動します。
-2. プロジェクト内の **Reports** タブ（クリップボードの画像）を選択します。
-3. レポートページで **Create Report** ボタンを選択します。 
+1. Navigate to your project workspace in the W&B App.
+2. Select to the **Reports** tab (clipboard image) in your project.
+3. Select the **Create Report** button on the report page. 
 
-   {{< img src="/images/reports/create_report_button.png" alt="" >}}
+   {{< img src="/images/reports/create_report_button.png" alt="Create report button" >}}
 {{% /tab %}}
 
-{{% tab header="W&B Python SDK" value="sdk"%}}
-`wandb` ライブラリを使用してプログラムでレポートを作成します。
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
+Create a report programmatically:
 
-1. W&B SDK と Workspaces API をインストールします:
+1. Install W&B SDK (`wandb`) and Report and Workspace API (`wandb-workspaces`):
     ```bash
     pip install wandb wandb-workspaces
     ```
-2. 次に、ワークスペースをインポートします。
+2. Next, import workspaces
     ```python
     import wandb
     import wandb_workspaces.reports.v2 as wr
     ```       
-3. `wandb_workspaces.reports.v2.Report` を使用してレポートを作成します。Report Class Public API ([`wandb.apis.reports`]({{< relref path="/ref/python/public-api/api#reports" lang="ja" >}})) を使ってレポートのインスタンスを作成します。プロジェクトに名前を指定します。  
+3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`]({{< relref path="/ref/python/public-api/api.md#reports" lang="ja" >}})). Specify a name for the project.   
     ```python
     report = wr.Report(project="report_standard")
     ```  
 
-4. レポートを保存します。レポートは、`save()` メソッドを呼び出すまで W&B サーバーにアップロードされません。
+4. Save the report. Reports are not uploaded to the W&B server until you call the .`save()` method:
     ```python
     report.save()
     ```
 
-App UI を使用してインタラクティブに、またはプログラムでレポートを編集する方法については、[Edit a report]({{< relref path="/guides/core/reports/edit-a-report" lang="ja" >}}) を参照してください。
+For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report]({{< relref path="/guides/core/reports/edit-a-report" lang="ja" >}}).
 {{% /tab %}}
 {{< /tabpane >}}

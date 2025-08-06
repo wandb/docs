@@ -1,25 +1,25 @@
 ---
-title: Update an artifact
-description: W&B Run 안팎에서 기존 아티팩트 를 업데이트합니다.
+description: Update an existing Artifact inside and outside of a W&B Run.
 menu:
   default:
     identifier: ko-guides-core-artifacts-update-an-artifact
     parent: artifacts
+title: Update an artifact
 weight: 4
 ---
 
-원하는 값을 전달하여 아티팩트의 `description`, `metadata`, 그리고 `alias`를 업데이트하세요. W&B 서버에서 아티팩트를 업데이트하려면 `save()` 메서드를 호출하세요. W&B Run 도중 또는 Run 외부에서 아티팩트를 업데이트할 수 있습니다.
+Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the W&B servers. You can update an artifact during a W&B Run or outside of a Run.
 
-Run 외부에서 아티팩트를 업데이트하려면 W&B Public API([`wandb.Api`]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}}))를 사용하세요. Run 도중에 아티팩트를 업데이트하려면 Artifact API([`wandb.Artifact`]({{< relref path="/ref/python/artifact.md" lang="ko" >}}))를 사용하세요.
+Use the W&B Public API ([`wandb.Api`]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}})) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}})) to update an artifact during a run.
 
 {{% alert color="secondary" %}}
-Model Registry의 모델에 연결된 아티팩트의 에일리어스 는 업데이트할 수 없습니다.
+You can not update the alias of artifact linked to a model in Model Registry.
 {{% /alert %}}
 
 {{< tabpane text=true >}}
-  {{% tab header="Run 도중" %}}
+  {{% tab header="During a run" %}}
 
-다음 코드 예제는 [`wandb.Artifact`]({{< relref path="/ref/python/artifact.md" lang="ko" >}}) API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다:
+The proceeding code example demonstrates how to update the description of an artifact using the [`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}}) API:
 
 ```python
 import wandb
@@ -28,10 +28,10 @@ run = wandb.init(project="<example>")
 artifact = run.use_artifact("<artifact-name>:<alias>")
 artifact.description = "<description>"
 artifact.save()
-```
+```  
   {{% /tab %}}
-  {{% tab header="Run 외부" %}}
-다음 코드 예제는 `wandb.Api` API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다:
+  {{% tab header="Outside of a run" %}}
+The proceeding code example demonstrates how to update the description of an artifact using the `wandb.Api` API:
 
 ```python
 import wandb
@@ -62,10 +62,10 @@ artifact.aliases = ["replaced"]
 artifact.save()
 ```
 
-자세한 내용은 Weights and Biases [Artifact API]({{< relref path="/ref/python/artifact.md" lang="ko" >}})를 참조하십시오.
+For more information, see the Weights and Biases [Artifact API]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}}).  
   {{% /tab %}}
-  {{% tab header="컬렉션 사용" %}}
-단일 아티팩트와 같은 방식으로 Artifact 컬렉션을 업데이트할 수도 있습니다:
+  {{% tab header="With collections" %}}
+You can also update an Artifact collection in the same way as a singular artifact:
 
 ```python
 import wandb
@@ -76,6 +76,6 @@ artifact.name = "<new-collection-name>"
 artifact.description = "<This is where you'd describe the purpose of your collection.>"
 artifact.save()
 ```
-자세한 내용은 [Artifacts Collection]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}}) 레퍼런스를 참조하십시오.
+For more information, see the [Artifacts Collection]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}}) reference.
   {{% /tab %}}
 {{% /tabpane %}}

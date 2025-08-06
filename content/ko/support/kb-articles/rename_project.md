@@ -1,20 +1,20 @@
 ---
-title: How do I rename a project?
 menu:
   support:
     identifier: ko-support-kb-articles-rename_project
 support:
 - projects
+title: How do I rename a project?
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-프로젝트 이름을 변경하려면 다음 단계를 따르세요.
+To rename a project:
 
-- 프로젝트 개요로 이동합니다.
-- **Edit Project**를 클릭합니다.
+- Navigate to the Project overview.
+- Click on **Edit Project**.
 
-참고:
+Note:
 
-- 프로젝트 이름이 `model-registry`와 같이 보호되어 있는 경우 이름을 변경할 수 없습니다. 보호된 이름에 대한 지원은 지원팀에 문의하세요.
+- If the project name is protected, such as `model-registry`, it cannot be renamed. Contact support for assistance with protected names.

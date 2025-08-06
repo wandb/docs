@@ -1,38 +1,38 @@
 ---
-title: wandb sync
 menu:
   reference:
     identifier: ja-ref-cli-wandb-sync
+title: wandb sync
 ---
 
-**使用方法**
+**Usage**
 
 `wandb sync [OPTIONS] [PATH]...`
 
-**概要**
+**Summary**
 
-オフライン トレーニング ディレクトリーを W&B にアップロードします
+Upload an offline training directory to W&B
 
 
-**オプション**
+**Options**
 
-| **オプション** | **説明** |
+| **Option** | **Description** |
 | :--- | :--- |
-| `--id` | アップロードしたい run。 |
-| `-p, --project` | アップロードしたいプロジェクト。 |
-| `-e, --entity` | スコープにするエンティティ。 |
-| `--job_type` | 関連する runs をまとめる run のタイプを指定します。 |
-| `--sync-tensorboard / --no-sync-tensorboard` | tfevent ファイルを wandb にストリームします。 |
-| `--include-globs` | 含めるグロブのカンマ区切りのリスト。 |
-| `--exclude-globs` | 除外するグロブのカンマ区切りのリスト。 |
-| `--include-online / --no-include-online` | オンライン runs を含める |
-| `--include-offline / --no-include-offline` | オフライン runs を含める |
-| `--include-synced / --no-include-synced` | 同期済み runs を含める |
-| `--mark-synced / --no-mark-synced` | runs を同期済みとしてマークする |
-| `--sync-all` | 全ての runs を同期する |
-| `--clean` | 同期済み runs を削除する |
-| `--clean-old-hours` | 指定した時間より前に作成された runs を削除します。--clean フラグと一緒に使用します。 |
-| `--clean-force` | 確認プロンプトなしでクリーンする。 |
-| `--show` | 表示する runs の数 |
-| `--append` | run を追加する |
-| `--skip-console` | コンソールログをスキップする |
+| `--id` | The run you want to upload to. |
+| `-p, --project` | The project you want to upload to. |
+| `-e, --entity` | The entity to scope to. |
+| `--job_type` | Specifies the type of run for grouping   related runs together. |
+| `--sync-tensorboard / --no-sync-tensorboard` | Stream tfevent files to wandb. |
+| `--include-globs` | Comma separated list of globs to include. |
+| `--exclude-globs` | Comma separated list of globs to exclude. |
+| `--include-online / --no-include-online` | Include online runs |
+| `--include-offline / --no-include-offline` | Include offline runs |
+| `--include-synced / --no-include-synced` | Include synced runs |
+| `--mark-synced / --no-mark-synced` | Mark runs as synced |
+| `--sync-all` | Sync all runs |
+| `--clean` | Delete synced runs |
+| `--clean-old-hours` | Delete runs created before this many hours.   To be used alongside --clean flag. |
+| `--clean-force` | Clean without confirmation prompt. |
+| `--show` | Number of runs to show |
+| `--append` | Append run |
+| `--skip-console` | Skip console logs |

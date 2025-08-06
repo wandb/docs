@@ -1,20 +1,21 @@
 ---
-title: wandb 有効
 menu:
   reference:
     identifier: ja-ref-cli-wandb-enabled
+title: wandb enabled
 ---
 
-**使用方法**
+**Usage**
 
 `wandb enabled [OPTIONS]`
 
-**概要**
+**Summary**
 
-W&B を有効にします。
+Enable W&B.
 
-**オプション**
 
-| **オプション** | **説明** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |
-| `--service` | W&B サービスを有効にする [デフォルト: True] |
+| `--service` | Enable W&B service  [default: True] |
