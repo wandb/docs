@@ -1,10 +1,10 @@
 ---
+title: 컨트롤러()
 data_type_classification: function
 menu:
   reference:
     identifier: ko-ref-python-sdk-functions-controller
 object_type: python_sdk_actions
-title: controller()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py >}}
@@ -22,11 +22,11 @@ controller(
 ) → _WandbController
 ```
 
-Public sweep controller constructor. 
+공용 스윕 컨트롤러 생성자입니다.
 
 
 
-**Examples:**
+**예시:**
  ```python
 import wandb
 

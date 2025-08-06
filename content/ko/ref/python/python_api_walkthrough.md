@@ -1,123 +1,121 @@
 ---
+title: API 가이드
 menu:
   reference:
     identifier: ko-ref-python-python_api_walkthrough
-title: API Walkthrough
 weight: 1
 ---
 
-Learn when and how to use different W&B APIs to track, share, and manage model artifacts in your machine learning workflows. This page covers logging experiments, generating reports, and accessing logged data using the appropriate W&B API for each task.
+다양한 W&B API를 언제, 어떻게 사용하여 머신러닝 워크플로우에서 모델 아티팩트를 추적, 공유 및 관리할 수 있는지 알아보세요. 이 페이지에서는 실험 로그 저장, 리포트 생성, 각 작업에 적합한 W&B API를 사용하여 저장된 데이터에 엑세스하는 방법을 다룹니다.
 
-W&B offers the following APIs:
+W&B는 다음과 같은 API를 제공합니다:
 
-* W&B Python SDK (`wandb.sdk`): Log and monitor experiments during training.
-* W&B Public API (`wandb.apis.public`): Query and analyze logged experiment data.
-* W&B Report and Workspace API (`wandb.wandb-workspaces`): Create reports to summarize findings.
+* W&B Python SDK (`wandb.sdk`): 트레이닝 중 실험 로그 및 모니터링.
+* W&B Public API (`wandb.apis.public`): 저장된 실험 데이터 쿼리 및 분석.
+* W&B Report and Workspace API (`wandb.wandb-workspaces`): 발견한 내용을 요약하는 리포트 생성.
 
-## Sign up and create an API key
-To authenticate your machine with W&B, you must first generate an API key at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
+## 회원가입 및 API 키 생성
+W&B에 머신을 인증하려면 먼저 [wandb.ai/authorize](https://wandb.ai/authorize)에서 API 키를 생성해야 합니다. API 키를 복사해 안전하게 보관하세요.
 
-## Install and import packages
+## 패키지 설치 및 임포트
 
-Install the W&B library and some other packages you will need for this walkthrough.  
+이 가이드에 필요한 W&B 라이브러리와 기타 패키지를 설치하세요.  
 
 ```python
 pip install wandb
 ```
 
-Import W&B Python SDK:
-
+W&B Python SDK를 임포트합니다:
 
 ```python
 import wandb
 ```
 
-Specify the entity of your team in the following code block:
-
+다음 코드 블록에서 팀의 entity를 지정합니다:
 
 ```python
-TEAM_ENTITY = "<Team_Entity>" # Replace with your team entity
+TEAM_ENTITY = "<Team_Entity>" # 이 부분을 팀 entity로 교체하세요
 PROJECT = "my-awesome-project"
 ```
 
-## Train model
+## 모델 트레이닝
 
-The following code simulates a basic machine learning workflow: training a model, logging metrics, and saving the model as an artifact.
+다음 코드는 기본 머신러닝 워크플로우를 시뮬레이션합니다: 모델 트레이닝, 메트릭 로그, 그리고 모델을 artifact로 저장합니다.
 
-Use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.Run.log()`]({{< relref path="/ref/python/sdk/classes/run/#method-runlog" lang="ko" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}}) before finally adding the model file using [`Artifact.add_file`]({{< relref path="/ref/python/sdk/classes/artifact.md#add_file" lang="ko" >}}).
+트레이닝 중 W&B와 상호작용하려면 W&B Python SDK (`wandb.sdk`)를 사용하세요. [`wandb.Run.log()`]({{< relref path="/ref/python/sdk/classes/run/#method-runlog" lang="ko" >}})로 loss를 로그하고, 트레이닝된 모델을 [`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}})로 artifact로 저장한 뒤 [`Artifact.add_file`]({{< relref path="/ref/python/sdk/classes/artifact.md#add_file" lang="ko" >}})를 이용해 모델 파일을 추가합니다.
 
 ```python
-import random # For simulating data
+import random # 데이터 시뮬레이션용
 
 def model(training_data: int) -> int:
-    """Model simulation for demonstration purposes."""
+    """데모용 모델 시뮬레이션"""
     return training_data * 2 + random.randint(-1, 1)  
 
-# Simulate weights and noise
-weights = random.random() # Initialize random weights
-noise = random.random() / 5  # Small random noise to simulate noise
+# 가중치와 노이즈 시뮬레이션
+weights = random.random() # 랜덤 가중치 초기화
+noise = random.random() / 5  # 작은 랜덤 노이즈
 
-# Hyperparameters and configuration
+# 하이퍼파라미터 및 설정
 config = {
-    "epochs": 10,  # Number of epochs to train
-    "learning_rate": 0.01,  # Learning rate for the optimizer
+    "epochs": 10,  # 트레이닝할 에포크 수
+    "learning_rate": 0.01,  # 옵티마이저의 학습률
 }
 
-# Use context manager to initialize and close W&B runs
+# with 컨텍스트 매니저를 사용해 W&B run 시작/종료
 with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:    
-    # Simulate training loop
+    # 트레이닝 루프 시뮬레이션
     for epoch in range(config["epochs"]):
-        xb = weights + noise  # Simulated input training data
-        yb = weights + noise * 2  # Simulated target output (double the input noise)
+        xb = weights + noise  # 입력 트레이닝 데이터 시뮬레이션
+        yb = weights + noise * 2  # 타겟 출력값 시뮬레이션 (입력 노이즈의 두 배)
         
-        y_pred = model(xb)  # Model prediction
-        loss = (yb - y_pred) ** 2  # Mean Squared Error loss
+        y_pred = model(xb)  # 모델 예측값
+        loss = (yb - y_pred) ** 2  # 평균제곱오차(MSE) 손실
 
         print(f"epoch={epoch}, loss={y_pred}")
-        # Log epoch and loss to W&B
+        # 에포크와 손실을 W&B에 로그
         run.log({
             "epoch": epoch,
             "loss": loss,
         })
 
-    # Unique name for the model artifact,
+    # 모델 artifact를 위한 고유 이름
     model_artifact_name = f"model-demo"  
 
-    # Local path to save the simulated model file
+    # 모델 파일을 저장할 로컬 경로
     PATH = "model.txt" 
 
-    # Save model locally
+    # 모델을 로컬에 저장
     with open(PATH, "w") as f:
-        f.write(str(weights)) # Saving model weights to a file
+        f.write(str(weights)) # 모델 가중치를 파일로 저장
 
-    # Create an artifact object
-    # Add locally saved model to artifact object
+    # artifact 오브젝트 생성
+    # 로컬에 저장한 모델 파일을 artifact에 추가
     artifact = wandb.Artifact(name=model_artifact_name, type="model", description="My trained model")
     artifact.add_file(local_path=PATH)
     artifact.save()
 ```
 
-The key takeaways from the previous code block are:
-* Use `wandb.Run.log()` to log metrics during training.
-* Use `wandb.Artifact` to save models (datasets, and so forth) as an artifact to your W&B project.
+위 코드 블록의 주요 포인트는 다음과 같습니다:
+* 트레이닝 중 메트릭 로그에는 `wandb.Run.log()`를 사용하세요.
+* 모델(또는 데이터셋 등)을 Artifact로 W&B 프로젝트에 저장하려면 `wandb.Artifact`를 사용하세요.
 
-Now that you have trained a model and saved it as an artifact, you can publish it to a registry in W&B. Use [`wandb.Run.use_artifact()`]({{< relref path="/ref/python/sdk/classes/run/#method-runuse_artifact" lang="ko" >}}) to retrieve the artifact from your project and prepare it for publication in the Model registry. `wandb.Run.use_artifact()` serves two key purposes:
-* Retrieves the artifact object from your project.
-* Marks the artifact as an input to the run, ensuring reproducibility and traceability. See [Create and view lineage map]({{< relref path="/guides/core/registry/lineage/" lang="ko" >}}) for details.
+이제 모델을 트레이닝하고 Artifact로 저장했으니, 이를 W&B의 registry에 게시할 수 있습니다. [`wandb.Run.use_artifact()`]({{< relref path="/ref/python/sdk/classes/run/#method-runuse_artifact" lang="ko" >}})를 사용해 프로젝트에서 Artifact를 가져오고 모델 레지스트리에 게시할 준비를 합니다. `wandb.Run.use_artifact()`의 주요 목적:
+* 프로젝트에서 artifact 오브젝트를 가져옴
+* 해당 artifact를 run의 입력으로 표시하여 재현성과 추적성을 보장함. 자세한 내용은 [계보 맵 생성 및 보기]({{< relref path="/guides/core/registry/lineage/" lang="ko" >}})를 참고하세요.
 
-## Publish the model to the Model registry
+## 모델을 Model registry에 게시하기
 
-To share the model with others in your organization, publish it to a [collection]({{< relref path="/guides/core/registry/create_collection" lang="ko" >}}) using `wandb.Run.link_artifact()`. The following code links the artifact to the [core Model registry]({{< relref path="/guides/core/registry/registry_types/#core-registry" lang="ko" >}}), making it accessible to your team.
+조직 내 다른 사람들과 모델을 공유하려면, `wandb.Run.link_artifact()`를 사용해 [collection]({{< relref path="/guides/core/registry/create_collection" lang="ko" >}})에 게시하세요. 아래 코드는 Artifact를 [core Model registry]({{< relref path="/guides/core/registry/registry_types/#core-registry" lang="ko" >}})에 연결하여 팀이 엑세스할 수 있게 합니다.
 
 ```python
-# Artifact name specifies the specific artifact version within our team's project
+# Artifact name은 팀 프로젝트 내 특정 artifact 버전을 지정합니다.
 artifact_name = f'{TEAM_ENTITY}/{PROJECT}/{model_artifact_name}:v0'
 print("Artifact name: ", artifact_name)
 
-REGISTRY_NAME = "Model" # Name of the registry in W&B
-COLLECTION_NAME = "DemoModels"  # Name of the collection in the registry
+REGISTRY_NAME = "Model" # W&B 내 registry의 이름
+COLLECTION_NAME = "DemoModels"  # 레지스트리 내 컬렉션 이름
 
-# Create a target path for our artifact in the registry
+# 레지스트리 내 artifact의 타깃 경로 생성
 target_path = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 print("Target path: ", target_path)
 
@@ -127,18 +125,18 @@ run.link_artifact(artifact=model_artifact, target_path=target_path)
 run.finish()
 ```
 
-After running `wandb.Run.link_artifact()`, the model artifact will be in the `DemoModels` collection in your registry. From there, you can view details such as the version history, [lineage map]({{< relref path="/guides/core/registry/lineage/" lang="ko" >}}), and other [metadata]({{< relref path="/guides/core/registry/registry_cards/" lang="ko" >}}). 
+`wandb.Run.link_artifact()`를 실행하면 모델 Artifact가 registry 내 `DemoModels` 컬렉션에 추가됩니다. 여기서 Artifact의 버전 히스토리, [계보 맵]({{< relref path="/guides/core/registry/lineage/" lang="ko" >}}), 기타 [메타데이터]({{< relref path="/guides/core/registry/registry_cards/" lang="ko" >}}) 등의 정보를 볼 수 있습니다.
 
-For additional information on how to link artifacts to a registry, see [Link artifacts to a registry]({{< relref path="/guides/core/registry/link_version/" lang="ko" >}}).
+레지스트리에 Artifact를 연결하는 더 자세한 방법은 [Link artifacts to a registry]({{< relref path="/guides/core/registry/link_version/" lang="ko" >}})를 참고하세요.
 
-## Retrieve model artifact from registry for inference
+## 추론을 위해 레지스트리에서 모델 artifact 가져오기
 
-To use a model for inference, use `wandb.Run.use_artifact()` to retrieve the published artifact from the registry. This returns an artifact object that you can then use [`wandb.Artifact.download()`]({{< relref path="/ref/python/sdk/classes/artifact/#method-artifactdownload" lang="ko" >}}) to download the artifact to a local file.
+모델을 추론에 사용하려면 `wandb.Run.use_artifact()`를 사용해 registry에서 게시된 Artifact를 가져옵니다. 반환된 artifact 오브젝트에 [`wandb.Artifact.download()`]({{< relref path="/ref/python/sdk/classes/artifact/#method-artifactdownload" lang="ko" >}})를 호출해 Artifact를 로컬 파일로 다운로드할 수 있습니다.
 
 ```python
-REGISTRY_NAME = "Model"  # Name of the registry in W&B
-COLLECTION_NAME = "DemoModels"  # Name of the collection in the registry
-VERSION = 0 # Version of the artifact to retrieve
+REGISTRY_NAME = "Model"  # W&B 내 registry의 이름
+COLLECTION_NAME = "DemoModels"  # 레지스트리 내 컬렉션 이름
+VERSION = 0 # 가져올 artifact의 버전
 
 model_artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 print(f"Model artifact name: {model_artifact_name}")
@@ -148,34 +146,34 @@ registry_model = run.use_artifact(artifact_or_name=model_artifact_name)
 local_model_path = registry_model.download()
 ```
 
-For more information on how to retrieve artifacts from a registry, see [Download an artifact from a registry]({{< relref path="/guides/core/registry/download_use_artifact/" lang="ko" >}}).
+레지스트리에서 artifact를 가져오는 더 자세한 방법은 [Download an artifact from a registry]({{< relref path="/guides/core/registry/download_use_artifact/" lang="ko" >}})를 참고하세요.
 
-Depending on your machine learning framework, you may need to recreate the model architecture before loading the weights. This is left as an exercise for the reader, as it depends on the specific framework and model you are using. 
+사용 중인 머신러닝 프레임워크에 따라, 가중치 로드 전에 모델 아키텍처를 재구성해야 할 수도 있습니다. 이 부분은 사용하는 프레임워크와 모델에 따라 달라지므로 독자에게 연습 문제로 남깁니다.
 
-## Share your finds with a report
+## 발견한 내용을 리포트로 공유하기
 
 {{% alert %}}
-W&B Report and Workspace API is in Public Preview.
+W&B Report and Workspace API는 퍼블릭 프리뷰 상태입니다.
 {{% /alert %}}
 
-Create and share a [report]({{< relref path="/guides/core/reports/_index.md" lang="ko" >}}) to summarize your work. To create a report programmatically, use the [W&B Report and Workspace API]({{< relref path="/ref/python/wandb_workspaces/reports.md" lang="ko" >}}).
+작업 요약을 위해 [리포트]({{< relref path="/guides/core/reports/_index.md" lang="ko" >}})를 생성하고 공유하세요. 프로그래밍적으로 리포트를 생성하려면 [W&B Report and Workspace API]({{< relref path="/ref/python/wandb_workspaces/reports.md" lang="ko" >}})를 사용하세요.
 
-First, install the W&B Reports API:
+우선, W&B Reports API를 설치합니다:
 
 ```python
 pip install wandb wandb-workspaces -qqq
 ```
 
-The following code block creates a report with multiple blocks, including markdown, panel grids, and more. You can customize the report by adding more blocks or changing the content of existing blocks. 
+다음 코드 블록은 마크다운, 패널 그리드 등 여러 블록이 포함된 리포트를 생성합니다. 블록을 추가하거나 내용을 변경해 리포트를 자유롭게 커스터마이즈할 수 있습니다.
 
-The output of the code block prints a link to the URL report created. You can open this link in your browser to view the report. 
+코드 실행 결과로 만들어진 리포트의 URL 링크가 출력됩니다. 브라우저에서 해당 링크를 열어 리포트를 확인할 수 있습니다.
 
 ```python
 import wandb_workspaces.reports.v2 as wr
 
-experiment_summary = """This is a summary of the experiment conducted to train a simple model using W&B."""
-dataset_info = """The dataset used for training consists of synthetic data generated by a simple model."""
-model_info = """The model is a simple linear regression model that predicts output based on input data with some noise."""
+experiment_summary = """이 실험은 W&B를 사용하여 간단한 모델을 트레이닝한 요약입니다."""
+dataset_info = """트레이닝에 사용된 데이터셋은 간단한 모델로 생성된 합성 데이터입니다."""
+model_info = """이 모델은 입력 데이터와 일정 노이즈를 이용해 출력을 예측하는 선형 회귀 모델입니다."""
 
 report = wr.Report(
     project=PROJECT,
@@ -199,30 +197,30 @@ report = wr.Report(
 
 )
 
-# Save the report to W&B
+# 리포트를 W&B에 저장
 report.save()
 ```
 
-For more information on how to create a report programmatically or how to create a report interactively with the W&B App, see [Create a report]({{< relref path="/guides/core/reports/create-a-report.md" lang="ko" >}}) in the W&B Docs Developer guide. 
+프로그래밍적으로 리포트를 생성하는 방법, 또는 W&B App에서 인터랙티브하게 리포트를 만드는 방법에 대한 더 자세한 정보는 W&B Docs 개발자 가이드의 [Create a report]({{< relref path="/guides/core/reports/create-a-report.md" lang="ko" >}})를 참고하세요.
 
-## Query the registry
-Use the [W&B Public APIs]({{< relref path="/ref/python/public-api/_index.md" lang="ko" >}}) to query, analyze, and manage historical data from W&B. This can be useful for tracking the lineage of artifacts, comparing different versions, and analyzing the performance of models over time.
+## 레지스트리 쿼리하기
+[W&B Public APIs]({{< relref path="/ref/python/public-api/_index.md" lang="ko" >}})를 사용해 W&B에 저장된 이력 데이터를 쿼리, 분석, 관리할 수 있습니다. 이 방법은 artifact의 계보 추적, 다양한 버전 비교, 시간이 지남에 따라 모델 성능을 분석하는 데 유용합니다.
 
-The following code block demonstrates how to query the Model registry for all artifacts in a specific collection. It retrieves the collection and iterates through its versions, printing out the name and version of each artifact.
+아래 코드 블록은 특정 컬렉션 내 모든 Artifact를 쿼리하는 예시입니다. 컬렉션을 가져와 각 버전을 반복하며 Artifact의 이름과 버전을 출력합니다.
 
 ```python
 import wandb
 
-# Initialize wandb API
+# wandb API 초기화
 api = wandb.Api()
 
-# Find all artifact versions that contains the string `model` and 
-# has either the tag `text-classification` or an `latest` alias
+# 문자열 `model`이 포함된 모든 artifact 버전 중 
+# `text-classification` 태그가 있거나 `latest` 에일리어스가 있는 artifacts 찾기
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# Use logical $or operator to filter artifact versions
+# 논리 $or 연산자로 artifact 버전 필터링
 version_filters = {
     "$or": [
         {"tag": "text-classification"},
@@ -230,10 +228,10 @@ version_filters = {
     ]
 }
 
-# Returns an iterable of all artifact versions that match the filters
+# 필터에 맞는 모든 artifact 버전을 iterable로 반환
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 
-# Print out the name, collection, aliases, tags, and created_at date of each artifact found
+# artifact의 이름, 소속 컬렉션, 에일리어스, 태그, 생성 일자를 출력
 for art in artifacts:
     print(f"artifact name: {art.name}")
     print(f"collection artifact belongs to: { art.collection.name}")
@@ -242,4 +240,4 @@ for art in artifacts:
     print(f"artifact created at: {art.created_at}\n")
 ```
 
-For more information on querying the registry, see the [Query registry items with MongoDB-style queries]({{< relref path="/guides/core/registry/search_registry.md#query-registry-items-with-mongodb-style-queries" lang="ko" >}}).
+레지스트리 쿼리에 대한 더 자세한 정보는 [Query registry items with MongoDB-style queries]({{< relref path="/guides/core/registry/search_registry.md#query-registry-items-with-mongodb-style-queries" lang="ko" >}})를 참고하세요.

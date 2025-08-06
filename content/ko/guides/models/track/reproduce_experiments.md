@@ -1,86 +1,82 @@
 ---
+title: 실험 재현
 menu:
   default:
     identifier: ko-guides-models-track-reproduce_experiments
     parent: track
-title: Reproduce experiments
 weight: 7
 ---
 
-Reproduce an experiment that a team member creates to verify and validate their results.
+재현을 통해 팀 멤버가 생성한 실험의 결과를 검증하고 확인하세요.
 
-Before you reproduce an experiment, you need to make note of the:
+실험을 재현하기 전에 아래 정보를 확인해 두세요:
 
-* Name of the project the run was logged to
-* Name of the run you want to reproduce
+* run 이 기록된 Project 이름
+* 재현하려는 run 이름
 
-To reproduce an experiment:
+실험을 재현하려면 다음 순서를 따르세요:
 
-1. Navigate to the project where the run is logged to.
-2. Select the **Workspace** tab in the left sidebar.
-3. From the list of runs, select the run that you want to reproduce.
-4. Click **Overview**.
+1. run 이 기록된 Project로 이동합니다.
+2. 왼쪽 사이드바에서 **Workspace** 탭을 선택합니다.
+3. run 목록에서 재현하려는 run 을 선택합니다.
+4. **Overview**를 클릭합니다.
 
-To continue, download the experiment's code at a given hash or clone the experiment's entire repository.
+계속하려면 주어진 해시를 통해 실험의 코드 를 다운로드하거나, 실험의 전체 저장소를 클론하세요.
 
 {{< tabpane text=true >}}
-{{% tab "Download Python script or notebook" %}}
+{{% tab "Python 스크립트 또는 노트북 다운로드" %}}
 
-Download the experiment's Python script or notebook:
+실험의 Python 스크립트 또는 노트북을 다운로드하려면:
 
-1. In the **Command** field, make a note of the name of the script that created the experiment.
-2. Select the **Code** tab in the left navigation bar.
-3. Click **Download** next to the file that corresponds to the script or notebook.
-
+1. **Command** 필드에서 실험을 생성한 스크립트의 이름을 메모해 두세요.
+2. 왼쪽 네비게이션 바에서 **Code** 탭을 선택합니다.
+3. 해당 스크립트나 노트북에 해당하는 파일 옆의 **Download**를 클릭합니다.
 
 {{% /tab %}}
 {{% tab "GitHub" %}}
 
-Clone the GitHub repository your teammate used when creating the experiment. To do this:
+팀원이 실험을 만들 때 사용한 GitHub 저장소를 클론하세요. 방법은 다음과 같습니다:
 
-1. If necessary, gain access to the GitHub repository that your teammate used to create the experiment.
-2. Copy the **Git repository** field, which contains the GitHub repository URL.
-3. Clone the repository:
+1. 필요하다면, 팀원이 실험에 사용한 GitHub 저장소에 접근 권한을 얻으세요.
+2. GitHub 저장소 URL이 들어있는 **Git repository** 필드를 복사합니다.
+3. 저장소를 클론합니다:
     ```bash
     git clone https://github.com/your-repo.git && cd your-repo
     ```
-4. Copy and paste the **Git state** field into your terminal. The Git state is a set of Git commands that checks out the exact commit that your teammate used to create the experiment. Replace values specified in the proceeding code snippet with your own:
+4. **Git state** 필드를 복사해서 터미널에 붙여넣으세요. Git state는 실험 생성 시 사용된 정확한 커밋으로 체크아웃하는 Git 명령어 집합입니다. 아래 코드 내 값을 본인 환경에 맞게 수정하세요:
     ```bash
     git checkout -b "<run-name>" 0123456789012345678901234567890123456789
     ```
 
-
-
 {{% /tab %}}
 {{< /tabpane >}}
 
-5. Select **Files** in the left navigation bar.
-6. Download the `requirements.txt` file and store it in your working directory. This directory should contain either the cloned GitHub repository or the downloaded Python script or notebook.
-7. (Recommended) Create a Python virtual environment.
-8. Install the requirements specified in the `requirements.txt` file.
+5. 왼쪽 네비게이션 바에서 **Files**를 선택합니다.
+6. `requirements.txt` 파일을 다운로드해 작업 디렉토리에 저장하세요. 이 디렉토리에는 클론한 GitHub 저장소 또는 다운로드한 Python 스크립트나 노트북이 위치해야 합니다.
+7. (권장) Python 가상 환경을 생성하세요.
+8. `requirements.txt` 파일에 지정된 패키지를 설치합니다.
     ```bash
     pip install -r requirements.txt
     ```
 
-9. Now that you have the code and dependencies, you can run the script or notebook to reproduce the experiment. If you cloned a repository, you might need to navigate to the directory where the script or notebook is located. Otherwise, you can run the script or notebook from your working directory.
+9. 이제 코드와 의존성 설치가 완료되었으니, 스크립트나 노트북을 실행해 실험을 재현할 수 있습니다. 저장소를 클론했다면, 스크립트나 노트북이 위치한 디렉토리로 이동해야 할 수 있습니다. 그렇지 않으면, 바로 작업 디렉토리에서 실행하셔도 됩니다.
 
 {{< tabpane text=true >}}
-{{% tab "Python notebook" %}}
+{{% tab "Python 노트북" %}}
 
-If you downloaded a Python notebook, navigate to the directory where you downloaded the notebook and run the following command in your terminal:
+Python 노트북을 다운로드했다면, 해당 디렉토리로 이동한 뒤 아래 명령어를 터미널에 입력하세요:
 ```bash
 jupyter notebook
 ```
 
 {{% /tab %}}
-{{% tab "Python script" %}}
+{{% tab "Python 스크립트" %}}
 
-If you downloaded a Python script, navigate to the directory where you downloaded the script and run the following command in your terminal; Replace values enclosed in `<>` with your own:
+Python 스크립트를 다운로드했다면, 해당 스크립트가 위치한 디렉토리로 이동한 후 아래 명령어를 터미널에서 입력하세요. `<>`로 표시된 부분은 본인 상황에 맞게 수정하세요:
 
 ```bash
 python <your-script-name>.py
 ```
-
 
 {{% /tab %}}
 {{< /tabpane >}}

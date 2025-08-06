@@ -1,44 +1,44 @@
 ---
-description: Create, construct a W&B Artifact. Learn how to add one or more files
-  or a URI reference to an Artifact.
+title: 아티팩트 생성
+description: W&B 아티팩트를 생성하고 구성하는 방법을 알아보세요. 하나 이상의 파일이나 URI 참조를 아티팩트에 추가하는 방법을 배울
+  수 있습니다.
 menu:
   default:
     identifier: ko-guides-core-artifacts-construct-an-artifact
     parent: artifacts
-title: Create an artifact
 weight: 2
 ---
 
-Use the W&B Python SDK to construct artifacts from [W&B Runs]({{< relref path="/ref/python/sdk/classes/run.md" lang="ko" >}}). You can add [files, directories, URIs, and files from parallel runs to artifacts]({{< relref path="#add-files-to-an-artifact" lang="ko" >}}). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}).
+W&B Python SDK를 사용하여 [W&B Runs]({{< relref path="/ref/python/sdk/classes/run.md" lang="ko" >}})에서 Artifacts를 생성할 수 있습니다. [파일, 디렉토리, URI, 그리고 병렬 run에서 생성된 파일을 Artifacts에 추가]({{< relref path="#add-files-to-an-artifact" lang="ko" >}})할 수 있습니다. 파일을 Artifact에 추가한 후에는, Artifact를 W&B 서버 또는 [개인 서버]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}})에 저장하세요.
 
-For information on how to track external files, such as files stored in Amazon S3, see the [Track external files]({{< relref path="./track-external-files.md" lang="ko" >}}) page.
+Amazon S3에 저장된 파일 등 외부 파일을 추적하는 방법은 [외부 파일 추적]({{< relref path="./track-external-files.md" lang="ko" >}}) 페이지를 참고하세요.
 
-## How to construct an artifact
+## Artifact 생성 방법
 
-Construct a [W&B Artifact]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}}) in three steps:
+[W&B Artifact]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}})는 다음 세 단계로 생성합니다.
 
-### 1. Create an artifact Python object with `wandb.Artifact()`
+### 1. `wandb.Artifact()`로 Artifact Python 오브젝트 만들기
 
-Initialize the [`wandb.Artifact()`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}}) class to create an artifact object. Specify the following parameters:
+[`wandb.Artifact()`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}}) 클래스를 초기화하여 Artifact 오브젝트를 생성합니다. 아래 파라미터들을 지정하세요.
 
-* **Name**: Specify a name for your artifact. The name should be unique, descriptive, and easy to remember. Use an artifacts name to both: identify the artifact in the W&B App UI and when you want to use that artifact.
-* **Type**: Provide a type. The type should be simple, descriptive and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
+* **Name**: Artifact의 이름을 지정하세요. 이 이름은 고유하고, 설명적이며 기억하기 쉬워야 합니다. Artifact의 이름은 W&B App UI에서 Artifact를 식별하거나, 해당 Artifact를 사용할 때 필요합니다.
+* **Type**: 타입을 지정하세요. 이 타입은 간단하고, 설명적이며, 기계학습 파이프라인의 단계를 나타내야 합니다. 일반적으로 `'dataset'` 또는 `'model'`과 같은 타입이 사용됩니다.
 
 
 {{% alert %}}
-The "name" and "type" you provide is used to create a directed acyclic graph. This means you can view the lineage of an artifact on the W&B App. 
+입력한 "name"과 "type"은 방향성 비순환 그래프(DAG)를 생성하는 데 사용됩니다. 즉, W&B App에서 Artifact의 계보를 시각화할 수 있습니다.
 
-See the [Explore and traverse artifact graphs]({{< relref path="./explore-and-traverse-an-artifact-graph.md" lang="ko" >}}) for more information.
+자세한 내용은 [Artifact 그래프 탐색 및 트래버스]({{< relref path="./explore-and-traverse-an-artifact-graph.md" lang="ko" >}})를 참고하세요.
 {{% /alert %}}
 
 
 {{% alert color="secondary" %}}
-Artifacts can not have the same name, even if you specify a different type for the types parameter. In other words, you can not create an artifact named `cats` of type `dataset` and another artifact with the same name of type `model`.
+같은 이름을 가진 Artifacts는 존재할 수 없습니다. type 파라미터에 서로 다른 값을 지정해도 마찬가지입니다. 즉, `cats`라는 이름의 타입이 `dataset`인 Artifact와, 동일한 이름의 타입이 `model`인 Artifact를 동시에 만들 수 없습니다.
 {{% /alert %}}
 
-You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see the [`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}}) Class definition in the Python SDK Reference Guide.
+Artifact 오브젝트 초기화 시 설명(description)과 메타데이터(metadata)도 옵션으로 제공할 수 있습니다. 사용 가능한 속성과 파라미터에 대한 자세한 내용은 Python SDK Reference의 [`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ko" >}}) 클래스를 참고하세요.
 
-The proceeding example demonstrates how to create a dataset artifact:
+아래 예시에서는 데이터셋 Artifact를 만드는 방법을 보여줍니다.
 
 ```python
 import wandb
@@ -46,33 +46,33 @@ import wandb
 artifact = wandb.Artifact(name="<replace>", type="<replace>")
 ```
 
-Replace the string arguments in the preceding code snippet with your own name and type.
+위 코드조각의 문자열 인수들을 원하는 이름과 타입으로 바꿔 사용하세요.
 
-### 2. Add one more files to the artifact
+### 2. 파일 하나 이상을 Artifact에 추가하기
 
-Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`]({{< relref path="/ref/python/sdk/classes/artifact.md#add_file" lang="ko" >}}) method:
+Artifact 메소드를 활용하여 파일, 디렉토리, 외부 URI (예: Amazon S3) 등을 추가할 수 있습니다. 예를 들어, 텍스트 파일 하나를 추가하려면 [`add_file`]({{< relref path="/ref/python/sdk/classes/artifact.md#add_file" lang="ko" >}}) 메소드를 사용합니다.
 
 ```python
 artifact.add_file(local_path="hello_world.txt", name="optional-name")
 ```
 
-You can also add multiple files with the [`add_dir`]({{< relref path="/ref/python/sdk/classes/artifact.md#add_dir" lang="ko" >}}) method. To add files, see [Update an artifact]({{< relref path="./update-an-artifact.md" lang="ko" >}}).
+여러 파일을 추가하려면 [`add_dir`]({{< relref path="/ref/python/sdk/classes/artifact.md#add_dir" lang="ko" >}}) 메소드를 사용할 수 있습니다. 파일 추가에 대한 자세한 내용은 [Artifact 업데이트]({{< relref path="./update-an-artifact.md" lang="ko" >}})를 참고하세요.
 
-### 3. Save your artifact to the W&B server
+### 3. Artifact를 W&B 서버에 저장하기
 
-Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`]({{< relref path="/ref/python/sdk/classes/run.md#log_artifact" lang="ko" >}}) method to save the artifact.
+마지막으로, Artifact를 W&B 서버에 저장하세요. Artifact는 Run과 연결되므로 Run 오브젝트의 [`log_artifact()`]({{< relref path="/ref/python/sdk/classes/run.md#log_artifact" lang="ko" >}}) 메소드를 사용하여 Artifact를 저장합니다.
 
 ```python
-# Create a W&B Run. Replace 'job-type'.
+# W&B Run 생성 ('job-type'은 원하는 값으로 변경)
 run = wandb.init(project="artifacts-example", job_type="job-type")
 
 run.log_artifact(artifact)
 ```
 
-You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files]({{< relref path="./track-external-files.md" lang="ko" >}}).
+필요하다면, W&B Run 밖에서도 Artifact를 생성할 수 있습니다. 자세한 내용은 [외부 파일 추적]({{< relref path="./track-external-files.md" lang="ko" >}})을 참고하세요.
 
 {{% alert color="secondary" %}}
-Calls to `log_artifact` are performed asynchronously for performant uploads. This can cause surprising behavior when logging artifacts in a loop. For example:
+`log_artifact` 호출은 성능 향상을 위해 비동기로 수행됩니다. 이로 인해, 반복문(loop)에서 Artifact를 로깅할 때 예상치 못한 동작이 발생할 수 있습니다. 예를 들어:
 
 ```python
 for i in range(10):
@@ -83,18 +83,18 @@ for i in range(10):
             "index": i,
         },
     )
-    # ... add files to artifact a ...
+    # ... 여기서 파일을 artifact a에 추가 ...
     run.log_artifact(a)
 ```
 
-The artifact version **v0** is NOT guaranteed to have an index of 0 in its metadata, as the artifacts may be logged in an arbitrary order.
+Artifact 버전 **v0**의 메타데이터에서 index가 0이 된다는 보장이 없습니다. Artifact가 임의의 순서로 로깅될 수 있기 때문입니다.
 {{% /alert %}}
 
-## Add files to an artifact
+## Artifact에 파일 추가하기
 
-The following sections demonstrate how to construct artifacts with different file types and from parallel runs.
+이 절에서는 파일 타입별, 병렬 Run에서 Artifacts를 생성하는 다양한 방법을 설명합니다.
 
-For the following examples, assume you have a project directory with multiple files and a directory structure:
+다음 예제에서는 여러 파일 및 디렉토리가 위치한 프로젝트 디렉토리를 가정합니다.
 
 ```
 project-directory
@@ -106,100 +106,99 @@ project-directory
 +-- model.h5
 ```
 
-### Add a single file
+### 단일 파일 추가
 
-The proceeding code snippet demonstrates how to add a single, local file to your artifact:
+아래 코드조각은 로컬 파일 하나를 Artifact에 추가하는 방법을 보여줍니다.
 
 ```python
-# Add a single file
+# 파일 한 개 추가
 artifact.add_file(local_path="path/file.format")
 ```
 
-For example, suppose you had a file called `'file.txt'` in your working local directory.
+예를 들어, 작업 디렉토리에 `'file.txt'`라는 파일이 있다고 가정해 보겠습니다.
 
 ```python
-artifact.add_file("path/file.txt")  # Added as `file.txt'
+artifact.add_file("path/file.txt")  # `file.txt`로 추가됨
 ```
 
-The artifact now has the following content:
+Artifact는 이제 다음과 같이 구성됩니다.
 
 ```
 file.txt
 ```
 
-Optionally, pass the desired path within the artifact for the `name` parameter.
+선택적으로, Artifact 내에서 원하는 경로를 `name` 파라미터에 지정할 수 있습니다.
 
 ```python
 artifact.add_file(local_path="path/file.format", name="new/path/file.format")
 ```
 
-The artifact is stored as:
+이 경우, Artifact에는 다음과 같은 경로로 저장됩니다.
 
 ```
 new/path/file.txt
 ```
 
-| API Call                                                  | Resulting artifact |
-| --------------------------------------------------------- | ------------------ |
-| `artifact.add_file('model.h5')`                           | model.h5           |
-| `artifact.add_file('checkpoints/model.h5')`               | model.h5           |
-| `artifact.add_file('model.h5', name='models/mymodel.h5')` | models/mymodel.h5  |
+| API 호출                                            | 결과 Artifact  |
+| --------------------------------------------------- | -------------- |
+| `artifact.add_file('model.h5')`                     | model.h5       |
+| `artifact.add_file('checkpoints/model.h5')`         | model.h5       |
+| `artifact.add_file('model.h5', name='models/mymodel.h5')` | models/mymodel.h5 |
 
-### Add multiple files
+### 여러 파일 추가
 
-The proceeding code snippet demonstrates how to add an entire, local directory to your artifact:
+아래 코드조각은 로컬 디렉토리 전체를 Artifact에 추가하는 방법을 보여줍니다.
 
 ```python
-# Recursively add a directory
+# 디렉토리를 재귀적으로 추가
 artifact.add_dir(local_path="path/file.format", name="optional-prefix")
 ```
 
-The proceeding API calls produce the proceeding artifact content:
+아래의 API 호출들은 각각 다음과 같은 Artifact 콘텐츠를 생성합니다.
 
-| API Call                                    | Resulting artifact                                     |
-| ------------------------------------------- | ------------------------------------------------------ |
-| `artifact.add_dir('images')`                | <p><code>cat.png</code></p><p><code>dog.png</code></p> |
+| API 호출                              | 결과 Artifact 내용                                     |
+| ------------------------------------- | ------------------------------------------------------ |
+| `artifact.add_dir('images')`          | <p><code>cat.png</code></p><p><code>dog.png</code></p> |
 | `artifact.add_dir('images', name='images')` | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
-| `artifact.new_file('hello.txt')`            | `hello.txt`                                            |
+| `artifact.new_file('hello.txt')`      | `hello.txt`                                            |
 
-### Add a URI reference
+### URI 참조 추가
 
-Artifacts track checksums and other information for reproducibility if the URI has a scheme that W&B library knows how to handle.
+W&B 라이브러리가 지원하는 스킴을 사용하는 URI의 경우, Artifacts는 재현성을 위해 체크섬 등 정보를 추적합니다.
 
-Add an external URI reference to an artifact with the [`add_reference`]({{< relref path="/ref/python/sdk/classes/artifact.md#add_reference" lang="ko" >}}) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
+Artifact에 외부 URI 참조를 추가하려면 [`add_reference`]({{< relref path="/ref/python/sdk/classes/artifact.md#add_reference" lang="ko" >}}) 메소드를 사용하세요. `'uri'` 부분에는 본인의 URI를 입력하고, 필요하다면 Artifact 내부 경로를 name 파라미터로 전달하세요.
 
 ```python
-# Add a URI reference
+# URI 참조 추가
 artifact.add_reference(uri="uri", name="optional-name")
 ```
 
-Artifacts currently support the following URI schemes:
+Artifacts가 현재 지원하는 URI 스킴은 다음과 같습니다.
 
-* `http(s)://`: A path to a file accessible over HTTP. The artifact will track checksums in the form of etags and size metadata if the HTTP server supports the `ETag` and `Content-Length` response headers.
-* `s3://`: A path to an object or object prefix in S3. The artifact will track checksums and versioning information (if the bucket has object versioning enabled) for the referenced objects. Object prefixes are expanded to include the objects under the prefix, up to a maximum of 10,000 objects.
-* `gs://`: A path to an object or object prefix in GCS. The artifact will track checksums and versioning information (if the bucket has object versioning enabled) for the referenced objects. Object prefixes are expanded to include the objects under the prefix, up to a maximum of 10,000 objects.
+* `http(s)://`: HTTP를 통해 접근 가능한 파일의 경로. HTTP 서버가 `ETag` 및 `Content-Length` 응답 헤더를 지원할 경우, Artifact에서 etag와 파일 크기 메타데이터로 체크섬을 추적합니다.
+* `s3://`: S3 내 오브젝트 또는 오브젝트 프리픽스(object prefix)의 경로. 해당 오브젝트에 대해 체크섬과 버전 관리 정보(버킷이 오브젝트 버전 기능을 활성화해야 함)를 추적합니다. 오브젝트 프리픽스는 최대 10,000개 오브젝트까지 확장됩니다.
+* `gs://`: GCS 내 오브젝트 또는 오브젝트 프리픽스의 경로. S3와 유사하게 체크섬과 버전 관리 정보를 추적하며, 오브젝트 프리픽스는 최대 10,000개까지 확장됩니다.
 
-The proceeding API calls will produce the proceeding artifacts:
+아래 API 호출들은 각각 다음과 같은 Artifacts를 생성합니다.
 
-| API call                                                                      | Resulting artifact contents                                          |
-| ----------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `artifact.add_reference('s3://my-bucket/model.h5')`                           | `model.h5`                                                           |
-| `artifact.add_reference('s3://my-bucket/checkpoints/model.h5')`               | `model.h5`                                                           |
-| `artifact.add_reference('s3://my-bucket/model.h5', name='models/mymodel.h5')` | `models/mymodel.h5`                                                  |
-| `artifact.add_reference('s3://my-bucket/images')`                             | <p><code>cat.png</code></p><p><code>dog.png</code></p>               |
-| `artifact.add_reference('s3://my-bucket/images', name='images')`              | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
+| API 호출                                                                  | 생성된 Artifact 내용                                      |
+| ------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `artifact.add_reference('s3://my-bucket/model.h5')`                       | `model.h5`                                               |
+| `artifact.add_reference('s3://my-bucket/checkpoints/model.h5')`           | `model.h5`                                               |
+| `artifact.add_reference('s3://my-bucket/model.h5', name='models/mymodel.h5')` | `models/mymodel.h5`                                  |
+| `artifact.add_reference('s3://my-bucket/images')`                         | <p><code>cat.png</code></p><p><code>dog.png</code></p>   |
+| `artifact.add_reference('s3://my-bucket/images', name='images')`          | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
 
-### Add files to artifacts from parallel runs
+### 병렬 run에서 Artifact로 파일 추가하기
 
-For large datasets or distributed training, multiple parallel runs might need to contribute to a single artifact.
+대규모 데이터셋이나 분산 트레이닝 시, 여러 병렬 run이 하나의 Artifact에 파일을 동시에 추가해야 할 수 있습니다.
 
 ```python
 import wandb
 import time
 
-# We will use ray to launch our runs in parallel
-# for demonstration purposes. You can orchestrate
-# your parallel runs however you want.
+# 데모 목적을 위해 ray를 사용하여 run들을 병렬로 실행합니다.
+# 병렬 run의 오케스트레이션 방법은 자유롭게 선택하면 됩니다.
 import ray
 
 ray.init()
@@ -210,46 +209,44 @@ table_name = "distributed_table"
 parts_path = "parts"
 num_parallel = 5
 
-# Each batch of parallel writers should have its own
-# unique group name.
+# 병렬 writer 배치는 고유한 group 이름을 가져야 합니다.
 group_name = "writer-group-{}".format(round(time.time()))
 
 
 @ray.remote
 def train(i):
     """
-    Our writer job. Each writer will add one image to the artifact.
+    writer 작업 예시. 각 writer는 Artifact에 이미지를 하나씩 추가합니다.
     """
     with wandb.init(group=group_name) as run:
         artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
 
-        # Add data to a wandb table. In this case we use example data
+        # 예시 데이터로 wandb 테이블에 데이터 추가
         table = wandb.Table(columns=["a", "b", "c"], data=[[i, i * 2, 2**i]])
 
-        # Add the table to folder in the artifact
+        # 생성한 테이블을 Artifact의 폴더에 추가
         artifact.add(table, "{}/table_{}".format(parts_path, i))
 
-        # Upserting the artifact creates or appends data to the artifact
+        # upsert는 Artifact 생성 또는 데이터 추가를 의미
         run.upsert_artifact(artifact)
 
 
-# Launch your runs in parallel
+# 병렬로 run 실행
 result_ids = [train.remote(i) for i in range(num_parallel)]
 
-# Join on all the writers to make sure their files have
-# been added before finishing the artifact.
+# 모든 writer의 파일이 Artifact에 추가될 때까지 대기
 ray.get(result_ids)
 
-# Once all the writers are finished, finish the artifact
-# to mark it ready.
+# 모든 writer가 종료되면 Artifact를 finish 하여
+# 사용 가능 상태로 만듭니다.
 with wandb.init(group=group_name) as run:
     artifact = wandb.Artifact(artifact_name, type=artifact_type)
 
-    # Create a "PartitionTable" pointing to the folder of tables
-    # and add it to the artifact.
+    # 폴더의 테이블들을 가리키는 "PartitionTable"을 생성하고
+    # 이를 Artifact에 추가합니다.
     artifact.add(wandb.data_types.PartitionedTable(parts_path), table_name)
 
-    # Finish artifact finalizes the artifact, disallowing future "upserts"
-    # to this version.
+    # finish_artifact는 해당 Artifact의 추가적인 "upsert"를
+    # 이 버전에서는 막아 최종화합니다.
     run.finish_artifact(artifact)
 ```

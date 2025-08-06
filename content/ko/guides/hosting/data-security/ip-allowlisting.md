@@ -1,18 +1,18 @@
 ---
+title: 전용 클라우드에 대한 IP 허용 목록 구성
 menu:
   default:
     identifier: ko-guides-hosting-data-security-ip-allowlisting
     parent: data-security
-title: Configure IP allowlisting for Dedicated Cloud
 weight: 3
 ---
 
-You can restrict access to your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) instance from only an authorized list of IP addresses. This applies to the access from your AI workloads to the W&B APIs and from your user browsers to the W&B app UI as well. Once IP allowlisting has been set up for your Dedicated Cloud instance, W&B denies any requests from other unauthorized locations. Reach out to your W&B team to configure IP allowlisting for your Dedicated Cloud instance.
+[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 인스턴스에 대해, 허가된 IP 어드레스 리스트에서만 엑세스할 수 있도록 제한할 수 있습니다. 이 제한은 AI 워크로드에서 W&B API로의 엑세스와, 사용자 브라우저에서 W&B 앱 UI로의 엑세스 모두에 적용됩니다. Dedicated Cloud 인스턴스에 IP 허용리스트가 설정되면, W&B는 허가되지 않은 위치에서의 모든 요청을 거부합니다. Dedicated Cloud 인스턴스에 대한 IP 허용리스트 설정을 원하시면 W&B 팀에 문의해 주세요.
 
-IP allowlisting is available on Dedicated Cloud instances on AWS, GCP and Azure.
+IP 허용리스트 기능은 AWS, GCP, Azure 상의 Dedicated Cloud 인스턴스에서 지원됩니다.
 
-You can use IP allowlisting with [secure private connectivity]({{< relref path="./private-connectivity.md" lang="ko" >}}). If you use IP allowlisting with secure private connectivity, W&B recommends using secure private connectivity for all traffic from your AI workloads and majority of the traffic from your user browsers if possible, while using IP allowlisting for instance administration from privileged locations.
+[보안 프라이빗 연결]({{< relref path="./private-connectivity.md" lang="ko" >}})과 함께 IP 허용리스트를 사용할 수 있습니다. 보안 프라이빗 연결과 IP 허용리스트를 같이 사용하는 경우, W&B에서는 AI 워크로드에서 발생하는 모든 트래픽과 가능하다면 사용자 브라우저의 대부분 트래픽에 보안 프라이빗 연결을 이용하고, 인스턴스 관리 목적으로는 IP 허용리스트를 권한 있는 위치에서만 사용하실 것을 권장합니다.
 
 {{% alert color="secondary" %}}
-W&B strongly recommends to use [CIDR blocks](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) assigned to your corporate or business egress gateways rather than individual `/32` IP addresses. Using individual IP addresses is not scalable and has strict limits per cloud.
+W&B에서는 개별 `/32` IP 어드레스보다는, 기업 또는 비즈니스 egress 게이트웨이에 할당된 [CIDR 블록](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) 사용을 강력히 권장합니다. 개별 IP 어드레스를 사용하는 것은 확장성이 부족하고 각 클라우드별로 엄격한 제한이 있습니다.
 {{% /alert %}}

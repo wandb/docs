@@ -1,10 +1,10 @@
 ---
+title: run
 data_type_classification: module
 menu:
   reference:
     identifier: ko-ref-python-public-api-runs
 object_type: public_apis_namespace
-title: runs
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py >}}
@@ -13,66 +13,66 @@ title: runs
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for Runs. 
+W&B Public API for Runs.
 
-This module provides classes for interacting with W&B runs and their associated data. 
+이 모듈은 W&B run 및 관련 데이터와 상호작용할 수 있는 클래스를 제공합니다.
 
 
 
-**Example:**
+**예시:**
  ```python
 from wandb.apis.public import Api
 
-# Get runs matching filters
+# 필터에 맞는 run 가져오기
 runs = Api().runs(
      path="entity/project", filters={"state": "finished", "config.batch_size": 32}
 )
 
-# Access run data
+# run 데이터 엑세스
 for run in runs:
      print(f"Run: {run.name}")
      print(f"Config: {run.config}")
      print(f"Metrics: {run.summary}")
 
-     # Get history with pandas
+     # pandas로 history 가져오기
      history_df = run.history(keys=["loss", "accuracy"], pandas=True)
 
-     # Work with artifacts
+     # Artifacts 사용하기
      for artifact in run.logged_artifacts():
          print(f"Artifact: {artifact.name}")
-``` 
+```
 
 
 
-**Note:**
+**안내:**
 
-> This module is part of the W&B Public API and provides read/write access to run data. For logging new runs, use the wandb.init() function from the main wandb package. 
+> 이 모듈은 W&B Public API의 일부로, run 데이터에 대한 읽기/쓰기 엑세스를 제공합니다. 새로운 run을 로그하려면 메인 wandb 패키지의 wandb.init() 함수를 사용하세요.
 
 ## <kbd>class</kbd> `Runs`
-An iterable collection of runs associated with a project and optional filter. 
+프로젝트와 선택적 필터에 연결된 run의 반복 가능한 컬렉션입니다.
 
-This is generally used indirectly using the `Api.runs` namespace. 
+일반적으로 `Api.runs` 네임스페이스를 통해 간접적으로 사용됩니다.
 
 
 
-**Args:**
+**인수:**
  
- - `client`:  (`wandb.apis.public.RetryingClient`) The API client to use  for requests. 
- - `entity`:  (str) The entity (username or team) that owns the project. 
- - `project`:  (str) The name of the project to fetch runs from. 
- - `filters`:  (Optional[Dict[str, Any]]) A dictionary of filters to apply  to the runs query. 
- - `order`:  (Optional[str]) The order of the runs, can be "asc" or "desc"  Defaults to "desc". 
- - `per_page`:  (int) The number of runs to fetch per request (default is 50). 
- - `include_sweeps`:  (bool) Whether to include sweep information in the  runs. Defaults to True. 
+ - `client`:  (`wandb.apis.public.RetryingClient`) 요청에 사용할 API 클라이언트입니다.
+ - `entity`:  (str) 프로젝트를 소유한 entity (사용자명 또는 팀) 입니다.
+ - `project`:  (str) run을 가져올 프로젝트 이름입니다.
+ - `filters`:  (Optional[Dict[str, Any]]) run 쿼리에 적용할 필터의 사전입니다.
+ - `order`:  (Optional[str]) run의 정렬 순서로, "asc" 또는 "desc" 중 선택. 기본값은 "desc"입니다.
+ - `per_page`:  (int) 요청당 가져올 run의 수 (기본값 50).
+ - `include_sweeps`:  (bool) run에 sweep 정보를 포함할지 여부. 기본값 True.
 
 
 
-**Examples:**
+**예시:**
  ```python
 from wandb.apis.public.runs import Runs
 from wandb.apis.public import Api
 
-# Get all runs from a project that satisfy the filters
+# 필터를 만족하는 프로젝트의 모든 run 가져오기
 filters = {"state": "finished", "config.optimizer": "adam"}
 
 runs = Api().runs(
@@ -82,7 +82,7 @@ runs = Api().runs(
     filters=filters,
 )
 
-# Iterate over runs and print details
+# runs를 순회하며 세부 정보 출력
 for run in runs:
     print(f"Run name: {run.name}")
     print(f"Run ID: {run.id}")
@@ -93,14 +93,14 @@ for run in runs:
     print(f"Run history (samples=5): {run.history(samples=5)}")
     print("----------")
 
-# Get histories for all runs with specific metrics
+# 특정 메트릭에 대한 모든 run의 histories 가져오기
 histories_df = runs.histories(
-    samples=100,  # Number of samples per run
-    keys=["loss", "accuracy"],  # Metrics to fetch
-    x_axis="_step",  # X-axis metric
-    format="pandas",  # Return as pandas DataFrame
+    samples=100,  # run마다 샘플 개수
+    keys=["loss", "accuracy"],  # 가져올 메트릭
+    x_axis="_step",  # x축 메트릭
+    format="pandas",  # pandas DataFrame 으로 반환
 )
-``` 
+```
 
 ### <kbd>method</kbd> `Runs.__init__`
 
@@ -146,64 +146,64 @@ histories(
 )
 ```
 
-Return sampled history metrics for all runs that fit the filters conditions. 
+필터 조건에 맞는 모든 run에 대해 샘플링된 히스토리 메트릭을 반환합니다.
 
 
 
-**Args:**
+**인수:**
  
- - `samples`:  The number of samples to return per run 
- - `keys`:  Only return metrics for specific keys 
- - `x_axis`:  Use this metric as the xAxis defaults to _step 
- - `format`:  Format to return data in, options are "default", "pandas",  "polars" 
- - `stream`:  "default" for metrics, "system" for machine metrics 
+ - `samples`:  run별 반환 샘플 수
+ - `keys`:  특정 키의 메트릭만 반환
+ - `x_axis`:  해당 메트릭을 x축으로 사용, 기본은 _step
+ - `format`:  반환 데이터 형식, "default", "pandas", "polars" 중 선택
+ - `stream`:  "default"는 일반 메트릭, "system"은 시스템 메트릭
 
-**Returns:**
+**반환값:**
  
- - `pandas.DataFrame`:  If `format="pandas"`, returns a `pandas.DataFrame`  of history metrics. 
- - `polars.DataFrame`:  If `format="polars"`, returns a `polars.DataFrame`  of history metrics. 
- - `list of dicts`:  If `format="default"`, returns a list of dicts  containing history metrics with a `run_id` key. 
+ - `pandas.DataFrame`:  `format="pandas"`일 때 history 메트릭의 `pandas.DataFrame` 반환
+ - `polars.DataFrame`:  `format="polars"`일 때 history 메트릭의 `polars.DataFrame` 반환
+ - `list of dicts`:  `format="default"`일 때 메트릭이 담긴 dict 리스트와 `run_id` key 반환
 
 
 ---
 
 ## <kbd>class</kbd> `Run`
-A single run associated with an entity and project. 
+특정 entity 및 프로젝트에 연결된 단일 run 입니다.
 
 
 
-**Args:**
+**인수:**
  
- - `client`:  The W&B API client. 
- - `entity`:  The entity associated with the run. 
- - `project`:  The project associated with the run. 
- - `run_id`:  The unique identifier for the run. 
- - `attrs`:  The attributes of the run. 
- - `include_sweeps`:  Whether to include sweeps in the run. 
+ - `client`:  W&B API 클라이언트
+ - `entity`:  이 run과 연결된 entity
+ - `project`:  이 run과 연결된 프로젝트
+ - `run_id`:  run에 대한 고유 식별자
+ - `attrs`:  run의 속성
+ - `include_sweeps`:  run에 sweep 정보를 포함할지 여부
 
 
 
-**Attributes:**
+**속성:**
  
- - `tags` ([str]):  a list of tags associated with the run 
- - `url` (str):  the url of this run 
- - `id` (str):  unique identifier for the run (defaults to eight characters) 
- - `name` (str):  the name of the run 
- - `state` (str):  one of: running, finished, crashed, killed, preempting, preempted 
- - `config` (dict):  a dict of hyperparameters associated with the run 
- - `created_at` (str):  ISO timestamp when the run was started 
- - `system_metrics` (dict):  the latest system metrics recorded for the run 
- - `summary` (dict):  A mutable dict-like property that holds the current summary.  Calling update will persist any changes. 
- - `project` (str):  the project associated with the run 
- - `entity` (str):  the name of the entity associated with the run 
- - `project_internal_id` (int):  the internal id of the project 
- - `user` (str):  the name of the user who created the run 
- - `path` (str):  Unique identifier [entity]/[project]/[run_id] 
- - `notes` (str):  Notes about the run 
- - `read_only` (boolean):  Whether the run is editable 
- - `history_keys` (str):  Keys of the history metrics that have been logged 
- - `with `wandb.log({key`:  value})` 
- - `metadata` (str):  Metadata about the run from wandb-metadata.json 
+ - `tags` ([str]):  run에 연결된 태그 목록
+ - `url` (str):  해당 run의 url
+ - `id` (str):  run의 고유 식별자 (기본 8자)
+ - `name` (str):  run 이름
+ - `state` (str):  상태 중 하나: running, finished, crashed, killed, preempting, preempted
+ - `config` (dict):  run에 연결된 하이퍼파라미터 사전
+ - `created_at` (str):  run이 시작된 ISO 타임스탬프
+ - `system_metrics` (dict):  run에 대해 기록된 최신 시스템 메트릭
+ - `summary` (dict):  현재 summary를 가지는 mutable 딕셔너리 속성. update 호출 시 변경사항이 저장됨
+ - `project` (str):  run이 소속된 프로젝트
+ - `entity` (str):  run이 소속된 entity 이름
+ - `project_internal_id` (int):  프로젝트의 내부 id
+ - `user` (str):  run을 생성한 사용자 이름
+ - `path` (str):  고유 식별자 [entity]/[project]/[run_id]
+ - `notes` (str):  run에 대한 노트
+ - `read_only` (boolean):  해당 run이 편집 가능한지 여부
+ - `history_keys` (str):  로그된 history 메트릭의 키값 목록
+ - `with `wandb.log({key`:  value})`
+ - `metadata` (str):  wandb-metadata.json에서 가져온 run에 대한 메타데이터
 
 ### <kbd>method</kbd> `Run.__init__`
 
@@ -218,81 +218,81 @@ __init__(
 )
 ```
 
-Initialize a Run object. 
+Run 오브젝트를 초기화합니다.
 
-Run is always initialized by calling api.runs() where api is an instance of wandb.Api. 
+Run은 항상 wandb.Api 인스턴스의 api.runs() 호출을 통해 초기화됩니다.
 
 
 ---
 
 ### <kbd>property</kbd> Run.entity
 
-The entity associated with the run. 
+이 run과 연결된 entity 입니다.
 
 ---
 
 ### <kbd>property</kbd> Run.id
 
-The unique identifier for the run. 
+해당 run의 고유 식별자입니다.
 
 ---
 
 
 ### <kbd>property</kbd> Run.lastHistoryStep
 
-Returns the last step logged in the run's history. 
+run의 히스토리에서 마지막 step을 반환합니다.
 
 ---
 
 ### <kbd>property</kbd> Run.metadata
 
-Metadata about the run from wandb-metadata.json. 
+wandb-metadata.json에서 가져온 run에 대한 메타데이터입니다.
 
-Metadata includes the run's description, tags, start time, memory usage and more. 
+메타데이터에는 run 설명, 태그, 시작 시간, 메모리 사용량 등이 포함됩니다.
 
 ---
 
 ### <kbd>property</kbd> Run.name
 
-The name of the run. 
+run의 이름입니다.
 
 ---
 
 ### <kbd>property</kbd> Run.path
 
-The path of the run. The path is a list containing the entity, project, and run_id. 
+run의 path 정보입니다. path는 entity, project, run_id로 구성된 리스트입니다.
 
 ---
 
 ### <kbd>property</kbd> Run.state
 
-The state of the run. Can be one of: Finished, Failed, Crashed, or Running. 
+해당 run의 상태. Finished, Failed, Crashed, Running 중 하나의 값이 올 수 있습니다.
 
 ---
 
 ### <kbd>property</kbd> Run.storage_id
 
-The unique storage identifier for the run. 
+run의 고유 storage 식별자입니다.
 
 ---
 
 ### <kbd>property</kbd> Run.summary
 
-A mutable dict-like property that holds summary values associated with the run. 
+run에 연결된 summary 값을 담는 mutable dict-like 속성입니다.
 
 ---
 
 ### <kbd>property</kbd> Run.url
 
-The URL of the run. 
+run의 URL입니다.
 
-The run URL is generated from the entity, project, and run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/run_id`. 
+run URL은 entity, project, run_id로 생성됩니다. SaaS 사용자의 경우, `https://wandb.ai/entity/project/run_id` 형태를 가집니다.
 
 ---
 
 ### <kbd>property</kbd> Run.username
 
-This API is deprecated. Use `entity` instead. 
+이 API는 deprecated 되었습니다. 대신 `entity`를 사용하세요.
 
 
 
@@ -310,7 +310,7 @@ create(
 )
 ```
 
-Create a run for the given project. 
+주어진 프로젝트에 run을 생성합니다.
 
 ---
 
@@ -320,13 +320,13 @@ Create a run for the given project.
 delete(delete_artifacts=False)
 ```
 
-Delete the given run from the wandb backend. 
+해당 run을 wandb 백엔드에서 삭제합니다.
 
 
 
-**Args:**
+**인수:**
  
- - `delete_artifacts` (bool, optional):  Whether to delete the artifacts  associated with the run. 
+ - `delete_artifacts` (bool, optional):  run에 연결된 artifacts까지 삭제할지 여부
 
 ---
 
@@ -336,18 +336,18 @@ Delete the given run from the wandb backend.
 file(name)
 ```
 
-Return the path of a file with a given name in the artifact. 
+artifact에서 주어진 이름의 파일 path를 반환합니다.
 
 
 
-**Args:**
+**인수:**
  
- - `name` (str):  name of requested file. 
+ - `name` (str):  요청할 파일의 이름
 
 
 
-**Returns:**
- A `File` matching the name argument. 
+**반환값:**
+ name 인수와 일치하는 `File` 반환
 
 ---
 
@@ -357,19 +357,19 @@ Return the path of a file with a given name in the artifact.
 files(names=None, per_page=50)
 ```
 
-Return a file path for each file named. 
+지정한 파일의 경로를 각각 반환합니다.
 
 
 
-**Args:**
+**인수:**
  
- - `names` (list):  names of the requested files, if empty returns all files 
- - `per_page` (int):  number of results per page. 
+ - `names` (list):  요청하는 파일명들, 비어 있으면 모든 파일 반환
+ - `per_page` (int):  페이지당 결과 개수
 
 
 
-**Returns:**
- A `Files` object, which is an iterator over `File` objects. 
+**반환값:**
+ `File` 오브젝트 위를 순회할 수 있는 `Files` 오브젝트 반환
 
 ---
 
@@ -379,26 +379,26 @@ Return a file path for each file named.
 history(samples=500, keys=None, x_axis='_step', pandas=True, stream='default')
 ```
 
-Return sampled history metrics for a run. 
+해당 run에 대해 샘플링된 history 메트릭을 반환합니다.
 
-This is simpler and faster if you are ok with the history records being sampled. 
+history 레코드가 샘플링된 상태라도 괜찮다면, 이 방법이 가장 쉽고 빠릅니다.
 
 
 
-**Args:**
+**인수:**
  
- - `samples `:  (int, optional) The number of samples to return 
- - `pandas `:  (bool, optional) Return a pandas dataframe 
- - `keys `:  (list, optional) Only return metrics for specific keys 
- - `x_axis `:  (str, optional) Use this metric as the xAxis defaults to _step 
- - `stream `:  (str, optional) "default" for metrics, "system" for machine metrics 
+ - `samples `:  (int, optional) 반환할 샘플 개수
+ - `pandas `:  (bool, optional) pandas DataFrame 형태로 반환
+ - `keys `:  (list, optional) 특정 키의 메트릭만 반환
+ - `x_axis `:  (str, optional) 이 메트릭을 x축으로 사용, 기본값 _step
+ - `stream `:  (str, optional) "default"는 일반 메트릭, "system"은 시스템 메트릭
 
 
 
-**Returns:**
+**반환값:**
  
- - `pandas.DataFrame`:  If pandas=True returns a `pandas.DataFrame` of history  metrics. 
- - `list of dicts`:  If pandas=False returns a list of dicts of history metrics. 
+ - `pandas.DataFrame`:  pandas=True일 경우 history 메트릭의 `pandas.DataFrame` 반환
+ - `list of dicts`:  pandas=False일 경우 history 메트릭의 dict 리스트 반환
 
 ---
 
@@ -424,20 +424,20 @@ log_artifact(
 )
 ```
 
-Declare an artifact as output of a run. 
+run의 output으로 artifact를 선언합니다.
 
 
 
-**Args:**
+**인수:**
  
- - `artifact` (`Artifact`):  An artifact returned from  `wandb.Api().artifact(name)`. 
- - `aliases` (list, optional):  Aliases to apply to this artifact. 
- - `tags`:  (list, optional) Tags to apply to this artifact, if any. 
+ - `artifact` (`Artifact`):  `wandb.Api().artifact(name)`에서 반환된 artifact
+ - `aliases` (list, optional):  이 artifact에 적용할 에일리어스
+ - `tags`:  (list, optional) 이 artifact에 적용할 태그
 
 
 
-**Returns:**
- A `Artifact` object. 
+**반환값:**
+ `Artifact` 오브젝트 반환
 
 ---
 
@@ -447,24 +447,24 @@ Declare an artifact as output of a run.
 logged_artifacts(per_page: int = 100) → RunArtifacts
 ```
 
-Fetches all artifacts logged by this run. 
+이 run에서 기록된 모든 artifact를 가져옵니다.
 
-Retrieves all output artifacts that were logged during the run. Returns a paginated result that can be iterated over or collected into a single list. 
+run 동안 기록된 출력 artifacts를 모두 반환합니다. 여러 페이지 결과를 순회하거나 한 번에 리스트로 수집할 수 있습니다.
 
 
 
-**Args:**
+**인수:**
  
- - `per_page`:  Number of artifacts to fetch per API request. 
+ - `per_page`:  API 요청당 가져올 artifact 개수
 
 
 
-**Returns:**
- An iterable collection of all Artifact objects logged as outputs during this run. 
+**반환값:**
+ 해당 run에서 output으로 기록된 모든 Artifact 오브젝트의 반복 가능한 컬렉션
 
 
 
-**Example:**
+**예시:**
  ```python
 import wandb
 import tempfile
@@ -484,7 +484,7 @@ finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
 
 for logged_artifact in finished_run.logged_artifacts():
     print(logged_artifact.name)
-``` 
+```
 
 ---
 
@@ -494,7 +494,7 @@ for logged_artifact in finished_run.logged_artifacts():
 save()
 ```
 
-Persist changes to the run object to the W&B backend. 
+run 오브젝트의 변경 사항을 W&B 백엔드에 저장합니다.
 
 ---
 
@@ -504,32 +504,32 @@ Persist changes to the run object to the W&B backend.
 scan_history(keys=None, page_size=1000, min_step=None, max_step=None)
 ```
 
-Returns an iterable collection of all history records for a run. 
+run의 모든 히스토리 레코드를 반복 가능한 컬렉션으로 반환합니다.
 
 
 
-**Args:**
+**인수:**
  
- - `keys` ([str], optional):  only fetch these keys, and only fetch rows that have all of keys defined. 
- - `page_size` (int, optional):  size of pages to fetch from the api. 
- - `min_step` (int, optional):  the minimum number of pages to scan at a time. 
- - `max_step` (int, optional):  the maximum number of pages to scan at a time. 
+ - `keys` ([str], optional):  해당 키만 가져오며, 모든 키가 정의된 행만 가져옵니다.
+ - `page_size` (int, optional):  api에서 가져올 페이지 크기
+ - `min_step` (int, optional):  한 번에 스캔할 최소 step 수
+ - `max_step` (int, optional):  한 번에 스캔할 최대 step 수
 
 
 
-**Returns:**
- An iterable collection over history records (dict). 
+**반환값:**
+ 히스토리 레코드(dict)를 순회할 수 있는 iterable 컬렉션
 
 
 
-**Example:**
- Export all the loss values for an example run 
+**예시:**
+ 예시 run의 loss 값 모두 추출
 
 ```python
 run = api.run("entity/project-name/run-id")
 history = run.scan_history(keys=["Loss"])
 losses = [row["Loss"] for row in history]
-``` 
+```
 
 ---
 
@@ -539,7 +539,7 @@ losses = [row["Loss"] for row in history]
 to_html(height=420, hidden=False)
 ```
 
-Generate HTML containing an iframe displaying this run. 
+이 run을 표시하는 iframe이 포함된 HTML을 생성합니다.
 
 ---
 
@@ -549,7 +549,7 @@ Generate HTML containing an iframe displaying this run.
 update()
 ```
 
-Persist changes to the run object to the wandb backend. 
+run 오브젝트의 변경 사항을 wandb 백엔드에 저장합니다.
 
 ---
 
@@ -559,19 +559,19 @@ Persist changes to the run object to the wandb backend.
 upload_file(path, root='.')
 ```
 
-Upload a local file to W&B, associating it with this run. 
+로컬 파일을 W&B로 업로드해 이 run에 연결합니다.
 
 
 
-**Args:**
+**인수:**
  
- - `path` (str):  Path to the file to upload. Can be absolute or relative. 
- - `root` (str):  The root path to save the file relative to. For example,  if you want to have the file saved in the run as "my_dir/file.txt"  and you're currently in "my_dir" you would set root to "../".  Defaults to current directory ("."). 
+ - `path` (str):  업로드할 파일 경로 (절대/상대 경로 모두 가능)
+ - `root` (str):  파일을 저장할 기준 경로. 예를 들어, run에서 파일을 "my_dir/file.txt" 형식으로 저장하고 현재 "my_dir" 디렉토리에 있다면 root를 "../"로 설정합니다. 기본값은 현재 디렉토리(".") 입니다.
 
 
 
-**Returns:**
- A `File` object representing the uploaded file. 
+**반환값:**
+ 업로드된 파일을 나타내는 `File` 오브젝트
 
 ---
 
@@ -581,19 +581,19 @@ Upload a local file to W&B, associating it with this run.
 use_artifact(artifact, use_as=None)
 ```
 
-Declare an artifact as an input to a run. 
+run의 입력으로 artifact를 선언합니다.
 
 
 
-**Args:**
+**인수:**
  
- - `artifact` (`Artifact`):  An artifact returned from  `wandb.Api().artifact(name)` 
- - `use_as` (string, optional):  A string identifying  how the artifact is used in the script. Used  to easily differentiate artifacts used in a  run, when using the beta wandb launch  feature's artifact swapping functionality. 
+ - `artifact` (`Artifact`):  `wandb.Api().artifact(name)`에서 반환된 artifact
+ - `use_as` (string, optional):  이 artifact가 스크립트에서 어떻게 사용되는지 식별하는 문자열. wandb launch 기능의 artifact 스와핑 기능 이용 시, run에 사용된 artifact를 쉽게 구분하는 데 사용됩니다.
 
 
 
-**Returns:**
- An `Artifact` object. 
+**반환값:**
+ `Artifact` 오브젝트 반환
 
 ---
 
@@ -603,24 +603,24 @@ Declare an artifact as an input to a run.
 used_artifacts(per_page: int = 100) → RunArtifacts
 ```
 
-Fetches artifacts explicitly used by this run. 
+이 run에서 명시적으로 사용된 artifact만을 가져옵니다.
 
-Retrieves only the input artifacts that were explicitly declared as used during the run, typically via `run.use_artifact()`. Returns a paginated result that can be iterated over or collected into a single list. 
+주로 `run.use_artifact()`를 통해 명시적으로 선언된 입력 artifact만을 반환합니다. 여러 페이지 결과를 순회하거나 한 번에 리스트로 수집할 수 있습니다.
 
 
 
-**Args:**
+**인수:**
  
- - `per_page`:  Number of artifacts to fetch per API request. 
+ - `per_page`:  API 요청당 가져올 artifact 개수
 
 
 
-**Returns:**
- An iterable collection of Artifact objects explicitly used as inputs in this run. 
+**반환값:**
+ 해당 run에서 입력으로 명시적으로 사용된 Artifact 오브젝트의 반복 가능한 컬렉션
 
 
 
-**Example:**
+**예시:**
  ```python
 import wandb
 
@@ -633,7 +633,7 @@ finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
 for used_artifact in finished_run.used_artifacts():
     print(used_artifact.name)
 test_artifact
-``` 
+```
 
 ---
 
@@ -643,4 +643,4 @@ test_artifact
 wait_until_finished()
 ```
 
-Check the state of the run until it is finished.
+run이 완료될 때까지 상태를 확인합니다.

@@ -1,20 +1,20 @@
 ---
+title: wandb 온라인
 menu:
   reference:
     identifier: ko-ref-cli-wandb-online
-title: wandb online
 ---
 
-**Usage**
+**사용법**
 
 `wandb online [OPTIONS]`
 
-**Summary**
+**요약**
 
-Enable W&B sync
+W&B 동기화 활성화
 
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |

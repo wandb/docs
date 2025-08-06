@@ -1,51 +1,52 @@
 ---
+title: 큐에 작업 추가
 menu:
   launch:
     identifier: ko-launch-create-and-deploy-jobs-add-job-to-queue
     parent: create-and-deploy-jobs
-title: Add job to queue
 url: guides/launch/add-job-to-queue
 ---
 
-The following page describes how to add launch jobs to a launch queue.
+다음 페이지에서는 launch queue 에 launch job 을 추가하는 방법을 설명합니다.
 
 {{% alert %}}
-Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Set up Launch]({{< relref path="/launch/set-up-launch/" lang="ko" >}}) page.
+여러분 또는 팀원이 이미 launch queue 를 설정했는지 확인하세요. 자세한 내용은 [Set up Launch]({{< relref path="/launch/set-up-launch/" lang="ko" >}}) 페이지를 참조하세요.
 {{% /alert %}}
 
-## Add jobs to your queue
+## 큐에 job 추가하기
 
-Add jobs to your queue interactively with the W&B App or programmatically with the W&B CLI.
+W&B App 을 사용하여 대화형으로, 또는 W&B CLI 를 사용하여 프로그래밍 방식으로 큐에 job 을 추가할 수 있습니다.
 
 {{< tabpane text=true >}}
 {{% tab "W&B app" %}}
-Add a job to your queue programmatically with the W&B App.
+W&B App 을 통해 프로그램적으로 queue 에 job 을 추가하세요.
 
-1. Navigate to your W&B Project Page.
-2. Select the **Jobs** icon on the left panel:
+1. 여러분의 W&B Project 페이지로 이동하세요.
+2. 왼쪽 패널에서 **Jobs** 아이콘을 선택하세요:
   {{< img src="/images/launch/project_jobs_tab_gs.png" alt="Project Jobs tab" >}}
-3. The **Jobs** page displays a list of W&B launch jobs that were created from previously executed W&B runs. 
+3. **Jobs** 페이지에서는 이전에 실행된 W&B run 에서 생성된 W&B launch job 들의 목록을 볼 수 있습니다. 
   {{< img src="/images/launch/view_jobs.png" alt="Jobs listing" >}}
-4. Select the **Launch** button next to the name of the Job name. A modal will appear on the right side of the page.
-5. From the **Job version** dropdown, select the version of the launch job you want to use. Launch jobs are versioned like any other [W&B Artifact]({{< relref path="/guides/core/artifacts/create-a-new-artifact-version.md" lang="ko" >}}). Different versions of the same launch job will be created if you make modifications to the software dependencies or source code used to run the job.
-6. Within the **Overrides** section, provide new values for any inputs that are configured for your launch job. Common overrides include a new entrypoint command, arguments, or values in the `wandb.Run.config` of your new W&B run.  
+4. 추가하고 싶은 Job 이름 옆의 **Launch** 버튼을 선택하세요. 페이지 오른쪽에 모달이 나타납니다.
+5. **Job version** 드롭다운에서 사용할 launch job 의 버전을 선택하세요. Launch job 은 다른 [W&B Artifact]({{< relref path="/guides/core/artifacts/create-a-new-artifact-version.md" lang="ko" >}}) 와 마찬가지로 버전 관리가 가능합니다. 소프트웨어 의존성이나 job 실행에 사용하는 소스 코드를 변경하면 같은 launch job 의 새로운 버전이 생성됩니다.
+6. **Overrides** 섹션에서, launch job 에 대해 구성된 입력값 중 새로 지정하고 싶은 값을 입력하세요. 보통 새로운 entrypoint 명령어, 인수, 또는 새로운 W&B run 의 `wandb.Run.config` 파라미터 값 등이 여기에 포함됩니다.  
   {{< img src="/images/launch/create_starter_queue_gs.png" alt="Queue configuration" >}}
-  You can copy and paste values from other W&B runs that used your launch job by clicking on the **Paste from...** button.
-7. From the **Queue** dropdown, select the name of the launch queue you want to add your launch job to. 
-8. Use the **Job Priority** dropdown to specify the priority of your launch job. A launch job's priority is set to "Medium" if the launch queue does not support prioritization.
-9. **(Optional) Follow this step only if a queue config template was created by your team admin**  
-Within the **Queue Configurations** field, provide values for configuration options that were created by the admin of your team.  
-For example, in the following example, the team admin configured AWS instance types that can be used by the team. In this case, team members can pick either the `ml.m4.xlarge` or `ml.p3.xlarge` compute instance type to train their model.
+  **Paste from...** 버튼을 클릭해서 같은 launch job 을 사용한 다른 W&B run 의 값을 복사/붙여넣기 할 수 있습니다.
+7. **Queue** 드롭다운에서, 이 launch job 을 추가하고자 하는 launch queue 이름을 선택하세요. 
+8. **Job Priority** 드롭다운을 사용하여 launch job 의 우선순위를 지정하세요. launch queue 에서 우선순위 기능을 지원하지 않는 경우 기본값은 "Medium" 으로 설정됩니다.
+9. **(선택) 이 단계는 팀 관리자에 의해 queue config template 이 생성된 경우에만 따라 하세요**  
+**Queue Configurations** 필드에서, 팀 관리자가 생성한 설정 옵션에 대한 값을 입력하세요.  
+예를 들어, 아래 예시에서는 팀 관리자가 팀에서 사용할 수 있는 AWS 인스턴스 타입을 미리 설정해두었습니다. 이 경우 팀원들은 `ml.m4.xlarge` 또는 `ml.p3.xlarge` 컴퓨트 인스턴스 타입 중 하나를 선택해서 모델 학습에 사용할 수 있습니다.
 {{< img src="/images/launch/team_member_use_config_template.png" alt="Config template selection" >}}
-10. Select the **Destination project**, where the resulting run will appear. This project needs to belong to the same entity as the queue.
-11. Select the **Launch now** button. 
+10. 실행 결과인 run 이 표시될 **Destination project** 를 선택하세요. 이 프로젝트는 queue 와 동일한 entity 에 속해야 합니다.
+11. **Launch now** 버튼을 선택하세요. 
 
 {{% /tab %}}
 {{% tab "W&B CLI" %}}
 
-Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart]({{< relref path="../walkthrough.md" lang="ko" >}}) guide, we create a JSON file with the following overrides:
+`wandb launch` 명령어를 사용하여 job 을 queue 에 추가할 수 있습니다. 하이퍼파라미터 override 값을 포함한 JSON 설정 파일을 만드세요. 예를 들어 [Quickstart]({{< relref path="../walkthrough.md" lang="ko" >}}) 가이드의 스크립트를 사용할 때 아래와 같은 override 가 포함된 JSON 파일을 생성합니다:
 
 ```json title="config.json"
+// 하이퍼파라미터와 인수를 오버라이드 합니다.
 {
   "overrides": {
       "args": [],
@@ -59,12 +60,13 @@ Use the `wandb launch` command to add jobs to a queue. Create a JSON configurati
 ```
 
 {{% alert %}}
-W&B Launch will use the default parameters if you do not provide a JSON configuration file.
+JSON 설정 파일을 제공하지 않으면 W&B Launch 는 기본 파라미터를 사용합니다.
 {{% /alert %}}
 
-If you want to override the queue configuration, or if your launch queue does not have a configuration resource defined, you can specify the `resource_args` key in your config.json file. For example, following continuing the example above, your config.json file might look similar to the following:
+queue 설정을 오버라이드하거나, launch queue 에 설정 리소스가 정의되어 있지 않은 경우에는 config.json 파일에서 `resource_args` 키를 직접 지정할 수 있습니다. 예를 들어 위의 예시에서 config.json 파일이 다음과 비슷하게 될 수 있습니다:
 
 ```json title="config.json"
+// 리소스별 추가 설정을 명시합니다.
 {
   "overrides": {
       "args": [],
@@ -82,15 +84,15 @@ If you want to override the queue configuration, or if your launch queue does no
 }
 ```
 
-Replace values within the `<>` with your own values.
+`<>` 안의 값들은 여러분의 설정에 맞게 바꿔주세요.
 
-Provide the name of the queue for the `queue`(`-q`) flag, the name of the job for the `job`(`-j`) flag, and the path to the configuration file for the `config`(`-c`) flag.
+`queue`(`-q`) 플래그에는 queue 이름을, `job`(`-j`) 플래그에는 job 이름을, `config`(`-c`) 플래그에는 설정 파일 경로를 지정하세요.
 
 ```bash
 wandb launch -j <job> -q <queue-name> \ 
 -e <entity-name> -c path/to/config.json
 ```
-If you work within a W&B Team, we suggest you specify the `entity` flag (`-e`) to indicate which entity the queue will use.
+W&B 팀에서 작업하신다면, 어떤 entity 가 queue 를 사용하는지 지정할 수 있도록 `entity` 플래그 (`-e`) 사용을 권장합니다.
 
 {{% /tab %}}
 {{% /tabpane %}}

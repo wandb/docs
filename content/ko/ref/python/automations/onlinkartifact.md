@@ -1,25 +1,25 @@
 ---
+title: OnLinkArtifact
 data_type_classification: class
 menu:
   reference:
     identifier: ko-ref-python-automations-onlinkartifact
 object_type: automations_namespace
-title: OnLinkArtifact
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/events.py >}}
 
 
 
-A new artifact is linked to a collection.
+새로운 artifact 가 컬렉션에 연결됩니다.
 
-Attributes:
-- event_type (Literal): No description provided.
-- filter (Union): Additional condition(s), if any, that must be met for this event to trigger an automation.
-- scope (Union): The scope of the event.
+속성:
+- event_type (Literal): 설명이 제공되지 않았습니다.
+- filter (Union): 이 이벤트가 automation 을 트리거하려면 충족해야 하는 추가 조건(있는 경우)입니다.
+- scope (Union): 이벤트의 범위입니다.
 
-### <kbd>method</kbd> `then`
+### <kbd>메소드</kbd> `then`
 ```python
 then(self, action: 'InputAction') -> 'NewAutomation'
 ```
-Define a new Automation in which this event triggers the given action.
+이 이벤트가 지정된 action 을 트리거하도록 하는 새로운 Automation 을 정의합니다.

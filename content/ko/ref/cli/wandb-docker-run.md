@@ -1,26 +1,24 @@
 ---
+title: wandb docker-run
 menu:
   reference:
     identifier: ko-ref-cli-wandb-docker-run
-title: wandb docker-run
 ---
 
-**Usage**
+**사용법**
 
 `wandb docker-run [OPTIONS] [DOCKER_RUN_ARGS]...`
 
-**Summary**
+**요약**
 
-Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER environment
-variables.
+`docker run`을 감싸서 WANDB_API_KEY와 WANDB_DOCKER 환경 변수를 추가합니다.
 
-This will also set the runtime to nvidia if the nvidia-docker executable is
-present on the system and --runtime wasn't set.
+시스템에 nvidia-docker 실행 파일이 있고 --runtime 옵션이 설정되지 않았다면 런타임도 nvidia로 자동 지정됩니다.
 
-See `docker run --help` for more details.
+자세한 내용은 `docker run --help`를 참고하세요.
 
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |

@@ -1,16 +1,16 @@
 ---
+title: W&B UI에서 로그된 차트와 미디어를 어떻게 정리할 수 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-organize_logged_charts_media_wb_ui
 support:
-- experiments
-title: How can I organize my logged charts and media in the W&B UI?
+- 실험
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-The `/` character separates logged panels in the W&B UI. By default, the segment of the logged item's name before the `/` defines a group of panels known as a "Panel Section."
+`/` 문자는 W&B UI에서 로그된 패널을 구분하는 데 사용됩니다. 기본적으로 로그된 항목 이름에서 `/` 앞에 오는 부분이 "패널 섹션"이라고 하는 패널 그룹을 정의합니다.
 
 ```python
 import wandb
@@ -21,4 +21,4 @@ with wandb.init() as run:
    run.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-In the [Workspace]({{< relref path="/guides/models/track/project-page.md#workspace-tab" lang="ko" >}}) settings, adjust the grouping of panels based on either the first segment or all segments separated by `/`.
+[Workspace]({{< relref path="/guides/models/track/project-page.md#workspace-tab" lang="ko" >}}) 설정에서, 패널 그룹을 `/`로 구분된 첫 번째 세그먼트로 할지, 모든 세그먼트로 할지 조정할 수 있습니다.

@@ -1,24 +1,24 @@
 ---
+title: 지원되는 전용 클라우드 리전
 menu:
   default:
     identifier: ko-guides-hosting-hosting-options-dedicated_cloud-dedicated_regions
     parent: dedicated-cloud
-title: Supported Dedicated Cloud regions
 url: guides/hosting/hosting-options/dedicated_regions
 weight: 1
 ---
 
-AWS, GCP, and Azure support cloud computing services in multiple locations worldwide. Global regions help ensure that you satisfy requirements related to data residency & compliance, latency, cost efficiency and more. W&B supports many of the available global regions for Dedicated Cloud.
+AWS, GCP, 그리고 Azure는 전 세계 여러 위치에서 클라우드 컴퓨팅 서비스를 지원합니다. 글로벌 지역을 통해 데이터 거주 및 규정 준수, 지연 시간, 비용 효율성 등과 관련된 요구사항을 충족할 수 있습니다. W&B는 전용 클라우드에 대해 여러 글로벌 지역을 지원합니다.
 
 {{% alert %}}
-Reach out to W&B Support if your preferred AWS, GCP, or Azure Region is not listed. W&B can validate if the relevant region has all the services that Dedicated Cloud needs and prioritize support depending on the outcome of the evaluation.
+선호하는 AWS, GCP, 또는 Azure 리전이 목록에 없다면 W&B Support로 문의해 주세요. W&B는 해당 리전에 전용 클라우드가 필요한 모든 서비스가 제공되는지 확인하고, 평가 결과에 따라 지원 우선순위를 조정할 수 있습니다.
 {{% /alert %}}
 
-## Supported AWS Regions
+## 지원하는 AWS 리전
 
-The following table lists [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) that W&B currently supports for Dedicated Cloud instances.
+아래 표는 W&B가 현재 전용 클라우드 인스턴스에서 지원하는 [AWS 리전](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) 목록입니다.
 
-| Region location | Region name |
+| 지역 위치 | 리전 이름 |
 |-------------|--------|
 |US East (Ohio)| us-east-2|
 |US East (N. Virginia)|us-east-1|
@@ -36,14 +36,15 @@ The following table lists [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/la
 |Asia Pacific (Tokyo)|ap-northeast-1|
 |Asia Pacific (Seoul)|ap-northeast-2|
 
-For more information about AWS Regions, see the [Regions, Availability Zones, and Local Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) in the AWS Documentation.
+AWS 리전에 대한 더 자세한 내용은 AWS 문서의 [Regions, Availability Zones, and Local Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html)를 참고하세요.
 
-See [What to Consider when Selecting a Region for your Workloads](https://aws.amazon.com/blogs/architecture/what-to-consider-when-selecting-a-region-for-your-workloads/) for an overview of factors that you should consider when choosing an AWS Region. 
+AWS 리전 선택 시 고려해야 할 요소들에 대해서는 [What to Consider when Selecting a Region for your Workloads](https://aws.amazon.com/blogs/architecture/what-to-consider-when-selecting-a-region-for-your-workloads/)를 참고하시기 바랍니다.
 
-## Supported GCP Regions
-The following table lists [GCP Regions](https://cloud.google.com/compute/docs/regions-zones) that W&B currently supports for Dedicated Cloud instances.
+## 지원하는 GCP 리전
 
-| Region location | Region name |
+아래 표는 W&B가 전용 클라우드 인스턴스에서 현재 지원하는 [GCP 리전](https://cloud.google.com/compute/docs/regions-zones) 목록입니다.
+
+| 지역 위치 | 리전 이름 |
 |-------------|--------|
 |South Carolina|us-east1|
 |N. Virginia|us-east4|
@@ -60,12 +61,13 @@ The following table lists [GCP Regions](https://cloud.google.com/compute/docs/re
 |Tokyo|asia-northeast1|
 |Seoul|asia-northeast3|
 
-For more information about GCP Regions, see [Regions and zones](https://cloud.google.com/compute/docs/regions-zones) in the GCP Documentation.
+GCP 리전에 관한 자세한 정보는 GCP 문서의 [Regions and zones](https://cloud.google.com/compute/docs/regions-zones)를 참고하세요.
 
-## Supported Azure Region
-The following table lists [Azure regions](https://azure.microsoft.com/explore/global-infrastructure/geographies/#geographies) that W&B currently supports for Dedicated Cloud instances.
+## 지원하는 Azure 리전
 
-| Region location | Region name |
+아래 표는 W&B가 전용 클라우드 인스턴스에서 현재 지원하는 [Azure 리전](https://azure.microsoft.com/explore/global-infrastructure/geographies/#geographies) 목록입니다.
+
+| 지역 위치 | 리전 이름 |
 |-------------|--------|
 |Virginia|eastus|
 |Iowa|centralus|
@@ -77,4 +79,4 @@ The following table lists [Azure regions](https://azure.microsoft.com/explore/gl
 |Tokyo, Saitama|japaneast|
 |Seoul|koreacentral|
 
-For more information about Azure regions, see [Azure geographies](https://azure.microsoft.com/explore/global-infrastructure/geographies/#overview) in the Azure Documentation.
+Azure 리전에 대해 더 알고 싶으시다면, Azure 문서의 [Azure geographies](https://azure.microsoft.com/explore/global-infrastructure/geographies/#overview)를 참고하세요.

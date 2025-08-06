@@ -1,38 +1,38 @@
 ---
+title: 레지스트리 삭제
 menu:
   default:
     identifier: ko-guides-core-registry-delete_registry
     parent: registry
-title: Delete registry
 weight: 8
 ---
 
-This page shows how a Team admin or Registry admin can delete a custom registry.  A [core registry]({{< relref path="/guides/core/registry/registry_types#core-registry" lang="ko" >}}) cannot be deleted.
+이 페이지에서는 Team admin 또는 Registry admin 이 커스텀 registry 를 삭제하는 방법을 안내합니다. [core registry]({{< relref path="/guides/core/registry/registry_types#core-registry" lang="ko" >}})는 삭제할 수 없습니다.
 
-- A Team admin can delete any custom registry in the organization.
-- A Registry admin can delete a custom registry that they created.
+- Team admin 은 조직 내의 어떤 커스텀 registry 도 삭제할 수 있습니다.
+- Registry admin 은 자신이 생성한 커스텀 registry 를 삭제할 수 있습니다.
 
-Deleting a registry also deletes collections that belong to that registry, but does not delete artifacts linked to the registry.  Such an artifact remains in the original project that the artifact was logged to.
+registry 를 삭제하면 해당 registry 에 속한 컬렉션들도 함께 삭제되지만, registry 와 연결된 artifact 는 삭제되지 않습니다. 해당 artifact 는 artifact 가 로그된 원래 프로젝트 에 남아 있게 됩니다.
 
 
 {{< tabpane text=true >}}
 {{% tab header="Python SDK" value="python" %}}
 
-Use the `wandb` API's `delete()` method to delete a registry programmatically.  The following example illustrates how to:
+`wandb` API의 `delete()` 메소드를 사용하여 프로그램적으로 registry 를 삭제할 수 있습니다. 다음 예시는 다음 과정을 보여줍니다.
 
-1. Fetch the registry you want to delete with `api.registry()`.
-1. Call the `delete()` method on the returned registry object to delete the registry.
+1. 삭제하고자 하는 registry 를 `api.registry()`로 가져옵니다.
+1. 반환된 registry 오브젝트 에서 `delete()` 메소드를 호출하여 registry 를 삭제합니다.
 
 ```python
 import wandb
 
-# Initialize the W&B API
+# W&B API 초기화
 api = wandb.Api()
 
-# Fetch the registry you want to delete
+# 삭제하고자 하는 registry 가져오기
 fetched_registry = api.registry("<registry_name>")
 
-# Deleting a registry
+# registry 삭제
 fetched_registry.delete()
 ```
 
@@ -40,11 +40,11 @@ fetched_registry.delete()
 
 {{% tab header="W&B App" value="app" %}}
 
-1. Navigate to the **Registry** App at https://wandb.ai/registry/.
-2. Select the custom registry you want to delete.
-3. Click the gear icon in the upper right corner to view the registry's settings.
-4. To delete the registry, click the trash can icon in the upper right corner of the settings page.
-5. Confirm the registry to delete by entering its name in the modal that appears, then click **Delete**.
+1. https://wandb.ai/registry/ 에 있는 **Registry** 앱으로 이동합니다.
+2. 삭제하고자 하는 커스텀 registry 를 선택합니다.
+3. 오른쪽 상단의 기어 아이콘을 클릭하여 registry 설정을 엽니다.
+4. registry 를 삭제하려면, 설정 페이지 오른쪽 상단의 휴지통 아이콘을 클릭합니다.
+5. 나타나는 모달 창에 삭제할 registry 의 이름을 입력하여 삭제 의사를 확인한 다음, **Delete** 를 클릭합니다.
 
 {{% /tab %}}
 {{< /tabpane >}}

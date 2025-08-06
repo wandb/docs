@@ -1,10 +1,12 @@
 ---
+title: 'box3d()
+
+  '
 data_type_classification: function
 menu:
   reference:
     identifier: ko-ref-python-sdk-data-types-box3d
 object_type: python_sdk_data_type
-title: box3d()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py >}}
@@ -25,15 +27,15 @@ box3d(
 ) → Box3D
 ```
 
-Returns a Box3D. 
+Box3D 를 반환합니다. 
 
 
 
-**Args:**
+**인자:**
  
- - `center`:  The center point of the box as a length-3 ndarray. 
- - `size`:  The box's X, Y and Z dimensions as a length-3 ndarray. 
- - `orientation`:  The rotation transforming global XYZ coordinates  into the box's local XYZ coordinates, given as a length-4  ndarray [r, x, y, z] corresponding to the non-zero quaternion  r + xi + yj + zk. 
- - `color`:  The box's color as an (r, g, b) tuple with 0 <= r,g,b <= 1. 
- - `label`:  An optional label for the box. 
- - `score`:  An optional score for the box.
+ - `center`:  박스의 중심점을 길이 3인 ndarray 로 전달합니다. 
+ - `size`:  박스의 X, Y, Z 크기를 길이 3인 ndarray 로 전달합니다. 
+ - `orientation`:  전체 XYZ 좌표계를 박스의 로컬 XYZ 좌표계로 변환하는 회전을, 길이 4인 ndarray [r, x, y, z] 형태로 전달합니다. 이는 0 이 아닌 쿼터니언 r + xi + yj + zk 를 의미합니다. 
+ - `color`:  박스의 색상을 (r, g, b) 튜플로 전달하며, 각 값은 0 <= r,g,b <= 1 입니다. 
+ - `label`:  박스에 대한 선택적 라벨입니다. 
+ - `score`:  박스에 대한 선택적 점수입니다.

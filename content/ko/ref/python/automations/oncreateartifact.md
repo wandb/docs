@@ -1,25 +1,25 @@
 ---
+title: OnCreateArtifact
 data_type_classification: class
 menu:
   reference:
     identifier: ko-ref-python-automations-oncreateartifact
 object_type: automations_namespace
-title: OnCreateArtifact
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/events.py >}}
 
 
 
-A new artifact is created.
+새로운 artifact 가 생성됩니다.
 
-Attributes:
-- event_type (Literal): No description provided.
-- filter (Union): Additional condition(s), if any, that must be met for this event to trigger an automation.
-- scope (Union): The scope of the event: only artifact collections are valid scopes for this event.
+속성:
+- event_type (Literal): 설명이 제공되지 않았습니다.
+- filter (Union): 이 이벤트가 automation 을 트리거하기 위해 충족되어야 할 추가 조건(있는 경우)입니다.
+- scope (Union): 이벤트의 범위입니다. 이 이벤트에 대해 유효한 범위는 오직 artifact 컬렉션입니다.
 
-### <kbd>method</kbd> `then`
+### <kbd>메소드</kbd> `then`
 ```python
 then(self, action: 'InputAction') -> 'NewAutomation'
 ```
-Define a new Automation in which this event triggers the given action.
+이 이벤트가 주어진 action 을 트리거하는 새로운 Automation 을 정의합니다.

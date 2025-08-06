@@ -1,20 +1,20 @@
 ---
+title: wandb 오프라인
 menu:
   reference:
     identifier: ko-ref-cli-wandb-offline
-title: wandb offline
 ---
 
-**Usage**
+**사용법**
 
-`wandb offline [OPTIONS]`
+`wandb offline [옵션]`
 
-**Summary**
+**요약**
 
-Disable W&B sync
+W&B 동기화 비활성화
 
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |

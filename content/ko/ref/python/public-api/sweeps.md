@@ -1,10 +1,10 @@
 ---
+title: 스윕
 data_type_classification: module
 menu:
   reference:
     identifier: ko-ref-python-public-api-sweeps
 object_type: public_apis_namespace
-title: sweeps
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py >}}
@@ -13,49 +13,45 @@ title: sweeps
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for Sweeps. 
+W&B Public API for Sweeps.
 
-This module provides classes for interacting with W&B hyperparameter optimization sweeps. 
+이 모듈은 W&B 하이퍼파라미터 최적화 Sweeps 와 상호작용할 수 있는 클래스를 제공합니다.
 
 
-
-**Example:**
+**예시:**
  ```python
 from wandb.apis.public import Api
 
-# Get a specific sweep
+# 특정 sweep 가져오기
 sweep = Api().sweep("entity/project/sweep_id")
 
-# Access sweep properties
+# sweep 속성 엑세스
 print(f"Sweep: {sweep.name}")
 print(f"State: {sweep.state}")
 print(f"Best Loss: {sweep.best_loss}")
 
-# Get best performing run
+# 성능이 가장 좋은 run 가져오기
 best_run = sweep.best_run()
 print(f"Best Run: {best_run.name}")
 print(f"Metrics: {best_run.summary}")
-``` 
+```
 
+**참고:**
 
-
-**Note:**
-
-> This module is part of the W&B Public API and provides read-only access to sweep data. For creating and controlling sweeps, use the wandb.sweep() and wandb.agent() functions from the main wandb package. 
+> 이 모듈은 W&B Public API 의 일부로, sweep 데이터에 대한 읽기 전용 엑세스를 제공합니다. Sweeps 를 생성하거나 제어하고 싶다면, 메인 wandb 패키지의 wandb.sweep() 및 wandb.agent() 함수를 사용하세요.
 
 ## <kbd>class</kbd> `Sweep`
-The set of runs associated with the sweep. 
+해당 sweep 와 연관된 run 들의 집합입니다.
 
 
+**속성:**
 
-**Attributes:**
- 
- - `runs` (Runs):  List of runs 
- - `id` (str):  Sweep ID 
- - `project` (str):  The name of the project the sweep belongs to 
- - `config` (dict):  Dictionary containing the sweep configuration 
- - `state` (str):  The state of the sweep. Can be "Finished", "Failed",  "Crashed", or "Running". 
- - `expected_run_count` (int):  The number of expected runs for the sweep 
+ - `runs` (Runs):  run 목록
+ - `id` (str):  Sweep ID
+ - `project` (str):  이 sweep 가 속한 프로젝트 이름
+ - `config` (dict): 스윕 구성이 담긴 사전
+ - `state` (str):  Sweep 의 상태. "Finished", "Failed", "Crashed", "Running" 중 하나일 수 있습니다.
+ - `expected_run_count` (int):  이 sweep 에서 실행될 것으로 예상되는 run 개수
 
 ### <kbd>method</kbd> `Sweep.__init__`
 
@@ -65,63 +61,59 @@ __init__(client, entity, project, sweep_id, attrs=None)
 
 
 
-
-
-
 ---
 
 ### <kbd>property</kbd> Sweep.config
 
-The sweep configuration used for the sweep. 
+스윕에 사용된 스윕 구성입니다.
 
 ---
 
 ### <kbd>property</kbd> Sweep.entity
 
-The entity associated with the sweep. 
+이 sweep 에 연관된 entity 를 반환합니다.
 
 ---
 
 ### <kbd>property</kbd> Sweep.expected_run_count
 
-Return the number of expected runs in the sweep or None for infinite runs. 
+스윕에서 예상되는 run 개수를 반환합니다. 무한 run 인 경우 None 을 반환합니다.
 
 ---
 
 ### <kbd>property</kbd> Sweep.name
 
-The name of the sweep. 
+스윕의 이름입니다.
 
-If the sweep has a name, it will be returned. Otherwise, the sweep ID will be returned. 
+스윕에 이름이 지정되어 있으면 해당 이름이 반환되고, 그렇지 않으면 Sweep ID 가 반환됩니다.
 
 ---
 
 ### <kbd>property</kbd> Sweep.order
 
-Return the order key for the sweep. 
+스윕의 order 키를 반환합니다.
 
 ---
 
 ### <kbd>property</kbd> Sweep.path
 
-Returns the path of the project. 
+프로젝트의 경로를 반환합니다.
 
-The path is a list containing the entity, project name, and sweep ID. 
+경로는 entity, 프로젝트 이름, sweep ID 로 구성된 리스트입니다.
 
 ---
 
 ### <kbd>property</kbd> Sweep.url
 
-The URL of the sweep. 
+스윕의 URL입니다.
 
-The sweep URL is generated from the entity, project, the term "sweeps", and the sweep ID.run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/sweeps/sweeps_ID`. 
+스윕 URL은 entity, 프로젝트, "sweeps"라는 용어, 그리고 sweep ID.run_id를 이용해 생성됩니다. SaaS 사용자라면 `https://wandb.ai/entity/project/sweeps/sweeps_ID` 형태로 표시됩니다.
 
 ---
 
 ### <kbd>property</kbd> Sweep.username
 
-Deprecated. Use `Sweep.entity` instead. 
-
+더 이상 사용되지 않습니다. 대신 `Sweep.entity` 를 사용하세요.
 
 
 ---
@@ -132,7 +124,7 @@ Deprecated. Use `Sweep.entity` instead.
 best_run(order=None)
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in. 
+설정에서 정의된 메트릭 또는 입력한 order 기준으로 정렬해 가장 성능이 좋은 run 을 반환합니다.
 
 ---
 
@@ -150,7 +142,7 @@ get(
 )
 ```
 
-Execute a query against the cloud backend. 
+클라우드 백엔드에 쿼리를 실행합니다.
 
 ---
 
@@ -161,4 +153,4 @@ Execute a query against the cloud backend.
 to_html(height=420, hidden=False)
 ```
 
-Generate HTML containing an iframe displaying this sweep.
+이 sweep 을 표시하는 iframe 이 포함된 HTML 을 생성합니다.

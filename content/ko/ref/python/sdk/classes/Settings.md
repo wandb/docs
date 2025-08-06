@@ -1,223 +1,127 @@
 ---
+title: 설정
 data_type_classification: class
 menu:
   reference:
     identifier: ko-ref-python-sdk-classes-Settings
 object_type: python_sdk_actions
-title: Settings
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py >}}
 
-
-
-Settings for the W&B SDK.
-
-This class manages configuration settings for the W&B SDK,
-ensuring type safety and validation of all settings. Settings are accessible
-as attributes and can be initialized programmatically, through environment
-variables (`WANDB_ prefix`), and with configuration files.
-
-The settings are organized into three categories:
-1. Public settings: Core configuration options that users can safely modify to customize
-   W&B's behavior for their specific needs.
-2. Internal settings: Settings prefixed with 'x_' that handle low-level SDK behavior.
-   These settings are primarily for internal use and debugging. While they can be modified,
-   they are not considered part of the public API and may change without notice in future
-   versions.
-3. Computed settings: Read-only settings that are automatically derived from other settings or
-   the environment.
-
-Attributes:
-- allow_offline_artifacts (bool): Flag to allow table artifacts to be synced in offline mode.
-    To revert to the old behavior, set this to False.
-- allow_val_change (bool): Flag to allow modification of `Config` values after they've been set.
-- anonymous (Optional): Controls anonymous data logging.
-    Possible values are:
-    - "never": requires you to link your W&B account before
-    tracking the run, so you don't accidentally create an anonymous
-    run.
-    - "allow": lets a logged-in user track runs with their account, but
-    lets someone who is running the script without a W&B account see
-    the charts in the UI.
-    - "must": sends the run to an anonymous account instead of to a
-    signed-up user account.
-- api_key (Optional): The W&B API key.
-- azure_account_url_to_access_key (Optional): Mapping of Azure account URLs to their corresponding access keys for Azure integration.
-- base_url (str): The URL of the W&B backend for data synchronization.
-- code_dir (Optional): Directory containing the code to be tracked by W&B.
-- config_paths (Optional): Paths to files to load configuration from into the `Config` object.
-- console (Literal): The type of console capture to be applied.
-    Possible values are:
-    "auto" - Automatically selects the console capture method based on the
-    system environment and settings.
-    "off" - Disables console capture.
-    "redirect" - Redirects low-level file descriptors for capturing output.
-    "wrap" - Overrides the write methods of sys.stdout/sys.stderr. Will be
-    mapped to either "wrap_raw" or "wrap_emu" based on the state of the system.
-    "wrap_raw" - Same as "wrap" but captures raw output directly instead of
-    through an emulator. Derived from the `wrap` setting and should not be set manually.
-    "wrap_emu" - Same as "wrap" but captures output through an emulator.
-    Derived from the `wrap` setting and should not be set manually.
-- console_multipart (bool): Whether to produce multipart console log files.
-- credentials_file (str): Path to file for writing temporary access tokens.
-- disable_code (bool): Whether to disable capturing the code.
-- disable_git (bool): Whether to disable capturing the git state.
-- disable_job_creation (bool): Whether to disable the creation of a job artifact for W&B Launch.
-- docker (Optional): The Docker image used to execute the script.
-- email (Optional): The email address of the user.
-- entity (Optional): The W&B entity, such as a user or a team.
-- force (bool): Whether to pass the `force` flag to `wandb.login()`.
-- fork_from (Optional): Specifies a point in a previous execution of a run to fork from.
-    The point is defined by the run ID, a metric, and its value.
-    Currently, only the metric '_step' is supported.
-- git_commit (Optional): The git commit hash to associate with the run.
-- git_remote (str): The git remote to associate with the run.
-- git_remote_url (Optional): The URL of the git remote repository.
-- git_root (Optional): Root directory of the git repository.
-
-- host (Optional): Hostname of the machine running the script.
-- http_proxy (Optional): Custom proxy servers for http requests to W&B.
-- https_proxy (Optional): Custom proxy servers for https requests to W&B.
-- identity_token_file (Optional): Path to file containing an identity token (JWT) for authentication.
-- ignore_globs (Sequence): Unix glob patterns relative to `files_dir` specifying files to exclude from upload.
-- init_timeout (float): Time in seconds to wait for the `wandb.init` call to complete before timing out.
-- insecure_disable_ssl (bool): Whether to insecurely disable SSL verification.
-- job_name (Optional): Name of the Launch job running the script.
-- job_source (Optional): Source type for Launch.
-- label_disable (bool): Whether to disable automatic labeling features.
-
-- launch_config_path (Optional): Path to the launch configuration file.
-- login_timeout (Optional): Time in seconds to wait for login operations before timing out.
-- mode (Literal): The operating mode for W&B logging and synchronization.
-- notebook_name (Optional): Name of the notebook if running in a Jupyter-like environment.
-- organization (Optional): The W&B organization.
-- program (Optional): Path to the script that created the run, if available.
-- program_abspath (Optional): The absolute path from the root repository directory to the script that
-    created the run.
-    Root repository directory is defined as the directory containing the
-    .git directory, if it exists. Otherwise, it's the current working directory.
-- program_relpath (Optional): The relative path to the script that created the run.
-- project (Optional): The W&B project ID.
-- quiet (bool): Flag to suppress non-essential output.
-- reinit (Union): What to do when `wandb.init()` is called while a run is active.
-    Options:
-    - "default": Use "finish_previous" in notebooks and "return_previous"
-    otherwise.
-    - "return_previous": Return the most recently created run
-    that is not yet finished. This does not update `wandb.run`; see
-    the "create_new" option.
-    - "finish_previous": Finish all active runs, then return a new run.
-    - "create_new": Create a new run without modifying other active runs.
-    Does not update `wandb.run` and top-level functions like `wandb.log`.
-    Because of this, some older integrations that rely on the global run
-    will not work.
-    Can also be a boolean, but this is deprecated. False is the same as
-    "return_previous", and True is the same as "finish_previous".
-- relogin (bool): Flag to force a new login attempt.
-- resume (Optional): Specifies the resume behavior for the run.
-    Options:
-    - "must": Resumes from an existing run with the same ID. If no such run exists,
-    it will result in failure.
-    - "allow": Attempts to resume from an existing run with the same ID. If none is
-    found, a new run will be created.
-    - "never": Always starts a new run. If a run with the same ID already exists,
-    it will result in failure.
-    - "auto": Automatically resumes from the most recent failed run on the same
-    machine.
-- resume_from (Optional): Specifies a point in a previous execution of a run to resume from.
-    The point is defined by the run ID, a metric, and its value.
-    Currently, only the metric '_step' is supported.
-
-- root_dir (str): The root directory to use as the base for all run-related paths.
-    In particular, this is used to derive the wandb directory and the run directory.
-- run_group (Optional): Group identifier for related runs.
-    Used for grouping runs in the UI.
-- run_id (Optional): The ID of the run.
-- run_job_type (Optional): Type of job being run (e.g., training, evaluation).
-- run_name (Optional): Human-readable name for the run.
-- run_notes (Optional): Additional notes or description for the run.
-- run_tags (Optional): Tags to associate with the run for organization and filtering.
-- sagemaker_disable (bool): Flag to disable SageMaker-specific functionality.
-- save_code (Optional): Whether to save the code associated with the run.
-- settings_system (Optional): Path to the system-wide settings file.
-
-
-- show_errors (bool): Whether to display error messages.
-- show_info (bool): Whether to display informational messages.
-- show_warnings (bool): Whether to display warning messages.
-- silent (bool): Flag to suppress all output.
-
-- strict (Optional): Whether to enable strict mode for validation and error checking.
-- summary_timeout (int): Time in seconds to wait for summary operations before timing out.
-
-- sweep_id (Optional): Identifier of the sweep this run belongs to.
-- sweep_param_path (Optional): Path to the sweep parameters configuration.
-- symlink (bool): Whether to use symlinks (True by default except on Windows).
-- sync_tensorboard (Optional): Whether to synchronize TensorBoard logs with W&B.
-- table_raise_on_max_row_limit_exceeded (bool): Whether to raise an exception when table row limits are exceeded.
-- username (Optional): Username.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- x_skip_transaction_log (bool): Whether to skip saving the run events to the transaction log.
-    This is only relevant for online runs. Can be used to reduce the amount of
-    data written to disk.
-    Should be used with caution, as it removes the gurantees about
-    recoverability.
-
-
-
-
-
-
-
-
-
-
-
-
-- x_stats_open_metrics_endpoints (Optional): OpenMetrics `/metrics` endpoints to monitor for system metrics.
-- x_stats_open_metrics_filters (Union): Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
-    Supports two formats:
-    - {"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}
-    - ("metric regex pattern 1", "metric regex pattern 2", ...)
+W&B SDK에 대한 설정입니다.
+
+이 클래스는 W&B SDK의 설정을 관리하며, 모든 설정의 타입 안전성과 검증을 보장합니다. 설정들은 속성(attribute) 형태로 엑세스할 수 있으며, 프로그래밍적으로 또는 환경 변수(`WANDB_` 접두사 사용), 그리고 설정 파일을 통해 초기화할 수 있습니다.
+
+설정은 세 가지 카테고리로 구성되어 있습니다:
+1. 공개 설정: 사용자가 자신의 필요에 맞게 W&B의 동작을 안전하게 커스터마이즈할 수 있는 핵심 설정 옵션입니다.
+2. 내부 설정: 'x_'로 시작하는 이름의 설정으로, 낮은 수준의 SDK 동작을 제어합니다. 주로 내부용 및 디버깅을 위해 사용됩니다. 수정은 가능하지만, 공개 API에는 포함되지 않아 향후 버전에서 예고 없이 변경될 수 있습니다.
+3. 계산된 설정: 다른 설정이나 환경으로부터 자동으로 도출되는 읽기 전용 설정입니다.
+
+속성(Attributes):
+
+- allow_offline_artifacts (bool): offline 모드에서 table Artifacts를 동기화할 수 있도록 허용하는 플래그입니다. 이전 동작으로 되돌리고 싶다면 False로 설정하세요.
+- allow_val_change (bool): `Config` 값이 한 번 설정된 이후에도 수정할 수 있도록 허용하는 플래그입니다.
+- anonymous (Optional): 익명 데이터 로깅 방식을 설정합니다.
+    가능한 값:
+    - "never": run을 추적하기 전에 반드시 W&B 계정을 연결해야 하며, 실수로 익명 run을 생성하지 않게 합니다.
+    - "allow": 로그인한 사용자는 계정으로 run을 추적할 수 있고, W&B 계정 없이 스크립트를 실행하는 사람은 UI에서 차트를 볼 수 있습니다.
+    - "must": run을 등록된 사용자 계정 대신 익명 계정으로 전송합니다.
+- api_key (Optional): W&B API 키.
+- azure_account_url_to_access_key (Optional): Azure 인테그레이션을 위한 Azure 계정 URL과 그에 해당하는 엑세스 키 매핑.
+- base_url (str): 데이터 동기화에 사용하는 W&B 백엔드의 URL.
+- code_dir (Optional): W&B가 추적할 코드를 포함한 디렉토리.
+- config_paths (Optional): 설정 파일의 경로 리스트로, 해당 파일에서 `Config` 오브젝트에 설정을 로드합니다.
+- console (Literal): 적용할 콘솔 캡처 타입.
+    가능한 값:
+    "auto" - 시스템 환경과 설정에 따라 콘솔 캡처 방식을 자동으로 선택합니다.
+    "off" - 콘솔 캡처를 비활성화합니다.
+    "redirect" - 출력 캡처를 위해 하위 파일 디스크립터를 리디렉션합니다.
+    "wrap" - sys.stdout/sys.stderr의 write 메소드를 재정의합니다. 시스템 상태에 따라 "wrap_raw" 또는 "wrap_emu"로 매핑됩니다.
+    "wrap_raw" - "wrap"과 같지만 에뮬레이터 없이 원시 출력을 직접 캡처합니다. `wrap` 설정에서 파생되므로 수동 설정은 권장하지 않습니다.
+    "wrap_emu" - "wrap"과 같지만 에뮬레이터를 통해 출력을 캡처합니다. `wrap` 설정에서 파생되므로 수동 설정은 권장하지 않습니다.
+- console_multipart (bool): 멀티파트 콘솔 로그 파일을 생성할지 여부.
+- credentials_file (str): 임시 엑세스 토큰을 저장할 파일의 경로.
+- disable_code (bool): 코드 캡처를 비활성화할지 여부.
+- disable_git (bool): git 상태 캡처를 비활성화할지 여부.
+- disable_job_creation (bool): W&B Launch의 job artifact 생성을 비활성화할지 여부.
+- docker (Optional): 스크립트 실행에 사용하는 Docker 이미지.
+- email (Optional): 사용자의 이메일 어드레스.
+- entity (Optional): W&B의 entity, 예를 들어 사용자 또는 팀.
+- force (bool): `wandb.login()`에 `force` 플래그를 전달할지 여부.
+- fork_from (Optional): 이전 run 실행의 특정 지점(run ID, 메트릭, 그 값)에서 포크할 지점 지정. 현재는 '_step' 메트릭만 지원합니다.
+- git_commit (Optional): run에 연결할 git 커밋 해시.
+- git_remote (str): run에 연결할 git remote.
+- git_remote_url (Optional): git remote 저장소의 URL.
+- git_root (Optional): git 저장소의 루트 디렉토리.
+
+- host (Optional): 스크립트가 실행 중인 머신의 호스트명.
+- http_proxy (Optional): W&B로의 http 요청에 사용할 커스텀 프록시 서버.
+- https_proxy (Optional): W&B로의 https 요청에 사용할 커스텀 프록시 서버.
+- identity_token_file (Optional): 인증을 위한 identity 토큰(JWT)이 포함된 파일 경로.
+- ignore_globs (Sequence): 업로드에서 제외할 파일을 `files_dir` 기준 유닉스 glob 패턴으로 지정합니다.
+- init_timeout (float): `wandb.init` 호출이 완료될 때까지 대기할 시간(초).
+- insecure_disable_ssl (bool): SSL 검증을 비활성화할지 여부(주의 필요).
+- job_name (Optional): 현재 실행 중인 Launch job의 이름.
+- job_source (Optional): Launch의 소스 타입.
+- label_disable (bool): 자동 라벨링 기능 비활성화 여부.
+
+- launch_config_path (Optional): launch 설정 파일 경로.
+- login_timeout (Optional): 로그인 작업이 완료될 때까지 대기할 시간(초) 설정.
+- mode (Literal): W&B 로깅 및 동기화용 운영 모드.
+- notebook_name (Optional): 주피터 같은 노트북 환경에서 실행할 경우 노트북의 이름.
+- organization (Optional): W&B 조직.
+- program (Optional): run을 생성한 스크립트의 경로(가능한 경우).
+- program_abspath (Optional): run을 생성한 스크립트의 루트 저장소 기준 절대 경로. 루트 저장소 디렉토리는 .git 폴더가 있으면 해당 위치, 없으면 현재 작업 디렉토리.
+- program_relpath (Optional): run을 생성한 스크립트의 상대경로.
+- project (Optional): W&B 프로젝트 ID.
+- quiet (bool): 필수적이지 않은 출력 억제 여부.
+- reinit (Union): 이미 활성화된 run 중에 `wandb.init()` 호출 시 어떻게 할지 선택.
+    옵션:
+    - "default": 노트북에서는 "finish_previous", 그 외에는 "return_previous"를 사용.
+    - "return_previous": 아직 종료되지 않은 최신 run을 반환(단, `wandb.run`은 업데이트되지 않음).
+    - "finish_previous": 모든 활성 run을 종료한 후 새 run 반환.
+    - "create_new": 다른 활성 run에 영향 없이 새 run 생성(`wandb.run` 및 `wandb.log` 등 최상위 함수 미반영). 오래된 일부 인테그레이션에서는 미지원.
+    불리언 값도 가능하나 deprecated. False는 "return_previous", True는 "finish_previous"와 동일.
+- relogin (bool): 새로운 로그인 시도를 강제할지 여부.
+- resume (Optional): run의 resume 동작 지정.
+    옵션:
+    - "must": 동일 ID의 기존 run에서만 resume. 없으면 실패 처리.
+    - "allow": 동일 ID의 기존 run에서 resume 시도. 없으면 새 run 생성.
+    - "never": 항상 새 run 시작. 동일 ID의 run이 있으면 실패 처리.
+    - "auto": 동일 머신에서 최근 실패한 run 자동 resume.
+- resume_from (Optional): 이전 run 실행의 특정 지점(run ID, 메트릭, 그 값)을 resume할 위치로 지정. 현재는 '_step' 메트릭만 지원.
+
+- root_dir (str): 모든 run 관련 경로의 기준이 되는 루트 디렉토리. 특히 wandb 디렉토리와 run 디렉토리를 만드는데 사용됨.
+- run_group (Optional): 관련된 run들을 식별하는 그룹 ID. UI에서 run들을 그룹화할 때 사용.
+- run_id (Optional): run의 ID.
+- run_job_type (Optional): 실행되는 job의 타입(예: training, evaluation).
+- run_name (Optional): 사람이 알아보기 쉬운 run의 이름.
+- run_notes (Optional): run에 추가할 노트 또는 설명.
+- run_tags (Optional): run에 태그를 지정해 구성 및 필터링에 활용.
+- sagemaker_disable (bool): SageMaker 전용 기능 비활성화 플래그.
+- save_code (Optional): run에 연결된 코드 저장 여부.
+- settings_system (Optional): 시스템 전체에서 사용하는 설정 파일 경로.
+
+- show_errors (bool): 에러 메시지 출력 여부.
+- show_info (bool): 안내 메시지 출력 여부.
+- show_warnings (bool): 경고 메시지 출력 여부.
+- silent (bool): 모든 출력 억제 플래그.
+
+- strict (Optional): 검증 및 에러 체크 강제 모드 활성화 여부.
+- summary_timeout (int): summary 작업이 완료될 때까지 대기할 시간(초).
+
+- sweep_id (Optional): 이 run이 속한 sweep의 식별자.
+- sweep_param_path (Optional): sweep 파라미터 설정 경로.
+- symlink (bool): 심볼릭 링크 사용 여부(Windows 제외 기본 True).
+- sync_tensorboard (Optional): TensorBoard 로그를 W&B와 동기화할지 여부.
+- table_raise_on_max_row_limit_exceeded (bool): table 행(row) 제한 초과 시 예외 발생 여부.
+- username (Optional): 사용자명.
+
+- x_skip_transaction_log (bool): run 이벤트를 transaction 로그에 저장하지 않을지 여부. 온라인 run에서만 관련 있음. 디스크에 기록되는 데이터 양을 줄이기 위해 사용 가능. recoverability(복구 보장)을 희생할 수 있으므로 사용 시 주의 필요.
+
+- x_stats_open_metrics_endpoints (Optional): 시스템 메트릭을 모니터링하기 위한 OpenMetrics `/metrics` 엔드포인트.
+- x_stats_open_metrics_filters (Union): OpenMetrics `/metrics` 엔드포인트에서 수집한 메트릭에 적용할 필터.
+    두 가지 형식 지원:
+    - {"엔드포인트 이름을 포함한 메트릭 정규표현식": {"label": "label 값 정규표현식"}}
+    - ("메트릭 정규표현식 1", "메트릭 정규표현식 2", ...)

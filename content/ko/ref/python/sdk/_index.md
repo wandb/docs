@@ -1,11 +1,13 @@
 ---
+title: 'SDK
+
+  '
 menu:
   reference:
     identifier: ko-ref-python-sdk-_index
 module: null
 no_list: true
-title: SDK
 weight: 10
 ---
 
-Train and fine-tune models, manage models from experimentation to production. For guides and examples, see https://docs.wandb.ai.
+모델을 학습하고 파인튜닝하며, 실험부터 프로덕션까지 모델을 관리하세요. 가이드와 예시는 https://docs.wandb.ai 를 참고하세요.

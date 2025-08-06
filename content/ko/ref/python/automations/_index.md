@@ -1,10 +1,10 @@
 ---
+title: 자동화
 menu:
   reference:
     identifier: ko-ref-python-automations-_index
 module: wandb.automations
-title: Automations
 weight: 100
 ---
 
-Automate your W&B workflows.
+W&B 워크플로우를 자동화하세요.

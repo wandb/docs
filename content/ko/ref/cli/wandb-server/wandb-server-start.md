@@ -1,23 +1,22 @@
 ---
+title: wandb server start
 menu:
   reference:
     identifier: ko-ref-cli-wandb-server-wandb-server-start
-title: wandb server start
 ---
 
-**Usage**
+**사용법**
 
 `wandb server start [OPTIONS]`
 
-**Summary**
+**요약**
 
-Start a local W&B server
+로컬 W&B server 를 시작합니다
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `-p, --port` | The host port to bind W&B server on |
-| `-e, --env` | Env vars to pass to wandb/local |
-| `--daemon / --no-daemon` | Run or don't run in daemon mode |
+| `-p, --port` | W&B server 를 바인딩할 호스트 포트 |
+| `-e, --env` | wandb/local 에 전달할 환경 변수 |
+| `--daemon / --no-daemon` | 데몬 모드로 실행하거나 실행하지 않음 |

@@ -1,10 +1,12 @@
 ---
+title: 'teams
+
+  '
 data_type_classification: module
 menu:
   reference:
     identifier: ko-ref-python-public-api-teams
 object_type: public_apis_namespace
-title: teams
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py >}}
@@ -13,30 +15,32 @@ title: teams
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for managing teams and team members. 
+W&B Public API 를 사용한 팀 및 팀 멤버 관리
 
-This module provides classes for managing W&B teams and their members. 
+이 모듈은 W&B Teams 와 그 멤버를 관리하는 클래스를 제공합니다.
 
 
 
-**Note:**
+**참고:**
 
-> This module is part of the W&B Public API and provides methods to manage teams and their members. Team management operations require appropriate permissions. 
+> 이 모듈은 W&B Public API 의 일부이며, 팀 및 팀 멤버를 관리하는 메소드들을 제공합니다. 팀 관리 작업을 하려면 적절한 권한이 필요합니다. 
 
 
 
 ---
 
 ## <kbd>class</kbd> `Member`
-A member of a team. 
+팀의 멤버를 나타내는 클래스입니다.
 
 
 
-**Args:**
+**ARG:**
  
- - `client` (`wandb.apis.internal.Api`):  The client instance to use 
- - `team` (str):  The name of the team this member belongs to 
- - `attrs` (dict):  The member attributes 
+ - `client` (`wandb.apis.internal.Api`):  사용할 클라이언트 인스턴스
+ - `team` (str):  이 멤버가 속한 팀의 이름
+ - `attrs` (dict):  멤버 속성
+
+
 
 ### <kbd>method</kbd> `Member.__init__`
 
@@ -59,34 +63,34 @@ __init__(client, team, attrs)
 delete()
 ```
 
-Remove a member from a team. 
+팀에서 멤버를 제거합니다.
 
 
 
-**Returns:**
-  Boolean indicating success 
+**반환값:**
+  성공 여부를 나타내는 Boolean 값
 
 
 ---
 
 ## <kbd>class</kbd> `Team`
-A class that represents a W&B team. 
+W&B 팀을 나타내는 클래스입니다.
 
-This class provides methods to manage W&B teams, including creating teams, inviting members, and managing service accounts. It inherits from Attrs to handle team attributes. 
+이 클래스는 W&B 팀을 관리하기 위한 다양한 메소드를 제공합니다. 예를 들어, 팀 생성, 멤버 초대, 서비스 계정 관리 등이 있습니다. 팀 속성 처리를 위해 Attrs 를 상속합니다.
 
 
 
-**Args:**
+**ARG:**
  
- - `client` (`wandb.apis.public.Api`):  The api instance to use 
- - `name` (str):  The name of the team 
- - `attrs` (dict):  Optional dictionary of team attributes 
+ - `client` (`wandb.apis.public.Api`):  사용할 api 인스턴스
+ - `name` (str):  팀의 이름
+ - `attrs` (dict):  (옵션) 팀 속성 사전
 
 
 
-**Note:**
+**참고:**
 
-> Team management requires appropriate permissions. 
+> 팀 관리에는 적절한 권한이 필요합니다.
 
 ### <kbd>method</kbd> `Team.__init__`
 
@@ -109,20 +113,20 @@ __init__(client, name, attrs=None)
 create(api, team, admin_username=None)
 ```
 
-Create a new team. 
+새로운 팀을 생성합니다.
 
 
 
-**Args:**
+**ARG:**
  
- - `api`:  (`Api`) The api instance to use 
- - `team`:  (str) The name of the team 
- - `admin_username`:  (str) optional username of the admin user of the team, defaults to the current user. 
+ - `api`:  (`Api`) 사용할 api 인스턴스
+ - `team`:  (str) 팀 이름
+ - `admin_username`:  (str) 팀의 관리자 사용자 이름 (옵션, 기본값: 현재 사용자)
 
 
 
-**Returns:**
- A `Team` object 
+**반환값:**
+ `Team` 오브젝트
 
 ---
 
@@ -132,18 +136,18 @@ Create a new team.
 create_service_account(description)
 ```
 
-Create a service account for the team. 
+이 팀을 위한 서비스 계정을 생성합니다.
 
 
 
-**Args:**
+**ARG:**
  
- - `description`:  (str) A description for this service account 
+ - `description`:  (str) 서비스 계정에 대한 설명
 
 
 
-**Returns:**
- The service account `Member` object, or None on failure 
+**반환값:**
+ 생성된 서비스 계정의 `Member` 오브젝트, 실패 시 None
 
 ---
 
@@ -153,18 +157,18 @@ Create a service account for the team.
 invite(username_or_email, admin=False)
 ```
 
-Invite a user to a team. 
+사용자를 팀에 초대합니다.
 
 
 
-**Args:**
+**ARG:**
  
- - `username_or_email`:  (str) The username or email address of the user  you want to invite. 
- - `admin`:  (bool) Whether to make this user a team admin.  Defaults to `False`. 
+ - `username_or_email`:  (str) 초대하고자 하는 사용자의 사용자 이름 또는 이메일 어드레스
+ - `admin`:  (bool) 해당 사용자를 팀 관리자 권한으로 초대할지 여부, 기본값은 `False`
 
 
 
-**Returns:**
- `True` on success, `False` if user was already invited or didn't exist. 
+**반환값:**
+ 성공 시 `True`, 이미 초대되었거나 사용자가 존재하지 않을 경우 `False`
 
 ---

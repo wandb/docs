@@ -1,5 +1,1 @@
----
-{}
----
-
-This feature requires a [Pro or Enterprise plan](https://wandb.ai/site/pricing/).
+이 기능은 [Pro 또는 Enterprise 요금제](https://wandb.ai/site/pricing/)가 필요합니다.

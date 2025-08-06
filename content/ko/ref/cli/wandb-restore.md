@@ -1,24 +1,23 @@
 ---
+title: wandb restore
 menu:
   reference:
     identifier: ko-ref-cli-wandb-restore
-title: wandb restore
 ---
 
-**Usage**
+**사용법**
 
 `wandb restore [OPTIONS] RUN`
 
-**Summary**
+**요약**
 
-Restore code, config and docker state for a run
+해당 run의 코드, config, 도커 상태를 복원합니다
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `--no-git` | Don't restore git state |
-| `--branch / --no-branch` | Whether to create a branch or checkout detached |
-| `-p, --project` | The project you wish to upload to. |
-| `-e, --entity` | The entity to scope the listing to. |
+| `--no-git` | git 상태를 복원하지 않습니다 |
+| `--branch / --no-branch` | 브랜치를 생성할지 아니면 분리된 상태로 체크아웃할지 여부 |
+| `-p, --project` | 업로드할 프로젝트 지정 |
+| `-e, --entity` | 조회할 Entity 범위 지정 |

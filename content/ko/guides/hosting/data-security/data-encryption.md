@@ -1,21 +1,21 @@
 ---
+title: 전용 클라우드의 데이터 암호화
 menu:
   default:
     identifier: ko-guides-hosting-data-security-data-encryption
     parent: data-security
-title: Data encryption in Dedicated cloud
 ---
 
-W&B uses a W&B-managed cloud-native key to encrypt the W&B-managed database and object storage in every [Dedicated cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}), by using the customer-managed encryption key (CMEK) capability in each cloud. In this case, W&B acts as a `customer` of the cloud provider, while providing the W&B platform as a service to you. Using a W&B-managed key means that W&B has control over the keys that it uses to encrypt the data in each cloud, thus doubling down on its promise to provide a highly safe and secure platform to all of its customers.
+W&B는 각 [Dedicated cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}})에서 W&B가 관리하는 데이터베이스와 오브젝트 스토리지를 암호화하기 위해, 각 클라우드의 고객 관리 암호화 키(CMEK) 기능을 사용하여 W&B가 관리하는 클라우드 네이티브 키를 사용합니다. 이 경우, W&B는 클라우드 공급자의 `customer` 역할을 하면서, W&B 플랫폼을 서비스로 제공합니다. W&B가 관리하는 키를 사용하면 각 클라우드의 데이터 암호화에 사용하는 키를 W&B가 직접 통제할 수 있으므로, 모든 고객에게 안전하고 신뢰할 수 있는 플랫폼을 제공하겠다는 W&B의 약속을 한층 더 강화합니다.
 
-W&B uses a `unique key` to encrypt the data in each customer instance, providing another layer of isolation between Dedicated cloud tenants. The capability is available on AWS, Azure and GCP.
+W&B는 각 고객 인스턴스의 데이터를 암호화하기 위해 `unique key`(고유 키)를 사용하여 Dedicated cloud 테넌트 간에 또 다른 격리 계층을 제공합니다. 이 기능은 AWS, Azure, GCP에서 지원됩니다.
 
 {{% alert %}}
-Dedicated cloud instances on GCP and Azure that W&B provisioned before August 2024 use the default cloud provider managed key for encrypting the W&B-managed database and object storage. Only new instances that W&B has been creating starting August 2024 use the W&B-managed cloud-native key for the relevant encryption.
+2024년 8월 이전에 W&B가 생성한 GCP 및 Azure Dedicated cloud 인스턴스는, W&B가 관리하는 데이터베이스와 오브젝트 스토리지의 암호화를 위해 기본 클라우드 공급자 관리 키를 사용합니다. 2024년 8월부터 새로 생성되는 인스턴스에 한해, 해당 암호화에 W&B가 관리하는 클라우드 네이티브 키가 적용됩니다.
 
-Dedicated cloud instances on AWS have been using the W&B-managed cloud-native key for encryption from before August 2024.
+AWS의 Dedicated cloud 인스턴스는 2024년 8월 이전부터 W&B가 관리하는 클라우드 네이티브 키를 사용하여 암호화를 수행해 왔습니다.
 {{% /alert %}}
 
-W&B doesn't generally allow customers to bring their own cloud-native key to encrypt the W&B-managed database and object storage in their Dedicated cloud instance, because multiple teams and personas in an organization could have access to its cloud infrastructure for various reasons. Some of those teams or personas may not have context on W&B as a critical component in the organization's technology stack, and thus may remove the cloud-native key completely or revoke W&B's access to it. Such an action could corrupt all data in the organization's W&B instance and thus leave it in a irrecoverable state.
+W&B는 일반적으로 고객이 직접 소유한 클라우드 네이티브 키를 사용하여 Dedicated cloud 인스턴스의 W&B 관리 데이터베이스 및 오브젝트 스토리지를 암호화하는 것을 허용하지 않습니다. 이는 한 조직 내 여러 팀이나 담당자가 다양한 이유로 클라우드 인프라에 엑세스할 수 있기 때문입니다. 이 중 일부 팀이나 담당자는 W&B가 조직의 기술 스택에서 중요한 역할을 한다는 점을 인지하지 못할 수 있으며, 클라우드 네이티브 키를 완전히 제거하거나 W&B의 엑세스를 철회할 수도 있습니다. 이런 행동은 조직의 W&B 인스턴스 내 모든 데이터를 손상시켜 복구할 수 없는 상태에 빠뜨릴 수 있습니다.
 
-If your organization needs to use their own cloud-native key to encrypt the W&B-managed database and object storage to approve the use of Dedicated cloud for your AI workflows, W&B can review it on a exception basis. If approved, use of your cloud-native key for encryption would conform to the `shared responsibility model` of W&B Dedicated cloud. If any user in your organization removes your key or revokes W&B's access to it at any point when your Dedicated cloud instance is live, W&B would not be liable for any resulting data loss or corruption and also would not be responsible for recovery of such data.
+만약 귀하의 조직에서 AI 워크플로우에 Dedicated cloud 사용 승인을 위해 W&B 관리 데이터베이스 및 오브젝트 스토리지의 암호화에 자체 클라우드 네이티브 키를 사용해야 하는 경우, W&B가 예외적으로 검토할 수 있습니다. 승인될 경우, 암호화를 위한 자체 클라우드 네이티브 키 사용은 W&B Dedicated cloud의 `shared responsibility model`(공유 책임 모델)에 따라야 합니다. 만약 조직 내 사용자가 Dedicated cloud 인스턴스가 운영 중일 때 귀하의 키를 삭제하거나 W&B의 엑세스를 철회하면, W&B는 그로 인해 발생한 데이터 손실 또는 손상에 대해 일체 책임을 지지 않으며 해당 데이터의 복구도 담당하지 않습니다.

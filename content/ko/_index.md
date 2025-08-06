@@ -1,11 +1,11 @@
 ---
-title: Weights & Biases Documentation
+title: Weights & Biases 문서
 ---
 
 <div style="padding-top:50px;">&nbsp;</div>
 <div style="max-width:1600px; margin: 0 auto">
-{{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
-Choose the product for which you need documentation.
+{{< banner title="Weights & Biases 문서" background="/images/support/support_banner.png" >}}
+필요한 제품의 문서를 선택하세요.
 {{< /banner >}}
 
 <div class="top-row-cards">
@@ -17,14 +17,14 @@ Choose the product for which you need documentation.
 </div>
 <h2>W&B Weave</h2>
 
-### Use AI models in your app
+### 애플리케이션에서 AI 모델 활용
 
-Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a hosted inference service and playground for comparing different large language models (LLMs) and settings.
+[W&B Weave](https://weave-docs.wandb.ai/)를 사용해 코드 내에서 AI 모델을 관리할 수 있습니다. 트레이싱, 결과 평가, 비용 산출, 다양한 대형 언어 모델(LLM)과 설정을 비교하는 호스팅된 추론 서비스 및 플레이그라운드를 제공합니다.
 
-- [Introduction](https://weave-docs.wandb.ai/)
-- [Quickstart](https://weave-docs.wandb.ai/quickstart)
-- [YouTube Demo](https://www.youtube.com/watch?v=IQcGGNLN3zo)
-- [Try the Playground](https://weave-docs.wandb.ai/guides/tools/playground/)
+- [소개](https://weave-docs.wandb.ai/)
+- [퀵스타트](https://weave-docs.wandb.ai/quickstart)
+- [YouTube 데모](https://www.youtube.com/watch?v=IQcGGNLN3zo)
+- [플레이그라운드 체험](https://weave-docs.wandb.ai/guides/tools/playground/)
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
@@ -34,14 +34,14 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. 
 </div>
 <h2>W&B Models</h2>
 
-### Develop AI models
+### AI 모델 개발
 
-Use [W&B Models]({{< relref path="/guides/" lang="ko" >}}) to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
+[W&B Models]({{< relref path="/guides/" lang="ko" >}})를 사용하면 AI 모델 개발을 효율적으로 관리할 수 있습니다. 트레이닝, 파인튜닝, 리포팅, 하이퍼파라미터 스윕 자동화, 모델 레지스트리를 통한 버전 관리와 재현성 지원 기능을 제공합니다.
 
-- [Introduction]({{< relref path="/guides/" lang="ko" >}})
-- [Quickstart]({{< relref path="/guides/quickstart/" lang="ko" >}})
-- [YouTube Tutorial](https://www.youtube.com/watch?v=tHAFujRhZLA)
-- [Online Course](https://wandb.ai/site/courses/101/)
+- [소개]({{< relref path="/guides/" lang="ko" >}})
+- [퀵스타트]({{< relref path="/guides/quickstart/" lang="ko" >}})
+- [YouTube 튜토리얼](https://www.youtube.com/watch?v=tHAFujRhZLA)
+- [온라인 코스](https://wandb.ai/site/courses/101/)
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides/inference/'" style="cursor: pointer;">
@@ -51,14 +51,14 @@ Use [W&B Models]({{< relref path="/guides/" lang="ko" >}}) to manage AI model de
 </div>
 <h2>W&B Inference</h2>
 
-### Access foundation models
+### 파운데이션 모델 엑세스
 
-Use [W&B Inference]({{< relref path="/guides/inference/" lang="ko" >}}) to access leading open-source foundation models through an OpenAI-compatible API. Features include multiple model options, usage tracking, and integration with Weave for tracing and evaluation.
+[W&B Inference]({{< relref path="/guides/inference/" lang="ko" >}})를 통해 OpenAI 호환 API로 선도적인 오픈소스 파운데이션 모델을 만날 수 있습니다. 다양한 모델, 사용량 추적, Weave와 연동된 트레이싱 및 평가를 지원합니다.
 
-- [Introduction]({{< relref path="/guides/inference/" lang="ko" >}})
-- [Available Models]({{< relref path="/guides/inference/models/" lang="ko" >}})
+- [소개]({{< relref path="/guides/inference/" lang="ko" >}})
+- [사용 가능한 모델]({{< relref path="/guides/inference/models/" lang="ko" >}})
 - [API Reference]({{< relref path="/guides/inference/api-reference/" lang="ko" >}})
-- [Try in Playground](https://wandb.ai/inference)
+- [플레이그라운드에서 체험](https://wandb.ai/inference)
 
 </div>{{% /card %}}
 {{< /cardpane >}}
@@ -69,7 +69,7 @@ Use [W&B Inference]({{< relref path="/guides/inference/" lang="ko" >}}) to acces
 {{% card %}}<div onclick="window.location.href='/guides/core/'" style="cursor: pointer; padding-left: 20px">
 <h2>Core Components</h2>
 
-Both W&B products share common components that enable and accelerate your AI/ML engineering work. 
+W&B 제품군은 AI/ML 엔지니어링을 가능하게 하고 가속화하는 공통 컴포넌트를 공유합니다.
 
 - [Registry]({{< relref path="/guides/core/registry/" lang="ko" >}})
 - [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ko" >}})
@@ -80,36 +80,38 @@ Both W&B products share common components that enable and accelerate your AI/ML 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides/hosting'" style="cursor: pointer;padding-left:20px;">
 
-<h2>Platform</h2>
+<h2>플랫폼</h2>
 
-The Weights & Biases platform can be accessed through our SaaS offering or deployed on-premise, and it provides IAM, security, monitoring, and privacy features.
+Weights & Biases 플랫폼은 SaaS와 온프레미스 모두에서 제공되며, IAM, 보안, 모니터링, 프라이버시 등 다양한 기능을 갖추고 있습니다.
 
-- [Deployment Options]({{< relref path="/guides/hosting/hosting-options/" lang="ko" >}})
-- [Identity and access management (IAM)]({{< relref path="/guides/hosting/iam/" lang="ko" >}})
-- [Data Security]({{< relref path="/guides/hosting/data-security/" lang="ko" >}})
-- [Privacy settings]({{< relref path="/guides/hosting/privacy-settings/" lang="ko" >}})
-- [Monitoring and Usage]({{< relref path="/guides/hosting/monitoring-usage/" lang="ko" >}})
+- [배포 옵션]({{< relref path="/guides/hosting/hosting-options/" lang="ko" >}})
+- [ID 및 엑세스 관리(IAM)]({{< relref path="/guides/hosting/iam/" lang="ko" >}})
+- [데이터 보안]({{< relref path="/guides/hosting/data-security/" lang="ko" >}})
+- [프라이버시 설정]({{< relref path="/guides/hosting/privacy-settings/" lang="ko" >}})
+- [모니터링 및 사용량]({{< relref path="/guides/hosting/monitoring-usage/" lang="ko" >}})
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/support/'" style="cursor: pointer;padding-left:20px;">
 
-<h2>Support</h2>
+<h2>지원</h2>
 
-Get help with any aspect of the Weights & Biases platform. Find answers to common questions, troubleshooting guides, and ways to contact our support team.
+Weights & Biases 플랫폼 전반에 대한 도움을 받을 수 있습니다. 자주 묻는 질문, 문제 해결 가이드, 지원팀 연락방법을 확인하세요.
 
-- [Knowledge Base Articles]({{< relref path="/support/" lang="ko" >}})
-- [Community Forum](https://wandb.ai/community)
-- [Discord Server](https://discord.com/invite/RgB8CPk2ce)
-- [Contact Support](https://wandb.ai/site/contact/)
+- [지식 기반 문서]({{< relref path="/support/" lang="ko" >}})
+- [커뮤니티 포럼](https://wandb.ai/community)
+- [Discord 서버](https://discord.com/invite/RgB8CPk2ce)
+- [지원팀 문의](https://wandb.ai/site/contact/)
 
 </div>{{% /card %}}
 {{< /cardpane >}}
 </div>
 
 
-<!-- End max-width constraing -->
+
+
 </div>
-<!-- HTML override just for landing page -->
+
+
 <style>
 .td-card-group { margin: 0 auto }
 p { overflow: hidden; display: block; }

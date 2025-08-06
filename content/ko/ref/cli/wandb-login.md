@@ -1,25 +1,24 @@
 ---
+title: wandb login
 menu:
   reference:
     identifier: ko-ref-cli-wandb-login
-title: wandb login
 ---
 
-**Usage**
+**사용법**
 
-`wandb login [OPTIONS] [KEY]...`
+`wandb login [옵션] [키]...`
 
-**Summary**
+**요약**
 
-Login to Weights & Biases
+Weights & Biases에 로그인합니다
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `--cloud` | Login to the cloud instead of local |
-| `--host, --base-url` | Login to a specific instance of W&B |
-| `--relogin` | Force relogin if already logged in. |
-| `--anonymously` | Log in anonymously |
-| `--verify / --no-verify` | Verify login credentials |
+| `--cloud` | 로컬이 아닌 클라우드에 로그인합니다 |
+| `--host, --base-url` | 특정 W&B 인스턴스에 로그인합니다 |
+| `--relogin` | 이미 로그인되어 있어도 다시 로그인합니다. |
+| `--anonymously` | 익명으로 로그인합니다 |
+| `--verify / --no-verify` | 로그인 자격 증명을 확인합니다 |

@@ -1,29 +1,27 @@
 ---
-description: Sweeps quickstart shows how to define, initialize, and run a sweep. There
-  are four main steps
+title: '튜토리얼: 스윕 정의, 초기화, 실행하기'
+description: Sweeps 퀵스타트에서는 스윕을 정의하고, 초기화하며, 실행하는 방법을 안내합니다. 주요 단계는 네 가지입니다.
 menu:
   default:
     identifier: ko-guides-models-sweeps-walkthrough
     parent: sweeps
-title: 'Tutorial: Define, initialize, and run a sweep'
 weight: 1
 ---
 
-This page shows how to define, initialize, and run a sweep. There are four main steps:
+이 페이지에서는 스윕을 정의, 초기화, 실행하는 방법을 안내합니다. 주요 단계는 네 가지입니다.
 
-1. [Set up your training code]({{< relref path="#set-up-your-training-code" lang="ko" >}})
-2. [Define the search space with a sweep configuration]({{< relref path="#define-the-search-space-with-a-sweep-configuration" lang="ko" >}})
-3. [Initialize the sweep]({{< relref path="#initialize-the-sweep" lang="ko" >}})
-4. [Start the sweep agent]({{< relref path="#start-the-sweep" lang="ko" >}})
+1. [트레이닝 코드 준비하기]({{< relref path="#set-up-your-training-code" lang="ko" >}})
+2. [스윕 구성으로 탐색 공간 정의하기]({{< relref path="#define-the-search-space-with-a-sweep-configuration" lang="ko" >}})
+3. [스윕 초기화하기]({{< relref path="#initialize-the-sweep" lang="ko" >}})
+4. [스윕 에이전트 시작하기]({{< relref path="#start-the-sweep" lang="ko" >}})
 
-
-Copy and paste the following code into a Jupyter Notebook or Python script:
+아래 코드를 Jupyter Notebook이나 Python 스크립트에 복사하여 붙여넣으세요.
 
 ```python 
-# Import the W&B Python Library and log into W&B
+# W&B Python 라이브러리 임포트 및 W&B 로그인
 import wandb
 
-# 1: Define objective/training function
+# 1: objective/트레이닝 함수 정의
 def objective(config):
     score = config.x**3 + config.y
     return score
@@ -33,7 +31,7 @@ def main():
         score = objective(run.config)
         run.log({"score": score})
 
-# 2: Define the search space
+# 2: 탐색 공간 정의
 sweep_configuration = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "score"},
@@ -43,26 +41,25 @@ sweep_configuration = {
     },
 }
 
-# 3: Start the sweep
+# 3: 스윕 시작
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-The following sections break down and explains each step in the code sample.
+아래 섹션에서는 코드 예시의 각 단계를 자세히 설명합니다.
 
+## 트레이닝 코드 준비하기
+`wandb.Run.config`에서 하이퍼파라미터 값을 받아 모델을 학습하고, 메트릭을 반환하는 트레이닝 함수를 정의하세요.
 
-## Set up your training code
-Define a training function that takes in hyperparameter values from `wandb.Run.config` and uses them to train a model and return metrics.
-
-Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
+원한다면 W&B Run의 결과가 저장될 프로젝트 이름을 지정할 수 있습니다([`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}})의 project 파라미터 이용). 프로젝트를 설정하지 않으면 해당 run은 "Uncategorized" 프로젝트에 저장됩니다.
 
 {{% alert %}}
-Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
+스윕과 run은 반드시 같은 프로젝트에서 실행되어야 합니다. 따라서 W&B를 초기화할 때 지정한 이름과 스윕을 초기화할 때 지정한 프로젝트 이름이 일치해야 합니다.
 {{% /alert %}}
 
 ```python
-# 1: Define objective/training function
+# 1: objective/트레이닝 함수 정의
 def objective(config):
     score = config.x**3 + config.y
     return score
@@ -74,17 +71,16 @@ def main():
         run.log({"score": score})
 ```
 
-## Define the search space with a sweep configuration
+## 스윕 구성으로 탐색 공간 정의하기
 
-Specify the hyperparameters to sweep in a dictionary. For configuration options, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ko" >}}).
+스윕할 하이퍼파라미터들을 딕셔너리 형태로 지정합니다. 더 많은 설정 옵션은 [스윕 구성 정의하기]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ko" >}})를 참고하세요.
 
-The proceeding example demonstrates a sweep configuration that uses a random search (`'method':'random'`). The sweep will randomly select a random set of values listed in the configuration for the batch size, epoch, and the learning rate.
+아래 예시는 'random' 메소드를 활용한 스윕 구성입니다. 구성에 지정된 배치 크기, 에포크, 러닝레이트 값을 무작위로 선택해 실험합니다.
 
-W&B minimizes the metric specified in the `metric` key when `"goal": "minimize"` is associated with it. In this case, W&B will optimize for minimizing the metric  `score` (`"name": "score"`).
-
+`"goal": "minimize"`가 지정된 경우, W&B는 `metric` 키에 지정된 메트릭을 최소화하도록 최적화합니다. 여기서는 `score`(`"name": "score"`)를 최소화하는 것이 목표입니다.
 
 ```python
-# 2: Define the search space
+# 2: 탐색 공간 정의
 sweep_configuration = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "score"},
@@ -95,36 +91,36 @@ sweep_configuration = {
 }
 ```
 
-## Initialize the Sweep
+## 스윕 초기화하기
 
-W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally (local) across one or more machines. For more information about Sweep Controllers, see [Search and stop algorithms locally]({{< relref path="./local-controller.md" lang="ko" >}}).
+W&B는 클라우드(standard), 로컬(local) 등 다양한 환경에서 스윕을 관리하기 위해 _Sweep Controller_를 사용합니다. Sweep Controller에 대한 자세한 내용은 [로컬에서 탐색 및 정지 알고리즘 실행]({{< relref path="./local-controller.md" lang="ko" >}})을 참고하세요.
 
-A sweep identification number is returned when you initialize a sweep:
+스윕을 초기화하면 고유한 스윕 식별 번호가 반환됩니다.
 
 ```python
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
-For more information about initializing sweeps, see [Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ko" >}}).
+스윕 초기화에 대한 자세한 내용은 [스윕 초기화하기]({{< relref path="./initialize-sweeps.md" lang="ko" >}})에서 확인하세요.
 
-## Start the Sweep
+## 스윕 에이전트 시작하기
 
-Use the [`wandb.agent`]({{< relref path="/ref/python/sdk/functions/agent.md" lang="ko" >}}) API call to start a sweep.
+[`wandb.agent`]({{< relref path="/ref/python/sdk/functions/agent.md" lang="ko" >}}) API를 사용해 스윕을 시작하세요.
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-## Visualize results (optional)
+## 결과 시각화하기 (선택 사항)
 
-Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref path="/guides/models/app/features/panels/parallel-coordinates.md" lang="ko" >}}),[ parameter importance analyzes]({{< relref path="/guides/models/app/features/panels/parameter-importance.md" lang="ko" >}}), and [additional chart types]({{< relref path="/guides/models/app/features/panels/" lang="ko" >}}).
+프로젝트를 열면 W&B 앱 대시보드에서 실시간 결과를 확인할 수 있습니다. 몇 번의 클릭만으로 [평행 좌표 플롯]({{< relref path="/guides/models/app/features/panels/parallel-coordinates.md" lang="ko" >}}), [파라미터 중요도 분석]({{< relref path="/guides/models/app/features/panels/parameter-importance.md" lang="ko" >}}), [그 외 다양한 차트 유형]({{< relref path="/guides/models/app/features/panels/" lang="ko" >}}) 등 다양한 인터랙티브 차트를 쉽게 만들 수 있습니다.
 
 {{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard example" >}}
 
-For more information about how to visualize results, see [Visualize sweep results]({{< relref path="./visualize-sweep-results.md" lang="ko" >}}). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
+결과 시각화 방법에 대한 자세한 내용은 [스윕 결과 시각화하기]({{< relref path="./visualize-sweep-results.md" lang="ko" >}})를 참고하세요. 대시보드 예시는 이 샘플 [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)를 확인해보세요.
 
-## Stop the agent (optional)
+## 에이전트 중지하기 (선택 사항)
 
-In the terminal, press `Ctrl+C` to stop the current run. Press it again to terminate the agent.
+터미널에서 `Ctrl+C`를 눌러 현재 run을 중지하세요. 한 번 더 누르면 에이전트가 완전히 종료됩니다.
 
 ```

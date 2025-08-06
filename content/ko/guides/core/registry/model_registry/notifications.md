@@ -1,33 +1,29 @@
 ---
-description: Get Slack notifications when a new model version is linked to the model
-  registry.
+title: 알림 및 알림 설정하기
+description: 새로운 모델 버전이 모델 레지스트리에 연결되면 Slack 알림을 받아보세요.
 menu:
   default:
     identifier: ko-guides-core-registry-model_registry-notifications
     parent: model-registry
-title: Create alerts and notifications
 weight: 9
 ---
 
-<!-- # Notifications for new model versions -->
-Receive Slack notifications when a new model version is linked to the model registry. 
+모델 레지스트리에 새로운 model version 이 연결될 때 Slack 알림을 받을 수 있습니다.
 
-
-1. Navigate to the [W&B Model Registry app](https://wandb.ai/registry/model).
-2. Select the registered model you want to receive notifications from.
-3. Click on the **Connect Slack** button.
+1. [W&B Model Registry 앱](https://wandb.ai/registry/model)으로 이동합니다.
+2. 알림을 받고 싶은 registered model 을 선택합니다.
+3. **Connect Slack** 버튼을 클릭합니다.
     {{< img src="/images/models/connect_to_slack.png" alt="Connect to Slack" >}}
-4. Follow the instructions to enable W&B in your Slack workspace that appear on the OAuth page.
+4. OAuth 페이지에 나타나는 안내에 따라 Slack workspace 에서 W&B 연동을 설정합니다.
 
-
-Once you have configured Slack notifications for your team, you can pick and choose registered models to get notifications from. 
+팀을 위해 Slack 알림을 설정하면, 각 registered model 별로 알림을 받을지 선택할 수 있습니다.
 
 {{% alert %}}
-A toggle that reads **New model version linked to...** appears instead of a **Connect Slack** button if you have Slack notifications configured for your team.
+Slack 알림이 팀에 대해 이미 설정되어 있는 경우, **Connect Slack** 버튼 대신 **New model version linked to...** 토글이 나타납니다.
 {{% /alert %}}
 
-The screenshot below shows a FMNIST classifier registered model that has Slack notifications. 
+아래 스크린샷은 Slack 알림이 설정된 FMNIST classifier registered model 의 예시입니다.
 
 {{< img src="/images/models/conect_to_slack_fmnist.png" alt="Slack notification example" >}}
 
-A message is automatically posted to the connected Slack channel each time a new model version is linked to the FMNIST classifier registered model.
+새로운 model version 이 FMNIST classifier registered model 에 연결될 때마다, 연결된 Slack 채널에 메시지가 자동으로 전송됩니다.

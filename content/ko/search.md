@@ -1,4 +1,5 @@
 ---
+title: 검색 결과
 layout: search
-title: Search Results
 ---
+

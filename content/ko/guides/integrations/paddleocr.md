@@ -1,45 +1,46 @@
 ---
-description: How to integrate W&B with PaddleOCR.
+title: PaddleOCR
+description: W&B 를 PaddleOCR 와 통합하는 방법
 menu:
   default:
     identifier: ko-guides-integrations-paddleocr
     parent: integrations
-title: PaddleOCR
 weight: 280
 ---
 
-[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) aims to create multilingual, awesome, leading, and practical OCR tools that help users train better models and apply them into practice implemented in PaddlePaddle. PaddleOCR support a variety of cutting-edge algorithms related to OCR, and developed industrial solution. PaddleOCR now comes with a W&B integration for logging training and evaluation metrics along with model checkpoints with corresponding metadata.
+[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)는 여러 언어를 지원하며 실제 적용이 가능한 선도적인 OCR 툴을 만드는 것을 목표로 하는 PaddlePaddle 기반 툴입니다. PaddleOCR는 OCR에 필요한 다양한 최신 알고리즘을 제공하고, 현장에서 바로 활용할 수 있는 솔루션도 지원합니다. 이제 PaddleOCR는 W&B와 인테그레이션되어, 트레이닝 및 평가 메트릭과 메타데이터가 포함된 모델 체크포인트를 간편하게 로그할 수 있습니다.
 
-## Example Blog & Colab
+## 예시 블로그 & Colab
 
-[Read here](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw) to see how to train a model with PaddleOCR on the ICDAR2015 dataset. This also comes with a [Google Colab](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing) and the corresponding live W&B dashboard is available [here](https://wandb.ai/manan-goel/text_detection). There is also a Chinese version of this blog here: [W&B对您的OCR模型进行训练和调试](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)
+[PaddleOCR를 사용해 ICDAR2015 데이터셋으로 모델을 트레이닝하는 방법은 여기를 참고하세요.](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw)  
+이 가이드는 [Google Colab](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing) 예제까지 제공하며, 실제로 작동하는 W&B 대시보드는 [여기](https://wandb.ai/manan-goel/text_detection)에서 확인하실 수 있습니다. 이 블로그의 중국어 버전은 [여기](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)에서 볼 수 있습니다.
 
-## Sign up and create an API key
+## 회원가입 및 API 키 발급
 
-An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+API 키는 사용자의 머신이 W&B에 인증하는 데 필요합니다. 사용자 프로필에서 API 키를 발급받을 수 있습니다.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+가장 간편하게는 [W&B 인증 페이지](https://wandb.ai/authorize)에 바로 접속해 API 키를 생성할 수 있습니다. 표시된 API 키를 복사해서 비밀번호 관리자 등 안전한 곳에 보관하세요.
 {{% /alert %}}
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+1. 화면 오른쪽 상단에서 사용자 프로필 아이콘을 클릭하세요.
+1. **User Settings**를 선택한 후, **API Keys** 섹션까지 스크롤합니다.
+1. **Reveal**을 클릭해 표시된 API 키를 복사하세요. 만약 API 키를 숨기고 싶다면 페이지를 새로고침하세요.
 
-## Install the `wandb` library and log in
+## `wandb` 라이브러리 설치 및 로그인
 
-To install the `wandb` library locally and log in:
+로컬 환경에 `wandb` 라이브러리를 설치하고 로그인하려면 아래를 참고하세요.
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}}) to your API key.
+1. `WANDB_API_KEY` [환경 변수]({{< relref path="/guides/models/track/environment-variables.md" lang="ko" >}})를 API 키 값으로 설정하세요.
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. Install the `wandb` library and log in.
+1. `wandb` 라이브러리를 설치하고 로그인하세요.
 
 
 
@@ -75,33 +76,33 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Add wandb to your `config.yml` file
+## wandb를 `config.yml` 파일에 추가
 
-PaddleOCR requires configuration variables to be provided using a yaml file. Adding the following snippet at the end of the configuration yaml file will automatically log all training and validation metrics to a W&B dashboard along with model checkpoints:
+PaddleOCR는 여러 설정 변수들을 yaml 파일로 관리합니다. 설정 yaml 파일 마지막에 다음 내용을 추가하면 모든 트레이닝 및 검증 메트릭이 W&B 대시보드에 자동으로 로그되고, 모델 체크포인트도 함께 저장됩니다.
 
 ```python
 Global:
     use_wandb: True
 ```
 
-Any additional, optional arguments that you might like to pass to [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}}) can also be added under the `wandb` header in the yaml file:
+또, [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}})에 별도의 인수를 전달하고 싶다면 yaml 파일의 `wandb` 항목 아래 아래와 같이 작성하세요:
 
 ```
 wandb:  
-    project: CoolOCR  # (optional) this is the wandb project name 
-    entity: my_team   # (optional) if you're using a wandb team, you can pass the team name here
-    name: MyOCRModel  # (optional) this is the name of the wandb run
+    project: CoolOCR  # (선택) wandb 프로젝트 이름
+    entity: my_team   # (선택) wandb 팀이 있다면 팀 이름 입력
+    name: MyOCRModel  # (선택) wandb run 이름
 ```
 
-## Pass the `config.yml` file to `train.py`
+## `config.yml` 파일을 `train.py`에 전달
 
-The yaml file is then provided as an argument to the [training script](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/tools/train.py) available in the PaddleOCR repository.
+이 yaml 파일을 [트레이닝 스크립트](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/tools/train.py)에 인수로 넘겨 실행하세요.
 
 ```bash
 python tools/train.py -c config.yml
 ```
 
-Once you run your `train.py` file with W&B turned on, a link will be generated to bring you to your W&B dashboard:
+`train.py`를 W&B가 활성화된 상태로 실행하면, 자동으로 W&B 대시보드 링크가 생성됩니다:
 
 {{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="PaddleOCR training dashboard" >}}
 
@@ -109,6 +110,6 @@ Once you run your `train.py` file with W&B turned on, a link will be generated t
 
 {{< img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="Text Detection Model dashboard" >}}
 
-## Feedback or issues
+## 피드백 또는 이슈
 
-If you have any feedback or issues about the W&B integration, open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.
+W&B 인테그레이션 관련 피드백이나 문제가 있는 경우 [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR)에 이슈를 남기거나, <a href="mailto:support@wandb.com">support@wandb.com</a>으로 문의해 주세요.

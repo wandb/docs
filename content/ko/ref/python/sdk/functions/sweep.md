@@ -1,10 +1,10 @@
 ---
+title: sweep()
 data_type_classification: function
 menu:
   reference:
     identifier: ko-ref-python-sdk-functions-sweep
 object_type: python_sdk_actions
-title: sweep()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py >}}
@@ -23,25 +23,26 @@ sweep(
 ) → str
 ```
 
-Initialize a hyperparameter sweep. 
+하이퍼파라미터 탐색(hyperparameter sweep)을 초기화합니다.
 
-Search for hyperparameters that optimizes a cost function of a machine learning model by testing various combinations. 
+기계학습 모델의 비용 함수(cost function)를 최적화하는 하이퍼파라미터를 찾기 위해 다양한 조합을 실험합니다.
 
-Make note the unique identifier, `sweep_id`, that is returned. At a later step provide the `sweep_id` to a sweep agent. 
+반환되는 고유 식별자인 `sweep_id`를 꼭 기록해두세요. 나중 단계에서 이 `sweep_id`를 sweep agent에 전달해야 합니다.
 
-See [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) for information on how to define your sweep. 
+스윕 정의 방법에 대한 자세한 내용은 [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) 문서를 참고하세요.
 
 
 
-**Args:**
+**인수:**
  
- - `sweep`:  The configuration of a hyperparameter search.  (or configuration generator).  If you provide a callable, ensure that the callable does  not take arguments and that it returns a dictionary that  conforms to the W&B sweep config spec. 
- - `entity`:  The username or team name where you want to send W&B  runs created by the sweep to. Ensure that the entity you  specify already exists. If you don't specify an entity,  the run will be sent to your default entity,  which is usually your username. 
- - `project`:  The name of the project where W&B runs created from  the sweep are sent to. If the project is not specified, the  run is sent to a project labeled 'Uncategorized'. 
- - `prior_runs`:  The run IDs of existing runs to add to this sweep. 
+ - `sweep`:  하이퍼파라미터 탐색의 설정(또는 설정을 생성하는 함수).  callable을 제공하는 경우, 해당 callable이 인수를 받지 않아야 하며, W&B 스윕 구성 사양에 맞는 사전을 반환해야 합니다.
+ - `entity`:  이 스윕에서 생성되는 W&B run을 저장할 username 또는 팀 이름.  지정한 entity가 이미 존재해야 합니다. entity를 지정하지 않으면, 기본 entity(대체로 본인 username)로 저장됩니다.
+ - `project`:  스윕에서 생성된 W&B run이 저장될 Project 이름.  project를 지정하지 않으면, 'Uncategorized'라는 프로젝트에 run이 저장됩니다.
+ - `prior_runs`:  이 스윕에 추가할 기존 run들의 run ID 목록.
 
 
 
-**Returns:**
+**반환값:**
  
- - `sweep_id`:  (str) A unique identifier for the sweep.
+ - `sweep_id`:  (str) 스윕에 대한 고유 식별자.
+```

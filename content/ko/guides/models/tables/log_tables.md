@@ -1,72 +1,72 @@
 ---
+title: 테이블 로그
 menu:
   default:
     identifier: ko-guides-models-tables-log_tables
-title: Log tables
 weight: 2
 ---
 
-Visualize and log tabular data with W&B Tables. A W&B Table is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a W&B [run]({{< relref path="/guides/models/track/runs/" lang="ko" >}}). W&B Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
+W&B Tables를 사용하여 표 형태의 데이터를 시각화하고 로깅하세요. W&B Table은 각 컬럼이 한 가지 타입의 데이터를 가지는 2차원 격자 데이터입니다. 각 행은 W&B [run]({{< relref path="/guides/models/track/runs/" lang="ko" >}})에 기록된 하나 이상의 데이터 포인트를 나타냅니다. W&B Tables는 기본 및 숫자 타입은 물론 중첩된 리스트, 딕셔너리, 리치 미디어 타입도 지원합니다.
 
-A W&B Table is a specialized [data type]({{< relref path="/ref/python/sdk/data-types/" lang="ko" >}}) in W&B, logged as an [artifact]({{< relref path="/guides/core/artifacts/" lang="ko" >}}) object.
+W&B Table은 W&B에서 [데이터 타입]({{< relref path="/ref/python/sdk/data-types/" lang="ko" >}}) 중 하나로, [artifact]({{< relref path="/guides/core/artifacts/" lang="ko" >}}) 오브젝트로 기록됩니다.
 
-You [create and log table objects]({{< relref path="#create-and-log-a-new-table" lang="ko" >}}) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode]({{< relref path="#table-logging-modes" lang="ko" >}}). The mode determines how the table is logged and updated during your ML experiments.
+W&B Python SDK를 이용해 [테이블 오브젝트를 생성하고 로깅할 수 있습니다]({{< relref path="#create-and-log-a-new-table" lang="ko" >}}). 테이블 오브젝트를 생성할 때, 테이블의 컬럼과 데이터를 지정하고, [mode]({{< relref path="#table-logging-modes" lang="ko" >}})를 설정합니다. mode는 해당 테이블을 ML 실험 중 어떻게 기록하고 업데이트할지 방식을 정의합니다.
 
 {{% alert %}}
-`INCREMENTAL` mode is supported on W&B Server v0.70.0 and above.
+`INCREMENTAL` 모드는 W&B Server v0.70.0 이상에서 지원됩니다.
 {{% /alert %}}
 
-## Create and log a table
+## 테이블 생성 및 로깅
 
-1. Initialize a new run with `wandb.init()`. 
-2. Create a Table object with the [`wandb.Table`]({{< relref path="/ref/python/sdk/data-types/table" lang="ko" >}}) Class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. It is recommended to set the optional `log_mode` parameter to one of the three modes: `IMMUTABLE` (the default), `MUTABLE`, or `INCREMENTAL`. See [Table Logging Modes]({{< relref path="#logging-modes" lang="ko" >}}) in the next section for more information.
-3. Log the table to W&B with `run.log()`.
+1. `wandb.init()`으로 새로운 run을 시작하세요. 
+2. [`wandb.Table`]({{< relref path="/ref/python/sdk/data-types/table" lang="ko" >}}) 클래스를 사용해 Table 오브젝트를 생성하세요. 컬럼명은 `columns` 파라미터로, 데이터는 `data` 파라미터로 각각 지정합니다. 선택적인 `log_mode` 파라미터를 `IMMUTABLE`(기본값), `MUTABLE`, `INCREMENTAL` 세 가지 중 하나로 설정하는 것을 권장합니다. 자세한 내용은 아래 [Table Logging Modes]({{< relref path="#logging-modes" lang="ko" >}}) 섹션을 참고하세요.
+3. run.log()로 테이블을 W&B에 기록하세요.
 
-The following example shows how to create and log a table with two columns, `a` and `b`, and two rows of data, `["a1", "b1"]` and `["a2", "b2"]`:
+아래 예시는 `a`와 `b` 두 컬럼, 그리고 `["a1", "b1"]`, `["a2", "b2"]` 두 줄의 데이터로 테이블을 생성 및 로깅하는 방법을 보여줍니다:
 
 ```python
 import wandb
 
-# Start a new run
+# 새로운 run 시작
 with wandb.init(project="table-demo") as run:
 
-    # Create a table object with two columns and two rows of data
+    # 두 개의 컬럼, 두 줄의 데이터로 테이블 오브젝트 생성
     my_table = wandb.Table(
         columns=["a", "b"],
         data=[["a1", "b1"], ["a2", "b2"]],
         log_mode="IMMUTABLE"
         )
 
-    # Log the table to W&B
+    # W&B에 테이블 로깅
     run.log({"Table Name": my_table})
 ```
 
-## Logging modes
+## Logging 모드
 
-The [`wandb.Table`]({{< relref path="/ref/python/sdk/data-types/table" lang="ko" >}}) `log_mode` parameter determines how a table is logged and updated during your ML experiments. The `log_mode` parameter accepts one of three arguments: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how a table is logged, how it can be modified, and how it is rendered in the W&B App.
+[`wandb.Table`]({{< relref path="/ref/python/sdk/data-types/table" lang="ko" >}})의 `log_mode` 파라미터는 ML 실험 중 테이블이 어떻게 기록·업데이트될지 정합니다. `log_mode`는 `IMMUTABLE`, `MUTABLE`, `INCREMENTAL` 중 하나의 값을 가집니다. 모드마다 테이블의 수정, 기록, W&B App에서 렌더링 방식에 차이가 있습니다.
 
-The following describes the three logging modes, the high-level differences, and common use case for each mode:
+아래 표는 세 가지 logging 모드와 주요 차이점, 일반적 유스 케이스를 설명합니다:
 
-| Mode  | Definition | Use Cases  | Benefits  |
-| ----- | ---------- | ---------- | ----------|
-| `IMMUTABLE`   | Once a table is logged to W&B, you cannot modify it. |- Storing tabular data generated at the end of a run for further analysis                              | - Minimal overhead when logged at the end of a run<br>- All rows rendered in UI |
-| `MUTABLE`     | After you log a table to W&B, you can overwrite the existing table with a new one. | - Adding columns or rows to existing tables<br>- Enriching results with new information                        | - Capture Table mutations<br>- All rows rendered in UI                          |
-| `INCREMENTAL` |  Add batches of new rows to a table throughout the machine learning experiment. | - Adding rows to tables in batches<br> - Long-running training jobs<br>- Processing large datasets in batches<br>- Monitoring ongoing results | - View updates on UI during training<br>- Ability to step through increments    |
+| Mode  | 정의 | 유스 케이스  | 장점  |
+| ----- | --------- | ------------ | -------|
+| `IMMUTABLE`   | 테이블이 W&B에 기록되면 수정할 수 없습니다. |- run 종료 시 생성된 테이블 데이터 저장 및 후속 분석                              | - run 끝에서 로그 시 오버헤드 최소<br>- 모든 행이 UI에서 렌더링됨 |
+| `MUTABLE`     | 테이블을 기록한 후, 새 테이블로 덮어쓸 수 있습니다. | - 기존 테이블에 컬럼/행 추가<br>- 기존 결과에 새로운 정보 추가                        | - Table 변경 사항 누적<br>- 모든 행이 UI에서 렌더링됨                          |
+| `INCREMENTAL` |  실험 중 새로운 데이터 묶음을 계속 테이블에 추가할 수 있습니다. | - 묶음(배치) 단위 행 추가<br> - 긴 러닝 시간의 트레이닝 작업<br>- 대규모 데이터셋을 배치로 처리<br>- 진행 중인 결과 모니터링 | - 트레이닝 중 실시간 UI 업데이트<br>- 증분별 데이터 탐색 가능    |
 
-The next sections show example code snippets for each mode along with considerations when to use each mode.
+다음 섹션에서 각 모드의 코드 예시와, 언제 사용하는 것이 좋은지 안내합니다.
 
-### MUTABLE mode
+### MUTABLE 모드
 
-`MUTABLE` mode updates an existing table by replacing the existing table with a new one. `MUTABLE` mode is useful when you want to add new columns and rows to an existing table in a non iterative process. Within the UI, the table is rendered with all rows and columns, including the new ones added after the initial log.
+`MUTABLE` 모드는 기존 테이블을 새 테이블로 바꾸며, 반복적이지 않은 작업에서 컬럼이나 행을 추가하고 싶을 때 유용합니다. UI에서는 모든 행과 컬럼(처음 기록 이후 추가된 것도 포함하여)이 함께 보여집니다.
 
 {{% alert %}}
-In `MUTABLE` mode, the table object is replaced each time you log the table. Overwriting a table with a new one is computationally expensive and can be slow for large tables.
+`MUTABLE` 모드에선 테이블을 기록할 때마다 테이블 오브젝트가 완전히 교체됩니다. 새 테이블로 덮어쓰는 작업은 연산적으로 비용이 크며, 큰 테이블일수록 느릴 수 있습니다.
 {{% /alert %}}
 
-The following example shows how to create a table in `MUTABLE` mode, log it, and then add new columns to it. The table object is logged three times: once with the initial data, once with the confidence scores, and once with the final predictions.
+아래 예시는 `MUTABLE` 모드로 테이블을 만들고 기록한 후, 컬럼을 추가하는 과정을 담았습니다. 테이블 오브젝트는 초기 데이터, confidence score 추가, 마지막 예측값 추가로 총 세 번 기록됩니다.
 
 {{% alert %}}
-The following example uses a placeholder function `load_eval_data()` to load data and a placeholder function `model.predict()` to make predictions. You will need to replace these with your own data loading and prediction functions.
+아래 예시는 데이터를 불러오는 `load_eval_data()`, 예측을 하는 `model.predict()` 함수가 placeholder로 제공됩니다. 실제 사용 시 데이터와 예측용 함수로 대체하세요.
 {{% /alert %}}
 
 ```python
@@ -75,46 +75,46 @@ import numpy as np
 
 with wandb.init(project="mutable-table-demo") as run:
 
-    # Create a table object with MUTABLE logging mode
+    # MUTABLE 모드로 테이블 오브젝트 생성
     table = wandb.Table(columns=["input", "label", "prediction"],
                         log_mode="MUTABLE")
 
-    # Load data and make predictions
-    inputs, labels = load_eval_data() # Placeholder function
-    raw_preds = model.predict(inputs) # Placeholder function
+    # 데이터 불러오고 예측 수행
+    inputs, labels = load_eval_data() # 예시 함수
+    raw_preds = model.predict(inputs) # 예시 함수
 
     for inp, label, pred in zip(inputs, labels, raw_preds):
         table.add_data(inp, label, pred)
 
-    # Step 1: Log initial data 
-    run.log({"eval_table": table})  # Log initial table
+    # 1단계: 초기 예측값 기록
+    run.log({"eval_table": table})
 
-    # Step 2: Add confidence scores (e.g. max softmax)
+    # 2단계: confidence score(예. softmax 최대값) 컬럼 추가
     confidences = np.max(raw_preds, axis=1)
     table.add_column("confidence", confidences)
-    run.log({"eval_table": table})  # Add confidence info
+    run.log({"eval_table": table})
 
-    # Step 3: Add post-processed predictions
-    # (e.g., thresholded or smoothed outputs)
+    # 3단계: 후처리된 최종 예측 컬럼 추가
+    # (예: thresholding, smoothing 등)
     post_preds = (confidences > 0.7).astype(int)
     table.add_column("final_prediction", post_preds)
-    run.log({"eval_table": table})  # Final update with another column
+    run.log({"eval_table": table})
 ```
 
-If you only want to add new batches of rows (no columns) incrementally like in a training loop, consider using [`INCREMENTAL` mode]({{< relref path="#INCREMENTAL-mode" lang="ko" >}}) instead.
+새 컬럼 없이 행만 배치로 점진적으로 추가하고 싶다면, [`INCREMENTAL` 모드]({{< relref path="#INCREMENTAL-mode" lang="ko" >}}) 사용을 고려해보세요.
 
-### INCREMENTAL mode
+### INCREMENTAL 모드
 
-In incremental mode, you log batches of rows to a table during the machine learning experiment. This is ideal for monitoring long-running jobs or when working with large tables that would be inefficient to log during the run for updates. Within the UI, the table is updated with new rows as they are logged, allowing you to view the latest data without having to wait for the entire run to finish. You can also step through the increments to view the table at different points in time.
+INCREMENTAL 모드에선 실험 수행 도중 여러 배치의 행을 테이블에 추가하며 기록합니다. 긴 시간이 필요한 작업, 업데이트 빈도가 많은 대용량 테이블에 효율적입니다. UI에서는 새 행이 기록될 때마다 테이블이 즉시 갱신되어, run이 끝나기 전에도 최신 데이터를 확인할 수 있습니다. 증분별로 시점을 이동하여 테이블을 탐색하는 것도 가능합니다.
 
 {{% alert %}}
-Run workspaces in the W&B App have a limit of 100 increments. If you log more than 100 increments, only the most recent 100 are shown in the run workspace.
+W&B App의 run 워크스페이스에는 최대 100개 이력(증분)만 보관합니다. 100개를 초과하면, 최신 100개만 워크스페이스에서 보여집니다.
 {{% /alert %}}
 
-The following example creates a table in `INCREMENTAL` mode, logs it, and then adds new rows to it. Note that the table is logged once per training step (`step`).
+아래 예시는 `INCREMENTAL` 모드로 테이블을 만들고, 트레이닝 step마다 새 행을 추가하며 로그하는 코드입니다.
 
 {{% alert %}}
-The following example uses a placeholder function `get_training_batch()` to load data, a placeholder function `train_model_on_batch()` to train the model, and a placeholder function `predict_on_batch()` to make predictions. You will need to replace these with your own data loading, training, and prediction functions.
+이번 예시에서는 데이터를 불러오는 `get_training_batch()`, 모델 트레이닝 `train_model_on_batch()`, 배치 예측 `predict_on_batch()` 함수가 placeholder로 제공됩니다. 실제 환경에 맞는 함수로 교체하세요.
 {{% /alert %}}
 
 ```python
@@ -122,64 +122,63 @@ import wandb
 
 with wandb.init(project="incremental-table-demo") as run:
 
-    # Create a table with INCREMENTAL logging mode
+    # INCREMENTAL 모드로 테이블 생성
     table = wandb.Table(columns=["step", "input", "label", "prediction"],
                         log_mode="INCREMENTAL")
 
-    # Training loop
-    for step in range(get_num_batches()): # Placeholder function
-        # Load batch data
-        inputs, labels = get_training_batch(step) # Placeholder function
+    # 트레이닝 루프
+    for step in range(get_num_batches()): # 예시 함수
+        # 배치 데이터 불러오기
+        inputs, labels = get_training_batch(step) # 예시 함수
 
-        # Train and predict
-        train_model_on_batch(inputs, labels) # Placeholder function
-        predictions = predict_on_batch(inputs) # Placeholder function
+        # 학습 및 예측수행
+        train_model_on_batch(inputs, labels) # 예시 함수
+        predictions = predict_on_batch(inputs) # 예시 함수
 
-        # Add batch data to table
+        # 배치 데이터를 테이블에 추가
         for input_item, label, prediction in zip(inputs, labels, predictions):
             table.add_data(step, input_item, label, prediction)
 
-        # Log the table incrementally
+        # 증분 방식으로 테이블 로그
         run.log({"training_table": table}, step=step)
 ```
 
-Incremental logging is generally more computationally efficient than logging a new table each time (`log_mode=MUTABLE`). However, the W&B App may not render all rows in the table if you log a large number of increments. If your goal is to update and view your table data while your run is ongoing and to have all the data available for analysis, consider using two tables. One with `INCREMENTAL` log mode and one with `IMMUTABLE` log mode. 
+증분 로깅은 매번 테이블 전체를 기록하는 것(`log_mode=MUTABLE`)보다 메모리 및 연산 측면에서 효율적입니다. 단, 매우 많은 이력이 로그될 경우 일부 행이 UI에서 렌더링되지 않을 수 있습니다. 실험 중간 과정을 실시간으로 보고 싶고, 추후 모든 데이터를 분석에 사용하려면 두 개의 테이블을 쓰는 것이 좋습니다. 하나는 `INCREMENTAL`(진행 중 실시간 모니터링용), 다른 하나는 `IMMUTABLE`(최종 전체 데이터 용)로 두기입니다. 
 
-The following example shows how to combine `INCREMENTAL` and `IMMUTABLE` logging modes to achieve this.
+다음은 `INCREMENTAL`와 `IMMUTABLE` 모드를 함께 사용하는 예시입니다.
 
 ```python
 import wandb
 
 with wandb.init(project="combined-logging-example") as run:
 
-    # Create an incremental table for efficient updates during training
+    # 트레이닝 도중 실시간 업데이트용 incremental 테이블 생성
     incr_table = wandb.Table(columns=["step", "input", "prediction", "label"],
                             log_mode="INCREMENTAL")
 
-    # Training loop
+    # 트레이닝 루프
     for step in range(get_num_batches()):
-        # Process batch
+        # 배치 처리
         inputs, labels = get_training_batch(step)
         predictions = model.predict(inputs)
 
-        # Add data to incremental table
+        # 증분 테이블에 데이터 추가
         for inp, pred, label in zip(inputs, predictions, labels):
             incr_table.add_data(step, inp, pred, label)
 
-        # Log the incremental update (suffix with -incr to distinguish from final table)
+        # 증분 업데이트(최종 테이블과 구분 위해 -incr 접미사)
         run.log({"table-incr": incr_table}, step=step)
 
-    # At the end of training, create a complete immutable table with all data
-    # Using the default IMMUTABLE mode to preserve the complete dataset
+    # 트레이닝 종료 시, 증분 테이블 전체 데이터를 IMMUTABLE 테이블로 복제
     final_table = wandb.Table(columns=incr_table.columns, data=incr_table.data, log_mode="IMMUTABLE")
     run.log({"table": final_table})
 ```
 
-In this example, the `incr_table` is logged incrementally (with `log_mode="INCREMENTAL"`) during training. This allows you to log and view updates to the table as new data is processed. At the end of training, an immutable table (`final_table`) is created with all data from the incremental table. The immutable table is logged to preserve the complete dataset for further analysis and it enables you to view all rows in the W&B App. 
+위 예시에서, `incr_table`은 트레이닝 중(`log_mode="INCREMENTAL"`)에 실시간으로 로그됩니다. 새 데이터가 처리될 때마다 테이블 갱신 및 UI에서 확인이 가능합니다. 트레이닝 종료 시 증분 테이블의 모든 데이터로 immutable 테이블(`final_table`)을 만듭니다. 이 immutable 테이블은 전체 데이터셋 보존 및 분석, W&B App에서의 전체 행 탐색에 활용할 수 있습니다.
 
-## Examples 
+## 예시
 
-### Enriching evaluation results with MUTABLE
+### 평가 결과를 MUTABLE로 확장하기
 
 ```python
 import wandb
@@ -187,7 +186,7 @@ import numpy as np
 
 with wandb.init(project="mutable-logging") as run:
 
-    # Step 1: Log initial predictions
+    # 1단계: 초기 예측값 로깅
     table = wandb.Table(columns=["input", "label", "prediction"], log_mode="MUTABLE")
     inputs, labels = load_eval_data()
     raw_preds = model.predict(inputs)
@@ -195,33 +194,33 @@ with wandb.init(project="mutable-logging") as run:
     for inp, label, pred in zip(inputs, labels, raw_preds):
         table.add_data(inp, label, pred)
 
-    run.log({"eval_table": table})  # Log raw predictions
+    run.log({"eval_table": table})  # 원본 예측값 기록
 
-    # Step 2: Add confidence scores (e.g. max softmax)
+    # 2단계: confidence score (예: softmax 최대값) 추가
     confidences = np.max(raw_preds, axis=1)
     table.add_column("confidence", confidences)
-    run.log({"eval_table": table})  # Add confidence info
+    run.log({"eval_table": table})
 
-    # Step 3: Add post-processed predictions
-    # (e.g., thresholded or smoothed outputs)
+    # 3단계: 후처리 예측값 추가
+    # (예: thresholding, smoothing 등)
     post_preds = (confidences > 0.7).astype(int)
     table.add_column("final_prediction", post_preds)
     run.log({"eval_table": table})
 ```
 
-### Resuming runs with INCREMENTAL tables
+### INCREMENTAL 테이블로 run 이어서 기록하기
 
-You can continue logging to an incremental table when resuming a run:
+run을 이어받아 incremental 테이블에 계속 로그할 수 있습니다:
 
 ```python
-# Start or resume a run
+# run 시작 또는 재개
 resumed_run = wandb.init(project="resume-incremental", id="your-run-id", resume="must")
 
-# Create the incremental table; no need to populate with data from previously logged table
-# Increments will be continue to be added to the Table artifact.
+# 증분 테이블 생성; 이전에 기록된 테이블 데이터를 미리 채울 필요가 없음
+# 새 이력(증분)은 계속 Table artifact에 추가됨
 table = wandb.Table(columns=["step", "metric"], log_mode="INCREMENTAL")
 
-# Continue logging
+# 계속 로깅
 for step in range(resume_step, final_step):
     metric = compute_metric(step)
     table.add_data(step, metric)
@@ -231,34 +230,34 @@ resumed_run.finish()
 ```
 
 {{% alert %}}
-Increments are logged to a new table if you turn off summaries on a key used for the incremental table using `wandb.Run.define_metric("<table_key>", summary="none")` or `wandb.Run.define_metric("*", summary="none")`.
+`wandb.Run.define_metric("<table_key>", summary="none")` 또는 `wandb.Run.define_metric("*", summary="none")`을 사용해 incremental 테이블로 쓰는 키의 summary를 끄면, 새 테이블로 increments가 기록됩니다.
 {{% /alert %}}
 
 
-### Training with INCREMENTAL batch training
+### INCREMENTAL 배치 트레이닝으로 실험하기
 
 ```python
 
 with wandb.init(project="batch-training-incremental") as run:
 
-    # Create an incremental table
+    # 증분 방식 테이블 생성
     table = wandb.Table(columns=["step", "input", "label", "prediction"], log_mode="INCREMENTAL")
 
-    # Simulated training loop
+    # 트레이닝 루프(예시)
     for step in range(get_num_batches()):
-        # Load batch data
+        # 배치 데이터 불러오기
         inputs, labels = get_training_batch(step)
 
-        # Train the model on this batch
+        # 배치 학습
         train_model_on_batch(inputs, labels)
 
-        # Run model inference
+        # 모델 추론
         predictions = predict_on_batch(inputs)
 
-        # Add data to the table
+        # 테이블에 데이터 추가
         for input_item, label, prediction in zip(inputs, labels, predictions):
             table.add_data(step, input_item, label, prediction)
 
-        # Log the current state of the table incrementally
+        # 현재 테이블 상태 증분 로그
         run.log({"training_table": table}, step=step)
 ```

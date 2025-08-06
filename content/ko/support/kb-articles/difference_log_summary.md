@@ -1,19 +1,19 @@
 ---
+title: .log() 과 .summary 의 차이점은 무엇인가요?
 menu:
   support:
     identifier: ko-support-kb-articles-difference_log_summary
 support:
-- Charts
-title: What is the difference between `.log()` and `.summary`?
+- 차트
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-The summary displays in the table, while the log saves all values for future plotting.
+요약은 표에 표시되며, 로그는 모든 값을 저장해 추후 플로팅에 사용할 수 있습니다.
 
-For instance, call `run.log()` whenever accuracy changes. By default, `run.log()` updates the summary value unless set manually for that metric.
+예를 들어, 정확도가 변경될 때마다 `run.log()`를 호출하세요. 기본적으로 `run.log()`는 해당 metric의 값을 직접 설정하지 않는 한 summary 값도 함께 업데이트합니다.
 
-The scatterplot and parallel coordinate plots use the summary value, while the line plot shows all values recorded by `run.log`.
+산점도와 병렬 좌표 플롯은 summary 값을 사용하고, 선형 플롯은 `run.log`로 기록된 모든 값을 보여줍니다.
 
-Some users prefer to set the summary manually to reflect the optimal accuracy instead of the most recent accuracy logged.
+일부 사용자는 최근 로그된 정확도 대신 최적의 정확도를 반영하기 위해 summary를 직접 설정하는 것을 선호합니다.

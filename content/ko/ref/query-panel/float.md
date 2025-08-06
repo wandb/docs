@@ -1,462 +1,461 @@
 ---
+title: 부동소수점 (float)
 menu:
   reference:
     identifier: ko-ref-query-panel-float
-title: float
 ---
 
-## Chainable Ops
+## 체이너블 Ops
 <h3 id="number-notEqual"><code>number-notEqual</code></h3>
 
-Determines inequality of two values.
+두 값이 같지 않은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
 
-#### Return Value
-Whether the two values are not equal.
+#### 반환 값
+두 값이 같지 않은지 여부.
 
 <h3 id="number-modulo"><code>number-modulo</code></h3>
 
-Divide a [number](number.md) by another and return remainder
+[number](number.md)를 다른 값으로 나누고 나머지를 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to divide |
-| `rhs` | [number](number.md) to divide by |
+| `lhs` | 나눌 [number](number.md) |
+| `rhs` | 나눌 [number](number.md)의 값 |
 
-#### Return Value
-Modulo of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 나머지 값입니다.
 
 <h3 id="number-mult"><code>number-mult</code></h3>
 
-Multiply two [numbers](number.md)
+두 [numbers](number.md)를 곱합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | First [number](number.md) |
-| `rhs` | Second [number](number.md) |
+| `lhs` | 첫 번째 [number](number.md) |
+| `rhs` | 두 번째 [number](number.md) |
 
-#### Return Value
-Product of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 곱셈 결과
 
 <h3 id="number-powBinary"><code>number-powBinary</code></h3>
 
-Raise a [number](number.md) to an exponent
+[number](number.md)를 지수만큼 거듭제곱합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | Base [number](number.md) |
-| `rhs` | Exponent [number](number.md) |
+| `lhs` | 밑이 되는 [number](number.md) |
+| `rhs` | 지수 [number](number.md) |
 
-#### Return Value
-The base [numbers](number.md) raised to nth power
+#### 반환 값
+밑 [numbers](number.md)를 지수만큼 거듭제곱한 값
 
 <h3 id="number-add"><code>number-add</code></h3>
 
-Add two [numbers](number.md)
+두 [numbers](number.md)를 더합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | First [number](number.md) |
-| `rhs` | Second [number](number.md) |
+| `lhs` | 첫 번째 [number](number.md) |
+| `rhs` | 두 번째 [number](number.md) |
 
-#### Return Value
-Sum of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 합
 
 <h3 id="number-sub"><code>number-sub</code></h3>
 
-Subtract a [number](number.md) from another
+[number](number.md)에서 다른 값을 뺍니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to subtract from |
-| `rhs` | [number](number.md) to subtract |
+| `lhs` | 뺄 대상 [number](number.md) |
+| `rhs` | 빼는 [number](number.md) |
 
-#### Return Value
-Difference of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 차이
 
 <h3 id="number-div"><code>number-div</code></h3>
 
-Divide a [number](number.md) by another
+[number](number.md)를 다른 값으로 나눕니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to divide |
-| `rhs` | [number](number.md) to divide by |
+| `lhs` | 나눌 [number](number.md) |
+| `rhs` | 나눌 값 [number](number.md) |
 
-#### Return Value
-Quotient of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 몫
 
 <h3 id="number-less"><code>number-less</code></h3>
 
-Check if a [number](number.md) is less than another
+[number](number.md)가 다른 값보다 작은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to compare |
-| `rhs` | [number](number.md) to compare to |
+| `lhs` | 비교할 [number](number.md) |
+| `rhs` | 비교 대상 [number](number.md) |
 
-#### Return Value
-Whether the first [number](number.md) is less than the second
+#### 반환 값
+첫 번째 [number](number.md)가 두 번째보다 작은지 여부
 
 <h3 id="number-lessEqual"><code>number-lessEqual</code></h3>
 
-Check if a [number](number.md) is less than or equal to another
+[number](number.md)가 다른 값보다 작거나 같은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to compare |
-| `rhs` | [number](number.md) to compare to |
+| `lhs` | 비교할 [number](number.md) |
+| `rhs` | 비교 대상 [number](number.md) |
 
-#### Return Value
-Whether the first [number](number.md) is less than or equal to the second
+#### 반환 값
+첫 번째 [number](number.md)가 두 번째보다 작거나 같은지 여부
 
 <h3 id="number-equal"><code>number-equal</code></h3>
 
-Determines equality of two values.
+두 값이 같은지 판별합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
 
-#### Return Value
-Whether the two values are equal.
+#### 반환 값
+두 값이 동일한지 여부.
 
 <h3 id="number-greater"><code>number-greater</code></h3>
 
-Check if a [number](number.md) is greater than another
+[number](number.md)가 다른 값보다 큰지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to compare |
-| `rhs` | [number](number.md) to compare to |
+| `lhs` | 비교할 [number](number.md) |
+| `rhs` | 비교 대상 [number](number.md) |
 
-#### Return Value
-Whether the first [number](number.md) is greater than the second
+#### 반환 값
+첫 번째 [number](number.md)가 두 번째보다 큰지 여부
 
 <h3 id="number-greaterEqual"><code>number-greaterEqual</code></h3>
 
-Check if a [number](number.md) is greater than or equal to another
+[number](number.md)가 다른 값보다 크거나 같은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to compare |
-| `rhs` | [number](number.md) to compare to |
+| `lhs` | 비교할 [number](number.md) |
+| `rhs` | 비교 대상 [number](number.md) |
 
-#### Return Value
-Whether the first [number](number.md) is greater than or equal to the second
+#### 반환 값
+첫 번째 [number](number.md)가 두 번째보다 크거나 같은지 여부
 
 <h3 id="number-negate"><code>number-negate</code></h3>
 
-Negate a [number](number.md)
+[number](number.md)의 부호를 반전시킵니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `val` | Number to negate |
+| `val` | 부호를 반전할 숫자 |
 
-#### Return Value
-A [number](number.md)
+#### 반환 값
+[number](number.md)
 
 <h3 id="number-toString"><code>number-toString</code></h3>
 
-Convert a [number](number.md) to a string
+[number](number.md)를 문자열로 변환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `in` | Number to convert |
+| `in` | 변환할 숫자 |
 
-#### Return Value
-String representation of the [number](number.md)
+#### 반환 값
+[number](number.md)의 문자열 표현
 
 <h3 id="number-toTimestamp"><code>number-toTimestamp</code></h3>
 
-Converts a [number](number.md) to a _timestamp_. Values less than 31536000000 will be converted to seconds, values less than 31536000000000 will be converted to milliseconds, values less than 31536000000000000 will be converted to microseconds, and values less than 31536000000000000000 will be converted to nanoseconds.
+[number](number.md)를 _timestamp_로 변환합니다. 값이 31536000000 미만이면 초, 31536000000000 미만이면 밀리초, 31536000000000000 미만이면 마이크로초, 31536000000000000000 미만이면 나노초로 변환됩니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `val` | Number to convert to a timestamp |
+| `val` | timestamp로 변환할 숫자 |
 
-#### Return Value
+#### 반환 값
 Timestamp
 
 <h3 id="number-abs"><code>number-abs</code></h3>
 
-Calculates the absolute value of a [number](number.md)
+[number](number.md)의 절대값을 계산합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `n` | A [number](number.md) |
+| `n` | [number](number.md) |
 
-#### Return Value
-The absolute value of the [number](number.md)
+#### 반환 값
+[number](number.md)의 절대값
 
-
-## List Ops
+## 리스트 Ops
 <h3 id="number-notEqual"><code>number-notEqual</code></h3>
 
-Determines inequality of two values.
+두 값이 같지 않은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
 
-#### Return Value
-Whether the two values are not equal.
+#### 반환 값
+두 값이 같지 않은지 여부.
 
 <h3 id="number-modulo"><code>number-modulo</code></h3>
 
-Divide a [number](number.md) by another and return remainder
+[number](number.md)를 다른 값으로 나누고 나머지를 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to divide |
-| `rhs` | [number](number.md) to divide by |
+| `lhs` | 나눌 [number](number.md) |
+| `rhs` | 나눌 [number](number.md)의 값 |
 
-#### Return Value
-Modulo of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 나머지 값입니다.
 
 <h3 id="number-mult"><code>number-mult</code></h3>
 
-Multiply two [numbers](number.md)
+두 [numbers](number.md)를 곱합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | First [number](number.md) |
-| `rhs` | Second [number](number.md) |
+| `lhs` | 첫 번째 [number](number.md) |
+| `rhs` | 두 번째 [number](number.md) |
 
-#### Return Value
-Product of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 곱셈 결과
 
 <h3 id="number-powBinary"><code>number-powBinary</code></h3>
 
-Raise a [number](number.md) to an exponent
+[number](number.md)를 지수만큼 거듭제곱합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | Base [number](number.md) |
-| `rhs` | Exponent [number](number.md) |
+| `lhs` | 밑이 되는 [number](number.md) |
+| `rhs` | 지수 [number](number.md) |
 
-#### Return Value
-The base [numbers](number.md) raised to nth power
+#### 반환 값
+밑 [numbers](number.md)를 지수만큼 거듭제곱한 값
 
 <h3 id="number-add"><code>number-add</code></h3>
 
-Add two [numbers](number.md)
+두 [numbers](number.md)를 더합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | First [number](number.md) |
-| `rhs` | Second [number](number.md) |
+| `lhs` | 첫 번째 [number](number.md) |
+| `rhs` | 두 번째 [number](number.md) |
 
-#### Return Value
-Sum of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 합
 
 <h3 id="number-sub"><code>number-sub</code></h3>
 
-Subtract a [number](number.md) from another
+[number](number.md)에서 다른 값을 뺍니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to subtract from |
-| `rhs` | [number](number.md) to subtract |
+| `lhs` | 뺄 대상 [number](number.md) |
+| `rhs` | 빼는 [number](number.md) |
 
-#### Return Value
-Difference of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 차이
 
 <h3 id="number-div"><code>number-div</code></h3>
 
-Divide a [number](number.md) by another
+[number](number.md)를 다른 값으로 나눕니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to divide |
-| `rhs` | [number](number.md) to divide by |
+| `lhs` | 나눌 [number](number.md) |
+| `rhs` | 나눌 값 [number](number.md) |
 
-#### Return Value
-Quotient of two [numbers](number.md)
+#### 반환 값
+두 [numbers](number.md)의 몫
 
 <h3 id="number-less"><code>number-less</code></h3>
 
-Check if a [number](number.md) is less than another
+[number](number.md)가 다른 값보다 작은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to compare |
-| `rhs` | [number](number.md) to compare to |
+| `lhs` | 비교할 [number](number.md) |
+| `rhs` | 비교 대상 [number](number.md) |
 
-#### Return Value
-Whether the first [number](number.md) is less than the second
+#### 반환 값
+첫 번째 [number](number.md)가 두 번째보다 작은지 여부
 
 <h3 id="number-lessEqual"><code>number-lessEqual</code></h3>
 
-Check if a [number](number.md) is less than or equal to another
+[number](number.md)가 다른 값보다 작거나 같은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to compare |
-| `rhs` | [number](number.md) to compare to |
+| `lhs` | 비교할 [number](number.md) |
+| `rhs` | 비교 대상 [number](number.md) |
 
-#### Return Value
-Whether the first [number](number.md) is less than or equal to the second
+#### 반환 값
+첫 번째 [number](number.md)가 두 번째보다 작거나 같은지 여부
 
 <h3 id="number-equal"><code>number-equal</code></h3>
 
-Determines equality of two values.
+두 값이 같은지 판별합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
 
-#### Return Value
-Whether the two values are equal.
+#### 반환 값
+두 값이 동일한지 여부.
 
 <h3 id="number-greater"><code>number-greater</code></h3>
 
-Check if a [number](number.md) is greater than another
+[number](number.md)가 다른 값보다 큰지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to compare |
-| `rhs` | [number](number.md) to compare to |
+| `lhs` | 비교할 [number](number.md) |
+| `rhs` | 비교 대상 [number](number.md) |
 
-#### Return Value
-Whether the first [number](number.md) is greater than the second
+#### 반환 값
+첫 번째 [number](number.md)가 두 번째보다 큰지 여부
 
 <h3 id="number-greaterEqual"><code>number-greaterEqual</code></h3>
 
-Check if a [number](number.md) is greater than or equal to another
+[number](number.md)가 다른 값보다 크거나 같은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](number.md) to compare |
-| `rhs` | [number](number.md) to compare to |
+| `lhs` | 비교할 [number](number.md) |
+| `rhs` | 비교 대상 [number](number.md) |
 
-#### Return Value
-Whether the first [number](number.md) is greater than or equal to the second
+#### 반환 값
+첫 번째 [number](number.md)가 두 번째보다 크거나 같은지 여부
 
 <h3 id="number-negate"><code>number-negate</code></h3>
 
-Negate a [number](number.md)
+[number](number.md)의 부호를 반전시킵니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `val` | Number to negate |
+| `val` | 부호를 반전할 숫자 |
 
-#### Return Value
-A [number](number.md)
+#### 반환 값
+[number](number.md)
 
 <h3 id="numbers-argmax"><code>numbers-argmax</code></h3>
 
-Finds the index of maximum [number](number.md)
+최대 [number](number.md)의 인덱스를 찾습니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](number.md) to find the index of maximum [number](number.md) |
+| `numbers` | 최대 [number](number.md)의 인덱스를 찾을 _list_ |
 
-#### Return Value
-Index of maximum [number](number.md)
+#### 반환 값
+최대 [number](number.md)의 인덱스
 
 <h3 id="numbers-argmin"><code>numbers-argmin</code></h3>
 
-Finds the index of minimum [number](number.md)
+최소 [number](number.md)의 인덱스를 찾습니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](number.md) to find the index of minimum [number](number.md) |
+| `numbers` | 최소 [number](number.md)의 인덱스를 찾을 _list_ |
 
-#### Return Value
-Index of minimum [number](number.md)
+#### 반환 값
+최소 [number](number.md)의 인덱스
 
 <h3 id="numbers-avg"><code>numbers-avg</code></h3>
 
-Average of [numbers](number.md)
+[numbers](number.md)의 평균을 구합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](number.md) to average |
+| `numbers` | 평균을 구할 [numbers](number.md) _list_ |
 
-#### Return Value
-Average of [numbers](number.md)
+#### 반환 값
+[numbers](number.md)의 평균
 
 <h3 id="numbers-max"><code>numbers-max</code></h3>
 
-Maximum number
+최대값
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](number.md) to find the maximum [number](number.md) |
+| `numbers` | 최대 [number](number.md)를 찾을 _list_ |
 
-#### Return Value
-Maximum [number](number.md)
+#### 반환 값
+최대 [number](number.md)
 
 <h3 id="numbers-min"><code>numbers-min</code></h3>
 
-Minimum number
+최소값
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](number.md) to find the minimum [number](number.md) |
+| `numbers` | 최소 [number](number.md)를 찾을 _list_ |
 
-#### Return Value
-Minimum [number](number.md)
+#### 반환 값
+최소 [number](number.md)
 
 <h3 id="numbers-stddev"><code>numbers-stddev</code></h3>
 
-Standard deviation of [numbers](number.md)
+[numbers](number.md)의 표준편차를 계산합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](number.md) to calculate the standard deviation |
+| `numbers` | 표준편차를 구할 [numbers](number.md) _list_ |
 
-#### Return Value
-Standard deviation of [numbers](number.md)
+#### 반환 값
+[numbers](number.md)의 표준편차
 
 <h3 id="numbers-sum"><code>numbers-sum</code></h3>
 
-Sum of [numbers](number.md)
+[numbers](number.md)의 합을 구합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](number.md) to sum |
+| `numbers` | 합계를 구할 [numbers](number.md) _list_ |
 
-#### Return Value
-Sum of [numbers](number.md)
+#### 반환 값
+[numbers](number.md)의 합
 
 <h3 id="number-toString"><code>number-toString</code></h3>
 
-Convert a [number](number.md) to a string
+[number](number.md)를 문자열로 변환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `in` | Number to convert |
+| `in` | 변환할 숫자 |
 
-#### Return Value
-String representation of the [number](number.md)
+#### 반환 값
+[number](number.md)의 문자열 표현
 
 <h3 id="number-toTimestamp"><code>number-toTimestamp</code></h3>
 
-Converts a [number](number.md) to a _timestamp_. Values less than 31536000000 will be converted to seconds, values less than 31536000000000 will be converted to milliseconds, values less than 31536000000000000 will be converted to microseconds, and values less than 31536000000000000000 will be converted to nanoseconds.
+[number](number.md)를 _timestamp_로 변환합니다. 값이 31536000000 미만이면 초, 31536000000000 미만이면 밀리초, 31536000000000000 미만이면 마이크로초, 31536000000000000000 미만이면 나노초로 변환됩니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `val` | Number to convert to a timestamp |
+| `val` | timestamp로 변환할 숫자 |
 
-#### Return Value
+#### 반환 값
 Timestamp
 
 <h3 id="number-abs"><code>number-abs</code></h3>
 
-Calculates the absolute value of a [number](number.md)
+[number](number.md)의 절대값을 계산합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `n` | A [number](number.md) |
+| `n` | [number](number.md) |
 
-#### Return Value
-The absolute value of the [number](number.md)
+#### 반환 값
+[number](number.md)의 절대값

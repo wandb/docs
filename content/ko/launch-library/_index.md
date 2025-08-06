@@ -1,4 +1,7 @@
 ---
+title: 'launch-library
+
+  '
 cascade:
   hidden: true
   menu:
@@ -9,20 +12,15 @@ hidden: true
 menu:
   launch:
     identifier: launch-library
-title: launch-library
 type: docs
 ---
 
-<!-- Insert buttons and diff -->
+## 클래스
 
+[`class LaunchAgent`](./launchagent.md): Launch 에이전트 클래스이며, 지정된 run 큐를 폴링하여 wandb launch를 위한 run을 실행합니다.
 
+## 함수
 
-## Classes
+[`launch(...)`](./launch.md): W&B launch experiment를 실행합니다.
 
-[`class LaunchAgent`](./launchagent.md): Launch agent class which polls run given run queues and launches runs for wandb launch.
-
-## Functions
-
-[`launch(...)`](./launch.md): Launch a W&B launch experiment.
-
-[`launch_add(...)`](./launch_add.md): Enqueue a W&B launch experiment. With either a source uri, job or docker_image.
+[`launch_add(...)`](./launch_add.md): W&B launch experiment를 큐에 추가합니다. source uri, job, 또는 docker_image 중 하나를 이용할 수 있습니다.

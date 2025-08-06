@@ -1,10 +1,10 @@
 ---
+title: confusion_matrix()
 data_type_classification: function
 menu:
   reference:
     identifier: ko-ref-python-sdk-custom-charts-confusion_matrix
 object_type: python_sdk_custom_charts
-title: confusion_matrix()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py >}}
@@ -25,48 +25,48 @@ confusion_matrix(
 ) → CustomChart
 ```
 
-Constructs a confusion matrix from a sequence of probabilities or predictions. 
+확률 또는 예측값 시퀀스로부터 혼동 행렬(confusion matrix)을 생성합니다. 
 
 
 
-**Args:**
+**인자:**
  
- - `probs`:  A sequence of predicted probabilities for each  class. The sequence shape should be (N, K) where N is the number of samples  and K is the number of classes. If provided, `preds` should not be provided. 
- - `y_true`:  A sequence of true labels. 
- - `preds`:  A sequence of predicted class labels. If provided,  `probs` should not be provided. 
- - `class_names`:  Sequence of class names. If not  provided, class names will be defined as "Class_1", "Class_2", etc. 
- - `title`:  Title of the confusion matrix chart. 
- - `split_table`:  Whether the table should be split into a separate section  in the W&B UI. If `True`, the table will be displayed in a section named  "Custom Chart Tables". Default is `False`. 
+ - `probs`:  각 클래스별 예측 확률의 시퀀스입니다. 시퀀스의 형태는 (N, K)여야 하며, N은 샘플 개수, K는 클래스 개수입니다. 이 인자를 제공하는 경우, `preds`는 제공하지 않아야 합니다.
+ - `y_true`:  실제 라벨의 시퀀스입니다.
+ - `preds`:  예측된 클래스 라벨의 시퀀스입니다. 이 인자를 제공하는 경우, `probs`는 제공하지 않아야 합니다.
+ - `class_names`:  클래스 이름의 시퀀스입니다. 제공하지 않으면 "Class_1", "Class_2" 등으로 자동 지정됩니다.
+ - `title`:  혼동 행렬 차트의 제목입니다.
+ - `split_table`:  테이블을 W&B UI 내 별도의 섹션에 분리하여 표시할지 여부입니다. `True`로 설정하면 "Custom Chart Tables"라는 섹션에 테이블이 표시됩니다. 기본값은 `False`입니다.
 
 
 
-**Returns:**
+**반환값:**
  
- - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass it to `wandb.log()`. 
+ - `CustomChart`:  W&B에 로그할 수 있는 커스텀 차트 오브젝트입니다. 차트를 로그하려면 `wandb.log()`에 전달하세요.
 
 
 
-**Raises:**
+**예외 발생:**
  
- - `ValueError`:  If both `probs` and `preds` are provided or if the number of  predictions and true labels are not equal. If the number of unique  predicted classes exceeds the number of class names or if the number of  unique true labels exceeds the number of class names. 
- - `wandb.Error`:  If numpy is not installed. 
+ - `ValueError`:  `probs`와 `preds`를 동시에 제공하거나, 예측값과 실제 라벨의 개수가 다를 경우 발생합니다. 또는, 고유 예측 클래스 개수, 고유 실제 라벨 개수가 클래스 이름 개수를 초과할 경우에도 발생합니다.
+ - `wandb.Error`:  numpy가 설치되지 않은 경우 발생합니다.
 
 
 
-**Examples:**
- Logging a confusion matrix with random probabilities for wildlife classification: 
+**예시:**
+ 야생동물 분류를 위한 랜덤 확률로 혼동 행렬을 로그하는 방법: 
 
 ```python
 import numpy as np
 import wandb
 
-# Define class names for wildlife
+# 야생동물 클래스 이름 정의
 wildlife_class_names = ["Lion", "Tiger", "Elephant", "Zebra"]
 
-# Generate random true labels (0 to 3 for 10 samples)
+# 10개 샘플에 대해 0~3의 랜덤 실제 라벨 생성
 wildlife_y_true = np.random.randint(0, 4, size=10)
 
-# Generate random probabilities for each class (10 samples x 4 classes)
+# 각 클래스에 대한 랜덤 확률 생성 (10샘플 x 4클래스)
 wildlife_probs = np.random.rand(10, 4)
 wildlife_probs = np.exp(wildlife_probs) / np.sum(
     np.exp(wildlife_probs),
@@ -74,7 +74,7 @@ wildlife_probs = np.exp(wildlife_probs) / np.sum(
     keepdims=True,
 )
 
-# Initialize W&B run and log confusion matrix
+# W&B run을 초기화하고 혼동 행렬을 로그합니다
 with wandb.init(project="wildlife_classification") as run:
     confusion_matrix = wandb.plot.confusion_matrix(
          probs=wildlife_probs,
@@ -83,27 +83,27 @@ with wandb.init(project="wildlife_classification") as run:
          title="Wildlife Classification Confusion Matrix",
     )
     run.log({"wildlife_confusion_matrix": confusion_matrix})
-``` 
+```
 
-In this example, random probabilities are used to generate a confusion matrix. 
+이 예시에서는 랜덤 확률을 사용해 혼동 행렬을 생성합니다. 
 
-Logging a confusion matrix with simulated model predictions and 85% accuracy: 
+85% 정확도의 모델 예측으로 혼동 행렬을 로그하는 예시: 
 
 ```python
 import numpy as np
 import wandb
 
-# Define class names for wildlife
+# 야생동물 클래스 이름 정의
 wildlife_class_names = ["Lion", "Tiger", "Elephant", "Zebra"]
 
-# Simulate true labels for 200 animal images (imbalanced distribution)
+# 200장 동물 이미지에 대한 실제 라벨 시뮬레이션 (불균형 분포)
 wildlife_y_true = np.random.choice(
     [0, 1, 2, 3],
     size=200,
     p=[0.2, 0.3, 0.25, 0.25],
 )
 
-# Simulate model predictions with 85% accuracy
+# 85% 정확도의 모델 예측값 시뮬레이션
 wildlife_preds = [
     y_t
     if np.random.rand() < 0.85
@@ -111,7 +111,7 @@ wildlife_preds = [
     for y_t in wildlife_y_true
 ]
 
-# Initialize W&B run and log confusion matrix
+# W&B run을 초기화하고 혼동 행렬을 로그합니다
 with wandb.init(project="wildlife_classification") as run:
     confusion_matrix = wandb.plot.confusion_matrix(
          preds=wildlife_preds,
@@ -120,6 +120,6 @@ with wandb.init(project="wildlife_classification") as run:
          title="Simulated Wildlife Classification Confusion Matrix",
     )
     run.log({"wildlife_confusion_matrix": confusion_matrix})
-``` 
+```
 
-In this example, predictions are simulated with 85% accuracy to generate a confusion matrix.
+이 예시에서는 85% 정확도의 예측값을 시뮬레이션하여 혼동 행렬을 만듭니다.

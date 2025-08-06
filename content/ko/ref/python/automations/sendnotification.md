@@ -1,26 +1,26 @@
 ---
+title: SendNotification
 data_type_classification: class
 menu:
   reference:
     identifier: ko-ref-python-automations-sendnotification
 object_type: automations_namespace
-title: SendNotification
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py >}}
 
 
 
-Defines an automation action that sends a (Slack) notification.
+(슬랙) 알림을 보내는 오토메이션 액션을 정의합니다.
 
-Attributes:
-- action_type (Literal): The kind of action to be triggered.
-- message (str): The message body of the sent notification.
-- severity (AlertSeverity): The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
-- title (str): The title of the sent notification.
+속성:
+- action_type (Literal): 트리거될 액션의 종류입니다.
+- message (str): 전송되는 알림의 본문 메시지입니다.
+- severity (AlertSeverity): 전송되는 알림의 심각도 (`INFO`, `WARN`, `ERROR`)입니다.
+- title (str): 전송되는 알림의 제목입니다.
 
-### <kbd>method</kbd> `from_integration`
+### <kbd>메소드</kbd> `from_integration`
 ```python
 from_integration(cls, integration: 'SlackIntegration', *, title: 'str' = '', text: 'str' = '', level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>) -> 'Self'
 ```
-Define a notification action that sends to the given (Slack) integration.
+지정한 (Slack) 인테그레이션으로 알림을 보내는 액션을 정의합니다.

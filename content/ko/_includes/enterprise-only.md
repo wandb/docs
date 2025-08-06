@@ -1,5 +1,1 @@
----
-{}
----
-
-This feature is available for all [Enterprise](https://wandb.ai/site/pricing/) licenses.
+이 기능은 모든 [Enterprise](https://wandb.ai/site/pricing/) 라이선스에서 사용하실 수 있습니다.

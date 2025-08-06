@@ -1,10 +1,10 @@
 ---
+title: Plotly
 data_type_classification: class
 menu:
   reference:
     identifier: ko-ref-python-sdk-data-types-Plotly
 object_type: python_sdk_data_type
-title: Plotly
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py >}}
@@ -13,7 +13,7 @@ title: Plotly
 
 
 ## <kbd>class</kbd> `Plotly`
-W&B class for Plotly plots. 
+W&B의 Plotly 플롯을 위한 클래스입니다.
 
 ### <kbd>method</kbd> `Plotly.__init__`
 
@@ -23,13 +23,11 @@ __init__(
 )
 ```
 
-Initialize a Plotly object. 
+Plotly 오브젝트를 초기화합니다.
 
-
-
-**Args:**
+**ARG:**
  
- - `val`:  Matplotlib or Plotly figure. 
+ - `val`:  Matplotlib 또는 Plotly figure를 입력합니다.
 
 
 

@@ -1,10 +1,10 @@
 ---
+title: 프로젝트
 data_type_classification: module
 menu:
   reference:
     identifier: ko-ref-python-public-api-projects
 object_type: public_apis_namespace
-title: projects
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py >}}
@@ -13,69 +13,69 @@ title: projects
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for Project objects. 
+W&B Public API에서 Project 오브젝트를 다루는 모듈입니다.
 
-This module provides classes for interacting with W&B projects and their associated data. 
+이 모듈은 W&B Projects와 그에 연관된 데이터와 상호작용할 수 있는 클래스를 제공합니다.
 
 
 
-**Example:**
+**예시:**
  ```python
 from wandb.apis.public import Api
 
-# Get all projects for an entity
+# 엔티티의 모든 프로젝트 가져오기
 projects = Api().projects("entity")
 
-# Access project data
+# 프로젝트 데이터 엑세스
 for project in projects:
      print(f"Project: {project.name}")
      print(f"URL: {project.url}")
 
-     # Get artifact types
+     # 아티팩트 타입 가져오기
      for artifact_type in project.artifacts_types():
          print(f"Artifact Type: {artifact_type.name}")
 
-     # Get sweeps
+     # 스윕 가져오기
      for sweep in project.sweeps():
          print(f"Sweep ID: {sweep.id}")
          print(f"State: {sweep.state}")
-``` 
+```
 
 
 
-**Note:**
+**노트:**
 
-> This module is part of the W&B Public API and provides methods to access and manage projects. For creating new projects, use wandb.init() with a new project name. 
+> 이 모듈은 W&B Public API의 일부로, Projects에 엑세스하고 관리하는 메소드를 제공합니다. 새로운 프로젝트를 만들려면 wandb.init()에서 새로운 프로젝트 이름을 사용하세요.
 
 ## <kbd>class</kbd> `Projects`
-An iterable collection of `Project` objects. 
+`Project` 오브젝트의 반복 가능한 컬렉션입니다.
 
-An iterable interface to access projects created and saved by the entity. 
+엔티티가 만든 Projects에 반복적으로 접근할 수 있는 인터페이스입니다.
 
 
 
-**Args:**
+**인자:**
  
- - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
- - `entity` (str):  The entity name (username or team) to fetch projects for. 
- - `per_page` (int):  Number of projects to fetch per request (default is 50). 
+ - `client` (`wandb.apis.internal.Api`): 사용할 API 클라이언스 인스턴스
+ - `entity` (str): 프로젝트를 조회할 엔티티 이름 (사용자명 또는 팀명)
+ - `per_page` (int): 한 번에 요청해서 가져올 프로젝트 수 (기본값: 50)
 
 
 
-**Example:**
+**예시:**
  ```python
 from wandb.apis.public.api import Api
 
-# Find projects that belong to this entity
+# 해당 엔티티에 속한 프로젝트 찾기
 projects = Api().projects(entity="entity")
 
-# Iterate over files
+# 파일 반복
 for project in projects:
     print(f"Project: {project.name}")
     print(f"- URL: {project.url}")
     print(f"- Created at: {project.created_at}")
     print(f"- Is benchmark: {project.is_benchmark}")
-``` 
+```
 
 ### <kbd>method</kbd> `Projects.__init__`
 
@@ -87,15 +87,15 @@ __init__(
 ) → Projects
 ```
 
-An iterable collection of `Project` objects. 
+`Project` 오브젝트의 반복 가능한 컬렉션입니다.
 
 
 
-**Args:**
+**인자:**
  
- - `client`:  The API client used to query W&B. 
- - `entity`:  The entity which owns the projects. 
- - `per_page`:  The number of projects to fetch per request to the API. 
+ - `client`:  W&B를 쿼리하는 데 사용되는 API 클라이언트
+ - `entity`:  Projects를 소유한 엔티티
+ - `per_page`:  API에 한 번에 요청-조회할 Projects의 개수
 
 
 ---
@@ -105,15 +105,15 @@ An iterable collection of `Project` objects.
 
 
 ## <kbd>class</kbd> `Project`
-A project is a namespace for runs. 
+프로젝트는 run들을 위한 네임스페이스입니다.
 
 
 
-**Args:**
+**인자:**
  
- - `client`:  W&B API client instance. 
- - `name` (str):  The name of the project. 
- - `entity` (str):  The entity name that owns the project. 
+ - `client`:  W&B API 클라이언트 인스턴스
+ - `name` (str):  프로젝트 이름
+ - `entity` (str):  해당 프로젝트의 소유 엔티티 이름
 
 ### <kbd>method</kbd> `Project.__init__`
 
@@ -126,16 +126,16 @@ __init__(
 ) → Project
 ```
 
-A single project associated with an entity. 
+엔티티와 연결된 하나의 프로젝트입니다.
 
 
 
-**Args:**
+**인자:**
  
- - `client`:  The API client used to query W&B. 
- - `entity`:  The entity which owns the project. 
- - `project`:  The name of the project to query. 
- - `attrs`:  The attributes of the project. 
+ - `client`:  W&B를 쿼리하는 데 사용되는 API 클라이언트
+ - `entity`:  프로젝트를 소유한 엔티티
+ - `project`:  조회할 프로젝트 이름
+ - `attrs`:  프로젝트의 속성들
 
 
 ---
@@ -150,13 +150,13 @@ A single project associated with an entity.
 
 ### <kbd>property</kbd> Project.path
 
-Returns the path of the project. The path is a list containing the entity and project name. 
+프로젝트의 경로를 반환합니다. 경로는 엔티티와 프로젝트 이름이 담긴 리스트입니다.
 
 ---
 
 ### <kbd>property</kbd> Project.url
 
-Returns the URL of the project. 
+프로젝트의 URL을 반환합니다.
 
 
 
@@ -168,7 +168,7 @@ Returns the URL of the project.
 artifacts_types(per_page=50)
 ```
 
-Returns all artifact types associated with this project. 
+이 프로젝트와 연관된 모든 artifact 타입을 반환합니다.
 
 ---
 
@@ -178,6 +178,6 @@ Returns all artifact types associated with this project.
 sweeps()
 ```
 
-Fetches all sweeps associated with the project. 
+해당 프로젝트와 연관된 모든 sweeps를 조회합니다.
 
 ---

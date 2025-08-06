@@ -1,16 +1,16 @@
 ---
+title: 완료된 run 에 할당된 그룹을 나중에 변경할 수 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-change_group_after_completion
 support:
-- runs
-title: Is it possible to change the group assigned to a run after completion?
+- run
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-You can change the group assigned to a completed run using the API. This feature does not appear in the web UI. Use the following code to update the group:
+API를 사용하여 완료된 run에 할당된 그룹을 변경할 수 있습니다. 이 기능은 웹 UI에는 표시되지 않습니다. 다음 코드를 사용하여 그룹을 업데이트하세요.
 
 ```python
 import wandb

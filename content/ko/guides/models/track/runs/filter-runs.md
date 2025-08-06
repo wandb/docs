@@ -1,96 +1,72 @@
 ---
-description: How to use the sidebar and table on the project page
+title: run 필터 및 검색
+description: Projects 페이지에서 사이드바와 테이블을 사용하는 방법
 menu:
   default:
     identifier: ko-guides-models-track-runs-filter-runs
     parent: what-are-runs
-title: Filter and search runs
 ---
 
-Use your project page to gain insights from runs logged to W&B. You can filter and search runs from both the **Workspace** page and the **Runs** page.
+프로젝트 페이지를 활용하여 W&B에 로그된 run 에서 인사이트를 얻어보세요. **Workspace** 페이지와 **Runs** 페이지 모두에서 run 을 필터링하고 검색할 수 있습니다.
 
-## Filter runs
+## run 필터링하기
 
-Filter runs based on their status, [tags]({{< relref path="#filter-runs-with-tags" lang="ko" >}}), [regular expressions (RegEx)]({{< relref path="#filter-runs-with-regular-expressions-regex" lang="ko" >}}) or other properties with the filter button.
+run 의 상태, [태그]({{< relref path="#filter-runs-with-tags" lang="ko" >}}), [정규 표현식(RegEx)]({{< relref path="#filter-runs-with-regular-expressions-regex" lang="ko" >}}) 또는 기타 속성별로 필터 버튼을 통해 run 을 필터링할 수 있습니다.
 
-See Customize run colors for more information on how to [edit, randomize, and reset run colors]({{< relref path="guides/models/track/runs/run-colors" lang="ko" >}}).
+run 컬러를 편집, 랜덤화, 리셋하는 방법 등 자세한 내용은 [run 컬러 커스터마이즈]({{< relref path="guides/models/track/runs/run-colors" lang="ko" >}})를 참고하세요.
 
-### Filter runs with tags
+### 태그로 run 필터링하기
 
-Filter runs based on their tags with the filter button.
+필터 버튼을 사용해 run 의 태그로 필터링할 수 있습니다.
 
-1. Click on the **Runs** tab from the project sidebar.
-2. Select the **Filter** button, which looks like a funnel, at the top of the runs table.
-3. From left to right, select `"Tags"` from the dropdown menu, select a logic operator, and select a filter search value.
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭하세요.
+2. run 테이블 상단에 위치한 깔때기 모양의 **Filter** 버튼을 선택하세요.
+3. 왼쪽에서 오른쪽 순으로 드롭다운 메뉴에서 `"Tags"`를 선택하고, 논리 연산자를 선택한 뒤 필터 검색 값을 입력하세요.
 
-### Filter runs with regex
+### 정규식으로 run 필터링하기
 
-If regex doesn't provide you the desired results, you can make use of [tags]({{< relref path="tags.md" lang="ko" >}}) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
+정규식만으로 원하는 결과가 나오지 않으면, [태그]({{< relref path="tags.md" lang="ko" >}})를 활용하여 Runs Table에서 run 을 필터링할 수 있습니다. 태그는 run 생성 시 또는 run 이 종료된 후에도 추가할 수 있습니다. 특정 run 에 태그를 추가했다면, 아래 GIF와 같이 태그 필터를 적용할 수 있습니다.
 
-{{< img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" >}}
+{{< img src="/images/app_ui/filter_runs.gif" alt="태그별 run 필터링" >}}
 
-1. Click on the **Runs** tab from the project sidebar.
-2. Click on the search box at the top of the runs table.
-3. Ensure that the **RegEx** toggle (.*) is enabled (the toggle should be blue).
-4. Enter your regular expression in the search box.
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭하세요.
+2. run 테이블 상단의 검색 박스를 클릭하세요.
+3. **RegEx** 토글(.*)이 활성화되어 있는지 확인하세요(토글이 파란색이어야 합니다).
+4. 검색 박스에 원하는 정규 표현식을 입력하세요.
 
-## Search runs
+## run 검색하기
 
-Use regular expressions (RegEx) to find runs with the regular expression you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
+정규 표현식(RegEx)을 사용하여 지정한 패턴에 맞는 run 을 찾을 수 있습니다. 검색 박스에 쿼리를 입력하면 워크스페이스의 그래프와 테이블의 행 모두에서 볼 수 있는 run 이 필터링됩니다.
 
-## Group runs
+## run 그룹화하기
 
-To group runs by one or more columns (including hidden columns):
+하나 이상의 컬럼(숨겨진 컬럼 포함) 기준으로 run 을 그룹화할 수 있습니다.
 
-1. Below the search box, click the **Group** button, which looks like a lined sheet of paper.
-1. Select one or more columns to group results by.
-1. Each set of grouped runs is collapsed by default. To expand it, click the arrow next to the group name.
+1. 검색 박스 바로 아래의 줄이 그어진 종이 모양의 **Group** 버튼을 클릭하세요.
+1. 결과를 그룹화할 하나 이상의 컬럼을 선택하세요.
+1. 그룹으로 묶인 run 세트는 기본적으로 접힌 상태입니다. 그룹 이름 옆의 화살표를 클릭하면 펼칠 수 있습니다.
 
-## Sort runs by minimum and maximum values
-Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
+## 최소/최대 값으로 run 정렬하기
 
-The following steps describe how to sort the run table by a specific metric based on the minimum or maximum recorded value:
+로그된 메트릭의 최소값 또는 최대값을 기준으로 run 테이블을 정렬할 수 있습니다. 가장 좋은(또는 나쁜) 값만 보고 싶을 때 매우 유용합니다.
 
-1. Hover your mouse over the column with the metric you want to sort with.
-2. Select the kebab menu (three vertical lines).
-3. From the dropdown, select either **Show min** or **Show max**.
-4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
+다음 단계에 따라 특정 메트릭의 최소 또는 최대 기록 값 기반으로 run 테이블을 정렬할 수 있습니다:
 
-{{< img src="/images/app_ui/runs_min_max.gif" alt="Sort by min/max values" >}}
+1. 정렬에 사용할 메트릭이 있는 컬럼 위에 마우스를 올려두세요.
+2. 세로로 세 줄이 있는 메뉴(케밥 메뉴)를 선택하세요.
+3. 드롭다운에서 **Show min** 또는 **Show max** 중 하나를 선택하세요.
+4. 같은 드롭다운에서 **Sort by asc** 또는 **Sort by desc**를 선택해 오름차순 또는 내림차순으로 정렬할 수 있습니다.
 
-## Search End Time for runs
+{{< img src="/images/app_ui/runs_min_max.gif" alt="최소/최대 값별 정렬" >}}
 
-We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
+## run 의 종료 시간 검색
 
-{{< img src="/images/app_ui/search_run_endtime.png" alt="End Time column" >}}
+클라이언트 프로세스에서 마지막 하트비트를 기록하는 `End Time` 이라는 컬럼을 제공합니다. 이 필드는 기본적으로 숨겨져 있습니다.
 
-## Export runs table to CSV
+{{< img src="/images/app_ui/search_run_endtime.png" alt="End Time 컬럼" >}}
 
-Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
+## run 테이블을 CSV로 내보내기
 
-{{< img src="/images/app_ui/export_to_csv.gif" alt="Modal with preview of export to CSV" >}}
-<!-- ## Edit run colors
+모든 run, 하이퍼파라미터, 요약 메트릭 테이블을 다운로드 버튼으로 CSV 파일로 내보낼 수 있습니다.
 
-When a new run is created, it is assigned a default color. You can edit the color for a given run by clicking the color preview.
-
-
-<!-- Look for a green dot next to the name of runs— this indicates they're active in the table and on the graph legends. -->
-
-<!-- ## Bulk select runs
-
-Delete multiple runs at once, or tag a group of runs— bulk selection makes it easier to keep the runs table organized.
-
-{{< img src="/images/app_ui/howto_bulk_select.gif" alt="" >}} -->
-
-<!-- ## Select all runs in table
-
-Click the checkbox in the upper left corner of the table, and click "Select all runs" to select every run that matches the current set of filters.
-
-{{< img src="/images/app_ui/all_runs_select.gif" alt="" >}} -->
-
-<!-- 
-## Search columns in the table
-
-Search for the columns in the table UI guide with the **Columns** button.
-
-{{< img src="/images/app_ui/search_columns.gif" alt="" >}} -->
+{{< img src="/images/app_ui/export_to_csv.gif" alt="CSV 내보내기 미리보기 모달" >}}

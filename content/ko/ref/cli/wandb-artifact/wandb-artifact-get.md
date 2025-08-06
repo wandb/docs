@@ -1,22 +1,21 @@
 ---
+title: wandb artifact get
 menu:
   reference:
     identifier: ko-ref-cli-wandb-artifact-wandb-artifact-get
-title: wandb artifact get
 ---
 
-**Usage**
+**사용 방법**
 
 `wandb artifact get [OPTIONS] PATH`
 
-**Summary**
+**요약**
 
-Download an artifact from wandb
+wandb 에서 아티팩트를 다운로드합니다
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `--root` | The directory you want to download the artifact to |
-| `--type` | The type of artifact you are downloading |
+| `--root` | 아티팩트를 다운로드할 디렉토리 |
+| `--type` | 다운로드할 아티팩트의 타입 |

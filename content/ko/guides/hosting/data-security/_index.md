@@ -1,8 +1,9 @@
 ---
+title: 데이터 보안
 menu:
   default:
     identifier: ko-guides-hosting-data-security-_index
     parent: w-b-platform
-title: Data security
 weight: 3
 ---
+

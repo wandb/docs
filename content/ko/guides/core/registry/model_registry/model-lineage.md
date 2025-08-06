@@ -1,53 +1,51 @@
 ---
+title: 모델 계보 맵 생성
 description: ''
 menu:
   default:
     identifier: ko-guides-core-registry-model_registry-model-lineage
     parent: model-registry
-title: Create model lineage map
 weight: 7
 ---
 
-This page describes creating lineage graphs in the legacy W&B Model Registry. To learn about lineage graphs in W&B Registry, refer to [Create and view lineage maps]({{< relref path="../lineage.md" lang="ko" >}}).
+이 페이지는 기존 W&B Model Registry에서 계보 그래프(lineage graph)를 생성하는 방법을 설명합니다. W&B Registry의 계보 그래프에 대한 내용은 [계보 맵 생성 및 확인하기]({{< relref path="../lineage.md" lang="ko" >}})를 참고하세요.
 
 {{% alert %}}
-W&B will transition assets from the legacy [W&B Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ko" >}}) to the new [W&B Registry]({{< relref path="./" lang="ko" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows. Refer to [Migrate from legacy Model Registry]({{< relref path="../model_registry_eol.md" lang="ko" >}}).
+W&B는 기존 [W&B Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ko" >}})의 자산들을 새로운 [W&B Registry]({{< relref path="./" lang="ko" >}})로 이전할 예정입니다. 이 마이그레이션은 W&B에서 전적으로 관리 및 실행되며, 사용자 측에서는 별도의 조치가 필요하지 않습니다. 이전 프로세스는 최대한 원활하게 이루어져 기존 워크플로우 interruption을 최소화하도록 설계되었습니다. 자세한 내용은 [기존 Model Registry에서 마이그레이션하기]({{< relref path="../model_registry_eol.md" lang="ko" >}})를 참고하세요.
 {{% /alert %}}
 
+W&B에 모델 아티팩트를 기록하는 데 있어 유용한 기능 중 하나가 계보 그래프입니다. 계보 그래프는 한 run에서 기록된 아티팩트와, 특정 run에서 활용된 아티팩트를 함께 보여줍니다.
 
-A useful feature of logging model artifacts to W&B are lineage graphs. Lineage graphs show artifacts logged by a run as well as artifacts used by specific run. 
+즉, 모델 아티팩트를 기록하면 최소한 해당 모델 아티팩트를 사용하거나 생성한 W&B run을 볼 수 있습니다. 또한 [의존성 추적]({{< relref path="#track-an-artifact-dependency" lang="ko" >}})을 하면, 모델 아티팩트에서 사용한 입력값도 함께 확인할 수 있습니다.
 
-This means that, when you log a model artifact, you at a minimum have access to view the W&B run that used or produced the model artifact. If you [track a dependency]({{< relref path="#track-an-artifact-dependency" lang="ko" >}}), you also see the inputs used by the model artifact.
-
-For example, the proceeding image shows artifacts created and used throughout an ML experiment:
+예를 들어, 아래 이미지는 하나의 ML experiment 전반에서 생성 및 사용된 아티팩트들을 보여줍니다:
 
 {{< img src="/images/models/model_lineage_example.png" alt="Model lineage graph" >}}
 
-From left to right, the image shows:
-1. The `jumping-monkey-1` W&B run created the `mnist_dataset:v0` dataset artifact.
-2. The `vague-morning-5` W&B run trained a model using the `mnist_dataset:v0` dataset artifact. The output of this W&B run was a model artifact called `mnist_model:v0`.
-3. A run called `serene-haze-6` used the model artifact (`mnist_model:v0`) to evaluate the model.
+좌측에서 우측으로 이미지는 아래와 같이 진행됩니다:
+1. `jumping-monkey-1` W&B run이 `mnist_dataset:v0` 데이터셋 아티팩트를 생성합니다.
+2. `vague-morning-5` W&B run이 `mnist_dataset:v0` 데이터셋 아티팩트를 사용하여 모델을 트레이닝합니다. 이 run의 출력으로 `mnist_model:v0`이라는 모델 아티팩트가 생성됩니다.
+3. `serene-haze-6`라는 run이 이 모델 아티팩트(`mnist_model:v0`)를 이용해 모델을 평가합니다.
 
+## 아티팩트 의존성 추적하기
 
-## Track an artifact dependency
+데이터셋 아티팩트를 W&B run의 입력(input)으로 선언하고 의존성을 추적하려면, `use_artifact` API를 사용하세요.
 
-Declare an dataset artifact as an input to a W&B run with the `use_artifact` API to track a dependency. 
-
-The proceeding code snippet shows how to use the `use_artifact` API:
+아래 코드조각은 `use_artifact` API 사용 예시입니다:
 
 ```python
-# Initialize a run
+# run 초기화
 run = wandb.init(project=project, entity=entity)
 
-# Get artifact, mark it as a dependency
+# 아티팩트 가져오기 및 의존성 표시
 artifact = run.use_artifact(artifact_or_name="name", aliases="<alias>")
 ```
 
-Once you have retrieved your artifact, you can use that artifact to (for example), evaluate the performance of a model. 
+아티팩트를 가져왔다면, 이를 활용해 예를 들어 모델 성능 평가 등 다양한 작업에 사용할 수 있습니다.
 
 <details>
 
-<summary>Example: Train a model and track a dataset as the input of a model</summary>
+<summary>예시: 모델을 학습시키고 데이터셋을 입력값으로 추적하기</summary>
 
 ```python
 job_type = "train_model"
@@ -70,7 +68,7 @@ train_table = artifact.get("train_table")
 x_train = train_table.get_column("x_train", convert_to="numpy")
 y_train = train_table.get_column("y_train", convert_to="numpy")
 
-# Store values from our config dictionary into variables for easy accessing
+# config 사전에서 값을 변수로 뽑아두기
 num_classes = 10
 input_shape = (28, 28, 1)
 loss = "categorical_crossentropy"
@@ -80,7 +78,7 @@ batch_size = run.config["batch_size"]
 epochs = run.config["epochs"]
 validation_split = run.config["validation_split"]
 
-# Create model architecture
+# 모델 아키텍처 생성
 model = keras.Sequential(
     [
         layers.Input(shape=input_shape),
@@ -95,13 +93,13 @@ model = keras.Sequential(
 )
 model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-# Generate labels for training data
+# 트레이닝 데이터에 대한 레이블 생성
 y_train = keras.utils.to_categorical(y_train, num_classes)
 
-# Create training and test set
+# 트레이닝 및 테스트 세트 생성
 x_t, x_v, y_t, y_v = train_test_split(x_train, y_train, test_size=0.33)
 
-# Train the model
+# 모델 트레이닝
 model.fit(
     x=x_t,
     y=y_t,
@@ -111,7 +109,7 @@ model.fit(
     callbacks=[WandbCallback(log_weights=True, log_evaluation=True)],
 )
 
-# Save model locally
+# 모델을 로컬에 저장
 path = "model.h5"
 model.save(path)
 

@@ -1,168 +1,165 @@
 ---
+title: 레거시 모델 레지스트리에서 마이그레이션
 menu:
   default:
     identifier: ko-guides-core-registry-model_registry_eol
     parent: registry
-title: Migrate from legacy Model Registry
 weight: 9
 ---
 
-W&B is migrating from the legacy **Model Registry** to the enhanced **W&B Registry**. This transition is designed to be seamless and fully managed by W&B. The migration process will preserve your workflows while unlocking powerful new features. For any questions or support, contact [support@wandb.com](mailto:support@wandb.com).
+W&B는 기존 **Model Registry**에서 업그레이드된 **W&B Registry**로 이전 중입니다. 이번 전환은 완전히 W&B에 의해 관리되어 사용자가 별다른 작업 없이 원활하게 이루어지도록 설계되었습니다. 마이그레이션 과정에서도 기존 워크플로우는 그대로 유지되며, 강력한 신규 기능을 사용할 수 있게 됩니다. 궁금한 사항이나 지원이 필요하실 경우 [support@wandb.com](mailto:support@wandb.com) 으로 문의해 주세요.
 
-## Reasons for the migration
+## 마이그레이션 이유
 
-W&B Registry offers major improvements over the legacy Model Registry:
+W&B Registry는 기존 Model Registry 대비 다음과 같은 큰 개선사항을 제공합니다:
 
-- **Unified, organization-level experience**: Share and manage curated artifacts across your organization, regardless of teams.
-- **Improved governance**: Use access control, restricted registries, and visibility settings to manage user access.
-- **Enhanced functionality**: New features such as custom registries, better search, audit trails, and automation support help modernize your ML infrastructure.
-<!-- - **Future-ready**: All ongoing and future W&B enhancements for artifact lifecycle management will be built on the W&B Registry. -->
+- **통합된 조직 단위 경험**: 팀과 상관 없이 조직 전체에서 선별된 artifacts를 공유·관리할 수 있습니다.
+- **향상된 거버넌스**: 엑세스 제어, 제한된 레지스트리, 가시성 설정 등으로 사용자 엑세스를 세밀하게 관리할 수 있습니다.
+- **강화된 기능성**: 커스텀 레지스트리, 더 강력한 검색, 감사 추적, 자동화 지원 등 다양한 신규 기능으로 ML 인프라를 현대화할 수 있습니다.
 
-The following table summarizes the key differences between the legacy Model Registry and the new W&B Registry:
 
-| Feature | Legacy W&B Model Registry | W&B Registry |
+
+아래 표는 기존 Model Registry와 새로운 W&B Registry의 주요 차이점을 요약한 것입니다:
+
+| 기능 | 기존 W&B Model Registry | W&B Registry |
 | ----- | ----- | ----- |
-| Artifact Visibility | Team-level only - access restricted to team members | Org-level visibility with fine-grained permission controls | 
-| Custom Registries |Not supported | Fully supported — create registries for any artifact type |
-| Access Control | Not available | Role-based access (Admin, Member, Viewer) at the registry level |
-| Terminology |“Registered models”: pointers to model versions | “Collections”: pointers to any artifact versions |
-| Registry Scope |Only supports model versioning  | Supports models, datasets, custom artifacts, and more |
-| Automations | Registry-level automations | Registry- and collection-level automations supported and copied during migration |
-| Search & Discoverability | Limited search and discoverability | Central search within W&B Registry across all registries in the organization |
-| API Compatibility | Uses `wandb.init.link_model()` and MR-specific patterns | Modern SDK APIs (`link_artifact()`, `use_artifact()`) with auto-redirection |
-| Migration | End-of-life | Automatically migrated and enhanced — data is copied, not deleted |
+| 아티팩트 가시성 | 팀 단위만 지원 — 팀 멤버에게만 엑세스 제한 | 조직 단위 가시성과 세분화된 권한 제어 |
+| 커스텀 레지스트리 | 미지원 | 완벽 지원 — 모든 아티팩트 유형에 대한 레지스트리 생성 가능 |
+| 엑세스 제어 | 미제공 | 레지스트리 단위 역할 기반 엑세스(관리자, 멤버, 뷰어) 지원 |
+| 용어 | "Registered models": 모델 버전에 대한 포인터 | "Collections": 모든 아티팩트 버전 포인터 |
+| 레지스트리 범위 | 모델 버전 관리만 지원 | 모델, 데이터셋, 커스텀 artifacts 등 다양하게 지원 |
+| 자동화 | 레지스트리 단위 자동화 | 레지스트리 및 컬렉션 단위 자동화 모두 지원 및 마이그레이션 시 복사 |
+| 검색 및 탐색 | 제한적인 검색·탐색 제공 | 조직 내 모든 레지스트리에 걸쳐 중앙 검색 가능 |
+| API 호환성 | `wandb.init.link_model()` 및 MR 전용 패턴 사용 | 최신 SDK API (`link_artifact()`, `use_artifact()`) 자동 리디렉션 포함 |
+| 마이그레이션 | 지원 종료 | 자동 마이그레이션 및 기능 향상 — 데이터 복사, 삭제 없음 |
 
-## Preparing for the migration
+## 마이그레이션 준비
 
-- **No action required**: The migration is fully automated and managed by W&B. You do not need to run scripts, update configurations, or move data manually.
-- **Stay informed**: You will receive communications (banners in the W&B App UI) 2 weeks prior to your scheduled migration.
-- **Review permissions**: After the migration, admins should check registry access to ensure alignment with your team’s needs.
-- **Use new paths in future work**: Old code continues to work, W&B recommends using the new W&B Registry paths for new projects.
+- **따로 조치 필요 없음**: 마이그레이션은 완전히 자동화되어 W&B에서 관리하므로, 스크립트 실행·설정 변경·데이터 수동 이동이 불필요합니다.
+- **공지사항 확인**: 마이그레이션 예정일 최소 2주 전에 W&B App UI 내 배너 등으로 안내가 제공됩니다.
+- **권한 검토**: 마이그레이션 후에는 관리자(admin)가 레지스트리 엑세스를 점검하여 팀에 적합한 권한 체계를 유지해 주세요.
+- **새로운 경로 사용 권장**: 기존 코드는 계속 동작하지만, 신규 프로젝트에는 새로운 W&B Registry 경로 사용을 권장합니다.
 
 
-## Migration process
+## 마이그레이션 절차
 
-### Temporary write operation pause
-During migration, write operations for your team’s Model Registry will be paused to ensure data consistency for up to one hour. Write operations to the newly created migrated W&B Registry will also be paused during the migration.
+### 일시적 쓰기 중단 안내
+마이그레이션 과정 중, 데이터 일관성을 위해 팀의 Model Registry에 대한 쓰기 작업이 최대 1시간 동안 일시 중지됩니다. 새로 생성되는 마이그레이션된 W&B Registry에도 같은 기간 쓰기 작업이 일시 중단됩니다.
 
-### Data migration
-W&B will migrate the following data from the legacy Model Registry to the new W&B Registry:
+### 데이터 마이그레이션
+W&B는 기존 Model Registry의 다음 데이터를 새 W&B Registry로 이전합니다:
 
 - Collections
-- Linked artifact versions
-- Version history
-- Aliases, tags, and descriptions
-- Automations (both collection and registry-level)
-- Permissions, including service account roles and protected aliases
+- 연결된 아티팩트 버전
+- 버전 기록
+- 에일리어스, 태그, 설명
+- 자동화(컬렉션 및 레지스트리 단위 모두)
+- 권한(서비스 계정 역할 및 보호된 에일리어스 등)
 
-Within the W&B App UI, the legacy Model Registry will be replaced with the new W&B Registry. Migrated registries will have the name of your team followed by `mr-migrated`:
+W&B App UI 내에서는 기존 Model Registry가 새 W&B Registry로 교체됩니다. 마이그레이션된 레지스트리는 팀 이름 뒤에 `mr-migrated`가 붙은 형태로 표시됩니다:
 
 ```text
 <team-name>-mr-migrated
 ```
 
-These registries default to **Restricted** visibility, preserving your existing privacy boundaries. Only the original members of the `<team-name>` will have access to their respective registries. 
+이 레지스트리들은 기본적으로 **Restricted(제한적)** 가시성으로 제공되어 기존 프라이버시 경계가 유지됩니다. `<team-name>`의 기존 멤버만 해당 레지스트리에 엑세스할 수 있습니다. 
 
 
-## After the migration
+## 마이그레이션 이후
 
-After the migration completes:
+마이그레이션이 완료된 후:
 
-- The legacy Model Registry becomes **read-only**. You can still view and access your data, but no new writes will be allowed.
-- Data in the legacy Model Registry is **copied** to the new W&B Registry, not moved. No data is deleted.
-- Access all your data from the new W&B Registry.
-- Use the new Registry UI for versioning, governance, audit trails, and automation.
-- Continue using your old code.
-   - [Existing paths and API calls will automatically redirect to the new W&B Registry.]({{< relref path="#code-will-continue-to-work" lang="ko" >}})
-   - [Artifact version paths are redirected.]({{< relref path="#legacy-paths-will-redirect-to-new-wb-registry-paths" lang="ko" >}})
-- The legacy Model Registry will temporarily remain visible in the UI. W&B will eventually hide the legacy Model Registry.
-- Explore enhanced functionality in the Registry such as:
-    - [Organization-level access]({{< relref path="/guides/core/registry/create_registry/#visibility-types" lang="ko" >}})
-    - [Role-based access control]({{< relref path="/guides/core/registry/configure_registry/" lang="ko" >}})
-    - [Registry-level lineage tracking]({{< relref path="/guides/core/registry/lineage/" lang="ko" >}})
-    - [Automations]({{< relref path="/guides/core/automations/" lang="ko" >}})
+- 기존 Model Registry는 **읽기 전용(read-only)** 이 됩니다. 데이터 조회·엑세스는 가능하나, 신규 쓰기는 불가능합니다.
+- 기존 Model Registry의 데이터는 새 W&B Registry로 **복사**됩니다(이동 아님). 삭제되는 데이터는 없습니다.
+- 모든 데이터는 새 W&B Registry에서 엑세스할 수 있습니다.
+- 버전 관리, 거버넌스, 감사 추적, 자동화 등은 새로운 Registry UI를 통해 사용할 수 있습니다.
+- 기존 코드는 계속 동작합니다.
+   - [기존 경로 및 API 호출이 자동으로 새로운 W&B Registry로 리디렉션됩니다.]({{< relref path="#code-will-continue-to-work" lang="ko" >}})
+   - [아티팩트 버전 경로도 리디렉션됩니다.]({{< relref path="#legacy-paths-will-redirect-to-new-wb-registry-paths" lang="ko" >}})
+- 기존 Model Registry는 일정 기간 UI에 계속 노출되며, W&B가 추후 히든 처리할 예정입니다.
+- Registry의 향상된 기능을 활용해 보세요:
+    - [조직 단위 엑세스]({{< relref path="/guides/core/registry/create_registry/#visibility-types" lang="ko" >}})
+    - [역할 기반 엑세스 제어]({{< relref path="/guides/core/registry/configure_registry/" lang="ko" >}})
+    - [레지스트리 단위 계보 추적]({{< relref path="/guides/core/registry/lineage/" lang="ko" >}})
+    - [자동화]({{< relref path="/guides/core/automations/" lang="ko" >}})
 
-### Code will continue to work
+### 기존 코드 호환
 
-Existing API calls in your code that refer to the legacy Model Registry will automatically redirect to the new W&B Registry. The following API calls will continue to work without any changes:
+기존 코드에서 legacy Model Registry를 참조하는 API 호출은 자동으로 새 W&B Registry로 리디렉션됩니다. 아래와 같은 API 호출들은 별도의 수정 없이 계속 동작합니다:
 
 - `wandb.Api().artifact()`
 - `wandb.run.use_artifact()`
 - `wandb.run.link_artifact()`
 - `wandb.Artifact().link()`
 
-### Legacy paths will redirect to new W&B Registry paths
+### 기존 경로에서 새 W&B Registry 경로로 리디렉션
 
-W&B will automatically redirect legacy Model Registry paths to the new W&B Registry format. This means you can continue using your existing code without needing to refactor paths immediately. Note that automatic redirection only applies to collections that were created in the legacy Model Registry before migration.
+W&B는 기존 Model Registry 경로를 자동으로 새 W&B Registry 형식으로 리디렉션합니다. 즉, 기존 코드를 즉시 수정할 필요 없이 사용할 수 있습니다. 단, 자동 리디렉션은 마이그레이션 이전에 legacy Model Registry에 존재하던 컬렉션에 한해 적용됩니다.
 
-For example:
-- If the legacy Model Registry had collection `"my-model"` already present, the link action will redirect successfully
-- If the legacy Model Registry did not have collection `"my-model"`, it will not redirect and will lead to an error
+예시:
+- 기존 Model Registry에 `"my-model"` 컬렉션이 존재했다면, link 동작이 성공적으로 리디렉션됩니다.
+- 기존 Model Registry에 `"my-model"` 컬렉션이 없었다면, 리디렉션되지 않고 에러가 발생합니다.
 
 ```python
-# This will redirect successfully if "my-model" existed in legacy Model Registry
+# "my-model"이 legacy Model Registry에 존재했다면 리디렉션 성공
 run.link_artifact(artifact, "team-name/model-registry/my-model")
 
-# This will fail if "new-model" did not exist in legacy Model Registry
+# "new-model"이 legacy Model Registry에 없었다면 실패
 run.link_artifact(artifact, "team-name/model-registry/new-model")
 ```
 
-<!-- - Existing training and deployment workflows remain intact.
-- CI/CD pipelines built on model promotion or artifact linking will not break.
-- Teams can adopt the new W&B Registry gradually, without needing to refactor old codebases immediately. -->
-
-To fetch versions from the legacy Model Registry, paths consisted of a team name, a `"model-registry"` string, collection name, and version:
+기존 Model Registry에서 버전 정보 조회를 위해 다음 형식의 경로를 사용했습니다(팀 이름, `"model-registry"`, 컬렉션 이름, 버전으로 구성):
 
 ```python
 f"{team-name}/model-registry/{collection-name}:{version}"
 ```
 
-W&B will automatically redirect these paths to the new W&B Registry format, which includes the organization name, a `"wandb-registry"` string, the team name, collection name, and version:
+W&B는 이러한 경로도 자동으로 새 W&B Registry 형식(조직 이름, `"wandb-registry"`, 팀 이름, 컬렉션 이름, 버전 포함)으로 리디렉션합니다:
 
 ```python
-# Redirects to new path
+# 새 경로로 리디렉션
 f"{org-name}/wandb-registry-{team-name}/{collection-name}:{version}"
 ```
 
 
-{{% alert title="Python SDK warnings" %}}
+{{% alert title="Python SDK 경고 안내" %}}
 
-A warning error may appear if you continue to use legacy Model Registry paths in your code. The warning will not break your code, but it indicates that you should update your paths to the new W&B Registry format. 
+기존 Model Registry 경로를 계속 사용할 경우 경고 메시지가 나타날 수 있습니다. 이 경고는 코드 실행을 중단시키지 않지만, 앞으로는 새 W&B Registry 경로 사용을 권장함을 알립니다.
 
-Whether a warning appears depends on the version of the W&B Python SDK you are using:
+경고 노출 여부는 W&B Python SDK 버전에 따라 다릅니다:
 
-* Users on the latest W&B SDK (`v0.21.0` and above) will see a non-breaking warning in their logs indicating that a redirect has occurred.
-* For older SDK versions, the redirect will still work silently without emitting a warning. Some metadata such as entity or project names may reflect legacy values.
+* 최신 W&B SDK(`v0.21.0` 이상)에서는 리디렉션이 발생했음을 알리는 비중단성 경고가 로그에 표시됩니다.
+* 구버전 SDK에서는 경고 없이 조용히 리디렉션됩니다. entity나 project 이름 등 일부 메타데이터가 legacy 값을 그대로 반영할 수 있습니다.
 
 {{% /alert %}} 
 
 
-## Frequently asked questions
+## 자주 묻는 질문
 
-### How will I know when my org is being migrated?
+### 우리 조직이 언제 마이그레이션되는지 어떻게 알 수 있나요?
 
-You will receive advance notice with an in-app banner or direct communication from W&B.
+W&B에서 UI 내 배너 또는 직접적인 커뮤니케이션을 통해 사전 안내를 드립니다.
 
-### Will there be downtime?
+### 다운타임(중단 시간)이 있나요?
 
-Write operations to the legacy Model Registry and the new W&B Registry will be paused for a approximately one hour during the migration. All other W&B services will remain available.
+마이그레이션 중 약 1시간 동안 legacy Model Registry와 새 W&B Registry에 대한 쓰기 작업만 일시 중단됩니다. 그 외 W&B 서비스는 정상적으로 사용 가능합니다.
 
-### Will this break my code?
+### 기존 코드가 깨지나요?
 
-No. All legacy Model Registry paths and Python SDK calls will automatically redirect to the new Registry.
+아니요. 모든 legacy Model Registry 경로 및 Python SDK 호출은 자동으로 새 Registry로 리디렉션됩니다.
 
-### Will my data be deleted?
+### 데이터가 삭제되나요?
 
-No. Your data will be copied to the new W&B Registry. The legacy Model Registry becomes read-only and later hidden. No data is removed or lost.
+아니요. 모든 데이터는 새 W&B Registry로 복사됩니다. 기존 Model Registry는 읽기 전용으로 한동안 유지되며 이후 숨김 처리됩니다. 데이터는 삭제·분실되지 않습니다.
 
-### What if I’m using an older SDK?
+### 구버전 SDK를 사용하는데 괜찮은가요?
 
-Redirects will still work, but you will not see warnings about them. For the best experience, upgrade to the latest version of the W&B SDK.
+리디렉션은 동일하게 동작하지만, 경고 메시지는 표시되지 않을 수 있습니다. 원활한 경험을 위해 최신 W&B SDK로 업그레이드하시길 권장합니다.
 
-### Can I rename/modify my migrated registry?
+### 마이그레이션된 레지스트리를 이름 변경/수정할 수 있나요?
 
-Yes, renaming and other operations such as adding or removing members from a migrated registry are allowed. These registries are simply custom registries underneath, and the redirection will continue working even after migration. 
+네, 마이그레이션된 레지스트리에 대해 이름 변경, 멤버 추가·삭제 등 다양한 작업이 가능합니다. 마이그레이션된 레지스트리는 기본적으로 커스텀 레지스트리로 취급되며, 마이그레이션 후에도 리디렉션은 정상 작동합니다.
 
-## Questions?
+## 문의
 
-For support or to discuss your migration, contact [support@wandb.com](mailto:support@wandb.com). W&B is committed to helping you transition smoothly to the new W&B Registry.
+마이그레이션 관련 문의나 지원이 필요하시면 [support@wandb.com](mailto:support@wandb.com) 으로 연락해 주세요. W&B는 새 W&B Registry로의 원활한 전환을 적극 지원합니다.

@@ -1,10 +1,10 @@
 ---
+title: 오디오
 data_type_classification: class
 menu:
   reference:
     identifier: ko-ref-python-sdk-data-types-Audio
 object_type: python_sdk_data_type
-title: Audio
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py >}}
@@ -13,7 +13,7 @@ title: Audio
 
 
 ## <kbd>class</kbd> `Audio`
-W&B class for audio clips. 
+오디오 클립을 위한 W&B 클래스입니다.
 
 ### <kbd>method</kbd> `Audio.__init__`
 
@@ -25,15 +25,15 @@ __init__(
 )
 ```
 
-Accept a path to an audio file or a numpy array of audio data. 
+오디오 파일 경로나 오디오 데이터의 넘파이 배열을 입력받습니다.
 
 
 
-**Args:**
+**ARG:**
  
- - `data_or_path`:  A path to an audio file or a NumPy array of audio data. 
- - `sample_rate`:  Sample rate, required when passing in raw NumPy array of audio data. 
- - `caption`:  Caption to display with audio. 
+ - `data_or_path`:  오디오 파일의 경로나 오디오 데이터의 NumPy 배열입니다.
+ - `sample_rate`:  원시 NumPy 배열을 입력할 때 필요한 샘플링 레이트입니다.
+ - `caption`:  오디오와 함께 표시할 캡션입니다.
 
 
 
@@ -48,7 +48,7 @@ Accept a path to an audio file or a numpy array of audio data.
 durations(audio_list)
 ```
 
-Calculate the duration of the audio files. 
+오디오 파일들의 재생 시간을 계산합니다.
 
 ---
 
@@ -60,6 +60,6 @@ Calculate the duration of the audio files.
 sample_rates(audio_list)
 ```
 
-Get sample rates of the audio files. 
+오디오 파일의 샘플링 레이트를 가져옵니다.
 
 ---

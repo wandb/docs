@@ -1,29 +1,29 @@
 ---
+title: wandb job
 menu:
   reference:
     identifier: ko-ref-cli-wandb-job-_index
-title: wandb job
 ---
 
-**Usage**
+**사용법**
 
-`wandb job [OPTIONS] COMMAND [ARGS]...`
+`wandb job [OPTIONS] 코맨드 [ARG]...`
 
-**Summary**
+**요약**
 
-Commands for managing and viewing W&B jobs
+W&B job 을 관리하고 조회하는 코맨드
 
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
 
 
-**Commands**
+**코맨드**
 
-| **Command** | **Description** |
+| **코맨드** | **설명** |
 | :--- | :--- |
-| create | Create a job from a source, without a wandb run. |
-| describe | Describe a launch job. |
-| list | List jobs in a project |
+| create | wandb run 없이 소스에서 job 을 생성합니다. |
+| describe | launch job 을 설명합니다. |
+| list | 프로젝트 내의 job 을 나열합니다. |

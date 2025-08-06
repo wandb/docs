@@ -1,45 +1,39 @@
 ---
-description: null
+title: run 색상 사용자 지정
 menu:
   default:
     identifier: ko-guides-models-track-runs-run-colors
     parent: Customize run colors
-title: Customize run colors
 ---
 
-W&B automatically assigns a color to each run that you create in your project. You can change the default color of a run to help you visually distinguish it from other runs in the table and graphs. Reset your project workspace to restore the default colors for all runs in the table.
+W&B 는 프로젝트에서 생성하는 각 run 에 자동으로 색상을 할당합니다. 테이블과 그래프에서 다른 run 들과 시각적으로 구분하기 쉽도록 run 의 기본 색상을 변경할 수 있습니다. 테이블에 있는 모든 run 에 대해 기본 색상을 복원하려면 프로젝트 워크스페이스를 재설정하세요.
 
-Run colors are locally scoped. On the project page, custom colors apply only to your own workspace. In reports, custom colors for runs apply only at the section level. You can visualize the same run in different sections, which can use different custom colors per section.
+run 색상은 로컬 범위로 적용됩니다. 프로젝트 페이지에서는 사용자의 워크스페이스에만 커스텀 색상이 적용됩니다. Reports 에서는 run 의 커스텀 색상이 섹션 단위로만 적용됩니다. 동일한 run 을 여러 섹션에서 각각 다른 색상으로 시각화할 수 있습니다.
 
-## Edit default run colors
+## 기본 run 색상 변경하기
 
-1. Click the **Runs** tab from the project sidebar.
-2. Click the dot color next to the run name in the **Name** column.
-3. Select a color from the color palette or the color picker, or enter a hex code.
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭합니다.
+2. **Name** 열에서 run 이름 옆의 점 색상을 클릭합니다.
+3. 색상 팔레트 또는 색상 선택기에서 색상을 선택하거나, hex 코드를 입력합니다.
 
-{{< img src="/images/runs/run-color-palette.png" alt="Edit default run color in project workspace">}}
+{{< img src="/images/runs/run-color-palette.png" alt="프로젝트 워크스페이스에서 기본 run 색상 수정하기">}}
 
-## Randomize run colors
+## run 색상 무작위 설정
 
-To randomize the colors of all runs in the table:
+테이블에 있는 모든 run 의 색상을 무작위로 설정하려면:
 
-1. Click the **Runs** tab from the project sidebar.
-2. Hover over the **Name** column header, click the three horizontal dots (**...**), and select **Randomize run colors** from the dropdown menu.
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭합니다.
+2. **Name** 열 헤더 위에 마우스를 올리고, 오른쪽의 세 개 점(**...**)을 클릭한 후 드롭다운 메뉴에서 **Randomize run colors** 를 선택합니다.
 
 {{% alert %}}
-The option to randomize run colors is available only after modify the run's table in some way, such as by sorting, filtering, searching, or grouping.
+run 테이블을 정렬, 필터링, 검색, 그룹화 등 어떤 방식으로든 수정한 후에만 run 색상 무작위 설정 옵션이 활성화됩니다.
 {{% /alert %}}
 
+## run 색상 초기화
 
-## Reset run colors
+테이블에 있는 모든 run 의 색상을 기본값으로 복원하려면:
 
-<!-- {{% alert %}}
-The option to randomize run colors is only available if there are at least two runs in the table or selector, and you have made some kind of modification to the view (sorting, filtering, searching, or grouping).
-{{% /alert %}} -->
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭합니다.
+2. **Name** 열 헤더 위에 마우스를 올리고, 오른쪽의 세 개 점(**...**)을 클릭한 후 드롭다운 메뉴에서 **Reset colors** 를 선택합니다.
 
-To restore the default colors for all runs in the table:
-
-1. Click the **Runs** tab from the project sidebar.
-2. Hover over the **Name** column header, click the three horizontal dots (**...**), and select **Reset colors** from the dropdown menu.
-
-{{< img src="/images/runs/reset-run-colors.png" alt="Reset run colors in project workspace">}}
+{{< img src="/images/runs/reset-run-colors.png" alt="프로젝트 워크스페이스에서 run 색상 초기화하기">}}

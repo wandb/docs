@@ -1,99 +1,100 @@
 ---
+title: 레지스트리 아이템 찾기
 menu:
   default:
     identifier: ko-guides-core-registry-search_registry
     parent: registry
-title: Find registry items
 weight: 7
 ---
 
-Use the [global search bar in the W&B Registry App]({{< relref path="./search_registry.md#search-for-registry-items" lang="ko" >}}) to find a registry, collection, artifact version tag, collection tag, or alias. You can use MongoDB-style queries to [filter registries, collections, and artifact versions]({{< relref path="./search_registry.md#query-registry-items-with-mongodb-style-queries" lang="ko" >}}) based on specific criteria using the W&B Python SDK.
+[W&B Registry App의 글로벌 검색창]({{< relref path="./search_registry.md#search-for-registry-items" lang="ko" >}})을 이용해 registry, collection, artifact version tag, collection tag 또는 에일리어스를 찾아보세요. W&B Python SDK를 사용하면 MongoDB 스타일 쿼리로 [registry, collection, artifact version을 필터링]({{< relref path="./search_registry.md#query-registry-items-with-mongodb-style-queries" lang="ko" >}})할 수 있습니다.
 
+검색 결과에는 본인이 접근 권한이 있는 항목만 표시됩니다.
 
-Only items that you have permission to view appear in the search results.
+## Registry 항목 검색하기
 
-## Search for registry items
+Registry 항목을 검색하려면:
 
-To search for a registry item:
+1. W&B Registry App으로 이동합니다.
+2. 페이지 상단의 검색창에 검색어를 입력한 뒤 Enter 키를 누르세요.
 
-1. Navigate to the W&B Registry App.
-2. Specify the search term in the search bar at the top of the page. Press Enter to search.
+입력한 검색어가 존재하는 registry, collection 이름, artifact version tag, collection tag, 또는 에일리어스와 일치하면 검색창 아래에 결과가 표시됩니다.
 
-Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
+{{< img src="/images/registry/search_registry.gif" alt="Registry 내 검색하기" >}}
 
-{{< img src="/images/registry/search_registry.gif" alt="Searching within a Registry" >}}
+## MongoDB 스타일 쿼리로 registry 항목 조회하기
 
-## Query registry items with MongoDB-style queries
+[`wandb.Api().registries()`]({{< relref path="/ref/python/public-api/api.md#registries" lang="ko" >}})와 [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate)를 활용하여 MongoDB 스타일 쿼리로 registry, collection, artifact version을 다양한 필터 기준으로 조회할 수 있습니다.  
+좀 더 상세한 MongoDB 스타일 쿼리 사용법은 [여기](https://www.mongodb.com/docs/compass/current/query/filter/)에서 확인할 수 있습니다.
 
-Use the [`wandb.Api().registries()`]({{< relref path="/ref/python/public-api/api.md#registries" lang="ko" >}}) and [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
+아래 표는 필터링하려는 항목별로 사용할 수 있는 쿼리 이름을 정리한 것입니다.
 
-The following table lists query names you can use based on the type of item you want to filter:
-
-| | query name |
+| | 쿼리 이름 |
 | ----- | ----- |
 | registries | `name`, `description`, `created_at`, `updated_at` |
 | collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
 | versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
 
-The proceeding code examples demonstrate some common search scenarios. 
+아래 코드 예시는 자주 사용되는 검색 상황을 보여줍니다.
 
-To use the `wandb.Api().registries()` method, first import the W&B Python SDK ([`wandb`]({{< relref path="/ref/python/_index.md" lang="ko" >}})) library:
+`wandb.Api().registries()` 메소드를 사용하려면 먼저 W&B Python SDK([`wandb`]({{< relref path="/ref/python/_index.md" lang="ko" >}})) 라이브러리를 임포트해야 합니다:
 ```python
 import wandb
 
-# (Optional) Create an instance of the wandb.Api() class for readability
+# (선택) 가독성을 위해 wandb.Api() 클래스의 인스턴스를 생성합니다.
 api = wandb.Api()
 ```
 
-Filter all registries that contain the string `model`:
+`model` 문자열이 포함된 모든 registry를 필터링하기:
 
 ```python
-# Filter all registries that contain the string `model`
+# 'model' 문자열이 포함된 모든 registry를 필터링합니다.
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# Returns an iterable of all registries that match the filters
+# 해당 필터 조건을 만족하는 모든 registry의 iterable을 반환합니다.
 registries = api.registries(filter=registry_filters)
 ```
 
-Filter all collections, independent of registry, that contains the string `yolo` in the collection name:
+registry와 관계없이 collection 이름에 `yolo`가 포함된 모든 collection을 필터링하기:
 
 ```python
-# Filter all collections, independent of registry, that 
-# contains the string `yolo` in the collection name
+# registry 상관없이 collection 이름에
+# 'yolo'가 포함된 모든 collection을 필터링합니다.
 collection_filters = {
     "name": {"$regex": "yolo"}
 }
 
-# Returns an iterable of all collections that match the filters
+# 해당 필터에 맞는 모든 collection의 iterable을 반환합니다.
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-Filter all collections, independent of registry, that contains the string `yolo` in the collection name and possesses `cnn` as a tag:
+registry에 상관없이 collection 이름에 `yolo`가 포함되고, 태그가 `cnn`인 collection만 필터링하기:
 
 ```python
-# Filter all collections, independent of registry, that contains the
-# string `yolo` in the collection name and possesses `cnn` as a tag
+# registry에 상관없이 collection 이름에 'yolo'가 포함되고
+# 태그가 'cnn'인 collection만 필터링합니다.
 collection_filters = {
     "name": {"$regex": "yolo"},
     "tag": "cnn"
 }
 
-# Returns an iterable of all collections that match the filters
+# 해당 조건에 맞는 collection의 iterable을 반환합니다.
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-Find all artifact versions that contains the string `model` and has either the tag `image-classification` or an `latest` alias:
+`model`이 포함되고, 태그가 `image-classification`이거나 alias가 `production`인 artifact version 모두 찾기:
 
 ```python
-# Find all artifact versions that contains the string `model` and 
-# has either the tag `image-classification` or an `latest` alias
+# 'model' 문자열이 포함되고,
+# 태그가 'image-classification'이거나 에일리어스가 'production'인
+# 모든 artifact version을 찾습니다.
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# Use logical $or operator to filter artifact versions
+# 논리 $or 연산자를 사용해 artifact version을 필터링합니다.
 version_filters = {
     "$or": [
         {"tag": "image-classification"},
@@ -101,13 +102,13 @@ version_filters = {
     ]
 }
 
-# Returns an iterable of all artifact versions that match the filters
+# 해당 조건에 맞는 모든 artifact version의 iterable을 반환합니다.
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
 
-See the MongoDB documentation for more information on [logical query operators](https://www.mongodb.com/docs/manual/reference/operator/query-logical/).
+논리 연산자에 대한 더 자세한 내용은 MongoDB 문서의 [logical query operators](https://www.mongodb.com/docs/manual/reference/operator/query-logical/)를 참고하세요.
 
-Each item in the `artifacts` iterable in the previous code snippet is an instance of the `Artifact` class. This means that you can access each artifact's attributes, such as `name`, `collection`, `aliases`, `tags`, `created_at`, and more:
+위 코드 예제의 `artifacts` iterable의 각 항목은 `Artifact` 클래스의 인스턴스입니다. 즉, 각 artifact의 속성(예: `name`, `collection`, `aliases`, `tags`, `created_at` 등)에 접근할 수 있습니다:
 
 ```python
 for art in artifacts:
@@ -117,23 +118,22 @@ for art in artifacts:
     print(f"tags attached to artifact: {art.tags}")
     print(f"artifact created at: {art.created_at}\n")
 ```
-For a complete list of an artifact object's attributes, see the [Artifacts Class]({{< relref path="/ref/python/sdk/classes/artifact/_index.md" lang="ko" >}}) in the API Reference docs. 
+artifact 오브젝트 속성의 전체 목록은 API Reference 문서 내 [Artifacts Class]({{< relref path="/ref/python/sdk/classes/artifact/_index.md" lang="ko" >}})를 참고하세요.
 
-
-Filter all artifact versions, independent of registry or collection, created between 2024-01-08 and 2025-03-04 at 13:10 UTC:
+2024-01-08부터 2025-03-04 13:10 UTC 기간에 생성된, registry나 collection 관계없이 모든 artifact version을 필터링하기:
 
 ```python
-# Find all artifact versions created between 2024-01-08 and 2025-03-04 at 13:10 UTC. 
+# 2024-01-08부터 2025-03-04 13:10 UTC 까지 생성된 artifact version 모두 찾기
 
 artifact_filters = {
     "alias": "latest",
     "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
 }
 
-# Returns an iterable of all artifact versions that match the filters
+# 해당 조건에 맞는 모든 artifact version의 iterable을 반환합니다.
 artifacts = api.registries().collections().versions(filter=artifact_filters)
 ```
 
-Specify the date and time in the format `YYYY-MM-DD HH:MM:SS`. You can omit the hours, minutes, and seconds if you want to filter by date only.
+날짜와 시간은 `YYYY-MM-DD HH:MM:SS` 형식으로 지정하세요. 날짜 기준만으로 필터할 땐 시간(시/분/초)은 생략해도 됩니다.
 
-See the MongoDB documentation for more information on [query comparisons](https://www.mongodb.com/docs/manual/reference/operator/query-comparison/).
+쿼리 비교 연산자에 대한 자세한 내용은 MongoDB 문서의 [query comparisons](https://www.mongodb.com/docs/manual/reference/operator/query-comparison/)를 참고하세요.

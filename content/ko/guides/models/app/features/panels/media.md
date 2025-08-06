@@ -1,81 +1,81 @@
 ---
+title: 미디어 패널
 menu:
   default:
     identifier: ko-guides-models-app-features-panels-media
     parent: panels
-title: Media panels
 weight: 50
 ---
 
-A media panel visualizes [logged keys for media objects]({{< relref path="/guides/models/track/log/media.md" lang="ko" >}}), including 3D objects, audio, images, video, or point clouds. This page shows how to add and manage media panels in a workspace.
+미디어 패널은 [미디어 오브젝트에 대해 로깅된 키]({{< relref path="/guides/models/track/log/media.md" lang="ko" >}})를 시각화합니다. 여기에는 3D 오브젝트, 오디오, 이미지, 비디오, 또는 포인트 클라우드가 포함됩니다. 이 페이지에서는 워크스페이스에서 미디어 패널을 추가하고 관리하는 방법을 안내합니다.
 
 {{< img src="/images/app_ui/demo-media-panel.png" alt="Demo of a media panel" >}}
 
-## Add a media panel
-To add a media panel for a logged key using the default configuration, use Quick Add. You can add a media panel globally or to a specific section.
+## 미디어 패널 추가하기
+로깅된 키에 대한 기본 설정으로 미디어 패널을 추가하려면, Quick Add를 사용하세요. 미디어 패널은 전체(글로벌) 또는 특정 섹션에 추가할 수 있습니다.
 
-1. **Global**: Click **Add panels** in the control bar near the panel search field.
-1. **Section**: Click the section's action `...` menu, then click **Add panels**.
-1. In the list of available panels, find the key for the panel, then click **Add**. Repeat this step for each media panel you want to add, then click the **X** at the top right to close the **Quick Add** list.
-1. Optionally, [configure the panel]({{< relref path="#configure-a-media-panel" lang="ko" >}}).
+1. **글로벌**: 패널 검색 필드 근처의 컨트롤 바에서 **Add panels**를 클릭하세요.
+1. **섹션**: 해당 섹션의 `...` 메뉴를 클릭한 뒤, **Add panels**를 선택하세요.
+1. 사용 가능한 패널 목록에서 패널의 키를 찾아 **Add**를 클릭합니다. 추가하려는 미디어 패널마다 이 과정을 반복한 뒤, 오른쪽 상단의 **X**를 클릭해 **Quick Add** 목록을 닫으세요.
+1. 선택적으로, [패널을 설정]({{< relref path="#configure-a-media-panel" lang="ko" >}})할 수 있습니다.
 
-You can add a media panel globally or to a specific section:
-1. **Global**: Click **Add panels** in the control bar near the panel search field.
-1. **Section**: Click the section's action `...` menu, then click **Add panels**.
-1. Click the **Media** section to expand it.
-1. Select the type of media the panel visualizes, 3d objects, images, video, or audio. The panel configuration screen displays. Configure the panel, then click **Apply**. Refer to [Configure a media panel]({{< relref path="#configure-a-media-panel" lang="ko" >}}).
+미디어 패널은 전체(글로벌) 또는 특정 섹션에 추가할 수 있습니다:
+1. **글로벌**: 패널 검색 필드 근처의 컨트롤 바에서 **Add panels**를 클릭하세요.
+1. **섹션**: 해당 섹션의 `...` 메뉴를 클릭한 뒤, **Add panels**를 선택하세요.
+1. **Media** 섹션을 클릭하여 확장합니다.
+1. 패널이 시각화할 미디어 타입(3D 오브젝트, 이미지, 비디오, 오디오)을 선택하세요. 패널 설정 화면이 표시됩니다. 설정을 마친 후 **Apply**를 클릭하세요. 자세한 내용은 [미디어 패널 설정하기]({{< relref path="#configure-a-media-panel" lang="ko" >}})를 참고하세요.
 
-## Configure a media panel
-Panels for all media types have the same options.
+## 미디어 패널 설정하기
+모든 미디어 타입 패널은 동일한 옵션을 제공합니다.
 
-When you add a media panel manually, its configuration page opens after you select the type of media. To update the configuration for an existing panel, hover over the panel, then click the gear icon that appears at the top right. This section describes the settings available in each tab.
+미디어 패널을 수동으로 추가하면, 미디어 타입 선택 후 설정 페이지가 열립니다. 기존 패널의 설정을 변경하려면, 패널 위에 마우스를 올리고 오른쪽 상단에 나타나는 기어 아이콘을 클릭하세요. 이 섹션에서는 각 탭에서 사용할 수 있는 설정들을 설명합니다.
 
 ### Overlays
-This tab appears for images and point clouds logged with segmentation masks or bounding boxes.
-- Search and filter overlays by name.
-- Customize overlay colors.
+이 탭은 세그멘테이션 마스크 또는 바운딩 박스와 함께 로깅된 이미지와 포인트 클라우드에 나타납니다.
+- 이름으로 오버레이 검색 및 필터링
+- 오버레이 색상 커스터마이즈
 
 ### Display
-Customize the panel's overall appearance and behavior.
-- Configure the panel's title.
-- Select the media keys to visualize.
-- Customize the panel's slider and playback behavior.
-  - Configure the slider key, which defaults to **Step**.
-  - Set **Stride length** to the number of steps to advance for each click of the slider.
-  - Turn on or off **Snap to existing step**. If it is turned on, the stepper advances to the next existing step after **Stride length**. Otherwise, it advances by **Stride length** even if that does not align with an existing step.
-- **Images**: Turn on or off smoothing.
-- **3d objects**: Configure the background color and point color.
+패널의 전체적인 외관과 행동을 커스터마이즈할 수 있습니다.
+- 패널의 제목을 설정하세요.
+- 시각화할 미디어 키를 선택하세요.
+- 패널의 슬라이더 및 재생 행동을 조정할 수 있습니다.
+  - 기본값이 **Step**인 슬라이더 키를 설정하세요.
+  - 슬라이더 클릭마다 이동할 단계 수인 **Stride length**를 설정하세요.
+  - **Snap to existing step**을 켜거나 끌 수 있습니다. 켜면, **Stride length** 이후 다음으로 존재하는 step으로 이동합니다. 끄면 실제 존재 여부와 상관없이 **Stride length**만큼 이동합니다.
+- **이미지**: 스무딩을 켜거나 끌 수 있습니다.
+- **3D 오브젝트**: 배경색과 포인트 색상을 설정할 수 있습니다.
 
 ### Layout
-Customize the display of the panel's individual items.
-- Turn on or off **Grid mode**.
-  - When it is turned on, you can choose a custom X and Y axis to plot on top of each item. More than one item displays in each row, and you limit how many rows to show.
-  - When it is turned off, you can customize the number of columns to use for the panel's content, and you can configure the panel's content, which defaults to **Run**.
-- Optionally limit the **Max runs to include** in the panel.
-- Optionally specify a **Media display limit** to limit the number of media items to include per run.
-- **Images and videos**: Turn on or off display of full-size media.
-- **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
-- **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
+패널 개별 아이템의 디스플레이를 커스터마이즈할 수 있습니다.
+- **Grid mode**를 켜거나 끕니다.
+  - 켜면, 각 아이템 위에 커스텀 X, Y 축을 선택해 표시할 수 있습니다. 한 행에 여러 아이템이 표시되고, 표시할 행 수를 제한할 수 있습니다.
+  - 끄면, 패널 콘텐츠에 사용할 열의 수와 보여줄 내용을 설정할 수 있습니다. 기본값은 **Run**입니다.
+- 패널에 포함할 **Max runs to include**를 제한할 수 있습니다.
+- **Media display limit**을 지정해 run 당 포함할 미디어 아이템 수를 제한할 수 있습니다.
+- **이미지 및 비디오**: 전체 크기 미디어 보기 여부를 켜거나 끌 수 있습니다.
+- **이미지**: **Fit media**가 켜지면, 패널 크기에 맞게 미디어 사이즈가 조정됩니다.
+- **포인트 클라우드**: 기본 왼손 좌표계 대신 오른손 좌표계 사용을 선택할 수 있습니다.
 
-### All media panels in a section
-To customize the default settings for all media panels in a section, overriding workspace settings for media panels:
-1. Click the section's gear icon to open its settings.
-1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the section's current media panels.
+### 섹션 내 모든 미디어 패널 설정하기
+섹션 내 모든 미디어 패널의 기본 설정을 변경하고, 워크스페이스 전체 설정을 덮어쓰려면:
+1. 해당 섹션의 기어 아이콘을 클릭해 설정을 엽니다.
+1. **Media settings**를 클릭하세요.
+1. 나타나는 드로어에서 **Display** 또는 **Layout** 탭을 선택해, 워크스페이스의 기본 미디어 설정을 조정하세요. 이미지, 비디오, 오디오, 3D 오브젝트에 대한 설정이 가능합니다. 표시되는 설정은 해당 섹션의 미디어 패널에 따라 달라집니다.
 
-For details about each setting, refer to [Configure a media panel]({{< relref path="#configure-a-media-panel" lang="ko" >}}).
+각 설정에 대한 자세한 내용은 [미디어 패널 설정하기]({{< relref path="#configure-a-media-panel" lang="ko" >}})를 참고하세요.
 
-### All media panels in a workspace 
-To customize the default settings for all media panels in a workspace:
-1. Click the workspace's settings, which has a gear with the label **Settings**.
-1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the workspace's current media panels.
+### 워크스페이스 내 모든 미디어 패널 설정하기
+워크스페이스 전체에 적용되는 미디어 패널의 기본 설정을 변경하려면:
+1. 워크스페이스의 설정(기어 아이콘에 **Settings** 레이블)을 클릭하세요.
+1. **Media settings**를 클릭합니다.
+1. 나타나는 드로어에서 **Display** 또는 **Layout** 탭을 선택해, 워크스페이스의 미디어 기본 설정을 조정하세요. 이미지, 비디오, 오디오, 3D 오브젝트에 대한 설정이 가능합니다. 표시되는 설정은 워크스페이스의 현존하는 미디어 패널에 따라 달라집니다.
 
-For details about each setting, refer to [Configure a media panel]({{< relref path="#configure-a-media-panel" lang="ko" >}}).
+각 설정에 대한 자세한 내용은 [미디어 패널 설정하기]({{< relref path="#configure-a-media-panel" lang="ko" >}})를 참고하세요.
 
-## Interact with a media panel
-- Click a media panel to view it in full screen mode.
-- Use the stepper at the top of a media panel to step through media runs.
-- To configure a media panel, hover over it and click the gear icon at the top.
-- For an image that was logged with segmentation masks, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
-- For an image or point cloud that was logged with bounding boxes, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
+## 미디어 패널과 상호작용하기
+- 미디어 패널을 클릭해 전체 화면 모드로 볼 수 있습니다.
+- 미디어 패널 상단의 스테퍼로 다양한 run의 미디어를 탐색할 수 있습니다.
+- 패널 설정을 하려면, 패널 위에 마우스를 올리고 상단의 기어 아이콘을 클릭하세요.
+- 세그멘테이션 마스크와 함께 로깅된 이미지는 각 마스크의 스타일을 직접 변경하거나 켜고 끌 수 있습니다. 패널 위에 마우스를 올리고 아래쪽 기어 아이콘을 클릭하세요.
+- 바운딩 박스와 함께 로깅된 이미지 또는 포인트 클라우드는 각 바운딩 박스의 스타일을 커스터마이즈하거나 켜고 끌 수 있습니다. 패널 위에 마우스를 올리고 아래쪽 기어 아이콘을 클릭하세요.

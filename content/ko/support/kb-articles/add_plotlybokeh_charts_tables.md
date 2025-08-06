@@ -1,50 +1,50 @@
 ---
+title: 테이블에 Plotly 또는 Bokeh 차트를 어떻게 추가할 수 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-add_plotlybokeh_charts_tables
 support:
-- experiments
-- tables
-- charts
-title: How do I add Plotly or Bokeh Charts into Tables?
+- Experiments
+- 테이블
+- 차트
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Direct integration of Plotly or Bokeh figures into tables is not supported. Instead, export the figures to HTML and include the HTML in the table. Below are examples demonstrating this with interactive Plotly and Bokeh charts.
+Plotly 또는 Bokeh figure를 테이블에 직접적으로 인테그레이트하는 것은 지원되지 않습니다. 대신, figure를 HTML로 내보내고 해당 HTML을 테이블에 포함할 수 있습니다. 아래는 Plotly와 Bokeh의 인터랙티브 차트를 사용한 예시입니다.
 
 {{< tabpane text=true >}}
-{{% tab "Using Plotly" %}}
+{{% tab "Plotly 사용하기" %}}
 ```python
 import wandb
 import plotly.express as px
 
-# Initialize a new run
+# 새로운 run을 초기화합니다
 with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
-    # Create a table
+    # 테이블을 만듭니다
     table = wandb.Table(columns=["plotly_figure"])
 
-    # Define path for Plotly figure
+    # Plotly figure의 경로를 지정합니다
     path_to_plotly_html = "./plotly_figure.html"
 
-    # Create a Plotly figure
+    # Plotly figure를 생성합니다
     fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-    # Export Plotly figure to HTML
-    # Setting auto_play to False prevents animated Plotly charts from playing automatically
+    # Plotly figure를 HTML로 내보냅니다
+    # auto_play를 False로 하면 애니메이션 플롯이 자동 재생되지 않습니다
     fig.write_html(path_to_plotly_html, auto_play=False)
 
-    # Add Plotly figure as HTML file to the table
+    # Plotly figure의 HTML 파일을 테이블에 추가합니다
     table.add_data(wandb.Html(path_to_plotly_html))
 
-    # Log Table
+    # 테이블을 로그합니다
     run.log({"test_table": table})
 
 ```
 {{% /tab %}}
-{{% tab "Using Bokeh" %}}
+{{% tab "Bokeh 사용하기" %}}
 ```python
 from scipy.signal import spectrogram
 import holoviews as hv

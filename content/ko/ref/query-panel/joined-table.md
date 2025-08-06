@@ -1,55 +1,55 @@
 ---
+title: 조인된 테이블
 menu:
   reference:
     identifier: ko-ref-query-panel-joined-table
-title: joined-table
 ---
 
-## Chainable Ops
+## 체이너블 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+asset의 _파일_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | asset |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+asset의 _파일_
 
 <h3 id="joinedtable-file"><code>joinedtable-file</code></h3>
 
-Returns the _file_ of a _joined-table_
+_joined-table_의 _파일_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `joinedTable` | The _joined-table_ |
+| `joinedTable` | _joined-table_ |
 
-#### Return Value
-The  _file_ of a _joined-table_
+#### 반환 값
+_joined-table_의 _파일_
 
 <h3 id="joinedtable-rows"><code>joinedtable-rows</code></h3>
 
-Returns the rows of a _joined-table_
+_joined-table_의 행을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `joinedTable` | The _joined-table_ |
-| `leftOuter` | Whether to include rows from the left table that do not have a matching row in the right table |
-| `rightOuter` | Whether to include rows from the right table that do not have a matching row in the left table |
+| `joinedTable` | _joined-table_ |
+| `leftOuter` | 오른쪽 테이블에 일치하는 행이 없는 왼쪽 테이블의 행도 포함할지 여부 |
+| `rightOuter` | 왼쪽 테이블에 일치하는 행이 없는 오른쪽 테이블의 행도 포함할지 여부 |
 
-#### Return Value
-The rows of the _joined-table_
+#### 반환 값
+_joined-table_의 행
 
 
-## List Ops
+## 리스트 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+asset의 _파일_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | asset |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+asset의 _파일_

@@ -1,37 +1,36 @@
 ---
+title: wandb launch
 menu:
   reference:
     identifier: ko-ref-cli-wandb-launch
-title: wandb launch
 ---
 
-**Usage**
+**사용법**
 
 `wandb launch [OPTIONS]`
 
-**Summary**
+**요약**
 
-Launch or queue a W&B Job. See https://wandb.me/launch
+W&B Job을 실행하거나 큐에 추가합니다. 자세한 내용은 https://wandb.me/launch 를 참고하세요.
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `-u, --uri (str)` | Local path or git repo uri to launch. If   provided this command will create a job from the specified uri. |
-| `-j, --job (str)` | Name of the job to launch. If passed in,   launch does not require a uri. |
-| `--entry-point` | Entry point within project. [default: main].   If the entry point is not found, attempts to run the project file with the specified name   as a script, using 'python' to run .py files and the default shell (specified by   environment variable $SHELL) to run .sh files. If passed in, will override the   entrypoint value passed in using a config file. |
-| `--build-context (str)` | Path to the build context within the source   code. Defaults to the root of the source code. Compatible only with -u. |
-| `--name` | Name of the run under which to launch the   run. If not specified, a random run name will be used to launch run. If passed in,   will override the name passed in using a config file. |
-| `-e, --entity (str)` | Name of the target entity which the new run   will be sent to. Defaults to using the entity set by local wandb/settings folder.   If passed in, will override the entity value passed in using a config file. |
-| `-p, --project (str)` | Name of the target project which the new run   will be sent to. Defaults to using the project name given by the source uri or for   github runs, the git repo name. If passed in, will override the project value passed   in using a config file. |
-| `-r, --resource` | Execution resource to use for run. Supported   values: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'.   This is now a required parameter if pushing to a queue with no resource configuration.   If passed in, will override the resource value passed in using a config file. |
-| `-d, --docker-image` | Specific docker image you'd like to use. In the form name:tag. If passed in, will   override the docker image value passed in using a config file. |
-| `--base-image` | Docker image to run job code in.   Incompatible with --docker-image. |
-| `-c, --config` | Path to JSON file (must end in '.json') or   JSON string which will be passed as a launch config. Dictation how the launched run will   be configured. |
-| `-v, --set-var` | Set template variable values for queues with   allow listing enabled, as key-value pairs e.g. `--set-var key1=value1 --set-var   key2=value2` |
-| `-q, --queue` | Name of run queue to push to. If none,   launches single run directly. If supplied without an argument (`--queue`), defaults to   queue 'default'. Else, if name supplied, specified run queue must exist under the   project and entity supplied. |
-| `--async` | Flag to run the job asynchronously. Defaults   to false, i.e. unless --async is set, wandb launch will wait for the job to finish. This   option is incompatible with --queue; asynchronous options when running with an   agent should be set on wandb launch-agent. |
-| `--resource-args` | Path to JSON file (must end in '.json') or   JSON string which will be passed as resource args to the compute resource. The exact   content which should be provided is different for each execution backend. See   documentation for layout of this file. |
-| `--dockerfile` | Path to the Dockerfile used to build the   job, relative to the job's root |
-| `--priority [critical|high|medium|low]` | When --queue is passed, set the priority of the job. Launch jobs with higher priority   are served first.  The order, from highest to lowest priority, is: critical, high,   medium, low |
+| `-u, --uri (str)` | 실행할 로컬 경로나 git repo uri를 지정합니다. 이 옵션이 제공되면 해당 uri에서 job을 생성합니다. |
+| `-j, --job (str)` | 실행할 job의 이름을 지정합니다. 이 옵션을 사용하면 uri 없이 실행할 수 있습니다. |
+| `--entry-point` | 프로젝트 내의 엔트리 포인트입니다. [기본값: main]. 엔트리 포인트를 찾지 못하면 동일한 이름의 프로젝트 파일을 스크립트로 실행합니다. .py 파일은 'python'으로, .sh 파일은 환경 변수 $SHELL로 지정된 기본 shell로 실행됩니다. 이 옵션을 사용하면 config 파일의 entrypoint 값을 덮어씁니다. |
+| `--build-context (str)` | 소스 코드 내에서 빌드 컨텍스트의 경로입니다. 기본값은 소스 코드의 루트입니다. -u와만 호환됩니다. |
+| `--name` | 실행(run)의 이름을 지정합니다. 지정하지 않으면 임의의 run 이름으로 실행됩니다. 사용 시 config 파일의 name 값을 덮어씁니다. |
+| `-e, --entity (str)` | 새 run이 전송될 대상 Entity의 이름입니다. 기본적으로 로컬 wandb/settings 폴더에 설정된 Entity를 사용합니다. 지정하면 config 파일의 entity 값을 덮어씁니다. |
+| `-p, --project (str)` | 새 run이 전송될 대상 Project의 이름입니다. 기본적으로 소스 uri에서 주어진 Project 이름이나 github run의 경우 git repo 이름을 사용합니다. 지정하면 config 파일의 project 값을 덮어씁니다. |
+| `-r, --resource` | run에 사용할 실행 리소스입니다. 사용 가능한 값: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'. 리소스 설정 없이 큐에 추가 시 필수 파라미터입니다. 지정하면 config 파일의 resource 값을 덮어씁니다. |
+| `-d, --docker-image` | 사용할 특정 도커 이미지(형식: name:tag)를 지정합니다. 지정하면 config 파일의 docker image 값을 덮어씁니다. |
+| `--base-image` | job 코드를 실행할 도커 이미지를 지정합니다. --docker-image와는 함께 사용할 수 없습니다. |
+| `-c, --config` | JSON 파일의 경로('.json'으로 끝나야 함)나 JSON 문자열을 지정할 수 있으며, launch 설정으로 전달됩니다. 실행(run)의 설정 방법을 지정합니다. |
+| `-v, --set-var` | Allow listing이 활성화된 큐에서 템플릿 변수 값을 key-value 쌍(`--set-var key1=value1 --set-var key2=value2`)으로 지정합니다. |
+| `-q, --queue` | 실행을 전송할 run 큐의 이름을 지정합니다. 지정하지 않으면 단일 run이 바로 실행됩니다. 인수 없이 `--queue`만 사용할 경우 'default' 큐를 기본값으로 사용합니다. 이름을 지정하면, 해당 프로젝트 및 Entity 아래에 해당 이름의 run 큐가 존재해야 합니다. |
+| `--async` | job을 비동기로 실행하는 플래그입니다. 기본값은 false로, `--async`를 지정하지 않으면 wandb launch는 job이 끝날 때까지 대기합니다. 이 옵션은 --queue와 호환되지 않으며, 에이전트로 실행 시 비동기 실행 옵션은 wandb launch-agent에서 설정해야 합니다. |
+| `--resource-args` | JSON 파일의 경로('.json'으로 끝나야 함)나 JSON 문자열로 컴퓨트 리소스에 전달할 resource 인수로 사용합니다. 백엔드별로 내용이 다르니, 자세한 내용은 문서를 참고하세요. |
+| `--dockerfile` | job 빌드에 사용되는 Dockerfile의 경로입니다. job의 루트 기준으로 작성하세요. |
+| `--priority [critical|high|medium|low]` | --queue 사용 시, job의 우선 순위를 지정합니다. 우선 순위가 높은 Launch job이 먼저 처리됩니다. 우선 순위는 critical, high, medium, low 순서입니다. |

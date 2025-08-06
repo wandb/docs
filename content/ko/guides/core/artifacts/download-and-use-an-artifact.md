@@ -1,27 +1,26 @@
 ---
-description: Download and use Artifacts from multiple projects.
+title: Artifacts 다운로드 및 사용
+description: 여러 Projects에서 Artifacts를 다운로드하고 사용하세요.
 menu:
   default:
     identifier: ko-guides-core-artifacts-download-and-use-an-artifact
     parent: artifacts
-title: Download and use artifacts
 weight: 3
 ---
 
-Download and use an artifact that is already stored on the W&B server or construct an artifact object and pass it in to for de-duplication as necessary.
+이미 W&B 서버에 저장된 artifact를 다운로드하여 사용하거나, artifact 오브젝트를 생성해서 필요할 때 중복 저장 없이 사용할 수 있습니다.
 
 {{% alert %}}
-Team members with view-only seats cannot download artifacts.
+보기 전용 권한만 있는 팀 멤버는 artifact를 다운로드할 수 없습니다.
 {{% /alert %}}
 
+### W&B에 저장된 artifact 다운로드 및 사용
 
-### Download and use an artifact stored on W&B
-
-Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}})) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide]({{< relref path="/ref/python/public-api/index.md" lang="ko" >}}).
+W&B에 저장된 artifact는 W&B Run 내부 또는 외부에서 다운로드해 사용할 수 있습니다. Public API([`wandb.Api`]({{< relref path="/ref/python/public-api/api.md" lang="ko" >}}))를 활용하면 이미 W&B에 저장된 데이터를 내보내거나(또는 업데이트) 할 수 있습니다. 자세한 내용은 W&B [Public API Reference 가이드]({{< relref path="/ref/python/public-api/index.md" lang="ko" >}})를 참고하세요.
 
 {{< tabpane text=true >}}
-  {{% tab header="During a run" %}}
-First, import the W&B Python SDK. Next, create a W&B [Run]({{< relref path="/ref/python/sdk/classes/run.md" lang="ko" >}}):
+  {{% tab header="Run 중에 사용하기" %}}
+먼저, W&B Python SDK를 임포트한 뒤, W&B [Run]({{< relref path="/ref/python/sdk/classes/run.md" lang="ko" >}})을 생성합니다:
 
 ```python
 import wandb
@@ -29,35 +28,35 @@ import wandb
 run = wandb.init(project="<example>", job_type="<job-type>")
 ```
 
-Indicate the artifact you want to use with the [`use_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#use_artifact" lang="ko" >}}) method. This returns a run object. In the proceeding code snippet specifies an artifact called `'bike-dataset'` with the alias `'latest'`:
+사용할 artifact는 [`use_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#use_artifact" lang="ko" >}}) 메소드로 지정합니다. 이 메소드는 run 오브젝트를 반환합니다. 아래 코드에서는 'bike-dataset'이라는 이름의 artifact와 'latest' 에일리어스를 지정합니다:
 
 ```python
 artifact = run.use_artifact("bike-dataset:latest")
 ```
 
-Use the object returned to download all the contents of the artifact:
+반환된 오브젝트를 이용해 해당 artifact의 모든 내용을 다운로드할 수 있습니다:
 
 ```python
 datadir = artifact.download()
 ```
 
-You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide]({{< relref path="/ref/python/sdk/classes/artifact.md#download" lang="ko" >}}).
+특정 디렉토리에 artifact의 내용을 저장하고 싶을 때는 `root` 파라미터에 경로를 입력할 수 있습니다. 자세한 내용은 [Python SDK Reference Guide]({{< relref path="/ref/python/sdk/classes/artifact.md#download" lang="ko" >}})에서 확인하세요.
 
-Use the [`get_path`]({{< relref path="/ref/python/sdk/classes/artifact.md#get_path" lang="ko" >}}) method to download only subset of files:
+파일의 일부분만 받고 싶다면 [`get_path`]({{< relref path="/ref/python/sdk/classes/artifact.md#get_path" lang="ko" >}}) 메소드를 이용해 원하는 일부만 다운로드할 수 있습니다:
 
 ```python
 path = artifact.get_path(name)
 ```
 
-This fetches only the file at the path `name`. It returns an `Entry` object with the following methods:
+이 메소드는 path `name`에 위치한 파일만 받아옵니다. 반환값은 다음과 같은 메소드를 포함하는 `Entry` 오브젝트입니다:
 
-* `Entry.download`: Downloads file from the artifact at path `name`
-* `Entry.ref`: If `add_reference` stored the entry as a reference, returns the URI
+* `Entry.download`: path `name`에 있는 파일을 artifact에서 다운로드
+* `Entry.ref`: 만약 `add_reference`로 entry를 참조로 저장했다면, URI 반환
 
-References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files]({{< relref path="/guides/core/artifacts/track-external-files.md" lang="ko" >}}).  
+W&B가 지원하는 scheme의 참조 파일도 일반 artifact 파일처럼 다운로드할 수 있습니다. 자세한 내용은 [외부 파일 추적하기]({{< relref path="/guides/core/artifacts/track-external-files.md" lang="ko" >}})를 참고하세요.  
   {{% /tab %}}
-  {{% tab header="Outside of a run" %}}
-First, import the W&B SDK. Next, create an artifact from the Public API Class. Provide the entity, project, artifact, and alias associated with that artifact:
+  {{% tab header="Run 외부에서 사용하기" %}}
+먼저, W&B SDK를 임포트하고, Public API Class를 이용해 artifact를 가져옵니다. entity, project, artifact, alias를 지정합니다:
 
 ```python
 import wandb
@@ -66,16 +65,16 @@ api = wandb.Api()
 artifact = api.artifact("entity/project/artifact:alias")
 ```
 
-Use the object returned to download the contents of the artifact:
+반환된 오브젝트로 artifact의 내용을 다운로드합니다:
 
 ```python
 artifact.download()
 ```
 
-You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide]({{< relref path="/ref/python/sdk/classes/artifact.md#download" lang="ko" >}}).  
+특정 디렉토리에 artifact 파일을 받고 싶다면 `root` 파라미터에 경로를 지정할 수 있습니다. 자세한 사용법은 [API Reference Guide]({{< relref path="/ref/python/sdk/classes/artifact.md#download" lang="ko" >}})에서 확인하세요.  
   {{% /tab %}}
   {{% tab header="W&B CLI" %}}
-Use the `wandb artifact get` command to download an artifact from the W&B server.
+`wandb artifact get` 명령어를 이용해 W&B 서버에서 artifact를 다운로드할 수 있습니다.
 
 ```
 $ wandb artifact get project/artifact:alias --root mnist/
@@ -83,44 +82,41 @@ $ wandb artifact get project/artifact:alias --root mnist/
   {{% /tab %}}
 {{< /tabpane >}}
 
+### artifact 일부만 다운로드하기
 
-### Partially download an artifact
-
-You can optionally download part of an artifact based on a prefix. Using the `path_prefix` parameter, you can download a single file or the content of a sub-folder.
+`path_prefix` 파라미터를 사용하면 artifact의 특정 파일이나 폴더만 다운로드할 수 있습니다.
 
 ```python
 artifact = run.use_artifact("bike-dataset:latest")
 
-artifact.download(path_prefix="bike.png") # downloads only bike.png
+artifact.download(path_prefix="bike.png") # bike.png 파일만 다운로드
 ```
 
-Alternatively, you can download files from a certain directory:
+특정 디렉토리 아래의 여러 파일도 다운로드할 수 있습니다:
 
 ```python
-artifact.download(path_prefix="images/bikes/") # downloads files in the images/bikes directory
+artifact.download(path_prefix="images/bikes/") # images/bikes 폴더에 있는 파일들을 다운로드
 ```
-### Use an artifact from a different project
+### 다른 project의 artifact 사용하기
 
-Specify the name of artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
+artifact 이름 앞에 project 이름을 명시하면 해당 project의 artifact를 참조할 수 있습니다. entity 이름까지 같이 쓰면 entity에 상관없이 artifact를 사용할 수도 있습니다.
 
-The following code example demonstrates how to query an artifact from another project as input to the current W&B run.
+아래 예시는 다른 project의 artifact를 현재 W&B run에 입력으로 연결하는 방법입니다.
 
 ```python
 import wandb
 
 run = wandb.init(project="<example>", job_type="<job-type>")
-# Query W&B for an artifact from another project and mark it
-# as an input to this run.
+# 다른 project에서 artifact를 찾아서 이 run의 input으로 사용합니다.
 artifact = run.use_artifact("my-project/artifact:alias")
 
-# Use an artifact from another entity and mark it as an input
-# to this run.
+# 다른 entity의 artifact도 input으로 지정할 수 있습니다.
 artifact = run.use_artifact("my-entity/my-project/artifact:alias")
 ```
 
-### Construct and use an artifact simultaneously
+### artifact를 동시에 생성하고 사용하기
 
-Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`use_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#use_artifact" lang="ko" >}}) API is idempotent, so you can call it as many times as you like.
+artifact를 생성과 동시에 사용할 수도 있습니다. artifact 오브젝트를 만든 후 바로 `use_artifact`에 넘기면 됩니다. 해당 artifact가 W&B에 없다면 새로 만들어집니다. [`use_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#use_artifact" lang="ko" >}}) API는 멱등성이 보장되므로 여러 번 호출해도 안전합니다.
 
 ```python
 import wandb
@@ -130,4 +126,4 @@ artifact.add_file("model.h5")
 run.use_artifact(artifact)
 ```
 
-For more information about constructing an artifact, see [Construct an artifact]({{< relref path="/guides/core/artifacts/construct-an-artifact.md" lang="ko" >}}).
+artifact 생성에 대한 더 자세한 내용은 [artifact 생성하기]({{< relref path="/guides/core/artifacts/construct-an-artifact.md" lang="ko" >}})를 참고하세요.

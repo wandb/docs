@@ -1,11 +1,10 @@
 ---
-description: 'Find answers to common W&B Inference questions
-
-  '
+title: 지원
+description: 일반적인 W&B Inference 관련 질문에 대한 답변을 찾아보세요.
 menu:
   default:
     identifier: ko-guides-inference-support
-title: Support
 url: /support/inference/
 weight: 80
 ---
+

@@ -1,36 +1,36 @@
 ---
-description: Metrics automatically logged by W&B.
+title: 시스템 메트릭
+description: W&B에서 자동으로 로그되는 메트릭.
 menu:
   default:
     identifier: ko-guides-models-app-settings-page-system-metrics
     parent: settings
-title: System metrics
 weight: 70
 ---
 
-This page provides detailed information about the system metrics that are tracked by the W&B SDK.
+이 페이지에서는 W&B SDK에서 추적하는 시스템 메트릭에 대한 자세한 정보를 제공합니다.
 
 {{% alert %}}
-`wandb` automatically logs system metrics every 15 seconds.
+`wandb`는 15초마다 시스템 메트릭을 자동으로 기록합니다.
 {{% /alert %}}
 
 ## CPU
 
-### Process CPU Percent (CPU)
-Percentage of CPU usage by the process, normalized by the number of available CPUs.
+### 프로세스 CPU 사용률 (CPU)
+프로세스가 사용하는 CPU 사용률을, 사용 가능한 CPU 수로 정규화한 백분율입니다.
 
-W&B assigns a `cpu` tag to this metric.
+W&B는 이 메트릭에 `cpu` 태그를 지정합니다.
 
-### Process CPU Threads 
-The number of threads utilized by the process.
+### 프로세스 CPU 스레드 수
+프로세스에서 사용 중인 스레드 개수입니다.
 
-W&B assigns a `proc.cpu.threads` tag to this metric.
+W&B는 이 메트릭에 `proc.cpu.threads` 태그를 지정합니다.
 
-<!-- New section -->
 
-## Disk
 
-By default, the usage metrics are collected for the `/` path. To configure the paths to be monitored, use the following setting:
+## 디스크
+
+기본적으로 `/` 경로에 대한 사용량 메트릭이 수집됩니다. 모니터링할 경로를 설정하려면 다음 설정을 사용하세요:
 
 ```python
 run = wandb.init(
@@ -40,275 +40,279 @@ run = wandb.init(
 )
 ```
 
-### Disk Usage Percent
-Represents the total system disk usage in percentage for specified paths.
+### 디스크 사용률 (%)
+지정된 경로의 전체 시스템 디스크 사용률(%)를 나타냅니다.
 
-W&B assigns a `disk.{path}.usagePercent` tag to this metric.
+W&B는 이 메트릭에 `disk.{path}.usagePercent` 태그를 지정합니다.
 
-### Disk Usage
-Represents the total system disk usage in gigabytes (GB) for specified paths.
-The paths that are accessible are sampled, and the disk usage (in GB) for each path is appended to the samples.
+### 디스크 사용량
+지정된 경로의 전체 시스템 디스크 사용량(GB)을 나타냅니다.
+엑세스 가능한 경로를 샘플링하며, 각 경로의 디스크 사용량(GB)이 샘플에 추가됩니다.
 
-W&B assigns a `disk.{path}.usageGB` tag to this metric.
+W&B는 이 메트릭에 `disk.{path}.usageGB` 태그를 지정합니다.
 
 ### Disk In
-Indicates the total system disk read in megabytes (MB). 
-The initial disk read bytes are recorded when the first sample is taken. Subsequent samples calculate the difference between the current read bytes and the initial value.
+전체 시스템 디스크 읽기량(MB)을 나타냅니다.
+최초 샘플링 시 디스크 읽기 바이트가 기록되며, 이후 샘플들은 현재 읽기 바이트에서 초기 값을 뺀 차이를 계산합니다.
 
-W&B assigns a `disk.in` tag to this metric.
+W&B는 이 메트릭에 `disk.in` 태그를 지정합니다.
 
 ### Disk Out
-Represents the total system disk write in megabytes (MB). 
-Similar to [Disk In]({{< relref path="#disk-in" lang="ko" >}}), the initial disk write bytes are recorded when the first sample is taken. Subsequent samples calculate the difference between the current write bytes and the initial value.
+전체 시스템 디스크 쓰기량(MB)을 나타냅니다.
+[Disk In]({{< relref path="#disk-in" lang="ko" >}})과 마찬가지로, 최초 샘플링 시 디스크 쓰기 바이트가 기록되고, 이후 샘플들은 현재 쓰기 바이트에서 초기 값을 뺀 차이를 계산합니다.
 
-W&B assigns a `disk.out` tag to this metric.
+W&B는 이 메트릭에 `disk.out` 태그를 지정합니다.
 
-<!-- New section -->
 
-## Memory
 
-### Process Memory RSS
-Represents the Memory Resident Set Size (RSS) in megabytes (MB) for the process. RSS is the portion of memory occupied by a process that is held in main memory (RAM).
+## 메모리
 
-W&B assigns a `proc.memory.rssMB` tag to this metric.
+### 프로세스 메모리 RSS
+프로세스의 메모리 RSS(Resident Set Size)를 MB 단위로 나타냅니다. RSS는 프로세스가 실제 주기억장치(RAM)에 점유하고 있는 메모리의 양을 의미합니다.
 
-### Process Memory Percent
-Indicates the memory usage of the process as a percentage of the total available memory.
+W&B는 이 메트릭에 `proc.memory.rssMB` 태그를 지정합니다.
 
-W&B assigns a `proc.memory.percent` tag to this metric.
+### 프로세스 메모리 사용률
+프로세스의 메모리 사용량을 전체 사용 가능한 메모리에 대한 백분율로 나타냅니다.
 
-### Memory Percent
-Represents the total system memory usage as a percentage of the total available memory.
+W&B는 이 메트릭에 `proc.memory.percent` 태그를 지정합니다.
 
-W&B assigns a `memory_percent` tag to this metric.
+### 전체 메모리 사용률
+전체 시스템 메모리 사용률을 전체 사용 가능한 메모리에 대한 백분율로 나타냅니다.
 
-### Memory Available
-Indicates the total available system memory in megabytes (MB).
+W&B는 이 메트릭에 `memory_percent` 태그를 지정합니다.
 
-W&B assigns a `proc.memory.availableMB` tag to this metric.
+### 사용 가능한 메모리
+시스템에서 사용 가능한 전체 메모리(MB)를 나타냅니다.
 
-<!-- New section -->
-## Network
+W&B는 이 메트릭에 `proc.memory.availableMB` 태그를 지정합니다.
+
+
+
+## 네트워크
 
 ### Network Sent
-Represents the total bytes sent over the network.
-The initial bytes sent are recorded when the metric is first initialized. Subsequent samples calculate the difference between the current bytes sent and the initial value.
+네트워크를 통해 전송된 전체 바이트 수를 나타냅니다.
+메트릭이 처음 초기화될 때 전송된 바이트가 기록되고, 이후 샘플에서 현재 바이트에서 초기 값을 뺀 차이가 계산됩니다.
 
-W&B assigns a `network.sent` tag to this metric.
+W&B는 이 메트릭에 `network.sent` 태그를 지정합니다.
 
 ### Network Received
 
-Indicates the total bytes received over the network.
-Similar to [Network Sent]({{< relref path="#network-sent" lang="ko" >}}), the initial bytes received are recorded when the metric is first initialized. Subsequent samples calculate the difference between the current bytes received and the initial value.
+네트워크를 통해 수신된 전체 바이트 수를 나타냅니다.
+[Network Sent]({{< relref path="#network-sent" lang="ko" >}})과 마찬가지로, 초기 수신 바이트가 기록되고, 이후 샘플에서 현재 값과 초기 값의 차이가 계산됩니다.
 
-W&B assigns a `network.recv` tag to this metric.
+W&B는 이 메트릭에 `network.recv` 태그를 지정합니다.
 
-<!-- New section -->
+
+
 ## NVIDIA GPU
 
-In addition to the metrics described below, if the process and/or its descendants use a particular GPU, W&B captures the corresponding metrics as `gpu.process.{gpu_index}.{metric_name}`
+아래 설명된 메트릭 이외에도, 프로세스 또는 그 하위 프로세스가 특정 GPU를 사용할 때, W&B는 대응하는 메트릭을 `gpu.process.{gpu_index}.{metric_name}` 으로 캡처합니다.
 
-### GPU Memory Utilization
-Represents the GPU memory utilization in percent for each GPU.
+### GPU 메모리 사용률
+각 GPU의 메모리 사용률(%)을 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.memory` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.memory` 태그를 지정합니다.
 
-### GPU Memory Allocated
-Indicates the GPU memory allocated as a percentage of the total available memory for each GPU.
+### GPU 메모리 할당률
+각 GPU의 전체 사용 가능 메모리에 대한 할당된 메모리의 백분율을 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.memoryAllocated` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.memoryAllocated` 태그를 지정합니다.
 
-### GPU Memory Allocated Bytes
-Specifies the GPU memory allocated in bytes for each GPU.
+### GPU 메모리 할당 바이트
+각 GPU의 할당된 GPU 메모리를 바이트 단위로 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.memoryAllocatedBytes` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.memoryAllocatedBytes` 태그를 지정합니다.
 
-### GPU Utilization
-Reflects the GPU utilization in percent for each GPU.
+### GPU 사용률
+각 GPU의 전체 사용률(%)을 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.gpu` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.gpu` 태그를 지정합니다.
 
-### GPU Temperature
-The GPU temperature in Celsius for each GPU.
+### GPU 온도
+각 GPU의 온도를 섭씨 단위로 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.temp` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.temp` 태그를 지정합니다.
 
-### GPU Power Usage Watts
-Indicates the GPU power usage in Watts for each GPU.
+### GPU 전력 사용량 (Watt)
+각 GPU의 전력 사용량을 Watt 단위로 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.powerWatts` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.powerWatts` 태그를 지정합니다.
 
-### GPU Power Usage Percent
+### GPU 전력 사용량 퍼센트
 
-Reflects the GPU power usage as a percentage of its power capacity for each GPU.
+각 GPU의 전력 용량 대비 사용률(%)을 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.powerPercent` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.powerPercent` 태그를 지정합니다.
 
-### GPU SM Clock Speed 
-Represents the clock speed of the Streaming Multiprocessor (SM) on the GPU in MHz. This metric is indicative of the processing speed within the GPU cores responsible for computation tasks.
+### GPU SM 클럭 속도
+GPU의 Streaming Multiprocessor (SM)의 클럭 속도(MHz)를 나타냅니다. 이 메트릭은 GPU 코어 내부의 연산 처리 속도를 의미합니다.
 
-W&B assigns a `gpu.{gpu_index}.smClock` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.smClock` 태그를 지정합니다.
 
-### GPU Memory Clock Speed
-Represents the clock speed of the GPU memory in MHz, which influences the rate of data transfer between the GPU memory and processing cores.
+### GPU 메모리 클럭 속도
+GPU 메모리의 클럭 속도(MHz)를 나타내며, GPU 메모리와 처리 코어 간 데이터 전송 속도에 영향을 미칩니다.
 
-W&B assigns a `gpu.{gpu_index}.memoryClock` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.memoryClock` 태그를 지정합니다.
 
-### GPU Graphics Clock Speed 
+### GPU 그래픽 클럭 속도
 
-Represents the base clock speed for graphics rendering operations on the GPU, expressed in MHz. This metric often reflects performance during visualization or rendering tasks.
+GPU의 그래픽 렌더링 작업용 기본 클럭 속도(MHz)를 나타냅니다. 이 메트릭은 시각화나 렌더링 작업시 성능을 반영합니다.
 
-W&B assigns a `gpu.{gpu_index}.graphicsClock` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.graphicsClock` 태그를 지정합니다.
 
-### GPU Corrected Memory Errors
+### GPU 교정 메모리 에러
 
-Tracks the count of memory errors on the GPU that W&B automatically corrects by error-checking protocols, indicating recoverable hardware issues.
+GPU에서 오류 검출 프로토콜을 통해 W&B가 자동으로 교정한 메모리 에러의 수를 추적합니다. 이는 복구 가능한 하드웨어 이슈를 의미합니다.
 
-W&B assigns a `gpu.{gpu_index}.correctedMemoryErrors` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.correctedMemoryErrors` 태그를 지정합니다.
 
-### GPU Uncorrected Memory Errors
-Tracks the count of memory errors on the GPU that W&B uncorrected, indicating non-recoverable errors which can impact processing reliability.
+### GPU 미교정 메모리 에러
+GPU에서 W&B가 교정하지 못한 메모리 에러 수를 추적합니다. 이는 비복구성 에러로 처리 신뢰도에 영향을 줄 수 있습니다.
 
-W&B assigns a `gpu.{gpu_index}.unCorrectedMemoryErrors` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.unCorrectedMemoryErrors` 태그를 지정합니다.
 
-### GPU Encoder Utilization
+### GPU 인코더 사용률
 
-Represents the percentage utilization of the GPU's video encoder, indicating its load when encoding tasks (for example, video rendering) are running.
+GPU의 비디오 인코더 사용률(%)을 나타내며, 인코딩 작업(예: 비디오 렌더링) 중 인코더의 부하를 의미합니다.
 
-W&B assigns a `gpu.{gpu_index}.encoderUtilization` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.encoderUtilization` 태그를 지정합니다.
 
-<!-- New section -->
+
+
 ## AMD GPU
-W&B extracts metrics from the output of the `rocm-smi` tool supplied by AMD (`rocm-smi -a --json`).
+W&B는 AMD에서 제공하는 `rocm-smi` 툴(`rocm-smi -a --json`)의 출력에서 메트릭을 추출합니다.
 
-ROCm [6.x (latest)](https://rocm.docs.amd.com/en/latest/) and [5.x](https://rocm.docs.amd.com/en/docs-5.6.0/) formats are supported. Learn more about ROCm formats in the [AMD ROCm documentation](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html). The newer format includes more details.
+ROCm [6.x (최신)](https://rocm.docs.amd.com/en/latest/) 및 [5.x](https://rocm.docs.amd.com/en/docs-5.6.0/) 포맷을 지원합니다. 다양한 ROCm 포맷은 [AMD ROCm 공식 문서](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html)에서 확인할 수 있습니다. 최신 포맷에는 더 많은 상세 정보가 포함됩니다.
 
-### AMD GPU Utilization
-Represents the GPU utilization in percent for each AMD GPU device.
+### AMD GPU 사용률
+각 AMD GPU 디바이스의 GPU 사용률(%)을 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.gpu` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.gpu` 태그를 지정합니다.
 
-### AMD GPU Memory Allocated
-Indicates the GPU memory allocated as a percentage of the total available memory for each AMD GPU device.
+### AMD GPU 메모리 할당률
+각 AMD GPU 디바이스의 전체 사용 가능 메모리 대비 할당된 메모리 비율을 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.memoryAllocated` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.memoryAllocated` 태그를 지정합니다.
 
-### AMD GPU Temperature
-The GPU temperature in Celsius for each AMD GPU device.
+### AMD GPU 온도
+각 AMD GPU 디바이스의 온도(섭씨)를 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.temp` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.temp` 태그를 지정합니다.
 
-### AMD GPU Power Usage Watts
-The GPU power usage in Watts for each AMD GPU device.
+### AMD GPU 전력 사용량 (Watt)
+각 AMD GPU 디바이스에서 소비된 전력(W)을 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.powerWatts` tag to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.powerWatts` 태그를 지정합니다.
 
-### AMD GPU Power Usage Percent
-Reflects the GPU power usage as a percentage of its power capacity for each AMD GPU device.
+### AMD GPU 전력 사용량 퍼센트
+각 AMD GPU 디바이스의 최대 전력 대비 사용 비율(%)를 나타냅니다.
 
-W&B assigns a `gpu.{gpu_index}.powerPercent` to this metric.
+W&B는 이 메트릭에 `gpu.{gpu_index}.powerPercent` 태그를 지정합니다.
 
-<!-- New section -->
+
+
 ## Apple ARM Mac GPU
 
-### Apple GPU Utilization
-Indicates the GPU utilization in percent for Apple GPU devices, specifically on ARM Macs.
+### Apple GPU 사용률
+ARM Mac에서 Apple GPU 디바이스의 GPU 사용률(%)을 나타냅니다.
 
-W&B assigns a `gpu.0.gpu` tag to this metric.
+W&B는 이 메트릭에 `gpu.0.gpu` 태그를 지정합니다.
 
-### Apple GPU Memory Allocated
-The GPU memory allocated as a percentage of the total available memory for Apple GPU devices on ARM Macs.
+### Apple GPU 메모리 할당률
+ARM Mac에서 Apple GPU 디바이스의 전체 사용 가능 메모리 대비 할당된 메모리 비율을 나타냅니다.
 
-W&B assigns a `gpu.0.memoryAllocated` tag to this metric.
+W&B는 이 메트릭에 `gpu.0.memoryAllocated` 태그를 지정합니다.
 
-### Apple GPU Temperature
-The GPU temperature in Celsius for Apple GPU devices on ARM Macs.
+### Apple GPU 온도
+ARM Mac에서 Apple GPU 디바이스의 온도(섭씨)를 나타냅니다.
 
-W&B assigns a `gpu.0.temp` tag to this metric.
+W&B는 이 메트릭에 `gpu.0.temp` 태그를 지정합니다.
 
-### Apple GPU Power Usage Watts
-The GPU power usage in Watts for Apple GPU devices on ARM Macs.
+### Apple GPU 전력 사용량 (Watt)
+ARM Mac에서 Apple GPU 디바이스의 전력 사용량을 Watt로 나타냅니다.
 
-W&B assigns a `gpu.0.powerWatts` tag to this metric.
+W&B는 이 메트릭에 `gpu.0.powerWatts` 태그를 지정합니다.
 
-### Apple GPU Power Usage Percent
-The GPU power usage as a percentage of its power capacity for Apple GPU devices on ARM Macs.
+### Apple GPU 전력 사용량 퍼센트
+ARM Mac에서 Apple GPU 디바이스의 최대 전력 대비 사용률(%)를 나타냅니다.
 
-W&B assigns a `gpu.0.powerPercent` tag to this metric.
+W&B는 이 메트릭에 `gpu.0.powerPercent` 태그를 지정합니다.
 
-<!-- New section -->
+
+
 ## Graphcore IPU
-Graphcore IPUs (Intelligence Processing Units) are unique hardware accelerators designed specifically for machine intelligence tasks.
+Graphcore IPU(Intelligence Processing Unit)는 기계 지능 작업에 특화된 고유 하드웨어 가속기입니다.
 
-### IPU Device Metrics
-These metrics represent various statistics for a specific IPU device. Each metric has a device ID (`device_id`) and a metric key (`metric_key`) to identify it. W&B assigns a `ipu.{device_id}.{metric_key}` tag to this metric.
+### IPU 디바이스 메트릭
+이 메트릭들은 특정 IPU 디바이스의 다양한 통계를 나타냅니다. 각 메트릭은 디바이스 ID(`device_id`)와 메트릭 키(`metric_key`)로 구분됩니다. W&B는 이 메트릭에 `ipu.{device_id}.{metric_key}` 태그를 지정합니다.
 
-Metrics are extracted using the proprietary `gcipuinfo` library, which interacts with Graphcore's `gcipuinfo` binary. The `sample` method fetches these metrics for each IPU device associated with the process ID (`pid`). Only the metrics that change over time, or the first time a device's metrics are fetched, are logged to avoid logging redundant data.
+메트릭은 Graphcore의 `gcipuinfo` 바이너리와 연동되는 전용 `gcipuinfo` 라이브러리를 통해 추출됩니다. `sample` 메소드는 프로세스 ID(`pid`)와 연결된 각 IPU 디바이스에서 이 메트릭들을 가져옵니다. 시간이 지나면서 값이 변경되는 메트릭, 또는 디바이스별로 메트릭이 처음 가져온 경우에만 로그로 기록되어 중복 기록을 방지합니다.
 
-For each metric, the method `parse_metric` is used to extract the metric's value from its raw string representation. The metrics are then aggregated across multiple samples using the `aggregate` method.
+각 메트릭에 대해, `parse_metric` 메소드가 원본 문자열에서 값을 추출하는 데 사용됩니다. 여러 샘플에서 메트릭을 집계할 때는 `aggregate` 메소드가 활용됩니다.
 
-The following lists available metrics and their units:
+아래는 사용 가능한 메트릭과 단위입니다:
 
-- **Average Board Temperature** (`average board temp (C)`): Temperature of the IPU board in Celsius.
-- **Average Die Temperature** (`average die temp (C)`): Temperature of the IPU die in Celsius.
-- **Clock Speed** (`clock (MHz)`): The clock speed of the IPU in MHz.
-- **IPU Power** (`ipu power (W)`): Power consumption of the IPU in Watts.
-- **IPU Utilization** (`ipu utilisation (%)`): Percentage of IPU utilization.
-- **IPU Session Utilization** (`ipu utilisation (session) (%)`): IPU utilization percentage specific to the current session.
-- **Data Link Speed** (`speed (GT/s)`): Speed of data transmission in Giga-transfers per second.
+- **평균 보드 온도** (`average board temp (C)`): IPU 보드의 온도(섭씨)
+- **평균 다이 온도** (`average die temp (C)`): IPU 다이의 온도(섭씨)
+- **클럭 속도** (`clock (MHz)`): IPU의 클럭 속도(MHz)
+- **IPU 전력** (`ipu power (W)`): IPU의 전력 사용량(W)
+- **IPU 사용률** (`ipu utilisation (%)`): IPU의 전체 사용률(%)
+- **IPU 세션별 사용률** (`ipu utilisation (session) (%)`): 현재 세션에서의 IPU 사용률(%)
+- **데이터 링크 속도** (`speed (GT/s)`): 초당 기가 전송(GT/s) 기준 데이터 전송 속도
 
-<!-- New section -->
+
 
 ## Google Cloud TPU
-Tensor Processing Units (TPUs) are Google's custom-developed ASICs (Application Specific Integrated Circuits) used to accelerate machine learning workloads.
+Tensor Processing Unit(TPU)는 Google에서 기계학습 워크로드 가속을 위해 개발한 전용 ASIC(Application Specific Integrated Circuit)입니다.
 
+### TPU 메모리 사용량
+TPU 코어별로 현재 High Bandwidth Memory 사용량(바이트)을 나타냅니다.
 
-### TPU Memory usage
-The current High Bandwidth Memory usage in bytes per TPU core. 
+W&B는 이 메트릭에 `tpu.{tpu_index}.memoryUsageBytes` 태그를 지정합니다.
 
-W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
+### TPU 메모리 사용률(%)
+TPU 코어별로 현재 High Bandwidth Memory 사용량(%)을 나타냅니다.
 
-### TPU Memory usage percentage
-The current High Bandwidth Memory usage in percent per TPU core. 
-
-W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
+W&B는 이 메트릭에 `tpu.{tpu_index}.memoryUsageBytes` 태그를 지정합니다.
 
 ### TPU Duty cycle
-TensorCore duty cycle percentage per TPU device. Tracks the percentage of time over the sample period during which the accelerator TensorCore was actively processing. A larger value means better TensorCore utilization. 
+TPU 디바이스별 TensorCore duty cycle 비율(%)을 나타냅니다. 샘플 기간 동안 Accelerator TensorCore가 활성 처리 중이었던 시간의 비율로, 값이 클수록 TensorCore 활용도가 높음을 의미합니다.
 
-W&B assigns a `tpu.{tpu_index}.dutyCycle` tag to this metric.
+W&B는 이 메트릭에 `tpu.{tpu_index}.dutyCycle` 태그를 지정합니다.
 
-<!-- New section -->
+
 
 ## AWS Trainium
-[AWS Trainium](https://aws.amazon.com/machine-learning/trainium/) is a specialized hardware platform offered by AWS that focuses on accelerating machine learning workloads. The `neuron-monitor` tool from AWS is used to capture the AWS Trainium metrics.
+[AWS Trainium](https://aws.amazon.com/machine-learning/trainium/)은 AWS에서 제공하는 기계학습 워크로드 가속에 특화된 하드웨어 플랫폼입니다. AWS의 `neuron-monitor` 툴을 사용해 AWS Trainium 메트릭을 수집합니다.
 
-### Trainium Neuron Core Utilization
-The utilization percentage of each NeuronCore, reported on a per-core basis.
+### Trainium Neuron Core 사용률
+각 NeuronCore의 사용률(%)을 코어별로 보고합니다.
 
-W&B assigns a `trn.{core_index}.neuroncore_utilization` tag to this metric.
+W&B는 이 메트릭에 `trn.{core_index}.neuroncore_utilization` 태그를 지정합니다.
 
-### Trainium Host Memory Usage, Total 
-The total memory consumption on the host in bytes.
+### Trainium 호스트 전체 메모리 사용량
+호스트의 전체 메모리 사용량(바이트)을 나타냅니다.
 
-W&B assigns a `trn.host_total_memory_usage` tag to this metric.
+W&B는 이 메트릭에 `trn.host_total_memory_usage` 태그를 지정합니다.
 
-### Trainium Neuron Device Total Memory Usage 
-The total memory usage on the Neuron device in bytes.
+### Trainium Neuron 디바이스 전체 메모리 사용량
+Neuron 디바이스의 전체 메모리 사용량(바이트)을 나타냅니다.
 
-W&B assigns a  `trn.neuron_device_total_memory_usage)` tag to this metric.
+W&B는 이 메트릭에 `trn.neuron_device_total_memory_usage)` 태그를 지정합니다.
 
-### Trainium Host Memory Usage Breakdown:
+### Trainium 호스트 메모리 사용량 세부 정보
 
-The following is a breakdown of memory usage on the host:
+호스트의 메모리 사용량은 다음과 같이 분류됩니다:
 
-- **Application Memory** (`trn.host_total_memory_usage.application_memory`): Memory used by the application.
-- **Constants** (`trn.host_total_memory_usage.constants`): Memory used for constants.
-- **DMA Buffers** (`trn.host_total_memory_usage.dma_buffers`): Memory used for Direct Memory Access buffers.
-- **Tensors** (`trn.host_total_memory_usage.tensors`): Memory used for tensors.
+- **Application Memory** (`trn.host_total_memory_usage.application_memory`): 애플리케이션에서 사용하는 메모리
+- **Constants** (`trn.host_total_memory_usage.constants`): 상수 저장용 메모리
+- **DMA Buffers** (`trn.host_total_memory_usage.dma_buffers`): DMA(Direct Memory Access) 버퍼용 메모리
+- **Tensors** (`trn.host_total_memory_usage.tensors`): 텐서 데이터 저장용 메모리
 
-### Trainium Neuron Core Memory Usage Breakdown
-Detailed memory usage information for each NeuronCore:
+### Trainium Neuron Core 메모리 사용 세부 정보
+각 NeuronCore에 대한 상세 메모리 사용 정보를 제공합니다:
 
 - **Constants** (`trn.{core_index}.neuroncore_memory_usage.constants`)
 - **Model Code** (`trn.{core_index}.neuroncore_memory_usage.model_code`)
@@ -317,6 +321,6 @@ Detailed memory usage information for each NeuronCore:
 - **Tensors** (`trn.{core_index}.neuroncore_memory_usage.tensors`)
 
 ## OpenMetrics
-Capture and log metrics from external endpoints that expose OpenMetrics / Prometheus-compatible data with support for custom regex-based metric filters to be applied to the consumed endpoints.
+OpenMetrics / Prometheus 호환 데이터를 제공하는 외부 엔드포인트에서 메트릭을 수집 및 기록할 수 있으며, 커스텀 정규식 기반 메트릭 필터도 지원합니다.
 
-Refer to [Monitoring GPU cluster performance in W&B](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1) for a detailed example of how to use this feature in a particular case of monitoring GPU cluster performance with the [NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html).
+GPU 클러스터 성능을 모니터링하는 대표적인 사용 예시는 [Monitoring GPU cluster performance in W&B](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1)와 [NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html) 관련 문서에서 확인하실 수 있습니다.

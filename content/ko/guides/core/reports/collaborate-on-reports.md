@@ -1,37 +1,37 @@
 ---
-description: Collaborate and share W&B Reports with peers, co-workers, and your team.
+title: 리포트에서 협업하기
+description: W&B Reports를 동료, 팀원 및 팀과 함께 협업하고 공유하세요.
 menu:
   default:
     identifier: ko-guides-core-reports-collaborate-on-reports
     parent: reports
-title: Collaborate on reports
 weight: 30
 ---
 
-This page describes various ways to collaborate on reports with your team.
+이 페이지에서는 팀과 함께 Reports 에서 협업하는 다양한 방법을 설명합니다.
 
-## Share a report
-When viewing a report, click **Share**, then:
-- To share a link to the report with an email address or a username, click **Invite**. Enter an email address or username, select **Can view** or **Can edit**, then click **Invite**. If you share by email, the email address does not need to be a member of your organization or team.
-- To generate a sharing link instead, click **Share**. Adjust the permissions for the link, then click **Copy report link**. Share the link with the member.
+## 리포트 공유하기
+리포트를 보고 있을 때 **Share** 를 클릭하면 다음과 같이 할 수 있습니다.
+- 이메일 어드레스나 사용자 이름과 함께 리포트의 링크를 공유하려면 **Invite** 를 클릭하세요. 이메일 어드레스나 사용자 이름을 입력하고, **Can view** 또는 **Can edit** 를 선택한 후 **Invite** 를 클릭합니다. 이메일로 공유할 경우, 해당 이메일 어드레스가 반드시 조직 또는 팀의 멤버일 필요는 없습니다.
+- 대신 공유 링크를 생성하려면 **Share** 를 클릭하세요. 링크에 대한 권한을 조정한 다음 **Copy report link** 를 클릭합니다. 생성한 링크를 팀 멤버와 공유하면 됩니다.
 
-When viewing the report, click a panel to open it in full screen mode. If you copy the URL from the browser and share it with another user, when they access the link the panel will open directly in full screen mode.
+리포트를 보는 중에 패널을 클릭하면 전체 화면 모드로 열 수 있습니다. 브라우저에서 URL을 복사해서 다른 사용자에게 공유하면, 해당 사용자가 링크에 엑세스할 때 그 패널이 바로 전체 화면 모드로 열립니다.
 
-## Edit a report
-When any team member clicks the **Edit** button to begin editing the report, a draft is automatically saved. Select **Save to report** to publish your changes.
+## 리포트 편집하기
+어떤 팀 멤버라도 **Edit** 버튼을 눌러 리포트 편집을 시작하면, 초안이 자동으로 저장됩니다. 변경 사항을 게시하려면 **Save to report** 를 선택하세요.
 
-If an edit conflict occurs, such as when two team members edit the report at once, a warning notification helps you to resolve any conflicts.
+두 명 이상의 팀 멤버가 동시에 리포트를 편집하는 등 편집 충돌이 발생하면, 이를 해결하는 데 도움이 되는 경고 알림이 표시됩니다.
 
-{{< img src="/images/reports/share-report.gif" alt="Report sharing modal for a report in a 'Public' project" max-width="90%">}}
+{{< img src="/images/reports/share-report.gif" alt=" 'Public' 프로젝트에서 리포트를 공유하는 모달 창" max-width="90%">}}
 
-## Comment on reports
-Click **Comment** to leave a comment on a report.
+## 리포트에 댓글 달기
+리포트에 댓글을 남기려면 **Comment** 를 클릭하세요.
 
-To comment directly on a panel, hover over the panel, then click the comment button, which looks like a speech bubble.
+패널에 직접 댓글을 달려면, 패널 위에 마우스를 올려놓은 후 말풍선 모양의 댓글 버튼을 클릭하세요.
 
-{{< img src="/images/reports/demo_comment_on_panels_in_reports.gif" alt="Adding a comment to a panel" >}}
+{{< img src="/images/reports/demo_comment_on_panels_in_reports.gif" alt="패널에 댓글 달기" >}}
 
-## Star a report
-If your team has a large number of reports, click **Star** at the top of a report to add it to your favorites. When viewing your team's list of reports, click the star in a report's row to add it to your favorites. Starred reports appear at the top of the list.
+## 리포트 즐겨찾기
+팀에 Reports 가 많이 있을 경우, 리포트 상단의 **Star** 를 클릭하면 즐겨찾기에 추가할 수 있습니다. 팀의 Reports 목록에서 리포트 행의 별 아이콘을 클릭하면 해당 리포트를 즐겨찾기에 추가할 수 있습니다. 즐겨찾기한 리포트는 목록 상단에 표시됩니다.
 
-From the list of reports, you can see how many members have starred each report to gauge its relative popularity.
+리포트 목록에서 각 리포트를 몇 명의 멤버가 즐겨찾기 했는지도 확인해서 해당 리포트의 상대적 인기도를 가늠할 수 있습니다.

@@ -1,5 +1,1 @@
----
-{}
----
-
-This feature is in **private preview**, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
+이 기능은 **비공개 프리뷰** 단계로, 초대받은 분들만 이용하실 수 있습니다. 등록을 요청하려면 [support](mailto:support@wandb.com) 또는 담당 AISE에게 문의해 주세요.

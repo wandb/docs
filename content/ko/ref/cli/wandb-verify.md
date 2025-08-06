@@ -1,21 +1,20 @@
 ---
+title: wandb verify
 menu:
   reference:
     identifier: ko-ref-cli-wandb-verify
-title: wandb verify
 ---
 
-**Usage**
+**사용법**
 
 `wandb verify [OPTIONS]`
 
-**Summary**
+**요약**
 
-Verify your local instance
+로컬 인스턴스를 검증합니다
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `--host` | Test a specific instance of W&B |
+| `--host` | 특정 W&B 인스턴스를 테스트합니다 |

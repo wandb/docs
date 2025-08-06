@@ -1,41 +1,40 @@
 ---
-description: Track a model, the model's dependencies, and other information relevant
-  to that model with the W&B Python SDK.
+title: 모델 추적하기
+description: W&B Python SDK를 사용하여 모델, 해당 모델의 종속성, 그리고 모델과 관련된 기타 정보를 추적하세요.
 menu:
   default:
     identifier: ko-guides-core-registry-model_registry-log-model-to-experiment
     parent: model-registry
-title: Track a model
 weight: 3
 ---
 
-Track a model, the model's dependencies, and other information relevant to that model with the W&B Python SDK. 
+W&B Python SDK를 사용하여 모델, 모델의 의존성, 그리고 해당 모델과 관련된 기타 정보를 추적할 수 있습니다.
 
-Under the hood, W&B creates a lineage of [model artifact]({{< relref path="./model-management-concepts.md#model-artifact" lang="ko" >}}) that you can view with the W&B App or programmatically with the W&B Python SDK. See the [Create model lineage map]({{< relref path="./model-lineage.md" lang="ko" >}}) for more information.
+W&B는 내부적으로 [model artifact]({{< relref path="./model-management-concepts.md#model-artifact" lang="ko" >}})의 계보를 생성하며, 이 계보는 W&B App에서 또는 W&B Python SDK를 통해 프로그래밍 방식으로 확인할 수 있습니다. 자세한 내용은 [Create model lineage map]({{< relref path="./model-lineage.md" lang="ko" >}})을 참고하세요.
 
-## How to log a model
+## 모델을 log 하는 방법
 
-Use the `run.log_model` API to log a model. Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI]({{< relref path="/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" lang="ko" >}}) to an external bucket such as `s3://bucket/path`. 
+`run.log_model` API를 사용하여 모델을 로그할 수 있습니다. `path` 파라미터에는 모델 파일이 저장된 경로를 입력하세요. 이 경로는 로컬 파일, 디렉토리, 또는 `s3://bucket/path`와 같은 외부 버킷의 [reference URI]({{< relref path="/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" lang="ko" >}})가 될 수 있습니다.
 
-Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B uses the basename of the input path prepended with the run ID. 
+선택적으로, `name` 파라미터에 모델 artifact의 이름을 지정할 수 있습니다. 만약 `name`을 지정하지 않으면, W&B는 입력 경로의 basename 앞에 run ID를 붙여 사용합니다.
 
-Copy and paste the proceeding code snippet. Ensure to replace values enclosed in `<>` with your own.
+아래 코드조각을 복사해서 사용하세요. `< >`로 감싸진 값은 여러분의 환경에 맞게 수정해야 합니다.
 
 ```python
 import wandb
 
-# Initialize a W&B run
+# W&B run 초기화
 run = wandb.init(project="<project>", entity="<entity>")
 
-# Log the model
+# 모델 로그
 run.log_model(path="<path-to-model>", name="<name>")
 ```
 
 <details>
 
-<summary>Example: Log a Keras model to W&B</summary>
+<summary>예시: Keras 모델을 W&B에 로그하기</summary>
 
-The proceeding code example shows how to log a convolutional neural network (CNN) model to W&B.
+아래 코드 예시는 합성곱 신경망(CNN) 모델을 W&B에 로그하는 방법을 보여줍니다.
 
 ```python
 import os
@@ -45,10 +44,10 @@ from tensorflow.keras import layers
 
 config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
 
-# Initialize a W&B run
+# W&B run 초기화
 run = wandb.init(entity="charlie", project="mnist-project", config=config)
 
-# Training algorithm
+# 트레이닝 알고리즘
 loss = run.config["loss"]
 optimizer = run.config["optimizer"]
 metrics = ["accuracy"]
@@ -70,16 +69,16 @@ model = keras.Sequential(
 
 model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-# Save model
+# 모델 저장
 model_filename = "model.h5"
 local_filepath = "./"
 full_path = os.path.join(local_filepath, model_filename)
 model.save(filepath=full_path)
 
-# Log the model
+# 모델 로그
 run.log_model(path=full_path, name="MNIST")
 
-# Explicitly tell W&B to end the run.
+# W&B run 종료
 run.finish()
 ```
 </details>

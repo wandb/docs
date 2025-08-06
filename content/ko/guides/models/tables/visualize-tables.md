@@ -1,106 +1,99 @@
 ---
-description: Visualize and analyze W&B Tables.
+title: 테이블 시각화 및 분석
+description: W&B Tables를 시각화하고 분석하세요.
 menu:
   default:
     identifier: ko-guides-models-tables-visualize-tables
     parent: tables
-title: Visualize and analyze tables
 weight: 2
 ---
 
-Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
+W&B Tables를 활용해 기계학습 모델의 성능을 분석하고, 데이터 분석 및 다양한 질문에 대한 답을 얻을 수 있도록 테이블을 자유롭게 커스터마이즈할 수 있습니다.
 
-Interactively explore your data to:
+데이터를 인터랙티브하게 탐색해보세요:
 
-* Compare changes precisely across models, epochs, or individual examples
-* Understand higher-level patterns in your data
-* Capture and communicate your insights with visual samples
-
-
+* 모델, 에포크 또는 개별 예시별 변화를 정확하게 비교
+* 데이터에서 더 높은 수준의 패턴 파악
+* 시각적 샘플로 인사이트 기록 및 공유
 
 {{% alert %}}
-W&B Tables posses the following behaviors:
-1. **Stateless in an artifact context**: any table logged alongside an artifact version resets to its default state after you close the browser window
-2. **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report persists.
+W&B Tables의 행동은 아래와 같습니다:
+1. **Artifacts 컨텍스트에서는 상태를 저장하지 않음**: 아티팩트 버전과 함께 기록된 테이블은 브라우저 창을 닫으면 기본 상태로 초기화됩니다.
+2. **워크스페이스 또는 Report 컨텍스트에서는 상태를 저장함**: 단일 run 워크스페이스, 멀티-run 프로젝트 워크스페이스 또는 Report에서 테이블에 적용한 모든 변경 사항이 저장됩니다.
 
-For information on how to save your current W&B Table view, see [Save your view]({{< relref path="#save-your-view" lang="ko" >}}).
+현재 W&B Table 뷰를 저장하는 방법은 [뷰 저장하기]({{< relref path="#save-your-view" lang="ko" >}})를 참고하세요.
 {{% /alert %}}
 
-## Compare two tables
-Compare two tables with a [merged view]({{< relref path="#merged-view" lang="ko" >}}) or a [side-by-side view]({{< relref path="#side-by-side-view" lang="ko" >}}). For example, the image below demonstrates a table comparison of MNIST data.
+## 두 개의 테이블 비교하기
+[병합 뷰]({{< relref path="#merged-view" lang="ko" >}}) 또는 [좌우 비교 뷰]({{< relref path="#side-by-side-view" lang="ko" >}})로 두 개의 테이블을 비교할 수 있습니다. 아래 이미지는 MNIST 데이터의 테이블 비교 예시입니다.
 
-{{< img src="/images/data_vis/table_comparison.png" alt="Training epoch comparison" max-width="90%" >}}
+{{< img src="/images/data_vis/table_comparison.png" alt="트레이닝 에포크 비교" max-width="90%" >}}
 
-Follow these steps to compare two tables:
+두 개의 테이블을 비교하려면 다음 단계를 따르세요:
 
-1. Go to your project in the W&B App.
-2. Select the artifacts icon on the left panel.
-2. Select an artifact version. 
+1. W&B App에서 프로젝트로 이동합니다.
+2. 왼쪽 패널에서 Artifacts 아이콘을 선택합니다.
+3. 아티팩트 버전을 선택합니다.
 
-In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
+다음 이미지는 다섯 번의 에포크 후, 각 에포크마다 MNIST 검증 데이터에 대한 모델 예측값을 나타냅니다 ([인터랙티브 예시 보기](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
 
-{{< img src="/images/data_vis/preds_mnist.png" alt="Click on 'predictions' to view the Table" max-width="90%" >}}
+{{< img src="/images/data_vis/preds_mnist.png" alt="'predictions'를 클릭하여 Table 보기" max-width="90%" >}}
 
+4. 사이드바에서 비교하고 싶은 두 번째 아티팩트 버전 위에 마우스를 올리고, **Compare** 버튼이 나타나면 클릭합니다. 예를 들어, 아래 이미지에서는 "v4"로 라벨링된 버전을 선택해 동일한 모델이 5번 트레이닝한 MNIST 예측값과 비교하고 있습니다.
 
-3. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
+{{< img src="/images/data_vis/preds_2.png" alt="모델 예측값 비교" max-width="90%" >}}
 
-{{< img src="/images/data_vis/preds_2.png" alt="Model prediction comparison" max-width="90%" >}}
+### 병합 뷰
 
-### Merged view
-<!-- To do, add steps -->
-Initially you see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
+처음에는 두 테이블이 병합되어 보여집니다. 가장 먼저 선택된 테이블은 인덱스 0과 파란색 강조, 두 번째 테이블은 인덱스 1과 노란색 강조가 표시됩니다. [병합 테이블의 라이브 예시 보기](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
-{{< img src="/images/data_vis/merged_view.png" alt="Merged view" max-width="90%">}}
+{{< img src="/images/data_vis/merged_view.png" alt="병합 뷰" max-width="90%">}}
 
-From the merged view, you can
+병합 뷰에서 다음과 같은 작업을 할 수 있습니다:
 
-* **choose the join key**: use the dropdown at the top left to set the column to use as the join key for the two tables. Typically this is the unique identifier of each row, such as the filename of a specific example in your dataset or an incrementing index on your generated samples. Note that it's currently possible to select _any_ column, which may yield illegible tables and slow queries.
-* **concatenate instead of join**: select "concatenating all tables" in this dropdown to _union all the rows_ from both tables into one larger Table instead of joining across their columns
-* **reference each Table explicitly**: use 0, 1, and \* in the filter expression to explicitly specify a column in one or both table instances
-* **visualize detailed numerical differences as histograms**: compare the values in any cell at a glance
+* **조인 키 선택**: 좌상단 드롭다운에서 두 테이블을 연결할 조인 키 컬럼을 지정하세요. 일반적으로 데이터셋의 예시 파일명이나 생성된 샘플의 인덱스 등 각 행의 고유 식별자가 사용됩니다. _모든_ 컬럼 선택이 가능하나, 해독이 어렵거나 느린 결과가 나올 수 있습니다.
+* **조인 대신 이어붙이기**: 해당 드롭다운에서 "concatenating all tables"를 선택하면, 두 테이블의 모든 행을 하나의 큰 Table로 _합집합_ 할 수 있습니다 (컬럼 기준 조인 대신).
+* **각 Table을 명시적으로 참조**: filter expression에서 0, 1, \*를 이용해 각 Table 인스턴스의 컬럼을 정확하게 지정할 수 있습니다.
+* **숫자 값의 차이 시각화**: 셀별 값을 빠르게 비교할 수 있도록 히스토그램으로 시각화됩니다.
 
-### Side-by-side view
+### 좌우 비교 뷰
 
-<!-- To do -->
+두 테이블을 좌우에 나란히 살펴보려면, 첫 번째 드롭다운을 "Merge Tables: Table"에서 "List of: Table"로 변경하고 "Page size"도 원하는대로 조정하세요. 선택된 첫 번째 Table은 왼쪽, 두 번째 Table은 오른쪽에 표시됩니다. 또한 "Vertical" 체크박스를 클릭하면 테이블을 세로로 비교할 수도 있습니다.
 
-To view the two tables side-by-side, change the first dropdown from "Merge Tables: Table" to "List of: Table" and then update the "Page size" respectively. Here the first Table selected is on the left and the second one is on the right. Also, you can compare these tables vertically as well by clicking on the "Vertical" checkbox.
+{{< img src="/images/data_vis/side_by_side.png" alt="좌우 비교 테이블 뷰" max-width="90%" >}}
 
-{{< img src="/images/data_vis/side_by_side.png" alt="Side-by-side table view" max-width="90%" >}}
+* **빠른 비교**: 정렬, 필터, 그룹 등의 작업을 동시에 적용해서 두 테이블의 차이를 한 번에 파악할 수 있습니다. 예를 들어, 예측이 잘못된 부분을 guess별로 그룹화하거나, 가장 구분이 어려운 음성 샘플, 라벨별 confidence 점수 분포 등을 볼 수 있습니다.
+* **각 테이블을 개별적으로 탐색**: 관심 있는 부분의 행(또는 열)을 자유롭게 탐색할 수 있습니다.
 
-* **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
-* **explore two tables independently**: scroll through and focus on the side/rows of interest
+## Run 전반에 걸친 값 변화 시각화
 
+Table에 기록된 값들이 run 전체에서 어떻게 변화하는지 step 슬라이더로 볼 수 있습니다. 슬라이더를 움직이면 다양한 step에서 기록된 값들을 확인할 수 있습니다. 예를 들어, loss, accuracy 또는 기타 메트릭이 run 이후 어떻게 변화했는지 확인할 수 있습니다.
 
+슬라이더는 값을 변화시키는 기준이 되는 키로 값을 결정합니다. 기본적으로 `_step` 키가 사용되며, 이는 W&B가 자동으로 기록해주는 특별한 키입니다. `_step` 키는 `wandb.Run.log()`가 호출될 때마다 1씩 증가하는 정수입니다.
 
-## Visualize how values change throughout your runs
+W&B Table에 step 슬라이더를 추가하려면:
 
-View how values you log to a table change throughout your runs with a step slider. Slide the step slider to view the values logged at different steps. For example, you can view how the loss, accuracy, or other metrics change after each run. 
+1. 프로젝트의 워크스페이스로 이동합니다.
+2. 우측 상단에서 **Add panel**을 클릭합니다.
+3. **Query panel**을 선택합니다.
+4. 쿼리 표현식 에디터에서 `runs`를 선택하고 키보드의 **Enter**를 누릅니다.
+5. 패널 설정을 보려면 톱니바퀴 아이콘을 클릭하세요.
+6. **Render As** 선택기를 **Stepper**로 설정합니다.
+7. **Stepper Key**를 `_step` 또는 [기준으로 사용할 키]({{< relref path="#custom-step-keys" lang="ko" >}})로 설정합니다.
 
-The slider uses a key to determine the step value. The default key for the slider is `_step`, a special key that W&B automatically logs for you. The `_step` key is an integer that increments by 1 each time you call `wandb.Run.log()` in your code.
+아래 이미지는 세 개의 W&B run과 그들이 step 295에서 기록한 값들을 Query panel에서 보여주고 있습니다.
 
-To add a step slider to a W&B Table:
+{{< img src="/images/data_vis/stepper_key.png" alt="Step 슬라이더 기능">}}
 
-1. Navigate to your project's workspace.
-2. Click **Add panel** in the top right corner of the workspace.
-3. Select **Query panel**.
-4. Within the query expression editor, select `runs` and press **Enter** on your keyboard.
-5. Click the gear icon to view the settings for the panel.
-6. Set **Render As** selector to **Stepper**.
-7. Set **Stepper Key** to `_step` or the [key to use as the unit]({{< relref path="#custom-step-keys" lang="ko" >}}) for the step slider.
+W&B App UI 내에서는 동일 값이 여러 step에서 중복 표시될 수 있습니다. 이는 여러 run이 서로 다른 step에서 동일한 값을 기록했거나, run이 모든 step에 값을 기록하지 않았을 때 발생할 수 있습니다. 특정 step에서 값이 누락된 경우, W&B는 마지막에 기록된 값을 슬라이더 키로 사용합니다.
 
-The following image shows a query panel with three W&B runs and the values they logged at step 295.
+### 사용자 정의 step 키
 
-{{< img src="/images/data_vis/stepper_key.png" alt="Step slider feature">}}
+step 키는 run에서 기록하는 임의의 숫자형 메트릭이 될 수 있습니다 (예: `epoch` 또는 `global_step`). 사용자 정의 step 키를 사용하면, W&B가 해당 run에서 그 키의 각 값에 맞춰 step(`_step`)을 연결합니다.
 
-Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run does not log values at every step. If a value is missing for a given step, W&B uses the last value that was logged as the slider key.
+아래 표는 사용자 정의 step 키 `epoch`가 세 개의 서로 다른 run (`serene-sponge`, `lively-frog`, `vague-cloud`)에서 `_step` 값에 어떻게 매핑되는지를 보여줍니다. 각 행은 특정 run에서 `_step` 값에 `wandb.Run.log()`가 호출된 사례를 나타냅니다. 열은 해당 step에서 기록된 epoch 값을 보여줍니다 (없는 값은 생략됨).
 
-### Custom step key
-
-The step key can be any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a custom step key, W&B maps each value of that key to a step (`_step`) in the run.
-
-This table shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.Run.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, that were logged at those steps. Some `_step` values are omitted to save space.
-
-The first time `wandb.Run.log()` was called, none of the runs logged an `epoch` value, so the table shows empty values for `epoch`. 
+각 run에서 `wandb.Run.log()`가 최초 호출되었을 때는 `epoch` 값이 기록되지 않아, epoch 칸이 비어 있습니다.
 
 | `_step` | vague-cloud (`epoch`) | lively-frog(`epoch`) |  serene-sponge (`epoch`) |
 | ------- | ------------- | ----------- | ----------- |
@@ -118,68 +111,60 @@ The first time `wandb.Run.log()` was called, none of the runs logged an `epoch` 
 | 18 |  |   | 9  |
 | 20 | 3 | 5 | 10 |
 
-Now, if the slider is set to `epoch = 1`, the following happens:
+이제 슬라이더가 `epoch = 1`로 설정되면 다음과 같이 동작합니다:
 
-* `vague-cloud` finds `epoch = 1` and returns the value logged at `_step = 5`
-* `lively-frog` finds `epoch = 1` and returns the value logged at `_step = 4`
-* `serene-sponge` finds `epoch = 1` and returns the value logged at `_step = 2`
+* `vague-cloud`는 `epoch = 1`을 찾아 `_step = 5`에서 기록된 값을 반환
+* `lively-frog`는 `epoch = 1`을 찾아 `_step = 4`에서 기록된 값을 반환
+* `serene-sponge`는 `epoch = 1`을 찾아 `_step = 2`에서 기록된 값을 반환
 
-If the slider is set to `epoch = 9`:
+슬라이더가 `epoch = 9`로 설정된 경우:
 
-* `vague-cloud` also doesn't log `epoch = 9`, so W&B uses the latest prior value `epoch = 3` and returns the value logged at `_step = 20`
-* `lively-frog` doesn’t log `epoch = 9`, but the latest prior value is `epoch = 5` so it returns the value logged at `_step = 20`
-* `serene-sponge` finds `epoch = 9` and return the value logged at `_step = 18`
+* `vague-cloud`는 `epoch = 9`가 없으므로, 직전의 `epoch = 3`을 사용해 `_step = 20`에서 기록된 값을 반환
+* `lively-frog`는 `epoch = 9`가 없고, 직전 값인 `epoch = 5`를 찾아 `_step = 20`에서 기록된 값을 반환
+* `serene-sponge`는 `epoch = 9`가 있으므로, `_step = 18`에서 기록된 값을 반환
 
-<!-- | | |
-| ---- | ---- |
-| Run History Tables Stepper | |
-| Run History Plots Stepper | |
-| Stepper | | -->
+## Artifacts 비교하기
+[테이블을 시간에 따라 비교]({{< relref path="#compare-tables-across-time" lang="ko" >}})하거나, [모델 버전별로 비교]({{< relref path="#compare-tables-across-model-variants" lang="ko" >}})할 수도 있습니다.
 
-## Compare artifacts
-You can also [compare tables across time]({{< relref path="#compare-tables-across-time" lang="ko" >}}) or [model variants]({{< relref path="#compare-tables-across-model-variants" lang="ko" >}}). 
+### 시간에 따른 테이블 비교
+트레이닝의 각 의미 있는 단계마다 Artifacts에 테이블을 기록하면 트레이닝 시간 전체에 걸친 모델 성능을 분석할 수 있습니다. 예를 들어 모든 검증 스텝 종료 시마다, 50 에포크마다, 또는 파이프라인에 적합한 빈도로 테이블을 기록할 수 있습니다. 좌우 비교 뷰로 모델 예측에서 어떻게 변화가 일어나는지 시각화해보세요.
 
+{{< img src="/images/data_vis/compare_across_time.png" alt="트레이닝 진행 비교" max-width="90%" >}}
 
-### Compare tables across time
-Log a table in an artifact for each meaningful step of training to analyze model performance over training time. For example, you could log a table at the end of every validation step, after every 50 epochs of training, or any frequency that makes sense for your pipeline. Use the side-by-side view to visualize changes in model predictions.
+트레이닝 시간에 따른 예측값 시각화에 대한 자세한 예시는 [predictions over time report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) 및 이 인터랙티브 [notebook 예시](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..)를 참고하세요.
 
-{{< img src="/images/data_vis/compare_across_time.png" alt="Training progress comparison" max-width="90%" >}}
+### 모델 버전 간 테이블 비교
 
-For a more detailed walkthrough of visualizing predictions across training time, see the [predictions over time report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..).
+같은 step에서 두 개의 서로 다른 모델에 대해 기록된 아티팩트 버전을 비교하여 다양한 설정(하이퍼파라미터, 기본 아키텍처 등)에서 모델 성능이 어떻게 다른지 분석할 수 있습니다.
 
-### Compare tables across model variants
-
-Compare two artifact versions logged at the same step for two different models to analyze model performance across different configurations (hyperparameters, base architectures, and so forth).
-
-For example, compare predictions between a `baseline` and a new model variant, `2x_layers_2x_lr`, where the first convolutional layer doubles from 32 to 64, the second from 128 to 256, and the learning rate from 0.001 to 0.002. From [this live example](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr), use the side-by-side view and filter down to the incorrect predictions after 1 (left tab) versus 5 training epochs (right tab).
+예를 들어, `baseline` 모델과, 첫 번째 컨볼루션 레이어(32→64), 두 번째(128→256), 러닝레이트(0.001→0.002)가 두 배로 변한 새로운 모델 버전 `2x_layers_2x_lr`의 예측값을 비교할 수 있습니다. [이 라이브 예시](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr)에서, 좌우 비교 뷰로 1 에포크(왼쪽 탭)와 5 에포크(오른쪽 탭) 이후 잘못된 예측값에 초점을 맞춰보세요.
 
 {{< tabpane text=true >}}
 {{% tab header="1 training epoch" value="one_epoch" %}}
-{{< img src="/images/data_vis/compare_across_variants.png" alt="Performance comparison" >}}
+{{< img src="/images/data_vis/compare_across_variants.png" alt="성능 비교" >}}
 {{% /tab %}}
 {{% tab header="5 training epochs" value="five_epochs" %}}
-{{< img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="Variant performance comparison" >}}
+{{< img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="모델 버전 성능 비교" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Save your view
+## 뷰 저장하기
 
-Tables you interact with in the run workspace, project workspace, or a report automatically saves their view state. If you apply any table operations then close your browser, the table retains the last viewed configuration when you next navigate to the table. 
+Run 워크스페이스, 프로젝트 워크스페이스, Report에서 Table을 다루면 자동으로 뷰 상태가 저장됩니다. 테이블에서 작업 후 브라우저를 닫았다가 다시 접속해도 마지막 상태가 그대로 유지됩니다.
 
 {{% alert %}}
-Tables you interact with in the artifact context remains stateless.
+Artifacts 컨텍스트에서 다루는 Table은 상태가 저장되지 않습니다.
 {{% /alert %}}
 
-To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to report:
-1. Select the kebab icon (three vertical dots) in the top right corner of your workspace visualization panel.
-2. Select either **Share panel** or **Add to report**.
+특정 상태의 Table을 워크스페이스에서 저장하고 싶다면 W&B Report로 내보낼 수 있습니다. Report로 내보내려면:
+1. 워크스페이스 시각화 패널 우상단의 케밥 메뉴(세로 점 3개)를 클릭합니다.
+2. **Share panel** 또는 **Add to report**를 선택합니다.
 
-{{< img src="/images/data_vis/share_your_view.png" alt="Report sharing options" max-width="90%">}}
+{{< img src="/images/data_vis/share_your_view.png" alt="Report 공유 옵션" max-width="90%">}}
 
+## 예시
 
-## Examples
-
-These reports highlight the different use cases of W&B Tables:
+아래 Reports는 W&B Tables의 다양한 유스 케이스를 보여줍니다:
 
 * [Visualize Predictions Over Time](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
 * [How to Compare Tables in Workspaces](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)

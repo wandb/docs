@@ -1,31 +1,33 @@
 ---
+title: 'bokeh-file
+
+  '
 menu:
   reference:
     identifier: ko-ref-query-panel-bokeh-file
-title: bokeh-file
 ---
 
-## Chainable Ops
+## 체이너블 연산 (Chainable Ops)
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+Asset의 _파일_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | asset |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+Asset의 _파일_
 
 
-## List Ops
+## 리스트 연산 (List Ops)
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+Asset의 _파일_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | asset |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+Asset의 _파일_

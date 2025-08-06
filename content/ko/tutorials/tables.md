@@ -1,57 +1,57 @@
 ---
+title: 테이블로 예측값 시각화
 menu:
   tutorials:
     identifier: ko-tutorials-tables
     parent: null
-title: Visualize predictions with tables
 weight: 2
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W&B_Tables_Quickstart.ipynb" >}}
 
-This covers how to track, visualize, and compare model predictions over the course of training, using PyTorch on MNIST data. 
+이 튜토리얼에서는 PyTorch와 MNIST 데이터를 사용하여 트레이닝 과정에서 모델의 예측값을 추적, 시각화, 비교하는 방법을 다룹니다.
 
-You will learn how to:
-1. Log metrics, images, text, etc. to a `wandb.Table()` during model training or evaluation
-2. View, sort, filter, group, join, interactively query, and explore these tables
-3. Compare model predictions or results: dynamically across specific images, hyperparameters/model versions, or time steps.
+여기서 배울 내용은 다음과 같습니다:
+1. 모델 트레이닝 또는 평가 중에 `wandb.Table()`을 사용해 메트릭, 이미지, 텍스트 등을 로그
+2. 이 테이블들을 보고, 정렬하고, 필터링하고, 그룹화하고, 조인하며, 인터랙티브하게 쿼리하고 탐색하는 방법
+3. 모델 예측값이나 결과를 비교: 특정 이미지, 하이퍼파라미터/모델 버전, 또는 시간 단계별로 동적으로 분석
 
-## Examples
-### Compare predicted scores for specific images
+## 예시
+### 특정 이미지에 대한 예측 점수 비교하기
 
-[Live example: compare predictions after 1 vs 5 epochs of training →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#compare-predictions-after-1-vs-5-epochs)
+[라이브 예시: 트레이닝 1 에포크 대 5 에포크 후 예측값 비교 →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#compare-predictions-after-1-vs-5-epochs)
 
 {{< img src="/images/tutorials/tables-1.png" alt="Training epoch comparison" >}}
 
-The histograms compare per-class scores between the two models. The top green bar in each histogram represents model "CNN-2, 1 epoch" (id 0), which only trained for 1 epoch. The bottom purple bar represents model "CNN-2, 5 epochs" (id 1), which trained for 5 epochs. The images are filtered to cases where the models disagree. For example, in the first row, the "4" gets high scores across all the possible digits after 1 epoch, but after 5 epochs it scores highest on the correct label and very low on the rest.
+히스토그램은 두 모델의 클래스별 점수를 비교한 것입니다. 각 히스토그램의 위쪽 녹색 막대는 1 에포크만 트레이닝된 모델 "CNN-2, 1 epoch" (id 0), 아래쪽 보라색 막대는 5 에포크 트레이닝된 "CNN-2, 5 epochs" (id 1)를 의미합니다. 이미지는 두 모델의 예측이 다를 때만 필터링되어 보여집니다. 예를 들어, 첫 번째 행의 "4"의 경우, 1 에포크에서는 모든 숫자에 대해 점수가 높지만, 5 에포크 후에는 정답 레이블에 가장 높은 점수, 나머지에는 매우 낮은 점수를 보입니다.
 
-### Focus on top errors over time
-[Live example →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#top-errors-over-time)
+### 시간에 따른 주요 에러 집중 보기
+[라이브 예시 →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#top-errors-over-time)
 
-See incorrect predictions (filter to rows where "guess" != "truth") on the full test data. Note that there are 229 wrong guesses after 1 training epoch, but only 98 after 5 epochs.
+테스트 전체 데이터셋에서 잘못된 예측만 (즉 "guess" != "truth" 조건) 필터링해서 볼 수 있습니다. 1 에포크 트레이닝 후 틀린 예측은 229개, 5 에포크 후에는 98개로 줄어듭니다.
 
 {{< img src="/images/tutorials/tables-2.png" alt="Side-by-side epoch comparison" >}}
 
-### Compare model performance and find patterns
+### 모델 성능 비교 및 패턴 찾기
 
-[See full detail in a live example →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#false-positives-grouped-by-guess)
+[라이브 전체 예시 보기 →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#false-positives-grouped-by-guess)
 
-Filter out correct answers, then group by the guess to see examples of misclassified images and the underlying distribution of true labels—for two models side-by-side. A model variant with 2X the layer sizes and learning rate is on the left, and the baseline is on the right. Note that the baseline makes slightly more mistakes for each guessed class.
+정답인 행을 제외하고, 예측값(guess)별로 그룹화해 잘못 분류된 이미지 예시와 실제 라벨 분포를 두 모델을 나란히 비교해 볼 수 있습니다. 왼쪽은 레이어 크기와 learning rate를 2배로 키운 모델 변형이고, 오른쪽은 베이스라인입니다. 베이스라인 모델이 각 예측 클래스별로 약간 더 많은 에러를 내는 것을 볼 수 있습니다.
 
 {{< img src="/images/tutorials/tables-3.png" alt="Error comparison" >}}
 
-## Sign up or login
+## 회원가입 또는 로그인
 
-[Sign up or login](https://wandb.ai/login) to W&B to see and interact with your experiments in the browser.
+[회원가입 또는 로그인](https://wandb.ai/login) 하여 W&B에서 웹브라우저로 직접 본인의 실험을 보고, 인터랙티브하게 탐색하세요.
 
-In this example we're using Google Colab as a convenient hosted environment, but you can run your own training scripts from anywhere and visualize metrics with W&B's experiment tracking tool.
+이 예시에서는 Google Colab을 사용하지만, 직접 환경에서 트레이닝 스크립트를 실행하고 W&B의 experiment tracking tool로 메트릭을 시각화할 수도 있습니다.
 
 
 ```python
 !pip install wandb -qqq
 ```
 
-log to your account
+본인 계정에 로그인을 진행하세요.
 
 
 ```python
@@ -62,9 +62,9 @@ wandb.login()
 WANDB_PROJECT = "mnist-viz"
 ```
 
-## 0. Setup
+## 0. 설정
 
-Install dependencies, download MNIST, and create train and test datasets using PyTorch. 
+필요한 패키지 설치, MNIST 데이터 다운로드, PyTorch를 이용한 트레인/테스트 데이터셋 만들기
 
 
 ```python
@@ -77,9 +77,9 @@ import torch.nn.functional as F
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
-# create train and test dataloaders
+# 트레인/테스트 데이터로더 만들기
 def get_dataloader(is_train, batch_size, slice=5):
-    "Get a training dataloader"
+    "트레이닝 데이터로더를 가져옵니다"
     ds = torchvision.datasets.MNIST(root=".", train=is_train, transform=T.ToTensor(), download=True)
     loader = torch.utils.data.DataLoader(dataset=ds, 
                                          batch_size=batch_size, 
@@ -88,38 +88,38 @@ def get_dataloader(is_train, batch_size, slice=5):
     return loader
 ```
 
-## 1. Define the model and training schedule
+## 1. 모델 및 트레이닝 스케줄 정의
 
-* Set the number of epochs to run, where each epoch consists of a training step and a validation (test) step. Optionally configure the amount of data to log per test step. Here the number of batches and number of images per batch to visualize are set low to simplify the demo. 
-* Define a simple convolutional neural net (following [pytorch-tutorial](https://github.com/yunjey/pytorch-tutorial) code).
-* Load in train and test sets using PyTorch
+* 실행할 에포크 수를 지정합니다. 각 에포크에는 트레이닝 및 검증(테스트) 단계가 포함됩니다. 테스트마다 로그할 데이터양을 옵션으로 설정할 수 있습니다. 예시에서는 각 테스트 단계에서 시각화할 배치/이미지 개수를 적게 설정해 데모를 간소화했습니다.
+* 간단한 컨볼루션 신경망을 정의합니다 ([pytorch-tutorial](https://github.com/yunjey/pytorch-tutorial) 코드 참고).
+* PyTorch로 트레인/테스트셋을 불러옵니다.
 
 
 
 ```python
-# Number of epochs to run
-# Each epoch includes a training step and a test step, so this sets
-# the number of tables of test predictions to log
+# 실행할 에포크 수
+# 각 에포크에 트레이닝/테스트 단계가 있으므로,
+# 테스트 예측값 테이블이 그만큼 생성됨
 EPOCHS = 1
 
-# Number of batches to log from the test data for each test step
-# (default set low to simplify demo)
+# 각 테스트 스텝에서 로그할 테스트 배치 수
+# (데모 간소화를 위해 낮게 설정)
 NUM_BATCHES_TO_LOG = 10 #79
 
-# Number of images to log per test batch
-# (default set low to simplify demo)
+# 각 테스트 배치에서 로그할 이미지 수
+# (데모 간소화를 위해 낮게 설정)
 NUM_IMAGES_PER_BATCH = 32 #128
 
-# training configuration and hyperparameters
+# 트레이닝 설정 및 하이퍼파라미터
 NUM_CLASSES = 10
 BATCH_SIZE = 32
 LEARNING_RATE = 0.001
 L1_SIZE = 32
 L2_SIZE = 64
-# changing this may require changing the shape of adjacent layers
+# 이 값을 변경할 때는 인접 레이어의 shape도 맞춰줘야 함
 CONV_KERNEL_SIZE = 5
 
-# define a two-layer convolutional neural network
+# 두 레이어로 구성된 컨볼루션 신경망 정의
 class ConvNet(nn.Module):
     def __init__(self, num_classes=10):
         super(ConvNet, self).__init__()
@@ -137,7 +137,7 @@ class ConvNet(nn.Module):
         self.softmax = nn.Softmax(NUM_CLASSES)
 
     def forward(self, x):
-        # uncomment to see the shape of a given layer:
+        # 각 레이어의 shape를 보고 싶다면 주석 해제:
         #print("x: ", x.size())
         out = self.layer1(x)
         out = self.layer2(out)
@@ -151,75 +151,75 @@ test_loader = get_dataloader(is_train=False, batch_size=2*BATCH_SIZE)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 ```
 
-## 2. Run training and log test predictions
+## 2. 트레이닝 실행 및 테스트 예측값 로그
 
-For every epoch, run a training step and a test step. For each test step, create a `wandb.Table()` in which to store test predictions. These can be visualized, dynamically queried, and compared side by side in your browser.
+각 에포크마다 트레이닝 단계와 테스트 단계를 진행합니다. 각 테스트 단계에서는 테스트 예측값을 저장할 `wandb.Table()`을 만듭니다. 이 테이블은 브라우저에서 다이내믹하게 쿼리, 비교, 시각화할 수 있습니다.
 
 
 ```python
-# convenience funtion to log predictions for a batch of test images
+# 테스트 이미지 배치의 예측값을 로그하는 편의 함수
 def log_test_predictions(images, labels, outputs, predicted, test_table, log_counter):
-  # obtain confidence scores for all classes
+  # 모든 클래스에 대한 confidence score 얻기
   scores = F.softmax(outputs.data, dim=1)
   log_scores = scores.cpu().numpy()
   log_images = images.cpu().numpy()
   log_labels = labels.cpu().numpy()
   log_preds = predicted.cpu().numpy()
-  # adding ids based on the order of the images
+  # 이미지 순서대로 id 부여
   _id = 0
   for i, l, p, s in zip(log_images, log_labels, log_preds, log_scores):
-    # add required info to data table:
-    # id, image pixels, model's guess, true label, scores for all classes
+    # 데이터 테이블에 필수 정보 추가:
+    # id, 이미지 픽셀, 모델 예측값, 실제 라벨, 각 클래스에 대한 score
     img_id = str(_id) + "_" + str(log_counter)
     test_table.add_data(img_id, wandb.Image(i), p, l, *s)
     _id += 1
     if _id == NUM_IMAGES_PER_BATCH:
       break
 
-# W&B: Initialize a new run to track this model's training
+# W&B: 이 모델의 트레이닝을 추적할 새 run 초기화
 with wandb.init(project="table-quickstart") as run:
 
-    # W&B: Log hyperparameters using config
+    # W&B: config를 사용해 하이퍼파라미터 로그
     cfg = run.config
     cfg.update({"epochs" : EPOCHS, "batch_size": BATCH_SIZE, "lr" : LEARNING_RATE,
                 "l1_size" : L1_SIZE, "l2_size": L2_SIZE,
                 "conv_kernel" : CONV_KERNEL_SIZE,
                 "img_count" : min(10000, NUM_IMAGES_PER_BATCH*NUM_BATCHES_TO_LOG)})
 
-    # define model, loss, and optimizer
+    # 모델, loss, 옵티마이저 정의
     model = ConvNet(NUM_CLASSES).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-    # train the model
+    # 모델 트레이닝
     total_step = len(train_loader)
     for epoch in range(EPOCHS):
-        # training step
+        # 트레이닝 스텝
         for i, (images, labels) in enumerate(train_loader):
             images = images.to(device)
             labels = labels.to(device)
-            # forward pass
+            # forward 패스
             outputs = model(images)
             loss = criterion(outputs, labels)
-            # backward and optimize
+            # backward 및 최적화
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
     
-            # W&B: Log loss over training steps, visualized in the UI live
+            # W&B: UI에서 실시간 시각화를 위해 loss를 트레이닝 스텝마다 로그
             run.log({"loss" : loss})
             if (i+1) % 100 == 0:
                 print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                     .format(epoch+1, EPOCHS, i+1, total_step, loss.item()))
                 
 
-        # W&B: Create a Table to store predictions for each test step
+        # W&B: 각 테스트 단계마다 예측값을 저장할 테이블 생성
         columns=["id", "image", "guess", "truth"]
         for digit in range(10):
         columns.append("score_" + str(digit))
         test_table = wandb.Table(columns=columns)
 
-        # test the model
+        # 모델 테스트
         model.eval()
         log_counter = 0
         with torch.no_grad():
@@ -237,13 +237,13 @@ with wandb.init(project="table-quickstart") as run:
                 correct += (predicted == labels).sum().item()
 
             acc = 100 * correct / total
-            # W&B: Log accuracy across training epochs, to visualize in the UI
+            # W&B: UI에서 시각화할 수 있도록 에포크별 정확도 로그
             run.log({"epoch" : epoch, "acc" : acc})
             print('Test Accuracy of the model on the 10000 test images: {} %'.format(acc))
 
-        # W&B: Log predictions table to wandb
+        # W&B: wandb에 예측값 테이블 로그
         run.log({"test_predictions" : test_table})
 ```
 
-## What's next?
-The next tutorial, you will learn [how to optimize hyperparameters using W&B Sweeps]({{< relref path="sweeps.md" lang="ko" >}}).
+## 다음은 무엇을 배울까요?
+다음 튜토리얼에서는 [W&B Sweeps를 사용해 하이퍼파라미터를 최적화하는 방법]({{< relref path="sweeps.md" lang="ko" >}})을 배웁니다.

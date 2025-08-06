@@ -1,32 +1,31 @@
 ---
-description: Initialize a W&B Sweep
+title: 스윕 초기화하기
+description: W&B 스윕 초기화
 menu:
   default:
     identifier: ko-guides-models-sweeps-initialize-sweeps
     parent: sweeps
-title: Initialize a sweep
 weight: 4
 ---
 
-W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally (local) across one or more machines. After a run completes, the sweep controller will issue a new set of instructions describing a new run to execute. These instructions are picked up by _agents_ who actually perform the runs. In a typical W&B Sweep, the controller lives on the W&B server. Agents live on _your_ machines.
+W&B는 _Sweep 컨트롤러_ 를 사용하여 클라우드(standard) 또는 하나 이상의 머신에서 로컬(local)로 sweeps를 관리합니다. 각 run이 종료되면 sweep 컨트롤러는 새로운 run을 실행하기 위한 새로운 명령 세트를 발행합니다. 이 명령을 _에이전트_ 가 감지하여 실제로 run을 수행합니다. 일반적인 W&B Sweep에서 컨트롤러는 W&B 서버에 위치하며, 에이전트는 _사용자_ 의 머신에 위치합니다.
 
-The following code snippets demonstrate how to initialize sweeps with the CLI and within a Jupyter Notebook or Python script.
+다음 코드조각은 CLI, Jupyter 노트북, 또는 Python 스크립트에서 sweeps를 어떻게 초기화하는지 보여줍니다.
 
 {{% alert color="secondary" %}}
-1. Before you initialize a sweep, make sure you have a sweep configuration defined either in a YAML file or a nested Python dictionary object in your script. For more information, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration.md" lang="ko" >}}).
-2. Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize W&B ([`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}})) must match the name of the project you provide when you initialize a W&B Sweep ([`wandb.sweep()`]({{< relref path="/ref/python/sdk/functions/sweep.md" lang="ko" >}})).
+1. sweep을 초기화하기 전에, 반드시 YAML 파일 또는 스크립트 내 중첩 Python 딕셔너리 오브젝트 형태로 sweep 구성이 정의되어 있어야 합니다. 자세한 정보는 [스윕 구성 정의하기]({{< relref path="/guides/models/sweeps/define-sweep-configuration.md" lang="ko" >}})를 참고하세요.
+2. W&B Sweep과 W&B Run은 반드시 동일한 프로젝트 안에 있어야 합니다. 따라서 W&B를 초기화할 때 입력하는 이름([`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}}))과 W&B Sweep을 초기화할 때 입력하는 프로젝트 이름([`wandb.sweep()`]({{< relref path="/ref/python/sdk/functions/sweep.md" lang="ko" >}}))이 일치해야 합니다.
 {{% /alert %}}
 
-
 {{< tabpane text=true >}}
-{{% tab header="Python script or notebook" %}}
+{{% tab header="Python 스크립트 또는 노트북" %}}
 
-Use the W&B SDK to initialize a sweep. Pass the sweep configuration dictionary to the `sweep` parameter. Optionally provide the name of the project for the project parameter (`project`) where you want the output of the W&B Run to be stored. If the project is not specified, the run is put in an "Uncategorized" project.
+W&B SDK를 사용하여 sweep을 초기화하세요. 스윕 설정 딕셔너리를 `sweep` 파라미터로 전달합니다. 프로젝트 파라미터(`project`)를 통해 W&B Run 결과를 저장하고 싶은 프로젝트의 이름을 선택적으로 지정할 수 있습니다. 프로젝트를 지정하지 않으면 run은 "Uncategorized" 프로젝트에 저장됩니다.
 
 ```python
 import wandb
 
-# Example sweep configuration
+# 예시 sweep 구성
 sweep_configuration = {
     "method": "random",
     "name": "sweep",
@@ -41,20 +40,20 @@ sweep_configuration = {
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
 ```
 
-The [`wandb.sweep()`]({{< relref path="/ref/python/sdk/functions/sweep.md" lang="ko" >}}) function returns the sweep ID. The sweep ID includes the entity name and the project name. Make a note of the sweep ID.
+[`wandb.sweep()`]({{< relref path="/ref/python/sdk/functions/sweep.md" lang="ko" >}}) 함수는 sweep ID를 반환합니다. sweep ID에는 entity 이름과 project 이름이 포함되어 있습니다. sweep ID를 꼭 기록해 두세요.
 
 {{% /tab %}}
 {{% tab header="CLI" %}}
 
-Use the W&B CLI to initialize a sweep. Provide the name of your configuration file. Optionally provide the name of the project for the `project` flag. If the project is not specified, the W&B Run is put in an "Uncategorized" project.
+W&B CLI를 사용하여 sweep을 초기화하세요. 설정 파일의 이름을 제공하세요. `project` 플래그를 이용해 프로젝트 이름을 선택적으로 지정할 수 있습니다. 프로젝트를 지정하지 않으면 W&B Run은 "Uncategorized" 프로젝트에 저장됩니다.
 
-Use the [`wandb sweep`]({{< relref path="/ref/cli/wandb-sweep.md" lang="ko" >}}) command to initialize a sweep. The proceeding code example initializes a sweep for a `sweeps_demo` project and uses a `config.yaml` file for the configuration.
+[`wandb sweep`]({{< relref path="/ref/cli/wandb-sweep.md" lang="ko" >}}) 커맨드를 사용해 sweep을 초기화합니다. 아래 예제에서는 `sweeps_demo` 프로젝트와 `config.yaml` 파일을 사용하여 sweep을 초기화합니다.
 
 ```bash
 wandb sweep --project sweeps_demo config.yaml
 ```
 
-This command will print out a sweep ID. The sweep ID includes the entity name and the project name. Make a note of the sweep ID.
+이 명령을 실행하면 sweep ID가 출력됩니다. sweep ID에는 entity 이름과 project 이름이 포함되어 있습니다. sweep ID를 꼭 기록해 두세요.
 
 {{% /tab %}}
 {{< /tabpane >}}

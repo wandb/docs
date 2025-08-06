@@ -1,49 +1,49 @@
 ---
-description: How to Fine-Tune Azure OpenAI models using W&B.
+title: Azure OpenAI 파인튜닝
+description: W&B로 Azure OpenAI 모델을 파인튜닝하는 방법
 menu:
   default:
     identifier: ko-guides-integrations-azure-openai-fine-tuning
     parent: integrations
-title: Azure OpenAI Fine-Tuning
 weight: 20
 ---
 
-## Introduction
-Fine-tuning GPT-3.5 or GPT-4 models on Microsoft Azure using W&B tracks, analyzes, and improves model performance by automatically capturing metrics and facilitating systematic evaluation through W&B's experiment tracking and evaluation tools.
+## 소개
+Microsoft Azure에서 W&B를 활용해 GPT-3.5 또는 GPT-4 모델을 파인튜닝하면, 메트릭을 자동으로 캡처하고 W&B의 실험 추적 및 평가 툴을 통해 모델 성능을 체계적으로 평가하고 향상시킬 수 있습니다.
 
-{{< img src="/images/integrations/aoai_ft_plot.png" alt="Azure OpenAI fine-tuning metrics" >}}
+{{< img src="/images/integrations/aoai_ft_plot.png" alt="Azure OpenAI 파인튜닝 메트릭" >}}
 
-## Prerequisites
-- Set up Azure OpenAI service according to [official Azure documentation](https://wandb.me/aoai-wb-int).
-- Configure a W&B account with an API key.
+## 사전 준비 사항
+- [공식 Azure 문서](https://wandb.me/aoai-wb-int)를 참고하여 Azure OpenAI 서비스를 설정하세요.
+- API 키가 포함된 W&B 계정을 설정하세요.
 
-## Workflow overview
+## 워크플로우 개요
 
-### 1. Fine-tuning setup
-- Prepare training data according to Azure OpenAI requirements.
-- Configure the fine-tuning job in Azure OpenAI.
-- W&B automatically tracks the fine-tuning process, logging metrics and hyperparameters.
+### 1. 파인튜닝 설정
+- Azure OpenAI 요구사항에 맞게 트레이닝 데이터를 준비하세요.
+- Azure OpenAI에서 파인튜닝 작업을 설정하세요.
+- W&B는 파인튜닝 프로세스를 자동으로 추적하며, 메트릭과 하이퍼파라미터를 로그로 남깁니다.
 
-### 2. Experiment tracking
-During fine-tuning, W&B captures:
-- Training and validation metrics
-- Model hyperparameters
-- Resource utilization
-- Training artifacts
+### 2. Experiment 추적
+파인튜닝 도중, W&B는 다음을 캡처합니다:
+- 트레이닝 및 검증 메트릭
+- 모델 하이퍼파라미터
+- 리소스 사용량
+- 트레이닝 Artifacts
 
-### 3. Model evaluation
-After fine-tuning, use [W&B Weave](https://weave-docs.wandb.ai) to:
-- Evaluate model outputs against reference datasets
-- Compare performance across different fine-tuning runs
-- Analyze model behavior on specific test cases
-- Make data-driven decisions for model selection
+### 3. 모델 평가
+파인튜닝이 끝나면 [W&B Weave](https://weave-docs.wandb.ai)를 활용해 다음을 진행할 수 있습니다:
+- 모델 출력값을 참조 데이터셋과 비교 평가
+- 여러 파인튜닝 run의 성능 비교
+- 특정 테스트 케이스에서의 모델 행동 분석
+- 데이터 기반의 모델 선택 결정
 
-## Real-world example
-* Explore the [medical note generation demo](https://wandb.me/aoai-ft-colab) to see how this integration facilitates:
-  - Systematic tracking of fine-tuning experiments
-  - Model evaluation using domain-specific metrics
-* Go through an [interactive demo of fine-tuning a notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/azure/azure_gpt_medical_notes.ipynb)
+## 실제 예시
+* [의료 노트 생성 데모](https://wandb.me/aoai-ft-colab)를 참고하면, 이 인테그레이션을 통해 다음이 어떻게 가능한지 볼 수 있습니다:
+  - 파인튜닝 Experiment의 체계적인 추적
+  - 도메인 특화 메트릭을 활용한 모델 평가
+* [노트북에서 파인튜닝하는 인터랙티브 데모](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/azure/azure_gpt_medical_notes.ipynb)도 살펴보세요.
 
-## Additional resources
+## 추가 자료
 - [Azure OpenAI W&B Integration Guide](https://wandb.me/aoai-wb-int)
-- [Azure OpenAI Fine-tuning Documentation](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
+- [Azure OpenAI 파인튜닝 공식 문서](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)

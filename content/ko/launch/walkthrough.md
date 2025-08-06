@@ -1,99 +1,99 @@
 ---
-description: Getting started guide for W&B Launch.
+title: '튜토리얼: W&B Launch 기본 사용법'
+description: W&B Launch 시작 가이드.
 menu:
   launch:
     identifier: ko-launch-walkthrough
     parent: launch
-title: 'Tutorial: W&B Launch basics'
 url: guides/launch/walkthrough
 weight: 1
 ---
 
-## What is Launch? 
+## Launch란 무엇인가요? 
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" >}}
 
-Easily scale training [runs]({{< relref path="/guides/models/track/runs/" lang="ko" >}}) from your desktop to a compute resource like Amazon SageMaker, Kubernetes and more with W&B Launch. Once W&B Launch is configured, you can quickly run training scripts, model evaluation suites, prepare models for production inference, and more with a few clicks and commands. 
+W&B Launch를 사용하면 데스크톱에서 Amazon SageMaker, Kubernetes 등과 같은 컴퓨팅 리소스로의 트레이닝 [runs]({{< relref path="/guides/models/track/runs/" lang="ko" >}}) 확장이 아주 쉽습니다. W&B Launch가 설정되면, 몇 번의 클릭과 코맨드로 트레이닝 스크립트 실행, 모델 평가, 프로덕션 추론용 모델 준비 등 다양한 작업을 빠르게 할 수 있습니다. 
 
-## How it works
+## 작동 방식
 
-Launch is composed of three fundamental components: **launch jobs**, **queues**, and **agents**.
+Launch는 세 가지 핵심 구성 요소로 이루어져 있습니다: **launch jobs**, **queues**, 그리고 **agents**.
 
-A [*launch job*]({{< relref path="./launch-terminology.md#launch-job" lang="ko" >}}) is a blueprint for configuring and running tasks in your ML workflow. Once you have a launch job, you can add it to a [*launch queue*]({{< relref path="./launch-terminology.md#launch-queue" lang="ko" >}}). A launch queue is a first-in, first-out (FIFO) queue where you can configure and submit your jobs to a particular compute target resource, such as Amazon SageMaker or a Kubernetes cluster. 
+[*launch job*]({{< relref path="./launch-terminology.md#launch-job" lang="ko" >}})은 ML 워크플로우 내에서 작업을 구성하고 실행하는 청사진 역할을 합니다. launch job이 준비되면, 이를 [*launch queue*]({{< relref path="./launch-terminology.md#launch-queue" lang="ko" >}})에 추가할 수 있습니다. launch queue는 선입선출(FIFO) 방식의 큐로, Amazon SageMaker나 Kubernetes 클러스터 같은 특정 컴퓨트 타겟 리소스에 작업을 제출하고 설정할 수 있습니다. 
 
-As jobs are added to the queue, [*launch agents*]({{< relref path="./launch-terminology.md#launch-agent" lang="ko" >}}) poll that queue and execute the job on the system targeted by the queue.
+작업이 큐에 추가되면, [*launch agent*]({{< relref path="./launch-terminology.md#launch-agent" lang="ko" >}})가 해당 큐를 폴링하여, 큐가 지정한 시스템에서 작업을 실행합니다.
 
 {{< img src="/images/launch/launch_overview.png" alt="W&B Launch overview diagram" >}}
 
-Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target]({{< relref path="./launch-terminology.md#target-resources" lang="ko" >}}) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
+유스 케이스에 따라 여러분 또는 팀원이 [compute resource target]({{< relref path="./launch-terminology.md#target-resources" lang="ko" >}})(예: Amazon SageMaker)에 맞게 launch queue를 설정하고, 자체 인프라에 launch agent를 배포하게 됩니다.
 
-See the [Terms and concepts]({{< relref path="./launch-terminology.md" lang="ko" >}}) page for more information about Launch.
+Launch에 대한 더 자세한 용어와 개념은 [Terms and concepts]({{< relref path="./launch-terminology.md" lang="ko" >}}) 페이지를 참고하세요.
 
-## How to get started
+## 시작 방법
 
-Depending on your use case, explore the following resources to get started with W&B Launch:
+유스 케이스에 따라 W&B Launch를 시작하려면 아래 리소스를 참고하세요:
 
-* If this is your first time using W&B Launch, we recommend you go through the [Launch walkthrough]({{< relref path="#walkthrough" lang="ko" >}}) guide.
-* Learn how to set up [W&B Launch]({{< relref path="/launch/set-up-launch/" lang="ko" >}}).
-* Create a [launch job]({{< relref path="./create-and-deploy-jobs/create-launch-job.md" lang="ko" >}}).
-* Check out the W&B Launch [public jobs GitHub repository](https://github.com/wandb/launch-jobs) for templates of common tasks like [deploying to Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), [evaluating an LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals), or more.
-    * View launch jobs created from this repository in this public [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs) W&B project.
+* W&B Launch를 처음 사용하신다면, [Launch walkthrough]({{< relref path="#walkthrough" lang="ko" >}}) 가이드를 따라해보는 것을 추천합니다.
+* [W&B Launch 설정 방법]({{< relref path="/launch/set-up-launch/" lang="ko" >}})을 알아보세요.
+* [launch job 만들기]({{< relref path="./create-and-deploy-jobs/create-launch-job.md" lang="ko" >}}).
+* [Deploying to Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), [evaluating an LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals) 등 다양한 공통 작업 템플릿을 [public jobs GitHub repository](https://github.com/wandb/launch-jobs)에서 확인할 수 있습니다.
+    * 해당 저장소에서 생성된 launch job은 공개 [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs) W&B 프로젝트에서 확인할 수 있습니다.
 
 ## Walkthrough
 
-This page walks through the basics of the W&B Launch workflow.
+이 페이지에서는 W&B Launch 워크플로우의 기본 과정을 안내합니다.
 
 {{% alert %}}
-W&B Launch runs machine learning workloads in containers. Familiarity with containers is not required but may be helpful for this walkthrough. See the [Docker documentation](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) for a primer on containers.
+W&B Launch는 기계학습 워크로드를 컨테이너에서 실행합니다. 컨테이너에 익숙하지 않아도 무방하지만, 이해하시면 이 워크스루에 도움이 됩니다. 컨테이너에 대해 간단히 알고 싶다면 [Docker 공식 문서](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/)를 참고하세요.
 {{% /alert %}}
 
-## Prerequisites
+## 사전 준비 사항
 
-Before you get started, ensure you have satisfied the following prerequisites:
+시작하기 전에 다음 사전 조건을 충족했는지 확인하세요:
 
-1. Sign up for an account at https://wandb.ai/site and then log in to your W&B account. 
-2. This walkthrough requires terminal access to a machine with a working Docker CLI and engine. See the [Docker installation guide](https://docs.docker.com/engine/install/) for more information. 
-3. Install W&B Python SDK version `0.17.1` or higher:
+1. https://wandb.ai/site에서 계정을 생성한 후, W&B 계정에 로그인하세요.
+2. 이 walkthrough에는 Docker CLI 및 엔진이 설치된 머신에 터미널 엑세스가 필요합니다. 자세한 내용은 [Docker 설치 가이드](https://docs.docker.com/engine/install/)를 참고하세요.
+3. W&B Python SDK 버전 `0.17.1` 이상을 설치하세요:
 ```bash
 pip install wandb>=0.17.1
 ```
-4. Within your terminal, execute `wandb login` or set the `WANDB_API_KEY` environment variable to authenticate with W&B.
+4. 터미널에서 `wandb login`을 실행하거나 `WANDB_API_KEY` 환경 변수를 설정하여 W&B 인증을 진행하세요.
 
 {{< tabpane text=true >}}
-{{% tab "Log in to W&B" %}}
-    Within your terminal execute:
+{{% tab "W&B 로그인" %}}
+    터미널에서 아래 명령어를 실행하세요:
     
     ```bash
     wandb login
     ```
 {{% /tab %}}
-{{% tab "Environment variable" %}}
+{{% tab "환경 변수" %}}
 
     ```bash
     WANDB_API_KEY=<your-api-key>
     ```
 
-    Replace `<your-api-key>` with your W&B API key.
+    `<your-api-key>`에 본인의 W&B API 키를 입력하세요.
 {{% /tab %}}
 {{% /tabpane %}}
 
-## Create a launch job
-Create a [launch job]({{< relref path="./launch-terminology.md#launch-job" lang="ko" >}}) in one of three ways: with a Docker image, from a git repository or from local source code:
+## launch job 생성하기
+[launch job]({{< relref path="./launch-terminology.md#launch-job" lang="ko" >}}) 생성은 세 가지 방법 중 하나로 할 수 있습니다: 도커 이미지 사용, 깃 리포지터리에서, 또는 로컬 소스 코드에서:
 
 {{< tabpane text=true >}}
-{{% tab "With a Docker image" %}}
-To run a pre-made container that logs a message to W&B, open a terminal and run the following command:
+{{% tab "Docker 이미지로" %}}
+미리 만들어진 컨테이너를 실행해 W&B에 메시지를 로그하려면 터미널을 열고 아래 명령을 실행하세요.
 
 ```bash
 wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart
 ```
 
-The preceding command downloads and runs the container image `wandb/job_hello_world:main`. 
+위 명령은 `wandb/job_hello_world:main` 컨테이너 이미지를 다운로드하고 실행합니다.
 
-Launch configures the container to report everything logged with `wandb` to the `launch-quickstart` project. The container logs a message to W&B and displays a link to the newly created run in W&B. Click the link to view the run in the W&B UI.
+Launch가 컨테이너를 설정해 `wandb`로 기록된 모든 로그를 `launch-quickstart` 프로젝트로 보냅니다. 컨테이너가 W&B로 메시지를 로그하고, 새로 생성된 run으로 연결되는 링크가 표시됩니다. 링크를 클릭하면 W&B UI에서 run을 확인할 수 있습니다.
 {{% /tab %}}
-{{% tab "From a git repository" %}}
-To launch the same hello-world job from its [source code in the W&B Launch jobs repository](https://github.com/wandb/launch-jobs), run the following command:
+{{% tab "Git 리포지터리에서" %}}
+[W&B Launch jobs repository의 소스 코드](https://github.com/wandb/launch-jobs)에서 같은 헬로월드 job을 실행하려면:
 
 ```bash
 wandb launch --uri https://github.com/wandb/launch-jobs.git \\
@@ -101,20 +101,20 @@ wandb launch --uri https://github.com/wandb/launch-jobs.git \\
 --build-context jobs/hello_world --dockerfile Dockerfile.wandb \\ 
 --entry-point "python job.py"
 ```
-The command does the following:
-1. Clone the [W&B Launch jobs repository](https://github.com/wandb/launch-jobs) to a temporary directory.
-2. Create a job named **hello-world-git** in the **hello** project. This job tracks the exact source code and configuration used to run execute the code.
-3. Build a container image from the `jobs/hello_world` directory and the `Dockerfile.wandb`.
-4. Start the container and run the `job.py` python script.
+이 명령어는 다음을 수행합니다:
+1. [W&B Launch jobs 리포지터리](https://github.com/wandb/launch-jobs)를 임시 디렉토리에 클론합니다.
+2. **hello** 프로젝트에 **hello-world-git**이라는 job을 생성합니다. 이 job은 정확히 어떤 소스 코드·설정이 실행됐는지 추적합니다.
+3. `jobs/hello_world` 디렉토리와 `Dockerfile.wandb`로부터 컨테이너 이미지를 빌드합니다.
+4. 컨테이너를 시작하고 `job.py` 파이썬 스크립트를 실행합니다.
 
-The console output shows the image build and execution. The output of the container should be nearly identical to the previous example.
+출력 결과로 이미지 빌드 및 실행 로그가 나타나며, 컨테이너의 동작은 앞선 예와 거의 동일합니다.
 
 {{% /tab %}}
-{{% tab "From local source code" %}}
+{{% tab "로컬 소스 코드에서" %}}
 
-Code not versioned in a git repository can be launched by specifying a local directory path to the `--uri` argument. 
+Git 리포지터리에 버전 관리되어 있지 않은 코드도 `--uri` 인수에 로컬 디렉토리 경로를 지정해 launch할 수 있습니다.
 
-Create an empty directory and add a Python script named `train.py` with the following content:
+빈 디렉토리를 하나 만들고, 아래 내용을 담은 `train.py` 파이썬 스크립트를 추가하세요:
 
 ```python
 import wandb
@@ -123,70 +123,69 @@ with wandb.init() as run:
     run.log({"hello": "world"})
 ```
 
-Add a file `requirements.txt` with the following content:
+그리고 아래 내용을 가진 `requirements.txt` 파일을 추가하세요:
 
 ```text
 wandb>=0.17.1
 ```
 
-From within the directory, run the following command:
+이 디렉토리에서 다음 명령어를 실행하세요:
 
 ```bash
 wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
 ```
 
-The command does the following:
-1. Log the contents of the current directory to W&B as a Code Artifact.
-2. Create a job named **hello-world-code** in the **launch-quickstart** project.
-3. Build a container image by copying `train.py` and `requirements.txt` into a base image and `pip install` the requirements.
-4. Start the container and run `python train.py`.
+이 명령어는 다음을 수행합니다:
+1. 현재 디렉토리의 내용을 W&B에 Code Artifact로 로그합니다.
+2. **launch-quickstart** 프로젝트에 **hello-world-code** 라는 job을 만듭니다.
+3. `train.py`와 `requirements.txt`를 기본 이미지에 복사하고, 필요 패키지를 `pip install`하여 컨테이너 이미지를 빌드합니다.
+4. 컨테이너를 시작하고 `python train.py`를 실행합니다.
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Create a queue
+## 큐 생성하기
 
-Launch is designed to help teams build workflows around shared compute. In the examples so far, the `wandb launch` command has executed a container synchronously on the local machine. Launch queues and agents enable asynchronous execution of jobs on shared resources and advanced features like prioritization and hyperparameter optimization. To create a basic queue, follow these steps:
+Launch는 팀이 공유 컴퓨트 환경에서 워크플로우를 만들도록 돕기 위해 설계되었습니다. 지금까지의 예시는 `wandb launch` 명령이 로컬 머신에서 컨테이너를 동기적으로 실행했습니다. Launch queues와 agents는 공유 리소스에서의 비동기 실행과 우선순위 지정, 하이퍼파라미터 최적화 등 고급 기능을 지원합니다. 기본 queue를 만들려면 아래 단계를 따라하세요:
 
-1. Navigate to [wandb.ai/launch](https://wandb.ai/launch) and click the **Create a queue** button.
-2. Select an **Entity** to associate the queue with. 
-3. Enter a **Queue name**.
-4. Select **Docker** as the **Resource**.
-5. Leave **Configuration** blank, for now.
-6. Click **Create queue** :rocket:
+1. [wandb.ai/launch](https://wandb.ai/launch)로 이동 후 **Create a queue** 버튼을 클릭하세요.
+2. 큐를 연동할 **Entity**를 선택하세요.
+3. **Queue name**을 입력하세요.
+4. **Resource**로 **Docker**를 선택하세요.
+5. **Configuration**은 잠시 비워두세요.
+6. **Create queue**를 클릭하세요 :rocket:
 
-After clicking the button, the browser will redirect to the **Agents** tab of the queue view. The queue remains in the **Not active** state until an agent starts polling.
+버튼을 클릭하면 브라우저가 큐 뷰의 **Agents** 탭으로 이동합니다. 큐는 에이전트가 시작될 때까지 **Not active** 상태로 남아있습니다.
 
 {{< img src="/images/launch/create_docker_queue.gif" alt="Docker queue creation" >}}
 
-For advanced queue configuration options, see the [advanced queue setup page]({{< relref path="/launch/set-up-launch/setup-queue-advanced.md" lang="ko" >}}).
+고급 queue 설정 방법은 [advanced queue setup page]({{< relref path="/launch/set-up-launch/setup-queue-advanced.md" lang="ko" >}})를 참고하세요.
 
-## Connect an agent to the queue
+## 큐에 agent 연결하기
 
-The queue view displays an **Add an agent** button in a red banner at the top of the screen if the queue has no polling agents. Click the button to view copy the command to run an agent. The command should look like the following:
+에이전트가 폴링하고 있지 않으면 큐 뷰 상단에 빨간 배너로 **Add an agent** 버튼이 표시됩니다. 버튼을 클릭하면 agent를 실행할 명령어를 복사할 수 있습니다. 예시는 아래와 같습니다:
 
 ```bash
 wandb launch-agent --queue <queue-name> --entity <entity-name>
 ```
 
-Run the command in a terminal to start the agent. The agent polls the specified queue for jobs to run. Once received, the agent downloads or builds and then executes a container image for the job, as if the `wandb launch` command was run locally.
+이 명령을 터미널에 입력하면 에이전트가 시작되어, 지정한 queue에서 실행할 job을 폴링합니다. job을 받으면, agent가 컨테이너 이미지를 다운로드/빌드 후 로컬에서 `wandb launch`를 실행하는 것처럼 job을 수행합니다.
 
-Navigate back to [the Launch page](https://wandb.ai/launch) and verify that the queue now shows as **Active**.
+다시 [Launch 페이지](https://wandb.ai/launch)로 돌아가 큐가 **Active** 상태가 되었는지 확인하세요.
 
-## Submit a job to the queue
+## 큐에 작업 제출하기
 
-Navigate to your new **launch-quickstart** project in your W&B account and open the jobs tab from the navigation on the left side of the screen.
+본인 W&B 계정에서 **launch-quickstart** 프로젝트로 이동한 뒤 좌측 네비게이션에서 jobs 탭을 엽니다.
 
-The **Jobs** page displays a list of W&B Jobs that were created from previously executed runs. Click on your launch job to view source code, dependencies, and any runs created from the job. After completing this walkthrough there should be three jobs in the list.
+**Jobs** 페이지에서는 이전에 실행된 run에서 생성된 W&B Jobs 목록이 표시됩니다. 본인의 launch job을 클릭해, 소스 코드·의존성·job에서 생성된 run 등을 확인할 수 있습니다. walkthrough까지 마치면 목록에 3개의 job이 있어야 합니다.
 
+생성된 job 중 하나를 선택해서 아래와 같이 큐로 제출해보세요:
 
-Pick one of the new jobs and follow these instructions to submit it to the queue:
+1. **Launch** 버튼을 눌러 job을 큐로 제출하세요. **Launch** 드로어가 나타납니다.
+2. 이전에 만든 **Queue**를 선택한 후 **Launch**를 클릭하세요.
 
-1. Click the **Launch** button to submit the job to a queue. The **Launch** drawer will appear. 
-2. Select the **Queue** you created earlier and click **Launch**. 
+이렇게 하면 job이 큐에 제출됩니다. 이 큐를 폴링 중인 agent가 job을 받아 실행합니다. job의 진행 상황은 W&B UI 또는 터미널의 agent 출력을 통해 확인할 수 있습니다.
 
-This submits the job to the queue. The agent polling this queue picks up and executes the job. The progress of the job can be monitored from the W&B UI or by inspecting the output of the agent in the terminal.
-
-The `wandb launch` command can push jobs to the queue directly by specifying the `--queue` argument. For example, to submit the hello-world container job to the queue, run the following command:
+`wandb launch` 명령에 `--queue` 인수를 사용하면 job을 직접 큐에 제출할 수도 있습니다. 예를 들어, hello-world 컨테이너 job을 큐로 제출하려면 아래와 같이 실행하세요:
 
 ```bash
 wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart --queue <queue-name>

@@ -1,47 +1,47 @@
 ---
-description: Manage emails from the Settings page.
+title: 이메일 설정 관리
+description: 설정 페이지에서 이메일을 관리하세요.
 menu:
   default:
     identifier: ko-guides-models-app-settings-page-emails
     parent: settings
-title: Manage email settings
 weight: 40
 ---
 
-Add, delete, manage email types and primary email addresses in your W&B Profile Settings page. Select your profile icon in the upper right corner of the W&B dashboard. From the dropdown, select **Settings**. Within the Settings page, scroll down to the Emails dashboard:
+W&B 프로필 설정 페이지에서 이메일 유형과 기본 이메일 어드레스를 추가, 삭제, 관리할 수 있습니다. W&B 대시보드 오른쪽 상단에서 프로필 아이콘을 선택하세요. 드롭다운 메뉴에서 **설정**을 선택합니다. 설정 페이지에서 아래로 스크롤하면 이메일 대시보드가 나타납니다:
 
-{{< img src="/images/app_ui/manage_emails.png" alt="Email management dashboard" >}}
+{{< img src="/images/app_ui/manage_emails.png" alt="이메일 관리 대시보드" >}}
 
-## Manage primary email
+## 기본 이메일 관리
 
-The primary email is marked with a 😎 emoji. The primary email is automatically defined with the email you provided when you created a W&B account.
+기본 이메일에는 😎 이모지가 표시됩니다. 기본 이메일은 W&B 계정을 만들 때 입력한 이메일로 자동 지정됩니다.
 
-Select the kebab dropdown to change the primary email associated with your Weights And Biases account:
-
-{{% alert %}}
-Only verified emails can be set as primary
-{{% /alert %}}
-
-{{< img src="/images/app_ui/primary_email.png" alt="Primary email dropdown" >}}
-
-## Add emails
-
-Select **+ Add Email** to add an email. This will take you to an Auth0 page. You can enter in the credentials for the new email or connect using single sign-on (SSO).
-
-## Delete emails
-
-Select the kebab dropdown and choose **Delete Emails** to delete an email that is registered to your W&B account
+케밥(세로 점 3개) 드롭다운을 선택하여 Weights And Biases 계정의 기본 이메일을 변경할 수 있습니다:
 
 {{% alert %}}
-Primary emails cannot be deleted. You need to set a different email as a primary email before deleting.
+인증된 이메일만 기본 이메일로 설정할 수 있습니다
 {{% /alert %}}
 
-## Log in methods
+{{< img src="/images/app_ui/primary_email.png" alt="기본 이메일 드롭다운" >}}
 
-The Log in Methods column displays the log in methods that are associated with your account.
+## 이메일 추가
 
-A verification email is sent to your email account when you create a W&B account. Your email account is considered unverified until you verify your email address. Unverified emails are displayed in red.
+**+ Add Email** 버튼을 선택하여 이메일을 추가할 수 있습니다. 이 버튼을 누르면 Auth0 페이지로 이동합니다. 새로운 이메일의 자격 증명을 입력하거나 SSO(싱글 사인온)를 통해 연결할 수 있습니다.
 
-Attempt to log in with your email address again to retrieve a second verification email if you no longer have the original verification email that was sent to your email account.
+## 이메일 삭제
 
-Contact support@wandb.com for account log in issues.
+케밥 드롭다운을 선택한 다음 **Delete Emails** 를 누르면 W&B 계정에 등록된 이메일을 삭제할 수 있습니다.
+
+{{% alert %}}
+기본 이메일은 삭제할 수 없습니다. 삭제하려면 먼저 다른 이메일을 기본 이메일로 설정해야 합니다.
+{{% /alert %}}
+
+## 로그인 메소드
+
+로그인 메소드 컬럼에는 내 계정에 연결된 로그인 메소드가 표시됩니다.
+
+W&B 계정을 만들면 인증 메일이 이메일 계정으로 전송됩니다. 이메일 어드레스 인증을 완료하기 전까지는 인증되지 않은 상태로 간주되며, 인증되지 않은 이메일은 빨간색으로 표시됩니다.
+
+원래 받은 인증 메일을 더 이상 가지고 있지 않다면 이메일 주소로 다시 로그인 시도하여 다시 인증 메일을 받을 수 있습니다.
+
+계정 로그인에 문제가 있다면 support@wandb.com 으로 문의하세요.

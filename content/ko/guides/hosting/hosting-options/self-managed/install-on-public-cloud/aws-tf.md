@@ -1,24 +1,24 @@
 ---
-description: Hosting W&B Server on AWS.
+title: AWS에 W&B 플랫폼 배포하기
+description: AWS에서 W&B 서버 호스팅하기.
 menu:
   default:
     identifier: ko-guides-hosting-hosting-options-self-managed-install-on-public-cloud-aws-tf
     parent: install-on-public-cloud
-title: Deploy W&B Platform on AWS
 weight: 10
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) or [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ko" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B는 [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) 또는 [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ko" >}})와 같은 완전 관리형 배포 옵션을 권장합니다. W&B의 완전 관리형 서비스는 사용이 간편하고 안전하며, 최소한의 설정만으로 바로 사용할 수 있습니다.
 {{% /alert %}}
 
-W&B recommends using the [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) to deploy the platform on AWS. 
+W&B 플랫폼을 AWS에 배포하려면 [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) 을 사용하는 것이 가장 좋습니다.
 
-Before you start, W&B recommends that you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/backend) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+시작에 앞서, Terraform의 [State File](https://developer.hashicorp.com/terraform/language/state)을 저장할 수 있도록 [remote backend](https://developer.hashicorp.com/terraform/language/backend) 중 하나의 사용을 권장합니다.
 
-The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
+State File은 배포 후 모든 컴포넌트를 재생성하지 않고도 업그레이드나 변경을 적용하는 데 꼭 필요한 리소스입니다.
 
-The Terraform Module deploys the following `mandatory` components:
+Terraform Module은 다음과 같은 `필수` 컴포넌트를 배포합니다:
 
 - Load Balancer
 - AWS Identity & Access Management (IAM)
@@ -31,25 +31,25 @@ The Terraform Module deploys the following `mandatory` components:
 - Amazon Elastic Load Balancing (ALB)
 - Amazon Secrets Manager
 
-Other deployment options can also include the following optional components:
+다른 배포 옵션의 경우 다음과 같은 `선택` 컴포넌트도 포함할 수 있습니다:
 
 - Elastic Cache for Redis
 - SQS
 
-## Pre-requisite permissions
+## 사전 필수 권한
 
-The account that runs Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
+Terraform을 실행하는 계정은 Intro에서 설명한 모든 컴포넌트의 생성 권한 뿐 아니라 **IAM Policies** 와 **IAM Roles** 생성과 역할을 리소스에 할당할 수 있는 권한이 있어야 합니다.
 
-## General steps
+## 일반적인 단계
 
-The steps on this topic are common for any deployment option covered by this documentation.
+이 섹션의 단계들은 본 문서에서 다루는 모든 배포 방법에 공통적으로 적용됩니다.
 
-1. Prepare the development environment.
-   - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - W&B recommend creating a Git repository for version control.
-2. Create the `terraform.tfvars` file.
+1. 개발 환경을 준비합니다.
+   - [Terraform 설치](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+   - 버전 관리를 위해 Git 저장소 생성을 권장합니다.
+2. `terraform.tfvars` 파일을 만듭니다.
 
-   The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+   `tfvars` 파일은 설치 방식에 따라 내용을 맞춤 설정할 수 있지만, 최소 권장 예시는 다음과 같습니다.
 
    ```bash
    namespace                  = "wandb"
@@ -62,16 +62,15 @@ The steps on this topic are common for any deployment option covered by this doc
    eks_cluster_version        = "1.29"
    ```
 
-   Ensure to define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
+   배포에 앞서 `tfvars` 파일에 변수를 정의해야 합니다. 예를 들어, `namespace` 변수는 Terraform이 생성하는 모든 리소스의 접두사로 사용됩니다.
 
+   `subdomain`과 `domain`을 조합하면 W&B에 설정될 FQDN이 만들어집니다. 위의 예시에서는 `wandb-aws.wandb.ml`이 W&B FQDN이 되고, 해당 FQDN 레코드가 생성될 DNS `zone_id`가 지정됩니다.
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
+   `allowed_inbound_cidr`와 `allowed_inbound_ipv6_cidr` 역시 반드시 입력해야 하며, 위 예시는 W&B 서비스에 모든 소스에서 접속 가능하도록 허용한 설정입니다.
 
-   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The proceeding example permits access from any source to the W&B installation.
+3. `versions.tf` 파일을 만듭니다.
 
-3. Create the file `versions.tf`
-
-   This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS
+   이 파일에는 AWS에 W&B를 배포하는 데 필요한 Terraform 및 Provider 버전을 지정합니다.
 
    ```bash
    provider "aws" {
@@ -88,29 +87,29 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-   Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
+   AWS Provider 구성 방법은 [Terraform 공식 문서](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration)를 참고하세요.
 
-   Optionally, but highly recommended, add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/backend) mentioned at the beginning of this documentation.
+   선택 사항이지만, 본 문서 초반에 언급한 [remote backend 구성](https://developer.hashicorp.com/terraform/language/backend)도 적극 권장합니다.
 
-4. Create the file `variables.tf`
+4. `variables.tf` 파일을 만듭니다.
 
-   For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
+   `terraform.tfvars`에 설정한 모든 옵션마다 Terraform은 대응하는 변수 선언이 필요합니다.
 
    ```
    variable "namespace" {
      type        = string
-     description = "Name prefix used for resources"
+     description = "리소스에 사용할 이름 접두사"
    }
 
    variable "domain_name" {
      type        = string
-     description = "Domain name used to access instance."
+     description = "인스턴스 엑세스에 사용할 도메인 명"
    }
 
    variable "subdomain" {
      type        = string
      default     = null
-     description = "Subdomain for accessing the Weights & Biases UI."
+     description = "Weights & Biases UI 엑세스에 사용할 서브도메인"
    }
 
    variable "license" {
@@ -119,35 +118,35 @@ The steps on this topic are common for any deployment option covered by this doc
 
    variable "zone_id" {
      type        = string
-     description = "Domain for creating the Weights & Biases subdomain on."
+     description = "Weights & Biases 서브도메인용 도메인"
    }
 
    variable "allowed_inbound_cidr" {
-    description = "CIDRs allowed to access wandb-server."
+    description = "wandb-server 엑세스 허용 CIDR 대역"
     nullable    = false
     type        = list(string)
    }
 
    variable "allowed_inbound_ipv6_cidr" {
-    description = "CIDRs allowed to access wandb-server."
+    description = "wandb-server 엑세스 허용 CIDR 대역"
     nullable    = false
     type        = list(string)
    }
 
    variable "eks_cluster_version" {
-    description = "EKS cluster kubernetes version"
+    description = "EKS 클러스터 쿠버네티스 버전"
     nullable    = false
     type        = string
    }
    ```
 
-## Recommended deployment option
+## 권장 배포 옵션
 
-This is the most straightforward deployment option configuration that creates all `Mandatory` components and installs in the `Kubernetes Cluster` the latest version of `W&B`.
+이 방법은 모든 `필수` 컴포넌트를 생성하고 `Kubernetes Cluster`에 최신 `W&B` 버전을 설치하는 가장 간단한 배포 방식입니다.
 
-1. Create the `main.tf`
+1. `main.tf` 파일 생성
 
-   In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
+   앞서 만든 파일들과 같은 디렉토리에 아래와 같이 `main.tf` 파일을 만듭니다.
 
    ```
    module "wandb_infra" {
@@ -201,20 +200,20 @@ This is the most straightforward deployment option configuration that creates al
     }
    ```
 
-2. Deploy W&B
+2. W&B 배포
 
-   To deploy W&B, execute the following commands:
+   다음 명령어로 W&B를 배포합니다:
 
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
 
-## Enable REDIS
+## REDIS 사용 활성화
 
-Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
+다른 배포 옵션으로, `Redis`를 사용하여 SQL 쿼리를 캐싱하고, 실험의 메트릭 로딩 속도를 높일 수 있습니다.
 
-You need to add the option `create_elasticache_subnet = true` to the same `main.tf` file described in the [Recommended deployment]({{< relref path="#recommended-deployment-option" lang="ko" >}}) section to enable the cache.
+`main.tf` 파일에 `create_elasticache_subnet = true` 옵션을 추가하면 캐시가 활성화됩니다. 방법은 [권장 배포 옵션]({{< relref path="#recommended-deployment-option" lang="ko" >}}) 섹션 설명을 참고하세요.
 
 ```
 module "wandb_infra" {
@@ -230,11 +229,11 @@ module "wandb_infra" {
 [...]
 ```
 
-## Enable message broker (queue)
+## 메시지 브로커(Queue) 활성화
 
-Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
+3번째 배포 옵션은 외부 `message broker`를 사용하는 것입니다. 이 옵션은 선택 사항이며, W&B에는 내장 브로커가 포함되어 있습니다. 해당 옵션은 성능 향상을 제공하지는 않습니다.
 
-The AWS resource that provides the message broker is the `SQS`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` described in the [Recommended deployment]({{< relref path="#recommended-deployment-option" lang="ko" >}}) section.
+AWS에서 메시지 브로커는 `SQS` 리소스로 제공되며, 활성화를 위해서는 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가해야 합니다. 방법은 [권장 배포 옵션]({{< relref path="#recommended-deployment-option" lang="ko" >}}) 섹션을 참고하세요.
 
 ```
 module "wandb_infra" {
@@ -251,34 +250,32 @@ module "wandb_infra" {
 }
 ```
 
-## Other deployment options
+## 기타 배포 옵션
 
-You can combine all three deployment options adding all configurations to the same file.
-The [Terraform Module](https://github.com/wandb/terraform-aws-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in `Deployment - Recommended`
+세 가지 배포 옵션 모두 한 파일에 설정을 추가하여 같이 사용할 수도 있습니다. [Terraform Module](https://github.com/wandb/terraform-aws-wandb) 에서는 표준 옵션과 `Deployment - Recommended`의 최소 구성과 함께 조합할 수 있는 다양한 옵션을 제공합니다.
 
-## Manual configuration
+## 수동 설정
 
-To use an Amazon S3 bucket as a file storage backend for W&B, you will need to:
+Amazon S3 버킷을 W&B의 파일 스토리지 백엔드로 사용하려면 다음 과정을 수행해야 합니다:
 
-* [Create an Amazon S3 Bucket and Bucket Notifications]({{< relref path="#create-an-s3-bucket-and-bucket-notifications" lang="ko" >}})
-* [Create SQS Queue]({{< relref path="#create-an-sqs-queue" lang="ko" >}})
-* [Grant Permissions to Node Running W&B]({{< relref path="#grant-permissions-to-node-that-runs-wb" lang="ko" >}})
+* [Amazon S3 Bucket 및 Bucket 알림 생성]({{< relref path="#create-an-s3-bucket-and-bucket-notifications" lang="ko" >}})
+* [SQS Queue 생성]({{< relref path="#create-an-sqs-queue" lang="ko" >}})
+* [W&B 가 실행되는 Node에 권한 부여]({{< relref path="#grant-permissions-to-node-that-runs-wb" lang="ko" >}})
 
+즉, 버킷을 만들고, 해당 버킷에서 오브젝트가 생성될 때마다 SQS queue로 알림을 보내도록 설정해야 합니다. 인스턴스는 이 queue의 읽기 권한이 필요합니다.
 
- you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
+### S3 버킷 및 알림 생성
 
-### Create an S3 Bucket and Bucket Notifications
+아래 절차에 따라 Amazon S3 버킷을 만들고 알림을 활성화하세요.
 
-Follow the procedure bellow to create an Amazon S3 bucket and enable bucket notifications.
-
-1. Navigate to Amazon S3 in the AWS Console.
-2. Select **Create bucket**.
-3. Within the **Advanced settings**, select **Add notification** within the **Events** section.
-4. Configure all object creation events to be sent to the SQS Queue you configured earlier.
+1. AWS Console에서 Amazon S3로 이동합니다.
+2. **Create bucket**을 선택합니다.
+3. **Advanced settings** 내 **Events** 섹션에서 **Add notification**을 선택합니다.
+4. 모든 오브젝트 생성 이벤트가 앞서 설정한 SQS Queue로 전송되도록 구성합니다.
 
 {{< img src="/images/hosting/s3-notification.png" alt="Enterprise file storage settings" >}}
 
-Enable CORS access. Your CORS configuration should look like the following:
+CORS 엑세스를 활성화합니다. CORS 설정 예시는 다음과 같습니다:
 
 ```markup
 <?xml version="1.0" encoding="UTF-8"?>
@@ -292,21 +289,21 @@ Enable CORS access. Your CORS configuration should look like the following:
 </CORSConfiguration>
 ```
 
-### Create an SQS Queue
+### SQS Queue 생성
 
-Follow the procedure below to create an SQS Queue:
+SQS Queue를 생성하려면 아래 절차를 따르세요:
 
-1. Navigate to Amazon SQS in the AWS Console.
-2. Select **Create queue**.
-3. From the **Details** section, select a **Standard** queue type.
-4. Within the Access policy section, add permission to the following principals:
+1. AWS Console에서 Amazon SQS로 이동합니다.
+2. **Create queue**를 선택합니다.
+3. **Details** 섹션에서 **Standard** queue type을 선택합니다.
+4. Access policy 섹션에서 다음 principal에 권한을 추가합니다:
 * `SendMessage`
 * `ReceiveMessage`
 * `ChangeMessageVisibility`
 * `DeleteMessage`
 * `GetQueueUrl`
 
-Optionally add an advanced access policy in the **Access Policy** section. For example, the policy for accessing Amazon SQS with a statement is as follows:
+필요에 따라 **Access Policy**에서 고급 접근 제어 정책을 추가할 수 있습니다. 예시 정책:
 
 ```json
 {
@@ -325,9 +322,9 @@ Optionally add an advanced access policy in the **Access Policy** section. For e
 }
 ```
 
-### Grant permissions to node that runs W&B
+### W&B가 실행되는 Node에 권한 부여
 
-The node where W&B server is running must be configured to permit access to Amazon S3 and Amazon SQS. Depending on the type of server deployment you have opted for, you may need to add the following policy statements to your node role:
+W&B 서버가 실행 중인 노드는 Amazon S3와 Amazon SQS 엑세스가 가능하도록 구성해야 합니다. 서버 배포 방식에 따라, 노드 롤에 다음 정책 구문을 추가해야 할 수 있습니다:
 
 ```json
 {
@@ -350,25 +347,25 @@ The node where W&B server is running must be configured to permit access to Amaz
 }
 ```
 
-### Configure W&B server
-Finally, configure your W&B Server.
+### W&B 서버 설정
+마지막으로, W&B Server를 설정합니다.
 
-1. Navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
-2. Enable the ***Use an external file storage backend* option
-3. Provide information about your Amazon S3 bucket, region, and Amazon SQS queue in the following format:
+1. `http(s)://YOUR-W&B-SERVER-HOST/system-admin`의 W&B 설정 페이지로 이동합니다. 
+2. ***외부 파일 스토리지 백엔드 사용* 옵션을 활성화합니다.
+3. 아래 형식에 맞추어 Amazon S3 버킷, 리전, SQS queue 정보를 입력합니다:
 * **File Storage Bucket**: `s3://<bucket-name>`
 * **File Storage Region (AWS only)**: `<region>`
 * **Notification Subscription**: `sqs://<queue-name>`
 
 {{< img src="/images/hosting/configure_file_store.png" alt="AWS file storage configuration" >}}
 
-4. Select **Update settings** to apply the new settings.
+4. **Update settings**를 선택하여 새로운 설정을 적용합니다.
 
-## Upgrade your W&B version
+## W&B 버전 업그레이드
 
-Follow the steps outlined here to update W&B:
+W&B를 업데이트하려면 아래 단계를 따르세요:
 
-1. Add `wandb_version` to your configuration in your `wandb_app` module. Provide the version of W&B you want to upgrade to. For example, the following line specifies W&B version `0.48.1`:
+1. `wandb_app` 모듈의 설정에 `wandb_version`을 추가합니다. 업그레이드하고자 하는 W&B 버전을 입력하세요. 아래는 `0.48.1` 버전 사용 예시입니다.
 
   ```
   module "wandb_app" {
@@ -380,23 +377,22 @@ Follow the steps outlined here to update W&B:
   ```
 
   {{% alert %}}
-  Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
+  또는 `terraform.tfvars`에 `wandb_version` 값을 추가하고 동일한 이름의 변수를 만들어서, 위 예시처럼 리터럴 값 대신 `var.wandb_version`을 사용할 수도 있습니다.
   {{% /alert %}}
 
-2. After you update your configuration, complete the steps described in the [Recommended deployment section]({{< relref path="#recommended-deployment-option" lang="ko" >}}).
+2. 설정을 업데이트한 후, [권장 배포 옵션 섹션]({{< relref path="#recommended-deployment-option" lang="ko" >}})의 절차를 따라 마무리하세요.
 
-## Migrate to operator-based AWS Terraform modules
+## operator 기반 AWS Terraform module로 마이그레이션
 
-This section details the steps required to upgrade from _pre-operator_ to  _post-operator_ environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
+이 섹션에서는 [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) 모듈을 활용해 _pre-operator_에서 _post-operator_ 환경으로 업그레이드 하는 방법을 안내합니다.
 
 {{% alert %}}
-The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See the [architecture shift explanation]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#reasons-for-the-architecture-shift" lang="ko" >}}) for a detailed explanation.
+Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) 방식으로의 전환은 W&B 아키텍처에 필수적입니다. 자세한 설명은 [아키텍처 변화 설명]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#reasons-for-the-architecture-shift" lang="ko" >}})을 참고하세요.
 {{% /alert %}}
 
+### 아키텍처 변화 전후
 
-### Before and after architecture
-
-Previously, the W&B architecture used:
+이전 W&B 아키텍처에서는:
 
 ```hcl
 module "wandb_infra" {
@@ -406,11 +402,11 @@ module "wandb_infra" {
 }
 ```
 
-to control the infrastructure:
+로 인프라를 제어했습니다:
 
 {{< img src="/images/hosting/pre-operator-infra.svg" alt="pre-operator-infra" >}}
 
-and this module to deploy the W&B Server:
+그리고 별도의 모듈로 W&B Server를 배포했습니다:
 
 ```hcl
 module "wandb_app" {
@@ -421,7 +417,7 @@ module "wandb_app" {
 
 {{< img src="/images/hosting/pre-operator-k8s.svg" alt="pre-operator-k8s" >}}
 
-Post-transition, the architecture uses:
+이제 operator 방식 전환 후에는,
 
 ```hcl
 module "wandb_infra" {
@@ -431,34 +427,34 @@ module "wandb_infra" {
 }
 ```
 
-to manage both the installation of infrastructure and the W&B Server to the Kubernetes cluster, thus eliminating the need for the `module "wandb_app"` in `post-operator.tf`.
+한 번에 인프라 구축과 W&B Server의 Kubernetes 클러스터 설치까지 관리하며, `post-operator.tf`에서 더 이상 `module "wandb_app"`이 필요하지 않습니다.
 
 {{< img src="/images/hosting/post-operator-k8s.svg" alt="post-operator-k8s" >}}
 
-This architectural shift enables additional features (like OpenTelemetry, Prometheus, HPAs, Kafka, and image updates) without requiring manual Terraform operations by SRE/Infrastructure teams.
+이 아키텍처 변화로 OpenTelemetry, Prometheus, HPA, Kafka, 이미지 업데이트 등 다양한 부가 기능을 SRE/인프라팀의 별도 Terraform 작업 없이 사용할 수 있습니다.
 
-To commence with a base installation of the W&B Pre-Operator, ensure that `post-operator.tf` has a `.disabled` file extension and `pre-operator.tf` is active (that does not have a `.disabled` extension). Those files can be found [here](https://github.com/wandb/terraform-aws-wandb/tree/main/docs/operator-migration).
+W&B Pre-Operator 기본 설치를 시작하려면, `post-operator.tf` 파일이 `.disabled` 확장자를 갖고 있고, `pre-operator.tf`는 활성화되어 있어야 합니다. 관련 파일은 [여기](https://github.com/wandb/terraform-aws-wandb/tree/main/docs/operator-migration)에서 확인할 수 있습니다.
 
-### Prerequisites
+### 사전 준비
 
-Before initiating the migration process, ensure the following prerequisites are met:
+마이그레이션 시작 전, 다음 전제 조건을 갖추세요:
 
-- **Egress**: The deployment can't be airgapped. It needs access to [deploy.wandb.ai](https://deploy.wandb.ai) to get the latest spec for the **_Release Channel_**.
-- **AWS Credentials**: Proper AWS credentials configured to interact with your AWS resources.
-- **Terraform Installed**: The latest version of Terraform should be installed on your system.
-- **Route53 Hosted Zone**: An existing Route53 hosted zone corresponding to the domain under which the application will be served.
-- **Pre-Operator Terraform Files**: Ensure `pre-operator.tf` and associated variable files like `pre-operator.tfvars` are correctly set up.
+- **Egress**: 배포 환경이 airgapped가 아니어야 합니다. **_Release Channel_** 사양을 최신으로 받기 위해 [deploy.wandb.ai](https://deploy.wandb.ai) 접속이 필요합니다.
+- **AWS 자격 증명**: AWS 리소스 접근을 위한 자격 증명이 제대로 설정되어야 합니다.
+- **Terraform 설치**: 최신 Terraform 버전이 설치되어 있어야 합니다.
+- **Route53 Hosted Zone**: 애플리케이션이 서비스될 도메인에 해당하는 Route53 hosted zone이 필요합니다.
+- **Pre-Operator Terraform 파일**: `pre-operator.tf` 와 관련 변수 파일(`pre-operator.tfvars`)이 정확히 설정되어 있어야 합니다.
 
-### Pre-Operator set up
+### Pre-Operator 설정
 
-Execute the following Terraform commands to initialize and apply the configuration for the Pre-Operator setup:
+Terraform 커맨드로 Pre-Operator 구성을 초기화 및 적용하세요:
 
 ```bash
 terraform init -upgrade
 terraform apply -var-file=./pre-operator.tfvars
 ```
 
-`pre-operator.tf` should look something like this:
+`pre-operator.tf`의 예시는 다음과 같습니다:
 
 ```ini
 namespace     = "operator-upgrade"
@@ -469,7 +465,7 @@ wandb_license = "ey..."
 wandb_version = "0.51.2"
 ```
 
-The `pre-operator.tf` configuration calls two modules:
+`pre-operator.tf` 구성은 두 개의 모듈을 호출합니다:
 
 ```hcl
 module "wandb_infra" {
@@ -479,7 +475,7 @@ module "wandb_infra" {
 }
 ```
 
-This module spins up the infrastructure.
+이 모듈이 인프라를 생성합니다.
 
 ```hcl
 module "wandb_app" {
@@ -488,33 +484,33 @@ module "wandb_app" {
 }
 ```
 
-This module deploys the application.
+이 모듈이 애플리케이션을 배포합니다.
 
-### Post-Operator Setup
+### Post-Operator 설정
 
-Make sure that `pre-operator.tf` has a `.disabled` extension, and `post-operator.tf` is active.
+이제 `pre-operator.tf` 파일에 `.disabled` 확장자를 붙이고, `post-operator.tf`를 활성화합니다.
 
-The `post-operator.tfvars` includes additional variables:
+`post-operator.tfvars`에는 추가 변수가 포함됩니다:
 
 ```ini
 ...
-# wandb_version = "0.51.2" is now managed via the Release Channel or set in the User Spec.
+# wandb_version = "0.51.2"는 이제 Release Channel 또는 User Spec에서 관리됩니다.
 
-# Required Operator Variables for Upgrade:
+# 업그레이드를 위한 Operator 필수 변수:
 size                 = "small"
 enable_dummy_dns     = true
 enable_operator_alb  = true
 custom_domain_filter = "sandbox-aws.wandb.ml"
 ```
 
-Run the following commands to initialize and apply the Post-Operator configuration:
+다음 명령어로 Post-Operator 설정을 초기화 및 적용합니다:
 
 ```bash
 terraform init -upgrade
 terraform apply -var-file=./post-operator.tfvars
 ```
 
-The plan and apply steps will update the following resources:
+계획 및 적용 과정에서 아래와 같은 리소스가 업데이트됩니다:
 
 ```yaml
 actions:
@@ -582,11 +578,11 @@ actions:
     - aws_eks_node_group.workers["primary"]
 ```
 
-You should see something like this:
+아래와 같이 화면을 확인할 수 있습니다:
 
 {{< img src="/images/hosting/post-operator-apply.png" alt="post-operator-apply" >}}
 
-Note that in `post-operator.tf`, there is a single:
+이제 `post-operator.tf`에는 단일:
 
 ```hcl
 module "wandb_infra" {
@@ -596,13 +592,13 @@ module "wandb_infra" {
 }
 ```
 
-#### Changes in the post-operator configuration:
+#### post-operator 구성 변경점:
 
-1. **Update Required Providers**: Change `required_providers.aws.version` from `3.6` to `4.0` for provider compatibility.
-2. **DNS and Load Balancer Configuration**: Integrate `enable_dummy_dns` and `enable_operator_alb` to manage DNS records and AWS Load Balancer setup through an Ingress.
-3. **License and Size Configuration**: Transfer the `license` and `size` parameters directly to the `wandb_infra` module to match new operational requirements.
-4. **Custom Domain Handling**: If necessary, use `custom_domain_filter` to troubleshoot DNS issues by checking the External DNS pod logs within the `kube-system` namespace.
-5. **Helm Provider Configuration**: Enable and configure the Helm provider to manage Kubernetes resources effectively:
+1. **필수 Provider 업데이트**: `required_providers.aws.version`을 `3.6`에서 `4.0`으로 변경해 Provider 호환성을 맞춥니다.
+2. **DNS 및 Load Balancer 구성**: `enable_dummy_dns`와 `enable_operator_alb`를 추가해 Ingress를 통한 DNS 설정과 AWS Load Balancer를 활성화합니다.
+3. **라이선스/사이즈 구성**: 새로운 운영 요구사항에 맞춰 `license`와 `size`를 `wandb_infra` 모듈에 직접 전달하세요.
+4. **커스텀 도메인 처리**: 필요에 따라 `custom_domain_filter`를 사용해 도메인 문제를 점검(특히, `kube-system` 네임스페이스의 External DNS pod 로그 확인)할 수 있습니다.
+5. **Helm Provider 구성**: Helm provider를 활성화하고, Kubernetes 리소스를 효과적으로 관리하도록 설정합니다:
 
 ```hcl
 provider "helm" {
@@ -619,4 +615,4 @@ provider "helm" {
 }
 ```
 
-This comprehensive setup ensures a smooth transition from the Pre-Operator to the Post-Operator configuration, leveraging new efficiencies and capabilities enabled by the operator model.
+이와 같이 구성하면 Pre-Operator에서 Post-Operator로 매끄럽게 전환하고, operator 모델이 제공하는 새로운 효율성과 기능을 모두 누릴 수 있습니다.

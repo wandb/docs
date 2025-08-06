@@ -1,25 +1,25 @@
 ---
+title: OnAddArtifactAlias
 data_type_classification: class
 menu:
   reference:
     identifier: ko-ref-python-automations-onaddartifactalias
 object_type: automations_namespace
-title: OnAddArtifactAlias
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/events.py >}}
 
 
 
-A new alias is assigned to an artifact.
+새로운 에일리어스가 아티팩트에 할당됩니다.
 
-Attributes:
-- event_type (Literal): No description provided.
-- filter (Union): Additional condition(s), if any, that must be met for this event to trigger an automation.
-- scope (Union): The scope of the event.
+속성:
+- event_type (Literal): 설명이 제공되지 않았습니다.
+- filter (Union): 이 이벤트가 자동화를 트리거하기 위해 충족해야 하는 추가 조건(있는 경우).
+- scope (Union): 이벤트의 범위.
 
-### <kbd>method</kbd> `then`
+### <kbd>메소드</kbd> `then`
 ```python
 then(self, action: 'InputAction') -> 'NewAutomation'
 ```
-Define a new Automation in which this event triggers the given action.
+이 이벤트가 지정된 동작을 트리거하는 새로운 Automation을 정의합니다.

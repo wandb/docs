@@ -1,21 +1,20 @@
 ---
+title: wandb artifact ls
 menu:
   reference:
     identifier: ko-ref-cli-wandb-artifact-wandb-artifact-ls
-title: wandb artifact ls
 ---
 
-**Usage**
+**사용법**
 
 `wandb artifact ls [OPTIONS] PATH`
 
-**Summary**
+**요약**
 
-List all artifacts in a wandb project
+wandb 프로젝트의 모든 Artifacts 를 나열합니다
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `-t, --type` | The type of artifacts to list |
+| `-t, --type` | 나열할 Artifacts 의 유형 |

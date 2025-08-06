@@ -1,31 +1,31 @@
 ---
+title: html-파일
 menu:
   reference:
     identifier: ko-ref-query-panel-html-file
-title: html-file
 ---
 
-## Chainable Ops
+## 체이너블 연산자 (Chainable Ops)
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+해당 에셋의 _파일_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 에셋 |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+에셋의 _파일_
 
 
-## List Ops
+## 리스트 연산자 (List Ops)
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+해당 에셋의 _파일_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 에셋 |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+에셋의 _파일_

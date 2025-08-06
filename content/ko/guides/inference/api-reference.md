@@ -1,51 +1,49 @@
 ---
-description: 'Complete API reference for W&B Inference service
-
-  '
+title: API 레퍼런스
+description: W&B Inference 서비스의 전체 API 레퍼런스
 linkTitle: API Reference
 menu:
   default:
     identifier: ko-guides-inference-api-reference
-title: API Reference
 weight: 40
 ---
 
-Learn how to use the W&B Inference API to access foundation models programmatically.
+W&B Inference API를 사용해 파운데이션 모델에 프로그래밍 방식으로 엑세스하는 방법을 알아보세요.
 
 {{< alert title="Tip" >}}
-Having trouble with API errors? See [W&B Inference support articles](/support/inference/) for solutions.
+API 오류가 발생하나요? 해결 방법은 [W&B Inference 지원 문서](/support/inference/)를 참고하세요.
 {{< /alert >}}
 
-## Endpoint
+## 엔드포인트
 
-Access the Inference service at:
+Inference 서비스 엑세스 주소:
 
 ```plaintext
 https://api.inference.wandb.ai/v1
 ```
 
 {{< alert title="Important" >}}
-To use this endpoint, you need:
-- A W&B account with Inference credits
-- A valid W&B API key
-- A W&B entity (team) and project
+이 엔드포인트를 이용하려면 다음이 필요합니다:
+- Inference 크레딧이 있는 W&B 계정
+- 유효한 W&B API 키
+- 하나의 W&B Entity(팀)와 프로젝트
 
-In code samples, these appear as `<your-team>/<your-project>`.
+코드 예제에서는 `<your-team>/<your-project>`와 같이 나타납니다.
 {{< /alert >}}
 
-## Available methods
+## 지원 메소드
 
-The Inference API supports these methods:
+Inference API는 다음 메소드를 지원합니다:
 
 ### Chat completions
 
-Create a chat completion using the `/chat/completions` endpoint. This endpoint follows the OpenAI format for sending messages and receiving responses.
+`/chat/completions` 엔드포인트를 사용해 챗 컴플리션(chat completion)을 생성할 수 있습니다. 이 엔드포인트는 OpenAI 형식을 따라 메시지를 보내고 응답을 받습니다.
 
-To create a chat completion, provide:
-- The Inference service base URL: `https://api.inference.wandb.ai/v1`
-- Your W&B API key: `<your-api-key>`
-- Your W&B entity and project: `<your-team>/<your-project>`
-- A model ID from the [available models]({{< relref path="models" lang="ko" >}})
+챗 컴플리션을 생성하려면 다음 정보를 입력하세요:
+- Inference 서비스 기본 URL: `https://api.inference.wandb.ai/v1`
+- 본인의 W&B API 키: `<your-api-key>`
+- 본인의 W&B Entity와 프로젝트: `<your-team>/<your-project>`
+- [사용 가능한 모델]({{< relref path="models" lang="ko" >}}) 중 하나의 모델 ID
 
 {{< tabpane text=true >}}
 {{% tab header="Bash" value="bash" %}}
@@ -71,15 +69,15 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
 import openai
 
 client = openai.OpenAI(
-    # The custom base URL points to W&B Inference
+    # 커스텀 base URL을 W&B Inference로 지정
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Get your API key from https://wandb.ai/authorize
-    # Consider setting it in the environment as OPENAI_API_KEY instead for safety
+    # https://wandb.ai/authorize 에서 API 키를 발급받으세요
+    # 보안을 위해 환경변수 OPENAI_API_KEY로 지정하는 것도 권장합니다
     api_key="<your-api-key>"
 )
 
-# Replace <model-id> with any model ID from the available models list
+# <model-id>를 사용 가능한 모델 ID로 바꿔주세요
 response = client.chat.completions.create(
     model="<model-id>",
     messages=[
@@ -94,9 +92,9 @@ print(response.choices[0].message.content)
 {{% /tab %}}
 {{< /tabpane >}}
 
-### List supported models
+### 지원 모델 목록 불러오기
 
-Get all available models and their IDs. Use this to select models dynamically or check what's available.
+사용 가능한 모든 모델과 해당 ID를 조회할 수 있습니다. 동적으로 모델을 선택하거나 가능한 모델을 확인할 때 활용하세요.
 
 {{< tabpane text=true >}}
 {{% tab header="Bash" value="bash" %}}
@@ -128,9 +126,9 @@ for model in response.data:
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Response format
+## 응답 형식
 
-The API returns responses in OpenAI-compatible format:
+API는 OpenAI와 호환되는 형식으로 응답을 반환합니다:
 
 ```json
 {
@@ -156,7 +154,7 @@ The API returns responses in OpenAI-compatible format:
 }
 ```
 
-## Next steps
+## 다음 단계
 
-- Try the [usage examples]({{< relref path="examples" lang="ko" >}}) to see the API in action
-- Explore models in the [UI]({{< relref path="ui-guide" lang="ko" >}})
+- [사용 예시]({{< relref path="examples" lang="ko" >}})로 API 실행을 바로 체험해보세요
+- [UI]({{< relref path="ui-guide" lang="ko" >}})에서 다양한 모델을 살펴보세요

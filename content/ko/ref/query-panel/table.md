@@ -1,53 +1,53 @@
 ---
+title: 테이블
 menu:
   reference:
     identifier: ko-ref-query-panel-table
-title: table
 ---
 
-## Chainable Ops
+## 체이너블 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+asset의 _파일_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 해당 asset |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+asset의 _파일_
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-Returns the rows of a _table_
+_table_의 행(row)들을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `table` | A _table_ |
+| `table` | _table_ 하나 |
 
-#### Return Value
-The rows of the _table_
+#### 반환 값
+_table_의 행(row) 목록
 
 
-## List Ops
+## 리스트 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+asset의 _파일_ 을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 해당 asset |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+asset의 _파일_
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-Returns the rows of a _table_
+_table_의 행(row)들을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `table` | A _table_ |
+| `table` | _table_ 하나 |
 
-#### Return Value
-The rows of the _table_
+#### 반환 값
+_table_의 행(row) 목록

@@ -1,75 +1,75 @@
 ---
+title: 아티팩트
 menu:
   reference:
     identifier: ko-ref-query-panel-artifact
-title: artifact
 ---
 
-## Chainable Ops
+## 체이너블 연산
 <h3 id="artifact-link"><code>artifact-link</code></h3>
 
-Returns the url for an [artifact](artifact.md)
+[artifact](artifact.md)의 URL을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The url for an [artifact](artifact.md)
+#### 반환 값
+[artifact](artifact.md)의 URL
 
 <h3 id="artifact-name"><code>artifact-name</code></h3>
 
-Returns the name of the [artifact](artifact.md)
+[artifact](artifact.md)의 이름을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The name of the [artifact](artifact.md)
+#### 반환 값
+[artifact](artifact.md)의 이름
 
 <h3 id="artifact-versions"><code>artifact-versions</code></h3>
 
-Returns the versions of the [artifact](artifact.md)
+[artifact](artifact.md)의 버전들을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The versions of the [artifact](artifact.md)
+#### 반환 값
+[artifact](artifact.md)의 버전들
 
 
-## List Ops
+## 리스트 연산
 <h3 id="artifact-link"><code>artifact-link</code></h3>
 
-Returns the url for an [artifact](artifact.md)
+[artifact](artifact.md)의 URL을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The url for an [artifact](artifact.md)
+#### 반환 값
+[artifact](artifact.md)의 URL
 
 <h3 id="artifact-name"><code>artifact-name</code></h3>
 
-Returns the name of the [artifact](artifact.md)
+[artifact](artifact.md)의 이름을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The name of the [artifact](artifact.md)
+#### 반환 값
+[artifact](artifact.md)의 이름
 
 <h3 id="artifact-versions"><code>artifact-versions</code></h3>
 
-Returns the versions of the [artifact](artifact.md)
+[artifact](artifact.md)의 버전들을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifact` | An [artifact](artifact.md) |
+| `artifact` | [artifact](artifact.md) |
 
-#### Return Value
-The versions of the [artifact](artifact.md)
+#### 반환 값
+[artifact](artifact.md)의 버전들

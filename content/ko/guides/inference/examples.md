@@ -1,48 +1,46 @@
 ---
-description: 'Learn how to use W&B Inference with practical code examples
-
-  '
+title: 사용 예시
+description: 실제 코드 예제를 통해 W&B Inference 사용 방법을 알아보세요.
 linkTitle: Examples
 menu:
   default:
     identifier: ko-guides-inference-examples
-title: Usage Examples
 weight: 50
 ---
 
-These examples show how to use W&B Inference with Weave for tracing, evaluation, and comparison.
+이 예제들은 W&B Inference와 Weave를 활용하여 트레이싱, 평가, 그리고 비교하는 방법을 보여줍니다.
 
-## Basic example: Trace Llama 3.1 8B with Weave
+## 기본 예제: Weave로 Llama 3.1 8B 트레이싱하기
 
-This example shows how to send a prompt to the **Llama 3.1 8B** model and trace the call with Weave. Tracing captures the full input and output of the LLM call, monitors performance, and lets you analyze results in the Weave UI.
+이 예제에서는 **Llama 3.1 8B** 모델에 프롬프트를 보내고 Weave에서 호출을 트레이스하는 방법을 다룹니다. 트레이싱은 LLM 호출의 전체 입력과 출력을 캡처하고, 성능을 모니터링하며, Weave UI에서 결과를 분석할 수 있도록 해줍니다.
 
-{{< alert title="Tip" >}}
-Learn more about [tracing in Weave](https://weave-docs.wandb.ai/guides/tracking/tracing).
+{{< alert title="팁" >}}
+[Weave에서 트레이싱하는 법](https://weave-docs.wandb.ai/guides/tracking/tracing)에 대해 더 알아보세요.
 {{< /alert >}}
 
-In this example:
-- You define a `@weave.op()`-decorated function that makes a chat completion request
-- Your traces are recorded and linked to your W&B entity and project
-- The function is automatically traced, logging inputs, outputs, latency, and metadata
-- The result prints in the terminal, and the trace appears in your **Traces** tab at [https://wandb.ai](https://wandb.ai)
+이 예제에서 다루는 내용:
+- `@weave.op()` 데코레이터가 적용된 함수에서 채팅 완성 요청을 보냅니다.
+- 트레이스가 여러분의 W&B entity와 project에 기록되고 연결됩니다.
+- 함수는 자동으로 트레이스되어 입력값, 출력값, 지연 시간, 메타데이터를 로그로 남깁니다.
+- 결과는 터미널에 출력되고, 트레이스는 [https://wandb.ai](https://wandb.ai) 의 **Traces** 탭에서 확인할 수 있습니다.
 
-Before running this example, complete the [prerequisites]({{< relref path="prerequisites" lang="ko" >}}).
+이 예제를 실행하기 전에, [사전 준비 사항]({{< relref path="prerequisites" lang="ko" >}}) 을 완료해 주세요.
 
 ```python
 import weave
 import openai
 
-# Set the Weave team and project for tracing
+# 트레이싱을 위한 Weave 팀과 프로젝트를 설정합니다
 weave.init("<your-team>/<your-project>")
 
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Get your API key from https://wandb.ai/authorize
+    # https://wandb.ai/authorize에서 API 키를 확인하세요
     api_key="<your-api-key>",
 )
 
-# Trace the model call in Weave
+# 모델 호출을 Weave에서 트레이스합니다
 @weave.op()
 def run_chat():
     response = client.chat.completions.create(
@@ -54,23 +52,21 @@ def run_chat():
     )
     return response.choices[0].message.content
 
-# Run and log the traced call
+# 트레이스된 호출을 실행하고 로그를 남깁니다
 output = run_chat()
 print(output)
 ```
 
-After running the code, view the trace in Weave by:
-1. Clicking the link printed in the terminal (for example: `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`)
-2. Or navigating to [https://wandb.ai](https://wandb.ai) and selecting the **Traces** tab
+코드를 실행한 후, Weave에서 트레이스를 확인하는 방법은 다음과 같습니다:
+1. 터미널에 출력된 링크를 클릭합니다 (예: `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`)
+2. 또는 [https://wandb.ai](https://wandb.ai) 로 이동하여 **Traces** 탭을 선택합니다.
 
-## Advanced example: Use Weave Evaluations and Leaderboards
+## 고급 예제: Weave 평가 및 리더보드 활용하기
 
-Besides tracing model calls, you can also evaluate performance and publish leaderboards. 
-This example compares two models on a question-answer dataset, and sets a custom project
-name in the client initialization, specifying where to send logs. 
+모델 호출을 트레이싱하는 것 외에도, 성능 평가 및 리더보드 발행도 할 수 있습니다.  
+이 예제에서는 두 모델을 질문-답변 데이터셋에서 비교하며, 클라이언트 초기화 단계에서 로그를 보낼 project 이름을 지정합니다.
 
-Before running this example, complete the [prerequisites]({{< relref path="prerequisites" lang="ko" >}}).
-
+이 예제를 실행하기 전에, [사전 준비 사항]({{< relref path="prerequisites" lang="ko" >}}) 을 완료해 주세요.
 
 ```python
 import os
@@ -80,7 +76,7 @@ import weave
 from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
 
-# Set the Weave team and project for tracing
+# 트레이싱을 위한 Weave 팀과 프로젝트를 설정합니다
 weave.init("<your-team>/<your-project>")
 
 dataset = [
@@ -99,9 +95,9 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # Get your API key from https://wandb.ai/authorize
+            # https://wandb.ai/authorize에서 API 키를 확인하세요
             api_key="<your-api-key>",
-            # Optional: Customizes the logs destination
+            # 선택 사항: 로그 저장 위치를 지정합니다
             project="<your-team>/<your-project>"
         )
         resp = client.chat.completions.create(
@@ -144,17 +140,17 @@ spec = leaderboard.Leaderboard(
 weave.publish(spec)
 ```
 
-After running this code, go to your W&B account at [https://wandb.ai/](https://wandb.ai/) and:
+코드를 모두 실행한 후, [https://wandb.ai/](https://wandb.ai/) 에서 다음을 확인할 수 있습니다:
 
-- Select the **Traces** tab to [view your traces](https://weave-docs.wandb.ai/guides/tracking/tracing)
-- Select the **Evals** tab to [view your model evaluations](https://weave-docs.wandb.ai/guides/core-types/evaluations)
-- Select the **Leaders** tab to [view the generated leaderboard](https://weave-docs.wandb.ai/guides/core-types/leaderboards)
+- **Traces** 탭을 선택해 [트레이스를 확인](https://weave-docs.wandb.ai/guides/tracking/tracing)하세요
+- **Evals** 탭을 선택해 [모델 평가 결과를 확인](https://weave-docs.wandb.ai/guides/core-types/evaluations)하세요
+- **Leaders** 탭을 선택해 [생성된 리더보드 보기](https://weave-docs.wandb.ai/guides/core-types/leaderboards)  
 
-{{< img src="/images/inference/inference-advanced-evals.png" alt="View your model evaluations" >}}
+{{< img src="/images/inference/inference-advanced-evals.png" alt="모델 평가 결과 보기" >}}
 
-{{< img src="/images/inference/inference-advanced-leaderboard.png" alt="View your leaderboard" >}}
+{{< img src="/images/inference/inference-advanced-leaderboard.png" alt="리더보드 보기" >}}
 
-## Next steps
+## 다음 단계
 
-- Explore the [API reference]({{< relref path="api-reference" lang="ko" >}}) for all available methods
-- Try models in the [UI]({{< relref path="ui-guide" lang="ko" >}})
+- 사용 가능한 모든 메소드는 [API reference]({{< relref path="api-reference" lang="ko" >}})에서 확인해 보세요
+- [UI]({{< relref path="ui-guide" lang="ko" >}})에서 다양한 모델을 직접 시도해 보세요
