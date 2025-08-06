@@ -1,29 +1,27 @@
 ---
+title: 'チュートリアル: Kubernetes で W&B Launch をセットアップする'
 menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-launch-kubernetes
     parent: set-up-launch
-title: 'Tutorial: Set up W&B Launch on Kubernetes'
 url: guides/launch/setup-launch-kubernetes
 ---
 
-You can use W&B Launch to push ML workloads to a Kubernetes cluster, giving ML engineers a simple interface right in W&B to use the resources you already manage with Kubernetes. 
+W&B Launch を使うことで、 ML ワークロードを Kubernetes クラスターに簡単にデプロイできます。これにより、 ML エンジニアは W&B のインターフェースから、 既に管理している Kubernetes のリソースを活用できます。
 
-W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that W&B maintains. 
+W&B では [公式の Launch agent イメージ](https://hub.docker.com/r/wandb/launch-agent) を用意しており、 [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を使ってクラスターにデプロイできます。これらは W&B がメンテナンスしています。
 
-W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the Launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the Launch agent, or how to turn off job building and only use prebuilt Docker images, see [Advanced agent set up]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}).
+Launch agent では、 [Kaniko](https://github.com/GoogleContainerTools/kaniko) ビルダーを利用し、 Kubernetes クラスター内で Docker イメージのビルドを可能にしています。Launch agent で Kaniko を使用する方法や、ジョブのビルドをオフにして既存の Docker イメージのみ利用する方法の詳細は [エージェントの高度な設定]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}) をご覧ください。
 
 {{% alert %}}
-To install Helm and apply or upgrade W&B's Launch agent Helm chart, you need `kubectl` access to the cluster with sufficient permissions to create, update, and delete Kubernetes resources. Typically, a user with cluster-admin or a custom role with equivalent permissions is required.
+Helm をインストールして W&B の Launch agent 用 Helm chart を適用・アップグレードするには、十分な権限を持つ `kubectl` アクセスが必要です。通常、 cluster-admin 権限や同等のカスタムロールを持つユーザーが必要になります。
 {{% /alert %}}
 
-<!-- Future: insert diagram here -->
+## Kubernetes 用のキューを設定する
 
-## Configure a queue for Kubernetes
+Kubernetes 用リソースをターゲットとした Launch queue の設定は、 [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) または [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) のいずれかに類似しています。
 
-The Launch queue configuration for a Kubernetes target resource will resemble either a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) or a [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
-
-You can control any aspect of the Kubernetes workload resource spec when you create a Launch queue.
+Launch queue の作成時に、 Kubernetes ワークロードリソース仕様のあらゆる側面を制御可能です。
 
 {{< tabpane text=true >}}
 {{% tab "Kubernetes job spec" %}}
@@ -46,9 +44,9 @@ namespace: wandb
 ```
 {{% /tab %}}
 {{% tab "Custom resource spec" %}}
-In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multi-node jobs using Volcano for an example application. Another use case might be that you want to use W&B Launch with Kubeflow.
+ユースケースによっては `CustomResource` 定義の使用を検討することもできます。たとえば、マルチノード分散トレーニングを行いたい場合などです。Launch と Volcano を使ったマルチノードジョブの例（チュートリアル）もご参照ください。また、 W&B Launch を Kubeflow で利用したい場合もこれに当てはまります。
 
-The following YAML snippet shows a sample Launch queue config that uses Kubeflow:
+以下の YAML は、 Kubeflow を利用したサンプルの Launch queue 設定例です。
 
 ```yaml
 kubernetes:
@@ -81,13 +79,13 @@ kubernetes:
 {{% /tab %}}
 {{< /tabpane >}}
 
-For security reasons, W&B will inject the following resources into your Launch queue if they are not specified:
+セキュリティ上の理由から、 以下のリソースが Launch queue に指定されていない場合、 W&B は自動的に付与します:
 
 - `securityContext`
 - `backOffLimit`
 - `ttlSecondsAfterFinished`
 
-The following YAML snippet demonstrates how these values will appear in your launch queue:
+以下の YAML は、 Launch queue 内でこれらの値がどのように現れるかの例です:
 
 ```yaml title="example-spec.yaml"
 spec:
@@ -103,24 +101,24 @@ spec:
         type: "RuntimeDefault"
 ```
 
-## Create a queue
+## キューの作成
 
-Create a queue in the W&B App that uses Kubernetes as its compute resource:
+Kubernetes を計算リソースとするキューを W&B App で作成する手順:
 
-1. Navigate to the [Launch page](https://wandb.ai/launch).
-2. Click on the **Create Queue** button.
-3. Select the **Entity** you would like to create the queue in.
-4. Provide a name for your queue in the **Name** field.
-5. Select **Kubernetes** as the **Resource**.
-6. Within the **Configuration** field, provide the Kubernetes Job workflow spec or Custom Resource spec you [configured in the previous section]({{< relref path="#configure-a-queue-for-kubernetes" lang="ja" >}}).
+1. [Launch ページ](https://wandb.ai/launch) へ移動します。
+2. **Create Queue** ボタンをクリックします。
+3. キューを作成したい **Entity** を選択します。
+4. **Name** フィールドにキューの名前を入力します。
+5. **Resource** で **Kubernetes** を選択します。
+6. **Configuration** フィールドには [前のセクションで設定した]({{< relref path="#configure-a-queue-for-kubernetes" lang="ja" >}}) Kubernetes Job ワークフロー仕様または Custom Resource 仕様を記入します。
 
-## Configure a Launch agent with Helm
+## Launch agent を Helm で設定する
 
-Use the [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) provided by W&B to deploy the Launch agent into your Kubernetes cluster. Control the behavior of the launch agent with the `values.yaml` [file](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml).
+W&B が用意した [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を利用し、 Kubernetes クラスターに Launch agent をデプロイできます。`values.yaml` [ファイル](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml) で launch agent の振る舞いを制御します。
 
-Specify the contents that would normally by defined in your launch agent config file (`~/.config/wandb/launch-config.yaml`) within the `launchConfig` key in the`values.yaml` file.
+通常 `~/.config/wandb/launch-config.yaml` に定義する Launch agent の設定内容は、 `values.yaml` ファイル内の `launchConfig` キーに記載します。
 
-For example, suppose you have Launch agent config that enables you to run a Launch agent in EKS that uses the Kaniko Docker image builder:
+例えば、 Kaniko の Docker イメージビルダーを使って Launch agent を EKS 上で動かす設定例です:
 
 ```yaml title="launch-config.yaml"
 queues:
@@ -137,35 +135,35 @@ builder:
 	build-context-store: <s3-bucket-uri>
 ```
 
-Within your `values.yaml` file, this might look like:
+この内容を `values.yaml` で記載すると下記のようになります:
 
 ```yaml title="values.yaml"
 agent:
   labels: {}
-  # W&B API key.
+  # W&B API キー
   apiKey: ''
-  # Container image to use for the agent.
+  # agent 用のコンテナイメージ
   image: wandb/launch-agent:latest
-  # Image pull policy for agent image.
+  # agent イメージのプルポリシー
   imagePullPolicy: Always
-  # Resources block for the agent spec.
+  # agent spec のリソース設定
   resources:
     limits:
       cpu: 1000m
       memory: 1Gi
 
-# Namespace to deploy launch agent into
+# launch agent をデプロイする namespace
 namespace: wandb
 
-# W&B api url (Set yours here)
+# W&B API の URL (必要に応じて設定)
 baseUrl: https://api.wandb.ai
 
-# Additional target namespaces that the launch agent can deploy into
+# launch agent がデプロイ可能な追加のターゲット namespace
 additionalTargetNamespaces:
   - default
   - wandb
 
-# This should be set to the literal contents of your launch agent config.
+# launch agent の設定内容そのものを記載
 launchConfig: |
   queues:
     - <queue name>
@@ -180,19 +178,17 @@ launchConfig: |
     type: kaniko
     build-context-store: <s3-bucket-uri>
 
-# The contents of a git credentials file. This will be stored in a k8s secret
-# and mounted into the agent container. Set this if you want to clone private
-# repos.
+# git 資格情報ファイルの内容。これは k8s シークレットに保存& agent コンテナにマウントされます。プライベートリポジトリをクローンする必要がある場合に設定してください。
 gitCreds: |
 
-# Annotations for the wandb service account. Useful when setting up workload identity on gcp.
+# wandb サービスアカウント用のアノテーション。gcp の workload identity 設定時などに利用します。
 serviceAccount:
   annotations:
     iam.gke.io/gcp-service-account:
     azure.workload.identity/client-id:
 
-# Set to access key for azure storage if using kaniko with azure.
+# kaniko を azure で使う場合のストレージ access key
 azureStorageAccessKey: ''
 ```
 
-For more information on registries, environments, and required agent permissions see [Advanced agent set up]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}).
+レジストリや環境、 agent 必要権限などの詳細については [エージェントの高度な設定]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}) を参照してください。

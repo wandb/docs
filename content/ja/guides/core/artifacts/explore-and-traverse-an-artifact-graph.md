@@ -1,84 +1,84 @@
 ---
-description: Traverse automatically created direct acyclic W&B Artifact graphs.
+title: アーティファクトグラフを探索する
+description: 自動的に作成された有向非巡回 W&B Artifact グラフをトラバースします。
 menu:
   default:
     identifier: ja-guides-core-artifacts-explore-and-traverse-an-artifact-graph
     parent: artifacts
-title: Explore artifact graphs
 weight: 9
 ---
 
-W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run uses. These artifacts can include datasets, models, evaluation results, or more. You can explore an artifact's lineage to track and manage the various artifacts produced throughout the machine learning lifecycle.
+W&B は、run がログした Artifacts や run が使用した Artifacts を自動的にトラッキングします。これらの Artifacts には、データセット、モデル、評価結果などが含まれます。Artifacts のリネージを確認することで、機械学習ライフサイクルを通じて生成された様々な Artifacts を追跡・管理できます。
 
-## Lineage
-Tracking an artifact's lineage has several key benefits:
+## リネージ
+Artifacts のリネージを追跡することには、いくつか重要な利点があります。
 
-- Reproducibility: By tracking the lineage of all artifacts, teams can reproduce experiments, models, and results, which is essential for debugging, experimentation, and validating machine learning models.
+- 再現性: すべての Artifacts のリネージを追跡することで、チームが実験、モデル、結果を再現できるようになります。これはデバッグや実験、機械学習モデルの検証に不可欠です。
 
-- Version Control: Artifact lineage involves versioning artifacts and tracking their changes over time. This allows teams to roll back to previous versions of data or models if needed.
+- バージョン管理: Artifacts のリネージには Artifacts のバージョン管理と変更履歴の追跡が含まれます。これにより、必要に応じてデータやモデルの以前のバージョンにロールバックすることができます。
 
-- Auditing: Having a detailed history of the artifacts and their transformations enables organizations to comply with regulatory and governance requirements.
+- 監査: Artifacts とその変換履歴の詳細な記録を保持することで、組織は規制やガバナンス要件への対応がしやすくなります。
 
-- Collaboration and Knowledge Sharing: Artifact lineage facilitates better collaboration among team members by providing a clear record of attempts as well as what worked, and what didn’t. This helps in avoiding duplication of efforts and accelerates the development process.
+- コラボレーションと知識共有: Artifacts のリネージは、チームメンバー間のコラボレーションを促進し、どんな試みがあったのか、何がうまくいき、何がうまくいかなかったかを明確に記録できます。これにより重複作業を防ぎ、開発プロセスが加速します。
 
-### Finding an artifact's lineage
-When selecting an artifact in the **Artifacts** tab, you can see your artifact's lineage. This graph view shows a general overview of your pipeline. 
+### Artifact のリネージを見つける
+**Artifacts** タブで任意の Artifact を選択すると、そのリネージを確認できます。このグラフビューでは、パイプライン全体の概要が表示されます。
 
-To view an artifact graph:
+Artifact グラフを表示するには:
 
-1. Navigate to your project in the W&B App UI
-2. Choose the artifact icon on the left panel.
-3. Select **Lineage**.
+1. W&B App UI で自身のプロジェクトに移動します。
+2. 左側のパネルで Artifacts アイコンを選択します。
+3. **Lineage** を選択します。
 
-{{< img src="/images/artifacts/lineage1.gif" alt="Getting to the Lineage tab" >}}
+{{< img src="/images/artifacts/lineage1.gif" alt="リネージタブへの移動" >}}
 
-### Navigating the lineage graph
+### リネージグラフの操作
 
-The artifact or job type you provide appears in front of its name, with artifacts represented by blue icons and runs represented by green icons. Arrows detail the input and output of a run or artifact on the graph. 
+指定した Artifact またはジョブタイプは、その名前の前に表示されます。Artifacts は青いアイコン、Runs は緑色のアイコンで表されます。矢印は run や artifact の入力や出力をグラフ上で示しています。
 
-{{< img src="/images/artifacts/lineage2.png" alt="Run and artifact nodes" >}}
+{{< img src="/images/artifacts/lineage2.png" alt="Run と artifact のノード" >}}
 
 {{% alert %}}
-You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab. 
+Artifact の種類と名前は、左サイドバーと **Lineage** タブの両方で確認できます。
 {{% /alert %}}
 
-{{< img src="/images/artifacts/lineage2a.gif" alt="Inputs and outputs" >}}
+{{< img src="/images/artifacts/lineage2a.gif" alt="入力と出力" >}}
 
-For a more detailed view, click any individual artifact or run to get more information on a particular object.
+より詳細に確認したい場合は、各 Artifact や run をクリックすると、対象オブジェクトの詳細情報が表示されます。
 
-{{< img src="/images/artifacts/lineage3a.gif" alt="Previewing a run" >}}
+{{< img src="/images/artifacts/lineage3a.gif" alt="run のプレビュー" >}}
 
-### Artifact clusters
+### Artifact クラスター
 
-When a level of the graph has five or more runs or artifacts, it creates a cluster. A cluster has a search bar to find specific versions of runs or artifacts and pulls an individual node from a cluster to continue investigating the lineage of a node inside a cluster. 
+グラフの一段に run や artifact が5つ以上ある場合、それらはクラスターとしてまとめて表示されます。クラスターには検索バーがあり、特定のバージョンの run や artifact を探したり、クラスターから個別ノードを抜き出してそのノードのリネージを確認できます。
 
-Clicking on a node opens a preview with an overview of the node. Clicking on the arrow extracts the individual run or artifact so you can examine the lineage of the extracted node.
+ノードをクリックすると、そのノードの概要をプレビューできます。矢印をクリックすると個別の run または artifact を展開でき、展開したノードのリネージをさらに確認することが可能です。
 
-{{< img src="/images/artifacts/lineage3b.gif" alt="Searching a run cluster" >}}
+{{< img src="/images/artifacts/lineage3b.gif" alt="run クラスタの検索" >}}
 
-## Use the API to track lineage
-You can also navigate a graph using the [W&B API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}). 
+## APIでリネージを追跡する
+[W&B API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) を使ってグラフを操作することも可能です。
 
-Create an artifact. First, create a run with `wandb.init`. Then,create a new artifact or retrieve an existing one with `wandb.Artifact`. Next, add files to the artifact with `.add_file`. Finally, log the artifact to the run with `.log_artifact`. The finished code looks something like this:
+Artifact の作成方法を紹介します。まず、`wandb.init` で run を開始します。続いて、`wandb.Artifact` で新しい Artifact を作成するか既存のものを取得します。`.add_file` でファイルを Artifact に追加します。最後に、`.log_artifact` で Artifact を run に記録します。完成例は次のようになります。
 
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
 
-    # Add Files and Assets to the artifact using
-    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    # ファイルとアセットを Artifact に追加
+    # `.add`, `.add_file`, `.add_dir`, `.add_reference` を利用
     artifact.add_file("image1.png")
     run.log_artifact(artifact)
 ```
 
-Use the artifact object's [`logged_by`]({{< relref path="/ref/python/sdk/classes/artifact.md#logged_by" lang="ja" >}}) and [`used_by`]({{< relref path="/ref/python/sdk/classes/artifact.md#used_by" lang="ja" >}}) methods to walk the graph from the artifact:
+artifact オブジェクトの [`logged_by`]({{< relref path="/ref/python/sdk/classes/artifact.md#logged_by" lang="ja" >}}) や [`used_by`]({{< relref path="/ref/python/sdk/classes/artifact.md#used_by" lang="ja" >}}) メソッドを使えば、Artifact からグラフを上下にたどることができます。
 
 ```python
-# Walk up and down the graph from an artifact:
+# Artifact からグラフを上り下りしてたどる例:
 producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 ```
-## Next steps
-- [Explore artifacts in more detail]({{< relref path="/guides/core/artifacts/artifacts-walkthrough.md" lang="ja" >}})
-- [Manage artifact storage]({{< relref path="/guides/core/artifacts/manage-data/delete-artifacts.md" lang="ja" >}})
-- [Explore an artifacts project](https://wandb.ai/wandb-smle/artifact_workflow/artifacts/raw_dataset/raw_data/v0/lineage)
+## 次のステップ
+- [Artifacts をさらに詳しく探索する]({{< relref path="/guides/core/artifacts/artifacts-walkthrough.md" lang="ja" >}})
+- [Artifact のストレージを管理する]({{< relref path="/guides/core/artifacts/manage-data/delete-artifacts.md" lang="ja" >}})
+- [Artifacts プロジェクトを探索する](https://wandb.ai/wandb-smle/artifact_workflow/artifacts/raw_dataset/raw_data/v0/lineage)

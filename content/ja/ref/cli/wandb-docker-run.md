@@ -1,26 +1,24 @@
 ---
+title: wandb docker-run
 menu:
   reference:
     identifier: ja-ref-cli-wandb-docker-run
-title: wandb docker-run
 ---
 
-**Usage**
+**使用方法**
 
 `wandb docker-run [OPTIONS] [DOCKER_RUN_ARGS]...`
 
-**Summary**
+**概要**
 
-Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER environment
-variables.
+`docker run` をラップし、WANDB_API_KEY および WANDB_DOCKER 環境変数を追加します。
 
-This will also set the runtime to nvidia if the nvidia-docker executable is
-present on the system and --runtime wasn't set.
+nvidia-docker 実行ファイルがシステム上に存在し、--runtime が指定されていない場合は、ランタイムも nvidia に設定されます。
 
-See `docker run --help` for more details.
+詳細は `docker run --help` をご覧ください。
 
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |

@@ -1,21 +1,21 @@
 ---
+title: wandb 無効化
 menu:
   reference:
     identifier: ja-ref-cli-wandb-disabled
-title: wandb disabled
 ---
 
-**Usage**
+**使用方法**
 
 `wandb disabled [OPTIONS]`
 
-**Summary**
+**概要**
 
-Disable W&B.
+W&B を無効にします。
 
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `--service` | Disable W&B service  [default: True] |
+| `--service` | W&B サービスを無効にします  [デフォルト: True] |

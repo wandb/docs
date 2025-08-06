@@ -1,14 +1,14 @@
 ---
+title: 1 つの Project で作成できる run の数はいくつですか？
 menu:
   support:
     identifier: ja-support-kb-articles-runs_create_per_project
 support:
-- projects
-- runs
-title: How many runs can I create per project?
+- プロジェクト
+- run
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Limit each project to approximately 10,000 runs for optimal performance.
+最適なパフォーマンスのために、各 Project の run 数はおおよそ 10,000 件までに制限してください。

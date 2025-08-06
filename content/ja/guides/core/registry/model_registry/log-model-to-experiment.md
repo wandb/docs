@@ -1,41 +1,40 @@
 ---
-description: Track a model, the model's dependencies, and other information relevant
-  to that model with the W&B Python SDK.
+title: モデルをトラッキングする
+description: W&B Python SDK を使って、モデル、その依存関係、そしてそのモデルに関連するその他の情報をトラッキングしましょう。
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-log-model-to-experiment
     parent: model-registry
-title: Track a model
 weight: 3
 ---
 
-Track a model, the model's dependencies, and other information relevant to that model with the W&B Python SDK. 
+W&B の Python SDK を使って、モデル、その依存関係、その他のモデルに関連する情報をトラッキングしましょう。
 
-Under the hood, W&B creates a lineage of [model artifact]({{< relref path="./model-management-concepts.md#model-artifact" lang="ja" >}}) that you can view with the W&B App or programmatically with the W&B Python SDK. See the [Create model lineage map]({{< relref path="./model-lineage.md" lang="ja" >}}) for more information.
+裏側では、W&B が [model artifact]({{< relref path="./model-management-concepts.md#model-artifact" lang="ja" >}}) のリネージを作成します。これは W&B App で、または W&B の Python SDK からプログラム的に確認できます。詳しくは [モデルリネージマップの作成]({{< relref path="./model-lineage.md" lang="ja" >}}) をご覧ください。
 
-## How to log a model
+## モデルをログする方法
 
-Use the `run.log_model` API to log a model. Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI]({{< relref path="/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" lang="ja" >}}) to an external bucket such as `s3://bucket/path`. 
+`run.log_model` API を使ってモデルをログできます。`path` パラメータにはモデルファイルが保存されているパスを指定します。パスにはローカルファイル、ディレクトリ、または `s3://bucket/path` のような外部バケットを示す [リファレンス URI]({{< relref path="/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" lang="ja" >}}) も指定できます。
 
-Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B uses the basename of the input path prepended with the run ID. 
+オプションで `name` パラメータに model artifact の名前を設定できます。`name` を指定しない場合、W&B は入力パスのベース名に run ID を付与して名前を自動作成します。
 
-Copy and paste the proceeding code snippet. Ensure to replace values enclosed in `<>` with your own.
+以下のコードスニペットをコピー＆ペーストし、`<>` で囲まれた値はご自身のものに置き換えてください。
 
 ```python
 import wandb
 
-# Initialize a W&B run
+# W&B run を初期化
 run = wandb.init(project="<project>", entity="<entity>")
 
-# Log the model
+# モデルをログ
 run.log_model(path="<path-to-model>", name="<name>")
 ```
 
 <details>
 
-<summary>Example: Log a Keras model to W&B</summary>
+<summary>例：Keras モデルを W&B にログする</summary>
 
-The proceeding code example shows how to log a convolutional neural network (CNN) model to W&B.
+以下のコード例は、畳み込みニューラルネットワーク (CNN) モデルを W&B にログする方法を示しています。
 
 ```python
 import os
@@ -45,10 +44,10 @@ from tensorflow.keras import layers
 
 config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
 
-# Initialize a W&B run
+# W&B run を初期化
 run = wandb.init(entity="charlie", project="mnist-project", config=config)
 
-# Training algorithm
+# トレーニング用アルゴリズム
 loss = run.config["loss"]
 optimizer = run.config["optimizer"]
 metrics = ["accuracy"]
@@ -70,16 +69,16 @@ model = keras.Sequential(
 
 model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-# Save model
+# モデルを保存
 model_filename = "model.h5"
 local_filepath = "./"
 full_path = os.path.join(local_filepath, model_filename)
 model.save(filepath=full_path)
 
-# Log the model
+# モデルをログ
 run.log_model(path=full_path, name="MNIST")
 
-# Explicitly tell W&B to end the run.
+# W&B で run を明示的に終了
 run.finish()
 ```
 </details>

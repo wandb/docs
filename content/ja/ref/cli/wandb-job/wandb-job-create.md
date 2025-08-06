@@ -1,37 +1,36 @@
 ---
+title: wandb job create
 menu:
   reference:
     identifier: ja-ref-cli-wandb-job-wandb-job-create
-title: wandb job create
 ---
 
-**Usage**
+**使い方**
 
 `wandb job create [OPTIONS] {git|code|image} PATH`
 
-**Summary**
+**概要**
 
-Create a job from a source, without a wandb run.
+wandb run を行わずに、ソースから job を作成します。
 
-Jobs can be of three types, git, code, or image.
+Jobs は git、code、image のいずれかのタイプになります。
 
-git: A git source, with an entrypoint either in the path or provided
-explicitly pointing to the main python executable. code: A code path,
-containing a requirements.txt file. image: A docker image.
+git: エントリポイントがパス内にあるか、または明示的に指定されている Git ソース。メインの Python 実行ファイルを指します。  
+code: requirements.txt ファイルを含むコードのパス。  
+image: docker イメージ。
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `-p, --project` | The project you want to list jobs from. |
-| `-e, --entity` | The entity the jobs belong to |
-| `-n, --name` | Name for the job |
-| `-d, --description` | Description for the job |
-| `-a, --alias` | Alias for the job |
-| `--entry-point` | Entrypoint to the script, including an executable   and an entrypoint file. Required for code or repo jobs. If --build-context is provided, paths in the   entrypoint command will be relative to the build context. |
-| `-g, --git-hash` | Commit reference to use as the source for git jobs |
-| `-r, --runtime` | Python runtime to execute the job |
-| `-b, --build-context` | Path to the build context from the root of the job   source code. If provided, this is used as the base path for the Dockerfile and entrypoint. |
-| `--base-image` | Base image to use for the job. Incompatible with   image jobs. |
-| `--dockerfile` | Path to the Dockerfile for the job. If --build-   context is provided, the Dockerfile path will be relative to the build context. |
+| `-p, --project` | Jobs を一覧表示したい Project を指定します。 |
+| `-e, --entity` | Jobs が属している Entity を指定します。|
+| `-n, --name` | Job の名前を指定します。|
+| `-d, --description` | Job の説明を入力します。|
+| `-a, --alias` | Job のエイリアスを指定します。|
+| `--entry-point` | スクリプトのエントリポイント（実行ファイルとエントリポイントファイルを含みます）。code または repo ジョブには必須です。--build-context が指定された場合、エントリポイントコマンド内のパスはビルドコンテキストからの相対パスになります。|
+| `-g, --git-hash` | git ジョブのソースとして使用するコミットリファレンスを指定します。|
+| `-r, --runtime` | Job を実行する Python ランタイムを指定します。|
+| `-b, --build-context` | Job ソースコードのルートからビルドコンテキストへのパスを指定します。指定した場合、このパスが Dockerfile やエントリポイントの基準パスとして使われます。|
+| `--base-image` | Job で使用するベースイメージを指定します。image ジョブとは併用できません。|
+| `--dockerfile` | Job 用の Dockerfile のパスを指定します。--build-context が指定されている場合、Dockerfile のパスはビルドコンテキストからの相対パスになります。|

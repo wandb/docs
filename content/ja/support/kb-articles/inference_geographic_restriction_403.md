@@ -1,37 +1,37 @@
 ---
+title: W&B Inference で「お住まいの国や地域はサポートされていません」と表示されるのはなぜですか？
 menu:
   support:
     identifier: ja-support-kb-articles-inference_geographic_restriction_403
 support:
-- inference
-title: Why does W&B Inference say my country or region is not supported?
+- 推論
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-A 403 error with the message "Country, region, or territory not supported" means you're accessing W&B Inference from an unsupported location.
+「Country, region, or territory not supported」というメッセージ付きの 403 エラーは、サポートされていない地域から W&B Inference にアクセスしようとしていることを示しています。
 
-## Why this happens
+## なぜこの問題が発生するか
 
-W&B Inference has geographic restrictions due to compliance and regulatory requirements. The service is only accessible from supported geographic locations.
+W&B Inference は、コンプライアンスおよび規制要件により地理的な制限があります。サポートされている地域からのみサービスに アクセスできます。
 
-## What you can do
+## どのように対応できるか
 
-1. **Check the Terms of Service**
-   - Review the [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) for the current list of supported locations
+1. **利用規約を確認する**
+   - 現在サポートされている地域の一覧は [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) をご確認ください
 
-2. **Use from a supported location**
-   - Access the service when in a supported country or region
-   - Consider using your organization's resources in supported locations
+2. **サポートされている地域から利用する**
+   - サポート対象の国または地域にいるときのみサービスに アクセスしてください
+   - 組織のリソースがサポート地域にある場合はそちらを検討してください
 
-3. **Contact your account team**
-   - Enterprise customers can discuss options with their account executive
-   - Some organizations may have special arrangements
+3. **アカウントチームに相談する**
+   - エンタープライズのお客様はアカウント担当者にオプションについてご相談いただけます
+   - 一部の組織には特別な取り決めがある場合があります
 
-## Error details
+## エラーの詳細
 
-When you see this error:
+このようなエラーが表示される場合:
 ```
 {
   "error": {
@@ -41,4 +41,4 @@ When you see this error:
 }
 ```
 
-This is determined by your IP address location at the time of the API request.
+これは API リクエスト時の IP アドレスの場所によって判定されています。

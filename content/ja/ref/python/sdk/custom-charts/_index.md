@@ -1,10 +1,10 @@
 ---
+title: カスタムチャート
 menu:
   reference:
     identifier: ja-ref-python-sdk-custom-charts-_index
 module: wandb.plot
-title: Custom Charts
 weight: 80
 ---
 
-Create custom charts and visualizations.
+カスタムチャートや可視化を作成する

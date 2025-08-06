@@ -1,225 +1,228 @@
 ---
+title: パネル
 cascade:
 - url: guides/app/features/panels/:filename
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-_index
     parent: w-b-app-ui-reference
-title: Panels
 url: guides/app/features/panels
 weight: 1
 ---
 
-Use workspace panel visualizations to explore your [logged data]({{< relref path="/ref/python/sdk/classes/run.md/#method-runlog" lang="ja" >}}) by key, visualize the relationships between hyperparameters and output metrics, and more. 
+workspace パネルの可視化を使って、[記録したデータ]({{< relref path="/ref/python/sdk/classes/run.md/#method-runlog" lang="ja" >}})をキーごとに探索し、ハイパーパラメーターと出力メトリクスの関係を可視化するなど、さまざまな用途でご利用いただけます。
 
-## Workspace modes
+## Workspace モード
 
-W&B projects support two different workspace modes. The icon next to the workspace name shows its mode. 
+W&B のプロジェクトは 2 つの workspace モードに対応しています。workspace 名の横にあるアイコンでモードを確認できます。
 
-| Icon | Workspace mode |
+| アイコン | Workspace モード |
 | --- | --- |
-| {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}} | **Automated workspaces** automatically generate panels for all keys logged in the project. Choose an automatic workspace:<ul><li>To get started quickly by visualizing all available data for the project.</li><li>For a smaller projects that log fewer keys.</li><li>For more broad analysis.</li></ul>If you delete a panel from an automatic workspace, you can use [Quick add]({{< relref path="#quick-add" lang="ja" >}}) to recreate it. |
-| {{<img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **Manual workspaces** start as blank slates and display only those panels intentionally added by users. Choose a manual workspace:<ul><li>When you care mainly about a fraction of the keys logged in the project.</li><li>For more focused analysis.</li><li>To improve the performance of a workspace, avoiding loading panels that are less useful to you.</li></ul>Use [Quick add]({{< relref path="#quick-add" lang="ja" >}}) to easily populate a manual workspace and its sections with useful visualizations rapidly. |
+| {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}} | **Automated workspaces** はプロジェクト内で記録されたすべてのキーに対して自動でパネルを生成します。自動 workspace を選ぶタイミング:<ul><li>プロジェクトの全データを素早く可視化してスタートしたい時</li><li>記録するキーが少ない小規模なプロジェクトの場合</li><li>広くデータを分析する場合</li></ul>自動 workspace でパネルを削除した場合でも [Quick add]({{< relref path="#quick-add" lang="ja" >}}) 機能で再作成できます。 |
+| {{<img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px" >}} | **Manual workspaces** は最初は空の状態で、ユーザーが意図的に追加したパネルのみ表示されます。手動 workspace を選ぶタイミング:<ul><li>プロジェクトで記録したキーの一部だけを重視したい場合</li><li>特定の分析に集中したい場合</li><li>不要なパネルの読み込みを避けて workspace のパフォーマンスを上げたい場合</li></ul>[Quick add]({{< relref path="#quick-add" lang="ja" >}}) で便利な可視化をセクションごとにすばやく追加できます。 |
 
-To change how a workspace generates panels, [reset the workspace]({{< relref path="#reset-a-workspace" lang="ja" >}}).
+workspace のパネル生成方法を変更するには、[workspace をリセット]({{< relref path="#reset-a-workspace" lang="ja" >}})してください。
 
-{{% alert title="Undo changes to your workspace" %}} 
-To undo changes to your workspace, click the Undo button (arrow that points left) or type **CMD + Z** (macOS) or **CTRL + Z** (Windows / Linux).
+{{% alert title="workspace の変更を元に戻す" %}}
+workspace の変更を元に戻すには、Undo ボタン（左向き矢印）をクリックするか **CMD + Z**（macOS）または **CTRL + Z**（Windows / Linux）を入力します。
 {{% /alert %}}
 
-## Reset a workspace
+## workspace をリセットする
 
-To reset a workspace:
+workspace をリセットするには:
 
-1. At the top of the workspace, click the action menu `...`.
-1. Click **Reset workspace**.
+1. workspace 上部のアクションメニュー `...` をクリックします。
+1. **Reset workspace** を選択します。
 
-## Configure the workspace layout {#configure-workspace-layout}
+## workspace レイアウトの設定 {#configure-workspace-layout}
 
-To configure the workspace layout, click **Settings** near the top of the workspace, then click **Workspace layout**.
+workspace のレイアウトを設定するには、workspace 上部の **Settings** をクリックし、**Workspace layout** を選択します。
 
-- **Hide empty sections during search** (turned on by default)
-- **Sort panels alphabetically** (turned off by default)
-- **Section organization** (grouped by first prefix by default). To modify this setting:
-  1. Click the padlock icon.
-  1. Choose how to group panels within a section.
+- **Hide empty sections during search**（標準で有効）
+- **Sort panels alphabetically**（標準では無効）
+- **Section organization**（標準では最初のプレフィックスでグループ化）。この設定を変更するには:
+  1. 鍵アイコンをクリックします。
+  1. セクション内でパネルをグループ化する方法を選択します。
 
-To configure defaults for the workspace's line plots, refer to [Line plots]({{< relref path="line-plot/#all-line-plots-in-a-workspace" lang="ja" >}}).
+workspace 内の折れ線グラフのデフォルト設定は [Line plots]({{< relref path="line-plot/#all-line-plots-in-a-workspace" lang="ja" >}}) をご参照ください。
 
-### Configure a section's layout {#configure-section-layout}
+### セクションのレイアウト設定 {#configure-section-layout}
 
-To configure the layout of a section, click its gear icon, then click **Display preferences**.
-- **Turn on or off colored run names in tooltips** (turned on by default)
-- **Only show highlighted run in companion chart tooltips** (turned off by default)
-- **Number of runs shown in tooltips** (a single run, all runs, or **Default**)
-- **Display full run names on the primary chart tooltip** (turned off by default)
+セクションのレイアウトを設定するには、ギアアイコンをクリックし、**Display preferences** を選択します。
+- **ツールチップに色付き run 名を表示するかどうか**（標準で有効）
+- **コンパニオンチャートのツールチップにはハイライトされた run のみ表示**（標準では無効）
+- **ツールチップに表示する run 数**（単一 run・全 run・**Default** から選択）
+- **メインチャートのツールチップに完全な run 名を表示する**（標準では無効）
 
-## View a panel in full-screen mode
+## パネルをフルスクリーンで表示
 
-In full-screen mode, the run selector displays and panels use full full-fidelity sampling mode plots with 10,000 buckets, rather than 1000 buckets otherwise.
+フルスクリーンモードでは、run セレクターが表示され、パネルは通常 1,000 バケットではなく 10,000 バケットの高解像度サンプリングプロットになります。
 
-To view a panel in full-screen mode:
+パネルをフルスクリーンで見る手順:
 
-1. Hover over the panel.
-1. Click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder or an outline showing the four corners of a square.
+1. パネルにカーソルを合わせます。
+1. パネルのアクションメニュー `...` をクリックし、フルスクリーンボタン（ビューファインダー、または四隅を示すアウトライン）を選択します。
     {{< img src="/images/app_ui/panel_fullscreen.png" alt="Full-screen panel" >}}
-1. When you [share the panel]({{< relref path="#share-a-panel" lang="ja" >}}) while viewing it in full-screen mode, the resulting link opens in full-screen mode automatically.
+1. [パネルを共有]({{< relref path="#share-a-panel" lang="ja" >}})する際にフルスクリーン表示していれば、リンクを開いた時も自動的にフルスクリーンで表示されます。
 
-To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
+フルスクリーンモードから workspace へ戻るには、ページ上部の左向き矢印をクリックしてください。
 
-## Add panels
+## パネルを追加する
 
-This section shows various ways to add panels to your workspace.
+このセクションでは、workspace にパネルを追加するさまざまな方法を説明します。
 
-### Add a panel manually
+### パネルを手動で追加
 
-Add panels to your workspace one at a time, either globally or at the section level.
+パネルは全体またはセクション単位で 1 つずつ追加できます。
 
-1. To add a panel globally, click **Add panels** in the control bar near the panel search field.
-1. To add a panel directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
-1. Select the type of panel to add, such as a chart. The panel's configuration details appear, with defaults selected.
-1. Optionally, customize the panel and its display preferences. Configuration options depend on the type of panel you select. To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots]({{< relref path="line-plot/" lang="ja" >}}) or [Bar plots]({{< relref path="bar-plot.md" lang="ja" >}}).
-1. Click **Apply**.
+1. 全体にパネルを追加する場合、パネル検索フィールドの近くにあるコントロールバーで **Add panels** をクリックします。
+1. 特定のセクションに直接追加する場合、そのセクションのアクションメニュー `...` をクリックし、**+ Add panels** を選択します。
+1. チャートなど追加したいパネルタイプを選びます。パネルの設定画面がデフォルト値で表示されます。
+1. 任意でパネルや表示設定をカスタマイズします。設定項目はパネルタイプにより異なります。各パネルタイプの詳細オプションは、[Line plots]({{< relref path="line-plot/" lang="ja" >}}) や [Bar plots]({{< relref path="bar-plot.md" lang="ja" >}}) など関連セクションをご参照ください。
+1. **Apply** をクリックします。
 
-{{< img src="/images/app_ui/add_single_panel.gif" alt="Demo of adding a panel" >}} 
+{{< img src="/images/app_ui/add_single_panel.gif" alt="パネル追加デモ" >}}
 
-### Quick add panels {#quick-add}
+### Quick add パネル {#quick-add}
 
-Use **Quick add** to add a panel automatically for each key you select, either globally or at the section level.
+**Quick add** を使うと、選んだキーごとに自動でパネルを追加できます。全体にもセクション単位にも適用できます。
 
 {{% alert %}}
-For an automated workspace with no deleted panels, the **Quick add** option is not visible because the workspace already includes panels for all logged keys. You can use **Quick add** to re-add a panel that you deleted.
+自動 workspace でパネルが一つも削除されていない場合、**Quick add** オプションは表示されません。なぜなら既にすべての記録キーに対応するパネルが揃っているからです。削除したパネルを再追加する場合のみご利用いただけます。
 {{% /alert %}}
 
-1. To use **Quick add** to add a panel globally, click **Add panels** in the control bar near the panel search field, then click **Quick add**.
-1. To use **Quick add** to add a panel directly to a section, click the section's action `...` menu, click **Add panels**, then click **Quick add**.
-1. A list of panels appears. Each panel with a checkmark is already included in the workspace.
-    - To add all available panels, click the **Add <N> panels** button at the top of the list. The **Quick Add** list closes and the new panels display in the workspace.
-    - To add an individual panel from the list, hover over the panel's row, then click **Add**. Repeat this step for each panel you want to add, then click the **X** at the top right to close the **Quick Add** list. The new panels display in the workspace.
-1. Optionally, customize the panel's settings.
+1. 全体に **Quick add** を使うには、パネル検索フィールド近くの **Add panels** をクリックし、続けて **Quick add** を選びます。
+1. セクション単位で **Quick add** を使うには、そのセクションのアクションメニュー `...` をクリック、**Add panels** を押し、**Quick add** を選びます。
+1. パネル一覧が表示されます。チェックマーク付きはすでに workspace にあるパネルです。
+    - 全パネルを一括追加する場合は、リスト上部の **Add <N> panels** ボタンをクリックしてください。**Quick Add** リストが閉じ、workspace に新パネルが反映されます。
+    - 一つずつ追加したい場合は、パネル行にカーソルを合わせて **Add** をクリック。必要なだけ繰り返し、最後に右上の **X** を押して **Quick Add** リストを閉じます。新パネルが workspace に表示されます。
+1. 必要に応じてパネルの設定をカスタマイズします。
 
-## Share a panel
+## パネルを共有する
 
-This section shows how to share a panel using a link.
+このセクションではリンクを使ってパネルを共有する方法を説明します。
 
-To share a panel using a link, you can either:
+リンクでパネルを共有するには、以下いずれかの手順をとります:
 
-- While viewing the panel in full-screen mode, copy the URL from the browser.
-- Click the action menu `...` and select **Copy panel URL**.
+- パネルをフルスクリーン表示中に、ブラウザの URL をコピー
+- アクションメニュー `...` をクリックし、**Copy panel URL** を選択
 
-Share the link with the user or team. When they access the link, the panel opens in [full-screen mode]({{< relref path="#view-a-panel-in-full-screen-mode" lang="ja" >}}).
+ユーザーまたはチームにリンクを共有してください。リンクにアクセスすると、パネルは [フルスクリーン表示]({{< relref path="#view-a-panel-in-full-screen-mode" lang="ja" >}})で開きます。
 
-To return to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
+フルスクリーン表示から workspace へ戻るには、ページ上部の左向き矢印をクリックします。
 
-### Compose a panel's full-screen link programmatically
-In certain situations, such as when [creating an automation]({{< relref path="/guides/core/automations/" lang="ja" >}}), it can be useful to include the panel's full-screen URL. This section shows the format for a panel's full-screen URL. In the proceeding example, replace the entity, project, panel, and section names in brackets.
+### プログラムでパネルのフルスクリーンリンクを生成する
+
+たとえば [オートメーションの作成]({{< relref path="/guides/core/automations/" lang="ja" >}}) 時など、パネルのフルスクリーン URL を自動で扱いたい場合があります。このときの URL 形式は下記です。例の `<ENTITY_NAME>`、`<PROJECT_NAME>`、`<PANEL_NAME>`、`<SECTON_NAME>` は適宜置き換えてください。
 
 ```text
 https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&panelSectionName=<SECTON_NAME>
 ```
 
-If multiple panels in the same section have the same name, this URL opens the first panel with the name.
+同じセクション内で同名パネルが複数ある場合、この URL は最初のパネルに遷移します。
 
-### Embed or share a panel on social media
-To embed a panel in a website or share it on social media, the panel must be viewable by anyone with the link. If a project is private, only members of the project can view the panel. If the project is public, anyone with the link can view the panel.
+### パネルを埋め込む・SNS で共有する
 
-To get the code to embed or share a panel on social media:
+パネルをウェブサイトに埋め込んだり SNS で共有したい場合、リンクを知っていれば誰でも閲覧できる設定が必要です。プロジェクトが非公開の場合、参加メンバーのみが閲覧可能です。プロジェクトが公開設定の場合、リンクを知っていれば誰でも閲覧できます。
 
-1. From the workspace, hover over the panel, then click its action menu `...`.
-1. Click the **Share** tab.
-1. Change **Only those who are invited have access** to **Anyone with the link can view**. Otherwise, the choices in the next step are not available.
-1. Choose **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn**, or **Copy embed link**.
+パネルを埋め込んだり SNS で共有するためのコードを取得するには:
 
-### Email a panel report
-To email a single panel as a stand-alone report:
-1. Hover over the panel, then click the panel's action menu `...`.
-1. Click **Share panel in report**.
-1. Select the **Invite** tab.
-1. Enter an email address or username.
-1. Optionally, change **can view** to **can edit**.
-1. Click **Invite**. W&B sends an email to the user with a clickable link to the report that contains only the panel you are sharing. 
+1. workspace でパネルにカーソルを合わせ、アクションメニュー `...` をクリック
+1. **Share** タブを選択
+1. **Only those who are invited have access** を **Anyone with the link can view** に変更（この設定にしないと次の手順の選択肢が出ません）
+1. **Share on Twitter**、**Share on Reddit**、**Share on LinkedIn**、**Copy embed link** の中から選択
 
-Unlike when you [share a panel]({{< relref path="#share-a-panel" lang="ja" >}}), the recipient cannot get to the workspace from this report.
+### パネルをレポートとしてメール送信する
 
-## Manage panels
+1 パネルを単独のレポートとしてメール送信するには:
+1. パネルにカーソルを合わせ、アクションメニュー `...` をクリック
+1. **Share panel in report** を選択
+1. **Invite** タブを選択
+1. メールアドレスまたはユーザー名を入力
+1. 必要であれば **can view** を **can edit** に変更
+1. **Invite** をクリック。共有先ユーザーに、パネルだけが含まれたレポートへのリンク付きメールが送信されます。
 
-### Edit a panel
+[パネルを共有]({{< relref path="#share-a-panel" lang="ja" >}}) した時と異なり、このレポートから workspace には遷移できません。
 
-To edit a panel:
+## パネルの管理
 
-1. Click its pencil icon.
-1. Modify the panel's settings.
-1. To change the panel to a different type, select the type and then configure the settings.
-1. Click **Apply**.
+### パネルを編集
 
-### Move a panel
+パネルを編集するには:
 
-To move a panel to a different section, you can use the drag handle on the panel. To select the new section from a list instead:
+1. 鉛筆アイコンをクリック
+1. パネル設定を変更
+1. パネルタイプを変更する場合はタイプを選択し、設定を行う
+1. **Apply** をクリック
 
-1. If necessary, create a new section by clicking **Add section** after the last section.
-1. Click the  action `...` menu for the panel.
-1. Click **Move**, then select a new section.
+### パネルを移動
 
-You can also use the drag handle to rearrange panels within a section.
+パネルを他セクションへ移動する場合、パネルのドラッグハンドルを利用できます。リストから新しいセクションを選びたい場合は:
 
-### Duplicate a panel
+1. 必要に応じて **Add section** をクリックして新セクションを作成
+1. パネルのアクションメニュー `...` をクリック
+1. **Move** を選択し、新しいセクションを選ぶ
 
-To duplicate a panel:
+同一セクション内ではドラッグハンドルを使ってパネルの並び順も変更できます。
 
-1. At the top of the panel, click the action `...` menu.
-1. Click **Duplicate**.
+### パネルを複製
 
-If desired, you can [customize]({{< relref path="#edit-a-panel" lang="ja" >}}) or [move]({{< relref path="#move-a-panel" lang="ja" >}}) the duplicated panel.
+パネルを複製するには:
 
-### Remove panels
+1. パネル上部のアクションメニュー `...` をクリック
+1. **Duplicate** を選択
 
-To remove a panel:
+必要であれば複製後に [カスタマイズ]({{< relref path="#edit-a-panel" lang="ja" >}}) や [移動]({{< relref path="#move-a-panel" lang="ja" >}}) もできます。
 
-1. Hover your mouse over the panel.
-1. Select the action `...` menu.
-1. Click **Delete**.
+### パネルを削除
 
-To remove all panels from a manual workspace, click its action `...` menu, then click **Clear all panels**.
+パネルを削除するには:
 
-To remove all panels from an automatic or manual workspace, you can [reset the workspace]({{< relref path="#reset-a-workspace" lang="ja" >}}). Select **Automatic** to start with the default set of panels, or select **Manual** to start with an empty workspace with no panels.
+1. パネルにカーソルを合わせます
+1. アクションメニュー `...` を選択
+1. **Delete** をクリック
 
-## Manage sections
+manual workspace からすべてのパネルを削除したい場合は、その workspace のアクションメニュー `...` から **Clear all panels** を選択してください。
 
-By default, sections in a workspace reflect the logging hierarchy of your keys. However, in a manual workspace, sections appear only after you start adding panels.
+自動・手動いずれの workspace でも、[workspace をリセット]({{< relref path="#reset-a-workspace" lang="ja" >}}) することで全てのパネルを削除できます。**Automatic** を選べばデフォルトパネルがある状態から、**Manual** を選べば空の workspace から開始できます。
 
-### Add a section
+## セクションの管理
 
-To add a section, click **Add section** after the last section.
+デフォルトでは、workspace のセクションはキーの記録階層に基づきます。ただし manual workspace の場合はパネルを追加し始めてからセクションが現れます。
 
-To add a new section before or after an existing section, you can instead click the section's action `...` menu, then click **New section below** or **New section above**.
+### セクションを追加
 
+セクションを追加したい時は、リストの最後にある **Add section** をクリックしてください。
 
-### Manage a section's panels
-Sections with a large number of panels are paginated by default. The default number of panels on a page depend on the panel's configuration and on the sizes of the panels in the section.
+既存セクションの前後に追加したい場合は、該当セクションのアクションメニュー `...` から **New section below** または **New section above** を選んでください。
+
+### セクション内パネルの管理
+
+多数のパネルがあるセクションは自動でページネーションされます。ページあたりのデフォルト表示パネル数はパネルの設定やサイズで決まります。
 
 {{% alert %}}
-The **Custom grid** layout will soon be removed. W&B suggests that you no longer use Custom grid layouts. Consider updating your workspace from **Custom grid** to **Standard grid**.
+**Custom grid** レイアウトはまもなく廃止されます。W&B では今後 Custom grid の利用を推奨しません。なるべく **Standard grid** へアップデートしてください。
 
-When the **Custom grid** layout is removed, workspaces will be updated to use the **Standard grid** layout, which will no longer be configurable.
+**Custom grid** 廃止後は workspace のレイアウトはすべて **Standard grid** へ統一され、カスタマイズ不可となります。
 {{% /alert %}}
 
-1. To check which layout a section uses, click the section's action `...` menu. To change a section's layout, select **Standard grid** or **Custom grid** in the **Layout grid** section.
-1. To resize a panel, hover over it, click the drag handle, and drag it to adjust the panel's size.
-  - If a section uses the **Standard grid**, resizing one panel resizes all panels in the section.
-  - If a section uses the **Custom grid**, you can customize the size of each panel separately.
-1. If a section is paginated, you can customize the number of panels to show on a page:
-  1. At the top of the section, click **1 to <X> of <Y>**, where `<X>` is the number of visible panels and `<Y>` is the total number of panels.
-  1. Choose how many panels to show per page, up to 100.
-1. To delete a panel from a section:
-  1. Hover over the panel, then click its action `...` menu.
-  1. Click **Delete**.
-  
-If you reset a workspace to an automated workspace, all deleted panels appear again.
+1. セクションがどのレイアウトを使っているか確認するには、セクションのアクションメニュー `...` をクリックします。レイアウトを変更したい場合は **Layout grid** セクション内で **Standard grid** または **Custom grid** を選択してください。
+1. パネルのサイズ変更は、カーソルを合わせドラッグハンドルを掴んでサイズを調整
+  - **Standard grid** 利用時は 1 パネルでもリサイズするとセクション内すべてのパネルサイズが変わります。
+  - **Custom grid** 利用時は各パネルごとにサイズを調整可能
+1. ページネーションされている場合、1 ページで表示するパネル数は以下の手順で調整可能:
+  1. セクション上部の **1 to <X> of <Y>** をクリック（`<X>` は表示パネル数、 `<Y>` は総パネル数）
+  1. 1 ページ当たりの表示数を最大 100 まで選択
+1. セクションからパネルを削除したい場合:
+  1. パネルにカーソルを合わせ、アクションメニュー `...` をクリック
+  1. **Delete** を選択
 
-### Rename a section
+workspace を自動モードでリセットすると削除したパネルもすべて再表示されます。
 
-To rename a section, click its action `...` menu, then click **Rename section**.
+### セクション名の変更
 
-### Delete a section
+セクション名を変更するには、アクションメニュー `...` から **Rename section** を選択します。
 
-To delete a section, click its `...` menu, then click **Delete section**. This removes the section and its panels.
+### セクションの削除
+
+セクションを削除するには、`...` メニューから **Delete section** を選択してください。これにより、該当セクションとその中のパネルが全て削除されます。

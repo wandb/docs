@@ -1,22 +1,24 @@
 ---
+title: ログをオフにするにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-logging_turn_off
 support:
-- logs
-title: How do I turn off logging?
+- ログ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-The command `wandb offline` sets the environment variable `WANDB_MODE=offline`, preventing data from syncing to the remote W&B server. This action affects all projects, stopping the logging of data to W&B servers.
+コマンド `wandb offline` は、環境変数 `WANDB_MODE=offline` を設定し、データがリモートの W&B サーバーへ同期されるのを防ぎます。この操作はすべての Projects に影響し、データが W&B サーバーにログされるのを停止します。
 
-To suppress warning messages, use the following code:
+警告メッセージを非表示にするには、次のコードを使用してください。
 
 ```python
 import logging
 
+# wandb用のロガーを取得
 logger = logging.getLogger("wandb")
+# 警告レベルに設定
 logger.setLevel(logging.WARNING)
 ```

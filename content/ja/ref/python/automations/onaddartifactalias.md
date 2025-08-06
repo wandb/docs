@@ -1,25 +1,27 @@
 ---
+title: 'OnAddArtifactAlias
+
+  '
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-automations-onaddartifactalias
 object_type: automations_namespace
-title: OnAddArtifactAlias
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/events.py >}}
 
 
 
-A new alias is assigned to an artifact.
+新しいエイリアスがアーティファクトに割り当てられます。
 
-Attributes:
-- event_type (Literal): No description provided.
-- filter (Union): Additional condition(s), if any, that must be met for this event to trigger an automation.
-- scope (Union): The scope of the event.
+属性:
+- event_type (リテラル): 説明はありません。
+- filter (ユニオン): このイベントがオートメーションをトリガーするために満たす必要がある追加条件（該当する場合）。
+- scope (ユニオン): イベントのスコープ。
 
-### <kbd>method</kbd> `then`
+### <kbd>メソッド</kbd> `then`
 ```python
 then(self, action: 'InputAction') -> 'NewAutomation'
 ```
-Define a new Automation in which this event triggers the given action.
+このイベントが指定したアクションをトリガーする新しいオートメーションを定義します。

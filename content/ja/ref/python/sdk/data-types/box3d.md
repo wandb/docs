@@ -1,10 +1,10 @@
 ---
+title: box3d()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-data-types-box3d
 object_type: python_sdk_data_type
-title: box3d()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py >}}
@@ -25,15 +25,15 @@ box3d(
 ) → Box3D
 ```
 
-Returns a Box3D. 
+Box3D を返します。
 
 
 
-**Args:**
+**引数:**
  
- - `center`:  The center point of the box as a length-3 ndarray. 
- - `size`:  The box's X, Y and Z dimensions as a length-3 ndarray. 
- - `orientation`:  The rotation transforming global XYZ coordinates  into the box's local XYZ coordinates, given as a length-4  ndarray [r, x, y, z] corresponding to the non-zero quaternion  r + xi + yj + zk. 
- - `color`:  The box's color as an (r, g, b) tuple with 0 <= r,g,b <= 1. 
- - `label`:  An optional label for the box. 
- - `score`:  An optional score for the box.
+ - `center`: ボックスの中心点を表す長さ 3 の ndarray。
+ - `size`: ボックスの X, Y, Z の各次元を表す長さ 3 の ndarray。
+ - `orientation`: グローバル XYZ 座標をボックスのローカル XYZ 座標に変換する回転を、長さ 4 の ndarray [r, x, y, z] で指定します。ここで、非ゼロのクォータニオン r + xi + yj + zk に対応しています。
+ - `color`: (r, g, b) タプルで指定するボックスの色。0 <= r,g,b <= 1。
+ - `label`: ボックスに付与する任意のラベル。
+ - `score`: ボックスに付与する任意のスコア。

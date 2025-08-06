@@ -1,32 +1,30 @@
 ---
+title: サービスアカウントとは何か、そしてなぜ便利なのか？
 menu:
   support:
     identifier: ja-support-kb-articles-service_account_useful
 support:
-- administrator
-title: What is a service account, and why is it useful?
+- 管理者
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-A service account (Enterprise-only feature) represents a non-human or machine user, which can automate common tasks across teams and projects or ones that are not specific to a particular human user. You can create a service account within a team and use its API key to read from and write to projects within that team.
+サービスアカウント（エンタープライズ限定機能）は、人間ではない、もしくは機械によるユーザーを表します。これにより、チームや Projects 間で共通のタスクの自動化や、特定のユーザーに紐付かない作業の自動化が可能です。サービスアカウントは各チーム内で作成でき、その APIキー を使って、そのチーム内の Projects へ読み書きできます。
 
-Among other things, service accounts are useful for tracking automated jobs logged to wandb, like periodic retraining, nightly builds, and so on. If you'd like, you can associate a username with one of these machine-launched runs with the [environment variables]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
+サービスアカウントは、例えば定期的な再トレーニングやナイトリービルドなど、自動で wandb へログを送信するジョブのトラッキングに役立ちます。必要に応じて、こうしたマシン起動の run に [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) `WANDB_USERNAME` または `WANDB_USER_EMAIL` を指定してユーザー名を紐付けることもできます。
 
+詳細は [Team Service Account の振る舞い]({{< relref path="/guides/models/app/settings-page/teams.md#team-service-account-behavior" lang="ja" >}}) をご覧ください。
 
+チームのサービスアカウント用 APIキー は `<WANDB_HOST_URL>/<your-team-name>/service-accounts` で取得できます。または、チームの **Team settings** から **Service Accounts** タブに進んでください。
 
-Refer to [Team Service Account Behavior]({{< relref path="/guides/models/app/settings-page/teams.md#team-service-account-behavior" lang="ja" >}}) for more information.
-
-You can get the API key for a service account in your team at `<WANDB_HOST_URL>/<your-team-name>/service-accounts`. Alternatively you can go to the **Team settings** for your team and then refer to the **Service Accounts** tab. 
-
-To create a new service account for your team:
-* Press the **+ New service account** button in the **Service Accounts** tab of your team
-* Provide a name in the **Name** field
-* Select **Generate API key (Built-in)** as the authentication method
-* Press the **Create** button
-* Click the **Copy API key** button for the newly created service account and store it in a secret manager or another safe but accessible location
+新しくサービスアカウントを作成するには:
+* チームの **Service Accounts** タブ内で **+ New service account** ボタンを押します
+* **Name** 欄に名前を入力します
+* 認証方式で **Generate API key (Built-in)** を選択します
+* **Create** ボタンを押します
+* 作成されたサービスアカウントの **Copy API key** ボタンをクリックし、そのキーをシークレットマネージャや安全かつ アクセス 可能な場所に保管してください
 
 {{% alert %}}
-Apart from the **Built-in** service accounts, W&B also supports **External service accounts** using [identity federation for SDK and CLI]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md#external-service-accounts" lang="ja" >}}). Use external service accounts if you are looking to automate W&B tasks using service identities managed in your identity provider that can issue JSON Web Tokens (JWT).
+**Built-in** サービスアカウントに加えて、W&B は [SDK・CLI向けのアイデンティティフェデレーション]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md#external-service-accounts" lang="ja" >}})を使った **External service accounts** にも対応しています。アイデンティティプロバイダで管理されていて、JSON Web Token (JWT) を発行できるサービスアイデンティティを使って W&B の作業を自動化したい場合は、External service accounts をご利用ください。
 {{% /alert %}}

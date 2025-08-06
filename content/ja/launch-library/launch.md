@@ -1,10 +1,10 @@
 ---
-title: launch api
+title: ローンチ API
 ---
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch.py#L249-L331 >}}
 
-Launch a W&B launch experiment.
+W&B ローンチ実験を開始します。
 
 ```python
 launch(
@@ -25,39 +25,39 @@ launch(
 ) -> AbstractRun
 ```
 
-| Arguments |  |
+| 引数 | 説明 |
 | :--- | :--- |
-|  `job` |  string reference to a wandb.Job eg: wandb/test/my-job:latest |
-|  `api` |  An instance of a wandb Api from wandb.apis.internal. |
-|  `entry_point` |  Entry point to run within the project. Defaults to using the entry point used in the original run for wandb URIs, or main.py for git repository URIs. |
-|  `version` |  For Git-based projects, either a commit hash or a branch name. |
-|  `name` |  Name run under which to launch the run. |
-|  `resource` |  Execution backend for the run. |
-|  `resource_args` |  Resource related arguments for launching runs onto a remote backend. Will be stored on the constructed launch config under `resource_args`. |
-|  `project` |  Target project to send launched run to |
-|  `entity` |  Target entity to send launched run to |
-|  `config` |  A dictionary containing the configuration for the run. May also contain resource specific arguments under the key "resource_args". |
-|  `synchronous` |  Whether to block while waiting for a run to complete. Defaults to True. Note that if `synchronous` is False and `backend` is "local-container", this method will return, but the current process will block when exiting until the local run completes. If the current process is interrupted, any asynchronous runs launched via this method will be terminated. If `synchronous` is True and the run fails, the current process will error out as well. |
-|  `run_id` |  ID for the run (To ultimately replace the :name: field) |
-|  `repository` |  string name of repository path for remote registry |
+|  `job` |  wandb.Job への文字列参照（例: wandb/test/my-job:latest）|
+|  `api` |  wandb.apis.internal から取得した wandb Api のインスタンス |
+|  `entry_point` |  プロジェクト内で実行するエントリーポイント。デフォルトでは wandb URI では元の run で使用されたエントリーポイントを、git リポジトリ URI では main.py を利用します。|
+|  `version` |  Git ベースのプロジェクトの場合はコミットハッシュまたはブランチ名。|
+|  `name` |  ローンチする run の名前。|
+|  `resource` |  run を実行するバックエンド。|
+|  `resource_args` |  リモートバックエンドでの run 実行時に必要なリソース関連の引数。作成されるローンチの config 内の `resource_args` に保存されます。|
+|  `project` |  ローンチした run を送信する対象 Project |
+|  `entity` |  ローンチした run を送信する対象 Entity |
+|  `config` |  run の設定を含む辞書。resource 特有の引数を "resource_args" キーで含めることもできます。|
+|  `synchronous` |  run の完了を待つかどうか（ブロックするか）。デフォルトは True。`synchronous` が False かつ `backend` が "local-container" の場合はこのメソッドの返却後、ローカル run 完了までプロセス終了時にブロックします。プロセスが中断されると非同期実行された run も終了します。`synchronous` が True で run が失敗した場合、現在のプロセスもエラーになります。|
+|  `run_id` |  run の ID（最終的には :name: フィールドを置き換える予定）|
+|  `repository` |  リモートレジストリ用のリポジトリパスの文字列名 |
 
-#### Example:
+#### 利用例：
 
 ```python
 from wandb.sdk.launch import launch
 
 job = "wandb/jobs/Hello World:latest"
 params = {"epochs": 5}
-# Run W&B project and create a reproducible docker environment
-# on a local host
+# W&B Project をローカルホスト上で再現可能な Docker 環境として実行
+# 実行
 api = wandb.apis.internal.Api()
 launch(api, job, parameters=params)
 ```
 
-| Returns |  |
+| 戻り値 | 説明 |
 | :--- | :--- |
-|  an instance of`wandb.launch.SubmittedRun` exposing information (e.g. run ID) about the launched run. |
+|  ローンチした run の情報（例: run ID など）へアクセスできる `wandb.launch.SubmittedRun` のインスタンス。|
 
-| Raises |  |
+| 例外 | 説明 |
 | :--- | :--- |
-|  `wandb.exceptions.ExecutionError` If a run launched in blocking mode is unsuccessful. |
+|  `wandb.exceptions.ExecutionError` ブロッキングモードで実行された run が失敗した場合発生します。|

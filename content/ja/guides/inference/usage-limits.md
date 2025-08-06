@@ -1,59 +1,57 @@
 ---
-description: 'Understand pricing, usage limits, and account restrictions for W&B Inference
-
-  '
+title: 使用情報と制限
+description: W&B Inference の料金、利用制限、およびアカウント制限について理解する
 linkTitle: Usage & Limits
 menu:
   default:
     identifier: ja-guides-inference-usage-limits
-title: Usage Information and Limits
 weight: 20
 ---
 
-Learn about pricing, limits, and other important usage information before using W&B Inference.
+W&B Inference を利用する前に、料金、制限、その他の重要な利用情報についてご確認ください。
 
-## Pricing
+## 料金
 
-For detailed model pricing information, visit [W&B Inference pricing](https://wandb.ai/site/pricing/inference).
+詳細なモデルごとの料金情報は、[W&B Inference pricing](https://wandb.ai/site/pricing/inference) をご覧ください。
 
-## Purchase more credits
+## クレジットの追加購入
 
-W&B Inference credits come with Free, Pro, and Academic plans for a limited time. Enterprise availability may vary. When credits run out:
+W&B Inference クレジットは Free、Pro、Academic プランで期間限定で付与されます。Enterprise の利用可否は条件により異なります。クレジットがなくなった場合は以下の通りです。
 
-- **Free accounts** must upgrade to a paid plan to continue using W&B Inference. [Upgrade to Pro or Enterprise](https://wandb.ai/subscriptions)
-- **Pro plan users** are billed for overages monthly, based on [model-specific pricing](https://wandb.ai/site/pricing/inference)
-- **Enterprise accounts** should contact their account executive
+- **Free アカウント**：継続利用には有料プランへのアップグレードが必要です。[Pro または Enterprise へアップグレード](https://wandb.ai/subscriptions)
+- **Pro プラン ユーザー**：超過分は [モデルごとの料金](https://wandb.ai/site/pricing/inference) に基づき毎月請求されます
+- **Enterprise アカウント**：アカウント担当者へご連絡ください
 
-## Account tiers and default usage caps
+## アカウント種別ごとのデフォルト利用上限
 
-Each account tier has a default spending cap to help manage costs and prevent unexpected charges. W&B requires prepayment for paid Inference access.
+各アカウント種別には、コスト管理や予期せぬ請求を防ぐためのデフォルト利用上限があります。W&B では、有料の Inference アクセスには事前支払いが必要です。
 
-Some users may need to change their cap. Contact your account executive or support to adjust your limit.
+利用上限の変更が必要な場合は、アカウント担当者またはサポートまでご連絡ください。
 
-| Account Tier | Default Cap | How to Change Limit |
+| アカウント種別 | デフォルト上限 | 上限変更方法 |
 |--------------|-------------|---------------------|
-| Pro | $6,000/month | Contact your account executive or support for manual review |
-| Enterprise | $700,000/year | Contact your account executive or support for manual review |
+| Pro | $6,000/月 | アカウント担当者またはサポートに連絡し、手動で審査 |
+| Enterprise | $700,000/年 | アカウント担当者またはサポートに連絡し、手動で審査 |
 
-## Concurrency limits
+## 同時実行制限
 
-If you exceed the rate limit, the API returns a `429 Concurrency limit reached for requests` response. To fix this error, reduce the number of concurrent requests. For detailed troubleshooting, see [W&B Inference support articles](/support/inference/).
+レートリミットを超過すると、API から `429 Concurrency limit reached for requests` レスポンスが返されます。このエラーを解決するには、同時リクエスト数を減らしてください。詳しいトラブルシューティングについては、[W&B Inference サポート記事](/support/inference/) をご参照ください。
 
-W&B applies rate limits per W&B project. For example, if you have 3 projects in a team, each project has its own rate limit quota.
+W&B では、各 W&B Project 単位でレートリミットを設定しています。たとえば、チーム内に 3 つの Project がある場合、それぞれの Project に別々のレートリミット枠が設けられています。
 
-## Personal entities unsupported
+## Personal entities 非対応
 
 {{< alert title="Note" >}}
-W&B deprecated personal entities in May 2024, so this only applies to legacy accounts.
+W&B は 2024年 5月に personal entities を廃止しました。この内容はレガシーアカウントにのみ該当します。
 {{< /alert >}}
 
-Personal accounts (personal entities) don't support W&B Inference. To access W&B Inference, switch to a non-personal account by creating a Team.
+パーソナルアカウント（personal entities）は W&B Inference を利用できません。利用するには Team を作成し、パーソナル以外のアカウントに切り替えてください。
 
-## Geographic restrictions
+## 地理的制限
 
-The Inference service is only available from supported geographic locations. For more information, see the [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions).
+Inference サービスは対応している地域のみ利用可能です。詳細は [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) をご確認ください。
 
-## Next steps
+## 次のステップ
 
-- Review the [prerequisites]({{< relref path="prerequisites" lang="ja" >}}) before getting started
-- See [available models]({{< relref path="models" lang="ja" >}}) and their specific costs
+- 利用を始める前に [前提条件]({{< relref path="prerequisites" lang="ja" >}}) をご確認ください
+- [利用可能な models]({{< relref path="models" lang="ja" >}}) と各モデルの料金をご覧ください

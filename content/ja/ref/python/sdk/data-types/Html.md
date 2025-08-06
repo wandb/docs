@@ -1,10 +1,10 @@
 ---
+title: Html
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-sdk-data-types-Html
 object_type: python_sdk_data_type
-title: Html
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py >}}
@@ -13,7 +13,7 @@ title: Html
 
 
 ## <kbd>class</kbd> `Html`
-W&B class for logging HTML content to W&B. 
+W&B で HTML コンテンツをログするためのクラスです。
 
 ### <kbd>method</kbd> `Html.__init__`
 
@@ -25,31 +25,31 @@ __init__(
 ) → None
 ```
 
-Creates a W&B HTML object. 
+W&B の HTML オブジェクトを作成します。
 
 
 
-**Args:**
-  data:  A string that is a path to a file with the extension ".html",  or a string or IO object containing literal HTML. 
- - `inject`:  Add a stylesheet to the HTML object. If set  to False the HTML will pass through unchanged. 
- - `data_is_not_path`:  If set to False, the data will be  treated as a path to a file. 
+**引数:**
+  data:  ".html" 拡張子を持つファイルへのパス文字列、または HTML のリテラルを含む文字列や IO オブジェクト。
+ - `inject`:  スタイルシートを HTML オブジェクトに追加します。False に設定すると HTML はそのまま渡されます。
+ - `data_is_not_path`:  False の場合、data はファイルへのパスとして扱われます。
 
 
 
-**Examples:**
- It can be initialized by providing a path to a file: 
+**使用例:**
+ ファイルへのパスを指定して初期化できます:
 
 ```python
 with wandb.init() as run:
     run.log({"html": wandb.Html("./index.html")})
-``` 
+```
 
-Alternatively, it can be initialized by providing literal HTML, in either a string or IO object: 
+または、リテラル HTML（文字列や IO オブジェクト）を直接指定して初期化することも可能です:
 
 ```python
 with wandb.init() as run:
     run.log({"html": wandb.Html("<h1>Hello, world!</h1>")})
-``` 
+```
 
 
 

@@ -1,25 +1,25 @@
 ---
-description: W&B's Embedding Projector allows users to plot multi-dimensional embeddings
-  on a 2D plane using common dimension reduction algorithms like PCA, UMAP, and t-SNE.
+title: オブジェクトの埋め込み
+description: W&B の Embedding Projector は、PCA、UMAP、t-SNE などの一般的な次元削減アルゴリズムを使って、多次元の埋め込みを
+  2 次元平面上に可視化できます。
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-query-panels-embedding-projector
     parent: query-panels
-title: Embed objects
 ---
 
 {{< img src="/images/weave/embedding_projector.png" alt="Embedding projector" >}}
 
-[Embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) are used to represent objects (people, images, posts, words, etc...) with a list of numbers - sometimes referred to as a _vector_. In machine learning and data science use cases, embeddings can be generated using a variety of approaches across a range of applications. This page assumes the reader is familiar with embeddings and is interested in visually analyzing them inside of W&B.
+[Embedding](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) はオブジェクト（人物、画像、投稿、単語など）を _ベクトル_ とも呼ばれる数字のリストとして表現する手法です。機械学習やデータサイエンスのユースケースでは、さまざまな方法・用途で embedding を生成できます。このページでは、embedding についての基本知識があり、W&B 内で embedding を可視的に分析したい方を対象としています。
 
-## Embedding Examples
+## Embedding の例
 
-- [Live Interactive Demo Report](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq) 
-- [Example Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
+- [ライブインタラクティブデモ Reports](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq)
+- [サンプル Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_)
 
 ### Hello World
 
-W&B allows you to log embeddings using the `wandb.Table` class. Consider the following example of 3 embeddings, each consisting of 5 dimensions:
+W&B では、`wandb.Table` クラスを使って embedding のログが簡単にできます。下記は、5 次元で構成された 3 つの embedding を log する例です。
 
 ```python
 import wandb
@@ -37,13 +37,13 @@ with wandb.init(project="embedding_tutorial") as run:
   run.finish()
 ```
 
-After running the above code, the W&B dashboard will have a new Table containing your data. You can select `2D Projection` from the upper right panel selector to plot the embeddings in 2 dimensions. Smart default will be automatically selected, which can be easily overridden in the configuration menu accessed by clicking the gear icon. In this example, we automatically use all 5 available numeric dimensions.
+このコードを実行すると、W&B ダッシュボードにデータを含む新しい Table が作成されます。右上のパネルセレクタで `2D Projection` を選ぶと、embedding を 2 次元にプロットできます。スマートな初期値が自動的に選択されますが、設定メニュー（歯車アイコン）から簡単に変更可能です。この例では、利用可能な 5 つの数値次元がすべて自動的に使われます。
 
 {{< img src="/images/app_ui/weave_hello_world.png" alt="2D projection example" >}}
 
 ### Digits MNIST
 
-While the above example shows the basic mechanics of logging embeddings, typically you are working with many more dimensions and samples. Let's consider the MNIST Digits dataset ([UCI ML hand-written digits dataset](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)[s](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)) made available via [SciKit-Learn](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html). This dataset has 1797 records, each with 64 dimensions. The problem is a 10 class classification use case. We can convert the input data to an image for visualization as well.
+上記の例で embedding の基本的なログ方法を説明しましたが、実際にはより多くの次元・サンプルを扱うケースが多いでしょう。ここでは MNIST Digits データセット（[UCI ML 手書き数字データセット](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)[s](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)）を使います。[SciKit-Learn](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html) から取得可能です。このデータセットには 1,797 件、各 64 次元のデータが含まれます。問題設定は 10 クラスの分類ユースケースです。入力データを画像にも変換し、可視化も行います。
 
 ```python
 import wandb
@@ -51,16 +51,16 @@ from sklearn.datasets import load_digits
 
 with wandb.init(project="embedding_tutorial") as run:
 
-  # Load the dataset
+  # データセットの読み込み
   ds = load_digits(as_frame=True)
   df = ds.data
 
-  # Create a "target" column
+  # "target" カラムを作成
   df["target"] = ds.target.astype(str)
   cols = df.columns.tolist()
   df = df[cols[-1:] + cols[:-1]]
 
-  # Create an "image" column
+  # "image" カラムを作成
   df["image"] = df.apply(
       lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1
   )
@@ -70,35 +70,35 @@ with wandb.init(project="embedding_tutorial") as run:
   run.log({"digits": df})
 ```
 
-After running the above code, again we are presented with a Table in the UI. By selecting `2D Projection` we can configure the definition of the embedding, coloring, algorithm (PCA, UMAP, t-SNE), algorithm parameters, and even overlay (in this case we show the image when hovering over a point). In this particular case, these are all "smart defaults" and you should see something very similar with a single click on `2D Projection`. ([Interact with this embedding tutorial example](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney)).
+このコードを実行した後、同様に UI 上で Table が表示されます。`2D Projection` を選択すると、embedding の定義、色分け、アルゴリズム（PCA、UMAP、t-SNE）、そのパラメータやオーバーレイ（この例ではポイントにマウスをのせると画像表示）などが設定できます。この例ではすべて「スマートな初期値」で表示されるため、`2D Projection` を１クリックするだけで確認できます。([この embedding チュートリアル例を触ってみる](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney))
 
 {{< img src="/images/weave/embedding_projector.png" alt="MNIST digits projection" >}}
 
-## Logging Options
+## ロギングオプション
 
-You can log embeddings in a number of different formats:
+embedding は様々なフォーマットで log できます：
 
-1. **Single Embedding Column:** Often your data is already in a "matrix"-like format. In this case, you can create a single embedding column - where the data type of the cell values can be `list[int]`, `list[float]`, or `np.ndarray`.
-2. **Multiple Numeric Columns:** In the above two examples, we use this approach and create a column for each dimension. We currently accept python `int` or `float` for the cells.
+1. **単一 embedding カラム:** 多くの場合、データはすでに「行列」的な形になっています。この場合、1つの embedding カラムを作成できます（セルの値は `list[int]`、`list[float]`、`np.ndarray` のいずれか）。
+2. **複数の数値カラム:** 上記2例で利用した方法で、各次元ごとにカラムを作成します。現在 Python の `int` または `float` 型をサポートしています。
 
 {{< img src="/images/weave/logging_options.png" alt="Single embedding column" >}}
 {{< img src="/images/weave/logging_option_image_right.png" alt="Multiple numeric columns" >}}
 
-Furthermore, just like all tables, you have many options regarding how to construct the table:
+さらに、他の Table と同様、Table を作成する方法もいくつか選べます：
 
-1. Directly from a **dataframe** using `wandb.Table(dataframe=df)`
-2. Directly from a **list of data** using `wandb.Table(data=[...], columns=[...])`
-3. Build the table **incrementally row-by-row** (great if you have a loop in your code). Add rows to your table using `table.add_data(...)`
-4. Add an **embedding column** to your table (great if you have a list of predictions in the form of embeddings): `table.add_col("col_name", ...)`
-5. Add a **computed column** (great if you have a function or model you want to map over your table): `table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`
+1. **dataframe から直接**: `wandb.Table(dataframe=df)` でそのまま作成
+2. **リストデータから直接**: `wandb.Table(data=[...], columns=[...])`
+3. **1行ずつ追加してインクリメンタルに構築**: （ループ処理などに便利）`table.add_data(...)` で行を追加
+4. **embedding カラムをテーブルに追加**: （embedding 予測リストがある場合に便利）`table.add_col("col_name", ...)`
+5. **計算カラム（computed column）を追加**: （関数やモデルをテーブル全体に適用したいとき）`table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`
 
-## Plotting Options
+## プロットオプション
 
-After selecting `2D Projection`, you can click the gear icon to edit the rendering settings. In addition to selecting the intended columns (see above), you can select an algorithm of interest (along with the desired parameters). Below you can see the parameters for UMAP and t-SNE respectively.
+`2D Projection` を選択した後、歯車アイコンからプロットの設定を編集できます。対象カラムの選択（上記参照）に加え、好みのアルゴリズムやそのパラメータも選択できます。下図は UMAP と t-SNE それぞれのパラメータ例です。
 
 {{< img src="/images/weave/plotting_options_left.png" alt="UMAP parameters" >}} 
 {{< img src="/images/weave/plotting_options_right.png" alt="t-SNE parameters" >}}
 
 {{% alert %}}
-Note: we currently downsample to a random subset of 1000 rows and 50 dimensions for all three algorithms.
+注意：現在、すべてのアルゴリズムでランダムに 1,000 行・50 次元にダウンサンプルしています。
 {{% /alert %}}

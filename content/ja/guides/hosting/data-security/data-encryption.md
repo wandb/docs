@@ -1,21 +1,21 @@
 ---
+title: 専用クラウドにおけるデータ暗号化
 menu:
   default:
     identifier: ja-guides-hosting-data-security-data-encryption
     parent: data-security
-title: Data encryption in Dedicated cloud
 ---
 
-W&B uses a W&B-managed cloud-native key to encrypt the W&B-managed database and object storage in every [Dedicated cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), by using the customer-managed encryption key (CMEK) capability in each cloud. In this case, W&B acts as a `customer` of the cloud provider, while providing the W&B platform as a service to you. Using a W&B-managed key means that W&B has control over the keys that it uses to encrypt the data in each cloud, thus doubling down on its promise to provide a highly safe and secure platform to all of its customers.
+W&B は、各 [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) 内の W&B 管理データベースおよびオブジェクトストレージを暗号化するために、W&B 管理のクラウドネイティブキーを使用しています。これは、各クラウドで使用可能なカスタマー管理暗号鍵（CMEK）機能を利用しています。この場合、W&B はクラウドプロバイダーの `customer` として振る舞い、W&B プラットフォームをサービスとして提供します。W&B 管理キーを使用することで、各クラウド内でデータを暗号化する鍵の管理権限が W&B にあり、安全かつセキュアなプラットフォームを提供するという W&B のコミットメントをさらに強化しています。
 
-W&B uses a `unique key` to encrypt the data in each customer instance, providing another layer of isolation between Dedicated cloud tenants. The capability is available on AWS, Azure and GCP.
+W&B は、各カスタマーインスタンスごとに `unique key`（ユニークキー）を使用してデータを暗号化し、専用クラウドテナント間の分離レイヤーをさらに強固にしています。この機能は AWS、Azure、GCP で利用できます。
 
 {{% alert %}}
-Dedicated cloud instances on GCP and Azure that W&B provisioned before August 2024 use the default cloud provider managed key for encrypting the W&B-managed database and object storage. Only new instances that W&B has been creating starting August 2024 use the W&B-managed cloud-native key for the relevant encryption.
+W&B が 2024年8月以前にプロビジョニングした GCP および Azure 上の専用クラウドインスタンスは、W&B 管理データベースおよびオブジェクトストレージの暗号化にデフォルトのクラウドプロバイダー管理キーを使用しています。2024年8月以降に W&B によって作成された新しいインスタンスのみが、該当する暗号化に W&B 管理のクラウドネイティブキーを使用しています。
 
-Dedicated cloud instances on AWS have been using the W&B-managed cloud-native key for encryption from before August 2024.
+AWS 上の専用クラウドインスタンスでは、2024年8月以前から W&B 管理のクラウドネイティブキーによる暗号化が行われています。
 {{% /alert %}}
 
-W&B doesn't generally allow customers to bring their own cloud-native key to encrypt the W&B-managed database and object storage in their Dedicated cloud instance, because multiple teams and personas in an organization could have access to its cloud infrastructure for various reasons. Some of those teams or personas may not have context on W&B as a critical component in the organization's technology stack, and thus may remove the cloud-native key completely or revoke W&B's access to it. Such an action could corrupt all data in the organization's W&B instance and thus leave it in a irrecoverable state.
+W&B は、一般的にはカスタマー独自のクラウドネイティブキーを持ち込んで専用クラウドインスタンスの W&B 管理データベースおよびオブジェクトストレージを暗号化することを許可していません。なぜなら、組織内の複数のチームや担当者がさまざまな理由でクラウドインフラストラクチャーへアクセスでき、そのうちの一部は W&B が組織のテクノロジースタックで重要なコンポーネントであることを把握していない可能性があるためです。その結果、クラウドネイティブキーを完全に削除したり、W&B のアクセス権を取り消したりすることがあり、これにより組織の W&B インスタンス内のすべてのデータが破損し、復旧不可能な状態となる恐れがあります。
 
-If your organization needs to use their own cloud-native key to encrypt the W&B-managed database and object storage to approve the use of Dedicated cloud for your AI workflows, W&B can review it on a exception basis. If approved, use of your cloud-native key for encryption would conform to the `shared responsibility model` of W&B Dedicated cloud. If any user in your organization removes your key or revokes W&B's access to it at any point when your Dedicated cloud instance is live, W&B would not be liable for any resulting data loss or corruption and also would not be responsible for recovery of such data.
+もし御社で、AI ワークフローに専用クラウドを利用する承認のために、W&B 管理データベースおよびオブジェクトストレージを暗号化する自社管理のクラウドネイティブキーの利用が必要な場合は、W&B で個別に審査可能です。承認された場合、お客様のクラウドネイティブキーを用いた暗号化は、W&B 専用クラウドの `shared responsibility model`（共有責任モデル）に準拠する必要があります。専用クラウドインスタンス稼働中に、組織内のいずれかのユーザーが鍵を削除したり W&B のアクセス権を取り消した場合、W&B はその結果生じるデータ損失や破損について一切責任を負わず、データ復旧についても責任を持ちません。

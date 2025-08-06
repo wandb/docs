@@ -1,10 +1,10 @@
 ---
+title: login()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-functions-login
 object_type: python_sdk_actions
-title: login()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py >}}
@@ -27,34 +27,32 @@ login(
 ) → bool
 ```
 
-Set up W&B login credentials. 
+W&B のログイン認証情報を設定します。
 
-By default, this will only store credentials locally without verifying them with the W&B server. To verify credentials, pass `verify=True`. 
+デフォルトでは、認証情報はローカルにのみ保存され、W&B サーバーでの検証は行いません。認証情報を検証したい場合は、`verify=True` を指定してください。
 
 
 
-**Args:**
+**引数:**
  
- - `anonymous`:  Set to "must", "allow", or "never".  If set to "must", always log a user in anonymously. If set to  "allow", only create an anonymous user if the user  isn't already logged in. If set to "never", never log a  user anonymously. Default set to "never". 
- - `key`:  The API key to use. 
- - `relogin`:  If true, will re-prompt for API key. 
- - `host`:  The host to connect to. 
- - `force`:  If true, will force a relogin. 
- - `timeout`:  Number of seconds to wait for user input. 
- - `verify`:  Verify the credentials with the W&B server. 
- - `referrer`:  The referrer to use in the URL login request. 
+ - `anonymous`:  "must"、"allow"、"never" のいずれかを設定します。"must" の場合、常に匿名ユーザーでログインします。"allow" の場合、すでにユーザーがログインしていない場合のみ匿名ユーザーを作成します。"never" の場合は匿名ユーザーでのログインを行いません。デフォルトは "never" です。
+ - `key`:  使用する APIキー。
+ - `relogin`:  True にすると再度 APIキー の入力を求めます。
+ - `host`:  接続先のホスト。
+ - `force`:  True の場合、再ログインを強制します。
+ - `timeout`:  ユーザー入力を待つ秒数。
+ - `verify`:  W&B サーバーで認証情報を検証します。
+ - `referrer`:  URLログインリクエストで利用するリファラー。
 
 
 
-
-
-**Returns:**
+**戻り値:**
  
- - `bool`:  If `key` is configured. 
+ - `bool`:  `key` が設定されていれば True を返します。
 
 
 
-**Raises:**
+**例外:**
  
- - `AuthenticationError`:  If `api_key` fails verification with the server. 
- - `UsageError`:  If `api_key` cannot be configured and no tty.
+ - `AuthenticationError`:  `api_key` のサーバーでの検証に失敗した場合に発生します。
+ - `UsageError`:  `api_key` を設定できず、tty も利用できない場合に発生します。

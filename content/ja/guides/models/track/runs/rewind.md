@@ -1,109 +1,106 @@
 ---
-description: Rewind
+title: run を巻き戻す
+description: 巻き戻し
 menu:
   default:
     identifier: ja-guides-models-track-runs-rewind
     parent: what-are-runs
-title: Rewind a run
 ---
 
-# Rewind a run
+# run をリワインドする
 {{% alert color="secondary" %}}
-The option to rewind a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
+run のリワインド機能はプライベートプレビュー中です。この機能への アクセス を希望する場合は、support@wandb.com まで W&B サポートにご連絡ください。
 
-W&B currently does not support:
-* **Log rewind**: Logs are reset in the new run segment.
-* **System metrics rewind**: W&B logs only new system metrics after the rewind point.
-* **Artifact association**: W&B associates artifacts with the source run that produces them.
+W&B では現在、以下はサポートされていません:
+* **ログのリワインド**: 新しい run セグメントではログがリセットされます。
+* **システムメトリクスのリワインド**: リワインドポイント以降の新しいシステムメトリクスのみを W&B は記録します。
+* **Artifact の関連付け**: Artifact は作成元の run に関連付けられます。
 {{% /alert %}}
 
 {{% alert %}}
-* To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
-* You must use monotonically increasing steps. This does not work with non-monotonic steps defined with [`define_metric()`]({{< relref path="/ref/python/sdk/classes/run#define_metric" lang="ja" >}}) because it disrupts the required chronological order of run history and system metrics.
+* run をリワインドするには、[W&B Python SDK](https://pypi.org/project/wandb/) バージョン `0.17.1` 以上が必要です。
+* 単調増加するステップを使用する必要があります。[`define_metric()`]({{< relref path="/ref/python/sdk/classes/run#define_metric" lang="ja" >}}) で定義された非単調ステップには対応していません。これは run の履歴やシステムメトリクスの時系列順序を崩すためです。
 {{% /alert %}}
 
-Rewind a run to correct or modify the history of a run without losing the original data. In addition, when you 
-rewind a run, you can log new data from that point in time. W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:
-- **History truncation**: W&B truncates the history to the rewind point, allowing new data logging.
-- **Summary metrics**: Recomputed based on the newly logged history.
-- **Configuration preservation**: W&B preserves the original configurations and you can merge new configurations.
+run の履歴を修正したり変更したりする際、元のデータを失うことなく run をリワインドできます。さらに、リワインドした時点から新しいデータのログも可能です。W&B は、新たに記録された履歴に基づいてリワインドした run のサマリーメトリクスを再計算します。これにより、以下のような挙動になります:
+- **履歴の切り捨て**: W&B はリワインドポイントまで履歴を切り捨て、その後の新しいデータログを可能にします。
+- **サマリーメトリクス**: 新たに記録した履歴に基づき再計算されます。
+- **設定の保持**: 元の設定はそのまま保持され、新たな設定をマージすることも可能です。
 
-<!-- #### Manage runs -->
-When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This means that:
+run をリワインドすると、指定したステップの状態まで run をリセットし、元のデータを保持したまま一貫性のある run ID を維持します。つまり次のようになります:
 
-- **Run archiving**: W&B archives the original runs. Runs are accessible from the [Run Overview]({{< relref path="./#overview-tab" lang="ja" >}}) tab.
-- **Artifact association**: Associates artifacts with the run that produce them.
-- **Immutable run IDs**: Introduced for consistent forking from a precise state.
-- **Copy immutable run ID**: A button to copy the immutable run ID for improved run management.
+- **run のアーカイブ**: W&B は元の run をアーカイブします。run へは [Run Overview]({{< relref path="./#overview-tab" lang="ja" >}}) タブから アクセス できます。
+- **Artifact の関連付け**: Artifact はそれらを生成した run に関連付けられます。
+- **不変の run ID**: 正確な状態での fork を可能にするため、run ID は不変になります。
+- **run ID のコピー**: 不変の run ID をコピーできるボタンで run 管理が容易になります。
 
-{{% alert title="Rewind and forking compatibility" %}}
-Forking compliments a rewind.
+{{% alert title="リワインドと fork の互換性" %}}
+フォーク機能はリワインド機能を補完します。
 
-When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
+run から fork すると、特定の時点から run を分岐させて別のパラメータやモデルを試せます。
 
-When you  rewind a run, W&B lets you correct or modify the run history itself.
+run をリワインドすると、run の履歴自体を修正・変更することができます。
 {{% /alert %}}
 
 
 
-## Rewind a run
+## run をリワインドする
 
-Use `resume_from` with [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init" lang="ja" >}}) to "rewind" a run’s history to a specific step. Specify the name of the run and the step you want to rewind from:
+`resume_from` を [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init" lang="ja" >}}) で使用し、特定のステップまで run の履歴を「リワインド」します。run の名前と、リワインドしたいステップを指定してください:
 
 ```python
 import wandb
 import math
 
-# Initialize the first run and log some metrics
-# Replace with your_project_name and your_entity_name!
+# 最初の run を初期化してメトリクスを記録
+# your_project_name と your_entity_name を置き換えてください！
 run1 = wandb.init(project="your_project_name", entity="your_entity_name")
 for i in range(300):
     run1.log({"metric": i})
 run1.finish()
 
-# Rewind from the first run at a specific step and log the metric starting from step 200
+# 最初の run の特定ステップからリワインドし、200 ステップ目から metric のログを再開
 run2 = wandb.init(project="your_project_name", entity="your_entity_name", resume_from=f"{run1.id}?_step=200")
 
-# Continue logging in the new run
-# For the first few steps, log the metric as is from run1
-# After step 250, start logging the spikey pattern
+# 新しい run でログを継続
+# 最初の数ステップは run1 の metric をそのまま記録
+# 250 ステップ以降はスパイキーなパターンでログ
 for i in range(200, 300):
     if i < 250:
-        run2.log({"metric": i, "step": i})  # Continue logging from run1 without spikes
+        run2.log({"metric": i, "step": i})  # run1 からスパイクなしでログを継続
     else:
-        # Introduce the spikey behavior starting from step 250
-        subtle_spike = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
+        # 250 ステップ目からスパイキーな振る舞いを導入
+        subtle_spike = i + (2 * math.sin(i / 3.0))  # さりげないスパイクパターンを適用
         run2.log({"metric": subtle_spike, "step": i})
-    # Additionally log the new metric at all steps
+    # すべてのステップで追加のメトリクスもログ
     run2.log({"additional_metric": i * 1.1, "step": i})
 run2.finish()
 ```
 
-## View an archived run
+## アーカイブされた run を閲覧する
 
+run をリワインドした後は、W&B App UI でアーカイブ済みの run を確認できます。以下の手順でアーカイブ済み run を閲覧してください:
 
-After you rewind a run, you can explore archived run with the W&B App UI. Follow these steps to view archived runs:
+1. **Overview タブに アクセス する:** run のページにある [**Overview** タブ]({{< relref path="./#overview-tab" lang="ja" >}}) に移動します。このタブで run の詳細や履歴を確認できます。
+2. **Forked From フィールドを探す:** **Overview** タブ内に `Forked From` フィールドが表示されます。このフィールドには再開の履歴が記録されており、**Forked From** からソースとなった run へのリンクが含まれています。これにより元の run への遡りや、リワインド履歴の全体把握が可能です。
 
-1. **Access the Overview Tab:** Navigate to the [**Overview** tab]({{< relref path="./#overview-tab" lang="ja" >}}) on the run's page. This tab provides a comprehensive view of the run's details and history.
-2. **Locate the Forked From field:** Within the **Overview** tab, find the `Forked From` field. This field captures the history of the resumptions. The **Forked From** field includes a link to the source run, allowing you to trace back to the original run and understand the entire rewind history.
+`Forked From` フィールドを活用することで、アーカイブされた再開のツリー構造を簡単に辿り、それぞれのリワインドの順序や由来を把握できます。
 
-By using the `Forked From` field, you can effortlessly navigate the tree of archived resumptions and gain insights into the sequence and origin of each rewind. 
+## リワインドした run から fork する
 
-## Fork from a run that you rewind
-
-To fork from a rewound run, use the [`fork_from`]({{< relref path="/guides/models/track/runs/forking" lang="ja" >}}) argument in `wandb.init()` and specify the source run ID and the step from the source run to fork from:
+リワインド済みの run から fork するには、[`fork_from`]({{< relref path="/guides/models/track/runs/forking" lang="ja" >}}) 引数を `wandb.init()` で指定し、ソースとなる run の ID と fork したいステップを指定します:
 
 ```python 
 import wandb
 
-# Fork the run from a specific step
+# run を特定ステップから fork
 forked_run = wandb.init(
     project="your_project_name",
     entity="your_entity_name",
     fork_from=f"{rewind_run.id}?_step=500",
 )
 
-# Continue logging in the new run
+# 新しい run でログを継続
 for i in range(500, 1000):
     forked_run.log({"metric": i*3})
 forked_run.finish()

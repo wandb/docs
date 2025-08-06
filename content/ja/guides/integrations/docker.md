@@ -1,29 +1,31 @@
 ---
-description: How to integrate W&B with Docker.
+title: 'Docker
+
+  '
+description: W&B を Docker と統合する方法
 menu:
   default:
     identifier: ja-guides-integrations-docker
     parent: integrations
-title: Docker
 weight: 80
 ---
 
-## Docker Integration
+## Docker インテグレーション
 
-W&B can store a pointer to the Docker image that your code ran in, giving you the ability to restore a previous experiment to the exact environment it was run in. The wandb library looks for the **WANDB_DOCKER** environment variable to persist this state. We provide a few helpers that automatically set this state.
+W&B は、あなたのコードが実行された Docker イメージへのポインタを保存できるため、過去の実験を実行当時の正確な環境で再現できます。wandbライブラリは、この状態を永続化するために **WANDB_DOCKER** 環境変数を参照します。私たちは、この状態を自動的に設定するいくつかのヘルパーも用意しています。
 
-### Local Development
+### ローカル開発
 
-`wandb docker` is a command that starts a docker container, passes in wandb environment variables, mounts your code, and ensures wandb is installed. By default the command uses a docker image with TensorFlow, PyTorch, Keras, and Jupyter installed. You can use the same command to start your own docker image: `wandb docker my/image:latest`. The command mounts the current directory into the "/app" directory of the container, you can change this with the "--dir" flag.
+`wandb docker` は、dockerコンテナを起動し、wandb の環境変数を渡し、あなたのコードをマウントし、wandbがインストールされていることを保証するコマンドです。デフォルトでは、TensorFlow、PyTorch、Keras、Jupyter がインストールされたdockerイメージが使われます。同じコマンドで自分の dockerイメージを起動することもできます：`wandb docker my/image:latest`。このコマンドは、現在のディレクトリーをコンテナの「/app」ディレクトリーにマウントします。`--dir` フラグでこのパスを変更できます。
 
-### Production
+### プロダクション
 
-The `wandb docker-run` command is provided for production workloads. It's meant to be a drop in replacement for `nvidia-docker`. It's a simple wrapper to the `docker run` command that adds your credentials and the **WANDB_DOCKER** environment variable to the call. If you do not pass the "--runtime" flag and `nvidia-docker` is available on the machine, this also ensures the runtime is set to nvidia.
+`wandb docker-run` コマンドは、プロダクション用途向けに提供されています。これは `nvidia-docker` の代替として使用できるコマンドです。`docker run` コマンドのラッパーであり、あなたの認証情報と **WANDB_DOCKER** 環境変数をコールに追加します。`--runtime` フラグを渡さずにマシン上に `nvidia-docker` がある場合、自動的にランタイムを nvidia に設定します。
 
 ### Kubernetes
 
-If you run your training workloads in Kubernetes and the k8s API is exposed to your pod \(which is the case by default\). wandb will query the API for the digest of the docker image and automatically set the **WANDB_DOCKER** environment variable.
+Kubernetes でトレーニングワークロードを実行し、k8s API が pod から利用可能（デフォルトの設定です）な場合、wandb は API から dockerイメージのダイジェストを取得し、自動的に **WANDB_DOCKER** 環境変数を設定します。
 
-## Restoring
+## 復元
 
-If a run was instrumented with the **WANDB_DOCKER** environment variable, calling `wandb restore username/project:run_id` will checkout a new branch restoring your code then launch the exact docker image used for training pre-populated with the original command.
+もし Run で **WANDB_DOCKER** 環境変数が設定されていれば、`wandb restore username/project:run_id` を呼び出すことで、新しいブランチをチェックアウトしてコードを復元し、トレーニング時に使用された dockerイメージを、元のコマンドを事前設定した状態で起動できます。

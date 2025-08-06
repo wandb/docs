@@ -1,56 +1,54 @@
 ---
+title: レポート
+description: 機械学習プロジェクト向けのプロジェクト管理およびコラボレーションツール
 cascade:
 - url: guides/reports/:filename
-description: Project management and collaboration tools for machine learning projects
 menu:
   default:
     identifier: ja-guides-core-reports-_index
     parent: core
-title: Reports
 url: guides/reports
 weight: 3
 ---
 
 {{< cta-button productLink="https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ?utm_source=fully_connected&utm_medium=blog&utm_campaign=view+from+the+drivers+seat" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" >}}
 
-Use W&B Reports to:
-- Organize Runs.
-- Embed and automate visualizations.
-- Describe your findings.
-- Share updates with collaborators, either as a LaTeX zip file a PDF.
+W&B Reports を使うと次のことができます：
+- Runs を整理する。
+- 可視化を埋め込み、自動化する。
+- 自分の findings を記述する。
+- LaTeX の zip ファイルや PDF として、コラボレーターにアップデートを共有することができる。
 
-<!-- {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} -->
-
-The following image shows a section of a report created from metrics that were logged to W&B over the course of training. 
+以下の画像は、トレーニング中に W&B に記録された metrics をもとに作成された report の一部です。
 
 {{< img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="W&B report with benchmark results" max-width="90%" >}}
 
-View the report where the above image was taken from [here](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM).
+上記画像が掲載されている report は[こちら](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM)からご覧いただけます。
 
-## How it works
-Create a collaborative report with a few clicks.
+## 仕組み
+数クリックで、コラボレーション可能な report を作成できます。
 
-1. Navigate to your W&B project workspace in the W&B App.
-2. Click the **Create report** button in the upper right corner of your workspace.
+1. W&B App で自分の W&B Project Workspace に移動します。
+2. Workspace の右上にある **Create report** ボタンをクリックします。
 
 {{< img src="/images/reports/create_a_report_button.png" alt="Create report button" max-width="90%">}}
 
-3. A modal titled **Create Report** will appear. Select the charts and panels you want to add to your report. (You can add or remove charts and panels later).
-4. Click **Create report**. 
-5. Edit the report to your desired state. 
-6. Click **Publish to project**.
-7. Click the **Share** button to share your report with collaborators. 
+3. **Create Report** というタイトルのモーダルが表示されます。report に追加したいチャートやパネルを選択してください。（後からチャートやパネルの追加・削除も可能です。）
+4. **Create report** をクリックします。
+5. レポートを好みの内容に編集します。
+6. **Publish to project** をクリックします。
+7. **Share** ボタンを押して、コラボレーターと report を共有しましょう。
 
-See the [Create a report]({{< relref path="./create-a-report.md" lang="ja" >}}) page for more information on how to create reports interactively an programmatically with the W&B Python SDK.
+W&B Python SDK を使って対話的・プログラム的に report を作成する方法については、[Create a report]({{< relref path="./create-a-report.md" lang="ja" >}}) のページをご覧ください。
 
-## How to get started
-Depending on your use case, explore the following resources to get started with W&B Reports:
+## 開始方法
+ユースケースに応じて、以下のリソースから W&B Reports の利用を始めてみましょう：
 
-* Check out our [video demonstration](https://www.youtube.com/watch?v=2xeJIv_K_eI) to get an overview of W&B Reports.
-* Explore the [Reports gallery]({{< relref path="./reports-gallery.md" lang="ja" >}}) for examples of live reports.
-* Try the [Programmatic Workspaces]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) tutorial to learn how to create and customize your workspace.
-* Read curated Reports in [W&B Fully Connected](https://wandb.me/fc).
+* W&B Reports の概要を知りたい方は、[ビデオデモンストレーション](https://www.youtube.com/watch?v=2xeJIv_K_eI) をご覧ください。
+* ライブ Reports の事例は、[Reports ギャラリー]({{< relref path="./reports-gallery.md" lang="ja" >}}) を参照してください。
+* Workspace の作成・カスタマイズ方法を学ぶには、[Programmatic Workspaces]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) チュートリアルをお試しください。
+* [W&B Fully Connected](https://wandb.me/fc) でキュレーションされた Reports を読むことができます。
 
-## Recommended practices and tips 
+## ベストプラクティス・TIPS
 
-For best practices and tips for Experiments and logging, see [Best Practices: Reports](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#reports).
+Experiments やログ記録のためのベストプラクティスやヒントについては、[Best Practices: Reports](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#reports) をご覧ください。

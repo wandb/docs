@@ -1,45 +1,45 @@
 ---
-description: Export a W&B Report as a PDF or LaTeX.
+title: レポートをクローンおよびエクスポートする
+description: W&B レポートを PDF または LaTeX 形式でエクスポートする。
 menu:
   default:
     identifier: ja-guides-core-reports-clone-and-export-reports
     parent: reports
-title: Clone and export reports
 weight: 40
 ---
 
 {{% alert %}}
-W&B Report and Workspace API is in Public Preview.
+W&B Report および Workspace API はパブリックプレビュー中です。
 {{% /alert %}}
 
-## Export reports
+## レポートのエクスポート
 
-Export a report as a PDF or LaTeX. Within your report, select the kebab icon to expand the dropdown menu. Choose **Download and** select either PDF or LaTeX output format.
+レポートを PDF または LaTeX 形式でエクスポートできます。レポート内でケバブアイコンを選択し、ドロップダウンメニューを開きます。**ダウンロード** を選び、PDF または LaTeX の出力形式を選択してください。
 
-## Cloning reports
+## レポートのクローン
 
 {{< tabpane text=true >}}
 {{% tab header="W&B App" value="app" %}}
-Within your report, select the kebab icon to expand the dropdown menu. Choose the **Clone this report** button. Pick a destination for your cloned report in the modal. Choose **Clone report**.
+レポート内でケバブアイコンを選択し、ドロップダウンメニューを展開します。**このレポートをクローン** ボタンを選択します。表示されるモーダルでクローン先を選択してください。**レポートをクローン** を押します。
 
 {{< img src="/images/reports/clone_reports.gif" alt="Cloning reports" >}}
 
-Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
+レポートをクローンすると、プロジェクトのテンプレートやフォーマットを再利用できます。チームアカウント内でプロジェクトをクローンすると、チームのメンバー全員がそのプロジェクトを閲覧できます。個人アカウント内でクローンした場合は、そのユーザーのみに表示されます。
 {{% /tab %}}
 
 {{% tab header="Report and Workspace API" value="python_wr_api"%}}
 
-Load a Report from a URL to use it as a template.
+Report の URL からテンプレートとして読み込むことができます。
 
 ```python
 report = wr.Report(
     project=PROJECT, title="Quickstart Report", description="That was easy!"
-)  # Create
-report.save()  # Save
-new_report = wr.Report.from_url(report.url)  # Load
+)  # 作成
+report.save()  # 保存
+new_report = wr.Report.from_url(report.url)  # 読み込み
 ```
 
-Edit the content within `new_report.blocks`.
+`new_report.blocks` 内の内容を編集します。
 
 ```python
 pg = wr.PanelGrid(
@@ -55,7 +55,7 @@ pg = wr.PanelGrid(
     ],
 )
 new_report.blocks = (
-    report.blocks[:1] + [wr.H1("Panel Grid Example"), pg] + report.blocks[1:]
+    report.blocks[:1] + [wr.H1("パネルグリッド例"), pg] + report.blocks[1:]
 )
 new_report.save()
 ```

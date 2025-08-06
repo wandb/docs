@@ -1,19 +1,19 @@
 ---
+title: '`.log()` と `.summary` の違いは何ですか？'
 menu:
   support:
     identifier: ja-support-kb-articles-difference_log_summary
 support:
-- Charts
-title: What is the difference between `.log()` and `.summary`?
+- チャート
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-The summary displays in the table, while the log saves all values for future plotting.
+サマリーはテーブルに表示され、ログにはすべての値が保存されて将来のプロットに使えます。
 
-For instance, call `run.log()` whenever accuracy changes. By default, `run.log()` updates the summary value unless set manually for that metric.
+例えば、精度が変化するたびに `run.log()` を呼び出します。デフォルトでは、`run.log()` はそのメトリクスに対するサマリー値を自動的に更新しますが、手動で設定することも可能です。
 
-The scatterplot and parallel coordinate plots use the summary value, while the line plot shows all values recorded by `run.log`.
+散布図やパラレル座標プロットにはサマリー値が使われ、折れ線グラフには `run.log` で記録されたすべての値が表示されます。
 
-Some users prefer to set the summary manually to reflect the optimal accuracy instead of the most recent accuracy logged.
+最も最近ログした精度ではなく、最適な精度を反映するためにサマリーを手動で設定するユーザーもいます。

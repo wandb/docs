@@ -1,26 +1,25 @@
 ---
+title: wandb launch-agent
 menu:
   reference:
     identifier: ja-ref-cli-wandb-launch-agent
-title: wandb launch-agent
 ---
 
-**Usage**
+**使い方**
 
 `wandb launch-agent [OPTIONS]`
 
-**Summary**
+**概要**
 
-Run a W&B launch agent.
+W&B Launch エージェントを実行します。
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `-q, --queue` | The name of a queue for the agent to watch. Multiple -q   flags supported. |
-| `-e, --entity` | The entity to use. Defaults to current logged-in user |
-| `-l, --log-file` | Destination for internal agent logs. Use - for stdout.   By default all agents logs will go to debug.log in your wandb/ subdirectory or WANDB_DIR if set. |
-| `-j, --max-jobs` | The maximum number of launch jobs this agent can run in   parallel. Defaults to 1. Set to -1 for no upper limit |
-| `-c, --config` | path to the agent config yaml to use |
-| `-v, --verbose` | Display verbose output |
+| `-q, --queue` | エージェントが監視するキュー名を指定します。複数の -q フラグに対応しています。 |
+| `-e, --entity` | 使用する Entity を指定します。デフォルトは現在ログイン中のユーザーです。 |
+| `-l, --log-file` | エージェント内部ログの出力先を指定します。- を指定すると標準出力となります。デフォルトでは、すべてのエージェントログは wandb/サブディレクトリー内の debug.log か、WANDB_DIR が設定されていればそちらに保存されます。 |
+| `-j, --max-jobs` | このエージェントが並列で実行できる Launch ジョブの最大数です。デフォルトは1。-1に設定すると上限がなくなります。|
+| `-c, --config` | 使用するエージェント設定 yaml ファイルのパスを指定します。|
+| `-v, --verbose` | 詳細な出力を表示します。|

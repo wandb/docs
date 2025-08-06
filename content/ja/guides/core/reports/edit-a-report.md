@@ -1,54 +1,51 @@
 ---
-description: Edit a report interactively with the App UI or programmatically with
-  the W&B SDK.
+title: レポートを編集する
+description: レポートは、App UI でインタラクティブに編集することも、W&B SDK を使ってプログラムで編集することもできます。
 menu:
   default:
     identifier: ja-guides-core-reports-edit-a-report
     parent: reports
-title: Edit a report
 weight: 20
 ---
 
 {{% alert %}}
-W&B Report and Workspace API is in Public Preview.
+W&B Report および Workspace API はパブリックプレビュー中です。
 {{% /alert %}}
 
-Edit a report interactively with the App UI or programmatically with the W&B SDK.
+App UI を使ってインタラクティブに、または W&B SDK を使ってプログラム的にレポートを編集できます。
 
-Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
+Reports は _blocks_ で構成されています。blocks はレポート本文を構成します。これらの block 内にはテキスト、画像、埋め込み可視化、experiment や run のプロット、panel grid などを追加できます。
 
-_Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
-
+_Panel grid_ は、panel と _run set_ を保持する特定の block です。run set は W&B のプロジェクトにログされた run の集合です。panel は run set データの可視化を行います。
 
 {{% alert %}}
-Check out the [Programmatic workspaces tutorial]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) for a step by step example on how create and customize a saved workspace view.
+プログラムから保存済みワークスペースビューを作成・カスタマイズする手順例については、[Programmatic workspaces チュートリアル]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) をご覧ください。
 {{% /alert %}}
 
 {{% alert %}}
-Verify that you have the W&B Report and Workspace API `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
+レポートをプログラム的に編集したい場合は、W&B Python SDK に加えて W&B Report および Workspace API `wandb-workspaces` がインストールされていることを確認してください。
 
 ```pip
 pip install wandb wandb-workspaces
 ```
 {{% /alert %}}
 
-## Add plots
+## プロットの追加
 
-Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data shows up on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
+各 panel grid には run set のリストと panel のリストがあります。セクション下部の run set が grid 内 panel に表示するデータを制御します。異なる run 集合からデータを引っ張るチャートを追加したい場合は新しい panel grid を作成してください。
 
 {{< tabpane text=true >}}
 {{% tab header="W&B App" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B, including a line plot, scatter plot or parallel coordinates chart.
+レポート内でスラッシュ（`/`）を入力すると、ドロップダウンメニューが表示されます。**Add panel**（パネル追加）を選択して panel を追加します。W&B でサポートされている任意の panel（折れ線グラフ、散布図、平行座標チャートなど）を追加できます。
 
-{{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
+{{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="レポートにチャートを追加" >}}
 {{% /tab %}}
 
 {{% tab header="Report and Workspace API" value="python_wr_api"%}}
-Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
+SDK でレポートにプログラムからプロットを追加できます。`PanelGrid` Public API クラスの `panels` パラメータに、プロットやチャートオブジェクトのリストを渡してください。各プロット・チャートオブジェクトは対応する Python クラスで作成します。
 
-
-The proceeding examples demonstrates how to create a line plot and scatter plot.
+以下の例では、折れ線グラフと散布図を作成する方法を示しています。
 
 ```python
 import wandb
@@ -73,41 +70,41 @@ report.blocks = blocks
 report.save()
 ```
 
-For more information about available plots and charts you can add to a report programmatically, see `wr.panels`.
+レポートに追加できるプロット・チャートの詳細は `wr.panels` をご覧ください。
 
 {{% /tab %}}
 {{< /tabpane >}}
 
 
-## Add run sets
+## Run set の追加
 
-Add run sets from projects interactively with the App UI or the W&B SDK.
+プロジェクトから run set を App UI または W&B SDK 経由でインタラクティブに追加できます。
 
 {{< tabpane text=true >}}
 {{% tab header="W&B App" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Panel Grid**. This will automatically import the run set from the project the report was created from.
+レポート内でスラッシュ（`/`）を入力すると、ドロップダウンメニューが表示されます。そこから **Panel Grid** を選択すると、レポート作成元プロジェクトの run set が自動的にインポートされます。
 
-If you import a panel into a report, run names are inherited from the project. In the report, you can optionally [rename a run]({{< relref path="/guides/models/track/runs/#rename-a-run" lang="ja" >}}) to give the reader more context. The run is renamed only in the individual panel. If you clone the panel in the same report, the run is also renamed in the cloned panel.
+panel をレポートにインポートすると、run 名はプロジェクトから継承されます。必要に応じて、レポート内で [run 名を変更]({{< relref path="/guides/models/track/runs/#rename-a-run" lang="ja" >}}) して、読者により分かりやすくすることも可能です。run 名の変更はその panel 内だけに反映されます。同じレポート内で panel をコピーした場合は、コピー先 panel の run 名も同様に変更されます。
 
-1. In the report, click the pencil icon to open the report editor.
-1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots. Select one of the following choices, then submit the form.
+1. レポート内で鉛筆アイコンをクリックし、レポートエディターを開きます。
+1. run set 内でリネームしたい run を探します。レポート名にカーソルを乗せて、縦の三点リーダをクリックし、下記いずれかを選択してフォームを送信します。
 
-    - **Rename run for project**: rename the run across the entire project. To generate a new random name, leave the field blank.
-    - **Rename run for panel grid** rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
+    - **Rename run for project**: プロジェクト全体で run 名を変更します。新しいランダム名を生成したい場合は、フィールドを空のまま送信してください。
+    - **Rename run for panel grid**: レポート内のみ run 名を変更し、他の文脈では元の名前を保持します。ランダム名の自動生成は対応していません。
 
-1. Click **Publish report**.
+1. **Publish report** をクリックします。
 
 {{% /tab %}}
 
 {{% tab header="Report and Workspace API" value="python_wr_api"%}}
 
-Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
+`wr.Runset()` および `wr.PanelGrid` クラスでプロジェクトから run set を追加できます。以下は runset を追加する手順です。
 
-1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the run sets for the project parameter and the entity that owns the project for the entity parameter.
-2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `run sets` parameter.
-3. Store one or more `wr.PanelGrid()` object instances in a list.
-4. Update the report instance blocks attribute with the list of panel grid instances.
+1. `wr.Runset()` オブジェクトを作成。project パラメータに run set を持つプロジェクト名、entity パラメータにそのプロジェクト所有 entity 名を指定します。
+2. `wr.PanelGrid()` オブジェクトを作成し、`runsets` パラメータに runset オブジェクトのリストを渡します。
+3. 1つ以上の `wr.PanelGrid()` オブジェクトをリストに格納します。
+4. レポートインスタンスの blocks 属性に panel grid インスタンスのリストを設定します。
 
 ```python
 import wandb
@@ -127,7 +124,7 @@ report.blocks = [panel_grids]
 report.save()
 ```
 
-You can optionally add runsets and panels with one call to the SDK:
+runset と panel を 1 回の SDK 呼び出しで同時に追加することも可能です。
 
 ```python
 import wandb
@@ -192,42 +189,42 @@ report.save()
 {{< /tabpane >}}
 
 
-## Freeze a run set
+## Run set を凍結（freeze）する
 
-A report automatically updates run sets to show the latest data from the project. You can preserve the run set in a report by *freezing* that run set. When you freeze a run set, you preserve the state of the run set in a report at a point in time.
+レポートでは run set が自動で更新され、プロジェクトの最新データが表示されます。run set をレポート内で保持したいときは、*freeze* 操作でその時点の状態を保存できます。
 
-To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
+レポート閲覧時に run set を凍結するには、各 panel grid 内の **Filter** ボタン付近にある雪の結晶アイコンをクリックします。
 
 {{< img src="/images/reports/freeze_runset.png" alt="Freeze runset button" >}}
 
-## Filter a run set programmatically
+## run set をプログラムでフィルタ
 
-Programmatically filter run sets and add them to a report with the [Workspace and Reports API]({{< relref path="/ref/python/wandb_workspaces/reports" lang="ja" >}}).
+[Workspace and Reports API]({{< relref path="/ref/python/wandb_workspaces/reports" lang="ja" >}}) を利用し、プログラム的に run set を絞り込み、レポートに追加できます。
 
-The general syntax for a filter expression is:
+一般的なフィルタ式の構文は以下です。
 
 ```text
 Filter('key') operation <value>
 ```
 
-Where `key` is the name of the filter, `operation` is a comparison operator (e.g., `>`, `<`, `==`, `in`, `not in`, `or`, and `and`), and `<value>` is the value to compare against. `Filter` is a placeholder for the type of filter you want to apply. The following table lists the available filters and their descriptions:
+ここで、`key` はフィルタ名、`operation` は比較演算子（例：`>`, `<`, `==`, `in`, `not in`, `or`, `and`）、`<value>` は比較対象値です。`Filter` は適用したいフィルタタイプです。利用可能なフィルタ／説明は以下の通りです。
 
-| Filter | Description | Available keys |
+| Filter | 説明 | 指定可能キー |
 | ---|---| --- |
-|`Config('key')` | Filter by config values | Values specified in `config` parameter in `wandb.init(config=)`. |
-|`SummaryMetric('key')` | Filter by summary metrics | Values you log to a run with `wandb.Run.log()`. |
-|`Tags('key')` | Filter by tags | Tag values that you add to your run (programmatically or with the W&B App). |
-|`Metric('key')` | Filter by run properties | `tags`, `state`, `displayName`, `jobType` |
+|`Config('key')` | 設定値でフィルタ | `wandb.init(config=)` の `config` パラメータで指定した値 |
+|`SummaryMetric('key')` | サマリーメトリクスでフィルタ | `wandb.Run.log()` で run にログした値 |
+|`Tags('key')` | タグ値でフィルタ | プログラム または W&B App で run に追加したタグ値 |
+|`Metric('key')` | run プロパティでフィルタ | `tags`, `state`, `displayName`, `jobType` |
 
-Once you have defined your filters, you can create a report and pass the filtered run sets to `wr.PanelGrid(runsets=)`. See the **Report and Workspace API** tabs throughout this page for more information on how to add various elements to a report programmatically.
+フィルタ定義後、レポート作成時に `wr.PanelGrid(runsets=)` へフィルタ済み run set を渡せます。各種要素の追加方法詳細は本ページ各所の **Report and Workspace API** タブを参照してください。
 
-The following examples demonstrate how to filter run sets in a report.
+次に、レポート内 run set のフィルタ例をいくつか示します。
 
-### Config filters
+### Config フィルタ
 
-Filter a runset by one or more config values. Config values are parameters you specify in your run configuration (`wandb.init(config=)`).
+1つまたは複数の config 値で runset をフィルタします。config 値は run 設定（`wandb.init(config=)`）で指定したパラメータです。
 
-For example, the following code snippet first initializes a run with a config value for `learning_rate` and `batch_size`, then filters runs in a report based on the `learning_rate` config value.
+たとえば下記コードスニペットは `learning_rate` と `batch_size` を config として run を初期化し、その後 `learning_rate` の値を基に run をフィルタしています。
 
 ```python
 import wandb
@@ -238,11 +235,11 @@ config = {
 }
 
 with wandb.init(project="<project>", entity="<entity>", config=config) as run:
-    # Your training code here
+    # ここにトレーニングコードを書く
     pass
 ```
 
-Within your Python script or notebook, you can then programmatically filter runs that have a learning rate greater than `0.01`.
+Python スクリプトやノートブック内で、`learning_rate` が `0.01` より大きい run を絞り込むフィルタもこのように書けます。
 
 ```python
 import wandb_workspaces.reports.v2 as wr
@@ -254,7 +251,7 @@ runset = wr.Runset(
 )
 ```
 
-You can also filter by multiple config values with the `and` operator:
+また、`and` 演算子で複数の条件を組み合わせることもできます。
  
 ```python
 runset = wr.Runset(
@@ -264,7 +261,7 @@ runset = wr.Runset(
 )
 ```
 
-Continuing from the previous example, you can create a report with the filtered runset as follows:
+このフィルタ済み runset でレポートを作成する場合は以下のようになります。
 
 ```python
 report = wr.Report(
@@ -288,19 +285,19 @@ report.blocks = [
 report.save()
 ```
 
-### Metric filters
+### Metric フィルタ
 
-Filter run sets based on a run's: tag (`tags`), run state (`state`), run name (`displayName`), or job type (`jobType`).
+run のタグ（`tags`）、状態（`state`）、名前（`displayName`）、ジョブタイプ（`jobType`）で run set を絞り込めます。
 
 {{% alert %}}
-`Metric` filters posses a different syntax. Pass a list of values as a list.
+`Metric` フィルタは他と異なる構文を持っています。値のリストをリスト形式で渡してください。
 
 ```text
 Metric('key') operation [<value>]
 ```
 {{% /alert %}}
 
-For example, consider the following Python snippet that creates three runs and assigns each of them a name:
+例えば、Python スニペットで 3 つの run を作り、それぞれに名前をつける例：
 
 ```python
 import wandb
@@ -308,11 +305,11 @@ import wandb
 with wandb.init(project="<project>", entity="<entity>") as run:
     for i in range(3):
         run.name = f"run{i+1}"
-        # Your training code here
+        # ここにトレーニングコードを書く
         pass
 ```
 
-When you create your report, you can filter runs by their display name. For example, to filter runs with names `run1`, `run2`, and `run3`, you can use the following code:
+レポート作成時、display name で run をフィルタしたい場合は以下のように書けます。
 
 ```python
 runset = wr.Runset(
@@ -323,10 +320,10 @@ runset = wr.Runset(
 ```
 
 {{% alert %}}
-You can find the name of the run in the **Overview** page of a run in the W&B App or programmatically with `Api.runs().run.name`.
+run の名前は W&B App の run の **Overview** ページや、`Api.runs().run.name` でプログラムから確認できます。
 {{% /alert %}}
 
-The following examples demonstrate how to filter a runset by the run's state (`finished`, `crashed`, or `running`):
+run の状態（`finished`, `crashed`, `running` など）で runset をフィルタする例：
 
 ```python
 runset = wr.Runset(
@@ -345,9 +342,9 @@ runset = wr.Runset(
 ```
 
 
-### SummaryMetric filters
+### SummaryMetric フィルタ
 
-The following examples demonstrate how to filter a run set by summary metrics. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in the W&B App under the **Summary** section of a run's **Overview** page.
+run set を summary metrics でフィルタする例です。summary metrics は `wandb.Run.log()` で run に保存した値です。run を保存後、metric 名は W&B App の **Overview** ページ中 **Summary** セクションで確認できます。
 
 ```python
 runset = wr.Runset(
@@ -365,9 +362,9 @@ runset = wr.Runset(
 )
 ```
 
-### Tags filters
+### Tags フィルタ
 
-The following code snippet shows how to filter a runs set by its tags. Tags are values you add to a run (programmatically or with the W&B App).
+runset をタグでフィルタする例。タグはプログラムや W&B App で run に付与できる値です。
 
 ```python
 runset = wr.Runset(
@@ -377,24 +374,24 @@ runset = wr.Runset(
 )
 ```
 
-## Add code blocks
+## コードブロックの追加
 
-Add code blocks to your report interactively with the App UI or with the W&B SDK.
+App UI または W&B SDK で、レポートにコードブロックを追加できます。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Code**.
+レポート内でスラッシュ（`/`）を入力し、ドロップダウンから **Code** を選択してください。
 
-Select the name of the programming language on the right hand of the code block. This will expand a dropdown. From the dropdown, select your programming language syntax. You can choose from Javascript, Python, CSS, JSON, HTML, Markdown, and YAML.
+コードブロック右側のプルダウンで言語名を選択できます。JavaScript、Python、CSS、JSON、HTML、Markdown、YAML から選択できます。
 
 {{% /tab %}}
 
 {{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
+`wr.CodeBlock` クラスを利用し、プログラムでコードブロックを生成できます。language、code パラメータに表示する言語名・コード内容を与えてください。
 
-For example the proceeding example demonstrates a list in YAML file:
+例えば、YAML のリスト：
 
 ```python
 import wandb
@@ -411,7 +408,7 @@ report.blocks = [
 report.save()
 ```
 
-This will render a code block similar to:
+この例は下記のような YAML コードブロックとして描画されます。
 
 ```yaml
 this:
@@ -422,7 +419,7 @@ cool:
 - file
 ```
 
-The proceeding example demonstrates a Python code block:
+Python のコードブロック：
 
 ```python
 report = wr.Report(project="report-editing")
@@ -433,7 +430,7 @@ report.blocks = [wr.CodeBlock(code=["Hello, World!"], language="python")]
 report.save()
 ```
 
-This will render a code block similar to:
+これは下記のようなコードブロックとして表示されます。
 
 ```md
 Hello, World!
@@ -443,20 +440,20 @@ Hello, World!
 
 {{% /tabpane %}}
 
-## Add markdown
+## Markdown の追加
 
-Add markdown to your report interactively with the App UI or with the W&B SDK.
+App UI または W&B SDK からレポートに markdown を追加できます。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Markdown**.
+レポート内でスラッシュ（`/`）を入力し、ドロップダウンから **Markdown** を選んでください。
 
 {{% /tab %}}
 
 {{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block programmatically. Pass a string to the `text` parameter:
+`wandb.apis.reports.MarkdownBlock` クラスを利用し、プログラムで markdown ブロックを追加可能です。`text` パラメータに文字列を渡してください。
 
 ```python
 import wandb
@@ -469,7 +466,7 @@ report.blocks = [
 ]
 ```
 
-This will render a markdown block similar to:
+これにより、下記のような markdown ブロックが作成されます。
 
 {{< img src="/images/reports/markdown.png" alt="Rendered markdown block" >}}
 
@@ -478,20 +475,20 @@ This will render a markdown block similar to:
 {{% /tabpane %}}
 
 
-## Add HTML elements
+## HTML 要素の追加
 
-Add HTML elements to your report interactively with the App UI or with the W&B SDK.
+App UI または W&B SDK からレポートに HTML 要素を追加できます。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
+レポート内でスラッシュ（`/`）を入力後、テキストブロックの種類を選択してください。例えば、H2 見出しを作成するには `Heading 2` オプションを選びます。
 
 {{% /tab %}}
 
 {{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to create an H1, H2, and an unordered list:
+`wandb.apis.reports.blocks` 属性に HTML 要素（複数可）のリストを渡してください。下記は H1, H2, および箇条書きリストを作成する例です。
 
 ```python
 import wandb
@@ -508,8 +505,7 @@ report.blocks = [
 report.save()
 ```
 
-This will render a HTML elements  to the following:
-
+この例は以下のように HTML 要素がレンダリングされます。
 
 {{< img src="/images/reports/render_html.png" alt="Rendered HTML elements" >}}
 
@@ -517,30 +513,30 @@ This will render a HTML elements  to the following:
 
 {{% /tabpane %}}
 
-## Embed rich media links
+## リッチメディアリンクの埋め込み
 
-Embed rich media within the report with the App UI or with the W&B SDK.
+App UI または W&B SDK を使って、レポート内にリッチメディアを埋め込むことができます。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-Copy and past URLs into reports to embed rich media within the report. The following animations demonstrate how to copy and paste URLs from Twitter, YouTube, and SoundCloud.
+URL をレポートにコピーペーストするだけで、リッチメディアを埋め込めます。下記アニメーションは、Twitter・YouTube・SoundCloud から URL をコピー＆ペーストする様子を示しています。
 
 ### Twitter
 
-Copy and paste a Tweet link URL into a report to view the Tweet within the report.
+Tweet のリンク URL をレポート内に貼り付ければ、Tweet の内容をレポートで直接見ることができます。
 
 {{< img src="/images/reports/twitter.gif" alt="Embedding Twitter content" >}}
 
 ### Youtube
 
-Copy and paste a YouTube video URL link to embed a video in the report.
+YouTube 動画の URL リンクを貼り付けることで、レポートに動画を埋め込めます。
 
 {{< img src="/images/reports/youtube.gif" alt="Embedding YouTube videos" >}}
 
 ### SoundCloud
 
-Copy and paste a SoundCloud link to embed an audio file into a report.
+SoundCloud のリンクを貼り付けると、音声ファイルをレポートに埋め込むことができます。
 
 {{< img src="/images/reports/soundcloud.gif" alt="Embedding SoundCloud audio" >}}
 
@@ -548,7 +544,7 @@ Copy and paste a SoundCloud link to embed an audio file into a report.
 
 {{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to embed video and Twitter media into a report:
+`wandb.apis.reports.blocks` 属性に一つ以上の埋め込みメディアオブジェクトをリストで指定します。以下は、ビデオと Twitter メディアをレポートへ埋め込む例です。
 
 ```python
 import wandb
@@ -569,27 +565,27 @@ report.save()
 
 {{% /tabpane %}}
 
-## Duplicate and delete panel grids
+## パネルグリッドの複製・削除
 
-If you have a layout that you would like to reuse, you can select a panel grid and copy-paste it to duplicate it in the same report or even paste it into a different report.
+レイアウトを再利用したい場合、panel grid セクションを選択してコピー＆ペーストすることで、同じレポート内や別のレポートにも複製できます。
 
-Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
+panel grid セクション全体を強調表示したいときは、右上のドラッグハンドルをクリックし、レポート内の panel grid・テキスト・見出し等エリアをドラッグして選択してください。
 
 {{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="Copying panel grids" >}}
 
-Select a panel grid and press `delete` on your keyboard to delete a panel grid.
+panel grid を選択し、キーボードで `delete` を押すと panel grid を削除できます。
 
 {{< img src="/images/reports/delete_panel_grid.gif" alt="Deleting panel grids" >}}
 
-## Collapse headers to organize Reports
+## 見出しをたたんでレポートを整理する
 
-Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
+Report の中で見出しを折りたたむことで、テキストブロック内のコンテンツを一時的に非表示にできます。レポート読み込み時には、開いている見出しの内容のみが表示されます。見出しをたたむことでコンテンツ整理や、過度なデータ読込み防止に役立ちます。下記はその動作を示した gif です。
 
 {{< img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report." >}}
 
-## Visualize relationships across multiple dimensions
+## 多次元の関係性を可視化する
 
-To effectively visualize relationships across multiple dimensions, use a color gradient to represent one of the variables. This enhances clarity and makes patterns easier to interpret.
+多次元の関係性を効果的に可視化するには、変数の一つを色の勾配で表現しましょう。これにより理解が深まり、パターンも読み取りやすくなります。
 
-1. Choose a variable to represent with a color gradient (e.g., penalty scores, learning rates, etc.). This allows for a clearer understanding of how penalty (color) interacts with reward/side effects (y-axis) over training time (x-axis).
-2. Highlight key trends. Hovering over a specific group of runs highlights them in the visualization.
+1. 色のグラデーションで表現する変数（例：ペナルティスコア、learning rate など）を選びます。これにより、reward/side effect（y軸）とtraining time（x軸）上で penalty（色）がどのように作用するか明確になります。
+2. 主要な傾向をハイライトします。特定の run グループにカーソルを合わせると、可視化内でそのグループが強調表示されます。

@@ -1,36 +1,36 @@
 ---
+title: W&B Inference でサーバーエラー（500、503）が発生した場合の対処方法
 menu:
   support:
     identifier: ja-support-kb-articles-inference_server_errors_500_503
 support:
-- inference
-title: How do I fix server errors (500, 503) with W&B Inference?
+- 推論
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Server errors indicate temporary issues with the W&B Inference service.
+サーバーエラーは、一時的に W&B Inference サービスで問題が発生していることを示します。
 
-## Error types
+## エラータイプ
 
 ### 500 - Internal Server Error
-**Message:** "The server had an error while processing your request"
+**メッセージ:** 「サーバーでリクエスト処理中にエラーが発生しました」
 
-This is a temporary internal error on the server side.
+これはサーバー側で発生した一時的な内部エラーです。
 
 ### 503 - Service Overloaded
-**Message:** "The engine is currently overloaded, please try again later"
+**メッセージ:** 「現在エンジンが過負荷のため、しばらくしてから再試行してください」
 
-The service is experiencing high traffic.
+サービスが高いトラフィックを処理している状態です。
 
-## How to handle server errors
+## サーバーエラーの対処法
 
-1. **Wait before retrying**
-   - 500 errors: Wait 30-60 seconds
-   - 503 errors: Wait 60-120 seconds
+1. **リトライ前に待機する**
+   - 500エラーの場合: 30～60秒待つ
+   - 503エラーの場合: 60～120秒待つ
 
-2. **Use exponential backoff**
+2. **指数バックオフを利用する**
    ```python
    import time
    import openai
@@ -43,6 +43,7 @@ The service is experiencing high traffic.
                    messages=messages
                )
            except Exception as e:
+               # 500または503エラーの場合、リトライ回数に応じて待機して再試行します
                if "500" in str(e) or "503" in str(e):
                    if attempt < max_retries - 1:
                        wait_time = min(60, (2 ** attempt))
@@ -53,19 +54,21 @@ The service is experiencing high traffic.
                    raise
    ```
 
-3. **Set appropriate timeouts**
-   - Increase timeout values for your HTTP client
-   - Consider async operations for better handling
+3. **適切なタイムアウトを設定する**
+   - HTTPクライアントのタイムアウト値を増やす
+   - より良いハンドリングのために非同期処理を検討する
 
-## When to contact support
+## サポートに連絡するタイミング
 
-Contact support if:
-- Errors persist for more than 10 minutes
-- You see patterns of failures at specific times
-- Error messages contain additional details
+以下の場合はサポートまでご連絡ください:
 
-Provide:
-- Error messages and codes
-- Time when errors occurred
-- Your code snippet (remove API keys)
-- W&B entity and project names
+- 10分以上エラーが継続する場合
+- 特定の時間帯に繰り返し失敗が発生している場合
+- エラーメッセージに追加の詳細情報が含まれている場合
+
+ご提供いただきたい情報:
+
+- エラーメッセージおよびエラーコード
+- エラーが発生した時間
+- ご利用のコードスニペット（APIキーは削除してください）
+- W&B の entity 名と project 名

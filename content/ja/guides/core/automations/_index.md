@@ -1,9 +1,9 @@
 ---
+title: オートメーション
 menu:
   default:
     identifier: ja-guides-core-automations-_index
     parent: core
-title: Automations
 weight: 4
 ---
 
@@ -11,41 +11,41 @@ weight: 4
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-This page describes _automations_ in W&B. [Create an automation]({{< relref path="create-automations/" lang="ja" >}}) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact]({{< relref path="/guides/core/artifacts" lang="ja" >}}) artifact version is created or when a [run metric]({{< relref path="/guides/models/track/runs.md" lang="ja" >}}) meets or changes by a threshold.
+このページでは、W&B における _オートメーション_ について説明します。[オートメーションを作成する]({{< relref path="create-automations/" lang="ja" >}})ことで、モデルの自動テストやデプロイメントなどのワークフローステップを、W&B 上でのイベント（例えば [artifact]({{< relref path="/guides/core/artifacts" lang="ja" >}}) のバージョン作成や [run metric]({{< relref path="/guides/models/track/runs.md" lang="ja" >}}) の値が指定したしきい値を満たした場合または変化した場合など）に基づいてトリガーできます。
 
-For example, an automation can notify a Slack channel when a new version is created, trigger an automated testing webhook when the `production` alias is added to an artifact, or start a validation job only when a run's `loss` is within acceptable bounds.
+例えば、オートメーションを使えば、新しいバージョンが作成された際に Slack チャンネルへ通知したり、`production` エイリアスが artifact に追加されたタイミングで自動テスト用の webhook を発火したり、run の `loss` が許容範囲にある場合のみバリデーションジョブを開始したりできます。
 
-## Overview
-An automation can start when a specific [event]({{< relref path="automation-events.md" lang="ja" >}}) occurs in a registry or project.
+## 概要
+オートメーションは、レジストリやプロジェクト内で特定の [イベント]({{< relref path="automation-events.md" lang="ja" >}}) が発生した時に開始できます。
 
-In a [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}), an automation can start:
-- When a new artifact version is linked to a collection. For example, trigger testing and validation workflows for new candidate models.
-- When an alias is added to an artifact version. For example, trigger a deployment workflow when an alias is added to a model version.
+[Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) では、次のタイミングでオートメーションを開始できます：
+- 新しい artifact バージョンがコレクションにリンクされたとき。例：新しい候補モデルに対してテストやバリデーションのワークフローをトリガー。
+- エイリアスが artifact バージョンに追加されたとき。例：モデルバージョンにエイリアスが追加されたタイミングでデプロイメント用ワークフローを実行。
 
-In a [project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}), an automation can start:
-- When a new version is added to an artifact. For example, start a training job when a new version of a dataset artifact is added to a given collection.
-- When an alias is added to an artifact version. For example, trigger a PII redaction workflow when the alias "redaction" is added to a dataset artifact.
-- When a tag is added to an artifact version. For example, trigger a geo-specific workflow when the tag "europe" is added to an artifact version.
-- When a metric for a run meets or exceeds a configured threshold.
-- When a metric for a run changes by a configured threshold.
-- When a run's status changes to **Running**, **Failed**, or **Finished**.
+[project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}) では、次のタイミングでオートメーションを開始できます：
+- 新しいバージョンが artifact に追加された時。例：特定のコレクションにデータセット artifact の新バージョンが追加されたタイミングでトレーニングジョブを開始。
+- エイリアスが artifact バージョンに追加されたとき。例："redaction" エイリアスがデータセット artifact に付与された時、PII（個人情報）マスキングワークフローを実行。
+- artifact バージョンにタグが追加されたとき。例："europe" タグが artifact バージョンに追加された時、地域別のワークフローを実行。
+- run のメトリクスが設定したしきい値を満たした、または超えたとき。
+- run のメトリクスが設定したしきい値分変化したとき。
+- run のステータスが **Running**、**Failed**、**Finished** のいずれかに変化したとき。
 
-Optionally filter runs by user or run name.
+オプションで、ユーザーや run 名で run を絞り込むことも可能です。
 
-For more details, see [Automation events and scopes]({{< relref path="automation-events.md" lang="ja" >}}).
+詳細については、[Automation のイベントと範囲]({{< relref path="automation-events.md" lang="ja" >}})をご覧ください。
 
-To [create an automation]({{< relref path="create-automations/" lang="ja" >}}), you:
+[オートメーションを作成する]({{< relref path="create-automations/" lang="ja" >}})には、以下のステップを行います：
 
-1. If required, configure [secrets]({{< relref path="/guides/core/secrets.md" lang="ja" >}}) for sensitive strings the automation requires, such as access tokens, passwords, or sensitive configuration details. Secrets are defined in your **Team Settings**. Secrets are most commonly used in webhook automations to securely pass credentials or tokens to the webhook's external service without exposing it in plain text or hard-coding it in the webhook's payload.
-1. Configure the webhook or Slack notification to authorize W&B to post to Slack or run the webhook on your behalf. A single automation action (webhook or Slack notification) can be used by multiple automations. These actions are defined in your **Team Settings**.
-1. In the project or registry, create the automation:
-    1. Define the [event]({{< relref path="#automation-events" lang="ja" >}}) to watch for, such as when a new artifact version is added. 
-    1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook). For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
+1. 必要に応じて、オートメーションで利用する認証トークンやパスワードなどの機密文字列用に [secrets]({{< relref path="/guides/core/secrets.md" lang="ja" >}}) を設定します。Secrets は **Team Settings** で定義します。Secrets は主に webhook オートメーションで、外部サービスへ安全に認証情報やトークンを渡す用途に使われます（プレーンテキストやコード内への埋め込みなしで安全に管理）。
+1. webhook や Slack 通知の設定を行い、W&B が Slack への投稿や webhook の実行権限を持てるようにします。これらのアクション（webhook や Slack 通知）は複数のオートメーションから共通利用できます。アクションも **Team Settings** で定義します。
+1. プロジェクトまたはレジストリ内で、オートメーションを作成します：
+    1. 監視する [イベント]({{< relref path="#automation-events" lang="ja" >}}) を定義します（例：新しい artifact バージョン追加時）。
+    1. イベント発生時のアクションを指定します（Slack に通知、webhook の実行など）。webhook を使う場合には、アクセス用トークンやペイロード送信用に利用する secret も必要に応じて指定します。
 
-## Limitations
-[Run metric automations]({{< relref path="automation-events.md#run-metrics-events" lang="ja" >}}) are currently supported only in [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/#wb-multi-tenant-cloud" lang="ja" >}}).
+## 制限事項
+[Run metric automations]({{< relref path="automation-events.md#run-metrics-events" lang="ja" >}}) は現在 [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/#wb-multi-tenant-cloud" lang="ja" >}}) のみ対応しています。
 
-## Next steps
-- [Create an automation]({{< relref path="create-automations/" lang="ja" >}}).
-- Learn about [Automation events and scopes]({{< relref path="automation-events.md" lang="ja" >}}).
-- [Create a secret]({{< relref path="/guides/core/secrets.md" lang="ja" >}}).
+## 次のステップ
+- [オートメーションを作成する]({{< relref path="create-automations/" lang="ja" >}})。
+- [Automation のイベントと範囲について学ぶ]({{< relref path="automation-events.md" lang="ja" >}})。
+- [Secret を作成する]({{< relref path="/guides/core/secrets.md" lang="ja" >}})。

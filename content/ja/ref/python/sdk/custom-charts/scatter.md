@@ -1,16 +1,13 @@
 ---
+title: scatter()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-custom-charts-scatter
 object_type: python_sdk_custom_charts
-title: scatter()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py >}}
-
-
-
 
 ### <kbd>function</kbd> `scatter`
 
@@ -24,42 +21,38 @@ scatter(
 ) → CustomChart
 ```
 
-Constructs a scatter plot from a wandb.Table of data. 
+wandb.Table のデータから散布図を作成します。
 
+**引数:**
 
+ - `table`:  可視化したいデータを含む W&B Table。
+ - `x`:  x 軸に使用するカラム名。
+ - `y`:  y 軸に使用するカラム名。
+ - `title`:  散布図のタイトル。
+ - `split_table`:  W&B UI でテーブルを別セクションに分けて表示するかどうか。 `True` の場合、「Custom Chart Tables」というセクションで表示されます。デフォルトは `False` です。
 
-**Args:**
- 
- - `table`:  The W&B Table containing the data to visualize. 
- - `x`:  The name of the column used for the x-axis. 
- - `y`:  The name of the column used for the y-axis. 
- - `title`:  The title of the scatter chart. 
- - `split_table`:  Whether the table should be split into a separate section  in the W&B UI. If `True`, the table will be displayed in a section named  "Custom Chart Tables". Default is `False`. 
+**戻り値:**
 
+ - `CustomChart`:  W&B にログできるカスタムチャートオブジェクト。チャートをログするには `wandb.log()` に渡します。
 
-
-**Returns:**
- 
- - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass it to `wandb.log()`. 
-
-**Example:**
+**使用例:**
  ```python
 import math
 import random
 import wandb
 
-# Simulate temperature variations at different altitudes over time
+# 時間経過による異なる高度での気温変動をシミュレーション
 data = [
     [i, random.uniform(-10, 20) - 0.005 * i + 5 * math.sin(i / 50)]
     for i in range(300)
 ]
 
-# Create W&B table with altitude (m) and temperature (°C) columns
+# 高度（m）と気温（°C）のカラムを持つ W&B table を作成
 table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
 
-# Initialize W&B run and log the scatter plot
+# W&B run を初期化し、散布図をログ
 with wandb.init(project="temperature-altitude-scatter") as run:
-    # Create and log the scatter plot
+    # 散布図を作成してログ
     scatter_plot = wandb.plot.scatter(
          table=table,
          x="altitude (m)",

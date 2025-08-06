@@ -1,15 +1,15 @@
 ---
+title: レポートに画像をアップロードする
 menu:
   support:
     identifier: ja-support-kb-articles-upload_image_report
 support:
-- reports
-title: Upload an image to a report
+- レポート
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Press `/` on a new line, scroll to the Image option, and drag and drop an image into the report.
+新しい行で `/` を押し、Image オプションまでスクロールし、レポートに画像をドラッグ＆ドロップしてください。
 
-{{< img src="/images/reports/add_an_image.gif" alt="Adding image to report" >}}
+{{< img src="/images/reports/add_an_image.gif" alt="レポートに画像を追加する" >}}

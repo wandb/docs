@@ -1,15 +1,15 @@
 ---
+title: なぜ run を削除してもストレージメーターが更新されないのですか？
 menu:
   support:
     identifier: ja-support-kb-articles-storage_meter_update_after_deleting_runs
 support:
-- storage
-title: Why does the storage meter not update after deleting runs?
+- ストレージ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-- The storage meter does not update immediately after deleting runs due to processing delays. 
-- The backend system requires time to synchronize and reflect changes in usage accurately. 
-- If the storage meter has not updated, wait for the changes to process.
+- run を削除しても、プロセッシングの遅延のためストレージメーターはすぐには更新されません。
+- バックエンドシステムが正確に使用状況を同期し、反映するには時間がかかります。
+- ストレージメーターがまだ更新されていない場合、変更がプロセスされるまでしばらくお待ちください。

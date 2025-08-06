@@ -4,7 +4,7 @@ title: launch_add
 
 {{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch_add.py#L34-L131 >}}
 
-Enqueue a W&B launch experiment. With either a source uri, job or docker_image.
+W&B Launch 実験をキューに追加します。source uri、job、または docker_image のいずれかが利用可能です。
 
 ```python
 launch_add(
@@ -31,44 +31,43 @@ launch_add(
 ) -> "public.QueuedRun"
 ```
 
-| Arguments |  |
+| 引数 |  |
 | :--- | :--- |
-|  `uri` |  URI of experiment to run. A wandb run uri or a Git repository URI. |
-|  `job` |  string reference to a wandb.Job eg: wandb/test/my-job:latest |
-|  `config` |  A dictionary containing the configuration for the run. May also contain resource specific arguments under the key "resource_args" |
-|  `template_variables` |  A dictionary containing values of template variables for a run queue. Expected format of `{"VAR_NAME": VAR_VALUE}` |
-|  `project` |  Target project to send launched run to |
-|  `entity` |  Target entity to send launched run to |
-|  `queue` |  the name of the queue to enqueue the run to |
-|  `priority` |  the priority level of the job, where 1 is the highest priority |
-|  `resource` |  Execution backend for the run: W&B provides built-in support for "local-container" backend |
-|  `entry_point` |  Entry point to run within the project. Defaults to using the entry point used in the original run for wandb URIs, or main.py for git repository URIs. |
-|  `name` |  Name run under which to launch the run. |
-|  `version` |  For Git-based projects, either a commit hash or a branch name. |
-|  `docker_image` |  The name of the docker image to use for the run. |
-|  `resource_args` |  Resource related arguments for launching runs onto a remote backend. Will be stored on the constructed launch config under `resource_args`. |
-|  `run_id` |  optional string indicating the id of the launched run |
-|  `build` |  optional flag defaulting to false, requires queue to be set if build, an image is created, creates a job artifact, pushes a reference to that job artifact to queue |
-|  `repository` |  optional string to control the name of the remote repository, used when pushing images to a registry |
-|  `project_queue` |  optional string to control the name of the project for the queue. Primarily used for back compatibility with project scoped queues |
+|  `uri` |  実行する実験の URI。wandb run の uri または Git リポジトリの URI が指定できます。 |
+|  `job` |  wandb.Job を指す文字列（例: wandb/test/my-job:latest） |
+|  `config` |  run の設定を含む辞書型。`resource_args` というキーでリソース固有の引数も含めることができます。 |
+|  `template_variables` |  run queue 用のテンプレート変数の値を含む辞書型。フォーマット例: `{"VAR_NAME": VAR_VALUE}` |
+|  `project` |  Launch した run を送信する対象の Project |
+|  `entity` |  Launch した run を送信する対象の Entity |
+|  `queue` |  run を追加するキューの名前 |
+|  `priority` |  ジョブの優先度（1 が最も高い優先度） |
+|  `resource` |  run の実行バックエンド。W&B では "local-container" バックエンドのサポートがあります。 |
+|  `entry_point` |  Project 内で実行するエントリーポイント。wandb URI では元の run の entry point、Git リポジトリの場合は main.py がデフォルトとなります。 |
+|  `name` |  Launch する run の名前。 |
+|  `version` |  Git ベースの Project の場合はコミットハッシュまたはブランチ名。 |
+|  `docker_image` |  run に利用する docker イメージ名。 |
+|  `resource_args` |  リモートバックエンドで run を起動するためのリソース関連引数。構成された Launch 設定の `resource_args` として保持されます。 |
+|  `run_id` |  Launch された run の ID（オプション） |
+|  `build` |  オプションのフラグで、デフォルトは false。build を有効にする場合は queue の指定が必要で、イメージ作成・job artifact の作成・その参照を queue へプッシュします。 |
+|  `repository` |  イメージをリモートレジストリへプッシュする際に用いるリモートリポジトリ名を制御する文字列（オプション） |
+|  `project_queue` |  キュー用の Project 名を制御する文字列（オプション）。主に Project スコープのキューとの後方互換性用です。 |
 
-#### Example:
+#### 例:
 
 ```python
 from wandb.sdk.launch import launch_add
 
 project_uri = "https://github.com/wandb/examples"
 params = {"alpha": 0.5, "l1_ratio": 0.01}
-# Run W&B project and create a reproducible docker environment
-# on a local host
+# W&B Project をローカルホスト上で再現可能な docker 環境で実行
 api = wandb.apis.internal.Api()
 launch_add(uri=project_uri, parameters=params)
 ```
 
-| Returns |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  an instance of`wandb.api.public.QueuedRun` which gives information about the queued run, or if `wait_until_started` or `wait_until_finished` are called, gives access to the underlying Run information. |
+|  `wandb.api.public.QueuedRun` インスタンスを返し、キューイングされた run の情報を取得できます。`wait_until_started` や `wait_until_finished` を呼び出した場合は、run の詳細情報へアクセス可能です。 |
 
-| Raises |  |
+| 例外 |  |
 | :--- | :--- |
-|  `wandb.exceptions.LaunchError` if unsuccessful |
+|  `wandb.exceptions.LaunchError`（失敗時） |

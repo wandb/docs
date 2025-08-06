@@ -1,20 +1,19 @@
 ---
+title: wandb オフライン
 menu:
   reference:
     identifier: ja-ref-cli-wandb-offline
-title: wandb offline
 ---
 
-**Usage**
+**使用方法**
 
 `wandb offline [OPTIONS]`
 
-**Summary**
+**概要**
 
-Disable W&B sync
+W&B の同期を無効にします
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |

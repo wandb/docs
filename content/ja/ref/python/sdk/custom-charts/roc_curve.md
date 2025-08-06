@@ -1,10 +1,10 @@
 ---
+title: roc_curve()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-custom-charts-roc_curve
 object_type: python_sdk_custom_charts
-title: roc_curve()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py >}}
@@ -25,56 +25,54 @@ roc_curve(
 ) → CustomChart
 ```
 
-Constructs Receiver Operating Characteristic (ROC) curve chart. 
+受信者動作特性（ROC）曲線チャートを作成します。
 
 
 
-**Args:**
+**引数:**
  
- - `y_true`:  The true class labels (ground truth)  for the target variable. Shape should be (num_samples,). 
- - `y_probas`:  The predicted probabilities or  decision scores for each class. Shape should be (num_samples, num_classes). 
- - `labels`:  Human-readable labels corresponding to the class  indices in `y_true`. For example, if `labels=['dog', 'cat']`,  class 0 will be displayed as 'dog' and class 1 as 'cat' in the plot.  If None, the raw class indices from `y_true` will be used.  Default is None. 
- - `classes_to_plot`:  A subset of unique class labels  to include in the ROC curve. If None, all classes in `y_true` will  be plotted. Default is None. 
- - `title`:  Title of the ROC curve plot. Default is "ROC Curve". 
- - `split_table`:  Whether the table should be split into a separate  section in the W&B UI. If `True`, the table will be displayed in a  section named "Custom Chart Tables". Default is `False`. 
+ - `y_true`:  ターゲット変数の正解クラスラベル。形状は (num_samples,) です。
+ - `y_probas`:  各クラスに対する予測確率または決定スコア。形状は (num_samples, num_classes) です。
+ - `labels`:  `y_true` 内のクラスインデックスに対応する読みやすいラベル。例えば、`labels=['dog', 'cat']` の場合、クラス 0 は 'dog'、クラス 1 は 'cat' としてプロット内で表示されます。None の場合は `y_true` の生のクラスインデックスが使用されます。デフォルトは None です。
+ - `classes_to_plot`:  ROC 曲線に含めるユニークなクラスラベルのサブセット。None の場合、`y_true` の全クラスがプロットされます。デフォルトは None です。
+ - `title`:  ROC 曲線プロットのタイトル。デフォルトは "ROC Curve" です。
+ - `split_table`:  テーブルを W&B UI 上で別セクションとして分割表示するかどうか。`True` の場合、「Custom Chart Tables」というセクションでテーブルが表示されます。デフォルトは `False` です。
 
 
 
-**Returns:**
+**戻り値:**
  
- - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass it to `wandb.log()`. 
+ - `CustomChart`:  W&B にログできるカスタムチャートオブジェクト。チャートをログするには `wandb.log()` に渡します。
 
 
 
-**Raises:**
+**例外:**
  
- - `wandb.Error`:  If numpy, pandas, or scikit-learn are not found. 
+ - `wandb.Error`:  numpy, pandas, または scikit-learn が見つからない場合に発生します。
 
 
 
-**Example:**
+**例:**
  ```python
 import numpy as np
 import wandb
 
-# Simulate a medical diagnosis classification problem with three diseases
+# 3つの疾患に対する医療診断分類問題をシミュレーションします
 n_samples = 200
 n_classes = 3
 
-# True labels: assign "Diabetes", "Hypertension", or "Heart Disease" to
-# each sample
+# 正解ラベル: 各サンプルに「Diabetes」「Hypertension」「Heart Disease」を割り当てる
 disease_labels = ["Diabetes", "Hypertension", "Heart Disease"]
 # 0: Diabetes, 1: Hypertension, 2: Heart Disease
 y_true = np.random.choice([0, 1, 2], size=n_samples)
 
-# Predicted probabilities: simulate predictions, ensuring they sum to 1
-# for each sample
+# 予測確率: 各サンプルで合計が 1 になるような予測値をシミュレーション
 y_probas = np.random.dirichlet(np.ones(n_classes), size=n_samples)
 
-# Specify classes to plot (plotting all three diseases)
+# プロットするクラスを指定（3疾患すべてをプロット）
 classes_to_plot = [0, 1, 2]
 
-# Initialize a W&B run and log a ROC curve plot for disease classification
+# W&B の run を初期化し、疾患分類用のROC曲線プロットをログする
 with wandb.init(project="medical_diagnosis") as run:
     roc_plot = wandb.plot.roc_curve(
          y_true=y_true,

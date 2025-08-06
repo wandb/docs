@@ -1,55 +1,55 @@
 ---
+title: 結合テーブル
 menu:
   reference:
     identifier: ja-ref-query-panel-joined-table
-title: joined-table
 ---
 
-## Chainable Ops
+## 連結可能な Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの _file_ を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 戻り値
+アセットの _file_
 
 <h3 id="joinedtable-file"><code>joinedtable-file</code></h3>
 
-Returns the _file_ of a _joined-table_
+_joined-table_ の _file_ を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `joinedTable` | The _joined-table_ |
+| `joinedTable` | _joined-table_ |
 
-#### Return Value
-The  _file_ of a _joined-table_
+#### 戻り値
+_joined-table_ の _file_
 
 <h3 id="joinedtable-rows"><code>joinedtable-rows</code></h3>
 
-Returns the rows of a _joined-table_
+_joined-table_ の行を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `joinedTable` | The _joined-table_ |
-| `leftOuter` | Whether to include rows from the left table that do not have a matching row in the right table |
-| `rightOuter` | Whether to include rows from the right table that do not have a matching row in the left table |
+| `joinedTable` | _joined-table_ |
+| `leftOuter` | 右テーブルに対応する行がない左テーブルの行も含めるかどうか |
+| `rightOuter` | 左テーブルに対応する行がない右テーブルの行も含めるかどうか |
 
-#### Return Value
-The rows of the _joined-table_
+#### 戻り値
+_joined-table_ の行
 
 
-## List Ops
+## リスト Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの _file_ を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 戻り値
+アセットの _file_

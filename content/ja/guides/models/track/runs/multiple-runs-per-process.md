@@ -1,68 +1,63 @@
 ---
-description: Manage multiple runs in a single Python process using W&B’s reinit functionality
+title: 1 つのプロセス内で複数の run を作成・管理する
+description: W&B の reinit 機能を使って、1 つの Python プロセス内で複数の run を管理する
 menu:
   default:
     identifier: ja-guides-models-track-runs-multiple-runs-per-process
     parent: what-are-runs
-title: Create and manage multiple runs in a single process
 ---
 
-Manage multiple runs in a single Python process. This is useful for workflows where you want to keep a primary process active while creating short-lived secondary processes for sub-tasks. Some use cases include:
+1 つの Python プロセス内で複数の run を管理できます。これは、メインとなるプロセスをアクティブに保ちながら、サブタスク用に短命なセカンダリープロセスを作成したいワークフローで役立ちます。主なユースケース例は以下の通りです。
 
-- Keeping a single “primary” run active throughout a script while spinning up short-lived “secondary” runs for evaluations or sub-tasks.  
-- Orchestrating sub-experiments in a single file.  
-- Logging from one “main” process to several runs that represent different tasks or time periods.
+- 1 つのスクリプト内で「メイン」run をアクティブなままにしつつ、評価やサブタスク用に短期間だけ実行する「セカンダリー」run を立ち上げる場合
+- 1 ファイル内でサブ実験をまとめてオーケストレーションする場合
+- 1 つの「メイン」プロセスから、タスクや期間ごとに異なる複数の run へログを送る場合
 
-By default, W&B assumes each Python process has only one active run at a time when you call `wandb.init()`. If you call `wandb.init()` again, W&B will either return the same run or finish the old run before starting a new one, depending on the configuration. The content in this guide explains how to use `reinit` to modify the `wandb.init()` behavior to enable multiple runs in a single Python process.
+通常、W&B では `wandb.init()` を呼び出すたびに、各 Python プロセスにつき 1 つだけアクティブな run が存在すると想定しています。`wandb.init()` を再度呼んだ場合、同じ run を返すか、前の run を終了してから新しい run を開始します（設定によります）。このガイドでは、`reinit` を使い `wandb.init()` の振る舞いを変え、1 つの Python プロセス内で複数の run を有効にする方法を解説します。
 
-{{% alert title="Requirements" %}}
-To manage multiple runs in a single Python process, you must have W&B Python SDK version `v0.19.10` or newer.
+{{% alert title="動作要件" %}}
+1 つの Python プロセス内で複数の run を管理するには、W&B Python SDK バージョン `v0.19.10` 以上が必要です。
 {{% /alert  %}}
 
-## `reinit` options
+## `reinit` のオプション
 
-Use the `reinit` parameter to configure how W&B handles multiple calls to `wandb.init()`. The following table describes valid arguments and their effects:
+`reinit` パラメータを使い、`wandb.init()` を複数回呼び出した際の W&B の振る舞いを制御できます。以下の表は有効な引数とその効果です。
 
-| | Description | Creates a run? | Example use case |
-|----------------|----------------|----------------| -----------------|
-| `create_new` |Create a new run with `wandb.init()` without finishing existing, active runs. W&B does not automatically switch the global `wandb.Run` to new runs. You must hold onto each run object yourself. See the [multiple runs in one process example]({{< relref path="multiple-runs-per-process/#example-multiple-runs-in-one-process" lang="ja" >}}) below for details.  | Yes |  Ideal for creating and managing concurrent processes. For example, a “primary” run that remains active while you start or end “secondary” runs.|
-| `finish_previous` | Finish all active runs with `run.finish()` before creating a new one run with `wandb.init()`. Default behavior for non notebook environments. | Yes | Ideal when you want to break sequential sub-processes into separate individual runs. |
-| `return_previous` |  Return the most recent, unfinished run. Default behavior for notebook environments. | No | |
+| | 説明 | run を新たに作成？ | 主なユースケース例 |
+|----------------|----------------|----------------|------------------|
+| `create_new` | 現在アクティブな run を終了せずに、`wandb.init()` で新しい run を作成。グローバルな `wandb.Run` は自動的に新しい run へ切り替わりません。各 run オブジェクトを自分で管理する必要があります。詳細は下の [1 プロセス内で複数 run 例]({{< relref path="multiple-runs-per-process/#example-multiple-runs-in-one-process" lang="ja" >}}) を参照してください。 | はい | 並列/同時のプロセス生成・管理に最適です。たとえば、1 つの「メイン」run をアクティブにしつつ「セカンダリー」run の開始・終了を行う場合など。|
+| `finish_previous` | 新しい run を `wandb.init()` で作成する前に、すべてのアクティブな run を `run.finish()` で終了する。ノートブック以外の環境でのデフォルトの動作です。 | はい | 順次的なサブプロセスごとに run を分けたい場合に最適 |
+| `return_previous` | 最も最近の、未完了の run を返す。ノートブック環境でのデフォルト動作です。 | いいえ | |
 
 {{% alert  %}}
-W&B does not support `create_new` mode for [W&B Integrations]({{< relref path="/guides/integrations/" lang="ja" >}}) that assume a single global run, such as Hugging Face Trainer, Keras callbacks, and PyTorch Lightning. If you use these integrations, you should run each sub-experiment in a separate process.
+Hugging Face Trainer や Keras コールバック、PyTorch Lightning など、グローバルな run を想定する [W&B インテグレーション]({{< relref path="/guides/integrations/" lang="ja" >}}) では `create_new` モードはサポートされていません。これらのインテグレーションを使う場合、各サブ実験を個別のプロセスで実行してください。
 {{% /alert %}}
 
-## Specifying `reinit`
+## `reinit` の指定方法
 
-<!-- There are several ways to create and manage multiple runs in a single Python process: -->
-
-- Use `wandb.init()` with the `reinit` argument directly:
+- `wandb.init()` で `reinit` 引数を直接指定する
    ```python
    import wandb
    wandb.init(reinit="<create_new|finish_previous|return_previous>")
    ```
-- Use `wandb.init()` and pass a `wandb.Settings` object to the `settings` parameter. Specify `reinit` in the `Settings` object:
-
+- `wandb.init()` で、`wandb.Settings` オブジェクトを `settings` パラメータ経由で渡し、Settings 内で `reinit` を指定
    ```python
    import wandb
    wandb.init(settings=wandb.Settings(reinit="<create_new|finish_previous|return_previous>"))
    ```
-
-- Use `wandb.setup()` to set the `reinit` option globally for all runs in the current process. This is useful if you want to configure the behavior once and have it apply to all subsequent `wandb.init()` calls in that process.
-
+- `wandb.setup()` でカレントプロセス内のすべての run に対して `reinit` オプションをグローバルに指定  
+   1 度だけ振る舞いを設定し、その後の `wandb.init()` すべてに適用したい場合に便利です。
    ```python
    import wandb
    wandb.setup(wandb.Settings(reinit="<create_new|finish_previous|return_previous>"))
    ```
-
-- Specify the desired value for `reinit` in the environment variable `WANDB_REINIT`. Defining an environment variable applies the `reinit` option to `wandb.init()` calls.
-
+- 環境変数 `WANDB_REINIT` で `reinit` の値を指定する  
+   環境変数で指定すると、`wandb.init()` の呼び出しに適用されます。
    ```bash
    export WANDB_REINIT="<create_new|finish_previous|return_previous>"
    ```
 
-The following code snippet shows a high level overview how to set up W&B to create a new run each time you call `wandb.init()`:
+以下のコードスニペットは、毎回 `wandb.init()` を呼び出すたびに新しい run を作成するための設定例です:
 
 ```python
 import wandb
@@ -70,84 +65,82 @@ import wandb
 wandb.setup(wandb.Settings(reinit="create_new"))
 
 with wandb.init() as experiment_results_run:
-    # This run will be used to log the results of each experiment.
-    # You can think of this as a parent run that collects results
-      with wandb.init() as run:
-         # The do_experiment() function logs fine-grained metrics
-         # to the given run and returns result metrics that
-         # you want to track separately.
-         experiment_results = do_experiment(run)
+    # この run は各実験の結果を記録するために使います。
+    # 親 run として、それぞれの実験の結果をまとめておくイメージです。
+    with wandb.init() as run:
+        # do_experiment() 関数で、各 run に細かいメトリクスを記録します。
+        # また、分けて追跡したい結果用メトリクスを返します。
+        experiment_results = do_experiment(run)
 
-         # After each experiment, log its results to a parent
-         # run. Each point in the parent run's charts corresponds
-         # to one experiment's results.
-         experiment_results_run.log(experiment_results)
+        # 各実験の後、その結果を親 run に記録します。
+        # 親 run のグラフ上の各点は、各実験の結果に対応しています。
+        experiment_results_run.log(experiment_results)
 ```
 
-## Example: Concurrent processes
+## 例: 複数のプロセスを同時に扱う
 
-Suppose you want to create a primary process that remains open for the script's entire lifespan, while periodically spawning short-lived secondary processes without finishing the primary process. For example, this pattern can be useful if you want to train a model in the primary run, but compute evaluations or do other work in separate runs.
+例えば、スクリプトの期間中ずっと開いたままの「メイン」プロセスを作成し、そこから随時短命な「セカンダリー」プロセスを終了せずに立ち上げたい場合。このパターンは、メイン run でモデルのトレーニングを行い、評価などを別 run で実行したい場合に便利です。
 
-To achieve this, use `reinit="create_new"` and initialize multiple runs. For this example, suppose "Run A" is the primary process that remains open throughout the script, while "Run B1", "Run B2", are short-lived secondary runs for tasks like evaluation. 
+この場合、`reinit="create_new"` を指定して複数の run を初期化します。例えば「Run A」がスクリプト全体でオープンなメインプロセス、「Run B1」「Run B2」などが評価用のセカンダリー run だとします。
 
-The high level workflow might look like this:
+高レベルのワークフロー例は以下の通りです:
 
-1. Initialize the primary process Run A with `wandb.init()` and log training metrics.  
-2. Initialize Run B1 (with `wandb.init()`), log data, then finish it.  
-3. Log more data to Run A.  
-4. Initialize Run B2, log data, then finish it.  
-5. Continue logging to Run A.  
-6. Finally finish Run A at the end.
+1. メインプロセス（Run A）を `wandb.init()` で初期化し、トレーニングメトリクスを記録
+2. Run B1 を初期化し、データを記録・終了
+3. Run A へさらにデータを書き込む
+4. Run B2 を初期化し、データ記録・終了
+5. Run A へログを継続して記録
+6. 最後に Run A を終了
 
-The following Python code example demonstrates this workflow:
+下記の Python コード例でこのワークフローを示します:
 
 ```python
 import wandb
 
 def train(name: str) -> None:
-    """Perform one training iteration in its own W&B run.
+    """1 回分のトレーニングを独立した W&B run で実行します。
 
-    Using a 'with wandb.init()' block with `reinit="create_new"` ensures that
-    this training sub-run can be created even if another run (like our primary
-    tracking run) is already active.
+    `reinit="create_new"` 付きの 'with wandb.init()' ブロックを使うことで、
+    （メインのトラッキング run など）他の run がすでにアクティブでも、
+    このサブ run を作成できます。
     """
     with wandb.init(
         project="my_project",
         name=name,
         reinit="create_new"
     ) as run:
-        # In a real script, you'd run your training steps inside this block.
-        run.log({"train_loss": 0.42})  # Replace with your real metric(s)
+        # 本来ならこのブロックでトレーニング処理を実行します。
+        run.log({"train_loss": 0.42})  # 実際のメトリクスに置き換えてください
 
 def evaluate_loss_accuracy() -> (float, float):
-    """Returns the current model's loss and accuracy.
+    """現在のモデルの損失・Accuracy を返します。
     
-    Replace this placeholder with your real evaluation logic.
+    このプレースホルダは実際の評価処理に置き換えてください。
     """
-    return 0.27, 0.91  # Example metric values
+    return 0.27, 0.91  # 例としてのメトリクス値
 
-# Create a 'primary' run that remains active throughout multiple train/eval steps.
+# 複数のトレーニング・評価工程にわたってアクティブな「メイン」の run を作成
 with wandb.init(
     project="my_project",
     name="tracking_run",
     reinit="create_new"
 ) as tracking_run:
-    # 1) Train once under a sub-run named 'training_1'
+    # 1) サブ run 'training_1' で 1 回トレーニング
     train("training_1")
     loss, accuracy = evaluate_loss_accuracy()
     tracking_run.log({"eval_loss": loss, "eval_accuracy": accuracy})
 
-    # 2) Train again under a sub-run named 'training_2'
+    # 2) サブ run 'training_2' でもう 1 回トレーニング
     train("training_2")
     loss, accuracy = evaluate_loss_accuracy()
     tracking_run.log({"eval_loss": loss, "eval_accuracy": accuracy})
     
-    # The 'tracking_run' finishes automatically when this 'with' block ends.
+    # 'tracking_run' はこの 'with' ブロック終了時に自動的に終了します。
 ```
 
-Note three key points from the previous example:
+前述の例から重要なポイントは次の 3 つです:
 
-1. `reinit="create_new"` creates a new run each time you call `wandb.init()`.
-2. You keep references of each run. `wandb.run` does not automatically point to the new run created with `reinit="create_new"`. Store new runs in variables like `run_a`, `run_b1`, etc., and call `.log()` or `.finish()` on those objects as needed.
-3. You can finish sub-runs whenever you want while keeping the primary run open until.
-4. Finish your runs with `run.finish()` when you are done logging to them. This ensures that all data is uploaded and the run is properly closed.
+1. `reinit="create_new"` を指定すると、`wandb.init()` を呼ぶたびに新しい run が作成されます。
+2. 各 run への参照を自分で保持する必要があります。`wandb.run` は `reinit="create_new"` で新規作成された run を自動的に指しません。`run_a`, `run_b1` などの変数に格納し、必要に応じて `.log()` や `.finish()` を呼んでください。
+3. メイン run を開きつつ、サブ run はいつでも好きなタイミングで終了できます。
+4. ログが終わった run は `run.finish()` で終了処理を行いましょう。これによりデータのアップロードおよび run の正しいクローズ処理が保証されます。

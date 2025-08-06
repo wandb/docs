@@ -1,11 +1,11 @@
 ---
-title: Weights & Biases Documentation
+title: Weights & Biases ドキュメント
 ---
 
 <div style="padding-top:50px;">&nbsp;</div>
 <div style="max-width:1600px; margin: 0 auto">
-{{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
-Choose the product for which you need documentation.
+{{< banner title="Weights & Biases ドキュメント" background="/images/support/support_banner.png" >}}
+ご利用になりたいプロダクトのドキュメントをお選びください。
 {{< /banner >}}
 
 <div class="top-row-cards">
@@ -17,14 +17,14 @@ Choose the product for which you need documentation.
 </div>
 <h2>W&B Weave</h2>
 
-### Use AI models in your app
+### AIモデルをアプリで活用
 
-Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a hosted inference service and playground for comparing different large language models (LLMs) and settings.
+[W&B Weave](https://weave-docs.wandb.ai/) を使うと、コード内でのAIモデル管理が可能です。トレーシング、出力評価、コスト見積もり、さまざまな大規模言語モデル（LLM）や設定を比較できる推論サービスやプレイグラウンドなどの機能を備えています。
 
-- [Introduction](https://weave-docs.wandb.ai/)
-- [Quickstart](https://weave-docs.wandb.ai/quickstart)
-- [YouTube Demo](https://www.youtube.com/watch?v=IQcGGNLN3zo)
-- [Try the Playground](https://weave-docs.wandb.ai/guides/tools/playground/)
+- [イントロダクション](https://weave-docs.wandb.ai/)
+- [クイックスタート](https://weave-docs.wandb.ai/quickstart)
+- [YouTube デモ](https://www.youtube.com/watch?v=IQcGGNLN3zo)
+- [プレイグラウンドを試す](https://weave-docs.wandb.ai/guides/tools/playground/)
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
@@ -34,14 +34,14 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. 
 </div>
 <h2>W&B Models</h2>
 
-### Develop AI models
+### AIモデル開発
 
-Use [W&B Models]({{< relref path="/guides/" lang="ja" >}}) to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
+[W&B Models]({{< relref path="/guides/" lang="ja" >}}) を活用してAIモデル開発を管理できます。トレーニング、ファインチューニング、レポーティング、ハイパーパラメーター探索の自動化、モデルレジストリによるバージョン管理・再現性などの機能を備えています。
 
-- [Introduction]({{< relref path="/guides/" lang="ja" >}})
-- [Quickstart]({{< relref path="/guides/quickstart/" lang="ja" >}})
-- [YouTube Tutorial](https://www.youtube.com/watch?v=tHAFujRhZLA)
-- [Online Course](https://wandb.ai/site/courses/101/)
+- [イントロダクション]({{< relref path="/guides/" lang="ja" >}})
+- [クイックスタート]({{< relref path="/guides/quickstart/" lang="ja" >}})
+- [YouTube チュートリアル](https://www.youtube.com/watch?v=tHAFujRhZLA)
+- [オンラインコース](https://wandb.ai/site/courses/101/)
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides/inference/'" style="cursor: pointer;">
@@ -51,14 +51,14 @@ Use [W&B Models]({{< relref path="/guides/" lang="ja" >}}) to manage AI model de
 </div>
 <h2>W&B Inference</h2>
 
-### Access foundation models
+### ファウンデーションモデルへのアクセス
 
-Use [W&B Inference]({{< relref path="/guides/inference/" lang="ja" >}}) to access leading open-source foundation models through an OpenAI-compatible API. Features include multiple model options, usage tracking, and integration with Weave for tracing and evaluation.
+[W&B Inference]({{< relref path="/guides/inference/" lang="ja" >}}) を使って、OpenAI 互換API経由で最新のオープンソースファウンデーションモデルにアクセスできます。複数モデルからの選択、利用状況のトラッキング、Weave との連携によるトレーシングや評価が可能です。
 
-- [Introduction]({{< relref path="/guides/inference/" lang="ja" >}})
-- [Available Models]({{< relref path="/guides/inference/models/" lang="ja" >}})
-- [API Reference]({{< relref path="/guides/inference/api-reference/" lang="ja" >}})
-- [Try in Playground](https://wandb.ai/inference)
+- [イントロダクション]({{< relref path="/guides/inference/" lang="ja" >}})
+- [利用可能なモデル一覧]({{< relref path="/guides/inference/models/" lang="ja" >}})
+- [APIリファレンス]({{< relref path="/guides/inference/api-reference/" lang="ja" >}})
+- [プレイグラウンドで試す](https://wandb.ai/inference)
 
 </div>{{% /card %}}
 {{< /cardpane >}}
@@ -67,9 +67,9 @@ Use [W&B Inference]({{< relref path="/guides/inference/" lang="ja" >}}) to acces
 <div class="bottom-row-cards">
 {{< cardpane >}}
 {{% card %}}<div onclick="window.location.href='/guides/core/'" style="cursor: pointer; padding-left: 20px">
-<h2>Core Components</h2>
+<h2>コアコンポーネント</h2>
 
-Both W&B products share common components that enable and accelerate your AI/ML engineering work. 
+W&B の各プロダクトに共通する、AI/ML エンジニアリングを支える基盤機能です。
 
 - [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}})
 - [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}})
@@ -80,36 +80,38 @@ Both W&B products share common components that enable and accelerate your AI/ML 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides/hosting'" style="cursor: pointer;padding-left:20px;">
 
-<h2>Platform</h2>
+<h2>プラットフォーム</h2>
 
-The Weights & Biases platform can be accessed through our SaaS offering or deployed on-premise, and it provides IAM, security, monitoring, and privacy features.
+Weights & Biases プラットフォームは SaaS 提供またはオンプレミス展開が可能で、IAM、セキュリティ、モニタリング、プライバシー保護の各種機能を提供します。
 
-- [Deployment Options]({{< relref path="/guides/hosting/hosting-options/" lang="ja" >}})
-- [Identity and access management (IAM)]({{< relref path="/guides/hosting/iam/" lang="ja" >}})
-- [Data Security]({{< relref path="/guides/hosting/data-security/" lang="ja" >}})
-- [Privacy settings]({{< relref path="/guides/hosting/privacy-settings/" lang="ja" >}})
-- [Monitoring and Usage]({{< relref path="/guides/hosting/monitoring-usage/" lang="ja" >}})
+- [デプロイメントオプション]({{< relref path="/guides/hosting/hosting-options/" lang="ja" >}})
+- [ID・アクセス管理（IAM）]({{< relref path="/guides/hosting/iam/" lang="ja" >}})
+- [データセキュリティ]({{< relref path="/guides/hosting/data-security/" lang="ja" >}})
+- [プライバシー設定]({{< relref path="/guides/hosting/privacy-settings/" lang="ja" >}})
+- [モニタリングと利用状況]({{< relref path="/guides/hosting/monitoring-usage/" lang="ja" >}})
 
 </div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/support/'" style="cursor: pointer;padding-left:20px;">
 
-<h2>Support</h2>
+<h2>サポート</h2>
 
-Get help with any aspect of the Weights & Biases platform. Find answers to common questions, troubleshooting guides, and ways to contact our support team.
+Weights & Biases プラットフォーム全般に関するサポートを提供しています。よくある質問への回答、トラブルシューティングガイド、サポートチームへのお問い合わせ方法も掲載。
 
-- [Knowledge Base Articles]({{< relref path="/support/" lang="ja" >}})
-- [Community Forum](https://wandb.ai/community)
-- [Discord Server](https://discord.com/invite/RgB8CPk2ce)
-- [Contact Support](https://wandb.ai/site/contact/)
+- [ナレッジベース記事]({{< relref path="/support/" lang="ja" >}})
+- [コミュニティフォーラム](https://wandb.ai/community)
+- [Discord サーバー](https://discord.com/invite/RgB8CPk2ce)
+- [サポートへのお問い合わせ](https://wandb.ai/site/contact/)
 
 </div>{{% /card %}}
 {{< /cardpane >}}
 </div>
 
 
-<!-- End max-width constraing -->
+
+
 </div>
-<!-- HTML override just for landing page -->
+
+
 <style>
 .td-card-group { margin: 0 auto }
 p { overflow: hidden; display: block; }

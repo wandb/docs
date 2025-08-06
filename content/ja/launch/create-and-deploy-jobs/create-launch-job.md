@@ -1,58 +1,58 @@
 ---
+title: ローンチ ジョブを作成する
 menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-create-launch-job
     parent: create-and-deploy-jobs
-title: Create a launch job
 url: guides/launch/create-launch-job
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" >}}
 
-Launch jobs are blueprints for reproducing W&B runs. Jobs are W&B Artifacts that capture the source code, dependencies, and inputs required to execute a workload. 
+Launch ジョブは W&B Run を再現するための設計図です。ジョブは、ワークロードの実行に必要なソースコード、依存関係、インプットを捉える W&B Artifacts です。
 
-Create and run jobs with the `wandb launch` command.
+`wandb launch` コマンドを使ってジョブを作成・実行できます。
 
 {{% alert %}}
-To create a job without submitting it for execution, use the `wandb job create` command. See the [command reference docs]({{< relref path="/ref/cli/wandb-job/wandb-job-create.md" lang="ja" >}}) for more information.
+ジョブを実行せずに作成だけしたい場合は、`wandb job create` コマンドを使ってください。詳しくは[コマンドリファレンス]({{< relref path="/ref/cli/wandb-job/wandb-job-create.md" lang="ja" >}})をご覧ください。
 {{% /alert %}}
 
 
-## Git jobs
+## Git ジョブ
 
-You can create a Git-based job where code and other tracked assets are cloned from a certain commit, branch, or tag in a remote git repository with W&B Launch. Use the `--uri` or `-u` flag to specify the URI containing the code, along with optionally a `--build-context` flag to specify a subdirectory.
+W&B Launch を使えば、特定の commit、branch、または tag からリモートの git リポジトリ上のコードやその他のトラッキング対象アセットを取得して Git ベースのジョブを作成できます。`--uri` または `-u` フラグでコードが含まれる URI を指定し、必要に応じて `--build-context` フラグでサブディレクトリを指定してください。
 
-Run a "hello world" job from a git repository with the following command:
+以下のコマンドで、Git リポジトリから "hello world" ジョブを実行できます：
 
 ```bash
 wandb launch --uri "https://github.com/wandb/launch-jobs.git" --build-context jobs/hello_world --dockerfile Dockerfile.wandb --project "hello-world" --job-name "hello-world" --entry-point "python job.py"
 ```
 
-The command does the following:
-1. Clones the [W&B Launch jobs repository](https://github.com/wandb/launch-jobs) to a temporary directory.
-2. Creates a job named **hello-world-git** in the **hello** project. The job is associated with the commit at the head of the default branch of the repository.
-3. Builds a container image from the `jobs/hello_world` directory and the `Dockerfile.wandb`.
-4. Starts the container and runs `python job.py`.
+このコマンドの内容は以下の通りです:
+1. [W&B Launch jobs リポジトリ](https://github.com/wandb/launch-jobs)を一時ディレクトリにクローンします。
+2. **hello** プロジェクトに **hello-world-git** という名前のジョブを作成します。ジョブは、リポジトリのデフォルトブランチの先頭 commit に紐付けられます。
+3. `jobs/hello_world` ディレクトリと `Dockerfile.wandb` からコンテナイメージをビルドします。
+4. コンテナを起動して `python job.py` を実行します。
 
-To build a job from a specific branch or commit hash, append the `-g`, `--git-hash` argument. For a full list of arguments, run `wandb launch --help`.
+特定の branch や commit hash からジョブをビルドしたい場合は、`-g` や `--git-hash` 引数を追加してください。全ての引数のリストは `wandb launch --help` で確認できます。
 
-### Remote URL format
+### リモートURLの形式
 
-The git remote associated with a Launch job can be either an HTTPS or an SSH URL. The URL type determines the protocol used to fetch job source code. 
+Launch ジョブで使われる git リモートは、HTTPS または SSH のいずれかの URL を利用できます。それぞれの URL 種類によって、コード取得に使われるプロトコルが決まります。
 
-| Remote URL Type| URL Format | Requirements for access and authentication |
-| ----------| ------------------- | ------------------------------------------ |
-| https      | `https://github.com/organization/repository.git`  | username and password to authenticate with the git remote |
-| ssh        | `git@github.com:organization/repository.git` | ssh key to authenticate with the git remote |
+| リモートURLタイプ | URL 形式 | アクセス・認証に必要な情報 |
+| -----------| ------------------- | -------------------- |
+| https      | `https://github.com/organization/repository.git`  | git リモートに認証するためのユーザー名とパスワード |
+| ssh        | `git@github.com:organization/repository.git` | git リモートに認証するための ssh キー |
 
-Note that the exact URL format varies by hosting provider. Jobs created with `wandb launch --uri` will use the transfer protocol specified in the provided `--uri`.
+URL の具体的な書き方はホスティング先によって異なる場合があります。`wandb launch --uri` で作成したジョブは、指定した `--uri` のプロトコルで転送します。
 
 
-## Code artifact jobs
+## コード アーティファクトジョブ
 
-Jobs can be created from any source code stored in a W&B Artifact. Use a local directory with the `--uri` or `-u` argument to create a new code artifact and job.
+W&B Artifact に保存された任意のソースコードからジョブを作成できます。ローカルディレクトリを `--uri` または `-u` 引数で指定すると、新しいコードアーティファクトおよびジョブを作成可能です。
 
-To get started, create an empty directory and add a Python script named `main.py` with the following content:
+まずは、空のディレクトリを作って `main.py` という Python スクリプトを以下の内容で作成してください：
 
 ```python
 import wandb
@@ -61,69 +61,69 @@ with wandb.init() as run:
     run.log({"metric": 0.5})
 ```
 
-Add a file `requirements.txt` with the following content:
+同じディレクトリに、次の内容の `requirements.txt` を作成します：
 
 ```txt
 wandb>=0.17.1
 ```
 
-Log the directory as a code artifact and launch a job with the following command:
+このディレクトリをコードアーティファクトとしてログし、ジョブを起動するには以下のコマンドを使います：
 
 ```bash
 wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python main.py"
 ```
 
-The preceding command does the following:
-1. Logs the current directory as a code artifact named `hello-world-code`.
-2. Creates a job named `hello-world-code` in the `launch-quickstart` project.
-3. Builds a container image from the current directory and Launch's default Dockerfile. The default Dockerfile will install the `requirements.txt` file and set the entry point to `python main.py`.
+上記コマンドの内容は以下の通りです：
+1. カレントディレクトリを `hello-world-code` という名前でコードアーティファクトとしてログします。
+2. `launch-quickstart` プロジェクトに `hello-world-code` という名前のジョブを作成します。
+3. カレントディレクトリと Launch のデフォルト Dockerfile からコンテナイメージをビルドします。デフォルト Dockerfile は `requirements.txt` をインストールし、エントリーポイントに `python main.py` を指定します。
 
-## Image jobs
+## イメージジョブ
 
-Alternatively, you can build jobs off of pre-made Docker images. This is useful when you already have an established build system for your ML code, or when you don't expect to adjust the code or requirements for the job but do want to experiment with hyperparameters or different infrastructure scales.
+他にも、事前に用意した Docker イメージを利用してジョブを構築することもできます。これは、ML コードのビルドシステムが既に構築されている場合や、コードや依存関係に変更がなく、ハイパーパラメータやインフラ環境を変えて実験したい場合に便利です。
 
-The image is pulled from a Docker registry and run with the specified entry point, or the default entry point if none is specified. Pass a full image tag to the `--docker-image` option to create and run a job from a Docker image.
+イメージは Docker レジストリから取得され、指定した（あるいはデフォルトの）エントリーポイントで実行されます。`--docker-image` オプションにイメージタグを指定して Docker イメージからジョブを作成・実行できます。
 
-To run a simple job from a pre-made image, use the following command:
+事前作成イメージからシンプルなジョブを実行するには、次のコマンドを使います：
 
 ```bash
-wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"           
+wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"
 ```
 
 
-## Automatic job creation
+## ジョブの自動作成
 
-W&B will automatically create and track a job for any run with tracked source code, even if that run was not created with Launch. Runs are considered to have tracked source code if any of the three following conditions are met:
-- The run has an associated git remote and commit hash.
-- The run logged a code artifact. See [`Run.log_code`]({{< relref path="/ref/python/sdk/classes/run#log_code" lang="ja" >}}).
-- The run was executed in a Docker container with the `WANDB_DOCKER` environment variable set to an image tag
+W&B では、Launch 以外で作成された Run でも、コードがトラッキングされていれば自動的にジョブが作成・管理されます。Run が「ソースコードをトラッキングしている」とみなされる条件は以下のいずれかです：
+- Run に紐付く git remote と commit hash がある
+- Run でコードアーティファクトをログしている（[`Run.log_code`]({{< relref path="/ref/python/sdk/classes/run#log_code" lang="ja" >}}) を参照）
+- Run が `WANDB_DOCKER` 環境変数にイメージタグを指定した docker コンテナで実行されている
 
-The Git remote URL is inferred from the local git repository if your Launch job is created automatically by a W&B run. 
+Launch ジョブが W&B Run から自動作成される場合、Git リモートの URL はローカルの git リポジトリから自動的に推定されます。
 
-### Launch job names
+### Launch ジョブ名
 
-By default, W&B automatically generates a job name for you. The name is generated depending on how the job is created (GitHub, code artifact, or Docker image). Alternatively, you can define a Launch job's name with environment variables or with the W&B Python SDK.
+デフォルトでは、W&B がジョブ名を自動生成します。名前は GitHub・コードアーティファクト・Docker イメージのいずれから作成されたかによって変わります。また、環境変数や W&B Python SDK でジョブ名を指定することもできます。
 
-The following table describes the job naming convention used by default based on job source:
+以下の表は、ソースに応じたデフォルトのジョブ命名規則です：
 
-| Source        | Naming convention                       |
-| ------------- | --------------------------------------- |
+| ソース        | 命名規則                         |
+| ------------- | ---------------------------------- |
 | GitHub        | `job-<git-remote-url>-<path-to-script>` |
-| Code artifact | `job-<code-artifact-name>`              |
-| Docker image  | `job-<image-name>`                      |
+| コードアーティファクト | `job-<code-artifact-name>`         |
+| Docker イメージ | `job-<image-name>`                 |
 
-Name your job with a W&B environment variable or with the W&B Python SDK
+W&B の環境変数、または Python SDK でジョブ名を指定する方法
 
 {{< tabpane text=true >}}
-{{% tab "Environment variable" %}}
-Set the `WANDB_JOB_NAME` environment variable to your preferred job name. For example:
+{{% tab "環境変数" %}}
+`WANDB_JOB_NAME` 環境変数に、希望のジョブ名を指定してください。例：
 
 ```bash
 WANDB_JOB_NAME=awesome-job-name
 ```
 {{% /tab %}}
 {{% tab "W&B Python SDK" %}}
-Define the name of your job with `wandb.Settings`. Then pass this object when you initialize W&B with `wandb.init`. For example:
+`wandb.Settings` でジョブ名を指定し、そのオブジェクトを `wandb.init` で渡します。例：
 
 ```python
 settings = wandb.Settings(job_name="my-job-name")
@@ -133,31 +133,31 @@ wandb.init(settings=settings)
 {{< /tabpane >}}
 
 {{% alert %}}
-For docker image jobs, the version alias is automatically added as an alias to the job.
+Docker イメージジョブの場合、version エイリアスが自動でジョブのエイリアスとして追加されます。
 {{% /alert %}}
 
-## Containerization
+## コンテナ化
 
-Jobs are executed in a container. Image jobs use a pre-built Docker image, while Git and code artifact jobs require a container build step.
+ジョブはコンテナ内で実行されます。イメージジョブは事前構築イメージを、Git ジョブやコードアーティファクトジョブはコンテナビルドステップを必要とします。
 
-Job containerization can be customized with arguments to `wandb launch` and files within the job source code.
+ジョブのコンテナ化は、`wandb launch` への引数やジョブソースコード内のファイルでカスタマイズできます。
 
-### Build context
+### ビルドコンテキスト
 
-The term build context refers to the tree of files and directories that are sent to the Docker daemon to build a container image. By default, Launch uses the root of the job source code as the build context. To specify a subdirectory as the build context, use the `--build-context` argument of `wandb launch` when creating and launching a job.
+ビルドコンテキストとは、コンテナイメージをビルドする際に Docker デーモンへ送信するファイル・ディレクトリのツリーのことです。デフォルトでは Launch はジョブソースコードのルートをビルドコンテキストとします。特定のサブディレクトリをビルドコンテキストに指定したい場合は、ジョブ作成時の `wandb launch` で `--build-context` 引数を利用してください。
 
 {{% alert %}}
-The `--build-context` argument is particularly useful for working with Git jobs that refer to a monorepo with multiple projects. By specifying a subdirectory as the build context, you can build a container image for a specific project within the monorepo.
+`--build-context` 引数は、複数プロジェクトが存在するモノリポを参照する Git ジョブで特に便利です。サブディレクトリをビルドコンテキストに指定して、モノリポ内の特定プロジェクト向けにコンテナイメージをビルドできます。
 
-See the [example above]({{< relref path="#git-jobs" lang="ja" >}}) for a demonstration of how to use the `--build-context` argument with the official W&B Launch jobs repository.
+公式 W&B Launch jobs リポジトリでの利用例は[上記の例]({{< relref path="#git-jobs" lang="ja" >}})を参照してください。
 {{% /alert %}}
 
 ### Dockerfile
 
-The Dockerfile is a text file that contains instructions for building a Docker image. By default, Launch uses a default Dockerfile that installs the `requirements.txt` file. To use a custom Dockerfile, specify the path to the file with the `--dockerfile` argument of `wandb launch`.
+Dockerfile は Docker イメージをビルドするための指示をまとめたテキストファイルです。デフォルトでは Launch の標準 Dockerfile で `requirements.txt` をインストールしますが、カスタム Dockerfile を利用したい場合は、`wandb launch` の `--dockerfile` 引数でファイルパスを指定できます。
 
-The Dockerfile path is specified relative to the build context. For example, if the build context is `jobs/hello_world`, and the Dockerfile is located in the `jobs/hello_world` directory, the `--dockerfile` argument should be set to `Dockerfile.wandb`. See the [example above]({{< relref path="#git-jobs" lang="ja" >}}) for a demonstration of how to use the `--dockerfile` argument with the official W&B Launch jobs repository.
+Dockerfile のパスはビルドコンテキストからの相対パスとなります。例えばビルドコンテキストが `jobs/hello_world` で、そのディレクトリ内に Dockerfile がある場合は、`--dockerfile` に `Dockerfile.wandb` を指定します。詳細は[上記の例]({{< relref path="#git-jobs" lang="ja" >}})を参照してください。
 
-### Requirements file
+### Requirements ファイル
 
-If no custom Dockerfile is provided, Launch will look in the build context for Python dependencies to install. If a `requirements.txt` file is found at the root of the build context, Launch will install the dependencies listed in the file. Otherwise, if a `pyproject.toml` file is found, Launch will install dependencies from the `project.dependencies` section.
+カスタム Dockerfile を指定しない場合、Launch はビルドコンテキスト内で Python 依存関係ファイルを探します。ビルドコンテキスト直下に `requirements.txt` があれば、その内容をインストールします。なければ `pyproject.toml` が見つかった場合、`project.dependencies` セクションから依存関係をインストールします。

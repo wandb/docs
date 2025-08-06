@@ -1,13 +1,13 @@
 ---
+title: SLURM でスイープを実行するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-run_sweeps_slurm
 support:
-- sweeps
-title: How should I run sweeps on SLURM?
+- スイープ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-When using sweeps with the [SLURM scheduling system](https://slurm.schedmd.com/documentation.html), run `wandb agent --count 1 SWEEP_ID` in each scheduled job. This command executes a single training job and then exits, facilitating runtime predictions for resource requests while leveraging the parallelism of hyperparameter searches.
+[SLURM スケジューリングシステム](https://slurm.schedmd.com/documentation.html) で Sweeps を使用する場合は、スケジューリングされた各ジョブ内で `wandb agent --count 1 SWEEP_ID` を実行してください。このコマンドは 1 回のトレーニングジョブを実行して終了し、リソース要求のランタイム予測を容易にしつつ、ハイパーパラメーター探索の並列化も活用できます。

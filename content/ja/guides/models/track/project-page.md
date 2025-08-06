@@ -1,358 +1,352 @@
 ---
-description: Compare versions of your model, explore results in a scratch workspace,
-  and export findings to a report to save notes and visualizations
+title: プロジェクト
+description: モデルのバージョンを比較し、スクラッチワークスペースで結果を探索し、学びや可視化をレポートにエクスポートしてメモを保存しましょう
 menu:
   default:
     identifier: ja-guides-models-track-project-page
     parent: experiments
-title: Projects
 weight: 3
 ---
 
-A *project* is a central location where you visualize results, compare experiments, view and download artifacts, create an automation, and more. 
+*プロジェクト*は、結果の可視化、実験比較、Artifacts の閲覧・ダウンロード、オートメーションの作成などを一箇所で行える中心的なスペースです。
 
 {{% alert %}}
-Each project has a visibility setting that determines who can access it. For more information about who can access a project, see [Project visibility]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}}).
+各プロジェクトには公開範囲の設定があります。これにより誰がそのプロジェクトにアクセスできるかが決まります。プロジェクトへのアクセス権限についての詳細は、[プロジェクトの公開範囲]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}})をご覧ください。
 {{% /alert %}}
 
-Each project contains the following tabs:
+プロジェクトには以下のタブが含まれています：
 
-* [Overview]({{< relref path="project-page.md#overview-tab" lang="ja" >}}): snapshot of your project
-* [Workspace]({{< relref path="project-page.md#workspace-tab" lang="ja" >}}): personal visualization sandbox
-* [Runs]({{< relref path="#runs-tab" lang="ja" >}}): A table that lists all the runs in your project
-* [Automations]({{< relref path="#automations-tab" lang="ja" >}}): Automations configured in your project
-* [Sweeps]({{< relref path="project-page.md#sweeps-tab" lang="ja" >}}): automated exploration and optimization
-* [Reports]({{< relref path="project-page.md#reports-tab" lang="ja" >}}): saved snapshots of notes, runs, and graphs
-* [Artifacts]({{< relref path="#artifacts-tab" lang="ja" >}}): Contains all runs and the artifacts associated with that run
+* [Overview]({{< relref path="project-page.md#overview-tab" lang="ja" >}})：プロジェクトの概要スナップショット
+* [Workspace]({{< relref path="project-page.md#workspace-tab" lang="ja" >}})：個人の可視化サンドボックス
+* [Runs]({{< relref path="#runs-tab" lang="ja" >}})：プロジェクト内の全ての run を一覧表示するテーブル
+* [Automations]({{< relref path="#automations-tab" lang="ja" >}})：プロジェクトで設定されているオートメーション
+* [Sweeps]({{< relref path="project-page.md#sweeps-tab" lang="ja" >}})：自動探索・最適化
+* [Reports]({{< relref path="project-page.md#reports-tab" lang="ja" >}})：ノート、run、グラフ等のスナップショット保存
+* [Artifacts]({{< relref path="#artifacts-tab" lang="ja" >}})：すべての run と、それに紐づく Artifacts
 
-## Overview tab
+## Overviewタブ
 
-* **Project name**: The name of the project. W&B creates a project for you when you initialize a run with the name you provide for the project field. You can change the name of the project at any time by selecting the **Edit** button in the upper right corner.
-* **Description**: A description of the project.
-* **Project visibility**: The visibility of the project. The visibility setting that determines who can access it. See [Project visibility]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}}) for more information.
-* **Last active**: Timestamp of the last time data is logged to this project
-* **Owner**: The entity that owns this project
-* **Contributors**: The number of users that contribute to this project
-* **Total runs**: The total number of runs in this project
-* **Total compute**: we add up all the run times in your project to get this total
-* **Undelete runs**: Click the dropdown menu and click "Undelete all runs" to recover deleted runs in your project.
-* **Delete project**: click the dot menu in the right corner to delete a project
+* **Project name**: プロジェクトの名前です。W&B では、run の初期化時に指定したプロジェクト名で新規プロジェクトが作成されます。右上の**Edit**ボタンから、いつでもプロジェクト名を変更できます。
+* **Description**: プロジェクトの説明文。
+* **Project visibility**: プロジェクトの公開範囲。誰がアクセス可能かを指定します。詳細は[プロジェクトの公開範囲]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}})を参照ください。
+* **Last active**: このプロジェクトに最後にデータがログされた日時
+* **Owner**: プロジェクトの所有 Entity
+* **Contributors**: プロジェクトに貢献しているユーザー数
+* **Total runs**: プロジェクト内の run の総数
+* **Total compute**: プロジェクト内すべての run の合計実行時間
+* **Undelete runs**: ドロップダウンメニューから「Undelete all runs」をクリックすると、削除済みの run を復元できます。
+* **Delete project**: 右上のメニュードットからプロジェクトを削除できます。
 
-[View a live example](https://app.wandb.ai/example-team/sweep-demo/overview)
+[ライブ例を見る](https://app.wandb.ai/example-team/sweep-demo/overview)
 
 {{< img src="/images/track/overview_tab_image.png" alt="Project overview tab" >}}
 
 
-## Workspace tab
+## Workspaceタブ
 
-A project's *workspace* gives you a personal sandbox to compare experiments. Use projects to organize models that can be compared, working on the same problem with different architectures, hyperparameters, datasets, preprocessing etc.
+プロジェクトの*workspace*は、実験を比較するための個人用サンドボックスです。異なるモデル、アーキテクチャ、ハイパーパラメーター、データセット、前処理などで同じ課題に取り組む際の整理に役立ちます。
 
+**Runs サイドバー**: プロジェクト内のすべての run を一覧表示します。
 
-**Runs Sidebar**: list of all the runs in your project.
+* **ドットメニュー**: サイドバー内の行にカーソルを合わせると左側にメニューが表示されます。このメニューで run の名前変更、削除、またはアクティブな run の停止ができます。
+* **表示アイコン(目のアイコン)**: グラフ上で run の表示/非表示を切り替え
+* **カラー**: run の色をプリセットやカスタムカラーで変更
+* **検索**: 名前で run を検索。プロットに表示される run も絞り込みます。
+* **フィルター**: サイドバーのフィルターで可視化される run を絞り込み
+* **グループ(集約)**: 設定カラムを選択して run を動的にグループ化。例えばアーキテクチャごとにグループ化可能。グループ化すると、グラフに平均値の線と分散範囲(シェーディング)が表示されます。
+* **並び替え**: 最小ロス、最大精度など基準値で run をソート。並び替えた順でグラフ表示にも反映されます。
+* **展開ボタン**: サイドバーをフルテーブルへ展開
+* **run 数**: 上部のカッコ内の数字はプロジェクト内全 run 数。「(N visualized)」はグラフに表示可能な run 数です。以下の例では183 run のうち最初の10件のみがグラフ表示中。編集で最大可視 run 数を増やせます。
 
-* **Dot menu**: hover over a row in the sidebar to see the menu appear on the left side. Use this menu to rename a run, delete a run, or stop and active run.
-* **Visibility icon**: click the eye to turn on and off runs on graphs
-* **Color**: change the run color to another one of our presets or a custom color
-* **Search**: search runs by name. This also filters visible runs in the plots.
-* **Filter**: use the sidebar filter to narrow down the set of runs visible
-* **Group**: select a config column to dynamically group your runs, for example by architecture. Grouping makes plots show up with a line along the mean value, and a shaded region for the variance of points on the graph.
-* **Sort**: pick a value to sort your runs by, for example runs with the lowest loss or highest accuracy. Sorting will affect which runs show up on the graphs.
-* **Expand button**: expand the sidebar into the full table
-* **Run count**: the number in parentheses at the top is the total number of runs in the project. The number (N visualized) is the number of runs that have the eye turned on and are available to be visualized in each plot. In the example below, the graphs are only showing the first 10 of 183 runs. Edit a graph to increase the max number of runs visible.
+[Runs タブ](#runs-tab) で列のピン止め・非表示・順序変更を行うと、Runs サイドバーにもそれが反映されます。
 
-If you pin, hide, or change the order of columns in the [Runs tab](#runs-tab), the Runs sidebar reflects these customizations.
+**パネルレイアウト**: このスペースで結果探索やチャートの追加/削除、異なるメトリクスでモデル・バージョンを比較できます。
 
-**Panels layout**: use this scratch space to explore results, add and remove charts, and compare versions of your models based on different metrics
-
-[View a live example](https://app.wandb.ai/example-team/sweep-demo)
+[ライブ例を見る](https://app.wandb.ai/example-team/sweep-demo)
 
 {{< img src="/images/app_ui/workspace_tab_example.png" alt="Project workspace" >}}
 
 
-### Add a section of panels
+### パネルセクションの追加
 
-Click the section dropdown menu and click "Add section" to create a new section for panels. You can rename sections, drag them to reorganize them, and expand and collapse sections.
+セクションドロップダウンメニューで「Add section」をクリックすると新しいパネル用セクションが作成できます。セクション名の変更、ドラッグによる移動、展開・折りたたみが可能です。
 
-Each section has options in the upper right corner:
+各セクションの右上メニューで以下が行えます：
 
-* **Switch to custom layout**: The custom layout allows you to resize panels individually.
-* **Switch to standard layout**: The standard layout lets you resize all panels in the section at once, and gives you pagination.
-* **Add section**: Add a section above or below from the dropdown menu, or click the button at the bottom of the page to add a new section.
-* **Rename section**: Change the title for your section.
-* **Export section to report**: Save this section of panels to a new report.
-* **Delete section**: Remove the whole section and all the charts. This can be undone with the undo button at the bottom of the page in the workspace bar.
-* **Add panel**: Click the plus button to add a panel to the section.
+* **Switch to custom layout**: 個別にパネルサイズの調整ができるカスタムレイアウトへ
+* **Switch to standard layout**: セクション内全パネルを一括リサイズし、ページ切替も可能な標準レイアウトへ
+* **Add section**: ドロップダウンから上または下に新セクション追加。ページ下部のボタンからも追加可能。
+* **Rename section**: セクションのタイトル変更
+* **Export section to report**: セクション内パネルを新規レポートとして保存
+* **Delete section**: セクションごと削除（ページ下部のundoボタンで元に戻せます）
+* **Add panel**: プラスを押してセクションにパネル追加
 
 {{< img src="/images/app_ui/add-section.gif" alt="Adding workspace section" >}}
 
-### Move panels between sections
+### セクション間でのパネル移動
 
-Drag and drop panels to reorder and organize into sections. You can also click the "Move" button in the upper right corner of a panel to select a section to move the panel to.
+パネルをドラッグ＆ドロップで再配置し各セクションに整理できます。パネル右上の「Move」ボタンからも、移動先セクションを選択して移動できます。
 
 {{< img src="/images/app_ui/move-panel.gif" alt="Moving panels between sections" >}}
 
-### Resize panels
+### パネルのリサイズ
 
-* **Standard layout**: All panels maintain the same size, and there are pages of panels. You can resize the panels by clicking and dragging the lower right corner. Resize the section by clicking and dragging the lower right corner of the section.
-* **Custom layout**: All panels are sized individually, and there are no pages.
+* **Standard layout**: すべてのパネルが同一サイズを保ち、ページ切替で表示。パネル右下をドラッグでリサイズ、セクション自体も同様にリサイズできます。
+* **Custom layout**: パネルごとに自由なサイズ指定可能。ページ切替はありません。
 
 {{< img src="/images/app_ui/resize-panel.gif" alt="Resizing panels" >}}
 
-### Search for metrics
+### メトリクスの検索
 
-Use the search box in the workspace to filter down the panels. This search matches the panel titles, which are by default the name of the metrics visualized.
+ワークスペース内の検索ボックスでパネルをフィルタリングできます。検索はパネルタイトル（＝デフォルトでメトリクス名）に一致します。
 
 {{< img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace search" >}}
 
-## Runs tab
-<!-- Keep this in sync with /guide/models/track/runs/_index.md -->
-Use the Runs tab to filter, group, and sort your runs.
+## Runsタブ
+
+Runs タブでは、run のフィルター・グループ化・並び替えが可能です。
 
 {{< img src="/images/runs/run-table-example.png" alt="Runs table" >}}
 
-The proceeding tabs demonstrate some common actions you can take in the Runs tab.
+下記のタブで、Runs タブ内でよく使う操作例を紹介します。
 
 {{< tabpane text=true >}}
    {{% tab header="Customize columns" %}}
-The Runs tab shows details about runs in the project. It shows a large number of columns by default.
+Runs タブでは、プロジェクト内 run の詳細情報が各種カラムに表示され、多くのカラムがデフォルトで見られます。
 
 {{% alert %}}
-When you customize the Runs tab, the customization is also reflected in the **Runs** selector of the [Workspace tab]({{< relref path="#workspace-tab" lang="ja" >}}).
+Runsタブのカスタマイズ内容は、[Workspaceタブ]({{< relref path="#workspace-tab" lang="ja" >}}) の **Runs** セレクターにも反映されます。
 {{% /alert %}}
 
-- To view all visible columns, scroll the page horizontally.
-- To change the order of the columns, drag a column to the left or right.
-- To pin a column, hover over the column name, click the action menu `...`. that appears, then click **Pin column**. Pinned columns appear near the left of the page, after the **Name** column. To unpin a pinned column, choose **Unpin column**.
-- To hide a column, hover over the column name, click the action menu `...`. that appears, then click **Hide column**. To view all columns that are currently hidden, click **Columns**.
-- To show, hide, pin, and unpin multiple columns at once, click **Columns**.
-  - Click the name of a hidden column to unhide it.
-  - Click the name of a visible column to hide it.
-  - Click the pin icon next to a visible column to pin it.
+- 表示中の全カラムを見るにはページを横スクロールしてください。
+- カラムの並び順を変更するには、カラムを左右にドラッグします。
+- カラムをピン止めするには、カラム名にカーソルを合わせ、アクションメニュー `...` をクリックし、**Pin column** を選択。ピン止めしたカラムは**Name**列の右に固定表示されます。解除は **Unpin column** を選択。
+- カラムを非表示にする場合もカラム名の `...` メニューから **Hide column** を選択。**Columns** をクリックで現在非表示のカラム一覧が見られます。
+- 複数カラムの一括表示・非表示・ピン止め切替も **Columns** から操作可能。
+  - 非表示カラム名をクリックで再表示
+  - 表示中カラム名をクリックで非表示
+  - ピンアイコンをクリックでピン止め可能
 
    {{% /tab %}}
 
    {{% tab header="Sort" %}}
-Sort all rows in a Table by the value in a given column. 
+Table の任意カラムを基準にすべての行をソートできます。
 
-1. Hover your mouse over the column title. A kebab menu will appear (three vertical docs).
-2. Select on the kebab menu (three vertical dots).
-3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
+1. カラムタイトルにカーソルを合わせると「ケバブメニュー」（縦の点3つ）が表示されます。
+2. ケバブメニューをクリック。
+3. **Sort Asc** または **Sort Desc** を選択し、昇順・降順で並び替えてください。
 
 {{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="Confident predictions" >}}
 
-The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
+上記画像は、`val_acc` カラムで並び替えを行う方法を示しています。   
    {{% /tab %}}
    {{% tab header="Filter" %}}
-Filter all rows by an expression with the **Filter** button on the top left of the dashboard. 
+すべての行を **Filter** ボタンから式で絞り込みできます。ダッシュボード左上にあります。
 
 {{< img src="/images/data_vis/filter.png" alt="Incorrect predictions filter" >}}
 
-Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
+**Add filter** を選択すると1つ以上のフィルター条件を追加できます。左から順に：カラム名・比較演算子・値 の3つのドロップダウンが出ます。
 
-|                   | Column name | Binary relation    | Value       |
-| -----------       | ----------- | ----------- | ----------- |
-| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
+|                   | カラム名        | 比較演算子          | 値                    |
+| -----------       | -----------    | -----------         | -----------           |
+| 入力例            | String         |  =, ≠, ≤, ≥, IN, NOT IN,  | Integer, float, string, timestamp, null |
 
 
-The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+式エディタはカラム名やロジカル述語構造を自動補完で候補表示します。and/or（およびカッコ）で複数述語の組み合わせも可能です。
 
 {{< img src="/images/data_vis/filter_example.png" alt="Filtering runs by validation loss" >}}
-The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.   
+この画像では `val_loss` カラムを使って「バリデーションロスが1以下」の run を表示しています。   
    {{% /tab %}}
    {{% tab header="Group" %}}
-Group all rows by the value in a particular column with the **Group by** button in a column header. 
+**Group by** ボタンで、指定カラムの値ごとにすべての行をグループ化できます。
 
 {{< img src="/images/data_vis/group.png" alt="Error distribution analysis" >}}
 
-By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.   
+グループ化すると他の数値カラムが自動でヒストグラム表示に切り替わり、そのカラムの値の分布がグループ単位で可視化されます。データ全体のパターン把握に役立ちます。   
    {{% /tab %}}
 {{< /tabpane >}}
 
 
-<!-- ## Automations tab -->
 
-## Automations tab
-Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job. For more information, see [Automations]({{< relref path="/guides/core/automations/" lang="ja" >}}).
+## Automationsタブ
+
+Artifacts のバージョン管理用途や、下流アクションの自動化ができます。オートメーション作成時はトリガーとなるイベントとアクションを設定し、Webhook 呼び出しや W&B Job の起動が可能です。詳細は[Automations]({{< relref path="/guides/core/automations/" lang="ja" >}})をご覧ください。
 
 {{< img src="/images/app_ui/automations_tab.png" alt="Automation tab" >}}
 
-## Reports tab
+## Reportsタブ
 
-See all the snapshots of results in one place, and share findings with your team.
+結果のスナップショットを一元管理し、チームメンバーと学びを共有できます。
 
 {{< img src="/images/app_ui/reports-tab.png" alt="Reports tab" >}}
 
-## Sweeps tab
+## Sweepsタブ
 
-Start a new [sweep]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) from your project.
+プロジェクトから新しい [sweep]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) を開始できます。
 
 {{< img src="/images/app_ui/sweeps-tab.png" alt="Sweeps tab" >}}
 
-## Artifacts tab
+## Artifactsタブ
 
-View all [artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) associated with a project, from training datasets and [fine-tuned models]({{< relref path="/guides/core/registry/" lang="ja" >}}) to [tables of metrics and media]({{< relref path="/guides/models/tables/tables-walkthrough.md" lang="ja" >}}).
+プロジェクトに紐づくすべての [artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) を閲覧できます。トレーニングデータセットや [ファインチューン済みモデル]({{< relref path="/guides/core/registry/" lang="ja" >}})、[メトリクスやメディアのテーブル]({{< relref path="/guides/models/tables/tables-walkthrough.md" lang="ja" >}}) などが含まれます。
 
-### Overview panel
+### Overviewパネル
 
 {{< img src="/images/app_ui/overview_panel.png" alt="Artifact overview panel" >}}
 
-On the overview panel, you'll find a variety of high-level information about the artifact, including its name and version, the hash digest used to detect changes and prevent duplication, the creation date, and any aliases. You can add or remove aliases here, take notes on both the version as well as the artifact as a whole.
+Overviewパネルでは、artifact の名前とバージョン、重複防止用ハッシュ、作成日時、エイリアスなど、基本的な情報が一覧できます。ここでエイリアスの追加/削除や、バージョン単位・artifact単位のノート追加も可能です。
 
-### Metadata panel
+### Metadataパネル
 
 {{< img src="/images/app_ui/metadata_panel.png" alt="Artifact metadata panel" >}}
 
-The metadata panel provides access to the artifact's metadata, which is provided when the artifact is constructed. This metadata might include configuration arguments required to reconstruct the artifact, URLs where more information can be found, or metrics produced during the run which logged the artifact. Additionally, you can see the configuration for the run which produced the artifact as well as the history metrics at the time of logging the artifact.
+Metadataパネルではartifactを作成した時に付与したメタデータ情報が閲覧できます。artifact の再現に必要な設定引数や、詳細情報URL、run内で生成されたメトリクスなども含まれます。また、そのartifactを生んだ run の設定と、その時点の履歴メトリクスも確認できます。
 
-### Usage panel
+### Usageパネル
 
 {{< img src="/images/app_ui/usage_panel.png" alt="Artifact usage panel" >}}
 
-The Usage panel provides a code snippet for downloading the artifact for use outside of the web app, for example on a local machine. This section also indicates and links to the run which output the artifact and any runs which use the artifact as an input.
+Usageパネルでは、webアプリ外（例：ローカルマシン）でartifactをダウンロードし利用するためのコードスニペットを確認できます。また、そのartifactを出力した run や、入力として利用した run もインジケータやリンク付きで示されます。
 
-### Files panel
+### Filesパネル
 
 {{< img src="/images/app_ui/files_panel.png" alt="Artifact files panel" >}}
 
-The files panel lists the files and folders associated with the artifact. W&B uploads certain files for a run automatically. For example, `requirements.txt` shows the versions of each library the run used, and `wandb-metadata.json`, and `wandb-summary.json` include information about the run. Other files may be uploaded, such as artifacts or media, depending on the run's configuration. You can navigate through this file tree and view the contents directly in the W&B web app.
+Filesパネルにはartifactに紐づくファイルやフォルダが一覧されます。W&Bはrunごとに `requirements.txt`（ライブラリのバージョン記録）、`wandb-metadata.json`、`wandb-summary.json`（run 情報）など自動でアップロードします。他にもrunの設定に応じてartifactデータやメディアなどがアップロードされます。ファイルツリーをたどり、webアプリ内で内容を直接閲覧できます。
 
-[Tables]({{< relref path="/guides/models/tables//tables-walkthrough.md" lang="ja" >}}) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here]({{< relref path="/guides/models/tables//visualize-tables.md" lang="ja" >}}).
+[テーブル]({{< relref path="/guides/models/tables//tables-walkthrough.md" lang="ja" >}})はArtifactと組み合わせることで特にリッチかつインタラクティブに利用できます。Artifacts と Tables の詳細は[こちら]({{< relref path="/guides/models/tables//visualize-tables.md" lang="ja" >}})から。
 
 {{< img src="/images/app_ui/files_panel_table.png" alt="Artifact table view" >}}
 
-### Lineage panel
+### Lineageパネル
 
 {{< img src="/images/app_ui/lineage_panel.png" alt="Artifact lineage" >}}
 
-The lineage panel provides a view of all of the artifacts associated with a project and the runs that connect them to each other. It shows run types as blocks and artifacts as circles, with arrows to indicate when a run of a given type consumes or produces an artifact of a given type. The type of the particular artifact selected in the left-hand column is highlighted.
+Lineageパネルでは、プロジェクト内すべてのArtifactと、それらを結びつける run の関係性を視覚的に表示します。runタイプはブロック、Artifactは円で表され、runがどのtypeのArtifactを入出力するかは矢印で示されます。左カラムで選択中のArtifact typeがハイライトされます。
 
-Click the Explode toggle to view all of the individual artifact versions and the specific runs that connect them.
+「Explode」トグルをクリックすると、個別Artifactバージョンやそれらを結ぶrunもすべて個別表示されます。
 
-### Action History Audit tab
+### アクション履歴・監査タブ
 
 {{< img src="/images/app_ui/action_history_audit_tab_1.png" alt="Action history audit" >}}
 
 {{< img src="/images/app_ui/action_history_audit_tab_2.png" alt="Action history" >}}
 
-The action history audit tab shows all of the alias actions and membership changes for a Collection so you can audit the entire evolution of the resource.
+アクション履歴監査タブでは、コレクション内のエイリアス追加・削除やメンバーシップ変更など、リソース進化の全履歴を確認できます。
 
-### Versions tab
+### Versionsタブ
 
 {{< img src="/images/app_ui/versions_tab.png" alt="Artifact versions tab" >}}
 
-The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
+Versionsタブでは、そのartifactの全バージョンと、各バージョンが記録された際のRun Historyから数値系カラムを一覧表示します。パフォーマンス比較や注目バージョンの特定に役立ちます。
 
-## Create a project
-You can create a project in the W&B App or programmatically by specifying a project in a call to `wandb.init()`.
+## プロジェクト作成
+
+W&B App 内またはプログラムから `wandb.init()` の引数としてプロジェクト指定することで作成できます。
 
 {{< tabpane text=true >}}
    {{% tab header="W&B App" %}}
-In the W&B App, you can create a project from the **Projects** page or from a team's landing page.
+W&B Appでは、**Projects** ページやチームページからプロジェクトを作成できます。
 
-From the **Projects** page:
-1. Click the global navigation icon in the upper left. The navigation sidebar opens.
-1. In the **Projects** section of the navigation, click **View all** to open the project overview page.
-1. Click **Create new project**.
-1. Set **Team** to the name of the team that will own the project.
-1. Specify a name for your project using the **Name** field. 
-1. Set **Project visibility**, which defaults to **Team**.
-1. Optionally, provide a **Description**.
-1. Click **Create project**.
+**Projects** ページからの作成手順:
+1. 左上のグローバルナビゲーションアイコンをクリックし、サイドバーを開く
+1. ナビゲーション内の **Projects** セクションで **View all** をクリックし、プロジェクト一覧ページを開く
+1. **Create new project** をクリック
+1. **Team** でプロジェクト所有チーム名を指定
+1. **Name** フィールドにプロジェクト名を指定
+1. **Project visibility** を設定（デフォルトは **Team**）
+1. **Description**（任意）を記入
+1. **Create project** をクリック
 
-From a team's landing page:
-1. Click the global navigation icon in the upper left. The navigation sidebar opens.
-1. In the **Teams** section of the navigation, click the name of a team to open its landing page.
-1. In the landing page, click **Create new project**.
-1. **Team** is automatically set to the team that owns the landing page you were viewing. If necessary, change the team.
-1. Specify a name for your project using the **Name** field. 
-1. Set **Project visibility**, which defaults to **Team**.
-1. Optionally, provide a **Description**.
-1. Click **Create project**.
+チームページからの作成手順:
+1. 左上のグローバルナビゲーションアイコンをクリックし、サイドバーを開く
+1. ナビゲーション内の **Teams** セクションで該当チーム名をクリックし、そのチームページへ
+1. ページ内で **Create new project** をクリック
+1. **Team** はそのページのチーム名が自動セット。必要に応じて変更
+1. **Name** フィールドでプロジェクト名を指定
+1. **Project visibility** を設定（デフォルトは **Team**）
+1. **Description**（任意）を記入
+1. **Create project** をクリック
 
    {{% /tab %}}
    {{% tab header="Python SDK" %}}
-To create a project programmatically, specify a `project` when calling `wandb.init()`. If the project does not yet exist, it is created automatically, and is owned by the specified entity. For example:
+プログラムから作成するには、`wandb.init()` 実行時に `project` 引数を指定してください。プロジェクトがまだなければ自動作成 & 指定 entity の所有プロジェクトとなります。例：
 
 ```python
-import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+import wandb
+with wandb.init(entity="<entity>", project="<project_name>") as run:
+    run.log({"accuracy": .95})
 ```
 
-Refer to the [`wandb.init()` API reference]({{< relref path="/ref/python/sdk/functions/init/#examples" lang="ja" >}}).
+[`wandb.init()` APIリファレンス]({{< relref path="/ref/python/sdk/functions/init/#examples" lang="ja" >}})もご参照ください。
    {{% /tab %}}  
 {{< /tabpane >}}
 
-## Star a project
+## プロジェクトのお気に入り登録
 
-Add a star to a project to mark that project as important. Projects that you and your team mark as important with stars appear at the top of your organization's homepage.
+プロジェクトにスターを付けることで、そのプロジェクトを重要なものとしてマークできます。あなたやチームがスターを付けたプロジェクトは、組織トップページの上部 **Starred projects** セクションに表示されます。
 
-
-For example, the proceeding image shows two projects that are marked as important, the `zoo_experiment` and `registry_demo`. Both projects appear within the top of the organization's homepage within the **Starred projects** section.
+例えば以下の図は、`zoo_experiment` と `registry_demo` という 2つのプロジェクトが重要扱いで上位表示されている例です。
 {{< img src="/images/track/star-projects.png" alt="Starred projects section" >}}
 
 
-There are two ways to mark a project as important: within a project's overview tab or within your team's profile page.
+スター付与の方法は、プロジェクトの overview タブまたはチームのプロフィールページの2通りがあります。
 
 {{< tabpane text=true >}}
     {{% tab header="Project overview" %}}
-1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
-2. Select the **Overview** tab from the project sidebar.
-3. Choose the star icon in the upper right corner next to the **Edit** button.
+1. W&B App の `https://wandb.ai/<team>/<project-name>` で対象プロジェクトを開く
+2. サイドバーから **Overview** タブを開く
+3. 右上 **Edit** ボタン横のスターアイコンを選択
 
 {{< img src="/images/track/star-project-overview-tab.png" alt="Star project from overview" >}}    
     {{% /tab %}}
     {{% tab header="Team profile" %}}
-1. Navigate to your team's profile page at `https://wandb.ai/<team>/projects`.
-2. Select the **Projects** tab.
-3. Hover your mouse next to the project you want to star. Click on star icon that appears.
+1. チームプロフィールページ（`https://wandb.ai/<team>/projects`）を開く
+2. **Projects** タブを選択
+3. スター付与したいプロジェクト名の横にマウスを乗せ、表示されるスターアイコンをクリック
 
-For example, the proceeding image shows the star icon next to the "Compare_Zoo_Models" project.
+例えば下図は「Compare_Zoo_Models」プロジェクト横に現れるスターアイコン例です。
 {{< img src="/images/track/star-project-team-profile-page.png" alt="Star project from team page" >}}    
     {{% /tab %}}
 {{< /tabpane >}}
 
+プロジェクトが組織トップページで上部に表示されていることは、アプリ左上で組織名をクリックして確認できます。
 
+## プロジェクト削除
 
-
-
-Confirm that your project appears on the landing page of your organization by clicking on the organization name in the top left corner of the app.
-
-
-## Delete a project
-
-You can delete your project by clicking the three dots on the right of the overview tab.
+Overviewタブ右側の三点メニュー（3点リーダ）からプロジェクトを削除できます。
 
 {{< img src="/images/app_ui/howto_delete_project.gif" alt="Delete project workflow" >}}
 
-If the project is empty, you can delete it by clicking the dropdown menu in the top-right and selecting **Delete project**.
+プロジェクトが空の場合は、右上のドロップダウンメニューで **Delete project** を選択すれば削除可能です。
 
 {{< img src="/images/app_ui/howto_delete_project_2.png" alt="Delete empty project" >}}
 
 
+## プロジェクトにノートを追加
 
-## Add notes to a project
+プロジェクトへのノートは、説明欄（Overview）またはワークスペース内のマークダウンパネルとして追加できます。
 
-Add notes to your project either as a description overview or as a markdown panel within your workspace.
+### プロジェクトに記述概要を追加
 
-### Add description overview to a project
+追加した説明はプロフィールの **Overview** タブに表示されます。
 
-Descriptions you add to your page appear in the **Overview** tab of your profile.
+1. W&B プロジェクトページへアクセス
+2. サイドバーから **Overview** タブを選択
+3. 右上 **Edit** を選ぶ
+4. **Description** フィールドにノートを追加
+5. **Save** ボタンをクリック
 
-1. Navigate to your W&B project
-2. Select the **Overview** tab from the project sidebar
-3. Choose Edit in the upper right hand corner
-4. Add your notes in the **Description** field
-5. Select the **Save** button
-
-{{% alert title="Create reports to create descriptive notes comparing runs" %}}
-You can also create a W&B Report to add plots and markdown side by side. Use different sections to show different runs, and tell a story about what you worked on.
+{{% alert title="run 比較など記述ノート作成には Reports 利用がおすすめ" %}}
+W&B の Report を使えば、チャートとマークダウンノートを並べて表示できます。セクション分けし、複数の run を比較しながら結果をストーリーとしてまとめることができます。
 {{% /alert %}}
 
 
-### Add notes to run workspace
+### ワークスペースにノートを追加
 
-1. Navigate to your W&B project
-2. Select the **Workspace** tab from the project sidebar
-3. Choose the **Add panels** button from the top right corner
-4. Select the **TEXT AND CODE** dropdown from the modal that appears
-5. Select **Markdown**
-6. Add your notes in the markdown panel that appears in your workspace
+1. W&B プロジェクトページへアクセス
+2. サイドバーから **Workspace** タブを選択
+3. 右上 **Add panels** ボタンをクリック
+4. 表示されるモーダルで **TEXT AND CODE** を選択
+5. **Markdown** を選択
+6. ワークスペースに出現したマークダウンパネルにノートを記入

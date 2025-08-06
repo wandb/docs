@@ -1,68 +1,69 @@
 ---
+title: チュートリアル
+description: インタラクティブなチュートリアルで W&B の使い方を始めましょう。
 cascade:
   menu:
     tutorials:
       parent: tutorials
   type: docs
-description: Get started using W&B with interactive tutorials.
 menu:
   tutorials:
     identifier: ja-tutorials-_index
 no_list: true
-title: Tutorials
 type: docs
 ---
 
-## Fundamentals
+## 基本
 
-The following tutorials take you through the fundamentals of W&B for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
+以下のチュートリアルでは、W&B を使った機械学習実験管理、モデルの評価、ハイパーパラメータチューニング、モデルおよびデータセットのバージョン管理など、基本的な使い方を解説します。
 
 {{< cardpane >}}
   {{< card >}}
     <a href="/tutorials/experiments/">
-      <h2 className="card-title">Track experiments</h2>
+      <h2 className="card-title">Experiments を記録する</h2>
     </a>
-    <p className="card-content">Use W&B for machine learning experiment tracking, model checkpointing, collaboration with your team and more.</p>
+    <p className="card-content">W&B を活用して機械学習の実験管理、モデルのチェックポイント作成、チームメンバーとのコラボレーションなどを行えます。</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/tables/">
-      <h2 className="card-title">Visualize predictions</h2>
+      <h2 className="card-title">予測結果を可視化する</h2>
     </a>
-    <p className="card-content">Track, visualize, and compare model predictions over the course of training, using PyTorch on MNIST data.</p>
+    <p className="card-content">PyTorch で MNIST データを使いながら、トレーニング中のモデル予測を記録・可視化し比較できます。</p>
   {{< /card >}}
 {{< /cardpane >}}
 
 {{< cardpane >}}
   {{< card >}}
     <a href="/tutorials/sweeps/">
-      <h2 className="card-title">Tune hyperparameters</h2>
+      <h2 className="card-title">ハイパーパラメータをチューニングする</h2>
     </a>
-    <p className="card-content">Use W&B Sweeps to create an organized way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, and more.</p>
+    <p className="card-content">W&B Sweeps を使えば、学習率やバッチサイズ、隠れ層の数など様々なハイパーパラメーターの値の組み合わせを自動で探索できます。</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/artifacts/">
-      <h2 className="card-title">Track models and datasets</h2>
+      <h2 className="card-title">Models と Datasets を管理する</h2>
     </a>
-    <p className="card-content">Track your ML experiment pipelines using W&B Artifacts.</p>
+    <p className="card-content">W&B Artifacts を使って ML 実験パイプラインを記録・管理しましょう。</p>
   {{< /card >}}
 {{< /cardpane >}}
 
 
-## Popular ML framework tutorials
-See the following tutorials for step by step information on how to use popular ML frameworks and libraries with W&B:
+## 人気の ML フレームワークのチュートリアル
+
+以下のチュートリアルでは、主要な ML フレームワークやライブラリと W&B の連携方法をステップバイステップで紹介しています。
 
 {{< cardpane >}}
   {{< card >}}
     <a href="/tutorials/pytorch">
       <h2 className="card-title">PyTorch</h2>
     </a>
-    <p className="card-content">Integrate W&B with your PyTorch code to add experiment tracking to your pipeline.</p>
+    <p className="card-content">あなたの PyTorch コードと W&B を連携して、パイプラインに実験管理機能を追加できます。</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/huggingface">
       <h2 className="card-title">HuggingFace Transformers</h2>
     </a>
-    <p className="card-content">Visualize your Hugging Face model’s performance quickly with the W&B integration.</p>
+    <p className="card-content">W&B のインテグレーションを活用して、Hugging Face モデルのパフォーマンスをすぐに可視化しましょう。</p>
   {{< /card >}}
 {{< /cardpane >}}
 
@@ -71,30 +72,30 @@ See the following tutorials for step by step information on how to use popular M
     <a href="/tutorials/tensorflow">
       <h2 className="card-title">Keras</h2>
     </a>
-    <p className="card-content">Use W&B and Keras for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
+    <p className="card-content">Keras と W&B を活用して、機械学習実験管理、データセットのバージョン管理、プロジェクトの共同作業が行えます。</p>
   {{< /card >}}
   {{< card >}}
     <a href="/tutorials/xgboost_sweeps/">
       <h2 className="card-title">XGBoost</h2>
     </a>
-    <p className="card-content">Use W&B and XGBoost for machine learning experiment tracking, dataset versioning, and project collaboration.</p>
+    <p className="card-content">XGBoost と W&B を活用して、機械学習の実験管理やデータセットのバージョン管理、プロジェクト協働を効率化できます。</p>
   {{< /card >}}
 {{< /cardpane >}}
 
-## Other resources
+## その他のリソース
 
-Visit the W&B AI Academy to learn how to train, fine-tune and use LLMs in your applications. Implement MLOps and LLMOps solutions. Tackle real-world ML challenges with W&B courses.
+W&B AI Academy では、LLM を使った学習・ファインチューニング・活用方法を学べます。MLOps や LLMOps の実践方法、実世界の課題に取り組むためのコースも用意しています。
 
-- Large Language Models (LLMs)
+- 大規模言語モデル（LLM）
     - [LLM Engineering: Structured Outputs](https://www.wandb.courses/courses/steering-language-models?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Building LLM-Powered Apps](https://www.wandb.courses/courses/building-llm-powered-apps?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Training and Fine-tuning Large Language Models](https://www.wandb.courses/courses/training-fine-tuning-LLMs?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
-- Effective MLOps
+- 実践 MLOps
     - [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Effective MLOps: Model Development](https://www.wandb.courses/courses/effective-mlops-model-development?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [CI/CD for Machine Learning (GitOps)](https://www.wandb.courses/courses/ci-cd-for-machine-learning?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
-    - [Data Validation in Production ML Pipelines](https://www.wandb.courses/courses/data-validation-for-machine-learning?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
-    - [Machine Learning for Business Decision Optimization](https://www.wandb.courses/courses/decision-optimization?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
+    - [本番 ML パイプラインのデータ検証](https://www.wandb.courses/courses/data-validation-for-machine-learning?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
+    - [ビジネス意思決定のための機械学習](https://www.wandb.courses/courses/decision-optimization?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
 - W&B Models
     - [W&B 101](https://wandb.ai/site/courses/101/?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [W&B 201: Model Registry](https://www.wandb.courses/courses/201-model-registry?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)

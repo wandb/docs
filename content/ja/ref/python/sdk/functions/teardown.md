@@ -1,10 +1,10 @@
 ---
+title: teardown()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-functions-teardown
 object_type: python_sdk_actions
-title: teardown()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/ >}}
@@ -18,8 +18,8 @@ title: teardown()
 teardown(exit_code: 'int | None' = None) → None
 ```
 
-Waits for W&B to finish and frees resources. 
+W&B の処理が完了するのを待ち、リソースを解放します。
 
-Completes any runs that were not explicitly finished using `run.finish()` and waits for all data to be uploaded. 
+`run.finish()` で明示的に終了されていない Run をすべて完了させ、すべてのデータがアップロードされるまで待機します。
 
-It is recommended to call this at the end of a session that used `wandb.setup()`. It is invoked automatically in an `atexit` hook, but this is not reliable in certain setups such as when using Python's `multiprocessing` module.
+`wandb.setup()` を使用したセッションの最後にこれを呼び出すことを推奨します。これは `atexit` フック内で自動的に呼び出されますが、Python の `multiprocessing` モジュールなど一部の環境では確実ではありません。

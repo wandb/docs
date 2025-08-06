@@ -1,52 +1,52 @@
 ---
+title: なぜ私の個人アカウントで W&B Inference が利用できないのですか？
 menu:
   support:
     identifier: ja-support-kb-articles-inference_personal_account_limitation
 support:
-- inference
-title: Why isn't W&B Inference available for my personal account?
+- 推論
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Personal accounts don't support W&B Inference. You'll see this 429 error: "W&B Inference isn't available for personal accounts. Please switch to a non-personal account to access W&B Inference."
+個人アカウントでは W&B Inference は利用できません。この 429 エラーが表示されます:"W&B Inference isn't available for personal accounts. Please switch to a non-personal account to access W&B Inference."
 
-## Background
+## 背景
 
-Personal entities were deprecated in May 2024. This only affects legacy accounts that still use personal entities.
+Personal Entities は 2024 年 5 月に廃止されました。これは、まだ Personal Entities を利用しているレガシーアカウントにのみ影響します。
 
-## How to access W&B Inference
+## W&B Inference へのアクセス方法
 
-### Create a Team
+### Team の作成
 
-1. Log in to your W&B account
-2. Click on your profile icon in the top right
-3. Select "Create new team"
-4. Choose a team name
-5. Use this team for W&B Inference requests
+1. W&B アカウントにログインします
+2. 右上のプロフィールアイコンをクリックします
+3. 「Create new team」を選択します
+4. チーム名を決めます
+5. この Team を W&B Inference のリクエストに利用します
 
-### Update your code
+### コードの更新
 
-Change from personal entity to team:
+Personal Entity から Team へ切り替えるには以下のように変更します:
 
-**Before (doesn't work):**
+**変更前（動作しません）:**
 ```python
 project="your-username/project-name"  # Personal entity
 ```
 
-**After (works):**
+**変更後（動作します）:**
 ```python
 project="your-team/project-name"  # Team entity
 ```
 
-## Benefits of using Teams
+## Teams 利用のメリット
 
-- Access to W&B Inference
-- Better collaboration features
-- Shared projects and resources
-- Team-based billing and usage tracking
+- W&B Inference へのアクセス
+- 優れたコラボレーション機能
+- 複数人でのプロジェクト・リソース共有
+- チーム単位の請求・使用状況トラッキング
 
-## Need help?
+## サポートが必要な場合
 
-If you're having trouble creating a team or switching from a personal account, contact W&B support for assistance.
+Team の作成や個人アカウントからの切り替えでお困りの場合は、W&B サポートまでご連絡ください。

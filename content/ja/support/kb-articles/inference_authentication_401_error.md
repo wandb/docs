@@ -1,52 +1,52 @@
 ---
+title: W&B Inference で「無効な認証（401）」エラーが発生した場合の対処方法
 menu:
   support:
     identifier: ja-support-kb-articles-inference_authentication_401_error
 support:
-- inference
-title: How do I fix Invalid Authentication (401) errors with W&B Inference?
+- 推論
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-A 401 Invalid Authentication error means your API key is invalid or your W&B project entity/name is incorrect.
+401 Invalid Authentication エラーは、APIキーが無効であるか、W&B の project entity/name が間違っている場合に発生します。
 
-## Verify your API key
+## APIキーを確認する
 
-1. Get a new API key at [https://wandb.ai/authorize](https://wandb.ai/authorize)
-2. Check for extra spaces or missing characters when copying
-3. Store your API key securely
+1. 新しい APIキーを [https://wandb.ai/authorize](https://wandb.ai/authorize) で取得してください
+2. コピー時に余分なスペースや抜けている文字がないか確認してください
+3. APIキーを安全に保管してください
 
-## Check your project configuration
+## Project 設定を確認する
 
-Ensure your project is formatted correctly as `<your-team>/<your-project>`:
+project のフォーマットが正しいことを確認してください（`<your-team>/<your-project>` の形式）:
 
-**Python example:**
+**Python 例:**
 ```python
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     api_key="<your-api-key>",
-    project="<your-team>/<your-project>",  # Must match your W&B team and project
+    project="<your-team>/<your-project>",  # W&B の team と project 名が一致している必要があります
 )
 ```
 
-**Bash example:**
+**Bash 例:**
 ```bash
 curl https://api.inference.wandb.ai/v1/chat/completions \
   -H "Authorization: Bearer <your-api-key>" \
   -H "OpenAI-Project: <your-team>/<your-project>"
 ```
 
-## Common mistakes
+## よくある間違い
 
-- Using personal entity instead of team name
-- Misspelling team or project name
-- Missing forward slash between team and project
-- Using an expired or deleted API key
+- 個人 entity を team 名の代わりに使用している
+- team 名や project 名をスペルミスしている
+- team と project の間のスラッシュが抜けている
+- 期限切れまたは削除された APIキーを使用している
 
-## Still having issues?
+## それでも問題が解決しない場合
 
-- Verify the team and project exist in your W&B account
-- Ensure you have access to the specified team
-- Try creating a new API key if the current one isn't working
+- 該当の team と project が W&B アカウントに存在しているか確認してください
+- 指定した team へのアクセス権があるか確認してください
+- 現在の APIキーでうまくいかない場合、新しい APIキーを作成して試してください

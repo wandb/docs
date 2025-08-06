@@ -1,21 +1,21 @@
 ---
+title: コードを保存して差分を比較
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-code
     parent: panels
-title: Save and diff code
 weight: 50
 ---
 
-By default, W&B only saves the latest git commit hash. You can turn on more code features to compare the code between your experiments dynamically in the UI.
+デフォルトでは、W&B は最新の git コミットハッシュのみを保存します。より多くのコード機能を有効にすると、UI 上で実験間のコード比較が動的にできるようになります。
 
-Starting with `wandb` version 0.8.28, W&B can save the code from your main training file where you call `wandb.init()`. 
+`wandb` バージョン 0.8.28 以降、`wandb.init()` を呼び出すメイントレーニングファイルのコードを W&B が保存できるようになりました。
 
-## Save library code
+## ライブラリコードの保存
 
-When you enable code saving, W&B saves the code from the file that called `wandb.init()`. To save additional library code, you have three options:
+コード保存を有効にすると、W&B は `wandb.init()` を呼び出したファイルのコードを保存します。追加でライブラリのコードも保存したい場合、以下の 3 つの方法があります。
 
-### Call `wandb.Run.log_code(".")` after calling `wandb.init()`
+### `wandb.init()` の後に `wandb.Run.log_code(".")` を呼び出す
 
 ```python
 import wandb
@@ -24,7 +24,7 @@ with wandb.init() as run:
   run.log_code(".")
 ```
 
-### Pass a settings object to `wandb.init()` with `code_dir` set
+### `code_dir` を指定した settings オブジェクトを `wandb.init()` に渡す
 
 ```python
 import wandb
@@ -32,39 +32,37 @@ import wandb
 wandb.init(settings=wandb.Settings(code_dir="."))
 ```
 
-This captures all python source code files in the current directory and all subdirectories as an [artifact]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}}). For more control over the types and locations of source code files that are saved, see the [reference docs]({{< relref path="/ref/python/sdk/classes/run.md#log_code" lang="ja" >}}).
+これにより、現在のディレクトリーおよびすべてのサブディレクトリー内の全ての Python ソースコードファイルが [artifact]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}}) として保存されます。保存対象とするソースコードファイルの種類や場所をより細かく制御したい場合は、[リファレンスドキュメント]({{< relref path="/ref/python/sdk/classes/run.md#log_code" lang="ja" >}}) をご覧ください。
 
-### Set code saving in the UI
+### UI でコード保存を設定する
 
-In addition to setting code saving programmatically, you can also toggle this feature in your W&B account Settings. Note that this will enable code saving for all teams associated with your account.
+プログラムで設定するだけでなく、W&B のアカウント Settings からもこの機能を切り替えることができます。この設定を有効にすると、アカウントに紐づくすべてのチームでコード保存が有効になります。
 
-> By default, W&B disables code saving for all teams.
+> デフォルトでは、W&B はすべてのチームでコード保存を無効にしています。
 
-1. Log in to your W&B account.
-2. Go to **Settings** > **Privacy**.
-3. Under **Project and content security**, toggle **Disable default code saving** on. 
+1. W&B アカウントにログインします。
+2. **Settings** > **Privacy** に移動します。
+3. **Project and content security** の項目で **Disable default code saving** をオンに切り替えます。
 
-## Code comparer
-Compare code used in different W&B runs:
+## コード比較ツール
+異なる W&B run で使われたコードを比較できます。
 
-1. Select the **Add panels** button in the top right corner of the page.
-2. Expand **TEXT AND CODE** dropdown and select **Code**.
-
+1. ページ右上の **Add panels** ボタンを選択します。
+2. **TEXT AND CODE** のドロップダウンを展開し、**Code** を選択します。
 
 {{< img src="/images/app_ui/code_comparer.png" alt="Code comparer panel" >}}
 
-## Jupyter session history
+## Jupyter セッション履歴
 
-W&B saves the history of code executed in your Jupyter notebook session. When you call **wandb.init()** inside of Jupyter, W&B adds a hook to automatically save a Jupyter notebook containing the history of code executed in your current session. 
+W&B は、Jupyter notebook セッションで実行されたコードの履歴を保存します。Jupyter 内で **wandb.init()** を呼び出すと、W&B はフックを追加し、そのセッションで実行したコード履歴を含む Jupyter notebook を自動的に保存します。
 
-
-1. Navigate to your project workspaces that contains your code.
-2. Select the **Artifacts** tab in the left navigation bar.
-3. Expand the **code** artifact.
-4. Select the **Files** tab.
+1. コードを含むプロジェクトの Workspace に移動します。
+2. 左側のナビゲーションバーから **Artifacts** タブを選択します。
+3. **code** artifact を展開します。
+4. **Files** タブを選択します。
 
 {{< img src="/images/app_ui/jupyter_session_history.gif" alt="Jupyter session history" >}}
 
-This displays the cells that were run in your session along with any outputs created by calling iPython’s display method. This enables you to see exactly what code was run within Jupyter in a given run. When possible W&B also saves the most recent version of the notebook which you would find in the code directory as well.
+これにより、セッション内で実行したセルと、iPython の display メソッドによって生成された出力が表示されます。これによって、特定の run で Jupyter 上で実際に実行したコードを正確に確認できます。可能な場合は、最新バージョンのノートブックも code ディレクトリーに保存されます。
 
 {{< img src="/images/app_ui/jupyter_session_history_display.png" alt="Jupyter session output" >}}

@@ -1,34 +1,34 @@
 ---
+title: W&B Weave
 menu:
   default:
     identifier: ja-guides-weave-_index
-title: W&B Weave
 weight: 4
 ---
 
 {{% alert %}}
-Are you looking for the official Weave documentation? Head over to [weave-docs.wandb.ai](https://weave-docs.wandb.ai/).
+公式な Weave ドキュメントをお探しですか？[weave-docs.wandb.ai](https://weave-docs.wandb.ai/) をご覧ください。
 {{% /alert %}}
 
-W&B Weave is a framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications. Designed for flexibility and scalability, Weave supports every stage of your LLM application development workflow:
+W&B Weave は、LLM ベースのアプリケーションのトラッキング、実験、評価、デプロイ、改善のためのフレームワークです。柔軟性とスケーラビリティを重視して設計されており、LLM アプリケーション開発ワークフローのあらゆる段階をサポートします。
 
-- **Tracing & Monitoring**: Track LLM calls and application logic to debug and analyze production systems.
-- **Systematic Iteration**: Refine and iterate on prompts, datasets and models.
-- **Experimentation**: Experiment with different models and prompts in the LLM Playground. 
-- **Evaluation**: Use custom or pre-built scorers alongside our comparison tools to systematically assess and enhance application performance.
-- **Guardrails**: Protect your application with safeguards for content moderation, prompt safety, and more.
+- **トレース & モニタリング**: LLM の呼び出しやアプリケーションロジックを追跡し、プロダクションシステムのデバッグや解析を行えます。
+- **体系的な反復**: プロンプトや Datasets、Models の改善と繰り返しを効率良く行えます。
+- **実験**: LLM Playground で異なる Models やプロンプトを使った実験が可能です。
+- **評価**: カスタムまたは既製のスコアラーや比較ツールを使って、アプリケーションのパフォーマンスを体系的に評価・強化できます。
+- **ガードレール**: コンテンツモデレーションやプロンプトの安全性など、各種セーフガードでアプリケーションを保護します。
 
-## Get started with Weave
+## Weave を使い始める
 
-Are you new to Weave? Set up and start using Weave with the [Python quickstart](https://weave-docs.wandb.ai/quickstart) or [TypeScript quickstart](https://weave-docs.wandb.ai/reference/generated_typescript_docs/intro-notebook).
+Weave を初めてご利用ですか？[Python クイックスタート](https://weave-docs.wandb.ai/quickstart) または [TypeScript クイックスタート](https://weave-docs.wandb.ai/reference/generated_typescript_docs/intro-notebook) でセットアップと利用を開始しましょう。
 
-## Advanced guides
+## 応用ガイド
 
-Learn more about advanced topics:
+さらに詳細なトピックについて学びたい方はこちら：
 
-- [Integrations](https://weave-docs.wandb.ai/guides/integrations/): Use Weave with popular LLM providers, local models, frameworks, and third-party services.
-- [Cookbooks](https://weave-docs.wandb.ai/reference/gen_notebooks/intro_notebook): Build with Weave using Python and TypeScript. Tutorials are available as interactive notebooks.
-- [W&B AI Academy](https://www.wandb.courses/pages/w-b-courses): Build advanced RAG systems, improve LLM prompting, fine-tune LLMs, and more.
+- [Integrations](https://weave-docs.wandb.ai/guides/integrations/): Weave を人気の LLM プロバイダーやローカルモデル、各種フレームワークや外部サービスと組み合わせて利用できます。
+- [Cookbooks](https://weave-docs.wandb.ai/reference/gen_notebooks/intro_notebook): Python や TypeScript で Weave を使った構築例。チュートリアルは対話的なノートブック形式で提供しています。
+- [W&B AI Academy](https://www.wandb.courses/pages/w-b-courses): 高度な RAG システムや LLM プロンプト改善、LLM のファインチューニングなどを学べます。
 - [Weave Python SDK](https://weave-docs.wandb.ai/reference/python-sdk/weave/)
 - [Weave TypeScript SDK](https://weave-docs.wandb.ai/reference/typescript-sdk/weave/)
 - [Weave Service API](https://weave-docs.wandb.ai/reference/service-api/call-start-call-start-post)

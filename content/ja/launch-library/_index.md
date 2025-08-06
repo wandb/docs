@@ -1,4 +1,5 @@
 ---
+title: ローンンチ-ライブラリ
 cascade:
   hidden: true
   menu:
@@ -9,20 +10,15 @@ hidden: true
 menu:
   launch:
     identifier: launch-library
-title: launch-library
 type: docs
 ---
 
-<!-- Insert buttons and diff -->
+## クラス
 
+[`class LaunchAgent`](./launchagent.md)：Launch エージェントクラス。指定された run キューをポーリングし、W&B Launch 用の run を起動します。
 
+## 関数
 
-## Classes
+[`launch(...)`](./launch.md)：W&B Launch 実験を開始します。
 
-[`class LaunchAgent`](./launchagent.md): Launch agent class which polls run given run queues and launches runs for wandb launch.
-
-## Functions
-
-[`launch(...)`](./launch.md): Launch a W&B launch experiment.
-
-[`launch_add(...)`](./launch_add.md): Enqueue a W&B launch experiment. With either a source uri, job or docker_image.
+[`launch_add(...)`](./launch_add.md)：W&B Launch 実験をキューに追加します。source uri、job、または docker_image のいずれかを指定できます。

@@ -1,62 +1,60 @@
 ---
+title: モデルリネージマップを作成する
 description: ''
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-model-lineage
     parent: model-registry
-title: Create model lineage map
 weight: 7
 ---
 
-This page describes creating lineage graphs in the legacy W&B Model Registry. To learn about lineage graphs in W&B Registry, refer to [Create and view lineage maps]({{< relref path="../lineage.md" lang="ja" >}}).
+このページでは、従来の W&B モデルレジストリにおけるリネージグラフの作成について説明します。W&B Registry でのリネージグラフについては、[リネージマップの作成と表示]({{< relref path="../lineage.md" lang="ja" >}})をご覧ください。
 
 {{% alert %}}
-W&B will transition assets from the legacy [W&B Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}) to the new [W&B Registry]({{< relref path="./" lang="ja" >}}). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows. Refer to [Migrate from legacy Model Registry]({{< relref path="../model_registry_eol.md" lang="ja" >}}).
+W&B は従来の [W&B Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}) から新しい [W&B Registry]({{< relref path="./" lang="ja" >}}) への資産移行を行います。この移行は W&B により完全に管理・実行され、ユーザー側での対応は必要ありません。このプロセスは既存のワークフローにほとんど影響しない形でシームレスに進行します。詳細は [従来モデルレジストリからの移行]({{< relref path="../model_registry_eol.md" lang="ja" >}})を参照してください。
 {{% /alert %}}
 
+W&B でモデルアーティファクトをログする際の便利な機能の 1 つがリネージグラフです。リネージグラフは、run によって記録されたアーティファクトや、特定の run で使用されたアーティファクトを可視化します。
 
-A useful feature of logging model artifacts to W&B are lineage graphs. Lineage graphs show artifacts logged by a run as well as artifacts used by specific run. 
+つまり、モデルアーティファクトをログすると、そのモデルアーティファクトを使用または生成した W&B run を最低限確認できます。また、[依存関係をトラッキング]({{< relref path="#track-an-artifact-dependency" lang="ja" >}}) すると、モデルアーティファクトが利用した入力も参照できます。
 
-This means that, when you log a model artifact, you at a minimum have access to view the W&B run that used or produced the model artifact. If you [track a dependency]({{< relref path="#track-an-artifact-dependency" lang="ja" >}}), you also see the inputs used by the model artifact.
-
-For example, the proceeding image shows artifacts created and used throughout an ML experiment:
+例えば、以下の画像は ML 実験全体で作成・利用されたアーティファクトを示しています。
 
 {{< img src="/images/models/model_lineage_example.png" alt="Model lineage graph" >}}
 
-From left to right, the image shows:
-1. The `jumping-monkey-1` W&B run created the `mnist_dataset:v0` dataset artifact.
-2. The `vague-morning-5` W&B run trained a model using the `mnist_dataset:v0` dataset artifact. The output of this W&B run was a model artifact called `mnist_model:v0`.
-3. A run called `serene-haze-6` used the model artifact (`mnist_model:v0`) to evaluate the model.
+左から右にかけて、画像は次の流れを示します。
+1. `jumping-monkey-1` という W&B run が `mnist_dataset:v0` という dataset artifact を作成しました。
+2. `vague-morning-5` という W&B run が `mnist_dataset:v0` dataset artifact を使ってモデルのトレーニングを実施。この W&B run の出力が `mnist_model:v0` というモデルアーティファクトです。
+3. `serene-haze-6` という run が（`mnist_model:v0`）モデルアーティファクトを用いてモデルを評価しました。
 
+## アーティファクトの依存関係をトラッキングする
 
-## Track an artifact dependency
+依存関係をトラッキングするには、`use_artifact` API を使い、W&B run に入力として dataset artifact を指定します。
 
-Declare an dataset artifact as an input to a W&B run with the `use_artifact` API to track a dependency. 
-
-The proceeding code snippet shows how to use the `use_artifact` API:
+以下のコードスニペットは、`use_artifact` API の使い方を示しています。
 
 ```python
-# Initialize a run
+# run を初期化
 run = wandb.init(project=project, entity=entity)
 
-# Get artifact, mark it as a dependency
+# アーティファクトを取得し、依存関係としてマーク
 artifact = run.use_artifact(artifact_or_name="name", aliases="<alias>")
 ```
 
-Once you have retrieved your artifact, you can use that artifact to (for example), evaluate the performance of a model. 
+アーティファクトを取得したら、そのアーティファクトを使って（例えば）モデルの性能評価などが行えます。
 
 <details>
 
-<summary>Example: Train a model and track a dataset as the input of a model</summary>
+<summary>例：モデルのトレーニングと、入力データセットの依存関係記録</summary>
 
 ```python
 job_type = "train_model"
 
 config = {
-    "optimizer": "adam",
-    "batch_size": 128,
-    "epochs": 5,
-    "validation_split": 0.1,
+    "optimizer": "adam",  # オプティマイザー
+    "batch_size": 128,    # バッチサイズ
+    "epochs": 5,          # エポック数
+    "validation_split": 0.1, # 検証用分割率
 }
 
 run = wandb.init(project=project, job_type=job_type, config=config)
@@ -70,7 +68,7 @@ train_table = artifact.get("train_table")
 x_train = train_table.get_column("x_train", convert_to="numpy")
 y_train = train_table.get_column("y_train", convert_to="numpy")
 
-# Store values from our config dictionary into variables for easy accessing
+# config 辞書から値を変数に格納し、使いやすくする
 num_classes = 10
 input_shape = (28, 28, 1)
 loss = "categorical_crossentropy"
@@ -80,7 +78,7 @@ batch_size = run.config["batch_size"]
 epochs = run.config["epochs"]
 validation_split = run.config["validation_split"]
 
-# Create model architecture
+# モデルのアーキテクチャーを作成
 model = keras.Sequential(
     [
         layers.Input(shape=input_shape),
@@ -95,13 +93,13 @@ model = keras.Sequential(
 )
 model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-# Generate labels for training data
+# トレーニングデータのラベルを生成
 y_train = keras.utils.to_categorical(y_train, num_classes)
 
-# Create training and test set
+# トレーニングセットとテストセットを作成
 x_t, x_v, y_t, y_v = train_test_split(x_train, y_train, test_size=0.33)
 
-# Train the model
+# モデルをトレーニング
 model.fit(
     x=x_t,
     y=y_t,
@@ -111,7 +109,7 @@ model.fit(
     callbacks=[WandbCallback(log_weights=True, log_evaluation=True)],
 )
 
-# Save model locally
+# モデルをローカルに保存
 path = "model.h5"
 model.save(path)
 

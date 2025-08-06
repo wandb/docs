@@ -1,98 +1,94 @@
 ---
-description: Resume a paused or exited W&B Run
+title: run を再開する
+description: 一時停止または終了した W&B Run を再開する
 menu:
   default:
     identifier: ja-guides-models-track-runs-resuming
     parent: what-are-runs
-title: Resume a run
 ---
 
-Specify how a run should behave in the event that run stops or crashes. To resume or enable a run to automatically resume, you will need to specify the unique run ID associated with that run for the `id` parameter:
+run が停止またはクラッシュした場合にどのように振る舞うかを指定します。run を再開したり自動再開を有効にするには、その run に関連付けられた一意の run ID を `id` パラメータで指定する必要があります。
 
 ```python
-run = wandb.init(entity="<entity>", \ 
+run = wandb.init(entity="<entity>", \
         project="<project>", id="<run ID>", resume="<resume>")
 ```
 
 {{% alert %}}
-W&B encourages you to provide the name of the W&B Project where you want to store the run.
+W&B で run を保存したい Project の名前を指定することをおすすめします。
 {{% /alert %}}
 
-Pass one of the following arguments to the `resume` parameter to determine how W&B should respond. In each case, W&B first checks if the run ID already exists. 
+`resume` パラメータには、W&B の振る舞いを決める以下のいずれかの引数を渡してください。いずれの場合も、最初に W&B が run ID の存在をチェックします。
 
-|Argument | Description | Run ID exists| Run ID does not exist | Use case |
+|引数 | 説明 | Run ID が存在する場合| Run ID が存在しない場合 | ユースケース |
 | --- | --- | -- | --| -- |
-| `"must"` | W&B must resume run specified by the run ID. | W&B resumes run with the same run ID. | W&B raises an error. | Resume a run that must use the same run ID.  |
-| `"allow"`| Allow W&B to resume run if run ID exists. | W&B resumes run with the same run ID. | W&B initializes a new run with specified run ID. | Resume a run without overriding an existing run. |
-| `"never"`| Never allow W&B to resume a run specified by run ID. | W&B raises an error. | W&B initializes a new run with specified run ID. | |
+| `"must"` | 指定した run ID の run を必ず再開します。 | 同じ run ID の run を再開します。 | エラーが発生します。 | 必ず同じ run ID で run を再開したい場合。  |
+| `"allow"`| run ID が存在すれば W&B が run を再開します。 | 同じ run ID の run を再開します。 | 指定した run ID で新しい run を初期化します。 | 既存の run を上書きせずに再開したい場合。 |
+| `"never"`| 指定した run ID の run は絶対に再開しません。 | エラーが発生します。 | 指定した run ID で新しい run を初期化します。 | |
 
-<!-- - `"must"`:  If the run ID exists, W&B resumes the run with that run ID. If the run ID does not exist, W&B does nothing. 
-- `"allow"`:  If the run ID exists, W&B resumes the run with that run ID. If the run ID does not exist, W&B initializes a new run with the specified run ID.
-- `"never"`: If the run ID exists, W&B does nothing. If the run ID does not exist, W&B starts a new run with the specified run ID.  -->
 
-You can also specify `resume="auto"` to let W&B to automatically try to restart the run on your behalf. However, you will need to ensure that you restart your run from the same directory. See the [Enable runs to automatically resume]({{< relref path="#enable-runs-to-automatically-resume" lang="ja" >}}) section for more information.
+また、`resume="auto"` を指定することで、W&B に run の自動再開を任せることもできます。ただし、run を同じディレクトリから再起動する必要があります。詳しくは [run の自動再開を有効化する]({{< relref path="#enable-runs-to-automatically-resume" lang="ja" >}}) セクションをご覧ください。
 
-For all the examples below, replace values enclosed within `<>` with your own.
+以下の例で登場する `<>` で囲まれた値は、すべてご自身の値に置き換えてください。
 
-## Resume a run that must use the same run ID
-If a run is stopped, crashes, or fails, you can resume it using the same run ID. To do so, initialize a run and specify the following:
+## 同じ run ID で必ず run を再開する
 
-* Set the `resume` parameter to `"must"` (`resume="must"`) 
-* Provide the run ID of the run that stopped or crashed
+run が停止やクラッシュ、失敗した場合に、同じ run ID で再開できます。これを行うには、run を初期化する際に下記を指定します。
 
-<!-- Set the `resume` parameter to `"must"` (`resume="must"`) when you initialize the run and provide the run ID of the run that stopped or crashed.  -->
+* `resume` パラメータに `"must"` (`resume="must"`) を設定
+* 停止またはクラッシュした run の run ID を指定
 
-The following code snippet shows how to accomplish this with the W&B Python SDK:
+以下は W&B Python SDK でのコード例です。
 
 ```python
-run = wandb.init(entity="<entity>", \ 
+run = wandb.init(entity="<entity>", \
         project="<project>", id="<run ID>", resume="must")
 ```
 
 {{% alert color="secondary" %}}
-Unexpected results will occur if multiple processes use the same `id` concurrently. 
+同じ `id` を複数プロセスで同時に使用すると、予期しない結果につながります。
 
-
-For more information on  how to manage multiple processes, see the [Log distributed training experiments]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}}) 
+複数プロセスをどう取り扱うかについては、[分散トレーニング実験のログを記録する方法]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}}) をご参照ください。
 {{% /alert %}}
 
-## Resume a run without overriding the existing run
-Resume a run that stopped or crashed without overriding the existing run. This is especially helpful if your process doesn't exit successfully. The next time you start W&B, W&B will start logging from the last step.
+## 既存の run を上書きせずに再開する
 
-Set the `resume` parameter to `"allow"` (`resume="allow"`) when you initialize a run with W&B. Provide the run ID of the run that stopped or crashed. The following code snippet shows how to accomplish this with the W&B Python SDK:
+停止やクラッシュした run を既存の run を上書きせずに再開します。プロセスが正常終了しなかった場合など特に有用です。次回 W&B を起動すると、前回のステップからログを継続できます。
+
+W&B で run を初期化する際、`resume` パラメータに `"allow"` (`resume="allow"`) を設定し、停止した run の run ID を指定してください。以下は Python SDK を使った例です。
 
 ```python
 import wandb
 
-run = wandb.init(entity="<entity>", \ 
+run = wandb.init(entity="<entity>", \
         project="<project>", id="<run ID>", resume="allow")
 ```
 
+## run の自動再開を有効化する
 
-## Enable runs to automatically resume 
-The following code snippet shows how to enable runs to automatically resume with the Python SDK or with environment variables. 
+以下のコードスニペットは、Python SDK や環境変数を用いて run の自動再開を有効化する方法を示しています。
 
 {{< tabpane text=true >}}
   {{% tab header="W&B Python SDK" %}}
-The following code snippet shows how to specify a W&B run ID with the Python SDK. 
+以下は W&B run ID を Python SDK で指定する方法です。
 
-Replace values enclosed within `<>` with your own:
+`<>` で囲まれた値はご自身のものに置き換えてください。
 
 ```python
-run = wandb.init(entity="<entity>", \ 
+run = wandb.init(entity="<entity>", \
         project="<project>", id="<run ID>", resume="<resume>")
 ```  
   {{% /tab %}}
   {{% tab header="Shell script" %}}
 
-The following example shows how to specify the W&B `WANDB_RUN_ID` variable in a bash script: 
+次の例は、bash スクリプトで W&B の `WANDB_RUN_ID` 変数を指定する方法です。
 
 ```bash title="run_experiment.sh"
 RUN_ID="$1"
 
 WANDB_RESUME=allow WANDB_RUN_ID="$RUN_ID" python eval.py
 ```
-Within your terminal, you could run the shell script along with the W&B run ID. The following code snippet passes the run ID `akj172`: 
+ターミナル内で、W&B の run ID とともにシェルスクリプトを実行できます。以下のコード例では run ID `akj172` を渡しています。
 
 ```bash
 sh run_experiment.sh akj172 
@@ -101,36 +97,30 @@ sh run_experiment.sh akj172
 {{% /tab %}}
 {{< /tabpane >}}
 
-
 {{% alert color="secondary" %}}
-Automatic resuming only works if the process is restarted on top of the same filesystem as the failed process. 
+プロセスが失敗したプロセスと同じファイルシステム上で再起動される場合のみ、自動再開が機能します。
 {{% /alert %}}
 
-
-For example, suppose you execute a python script called `train.py` in a directory called `Users/AwesomeEmployee/Desktop/ImageClassify/training/`. Within `train.py`, the script creates a run that enables automatic resuming. Suppose next that the training script is stopped. To resume this run, you would need to restart your `train.py` script within `Users/AwesomeEmployee/Desktop/ImageClassify/training/` .
-
+たとえば、`Users/AwesomeEmployee/Desktop/ImageClassify/training/` というディレクトリで `train.py` という Python スクリプトを実行し、その中で自動再開を有効にする run を作成したとします。その後、トレーニングスクリプトが停止した場合、この run を再開するには、再び同じディレクトリ `Users/AwesomeEmployee/Desktop/ImageClassify/training/` で `train.py` スクリプトを実行する必要があります。
 
 {{% alert %}}
-If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Custom run IDs]({{< relref path="./#custom-run-ids" lang="ja" >}}) section in the "What are runs?" page for more information on run IDs.
+もしファイルシステムを共有できない場合は、`WANDB_RUN_ID` 環境変数を指定するか、W&B Python SDK で run ID を指定してください。run ID の詳細は ["What are runs?" ページの Custom run IDs]({{< relref path="./#custom-run-ids" lang="ja" >}}) のセクションをご覧ください。
 {{% /alert %}}
 
+## プリエンプティブルな Sweeps の run を再開する
 
+中断された [sweep]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) run を自動的に再キューできます。たとえば、SLURM のプリエンプティブルキュー上のジョブや、EC2 スポットインスタンス、Google Cloud のプリエンプティブル VM など、プリエンプションされうる計算環境で sweep agent を実行している場合に便利です。
 
-
-
-## Resume preemptible Sweeps runs
-Automatically requeue interrupted [sweep]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
-
-Use the [`mark_preempting`]({{< relref path="/ref/python/sdk/classes/run#mark_preempting" lang="ja" >}}) function to automatically requeue interrupted sweep runs. For example:
+[`mark_preempting`]({{< relref path="/ref/python/sdk/classes/run#mark_preempting" lang="ja" >}}) 関数を使うことで、中断された sweep run を自動で再キューできます。例：
 
 ```python
-run = wandb.init()  # Initialize a run
+run = wandb.init()  # run を初期化
 run.mark_preempting()
 ```
-The following table outlines how W&B handles runs based on the exit status of the a sweep run.
+以下の表は、sweep run の終了ステータスに基づき W&B がどのように run を扱うかを示しています。
 
-|Status| Behavior |
+|ステータス| 振る舞い |
 |------| ---------|
-|Status code 0| Run is considered to have terminated successfully and it will not be requeued.  |
-|Nonzero status| W&B automatically appends the run to a run queue associated with the sweep.|
-|No status| Run is added to the sweep run queue. Sweep agents consume runs off the run queue until the queue is empty. Once the queue is empty, the sweep queue resumes generating new runs based on the sweep search algorithm.|
+|ステータスコード 0| run は正常に終了したとみなされ、再キューされません。 |
+|非ゼロのステータス| W&B が run を sweep に紐づく run キューに自動追加します。|
+|ステータスなし| run が sweep run キューに追加されます。sweep agent はキューが空になるまで run を消化し、空になれば sweep キューから新しい run が sweep の探索アルゴリズムに基づいて生成され続けます。|

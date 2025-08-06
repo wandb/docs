@@ -1,21 +1,20 @@
 ---
-description: Link a model version to a registered model with the W&B App or programmatically
-  with the Python SDK.
+title: モデルバージョンをリンクする
+description: W&B App または Python SDK を使って、モデル バージョンを Registered Models にリンクできます。
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-link-model-version
     parent: model-registry
-title: Link a model version
 weight: 5
 ---
 
-Link a model version to a registered model with the W&B App or programmatically with the Python SDK.
+W&B App または Python SDK を使って、モデルバージョンを Registered Model にリンクできます。
 
-## Programmatically link a model
+## プログラムでモデルをリンクする
 
-Use the [`link_model`]({{< relref path="/ref/python/sdk/classes/run.md#link_model" lang="ja" >}}) method to programmatically log model files to a W&B run and link it to the [W&B Model Registry]({{< relref path="./" lang="ja" >}}). 
+[`link_model`]({{< relref path="/ref/python/sdk/classes/run.md#link_model" lang="ja" >}}) メソッドを使うことで、モデルファイルを W&B run にログし、それを [W&B Model Registry]({{< relref path="./" lang="ja" >}}) にリンクできます。
 
-Ensure to replace other the values enclosed in `<>` with your own:
+`<>` で囲まれた値はご自身のものに置き換えてください。
 
 ```python
 import wandb
@@ -25,73 +24,73 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-W&B creates a registered model for you if the name you specify for the `registered-model-name` parameter does not already exist. 
+`registered-model-name` パラメータで指定した名前の Registered Model がまだ存在しない場合は、W&B が自動で Registered Model を作成します。
 
-For example, suppose you have an existing registered model named "Fine-Tuned-Review-Autocompletion"(`registered-model-name="Fine-Tuned-Review-Autocompletion"`) in your Model Registry. And suppose that a few model versions are linked to it: `v0`, `v1`, `v2`. If you programmatically link a new model and use the same registered model name (`registered-model-name="Fine-Tuned-Review-Autocompletion"`), W&B links this model to the existing registered model and assigns it a model version `v3`. If no registered model with this name exists, a new one registered model is created and it will have a model version `v0`.
+例えば、すでに Model Registry に "Fine-Tuned-Review-Autocompletion"（`registered-model-name="Fine-Tuned-Review-Autocompletion"`）という Registered Model があるとします。ここにいくつかのモデルバージョン（`v0`、`v1`、`v2`）が紐づいている状況です。このとき、新しいモデルをプログラムでリンクし、同じ Registered Model 名（`registered-model-name="Fine-Tuned-Review-Autocompletion"`）を指定すると、W&B はこのモデルを既存の Registered Model に紐づけ、新しいモデルバージョン `v3` を割り当てます。その名前の Registered Model が存在しない場合は、新しく Registered Model が作成され、バージョンは `v0` になります。
 
-See an example ["Fine-Tuned-Review-Autocompletion" registered model here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models).
+["Fine-Tuned-Review-Autocompletion" Registered Model の例はこちら](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models) をご覧ください。
 
-## Interactively link a model
-Interactively link a model with the Model Registry or with the Artifact browser.
+## 対話的にモデルをリンクする
+
+Model Registry または Artifact ブラウザを使い、対話的にモデルをリンクできます。
 
 {{< tabpane text=true >}}
   {{% tab header="Model Registry" %}}
-1. Navigate to the [Model Registry App](https://wandb.ai/registry/model).
-2. Hover your mouse next to the name of the registered model you want to link a new model to. 
-3. Select the meatball menu icon (three horizontal dots) next to  **View details**.
-4. From the dropdown, select **Link new version**.
-5. From the **Project** dropdown, select the name of the project that contains your model. 
-6. From the **Model Artifact** dropdown, select the name of the model artifact. 
-7. From the **Version** dropdown, select the model version you want to link to the registered model.
+1. [Model Registry App](https://wandb.ai/registry/model) にアクセスします。
+2. 新しくモデルをリンクしたい Registered Model の名前の横にカーソルを合わせます。
+3. **View details** の横にある三点リーダー（メニュ―）アイコンをクリックします。
+4. 表示されたメニューから **Link new version** を選択します。
+5. **Project** ドロップダウンから、対象のモデルを含むプロジェクト名を選択します。
+6. **Model Artifact** ドロップダウンから、対象のモデルアーティファクト名を選択します。
+7. **Version** ドロップダウンから、Registered Model にリンクしたいモデルバージョンを選択します。
 
-{{< img src="/images/models/link_model_wmodel_reg.gif" alt="Linking model version to registry" >}}
+{{< img src="/images/models/link_model_wmodel_reg.gif" alt="モデルバージョンをレジストリにリンクする" >}}
   {{% /tab %}}
   {{% tab header="Artifact browser" %}}
-1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
-2. Select the Artifacts icon on the left sidebar.
-3. Click on the model version you want to link to your registry.
-4. Within the **Version overview** section, click the **Link to registry** button.
-5. From the modal that appears on the right of the screen, select a registered model from the **Select a register model** menu dropdown. 
-6. Click **Next step**.
-7. (Optional) Select an alias from the **Aliases** dropdown. 
-8. Click **Link to registry**. 
+1. W&B App で、プロジェクトのアーティファクトブラウザにアクセスします： `https://wandb.ai/<entity>/<project>/artifacts`
+2. 左サイドバーから Artifacts アイコンをクリックします。
+3. レジストリにリンクしたいモデルバージョンをクリックします。
+4. **Version overview** セクション内の **Link to registry** ボタンをクリックします。
+5. 画面右に表示されるモーダル内の **Select a register model** メニューから Registered Model を選びます。
+6. **Next step** をクリックします。
+7. （オプション）**Aliases** ドロップダウンからエイリアスを選択します。
+8. **Link to registry** をクリックします。
 
-{{< img src="/images/models/manual_linking.gif" alt="Manual model linking" >}}  
+{{< img src="/images/models/manual_linking.gif" alt="手動でモデルリンク" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
 
 
 
-## View the source of linked models
+## リンク済みモデルのソースを見る
 
-There are two ways to view the source of linked models: The artifact browser within the project that the model is logged to and the W&B Model Registry.
+リンク済みモデルのソースを見る方法は2つあります：モデルがログされているプロジェクト内のアーティファクトブラウザ、または W&B Model Registry です。
 
-A pointer connects a specific model version in the model registry to the source model artifact (located within the project the model is logged to). The source model artifact also has a pointer to the model registry.
+ポインターはモデールレジストリ内の特定のモデルバージョンと、そのソースモデルアーティファクト（モデルがログされたプロジェクト内）を結びつけます。ソースモデルアーティファクトにも、モデルレジストリへのポインターが付きます。
 
 {{< tabpane text=true >}}
   {{% tab header="Model Registry" %}}
-1. Navigate to your [Model Registry App](https://wandb.ai/registry/model).
-{{< img src="/images/models/create_registered_model_1.png" alt="Create registered model" >}}
-2. Select **View details** next the name of your registered model.
-3. Within the **Versions** section, select **View** next to the model version you want to investigate.
-4. Click on the **Version** tab within the right panel.
-5. Within the **Version overview** section there is a row that contains a **Source Version** field. The **Source Version** field shows both the name of the model and the model's version.
+1. [Model Registry App](https://wandb.ai/registry/model) にアクセスします。
+{{< img src="/images/models/create_registered_model_1.png" alt="Registered Model の作成" >}}
+2. Registered Model 名の横にある **View details** をクリックします。
+3. **Versions** セクションから、調べたいモデルバージョンの右側にある **View** をクリックします。
+4. 右側パネルの **Version** タブを選択します。
+5. **Version overview** セクションにある **Source Version** 行で、モデル名とバージョンが確認できます。
 
-For example, the following image shows a `v0` model version called `mnist_model` (see **Source version** field `mnist_model:v0`), linked to a registered model called `MNIST-dev`.
+例えば、下記画像のように `mnist_model` という名前の `v0` モデルバージョン（**Source version** フィールド `mnist_model:v0`）が、`MNIST-dev` という Registered Model にリンクされています。
 
-{{< img src="/images/models/view_linked_model_registry.png" alt="Linked model in registry" >}}  
+{{< img src="/images/models/view_linked_model_registry.png" alt="レジストリ内のリンク済みモデル" >}}  
   {{% /tab %}}
   {{% tab header="Artifact browser" %}}
-1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
-2. Select the Artifacts icon on the left sidebar.
-3. Expand the **model** dropdown menu from the Artifacts panel.
-4. Select the name and version of the model linked to the model registry.
-5. Click on the **Version** tab within the right panel.
-6. Within the **Version overview** section there is a row that contains a **Linked To** field. The **Linked To** field shows both the name of the registered model and the version it possesses(`registered-model-name:version`). 
+1. W&B App で、プロジェクトのアーティファクトブラウザにアクセスします： `https://wandb.ai/<entity>/<project>/artifacts`
+2. 左サイドバーより Artifacts アイコンをクリックします。
+3. Artifacts パネルの **model** ドロップダウンを展開します。
+4. モデルレジストリにリンクされているモデルの名前とバージョンを選択します。
+5. 右パネル内の **Version** タブをクリックします。
+6. **Version overview** セクション内、**Linked To** 行で Registered Model 名とそのバージョン（`registered-model-name:version`）を確認できます。
 
-For example, in the following image, there is a registered model called `MNIST-dev` (see the **Linked To** field). A model version called `mnist_model` with a version `v0`(`mnist_model:v0`) points to the `MNIST-dev` registered model.
+例えば、以下の画像では `MNIST-dev` という Registered Model（**Linked To** フィールド参照）と、`v0` バージョンの `mnist_model`（`mnist_model:v0`）が紐付いていることがわかります。
 
-
-{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="Model artifacts browser" >}}  
+{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="モデルアーティファクトブラウザ" >}}  
   {{% /tab %}}
 {{< /tabpane >}}

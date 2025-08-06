@@ -1,38 +1,37 @@
 ---
+title: レジストリからアーティファクトをダウンロードする
 menu:
   default:
     identifier: ja-guides-core-registry-download_use_artifact
     parent: registry
-title: Download an artifact from a registry
 weight: 6
 ---
 
-Use the W&B Python SDK to download an artifact linked to a registry. To download and use an artifact, you need to know the name of the registry, the name of the collection, and the alias or index of the artifact version you want to download. 
+W&B Python SDK を使って、レジストリにリンクされた artifact をダウンロードできます。artifact をダウンロード・利用するには、レジストリ名、コレクション名、そしてダウンロードしたい artifact バージョンのエイリアスまたはインデックスを知っておく必要があります。
 
-Once you know the properties of the artifact, you can [construct the path to the linked artifact]({{< relref path="#construct-path-to-linked-artifact" lang="ja" >}}) and download the artifact. Alternatively, you can [copy and paste a pre-generated code snippet]({{< relref path="#copy-and-paste-pre-generated-code-snippet" lang="ja" >}}) from the W&B App UI to download an artifact linked to a registry. 
+artifact の情報が分かったら、[リンクされた artifact のパスを構築]({{< relref path="#construct-path-to-linked-artifact" lang="ja" >}})し、artifact をダウンロードできます。または、W&B App UI から [あらかじめ生成されたコードスニペットをコピー＆ペースト]({{< relref path="#copy-and-paste-pre-generated-code-snippet" lang="ja" >}})して、レジストリにリンクされた artifact をダウンロードすることもできます。
 
+## リンクされた artifact のパスを構築する
 
-## Construct path to linked artifact
+レジストリにリンクされた artifact をダウンロードするには、その artifact のパスを知っている必要があります。パスは、レジストリ名・コレクション名・そしてアクセスしたい artifact バージョンのエイリアスまたはインデックスから構成されます。
 
-To download an artifact linked to a registry, you must know the path of that linked artifact. The path consists of the registry name, collection name, and the alias or index of the artifact version you want to access. 
-
-Once you have the registry, collection, and alias or index of the artifact version, you can construct the path to the linked artifact using the proceeding string template:
+レジストリ、コレクション、artifact バージョンのエイリアスまたはインデックスが分かれば、以下の文字列テンプレートを使ってリンクされた artifact のパスを作成できます。
 
 ```python
-# Artifact name with version index specified
+# バージョンインデックスを指定した場合の artifact 名
 f"wandb-registry-{REGISTRY}/{COLLECTION}:v{INDEX}"
 
-# Artifact name with alias specified
+# エイリアスを指定した場合の artifact 名
 f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 ```
 
-Replace the values within the curly braces `{}` with the name of the registry, collection, and the alias or index of the artifact version you want to access.
+波括弧 `{}` の中身を、自分がアクセスしたいレジストリ名、コレクション名、および artifact バージョンのエイリアスまたはインデックスに置き換えてください。
 
 {{% alert %}}
-Specify `model` or `dataset` to link an artifact version to the core Model registry or the core Dataset registry, respectively.
+artifact バージョンをコアの Model registry・Dataset registry に紐付けるには、それぞれ `model` または `dataset` を指定してください。
 {{% /alert %}}
 
-Use the `wandb.init.use_artifact` method to access the artifact and download its contents once you have the path of the linked artifact. The proceeding code snippet shows how to use and download an artifact linked to the W&B Registry. Ensure to replace values within `<>` with your own:
+リンクされた artifact のパスが分かったら、`wandb.init.use_artifact` メソッドを使って artifact にアクセスし、その内容をダウンロードできます。下記のコードスニペットで、値の部分（ `<>` ）は自分のものに置き換えて利用してください。
 
 ```python
 import wandb
@@ -47,15 +46,14 @@ run = wandb.init(
    )  
 
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
-# artifact_name = '<artifact_name>' # Copy and paste Full name specified on the Registry App
+# artifact_name = '<artifact_name>' # Registry App 上に表示されるフルネームをそのままコピペしても OK
 fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
 download_path = fetched_artifact.download()  
 ```
 
-The `.use_artifact()` method both creates a [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) and marks the artifact you download as the input to that run. 
-Marking an artifact as the input to a run enables W&B to track the lineage of that artifact. 
+`.use_artifact()` メソッドは [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) を作成し、ダウンロードした artifact をその run の入力としてマークします。artifact を run の入力としてマークすることで、W&B が artifact のリネージを追跡できるようになります。
 
-If you do not want to create a run, you can use the `wandb.Api()` object to access the artifact:
+もし run を作成したくない場合は、`wandb.Api()` オブジェクトを使って artifact にアクセスできます。
 
 ```python
 import wandb
@@ -70,9 +68,9 @@ artifact = api.artifact(name = artifact_name)
 ```
 
 <details>
-<summary>Example: Use and download an artifact linked to the W&B Registry</summary>
+<summary>例：W&B Registry にリンクされた artifact を利用・ダウンロードする</summary>
 
-The proceeding code example shows how a user can download an artifact linked to a collection called `phi3-finetuned` in the **Fine-tuned Models** registry. The alias of the artifact version is set to `production`.
+以下のコード例は、**Fine-tuned Models** レジストリ内の `phi3-finetuned` というコレクションにリンクされた artifact をダウンロードするものです。artifact バージョンのエイリアスは `production` です。
 
 ```python
 import wandb
@@ -84,25 +82,23 @@ REGISTRY = "Fine-tuned Models"
 COLLECTION = "phi3-finetuned"
 ALIAS = 'production'
 
-# Initialize a run inside the specified team and project
+# 指定した team・project 内で run を初期化
 run = wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME)
 
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
-# Access an artifact and mark it as input to your run for lineage tracking
+# artifact にアクセスし、run の入力としてリネージ追跡
 fetched_artifact = run.use_artifact(artifact_or_name = name)  
 
-# Download artifact. Returns path to downloaded contents
+# artifact をダウンロード。ダウンロード先のパスを返す
 downloaded_path = fetched_artifact.download()  
 ```
 </details>
 
+API リファレンス内の [`use_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#use_artifact" lang="ja" >}}) および [`Artifact.download()`]({{< relref path="/ref/python/sdk/classes/artifact.md#download" lang="ja" >}}) で、パラメータや返り値の詳細を確認できます。
 
-
-See [`use_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#use_artifact" lang="ja" >}}) and [`Artifact.download()`]({{< relref path="/ref/python/sdk/classes/artifact.md#download" lang="ja" >}}) in the API Reference for parameters and return type.
-
-{{% alert title="Users with a personal entity that belong to multiple organizations" %}} 
-Users with a personal entity that belong to multiple organizations must also specify either the name of their organization or use a team entity when accessing artifacts linked to a registry.
+{{% alert title="複数の組織に所属する個人 entity を持つユーザーの方へ" %}} 
+複数の組織に所属する個人 entity を持つユーザーは、レジストリにリンクされた artifact にアクセスする際、組織名を指定するか、team entity を利用する必要があります。
 
 ```python
 import wandb
@@ -111,30 +107,30 @@ REGISTRY = "<registry_name>"
 COLLECTION = "<collection_name>"
 VERSION = "<version>"
 
-# Ensure you are using your team entity to instantiate the API
+# API インスタンス化の際、自分の team entity も指定
 api = wandb.Api(overrides={"entity": "<team-entity>"})
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
 artifact = api.artifact(name = artifact_name)
 
-# Use org display name or org entity in the path
+# org 表示名または entity 名をパスに使用
 api = wandb.Api()
 artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
 artifact = api.artifact(name = artifact_name)
 ```
 
-Where the `ORG_NAME` is the display name of your organization. Multi-tenant SaaS users can find the name of their organization in the organization's settings page at `https://wandb.ai/account-settings/`. Dedicated Cloud and Self-Managed users, contact your account administrator to confirm your organization's display name.
+ここで `ORG_NAME` はご自身の組織の表示名（display name）です。マルチテナント SaaS ユーザーは、組織設定ページ `https://wandb.ai/account-settings/` から組織名を確認できます。専用クラウドやセルフマネージド環境の場合は、組織表示名についてアカウント管理者にご確認ください。
 {{% /alert %}}
 
-## Copy and paste pre-generated code snippet
+## あらかじめ生成されたコードスニペットをコピー＆ペースト
 
-W&B creates a code snippet that you can copy and paste into your Python script, notebook, or terminal to download an artifact linked to a registry.
+W&B では、artifact をレジストリからダウンロードするために Python スクリプト・ノートブック・ターミナルに直接貼り付けて使えるコードスニペットを自動生成しています。
 
-1. Navigate to the Registry App.
-2. Select the name of the registry that contains your artifact.
-3. Select the name of the collection.
-4. From the list of artifact versions, select the version you want to access.
-5. Select the **Usage** tab.
-6. Copy the code snippet shown in the **Usage API** section.
-7. Paste the code snippet into your Python script, notebook, or terminal.
+1. Registry App にアクセスします。
+2. 自分の artifact が含まれるレジストリ名を選択します。
+3. コレクション名を選択します。
+4. artifact バージョン一覧からアクセスしたいバージョンを選択します。
+5. **Usage** タブをクリックします。
+6. **Usage API** セクションに表示されているコードスニペットをコピーします。
+7. コピーしたコードスニペットを Python スクリプト、ノートブック、ターミナルに貼り付けて利用します。
 
 {{< img src="/images/registry/find_usage_in_registry_ui.gif" >}}

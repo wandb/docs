@@ -1,97 +1,97 @@
 ---
+title: 組織のアクティビティを表示
 menu:
   default:
     identifier: ja-guides-hosting-monitoring-usage-org_dashboard
     parent: monitoring-and-usage
-title: View organization activity
 ---
 
-This page shows various ways to view activity within your W&B organization.
+このページでは、W&B 組織内のアクティビティを確認するさまざまな方法をご紹介します。
 
-## View user status and activity
+## ユーザーのステータスとアクティビティを確認する
 
 {{< tabpane text=true >}}
-{{% tab header="Dedicated / Self-managed" value="dedicated" %}}
-1. To access the **Organization Dashboard**, navigate to `https://<org-name>.io/org/dashboard/`. Replace `<org-name>` with your organization name. The **Users** tab opens by default. It lists all users, along with data about each user.
-1. To sort the list by user status, click the **Last Active** column label. Each user's status is one of the following:
+{{% tab header="専用 / セルフマネージド" value="dedicated" %}}
+1. **Organization Dashboard** にアクセスするには、`https://<org-name>.io/org/dashboard/` に移動してください。`<org-name>` をご自身の組織名に置き換えてください。**Users** タブがデフォルトで開きます。ここには、全ユーザーと各ユーザーに関するデータが表示されます。
+1. ユーザーのステータスでリストをソートするには、**Last Active** 列ラベルをクリックします。それぞれのユーザーのステータスは以下のいずれかです。
 
-    * **Invite pending**: Admin has sent invite but user has not accepted invitation. 
-    * **Active**: User has accepted the invite and created an account.
-    * **-**: The user was previously active but has not been active in the last 6 months.
-    * **Deactivated**: Admin has revoked access of the user.
-1. To see details about a user's last activity, hover your mouse over the **Last Active** field for the user.  A tooltip appears that shows when the user was added and how many total days the user has been active.
+    * **Invite pending**: 管理者が招待を送信しましたが、ユーザーが招待をまだ承認していません。
+    * **Active**: ユーザーが招待を承認し、アカウントを作成しました。
+    * **-**: 過去にアクティブだったが、直近 6 か月間アクティブではありません。
+    * **Deactivated**: 管理者がそのユーザーのアクセス権を取り消しました。
+1. ユーザーの最終アクティビティ詳細を確認するには、そのユーザーの **Last Active** フィールドにマウスを重ねてください。ツールチップが表示され、ユーザーの追加日時やアクティブだった日数合計が確認できます。
 
-    A user is _active_ if they:
-    - log in to W&B.
-    - view any page in the W&B App.
-    - log runs.
-    - use the SDK to track an experiment.
-    - interact with the W&B Server in any way.
+    ユーザーが _アクティブ_ と判定されるのは、以下の場合です：
+    - W&B にログインした場合
+    - W&B App のいずれかのページを閲覧した場合
+    - run をログした場合
+    - SDK で実験を記録した場合
+    - W&B Server といずれかの方法でやりとりした場合
 {{% /tab %}}
 
-{{% tab header="Multi-tenant Cloud" value="saas" %}}
-1. Navigate to the [**Members** page](https://wandb.ai/account-settings/wandb/members/). This page lists all users, along with data about each user.
-1. To sort the list by user status, click the **Last Active** column label. Each user's status is one of the following:
+{{% tab header="マルチテナント クラウド" value="saas" %}}
+1. [**Members** ページ](https://wandb.ai/account-settings/wandb/members/)にアクセスします。このページには全ユーザーが、各ユーザーのデータとともにリスト表示されます。
+1. ユーザーのステータスでリストをソートするには、**Last Active** 列ラベルをクリックします。それぞれのユーザーのステータスは以下のいずれかです。
 
-    * **Invite pending**: Admin has sent invite but user has not accepted invitation. 
-    * **Active**: User has accepted the invite and created an account.
-    * `-`: A hyphen indicates that the user has not yet been active within the organization.
+    * **Invite pending**: 管理者が招待を送信しましたが、ユーザーが招待をまだ承認していません。
+    * **Active**: ユーザーが招待を承認し、アカウントを作成しました。
+    * `-`: このハイフンは、そのユーザーがまだ組織内でアクティブになっていないことを示します。
 
-    A user is _active_ if they perform any auditable action scoped to the organization _after May 8, 2025_. For a full list, refer to [Actions]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md#actions" lang="ja" >}}) in the Audit Logging page.
+    ユーザーは、_2025年5月8日以降_に組織範囲の監査可能なアクションを行った場合、_アクティブ_ と判定されます。詳細なアクション一覧については、Audit Logging ページの [Actions]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md#actions" lang="ja" >}}) をご参照ください。
 
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Export user details
+## ユーザー情報のエクスポート
 
 {{< tabpane text=true >}}
-{{% tab header="Dedicated or Self-managed" value="dedicated" %}}
-From the **Users** tab, you can export details about how your organization uses W&B in CSV format.
+{{% tab header="専用 / セルフマネージド" value="dedicated" %}}
+**Users** タブから、組織での W&B 利用状況の詳細を CSV 形式でエクスポートできます。
 
-1. Navigate to the **Organization Dashboard** at `https://<org-name>.io/org/dashboard/`. Replace `<org-name>` with your organization name. The **Users** tab opens by default.
-1. Click the action `...` menu next to the **Invite new user user** button.
-1. Click **Export as CSV**. The downloaded CSV file lists details about each user of an organization, such as their user name and email address, the time they were last active, their roles, and more.
+1. `https://<org-name>.io/org/dashboard/` の **Organization Dashboard** にアクセスします。`<org-name>` を組織名に置き換えてください。**Users** タブがデフォルトで開きます。
+1. **Invite new user** ボタンの横にある `...` アクションメニューをクリックします。
+1. **Export as CSV** をクリックします。ダウンロードされる CSV ファイルには、ユーザー名やメールアドレス、最終アクティブ時刻、ロールなど、組織内の各ユーザーに関する詳細が含まれます。
 {{% /tab %}}
 
-{{% tab header="Multi-tenant Cloud" value="saas" %}}
-Exporting users is not available for Multi-tenant Cloud.
+{{% tab header="マルチテナント クラウド" value="saas" %}}
+マルチテナント クラウド ではユーザーのエクスポート機能はご利用いただけません。
 {{% /tab %}}
 {{< /tabpane >}}
 
-## View activity over time
-This section shows how to get an aggregate view of activity over time.
+## アクティビティの推移を確認する
+このセクションでは、アクティビティの推移を集計して確認する方法をご紹介します。
 
 {{< tabpane text=true >}}
-{{% tab header="Dedicated or Self-managed" value="dedicated" %}}
+{{% tab header="専用 / セルフマネージド" value="dedicated" %}}
 
-Use the plots in the **Activity** tab to get an aggregate view of how many users have been active over time.
+**Activity** タブのグラフを使うと、期間ごとのアクティブなユーザー数を集計表示できます。
 
-1. To access the **Organization Dashboard**, navigate to `https://<org-name>.io/org/dashboard/`. Replace `<org-name>` with your organization name.
-1. Click the **Activity** tab.
-1. The **Total active users** plot shows how many unique users have been active in a period of time (defaults to 3 months).
-1. The **Users active over time** plot shows the fluctuation of active users over a period of time (defaults to 6 months). Hover your mouse over a pointo to see the number of users on that date.
+1. **Organization Dashboard** にアクセスするには、`https://<org-name>.io/org/dashboard/` に移動してください。`<org-name>` をご自身の組織名に置き換えてください。
+1. **Activity** タブをクリックします。
+1. **Total active users** グラフでは、指定した期間（デフォルトは 3 か月間）にアクティブだったユニークユーザー数が表示されます。
+1. **Users active over time** グラフでは、一定期間（デフォルトは 6 か月間）におけるアクティブユーザー数の変動が表示されます。ポイントにマウスを重ねると、その日付のユーザー数が表示されます。
 
-To change the period of time for a plot, use the drop-down. You can select:
-- Last 30 days
-- Last 3 months
-- Last 6 months
-- Last 12 months
-- All time
+グラフの表示期間を変更したいときは、ドロップダウンを使用してください。選択できる期間は以下の通りです：
+- 過去 30 日間
+- 過去 3 か月間
+- 過去 6 か月間
+- 過去 12 か月間
+- 全期間
 
 {{% /tab %}}
-{{% tab header="Multi-tenant Cloud" value="saas" %}}
+{{% tab header="マルチテナント クラウド" value="saas" %}}
 
-Use the plots in the **Activity Dashboard** to get an aggregate view of activity over time:
+**Activity Dashboard** のグラフを使えば、アクティビティの推移を集計して確認できます。
 
-1. Click the user profile icon at the top right.
-1. Under **Account**, click **Users**.
-1. View the Activity Panel above the list of users. It shows:
+1. 画面右上のユーザープロファイルアイコンをクリックします。
+1. **Account** の中から **Users** をクリックします。
+1. ユーザー一覧の上にある Activity Panel を確認してください。ここでは次の内容が表示されます：
 
-  - The **Active user count** badge shows how many unique users have been active in a period of time (defaults to 3 months). A user is _active_ if they perform any auditable action scoped to the organization. For a full list, refer to [Actions]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md#actions" lang="ja" >}}) in the Audit Logging page.
-  - The **Weekly active users** plot shows the number of users active per week.
-  - The **Most active user** leaderboard ranks the top ten most active users by how many days they were active over the period of time, as well as when they were most recently active.
+  - **Active user count** バッジは、一定期間（デフォルトは 3 か月間）にアクティブだったユニークユーザー数を示しています。ユーザーは、組織範囲の監査可能なアクションを行った場合に _アクティブ_ と判定されます。アクションの一覧は Audit Logging ページの [Actions]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md#actions" lang="ja" >}}) をご確認ください。
+  - **Weekly active users** グラフは、週ごとのアクティブユーザー数を表示します。
+  - **Most active user** リーダーボードは、その期間中に最もアクティブだったトップ10ユーザーを、アクティブ日数および最終アクティブ日時とともにランキング表示します。
 
-1. To adjust the span of time the plots show, click the date picker in the top right. You can choose 7, 30, or 90 days. The default date range is 30 days. All of the plots share the same time range and update automatically.
+1. グラフの表示期間を調整するには、右上の日付ピッカーをクリックします。7、30、90日のいずれかを選択することができます。デフォルトは 30 日間です。すべてのグラフは同じ期間で自動的に更新されます。
 
 {{% /tab %}}
 {{< /tabpane >}}

@@ -1,25 +1,25 @@
 ---
+title: プロジェクトを公開するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-project_make_public
 support:
-- privacy
-- projects
-title: How can I make my project public?
+- プライバシー
+- プロジェクト
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To make a project public, follow these steps:
+プロジェクトを公開するには、以下の手順に従ってください。
 
-1. Access the project page in the W&B web app.
-2. Click the lock icon in the navigation bar to open privacy settings.
-3. Choose "Public" to allow visibility for anyone.
-4. Save the changes.
+1. W&B のウェブアプリでプロジェクトページに アクセス します。
+2. ナビゲーションバー の鍵アイコンをクリックしてプライバシー 設定 を開きます。
+3. 「Public」を選択して、誰でも 公開範囲 を許可します。
+4. 変更を保存します。
 
-If the "Public" option is not available due to restrictions, consider the following options:
+制限により「Public」オプションが使用できない場合は、次の方法を検討してください。
 
-- Share a view-only link via a report.
-- Contact the organization's admin for assistance.
-- Check account settings to confirm permission for public projects.
+- レポート を使って閲覧のみ可能なリンクを共有する
+- 組織の管理者に問い合わせてサポートを受ける
+- アカウント 設定 でプロジェクトを公開する権限があるか確認する

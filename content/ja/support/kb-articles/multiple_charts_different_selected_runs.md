@@ -1,17 +1,17 @@
 ---
+title: 異なる選択された run ごとに複数のチャートを表示する方法は？
 menu:
   support:
     identifier: ja-support-kb-articles-multiple_charts_different_selected_runs
 support:
-- reports
-title: How to get multiple charts with different selected runs?
+- レポート
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-With W&B Reports, follow these steps:
+W&B Reports では、以下の手順で操作します。
 
-1. Create multiple panel grids.
-2. Apply filters to select the desired run sets for each panel grid.
-3. Generate the desired charts within the panel grids.
+1. 複数のパネルグリッドを作成します。
+2. 各パネルグリッドで、表示したい run セットをフィルターで選択します。
+3. パネルグリッド内で必要なチャートを作成します。

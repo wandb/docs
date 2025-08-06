@@ -1,70 +1,71 @@
 ---
+title: カスタムレジストリを作成する
 menu:
   default:
     identifier: ja-guides-core-registry-create_registry
     parent: registry
-title: Create a custom registry
 weight: 2
 ---
 
-A custom registry offers flexibility and control over the artifact types that you can use, allows you to restrict the registry's visibility, and more.
+カスタムレジストリを使うことで、利用可能な artifact の種類を柔軟に制御でき、レジストリの公開範囲の制限なども行えます。
 
 {{% pageinfo color="info" %}}
-See the summary table in [Registry types]({{< relref path="registry_types.md#summary" lang="ja" >}}) for a complete comparison of core and custom registries.
+コアレジストリとカスタムレジストリの違いについては、[レジストリタイプのまとめ]({{< relref path="registry_types.md#summary" lang="ja" >}})の表をご覧ください。
 {{% /pageinfo %}}
 
 
-## Create a custom registry
+## カスタムレジストリの作成
 
-To create a custom registry:
-1. Navigate to the **Registry** App at https://wandb.ai/registry/.
-2. Within **Custom registry**, click on the **Create registry** button.
-3. Provide a name for your registry in the **Name** field.
-4. Optionally provide a description about the registry.
-5. Select who can view the registry from the **Registry visibility** dropdown. See [Registry visibility types]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}}) for more information on registry visibility options.
-6. Select either **All types** or **Specify types** from the **Accepted artifacts type** dropdown.
-7. (If you select **Specify types**) Add one or more artifact types that your registry accepts.
-8. Click on the **Create registry** button. 
+カスタムレジストリを作成するには:
+
+1. https://wandb.ai/registry/ の **Registry** アプリにアクセスします。
+2. **Custom registry** 内で、**Create registry** ボタンをクリックします。
+3. **Name** フィールドに、レジストリの名前を入力します。
+4. 必要に応じて、レジストリの説明を入力します。
+5. **Registry visibility** ドロップダウンから、レジストリを閲覧できるユーザーを選びます。レジストリの公開範囲については[レジストリ公開範囲の種類]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}})をご参照ください。
+6. **Accepted artifacts type** ドロップダウンから、**All types** または **Specify types** を選択します。
+7. （**Specify types** を選択した場合）レジストリで受け入れる artifact の種類を1つ以上追加します。
+8. **Create registry** ボタンをクリックします。
 
 {{% alert %}}
-An artifact type cannot be removed from a registry once it is saved in the registry's settings.
+artifact の種類は、一度レジストリの設定に保存すると後から削除できません。
 {{% /alert %}}
 
-For example, the proceeding image shows a custom registry called `Fine_Tuned_Models` that a user is about to create. The registry is **Restricted** to only members that are manually added to the registry.
+例えば、次の画像は、`Fine_Tuned_Models` というカスタムレジストリを作成しようとしている例です。このレジストリは**Restricted**（制限付き）で、手動で追加されたメンバーだけが利用できます。
 
 {{< img src="/images/registry/create_registry.gif" alt="Creating a new registry" >}}
 
-## Visibility types
+## 公開範囲の種類
 
-The *visibility* of a registry determines who can access that registry. Restricting the visibility of a custom registry helps ensure that only specified members can access that registry.
+レジストリの *公開範囲* は、そのレジストリに誰がアクセスできるかを決定します。公開範囲を制限することで、特定のメンバーのみがアクセスできるようにできます。
 
-There are two type registry visibility options for a custom registry: 
+カスタムレジストリの公開範囲オプションは2つあります:
 
-| Visibility | Description |
+| 公開範囲 | 説明 |
 | --- | --- | 
-| Restricted   | Only invited organization members can access the registry.| 
-| Organization | Everyone in the org can access the registry. |
+| Restricted（制限付き）   | 招待された組織メンバーのみがレジストリにアクセス可能です。| 
+| Organization（組織全体） | 組織内の全員がレジストリにアクセスできます。 |
 
-A team administrator or registry administrator can set the visibility of a custom registry.
+チーム管理者またはレジストリ管理者が、カスタムレジストリの公開範囲を設定できます。
 
-The user who creates a custom registry with Restricted visibility is added to the registry automatically as its registry admin. 
+**Restricted** な公開範囲でカスタムレジストリを作成した場合、作成者は自動的にそのレジストリの管理者として追加されます。
 
 
-## Configure the visibility of a custom registry
+## カスタムレジストリの公開範囲を設定する
 
-A team administrator or registry administrator can assign the visibility of a custom registry during or after the creation of a custom registry. 
+チーム管理者またはレジストリ管理者は、カスタムレジストリの作成時や作成後に、その公開範囲を指定できます。
 
-To restrict the visibility of an existing custom registry:
+既存のカスタムレジストリの公開範囲を制限するには:
 
-1. Navigate to the **Registry** App at https://wandb.ai/registry/.
-2. Select a registry.
-3. Click on the gear icon on the upper right hand corner.
-4. From the **Registry visibility** dropdown, select the desired registry visibility.
-5. if you select **Restricted visibility**:
-   1. Add members of your organization that you want to have access to this registry. Scroll to the **Registry members and roles** section and click on the **Add member** button. 
-   2. Within the **Member** field, add the email or username of the member you want to add.
-   3. Click **Add new member**.
+1. https://wandb.ai/registry/ の **Registry** アプリにアクセスします。
+2. 対象のレジストリを選択します。
+3. 右上の歯車アイコンをクリックします。
+4. **Registry visibility** ドロップダウンから、希望する公開範囲を選択します。
+5. **Restricted visibility** を選択した場合は、以下の手順に従います:
+   1. レジストリにアクセスさせたい組織メンバーを追加します。**Registry members and roles** セクションまでスクロールし、**Add member** ボタンをクリックします。
+   2. **Member** フィールドに、追加するメンバーのメールアドレスまたはユーザー名を入力します。
+   3. **Add new member** をクリックします。
 
 {{< img src="/images/registry/change_registry_visibility.gif" alt="Changing registry visibility settings from private to public or team-restricted access" >}}
 
-See [Create a custom registry]({{< relref path="./create_registry.md#create-a-custom-registry" lang="ja" >}}) for more information on how assign the visibility of a custom registry when a team administrator creates it.
+チーム管理者がカスタムレジストリを作成する際の公開範囲の設定方法については、[カスタムレジストリの作成]({{< relref path="./create_registry.md#create-a-custom-registry" lang="ja" >}})をご覧ください。

@@ -1,13 +1,13 @@
 ---
+title: 環境変数は wandb.init() に渡したパラメータを上書きしますか？
 menu:
   support:
     identifier: ja-support-kb-articles-environment_variables_overwrite_parameters
 support:
-- environment variables
-title: Do environment variables overwrite the parameters passed to wandb.init()?
+- 環境変数
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Arguments passed to `wandb.init` override environment variables. To set a default directory other than the system default when the environment variable isn't set, use `wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))`.
+`wandb.init` に渡された引数は環境変数を上書きします。環境変数が設定されていない場合にシステムのデフォルト以外のディレクトリーをデフォルトとして指定したい場合は、`wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))` を使用してください。

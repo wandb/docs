@@ -1,10 +1,10 @@
 ---
+title: ファイル
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-files
 object_type: public_apis_namespace
-title: files
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py >}}
@@ -13,66 +13,66 @@ title: files
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for File objects. 
+W&B Public API による File オブジェクトの操作
 
-This module provides classes for interacting with files stored in W&B. 
+このモジュールは、W&B に保存されたファイルとやり取りするためのクラスを提供します。
 
 
 
-**Example:**
+**例:**
  ```python
 from wandb.apis.public import Api
 
-# Get files from a specific run
+# 特定の Run からファイルを取得
 run = Api().run("entity/project/run_id")
 files = run.files()
 
-# Work with files
+# ファイルを扱う
 for file in files:
      print(f"File: {file.name}")
      print(f"Size: {file.size} bytes")
      print(f"Type: {file.mimetype}")
 
-     # Download file
-     if file.size < 1000000:  # Less than 1MB
+     # ファイルのダウンロード
+     if file.size < 1000000:  # 1MB 未満
          file.download(root="./downloads")
 
-     # Get S3 URI for large files
+     # 大きなファイルの場合は S3 URI を取得
      if file.size >= 1000000:
          print(f"S3 URI: {file.path_uri}")
 ``` 
 
 
 
-**Note:**
+**注意:**
 
-> This module is part of the W&B Public API and provides methods to access, download, and manage files stored in W&B. Files are typically associated with specific runs and can include model weights, datasets, visualizations, and other artifacts. 
+> このモジュールは W&B Public API の一部であり、W&B に保存されたファイルへのアクセス・ダウンロード・管理を行うメソッドを提供します。ファイルは通常、特定の Run に紐づいており、モデルの重み・データセット・可視化・その他の Artifacts などが含まれます。
 
 ## <kbd>class</kbd> `Files`
-An iterable collection of `File` objects. 
+`File` オブジェクトのイテラブルコレクション
 
-Access and manage files uploaded to W&B during a run. Handles pagination automatically when iterating through large collections of files. 
+Run 中に W&B にアップロードされたファイルのアクセス・管理を行います。大量のファイルでも自動的にページネーション処理を行います。
 
 
 
-**Example:**
+**例:**
  ```python
 from wandb.apis.public.files import Files
 from wandb.apis.public.api import Api
 
-# Example run object
+# 例：Run オブジェクトの作成
 run = Api().run("entity/project/run-id")
 
-# Create a Files object to iterate over files in the run
+# Run 内のファイルをイテレートする Files オブジェクトの作成
 files = Files(api.client, run)
 
-# Iterate over files
+# ファイルのイテレーション
 for file in files:
      print(file.name)
      print(file.url)
      print(file.size)
 
-     # Download the file
+     # ファイルをダウンロード
      file.download(root="download_directory", replace=True)
 ``` 
 
@@ -82,12 +82,12 @@ for file in files:
 __init__(client, run, names=None, per_page=50, upload=False)
 ```
 
-An iterable collection of `File` objects for a specific run. 
+特定の Run に紐づいた `File` オブジェクトのイテラブルコレクション。
 
 
 
-**Args:**
- client: The run object that contains the files run: The run object that contains the files names (list, optional): A list of file names to filter the files per_page (int, optional): The number of files to fetch per page upload (bool, optional): If `True`, fetch the upload URL for each file 
+**引数:**
+ client: ファイルを含む run オブジェクト run: ファイルを含む run オブジェクト names (list, オプション): 対象のファイル名リストでフィルタ per_page (int, オプション): 1 ページあたりに取得するファイル数 upload (bool, オプション): `True` の場合は各ファイルのアップロード用 URL も取得します
 
 
 ---

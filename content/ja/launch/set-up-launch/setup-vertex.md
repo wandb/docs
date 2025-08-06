@@ -1,57 +1,55 @@
 ---
+title: 'チュートリアル: Vertex AI で W&B Launch をセットアップする'
 menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-vertex
     parent: set-up-launch
-title: 'Tutorial: Set up W&B Launch on Vertex AI'
 url: guides/launch/setup-vertex
 ---
 
-You can use W&B Launch to submit jobs for execution as Vertex AI training jobs. With Vertex AI training jobs, you can train machine learning models using either provided, or custom algorithms on the Vertex AI platform. Once a launch job is initiated, Vertex AI manages the underlying infrastructure, scaling, and orchestration.
+W&B Launch を使うと、Vertex AI トレーニングジョブとしてジョブを実行用に送信できます。Vertex AI トレーニングジョブでは、提供されたアルゴリズムまたはカスタムアルゴリズムを利用して、Vertex AI プラットフォーム上で機械学習モデルのトレーニングが可能です。Launch ジョブが開始されると、Vertex AI が基盤となるインフラストラクチャー、スケーリング、オーケストレーションを管理します。
 
-W&B Launch works with Vertex AI through the `CustomJob` class in the `google-cloud-aiplatform` SDK. The parameters of a `CustomJob` can be controlled with the launch queue configuration. Vertex AI cannot be configured to pull images from a private registry outside of GCP. This means that you must store container images in GCP or in a public registry if you want to use Vertex AI with W&B Launch. See the Vertex AI documentation for more information on making container images accessible to Vertex jobs.
+W&B Launch は、`google-cloud-aiplatform` SDK の `CustomJob` クラスを通じて Vertex AI と連携します。`CustomJob` のパラメータは、ローンチのキュー設定で制御できます。Vertex AI は GCP 以外のプライベートレジストリからイメージを取得するよう設定できません。つまり、Vertex AI で W&B Launch を利用したい場合は、コンテナイメージを GCP またはパブリックレジストリ上に保存する必要があります。コンテナイメージを Vertex ジョブで利用可能にする方法については Vertex AI ドキュメントをご覧ください。
 
-<!-- Component Diagram of Launch in Vertex AI -->
+## 前提条件
 
-## Prerequisites
+1. **Vertex AI API が有効になっている GCP プロジェクトを作成またはアクセスします。** API 有効化については [GCP API Console のドキュメント](https://support.google.com/googleapi/answer/6158841?hl=ja) を参照してください。
+2. **GCP Artifact Registry リポジトリを作成します**。Vertex で実行するイメージを保存するためです。詳細は [GCP Artifact Registry ドキュメント](https://cloud.google.com/artifact-registry/docs/overview) をご覧ください。
+3. **Vertex AI 用のステージング用 GCS バケットを作成します**。このバケットは、Vertex AI のワークロードと同じリージョンにある必要があります。同じバケットをステージングやビルドコンテキストにも利用できます。
+4. **必要な権限を持つサービスアカウントの作成**。Vertex AI ジョブの作成・実行に必要な権限を持つサービスアカウントを用意します。サービスアカウントへの権限割り当て方法は [GCP IAM ドキュメント](https://cloud.google.com/iam/docs/creating-managing-service-accounts) を参照してください。
+5. **サービスアカウントに Vertex ジョブ管理権限を付与**
 
-1. **Create or access a GCP project with the Vertex AI API enabled.** See the [GCP API Console docs](https://support.google.com/googleapi/answer/6158841?hl=en) for more information on enabling an API.
-2. **Create a GCP Artifact Registry repository** to store images you want to execute on Vertex. See the [GCP Artifact Registry documentation](https://cloud.google.com/artifact-registry/docs/overview) for more information.
-3. **Create a staging GCS bucket** for Vertex AI to store its metadata. Note that this bucket must be in the same region as your Vertex AI workloads in order to be used as a staging bucket. The same bucket can be used for staging and build contexts.
-4. **Create a service account** with the necessary permissions to spin up Vertex AI jobs. See the [GCP IAM documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) for more information on assigning permissions to service accounts.
-5. **Grant your service account permission to manage Vertex jobs**
-
-| Permission                     | Resource Scope        | Description                                                                              |
-| ------------------------------ | --------------------- | ---------------------------------------------------------------------------------------- |
-| `aiplatform.customJobs.create` | Specified GCP Project | Allows creation of new machine learning jobs within the project.                         |
-| `aiplatform.customJobs.list`   | Specified GCP Project | Allows listing of machine learning jobs within the project.                              |
-| `aiplatform.customJobs.get`    | Specified GCP Project | Allows retrieval of information about specific machine learning jobs within the project. |
+| 権限                             | リソーススコープ           | 説明                                                                                   |
+| -------------------------------- | -------------------------- | -------------------------------------------------------------------------------------- |
+| `aiplatform.customJobs.create`   | 指定した GCP プロジェクト   | プロジェクト内で新しい機械学習ジョブの作成を許可します                                 |
+| `aiplatform.customJobs.list`     | 指定した GCP プロジェクト   | プロジェクト内の機械学習ジョブの一覧取得を許可します                                   |
+| `aiplatform.customJobs.get`      | 指定した GCP プロジェクト   | プロジェクト内の特定の機械学習ジョブ情報の取得を許可します                            |
 
 {{% alert %}}
-If you want your Vertex AI workloads to assume the identity of a non-standard service account, refer to the Vertex AI documentation for instructions on service account creation and necessary permissions. The `spec.service_account` field of the launch queue configuration can be used to select a custom service account for your W&B runs.
+Vertex AI ワークロードで標準以外のサービスアカウントを使いたい場合は、Vertex AI ドキュメントのサービスアカウント作成および権限設定ガイドを参照してください。ローンチのキュー設定の `spec.service_account` フィールドでカスタムサービスアカウントを W&B runs に指定できます。
 {{% /alert %}}
 
-## Configure a queue for Vertex AI
+## Vertex AI 用キューの設定
 
-The queue configuration for Vertex AI resources specify inputs to the `CustomJob` constructor in the Vertex AI Python SDK, and the `run` method of the `CustomJob`. Resource configurations are stored under the `spec` and `run` keys:
+Vertex AI リソースのキュー設定では、Vertex AI Python SDK の `CustomJob` コンストラクタおよび `CustomJob` の `run` メソッドに渡す入力値を指定します。リソース設定は `spec` と `run` キーの下に格納されます：
 
-- The `spec` key contains values for the named arguments of the [`CustomJob` constructor](https://cloud.google.com/vertex-ai/docs/pipelines/customjob-component) in the Vertex AI Python SDK.
-- The `run` key contains values for the named arguments of the `run` method of the `CustomJob` class in the Vertex AI Python SDK.
+- `spec` キーには、Vertex AI Python SDK の [`CustomJob` コンストラクタ](https://cloud.google.com/vertex-ai/docs/pipelines/customjob-component) に渡される引数が入ります。
+- `run` キーには、Vertex AI Python SDK の `CustomJob` クラスの `run` メソッドに渡す引数が入ります。
 
-Customizations of the execution environment happens primarily in the `spec.worker_pool_specs` list. A worker pool spec defines a group of workers that will run your job. The worker spec in the default config asks for a single `n1-standard-4` machine with no accelerators. You can change the machine type, accelerator type and count to suit your needs.
+実行環境のカスタマイズは主に `spec.worker_pool_specs` リストで行います。ワーカープール仕様で、ジョブを実行するワーカー群を定義します。デフォルト設定の worker spec では、アクセラレーターなしの `n1-standard-4` マシン 1 台を要求しています。必要に応じてマシンタイプ、アクセラレータータイプや数を変更できます。
 
-For more information on available machine types and accelerator types, see the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec).
+利用可能なマシンタイプやアクセラレータータイプについては、[Vertex AI ドキュメント](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec) をご覧ください。
 
-## Create a queue
+## キューの作成
 
-Create a queue in the W&B App that uses Vertex AI as its compute resource:
+W&B App で Vertex AI を計算リソースとして使うキューを作成します：
 
-1. Navigate to the [Launch page](https://wandb.ai/launch).
-2. Click on the **Create Queue** button.
-3. Select the **Entity** you would like to create the queue in.
-4. Provide a name for your queue in the **Name** field.
-5. Select **GCP Vertex** as the **Resource**.
-6. Within the **Configuration** field, provide information about your Vertex AI `CustomJob` you defined in the previous section. By default, W&B will populate a YAML and JSON request body similar to the following:
+1. [Launch ページ](https://wandb.ai/launch) に移動します。
+2. **Create Queue** ボタンをクリックします。
+3. 任意の **Entity** を選択します。
+4. **Name** フィールドにキューの名前を入力します。
+5. **Resource** として **GCP Vertex** を選択します。
+6. **Configuration** フィールドに、先ほど定義した Vertex AI `CustomJob` の情報を記入します。デフォルトでは、W&B によって下記のような YAML および JSON のリクエストボディが入力されています：
 
 ```yaml
 spec:
@@ -68,22 +66,22 @@ run:
   restart_job_on_worker_restart: false
 ```
 
-7. After you configure your queue, click on the **Create Queue** button.
+7. キューの設定後、**Create Queue** ボタンをクリックして作成します。
 
-You must at minimum specify:
+最低限、以下の指定が必要です：
 
-- `spec.worker_pool_specs` : non-empty list of worker pool specifications.
-- `spec.staging_bucket` : GCS bucket to be used for staging Vertex AI assets and metadata.
+- `spec.worker_pool_specs` ：ワーカープール仕様のリスト（非空）
+- `spec.staging_bucket` ：Vertex AI 用アセットおよびメタデータ用ステージング GCS バケット
 
 {{% alert color="secondary" %}}
-Some of the Vertex AI docs show worker pool specifications with all keys in camel case,for example, ` workerPoolSpecs`. The Vertex AI Python SDK uses snake case for these keys, for example `worker_pool_specs`.
+Vertex AI の一部ドキュメントでは、ワーカープール仕様のキーがキャメルケース（例：`workerPoolSpecs`）で記載されています。Vertex AI Python SDK ではすべてスネークケース（例：`worker_pool_specs`）を使用します。
 
-Every key in the launch queue configuration should use snake case.
+ローンチのキュー設定のすべてのキーはスネークケースを用いてください。
 {{% /alert %}}
 
-## Configure a launch agent
+## ローンチエージェントの設定
 
-The launch agent is configurable through a config file that is, by default, located at `~/.config/wandb/launch-config.yaml`.
+ローンチエージェントは、デフォルトで `~/.config/wandb/launch-config.yaml` にある設定ファイルで調整できます。
 
 ```yaml
 max_jobs: <n-concurrent-jobs>
@@ -91,8 +89,8 @@ queues:
   - <queue-name>
 ```
 
-If you want the launch agent to build images for you that are executed in Vertex AI, see [Advanced agent set up]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}).
+Vertex AI 上で実行するイメージのビルドをローンチエージェントに任せたい場合は、[高度なエージェントセットアップ]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}) を参照してください。
 
-## Set up agent permissions
+## エージェント権限のセットアップ
 
-There are multiple methods to authenticate as this service account. This can be achieved through Workload Identity, a downloaded service account JSON, environment variables, the Google Cloud Platform command-line tool, or a combination of these methods.
+このサービスアカウントとして認証する方法はいくつかあります。Workload Identity、サービスアカウント JSON のダウンロード、環境変数、Google Cloud Platform コマンドラインツール、またはこれらの組み合わせが利用可能です。

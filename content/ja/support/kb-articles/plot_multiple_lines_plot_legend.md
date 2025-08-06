@@ -1,16 +1,16 @@
 ---
+title: 凡例付きのプロットで複数の線を描画するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-plot_multiple_lines_plot_legend
 support:
-- experiments
-title: How do I plot multiple lines on a plot with a legend?
+- 実験
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Create a multi-line custom chart with `wandb.plot.line_series()`. Navigate to the [project page]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}) to view the line chart. To add a legend, include the `keys` argument in `wandb.plot.line_series()`. For example:
+`wandb.plot.line_series()` を使って、複数行のカスタムチャートを作成できます。折れ線グラフを見るには [project page]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}) に移動してください。凡例を追加するには、`wandb.plot.line_series()` の中で `keys` 引数を指定します。例えば、次のように記述します。
 
 ```python
 
@@ -25,4 +25,4 @@ with wandb.init(project="my_project") as run:
     )
 ```
 
-Refer to additional details about multi-line plots [here]({{< relref path="/guides/models/track/log/plots.md#basic-charts" lang="ja" >}}) under the **Multi-line** tab.
+複数ラインのプロットについてさらに詳しく知りたい方は、**Multi-line** タブ内の [こちら]({{< relref path="/guides/models/track/log/plots.md#basic-charts" lang="ja" >}}) をご参照ください。

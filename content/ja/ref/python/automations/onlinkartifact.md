@@ -1,25 +1,25 @@
 ---
+title: OnLinkArtifact
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-automations-onlinkartifact
 object_type: automations_namespace
-title: OnLinkArtifact
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/events.py >}}
 
 
 
-A new artifact is linked to a collection.
+新しい Artifacts がコレクションにリンクされます。
 
-Attributes:
-- event_type (Literal): No description provided.
-- filter (Union): Additional condition(s), if any, that must be met for this event to trigger an automation.
-- scope (Union): The scope of the event.
+属性:
+- event_type (Literal): 説明はありません。
+- filter (Union): このイベントがオートメーションをトリガーするために満たすべき追加の条件（あれば）。
+- scope (Union): イベントのスコープ。
 
-### <kbd>method</kbd> `then`
+### <kbd>メソッド</kbd> `then`
 ```python
 then(self, action: 'InputAction') -> 'NewAutomation'
 ```
-Define a new Automation in which this event triggers the given action.
+このイベントが指定したアクションをトリガーする新しいオートメーションを定義します。

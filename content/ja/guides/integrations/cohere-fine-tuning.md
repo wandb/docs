@@ -1,39 +1,38 @@
 ---
-description: How to Fine-Tune Cohere models using W&B.
+title: Cohere ファインチューニング
+description: W&B を使って Cohere モデルをファインチューンする方法
 menu:
   default:
     identifier: ja-guides-integrations-cohere-fine-tuning
     parent: integrations
-title: Cohere fine-tuning
 weight: 40
 ---
 
-With W&B you can log your Cohere model's fine-tuning metrics and configuration to analyze and understand the performance of your models and share the results with your colleagues.
+W&B を使うと、Cohere モデルのファインチューニングのメトリクスや設定をログし、モデルのパフォーマンスを分析・理解したり、同僚と結果を共有したりできます。
 
-This [guide from Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb) has a full example of how to kick off a fine-tuning run and you can find the [Cohere API docs here](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)
+[Cohere のこのガイド](https://docs.cohere.com/page/convfinqa-finetuning-wandb) では、ファインチューニング run を開始する方法の全体的な例が紹介されています。また、[Cohere API ドキュメントはこちら](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb) で確認できます。
 
-## Log your Cohere fine-tuning results
+## Cohere ファインチューニングの結果をログする
 
-To add Cohere fine-tuning logging to your W&B workspace:
+Cohere ファインチューニングのログを W&B Workspace に追加するには:
 
-1. Create a `WandbConfig` with your W&B API key, W&B `entity` and `project` name. You can find your W&B API key at https://wandb.ai/authorize
+1. W&B の APIキー、`entity`、`project` 名を指定して `WandbConfig` を作成します。W&B の APIキーは https://wandb.ai/authorize で確認できます。
 
-2. Pass this config to the `FinetunedModel` object along with your model name, dataset and hyperparameters to kick off your fine-tuning run.
-
+2. この設定を `FinetunedModel` オブジェクトに、モデル名やデータセット、ハイパーパラメーターとともに渡して、ファインチューニング run を開始します。
 
     ```python
     from cohere.finetuning import WandbConfig, FinetunedModel
 
-    # create a config with your W&B details
+    # W&B 用の設定を作成します
     wandb_ft_config = WandbConfig(
         api_key="<wandb_api_key>",
-        entity="my-entity", # must be a valid enitity associated with the provided API key
+        entity="my-entity", # 提供されたAPIキーに紐づく有効な entity である必要があります
         project="cohere-ft",
     )
 
-    ...  # set up your datasets and hyperparameters
+    ...  # データセットやハイパーパラメーターをセット
 
-    # start a fine-tuning run on cohere
+    # cohere でファインチューニング run を開始
     cmd_r_finetune = co.finetuning.create_finetuned_model(
       request=FinetunedModel(
         name="command-r-ft",
@@ -41,24 +40,24 @@ To add Cohere fine-tuning logging to your W&B workspace:
           base_model=...
           dataset_id=...
           hyperparameters=...
-          wandb=wandb_ft_config  # pass your W&B config here
+          wandb=wandb_ft_config  # ここに W&B 設定を渡します
         ),
       ),
     )
     ```
 
-3. View your model's fine-tuning training and validation metrics and hyperparameters in the W&B project that you created.
+3. 作成した W&B Project で、モデルのファインチューニングのトレーニング/バリデーションメトリクスやハイパーパラメーターを確認できます。
 
     {{< img src="/images/integrations/cohere_ft.png" alt="Cohere fine-tuning dashboard" >}}
 
 
-## Organize runs
+## run を整理する
 
-Your W&B runs are automatically organized and can be filtered/sorted based on any configuration parameter such as job type, base model, learning rate and any other hyper-parameter.
+あなたの W&B run は自動的に整理されており、ジョブタイプやベースモデル、学習率、その他のハイパーパラメータなど、任意の設定パラメータによってフィルタやソートが可能です。
 
-In addition, you can rename your runs, add notes or create tags to group them.
+さらに、run の名前を変更したり、ノートやタグを追加してグループ化することもできます。
 
 
-## Resources
+## リソース
 
 * [Cohere Fine-tuning Example](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)

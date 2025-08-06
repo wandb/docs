@@ -1,39 +1,39 @@
 ---
+title: どのライブラリにも wandb を追加する
 menu:
   default:
     identifier: ja-guides-integrations-add-wandb-to-any-library
     parent: integrations
-title: Add wandb to any library
 weight: 10
 ---
 
-## Add wandb to any library
+## 任意のライブラリに wandb を導入する
 
-This guide provides best practices on how to integrate W&B into your Python library to get powerful Experiment Tracking, GPU and System Monitoring, Model Checkpointing, and more for your own library.
+このガイドでは、ご自身の Python ライブラリに W&B を組み込んで、強力な実験管理、GPU やシステムのモニタリング、モデルのチェックポイント保存などを実現するためのベストプラクティスをご紹介します。
 
 {{% alert %}}
-If you are still learning how to use W&B, we recommend exploring the other W&B Guides in these docs, such as [Experiment Tracking]({{< relref path="/guides/models/track" lang="ja" >}}), before reading further.
+もしまだ W&B の使い方を学習中であれば、まずはこのドキュメント内の [実験管理]({{< relref path="/guides/models/track" lang="ja" >}}) などの他の W&B ガイドをご覧いただくことをおすすめします。
 {{% /alert %}}
 
-Below we cover best tips and best practices when the codebase you are working on is more complicated than a single Python training script or Jupyter notebook. The topics covered are:
+ここでは、単一の Python トレーニングスクリプトや Jupyter ノートブックよりも複雑なコードベースを扱う場合のベストな方法やポイントを解説します。以下のトピックを取り上げます。
 
-* Setup requirements
-* User Login
-* Starting a wandb Run
-* Defining a Run Config
-* Logging to W&B
-* Distributed Training
-* Model Checkpointing and More
-* Hyper-parameter tuning
-* Advanced Integrations
+* セットアップ要件
+* ユーザーのログイン
+* wandb Run の開始
+* Run Config の定義
+* W&B へのログ
+* 分散トレーニング
+* モデルのチェックポイント保存など
+* ハイパーパラメータチューニング
+* 高度なインテグレーション
 
-### Setup requirements
+### セットアップ要件
 
-Before you get started, decide whether or not to require W&B in your library’s dependencies:
+まずは、あなたのライブラリに W&B をインストール時点で必須とするか、オプションにするかを決めてください。
 
-#### Require W&B on installation
+#### インストール時に W&B を必須にする
 
-Add the W&B Python library (`wandb`) to your dependencies file, for example, in your `requirements.txt` file:
+W&B の Python ライブラリ（`wandb`）を依存ファイルに追加します。例として `requirements.txt` ファイルの場合：
 
 ```python
 torch==1.8.0 
@@ -41,23 +41,23 @@ torch==1.8.0
 wandb==0.13.*
 ```
 
-#### Make W&B optional on installation
+#### インストール時に W&B をオプションにする
 
-There are two ways to make the W&B SDK (`wandb`) optional:
+W&B SDK（`wandb`）をオプションとしたい場合、次のいずれかの方法が使えます。
 
-A. Raise an error when a user tries to use `wandb` functionality without installing it manually and show an appropriate error message:
+A. `wandb` がインストールされていない状態で W&B の機能を使おうとしたユーザーに、適切なエラーメッセージを出してエラーを発生させる：
 
 ```python
 try: 
     import wandb 
 except ImportError: 
     raise ImportError(
-        "You are trying to use wandb which is not currently installed."
-        "Please install it using pip install wandb"
+        "wandb を使おうとしていますが、現在インストールされていません。"
+        "pip install wandb でインストールしてください"
     ) 
 ```
 
-B. Add `wandb` as an optional dependency to your `pyproject.toml` file, if you are building a Python package:
+B. Python パッケージをビルドしている場合、`pyproject.toml` ファイルの optional dependency に `wandb` を追加：
 
 ```toml
 [project]
@@ -74,34 +74,34 @@ dev = [
 ]
 ```
 
-### User login
+### ユーザーログイン
 
-#### Create an API key
+#### API キーの作成
 
-An API key authenticates a client or machine to W&B. You can generate an API key from your user profile.
+API キーは、クライアントやマシンを W&B へ認証するものです。ユーザープロフィールから API キーを生成できます。
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+より簡単に API キーを作成したい場合は、[W&B の認証ページ](https://wandb.ai/authorize) から直接生成が可能です。表示された API キーをコピーして、パスワードマネージャなどの安全な場所に保存してください。
 {{% /alert %}}
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+1. 右上のユーザーアイコンをクリックします。
+1. **User Settings** を選び、**API Keys** セクションまでスクロールします。
+1. **Reveal** をクリックして表示された API キーをコピーします。隠したい場合はページをリロードしてください。
 
-#### Install the `wandb` library and log in
+#### `wandb` ライブラリのインストールとログイン
 
-To install the `wandb` library locally and log in:
+`wandb` ライブラリをローカルにインストールし、ログインします：
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to your API key.
+1. ご自身の API キーを `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})として設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. Install the `wandb` library and log in.
+1. `wandb` ライブラリをインストールしてログインします。
 
 
 
@@ -137,44 +137,41 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-If a user is using wandb for the first time without following any of the steps mentioned above, they will automatically be prompted to log in when your script calls `wandb.init`.
+はじめて wandb を使うユーザーが上記いずれの手順も実行せずに script 内で `wandb.init` を呼び出すと、自動的にログインを促されます。
 
-### Start a run
+### Run の開始
 
-A W&B Run is a unit of computation logged by W&B. Typically, you associate a single W&B Run per training experiment.
+W&B Run とは、W&B によって記録される計算実行の単位です。通常、1つのトレーニング実験につき1つの Run を紐付けます。
 
-Initialize W&B and start a Run within your code with:
+W&B を初期化し、Run を開始するには次のようにします：
 
 ```python
 run = wandb.init()
 ```
 
-Optionally, you can provide a name for their project, or let the user set it themselves with parameters such as `wandb_project` in your code along with the username or team name, such as `wandb_entity`, for the entity parameter:
+プロジェクト名なども指定できます。また、ユーザーやチーム名を entity パラメータとして扱うこともできます（例：`wandb_project` や `wandb_entity`）:
 
 ```python
 run = wandb.init(project=wandb_project, entity=wandb_entity)
 ```
 
-You must call `run.finish()` to finish the run. If this works with your integration's design,  use the run as a context manager:
+Run を終了するには必ず `run.finish()` を呼び出してください。この処理がインテグレーションの設計に合う場合は、Run をコンテキストマネージャとして使うと便利です：
 
 ```python
-# When this block exits, it calls run.finish() automatically.
-# If it exits due to an exception, it uses run.finish(exit_code=1) which
-# marks the run as failed.
+# このブロックを抜けると自動で run.finish() が呼ばれます。
+# 例外でブロックを抜けた場合は run.finish(exit_code=1) が使われ、
+# その Run が失敗扱いとなります。
 with wandb.init() as run:
     ...
 ```
 
+#### `wandb.init` をいつ呼ぶべきか？
 
-#### When to call `wandb.init`?
+W&B Run の生成はできるだけ早い段階で行いましょう。というのも、コンソールに出力される内容（エラーメッセージも含む）はすべて W&B Run の一部として記録されるためです。これによってデバッグも容易になります。
 
-Your library should create W&B Run as early as possible because any output in your console, including error messages, is logged as part of the W&B Run. This makes debugging easier.
+#### `wandb` をオプション依存にする方法
 
-#### Use `wandb` as an optional dependency
-
-If you want to make `wandb` optional when your users use your library, you can either:
-
-* Define a `wandb` flag such as:
+利用者が必ずしも `wandb` を必要としない場合、次のようなフラグを設けて切り替えたり：
 
 {{< tabpane text=true >}}
 
@@ -194,7 +191,7 @@ python train.py ... --use-wandb
 
 {{< /tabpane >}}
 
-* Or, set `wandb` to be `disabled` in `wandb.init`:
+あるいは、`wandb.init` の `mode` を `disabled` にすることでログ送信を無効化できます:
 
 {{< tabpane text=true >}}
 
@@ -211,7 +208,7 @@ wandb.init(mode="disabled")
 export WANDB_MODE=disabled
 ```
 
-or
+もしくは
 
 ```bash
 wandb disabled
@@ -220,7 +217,7 @@ wandb disabled
 
 {{< /tabpane >}}
 
-* Or, set `wandb` to be offline - note this will still run `wandb`, it just won't try and communicate back to W&B over the internet:
+もしくは W&B をオフラインモードで使う方法もあります。この場合も wandb は動作しますが、インターネットを通じて W&B サーバーとは通信しません：
 
 {{< tabpane text=true >}}
 
@@ -230,7 +227,7 @@ wandb disabled
 export WANDB_MODE=offline
 ```
 
-or
+または
 
 ```python
 os.environ['WANDB_MODE'] = 'offline'
@@ -246,38 +243,38 @@ wandb offline
 
 {{< /tabpane >}}
 
-### Define a run config
-With a `wandb` run config, you can provide metadata about your model, dataset, and so on when you create a W&B Run. You can use this information to compare different experiments and quickly understand the main differences.
+### Run config の定義
+`wandb` の run config を使うことで、モデルやデータセットなど Run 作成時のメタデータを付加できます。これらの情報は実験ごとの差分を比較したり、主要な違いをすぐに理解するのに役立ちます。
 
 {{< img src="/images/integrations/integrations_add_any_lib_runs_page.png" alt="W&B Runs table" >}}
 
-Typical config parameters you can log include:
+典型的な config パラメータの例：
 
-* Model name, version, architecture parameters, etc.
-* Dataset name, version, number of train/val examples, etc.
-* Training parameters such as learning rate, batch size, optimizer, etc.
+* モデル名、バージョン、アーキテクチャパラメータ など
+* データセット名、バージョン、学習/検証サンプル数 など
+* トレーニングパラメータ（学習率、バッチサイズ、オプティマイザーなど）
 
-The following code snippet shows how to log a config:
+config をログする例：
 
 ```python
 config = {"batch_size": 32, ...}
 wandb.init(..., config=config)
 ```
 
-#### Update the run config
-Use `wandb.Run.config.update` to update the config. Updating your configuration dictionary is useful when parameters are obtained after the dictionary was defined. For example, you might want to add a model’s parameters after the model is instantiated.
+#### Run config の更新
+`wandb.Run.config.update` を使って config を後から更新することも可能です。たとえばモデルのインスタンス生成後に、そのパラメータを追加したい場合などに便利です。
 
 ```python
 run.config.update({"model_parameters": 3500})
 ```
 
-For more information on how to define a config file, see [Configure experiments]({{< relref path="/guides/models/track/config" lang="ja" >}}).
+config ファイルの詳細については [実験の設定]({{< relref path="/guides/models/track/config" lang="ja" >}}) をご覧ください。
 
-### Log to W&B
+### W&B へのログ
 
-#### Log metrics
+#### メトリクスのログ
 
-Create a dictionary where the key value is the name of the metric. Pass this dictionary object to [`run.log`]({{< relref path="/guides/models/track/log" lang="ja" >}}):
+辞書型で各メトリクスのキーと値を設定し、それを [`run.log`]({{< relref path="/guides/models/track/log" lang="ja" >}}) に渡します：
 
 ```python
 for epoch in range(NUM_EPOCHS):
@@ -288,7 +285,7 @@ for epoch in range(NUM_EPOCHS):
         run.log(metrics)
 ```
 
-If you have a lot of metrics, you can have them automatically grouped in the UI by using prefixes in the metric name, such as `train/...` and `val/...`. This will create separate sections in your W&B Workspace for your training and validation metrics, or other metric types you'd like to separate:
+多くのメトリクスを記録する場合は、メトリクス名にプレフィックス（例：`train/...` や `val/...`）を使うことで UI 上でグルーピングできます。これによりトレーニングや検証、その他区分で W&B Workspace 内のメトリクスが整理されます。
 
 ```python
 metrics = {
@@ -302,26 +299,26 @@ run.log(metrics)
 
 {{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="W&B Workspace" >}}
 
-See the [`wandb.Run.log()` reference]({{< relref path="/guides/models/track/log" lang="ja" >}}).
+[`wandb.Run.log()` のリファレンス]({{< relref path="/guides/models/track/log" lang="ja" >}})も合わせてご覧ください。
 
-#### Prevent x-axis misalignments
+#### x軸のズレを防ぐ
 
-If you perform multiple calls to `run.log` for the same training step, the wandb SDK increments an internal step counter for each call to `run.log`. This counter may not align with the training step in your training loop.
+同じトレーニングステップで `run.log` を複数回呼ぶ場合、wandb SDK の内部カウンターが自動でインクリメントされ、実際のトレーニングループのステップとズレる可能性があります。
 
-To avoid this situation, define your x-axis step explicitly with `run.define_metric`, one time, immediately after you call `wandb.init`:
+この問題を避けるには、`wandb.init` 呼び出し直後に `run.define_metric` で x 軸となるステップを明示的に定義してください：
 
 ```python
 with wandb.init(...) as run:
     run.define_metric("*", step_metric="global_step")
 ```
 
-The glob pattern, `*`, means that every metric will use `global_step` as the x-axis in your charts. If you only want certain metrics to be logged against `global_step`, you can specify them instead:
+`*` はすべてのメトリクスが `global_step` を x 軸に使うことを意味します。特定のメトリクスのみ `global_step` でログしたい場合はこのように指定します：
 
 ```python
 run.define_metric("train/loss", step_metric="global_step")
 ```
 
-Now, log your metrics, your `step` metric, and your `global_step` each time you call `run.log`:
+その後は、`run.log` を呼ぶたびにメトリクスと一緒に `global_step` をログします：
 
 ```python
 for step, (input, ground_truth) in enumerate(data):
@@ -330,45 +327,45 @@ for step, (input, ground_truth) in enumerate(data):
     run.log({"global_step": step, "eval/loss": 0.2})
 ```
 
-If you do not have access to the independent step variable, for example "global_step" is not available during your validation loop, the previously logged value for "global_step" is automatically used by wandb. In this case, ensure you log an initial value for the metric so it has been defined when it’s needed.
+もし独立した step 変数（例えば検証ループ時の "global_step" など）が利用できない場合でも、wandb は直前に記録した値を自動的に参照します。そのため、最初のメトリクス値を必ずログして定義しておきましょう。
 
-#### Log images, tables, audio, and more
+#### 画像、テーブル、音声などをログする
 
-In addition to metrics, you can log plots, histograms, tables, text, and media such as images, videos, audios, 3D, and more.
+メトリクス以外にも、プロット・ヒストグラム・テーブル・テキスト・画像・動画・音声・3D など多様なデータをログできます。
 
-Some considerations when logging data include:
+データを記録する際に考慮するポイント：
 
-* How often should the metric be logged? Should it be optional?
-* What type of data could be helpful in visualizing?
-  * For images, you can log sample predictions, segmentation masks, etc., to see the evolution over time.
-  * For text, you can log tables of sample predictions for later exploration.
+* どの頻度でログするか？ オプションにすべきか？
+* どんなデータが可視化に役立つか？
+  * 画像なら、サンプル予測やセグメンテーションマスクなど、経時変化の見える化
+  * テキストなら、サンプル予測テーブルによる探索性の向上
 
-See the [logging guide]({{< relref path="/guides/models/track/log" lang="ja" >}}) for media, objects, plots, and more.
+詳細は [ロギングガイド]({{< relref path="/guides/models/track/log" lang="ja" >}}) をご覧ください。
 
-### Distributed training
+### 分散トレーニング
 
-For frameworks supporting distributed environments, you can adapt any of the following workflows:
+分散環境をサポートするフレームワークでは、下記のいずれかのワークフローを適用できます。
 
-* Detect which is the "main" process and only use `wandb` there. Any required data coming from other processes must be routed to the main process first. (This workflow is encouraged).
-* Call `wandb` in every process and auto-group them by giving them all the same unique `group` name.
+* 「メインプロセス」を検出し、`wandb` はそこでのみ使用。他のプロセスから必要なデータをメインへ受け渡して記録する（推奨）。
+* すべてのプロセスで `wandb` を呼び、同じ `group` 名で自動グルーピング。
 
-See [Log Distributed Training Experiments]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}}) for more details.
+より詳しくは、[分散トレーニング実験のロギング]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}})をご覧ください。
 
-### Log model checkpoints and more
+### モデルのチェックポイント保存など
 
-If your framework uses or produces models or datasets, you can log them for full traceability and have wandb automatically monitor your entire pipeline through W&B Artifacts.
+フレームワークがモデルやデータセットを利用したり生成したりする場合、wandb でそれらも一緒に記録すれば、W&B Artifacts を通してパイプライン全体を追跡できます。
 
 {{< img src="/images/integrations/integrations_add_any_lib_dag.png" alt="Stored Datasets and Model Checkpoints in W&B" >}}
 
-When using Artifacts, it might be useful but not necessary to let your users define:
+Artifacts を使う際、ユーザーに次のような項目を定義させられると便利な場合があります（必須ではありません）：
 
-* The ability to log model checkpoints or datasets (in case you want to make it optional).
-* The path/reference of the artifact being used as input, if any. For example, `user/project/artifact`.
-* The frequency for logging Artifacts.
+* モデルのチェックポイントやデータセットのログの有無（オプションにしたい場合）
+* 入力として使用する artifact のパス/参照（例：`user/project/artifact`）
+* Artifacts の記録頻度
 
-#### Log model checkpoints
+#### モデルチェックポイントの保存
 
-You can log Model Checkpoints to W&B. It is useful to leverage the unique `wandb` Run ID to name output Model Checkpoints to differentiate them between Runs. You can also add useful metadata. In addition, you can also add aliases to each model as shown below:
+モデルチェックポイントも W&B へ記録可能です。Run ごとに一意な `wandb` の Run ID をファイル名等に使えば、Run 間での区別がしやすくなります。また、メタデータやエイリアスの追加もできます。
 
 ```python
 metadata = {"eval/accuracy": 0.8, "train/steps": 800} 
@@ -378,19 +375,19 @@ artifact = wandb.Artifact(
                 metadata=metadata, 
                 type="model"
                 ) 
-artifact.add_dir("output_model") # local directory where the model weights are stored
+artifact.add_dir("output_model") # モデルの重みが格納されているローカルディレクトリ
 
 aliases = ["best", "epoch_10"] 
 run.log_artifact(artifact, aliases=aliases)
 ```
 
-For information on how to create a custom alias, see [Create a Custom Alias]({{< relref path="/guides/core/artifacts/create-a-custom-alias/" lang="ja" >}}).
+カスタムエイリアスの作成例は [カスタムエイリアスを作成する]({{< relref path="/guides/core/artifacts/create-a-custom-alias/" lang="ja" >}})をご覧ください。
 
-You can log output Artifacts at any frequency (for example, every epoch, every 500 steps, and so on) and they are automatically versioned.
+Artifacts の出力タイミング（例：各エポックごと、500ステップごと等）は自由で、自動でバージョン管理されます。
 
-#### Log and track pre-trained models or datasets
+#### 学習済みモデルやデータセットの記録と追跡
 
-You can log artifacts that are used as inputs to your training such as pre-trained models or datasets. The following snippet demonstrates how to log an Artifact and add it as an input to the ongoing Run as shown in the graph above.
+学習に使う入力（学習済みモデルやデータセットなど）を artifact として記録し、グラフ内で ongoing Run に入力として追加できます。
 
 ```python
 artifact_input_data = wandb.Artifact(name="flowers", type="dataset")
@@ -398,33 +395,33 @@ artifact_input_data.add_file("flowers.npy")
 run.use_artifact(artifact_input_data)
 ```
 
-#### Download an artifact
+#### artifact のダウンロード
 
-You re-use an Artifact (dataset, model, etc.) and `wandb` will download a copy locally (and cache it):
+artifact（データセット・モデル等）の再利用時に、`wandb` がローカルにダウンロード（キャッシュ）します：
 
 ```python
 artifact = run.use_artifact("user/project/artifact:latest")
 local_path = artifact.download("./tmp")
 ```
 
-Artifacts can be found in the Artifacts section of W&B and can be referenced with aliases generated automatically (`latest`, `v2`, `v3`) or manually when logging (`best_accuracy`, etc.).
+Artifacts は W&B の Artifacts セクションで確認でき、`latest`、`v2`、`v3` や `best_accuracy` などのエイリアスで参照可能です。
 
-To download an Artifact without creating a `wandb` run (through `wandb.init`), for example in distributed environments or for simple inference, you can instead reference the artifact with the [wandb API]({{< relref path="/ref/python/public-api/index.md" lang="ja" >}}):
+また、推論時や分散環境で `wandb` run を作成せず artifact だけダウンロードしたい場合は [wandb API]({{< relref path="/ref/python/public-api/index.md" lang="ja" >}}) を使います：
 
 ```python
 artifact = wandb.Api().artifact("user/project/artifact:latest")
 local_path = artifact.download()
 ```
 
-For more information, see [Download and Use Artifacts]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact" lang="ja" >}}).
+詳細情報は [Artifacts のダウンロードと利用]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact" lang="ja" >}}) をご覧ください。
 
-### Tune hyper-parameters
+### ハイパーパラメータのチューニング
 
-If your library would like to leverage W&B hyper-parameter tuning, [W&B Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) can also be added to your library.
+W&B のハイパーパラメータチューニングを活用したい場合は、[W&B Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) をライブラリに組み込むこともできます。
 
-### Advanced integrations
+### 高度なインテグレーション例
 
-You can also see what an advanced W&B integrations look like in the following integrations. Note most integrations will not be as complex as these:
+より高度な W&B インテグレーションの事例は下記をご覧ください。大半のケースではここまで複雑なものにはなりません。
 
 * [Hugging Face Transformers `WandbCallback`](https://github.com/huggingface/transformers/blob/49629e7ba8ef68476e08b671d6fc71288c2f16f1/src/transformers/integrations.py#L639)
 * [PyTorch Lightning `WandbLogger`](https://github.com/Lightning-AI/lightning/blob/18f7f2d3958fb60fcb17b4cb69594530e83c217f/src/pytorch_lightning/loggers/wandb.py#L53)

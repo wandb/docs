@@ -1,33 +1,31 @@
 ---
+title: wandb sweep
 menu:
   reference:
     identifier: ja-ref-cli-wandb-sweep
-title: wandb sweep
 ---
 
-**Usage**
+**使用方法**
 
 `wandb sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID`
 
-**Summary**
+**概要**
 
-Initialize a hyperparameter sweep. Search for hyperparameters that optimizes
-a cost function of a machine learning model by testing various combinations.
+ハイパーパラメーター探索を初期化します。機械学習モデルのコスト関数を最適化するハイパーパラメーターを、さまざまな組み合わせをテストすることで探索します。
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `-p, --project` | The name of the project where W&B runs created from   the sweep are sent to. If the project is not specified, the run is sent to a project labeled   Uncategorized. |
-| `-e, --entity` | The username or team name where you want to send W&B   runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an   entity, the run will be sent to your default entity, which is usually your username. |
-| `--controller` | Run local controller |
-| `--verbose` | Display verbose output |
-| `--name` | The name of the sweep. The sweep ID is used if no name   is specified. |
-| `--program` | Set sweep program |
-| `--update` | Update pending sweep |
-| `--stop` | Finish a sweep to stop running new runs and let   currently running runs finish. |
-| `--cancel` | Cancel a sweep to kill all running runs and stop   running new runs. |
-| `--pause` | Pause a sweep to temporarily stop running new runs. |
-| `--resume` | Resume a sweep to continue running new runs. |
-| `--prior_run` | ID of an existing run to add to this sweep |
+| `-p, --project` | Sweep から作成される W&B Run を送信する Project の名前を指定します。Project が指定されていない場合、Run は「Uncategorized」という Project に送信されます。 |
+| `-e, --entity` | Sweep によって作成される W&B Run を送信したいユーザー名またはチーム名を指定します。指定した Entity が既に存在していることを確認してください。指定しない場合は、デフォルトの Entity（通常は自分のユーザー名）に送信されます。 |
+| `--controller` | ローカルのコントローラを実行します |
+| `--verbose` | 詳細な出力を表示します |
+| `--name` | Sweep の名前を指定します。名前を指定しない場合は Sweep ID が使用されます。 |
+| `--program` | Sweep で実行するプログラムを設定します |
+| `--update` | 保留中の Sweep を更新します |
+| `--stop` | Sweep を完了して新たな Run の実行を停止し、現在実行中の Run はそのまま終了させます。 |
+| `--cancel` | Sweep をキャンセルしてすべての実行中の Run を停止し、新たな Run の実行も停止します。 |
+| `--pause` | Sweep を一時停止し、新たな Run の実行を一時的に止めます。 |
+| `--resume` | Sweep を再開して新しい Run の実行を続けます。 |
+| `--prior_run` | この Sweep に追加する既存の Run の ID を指定します |

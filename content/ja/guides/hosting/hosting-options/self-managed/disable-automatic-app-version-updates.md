@@ -1,38 +1,38 @@
 ---
-description: Learn how to disable automatic updates for W&B Server.
+title: W&B サーバーの自動更新を無効にする
+description: W&B サーバー の自動アップデートを無効にする方法をご紹介します。
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-disable-automatic-app-version-updates
     parent: self-managed
-title: Disable automatic updates for W&B Server
 weight: 99
 ---
 
-This page shows how to disable automatic version upgrades for W&B Server and pin its version. These instructions work for deployments managed by the [W&B Kubernetes Operator]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/" lang="ja" >}}) only.
+このページでは、W&B サーバーの自動バージョンアップグレードを無効にし、バージョンを固定する方法を説明します。ここでの手順は、[W&B Kubernetes Operator]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/" lang="ja" >}}) で管理されているデプロイメントのみに対応しています。
 
 {{% alert %}}
-W&B supports a major W&B Server release for 12 months from its initial release date. Customers with **Self-managed** instances are responsible for upgrading in time to maintain support. Avoid staying on an unsupported version. W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at minimum once per quarter to maintain support and receive the latest features, performance improvements, and fixes.
+W&B は、主要な W&B サーバーリリースをリリース日から 12 ヶ月間サポートします。**セルフマネージド**インスタンスを利用するお客様は、サポートを維持するため適切なタイミングでアップグレードを行う責任があります。サポートされていないバージョンに留まり続けることは避けてください。W&B では **セルフマネージド**インスタンスをご利用のお客様に対して、サポート維持および最新機能・パフォーマンス改善・修正を受け取るため、少なくとも四半期ごとにデプロイメントを最新リリースにアップデートすることを強く推奨しています。
 {{% /alert %}}
 
-## Requirements
+## 要件
 
-- W&B Kubernetes Operator `v1.13.0` or newer
-- System Console `v2.12.2` or newer
+- W&B Kubernetes Operator `v1.13.0` 以降
+- System Console `v2.12.2` 以降
 
-To verify that you meet these requirements, refer to the W&B Custom Resource or Helm chart for your instance. Check the `version` values for the `operator-wandb` and `system-console` components.
+これらの要件を満たしているかどうかは、ご利用中の W&B Custom Resource または Helm chart をご確認ください。`operator-wandb` および `system-console` コンポーネントの `version` 値をご確認ください。
 
-## Disable automatic updates
-1. Log in to the W&B App as a user with the `admin` role.
-2. Click the user icon at the top, then click **System Console**.
-3. Go to **Settings** > **Advanced**, then select the **Other** tab.
-4. In the **Disable Auto Upgrades** section, turn on **Pin specific version**.
-5. Click the **Select a version** drop-down, select a W&B Server version.
-6. Click **Save**.
+## 自動アップデートの無効化
+1. `admin` ロールを持つユーザーとして W&B App にログインします。
+2. 画面上部のユーザーアイコンをクリックし、**System Console** を選択します。
+3. **Settings** > **Advanced** に進み、**Other** タブを選択します。
+4. **Disable Auto Upgrades** セクションで **Pin specific version** をオンにします。
+5. **Select a version** のドロップダウンから、W&B サーバーのバージョンを選択します。
+6. **Save** をクリックします。
 
     {{< img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="Disable Automatic Updates Saved" >}}
 
-    Automatic upgrades are turned off and W&B Server is pinned at the version you selected.
-1. Verify that automatic upgrades are turned off. Go to the **Operator** tab and search the reconciliation logs for the string `Version pinning is enabled`.
+    これで自動アップグレードがオフとなり、W&B サーバーは選択したバージョンに固定されます。
+1. 自動アップグレードが無効化されていることを確認します。**Operator** タブに移動し、リコンシリエーションログで `Version pinning is enabled` という文字列を検索してください。
 
 ```
 │info 2025-04-17T17:24:16Z wandb default No changes found

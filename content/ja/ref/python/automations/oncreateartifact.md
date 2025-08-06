@@ -1,25 +1,27 @@
 ---
+title: 'OnCreateArtifact
+
+  '
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-automations-oncreateartifact
 object_type: automations_namespace
-title: OnCreateArtifact
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/events.py >}}
 
 
 
-A new artifact is created.
+新しい artifact が作成されます。
 
-Attributes:
-- event_type (Literal): No description provided.
-- filter (Union): Additional condition(s), if any, that must be met for this event to trigger an automation.
-- scope (Union): The scope of the event: only artifact collections are valid scopes for this event.
+属性:
+- event_type (Literal): 説明はありません。
+- filter (Union): このイベントがオートメーションをトリガーするために、追加で満たす必要がある条件（もしあれば）。
+- scope (Union): イベントのスコープ。このイベントでは artifact コレクションのみが有効なスコープです。
 
 ### <kbd>method</kbd> `then`
 ```python
 then(self, action: 'InputAction') -> 'NewAutomation'
 ```
-Define a new Automation in which this event triggers the given action.
+このイベントによって指定されたアクションがトリガーされる新しいオートメーションを定義します。

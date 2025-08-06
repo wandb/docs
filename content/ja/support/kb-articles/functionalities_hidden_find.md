@@ -1,15 +1,15 @@
 ---
+title: 本当に便利な機能はどこに隠れていて、どうやって見つけられますか？
 menu:
   support:
     identifier: ja-support-kb-articles-functionalities_hidden_find
 support:
-- workspaces
-title: What really good functionalities are hidden and where can I find those?
+- ワークスペース
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Some functionalities are hidden under a feature flag in the **Beta Features** section of a team's settings.
+一部の機能は、チームの設定内にある **Beta Features** セクションのフィーチャーフラグで非表示になっています。
 
-{{< img src="/images/technical_faq/beta_features.png" alt="Available beta features hidden under a feature flag" >}}
+{{< img src="/images/technical_faq/beta_features.png" alt="フィーチャーフラグで非表示になっている利用可能なベータ機能" >}}

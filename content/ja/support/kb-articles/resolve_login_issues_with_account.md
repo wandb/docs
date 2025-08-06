@@ -1,25 +1,25 @@
 ---
+title: アカウントのログイン問題を解決するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-resolve_login_issues_with_account
 support:
-- user management
-title: How can I resolve login issues with my account?
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To resolve login issues, follow these steps:
+ログインの問題を解決するには、次の手順を実行してください。
 
-- **Verify access**: Confirm you are using the correct email or username and check membership in relevant teams or projects.
-- **Browser troubleshooting**:
-  - Use an incognito window to avoid cached data interference.
-  - Clear the browser cache.
-  - Attempt to log in from a different browser or device.
-- **SSO and permissions**:
-  - Verify the identity provider (IdP) and Single Sign-On (SSO) settings.
-  - If using SSO, confirm inclusion in the appropriate SSO group.
-- **Technical problems**:
-  - Take note of specific error messages for further troubleshooting.
-  - Contact the support team for additional assistance if issues persist.
+- **アクセスの確認**: 正しいメールアドレスまたはユーザー名を使用していることを確認し、関連する Teams や Projects へのメンバーシップをチェックしてください。
+- **ブラウザのトラブルシューティング**:
+  - キャッシュによる影響を避けるため、シークレットウィンドウを使用してください。
+  - ブラウザのキャッシュをクリアしてください。
+  - 別のブラウザやデバイスからログインを試してください。
+- **SSO と権限**:
+  - アイデンティティプロバイダー（IdP）および Single Sign-On（SSO）の設定を確認してください。
+  - SSO を利用している場合、適切な SSO グループに含まれているか確認してください。
+- **技術的な問題**:
+  - 詳細なエラーメッセージを控えておいてください。さらなるトラブルシューティングに役立ちます。
+  - 問題が解決しない場合は、サポートチームにお問い合わせください。

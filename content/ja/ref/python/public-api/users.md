@@ -1,10 +1,10 @@
 ---
+title: ユーザー
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-users
 object_type: public_apis_namespace
-title: users
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py >}}
@@ -13,46 +13,46 @@ title: users
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for managing users and API keys. 
+W&B Public API でユーザーとAPIキーを管理するためのモジュールです。
 
-This module provides classes for managing W&B users and their API keys. 
+このモジュールは、W&B ユーザーおよびその APIキーを管理するためのクラスを提供します。
 
 
 
-**Note:**
+**注:**
 
-> This module is part of the W&B Public API and provides methods to manage users and their authentication. Some operations require admin privileges. 
+> このモジュールは W&B Public API の一部であり、ユーザーとその認証を管理するメソッドを提供します。一部の操作には管理者権限が必要です。
 
 
 
 ---
 
 ## <kbd>class</kbd> `User`
-A class representing a W&B user with authentication and management capabilities. 
+W&B ユーザーの認証と管理機能を持つクラス。
 
-This class provides methods to manage W&B users, including creating users, managing API keys, and accessing team memberships. It inherits from Attrs to handle user attributes. 
+このクラスは W&B ユーザーの作成、APIキーの管理、チームメンバーシップへのアクセスなどのメソッドを提供します。ユーザー属性の管理には Attrs を継承しています。
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  (`wandb.apis.internal.Api`) The client instance to use 
- - `attrs`:  (dict) The user attributes 
+ - `client`:  (`wandb.apis.internal.Api`) 利用するクライアントインスタンス
+ - `attrs`:  (dict) ユーザー属性
 
 
 
-**Note:**
+**注:**
 
-> Some operations require admin privileges 
+> 一部の操作には管理者権限が必要です
 
 ### <kbd>method</kbd> `User.__init__`
 
 ```python
 __init__(client, attrs)
 ```
-
-
-
+<!--
+初期化メソッドです。
+-->
 
 
 
@@ -60,31 +60,31 @@ __init__(client, attrs)
 
 ### <kbd>property</kbd> User.api_keys
 
-List of API key names associated with the user. 
+ユーザーに紐付いている APIキー名のリスト。
 
 
 
-**Returns:**
+**戻り値:**
  
- - `list[str]`:  Names of API keys associated with the user. Empty list if user  has no API keys or if API key data hasn't been loaded. 
+ - `list[str]`:  ユーザーに紐付いている APIキー名のリスト。ユーザーが APIキーを持っていない、もしくはAPIキーのデータが未ロードの場合は空リストを返します。
 
 ---
 
 ### <kbd>property</kbd> User.teams
 
-List of team names that the user is a member of. 
+ユーザーが所属しているチーム名のリスト。
 
 
 
-**Returns:**
+**戻り値:**
  
- - `list` (list):  Names of teams the user belongs to. Empty list if user has no  team memberships or if teams data hasn't been loaded. 
+ - `list` (list):  ユーザーが所属するチーム名のリスト。チームメンバーでないか、チームデータが未ロードの場合は空リストを返します。
 
 ---
 
 ### <kbd>property</kbd> User.user_api
 
-An instance of the api using credentials from the user. 
+ユーザーの認証情報を使った api のインスタンス。
 
 
 
@@ -96,20 +96,20 @@ An instance of the api using credentials from the user.
 create(api, email, admin=False)
 ```
 
-Create a new user. 
+新しいユーザーを作成します。
 
 
 
-**Args:**
+**引数:**
  
- - `api` (`Api`):  The api instance to use 
- - `email` (str):  The name of the team 
- - `admin` (bool):  Whether this user should be a global instance admin 
+ - `api` (`Api`):  利用する api インスタンス
+ - `email` (str):  チーム名
+ - `admin` (bool):  このユーザーをグローバルインスタンス管理者にするかどうか
 
 
 
-**Returns:**
- A `User` object 
+**戻り値:**
+ `User` オブジェクト
 
 ---
 
@@ -119,23 +119,23 @@ Create a new user.
 delete_api_key(api_key)
 ```
 
-Delete a user's api key. 
+ユーザーの APIキーを削除します。
 
 
 
-**Args:**
+**引数:**
  
- - `api_key` (str):  The name of the API key to delete. This should be  one of the names returned by the `api_keys` property. 
+ - `api_key` (str):  削除する APIキーの名前。これは `api_keys` プロパティが返すいずれかの名前である必要があります。
 
 
 
-**Returns:**
- Boolean indicating success 
+**戻り値:**
+ 成功なら True、失敗なら False のブール値
 
 
 
-**Raises:**
- ValueError if the api_key couldn't be found 
+**例外:**
+ api_key が見つからなかった場合は ValueError を送出します
 
 ---
 
@@ -145,15 +145,15 @@ Delete a user's api key.
 generate_api_key(description=None)
 ```
 
-Generate a new api key. 
+新しい APIキーを生成します。
 
 
 
-**Args:**
+**引数:**
  
- - `description` (str, optional):  A description for the new API key. This can be  used to identify the purpose of the API key. 
+ - `description` (str, オプション):  新しい APIキーの説明。APIキーの用途を識別するために使用できます。
 
 
 
-**Returns:**
- The new api key, or None on failure
+**戻り値:**
+ 新しい APIキー。失敗した場合は None

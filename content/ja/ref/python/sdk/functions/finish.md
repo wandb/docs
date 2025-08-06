@@ -1,10 +1,10 @@
 ---
+title: "finish()  \n完了（finish）"
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-functions-finish
 object_type: python_sdk_actions
-title: finish()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py >}}
@@ -18,19 +18,18 @@ title: finish()
 finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
 ```
 
-Finish a run and upload any remaining data. 
+run を終了し、残りのデータをアップロードします。
 
-Marks the completion of a W&B run and ensures all data is synced to the server. The run's final state is determined by its exit conditions and sync status. 
+W&B run の完了を示し、すべてのデータがサーバーに同期されていることを保証します。run の最終的な状態は、終了条件と同期ステータスによって決まります。
 
-Run States: 
-- Running: Active run that is logging data and/or sending heartbeats. 
-- Crashed: Run that stopped sending heartbeats unexpectedly. 
-- Finished: Run completed successfully (`exit_code=0`) with all data synced. 
-- Failed: Run completed with errors (`exit_code!=0`). 
+run の状態:
+- Running: データのログやハートビートの送信がアクティブな run。
+- Crashed: ハートビートの送信が予期せず停止した run。
+- Finished: 正常に完了し（`exit_code=0`）、すべてのデータが同期された run。
+- Failed: エラーが発生して完了した run（`exit_code!=0`）。
 
+**引数:**
 
-
-**Args:**
- 
- - `exit_code`:  Integer indicating the run's exit status. Use 0 for success,  any other value marks the run as failed. 
- - `quiet`:  Deprecated. Configure logging verbosity using `wandb.Settings(quiet=...)`.
+ - `exit_code`:  run の終了ステータスを示す整数値。成功時は 0、その他の値は run が失敗したことを示します。
+ - `quiet`:  非推奨。ログ出力レベルは `wandb.Settings(quiet=...)` で設定してください。
+```

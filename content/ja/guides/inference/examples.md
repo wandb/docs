@@ -1,48 +1,46 @@
 ---
-description: 'Learn how to use W&B Inference with practical code examples
-
-  '
+title: 使用例
+description: 実用的なコード例を使って W&B Inference の使い方を学びましょう
 linkTitle: Examples
 menu:
   default:
     identifier: ja-guides-inference-examples
-title: Usage Examples
 weight: 50
 ---
 
-These examples show how to use W&B Inference with Weave for tracing, evaluation, and comparison.
+これらの例では、W&B Inference を Weave と組み合わせて、トレース、評価、モデル比較を行う方法を紹介します。
 
-## Basic example: Trace Llama 3.1 8B with Weave
+## 基本例: Weave で Llama 3.1 8B をトレース
 
-This example shows how to send a prompt to the **Llama 3.1 8B** model and trace the call with Weave. Tracing captures the full input and output of the LLM call, monitors performance, and lets you analyze results in the Weave UI.
+この例では、**Llama 3.1 8B** モデルにプロンプトを送り、その呼び出しを Weave でトレースする方法を示します。トレースでは LLM 呼び出しの入力・出力がすべて記録され、パフォーマンスの監視や Weave UI での結果分析が可能になります。
 
-{{< alert title="Tip" >}}
-Learn more about [tracing in Weave](https://weave-docs.wandb.ai/guides/tracking/tracing).
+{{< alert title="ヒント" >}}
+[Weave によるトレース](https://weave-docs.wandb.ai/guides/tracking/tracing)の詳細はこちらをご覧ください。
 {{< /alert >}}
 
-In this example:
-- You define a `@weave.op()`-decorated function that makes a chat completion request
-- Your traces are recorded and linked to your W&B entity and project
-- The function is automatically traced, logging inputs, outputs, latency, and metadata
-- The result prints in the terminal, and the trace appears in your **Traces** tab at [https://wandb.ai](https://wandb.ai)
+この例で行うこと:
+- `@weave.op()` で装飾された関数を定義し、チャット補完リクエストを作成
+- トレースが W&B の entity や project に紐づいて記録される
+- 関数は自動的にトレースされ、入力・出力・レイテンシ・メタデータがログされる
+- 結果がターミナルに出力され、**Traces** タブ（[https://wandb.ai](https://wandb.ai)）でトレースを確認可能
 
-Before running this example, complete the [prerequisites]({{< relref path="prerequisites" lang="ja" >}}).
+この例を実行する前に、[前提条件]({{< relref path="prerequisites" lang="ja" >}}) を完了してください。
 
 ```python
 import weave
 import openai
 
-# Set the Weave team and project for tracing
+# トレース用に Weave の team と project をセット
 weave.init("<your-team>/<your-project>")
 
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Get your API key from https://wandb.ai/authorize
+    # https://wandb.ai/authorize から APIキー を取得
     api_key="<your-api-key>",
 )
 
-# Trace the model call in Weave
+# モデル呼び出しを Weave でトレース
 @weave.op()
 def run_chat():
     response = client.chat.completions.create(
@@ -54,23 +52,21 @@ def run_chat():
     )
     return response.choices[0].message.content
 
-# Run and log the traced call
+# トレース呼び出しを実行してログ
 output = run_chat()
 print(output)
 ```
 
-After running the code, view the trace in Weave by:
-1. Clicking the link printed in the terminal (for example: `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`)
-2. Or navigating to [https://wandb.ai](https://wandb.ai) and selecting the **Traces** tab
+コードを実行した後、Weave でトレースを確認する方法:
+1. ターミナルに表示されるリンクをクリック（例: `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`）
+2. または [https://wandb.ai](https://wandb.ai) にアクセスし、**Traces** タブを選択
 
-## Advanced example: Use Weave Evaluations and Leaderboards
+## 応用例: Weave Evaluations と Leaderboards の活用
 
-Besides tracing model calls, you can also evaluate performance and publish leaderboards. 
-This example compares two models on a question-answer dataset, and sets a custom project
-name in the client initialization, specifying where to send logs. 
+モデル呼び出しのトレースだけでなく、パフォーマンス評価やリーダーボードの公開も可能です。  
+この例では、2つのモデルを QA データセットで比較し、クライアント初期化時にカスタム project 名を設定して、ログの保存先を指定しています。
 
-Before running this example, complete the [prerequisites]({{< relref path="prerequisites" lang="ja" >}}).
-
+この例を実行する前に、[前提条件]({{< relref path="prerequisites" lang="ja" >}}) を完了してください。
 
 ```python
 import os
@@ -80,7 +76,7 @@ import weave
 from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
 
-# Set the Weave team and project for tracing
+# トレース用に Weave の team と project をセット
 weave.init("<your-team>/<your-project>")
 
 dataset = [
@@ -99,9 +95,9 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # Get your API key from https://wandb.ai/authorize
+            # https://wandb.ai/authorize から APIキー を取得
             api_key="<your-api-key>",
-            # Optional: Customizes the logs destination
+            # （任意）ログの保存先をカスタマイズ
             project="<your-team>/<your-project>"
         )
         resp = client.chat.completions.create(
@@ -144,17 +140,17 @@ spec = leaderboard.Leaderboard(
 weave.publish(spec)
 ```
 
-After running this code, go to your W&B account at [https://wandb.ai/](https://wandb.ai/) and:
+このコードを実行した後、W&B アカウント（[https://wandb.ai/](https://wandb.ai/)）で以下を行ってください:
 
-- Select the **Traces** tab to [view your traces](https://weave-docs.wandb.ai/guides/tracking/tracing)
-- Select the **Evals** tab to [view your model evaluations](https://weave-docs.wandb.ai/guides/core-types/evaluations)
-- Select the **Leaders** tab to [view the generated leaderboard](https://weave-docs.wandb.ai/guides/core-types/leaderboards)
+- **Traces** タブを選択し、[トレースを確認](https://weave-docs.wandb.ai/guides/tracking/tracing)
+- **Evals** タブを選択し、[モデルの評価を確認](https://weave-docs.wandb.ai/guides/core-types/evaluations)
+- **Leaders** タブを選択し、[生成されたリーダーボードを確認](https://weave-docs.wandb.ai/guides/core-types/leaderboards)
 
-{{< img src="/images/inference/inference-advanced-evals.png" alt="View your model evaluations" >}}
+{{< img src="/images/inference/inference-advanced-evals.png" alt="モデル評価の確認" >}}
 
-{{< img src="/images/inference/inference-advanced-leaderboard.png" alt="View your leaderboard" >}}
+{{< img src="/images/inference/inference-advanced-leaderboard.png" alt="リーダーボードの確認" >}}
 
-## Next steps
+## 次のステップ
 
-- Explore the [API reference]({{< relref path="api-reference" lang="ja" >}}) for all available methods
-- Try models in the [UI]({{< relref path="ui-guide" lang="ja" >}})
+- すべての利用可能なメソッドは [APIリファレンス]({{< relref path="api-reference" lang="ja" >}}) を参照してください
+- [UI]({{< relref path="ui-guide" lang="ja" >}}) でモデルを試してみましょう

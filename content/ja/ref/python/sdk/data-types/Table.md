@@ -1,10 +1,10 @@
 ---
+title: テーブル
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-sdk-data-types-Table
 object_type: python_sdk_data_type
-title: Table
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py >}}
@@ -13,11 +13,11 @@ title: Table
 
 
 ## <kbd>class</kbd> `Table`
-The Table class used to display and analyze tabular data. 
+Table クラスは、表形式データの表示や解析に使用されます。
 
-Unlike traditional spreadsheets, Tables support numerous types of data: scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.Media`. This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media directly in Tables, alongside other traditional scalar values. 
+従来のスプレッドシートとは異なり、Tables ではスカラー値や文字列、numpy配列、さらに `wandb.data_types.Media` のほとんどのサブクラスなど、さまざまな型のデータをサポートしています。これにより、`Images`、`Video`、`Audio` といったリッチで注釈付きのメディアも、他の従来型スカラー値とともに、直接 Tables 内に埋め込むことができます。
 
-This class is the primary class used to generate W&B Tables https://docs.wandb.ai/guides/models/tables/. 
+このクラスは W&B Tables https://docs.wandb.ai/guides/models/tables/ を生成する際に主に使われます。
 
 ### <kbd>method</kbd> `Table.__init__`
 
@@ -34,29 +34,24 @@ __init__(
 )
 ```
 
-Initializes a Table object. 
+Table オブジェクトを初期化します。
 
-The rows is available for legacy reasons and should not be used. The Table class uses data to mimic the Pandas API. 
+`rows` はレガシー対応のために残されていますが、使用は推奨されません。Table クラスは Pandas API を模倣するために data を利用します。
 
-
-
-**Args:**
+**引数:**
  
- - `columns`:  (List[str]) Names of the columns in the table.  Defaults to ["Input", "Output", "Expected"]. 
- - `data`:  (List[List[any]]) 2D row-oriented array of values. 
- - `dataframe`:  (pandas.DataFrame) DataFrame object used to create the table.  When set, `data` and `columns` arguments are ignored. 
- - `rows`:  (List[List[any]]) 2D row-oriented array of values. 
- - `optional`:  (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True 
-        - If a singular bool value, then the optionality is enforced for all  columns specified at construction time 
-        - If a list of bool values, then the optionality is applied to each  column - should be the same length as `columns`  applies to all columns. A list of bool values applies to each respective column. 
- - `allow_mixed_types`:  (bool) Determines if columns are allowed to have mixed types  (disables type validation). Defaults to False 
- - `log_mode`:  Optional[str] Controls how the Table is logged when mutations occur.  Options: 
-        - "IMMUTABLE" (default): Table can only be logged once; subsequent  logging attempts after the table has been mutated will be no-ops. 
-        - "MUTABLE": Table can be re-logged after mutations, creating  a new artifact version each time it's logged. 
-        - "INCREMENTAL": Table data is logged incrementally, with each log creating  a new artifact entry containing the new data since the last log. 
-
-
-
+ - `columns`:  (List[str]) テーブルのカラム名。デフォルトは ["Input", "Output", "Expected"] です。
+ - `data`:  (List[List[any]]) 2次元の行指向配列データ。
+ - `dataframe`:  (pandas.DataFrame) テーブル作成に使用される DataFrame オブジェクト。これが指定された場合、`data` と `columns` 引数は無視されます。
+ - `rows`:  (List[List[any]]) 2次元の行指向配列データ。
+ - `optional`:  (Union[bool, List[bool]]) `None` 値を許可するかどうか。デフォルトは True。
+        - 単一の bool 値の場合、コンストラクタで指定されたすべてのカラムに適用されます。
+        - bool 値のリストの場合、それぞれのカラムに個別に適用されます。リストの長さは `columns` の数と一致させる必要があります。
+ - `allow_mixed_types`:  (bool) カラムで異なる型を許可するか（型検証を無効化）。デフォルトは False。
+ - `log_mode`:  Optional[str] Table が変更された際のログ方法を制御します。オプション:
+        - "IMMUTABLE"（デフォルト）: Table は一度しかログできず、変更後の再ログは無視されます。
+        - "MUTABLE": 変更後も再度ログ可能で、その都度新しい artifact バージョンが作成されます。
+        - "INCREMENTAL": Table データが段階的に記録され、各ログ時に前回以降の新データのみが新しい artifact エントリとして追加されます。
 
 ---
 
@@ -66,15 +61,13 @@ The rows is available for legacy reasons and should not be used. The Table class
 add_column(name, data, optional=False)
 ```
 
-Adds a column of data to the table. 
+新しいカラムデータをテーブルに追加します。
 
-
-
-**Args:**
+**引数:**
  
- - `name`:  (str) - the unique name of the column 
- - `data`:  (list | np.array) - a column of homogeneous data 
- - `optional`:  (bool) - if null-like values are permitted 
+ - `name`:  (str) - カラムの一意な名前
+ - `data`:  (list | np.array) - 同じ型のみからなるカラムデータ
+ - `optional`:  (bool) - null や None 相当の値が許可される場合
 
 ---
 
@@ -84,15 +77,13 @@ Adds a column of data to the table.
 add_computed_columns(fn)
 ```
 
-Adds one or more computed columns based on existing data. 
+既存データをもとに計算されたカラムを 1つ以上追加します。
 
-
-
-**Args:**
+**引数:**
  
- - `fn`:  A function which accepts one or two parameters, ndx (int) and  row (dict), which is expected to return a dict representing  new columns for that row, keyed by the new column names. 
-    - `ndx` is an integer representing the index of the row. Only included if `include_ndx`  is set to `True`. 
-    - `row` is a dictionary keyed by existing columns 
+ - `fn`:  1 または 2 つの引数（ndx (int), row (dict)）を受け取る関数。各行に対して新しいカラム名をキーにした辞書を返す必要があります。
+    - `ndx` は行番号（index）の整数。`include_ndx` が True の場合に渡されます。
+    - `row` は既存カラム名をキーに持つ辞書。
 
 ---
 
@@ -102,11 +93,11 @@ Adds one or more computed columns based on existing data.
 add_data(*data)
 ```
 
-Adds a new row of data to the table. 
+新しい行データをテーブルへ追加します。
 
-The maximum amount ofrows in a table is determined by `wandb.Table.MAX_ARTIFACT_ROWS`. 
+テーブルに保持できる最大行数は `wandb.Table.MAX_ARTIFACT_ROWS` で決まっています。
 
-The length of the data should match the length of the table column. 
+追加データの長さは、テーブルのカラム数と同じである必要があります。
 
 ---
 
@@ -116,10 +107,9 @@ The length of the data should match the length of the table column.
 add_row(*row)
 ```
 
-Deprecated. Use `Table.add_data` method instead. 
+非推奨です。代わりに `Table.add_data` メソッドをご利用ください。
 
 ---
-
 
 ### <kbd>method</kbd> `Table.cast`
 
@@ -127,20 +117,17 @@ Deprecated. Use `Table.add_data` method instead.
 cast(col_name, dtype, optional=False)
 ```
 
-Casts a column to a specific data type. 
+指定したカラムのデータ型を変更します。
 
-This can be one of the normal python classes, an internal W&B type, or an example object, like an instance of wandb.Image or wandb.Classes. 
+これは通常の Python クラスや、内部の W&B 型、または例として wandb.Image や wandb.Classes のインスタンスなどを指定可能です。
 
-
-
-**Args:**
+**引数:**
  
- - `col_name` (str):  The name of the column to cast. 
- - `dtype` (class, wandb.wandb_sdk.interface._dtypes.Type, any):  The  target dtype. 
- - `optional` (bool):  If the column should allow Nones. 
+ - `col_name` (str):  型変換するカラム名
+ - `dtype` (class, wandb.wandb_sdk.interface._dtypes.Type, any):  変更先の dtype
+ - `optional` (bool):  カラムに None を許可するかどうか
 
 ---
-
 
 ### <kbd>method</kbd> `Table.get_column`
 
@@ -148,15 +135,13 @@ This can be one of the normal python classes, an internal W&B type, or an exampl
 get_column(name, convert_to=None)
 ```
 
-Retrieves a column from the table and optionally converts it to a NumPy object. 
+指定したカラムを取得し、必要に応じて NumPy オブジェクトへ変換します。
 
-
-
-**Args:**
+**引数:**
  
- - `name`:  (str) - the name of the column 
- - `convert_to`:  (str, optional) 
-        - "numpy": will convert the underlying data to numpy object 
+ - `name`:  (str) - カラム名
+ - `convert_to`:  (str, optional)
+        - "numpy": データを numpy オブジェクトに変換します
 
 ---
 
@@ -166,7 +151,7 @@ Retrieves a column from the table and optionally converts it to a NumPy object.
 get_dataframe()
 ```
 
-Returns a `pandas.DataFrame` of the table. 
+テーブル全体を `pandas.DataFrame` として返します。
 
 ---
 
@@ -176,6 +161,6 @@ Returns a `pandas.DataFrame` of the table.
 get_index()
 ```
 
-Returns an array of row indexes for use in other tables to create links. 
+他のテーブルでリンク作成に利用できる行インデックスの配列を返します。
 
 ---

@@ -1,62 +1,64 @@
 ---
-description: How to configure the W&B Server installation
+title: 環境変数を設定する
+description: W&B サーバーのインストールを設定する方法
 menu:
   default:
     identifier: ja-guides-hosting-env-vars
     parent: w-b-platform
-title: Configure environment variables
 weight: 7
 ---
 
-In addition to configuring instance level settings via the System Settings admin UI, W&B also provides a way to configure these values via code using Environment Variables. Also, refer to [advanced configuration for IAM]({{< relref path="./iam/advanced_env_vars.md" lang="ja" >}}).
+システム設定管理 UI からインスタンスレベルの設定を行うだけでなく、W&B では環境変数を使ってコードからこれらの値を設定する方法も提供しています。さらに、[IAM の高度な設定]({{< relref path="./iam/advanced_env_vars.md" lang="ja" >}})も参照してください。
 
-## Environment variable reference
+## 環境変数リファレンス
 
-| Environment Variable             | Description                                                                                                                                                                              |
-|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `LICENSE`                          | Your wandb/local license                                                                                                                                                                 |
-| `MYSQL`                            | The MySQL connection string                                                                                                                                                              |
-| `BUCKET`                           | The S3 / GCS bucket for storing data                                                                                                                                                     |
-| `BUCKET_QUEUE`                     | The SQS / Google PubSub queue for object creation events                                                                                                                                 |
-| `NOTIFICATIONS_QUEUE`              | The SQS queue on which to publish run events                                                                                                                                             |
-| `AWS_REGION`                       | The AWS Region where your bucket lives                                                                                                                                                   |
-| `HOST`                             | The FQD of your instance, that is `https://my.domain.net`                                                                                                       |
-| `OIDC_ISSUER`                      | A URL to your Open ID Connect identity provider, that is `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd` |
-| `OIDC_CLIENT_ID`                   | The Client ID of application in your identity provider                                                                                                                                   |
-| `OIDC_AUTH_METHOD`                 | Implicit (default) or pkce, see below for more context                                                                                                                                   |
-| `SLACK_CLIENT_ID`                  | The client ID of the Slack application you want to use for alerts                                                                                                                        |
-| `SLACK_SECRET`                     | The secret of the Slack application you want to use for alerts                                                                                                                           |
-| `LOCAL_RESTORE`                    | You can temporarily set this to true if you're unable to access your instance. Check the logs from the container for temporary credentials.                                              |
-| `REDIS`                            | Can be used to setup an external REDIS instance with W&B.                                                                                                                                |
-| `LOGGING_ENABLED`                  | When set to true, access logs are streamed to stdout. You can also mount a sidecar container and tail `/var/log/gorilla.log` without setting this variable.                              |
-| `GORILLA_ALLOW_USER_TEAM_CREATION` | When set to true, allows non-admin users to create a new team. False by default.                                                                                                         |
-| `GORILLA_CUSTOMER_SECRET_STORE_SOURCE` | Sets the secret manager for storing team secrets used by W&B Weave. These secret managers are supported: <ul><li><b>Internal secret manager</b> (default): <code>k8s-secretmanager://wandb-secret</code></li><li><b>AWS Secret Manager</b>: <code>aws-secretmanager</code></li><li><b>GCP Secret Manager</b>: <code>gcp-secretmanager</code></li><li><b>Azure</b>: <code>az-secretmanger</code></li><ul>  |
-| `GORILLA_DATA_RETENTION_PERIOD`    | How long to retain deleted data from runs in hours. Deleted run data is unrecoverable. Append an `h` to the input value. For example, `"24h"`. |
-| `GORILLA_DISABLE_PERSONAL_ENTITY`  | When set to true, turns off [personal entities]({{< relref path="/support/kb-articles/difference_team_entity_user_entity_mean_me.md" lang="ja" >}}). Prevents creation of new personal projects in their personal entities and prevents writing to existing personal projects. |
-| `ENABLE_REGISTRY_UI`               | When set to true, enables the new W&B Registry UI.            |
-| `WANDB_ARTIFACT_DIR`               | Where to store all downloaded artifacts. If unset, defaults to the `artifacts` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This does not control the location of generated metadata files, which you can set using the `WANDB_DIR` environment variable. |
-| `WANDB_DATA_DIR`                   | Where to upload staging artifacts. The default location depends on your platform, because it uses the value of `user_data_dir` from the `platformdirs` Python package. Make sure this directory exists and the running user has permission to write to it. |
-| `WANDB_DIR`                        | Where to store all generated files. If unset, defaults to the `wandb` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This does not control the location of downloaded artifacts, which you can set using the `WANDB_ARTIFACT_DIR` environment variable. |
-| `WANDB_IDENTITY_TOKEN_FILE`        | For [identity federation]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ja" >}}), the absolute path to the local directory where Java Web Tokens (JWTs) are stored. |
+| 環境変数                          | 説明                                                                                                                                                 |
+|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `LICENSE`                         | ご利用中の wandb/local ライセンス                                                                                                                    |
+| `MYSQL`                           | MySQL の接続文字列                                                                                                                                   |
+| `BUCKET`                          | データ保存用の S3 / GCS バケット                                                                                                                     |
+| `BUCKET_QUEUE`                    | オブジェクト作成イベント用の SQS / Google PubSub キュー                                                                                              |
+| `NOTIFICATIONS_QUEUE`             | run イベントを公開する SQS キュー                                                                                                                    |
+| `AWS_REGION`                      | バケットが存在する AWS リージョン                                                                                                                    |
+| `HOST`                            | インスタンスの FQDN、例: `https://my.domain.net`                                                                                 |
+| `OIDC_ISSUER`                     | Open ID Connect の ID プロバイダーの URL、例: `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd`           |
+| `OIDC_CLIENT_ID`                  | ID プロバイダー内のアプリケーション Client ID                                                                                                        |
+| `OIDC_AUTH_METHOD`                | Implicit（デフォルト）または pkce。詳細は下記を参照してください                                                                                       |
+| `SLACK_CLIENT_ID`                 | アラートに使う Slack アプリケーションの クライアント ID                                                                                             |
+| `SLACK_SECRET`                    | アラートに使う Slack アプリケーションの シークレット                                                                                                 |
+| `LOCAL_RESTORE`                   | インスタンスにアクセスできない場合、一時的に true に設定可能。コンテナのログから一時的な認証情報を確認してください。                                  |
+| `REDIS`                           | W&B で外部 REDIS インスタンスを設定する場合に使用                                                                                                    |
+| `LOGGING_ENABLED`                 | true に設定するとアクセスログが stdout にストリーミングされます。サイドカーコンテナをマウントし、この変数を設定せずに `/var/log/gorilla.log` を tail することも可能です。 |
+| `GORILLA_ALLOW_USER_TEAM_CREATION` | true で管理者以外のユーザーによる新規 team 作成を許可します。デフォルトは false です。                                                             |
+| `GORILLA_CUSTOMER_SECRET_STORE_SOURCE` | W&B Weave で使用される team シークレットを保存するシークレットマネージャーを指定します。以下のシークレットマネージャーがサポートされています： <ul><li><b>Internal secret manager</b>（デフォルト）：<code>k8s-secretmanager://wandb-secret</code></li><li><b>AWS Secret Manager</b>：<code>aws-secretmanager</code></li><li><b>GCP Secret Manager</b>：<code>gcp-secretmanager</code></li><li><b>Azure</b>：<code>az-secretmanger</code></li></ul> |
+| `GORILLA_DATA_RETENTION_PERIOD`   | run から削除されたデータを残しておく期間（時間単位）。削除された run データは復元できません。入力値の末尾に `h` を付けてください（例： `"24h"`）。        |
+| `GORILLA_DISABLE_PERSONAL_ENTITY` | true に設定すると[個人 entities]({{< relref path="/support/kb-articles/difference_team_entity_user_entity_mean_me.md" lang="ja" >}})が無効化されます。個人 entities 内での新しい個人 Projects の作成と、既存個人 Projects への書き込みを防止します。|
+| `ENABLE_REGISTRY_UI`              | true に設定すると新しい W&B Registry UI が有効になります。                                                                                         |
+| `WANDB_ARTIFACT_DIR`              | ダウンロードした artifacts の保存先。未設定の場合、トレーニングスクリプトからの相対パスで `artifacts` ディレクトリがデフォルトになります。ディレクトリが存在し、実行ユーザーに書き込み権限があることを確認してください。この変数は生成されるメタデータファイルの保存場所は制御しません。これらは `WANDB_DIR` 環境変数で指定可能です。  |
+| `WANDB_DATA_DIR`                  | ステージングアーティファクトのアップロード先。デフォルトの場所はプラットフォームによって異なり、Python パッケージ `platformdirs` の `user_data_dir` の値が使用されます。ディレクトリが存在し、実行ユーザーに書き込み権限があることを確認してください。    |
+| `WANDB_DIR`                       | 生成されたすべてのファイルの保存先。未設定の場合、トレーニングスクリプトからの相対パスで `wandb` ディレクトリがデフォルトになります。ディレクトリが存在し、実行ユーザーに書き込み権限があることを確認してください。この変数はダウンロードした artifacts の保存場所は制御しません。これらは `WANDB_ARTIFACT_DIR` 環境変数で指定可能です。  |
+| `WANDB_IDENTITY_TOKEN_FILE`       | [ID フェデレーション]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ja" >}})用。Java Web Tokens (JWT) が保存されるローカルディレクトリの絶対パス。                |
+
 {{% alert %}}
-Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously. Data is removed immediately once the environment variable is set. We also recommend that you backup both the database and the storage bucket before you enable this flag.
+`GORILLA_DATA_RETENTION_PERIOD` 環境変数は慎重に使用してください。この変数を設定するとデータは即座に削除されます。フラグを有効にする前に、必ずデータベースとストレージバケットの両方のバックアップを取得することを推奨します。
 {{% /alert %}}
 
-## Advanced Reliability Settings
+## 高度な信頼性設定
 
 ### Redis
 
-Configuring an external Redis server is optional but recommended for production systems. Redis helps improve the reliability of the service and enable caching to decrease load times, especially in large projects. Use a managed Redis service such ElastiCache with high availability (HA) and the following specifications:
+外部 Redis サーバーの設定は任意ですが、プロダクション環境では推奨されます。Redis は、サービスの信頼性向上やキャッシュによる処理速度の短縮（特に大規模 Projects で有効）に貢献します。ElastiCache など、以下の仕様の高可用性（HA）を持つマネージド Redis サービスの利用をおすすめします。
 
-- Minimum 4GB of memory, suggested 8GB
-- Redis version 6.x
-- In transit encryption
-- Authentication enabled
+- メモリは最低 4GB、推奨 8GB
+- Redis バージョン 6.x
+- 転送時暗号化対応
+- 認証有効化
 
-To configure the Redis instance with W&B, you can navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the Redis connection string in the following format:
+W&B で Redis インスタンスを設定するには、`http(s)://YOUR-W&B-SERVER-HOST/system-admin` の W&B 設定ページにアクセスしてください。「外部 Redis インスタンスを使用する」オプションを有効化し、下記の形式で Redis 接続文字列を入力します。
 
-{{< img src="/images/hosting/configure_redis.png" alt="Configuring REDIS in W&B" >}}
+{{< img src="/images/hosting/configure_redis.png" alt="W&B での REDIS 設定" >}}
 
-You can also configure Redis using the environment variable `REDIS` on the container or in your Kubernetes deployment. Alternatively, you could also setup `REDIS` as a Kubernetes secret.
+環境変数 `REDIS` をコンテナや Kubernetes デプロイメントで設定することで Redis を構成することもできます。また、`REDIS` を Kubernetes のシークレットとして設定することも可能です。
 
-This page assumes the Redis instance is running at the default port of `6379`. If you configure a different port, setup authentication and also want to have TLS enabled on the `redis` instance the connection string format would look something like: `redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`
+このページでは、Redis インスタンスがデフォルトのポート `6379` で稼働していることを想定しています。別のポートを使用する場合、認証を設定し、かつ `redis` インスタンスで TLS を有効にしたい場合の接続文字列の例は次の通りです：
+`redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`

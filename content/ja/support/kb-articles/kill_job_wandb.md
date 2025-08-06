@@ -1,13 +1,13 @@
 ---
+title: wandb でジョブを終了するにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-kill_job_wandb
 support:
-- crashing and hanging runs
-title: How do I kill a job with wandb?
+- クラッシュやハングする run
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Press `Ctrl+D` on the keyboard to stop a script instrumented with W&B.
+キーボードで `Ctrl+D` を押すと、W&B でインストルメントされた スクリプト を停止できます。

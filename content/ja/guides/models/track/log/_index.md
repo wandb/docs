@@ -1,80 +1,58 @@
 ---
+title: オブジェクトとメディアのログ
+description: メトリクス、動画、カスタムプロットなどを記録して管理しましょう
 cascade:
 - url: guides/track/log/:filename
-description: Keep track of metrics, videos, custom plots, and more
 menu:
   default:
     identifier: ja-guides-models-track-log-_index
     parent: experiments
-title: Log objects and media
 url: guides/track/log
 weight: 6
 ---
 
-Log a dictionary of metrics, media, or custom objects to a step with the W&B Python SDK. W&B collects the key-value pairs during each step and stores them in one unified dictionary each time you log data with `wandb.Run.log()`. Data logged from your script is saved locally to your machine in a directory called `wandb`, then synced to the W&B cloud or your [private server]({{< relref path="/guides/hosting/" lang="ja" >}}). 
+W&B Python SDK を使って、メトリクス、メディア、カスタムオブジェクトの辞書をステップごとにログできます。W&B は各ステップでキーと値のペアを収集し、`wandb.Run.log()` でデータを記録するたびに、これらをひとつの統一された辞書として保存します。スクリプトからログしたデータは、ローカルの `wandb` ディレクトリーに保存され、その後 W&B クラウドや [プライベートサーバー]({{< relref path="/guides/hosting/" lang="ja" >}}) に同期されます。
 
 {{% alert %}}
-Key-value pairs are stored in one unified dictionary only if you pass the same value for each step. W&B writes all of the collected keys and values to memory if you log a different value for `step`.
+キーと値のペアは、各ステップで同じ値を渡した場合にのみ、ひとつの統一された辞書として保存されます。もし `step` に異なる値をログする場合、W&B はすべてのキーと値をメモリに書き込みます。
 {{% /alert %}}
 
-Each call to `wandb.Run.log()` is a new `step` by default. W&B uses steps as the default x-axis when it creates charts and panels. You can optionally create and use a custom x-axis or capture a custom summary metric. For more information, see [Customize log axes]({{< relref path="./customize-logging-axes.md" lang="ja" >}}).
-
-<!-- [INSERT BETTER EXAMPLE] -->
-<!-- If you want to log to a single history step from lots of different places in your code you can pass a step index to `run.log()` as follows:
-
-```python
-run.log({'loss': 0.2}, step=step)
-``` -->
-
-<!-- [INSERT EXAMPLE] -->
+`wandb.Run.log()` を呼び出すごとに、デフォルトで新しい `step` になります。W&B は、チャートやパネルを作成する際、デフォルトの x 軸としてステップを利用します。必要に応じてカスタムの x 軸や、カスタムサマリメトリクスを記録することも可能です。 詳しくは [ログ軸のカスタマイズ]({{< relref path="./customize-logging-axes.md" lang="ja" >}})をご覧ください。
 
 {{% alert color="secondary" %}}
-Use `wandb.Run.log()` to log consecutive values for each `step`: 0, 1, 2, and so on. It is not possible to write to a specific history step. W&B only writes to the "current" and "next" step.
+`wandb.Run.log()` を使えば、`step` ごとに連続する値（0, 1, 2 ...）をログできます。特定の履歴ステップに書き込むことはできません。W&B が書き込むのは「現在」または「次」のステップだけです。
 {{% /alert %}}
 
-<!-- You can set `commit=False` in `run.log` to accumulate metrics, just be sure to eventually call `run.log` with `commit=True` (the default) to persist the metrics.
+## 自動ログされるデータ
 
-```python
-run.log({'loss': 0.2}, commit=False)
-# Somewhere else when I'm ready to report this step:
-run.log({'accuracy': 0.8})
-``` -->
+W&B は W&B Experiment 中に以下の情報を自動でログします：
 
+* **システムメトリクス**：CPU/GPU の使用率、ネットワークなど。GPU に関しては、[`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface) から取得されます。
+* **コマンドライン**：stdout や stderr が取得され、[run 実行ページ]({{< relref path="/guides/models/track/runs/" lang="ja" >}})の logs タブに表示されます。
 
-## Automatically logged data
+アカウントの [設定ページ](https://wandb.ai/settings) で [コード保存](https://wandb.me/code-save-colab) をオンにすると、以下もログされます：
 
-W&B automatically logs the following information during a W&B Experiment:
+* **Git コミット**：最新の git コミットが pick up され、run ページの Overviewタブ に表示されます。未コミットの変更がある場合は `diff.patch` ファイルも付きます。
+* **依存関係**：`requirements.txt` ファイルがアップロードされ、run ページの files タブに表示されます。このほか、run のために `wandb` ディレクトリーへ保存したファイルも同様に表示されます。
 
+## 特定の W&B API コールでログされるデータ
 
-* **System metrics**: CPU and GPU utilization, network, etc. For the GPU, these are fetched with [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface).
-* **Command line**: The stdout and stderr are picked up and show in the logs tab on the [run page.]({{< relref path="/guides/models/track/runs/" lang="ja" >}})
+W&B では、ログする内容を柔軟に選択できます。よく使われるオブジェクトの例は次の通りです：
 
-Turn on [Code Saving](https://wandb.me/code-save-colab) in your account's [Settings page](https://wandb.ai/settings) to log:
+* **Datasets**：画像やその他のサンプルを明示的にログすれば、W&B にストリーム配信できます。
+* **プロット**：`wandb.plot()` と `wandb.Run.log()` を組み合わせてチャートを記録しましょう。詳細は [プロットのログ]({{< relref path="./plots.md" lang="ja" >}}) を参照してください。
+* **Tables**：`wandb.Table` を使ってデータをログすれば、W&B 上でビジュアライズやクエリが可能です。[Tables の記録]({{< relref path="./log-tables.md" lang="ja" >}}) の詳細もご覧ください。
+* **PyTorch の勾配**：`wandb.Run.watch(model)` を追加すると、重みの勾配を UI 上にヒストグラムとして表示できます。
+* **設定情報**：ハイパーパラメーターやデータセットへのリンク、利用しているアーキテクチャー名などを設定パラメータとして記録できます。例：`wandb.init(config=your_config_dictionary)`。 詳細は [PyTorch インテグレーション]({{< relref path="/guides/integrations/pytorch.md" lang="ja" >}}) をご覧ください。
+* **メトリクス**：`wandb.Run.log()` でモデルのメトリクスを記録しましょう。トレーニングループ内で accuracy や loss などをログすると、UI 上でライブ更新グラフが得られます。
 
-* **Git commit**: Pick up the latest git commit and see it on the overview tab of the run page, as well as a `diff.patch` file if there are any uncommitted changes.
-* **Dependencies**: The `requirements.txt` file will be uploaded and shown on the files tab of the run page, along with any files you save to the `wandb` directory for the run.
+## よく使われるワークフロー
 
+1. **ベスト accuracy の比較**：メトリクスのベスト値を run 間で比較したい時には、summary 値をセットします。デフォルトでは、summary は各キーで最後にログした値になります。これは、UI 内のテーブルで run を summary メトリクスでソート・フィルタし、_ベスト_ accuracy で比較できるため便利です。例：`wandb.run.summary["best_accuracy"] = best_accuracy`
+2. **複数メトリクスを1つのグラフに**：`wandb.Run.log()` に複数のメトリクスをまとめて渡します。例：`wandb.log({"acc": 0.9, "loss": 0.1})` こうすると、両方の値をプロットで比較できます。
+3. **x軸のカスタマイズ**：同じログコールでカスタム x 軸を含めると、W&B ダッシュボードで他の軸を使ってメトリクスを可視化できます。例：`wandb.Run.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`。特定メトリクスのデフォルト x軸を指定するなら [Run.define_metric()]({{< relref path="/ref/python/sdk/classes/run.md#define_metric" lang="ja" >}}) をご利用ください。
+4. **リッチメディアやチャートのログ**：`wandb.Run.log()` は、[画像・動画などのメディア]({{< relref path="./media.md" lang="ja" >}})、[Tables]({{< relref path="./log-tables.md" lang="ja" >}})、[チャート]({{< relref path="/guides/models/app/features/custom-charts/" lang="ja" >}}) など、さまざまなデータタイプの記録に対応しています。
 
-## What data is logged with specific W&B API calls?
+## ベストプラクティスとヒント
 
-With W&B, you can decide exactly what you want to log. The following lists some commonly logged objects:
-
-* **Datasets**: You have to specifically log images or other dataset samples for them to stream to W&B.
-* **Plots**: Use `wandb.plot()` with `wandb.Run.log()` to track charts. See [Log Plots]({{< relref path="./plots.md" lang="ja" >}}) for more information. 
-* **Tables**: Use `wandb.Table` to log data to visualize and query with W&B. See [Log Tables]({{< relref path="./log-tables.md" lang="ja" >}}) for more information.
-* **PyTorch gradients**: Add `wandb.Run.watch(model)` to see gradients of the weights as histograms in the UI.
-* **Configuration information**: Log hyperparameters, a link to your dataset, or the name of the architecture you're using as config parameters, passed in like this: `wandb.init(config=your_config_dictionary)`. See the [PyTorch Integrations]({{< relref path="/guides/integrations/pytorch.md" lang="ja" >}}) page for more information. 
-* **Metrics**: Use `wandb.Run.log()` to see metrics from your model. If you log metrics like accuracy and loss from inside your training loop, you'll get live updating graphs in the UI.
-
-
-
-## Common workflows
-
-1. **Compare the best accuracy**: To compare the best value of a metric across runs, set the summary value for that metric. By default, summary is set to the last value you logged for each key. This is useful in the table in the UI, where you can sort and filter runs based on their summary metrics, to help compare runs in a table or bar chart based on their _best_ accuracy, instead of final accuracy. For example: `wandb.run.summary["best_accuracy"] = best_accuracy`
-2. **View multiple metrics on one chart**: Log multiple metrics in the same call to `wandb.Run.log()`, like this: `wandb.log({"acc'": 0.9, "loss": 0.1})` and they will both be available to plot against in the UI
-3. **Customize the x-axis**: Add a custom x-axis to the same log call to visualize your metrics against a different axis in the W&B dashboard. For example: `wandb.Run.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`. To set the default x-axis for a given metric use [Run.define_metric()]({{< relref path="/ref/python/sdk/classes/run.md#define_metric" lang="ja" >}})
-4. **Log rich media and charts**: `wandb.Run.log()` supports the logging of a wide variety of data types, from [media like images and videos]({{< relref path="./media.md" lang="ja" >}}) to [tables]({{< relref path="./log-tables.md" lang="ja" >}}) and [charts]({{< relref path="/guides/models/app/features/custom-charts/" lang="ja" >}}).
-
-## Best practices and tips 
-
-For best practices and tips for Experiments and logging, see [Best Practices: Experiments and Logging](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-experiments-and-logging).
+Experiments やログ手法のベストプラクティスやヒントは [Best Practices: Experiments and Logging](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-experiments-and-logging) をご覧ください。

@@ -1,19 +1,19 @@
 ---
-description: How to export data from tables.
+title: テーブルデータをエクスポートする
+description: テーブルからデータをエクスポートする方法
 menu:
   default:
     identifier: ja-guides-models-tables-tables-download
     parent: tables
-title: Export table data
 ---
 
-Like all W&B Artifacts, Tables can be converted into pandas dataframes for easy data exporting. 
+すべての W&B Artifacts と同様に、Tables は pandas のデータフレームへ変換することで、簡単にデータをエクスポートできます。
 
-## Convert `table` to `artifact`
-First, you'll need to convert the table to an artifact. The easiest way to do this using `artifact.get(table, "table_name")`:
+## `table` を `artifact` に変換する
+まず、table を artifact に変換します。一番簡単な方法は `artifact.get(table, "table_name")` を使うことです。
 
 ```python
-# Create and log a new table.
+# 新しいテーブルを作成してログします。
 with wandb.init() as r:
     artifact = wandb.Artifact("my_dataset", type="dataset")
     table = wandb.Table(
@@ -22,29 +22,29 @@ with wandb.init() as r:
     artifact.add(table, "my_table")
     wandb.log_artifact(artifact)
 
-# Retrieve the created table using the artifact you created.
+# 作成した artifact からテーブルを取得します。
 with wandb.init() as r:
     artifact = r.use_artifact("my_dataset:latest")
     table = artifact.get("my_table")
 ```
 
-## Convert `artifact` to Dataframe
-Then, convert the table into a dataframe:
+## `artifact` をデータフレームに変換する
+次に、table をデータフレームへ変換します。
 
 ```python
-# Following from the last code example:
+# 前のコード例の続き:
 df = table.get_dataframe()
 ```
 
-## Export Data
-Now you can export using any method dataframe supports:
+## データのエクスポート
+これで、データフレームがサポートする任意の方法でエクスポートできます。
 
 ```python
-# Converting the table data to .csv
+# テーブルデータを .csv へ変換
 df.to_csv("example.csv", encoding="utf-8")
 ```
 
-# Next Steps
-- Check out the [reference documentation]({{< relref path="/guides/core/artifacts/construct-an-artifact.md" lang="ja" >}}) on `artifacts`.
-- Go through our [Tables Walktrough]({{< relref path="/guides/models/tables/tables-walkthrough.md" lang="ja" >}}) guide.
-- Check out the [Dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) reference docs.
+# 次のステップ
+- `artifacts` の[リファレンスドキュメント]({{< relref path="/guides/core/artifacts/construct-an-artifact.md" lang="ja" >}})をチェックしましょう。
+- [Tables Walkthrough]({{< relref path="/guides/models/tables/tables-walkthrough.md" lang="ja" >}})ガイドも参考にしてください。
+- [Dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) のリファレンスドキュメントもご覧ください。

@@ -1,26 +1,26 @@
 ---
+title: メトリクスだけをログすることはできますか？コードやデータセットの例は必要ありませんか？
 menu:
   support:
     identifier: ja-support-kb-articles-just_log_metrics_no_code_dataset_examples
 support:
-- administrator
-- team management
-- metrics
-title: Can I just log metrics, no code or dataset examples?
+- 管理者
+- チーム管理
+- メトリクス
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-By default, W&B does not log dataset examples. By default, W&B logs code and system metrics.
+デフォルトでは、W&B はデータセットの例をログしません。W&B はデフォルトでコードとシステムメトリクスをログします。
 
-Two methods exist to turn off code logging with environment variables:
+環境変数を使ってコードのロギングをオフにする方法は 2 つあります。
 
-1. Set `WANDB_DISABLE_CODE` to `true` to turn off all code tracking. This action prevents retrieval of the git SHA and the diff patch.
-2. Set `WANDB_IGNORE_GLOBS` to `*.patch` to stop syncing the diff patch to the servers, while keeping it available locally for application with `wandb restore`.
+1. `WANDB_DISABLE_CODE` を `true` に設定すると、すべてのコードトラッキングが無効になります。この設定により、git SHA や diff パッチの取得が行われなくなります。
+2. `WANDB_IGNORE_GLOBS` を `*.patch` に設定すると、diff パッチをサーバーに同期せず、ローカルにのみ保存されます（`wandb restore` で適用可能）。
 
-As an administrator, you can also turn off code saving for your team in your team's settings:
+管理者の場合は、チームの設定からチーム全体のコード保存をオフにすることもできます。
 
-1. Navigate to the settings of your team at `https://wandb.ai/<team>/settings`. Where `<team>` is the name of your team.
-2. Scroll to the Privacy section.
-3. Toggle **Enable code saving by default**.
+1. `https://wandb.ai/<team>/settings` にアクセスしてください。`<team>` にはご自身のチーム名を入力します。
+2. 「プライバシー」セクションまでスクロールします。
+3. **Enable code saving by default** の切り替えスイッチを操作します。

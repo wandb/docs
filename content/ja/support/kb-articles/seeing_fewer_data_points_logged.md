@@ -1,21 +1,21 @@
 ---
+title: なぜログしたよりも少ないデータポイントしか表示されないのですか？
 menu:
   support:
     identifier: ja-support-kb-articles-seeing_fewer_data_points_logged
 support:
-- experiments
-- metrics
-title: Why am I seeing fewer data points than I logged?
+- 実験
+- メトリクス
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-When visualizing metrics against an X-axis other than `Step`, expect to see fewer data points. Metrics must log at the same `Step` to remain synchronized. Only metrics logged at the same `Step` are sampled while interpolating between samples.
+`Step` 以外の X 軸でメトリクスを可視化する場合、データポイントが少なく表示されることがあります。メトリクスは同じ `Step` でログされている必要があり、これによって同期が保たれます。同じ `Step` でログされたメトリクスのみが、サンプル間の補間時に使用されます。
 
-**Guidelines**
+**ガイドライン**
 
-Bundle metrics into a single `log()` call. For example, instead of:
+メトリクスは 1 回の `log()` 呼び出しにまとめてバンドルしましょう。例えば、次のようにする代わりに：
 
 ```python
 import wandb
@@ -25,7 +25,7 @@ with wandb.init() as run:
     run.log({"Recall": recall})
 ```
 
-Use:
+このようにまとめて書くことを推奨します：
 
 ```python
 import wandb
@@ -33,13 +33,13 @@ with wandb.init() as run:
     run.log({"Precision": precision, "Recall": recall})
 ```
 
-For manual control over the step parameter, synchronize metrics in the code as follows:
+step パラメータを手動で制御したい場合、次のようにコード上でメトリクスを同期してください：
 
 ```python
 with wandb.init() as run:
-    step = 100  # Example step value
-    # Log Precision and Recall at the same step
+    step = 100  # 例: step の値
+    # Precision と Recall を同じ step でログする
     run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
-Ensure the `step` value remains the same in both `log()` calls for the metrics to log under the same step and sample together. The `step` value must increase monotonically in each call. Otherwise, the `step` value is ignored.
+両方の `log()` 呼び出しで `step` の値が同じであることを必ず確認してください。そうすることで、同じ step でメトリクスがログされ、サンプルも一緒になります。`step` の値は各呼び出しごとに単調増加しなければなりません。そうでない場合、`step` の値は無視されます。

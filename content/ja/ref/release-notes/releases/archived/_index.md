@@ -1,4 +1,5 @@
 ---
+title: アーカイブされたリリース
 cascade:
 - url: /ref/release-notes/archived/:filename/
 - type: docs
@@ -8,14 +9,13 @@ menu:
   reference:
     identifier: ja-ref-release-notes-releases-archived-_index
 parent: release-notes
-title: Archived Releases
 type: docs
 url: /ref/release-notes/archived/
 weight: 10
 ---
 
-Archived releases have reached end of life and are no longer supported. A major release and its patches are supported for 12 months from the initial release date. Release notes for archived releases are provided for historical purposes. For supported releases, refer to [Releases](/ref/release-notes/).
+アーカイブされたリリースはサポートが終了し、現在はサポートされていません。メジャーリリースおよびそのパッチは、最初のリリース日から 12 ヶ月間サポートされます。アーカイブ済みリリースのリリースノートは、過去の参考情報として提供されています。サポート中のリリースについては、[Releases](/ref/release-notes/) をご参照ください。
 
 {{% alert color="warning" %}}
-Customers using [Self-managed](/guides/hosting/hosting-options/self-managed/) are responsible to upgrade to a [supported release](/ref/releases-notes/) in time to maintain support. For assistance or questions, contact [support](mailto:support@wandb.com).
+[Self-managed](/guides/hosting/hosting-options/self-managed/) をご利用のお客様は、サポートを継続するために適切なタイミングで [supported release](/ref/releases-notes/) へアップグレードする責任があります。サポートやご不明点がございましたら、[support](mailto:support@wandb.com) までご連絡ください。
 {{% /alert %}}

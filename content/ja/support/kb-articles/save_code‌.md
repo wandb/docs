@@ -1,19 +1,22 @@
 ---
+title: コードを保存するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-save_code‌
 support:
-- artifacts
-title: How do I save code?‌
+- アーティファクト
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Use `save_code=True` in `wandb.init` to save the main script or notebook that launches the run. To save all code for a run, version the code with Artifacts. The following example demonstrates this process:
+`wandb.init` で `save_code=True` を使うと、その run を開始するメインのスクリプトやノートブックを保存できます。run のすべてのコードを保存したい場合は、コードを Artifacts でバージョン管理してください。以下の例はこのプロセスを示しています。
 
 ```python
+# コード用のアーティファクトを作成
 code_artifact = wandb.Artifact(type="code")
+# コードファイルを追加
 code_artifact.add_file("./train.py")
+# アーティファクトをログ
 wandb.log_artifact(code_artifact)
 ```

@@ -1,21 +1,20 @@
 ---
+title: wandb verify
 menu:
   reference:
     identifier: ja-ref-cli-wandb-verify
-title: wandb verify
 ---
 
-**Usage**
+**使い方**
 
 `wandb verify [OPTIONS]`
 
-**Summary**
+**概要**
 
-Verify your local instance
+ローカルインスタンスを検証します
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `--host` | Test a specific instance of W&B |
+| `--host` | 特定の W&B インスタンスをテストします |

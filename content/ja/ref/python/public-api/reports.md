@@ -1,10 +1,10 @@
 ---
+title: レポート
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-reports
 object_type: public_apis_namespace
-title: reports
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py >}}
@@ -13,26 +13,26 @@ title: reports
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for Report objects. 
+W&B Public API で Report オブジェクトを操作します。
 
-This module provides classes for interacting with W&B reports and managing report-related data. 
+このモジュールは、W&B Reports と連携し、レポート関連のデータを管理するためのクラスを提供します。
 
 
 
 ---
 
 ## <kbd>class</kbd> `Reports`
-Reports is an iterable collection of `BetaReport` objects. 
+Reports は `BetaReport` オブジェクトのイテラブルなコレクションです。
 
 
 
-**Args:**
+**引数:**
  
- - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
- - `project` (`wandb.sdk.internal.Project`):  The project to fetch reports from. 
- - `name` (str, optional):  The name of the report to filter by. If `None`,  fetches all reports. 
- - `entity` (str, optional):  The entity name for the project. Defaults to  the project entity. 
- - `per_page` (int):  Number of reports to fetch per page (default is 50). 
+ - `client` (`wandb.apis.internal.Api`):  使用する API クライアントインスタンス
+ - `project` (`wandb.sdk.internal.Project`):  レポートを取得する Project
+ - `name` (str, オプション):  フィルタリング対象の Report 名。`None` の場合、すべての Report を取得
+ - `entity` (str, オプション):  Project の Entity 名。指定しない場合、Project の entity が使われます。
+ - `per_page` (int):  1ページあたりに取得するレポート数（デフォルトは50）
 
 ### <kbd>method</kbd> `Reports.__init__`
 
@@ -63,7 +63,7 @@ __init__(client, project, name=None, entity=None, per_page=50)
 convert_objects()
 ```
 
-Converts GraphQL edges to File objects. 
+GraphQL エッジを File オブジェクトに変換します。
 
 ---
 
@@ -73,29 +73,29 @@ Converts GraphQL edges to File objects.
 update_variables()
 ```
 
-Updates the GraphQL query variables for pagination. 
+ページネーション用に GraphQL クエリ変数を更新します。
 
 
 ---
 
 ## <kbd>class</kbd> `BetaReport`
-BetaReport is a class associated with reports created in W&B. 
+BetaReport は W&B で作成された Report に紐づくクラスです。
 
-WARNING: this API will likely change in a future release 
+警告: この API は今後のリリースで変更される可能性があります。
 
 
 
-**Attributes:**
+**属性:**
  
- - `id` (string):  unique identifier of the report 
- - `name` (string):  report name 
- - `display_name` (string):  display name of the report 
- - `description` (string):  report description 
- - `user` (User):  the user that created the report (contains username and email) 
- - `spec` (dict):  the spec of the report 
- - `url` (string):  the url of the report 
- - `updated_at` (string):  timestamp of last update 
- - `created_at` (string):  timestamp when the report was created 
+ - `id` (string):  レポートのユニークな識別子
+ - `name` (string):  レポート名
+ - `display_name` (string):  レポートの表示名
+ - `description` (string):  レポートの説明
+ - `user` (User):  レポートを作成したユーザー（ユーザー名とメールアドレスを含む）
+ - `spec` (dict):  レポートの spec
+ - `url` (string):  レポートのURL
+ - `updated_at` (string):  最終更新時刻
+ - `created_at` (string):  レポート作成時刻
 
 ### <kbd>method</kbd> `BetaReport.__init__`
 
@@ -152,7 +152,7 @@ __init__(client, attrs, entity=None, project=None)
 
 ### <kbd>property</kbd> BetaReport.sections
 
-Get the panel sections (groups) from the report. 
+レポートからパネルセクション（グループ）を取得します。
 
 ---
 
@@ -196,7 +196,7 @@ Get the panel sections (groups) from the report.
 runs(section, per_page=50, only_selected=True)
 ```
 
-Get runs associated with a section of the report. 
+レポートの特定セクションに紐づく Run を取得します。
 
 ---
 
@@ -206,7 +206,7 @@ Get runs associated with a section of the report.
 to_html(height=1024, hidden=False)
 ```
 
-Generate HTML containing an iframe displaying this report. 
+このレポートを表示する iframe を含む HTML を生成します。
 
 
 ---

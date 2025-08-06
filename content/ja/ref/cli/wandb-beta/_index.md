@@ -1,27 +1,25 @@
 ---
+title: wandb ベータ
 menu:
   reference:
     identifier: ja-ref-cli-wandb-beta-_index
-title: wandb beta
 ---
 
-**Usage**
+**使い方**
 
-`wandb beta [OPTIONS] COMMAND [ARGS]...`
+`wandb beta [OPTIONS] コマンド [arg]...`
 
-**Summary**
+**概要**
 
-Beta versions of wandb CLI commands. Requires wandb-core.
+wandb CLI コマンドのベータ版です。wandb-core が必要です。
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
 
+**コマンド**
 
-**Commands**
-
-| **Command** | **Description** |
+| **コマンド** | **説明** |
 | :--- | :--- |
-| sync | Upload a training run to W&B |
+| sync | トレーニング run を W&B にアップロードします |

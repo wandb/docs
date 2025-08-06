@@ -1,16 +1,18 @@
 ---
+title: W&B Sweeps は AWS Batch や ECS などのクラウドインフラストラクチャーと一緒に使えますか？
 menu:
   support:
     identifier: ja-support-kb-articles-sweeps_cloud_infrastructures_such_aws_batch_ecs
 support:
-- sweeps
-- aws
-title: Can you use W&B Sweeps with cloud infrastructures such as AWS Batch, ECS, etc.?
+- スイープ
+- 'aws
+
+  '
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To publish the `sweep_id` so that any W&B Sweep agent can access it, implement a method for these agents to read and execute the `sweep_id`.
+`sweep_id` を公開して、どの W&B Sweep agent からもアクセスできるようにするには、これらのエージェントが `sweep_id` を読み取り実行できるメソッドを実装してください。
 
-For example, launch an Amazon EC2 instance and execute `wandb agent` on it. Use an SQS queue to broadcast the `sweep_id` to multiple EC2 instances. Each instance can then retrieve the `sweep_id` from the queue and initiate the process.
+例えば、Amazon EC2 インスタンスをローンチし、その上で `wandb agent` を実行します。SQS キューを使って `sweep_id` を複数の EC2 インスタンスにブロードキャストします。各インスタンスはキューから `sweep_id` を取得し、プロセスを開始できます。

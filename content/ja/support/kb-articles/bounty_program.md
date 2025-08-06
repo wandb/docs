@@ -1,13 +1,13 @@
 ---
+title: バグバウンティプログラムはありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-bounty_program
 support:
-- security
-title: Do you have a bug bounty program?
+- セキュリティ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Weights and Biases has a bug bounty program. Access the [W&B security portal](https://security.wandb.ai/) for details.
+Weights and Biases ではバグ報奨金プログラムを実施しています。詳細は [W&B セキュリティポータル](https://security.wandb.ai/) をご覧ください。

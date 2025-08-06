@@ -1,13 +1,13 @@
 ---
+title: 「signed 64 ビット整数の最大値を超えています」というエラーをどうやって解決すればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-overflows_maximum_values_error
 support:
-- workspaces
-title: How do I fix the "overflows maximum values of a signed 64 bits integer" error?
+- ワークスペース
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To resolve this error, add `?workspace=clear` to the end of the URL and press Enter. This action directs you to a cleared version of the project page workspace.
+このエラーを解決するには、URL の末尾に `?workspace=clear` を追加して Enter キーを押してください。この操作で、クリアされたバージョンの project ページ workspace に移動します。

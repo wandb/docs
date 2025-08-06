@@ -1,31 +1,31 @@
 ---
+title: html-file
 menu:
   reference:
     identifier: ja-ref-query-panel-html-file
-title: html-file
 ---
 
-## Chainable Ops
+## チェーン可能な Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの _ファイル_ を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 戻り値
+アセットの _ファイル_
 
 
-## List Ops
+## リスト Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの _ファイル_ を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 戻り値
+アセットの _ファイル_

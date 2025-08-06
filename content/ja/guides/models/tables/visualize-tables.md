@@ -1,106 +1,104 @@
 ---
-description: Visualize and analyze W&B Tables.
+title: テーブルを可視化して解析する
+description: W&B テーブルを可視化して分析しましょう。
 menu:
   default:
     identifier: ja-guides-models-tables-visualize-tables
     parent: tables
-title: Visualize and analyze tables
 weight: 2
 ---
 
-Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
+W&B Tables をカスタマイズして、機械学習モデルのパフォーマンスに関する疑問へ答えたり、データを解析したりできます。
 
-Interactively explore your data to:
+インタラクティブにデータを探索し、以下のようなことが可能です：
 
-* Compare changes precisely across models, epochs, or individual examples
-* Understand higher-level patterns in your data
-* Capture and communicate your insights with visual samples
+* モデル・エポック・個々のサンプル間で、変化を正確に比較する
+* データ内でより高次なパターンを理解する
+* ビジュアルなサンプルを通じて考察を記録・共有する
 
 
 
 {{% alert %}}
-W&B Tables posses the following behaviors:
-1. **Stateless in an artifact context**: any table logged alongside an artifact version resets to its default state after you close the browser window
-2. **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report persists.
+W&B Tables には次のような振る舞いがあります：
+1. **アーティファクトのコンテキストではステートレス**：アーティファクトバージョンと一緒に記録されたテーブルは、ブラウザウィンドウを閉じるとデフォルト状態にリセットされます
+2. **ワークスペースやレポートのコンテキストではステートフル**：シングル run ワークスペース、マルチ run Project ワークスペース、または Report 内のテーブルで行った変更は保存され、次回もそのまま表示されます
 
-For information on how to save your current W&B Table view, see [Save your view]({{< relref path="#save-your-view" lang="ja" >}}).
+現在の W&B Table のビューを保存する方法については[ビューの保存方法]({{< relref path="#save-your-view" lang="ja" >}})を参照してください。
 {{% /alert %}}
 
-## Compare two tables
-Compare two tables with a [merged view]({{< relref path="#merged-view" lang="ja" >}}) or a [side-by-side view]({{< relref path="#side-by-side-view" lang="ja" >}}). For example, the image below demonstrates a table comparison of MNIST data.
+## 2つのテーブルを比較する
+[マージドビュー]({{< relref path="#merged-view" lang="ja" >}})や[サイドバイサイドビュー]({{< relref path="#side-by-side-view" lang="ja" >}})で2つのテーブルを比較できます。下の画像はMNISTデータのテーブル比較例です。
 
 {{< img src="/images/data_vis/table_comparison.png" alt="Training epoch comparison" max-width="90%" >}}
 
-Follow these steps to compare two tables:
+2つのテーブルを比較する手順は以下の通りです：
 
-1. Go to your project in the W&B App.
-2. Select the artifacts icon on the left panel.
-2. Select an artifact version. 
+1. W&B Appで自分の Project に移動します。
+2. 左側パネルの Artifacts アイコンを選択します。
+2. 比較したい Artifact バージョンを選択します。
 
-In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
+下の画像では、5エポック学習後の MNIST 検証データに対するモデルの予測例を示しています（[インタラクティブな例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)）。
 
 {{< img src="/images/data_vis/preds_mnist.png" alt="Click on 'predictions' to view the Table" max-width="90%" >}}
 
 
-3. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
+3. サイドバーで比較したい2つ目の Artifact バージョンにカーソルを合わせ、**Compare** ボタンが現れたらクリックします。例えば、下の画像では「v4」というバージョンを選択し、同じモデルが学習5エポック後に行ったMNISTの予測と比較しています。
 
 {{< img src="/images/data_vis/preds_2.png" alt="Model prediction comparison" max-width="90%" >}}
 
-### Merged view
-<!-- To do, add steps -->
-Initially you see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
+### マージドビュー
+
+最初は2つのテーブルがマージされた状態で表示されます。最初に選んだテーブルがインデックス0（青色のハイライト）、2つ目がインデックス1（黄色のハイライト）です。[マージドテーブルのライブ例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)。
 
 {{< img src="/images/data_vis/merged_view.png" alt="Merged view" max-width="90%">}}
 
-From the merged view, you can
+マージドビューから、以下の操作が可能です：
 
-* **choose the join key**: use the dropdown at the top left to set the column to use as the join key for the two tables. Typically this is the unique identifier of each row, such as the filename of a specific example in your dataset or an incrementing index on your generated samples. Note that it's currently possible to select _any_ column, which may yield illegible tables and slow queries.
-* **concatenate instead of join**: select "concatenating all tables" in this dropdown to _union all the rows_ from both tables into one larger Table instead of joining across their columns
-* **reference each Table explicitly**: use 0, 1, and \* in the filter expression to explicitly specify a column in one or both table instances
-* **visualize detailed numerical differences as histograms**: compare the values in any cell at a glance
+* **ジョインキーの選択**：左上のドロップダウンで2つのテーブルを接合するための列（ジョインキー）を設定できます。一般的には各行ごとに一意な識別子（例：データセット内のファイル名や生成サンプルのインデックス）になります。_どの列も_選択可能ですが、可読性が下がったりクエリーが遅くなったりする場合があります。
+* **結合の代わりに連結**：このドロップダウンで「全テーブルを連結」を選ぶと、両テーブルの全行を1つの大きな Table に _union_ して結合します（列ではなく行単位）。
+* **各 Table を明示的に参照**：フィルター表現で 0, 1, \* を使って、どの Table の列かを指定できます
+* **数値的な詳細差分のヒストグラム可視化**：任意のセルの値の違いを一目で比較できます
 
-### Side-by-side view
+### サイドバイサイドビュー
 
-<!-- To do -->
-
-To view the two tables side-by-side, change the first dropdown from "Merge Tables: Table" to "List of: Table" and then update the "Page size" respectively. Here the first Table selected is on the left and the second one is on the right. Also, you can compare these tables vertically as well by clicking on the "Vertical" checkbox.
+2つのテーブルを左右に並べて表示したい場合は、最初のドロップダウンを "Merge Tables: Table" から "List of: Table" に切り替え、「Page size」を設定します。ここでは、最初に選択した Table が左側、2つ目が右側です。「Vertical」チェックボックスをオンにすれば上下での比較も可能です。
 
 {{< img src="/images/data_vis/side_by_side.png" alt="Side-by-side table view" max-width="90%" >}}
 
-* **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
-* **explore two tables independently**: scroll through and focus on the side/rows of interest
+* **一目でテーブルを比較**：どちらのテーブルにも一括で操作（ソート・フィルター・グループ化など）を適用して違いを素早く発見できます。たとえば「推論ミス」を推測値でグループ化したり、「最も難しいサンプル」を特定したり、「正解ラベルごとの信頼度分布」などを閲覧できます。
+* **2つのテーブルを独立して探索**：気になる側や行だけに集中してスクロールすることもできます
 
 
 
-## Visualize how values change throughout your runs
+## run 全体で値がどう変化するかを可視化
 
-View how values you log to a table change throughout your runs with a step slider. Slide the step slider to view the values logged at different steps. For example, you can view how the loss, accuracy, or other metrics change after each run. 
+テーブルに記録した値が run を通してどのように変化するか、ステップスライダーを使って簡単に確認できます。スライダーを動かすと異なる step で記録された値に切り替わります。例えば loss や accuracy、その他のメトリクスが各 run 後にどう推移したかを簡単に見られます。
 
-The slider uses a key to determine the step value. The default key for the slider is `_step`, a special key that W&B automatically logs for you. The `_step` key is an integer that increments by 1 each time you call `wandb.Run.log()` in your code.
+このスライダーは指定したキーで step の値を判断します。デフォルトのスライダーキーは `_step` で、これは W&B が自動的に記録する特別なキーです。`_step` は、`wandb.Run.log()` をコードで呼ぶたびに1つずつ増加する整数です。
 
-To add a step slider to a W&B Table:
+W&B Table にステップスライダーを追加するには：
 
-1. Navigate to your project's workspace.
-2. Click **Add panel** in the top right corner of the workspace.
-3. Select **Query panel**.
-4. Within the query expression editor, select `runs` and press **Enter** on your keyboard.
-5. Click the gear icon to view the settings for the panel.
-6. Set **Render As** selector to **Stepper**.
-7. Set **Stepper Key** to `_step` or the [key to use as the unit]({{< relref path="#custom-step-keys" lang="ja" >}}) for the step slider.
+1. Project のワークスペースを開きます。
+2. ワークスペース右上の **Add panel** をクリックします。
+3. **Query panel** を選択します。
+4. クエリーエディタで `runs` を選び、キーボードで **Enter** を押します。
+5. 歯車アイコンをクリックし、パネルの設定を表示します。
+6. **Render As** セレクタで **Stepper** を選択します。
+7. **Stepper Key** に `_step` または [スライダー用に使用するキー]({{< relref path="#custom-step-keys" lang="ja" >}}) を設定します。
 
-The following image shows a query panel with three W&B runs and the values they logged at step 295.
+下の画像は3つの W&B run と、それぞれが step 295 で記録した値を示すクエリパネル例です。
 
 {{< img src="/images/data_vis/stepper_key.png" alt="Step slider feature">}}
 
-Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run does not log values at every step. If a value is missing for a given step, W&B uses the last value that was logged as the slider key.
+W&B App の UI 上で、複数の step に同じ値が見えることがあります。これは、複数の run が異なる step で同一値を記録している場合や、ある run がすべての step で値をログしなかった場合に起こり得ます。もしある step に値がなければ、W&B はそのキーにおいて最後に記録された値を使います。
 
-### Custom step key
+### カスタムステップキー
 
-The step key can be any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a custom step key, W&B maps each value of that key to a step (`_step`) in the run.
+ステップキーは、`epoch` や `global_step` のように、run 内で数値的に管理された任意のメトリックを使うことができます。カスタムステップキーを使う場合、W&B はそのキーの値ごとに run 内の step (`_step`) をマッピングします。
 
-This table shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.Run.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, that were logged at those steps. Some `_step` values are omitted to save space.
+下記のテーブルは、カスタムステップキー `epoch` が、3つの run（`serene-sponge`、`lively-frog`、`vague-cloud`）で `_step` とどう対応するかを示します。それぞれの行は、各 run で特定の `_step` で `wandb.Run.log()` が呼ばれたときになります。各カラムは、その step で記録された epoch 値（あれば）を示します。スペース節約のため、一部の `_step` が省略されています。
 
-The first time `wandb.Run.log()` was called, none of the runs logged an `epoch` value, so the table shows empty values for `epoch`. 
+最初に `wandb.Run.log()` が呼ばれた時は、どの run も `epoch` を記録していないので、表では空になります。
 
 | `_step` | vague-cloud (`epoch`) | lively-frog(`epoch`) |  serene-sponge (`epoch`) |
 | ------- | ------------- | ----------- | ----------- |
@@ -118,40 +116,37 @@ The first time `wandb.Run.log()` was called, none of the runs logged an `epoch` 
 | 18 |  |   | 9  |
 | 20 | 3 | 5 | 10 |
 
-Now, if the slider is set to `epoch = 1`, the following happens:
+例えば、スライダーで `epoch=1` を選んだ場合：
 
-* `vague-cloud` finds `epoch = 1` and returns the value logged at `_step = 5`
-* `lively-frog` finds `epoch = 1` and returns the value logged at `_step = 4`
-* `serene-sponge` finds `epoch = 1` and returns the value logged at `_step = 2`
+* `vague-cloud` は `epoch=1` を見つけて `_step=5` で記録された値を返します
+* `lively-frog` は `epoch=1` を見つけて `_step=4` の値を返します
+* `serene-sponge` は `epoch=1` を見つけて `_step=2` の値を返します
 
-If the slider is set to `epoch = 9`:
+もしスライダーが `epoch=9` なら：
 
-* `vague-cloud` also doesn't log `epoch = 9`, so W&B uses the latest prior value `epoch = 3` and returns the value logged at `_step = 20`
-* `lively-frog` doesn’t log `epoch = 9`, but the latest prior value is `epoch = 5` so it returns the value logged at `_step = 20`
-* `serene-sponge` finds `epoch = 9` and return the value logged at `_step = 18`
-
-<!-- | | |
-| ---- | ---- |
-| Run History Tables Stepper | |
-| Run History Plots Stepper | |
-| Stepper | | -->
-
-## Compare artifacts
-You can also [compare tables across time]({{< relref path="#compare-tables-across-time" lang="ja" >}}) or [model variants]({{< relref path="#compare-tables-across-model-variants" lang="ja" >}}). 
+* `vague-cloud` は `epoch=9` が見つからないため、直前の最新値である `epoch=3` を使い、その `_step=20` の値を返します
+* `lively-frog` も `epoch=9` を記録していませんが、最新値は `epoch=5` なので `_step=20` の値を返します
+* `serene-sponge` は `epoch=9` を見つけて `_step=18` の値を返します
 
 
-### Compare tables across time
-Log a table in an artifact for each meaningful step of training to analyze model performance over training time. For example, you could log a table at the end of every validation step, after every 50 epochs of training, or any frequency that makes sense for your pipeline. Use the side-by-side view to visualize changes in model predictions.
+
+
+## アーティファクトを比較する
+[時間軸でテーブルを比較]({{< relref path="#compare-tables-across-time" lang="ja" >}})したり、[モデルバリアントで比較]({{< relref path="#compare-tables-across-model-variants" lang="ja" >}})することも可能です。
+
+
+### 時系列でテーブルを比較する
+トレーニングの進行に従って各ステップでテーブルをアーティファクトに記録し、モデルのパフォーマンス変化を分析できます。たとえば、各バリデーションステップの最後や、50エポックごと、任意の頻度でテーブルを記録できます。サイドバイサイドビューを使えば、モデル予測の変化も直感的に可視化できます。
 
 {{< img src="/images/data_vis/compare_across_time.png" alt="Training progress comparison" max-width="90%" >}}
 
-For a more detailed walkthrough of visualizing predictions across training time, see the [predictions over time report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..).
+トレーニング進行中の予測をさらに詳しく可視化する方法は、[予測の推移に関するレポート](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)や、[インタラクティブなノートブック例](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..) もご参照ください。
 
-### Compare tables across model variants
+### モデルバリアント間でテーブルを比較
 
-Compare two artifact versions logged at the same step for two different models to analyze model performance across different configurations (hyperparameters, base architectures, and so forth).
+2つの異なるモデルで、同じステップで記録した2つのアーティファクトバージョンを比較することで、モデル設定（ハイパーパラメーター・ベースアーキテクチャなど）の違いによるパフォーマンスを簡単に評価できます。
 
-For example, compare predictions between a `baseline` and a new model variant, `2x_layers_2x_lr`, where the first convolutional layer doubles from 32 to 64, the second from 128 to 256, and the learning rate from 0.001 to 0.002. From [this live example](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr), use the side-by-side view and filter down to the incorrect predictions after 1 (left tab) versus 5 training epochs (right tab).
+例えば、`baseline` と新しいモデルバリアント `2x_layers_2x_lr` の予測を比較します。このバリアントでは、1層目の畳み込みの数が32→64、2層目が128→256、学習率が0.001→0.002に増えています。[こちらのライブ例](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr)で、サイドバイサイドビューを使い、1エポック（左タブ）と5エポック（右タブ）後の誤予測のみをフィルタして比較できます。
 
 {{< tabpane text=true >}}
 {{% tab header="1 training epoch" value="one_epoch" %}}
@@ -162,24 +157,25 @@ For example, compare predictions between a `baseline` and a new model variant, `
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Save your view
+## ビューの保存
 
-Tables you interact with in the run workspace, project workspace, or a report automatically saves their view state. If you apply any table operations then close your browser, the table retains the last viewed configuration when you next navigate to the table. 
+run ワークスペースや Project ワークスペース、またはレポート内で操作した Tables は、ビューの状態が自動的に保存されます。テーブルに何らかの操作を適用した後ブラウザを閉じても、次回そのテーブルに戻った際、前回の設定のまま表示されます。
 
 {{% alert %}}
-Tables you interact with in the artifact context remains stateless.
+Artifacts コンテキストで閲覧した Tables はステートレスなままです。
 {{% /alert %}}
 
-To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to report:
-1. Select the kebab icon (three vertical dots) in the top right corner of your workspace visualization panel.
-2. Select either **Share panel** or **Add to report**.
+特定の状態のテーブルをワークスペースから保存したい場合は、W&B レポートにエクスポートします。テーブルをレポートに追加するには：
+
+1. ワークスペースの可視化パネル右上のケバブアイコン（三点縦アイコン）をクリックします。
+2. **Share panel** または **Add to report** を選択します。
 
 {{< img src="/images/data_vis/share_your_view.png" alt="Report sharing options" max-width="90%">}}
 
 
-## Examples
+## 使用例
 
-These reports highlight the different use cases of W&B Tables:
+次のレポートでは W&B Tables の多様なユースケースを紹介しています：
 
 * [Visualize Predictions Over Time](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
 * [How to Compare Tables in Workspaces](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)

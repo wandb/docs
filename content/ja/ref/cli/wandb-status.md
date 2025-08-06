@@ -1,21 +1,20 @@
 ---
+title: wandb status
 menu:
   reference:
     identifier: ja-ref-cli-wandb-status
-title: wandb status
 ---
 
-**Usage**
+**使い方**
 
 `wandb status [OPTIONS]`
 
-**Summary**
+**概要**
 
-Show configuration settings
+設定情報を表示します
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `--settings / --no-settings` | Show the current settings |
+| `--settings / --no-settings` | 現在の設定を表示します |

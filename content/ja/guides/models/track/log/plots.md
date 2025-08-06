@@ -1,22 +1,22 @@
 ---
-description: Create and track plots from machine learning experiments.
+title: 実験からプロットを作成し、トラッキングする
+description: 機械学習実験からプロットを作成して追跡します。
 menu:
   default:
     identifier: ja-guides-models-track-log-plots
     parent: log-objects-and-media
-title: Create and track plots from experiments
 ---
 
-Using the methods in `wandb.plot`, you can track charts with `wandb.Run.log()`, including charts that change over time during training. To learn more about our custom charting framework, check out the [custom charts walkthrough]({{< relref path="/guides/models/app/features/custom-charts/walkthrough.md" lang="ja" >}}).
+`wandb.plot` のメソッドを使うことで、`wandb.Run.log()` でグラフを記録できます。これにはトレーニング中に時間とともに変化するグラフも含まれます。独自のチャート作成フレームワークについては、[カスタムチャートのチュートリアル]({{< relref path="/guides/models/app/features/custom-charts/walkthrough.md" lang="ja" >}}) をご覧ください。
 
-### Basic charts
+### 基本チャート
 
-These simple charts make it easy to construct basic visualizations of metrics and results.
+これらのシンプルなチャートは、メトリクスや結果の基本的な可視化を簡単に作成できます。
 
 {{< tabpane text=true >}}
     {{% tab header="Line" %}}
 
-Log a custom line plot—a list of connected and ordered points on arbitrary axes.
+カスタム折れ線グラフ（任意の軸に沿った連結・順序付きの点のリスト）を記録します。
 
 ```python
 import wandb
@@ -33,17 +33,17 @@ with wandb.init() as run:
     )
 ```
 
-You can use this to log curves on any two dimensions. If you're plotting two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
+2つの次元で曲線を記録することができます。もし2つの値のリスト同士をプロットする場合は、リストの値の数が完全に一致する必要があります。例えば、各点は x, y の両方が必要です。
 
 {{< img src="/images/track/line_plot.png" alt="Custom line plot" >}}
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
+[アプリで見る](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
-[Run the code](https://tiny.cc/custom-charts)   
+[コードを実行](https://tiny.cc/custom-charts)   
     {{% /tab %}}
     {{% tab header="Scatter" %}}
 
-Log a custom scatter plot—a list of points (x, y) on a pair of arbitrary axes x and y.
+カスタム散布図（任意の x, y 軸上に点 (x, y) のリスト）を記録します。
 
 ```python
 import wandb
@@ -54,17 +54,17 @@ with wandb.init() as run:
     run.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
 ```
 
-You can use this to log scatter points on any two dimensions. If you're plotting two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
+2つの次元上に散布点を記録できます。2つの値リスト同士をプロットする際は、リストの長さが完全に一致する必要があります。例えば、各点はxとyの両方が必要です。
 
 {{< img src="/images/track/demo_scatter_plot.png" alt="Custom scatter plot" >}}
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
+[アプリで見る](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
-[Run the code](https://tiny.cc/custom-charts)    
+[コードを実行](https://tiny.cc/custom-charts)    
     {{% /tab %}}
     {{% tab header="Bar" %}}
 
-Log a custom bar chart—a list of labeled values as bars—natively in a few lines:
+カスタム棒グラフ（ラベル付き値のリストを棒グラフで）を、数行のコードで簡単に記録できます。
 
 ```python
 import wandb
@@ -81,17 +81,17 @@ with wandb.init() as run:
 )
 ```
 
-You can use this to log arbitrary bar charts. The number of labels and values in the lists must match exactly. Each data point must have both.
+任意の棒グラフを記録できます。ラベルと値のリストの数は必ず一致させてください。各データ点には両方が必要です。
 
 {{< img src="/images/track/basic_charts_bar.png" alt="Custom bar chart" >}}
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
+[アプリで見る](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
-[Run the code](https://tiny.cc/custom-charts)    
+[コードを実行](https://tiny.cc/custom-charts)    
     {{% /tab %}}
     {{% tab header="Histogram" %}}
 
-Log a custom histogram—sort a list of values into bins by count/frequency of occurrence—natively in a few lines. Let's say I have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
+カスタムヒストグラム（値のリストをビン分けして出現数/頻度で可視化）も数行のコードで記録できます。例えば、予測の信頼度スコア（`scores`）の分布を可視化したい場合:
 
 ```python
 import wandb
@@ -102,17 +102,17 @@ with wandb.init() as run:
     run.log({"my_histogram": wandb.plot.histogram(table, "scores", title="Histogram")})
 ```
 
-You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
+任意のヒストグラムを記録できます。`data` は行列（2次元配列）に対応したリストのリストです。
 
 {{< img src="/images/track/demo_custom_chart_histogram.png" alt="Custom histogram" >}}
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
+[アプリで見る](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
-[Run the code](https://tiny.cc/custom-charts)    
+[コードを実行](https://tiny.cc/custom-charts)    
     {{% /tab %}}
     {{% tab header="Multi-line" %}}
 
-Plot multiple lines, or multiple different lists of x-y coordinate pairs, on one shared set of x-y axes:
+複数の折れ線や異なる x-y 座標のリストを1つの x-y 軸上にプロットします。
 
 ```python
 import wandb
@@ -130,79 +130,79 @@ with wandb.init() as run:
 )
 ```
 
-Note that the number of x and y points must match exactly. You can supply one list of x values to match multiple lists of y values, or a separate list of x values for each list of y values.
+xとyの点の数は完全に一致させてください。複数の y 値リストに対して1つの x 値リスト、または各 y 値リストごとに別々の x リストを渡すことが可能です。
 
 {{< img src="/images/track/basic_charts_histogram.png" alt="Multi-line plot" >}}
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)    
+[アプリで見る](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)    
     {{% /tab %}}
 {{< /tabpane >}}
 
 
 
-### Model evaluation charts
+### モデル評価チャート
 
-These preset charts have built-in `wandb.plot()` methods that make it quick and easy to log charts directly from your script and see the exact information you're looking for in the UI.
+これらのプリセットチャートは `wandb.plot()` メソッドで簡単にスクリプトから直接記録でき、UI 上で必要な情報をすぐに確認できます。
 
 {{< tabpane text=true >}}
     {{% tab header="Precision-recall curves" %}}
 
-Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) in one line:
+[PR曲線](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) を1行で作成：
 
 ```python
 import wandb
 with wandb.init() as run:
-    # ground_truth is a list of true labels, predictions is a list of predicted scores
-    # e.g. ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
+    # ground_truth は正解ラベルリスト、predictions は予測スコアのリストです
+    # 例: ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
     ground_truth = [0, 1, 1, 0]
     predictions = [0.1, 0.4, 0.35, 0.8]
     run.log({"pr": wandb.plot.pr_curve(ground_truth, predictions)})
 ```
 
-You can log this whenever your code has access to:
+以下の情報がコードで取得できればいつでもこのチャートが記録できます：
 
-* a model's predicted scores (`predictions`) on a set of examples
-* the corresponding ground truth labels (`ground_truth`) for those examples
-* (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-* (optionally) a subset (still in list format) of the labels to visualize in the plot
+* モデルの予測スコア（`predictions`）のリスト
+* 対応する正解ラベル（`ground_truth`）
+* （任意）ラベル・クラス名のリスト（例えば `labels=["cat", "dog", "bird"...]` で0=cat, 1=dog, 2=birdなど）
+* （任意）プロットで可視化したいラベルのサブセット
 
 {{< img src="/images/track/model_eval_charts_precision_recall.png" alt="Precision-recall curve" >}}
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
+[アプリで見る](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
-[Run the code](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)    
+[コードを実行](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)    
     {{% /tab %}}
     {{% tab header="ROC curves" %}}
 
-Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) in one line:
+[ROC曲線](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) を1行で作成：
 
 ```python
 import wandb
 
 with wandb.init() as run:
-    # ground_truth is a list of true labels, predictions is a list of predicted scores
-    # e.g. ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
+    # ground_truth は正解ラベルリスト、predictions は予測スコアのリストです
+    # 例: ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
     ground_truth = [0, 1, 1, 0]
     predictions = [0.1, 0.4, 0.35, 0.8]
     run.log({"roc": wandb.plot.roc_curve(ground_truth, predictions)})
 ```
 
-You can log this whenever your code has access to:
+以下の情報がコードで取得できればいつでもこのチャートが記録できます：
 
-* a model's predicted scores (`predictions`) on a set of examples
-* the corresponding ground truth labels (`ground_truth`) for those examples
-* (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-* (optionally) a subset (still in list format) of these labels to visualize on the plot
+* モデルの予測スコア（`predictions`）のリスト
+* 対応する正解ラベル（`ground_truth`）
+* （任意）ラベル・クラス名のリスト（例えば `labels=["cat", "dog", "bird"...]` で0=cat, 1=dog, 2=birdなど）
+* （任意）プロットで可視化したいラベルのサブセット
 
 {{< img src="/images/track/demo_custom_chart_roc_curve.png" alt="ROC curve" >}}
 
-[See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
+[アプリで見る](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
-[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot_ROC_Curves_with_W%26B.ipynb)    
+[コードを実行](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot_ROC_Curves_with_W%26B.ipynb)    
     {{% /tab %}}
     {{% tab header="Confusion matrix" %}}
 
-Create a multi-class [confusion matrix](https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html) in one line:
+マルチクラスの[混同行列](https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html)を1行で作成：
 
 ```python
 import wandb
@@ -215,36 +215,36 @@ with wandb.init() as run:
     run.log({"conf_mat": cm})
 ```
 
-You can log this wherever your code has access to:
+以下の情報が取得できれば記録できます：
 
-* a model's predicted labels on a set of examples (`preds`) or the normalized probability scores (`probs`). The probabilities must have the shape (number of examples, number of classes). You can supply either probabilities or predictions but not both.
-* the corresponding ground truth labels for those examples (`y_true`)
-* a full list of the labels/class names as strings of `class_names`. Examples: `class_names=["cat", "dog", "bird"]` if index 0 is `cat`, 1 is `dog`, 2 is `bird`.
+* モデルが予測したラベル（`preds`）または正規化済み確率スコア（`probs`）。確率スコアは（サンプル数, クラス数）の形状である必要があります。「確率」か「予測ラベル」のどちらか片方のみ渡してください。
+* 対応する正解ラベル（`y_true`）
+* クラス名の全リスト（例：`class_names=["cat", "dog", "bird"]` で 0=cat, 1=dog, 2=bird）
 
 {{< img src="/images/experiments/confusion_matrix.png" alt="Confusion matrix" >}}
 
-​[See in the app](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
+​[アプリで見る](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
 
-​[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_a_Confusion_Matrix_with_W%26B.ipynb)    
+​[コードを実行](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_a_Confusion_Matrix_with_W%26B.ipynb)    
     {{% /tab %}}
 {{< /tabpane >}}
 
 
-### Interactive custom charts
+### インタラクティブなカスタムチャート
 
-For full customization, tweak a built-in [Custom Chart preset]({{< relref path="/guides/models/app/features/custom-charts/walkthrough.md" lang="ja" >}}) or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
+完全なカスタマイズが必要な場合は、[カスタムチャートプリセット]({{< relref path="/guides/models/app/features/custom-charts/walkthrough.md" lang="ja" >}}) を編集または新規作成し、チャートを保存してください。チャートIDを使えば、そのカスタムプリセットに直接スクリプトからデータを記録できます。
 
 ```python
 import wandb
-# Create a table with the columns to plot
+# プロットしたい列でTableを作成
 table = wandb.Table(data=data, columns=["step", "height"])
 
-# Map from the table's columns to the chart's fields
+# Tableの列とチャートのフィールドをマッピング
 fields = {"x": "step", "value": "height"}
 
-# Use the table to populate the new custom chart preset
-# To use your own saved chart preset, change the vega_spec_name
-# To edit the title, change the string_fields
+# このTableで新しいカスタムチャートプリセットにデータを入れる
+# 保存済みプリセットを使うには vega_spec_name を変更
+# タイトルを編集したい場合は string_fields を変える
 my_custom_chart = wandb.plot_table(
     vega_spec_name="carey/new_chart",
     data_table=table,
@@ -253,75 +253,75 @@ my_custom_chart = wandb.plot_table(
 )
 
 with wandb.init() as run:
-    # Log the custom chart
+    # カスタムチャートを記録
     run.log({"my_custom_chart": my_custom_chart})
 ```
 
-[Run the code](https://tiny.cc/custom-charts)
+[コードを実行](https://tiny.cc/custom-charts)
 
-### Matplotlib and Plotly plots
+### Matplotlib および Plotly プロット
 
-Instead of using W&B [Custom Charts]({{< relref path="/guides/models/app/features/custom-charts/walkthrough.md" lang="ja" >}}) with `wandb.plot()`, you can log charts generated with [matplotlib](https://matplotlib.org/) and [Plotly](https://plotly.com/).
+`wandb.plot()` を使った W&B [Custom Charts]({{< relref path="/guides/models/app/features/custom-charts/walkthrough.md" lang="ja" >}}) の代わりに、[matplotlib](https://matplotlib.org/) や [Plotly](https://plotly.com/) で作成したグラフも記録できます。
 
 ```python
 import wandb
 import matplotlib.pyplot as plt
 
 with wandb.init() as run:
-    # Create a simple matplotlib plot
+    # シンプルなmatplotlibプロットを作成
     plt.figure()
     plt.plot([1, 2, 3, 4])
     plt.ylabel("some interesting numbers")
     
-    # Log the plot to W&B
+    # プロットをW&Bに記録
     run.log({"chart": plt})
 ```
 
-Just pass a `matplotlib` plot or figure object to `wandb.Run.log()`. By default we'll convert the plot into a [Plotly](https://plot.ly/) plot. If you'd rather log the plot as an image, you can pass the plot into `wandb.Image`. We also accept Plotly charts directly.
+`wandb.Run.log()` には `matplotlib` のプロット（または Figure）オブジェクトをそのまま渡すだけでOKです。デフォルトでは、このプロットが [Plotly](https://plot.ly/) グラフに変換されます。画像として記録したい場合は、`wandb.Image` に渡してください。Plotlyで作ったグラフも直接記録できます。
 
 {{% alert %}}
-If you’re getting an error “You attempted to log an empty plot” then you can store the figure separately from the plot with `fig = plt.figure()` and then log `fig` in your call to `wandb.Run.log()`.
+「You attempted to log an empty plot」というエラーが出る場合は、`fig = plt.figure()` のようにプロットとは別に Figure を作成し、`wandb.Run.log()` で `fig` を渡してください。
 {{% /alert %}}
 
-### Log custom HTML to W&B Tables
+### W&B Tables にカスタムHTMLを記録
 
-W&B supports logging interactive charts from Plotly and Bokeh as HTML and adding them to Tables.
+W&B では、Plotly や Bokeh のインタラクティブグラフを HTML 形式で出力し、Tables に追加できます。
 
-#### Log Plotly figures to Tables as HTML
+#### PlotlyグラフをHTMLとしてTablesに記録
 
-You can log interactive Plotly charts to wandb Tables by converting them to HTML.
+インタラクティブなPlotlyグラフを wandb Tables にHTMLとして記録できます。
 
 ```python
 import wandb
 import plotly.express as px
 
-# Initialize a new run
+# 新しいrunを初期化
 with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
-    # Create a table
+    # Tableを作成
     table = wandb.Table(columns=["plotly_figure"])
 
-    # Create path for Plotly figure
+    # Plotly用HTMLファイルパス
     path_to_plotly_html = "./plotly_figure.html"
 
-    # Example Plotly figure
+    # サンプルのPlotlyグラフ
     fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-    # Write Plotly figure to HTML
-    # Set auto_play to False prevents animated Plotly charts
-    # from playing in the table automatically
+    # PlotlyグラフをHTMLとして保存
+    # auto_play=False でアニメーションPlotlyグラフが
+    # 自動再生されるのを防ぎます
     fig.write_html(path_to_plotly_html, auto_play=False)
 
-    # Add Plotly figure as HTML file into Table
+    # PlotlyのHTMLファイルをTableに追加
     table.add_data(wandb.Html(path_to_plotly_html))
 
-    # Log Table
+    # Tableを記録
     run.log({"test_table": table})
 ```
 
-#### Log Bokeh figures to Tables as HTML
+#### BokehグラフをHTMLとしてTablesに記録
 
-You can log interactive Bokeh charts to wandb Tables by converting them to HTML.
+インタラクティブなBokehグラフを wandb Tables にHTMLとして記録できます。
 
 ```python
 from scipy.signal import spectrogram

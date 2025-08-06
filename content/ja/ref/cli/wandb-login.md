@@ -1,25 +1,24 @@
 ---
+title: wandb login
 menu:
   reference:
     identifier: ja-ref-cli-wandb-login
-title: wandb login
 ---
 
-**Usage**
+**使用方法**
 
 `wandb login [OPTIONS] [KEY]...`
 
-**Summary**
+**概要**
 
-Login to Weights & Biases
+Weights & Biases にログインします。
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `--cloud` | Login to the cloud instead of local |
-| `--host, --base-url` | Login to a specific instance of W&B |
-| `--relogin` | Force relogin if already logged in. |
-| `--anonymously` | Log in anonymously |
-| `--verify / --no-verify` | Verify login credentials |
+| `--cloud` | ローカルではなくクラウドにログインします |
+| `--host, --base-url` | 特定の W&B インスタンスにログインします |
+| `--relogin` | すでにログイン済みの場合でも再ログインを強制します。 |
+| `--anonymously` | 匿名でログインします |
+| `--verify / --no-verify` | ログイン認証情報を検証します |

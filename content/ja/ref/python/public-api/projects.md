@@ -1,10 +1,10 @@
 ---
+title: プロジェクト
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-projects
 object_type: public_apis_namespace
-title: projects
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py >}}
@@ -13,63 +13,63 @@ title: projects
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for Project objects. 
+W&B Public API の Project オブジェクト用モジュールです。
 
-This module provides classes for interacting with W&B projects and their associated data. 
+このモジュールは、W&B Projects とそれに関連するデータを操作するためのクラスを提供します。
 
 
 
-**Example:**
+**例:**
  ```python
 from wandb.apis.public import Api
 
-# Get all projects for an entity
+# エンティティに紐づくすべての Project を取得
 projects = Api().projects("entity")
 
-# Access project data
+# Project のデータへアクセス
 for project in projects:
      print(f"Project: {project.name}")
      print(f"URL: {project.url}")
 
-     # Get artifact types
+     # Artifact タイプを取得
      for artifact_type in project.artifacts_types():
          print(f"Artifact Type: {artifact_type.name}")
 
-     # Get sweeps
+     # Sweep を取得
      for sweep in project.sweeps():
          print(f"Sweep ID: {sweep.id}")
          print(f"State: {sweep.state}")
-``` 
+```
 
 
 
-**Note:**
+**補足:**
 
-> This module is part of the W&B Public API and provides methods to access and manage projects. For creating new projects, use wandb.init() with a new project name. 
+> このモジュールは W&B Public API の一部であり、Project へのアクセスや管理のためのメソッドを提供します。新しい Project を作成するには、wandb.init() で新しいプロジェクト名を指定してください。
 
 ## <kbd>class</kbd> `Projects`
-An iterable collection of `Project` objects. 
+`Project` オブジェクトのイテラブルコレクションです。
 
-An iterable interface to access projects created and saved by the entity. 
+エンティティによって作成・保存された Projects へのイテラブルなインターフェースを提供します。
 
 
 
-**Args:**
+**引数:**
  
- - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
- - `entity` (str):  The entity name (username or team) to fetch projects for. 
- - `per_page` (int):  Number of projects to fetch per request (default is 50). 
+ - `client` (`wandb.apis.internal.Api`):  使用する API クライアントインスタンス。
+ - `entity` (str):  Projects を取得したいエンティティ名（ユーザー名またはチーム名）。
+ - `per_page` (int):  1リクエストあたり取得する Projects の件数（デフォルトは50）。
 
 
 
-**Example:**
+**例:**
  ```python
 from wandb.apis.public.api import Api
 
-# Find projects that belong to this entity
+# エンティティに紐づく Project を取得
 projects = Api().projects(entity="entity")
 
-# Iterate over files
+# Project ごとに繰り返し処理
 for project in projects:
     print(f"Project: {project.name}")
     print(f"- URL: {project.url}")
@@ -87,15 +87,15 @@ __init__(
 ) → Projects
 ```
 
-An iterable collection of `Project` objects. 
+`Project` オブジェクトのイテラブルコレクション。
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  The API client used to query W&B. 
- - `entity`:  The entity which owns the projects. 
- - `per_page`:  The number of projects to fetch per request to the API. 
+ - `client`:  W&B へクエリを投げるための API クライアント。
+ - `entity`:  Projects を管理するエンティティ。
+ - `per_page`:  API リクエストごとに取得する Projects の数。
 
 
 ---
@@ -105,15 +105,15 @@ An iterable collection of `Project` objects.
 
 
 ## <kbd>class</kbd> `Project`
-A project is a namespace for runs. 
+Project は run の名前空間です。
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  W&B API client instance. 
- - `name` (str):  The name of the project. 
- - `entity` (str):  The entity name that owns the project. 
+ - `client`:  W&B API クライアントインスタンス。
+ - `name` (str):  Project の名前。
+ - `entity` (str):  Project を所有するエンティティ名。
 
 ### <kbd>method</kbd> `Project.__init__`
 
@@ -126,16 +126,16 @@ __init__(
 ) → Project
 ```
 
-A single project associated with an entity. 
+エンティティに紐づく 1 つの Project を表します。
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  The API client used to query W&B. 
- - `entity`:  The entity which owns the project. 
- - `project`:  The name of the project to query. 
- - `attrs`:  The attributes of the project. 
+ - `client`:  W&B へクエリを投げるための API クライアント。
+ - `entity`:  Project を所有するエンティティ。
+ - `project`:  データ取得対象となる Project 名。
+ - `attrs`:  Project の各属性。
 
 
 ---
@@ -150,13 +150,13 @@ A single project associated with an entity.
 
 ### <kbd>property</kbd> Project.path
 
-Returns the path of the project. The path is a list containing the entity and project name. 
+Project のパスを返します。パスは entity と project 名から成るリストです。
 
 ---
 
 ### <kbd>property</kbd> Project.url
 
-Returns the URL of the project. 
+Project の URL を返します。
 
 
 
@@ -168,7 +168,7 @@ Returns the URL of the project.
 artifacts_types(per_page=50)
 ```
 
-Returns all artifact types associated with this project. 
+この Project に紐づくすべての Artifact タイプを返します。
 
 ---
 
@@ -178,6 +178,6 @@ Returns all artifact types associated with this project.
 sweeps()
 ```
 
-Fetches all sweeps associated with the project. 
+Project に関連づけられたすべての Sweep を取得します。
 
 ---

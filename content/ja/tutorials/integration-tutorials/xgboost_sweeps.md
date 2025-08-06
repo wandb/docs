@@ -1,52 +1,50 @@
 ---
+title: XGBoost スイープ
 menu:
   tutorials:
     identifier: ja-tutorials-integration-tutorials-xgboost_sweeps
     parent: integration-tutorials
-title: XGBoost Sweeps
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb" >}}
-Use W&B for machine learning experiment tracking, dataset versioning, and project collaboration.
+W&B で機械学習実験管理、データセットのバージョン管理、プロジェクトのコラボレーションを行いましょう。
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="W&B を使うメリット" >}}
 
-Squeezing the best performance out of tree-based models requires
-[selecting the right hyperparameters](https://blog.cambridgespark.com/hyperparameter-tuning-in-xgboost-4ff9100a3b2f).
-How many `early_stopping_rounds`? What should the `max_depth` of a tree be?
+ツリー系モデルの性能を最大限に引き出すには、[適切なハイパーパラメーターの選択](https://blog.cambridgespark.com/hyperparameter-tuning-in-xgboost-4ff9100a3b2f)が欠かせません。
+`early_stopping_rounds` の回数は？ ツリーの `max_depth` は何が最適？
 
-Searching through high dimensional hyperparameter spaces to find the most performant model can get unwieldy very fast.
-Hyperparameter sweeps provide an organized and efficient way to conduct a battle royale of models and crown a winner.
-They enable this by automatically searching through combinations of hyperparameter values to find the most optimal values.
+膨大なハイパーパラメーター空間を探索して最も良いモデルを見つけるのはすぐに手に負えなくなります。
+ハイパーパラメーター探索（スイープ）は、複数モデルで効果的に競わせ、勝者を決めるための整理された効率的な方法です。
+スイープはハイパーパラメーターの組み合わせを自動で探索し、最適な値を見つけ出してくれます。
 
-In this tutorial we'll see how you can run sophisticated hyperparameter sweeps on XGBoost models in 3 easy steps using W&B.
+このチュートリアルでは、W&B を使って XGBoost モデルに対する高度なハイパーパラメーター探索（スイープ）を、たった3つのステップで実行する方法をご紹介します。
 
-For a teaser, check out the plots below:
+まずは下のプロット例をご覧ください。
 
 {{< img src="/images/tutorials/xgboost_sweeps/sweeps_xgboost.png" alt="sweeps_xgboost" >}}
 
-## Sweeps: An Overview
+## Sweeps：概要
 
-Running a hyperparameter sweep with W&B is very easy. There are just 3 simple steps:
+W&B でハイパーパラメーター探索（スイープ）を実行するのはとても簡単です。やることはこの3つだけ：
 
-1. **Define the sweep:** we do this by creating a dictionary-like object that specifies the sweep: which parameters to search through, which search strategy to use, which metric to optimize.
+1. **スイープの定義:** どのパラメータを探索するか、どんな戦略で探索するか、最適化したいメトリクスは何か、などを定義した辞書（もしくはそれに似たオブジェクト）を作成します。
 
-2. **Initialize the sweep:** with one line of code we initialize the sweep and pass in the dictionary of sweep configurations:
+2. **スイープを初期化:** たった1行のコードでスイープを初期化し、定義した設定辞書を渡します。
 `sweep_id = wandb.sweep(sweep_config)`
 
-3. **Run the sweep agent:** also accomplished with one line of code, we call w`andb.agent()` and pass the `sweep_id` along with a function that defines your model architecture and trains it:
+3. **スイープエージェントの実行:** これも1行で OK！`wandb.agent()` を呼び、`sweep_id` とモデルのアーキテクチャー（学習内容）を定義した関数を渡します。
 `wandb.agent(sweep_id, function=train)`
 
-That's all there is to running a hyperparameter sweep.
+これだけでハイパーパラメーター探索（スイープ）が動きます。
 
-In the notebook below, we'll walk through these 3 steps in more detail.
+このノートブック内で、この3つのステップについて詳細に解説します。
 
-We highly encourage you to fork this notebook, tweak the parameters, or try the model with your own dataset.
+ぜひノートブックをフォークして、パラメータを変えたり、ご自身のデータセットでモデルを試してみてください。
 
-### Resources
-- [Sweeps docs →]({{< relref path="/guides/models/sweeps/" lang="ja" >}})
-- [Launching from the command line →](https://www.wandb.com/articles/hyperparameter-tuning-as-easy-as-1-2-3)
-
+### 参考リンク
+- [Sweeps ドキュメント →]({{< relref path="/guides/models/sweeps/" lang="ja" >}})
+- [コマンドラインからの起動方法 →](https://www.wandb.com/articles/hyperparameter-tuning-as-easy-as-1-2-3)
 
 
 ```python
@@ -60,25 +58,25 @@ import wandb
 wandb.login()
 ```
 
-## 1. Define the Sweep
+## 1. スイープの定義
 
-W&B sweeps give you powerful levers to configure your sweeps exactly how you want them, with just a few lines of code. The sweeps config can be defined as
-[a dictionary or a YAML file]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}}).
+W&B のスイープを使えば、わずかなコードで柔軟に細かくスイープを設定できます。スイープの設定（config）は
+[辞書オブジェクトまたは YAML ファイル]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}})で定義できます。
 
-Let's walk through some of them together:
-*   **Metric**: This is the metric the sweeps are attempting to optimize. Metrics can take a `name` (this metric should be logged by your training script) and a `goal` (`maximize` or `minimize`). 
-*   **Search Strategy**: Specified using the `"method"` key. We support several different search strategies with sweeps. 
-  *   **Grid Search**: Iterates over every combination of hyperparameter values.
-  *   **Random Search**: Iterates over randomly chosen combinations of hyperparameter values.
-  *   **Bayesian Search**: Creates a probabilistic model that maps hyperparameters to probability of a metric score, and chooses parameters with high probability of improving the metric. The objective of Bayesian optimization is to spend more time in picking the hyperparameter values, but in doing so trying out fewer hyperparameter values.
-*   **Parameters**: A dictionary containing the hyperparameter names, and discrete values, a range, or distributions from which to pull their values on each iteration.
+主な要素は下記のとおりです。
+*   **Metric（メトリクス）**: スイープで最適化を目指すメトリクスです。`name`（トレーニングスクリプト内でログされるメトリクス名）、`goal`（`maximize` または `minimize`）を含みます。
+*   **探索手法（Search Strategy）**: `"method"` キーで指定します。W&B ではいくつかの探索手法が使えます。
+  *   **グリッド検索（Grid Search）**: 全てのハイパーパラメーター組み合わせを試します。
+  *   **ランダム検索（Random Search）**: ハイパーパラメーター組み合わせをランダムに選んで試します。
+  *   **ベイズ探索（Bayesian Search）**: ハイパーパラメーターとメトリクスのスコア確率を結びつける確率モデルを作り、有望なパラメータを優先的に試します。ベイズ最適化ではパラメータ選択（試行）の効率化を狙い、試行回数自体は減ります。
+*   **parameters（パラメータ）**: ハイパーパラメーター名、さらに離散値・範囲・分布など、各イテレーションでどこから値を取り出すかを指定する辞書です。
 
-For details, see the [list of all sweep configuration options]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}}).
+詳細は[全スイープ設定オプション一覧]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}})をご参考ください。
 
 
 ```python
 sweep_config = {
-    "method": "random", # try grid or random
+    "method": "random", # grid か random も試せます
     "metric": {
       "name": "accuracy",
       "goal": "maximize"   
@@ -100,29 +98,29 @@ sweep_config = {
 }
 ```
 
-## 2. Initialize the Sweep
+## 2. スイープの初期化
 
-Calling `wandb.sweep` starts a Sweep Controller --
-a centralized process that provides settings of the `parameters` to any who query it
-and expects them to return performance on `metrics` via `wandb` logging.
+`wandb.sweep` を呼ぶことで Sweep コントローラ（中央集約型プロセス）が起動します。
+これは `parameters` の設定値をエージェントからのリクエストごとに提供し、
+エージェントは `wandb` へメトリクスの実測値を返します。
 
 
 ```python
 sweep_id = wandb.sweep(sweep_config, project="XGBoost-sweeps")
 ```
 
-### Define your training process
-Before we can run the sweep,
-we need to define a function that creates and trains the model --
-the function that takes in hyperparameter values and spits out metrics.
+### トレーニングプロセスの関数を定義しよう
+スイープの実行前に、
+ハイパーパラメーターを受け取ってモデルを構築・トレーニングし、
+メトリクスを返す関数を用意します。
 
-We'll also need `wandb` to be integrated into our script.
-There's three main components:
-*   `wandb.init()`: Initialize a new W&B Run. Each run is single execution of the training script.
-*   `run.config`: Save all your hyperparameters in a config object. This lets you use [our app](https://wandb.ai) to sort and compare your runs by hyperparameter values.
-*   `run.log()`: Logs metrics and custom objects, such as images, videos, audio files, HTML, plots, or point clouds.
+`wandb` をスクリプトに組み込みましょう。
+ポイントは3つです：
+*   `wandb.init()`: 新しい W&B Run を初期化。1 Run が1回のトレーニング実行となります。
+*   `run.config`: 全ハイパーパラメーターを config オブジェクトに保存します。これで [W&B アプリ](https://wandb.ai) 上で run をハイパーパラメーターごとに比較・ソートできます。
+*   `run.log()`: メトリクスや画像・ビデオ・音声・HTML・グラフ・ポイントクラウドなどのカスタムオブジェクトをログします。
 
-We also need to download the data:
+また、データのダウンロードも必要です：
 
 
 ```python
@@ -131,13 +129,13 @@ We also need to download the data:
 
 
 ```python
-# XGBoost model for Pima Indians dataset
+# Pima Indians データセット用の XGBoost モデル
 from numpy import loadtxt
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-# load data
+# データのロード
 def train():
   config_defaults = {
     "booster": "gbtree",
@@ -148,85 +146,83 @@ def train():
     "test_size": 0.33,
   }
 
-  with wandb.init(config=config_defaults)  as run: # defaults are over-ridden during the sweep
+  with wandb.init(config=config_defaults)  as run: # sweep 実行時、デフォルト値は上書きされます
     config = run.config
 
-    # load data and split into predictors and targets
+    # データのロードと特徴量・ターゲットへの分割
     dataset = loadtxt("pima-indians-diabetes.data.csv", delimiter=",")
     X, Y = dataset[:, :8], dataset[:, 8]
 
-    # split data into train and test sets
+    # 学習用/テスト用の分割
     X_train, X_test, y_train, y_test = train_test_split(X, Y,
                                                         test_size=config.test_size,
                                                         random_state=config.seed)
 
-    # fit model on train
+    # 学習実行
     model = XGBClassifier(booster=config.booster, max_depth=config.max_depth,
                           learning_rate=config.learning_rate, subsample=config.subsample)
     model.fit(X_train, y_train)
 
-    # make predictions on test
+    # 予測
     y_pred = model.predict(X_test)
     predictions = [round(value) for value in y_pred]
 
-    # evaluate predictions
+    # 精度を評価
     accuracy = accuracy_score(y_test, predictions)
     print(f"Accuracy: {accuracy:.0%}")
     run.log({"accuracy": accuracy})
 ```
 
-## 3. Run the Sweep with an agent
+## 3. エージェントでスイープを実行
 
-Now, we call `wandb.agent` to start up our sweep.
+それでは `wandb.agent` でスイープを開始します。
 
-You can call `wandb.agent` on any machine where you're logged into W&B that has
-- the `sweep_id`,
-- the dataset and `train` function
+`wandb.agent` は W&B にログインした任意のマシン上で実行できます。
+- `sweep_id`
+- データセットと `train` 関数
 
-and that machine will join the sweep.
+これらがあれば、そのマシンは sweep に参加できます。
 
-> _Note_: a `random` sweep will by defauly run forever,
-trying new parameter combinations until the cows come home --
-or until you [turn the sweep off from the app UI]({{< relref path="/guides/models/sweeps/sweeps-ui" lang="ja" >}}).
-You can prevent this by providing the total `count` of runs you'd like the `agent` to complete.
+> _注意_: `random` スイープの場合、デフォルトでは永遠に実行され続けます（つまりずっと新しいパラメータ組み合わせを探索し続けます）。
+この動作を止めたい場合は、[アプリの UI から sweep を手動で停止]({{< relref path="/guides/models/sweeps/sweeps-ui" lang="ja" >}})するか、
+またはエージェントが実行すべき run 数（`count`）をあらかじめ指定しましょう。
 
 
 ```python
 wandb.agent(sweep_id, train, count=25)
 ```
 
-## Visualize your results
+## 結果を可視化しよう
 
 
-Now that your sweep is finished, it's time to look at the results.
+スイープが終わったら、次は結果の確認です。
 
-W&B will generate a number of useful plots for you automatically.
+W&B は役立つ各種可視化プロットを自動生成してくれます。
 
-### Parallel coordinates plot
+### Parallel coordinates plot（パラレル座標プロット）
 
-This plot maps hyperparameter values to model metrics. It’s useful for honing in on combinations of hyperparameters that led to the best model performance.
+このプロットはハイパーパラメーターの値とモデルメトリクスを可視化します。  
+最良のモデルを生み出したハイパーパラメーターの組み合わせを発見するのに便利です。
 
-This plot seems to indicate that using a tree as our learner slightly,
-but not mind-blowingly,
-outperforms using a simple linear model as our learner.
+この図からは、学習器として tree（決定木）を使う方が、
+シンプルな線形モデルの場合よりも若干良い結果を出していることがわかります。
 
 {{< img src="/images/tutorials/xgboost_sweeps/sweeps_xgboost2.png" alt="sweeps_xgboost" >}}
 
-### Hyperparameter importance plot
+### ハイパーパラメータのインポータンスプロット
 
-The hyperparameter importance plot shows which hyperparameter values had the biggest impact
-on your metrics.
+ハイパーパラメータのインポータンスプロットは
+どのハイパーパラメータ値がメトリクスへ最も大きな影響を与えたかを示します。
 
-We report both the correlation (treating it as a linear predictor)
-and the feature importance (after training a random forest on your results)
-so you can see which parameters had the biggest effect
-and whether that effect was positive or negative.
+ここでは、相関（線形予測器としての扱い）と
+ランダムフォレストによる特徴量重要度（あなたの result を学習した上で）を両方表示することで、
+どのパラメータが一番効果的だったのか、またその効果がプラスなのかマイナスなのかも読み取れます。
 
-Reading this chart, we see quantitative confirmation 
-of the trend we noticed in the parallel coordinates chart above:
-the largest impact on validation accuracy came from the choice of
-learner, and the `gblinear` learners were generally worse than `gbtree` learners.
+このグラフからも、先ほどのパラレル座標チャートで見た傾向が定量的に裏付けられています。
+最もバリデーション精度へ強く影響したのは
+学習器の種類で、`gblinear` より `gbtree` の方が概して良い結果になりました。
 
 {{< img src="/images/tutorials/xgboost_sweeps/sweeps_xgboost3.png" alt="sweeps_xgboost" >}}
 
-These visualizations can help you save both time and resources running expensive hyperparameter optimizations by honing in on the parameters (and value ranges) that are the most important, and thereby worthy of further exploration.
+これらの可視化によって、最も重要なパラメータや値の範囲を絞り込むことで、
+ハイパーパラメーター最適化にかかる時間・資源を節約し、より有意義な追加探索の指針とすることができます。

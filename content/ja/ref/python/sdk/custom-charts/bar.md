@@ -1,10 +1,10 @@
 ---
+title: bar()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-custom-charts-bar
 object_type: python_sdk_custom_charts
-title: bar()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py >}}
@@ -24,34 +24,34 @@ bar(
 ) → CustomChart
 ```
 
-Constructs a bar chart from a wandb.Table of data. 
+wandb.Table のデータから棒グラフを作成します。
 
 
 
-**Args:**
+**引数:**
  
- - `table`:  A table containing the data for the bar chart. 
- - `label`:  The name of the column to use for the labels of each bar. 
- - `value`:  The name of the column to use for the values of each bar. 
- - `title`:  The title of the bar chart. 
- - `split_table`:  Whether the table should be split into a separate section  in the W&B UI. If `True`, the table will be displayed in a section named  "Custom Chart Tables". Default is `False`. 
+ - `table`:  棒グラフ用のデータが入ったテーブル。 
+ - `label`:  各バーのラベルに使うカラム名。 
+ - `value`:  各バーの値に使うカラム名。 
+ - `title`:  棒グラフのタイトル。 
+ - `split_table`:  テーブルを W&B UI で別セクションに分けて表示するかどうか。`True` の場合、「Custom Chart Tables」というセクションにテーブルが表示されます。デフォルトは `False` です。
 
 
 
-**Returns:**
+**戻り値:**
  
- - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass it to `wandb.log()`. 
+ - `CustomChart`:  W&B にログできるカスタムチャートオブジェクト。チャートをログするには `wandb.log()` に渡してください。
 
 
 
-**Example:**
+**例:**
  
 
 ```python
 import random
 import wandb
 
-# Generate random data for the table
+# テーブル用のランダムデータを生成
 data = [
     ["car", random.uniform(0, 1)],
     ["bus", random.uniform(0, 1)],
@@ -59,12 +59,12 @@ data = [
     ["person", random.uniform(0, 1)],
 ]
 
-# Create a table with the data
+# データからテーブルを作成
 table = wandb.Table(data=data, columns=["class", "accuracy"])
 
-# Initialize a W&B run and log the bar plot
+# W&B run を初期化し、棒グラフをログする
 with wandb.init(project="bar_chart") as run:
-    # Create a bar plot from the table
+    # テーブルから棒グラフを作成
     bar_plot = wandb.plot.bar(
          table=table,
          label="class",
@@ -72,6 +72,6 @@ with wandb.init(project="bar_chart") as run:
          title="Object Classification Accuracy",
     )
 
-    # Log the bar chart to W&B
+    # 棒グラフを W&B にログ
     run.log({"bar_plot": bar_plot})
 ```

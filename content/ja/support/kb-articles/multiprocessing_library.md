@@ -1,20 +1,20 @@
 ---
+title: W&B は `multiprocessing` ライブラリを使用していますか？
 menu:
   support:
     identifier: ja-support-kb-articles-multiprocessing_library
 support:
-- experiments
-title: Does W&B use the `multiprocessing` library?
+- 実験
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Yes, W&B uses the `multiprocessing` library. An error message like the following indicates a possible issue:
+はい、W&B は `multiprocessing` ライブラリを使用しています。次のようなエラーメッセージが表示される場合、何らかの問題が発生している可能性があります。
 
 ```
 An attempt has been made to start a new process before the current process 
 has finished its bootstrapping phase.
 ```
 
-To resolve this, add an entry point protection with `if __name__ == "__main__":`. This protection is necessary when running W&B directly from the script.
+この問題を解決するには、`if __name__ == "__main__":` によるエントリーポイントの保護を追加してください。W&B をスクリプトから直接実行する場合、この保護が必要です。

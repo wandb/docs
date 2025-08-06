@@ -1,20 +1,20 @@
 ---
+title: wandb スケジューラー
 menu:
   reference:
     identifier: ja-ref-cli-wandb-scheduler
-title: wandb scheduler
 ---
 
-**Usage**
+**使用方法**
 
 `wandb scheduler [OPTIONS] SWEEP_ID`
 
-**Summary**
+**概要**
 
-Run a W&B launch sweep scheduler (Experimental)
+W&B Launch Sweep Scheduler を実行します（実験的機能）
 
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |

@@ -1,10 +1,10 @@
 ---
+title: ビデオ
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-sdk-data-types-Video
 object_type: python_sdk_data_type
-title: Video
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/video.py >}}
@@ -13,7 +13,7 @@ title: Video
 
 
 ## <kbd>class</kbd> `Video`
-A class for logging videos to W&B. 
+W&B に動画をログするためのクラスです。
 
 ### <kbd>method</kbd> `Video.__init__`
 
@@ -26,28 +26,26 @@ __init__(
 )
 ```
 
-Initialize a W&B Video object. 
+W&B Video オブジェクトを初期化します。
 
 
-
-**Args:**
+**引数:**
  
- - `data_or_path`:  Video can be initialized with a path to a file or an io object.  Video can be initialized with a numpy tensor. The numpy tensor  must be either 4 dimensional or 5 dimensional.  The dimensions should be (number of frames, channel, height, width) or  (batch, number of frames, channel, height, width)  The format parameter must be specified with the format argument  when initializing with a numpy array  or io object. 
- - `caption`:  Caption associated with the video for display. 
- - `fps`:  The frame rate to use when encoding raw video frames.  Default value is 4.  This parameter has no effect when data_or_path is a string, or bytes. 
- - `format`:  Format of video, necessary if initializing with a numpy array  or io object. This parameter will be used to determine the format  to use when encoding the video data. Accepted values are "gif",  "mp4", "webm", or "ogg".  If no value is provided, the default format will be "gif". 
+ - `data_or_path`: ファイルへのパスや io オブジェクトで Video を初期化できます。numpy テンソルでも初期化できます。numpy テンソルの場合、4次元または 5次元である必要があります。次元は (フレーム数, チャンネル, 高さ, 幅) もしくは (バッチ, フレーム数, チャンネル, 高さ, 幅) でなければなりません。numpy 配列や io オブジェクトで初期化する場合は、format パラメータを指定する必要があります。
+ - `caption`: 動画に関連付けられるキャプション（表示用）。
+ - `fps`: 生動画フレームをエンコードする際に使用するフレームレート。デフォルト値は 4 です。このパラメータは data_or_path が文字列またはバイト列の場合には影響しません。
+ - `format`: 動画のフォーマット。numpy 配列や io オブジェクトで初期化する場合に必要です。このパラメータは動画データをエンコードする際の形式を決定します。利用可能な値は "gif"、"mp4"、"webm"、"ogg" です。値が指定されていない場合、デフォルトは "gif" になります。
 
 
-
-**Examples:**
- Log a numpy array as a video 
+**使用例:**
+ numpy 配列を動画としてログする
 
 ```python
 import numpy as np
 import wandb
 
 with wandb.init() as run:
-    # axes are (number of frames, channel, height, width)
+    # 軸は (フレーム数, チャンネル, 高さ, 幅) です
     frames = np.random.randint(
          low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
     )

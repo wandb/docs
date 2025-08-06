@@ -1,51 +1,49 @@
 ---
-description: 'Complete API reference for W&B Inference service
-
-  '
+title: API リファレンス
+description: W&B Inference サービスの完全な API リファレンス
 linkTitle: API Reference
 menu:
   default:
     identifier: ja-guides-inference-api-reference
-title: API Reference
 weight: 40
 ---
 
-Learn how to use the W&B Inference API to access foundation models programmatically.
+W&B Inference API を使って、ファウンデーションモデルにプログラムでアクセスする方法を紹介します。
 
-{{< alert title="Tip" >}}
-Having trouble with API errors? See [W&B Inference support articles](/support/inference/) for solutions.
+{{< alert title="ヒント" >}}
+API エラーでお困りですか？解決策は [W&B Inference サポート記事](/support/inference/) をご覧ください。
 {{< /alert >}}
 
-## Endpoint
+## エンドポイント
 
-Access the Inference service at:
+Inference サービスへのアクセス先：
 
 ```plaintext
 https://api.inference.wandb.ai/v1
 ```
 
-{{< alert title="Important" >}}
-To use this endpoint, you need:
-- A W&B account with Inference credits
-- A valid W&B API key
-- A W&B entity (team) and project
+{{< alert title="重要" >}}
+このエンドポイントを利用するには、以下が必要です：
+- Inference クレジット付きの W&B アカウント
+- 有効な W&B APIキー
+- W&B の entity（チーム）と project
 
-In code samples, these appear as `<your-team>/<your-project>`.
+コード例では、`<your-team>/<your-project>` の形式で表現されています。
 {{< /alert >}}
 
-## Available methods
+## 利用可能なメソッド
 
-The Inference API supports these methods:
+Inference API では次のメソッドが利用できます：
 
 ### Chat completions
 
-Create a chat completion using the `/chat/completions` endpoint. This endpoint follows the OpenAI format for sending messages and receiving responses.
+`/chat/completions` エンドポイントを使ってチャット補完を作成できます。このエンドポイントは、OpenAI形式でメッセージ送信と応答取得を行います。
 
-To create a chat completion, provide:
-- The Inference service base URL: `https://api.inference.wandb.ai/v1`
-- Your W&B API key: `<your-api-key>`
-- Your W&B entity and project: `<your-team>/<your-project>`
-- A model ID from the [available models]({{< relref path="models" lang="ja" >}})
+チャット補完を作成する際に必要なもの：
+- Inference サービスのベースURL: `https://api.inference.wandb.ai/v1`
+- ご自身の W&B APIキー: `<your-api-key>`
+- ご自身の W&B entity と project: `<your-team>/<your-project>`
+- [利用可能なモデル]({{< relref path="models" lang="ja" >}}) のモデルID
 
 {{< tabpane text=true >}}
 {{% tab header="Bash" value="bash" %}}
@@ -71,15 +69,15 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
 import openai
 
 client = openai.OpenAI(
-    # The custom base URL points to W&B Inference
+    # カスタム base URL は W&B Inference を指します
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Get your API key from https://wandb.ai/authorize
-    # Consider setting it in the environment as OPENAI_API_KEY instead for safety
+    # APIキーは https://wandb.ai/authorize で取得可能
+    # 安全のため、環境変数 OPENAI_API_KEY に設定する方法もおすすめします
     api_key="<your-api-key>"
 )
 
-# Replace <model-id> with any model ID from the available models list
+# <model-id> を利用可能なモデルリストから任意のモデルIDに置き換えてください
 response = client.chat.completions.create(
     model="<model-id>",
     messages=[
@@ -94,9 +92,9 @@ print(response.choices[0].message.content)
 {{% /tab %}}
 {{< /tabpane >}}
 
-### List supported models
+### サポートされているモデルの一覧取得
 
-Get all available models and their IDs. Use this to select models dynamically or check what's available.
+利用可能なモデルやそのIDを一覧で取得できます。この情報を使って動的にモデルを選択したり、どのモデルが使えるか確認できます。
 
 {{< tabpane text=true >}}
 {{% tab header="Bash" value="bash" %}}
@@ -128,9 +126,9 @@ for model in response.data:
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Response format
+## レスポンス形式
 
-The API returns responses in OpenAI-compatible format:
+この API の応答は OpenAI 互換の形式です：
 
 ```json
 {
@@ -156,7 +154,7 @@ The API returns responses in OpenAI-compatible format:
 }
 ```
 
-## Next steps
+## 次のステップ
 
-- Try the [usage examples]({{< relref path="examples" lang="ja" >}}) to see the API in action
-- Explore models in the [UI]({{< relref path="ui-guide" lang="ja" >}})
+- [使用例]({{< relref path="examples" lang="ja" >}}) を参考に API の動作を試してみましょう
+- [UI]({{< relref path="ui-guide" lang="ja" >}}) でモデルを調べてみましょう

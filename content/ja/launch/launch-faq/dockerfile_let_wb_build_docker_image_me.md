@@ -1,40 +1,41 @@
 ---
+title: Dockerfile を指定して、W&B に Docker イメージをビルドしてもらうことはできますか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-dockerfile_let_wb_build_docker_image_me
     parent: launch-faq
-title: Can I specify a Dockerfile and let W&B build a Docker image for me?
 ---
 
-This feature suits projects with stable requirements but frequently changing codebases.
+この機能は、要件は安定しているがコードベースが頻繁に変わる Projects に最適です。
 
 {{% alert color="secondary" %}}
-Format your Dockerfile to use mounts. For further details, visit the [Mounts documentation on the Docker Docs website](https://docs.docker.com/build/guide/mounts/).
+Dockerfile をマウントを使う形式にしてください。詳細については、[Docker Docs サイトの Mounts ドキュメント](https://docs.docker.com/build/guide/mounts/)をご覧ください。
 {{% /alert %}}
 
-After configuring the Dockerfile, specify it in one of three ways to W&B:
+Dockerfile を設定した後、以下の 3 つの方法のいずれかで W&B に指定できます。
 
-* Use Dockerfile.wandb
-* Use W&B CLI
-* Use W&B App
+* Dockerfile.wandb を使用
+* W&B CLI を使用
+* W&B App を使用
 
 {{< tabpane text=true >}}
 {{% tab "Dockerfile.wandb" %}}
-Include a `Dockerfile.wandb` file in the same directory as the W&B run's entrypoint. W&B utilizes this file instead of the built-in Dockerfile. 
+W&B run のエントリーポイントと同じディレクトリーに `Dockerfile.wandb` ファイルを含めてください。W&B はこのファイルを内蔵 Dockerfile の代わりに使用します。
 {{% /tab %}}
 {{% tab "W&B CLI" %}}
-Use the `--dockerfile` flag with the `wandb launch` command to queue a job:
+`wandb launch` コマンドで `--dockerfile` フラグを使い、ジョブをキューに追加します。
 
 ```bash
 wandb launch --dockerfile path/to/Dockerfile
 ```
 {{% /tab %}}
 {{% tab "W&B app" %}}
-When adding a job to a queue in the W&B App, provide the Dockerfile path in the **Overrides** section. Enter it as a key-value pair with `"dockerfile"` as the key and the path to the Dockerfile as the value.
+W&B App でジョブをキューに追加する際、**Overrides** セクションで Dockerfile のパスを指定します。`"dockerfile"` をキー、Dockerfile のパスを値としてキー・バリューのペアで入力してください。
 
-The following JSON demonstrates how to include a Dockerfile in a local directory:
+以下の JSON はローカルディレクトリーの Dockerfile を含める方法の例です。
 
 ```json title="Launch job W&B App"
+// ローカルディレクトリの Dockerfile を含める例
 {
   "args": [],
   "run_config": {

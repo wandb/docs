@@ -1,38 +1,37 @@
 ---
+title: wandb sync
 menu:
   reference:
     identifier: ja-ref-cli-wandb-sync
-title: wandb sync
 ---
 
-**Usage**
+**使い方**
 
 `wandb sync [OPTIONS] [PATH]...`
 
-**Summary**
+**概要**
 
-Upload an offline training directory to W&B
+オフラインのトレーニング ディレクトリーを W&B にアップロードします。
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `--id` | The run you want to upload to. |
-| `-p, --project` | The project you want to upload to. |
-| `-e, --entity` | The entity to scope to. |
-| `--job_type` | Specifies the type of run for grouping   related runs together. |
-| `--sync-tensorboard / --no-sync-tensorboard` | Stream tfevent files to wandb. |
-| `--include-globs` | Comma separated list of globs to include. |
-| `--exclude-globs` | Comma separated list of globs to exclude. |
-| `--include-online / --no-include-online` | Include online runs |
-| `--include-offline / --no-include-offline` | Include offline runs |
-| `--include-synced / --no-include-synced` | Include synced runs |
-| `--mark-synced / --no-mark-synced` | Mark runs as synced |
-| `--sync-all` | Sync all runs |
-| `--clean` | Delete synced runs |
-| `--clean-old-hours` | Delete runs created before this many hours.   To be used alongside --clean flag. |
-| `--clean-force` | Clean without confirmation prompt. |
-| `--show` | Number of runs to show |
-| `--append` | Append run |
-| `--skip-console` | Skip console logs |
+| `--id` | アップロードしたい run の ID を指定します。 |
+| `-p, --project` | アップロード先の Project を指定します。 |
+| `-e, --entity` | 対象とする Entity を指定します。 |
+| `--job_type` | run のタイプを指定し、関連する run をまとめて管理します。 |
+| `--sync-tensorboard / --no-sync-tensorboard` | tfevent ファイルを wandb にストリームします。 |
+| `--include-globs` | インクルードするファイルのパターンをカンマ区切りで指定します。 |
+| `--exclude-globs` | 除外するファイルのパターンをカンマ区切りで指定します。 |
+| `--include-online / --no-include-online` | オンライン run を含めます。 |
+| `--include-offline / --no-include-offline` | オフライン run を含めます。 |
+| `--include-synced / --no-include-synced` | 同期済みの run を含めます。 |
+| `--mark-synced / --no-mark-synced` | run を同期済みにマークします。 |
+| `--sync-all` | すべての run を同期します。 |
+| `--clean` | 同期済みの run を削除します。 |
+| `--clean-old-hours` | 指定した時間より前に作成された run を削除します（--clean オプションと併用）。 |
+| `--clean-force` | 確認プロンプトなしでクリーンアップを実行します。 |
+| `--show` | 表示する run の数を指定します。 |
+| `--append` | run を追加します。 |
+| `--skip-console` | コンソールログをスキップします。 |

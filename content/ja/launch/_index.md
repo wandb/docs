@@ -1,14 +1,15 @@
 ---
+title: ローンチ
+description: W&B Launch を使って、ML ジョブのスケールや管理を簡単に行えます。
 cascade:
   menu:
     launch:
       parent: launch
   type: docs
-description: Easily scale and manage ML jobs using W&B Launch.
 menu:
   launch:
     identifier: ja-launch-_index
-title: Launch
 type: docs
 url: guides/launch
 ---
+

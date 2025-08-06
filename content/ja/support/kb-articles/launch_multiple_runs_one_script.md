@@ -1,32 +1,31 @@
 ---
+title: 1 つのスクリプトから複数の run をローンチするにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-launch_multiple_runs_one_script
 support:
-- experiments
-title: How do I launch multiple runs from one script?
+- 実験
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Finish previous runs before starting new runs to log multiple runs within
-a single script.
+前の run を終了してから新しい run を開始すると、1 つのスクリプト内で複数の run をログできます。
 
-The recommended way to do this is by using `wandb.init()` as a context manager
-because this finishes the run and marks it as failed if your script raises an
-exception:
+これを行う推奨方法は、`wandb.init()` をコンテキストマネージャーとして使うことです。こうすることで、スクリプトが例外を投げた場合でも run を終了し、失敗としてマークします。
 
 ```python
 import wandb
 
 for x in range(10):
+    # run をコンテキストマネージャーとして開始
     with wandb.init() as run:
         for y in range(100):
+            # メトリクスをログ
             run.log({"metric": x + y})
 ```
 
-You can also call `run.finish()` explicitly:
+`run.finish()` を明示的に呼び出すこともできます。
 
 ```python
 import wandb
@@ -36,21 +35,22 @@ for x in range(10):
 
     try:
         for y in range(100):
+            # メトリクスをログ
             run.log({"metric": x + y})
 
     except Exception:
+        # 例外発生時に run を失敗として終了
         run.finish(exit_code=1)
         raise
 
     finally:
+        # 最後に必ず run を終了
         run.finish()
 ```
 
-## Multiple active runs
+## 複数のアクティブ run
 
-Starting with wandb 0.19.10, you can set the `reinit` setting to `"create_new"`
-to create multiple simultaneously active runs.
-
+wandb 0.19.10 以降では、`reinit` 設定に `"create_new"` をセットすることで、同時に複数のアクティブな run を作成できます。
 
 ```python
 import wandb
@@ -59,11 +59,11 @@ with wandb.init(reinit="create_new") as tracking_run:
     for x in range(10):
         with wandb.init(reinit="create_new") as run:
             for y in range(100):
+                # x + y の値をログ
                 run.log({"x_plus_y": x + y})
 
+            # 各ループごとに x の値を tracking_run へログ
             tracking_run.log({"x": x})
 ```
 
-See [Multiple runs per process]({{< relref path="guides/models/track/runs/multiple-runs-per-process.md" lang="ja" >}})
-for more information about `reinit="create_new"`, including caveats about W&B
-integrations.
+`reinit="create_new"` についての詳細や W&B インテグレーションでの注意点は、[プロセスごとの複数 run]({{< relref path="guides/models/track/runs/multiple-runs-per-process.md" lang="ja" >}}) を参照してください。

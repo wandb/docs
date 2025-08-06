@@ -1,16 +1,16 @@
 ---
+title: W&B サーバーにログインするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_log_in_to_wb_server
 support:
-- user management
-title: How can I log in to W&B Server?
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Set the login URL by either of these methods:
+以下のいずれかの方法でログイン URL を設定します。
 
-- Set the [environment variable]({{< relref path="guides/models/track/environment-variables.md" lang="ja" >}}) `WANDB_BASE_URL` to the Server URL.
-- Set the `--host` flag of [`wandb login`]({{< relref path="/ref/cli/wandb-login.md" lang="ja" >}}) to the Server URL.
+- [環境変数]({{< relref path="guides/models/track/environment-variables.md" lang="ja" >}}) `WANDB_BASE_URL` を Server URL に設定します。
+- [`wandb login`]({{< relref path="/ref/cli/wandb-login.md" lang="ja" >}}) の `--host` フラグに Server URL を指定します。

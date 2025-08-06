@@ -1,27 +1,27 @@
 ---
+title: 高度な IAM 設定
 menu:
   default:
     identifier: ja-guides-hosting-iam-advanced_env_vars
     parent: identity-and-access-management-iam
-title: Advanced IAM configuration
 ---
 
-In addition to basic [environment variables]({{< relref path="../env-vars.md" lang="ja" >}}), you can use environment variables to configure IAM options for your [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) instance.
+基本的な[環境変数]({{< relref path="../env-vars.md" lang="ja" >}})に加えて、[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) や [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンスの IAM オプションを設定するためにも環境変数を利用できます。
 
-Choose any of the following environment variables for your instance depending on your IAM needs.
+IAM の要件に応じて、下記の環境変数から必要なものを選んでインスタンスに設定してください。
 
-| Environment variable | Description |
+| 環境変数 | 説明 |
 |----------------------|-------------|
-| `DISABLE_SSO_PROVISIONING` | Set this to `true` to turn off user auto-provisioning in your W&B instance. |
-| `SESSION_LENGTH` | If you would like to change the default user session expiry time, set this variable to the desired number of hours. For example, set SESSION_LENGTH to `24` to configure session expiry time to 24 hours. The default value is 720 hours. |
-| `GORILLA_ENABLE_SSO_GROUP_CLAIMS` | If you are using OIDC based SSO, set this variable to `true` to automate W&B team membership in your instance based on your OIDC groups. Add a `groups` claim to user OIDC token. It should be a string array where each entry is the name of a W&B team that the user should belong to. The array should include all the teams that a user is a part of. |
-| `GORILLA_LDAP_GROUP_SYNC` | If you are using LDAP based SSO, set it to `true` to automate W&B team membership in your instance based on your LDAP groups. |
-| `GORILLA_OIDC_CUSTOM_SCOPES` | If you are using OIDC based SSO, you can specify additional [scopes](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes) that W&B instance should request from your identity provider. W&B does not change the SSO functionality due to these custom scopes in any way. |
-| `GORILLA_USE_IDENTIFIER_CLAIMS` | If you are using OIDC based SSO, set this variable to `true` to enforce username and full name of your users using specific OIDC claims from your identity provider. If set, ensure that you configure the enforced username and full name in the `preferred_username` and `name` OIDC claims respectively. Usernames can only contain alphanumeric characters along with underscores and hyphens as special characters. |
-| `GORILLA_DISABLE_PERSONAL_ENTITY` | When set to true, turns off [personal entities]({{< relref path="/support/kb-articles/difference_team_entity_user_entity_mean_me.md" lang="ja" >}}). Prevents creation of new personal projects in their personal entities and prevents writing to existing personal projects.
-| `GORILLA_DISABLE_ADMIN_TEAM_ACCESS` | Set this to `true` to restrict Organization or Instance Admins from self-joining or adding themselves to a W&B team, thus ensuring that only Data & AI personas have access to the projects within the teams. |
-| `WANDB_IDENTITY_TOKEN_FILE`        | For [identity federation]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ja" >}}), the absolute path to the local directory where Java Web Tokens (JWTs) are stored. |
+| `DISABLE_SSO_PROVISIONING` | W&B インスタンスでユーザーの自動プロビジョニングを無効化する場合は `true` に設定してください。 |
+| `SESSION_LENGTH` | デフォルトのユーザーセッション有効期限を変更したい場合、この変数に希望する時間（単位：時間）を設定してください。例えば、`SESSION_LENGTH` を `24` に設定するとセッションの有効期限が 24 時間になります。デフォルト値は 720 時間です。 |
+| `GORILLA_ENABLE_SSO_GROUP_CLAIMS` | OIDC ベースの SSO を利用している場合、この変数を `true` に設定すると、OIDC グループに基づいて W&B チームのメンバーシップが自動で管理されます。ユーザーの OIDC トークンに `groups` クレーム（配列、各要素がユーザーが所属する W&B チーム名の文字列）を追加してください。この配列にはユーザーが所属するすべてのチームを含める必要があります。 |
+| `GORILLA_LDAP_GROUP_SYNC` | LDAP ベースの SSO を利用している場合、この変数を `true` に設定すると、LDAP グループに基づき W&B チームのメンバーシップを自動で管理します。 |
+| `GORILLA_OIDC_CUSTOM_SCOPES` | OIDC ベースの SSO を利用している場合、W&B インスタンスがアイデンティティプロバイダーにリクエストする追加の[スコープ](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes)を指定できます。W&B の SSO 機能自体にこれらカスタムスコープが影響を及ぼすことはありません。 |
+| `GORILLA_USE_IDENTIFIER_CLAIMS` | OIDC ベースの SSO を利用している場合、この変数を `true` に設定すると、アイデンティティプロバイダーから特定の OIDC クレームを用いて、ユーザー名およびフルネームを強制的に割り当てます。設定する場合は `preferred_username` および `name` OIDC クレームをそれぞれ対応する値に設定する必要があります。ユーザー名には英数字、アンダースコア、ハイフンが使用可能です。 |
+| `GORILLA_DISABLE_PERSONAL_ENTITY` | true を設定すると[パーソナルエンティティ]({{< relref path="/support/kb-articles/difference_team_entity_user_entity_mean_me.md" lang="ja" >}})が無効化されます。パーソナルエンティティ内で新規のパーソナルプロジェクトの作成や既存プロジェクトへの書き込みができなくなります。 |
+| `GORILLA_DISABLE_ADMIN_TEAM_ACCESS` | 組織やインスタンスの管理者による W&B チームへの自己追加や自分自身の所属設定を制限したい場合、`true` に設定してください。これにより Data & AI 関連の担当者のみチーム内プロジェクトへアクセスできるようになります。|
+| `WANDB_IDENTITY_TOKEN_FILE`        | [アイデンティティフェデレーション]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ja" >}})用に、Java Web Token (JWT) を格納するローカルディレクトリーへの絶対パスを指定します。 |
 
 {{% alert color="secondary" %}}
-W&B advises to exercise caution and understand all implications before enabling some of these settings, like `GORILLA_DISABLE_ADMIN_TEAM_ACCESS`. Reach out to your W&B team for any questions.
+W&B では、`GORILLA_DISABLE_ADMIN_TEAM_ACCESS` など一部の設定を有効にする前に、十分な注意と影響の理解を推奨しています。不明点があれば W&B チームまでご相談ください。
 {{% /alert %}}

@@ -1,56 +1,55 @@
 ---
+title: PyTorch
 menu:
   tutorials:
     identifier: ja-tutorials-integration-tutorials-pytorch
     parent: integration-tutorials
-title: PyTorch
 weight: 1
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" >}}
 
-Use [W&B](https://wandb.ai) for machine learning experiment tracking, dataset versioning, and project collaboration.
+[W&B](https://wandb.ai) を使って機械学習の実験管理・データセットのバージョン管理・プロジェクトでの共同作業を始めましょう。
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="W&B を使うメリット" >}}
 
-## What this notebook covers
+## このノートブックで学べること
 
-We show you how to integrate W&B with your PyTorch code to add experiment tracking to your pipeline.
+PyTorch コードに W&B を組み込んで、experiment tracking をパイプラインに追加する方法を紹介します。
 
-{{< img src="/images/tutorials/pytorch.png" alt="PyTorch and W&B integration diagram" >}}
+{{< img src="/images/tutorials/pytorch.png" alt="PyTorch と W&B のインテグレーション図" >}}
 
 ```python
-# import the library
+# ライブラリをインポート
 import wandb
 
-# start a new experiment
+# 新しい実験を開始
 with wandb.init(project="new-sota-model") as run:
  
-    # capture a dictionary of hyperparameters with config
+    # ハイパーパラメーター辞書を config で記録
     run.config = {"learning_rate": 0.001, "epochs": 100, "batch_size": 128}
 
-    # set up model and data
+    # モデルとデータをセットアップ
     model, dataloader = get_model(), get_data()
 
-    # optional: track gradients
+    # オプション: 勾配を記録
     run.watch(model)
 
     for batch in dataloader:
-    metrics = model.training_step()
-    # log metrics inside your training loop to visualize model performance
-    run.log(metrics)
+        metrics = model.training_step()
+        # トレーニングループ内でメトリクスを記録し、モデルの性能を可視化
+        run.log(metrics)
 
-    # optional: save model at the end
+    # オプション: 最後にモデルを保存
     model.to_onnx()
     run.save("model.onnx")
 ```
 
-Follow along with a [video tutorial](https://wandb.me/pytorch-video).
+[ビデオチュートリアル](https://wandb.me/pytorch-video)を見ながら一緒に進めていきましょう。
 
-**Note**: Sections starting with _Step_ are all you need to integrate W&B in an existing pipeline. The rest just loads data and defines a model.
+**注**: _Step_ から始まるセクションは、既存のパイプラインへ W&B を統合するのに最低限必要な部分です。それ以外はデータのロードやモデルの定義です。
 
-## Install, import, and log in
-
+## インストール・インポート・ログイン
 
 ```python
 import os
@@ -63,39 +62,35 @@ import torchvision
 import torchvision.transforms as transforms
 from tqdm.auto import tqdm
 
-# Ensure deterministic behavior
+# 挙動の再現性を確保
 torch.backends.cudnn.deterministic = True
 random.seed(hash("setting random seeds") % 2**32 - 1)
 np.random.seed(hash("improves reproducibility") % 2**32 - 1)
 torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
 torch.cuda.manual_seed_all(hash("so runs are repeatable") % 2**32 - 1)
 
-# Device configuration
+# デバイス設定
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-# remove slow mirror from list of MNIST mirrors
+# 遅いミラーを MNIST ミラーリストから除外
 torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.MNIST.mirrors
                                       if not mirror.startswith("http://yann.lecun.com")]
 ```
 
-### Step 0: Install W&B
+### ステップ 0: W&B のインストール
 
-To get started, we'll need to get the library.
-`wandb` is easily installed using `pip`.
-
+始めるには、まずライブラリを用意しましょう。
+`wandb` は `pip` ですぐにインストールできます。
 
 ```python
 !pip install wandb onnx -Uq
 ```
 
-### Step 1: Import W&B and Login
+### ステップ 1: W&B のインポートとログイン
 
-In order to log data to our web service,
-you'll need to log in.
+データを Web サービスに記録するには、ログインが必要です。
 
-If this is your first time using W&B,
-you'll need to sign up for a free account at the link that appears.
-
+初めて W&B を使う場合は、表示されるリンクから無料アカウントを作成しましょう。
 
 ```
 import wandb
@@ -103,26 +98,21 @@ import wandb
 wandb.login()
 ```
 
-## Define the Experiment and Pipeline
+## 実験とパイプラインの定義
 
-### Track metadata and hyperparameters with `wandb.init`
+### `wandb.init` でメタデータとハイパーパラメーターを記録
 
-Programmatically, the first thing we do is define our experiment:
-what are the hyperparameters? what metadata is associated with this run?
+まずプログラム的に実験を定義します:
+どのハイパーパラメーターを使うか？どんなメタデータをこの run に紐付けるか？
 
-It's a pretty common workflow to store this information in a `config` dictionary
-(or similar object)
-and then access it as needed.
+設定情報は一般的に `config` 辞書
+(または似たオブジェクト)に保存して、必要なときにアクセスするのが典型です。
 
-For this example, we're only letting a few hyperparameters vary
-and hand-coding the rest.
-But any part of your model can be part of the `config`.
+この例では、ごく一部のハイパーパラメーターだけを可変にし、それ以外は手動でコーディングしています。
+でも、どんなモデルのパラメーターでも `config` にまとめて管理できます。
 
-We also include some metadata: we're using the MNIST dataset and a convolutional
-architecture. If we later work with, say,
-fully connected architectures on CIFAR in the same project,
-this will help us separate our runs.
-
+今回はメタデータとして MNIST データセットと畳み込みアーキテクチャーを使うことも記録します。
+もし同じ Project 内で、CIFAR の全結合アーキテクチャーなども試す場合、それぞれの run の切り分けに役立ちます。
 
 ```python
 config = dict(
@@ -135,70 +125,58 @@ config = dict(
     architecture="CNN")
 ```
 
-Now, let's define the overall pipeline,
-which is pretty typical for model-training:
+それでは、パイプライン全体を定義しましょう。
+モデルのトレーニングとしてよくある流れです：
 
-1. we first `make` a model, plus associated data and optimizer, then
-2. we `train` the model accordingly and finally
-3. `test` it to see how training went.
+1. まずモデル、関連するデータとオプティマイザーを `make` し
+2. モデルをトレーニングし
+3. 最後にテストして学習結果を確認します
 
-We'll implement these functions below.
-
+この流れは、下記で関数として実装します。
 
 ```python
 def model_pipeline(hyperparameters):
 
-    # tell wandb to get started
+    # W&B で experiment を開始
     with wandb.init(project="pytorch-demo", config=hyperparameters) as run:
-        # access all HPs through run.config, so logging matches execution.
+        # run.config から全ハイパーパラメータにアクセスし、記録内容と実行内容を対応させる
         config = run.config
 
-        # make the model, data, and optimization problem
+        # モデル・データ・損失関数・オプティマイザーの生成
         model, train_loader, test_loader, criterion, optimizer = make(config)
         print(model)
 
-        # and use them to train the model
+        # モデルのトレーニング
         train(model, train_loader, criterion, optimizer, config)
 
-        # and test its final performance
+        # 最終的な性能のテスト
         test(model, test_loader)
 
     return model
 ```
 
-The only difference here from a standard pipeline
-is that it all occurs inside the context of `wandb.init`.
-Calling this function sets up a line of communication
-between your code and our servers.
+ここが標準的なパイプラインと違うのは、すべてが `wandb.init` のコンテキストの中で行われる点です。
+この関数を呼ぶことでコードと W&B のサーバーとの間に通信を確立します。
 
-Passing the `config` dictionary to `wandb.init`
-immediately logs all that information to us,
-so you'll always know what hyperparameter values
-you set your experiment to use.
+`wandb.init` に `config` 辞書を渡すだけで、すべての情報が即座に記録されます。
+これで実験に使ったハイパーパラメーターの値がいつでも確認できるようになります。
 
-To ensure the values you chose and logged are always the ones that get used
-in your model, we recommend using the `run.config` copy of your object.
-Check the definition of `make` below to see some examples.
+モデルで利用し、記録された値が必ず一致するよう担保するため、`run.config` のオブジェクトを利用することを推奨します。
+`make` の定義を確認すると、具体的な使い方がわかります。
 
-> *Side Note*: We take care to run our code in separate processes,
-so that any issues on our end
-(such as if a giant sea monster attacks our data centers)
-don't crash your code.
-Once the issue is resolved, such as when the Kraken returns to the deep,
-you can log the data with `wandb sync`.
-
+> *補足*: W&B ではコードを別プロセスで実行しているため、仮にサーバー側で問題が起こっても（例えば大きな海の怪物がデータセンターを襲っても）あなたのコードがクラッシュしないようになっています。問題が解消（例えばクラーケンが海に帰った）後は、`wandb sync` でデータを同期できます。
 
 ```python
 def make(config):
-    # Make the data
+    # データの用意
     train, test = get_data(train=True), get_data(train=False)
     train_loader = make_loader(train, batch_size=config.batch_size)
     test_loader = make_loader(test, batch_size=config.batch_size)
 
-    # Make the model
+    # モデルの作成
     model = ConvNet(config.kernels, config.classes).to(device)
 
-    # Make the loss and optimizer
+    # 損失関数とオプティマイザー
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(
         model.parameters(), lr=config.learning_rate)
@@ -206,14 +184,12 @@ def make(config):
     return model, train_loader, test_loader, criterion, optimizer
 ```
 
-### Define the Data Loading and Model
+### データのロード・モデルの定義
 
-Now, we need to specify how the data is loaded and what the model looks like.
+次は、データのロード方法やモデルの構造を定義します。
 
-This part is very important, but it's
-no different from what it would be without `wandb`,
-so we won't dwell on it.
-
+この部分はとても重要ですが、
+`wandb` を使わないケースと変わらないため、ここでは詳しく説明しません。
 
 ```python
 def get_data(slice=5, train=True):
@@ -221,7 +197,7 @@ def get_data(slice=5, train=True):
                                               train=train, 
                                               transform=transforms.ToTensor(),
                                               download=True)
-    #  equiv to slicing with [::slice] 
+    #  [::slice] と等価なサブセットを作成
     sub_dataset = torch.utils.data.Subset(
       full_dataset, indices=range(0, len(full_dataset), slice))
     
@@ -236,19 +212,15 @@ def make_loader(dataset, batch_size):
     return loader
 ```
 
-Defining the model is normally the fun part.
+モデル定義は、普段の機械学習の “楽しいところ” ですよね。
 
-But nothing changes with `wandb`,
-so we're gonna stick with a standard ConvNet architecture.
+ですが、`wandb` を使ってもこの部分は変わりません。
+今回は標準的な ConvNet アーキテクチャーにしています。
 
-Don't be afraid to mess around with this and try some experiments --
-all your results will be logged on [wandb.ai](https://wandb.ai).
-
-
-
+この部分は自由に変更して実験してみてください ― どんな結果も [wandb.ai](https://wandb.ai) で記録されます。
 
 ```python
-# Conventional and convolutional neural network
+# 標準的な畳み込みニューラルネットワーク
 
 class ConvNet(nn.Module):
     def __init__(self, kernels, classes=10):
@@ -272,34 +244,31 @@ class ConvNet(nn.Module):
         return out
 ```
 
-### Define Training Logic
+### トレーニングロジックの定義
 
-Moving on in our `model_pipeline`, it's time to specify how we `train`.
+`model_pipeline` の続きとして、トレーニング方法を定義しましょう。
 
-Two `wandb` functions come into play here: `watch` and `log`.
+ここで使う W&B の2つの関数は、`watch` と `log` です。
 
-## Track gradients with `run.watch()` and everything else with `run.log()`
+## `run.watch()` で勾配を、`run.log()` でメトリクスなどを記録
 
-`run.watch` will log the gradients and the parameters of your model,
-every `log_freq` steps of training.
+`run.watch` を使うと、トレーニングの `log_freq` ステップごとに、モデルの勾配やパラメーターを記録できます。
 
-All you need to do is call it before you start training.
+トレーニング開始前に呼び出すだけで OK。
 
-The rest of the training code remains the same:
-we iterate over epochs and batches,
-running forward and backward passes
-and applying our `optimizer`.
-
+トレーニングコード自体はこれまで通り ―
+エポック・バッチをイテレートしながら forward/backward を回し、
+オプティマイザーでパラメーターを更新します。
 
 ```python
 def train(model, loader, criterion, optimizer, config):
-    # Tell wandb to watch what the model gets up to: gradients, weights, and more.
+    # W&B にモデルの挙動（勾配・重みなど）を監視させる
     run = wandb.init(project="pytorch-demo", config=config)
     run.watch(model, criterion, log="all", log_freq=10)
 
-    # Run training and track with wandb
+    # トレーニングを実行し、W&B で追跡
     total_batches = len(loader) * config.epochs
-    example_ct = 0  # number of examples seen
+    example_ct = 0  # 観測したサンプル数
     batch_ct = 0
     for epoch in tqdm(range(config.epochs)):
         for _, (images, labels) in enumerate(loader):
@@ -308,7 +277,7 @@ def train(model, loader, criterion, optimizer, config):
             example_ct +=  len(images)
             batch_ct += 1
 
-            # Report metrics every 25th batch
+            # 25バッチごとにメトリクスを記録
             if ((batch_ct + 1) % 25) == 0:
                 train_log(loss, example_ct, epoch)
 
@@ -316,71 +285,59 @@ def train(model, loader, criterion, optimizer, config):
 def train_batch(images, labels, model, optimizer, criterion):
     images, labels = images.to(device), labels.to(device)
     
-    # Forward pass ➡
+    # フォワードパス ➡
     outputs = model(images)
     loss = criterion(outputs, labels)
     
-    # Backward pass ⬅
+    # バックワードパス ⬅
     optimizer.zero_grad()
     loss.backward()
 
-    # Step with optimizer
+    # オプティマイザーでパラメーター更新
     optimizer.step()
 
     return loss
 ```
 
-The only difference is in the logging code:
-where previously you might have reported metrics by printing to the terminal,
-now you pass the same information to `run.log()`.
+違いは logging コードだけです。
+以前ならターミナルに print していたようなメトリクスを、今度は同じ情報を `run.log()` で渡します。
 
-`run.log()` expects a dictionary with strings as keys.
-These strings identify the objects being logged, which make up the values.
-You can also optionally log which `step` of training you're on.
+`run.log()` には「キーが文字列、値がログ化するオブジェクト」でなる辞書を渡します。
+キーはログの名前になり、値は記録対象です。
+トレーニングの「どの step で」記録したかを指定することもできます。
 
-> *Side Note*: I like to use the number of examples the model has seen,
-since this makes for easier comparison across batch sizes,
-but you can use raw steps or batch count. For longer training runs, it can also make sense to log by `epoch`.
-
+> *補足*: サンプル数で「何例見せた時点か」を使うとバッチサイズをまたいで比較しやすいのでおすすめです。もちろんそのままステップ数やバッチ数で記録してもOK。トレーニングが長くなる場合は epoch ごとのロギングも便利です。
 
 ```python
 def train_log(loss, example_ct, epoch):
     with wandb.init(project="pytorch-demo") as run:
-        # Log the loss and epoch number
-        # This is where we log the metrics to W&B
+        # 損失とエポック数を記録
+        # ここで W&B にメトリクスを記録
         run.log({"epoch": epoch, "loss": loss}, step=example_ct)
         print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
 
-### Define Testing Logic
+### テストロジックの定義
 
-Once the model is done training, we want to test it:
-run it against some fresh data from production, perhaps,
-or apply it to some hand-curated examples.
+トレーニング完了後はモデルをテストしましょう。
+プロダクションの新しいデータや、厳選した例で評価します。
 
+## （オプション）`run.save()` の利用
 
+このタイミングでモデルのアーキテクチャーや最終パラメータをディスクに保存するのもおすすめです。
+最大限の互換性のため、モデルを[Open Neural Network eXchange（ONNX）フォーマット](https://onnx.ai/)でエクスポートします。
 
-## (Optional) Call `run.save()`
+ファイル名を `run.save()` に渡すことで、モデルのパラメータが W&B サーバーに保存されます。
+もうどの `.h5` や `.pb` がどのトレーニング run のものなのか分からなくなる心配もありません。
 
-This is also a great time to save the model's architecture
-and final parameters to disk.
-For maximum compatibility, we'll `export` our model in the
-[Open Neural Network eXchange (ONNX) format](https://onnx.ai/).
-
-Passing that filename to `run.save()` ensures that the model parameters
-are saved to W&B's servers: no more losing track of which `.h5` or `.pb`
-corresponds to which training runs.
-
-For more advanced `wandb` features for storing, versioning, and distributing
-models, check out our [Artifacts tools](https://www.wandb.com/artifacts).
-
+さらに詳しいモデルの保存・バージョン管理・配布方法については [Artifacts ツール](https://www.wandb.com/artifacts) をご覧ください。
 
 ```python
 def test(model, test_loader):
     model.eval()
 
     with wandb.init(project="pytorch-demo") as run:
-        # Run the model on some test examples
+        # テスト用データでモデルを評価
         with torch.no_grad():
             correct, total = 0, 0
             for images, labels in test_loader:
@@ -395,69 +352,63 @@ def test(model, test_loader):
             
             run.log({"test_accuracy": correct / total})
 
-        # Save the model in the exchangeable ONNX format
+        # 交換可能なONNX形式でモデルを保存
         torch.onnx.export(model, images, "model.onnx")
         run.save("model.onnx")
 ```
 
-### Run training and watch your metrics live on wandb.ai
+### トレーニングして wandb.ai でライブメトリクスを確認
 
-Now that we've defined the whole pipeline and slipped in
-those few lines of W&B code,
-we're ready to run our fully tracked experiment.
+ここまででパイプライン全体を用意し、W&B のコードも数行加えるだけで、
+完全に管理された実験を実行できるようになりました。
 
-We'll report a few links to you:
-our documentation,
-the Project page, which organizes all the runs in a project, and
-the Run page, where this run's results will be stored.
+完了後には次のリンクが表示されます:
+ドキュメント・Project ページ（すべての run を整理）・Run ページ（個々の結果が保存）です。
 
-Navigate to the Run page and check out these tabs:
+Run ページでは以下のタブをチェックできます：
 
-1. **Charts**, where the model gradients, parameter values, and loss are logged throughout training
-2. **System**, which contains a variety of system metrics, including Disk I/O utilization, CPU and GPU metrics (watch that temperature soar), and more
-3. **Logs**, which has a copy of anything pushed to standard out during training
-4. **Files**, where, once training is complete, you can click on the `model.onnx` to view our network with the [Netron model viewer](https://github.com/lutzroeder/netron).
+1. **Charts** ― モデルの勾配・パラメータ値・損失などがトレーニング全体で記録
+2. **System** ― ディスク I/O 利用率や、CPU/GPU メトリクス（温度上昇なども）、その他多数のシステム情報
+3. **Logs** ― トレーニング中に標準出力へ出したすべてのログ
+4. **Files** ― トレーニング完了後は `model.onnx` をクリックして、[Netron モデルビューア](https://github.com/lutzroeder/netron)でネットワーク構造を可視化できます
 
-Once the run in finished, when the `with wandb.init` block exits,
-we'll also print a summary of the results in the cell output.
-
+Run が完了し `with wandb.init` ブロックを抜けると、
+セルの出力に実験結果のサマリーが表示されます。
 
 ```python
-# Build, train and analyze the model with the pipeline
+# パイプラインでモデルを構築・トレーニング・分析
 model = model_pipeline(config)
 ```
 
-### Test Hyperparameters with Sweeps
+### Sweeps でハイパーパラメータ探索
 
-We only looked at a single set of hyperparameters in this example.
-But an important part of most ML workflows is iterating over
-a number of hyperparameters.
+この例ではハイパーパラメータを 1 セットしか使いませんでしたが、
+多くの ML ワークフローではさまざまなハイパーパラメータの組み合わせを試す必要があります。
 
-You can use W&B Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies.
+W&B Sweeps を使えば、ハイパーパラメータテストを自動化し、モデルやオプティマイザーの探索が簡単に行えます。
 
-Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/sweeps-colab).
+W&B Sweeps でのハイパーパラメータ最適化を紹介する [Colabノートブック](https://wandb.me/sweeps-colab) もご覧ください。
 
-Running a hyperparameter sweep with W&B is very easy. There are just 3 simple steps:
+W&B でのハイパーパラメータスイープはとてもシンプル。たった3ステップです：
 
-1. **Define the sweep:** We do this by creating a dictionary or a [YAML file]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}}) that specifies the parameters to search through, the search strategy, the optimization metric et all.
+1. **スイープの定義:** 探索するパラメータ・サーチ戦略・最適化指標などを指定した辞書または [YAMLファイル]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}}) を作成します。
 
-2. **Initialize the sweep:** 
+2. **スイープの初期化:**  
 `sweep_id = wandb.sweep(sweep_config)`
 
-3. **Run the sweep agent:** 
+3. **スイープエージェントの実行:**  
 `wandb.agent(sweep_id, function=train)`
 
-That's all there is to running a hyperparameter sweep.
+これだけで自動的にハイパーパラメータ探索が始められます。
 
-{{< img src="/images/tutorials/pytorch-2.png" alt="PyTorch training dashboard" >}}
+{{< img src="/images/tutorials/pytorch-2.png" alt="PyTorch トレーニングダッシュボード" >}}
 
+## 事例ギャラリー
 
-## Example Gallery
+[Gallery →](https://app.wandb.ai/gallery) では、W&B で管理・可視化した様々なプロジェクト事例を公開中です。
 
-Explore examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery).
-
-## Advanced Setup
-1. [Environment variables]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode]({{< relref path="/support/kb-articles/run_wandb_offline.md" lang="ja" >}}): Use `dryrun` mode to train offline and sync results later.
-3. [On-prem]({{< relref path="/guides/hosting/hosting-options/self-managed" lang="ja" >}}): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
-4. [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}): Set up hyperparameter search quickly with our lightweight tool for tuning.
+## 応用セットアップ
+1. [環境変数]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}): APIキー を環境変数に設定して、マネージドクラスターでトレーニングを実行。
+2. [オフラインモード]({{< relref path="/support/kb-articles/run_wandb_offline.md" lang="ja" >}}): `dryrun` モードでオフライン実行し、後で結果を同期。
+3. [オンプレミス]({{< relref path="/guides/hosting/hosting-options/self-managed" lang="ja" >}}): プライベートクラウドや自社インフラのエアギャップサーバーに W&B をインストール。アカデミックからエンタープライズまで対応したローカルインストールが可能です。
+4. [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}): 軽量ツールでハイパーパラメーター探索をすばやくセットアップできます。

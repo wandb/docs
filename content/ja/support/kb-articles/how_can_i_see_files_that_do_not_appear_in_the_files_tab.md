@@ -1,16 +1,16 @@
 ---
+title: Files タブに表示されないファイルを確認するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_see_files_that_do_not_appear_in_the_files_tab
 support:
-- experiments
-title: How can I see files that do not appear in the Files tab?
+- 実験
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-The Files tab shows a maximum of 10,000 files. To download all files, use the [public API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}):
+Filesタブでは最大10,000個のファイルが表示されます。すべてのファイルをダウンロードするには、[public API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) をご利用ください。
 
 ```python
 import wandb

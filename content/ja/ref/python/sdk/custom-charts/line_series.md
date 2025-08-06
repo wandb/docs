@@ -1,10 +1,12 @@
 ---
+title: 'line_series()
+
+  '
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-custom-charts-line_series
 object_type: python_sdk_custom_charts
-title: line_series()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py >}}
@@ -12,7 +14,7 @@ title: line_series()
 
 
 
-### <kbd>function</kbd> `line_series`
+### <kbd>関数</kbd> `line_series`
 
 ```python
 line_series(
@@ -25,46 +27,46 @@ line_series(
 ) → CustomChart
 ```
 
-Constructs a line series chart. 
+折れ線の系列チャートを作成します。
 
 
 
-**Args:**
+**引数:**
  
- - `xs`:  Sequence of x values. If a singular  array is provided, all y values are plotted against that x array. If  an array of arrays is provided, each y value is plotted against the  corresponding x array. 
- - `ys`:  Sequence of y values, where each iterable represents  a separate line series. 
- - `keys`:  Sequence of keys for labeling each line series. If  not provided, keys will be automatically generated as "line_1",  "line_2", etc. 
- - `title`:  Title of the chart. 
- - `xname`:  Label for the x-axis. 
- - `split_table`:  Whether the table should be split into a separate section  in the W&B UI. If `True`, the table will be displayed in a section named  "Custom Chart Tables". Default is `False`. 
+ - `xs`:  x 値のシーケンス。単一の配列が指定された場合、すべての y 値がその x 配列に対してプロットされます。配列の配列が指定された場合は、それぞれの y 値が対応する x 配列に対してプロットされます。
+ - `ys`:  y 値のシーケンス。それぞれのイテラブルが個別の折れ線系列を表します。
+ - `keys`:  各折れ線系列にラベル付けするためのキーのシーケンス。指定しない場合、自動的に "line_1"、"line_2" のように生成されます。
+ - `title`:  チャートのタイトル。
+ - `xname`:  x 軸のラベル。
+ - `split_table`:  テーブルを W&B UI 内で別セクションに分割するかどうか。`True` の場合、「Custom Chart Tables」というセクションで表示されます。デフォルトは `False` です。
 
 
 
-**Returns:**
+**戻り値:**
  
- - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass it to `wandb.log()`. 
+ - `CustomChart`:  W&B に ログできるカスタムチャートオブジェクト。チャートをログするには `wandb.log()` に渡してください。
 
 
 
-**Examples:**
- Logging a single x array where all y series are plotted against the same x values: 
+**使用例:**
+ すべての y 系列が同じ x 値に対してプロットされる、単一の x 配列をログする場合:
 
 ```python
 import wandb
 
-# Initialize W&B run
+# W&B run を初期化
 with wandb.init(project="line_series_example") as run:
-    # x values shared across all y series
+    # すべての y 系列で共有する x 値
     xs = list(range(10))
 
-    # Multiple y series to plot
+    # プロットする複数の y 系列
     ys = [
          [i for i in range(10)],  # y = x
          [i**2 for i in range(10)],  # y = x^2
          [i**3 for i in range(10)],  # y = x^3
     ]
 
-    # Generate and log the line series chart
+    # 折れ線系列チャートを生成してログする
     line_series_chart = wandb.plot.line_series(
          xs,
          ys,
@@ -72,66 +74,66 @@ with wandb.init(project="line_series_example") as run:
          xname="step",
     )
     run.log({"line-series-single-x": line_series_chart})
-``` 
+```
 
-In this example, a single `xs` series (shared x-values) is used for all `ys` series. This results in each y-series being plotted against the same x-values (0-9). 
+この例では、単一の `xs` シリーズ（共有された x 値）がすべての `ys` シリーズに使われます。その結果、各 y 系列は同じ x 値（0-9）に対してプロットされます。
 
-Logging multiple x arrays where each y series is plotted against its corresponding x array: 
+各 y 系列が自分専用の x 配列に対してプロットされる、複数の x 配列をログする場合:
 
 ```python
 import wandb
 
-# Initialize W&B run
+# W&B run を初期化
 with wandb.init(project="line_series_example") as run:
-    # Separate x values for each y series
+    # 各 y 系列ごとに異なる x 値
     xs = [
-         [i for i in range(10)],  # x for first series
-         [2 * i for i in range(10)],  # x for second series (stretched)
-         [3 * i for i in range(10)],  # x for third series (stretched more)
+         [i for i in range(10)],  # 最初の系列の x
+         [2 * i for i in range(10)],  # 2番目の系列（引き伸ばし）
+         [3 * i for i in range(10)],  # 3番目の系列（さらに引き伸ばし）
     ]
 
-    # Corresponding y series
+    # 対応する y 系列
     ys = [
          [i for i in range(10)],  # y = x
          [i**2 for i in range(10)],  # y = x^2
          [i**3 for i in range(10)],  # y = x^3
     ]
 
-    # Generate and log the line series chart
+    # 折れ線系列チャートを生成してログする
     line_series_chart = wandb.plot.line_series(
          xs, ys, title="Multiple X Arrays Example", xname="Step"
     )
     run.log({"line-series-multiple-x": line_series_chart})
-``` 
+```
 
-In this example, each y series is plotted against its own unique x series. This allows for more flexibility when the x values are not uniform across the data series. 
+この例では、各 y 系列ごとに専用の x 系列を使用してプロットします。データ系列ごとに x 値が異なる場合など、より柔軟に扱うことができます。
 
-Customizing line labels using `keys`: 
+`keys` を使った折れ線ラベルのカスタマイズ例:
 
 ```python
 import wandb
 
-# Initialize W&B run
+# W&B run を初期化
 with wandb.init(project="line_series_example") as run:
-    xs = list(range(10))  # Single x array
+    xs = list(range(10))  # 単一の x 配列
     ys = [
          [i for i in range(10)],  # y = x
          [i**2 for i in range(10)],  # y = x^2
          [i**3 for i in range(10)],  # y = x^3
     ]
 
-    # Custom labels for each line
+    # 各折れ線のカスタムラベル
     keys = ["Linear", "Quadratic", "Cubic"]
 
-    # Generate and log the line series chart
+    # 折れ線系列チャートを生成してログする
     line_series_chart = wandb.plot.line_series(
          xs,
          ys,
-         keys=keys,  # Custom keys (line labels)
+         keys=keys,  # カスタムキー（折れ線ラベル）
          title="Custom Line Labels Example",
          xname="Step",
     )
     run.log({"line-series-custom-keys": line_series_chart})
-``` 
+```
 
-This example shows how to provide custom labels for the lines using the `keys` argument. The keys will appear in the legend as "Linear", "Quadratic", and "Cubic".
+この例では、`keys` 引数を使って折れ線のラベルを自由に指定する方法を示しています。ラベルは凡例で "Linear"、"Quadratic"、"Cubic" と表示されます。

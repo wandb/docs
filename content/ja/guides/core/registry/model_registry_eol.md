@@ -1,168 +1,161 @@
 ---
+title: レガシー モデルレジストリ からの移行
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry_eol
     parent: registry
-title: Migrate from legacy Model Registry
 weight: 9
 ---
 
-W&B is migrating from the legacy **Model Registry** to the enhanced **W&B Registry**. This transition is designed to be seamless and fully managed by W&B. The migration process will preserve your workflows while unlocking powerful new features. For any questions or support, contact [support@wandb.com](mailto:support@wandb.com).
+W&B は、従来の **Model Registry** から強化された **W&B Registry** への移行を進めています。この移行はシームレスで、W&B がすべて管理します。移行プロセス中も既存のワークフローは維持され、さらに強力な新機能が利用できるようになります。ご質問やサポートが必要な場合は、[support@wandb.com](mailto:support@wandb.com) までご連絡ください。
 
-## Reasons for the migration
+## 移行の理由
 
-W&B Registry offers major improvements over the legacy Model Registry:
+W&B Registry は、従来の Model Registry と比べて大幅な改善が施されています。
 
-- **Unified, organization-level experience**: Share and manage curated artifacts across your organization, regardless of teams.
-- **Improved governance**: Use access control, restricted registries, and visibility settings to manage user access.
-- **Enhanced functionality**: New features such as custom registries, better search, audit trails, and automation support help modernize your ML infrastructure.
-<!-- - **Future-ready**: All ongoing and future W&B enhancements for artifact lifecycle management will be built on the W&B Registry. -->
+- **統一された組織レベルの体験**: チームを問わず、組織全体で厳選されたアーティファクトを共有・管理可能です。
+- **ガバナンスの強化**: アクセス制御や制限付きレジストリ、公開範囲の設定などによるユーザー管理が可能です。
+- **機能拡張**: カスタムレジストリ、優れた検索、監査履歴、オートメーション対応など、ML インフラを最新化する機能を搭載。
 
-The following table summarizes the key differences between the legacy Model Registry and the new W&B Registry:
 
-| Feature | Legacy W&B Model Registry | W&B Registry |
+
+下記の表は、従来の Model Registry と新しい W&B Registry の主な違いをまとめたものです。
+
+| 機能 | 従来の W&B Model Registry | W&B Registry |
 | ----- | ----- | ----- |
-| Artifact Visibility | Team-level only - access restricted to team members | Org-level visibility with fine-grained permission controls | 
-| Custom Registries |Not supported | Fully supported — create registries for any artifact type |
-| Access Control | Not available | Role-based access (Admin, Member, Viewer) at the registry level |
-| Terminology |“Registered models”: pointers to model versions | “Collections”: pointers to any artifact versions |
-| Registry Scope |Only supports model versioning  | Supports models, datasets, custom artifacts, and more |
-| Automations | Registry-level automations | Registry- and collection-level automations supported and copied during migration |
-| Search & Discoverability | Limited search and discoverability | Central search within W&B Registry across all registries in the organization |
-| API Compatibility | Uses `wandb.init.link_model()` and MR-specific patterns | Modern SDK APIs (`link_artifact()`, `use_artifact()`) with auto-redirection |
-| Migration | End-of-life | Automatically migrated and enhanced — data is copied, not deleted |
+| アーティファクトの公開範囲 | チーム単位のみ - メンバー限定 | 組織単位で詳細な権限管理が可能 |
+| カスタムレジストリ | 非対応 | 完全対応 — どんなアーティファクトにもレジストリを作成可能 |
+| アクセス制御 | 非対応 | レジストリ単位のロールベースアクセス（Admin、Member、Viewer）|
+| 用語 | “Registered models”: モデルバージョンへのポインタ | “Collections”: 任意のアーティファクトバージョンへのポインタ |
+| レジストリの範囲 | モデルのバージョン管理のみ対応 | モデル、データセット、カスタムアーティファクトなど多様に対応 |
+| オートメーション | レジストリ単位のみ対応 | レジストリ・コレクション単位両方対応、移行時コピーされます |
+| 検索・発見性 | 検索・発見性が限定的 | 組織内すべてのレジストリを中央検索可能 |
+| API 互換性 | `wandb.init.link_model()` や MR専用パターンを使用 | モダンな SDK API（`link_artifact()`, `use_artifact()`）で自動リダイレクト |
+| 移行 | サポート終了 | 自動で移行・強化—データはコピー、削除されません |
 
-## Preparing for the migration
+## 移行準備
 
-- **No action required**: The migration is fully automated and managed by W&B. You do not need to run scripts, update configurations, or move data manually.
-- **Stay informed**: You will receive communications (banners in the W&B App UI) 2 weeks prior to your scheduled migration.
-- **Review permissions**: After the migration, admins should check registry access to ensure alignment with your team’s needs.
-- **Use new paths in future work**: Old code continues to work, W&B recommends using the new W&B Registry paths for new projects.
+- **ユーザー操作は不要**: 移行は W&B が完全に自動化・管理します。スクリプト実行、設定変更、データの手動移動などは一切不要です。
+- **連絡に注意**: 移行予定日の2週間前から W&B App UI 上でバナー等で通知が届きます。
+- **権限の確認**: 移行後、管理者はレジストリアクセス権限がチームニーズに合っているかご確認ください。
+- **今後の作業では新パスを利用**: 既存コードはそのまま動作しますが、新しいプロジェクトでは新しい W&B Registry パスの利用を推奨します。
 
+## 移行プロセス
 
-## Migration process
+### 一時的な書き込み停止
+移行作業中は、チームの Model Registry への書き込み操作が最大1時間一時停止されます。新たに作成される W&B Registry への書き込みも、移行中は一時的に停止されます。
 
-### Temporary write operation pause
-During migration, write operations for your team’s Model Registry will be paused to ensure data consistency for up to one hour. Write operations to the newly created migrated W&B Registry will also be paused during the migration.
-
-### Data migration
-W&B will migrate the following data from the legacy Model Registry to the new W&B Registry:
+### データ移行
+W&B は、従来の Model Registry から新しい W&B Registry へ以下のデータを移行します。
 
 - Collections
-- Linked artifact versions
-- Version history
-- Aliases, tags, and descriptions
-- Automations (both collection and registry-level)
-- Permissions, including service account roles and protected aliases
+- リンクされたアーティファクトのバージョン
+- バージョン履歴
+- エイリアス、タグ、説明
+- オートメーション（コレクション単位・レジストリ単位両方）
+- 権限（サービスアカウントのロールや保護されたエイリアスも含む）
 
-Within the W&B App UI, the legacy Model Registry will be replaced with the new W&B Registry. Migrated registries will have the name of your team followed by `mr-migrated`:
+W&B App UI 上では、従来の Model Registry の表示が新しい W&B Registry に置き換わります。移行後のレジストリ名は、チーム名の後ろに `mr-migrated` が付きます。
 
 ```text
 <team-name>-mr-migrated
 ```
 
-These registries default to **Restricted** visibility, preserving your existing privacy boundaries. Only the original members of the `<team-name>` will have access to their respective registries. 
+これらのレジストリはデフォルトで **Restricted** （制限付き）公開範囲となり、既存のプライバシー設定が維持されます。元の `<team-name>` メンバーのみが各自のレジストリへアクセス可能です。
 
+## 移行後
 
-## After the migration
+移行完了後には以下の通りとなります：
 
-After the migration completes:
+- 従来の Model Registry は **読み取り専用** となります。データの閲覧や取得は可能ですが、新規書き込みはできません。
+- 従来の Model Registry のデータは、新しい W&B Registry に **コピー** されるのみで、移動ではありません。データ削除はありません。
+- すべてのデータは新しい W&B Registry からアクセスできます。
+- バージョン管理、ガバナンス、監査履歴、オートメーションなどは新しい Registry UI から利用できます。
+- 既存コードも継続して動作します。
+   - [既存のパスや API コールは自動的に新しい W&B Registry へリダイレクトされます。]({{< relref path="#code-will-continue-to-work" lang="ja" >}})
+   - [アーティファクトバージョンのパスもリダイレクトされます。]({{< relref path="#legacy-paths-will-redirect-to-new-wb-registry-paths" lang="ja" >}})
+- 従来の Model Registry は一時的にUI上から見えますが、やがて非表示となります。
+- Registry では、さらに強化された機能を試せます。例:
+    - [組織単位のアクセ ス]({{< relref path="/guides/core/registry/create_registry/#visibility-types" lang="ja" >}})
+    - [ロールベースのアクセス制御]({{< relref path="/guides/core/registry/configure_registry/" lang="ja" >}})
+    - [レジストリ単位のリネージ追跡]({{< relref path="/guides/core/registry/lineage/" lang="ja" >}})
+    - [オートメーション]({{< relref path="/guides/core/automations/" lang="ja" >}})
 
-- The legacy Model Registry becomes **read-only**. You can still view and access your data, but no new writes will be allowed.
-- Data in the legacy Model Registry is **copied** to the new W&B Registry, not moved. No data is deleted.
-- Access all your data from the new W&B Registry.
-- Use the new Registry UI for versioning, governance, audit trails, and automation.
-- Continue using your old code.
-   - [Existing paths and API calls will automatically redirect to the new W&B Registry.]({{< relref path="#code-will-continue-to-work" lang="ja" >}})
-   - [Artifact version paths are redirected.]({{< relref path="#legacy-paths-will-redirect-to-new-wb-registry-paths" lang="ja" >}})
-- The legacy Model Registry will temporarily remain visible in the UI. W&B will eventually hide the legacy Model Registry.
-- Explore enhanced functionality in the Registry such as:
-    - [Organization-level access]({{< relref path="/guides/core/registry/create_registry/#visibility-types" lang="ja" >}})
-    - [Role-based access control]({{< relref path="/guides/core/registry/configure_registry/" lang="ja" >}})
-    - [Registry-level lineage tracking]({{< relref path="/guides/core/registry/lineage/" lang="ja" >}})
-    - [Automations]({{< relref path="/guides/core/automations/" lang="ja" >}})
+### コードはそのまま動作します
 
-### Code will continue to work
-
-Existing API calls in your code that refer to the legacy Model Registry will automatically redirect to the new W&B Registry. The following API calls will continue to work without any changes:
+従来の Model Registry への参照を含む既存 API コールも自動的に新しい W&B Registry へリダイレクトされます。下記 API コールは変更なしで引き続き動作します。
 
 - `wandb.Api().artifact()`
 - `wandb.run.use_artifact()`
 - `wandb.run.link_artifact()`
 - `wandb.Artifact().link()`
 
-### Legacy paths will redirect to new W&B Registry paths
+### 従来パスも新しい W&B Registry パスにリダイレクトされます
 
-W&B will automatically redirect legacy Model Registry paths to the new W&B Registry format. This means you can continue using your existing code without needing to refactor paths immediately. Note that automatic redirection only applies to collections that were created in the legacy Model Registry before migration.
+W&B は、従来の Model Registry のパスを自動的に新しい W&B Registry フォーマットにリダイレクトします。これにより、既存コードをすぐにリファクタしなくても引き続き利用できます。ただし自動リダイレクトは、移行前に従来の Model Registry で作成されたコレクションにのみ適用されます。
 
-For example:
-- If the legacy Model Registry had collection `"my-model"` already present, the link action will redirect successfully
-- If the legacy Model Registry did not have collection `"my-model"`, it will not redirect and will lead to an error
+例えば：
+- 従来の Model Registry に `"my-model"` コレクションがすでに存在していれば、リンク操作は正常にリダイレクトされます
+- `"my-model"` が存在しなければ、リダイレクトされずエラーとなります
 
 ```python
-# This will redirect successfully if "my-model" existed in legacy Model Registry
+# "my-model" が従来の Model Registry に存在すれば正常にリダイレクト
 run.link_artifact(artifact, "team-name/model-registry/my-model")
 
-# This will fail if "new-model" did not exist in legacy Model Registry
+# "new-model" が従来の Model Registry に存在しなければ失敗
 run.link_artifact(artifact, "team-name/model-registry/new-model")
 ```
 
-<!-- - Existing training and deployment workflows remain intact.
-- CI/CD pipelines built on model promotion or artifact linking will not break.
-- Teams can adopt the new W&B Registry gradually, without needing to refactor old codebases immediately. -->
-
-To fetch versions from the legacy Model Registry, paths consisted of a team name, a `"model-registry"` string, collection name, and version:
+従来の Model Registry からバージョンを取得する場合、パスはチーム名、`"model-registry"`、コレクション名、バージョンの順で構成されていました。
 
 ```python
 f"{team-name}/model-registry/{collection-name}:{version}"
 ```
 
-W&B will automatically redirect these paths to the new W&B Registry format, which includes the organization name, a `"wandb-registry"` string, the team name, collection name, and version:
+W&B はこれらのパスも自動で新しい W&B Registry 用フォーマットにリダイレクトします。新パスでは組織名、`"wandb-registry"`、チーム名、コレクション名、バージョンを含みます。
 
 ```python
-# Redirects to new path
+# 新しいパスにリダイレクト
 f"{org-name}/wandb-registry-{team-name}/{collection-name}:{version}"
 ```
 
+{{% alert title="Python SDK の警告" %}}
 
-{{% alert title="Python SDK warnings" %}}
+従来の Model Registry パスを引き続き利用した場合、警告メッセージが表示される場合があります。警告が出てもコードは壊れませんが、新しい W&B Registry フォーマットにパスを更新することが推奨されています。
 
-A warning error may appear if you continue to use legacy Model Registry paths in your code. The warning will not break your code, but it indicates that you should update your paths to the new W&B Registry format. 
+警告が表示されるかどうかは、利用中の W&B Python SDK のバージョンによります。
 
-Whether a warning appears depends on the version of the W&B Python SDK you are using:
-
-* Users on the latest W&B SDK (`v0.21.0` and above) will see a non-breaking warning in their logs indicating that a redirect has occurred.
-* For older SDK versions, the redirect will still work silently without emitting a warning. Some metadata such as entity or project names may reflect legacy values.
+* 最新の W&B SDK（`v0.21.0` 以降）では、リダイレクト発生を示す警告ログが非破壊的に出力されます。
+* 古い SDK バージョンでもリダイレクトは動作しますが、警告表示はされません。エンティティやプロジェクト名など一部メタデータは旧値を反映する場合があります。
 
 {{% /alert %}} 
 
+## よくある質問
 
-## Frequently asked questions
+### 移行時期はどのように通知されますか？
 
-### How will I know when my org is being migrated?
+事前にアプリ内バナーもしくは W&B からの直接のご連絡でご案内します。
 
-You will receive advance notice with an in-app banner or direct communication from W&B.
+### ダウンタイムは発生しますか？
 
-### Will there be downtime?
+移行の間、従来の Model Registry と新しい W&B Registry への書き込み操作は、約1時間停止します。それ以外の W&B サービスは通常通りご利用いただけます。
 
-Write operations to the legacy Model Registry and the new W&B Registry will be paused for a approximately one hour during the migration. All other W&B services will remain available.
+### コードは壊れますか？
 
-### Will this break my code?
+いいえ。従来の Model Registry のパスや Python SDK コールはすべて自動的に新しい Registry にリダイレクトされます。
 
-No. All legacy Model Registry paths and Python SDK calls will automatically redirect to the new Registry.
+### データが削除されることはありますか？
 
-### Will my data be deleted?
+ありません。データは新しい W&B Registry にコピーされ、従来の Model Registry は読み取り専用となり、後に非表示となります。データが削除されることはありません。
 
-No. Your data will be copied to the new W&B Registry. The legacy Model Registry becomes read-only and later hidden. No data is removed or lost.
+### 古い SDK を使っている場合は？
 
-### What if I’m using an older SDK?
+リダイレクト自体は機能しますが、警告表示はありません。より良い体験のために最新版 W&B SDK の利用をおすすめします。
 
-Redirects will still work, but you will not see warnings about them. For the best experience, upgrade to the latest version of the W&B SDK.
+### 移行後のレジストリの名前変更やメンバー管理はできますか？
 
-### Can I rename/modify my migrated registry?
+はい、移行後のレジストリでは名前変更やメンバーの追加・削除等の操作が可能です。これらのレジストリはカスタムレジストリとして扱われ、移行後もリダイレクト機能は継続されます。
 
-Yes, renaming and other operations such as adding or removing members from a migrated registry are allowed. These registries are simply custom registries underneath, and the redirection will continue working even after migration. 
+## ご質問は？
 
-## Questions?
-
-For support or to discuss your migration, contact [support@wandb.com](mailto:support@wandb.com). W&B is committed to helping you transition smoothly to the new W&B Registry.
+サポートや移行についてのご相談は [support@wandb.com](mailto:support@wandb.com) までご連絡ください。W&B は新しい W&B Registry へのスムーズな移行を全力でサポートします。

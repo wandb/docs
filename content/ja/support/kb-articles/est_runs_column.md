@@ -1,27 +1,27 @@
 ---
+title: '`Est. Runs` 列とは何ですか？'
 menu:
   support:
     identifier: ja-support-kb-articles-est_runs_column
 support:
-- sweeps
-- hyperparameter
-title: What is the `Est. Runs` column?
+- スイープ
+- ハイパーパラメーター
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-W&B provides an estimated number of Runs generated when creating a W&B Sweep with a discrete search space. This total reflects the cartesian product of the search space.
+W&B では、離散的な探索空間を持つ W&B Sweep を作成する際に、生成される Run の推定数を表示します。この合計は探索空間のデカルト積を反映しています。
 
-For instance, consider the following search space:
+例えば、次のような探索空間を考えてみましょう。
 
-{{< img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="Estimated runs column" >}}
+{{< img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="推定 Run 列" >}}
 
-In this case, the Cartesian product equals 9. W&B displays this value in the App UI as the estimated run count (**Est. Runs**):
+この場合、デカルト積は 9 となります。W&B はこの値を App UI 上で推定 Run 数（**Est. Runs**）として表示します。
 
-{{< img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="Sweep run estimation" >}}
+{{< img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="Sweep の Run 推定" >}}
 
-To retrieve the estimated Run count programmatically, use the `expected_run_count` attribute of the Sweep object within the W&B SDK:
+推定 Run 数をプログラム上で取得したい場合は、W&B SDK の Sweep オブジェクトの `expected_run_count` 属性を利用します。
 
 ```python
 sweep_id = wandb.sweep(

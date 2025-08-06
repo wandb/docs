@@ -1,28 +1,29 @@
 ---
+title: W&B の組織からユーザーのリストをエクスポートするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-export_list_users_account
 support:
-- administrator
-- user management
-title: How do I export a list of users from my W&B Organisation?
+- 管理者
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To export a list of users from a W&B organization, an admin uses the SCIM API with the following code:
+W&B の組織からユーザーリストをエクスポートするには、管理者が次のコードで SCIM API を利用します。
 
 ```python
 import base64
 import requests
 
+# ユーザー名とAPIキーをbase64でエンコードする関数
 def encode_base64(username, key):
     auth_string = f'{username}:{key}'
     return base64.b64encode(auth_string.encode('utf-8')).decode('utf-8')
 
-username = ''  # Organization admin username
-key = ''  # API key
+username = ''  # 組織の管理者ユーザー名
+key = ''  # APIキー
 scim_base_url = 'https://api.wandb.ai/scim/v2'
 users_endpoint = f'{scim_base_url}/Users'
 headers = {
@@ -36,4 +37,4 @@ for user in response.json()['Resources']:
     users.append([user['userName'], user['emails']['Value']])
 ```
 
-Modify the script to save the output as needed.
+必要に応じて出力を保存するようにスクリプトを修正してください。

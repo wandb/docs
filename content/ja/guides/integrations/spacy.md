@@ -1,42 +1,40 @@
 ---
+title: spaCy
 menu:
   default:
     identifier: ja-guides-integrations-spacy
     parent: integrations
-title: spaCy
 weight: 410
 ---
 
-[spaCy](https://spacy.io) is a popular "industrial-strength" NLP library: fast, accurate models with a minimum of fuss. As of spaCy v3, W&B can now be used with [`spacy train`](https://spacy.io/api/cli#train) to track your spaCy model's training metrics as well as to save and version your models and datasets. And all it takes is a few added lines in your configuration.
+[spaCy](https://spacy.io) は、人気のある「産業グレード」のNLPライブラリで、手間をかけずに高速かつ高精度なモデルを提供します。spaCy v3 からは、W&B を [`spacy train`](https://spacy.io/api/cli#train) コマンドと組み合わせて、spaCy モデルのトレーニングメトリクスの追跡や、モデル・データセットの保存とバージョン管理ができるようになりました。設定ファイルに数行追加するだけで利用できます。
 
-## Sign up and create an API key
+## サインアップして APIキー を作成する
 
-An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+APIキー は、お使いのマシンを W&B と認証するために使用されます。ユーザープロフィールから APIキー を生成できます。
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+より簡単な方法として、[W&B 認証ページ](https://wandb.ai/authorize) に直接アクセスして APIキー を生成できます。表示された APIキー をコピーし、パスワード管理ツールなど安全な場所に保存してください。
 {{% /alert %}}
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+1. 画面右上のユーザープロフィールアイコンをクリックします。
+1. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+1. **Reveal** をクリックして表示された APIキー をコピーします。APIキー を非表示にするには、ページをリロードしてください。
 
-## Install the `wandb` library and log in
+## `wandb` ライブラリをインストールしてログインする
 
-To install the `wandb` library locally and log in:
+`wandb` ライブラリをローカルにインストールし、ログインする手順は以下の通りです。
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to your API key.
+1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) に APIキー を設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. Install the `wandb` library and log in.
-
-
+1. `wandb` ライブラリをインストールし、ログインします。
 
     ```shell
     pip install wandb
@@ -70,12 +68,12 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Add the `WandbLogger` to your spaCy config file
+## spaCy の config ファイルに `WandbLogger` を追加する
 
-spaCy config files are used to specify all aspects of training, not just logging -- GPU allocation, optimizer choice, dataset paths, and more. Minimally, under `[training.logger]` you need to provide the key `@loggers` with the value `"spacy.WandbLogger.v3"`, plus a `project_name`. 
+spaCy の config ファイルでは、ロギングだけでなく、GPU割り当てやオプティマイザーの選択、データセットのパスなど、トレーニングに関わる全ての設定を指定します。基本的には、`[training.logger]` セクションで、キー `@loggers` に `"spacy.WandbLogger.v3"` を、加えて `project_name` を設定すれば十分です。
 
 {{% alert %}}
-For more on how spaCy training config files work and on other options you can pass in to customize training, check out [spaCy's documentation](https://spacy.io/usage/training).
+spaCy のトレーニング設定ファイルの仕組みや、他にも指定できるオプションについては [spaCy の公式ドキュメント](https://spacy.io/usage/training) をご覧ください。
 {{% /alert %}}
 
 ```python
@@ -87,18 +85,18 @@ log_dataset_dir = "./corpus"
 model_log_interval = 1000
 ```
 
-| Name                   | Description                                                                                                                                                                                                                                                   |
+| 名前                   | 説明                                                                                                                                                                                                                                                   |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `project_name`         | `str`. The name of the W&B Project. The project will be created automatically if it doesn’t exist yet.                                                                                                    |
-| `remove_config_values` | `List[str]` . A list of values to exclude from the config before it is uploaded to W&B. `[]` by default.                                                                                                                                                     |
-| `model_log_interval`   | `Optional int`. `None` by default. If set, enables [model versioning]({{< relref path="/guides/core/registry/" lang="ja" >}}) with [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}). Pass in the number of steps to wait between logging model checkpoints. `None` by default. |
-| `log_dataset_dir`      | `Optional str`. If passed a path, the dataset will be uploaded as an Artifact at the beginning of training. `None` by default.                                                                                                            |
-| `entity`               | `Optional str` . If passed, the run will be created in the specified entity                                                                                                                                                                                   |
-| `run_name`             | `Optional str` . If specified, the run will be created with the specified name.                                                                                                                                                                               |
+| `project_name`         | `str`。W&B Project の名前です。まだ存在しない場合は自動で作成されます。                                                                                                    |
+| `remove_config_values` | `List[str]`。W&B にアップロードする前に config から除外する値のリスト。デフォルトは `[]`。                                                                                                                                                     |
+| `model_log_interval`   | `Optional int`。デフォルトは `None`。設定した場合は [model versioning]({{< relref path="/guides/core/registry/" lang="ja" >}}) が [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) とともに有効になります。モデルのチェックポイントをログする間隔（ステップ数）を指定します。デフォルトは `None`。 |
+| `log_dataset_dir`      | `Optional str`。パスを指定すると、トレーニング開始時にデータセットが Artifact としてアップロードされます。デフォルトは `None`。                                                                                                            |
+| `entity`               | `Optional str`。指定した場合、その Entity に run が作成されます。                                                                                                                                                                                   |
+| `run_name`             | `Optional str`。指定した名前で run を作成します。                                                                                                                                                                               |
 
-## Start training
+## トレーニングを開始する
 
-Once you have added the `WandbLogger` to your spaCy training config you can run `spacy train` as usual.
+`WandbLogger` を spaCy のトレーニング config に追加したら、通常通り `spacy train` を実行できます。
 
 {{< tabpane text=true >}}
 
@@ -139,4 +137,4 @@ python -m spacy train \
 {{% /tab %}}
 {{< /tabpane >}}
 
-When training begins, a link to your training run's [W&B page]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) will be output which will take you to this run's experiment tracking [dashboard]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) in the W&B web UI.
+トレーニングが開始されると、トレーニング run の [W&B ページ]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) へのリンクが表示され、W&B のウェブUIからこの run の実験管理 [ダッシュボード]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) へアクセスできます。

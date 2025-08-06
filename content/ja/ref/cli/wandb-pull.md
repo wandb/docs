@@ -1,22 +1,21 @@
 ---
+title: wandb pull
 menu:
   reference:
     identifier: ja-ref-cli-wandb-pull
-title: wandb pull
 ---
 
-**Usage**
+**使用方法**
 
 `wandb pull [OPTIONS] RUN`
 
-**Summary**
+**概要**
 
-Pull files from Weights & Biases
+Weights & Biases からファイルを取得します
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `-p, --project` | The project you want to download. |
-| `-e, --entity` | The entity to scope the listing to. |
+| `-p, --project` | ダウンロードしたい Project を指定します。 |
+| `-e, --entity` | リストの範囲を絞る Entity を指定します。 |

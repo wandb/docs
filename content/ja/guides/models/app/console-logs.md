@@ -1,97 +1,94 @@
 ---
+title: コンソールログ
 menu:
   default:
     identifier: ja-guides-models-app-console-logs
-title: Console logs
 url: guides/app/console-logs
 ---
 
-When you run an experiment, you may notice various messages printed to your console. W&B captures console logs and displays them in the W&B App. Use these messages to debug and monitor the behavior of your experiment.
+実験を実行すると、コンソールにさまざまなメッセージが表示されることがあります。W&B はこれらのコンソールログをキャプチャして W&B App に表示します。これらのメッセージを利用して、実験のデバッグや進行状況の監視ができます。
 
-## View console logs
+## コンソールログの表示
 
-Access console logs for a run in the W&B App:
+W&B App で run のコンソールログにアクセスするには、以下の手順に従います。
 
-1. Navigate to your project in the W&B App.
-2. Select a run within the **Runs** table.
-3. Click the **Logs** tab in the project sidebar.
+1. W&B App 内で、あなたの Project に移動します。
+2. **Runs** テーブルから任意の run を選択します。
+3. Project のサイドバーで **Logs** タブをクリックします。
 
 {{% alert %}}
-Only 10,000 lines of your logs are shown due to storage limitations
+ストレージ制限のため、ログの最大 10,000 行のみが表示されます
 {{% /alert %}}
 
-<!-- ## Console log fields
 
-Within the W&B App you can modify the fields shown in the console logs table.  -->
+## コンソールログの種類
 
-## Types of console logs
+W&B は、情報メッセージ、警告、エラーなど、複数種類のコンソールログをキャプチャします。各ログの重要度はプレフィックスで区別できます。
 
-W&B captures several types of console logs: informational messages, warnings, and errors, with a prefix to indicate the log's severity.
-
-### Informational messages
-Informational messages provide updates about the run's progress and status. They are typically prefixed with `wandb:`.
+### 情報メッセージ
+情報メッセージは、run の進行状況や状態に関する情報を提供します。通常は `wandb:` が先頭につきます。
 
 ```text
 wandb: Starting Run: abc123
 wandb: Run data is saved locally in ./wandb/run-20240125_120000-abc123
 ```
 
-### Warning messages
-Warnings about potential issues that don't stop execution are prefixed with `WARNING:`
+### 警告メッセージ
+実行を止めるほどではない、潜在的な問題に関する警告は `WARNING:` で始まります。
 
 ```text
 WARNING Found .wandb file, not streaming tensorboard metrics.
 WARNING These runs were logged with a previous version of wandb.
 ```
 
-### Error messages 
-Error messages for serious issues are prefixed with `ERROR:`. These indicate problems that may prevent the run from completing successfully.
+### エラーメッセージ 
+重大な問題が発生した場合、`ERROR:` で始まるエラーメッセージが表示されます。これらは run が正常に完了できない場合に生じます。
 
 ```text
 ERROR Unable to save notebook session history.
 ERROR Failed to save notebook.
 ```
 
-## Console log settings
+## コンソールログの設定
 
-Within your code, pass the `wandb.Settings` object to `wandb.init()` to configure how W&B handles console logs. Within `wandb.Settings`, you can set the following parameters to control console log behavior:
+コード内で `wandb.Settings` オブジェクトを `wandb.init()` に渡すことで、W&B がコンソールログをどのように扱うかを設定できます。`wandb.Settings` では、以下のパラメータを指定してコンソールログの振る舞いを調整できます。
 
-- `show_errors`: If set to `True`, error messages are displayed in the W&B App. If set to `False`, error messages are not shown.
-- `silent`: If set to `True`, all W&B console output will be suppressed. This is useful for production environments where you want to minimize console noise.
-- `show_warnings`: If set to `True`, warning messages are displayed in the W&B App. If set to `False`, warning messages are not shown.
-- `show_info`: If set to `True`, informational messages are displayed in the W&B App. If set to `False`, informational messages are not shown.
+- `show_errors`: `True` にするとエラーメッセージが W&B App に表示され、`False` では表示されません。
+- `silent`: `True` にすると W&B の全てのコンソール出力が抑制されます。 本番（プロダクション）環境など、コンソールのノイズを最小限にしたい場合に便利です。
+- `show_warnings`: `True` で警告メッセージを W&B App に表示、`False` で表示しません。
+- `show_info`: `True` で情報メッセージを W&B App に表示、`False` で表示しません。
 
-The following example shows how to configure these settings:
+以下は設定例です：
 
 ```python
 import wandb
 
 settings = wandb.Settings(
-    show_errors=True,  # Show error messages in the W&B App
-    silent=False,      # Disable all W&B console output
-    show_warnings=True # Show warning messages in the W&B App
+    show_errors=True,  # W&B App でエラーメッセージを表示する
+    silent=False,      # すべての W&B コンソール出力を無効化
+    show_warnings=True # W&B App で警告メッセージを表示する
 )
 
 with wandb.init(settings=settings) as run:
-    # Your training code here
+    # ここにトレーニングコードを記述
     run.log({"accuracy": 0.95})
 ```
 
-## Custom logging
+## カスタムロギング
 
-W&B captures console logs from your application, but it does not interfere with your own logging setup. You can use Python's built-in `print()` function or the `logging` module to log messages.
+W&B はアプリケーションのコンソールログをキャプチャしますが、独自のロギング設定には干渉しません。Python の組み込み `print()` 関数や `logging` モジュールで自由にメッセージを記録できます。
 
 ```python
 import wandb
 
 with wandb.init(project="my-project") as run:
     for i in range(100, 1000, 100):
-        # This will log to W&B and print to console
+        # これは W&B にもログされ、コンソールにも出力される
         run.log({"epoch": i, "loss": 0.1 * i})
         print(f"epoch: {i} loss: {0.1 * i}")
 ```
 
-The console logs will look similar to the following:
+コンソールログの出力例は以下のようになります：
 
 ```text
 1 epoch:  100 loss: 1.3191105127334595
@@ -105,52 +102,52 @@ The console logs will look similar to the following:
 9 epoch:  900 loss: 0.28154927492141724
 ```
 
-## Time stamps
+## タイムスタンプ
 
-Time stamps are automatically added to each console log entry. This allows you to track when each log message was generated.
+各コンソールログには自動的にタイムスタンプが付与されます。これにより、各ログメッセージがいつ生成されたかの追跡が可能です。
 
-You can toggle the time stamps in the console logs on or off. Within the console page select the **Timestamp visible** dropdown in the top left corner. You can choose to show or hide the time stamps.
+コンソールログのタイムスタンプは表示・非表示を切り替えられます。コンソールページの左上にある **Timestamp visible** ドロップダウンから、タイムスタンプの表示/非表示を選択できます。
 
-## Search console logs
+## コンソールログの検索
 
-Use the search bar at the top of the console logs page to filter logs by keywords. You can search for specific terms, labels, or error messages.
+コンソールログページ上部の検索バーを使って、キーワードでログをフィルタリングできます。特定の語句やラベル、エラーメッセージを検索することができます。
 
-## Filter with custom labels
+## カスタムラベルによるフィルタ
 
 {{% alert color="secondary"  %}}
-Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a [GitHub issue in the W&B repository](https://github.com/wandb/wandb) to provide feedback.
+`x_` で始まるパラメータ（たとえば `x_label`）はパブリックプレビュー中です。フィードバックがあれば [W&B リポジトリの GitHub issue](https://github.com/wandb/wandb) へご記入ください。
 {{% /alert %}}
 
-You can filter console logs based on the labels you pass as arguments for `x_label` in `wandb.Settings` in the UI search bar located at the top of the console log page. 
+`wandb.Settings` の `x_label` 引数で指定したラベルを使い、コンソールログページ上部 UI の検索バーからラベルでログを絞り込むことができます。
 
 ```python
 import wandb
 
-# Initialize a run in the primary node
+# プライマリノードで run を初期化
 run = wandb.init(
     entity="entity",
     project="project",
 	settings=wandb.Settings(
-        x_label="custom_label"  # (Optional) Custom label for filtering logs
+        x_label="custom_label"  # （オプション）ログをフィルタするためのカスタムラベル
         )
 )
 ```
 
-## Download console logs
+## コンソールログのダウンロード
 
-Download console logs for a run in the W&B App:
+W&B App で run のコンソールログをダウンロードするには：
 
-1. Navigate to your project in the W&B App.
-2. Select a run within the **Runs** table.
-3. Click the **Logs** tab in the project sidebar.
-4. Click the download button in the top right corner of the console logs page.
+1. W&B App で Project に移動します。
+2. **Runs** テーブルから run を選択します。
+3. Project のサイドバーから **Logs** タブをクリックします。
+4. コンソールログページ右上のダウンロードボタンをクリックします。
 
 
-## Copy console logs
+## コンソールログのコピー
 
-Copy console logs for a run in the W&B App:
+W&B App で run のコンソールログをコピーするには：
 
-1. Navigate to your project in the W&B App.
-2. Select a run within the **Runs** table.
-3. Click the **Logs** tab in the project sidebar.
-4. Click the copy button in the top right corner of the console logs page.
+1. W&B App で Project に移動します。
+2. **Runs** テーブルから run を選択します。
+3. Project のサイドバーから **Logs** タブをクリックします。
+4. コンソールログページ右上のコピー（copy）ボタンをクリックします。

@@ -1,4 +1,5 @@
 ---
+title: リリースノート
 cascade:
 - url: /ref/release-notes/:filename/
 - type: docs
@@ -10,11 +11,10 @@ menu:
     weight: 5
   reference:
     identifier: ja-ref-release-notes-_index
-title: Release Notes
 type: docs
 url: /ref/release-notes/
 ---
 
-This section includes release notes for supported W&B Server releases. For releases that are no longer supported, refer to [Archived releases]({{< relref path="archived/" lang="ja" >}}).
+このセクションでは、サポートされている W&B Server リリースのリリースノートを掲載しています。サポートが終了したリリースについては、[アーカイブ済みリリース]({{< relref path="archived/" lang="ja" >}}) をご覧ください。
 
-<a href="/ref/release-notes/index.xml"><button class="btn btn-primary mb-4 feedback--answer"><i class="fa-sharp fa-regular fa-square-rss" alt="RSS icon"></i>&nbsp;RSS feed</button></a>
+<a href="/ref/release-notes/index.xml"><button class="btn btn-primary mb-4 feedback--answer"><i class="fa-sharp fa-regular fa-square-rss" alt="RSS icon"></i>&nbsp;RSS フィード</button></a>

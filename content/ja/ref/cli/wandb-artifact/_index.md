@@ -1,30 +1,29 @@
 ---
+title: wandb アーティファクト
 menu:
   reference:
     identifier: ja-ref-cli-wandb-artifact-_index
-title: wandb artifact
 ---
 
-**Usage**
+**使い方**
 
 `wandb artifact [OPTIONS] COMMAND [ARGS]...`
 
-**Summary**
+**概要**
 
-Commands for interacting with artifacts
+Artifacts を操作するためのコマンド
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
 
 
-**Commands**
+**コマンド一覧**
 
-| **Command** | **Description** |
+| **コマンド** | **説明** |
 | :--- | :--- |
-| cache | Commands for interacting with the artifact cache |
-| get | Download an artifact from wandb |
-| ls | List all artifacts in a wandb project |
-| put | Upload an artifact to wandb |
+| cache | Artifact キャッシュを操作するためのコマンド |
+| get | wandb から Artifact をダウンロードします |
+| ls | wandb プロジェクトのすべての Artifact を一覧表示します |
+| put | wandb に Artifact をアップロードします |

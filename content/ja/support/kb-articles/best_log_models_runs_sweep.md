@@ -1,17 +1,17 @@
 ---
+title: sweep 内の run からモデルを最適にログするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-best_log_models_runs_sweep
 support:
-- artifacts
-- sweeps
-title: How do I best log models from runs in a sweep?
+- アーティファクト
+- スイープ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-One effective approach for logging models in a [sweep]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) involves creating a model artifact for the sweep. Each version represents a different run from the sweep. Implement it as follows:
+[スイープ]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) でモデルをログする効果的な方法のひとつは、スイープ用のモデル artifact を作成することです。各バージョンはスイープからの異なる run を表します。以下のように実装します。
 
 ```python
 wandb.Artifact(name="sweep_name", type="model")

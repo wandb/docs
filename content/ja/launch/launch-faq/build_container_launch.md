@@ -1,20 +1,20 @@
 ---
+title: W&B にコンテナをビルドしてほしくないのですが、Launch を使うことはできますか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-build_container_launch
     parent: launch-faq
-title: I do not want W&B to build a container for me, can I still use Launch?
 ---
 
-To launch a pre-built Docker image, execute the following command. Replace the placeholders in the `<>` with your specific information:
+あらかじめ作成された Docker イメージをローンチするには、以下のコマンドを実行してください。`<>` 内のプレースホルダーは、ご自身の情報に置き換えてください。
 
 ```bash
 wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>
 ```
 
-This command creates a job and starts a run.
+このコマンドはジョブを作成し、run を開始します。
 
-To create a job from an image, use the following command:
+イメージからジョブを作成する場合は、次のコマンドを使用します。
 
 ```bash
 wandb job create image <image-name> -p <project> -e <entity>

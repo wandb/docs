@@ -1,16 +1,16 @@
 ---
+title: 継続的インテグレーションや社内ツールでローンチされた run をログするにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-log_automated_runs_service_account
 support:
-- runs
-- logs
-title: How do I log runs launched by continuous integration or internal tools?
+- run
+- ログ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To launch automated tests or internal tools that log to W&B, create a **Service Account** on the team settings page. This action allows the use of a service API key for automated jobs, including those running through continuous integration. To attribute service account jobs to a specific user, set the `WANDB_USERNAME` or `WANDB_USER_EMAIL` environment variables.
+自動テストや W&B へのログを行う内部ツールを起動するには、チームの設定ページで **Service Account** を作成してください。この操作により、継続的インテグレーションなどで動作する自動ジョブ用にサービス用の APIキー を利用できるようになります。Service Account のジョブを特定のユーザーに紐付けるには、`WANDB_USERNAME` または `WANDB_USER_EMAIL` の環境変数を設定してください。
 
-{{< img src="/images/track/common_questions_automate_runs.png" alt="Creating service account" >}}
+{{< img src="/images/track/common_questions_automate_runs.png" alt="Service Account の作成" >}}

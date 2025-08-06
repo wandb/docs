@@ -1,94 +1,92 @@
 ---
-description: How to download a model with W&B Python SDK
+title: モデル バージョンをダウンロードする
+description: W&B Python SDK を使ってモデルをダウンロードする方法
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-consume-models
     parent: model-registry
-title: Download a model version
 weight: 8
 ---
 
-Use the W&B Python SDK to download a model artifact that you linked to the Model Registry. 
+W&B Python SDK を使って、Model Registry にリンクしたモデルアーティファクトをダウンロードできます。
 
 {{% alert %}}
-You are responsible for providing additional Python functions, API calls to reconstruct, deserialize your model into a form that you can work with. 
+追加の Python 関数や API コールを使って、モデルを再構築・デシリアライズする作業はユーザー自身が行う必要があります。
 
-W&B suggests that you document information on how to load models into memory with model cards. For more information, see the [Document machine learning models]({{< relref path="./create-model-cards.md" lang="ja" >}}) page. 
+W&B では、モデルカードを使ってモデルをメモリにロードする方法などの情報をドキュメント化することを推奨しています。詳細は[機械学習モデルのドキュメント化]({{< relref path="./create-model-cards.md" lang="ja" >}})のページをご覧ください。
 {{% /alert %}}
 
-
-Replace values within `<>` with your own:
+`<>` 内の値は、ご自身の情報に置き換えてください。
 
 ```python
 import wandb
 
-# Initialize a run
+# run を初期化
 run = wandb.init(project="<project>", entity="<entity>")
 
-# Access and download model. Returns path to downloaded artifact
+# モデルにアクセスしてダウンロード。ダウンロードしたアーティファクトのパスが返ります
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-Reference a model version with one of following formats listed:
+モデルバージョンを指定する際は、以下のいずれかの形式を利用できます:
 
-* `latest` - Use `latest` alias to specify the model version that is most recently linked.
-* `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
-* `alias` - Specify the custom alias that you and your team assigned to your model version
+* `latest` - `latest` エイリアスを使って、最新でリンクされたモデルバージョンを指定します。
+* `v#` - `v0`、`v1`、`v2` など、Registered Model 内の特定のバージョンを指定します。
+* `alias` - あなたやチームがそのモデルバージョンに割り当てたカスタムエイリアスを指定します。
 
-See [`use_model`]({{< relref path="/ref/python/sdk/classes/run.md#use_model" lang="ja" >}}) in the API Reference guide for more information on possible parameters and return type.
+利用可能なパラメータや返り値の型など、詳細は API Reference ガイドの [`use_model`]({{< relref path="/ref/python/sdk/classes/run.md#use_model" lang="ja" >}}) をご参照ください。
 
 <details>
-<summary>Example: Download and use a logged model</summary>
+<summary>例: ログ済みのモデルをダウンロードして利用する</summary>
 
-For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that returned from the API to the `downloaded_model_path` variable.
+例えば、以下のコードスニペットでは、ユーザーが `use_model` API を呼び出しています。取得したいモデルアーティファクトの名前を指定し、さらにバージョンやエイリアスも与えています。その後、API から返されたパスを `downloaded_model_path` という変数に格納しています。
 
 ```python
 import wandb
 
 entity = "luka"
 project = "NLP_Experiments"
-alias = "latest"  # semantic nickname or identifier for the model version
+alias = "latest"  # モデルバージョンのセマンティックなニックネームや識別子
 model_artifact_name = "fine-tuned-model"
 
-# Initialize a run
+# run を初期化
 run = wandb.init()
-# Access and download model. Returns path to downloaded artifact
+# モデルにアクセスしてダウンロード。ダウンロードしたアーティファクトのパスが返ります
 
 downloaded_model_path = run.use_model(name=f"{entity/project/model_artifact_name}:{alias}")
 ```
 </details>
 
+{{% alert title="2024 年に予定されている W&B Model Registry の廃止について" %}}
+以下のタブでは、まもなく廃止予定の Model Registry を使用してモデルアーティファクトを活用する方法を紹介しています。
 
-{{% alert title="Planned deprecation for W&B Model Registry in 2024" %}}
-The proceeding tabs demonstrate how to consume model artifacts using the soon to be deprecated Model Registry.
-
-Use the W&B Registry to track, organize and consume model artifacts. For more information see the [Registry docs]({{< relref path="/guides/core/registry/" lang="ja" >}}).
+モデルアーティファクトの追跡・整理・活用には、W&B Registry をご利用ください。詳細は [Registry docs]({{< relref path="/guides/core/registry/" lang="ja" >}}) をご参照ください。
 {{% /alert %}}
 
 {{< tabpane text=true >}}
   {{% tab header="CLI" %}}
-Replace values within `<>` with your own:
+`<>` 内の値は、ご自身の情報に置き換えてください。
 ```python
 import wandb
-# Initialize a run
+# run を初期化
 run = wandb.init(project="<project>", entity="<entity>")
-# Access and download model. Returns path to downloaded artifact
+# モデルにアクセスしてダウンロード。ダウンロードしたアーティファクトのパスが返ります
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
-Reference a model version with one of following formats listed:
+モデルバージョンを指定する際は以下のいずれかの形式を利用できます:
 
-* `latest` - Use `latest` alias to specify the model version that is most recently linked.
-* `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
-* `alias` - Specify the custom alias that you and your team assigned to your model version
+* `latest` - `latest` エイリアスを使って、最新でリンクされたモデルバージョンを指定します。
+* `v#` - `v0`、`v1`、`v2` など、Registered Model 内の特定のバージョンを指定します。
+* `alias` - あなたやチームがそのモデルバージョンに割り当てたカスタムエイリアスを指定します。
 
-See [`use_model`]({{< relref path="/ref/python/sdk/classes/run.md#use_model" lang="ja" >}}) in the API Reference guide for parameters and return type.  
+パラメータや返り値については、API Reference ガイドの [`use_model`]({{< relref path="/ref/python/sdk/classes/run.md#use_model" lang="ja" >}}) をご参照ください。
   {{% /tab %}}
   {{% tab header="W&B App" %}}
-1. Navigate to the [Model Registry App](https://wandb.ai/registry/model).
-2. Select **View details** next to the name of the registered model that contains the model you want to download.
-3. Within the Versions section, select the View button next to the model version you want to download.
-4. Select the **Files** tab. 
-5. Click on the download button next to the model file you want to download. 
+1. [Model Registry App](https://wandb.ai/registry/model) にアクセスします。
+2. ダウンロードしたいモデルが含まれている registered model の横にある **View details** を選択します。
+3. Versions セクションで、ダウンロードしたいモデルバージョンの横にある View ボタンをクリックします。
+4. **Files** タブを選択します。
+5. ダウンロードしたいモデルファイルの横にあるダウンロードボタンをクリックします。
 {{< img src="/images/models/download_model_ui.gif" alt="Download model from UI" >}}  
   {{% /tab %}}
 {{< /tabpane >}}

@@ -1,9 +1,9 @@
 ---
+title: 自動化イベントとスコープ
 menu:
   default:
     identifier: ja-guides-core-automations-automation-events
     parent: automations
-title: Automation events and scopes
 weight: 2
 ---
 
@@ -11,123 +11,125 @@ weight: 2
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview]({{< relref path="/guides/core/automations/" lang="ja" >}}) or [Create an automation]({{< relref path="create-automations/" lang="ja" >}}).
+オートメーションは、プロジェクトやレジストリ内で特定のイベントが発生したときに開始できます。このページでは、各スコープごとにオートメーションをトリガーできるイベントについて説明します。オートメーションの詳細は [Automations の概要]({{< relref path="/guides/core/automations/" lang="ja" >}}) または [オートメーションの作成]({{< relref path="create-automations/" lang="ja" >}}) をご覧ください。
 
 ## Registry
-This section describes the scopes and events for an automation in a [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}).
+このセクションでは [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) におけるオートメーションのスコープとイベントについて説明します。
 
-1. Navigate to the **Registry** App at https://wandb.ai/registry/.
-1. Click the name of a registry, then view and create automations in the **Automations** tab.
+1. https://wandb.ai/registry/ の **Registry** アプリにアクセスします。
+1. レジストリ名をクリックし、**Automations** タブでオートメーションの確認・作成ができます。
 
-![Screenshot of the Registry Automations tab with an automation](/images/automations/registry_automations_tab.png)
+![Registry Automations タブでオートメーションが設定されたスクリーンショット](/images/automations/registry_automations_tab.png)
 
-Learn more about [creating automations]({{< relref path="create-automations/" lang="ja" >}}).
+[オートメーションの作成方法]({{< relref path="create-automations/" lang="ja" >}}) についてさらに詳しく学ぶことができます。
 
-### Scopes
-You can create a Registry automation at these scopes:
-- [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) level: The automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
-- Collection level: A single collection in a specific registry.
+### スコープ
+Registry でオートメーションを作成できるスコープは以下の通りです：
+- [Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) レベル: 特定のレジストリ内のすべてのコレクション（将来的に追加されたものも含む）でイベントが発生した際に監視します。
+- コレクションレベル: 特定レジストリ内の単一コレクション。
 
-### Events
-A Registry automation can watch for these events:
-- **A new version is linked to a collection**: Test and validate new models or datasets when they are added to a registry.
-- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
+### イベント
+Registry オートメーションで監視できるイベントは次の通りです：
+- **新しいバージョンがコレクションにリンクされたとき**：新しいモデルやデータセットが Registry に追加された際にテストや検証を実行します。
+- **Artifact エイリアスが追加されたとき**：新しい artifact バージョンに特定のエイリアスが付与された際、ワークフローの特定ステップを実行します。例: `production` エイリアスが付与されたタイミングでモデルをデプロイするなど。
 
 ## Project
-This section describes the scopes and events for an automation in a [project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}).
+このセクションでは [project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}) におけるオートメーションのスコープとイベントについて説明します。
 
-1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
-1. View and create automations in the **Automations** tab.
+1. W&B アプリの `https://wandb.ai/<team>/<project-name>` ページで目的の W&B Project にアクセスします。
+1. **Automations** タブでオートメーションの確認・作成ができます。
 
-![Screenshot of the Project Automations tab with an automation](/images/automations/project_automations_tab.png)
+![Project Automations タブでオートメーションが設定されたスクリーンショット](/images/automations/project_automations_tab.png)
 
-Learn more about [creating automations]({{< relref path="create-automations/" lang="ja" >}}).
+[オートメーションの作成方法]({{< relref path="create-automations/" lang="ja" >}}) についてさらに詳しく学ぶことができます。
 
-### Scopes
-You can create a project automation at these scopes:
-- Project level: The automation watches for the event taking place on any collection in the project.
-- Collection level: All collections in the project that match the filter you specify.
+### スコープ
+Project でオートメーションを作成できるスコープは以下の通りです：
+- Project レベル: プロジェクト内のすべてのコレクションでイベントが発生した場合に監視します。
+- コレクションレベル: 指定したフィルターに一致するプロジェクト内すべてのコレクション。
 
-### Artifact events
-This section describes the events related to an artifact that can trigger an automation.
+### Artifact 関連のイベント
+artifact がオートメーションをトリガーできるイベントについて説明します。
 
-- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
-- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version gains the `latest` alias. Only one artifact version can have a given alias at a point in time.
-- **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project or collection has a specific tag applied. For example, trigger a geo-specific workflow when the tag "europe" is added to an artifact version. Artifact tags are used for grouping and filtering, and a given tag can be assigned to multiple artifact versions simultaneously.
+- **artifact に新しいバージョンが追加されたとき**：artifact の各バージョンごとに定期的な処理を実行します。例: 新しい dataset artifact バージョンが作成された時にトレーニングジョブを開始するなど。
+- **artifact エイリアスが追加されたとき**：プロジェクトやコレクション内の新しい artifact バージョンに特定のエイリアスが付与された際、ワークフローの特定ステップを実行します。例: `test-set-quality-check` エイリアスがついたときに一連の後処理を走らせたり、`latest` エイリアスが新規バージョンに付与されるたびにワークフローを実行できます。あるエイリアスは同時に 1 つの artifact バージョンにのみつけられます。
+- **artifact タグが追加されたとき**：プロジェクトやコレクション内の artifact バージョンに特定のタグが付与された際、ワークフローの特定ステップを実行します。例: artifact バージョンに "europe" というタグがついた場合に、その地域特有のワークフローを動かします。artifact タグはグルーピングやフィルタリングに使用され、同じタグを複数の artifact バージョンに同時につけることができます。
 
-### Run events
-An automation can be triggered by a change in a [run's status]({{< relref path="/guides/models/track/runs/#run-states" lang="ja" >}}) or a change in a [metric value]({{< relref path="/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" lang="ja" >}}).
+### Run 関連のイベント
+[run のステータス]({{< relref path="/guides/models/track/runs/#run-states" lang="ja" >}})が変化した場合、または [メトリクス値]({{< relref path="/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" lang="ja" >}})が変化した場合にオートメーションを実行できます。
 
-#### Run status change
+#### Run ステータス変更
 {{% alert %}}
-- Currently available only in [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/#wb-multi-tenant-cloud" lang="ja" >}}).
-- A run with **Killed** status cannot trigger an automation. This status indicates that the run was stopped forcibly by an admin user.
+- 現在は [W&B マルチテナントクラウド]({{< relref path="/guides/hosting/#wb-multi-tenant-cloud" lang="ja" >}}) のみで利用可能です。
+- **Killed** ステータスの run ではオートメーションはトリガーされません。このステータスは、管理者ユーザーにより強制停止された run を意味します。
 {{% /alert %}}
 
-Trigger a workflow when a run changes its [status]({{< relref path="/guides/models/track/runs/_index.md#run-states" lang="ja" >}}) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+run の [ステータス]({{< relref path="/guides/models/track/runs/_index.md#run-states" lang="ja" >}}) が **Running**、**Finished**、**Failed** のいずれかに変わった際にワークフローを実行できます。さらに、run を開始したユーザーや run 名でフィルタリングすることで、オートメーションをトリガーする対象を絞り込むことも可能です。
 
-![Screenshot showing a run status change automation](/images/automations/run_status_change.png)
+![run ステータス変更によるオートメーションの例](/images/automations/run_status_change.png)
 
-Because run status is a property of the entire run, you can create a run status automation only from the the **Automations** page, not from a workspace.
+run ステータスは run 全体のプロパティであるため、run ステータスのオートメーションは **Automations** ページからのみ作成でき、ワークスペースからは作成できません。
 
-#### Run metrics change
+#### Run メトリクス値の変化
 {{% alert %}}
-Currently available only in [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/#wb-multi-tenant-cloud" lang="ja" >}}).
+現在は [W&B マルチテナントクラウド]({{< relref path="/guides/hosting/#wb-multi-tenant-cloud" lang="ja" >}}) のみで利用可能です。
 {{% /alert %}}
 
-Trigger a workflow based on a logged value for a metric, either a metric in a run's history or a [system metric]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ja" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
+run の履歴に記録されたメトリクスや、`cpu` などの [システムメトリクス]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ja" >}})、つまり CPU 使用率のような値でワークフローを実行できます。W&B はシステムメトリクスを 15 秒ごとに自動でログします。
 
-You can create a run metrics automation from the project's **Automations** tab or directly from a line plot panel in a workspace.
+run メトリクスのオートメーションは、プロジェクトの **Automations** タブ、またはワークスペース内の折れ線パネルから直接作成できます。
 
-To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
+run メトリックオートメーションの設定時には、指定したしきい値とどのように比較するかを構成します。選択肢はイベントタイプと指定したフィルターによって異なります。
 
-Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+さらに、run を開始したユーザーや run 名でフィルタリングし、オートメーションをトリガーする run を絞り込むことができます。
 
-##### Threshold
-For **Run metrics threshold met** events, you configure:
-1. The window of most recently logged values to consider (defaults to 5).
-1. Whether to evaluate the **Average**, **Min**, or **Max** value within the window.
-1. The comparison to make:
-      - Above
-      - Above or equal to
-      - Below
-      - Below or equal to
-      - Not equal to
-      - Equal to
+##### しきい値
+**Run metrics threshold met** イベントの場合、以下を設定します：
 
-For example, trigger an automation when average `accuracy` is above `.6`.
+1. 判定に利用する直近記録値のウィンドウサイズ（デフォルトは 5）
+1. ウィンドウ内で計算する **平均**、**最小**、**最大** のいずれか
+1. 比較方法の種類
+      - より大きい
+      - 以上
+      - 未満
+      - 以下
+      - 等しくない
+      - 等しい
 
-![Screenshot showing a run metrics threshold automation](/images/automations/run_metrics_threshold_automation.png)
+例：平均 `accuracy` が `.6` を超えた時にオートメーションをトリガーするなど。
 
-##### Change threshold
-For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
+![run メトリクスしきい値オートメーションの例](/images/automations/run_metrics_threshold_automation.png)
 
-- The _current window_ of recently logged values to consider (defaults to 10).
-- The _prior window_ of recently logged values to consider (defaults to 50).
+##### 変化しきい値
+**Run metrics change threshold met** イベントの場合、2つの「ウィンドウ」の値を使って判定します。
 
-The current and prior windows are consecutive and do not overlap.
+- _現在ウィンドウ_：判定に使う直近記録値（デフォルト 10）
+- _直前ウィンドウ_：判定に使う直前の記録値（デフォルト 50）
 
-To create the automation, you configure:
-1. The current window of logged values (defaults to 10).
-1. The prior window of logged values (defaults to 50).
-1. Whether to evaluate the values as relative or absolute (defaults to **Relative**).
-1. The comparison to make:
-      - Increases by at least
-      - Decreases by at least
-      - Increases or decreases by at least
+現在ウィンドウと直前ウィンドウは連続しており、重複しません。
 
-For example, trigger an automation when average `loss` decreases by at least `.25`.
+オートメーションを作成する際は以下を設定します：
 
-![Screenshot showing a run metrics change threshold automation](/images/automations/run_metrics_change_threshold_automation.png)
+1. 現在ウィンドウ（デフォルト 10）
+1. 直前ウィンドウ（デフォルト 50）
+1. 値の評価方法が **相対値** か **絶対値** か（デフォルトは **相対値**）
+1. 比較方法の種類
+      - 少なくともこれだけ増加
+      - 少なくともこれだけ減少
+      - 少なくともこれだけ増減
 
-#### Run filters
-This section describes how the automation selects runs to evaluate.
+例：平均 `loss` が少なくとも `.25` 減少したときにオートメーションをトリガーするなど。
 
-- By default, any run in the project triggers the automation when the event occurs. To consider only specific runs, specify a run filter.
-- Each run is considered individually and can potentially trigger the automation.
-- Each run's values are put into a separate window and compared to the threshold separately.
-- In a 24 hour period, a particular automation can fire at most once per run.
+![run メトリクス変化しきい値オートメーションの例](/images/automations/run_metrics_change_threshold_automation.png)
 
-## Next steps
-- [Create a Slack automation]({{< relref path="create-automations/slack.md" lang="ja" >}})
-- [Create a webhook automation]({{< relref path="create-automations/webhook.md" lang="ja" >}})
+#### Run フィルター
+このセクションでは、オートメーションがどのように対象の run を絞り込むかについて説明します。
+
+- デフォルトでは、プロジェクト内のどの run でもイベント発生時にオートメーションが走ります。特定の run だけを対象としたい場合、run フィルターを指定します。
+- 各 run ごとに個別に判定され、オートメーションをトリガーできます。
+- 各 run の値は別々のウィンドウに格納され、しきい値と個別に比較されます。
+- 1つのオートメーションは 24 時間の間に同じ run で1回だけ発火します。
+
+## 次のステップ
+- [Slack オートメーションの作成]({{< relref path="create-automations/slack.md" lang="ja" >}})
+- [Webhook オートメーションの作成]({{< relref path="create-automations/webhook.md" lang="ja" >}})

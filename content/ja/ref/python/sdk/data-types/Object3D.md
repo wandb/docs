@@ -1,10 +1,10 @@
 ---
+title: オブジェクト3D
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-sdk-data-types-Object3D
 object_type: python_sdk_data_type
-title: Object3D
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py >}}
@@ -13,7 +13,7 @@ title: Object3D
 
 
 ## <kbd>class</kbd> `Object3D`
-W&B class for 3D point clouds. 
+W&B の 3D ポイントクラウド用クラスです。
 
 ### <kbd>method</kbd> `Object3D.__init__`
 
@@ -25,25 +25,25 @@ __init__(
 ) → None
 ```
 
-Creates a W&B Object3D object. 
+W&B Object3D オブジェクトを作成します。
 
 
 
-**Args:**
- 
- - `data_or_path`:  Object3D can be initialized from a file or a numpy array. 
- - `caption`:  Caption associated with the object for display. 
+**引数:**
+
+ - `data_or_path`:  Object3D はファイルまたは numpy 配列から初期化できます。
+ - `caption`:  表示用のキャプションです。
 
 
 
-**Examples:**
- The shape of the numpy array must be one of either 
+**例:**
+ numpy 配列の形状は以下のいずれかにする必要があります。
 
 ```text
 [[x y z],       ...] nx3
-[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
-[[x y z r g b], ...] nx6 where is rgb is color
-``` 
+[[x y z c],     ...] nx4　※cはカテゴリで、サポートされる範囲は [1, 14]
+[[x y z r g b], ...] nx6　※rgbは色
+```
 
 
 
