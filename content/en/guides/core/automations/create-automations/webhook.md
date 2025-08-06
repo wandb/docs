@@ -287,7 +287,7 @@ A team admin can test a webhook interactively with the W&B App UI.
 6. Click on **Test webhook**. Within the W&B App UI, W&B posts the response from your endpoint.
     {{< img src="/images/models/webhook_ui_testing.gif" alt="Demo of testing a webhook" >}}
 
-Watch the video [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a demonstration.
+Watch the video [Testing Webhooks in W&B](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a demonstration.
 {{% /tab %}}
 
 {{% tab header="Bash script" value="bash"%}}

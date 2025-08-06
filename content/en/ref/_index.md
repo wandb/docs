@@ -1,7 +1,7 @@
 ---
 title: Reference
-description: Generated documentation for Weights & Biases APIs
-menu: 
+description: Generated documentation for W&B APIs
+menu:
   reference:
     identifier: reference
 type: docs
@@ -58,5 +58,3 @@ no_list: true
 {{% alert %}}
 Looking for Weave API? See the [W&B Weave Docs](https://weave-docs.wandb.ai/).
 {{% /alert %}}
-
- 
