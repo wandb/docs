@@ -183,7 +183,7 @@ Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`
 ### Turn on model checkpointing 
 
 
-Using [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Registry]({{< relref "/guides/core/registry/" >}}). Using Registry, you can register models to explore and evaluate them, prepare them for staging, or deploy them in your production environment.
+Using [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the W&B [Registry]({{< relref "/guides/core/registry/" >}}). Using Registry, you can register models to explore and evaluate them, prepare them for staging, or deploy them in your production environment.
 
 To log your Hugging Face model checkpoints to Artifacts, set the `WANDB_LOG_MODEL` environment variable to _one_ of:
 

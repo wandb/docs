@@ -11,7 +11,7 @@ weight: 330
 * See the resulting visualizations in this [example W&B report →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg)
 * Try running the code yourself in this [example hosted notebook →](https://colab.research.google.com/drive/15e-yGOvboTzXU4pe91Jg-Yr7sae3zBOJ#scrollTo=ztVifsYAmnRr)
 
-Ignite supports Weights & Biases handler to log metrics, model/optimizer parameters, gradients during training and validation. It can also be used to log model checkpoints to the Weights & Biases cloud. This class is also a wrapper for the wandb module. This means that you can call any wandb function using this wrapper. See examples on how to save model parameters and gradients.
+Ignite supports W&B handler to log metrics, model/optimizer parameters, gradients during training and validation. It can also be used to log model checkpoints to the W&B cloud. This class is also a wrapper for the wandb module. This means that you can call any wandb function using this wrapper. See examples on how to save model parameters and gradients.
 
 ## Basic setup
 
@@ -62,7 +62,7 @@ def get_data_loaders(train_batch_size, val_batch_size):
     return train_loader, val_loader
 ```
 
-Using `WandBLogger` in ignite is a modular process. First, you create a WandBLogger object. Next, you attach it to a trainer or evaluator to automatically log the metrics. This example:
+Using `WandBLogger` in ignite is a modular process. First, you create a `WandBLogger` object. Next, you attach it to a trainer or evaluator to automatically log the metrics. This example shows:
 
 * Logs training loss, attached to the trainer object.
 * Logs validation loss, attached to the evaluator.

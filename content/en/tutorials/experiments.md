@@ -73,7 +73,7 @@ with wandb.init(project=project, config=config) as run:
 ```
 
 
-View how your machine learning performed in your W&B project. Copy and paste the URL link that is printed from the previous cell. The URL will redirect you to a W&B project that contains a dashboard showing graphs the show how 
+View how your machine learning performed in your W&B project. Copy and paste the URL link that is printed from the previous cell. The URL will redirect you to a W&B project that contains a dashboard showing graphs that show how your model performed. 
 
 The following image shows what a dashboard can look like:
 

@@ -11,7 +11,7 @@ weight: 470
 
 [Ultralytics' YOLOv5](https://ultralytics.com/yolo) ("You Only Look Once") model family enables real-time object detection with convolutional neural networks without all the agonizing pain.
 
-[Weights & Biases](https://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **It's as easy as running a single `pip install` before you run your YOLO experiments.**
+[W&B](https://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **It's as easy as running a single `pip install` before you run your YOLO experiments.**
 
 {{% alert %}}
 All W&B logging features are compatible with data-parallel multi-GPU training, such as with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
