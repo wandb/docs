@@ -40,7 +40,7 @@ W&B applies rate limits per W&B project. For example, if you have 3 projects in 
 ## Personal entities unsupported
 
 {{< alert title="Note" >}}
-Personal entities were deprecated in May 2024, so this only applies to legacy accounts.
+W&B deprecated personal entities in May 2024, so this only applies to legacy accounts.
 {{< /alert >}}
 
 Personal accounts (personal entities) don't support W&B Inference. To access W&B Inference, switch to a non-personal account by creating a Team.

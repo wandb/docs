@@ -98,7 +98,7 @@ class WBInferenceModel(weave.Model):
             # Get your API key from https://wandb.ai/authorize
             api_key="<your-api-key>",
             # Optional: Customizes the logs destination
-            project="<your-team>/<your-project>",
+            project="<your-team>/<your-project>"
         )
         resp = client.chat.completions.create(
             model=self.model,
