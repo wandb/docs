@@ -24,7 +24,7 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 | **Tab** | Navigate between interactive elements. |
 | **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux) | Switch between the Workspaces and Runs tabs in the sidebar. |
 | **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | Open the quick search dialog to search across projects, runs, and other resources. |
-| **Escape** | Throughout the W&B App, exit full-screen panel views, close settings drawers, dismiss the quick search dialog, close an editor, or dismiss other overlays. |
+| **Esc** | Throughout the W&B App, exit full-screen panel views, close settings drawers, dismiss the quick search dialog, close an editor, or dismiss other overlays. |
 
 ## Panel Navigation
 
