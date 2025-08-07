@@ -24,7 +24,10 @@ client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     
     # Get your API key from https://wandb.ai/authorize
-    api_key="<your-api-key>"
+    api_key="<your-api-key>",
+    
+    # Team and project are required for usage tracking
+    project="<your-team>/<your-project>",
 )
 
 response = client.chat.completions.create(
