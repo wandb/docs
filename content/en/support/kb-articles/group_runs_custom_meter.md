@@ -8,5 +8,3 @@ support:
 - workspaces
 ---
 Changing the colors of individual runs within a group is not possible. All runs in the same group share a common color.
-
-    

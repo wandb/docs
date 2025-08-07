@@ -1,6 +1,5 @@
 ---
-description: An overview of what is W&B along with links on how to get started if
-  you are a first time user.
+description: An overview of W&B and how to get started.
 menu:
   default:
     identifier: guides
@@ -14,7 +13,7 @@ no_list: true
 
 ## What is W&B?
 
-Weights & Biases (W&B) is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models. 
+W&B is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models.
 
 {{< img src="/images/general/architecture.png" alt="W&B platform architecture diagram" >}}
 

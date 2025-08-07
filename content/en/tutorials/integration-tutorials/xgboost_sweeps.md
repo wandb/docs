@@ -7,7 +7,7 @@ title: XGBoost Sweeps
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb" >}}
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Use W&B for machine learning experiment tracking, dataset versioning, and project collaboration.
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
 
@@ -19,7 +19,7 @@ Searching through high dimensional hyperparameter spaces to find the most perfor
 Hyperparameter sweeps provide an organized and efficient way to conduct a battle royale of models and crown a winner.
 They enable this by automatically searching through combinations of hyperparameter values to find the most optimal values.
 
-In this tutorial we'll see how you can run sophisticated hyperparameter sweeps on XGBoost models in 3 easy steps using Weights and Biases.
+In this tutorial we'll see how you can run sophisticated hyperparameter sweeps on XGBoost models in 3 easy steps using W&B.
 
 For a teaser, check out the plots below:
 
@@ -27,7 +27,7 @@ For a teaser, check out the plots below:
 
 ## Sweeps: An Overview
 
-Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
+Running a hyperparameter sweep with W&B is very easy. There are just 3 simple steps:
 
 1. **Define the sweep:** we do this by creating a dictionary-like object that specifies the sweep: which parameters to search through, which search strategy to use, which metric to optimize.
 
@@ -62,7 +62,7 @@ wandb.login()
 
 ## 1. Define the Sweep
 
-Weights & Biases sweeps give you powerful levers to configure your sweeps exactly how you want them, with just a few lines of code. The sweeps config can be defined as
+W&B sweeps give you powerful levers to configure your sweeps exactly how you want them, with just a few lines of code. The sweeps config can be defined as
 [a dictionary or a YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}).
 
 Let's walk through some of them together:
@@ -118,7 +118,7 @@ the function that takes in hyperparameter values and spits out metrics.
 
 We'll also need `wandb` to be integrated into our script.
 There's three main components:
-*   `wandb.init()`: Initialize a new W&B run. Each run is single execution of the training script.
+*   `wandb.init()`: Initialize a new W&B Run. Each run is single execution of the training script.
 *   `run.config`: Save all your hyperparameters in a config object. This lets you use [our app](https://wandb.ai) to sort and compare your runs by hyperparameter values.
 *   `run.log()`: Logs metrics and custom objects, such as images, videos, audio files, HTML, plots, or point clouds.
 
@@ -200,7 +200,7 @@ wandb.agent(sweep_id, train, count=25)
 
 Now that your sweep is finished, it's time to look at the results.
 
-Weights & Biases will generate a number of useful plots for you automatically.
+W&B will generate a number of useful plots for you automatically.
 
 ### Parallel coordinates plot
 

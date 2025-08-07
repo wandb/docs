@@ -8,7 +8,7 @@ title: MMF
 weight: 220
 ---
 
-The `WandbLogger` class in [Meta AI's MMF](https://github.com/facebookresearch/mmf) library will enable Weights & Biases to log the training/validation metrics, system (GPU and CPU) metrics, model checkpoints and configuration parameters.
+The `WandbLogger` class in [Meta AI's MMF](https://github.com/facebookresearch/mmf) library will enable W&B to log the training/validation metrics, system (GPU and CPU) metrics, model checkpoints and configuration parameters.
 
 ## Current features
 
