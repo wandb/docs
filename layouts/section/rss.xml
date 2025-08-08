@@ -62,7 +62,7 @@
             {{- $summary := index $parts 0 | markdownify | plainify }}
             {{- $summary = $summary | replaceRE "\\s+$" "" }}
             {{- printf "%s" $summary | safeHTML }}
-            {{- if .Truncated }} {{- printf " [Read more](%s)" .Permalink | markdownify | safeHTML }}{{ end }}
+            {{- if .Truncated }}{{- " " -}}{{- printf "[Read more](%s)" .Permalink | markdownify | safeHTML }}{{ end }}
           {{- else }}
             {{- .Summary | plainify | chomp | safeHTML }}
           {{- end }}
