@@ -6,6 +6,8 @@ Add styles or override variables from the theme here.
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
 
+$base-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
 // First define the base color tokens
 // Moon (Grayscale)
 $moon-white: #ffffff;
@@ -106,7 +108,6 @@ $font-weight-bold: 700;
 // Typography Component
 // Base body styles
 body {
-    font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     font-weight: $font-weight-regular;
     color: $text-primary;
@@ -117,34 +118,56 @@ body {
         background-color: $dark-bg-primary;
     }
 }
-p, td, div
-{
-    font-family: "Source Sans Pro", sans-serif;
-}
-.td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
-{
-    font-size: 16px; 
-    font-weight: $font-weight-bold;
-}
 
-// Headings
-h1, h2, h3, h4, h5, h6 {
+p, td, div, li, .lead
+{
+    font-family: $base-font;
     font-weight: $font-weight-regular !important;
-    font-family: "Source Serif 4", sans-serif;
-    color: $text-primary;
-
+    font-size: 16px;
     [data-bs-theme=dark] & {
         color: $dark-text-primary;
     }
 }
 
+.td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
+{
+    font-size: 14px; 
+    font-weight: $font-weight-bold;
+}
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+    color: $text-primary;
+    [data-bs-theme=dark] & {
+        color: white !important;
+    }
+}
+
 // Heading sizes
-h1, .td-content h1 { font-size: 32px !important; }
-h2, .td-content h2 { font-size: 24px !important; }
-h3, .td-content h3 { font-size: 20px !important; }
-h4, .td-content h4 { font-size: 18px !important; }
-h5, .td-content h5 { font-size: 17px !important; }
-h6, .td-content h6 { font-size: 16px !important; }
+h1, .td-content h1 { 
+    font-size: 32px !important;
+    font-weight: $font-weight-bold !important;
+}
+h2, .td-content h2 { 
+    font-size: 24px !important;
+    font-weight: $font-weight-bold !important;
+}
+h3, .td-content h3 { 
+    font-size: 20px !important;
+    font-weight: $font-weight-bold !important;
+}
+h4, .td-content h4 { 
+    font-size: 16px !important;
+    font-weight: $font-weight-bold !important;
+}
+h5, .td-content h5 {
+    font-size: 14px !important;
+    font-weight: $font-weight-bold !important;
+}
+h6, .td-content h6 {
+    font-size: 12px !important;
+    font-weight: $font-weight-bold !important;
+}
 
 // Lead paragraph
 .td-content .lead {
@@ -249,6 +272,7 @@ $breakpoint-xl: 1200px;   // Large desktop
                         &:hover {
                             text-decoration: none !important;
                             background-color: rgba($moon-300, 0.2) !important;
+                            transform: translateY(-2px);
                         }
 
                         &.active {
@@ -329,7 +353,7 @@ $breakpoint-xl: 1200px;   // Large desktop
 
 
     // Tablet styles (577px and up)
-    @media (min-width: $breakpoint-sm + 1) {
+    @media (min-width: ($breakpoint-sm + 1)) {
         .container-fluid {
             padding: 8px 12px !important;
         }
@@ -459,7 +483,6 @@ $breakpoint-xl: 1200px;   // Large desktop
 // headings use WandB serif font
 h1, h2, h3, h4, h5, h6 {
     font-weight: $font-weight-regular !important;
-    font-family: "Source Serif 4", sans-serif;
     color: $text-primary;
 }
 
@@ -467,15 +490,64 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-ol.breadcrumb li {
-    font-size: 13px;
+// Breadcrumb improvements from css-improvements branch
+.breadcrumb-item { 
+  font-size: 12px; 
+} 
+
+/* Your existing breadcrumb separator */ 
+.breadcrumb-item:not(:first-child)::before { 
+  content: ">" !important; 
+  margin: 0 0.5em; 
+} 
+
+/* Simple pill styling for active breadcrumb */
+.breadcrumb-item.active { 
+  position: relative;
+  /* Set max width and handle overflow with ellipsis */
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  padding-right: 6px;
 }
-ol.breadcrumb li:not(:first-child):before {
-    content: ">" !important;
+
+/* Create pill background using ::after */
+.breadcrumb-item.active::after { 
+  content: ""; 
+  position: absolute; 
+  background-color: $bg-tertiary; 
+  border-radius: 15px;
+  /* Much tighter positioning */
+  top: 0em;
+  bottom: 0em;
+  left: 2.5em; /* Much closer to separator */
+  right: 0em; /* Preserve border radius */
+  z-index: -1; 
+  
+  [data-bs-theme=dark] & { 
+    background-color: $dark-bg-secondary; 
+  } 
+}
+
+/* Card hover transitions */
+ul.foldable, .card {
+    transition: all 0.2s ease-in-out !important;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Hide breadcrumbs in cards */
+.card ol.breadcrumb {
+    display: none; 
 }
 
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
-  margin-bottom: 10px !important;
+  margin-bottom: 6px !important; // tighter and consistent spacing
   .nav-link.dropdown-toggle {
     margin-left: -5px !important;
   }
@@ -488,13 +560,13 @@ ol.breadcrumb li:not(:first-child):before {
 
 // Table of Contents Component
 #TableOfContents {
-    
+    font-family: $base-font;
     font-size: 13px !important;
-    font-family: "Source Sans Pro", sans-serif;
     a{
         margin: 0px !important;
         padding: 8px !important;
         font-weight: 500 !important;
+        font-size: 13px !important;
     }
     // List styles
     ul { 
@@ -502,6 +574,17 @@ ol.breadcrumb li:not(:first-child):before {
         li {
             padding: 0px !important; 
             line-height: 14px;
+            font-size: 13px !important;
+            a {
+                transition: all .2s ease-in;
+            }
+            a.active {
+                border-left: 2px solid;
+                color: $link-primary !important;
+                [data-bs-theme=dark] & {
+                    color: $dark-link-primary !important;
+                }
+            }
         }
     }
 
@@ -527,6 +610,13 @@ ol.breadcrumb li:not(:first-child):before {
     // Dark mode
     [data-bs-theme=dark] & {
         color: $dark-text-primary;
+    }
+}
+
+aside div.td-toc #TableOfContents ul {
+    border-left-color: $text-tertiary !important;
+    [data-bs-theme=dark] & {
+        border-left-color: $dark-text-secondary !important;
     }
 }
 
@@ -1083,18 +1173,21 @@ div.td-page-meta__lastmod {
 
 // Update the sidebar navigation styles
 .td-sidebar-nav {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: $base-font;
     padding-left: 15px !important;
+    font-size: 14px !important; // Slightly larger than right nav
 
     // Base link styles
     a {
         color: $text-secondary !important;
         font-weight: $font-weight-regular;
         text-decoration: none !important;
+        transition: all 0.2s ease-in-out !important;
 
         &:hover {
             color: $link-primary !important;
             text-decoration: none !important;
+            transform: translateX(2px);
         }
     }
 
@@ -1155,7 +1248,9 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
           align-items: center;
           width: 100%;
           position: relative;
-          padding-right: 20px; // Space for chevron
+          padding-right: 26px; // Space for chevron (extra to avoid clipping)
+  // Remove extra bottom margin so spacing matches peers
+  margin-bottom: 0 !important;
           
           // Remove default chevrons
           &:before {
@@ -1163,24 +1258,27 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
           }
       }
   }
+  // Ensure labels do not add extra spacing
+  nav.foldable-nav .with-child > label {
+      margin-bottom: 0 !important;
+  }
   
-  // Add chevrons to all expandable items
-  nav.foldable-nav .ul-1 .with-child > label:after {
-      content: "\f105" !important; // fa-angle-right (thinner chevron)
+  // Add chevrons to all expandable items and rotate on expand
+  nav.foldable-nav .with-child > label:after {
+      content: "\f105" !important; // fa-angle-right
       font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
       font-weight: 900;
       color: $moon-500;
-      transition: color 0.3s;
+      transition: color 0.3s, transform 0.2s ease;
       font-size: 14px;
       position: absolute;
-      right: 0px;
-      top: 35%;
-      transform: translateY(-50%);
+      right: 4px; // move slightly left so the right edge isn't clipped
+      top: 50%;
+      transform: translateY(-56%) rotate(0deg); // slight upward nudge for optical alignment
   }
-  
-  // Change chevron for expanded items
-  nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
-      content: "\f107" !important; // fa-angle-down (thinner chevron)
+
+  nav.foldable-nav .with-child > input:checked + label:after {
+      transform: translateY(-56%) rotate(90deg);
   }
   
   // Hover states
@@ -1196,6 +1294,28 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
   // Dark mode hover state
   [data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
       color: $wandb-gold !important;
+  }
+
+  // Smooth expand/collapse for nested lists
+  nav.foldable-nav .foldable {
+      display: block !important;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;   // no gap when collapsed
+      margin-bottom: 0; // prevent extra gap after last child block
+      transition: max-height 220ms ease, opacity 180ms ease, margin-top 180ms ease;
+  }
+  
+  nav.foldable-nav .with-child > input:checked ~ .foldable {
+      max-height: 1200px; // sufficiently large to accommodate content
+      opacity: 1;
+      margin-top: 6px; // consistent space between parent label and first child
+  }
+
+  // Remove extra space after the last child item in a group
+  nav.foldable-nav .foldable > li:last-child { 
+      margin-bottom: 0 !important; 
   }
   
 
@@ -1239,9 +1359,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
 .gsc-control-cse, .gsc-webResult.gsc-result, .gsc-cursor-page, .gsc-refinementHeader, .gs-no-results-result div {
     background-color: transparent !important;
     border: 0px !important;
-}
-.gs-title {
-    font-family: "Source Serif 4", sans-serif !important;
 }
 .gs-title b, .gs-title a, .gsc-cursor-page, .gsc-above-wrapper-area, .gcsc-find-more-on-google-query, .gcsc-find-more-on-google-magnifier {
     color: $link-primary !important;
@@ -1489,5 +1606,46 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
         .DocSearch-Modal {
             border-radius: $border-radius-large !important;
         }
+    }
+}
+
+// Increase main content area width to prevent squeezing tables and content
+// Use existing breakpoints and modest percentage adjustments
+@media (min-width: $breakpoint-xl) {
+    .td-main {
+        // Slightly increase main content width without overflowing
+        main.col-xl-8 {
+            flex: 0 0 auto;
+            width: 70% !important; // Modest increase from 66.67% 
+        }
+        
+        // Slightly reduce right sidebar (TOC) width to compensate
+        aside.td-sidebar-toc.col-xl-2 {
+            flex: 0 0 auto;
+            width: 14% !important; // Reduced from 16.67%
+        }
+        
+        // Keep left sidebar at standard width
+        aside.td-sidebar.col-xl-2 {
+            flex: 0 0 auto;
+            width: 16% !important; // Keep at 2/12 columns
+        }
+    }
+}
+
+// Ensure tables have enough space without removing all constraints
+.td-content {
+    table {
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+        
+        // Add some margin to prevent edge-to-edge tables
+        margin-bottom: 1rem;
+    }
+    
+    // Allow content to use available width but maintain readability
+    > p, > ul, > ol {
+        max-width: 100%;
     }
 }
