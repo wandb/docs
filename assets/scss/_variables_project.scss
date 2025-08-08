@@ -6,6 +6,8 @@ Add styles or override variables from the theme here.
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
 
+$base-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
 // First define the base color tokens
 // Moon (Grayscale)
 $moon-white: #ffffff;
@@ -106,7 +108,6 @@ $font-weight-bold: 700;
 // Typography Component
 // Base body styles
 body {
-    font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     font-weight: $font-weight-regular;
     color: $text-primary;
@@ -117,34 +118,56 @@ body {
         background-color: $dark-bg-primary;
     }
 }
-p, td, div
-{
-    font-family: "Source Sans Pro", sans-serif;
-}
-.td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
-{
-    font-size: 14px;  // Reduced from 16px
-    font-weight: $font-weight-bold;
-}
 
-// Headings
-h1, h2, h3, h4, h5, h6 {
+p, td, div, li, .lead
+{
+    font-family: $base-font;
     font-weight: $font-weight-regular !important;
-    font-family: "Source Serif 4", sans-serif;
-    color: $text-primary;
-
+    font-size: 14px;
     [data-bs-theme=dark] & {
         color: $dark-text-primary;
     }
 }
 
+.td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
+{
+    font-size: 13px; 
+    font-weight: $font-weight-bold;
+}
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+    color: $text-primary;
+    [data-bs-theme=dark] & {
+        color: white !important;
+    }
+}
+
 // Heading sizes
-h1, .td-content h1 { font-size: 32px !important; }
-h2, .td-content h2 { font-size: 24px !important; }
-h3, .td-content h3 { font-size: 20px !important; }
-h4, .td-content h4 { font-size: 18px !important; }
-h5, .td-content h5 { font-size: 17px !important; }
-h6, .td-content h6 { font-size: 16px !important; }
+h1, .td-content h1 { 
+    font-size: 32px !important;
+    font-weight: $font-weight-bold !important;
+}
+h2, .td-content h2 { 
+    font-size: 24px !important;
+    font-weight: $font-weight-bold !important;
+}
+h3, .td-content h3 { 
+    font-size: 20px !important;
+    font-weight: $font-weight-bold !important;
+}
+h4, .td-content h4 { 
+    font-size: 16px !important;
+    font-weight: $font-weight-bold !important;
+}
+h5, .td-content h5 {
+    font-size: 14px !important;
+    font-weight: $font-weight-bold !important;
+}
+h6, .td-content h6 {
+    font-size: 12px !important;
+    font-weight: $font-weight-bold !important;
+}
 
 // Lead paragraph
 .td-content .lead {
@@ -459,7 +482,6 @@ $breakpoint-xl: 1200px;   // Large desktop
 // headings use WandB serif font
 h1, h2, h3, h4, h5, h6 {
     font-weight: $font-weight-regular !important;
-    font-family: "Source Serif 4", sans-serif;
     color: $text-primary;
 }
 
@@ -529,7 +551,6 @@ h1, h2, h3, h4, h5, h6 {
 #TableOfContents {
     
     font-size: 13px !important;
-    font-family: "Source Sans Pro", sans-serif;
     a{
         margin: 0px !important;
         padding: 8px !important;
@@ -1296,9 +1317,6 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
 .gsc-control-cse, .gsc-webResult.gsc-result, .gsc-cursor-page, .gsc-refinementHeader, .gs-no-results-result div {
     background-color: transparent !important;
     border: 0px !important;
-}
-.gs-title {
-    font-family: "Source Serif 4", sans-serif !important;
 }
 .gs-title b, .gs-title a, .gsc-cursor-page, .gsc-above-wrapper-area, .gcsc-find-more-on-google-query, .gcsc-find-more-on-google-magnifier {
     color: $link-primary !important;
