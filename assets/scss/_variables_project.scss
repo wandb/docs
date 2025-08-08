@@ -123,7 +123,7 @@ p, td, div, li, .lead
 {
     font-family: $base-font;
     font-weight: $font-weight-regular !important;
-    font-size: 14px;
+    font-size: 16px;
     [data-bs-theme=dark] & {
         color: $dark-text-primary;
     }
