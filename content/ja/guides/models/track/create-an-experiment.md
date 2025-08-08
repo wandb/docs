@@ -59,6 +59,7 @@ with wandb.init(
 ### トレーニングループ内でメトリクスをログする
 [`run.log()`]({{< relref path="/ref/python/sdk/classes/run/#method-runlog" lang="ja" >}}) を呼び出すと、トレーニングステップごとの accuracy や loss などのメトリクスを記録できます。
 
+
 ```python
 model, dataloader = get_model(), get_data()
 
@@ -84,6 +85,7 @@ run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ### すべてをまとめる
 上記のコードスニペットをすべて組み合わせた全体のスクリプト例は以下の通りです。
 
+
 ```python
 import wandb
 
@@ -98,6 +100,7 @@ with wandb.init(
     model, dataloader = get_model(), get_data()
 
     # モデルのパフォーマンスを可視化できるよう、メトリクスをログしながらトレーニングを実行
+
     for epoch in range(run.config["epochs"]):
         for batch in dataloader:
             loss, accuracy = model.training_step()
@@ -135,6 +138,7 @@ Experiment を作成する際に参考になる推奨ガイドラインをいく
 6. **複数の run セットを作成して experiment を比較する**: experiment を比較するときは、複数の run セットを作成するとメトリクス比較が容易になります。同じグラフやグループで run セットをオン・オフして比較できます。
 
 以下のコードスニペットは、上記のベストプラクティスを踏まえて W&B Experiment を定義する方法の一例です。
+
 
 ```python
 import wandb

@@ -83,6 +83,7 @@ run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 
 ### 전체 코드 결합하기
 위에서 설명한 모든 요소를 하나로 합친 전체 스크립트 예시입니다:
+
 ```python
 import wandb
 
