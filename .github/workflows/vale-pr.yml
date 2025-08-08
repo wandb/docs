@@ -22,10 +22,12 @@ jobs:
           mkdir -p /tmp/vale && tar -xzf vale.tar.gz -C /tmp/vale
           sudo mv /tmp/vale/vale /usr/local/bin/
           vale -v
-      - name: Run Vale on markdown
+      - name: Run Vale on markdown (fail on error)
         run: |
           vale --version
-          vale --minAlertLevel=error --no-exit . || true
+          # Fail the job if any error-level alerts are found
+          set -e
+          vale --minAlertLevel=error .
       - name: Upload Vale report (SARIF)
         if: always()
         uses: github/codeql-action/upload-sarif@v3

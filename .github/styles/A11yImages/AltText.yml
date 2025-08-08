@@ -8,4 +8,5 @@ tokens:
   # Markdown images with empty or whitespace-only alt text: ![](path) or ![   ](path)
   - "!\[\s*\]\("
   # HTML <img> with an empty alt attribute: <img alt=""> or <img alt='  '>
-  - "<img[^>]*alt=([\"\'])\s*\\1[^>]*>"
+  - "<img[^>]*alt\s*=\s*\"\s*\"[^>]*>"
+  - "<img[^>]*alt\s*=\s*'\s*'[^>]*>"
