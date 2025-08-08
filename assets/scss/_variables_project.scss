@@ -123,7 +123,7 @@ p, td, div
 }
 .td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
 {
-    font-size: 16px; 
+    font-size: 14px;  // Reduced from 16px
     font-weight: $font-weight-bold;
 }
 
@@ -467,11 +467,50 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-ol.breadcrumb li {
-    font-size: 13px;
+// Breadcrumb improvements from css-improvements branch
+.breadcrumb-item { 
+  font-size: 12px; 
+} 
+
+/* Your existing breadcrumb separator */ 
+.breadcrumb-item:not(:first-child)::before { 
+  content: ">" !important; 
+  margin: 0 0.5em; 
+} 
+
+/* Simple pill styling for active breadcrumb */
+.breadcrumb-item.active { 
+  position: relative;
+  /* Set max width and handle overflow with ellipsis */
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  padding-right: 6px;
 }
-ol.breadcrumb li:not(:first-child):before {
-    content: ">" !important;
+
+/* Create pill background using ::after */
+.breadcrumb-item.active::after { 
+  content: ""; 
+  position: absolute; 
+  background-color: $bg-tertiary; 
+  border-radius: 15px;
+  /* Much tighter positioning */
+  top: 0em;
+  bottom: 0em;
+  left: 2.5em; /* Much closer to separator */
+  right: 0em; /* Preserve border radius */
+  z-index: -1; 
+  
+  [data-bs-theme=dark] & { 
+    background-color: $dark-bg-secondary; 
+  } 
+}
+
+/* Hide breadcrumbs in cards */
+.card ol.breadcrumb {
+    display: none; 
 }
 
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
@@ -1085,6 +1124,7 @@ div.td-page-meta__lastmod {
 .td-sidebar-nav {
     font-family: "Source Sans Pro", sans-serif;
     padding-left: 15px !important;
+    font-size: 14px !important; // Reduced from default 16px
 
     // Base link styles
     a {
@@ -1489,5 +1529,46 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
         .DocSearch-Modal {
             border-radius: $border-radius-large !important;
         }
+    }
+}
+
+// Increase main content area width to prevent squeezing tables and content
+// Use existing breakpoints and modest percentage adjustments
+@media (min-width: $breakpoint-xl) {
+    .td-main {
+        // Slightly increase main content width without overflowing
+        main.col-xl-8 {
+            flex: 0 0 auto;
+            width: 70% !important; // Modest increase from 66.67% 
+        }
+        
+        // Slightly reduce right sidebar (TOC) width to compensate
+        aside.td-sidebar-toc.col-xl-2 {
+            flex: 0 0 auto;
+            width: 14% !important; // Reduced from 16.67%
+        }
+        
+        // Keep left sidebar at standard width
+        aside.td-sidebar.col-xl-2 {
+            flex: 0 0 auto;
+            width: 16% !important; // Keep at 2/12 columns
+        }
+    }
+}
+
+// Ensure tables have enough space without removing all constraints
+.td-content {
+    table {
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+        
+        // Add some margin to prevent edge-to-edge tables
+        margin-bottom: 1rem;
+    }
+    
+    // Allow content to use available width but maintain readability
+    > p, > ul, > ol {
+        max-width: 100%;
     }
 }

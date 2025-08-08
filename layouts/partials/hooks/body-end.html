@@ -34,6 +34,23 @@
       }
   });
   
+  // Define the HTML with Font Awesome home icon
+  const homeBreadcrumbHTML = `
+    <li class="breadcrumb-item">
+      <a aria-label="Home page" href="/">
+        <i class="fa-solid fa-house" style="margin-right: 4px; font-size: 10px"></i>
+      </a>
+    </li>
+  `;
+
+  // Find the <ol> element with class 'breadcrumb'
+  const breadcrumb = document.querySelector('ol.breadcrumb');
+
+  // Only proceed if breadcrumb exists
+  if (breadcrumb) {
+    breadcrumb.insertAdjacentHTML('afterbegin', homeBreadcrumbHTML);
+  }
+  
 </script>
 
 {{- $topLevelItem := "" -}}
