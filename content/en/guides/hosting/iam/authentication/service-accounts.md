@@ -31,10 +31,6 @@ Service accounts are particularly useful for:
 Service accounts are available on [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), [Self-managed instances]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}) with an enterprise license, and enterprise accounts in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
 {{% /alert %}}
 
-## Licensing and billing
-
-Service accounts do not consume W&B licenses or user seats. They are provided at no additional cost as part of your enterprise subscription.
-
 ## Organization-scoped service accounts
 
 Service accounts scoped to an organization have permissions to read and write in all projects in the organization, regardless of the team, with the exception of [restricted projects]({{< relref "../access-management/restricted-projects.md#visibility-scopes" >}}). Before an organization-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
