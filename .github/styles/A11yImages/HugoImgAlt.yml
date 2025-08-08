@@ -1,0 +1,8 @@
+extends: conditional
+message: "Hugo img shortcode must include non-empty alt text"
+link: "https://weave-docs.wandb.ai" # Placeholder; replace with internal style guide link if available
+level: error
+scope: line
+ignorecase: true
+first: "\{\{<\s*img\b[^>]*>\}\}"
+second: "alt\s*=\s*(\"[^\"]+\"|'[^']+')"
