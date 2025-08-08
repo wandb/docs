@@ -19,7 +19,7 @@ In this tutorial you will create a hyperparameter search with W&B PyTorch integr
 
 ## Sweeps: An Overview
 
-Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
+Running a hyperparameter sweep with W&B is very easy. There are just 3 simple steps:
 
 1. **Define the sweep:** we do this by creating a dictionary or a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 
@@ -246,7 +246,7 @@ def train(config=None):
 ```
 
 Within the `train` function, you will notice the following W&B Python SDK methods:
-* [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init/" >}}): Initialize a new W&B run. Each run is a single execution of the training function.
+* [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init/" >}}): Initialize a new W&B Run. Each run is a single execution of the training function.
 * [`run.config`]({{< relref "/guides/models/track/config" >}}): Pass sweep configuration with the hyperparameters you want to experiment with.
 * [`run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}): Log the training loss for each epoch.
 

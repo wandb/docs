@@ -366,14 +366,7 @@
 /ref/python/README/ /ref/python/ 301
 /ref/python/wandb.ai/settings/ /ref/python/ 301
 /ref/README/ /ref/ 301
-/ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
-/ref/release-notes/releases/ /ref/release-notes/ 301
-# Temporary, new EOL policy
-/ref/release-notes/archived/0.56.0/ /ref/release-notes/releases/0.56.0/ 301
-/ref/release-notes/archived/0.57.2/ /ref/release-notes/releases/0.57.2/ 301
-/ref/release-notes/archived/0.58.1/ /ref/release-notes/releases/0.58.1/ 301
-/ref/release-notes/archived/0.60.0/ /ref/release-notes/releases/0.60.0/ 301
-/ref/release-notes/archived/0.61.0/ /ref/release-notes/releases/0.61.0/ 301
+# RN redirects at the bottom of this file
 /ref/run/summary/ /ref/python/sdk/classes/run/ 301
 /ref/sweep/configurations/ /guides/sweeps/define-sweep-configuration/ 301
 /ref/weave/README/ /ref/weave/ 301
@@ -460,6 +453,15 @@
 /library/integrations/* /guides/integrations/:splat 301
 /ref/app/features/panels/line-plot/* /guides/app/features/panels/line-plot/:splat 301
 /ref/python/launch-library/* /launch-library/:splat 301
+/ref/python/integrations/*  /ref/python/:splat 301
+
+## Release notes
 /ref/release-notes/releases/* /ref/releases/:splat 301
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
-/ref/python/integrations/keras/*  /ref/python/:splat 301
+/ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
+/ref/release-notes/releases/ /ref/release-notes/ 301
+### EOL releases: Use splats when possible
+/ref/release-notes/0.3* /ref/release-notes/archived/0.3:splat 301
+/ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
+/ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
+/ref/release-notes/0.57.2/ /ref/release-notes/releases/archived/0.57.2/ 301
