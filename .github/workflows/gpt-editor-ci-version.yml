@@ -81,7 +81,13 @@ jobs:
           tar -xzf vale.tar.gz -C /tmp/vale
           sudo mv /tmp/vale/vale /usr/local/bin/
           vale -v
-      
+          # Pre-create output directory for SARIF to avoid upload step failures
+          mkdir -p .vale
+      - name: Run Vale (errors only)
+        run: |
+          echo "Running Vale checks with custom a11y rule for image alt text..."
+          vale --minAlertLevel=error . || true
+
       - name: Checkout PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

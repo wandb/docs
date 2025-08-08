@@ -1,0 +1,34 @@
+name: Vale (on PR push when opted-in)
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  run-vale:
+    if: |
+      github.event_name == 'pull_request' &&
+      (contains(github.event.pull_request.title, '[vale]') || contains(github.event.pull_request.title, '[VALE]'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Vale
+        run: |
+          curl -sL https://github.com/errata-ai/vale/releases/download/v3.9.6/vale_3.9.6_Linux_64-bit.tar.gz -o vale.tar.gz
+          mkdir -p /tmp/vale && tar -xzf vale.tar.gz -C /tmp/vale
+          sudo mv /tmp/vale/vale /usr/local/bin/
+          vale -v
+      - name: Run Vale on markdown
+        run: |
+          vale --version
+          vale --minAlertLevel=error --no-exit . || true
+      - name: Upload Vale report (SARIF)
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: .vale/vale.sarif
+        continue-on-error: true
