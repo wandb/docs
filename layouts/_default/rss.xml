@@ -59,7 +59,7 @@
           {{- $normalizedContent := $content | replaceRE "<!--\\s*more\\s*-->" "<!--MOREMARKER-->" }}
           {{- $parts := split $normalizedContent "<!--MOREMARKER-->" }}
           {{- if gt (len $parts) 1 }}
-            {{- $summary := index $parts 0 | markdownify | plainify | chomp }}
+            {{- $summary := index $parts 0 | markdownify | plainify | trim " \t\n\r" }}
             {{- printf "%s" $summary | safeHTML }}
             {{- if .Truncated }} {{- printf " [Read more](%s)" .Permalink | markdownify | safeHTML }}{{ end }}
           {{- else }}
