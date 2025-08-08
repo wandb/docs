@@ -1249,12 +1249,18 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
           width: 100%;
           position: relative;
           padding-right: 20px; // Space for chevron
+          // Ensure consistent spacing between a parent item and its child list
+          margin-bottom: 10px !important;
           
           // Remove default chevrons
           &:before {
               display: none !important;
           }
       }
+  }
+  // Apply the same spacing rule to all nested levels
+  nav.foldable-nav .with-child > label {
+      margin-bottom: 10px !important;
   }
   
   // Add chevrons to all expandable items

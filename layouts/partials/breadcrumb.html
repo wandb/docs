@@ -1,0 +1,23 @@
+{{/*
+  Custom breadcrumb partial overriding Docsy's default to prepend a Home icon.
+  This renders a Font Awesome house icon linking to the site root as the first breadcrumb item.
+*/}}
+{{ $isSingle := true -}}
+{{ with .Parent -}}
+  {{ $isSingle = .IsHome -}}
+{{ end -}}
+<nav aria-label="breadcrumb" class="td-breadcrumbs{{ if $isSingle }} td-breadcrumbs__single{{ end }}">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a aria-label="Home page" href="{{ "/" | relLangURL }}">
+        <svg class="breadcrumb-home-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </a>
+    </li>
+    {{- range .Ancestors.Reverse -}}
+      <li class="breadcrumb-item"><a href="{{ .RelPermalink }}">{{ .LinkTitle | default .Title }}</a></li>
+    {{- end -}}
+    <li class="breadcrumb-item active" aria-current="page">{{ .LinkTitle | default .Title }}</li>
+  </ol>
+  </nav>
