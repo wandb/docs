@@ -48,13 +48,22 @@ no_list: true
     <p className="card-content">A beta JavaScript/TypeScript client to track metrics from your Node server.</p>
   {{< /card >}}
   {{< card >}}
+    <a href="./system-metrics/">
+      <h2 className="card-title">System Metrics</h2>
+    </a>
+    <p className="card-content">Metrics automatically logged by W&B, including CPU, memory, disk, network, and GPU usage.</p>
+  {{< /card >}}
+{{< /cardpane >}}
+
+{{< cardpane >}}
+  {{< card >}}
     <a href="./query-panel/">
       <h2 className="card-title">Query Panels</h2>
     </a>
     <p className="card-content"> A beta query language to select and aggregate data.</p>
   {{< /card >}}
+  {{< card >}}
+    <h2 className="card-title">W&B Weave</h2>
+    <p className="card-content">Looking for Weave API? See the <a href="https://weave-docs.wandb.ai/">W&B Weave Docs</a>.</p>
+  {{< /card >}}
 {{< /cardpane >}}
-
-{{% alert %}}
-Looking for Weave API? See the [W&B Weave Docs](https://weave-docs.wandb.ai/).
-{{% /alert %}}
