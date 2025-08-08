@@ -547,7 +547,7 @@ ul.foldable, .card {
 }
 
 .td-sidebar-nav__section-title, .td-sidebar-nav__section {
-  margin-bottom: 10px !important;
+  margin-bottom: 6px !important; // tighter and consistent spacing
   .nav-link.dropdown-toggle {
     margin-left: -5px !important;
   }
@@ -1248,9 +1248,9 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
           align-items: center;
           width: 100%;
           position: relative;
-          padding-right: 20px; // Space for chevron
-          // Ensure consistent spacing between a parent item and its child list
-          margin-bottom: 10px !important;
+          padding-right: 26px; // Space for chevron (extra to avoid clipping)
+  // Remove extra bottom margin so spacing matches peers
+  margin-bottom: 0 !important;
           
           // Remove default chevrons
           &:before {
@@ -1258,28 +1258,27 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
           }
       }
   }
-  // Apply the same spacing rule to all nested levels
+  // Ensure labels do not add extra spacing
   nav.foldable-nav .with-child > label {
-      margin-bottom: 10px !important;
+      margin-bottom: 0 !important;
   }
   
-  // Add chevrons to all expandable items
-  nav.foldable-nav .ul-1 .with-child > label:after {
-      content: "\f105" !important; // fa-angle-right (thinner chevron)
+  // Add chevrons to all expandable items and rotate on expand
+  nav.foldable-nav .with-child > label:after {
+      content: "\f105" !important; // fa-angle-right
       font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
       font-weight: 900;
       color: $moon-500;
-      transition: color 0.3s;
+      transition: color 0.3s, transform 0.2s ease;
       font-size: 14px;
       position: absolute;
-      right: 0px;
-      top: 35%;
-      transform: translateY(-50%);
+      right: 4px; // move slightly left so the right edge isn't clipped
+      top: 50%;
+      transform: translateY(-50%) rotate(0deg);
   }
-  
-  // Change chevron for expanded items
-  nav.foldable-nav .ul-1 .with-child > input:checked + label:after {
-      content: "\f107" !important; // fa-angle-down (thinner chevron)
+
+  nav.foldable-nav .with-child > input:checked + label:after {
+      transform: translateY(-50%) rotate(90deg);
   }
   
   // Hover states
@@ -1295,6 +1294,28 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
   // Dark mode hover state
   [data-bs-theme=dark] nav.foldable-nav .ul-1 .with-child > label:hover:after {
       color: $wandb-gold !important;
+  }
+
+  // Smooth expand/collapse for nested lists
+  nav.foldable-nav .foldable {
+      display: block !important;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;   // no gap when collapsed
+      margin-bottom: 0; // prevent extra gap after last child block
+      transition: max-height 220ms ease, opacity 180ms ease, margin-top 180ms ease;
+  }
+  
+  nav.foldable-nav .with-child > input:checked ~ .foldable {
+      max-height: 1200px; // sufficiently large to accommodate content
+      opacity: 1;
+      margin-top: 6px; // consistent space between parent label and first child
+  }
+
+  // Remove extra space after the last child item in a group
+  nav.foldable-nav .foldable > li:last-child { 
+      margin-bottom: 0 !important; 
   }
   
 
