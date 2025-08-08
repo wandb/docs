@@ -1,6 +1,5 @@
 extends: conditional
 message: "Hugo img shortcode must include non-empty alt text"
-link: "https://weave-docs.wandb.ai"
 level: error
 scope: raw
 ignorecase: true

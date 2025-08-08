@@ -1,6 +1,5 @@
 extends: existence
 message: "Images must include non-empty alt text"
-link: "https://weave-docs.wandb.ai" # Placeholder link; update if there is a specific internal style guide page
 level: error
 scope: raw
 ignorecase: true
