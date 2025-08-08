@@ -131,7 +131,7 @@ p, td, div, li, .lead
 
 .td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
 {
-    font-size: 13px; 
+    font-size: 14px; 
     font-weight: $font-weight-bold;
 }
 
@@ -1164,7 +1164,7 @@ div.td-page-meta__lastmod {
 .td-sidebar-nav {
     font-family: $base-font;
     padding-left: 15px !important;
-    font-size: 13px !important; // Match TableOfContents font size
+    font-size: 14px !important; // Slightly larger than right nav
 
     // Base link styles
     a {
