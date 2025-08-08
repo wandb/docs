@@ -9,9 +9,9 @@ weight: 1
 ---
 
 
-This page describes a reference architecture for a Weights & Biases deployment and outlines the recommended infrastructure and resources to support a production deployment of the platform.
+This page describes a reference architecture for a W&B deployment and outlines the recommended infrastructure and resources to support a production deployment of the platform.
 
-Depending on your chosen deployment environment for Weights & Biases (W&B), various services can help to enhance the resiliency of your deployment.
+Depending on your chosen deployment environment for W&B, various services can help to enhance the resiliency of your deployment.
 
 For instance, major cloud providers offer robust managed database services which help to reduce the complexity of database configuration, maintenance, high availability, and resilience.
 

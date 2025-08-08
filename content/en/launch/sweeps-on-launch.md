@@ -39,7 +39,7 @@ Create a sweep interactively with the W&B App.
 1. Navigate to your W&B project on the W&B App.  
 2. Select the sweeps icon on the left panel (broom image). 
 3. Next, select the **Create Sweep** button.
-4. Click the **Configure Launch 🚀** button.
+4. Click the **Configure Launch** button.
 5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from.
 6. Select a queue to run the sweep on using the **Queue** dropdown menu.
 8. Use the **Job Priority** dropdown to specify the priority of your launch job. A launch job's priority is set to "Medium" if the launch queue does not support prioritization.

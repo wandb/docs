@@ -8,7 +8,7 @@ weight: 340
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_PyTorch_Lightning_models_with_Weights_%26_Biases.ipynb" >}}
 
-PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: Weights & Biases is incorporated directly into the PyTorch Lightning library via the [`WandbLogger`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
+PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: W&B is incorporated directly into the PyTorch Lightning library via the [`WandbLogger`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
 
 ## Integrate with Lightning
 
@@ -122,7 +122,7 @@ PyTorch Lightning has multiple `WandbLogger` classes to log metrics and model we
 - [`PyTorch`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 - [`Fabric`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 
-To integrate with Lightning, instantiate the WandbLogger and pass it to Lightning's `Trainer` or `Fabric`.
+To integrate with Lightning, instantiate the `WandbLogger` and pass it to Lightning's `Trainer` or `Fabric`.
 
 {{< tabpane text=true >}}
 
@@ -151,7 +151,7 @@ fabric.log_dict({
 
 ### Common logger arguments
 
-Below are some of the most used parameters in WandbLogger. Review the PyTorch Lightning documentation for details about all logger arguments.
+Below are some of the most used parameters in `WandbLogger`. Review the PyTorch Lightning documentation for details about all logger arguments.
 
 - [`PyTorch`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 - [`Fabric`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
@@ -512,7 +512,7 @@ wandb_logger.log_table(key="my_samples", columns=columns, data=data)
 
 {{< /tabpane >}}
 
-You can use Lightning's Callbacks system to control when you log to Weights & Biases via the WandbLogger, in this example we log a sample of our validation images and predictions:
+You can use Lightning's Callbacks system to control when you log to W&B via the `WandbLogger`, in this example we log a sample of our validation images and predictions:
 
 
 ```python

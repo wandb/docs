@@ -110,7 +110,7 @@ Download a few images to test the integration on. You can use still images, vide
 Initialize a W&B [run]({{< relref "/guides/models/track/runs/" >}}) using `wandb.init()`. Next, Initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, it automatically logs the images overlaid with your [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) along with additional insights in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
 
 ```python
-# Initialize W&B run
+# Initialize W&B Run
 with wandb.init(project="ultralytics", job_type="inference") as run:
     # Initialize YOLO Model
     model = YOLO("yolov8n.pt")
@@ -140,5 +140,5 @@ For more details, see the [W&B image overlays guide]({{< relref "/guides/models/
 
 ## More resources
 
-* [Supercharging Ultralytics with Weights & Biases](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+* [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 * [Object Detection using YOLOv8: An End-to-End Workflow](https://wandb.ai/reviewco/object-detection-bdd/reports/Object-Detection-using-YOLOv8-An-End-to-End-Workflow--Vmlldzo1NTAyMDQ1)
