@@ -54,7 +54,17 @@
       <guid>{{ .Permalink }}</guid>
       <description>
         {{- printf "<![CDATA[" | safeHTML }}
-          {{- printf "%s" .Summary|  safeHTML }}{{ if .Truncated }}{{- printf "[Read more](%s)" .Permalink | markdownify | safeHTML }}.{{ end }}
+          {{- $content := .RawContent }}
+          {{- /* First normalize the more marker to handle any whitespace variations */ -}}
+          {{- $normalizedContent := $content | replaceRE "<!--\\s*more\\s*-->" "<!--MOREMARKER-->" }}
+          {{- $parts := split $normalizedContent "<!--MOREMARKER-->" }}
+          {{- if gt (len $parts) 1 }}
+            {{- $summary := index $parts 0 | markdownify | plainify | chomp }}
+            {{- printf "%s" $summary | safeHTML }}
+            {{- if .Truncated }} {{- printf " [Read more](%s)" .Permalink | markdownify | safeHTML }}{{ end }}
+          {{- else }}
+            {{- .Summary | plainify | chomp | safeHTML }}
+          {{- end }}
         {{- printf "]]>" | safeHTML }}
       </description>
     </item>
