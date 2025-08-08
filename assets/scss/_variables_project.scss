@@ -549,7 +549,7 @@ h1, h2, h3, h4, h5, h6 {
 
 // Table of Contents Component
 #TableOfContents {
-    
+    font-family: $base-font;
     font-size: 13px !important;
     a{
         margin: 0px !important;
@@ -1162,9 +1162,9 @@ div.td-page-meta__lastmod {
 
 // Update the sidebar navigation styles
 .td-sidebar-nav {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: $base-font;
     padding-left: 15px !important;
-    font-size: 14px !important; // Reduced from default 16px
+    font-size: 13px !important; // Match TableOfContents font size
 
     // Base link styles
     a {
