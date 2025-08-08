@@ -16,7 +16,9 @@
       </a>
     </li>
     {{- range .Ancestors.Reverse -}}
-      <li class="breadcrumb-item"><a href="{{ .RelPermalink }}">{{ .LinkTitle | default .Title }}</a></li>
+      {{- if not .IsHome -}}
+        <li class="breadcrumb-item"><a href="{{ .RelPermalink }}">{{ .LinkTitle | default .Title }}</a></li>
+      {{- end -}}
     {{- end -}}
     <li class="breadcrumb-item active" aria-current="page">{{ .LinkTitle | default .Title }}</li>
   </ol>
