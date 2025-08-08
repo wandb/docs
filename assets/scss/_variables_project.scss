@@ -272,6 +272,7 @@ $breakpoint-xl: 1200px;   // Large desktop
                         &:hover {
                             text-decoration: none !important;
                             background-color: rgba($moon-300, 0.2) !important;
+                            transform: translateY(-2px);
                         }
 
                         &.active {
@@ -528,6 +529,16 @@ h1, h2, h3, h4, h5, h6 {
   [data-bs-theme=dark] & { 
     background-color: $dark-bg-secondary; 
   } 
+}
+
+/* Card hover transitions */
+ul.foldable, .card {
+    transition: all 0.2s ease-in-out !important;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 /* Hide breadcrumbs in cards */
@@ -1171,10 +1182,12 @@ div.td-page-meta__lastmod {
         color: $text-secondary !important;
         font-weight: $font-weight-regular;
         text-decoration: none !important;
+        transition: all 0.2s ease-in-out !important;
 
         &:hover {
             color: $link-primary !important;
             text-decoration: none !important;
+            transform: translateX(2px);
         }
     }
 
