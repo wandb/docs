@@ -1,5 +1,5 @@
 ---
-description: Get started using Weights & Biases with interactive tutorials.
+description: Get started using W&B with interactive tutorials.
 menu:
     tutorials:
         identifier: tutorials
