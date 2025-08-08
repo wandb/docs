@@ -110,7 +110,7 @@ with wandb.init(project="my_project") as run:
     # Initialize the Run
     run = wandb.init()
 
-    # Log the updated table to Weights & Biases
+    # Log the updated table to W&B
     run.log({table_name: best_checkpt_table})
 ```
 
