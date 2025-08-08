@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Install Vale
         run: |
           curl -sL https://github.com/errata-ai/vale/releases/download/v3.9.6/vale_3.9.6_Linux_64-bit.tar.gz -o vale.tar.gz
@@ -30,7 +32,11 @@ jobs:
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
           echo "BASE: $BASE_SHA"
           echo "HEAD: $HEAD_SHA"
-          FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | grep -E '\.md$' || true)
+          # Ensure the SHAs exist locally
+          git fetch --no-tags --depth=0 origin "$BASE_SHA" "$HEAD_SHA" || true
+          git rev-parse --verify "$BASE_SHA"
+          git rev-parse --verify "$HEAD_SHA"
+          FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" -- '**/*.md' || true)
           echo "Changed MD files:\n$FILES"
           echo "files<<EOF" >> $GITHUB_OUTPUT
           echo "$FILES" >> $GITHUB_OUTPUT
