@@ -243,6 +243,7 @@
 /guides/track/data-offline/ /guides/track/ 301
 /guides/track/distributed-training/ /guides/track/log/distributed-training/ 301
 /guides/track/grouping/ /guides/runs/grouping/ 301
+/guides/track/launch/ /guides/track/create-an-experiment/ 301
 /guides/track/local/ /guides/track/ 301
 /guides/track/log-a-model/ /guides/track/log/ 301
 /guides/track/log-interactive-plots/ /guides/track/log/ 301
