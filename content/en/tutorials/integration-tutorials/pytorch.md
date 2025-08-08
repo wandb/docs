@@ -8,13 +8,13 @@ weight: 1
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" >}}
 
-Use [Weights & Biases](https://wandb.com) for machine learning experiment tracking, dataset versioning, and project collaboration.
+Use [W&B](https://wandb.ai) for machine learning experiment tracking, dataset versioning, and project collaboration.
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
 
 ## What this notebook covers
 
-We show you how to integrate Weights & Biases with your PyTorch code to add experiment tracking to your pipeline.
+We show you how to integrate W&B with your PyTorch code to add experiment tracking to your pipeline.
 
 {{< img src="/images/tutorials/pytorch.png" alt="PyTorch and W&B integration diagram" >}}
 
@@ -432,11 +432,11 @@ We only looked at a single set of hyperparameters in this example.
 But an important part of most ML workflows is iterating over
 a number of hyperparameters.
 
-You can use Weights & Biases Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies.
+You can use W&B Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies.
 
 Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/sweeps-colab).
 
-Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
+Running a hyperparameter sweep with W&B is very easy. There are just 3 simple steps:
 
 1. **Define the sweep:** We do this by creating a dictionary or a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 

@@ -141,7 +141,7 @@ run.finish()
 
 #### Existing Matplotlib plots
 
-Plots created on Matplotlib can also be logged on W&B dashboard. To do that, it is first required to install `plotly`.
+Plots created on Matplotlib can also be logged on W&B Dashboard. To do that, it is first required to install `plotly`.
 
 ```bash
 pip install plotly

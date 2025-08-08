@@ -87,7 +87,7 @@ Follow the procedure below to set up Okta for authorization:
     {{< img src="/images/hosting/okta_create_a_new_app_integration.png" alt="OIDC Single-Page Application selection" >}}
 
 5. On the screen named "New Single-Page App Integration," fill out the values as follows and click **Save**:
-    - App integration name, for example "Weights & Biases"
+    - App integration name, for example "W&B"
     - Grant type: Select both **Authorization Code** and **Implicit (hybrid)**
     - Sign-in redirect URIs: https://YOUR_W_AND_B_URL/oidc/callback
     - Sign-out redirect URIs: https://YOUR_W_AND_B_URL/logout

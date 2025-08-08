@@ -9,7 +9,7 @@ support:
 ---
 To make a project public, follow these steps:
 
-1. Access the project page in the Weights & Biases web app.
+1. Access the project page in the W&B web app.
 2. Click the lock icon in the navigation bar to open privacy settings.
 3. Choose "Public" to allow visibility for anyone.
 4. Save the changes.

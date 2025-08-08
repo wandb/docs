@@ -10,7 +10,7 @@ weight: 4
 
 ## What this notebook covers
 
-* Easy integration of Weights and Biases with your TensorFlow pipeline for experiment tracking.
+* Easy integration of W&B with your TensorFlow pipeline for experiment tracking.
 * Computing metrics with `keras.metrics`
 * Using `wandb.log` to log those metrics in your custom training loop.
 
@@ -237,13 +237,13 @@ Click on the [run page]({{< relref "/guides/models/track/runs/#view-logged-runs"
 
 ## Sweep 101
 
-Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models.
+Use W&B Sweeps to automate hyperparameter optimization and explore the space of possible models.
 
 Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/tf-sweeps-colab)
 
 ### Benefits of using W&B Sweeps
 
-* **Quick setup**: With just a few lines of code you can run W&B sweeps.
+* **Quick setup**: With just a few lines of code you can run W&B Sweeps.
 * **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/sweeps).
 * **Powerful**: Our sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 

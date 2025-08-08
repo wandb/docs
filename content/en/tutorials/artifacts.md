@@ -137,7 +137,7 @@ and then expand the sections afterwards for more details.
 ```python
 def load_and_log():
 
-    # 🚀 start a run, with a type to label it and a project it can call home
+    # Start a run, with a type to label it and a project it can call home
     with wandb.init(project="artifacts-example", job_type="load-data") as run:
         
         datasets = load()  # separate code for loading the datasets
@@ -172,7 +172,7 @@ Depending on your workflow,
 a project might be as big as `car-that-drives-itself`
 or as small as `iterative-architecture-experiment-117`.
 
-> **Rule of 👍**: if you can, keep all of the `Run`s that share `Artifact`s
+> **Best practice**: if you can, keep all of the `Run`s that share `Artifact`s
 inside a single project. This keeps things simple,
 but don't worry -- `Artifact`s are portable across projects.
 
@@ -180,7 +180,7 @@ To help keep track of all the different kinds of jobs you might run,
 it's useful to provide a `job_type` when making `Runs`.
 This keeps the graph of your Artifacts nice and tidy.
 
-> **Rule of 👍**: the `job_type` should be descriptive and correspond to a single step of your pipeline. Here, we separate out `load`ing data from `preprocess`ing data.
+> **Best practice**: the `job_type` should be descriptive and correspond to a single step of your pipeline. Here, we separate out `load`ing data from `preprocess`ing data.
 
 #### `wandb.Artifact`
 
@@ -189,20 +189,16 @@ To log something as an `Artifact`, we have to first make an `Artifact` object.
 
 Every `Artifact` has a `name` -- that's what the first argument sets.
 
-> **Rule of 👍**: the `name` should be descriptive, but easy to remember and type --
-we like to use names that are hyphen-separated and correspond to variable names in the code.
+> **Best practice**: the `name` should be descriptive, but easy to remember and type. We like to use names that are hyphen-separated and correspond to variable names in the code.
 
-It also has a `type`. Just like `job_type`s for `Run`s,
-this is used for organizing the graph of `Run`s and `Artifact`s.
+It also has a `type`. Just like `job_type`s for `Run`s, this is used for organizing the graph of `Run`s and `Artifact`s.
 
-> **Rule of 👍**: the `type` should be simple:
-more like `dataset` or `model`
-than `mnist-data-YYYYMMDD`.
+> **Best practice**: the `type` should be simple. Use something more like `dataset` or `model` than `mnist-data-YYYYMMDD`.
 
 You can also attach a `description` and some `metadata`, as a dictionary.
 The `metadata` just needs to be serializable to JSON.
 
-> **Rule of 👍**: the `metadata` should be as descriptive as possible.
+> **Best practice**: the `metadata` should be as descriptive as possible.
 
 #### `artifact.new_file` and `run.log_artifact`
 
@@ -212,7 +208,7 @@ You read that right: _files_ with an _s_.
 `Artifact`s are structured like directories,
 with files and sub-directories.
 
-> **Rule of 👍**: whenever it makes sense to do so, split the contents
+> **Best practice**: whenever it makes sense to do so, split the contents
 of an `Artifact` up into multiple files. This will help if it comes time to scale.
 
 We use the `new_file` method
@@ -340,7 +336,7 @@ Just like [Docker Hub](https://hub.docker.com/) tags,
 aliases are separated from names with `:`,
 so the `Artifact` we want is `mnist-raw:latest`.
 
-> **Rule of 👍**: Keep aliases short and sweet.
+> **Best practice**: Keep aliases short and sweet.
 Use custom `alias`es like `latest` or `best` when you want an `Artifact`
 that satisifies some property
 
@@ -488,7 +484,7 @@ we can also write files in one step
 (here, `torch.save`)
 and then `add` them to the `Artifact` in another.
 
-> **Rule of 👍**: use `new_file` when you can, to prevent duplication.
+> **Best practice**: use `new_file` when you can, to prevent duplication.
 
 #### Use a Logged Model Artifact
 
