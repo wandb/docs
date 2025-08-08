@@ -1274,11 +1274,11 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
       position: absolute;
       right: 4px; // move slightly left so the right edge isn't clipped
       top: 50%;
-      transform: translateY(-50%) rotate(0deg);
+      transform: translateY(-56%) rotate(0deg); // slight upward nudge for optical alignment
   }
 
   nav.foldable-nav .with-child > input:checked + label:after {
-      transform: translateY(-50%) rotate(90deg);
+      transform: translateY(-56%) rotate(90deg);
   }
   
   // Hover states
