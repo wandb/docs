@@ -33,7 +33,7 @@ For organizations on paid plans, admins receive alerts via email **once per bill
 These alerts are not configurable, and are sent when:
 
 - Your organization is approaching a monthly limit of a category of usage (85% of hours used) and when it reaches 100% of the limit, according to your plan.
-- Your organization's accumulated average charges for a billing period exceed these thresholds: $200, $450, $700, and $1000. These overage charges are incurred when your organization accumulates more usage than your plan includes for tracked hours, storage, or Weave data ingestion.
+- Your organization's accumulated average charges for a billing period exceed these thresholds: $200, $450, $700, and $1000. These overage charges are incurred when your organization accumulates more usage than your plan includes for tracked hours, storage, or W&B Weave data ingestion.
 
 For questions about usage or billing, contact your account team or Support.
 
