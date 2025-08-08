@@ -50,6 +50,164 @@
   if (breadcrumb) {
     breadcrumb.insertAdjacentHTML('afterbegin', homeBreadcrumbHTML);
   }
+
+  // right-nav scroll monitoring
+  // Table of Contents Scroll Synchronization
+class TOCScrollSync {
+  constructor() {
+    this.toc = document.getElementById('TableOfContents');
+    this.tocLinks = [];
+    this.headings = [];
+    this.activeLink = null;
+    this.isScrolling = false;
+    this.scrollTimeout = null;
+    
+    this.init();
+  }
+
+  init() {
+    if (!this.toc) {
+      console.warn('Table of Contents not found');
+      return;
+    }
+
+    // Collect all TOC links and their corresponding headings
+    this.collectLinksAndHeadings();
+    
+    if (this.headings.length === 0) {
+      console.warn('No headings found for TOC synchronization');
+      return;
+    }
+
+    // Set up scroll listener with throttling
+    this.setupScrollListener();
+    
+    // Initial check to set active link
+    this.updateActiveLink();
+  }
+
+  collectLinksAndHeadings() {
+    const links = this.toc.querySelectorAll('a[href^="#"]');
+    
+    links.forEach(link => {
+      const href = link.getAttribute('href');
+      const headingId = href.substring(1); // Remove the # symbol
+      const heading = document.getElementById(headingId);
+      
+      if (heading) {
+        this.tocLinks.push({
+          link: link,
+          heading: heading,
+          id: headingId
+        });
+        this.headings.push(heading);
+      }
+    });
+  }
+
+  setupScrollListener() {
+    // Throttled scroll handler for better performance
+    const throttledScrollHandler = this.throttle(() => {
+      this.updateActiveLink();
+    }, 16); // ~60fps
+
+    window.addEventListener('scroll', throttledScrollHandler, { passive: true });
+    
+    // Also listen for resize events in case content shifts
+    window.addEventListener('resize', this.throttle(() => {
+      this.updateActiveLink();
+    }, 100));
+  }
+
+  updateActiveLink() {
+    const scrollPosition = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    
+    // If we're at the bottom of the page, activate the last heading
+    if (scrollPosition + windowHeight >= documentHeight - 10) {
+      this.setActiveLink(this.tocLinks[this.tocLinks.length - 1]);
+      return;
+    }
+
+    // Find the current active heading
+    let activeHeading = null;
+    const offset = 300; // Offset from top to account for fixed headers, etc.
+
+    // Check headings from top to bottom
+    for (let i = 0; i < this.headings.length; i++) {
+      const heading = this.headings[i];
+      const headingTop = heading.offsetTop;
+      
+      // If this heading is above the scroll position + offset, it could be active
+      if (headingTop <= scrollPosition + offset) {
+        activeHeading = this.tocLinks[i];
+      } else {
+        // Once we find a heading that's below our scroll position, stop
+        break;
+      }
+    }
+
+    // If no heading is above our scroll position, check if we're near the top
+    if (!activeHeading && this.tocLinks.length > 0) {
+      const firstHeading = this.headings[0];
+      const firstHeadingTop = firstHeading.offsetTop;
+      
+      // If we're above the first heading or very close to it, activate the first link
+      if (scrollPosition + offset >= firstHeadingTop - 50) {
+        activeHeading = this.tocLinks[0];
+      }
+    }
+
+    this.setActiveLink(activeHeading);
+  }
+
+  setActiveLink(newActiveLink) {
+    // Remove active class from current active link
+    if (this.activeLink && this.activeLink !== newActiveLink) {
+      this.activeLink.link.classList.remove('active');
+    }
+
+    // Set new active link
+    if (newActiveLink && newActiveLink !== this.activeLink) {
+      newActiveLink.link.classList.add('active');
+      this.activeLink = newActiveLink;
+    } else if (!newActiveLink && this.activeLink) {
+      // Remove active class if no section is active
+      this.activeLink.link.classList.remove('active');
+      this.activeLink = null;
+    }
+  }
+
+  // Utility function to throttle scroll events
+  throttle(func, limit) {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    }
+  }
+
+  // Public method to destroy the instance
+  destroy() {
+    // Remove event listeners if needed
+    // (In a real implementation, you'd want to store references to remove them)
+    console.log('TOC Scroll Sync destroyed');
+  }
+}
+
+// Initialize the TOC scroll synchronization when the DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  const tocSync = new TOCScrollSync();
+  
+  // Make it globally accessible if needed
+  window.tocSync = tocSync;
+});
   
 </script>
 

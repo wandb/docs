@@ -329,7 +329,7 @@ $breakpoint-xl: 1200px;   // Large desktop
 
 
     // Tablet styles (577px and up)
-    @media (min-width: $breakpoint-sm + 1) {
+    @media (min-width: ($breakpoint-sm + 1)) {
         .container-fluid {
             padding: 8px 12px !important;
         }
@@ -541,6 +541,16 @@ h1, h2, h3, h4, h5, h6 {
         li {
             padding: 0px !important; 
             line-height: 14px;
+            a {
+                transition: all .2s ease-in;
+            }
+            a.active {
+                border-left: 2px solid;
+                color: $link-primary !important;
+                [data-bs-theme=dark] & {
+                    color: $dark-link-primary !important;
+                }
+            }
         }
     }
 
@@ -566,6 +576,13 @@ h1, h2, h3, h4, h5, h6 {
     // Dark mode
     [data-bs-theme=dark] & {
         color: $dark-text-primary;
+    }
+}
+
+aside div.td-toc #TableOfContents ul {
+    border-left-color: $text-tertiary !important;
+    [data-bs-theme=dark] & {
+        border-left-color: $dark-text-secondary !important;
     }
 }
 
