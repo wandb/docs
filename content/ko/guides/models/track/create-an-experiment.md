@@ -3,7 +3,7 @@ title: 실험 만들기
 description: W&B Experiment 만들기
 menu:
   default:
-    identifier: ko-guides-models-track-launch
+    identifier: ko-create-an-experiment
     parent: experiments
 weight: 1
 ---

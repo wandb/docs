@@ -3,7 +3,7 @@ title: 実験を作成する
 description: W&B Experiment を作成する
 menu:
   default:
-    identifier: ja-guides-models-track-launch
+    identifier: ja-create-an-experiment
     parent: experiments
 weight: 1
 ---
