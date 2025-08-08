@@ -4,5 +4,5 @@ link: "https://weave-docs.wandb.ai" # Placeholder; replace with internal style g
 level: error
 scope: line
 ignorecase: true
-first: "\{\{<\s*img\b[^>]*>\}\}"
-second: "alt\s*=\s*(\"[^\"]+\"|'[^']+')"
+first: '\{\{<[[:space:]]*img\b[^>]*>\}\}'
+second: 'alt[[:space:]]*=[[:space:]]*("[^"]+"|''[^'']+'')'

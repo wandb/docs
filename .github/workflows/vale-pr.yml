@@ -22,9 +22,22 @@ jobs:
           mkdir -p /tmp/vale && tar -xzf vale.tar.gz -C /tmp/vale
           sudo mv /tmp/vale/vale /usr/local/bin/
           vale -v
-      - name: Run Vale on markdown (fail on error)
+      - name: Get changed Markdown files
+        id: changes
         run: |
-          vale --version
-          # Fail the job if any error-level alerts are found
           set -e
-          vale --minAlertLevel=error .
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          echo "BASE: $BASE_SHA"
+          echo "HEAD: $HEAD_SHA"
+          FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | grep -E '\.md$' || true)
+          echo "Changed MD files:\n$FILES"
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Run Vale on changed files (fail on error)
+        if: steps.changes.outputs.files != ''
+        run: |
+          set -e
+          echo "Using PR-specific Vale config (.vale.pr.ini)"
+          printf "%s\n" "${{ steps.changes.outputs.files }}" | xargs -r vale --config=.vale.pr.ini --minAlertLevel=error
