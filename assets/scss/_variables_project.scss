@@ -555,6 +555,7 @@ h1, h2, h3, h4, h5, h6 {
         margin: 0px !important;
         padding: 8px !important;
         font-weight: 500 !important;
+        font-size: 13px !important;
     }
     // List styles
     ul { 
@@ -562,6 +563,7 @@ h1, h2, h3, h4, h5, h6 {
         li {
             padding: 0px !important; 
             line-height: 14px;
+            font-size: 13px !important;
             a {
                 transition: all .2s ease-in;
             }
