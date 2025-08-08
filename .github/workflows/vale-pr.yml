@@ -28,9 +28,3 @@ jobs:
           # Fail the job if any error-level alerts are found
           set -e
           vale --minAlertLevel=error .
-      - name: Upload Vale report (SARIF)
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: .vale/vale.sarif
-        continue-on-error: true
