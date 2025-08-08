@@ -54,7 +54,17 @@
       <guid>{{ .Permalink }}</guid>
       <description>
         {{- printf "<![CDATA[" | safeHTML }}
-          {{- printf "%s" .Summary|  safeHTML }}{{ if .Truncated }}{{- printf "[Read more](%s)" .Permalink | markdownify | safeHTML }}.{{ end }}
+          {{- $content := .Content }}
+          {{- $parts := split $content "<!-- more -->" }}
+          {{- if eq (len $parts) 1 }}
+            {{- $parts = split $content "&lt;!-- more --&gt;" }}
+          {{- end }}
+          {{- $summary := index $parts 0 }}
+          {{- if gt (len $parts) 1 }}
+            {{- printf "%s" $summary | safeHTML }}{{- printf " [Read more](%s)" .Permalink | markdownify | safeHTML }}
+          {{- else }}
+            {{- printf "%s" (.Summary | plainify | truncate 500 "..." | markdownify) | safeHTML }}{{ if .Truncated }}{{- printf " [Read more](%s)" .Permalink | markdownify | safeHTML }}{{ end }}
+          {{- end }}
         {{- printf "]]>" | safeHTML }}
       </description>
     </item>
