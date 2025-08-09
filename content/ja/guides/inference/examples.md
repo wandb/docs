@@ -1,7 +1,7 @@
 ---
 title: 使用例
 description: 実用的なコード例を使って W&B Inference の使い方を学びましょう
-linkTitle: Examples
+linkTitle: 使用例
 menu:
   default:
     identifier: ja-guides-inference-examples

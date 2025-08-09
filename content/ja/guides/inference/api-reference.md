@@ -1,7 +1,7 @@
 ---
-title: API リファレンス
+title: APIリファレンス
 description: W&B Inference サービスの完全な API リファレンス
-linkTitle: API Reference
+linkTitle: APIリファレンス
 menu:
   default:
     identifier: ja-guides-inference-api-reference

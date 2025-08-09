@@ -1,5 +1,5 @@
 ---
-title: 利用可能な Models
+title: 利用可能なModels
 description: W&B Inference で利用可能な foundation models を閲覧する
 menu:
   default:
