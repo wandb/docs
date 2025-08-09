@@ -1,0 +1,7 @@
+extends: conditional
+message: "Hugo img shortcode must include non-empty alt text"
+level: error
+scope: raw
+ignorecase: true
+first: '\{\{<\s*img[^>]*>\}\}'
+second: 'alt\s*=\s*("[^"]+"|''[^'']+'')'
