@@ -33,6 +33,7 @@ Upload an offline training directory to W&B
 | `--show` | Number of runs to show |
 | `--append` | Append run |
 | `--skip-console` | Skip console logs |
+| `--replace-tags` | Replace tags in the format   'old_tag1=new_tag1,old_tag2=new_tag2' |
 
 
 
