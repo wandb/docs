@@ -1,5 +1,5 @@
 ---
-title: レポート
+title: Reports
 description: 機械学習プロジェクト向けのプロジェクト管理およびコラボレーションツール
 cascade:
 - url: guides/reports/:filename
