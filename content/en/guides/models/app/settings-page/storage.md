@@ -4,7 +4,7 @@ menu:
   default:
     identifier: app_storage
     parent: settings
-title: Manage storage
+title: Storage settings
 weight: 60
 ---
 

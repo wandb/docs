@@ -6,7 +6,7 @@ menu:
   default:
     identifier: user-settings
     parent: settings
-title: Manage user settings
+title: User settings
 weight: 10
 ---
 
