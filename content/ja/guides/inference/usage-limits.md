@@ -1,7 +1,7 @@
 ---
-title: 使用情報と制限
+title: 料金と利用制限
 description: W&B Inference の料金、利用制限、およびアカウント制限について理解する
-linkTitle: Usage & Limits
+linkTitle: 料金と利用制限
 menu:
   default:
     identifier: ja-guides-inference-usage-limits

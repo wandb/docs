@@ -1,5 +1,5 @@
 ---
-title: 前提条件
+title: 環境のセットアップ
 description: W&B Inference を利用するための環境をセットアップする
 linkTitle: Prerequisites
 menu:
