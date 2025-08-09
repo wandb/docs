@@ -1,29 +1,29 @@
 ---
-title: 例 テーブル
-description: W&B テーブル の例
+title: Tablesの例
+description: W&B Tables の例
 menu:
   default:
     identifier: ja-guides-models-tables-tables-gallery
     parent: tables
 ---
 
-以下のセクションでは、テーブルのいくつかの活用方法を紹介します。
+以下のセクションでは、Tableのいくつかの活用方法を紹介します。
 
 ### データの閲覧
 
 モデルのトレーニングや評価時にメトリクスやリッチメディアをログとして記録し、その結果をクラウドや [ホスティングインスタンス]({{< relref path="/guides/hosting" lang="ja" >}}) に同期された永続的なデータベースで可視化できます。
 
-{{< img src="/images/data_vis/tables_see_data.png" alt="データ閲覧テーブル" max-width="90%" >}}
+{{< img src="/images/data_vis/tables_see_data.png" alt="データ閲覧Table" max-width="90%" >}}
 
-たとえば、[写真データセットのバランスよい分割例](https://wandb.ai/stacey/mendeleev/artifacts/balanced_data/inat_80-10-10_5K/ab79f01e007113280018/files/data_split.table.json) をテーブルで確認できます。
+たとえば、[写真データセットのラベルの分布](https://wandb.ai/stacey/mendeleev/artifacts/balanced_data/inat_80-10-10_5K/ab79f01e007113280018/files/data_split.table.json) をTableで確認できます。
 
 ### データをインタラクティブに探索
 
-テーブルの閲覧、ソート、フィルタ、グループ化、結合、クエリで、データやモデルパフォーマンスを直感的に把握できます。静的ファイルを探したり分析スクリプトを再実行したりする必要はありません。
+Tableの閲覧、ソート、フィルタ、グループ化、結合、クエリで、データやモデルパフォーマンスを直感的に把握できます。静的ファイルを探したり分析スクリプトを再実行したりする必要はありません。
 
 {{< img src="/images/data_vis/explore_data.png" alt="音声比較" max-width="90%">}}
 
-たとえば、[スタイル変換音声](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) のレポートを参照できます。
+[スタイル変換音声](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) のレポートをご確認ください。
 
 ### モデルバージョンの比較
 
@@ -31,7 +31,7 @@ menu:
 
 {{< img src="/images/data_vis/compare_model_versions.png" alt="モデル比較" max-width="90%">}}
 
-たとえば、[同じテスト画像に対する2つのモデルの比較テーブル](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#b6dae62d4f00d31eeebf$eval_Bob) があります。
+たとえば、[同じテスト画像に対する2つのモデルの比較Table](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#b6dae62d4f00d31eeebf$eval_Bob) をご確認ください。
 
 ### 細部まで追跡し、全体像を把握
 
@@ -39,22 +39,22 @@ menu:
 
 {{< img src="/images/data_vis/track_details.png" alt="実験詳細のトラッキング" >}}
 
-たとえば、[MNISTデータセットを1エポック後と5エポック後で分析するサンプルテーブル](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec) があります。
+たとえば、[MNISTデータセットを1エポック後と5エポック後で分析するサンプルTable](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec) をご確認ください。
 
 ## W&B Tables活用プロジェクト例
 以下は、W&B Tablesを活用している実際のW&B Projectsの例です。
 
 ### 画像分類
 
-[Visualize Data for Image Classification](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA) を読む、[data visualization nature Colab](https://wandb.me/dsviz-nature-colab) を試す、[artifacts context](https://wandb.ai/stacey/mendeleev/artifacts/val_epoch_preds/val_pred_gawf9z8j/2dcee8fa22863317472b/files/val_epoch_res.table.json) を探索することで、CNNが [iNaturalist](https://www.inaturalist.org/pages/developers) の写真から10種類の生物（植物、鳥、昆虫など）を識別する様子を確認できます。
+[Visualize Data for Image Classification](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA) や[data visualization nature Colab](https://wandb.me/dsviz-nature-colab) を試す、[artifacts context]、(https://wandb.ai/stacey/mendeleev/artifacts/val_epoch_preds/val_pred_gawf9z8j/2dcee8fa22863317472b/files/val_epoch_res.table.json) を確認することで、CNNが [iNaturalist](https://www.inaturalist.org/pages/developers) の写真から10種類の生物（植物、鳥、昆虫など）を識別する様子を確認できます。
 
 {{< img src="/images/data_vis/image_classification.png" alt="2つの異なるモデルの予測で真のラベル分布を比較。" max-width="90%">}}
 
 ### 音声
 
-[Whale2Song - W&B Tables for Audio](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) で音声テーブルとやり取りできます。録音したクジラの鳴き声と、バイオリンやトランペットなどの楽器で合成した同じメロディの音声を比較することが可能です。さらに、独自の曲を録音し、その合成バージョンをW&Bで [audio transfer Colab](http://wandb.me/audio-transfer) を使って探索できます。
+[Whale2Song - W&B Tables for Audio](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) で音声をTableで管理する例を確認できます。録音したクジラの鳴き声と、バイオリンやトランペットなどの楽器で合成した同じメロディの音声を比較することが可能です。さらに、独自の曲を録音し、その合成バージョンをW&Bで [audio transfer Colab](http://wandb.me/audio-transfer) を使って探索できます。
 
-{{< img src="/images/data_vis/audio.png" alt="音声テーブル例" max-width="90%">}}
+{{< img src="/images/data_vis/audio.png" alt="音声Table例" max-width="90%">}}
 
 ### テキスト
 
@@ -70,7 +70,7 @@ menu:
 
 ### 表形式データ
 
-バージョン管理や重複排除を含めた[表形式データの分割と前処理方法のレポート](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1) を見ることができます。
+バージョン管理や重複排除を含めた[表形式データの分割と前処理方法のレポート](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1) をご確認ください。
 
 {{< img src="/images/data_vis/tabs.png" alt="TablesとArtifactsによるワークフロー" max-width="90%">}}
 

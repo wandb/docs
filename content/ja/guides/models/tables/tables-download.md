@@ -1,6 +1,6 @@
 ---
-title: テーブルデータをエクスポートする
-description: テーブルからデータをエクスポートする方法
+title: Tablesデータをエクスポートする
+description: Tableからデータをエクスポートする方法
 menu:
   default:
     identifier: ja-guides-models-tables-tables-download
@@ -13,7 +13,7 @@ menu:
 まず、table を artifact に変換します。一番簡単な方法は `artifact.get(table, "table_name")` を使うことです。
 
 ```python
-# 新しいテーブルを作成してログします。
+# 新しいTableを作成してログします。
 with wandb.init() as r:
     artifact = wandb.Artifact("my_dataset", type="dataset")
     table = wandb.Table(
@@ -22,7 +22,7 @@ with wandb.init() as r:
     artifact.add(table, "my_table")
     wandb.log_artifact(artifact)
 
-# 作成した artifact からテーブルを取得します。
+# 作成した artifact からTableを取得します。
 with wandb.init() as r:
     artifact = r.use_artifact("my_dataset:latest")
     table = artifact.get("my_table")
@@ -40,7 +40,7 @@ df = table.get_dataframe()
 これで、データフレームがサポートする任意の方法でエクスポートできます。
 
 ```python
-# テーブルデータを .csv へ変換
+# Tableデータを .csv へ変換
 df.to_csv("example.csv", encoding="utf-8")
 ```
 

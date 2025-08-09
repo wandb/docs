@@ -1,5 +1,5 @@
 ---
-title: テーブル
+title: Tables
 description: データセットを反復し、モデルの予測を理解する
 cascade:
 - url: guides/models/tables/:filename
@@ -20,8 +20,8 @@ W&B Tables を使って、表形式データの可視化やクエリができま
 * モデルのサンプル予測結果を直感的に確認する
 * よく誤分類される例をクエリして発見する
 
-{{< img src="/images/data_vis/tables_sample_predictions.png" alt="セマンティックセグメンテーション予測のテーブル" >}}
-上記の画像は、セマンティックセグメンテーションとカスタムメトリクスが表示されたテーブル例です。このテーブルは [W&B ML Course のサンプルプロジェクト](https://wandb.ai/av-team/mlops-course-001) で見ることができます。
+{{< img src="/images/data_vis/tables_sample_predictions.png" alt="セマンティックセグメンテーション予測のTable" >}}
+上記の画像は、セマンティックセグメンテーションとカスタムメトリクスが表示されたTable例です。このTableは [W&B ML Course のサンプルプロジェクト](https://wandb.ai/av-team/mlops-course-001) で見ることができます。
 
 ## 仕組み
 
@@ -32,10 +32,10 @@ Table は、各列が一つの型を持つ 2 次元グリッドのデータで�
 数行のコードで Table をログできます:
 
 - [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}): 結果を記録する [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) を作成します。
-- [`wandb.Table()`]({{< relref path="/ref/python/sdk/data-types/table.md" lang="ja" >}}): 新しいテーブルオブジェクトを作成します。
+- [`wandb.Table()`]({{< relref path="/ref/python/sdk/data-types/table.md" lang="ja" >}}): 新しいTableオブジェクトを作成します。
   - `columns`: 列名を設定します。
-  - `data`: テーブルの内容を設定します。
-- [`run.log()`]({{< relref path="/ref/python/sdk/classes/run.md/#method-runlog" lang="ja" >}}): テーブルを W&B に保存します。
+  - `data`: Tableの内容を設定します。
+- [`run.log()`]({{< relref path="/ref/python/sdk/classes/run.md/#method-runlog" lang="ja" >}}): Tableを W&B に保存します。
 
 ```python
 import wandb
@@ -46,5 +46,5 @@ run.log({"Table Name": my_table})
 ```
 
 ## 開始方法
-* [クイックスタート]({{< relref path="./tables-walkthrough.md" lang="ja" >}}): データテーブルのログ、可視化、クエリ方法を学びます。
+* [クイックスタート]({{< relref path="./tables-walkthrough.md" lang="ja" >}}): データTableのログ、可視化、クエリ方法を学びます。
 * [Tables ギャラリー]({{< relref path="./tables-gallery.md" lang="ja" >}}): Tables のユースケース例をチェックできます。

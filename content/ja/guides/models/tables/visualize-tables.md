@@ -1,6 +1,6 @@
 ---
-title: テーブルを可視化して解析する
-description: W&B テーブルを可視化して分析しましょう。
+title: Tableを可視化して解析する
+description: W&B Tablesを可視化して分析しましょう。
 menu:
   default:
     identifier: ja-guides-models-tables-visualize-tables
@@ -20,18 +20,18 @@ W&B Tables をカスタマイズして、機械学習モデルのパフォーマ
 
 {{% alert %}}
 W&B Tables には次のような振る舞いがあります：
-1. **アーティファクトのコンテキストではステートレス**：アーティファクトバージョンと一緒に記録されたテーブルは、ブラウザウィンドウを閉じるとデフォルト状態にリセットされます
-2. **ワークスペースやレポートのコンテキストではステートフル**：シングル run ワークスペース、マルチ run Project ワークスペース、または Report 内のテーブルで行った変更は保存され、次回もそのまま表示されます
+1. **アーティファクトのコンテキストではステートレス**：アーティファクトバージョンと一緒に記録されたTableは、ブラウザウィンドウを閉じるとデフォルト状態にリセットされます
+2. **ワークスペースやレポートのコンテキストではステートフル**：シングル run ワークスペース、マルチ run Project ワークスペース、または Report 内のTableで行った変更は保存され、次回もそのまま表示されます
 
 現在の W&B Table のビューを保存する方法については[ビューの保存方法]({{< relref path="#save-your-view" lang="ja" >}})を参照してください。
 {{% /alert %}}
 
-## 2つのテーブルを比較する
-[マージドビュー]({{< relref path="#merged-view" lang="ja" >}})や[サイドバイサイドビュー]({{< relref path="#side-by-side-view" lang="ja" >}})で2つのテーブルを比較できます。下の画像はMNISTデータのテーブル比較例です。
+## 2つのTableを比較する
+[マージドビュー]({{< relref path="#merged-view" lang="ja" >}})や[サイドバイサイドビュー]({{< relref path="#side-by-side-view" lang="ja" >}})で2つのTableを比較できます。下の画像はMNISTデータのTable比較例です。
 
 {{< img src="/images/data_vis/table_comparison.png" alt="Training epoch comparison" max-width="90%" >}}
 
-2つのテーブルを比較する手順は以下の通りです：
+2つのTableを比較する手順は以下の通りです：
 
 1. W&B Appで自分の Project に移動します。
 2. 左側パネルの Artifacts アイコンを選択します。
@@ -48,31 +48,31 @@ W&B Tables には次のような振る舞いがあります：
 
 ### マージドビュー
 
-最初は2つのテーブルがマージされた状態で表示されます。最初に選んだテーブルがインデックス0（青色のハイライト）、2つ目がインデックス1（黄色のハイライト）です。[マージドテーブルのライブ例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)。
+最初は2つのTableがマージされた状態で表示されます。最初に選んだTableがインデックス0（青色のハイライト）、2つ目がインデックス1（黄色のハイライト）です。[マージドTableのライブ例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)。
 
 {{< img src="/images/data_vis/merged_view.png" alt="Merged view" max-width="90%">}}
 
 マージドビューから、以下の操作が可能です：
 
-* **ジョインキーの選択**：左上のドロップダウンで2つのテーブルを接合するための列（ジョインキー）を設定できます。一般的には各行ごとに一意な識別子（例：データセット内のファイル名や生成サンプルのインデックス）になります。_どの列も_選択可能ですが、可読性が下がったりクエリーが遅くなったりする場合があります。
-* **結合の代わりに連結**：このドロップダウンで「全テーブルを連結」を選ぶと、両テーブルの全行を1つの大きな Table に _union_ して結合します（列ではなく行単位）。
+* **ジョインキーの選択**：左上のドロップダウンで2つのTableを接合するための列（ジョインキー）を設定できます。一般的には各行ごとに一意な識別子（例：データセット内のファイル名や生成サンプルのインデックス）になります。_どの列も_選択可能ですが、可読性が下がったりクエリーが遅くなったりする場合があります。
+* **結合の代わりに連結**：このドロップダウンで「全Tableを連結」を選ぶと、両Tableの全行を1つの大きな Table に _union_ して結合します（列ではなく行単位）。
 * **各 Table を明示的に参照**：フィルター表現で 0, 1, \* を使って、どの Table の列かを指定できます
 * **数値的な詳細差分のヒストグラム可視化**：任意のセルの値の違いを一目で比較できます
 
 ### サイドバイサイドビュー
 
-2つのテーブルを左右に並べて表示したい場合は、最初のドロップダウンを "Merge Tables: Table" から "List of: Table" に切り替え、「Page size」を設定します。ここでは、最初に選択した Table が左側、2つ目が右側です。「Vertical」チェックボックスをオンにすれば上下での比較も可能です。
+2つのTableを左右に並べて表示したい場合は、最初のドロップダウンを "Merge Tables: Table" から "List of: Table" に切り替え、「Page size」を設定します。ここでは、最初に選択した Table が左側、2つ目が右側です。「Vertical」チェックボックスをオンにすれば上下での比較も可能です。
 
 {{< img src="/images/data_vis/side_by_side.png" alt="Side-by-side table view" max-width="90%" >}}
 
-* **一目でテーブルを比較**：どちらのテーブルにも一括で操作（ソート・フィルター・グループ化など）を適用して違いを素早く発見できます。たとえば「推論ミス」を推測値でグループ化したり、「最も難しいサンプル」を特定したり、「正解ラベルごとの信頼度分布」などを閲覧できます。
-* **2つのテーブルを独立して探索**：気になる側や行だけに集中してスクロールすることもできます
+* **一目でTableを比較**：どちらのTableにも一括で操作（ソート・フィルター・グループ化など）を適用して違いを素早く発見できます。たとえば「推論ミス」を推測値でグループ化したり、「最も難しいサンプル」を特定したり、「正解ラベルごとの信頼度分布」などを閲覧できます。
+* **2つのTableを独立して探索**：気になる側や行だけに集中してスクロールすることもできます
 
 
 
 ## run 全体で値がどう変化するかを可視化
 
-テーブルに記録した値が run を通してどのように変化するか、ステップスライダーを使って簡単に確認できます。スライダーを動かすと異なる step で記録された値に切り替わります。例えば loss や accuracy、その他のメトリクスが各 run 後にどう推移したかを簡単に見られます。
+Tableに記録した値が run を通してどのように変化するか、ステップスライダーを使って簡単に確認できます。スライダーを動かすと異なる step で記録された値に切り替わります。例えば loss や accuracy、その他のメトリクスが各 run 後にどう推移したかを簡単に見られます。
 
 このスライダーは指定したキーで step の値を判断します。デフォルトのスライダーキーは `_step` で、これは W&B が自動的に記録する特別なキーです。`_step` は、`wandb.Run.log()` をコードで呼ぶたびに1つずつ増加する整数です。
 
@@ -96,7 +96,7 @@ W&B App の UI 上で、複数の step に同じ値が見えることがあり�
 
 ステップキーは、`epoch` や `global_step` のように、run 内で数値的に管理された任意のメトリックを使うことができます。カスタムステップキーを使う場合、W&B はそのキーの値ごとに run 内の step (`_step`) をマッピングします。
 
-下記のテーブルは、カスタムステップキー `epoch` が、3つの run（`serene-sponge`、`lively-frog`、`vague-cloud`）で `_step` とどう対応するかを示します。それぞれの行は、各 run で特定の `_step` で `wandb.Run.log()` が呼ばれたときになります。各カラムは、その step で記録された epoch 値（あれば）を示します。スペース節約のため、一部の `_step` が省略されています。
+下記のTableは、カスタムステップキー `epoch` が、3つの run（`serene-sponge`、`lively-frog`、`vague-cloud`）で `_step` とどう対応するかを示します。それぞれの行は、各 run で特定の `_step` で `wandb.Run.log()` が呼ばれたときになります。各カラムは、その step で記録された epoch 値（あれば）を示します。スペース節約のため、一部の `_step` が省略されています。
 
 最初に `wandb.Run.log()` が呼ばれた時は、どの run も `epoch` を記録していないので、表では空になります。
 
@@ -132,17 +132,17 @@ W&B App の UI 上で、複数の step に同じ値が見えることがあり�
 
 
 ## アーティファクトを比較する
-[時間軸でテーブルを比較]({{< relref path="#compare-tables-across-time" lang="ja" >}})したり、[モデルバリアントで比較]({{< relref path="#compare-tables-across-model-variants" lang="ja" >}})することも可能です。
+[時間軸でTableを比較]({{< relref path="#compare-tables-across-time" lang="ja" >}})したり、[モデルバリアントで比較]({{< relref path="#compare-tables-across-model-variants" lang="ja" >}})することも可能です。
 
 
-### 時系列でテーブルを比較する
-トレーニングの進行に従って各ステップでテーブルをアーティファクトに記録し、モデルのパフォーマンス変化を分析できます。たとえば、各バリデーションステップの最後や、50エポックごと、任意の頻度でテーブルを記録できます。サイドバイサイドビューを使えば、モデル予測の変化も直感的に可視化できます。
+### 時系列でTableを比較する
+トレーニングの進行に従って各ステップでTableをアーティファクトに記録し、モデルのパフォーマンス変化を分析できます。たとえば、各バリデーションステップの最後や、50エポックごと、任意の頻度でTableを記録できます。サイドバイサイドビューを使えば、モデル予測の変化も直感的に可視化できます。
 
 {{< img src="/images/data_vis/compare_across_time.png" alt="Training progress comparison" max-width="90%" >}}
 
 トレーニング進行中の予測をさらに詳しく可視化する方法は、[予測の推移に関するレポート](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)や、[インタラクティブなノートブック例](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..) もご参照ください。
 
-### モデルバリアント間でテーブルを比較
+### モデルバリアント間でTableを比較
 
 2つの異なるモデルで、同じステップで記録した2つのアーティファクトバージョンを比較することで、モデル設定（ハイパーパラメーター・ベースアーキテクチャなど）の違いによるパフォーマンスを簡単に評価できます。
 
@@ -159,13 +159,13 @@ W&B App の UI 上で、複数の step に同じ値が見えることがあり�
 
 ## ビューの保存
 
-run ワークスペースや Project ワークスペース、またはレポート内で操作した Tables は、ビューの状態が自動的に保存されます。テーブルに何らかの操作を適用した後ブラウザを閉じても、次回そのテーブルに戻った際、前回の設定のまま表示されます。
+run ワークスペースや Project ワークスペース、またはレポート内で操作した Tables は、ビューの状態が自動的に保存されます。Tableに何らかの操作を適用した後ブラウザを閉じても、次回そのTableに戻った際、前回の設定のまま表示されます。
 
 {{% alert %}}
 Artifacts コンテキストで閲覧した Tables はステートレスなままです。
 {{% /alert %}}
 
-特定の状態のテーブルをワークスペースから保存したい場合は、W&B レポートにエクスポートします。テーブルをレポートに追加するには：
+特定の状態のTableをワークスペースから保存したい場合は、W&B レポートにエクスポートします。Tableをレポートに追加するには：
 
 1. ワークスペースの可視化パネル右上のケバブアイコン（三点縦アイコン）をクリックします。
 2. **Share panel** または **Add to report** を選択します。
